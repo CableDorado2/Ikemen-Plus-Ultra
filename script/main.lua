@@ -414,7 +414,7 @@ btnKP_PLUS = animNew(btnSff, [[0,77, 0,0, -1]])
 btnKP_ENTER = animNew(btnSff, [[0,78, 0,0, -1]])
 btnNIL = animNew(btnSff, [[1,0, 0,0, -1]])
 
---Relate Button Key to Button Sprite
+--Associate Button Key to Button Sprite
 t_btnHint = {
 	{keyTxt = "_0",				keySpr = btn0},
 	{keyTxt = "_1", 			keySpr = btn1},
@@ -560,14 +560,34 @@ function drawTopMenuSP()
 	
 end
 
+function drawInfoInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("w","70,"..inputHintYPos,"q","190,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
+end
+
+function drawAttractInputHints()
+	local inputHintYPos = 217
+	local hintFont = font2
+	local hintFontYPos = 231
+	drawInputHintsP1("w","5,"..inputHintYPos,"s","90,"..inputHintYPos,"e","160,"..inputHintYPos,"q","230,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Add Coin", 26, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 181, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 251, hintFontYPos)
+end
+
 function drawTitleInputHints()
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
-	drawInputHintsP1("w","80,"..inputHintYPos,"e","150,"..inputHintYPos,"q","220,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 101, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 171, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 241, hintFontYPos)
+	drawInputHintsP1("w","50,"..inputHintYPos,"e","120,"..inputHintYPos,"q","190,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 71, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
 end
 
 function drawMenuInputHints()
@@ -575,6 +595,17 @@ function drawMenuInputHints()
 	local hintFont = font2
 	local hintFontYPos = 226
 	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+function drawSideInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
@@ -711,8 +742,6 @@ txt_infobox = [[
 
 
 
-
-
 This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
 
 * This is a public development release, for testing purposes.
@@ -823,6 +852,8 @@ function f_infoMenu()
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Info Title Text
 	textImgDraw(txt_infoTitle)
+	--Draw Input Hints Panel
+	drawInfoInputHints()
 	--Actions
 	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		sndPlay(sysSnd, 100, 2)
@@ -1034,7 +1065,7 @@ end
 --;===========================================================
 txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 170)
 function f_attractCredits()
-	txt_credits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins, 181.5, 235)
+	txt_credits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins, 181.5, 212)
 	textImgDraw(txt_credits)
 end
 
@@ -1124,7 +1155,7 @@ function f_mainAttract()
 		--txt_attractTimer = createTextImg(font1, 0, 0, (attractTimer/gameTick), 302, 235) --Original Decimal Timer
 		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
 		nodecimalAttractTime = string.format("%.0f",attractTimeNumber) --Delete Decimals
-		txt_attractTimer = createTextImg(font1, 0, 0, nodecimalAttractTime, 302, 235)
+		txt_attractTimer = createTextImg(font1, 0, 0, nodecimalAttractTime, 302, 215)
 		if attractTimer > 0 and data.attractCoins > 0 then
 			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
 			textImgDraw(txt_attractTimer)
@@ -1132,6 +1163,7 @@ function f_mainAttract()
 			demoTimer = demoTimer + 1
 		end
 		f_sysTime()
+		drawAttractInputHints()
 		if t%60 < 30 then
 			if data.attractCoins > 0 then
 				textImgDraw(txt_mainTitle)
@@ -1172,7 +1204,7 @@ function f_exitMenu()
 	if charsInfo or stagesInfo or configInfo then playBGM(bgmTitle) end
 	f_exitReset()
 	while true do
-		if exitScreen == false and infoScreen == false then
+		if not exitScreen and not infoScreen then
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				exitMenu = exitMenu - 1
@@ -1258,21 +1290,24 @@ function f_exitMenu()
 			end
 			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 145+i*13-moveTxt))
 		end
-		if infoScreen == true then
+		if infoScreen then
 			table.remove(t_exitMenu,3) --Remove Option 3 in table if characters or stages are not detected
 		end
-		if exitScreen == false and infoScreen == false then
+		if not exitScreen and not infoScreen then
 			animSetWindow(cursorBox, 0,148+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		drawMiddleMenuSP()
 		textImgDraw(txt_titleFt)
-		if exitScreen == false and infoScreen == false then	textImgSetText(txt_titleFt, "CLOSE OR RESTART ENGINE") end
+		if not exitScreen and not infoScreen then textImgSetText(txt_titleFt, "CLOSE OR RESTART ENGINE") end
 		f_sysTime()
-		drawMenuInputHints()
-		if exitScreen == true then f_closeMenu() end --Show Exit Screen Message
-		if infoScreen == true then f_infoMenu() end --Show Info Screen Message
+		if exitScreen then f_closeMenu() end --Show Exit Screen Message
+		if infoScreen then
+			f_infoMenu() --Show Info Screen Message
+		else
+			drawMenuInputHints()
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -1448,7 +1483,7 @@ end
 --; SIDE SELECT SCREEN
 --;===========================================================
 txt_sideTitle = createTextImg(font14, 0, 0, "SIDE SELECT", 157, 8, 0.9, 0.9)
-txt_sideWarning = createTextImg(font6, 0, 0, "THE SIDE SELECTED IS NOT ALLOWED FOR THIS GAME MODE", 157, 230, 0.75, 0.75)
+txt_sideWarning = createTextImg(font6, 0, 0, "THE SIDE SELECTED IS NOT ALLOWED FOR THIS GAME MODE", 157, 70, 0.75, 0.75)
 
 --Gamepad Icon
 gamepadIcon = animNew(sysSff, [[20,0, 0,0,]])
@@ -1610,6 +1645,8 @@ function f_sideSelect()
 		f_drawQuickSpr(L_arrow, arrowLposXright, p2arrowPosY, arrowScale, arrowScale)
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXright, p2txtPosY, txtScale, txtScale)
 	end
+	--Draw Input Hint Panel
+	drawSideInputHints()
 	--Draw Side Warning Message
 	if sideWarning then
 		textImgDraw(txt_sideWarning)
@@ -1863,9 +1900,9 @@ function f_mainMenu()
 	f_infoboxReset()
 	--fadeInBGM(50)
 	while true do
-		if infoScreen == false and infoboxScreen == false then
+		if not infoScreen and not infoboxScreen then
 			--First Run Msg
-			if data.firstRun == true then
+			if data.firstRun then
 				firstRunInfo = true
 				infoScreen = true
 			end
@@ -2019,14 +2056,13 @@ function f_mainMenu()
 				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 122+i*13-moveTxt)) --Text Position
 			end
 		end
-		if infoScreen == false and infoboxScreen == false then
+		if not infoScreen and not infoboxScreen then
 			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
 		drawMiddleMenuSP()
 		f_sysTime()
-		drawMenuInputHints()
 		--f_progress()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
@@ -2042,8 +2078,12 @@ function f_mainMenu()
 				animUpdate(arrowsD)
 			end
 		end
-		if infoScreen == true then f_infoMenu() end
-		if infoboxScreen == true then f_infoboxMenu() end
+		if infoScreen then
+			f_infoMenu()
+		else
+			drawMenuInputHints()
+		end
+		if infoboxScreen then f_infoboxMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2173,7 +2213,7 @@ function f_arcadeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
 		if sideScreen then f_sideSelect() end --Show Side Select
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -2696,8 +2736,7 @@ function f_vsMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
-		if sideScreen then f_sideSelect() end
+		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3294,7 +3333,7 @@ function f_challengeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -3600,8 +3639,7 @@ function f_bossMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
-		if sideScreen then f_sideSelect() end
+		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3759,8 +3797,7 @@ function f_bossChars()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
-		if sideScreen then f_sideSelect() end
+		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -4063,8 +4100,7 @@ function f_bonusMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
-		if sideScreen then f_sideSelect() end
+		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -4214,8 +4250,7 @@ function f_bonusExtras()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
-		if sideScreen then f_sideSelect() end
+		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5095,7 +5130,7 @@ function f_extrasMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -5568,8 +5603,7 @@ function f_watchMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
-		if infoScreen then f_infoMenu() end
+		if infoScreen then f_infoMenu() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5606,7 +5640,7 @@ function f_replayMenu()
 	local bufl = 0
 	f_infoReset()
 	while true do
-		if infoScreen == false then
+		if not infoScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -5672,7 +5706,7 @@ function f_replayMenu()
 			end
 			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		if infoScreen == false then
+		if not infoScreen then
 			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -5690,8 +5724,7 @@ function f_replayMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
-		drawMenuInputHints()
-		if infoScreen == true then f_infoMenu() end
+		if infoScreen then f_infoMenu() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -8623,7 +8656,7 @@ end
 
 txt_creditsBox = [[
 I.K.E.M.E.N PLUS ULTRA
-v1.4.0
+DEVELOPER BUILD
 
 
 
