@@ -132,8 +132,31 @@ chaptUnknown = animNew(sysSff, [[110,4, 0,0,]])
 
 --Unknown Chapter Arc
 t_arcNull = {
-	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE", Preview = chaptUnknown, Status = checkNA, Info = "NO DESCRIPTION PROVIDED."},
+	{ID = textImgNew(), Name = "YOUR CHAPTER HERE", Preview = chaptUnknown, Status = checkNA, Info = "NO DESCRIPTION PROVIDED."},
 }
+
+--Story Input Hints Panel
+function drawStoryInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawStoryInputHintsB()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
 
 --;===========================================================
 --; ARC SELECT
@@ -197,7 +220,7 @@ t_arc1 = {
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
-	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE",  Preview = chaptUnknown, Status = checkNA, Info = "TEST"},
+	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "TEST"},
 }
 
 --;===========================================================
@@ -213,7 +236,7 @@ st2_1 = animNew(storySff, [[2,10, 0,0,]])
 st2_2 = animNew(storySff, [[2,20, 0,0,]])
 
 t_arc2 = {
-	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE",  Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
+	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 }
@@ -228,7 +251,7 @@ st3_0 = animNew(storySff, [[3,0, 0,0,]])
 st3_1 = animNew(storySff, [[3,10, 0,0,]])
 
 t_arc3 = {
-	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE",  Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
+	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 }
 
@@ -378,8 +401,8 @@ function f_storyMenu()
 			t_arcSelect = t_arc2
 			if data.story1_1Unlock == true then
 				lockedStory = false
-				if data.story2_1Unlock == true then t_arc2[2].Name = "YOUR UNLOCKED NAME HERE" end
-				if data.story2_2Unlock == true then t_arc2[3].Name = "YOUR UNLOCKED NAME HERE" end
+				if data.story2_1Unlock == true then t_arc2[2].Name = "YOUR UNLOCKED NAME" end
+				if data.story2_2Unlock == true then t_arc2[3].Name = "YOUR UNLOCKED NAME" end
 			else
 				lockedStory = true --This Arc needs to be unlocked
 			end
@@ -388,7 +411,7 @@ function f_storyMenu()
 			t_arcSelect = t_arc3
 			if data.story1_1Unlock == true then
 				lockedStory = false
-				if data.story3_1Unlock == true then t_arc3[2].Name = "YOUR UNLOCKED NAME HERE" end
+				if data.story3_1Unlock == true then t_arc3[2].Name = "YOUR UNLOCKED NAME" end
 			else
 				lockedStory = true
 			end
@@ -437,7 +460,8 @@ function f_storyMenu()
 			--animSetWindow(storyBG2, 156,94, 269,210)
 			animDraw(storyBG2)
 		--Draw Chapter Wood BG
-			animSetPos(woodBG1, -45, 95)
+			animSetPos(woodBG1, 0, 95)
+			animSetWindow(woodBG1, 120, 320)
 			animDraw(woodBG1)
 		--Draw Below Bamboo BG
 			animSetPos(bambooBG1, -46, 86)
@@ -618,7 +642,7 @@ function f_storyMenu()
 					end
 				--Draw Chapter Name
 					if t_arcSelect[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_arcSelect[i].ID, jgFnt, bank, 1, t_arcSelect[i].Name, -36, 89.5+i*20-moveChapter))
+						textImgDraw(f_updateTextImg(t_arcSelect[i].ID, jgFnt, bank, 1, t_arcSelect[i].Name, 2, 89.5+i*20-moveChapter))
 					end
 				end
 			end
@@ -643,6 +667,7 @@ function f_storyMenu()
 			animDraw(storyRightArrow)
 			animUpdate(storyRightArrow)
 		end
+		drawStoryInputHints() --Draw Input Hints Panel
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		t = t + 1

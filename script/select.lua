@@ -1060,10 +1060,10 @@ txt_charsNumpa = createTextImg(jgFnt, 0, 1, "("..#t_selChars..")", 250, 235)
 txt_cellIssue = [[
  INVALID CHARACTER SELECT CELLS CONFIG!
 
-GO TO:
-OPTIONS ->
+GO TO: OPTIONS ->
    SYSTEM SETTINGS ->
-      [CHARACTER SELECT SETTINGS]
+      CHARACTER SELECT SETTINGS ->
+         [EDIT ROSTER]
 
 AND MAKE SURE THAT:
 		   

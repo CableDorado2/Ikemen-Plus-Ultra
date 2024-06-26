@@ -16,7 +16,7 @@ animSetColorKey(eventBG0, -1)
 eventBG1 = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(eventBG1, 0, 21)
+animSetPos(eventBG1, 0, 18)
 animSetAlpha(eventBG1, 20, 100)
 animUpdate(eventBG1)
 
@@ -24,7 +24,7 @@ animUpdate(eventBG1)
 eventBG2 = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(eventBG2, 3, 52)
+animSetPos(eventBG2, 3, 49)
 animSetAlpha(eventBG2, 20, 100)
 animUpdate(eventBG2)
 
@@ -72,11 +72,16 @@ function drawEventInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
 
+function drawInfoEventInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("w","70,"..inputHintYPos,"q","190,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
+end
+
 function f_eventTime()
-	--local http = require("socket.http") -- import the socket.http module
-	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
-	--local date = headers.date -- LuaSocket makes all header names lowercase
-	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
 	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 	--sysTime3 = tonumber(os.date("%m"))
@@ -140,6 +145,8 @@ function f_lockedInfo()
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Info Title Text
 	textImgDraw(txt_lockedinfoTitle)
+	--Draw Input Hints Panel
+	drawInfoEventInputHints()
 	--Actions
 	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		sndPlay(sysSnd, 100, 2)
@@ -282,19 +289,19 @@ function f_eventMenu()
 		animDraw(f_animVelocity(eventBG0, -1, -1))
 	--Draw Event Title Transparent BG
 		animSetScale(eventBG1, 319.5, 94)
-		animSetWindow(eventBG1, 0,21, 320,25)
+		animSetWindow(eventBG1, 0,21, 320,22)
 		animDraw(eventBG1)
 	--Draw Title Menu
 		textImgDraw(txt_eventMenu)
 		textImgDraw(txt_eventProgress)
 	--Draw Content Transparent BG
 		animSetScale(eventBG2, 318, 154)
-		animSetWindow(eventBG2, 3,52, 314,154)
+		animSetWindow(eventBG2, 3,49, 314,154)
 		animDraw(eventBG2)
 	--Set Event Info, Preview and Progress
 	--Event 1
 		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
-			t_eventMenu[1].available = true
+			t_eventMenu[1].available = false
 			t_eventMenu[1].info = "Survive 40 Rounds in The Call of Zombies!"
 			t_eventMenu[1].preview = event1
 		else --Event Unavailable...
@@ -339,23 +346,23 @@ function f_eventMenu()
 				end
 			--Draw Text for Event Status
 				if t_eventMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, 0, t_eventMenu[i].status, -50.5+i*105-moveTxt, 218)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, 0, t_eventMenu[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
-				animSetPos(t_eventMenu[i].preview, -100+i*105-moveTxt, 54)
+				animSetPos(t_eventMenu[i].preview, -100+i*105-moveTxt, 51)
 				animUpdate(t_eventMenu[i].preview)
 				animDraw(t_eventMenu[i].preview)
 			end
 		end
 	--Draw Event Cursor
 		if not lockedScreen then
-			animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+			animSetWindow(cursorBox, -100+cursorPosX*104.5,51, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--Draw Event Info
-		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].varID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 37))
-		f_eventTime() --Draw Date and Time from main.lua
+		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].varID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 34))
+		f_eventTime() --Draw Date and Time
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
 			animDraw(arrowsEL)
