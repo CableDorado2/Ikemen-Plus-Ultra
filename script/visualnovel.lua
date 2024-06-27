@@ -1121,6 +1121,7 @@ function f_vnMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	if vnAddOneTime then
 		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
 		vnAddOneTime = false
@@ -1156,8 +1157,8 @@ function f_vnMenu()
 		--Menu Scroll Logic
 		if vnMenu < 1 then
 			vnMenu = #t_selVN
-			if #t_selVN > 14 then
-				cursorPosY = 14
+			if #t_selVN > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_selVN
 			end
@@ -1166,25 +1167,25 @@ function f_vnMenu()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (vnMenu - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (vnMenu - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (vnMenu - 1) * 15
 		end	
-		if #t_selVN <= 14 then
+		if #t_selVN <= maxItems then
 			maxVN = #t_selVN
 		elseif vnMenu - cursorPosY > 0 then
-			maxVN = vnMenu + 14 - cursorPosY
+			maxVN = vnMenu + maxItems - cursorPosY
 		else
-			maxVN = 14
+			maxVN = maxItems
 		end
 		--Draw Menu Assets
 		animDraw(f_animVelocity(novelBG0, -1, -1))
 		animSetScale(novelBG1, 220, maxVN*15)
-		animSetWindow(novelBG1, 80,20, 160,210)
+		animSetWindow(novelBG1, 80,20, 160,180)
 		animDraw(novelBG1)
 		textImgDraw(txt_vnSelect)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -1202,14 +1203,15 @@ function f_vnMenu()
 				textImgDraw(t_selVN[i].name)
 			end
 		end
-		if maxVN > 14 then
+		if maxVN > maxItems then
 			animDraw(novelUpArrow)
 			animUpdate(novelUpArrow)
 		end
-		if #t_selVN > 14 and maxVN < #t_selVN then
+		if #t_selVN > maxItems and maxVN < #t_selVN then
 			animDraw(novelDownArrow)
 			animUpdate(novelDownArrow)
 		end
+		drawListInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then

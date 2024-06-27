@@ -30,7 +30,7 @@ animUpdate(bambooBG1)
 padlock = animNew(sysSff, [[
 108,0, 0,0,
 ]])
-animAddPos(padlock, 118, 130)
+animAddPos(padlock, 118, 125)
 animSetScale(padlock, 0.20, 0.20)
 animUpdate(padlock)
 
@@ -46,7 +46,7 @@ animUpdate(padlock)
 storyBG2 = animNew(sysSff, [[
 230,1, 0,0,
 ]])
-animSetPos(storyBG2, 158, 87)
+animSetPos(storyBG2, 158, 82)
 animUpdate(storyBG2)
 
 --Arc Left Arrow
@@ -60,7 +60,7 @@ storyLeftArrow = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(storyLeftArrow, -10, 48)
+animAddPos(storyLeftArrow, -10, 43)
 animUpdate(storyLeftArrow)
 animSetScale(storyLeftArrow, 0.6, 0.6)
 
@@ -75,7 +75,7 @@ storyRightArrow = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(storyRightArrow, 320, 48)
+animAddPos(storyRightArrow, 320, 43)
 animUpdate(storyRightArrow)
 animSetScale(storyRightArrow, 0.6, 0.6)
 
@@ -90,7 +90,7 @@ storyUpArrow = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(storyUpArrow, -40, 85)
+animAddPos(storyUpArrow, -40, 80)
 animUpdate(storyUpArrow)
 animSetScale(storyUpArrow, 0.5, 0.5)
 
@@ -105,7 +105,7 @@ storyDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(storyDownArrow, -40, 218)
+animAddPos(storyDownArrow, -40, 213)
 animUpdate(storyDownArrow)
 animSetScale(storyDownArrow, 0.5, 0.5)
 
@@ -145,17 +145,6 @@ function drawStoryInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
-end
-
-function drawStoryInputHintsB()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
 
 --;===========================================================
@@ -291,8 +280,8 @@ function f_storyMenu()
 --Story Mode Progress Logic
 	data.storiesProgress = story1Data + story2Data + story3Data
 	storyData = (math.floor((data.storiesProgress / 3) + 0.5)) --The number (3) is the amount of all data.storiesProgress
-	txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 13)
-	txt_storyProgress = createTextImg(jgFnt, 2, 1, "["..storyData.."%]", 193.5, 13) --needs to be inside of story Menu function, to load story data %
+	txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 11)
+	txt_storyProgress = createTextImg(jgFnt, 2, 1, "["..storyData.."%]", 193.5, 11) --needs to be inside of story Menu function, to load story data %
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
@@ -460,23 +449,26 @@ function f_storyMenu()
 			--animSetWindow(storyBG2, 156,94, 269,210)
 			animDraw(storyBG2)
 		--Draw Chapter Wood BG
-			animSetPos(woodBG1, 0, 95)
-			animSetWindow(woodBG1, 120, 320)
+			animSetPos(woodBG1, 0, 90)
+			animSetWindow(woodBG1, 0, 0, 155, 240)
 			animDraw(woodBG1)
 		--Draw Below Bamboo BG
-			animSetPos(bambooBG1, -46, 86)
+			animSetPos(bambooBG1, -2, 81)
+			animSetWindow(bambooBG1, 0, 0, 156, 240)
 			animDraw(bambooBG1)
 		--Draw Chapter Table Cursor
-			animSetWindow(cursorBox, -45,79+cursorPosY*20, 198,15)
+			animSetWindow(cursorBox, 0,72+cursorPosY*20, 155,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		else
-			animSetPos(woodBG1, 50, 95)
+			animSetPos(woodBG1, 50, 90)
+			animSetWindow(woodBG1, 0, 0, 320, 240)
 			animDraw(woodBG1)
-			animSetPos(bambooBG1, 50, 86)
+			animSetPos(bambooBG1, 50, 81)
+			animSetWindow(bambooBG1, 0, 0, 320, 240)
 			animDraw(bambooBG1)
 			animDraw(padlock)
-			animSetWindow(cursorBox, 50,99, 198,112) --198,30
+			animSetWindow(cursorBox, 50,94, 198,112) --198,30
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -505,18 +497,18 @@ function f_storyMenu()
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
 				--Draw Arc Folder BG
-				animSetPos(t_storySelect[i].File, -95+i*105-moveArc, 20)
+				animSetPos(t_storySelect[i].File, -95+i*105-moveArc, 15)
 				animSetScale(t_storySelect[i].File, 0.05, 0.05)
 				animUpdate(t_storySelect[i].File)
 				animDraw(t_storySelect[i].File)
 				--Draw Arc Preview Image
-				animSetPos(t_storySelect[i].Icon, -62+i*105-moveArc, 31.5)
+				animSetPos(t_storySelect[i].Icon, -62+i*105-moveArc, 26.5)
 				animUpdate(t_storySelect[i].Icon)
 				animDraw(t_storySelect[i].Icon)
 				if i == storyMenu then
 					bank = 1
 				--Draw Arc Sel Cursor
-					animSetPos(t_storySelect[i].Sel, -64+i*105-moveArc, 29.5)
+					animSetPos(t_storySelect[i].Sel, -64+i*105-moveArc, 24.5)
 					animUpdate(t_storySelect[i].Sel)
 					animDraw(t_storySelect[i].Sel)
 				else
@@ -524,8 +516,8 @@ function f_storyMenu()
 				end
 			--Draw Text for Arcs Table
 				if t_storySelect[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51+i*105-moveArc, 68,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -49.2+i*105-moveArc, 80,0.95,0.95))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51+i*105-moveArc, 63,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -49.2+i*105-moveArc, 75,0.95,0.95))
 				end
 			end
 		end
@@ -615,21 +607,21 @@ function f_storyMenu()
 		end
 	--Draw Chapter Preview Image
 		if lockedStory == false then --If some arc is unlocked:
-			animSetPos(t_arcSelect[chapterMenu].Preview, 161, 91)
+			animSetPos(t_arcSelect[chapterMenu].Preview, 161, 86)
 			animSetScale(t_arcSelect[chapterMenu].Preview, 0.113, 0.106)
 			animUpdate(t_arcSelect[chapterMenu].Preview)
 			animDraw(t_arcSelect[chapterMenu].Preview)
 		--Draw Chapter Info
 			txt_storyText = createTextImg(font6, 0, 1, "", 0, 0,0.65,0.65)
-			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 160, 160, 15, 1.2, 40)
+			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 160, 155, 15, 1.2, 40)
 		--Draw Check Chapter Status Icon
-			animSetPos(t_arcSelect[chapterMenu].Status, 320, 105)
+			animSetPos(t_arcSelect[chapterMenu].Status, 320, 100)
 			animSetScale(t_arcSelect[chapterMenu].Status, 0.4, 0.4)
 			animUpdate(t_arcSelect[chapterMenu].Status)
 			animDraw(t_arcSelect[chapterMenu].Status)
 		else --If some arc is locked, don't draw preview, status and draw text in another position
 			txt_storyText = createTextImg(font6, 0, 0, "", 0, 0,0.65,0.65)
-			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 150, 110, 15, 1.5, 40)
+			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 150, 102, 15, 1.5, 40)
 		end
 	--Set Chapters Scroll Logic
 		if lockedStory == false then
@@ -642,7 +634,7 @@ function f_storyMenu()
 					end
 				--Draw Chapter Name
 					if t_arcSelect[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_arcSelect[i].ID, jgFnt, bank, 1, t_arcSelect[i].Name, 2, 89.5+i*20-moveChapter))
+						textImgDraw(f_updateTextImg(t_arcSelect[i].ID, jgFnt, bank, 1, t_arcSelect[i].Name, 2, 82.5+i*20-moveChapter))
 					end
 				end
 			end

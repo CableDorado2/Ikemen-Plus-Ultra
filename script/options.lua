@@ -62,7 +62,7 @@ optionsDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(optionsDownArrow, 242, 220)
+animAddPos(optionsDownArrow, 242, 190)
 animUpdate(optionsDownArrow)
 animSetScale(optionsDownArrow, 0.5, 0.5)
 
@@ -126,24 +126,32 @@ animAddPos(optionsDownArrowP2, 303, 218)
 animUpdate(optionsDownArrowP2)
 animSetScale(optionsDownArrowP2, 0.5, 0.5)
 
---Down Arrow For mainCfg (12 Limit)
-optionsDownArrowmainCfg = animNew(sysSff, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(optionsDownArrowmainCfg, 242, 190)
-animUpdate(optionsDownArrowmainCfg)
-animSetScale(optionsDownArrowmainCfg, 0.5, 0.5)
-
 function f_attractcfgCredits()
-	txt_creditsCfg = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins.."", 181.5, 239)
+	txt_creditsCfg = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins.."", 181.5, 219)
 	textImgDraw(txt_creditsCfg)
+end
+
+--Input Hints Panel
+function drawCfgInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawCfgInputHints2()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
 end
 
 --;===========================================================
@@ -1064,6 +1072,15 @@ animSetPos(infoOptionsWindowBG, 83.5, 130)
 animUpdate(infoOptionsWindowBG)
 animSetScale(infoOptionsWindowBG, 1, 0.3)
 
+function drawInfoCfgInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("w","70,"..inputHintYPos,"q","190,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
+end
+
 --;===========================================================
 --; REBOOT INFORMATION
 --;===========================================================
@@ -1106,7 +1123,8 @@ function f_exitInfo()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
+		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
 	end
@@ -1146,7 +1164,8 @@ function f_resWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
+		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
 	end
@@ -1207,7 +1226,8 @@ function f_sdlWarning()
 		animUpdate(sdlImg1)
 		animDraw(sdlImg2)
 		animUpdate(sdlImg2)
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
+		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
 	end
@@ -1247,7 +1267,8 @@ function f_glWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
+		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
 	end
@@ -1287,7 +1308,8 @@ function f_memWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
+		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
 	end
@@ -1404,6 +1426,8 @@ function f_defaultMenu()
 	animSetWindow(cursorBox, 87,123+cursorPosYDefault*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Input Hints Panel
+	drawConfirmInputHints()
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
@@ -1536,6 +1560,7 @@ function f_mainCfg()
 	local bufu = 0
 	local bufd = 0
 	local exitSave = false
+	local maxItems = 12
 	f_defaultReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
@@ -1663,8 +1688,8 @@ function f_mainCfg()
 			--Cursor position calculation
 			if mainCfg < 1 then
 				mainCfg = #t_mainCfg
-				if #t_mainCfg > 12 then
-					cursorPosY = 12
+				if #t_mainCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_mainCfg
 				end
@@ -1673,20 +1698,20 @@ function f_mainCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 12 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 12 then
-				moveTxt = (mainCfg - 12) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (mainCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (mainCfg - 1) * 15
 			end	
-			if #t_mainCfg <= 12 then
+			if #t_mainCfg <= maxItems then
 				maxMainCfg = #t_mainCfg
 			elseif mainCfg - cursorPosY > 0 then
-				maxMainCfg = mainCfg + 12 - cursorPosY
+				maxMainCfg = mainCfg + maxItems - cursorPosY
 			else
-				maxMainCfg = 12
+				maxMainCfg = maxItems
 			end
 		end
 		--Draw Menu BG
@@ -1828,17 +1853,21 @@ function f_mainCfg()
 			i = i >= 60 and 0 or i + 1
 		end
 		--Draw Up Animated Cursor
-		if maxMainCfg > 12 then
+		if maxMainCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_mainCfg > 12 and maxMainCfg < #t_mainCfg then
-			animDraw(optionsDownArrowmainCfg)
-			animUpdate(optionsDownArrowmainCfg)
+		if #t_mainCfg > maxItems and maxMainCfg < #t_mainCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen == true then
+			f_defaultMenu() --Show Default Screen Message
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -1877,6 +1906,7 @@ function f_onlineCfg()
 	local bufr = 0
 	local bufu = 0
 	local bufd = 0
+	local maxItems = 12
 	f_defaultReset() --To avoid maxCfg erros when enter in any sub-menu when reset settings
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -1916,8 +1946,8 @@ function f_onlineCfg()
 		end
 		if onlineCfg < 1 then
 			onlineCfg = #t_onlineCfg
-			if #t_onlineCfg > 14 then
-				cursorPosY = 14
+			if #t_onlineCfg > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_onlineCfg
 			end
@@ -1926,24 +1956,24 @@ function f_onlineCfg()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (onlineCfg - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (onlineCfg - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (onlineCfg - 1) * 15
 		end	
-		if #t_onlineCfg <= 14 then
+		if #t_onlineCfg <= maxItems then
 			maxOnlineCfg = #t_onlineCfg
 		elseif onlineCfg - cursorPosY > 0 then
-			maxOnlineCfg = onlineCfg + 14 - cursorPosY
+			maxOnlineCfg = onlineCfg + maxItems - cursorPosY
 		else
-			maxOnlineCfg = 14
+			maxOnlineCfg = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxOnlineCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_onlineCfg)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -1957,15 +1987,16 @@ function f_onlineCfg()
 				end
 			end
 		end
-		if maxOnlineCfg > 14 then
+		if maxOnlineCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_onlineCfg > 14 and maxOnlineCfg < #t_onlineCfg then
+		if #t_onlineCfg > maxItems and maxOnlineCfg < #t_onlineCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2009,6 +2040,7 @@ function f_netplayCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
@@ -2064,8 +2096,8 @@ function f_netplayCfg()
 		end
 		if netplayCfg < 1 then
 			netplayCfg = #t_netplayCfg
-			if #t_netplayCfg > 14 then
-				cursorPosY = 14
+			if #t_netplayCfg > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_netplayCfg
 			end
@@ -2074,24 +2106,24 @@ function f_netplayCfg()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (netplayCfg - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (netplayCfg - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (netplayCfg - 1) * 15
 		end	
-		if #t_netplayCfg <= 14 then
+		if #t_netplayCfg <= maxItems then
 			maxNetplayCfg = #t_netplayCfg
 		elseif netplayCfg - cursorPosY > 0 then
-			maxNetplayCfg = netplayCfg + 14 - cursorPosY
+			maxNetplayCfg = netplayCfg + maxItems - cursorPosY
 		else
-			maxNetplayCfg = 14
+			maxNetplayCfg = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxNetplayCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_netplayCfg)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -2115,15 +2147,16 @@ function f_netplayCfg()
 				end
 			end
 		end
-		if maxNetplayCfg > 14 then
+		if maxNetplayCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_netplayCfg > 14 and maxNetplayCfg < #t_netplayCfg then
+		if #t_netplayCfg > maxItems and maxNetplayCfg < #t_netplayCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawCfgInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2170,6 +2203,7 @@ function f_gameCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -2409,8 +2443,8 @@ function f_gameCfg()
 			end
 			if gameCfg < 1 then
 				gameCfg = #t_gameCfg
-				if #t_gameCfg > 14 then
-					cursorPosY = 14
+				if #t_gameCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_gameCfg
 				end
@@ -2419,25 +2453,25 @@ function f_gameCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (gameCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (gameCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (gameCfg - 1) * 15
 			end	
-			if #t_gameCfg <= 14 then
+			if #t_gameCfg <= maxItems then
 				maxGameCfg = #t_gameCfg
 			elseif gameCfg - cursorPosY > 0 then
-				maxGameCfg = gameCfg + 14 - cursorPosY
+				maxGameCfg = gameCfg + maxItems - cursorPosY
 			else
-				maxGameCfg = 14
+				maxGameCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxGameCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_gameCfg)
 		if defaultScreen == false then
@@ -2472,16 +2506,20 @@ function f_gameCfg()
 				end
 			end
 		end
-		if maxGameCfg > 14 then
+		if maxGameCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_gameCfg > 14 and maxGameCfg < #t_gameCfg then
+		if #t_gameCfg > maxItems and maxGameCfg < #t_gameCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2523,6 +2561,7 @@ function f_teamCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -2691,8 +2730,8 @@ function f_teamCfg()
 			end
 			if teamCfg < 1 then
 				teamCfg = #t_teamCfg
-				if #t_teamCfg > 14 then
-					cursorPosY = 14
+				if #t_teamCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_teamCfg
 				end
@@ -2701,25 +2740,25 @@ function f_teamCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (teamCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (teamCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (teamCfg - 1) * 15
 			end	
-			if #t_teamCfg <= 14 then
+			if #t_teamCfg <= maxItems then
 				maxTeamCfg = #t_teamCfg
 			elseif teamCfg - cursorPosY > 0 then
-				maxTeamCfg = teamCfg + 14 - cursorPosY
+				maxTeamCfg = teamCfg + maxItems - cursorPosY
 			else
-				maxTeamCfg = 14
+				maxTeamCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxTeamCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_teamCfg)
 		if defaultScreen == false then
@@ -2742,16 +2781,20 @@ function f_teamCfg()
 				end
 			end
 		end
-		if maxTeamCfg > 14 then
+		if maxTeamCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_teamCfg > 14 and maxTeamCfg < #t_teamCfg then
+		if #t_teamCfg > maxItems and maxTeamCfg < #t_teamCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2790,6 +2833,7 @@ function f_zoomCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -2904,8 +2948,8 @@ function f_zoomCfg()
 			end
 			if zoomCfg < 1 then
 				zoomCfg = #t_zoomCfg
-				if #t_zoomCfg > 14 then
-					cursorPosY = 14
+				if #t_zoomCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_zoomCfg
 				end
@@ -2914,25 +2958,25 @@ function f_zoomCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (zoomCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (zoomCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (zoomCfg - 1) * 15
 			end	
-			if #t_zoomCfg <= 14 then
+			if #t_zoomCfg <= maxItems then
 				maxZoomCfg = #t_zoomCfg
 			elseif zoomCfg - cursorPosY > 0 then
-				maxZoomCfg = zoomCfg + 14 - cursorPosY
+				maxZoomCfg = zoomCfg + maxItems - cursorPosY
 			else
-				maxZoomCfg = 14
+				maxZoomCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxZoomCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_zoomCfg)
 		if defaultScreen == false then
@@ -2952,16 +2996,20 @@ function f_zoomCfg()
 				end
 			end
 		end
-		if maxZoomCfg > 14 then
+		if maxZoomCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_zoomCfg > 14 and maxZoomCfg < #t_zoomCfg then
+		if #t_zoomCfg > maxItems and maxZoomCfg < #t_zoomCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3008,6 +3056,7 @@ function f_UICfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -3240,8 +3289,8 @@ function f_UICfg()
 			end
 			if UICfg < 1 then
 				UICfg = #t_UICfg
-				if #t_UICfg > 14 then
-					cursorPosY = 14
+				if #t_UICfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_UICfg
 				end
@@ -3250,25 +3299,25 @@ function f_UICfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (UICfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (UICfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (UICfg - 1) * 15
 			end	
-			if #t_UICfg <= 14 then
+			if #t_UICfg <= maxItems then
 				maxUICfg = #t_UICfg
 			elseif UICfg - cursorPosY > 0 then
-				maxUICfg = UICfg + 14 - cursorPosY
+				maxUICfg = UICfg + maxItems - cursorPosY
 			else
-				maxUICfg = 14
+				maxUICfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxUICfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_UICfg)
 		if defaultScreen == false then
@@ -3297,16 +3346,20 @@ function f_UICfg()
 				end
 			end
 		end
-		if maxUICfg > 14 then
+		if maxUICfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_UICfg > 14 and maxUICfg < #t_UICfg then
+		if #t_UICfg > maxItems and maxUICfg < #t_UICfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3347,6 +3400,7 @@ function f_selectCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -3461,8 +3515,8 @@ function f_selectCfg()
 			end
 			if selectCfg < 1 then
 				selectCfg = #t_selectCfg
-				if #t_selectCfg > 14 then
-					cursorPosY = 14
+				if #t_selectCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_selectCfg
 				end
@@ -3471,25 +3525,25 @@ function f_selectCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (selectCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (selectCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (selectCfg - 1) * 15
 			end	
-			if #t_selectCfg <= 14 then
+			if #t_selectCfg <= maxItems then
 				maxselectCfg = #t_selectCfg
 			elseif selectCfg - cursorPosY > 0 then
-				maxselectCfg = selectCfg + 14 - cursorPosY
+				maxselectCfg = selectCfg + maxItems - cursorPosY
 			else
-				maxselectCfg = 14
+				maxselectCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxselectCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_selectCfg)
 		if defaultScreen == false then
@@ -3510,16 +3564,20 @@ function f_selectCfg()
 				end
 			end
 		end
-		if maxselectCfg > 14 then
+		if maxselectCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_selectCfg > 14 and maxselectCfg < #t_selectCfg then
+		if #t_selectCfg > maxItems and maxselectCfg < #t_selectCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4613,8 +4671,12 @@ function f_rosterCfg()
 			animDraw(rosterCfgDownArrow)
 			animUpdate(rosterCfgDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4653,6 +4715,7 @@ function f_stageCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -4760,8 +4823,8 @@ function f_stageCfg()
 			end
 			if stageCfg < 1 then
 				stageCfg = #t_stageCfg
-				if #t_stageCfg > 14 then
-					cursorPosY = 14
+				if #t_stageCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_stageCfg
 				end
@@ -4770,25 +4833,25 @@ function f_stageCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (stageCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (stageCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (stageCfg - 1) * 15
 			end	
-			if #t_stageCfg <= 14 then
+			if #t_stageCfg <= maxItems then
 				maxstageCfg = #t_stageCfg
 			elseif stageCfg - cursorPosY > 0 then
-				maxstageCfg = stageCfg + 14 - cursorPosY
+				maxstageCfg = stageCfg + maxItems - cursorPosY
 			else
-				maxstageCfg = 14
+				maxstageCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxstageCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_stageCfg)
 		if defaultScreen == false then
@@ -4808,16 +4871,20 @@ function f_stageCfg()
 				end
 			end
 		end
-		if maxstageCfg > 14 then
+		if maxstageCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_stageCfg > 14 and maxstageCfg < #t_stageCfg then
+		if #t_stageCfg > maxItems and maxstageCfg < #t_stageCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4859,6 +4926,7 @@ function f_timeCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5089,8 +5157,8 @@ function f_timeCfg()
 			end
 			if timeCfg < 1 then
 				timeCfg = #t_timeCfg
-				if #t_timeCfg > 14 then
-					cursorPosY = 14
+				if #t_timeCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_timeCfg
 				end
@@ -5099,25 +5167,25 @@ function f_timeCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (timeCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (timeCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (timeCfg - 1) * 15
 			end	
-			if #t_timeCfg <= 14 then
+			if #t_timeCfg <= maxItems then
 				maxtimeCfg = #t_timeCfg
 			elseif timeCfg - cursorPosY > 0 then
-				maxtimeCfg = timeCfg + 14 - cursorPosY
+				maxtimeCfg = timeCfg + maxItems - cursorPosY
 			else
-				maxtimeCfg = 14
+				maxtimeCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxtimeCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_timeCfg)
 		if defaultScreen == false then
@@ -5140,16 +5208,20 @@ function f_timeCfg()
 				end
 			end
 		end
-		if maxtimeCfg > 14 then
+		if maxtimeCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_timeCfg > 14 and maxtimeCfg < #t_timeCfg then
+		if #t_timeCfg > maxItems and maxtimeCfg < #t_timeCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5214,6 +5286,7 @@ function f_songCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5260,8 +5333,8 @@ function f_songCfg()
 			--Setting Menu Logic
 			if songCfg < 1 then
 				songCfg = #t_songCfg
-				if #t_songCfg > 14 then
-					cursorPosY = 14
+				if #t_songCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_songCfg
 				end
@@ -5270,20 +5343,20 @@ function f_songCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (songCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (songCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (songCfg - 1) * 15
 			end
-			if #t_songCfg <= 14 then
+			if #t_songCfg <= maxItems then
 				maxsongCfg = #t_songCfg
 			elseif songCfg - cursorPosY > 0 then
-				maxsongCfg = songCfg + 14 - cursorPosY
+				maxsongCfg = songCfg + maxItems - cursorPosY
 			else
-				maxsongCfg = 14
+				maxsongCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -5307,16 +5380,20 @@ function f_songCfg()
 				end
 			end
 		end
-		if maxsongCfg > 14 then
+		if maxsongCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_songCfg > 14 and maxsongCfg < #t_songCfg then
+		if #t_songCfg > maxItems and maxsongCfg < #t_songCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawListInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5360,6 +5437,7 @@ function f_audioCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5567,8 +5645,8 @@ function f_audioCfg()
 			end
 			if audioCfg < 1 then
 				audioCfg = #t_audioCfg
-				if #t_audioCfg > 14 then
-					cursorPosY = 14
+				if #t_audioCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_audioCfg
 				end
@@ -5577,25 +5655,25 @@ function f_audioCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (audioCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (audioCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (audioCfg - 1) * 15
 			end
-			if #t_audioCfg <= 14 then
+			if #t_audioCfg <= maxItems then
 				maxAudioCfg = #t_audioCfg
 			elseif audioCfg - cursorPosY > 0 then
-				maxAudioCfg = audioCfg + 14 - cursorPosY
+				maxAudioCfg = audioCfg + maxItems - cursorPosY
 			else
-				maxAudioCfg = 14
+				maxAudioCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxAudioCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_audioCfg)
 		if defaultScreen == false then
@@ -5620,16 +5698,20 @@ function f_audioCfg()
 				end
 			end
 		end
-		if maxAudioCfg > 14 then
+		if maxAudioCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_audioCfg > 14 and maxAudioCfg < #t_audioCfg then
+		if #t_audioCfg > maxItems and maxAudioCfg < #t_audioCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5674,6 +5756,7 @@ function f_engineCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5886,8 +5969,8 @@ function f_engineCfg()
 			end
 			if engineCfg < 1 then
 				engineCfg = #t_engineCfg
-				if #t_engineCfg > 14 then
-					cursorPosY = 14
+				if #t_engineCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_engineCfg
 				end
@@ -5896,25 +5979,25 @@ function f_engineCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (engineCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (engineCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (engineCfg - 1) * 15
 			end	
-			if #t_engineCfg <= 14 then
+			if #t_engineCfg <= maxItems then
 				maxEngineCfg = #t_engineCfg
 			elseif engineCfg - cursorPosY > 0 then
-				maxEngineCfg = engineCfg + 14 - cursorPosY
+				maxEngineCfg = engineCfg + maxItems - cursorPosY
 			else
-				maxEngineCfg = 14
+				maxEngineCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxEngineCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_engineCfg)
 		if defaultScreen == false then
@@ -5942,16 +6025,20 @@ function f_engineCfg()
 				end
 			end
 		end
-		if maxEngineCfg > 14 then
+		if maxEngineCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_engineCfg > 14 and maxEngineCfg < #t_engineCfg then
+		if #t_engineCfg > maxItems and maxEngineCfg < #t_engineCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5995,6 +6082,7 @@ function f_videoCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if b_fullscreenMode ~= getFullScreenMode() then
 			if getFullScreenMode() then
@@ -6236,8 +6324,8 @@ function f_videoCfg()
 			end
 			if videoCfg < 1 then
 				videoCfg = #t_videoCfg
-				if #t_videoCfg > 14 then
-					cursorPosY = 14
+				if #t_videoCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_videoCfg
 				end
@@ -6246,25 +6334,25 @@ function f_videoCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (videoCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (videoCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (videoCfg - 1) * 15
 			end	
-			if #t_videoCfg <= 14 then
+			if #t_videoCfg <= maxItems then
 				maxVideoCfg = #t_videoCfg
 			elseif videoCfg - cursorPosY > 0 then
-				maxVideoCfg = videoCfg + 14 - cursorPosY
+				maxVideoCfg = videoCfg + maxItems - cursorPosY
 			else
-				maxVideoCfg = 14
+				maxVideoCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxVideoCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_videoCfg)
 		if defaultScreen == false then
@@ -6295,16 +6383,20 @@ function f_videoCfg()
 				end
 			end
 		end
-		if maxVideoCfg > 14 then
+		if maxVideoCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_videoCfg > 14 and maxVideoCfg < #t_videoCfg then
+		if #t_videoCfg > maxItems and maxVideoCfg < #t_videoCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6341,6 +6433,7 @@ function f_resCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
@@ -6381,8 +6474,8 @@ function f_resCfg()
 		end
 		if resCfg < 1 then
 			resCfg = #t_resCfg
-			if #t_resCfg > 14 then
-				cursorPosY = 14
+			if #t_resCfg > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_resCfg
 			end
@@ -6391,24 +6484,24 @@ function f_resCfg()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (resCfg - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (resCfg - 1) * 15
 		end	
-		if #t_resCfg <= 14 then
+		if #t_resCfg <= maxItems then
 			maxResCfg = #t_resCfg
 		elseif resCfg - cursorPosY > 0 then
-			maxResCfg = resCfg + 14 - cursorPosY
+			maxResCfg = resCfg + maxItems - cursorPosY
 		else
-			maxResCfg = 14
+			maxResCfg = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxResCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6420,15 +6513,16 @@ function f_resCfg()
 				textImgDraw(t_resCfg[i].id)
 			end
 		end
-		if maxResCfg > 14 then
+		if maxResCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_resCfg > 14 and maxResCfg < #t_resCfg then
+		if #t_resCfg > maxItems and maxResCfg < #t_resCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6477,6 +6571,7 @@ function f_resCfg4_3()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	for i=1, #t_resCfg4_3 do
 		if t_resCfg4_3[i].text == resolutionWidth.."x"..resolutionHeight then
 			resCfg4_3 = i
@@ -6496,8 +6591,8 @@ function f_resCfg4_3()
 		end
 		if resCfg4_3 < 1 then
 			resCfg4_3 = #t_resCfg4_3
-			if #t_resCfg4_3 > 14 then
-				cursorPosY = 14
+			if #t_resCfg4_3 > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_resCfg4_3
 			end
@@ -6506,20 +6601,20 @@ function f_resCfg4_3()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg4_3 - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (resCfg4_3 - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (resCfg4_3 - 1) * 15
 		end
-		if #t_resCfg4_3 <= 14 then
+		if #t_resCfg4_3 <= maxItems then
 			maxResCfg4_3 = #t_resCfg4_3
 		elseif resCfg4_3 - cursorPosY > 0 then
-			maxResCfg4_3 = resCfg4_3 + 14 - cursorPosY
+			maxResCfg4_3 = resCfg4_3 + maxItems - cursorPosY
 		else
-			maxResCfg4_3 = 14
+			maxResCfg4_3 = maxItems
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -6542,7 +6637,7 @@ function f_resCfg4_3()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxResCfg4_3*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg4_3)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6554,15 +6649,16 @@ function f_resCfg4_3()
 				textImgDraw(t_resCfg4_3[i].id)
 			end
 		end
-		if maxResCfg4_3 > 14 then
+		if maxResCfg4_3 > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_resCfg4_3 > 14 and maxResCfg4_3 < #t_resCfg4_3 then
+		if #t_resCfg4_3 > maxItems and maxResCfg4_3 < #t_resCfg4_3 then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6605,6 +6701,7 @@ function f_resCfg16_9()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	for i=1, #t_resCfg16_9 do
 		if t_resCfg16_9[i].text == resolutionWidth.."x"..resolutionHeight then
 			resCfg16_9 = i
@@ -6624,8 +6721,8 @@ function f_resCfg16_9()
 		end
 		if resCfg16_9 < 1 then
 			resCfg16_9 = #t_resCfg16_9
-			if #t_resCfg16_9 > 14 then
-				cursorPosY = 14
+			if #t_resCfg16_9 > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_resCfg16_9
 			end
@@ -6634,20 +6731,20 @@ function f_resCfg16_9()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg16_9 - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (resCfg16_9 - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (resCfg16_9 - 1) * 15
 		end
-		if #t_resCfg16_9 <= 14 then
+		if #t_resCfg16_9 <= maxItems then
 			maxResCfg16_9 = #t_resCfg16_9
 		elseif resCfg16_9 - cursorPosY > 0 then
-			maxResCfg16_9 = resCfg16_9 + 14 - cursorPosY
+			maxResCfg16_9 = resCfg16_9 + maxItems - cursorPosY
 		else
-			maxResCfg16_9 = 14
+			maxResCfg16_9 = maxItems
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -6670,7 +6767,7 @@ function f_resCfg16_9()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxResCfg16_9*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg16_9)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6682,15 +6779,16 @@ function f_resCfg16_9()
 				textImgDraw(t_resCfg16_9[i].id)
 			end
 		end
-		if maxResCfg16_9 > 14 then
+		if maxResCfg16_9 > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_resCfg16_9 > 14 and maxResCfg16_9 < #t_resCfg16_9 then
+		if #t_resCfg16_9 > maxItems and maxResCfg16_9 < #t_resCfg16_9 then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6733,6 +6831,7 @@ function f_resCfg16_10()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	for i=1, #t_resCfg16_10 do
 		if t_resCfg16_10[i].text == resolutionWidth.."x"..resolutionHeight then
 			resCfg16_10 = i
@@ -6752,8 +6851,8 @@ function f_resCfg16_10()
 		end
 		if resCfg16_10 < 1 then
 			resCfg16_10 = #t_resCfg16_10
-			if #t_resCfg16_10 > 14 then
-				cursorPosY = 14
+			if #t_resCfg16_10 > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_resCfg16_10
 			end
@@ -6762,20 +6861,20 @@ function f_resCfg16_10()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg16_10 - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (resCfg16_10 - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (resCfg16_10 - 1) * 15
 		end
-		if #t_resCfg16_10 <= 14 then
+		if #t_resCfg16_10 <= maxItems then
 			maxResCfg16_10 = #t_resCfg16_10
 		elseif resCfg16_10 - cursorPosY > 0 then
-			maxResCfg16_10 = resCfg16_10 + 14 - cursorPosY
+			maxResCfg16_10 = resCfg16_10 + maxItems - cursorPosY
 		else
-			maxResCfg16_10 = 14
+			maxResCfg16_10 = maxItems
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -6798,7 +6897,7 @@ function f_resCfg16_10()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxResCfg16_10*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg16_10)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6810,15 +6909,16 @@ function f_resCfg16_10()
 				textImgDraw(t_resCfg16_10[i].id)
 			end
 		end
-		if maxResCfg16_10 > 14 then
+		if maxResCfg16_10 > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_resCfg16_10 > 14 and maxResCfg16_10 < #t_resCfg16_10 then
+		if #t_resCfg16_10 > maxItems and maxResCfg16_10 < #t_resCfg16_10 then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6872,6 +6972,7 @@ function f_EXresCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	for i=1, #t_EXresCfg do
 		if t_EXresCfg[i].text == resolutionWidth.."x"..resolutionHeight then
 			EXresCfg = i
@@ -6891,8 +6992,8 @@ function f_EXresCfg()
 		end
 		if EXresCfg < 1 then
 			EXresCfg = #t_EXresCfg
-			if #t_EXresCfg > 14 then
-				cursorPosY = 14
+			if #t_EXresCfg > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_EXresCfg
 			end
@@ -6901,20 +7002,20 @@ function f_EXresCfg()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (EXresCfg - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (EXresCfg - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (EXresCfg - 1) * 15
 		end
-		if #t_EXresCfg <= 14 then
+		if #t_EXresCfg <= maxItems then
 			maxEXresCfg = #t_EXresCfg
 		elseif EXresCfg - cursorPosY > 0 then
-			maxEXresCfg = EXresCfg + 14 - cursorPosY
+			maxEXresCfg = EXresCfg + maxItems - cursorPosY
 		else
-			maxEXresCfg = 14
+			maxEXresCfg = maxItems
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -6937,7 +7038,7 @@ function f_EXresCfg()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxEXresCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_EXresCfg)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6949,15 +7050,16 @@ function f_EXresCfg()
 				textImgDraw(t_EXresCfg[i].id)
 			end
 		end
-		if maxEXresCfg > 14 then
+		if maxEXresCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_EXresCfg > 14 and maxEXresCfg < #t_EXresCfg then
+		if #t_EXresCfg > maxItems and maxEXresCfg < #t_EXresCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6998,6 +7100,7 @@ function f_inputCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	f_defaultReset()
 	padTester = 0
 	padTesterActive = false
@@ -7098,8 +7201,8 @@ function f_inputCfg()
 			end
 			if inputCfg < 1 then
 				inputCfg = #t_inputCfg
-				if #t_inputCfg > 14 then
-					cursorPosY = 14
+				if #t_inputCfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_inputCfg
 				end
@@ -7108,25 +7211,25 @@ function f_inputCfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (inputCfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (inputCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (inputCfg - 1) * 15
 			end	
-			if #t_inputCfg <= 14 then
+			if #t_inputCfg <= maxItems then
 				maxInputCfg = #t_inputCfg
 			elseif inputCfg - cursorPosY > 0 then
-				maxInputCfg = inputCfg + 14 - cursorPosY
+				maxInputCfg = inputCfg + maxItems - cursorPosY
 			else
-				maxInputCfg = 14
+				maxInputCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 222, maxInputCfg*15)
-		animSetWindow(optionsBG1, 68,20, 184,210)
+		animSetWindow(optionsBG1, 68,20, 184,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_inputCfg)
 		if defaultScreen == false then
@@ -7145,16 +7248,20 @@ function f_inputCfg()
 				end
 			end
 		end
-		if maxInputCfg > 14 then
+		if maxInputCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_inputCfg > 14 and maxInputCfg < #t_inputCfg then
+		if #t_inputCfg > maxItems and maxInputCfg < #t_inputCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7342,7 +7449,7 @@ function f_testMenu()
 		if commandGetState(p2Cmd, 'holdq') then f_drawQuickSpr(TbuttonL, posXl, posYl+posP2, scaleX, scaleY, alphaSB, alphaDB) end
 		if commandGetState(p2Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr, posYr+posP2, scaleX, scaleY, alphaSB, alphaDB) end
 		if commandGetState(p2Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs, posYs+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
 		if cmdCode then f_cmdCode() end
 		f_drawQuickText(txt_keyHint, font1, 0, 0, 'Press [SELECT] or [ESC] button to back', 162, 30)
 		cmdInput()
@@ -7370,6 +7477,7 @@ function f_keyMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
@@ -7410,8 +7518,8 @@ function f_keyMenu()
 		end
 		if keyMenu < 1 then
 			keyMenu = #t_keyMenu
-			if #t_keyMenu > 14 then
-				cursorPosY = 14
+			if #t_keyMenu > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_keyMenu
 			end
@@ -7420,24 +7528,24 @@ function f_keyMenu()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (keyMenu - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (keyMenu - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (keyMenu - 1) * 15
 		end	
-		if #t_keyMenu <= 14 then
+		if #t_keyMenu <= maxItems then
 			maxKeyMenu = #t_keyMenu
 		elseif keyMenu - cursorPosY > 0 then
-			maxKeyMenu = keyMenu + 14 - cursorPosY
+			maxKeyMenu = keyMenu + maxItems - cursorPosY
 		else
-			maxKeyMenu = 14
+			maxKeyMenu = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxKeyMenu*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_keyMenu)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -7449,15 +7557,16 @@ function f_keyMenu()
 				textImgDraw(t_keyMenu[i].id)
 			end
 		end
-		if maxKeyMenu > 14 then
+		if maxKeyMenu > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_keyMenu > 14 and maxKeyMenu < #t_keyMenu then
+		if #t_keyMenu > maxItems and maxKeyMenu < #t_keyMenu then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7507,7 +7616,7 @@ function f_tempWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -7533,6 +7642,7 @@ function f_joyMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
@@ -7575,8 +7685,8 @@ function f_joyMenu()
 		end
 		if joyMenu < 1 then
 			joyMenu = #t_joyMenu
-			if #t_joyMenu > 14 then
-				cursorPosY = 14
+			if #t_joyMenu > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_joyMenu
 			end
@@ -7585,24 +7695,24 @@ function f_joyMenu()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (joyMenu - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (joyMenu - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (joyMenu - 1) * 15
 		end	
-		if #t_joyMenu <= 14 then
+		if #t_joyMenu <= maxItems then
 			maxJoyMenu = #t_joyMenu
 		elseif joyMenu - cursorPosY > 0 then
-			maxJoyMenu = joyMenu + 14 - cursorPosY
+			maxJoyMenu = joyMenu + maxItems - cursorPosY
 		else
-			maxJoyMenu = 14
+			maxJoyMenu = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxJoyMenu*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_joyMenu)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -7614,15 +7724,16 @@ function f_joyMenu()
 				textImgDraw(t_joyMenu[i].id)
 			end
 		end
-		if maxJoyMenu > 14 then
+		if maxJoyMenu > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_joyMenu > 14 and maxJoyMenu < #t_joyMenu then
+		if #t_joyMenu > maxItems and maxJoyMenu < #t_joyMenu then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
+		drawListInputHints()
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7934,7 +8045,7 @@ function f_keyBattleCfg(playerNo, controller)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
 		textImgSetAlign(txt_inputHint, 0)
 		textImgPosDraw(txt_inputHint, 163, 238)
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -8206,7 +8317,7 @@ function f_keyMenuCfg(playerNo, controller)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
 		textImgSetAlign(txt_inputHint, 0)
 		textImgPosDraw(txt_inputHint, 163, 238)
-		if data.attractMode == true then f_attractcfgCredits() end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -8757,7 +8868,7 @@ function f_readBattleInput(oldkey)
 				end
 			end
 		end
-        if data.attractMode == true then f_attractcfgCredits() end			
+        if data.attractMode then f_attractcfgCredits() end			
 		refresh()
 	end
 	local key = getKeyboard
@@ -9465,7 +9576,7 @@ function f_readMenuInput(oldkey)
 				end
 			end
 		end
-        if data.attractMode == true then f_attractcfgCredits() end			
+        if data.attractMode then f_attractcfgCredits() end			
 		refresh()
 	end
 	local key = getKeyboard
@@ -9532,6 +9643,7 @@ function f_gameVNcfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -9692,8 +9804,8 @@ function f_gameVNcfg()
 			end
 			if gameVNcfg < 1 then
 				gameVNcfg = #t_gameVNcfg
-				if #t_gameVNcfg > 14 then
-					cursorPosY = 14
+				if #t_gameVNcfg > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_gameVNcfg
 				end
@@ -9702,25 +9814,25 @@ function f_gameVNcfg()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (gameVNcfg - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (gameVNcfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (gameVNcfg - 1) * 15
 			end	
-			if #t_gameVNcfg <= 14 then
+			if #t_gameVNcfg <= maxItems then
 				maxgameVNcfg = #t_gameVNcfg
 			elseif gameVNcfg - cursorPosY > 0 then
-				maxgameVNcfg = gameVNcfg + 14 - cursorPosY
+				maxgameVNcfg = gameVNcfg + maxItems - cursorPosY
 			else
-				maxgameVNcfg = 14
+				maxgameVNcfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxgameVNcfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_gameVNcfg)
 		if defaultScreen == false then
@@ -9751,16 +9863,20 @@ function f_gameVNcfg()
 				end
 			end
 		end
-		if maxgameVNcfg > 14 then
+		if maxgameVNcfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_gameVNcfg > 14 and maxgameVNcfg < #t_gameVNcfg then
+		if #t_gameVNcfg > maxItems and maxgameVNcfg < #t_gameVNcfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then f_defaultMenu() end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -9810,9 +9926,9 @@ function f_unlocksWarning()
 		for i=1, #t_unlocksWarning do
 			textImgDraw(t_unlocksWarning[i].id)
 		end
-		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
-		if defaultScreen == false and resetStats == false then break end
-		if data.attractMode == true then f_attractcfgCredits() end
+		if defaultScreen then f_defaultMenu() end
+		if not defaultScreen and not resetStats then break end
+		if data.attractMode then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end

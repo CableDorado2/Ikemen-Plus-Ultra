@@ -46,7 +46,7 @@ statsDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(statsDownArrow, 278, 231)
+animAddPos(statsDownArrow, 278, 201.5)
 animUpdate(statsDownArrow)
 animSetScale(statsDownArrow, 0.5, 0.5)
 
@@ -398,6 +398,7 @@ function f_statsMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	f_getStats() --Load Stats
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
@@ -421,8 +422,8 @@ function f_statsMenu()
 		--Cursor position calculation
 		if statsMenu < 1 then
 			statsMenu = #t_statsMenu
-			if #t_statsMenu > 14 then
-				cursorPosY = 14
+			if #t_statsMenu > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_statsMenu
 			end
@@ -431,25 +432,25 @@ function f_statsMenu()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (statsMenu - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (statsMenu - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (statsMenu - 1) * 15
 		end	
-		if #t_statsMenu <= 14 then
+		if #t_statsMenu <= maxItems then
 			maxStats = #t_statsMenu
 		elseif statsMenu - cursorPosY > 0 then
-			maxStats = statsMenu + 14 - cursorPosY
+			maxStats = statsMenu + maxItems - cursorPosY
 		else
-			maxStats = 14
+			maxStats = maxItems
 		end
 		animDraw(f_animVelocity(statsBG0, -1, -1))
 		--Draw Transparent Table BG
 		animSetScale(statsBG1, 280, maxStats*15)
-		animSetWindow(statsBG1, 30,20, 260,210)
+		animSetWindow(statsBG1, 30,20, 260,180)
 		animDraw(statsBG1)
 		--Draw Title Menu
 		textImgDraw(txt_statsMenu)
@@ -468,15 +469,16 @@ function f_statsMenu()
 			end
 		end
 		--Draw Up Animated Cursor
-		if maxStats > 14 then
+		if maxStats > maxItems then
 			animDraw(statsUpArrow)
 			animUpdate(statsUpArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_statsMenu > 14 and maxStats < #t_statsMenu then
+		if #t_statsMenu > maxItems and maxStats < #t_statsMenu then
 			animDraw(statsDownArrow)
 			animUpdate(statsDownArrow)
 		end
+		drawListInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then

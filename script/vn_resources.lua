@@ -43,7 +43,7 @@ novelDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(novelDownArrow, 228, 231)
+animAddPos(novelDownArrow, 228, 201.5)
 animUpdate(novelDownArrow)
 animSetScale(novelDownArrow, 0.5, 0.5)
 

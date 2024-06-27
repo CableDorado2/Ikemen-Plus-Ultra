@@ -612,6 +612,28 @@ function drawSideInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
 
+function drawListInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+function drawConfirmInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
 --;===========================================================
 --; CLOCK AND DATE PANEL
 --;===========================================================
@@ -948,6 +970,8 @@ function f_confirmMenu()
 	animSetWindow(cursorBox, 87,123+cursorPosYConfirm*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Input Hints Panel
+	drawConfirmInputHints()
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
@@ -5900,7 +5924,7 @@ songDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(songDownArrow, 228, 231)
+animAddPos(songDownArrow, 228, 201.5)
 animUpdate(songDownArrow)
 animSetScale(songDownArrow, 0.5, 0.5)
 
@@ -5915,7 +5939,7 @@ songLeftArrow = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(songLeftArrow, 69, 112)
+animAddPos(songLeftArrow, 69, 21)
 animUpdate(songLeftArrow)
 animSetScale(songLeftArrow, 0.5, 0.5)
 
@@ -5930,9 +5954,21 @@ songRightArrow = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(songRightArrow, 242, 112)
+animAddPos(songRightArrow, 242, 21)
 animUpdate(songRightArrow)
 animSetScale(songRightArrow, 0.5, 0.5)
+
+--Input Hints Panel
+function drawSoundTestInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Play", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
 
 --;===========================================================
 --; CONFIRM SONG MESSAGE
@@ -6004,6 +6040,8 @@ function f_confirmSongMenu()
 	animSetWindow(cursorBox, 87,123+cursorPosYSongConfirm*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Input Hints Panel
+	drawConfirmInputHints()
 	--Actions
 	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--YES
@@ -6041,6 +6079,7 @@ function f_songMenu()
 	local bufl = 0
 	local cursorPosY = 1
 	local moveTxt = 0
+	local maxItems = 12
 	songMenu = 1 --Not local because will be used in other menus
 	songFolder = 1
 	selectedSong = nil
@@ -6057,7 +6096,7 @@ function f_songMenu()
 			soundTest = false
 			break
 		end
-		if confirmSong == false then
+		if not confirmSong then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				if soundTest == true or songChanged == false then --Another damn check just to know in what menu where are and if you select something..
 					backSongConfirm = true
@@ -6131,8 +6170,8 @@ function f_songMenu()
 			--Cursor position calculation
 			if songMenu < 1 then
 				songMenu = #t_songList[songFolder]
-				if #t_songList[songFolder] > 14 then
-					cursorPosY = 14
+				if #t_songList[songFolder] > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_songList[songFolder]
 				end
@@ -6141,34 +6180,32 @@ function f_songMenu()
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 14 then
-				moveTxt = (songMenu - 14) * 15
+			if cursorPosY == maxItems then
+				moveTxt = (songMenu - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (songMenu - 1) * 15
 			end	
-			if #t_songList[songFolder] <= 14 then
+			if #t_songList[songFolder] <= maxItems then
 				maxSongs = #t_songList[songFolder]
 			elseif songMenu - cursorPosY > 0 then
-				maxSongs = songMenu + 14 - cursorPosY
+				maxSongs = songMenu + maxItems - cursorPosY
 			else
-				maxSongs = 14
+				maxSongs = maxItems
 			end
 		end
 		--Draw Menu BG
 		animDraw(f_animVelocity(songBG0, -1, -1))
 		--Draw Transparent Table BG
 		animSetScale(songBG1, 220, maxSongs*15)
-		animSetWindow(songBG1, 80,20, 160,210)
+		animSetWindow(songBG1, 80,20, 160,180)
 		animDraw(songBG1)
 		--Draw Title Menu
 		textImgSetText(txt_song, "SONG SELECT [".. t_songList[songFolder][songMenu].folder .."]")
 		textImgDraw(txt_song)
-		if confirmSong == false then
-			--Draw Hint Text
-			f_drawQuickText(txt_songHint, font1, 0, 0, "PRESS ANY CONFIRM BUTTON TO SELECT A SONG", 159, 239, 0.8, 0.8)
+		if not confirmSong then
 			--Draw Table Cursor
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -6188,12 +6225,12 @@ function f_songMenu()
 			end
 		end
 		--Draw Up Animated Cursor
-		if maxSongs > 14 then
+		if maxSongs > maxItems then
 			animDraw(songUpArrow)
 			animUpdate(songUpArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_songList[songFolder] > 14 and maxSongs < #t_songList[songFolder] then
+		if #t_songList[songFolder] > maxItems and maxSongs < #t_songList[songFolder] then
 			animDraw(songDownArrow)
 			animUpdate(songDownArrow)
 		end
@@ -6207,7 +6244,7 @@ function f_songMenu()
 			animDraw(songRightArrow)
 			animUpdate(songRightArrow)
 		end
-		if confirmSong == true then f_confirmSongMenu() end
+		if confirmSong then f_confirmSongMenu() else drawSoundTestInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -6280,7 +6317,7 @@ videoDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(videoDownArrow, 228, 231)
+animAddPos(videoDownArrow, 228, 201.5)
 animUpdate(videoDownArrow)
 animSetScale(videoDownArrow, 0.5, 0.5)
 
@@ -6297,6 +6334,7 @@ function f_videoMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	moviesPath = "movie"
 	t_videoList = {}
 	for file in lfs.dir(moviesPath) do
@@ -6334,8 +6372,8 @@ function f_videoMenu()
 		end
 		if videoMenu < 1 then
 			videoMenu = #t_videoList
-			if #t_videoList > 14 then
-				cursorPosY = 14
+			if #t_videoList > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_videoList
 			end
@@ -6344,24 +6382,24 @@ function f_videoMenu()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (videoMenu - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (videoMenu - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (videoMenu - 1) * 15
 		end	
-		if #t_videoList <= 14 then
+		if #t_videoList <= maxItems then
 			maxVideos = #t_videoList
 		elseif videoMenu - cursorPosY > 0 then
-			maxVideos = videoMenu + 14 - cursorPosY
+			maxVideos = videoMenu + maxItems - cursorPosY
 		else
-			maxVideos = 14
+			maxVideos = maxItems
 		end
 		animDraw(f_animVelocity(videoBG0, -1, -1))
 		animSetScale(videoBG1, 220, maxVideos*15)
-		animSetWindow(videoBG1, 80,20, 160,210)
+		animSetWindow(videoBG1, 80,20, 160,180)
 		animDraw(videoBG1)
 		textImgDraw(txt_video)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6379,14 +6417,15 @@ function f_videoMenu()
 				textImgDraw(t_videoList[i].id)
 			end
 		end
-		if maxVideos > 14 then
+		if maxVideos > maxItems then
 			animDraw(videoUpArrow)
 			animUpdate(videoUpArrow)
 		end
-		if #t_videoList > 14 and maxVideos < #t_videoList then
+		if #t_videoList > maxItems and maxVideos < #t_videoList then
 			animDraw(videoDownArrow)
 			animUpdate(videoDownArrow)
 		end
+		drawListInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -6451,7 +6490,7 @@ storyboardDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(storyboardDownArrow, 228, 231)
+animAddPos(storyboardDownArrow, 228, 201.5)
 animUpdate(storyboardDownArrow)
 animSetScale(storyboardDownArrow, 0.5, 0.5)
 
@@ -6468,6 +6507,7 @@ function f_storyboardMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	storyboardsPath = "storyboard"
 	t_storyboardList = {}
 	for file in lfs.dir(storyboardsPath) do
@@ -6509,8 +6549,8 @@ function f_storyboardMenu()
 		end
 		if storyboardMenu < 1 then
 			storyboardMenu = #t_storyboardList
-			if #t_storyboardList > 14 then
-				cursorPosY = 14
+			if #t_storyboardList > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_storyboardList
 			end
@@ -6519,24 +6559,24 @@ function f_storyboardMenu()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (storyboardMenu - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (storyboardMenu - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (storyboardMenu - 1) * 15
 		end	
-		if #t_storyboardList <= 14 then
+		if #t_storyboardList <= maxItems then
 			maxStoryboards = #t_storyboardList
 		elseif storyboardMenu - cursorPosY > 0 then
-			maxStoryboards = storyboardMenu + 14 - cursorPosY
+			maxStoryboards = storyboardMenu + maxItems - cursorPosY
 		else
-			maxStoryboards = 14
+			maxStoryboards = maxItems
 		end
 		animDraw(f_animVelocity(storyboardBG0, -1, -1))
 		animSetScale(storyboardBG1, 220, maxStoryboards*15)
-		animSetWindow(storyboardBG1, 80,20, 160,210)
+		animSetWindow(storyboardBG1, 80,20, 160,180)
 		animDraw(storyboardBG1)
 		textImgDraw(txt_storyboard)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6554,14 +6594,15 @@ function f_storyboardMenu()
 				textImgDraw(t_storyboardList[i].id)
 			end
 		end
-		if maxStoryboards > 14 then
+		if maxStoryboards > maxItems then
 			animDraw(storyboardUpArrow)
 			animUpdate(storyboardUpArrow)
 		end
-		if #t_storyboardList > 14 and maxStoryboards < #t_storyboardList then
+		if #t_storyboardList > maxItems and maxStoryboards < #t_storyboardList then
 			animDraw(storyboardDownArrow)
 			animUpdate(storyboardDownArrow)
 		end
+		drawListInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -6627,7 +6668,7 @@ replayDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(replayDownArrow, 228, 231)
+animAddPos(replayDownArrow, 228, 201.5)
 animUpdate(replayDownArrow)
 animSetScale(replayDownArrow, 0.5, 0.5)
 
@@ -6646,6 +6687,18 @@ replayMenuBG2 = animNew(sysSff, [[
 animSetPos(replayMenuBG2, -13, 77)
 animUpdate(replayMenuBG2)
 animSetScale(replayMenuBG2, 0.9, 0.9)
+
+--Replay Option Input Hints Panel
+function drawReplayInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
 
 --;===========================================================
 --; ONLINE REPLAYS MENU
@@ -6684,11 +6737,12 @@ function f_mainReplay()
 	local bufr = 0
 	local bufl = 0
 	local exitReplayMenu = false
+	local maxItems = 12
 	netPlayer = "Host"
 	coinSystem = false
 	f_replayTable() --Load table
 	while true do
-		if exitReplayMenu == true then
+		if exitReplayMenu then
 			onlinegame = false --only for identify purposes
 			replaygame = false
 			coinSystem = true
@@ -6724,7 +6778,7 @@ function f_mainReplay()
 				f_confirmReset()
 				cmdInput()
 				while true do
-					if confirmScreen == false then
+					if not confirmScreen then
 						if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 							sndPlay(sysSnd, 100, 2)
 							break
@@ -6785,15 +6839,15 @@ function f_mainReplay()
 						end
 						textImgDraw(t_replayOption[i].id)
 					end
-					if confirmScreen == false then
+					if not confirmScreen then
 						--Draw Cursor
 						animSetWindow(cursorBox, -108+replayOption*120,161, 56,15)
 						f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 						animDraw(f_animVelocity(cursorBox, -1, -1))
 					end
-					if confirmScreen == true then f_confirmMenu() end
+					if confirmScreen then f_confirmMenu() else drawReplayInputHints() end
 					--DELETE SELECTED REPLAY
-					if deleteReplay == true then
+					if deleteReplay then
 						os.remove(t_replayList[mainReplay].path)
 						t_replayList = nil --Delete the Table
 						f_replayTable() --Just reload the table with applied changes
@@ -6809,8 +6863,8 @@ function f_mainReplay()
 		end
 		if mainReplay < 1 then
 			mainReplay = #t_replayList
-			if #t_replayList > 14 then
-				cursorPosY = 14
+			if #t_replayList > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_replayList
 			end
@@ -6819,24 +6873,24 @@ function f_mainReplay()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (mainReplay - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (mainReplay - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (mainReplay - 1) * 15
 		end
-		if #t_replayList <= 14 then
+		if #t_replayList <= maxItems then
 			maxReplays = #t_replayList
 		elseif mainReplay - cursorPosY > 0 then
-			maxReplays = mainReplay + 14 - cursorPosY
+			maxReplays = mainReplay + maxItems - cursorPosY
 		else
-			maxReplays = 14
+			maxReplays = maxItems
 		end
 		animDraw(f_animVelocity(replayBG0, -1, -1))
 		animSetScale(replayBG1, 220, maxReplays*15)
-		animSetWindow(replayBG1, 80,20, 160,210)
+		animSetWindow(replayBG1, 80,20, 160,180)
 		animDraw(replayBG1)
 		textImgDraw(txt_replay)
 		--animSetScale(cursorBox, 160,maxReplays*15) --For Optimized Cursor Box
@@ -6855,14 +6909,15 @@ function f_mainReplay()
 				textImgDraw(t_replayList[i].id)
 			end
 		end
-		if maxReplays > 14 then
+		if maxReplays > maxItems then
 			animDraw(replayUpArrow)
 			animUpdate(replayUpArrow)
 		end
-		if #t_replayList > 14 and maxReplays < #t_replayList then
+		if #t_replayList > maxItems and maxReplays < #t_replayList then
 			animDraw(replayDownArrow)
 			animUpdate(replayDownArrow)
 		end
+		drawListInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -7471,6 +7526,7 @@ function f_hostRooms()
 				animUpdate(arrowsD)
 			end
 		end
+		if not crudHostScreen and not editHostScreen then drawMenuInputHints() end --Draw Input Hints Panel for Host Rooms
 		textBar = textBar >= 60 and 0 or textBar + 1
 	--CRUD ACTIONS
 		hostRoomName = (t_hostList[hostList].text) --Host Name Selected
@@ -7529,9 +7585,20 @@ end
 crudHostWindowBG = animNew(sysSff, [[
 230,1, 0,0,
 ]])
-animSetPos(crudHostWindowBG, 60.5, 145)
+animSetPos(crudHostWindowBG, 60.5, 125)
 animUpdate(crudHostWindowBG)
 animSetScale(crudHostWindowBG, 1.3, 1.3)
+
+function drawCrudHostInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
 
 t_crudHostOptionU = {{id = '', text = "DELETE"},{id = '', text = "JOIN"},}
 t_crudHostOptionD = {{id = '', text = "EDIT"}, {id = '', text = "RETURN"},}
@@ -7617,8 +7684,10 @@ function f_crudHostScreen()
 	animDraw(crudHostWindowBG)
 	animUpdate(crudHostWindowBG)
 	--Draw Crud Title
-	txt_crudTitle = createTextImg(font6, 0, 0, hostRoomName.." ROOM", 160, 167.5)
+	txt_crudTitle = createTextImg(font6, 0, 0, hostRoomName.." ROOM", 160, 147.5)
 	textImgDraw(txt_crudTitle)
+	--Draw Input Hints Panel
+	if crudHostOption ~= 1 then drawCrudHostInputHints() end
 	--Draw Crud Menu Text
 	for i=1, #t_crudHostOptionU do
 		if i == crudHostCursorU and crudHostRow == 1 then
@@ -7626,7 +7695,7 @@ function f_crudHostScreen()
 		else
 			bank = 0
 		end
-		t_crudHostOptionU[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionU[i].text, 12+i*100, 190)
+		t_crudHostOptionU[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionU[i].text, 12+i*100, 170)
 		textImgDraw(t_crudHostOptionU[i].id)
 	end
 	for i=1, #t_crudHostOptionD do
@@ -7635,17 +7704,17 @@ function f_crudHostScreen()
 		else
 			bank = 0
 		end
-		t_crudHostOptionD[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionD[i].text, 12+i*100, 210)
+		t_crudHostOptionD[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionD[i].text, 12+i*100, 190)
 		textImgDraw(t_crudHostOptionD[i].id)
 	end
 	if crudHostOption ~= 1 then
 		--Draw Cursors
 		if crudHostRow == 1 then
-			animSetWindow(cursorBox, -16+crudHostCursorU*100,178, 55,16)
+			animSetWindow(cursorBox, -16+crudHostCursorU*100,158, 55,16)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		elseif crudHostRow == 2 then
-			animSetWindow(cursorBox, -16+crudHostCursorD*100,198, 55,16)
+			animSetWindow(cursorBox, -16+crudHostCursorD*100,178, 55,16)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
