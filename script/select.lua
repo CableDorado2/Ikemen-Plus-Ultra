@@ -912,6 +912,8 @@ function f_backMenu()
 	animSetWindow(cursorBox, 87,123+cursorPosYBack*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Input Hints Panel
+	drawConfirmInputHints()
 	--Actions
 	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--YES
@@ -2910,6 +2912,29 @@ cellLockWindowBG = animNew(sysSff, [[
 animSetScale(cellLockWindowBG, 91.5, 51)
 animUpdate(cellLockWindowBG)
 
+--Input Hints Panel
+function drawSelectInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawStageInputHints()
+	local inputHintYPos = 21
+	local hintFont = font2
+	local hintFontYPos = 35
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
 --;===========================================================
 --; CHARACTER SELECT SCREEN
 --;===========================================================
@@ -3100,7 +3125,7 @@ function f_selectScreen()
 	end
 	if p1TeamEnd or p2TeamEnd then
 		if (p1PalEnd and p2PalEnd) and not stageMenuActive then
-			textImgDraw(txt_palHint)
+			--textImgDraw(txt_palHint)
 		end
 	end
 	--Palette Select
@@ -3185,11 +3210,17 @@ function f_selectScreen()
 		end
 	end
 	--Show Back Menu
-	if backScreen == true then
+	if backScreen then
 		if onlinegame == false then
 			f_backMenu()
 		elseif onlinegame == true then
 			f_exitOnline()
+		end
+	else
+		if not stageMenuActive then
+			drawSelectInputHints()
+		else
+			drawStageInputHints()
 		end
 	end
 	animDraw(data.fadeSelect)
@@ -7055,16 +7086,16 @@ animUpdate(footerBG)
 --; ORDER SELECT SCREENPACK
 --;===========================================================
 txt_orderSelect = createTextImg(font14, 0, 0, "ORDER SELECT", 160, 10)
-txt_p1State = createTextImg(jgFnt, 0, 0, "", 78, 25)
-txt_p2State = createTextImg(jgFnt, 0, 0, "", 241, 25)
+txt_p1State = createTextImg(jgFnt, 0, 0, "", 78, 22)
+txt_p2State = createTextImg(jgFnt, 0, 0, "", 241, 22)
 txt_waitingOrder = "WAITING ORDER"
 txt_orderFinished = "READY!"
 
 txt_p1NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
 txt_p2NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
 
-txt_p1OrderNo = createTextImg(jgFnt, 0, 0, "", 9.2, 180)
-txt_p2OrderNo = createTextImg(jgFnt, 0, 0, "", 310.2, 180)
+txt_p1OrderNo = createTextImg(jgFnt, 0, 0, "", 9.2, 175)
+txt_p2OrderNo = createTextImg(jgFnt, 0, 0, "", 310.2, 175)
 
 --Order Window (left portrait background)
 orderWindowL = animNew(sysSff, [[
@@ -7072,7 +7103,7 @@ orderWindowL = animNew(sysSff, [[
 ]])
 animAddPos(orderWindowL, 160, 0)
 animSetTile(orderWindowL, 1, 1)
-animSetWindow(orderWindowL, 0, 30, 140, 140)
+animSetWindow(orderWindowL, 0, 25, 140, 140)
 
 --Order Window (right portrait background)
 orderWindowR = animNew(sysSff, [[
@@ -7080,7 +7111,7 @@ orderWindowR = animNew(sysSff, [[
 ]])
 animAddPos(orderWindowR, 160, 0)
 animSetTile(orderWindowR, 1, 1)
-animSetWindow(orderWindowR, 180, 30, 140, 140)
+animSetWindow(orderWindowR, 180, 25, 140, 140)
 
 --P1 Order cursor
 p1OrderCursor = animNew(sysSff, [[
@@ -7096,6 +7127,17 @@ p2OrderCursor = animNew(sysSff, [[
 animSetScale(p2OrderCursor, 0.10, 0.10)
 animUpdate(p2OrderCursor)
 
+function drawOrderInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","80,"..inputHintYPos,"r","100,"..inputHintYPos,"w","179,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Order", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 199.5, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
 t_orderHints = {
 	{text = "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER"},
 	{text = "PRESS UP OR DOWN TO CHOOSE A CHARACTER"},
@@ -7105,7 +7147,7 @@ t_orderHints = {
 }
 
 function f_getOrderHint()
-	textImgSetText(txt_hints, t_orderHints[math.random(1, #t_orderHints)].text) --Get Random Hint from above Table
+	textImgSetText(txt_hints, t_orderHints[math.random(1, #t_orderHints)].text) 
 end
 
 --;===========================================================
@@ -7192,7 +7234,7 @@ function f_orderSelect()
 		else	
 			playBGM(bgmSelectOrder)
 		end
-		f_getOrderHint() --Load First Hint
+		--f_getOrderHint() --Load First Hint
 		f_resetVersusLogo()
 	--Set order time
 		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
@@ -7229,7 +7271,7 @@ function f_orderSelect()
 			--txt_orderTime = createTextImg(jgFnt, 0, 0, (orderTime/gameTick), 160, 70)
 			orderTimeNumber = orderTime/gameTick
 			nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
-			txt_orderTime = createTextImg(jgFnt, 0, 0, nodecimalOrderTime, 160, 70)
+			txt_orderTime = createTextImg(jgFnt, 0, 0, nodecimalOrderTime, 160, 65)
 		--Draw Order Select Last Match Backgrounds
 			if matchNo == lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -7272,7 +7314,7 @@ function f_orderSelect()
 		--Both Sides are Ready
 			if p1Confirmed == true and p2Confirmed == true then
 				orderTime = 0
-				animSetWindow(cursorBox, 20, 14, 120, 16)
+				animSetWindow(cursorBox, 20, 9, 120, 16)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
@@ -7349,7 +7391,7 @@ function f_orderSelect()
 						data.t_p1selected = t_tmp
 					end
 				end
-				animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
+				animSetWindow(cursorBox, 0,152+p1Row*14, 140,14.5)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
@@ -7413,7 +7455,7 @@ function f_orderSelect()
 						data.t_p1selected = t_tmp
 					end
 				end
-				animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
+				animSetWindow(cursorBox, 0,152+p1Row*14, 140,14.5)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
@@ -7470,7 +7512,7 @@ function f_orderSelect()
 						data.t_p2selected = t_tmp
 					end
 				end
-				animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
+				animSetWindow(cursorBox, 180,152+p2Row*14, 140,14.5)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
@@ -7527,7 +7569,7 @@ function f_orderSelect()
 						data.t_p2selected = t_tmp
 					end
 				end
-				animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
+				animSetWindow(cursorBox, 180,152+p2Row*14, 140,14.5)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
@@ -7555,50 +7597,53 @@ function f_orderSelect()
 		--Draw Character Portraits
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				for j=#data.t_p1selected, 1, -1 do
-					drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 30, xPortScaleL, yPortScaleL)
+					drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 25, xPortScaleL, yPortScaleL)
 				end
 				for j=#data.t_p2selected, 1, -1 do
-					drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 30, -xPortScaleR, yPortScaleR)
+					drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 25, -xPortScaleR, yPortScaleR)
 				end
 			end
 		--Draw Character Sprite Animations
 			if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
 			--Left Side
 				for j=#data.t_p1selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], p1Anim, 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], p1Anim, 139 - (2*j-1) * 18, 163, data.t_p1selected[j].up)
 				end
 			--Right Side
 				for j=#data.t_p2selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], p2Anim, 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], p2Anim, 180 + (2*j-1) * 18, 163, data.t_p2selected[j].up)
 				end
 			end
 		--Draw Names
-			f_drawNameList(txt_p1NameOrder, 5, data.t_p1selected, 78, 180, 0, 14, p1Row, 0)
-			f_drawNameList(txt_p2NameOrder, 5, data.t_p2selected, 241, 180, 0, 14, p2Row, 0)
+			f_drawNameList(txt_p1NameOrder, 5, data.t_p1selected, 78, 175, 0, 14, p1Row, 0)
+			f_drawNameList(txt_p2NameOrder, 5, data.t_p2selected, 241, 175, 0, 14, p2Row, 0)
 		--Draw Order Number Assets
 			--Left Side
 			for n=#data.t_p1selected, 1, -1 do
-				animPosDraw(p1OrderCursor, 1, 158+14*n) --Draw Order Icon
+				animPosDraw(p1OrderCursor, 1, 153+14*n) --Draw Order Icon
 				textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
-				textImgPosDraw(txt_p1OrderNo, 9, 166+14*n) --Draw Order Number Text
+				textImgPosDraw(txt_p1OrderNo, 9, 161+14*n) --Draw Order Number Text
 			end
 			--Right Side
 			for n=#data.t_p2selected, 1, -1 do
-				animPosDraw(p2OrderCursor, 305, 158+14*n)
+				animPosDraw(p2OrderCursor, 305, 153+14*n)
 				textImgSetText(txt_p2OrderNo, n)
-				textImgPosDraw(txt_p2OrderNo, 310, 166+14*n)
+				textImgPosDraw(txt_p2OrderNo, 310, 161+14*n)
 			end
 		--Draw Title
 			textImgDraw(txt_orderSelect)
 		--Draw Assets
 			animUpdate(vsLogo)
 			animDraw(vsLogo)
+			--[[
 			animDraw(footerBG)
 			if hintTime > 150 then --Time to load a new random hint
 				f_getOrderHint() --Update Hint
 				hintTime = 0 --Restart timer for a new random hint
 			end
 			textImgDraw(txt_hints) --Draw Hints
+			]]
+			drawOrderInputHints()
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			hintTime = hintTime + 1 --Start timer for randoms hints
@@ -7675,7 +7720,7 @@ t_vsHints = {
 }
 
 function f_getVSHint()
-	textImgSetText(txt_hints, t_vsHints[math.random(1, #t_vsHints)].text)
+	textImgSetText(txt_hints, t_vsHints[math.random(1, #t_vsHints)].text) --Get Random Hint from above Table
 end
 
 --;===========================================================
@@ -8372,6 +8417,17 @@ animSetPos(rematch2WindowBG, 168.4, 97)
 animUpdate(rematch2WindowBG)
 animSetScale(rematch2WindowBG, 1.005, 1.1)
 
+--Rematch Input Hints Panel
+function drawRematchInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
 --;===========================================================
 --; REMATCH MENU
 --;===========================================================
@@ -8489,6 +8545,7 @@ function f_rematch()
 			
 		end
 	end
+	drawRematchInputHints() --Draw Input Hints Panel
 	if commandGetState(p1Cmd, 'holdu') then
 		bufRematchd = 0
 		bufRematchu = bufRematchu + 1
