@@ -1456,6 +1456,205 @@ if data.debugLog then
 end
 
 --;===========================================================
+--; INPUT MENU HINTS PANEL
+--;===========================================================
+--Load Buttons Sprites
+btn0 = animNew(btnSff, [[0,0, 0,0, -1]])
+btn1 = animNew(btnSff, [[0,1, 0,0, -1]])
+btn2 = animNew(btnSff, [[0,2, 0,0, -1]])
+btn3 = animNew(btnSff, [[0,3, 0,0, -1]])
+btn4 = animNew(btnSff, [[0,4, 0,0, -1]])
+btn5 = animNew(btnSff, [[0,5, 0,0, -1]])
+btn6 = animNew(btnSff, [[0,6, 0,0, -1]])
+btn7 = animNew(btnSff, [[0,7, 0,0, -1]])
+btn8 = animNew(btnSff, [[0,8, 0,0, -1]])
+btn9 = animNew(btnSff, [[0,9, 0,0, -1]])
+btnA = animNew(btnSff, [[0,10, 0,0, -1]])
+btnB = animNew(btnSff, [[0,11, 0,0, -1]])
+btnC = animNew(btnSff, [[0,12, 0,0, -1]])
+btnD = animNew(btnSff, [[0,13, 0,0, -1]])
+btnE = animNew(btnSff, [[0,14, 0,0, -1]])
+btnF = animNew(btnSff, [[0,15, 0,0, -1]])
+btnG = animNew(btnSff, [[0,16, 0,0, -1]])
+btnH = animNew(btnSff, [[0,17, 0,0, -1]])
+btnI = animNew(btnSff, [[0,18, 0,0, -1]])
+btnJ = animNew(btnSff, [[0,19, 0,0, -1]])
+btnK = animNew(btnSff, [[0,20, 0,0, -1]])
+btnL = animNew(btnSff, [[0,21, 0,0, -1]])
+btnM = animNew(btnSff, [[0,22, 0,0, -1]])
+btnN = animNew(btnSff, [[0,23, 0,0, -1]])
+btnO = animNew(btnSff, [[0,24, 0,0, -1]])
+btnP = animNew(btnSff, [[0,25, 0,0, -1]])
+btnQ = animNew(btnSff, [[0,26, 0,0, -1]])
+btnR = animNew(btnSff, [[0,27, 0,0, -1]])
+btnS = animNew(btnSff, [[0,28, 0,0, -1]])
+btnT = animNew(btnSff, [[0,29, 0,0, -1]])
+btnU = animNew(btnSff, [[0,30, 0,0, -1]])
+btnV = animNew(btnSff, [[0,31, 0,0, -1]])
+btnW = animNew(btnSff, [[0,32, 0,0, -1]])
+btnX = animNew(btnSff, [[0,33, 0,0, -1]])
+btnY = animNew(btnSff, [[0,34, 0,0, -1]])
+btnZ = animNew(btnSff, [[0,35, 0,0, -1]])
+btnPERIOD = animNew(btnSff, [[0,36, 0,0, -1]])
+btnCOMMA = animNew(btnSff, [[0,37, 0,0, -1]])
+--btnDOUBLEPERIOD = animNew(btnSff, [[0,38, 0,0, -1]])
+--btnPERIODANDCOMMA = animNew(btnSff, [[0,39, 0,0, -1]])
+btnMINUS = animNew(btnSff, [[0,40, 0,0, -1]])
+btnLEFTBRACKET = animNew(btnSff, [[0,41, 0,0, -1]])
+btnRIGHTBRACKET = animNew(btnSff, [[0,42, 0,0, -1]])
+btnSLASH = animNew(btnSff, [[0,43, 0,0, -1]])
+btnBACKSLASH = animNew(btnSff, [[0,44, 0,0, -1]])
+btnLSHIFT = animNew(btnSff, [[0,45, 0,0, -1]])
+btnRSHIFT = animNew(btnSff, [[0,46, 0,0, -1]])
+--btnLALT = animNew(btnSff, [[0,47, 0,0, -1]])
+--btnRALT = animNew(btnSff, [[0,48, 0,0, -1]])
+--btnLCTRL = animNew(btnSff, [[0,49, 0,0, -1]])
+--btnRCTRL = animNew(btnSff, [[0,50, 0,0, -1]])
+btnTAB = animNew(btnSff, [[0,51, 0,0, -1]])
+btnSPACE = animNew(btnSff, [[0,52, 0,0, -1]])
+btnRETURN = animNew(btnSff, [[0,53, 0,0, -1]])
+btnBACKSPACE = animNew(btnSff, [[0,54, 0,0, -1]])
+btnHOME = animNew(btnSff, [[0,55, 0,0, -1]])
+btnEND = animNew(btnSff, [[0,56, 0,0, -1]])
+btnPAGEUP = animNew(btnSff, [[0,57, 0,0, -1]])
+btnPAGEDOWN = animNew(btnSff, [[0,58, 0,0, -1]])
+btnUP = animNew(btnSff, [[0,59, 0,0, -1]])
+btnDOWN = animNew(btnSff, [[0,60, 0,0, -1]])
+btnLEFT = animNew(btnSff, [[0,61, 0,0, -1]])
+btnRIGHT = animNew(btnSff, [[0,62, 0,0, -1]])
+btnKP_0 = animNew(btnSff, [[0,63, 0,0, -1]])
+btnKP_1 = animNew(btnSff, [[0,64, 0,0, -1]])
+btnKP_2 = animNew(btnSff, [[0,65, 0,0, -1]])
+btnKP_3 = animNew(btnSff, [[0,66, 0,0, -1]])
+btnKP_4 = animNew(btnSff, [[0,67, 0,0, -1]])
+btnKP_5 = animNew(btnSff, [[0,68, 0,0, -1]])
+btnKP_6 = animNew(btnSff, [[0,69, 0,0, -1]])
+btnKP_7 = animNew(btnSff, [[0,70, 0,0, -1]])
+btnKP_8 = animNew(btnSff, [[0,71, 0,0, -1]])
+btnKP_9 = animNew(btnSff, [[0,72, 0,0, -1]])
+btnKP_PERIOD = animNew(btnSff, [[0,73, 0,0, -1]])
+btnKP_DIVIDE = animNew(btnSff, [[0,74, 0,0, -1]])
+btnKP_MULTIPLY = animNew(btnSff, [[0,75, 0,0, -1]])
+btnKP_MINUS = animNew(btnSff, [[0,76, 0,0, -1]])
+btnKP_PLUS = animNew(btnSff, [[0,77, 0,0, -1]])
+btnKP_ENTER = animNew(btnSff, [[0,78, 0,0, -1]])
+btnNIL = animNew(btnSff, [[1,0, 0,0, -1]])
+
+--Associate Button Key to Button Sprite
+t_btnHint = {
+	{keyTxt = "_0",				keySpr = btn0},
+	{keyTxt = "_1", 			keySpr = btn1},
+	{keyTxt = "_2", 			keySpr = btn2},
+	{keyTxt = "_3", 			keySpr = btn3},
+	{keyTxt = "_4", 			keySpr = btn4},
+	{keyTxt = "_5", 			keySpr = btn5},
+	{keyTxt = "_6", 			keySpr = btn6},
+	{keyTxt = "_7", 			keySpr = btn7},
+	{keyTxt = "_8", 			keySpr = btn8},
+	{keyTxt = "_9", 			keySpr = btn9},
+	{keyTxt = "a", 				keySpr = btnA},
+	{keyTxt = "b", 				keySpr = btnB},
+	{keyTxt = "c", 				keySpr = btnC},
+	{keyTxt = "d", 				keySpr = btnD},
+	{keyTxt = "e", 				keySpr = btnE},
+	{keyTxt = "f", 				keySpr = btnF},
+	{keyTxt = "g", 				keySpr = btnG},
+	{keyTxt = "h", 				keySpr = btnH},
+	{keyTxt = "i", 				keySpr = btnI},
+	{keyTxt = "j", 				keySpr = btnJ},
+	{keyTxt = "k", 				keySpr = btnK},
+	{keyTxt = "l",				keySpr = btnL},
+	{keyTxt = "m", 				keySpr = btnM},
+	{keyTxt = "n", 				keySpr = btnN},
+	{keyTxt = "o", 				keySpr = btnO},
+	{keyTxt = "p", 				keySpr = btnP},
+	{keyTxt = "q", 				keySpr = btnQ},
+	{keyTxt = "r", 				keySpr = btnR},
+	{keyTxt = "s", 				keySpr = btnS},
+	{keyTxt = "t", 				keySpr = btnT},
+	{keyTxt = "u", 				keySpr = btnU},
+	{keyTxt = "v", 				keySpr = btnV},
+	{keyTxt = "w", 				keySpr = btnW},
+	{keyTxt = "x", 				keySpr = btnX},
+	{keyTxt = "y", 				keySpr = btnY},
+	{keyTxt = "z", 				keySpr = btnZ},
+	{keyTxt = "PERIOD", 		keySpr = btnPERIOD},
+	{keyTxt = "COMMA", 			keySpr = btnCOMMA},
+	{keyTxt = "MINUS", 			keySpr = btnMINUS},
+	{keyTxt = "LEFTBRACKET", 	keySpr = btnLEFTBRACKET},
+	{keyTxt = "RIGHTBRACKET", 	keySpr = btnRIGHTBRACKET},
+	{keyTxt = "BACKSLASH", 		keySpr = btnBACKSLASH},
+	{keyTxt = "LSHIFT", 		keySpr = btnLSHIFT},
+	{keyTxt = "RSHIFT", 		keySpr = btnRSHIFT},
+	{keyTxt = "TAB", 			keySpr = btnTAB},
+	{keyTxt = "SPACE", 			keySpr = btnSPACE},
+	{keyTxt = "RETURN", 		keySpr = btnRETURN},
+	{keyTxt = "BACKSPACE", 		keySpr = btnBACKSPACE},
+	{keyTxt = "HOME", 			keySpr = btnHOME},
+	{keyTxt = "END", 			keySpr = btnEND},
+	{keyTxt = "PAGEUP", 		keySpr = btnPAGEUP},
+	{keyTxt = "PAGEDOWN", 		keySpr = btnPAGEDOWN},
+	{keyTxt = "UP", 			keySpr = btnUP},
+	{keyTxt = "DOWN", 			keySpr = btnDOWN},
+	{keyTxt = "LEFT", 			keySpr = btnLEFT},
+	{keyTxt = "RIGHT", 			keySpr = btnRIGHT},
+	{keyTxt = "KP_0", 			keySpr = btnKP_0},
+	{keyTxt = "KP_1", 			keySpr = btnKP_1},
+	{keyTxt = "KP_2", 			keySpr = btnKP_2},
+	{keyTxt = "KP_3",			keySpr = btnKP_3},
+	{keyTxt = "KP_4", 			keySpr = btnKP_4},
+	{keyTxt = "KP_5", 			keySpr = btnKP_5},
+	{keyTxt = "KP_6", 			keySpr = btnKP_6},
+	{keyTxt = "KP_7", 			keySpr = btnKP_7},
+	{keyTxt = "KP_8", 			keySpr = btnKP_8},
+	{keyTxt = "KP_9", 			keySpr = btnKP_9},
+	{keyTxt = "KP_PERIOD", 		keySpr = btnKP_PERIOD},
+	{keyTxt = "KP_DIVIDE", 		keySpr = btnKP_DIVIDE},
+	{keyTxt = "KP_MULTIPLY", 	keySpr = btnKP_MULTIPLY},
+	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
+	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
+	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
+	{keyTxt = "NIL", 			keySpr = btnNIL},
+}
+
+function f_searchCmd(input)
+	for i, v in ipairs(t_keyMenuCfg) do --For each item in table
+		if v.cmd == input then --if table cmd item is equal to input entered
+			return i --Returns the position of the item in the table
+		end
+	end
+	return nil --Returns nil if the item is not found in the table
+end
+
+function f_searchButton(inputkey) --Based on previous function
+	for i, v in ipairs(t_btnHint) do
+		if v.keyTxt == inputkey then
+			return i
+		end
+	end
+	return #t_btnHint --return lastest table value that is an empty spr
+end
+
+function drawInputHintsP1(...) --(...) Manage unlimited arguments
+	local t_args = {...} --Store all arguments taken in a table
+	for i=1, #t_args, 2 do --For each argument stored in table
+		local cmd = t_args[i] --Set first argument (key name) to cmd var
+		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
+		local nameKey = f_searchCmd(cmd) --get table pos from button name configured based on cmd entry name
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText) --Get button name configured
+			local key = t_btnHint[btn].keySpr --Get button sprite
+			--local posKey = cmdPos --Get button "X,Y" positions
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, 0.7, 0.7)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+--;===========================================================
 --; STORYBOARD DEFINITION
 --;===========================================================
 t_data = {} --stores all SFF, SND, FNT data structures
@@ -2181,6 +2380,103 @@ challengerText = animNew(sysSff, [[
 ]])
 animAddPos(challengerText, 19, 100)
 animUpdate(challengerText)
+
+--;===========================================================
+--; CLOCK AND DATE PANEL
+--;===========================================================
+local file = io.open("save/config.ssz","r")
+s_configSSZ = file:read("*all")
+file:close()
+resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
+data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
+
+txt_titleClock = createTextImg(font12, 0, -1, "", 0, 0)
+txt_titleDate = createTextImg(font12, 0, 1, "", 0, 0)
+
+function f_sysTime()
+	--local http = require("socket.http") -- import the socket.http module
+	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
+	--local date = headers.date -- LuaSocket makes all header names lowercase
+	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
+	local clockPosX = 0
+	local clockPosY = 8
+	local clockStandard = (os.date("%I:%M%p"))
+	local clockFullStandard = (os.date("%I:%M%p:%S"))
+	local clockMilitary = (os.date("%H:%M"))
+	local clockFullMilitary = (os.date("%X"))
+	--
+	local datePosX = 0
+	local datePosY = 8
+	local dateTypeA = (os.date("%m-%d-%y"))
+	local dateTypeB = (os.date("%d-%m-%Y"))
+	local dateTypeC = (os.date("%a %d.%b.%Y"))
+	local dateTypeD = (os.date("%A"))
+	local dateTypeE = (os.date("%B.%Y"))
+	--4:3 Resolution
+	if (resolutionHeight / 3 * 4) == resolutionWidth then
+		clockPosX = 314
+		--clockPosY = 8
+		datePosX = 8
+		--datePosY = 8
+	--16:10 Resolution
+	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
+		clockPosX = 345
+		--clockPosY = 8
+		datePosX = -25
+		--datePosY = 8
+	--16:9 Resolution
+	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
+		clockPosX = 365
+		--clockPosY = 8
+		datePosX = -45
+		--datePosY = 8
+	--Extra Resolution
+	else
+		clockPosX = 345
+		--clockPosY = 8
+		datePosX = -25
+		--datePosY = 8
+	end
+	--Set Clock
+	if data.clock == "Standard" then
+		textImgSetText(txt_titleClock, clockStandard)
+		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
+	elseif data.clock == "Full Standard" then
+		textImgSetText(txt_titleClock, clockFullStandard)
+		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
+	elseif data.clock == "Military" then
+		textImgSetText(txt_titleClock, clockMilitary)
+		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
+	elseif data.clock == "Full Military" then
+		textImgSetText(txt_titleClock, clockFullMilitary)
+		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
+	end
+	--Set Date
+	if data.date == "Type A" then
+		textImgSetText(txt_titleDate, dateTypeA)
+		textImgSetPos(txt_titleDate, datePosX, datePosY)
+	elseif data.date == "Type B" then
+		textImgSetText(txt_titleDate, dateTypeB)
+		textImgSetPos(txt_titleDate, datePosX, datePosY)
+	elseif data.date == "Type C" then
+		textImgSetText(txt_titleDate, dateTypeC)
+		textImgSetPos(txt_titleDate, datePosX, datePosY)
+	elseif data.date == "Type D" then
+		textImgSetText(txt_titleDate, dateTypeD)
+		textImgSetPos(txt_titleDate, datePosX, datePosY)
+	elseif data.date == "Type E" then
+		textImgSetText(txt_titleDate, dateTypeE)
+		textImgSetPos(txt_titleDate, datePosX, datePosY)
+	end
+	textImgDraw(txt_titleClock) --Draw Clock
+	textImgDraw(txt_titleDate) --Draw Date
+	if data.debugMode then
+		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
+		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
+	end
+end
 
 --;===========================================================
 --; BUTTON SECRET CODES

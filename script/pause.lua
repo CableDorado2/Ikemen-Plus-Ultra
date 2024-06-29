@@ -143,98 +143,6 @@ function f_saveTrgCfg()
 	modified = false
 end
 
-function f_sysTimeP()
-	if (resolutionHeight / 3 * 4) == resolutionWidth then
-		--Clock
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 229)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 229)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 229)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 229)
-		end
-		--Date
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 314, 239)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 314, 239)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 314, 239)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 314, 239)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 314, 239)
-		end
-	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
-		end
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
-		end
-	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 229)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 229)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 229)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 229)
-		end
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 365, 239)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 365, 239)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 365, 239)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 365, 239)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 365, 239)
-		end
-	else
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
-		end
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
-		end
-	end
-	textImgDraw(txt_titleClock) --Draw Clock
-	textImgDraw(txt_titleDate) --Draw Date
-end
-
 --;===========================================================
 --; PAUSE MENU SCREENPACK
 --;===========================================================
@@ -376,6 +284,29 @@ pauseRightArrow = animNew(sysSff, [[
 animAddPos(pauseRightArrow, 242, 112)
 animUpdate(pauseRightArrow)
 animSetScale(pauseRightArrow, 0.5, 0.5)
+
+--Input Hints Panel
+function drawPauseInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawPauseInputHints2()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
 
 --;===========================================================
 --; PAUSE MENU RESET
@@ -735,8 +666,9 @@ function f_pauseMain(p, st, esc)
 					animDraw(pauseDownArrow)
 					animUpdate(pauseDownArrow)
 				end
-				f_sysTimeP()
-				if data.attractMode == true then textImgDraw(txt_attractCredits) end --Draw Attract Credits
+				f_sysTime()
+				drawPauseInputHints()
+				if data.attractMode then textImgDraw(txt_attractCredits) end --Draw Attract Credits
 				if commandGetState(p1Cmd, 'holdu') then
 					Pbufd = 0
 					Pbufu = Pbufu + 1
@@ -901,8 +833,9 @@ function f_pauseConfirm()
 			animSetWindow(cursorBox, 87,103+cursorPosYConfirm*13, 144,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
-			f_sysTimeP()
-			if data.attractMode == true then textImgDraw(txt_attractCredits) end
+			f_sysTime()
+			drawPauseInputHints()
+			if data.attractMode then textImgDraw(txt_attractCredits) end
 			--BACK TO MAIN MENU (TEMP)
 			if mainMenuBack == true then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
@@ -1124,8 +1057,9 @@ function f_pauseSettings()
 				animDraw(pauseDownArrow)
 				animUpdate(pauseDownArrow)
 			end
-			f_sysTimeP()
-			if data.attractMode == true then textImgDraw(txt_attractCredits) end
+			f_sysTime()
+			drawPauseInputHints()
+			if data.attractMode then textImgDraw(txt_attractCredits) end
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -1339,8 +1273,9 @@ function f_pauseAudio()
 			animDraw(pauseDownArrow)
 			animUpdate(pauseDownArrow)
 		end
-		f_sysTimeP()
-		if data.attractMode == true then textImgDraw(txt_attractCredits) end
+		f_sysTime()
+		drawPauseInputHints()
+		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
@@ -1524,8 +1459,9 @@ function f_pauseSongs()
 			animDraw(pauseRightArrow)
 			animUpdate(pauseRightArrow)
 		end
-		f_sysTimeP()
-		if data.attractMode == true then textImgDraw(txt_attractCredits) end
+		f_sysTime()
+		drawPauseInputHints()
+		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
@@ -2123,8 +2059,9 @@ function f_pauseTraining()
 				animDraw(pauseTDownArrow)
 				animUpdate(pauseTDownArrow)
 			end
-			f_sysTimeP()
-			if data.attractMode == true then textImgDraw(txt_attractCredits) end
+			f_sysTime()
+			drawPauseInputHints()
+			if data.attractMode then textImgDraw(txt_attractCredits) end
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -2398,8 +2335,9 @@ function f_pausePlayback()
 			animDraw(pauseTDownArrow)
 			animUpdate(pauseTDownArrow)
 		end
-		f_sysTimeP()
-		if data.attractMode == true then textImgDraw(txt_attractCredits) end
+		f_sysTime()
+		drawPauseInputHints()
+		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
@@ -2569,8 +2507,9 @@ function f_pauseCharCfg()
 			animDraw(pauseTDownArrow)
 			animUpdate(pauseTDownArrow)
 		end
-		f_sysTimeP()
-		if data.attractMode == true then textImgDraw(txt_attractCredits) end
+		f_sysTime()
+		drawPauseInputHints()
+		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1

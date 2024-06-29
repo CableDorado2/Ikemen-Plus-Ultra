@@ -7875,9 +7875,9 @@ end
 --;===========================================================
 --; WIN SCREEN SCREENPACK
 --;===========================================================
-txt_winnername = createTextImg(jgFnt, 0, 1, "", 20, 177)
+txt_winnername = createTextImg(jgFnt, 0, 1, "", 20, 162)
 txt_winquote = createTextImg(font2, 0, 1, "", 0, 0)
-txt_winquoteFix = createTextImg(jgFnt, 0, 1, "", 20, 177)
+txt_winquoteFix = createTextImg(jgFnt, 0, 1, "", 20, 162)
 	
 --Win Char Modern Transparent BG
 wincharBG = animNew(sysSff, [[
@@ -7885,7 +7885,7 @@ wincharBG = animNew(sysSff, [[
 ]])
 animAddPos(wincharBG, 160, 0)
 animSetTile(wincharBG, 1, 1)
-animSetWindow(wincharBG, -54, 14, 428, 142)
+animSetWindow(wincharBG, -54, 0, 428, 142)
 
 --Win Char Classic Transparent (left portrait background)
 wincharBGC1 = animNew(sysSff, [[
@@ -7893,7 +7893,7 @@ wincharBGC1 = animNew(sysSff, [[
 ]])
 animAddPos(wincharBGC1, 160, 0)
 animSetTile(wincharBGC1, 1, 1)
---animSetWindow(wincharBGC1, 20, 30, 120, 140)
+animSetWindow(wincharBGC1, 32, 5, 120, 140)
 
 --Win Char Classic Transparent (right portrait background)
 wincharBGC2 = animNew(sysSff, [[
@@ -7901,7 +7901,7 @@ wincharBGC2 = animNew(sysSff, [[
 ]])
 animAddPos(wincharBGC2, 160, 0)
 animSetTile(wincharBGC2, 1, 1)
---animSetWindow(wincharBGC2, 180, 30, 120, 140)
+animSetWindow(wincharBGC2, 169, 5, 120, 140)
 
 --Win Quote Transparent BG
 quoteBG = animNew(sysSff, [[
@@ -7909,7 +7909,7 @@ quoteBG = animNew(sysSff, [[
 ]])
 animAddPos(quoteBG, 160, 0)
 animSetTile(quoteBG, 1, 1)
-animSetWindow(quoteBG, 14, 167, 290, 62)
+animSetWindow(quoteBG, 14, 152, 290, 65)
 
 --;===========================================================
 --; VICTORY SCREEN
@@ -8015,75 +8015,73 @@ function f_selectWin()
 			end
 		--Draw Permanent Victory Quote Message
 			if data.winscreen == "Fixed" then
-				f_textRender(txt_winquoteFix, txt, i, 20, 190, 15, 2, 59)
+				f_textRender(txt_winquoteFix, txt, i, 20, 175, 15, 2, 59)
 			else --Classic/Modern Victory Screen
 				if data.winscreen == "Modern" then
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
 					--Draw Portraits
 					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						if winnerTeam == 1 then
-							drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale) --Your char portrait appears in modern win screen
+							drawWinPortrait(winnerSide[1].cel, 99, 0, xPortScale, yPortScale) --Your char portrait appears in modern win screen
 						elseif winnerTeam == 2 then	--Your 2nd char portrait appears in modern win screen
-							drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
-							drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[2].cel, 150, 0, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[1].cel, 45, 0, xPortScale, yPortScale)
 						elseif winnerTeam == 3 then	--Your 3rd char portrait appears in modern win screen	
-							drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
-							drawWinPortrait(winnerSide[2].cel, 205, 15, xPortScale, yPortScale)
-							drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[3].cel, 0, 0, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[2].cel, 205, 0, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[1].cel, 99, 0, xPortScale, yPortScale)
 						elseif winnerTeam == 4 then	--Your 4th char portrait appears in modern win screen
-							drawWinPortrait(winnerSide[4].cel, 205, 15, xPortScale, yPortScale)
-							drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
-							drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
-							drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[4].cel, 205, 0, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[3].cel, 0, 0, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[2].cel, 150, 0, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[1].cel, 45, 0, xPortScale, yPortScale)
 						end
 					--Draw Char Animations
 					elseif data.charPresentation == "Sprite" then
 						for j=#data.t_p1selected, 1, -1 do
-							f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 178 - (2*j-1) * 18, 152.5, data.t_p1selected[j].up)
+							f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 178 - (2*j-1) * 18, 137.5, data.t_p1selected[j].up)
 						end
 					end
 				elseif data.winscreen == "Classic" then
 					if winner == 2 then
 						--Draw Portraits
 						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-							drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+							drawLoserPortrait(data.t_p1selected[1].cel, 32, 5, 1, 1)
 						--Draw Char Animations
 						elseif data.charPresentation == "Sprite" then
 							for j=#data.t_p1selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimDizzy', 139 - (2*j-1) * 18, 158, data.t_p1selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimDizzy', 139 - (2*j-1) * 18, 143, data.t_p1selected[j].up)
 							end
 						end
 					end
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
-					animSetWindow(wincharBGC1, 32, 20, 120, 140)
 					if winner == 1 then
 						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-							drawWinPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
-							drawLoserPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+							drawWinPortrait(data.t_p1selected[1].cel, 32, 5, 1, 1)
+							drawLoserPortrait(data.t_p2selected[1].cel, 289, 5, -1, 1)
 						elseif data.charPresentation == "Sprite" then
 							for j=#data.t_p1selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 149 - (2*j-1) * 18, 158, data.t_p1selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 149 - (2*j-1) * 18, 143, data.t_p1selected[j].up)
 							end
 							for j=#data.t_p2selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimDizzy', 180 + (2*j-1) * 18, 158, data.t_p2selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimDizzy', 180 + (2*j-1) * 18, 143, data.t_p2selected[j].up)
 							end
 						end
 					end
 					animDraw(f_animVelocity(wincharBGC2, 2, 0))
-					animSetWindow(wincharBGC2, 169, 20, 120, 140)
 					if winner == 2 then
 						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-							drawWinPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+							drawWinPortrait(data.t_p2selected[1].cel, 289, 5, -1, 1)
 						elseif data.charPresentation == "Sprite" then
 							for j=#data.t_p2selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 170 + (2*j-1) * 18, 158, data.t_p2selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 170 + (2*j-1) * 18, 143, data.t_p2selected[j].up)
 							end
 						end
 					end
 				end
 			--Draw Winner Message
 				animDraw(f_animVelocity(quoteBG, 2, 0))
-				f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59)
+				f_textRender(txt_winquote, txt, i, 20, 175, 15, 2, 59)
 			--Draw Character Name
 				textImgSetText(txt_winnername, f_getName(winnerSide[1].cel))
 				textImgDraw(txt_winnername)
@@ -8381,9 +8379,9 @@ end
 --;===========================================================
 --; REMATCH SCREENPACK
 --;===========================================================
-txt_rematchCPU = createTextImg(font6, 0, 0, "BATTLE OPTION", 160, 102)
-txt_rematch = createTextImg(font6, 0, 0, "P1 BATTLE OPTION", 86, 102)
-txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 237, 102)
+txt_rematchCPU = createTextImg(font6, 0, 0, "BATTLE OPTION", 160, 87)
+txt_rematch = createTextImg(font6, 0, 0, "P1 BATTLE OPTION", 86, 87)
+txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 237, 87)
 
 --Scrolling background
 rematchBG = animNew(sysSff, [[
@@ -8397,7 +8395,7 @@ animSetColorKey(rematchBG, -1)
 rematchWindowBG = animNew(sysSff, [[
 230,1, 0,0,
 ]])
-animSetPos(rematchWindowBG, 0.4, 97)
+animSetPos(rematchWindowBG, 0.4, 82)
 animUpdate(rematchWindowBG)
 animSetScale(rematchWindowBG, 1.005, 1.1)
 
@@ -8405,7 +8403,7 @@ animSetScale(rematchWindowBG, 1.005, 1.1)
 rematchCPUWindowBG = animNew(sysSff, [[
 230,1, 0,0,
 ]])
-animSetPos(rematchCPUWindowBG, 83.5, 97)
+animSetPos(rematchCPUWindowBG, 83.5, 82)
 animUpdate(rematchCPUWindowBG)
 animSetScale(rematchCPUWindowBG, 1.005, 1.1)
 
@@ -8413,7 +8411,7 @@ animSetScale(rematchCPUWindowBG, 1.005, 1.1)
 rematch2WindowBG = animNew(sysSff, [[
 230,1, 0,0,
 ]])
-animSetPos(rematch2WindowBG, 168.4, 97)
+animSetPos(rematch2WindowBG, 168.4, 82)
 animUpdate(rematch2WindowBG)
 animSetScale(rematch2WindowBG, 1.005, 1.1)
 
@@ -8422,9 +8420,9 @@ function drawRematchInputHints()
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"q","240,"..inputHintYPos)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","130,"..inputHintYPos,"q","240,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 151, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
 
@@ -8477,9 +8475,9 @@ function f_rematch()
 	--Set Color and Text Position
 	for i=1, #t_battleOption do
 		if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
-			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 104.5+i*13,0.95,0.95)
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 89.5+i*13,0.95,0.95)
 		else
-			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 104.5+i*13,0.95,0.95)
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 89.5+i*13,0.95,0.95)
 		end
 		if i == p1Cursor + 0 then
 			textImgSetBank(t_battleOption[i].id, 5)
@@ -8491,9 +8489,9 @@ function f_rematch()
 	if not p1Ready then
 	--Draw Cursor
 		if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
-			animSetWindow(cursorBox, 87.1, 94.5+p1Cursor*13, 145, 13)
+			animSetWindow(cursorBox, 87.1, 79.5+p1Cursor*13, 145, 13)
 		else
-			animSetWindow(cursorBox, 4, 94.5+p1Cursor*13, 145, 13)
+			animSetWindow(cursorBox, 4, 79.5+p1Cursor*13, 145, 13)
 		end
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -8518,7 +8516,7 @@ function f_rematch()
 		animUpdate(rematch2WindowBG)
 		textImgDraw(txt_rematch2)
 		for i=1, #t_battleOption2 do
-			t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 104.5+i*13,0.9,0.9)
+			t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 89.5+i*13,0.9,0.9)
 			if i == p2Cursor + 0 then
 				textImgSetBank(t_battleOption2[i].id, 5)
 			else
@@ -8527,17 +8525,17 @@ function f_rematch()
 			textImgDraw(t_battleOption2[i].id)
 		end
 		if not p2Ready then
-			animSetWindow(cursorBox, 172, 94.5+p2Cursor*13, 145, 13)
+			animSetWindow(cursorBox, 172, 79.5+p2Cursor*13, 145, 13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	end
 	--Rematch Option Timer
 	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
-		--txt_rematchTime = createTextImg(jgFnt, 0, 0, (rematchTimer/gameTick), 160, 70)
+		--txt_rematchTime = createTextImg(jgFnt, 0, 0, (rematchTimer/gameTick), 160, 55)
 		rematchTimeNumber = rematchTimer/gameTick
 		nodecimalRematchTime = string.format("%.0f",rematchTimeNumber)
-		txt_rematchTime = createTextImg(jgFnt, 0, 0, nodecimalRematchTime, 160, 70)
+		txt_rematchTime = createTextImg(jgFnt, 0, 0, nodecimalRematchTime, 160, 55)
 		if rematchTimer > 0 then
 			rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
 			textImgDraw(txt_rematchTime)
