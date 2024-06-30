@@ -301,11 +301,11 @@ function drawPauseInputHints2()
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
 
 --;===========================================================
@@ -498,7 +498,7 @@ function f_pauseMain(p, st, esc)
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
 			end
 			--RESUME GAME
-			if (escape or start or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and delayMenu == 2 then
+			if (escape or start or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and delayMenu == 2 then
 				sndPlay(sysSnd, 100, 2)
 				animReset(darkenOut)
 				animUpdate(darkenOut)
@@ -759,7 +759,7 @@ function f_pauseConfirm()
 				bufl = 0
 				bufr = 0
 			--BACK/NO ACTION
-			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == #t_confirmPause) then
+			elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == #t_confirmPause) then
 				sndPlay(sysSnd, 100, 2)
 				delayMenu = -2
 				bufl = 0
@@ -834,7 +834,7 @@ function f_pauseConfirm()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			f_sysTime()
-			drawPauseInputHints()
+			drawPauseInputHints2()
 			if data.attractMode then textImgDraw(txt_attractCredits) end
 			--BACK TO MAIN MENU (TEMP)
 			if mainMenuBack == true then
@@ -898,7 +898,7 @@ function f_pauseSettings()
 				bufl = 0
 				bufr = 0
 			--BACK
-			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and gameCfg == #t_gameCfg) then
+			elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and gameCfg == #t_gameCfg) then
 				sndPlay(sysSnd, 100, 2)
 				delayMenu = -2
 				bufl = 0
@@ -1114,7 +1114,7 @@ function f_pauseAudio()
 			bufl = 0
 			bufr = 0
 			if modified then f_saveSettings() end
-		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and audioCfg == #t_audioCfg) then
+		elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and audioCfg == #t_audioCfg) then
 			sndPlay(sysSnd, 100, 2)
 			delayMenu = -2
 			bufl = 0
@@ -1318,7 +1318,7 @@ function f_pauseSongs()
 			bufl = 0
 			bufr = 0
 		--BACK
-		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and songMenu == #t_songList[songFolder]) then
+		elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and songMenu == #t_songList[songFolder]) then
 			sndPlay(sysSnd, 100, 2)
 			delayMenu = -2
 			bufl = 0
@@ -1619,7 +1619,7 @@ function f_pauseTraining()
 				bufr = 0
 				if modified then f_saveTrgCfg() end
 			--BACK
-			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and trainingCfg == #t_trainingCfg) then
+			elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and trainingCfg == #t_trainingCfg) then
 				sndPlay(sysSnd, 100, 2)
 				delayMenu = -2
 				bufl = 0
@@ -2157,7 +2157,7 @@ function f_pausePlayback()
 			bufr = 0
 			if modified then f_saveTrgCfg() end
 		--BACK
-		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and playbackCfg == #t_playbackCfg) then
+		elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and playbackCfg == #t_playbackCfg) then
 			sndPlay(sysSnd, 100, 2)
 			delayMenu = -2
 			if modified then f_saveTrgCfg() end
@@ -2394,7 +2394,7 @@ function f_pauseCharCfg()
 			bufr = 0
 			if modified then f_saveTrgCfg() end
 		--BACK
-		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and charCfg == #t_charCfg) then
+		elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and charCfg == #t_charCfg) then
 			sndPlay(sysSnd, 100, 2)
 			delayMenu = -2
 			if modified then f_saveTrgCfg() end

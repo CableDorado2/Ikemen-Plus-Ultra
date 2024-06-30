@@ -2187,7 +2187,7 @@ towerLeftArrow = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(towerLeftArrow, 0, 215)
+animAddPos(towerLeftArrow, 0, 190)
 animUpdate(towerLeftArrow)
 animSetScale(towerLeftArrow, 0.6, 0.6)
 
@@ -2202,7 +2202,7 @@ towerRightArrow = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(towerRightArrow, 310, 215)
+animAddPos(towerRightArrow, 310, 190)
 animUpdate(towerRightArrow)
 animSetScale(towerRightArrow, 0.6, 0.6)
 
@@ -2217,6 +2217,18 @@ towerStgPreview = animNew(sysSff, [[
 ]])
 animUpdate(towerStgPreview)
 animSetScale(towerStgPreview, 0.79, 0.50)
+
+--Tower Input Hints Panel
+function drawTowerInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
 
 --;=================================================================================================
 --; TOWER DESTINY SELECT
@@ -2352,7 +2364,7 @@ function f_selectDestiny()
 			
 		end
 		if data.debugMode then f_drawQuickText(txt_selectionTime, font3, 0, 0, selection, 163.5, 168) end --For Debug Purposes
-		if backScreen then f_backMenu() end --Open Back Menu Question
+		if backScreen then f_backMenu() else drawTowerInputHints() end --Open Back Menu Question
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
@@ -8799,6 +8811,17 @@ animAddPos(serviceDownArrow, 228, 231)
 animUpdate(serviceDownArrow)
 animSetScale(serviceDownArrow, 0.5, 0.5)
 
+--Service Input Hints Panel
+function drawServiceInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","130,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 151, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
 --;===========================================================
 --; SERVICE MENU
 --;===========================================================
@@ -8840,6 +8863,7 @@ function f_service()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM(bgmService)
 	cmdInput()
@@ -8921,8 +8945,8 @@ function f_service()
 		--Cursor position calculation
 		if serviceMenu < 1 then
 			serviceMenu = #t_service
-			if #t_service > 14 then
-				cursorPosY = 14
+			if #t_service > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_service
 			end
@@ -8931,20 +8955,20 @@ function f_service()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (serviceMenu - 14) * 15
+		if cursorPosY == maxItems then
+			moveTxt = (serviceMenu - maxItems) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (serviceMenu - 1) * 15
 		end	
-		if #t_service <= 14 then
+		if #t_service <= maxItems then
 			maxService = #t_service
 		elseif serviceMenu - cursorPosY > 0 then
-			maxService = serviceMenu + 14 - cursorPosY
+			maxService = serviceMenu + maxItems - cursorPosY
 		else
-			maxService = 14
+			maxService = maxItems
 		end		
 		--Draw Character Select Last Match Backgrounds
 		if matchNo == lastMatch then
@@ -8964,7 +8988,7 @@ function f_service()
 		end
 		--Draw Transparent Table BG		
 		animSetScale(serviceBG1, 220, maxService*15)
-		animSetWindow(serviceBG1, 80,20, 160,210)
+		animSetWindow(serviceBG1, 80,20, 160,180)
 		animDraw(serviceBG1)
 		--Draw Title Menu
 		textImgDraw(txt_service)
@@ -9009,15 +9033,16 @@ function f_service()
 			
 		end
 		--Draw Up Animated Cursor
-		if maxService > 14 then
+		if maxService > maxItems then
 			animDraw(serviceUpArrow)
 			animUpdate(serviceUpArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_service > 14 and maxService < #t_service then
+		if #t_service > maxItems and maxService < #t_service then
 			animDraw(serviceDownArrow)
 			animUpdate(serviceDownArrow)
 		end
+		drawServiceInputHints() --Draw Input Hints Panel
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -9335,6 +9360,17 @@ animSetWindow(contBG2, 0, 200, 320, 40)
 animSetAlpha(contBG2, 0, 0)
 animUpdate(contBG2)
 
+--Continue Input Hints Panel
+function drawContinueInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	drawInputHintsP1("a","0,200","b","20,200","c","40,200","x","0,"..inputHintYPos,"y","20,"..inputHintYPos,"z","40,"..inputHintYPos,"w","150,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Countdown", 61, 224)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
 --;===========================================================
 --; CONTINUE SCREEN
 --;===========================================================
@@ -9545,6 +9581,7 @@ function f_continue()
 			elseif i == 1278 then
 				sndPlay(contSnd, 0, 0)
 			end
+			drawContinueInputHints()
 		elseif data.continue == 1 then --Continue = YES
 			if animLength4+30 > 0 then
 					animLength4 = animLength4 - 1

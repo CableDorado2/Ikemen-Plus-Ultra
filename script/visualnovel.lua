@@ -9,6 +9,40 @@ txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED!", 159, 235)
 --Pause background
 vnPauseBG = animNew(vnSff, [[100,1, 0,0, -1]])
 
+--Input Hints Panel
+function drawVNInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"s","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawVNInputHints2()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawVNInputHints3()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
 t_vnPauseMenu = {
 	{varID = textImgNew(), text = "Text Speed", 			 varText = ""},
 	{varID = textImgNew(), text = "Text BG Transparency", 	 varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
@@ -209,7 +243,7 @@ function f_vnPauseMenu()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if questionScreenVN == true then f_questionMenuVN() end
+		if questionScreenVN then f_questionMenuVN() else drawVNInputHints() end
 		if VNsaveData then textImgDraw(txt_vnPSaved) end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufdVNP = 0
@@ -462,7 +496,7 @@ function f_audioCfgVN()
 	animSetAlpha(vnPauseBG, 255, 22)
 	animPosDraw(vnPauseBG, 63, 20)
 	textImgDraw(txt_audioCfg)
-	if questionScreenVN == false then
+	if not questionScreenVN then
 		animSetWindow(cursorBox, 64,5+cursorPosYAVN*15, 192,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -481,7 +515,7 @@ function f_audioCfgVN()
 			end
 		end
 	end
-	if questionScreenVN == true then f_questionMenuVN() end
+	if questionScreenVN then f_questionMenuVN() else drawVNInputHints2() end
 	if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 		bufd = 0
 		bufu = bufu + 1
@@ -570,7 +604,9 @@ function f_questionMenuVN()
 	--Draw Cursor
 	animSetWindow(cursorBox, 87,123+cursorPosYQuestionVN*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))	
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Input Hints Panel
+	drawVNInputHints3()	
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
