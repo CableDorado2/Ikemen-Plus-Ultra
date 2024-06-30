@@ -338,6 +338,7 @@ function f_titleText()
 end
 
 function drawMiddleMenuSP() --After Cursor Box
+	--assert(loadfile("script/screenpack.lua"))() --Edit Screenpack in Real Time
 	animDraw(titleBG1)
 	animAddPos(titleBG2, -1, 0)
 	animUpdate(titleBG2)
@@ -5463,7 +5464,7 @@ arrowsGL = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(arrowsGL, 264, 220.5)
+animAddPos(arrowsGL, 264, 5.5)
 animUpdate(arrowsGL)
 animSetScale(arrowsGL, 0.5, 0.5)
 
@@ -5478,24 +5479,54 @@ arrowsGR = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(arrowsGR, 312, 220.5)
+animAddPos(arrowsGR, 312, 5.5)
 animUpdate(arrowsGR)
 animSetScale(arrowsGR, 0.5, 0.5)
+
+--Input Hints BG
+gInputsBG = animNew(sysSff, [[
+230,3, 0,0, -1
+]])
+animSetScale(gInputsBG, 2.9, 0.75)
+animSetAlpha(gInputsBG, 155, 22)
+
+--Gallery Input Hints Panel
+function drawGalleryInputHints()
+	local inputHintYPos = 197
+	local inputHintYPos2 = 219
+	local hintFont = font2
+	local hintFontYPos = 211
+	local hintFontYPos2 = 233
+	animPosDraw(gInputsBG, -56, 195) --Draw Input Hints BG
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"e","108,"..inputHintYPos,"b","165,"..inputHintYPos,"c","229,"..inputHintYPos,"s","277,"..inputHintYPos,"q","0,"..inputHintYPos2,"w","80,"..inputHintYPos2,"y","174,"..inputHintYPos2,"z","247,"..inputHintYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Move", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 129, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Previous", 186, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Next", 250, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 298, hintFontYPos)
+	--
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 21, hintFontYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Reset Position", 101, hintFontYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Zoom Out", 195, hintFontYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Zoom In", 268, hintFontYPos2)
+end
 
 --;===========================================================
 --; GALLERY MENU
 --;===========================================================
-function f_gallery()
-	gallery = ''
+function f_resetGalleryPos()
+artPosX = 160
+artPosY = 120
+artScale = 0.30 --0.305
+end
+
+function f_drawPicture()
 	gallery = '0,' .. galleryList-1 .. ', 0,0, 0'
-	gallery = animNew(gallerySff, gallery)
-	animSetScale(gallery, 0.30, 0.305)
-	animSetPos(gallery, 160, 119)
-	animUpdate(gallery)
-	animDraw(gallery)
-	txt_artNumber = createTextImg(font14, 0, 0, galleryList.."/10", 292, 230) --draw gallery limit numbers text
-	textImgDraw(txt_artNumber)
-	return gallery
+	galleryPic = animNew(gallerySff, gallery)
+	animSetScale(galleryPic, artScale, artScale)
+	animSetPos(galleryPic, artPosX, artPosY)
+	animUpdate(galleryPic)
+	animDraw(galleryPic)
 end
 
 function f_galleryMenu()
@@ -5504,56 +5535,130 @@ function f_galleryMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local bufc = 0
+	local bufb = 0
+	local bufz = 0
+	local bufy = 0
 	local moveArt = 1 --Start in image 0,0
+	local hideMenu = false
+	f_resetGalleryPos()
 	galleryList = 0 --Important to avoid errors when read
 	cmdInput()
 	while true do
+		--RETURN
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or 
-		((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) or 
-		((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and moveArt <= 9 then --moveArt <= Number of your Gallery Limit
+		--NEXT ART PAGE
+		elseif ((commandGetState(p1Cmd, 'c') or commandGetState(p2Cmd, 'c')) or 
+		((commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc')) and bufc >= 30)) and moveArt <= 9 then --moveArt <= Number of your Gallery Limit
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 3)
+			f_resetGalleryPos()
 			moveArt = moveArt + 1
-		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or 
-		((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) or 
-		((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and moveArt > 1 then --Keep in image 0,0 when press left until finish
+		--PREVIOUS ART PAGE
+		elseif ((commandGetState(p1Cmd, 'b') or commandGetState(p2Cmd, 'b')) or 
+		((commandGetState(p1Cmd, 'holdb') or commandGetState(p2Cmd, 'holdb')) and bufb >= 30)) and moveArt > 1 then --Keep in image 0,0 when press previous key until finish
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 3)
+			f_resetGalleryPos()
 			moveArt = moveArt - 1
+		--RESET ART POSITION
+		elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+			f_resetGalleryPos()
+		--HIDE MENU
+		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+			if not hideMenu then hideMenu = true else hideMenu = false end
+		end
+		--MOVE UP ART
+		if ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or 
+		((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
+			artPosY = artPosY - 1
+		--MOVE DOWN ART
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or 
+		((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
+			artPosY = artPosY + 1
+		end
+		--MOVE LEFT ART
+		if ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or 
+		((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 5)) then
+			artPosX = artPosX - 1
+		--MOVE RIGHT ART
+		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or 
+		((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 5)) then
+			artPosX = artPosX + 1
+		end
+		--ZOOM IN ART
+		if ((commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z')) or 
+		((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 10)) and artScale <= 10 then
+			artScale = artScale + 0.01
+		--ZOOM OUT ART
+		elseif ((commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y')) or 
+		((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 10)) and artScale >= 0.01 then
+			artScale = artScale - 0.01
 		end
 		galleryList = moveArt --Use menu position to show image in these order
-		f_gallery()
-		if moveArt > 1 then
-			animDraw(arrowsGL)
-			animUpdate(arrowsGL)
-		end
-		if moveArt <= 9 then
-			animDraw(arrowsGR)
-			animUpdate(arrowsGR)
+		f_drawPicture()
+		--Draw HUD Assets
+		if not hideMenu then
+			f_drawQuickText(txt_artNumber, font14, 0, 0, galleryList.."/10", 292, 15) --draw gallery limit numbers text
+			--f_drawQuickText(aas, font14, 0, 0, artScale, 292, 55) --scale test
+			if moveArt > 1 then
+				animDraw(arrowsGL)
+				animUpdate(arrowsGL)
+			end
+			if moveArt <= 9 then
+				animDraw(arrowsGR)
+				animUpdate(arrowsGR)
+			end
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		if not hideMenu then drawGalleryInputHints() end --Draw Input Hints Panel
+		--ART PAGE BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc') then
+			bufb = 0
+			bufc = bufc + 1
+		elseif commandGetState(p1Cmd, 'holdb') or commandGetState(p2Cmd, 'holdb') then
+			bufc = 0
+			bufb = bufb + 1
+		else
+			bufb = 0
+			bufc = 0
+		end
+		--VERTICAL BUF KEY CONTROL
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
 		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
-		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+		else
+			bufu = 0
+			bufd = 0			
+		end
+		--LATERAL BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
 		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
 			bufr = 0
 			bufl = bufl + 1
 		else
-			bufu = 0
-			bufd = 0
 			bufr = 0
 			bufl = 0
+		end
+		--ZOOM BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz') then
+			bufy = 0
+			bufz = bufz + 1
+		elseif commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy') then
+			bufz = 0
+			bufy = bufy + 1
+		else
+			bufz = 0
+			bufy = 0
 		end
 		cmdInput()
 		refresh()
