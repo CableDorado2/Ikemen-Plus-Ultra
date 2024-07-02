@@ -419,14 +419,14 @@ t_orderChars = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
 local section = 0
-local file = io.open("data/select.def","r")
+local file = io.open(selectDef,"r")
 local content = file:read("*all")
 file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 content = content:gsub('\n%s*\n', '\n')
 --f_printVar(content)
 for line in content:gmatch('[^\r\n]+') do
---for line in io.lines("data/select.def") do
+--for line in io.lines(selectDef) do
 	line = line:lower()
 	if line:match('^%s*%[%s*characters%s*%]') then
 		t_selChars = {}
@@ -867,7 +867,7 @@ function f_loadTowers()
 --The loading of the towers should be after generate t_randomChars table to more comfortably add randomselect combats using that table..
 t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
 local section = 0
-local file = io.open("data/select.def","r")
+local file = io.open(selectDef,"r")
 local content = file:read("*all")
 file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
@@ -1008,15 +1008,15 @@ if generate and data.sffConversion then
 			f_playTime()
 			os.exit()
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			parserCfg = parserCfg - 1
 			if parserCfg < 1 then parserCfg = #t_parserOptions end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			parserCfg = parserCfg + 1
 			if parserCfg > #t_parserOptions then parserCfg = 1 end
 		elseif btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds') or btnPalNo(p2Cmd) > 0 or commandGetState(p2Cmd, 'holds') then
-			--sndPlay(sysSnd, 100, 0)
+			--sndPlay(sndSys, 100, 0)
 			break
 		end
 		textImgDraw(txt_parserWarning)

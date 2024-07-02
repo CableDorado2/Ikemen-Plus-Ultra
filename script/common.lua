@@ -1123,6 +1123,83 @@ if data.debugLog then
 	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.txt")
 end
 
+--Associate Button Key to Button Sprites
+t_btnHint = {
+	{keyTxt = "_0",				keySpr = btn0},
+	{keyTxt = "_1", 			keySpr = btn1},
+	{keyTxt = "_2", 			keySpr = btn2},
+	{keyTxt = "_3", 			keySpr = btn3},
+	{keyTxt = "_4", 			keySpr = btn4},
+	{keyTxt = "_5", 			keySpr = btn5},
+	{keyTxt = "_6", 			keySpr = btn6},
+	{keyTxt = "_7", 			keySpr = btn7},
+	{keyTxt = "_8", 			keySpr = btn8},
+	{keyTxt = "_9", 			keySpr = btn9},
+	{keyTxt = "a", 				keySpr = btnA},
+	{keyTxt = "b", 				keySpr = btnB},
+	{keyTxt = "c", 				keySpr = btnC},
+	{keyTxt = "d", 				keySpr = btnD},
+	{keyTxt = "e", 				keySpr = btnE},
+	{keyTxt = "f", 				keySpr = btnF},
+	{keyTxt = "g", 				keySpr = btnG},
+	{keyTxt = "h", 				keySpr = btnH},
+	{keyTxt = "i", 				keySpr = btnI},
+	{keyTxt = "j", 				keySpr = btnJ},
+	{keyTxt = "k", 				keySpr = btnK},
+	{keyTxt = "l",				keySpr = btnL},
+	{keyTxt = "m", 				keySpr = btnM},
+	{keyTxt = "n", 				keySpr = btnN},
+	{keyTxt = "o", 				keySpr = btnO},
+	{keyTxt = "p", 				keySpr = btnP},
+	{keyTxt = "q", 				keySpr = btnQ},
+	{keyTxt = "r", 				keySpr = btnR},
+	{keyTxt = "s", 				keySpr = btnS},
+	{keyTxt = "t", 				keySpr = btnT},
+	{keyTxt = "u", 				keySpr = btnU},
+	{keyTxt = "v", 				keySpr = btnV},
+	{keyTxt = "w", 				keySpr = btnW},
+	{keyTxt = "x", 				keySpr = btnX},
+	{keyTxt = "y", 				keySpr = btnY},
+	{keyTxt = "z", 				keySpr = btnZ},
+	{keyTxt = "PERIOD", 		keySpr = btnPERIOD},
+	{keyTxt = "COMMA", 			keySpr = btnCOMMA},
+	{keyTxt = "MINUS", 			keySpr = btnMINUS},
+	{keyTxt = "LEFTBRACKET", 	keySpr = btnLEFTBRACKET},
+	{keyTxt = "RIGHTBRACKET", 	keySpr = btnRIGHTBRACKET},
+	{keyTxt = "BACKSLASH", 		keySpr = btnBACKSLASH},
+	{keyTxt = "LSHIFT", 		keySpr = btnLSHIFT},
+	{keyTxt = "RSHIFT", 		keySpr = btnRSHIFT},
+	{keyTxt = "TAB", 			keySpr = btnTAB},
+	{keyTxt = "SPACE", 			keySpr = btnSPACE},
+	{keyTxt = "RETURN", 		keySpr = btnRETURN},
+	{keyTxt = "BACKSPACE", 		keySpr = btnBACKSPACE},
+	{keyTxt = "HOME", 			keySpr = btnHOME},
+	{keyTxt = "END", 			keySpr = btnEND},
+	{keyTxt = "PAGEUP", 		keySpr = btnPAGEUP},
+	{keyTxt = "PAGEDOWN", 		keySpr = btnPAGEDOWN},
+	{keyTxt = "UP", 			keySpr = btnUP},
+	{keyTxt = "DOWN", 			keySpr = btnDOWN},
+	{keyTxt = "LEFT", 			keySpr = btnLEFT},
+	{keyTxt = "RIGHT", 			keySpr = btnRIGHT},
+	{keyTxt = "KP_0", 			keySpr = btnKP_0},
+	{keyTxt = "KP_1", 			keySpr = btnKP_1},
+	{keyTxt = "KP_2", 			keySpr = btnKP_2},
+	{keyTxt = "KP_3",			keySpr = btnKP_3},
+	{keyTxt = "KP_4", 			keySpr = btnKP_4},
+	{keyTxt = "KP_5", 			keySpr = btnKP_5},
+	{keyTxt = "KP_6", 			keySpr = btnKP_6},
+	{keyTxt = "KP_7", 			keySpr = btnKP_7},
+	{keyTxt = "KP_8", 			keySpr = btnKP_8},
+	{keyTxt = "KP_9", 			keySpr = btnKP_9},
+	{keyTxt = "KP_PERIOD", 		keySpr = btnKP_PERIOD},
+	{keyTxt = "KP_DIVIDE", 		keySpr = btnKP_DIVIDE},
+	{keyTxt = "KP_MULTIPLY", 	keySpr = btnKP_MULTIPLY},
+	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
+	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
+	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
+	{keyTxt = "NIL", 			keySpr = btnNIL},
+}
+
 function f_searchCmd(input)
 	for i, v in ipairs(t_keyMenuCfg) do --For each item in table
 		if v.cmd == input then --if table cmd item is equal to input entered
@@ -1162,7 +1239,7 @@ end
 
 --Take Screenshots
 function f_screenShot()
-	sndPlay(sysSnd, 22, 0) --sndPlay(sysSnd, 22, 1)
+	sndPlay(sndSys, 22, 0) --sndPlay(sndSys, 22, 1)
 	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
 end
 
@@ -1521,7 +1598,7 @@ function f_storyboardPlay(tIn)
 			tOut.scenes[i]['fadeinCol'] = 'black'
 		end
 		--fadein (anim data)
-		tOut.scenes[i]['fadeinData'] = f_fadeAnim(tOut.scenes[i].fadeinTime, 'fadein', tOut.scenes[i].fadeinCol, fadeSff)
+		tOut.scenes[i]['fadeinData'] = f_fadeAnim(tOut.scenes[i].fadeinTime, 'fadein', tOut.scenes[i].fadeinCol, sprFade)
 		--fadeout.time = duration (int)
 		if tIn.scenes[i]['fadeout.time'] ~= nil then
 			tOut.scenes[i]['fadeoutTime'] = tIn.scenes[i]['fadeout.time']
@@ -1535,17 +1612,17 @@ function f_storyboardPlay(tIn)
 			tOut.scenes[i]['fadeoutCol'] = 'black'
 		end
 		--fadeout (anim data)
-		tOut.scenes[i]['fadeoutData'] = f_fadeAnim(tOut.scenes[i].fadeoutTime, 'fadeout', tOut.scenes[i].fadeoutCol, fadeSff)
+		tOut.scenes[i]['fadeoutData'] = f_fadeAnim(tOut.scenes[i].fadeoutTime, 'fadeout', tOut.scenes[i].fadeoutCol, sprFade)
 		--clearcolor = r, g, b (int, int, int) --currently only black when average of RGB <= 128 and white if >128, can't generate a color not from sprite
 		if tIn.scenes[i]['clearcolor'] ~= nil then
 			local tmp1, tmp2, tmp3 = tIn.scenes[i]['clearcolor']:match('([0-9]+)%s*,%s*([0-9]+)%s*,%s*([0-9]+)')
 			if (tmp1+tmp2+tmp3)/3 > 128 then
 				tOut.scenes[i]['clearcolor'] = 'white' --for debugging only
-				tOut.scenes[i]['clearcolorData'] = animNew(fadeSff, '0,1, 0,0, -1')
+				tOut.scenes[i]['clearcolorData'] = animNew(sprFade, '0,1, 0,0, -1')
 				animUpdate(tOut.scenes[i]['clearcolorData'])
 			else
 				tOut.scenes[i]['clearcolor'] = 'black' --for debugging only
-				tOut.scenes[i]['clearcolorData'] = animNew(fadeSff, '0,0, 0,0, -1')
+				tOut.scenes[i]['clearcolorData'] = animNew(sprFade, '0,0, 0,0, -1')
 				animUpdate(tOut.scenes[i]['clearcolorData'])
 			end
 		elseif i > 1 then
@@ -1553,7 +1630,7 @@ function f_storyboardPlay(tIn)
 			tOut.scenes[i]['clearcolorData'] = tOut.scenes[i-1].clearcolorData
 		else
 			tOut.scenes[i]['clearcolor'] = 'black' --for debugging only
-			tOut.scenes[i]['clearcolorData'] = animNew(fadeSff, '0,0, 0,0, -1')
+			tOut.scenes[i]['clearcolorData'] = animNew(sprFade, '0,0, 0,0, -1')
 			animUpdate(tOut.scenes[i]['clearcolorData'])
 		end
 		--layerall.pos = x, y (int, int)
@@ -2198,7 +2275,7 @@ function f_secretCode(key)
 	end
 	--Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
-		sndPlay(sysSnd, 200, 2)
+		sndPlay(sndSys, 200, 2)
 		--data.reika = true
 		--f_saveProgress()
 		cmdReward = true

@@ -32,9 +32,9 @@ addHotkey('d', true, false, false, 'toggleDebugDraw()') --CTRL+D: Toggles debug 
 addHotkey('l', true, false, false, 'toggleStatusDraw()') --CTRL+L: Toggles display of the life and power bars
 addHotkey('i', true, false, false, 'stand(1);stand(2);stand(3);stand(4)') --CTRL+I: Forces both players into stand state
 --Quick Playback Actions
-addHotkey('r', true, false, false, 'toggleRecord(sysSnd)') --CTRL+R: Record Dummy Actions for Playback
-addHotkey('e', true, false, false, 'toggleRecordEnd(sysSnd)') --CTRL+E: Stop Recording Dummy Actions for Playback
-addHotkey('p', true, false, false, 'togglePlayback(sysSnd)') --CTRL+P: Playback Dummy Actions
+addHotkey('r', true, false, false, 'toggleRecord(sndSys)') --CTRL+R: Record Dummy Actions for Playback
+addHotkey('e', true, false, false, 'toggleRecordEnd(sndSys)') --CTRL+E: Stop Recording Dummy Actions for Playback
+addHotkey('p', true, false, false, 'togglePlayback(sndSys)') --CTRL+P: Playback Dummy Actions
 --Ctrl-# (where # is from 1-4) Toggles AI for the #th player OR Ctrl-Alt-# (where # is from 1-4) Enables/Disables the player
 addHotkey('1', true, false, false, 'toggleAI(1)')
 addHotkey('2', true, false, false, 'toggleAI(2)')

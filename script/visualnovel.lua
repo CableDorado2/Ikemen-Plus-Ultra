@@ -7,7 +7,7 @@ txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
 txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED!", 159, 235)
 
 --Pause background
-vnPauseBG = animNew(vnSff, [[100,1, 0,0, -1]])
+vnPauseBG = animNew(sprVN, [[100,1, 0,0, -1]])
 
 --Input Hints Panel
 function drawVNInputHints()
@@ -85,13 +85,13 @@ function f_vnPauseMenu()
 			cmdInput()
 			--Cursor Position
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufuVNP >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				vnPauseMenu = vnPauseMenu - 1
 				if buflVNP then buflVNP = 0 end
 				if bufrVNP then bufrVNP = 0 end
 				VNsaveData = false
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufdVNP >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				vnPauseMenu = vnPauseMenu + 1
 				if buflVNP then buflVNP = 0 end
 				if bufrVNP then bufrVNP = 0 end
@@ -126,10 +126,10 @@ function f_vnPauseMenu()
 			end
 			--Actions
 			if esc() or vnPauseMenuBack or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				f_vnPauseMenuReset()
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if vnPauseMenu > 4 and vnPauseMenu < #t_vnPauseMenu then sndPlay(sysSnd, 100, 1) end
+				if vnPauseMenu > 4 and vnPauseMenu < #t_vnPauseMenu then sndPlay(sndSys, 100, 1) end
 				--Sound Settings
 				if vnPauseMenu == 5 then
 					cursorPosYAVN = 1
@@ -150,7 +150,7 @@ function f_vnPauseMenu()
 						f_vnProgress()
 						VNsaveData = true
 					else
-						sndPlay(sysSnd, 100, 5)
+						sndPlay(sndSys, 100, 5)
 					end
 				--Skip Scene
 				elseif vnPauseMenu == 8 then
@@ -168,13 +168,13 @@ function f_vnPauseMenu()
 			if vnPauseMenu == 1 then
 				if commandGetState(p1Cmd, 'r') then
 					if data.VNdelay > 0 then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.VNdelay = data.VNdelay - 1
 					end
 					hasChangedVN = true
 				elseif commandGetState(p1Cmd, 'l') then
 					if data.VNdelay < 3 then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.VNdelay = data.VNdelay + 1
 					end
 					hasChangedVN = true
@@ -189,7 +189,7 @@ function f_vnPauseMenu()
 						data.VNtxtBGTransD = 0
 						data.VNtxtBGTransS = 255
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						hasChangedVN = true
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and buflVNP >= 30) then
 					if data.VNtxtBGTransD > 0 then
@@ -199,17 +199,17 @@ function f_vnPauseMenu()
 						data.VNtxtBGTransD = 255
 						data.VNtxtBGTransS = 0
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					hasChangedVN = true
 				end
 			--Auto Skip Text
 			elseif vnPauseMenu == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
 				hasChangedVN = true
 			--Display Character Name
 			elseif vnPauseMenu == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				if data.VNdisplayName then data.VNdisplayName = false else data.VNdisplayName = true end
 				hasChangedVN = true
 			end
@@ -342,15 +342,15 @@ function f_audioCfgVN()
 		cmdInput()
 		if modifiedVN then f_saveSettingsVN() end
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			audioCfgVNActive = false
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			audioCfgVN = audioCfgVN - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			audioCfgVN = audioCfgVN + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end			
@@ -362,7 +362,7 @@ function f_audioCfgVN()
 				else
 					gl_vol = 0
 				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 				if gl_vol > 0 then
@@ -370,7 +370,7 @@ function f_audioCfgVN()
 				else
 					gl_vol = 100
 				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			end
 			if commandGetState(p1Cmd, 'holdr') then
@@ -391,7 +391,7 @@ function f_audioCfgVN()
 				else
 					se_vol = 0
 				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 				if se_vol > 0 then
@@ -399,7 +399,7 @@ function f_audioCfgVN()
 				else
 					se_vol = 100
 				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			end
 			if commandGetState(p1Cmd, 'holdr') then
@@ -420,7 +420,7 @@ function f_audioCfgVN()
 				else
 					bgm_vol = 0
 				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 				if bgm_vol > 0 then
@@ -428,7 +428,7 @@ function f_audioCfgVN()
 				else
 					bgm_vol = 100
 				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			end
 			if commandGetState(p1Cmd, 'holdr') then
@@ -444,24 +444,24 @@ function f_audioCfgVN()
 		--Audio Panning
 		elseif audioCfgVN == 4 then
 			if commandGetState(p1Cmd, 'r') and pan_str < 160 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				pan_str = pan_str + 40
 				modifiedVN = true
 			elseif commandGetState(p1Cmd, 'l') and pan_str > 0 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				pan_str = pan_str - 40
 				modifiedVN = true
 			end
 			setPanStr(pan_str / 100)
 		--Default Values
 		elseif audioCfgVN == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			questionScreenVN = true
 			defaultAudioVN = true
 		--BACK
 		elseif audioCfgVN == #t_audioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			audioCfgVNActive = false
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 		end
 		if audioCfgVN < 1 then
 			audioCfgVN = #t_audioCfg
@@ -534,7 +534,7 @@ end
 txt_questionVN = createTextImg(jgFnt, 1, 0, "", 160, 110,0.8,0.8)
 
 --Default Window BG
-questionWindowBGVN = animNew(sysSff, [[
+questionWindowBGVN = animNew(sprSys, [[
 230,1, 0,0,
 ]])
 animSetPos(questionWindowBGVN, 61, 97)
@@ -550,10 +550,10 @@ function f_questionMenuVN()
 	cmdInput()
 	--Cursor Position
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
-		sndPlay(sysSnd, 100, 0)
+		sndPlay(sndSys, 100, 0)
 		questionMenuVN = questionMenuVN - 1
 	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
-		sndPlay(sysSnd, 100, 0)
+		sndPlay(sndSys, 100, 0)
 		questionMenuVN = questionMenuVN + 1
 	end
 	if questionMenuVN < 1 then
@@ -609,12 +609,12 @@ function f_questionMenuVN()
 	drawVNInputHints3()	
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-		sndPlay(sysSnd, 100, 2)
+		sndPlay(sndSys, 100, 2)
 		f_questionResetVN()
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--YES
 		if questionMenuVN == 1 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			--Reset Visual Novel Settings
 			if defaultVN == true then
 				f_restoreVNcfg()
@@ -638,7 +638,7 @@ function f_questionMenuVN()
 			end
 		--NO
 		else
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 		end
 		f_questionResetVN()
 	end
@@ -891,8 +891,8 @@ VNautoTxt = 0
 end
 
 function f_fadeData()
-data.fadeIn = f_fadeAnim(vnFadeInTime, 'fadein', 'black', fadeSff)
-data.fadeOut = f_fadeAnim(vnFadeOutTime, 'fadeout', 'black', fadeSff)
+data.fadeIn = f_fadeAnim(vnFadeInTime, 'fadein', 'black', sprFade)
+data.fadeOut = f_fadeAnim(vnFadeOutTime, 'fadeout', 'black', sprFade)
 end
 
 function f_playVNsfx()
@@ -995,7 +995,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				if not VNendActive then
 					vnPauseScreen = true
-					sndPlay(sysSnd, 100, 3)
+					sndPlay(sndSys, 100, 3)
 				end
 			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then 
 				VNdelay = VNnodelay
@@ -1162,31 +1162,31 @@ function f_vnMenu()
 		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
 		vnAddOneTime = false
 	end
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	cmdInput()
 	while true do
 		--Select Menu Actions
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			vnMenu = vnMenu - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			vnMenu = vnMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--Back Button
 			if vnMenu == #t_selVN then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 2)
 				break
 			--Start Visual Novel Selected
 			else
 				f_vnMain(t_selVN[vnMenu].path)
 			--When Ends
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 				f_menuMusic()
 			end
 		end
@@ -1286,7 +1286,7 @@ function f_VNback()
 	data.VNbreak = false --Reset visual novel back to main menu
 	--f_saveTemp()
 	f_menuMusic()
-	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', sprFade)
 end
 
 function f_vnProgress()

@@ -5,7 +5,7 @@ module(..., package.seeall)
 --; OPTIONS SCREENPACK
 --;===========================================================
 --Scrolling background
-optionsBG0 = animNew(sysSff, [[
+optionsBG0 = animNew(sprSys, [[
 100,0, 0,0, -1
 ]])
 animAddPos(optionsBG0, 160, 0)
@@ -13,7 +13,7 @@ animSetTile(optionsBG0, 1, 1)
 animSetColorKey(optionsBG0, -1)
 
 --Transparent background
-optionsBG1 = animNew(sysSff, [[
+optionsBG1 = animNew(sprSys, [[
 3,0, 0,0, -1
 ]])
 animSetPos(optionsBG1, 30, 20)
@@ -21,7 +21,7 @@ animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
 
 --Transparent background 2
-optionsBG2 = animNew(sysSff, [[
+optionsBG2 = animNew(sprSys, [[
 3,0, 0,0, -1
 ]])
 animSetPos(optionsBG2, 0, 20)
@@ -29,7 +29,7 @@ animSetAlpha(optionsBG2, 20, 100)
 animUpdate(optionsBG2)
 
 --Transparent Info background
-infoBG = animNew(sysSff, [[
+infoBG = animNew(sprSys, [[
 3,0, 0,0, -1
 ]])
 animSetPos(infoBG, 20, 20)
@@ -37,7 +37,7 @@ animSetAlpha(infoBG, 20, 100)
 animUpdate(infoBG)
 
 --Up Arrow
-optionsUpArrow = animNew(sysSff, [[
+optionsUpArrow = animNew(sprSys, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -52,7 +52,7 @@ animUpdate(optionsUpArrow)
 animSetScale(optionsUpArrow, 0.5, 0.5)
 
 --Down Arrow
-optionsDownArrow = animNew(sysSff, [[
+optionsDownArrow = animNew(sprSys, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -67,7 +67,7 @@ animUpdate(optionsDownArrow)
 animSetScale(optionsDownArrow, 0.5, 0.5)
 
 --Up Arrow for Player 1 Controls Cfg
-optionsUpArrowP1 = animNew(sysSff, [[
+optionsUpArrowP1 = animNew(sprSys, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -82,7 +82,7 @@ animUpdate(optionsUpArrowP1)
 animSetScale(optionsUpArrowP1, 0.5, 0.5)
 
 --Down Arrow for Player 1 Controls Cfg
-optionsDownArrowP1 = animNew(sysSff, [[
+optionsDownArrowP1 = animNew(sprSys, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -97,7 +97,7 @@ animUpdate(optionsDownArrowP1)
 animSetScale(optionsDownArrowP1, 0.5, 0.5)
 
 --Up Arrow for Player 2 Controls Cfg
-optionsUpArrowP2 = animNew(sysSff, [[
+optionsUpArrowP2 = animNew(sprSys, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -112,7 +112,7 @@ animUpdate(optionsUpArrowP2)
 animSetScale(optionsUpArrowP2, 0.5, 0.5)
 
 --Down Arrow for Player 2 Controls Cfg
-optionsDownArrowP2 = animNew(sysSff, [[
+optionsDownArrowP2 = animNew(sprSys, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -1065,7 +1065,7 @@ txt_Warning = createTextImg(jgFnt, 5, 0, "WARNING", 159, 63)
 txt_okOptions = createTextImg(jgFnt, 5, 0, "OK", 159, 143)
 
 --Info Window BG
-infoOptionsWindowBG = animNew(sysSff, [[
+infoOptionsWindowBG = animNew(sprSys, [[
 230,1, 0,0,
 ]])
 animSetPos(infoOptionsWindowBG, 83.5, 130)
@@ -1098,7 +1098,7 @@ function f_exitInfo()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			f_saveCfg()
 			break
 		end
@@ -1147,7 +1147,7 @@ function f_resWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1175,7 +1175,7 @@ end
 --; SDL VIDEO WARNING
 --;===========================================================
 --SDL Beta Info 1
-sdlImg1 = animNew(sysSff, [[
+sdlImg1 = animNew(sprSys, [[
 3000,0, 0,0,
 ]])
 animSetPos(sdlImg1, 76, 190)
@@ -1183,7 +1183,7 @@ animUpdate(sdlImg1)
 animSetScale(sdlImg1, 0.35, 0.35)
 
 --SDL Beta Info 1
-sdlImg2 = animNew(sysSff, [[
+sdlImg2 = animNew(sprSys, [[
 3000,1, 0,0,
 ]])
 animSetPos(sdlImg2, 243, 190)
@@ -1204,7 +1204,7 @@ function f_sdlWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1250,7 +1250,7 @@ function f_glWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1291,7 +1291,7 @@ function f_memWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1357,7 +1357,7 @@ end
 --; DEFAULT VALUES MESSAGE
 --;===========================================================
 --Default Window BG
-defaultWindowBG = animNew(sysSff, [[
+defaultWindowBG = animNew(sprSys, [[
 230,1, 0,0,
 ]])
 animSetPos(defaultWindowBG, 83.5, 97)
@@ -1373,10 +1373,10 @@ function f_defaultMenu()
 	cmdInput()
 	--Cursor Position
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
-		sndPlay(sysSnd, 100, 0)
+		sndPlay(sndSys, 100, 0)
 		defaultMenu = defaultMenu - 1
 	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
-		sndPlay(sysSnd, 100, 0)
+		sndPlay(sndSys, 100, 0)
 		defaultMenu = defaultMenu + 1
 	end
 	if defaultMenu < 1 then
@@ -1430,12 +1430,12 @@ function f_defaultMenu()
 	drawConfirmInputHints()
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-		sndPlay(sysSnd, 100, 2)
+		sndPlay(sndSys, 100, 2)
 		f_defaultReset()
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--YES
 		if defaultMenu == 1 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			if defaultAll == true then
 				f_onlineDefault() --Set Default Options for Online/Offline Game
 				f_offlineDefault() --Set ONLY Default Options for Offline Game
@@ -1490,7 +1490,7 @@ function f_defaultMenu()
 			end
 		--NO
 		else
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 		end
 		f_defaultReset()
 	end
@@ -1562,13 +1562,13 @@ function f_mainCfg()
 	local exitSave = false
 	local maxItems = 12
 	f_defaultReset()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if defaultScreen == false and editDone == true then --Stay in Options screen (For Pop-Ups messages or Username and Online Port fields)
 			--Save and Back
 			if esc() or exitSave or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 2)
 				if data.erase == true then
 					f_saveProgress()
 					f_saveVN()
@@ -1581,18 +1581,18 @@ function f_mainCfg()
 				if data.engineMode == "VN" then f_saveVN() end
 				return
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				mainCfg = mainCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				mainCfg = mainCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Common Actions
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if (mainCfg < 9 or mainCfg == 10) then sndPlay(sysSnd, 100, 1) end
+				if (mainCfg < 9 or mainCfg == 10) then sndPlay(sndSys, 100, 1) end
 				--Game Settings
 				if mainCfg == 1 then
 					if data.engineMode == "FG" then f_gameCfg()
@@ -1603,7 +1603,7 @@ function f_mainCfg()
 					if data.engineMode == "FG" then
 						f_UICfg()
 					else
-						sndPlay(sysSnd, 100, 5)
+						sndPlay(sndSys, 100, 5)
 					end
 				--Video Settings
 				elseif mainCfg == 3 then
@@ -1659,8 +1659,8 @@ function f_mainCfg()
 					setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 					setPanStr(pan_str / 100)
 					needReload = 0
-					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 2)
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+					sndPlay(sndSys, 100, 2)
 					break
 				--Online Settings from Offline Mode	
 				elseif mainCfg == 13 then --Only for Dev Purposes (Delete when test are finished)
@@ -1670,7 +1670,7 @@ function f_mainCfg()
 		--Netplay Connection Type
 			if mainCfg == 9 then
 				if (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.connectMode == "Direct" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.connectMode = "Database"
 					modified = 1
 				--elseif (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.connectMode == "Database" then
@@ -1680,7 +1680,7 @@ function f_mainCfg()
 					--data.connectMode = "Database"
 					--modified = 1
 				elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) and data.connectMode == "Database" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.connectMode = "Direct"
 					modified = 1
 				end
@@ -1742,7 +1742,7 @@ function f_mainCfg()
 		if not editDone and nameEdit == true then
 			if esc() then
 				clearInputText()
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				t_mainCfg[7].varText = data.userName--getUserName()
 				nameEdit = false
 				editDone = true
@@ -1752,7 +1752,7 @@ function f_mainCfg()
 				if string.match(getClipboardText(), '^([^"]*)$') then
 					setInputText(getClipboardText())
 				else
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			end
 			if playerName:len() > 5 then
@@ -1775,13 +1775,13 @@ function f_mainCfg()
 			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				if playerName ~= '' and playerName ~= nil then
 					clearInputText()
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					data.userName = (tostring(playerName))
 					modified = 1
 					nameEdit = false
 					editDone = true
 				else 
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			end
 			if not editDone and nameEdit == true then
@@ -1792,7 +1792,7 @@ function f_mainCfg()
 		if not editDone and portEdit == true then
 			if esc() then
 				clearInputText()
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				t_mainCfg[8].varText = getListenPort()
 				portEdit = false
 				editDone = true
@@ -1802,7 +1802,7 @@ function f_mainCfg()
 				if string.match(getClipboardText(),'^%d+$') then 
 					setInputText(getClipboardText())
 				else
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			end
 			if onlinePort:len() > 5 then
@@ -1823,13 +1823,13 @@ function f_mainCfg()
 			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				if onlinePort ~= '' and onlinePort ~= nil and tonumber(onlinePort) ~= nil then --Port is a valid Number
 					clearInputText()
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					setListenPort(tonumber(onlinePort))
 					modified = 1
 					portEdit = false
 					editDone = true
 				else 
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			end
 			if not editDone and portEdit == true then
@@ -1910,21 +1910,21 @@ function f_onlineCfg()
 	f_defaultReset() --To avoid maxCfg erros when enter in any sub-menu when reset settings
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			onlineCfg = onlineCfg - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			onlineCfg = onlineCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			--Game Settings
 			if onlineCfg == 1 then
 				f_gameCfg()
@@ -1936,7 +1936,7 @@ function f_onlineCfg()
 				f_netplayCfg()
 			--Save and Play
 			elseif onlineCfg == 4 then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				if modified == 1 then
 					f_netsaveCfg()
 				end
@@ -2043,24 +2043,24 @@ function f_netplayCfg()
 	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			lockSetting = false
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			lockSetting = false
 			netplayCfg = netplayCfg - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			lockSetting = false
 			netplayCfg = netplayCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		--Ranked Matchs
 		elseif netplayCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			if (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.ftcontrol == -1 then
 				data.ftcontrol = 2
 			elseif (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.ftcontrol == 2 then
@@ -2091,7 +2091,7 @@ function f_netplayCfg()
 			lockSetting = true
 		--BACK
 		elseif netplayCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			break
 		end
 		if netplayCfg < 1 then
@@ -2208,30 +2208,30 @@ function f_gameCfg()
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				gameCfg = gameCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				gameCfg = gameCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Difficulty Level
 			elseif gameCfg == 1 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.difficulty < 8 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.difficulty < 8 then sndPlay(sndSys, 100, 0) end
 					if data.difficulty < 8 then
 						data.difficulty = data.difficulty + 1
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.difficulty > 1 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.difficulty > 1 then sndPlay(sndSys, 100, 0) end
 					if data.difficulty > 1 then
 						data.difficulty = data.difficulty - 1
 					end
@@ -2255,7 +2255,7 @@ function f_gameCfg()
 					else
 						data.roundTime = -1
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.roundTime > -1 then
@@ -2263,7 +2263,7 @@ function f_gameCfg()
 					else
 						data.roundTime = 1000
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -2279,13 +2279,13 @@ function f_gameCfg()
 			--Rounds to Win
 			elseif gameCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.roundsNum < 5 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.roundsNum < 5 then sndPlay(sndSys, 100, 0) end
 					if data.roundsNum < 5 then
 						data.roundsNum = data.roundsNum + 1
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.roundsNum > 1 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.roundsNum > 1 then sndPlay(sndSys, 100, 0) end
 					if data.roundsNum > 1 then
 						data.roundsNum = data.roundsNum - 1
 					end
@@ -2304,13 +2304,13 @@ function f_gameCfg()
 			--Max Draw Games
 			elseif gameCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and drawNum < 2 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and drawNum < 2 then sndPlay(sndSys, 100, 0) end
 					if drawNum < 2 then
 						drawNum = drawNum + 1
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and drawNum > 0 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and drawNum > 0 then sndPlay(sndSys, 100, 0) end
 					if drawNum > 0 then
 						drawNum = drawNum - 1
 					end
@@ -2329,13 +2329,13 @@ function f_gameCfg()
 			--Life
 			elseif gameCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.lifeMul < 300 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.lifeMul < 300 then sndPlay(sndSys, 100, 0) end
 					if data.lifeMul < 300 then 
 						data.lifeMul = data.lifeMul + 10
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.lifeMul > 10 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.lifeMul > 10 then sndPlay(sndSys, 100, 0) end
 					if data.lifeMul > 10 then
 						data.lifeMul = data.lifeMul - 10
 					end
@@ -2353,7 +2353,7 @@ function f_gameCfg()
 				end
 			--Auto-Guard
 			elseif gameCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.autoguard then
 					data.autoguard = false
 					s_autoguard = "No"
@@ -2369,7 +2369,7 @@ function f_gameCfg()
 					lockSetting = true --Boolean to show a Lock setting message
 				elseif onlinegame == false then --allow use the option offline
 					if commandGetState(p1Cmd, 'r') and gameSpeed < 72 then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						if gameSpeed < 48 then
 							gameSpeed = 48
 							s_gameSpeed = "Slow"
@@ -2382,7 +2382,7 @@ function f_gameCfg()
 						end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and gameSpeed > 48 then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						if gameSpeed >= 64 then
 							gameSpeed = 60
 							s_gameSpeed = "Normal"
@@ -2395,7 +2395,7 @@ function f_gameCfg()
 				end
 			--Quick Continue for Arcade
 			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.quickCont then
 					data.quickCont = false
 					s_quickCont = "No"
@@ -2407,13 +2407,13 @@ function f_gameCfg()
 				end
 			--AI Palette
 			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.aipal == "Default" then data.aipal = "Random"
 				elseif data.aipal == "Random" then data.aipal = "Default"
 				end
 			--AI Ramping
 			elseif gameCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.aiRamping then
 					data.aiRamping = false
 					s_aiRamping = "No"
@@ -2425,20 +2425,20 @@ function f_gameCfg()
 				end
 			--Team Settings
 			elseif gameCfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_teamCfg()
 			--Zoom Settings
 			elseif gameCfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_zoomCfg()
 			--Default Values
 			elseif gameCfg == #t_gameCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultGame = true
 				defaultScreen = true
 			--BACK
 			elseif gameCfg == #t_gameCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if gameCfg < 1 then
@@ -2565,28 +2565,28 @@ function f_teamCfg()
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				teamCfg = teamCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				teamCfg = teamCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--P1 Vs Team Life
 			elseif teamCfg == 1 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.team1VS2Life < 3000 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.team1VS2Life < 3000 then sndPlay(sndSys, 100, 0) end
 					if data.team1VS2Life < 3000 then
 						data.team1VS2Life = data.team1VS2Life + 10
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.team1VS2Life > 10 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.team1VS2Life > 10 then sndPlay(sndSys, 100, 0) end
 					if data.team1VS2Life > 10 then
 						data.team1VS2Life = data.team1VS2Life - 10
 					end
@@ -2605,13 +2605,13 @@ function f_teamCfg()
 			--Turns HP Recovery
 			elseif teamCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.turnsRecoveryRate < 3000 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.turnsRecoveryRate < 3000 then sndPlay(sndSys, 100, 0) end
 					if data.turnsRecoveryRate < 3000 then 
 						data.turnsRecoveryRate = data.turnsRecoveryRate + 10
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.turnsRecoveryRate > 10 then	sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.turnsRecoveryRate > 10 then	sndPlay(sndSys, 100, 0) end
 					if data.turnsRecoveryRate > 10 then
 						data.turnsRecoveryRate = data.turnsRecoveryRate - 10
 					end
@@ -2629,7 +2629,7 @@ function f_teamCfg()
 				end
 			--Disadvantage Life Share
 			elseif teamCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.teamLifeShare then
 					data.teamLifeShare = false
 					s_teamLifeShare = "No"
@@ -2642,13 +2642,13 @@ function f_teamCfg()
 			--Turns Limit (by default also requires editing 'if(!.m.inRange!int?(1, 4, nt)){' in ssz/system-script.ssz)
 			elseif teamCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.numTurns < 4 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.numTurns < 4 then sndPlay(sndSys, 100, 0) end
 					if data.numTurns < 4 then
 						data.numTurns = data.numTurns + 1
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.numTurns > 2 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.numTurns > 2 then sndPlay(sndSys, 100, 0) end
 					if data.numTurns > 2 then
 						data.numTurns = data.numTurns - 1
 					end
@@ -2667,13 +2667,13 @@ function f_teamCfg()
 			--Simul Limit (by default also requires editing 'const int maxSimul = 4;' in ssz/common.ssz)
 			elseif teamCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.numSimul < 4 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.numSimul < 4 then sndPlay(sndSys, 100, 0) end
 					if data.numSimul < 4 then
 						data.numSimul = data.numSimul + 1
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.numSimul > 2 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.numSimul > 2 then sndPlay(sndSys, 100, 0) end
 					if data.numSimul > 2 then
 						data.numSimul = data.numSimul - 1
 					end
@@ -2691,7 +2691,7 @@ function f_teamCfg()
 				end
 			--Simul Type (Fixed by Strong FS)
 			elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.simulType == "Tag" then
 					data.simulType = "Assist"
 					modified = 1
@@ -2702,30 +2702,30 @@ function f_teamCfg()
 			--Co-op CPU Team Mode
 			elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.coopenemy == "Single" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.coopenemy = "Simul"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.coopenemy == "Simul" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.coopenemy = "Turns"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.coopenemy == "Simul" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.coopenemy = "Single"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.coopenemy == "Turns" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.coopenemy = "Simul"
 					modified = 1
 				end
 			--Default Values
 			elseif teamCfg == #t_teamCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultTeam = true
 				defaultScreen = true
 			--BACK
 			elseif teamCfg == #t_teamCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if teamCfg < 1 then
@@ -2837,21 +2837,21 @@ function f_zoomCfg()
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				zoomCfg = zoomCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				zoomCfg = zoomCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Zoom Active
 			elseif zoomCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.zoomActive then
 					data.zoomActive = false
 					s_zoomActive = 'No'
@@ -2864,13 +2864,13 @@ function f_zoomCfg()
 			--Max Zoom Out
 			elseif zoomCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.zoomMin < 10 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.zoomMin < 10 then sndPlay(sndSys, 100, 0) end
 					if data.zoomMin < 10 then
 						data.zoomMin = data.zoomMin + 0.05
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.zoomMin > 0.05 then	sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.zoomMin > 0.05 then	sndPlay(sndSys, 100, 0) end
 					if data.zoomMin > 0.05 then
 						data.zoomMin = data.zoomMin - 0.05
 					end
@@ -2889,13 +2889,13 @@ function f_zoomCfg()
 			--Max Zoom In
 			elseif zoomCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.zoomMax < 10 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.zoomMax < 10 then sndPlay(sndSys, 100, 0) end
 					if data.zoomMax < 10 then
 						data.zoomMax = data.zoomMax + 0.05
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.zoomMax > 0.05 then	sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.zoomMax > 0.05 then	sndPlay(sndSys, 100, 0) end
 					if data.zoomMax > 0.05 then 
 						data.zoomMax = data.zoomMax - 0.05
 					end
@@ -2914,13 +2914,13 @@ function f_zoomCfg()
 			--Zoom Speed
 			elseif zoomCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.zoomSpeed < 10 then	sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.zoomSpeed < 10 then	sndPlay(sndSys, 100, 0) end
 					if data.zoomSpeed < 10 then
 						data.zoomSpeed = data.zoomSpeed + 0.1
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.zoomSpeed > 0.2 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.zoomSpeed > 0.2 then sndPlay(sndSys, 100, 0) end
 					if data.zoomSpeed > 0.2 then
 						data.zoomSpeed = data.zoomSpeed - 0.1
 					end
@@ -2938,12 +2938,12 @@ function f_zoomCfg()
 				end
 			--Default Values
 			elseif zoomCfg == #t_zoomCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultZoom = true
 				defaultScreen = true
 			--BACK
 			elseif zoomCfg == #t_zoomCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if zoomCfg < 1 then
@@ -3061,17 +3061,17 @@ function f_UICfg()
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				UICfg = UICfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				UICfg = UICfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
@@ -3082,22 +3082,22 @@ function f_UICfg()
 				elseif onlinegame == false then
 					--[[
 					if commandGetState(p1Cmd, 'r') and data.language == "ENGLISH" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.language = "SPANISH"
 						modified = 1
 						needReload = 1
 					elseif commandGetState(p1Cmd, 'r') and data.language == "SPANISH" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.language = "JAPANESE"
 						modified = 1
 						needReload = 1
 					elseif commandGetState(p1Cmd, 'l') and data.language == "SPANISH" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.language = "ENGLISH"
 						modified = 1
 						needReload = 1
 					elseif commandGetState(p1Cmd, 'l') and data.language == "JAPANESE" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.language = "SPANISH"
 						modified = 1
 						needReload = 1
@@ -3110,27 +3110,27 @@ function f_UICfg()
 					lockSetting = true
 				elseif onlinegame == false then
 					if commandGetState(p1Cmd, 'r') and data.clock == "Standard" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.clock = "Full Standard"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'r') and data.clock == "Full Standard" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.clock = "Military"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'r') and data.clock == "Military" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.clock = "Full Military"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Standard" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.clock = "Standard"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and data.clock == "Military" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.clock = "Full Standard"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Military" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.clock = "Military"
 						modified = 1
 					end
@@ -3141,35 +3141,35 @@ function f_UICfg()
 					lockSetting = true
 				elseif onlinegame == false then	
 					if commandGetState(p1Cmd, 'r') and data.date == "Type A" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type B"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'r') and data.date == "Type B" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type C"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'r') and data.date == "Type C" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type D"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'r') and data.date == "Type D" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type E"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and data.date == "Type B" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type A"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and data.date == "Type C" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type B"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and data.date == "Type D" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type C"
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') and data.date == "Type E" then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.date = "Type D"
 						modified = 1
 					end
@@ -3179,7 +3179,7 @@ function f_UICfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.attractMode then
 						data.attractMode = false
 						s_attractMode = "Disabled"
@@ -3194,7 +3194,7 @@ function f_UICfg()
 				end
 			--Side Select
 			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.sideSelect == "Classic" then data.sideSelect = "Modern"
 				elseif data.sideSelect == "Modern" then data.sideSelect = "Classic"
 				end
@@ -3202,22 +3202,22 @@ function f_UICfg()
 			--Character Presentation Display Type
 			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charPresentation == "Portrait" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charPresentation = "Sprite"
 					data.sffConversion = true
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.charPresentation == "Sprite" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charPresentation = "Mixed"
 					data.sffConversion = true
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.charPresentation == "Sprite" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charPresentation = "Portrait"
 					data.sffConversion = false
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.charPresentation == "Mixed" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charPresentation = "Sprite"
 					data.sffConversion = true
 					modified = 1	
@@ -3227,7 +3227,7 @@ function f_UICfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.vsDisplayWin then
 						data.vsDisplayWin = false
 						s_vsDisplayWin = "No"
@@ -3241,50 +3241,50 @@ function f_UICfg()
 			--Win Screen Display Type
 			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.winscreen == "Classic" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.winscreen = "Modern"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.winscreen == "Modern" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.winscreen = "Fixed"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.winscreen == "Fixed" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.winscreen = "Modern"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.winscreen == "Modern" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.winscreen = "Classic"
 					modified = 1
 				end
 			--Character Select Settings
 			elseif UICfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
 			--Stage Select Settings
 			elseif UICfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
 			--Timers Settings
 			elseif UICfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
 			--System Songs Settings
 			elseif UICfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					f_songCfg()
 				end
 			--Default Values
 			elseif UICfg == #t_UICfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
 			--BACK
 			elseif UICfg == #t_UICfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if UICfg < 1 then
@@ -3404,28 +3404,28 @@ function f_selectCfg()
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				selectCfg = selectCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				selectCfg = selectCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Character Select Roster Config
 			elseif selectCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_rosterCfg()
 			--Character Select Display Type
 			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.selectType == "Advanced" then data.selectType = "Simple"
 					elseif data.selectType == "Simple" then data.selectType = "Advanced"
 					end
@@ -3433,7 +3433,7 @@ function f_selectCfg()
 				end
 			--Character Palette Select Display Type
 			elseif selectCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.palType == "Classic" then data.palType = "Modern"
 				elseif data.palType == "Modern" then data.palType = "Classic"
 				end
@@ -3441,38 +3441,38 @@ function f_selectCfg()
 			--Character Info Display
 			elseif selectCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charInfo == "None" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Author"
 					modified = 1
 				--[[
 				elseif commandGetState(p1Cmd, 'r') and data.charInfo == "Author" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Series"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.charInfo == "Series" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Title"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.charInfo == "Title" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "All"
 					modified = 1
 				]]
 				elseif commandGetState(p1Cmd, 'l') and data.charInfo == "Author" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "None"
 					modified = 1
 				--[[
 				elseif commandGetState(p1Cmd, 'l') and data.charInfo == "Series" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Author"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.charInfo == "Title" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Series"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.charInfo == "All" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Title"
 					modified = 1
 				]]
@@ -3480,37 +3480,37 @@ function f_selectCfg()
 			--Character Random Portrait Display Type
 			elseif selectCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.randomPortrait == "Simple" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomPortrait = "Fixed"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.randomPortrait == "Fixed" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomPortrait = "Roulette"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.randomPortrait == "Fixed" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomPortrait = "Simple"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.randomPortrait == "Roulette" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomPortrait = "Fixed"
 					modified = 1	
 				end
 			--Character Random Selection in Rematch
 			elseif selectCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.randomCharRematch == "Variable" then data.randomCharRematch = "Fixed"
 				elseif data.randomCharRematch == "Fixed" then data.randomCharRematch = "Variable"
 				end
 				modified = 1
 			--Default Values
 			elseif selectCfg == #t_selectCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultSelect = true
 				defaultScreen = true
 			--BACK
 			elseif selectCfg == #t_selectCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if selectCfg < 1 then
@@ -3649,7 +3649,7 @@ t_rosterCfg2 = {
 }
 
 --Up Arrow
-rosterCfgUpArrow = animNew(sysSff, [[
+rosterCfgUpArrow = animNew(sprSys, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -3664,7 +3664,7 @@ animUpdate(rosterCfgUpArrow)
 animSetScale(rosterCfgUpArrow, 0.5, 0.5)
 
 --Down Arrow
-rosterCfgDownArrow = animNew(sysSff, [[
+rosterCfgDownArrow = animNew(sprSys, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -3693,15 +3693,15 @@ function f_rosterCfg()
 	while true do
 		if defaultScreen == false and editDone then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				rosterCfg = rosterCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				rosterCfg = rosterCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
@@ -3713,11 +3713,11 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectRows < 100 then
 							data.selectRows = data.selectRows + 1
-							if not script.select.validCells() then data.selectRows = data.selectRows - 1 end
+							if not validCells() then data.selectRows = data.selectRows - 1 end
 						--else
 							--data.selectRows = 1
 						--end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.selectRows > 1 then
@@ -3725,7 +3725,7 @@ function f_rosterCfg()
 						--else
 							--data.selectRows = 100
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					end
 					if commandGetState(p1Cmd, 'holdr') then
@@ -3743,11 +3743,11 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectColumns < 100 then
 							data.selectColumns = data.selectColumns + 1
-							if not script.select.validCells() then data.selectColumns = data.selectColumns - 1 end
+							if not validCells() then data.selectColumns = data.selectColumns - 1 end
 						--else
 							--data.selectColumns = 1
 						--end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.selectColumns > 1 then
@@ -3755,7 +3755,7 @@ function f_rosterCfg()
 						--else
 							--data.selectColumns = 100
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					end
 					if commandGetState(p1Cmd, 'holdr') then
@@ -3770,14 +3770,14 @@ function f_rosterCfg()
 					end
 				--Character Select Cells Wrapping (X Axis)
 				elseif rosterCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.wrappingX then data.wrappingX = false
 					else data.wrappingX = true
 					end
 					modified = 1
 				--Character Select Cells Wrapping (Y Axis)
 				elseif rosterCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.wrappingY then data.wrappingY = false
 					else data.wrappingY = true
 					end
@@ -3790,7 +3790,7 @@ function f_rosterCfg()
 						else
 							data.p1FaceX = -50
 						end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.p1FaceX > -50 then
@@ -3798,11 +3798,11 @@ function f_rosterCfg()
 						else
 							data.p1FaceX = 320
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
-						sndPlay(sysSnd, 100, 1)
+						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
 						commandBufReset(p1Cmd)
@@ -3826,7 +3826,7 @@ function f_rosterCfg()
 						else
 							data.p1FaceY = 0
 						end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.p1FaceY > 0 then
@@ -3834,11 +3834,11 @@ function f_rosterCfg()
 						else
 							data.p1FaceY = 240
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
-						sndPlay(sysSnd, 100, 1)
+						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
 						commandBufReset(p1Cmd)
@@ -3862,11 +3862,11 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectRows < 100 then
 							data.selectRows = data.selectRows + 1
-							if not script.select.validCells() then data.selectRows = data.selectRows - 1 end
+							if not validCells() then data.selectRows = data.selectRows - 1 end
 						--else
 							--data.selectRows = 1
 						--end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.selectRows > 1 then
@@ -3874,7 +3874,7 @@ function f_rosterCfg()
 						--else
 							--data.selectRows = 100
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					end
 					if commandGetState(p1Cmd, 'holdr') then
@@ -3892,11 +3892,11 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectColumns < 100 then
 							data.selectColumns = data.selectColumns + 1
-							if not script.select.validCells() then data.selectColumns = data.selectColumns - 1 end
+							if not validCells() then data.selectColumns = data.selectColumns - 1 end
 						--else
 							--data.selectColumns = 1
 						--end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.selectColumns > 1 then
@@ -3904,7 +3904,7 @@ function f_rosterCfg()
 						--else
 							--data.selectColumns = 100
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					end
 					if commandGetState(p1Cmd, 'holdr') then
@@ -3922,11 +3922,11 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.offsetRows < 1000 then
 							data.offsetRows = data.offsetRows + 1
-							if not script.select.validCells() then data.offsetRows = data.offsetRows - 1 end
+							if not validCells() then data.offsetRows = data.offsetRows - 1 end
 						--else
 							--data.offsetRows = 0
 						--end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.offsetRows > 0 then
@@ -3934,7 +3934,7 @@ function f_rosterCfg()
 						--else
 							--data.offsetRows = 1000
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					end
 					if commandGetState(p1Cmd, 'holdr') then
@@ -3952,11 +3952,11 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.offsetColumns < 1000 then
 							data.offsetColumns = data.offsetColumns + 1
-							if not script.select.validCells() then data.offsetColumns = data.offsetColumns - 1 end
+							if not validCells() then data.offsetColumns = data.offsetColumns - 1 end
 						--else
 							--data.offsetColumns = 0
 						--end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.offsetColumns > 0 then
@@ -3964,7 +3964,7 @@ function f_rosterCfg()
 						--else
 							--data.offsetColumns = 1000
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					end
 					if commandGetState(p1Cmd, 'holdr') then
@@ -3979,14 +3979,14 @@ function f_rosterCfg()
 					end
 				--Character Select Cells Wrapping (X Axis)
 				elseif rosterCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.wrappingX then data.wrappingX = false
 					else data.wrappingX = true
 					end
 					modified = 1
 				--Character Select Cells Wrapping (Y Axis)
 				elseif rosterCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.wrappingY then data.wrappingY = false
 					else data.wrappingY = true
 					end
@@ -3999,7 +3999,7 @@ function f_rosterCfg()
 						else
 							data.p1FaceX = -50
 						end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.p1FaceX > -50 then
@@ -4007,11 +4007,11 @@ function f_rosterCfg()
 						else
 							data.p1FaceX = 320
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
-						sndPlay(sysSnd, 100, 1)
+						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
 						commandBufReset(p1Cmd)
@@ -4035,7 +4035,7 @@ function f_rosterCfg()
 						else
 							data.p1FaceY = 0
 						end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.p1FaceY > 0 then
@@ -4043,11 +4043,11 @@ function f_rosterCfg()
 						else
 							data.p1FaceY = 240
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
-						sndPlay(sysSnd, 100, 1)
+						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
 						commandBufReset(p1Cmd)
@@ -4071,7 +4071,7 @@ function f_rosterCfg()
 						else
 							data.p2FaceX = -50
 						end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.p2FaceX > -50 then
@@ -4079,11 +4079,11 @@ function f_rosterCfg()
 						else
 							data.p2FaceX = 320
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
-						sndPlay(sysSnd, 100, 1)
+						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
 						commandBufReset(p1Cmd)
@@ -4107,7 +4107,7 @@ function f_rosterCfg()
 						else
 							data.p2FaceY = 0
 						end
-						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 						if data.p2FaceY > 0 then
@@ -4115,11 +4115,11 @@ function f_rosterCfg()
 						else
 							data.p2FaceY = 240
 						end
-						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
-						sndPlay(sysSnd, 100, 1)
+						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
 						commandBufReset(p1Cmd)
@@ -4146,7 +4146,7 @@ function f_rosterCfg()
 					else
 						data.cellSizeX = 0.1
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.cellSizeX > 0.1 then
@@ -4154,11 +4154,11 @@ function f_rosterCfg()
 					else
 						data.cellSizeX = 500
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
@@ -4182,7 +4182,7 @@ function f_rosterCfg()
 					else
 						data.cellSizeY = 0.1
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.cellSizeY > 0.1 then
@@ -4190,11 +4190,11 @@ function f_rosterCfg()
 					else
 						data.cellSizeY = 500
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
@@ -4218,7 +4218,7 @@ function f_rosterCfg()
 					else
 						data.cellSpacingX = 0.1
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.cellSpacingX > 0.1 then
@@ -4226,11 +4226,11 @@ function f_rosterCfg()
 					else
 						data.cellSpacingX = 500
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
@@ -4254,7 +4254,7 @@ function f_rosterCfg()
 					else
 						data.cellSpacingY = 0.1
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.cellSpacingY > 0.1 then
@@ -4262,11 +4262,11 @@ function f_rosterCfg()
 					else
 						data.cellSpacingY = 500
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
@@ -4290,7 +4290,7 @@ function f_rosterCfg()
 					else
 						data.cellScaleX = 0.1
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.cellScaleX > 0.1 then
@@ -4298,11 +4298,11 @@ function f_rosterCfg()
 					else
 						data.cellScaleX = 10
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
@@ -4326,7 +4326,7 @@ function f_rosterCfg()
 					else
 						data.cellScaleY = 0.1
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.cellScaleY > 0.1 then
@@ -4334,11 +4334,11 @@ function f_rosterCfg()
 					else
 						data.cellScaleY = 10
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
@@ -4362,7 +4362,7 @@ function f_rosterCfg()
 					else
 						data.p1SelX = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.p1SelX > 0 then
@@ -4370,7 +4370,7 @@ function f_rosterCfg()
 					else
 						data.p1SelX = data.selectColumns-1
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -4391,7 +4391,7 @@ function f_rosterCfg()
 					else
 						data.p1SelY = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.p1SelY > 0 then
@@ -4399,7 +4399,7 @@ function f_rosterCfg()
 					else
 						data.p1SelY = data.selectRows-1
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -4420,7 +4420,7 @@ function f_rosterCfg()
 					else
 						data.p2SelX = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.p2SelX > 0 then
@@ -4428,7 +4428,7 @@ function f_rosterCfg()
 					else
 						data.p2SelX = data.selectColumns-1
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -4449,7 +4449,7 @@ function f_rosterCfg()
 					else
 						data.p2SelY = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.p2SelY > 0 then
@@ -4457,7 +4457,7 @@ function f_rosterCfg()
 					else
 						data.p2SelY = data.selectRows-1
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -4472,16 +4472,16 @@ function f_rosterCfg()
 				end
 			--Default Values
 			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultRoster = true
 				defaultScreen = true
 			--Reload Select.def
 			--elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				--sndPlay(sysSnd, 100, 1)
+				--sndPlay(sndSys, 100, 1)
 				--assert(loadfile("script/loader.lua"))()
 			--BACK
 			elseif rosterCfg == #t_rosterCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if rosterCfg < 1 then
@@ -4515,7 +4515,7 @@ function f_rosterCfg()
 		elseif not editDone then
 			if esc() then
 				clearInputText()
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				editDone = true
 			end
 			newValue = inputText('num',true)
@@ -4523,7 +4523,7 @@ function f_rosterCfg()
 				if string.match(getClipboardText(),'^%d+$') then 
 					setInputText(getClipboardText())
 				else
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			end
 			if newValue:len() > 7 then
@@ -4544,7 +4544,7 @@ function f_rosterCfg()
 			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				if newValue ~= '' and newValue ~= nil and tonumber(newValue) ~= nil then --Value entered is a valid Number
 					clearInputText()
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					if data.selectType == "Simple" then
 						if rosterCfg == 5 then data.p1FaceX = tonumber(newValue)
 						elseif rosterCfg == 6 then data.p1FaceY = tonumber(newValue)
@@ -4566,7 +4566,7 @@ function f_rosterCfg()
 					modified = 1
 					editDone = true
 				else
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			end
 			t_rosterCfg[rosterCfg].varText = newValue
@@ -4578,13 +4578,13 @@ function f_rosterCfg()
 		setSelCellSize(data.cellSizeX+data.cellSpacingX, data.cellSizeY+data.cellSpacingY)
 		setSelCellScale(data.cellScaleX, data.cellScaleY)
 		drawFace(data.p1FaceX, data.p1FaceY, 0) --Draw Character Face Portrait
-		script.select.f_randomSlot() --Draw Random Slots
+		f_randomSlot() --Draw Random Slots
 		for i=0, data.selectColumns-1 do
 			for j=0, data.selectRows-1 do
 				--local p1charSlot = data.p1SelX+i+data.selectColumns*(data.p1SelY+j)
 				--if getCharName(p1charSlot) ~= '' then
-					animPosDraw(script.select.selectCell, data.p1FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+j*(data.cellSizeY+data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
-					animSetScale(script.select.selectCell, data.cellScaleX, data.cellScaleY)
+					animPosDraw(selectCell, data.p1FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+j*(data.cellSizeY+data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				--end
 			end
 		end
@@ -4593,17 +4593,17 @@ function f_rosterCfg()
 			drawFace(data.p2FaceX, data.p2FaceY, 0)
 			for i=0, data.selectColumns-1 do
 				for j=0, data.selectRows-1 do
-					animPosDraw(script.select.selectCell, data.p2FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+j*(data.cellSizeY+data.cellSpacingY))
-					animSetScale(script.select.selectCell, data.cellScaleX, data.cellScaleY)
+					animPosDraw(selectCell, data.p2FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+j*(data.cellSizeY+data.cellSpacingY))
+					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				end
 			end
 		end
-		animPosDraw(script.select.p1ActiveCursor, data.p1FaceX+data.p1SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p1SelY-0)*(data.cellSizeY+data.cellSpacingY))
-		animSetScale(script.select.p1ActiveCursor, data.cellScaleX, data.cellScaleY)
-		if data.selectType == "Simple" then animPosDraw(script.select.p2ActiveCursor, data.p1FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY))
-		elseif data.selectType == "Advanced" then animPosDraw(script.select.p2ActiveCursor, data.p2FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY)) --For roster 2
+		animPosDraw(p1ActiveCursor, data.p1FaceX+data.p1SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p1SelY-0)*(data.cellSizeY+data.cellSpacingY))
+		animSetScale(p1ActiveCursor, data.cellScaleX, data.cellScaleY)
+		if data.selectType == "Simple" then animPosDraw(p2ActiveCursor, data.p1FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY))
+		elseif data.selectType == "Advanced" then animPosDraw(p2ActiveCursor, data.p2FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY)) --For roster 2
 		end
-		animSetScale(script.select.p2ActiveCursor, data.cellScaleX, data.cellScaleY)
+		animSetScale(p2ActiveCursor, data.cellScaleX, data.cellScaleY)
 	--
 		animSetScale(optionsBG1, 220, maxrosterCfg*15)
 		animSetWindow(optionsBG1, 80,20, 160,30)
@@ -4719,106 +4719,106 @@ function f_stageCfg()
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				stageCfg = stageCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				stageCfg = stageCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Stage Select Display Type
 			elseif stageCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.stageType == "Classic" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageType = "Modern"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.stageType == "Modern" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageType = "Classic"--data.stageType = "Chart"(SF X TK)
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageType == "Classic" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageType = "Modern"--data.stageType = "Chart"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageType == "Modern" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageType = "Classic"
 					modified = 1
 				end
 			--Random Stage Portrait Display Type
 			elseif stageCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.randomStagePortrait == "Simple" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomStagePortrait = "Fixed"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.randomStagePortrait == "Fixed" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomStagePortrait = "Roulette"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.randomStagePortrait == "Fixed" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomStagePortrait = "Simple"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.randomStagePortrait == "Roulette" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.randomStagePortrait = "Fixed"
 					modified = 1	
 				end
 			--Stage Info Display
 			elseif stageCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.stageInfo == "None" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "Author"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.stageInfo == "Author" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "Location"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.stageInfo == "Location" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "Time"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.stageInfo == "Time" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "All"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == "Author" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "None"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == "Location" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "Author"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == "Time" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "Location"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == "All" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.stageInfo = "Time"
 					modified = 1
 				end
 			--Random Stage Selection in Rematch
 			elseif stageCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if data.randomStageRematch == "Variable" then data.randomStageRematch = "Fixed"
 				elseif data.randomStageRematch == "Fixed" then data.randomStageRematch = "Variable"
 				end
 				modified = 1
 			--Default Values
 			elseif stageCfg == #t_stageCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultStage = true
 				defaultScreen = true
 			--BACK
 			elseif stageCfg == #t_stageCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if stageCfg < 1 then
@@ -4930,22 +4930,22 @@ function f_timeCfg()
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				timeCfg = timeCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				timeCfg = timeCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Character Select Time
 			elseif timeCfg == 1 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.selectTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.selectTime < 61 then sndPlay(sndSys, 100, 0) end
 					if data.selectTime == -1 then
 						data.selectTime = 11
 					elseif data.selectTime < 61 then
@@ -4953,7 +4953,7 @@ function f_timeCfg()
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.selectTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.selectTime > 11 then sndPlay(sndSys, 100, 0) end
 					if data.selectTime > 11 then
 						data.selectTime = data.selectTime - 1
 					elseif data.selectTime == 11 then
@@ -4974,7 +4974,7 @@ function f_timeCfg()
 			--Stage Select Time
 			elseif timeCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.stageTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.stageTime < 61 then sndPlay(sndSys, 100, 0) end
 					if data.stageTime == -1 then
 						data.stageTime = 11
 					elseif data.stageTime < 61 then
@@ -4982,7 +4982,7 @@ function f_timeCfg()
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.stageTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.stageTime > 11 then sndPlay(sndSys, 100, 0) end
 					if data.stageTime > 11 then
 						data.stageTime = data.stageTime - 1
 					elseif data.stageTime == 11 then
@@ -5003,7 +5003,7 @@ function f_timeCfg()
 			--Order Select Time
 			elseif timeCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.orderTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.orderTime < 61 then sndPlay(sndSys, 100, 0) end
 					if data.orderTime == -1 then
 						data.orderTime = 11
 					elseif data.orderTime < 61 then
@@ -5011,7 +5011,7 @@ function f_timeCfg()
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.orderTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.orderTime > 11 then sndPlay(sndSys, 100, 0) end
 					if data.orderTime > 11 then
 						data.orderTime = data.orderTime - 1
 					elseif data.orderTime == 11 then
@@ -5032,7 +5032,7 @@ function f_timeCfg()
 			--Rematch Option Time
 			elseif timeCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.rematchTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.rematchTime < 61 then sndPlay(sndSys, 100, 0) end
 					if data.rematchTime == -1 then
 						data.rematchTime = 11
 					elseif data.rematchTime < 61 then
@@ -5040,7 +5040,7 @@ function f_timeCfg()
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.rematchTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.rematchTime > 11 then sndPlay(sndSys, 100, 0) end
 					if data.rematchTime > 11 then
 						data.rematchTime = data.rematchTime - 1
 					elseif data.rematchTime == 11 then
@@ -5061,7 +5061,7 @@ function f_timeCfg()
 			--Service Select Time
 			elseif timeCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.serviceTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.serviceTime < 61 then sndPlay(sndSys, 100, 0) end
 					if data.serviceTime == -1 then
 						data.serviceTime = 11
 					elseif data.serviceTime < 61 then
@@ -5069,7 +5069,7 @@ function f_timeCfg()
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.serviceTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.serviceTime > 11 then sndPlay(sndSys, 100, 0) end
 					if data.serviceTime > 11 then
 						data.serviceTime = data.serviceTime - 1
 					elseif data.serviceTime == 11 then
@@ -5090,7 +5090,7 @@ function f_timeCfg()
 			--Attract Title Screen Time
 			elseif timeCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.attractTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.attractTime < 61 then sndPlay(sndSys, 100, 0) end
 					if data.attractTime == -1 then
 						data.attractTime = 11
 					elseif data.attractTime < 61 then
@@ -5098,7 +5098,7 @@ function f_timeCfg()
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.attractTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.attractTime > 11 then sndPlay(sndSys, 100, 0) end
 					if data.attractTime > 11 then
 						data.attractTime = data.attractTime - 1
 					elseif data.attractTime == 11 then
@@ -5119,7 +5119,7 @@ function f_timeCfg()
 			--Tower/Choose Your Destiny Time
 			elseif timeCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and data.destinyTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') and data.destinyTime < 61 then sndPlay(sndSys, 100, 0) end
 					if data.destinyTime == -1 then
 						data.destinyTime = 11
 					elseif data.destinyTime < 61 then
@@ -5127,7 +5127,7 @@ function f_timeCfg()
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and data.destinyTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') and data.destinyTime > 11 then sndPlay(sndSys, 100, 0) end
 					if data.destinyTime > 11 then
 						data.destinyTime = data.destinyTime - 1
 					elseif data.destinyTime == 11 then
@@ -5147,12 +5147,12 @@ function f_timeCfg()
 				end
 			--Default Values
 			elseif timeCfg == #t_timeCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultTime = true
 				defaultScreen = true
 			--BACK
 			elseif timeCfg == #t_timeCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if timeCfg < 1 then
@@ -5291,42 +5291,42 @@ function f_songCfg()
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				songCfg = songCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				songCfg = songCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			end
 			--Set Main Menu Song
 			if songCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				songsSettings = true --For identify purposes
 				f_songMenu() --Go to Sound Test
 			--Set Character Select Song
 			elseif songCfg == 2 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				songsSettings = true
 				f_songMenu()
 			--Set Challenger Select Song
 			elseif songCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				songsSettings = true
 				f_songMenu()
 			--Default Values
 			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultSong = true
 				defaultScreen = true
 			--BACK
 			elseif songCfg == #t_songCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			end
@@ -5441,15 +5441,15 @@ function f_audioCfg()
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				audioCfg = audioCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				audioCfg = audioCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end			
@@ -5461,7 +5461,7 @@ function f_audioCfg()
 					else
 						gl_vol = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if gl_vol > 0 then
@@ -5469,7 +5469,7 @@ function f_audioCfg()
 					else
 						gl_vol = 100
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -5490,7 +5490,7 @@ function f_audioCfg()
 					else
 						se_vol = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if se_vol > 0 then
@@ -5498,7 +5498,7 @@ function f_audioCfg()
 					else
 						se_vol = 100
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -5519,7 +5519,7 @@ function f_audioCfg()
 					else
 						bgm_vol = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if bgm_vol > 0 then
@@ -5527,7 +5527,7 @@ function f_audioCfg()
 					else
 						bgm_vol = 100
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -5543,11 +5543,11 @@ function f_audioCfg()
 			--Audio Panning
 			elseif audioCfg == 4 then
 				if commandGetState(p1Cmd, 'r') and pan_str < 160 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					pan_str = pan_str + 40
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and pan_str > 0 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					pan_str = pan_str - 40
 					modified = 1
 				end
@@ -5555,7 +5555,7 @@ function f_audioCfg()
 			--Sample Rate
 			elseif audioCfg == 5 then
 				if commandGetState(p1Cmd, 'r') and freq < 96000 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if freq < 22050 then
 						freq = 22050
 					elseif freq < 44100 then
@@ -5572,7 +5572,7 @@ function f_audioCfg()
 					modified = 1
 					needReload = 1
 				elseif commandGetState(p1Cmd, 'l') and freq >= 22050 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if freq >= 96000 then
 						freq = 88200
 					elseif freq >= 88200 then
@@ -5592,7 +5592,7 @@ function f_audioCfg()
 			--Channels
 			elseif audioCfg == 6 then
 				if commandGetState(p1Cmd, 'r') and  channels < 6 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if channels < 2 then
 						channels = 2
 						s_channels = "Stereo"
@@ -5606,7 +5606,7 @@ function f_audioCfg()
 					modified = 1
 					needReload = 1
 				elseif commandGetState(p1Cmd, 'l') and channels >= 2 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if channels >= 6 then
 						channels = 4
 						s_channels = "Quad"
@@ -5623,24 +5623,24 @@ function f_audioCfg()
 			--Buffer Samples
 			elseif audioCfg == 7 then
 				if commandGetState(p1Cmd, 'r') and buffer < 8192 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					buffer = buffer * 2
 					modified = 1
 					needReload = 1
 				elseif commandGetState(p1Cmd, 'l') and buffer >= 1024 then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					buffer = buffer / 2
 					modified = 1
 					needReload = 1
 				end
 			--Default Values
 			elseif audioCfg == #t_audioCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
 			--BACK
 			elseif audioCfg == #t_audioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if audioCfg < 1 then
@@ -5761,17 +5761,17 @@ function f_engineCfg()
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				engineCfg = engineCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				engineCfg = engineCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end					
@@ -5780,7 +5780,7 @@ function f_engineCfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.debugMode then
 						data.debugMode = false
 						s_debugMode = "Disabled"
@@ -5796,7 +5796,7 @@ function f_engineCfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.debugLog then
 						data.debugLog = false
 						s_debugLog = "Disabled"
@@ -5809,12 +5809,12 @@ function f_engineCfg()
 				end
 			--Generate Characters List
 			elseif engineCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				generateCharsList("chars")
 				sszOpen("save", "00_CharactersList.txt")
 			--Generate Stages List
 			elseif engineCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				generateStageList("stages")
 				sszOpen("save", "00_ExtraStagesList.txt")
 			--Engine Mode
@@ -5822,7 +5822,7 @@ function f_engineCfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.engineMode == "VN" then
 						data.engineMode = "FG"
 						modified = 1
@@ -5841,7 +5841,7 @@ function f_engineCfg()
 					else
 						HelperMaxEngine = 56 --Minimum Value
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if HelperMaxEngine > 56 then --Minimum Value
@@ -5849,7 +5849,7 @@ function f_engineCfg()
 					else
 						HelperMaxEngine = 1000 --You can increase this limit
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -5870,7 +5870,7 @@ function f_engineCfg()
 					else
 						PlayerProjectileMaxEngine = 32 --Minimum Value
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if PlayerProjectileMaxEngine > 32 then --Minimum Value
@@ -5878,7 +5878,7 @@ function f_engineCfg()
 					else
 						PlayerProjectileMaxEngine = 1000 --You can increase this limit
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -5899,7 +5899,7 @@ function f_engineCfg()
 					else
 						ExplodMaxEngine = 128 --Minimum Value
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if ExplodMaxEngine > 128 then --Minimum Value
@@ -5907,7 +5907,7 @@ function f_engineCfg()
 					else
 						ExplodMaxEngine = 1000 --You can increase this limit
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -5928,7 +5928,7 @@ function f_engineCfg()
 					else
 						AfterImageMaxEngine = 8 --Minimum Value
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if AfterImageMaxEngine > 8 then --Minimum Value
@@ -5936,7 +5936,7 @@ function f_engineCfg()
 					else
 						AfterImageMaxEngine = 1000 --You can increase this limit
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -5954,17 +5954,17 @@ function f_engineCfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					f_unlocksWarning()
 				end
 			--Default Values
 			elseif engineCfg == #t_engineCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
 			--BACK
 			elseif engineCfg == #t_engineCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if engineCfg < 1 then
@@ -6132,30 +6132,30 @@ function f_videoCfg()
 		end
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				lockSetting = false
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				lockSetting = false
 				videoCfg = videoCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				lockSetting = false
 				videoCfg = videoCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Resolution
 			elseif videoCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				if f_resCfg() then
 					modified = 1
 				end
 			--Fullscreen
 			elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if not b_screenMode then
 					b_screenMode = true
 					s_screenMode = "Fullscreen"
@@ -6172,22 +6172,22 @@ function f_videoCfg()
 				elseif data.sdl == "New" then
 					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 						if commandGetState(p1Cmd, 'r') and data.windowType == "Original" then
-							sndPlay(sysSnd, 100, 0)
+							sndPlay(sndSys, 100, 0)
 							data.windowType = "No Border"
 							b_resizableMode = false
 							b_borderMode = false
 						elseif commandGetState(p1Cmd, 'r') and data.windowType == "No Border" then
-							sndPlay(sysSnd, 100, 0)
+							sndPlay(sndSys, 100, 0)
 							data.windowType = "Resizable"
 							b_resizableMode = true
 							b_borderMode = true
 						elseif commandGetState(p1Cmd, 'l') and data.windowType == "Resizable" then
-							sndPlay(sysSnd, 100, 0)
+							sndPlay(sndSys, 100, 0)
 							data.windowType = "No Border"
 							b_borderMode = false
 							b_resizableMode = false
 						elseif commandGetState(p1Cmd, 'l') and data.windowType == "No Border" then
-							sndPlay(sysSnd, 100, 0)
+							sndPlay(sndSys, 100, 0)
 							data.windowType = "Original"
 							b_resizableMode = false
 							b_borderMode = true
@@ -6203,7 +6203,7 @@ function f_videoCfg()
 					lockSetting = true
 				elseif data.sdl == "New" then
 					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						if data.fullscreenType == "Exclusive" then
 							data.fullscreenType = "Borderless"
 							--b_aspectMode = false
@@ -6223,7 +6223,7 @@ function f_videoCfg()
 				if data.sdl == "Original" then
 					lockSetting = true
 				elseif data.sdl == "New" and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 					if not b_aspectMode then
 						b_aspectMode = true
 						s_aspectMode = "Yes"
@@ -6240,7 +6240,7 @@ function f_videoCfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					if data.sdl == "Original" then
 						data.sdl = "New"
 						f_sdlWarning()
@@ -6258,7 +6258,7 @@ function f_videoCfg()
 					--else
 						--brightnessAdjust = 50
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if brightnessAdjust > 50 then
@@ -6266,7 +6266,7 @@ function f_videoCfg()
 					--else
 						--brightnessAdjust = 256
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 				end
 				if commandGetState(p1Cmd, 'holdr') then
@@ -6281,7 +6281,7 @@ function f_videoCfg()
 				end
 			--[[OpenGL 2.0
 			elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if b_openGL == false then
 					b_openGL = true
 					s_openGL = "Yes"
@@ -6297,7 +6297,7 @@ function f_videoCfg()
 			]]
 			--[[Save Memory
 			elseif videoCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				if b_saveMemory == false then
 					b_saveMemory = true
 					s_saveMemory = "Yes"
@@ -6314,12 +6314,12 @@ function f_videoCfg()
 			]]
 			--Default Values
 			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
 			--BACK
 			elseif videoCfg == #t_videoCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if videoCfg < 1 then
@@ -6436,39 +6436,39 @@ function f_resCfg()
 	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			break
 		end
 		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg = resCfg - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg = resCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--4:3 Resolutions
 			if resCfg == 1 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_resCfg4_3()
 			--16:9 Resolutions
 			elseif resCfg == 2 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_resCfg16_9()
 			--16:10 Resolutions
 			elseif resCfg == 3 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_resCfg16_10()
 			--Extra Resolutions
 			elseif resCfg == 4 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				f_EXresCfg()
 			--BACK
 			else
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 		end
@@ -6580,13 +6580,13 @@ function f_resCfg4_3()
 	end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			return false
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg4_3 = resCfg4_3 - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg4_3 = resCfg4_3 + 1
 		end
 		if resCfg4_3 < 1 then
@@ -6620,11 +6620,11 @@ function f_resCfg4_3()
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if resCfg4_3 == #t_resCfg4_3 then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				return false
 			--CHOOSE RESOLUTION
 			else
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_resCfg4_3[resCfg4_3].x
 				resolutionHeight = t_resCfg4_3[resCfg4_3].y
 				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
@@ -6710,13 +6710,13 @@ function f_resCfg16_9()
 	end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			return false
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg16_9 = resCfg16_9 - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg16_9 = resCfg16_9 + 1
 		end
 		if resCfg16_9 < 1 then
@@ -6750,11 +6750,11 @@ function f_resCfg16_9()
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if resCfg16_9 == #t_resCfg16_9 then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				return false
 			--CHOOSE RESOLUTION
 			else
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_resCfg16_9[resCfg16_9].x
 				resolutionHeight = t_resCfg16_9[resCfg16_9].y
 				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
@@ -6840,13 +6840,13 @@ function f_resCfg16_10()
 	end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			return false
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg16_10 = resCfg16_10 - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			resCfg16_10 = resCfg16_10 + 1
 		end
 		if resCfg16_10 < 1 then
@@ -6880,11 +6880,11 @@ function f_resCfg16_10()
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if resCfg16_10 == #t_resCfg16_10 then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				return false
 			--CHOOSE RESOLUTION
 			else
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_resCfg16_10[resCfg16_10].x
 				resolutionHeight = t_resCfg16_10[resCfg16_10].y
 				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
@@ -6981,13 +6981,13 @@ function f_EXresCfg()
 	end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			return false
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			EXresCfg = EXresCfg - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			EXresCfg = EXresCfg + 1
 		end
 		if EXresCfg < 1 then
@@ -7021,11 +7021,11 @@ function f_EXresCfg()
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if EXresCfg == #t_EXresCfg then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				return false
 			--CHOOSE RESOLUTION
 			else
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_EXresCfg[EXresCfg].x
 				resolutionHeight = t_EXresCfg[EXresCfg].y
 				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
@@ -7107,31 +7107,31 @@ function f_inputCfg()
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				inputCfg = inputCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				inputCfg = inputCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				--Keyboard Config
 				if inputCfg == 1 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					f_keyMenu()
 				--Gamepad Config
 				elseif inputCfg == 2 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					padTesterActive = true
 				--[[Player 1 Gamepad Status
 				elseif inputCfg == 3 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					if data.disablePadP1 == false then
 						data.disablePadP1 = true
 						s_disablePadP1 = "Disabled"
@@ -7145,7 +7145,7 @@ function f_inputCfg()
 				]]
 				--[[Player 2 Gamepad Status
 				elseif inputCfg == 4 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					if data.disablePadP2 == false then
 						data.disablePadP2 = true
 						s_disablePadP2 = "Disabled"
@@ -7159,7 +7159,7 @@ function f_inputCfg()
 				]]
 				--Swap Controller
 				elseif inputCfg == 3 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					f_swapGamepad(data.p2Gamepad, data.p1Gamepad)
 					if data.p1Gamepad == 0 then
 						data.p1Gamepad = 1
@@ -7174,19 +7174,19 @@ function f_inputCfg()
 				--Input Test
 				elseif inputCfg == 4 then
 					if data.engineMode == "FG" then
-						sndPlay(sysSnd, 100, 1)
+						sndPlay(sndSys, 100, 1)
 						f_testMenu()
 					else
-						sndPlay(sysSnd, 100, 5)
+						sndPlay(sndSys, 100, 5)
 					end
 				--Default Values
 				elseif inputCfg == #t_inputCfg-1 then
-					sndPlay(sysSnd, 100, 1)
+					sndPlay(sndSys, 100, 1)
 					defaultInput = true
 					defaultScreen = true
 				--BACK
 				else
-					sndPlay(sysSnd, 100, 2)
+					sndPlay(sndSys, 100, 2)
 					break
 				end
 				--if inputCfg == 3 or inputCfg == 4 then disableGamepad(data.disablePadP1,data.disablePadP2) end
@@ -7303,43 +7303,43 @@ end
 txt_inputTest = createTextImg(jgFnt, 0, 0, "BATTLE INPUT TEST", 159, 13)
 
 --UP Button
-TbuttonUp = animNew(glyphsSff, [[48,0, 0,0, -1]])
+TbuttonUp = animNew(sprGlyphs, [[48,0, 0,0, -1]])
 
 --DOWN Button
-TbuttonDown = animNew(glyphsSff, [[42,0, 0,0, -1]])
+TbuttonDown = animNew(sprGlyphs, [[42,0, 0,0, -1]])
 
 --LEFT Button
-TbuttonLeft = animNew(glyphsSff, [[44,0, 0,0, -1]])
+TbuttonLeft = animNew(sprGlyphs, [[44,0, 0,0, -1]])
 
 --RIGHT Button
-TbuttonRight = animNew(glyphsSff, [[46,0, 0,0, -1]])
+TbuttonRight = animNew(sprGlyphs, [[46,0, 0,0, -1]])
 
 --A Button
-TbuttonA = animNew(glyphsSff, [[1,0, 0,0, -1]])
+TbuttonA = animNew(sprGlyphs, [[1,0, 0,0, -1]])
 
 --B Button
-TbuttonB = animNew(glyphsSff, [[2,0, 0,0, -1]])
+TbuttonB = animNew(sprGlyphs, [[2,0, 0,0, -1]])
 
 --C Button
-TbuttonC = animNew(glyphsSff, [[3,0, 0,0, -1]])
+TbuttonC = animNew(sprGlyphs, [[3,0, 0,0, -1]])
 
 --R Button
-TbuttonR = animNew(glyphsSff, [[28,0, 0,0, -1]])
+TbuttonR = animNew(sprGlyphs, [[28,0, 0,0, -1]])
 
 --X Button
-TbuttonX = animNew(glyphsSff, [[24,0, 0,0, -1]])
+TbuttonX = animNew(sprGlyphs, [[24,0, 0,0, -1]])
 
 --Y Button
-TbuttonY = animNew(glyphsSff, [[25,0, 0,0, -1]])
+TbuttonY = animNew(sprGlyphs, [[25,0, 0,0, -1]])
 
 --Z Button
-TbuttonZ = animNew(glyphsSff, [[26,0, 0,0, -1]])
+TbuttonZ = animNew(sprGlyphs, [[26,0, 0,0, -1]])
 
 --L Button
-TbuttonL = animNew(glyphsSff, [[27,0, 0,0, -1]])
+TbuttonL = animNew(sprGlyphs, [[27,0, 0,0, -1]])
 
 --Start Button
-TbuttonS = animNew(glyphsSff, [[51,0, 0,0, -1]])
+TbuttonS = animNew(sprGlyphs, [[51,0, 0,0, -1]])
 
 function f_testMenu()
 	local alphaS = 20
@@ -7383,7 +7383,7 @@ function f_testMenu()
 	f_cmdCodeReset()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			setSysCtrl(10) --Restore Menu Controls from config.ssz
 			break
 		end
@@ -7480,18 +7480,18 @@ function f_keyMenu()
 	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyMenu = keyMenu - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyMenu = keyMenu + 1
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			if keyMenu == 1 or keyMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				controllerSet = 1 --Keyboard is the control to setup
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
@@ -7503,7 +7503,7 @@ function f_keyMenu()
 					f_inputBattleRead(1, -1) --Player 2 Controls
 					f_keyBattleCfg(0, -1)
 				else
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			--[KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 2 then
@@ -7512,7 +7512,7 @@ function f_keyMenu()
 				f_keyMenuCfg(0, -1)
 			--BACK
 			else
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 		end
@@ -7599,7 +7599,7 @@ function f_tempWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sndSys, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -7645,18 +7645,18 @@ function f_joyMenu()
 	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			joyMenu = joyMenu - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			joyMenu = joyMenu + 1
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			if joyMenu == 1 or joyMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				controllerSet = 2 --Gamepad is the control to setup
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
@@ -7669,7 +7669,7 @@ function f_joyMenu()
 					f_keyBattleCfg(2, data.p1Gamepad)
 					--f_keyBattleCfg(3, data.p2Gamepad)
 				else
-					sndPlay(sysSnd, 100, 5)
+					sndPlay(sndSys, 100, 5)
 				end
 			--[GAMEPAD] MENU CONTROLS
 			elseif joyMenu == 2 then
@@ -7679,7 +7679,7 @@ function f_joyMenu()
 				--f_keyMenuCfg(3, data.p2Gamepad)
 			--BACK
 			else
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 		end
@@ -7890,18 +7890,18 @@ function f_keyBattleCfg(playerNo, controller)
 	while true do
 		--Common Actions
 		if esc() or configEnd then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			f_keyBattleSave(playerNo, controller) --Save Player 1 Controls
 			f_keyBattleSave(playerNo+1, controller) --Save Player 2 Controls
 			break
 		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			if controllerSet == 1 then f_p1keyboardBattleDefault()
 			elseif controllerSet == 2 then f_p1gamepadBattleDefault()
 			end
 			defaultP1 = false
 		elseif f2Key() or defaultP2 then --Quick Default Player 2 Inputs Shorcut
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			if controllerSet == 1 then f_p2keyboardBattleDefault()
 			elseif controllerSet == 2 then f_p2gamepadBattleDefault()
 			end
@@ -7915,12 +7915,12 @@ function f_keyBattleCfg(playerNo, controller)
 		]]
 		--Player 1 Actions
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg = keyCfg - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg = keyCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
@@ -7930,7 +7930,7 @@ function f_keyBattleCfg(playerNo, controller)
 			commandBufReset(p2Cmd)
 			--Modify Battle Controls
 			if keyCfg < #t_keyBattleCfg-1 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				p1waitingKey = true
 				if controller == -1 then
 					controllerNum = 0
@@ -7978,12 +7978,12 @@ function f_keyBattleCfg(playerNo, controller)
 		end
 		--Player 2 Actions
 		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg2 = keyCfg2 - 1
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
 		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg2 = keyCfg2 + 1
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
@@ -7993,7 +7993,7 @@ function f_keyBattleCfg(playerNo, controller)
 			commandBufReset(p2Cmd)
 			--Modify Battle Controls
 			if keyCfg2 < #t_keyBattleCfg2-1 then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				p2waitingKey = true
 				if controller == -1 then
 					controllerNum = 0
@@ -8162,18 +8162,18 @@ function f_keyMenuCfg(playerNo, controller)
 	while true do
 		--Common Actions
 		if esc() or configEnd then
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			f_keyMenuSave(playerNo, controller == -1 and controller or data.p1Gamepad) --Save Player 1 Controls
 			f_keyMenuSave(playerNo+1, controller == -1 and controller or data.p2Gamepad) --Save Player 2 Controls
 			break
 		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			if controllerSet == 1 then f_p1keyboardMenuDefault()
 			elseif controllerSet == 2 then f_p1gamepadMenuDefault()
 			end
 			defaultP1 = false
 		elseif f2Key() or defaultP2 then --Quick Default Player 2 Inputs Shorcut
-			sndPlay(sysSnd, 100, 2)
+			sndPlay(sndSys, 100, 2)
 			if controllerSet == 1 then f_p2keyboardMenuDefault()
 			elseif controllerSet == 2 then f_p2gamepadMenuDefault()
 			end
@@ -8181,12 +8181,12 @@ function f_keyMenuCfg(playerNo, controller)
 		end
 		--Player 1 Actions
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg = keyCfg - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg = keyCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
@@ -8196,10 +8196,10 @@ function f_keyMenuCfg(playerNo, controller)
 			commandBufReset(p2Cmd)
 			--Modify Menu Controls
 			if keyCfg == 5 or keyCfg == 6 or keyCfg == 7 or keyCfg == 8 or keyCfg == 9 or keyCfg == 10 then
-				sndPlay(sysSnd, 100, 5)
+				sndPlay(sndSys, 100, 5)
 				--Show a Message that it buttons ABC XYZ are reserved to re-use in Classic Palette Select from Battle Controls
 			elseif keyCfg < #t_keyMenuCfg-1 and (keyCfg ~= 5 or keyCfg ~= 6 or keyCfg ~= 7 or keyCfg ~= 8 or keyCfg ~= 9 or keyCfg ~= 10) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				p1waitingKey = true
 				if controller == -1 then
 					controllerNum = 0
@@ -8247,12 +8247,12 @@ function f_keyMenuCfg(playerNo, controller)
 		end
 		--Player 2 Actions
 		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg2 = keyCfg2 - 1
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
 		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sndSys, 100, 0)
 			keyCfg2 = keyCfg2 + 1
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
@@ -8262,10 +8262,10 @@ function f_keyMenuCfg(playerNo, controller)
 			commandBufReset(p2Cmd)
 			--Modify Menu Controls
 			if keyCfg2 == 5 or keyCfg2 == 6 or keyCfg2 == 7 or keyCfg2 == 8 or keyCfg2 == 9 or keyCfg2 == 10 then
-				sndPlay(sysSnd, 100, 5)
+				sndPlay(sndSys, 100, 5)
 				--Show a Message that it buttons ABC XYZ are reserved to re-use in Classic Palette Select from Battle Controls
 			elseif keyCfg2 < #t_keyMenuCfg2-1 and (keyCfg2 ~= 5 or keyCfg2 ~= 6 or keyCfg2 ~= 7 or keyCfg2 ~= 8 or keyCfg2 ~= 9 or keyCfg2 ~= 10) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				p2waitingKey = true
 				if controller == -1 then
 					controllerNum = 0
@@ -8378,7 +8378,7 @@ end
 function f_validKey()
 	commandBufReset(p1Cmd)
 	commandBufReset(p2Cmd)
-	sndPlay(sysSnd, 100, 1)
+	sndPlay(sndSys, 100, 1)
 	--inputReset(controllerNum == -1 and controllerNum or gamepadData)
 	p1waitingKey = false
 	p2waitingKey = false
@@ -8386,7 +8386,7 @@ function f_validKey()
 end
 
 function f_invalidKey()
-	sndPlay(sysSnd, 100, 5)
+	sndPlay(sndSys, 100, 5)
 	getKeyboard = ''
 	sameKey = true
 end
@@ -9648,17 +9648,17 @@ function f_gameVNcfg()
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				gameVNcfg = gameVNcfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				lockSetting = false
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				gameVNcfg = gameVNcfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
@@ -9666,22 +9666,22 @@ function f_gameVNcfg()
 			elseif gameVNcfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				--[[
 				if commandGetState(p1Cmd, 'r') and data.language == "ENGLISH" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.language = "SPANISH"
 					modified = 1
 					needReload = 1
 				elseif commandGetState(p1Cmd, 'r') and data.language == "SPANISH" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.language = "JAPANESE"
 					modified = 1
 					needReload = 1
 				elseif commandGetState(p1Cmd, 'l') and data.language == "SPANISH" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.language = "ENGLISH"
 					modified = 1
 					needReload = 1
 				elseif commandGetState(p1Cmd, 'l') and data.language == "JAPANESE" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.language = "SPANISH"
 					modified = 1
 					needReload = 1
@@ -9690,62 +9690,62 @@ function f_gameVNcfg()
 			--Clock Display
 			elseif gameVNcfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.clock == "Standard" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.clock = "Full Standard"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.clock == "Full Standard" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.clock = "Military"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.clock == "Military" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.clock = "Full Military"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Standard" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.clock = "Standard"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.clock == "Military" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.clock = "Full Standard"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Military" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.clock = "Military"
 					modified = 1
 				end
 			--Date Display
 			elseif gameVNcfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.date == "Type A" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type B"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.date == "Type B" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type C"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.date == "Type C" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type D"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.date == "Type D" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type E"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.date == "Type B" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type A"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.date == "Type C" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type B"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.date == "Type D" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type C"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.date == "Type E" then
-					sndPlay(sysSnd, 100, 0)
+					sndPlay(sndSys, 100, 0)
 					data.date = "Type D"
 					modified = 1
 				end
@@ -9753,12 +9753,12 @@ function f_gameVNcfg()
 			elseif gameVNcfg == 4 then
 				if commandGetState(p1Cmd, 'r') then
 					if data.VNdelay > 0 then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.VNdelay = data.VNdelay - 1
 					end
 				elseif commandGetState(p1Cmd, 'l') then
 					if data.VNdelay < 3 then
-						sndPlay(sysSnd, 100, 0)
+						sndPlay(sndSys, 100, 0)
 						data.VNdelay = data.VNdelay + 1
 					end
 				end
@@ -9772,7 +9772,7 @@ function f_gameVNcfg()
 						data.VNtxtBGTransD = 0
 						data.VNtxtBGTransS = 255
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						hasChangedVN = true
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if data.VNtxtBGTransD > 0 then
@@ -9782,24 +9782,24 @@ function f_gameVNcfg()
 						data.VNtxtBGTransD = 255
 						data.VNtxtBGTransS = 0
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				end
 			--Auto Skip Text
 			elseif gameVNcfg == 6 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
 			--Auto Save (TODO)
 				
 			--Default Values
 			--[[
 			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
+				sndPlay(sndSys, 100, 1)
 				defaultVN = true
 				defaultScreen = true
 			]]
 			--BACK
 			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 2)
+				sndPlay(sndSys, 100, 2)
 				break
 			end
 			if gameVNcfg < 1 then

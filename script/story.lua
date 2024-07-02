@@ -5,7 +5,7 @@ module(..., package.seeall)
 --; STORY SCREENPACK
 --;===========================================================
 --Scrolling background
-storyBG0 = animNew(sysSff, [[
+storyBG0 = animNew(sprSys, [[
 100,0, 0,0, -1
 ]])
 animAddPos(storyBG0, 160, 0)
@@ -13,21 +13,21 @@ animSetTile(storyBG0, 1, 1)
 animSetColorKey(storyBG0, -1)
 
 --Below Wood background
-woodBG1 = animNew(sysSff, [[
+woodBG1 = animNew(sprSys, [[
 105,0, 0,0,
 ]])
 animSetScale(woodBG1, 1.55, 1.5)
 animUpdate(woodBG1)
 
 --Below Bamboo background
-bambooBG1 = animNew(sysSff, [[
+bambooBG1 = animNew(sprSys, [[
 106,0, 0,0, -1
 ]])
 animSetScale(bambooBG1, 0.72, 0.6)
 animUpdate(bambooBG1)
 
 --Lock
-padlock = animNew(sysSff, [[
+padlock = animNew(sprSys, [[
 108,0, 0,0,
 ]])
 animAddPos(padlock, 118, 125)
@@ -35,7 +35,7 @@ animSetScale(padlock, 0.20, 0.20)
 animUpdate(padlock)
 
 --Below Transparent background
---storyBG2 = animNew(sysSff, [[
+--storyBG2 = animNew(sprSys, [[
 --3,0, 0,0, -1
 --]])
 --animSetPos(storyBG2, 156, 94)
@@ -43,14 +43,14 @@ animUpdate(padlock)
 --animUpdate(storyBG2)
 
 --Below Info Window BG
-storyBG2 = animNew(sysSff, [[
+storyBG2 = animNew(sprSys, [[
 230,1, 0,0,
 ]])
 animSetPos(storyBG2, 158, 82)
 animUpdate(storyBG2)
 
 --Arc Left Arrow
-storyLeftArrow = animNew(sysSff, [[
+storyLeftArrow = animNew(sprSys, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -65,7 +65,7 @@ animUpdate(storyLeftArrow)
 animSetScale(storyLeftArrow, 0.6, 0.6)
 
 --Arc Right Arrow
-storyRightArrow = animNew(sysSff, [[
+storyRightArrow = animNew(sprSys, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -80,7 +80,7 @@ animUpdate(storyRightArrow)
 animSetScale(storyRightArrow, 0.6, 0.6)
 
 --Chapter Up Arrow
-storyUpArrow = animNew(sysSff, [[
+storyUpArrow = animNew(sprSys, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -95,7 +95,7 @@ animUpdate(storyUpArrow)
 animSetScale(storyUpArrow, 0.5, 0.5)
 
 --Chapter Down Arrow
-storyDownArrow = animNew(sysSff, [[
+storyDownArrow = animNew(sprSys, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -110,25 +110,25 @@ animUpdate(storyDownArrow)
 animSetScale(storyDownArrow, 0.5, 0.5)
 
 --Arc Folder Empty Icon
-arcFolderEmpty = animNew(storySff, [[0,2, 0,0, -1]])
+arcFolderEmpty = animNew(sprStory, [[0,2, 0,0, -1]])
 animSetAlpha(arcFolderEmpty, 20, 100) --Transparent Color
 
 --Arc Folder Complete Icon
-arcFolderComplete = animNew(storySff, [[0,2, 0,0, -1]])
+arcFolderComplete = animNew(sprStory, [[0,2, 0,0, -1]])
 
 --Unknown Arc Icon
-arcUnknown = animNew(storySff, [[0,0, 0,0,]])
+arcUnknown = animNew(sprStory, [[0,0, 0,0,]])
 
 --Arc Selected
-arcSel = animNew(storySff, [[0,1, 0,0,]])
+arcSel = animNew(sprStory, [[0,1, 0,0,]])
 
 --Chapter Complete Icon
-checkIco = animNew(sysSff, [[104,0, 0,0,]])
+checkIco = animNew(sprSys, [[104,0, 0,0,]])
 
-checkNA = animNew(sysSff, [[9999,9999, 0,0,]])
+checkNA = animNew(sprSys, [[9999,9999, 0,0,]])
 
 --Unknown Chapter Preview
-chaptUnknown = animNew(sysSff, [[110,4, 0,0,]])
+chaptUnknown = animNew(sprSys, [[110,4, 0,0,]])
 
 --Unknown Chapter Arc
 t_arcNull = {
@@ -151,13 +151,13 @@ end
 --; ARC SELECT
 --;===========================================================
 --Arc 1 Icon
-arc1 = animNew(storySff, [[0,4, 0,0,]])
+arc1 = animNew(sprStory, [[0,4, 0,0,]])
 
 --Arc 2 Icon
-arc2 = animNew(storySff, [[0,5, 0,0,]])
+arc2 = animNew(sprStory, [[0,5, 0,0,]])
 
 --Arc 3 Icon
-arc3 = animNew(storySff, [[0,6, 0,0,]])
+arc3 = animNew(sprStory, [[0,6, 0,0,]])
 
 t_storySelect = {
 	{ID = textImgNew(), Name = "KUNG FU MAN", 	Icon = arc1, 	   Sel = arcSel, File = arcFolderEmpty, Status = ""}, --Add Arc Slot
@@ -173,31 +173,31 @@ t_storySelect = {
 --; ARC 1 CHAPTER SELECT
 --;===========================================================
 --Arc 1 - Prologue Preview
-st1_0 = animNew(storySff, [[1,0, 0,0,]])
+st1_0 = animNew(sprStory, [[1,0, 0,0,]])
 
 --Arc 1 - Chapter 1 Preview
-st1_1 = animNew(storySff, [[1,10, 0,0,]])
+st1_1 = animNew(sprStory, [[1,10, 0,0,]])
 
 --Arc 1 - Chapter 2 Preview
-st1_2 = animNew(storySff, [[1,20, 0,0,]])
+st1_2 = animNew(sprStory, [[1,20, 0,0,]])
 
 --Arc 1 - Chapter 3A Preview
-st1_3A = animNew(storySff, [[1,30, 0,0,]])
+st1_3A = animNew(sprStory, [[1,30, 0,0,]])
 
 --Arc 1 - Chapter 3B Preview
-st1_3B = animNew(storySff, [[1,31, 0,0,]])
+st1_3B = animNew(sprStory, [[1,31, 0,0,]])
 
 --Arc 1 - Chapter 4A Preview
-st1_4A = animNew(storySff, [[1,40, 0,0, 40]])
+st1_4A = animNew(sprStory, [[1,40, 0,0, 40]])
 
 --Arc 1 - Chapter 4B Preview
-st1_4B = animNew(storySff, [[1,41, 0,0,]])
+st1_4B = animNew(sprStory, [[1,41, 0,0,]])
 
 --Arc 1 - Chapter 4C Preview
-st1_4C = animNew(storySff, [[1,42, 0,0,]])
+st1_4C = animNew(sprStory, [[1,42, 0,0,]])
 
 --Arc 1 - Chapter 4D Preview
-st1_4D = animNew(storySff, [[1,43, 0,0,]])
+st1_4D = animNew(sprStory, [[1,43, 0,0,]])
 
 t_arc1 = {
 	{ID = textImgNew(), Name = "PROLOGUE", 			   	   Preview = st1_0, 	   Status = checkNA, Info = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES."}, --Add Chapter Slot for Arc 1
@@ -216,13 +216,13 @@ t_arc1 = {
 --; ARC 2 CHAPTER SELECT
 --;===========================================================
 --Arc 2 - Prologue Preview
-st2_0 = animNew(storySff, [[2,0, 0,0,]])
+st2_0 = animNew(sprStory, [[2,0, 0,0,]])
 
 --Arc 2 - Chapter 1 Preview
-st2_1 = animNew(storySff, [[2,10, 0,0,]])
+st2_1 = animNew(sprStory, [[2,10, 0,0,]])
 
 --Arc 2 - Chapter 2 Preview
-st2_2 = animNew(storySff, [[2,20, 0,0,]])
+st2_2 = animNew(sprStory, [[2,20, 0,0,]])
 
 t_arc2 = {
 	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
@@ -234,10 +234,10 @@ t_arc2 = {
 --; ARC 3 CHAPTER SELECT
 --;===========================================================
 --Arc 3 - Prologue Preview
-st3_0 = animNew(storySff, [[3,0, 0,0,]])
+st3_0 = animNew(sprStory, [[3,0, 0,0,]])
 
 --Arc 3 - Chapter 1 Preview
-st3_1 = animNew(storySff, [[3,10, 0,0,]])
+st3_1 = animNew(sprStory, [[3,10, 0,0,]])
 
 t_arc3 = {
 	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
@@ -267,7 +267,7 @@ function f_storyMenu()
 	local bufl = 0
 	local lockedStory = false
 	playBGM(bgmStory)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 --Load Chapters Progress
 	data.story1Progress = data.story1_0Status + data.story1_1Status + data.story1_2Status + data.story1_3AStatus + data.story1_3BStatus + data.story1_4AStatus + data.story1_4BStatus + data.story1_4CStatus + data.story1_4DStatus
@@ -285,32 +285,32 @@ function f_storyMenu()
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
 			f_menuMusic()
 			break
 	--Arc Selection
 		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 			t = 0 --Reset Story Info Delay Time
-			sndPlay(sysSnd, 100, 3)
+			sndPlay(sndSys, 100, 3)
 			storyMenu = storyMenu - 1
 			f_resetChaptSel()
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			t = 0
-			sndPlay(sysSnd, 100, 3)
+			sndPlay(sndSys, 100, 3)
 			storyMenu = storyMenu + 1
 			f_resetChaptSel()
 	--Chapter Selection
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			if lockedStory == false then
 				t = 0
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				chapterMenu = chapterMenu - 1
 			end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			if lockedStory == false then
 				t = 0
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sndSys, 100, 0)
 				chapterMenu = chapterMenu + 1
 			end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -341,7 +341,7 @@ function f_storyMenu()
 			elseif storyMenu == 1 and chapterMenu == 10 then f_storyRosterTest()
 		--EMPTY SLOT OR LOCKED CHAPTER
 			else
-				sndPlay(sysSnd, 100, 5)
+				sndPlay(sndSys, 100, 5)
 			end
 		end
 	--Arc Cursor position calculation
@@ -690,7 +690,7 @@ function f_backStorySel()
 	data.VNbreak = false --Reset visual novel back to main menu
 	--f_saveTemp()
 	playBGM(bgmStory)
-	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', sprFade)
 end
 
 --;===========================================================
@@ -714,7 +714,7 @@ function f_arc1_chapter1()
 	script.visualnovel.f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in visualnovel.lua script
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man"]}
 		data.p1Pal = 1
@@ -731,12 +731,12 @@ function f_arc1_chapter1()
 		setGameMode('story')
 		setPlayerSide('p1left')
 		setPauseVar("giveup")
-		script.select.f_selectStory() --Start Fight with previous settings
+		f_selectStory() --Start Fight with previous settings
 		--Part 2
 		script.visualnovel.f_vnScene(kfmVN,1,16)
 		if not data.VNbreak then
 			f_default() --Reset settings for the custom fight
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
 			data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters (needs to be loaded in select.def)
 			data.p1Pal = 1 --Set P1 Character Palette
@@ -755,8 +755,8 @@ function f_arc1_chapter1()
 			setGameMode('story')
 			setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
 			setPlayerSide('p1left')
-			script.select.f_selectStory() --Start Fight with previous settings
-			if script.select.winner == 1 then --Only if you win do:
+			f_selectStory() --Start Fight with previous settings
+			if winner == 1 then --Only if you win do:
 				data.story1_2Unlock = true --Unlock next chapter
 				f_storyStatus() --Save progress
 				f_arc1_chapter2() --Launch next story fight
@@ -774,7 +774,7 @@ function f_arc1_chapter2()
 	script.visualnovel.f_vnScene(kfmVN,2,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man"]}
 		data.p1Pal = 1
@@ -791,12 +791,12 @@ function f_arc1_chapter2()
 		data.rosterMode = "story"
 		data.storyNo = "1-2"
 		setGameMode('story')
-		script.select.f_selectStory()
-		if script.select.winner == 1 then
+		f_selectStory()
+		if winner == 1 then
 			data.story1_3AUnlock = true --Unlock Route A
 			f_storyStatus()
 			f_arc1_chapter3_1()
-		elseif script.select.winner == 2 then
+		elseif winner == 2 then
 			data.story1_3BUnlock = true --Unlock Route B
 			f_storyStatus()
 			f_arc1_chapter3_2()
@@ -811,7 +811,7 @@ function f_arc1_chapter3_1()
 	script.visualnovel.f_vnScene(kfmVN,3,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 		data.p1Pal = 1
@@ -828,12 +828,12 @@ function f_arc1_chapter3_1()
 		data.rosterMode = "story"
 		data.storyNo = "1-3A"
 		setGameMode('story')
-		script.select.f_selectStory()
-		if script.select.winner == 1 then
+		f_selectStory()
+		if winner == 1 then
 			data.story1_4AUnlock = true
 			f_storyStatus()
 			f_arc1_chapter4_1()
-		elseif script.select.winner == 2 then
+		elseif winner == 2 then
 			data.story1_4CUnlock = true
 			f_storyStatus()
 			f_arc1_chapter4_3()
@@ -848,7 +848,7 @@ function f_arc1_chapter3_2()
 	script.visualnovel.f_vnScene(kfmVN,4,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1Pal = 1
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man"]}
@@ -869,12 +869,12 @@ function f_arc1_chapter3_2()
 		setService("balance")
 		setAutoguard(1, true)
 		setAutoguard(2, false)
-		script.select.f_selectStory()
-		if script.select.winner == 1 then
+		f_selectStory()
+		if winner == 1 then
 			data.story1_4BUnlock = true
 			f_storyStatus()
 			f_arc1_chapter4_2()
-		elseif script.select.winner == 2 then
+		elseif winner == 2 then
 			data.story1_4DUnlock = true
 			f_storyStatus()
 			f_arc1_chapter4_4()
@@ -889,7 +889,7 @@ function f_arc1_chapter4_1()
 	script.visualnovel.f_vnScene(kfmVN,5,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4A"
 		--[[
@@ -905,7 +905,7 @@ function f_arc1_chapter4_1()
 		data.victoryscreen = false
 		data.stage = {t_stageDef["stages/sakura.def"]}
 		setGameMode('story')
-		script.select.f_selectStory()
+		f_selectStory()
 		]]
 		f_storyStatus()
 		f_playCredits() --Go to credits screen
@@ -919,7 +919,7 @@ function f_arc1_chapter4_2()
 	script.visualnovel.f_vnScene(kfmVN,6,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4B"
 		f_storyStatus()
@@ -934,7 +934,7 @@ function f_arc1_chapter4_3()
 	script.visualnovel.f_vnScene(kfmVN,7,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4C"
 		f_storyStatus()
@@ -949,7 +949,7 @@ function f_arc1_chapter4_4()
 	script.visualnovel.f_vnScene(kfmVN,8,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4D"
 		f_storyStatus()
@@ -962,8 +962,8 @@ end
 --Character Select Test Chapter
 function f_storyRosterTest()
 	f_default()
-	sndPlay(sysSnd, 100, 1)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	sndPlay(sndSys, 100, 1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_charAdd["kung fu man"]}
@@ -977,7 +977,7 @@ function f_storyRosterTest()
 	data.rosterMode = "story"
 	setGameMode('storyRoster')
 	textImgSetText(txt_mainSelect, "STORY MODE")
-	script.select.f_selectStory()
+	f_selectStory()
 end
 
 --;===========================================================
