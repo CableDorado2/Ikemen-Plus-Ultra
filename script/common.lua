@@ -67,6 +67,43 @@ s_tempdataLUA = tempFile:read("*all")
 tempFile:close()
 
 --;===========================================================
+--; DISCORD RICH PRESENCE DEFINITION
+--;===========================================================
+discordGameID = "1200228516554346567" --Discord AppID
+discordGameState = "In Logos" --Game State
+discordGameDetails = "Create Advanced MUGENS or your own Fighting Game!" --Game State Details
+discordGameBigImg = "gameicon" --Discord App Game Icon
+discordGameAbout = "Game Name" --Game Description
+discordGameMiniIcon = "charactericon" --Discord App Mini Icon
+discordGameMiniTxt = "character name" --Mini Icon Description
+discordPublicRoomID = "party1234" --Public Room ID
+discordPrivateRoomID = "xyzzy" --Private Room ID
+discordPrivateJoin = "join" --
+discordPrivateWatch = "look" --
+discordRoomMax = 2 --Room Max Capacity
+discordRoomSize = 0 --Room Capacity. Add 1 when online mode with rich presence works
+discordGameInstance = 0 --???
+
+--[[
+discordInit(discordGameID) --Start Discord Rich Presence
+discordUpdate() --Update Discord Rich Presence
+discordEnd() --End Discord Rich Presence
+setDiscordState(discordGameState)
+setDiscordDetails(discordGameDetails)
+setDiscordBigImg(discordGameBigImg)
+setDiscordBigTxt(discordGameAbout)
+setDiscordMiniImg(discordGameMiniIcon)
+setDiscordMiniTxt(discordGameMiniTxt)
+setDiscordPartyID(discordPublicRoomID)
+setDiscordSecretID(discordPrivateRoomID)
+setDiscordSecretJoin(discordPrivateJoin)
+setDiscordSecretWatch(discordPrivateWatch)
+setDiscordPartyMax(discordRoomMax)
+setDiscordPartySize(discordRoomSize)
+setDiscordInstance(discordGameInstance)
+]]
+
+--;===========================================================
 --; COMMON FUNCTIONS DEFINITION
 --;===========================================================
 --Constants/Standards
@@ -2198,6 +2235,12 @@ function f_saveTemp()
 	tempFile:close()
 end
 
+function f_resetTemp() --Reset Temp Default Values to Prevent Issues
+	data.tempBack = false
+	data.replayDone = false
+	f_saveTemp()
+end
+
 --Data saving to vn_sav.lua
 function f_saveVN()
 	local t_vn = {
@@ -2308,4 +2351,43 @@ function f_saveProgress()
 	local file = io.open("save/stats_sav.lua","w+")
 	file:write(statsDataLUA)
 	file:close()
+end
+
+--;===========================================================
+--; UNLOCKS CHECKING
+--;===========================================================
+function f_unlocksCheck()
+	assert(loadfile("save/stats_sav.lua"))()
+	if data.arcadeClear == true then --Verify if you comply with this condition and then..
+		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
+	end
+	if data.reika == true then
+		t_selChars[t_charAdd["reika murasame"]+1].unlock = 1
+	end
+	if data.gouki == true then
+		t_selChars[t_charAdd["shin gouki"]+1].unlock = 1
+	end
+	if data.story1_1Unlock == true then
+		t_selStages[t_stageDef["stages/mountainside temple/lobby 2 night.def"]].unlock = 1
+	end
+	if data.story1_2Unlock == true then
+		t_selChars[t_charAdd["mako mayama"]+1].unlock = 1
+	end
+	if data.bossrushClear == true then
+		t_selStages[t_stageDef["stages/mountainside temple/hidden path night.def"]].unlock = 1
+		t_selStages[t_stageDef["stages/mountainside temple/outside.def"]].unlock = 1
+	end
+	if data.mission1Status == 1 then
+		t_selStages[t_stageDef["stages/mountainside temple/dark corridor.def"]].unlock = 1
+	end
+	if data.story1_4AStatus == 1 then
+		t_selChars[t_charAdd["suave dude"]+1].unlock = 1
+	end
+	if data.event1Status == 1 then
+		t_selStages[t_stageDef["stages/mountainside temple/winter.def"]].unlock = 1
+	end
+	if data.trainingTime > 1500 then
+		t_selStages[t_stageDef["stages/training room 2.def"]].unlock = 1
+	end
+	f_updateLogs()
 end

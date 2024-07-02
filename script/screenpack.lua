@@ -406,37 +406,48 @@ Description: Draw element on screen [Refresh() function resets the screen, so th
 ]]
 
 --;===========================================================
---; HERE COMES A NEW CHALLENGER SCREENPACK
+--; TITLE SCREEN SCREENPACK
 --;===========================================================
---Challenger Transparent BG
-challengerWindow = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(challengerWindow, 160, 0)
-animSetTile(challengerWindow, 1, 1)
-animSetWindow(challengerWindow, -54, 67, 428, 100)
-
---Challenger Text
-challengerText = animNew(sysSff, [[
-500,0, 0,0, 5
-500,1, 0,0, 5
-500,2, 0,0, 5
-500,3, 0,0, 5
-500,4, 0,0, 5
-500,5, 0,0, 5
-500,6, 0,0, 5
-500,7, 0,0, 5
-500,8, 0,0, 5
-500,9, 0,0, 5
-]])
-animAddPos(challengerText, 19, 100)
-animUpdate(challengerText)
+txt_mainTitle = createTextImg(jgFnt, 5, 0, "-- PRESS START --", 159, 170)
+--txt_version = createTextImg(font1, 0, -1, "v1.?.0", 319, 240)
+txt_version = createTextImg(font1, 0, -1, "Dev. Build", 319, 240)
+txt_f1 = createTextImg(font1, 0, 0, "Press F1 for Info", 159, 240)
+txt_titleFt = createTextImg(font5, 0, 0, "", 156, 240)
 
 --;===========================================================
 --; MAIN MENU SCREENPACK
 --;===========================================================
 --Loading Text
 txt_loading = createTextImg(font1, 0, -1, "", 310, 230)
+
+txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
+txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
+
+if data.engineMode == "FG" then
+t_mainMenu = {
+	{id = textImgNew(), text = "STORY"},
+	{id = textImgNew(), text = "ARCADE"},
+	{id = textImgNew(), text = "VERSUS"},
+	{id = textImgNew(), text = "NETPLAY"},
+	{id = textImgNew(), text = "TRAINING"},
+	{id = textImgNew(), text = "CHALLENGES"},
+	{id = textImgNew(), text = "EXTRAS"},
+	{id = textImgNew(), text = "WATCH"},
+	{id = textImgNew(), text = "OPTIONS"},
+	{id = textImgNew(), text = "EXIT"},
+	{id = textImgNew(), text = "CHECK UPDATES"},
+}
+elseif data.engineMode == "VN" then
+t_mainMenu = {
+	{id = textImgNew(), text = "NEW GAME"},
+	{id = textImgNew(), text = "LOAD GAME"},
+	--{id = textImgNew(), text = "NETPLAY"},
+	{id = textImgNew(), text = "CONFIG"},
+	{id = textImgNew(), text = "GALLERY"},
+	{id = textImgNew(), text = "EXIT"},
+	{id = textImgNew(), text = "CHECK UPDATES"},
+}
+end
 
 --Buttons Background
 titleBG0 = animNew(sysSff, [[
@@ -554,9 +565,6 @@ animAddPos(arrowsD, 153.5, 204)
 animUpdate(arrowsD)
 animSetScale(arrowsD, 0.5, 0.5)
 
---;===========================================================
---; SCREENPACK ORDER DEFINITION
---;===========================================================
 function drawBottomMenuSP() --Below Menu Fonts
 	animDraw(f_animVelocity(titleBG0, -2.15, 0))
 end
@@ -662,7 +670,850 @@ function drawConfirmInputHints()
 end
 
 --;===========================================================
---; F1 INFOBOX MESSAGE
+--; ARCADE MENU SCREENPACK
+--;===========================================================
+t_arcadeMenu = {
+	{id = textImgNew(), text = "CLASSIC MODE"},
+	{id = textImgNew(), text = "TOWER MODE"},
+}
+
+--;===========================================================
+--; CLASSIC ARCADE MENU SCREENPACK
+--;===========================================================
+t_arcadeClassicMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; TOWER ARCADE MENU SCREENPACK
+--;===========================================================
+t_towerMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; VERSUS MENU SCREENPACK
+--;===========================================================
+t_vsMenu = {
+	{id = textImgNew(), text = "QUICK MATCH"},
+	{id = textImgNew(), text = "FREE BATTLE"},
+}
+
+--;===========================================================
+--; QUICK/RANDOM MATCH MENU SCREENPACK
+--;===========================================================
+t_randomMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1 VS P2"},
+	{id = textImgNew(), text = "P2 VS P1"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+	--{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+}
+
+--;===========================================================
+--; FREE BATTLE MENU SCREENPACK
+--;===========================================================
+t_freeMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1 VS P2"},
+	{id = textImgNew(), text = "P2 VS P1"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+	--{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	--{id = textImgNew(), text = "P1&P3 VS P2&P4"},
+}
+
+--;===========================================================
+--; CHALLENGES MENU SCREENPACK
+--;===========================================================
+t_challengeMenu = {
+	{id = textImgNew(), text = "SURVIVAL"},
+	{id = textImgNew(), text = "MISSIONS"},
+	{id = textImgNew(), text = "BOSS FIGHT"},
+	{id = textImgNew(), text = "BONUS GAMES"},
+	{id = textImgNew(), text = "TIME ATTACK"},
+	{id = textImgNew(), text = "SCORE ATTACK"},
+	{id = textImgNew(), text = "SUDDEN DEATH"},
+}
+
+--;===========================================================
+--; SURVIVAL MENU SCREENPACK
+--;===========================================================
+t_survivalMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; BOSS FIGHT MENU SCREENPACK
+--;===========================================================
+t_bossMenu = {
+	{id = textImgNew(), text = "VS SINGLE BOSS"},
+	{id = textImgNew(), text = "BOSS RUSH"},
+}
+
+--;===========================================================
+--; BOSS RUSH MENU SCREENPACK
+--;===========================================================
+t_bossrushMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; BONUS GAMES MENU SCREENPACK
+--;===========================================================
+t_bonusMenu = {
+	{id = textImgNew(), text = "SINGLE MODE"},
+	{id = textImgNew(), text = "BONUS RUSH"},
+}
+
+--;===========================================================
+--; BONUS RUSH MENU SCREENPACK
+--;===========================================================
+t_bonusrushMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+}
+
+--;===========================================================
+--; TIME ATTACK MENU SCREENPACK (WIP)
+--;===========================================================
+t_timeMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; SCORE ATTACK MENU SCREENPACK (WIP)
+--;===========================================================
+t_scoreMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; SUDDEN DEATH MENU SCREENPACK
+--;===========================================================
+t_suddenMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; EXTRAS MENU SCREENPACK
+--;===========================================================
+t_extrasMenu = {
+	{id = textImgNew(), text = "ENDLESS"},
+	{id = textImgNew(), text = "EVENTS"},
+	{id = textImgNew(), text = "TOURNEY"},
+	{id = textImgNew(), text = "ADVENTURE"},
+	{id = textImgNew(), text = "VISUAL NOVEL"},
+	{id = textImgNew(), text = "THE VAULT"},
+	{id = textImgNew(), text = "RANDOMTEST"},
+}
+
+--;===========================================================
+--; ENDLESS MENU SCREENPACK
+--;===========================================================
+t_allcharsMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--;===========================================================
+--; TOURNAMENT MENU SCREENPACK (WIP)
+--;===========================================================
+t_tourneyMenu = {
+	{id = textImgNew(), text = "ROUND OF 16"},
+	{id = textImgNew(), text = "ROUND OF 8"},
+	{id = textImgNew(), text = "ROUND OF 4"},
+}
+
+--;===========================================================
+--; WATCH MENU SCREENPACK
+--;===========================================================
+t_watchMenu = {
+	{id = textImgNew(), text = "REPLAYS"},
+	{id = textImgNew(), text = "STAGE VIEWER"},
+	{id = textImgNew(), text = "PLAYER RECORDS"},
+	{id = textImgNew(), text = "STORYBOARDS"},
+	{id = textImgNew(), text = "CUTSCENES"},
+	{id = textImgNew(), text = "SOUND TEST"},
+	{id = textImgNew(), text = "SCREENSHOTS"},
+	{id = textImgNew(), text = "GALLERY"},
+	{id = textImgNew(), text = "CREDITS"},
+}
+
+--;===========================================================
+--; REPLAY MENU SCREENPACK
+--;===========================================================
+t_replayMenu = {
+	{id = textImgNew(), text = "ONLINE REPLAYS"},
+	{id = textImgNew(), text = "LOCAL REPLAYS"},
+}
+
+--;===========================================================
+--; ONLINE REPLAYS MENU SCREENPACK
+--;===========================================================
+txt_replay = createTextImg(jgFnt, 0, 0, "REPLAY SELECT", 159, 13)
+txt_replayData = createTextImg(jgFnt, 0, 0, "REPLAY OPTIONS", 159, 72)
+
+--Scrolling background
+replayBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(replayBG0, 160, 0)
+animSetTile(replayBG0, 1, 1)
+animSetColorKey(replayBG0, -1)
+
+--Transparent background
+replayBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(replayBG1, 20, 20)
+animSetAlpha(replayBG1, 20, 100)
+animUpdate(replayBG1)
+
+--Up Arrow
+replayUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(replayUpArrow, 228, 11)
+animUpdate(replayUpArrow)
+animSetScale(replayUpArrow, 0.5, 0.5)
+
+--Down Arrow
+replayDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(replayDownArrow, 228, 201.5)
+animUpdate(replayDownArrow)
+animSetScale(replayDownArrow, 0.5, 0.5)
+
+--Replay Title Transparent background
+replayMenuBG = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(replayMenuBG, 0, 5)
+animSetAlpha(replayMenuBG, 20, 100)
+animUpdate(replayMenuBG)
+
+--Replay Option background
+replayMenuBG2 = animNew(sysSff, [[
+250,0, 0,0,
+]])
+animSetPos(replayMenuBG2, -13, 77)
+animUpdate(replayMenuBG2)
+animSetScale(replayMenuBG2, 0.9, 0.9)
+
+--Replay Option Input Hints Panel
+function drawReplayInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+--;===========================================================
+--; GALLERY MENU SCREENPACK
+--;===========================================================
+--Left Page Arrow
+arrowsGL = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsGL, 264, 5.5)
+animUpdate(arrowsGL)
+animSetScale(arrowsGL, 0.5, 0.5)
+
+--Right Page Arrow
+arrowsGR = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsGR, 312, 5.5)
+animUpdate(arrowsGR)
+animSetScale(arrowsGR, 0.5, 0.5)
+
+--Input Hints BG
+gInputsBG = animNew(sysSff, [[
+230,3, 0,0, -1
+]])
+animSetScale(gInputsBG, 2.9, 0.75)
+animSetAlpha(gInputsBG, 155, 22)
+
+--Gallery Input Hints Panel
+function drawGalleryInputHints()
+	local inputHintYPos = 197
+	local inputHintYPos2 = 219
+	local hintFont = font2
+	local hintFontYPos = 211
+	local hintFontYPos2 = 233
+	animPosDraw(gInputsBG, -56, 195) --Draw Input Hints BG
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"e","108,"..inputHintYPos,"b","165,"..inputHintYPos,"c","229,"..inputHintYPos,"s","277,"..inputHintYPos,"q","0,"..inputHintYPos2,"w","80,"..inputHintYPos2,"y","174,"..inputHintYPos2,"z","247,"..inputHintYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Move", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 129, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Previous", 186, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Next", 250, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 298, hintFontYPos)
+	--
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 21, hintFontYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Reset Position", 101, hintFontYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Zoom Out", 195, hintFontYPos2)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Zoom In", 268, hintFontYPos2)
+end
+
+--;===========================================================
+--; SOUND TEST MENU SCREENPACK
+--;===========================================================
+txt_song = createTextImg(jgFnt, 0, 0, "", 159, 13)
+
+--Scrolling background
+songBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(songBG0, 160, 0)
+animSetTile(songBG0, 1, 1)
+animSetColorKey(songBG0, -1)
+
+--Transparent background
+songBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(songBG1, 20, 20)
+animSetAlpha(songBG1, 20, 100)
+animUpdate(songBG1)
+
+--Up Arrow
+songUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(songUpArrow, 228, 11)
+animUpdate(songUpArrow)
+animSetScale(songUpArrow, 0.5, 0.5)
+
+--Down Page Arrow
+songDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(songDownArrow, 228, 201.5)
+animUpdate(songDownArrow)
+animSetScale(songDownArrow, 0.5, 0.5)
+
+--Left Page Arrow
+songLeftArrow = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(songLeftArrow, 69, 21)
+animUpdate(songLeftArrow)
+animSetScale(songLeftArrow, 0.5, 0.5)
+
+--Right Page Arrow
+songRightArrow = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(songRightArrow, 242, 21)
+animUpdate(songRightArrow)
+animSetScale(songRightArrow, 0.5, 0.5)
+
+--Input Hints Panel
+function drawSoundTestInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Play", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--;===========================================================
+--; CONFIRM SONG MESSAGE SCREENPACK
+--;===========================================================
+txt_confirmSong = createTextImg(jgFnt, 0, 0, "USE THIS SONG?", 160, 108, 0.63, 0.63)
+
+--Confirm Window BG
+confirmSongWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(confirmSongWindowBG, 83.5, 97)
+animUpdate(confirmSongWindowBG)
+animSetScale(confirmSongWindowBG, 1, 1)
+
+t_confirmSongMenu = {
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
+}
+
+--;===========================================================
+--; CUTSCENES MENU SCREENPACK
+--;===========================================================
+txt_video = createTextImg(jgFnt, 0, 0, "CUTSCENE SELECT", 159, 13)
+
+--Scrolling background
+videoBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(videoBG0, 160, 0)
+animSetTile(videoBG0, 1, 1)
+animSetColorKey(videoBG0, -1)
+
+--Transparent background
+videoBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(videoBG1, 20, 20)
+animSetAlpha(videoBG1, 20, 100)
+animUpdate(videoBG1)
+
+--Up Arrow
+videoUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(videoUpArrow, 228, 11)
+animUpdate(videoUpArrow)
+animSetScale(videoUpArrow, 0.5, 0.5)
+
+--Down Arrow
+videoDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(videoDownArrow, 228, 201.5)
+animUpdate(videoDownArrow)
+animSetScale(videoDownArrow, 0.5, 0.5)
+
+--;===========================================================
+--; STORYBOARDS MENU SCREENPACK
+--;===========================================================
+txt_storyboard = createTextImg(jgFnt, 0, 0, "STORYBOARD SELECT", 159, 13)
+
+--Scrolling background
+storyboardBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(storyboardBG0, 160, 0)
+animSetTile(storyboardBG0, 1, 1)
+animSetColorKey(storyboardBG0, -1)
+
+--Transparent background
+storyboardBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(storyboardBG1, 20, 20)
+animSetAlpha(storyboardBG1, 20, 100)
+animUpdate(storyboardBG1)
+
+--Up Arrow
+storyboardUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(storyboardUpArrow, 228, 11)
+animUpdate(storyboardUpArrow)
+animSetScale(storyboardUpArrow, 0.5, 0.5)
+
+--Down Arrow
+storyboardDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(storyboardDownArrow, 228, 201.5)
+animUpdate(storyboardDownArrow)
+animSetScale(storyboardDownArrow, 0.5, 0.5)
+
+--;===========================================================
+--; ONLINE MENU SCREENPACK
+--;===========================================================
+t_mainNetplay = {
+	{id = textImgNew(), text = "HOST [CREATE ROOM]"},
+	{id = textImgNew(), text = "CLIENT [JOIN A ROOM]"},
+}
+
+--;===========================================================
+--; ONLINE ROOM SCREENPACK
+--;===========================================================
+txt_hostTitle = createTextImg(jgFnt, 5, 0, "ONLINE ROOM CREATED", 159, 13)
+txt_client = createTextImg(jgFnt, 0, 0, "Enter Host\'s IPv4", 159, 111)
+txt_clientName = createTextImg(jgFnt, 0, 0, "Enter Host\'s Nickname", 159, 110, 0.9, 0.9)
+txt_bar = createTextImg(opFnt, 0, 0, "|", 160, 133, 0.65, 0.65)
+txt_ip = createTextImg(font14, 0, 0, "", 160, 132)
+txt_netPort = createTextImg(jgFnt, 0, 0, "", 159, 72, 0.9, 0.9)
+txt_hosting = createTextImg(jgFnt, 0, 0, "", 159, 228)
+txt_connecting = createTextImg(jgFnt, 5, 0, "", 159, 228)
+txt_cancel = createTextImg(jgFnt, 1, 0, "CANCEL(ESC)", 161, 165)
+
+--Scrolling background
+onlineBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(onlineBG0, 160, 0)
+animSetTile(onlineBG0, 1, 1)
+animSetColorKey(onlineBG0, -1)
+
+--Transparent background
+--onlineBG1 = animNew(sysSff, [[
+--3,0, 0,0, -1
+--]])
+--animSetPos(onlineBG1, 20, 20)
+--animSetAlpha(onlineBG1, 20, 100)
+--animUpdate(onlineBG1)
+
+--Up Arrow
+--onlineUpArrow = animNew(sysSff, [[
+--225,0, 0,0, 10
+--225,1, 0,0, 10
+--225,2, 0,0, 10
+--225,3, 0,0, 10
+--225,3, 0,0, 10
+--225,2, 0,0, 10
+--225,1, 0,0, 10
+--225,0, 0,0, 10
+--]])
+--animAddPos(onlineUpArrow, 228, 11)
+--animUpdate(onlineUpArrow)
+--animSetScale(onlineUpArrow, 0.5, 0.5)
+
+--Down Arrow
+--onlineDownArrow = animNew(sysSff, [[
+--226,0, 0,0, 10
+--226,1, 0,0, 10
+--226,2, 0,0, 10
+--226,3, 0,0, 10
+--226,3, 0,0, 10
+--226,2, 0,0, 10
+--226,1, 0,0, 10
+--226,0, 0,0, 10
+--]])
+--animAddPos(onlineDownArrow, 228, 231)
+--animUpdate(onlineDownArrow)
+--animSetScale(onlineDownArrow, 0.5, 0.5)
+
+--IP Window BG
+textWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(textWindowBG, 83.5, 97)
+animUpdate(textWindowBG)
+animSetScale(textWindowBG, 1, 1)
+
+--Connecting Window BG
+joinWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(joinWindowBG, 83.5, 54)
+animUpdate(joinWindowBG)
+animSetScale(joinWindowBG, 1, 2)
+
+--Connecting Icon
+wirelessBG = animNew(sysSff, [[
+400,0, 0,0, 18
+400,1, 0,0, 18
+400,2, 0,0, 18
+400,3, 0,0, 18
+400,4, 0,0, 18
+400,5, 0,0, 18
+400,6, 0,0, 18
+]])
+animAddPos(wirelessBG, 125, 87.5)
+animUpdate(wirelessBG)
+animSetScale(wirelessBG, 0.25, 0.25)
+
+--;===========================================================
+--; LOBBY MENU SCREENPACK
+--;===========================================================
+t_mainLobby = {
+	{id = textImgNew(), text = ""},
+	{id = textImgNew(), text = "PRACTICE"},
+	{id = textImgNew(), text = "ARCADE"},
+	{id = textImgNew(), text = "TOWER"},
+	{id = textImgNew(), text = "SURVIVAL"},
+	{id = textImgNew(), text = "ENDLESS"},
+	{id = textImgNew(), text = "BOSS RUSH"},
+	{id = textImgNew(), text = "BONUS RUSH"},
+	{id = textImgNew(), text = "SUDDEN DEATH"},
+	--{id = textImgNew(), text = "TIME ATTACK"},
+	--{id = textImgNew(), text = "SCORE ATTACK"},
+	{id = textImgNew(), text = "ONLINE SETTINGS"},
+}
+
+--;===========================================================
+--; THE VAULT SCREENPACK
+--;===========================================================
+txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
+txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
+txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
+
+--Background
+vaultBG0 = animNew(sysSff, [[
+2000,1, 0,0,
+]])
+animSetPos(vaultBG0, 160, 119)
+animUpdate(vaultBG0)
+animSetScale(vaultBG0, 0.30, 0.305)
+
+--Text Window BG
+vaultWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(vaultWindowBG, 20, 100)
+animSetAlpha(vaultWindowBG, 20, 100)
+animUpdate(vaultWindowBG)
+
+--;===========================================================
+--; SIDE SELECT SCREENPACK
+--;===========================================================
+txt_sideTitle = createTextImg(font14, 0, 0, "SIDE SELECT", 157, 8, 0.9, 0.9)
+txt_sideWarning = createTextImg(font6, 0, 0, "THE SIDE SELECTED IS NOT ALLOWED FOR THIS GAME MODE", 157, 70, 0.75, 0.75)
+
+--Gamepad Icon
+gamepadIcon = animNew(sysSff, [[20,0, 0,0,]])
+
+--Lifebars Image
+lifebarsImg = animNew(sysSff, [[21,0, 0,0,]])
+
+--Left Arrows
+L_arrow = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+
+--Right Arrows
+R_arrow = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+
+--;===========================================================
+--; HERE COMES A NEW CHALLENGER SCREENPACK
+--;===========================================================
+--Challenger Transparent BG
+challengerWindow = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(challengerWindow, 160, 0)
+animSetTile(challengerWindow, 1, 1)
+animSetWindow(challengerWindow, -54, 67, 428, 100)
+
+--Challenger Text
+challengerText = animNew(sysSff, [[
+500,0, 0,0, 5
+500,1, 0,0, 5
+500,2, 0,0, 5
+500,3, 0,0, 5
+500,4, 0,0, 5
+500,5, 0,0, 5
+500,6, 0,0, 5
+500,7, 0,0, 5
+500,8, 0,0, 5
+500,9, 0,0, 5
+]])
+animAddPos(challengerText, 19, 100)
+animUpdate(challengerText)
+
+--;===========================================================
+--; INTERMISSION SCREENPACK
+--;===========================================================
+--Intermission Scrolling background
+intermissionBG0 = animNew(sysSff, [[
+101,0, 0,0, -1
+]])
+animAddPos(intermissionBG0, 160, 0)
+animSetTile(intermissionBG0, 1, 1)
+animSetColorKey(intermissionBG0, -1)
+
+--Intermission Scrolling background 2
+intermissionBG1 = animNew(towerSff, [[
+0,0, 0,0, -1
+]])
+animAddPos(intermissionBG1, 160, 0)
+animSetTile(intermissionBG1, 1, 1)
+animSetColorKey(intermissionBG1, -1)
+animSetAlpha(intermissionBG1, 150, 0)
+
+--Intermission Scrolling background 2
+intermissionBG2 = animNew(sysSff, [[
+230,3, 0,0, -1
+]])
+animAddPos(intermissionBG2, -55, 47)
+animSetScale(intermissionBG2, 2.849, 2.31)
+animUpdate(intermissionBG2)
+
+--Intermission Transparent Up BG
+intermissionWindowSlideU = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(intermissionWindowSlideU, 160, 0)
+animSetTile(intermissionWindowSlideU, 1, 1)
+animSetWindow(intermissionWindowSlideU, -54, 28, 428, 20)
+
+--Intermission Transparent Down BG
+intermissionWindowSlideD = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(intermissionWindowSlideD, 160, 0)
+animSetTile(intermissionWindowSlideD, 1, 1)
+animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
+
+txt_intermissionBox = [[
+
+CHALLENGER 
+APPROACHING!
+
+]]
+
+--;===========================================================
+--; F1 INFOBOX MESSAGE SCREENPACK
 --;===========================================================
 infoboxCfg = createTextImg(font1, 0, 1, "", 0, 0)
 txt_infobox = [[
@@ -688,4 +1539,54 @@ This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
 * Your help and cooperation are appreciated!
 * Ikemen GO engine is the lastest and supported version by original developers.
 * Original repo source code: https://osdn.net/users/supersuehiro/
- ]]
+]]
+
+--;===========================================================
+--; INFO MESSAGE SCREENPACK
+--;===========================================================
+txt_infoTitle = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
+txt_ok = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
+
+--Info Window BG
+infoWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(infoWindowBG, 83.5, 97)
+animUpdate(infoWindowBG)
+animSetScale(infoWindowBG, 1, 1)
+
+--;===========================================================
+--; CONFIRM MENU SCREENPACK
+--;===========================================================
+txt_confirmQuestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
+
+--Confirm Window BG
+confirmWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(confirmWindowBG, 83.5, 97)
+animUpdate(confirmWindowBG)
+animSetScale(confirmWindowBG, 1, 1)
+
+t_confirmMenu = {
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
+}
+
+--;===========================================================
+--; CLOSE/RESTART MESSAGE SCREENPACK
+--;===========================================================
+txt_question = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
+
+--Exit Window BG
+exitWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(exitWindowBG, 83.5, 97)
+animUpdate(exitWindowBG)
+animSetScale(exitWindowBG, 1, 1)
+
+t_closeMenu = {
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
+}
