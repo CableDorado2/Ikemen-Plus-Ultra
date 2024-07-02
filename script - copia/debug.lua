@@ -1,8 +1,7 @@
 --;===========================================================
 --; MATCH ACCESS FUNCTIONS
 --;===========================================================
-assert(loadfile("script/common.lua"))() --For load options data like screenshot sfx, data_sav
---assert(loadfile("script/screenpack.lua"))() --For load screenpack assets
+assert(loadfile("script/common.lua"))() --For load options data like screenshot sfx, data_sav and Menu assets
 require("script.pause")
 
 if data.debugMode == true then

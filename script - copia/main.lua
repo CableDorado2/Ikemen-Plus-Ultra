@@ -9,9 +9,8 @@ setDebugScript("script/debug.lua")
 
 --Load Common stuff (shared with pause.lua)
 require("script.common")
---require("script.screenpack")
 
---Assign Lifebar Screenpack
+--Assign Lifebar
 loadLifebar(data.lifebar) --path to lifebar stored in "save/data_sav.lua", also adjustable from options
 
 --;===========================================================
@@ -145,6 +144,318 @@ function f_progress()
 	txt_gameStatus = createTextImg(font14, 0, 0, gameData.."%/100%", 157, 8)
 	textImgDraw(txt_gameStatus)
 end
+
+--;===========================================================
+--; DRAW REFERENCES
+--;===========================================================
+
+--animName = animNew(sysSff, [[ 
+--grpNo, indexNo, x, y, time, facing, trans
+--]])
+
+--[[
+
+Description: Assigns new animation to animName variable of your choice.
+
+Required parameters:
+grpNo: SFF sprite's group number
+indexNo: SFF sprite's image number
+x: X offset to the sprite's position;
+y: Y offset to the sprite's position
+time: length of time to display the element before moving onto the next, measured in game-ticks (-1 for static)
+
+Optional parameters:
+facing: H = Flip horizontally; V = Flip vertically
+trans: transparency blending a = add; a1 = add1; s = sub; AS???D??? (??? - values of the source and destination alpha)
+
+]]
+
+--[[
+
+animAddPos(animName, addX, addY)
+Description: Dynamically assigns x- and y-velocities movement in direction depending on the value.
+
+animSetPos(animName, setX, setY)
+Description: Changes x- and y-position.
+
+animSetScale(animName, scaleX, scaleY)
+Description: scaleX: horizontal scale factor; scaleY: vertical scale factor.
+
+animSetWindow(animName, x1, y1, x2, y2)
+Description: Limits animation to window starting at x1, y1 coordinates; x2, y2 enlarges window by specified amount of pixels moving right and down from the x1, y1.
+
+animSetTile(animName, hTiling, vTiling)
+Description: Specifies if the background element should be repeated (tiled) in the horizontal and/or vertical directions, respectively.
+0 = no tiling; 1 = infinite tiling; any value greater than 1 = element to tile that number of times.
+
+animSetAlpha(animName, transRange1, transRange2)
+Description: Assigns alpha channel to element. Ranges: 0-255.
+
+animSetColorKey(animName, colorKey)
+Description: Sets background color from palette (0-255), -1 if background shouldn't be removed. 0 by default.
+
+animUpdate(animName)
+Description: Updates previously specified animation by 1 tick.
+
+animDraw(animName)
+Description: Draw element on screen [Refresh() function resets the screen, so this one often needs to be used at each frame, even if the element is static].
+
+]]
+
+--;===========================================================
+--; MAIN MENU SCREENPACK
+--;===========================================================
+--Buttons Background
+titleBG0 = animNew(sysSff, [[
+5,1, 0,125, -1
+]])
+animAddPos(titleBG0, 160, 0)
+animSetTile(titleBG0, 1, 1)
+animSetWindow(titleBG0, 0, 125, 320, 78)
+--[[parallax is not supported yet
+type  = parallax
+width = 400, 1200
+yscalestart = 100
+yscaledelta = 1
+]]
+
+--Buttons Background (fade)
+titleBG1 = animNew(sysSff, [[
+5,2, -160,125, -1, 0, s
+]])
+animAddPos(titleBG1, 160, 0)
+animUpdate(titleBG1)
+
+--Background Top
+titleBG2 = animNew(sysSff, [[
+5,0, 0,10, -1
+]])
+animAddPos(titleBG2, 160, 0)
+animSetTile(titleBG2, 1, 2)
+animSetWindow(titleBG2, -54, 0, 428, 118)
+
+--Logo
+titleBG3 = animNew(sysSff, [[
+0,0, 0,20, -1, 0, a
+]])
+animAddPos(titleBG3, 160, 0)
+animUpdate(titleBG3)
+
+--Background Middle (black text cover)
+titleBG4 = animNew(sysSff, [[
+5,1, 0,125, -1
+]])
+animAddPos(titleBG4, 160, 0)
+animSetTile(titleBG4, 1, 1)
+animSetWindow(titleBG4, 0, 118, 320, 7)
+animSetAlpha(titleBG4, 0, 0)
+animUpdate(titleBG4)
+
+--Background Bottom (black text cover)
+titleBG5 = animNew(sysSff, [[
+5,1, 0,125, -1
+]])
+animAddPos(titleBG5, 160, 0)
+animSetTile(titleBG5, 1, 1)
+animSetWindow(titleBG5, 0, 203, 320, 40)
+animSetAlpha(titleBG5, 0, 0)
+animUpdate(titleBG5)
+
+--Background Footer
+titleBG6 = animNew(sysSff, [[
+300,0, 0,233, -1
+]])
+animAddPos(titleBG6, 160, 0)
+animSetTile(titleBG6, 1, 0)
+animUpdate(titleBG6)
+
+--Cursor Box
+cursorBox = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(cursorBox, 1, 1)
+
+--Optimized Cursor Box
+--cursorBox = animNew(sysSff, [[
+--3,1, 0,0, -1
+--]])
+--animSetPos(cursorBox, 80, 20)
+--animSetAlpha(cursorBox, 20, 100)
+--animUpdate(cursorBox)
+
+--Message Fade BG
+fadeWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1, 0, AS256D102
+]])
+animSetPos(fadeWindowBG, -54, 0)
+animSetScale(fadeWindowBG, 427, 240)
+animUpdate(fadeWindowBG)
+
+--Up Menu Arrow
+arrowsU = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(arrowsU, 153.5, 116)
+animUpdate(arrowsU)
+animSetScale(arrowsU, 0.5, 0.5)
+
+--Down Menu Arrow
+arrowsD = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(arrowsD, 153.5, 204)
+animUpdate(arrowsD)
+animSetScale(arrowsD, 0.5, 0.5)
+
+--;===========================================================
+--; SCREENPACK ORDER DEFINITION
+--;===========================================================
+function drawBottomMenuSP() --Below Menu Fonts
+	animDraw(f_animVelocity(titleBG0, -2.15, 0))
+end
+
+txt_subTitle = createTextImg(font3, 0, 0, "", 159, 100) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+function f_titleText()
+	if data.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
+	elseif data.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
+	elseif data.vault == "SSZ" then textImgSetText(txt_subTitle, "SSZ")
+	end
+	textImgDraw(txt_subTitle)
+end
+
+function drawMiddleMenuSP() --After Cursor Box
+	--assert(loadfile("script/screenpack.lua"))() --Edit Screenpack in Real Time
+	animDraw(titleBG1)
+	animAddPos(titleBG2, -1, 0)
+	animUpdate(titleBG2)
+	animDraw(titleBG2)
+	animDraw(titleBG3)
+	animDraw(titleBG4)
+	animDraw(titleBG5)
+	animDraw(titleBG6)
+	f_titleText()
+end
+
+function drawTopMenuSP()
+	
+end
+
+function drawInfoInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("w","70,"..inputHintYPos,"q","190,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
+end
+
+function drawAttractInputHints()
+	local inputHintYPos = 217
+	local hintFont = font2
+	local hintFontYPos = 231
+	drawInputHintsP1("w","5,"..inputHintYPos,"s","90,"..inputHintYPos,"e","160,"..inputHintYPos,"q","230,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Add Coin", 26, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 181, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 251, hintFontYPos)
+end
+
+function drawTitleInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("w","50,"..inputHintYPos,"e","120,"..inputHintYPos,"q","190,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 71, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
+end
+
+function drawMenuInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+function drawSideInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+function drawListInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+function drawConfirmInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+--;===========================================================
+--; F1 INFOBOX MESSAGE
+--;===========================================================
+infoboxCfg = createTextImg(font1, 0, 1, "", 0, 0)
+txt_infobox = [[
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
+
+* This is a public development release, for testing purposes.
+* This build may contain bugs and incomplete features.
+* Your help and cooperation are appreciated!
+* Ikemen GO engine is the lastest and supported version by original developers.
+* Original repo source code: https://osdn.net/users/supersuehiro/
+ ]]
 
 function f_infoboxMenu()
 	cmdInput()
