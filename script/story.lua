@@ -711,7 +711,7 @@ end
 --KIDNAPPING
 function f_arc1_chapter1()
 	--Part 1
-	script.visualnovel.f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in visualnovel.lua script
+	f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in visualnovel.lua script
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -733,7 +733,7 @@ function f_arc1_chapter1()
 		setPauseVar("giveup")
 		f_selectStory() --Start Fight with previous settings
 		--Part 2
-		script.visualnovel.f_vnScene(kfmVN,1,16)
+		f_vnScene(kfmVN,1,16)
 		if not data.VNbreak then
 			f_default() --Reset settings for the custom fight
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -771,7 +771,7 @@ end
 
 --KILLER MIRROR
 function f_arc1_chapter2()
-	script.visualnovel.f_vnScene(kfmVN,2,kfmVNtxtStart)
+	f_vnScene(kfmVN,2,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -808,7 +808,7 @@ end
 
 --THE ROOF OF TRUTH
 function f_arc1_chapter3_1()
-	script.visualnovel.f_vnScene(kfmVN,3,kfmVNtxtStart)
+	f_vnScene(kfmVN,3,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -845,7 +845,7 @@ end
 
 --BROKEN SPIRIT
 function f_arc1_chapter3_2()
-	script.visualnovel.f_vnScene(kfmVN,4,kfmVNtxtStart)
+	f_vnScene(kfmVN,4,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -886,7 +886,7 @@ end
 
 --FINAL DESTINATION
 function f_arc1_chapter4_1()
-	script.visualnovel.f_vnScene(kfmVN,5,kfmVNtxtStart)
+	f_vnScene(kfmVN,5,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -916,7 +916,7 @@ end
 
 --FAKE WORLD
 function f_arc1_chapter4_2()
-	script.visualnovel.f_vnScene(kfmVN,6,kfmVNtxtStart)
+	f_vnScene(kfmVN,6,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -931,7 +931,7 @@ end
 
 --ZERO HOUR
 function f_arc1_chapter4_3()
-	script.visualnovel.f_vnScene(kfmVN,7,kfmVNtxtStart)
+	f_vnScene(kfmVN,7,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -946,7 +946,7 @@ end
 
 --THE FALL OF A LEGEND
 function f_arc1_chapter4_4()
-	script.visualnovel.f_vnScene(kfmVN,8,kfmVNtxtStart)
+	f_vnScene(kfmVN,8,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

@@ -29,6 +29,7 @@ P2overP1 = false
 secretTarget = ""
 unlockTarget = ""
 vnNoSel = true
+vnAddOneTime = true
 --Default turns/simul count after starting the game
 p1numTurns = 2
 p2numTurns = 2
@@ -55,7 +56,6 @@ assert(loadfile("script/loader.lua"))()
 assert(loadfile("script/vn_resources.lua"))()
 require("script.options")
 require("script.story")
-require("script.visualnovel")
 
 --;===========================================================
 --; GAME START
@@ -323,13 +323,13 @@ function f_mainMenu()
 							vnSelect = 1
 						end
 						if vnSelect == #t_selVN and vnNoSel then --1 story detected in select.def so don't show select menu
-							script.visualnovel.f_vnMain(t_selVN[1].path) --Start Unique Visual Novel
+							f_vnMain(t_selVN[1].path) --Start Unique Visual Novel
 							--When End
 							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 							f_menuMusic()
 						else
 							vnNoSel = false --More than 1 stories detected in select.def
-							script.visualnovel.f_vnMenu() --Start Visual Novel Select
+							f_vnMenu() --Start Visual Novel Select
 						end
 					--LOAD GAME (continue the story from where you left off)
 					elseif mainMenu == 2 then
@@ -340,7 +340,7 @@ function f_mainMenu()
 							infoScreen = true
 						else --Load Data
 							playBGM("")
-							script.visualnovel.f_vnMain(data.VNarc, data.VNchapter, data.VNdialogue)
+							f_vnMain(data.VNarc, data.VNchapter, data.VNdialogue)
 							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 							f_menuMusic()
 						end
@@ -3463,7 +3463,7 @@ function f_extrasMenu()
 				--VISUAL NOVEL MODE (watch a customizable narrative and interactive storytelling)
 				elseif extrasMenu == 5 then
 					if #t_selVN ~= 0 then
-						script.visualnovel.f_vnMenu()
+						f_vnMenu()
 					else
 						vnInfo = true
 						infoScreen = true
@@ -4058,6 +4058,125 @@ function f_tourneyMenu()
 			animUpdate(arrowsD)
 		end
 		drawMenuInputHints()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; VISUAL NOVEL SELECT MENU
+--;===========================================================
+function f_vnMenu()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local vnMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 12
+	if vnAddOneTime then
+		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
+		vnAddOneTime = false
+	end
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	cmdInput()
+	while true do
+		--Select Menu Actions
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			vnMenu = vnMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			vnMenu = vnMenu + 1
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			--Back Button
+			if vnMenu == #t_selVN then
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 2)
+				break
+			--Start Visual Novel Selected
+			else
+				f_vnMain(t_selVN[vnMenu].path)
+			--When Ends
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+				f_menuMusic()
+			end
+		end
+		--Menu Scroll Logic
+		if vnMenu < 1 then
+			vnMenu = #t_selVN
+			if #t_selVN > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_selVN
+			end
+		elseif vnMenu > #t_selVN then
+			vnMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveTxt = (vnMenu - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (vnMenu - 1) * 15
+		end	
+		if #t_selVN <= maxItems then
+			maxVN = #t_selVN
+		elseif vnMenu - cursorPosY > 0 then
+			maxVN = vnMenu + maxItems - cursorPosY
+		else
+			maxVN = maxItems
+		end
+		--Draw Menu Assets
+		animDraw(f_animVelocity(novelBG0, -1, -1))
+		animSetScale(novelBG1, 220, maxVN*15)
+		animSetWindow(novelBG1, 80,20, 160,180)
+		animDraw(novelBG1)
+		textImgDraw(txt_vnSelect)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))		
+		for i=1, maxVN do
+			if t_selVN[i].displayname:len() > 28 then
+				visualnovelSelText = string.sub(t_selVN[i].displayname, 1, 24)
+				visualnovelSelText = tostring(visualnovelSelText .. "...")
+			else
+				visualnovelSelText = t_selVN[i].displayname
+			end
+			if i > vnMenu - cursorPosY then
+				t_selVN[i].name = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_selVN[i].name)
+			end
+		end
+		if maxVN > maxItems then
+			animDraw(novelUpArrow)
+			animUpdate(novelUpArrow)
+		end
+		if #t_selVN > maxItems and maxVN < #t_selVN then
+			animDraw(novelDownArrow)
+			animUpdate(novelDownArrow)
+		end
+		drawListInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then

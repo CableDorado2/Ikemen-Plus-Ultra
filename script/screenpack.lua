@@ -1081,6 +1081,147 @@ t_tourneyMenu = {
 }
 
 --;===========================================================
+--; VISUAL NOVEL MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
+
+--Scrolling background
+novelBG0 = animNew(sprSys, [[
+100,0, 0,0, -1
+]])
+animAddPos(novelBG0, 160, 0)
+animSetTile(novelBG0, 1, 1)
+animSetColorKey(novelBG0, -1)
+
+--Transparent background
+novelBG1 = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(novelBG1, 20, 20)
+animSetAlpha(novelBG1, 20, 100)
+animUpdate(novelBG1)
+
+--Up Arrow
+novelUpArrow = animNew(sprSys, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(novelUpArrow, 228, 11)
+animUpdate(novelUpArrow)
+animSetScale(novelUpArrow, 0.5, 0.5)
+
+--Down Arrow
+novelDownArrow = animNew(sprSys, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(novelDownArrow, 228, 201.5)
+animUpdate(novelDownArrow)
+animSetScale(novelDownArrow, 0.5, 0.5)
+
+--;===========================================================
+--; VISUAL NOVEL PAUSE MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
+txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED!", 159, 235)
+
+t_vnPauseMenu = {
+	{varID = textImgNew(), text = "Text Speed", 			 varText = ""},
+	{varID = textImgNew(), text = "Text BG Transparency", 	 varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
+	{varID = textImgNew(), text = "Auto Skip Text", 		 varText = ""},
+	{varID = textImgNew(), text = "Display Character Name",  varText = ""},
+	{varID = textImgNew(), text = "Sound Settings", 		 varText = ""},
+	--{varID = textImgNew(), text = "Control Guide", 		 	 varText = ""},
+	{varID = textImgNew(), text = "Restore Settings", 		 varText = ""},
+	{varID = textImgNew(), text = "Save Progress",			 varText = ""},
+	{varID = textImgNew(), text = "Skip All Dialogues",		 varText = ""},
+	{varID = textImgNew(), text = "Back to Main Menu",		 varText = ""},
+	{varID = textImgNew(), text = "           Continue", 	 varText = ""},
+}
+
+--Pause background
+vnPauseBG = animNew(sprVN, [[100,1, 0,0, -1]])
+
+--Input Hints Panel
+function drawVNInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"s","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawVNInputHints2()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+function drawVNInputHints3()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+--;===========================================================
+--; VISUAL NOVEL AUDIO SETTINGS SCREENPACK DEFINITION
+--;===========================================================
+txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
+t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
+
+t_audioCfg = {
+	{varID = textImgNew(), text = "Master Volume",		varText = gl_vol.."%"},
+	{varID = textImgNew(), text = "SFX Volume",			varText = se_vol.."%"},
+	{varID = textImgNew(), text = "BGM Volume",			varText = bgm_vol.."%"},
+	{varID = textImgNew(), text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{varID = textImgNew(), text = "Default Values",		varText = ""},
+	{varID = textImgNew(), text = "          BACK",  	varText = ""},
+}
+
+--;===============================================================
+--; VISUAL NOVEL EXIT/DEFAULT VALUES MESSAGE SCREENPACK DEFINITION
+--;===============================================================
+txt_questionVN = createTextImg(jgFnt, 1, 0, "", 160, 110,0.8,0.8)
+
+t_questionMenuVN = {
+	{id = textImgNew(), text = ""},
+	{id = textImgNew(), text = ""},
+}
+
+--Default Window BG
+questionWindowBGVN = animNew(sprSys, [[
+230,1, 0,0,
+]])
+animSetPos(questionWindowBGVN, 61, 97)
+animUpdate(questionWindowBGVN)
+animSetScale(questionWindowBGVN, 1.3, 1)
+
+--;===========================================================
 --; WATCH MENU SCREENPACK DEFINITION
 --;===========================================================
 t_watchMenu = {

@@ -1,8 +1,6 @@
-﻿
-module(..., package.seeall)
-
+﻿module(..., package.seeall)
 --;===========================================================
---; OPTIONS SCREENPACK
+--; OPTIONS SCREENPACK DEFINITION
 --;===========================================================
 --Scrolling background
 optionsBG0 = animNew(sprSys, [[
