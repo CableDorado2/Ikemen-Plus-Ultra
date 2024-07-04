@@ -746,7 +746,7 @@ end
 
 --Default Character Select Global Values
 function f_selectGlobalDefault()
-	data.selectType = "Simple"
+	data.selectType = "Advanced"
 	data.palType = "Classic"
 	data.randomPortrait = "Simple"
 	data.randomCharRematch = "Variable"
@@ -757,24 +757,24 @@ end
 function f_selectDefault()
 	data.selectRows = 2
 	data.selectColumns = 5
-	data.offsetRows = 0
+	data.offsetRows = 1
 	data.offsetColumns = 0
 	data.wrappingX = true
 	data.wrappingY = true
 	if data.selectType == "Advanced" then
-		data.p1FaceX = 10
+		data.p1FaceX = 3
 	elseif data.selectType == "Simple" then
 		data.p1FaceX = 90
 	end
-	data.p1FaceY = 170
-	data.p2FaceX = 169
-	data.p2FaceY = 170
+	data.p1FaceY = 168
+	data.p2FaceX = 176
+	data.p2FaceY = 168
 	data.cellSizeX = 27
-	data.cellSizeY = 27
+	data.cellSizeY = 24.5
 	data.cellSpacingX = 2
 	data.cellSpacingY = 2
 	data.cellScaleX = 1
-	data.cellScaleY = 1
+	data.cellScaleY = 0.9
 	data.p1SelX = 0
 	data.p1SelY = 0
 	data.p2SelX = 4
@@ -5691,7 +5691,7 @@ function f_audioCfg()
 		t_audioCfg[5].varText = freq
 		t_audioCfg[6].varText = s_channels
 		t_audioCfg[7].varText = buffer
-		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
+		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 		setPanStr(pan_str / 100)
 		for i=1, maxAudioCfg do
 			if i > audioCfg - cursorPosY then

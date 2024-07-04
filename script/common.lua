@@ -743,6 +743,7 @@ end
 function cmdInput()
 	commandInput(p1Cmd, data.p1In)
 	commandInput(p2Cmd, data.p2In)
+	if f5Key() and data.debugMode then assert(loadfile("script/screenpack.lua"))() end --Refresh Screenpack file in Real Time
 	if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then f_screenShot() end --Take Screenshot in any menu (if you have control)
 end
 
@@ -2847,6 +2848,49 @@ end
 function f_screenShot()
 	sndPlay(sndSys, 22, 0) --sndPlay(sndSys, 22, 1)
 	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
+end
+
+function f_resetFadeBGM()
+fadeInBGMstart = 0
+fadeOutBGMstart = bgm_vol
+setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+end
+
+function f_fadeInBGM(fadeSeconds)
+	local originalVol = bgm_vol
+	local fadeStep = originalVol / (fadeSeconds * 60) --Calculate the increment for each step based on the desired fade duration
+	local timer = 0
+	if timer < fadeSeconds * 60 then
+		if fadeInBGMstart < originalVol then
+			fadeInBGMstart = fadeInBGMstart + fadeStep
+			setVolume(gl_vol / 100, se_vol / 100, fadeInBGMstart / 100)
+			timer = timer + 1
+		end
+	end
+	if data.debugMode then
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, originalVol, 109, 28)
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, fadeInBGMstart, 109, 48)
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, fadeStep, 109, 68)
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, fadeSeconds, 109, 88)
+	end
+end
+
+function f_fadeOutBGM(fadeSeconds)
+	local originalVol = bgm_vol
+	local fadeStep = originalVol / (fadeSeconds * 60) --Calculate the increment for each step based on the desired fade duration
+	local timer = 0
+	if timer < fadeSeconds * 60 then
+		if fadeOutBGMstart > 0 then
+			fadeOutBGMstart = fadeOutBGMstart - fadeStep
+			setVolume(gl_vol / 100, se_vol / 100, fadeOutBGMstart / 100)
+			timer = timer + 1
+		end
+	end
+	if data.debugMode then
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, fadeOutBGMstart, 109, 48)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, fadeStep, 109, 68)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, fadeSeconds, 109, 88)
+	end
 end
 
 --Select Main Menu Song

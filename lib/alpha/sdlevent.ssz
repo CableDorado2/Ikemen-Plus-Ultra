@@ -19,7 +19,7 @@ returnKey = false, backspaceKey = false, spaceKey = false, lshiftKey = false, rs
 kdivideKey = false, kmultiplyKey = false, kminusKey = false, kplusKey = false, kenterKey = false, kperiodKey = false, 
 minusKey = false, equalsKey = false, leftbracketKey = false, rightbracketKey = false, backslashKey = false, 
 semicolonKey = false, commaKey = false, periodKey = false, slashKey = false, 
-f1Key = false, f2Key = false, f3Key = false, f4Key = false, 
+f1Key = false, f2Key = false, f3Key = false, f4Key = false, f5Key = false, 
 f9Key = false, f10Key = false, f11Key = false, f12Key = false, printscreenKey = false, 
 insertKey = false, homeKey = false, pageupKey = false, deleteKey = false, endKey = false, pagedownKey = false, 
 nonushashKey = false, apostropheKey = false, graveKey = false, 
@@ -368,6 +368,10 @@ public bool eventUpdate()
           .f4Key = true;
         }
 		switch(.sdle.key.keysym.sym){
+        case .sdl.K::F5:
+          .f5Key = true;
+        }
+		switch(.sdle.key.keysym.sym){
         case .sdl.K::F9:
           .f9Key = true;
         }
@@ -565,6 +569,7 @@ public bool event(int fps)
   .f2Key = false;
   .f3Key = false;
   .f4Key = false;
+  .f5Key = false;
   .f9Key = false;
   .f10Key = false;
   .f11Key = false;

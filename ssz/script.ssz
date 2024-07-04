@@ -894,6 +894,12 @@ void f4Key(&.lua.State L=, int re=)
   L.pushBoolean(.se.f4Key);
 }
 
+void f5Key(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.f5Key);
+}
+
 void f9Key(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1234,6 +1240,7 @@ public void init(&.lua.State L=)
   L.register("f2Key", .f2Key);
   L.register("f3Key", .f3Key);
   L.register("f4Key", .f4Key);
+  L.register("f5Key", .f5Key);
   L.register("f9Key", .f9Key);
   L.register("f10Key", .f10Key);
   L.register("f11Key", .f11Key);

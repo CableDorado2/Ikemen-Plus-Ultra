@@ -141,9 +141,9 @@ function f_mainTitle()
 	cmdInput()
 	local i = 0
 	local t = 0
+	f_resetFadeBGM()
 	playBGM(bgmTitle)
 	while true do
-		--assert(loadfile("script/screenpack.lua"))() --Edit Screenpack in Real Time
 		if i == 500 then
 			i = 0
 			--if data.engineMode == "FG" then demoModeCfg() end
@@ -214,7 +214,7 @@ function f_mainMenu()
 	f_menuMusic()
 	f_infoReset()
 	f_infoboxReset()
-	--fadeInBGM(50)
+	f_resetFadeBGM()
 	while true do
 		if not infoScreen and not infoboxScreen then
 			--First Run Msg
@@ -5144,7 +5144,6 @@ end
 --; SOUND TEST MENU
 --;===========================================================
 function f_songMenu()
-	playBGM(bgmNothing)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	cmdInput()
 	f_confirmSongReset()
@@ -5169,6 +5168,7 @@ function f_songMenu()
 			sndPlay(sndSys, 100, 2)
 			backSongConfirm = false
 			soundTest = false
+			f_resetFadeBGM()
 			break
 		end
 		if not confirmSong then
@@ -5340,6 +5340,7 @@ function f_songMenu()
 			bufr = 0
 			bufl = 0
 		end
+		if selectedSong == nil then	f_fadeOutBGM(1) else f_resetFadeBGM() end
 		cmdInput()
 		refresh()
 	end
