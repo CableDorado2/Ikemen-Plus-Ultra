@@ -1,9 +1,10 @@
-
 module(..., package.seeall)
-
 --;===========================================================
 --; STORY SCREENPACK
 --;===========================================================
+txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 11)
+txt_storyProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
+
 --Scrolling background
 storyBG0 = animNew(sprSys, [[
 100,0, 0,0, -1
@@ -280,8 +281,7 @@ function f_storyMenu()
 --Story Mode Progress Logic
 	data.storiesProgress = story1Data + story2Data + story3Data
 	storyData = (math.floor((data.storiesProgress / 3) + 0.5)) --The number (3) is the amount of all data.storiesProgress
-	txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 11)
-	txt_storyProgress = createTextImg(jgFnt, 2, 1, "["..storyData.."%]", 193.5, 11) --needs to be inside of story Menu function, to load story data %
+	textImgSetText(txt_storyProgress, "["..storyData.."%]")
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()

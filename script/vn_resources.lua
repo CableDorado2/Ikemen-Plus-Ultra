@@ -97,44 +97,6 @@ vnRain = animNew(sprVN, [[
 animAddPos(vnRain, -50, 0)
 animUpdate(vnRain)
 
---Text background
-vnTxtBG = animNew(sprVN, [[
-100,0, 0,0, -1
-]])
-animAddPos(vnTxtBG, -8, 177.5)
-animSetScale(vnTxtBG, 2.21, 1)
-animUpdate(vnTxtBG)
-
---Next Text Arrow (Right)
-vnNextR = animNew(sprVN, [[
-101,0, 0,0, 10
-101,1, 0,0, 10
-101,2, 0,0, 10
-101,3, 0,0, 10
-101,3, 0,0, 10
-101,2, 0,0, 10
-101,1, 0,0, 10
-101,0, 0,0, 10
-]])
-animAddPos(vnNextR, 308, 222)
-animSetScale(vnNextR, 0.5, 0.5)
-animUpdate(vnNextR)
-
---Next Text Arrow (Down)
-vnNext = animNew(sprVN, [[
-102,0, 0,0, 10
-102,1, 0,0, 10
-102,2, 0,0, 10
-102,3, 0,0, 10
-102,3, 0,0, 10
-102,2, 0,0, 10
-102,1, 0,0, 10
-102,0, 0,0, 10
-]])
-animAddPos(vnNext, 306, 224)
-animSetScale(vnNext, 0.5, 0.5)
-animUpdate(vnNext)
-
 --Kung Fu Man 1
 vnKfm1 = animNew(sprVN, [[
 1,0, 0,0, -1
@@ -342,27 +304,3 @@ vnKfg11 = animNew(sprVN, [[
 animAddPos(vnKfg11, 110, 0)
 animSetScale(vnKfg11, 0.38, 0.38)
 animUpdate(vnKfg11)
-
---Ending 1
-vnEnd1 = animNew(sprVN, [[
-200,1, 0,0, -1
-]])
-animAddPos(vnEnd1, -54, 0)
-animSetScale(vnEnd1, 0.34, 0.34)
-animUpdate(vnEnd1)
-
---Ending 2
-vnEnd2 = animNew(sprVN, [[
-200,2, 0,0, -1
-]])
-animAddPos(vnEnd2, -54, 0)
-animSetScale(vnEnd2, 0.34, 0.34)
-animUpdate(vnEnd2)
-
---Ending 3
-vnEnd3 = animNew(sprVN, [[
-200,3, 0,0, -1
-]])
-animAddPos(vnEnd3, -54, 0)
-animSetScale(vnEnd3, 0.34, 0.34)
-animUpdate(vnEnd3)

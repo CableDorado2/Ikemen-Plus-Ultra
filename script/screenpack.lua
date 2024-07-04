@@ -379,6 +379,8 @@ txt_mainTitle = createTextImg(jgFnt, 5, 0, "-- PRESS START --", 159, 170) --Cool
 txt_version = createTextImg(font1, 0, -1, "Dev. Build", 319, 240)
 txt_f1 = createTextImg(font1, 0, 0, "Press F1 for Info", 159, 240)
 txt_titleFt = createTextImg(font5, 0, 0, "", 156, 240)
+txt_titleClock = createTextImg(font12, 0, -1, "", 0, 0)
+txt_titleDate = createTextImg(font12, 0, 1, "", 0, 0)
 
 --Buttons Background
 titleBG0 = animNew(sprSys, [[
@@ -568,6 +570,7 @@ This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
 --;===========================================================
 txt_infoTitle = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
 txt_ok = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
+txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0)
 
 --Info Window BG
 infoWindowBG = animNew(sprSys, [[
@@ -742,6 +745,9 @@ t_survivalMenu = {
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION
 --;===========================================================
+txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
+txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
+
 --Unknown Mission Preview
 missionUnknown = animNew(sprSys, [[110,4, 0,0,]])
 
@@ -933,6 +939,10 @@ t_allcharsMenu = {
 --;===========================================================
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
+txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
+txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
+txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
+
 --EVENTS IMAGES:
 
 --Unknown Event Unlocked Preview
@@ -1132,6 +1142,87 @@ animUpdate(novelDownArrow)
 animSetScale(novelDownArrow, 0.5, 0.5)
 
 --;===========================================================
+--; VISUAL NOVEL INTRO SCREENPACK DEFINITION
+--;===========================================================
+txt_VNarc = createTextImg(font20, 1, 0, "", 159, 20) --font6
+txt_VNchapter = createTextImg(font20, 2, 0, "", 159, 110)
+txt_VNchapterName = createTextImg(font20, 2, 0, "", 159, 130)
+txt_VNchapterInfo = createTextImg(font7, 0, 0, "", 159, 150)
+txt_VNchapterAuthor = createTextImg(font7, 0, 0, "", 159, 220)
+txt_VNchapterDate = createTextImg(font9, 0, 0, "", 159, 231, 0.50, 0.50)
+
+--;===========================================================
+--; VISUAL NOVEL IN-GAME HUD SCREENPACK DEFINITION
+--;===========================================================
+txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
+txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
+
+--Text background
+vnTxtBG = animNew(sprVN, [[
+100,0, 0,0, -1
+]])
+animAddPos(vnTxtBG, -8, 177.5)
+animSetScale(vnTxtBG, 2.21, 1)
+animUpdate(vnTxtBG)
+
+--Next Text Arrow (Right)
+vnNextR = animNew(sprVN, [[
+101,0, 0,0, 10
+101,1, 0,0, 10
+101,2, 0,0, 10
+101,3, 0,0, 10
+101,3, 0,0, 10
+101,2, 0,0, 10
+101,1, 0,0, 10
+101,0, 0,0, 10
+]])
+animAddPos(vnNextR, 308, 222)
+animSetScale(vnNextR, 0.5, 0.5)
+animUpdate(vnNextR)
+
+--Next Text Arrow (Down)
+vnNext = animNew(sprVN, [[
+102,0, 0,0, 10
+102,1, 0,0, 10
+102,2, 0,0, 10
+102,3, 0,0, 10
+102,3, 0,0, 10
+102,2, 0,0, 10
+102,1, 0,0, 10
+102,0, 0,0, 10
+]])
+animAddPos(vnNext, 306, 224)
+animSetScale(vnNext, 0.5, 0.5)
+animUpdate(vnNext)
+
+--;===========================================================
+--; VISUAL NOVEL ENDING SCREENPACK DEFINITION
+--;===========================================================
+--Ending 1
+vnEnd1 = animNew(sprVN, [[
+200,1, 0,0, -1
+]])
+animAddPos(vnEnd1, -54, 0)
+animSetScale(vnEnd1, 0.34, 0.34)
+animUpdate(vnEnd1)
+
+--Ending 2
+vnEnd2 = animNew(sprVN, [[
+200,2, 0,0, -1
+]])
+animAddPos(vnEnd2, -54, 0)
+animSetScale(vnEnd2, 0.34, 0.34)
+animUpdate(vnEnd2)
+
+--Ending 3
+vnEnd3 = animNew(sprVN, [[
+200,3, 0,0, -1
+]])
+animAddPos(vnEnd3, -54, 0)
+animSetScale(vnEnd3, 0.34, 0.34)
+animUpdate(vnEnd3)
+
+--;===========================================================
 --; VISUAL NOVEL PAUSE MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
@@ -1249,6 +1340,15 @@ t_replayMenu = {
 --;===========================================================
 txt_replay = createTextImg(jgFnt, 0, 0, "REPLAY SELECT", 159, 13)
 txt_replayData = createTextImg(jgFnt, 0, 0, "REPLAY OPTIONS", 159, 72)
+txt_replayName = createTextImg(font2, 0, 0, "", 159.5, 16)
+txt_replaySize = createTextImg(font2, 0, 0, "", 159.5, 27)
+
+t_replayOption = {
+	{id = '', text = "DELETE"}, {id = '', text = "WATCH"}, {id = '', text = "RETURN"},
+}
+for i=1, #t_replayOption do
+	t_replayOption[i].id = createTextImg(jgFnt, 0, 0, t_replayOption[i].text, -80+i*120, 172)
+end
 
 --Scrolling background
 replayBG0 = animNew(sprSys, [[
@@ -1323,6 +1423,82 @@ function drawReplayInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
+
+--;===========================================================
+--; STATISTICS MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_statsMenu = createTextImg(jgFnt, 0, -1, "", 202, 13)
+txt_statsProgress = createTextImg(jgFnt, 2, 1, "", 208, 13)
+
+t_statsMenu = {
+	{varID = textImgNew(), text = "Play Time",	  				varText = ""},
+	{varID = textImgNew(), text = "Matchs Played",  			varText = ""},
+	{varID = textImgNew(), text = "Wins",	     				varText = ""},
+	{varID = textImgNew(), text = "Losses",	     				varText = ""},
+	{varID = textImgNew(), text = "Favorite Character",  		varText = ""},
+	{varID = textImgNew(), text = "Favorite Stage",				varText = ""},
+	{varID = textImgNew(), text = "Preferred Game Mode", 		varText = ""},
+	{varID = textImgNew(), text = "Training Time",  			varText = ""},
+	{varID = textImgNew(), text = "Collected Coins",    		varText = ""},
+	{varID = textImgNew(), text = "Arcade Status",     			varText = ""},
+	{varID = textImgNew(), text = "Survival Status",     		varText = ""},
+	{varID = textImgNew(), text = "Boss Rush Status",     		varText = ""},
+	{varID = textImgNew(), text = "Stories Completed",     		varText = ""},
+	{varID = textImgNew(), text = "Missions Completed",     	varText = ""},
+	{varID = textImgNew(), text = "Events Completed",     		varText = ""},
+	{varID = textImgNew(), text = "Sudden Death Record",    	varText = ""},
+	{varID = textImgNew(), text = "Endless Record",    			varText = ""},
+	{varID = textImgNew(), text = "Time Attack Record",    		varText = ""},
+	{varID = textImgNew(), text = "Score Attack Record",    	varText = ""},
+	{varID = textImgNew(), text = "Leaderboards",		    	varText = "WIP"},
+	{varID = textImgNew(), text = "                   BACK",    varText = ""},
+}
+
+--Scrolling background
+statsBG0 = animNew(sprSys, [[
+100,0, 0,0, -1
+]])
+animAddPos(statsBG0, 160, 0)
+animSetTile(statsBG0, 1, 1)
+animSetColorKey(statsBG0, -1)
+
+--Transparent background
+statsBG1 = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(statsBG1, 30, 20)
+animSetAlpha(statsBG1, 20, 100)
+animUpdate(statsBG1)
+
+--Up Arrow
+statsUpArrow = animNew(sprSys, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(statsUpArrow, 278, 11)
+animUpdate(statsUpArrow)
+animSetScale(statsUpArrow, 0.5, 0.5)
+
+--Down Arrow
+statsDownArrow = animNew(sprSys, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(statsDownArrow, 278, 201.5)
+animUpdate(statsDownArrow)
+animSetScale(statsDownArrow, 0.5, 0.5)
 
 --;===========================================================
 --; GALLERY MENU SCREENPACK DEFINITION
@@ -1607,16 +1783,11 @@ t_mainNetplay = {
 }
 
 --;===========================================================
---; ONLINE ROOM SCREENPACK DEFINITION
+--; ONLINE HOST ROOM SCREENPACK DEFINITION
 --;===========================================================
 txt_hostTitle = createTextImg(jgFnt, 5, 0, "ONLINE ROOM CREATED", 159, 13)
-txt_client = createTextImg(jgFnt, 0, 0, "Enter Host\'s IPv4", 159, 111)
-txt_clientName = createTextImg(jgFnt, 0, 0, "Enter Host\'s Nickname", 159, 110, 0.9, 0.9)
-txt_bar = createTextImg(opFnt, 0, 0, "|", 160, 133, 0.65, 0.65)
-txt_ip = createTextImg(font14, 0, 0, "", 160, 132)
 txt_netPort = createTextImg(jgFnt, 0, 0, "", 159, 72, 0.9, 0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, "", 159, 228)
-txt_connecting = createTextImg(jgFnt, 5, 0, "", 159, 228)
 txt_cancel = createTextImg(jgFnt, 1, 0, "CANCEL(ESC)", 161, 165)
 
 --Scrolling background
@@ -1696,7 +1867,58 @@ animUpdate(wirelessBG)
 animSetScale(wirelessBG, 0.25, 0.25)
 
 --;===========================================================
---; LOBBY MENU SCREENPACK DEFINITION
+--; ONLINE DIRECT JOIN CLIENT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_clientTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
+txt_client = createTextImg(jgFnt, 0, 0, "Enter Host\'s IPv4", 159, 111)
+txt_clientName = createTextImg(jgFnt, 0, 0, "Enter Host\'s Nickname", 159, 110, 0.9, 0.9)
+txt_bar = createTextImg(opFnt, 0, 0, "|", 160, 133, 0.65, 0.65)
+txt_ip = createTextImg(font14, 0, 0, "", 160, 132)
+txt_connecting = createTextImg(jgFnt, 5, 0, "", 159, 228)
+
+t_directJoinMenu = {
+	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "JOIN"},
+}
+for i=1, #t_directJoinMenu do
+	t_directJoinMenu[i].id = createTextImg(jgFnt, 0, 0, t_directJoinMenu[i].text, 12+i*95, 151)
+end
+
+--;===========================================================
+--; ONLINE DATABASE JOIN CLIENT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_crudTitle = createTextImg(font6, 0, 0, "", 160, 147.5)
+
+t_crudHostOptionU = {{id = '', text = "DELETE"},{id = '', text = "JOIN"},}
+t_crudHostOptionD = {{id = '', text = "EDIT"}, {id = '', text = "RETURN"},}
+
+t_editOption = {
+	{id = textImgNew(), text = " CANCEL"}, {id = textImgNew(), text = "  ENTER"},
+}
+for i=1, #t_editOption do
+	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12+i*95, 151)
+end
+
+--CRUD Window BG
+crudHostWindowBG = animNew(sprSys, [[
+230,1, 0,0,
+]])
+animSetPos(crudHostWindowBG, 60.5, 125)
+animUpdate(crudHostWindowBG)
+animSetScale(crudHostWindowBG, 1.3, 1.3)
+
+function drawCrudHostInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--;===========================================================
+--; ONLINE LOBBY MENU SCREENPACK DEFINITION
 --;===========================================================
 t_mainLobby = {
 	{id = textImgNew(), text = ""},
@@ -1719,6 +1941,77 @@ t_mainLobby = {
 txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
 txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
 txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
+txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0,0.9,0.9)
+
+t_vaultMenu = {
+	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
+}
+for i=1, #t_vaultMenu do
+	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
+end
+
+function f_getVaultWords()
+t_vaultMsg = nil --Reset Table
+t_vaultMsg = {
+"Don't touch!",
+"Just, stop.",
+"No one seems to be home.",
+"zzzZZZ...",
+"Go away!",
+"No!",
+"It's a secret...",
+"Stop it!",
+"Not allowed!",
+"Nothing to see here...",
+'"CD3" is a joke alias of evil CD2.',
+"Ready to leave yet?",
+"Whenever you're ready...",
+"Fine, I can wait.",
+"So... what's up?",
+"Are you always like this?",
+"I mean, what's the point?",
+"Let me guess, you're gonna push the button?",
+"What a surprise...",
+"Don't push the button!",
+"I'm gonna stop talking",
+"...",
+"......",
+"GAH!",
+"I have heard about you "..data.userName..".",
+"Do you know what name of this Ikemen Plus was going to be?",
+"It was actually going to be called Ikemen Plus ???",
+"Zen is the search for enlightenment",
+"SSZ is a programming language written by Suehiro",
+"OpenGL? what's that?",
+"Who would thought that Ikemen Go had a Plus Version",
+"Go beyond, plus ULTRA!",
+"PlasmoidThunder? he is one of the greats devs",
+"If I could have access to an internet database...",
+"CD2 likes Geometry Dash so much that it occurred to him to imitate this screen",
+"I am a Legend?", "This is not supposed to be here but yes in the USX Project..",
+"I debuted in v1.3 of Ikemen Plus Ultra",
+"Is CD2 really planning to make all those changes from it TODO List?",
+"Did you know that this guy who programmed me started learning this in 2021?",
+"Let's play hangman S- _ _ _ E",
+"Let's play hangman U _ _ R _",
+"Let's play hangman _ _ N",
+"Press Start To Select an Option",
+"You can Write below",
+"Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio",
+"Strong FS? is the guy that inspired CD2",
+"Greetings! "..data.userName,
+data.userName.." Add your messages here."
+}
+end
+
+function f_getVaultPrize()
+t_vaultPrizeMsg = nil --Reset Table
+t_vaultPrizeMsg = {
+"YES! YOU DID IT. If you go back to Main Menu you might find a surprise 0_0",
+"Well, this is a little Minigame to show you what the LUA is capable of",
+data.userName.." Add your prize message here!"
+}
+end
 
 --Background
 vaultBG0 = animNew(sprSys, [[
@@ -1909,6 +2202,11 @@ t_closeMenu = {
 }
 
 --;===========================================================
+--; BLACK SCREEN MESSAGE SCREENPACK DEFINITION
+--;===========================================================
+txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
+
+--;===========================================================
 --; ATTRACT MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 170)
@@ -1928,84 +2226,10 @@ function drawAttractInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 251, hintFontYPos)
 end
 
-txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
-
---;===========================================================
---; STATISTICS MENU SCREENPACK DEFINITION
---;===========================================================
-t_statsMenu = {
-	{varID = textImgNew(), text = "Play Time",	  				varText = ""},
-	{varID = textImgNew(), text = "Matchs Played",  			varText = ""},
-	{varID = textImgNew(), text = "Wins",	     				varText = ""},
-	{varID = textImgNew(), text = "Losses",	     				varText = ""},
-	{varID = textImgNew(), text = "Favorite Character",  		varText = ""},
-	{varID = textImgNew(), text = "Favorite Stage",				varText = ""},
-	{varID = textImgNew(), text = "Preferred Game Mode", 		varText = ""},
-	{varID = textImgNew(), text = "Training Time",  			varText = ""},
-	{varID = textImgNew(), text = "Collected Coins",    		varText = ""},
-	{varID = textImgNew(), text = "Arcade Status",     			varText = ""},
-	{varID = textImgNew(), text = "Survival Status",     		varText = ""},
-	{varID = textImgNew(), text = "Boss Rush Status",     		varText = ""},
-	{varID = textImgNew(), text = "Stories Completed",     		varText = ""},
-	{varID = textImgNew(), text = "Missions Completed",     	varText = ""},
-	{varID = textImgNew(), text = "Events Completed",     		varText = ""},
-	{varID = textImgNew(), text = "Sudden Death Record",    	varText = ""},
-	{varID = textImgNew(), text = "Endless Record",    			varText = ""},
-	{varID = textImgNew(), text = "Time Attack Record",    		varText = ""},
-	{varID = textImgNew(), text = "Score Attack Record",    	varText = ""},
-	{varID = textImgNew(), text = "Leaderboards",		    	varText = "WIP"},
-	{varID = textImgNew(), text = "                   BACK",    varText = ""},
-}
-
---Scrolling background
-statsBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(statsBG0, 160, 0)
-animSetTile(statsBG0, 1, 1)
-animSetColorKey(statsBG0, -1)
-
---Transparent background
-statsBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(statsBG1, 30, 20)
-animSetAlpha(statsBG1, 20, 100)
-animUpdate(statsBG1)
-
---Up Arrow
-statsUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(statsUpArrow, 278, 11)
-animUpdate(statsUpArrow)
-animSetScale(statsUpArrow, 0.5, 0.5)
-
---Down Arrow
-statsDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(statsDownArrow, 278, 201.5)
-animUpdate(statsDownArrow)
-animSetScale(statsDownArrow, 0.5, 0.5)
-
 --;===========================================================
 --; CHARACTER SELECT SCREENPACK DEFINITION
 --;===========================================================
+txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
 txt_backquestion = createTextImg(jgFnt, 1, 0, "BACK TO MAIN MENU?", 160.5, 110,0.9,0.9)
 txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)

@@ -1078,386 +1078,6 @@ end
 require("script.screenpack")
 
 --;===========================================================
---; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
---;===========================================================
-t_keyMenuCfg = {
-	{varID = textImgNew(), text = "UP",    					varText = "", cmd = "u"}, --cmd is the same command registered for commandGetState(p1Cmd, 'cmd')
-	{varID = textImgNew(), text = "DOWN",  					varText = "", cmd = "d"},
-	{varID = textImgNew(), text = "LEFT",  					varText = "", cmd = "l"},
-	{varID = textImgNew(), text = "RIGHT", 					varText = "", cmd = "r"},
-	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"}, --[Reserved for Classic Palette Select
-	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
-	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
-	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
-	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
-	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"}, --]
-	{varID = textImgNew(), text = "SCREENSHOT",				varText = "", cmd = "q"},
-	{varID = textImgNew(), text = "CONFIRM",				varText = "", cmd = "w"},
-	{varID = textImgNew(), text = "RETURN",					varText = "", cmd = "e"},
-	{varID = textImgNew(), text = "MENU",		 			varText = "", cmd = "s"}, --PAUSE GAME
-	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
-	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
-}
-
-t_keyMenuCfg2 = {}
-for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
-	t_keyMenuCfg2[i] = {}
-	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
-	if i == 15 then
-		t_keyMenuCfg2[i]['text'] = "Default (F2)"
-	else
-		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
-	end
-	t_keyMenuCfg2[i]['varText'] = ""
-	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
-end
-
-function f_inputMenuRead(playerNo, controller)
-	local tmp = nil
-	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
-	--Keyboard Read
-	if tmp ~= nil and tmp ~= '' then
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
-		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
-		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-	--Gamepad Read
-	else
-		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
-		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
-		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
-	end
-	for i, c
-		in ipairs(strsplit(',', tmp))
-	do
-		if controller == -1 then --Load Keyboard Controls
-			if playerNo == 0 then
-				t_keyMenuCfg[i].varText = c
-			else
-				t_keyMenuCfg2[i].varText = c
-			end
-		else --Load Gamepad Controls
-			if playerNo == 2 then
-				t_keyMenuCfg[i].varText = c
-			else
-				t_keyMenuCfg2[i].varText = c
-			end
-		end
-	end
-end
-
-f_inputMenuRead(0, -1) -- 0=P1, -1=Keyboard
-f_inputMenuRead(1, -1) -- 1=P2
-
-if data.debugLog then
-	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.txt")
-	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.txt")
-end
-
---Associate Button Key to Button Sprites
-t_btnHint = {
-	{keyTxt = "_0",				keySpr = btn0},
-	{keyTxt = "_1", 			keySpr = btn1},
-	{keyTxt = "_2", 			keySpr = btn2},
-	{keyTxt = "_3", 			keySpr = btn3},
-	{keyTxt = "_4", 			keySpr = btn4},
-	{keyTxt = "_5", 			keySpr = btn5},
-	{keyTxt = "_6", 			keySpr = btn6},
-	{keyTxt = "_7", 			keySpr = btn7},
-	{keyTxt = "_8", 			keySpr = btn8},
-	{keyTxt = "_9", 			keySpr = btn9},
-	{keyTxt = "a", 				keySpr = btnA},
-	{keyTxt = "b", 				keySpr = btnB},
-	{keyTxt = "c", 				keySpr = btnC},
-	{keyTxt = "d", 				keySpr = btnD},
-	{keyTxt = "e", 				keySpr = btnE},
-	{keyTxt = "f", 				keySpr = btnF},
-	{keyTxt = "g", 				keySpr = btnG},
-	{keyTxt = "h", 				keySpr = btnH},
-	{keyTxt = "i", 				keySpr = btnI},
-	{keyTxt = "j", 				keySpr = btnJ},
-	{keyTxt = "k", 				keySpr = btnK},
-	{keyTxt = "l",				keySpr = btnL},
-	{keyTxt = "m", 				keySpr = btnM},
-	{keyTxt = "n", 				keySpr = btnN},
-	{keyTxt = "o", 				keySpr = btnO},
-	{keyTxt = "p", 				keySpr = btnP},
-	{keyTxt = "q", 				keySpr = btnQ},
-	{keyTxt = "r", 				keySpr = btnR},
-	{keyTxt = "s", 				keySpr = btnS},
-	{keyTxt = "t", 				keySpr = btnT},
-	{keyTxt = "u", 				keySpr = btnU},
-	{keyTxt = "v", 				keySpr = btnV},
-	{keyTxt = "w", 				keySpr = btnW},
-	{keyTxt = "x", 				keySpr = btnX},
-	{keyTxt = "y", 				keySpr = btnY},
-	{keyTxt = "z", 				keySpr = btnZ},
-	{keyTxt = "PERIOD", 		keySpr = btnPERIOD},
-	{keyTxt = "COMMA", 			keySpr = btnCOMMA},
-	{keyTxt = "MINUS", 			keySpr = btnMINUS},
-	{keyTxt = "LEFTBRACKET", 	keySpr = btnLEFTBRACKET},
-	{keyTxt = "RIGHTBRACKET", 	keySpr = btnRIGHTBRACKET},
-	{keyTxt = "BACKSLASH", 		keySpr = btnBACKSLASH},
-	{keyTxt = "LSHIFT", 		keySpr = btnLSHIFT},
-	{keyTxt = "RSHIFT", 		keySpr = btnRSHIFT},
-	{keyTxt = "TAB", 			keySpr = btnTAB},
-	{keyTxt = "SPACE", 			keySpr = btnSPACE},
-	{keyTxt = "RETURN", 		keySpr = btnRETURN},
-	{keyTxt = "BACKSPACE", 		keySpr = btnBACKSPACE},
-	{keyTxt = "HOME", 			keySpr = btnHOME},
-	{keyTxt = "END", 			keySpr = btnEND},
-	{keyTxt = "PAGEUP", 		keySpr = btnPAGEUP},
-	{keyTxt = "PAGEDOWN", 		keySpr = btnPAGEDOWN},
-	{keyTxt = "UP", 			keySpr = btnUP},
-	{keyTxt = "DOWN", 			keySpr = btnDOWN},
-	{keyTxt = "LEFT", 			keySpr = btnLEFT},
-	{keyTxt = "RIGHT", 			keySpr = btnRIGHT},
-	{keyTxt = "KP_0", 			keySpr = btnKP_0},
-	{keyTxt = "KP_1", 			keySpr = btnKP_1},
-	{keyTxt = "KP_2", 			keySpr = btnKP_2},
-	{keyTxt = "KP_3",			keySpr = btnKP_3},
-	{keyTxt = "KP_4", 			keySpr = btnKP_4},
-	{keyTxt = "KP_5", 			keySpr = btnKP_5},
-	{keyTxt = "KP_6", 			keySpr = btnKP_6},
-	{keyTxt = "KP_7", 			keySpr = btnKP_7},
-	{keyTxt = "KP_8", 			keySpr = btnKP_8},
-	{keyTxt = "KP_9", 			keySpr = btnKP_9},
-	{keyTxt = "KP_PERIOD", 		keySpr = btnKP_PERIOD},
-	{keyTxt = "KP_DIVIDE", 		keySpr = btnKP_DIVIDE},
-	{keyTxt = "KP_MULTIPLY", 	keySpr = btnKP_MULTIPLY},
-	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
-	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
-	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
-	{keyTxt = "NIL", 			keySpr = btnNIL},
-}
-
-function f_searchCmd(input)
-	for i, v in ipairs(t_keyMenuCfg) do --For each item in table
-		if v.cmd == input then --if table cmd item is equal to input entered
-			return i --Returns the position of the item in the table
-		end
-	end
-	return nil --Returns nil if the item is not found in the table
-end
-
-function f_searchButton(inputkey) --Based on previous function
-	for i, v in ipairs(t_btnHint) do
-		if v.keyTxt == inputkey then
-			return i
-		end
-	end
-	return #t_btnHint --return lastest table value that is an empty spr
-end
-
-function drawInputHintsP1(...) --(...) Manage unlimited arguments
-	local t_args = {...} --Store all arguments taken in a table
-	for i=1, #t_args, 2 do --For each argument stored in table
-		local cmd = t_args[i] --Set first argument (key name) to cmd var
-		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
-		local nameKey = f_searchCmd(cmd) --get table pos from button name configured based on cmd entry name
-		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText) --Get button name configured
-			local key = t_btnHint[btn].keySpr --Get button sprite
-			--local posKey = cmdPos --Get button "X,Y" positions
-			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
-			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, 0.7, 0.7)
-			animUpdate(key)
-			animDraw(key)
-		end
-	end
-end
-
---Take Screenshots
-function f_screenShot()
-	sndPlay(sndSys, 22, 0) --sndPlay(sndSys, 22, 1)
-	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
-end
-
---Select Main Menu Song
-function f_menuMusic()
-	if data.menuSong == "Random" then
-		if #t_songList[data.menuSongFolder]-2 ~= 0 then --If there's songs loaded
-			f_bgmrandomMenu()
-		else --If There's no songs loaded
-			playBGM(bgmNothing)
-		end
-	else
-		playBGM(data.menuSong)
-	end
-end
-
---Random Select for Main Menu Song
-function f_bgmrandomMenu()
-	local randomTrack = math.random(1, #t_songList[data.menuSongFolder]-2) --Get random song using folder reference saved (-2 excludes back and random select items)
-	local randomSong = t_songList[data.menuSongFolder][randomTrack].path --Use random song obtained to get his path
-	playBGM(randomSong)
-end
-
---Select Character Select Song
-function f_selectMusic()
-	if data.selectSong == "Random" then
-		if #t_songList[data.selectSongFolder]-2 ~= 0 then --If there's songs loaded
-			f_bgmrandomSelect()
-		else --If There's no songs loaded
-			playBGM(bgmNothing)
-		end
-	else
-		playBGM(data.selectSong)
-	end
-end
-
---Random Select for Character Select Song
-function f_bgmrandomSelect()
-	local randomTrack = math.random(1, #t_songList[data.selectSongFolder]-2)
-	local randomSong = t_songList[data.selectSongFolder][randomTrack].path
-	playBGM(randomSong)
-end
-
---Select Character Select (New Challenger Mode) Song
-function f_challengerMusic()
-	if data.challengerSong == "Random" then
-		if #t_songList[data.challengerSongFolder]-2 ~= 0 then --If there's songs loaded
-			f_bgmrandomChallenger()
-		else --If There's no songs loaded
-			playBGM(bgmNothing)
-		end
-	else
-		playBGM(data.challengerSong)
-	end
-end
-
---Random Select for Character Select Song
-function f_bgmrandomChallenger()
-	local randomTrack = math.random(1, #t_songList[data.challengerSongFolder]-2)
-	local randomSong = t_songList[data.challengerSongFolder][randomTrack].path
-	playBGM(randomSong)
-end
-
---Random Select Song for Quick Versus Mode (Unused)
-function f_bgmrandomVS()
-	randomBGMPath = "sound"
-	t_randomsongList = {}
-	for file in lfs.dir(randomBGMPath) do
-		if file:match('^.*(%.)[Mm][Pp][3]$') then
-			row = #t_randomsongList+1
-			t_randomsongList[row] = {}
-			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
-			t_randomsongList[row]['path'] = randomBGMPath.."/"..file
-		elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
-			row = #t_randomsongList+1
-			t_randomsongList[row] = {}
-			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
-			t_randomsongList[row]['path'] = randomBGMPath.."/"..file
-		end
-	end
-	playBGM(t_randomsongList[math.random(1, #t_randomsongList)].path)
-	if data.debugLog then f_printTable(t_randomsongList, "save/debug/t_randomsongList.txt") end
-end
-
---Load Songs from Folders
-function f_soundtrack()
-t_songList = {} --Create Table
---;=================================================================
---;	FOLDER 1
---;=================================================================
-folder = #t_songList+1 --Set "Folder 1" row for the table
-t_songList[folder] = {} --Add 1st Folder
-for file in lfs.dir[[.\\sound\\]] do --Read Dir
-	if file:match('^.*(%.)[Mm][Pp][3]$') then --Filter Files .mp3			
-		t_songList[folder][#t_songList[folder]+1] = {} --Add songs filtered to the end of the "folder" sub-table
-		t_songList[folder][#t_songList[folder]]['id'] = '' --Reserve id to create text
-		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL' --Folder name where is located the song
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1') --Get song name without extension
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file --Get song file path
-	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then --Filter Files .ogg
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
-	end
-end
---Add extra items to the end of "Folder" sub-row Created
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = 'RANDOM SELECT', path = 'Random'}
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = '          BACK', path = ''}
---;=================================================================
---;	FOLDER 2
---;=================================================================
-folder = #t_songList+1 --Set "Folder 2" row for the table
-t_songList[folder] = {} --Add 2nd Folder
-for file in lfs.dir[[.\\sound\system\\]] do
-	if file:match('^.*(%.)[Mm][Pp][3]$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
-	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
-	end
-end
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = 'RANDOM SELECT', path = 'Random'}
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = '          BACK', path = ''}
---;=================================================================
---;	FOLDER 3
---;=================================================================
-folder = #t_songList+1
-t_songList[folder] = {}
-for file in lfs.dir[[.\\sound\system\menu\\]] do
-	if file:match('^.*(%.)[Mm][Pp][3]$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
-	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
-	end
-end
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = 'RANDOM SELECT', path = 'Random'}
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = '          BACK', path = ''}
---;=================================================================
---;	FOLDER 4
---;=================================================================
-folder = #t_songList+1
-t_songList[folder] = {}
-for file in lfs.dir[[.\\sound\system\select\\]] do
-	if file:match('^.*(%.)[Mm][Pp][3]$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
-	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
-	end
-end
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = 'RANDOM SELECT', path = 'Random'}
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = '          BACK', path = ''}
---;=================================================================
---;	SET YOUR FOLDER BELOW
---;=================================================================
-
---Save Log
-if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
-end
-
---;===========================================================
 --; STORYBOARD DEFINITION
 --;===========================================================
 t_data = {} --stores all SFF, SND, FNT data structures
@@ -2342,19 +1962,9 @@ playBGM(t_vnBoxText[vnChapter][VNtxt].bgm) --Play BGM
 t_currentVNbgm = t_vnBoxText[vnChapter][VNtxt].bgm --Backup the current BGM to decide after if it will change
 end
 
-txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
-txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
-
 --;===========================================================
 --; VISUAL NOVEL INTRO SCREEN
 --;===========================================================
-txt_VNarc = createTextImg(font20, 1, 0, "", 159, 20) --font6
-txt_VNchapter = createTextImg(font20, 2, 0, "", 159, 110)
-txt_VNchapterName = createTextImg(font20, 2, 0, "", 159, 130)
-txt_VNchapterInfo = createTextImg(font7, 0, 0, "", 159, 150)
-txt_VNchapterAuthor = createTextImg(font7, 0, 0, "", 159, 220)
-txt_VNchapterDate = createTextImg(font9, 0, 0, "", 159, 231, 0.50, 0.50)
-
 function f_drawVNIntro()
 	playBGM("sound/System/Ranking.mp3")
 	local endIntro = false
@@ -2405,6 +2015,41 @@ function f_drawVNIntro()
 	end
 end
 
+--;===========================================================
+--; VISUAL NOVEL MAIN GAME LOGIC
+--;===========================================================
+function f_vnMain(vnFile, chapterNo, dialogueNo) --TODO Routes/Decisions System
+	f_vnLoad(vnFile) --Load VN file
+	local currentChapter = chapterNo or 1 --Set current Chapter
+	local dialogueNo = dialogueNo or 1 --Set current Dialogue
+	for i=currentChapter, #t_vnBoxText do --For each Chapter loaded in vnFile do
+		f_vnScene(vnFile,currentChapter,dialogueNo) --Start Visual Novel Scene
+		currentChapter = currentChapter + 1 --prepare next chapter
+		dialogueNo = 1 --prepare dialogue number for next scene
+		if data.VNbreak then f_VNback() return end --Back to main menu
+	end
+	if vn.credits then f_playCredits() end
+	vn.credits = false
+end
+
+function f_VNback()
+	data.VNbreak = false --Reset visual novel back to main menu
+	--f_saveTemp()
+	f_menuMusic()
+	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', sprFade)
+end
+
+function f_vnProgress()
+data.VNarc = vnArc
+data.VNchapter = vnChapter
+data.VNdialogue = VNtxt
+f_saveVN()
+assert(loadfile("save/vn_sav.lua"))()
+end
+
+--;===========================================================
+--; VISUAL NOVEL IN-GAME SCREEN
+--;===========================================================
 function f_vnScene(arcPath, chaptNo, dialogueNo)
 	f_vnLoad(arcPath) --What Visual Novel File will load?
 	--Actions when visual novel chapters are loaded
@@ -2589,38 +2234,6 @@ function f_drawVNEnding()
 	elseif t_vnBoxText[vnChapter][VNtxt].ending == 3 then animDraw(vnEnd3) --Try Again
 	end
 	vn.credits = true
-end
-
---;===========================================================
---; VISUAL NOVEL MAIN GAME LOGIC
---;===========================================================
-function f_vnMain(vnFile, chapterNo, dialogueNo) --TODO Routes/Decisions System
-	f_vnLoad(vnFile) --Load VN file
-	local currentChapter = chapterNo or 1 --Set current Chapter
-	local dialogueNo = dialogueNo or 1 --Set current Dialogue
-	for i=currentChapter, #t_vnBoxText do --For each Chapter loaded in vnFile do
-		f_vnScene(vnFile,currentChapter,dialogueNo) --Start Visual Novel Scene
-		currentChapter = currentChapter + 1 --prepare next chapter
-		dialogueNo = 1 --prepare dialogue number for next scene
-		if data.VNbreak then f_VNback() return end --Back to main menu
-	end
-	if vn.credits then f_playCredits() end
-	vn.credits = false
-end
-
-function f_VNback()
-	data.VNbreak = false --Reset visual novel back to main menu
-	--f_saveTemp()
-	f_menuMusic()
-	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', sprFade)
-end
-
-function f_vnProgress()
-data.VNarc = vnArc
-data.VNchapter = vnChapter
-data.VNdialogue = VNtxt
-f_saveVN()
-assert(loadfile("save/vn_sav.lua"))()
 end
 
 --;===========================================================
@@ -3230,15 +2843,201 @@ function f_default() --Reset Game Modes Configuration
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end
 
-sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
---sysTime3 = tonumber(os.date("%m"))
+--Take Screenshots
+function f_screenShot()
+	sndPlay(sndSys, 22, 0) --sndPlay(sndSys, 22, 1)
+	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
+end
+
+--Select Main Menu Song
+function f_menuMusic()
+	if data.menuSong == "Random" then
+		if #t_songList[data.menuSongFolder]-2 ~= 0 then --If there's songs loaded
+			f_bgmrandomMenu()
+		else --If There's no songs loaded
+			playBGM(bgmNothing)
+		end
+	else
+		playBGM(data.menuSong)
+	end
+end
+
+--Random Select for Main Menu Song
+function f_bgmrandomMenu()
+	local randomTrack = math.random(1, #t_songList[data.menuSongFolder]-2) --Get random song using folder reference saved (-2 excludes back and random select items)
+	local randomSong = t_songList[data.menuSongFolder][randomTrack].path --Use random song obtained to get his path
+	playBGM(randomSong)
+end
+
+--Select Character Select Song
+function f_selectMusic()
+	if data.selectSong == "Random" then
+		if #t_songList[data.selectSongFolder]-2 ~= 0 then --If there's songs loaded
+			f_bgmrandomSelect()
+		else --If There's no songs loaded
+			playBGM(bgmNothing)
+		end
+	else
+		playBGM(data.selectSong)
+	end
+end
+
+--Random Select for Character Select Song
+function f_bgmrandomSelect()
+	local randomTrack = math.random(1, #t_songList[data.selectSongFolder]-2)
+	local randomSong = t_songList[data.selectSongFolder][randomTrack].path
+	playBGM(randomSong)
+end
+
+--Select Character Select (New Challenger Mode) Song
+function f_challengerMusic()
+	if data.challengerSong == "Random" then
+		if #t_songList[data.challengerSongFolder]-2 ~= 0 then --If there's songs loaded
+			f_bgmrandomChallenger()
+		else --If There's no songs loaded
+			playBGM(bgmNothing)
+		end
+	else
+		playBGM(data.challengerSong)
+	end
+end
+
+--Random Select for Character Select Song
+function f_bgmrandomChallenger()
+	local randomTrack = math.random(1, #t_songList[data.challengerSongFolder]-2)
+	local randomSong = t_songList[data.challengerSongFolder][randomTrack].path
+	playBGM(randomSong)
+end
+
+--Random Select Song for Quick Versus Mode (Unused)
+function f_bgmrandomVS()
+	randomBGMPath = "sound"
+	t_randomsongList = {}
+	for file in lfs.dir(randomBGMPath) do
+		if file:match('^.*(%.)[Mm][Pp][3]$') then
+			row = #t_randomsongList+1
+			t_randomsongList[row] = {}
+			t_randomsongList[row]['id'] = ''
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+			t_randomsongList[row]['path'] = randomBGMPath.."/"..file
+		elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
+			row = #t_randomsongList+1
+			t_randomsongList[row] = {}
+			t_randomsongList[row]['id'] = ''
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+			t_randomsongList[row]['path'] = randomBGMPath.."/"..file
+		end
+	end
+	playBGM(t_randomsongList[math.random(1, #t_randomsongList)].path)
+	if data.debugLog then f_printTable(t_randomsongList, "save/debug/t_randomsongList.txt") end
+end
+
+--Load Songs from Folders
+function f_soundtrack()
+t_songList = {} --Create Table
+--;=================================================================
+--;	FOLDER 1
+--;=================================================================
+folder = #t_songList+1 --Set "Folder 1" row for the table
+t_songList[folder] = {} --Add 1st Folder
+for file in lfs.dir[[.\\sound\\]] do --Read Dir
+	if file:match('^.*(%.)[Mm][Pp][3]$') then --Filter Files .mp3			
+		t_songList[folder][#t_songList[folder]+1] = {} --Add songs filtered to the end of the "folder" sub-table
+		t_songList[folder][#t_songList[folder]]['id'] = '' --Reserve id to create text
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL' --Folder name where is located the song
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1') --Get song name without extension
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file --Get song file path
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then --Filter Files .ogg
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
+	end
+end
+--Add extra items to the end of "Folder" sub-row Created
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 2
+--;=================================================================
+folder = #t_songList+1 --Set "Folder 2" row for the table
+t_songList[folder] = {} --Add 2nd Folder
+for file in lfs.dir[[.\\sound\system\\]] do
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 3
+--;=================================================================
+folder = #t_songList+1
+t_songList[folder] = {}
+for file in lfs.dir[[.\\sound\system\menu\\]] do
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 4
+--;=================================================================
+folder = #t_songList+1
+t_songList[folder] = {}
+for file in lfs.dir[[.\\sound\system\select\\]] do
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = '          BACK', path = ''}
+--;=================================================================
+--;	SET YOUR FOLDER BELOW
+--;=================================================================
+
+--Save Log
+if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
+end
 
 --;===========================================================
 --; CLOCK AND DATE PANEL
 --;===========================================================
-txt_titleClock = createTextImg(font12, 0, -1, "", 0, 0)
-txt_titleDate = createTextImg(font12, 0, 1, "", 0, 0)
+sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+--sysTime3 = tonumber(os.date("%m"))
 
 function f_sysTime()
 	--local http = require("socket.http") -- import the socket.http module
@@ -3324,7 +3123,198 @@ function f_sysTime()
 end
 
 --;===========================================================
---; BUTTON SECRET CODES
+--; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
+--;===========================================================
+t_keyMenuCfg = {
+	{varID = textImgNew(), text = "UP",    					varText = "", cmd = "u"}, --cmd is the same command registered for commandGetState(p1Cmd, 'cmd')
+	{varID = textImgNew(), text = "DOWN",  					varText = "", cmd = "d"},
+	{varID = textImgNew(), text = "LEFT",  					varText = "", cmd = "l"},
+	{varID = textImgNew(), text = "RIGHT", 					varText = "", cmd = "r"},
+	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"}, --[Reserved for Classic Palette Select
+	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
+	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
+	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
+	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
+	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"}, --]
+	{varID = textImgNew(), text = "SCREENSHOT",				varText = "", cmd = "q"},
+	{varID = textImgNew(), text = "CONFIRM",				varText = "", cmd = "w"},
+	{varID = textImgNew(), text = "RETURN",					varText = "", cmd = "e"},
+	{varID = textImgNew(), text = "MENU",		 			varText = "", cmd = "s"}, --PAUSE GAME
+	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
+	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
+}
+
+t_keyMenuCfg2 = {}
+for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
+	t_keyMenuCfg2[i] = {}
+	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
+	if i == 15 then
+		t_keyMenuCfg2[i]['text'] = "Default (F2)"
+	else
+		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
+	end
+	t_keyMenuCfg2[i]['varText'] = ""
+	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
+end
+
+function f_inputMenuRead(playerNo, controller)
+	local tmp = nil
+	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
+	--Keyboard Read
+	if tmp ~= nil and tmp ~= '' then
+		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
+		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
+	--Gamepad Read
+	else
+		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
+		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
+		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
+	end
+	for i, c
+		in ipairs(strsplit(',', tmp))
+	do
+		if controller == -1 then --Load Keyboard Controls
+			if playerNo == 0 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
+			end
+		else --Load Gamepad Controls
+			if playerNo == 2 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
+			end
+		end
+	end
+end
+
+f_inputMenuRead(0, -1) -- 0=P1, -1=Keyboard
+f_inputMenuRead(1, -1) -- 1=P2
+
+if data.debugLog then
+	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.txt")
+	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.txt")
+end
+
+--Associate Button Key to Button Sprites
+t_btnHint = {
+	{keyTxt = "_0",				keySpr = btn0},
+	{keyTxt = "_1", 			keySpr = btn1},
+	{keyTxt = "_2", 			keySpr = btn2},
+	{keyTxt = "_3", 			keySpr = btn3},
+	{keyTxt = "_4", 			keySpr = btn4},
+	{keyTxt = "_5", 			keySpr = btn5},
+	{keyTxt = "_6", 			keySpr = btn6},
+	{keyTxt = "_7", 			keySpr = btn7},
+	{keyTxt = "_8", 			keySpr = btn8},
+	{keyTxt = "_9", 			keySpr = btn9},
+	{keyTxt = "a", 				keySpr = btnA},
+	{keyTxt = "b", 				keySpr = btnB},
+	{keyTxt = "c", 				keySpr = btnC},
+	{keyTxt = "d", 				keySpr = btnD},
+	{keyTxt = "e", 				keySpr = btnE},
+	{keyTxt = "f", 				keySpr = btnF},
+	{keyTxt = "g", 				keySpr = btnG},
+	{keyTxt = "h", 				keySpr = btnH},
+	{keyTxt = "i", 				keySpr = btnI},
+	{keyTxt = "j", 				keySpr = btnJ},
+	{keyTxt = "k", 				keySpr = btnK},
+	{keyTxt = "l",				keySpr = btnL},
+	{keyTxt = "m", 				keySpr = btnM},
+	{keyTxt = "n", 				keySpr = btnN},
+	{keyTxt = "o", 				keySpr = btnO},
+	{keyTxt = "p", 				keySpr = btnP},
+	{keyTxt = "q", 				keySpr = btnQ},
+	{keyTxt = "r", 				keySpr = btnR},
+	{keyTxt = "s", 				keySpr = btnS},
+	{keyTxt = "t", 				keySpr = btnT},
+	{keyTxt = "u", 				keySpr = btnU},
+	{keyTxt = "v", 				keySpr = btnV},
+	{keyTxt = "w", 				keySpr = btnW},
+	{keyTxt = "x", 				keySpr = btnX},
+	{keyTxt = "y", 				keySpr = btnY},
+	{keyTxt = "z", 				keySpr = btnZ},
+	{keyTxt = "PERIOD", 		keySpr = btnPERIOD},
+	{keyTxt = "COMMA", 			keySpr = btnCOMMA},
+	{keyTxt = "MINUS", 			keySpr = btnMINUS},
+	{keyTxt = "LEFTBRACKET", 	keySpr = btnLEFTBRACKET},
+	{keyTxt = "RIGHTBRACKET", 	keySpr = btnRIGHTBRACKET},
+	{keyTxt = "BACKSLASH", 		keySpr = btnBACKSLASH},
+	{keyTxt = "LSHIFT", 		keySpr = btnLSHIFT},
+	{keyTxt = "RSHIFT", 		keySpr = btnRSHIFT},
+	{keyTxt = "TAB", 			keySpr = btnTAB},
+	{keyTxt = "SPACE", 			keySpr = btnSPACE},
+	{keyTxt = "RETURN", 		keySpr = btnRETURN},
+	{keyTxt = "BACKSPACE", 		keySpr = btnBACKSPACE},
+	{keyTxt = "HOME", 			keySpr = btnHOME},
+	{keyTxt = "END", 			keySpr = btnEND},
+	{keyTxt = "PAGEUP", 		keySpr = btnPAGEUP},
+	{keyTxt = "PAGEDOWN", 		keySpr = btnPAGEDOWN},
+	{keyTxt = "UP", 			keySpr = btnUP},
+	{keyTxt = "DOWN", 			keySpr = btnDOWN},
+	{keyTxt = "LEFT", 			keySpr = btnLEFT},
+	{keyTxt = "RIGHT", 			keySpr = btnRIGHT},
+	{keyTxt = "KP_0", 			keySpr = btnKP_0},
+	{keyTxt = "KP_1", 			keySpr = btnKP_1},
+	{keyTxt = "KP_2", 			keySpr = btnKP_2},
+	{keyTxt = "KP_3",			keySpr = btnKP_3},
+	{keyTxt = "KP_4", 			keySpr = btnKP_4},
+	{keyTxt = "KP_5", 			keySpr = btnKP_5},
+	{keyTxt = "KP_6", 			keySpr = btnKP_6},
+	{keyTxt = "KP_7", 			keySpr = btnKP_7},
+	{keyTxt = "KP_8", 			keySpr = btnKP_8},
+	{keyTxt = "KP_9", 			keySpr = btnKP_9},
+	{keyTxt = "KP_PERIOD", 		keySpr = btnKP_PERIOD},
+	{keyTxt = "KP_DIVIDE", 		keySpr = btnKP_DIVIDE},
+	{keyTxt = "KP_MULTIPLY", 	keySpr = btnKP_MULTIPLY},
+	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
+	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
+	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
+	{keyTxt = "NIL", 			keySpr = btnNIL},
+}
+
+function f_searchCmd(input)
+	for i, v in ipairs(t_keyMenuCfg) do --For each item in table
+		if v.cmd == input then --if table cmd item is equal to input entered
+			return i --Returns the position of the item in the table
+		end
+	end
+	return nil --Returns nil if the item is not found in the table
+end
+
+function f_searchButton(inputkey) --Based on previous function
+	for i, v in ipairs(t_btnHint) do
+		if v.keyTxt == inputkey then
+			return i
+		end
+	end
+	return #t_btnHint --return lastest table value that is an empty spr
+end
+
+function drawInputHintsP1(...) --(...) Manage unlimited arguments
+	local t_args = {...} --Store all arguments taken in a table
+	for i=1, #t_args, 2 do --For each argument stored in table
+		local cmd = t_args[i] --Set first argument (key name) to cmd var
+		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
+		local nameKey = f_searchCmd(cmd) --get table pos from button name configured based on cmd entry name
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText) --Get button name configured
+			local key = t_btnHint[btn].keySpr --Get button sprite
+			--local posKey = cmdPos --Get button "X,Y" positions
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, 0.7, 0.7)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+--;===========================================================
+--; BUTTON SECRET CODES DEFINITION
 --;===========================================================
 --"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
 t_secretCode = {"U","U","D","D","L","R","L","R","B","A","S"}

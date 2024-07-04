@@ -211,7 +211,6 @@ function f_mainMenu()
 	local bufl = 0
 	local vnSelect = 1
 	closeText = 1
-	f_gameState()
 	f_menuMusic()
 	f_infoReset()
 	f_infoboxReset()
@@ -380,7 +379,6 @@ function f_mainMenu()
 		end
 		drawMiddleMenuSP()
 		f_sysTime()
-		--f_progress()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, "MAIN MENU")
@@ -1798,8 +1796,7 @@ function f_missionMenu()
 	--Missions Progress Logic
 		data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
 		missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
-		txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
-		txt_missionProgress = createTextImg(jgFnt, 2, 1, "["..missionsData.."%]", 202, 125) --needs to be inside of mission Menu function, to load mission data %
+		textImgSetText(txt_missionProgress,"["..missionsData.."%]")
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3718,8 +3715,7 @@ function f_eventMenu()
 	--Event Progress Logic
 		data.eventsProgress = (data.event1Status + data.event2Status + data.event3Status)
 		eventsData = (math.floor((data.eventsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
-		txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
-		txt_eventProgress = createTextImg(jgFnt, 2, 1, "["..eventsData.."%]", 202, 10) --needs to be inside of event Menu function, to load event data %
+		textImgSetText(txt_eventProgress,"["..eventsData.."%]")
 		if not lockedScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				f_saveProgress()
@@ -3820,7 +3816,7 @@ function f_eventMenu()
 		end
 		if data.event1Status == 1 then t_eventMenu[1].status = "COMPLETED" end
 	--Event 2
-	--[[
+		--[[
 		if sysTime >= ??? and sysTime <= ??? then
 			t_eventMenu[2].available = true
 			t_eventMenu[2].info = "???"
@@ -3830,8 +3826,8 @@ function f_eventMenu()
 			t_eventMenu[2].info = "WILL BE AVAILABLE FROM ??? TO ???"
 			t_eventMenu[2].preview = event2L
 		end
+		]]
 		if data.event2Status == 1 then t_eventMenu[2].status = "COMPLETED" end
-	]]
 	--Event 3
 		--[[
 		if sysTime >= ??? and sysTime <= ??? then
@@ -3919,9 +3915,8 @@ function f_lockedInfo()
 	animUpdate(infoEventWindowBG)
 	--Draw Title
 	if eventInfo == true then
-		txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
+		textImgDraw(txt_lockedInfo)
 	end
-	textImgDraw(txt_lockedInfo)
 	--Draw Ok Text
 	textImgDraw(txt_lockedOk)
 	--Draw Cursor
@@ -4197,29 +4192,6 @@ end
 --;===========================================================
 --; THE VAULT MENU
 --;===========================================================
-t_vaultMenu = {
-	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
-}
-for i=1, #t_vaultMenu do
-	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
-end
-
-function f_randomWords()
-	txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0,0.9,0.9)
-	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "SSZ is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database...", "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen", "I am a Legend?", "This is not supposed to be here but yes in the USX Project..", "I debuted in v1.3 of Ikemen Plus Ultra", "Is CD2 really planning to make all those changes from it TODO List?", "Did you know that this guy who programmed me started learning this in 2021?", "Let's play hangman S- _ _ _ E", "Let's play hangman U _ _ R _", "Let's play hangman _ _ N", "Press Start To Select an Option", "You can Write below", "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio", "Strong FS? is the guy that inspired CD2", "Greetings! "..data.userName}
-	if data.userName == "Strong FS" or data.userName == "strong fs" or data.userName == "StrongFS" or data.userName == "strongfs" or data.userName == "Strong Fs" or data.userName == "STRONG FS" or data.userName == "STRONGFS" then
-		table.insert(t_randomWord,1, "Hey Strong! CD2 te manda Saludoss")
-		table.insert(t_randomWord,2, "Hmmm Strong XD")
-	end
-	txtRandom = (t_randomWord[math.random(1, #t_randomWord)])
-end
-
-function f_prizeWords()
-	txt_vaultWords = createTextImg(jgFnt, 5, 0, "", 0, 0,0.9,0.9)
-	local t_randomWord = {"YES! YOU DID IT. If you go back to Main Menu you might find a surprise 0_0", "Well, this is a little Minigame to show you what the LUA is capable of"}
-	txtRandom = (t_randomWord[math.random(1, #t_randomWord)])
-end
-
 function f_theVault()
 	local word = ""
 	local vaultMenu = 2
@@ -4342,6 +4314,22 @@ function f_theVault()
 		refresh()
 	end
 	clearInputText()
+end
+
+function f_randomWords()
+	textImgSetBank(txt_vaultWords,0) --Reset Color after prize word
+	f_getVaultWords()
+	if data.userName == "Strong FS" or data.userName == "strong fs" or data.userName == "StrongFS" or data.userName == "strongfs" or data.userName == "Strong Fs" or data.userName == "STRONG FS" or data.userName == "STRONGFS" then
+		table.insert(t_vaultMsg,1, "Hey Strong! CD2 te manda Saludoss")
+		table.insert(t_vaultMsg,2, "Hmmm Strong XD")
+	end
+	txtRandom = (t_vaultMsg[math.random(1, #t_vaultMsg)])
+end
+
+function f_prizeWords()
+	textImgSetBank(txt_vaultWords,5) --Set new color when you get the prize
+	f_getVaultPrize()
+	txtRandom = (t_vaultPrizeMsg[math.random(1, #t_vaultPrizeMsg)])
 end
 
 --;===========================================================
@@ -4668,11 +4656,22 @@ function f_favoriteStage()
 	assert(loadfile("save/stats_sav.lua"))()
 end
 
+function f_gameState()
+if data.arcadeClear == true then arcadeProgress = 1 elseif data.arcadeClear == false then arcadeProgress = 0 end
+if data.survivalClear == true then survivalProgress = 1 elseif data.survivalClear == false then survivalProgress = 0 end
+gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress + (data.storiesProgress/100))
+gameData = (math.floor((gameProgress * 100 / 11) + 0.5))
+--[[
+The number (11) is the sumation of true amount of all gameProgress values:
+(arcadeProgress = 1 + survivalProgress = 1 + data.missionsProgress = 3 + data.eventsProgress = 3 + data.storiesProgress = 3)
+]]
+end
+
 function f_getStats()
 --Progress Logic
-	f_gameState() --Read from main.lua
-	txt_statsMenu = createTextImg(jgFnt, 0, -1, "" .. data.userName .. " PROGRESS:", 202, 13)
-	txt_statsProgress = createTextImg(jgFnt, 2, 1, "["..gameData.."%]", 208, 13) --needs to be inside of statistics Menu function, to load a updated data
+	f_gameState()
+	textImgSetText(txt_statsMenu,"" .. data.userName .. " PROGRESS:")
+	textImgSetText(txt_statsProgress,"["..gameData.."%]")
 --Get Stats Info
 	s = math.floor((data.playTime%60))
 	m = math.floor((data.playTime%3600)/60)
@@ -5790,29 +5789,6 @@ end
 --;===========================================================
 --; ONLINE REPLAYS MENU
 --;===========================================================
-t_replayOption = {
-	{id = '', text = "DELETE"}, {id = '', text = "WATCH"}, {id = '', text = "RETURN"},
-}
-for i=1, #t_replayOption do
-	t_replayOption[i].id = createTextImg(jgFnt, 0, 0, t_replayOption[i].text, -80+i*120, 172)
-end
-
-function f_replayTable()
-	replaysPath = "replays"
-	t_replayList = {}
-	for file in lfs.dir(replaysPath) do
-		if file:match('^.*(%.)[Rr][Ee][Pp][Ll][Aa][Yy]$') and not file:match('^data.replay$') then
-			row = #t_replayList+1
-			t_replayList[row] = {}
-			t_replayList[row]['id'] = ''
-			t_replayList[row]['name'] = file:gsub('^(.*)[%.][Rr][Ee][Pp][Ll][Aa][Yy]$', '%1')
-			t_replayList[row]['path'] = replaysPath.."/"..file
-		end
-	end
-	t_replayList[#t_replayList+1] = {id = '', name = "          BACK"}
-	if data.debugLog then f_printTable(t_replayList, "save/debug/t_replayList.txt") end
-end
-
 function f_mainReplay()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	cmdInput()
@@ -5852,14 +5828,14 @@ function f_mainReplay()
 		--OPEN REPLAY CONTROL MENU
 			else
 				sndPlay(sndSys, 100, 1)
-				txt_replayName = createTextImg(font2, 0, 0, t_replayList[mainReplay].name, 159.5, 16)--Show Replay Selected Name
+				textImgSetText(txt_replayName, t_replayList[mainReplay].name)--Show Replay Selected Name
 				local fileSize = lfs.attributes(t_replayList[mainReplay].path).size --Size Logic
 				if fileSize > 1048576 then
 					local replaySize = (math.floor(((fileSize/1048576)+0.50)))--Conversion from Bytes to Megabytes
-					txt_replaySize = createTextImg(font2, 0, 0, replaySize.."MB", 159.5, 27)
+					textImgSetText(txt_replaySize, replaySize.."MB")
 				else
 					local replaySize = (math.floor(((fileSize/1024)+0.50)))--Conversion from Bytes to Kilobytes
-					txt_replaySize = createTextImg(font2, 0, 0, replaySize.."KB", 159.5, 27)
+					textImgSetText(txt_replaySize, replaySize.."KB")
 				end
 				local replayOption = 2
 				f_confirmReset()
@@ -6020,6 +5996,22 @@ function f_mainReplay()
 		cmdInput()
 		refresh()
 	end
+end
+
+function f_replayTable()
+	replaysPath = "replays"
+	t_replayList = {}
+	for file in lfs.dir(replaysPath) do
+		if file:match('^.*(%.)[Rr][Ee][Pp][Ll][Aa][Yy]$') and not file:match('^data.replay$') then
+			row = #t_replayList+1
+			t_replayList[row] = {}
+			t_replayList[row]['id'] = ''
+			t_replayList[row]['name'] = file:gsub('^(.*)[%.][Rr][Ee][Pp][Ll][Aa][Yy]$', '%1')
+			t_replayList[row]['path'] = replaysPath.."/"..file
+		end
+	end
+	t_replayList[#t_replayList+1] = {id = '', name = "          BACK"}
+	if data.debugLog then f_printTable(t_replayList, "save/debug/t_replayList.txt") end
 end
 
 --;===========================================================
@@ -6237,15 +6229,8 @@ end
 --;===========================================================
 --; DIRECT CONNECTION MENU
 --;===========================================================
-t_directJoinMenu = {
-	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "JOIN"},
-}
-for i=1, #t_directJoinMenu do
-	t_directJoinMenu[i].id = createTextImg(jgFnt, 0, 0, t_directJoinMenu[i].text, 12+i*95, 151)
-end
-
 function f_directConnect()
-	txt_clientTitle = createTextImg(jgFnt, 0, 0, "SEARCH ROOM", 159, 13)
+	textImgSetText(txt_clientTitle, "SEARCH ROOM")
 	local ip = ""
 	local doneIP = false
 	local directJoinMenu = 2
@@ -6574,28 +6559,6 @@ end
 --;===========================================================
 --; CRUD MENU
 --;===========================================================
---CRUD Window BG
-crudHostWindowBG = animNew(sprSys, [[
-230,1, 0,0,
-]])
-animSetPos(crudHostWindowBG, 60.5, 125)
-animUpdate(crudHostWindowBG)
-animSetScale(crudHostWindowBG, 1.3, 1.3)
-
-function drawCrudHostInputHints()
-	local inputHintYPos = 212
-	local hintFont = font2
-	local hintFontYPos = 226
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
-end
-
-t_crudHostOptionU = {{id = '', text = "DELETE"},{id = '', text = "JOIN"},}
-t_crudHostOptionD = {{id = '', text = "EDIT"}, {id = '', text = "RETURN"},}
-
 function f_crudHostScreen()
 	if crudHostOption ~= 1 then
 		cmdInput()
@@ -6677,7 +6640,7 @@ function f_crudHostScreen()
 	animDraw(crudHostWindowBG)
 	animUpdate(crudHostWindowBG)
 	--Draw Crud Title
-	txt_crudTitle = createTextImg(font6, 0, 0, hostRoomName.." ROOM", 160, 147.5)
+	textImgSetText(txt_crudTitle, hostRoomName.." ROOM")
 	textImgDraw(txt_crudTitle)
 	--Draw Input Hints Panel
 	if crudHostOption ~= 1 then drawCrudHostInputHints() end
@@ -6726,13 +6689,6 @@ end
 --;===========================================================
 --; CREATE/UPDATE HOST DATA
 --;===========================================================
-t_editOption = {
-	{id = textImgNew(), text = " CANCEL"}, {id = textImgNew(), text = "  ENTER"},
-}
-for i=1, #t_editOption do
-	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12+i*95, 151)
-end
-
 function f_editHost()
 	cmdInput()
 	--ENTER HOST NAME
@@ -6941,10 +6897,10 @@ end
 --; READ LOCAL DATABASE TO CONNECTING MENU
 --;===========================================================
 function f_databaseConnect()
+	textImgSetText(txt_clientTitle, hostRoomName.."'s ROOM")
 	cmdInput()
 	sndPlay(sndSys, 100, 1)
 	joinExit = false
-	txt_clientTitle = createTextImg(jgFnt, 0, 0, hostRoomName.."'s ROOM", 159, 13)
 	enterNetPlay(hostIP) --Connect to entered IP address
 	netPlayer = "Client"
 	textImgSetText(txt_connecting, "Now connecting to ["..hostIP.."]")
@@ -7200,8 +7156,6 @@ end
 --;===========================================================
 --; UNLOCK INFO SCREEN
 --;===========================================================
-txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
-
 function f_secret()
 	local i = 0
 	txt = "COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!"
@@ -7258,37 +7212,37 @@ function f_infoMenu()
 	animUpdate(infoWindowBG)
 	--Draw Info Text
 	if charsInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
+		textImgSetScale(txt_info, 0.56, 0.56)
 		f_textRender(txt_info, "NO CHARACTERS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif stagesInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO STAGES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif configInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO ARCADE/SURVIVAL CONFIG FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif towerInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO TOWERS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif vnInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO VISUAL NOVELS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif vnDataInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.7,0.7)
+		textImgSetScale(txt_info, 0.70, 0.70)
 		f_textRender(txt_info, "NO SAVED GAMES FOUND.", 0, 160, 130, 10, 0, 25)
 	elseif bossInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO BOSSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif bonusInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO BONUSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif stviewerInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO STAGE VIEWER FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif resolutionInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
+		textImgSetScale(txt_info, 0.56, 0.56)
 		f_textRender(txt_info, "SET A 16:9 RESOLUTION TO AVOID DESYNC", 0, 160, 125, 10, 0, 25)
 	elseif firstRunInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.60,0.60)
+		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "WELCOME TO IKEMEN PLUS ULTRA      ENGINE!", 0, 160, 125, 8.8, 0, 36)
 	end
 	--Draw Ok Text
@@ -8023,22 +7977,6 @@ function f_sideReset()
 	sideWarning = false
 	p1Side = 0 --P1 Cursor pos in Middle
 	p2Side = 0 --P2 Cursor pos in Middle
-end
-
-function f_gameState()
-if data.arcadeClear == true then arcadeProgress = 1 elseif data.arcadeClear == false then arcadeProgress = 0 end
-if data.survivalClear == true then survivalProgress = 1 elseif data.survivalClear == false then survivalProgress = 0 end
-gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress + (data.storiesProgress/100))
-gameData = (math.floor((gameProgress * 100 / 11) + 0.5))
---[[
-The number (11) is the sumation of true amount of all gameProgress values:
-(arcadeProgress = 1 + survivalProgress = 1 + data.missionsProgress = 3 + data.eventsProgress = 3 + data.storiesProgress = 3)
-]]
-end
-
-function f_progress()
-	txt_gameStatus = createTextImg(font14, 0, 0, gameData.."%/100%", 157, 8)
-	textImgDraw(txt_gameStatus)
 end
 
 --;===========================================================
@@ -11168,7 +11106,7 @@ end
 --; COMMON SIDE ACTIONS
 --;===================================================================
 function f_arcadeEnd()
-	--f_missionStatus() --Because for some reason, mission 2 not save data in his script..
+	f_missionStatus() --Because for some reason, mission 2 not save data in his script..
 	if data.rosterMode == "arcade" then
 		data.arcadeClear = true --Progress
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side

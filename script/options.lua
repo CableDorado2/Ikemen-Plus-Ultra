@@ -124,8 +124,9 @@ animAddPos(optionsDownArrowP2, 303, 218)
 animUpdate(optionsDownArrowP2)
 animSetScale(optionsDownArrowP2, 0.5, 0.5)
 
+txt_creditsCfg = createTextImg(font1, 0, -1, "", 181.5, 219)
 function f_attractcfgCredits()
-	txt_creditsCfg = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins.."", 181.5, 219)
+	textImgSetText(txt_creditsCfg, "Credits: "..data.attractCoins.."")
 	textImgDraw(txt_creditsCfg)
 end
 
@@ -1354,6 +1355,13 @@ end
 --;===========================================================
 --; DEFAULT VALUES MESSAGE
 --;===========================================================
+txt_defaultquestion = createTextImg(jgFnt, 1, 0, "", 160, 110)
+
+t_defaultMenu = {
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
+}
+
 --Default Window BG
 defaultWindowBG = animNew(sprSys, [[
 230,1, 0,0,
@@ -1361,11 +1369,6 @@ defaultWindowBG = animNew(sprSys, [[
 animSetPos(defaultWindowBG, 83.5, 97)
 animUpdate(defaultWindowBG)
 animSetScale(defaultWindowBG, 1, 1)
-
-t_defaultMenu = {
-	{id = textImgNew(), text = "YES"},
-	{id = textImgNew(), text = "NO"},
-}
 
 function f_defaultMenu()
 	cmdInput()
@@ -1406,9 +1409,11 @@ function f_defaultMenu()
 	animUpdate(defaultWindowBG)
 	--Draw Title
 	if resetStats == true then
-		txt_defaultquestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
+		textImgSetText(txt_defaultquestion, "ARE YOU SURE?")
+		textImgSetScale(txt_defaultquestion, 1, 1)
 	else
-		txt_defaultquestion = createTextImg(jgFnt, 1, 0, "LOAD DEFAULT SETTINGS?", 160, 110,0.8,0.8)
+		textImgSetText(txt_defaultquestion, "LOAD DEFAULT SETTINGS?")
+		textImgSetScale(txt_defaultquestion, 0.8, 0.8)
 	end
 	textImgDraw(txt_defaultquestion)
 	--Draw Table Text
