@@ -39,7 +39,7 @@ If not declared, will not be displayed.
 Set the name of the Sound Effects file to use for the chapter.
 
 - drawpath = Path.lua
-Set the name of the lua script file to use for draw the assets for chapter.
+Set the name of the lua script file to use for draw the assets loaded in screenpack.lua and VNresources.lua for visual novel chapter.
 
 ;---------------------------------------------------------------------------------
 - character = Name

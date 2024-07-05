@@ -1,5 +1,5 @@
 ﻿--;===========================================================
---; LOAD VISUAL NOVEL ASSETS
+--; LOAD VISUAL NOVEL ASSETS TO DRAW
 --;===========================================================
 --Background 1
 vnBG0 = animNew(sprVN, [[
