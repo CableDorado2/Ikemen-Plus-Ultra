@@ -259,7 +259,7 @@ function f_drawSelectName(id, t, x, y, scaleX, scaleY, color)
 	return x, y
 end
 
---shortcut for draw player name texts for select.lua functions in list format
+--shortcut for draw player name texts for character select functions in list format
 function f_drawNameList(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
 	for i=1, #t do
 		textImgSetText(id, f_getName(t[i].cel)) --t[i].cel get all names of table inserted
@@ -2851,18 +2851,18 @@ function f_screenShot()
 end
 
 function f_resetFadeBGM()
-fadeInBGMstart = 0
+fadeInBGMstart = 0 --To start BGM Volume in 0
 fadeOutBGMstart = bgm_vol
-setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100) --Restore BGM Volume
 end
 
 function f_fadeInBGM(fadeSeconds)
-	local originalVol = bgm_vol
+	local originalVol = bgm_vol --Get current bgm volume
 	local fadeStep = originalVol / (fadeSeconds * 60) --Calculate the increment for each step based on the desired fade duration
 	local timer = 0
 	if timer < fadeSeconds * 60 then
 		if fadeInBGMstart < originalVol then
-			fadeInBGMstart = fadeInBGMstart + fadeStep
+			fadeInBGMstart = fadeInBGMstart + fadeStep --Increment BGM Volume
 			setVolume(gl_vol / 100, se_vol / 100, fadeInBGMstart / 100)
 			timer = timer + 1
 		end
@@ -2877,7 +2877,7 @@ end
 
 function f_fadeOutBGM(fadeSeconds)
 	local originalVol = bgm_vol
-	local fadeStep = originalVol / (fadeSeconds * 60) --Calculate the increment for each step based on the desired fade duration
+	local fadeStep = originalVol / (fadeSeconds * 60)
 	local timer = 0
 	if timer < fadeSeconds * 60 then
 		if fadeOutBGMstart > 0 then

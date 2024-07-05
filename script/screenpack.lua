@@ -2106,6 +2106,17 @@ animUpdate(challengerText)
 --;===========================================================
 --; INTERMISSION SCREENPACK DEFINITION
 --;===========================================================
+txt_interWarning = "WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING!"
+txt_warningInterU = createTextImg(font6, 0, 1, txt_interWarning, 0, 42)
+txt_warningInterD = createTextImg(font6, 0, -1, txt_interWarning, 320, 205)
+
+txt_intermissionBox = [[
+
+CHALLENGER 
+APPROACHING!
+
+]]
+
 --Intermission Scrolling background
 intermissionBG0 = animNew(sprSys, [[
 101,0, 0,0, -1
@@ -2146,13 +2157,6 @@ intermissionWindowSlideD = animNew(sprSys, [[
 animAddPos(intermissionWindowSlideD, 160, 0)
 animSetTile(intermissionWindowSlideD, 1, 1)
 animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
-
-txt_intermissionBox = [[
-
-CHALLENGER 
-APPROACHING!
-
-]]
 
 --;===========================================================
 --; CONFIRM MENU SCREENPACK DEFINITION
@@ -2209,6 +2213,7 @@ txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black 
 --;===========================================================
 --; ATTRACT MENU SCREENPACK DEFINITION
 --;===========================================================
+txt_attractTimer = createTextImg(font1, 0, 0, "", 302, 215)
 txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 170)
 function f_attractCredits()
 	txt_credits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins, 181.5, 212)
@@ -2230,6 +2235,7 @@ end
 --; CHARACTER SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
+txt_charTime = createTextImg(jgFnt, 0, 0, "", 160, 70)
 txt_backquestion = createTextImg(jgFnt, 1, 0, "BACK TO MAIN MENU?", 160.5, 110,0.9,0.9)
 txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)
@@ -2967,6 +2973,7 @@ animUpdate(footerBG)
 --; ORDER SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_orderSelect = createTextImg(font14, 0, 0, "ORDER SELECT", 160, 10)
+txt_orderTime = createTextImg(jgFnt, 0, 0, "", 160, 65)
 txt_p1State = createTextImg(jgFnt, 0, 0, "", 78, 22)
 txt_p2State = createTextImg(jgFnt, 0, 0, "", 241, 22)
 txt_waitingOrder = "WAITING ORDER"
@@ -3060,6 +3067,41 @@ t_vsHints = {
 }
 
 --;===========================================================
+--; MATCH INFO SCREENPACK DEFINITION
+--;===========================================================
+txt_matchNo = createTextImg(font21, 0, 0, "", 160, 20)
+txt_gameNo = createTextImg(font21, 0, 0, "", 160, 20)
+txt_bossNo = createTextImg(font12, 0, 0, "", 160, 20)
+txt_bonusNo = createTextImg(font21, 0, 0, "", 160, 20)
+
+function f_matchInfo() --Not draws! only prepare the info for use in versus screen
+--Match Info Vars
+	gameNo = gameNo+1
+	bossNo = bossNo+1
+	bonusNo = bonusNo+1
+--Set Match Info Texts
+	if data.gameMode == "arcade" and matchNo == data.rivalMatch then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
+	elseif data.gameMode == "arcade" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE: "..matchNo) --Set Arcade Match Text
+	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
+	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR: "..matchNo-1) --Set Tower Match Text
+	end
+	if data.gameMode == "survival" or data.gameMode == "allroster" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
+	elseif data.gameMode == "bossrush" then textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
+	elseif data.gameMode == "bonusrush" then textImgSetText(txt_bonusNo, "BONUS: "..bonusNo) --Set Bonus Rush Match Text
+	elseif data.gameMode == "intermission" then textImgSetText(txt_gameNo, "EXTRA STAGE") --Set Intermission Match Text
+	else textImgSetText(txt_gameNo, "MATCH: "..gameNo) --Set Versus Match Text
+	end
+--Set Final Matchs Text
+	if data.gameMode == "arcade" and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
+	elseif data.gameMode == "tower" and matchNo == lastMatch then textImgSetText(txt_matchNo, "LAST FLOOR") --Set Tower Final Match Text
+	end
+	if (data.gameMode == "survival" or data.gameMode == "allroster") and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
+	elseif data.gameMode == "bossrush" and (lastMatch - bossNo == 0) then textImgSetText(txt_bossNo, "FINAL BOSS") --Set Boss Rush Final Match Text
+	elseif data.gameMode == "bonusrush" and (lastMatch - bonusNo == 0) then textImgSetText(txt_bonusNo, "LAST GAME") --Set Bonus Rush Final Match Text
+	end
+end
+
+--;===========================================================
 --; VICTORY SCREEN SCREENPACK DEFINITION
 --;===========================================================
 txt_winnername = createTextImg(jgFnt, 0, 1, "", 20, 162)
@@ -3104,6 +3146,7 @@ animSetWindow(quoteBG, 14, 152, 290, 65)
 txt_rematchCPU = createTextImg(font6, 0, 0, "BATTLE OPTION", 160, 87)
 txt_rematch = createTextImg(font6, 0, 0, "P1 BATTLE OPTION", 86, 87)
 txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 237, 87)
+txt_rematchTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 t_battleOption = {
 	{id = textImgNew(), text = "REMATCH"},
@@ -3190,6 +3233,7 @@ animSetScale(rankWindowBG, 1, 1)
 --; SERVICE SCREENPACK
 --;===========================================================
 txt_service = createTextImg(jgFnt, 0, 0, "SELECT A SERVICE", 159, 13)
+txt_serviceTime = createTextImg(jgFnt, 0, 0, "", 160, 122)
 
 t_service = {
 	{id = '', text = "DIFFICULTY LEVEL DOWN"},
@@ -3892,6 +3936,7 @@ end
 --; TOWER DESTINY SCREENPACK DEFINITION
 --;=================================================================================================
 txt_towerSelect = createTextImg(font35, 0, 0, "CHOOSE YOUR DESTINY", 159, 13, 0.5, 0.5)
+txt_destinyTime = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 --Destiny Select BG
 destinyBG = animNew(sprTower, [[
@@ -4210,13 +4255,13 @@ SWEET CREATURES
 OLDGAMER
 LASOMBRA DEMON
 LIAM KUROSHI
+2DEE4EVER
 LEVEN2IS2LIJDEN
 BRUCELEE-WT7HK
 ERU GURARA
 HERMES
 MORIA MORTIMORTE
 PIZZADARIUS25
-2DEE4EVER
 ALEX TV G.T.M
 UCHIHASLAYER8893
 DJ DELORIE

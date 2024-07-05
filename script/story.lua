@@ -4,6 +4,7 @@ module(..., package.seeall)
 --;===========================================================
 txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 11)
 txt_storyProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
+txt_storyText = createTextImg(font6, 0, 1, "", 0, 0,0.65,0.65)
 
 --Scrolling background
 storyBG0 = animNew(sprSys, [[
@@ -612,7 +613,7 @@ function f_storyMenu()
 			animUpdate(t_arcSelect[chapterMenu].Preview)
 			animDraw(t_arcSelect[chapterMenu].Preview)
 		--Draw Chapter Info
-			txt_storyText = createTextImg(font6, 0, 1, "", 0, 0,0.65,0.65)
+			textImgSetAlign(txt_storyText, 1)
 			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 160, 155, 15, 1.2, 40)
 		--Draw Check Chapter Status Icon
 			animSetPos(t_arcSelect[chapterMenu].Status, 320, 100)
@@ -620,7 +621,7 @@ function f_storyMenu()
 			animUpdate(t_arcSelect[chapterMenu].Status)
 			animDraw(t_arcSelect[chapterMenu].Status)
 		else --If some arc is locked, don't draw preview, status and draw text in another position
-			txt_storyText = createTextImg(font6, 0, 0, "", 0, 0,0.65,0.65)
+			textImgSetAlign(txt_storyText, 0)
 			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 150, 102, 15, 1.5, 40)
 		end
 	--Set Chapters Scroll Logic
@@ -711,7 +712,7 @@ end
 --KIDNAPPING
 function f_arc1_chapter1()
 	--Part 1
-	f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in visualnovel.lua script
+	f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in common.lua f_vnScene function
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
