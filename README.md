@@ -177,7 +177,8 @@ This Ikemen is an expansion of his original SSZ code.
 - Adventure Mode, combinando elementos de:
   - Abyss Mode (BBCF): https://youtu.be/5UI_nFAORnE?t=281
   - Libra of Souls (SoulcaliburVI): https://youtu.be/y3qDzqoeygw?t=381
-[![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
+[![Adventure-Mode-Concept](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/2ec540e2-c030-40be-a212-04dde5838b41)](https://youtu.be/y82f2VexwHc?t=11596)
+
 
 **v1.8**
 ------------
