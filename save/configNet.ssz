@@ -1,6 +1,6 @@
 //Video Settings
-const int Width = 1280;
-const int Height = 720;
+const int Width = 853;
+const int Height = 480;
 const bool FullScreen = false;
 const bool FullScreenReal = false;
 const bool WindowBordered = true;
@@ -11,8 +11,8 @@ const int Brightness = 256;
 
 //Audio Settings
 const float GlVol = 0.8;
-const float SEVol = 0.8;
-const float BGMVol = 0.38;
+const float SEVol = 0.38;
+const float BGMVol = 0;
 const float PanStr = 0.8;
 
 //Perfomance Settings
@@ -120,7 +120,7 @@ in.new[10].set(
   (int)k_t::z,
   (int)k_t::x,
   (int)k_t::c,
-  (int)k_t::F10,
+  (int)k_t::TAB,
   (int)k_t::RETURN,
   (int)k_t::BACKSPACE,
   (int)k_t::SPACE);
