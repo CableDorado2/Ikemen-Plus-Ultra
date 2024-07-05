@@ -219,8 +219,6 @@ v2.0 (Final Release)
 **Basic:**
 - *Coming Soon!*
 
-- *Coming Soon!*
-
 **Advanced:**
 - *Coming Soon!*
 
@@ -241,7 +239,7 @@ Here you can find some tools that help you in development of your projects (Some
 - [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
 - [Mp3Tag](https://www.mp3tag.de/en/) (A music tag editor)
 - [Radmin VPN](https://www.radmin-vpn.com/) (For Online Netplay)
-- Visual C++ 2010 Express (IDE to open Source Code)
+- Visual C++ 2010 Express (IDE to edit and compile Source Code)
 
 ## Engine Manual
 S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
