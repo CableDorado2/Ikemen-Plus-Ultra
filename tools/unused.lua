@@ -83,3 +83,28 @@ if file then
     file:close()
 end
 f_printTable(t_vnTest, "save/debug/TEST.txt")
+
+function f_txtLoad(path)
+t_txtBoxText = {}
+local file = io.open(path,"r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+for line in content:gmatch('[^\r\n]+') do
+	row = #t_txtBoxText+1
+	t_txtBoxText[row] = {}
+	t_txtBoxText[row]['text'] = line
+end
+if data.debugLog then f_printTable(t_txtBoxText, "save/debug/t_txtBoxText.txt") end
+end
+
+function f_txtLoad2(path)
+local file = io.open(path,"r") --Open .txt file refer in path var in reading mode
+local t = {} --Create a table to store the file information
+for i in file:lines() do --Read file content line by line
+	table.insert(t, i) --Save each line as a table element
+end
+file:close() --Close .txt file
+if data.debugLog then f_printTable(t, "save/debug/t_txtBoxText.txt") end
+end

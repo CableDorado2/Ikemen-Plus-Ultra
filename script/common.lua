@@ -610,6 +610,20 @@ function f_extractText(txt, v1, v2, v3, v4)
 	return t
 end
 
+--Convert TXT file to table
+function f_txtLoad(path)
+	if path ~= nil then
+		local file = io.open(path,"r") --Open .txt file refer in path var in reading mode
+		local t = {} --Create a table to store .txt file information
+		local content = file:read("*all") --Read file content line by line
+		file:close() --Close .txt file
+		t = f_extractText(content) --Extract Text stored in the file
+		return t --return a table with text extracted
+	else
+		return nil
+	end
+end
+
 --Read/Writte Lua Data
 function f_strSub(str, t)
 	local txt = ''

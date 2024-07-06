@@ -37,6 +37,9 @@ selectDef = "data/select.def"
 --Lifebar Data (Fight definition filename)
 fightDef = "data/screenpack/fight.def"
 
+--License Path (Please always distribute license files for use this program)
+licensesPath = "docs/Licenses"
+
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
 
@@ -1324,6 +1327,7 @@ t_watchMenu = {
 	{id = textImgNew(), text = "SOUND TEST"},
 	{id = textImgNew(), text = "SCREENSHOTS"},
 	{id = textImgNew(), text = "GALLERY"},
+	{id = textImgNew(), text = "LICENSES"},
 	{id = textImgNew(), text = "CREDITS"},
 }
 
@@ -1773,6 +1777,53 @@ storyboardDownArrow = animNew(sprSys, [[
 animAddPos(storyboardDownArrow, 228, 201.5)
 animUpdate(storyboardDownArrow)
 animSetScale(storyboardDownArrow, 0.5, 0.5)
+
+--;===========================================================
+--; LICENSES MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_licenseTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
+txt_license = createTextImg(font7, 0, 1, "", 0, 0)
+
+--Left Page Arrow
+licenseLeftArrow = animNew(sprSys, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(licenseLeftArrow, 69, 21)
+animUpdate(licenseLeftArrow)
+animSetScale(licenseLeftArrow, 0.5, 0.5)
+
+--Right Page Arrow
+licenseRightArrow = animNew(sprSys, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(licenseRightArrow, 242, 21)
+animUpdate(licenseRightArrow)
+animSetScale(licenseRightArrow, 0.5, 0.5)
+
+function drawLicenseInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
 
 --;===========================================================
 --; ONLINE MENU SCREENPACK DEFINITION
@@ -2828,6 +2879,12 @@ txt_stageSelect = createTextImg(jgFnt, 0, 0, "STAGE SELECT", 159, 13)
 txt_authorStageText = "AUTHOR: "
 txt_locationStageText = "LOCATION: "
 txt_daytimeStageText = "TIME: "
+txt_selStage = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_stageTime = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_selectMusic = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_stageAuthor = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_stageLocation = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_stageDayTime = createTextImg(jgFnt, 0, 0, "", 0, 0)
 
 --Stage Title background
 selectSBG2a = animNew(sprSys, [[

@@ -4430,8 +4430,11 @@ function f_watchMenu()
 				--GALLERY (watch illustrations)
 				elseif watchMenu == 8 then
 					f_galleryMenu()
-				--CREDITS (play credits)
+				--LICENSE (display license.txt file)
 				elseif watchMenu == 9 then
+					f_watchLicense()
+				--CREDITS (play credits)
+				else
 					f_playCredits()
 				end
 			end
@@ -5668,6 +5671,142 @@ function f_storyboardMenu()
 		cmdInput()
 		refresh()
 	end
+end
+
+--;===========================================================
+--; LICENSES MENU
+--;===========================================================
+function f_watchLicense()
+	cmdInput()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	local cursorPosX = 1
+	local moveTxt = 0
+	local licenseMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 1
+	local cursorUpdate = true
+	--
+	local txtPosX = -52
+	local function f_resetYPos() txtPosY = 30 end
+	f_resetYPos()
+	local txtSpacing = 12
+	--
+	licenseList = {}
+	for file in lfs.dir(licensesPath) do
+		if file:match('^.*(%.)[Tt][Xx][Tt]$') then
+			row = #licenseList+1
+			licenseList[row] = {}
+			licenseList[row]['id'] = ''
+			licenseList[row]['name'] = file:gsub('^(.*)[%.][Tt][Xx][Tt]$', '%1')
+			licenseList[row]['path'] = licensesPath.."/"..file
+			licenseList[row]['content'] = f_txtLoad(licensesPath.."/"..file)
+		end
+	end
+	if data.debugLog then f_printTable(licenseList, "save/debug/licenseList.txt") end
+	while true do
+		--BACK
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			break
+		--PREVIOUS PAGE
+		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+			sndPlay(sndSys, 100, 0)
+			licenseMenu = licenseMenu - 1
+			cursorUpdate = true
+			f_resetYPos()
+		--NEXT PAGE
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+			sndPlay(sndSys, 100, 0)
+			licenseMenu = licenseMenu + 1
+			cursorUpdate = true
+			f_resetYPos()
+		--MOVE UP TXT
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
+			txtPosY = txtPosY - 1
+		--MOVE DOWN TXT
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
+			txtPosY = txtPosY + 1
+		end
+		if licenseMenu < 1 then
+			licenseMenu = #licenseList
+			if #licenseList > maxItems then
+				cursorPosX = maxItems
+			else
+				cursorPosX = #licenseList
+			end
+		elseif licenseMenu > #licenseList then
+			licenseMenu = 1
+			cursorPosX = 1
+		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+			cursorPosX = cursorPosX - 1
+		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
+			cursorPosX = cursorPosX + 1
+		end
+		if cursorPosX == maxItems then
+			moveTxt = (licenseMenu - maxItems) * 15
+		elseif cursorPosX == 1 then
+			moveTxt = (licenseMenu - 1) * 15
+		end
+		if #licenseList <= maxItems then
+			maxLicenses = #licenseList
+		elseif licenseMenu - cursorPosX > 0 then
+			maxLicenses = licenseMenu + maxItems - cursorPosX
+		else
+			maxLicenses = maxItems
+		end
+		textImgSetText(txt_licenseTitle, licenseList[licenseMenu].name.." LICENSE")
+		textImgDraw(txt_licenseTitle) --Draw Menu Title
+		if cursorUpdate then
+			f_readLicense(licenseList[licenseMenu].path) --Get Text Data
+			cursorUpdate = false
+		end
+		f_textRender(txt_license, licenseContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
+		--[[
+		if maxLicenses > maxItems then
+			animDraw(licenseLeftArrow)
+			animUpdate(licenseLeftArrow)
+		end
+		if #licenseList > maxItems and maxLicenses < #licenseList then
+			animDraw(licenseRightArrow)
+			animUpdate(licenseRightArrow)
+		end
+		]]
+		drawLicenseInputHints()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufr = 0
+			bufl = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+function f_readLicense(path)
+licenseFile = io.open(path,"r") --Open .txt file refer in path var in reading mode
+licenseContent = licenseFile:read("*all") --Read file content line by line
+licenseFile:close() --Close .txt file
 end
 
 --;===========================================================
@@ -13816,19 +13955,45 @@ function f_selectStage()
 	--Set screen Assets
 		if data.stageType == "Classic" then
 			--Info Text
-			txt_selStage = createTextImg(jgFnt, 0, 0, "", 160, 239)
-			txt_selectMusic = createTextImg(jgFnt, 0, 0, "", 158, 170.5,0.5,0.5)
-			txt_stageAuthor = createTextImg(jgFnt, 0, 1, "", 206.5, 186,0.5,0.5)
-			txt_stageLocation = createTextImg(jgFnt, 0, 0, "", 159, 227,0.5,0.5)
-			txt_stageDayTime = createTextImg(jgFnt, 0, -1, "", 112, 186,0.5,0.5)
+			textImgSetPos(txt_selStage, 160, 239)
+			
+			textImgSetPos(txt_selectMusic, 158, 170.5)
+			textImgSetScale(txt_selectMusic, 0.5, 0.5)
+			
+			textImgSetPos(txt_stageAuthor, 206.5, 186)
+			textImgSetScale(txt_stageAuthor, 0.5, 0.5)
+			textImgSetAlign(txt_stageAuthor, 1)
+			textImgSetBank(txt_stageAuthor, 0)
+			
+			textImgSetPos(txt_stageLocation, 159, 227)
+			textImgSetScale(txt_stageLocation, 0.5, 0.5)
+			textImgSetBank(txt_stageLocation, 0)
+			
+			textImgSetPos(txt_stageDayTime, 112, 186)
+			textImgSetScale(txt_stageDayTime, 0.5, 0.5)
+			textImgSetAlign(txt_stageDayTime, -1)
+			textImgSetBank(txt_stageDayTime, 0)
 		elseif data.stageType == "Modern" then
 			exclusiveStageMenu = true
 			--Info Text
-			txt_selStage = createTextImg(jgFnt, 0, 0, "", 160, 205)
-			txt_selectMusic = createTextImg(jgFnt, 0, 0, "", 158, 60)
-			txt_stageAuthor = createTextImg(jgFnt, 0, 0, "", 159, 235)
-			txt_stageLocation = createTextImg(jgFnt, 0, 0, "", 159, 220)
-			txt_stageDayTime = createTextImg(jgFnt, 0, 0, "", 159, 190)
+			textImgSetPos(txt_selStage, 160, 205)
+			
+			textImgSetPos(txt_selectMusic, 158, 60)
+			textImgSetScale(txt_selectMusic, 1, 1)
+			
+			textImgSetPos(txt_stageAuthor, 159, 235)
+			textImgSetScale(txt_stageAuthor, 1, 1)
+			textImgSetAlign(txt_stageAuthor, 0)
+			textImgSetBank(txt_stageAuthor, 0)
+			
+			textImgSetPos(txt_stageLocation, 159, 220)
+			textImgSetScale(txt_stageLocation, 1, 1)
+			textImgSetBank(txt_stageLocation, 0)
+			
+			textImgSetPos(txt_stageDayTime, 159, 190)
+			textImgSetScale(txt_stageDayTime, 1, 1)
+			textImgSetAlign(txt_stageDayTime, 0)
+			textImgSetBank(txt_stageDayTime, 0)
 			--Draw Stage Select Title BG
 			animDraw(f_animVelocity(selectSTBG2a, -1, 0))
 			animDraw(f_animVelocity(selectSTBG2b, -3, 0))
@@ -14138,17 +14303,12 @@ function f_selectStage()
 		end
 		--Stage Select Timer
 		if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
-			if data.stageType == "Classic" then
-				--txt_stageTime = createTextImg(jgFnt, 0, 0, (stageTimer/gameTick), 160, 70)
-				stageTimeNumber = stageTimer/gameTick
-				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
-				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 70)
-			elseif data.stageType == "Modern" then
-				--txt_stageTime = createTextImg(jgFnt, 0, 0, (stageTimer/gameTick), 160, 30)
-				stageTimeNumber = stageTimer/gameTick
-				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
-				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 30)
+			if data.stageType == "Classic" then textImgSetPos(txt_stageTime, 160, 70)
+			elseif data.stageType == "Modern" then textImgSetPos(txt_stageTime, 160, 105)
 			end
+			stageTimeNumber = stageTimer/gameTick
+			nodecimalStageTime = string.format("%.0f",stageTimeNumber)
+			textImgSetText(txt_stageTime, nodecimalStageTime)
 			if stageTimer > 0 then
 				if not backScreen then stageTimer = stageTimer - 0.5 end--Activate Stage Select Timer
 				textImgDraw(txt_stageTime)

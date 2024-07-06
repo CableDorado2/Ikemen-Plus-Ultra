@@ -423,16 +423,16 @@ void game()
 		  //.com.clsndraw = false;
         if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0;
       }
-	  if(.s.equ(.com.gameMode, "practice")){
-        branch{
-        cond .com.round != -1:
-          .com.round = -1;
-          .com.rexisted[0] = .com.rexisted[1] = 0;
-        else:
-        .chr.chars[i][0]~sysivar[.chr.iLIFE] =
-          .chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
-        }
-      }
+	  //if(.s.equ(.com.gameMode, "practice")){
+        //branch{
+        //cond .com.round != -1:
+          //.com.round = -1;
+          //.com.rexisted[0] = .com.rexisted[1] = 0;
+        //else:
+        //.chr.chars[i][0]~sysivar[.chr.iLIFE] =
+          //.chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
+        //}
+      //}
       copyVar(i);
     continue:
       i++;
