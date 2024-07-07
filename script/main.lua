@@ -5725,11 +5725,11 @@ function f_watchLicense()
 			cursorUpdate = true
 			f_resetYPos()
 		--MOVE UP TXT
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
-			txtPosY = txtPosY - 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) and txtPosY < 30 then
+			txtPosY = txtPosY + 1
 		--MOVE DOWN TXT
 		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
-			txtPosY = txtPosY + 1
+			txtPosY = txtPosY - 1
 		end
 		if licenseMenu < 1 then
 			licenseMenu = #licenseList
