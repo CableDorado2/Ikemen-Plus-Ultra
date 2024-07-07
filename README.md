@@ -273,4 +273,4 @@ If you need help, you can find support from developers and contributors for this
 ## License
 The code is under the MIT Licence.
 Non-code assets are under CC-BY 3.0.
-Check [License.txt](License.txt) for more details.
+Check [License.txt](docs/Licenses/I.K.E.M.E.N.txt) for more details.
