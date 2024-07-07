@@ -5758,23 +5758,14 @@ function f_watchLicense()
 		else
 			maxLicenses = maxItems
 		end
-		textImgSetText(txt_licenseTitle, licenseList[licenseMenu].name.." LICENSE")
-		textImgDraw(txt_licenseTitle) --Draw Menu Title
 		if cursorUpdate then
 			f_readLicense(licenseList[licenseMenu].path) --Get Text Data
 			cursorUpdate = false
 		end
 		f_textRender(txt_license, licenseContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
-		--[[
-		if maxLicenses > maxItems then
-			animDraw(licenseLeftArrow)
-			animUpdate(licenseLeftArrow)
-		end
-		if #licenseList > maxItems and maxLicenses < #licenseList then
-			animDraw(licenseRightArrow)
-			animUpdate(licenseRightArrow)
-		end
-		]]
+		animPosDraw(licenseTitleBG, -56, 0) --Draw Title BG
+		textImgSetText(txt_licenseTitle, licenseList[licenseMenu].name.." LICENSE")
+		textImgDraw(txt_licenseTitle) --Draw Menu Title
 		drawLicenseInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

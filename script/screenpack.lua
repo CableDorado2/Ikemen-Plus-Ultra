@@ -1814,13 +1814,29 @@ animAddPos(licenseRightArrow, 242, 21)
 animUpdate(licenseRightArrow)
 animSetScale(licenseRightArrow, 0.5, 0.5)
 
+--Title BG
+licenseTitleBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(licenseTitleBG, 2.9, 0.30)
+animSetAlpha(licenseTitleBG, 155, 22)
+
+--Input Hints BG
+lInputsBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(lInputsBG, 2.9, 0.37)
+animSetAlpha(lInputsBG, 155, 22)
+
+--Input Hints Panel
 function drawLicenseInputHints()
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	animPosDraw(lInputsBG, -56, 217) --Draw Input Hints BG
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 132, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
