@@ -3,7 +3,7 @@ module(..., package.seeall)
 --; DATA DEFINITION
 --;===========================================================
 --Data loading from config.ssz
-local file = io.open("save/config.ssz","r")
+local file = io.open(saveCoreCfgPath,"r")
 s_configSSZ = file:read("*all")
 file:close()
 
@@ -38,7 +38,7 @@ function f_saveSettings()
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
-	local file = io.open("save/config.ssz","w+")
+	local file = io.open(saveCoreCfgPath,"w+")
 	file:write(s_configSSZ)
 	file:close()
 	modified = false
@@ -46,7 +46,7 @@ function f_saveSettings()
 end
 
 --Load training_sav.lua data
-local file = io.open("save/training_sav.lua","r")
+local file = io.open(saveTrainingPath,"r")
 s_trainLUA = file:read("*all")
 file:close()
 
@@ -136,7 +136,7 @@ function f_saveTrgCfg()
 		['data.suavemode'] = data.suavemode
 	}
 	s_trainLUA = f_strSub(s_trainLUA, t_training)
-	local file = io.open("save/training_sav.lua","w+")
+	local file = io.open(saveTrainingPath,"w+")
 	file:write(s_trainLUA)
 	file:close()
 	modified = false

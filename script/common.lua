@@ -39,35 +39,53 @@ The begin of the script called need to have this:
 module(..., package.seeall)
 ]]
 
+--Set Save Path Variables
+saveCoreCfgPath = "save/config.ssz"
+saveNetCoreCfgPath = "save/configNet.ssz"
+saveCfgPath = "save/data_sav.lua"
+saveNetCfgPath = "save/data_netsav.lua"
+saveHostRoomPath = "save/host_rooms.json"
+saveTempPath = "save/temp_sav.lua"
+saveTrainingPath = "save/training_sav.lua"
+saveStatsPath = "save/stats_sav.lua"
+saveTourneyPath = "save/tourney_sav.lua"
+saveVNPath = "save/vn_sav.lua"
+
 --Load saved variables
-assert(loadfile("save/data_sav.lua"))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile("save/stats_sav.lua"))() --player records data
-assert(loadfile("save/training_sav.lua"))() --training data
-assert(loadfile("save/vn_sav.lua"))() --visual novel data
-assert(loadfile("save/temp_sav.lua"))() --temp data
+assert(loadfile(saveCfgPath))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
+assert(loadfile(saveStatsPath))() --player records data
+assert(loadfile(saveTrainingPath))() --training data
+assert(loadfile(saveTourneyPath))() --tournament data
+assert(loadfile(saveVNPath))() --visual novel data
+assert(loadfile(saveTempPath))() --temp data
 
 --Data loading from host_rooms.json
-local file = io.open("save/host_rooms.json","r")
+local file = io.open(saveHostRoomPath,"r")
 host_rooms = json.decode(file:read("*all"))
 file:close()
 
 --Data loading from stats_sav.lua
-local file = io.open("save/stats_sav.lua","r")
+local file = io.open(saveStatsPath,"r")
 statsDataLUA = file:read("*all")
 file:close()
 
 --Data loading from vn_sav.lua
-local vnFile = io.open("save/vn_sav.lua","r")
+local vnFile = io.open(saveVNPath,"r")
 s_vndataLUA = vnFile:read("*all")
 vnFile:close()
 
 --Data loading from temp_sav.lua
-local tempFile = io.open("save/temp_sav.lua","r")
+local tempFile = io.open(saveTempPath,"r")
 s_tempdataLUA = tempFile:read("*all")
 tempFile:close()
 
+--Data loading from tourney_sav.lua
+local tourneyFile = io.open(saveTourneyPath,"r")
+s_tourneydataLUA = tourneyFile:read("*all")
+tourneyFile:close()
+
 --Data loading from config.ssz
-local file = io.open("save/config.ssz","r")
+local file = io.open(saveCoreCfgPath,"r")
 s_configSSZ = file:read("*all")
 file:close()
 
@@ -2059,7 +2077,7 @@ data.VNarc = vnArc
 data.VNchapter = vnChapter
 data.VNdialogue = VNtxt
 f_saveVN()
-assert(loadfile("save/vn_sav.lua"))()
+assert(loadfile(saveVNPath))()
 end
 
 --;===========================================================
@@ -2681,7 +2699,7 @@ function f_saveSettingsVN()
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
-	local file = io.open("save/config.ssz","w+")
+	local file = io.open(saveCoreCfgPath,"w+")
 	file:write(s_configSSZ)
 	file:close()
 	modifiedVN = false
@@ -3446,7 +3464,7 @@ function f_playTime()
 	gTime = os.clock() - gameTime
 	data.playTime = (data.playTime + gTime)
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 --Data saving to temp_sav.lua
@@ -3458,7 +3476,7 @@ function f_saveTemp()
 		['data.VNbreaker'] = data.VNbreaker
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
-	local tempFile = io.open("save/temp_sav.lua","w+")
+	local tempFile = io.open(saveTempPath,"w+")
 	tempFile:write(s_tempdataLUA)
 	tempFile:close()
 end
@@ -3467,6 +3485,23 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.tempBack = false
 	data.replayDone = false
 	f_saveTemp()
+end
+
+--Data saving to tourney_sav.lua
+function f_saveTourney()
+	local t_tourney = {
+		['data.tourneySize'] = data.tourneySize,
+		['data.tourneyType'] = data.tourneyType,
+		['data.tourneyCharSel'] = data.tourneyCharSel,
+		['data.tourneyStgSel'] = data.tourneyStgSel,
+		['data.tourneyRoundTime'] = data.tourneyRoundTime,
+		['data.tourneyRoundsNum'] = data.tourneyRoundsNum,
+		['data.tourneyMatchsNum'] = data.tourneyMatchsNum
+	}
+	s_tourneydataLUA = f_strSub(s_tourneydataLUA, t_tourney)
+	local tourneyFile = io.open(saveTourneyPath,"w+")
+	tourneyFile:write(s_tourneydataLUA)
+	tourneyFile:close()
 end
 
 --Data saving to vn_sav.lua
@@ -3484,7 +3519,7 @@ function f_saveVN()
 		['data.VNdialogue'] = data.VNdialogue
 	}
 	s_vndataLUA = f_strSub(s_vndataLUA, t_vn)
-	local vnFile = io.open("save/vn_sav.lua","w+")
+	local vnFile = io.open(saveVNPath,"w+")
 	vnFile:write(s_vndataLUA)
 	vnFile:close()
 end
@@ -3576,7 +3611,7 @@ function f_saveProgress()
 		['data.gouki'] = data.gouki
 	}
 	statsDataLUA = f_strSub(statsDataLUA, t_progress)
-	local file = io.open("save/stats_sav.lua","w+")
+	local file = io.open(saveStatsPath,"w+")
 	file:write(statsDataLUA)
 	file:close()
 end
@@ -3585,7 +3620,7 @@ end
 --; UNLOCKS CHECKING
 --;===========================================================
 function f_unlocksCheck()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 	if data.arcadeClear == true then --Verify if you comply with this condition and then..
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
 	end

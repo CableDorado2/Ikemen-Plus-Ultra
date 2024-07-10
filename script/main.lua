@@ -292,7 +292,7 @@ function f_mainMenu()
 						f_challengeMenu()
 					--EXTRAS (play custom game modes)
 					elseif mainMenu == 7 then
-						assert(loadfile("save/stats_sav.lua"))()
+						assert(loadfile(saveStatsPath))()
 						if data.arcadeClear == true then
 							f_extrasMenu()
 						else
@@ -304,7 +304,7 @@ function f_mainMenu()
 					--OPTIONS (adjust game settings)
 					elseif mainMenu == 9 then
 						onlinegame = false --only for identify purposes
-						assert(loadfile("save/data_sav.lua"))()
+						assert(loadfile(saveCfgPath))()
 						script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 					--EXIT
 					elseif mainMenu == 10 then
@@ -331,7 +331,7 @@ function f_mainMenu()
 						end
 					--LOAD GAME (continue the story from where you left off)
 					elseif mainMenu == 2 then
-						assert(loadfile("save/vn_sav.lua"))()
+						assert(loadfile(saveVNPath))()
 						if data.VNarc == "" and data.VNchapter == 0 and data.VNdialogue == 0 then
 							sndPlay(sndSys, 100, 5) --No Data
 							vnDataInfo = true
@@ -345,11 +345,11 @@ function f_mainMenu()
 					--CONFIG (adjust game settings)
 					elseif mainMenu == 3 then
 						onlinegame = false
-						assert(loadfile("save/data_sav.lua"))()
+						assert(loadfile(saveCfgPath))()
 						script.options.f_mainCfg()
 					--GALLERY (display additional content)
 					elseif mainMenu == 4 then
-						assert(loadfile("save/stats_sav.lua"))()
+						assert(loadfile(saveStatsPath))()
 						f_galleryMenu()
 					--EXIT
 					elseif mainMenu == 5 then
@@ -1975,7 +1975,7 @@ function f_missionStatus()
 	elseif data.missionNo == 3 then data.mission3Status = 1
 	end
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 --;===========================================================
@@ -3450,9 +3450,9 @@ function f_extrasMenu()
 				--EVENTS MODE (complete events at certain hours, days, weeks, months or years)
 				elseif extrasMenu == 2 then
 					f_eventMenu()
-				--TOURNEY MODE (participate in customizable single-elimination tournaments)
+				--TOURNEY MODE (participate in customizable tournaments)
 				elseif extrasMenu == 3 then
-					f_tourneyMenu()
+					f_tourneyCfg()
 				--ADVENTURE MODE (explore a custom map with goals and level up your characters)
 				elseif extrasMenu == 4 then
 					f_selectAdventure() --f_mainAdventure()
@@ -3948,60 +3948,255 @@ function f_eventStatus()
 	elseif data.eventNo == 3 then data.event3Status = 1
 	end
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 --;===========================================================
---; TOURNAMENT MENU (WIP)
+--; TOURNAMENT SETTINGS MENU
 --;===========================================================
-function f_tourneyMenu()
+function f_tourneyCfg()
 	cmdInput()
-	local cursorPosY = 0
+	local cursorPosY = 1
 	local moveTxt = 0
-	local tourneyMenu = 1
+	local tourneyCfg = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sndSys, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
-			tourneyMenu = tourneyMenu - 1
+			tourneyCfg = tourneyCfg - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
-			tourneyMenu = tourneyMenu + 1
-		end
-		if tourneyMenu < 1 then
-			tourneyMenu = #t_tourneyMenu
-			if #t_tourneyMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_tourneyMenu-1
+			tourneyCfg = tourneyCfg + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		--Participants/Entries
+		elseif tourneyCfg == 1 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.tourneySize < 16 then sndPlay(sndSys, 100, 0) end
+				if data.tourneySize < 16 then
+					data.tourneySize = data.tourneySize + data.tourneySize
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.tourneySize > 4 then sndPlay(sndSys, 100, 0) end
+				if data.tourneySize > 4 then
+					data.tourneySize = data.tourneySize - (data.tourneySize/2)
+				end
+				modified = 1
 			end
-		elseif tourneyMenu > #t_tourneyMenu then
-			tourneyMenu = 1
-			cursorPosY = 0
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--Format
+		elseif tourneyCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sndSys, 100, 0)
+			if data.tourneyType == "Single Elimination" then
+				data.tourneyType = "Double Elimination"
+				modified = 1
+			elseif data.tourneyType == "Double Elimination" then
+				data.tourneyType = "Single Elimination"
+				modified = 1
+			end
+		--Allow Character Select
+		elseif tourneyCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sndSys, 100, 0)
+			if data.tourneyCharSel then
+				data.tourneyCharSel = false
+				modified = 1
+			else
+				data.tourneyCharSel = true
+				modified = 1
+			end
+		--Allow Stage Select
+		elseif tourneyCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sndSys, 100, 0)
+			if data.tourneyStgSel then
+				data.tourneyStgSel = false
+				modified = 1
+			else
+				data.tourneyStgSel = true
+				modified = 1
+			end
+		--Round Time			
+		elseif tourneyCfg == 5 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if data.tourneyRoundTime < 1000 then
+					data.tourneyRoundTime = data.tourneyRoundTime + 1
+				else
+					data.tourneyRoundTime = -1
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if data.tourneyRoundTime > -1 then
+					data.tourneyRoundTime = data.tourneyRoundTime - 1
+				else
+					data.tourneyRoundTime = 1000
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--Rounds to Win
+		elseif tourneyCfg == 6 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.tourneyRoundsNum < 5 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyRoundsNum < 5 then
+					data.tourneyRoundsNum = data.tourneyRoundsNum + 1
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.tourneyRoundsNum > 1 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyRoundsNum > 1 then
+					data.tourneyRoundsNum = data.tourneyRoundsNum - 1
+				end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--Matchs to Win (First To)
+		elseif tourneyCfg == 7 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.tourneyMatchsNum < 5 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyMatchsNum < 5 then
+					data.tourneyMatchsNum = data.tourneyMatchsNum + 1
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.tourneyMatchsNum > 1 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyMatchsNum > 1 then
+					data.tourneyMatchsNum = data.tourneyMatchsNum - 1
+				end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--CREATE TOURNAMENT
+		elseif tourneyCfg == #t_tourneyCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			sndPlay(sndSys, 100, 2)
+			f_saveTourney()
+		end
+		if tourneyCfg < 1 then
+			tourneyCfg = #t_tourneyCfg
+			if #t_tourneyCfg > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_tourneyCfg
+			end
+		elseif tourneyCfg > #t_tourneyCfg then
+			tourneyCfg = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 5 then
-			moveTxt = (tourneyMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (tourneyMenu - 1) * 13
-		end
-		if #t_tourneyMenu <= 5 then
-			maxTourneyMenu = #t_tourneyMenu
-		elseif tourneyMenu - cursorPosY > 0 then
-			maxTourneyMenu = tourneyMenu + 5 - cursorPosY
+		if cursorPosY == maxItems then
+			moveTxt = (tourneyCfg - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (tourneyCfg - 1) * 15
+		end	
+		if #t_tourneyCfg <= maxItems then
+			maxtourneyCfg = #t_tourneyCfg
+		elseif tourneyCfg - cursorPosY > 0 then
+			maxtourneyCfg = tourneyCfg + maxItems - cursorPosY
 		else
-			maxTourneyMenu = 5
+			maxtourneyCfg = maxItems
 		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		animDraw(f_animVelocity(tourneyBG0, -1, -1))
+		animSetScale(tourneyBG1, 220, maxtourneyCfg*15)
+		animSetWindow(tourneyBG1, 80,20, 160,180)
+		animDraw(tourneyBG1)
+		textImgDraw(txt_tourneyCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		t_tourneyCfg[1].varText = data.tourneySize
+		t_tourneyCfg[2].varText = data.tourneyType
+		if data.tourneyCharSel then t_tourneyCfg[3].varText = "Every Match" else t_tourneyCfg[3].varText = "First Match" end
+		if data.tourneyStgSel then t_tourneyCfg[4].varText = "Every Match" else t_tourneyCfg[4].varText = "First Match" end
+		t_tourneyCfg[5].varText = data.tourneyRoundTime
+		t_tourneyCfg[6].varText = data.tourneyRoundsNum
+		t_tourneyCfg[7].varText = "FT"..data.tourneyMatchsNum
+		--[[
+		t_tourneyCfg[8].varText = data.tourneyCharLock
+		t_tourneyCfg[9].varText = data.tourneyStgLock
+		]]
+		for i=1, maxtourneyCfg do
+			if i > tourneyCfg - cursorPosY then
+				if t_tourneyCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, 1, t_tourneyCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, -1, t_tourneyCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxtourneyCfg > maxItems then
+			animDraw(tourneyUpArrow)
+			animUpdate(tourneyUpArrow)
+		end
+		if #t_tourneyCfg > maxItems and maxtourneyCfg < #t_tourneyCfg then
+			animDraw(tourneyDownArrow)
+			animUpdate(tourneyDownArrow)
+		end
+		drawMenuInputHints()
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+function f_tourneyTest()
+if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			f_default()
 			--data.rosterMode = "tourney"
 			--data.stageMenu = true
@@ -4025,32 +4220,33 @@ function f_tourneyMenu()
 				textImgSetText(txt_mainSelect, "TOURNAMENT - SEMIFINALS")
 				f_selectTourney()
 			end
-		end	
-		drawBottomMenuSP()
-		for i=1, #t_tourneyMenu do
-			if i == tourneyMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_tourneyMenu[i].id, jgFnt, bank, 0, t_tourneyMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		drawMiddleMenuSP()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "TOURNAMENT MODE")
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxTourneyMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+end
+
+--;===========================================================
+--; TOURNAMENT MENU
+--;===========================================================
+function f_tourneyMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local tourneyMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			sndPlay(sndSys, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			tourneyMenu = tourneyMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			tourneyMenu = tourneyMenu + 1
 		end
-		if #t_tourneyMenu > 6 and maxTourneyMenu < #t_tourneyMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
-		end
+		
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -4254,19 +4450,19 @@ function f_theVault()
 						sndPlay(sndSys, 100, 1)
 						data.vault = "Ultra"
 						f_saveProgress()
-						assert(loadfile("save/stats_sav.lua"))()
+						assert(loadfile(saveStatsPath))()
 						prize = true
 					elseif vaultKey == "zen" or vaultKey == "Zen" or vaultKey == "ZEN" then
 						sndPlay(sndSys, 100, 1)
 						data.vault = "Zen"
 						f_saveProgress()
-						assert(loadfile("save/stats_sav.lua"))()
+						assert(loadfile(saveStatsPath))()
 						prize = true
 					elseif vaultKey == "ssz" or vaultKey == "Ssz" or vaultKey == "SSZ" then
 						sndPlay(sndSys, 100, 1)
 						data.vault = "SSZ"
 						f_saveProgress()
-						assert(loadfile("save/stats_sav.lua"))()
+						assert(loadfile(saveStatsPath))()
 						prize = true
 					else
 						prize = false
@@ -4412,7 +4608,7 @@ function f_watchMenu()
 					end
 				--STATISTICS (display overall player data)
 				elseif watchMenu == 3 then
-					--assert(loadfile("save/stats_sav.lua"))()
+					--assert(loadfile(saveStatsPath))()
 					f_statsMenu()
 				--STORYBOARDS (play storyboards)
 				elseif watchMenu == 4 then
@@ -4600,13 +4796,13 @@ end
 function f_victories()
 	data.victories = data.victories + 1
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 function f_defeats()
 	data.defeats = data.defeats + 1
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 function f_records()
@@ -4620,7 +4816,7 @@ function f_records()
 		end
 	end
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 function f_modeplayTime()
@@ -4643,19 +4839,19 @@ function f_modeplayTime()
 	elseif data.rosterMode == "adventure" then data.adventureTime = data.adventureTime + clearTime
 	end
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 function f_favoriteChar()
 	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic with json
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 function f_favoriteStage()
 	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with json
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end
 
 function f_gameState()
@@ -5940,7 +6136,7 @@ function f_mainReplay()
 			replaygame = false
 			coinSystem = true
 			--netPlayer = "" Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
-			assert(loadfile("save/data_sav.lua"))()
+			assert(loadfile(saveCfgPath))()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			break
@@ -6160,7 +6356,7 @@ function f_mainNetplay()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') then
 			onlinegame = false --only for identify purposes
-			assert(loadfile("save/data_sav.lua"))()
+			assert(loadfile(saveCfgPath))()
 			sndPlay(sndSys, 100, 2)
 			f_resetMenuInputs()
 			return
@@ -6517,7 +6713,7 @@ end
 --; HOST ROOMS MENU
 --;===========================================================
 function f_hostTable()
-	local file = io.open("save/host_rooms.json","r")
+	local file = io.open(saveHostRoomPath,"r")
 	host_rooms = json.decode(file:read("*all"))
 	file:close()
 	t_hostList = {{id = textImgNew(), text = "ADD NEW ROOM"},}
@@ -6545,7 +6741,7 @@ function f_hostRooms()
 		if editHostScreen == false and crudHostScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') then
 				--onlinegame = false
-				--assert(loadfile("save/data_sav.lua"))()
+				--assert(loadfile(saveCfgPath))()
 				sndPlay(sndSys, 100, 2)
 				break
 				--return
@@ -6594,7 +6790,7 @@ function f_hostRooms()
 				elseif hostList == #t_hostList then
 					sndPlay(sndSys, 100, 2)
 					--onlinegame = false
-					--assert(loadfile("save/data_sav.lua"))()
+					--assert(loadfile(saveCfgPath))()
 					break
 				--OPEN CRUD MENU
 				else
@@ -7002,7 +7198,7 @@ function f_editHost()
 			end
 		end
 		t_hostList = t_tmp
-		local file = io.open("save/host_rooms.json","w+")
+		local file = io.open(saveHostRoomPath,"w+")
 		file:write(json.encode(host_rooms, {indent = true}))
 		file:close()
 		f_hostTable() --Refresh
@@ -7086,7 +7282,7 @@ function f_mainLobby()
 	local bufl = 0
 	local cancel = false
 	while true do
-		--assert(loadfile("save/temp_sav.lua"))()
+		--assert(loadfile(saveTempPath))()
 		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone == true then
 			sndPlay(sndSys, 100, 2)
 			data.replayDone = false
@@ -7486,7 +7682,7 @@ function f_exitMenu()
 				elseif exitMenu == 1 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
 					sndPlay(sndSys, 100, 1)
 					onlinegame = false
-					assert(loadfile("save/data_sav.lua"))()
+					assert(loadfile(saveCfgPath))()
 					script.options.f_mainCfg()
 				--EXIT FOR ATTRACT MODE
 				elseif exitMenu == 2 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
@@ -7720,7 +7916,7 @@ function f_confirmMenu()
 					end
 				end
 				t_hostList = t_tmp
-				local file = io.open("save/host_rooms.json","w+")
+				local file = io.open(saveHostRoomPath,"w+")
 				file:write(json.encode(host_rooms, {indent = true}))
 				file:close()
 				f_hostTable() --Refresh
@@ -11072,7 +11268,7 @@ if validCells() then
 			end
 			f_selectScreen()
 		--Return to Main Menu
-			assert(loadfile("save/temp_sav.lua"))()
+			assert(loadfile(saveTempPath))()
 			if back == true or data.tempBack == true then
 				f_resetMenuAssets()
 				return
@@ -11179,7 +11375,7 @@ if validCells() then
 			end
 		end
 		f_aiLevel()
-		assert(loadfile("save/training_sav.lua"))()
+		assert(loadfile(saveTrainingPath))()
 		if data.gameMode == "training" then
 			if data.dummyMode == 1 then
 				setCom(2, data.AIlevel)
@@ -11356,7 +11552,7 @@ if validCells() then
 				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile("save/temp_sav.lua"))()
+			assert(loadfile(saveTempPath))()
 			if back == true or data.tempBack == true then
 				f_resetMenuAssets()
 				return
@@ -11399,7 +11595,7 @@ if validCells() then
 	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
 		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster") then
 			looseCnt = looseCnt + 1
-			assert(loadfile("save/temp_sav.lua"))()
+			assert(loadfile(saveTempPath))()
 			if data.tempBack == true then
 				f_exitToMainMenu()
 				return
@@ -11450,7 +11646,7 @@ if validCells() then
 							f_selectWin()
 						end
 					end
-					assert(loadfile("save/temp_sav.lua"))()
+					assert(loadfile(saveTempPath))()
 					if data.tempBack == true then
 						f_exitToMainMenu()
 						return
@@ -11460,7 +11656,7 @@ if validCells() then
 				--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
-					assert(loadfile("save/temp_sav.lua"))()
+					assert(loadfile(saveTempPath))()
 					if data.tempBack == true then
 						f_exitToMainMenu()
 						return
@@ -11587,7 +11783,7 @@ if validCells() then
 							f_selectWin()
 						end
 					end
-					assert(loadfile("save/temp_sav.lua"))()
+					assert(loadfile(saveTempPath))()
 					if data.tempBack == true then
 						f_exitToMainMenu()
 						return
@@ -11597,7 +11793,7 @@ if validCells() then
 				--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
-					assert(loadfile("save/temp_sav.lua"))()
+					assert(loadfile(saveTempPath))()
 					if data.tempBack == true then
 						f_exitToMainMenu()
 						return
@@ -11653,7 +11849,7 @@ if validCells() then
 						end
 					end
 				end
-				assert(loadfile("save/temp_sav.lua"))()
+				assert(loadfile(saveTempPath))()
 				if data.tempBack == true then
 					f_exitToMainMenu()
 					return
@@ -11662,7 +11858,7 @@ if validCells() then
 				return
 			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
-				assert(loadfile("save/temp_sav.lua"))()
+				assert(loadfile(saveTempPath))()
 			--Here comes a New Challenger Route
 				if data.challengerMode then
 					data.challengerMode = false
@@ -12002,7 +12198,7 @@ if validCells() then
 				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile("save/temp_sav.lua"))()
+			assert(loadfile(saveTempPath))()
 			--Back from Pause Menu
 			if data.tempBack == true then
 				if data.rosterMode == "story" then

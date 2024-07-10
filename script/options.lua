@@ -164,7 +164,7 @@ function f_loadCfg()
 --; DATA_SAV.LUA
 --;===========================================================
 --Data loading from data_sav.lua
-	local file = io.open("save/data_sav.lua","r")
+	local file = io.open(saveCfgPath,"r")
 	s_dataLUA = file:read("*all")
 	file:close()
 --Apply settings from data_sav.lua
@@ -173,7 +173,7 @@ function f_loadCfg()
 --; CONFIG.SSZ
 --;===========================================================
 --Data loading from config.ssz
-	local file = io.open("save/config.ssz","r")
+	local file = io.open(saveCoreCfgPath,"r")
 	s_configSSZ = file:read("*all")
 	file:close()
 --Apply settings from config.ssz
@@ -207,11 +207,11 @@ end
 
 function f_loadNETCfg()
 --Data loading from data_netsav.lua
-	local file = io.open("save/data_netsav.lua","r")
+	local file = io.open(saveNetCfgPath,"r")
 	s_dataLUA = file:read("*all")
 	file:close()
 --Data loading from configNet.ssz
-	local file = io.open("save/configNet.ssz","r")
+	local file = io.open(saveNetCoreCfgPath,"r")
 	s_configSSZ = file:read("*all")
 	file:close()
 --Apply settings from configNet.ssz
@@ -489,7 +489,7 @@ function f_saveCfg()
 	}
 --Save Data to data_sav.lua
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
-	local file = io.open("save/data_sav.lua","w+")
+	local file = io.open(saveCfgPath,"w+")
 	file:write(s_dataLUA)
 	file:close()
 --;===========================================================
@@ -550,7 +550,7 @@ function f_saveCfg()
 	s_configSSZ = s_configSSZ:gsub('listenPort%s*=%s*"%w+"', 'listenPort = "' .. getListenPort() .. '"')
 	--s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
 --Save Data to config.ssz
-	local file = io.open("save/config.ssz","w+")
+	local file = io.open(saveCoreCfgPath,"w+")
 	file:write(s_configSSZ)
 	file:close()
 --Extra Audio Settings
@@ -630,7 +630,7 @@ function f_netsaveCfg()
 	}
 --Save Data to data_netsav.lua
 	s_dataLUA = f_strSub(s_dataLUA, t_netsaves)
-	local file = io.open("save/data_netsav.lua","w+")
+	local file = io.open(saveNetCfgPath,"w+")
 	file:write(s_dataLUA)
 	file:close()
 --;===========================================================
@@ -644,7 +644,7 @@ function f_netsaveCfg()
 	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
 --Save Data to configNet.ssz
-	local file = io.open("save/configNet.ssz","w+")
+	local file = io.open(saveNetCoreCfgPath,"w+")
 	file:write(s_configSSZ)
 	file:close()
 --;===========================================================
@@ -2250,7 +2250,7 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Round Time			
+			--Round Time
 			elseif gameCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.roundTime < 1000 then

@@ -1053,5 +1053,5 @@ function f_storyStatus()
 	elseif data.storyNo == "3-1" then data.story3_1Status = 1
 	end
 	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
+	assert(loadfile(saveStatsPath))()
 end

@@ -13,10 +13,8 @@ sprGallery = sffNew("data/screenpack/gallery.sff") --load gallery sprites
 sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
---[[
-sprTourney = sffNew("data/screenpack/tourney.sff") --load tourney sprites
-sprAdventure = sffNew("data/screenpack/adventure.sff") --load adventure sprites
-]]
+sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
+--sprAdventure = sffNew("data/screenpack/adventure.sff") --load adventure sprites
 
 --Sound Data (Sound effects do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -1085,12 +1083,70 @@ function f_eventTime()
 end
 
 --;===========================================================
---; TOURNAMENT MENU SCREENPACK DEFINITION (WIP)
+--; TOURNAMENT MENU SCREENPACK DEFINITION
 --;===========================================================
-t_tourneyMenu = {
-	{id = textImgNew(), text = "ROUND OF 16"},
-	{id = textImgNew(), text = "ROUND OF 8"},
-	{id = textImgNew(), text = "ROUND OF 4"},
+--Scrolling background
+tourneyBG0 = animNew(sprSys, [[
+100,0, 0,0, -1
+]])
+animAddPos(tourneyBG0, 160, 0)
+animSetTile(tourneyBG0, 1, 1)
+animSetColorKey(tourneyBG0, -1)
+
+--Transparent background
+tourneyBG1 = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(tourneyBG1, 20, 20)
+animSetAlpha(tourneyBG1, 20, 100)
+animUpdate(tourneyBG1)
+
+--Up Arrow
+tourneyUpArrow = animNew(sprSys, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(tourneyUpArrow, 228, 11)
+animUpdate(tourneyUpArrow)
+animSetScale(tourneyUpArrow, 0.5, 0.5)
+
+--Down Arrow
+tourneyDownArrow = animNew(sprSys, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(tourneyDownArrow, 228, 201.5)
+animUpdate(tourneyDownArrow)
+animSetScale(tourneyDownArrow, 0.5, 0.5)
+
+--;===========================================================
+--; TOURNAMENT SETTINGS SCREENPACK DEFINITION
+--;===========================================================
+txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT SETTINGS", 159, 13)
+
+t_tourneyCfg = {
+	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
+	{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
+	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
+	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
+	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
+	{varID = textImgNew(), text = "Rounds to Win",      		varText = data.tourneyRoundsNum},
+	{varID = textImgNew(), text = "Matchs to Win",              varText = data.tourneyMatchsNum},
+	--{varID = textImgNew(), text = "Character Restrictions",    	varText = data.tourneyCharLock},
+	--{varID = textImgNew(), text = "Stage Restrictions",    		varText = data.tourneyStgLock},
+	{varID = textImgNew(), text = "   CREATE TOURNAMENT",  			varText = ""},
 }
 
 --;===========================================================
