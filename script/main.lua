@@ -3452,7 +3452,7 @@ function f_extrasMenu()
 					f_eventMenu()
 				--TOURNEY MODE (participate in customizable tournaments)
 				elseif extrasMenu == 3 then
-					f_tourneyCfg()
+					--f_tourneyCfg()
 				--ADVENTURE MODE (explore a custom map with goals and level up your characters)
 				elseif extrasMenu == 4 then
 					f_selectAdventure() --f_mainAdventure()
@@ -3949,320 +3949,6 @@ function f_eventStatus()
 	end
 	f_saveProgress()
 	assert(loadfile(saveStatsPath))()
-end
-
---;===========================================================
---; TOURNAMENT SETTINGS MENU
---;===========================================================
-function f_tourneyCfg()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local tourneyCfg = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 12
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			tourneyCfg = tourneyCfg - 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			tourneyCfg = tourneyCfg + 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		--Participants/Entries
-		elseif tourneyCfg == 1 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if commandGetState(p1Cmd, 'r') and data.tourneySize < 16 then sndPlay(sndSys, 100, 0) end
-				if data.tourneySize < 16 then
-					data.tourneySize = data.tourneySize + data.tourneySize
-				end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if commandGetState(p1Cmd, 'l') and data.tourneySize > 4 then sndPlay(sndSys, 100, 0) end
-				if data.tourneySize > 4 then
-					data.tourneySize = data.tourneySize - (data.tourneySize/2)
-				end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--Format
-		elseif tourneyCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sndSys, 100, 0)
-			if data.tourneyType == "Single Elimination" then
-				data.tourneyType = "Double Elimination"
-				modified = 1
-			elseif data.tourneyType == "Double Elimination" then
-				data.tourneyType = "Single Elimination"
-				modified = 1
-			end
-		--Allow Character Select
-		elseif tourneyCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sndSys, 100, 0)
-			if data.tourneyCharSel then
-				data.tourneyCharSel = false
-				modified = 1
-			else
-				data.tourneyCharSel = true
-				modified = 1
-			end
-		--Allow Stage Select
-		elseif tourneyCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sndSys, 100, 0)
-			if data.tourneyStgSel then
-				data.tourneyStgSel = false
-				modified = 1
-			else
-				data.tourneyStgSel = true
-				modified = 1
-			end
-		--Round Time			
-		elseif tourneyCfg == 5 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if data.tourneyRoundTime < 1000 then
-					data.tourneyRoundTime = data.tourneyRoundTime + 1
-				else
-					data.tourneyRoundTime = -1
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if data.tourneyRoundTime > -1 then
-					data.tourneyRoundTime = data.tourneyRoundTime - 1
-				else
-					data.tourneyRoundTime = 1000
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--Rounds to Win
-		elseif tourneyCfg == 6 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if commandGetState(p1Cmd, 'r') and data.tourneyRoundsNum < 5 then sndPlay(sndSys, 100, 0) end
-				if data.tourneyRoundsNum < 5 then
-					data.tourneyRoundsNum = data.tourneyRoundsNum + 1
-				end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if commandGetState(p1Cmd, 'l') and data.tourneyRoundsNum > 1 then sndPlay(sndSys, 100, 0) end
-				if data.tourneyRoundsNum > 1 then
-					data.tourneyRoundsNum = data.tourneyRoundsNum - 1
-				end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--Matchs to Win (First To)
-		elseif tourneyCfg == 7 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if commandGetState(p1Cmd, 'r') and data.tourneyMatchsNum < 5 then sndPlay(sndSys, 100, 0) end
-				if data.tourneyMatchsNum < 5 then
-					data.tourneyMatchsNum = data.tourneyMatchsNum + 1
-				end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if commandGetState(p1Cmd, 'l') and data.tourneyMatchsNum > 1 then sndPlay(sndSys, 100, 0) end
-				if data.tourneyMatchsNum > 1 then
-					data.tourneyMatchsNum = data.tourneyMatchsNum - 1
-				end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--CREATE TOURNAMENT
-		elseif tourneyCfg == #t_tourneyCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			sndPlay(sndSys, 100, 2)
-			f_saveTourney()
-		end
-		if tourneyCfg < 1 then
-			tourneyCfg = #t_tourneyCfg
-			if #t_tourneyCfg > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_tourneyCfg
-			end
-		elseif tourneyCfg > #t_tourneyCfg then
-			tourneyCfg = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (tourneyCfg - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (tourneyCfg - 1) * 15
-		end	
-		if #t_tourneyCfg <= maxItems then
-			maxtourneyCfg = #t_tourneyCfg
-		elseif tourneyCfg - cursorPosY > 0 then
-			maxtourneyCfg = tourneyCfg + maxItems - cursorPosY
-		else
-			maxtourneyCfg = maxItems
-		end
-		animDraw(f_animVelocity(tourneyBG0, -1, -1))
-		animSetScale(tourneyBG1, 220, maxtourneyCfg*15)
-		animSetWindow(tourneyBG1, 80,20, 160,180)
-		animDraw(tourneyBG1)
-		textImgDraw(txt_tourneyCfg)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		t_tourneyCfg[1].varText = data.tourneySize
-		t_tourneyCfg[2].varText = data.tourneyType
-		if data.tourneyCharSel then t_tourneyCfg[3].varText = "Every Match" else t_tourneyCfg[3].varText = "First Match" end
-		if data.tourneyStgSel then t_tourneyCfg[4].varText = "Every Match" else t_tourneyCfg[4].varText = "First Match" end
-		t_tourneyCfg[5].varText = data.tourneyRoundTime
-		t_tourneyCfg[6].varText = data.tourneyRoundsNum
-		t_tourneyCfg[7].varText = "FT"..data.tourneyMatchsNum
-		--[[
-		t_tourneyCfg[8].varText = data.tourneyCharLock
-		t_tourneyCfg[9].varText = data.tourneyStgLock
-		]]
-		for i=1, maxtourneyCfg do
-			if i > tourneyCfg - cursorPosY then
-				if t_tourneyCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, 1, t_tourneyCfg[i].text, 85, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, -1, t_tourneyCfg[i].varText, 235, 15+i*15-moveTxt))
-				end
-			end
-		end
-		if maxtourneyCfg > maxItems then
-			animDraw(tourneyUpArrow)
-			animUpdate(tourneyUpArrow)
-		end
-		if #t_tourneyCfg > maxItems and maxtourneyCfg < #t_tourneyCfg then
-			animDraw(tourneyDownArrow)
-			animUpdate(tourneyDownArrow)
-		end
-		drawMenuInputHints()
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
-function f_tourneyTest()
-if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			f_default()
-			--data.rosterMode = "tourney"
-			--data.stageMenu = true
-			--data.p2In = 1
-			--data.p2SelectMenu = false
-			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 1)
-			--ROUND OF 16 (participate in a customizable single-elimination tournament starting from Round of 16)
-			if tourneyMenu == 1 then
-				data.gameMode = "tourney16"
-				textImgSetText(txt_mainSelect, "TOURNAMENT MODE")
-				f_selectTourney()
-			--QUARTERFINALS (participate in a customizable single-elimination tournament starting from Quarterfinals)
-			elseif tourneyMenu == 2 then
-				data.gameMode = "tourney8"
-				textImgSetText(txt_mainSelect, "TOURNAMENT - QUARTERFINALS")
-				f_selectTourney()
-			--SEMIFINALS (participate in a customizable single-elimination tournament starting from Semifinals)
-			elseif tourneyMenu == 3 then
-				data.gameMode = "tourney4"
-				textImgSetText(txt_mainSelect, "TOURNAMENT - SEMIFINALS")
-				f_selectTourney()
-			end
-		end
-end
-
---;===========================================================
---; TOURNAMENT MENU
---;===========================================================
-function f_tourneyMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local tourneyMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			tourneyMenu = tourneyMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			tourneyMenu = tourneyMenu + 1
-		end
-		
-		drawMenuInputHints()
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
 end
 
 --;===========================================================
@@ -12655,13 +12341,359 @@ function f_battlePreview()
 	end
 end
 
---;=================================================================================================
---; TOURNAMENT MODE (WIP)
---;=================================================================================================
-function f_selectTourney()
---TODO
+--;===========================================================
+--; TOURNAMENT SETTINGS MENU
+--;===========================================================
+function f_tourneyCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local tourneyCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 12
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmTourney)
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			sndPlay(sndSys, 100, 2)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			f_menuMusic()
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			tourneyCfg = tourneyCfg - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			tourneyCfg = tourneyCfg + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		--Participants/Entries
+		elseif tourneyCfg == 1 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.tourneySize < 16 then sndPlay(sndSys, 100, 0) end
+				if data.tourneySize < 16 then
+					data.tourneySize = data.tourneySize + data.tourneySize
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.tourneySize > 4 then sndPlay(sndSys, 100, 0) end
+				if data.tourneySize > 4 then
+					data.tourneySize = data.tourneySize - (data.tourneySize/2)
+				end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--[[Format
+		elseif tourneyCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sndSys, 100, 0)
+			if data.tourneyType == "Single Elimination" then
+				data.tourneyType = "Double Elimination"
+				modified = 1
+			elseif data.tourneyType == "Double Elimination" then
+				data.tourneyType = "Single Elimination"
+				modified = 1
+			end
+		]]
+		--Allow Character Select
+		elseif tourneyCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sndSys, 100, 0)
+			if data.tourneyCharSel then
+				data.tourneyCharSel = false
+				modified = 1
+			else
+				data.tourneyCharSel = true
+				modified = 1
+			end
+		--Allow Stage Select
+		elseif tourneyCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sndSys, 100, 0)
+			if data.tourneyStgSel then
+				data.tourneyStgSel = false
+				modified = 1
+			else
+				data.tourneyStgSel = true
+				modified = 1
+			end
+		--Round Time
+		elseif tourneyCfg == 4 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if data.tourneyRoundTime < 1000 then
+					data.tourneyRoundTime = data.tourneyRoundTime + 1
+				else
+					data.tourneyRoundTime = -1
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if data.tourneyRoundTime > -1 then
+					data.tourneyRoundTime = data.tourneyRoundTime - 1
+				else
+					data.tourneyRoundTime = 1000
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--Rounds to Win
+		elseif tourneyCfg == 5 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.tourneyRoundsNum < 5 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyRoundsNum < 5 then
+					data.tourneyRoundsNum = data.tourneyRoundsNum + 1
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.tourneyRoundsNum > 1 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyRoundsNum > 1 then
+					data.tourneyRoundsNum = data.tourneyRoundsNum - 1
+				end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--Matchs to Win (First To)
+		elseif tourneyCfg == 6 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.tourneyMatchsNum < 5 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyMatchsNum < 5 then
+					data.tourneyMatchsNum = data.tourneyMatchsNum + 1
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.tourneyMatchsNum > 1 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyMatchsNum > 1 then
+					data.tourneyMatchsNum = data.tourneyMatchsNum - 1
+				end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--CREATE TOURNAMENT
+		elseif tourneyCfg == #t_tourneyCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			sndPlay(sndSys, 100, 2)
+			f_saveTourney()
+			f_addTourneySlots()
+			f_tourneyMenu()
+		end
+		if tourneyCfg < 1 then
+			tourneyCfg = #t_tourneyCfg
+			if #t_tourneyCfg > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_tourneyCfg
+			end
+		elseif tourneyCfg > #t_tourneyCfg then
+			tourneyCfg = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveTxt = (tourneyCfg - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (tourneyCfg - 1) * 15
+		end	
+		if #t_tourneyCfg <= maxItems then
+			maxtourneyCfg = #t_tourneyCfg
+		elseif tourneyCfg - cursorPosY > 0 then
+			maxtourneyCfg = tourneyCfg + maxItems - cursorPosY
+		else
+			maxtourneyCfg = maxItems
+		end
+		--Draw BG
+		animDraw(f_animVelocity(tourneyBG0, -1, -1))
+		--Draw Tourney BG Grids
+		if data.tourneySize == 4 then animDraw(tourney4)
+		elseif data.tourneySize == 8 then animDraw(tourney8)
+		elseif data.tourneySize == 16 then animDraw(tourney16)
+		end
+		--Draw Settings BG
+		animSetScale(tourneyBG1, 220, maxtourneyCfg*15)
+		animSetWindow(tourneyBG1, 80,20, 160,180)
+		animDraw(tourneyBG1)
+		--Draw Title
+		textImgDraw(txt_tourneyCfg)
+		--Draw Cursor
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Set Settings Text
+		t_tourneyCfg[1].varText = data.tourneySize
+		--t_tourneyCfg[2].varText = data.tourneyType
+		if data.tourneyCharSel then t_tourneyCfg[2].varText = "Every Match" else t_tourneyCfg[2].varText = "First Match" end
+		if data.tourneyStgSel then t_tourneyCfg[3].varText = "Every Match" else t_tourneyCfg[3].varText = "First Match" end
+		t_tourneyCfg[4].varText = data.tourneyRoundTime
+		t_tourneyCfg[5].varText = data.tourneyRoundsNum
+		t_tourneyCfg[6].varText = "FT"..data.tourneyMatchsNum
+		--[[
+		t_tourneyCfg[8].varText = data.tourneyCharLock
+		t_tourneyCfg[9].varText = data.tourneyStgLock
+		]]
+		--Draw Settings Text
+		for i=1, maxtourneyCfg do
+			if i > tourneyCfg - cursorPosY then
+				if t_tourneyCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, 1, t_tourneyCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, -1, t_tourneyCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxtourneyCfg > maxItems then
+			animDraw(tourneyUpArrow)
+			animUpdate(tourneyUpArrow)
+		end
+		if #t_tourneyCfg > maxItems and maxtourneyCfg < #t_tourneyCfg then
+			animDraw(tourneyDownArrow)
+			animUpdate(tourneyDownArrow)
+		end
+		drawTourneyInputHints()
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; TOURNAMENT MODE MENU
+--;===========================================================
+function f_tourneyMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local tourneyMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			sndPlay(sndSys, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			tourneyMenu = tourneyMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			tourneyMenu = tourneyMenu + 1
+		end
+		--Draw BG
+		animDraw(f_animVelocity(tourneyBG0, -1, -1))
+		--Draw Title BG
+		animDraw(f_animVelocity(selectBG2a, -1, 0))
+		animDraw(f_animVelocity(selectBG2b, -3, 0))
+		animDraw(f_animVelocity(selectBG2c, -6, 0))
+		--Draw Tourney BG Grids
+		if data.tourneySize == 4 then
+			textImgSetText(txt_mainSelect, txt_tourneySemi)
+			animDraw(tourney4)
+		elseif data.tourneySize == 8 then
+			textImgSetText(txt_mainSelect, txt_tourneyQuarter)
+			animDraw(tourney8)
+		elseif data.tourneySize == 16 then
+			textImgSetText(txt_mainSelect, txt_tourneyTitle)
+			animDraw(tourney16)
+		end
+		textImgDraw(txt_mainSelect)
+		drawTourneyInputHints2()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+function f_tourneyTest()
+	f_default()
+	data.rosterMode = "tourney"
+	data.stageMenu = true
+	data.p2In = 1
+	--data.p2SelectMenu = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+	--SEMIFINALS (participate in a customizable single-elimination tournament starting from Semifinals)
+	if data.tourneySize == 4 then
+		data.gameMode = "tourney4"
+		textImgSetText(txt_mainSelect, txt_tourneySemi)
+	--QUARTERFINALS (participate in a customizable single-elimination tournament starting from Quarterfinals)
+	elseif data.tourneySize == 8 then
+		data.gameMode = "tourney8"
+		textImgSetText(txt_mainSelect, txt_tourneyQuarter)
+	--ROUND OF 16 (participate in a customizable single-elimination tournament starting from Round of 16)
+	elseif data.tourneySize == 16 then
+		data.gameMode = "tourney16"
+		textImgSetText(txt_mainSelect, txt_tourneyTitle)
+	end
+	f_selectTourney()
+end
+
+--;=================================================================================================
+--; TOURNAMENT CHARACTER SELECT
+--;=================================================================================================
+function f_selectTourney()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	--playBGM(bgmTourney)
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -12674,9 +12706,12 @@ function f_selectTourney()
 		animDraw(f_animVelocity(selectBG2a, -1, 0))
 		animDraw(f_animVelocity(selectBG2b, -3, 0))
 		animDraw(f_animVelocity(selectBG2c, -6, 0))
-		if data.gameMode == "tourney16" then animDraw(tourney16)
-		elseif data.gameMode == "tourney8" then animDraw(tourney8)
-		elseif data.gameMode == "tourney4" then animDraw(tourney4) end
+		--[[
+		if data.gameMode == "tourney4" then
+		elseif data.gameMode == "tourney8" then
+		elseif data.gameMode == "tourney16" then
+		end
+		]]
 		textImgDraw(txt_mainSelect)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

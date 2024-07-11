@@ -1083,8 +1083,59 @@ function f_eventTime()
 end
 
 --;===========================================================
+--; TOURNAMENT SETTINGS SCREENPACK DEFINITION
+--;===========================================================
+txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT SETTINGS", 159, 13)
+
+t_tourneyCfg = {
+	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
+	--{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
+	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
+	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
+	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
+	{varID = textImgNew(), text = "Rounds to Win",      		varText = data.tourneyRoundsNum},
+	{varID = textImgNew(), text = "Matchs to Win",              varText = data.tourneyMatchsNum},
+	--{varID = textImgNew(), text = "Character Restrictions",    	varText = data.tourneyCharLock},
+	--{varID = textImgNew(), text = "Stage Restrictions",    		varText = data.tourneyStgLock},
+	{varID = textImgNew(), text = "    CREATE TOURNAMENT",  			varText = ""},
+}
+
+--Input Hints Panel
+function drawTourneyInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--;===========================================================
 --; TOURNAMENT MENU SCREENPACK DEFINITION
 --;===========================================================
+txt_tourneyTitle = "TOURNAMENT MODE"
+txt_tourneyQuarter = "TOURNAMENT - QUARTERFINALS"
+txt_tourneySemi = "TOURNAMENT - SEMIFINALS"
+txt_tourneyFinal = "TOURNAMENT - FINAL"
+
+function f_addTourneySlots()
+	t_tourneyMenu = {GroupA = {}, GroupB = {}}
+	for i=1, data.tourneySize do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
+		if i <= data.tourneySize/2 then --Send first data to Group A
+			t_tourneyMenu.GroupA[i] = {}
+			t_tourneyMenu.GroupA[i]['CharID'] = "randomselect"
+			t_tourneyMenu.GroupA[i]['CharControl'] = "CPU"
+		else --Send left data to Group B
+			t_tourneyMenu.GroupB[i] = {}
+			t_tourneyMenu.GroupB[i]['CharID'] = "randomselect"
+			t_tourneyMenu.GroupB[i]['CharControl'] = "CPU"
+		end
+	end
+	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+end
+
 --Scrolling background
 tourneyBG0 = animNew(sprSys, [[
 100,0, 0,0, -1
@@ -1131,23 +1182,42 @@ animAddPos(tourneyDownArrow, 228, 201.5)
 animUpdate(tourneyDownArrow)
 animSetScale(tourneyDownArrow, 0.5, 0.5)
 
---;===========================================================
---; TOURNAMENT SETTINGS SCREENPACK DEFINITION
---;===========================================================
-txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT SETTINGS", 159, 13)
+--4 Players Grid
+tourney4 = animNew(sprTourney, [[
+1,4, 0,0, -1
+]])
+animAddPos(tourney4, -10, -5)
+animUpdate(tourney4)
+animSetScale(tourney4, 1.059, 1.041)
 
-t_tourneyCfg = {
-	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
-	{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
-	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
-	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
-	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
-	{varID = textImgNew(), text = "Rounds to Win",      		varText = data.tourneyRoundsNum},
-	{varID = textImgNew(), text = "Matchs to Win",              varText = data.tourneyMatchsNum},
-	--{varID = textImgNew(), text = "Character Restrictions",    	varText = data.tourneyCharLock},
-	--{varID = textImgNew(), text = "Stage Restrictions",    		varText = data.tourneyStgLock},
-	{varID = textImgNew(), text = "   CREATE TOURNAMENT",  			varText = ""},
-}
+--8 Players Grid
+tourney8 = animNew(sprTourney, [[
+1,8, 0,0, -1
+]])
+animAddPos(tourney8, -10, -5)
+animUpdate(tourney8)
+animSetScale(tourney8, 1.059, 1.041)
+
+--16 Players Grid
+tourney16 = animNew(sprTourney, [[
+1,16, 0,0, -1
+]])
+animAddPos(tourney16, -10, -5)
+animUpdate(tourney16)
+animSetScale(tourney16, 1.059, 1.041)
+
+--Input Hints Panel
+function drawTourneyInputHints2()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"s","120,198")
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Tourney", 142, 211)
+end
 
 --;===========================================================
 --; VISUAL NOVEL MENU SCREENPACK DEFINITION
@@ -4188,30 +4258,6 @@ battleStgPreview = animNew(sprSys, [[
 ]])
 animUpdate(battleStgPreview)
 animSetScale(battleStgPreview, 1.53, 1.34)
-
---;=================================================================================================
---; TOURNAMENT MODE SCREENPACK DEFINITION (WIP)
---;=================================================================================================
-tourney16 = animNew(sprSys, [[
-666,0, 0,0, -1
-]])
-animAddPos(tourney16, -10, -5)
-animUpdate(tourney16)
-animSetScale(tourney16, 1.059, 1.041)
-
-tourney8 = animNew(sprSys, [[
-666,1, 0,0, -1
-]])
-animAddPos(tourney8, -10, -5)
-animUpdate(tourney8)
-animSetScale(tourney8, 1.059, 1.041)
-
-tourney4 = animNew(sprSys, [[
-666,2, 0,0, -1
-]])
-animAddPos(tourney4, -10, -5)
-animUpdate(tourney4)
-animSetScale(tourney4, 1.059, 1.041)
 
 --;=================================================================================================
 --; ADVENTURE MODE SCREENPACK DEFINITION (WIP)
