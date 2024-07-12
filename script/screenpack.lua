@@ -1121,17 +1121,23 @@ txt_tourneySemi = "TOURNAMENT - SEMIFINALS"
 txt_tourneyFinal = "TOURNAMENT - FINAL"
 
 function f_addTourneySlots()
-	t_tourneyMenu = {GroupA = {}, GroupB = {}}
-	for i=1, data.tourneySize do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
-		if i <= data.tourneySize/2 then --Send first data to Group A
-			t_tourneyMenu.GroupA[i] = {}
-			t_tourneyMenu.GroupA[i]['CharID'] = "randomselect"
-			t_tourneyMenu.GroupA[i]['CharControl'] = "CPU"
-		else --Send left data to Group B
-			t_tourneyMenu.GroupB[i] = {}
-			t_tourneyMenu.GroupB[i]['CharID'] = "randomselect"
-			t_tourneyMenu.GroupB[i]['CharControl'] = "CPU"
-		end
+	t_tourneyMenu = {
+		[1] = {
+			Round1 = {}
+		},
+		[2] = {
+			Round1 = {}
+		}
+	}
+	for i=1, data.tourneySize/2 do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
+		t_tourneyMenu[1].Round1[i] = {}
+		t_tourneyMenu[1].Round1[i]['CharID'] = "randomselect"
+		t_tourneyMenu[1].Round1[i]['CharControl'] = "CPU"
+	end
+	for i=1, data.tourneySize/2 do
+		t_tourneyMenu[2].Round1[i] = {}
+		t_tourneyMenu[2].Round1[i]['CharID'] = "randomselect"
+		t_tourneyMenu[2].Round1[i]['CharControl'] = "CPU"
 	end
 	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 end
@@ -1205,6 +1211,16 @@ tourney16 = animNew(sprTourney, [[
 animAddPos(tourney16, -10, -5)
 animUpdate(tourney16)
 animSetScale(tourney16, 1.059, 1.041)
+
+--P1 active cursor
+tourneyP1Cursor = animNew(sprTourney, [[
+2,1, 0,0, -1
+]])
+
+--P2 active cursor
+tourneyP2Cursor = animNew(sprTourney, [[
+2,3, 0,0, -1
+]])
 
 --Input Hints Panel
 function drawTourneyInputHints2()

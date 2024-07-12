@@ -12611,22 +12611,75 @@ end
 function f_tourneyMenu()
 	cmdInput()
 	local cursorPosY = 0
-	local moveTxt = 0
-	local tourneyMenu = 1
+	local moveSlotY = 0
+	local moveSlotX = 0
+	local tourneyRow = 1
+	local tourneyGroup = 1 --1=A, 2=B
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 12
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sndSys, 100, 2)
 			break
+		--SLOT SELECT
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
-			tourneyMenu = tourneyMenu - 1
+			tourneyRow = tourneyRow - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
-			tourneyMenu = tourneyMenu + 1
+			tourneyRow = tourneyRow + 1
+		--GROUP SIDE SELECT
+		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+			sndPlay(sndSys, 100, 0)
+			if tourneyGroup == 1 then
+				tourneyGroup = 2
+				moveSlotX = 145
+			elseif tourneyGroup == 2 then
+				tourneyGroup = 1
+				moveSlotX = 0
+			end
+			--tourneyGroup = tourneyGroup - 1
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+			sndPlay(sndSys, 100, 0)
+			if tourneyGroup == 1 then
+				tourneyGroup = 2
+				moveSlotX = 145
+			elseif tourneyGroup == 2 then
+				tourneyGroup = 1
+				moveSlotX = 0
+			end
+			--tourneyGroup = tourneyGroup + 1
+		end
+		--Cursor position calculation
+		if tourneyRow < 1 then
+			tourneyRow = #t_tourneyMenu[tourneyGroup]["Round1"]
+			if #t_tourneyMenu[tourneyGroup]["Round1"] > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_tourneyMenu[tourneyGroup]["Round1"]
+			end
+		elseif tourneyRow > #t_tourneyMenu[tourneyGroup]["Round1"] then
+			tourneyRow = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveSlotY = (tourneyRow - maxItems) * 20
+		elseif cursorPosY == 1 then
+			moveSlotY = (tourneyRow - 1) * 20
+		end	
+		if #t_tourneyMenu[tourneyGroup]["Round1"] <= maxItems then
+			maxSlots = #t_tourneyMenu[tourneyGroup]["Round1"]
+		elseif tourneyRow - cursorPosY > 0 then
+			maxSlots = tourneyRow + maxItems - cursorPosY
+		else
+			maxSlots = maxItems
 		end
 		--Draw BG
 		animDraw(f_animVelocity(tourneyBG0, -1, -1))
@@ -12645,7 +12698,10 @@ function f_tourneyMenu()
 			textImgSetText(txt_mainSelect, txt_tourneyTitle)
 			animDraw(tourney16)
 		end
+		--Draw Menu Title
 		textImgDraw(txt_mainSelect)
+		--Draw Slot Cursor
+		animPosDraw(tourneyP1Cursor, tourneyGroup*moveSlotX, -15+tourneyRow*15-moveSlotY) -- -72+i*105-moveTower, 194
 		drawTourneyInputHints2()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
