@@ -1139,14 +1139,14 @@ function f_addTourneySlots()
 		t_tourneyMenu.Group[1].Round[1][i] = {}
 		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect"
 		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU"
-		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = 1
+		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = i
 		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
 	end
 	for i=1, data.tourneySize/2 do
 		t_tourneyMenu.Group[2].Round[1][i] = {}
 		t_tourneyMenu.Group[2].Round[1][i]['CharID'] = "randomselect"
 		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
-		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = 2
+		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = i
 		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
 	end
 	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
@@ -1271,6 +1271,11 @@ tourneyAI7 = animNew(sprTourney, [[
 --CPU Level 8
 tourneyAI8 = animNew(sprTourney, [[
 3,8, 0,0, -1
+]])
+
+--Random Icon
+tourneyRandomIcon = animNew(sprTourney, [[
+2,0, 0,0, -1
 ]])
 
 --Input Hints BG

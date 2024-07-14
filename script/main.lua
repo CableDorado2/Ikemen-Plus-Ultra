@@ -12627,11 +12627,38 @@ function f_tourneyMenu()
 	local bufl = 0
 	local maxItems = 12
 	local hideMenu = false
+	--Iteration Position Logic
+	local slotStartPosX = 0.3
+	local slotWidth = 29 --Sprite Width
+	local slotSpacingX = 261
+	--
+	local slotStartPosY = 0
+	local slotHeight = 29 --Sprite Height
+	local slotSpacingY = 1.2
+	--
+	local randomStartPosX = 2.3
+	local randomWidth = 25
+	local randomSpacingX = 265.2
+	--
+	local randomStartPosY = 1.3
+	local randomHeight = 25
+	local randomSpacingY = 5.3
+	--
+	local ctrlStartPosX = 2
+	local ctrlWidth = 20
+	local ctrlSpacingX = 270
+	--
+	local ctrlStartPosY = 20
+	local ctrlHeight = 7
+	local ctrlSpacingY = 23.2
 	while true do
 		--RETURN
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sndSys, 100, 2)
 			break
+		--START TOURNAMENT
+		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+			sndPlay(sndSys, 100, 1)
 		--SLOT SELECT
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -12644,20 +12671,16 @@ function f_tourneyMenu()
 			sndPlay(sndSys, 100, 0)
 			if tourneyGroup == 1 then
 				tourneyGroup = 2
-				moveSlotX = 145
 			elseif tourneyGroup == 2 then
 				tourneyGroup = 1
-				moveSlotX = 0
 			end
 			--tourneyGroup = tourneyGroup - 1
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			sndPlay(sndSys, 100, 0)
 			if tourneyGroup == 1 then
 				tourneyGroup = 2
-				moveSlotX = 145
 			elseif tourneyGroup == 2 then
 				tourneyGroup = 1
-				moveSlotX = 0
 			end
 			--tourneyGroup = tourneyGroup + 1
 		--HIDE MENU
@@ -12683,10 +12706,10 @@ function f_tourneyMenu()
 					t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl = "CPU"
 				end
 			end
-			if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 		--EDIT CHARACTER SLOT
 		elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
-			
+			sndPlay(sndSys, 100, 1)
+			if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 		end
 		--Cursor position calculation
 		if tourneyRow < 1 then
@@ -12718,10 +12741,6 @@ function f_tourneyMenu()
 		end
 		--Draw BG
 		animDraw(f_animVelocity(tourneyBG0, -1, -1))
-		--Draw Title BG
-		animDraw(f_animVelocity(selectBG2a, -1, 0))
-		animDraw(f_animVelocity(selectBG2b, -3, 0))
-		animDraw(f_animVelocity(selectBG2c, -6, 0))
 		--Draw Tourney BG Grids
 		if data.tourneySize == 4 then
 			textImgSetText(txt_mainSelect, txt_tourneySemi)
@@ -12738,30 +12757,55 @@ function f_tourneyMenu()
 		end
 		--Draw Menu Title
 		textImgDraw(txt_mainSelect)
-		--Draw Slot Cursor
-		animPosDraw(tourneyP1Cursor, tourneyGroup*moveSlotX, 0+(tourneyRow-1)*(27+2))
-		--Draw Slot Control Icon
+		--Draw Group A Assets
 		for i=1, #t_tourneyMenu.Group[1].Round[1] do
-			local ctrlIcon = nil
-			local spacingY = 30
-			local posY = -10
 			--Set AI Icon
-			if t_tourneyMenu.Group[1].Round[1][i].AIlevel == 1 then ctrlIcon = tourneyAI1
-			elseif t_tourneyMenu.Group[1].Round[1][i].AIlevel == 2 then ctrlIcon = tourneyAI2
-			elseif t_tourneyMenu.Group[1].Round[1][i].AIlevel == 3 then ctrlIcon = tourneyAI3
-			elseif t_tourneyMenu.Group[1].Round[1][i].AIlevel == 4 then ctrlIcon = tourneyAI4
-			elseif t_tourneyMenu.Group[1].Round[1][i].AIlevel == 5 then ctrlIcon = tourneyAI5
-			elseif t_tourneyMenu.Group[1].Round[1][i].AIlevel == 6 then ctrlIcon = tourneyAI6
-			elseif t_tourneyMenu.Group[1].Round[1][i].AIlevel == 7 then ctrlIcon = tourneyAI7
-			elseif t_tourneyMenu.Group[1].Round[1][i].AIlevel == 8 then ctrlIcon = tourneyAI8
+			local ctrlIcon = nil
+			local GroupAai = t_tourneyMenu.Group[1].Round[1][i].AIlevel
+			if GroupAai == 1 then ctrlIcon = tourneyAI1
+			elseif GroupAai == 2 then ctrlIcon = tourneyAI2
+			elseif GroupAai == 3 then ctrlIcon = tourneyAI3
+			elseif GroupAai == 4 then ctrlIcon = tourneyAI4
+			elseif GroupAai == 5 then ctrlIcon = tourneyAI5
+			elseif GroupAai == 6 then ctrlIcon = tourneyAI6
+			elseif GroupAai == 7 then ctrlIcon = tourneyAI7
+			elseif GroupAai == 8 then ctrlIcon = tourneyAI8
 			end
 			--Set Player Icon
 			if t_tourneyMenu.Group[1].Round[1][i].Player == 1 then ctrlIcon = tourneyP1
 			elseif t_tourneyMenu.Group[1].Round[1][i].Player == 2 then ctrlIcon = tourneyP2
 			end
-			--Draw Icon
-			animPosDraw(ctrlIcon, 2, posY+i*spacingY)
+			--Draw Random Icon
+			--animSetScale(tourneyRandomIcon, 1.025,1.025)
+			animPosDraw(tourneyRandomIcon, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			--Draw Control Icon
+			animPosDraw(ctrlIcon, ctrlStartPosX+(1-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
 		end
+		--Draw Group B Assets
+		for i=1, #t_tourneyMenu.Group[2].Round[1] do
+			--Set AI Icon
+			local ctrlIcon = nil
+			local GroupBai = t_tourneyMenu.Group[2].Round[1][i].AIlevel
+			if GroupBai == 1 then ctrlIcon = tourneyAI1
+			elseif GroupBai == 2 then ctrlIcon = tourneyAI2
+			elseif GroupBai == 3 then ctrlIcon = tourneyAI3
+			elseif GroupBai == 4 then ctrlIcon = tourneyAI4
+			elseif GroupBai == 5 then ctrlIcon = tourneyAI5
+			elseif GroupBai == 6 then ctrlIcon = tourneyAI6
+			elseif GroupBai == 7 then ctrlIcon = tourneyAI7
+			elseif GroupBai == 8 then ctrlIcon = tourneyAI8
+			end
+			--Set Player Icon
+			if t_tourneyMenu.Group[2].Round[1][i].Player == 1 then ctrlIcon = tourneyP1
+			elseif t_tourneyMenu.Group[2].Round[1][i].Player == 2 then ctrlIcon = tourneyP2
+			end
+			--Draw Random Icon
+			animPosDraw(tourneyRandomIcon, randomStartPosX+(2-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			--Draw Control Icon
+			animPosDraw(ctrlIcon, ctrlStartPosX+(2-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
+		end
+		--Draw Slot Cursor
+		animPosDraw(tourneyP1Cursor, slotStartPosX+(tourneyGroup-1)*(slotWidth+slotSpacingX), slotStartPosY+(tourneyRow-1)*(slotHeight+slotSpacingY))
 		if not hideMenu then drawTourneyInputHints2() end --Draw Input Hints
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
