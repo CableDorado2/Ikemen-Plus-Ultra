@@ -917,7 +917,7 @@ t_suddenMenu = {
 t_extrasMenu = {
 	{id = textImgNew(), text = "ENDLESS"},
 	{id = textImgNew(), text = "EVENTS"},
-	{id = textImgNew(), text = "TOURNEY"},
+	{id = textImgNew(), text = "TOURNAMENT"},
 	{id = textImgNew(), text = "ADVENTURE"},
 	{id = textImgNew(), text = "VISUAL NOVEL"},
 	{id = textImgNew(), text = "THE VAULT"},
@@ -1122,22 +1122,32 @@ txt_tourneyFinal = "TOURNAMENT - FINAL"
 
 function f_addTourneySlots()
 	t_tourneyMenu = {
-		[1] = {
-			Round1 = {}
-		},
-		[2] = {
-			Round1 = {}
+		Group = {
+			[1] = {
+				Round = {
+					[1] = {}
+				}
+			},
+			[2] = {
+				Round = {
+					[1] ={}
+				}
+			}
 		}
 	}
 	for i=1, data.tourneySize/2 do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
-		t_tourneyMenu[1].Round1[i] = {}
-		t_tourneyMenu[1].Round1[i]['CharID'] = "randomselect"
-		t_tourneyMenu[1].Round1[i]['CharControl'] = "CPU"
+		t_tourneyMenu.Group[1].Round[1][i] = {}
+		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect"
+		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU"
+		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = 1
+		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
 	end
 	for i=1, data.tourneySize/2 do
-		t_tourneyMenu[2].Round1[i] = {}
-		t_tourneyMenu[2].Round1[i]['CharID'] = "randomselect"
-		t_tourneyMenu[2].Round1[i]['CharControl'] = "CPU"
+		t_tourneyMenu.Group[2].Round[1][i] = {}
+		t_tourneyMenu.Group[2].Round[1][i]['CharID'] = "randomselect"
+		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
+		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = 2
+		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
 	end
 	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 end
@@ -1192,25 +1202,16 @@ animSetScale(tourneyDownArrow, 0.5, 0.5)
 tourney4 = animNew(sprTourney, [[
 1,4, 0,0, -1
 ]])
-animAddPos(tourney4, -10, -5)
-animUpdate(tourney4)
-animSetScale(tourney4, 1.059, 1.041)
 
 --8 Players Grid
 tourney8 = animNew(sprTourney, [[
 1,8, 0,0, -1
 ]])
-animAddPos(tourney8, -10, -5)
-animUpdate(tourney8)
-animSetScale(tourney8, 1.059, 1.041)
 
 --16 Players Grid
 tourney16 = animNew(sprTourney, [[
 1,16, 0,0, -1
 ]])
-animAddPos(tourney16, -10, -5)
-animUpdate(tourney16)
-animSetScale(tourney16, 1.059, 1.041)
 
 --P1 active cursor
 tourneyP1Cursor = animNew(sprTourney, [[
@@ -1222,17 +1223,78 @@ tourneyP2Cursor = animNew(sprTourney, [[
 2,3, 0,0, -1
 ]])
 
---Input Hints Panel
+--Player 1 Control
+tourneyP1 = animNew(sprTourney, [[
+4,1, 0,0, -1
+]])
+
+--Player 2 Control
+tourneyP2 = animNew(sprTourney, [[
+4,2, 0,0, -1
+]])
+
+--CPU Level 1
+tourneyAI1 = animNew(sprTourney, [[
+3,1, 0,0, -1
+]])
+
+--CPU Level 2
+tourneyAI2 = animNew(sprTourney, [[
+3,2, 0,0, -1
+]])
+
+--CPU Level 3
+tourneyAI3 = animNew(sprTourney, [[
+3,3, 0,0, -1
+]])
+
+--CPU Level 4
+tourneyAI4 = animNew(sprTourney, [[
+3,4, 0,0, -1
+]])
+
+--CPU Level 5
+tourneyAI5 = animNew(sprTourney, [[
+3,5, 0,0, -1
+]])
+
+--CPU Level 6
+tourneyAI6 = animNew(sprTourney, [[
+3,6, 0,0, -1
+]])
+
+--CPU Level 7
+tourneyAI7 = animNew(sprTourney, [[
+3,7, 0,0, -1
+]])
+
+--CPU Level 8
+tourneyAI8 = animNew(sprTourney, [[
+3,8, 0,0, -1
+]])
+
+--Input Hints BG
+tourneyInputsBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(tourneyInputsBG, 2.9, 0.75)
+animSetAlpha(tourneyInputsBG, 155, 22)
+
+--Tournament Input Hints Panel
 function drawTourneyInputHints2()
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"s","120,198")
+	animPosDraw(tourneyInputsBG, -56, 195) --Draw Input Hints BG
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"q","245,"..inputHintYPos,"a","0,197","s","120,197","w","245,197")
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Set Control", 22, 210)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Tourney", 142, 210)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Slot", 266, 210)
+	--
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Tourney", 142, 211)
 end
 
 --;===========================================================
