@@ -1596,6 +1596,27 @@ void drawFace(&.lua.State L=, int re=)
   while j < .syst.selinf.sel.rows:}
 }
 
+void drawTourneyPortrait(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  index n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float xscl = 1.0, yscl = 1.0;
+  if(L.getTop() > argc){
+    xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(!.se.fskip){
+    ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
+    if(#c > 0 && #c~facePortrait > 0){
+      c~facePortrait~draw(x, y, xscl, yscl, c~facePortrait~colorPallet);
+    }
+  }
+}
+
 void drawPortrait(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2294,6 +2315,7 @@ public void init(&.lua.State L=)
   L.register("refresh", .refresh);
   L.register("drawFace", .drawFace);
   L.register("drawPortrait", .drawPortrait);
+  L.register("drawTourneyPortrait", .drawTourneyPortrait);
   L.register("drawOrderPortrait", .drawOrderPortrait);
   L.register("drawVSPortrait", .drawVSPortrait);
   L.register("drawWinPortrait", .drawWinPortrait);

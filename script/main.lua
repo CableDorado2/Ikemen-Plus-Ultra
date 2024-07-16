@@ -9341,41 +9341,49 @@ function f_selectScreen()
 	end
 	--Player 2 Selection
 	if not p2TeamEnd then
-		f_p2TeamMenu()
+		if data.gameMode == "tourney" then --Falta incluir un AND con: que el personajes a registrar no es el derecho
+			p2TeamEnd = true
+		else
+			f_p2TeamMenu()
+		end
 	elseif data.p2In > 0 or data.p2Char ~= nil then
-		f_p2SelectMenu()
-		if (data.p1In ~= 2 and data.p2In ~= 2) then
-			--Draw VS Single Bosses Portraits if you are playing in Left Side
-			if data.gameMode == "singleboss" then
-				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-					animDraw(f_animVelocity(charBG3, 2, 0))
-					drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
-				end
-				if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
-					for j=#data.t_p2selected, 1, -1 do
-						--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
-						f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
+		if data.gameMode == "tourney" then --Falta incluir un AND con: que el personajes a registrar no es el derecho
+			p2SelEnd = true
+		else
+			f_p2SelectMenu()
+			if (data.p1In ~= 2 and data.p2In ~= 2) then
+				--Draw VS Single Bosses Portraits if you are playing in Left Side
+				if data.gameMode == "singleboss" then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+						animDraw(f_animVelocity(charBG3, 2, 0))
+						drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
+					end
+					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+						for j=#data.t_p2selected, 1, -1 do
+							--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
+							f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
+						end
+					end
+					--Draw Author Info Text
+					if data.charInfo == "Author" then
+						if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
+							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
+							textImgDraw(txt_p2Author)
+						end
 					end
 				end
-				--Draw Author Info Text
-				if data.charInfo == "Author" then
-					if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-						textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
-						textImgDraw(txt_p2Author)
+				--Draw VS Single Bonus Portraits
+				if data.gameMode == "singlebonus" then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+						animDraw(f_animVelocity(charBG3, 2, 0))
+						drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 					end
-				end
-			end
-			--Draw VS Single Bonus Portraits
-			if data.gameMode == "singlebonus" then
-				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-					animDraw(f_animVelocity(charBG3, 2, 0))
-					drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
-				end
-				--Draw Author Info Text
-				if data.charInfo == "Author" then
-					if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-						textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
-						textImgDraw(txt_p2Author)
+					--Draw Author Info Text
+					if data.charInfo == "Author" then
+						if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
+							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
+							textImgDraw(txt_p2Author)
+						end
 					end
 				end
 			end
@@ -9479,7 +9487,13 @@ function f_selectScreen()
 		charSelect = false
 		selectTimer = 0 --Disappear Char Select Timer to don't disturb Stage Timer
 		if not stageEnd then
-			f_selectStage()
+			if data.gameMode ~= "tourney" then
+				f_selectStage()
+			else
+				stageMenuActive = false
+				exclusiveStageMenu = false
+				selScreenEnd = true
+			end
 		else
 			stageMenuActive = false
 			exclusiveStageMenu = false
@@ -12619,8 +12633,8 @@ function f_tourneyMenu()
 	local cursorPosY = 0
 	local moveSlotY = 0
 	local moveSlotX = 0
-	local tourneyRow = 1
-	local tourneyGroup = 1 --1=A, 2=B
+	tourneyRow = 1
+	tourneyGroup = 1 --1=A, 2=B
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -12652,92 +12666,99 @@ function f_tourneyMenu()
 	local ctrlHeight = 7
 	local ctrlSpacingY = 23.2
 	while true do
-		--RETURN
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			break
-		--START TOURNAMENT
-		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-			sndPlay(sndSys, 100, 1)
-		--SLOT SELECT
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			tourneyRow = tourneyRow - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			tourneyRow = tourneyRow + 1
-		--GROUP SIDE SELECT
-		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
-			sndPlay(sndSys, 100, 0)
-			if tourneyGroup == 1 then
-				tourneyGroup = 2
-			elseif tourneyGroup == 2 then
-				tourneyGroup = 1
-			end
-			--tourneyGroup = tourneyGroup - 1
-		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
-			sndPlay(sndSys, 100, 0)
-			if tourneyGroup == 1 then
-				tourneyGroup = 2
-			elseif tourneyGroup == 2 then
-				tourneyGroup = 1
-			end
-			--tourneyGroup = tourneyGroup + 1
-		--HIDE MENU
-		elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') then
-			if not hideMenu then hideMenu = true else hideMenu = false end
-		--SET CONTROL
-		elseif commandGetState(p1Cmd, 'a') or commandGetState(p2Cmd, 'a') then
-			local slotControl = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl
-			local slotLevel = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel
-			local slotHuman = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player
-			if slotControl == "CPU" then
-				if slotLevel < 8 then t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = slotLevel+1
-				elseif slotLevel == 8 then
-					t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player = 1
-					t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = 0
-					t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl = "HUMAN"
+		if not startTourney then
+			--RETURN
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			--START TOURNAMENT
+			elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+				sndPlay(sndSys, 100, 1)
+				startTourney = true
+				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+				f_selectTourney()
+			--SLOT SELECT
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				tourneyRow = tourneyRow - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				tourneyRow = tourneyRow + 1
+			--GROUP SIDE SELECT
+			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+				sndPlay(sndSys, 100, 0)
+				if tourneyGroup == 1 then
+					tourneyGroup = 2
+				elseif tourneyGroup == 2 then
+					tourneyGroup = 1
 				end
-			elseif slotControl == "HUMAN" then
-				if slotHuman == 1 then t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player = 2
-				elseif slotHuman == 2 then
-					t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player = 0
-					t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = 1
-					t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl = "CPU"
+				--tourneyGroup = tourneyGroup - 1
+			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+				sndPlay(sndSys, 100, 0)
+				if tourneyGroup == 1 then
+					tourneyGroup = 2
+				elseif tourneyGroup == 2 then
+					tourneyGroup = 1
 				end
+				--tourneyGroup = tourneyGroup + 1
+			--HIDE MENU
+			elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') then
+				if not hideMenu then hideMenu = true else hideMenu = false end
+			--SET CONTROL
+			elseif commandGetState(p1Cmd, 'a') or commandGetState(p2Cmd, 'a') then
+				local slotControl = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl
+				local slotLevel = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel
+				local slotHuman = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player
+				if slotControl == "CPU" then
+					if slotLevel < 8 then t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = slotLevel+1
+					elseif slotLevel == 8 then
+						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player = 1
+						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = 0
+						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl = "HUMAN"
+					end
+				elseif slotControl == "HUMAN" then
+					if slotHuman == 1 then t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player = 2
+					elseif slotHuman == 2 then
+						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player = 0
+						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = 1
+						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl = "CPU"
+					end
+				end
+			--EDIT CHARACTER SLOT
+			elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+				sndPlay(sndSys, 100, 1)
+				startTourney = false
+				f_tourneySelCfg()
+				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 			end
-		--EDIT CHARACTER SLOT
-		elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
-			sndPlay(sndSys, 100, 1)
-			if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
-		end
-		--Cursor position calculation
-		if tourneyRow < 1 then
-			tourneyRow = #t_tourneyMenu.Group[tourneyGroup].Round[1]
-			if #t_tourneyMenu.Group[tourneyGroup].Round[1] > maxItems then
-				cursorPosY = maxItems
+			--Cursor position calculation
+			if tourneyRow < 1 then
+				tourneyRow = #t_tourneyMenu.Group[tourneyGroup].Round[1]
+				if #t_tourneyMenu.Group[tourneyGroup].Round[1] > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_tourneyMenu.Group[tourneyGroup].Round[1]
+				end
+			elseif tourneyRow > #t_tourneyMenu.Group[tourneyGroup].Round[1] then
+				tourneyRow = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveSlotY = (tourneyRow - maxItems) * 20
+			elseif cursorPosY == 1 then
+				moveSlotY = (tourneyRow - 1) * 20
+			end
+			if #t_tourneyMenu.Group[tourneyGroup].Round[1] <= maxItems then
+				maxSlots = #t_tourneyMenu.Group[tourneyGroup].Round[1]
+			elseif tourneyRow - cursorPosY > 0 then
+				maxSlots = tourneyRow + maxItems - cursorPosY
 			else
-				cursorPosY = #t_tourneyMenu.Group[tourneyGroup].Round[1]
+				maxSlots = maxItems
 			end
-		elseif tourneyRow > #t_tourneyMenu.Group[tourneyGroup].Round[1] then
-			tourneyRow = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveSlotY = (tourneyRow - maxItems) * 20
-		elseif cursorPosY == 1 then
-			moveSlotY = (tourneyRow - 1) * 20
-		end
-		if #t_tourneyMenu.Group[tourneyGroup].Round[1] <= maxItems then
-			maxSlots = #t_tourneyMenu.Group[tourneyGroup].Round[1]
-		elseif tourneyRow - cursorPosY > 0 then
-			maxSlots = tourneyRow + maxItems - cursorPosY
-		else
-			maxSlots = maxItems
 		end
 		--Draw BG
 		animDraw(f_animVelocity(tourneyBG0, -1, -1))
@@ -12775,9 +12796,14 @@ function f_tourneyMenu()
 			if t_tourneyMenu.Group[1].Round[1][i].Player == 1 then ctrlIcon = tourneyP1
 			elseif t_tourneyMenu.Group[1].Round[1][i].Player == 2 then ctrlIcon = tourneyP2
 			end
-			--Draw Random Icon
-			--animSetScale(tourneyRandomIcon, 1.025,1.025)
-			animPosDraw(tourneyRandomIcon, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			--Draw Characters Icon
+			local character = t_tourneyMenu.Group[1].Round[1][i].CharID
+			if character == "randomselect" then
+				--animSetScale(tourneyRandomIcon, 1.025,1.025)
+				animPosDraw(tourneyRandomIcon, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			else
+				drawTourneyPortrait(character-1, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			end
 			--Draw Control Icon
 			animPosDraw(ctrlIcon, ctrlStartPosX+(1-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
 		end
@@ -12799,14 +12825,21 @@ function f_tourneyMenu()
 			if t_tourneyMenu.Group[2].Round[1][i].Player == 1 then ctrlIcon = tourneyP1
 			elseif t_tourneyMenu.Group[2].Round[1][i].Player == 2 then ctrlIcon = tourneyP2
 			end
-			--Draw Random Icon
-			animPosDraw(tourneyRandomIcon, randomStartPosX+(2-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			--Draw Characters Icon
+			local character = t_tourneyMenu.Group[2].Round[1][i].CharID
+			if character == "randomselect" then
+				animPosDraw(tourneyRandomIcon, randomStartPosX+(2-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			else
+				drawTourneyPortrait(character-1, randomStartPosX+(2-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+			end
 			--Draw Control Icon
 			animPosDraw(ctrlIcon, ctrlStartPosX+(2-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
 		end
 		--Draw Slot Cursor
-		animPosDraw(tourneyP1Cursor, slotStartPosX+(tourneyGroup-1)*(slotWidth+slotSpacingX), slotStartPosY+(tourneyRow-1)*(slotHeight+slotSpacingY))
-		if not hideMenu then drawTourneyInputHints2() end --Draw Input Hints
+		if not startTourney then
+			animPosDraw(tourneyP1Cursor, slotStartPosX+(tourneyGroup-1)*(slotWidth+slotSpacingX), slotStartPosY+(tourneyRow-1)*(slotHeight+slotSpacingY))
+			if not hideMenu then drawTourneyInputHints2() end --Draw Input Hints
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		--VERTICAL BUF KEY CONTROL
@@ -12836,25 +12869,29 @@ function f_tourneyMenu()
 	end
 end
 
-function f_tourneyTest()
+function f_tourneySelCfg()
 	f_default()
+	data.gameMode = "tourney"
 	data.rosterMode = "tourney"
-	data.stageMenu = true
+	data.stageMenu = data.tourneyStgSel
+	setRoundTime(data.tourneyRoundTime * 60)
+	setRoundsToWin(data.tourneyRoundsNum)
+	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
-	--data.p2SelectMenu = false
+	data.p2SelectMenu = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 	--SEMIFINALS (participate in a customizable single-elimination tournament starting from Semifinals)
 	if data.tourneySize == 4 then
-		data.gameMode = "tourney4"
+		--data.gameMode = "tourney4"
 		textImgSetText(txt_mainSelect, txt_tourneySemi)
 	--QUARTERFINALS (participate in a customizable single-elimination tournament starting from Quarterfinals)
 	elseif data.tourneySize == 8 then
-		data.gameMode = "tourney8"
+		--data.gameMode = "tourney8"
 		textImgSetText(txt_mainSelect, txt_tourneyQuarter)
 	--ROUND OF 16 (participate in a customizable single-elimination tournament starting from Round of 16)
 	elseif data.tourneySize == 16 then
-		data.gameMode = "tourney16"
+		--data.gameMode = "tourney16"
 		textImgSetText(txt_mainSelect, txt_tourneyTitle)
 	end
 	f_selectTourney()
@@ -12864,32 +12901,106 @@ end
 --; TOURNAMENT CHARACTER SELECT
 --;=================================================================================================
 function f_selectTourney()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	--playBGM(bgmTourney)
+if validCells() then
+	f_unlocksCheck() --Check For Unlocked Content
+	f_backReset()
+	f_selectInit()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			f_comingSoon()
-			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+		--f_selectMusic()
+		if winner < 1 then
+			f_selectReset()
+		else
+			selectStart()
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+		end
+		if winner > 0 then
+			--Victory Screen
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
+					f_selectWin()
+				end
+			else
+				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
+					f_selectWin()
+				end
+			end
+			if data.rosterMode == "tourney" then
+				playBGM(bgmTourney)
+			else
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+			end
 			f_resetMenuInputs()
-			break
+			return
 		end
-		animDraw(f_animVelocity(selectBG0, -1, -1))
-		animDraw(f_animVelocity(selectBG2a, -1, 0))
-		animDraw(f_animVelocity(selectBG2b, -3, 0))
-		animDraw(f_animVelocity(selectBG2c, -6, 0))
-		--[[
-		if data.gameMode == "tourney4" then
-		elseif data.gameMode == "tourney8" then
-		elseif data.gameMode == "tourney16" then
+		if not startTourney then --When tourney has not been started
+			while not selScreenEnd do
+				if onlinegame == false then
+					if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
+				elseif onlinegame == true then
+					if esc() then f_exitOnline() end
+				end
+				f_selectScreen()
+				assert(loadfile(saveTempPath))()
+				--Back from Pause Menu
+				if data.tempBack == true then
+					if data.rosterMode == "tourney" then
+						--playBGM(bgmTourney)
+					else
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+					end
+					data.tempBack = false
+					f_saveTemp()
+					f_resetMenuInputs()
+					return
+				end
+				--Back from Char Select
+				if back == true then return end
+			end
+			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharID = data.t_p1selected[1].cel+1 --Save Character Selected
+			break --Back to Tournament Menu
+		else --When tourney has been started
+			f_aiLevel()
+			f_matchInfo()
+			f_orderSelect()
+			--Versus Screen
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
+					f_selectVersus()
+				end
+			else
+				if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+					f_selectVersus()
+				end
+			end
+			sndStop()
+			f_loading()
+			f_setZoom()
+			matchTime = os.clock()
+			if data.songSelect then f_assignMusic() end
+			winner = game()
+			matchTime = os.clock() - matchTime
+			clearTime = clearTime + matchTime
+			selectTimer = selectSeconds*gameTick
+			stageTimer = stageSeconds*gameTick
+			rematchTimer = rematchSeconds*gameTick
+			serviceTimer = serviceSeconds*gameTick
+			--f_favoriteChar() --Store Favorite Character (WIP)
+			--f_favoriteStage() --Store Favorite Stage (WIP)
+			f_unlocksCheck() --Check For Unlocked Content
+			playBGM("")
 		end
-		]]
-		textImgDraw(txt_mainSelect)
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
+else
+	cmdInput()
+	f_invalidCells()
+	return --back to main menu
+end
+
 end
 
 --;=================================================================================================
