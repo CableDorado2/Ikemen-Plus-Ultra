@@ -12368,6 +12368,7 @@ function f_tourneyCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 7
+	local teamName = nil
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmTourney)
 	while true do
@@ -12422,8 +12423,33 @@ function f_tourneyCfg()
 				modified = 1
 			end
 		]]
+		--Team Mode
+		elseif tourneyCfg == 2 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.tourneyTeam < 2 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyTeam < 2 then
+					data.tourneyTeam = data.tourneyTeam + 1
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.tourneyTeam > 0 then sndPlay(sndSys, 100, 0) end
+				if data.tourneyTeam > 0 then
+					data.tourneyTeam = data.tourneyTeam - 1
+				end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
 		--Allow Character Select
-		elseif tourneyCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif tourneyCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sndSys, 100, 0)
 			if data.tourneyCharSel then
 				data.tourneyCharSel = false
@@ -12433,7 +12459,7 @@ function f_tourneyCfg()
 				modified = 1
 			end
 		--Allow Stage Select
-		elseif tourneyCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif tourneyCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sndSys, 100, 0)
 			if data.tourneyStgSel then
 				data.tourneyStgSel = false
@@ -12443,7 +12469,7 @@ function f_tourneyCfg()
 				modified = 1
 			end
 		--Round Time
-		elseif tourneyCfg == 4 then
+		elseif tourneyCfg == 5 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if data.tourneyRoundTime < 1000 then
 					data.tourneyRoundTime = data.tourneyRoundTime + 1
@@ -12472,7 +12498,7 @@ function f_tourneyCfg()
 				bufl = 0
 			end
 		--Rounds to Win
-		elseif tourneyCfg == 5 then
+		elseif tourneyCfg == 6 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if commandGetState(p1Cmd, 'r') and data.tourneyRoundsNum < 5 then sndPlay(sndSys, 100, 0) end
 				if data.tourneyRoundsNum < 5 then
@@ -12497,7 +12523,7 @@ function f_tourneyCfg()
 				bufl = 0
 			end
 		--Matchs to Win (First To)
-		elseif tourneyCfg == 6 then
+		elseif tourneyCfg == 7 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if commandGetState(p1Cmd, 'r') and data.tourneyMatchsNum < 5 then sndPlay(sndSys, 100, 0) end
 				if data.tourneyMatchsNum < 5 then
@@ -12570,7 +12596,7 @@ function f_tourneyCfg()
 		end
 		--Draw Settings BG
 		animSetScale(tourneyBG1, 220, maxtourneyCfg*15)
-		animSetWindow(tourneyBG1, 80,20, 160,180)
+		animSetWindow(tourneyBG1, 80,20, 160,105)
 		animDraw(tourneyBG1)
 		--Draw Title
 		textImgDraw(txt_tourneyCfg)
@@ -12581,11 +12607,17 @@ function f_tourneyCfg()
 		--Set Settings Text
 		t_tourneyCfg[1].varText = data.tourneySize
 		--t_tourneyCfg[2].varText = data.tourneyType
-		if data.tourneyCharSel then t_tourneyCfg[2].varText = "Every Match" else t_tourneyCfg[2].varText = "First Match" end
-		if data.tourneyStgSel then t_tourneyCfg[3].varText = "Every Match" else t_tourneyCfg[3].varText = "First Match" end
-		t_tourneyCfg[4].varText = data.tourneyRoundTime
-		t_tourneyCfg[5].varText = data.tourneyRoundsNum
-		t_tourneyCfg[6].varText = "FT"..data.tourneyMatchsNum
+		if data.tourneyTeam == 0 then teamName = "Single"
+		elseif data.tourneyTeam == 1 then teamName = "Simul"
+		elseif data.tourneyTeam == 2 then teamName = "Turns"
+		else teamName = "Unknown"
+		end
+		t_tourneyCfg[2].varText = teamName
+		if data.tourneyCharSel then t_tourneyCfg[3].varText = "Every Match" else t_tourneyCfg[3].varText = "First Match" end
+		if data.tourneyStgSel then t_tourneyCfg[4].varText = "Every Match" else t_tourneyCfg[4].varText = "First Match" end
+		t_tourneyCfg[5].varText = data.tourneyRoundTime
+		t_tourneyCfg[6].varText = data.tourneyRoundsNum
+		t_tourneyCfg[7].varText = "FT"..data.tourneyMatchsNum
 		--[[
 		t_tourneyCfg[8].varText = data.tourneyCharLock
 		t_tourneyCfg[9].varText = data.tourneyStgLock
@@ -12905,6 +12937,11 @@ if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
+	local groupNo = 1
+	local roundNo = 1
+	local ftNo = 0
+	matchNo = 1
+	local participantNo = 0
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -12921,10 +12958,12 @@ if validCells() then
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
+					ftNo = ftNo + 1
 				end
 			else
 				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
+					ftNo = ftNo + 1
 				end
 			end
 			if data.rosterMode == "tourney" then
@@ -12962,7 +13001,28 @@ if validCells() then
 			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharID = data.t_p1selected[1].cel+1 --Save Character Selected
 			break --Back to Tournament Menu
 		else --When tourney has been started
+			if ftNo == data.tourneyMatchsNum then
+				participantNo = participantNo + 1 --Go to next Match
+			end
+			data.t_p1selected = {}
+			data.t_p2selected = {}
+			p1Cell = t_tourneyMenu.Group[groupNo].Round[matchNo][participantNo+1].CharID-1
+			p2Cell = t_tourneyMenu.Group[groupNo].Round[matchNo][participantNo+2].CharID-1
+			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
+			data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
+			setMatchNo(ftNo)
 			f_aiLevel()
+			if data.tourneyStgSel then
+				while not stageEnd do
+					f_selectStage()
+				end
+			else
+				if matchNo == 1 and ftNo == 1 then
+					while not stageEnd do
+						f_selectStage()
+					end
+				end
+			end
 			f_matchInfo()
 			f_orderSelect()
 			--Versus Screen
@@ -12978,6 +13038,11 @@ if validCells() then
 			sndStop()
 			f_loading()
 			f_setZoom()
+			--inputs
+			if data.coop then
+				remapInput(3,2) --P2 controls assigned to P3 character
+				--remapInput(2,3) --P3 controls assigned to P2 character
+			end
 			matchTime = os.clock()
 			if data.songSelect then f_assignMusic() end
 			winner = game()

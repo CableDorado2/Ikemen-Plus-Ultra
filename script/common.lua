@@ -3492,6 +3492,7 @@ function f_saveTourney()
 	local t_tourney = {
 		['data.tourneySize'] = data.tourneySize,
 		['data.tourneyType'] = data.tourneyType,
+		['data.tourneyTeam'] = data.tourneyTeam,
 		['data.tourneyCharSel'] = data.tourneyCharSel,
 		['data.tourneyStgSel'] = data.tourneyStgSel,
 		['data.tourneyRoundTime'] = data.tourneyRoundTime,

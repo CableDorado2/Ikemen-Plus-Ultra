@@ -1085,11 +1085,12 @@ end
 --;===========================================================
 --; TOURNAMENT SETTINGS SCREENPACK DEFINITION
 --;===========================================================
-txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT SETTINGS", 159, 13)
+txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT RULES", 159, 13)
 
 t_tourneyCfg = {
 	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
 	--{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
+	{varID = textImgNew(), text = "Team Mode",		       		varText = data.tourneyTeam},
 	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
 	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
 	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
@@ -1110,46 +1111,6 @@ function drawTourneyInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
-end
-
---;===========================================================
---; TOURNAMENT MENU SCREENPACK DEFINITION
---;===========================================================
-txt_tourneyTitle = "TOURNAMENT MODE"
-txt_tourneyQuarter = "TOURNAMENT - QUARTERFINALS"
-txt_tourneySemi = "TOURNAMENT - SEMIFINALS"
-txt_tourneyFinal = "TOURNAMENT - FINAL"
-
-function f_addTourneySlots()
-	t_tourneyMenu = {
-		Group = {
-			[1] = {
-				Round = {
-					[1] = {}
-				}
-			},
-			[2] = {
-				Round = {
-					[1] ={}
-				}
-			}
-		}
-	}
-	for i=1, data.tourneySize/2 do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
-		t_tourneyMenu.Group[1].Round[1][i] = {}
-		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect"
-		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU"
-		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = i
-		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
-	end
-	for i=1, data.tourneySize/2 do
-		t_tourneyMenu.Group[2].Round[1][i] = {}
-		t_tourneyMenu.Group[2].Round[1][i]['CharID'] = "randomselect"
-		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
-		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = i
-		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
-	end
-	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 end
 
 --Scrolling background
@@ -1194,7 +1155,7 @@ tourneyDownArrow = animNew(sprSys, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(tourneyDownArrow, 228, 201.5)
+animAddPos(tourneyDownArrow, 228, 126)
 animUpdate(tourneyDownArrow)
 animSetScale(tourneyDownArrow, 0.5, 0.5)
 
@@ -1212,6 +1173,50 @@ tourney8 = animNew(sprTourney, [[
 tourney16 = animNew(sprTourney, [[
 1,16, 0,0, -1
 ]])
+
+--;===========================================================
+--; TOURNAMENT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_tourneyTitle = "TOURNAMENT MODE"
+txt_tourneyQuarter = "TOURNAMENT - QUARTERFINALS"
+txt_tourneySemi = "TOURNAMENT - SEMIFINALS"
+txt_tourneyFinal = "TOURNAMENT - FINAL"
+
+function f_addTourneySlots()
+	t_tourneyMenu = {
+		Group = {
+			[1] = {
+				Round = {
+					[1] = {}
+				}
+			},
+			[2] = {
+				Round = {
+					[1] ={}
+				}
+			}
+		}
+	}
+	for i=1, data.tourneySize/2 do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
+		t_tourneyMenu.Group[1].Round[1][i] = {}
+		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect"
+		t_tourneyMenu.Group[1].Round[1][i]['up'] = false
+		t_tourneyMenu.Group[1].Round[1][i]['pal'] = 1
+		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU"
+		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = i
+		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
+	end
+	for i=1, data.tourneySize/2 do
+		t_tourneyMenu.Group[2].Round[1][i] = {}
+		t_tourneyMenu.Group[2].Round[1][i]['CharID'] = "randomselect"
+		t_tourneyMenu.Group[1].Round[1][i]['up'] = false
+		t_tourneyMenu.Group[1].Round[1][i]['pal'] = 1
+		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
+		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = i
+		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
+	end
+	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+end
 
 --P1 active cursor
 tourneyP1Cursor = animNew(sprTourney, [[
