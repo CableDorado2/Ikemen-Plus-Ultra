@@ -76,8 +76,6 @@ This Ikemen is an expansion of his original SSZ code.
 **v1.5 (Next Update)**
 ------------
 
-- Cambiar de personaje y stage en el menú de pausa solo en training.
-
 - Reescribir la lógica en la que funciona el modo endless para que en lugar de crear una tabla de roster 999 chars, simplemente se quede en un búcle al estilo vs rematch con random chars variables.
 
 - Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una o en última instancia que el usuario defina de qué directorios debe cargar músicas.
