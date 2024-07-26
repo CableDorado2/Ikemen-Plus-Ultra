@@ -16835,7 +16835,7 @@ function f_tourneyCfg()
 			end
 		--CREATE TOURNAMENT
 		elseif tourneyCfg == #t_tourneyCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			sndPlay(sndSys, 100, 2)
+			sndPlay(sndSys, 100, 1)
 			f_saveTourney()
 			f_addTourneySlots()
 			f_tourneyMenu()
@@ -17191,7 +17191,7 @@ function f_tourneySelCfg()
 	f_default()
 	data.gameMode = "tourney"
 	data.rosterMode = "tourney"
-	data.stageMenu = data.tourneyStgSel
+	data.stageMenu = true
 	setRoundTime(data.tourneyRoundTime * 60)
 	setRoundsToWin(data.tourneyRoundsNum)
 	setGameMode("tourney")
@@ -17218,6 +17218,8 @@ end
 
 function f_tourneySelStage()
 	f_stageSelectReset()
+	stageEnd = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if matchNo == lastMatch then animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Match
 		else animDraw(f_animVelocity(selectBG0, -1, -1)) --Draw Blue BG for normal Matches
@@ -17241,10 +17243,12 @@ if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
-	local groupNo = 1 --Left or Right Group
-	local fightNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
-	local participantNo = 0 --Player Slot ID
-	local ftNo = 0 --Fights to end a Match between participants
+	--local matchNo = 0
+	if not startTourney then
+		tourneyGroupNo = 1 --Left or Right Group
+		tourneyFightNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
+		tourneyParticipantNo = 0 --Player Slot ID
+	end
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17256,17 +17260,15 @@ if validCells() then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		end
+		--Victory Screen
 		if winner > 0 then
-			--Victory Screen
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
-					ftNo = ftNo + 1
 				end
 			else
 				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
-					ftNo = ftNo + 1
 				end
 			end
 			if data.rosterMode == "tourney" then
@@ -17274,11 +17276,8 @@ if validCells() then
 			else
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			end
-			--[[Back to Main Menu
-			f_resetMenuInputs()
-			return
-			]]
 		end
+		--Tourney Screen Logic
 		if not startTourney then --When tourney has not been started
 			while not selScreenEnd do
 				if onlinegame == false then
@@ -17306,24 +17305,28 @@ if validCells() then
 			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharID = data.t_p1selected[1].cel+1 --Save Character Selected for first tournament fights
 			break --Back to Tournament Menu
 		else --When tourney has been started
-			if ftNo == data.tourneyMatchsNum then --If the matches between participants have reached the FT rule setting
-				participantNo = participantNo + 1 --Go to next Tourney Match
+			matchNo = matchNo + 1 --Go to Next FT
+			if p1Wins == data.tourneyMatchsNum or p2Wins == data.tourneyMatchsNum then --If one of participants have reached the FT rule setting
+				tourneyParticipantNo = tourneyParticipantNo + 1 --Get participants for next Tourney Match
+				--Back to Tourney Menu
+				f_resetMenuInputs()
+				break --return
 			end
 			--Assign Characters to the Match
 			data.t_p1selected = {}
 			data.t_p2selected = {}
-			p1Cell = t_tourneyMenu.Group[groupNo].Round[fightNo][participantNo+1].CharID-1
-			p2Cell = t_tourneyMenu.Group[groupNo].Round[fightNo][participantNo+2].CharID-1
+			p1Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyFightNo][tourneyParticipantNo+1].CharID-1
+			p2Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyFightNo][tourneyParticipantNo+2].CharID-1
 			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
 			data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
-			setMatchNo(ftNo)
+			setMatchNo(matchNo)
 			f_aiLevel()
-			if data.tourneyStgSel then --Allow Stage Select for Every Match
+			if data.tourneyStgSel or matchNo == 1 then --Show Stage Select
 				f_tourneySelStage()
-			else --Show Stage Select only at first match
-				if fightNo == 1 and ftNo == 1 then
-					f_tourneySelStage()
-				end
+			else --Load First Stage Selected
+				--f_randomRematch()
+				f_loadStage()
+				f_loadSong()
 			end
 			f_matchInfo()
 			f_orderSelect()
