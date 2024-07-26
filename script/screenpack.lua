@@ -1209,8 +1209,8 @@ function f_addTourneySlots()
 	for i=1, data.tourneySize/2 do
 		t_tourneyMenu.Group[2].Round[1][i] = {}
 		t_tourneyMenu.Group[2].Round[1][i]['CharID'] = "randomselect"
-		t_tourneyMenu.Group[1].Round[1][i]['up'] = false
-		t_tourneyMenu.Group[1].Round[1][i]['pal'] = 1
+		t_tourneyMenu.Group[2].Round[1][i]['up'] = false
+		t_tourneyMenu.Group[2].Round[1][i]['pal'] = 1
 		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
 		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = i
 		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0

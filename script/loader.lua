@@ -683,6 +683,7 @@ t_trainingChar = {}
 t_bossChars = {}
 t_bonusChars = {}
 t_randomChars = {}
+t_randomTourneyChars = {}
 t_intermissionChars = {}
 if t_selChars ~= nil then
 --for each character loaded
@@ -810,6 +811,10 @@ if t_selChars ~= nil then
 			--generate table with characters allowed to be random selected
 			if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
 				t_randomChars[#t_randomChars+1] = charCel
+			end
+			--generate table with characters allowed to be random selected in tournament mode
+			if t_selChars[i].excludetourney == nil or t_selChars[i].excludetourney == 0 then
+				t_randomTourneyChars[#t_randomTourneyChars+1] = charCel
 			end
 			--generate table for intermissions
 			if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
@@ -1235,6 +1240,7 @@ function f_updateLogs()
 		f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 		f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
 		f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
+		f_printTable(t_randomTourneyChars, "save/debug/t_randomTourneyChars.txt")
 		f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
 		f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 		f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")

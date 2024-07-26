@@ -16993,8 +16993,12 @@ function f_tourneyMenu()
 			elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				sndPlay(sndSys, 100, 1)
 				startTourney = true
+				f_tourneySelRandomPlayer()
+				tourneyGroupNo = 1 --Left or Right Group
+				tourneyFightNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
+				tourneyParticipantNo = 0 --Player Slot ID
 				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
-				f_selectTourney()
+				f_tourneySelCfg()
 			--SLOT SELECT
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -17216,6 +17220,25 @@ function f_tourneySelCfg()
 	f_selectTourney()
 end
 
+function f_tourneySelRandomPlayer()
+	--Group A
+	for i=1, #t_tourneyMenu.Group[1].Round[1] do
+		local character = t_tourneyMenu.Group[1].Round[1][i].CharID
+		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
+			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
+			--t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1,12)
+		end
+	end
+	--Group B
+	for i=1, #t_tourneyMenu.Group[2].Round[1] do
+		local character = t_tourneyMenu.Group[2].Round[1][i].CharID
+		if character == "randomselect" then
+			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
+			--t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1,12)
+		end
+	end
+end
+
 function f_tourneySelStage()
 	f_stageSelectReset()
 	stageEnd = false
@@ -17243,12 +17266,6 @@ if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
-	--local matchNo = 0
-	if not startTourney then
-		tourneyGroupNo = 1 --Left or Right Group
-		tourneyFightNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
-		tourneyParticipantNo = 0 --Player Slot ID
-	end
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

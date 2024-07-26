@@ -101,6 +101,11 @@ this character when player choose 'random' character icon.
 Also excludes character to be chosen by CPU in modes other
 than arcade (arcade selection is controlled by 'order')
 
+- excludetourney (Experimental)
+Set the paramvalue to 1 to avoid including this character
+when some tourney participant slots have not been set manually
+and character is chosen randomly.
+
 - unlock (Experimental)
 Set the paramvalue to 0 to lock a character in character select.
 If it evaluates to 1 the character will become manually selectable.
@@ -135,7 +140,7 @@ this, put the word "randomselect" on a line of its own, with no
 extra parameters.
 
 Full Reference:
-charname, unlock=0, stages/.def, music=sound/.mp3, zoom=0, bonus=1, boss=1, intermission=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
+charname, unlock=0, stages/.def, music=sound/.mp3, zoom=0, bonus=1, boss=1, intermission=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, excludetourney=1, order=1, 1=charname, 4=charname
 
 Some examples:
 
@@ -159,11 +164,11 @@ Suave Dude, unlock=0, boss=1, roundtime=60, order=8, 4=Kung Fu Man
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=7
 
 ;BONUS CHARACTERS EXAMPLE:
-Barrel Breaker, bonus=1, vsscreen=0, victoryscreen=0, exclude=1, order=2
-Break Car, stages/Battle Harbor.def, music=sound/Ultimate Warrior.mp3, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1
+Barrel Breaker, bonus=1, vsscreen=0, victoryscreen=0, exclude=1, excludetourney=1, order=2
+Break Car, stages/Battle Harbor.def, music=sound/Ultimate Warrior.mp3, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludetourney=1
 
 ;SPECIFIC TRAINING DUMMY CHARACTER EXAMPLE:
-Dan, training=1, exclude=1, order=-1
+Dan, training=1, exclude=1, excludetourney=1, order=-1
 
 ;INTERMISSION CHARACTERS EXAMPLE:
 Akuma, intermission=1, exclude=1, order=-1, victoryscreen=0
