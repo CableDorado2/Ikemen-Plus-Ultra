@@ -13606,7 +13606,7 @@ function f_selectVersus()
 				end
 			end
 		--Draw Match Info
-			if data.gameMode == "arcade" or data.gameMode == "tower" then
+			if data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "tourney" then
 				textImgDraw(txt_matchNo)
 			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
@@ -16953,12 +16953,17 @@ function f_tourneyMenu()
 	local moveSlotX = 0
 	tourneyRow = 1
 	tourneyGroup = 1 --1=A, 2=B
+	tourneyFightNo = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
 	local hideMenu = false
+	if data.tourneyType == "Single Elimination" then textImgSetText(txt_tourneyType, txt_tourneyType1)
+	elseif data.tourneyType == "Double Elimination" then textImgSetText(txt_tourneyType, txt_tourneyType2)
+	end
+	confirmRandomSel = false
 	--Iteration Position Logic
 	local slotStartPosX = 0.3
 	local slotWidth = 29 --Sprite Width
@@ -16992,13 +16997,16 @@ function f_tourneyMenu()
 			--START TOURNAMENT
 			elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				sndPlay(sndSys, 100, 1)
-				startTourney = true
 				f_tourneySelRandomPlayer()
-				tourneyGroupNo = 1 --Left or Right Group
-				tourneyFightNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
-				tourneyParticipantNo = 0 --Player Slot ID
-				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
-				f_tourneySelCfg()
+				if not confirmRandomSel then
+					startTourney = true
+					tourneyGroupNo = 1 --Left or Right Group
+					tourneyRoundNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
+					tourneyParticipantNo = 0 --Player Slot ID
+					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+					f_tourneySelCfg()
+				end
+				confirmRandomSel = false
 			--SLOT SELECT
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -17086,20 +17094,22 @@ function f_tourneyMenu()
 		animDraw(f_animVelocity(tourneyBG0, -1, -1))
 		--Draw Tourney BG Grids
 		if data.tourneySize == 4 then
-			textImgSetText(txt_mainSelect, txt_tourneySemi)
+			textImgSetText(txt_tourneyState, txt_tourneyR4)
 			animSetScale(tourney4, 1.059, 1.041)
 			animPosDraw(tourney4, -10, -5)
 		elseif data.tourneySize == 8 then
-			textImgSetText(txt_mainSelect, txt_tourneyQuarter)
+			textImgSetText(txt_tourneyState, txt_tourneyR8)
 			animSetScale(tourney8, 1.059, 1.041)
 			animPosDraw(tourney8, -10, -5)
 		elseif data.tourneySize == 16 then
-			textImgSetText(txt_mainSelect, txt_tourneyTitle)
+			textImgSetText(txt_tourneyState, txt_tourneyR16)
 			animSetScale(tourney16, 1.059, 1.041)
 			animPosDraw(tourney16, -10, -5)
 		end
-		--Draw Menu Title
-		textImgDraw(txt_mainSelect)
+		--Draw Menu Titles
+		textImgDraw(txt_tourneyType)
+		textImgDraw(txt_tourneyState)
+		textImgDraw(txt_tourneyTitle)
 		--Draw Group A Assets
 		for i=1, #t_tourneyMenu.Group[1].Round[1] do
 			--Set AI Icon
@@ -17204,18 +17214,18 @@ function f_tourneySelCfg()
 	data.p2SelectMenu = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
-	--SEMIFINALS (participate in a customizable single-elimination tournament starting from Semifinals)
+	--ROUND OF 4 [SEMIFINALS] (participate in a customizable single-elimination tournament starting from Semifinals)
 	if data.tourneySize == 4 then
 		--data.gameMode = "tourney4"
-		textImgSetText(txt_mainSelect, txt_tourneySemi)
-	--QUARTERFINALS (participate in a customizable single-elimination tournament starting from Quarterfinals)
+		textImgSetText(txt_mainSelect, txt_tourneyR4)
+	--ROUND OF 8 [QUARTERFINALS] (participate in a customizable single-elimination tournament starting from Quarterfinals)
 	elseif data.tourneySize == 8 then
 		--data.gameMode = "tourney8"
-		textImgSetText(txt_mainSelect, txt_tourneyQuarter)
-	--ROUND OF 16 (participate in a customizable single-elimination tournament starting from Round of 16)
+		textImgSetText(txt_mainSelect, txt_tourneyR8)
+	--ROUND OF 16 [8TH-FINALS] (participate in a customizable single-elimination tournament starting from Round of 16)
 	elseif data.tourneySize == 16 then
 		--data.gameMode = "tourney16"
-		textImgSetText(txt_mainSelect, txt_tourneyTitle)
+		textImgSetText(txt_mainSelect, txt_tourneyR16)
 	end
 	f_selectTourney()
 end
@@ -17227,6 +17237,7 @@ function f_tourneySelRandomPlayer()
 		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
 			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
 			--t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1,12)
+			confirmRandomSel = true
 		end
 	end
 	--Group B
@@ -17235,6 +17246,7 @@ function f_tourneySelRandomPlayer()
 		if character == "randomselect" then
 			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
 			--t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1,12)
+			confirmRandomSel = true
 		end
 	end
 end
@@ -17325,6 +17337,7 @@ if validCells() then
 			matchNo = matchNo + 1 --Go to Next FT
 			if p1Wins == data.tourneyMatchsNum or p2Wins == data.tourneyMatchsNum then --If one of participants have reached the FT rule setting
 				tourneyParticipantNo = tourneyParticipantNo + 1 --Get participants for next Tourney Match
+				tourneyFightNo = tourneyFightNo + 1
 				--Back to Tourney Menu
 				f_resetMenuInputs()
 				break --return
@@ -17332,8 +17345,8 @@ if validCells() then
 			--Assign Characters to the Match
 			data.t_p1selected = {}
 			data.t_p2selected = {}
-			p1Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyFightNo][tourneyParticipantNo+1].CharID-1
-			p2Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyFightNo][tourneyParticipantNo+2].CharID-1
+			p1Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].CharID-1
+			p2Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].CharID-1
 			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
 			data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
 			setMatchNo(matchNo)

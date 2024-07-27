@@ -1177,10 +1177,18 @@ tourney16 = animNew(sprTourney, [[
 --;===========================================================
 --; TOURNAMENT MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_tourneyTitle = "TOURNAMENT MODE"
-txt_tourneyQuarter = "TOURNAMENT - QUARTERFINALS"
-txt_tourneySemi = "TOURNAMENT - SEMIFINALS"
-txt_tourneyFinal = "TOURNAMENT - FINAL"
+txt_tourneyType = createTextImg(jgFnt, 0, 0, "", 159, 12)
+txt_tourneyState = createTextImg(jgFnt, 5, 0, "", 159, 24)
+txt_tourneyTitle = createTextImg(jgFnt, 0, 0, "TOURNAMENT MODE", 159, 235)
+txt_tourneyType1 = "SINGLE-ELIMINATION"
+txt_tourneyType2 = "DOUBLE-ELIMINATION"
+txt_tourneyR128 = "64TH-FINALS"
+txt_tourneyR64 = "32ND-FINALS"
+txt_tourneyR32 = "16TH-FINALS"
+txt_tourneyR16 = "8TH-FINALS"
+txt_tourneyR8 = "QUARTERFINALS"
+txt_tourneyR4 = "SEMIFINALS"
+txt_tourneyR2 = "FINAL"
 
 function f_addTourneySlots()
 	t_tourneyMenu = {
@@ -3385,6 +3393,30 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	if (data.gameMode == "survival" or data.gameMode == "allroster") and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
 	elseif data.gameMode == "bossrush" and (lastMatch - bossNo == 0) then textImgSetText(txt_bossNo, "FINAL BOSS") --Set Boss Rush Final Match Text
 	elseif data.gameMode == "bonusrush" and (lastMatch - bonusNo == 0) then textImgSetText(txt_bonusNo, "LAST GAME") --Set Bonus Rush Final Match Text
+	end
+--Set Tournament Matchs Text
+	if data.gameMode == "tourney" then
+		if data.tourneySize == 16 then
+			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16
+			elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8
+			elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4
+			elseif tourneyRoundNo == 4 then tourneyState = txt_tourneyR2
+			end
+		elseif data.tourneySize == 8 then
+			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8
+			elseif tourneyRoundNo == 2 then tourneyState = txt_tourney4
+			elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR2
+			end
+		elseif data.tourneySize == 4 then
+			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4
+			elseif tourneyRoundNo == 2 then tourneyState = txt_tourney2
+			end
+		end
+		if tourneyFightNo == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
+		elseif tourneyFightNo == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
+		elseif tourneyFightNo == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
+		elseif tourneyFightNo >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo.."TH MATCH")
+		end
 	end
 end
 
