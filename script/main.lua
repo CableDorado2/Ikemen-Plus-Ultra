@@ -7608,7 +7608,8 @@ function f_confirmMenu()
 				f_hostTable() --Refresh
 			--DELETE REPLAY
 			else
-				deleteReplay = true
+				deleteReplay = true --For Replay Menu
+				tourneyBack = true --For Tournament Menu
 			end
 		--NO
 		else
@@ -16951,19 +16952,11 @@ function f_tourneyMenu()
 	local cursorPosY = 0
 	local moveSlotY = 0
 	local moveSlotX = 0
-	tourneyRow = 1
-	tourneyGroup = 1 --1=A, 2=B
-	tourneyFightNo = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
-	local hideMenu = false
-	if data.tourneyType == "Single Elimination" then textImgSetText(txt_tourneyType, txt_tourneyType1)
-	elseif data.tourneyType == "Double Elimination" then textImgSetText(txt_tourneyType, txt_tourneyType2)
-	end
-	confirmRandomSel = false
 	--Iteration Position Logic
 	local slotStartPosX = 0.3
 	local slotWidth = 29 --Sprite Width
@@ -16988,9 +16981,22 @@ function f_tourneyMenu()
 	local ctrlStartPosY = 20
 	local ctrlHeight = 7
 	local ctrlSpacingY = 23.2
+	--
+	local hideMenu = false
+	if data.tourneyType == "Single Elimination" then textImgSetText(txt_tourneyType, txt_tourneyType1)
+	elseif data.tourneyType == "Double Elimination" then textImgSetText(txt_tourneyType, txt_tourneyType2)
+	end
+	f_confirmReset()
+	tourneyBack = false
+	tourneyRow = 1
+	tourneyGroup = 1 --1=A, 2=B
+	tourneyFightNo = 1
+	tourneyNextRound = false
+	startTourney = false
+	confirmRandomSel = false
 	while true do
 		if not startTourney then
-			--RETURN
+			--BACK TO TOURNEY SETTINGS
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -17000,9 +17006,11 @@ function f_tourneyMenu()
 				f_tourneySelRandomPlayer()
 				if not confirmRandomSel then
 					startTourney = true
-					tourneyGroupNo = 1 --Left or Right Group
+					hideMenu = false
+					tourneyGroupNo = 1 --Start tourney from Left Group
 					tourneyRoundNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
 					tourneyParticipantNo = 0 --Player Slot ID
+					tourneyNextRound = true
 					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 					f_tourneySelCfg()
 				end
@@ -17031,10 +17039,10 @@ function f_tourneyMenu()
 					tourneyGroup = 1
 				end
 				--tourneyGroup = tourneyGroup + 1
-			--HIDE MENU
+			--HIDE INPUT HINTS MENU
 			elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') then
 				if not hideMenu then hideMenu = true else hideMenu = false end
-			--SET CONTROL
+			--SET CHARACTER CONTROL
 			elseif commandGetState(p1Cmd, 'a') or commandGetState(p2Cmd, 'a') then
 				local slotControl = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl
 				local slotLevel = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel
@@ -17088,6 +17096,25 @@ function f_tourneyMenu()
 				maxSlots = tourneyRow + maxItems - cursorPosY
 			else
 				maxSlots = maxItems
+			end
+		else --If tournament has been started
+			--BACK TO MAIN MENU LOGIC
+			if tourneyBack then
+				startTourney = false
+				tourneyBack = false
+				break
+			end
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				confirmScreen = true
+			--HIDE INPUT HINTS MENU
+			elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') then
+				if not hideMenu then hideMenu = true else hideMenu = false end
+			--START NEXT MATCH
+			elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+				hideMenu = false
+				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+				f_tourneySelCfg()
 			end
 		end
 		--Draw BG
@@ -17171,6 +17198,12 @@ function f_tourneyMenu()
 		if not startTourney then
 			animPosDraw(tourneyP1Cursor, slotStartPosX+(tourneyGroup-1)*(slotWidth+slotSpacingX), slotStartPosY+(tourneyRow-1)*(slotHeight+slotSpacingY))
 			if not hideMenu then drawTourneyInputHints2() end --Draw Input Hints
+		else
+			if confirmScreen then
+				f_confirmMenu()
+			else
+				if not hideMenu then drawTourneyInputHints3() end
+			end
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -17249,6 +17282,7 @@ function f_tourneySelRandomPlayer()
 			confirmRandomSel = true
 		end
 	end
+	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 end
 
 function f_tourneySelStage()
@@ -17265,6 +17299,8 @@ function f_tourneySelStage()
 		if stageAnnouncer == true then
 			announcerTimer = announcerTimer + 1
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -17278,6 +17314,10 @@ if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
+	if tourneyNextRound then
+		t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1] = {} --To Add New Round Table Row
+		tourneyNextRound = false
+	end
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17291,15 +17331,7 @@ if validCells() then
 		end
 		--Victory Screen
 		if winner > 0 then
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
-			else
-				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
-			end
+			f_selectWin()
 			if data.rosterMode == "tourney" then
 				playBGM(bgmTourney)
 			else
@@ -17336,11 +17368,48 @@ if validCells() then
 		else --When tourney has been started
 			matchNo = matchNo + 1 --Go to Next FT
 			if p1Wins == data.tourneyMatchsNum or p2Wins == data.tourneyMatchsNum then --If one of participants have reached the FT rule setting
-				tourneyParticipantNo = tourneyParticipantNo + 1 --Get participants for next Tourney Match
+				t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo] = {} --To Add New Fighter Table Row
+				local p1Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1]
+				local p2Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2]
+				--Save Left Side Winner Data
+				if p1Wins == data.tourneyMatchsNum then
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharID'] = p1Data.CharID
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['up'] = p1Data.up
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['pal'] = p1Data.pal
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharControl'] = p1Data.CharControl
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['AIlevel'] = p1Data.AIlevel
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Player'] = p1Data.Player
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Loser'] = p1Data.Loser
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Active'] = p1Data.Active
+					p2Data.Loser = true
+					if data.tourneyType == "Single Elimination" then p2Data.Active = false end
+				--Save Right Side Winner Data
+				elseif p2Wins == data.tourneyMatchsNum then
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharID'] = p2Data.CharID
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['up'] = p2Data.up
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['pal'] = p2Data.pal
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharControl'] = p2Data.CharControl
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['AIlevel'] = p2Data.AIlevel
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Player'] = p2Data.Player
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Loser'] = p2Data.Loser
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Active'] = p2Data.Active
+					p1Data.Loser = true
+					if data.tourneyType == "Single Elimination" then p1Data.Active = false end
+				end
 				tourneyFightNo = tourneyFightNo + 1
+				tourneyParticipantNo = tourneyParticipantNo + 2 --Get participants for next Tourney Match
+				--When fights from one group are done
+				if tourneyParticipantNo >= #t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo] then
+					--Reset to new round
+					tourneyParticipantNo = 0
+					tourneyFightNo = 1
+					tourneyRoundNo = tourneyRoundNo + 1
+					tourneyNextRound = true
+				end
 				--Back to Tourney Menu
 				f_resetMenuInputs()
-				break --return
+				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+				break
 			end
 			--Assign Characters to the Match
 			data.t_p1selected = {}
@@ -17360,16 +17429,7 @@ if validCells() then
 			end
 			f_matchInfo()
 			f_orderSelect()
-			--Versus Screen
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
-					f_selectVersus()
-				end
-			else
-				if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
-					f_selectVersus()
-				end
-			end
+			f_selectVersus()
 			sndStop()
 			f_loading()
 			f_setZoom()

@@ -1207,12 +1207,14 @@ function f_addTourneySlots()
 	}
 	for i=1, data.tourneySize/2 do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
 		t_tourneyMenu.Group[1].Round[1][i] = {}
-		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect"
-		t_tourneyMenu.Group[1].Round[1][i]['up'] = false
-		t_tourneyMenu.Group[1].Round[1][i]['pal'] = 1
-		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU"
-		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = i
-		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
+		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect" --Store character cell ID
+		t_tourneyMenu.Group[1].Round[1][i]['up'] = false --Enable character select animation
+		t_tourneyMenu.Group[1].Round[1][i]['pal'] = 1 --Store Character palette
+		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU" --Who have control of character (CPU or HUMAN)
+		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = i --Store AI Level (1,2,3..8)
+		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0 --What Human Player have control of character (0=CPU, 1=P1, 2=P2)
+		t_tourneyMenu.Group[1].Round[1][i]['Loser'] = false --If is true this character will go to losers bracket in a double elimination tourney
+		t_tourneyMenu.Group[1].Round[1][i]['Active'] = true --Identify if this character continue participating or was defeated
 	end
 	for i=1, data.tourneySize/2 do
 		t_tourneyMenu.Group[2].Round[1][i] = {}
@@ -1221,7 +1223,9 @@ function f_addTourneySlots()
 		t_tourneyMenu.Group[2].Round[1][i]['pal'] = 1
 		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
 		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = i
-		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0
+		t_tourneyMenu.Group[2].Round[1][i]['Player'] = 0
+		t_tourneyMenu.Group[2].Round[1][i]['Loser'] = false
+		t_tourneyMenu.Group[2].Round[1][i]['Active'] = true
 	end
 	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 end
@@ -1298,7 +1302,7 @@ tourneyInputsBG = animNew(sprSys, [[
 animSetScale(tourneyInputsBG, 2.9, 0.75)
 animSetAlpha(tourneyInputsBG, 155, 22)
 
---Tournament Input Hints Panel
+--Tournament Not Started Input Hints Panel
 function drawTourneyInputHints2()
 	local inputHintYPos = 218
 	local hintFont = font2
@@ -1310,6 +1314,19 @@ function drawTourneyInputHints2()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Slot", 266, 210)
 	--
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--Tournament Started Input Hints Panel
+function drawTourneyInputHints3()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	animPosDraw(tourneyInputsBG, -56, 215) --Draw Input Hints BG
+	drawInputHintsP1("w","0,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Next Match", 21, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
