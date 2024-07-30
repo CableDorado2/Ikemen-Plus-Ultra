@@ -111,6 +111,7 @@ bgmVault = "sound/System/The Vault.mp3"
 bgmStory = "sound/System/Story.mp3"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
+bgmTourneyChampion = "sound/System/Champion.mp3"
 bgmAdventure = "sound/System/Adventure.mp3"
 
 --;===========================================================
@@ -1080,256 +1081,6 @@ function f_eventTime()
 	end
 	textImgDraw(txt_titleClock) --Draw Clock
 	textImgDraw(txt_titleDate) --Draw Date
-end
-
---;===========================================================
---; TOURNAMENT SETTINGS SCREENPACK DEFINITION
---;===========================================================
-txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT RULES", 159, 13)
-
-t_tourneyCfg = {
-	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
-	--{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
-	{varID = textImgNew(), text = "Team Mode",		       		varText = data.tourneyTeam},
-	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
-	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
-	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
-	{varID = textImgNew(), text = "Rounds to Win",      		varText = data.tourneyRoundsNum},
-	{varID = textImgNew(), text = "Matchs to Win",              varText = data.tourneyMatchsNum},
-	--{varID = textImgNew(), text = "Character Restrictions",    	varText = data.tourneyCharLock},
-	--{varID = textImgNew(), text = "Stage Restrictions",    		varText = data.tourneyStgLock},
-	{varID = textImgNew(), text = "    CREATE TOURNAMENT",  			varText = ""},
-}
-
---Input Hints Panel
-function drawTourneyInputHints()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
-end
-
---Scrolling background
-tourneyBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(tourneyBG0, 160, 0)
-animSetTile(tourneyBG0, 1, 1)
-animSetColorKey(tourneyBG0, -1)
-
---Transparent background
-tourneyBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(tourneyBG1, 20, 20)
-animSetAlpha(tourneyBG1, 20, 100)
-animUpdate(tourneyBG1)
-
---Up Arrow
-tourneyUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(tourneyUpArrow, 228, 11)
-animUpdate(tourneyUpArrow)
-animSetScale(tourneyUpArrow, 0.5, 0.5)
-
---Down Arrow
-tourneyDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(tourneyDownArrow, 228, 126)
-animUpdate(tourneyDownArrow)
-animSetScale(tourneyDownArrow, 0.5, 0.5)
-
---4 Players Grid
-tourney4 = animNew(sprTourney, [[
-1,4, 0,0, -1
-]])
-
---8 Players Grid
-tourney8 = animNew(sprTourney, [[
-1,8, 0,0, -1
-]])
-
---16 Players Grid
-tourney16 = animNew(sprTourney, [[
-1,16, 0,0, -1
-]])
-
---;===========================================================
---; TOURNAMENT MENU SCREENPACK DEFINITION
---;===========================================================
-txt_tourneyType = createTextImg(jgFnt, 0, 0, "", 159, 12)
-txt_tourneyState = createTextImg(jgFnt, 5, 0, "", 159, 24)
-txt_tourneyTitle = createTextImg(jgFnt, 0, 0, "TOURNAMENT MODE", 159, 235)
-txt_tourneyType1 = "SINGLE-ELIMINATION"
-txt_tourneyType2 = "DOUBLE-ELIMINATION"
-txt_tourneyR128 = "64TH-FINALS"
-txt_tourneyR64 = "32ND-FINALS"
-txt_tourneyR32 = "16TH-FINALS"
-txt_tourneyR16 = "8TH-FINALS"
-txt_tourneyR8 = "QUARTERFINALS"
-txt_tourneyR4 = "SEMIFINALS"
-txt_tourneyR2 = "FINAL"
-
-function f_addTourneySlots()
-	t_tourneyMenu = {
-		Group = {
-			[1] = {
-				Round = {
-					[1] = {}
-				}
-			},
-			[2] = {
-				Round = {
-					[1] ={}
-				}
-			}
-		}
-	}
-	for i=1, data.tourneySize/2 do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
-		t_tourneyMenu.Group[1].Round[1][i] = {}
-		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect" --Store character cell ID
-		t_tourneyMenu.Group[1].Round[1][i]['up'] = false --Enable character select animation
-		t_tourneyMenu.Group[1].Round[1][i]['pal'] = 1 --Store Character palette
-		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU" --Who have control of character (CPU or HUMAN)
-		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = i --Store AI Level (1,2,3..8)
-		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0 --What Human Player have control of character (0=CPU, 1=P1, 2=P2)
-		t_tourneyMenu.Group[1].Round[1][i]['Loser'] = false --If is true this character will go to losers bracket in a double elimination tourney
-		t_tourneyMenu.Group[1].Round[1][i]['Active'] = true --Identify if this character continue participating or was defeated
-	end
-	for i=1, data.tourneySize/2 do
-		t_tourneyMenu.Group[2].Round[1][i] = {}
-		t_tourneyMenu.Group[2].Round[1][i]['CharID'] = "randomselect"
-		t_tourneyMenu.Group[2].Round[1][i]['up'] = false
-		t_tourneyMenu.Group[2].Round[1][i]['pal'] = 1
-		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
-		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = i
-		t_tourneyMenu.Group[2].Round[1][i]['Player'] = 0
-		t_tourneyMenu.Group[2].Round[1][i]['Loser'] = false
-		t_tourneyMenu.Group[2].Round[1][i]['Active'] = true
-	end
-	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
-end
-
---P1 active cursor
-tourneyP1Cursor = animNew(sprTourney, [[
-2,1, 0,0, -1
-]])
-
---P2 active cursor
-tourneyP2Cursor = animNew(sprTourney, [[
-2,3, 0,0, -1
-]])
-
---Player 1 Control
-tourneyP1 = animNew(sprTourney, [[
-4,1, 0,0, -1
-]])
-
---Player 2 Control
-tourneyP2 = animNew(sprTourney, [[
-4,2, 0,0, -1
-]])
-
---CPU Level 1
-tourneyAI1 = animNew(sprTourney, [[
-3,1, 0,0, -1
-]])
-
---CPU Level 2
-tourneyAI2 = animNew(sprTourney, [[
-3,2, 0,0, -1
-]])
-
---CPU Level 3
-tourneyAI3 = animNew(sprTourney, [[
-3,3, 0,0, -1
-]])
-
---CPU Level 4
-tourneyAI4 = animNew(sprTourney, [[
-3,4, 0,0, -1
-]])
-
---CPU Level 5
-tourneyAI5 = animNew(sprTourney, [[
-3,5, 0,0, -1
-]])
-
---CPU Level 6
-tourneyAI6 = animNew(sprTourney, [[
-3,6, 0,0, -1
-]])
-
---CPU Level 7
-tourneyAI7 = animNew(sprTourney, [[
-3,7, 0,0, -1
-]])
-
---CPU Level 8
-tourneyAI8 = animNew(sprTourney, [[
-3,8, 0,0, -1
-]])
-
---Random Icon
-tourneyRandomIcon = animNew(sprTourney, [[
-2,0, 0,0, -1
-]])
-
---Input Hints BG
-tourneyInputsBG = animNew(sprSys, [[
-230,3, 0,0, -1
-]])
-animSetScale(tourneyInputsBG, 2.9, 0.75)
-animSetAlpha(tourneyInputsBG, 155, 22)
-
---Tournament Not Started Input Hints Panel
-function drawTourneyInputHints2()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(tourneyInputsBG, -56, 195) --Draw Input Hints BG
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"q","245,"..inputHintYPos,"a","0,197","s","120,197","w","245,197")
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Set Control", 22, 210)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Tourney", 142, 210)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Slot", 266, 210)
-	--
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
-end
-
---Tournament Started Input Hints Panel
-function drawTourneyInputHints3()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(tourneyInputsBG, -56, 215) --Draw Input Hints BG
-	drawInputHintsP1("w","0,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"q","245,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Next Match", 21, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
 end
 
 --;===========================================================
@@ -3413,26 +3164,35 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	end
 --Set Tournament Matchs Text
 	if data.gameMode == "tourney" then
-		if data.tourneySize == 16 then
-			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16
-			elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8
-			elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4
-			elseif tourneyRoundNo == 4 then tourneyState = txt_tourneyR2
+		if endTourney then
+			textImgSetText(txt_matchNo, "GRAND FINAL")
+		else
+			if data.tourneySize == 16 then
+				if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16
+				elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8
+				elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4
+				end
+			elseif data.tourneySize == 8 then
+				if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8
+				elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR4
+				end
+			elseif data.tourneySize == 4 then
+				if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4 end
 			end
-		elseif data.tourneySize == 8 then
-			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8
-			elseif tourneyRoundNo == 2 then tourneyState = txt_tourney4
-			elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR2
+			if tourneyGroup == 1 then --Display for Left Side
+				if tourneyFightNo == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
+				elseif tourneyFightNo == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
+				elseif tourneyFightNo == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
+				elseif tourneyFightNo >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo.."TH MATCH")
+				end
+			elseif tourneyGroup == 2 then --Display for Right Side
+				local previousMatches = #t_tourneyMenu.Group[1].Round[tourneyRoundNo]
+				if tourneyFightNo+previousMatches == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
+				elseif tourneyFightNo+previousMatches == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
+				elseif tourneyFightNo+previousMatches == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
+				elseif tourneyFightNo+previousMatches >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo+previousMatches.."TH MATCH")
+				end
 			end
-		elseif data.tourneySize == 4 then
-			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4
-			elseif tourneyRoundNo == 2 then tourneyState = txt_tourney2
-			end
-		end
-		if tourneyFightNo == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
-		elseif tourneyFightNo == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
-		elseif tourneyFightNo == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
-		elseif tourneyFightNo >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo.."TH MATCH")
 		end
 	end
 end
@@ -4395,6 +4155,271 @@ battleStgPreview = animNew(sprSys, [[
 ]])
 animUpdate(battleStgPreview)
 animSetScale(battleStgPreview, 1.53, 1.34)
+
+--;===========================================================
+--; TOURNAMENT SETTINGS SCREENPACK DEFINITION
+--;===========================================================
+txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT RULES", 159, 13)
+
+t_tourneyCfg = {
+	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
+	--{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
+	{varID = textImgNew(), text = "Team Mode",		       		varText = data.tourneyTeam},
+	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
+	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
+	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
+	{varID = textImgNew(), text = "Rounds to Win",      		varText = data.tourneyRoundsNum},
+	{varID = textImgNew(), text = "Matchs to Win",              varText = data.tourneyMatchsNum},
+	--{varID = textImgNew(), text = "3rd Place Match",    		varText = data.tourney3rdPlace},
+	--{varID = textImgNew(), text = "Character Restrictions",    	varText = data.tourneyCharLock},
+	--{varID = textImgNew(), text = "Stage Restrictions",    		varText = data.tourneyStgLock},
+	{varID = textImgNew(), text = "    CREATE TOURNAMENT",  			varText = ""},
+}
+
+--Input Hints Panel
+function drawTourneyInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--Scrolling background
+tourneyBG0 = animNew(sprSys, [[
+100,0, 0,0, -1
+]])
+animAddPos(tourneyBG0, 160, 0)
+animSetTile(tourneyBG0, 1, 1)
+animSetColorKey(tourneyBG0, -1)
+
+--Transparent background
+tourneyBG1 = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(tourneyBG1, 20, 20)
+animSetAlpha(tourneyBG1, 20, 100)
+animUpdate(tourneyBG1)
+
+--Up Arrow
+tourneyUpArrow = animNew(sprSys, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(tourneyUpArrow, 228, 11)
+animUpdate(tourneyUpArrow)
+animSetScale(tourneyUpArrow, 0.5, 0.5)
+
+--Down Arrow
+tourneyDownArrow = animNew(sprSys, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(tourneyDownArrow, 228, 126)
+animUpdate(tourneyDownArrow)
+animSetScale(tourneyDownArrow, 0.5, 0.5)
+
+--4 Players Grid
+tourney4 = animNew(sprTourney, [[
+1,4, 0,0, -1
+]])
+
+--8 Players Grid
+tourney8 = animNew(sprTourney, [[
+1,8, 0,0, -1
+]])
+
+--16 Players Grid
+tourney16 = animNew(sprTourney, [[
+1,16, 0,0, -1
+]])
+
+--;===========================================================
+--; TOURNAMENT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_tourneyType = createTextImg(jgFnt, 0, 0, "", 159, 12)
+txt_tourneyState = createTextImg(jgFnt, 5, 0, "", 159, 24)
+txt_tourneyTitle = createTextImg(jgFnt, 0, 0, "TOURNAMENT MODE", 159, 235)
+txt_tourneyType1 = "SINGLE-ELIMINATION"
+txt_tourneyType2 = "DOUBLE-ELIMINATION"
+txt_tourneyWinners = "WINNERS BRACKET"
+txt_tourneyLosers = "LOSERS BRACKET"
+txt_tourneyR128 = "64TH-FINALS"
+txt_tourneyR64 = "32ND-FINALS"
+txt_tourneyR32 = "16TH-FINALS"
+txt_tourneyR16 = "8TH-FINALS"
+txt_tourneyR8 = "QUARTERFINALS"
+txt_tourneyR4 = "SEMIFINALS"
+
+function f_addTourneySlots()
+	t_tourneyMenu = {
+		Group = {
+			[1] = {
+				Round = {
+					[1] = {}
+				}
+			},
+			[2] = {
+				Round = {
+					[1] ={}
+				}
+			}
+		}
+	}
+	for i=1, data.tourneySize/2 do --Insert the amount of items using data.tourneySize as reference to t_tourneyMenu table
+		t_tourneyMenu.Group[1].Round[1][i] = {}
+		t_tourneyMenu.Group[1].Round[1][i]['CharID'] = "randomselect" --Store character cell ID
+		t_tourneyMenu.Group[1].Round[1][i]['up'] = false --Enable character select animation
+		t_tourneyMenu.Group[1].Round[1][i]['pal'] = 1 --Store Character palette
+		t_tourneyMenu.Group[1].Round[1][i]['CharControl'] = "CPU" --Who have control of character (CPU or HUMAN)
+		t_tourneyMenu.Group[1].Round[1][i]['AIlevel'] = i --Store AI Level (1,2,3..8)
+		t_tourneyMenu.Group[1].Round[1][i]['Player'] = 0 --What Human Player have control of character (0=CPU, 1=P1, 2=P2)
+		t_tourneyMenu.Group[1].Round[1][i]['Loser'] = false --If is true this character will go to losers bracket in a double elimination tourney
+		t_tourneyMenu.Group[1].Round[1][i]['Active'] = true --Identify if this character continue participating or was defeated
+	end
+	for i=1, data.tourneySize/2 do
+		t_tourneyMenu.Group[2].Round[1][i] = {}
+		t_tourneyMenu.Group[2].Round[1][i]['CharID'] = "randomselect"
+		t_tourneyMenu.Group[2].Round[1][i]['up'] = false
+		t_tourneyMenu.Group[2].Round[1][i]['pal'] = 1
+		t_tourneyMenu.Group[2].Round[1][i]['CharControl'] = "CPU"
+		t_tourneyMenu.Group[2].Round[1][i]['AIlevel'] = i
+		t_tourneyMenu.Group[2].Round[1][i]['Player'] = 0
+		t_tourneyMenu.Group[2].Round[1][i]['Loser'] = false
+		t_tourneyMenu.Group[2].Round[1][i]['Active'] = true
+	end
+	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+end
+
+--P1 active cursor
+tourneyP1Cursor = animNew(sprTourney, [[
+2,1, 0,0, -1
+]])
+
+--P2 active cursor
+tourneyP2Cursor = animNew(sprTourney, [[
+2,3, 0,0, -1
+]])
+
+--Player 1 Control
+tourneyP1 = animNew(sprTourney, [[
+4,1, 0,0, -1
+]])
+
+--Player 2 Control
+tourneyP2 = animNew(sprTourney, [[
+4,2, 0,0, -1
+]])
+
+--CPU Level 1
+tourneyAI1 = animNew(sprTourney, [[
+3,1, 0,0, -1
+]])
+
+--CPU Level 2
+tourneyAI2 = animNew(sprTourney, [[
+3,2, 0,0, -1
+]])
+
+--CPU Level 3
+tourneyAI3 = animNew(sprTourney, [[
+3,3, 0,0, -1
+]])
+
+--CPU Level 4
+tourneyAI4 = animNew(sprTourney, [[
+3,4, 0,0, -1
+]])
+
+--CPU Level 5
+tourneyAI5 = animNew(sprTourney, [[
+3,5, 0,0, -1
+]])
+
+--CPU Level 6
+tourneyAI6 = animNew(sprTourney, [[
+3,6, 0,0, -1
+]])
+
+--CPU Level 7
+tourneyAI7 = animNew(sprTourney, [[
+3,7, 0,0, -1
+]])
+
+--CPU Level 8
+tourneyAI8 = animNew(sprTourney, [[
+3,8, 0,0, -1
+]])
+
+--Random Icon
+tourneyRandomIcon = animNew(sprTourney, [[
+2,0, 0,0, -1
+]])
+
+--Input Hints BG
+tourneyInputsBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(tourneyInputsBG, 2.9, 0.75)
+animSetAlpha(tourneyInputsBG, 155, 22)
+
+--Tournament Not Started Input Hints Panel
+function drawTourneyInputHints2()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	animPosDraw(tourneyInputsBG, -56, 195) --Draw Input Hints BG
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"q","245,"..inputHintYPos,"a","0,197","s","120,197","w","245,197")
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Set Control", 22, 210)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Tourney", 142, 210)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Slot", 266, 210)
+	--
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--Tournament Started Input Hints Panel
+function drawTourneyInputHints3()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	animPosDraw(tourneyInputsBG, -56, 215) --Draw Input Hints BG
+	drawInputHintsP1("w","0,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Next Match", 21, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--;===========================================================
+--; TOURNAMENT CHAMPION SCREENPACK DEFINITION
+--;===========================================================
+--Scrolling background
+tourneyChampionBG0 = animNew(sprSys, [[
+100,0, 0,0, -1
+]])
+animAddPos(tourneyChampionBG0, 160, 0)
+animSetTile(tourneyChampionBG0, 1, 1)
+animSetColorKey(tourneyChampionBG0, -1)
+
+
 
 --;=================================================================================================
 --; ADVENTURE MODE SCREENPACK DEFINITION (WIP)
