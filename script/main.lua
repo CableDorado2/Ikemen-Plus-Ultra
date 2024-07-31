@@ -16900,8 +16900,8 @@ function f_tourneyCfg()
 		else teamName = "Unknown"
 		end
 		t_tourneyCfg[2].varText = teamName
-		if data.tourneyCharSel then t_tourneyCfg[3].varText = "Every Match" else t_tourneyCfg[3].varText = "First Match" end
-		if data.tourneyStgSel then t_tourneyCfg[4].varText = "Every Match" else t_tourneyCfg[4].varText = "First Match" end
+		if data.tourneyCharSel then t_tourneyCfg[3].varText = "Every FT" else t_tourneyCfg[3].varText = "First FT" end
+		if data.tourneyStgSel then t_tourneyCfg[4].varText = "Every FT" else t_tourneyCfg[4].varText = "First FT" end
 		t_tourneyCfg[5].varText = data.tourneyRoundTime
 		t_tourneyCfg[6].varText = data.tourneyRoundsNum
 		t_tourneyCfg[7].varText = "FT"..data.tourneyMatchsNum
@@ -16991,6 +16991,7 @@ function f_tourneyMenu()
 	tourneyRow = 1
 	tourneyGroup = 1 --1=A, 2=B
 	tourneyFightNo = 1
+	tourneyRoundNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
 	tourneyNextRound = false
 	startTourney = false
 	endTourney = false
@@ -17010,7 +17011,6 @@ function f_tourneyMenu()
 					startTourney = true
 					hideMenu = false
 					tourneyGroupNo = 1 --Start tourney from Left Group
-					tourneyRoundNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
 					tourneyParticipantNo = 0 --Player Slot ID
 					tourneyNextRound = true
 					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
@@ -17124,50 +17124,53 @@ function f_tourneyMenu()
 		animDraw(f_animVelocity(tourneyBG0, -1, -1))
 		--Draw Tourney BG Grids
 		if data.tourneySize == 4 then
-			textImgSetText(txt_tourneyState, txt_tourneyR4)
 			animSetScale(tourney4, 1.059, 1.041)
 			animPosDraw(tourney4, -10, -5)
 		elseif data.tourneySize == 8 then
-			textImgSetText(txt_tourneyState, txt_tourneyR8)
 			animSetScale(tourney8, 1.059, 1.041)
 			animPosDraw(tourney8, -10, -5)
 		elseif data.tourneySize == 16 then
-			textImgSetText(txt_tourneyState, txt_tourneyR16)
 			animSetScale(tourney16, 1.059, 1.041)
 			animPosDraw(tourney16, -10, -5)
 		end
 		--Draw Menu Titles
 		textImgDraw(txt_tourneyType)
+		f_setTourneyState()
+		textImgSetText(txt_tourneyState, tourneyState)
 		textImgDraw(txt_tourneyState)
 		textImgDraw(txt_tourneyTitle)
 		--Draw Group A Assets
-		for i=1, #t_tourneyMenu.Group[1].Round[1] do
-			--Set AI Icon
-			local ctrlIcon = nil
-			local GroupAai = t_tourneyMenu.Group[1].Round[1][i].AIlevel
-			if GroupAai == 1 then ctrlIcon = tourneyAI1
-			elseif GroupAai == 2 then ctrlIcon = tourneyAI2
-			elseif GroupAai == 3 then ctrlIcon = tourneyAI3
-			elseif GroupAai == 4 then ctrlIcon = tourneyAI4
-			elseif GroupAai == 5 then ctrlIcon = tourneyAI5
-			elseif GroupAai == 6 then ctrlIcon = tourneyAI6
-			elseif GroupAai == 7 then ctrlIcon = tourneyAI7
-			elseif GroupAai == 8 then ctrlIcon = tourneyAI8
-			end
-			--Set Player Icon
-			if t_tourneyMenu.Group[1].Round[1][i].Player == 1 then ctrlIcon = tourneyP1
-			elseif t_tourneyMenu.Group[1].Round[1][i].Player == 2 then ctrlIcon = tourneyP2
-			end
-			--Draw Characters Icon
-			local character = t_tourneyMenu.Group[1].Round[1][i].CharID
-			if character == "randomselect" then
-				--animSetScale(tourneyRandomIcon, 1.025,1.025)
-				animPosDraw(tourneyRandomIcon, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
-			else
-				drawTourneyPortrait(character-1, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
-			end
-			--Draw Control Icon
-			animPosDraw(ctrlIcon, ctrlStartPosX+(1-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
+		for c=1, #t_tourneyMenu.Group[1].Round do
+			--if c > 1 then
+				for i=1, #t_tourneyMenu.Group[1].Round[c] do
+					--Set AI Icon
+					local ctrlIcon = nil
+					local GroupAai = t_tourneyMenu.Group[1].Round[c][i].AIlevel
+					if GroupAai == 1 then ctrlIcon = tourneyAI1
+					elseif GroupAai == 2 then ctrlIcon = tourneyAI2
+					elseif GroupAai == 3 then ctrlIcon = tourneyAI3
+					elseif GroupAai == 4 then ctrlIcon = tourneyAI4
+					elseif GroupAai == 5 then ctrlIcon = tourneyAI5
+					elseif GroupAai == 6 then ctrlIcon = tourneyAI6
+					elseif GroupAai == 7 then ctrlIcon = tourneyAI7
+					elseif GroupAai == 8 then ctrlIcon = tourneyAI8
+					end
+					--Set Player Icon
+					if t_tourneyMenu.Group[1].Round[c][i].Player == 1 then ctrlIcon = tourneyP1
+					elseif t_tourneyMenu.Group[1].Round[c][i].Player == 2 then ctrlIcon = tourneyP2
+					end
+					--Draw Characters Icon
+					local character = t_tourneyMenu.Group[1].Round[c][i].CharID
+					if character == "randomselect" then
+						--animSetScale(tourneyRandomIcon, 1.025,1.025)
+						animPosDraw(tourneyRandomIcon, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+					else
+						drawTourneyPortrait(character-1, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+					end
+					--Draw Control Icon
+					animPosDraw(ctrlIcon, ctrlStartPosX+(1-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
+				end
+			--end
 		end
 		--Draw Group B Assets
 		for i=1, #t_tourneyMenu.Group[2].Round[1] do
@@ -17487,46 +17490,57 @@ function f_tourneyChampion()
 	playBGM(bgmTourneyChampion)
 	local screenTime = 0
 	local timeLimit = 150
-	--Portraits Scale Logic
-	local charData1 = t_selChars[data.t_p1selected[1].cel+1]
-	local charData2 = t_selChars[data.t_p2selected[1].cel+1]
-	if charData1.winSprScale ~= nil then
-		scaleData1 = charData1.winSprScale
-	else
-		scaleData1 = "1.0,1.0"
+	local xPortScale = 0.9
+	local yPortScale = 0.9
+	local winner1 = nil
+	local winner2 = nil
+	if p1Wins == data.tourneyMatchsNum then
+		winner1 = data.t_p1selected
+		winner2 = data.t_p2selected
+	elseif p2Wins == data.tourneyMatchsNum then
+		winner1 = data.t_p2selected
+		winner2 = data.t_p1selected
 	end
-	if charData2.winSprScale ~= nil then
-		scaleData2 = charData2.winSprScale
-	else
-		scaleData2 = "1.0,1.0"
+	textImgSetText(txt_tourneyPlace1, f_getName(winner1[1].cel))
+	textImgSetText(txt_tourneyPlace2, f_getName(winner2[1].cel))
+	if data.tourney3rdPlace then
+		textImgSetText(txt_tourneyPlace3, f_getName(3))
 	end
-	local xPortScale1, yPortScale1 = scaleData1:match('^([^,]-)%s*,%s*(.-)$')
-	local xPortScale2, yPortScale2 = scaleData2:match('^([^,]-)%s*,%s*(.-)$')
 	cmdInput()
 	while true do
 		--SKIP
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			break
 		end
-		animDraw(f_animVelocity(tourneyChampionBG0, -1, -1))
+		animDraw(f_animVelocity(tourneyChampionBG0, -1, -1)) --Draw BG
 		--Draw Character Portraits
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-			if p1Wins == data.tourneyMatchsNum then
-				drawWinPortrait(data.t_p1selected[1].cel, 20, 30, xPortScale1, yPortScale1)
-				--drawWinPortrait(data.t_p2selected[1].cel, 300, 30, -xPortScale2, yPortScale2)
-			elseif p2Wins == data.tourneyMatchsNum then
-				drawWinPortrait(data.t_p2selected[1].cel, 20, 30, xPortScale1, yPortScale1)
+			if data.tourney3rdPlace then
+				drawWinPortrait(3, 207, 76, xPortScale, yPortScale) --Third Place
 			end
+			drawWinPortrait(winner2[1].cel, 6, 57, xPortScale, yPortScale) --Second Place
+			drawWinPortrait(winner1[1].cel, 109.5, 32, xPortScale, yPortScale) --First Place
 		end
 		--Draw Character Sprite Animations
 		if data.charPresentation == "Sprite" then
-			for j=#data.t_p1selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
+			for j=#winner1, 1, -1 do --First Place
+				f_drawCharAnim(t_selChars[winner1[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, winner1[j].up)
 			end
-			for j=#data.t_p2selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
+			for j=#winner2, 1, -1 do --Second Place
+				f_drawCharAnim(t_selChars[winner2[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, winner2[j].up)
+			end
+			if data.tourney3rdPlace then
+				--for j=#winner2, 1, -1 do --Third Place
+					f_drawCharAnim(3, 'p1AnimWin', 139 - (2*j-1) * 18, 168, true)
+				--end
 			end
 		end
+		animDraw(tourneyAwards2)
+		--Draw Titles
+		textImgDraw(txt_tourneyChampionTitle)
+		textImgDraw(txt_tourneyPlace1)
+		textImgDraw(txt_tourneyPlace2)
+		if data.tourney3rdPlace then textImgDraw(txt_tourneyPlace3) end
 	    animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

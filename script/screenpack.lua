@@ -3167,18 +3167,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 		if endTourney then
 			textImgSetText(txt_matchNo, "GRAND FINAL")
 		else
-			if data.tourneySize == 16 then
-				if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16
-				elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8
-				elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4
-				end
-			elseif data.tourneySize == 8 then
-				if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8
-				elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR4
-				end
-			elseif data.tourneySize == 4 then
-				if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4 end
-			end
+			f_setTourneyState()
 			if tourneyGroup == 1 then --Display for Left Side
 				if tourneyFightNo == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
 				elseif tourneyFightNo == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
@@ -3194,6 +3183,21 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 				end
 			end
 		end
+	end
+end
+
+function f_setTourneyState()
+	if data.tourneySize == 16 then
+		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16
+		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8
+		elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4
+		end
+	elseif data.tourneySize == 8 then
+		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8
+		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR4
+		end
+	elseif data.tourneySize == 4 then
+		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4 end
 	end
 end
 
@@ -4411,6 +4415,11 @@ end
 --;===========================================================
 --; TOURNAMENT CHAMPION SCREENPACK DEFINITION
 --;===========================================================
+txt_tourneyChampionTitle = createTextImg(font21, 0, 0, "CONGRATULATIONS!", 159, 18) 
+txt_tourneyPlace1 = createTextImg(font13, 0, 0, "", 163, 157, 0.65, 0.65)
+txt_tourneyPlace2 = createTextImg(font13, 0, 0, "", 62, 182, 0.65, 0.65)
+txt_tourneyPlace3 = createTextImg(font13, 0, 0, "", 261, 201, 0.65, 0.65)
+
 --Scrolling background
 tourneyChampionBG0 = animNew(sprSys, [[
 100,0, 0,0, -1
@@ -4419,7 +4428,19 @@ animAddPos(tourneyChampionBG0, 160, 0)
 animSetTile(tourneyChampionBG0, 1, 1)
 animSetColorKey(tourneyChampionBG0, -1)
 
+--Awards Assets (Single Elimination) Unused
+tourneyAwards1 = animNew(sprTourney, [[
+5,1, 0,0, -1
+]])
+animAddPos(tourneyAwards1, 0, 100)
+animUpdate(tourneyAwards1)
 
+--Awards Assets (Double Elimination)
+tourneyAwards2 = animNew(sprTourney, [[
+5,2, 0,0, -1
+]])
+animAddPos(tourneyAwards2, 0, 0)
+animUpdate(tourneyAwards2)
 
 --;=================================================================================================
 --; ADVENTURE MODE SCREENPACK DEFINITION (WIP)

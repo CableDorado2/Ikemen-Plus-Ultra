@@ -3497,7 +3497,8 @@ function f_saveTourney()
 		['data.tourneyStgSel'] = data.tourneyStgSel,
 		['data.tourneyRoundTime'] = data.tourneyRoundTime,
 		['data.tourneyRoundsNum'] = data.tourneyRoundsNum,
-		['data.tourneyMatchsNum'] = data.tourneyMatchsNum
+		['data.tourneyMatchsNum'] = data.tourneyMatchsNum,
+		['data.tourney3rdPlace'] = data.tourney3rdPlace,
 	}
 	s_tourneydataLUA = f_strSub(s_tourneydataLUA, t_tourney)
 	local tourneyFile = io.open(saveTourneyPath,"w+")
