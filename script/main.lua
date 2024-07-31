@@ -16710,8 +16710,8 @@ function f_tourneyCfg()
 				modified = 1
 			end
 		]]
-		--Team Mode
-		elseif tourneyCfg == 2 then
+		--[[Team Mode
+		elseif tourneyCfg == 3 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if commandGetState(p1Cmd, 'r') and data.tourneyTeam < 2 then sndPlay(sndSys, 100, 0) end
 				if data.tourneyTeam < 2 then
@@ -16735,8 +16735,9 @@ function f_tourneyCfg()
 				bufr = 0
 				bufl = 0
 			end
+		]]
 		--Allow Character Select
-		elseif tourneyCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif tourneyCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sndSys, 100, 0)
 			if data.tourneyCharSel then
 				data.tourneyCharSel = false
@@ -16746,7 +16747,7 @@ function f_tourneyCfg()
 				modified = 1
 			end
 		--Allow Stage Select
-		elseif tourneyCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif tourneyCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sndSys, 100, 0)
 			if data.tourneyStgSel then
 				data.tourneyStgSel = false
@@ -16756,7 +16757,7 @@ function f_tourneyCfg()
 				modified = 1
 			end
 		--Round Time
-		elseif tourneyCfg == 5 then
+		elseif tourneyCfg == 4 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if data.tourneyRoundTime < 1000 then
 					data.tourneyRoundTime = data.tourneyRoundTime + 1
@@ -16785,7 +16786,7 @@ function f_tourneyCfg()
 				bufl = 0
 			end
 		--Rounds to Win
-		elseif tourneyCfg == 6 then
+		elseif tourneyCfg == 5 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if commandGetState(p1Cmd, 'r') and data.tourneyRoundsNum < 5 then sndPlay(sndSys, 100, 0) end
 				if data.tourneyRoundsNum < 5 then
@@ -16810,7 +16811,7 @@ function f_tourneyCfg()
 				bufl = 0
 			end
 		--Matchs to Win (First To)
-		elseif tourneyCfg == 7 then
+		elseif tourneyCfg == 6 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if commandGetState(p1Cmd, 'r') and data.tourneyMatchsNum < 5 then sndPlay(sndSys, 100, 0) end
 				if data.tourneyMatchsNum < 5 then
@@ -16893,21 +16894,23 @@ function f_tourneyCfg()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Set Settings Text
 		t_tourneyCfg[1].varText = data.tourneySize
-		--t_tourneyCfg[2].varText = data.tourneyType
+		--[[t_tourneyCfg[2].varText = data.tourneyType
 		if data.tourneyTeam == 0 then teamName = "Single"
 		elseif data.tourneyTeam == 1 then teamName = "Simul"
 		elseif data.tourneyTeam == 2 then teamName = "Turns"
 		else teamName = "Unknown"
 		end
-		t_tourneyCfg[2].varText = teamName
-		if data.tourneyCharSel then t_tourneyCfg[3].varText = "Every FT" else t_tourneyCfg[3].varText = "First FT" end
-		if data.tourneyStgSel then t_tourneyCfg[4].varText = "Every FT" else t_tourneyCfg[4].varText = "First FT" end
-		t_tourneyCfg[5].varText = data.tourneyRoundTime
-		t_tourneyCfg[6].varText = data.tourneyRoundsNum
-		t_tourneyCfg[7].varText = "FT"..data.tourneyMatchsNum
+		t_tourneyCfg[3].varText = teamName
+		]]
+		if data.tourneyCharSel then t_tourneyCfg[2].varText = "Every FT" else t_tourneyCfg[2].varText = "First FT" end
+		if data.tourneyStgSel then t_tourneyCfg[3].varText = "Every FT" else t_tourneyCfg[3].varText = "First FT" end
+		t_tourneyCfg[4].varText = data.tourneyRoundTime
+		t_tourneyCfg[5].varText = data.tourneyRoundsNum
+		t_tourneyCfg[6].varText = "FT"..data.tourneyMatchsNum
 		--[[
-		t_tourneyCfg[8].varText = data.tourneyCharLock
-		t_tourneyCfg[9].varText = data.tourneyStgLock
+		t_tourneyCfg[10].varText = data.tourney3rdPlace
+		t_tourneyCfg[10].varText = data.tourneyCharLock
+		t_tourneyCfg[11].varText = data.tourneyStgLock
 		]]
 		--Draw Settings Text
 		for i=1, maxtourneyCfg do
@@ -16958,29 +16961,68 @@ function f_tourneyMenu()
 	local bufl = 0
 	local maxItems = 12
 	--Iteration Position Logic
-	local slotStartPosX = 0.3
 	local slotWidth = 29 --Sprite Width
-	local slotSpacingX = 261
-	--
-	local slotStartPosY = 0
 	local slotHeight = 29 --Sprite Height
-	local slotSpacingY = 1.2
-	--
-	local randomStartPosX = 2.3
-	local randomWidth = 25
-	local randomSpacingX = 265.2
-	--
-	local randomStartPosY = 1.3
-	local randomHeight = 25
-	local randomSpacingY = 5.3
-	--
-	local ctrlStartPosX = 2
+	local iconWidth = 25
+	local iconHeight = 25
 	local ctrlWidth = 20
-	local ctrlSpacingX = 270
-	--
-	local ctrlStartPosY = 20
 	local ctrlHeight = 7
-	local ctrlSpacingY = 23.2
+	--
+	local updateStartPosX = 49 --When tourneySize is more small how much the values ​​change from the originals
+	local updateSpacingX = 97.5
+	local updateStartPosY = 16
+	local updateSpacingY = 29.95
+	--Positions for 16 Participants
+	--Originals values
+		slotStartPosX = 0.3
+		slotSpacingX = 261
+		slotStartPosY = 0
+		slotSpacingY = 1.2
+		--
+		iconStartPosX = 2.3
+		iconSpacingX = 265.2
+		iconStartPosY = 1.3
+		iconSpacingY = 5.3
+		--
+		ctrlStartPosX = 2
+		ctrlSpacingX = 270
+		ctrlStartPosY = 20
+		ctrlSpacingY = 23.2
+	--Positions for 8 Participants
+	if data.tourneySize == 8 then
+		slotStartPosX = slotStartPosX + updateStartPosX
+		slotSpacingX = slotSpacingX - updateSpacingX
+		slotStartPosY = slotStartPosY + updateStartPosY
+		slotSpacingY = slotSpacingY + updateSpacingY
+		--
+		iconStartPosX = iconStartPosX + updateStartPosX
+		iconSpacingX = iconSpacingX - updateSpacingX
+		iconStartPosY = iconStartPosY + updateStartPosY
+		iconSpacingY = iconSpacingY + updateSpacingY
+		--
+		ctrlStartPosX = ctrlStartPosX + updateStartPosX
+		ctrlSpacingX = ctrlSpacingX - updateSpacingX
+		ctrlStartPosY = ctrlStartPosY + updateStartPosY
+		ctrlSpacingY = ctrlSpacingY + updateSpacingY
+	--Positions for 4 Participants
+	elseif data.tourneySize == 4 then
+		local changeX = 2 --When tourneySize is more small how much will the values ​​of the axis change?
+		local changeY = 2.92
+		slotStartPosX = slotStartPosX + (updateStartPosX*changeX)
+		slotSpacingX = slotSpacingX - (updateSpacingX*changeX)
+		slotStartPosY = slotStartPosY + (updateStartPosY*changeY)
+		slotSpacingY = slotSpacingY + (updateSpacingY*changeY)
+		--
+		iconStartPosX = iconStartPosX + (updateStartPosX*changeX)
+		iconSpacingX = iconSpacingX - (updateSpacingX*changeX)
+		iconStartPosY = iconStartPosY + (updateStartPosY*changeY)
+		iconSpacingY = iconSpacingY + (updateSpacingY*changeY)
+		--
+		ctrlStartPosX = ctrlStartPosX + (updateStartPosX*changeX)
+		ctrlSpacingX = ctrlSpacingX - (updateSpacingX*changeX)
+		ctrlStartPosY = ctrlStartPosY + (updateStartPosY*changeY)
+		ctrlSpacingY = ctrlSpacingY + (updateSpacingY*changeY)
+	end
 	--
 	local hideMenu = false
 	if data.tourneyType == "Single Elimination" then textImgSetText(txt_tourneyType, txt_tourneyType1)
@@ -17163,9 +17205,9 @@ function f_tourneyMenu()
 					local character = t_tourneyMenu.Group[1].Round[c][i].CharID
 					if character == "randomselect" then
 						--animSetScale(tourneyRandomIcon, 1.025,1.025)
-						animPosDraw(tourneyRandomIcon, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+						animPosDraw(tourneyRandomIcon, iconStartPosX+(1-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
 					else
-						drawTourneyPortrait(character-1, randomStartPosX+(1-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+						drawTourneyPortrait(character-1, iconStartPosX+(1-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
 					end
 					--Draw Control Icon
 					animPosDraw(ctrlIcon, ctrlStartPosX+(1-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
@@ -17193,9 +17235,9 @@ function f_tourneyMenu()
 			--Draw Characters Icon
 			local character = t_tourneyMenu.Group[2].Round[1][i].CharID
 			if character == "randomselect" then
-				animPosDraw(tourneyRandomIcon, randomStartPosX+(2-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+				animPosDraw(tourneyRandomIcon, iconStartPosX+(2-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
 			else
-				drawTourneyPortrait(character-1, randomStartPosX+(2-1)*(randomWidth+randomSpacingX), randomStartPosY+(i-1)*(randomHeight+randomSpacingY))
+				drawTourneyPortrait(character-1, iconStartPosX+(2-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
 			end
 			--Draw Control Icon
 			animPosDraw(ctrlIcon, ctrlStartPosX+(2-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))

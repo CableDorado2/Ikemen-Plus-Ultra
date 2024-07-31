@@ -4168,7 +4168,7 @@ txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT RULES", 159, 13)
 t_tourneyCfg = {
 	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
 	--{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
-	{varID = textImgNew(), text = "Team Mode",		       		varText = data.tourneyTeam},
+	--{varID = textImgNew(), text = "Team Mode",		       		varText = data.tourneyTeam},
 	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
 	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
 	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
