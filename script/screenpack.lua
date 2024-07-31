@@ -3188,16 +3188,16 @@ end
 
 function f_setTourneyState()
 	if data.tourneySize == 16 then
-		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16
-		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8
-		elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4
+		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16 --8th-Finals
+		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8 --Quarterfinals
+		elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4 --Semifinals
 		end
 	elseif data.tourneySize == 8 then
-		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8
-		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR4
+		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8 --Quarterfinals
+		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR4 --Semifinals
 		end
 	elseif data.tourneySize == 4 then
-		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4 end
+		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4 end --Semifinals
 	end
 end
 

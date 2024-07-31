@@ -16972,6 +16972,8 @@ function f_tourneyMenu()
 	local updateSpacingX = 97.5
 	local updateStartPosY = 16
 	local updateSpacingY = 29.95
+	local changeX = 2 --When tourneySize is more small how much will the values ​​of the axis change?
+	local changeY = 2.92
 	--Positions for 16 Participants
 	--Originals values
 		slotStartPosX = 0.3
@@ -17006,8 +17008,6 @@ function f_tourneyMenu()
 		ctrlSpacingY = ctrlSpacingY + updateSpacingY
 	--Positions for 4 Participants
 	elseif data.tourneySize == 4 then
-		local changeX = 2 --When tourneySize is more small how much will the values ​​of the axis change?
-		local changeY = 2.92
 		slotStartPosX = slotStartPosX + (updateStartPosX*changeX)
 		slotSpacingX = slotSpacingX - (updateSpacingX*changeX)
 		slotStartPosY = slotStartPosY + (updateStartPosY*changeY)
@@ -17183,64 +17183,176 @@ function f_tourneyMenu()
 		textImgDraw(txt_tourneyTitle)
 		--Draw Group A Assets
 		for c=1, #t_tourneyMenu.Group[1].Round do
-			--if c > 1 then
-				for i=1, #t_tourneyMenu.Group[1].Round[c] do
-					--Set AI Icon
-					local ctrlIcon = nil
-					local GroupAai = t_tourneyMenu.Group[1].Round[c][i].AIlevel
-					if GroupAai == 1 then ctrlIcon = tourneyAI1
-					elseif GroupAai == 2 then ctrlIcon = tourneyAI2
-					elseif GroupAai == 3 then ctrlIcon = tourneyAI3
-					elseif GroupAai == 4 then ctrlIcon = tourneyAI4
-					elseif GroupAai == 5 then ctrlIcon = tourneyAI5
-					elseif GroupAai == 6 then ctrlIcon = tourneyAI6
-					elseif GroupAai == 7 then ctrlIcon = tourneyAI7
-					elseif GroupAai == 8 then ctrlIcon = tourneyAI8
-					end
-					--Set Player Icon
-					if t_tourneyMenu.Group[1].Round[c][i].Player == 1 then ctrlIcon = tourneyP1
-					elseif t_tourneyMenu.Group[1].Round[c][i].Player == 2 then ctrlIcon = tourneyP2
-					end
-					--Draw Characters Icon
-					local character = t_tourneyMenu.Group[1].Round[c][i].CharID
-					if character == "randomselect" then
-						--animSetScale(tourneyRandomIcon, 1.025,1.025)
-						animPosDraw(tourneyRandomIcon, iconStartPosX+(1-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
-					else
-						drawTourneyPortrait(character-1, iconStartPosX+(1-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
-					end
-					--Draw Control Icon
-					animPosDraw(ctrlIcon, ctrlStartPosX+(1-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
+			for d=1, #t_tourneyMenu.Group[1].Round[c] do
+				--Set AI Icon
+				local ctrlIcon = nil
+				local GroupAai = t_tourneyMenu.Group[1].Round[c][d].AIlevel
+				if GroupAai == 1 then ctrlIcon = tourneyAI1
+				elseif GroupAai == 2 then ctrlIcon = tourneyAI2
+				elseif GroupAai == 3 then ctrlIcon = tourneyAI3
+				elseif GroupAai == 4 then ctrlIcon = tourneyAI4
+				elseif GroupAai == 5 then ctrlIcon = tourneyAI5
+				elseif GroupAai == 6 then ctrlIcon = tourneyAI6
+				elseif GroupAai == 7 then ctrlIcon = tourneyAI7
+				elseif GroupAai == 8 then ctrlIcon = tourneyAI8
 				end
-			--end
+				--Set Player Icon
+				if t_tourneyMenu.Group[1].Round[c][d].Player == 1 then ctrlIcon = tourneyP1
+				elseif t_tourneyMenu.Group[1].Round[c][d].Player == 2 then ctrlIcon = tourneyP2
+				end
+				--Draw Characters Icon
+				local newStartPosX = 0
+				local newSpacingX = 0
+				local newStartPosY = 0
+				local newSpacingY = 0
+				local newChangeX = 0
+				local newChangeY = 0
+				local character = t_tourneyMenu.Group[1].Round[c][d].CharID
+				if character == "randomselect" then
+					--animSetScale(tourneyRandomIcon, 1.025,1.025)
+					animPosDraw(tourneyRandomIcon, iconStartPosX+(1-1)*(iconWidth+iconSpacingX), iconStartPosY+(d-1)*(iconHeight+iconSpacingY))
+				else --If a character is stored
+					if data.tourneySize == 16 then --To draw assets for next rounds
+						if c == 2 then --Quarterfinals
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 1
+							newChangeY = 1
+						elseif c == 3 then --Semifinals
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = changeX
+							newChangeY = changeY
+						elseif c == 4 then --Final
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 2.97
+							newChangeY = 5.3
+						end
+					elseif data.tourneySize == 8 then
+						if c == 2 then --Semifinals
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 1
+							newChangeY = 1.92
+						elseif c == 3 then --Final
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 1.97
+							newChangeY = 4.3
+						end
+					elseif data.tourneySize == 4 then
+						if c == 2 then --Final
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 0.97
+							newChangeY = 2.38
+						end
+					end
+					--Draw Face
+					drawTourneyPortrait(character-1, (iconStartPosX+(newStartPosX*newChangeX))+(1-1)*(iconWidth+(iconSpacingX-(newSpacingX*newChangeX))), (iconStartPosY+(newStartPosY*newChangeY))+(d-1)*(iconHeight+(iconSpacingY+(newSpacingY*newChangeY))))
+				end
+				--Draw Control Icon
+				animPosDraw(ctrlIcon, (ctrlStartPosX+(newStartPosX*newChangeX))+(1-1)*(ctrlWidth+(ctrlSpacingX-(newSpacingX*newChangeX))), (ctrlStartPosY+(newStartPosY*newChangeY))+(d-1)*(ctrlHeight+(ctrlSpacingY+(newSpacingY*newChangeY))))
+			end
 		end
 		--Draw Group B Assets
-		for i=1, #t_tourneyMenu.Group[2].Round[1] do
-			--Set AI Icon
-			local ctrlIcon = nil
-			local GroupBai = t_tourneyMenu.Group[2].Round[1][i].AIlevel
-			if GroupBai == 1 then ctrlIcon = tourneyAI1
-			elseif GroupBai == 2 then ctrlIcon = tourneyAI2
-			elseif GroupBai == 3 then ctrlIcon = tourneyAI3
-			elseif GroupBai == 4 then ctrlIcon = tourneyAI4
-			elseif GroupBai == 5 then ctrlIcon = tourneyAI5
-			elseif GroupBai == 6 then ctrlIcon = tourneyAI6
-			elseif GroupBai == 7 then ctrlIcon = tourneyAI7
-			elseif GroupBai == 8 then ctrlIcon = tourneyAI8
+		for c=1, #t_tourneyMenu.Group[2].Round do
+			for d=1, #t_tourneyMenu.Group[2].Round[c] do
+				--Set AI Icon
+				local ctrlIcon = nil
+				local GroupBai = t_tourneyMenu.Group[2].Round[c][d].AIlevel
+				if GroupBai == 1 then ctrlIcon = tourneyAI1
+				elseif GroupBai == 2 then ctrlIcon = tourneyAI2
+				elseif GroupBai == 3 then ctrlIcon = tourneyAI3
+				elseif GroupBai == 4 then ctrlIcon = tourneyAI4
+				elseif GroupBai == 5 then ctrlIcon = tourneyAI5
+				elseif GroupBai == 6 then ctrlIcon = tourneyAI6
+				elseif GroupBai == 7 then ctrlIcon = tourneyAI7
+				elseif GroupBai == 8 then ctrlIcon = tourneyAI8
+				end
+				--Set Player Icon
+				if t_tourneyMenu.Group[2].Round[c][d].Player == 1 then ctrlIcon = tourneyP1
+				elseif t_tourneyMenu.Group[2].Round[c][d].Player == 2 then ctrlIcon = tourneyP2
+				end
+				--Draw Characters Icon
+				local newStartPosX = 0
+				local newSpacingX = 0
+				local newStartPosY = 0
+				local newSpacingY = 0
+				local newChangeX = 0
+				local newChangeY = 0
+				local character = t_tourneyMenu.Group[2].Round[c][d].CharID
+				if character == "randomselect" then
+					animPosDraw(tourneyRandomIcon, iconStartPosX+(2-1)*(iconWidth+iconSpacingX), iconStartPosY+(d-1)*(iconHeight+iconSpacingY))
+				else --If a character is stored
+					if data.tourneySize == 16 then --To draw assets for next rounds
+						if c == 2 then --Quarterfinals
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 1
+							newChangeY = 1
+						elseif c == 3 then --Semifinals
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = changeX
+							newChangeY = changeY
+						elseif c == 4 then --Final
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 2.98
+							newChangeY = 8.02
+						end
+					elseif data.tourneySize == 8 then
+						if c == 2 then --Semifinals
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 1
+							newChangeY = 1.92
+						elseif c == 3 then --Final
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 1.98
+							newChangeY = 7.02
+						end
+					elseif data.tourneySize == 4 then
+						if c == 2 then --Final
+							newStartPosX = updateStartPosX
+							newSpacingX = updateSpacingX
+							newStartPosY = updateStartPosY
+							newSpacingY = updateSpacingY
+							newChangeX = 0.98
+							newChangeY = 5.1
+						end
+					end
+					--Draw Face
+					drawTourneyPortrait(character-1, (iconStartPosX+(newStartPosX*newChangeX))+(2-1)*(iconWidth+(iconSpacingX-(newSpacingX*newChangeX))), (iconStartPosY+(newStartPosY*newChangeY))+(d-1)*(iconHeight+(iconSpacingY+(newSpacingY*newChangeY))))
+				end
+				--Draw Control Icon
+				animPosDraw(ctrlIcon, (ctrlStartPosX+(newStartPosX*newChangeX))+(2-1)*(ctrlWidth+(ctrlSpacingX-(newSpacingX*newChangeX))), (ctrlStartPosY+(newStartPosY*newChangeY))+(d-1)*(ctrlHeight+(ctrlSpacingY+(newSpacingY*newChangeY))))
 			end
-			--Set Player Icon
-			if t_tourneyMenu.Group[2].Round[1][i].Player == 1 then ctrlIcon = tourneyP1
-			elseif t_tourneyMenu.Group[2].Round[1][i].Player == 2 then ctrlIcon = tourneyP2
-			end
-			--Draw Characters Icon
-			local character = t_tourneyMenu.Group[2].Round[1][i].CharID
-			if character == "randomselect" then
-				animPosDraw(tourneyRandomIcon, iconStartPosX+(2-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
-			else
-				drawTourneyPortrait(character-1, iconStartPosX+(2-1)*(iconWidth+iconSpacingX), iconStartPosY+(i-1)*(iconHeight+iconSpacingY))
-			end
-			--Draw Control Icon
-			animPosDraw(ctrlIcon, ctrlStartPosX+(2-1)*(ctrlWidth+ctrlSpacingX), ctrlStartPosY+(i-1)*(ctrlHeight+ctrlSpacingY))
 		end
 		--Draw Slot Cursor
 		if not startTourney then
@@ -17282,6 +17394,28 @@ function f_tourneyMenu()
 	end
 end
 
+function f_tourneySelRandomPlayer()
+	--Group A
+	for i=1, #t_tourneyMenu.Group[1].Round[1] do
+		local character = t_tourneyMenu.Group[1].Round[1][i].CharID
+		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
+			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
+			--t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1,12)
+			confirmRandomSel = true
+		end
+	end
+	--Group B
+	for i=1, #t_tourneyMenu.Group[2].Round[1] do
+		local character = t_tourneyMenu.Group[2].Round[1][i].CharID
+		if character == "randomselect" then
+			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
+			--t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1,12)
+			confirmRandomSel = true
+		end
+	end
+	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+end
+
 function f_tourneySelCfg()
 	f_default()
 	data.gameMode = "tourney"
@@ -17306,28 +17440,6 @@ function f_tourneySelCfg()
 		textImgSetText(txt_mainSelect, txt_tourneyR16)
 	end
 	f_selectTourney()
-end
-
-function f_tourneySelRandomPlayer()
-	--Group A
-	for i=1, #t_tourneyMenu.Group[1].Round[1] do
-		local character = t_tourneyMenu.Group[1].Round[1][i].CharID
-		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
-			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
-			--t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1,12)
-			confirmRandomSel = true
-		end
-	end
-	--Group B
-	for i=1, #t_tourneyMenu.Group[2].Round[1] do
-		local character = t_tourneyMenu.Group[2].Round[1][i].CharID
-		if character == "randomselect" then
-			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
-			--t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1,12)
-			confirmRandomSel = true
-		end
-	end
-	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 end
 
 function f_tourneySelStage()
