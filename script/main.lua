@@ -16908,11 +16908,7 @@ function f_tourneyCfg()
 		t_tourneyCfg[4].varText = data.tourneyRoundTime
 		t_tourneyCfg[5].varText = data.tourneyRoundsNum
 		t_tourneyCfg[6].varText = "FT"..data.tourneyMatchsNum
-		--[[
-		t_tourneyCfg[10].varText = data.tourney3rdPlace
-		t_tourneyCfg[10].varText = data.tourneyCharLock
-		t_tourneyCfg[11].varText = data.tourneyStgLock
-		]]
+		--t_tourneyCfg[10].varText = data.tourney3rdPlace
 		--Draw Settings Text
 		for i=1, maxtourneyCfg do
 			if i > tourneyCfg - cursorPosY then
@@ -17457,7 +17453,7 @@ function f_tourneySelStage()
 		if stageAnnouncer == true then
 			announcerTimer = announcerTimer + 1
 		end
-		f_drawQuickText(aetas, jgFnt, 0, 0, winner, 159, 20)
+		drawStageInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -17471,7 +17467,7 @@ function f_tourneyControls()
 	end
 	if p2Cell.Player == 1 then
 		remapInput(2, 1) --P1 control Right Side
-		--setPlayerSide('p1right')
+		setPlayerSide('p1right')
 	end
 	if p1Cell.AIlevel > 0 and p2Cell.AIlevel > 0 then setGameMode("tourneyAI") --this is a AI Battle
 	else setGameMode("tourney") --at least there is a human controlling

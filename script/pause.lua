@@ -851,8 +851,14 @@ function f_pauseConfirm()
 					sndPlay(sndSys, 100, 1)
 					f_resetTrainingCfg()
 					if getGameMode() == "tourney" then
-						if pn == 1 then data.p1Lose = true
-						elseif pn == 2 then data.p2Lose = true
+						if getPlayerSide() == "p1right" then
+							if pn == 2 then data.p1Lose = true
+							elseif pn == 1 then data.p2Lose = true
+							end
+						else --P1 in left side
+							if pn == 1 then data.p1Lose = true
+							elseif pn == 2 then data.p2Lose = true
+							end
 						end
 					elseif getGameMode() == "tourneyAI" then
 						data.AIskip = true

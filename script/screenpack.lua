@@ -3164,8 +3164,8 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	end
 --Set Tournament Matchs Text
 	if data.gameMode == "tourney" then
-		if endTourney then
-			textImgSetText(txt_matchNo, "GRAND FINAL")
+		if endTourney then --To Show in VS Screen
+			textImgSetText(txt_matchNo, txt_tourneyR2)
 		else
 			f_setTourneyState()
 			if tourneyGroup == 1 then --Display for Left Side
@@ -3187,17 +3187,21 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 end
 
 function f_setTourneyState()
-	if data.tourneySize == 16 then
-		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16 --8th-Finals
-		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8 --Quarterfinals
-		elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4 --Semifinals
+	if endTourney then --To Show in Tournament Menu
+		tourneyState = txt_tourneyR2 --Final
+	else
+		if data.tourneySize == 16 then
+			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR16 --8th-Finals
+			elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR8 --Quarterfinals
+			elseif tourneyRoundNo == 3 then tourneyState = txt_tourneyR4 --Semifinals
+			end
+		elseif data.tourneySize == 8 then
+			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8 --Quarterfinals
+			elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR4 --Semifinals
+			end
+		elseif data.tourneySize == 4 then
+			if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4 end --Semifinals
 		end
-	elseif data.tourneySize == 8 then
-		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR8 --Quarterfinals
-		elseif tourneyRoundNo == 2 then tourneyState = txt_tourneyR4 --Semifinals
-		end
-	elseif data.tourneySize == 4 then
-		if tourneyRoundNo == 1 then tourneyState = txt_tourneyR4 end --Semifinals
 	end
 end
 
@@ -4175,8 +4179,6 @@ t_tourneyCfg = {
 	{varID = textImgNew(), text = "Rounds to Win",      		varText = data.tourneyRoundsNum},
 	{varID = textImgNew(), text = "Matchs to Win",              varText = data.tourneyMatchsNum},
 	--{varID = textImgNew(), text = "3rd Place Match",    		varText = data.tourney3rdPlace},
-	--{varID = textImgNew(), text = "Character Restrictions",    	varText = data.tourneyCharLock},
-	--{varID = textImgNew(), text = "Stage Restrictions",    		varText = data.tourneyStgLock},
 	{varID = textImgNew(), text = "    CREATE TOURNAMENT",  			varText = ""},
 }
 
@@ -4269,6 +4271,7 @@ txt_tourneyR32 = "16TH-FINALS"
 txt_tourneyR16 = "8TH-FINALS"
 txt_tourneyR8 = "QUARTERFINALS"
 txt_tourneyR4 = "SEMIFINALS"
+txt_tourneyR2 = "GRAND FINAL"
 
 function f_addTourneySlots()
 	t_tourneyMenu = {
@@ -4407,7 +4410,7 @@ function drawTourneyInputHints3()
 	animPosDraw(tourneyInputsBG, -56, 215) --Draw Input Hints BG
 	drawInputHintsP1("w","0,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Next Match", 21, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
 end
