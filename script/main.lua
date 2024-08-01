@@ -16656,10 +16656,11 @@ function f_tourneyCfg()
 	local bufl = 0
 	local maxItems = 7
 	local teamName = nil
+	exitTourney = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmTourney)
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitTourney then
 			sndPlay(sndSys, 100, 2)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			f_menuMusic()
@@ -17039,7 +17040,9 @@ function f_tourneyMenu()
 	endTourney = false
 	confirmRandomSel = false
 	while true do
-		if endTourney then break end
+		if exitTourney then break end --Back to Main Menu
+		--Prepare Final Match
+		if (tourneyRoundNo == 4 and data.tourneySize == 16) or (tourneyRoundNo == 3 and data.tourneySize == 8) or (tourneyRoundNo == 2 and data.tourneySize == 4) then endTourney = true end
 		if not startTourney then
 			--BACK TO TOURNEY SETTINGS
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -17142,7 +17145,7 @@ function f_tourneyMenu()
 				maxSlots = maxItems
 			end
 		else --If tournament has been started
-			--BACK TO MAIN MENU LOGIC
+			--BACK TO TOURNEY SETTINGS
 			if tourneyBack then
 				startTourney = false
 				tourneyBack = false
@@ -17157,7 +17160,6 @@ function f_tourneyMenu()
 			--START NEXT MATCH
 			elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				hideMenu = false
-				if (tourneyRoundNo == 4 and data.tourneySize == 16) or (tourneyRoundNo == 3 and data.tourneySize == 8) or (tourneyRoundNo == 2 and data.tourneySize == 4) then endTourney = true end --Prepare Final Match
 				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 				f_tourneySelCfg()
 			end
@@ -17400,7 +17402,7 @@ function f_tourneySelRandomPlayer()
 		local character = t_tourneyMenu.Group[1].Round[1][i].CharID
 		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
 			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
-			--t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1,12)
+			t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1,12)
 			confirmRandomSel = true
 		end
 	end
@@ -17409,7 +17411,7 @@ function f_tourneySelRandomPlayer()
 		local character = t_tourneyMenu.Group[2].Round[1][i].CharID
 		if character == "randomselect" then
 			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
-			--t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1,12)
+			t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1,12)
 			confirmRandomSel = true
 		end
 	end
@@ -17425,7 +17427,7 @@ function f_tourneySelCfg()
 	setRoundsToWin(data.tourneyRoundsNum)
 	setGameMode("tourney")
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2In = 1
+	data.p2In = 2
 	data.p2SelectMenu = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -17463,6 +17465,19 @@ function f_tourneySelStage()
 	end
 end
 
+function f_tourneyControls()
+	if p1Cell.Player == 2 then
+		remapInput(1, 2) --P2 control Left Side
+	end
+	if p2Cell.Player == 1 then
+		remapInput(2, 1) --P1 control Right Side
+		--setPlayerSide('p1right')
+	end
+	setCom(1, p1Cell.AIlevel)
+	setCom(2, p2Cell.AIlevel)
+	--setTag(1, 0)
+end
+
 --;=================================================================================================
 --; TOURNAMENT (CHARACTER SELECT/FIGHTS LAUNCHER)
 --;=================================================================================================
@@ -17495,6 +17510,40 @@ if validCells() then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			end
 		end
+		--Back from Pause Menu (Give Up or Main Menu Options)
+		if winner == 0 and (data.tempBack or data.p1Lose or data.p2Lose) then
+			assert(loadfile(saveTempPath))()
+			--Back to Main Menu
+			if data.tempBack == true then
+				exitTourney = true
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				data.tempBack = false
+				f_saveTemp()
+				f_resetMenuInputs()
+				return
+			--Give Up
+			else
+				--P1 Give Up
+				if data.p1Lose then
+					winner = 2
+				--P2 Give Up
+				elseif data.p2Lose then
+					winner = 1
+				--CPU VS CPU Random Winner
+				else
+					winner = math.random(1,2)
+				end
+				data.p1Lose = false
+				data.p2Lose = false
+				f_saveTemp()
+				f_selectWin()
+				if data.rosterMode == "tourney" then
+					playBGM(bgmTourney)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+			end
+		end
 		--Tourney Screen Logic
 		if not startTourney then --When tourney has not been started
 			while not selScreenEnd do
@@ -17504,6 +17553,7 @@ if validCells() then
 					if esc() then f_exitOnline() end
 				end
 				f_selectScreen()
+				--[[
 				assert(loadfile(saveTempPath))()
 				--Back from Pause Menu
 				if data.tempBack == true then
@@ -17517,10 +17567,14 @@ if validCells() then
 					f_resetMenuInputs()
 					return
 				end
+				]]
 				--Back from Char Select
 				if back == true then return end
 			end
-			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharID = data.t_p1selected[1].cel+1 --Save Character Selected for first tournament fights
+			--Save Character Selected Data (Single Team Mode)
+			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharID = data.t_p1selected[1].cel+1
+			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].up = data.t_p1selected[1].up
+			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].pal = data.t_p1selected[1].pal
 			break --Back to Tournament Menu
 		else --When tourney has been started
 			matchNo = matchNo + 1 --Go to Next FT
@@ -17583,16 +17637,16 @@ if validCells() then
 			data.t_p1selected = {}
 			data.t_p2selected = {}
 			if not endTourney then
-				p1Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].CharID-1
-				p2Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].CharID-1
+				p1Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1]
+				p2Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2]
 			else
-				p1Cell = t_tourneyMenu.Group[1].Round[tourneyRoundNo][1].CharID-1 --Pick the only character left in Group A
-				p2Cell = t_tourneyMenu.Group[2].Round[tourneyRoundNo][1].CharID-1 --Pick the only character left in Group B
+				p1Cell = t_tourneyMenu.Group[1].Round[tourneyRoundNo][1] --Pick the only character left in Group A
+				p2Cell = t_tourneyMenu.Group[2].Round[tourneyRoundNo][1] --Pick the only character left in Group B
 			end
-			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
-			data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = 1, ['up'] = true, ['rand'] = false}
+			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell.CharID-1, ['name'] = t_selChars[p1Cell.CharID].name, ['displayname'] = t_selChars[p1Cell.CharID].displayname, ['path'] = t_selChars[p1Cell.CharID].char, ['pal'] = p1Cell.pal, ['up'] = p1Cell.up, ['rand'] = false}
+			data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell.CharID-1, ['name'] = t_selChars[p2Cell.CharID].name, ['displayname'] = t_selChars[p2Cell.CharID].displayname, ['path'] = t_selChars[p2Cell.CharID].char, ['pal'] = p2Cell.pal, ['up'] = p2Cell.up, ['rand'] = false}
 			setMatchNo(matchNo)
-			f_aiLevel()
+			f_tourneyControls()
 			if data.tourneyStgSel or matchNo == 1 then --Show Stage Select
 				f_tourneySelStage()
 			else --Load First Stage Selected
@@ -17664,6 +17718,7 @@ function f_tourneyChampion()
 	while true do
 		--SKIP
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			exitTourney = true
 			break
 		end
 		animDraw(f_animVelocity(tourneyChampionBG0, -1, -1)) --Draw BG

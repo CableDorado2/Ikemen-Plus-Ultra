@@ -835,7 +835,7 @@ function f_pauseConfirm()
 			f_sysTime()
 			drawPauseInputHints2()
 			if data.attractMode then textImgDraw(txt_attractCredits) end
-			--BACK TO MAIN MENU (TEMP)
+			--BACK TO MAIN MENU
 			if mainMenuBack == true then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sndSys, 100, 1)
@@ -849,6 +849,12 @@ function f_pauseConfirm()
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sndSys, 100, 1)
 					f_resetTrainingCfg()
+					if getGameMode() == "tourney" then
+						if pn == 1 then data.p1Lose = true
+						elseif pn == 2 then data.p2Lose = true
+						end
+					end
+					f_saveTemp()
 					exitMatch()
 				end
 			end

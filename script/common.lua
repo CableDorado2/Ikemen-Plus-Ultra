@@ -3473,7 +3473,9 @@ function f_saveTemp()
 		['data.tempBack'] = data.tempBack,
 		['data.replayDone'] = data.replayDone,
 		['data.challengerMode'] = data.challengerMode,
-		['data.VNbreaker'] = data.VNbreaker
+		['data.VNbreaker'] = data.VNbreaker,
+		['data.p1Lose'] = data.p1Lose,
+		['data.p2Lose'] = data.p2Lose
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
 	local tempFile = io.open(saveTempPath,"w+")
@@ -3484,6 +3486,10 @@ end
 function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.tempBack = false
 	data.replayDone = false
+	data.challengerMode = false
+	data.VNbreaker = false
+	data.p1Lose = false
+	data.p2Lose = false
 	f_saveTemp()
 end
 
