@@ -416,6 +416,7 @@ elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
 elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
+elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "SKIP MATCH"
 end
 
 --Pause Menu for Replays
@@ -853,6 +854,8 @@ function f_pauseConfirm()
 						if pn == 1 then data.p1Lose = true
 						elseif pn == 2 then data.p2Lose = true
 						end
+					elseif getGameMode() == "tourneyAI" then
+						data.AIskip = true
 					end
 					f_saveTemp()
 					exitMatch()

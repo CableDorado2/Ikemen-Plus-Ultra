@@ -17425,7 +17425,6 @@ function f_tourneySelCfg()
 	data.stageMenu = true
 	setRoundTime(data.tourneyRoundTime * 60)
 	setRoundsToWin(data.tourneyRoundsNum)
-	setGameMode("tourney")
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 2
 	data.p2SelectMenu = false
@@ -17458,6 +17457,7 @@ function f_tourneySelStage()
 		if stageAnnouncer == true then
 			announcerTimer = announcerTimer + 1
 		end
+		f_drawQuickText(aetas, jgFnt, 0, 0, winner, 159, 20)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -17472,6 +17472,9 @@ function f_tourneyControls()
 	if p2Cell.Player == 1 then
 		remapInput(2, 1) --P1 control Right Side
 		--setPlayerSide('p1right')
+	end
+	if p1Cell.AIlevel > 0 and p2Cell.AIlevel > 0 then setGameMode("tourneyAI") --this is a AI Battle
+	else setGameMode("tourney") --at least there is a human controlling
 	end
 	setCom(1, p1Cell.AIlevel)
 	setCom(2, p2Cell.AIlevel)
@@ -17492,7 +17495,6 @@ if validCells() then
 	end
 	cmdInput()
 	while true do
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		--f_selectMusic()
 		if winner < 1 then
 			f_selectReset()
@@ -17500,49 +17502,6 @@ if validCells() then
 			selectStart()
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-		end
-		--Victory Screen
-		if winner > 0 then
-			f_selectWin()
-			if data.rosterMode == "tourney" then
-				playBGM(bgmTourney)
-			else
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-			end
-		end
-		--Back from Pause Menu (Give Up or Main Menu Options)
-		if winner == 0 and (data.tempBack or data.p1Lose or data.p2Lose) then
-			assert(loadfile(saveTempPath))()
-			--Back to Main Menu
-			if data.tempBack == true then
-				exitTourney = true
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				data.tempBack = false
-				f_saveTemp()
-				f_resetMenuInputs()
-				return
-			--Give Up
-			else
-				--P1 Give Up
-				if data.p1Lose then
-					winner = 2
-				--P2 Give Up
-				elseif data.p2Lose then
-					winner = 1
-				--CPU VS CPU Random Winner
-				else
-					winner = math.random(1,2)
-				end
-				data.p1Lose = false
-				data.p2Lose = false
-				f_saveTemp()
-				f_selectWin()
-				if data.rosterMode == "tourney" then
-					playBGM(bgmTourney)
-				else
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				end
-			end
 		end
 		--Tourney Screen Logic
 		if not startTourney then --When tourney has not been started
@@ -17553,21 +17512,6 @@ if validCells() then
 					if esc() then f_exitOnline() end
 				end
 				f_selectScreen()
-				--[[
-				assert(loadfile(saveTempPath))()
-				--Back from Pause Menu
-				if data.tempBack == true then
-					if data.rosterMode == "tourney" then
-						--playBGM(bgmTourney)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
-					data.tempBack = false
-					f_saveTemp()
-					f_resetMenuInputs()
-					return
-				end
-				]]
 				--Back from Char Select
 				if back == true then return end
 			end
@@ -17678,6 +17622,52 @@ if validCells() then
 			--f_favoriteStage() --Store Favorite Stage (WIP)
 			f_unlocksCheck() --Check For Unlocked Content
 			playBGM("")
+			--Victory Screen
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			if winner == 1 or winner == 2 then
+				f_selectWin()
+				if data.rosterMode == "tourney" then
+					playBGM(bgmTourney)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+			--Back from Pause Menu (Give Up or Main Menu Options)
+			elseif winner == -1 then
+				assert(loadfile(saveTempPath))()
+				--Back to Main Menu
+				if data.tempBack == true then
+					exitTourney = true
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+					data.tempBack = false
+					f_saveTemp()
+					f_resetMenuInputs()
+					break
+				--Give Up
+				else
+					--P1 Give Up
+					if data.p1Lose then
+						winner = 2
+					--P2 Give Up
+					elseif data.p2Lose then
+						winner = 1
+					--CPU VS CPU Random Winner
+					elseif data.AIskip then
+						winner = math.random(1,2)
+					end
+					data.p1Lose = false
+					data.p2Lose = false
+					data.AIskip = false
+					f_saveTemp()
+					f_selectWin()
+					if data.rosterMode == "tourney" then
+						playBGM(bgmTourney)
+					else
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+					end
+				end
+			end
 		end
 		cmdInput()
 		refresh()

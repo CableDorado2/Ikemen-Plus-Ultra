@@ -3475,7 +3475,8 @@ function f_saveTemp()
 		['data.challengerMode'] = data.challengerMode,
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
-		['data.p2Lose'] = data.p2Lose
+		['data.p2Lose'] = data.p2Lose,
+		['data.AIskip'] = data.AIskip
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
 	local tempFile = io.open(saveTempPath,"w+")
