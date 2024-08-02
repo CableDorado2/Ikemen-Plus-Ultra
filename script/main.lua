@@ -8266,16 +8266,21 @@ function f_rosterReset()
 	wrappingY = data.wrappingY --System.def: wrapping for Y (true = 1, false = 0)
 	--Position to draw to
 	if data.p2Faces and data.selectType == "Advanced" then --When you play in Multiplayer and Roster Type is like BlazBlue Cross Tag Battle the roster will be divided into 2 and the 2nd player can choose without the screen being cut
-		p1FaceX = data.p1FaceX --10
-		p1FaceY = data.p1FaceY
-		p2FaceX = data.p2FaceX
-		p2FaceY = data.p2FaceY
-	else --When you play in Single Player or Roster Type is Simple Type
 		p1FaceX = data.p1FaceX --System.def: pos for X (Left Side)
 		p1FaceY = data.p1FaceY --System.def: pos for Y (Left Side)
+		p2FaceX = data.p2FaceX --System.def: pos for X (Right Side)
+		p2FaceY = data.p2FaceY --System.def: pos for Y (Right Side)
+	else --When you play in Single Player or Roster Type is Simple Type
+		if data.selectType == "Simple" then
+			p1FaceX = data.p1FaceX
+			p1FaceY = data.p1FaceY
+		elseif data.selectType == "Advanced" then --Custom Positions for Single Play in Advanced Roster Type (TODO: Also configurate this via options)
+			p1FaceX = 90
+			p1FaceY = data.p1FaceY
+		end
 		--if not data.p1SelectMenu then
-			p2FaceX = data.p1FaceX --System.def: pos for X (Right Side)
-			p2FaceY = data.p1FaceY --System.def: pos for Y (Right Side)
+			p2FaceX = data.p1FaceX
+			p2FaceY = data.p1FaceY
 		--end
 		if data.selectType == "Simple" then
 			offsetRows = 0
@@ -9342,13 +9347,13 @@ function f_selectScreen()
 	end
 	--Player 2 Selection
 	if not p2TeamEnd then
-		if data.gameMode == "tourney" then --Falta incluir un AND con: que el personajes a registrar no es el derecho
+		if data.gameMode == "tourney" and not tourneyCharSel then
 			p2TeamEnd = true
 		else
 			f_p2TeamMenu()
 		end
 	elseif data.p2In > 0 or data.p2Char ~= nil then
-		if data.gameMode == "tourney" then --Falta incluir un AND con: que el personajes a registrar no es el derecho
+		if data.gameMode == "tourney" and not tourneyCharSel then
 			p2SelEnd = true
 		else
 			f_p2SelectMenu()
@@ -9455,7 +9460,7 @@ function f_selectScreen()
 		end
 	end
 	--Win Count
-	if data.gameMode == "versus" and data.vsDisplayWin == true then
+	if (data.gameMode == "versus" or data.gameMode == "tourney") and data.vsDisplayWin == true then
 		textImgSetText(txt_p1Wins, "WINS: " .. p1Wins)
 		textImgSetText(txt_p2Wins, "WINS: " .. p2Wins)
 		textImgDraw(txt_p1Wins)
@@ -16903,7 +16908,7 @@ function f_tourneyCfg()
 		end
 		t_tourneyCfg[3].varText = teamName
 		]]
-		if data.tourneyCharSel then t_tourneyCfg[2].varText = "Every FT" else t_tourneyCfg[2].varText = "First FT" end
+		if data.tourneyCharSel then t_tourneyCfg[2].varText = "Every Match" else t_tourneyCfg[2].varText = "Fixed" end
 		if data.tourneyStgSel then t_tourneyCfg[3].varText = "Every FT" else t_tourneyCfg[3].varText = "First FT" end
 		t_tourneyCfg[4].varText = data.tourneyRoundTime
 		t_tourneyCfg[5].varText = data.tourneyRoundsNum
@@ -17029,12 +17034,13 @@ function f_tourneyMenu()
 	tourneyBack = false
 	tourneyRow = 1
 	tourneyGroup = 1 --1=A, 2=B
-	tourneyFightNo = 1
+	tourneyFightNo = 1 --Tournament Matchs Counter
 	tourneyRoundNo = 1 --Tournament Matchs Round State (Initial, Quarterfinals, Semifinals, Final)
-	tourneyNextRound = false
-	startTourney = false
-	endTourney = false
-	confirmRandomSel = false
+	tourneyNextRound = false --Prepare table data for next round
+	tourneyCharSel = false --Allow Player 2 Char Select when is active for Every Match
+	startTourney = false --Controls when tourney has been started
+	endTourney = false --Controls when tourney enter in the last match
+	confirmRandomSel = false --Controls when random select occurs
 	while true do
 		if exitTourney then break end --Back to Main Menu
 		--Prepare Final Match
@@ -17422,6 +17428,7 @@ function f_tourneySelCfg()
 	setRoundTime(data.tourneyRoundTime * 60)
 	setRoundsToWin(data.tourneyRoundsNum)
 	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 2
 	data.p2SelectMenu = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17437,6 +17444,68 @@ function f_tourneySelCfg()
 		textImgSetText(txt_mainSelect, txt_tourneyR16)
 	end
 	f_selectTourney()
+end
+
+function f_tourneySelectReset()
+	p1SelX = data.p1SelX --System.def: p1CursorStartcell for X
+	p1SelY = data.p1SelY --System.def: p1CursorStartcell for Y
+	p2SelX = data.p2SelX --System.def: p2CursorStartcell for X
+	p2SelY = data.p2SelY --System.def: p2CursorStartcell for Y
+	p1FaceOffset = 0
+	p2FaceOffset = 0
+	p1OffsetRow = 0
+	p2OffsetRow = 0
+	p1OffsetColumn = 0
+	p2OffsetColumn = 0
+	back = false
+	--Quick Scrolling
+	bufTmu = 0
+	bufTmd = 0
+	bufTmr = 0
+	bufTml = 0
+	bufTm2u = 0
+	bufTm2d = 0
+	bufTm2r = 0
+	bufTm2l = 0
+	bufSelu = 0
+	bufSeld = 0
+	bufSelr = 0
+	bufSell = 0
+	bufSel2u = 0
+	bufSel2d = 0
+	bufSel2r = 0
+	bufSel2l = 0
+	bufPalu = 0
+	bufPald = 0
+	bufPalr = 0
+	bufPall = 0
+	bufPal2u = 0
+	bufPal2d = 0
+	bufPal2r = 0
+	bufPal2l = 0
+	bufStageu = 0
+	bufStaged = 0
+	bufStager = 0
+	bufStagel = 0
+	--Timers
+	selectSeconds = data.selectTime
+	stageSeconds = data.stageTime
+	rematchSeconds = data.rematchTime
+	serviceSeconds = data.serviceTime
+	destinySeconds = data.destinyTime
+	selectTimer = selectSeconds*gameTick --Set time for Character Select
+	stageTimer = stageSeconds*gameTick --Set time for Stage Select
+	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
+	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
+	destinyTimer = destinySeconds*gameTick --Set time for Tower/Destiny Select
+	stageList = 0
+	musicList = 0
+	gameNo = 0
+	winner = 0
+	winCnt = 0
+	looseCnt = 0
+	clearTime = 0
+	matchTime = 0
 end
 
 function f_tourneySelStage()
@@ -17573,7 +17642,65 @@ if validCells() then
 				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 				break
 			end
-			--Assign Characters to the Match
+			--Show Character Select every Match
+			if data.tourneyCharSel and (p1Wins > 0 or p2Wins > 0) then
+				if tourneyRoundNo > 0 then
+					tourneyCharSel = true
+					data.p2Faces = true
+					--f_tourneySelectReset() --(Unused) to restart cursor position
+					f_selectReset()
+					--selectStart()
+					data.p2SelectMenu = true
+					data.p2In = 2
+					local p1Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1]
+					local p2Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2]
+					if endTourney then --Rewritte data to avoid issue with p2Data 
+						p1Data = t_tourneyMenu.Group[1].Round[tourneyRoundNo][1] --Pick the only character left in Group A
+						p2Data = t_tourneyMenu.Group[2].Round[tourneyRoundNo][1] --Pick the only character left in Group B
+					end
+					if p1Data.Player == 2 then
+						
+						--remapInput(1, 2) --P2 control Left Side
+					end
+					if p2Data.Player == 1 then
+						
+						--remapInput(2, 1) --P1 control Right Side
+						--setPlayerSide('p1right')
+					end
+					if p1Data.AIlevel > 0 and p2Data.AIlevel > 0 then
+						data.p2In = 1
+						--this is a AI Battle
+					end
+					while not selScreenEnd do
+						if onlinegame == false then
+							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
+						elseif onlinegame == true then
+							if esc() then f_exitOnline() end
+						end
+						f_selectScreen()
+						--Back from Char Select
+						if back == true then
+							exitTourney = true
+							break
+						end
+					end
+					if exitTourney then
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+						f_resetMenuInputs()
+						break
+					end
+					--Save Character Selected Data (Single Team Mode)
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].CharID = data.t_p1selected[1].cel+1
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].up = data.t_p1selected[1].up
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].pal = data.t_p1selected[1].pal
+					--Player 2 Data
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].CharID = data.t_p2selected[1].cel+1
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].up = data.t_p2selected[1].up
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].pal = data.t_p2selected[1].pal
+					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+				end
+			end
+		--Assign Characters to the Match
 			data.t_p1selected = {}
 			data.t_p2selected = {}
 			if not endTourney then
@@ -17587,7 +17714,7 @@ if validCells() then
 			data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell.CharID-1, ['name'] = t_selChars[p2Cell.CharID].name, ['displayname'] = t_selChars[p2Cell.CharID].displayname, ['path'] = t_selChars[p2Cell.CharID].char, ['pal'] = p2Cell.pal, ['up'] = p2Cell.up, ['rand'] = false}
 			setMatchNo(matchNo)
 			f_tourneyControls()
-			if data.tourneyStgSel or matchNo == 1 then --Show Stage Select
+			if data.tourneyStgSel or matchNo == 1 then --Show Stage Select every FT 1
 				f_tourneySelStage()
 			else --Load First Stage Selected
 				--f_randomRematch()
