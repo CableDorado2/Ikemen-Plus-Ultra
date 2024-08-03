@@ -8198,10 +8198,7 @@ function f_keyMenuCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			--Modify Menu Controls
-			if keyCfg == 5 or keyCfg == 6 or keyCfg == 7 or keyCfg == 8 or keyCfg == 9 or keyCfg == 10 then
-				sndPlay(sndSys, 100, 5)
-				--Show a Message that it buttons ABC XYZ are reserved to re-use in Classic Palette Select from Battle Controls
-			elseif keyCfg < #t_keyMenuCfg-1 and (keyCfg ~= 5 or keyCfg ~= 6 or keyCfg ~= 7 or keyCfg ~= 8 or keyCfg ~= 9 or keyCfg ~= 10) then
+			if keyCfg < #t_keyMenuCfg-1 then
 				sndPlay(sndSys, 100, 1)
 				p1waitingKey = true
 				if controller == -1 then
@@ -8264,10 +8261,7 @@ function f_keyMenuCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			--Modify Menu Controls
-			if keyCfg2 == 5 or keyCfg2 == 6 or keyCfg2 == 7 or keyCfg2 == 8 or keyCfg2 == 9 or keyCfg2 == 10 then
-				sndPlay(sndSys, 100, 5)
-				--Show a Message that it buttons ABC XYZ are reserved to re-use in Classic Palette Select from Battle Controls
-			elseif keyCfg2 < #t_keyMenuCfg2-1 and (keyCfg2 ~= 5 or keyCfg2 ~= 6 or keyCfg2 ~= 7 or keyCfg2 ~= 8 or keyCfg2 ~= 9 or keyCfg2 ~= 10) then
+			if keyCfg2 < #t_keyMenuCfg2-1 then
 				sndPlay(sndSys, 100, 1)
 				p2waitingKey = true
 				if controller == -1 then

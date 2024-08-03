@@ -17184,6 +17184,12 @@ function f_tourneyMenu()
 		f_setTourneyState()
 		textImgSetText(txt_tourneyState, tourneyState)
 		textImgDraw(txt_tourneyState)
+		--[[
+		if data.tourneyType == "Double Elimination" then
+			textImgSetText(txt_tourneyBracket, txt_tourneyWinners)
+			textImgDraw(txt_tourneyBracket)
+		end
+		]]
 		textImgDraw(txt_tourneyTitle)
 		--Draw Group A Assets
 		for c=1, #t_tourneyMenu.Group[1].Round do
@@ -17428,22 +17434,13 @@ function f_tourneySelCfg()
 	setRoundTime(data.tourneyRoundTime * 60)
 	setRoundsToWin(data.tourneyRoundsNum)
 	setFTNo(data.tourneyMatchsNum) --Set Matchs To Wins/FT
+	textImgSetText(txt_mainSelect, tourneyState)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 2
 	data.p2SelectMenu = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
-	--ROUND OF 4 [SEMIFINALS] (participate in a customizable single-elimination tournament starting from Semifinals)
-	if data.tourneySize == 4 then
-		textImgSetText(txt_mainSelect, txt_tourneyR4)
-	--ROUND OF 8 [QUARTERFINALS] (participate in a customizable single-elimination tournament starting from Quarterfinals)
-	elseif data.tourneySize == 8 then
-		textImgSetText(txt_mainSelect, txt_tourneyR8)
-	--ROUND OF 16 [8TH-FINALS] (participate in a customizable single-elimination tournament starting from Round of 16)
-	elseif data.tourneySize == 16 then
-		textImgSetText(txt_mainSelect, txt_tourneyR16)
-	end
 	f_selectTourney()
 end
 
@@ -17695,9 +17692,14 @@ if validCells() then
 					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].up = data.t_p1selected[1].up
 					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].pal = data.t_p1selected[1].pal
 					--Player 2 Data
-					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].CharID = data.t_p2selected[1].cel+1
-					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].up = data.t_p2selected[1].up
-					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2].pal = data.t_p2selected[1].pal
+					local player2Data = tourneyParticipantNo+2
+					if endTourney then --Rewritte data to avoid issue with p2Data
+						player2Data = 1
+					else
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][player2Data].CharID = data.t_p2selected[1].cel+1
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][player2Data].up = data.t_p2selected[1].up
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][player2Data].pal = data.t_p2selected[1].pal
+					end
 					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 				end
 			end
@@ -17829,7 +17831,7 @@ function f_tourneyChampion()
 	textImgSetText(txt_tourneyPlace1, f_getName(winner1[1].cel))
 	textImgSetText(txt_tourneyPlace2, f_getName(winner2[1].cel))
 	if data.tourney3rdPlace then
-		textImgSetText(txt_tourneyPlace3, f_getName(3))
+		--textImgSetText(txt_tourneyPlace3, f_getName(1)) TODO
 	end
 	cmdInput()
 	while true do
@@ -17842,23 +17844,27 @@ function f_tourneyChampion()
 		--Draw Character Portraits
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 			if data.tourney3rdPlace then
-				drawWinPortrait(3, 207, 76, xPortScale, yPortScale) --Third Place
+				--drawWinPortrait(1, 207, 76, xPortScale, yPortScale) --Third Place
 			end
 			drawWinPortrait(winner2[1].cel, 6, 57, xPortScale, yPortScale) --Second Place
 			drawWinPortrait(winner1[1].cel, 109.5, 32, xPortScale, yPortScale) --First Place
 		end
 		--Draw Character Sprite Animations
-		if data.charPresentation == "Sprite" then
-			for j=#winner1, 1, -1 do --First Place
-				f_drawCharAnim(t_selChars[winner1[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, winner1[j].up)
+		if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+			--First Place
+			for j=#winner1, 1, -1 do
+				f_drawCharAnim(t_selChars[winner1[j].cel+1], 'p1AnimWin', 179 - (2*j-1) * 18, 157, winner1[j].up)
 			end
-			for j=#winner2, 1, -1 do --Second Place
-				f_drawCharAnim(t_selChars[winner2[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, winner2[j].up)
+			--Second Place
+			for j=#winner2, 1, -1 do
+				f_drawCharAnim(t_selChars[winner2[j].cel+1], 'p1AnimWin', 78 - (2*j-1) * 18, 182, winner2[j].up)
 			end
 			if data.tourney3rdPlace then
-				--for j=#winner2, 1, -1 do --Third Place
-					f_drawCharAnim(3, 'p1AnimWin', 139 - (2*j-1) * 18, 168, true)
-				--end
+				--Third Place
+				--[[for j=#???, 1, -1 do
+					f_drawCharAnim(1, 'p1AnimWin', 279 - (2*j-1) * 18, 201, true)
+				end
+				]]
 			end
 		end
 		animDraw(tourneyAwards2)
@@ -18230,7 +18236,7 @@ end
 f_mainStart() --Start Menu
 
 --[[
-function f_mainStartA()
+function f_mainStartTest()
 	while true do
 		drawBottomMenuSP()
 		drawMiddleMenuSP()
@@ -18239,5 +18245,5 @@ function f_mainStartA()
 	end
 end
 
-f_mainStartA() --Start Menu
+f_mainStartTest()
 ]]

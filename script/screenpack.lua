@@ -3168,18 +3168,19 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 			textImgSetText(txt_matchNo, txt_tourneyR2)
 		else
 			f_setTourneyState()
-			if tourneyGroup == 1 then --Display for Left Side
+			if tourneyGroupNo == 1 then --Display for Left Side
 				if tourneyFightNo == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
 				elseif tourneyFightNo == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
 				elseif tourneyFightNo == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
 				elseif tourneyFightNo >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo.."TH MATCH")
 				end
-			elseif tourneyGroup == 2 then --Display for Right Side
+			elseif tourneyGroupNo == 2 then --Display for Right Side
 				local previousMatches = #t_tourneyMenu.Group[1].Round[tourneyRoundNo]
-				if tourneyFightNo+previousMatches == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
-				elseif tourneyFightNo+previousMatches == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
-				elseif tourneyFightNo+previousMatches == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
-				elseif tourneyFightNo+previousMatches >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo+previousMatches.."TH MATCH")
+				local currentMatch = previousMatches/2
+				if tourneyFightNo+currentMatch == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
+				elseif tourneyFightNo+currentMatch == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
+				elseif tourneyFightNo+currentMatch == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
+				elseif tourneyFightNo+currentMatch >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo+currentMatch.."TH MATCH")
 				end
 			end
 		end
@@ -4260,6 +4261,7 @@ tourney16 = animNew(sprTourney, [[
 --;===========================================================
 txt_tourneyType = createTextImg(jgFnt, 0, 0, "", 159, 12)
 txt_tourneyState = createTextImg(jgFnt, 5, 0, "", 159, 24)
+txt_tourneyBracket = createTextImg(jgFnt, 2, 0, "", 159, 222)
 txt_tourneyTitle = createTextImg(jgFnt, 0, 0, "TOURNAMENT MODE", 159, 235)
 txt_tourneyType1 = "SINGLE-ELIMINATION"
 txt_tourneyType2 = "DOUBLE-ELIMINATION"

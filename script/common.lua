@@ -3210,12 +3210,12 @@ t_keyMenuCfg = {
 	{varID = textImgNew(), text = "DOWN",  					varText = "", cmd = "d"},
 	{varID = textImgNew(), text = "LEFT",  					varText = "", cmd = "l"},
 	{varID = textImgNew(), text = "RIGHT", 					varText = "", cmd = "r"},
-	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"}, --[Reserved for Classic Palette Select
+	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"},
 	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
 	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
 	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
 	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
-	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"}, --]
+	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"},
 	{varID = textImgNew(), text = "SCREENSHOT",				varText = "", cmd = "q"},
 	{varID = textImgNew(), text = "CONFIRM",				varText = "", cmd = "w"},
 	{varID = textImgNew(), text = "RETURN",					varText = "", cmd = "e"},
