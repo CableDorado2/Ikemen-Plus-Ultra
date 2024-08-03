@@ -17426,6 +17426,7 @@ function f_tourneySelRandomPlayer()
 	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 end
 
+--Load Common Settings for Tournament Battles
 function f_tourneySelCfg()
 	f_default()
 	data.gameMode = "tourney"
@@ -17641,34 +17642,42 @@ if validCells() then
 				break
 			end
 			--Show Character Select every Match
-			if data.tourneyCharSel and (p1Wins > 0 or p2Wins > 0) then
-				if tourneyRoundNo > 0 then
+			if data.tourneyCharSel then
+				if (p1Wins > 0 or p2Wins > 0) or tourneyRoundNo > 1 then
 					tourneyCharSel = true
 					data.p2Faces = true
-					--f_tourneySelectReset() --(Unused) to restart cursor position
-					f_selectReset()
-					--selectStart()
 					data.p2SelectMenu = true
-					data.p2In = 2
 					local p1Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1]
 					local p2Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2]
 					if endTourney then --Rewritte data to avoid issue with p2Data 
 						p1Data = t_tourneyMenu.Group[1].Round[tourneyRoundNo][1] --Pick the only character left in Group A
 						p2Data = t_tourneyMenu.Group[2].Round[tourneyRoundNo][1] --Pick the only character left in Group B
 					end
-					if p1Data.Player == 2 then
-						
-						--remapInput(1, 2) --P2 control Left Side
-					end
-					if p2Data.Player == 1 then
-						
-						--remapInput(2, 1) --P1 control Right Side
-						--setPlayerSide('p1right')
-					end
-					if p1Data.AIlevel > 0 and p2Data.AIlevel > 0 then
+					if p1Data.AIlevel == 0 and p2Data.AIlevel == 0 then --VS HUMAN (1P and 2P controls his sides in Character Select)
+						data.p2In = 2
+						if p1Data.Player == 2 then
+							remapInput(1, 2) --P2 control Left Side
+						end
+						if p2Data.Player == 1 then
+							remapInput(2, 1) --P1 control Right Side
+							setPlayerSide('p1right')
+						end
+					else --VS CPU (1P or 2P controls both sides in Character Select)
 						data.p2In = 1
-						--this is a AI Battle
+						if p1Data.Player == 2 then
+							--data.p1In = 2 --Test
+							remapInput(1, 2) --P2 control Left Side
+						end
+						if p2Data.Player == 1 then
+							data.p1In = 2
+							data.p2In = 2
+							remapInput(2, 1) --P1 control Right Side
+							setPlayerSide('p1right')
+						end
 					end
+					--f_tourneySelectReset() --(Unused) to restart cursor position
+					f_selectReset()
+					--selectStart()
 					while not selScreenEnd do
 						if onlinegame == false then
 							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
@@ -17693,13 +17702,14 @@ if validCells() then
 					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].pal = data.t_p1selected[1].pal
 					--Player 2 Data
 					local player2Data = tourneyParticipantNo+2
-					if endTourney then --Rewritte data to avoid issue with p2Data
+					local player2Group = tourneyGroupNo
+					if endTourney then --Rewritte data to avoid issue with p2Data (Picking the only character left in Group B)
 						player2Data = 1
-					else
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][player2Data].CharID = data.t_p2selected[1].cel+1
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][player2Data].up = data.t_p2selected[1].up
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][player2Data].pal = data.t_p2selected[1].pal
+						player2Group = 2
 					end
+					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].CharID = data.t_p2selected[1].cel+1
+					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].up = data.t_p2selected[1].up
+					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].pal = data.t_p2selected[1].pal
 					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 				end
 			end
