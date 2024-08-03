@@ -2868,10 +2868,14 @@ function f_default() --Reset Game Modes Configuration
 	setAutoLevel(false) --generate autolevel.txt in debug dir
 	setHUD(true) --just enable or disable hud elements in game
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
+	setFTNo(1) --Set Matchs To Wins/FT (To show in lifebar of Tournament Mode)
+	setP1matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
+	setP2matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
 	setPauseVar("") --set pause menu extra variable to adjust internal settings.
+	setTourneyState("") --set tournament state to show in tourney mode lifebar.
 	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end

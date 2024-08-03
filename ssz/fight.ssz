@@ -869,6 +869,138 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   }
 }
 
+&WinCountP1
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p1.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p1.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p1.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p1.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p1.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, int matchCnt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx, (float)`posy, 1.0, layerno,
+		matchCnt >= 0 ? "WINS: " + ''(matchCnt) : "o",
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&WinCountP2
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p2.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p2.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p2.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p2.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p2.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, int matchCnt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx, (float)`posy, 1.0, layerno,
+		matchCnt >= 0 ? ''(matchCnt) + " :WINS" : "o",
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
 &Match
 {
   public int posx = 0;
@@ -921,6 +1053,138 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
       .laytext(
         (float)`posx, (float)`posy, 1.0, layerno,
 		matchNo >= 0 ? "STAGE: " + ''(matchNo) : "o",
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&TourneyState
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char statustext, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx, (float)`posy, 1.0, layerno,
+		(statustext),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&MatchsToWin
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, int ftno, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx, (float)`posy, 1.0, layerno,
+		ftno >= 0 ? "FT" + ''(ftno) : "o",
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
     }
   }
@@ -1840,10 +2104,14 @@ public &Fight
   public ^^&.Face fa;
   public ^^&.Name nm;
   public ^&.WinIcon wi;
+  public &.WinCountP1 wc1;
+  public &.WinCountP2 wc2;
   public &.Time ti;
   public &.Combo co;
   public &.Round ro;
   public &.Match mtch;
+  public &.TourneyState ts;
+  public &.MatchsToWin ft;
   public &.Nickname nick;
   public &.DemoLogo demo;
   type action_t = &.act.Action;
@@ -1933,6 +2201,14 @@ public &Fight
       `wi[0].read("p1.", sc=);
       `wi[1].read("p2.", sc=);
     }
+	public void wincountp1(&.com.Section sc=)
+    {
+	  `wc1.read(sc=);
+    }
+	public void wincountp2(&.com.Section sc=)
+    {
+	  `wc2.read(sc=);
+    }
     public void time(&.com.Section sc=)
     {
       `ti.read(sc=);
@@ -1948,6 +2224,14 @@ public &Fight
 	public void match(&.com.Section sc=)
     {
 	  `mtch.read(sc=);
+    }
+	public void tourneystate(&.com.Section sc=)
+    {
+	  `ts.read(sc=);
+    }
+	public void matchstowin(&.com.Section sc=)
+    {
+	  `ft.read(sc=);
     }
 	public void nickname(&.com.Section sc=)
     {
@@ -2027,8 +2311,8 @@ public &Fight
     }];
     bool unicode = false;
     bool filesflg = true, lifebarflg = true, powerbarflg = true;
-    bool faceflg = true, nameflg = true, winiconflg = true, timeflg = true;
-    bool comboflg = true, roundflg = true, matchflg = true, nicknameflg = true;
+    bool faceflg = true, nameflg = true, winiconflg = true, wincountp1flg = true, wincountp2flg = true, timeflg = true;
+    bool comboflg = true, roundflg = true, matchflg = true, tourneystateflg = true, matchstowinflg = true, nicknameflg = true;
 	bool demoflg = true;
 	~$void(^^/char, index=) section = [void(^^/char lines, index i=){
       ^/char sec = lines[i];
@@ -2077,9 +2361,12 @@ public &Fight
 	  //cond .s.equ(secname, "action"): //System Msg
         //if(actionflg) action(sc=);
         //actionflg = false;
-	  //cond .s.equ(secname, "wincount"): //Like in char select
-        //if(wincountflg) wincount(sc=);
-        //wincountflg = false;
+	  cond .s.equ(secname, "wincountp1"): //Match Wins Count for P1
+        if(wincountp1flg) wincountp1(sc=);
+        wincountp1flg = false;
+	  cond .s.equ(secname, "wincountp2"): //Match Wins Count for P2
+        if(wincountp2flg) wincountp2(sc=);
+        wincountp2flg = false;
 	  //cond .s.equ(secname, "timer"): //Time Attack
         //if(timerflg) timer(sc=);
         //timerflg = false;
@@ -2089,6 +2376,12 @@ public &Fight
 	  cond .s.equ(secname, "match"): //Match Number
         if(matchflg)  match(sc=);
         matchflg = false;
+	  cond .s.equ(secname, "tourneystate"): //Tourney State Text
+        if(tourneystateflg)  tourneystate(sc=);
+        tourneystateflg = false;
+	  cond .s.equ(secname, "ft"): //Matchs to Win Number
+        if(matchstowinflg)  matchstowin(sc=);
+        matchstowinflg = false;
 	  //cond .s.equ(secname, "ailevel"):
         //if(ailevelflg) ailevel(sc=);
         //ailevelflg = false;
@@ -2213,10 +2506,14 @@ public &Fight
     setup!`nm.self?(`nm);
     `wi[0].setup(`sf);
     `wi[1].setup(`sf);
+	`wc1.setup(`sf);
+	`wc2.setup(`sf);
     `ti.setup(`sf);
     `co.setup();
     `ro.setup(`sf, `fnt, `sn);
 	`mtch.setup(`sf);
+	`ts.setup(`sf);
+	`ft.setup(`sf);
     ret "";
   }
   public void step(^/int tm, ^/&.LifePower life, ^/bool hit, ^/int combo)
@@ -2249,8 +2546,12 @@ public &Fight
     while i < #`nm[tm[1]]:}
     `wi[0].step(.com.p1wins);
     `wi[1].step(.com.p2wins);
+	`wc1.step();
+	`wc2.step();
     `ti.step();
 	`mtch.step();
+	`ts.step();
+	`ft.step();
     `co.step(combo,`ro.over_wintime); //`co.step(combo); //Original/Mugen Combo Counter Reverse Anim
   }
   public void draw(
@@ -2321,9 +2622,21 @@ public &Fight
       `ti.draw(layerno, .com.time, `fnt);
       `wi[0].draw(layerno, `fnt);
       `wi[1].draw(layerno, `fnt);
+	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
+		`wc1.bgDraw(layerno);
+		`wc1.draw(layerno, .com.p1matchWins, `fnt);
+		`wc2.bgDraw(layerno);
+		`wc2.draw(layerno, .com.p2matchWins, `fnt);
+	  }
 	  if(.s.equ(.com.gameMode, "arcade") || .s.equ(.com.gameMode, "arcadecoop") || .s.equ(.com.gameMode, "arcadecpu")) {
 		`mtch.bgDraw(layerno);
 		`mtch.draw(layerno, .com.match, `fnt);
+	  }
+	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
+		`ts.bgDraw(layerno);
+		`ts.draw(layerno, .com.tourneyState, `fnt);
+		`ft.bgDraw(layerno);
+		`ft.draw(layerno, .com.matchsToWin, `fnt);
 	  }
 	  //if(.s.equ(.com.gameMode, "online")) {
 		`nick.bgDraw(layerno);

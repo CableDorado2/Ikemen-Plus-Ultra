@@ -17427,6 +17427,7 @@ function f_tourneySelCfg()
 	data.stageMenu = true
 	setRoundTime(data.tourneyRoundTime * 60)
 	setRoundsToWin(data.tourneyRoundsNum)
+	setFTNo(data.tourneyMatchsNum) --Set Matchs To Wins/FT
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 2
@@ -17734,6 +17735,9 @@ if validCells() then
 			end
 			matchTime = os.clock()
 			if data.songSelect then f_assignMusic() end
+			setTourneyState(tourneyState)
+			setP1matchWins(p1Wins)
+			setP2matchWins(p2Wins)
 			winner = game() --Get into the fight
 			matchTime = os.clock() - matchTime
 			clearTime = clearTime + matchTime

@@ -5500,6 +5500,18 @@ public &Char
   {
     ret .com.match;
   }
+  public int trFTNo()
+  {
+    ret .com.matchsToWin;
+  }
+  public int trP1matchWins()
+  {
+    ret .com.p1matchWins;
+  }
+  public int trP2matchWins()
+  {
+    ret .com.p2matchWins;
+  }
   public int trRoundsExisted()
   {
     ret .com.rexisted[`playerno&1];
@@ -5650,6 +5662,10 @@ public &Char
   public bool trPauseVar(^/char text)
   {
     ret .s.equ(text, .com.pauseVar);
+  }
+  public bool trTourneyState(^/char text)
+  {
+    ret .s.equ(text, .com.tourneyState);
   }
   public void trExitMatch()
   {

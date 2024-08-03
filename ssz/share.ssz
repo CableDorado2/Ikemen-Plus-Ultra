@@ -16,7 +16,7 @@ public &Share
   public ^&.chr.fgt.Fight f;
   public ^&.stage.Stage st;
   public ^int tm, nt, re;
-  public int chr_home, chr_match, chr_round;
+  public int chr_home, chr_match, chr_round, matchsToWin, p1matchWins, p2matchWins;
   public int chr_p1mw, chr_p2mw, chr_p1w, chr_p2w, chr_drw;
   public int stt;
   public ^int com;
@@ -48,6 +48,7 @@ public &Share
   public ^/char gameService;
   public ^/char playerSide;
   public ^/char pauseVar;
+  public ^/char tourneyState;
   public int gameType;
   public int inputDisplay;
   public int damageDisplay;
@@ -106,6 +107,9 @@ public &Share
     `playbackState = .com.playbackState;
     `roundTime = .com.roundTime;
 	`roundsToWin = .com.roundsToWin;
+	`matchsToWin = .com.matchsToWin;
+	`p1matchWins = .com.p1matchWins;
+	`p2matchWins = .com.p2matchWins;
     `life = .com.life;
     `team1VS2Life = .com.team1VS2Life;
     `turnsRecoveryRate = .com.turnsRecoveryRate;
@@ -121,6 +125,7 @@ public &Share
 	`gameService = .com.gameService;
 	`playerSide = .com.playerSide;
 	`pauseVar = .com.pauseVar;
+	`tourneyState = .com.tourneyState;
 	`gameType = .com.gameType;
 	`inputDisplay = .com.inputDisplay;
 	`damageDisplay = .com.damageDisplay;
@@ -183,6 +188,9 @@ public &Share
     .com.playbackState = `playbackState;
     .com.roundTime = `roundTime;
 	.com.roundsToWin = `roundsToWin;
+	.com.matchsToWin = `matchsToWin;
+	.com.p1matchWins = `p1matchWins;
+	.com.p2matchWins = `p2matchWins;
     .com.life = `life;
     .com.team1VS2Life = `team1VS2Life;
     .com.turnsRecoveryRate = `turnsRecoveryRate;
@@ -198,6 +206,7 @@ public &Share
 	.com.gameService = `gameService;
 	.com.playerSide = `playerSide;
 	.com.pauseVar = `pauseVar;
+	.com.tourneyState = `tourneyState;
 	.com.gameType = `gameType;
 	.com.inputDisplay = `inputDisplay;
 	.com.damageDisplay = `damageDisplay;
