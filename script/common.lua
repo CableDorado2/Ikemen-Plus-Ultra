@@ -3220,8 +3220,8 @@ t_keyMenuCfg = {
 	{varID = textImgNew(), text = "CONFIRM",				varText = "", cmd = "w"},
 	{varID = textImgNew(), text = "RETURN",					varText = "", cmd = "e"},
 	{varID = textImgNew(), text = "MENU",		 			varText = "", cmd = "s"}, --PAUSE GAME
-	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
-	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
+	{varID = textImgNew(), text = "Default Config (F1)",	varText = ""},
+	{varID = textImgNew(), text = "Confirm Config (ESC)",	varText = ""},
 }
 
 t_keyMenuCfg2 = {}
@@ -3229,7 +3229,7 @@ for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
 	t_keyMenuCfg2[i] = {}
 	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
 	if i == 15 then
-		t_keyMenuCfg2[i]['text'] = "Default (F2)"
+		t_keyMenuCfg2[i]['text'] = "Default Config (F2)"
 	else
 		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
 	end

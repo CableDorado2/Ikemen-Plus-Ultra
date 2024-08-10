@@ -7771,8 +7771,8 @@ t_keyBattleCfg = {
 	{varID = textImgNew(), text = "R", 						varText = "", cmd = "w"},
 	{varID = textImgNew(), text = "SELECT",					varText = "", cmd = "e"},
 	{varID = textImgNew(), text = "START", 					varText = "", cmd = "s"},
-	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
-	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
+	{varID = textImgNew(), text = "Default Config (F1)",	varText = ""},
+	{varID = textImgNew(), text = "Confirm Config (ESC)",	varText = ""},
 }
 
 t_keyBattleCfg2 = {}
@@ -7780,7 +7780,7 @@ for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
 	t_keyBattleCfg2[i] = {}
 	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
 	if i == 15 then
-		t_keyBattleCfg2[i]['text'] = "Default (F2)"
+		t_keyBattleCfg2[i]['text'] = "Default Config (F2)"
 	else
 		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
 	end

@@ -1391,7 +1391,7 @@ function freeP1P2vsCPU()
 	setHomeTeam(1)
 	data.p2In = 2
 	data.stageMenu = false
-	data.stage = {t_stageDef["stages/training room.def"]}
+	data.stage = "stages/training room.def"
 	data.coop = true
 	textImgSetText(txt_mainSelect, "FREE VERSUS COOPERATIVE")
 	f_selectSimple()
@@ -1826,7 +1826,7 @@ function f_missionMenu()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd["kung fu man"]}
 				data.p2Pal = 1
-				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]}
+				data.stage = "stages/Mountainside Temple/Dark Corridor.def"
 				data.versusScreen = false
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
 				f_selectSimple()
@@ -8604,7 +8604,7 @@ function f_makeRoster()
 				end
 			end
 		end
-	--Survival / Boss Rush / Bonus Rush / All Roster / Endless
+	--Survival / Boss Rush / Bonus Rush / All Roster
 	else
 		if data.gameMode == "survival" then
 			t = t_randomChars
@@ -8650,13 +8650,6 @@ function f_makeRoster()
 					i = i + 1
 					cnt = #t + i
 				end
-			end
-		elseif data.gameMode == "endless" then
-			t = t_randomChars
-			if (data.p1In == 2 and data.p2In == 2) then
-				cnt = 999 * p1numChars
-			else
-				cnt = 999 * p2numChars
 			end
 		elseif data.gameMode == "allroster" then
 			t = t_randomChars
@@ -12830,17 +12823,13 @@ function f_selectStage()
 				end
 			end
 		else --if data.stage ~= nil then Assign Custom Stage Loaded in select.def via lua script, with data.stage
-			local t = {}
-			for i=1, #data.stage do
-				if t[data.stage[i]] == nil then
-					t[data.stage[i]] = ""
-				end
-				--Get stageNo + Info from table loaded (t_stageDef)
-				data.stage[i] = {['cel'] = data.stage[i], ['name'] = t_selStages[data.stage[i]].name, ['path'] = t_selStages[data.stage[i]].stage, ['author'] = t_selStages[data.stage[i]].author, ['location'] = t_selStages[data.stage[i]].location, ['daytime'] = t_selStages[data.stage[i]].daytime}
-			end
-			if data.debugLog then f_printTable(data.stage, "save/debug/data.stage.txt") end
-			--stagePortrait = data.stage[1].cel
-			stageNo = data.stage[1].cel
+			--Get stageNo + Info from table t_stageDef
+			data.stage = data.stage:lower() --Convert to lower case to avoid issues
+			local stageID = t_stageDef[data.stage] --Get stage number
+			t_stageSelected = {['cel'] = stageID, ['name'] = t_selStages[stageID].name, ['path'] = t_selStages[stageID].stage, ['author'] = t_selStages[stageID].author, ['location'] = t_selStages[stageID].location, ['daytime'] = t_selStages[stageID].daytime}
+			if data.debugLog then f_printTable(t_stageSelected, "save/debug/t_stageSelected.txt") end
+			--stagePortrait = t_stageSelected.cel
+			stageNo = t_stageSelected.cel
 		end
 		setStage(stageNo)
 		selectStage(stageNo)
@@ -14654,7 +14643,10 @@ function f_result(state)
 	--if state == "win" then
 	--elseif state == "lost" then
 	--end
-	if data.gameMode == "tower" then rosterSize = #t_selTower[destinySelect].kombats else rosterSize = #t_roster end
+	if data.gameMode == "tower" then rosterSize = #t_selTower[destinySelect].kombats
+	elseif data.gameMode == "endless" then rosterSize = 1
+	else rosterSize = #t_roster
+	end
 	local victoriesPercent = (winCnt/rosterSize)*100
 	local charPortr = nil
 	local charTable = nil
@@ -15382,6 +15374,7 @@ if validCells() then
 				setCom(2, data.AIlevel)
 			else
 				setCom(2, 0) --Not computer is controlling P2 side, only the human for training dummy
+				if data.dummyMode == 3 then remapInput(2, 1) end --Mirror Controls 
 			end
 		end
 		f_matchInfo()
@@ -15584,18 +15577,20 @@ if validCells() then
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
 			else
 				--generate roster for other modes (arcade, survival, etc)
-				f_makeRoster()
-				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-					lastMatch = #t_roster / p1numChars
-				else
-					lastMatch = #t_roster / p2numChars
+				if data.gameMode ~= "endless" then --because for endless we gonna make this infinite
+					f_makeRoster()
+					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+						lastMatch = #t_roster / p1numChars
+					else
+						lastMatch = #t_roster / p2numChars
+					end
 				end
 			end
 			matchNo = 1
-			f_aiRamp() --generate AI ramping table
+			if data.gameMode ~= "endless" then f_aiRamp() end --generate AI ramping table
 	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
 		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster") then
-			looseCnt = looseCnt + 1
+			if data.gameMode ~= "endless" then looseCnt = looseCnt + 1 end --because in endless a give up not counts as a loose
 			assert(loadfile(saveTempPath))()
 			if data.tempBack == true then
 				f_exitToMainMenu()
@@ -16016,6 +16011,8 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
+					elseif data.gameMode == "endless" then
+						p1Cell = t_randomChars[math.random(#t_randomChars)] --get random character
 					else
 						p1Cell = t_roster[matchNo*p1numChars-i+1]
 					end
@@ -16065,6 +16062,8 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
+					elseif data.gameMode == "endless" then
+						p2Cell = t_randomChars[math.random(#t_randomChars)] --get random character
 					else
 						p2Cell = t_roster[matchNo*p2numChars-i+1]
 					end

@@ -17,8 +17,8 @@ data.attractMode = false
 data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Portrait"
-data.sffConversion = false
+data.charPresentation = "Mixed"
+data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99

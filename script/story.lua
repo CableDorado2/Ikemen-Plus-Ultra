@@ -726,7 +726,7 @@ function f_arc1_chapter1()
 		setRoundsToWin(1)
 		data.versusScreen = false
 		data.victoryscreen = false
-		data.stage = {t_stageDef["stages/mountain valley.def"]}
+		data.stage = "stages/Mountain Valley.def"
 		data.songSelect = false --Star fight using music played in visual novel mode
 		data.rosterMode = "story"
 		setGameMode('story')
@@ -749,7 +749,7 @@ function f_arc1_chapter1()
 			data.orderSelect = false
 			data.versusScreen = false
 			data.victoryscreen = false
-			data.stage = {t_stageDef["stages/mountainside temple/hidden path.def"]} --Set stage (needs to be loaded in select.def)
+			data.stage = "stages/Mountainside Temple/Hidden Path.def" --Set stage (needs to be loaded in select.def)
 			data.bgm = "sound/Pearl In The Sky.mp3" --Set Custom Stage Song
 			data.rosterMode = "story"
 			data.storyNo = "1-1"
@@ -824,7 +824,7 @@ function f_arc1_chapter3_1()
 		setLifeMul(1)
 		data.versusScreen = false
 		data.victoryscreen = false
-		data.stage = {t_stageDef["stages/mountainside temple/suave's corridor.def"]}
+		data.stage = "stages/Mountainside Temple/Suave's Corridor.def"
 		data.bgm = "sound/Open War.mp3"
 		data.rosterMode = "story"
 		data.storyNo = "1-3A"
@@ -862,7 +862,7 @@ function f_arc1_chapter3_2()
 		data.orderSelect = false
 		data.versusScreen = false
 		data.victoryscreen = false
-		data.stage = {t_stageDef["stages/mountainside temple/roof night.def"]}
+		data.stage = "stages/Mountainside Temple/Roof Night.def"
 		data.bgm = "sound/Death Corridor.mp3"
 		data.rosterMode = "story"
 		data.storyNo = "1-3B"
@@ -904,7 +904,7 @@ function f_arc1_chapter4_1()
 		setRoundsToWin(1)
 		data.versusScreen = false
 		data.victoryscreen = false
-		data.stage = {t_stageDef["stages/sakura.def"]}
+		data.stage = "stages/Sakura.def"
 		setGameMode('story')
 		f_selectStory()
 		]]

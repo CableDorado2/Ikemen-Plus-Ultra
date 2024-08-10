@@ -72,6 +72,9 @@ function f_TrainingVars()
 		setCom(2, data.AIlevel)
 	elseif data.dummyMode == 2 then
 		playDummyRecord(sndSys)
+	elseif data.dummyMode == 3 then
+		setCom(2, 0)
+		remapInput(2, 1)
 	end
 --Playback
 	setPlaybackCfg(
@@ -1581,6 +1584,7 @@ if getGameMode() == "practice" then --To don't display in battle info menu
 	if data.dummyMode == 0 then t_trainingCfg[15].varText = "Manual"
 	elseif data.dummyMode == 1 then t_trainingCfg[15].varText = "CPU"
 	elseif data.dummyMode == 2 then t_trainingCfg[15].varText = "Playback"
+	elseif data.dummyMode == 3 then t_trainingCfg[15].varText = "Mirror"
 	end
 end
 end
@@ -1699,7 +1703,7 @@ function f_pauseTraining()
 					delayMenu = -2
 				--Start Dummy Recording
 				elseif trainingCfg == 14 then
-					if data.dummyMode == 2 or data.dummyMode == 1 then
+					if data.dummyMode == 3 or data.dummyMode == 2 or data.dummyMode == 1 then
 						sndPlay(sndSys, 100, 5)
 						recWarning = true
 					else
@@ -1971,10 +1975,19 @@ function f_pauseTraining()
 			--Dummy Control
 			elseif trainingCfg == 15 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.dummyMode == 1 then
+					--Set CPU Controls
+					if data.dummyMode == 3 then
+						sndPlay(sndSys, 100, 1)
+						data.dummyMode = 1
+						--setCom(2, data.AIlevel)
+						remapInput(2, 2)
+						toggleAI(2)
+					--Set Manual Controls
+					elseif data.dummyMode == 1 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 0
 						toggleAI(2)
+					--Set Playback Controls
 					elseif data.dummyMode == 0 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 2
@@ -1982,14 +1995,23 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					--Set Manual Controls
 					if data.dummyMode == 2 then
 						--sndPlay(sndSys, 100, 1)
 						data.dummyMode = 0
 						endDummyPlayback(sndSys)
+					--Set CPU Controls
 					elseif data.dummyMode == 0 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 1
 						toggleAI(2)
+					--Set Mirror Controls
+					elseif data.dummyMode == 1 then
+						sndPlay(sndSys, 100, 1)
+						data.dummyMode = 3
+						toggleAI(2)
+						--setCom(2, 0)
+						remapInput(2, 1)
 					end
 					hasChanged = true
 				end

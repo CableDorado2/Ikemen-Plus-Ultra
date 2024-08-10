@@ -1,13 +1,13 @@
 --Online Data
-data.userName = "USERNAME"
+data.userName = "PLAYER"
 data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
 data.menuSong = "Random"
 data.menuSongFolder = 3
 data.selectSong = "sound/system/select/Select 1.mp3"
-data.selectSongFolder = 2
-data.challengerSong = "Random"
+data.selectSongFolder = 4
+data.challengerSong = "sound/system/select/Select Challenger.mp3"
 data.challengerSongFolder = 4
 --System Data
 data.language = "ENGLISH"
@@ -17,8 +17,8 @@ data.attractMode = false
 data.sideSelect = "Modern"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Sprite"
-data.sffConversion = true
+data.charPresentation = "Portrait"
+data.sffConversion = false
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -51,11 +51,11 @@ data.charInfo = "Author"
 --Character Select Config
 data.selectRows = 2
 data.selectColumns = 5
-data.offsetRows = 1
-data.offsetColumns = 1
+data.offsetRows = 5
+data.offsetColumns = 0
 data.wrappingX = true
 data.wrappingY = true
-data.p1FaceX = 90
+data.p1FaceX = 10
 data.p1FaceY = 170
 data.p2FaceX = 169
 data.p2FaceY = 170
@@ -75,7 +75,7 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = -1
+data.selectTime = 31
 data.stageTime = 21
 data.orderTime = 16
 data.rematchTime = 16
