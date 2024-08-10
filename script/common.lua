@@ -2923,9 +2923,9 @@ function f_fadeOutBGM(fadeSeconds)
 		end
 	end
 	if data.debugMode then
-		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, fadeOutBGMstart, 109, 48)
-		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, fadeStep, 109, 68)
-		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, fadeSeconds, 109, 88)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, "fadeostart:"..fadeOutBGMstart, 109, 48)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, "fadestep:"..fadeStep, 109, 68)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, "fadeseconds:"..fadeSeconds, 109, 88)
 	end
 end
 

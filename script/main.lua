@@ -3453,11 +3453,8 @@ function f_extrasMenu()
 				--TOURNAMENT MODE (participate in customizable tournaments)
 				elseif extrasMenu == 3 then
 					--f_tourneyCfg()
-				--ADVENTURE MODE (explore a custom map with goals and level up your characters)
-				elseif extrasMenu == 4 then
-					f_selectAdventure() --f_mainAdventure()
 				--VISUAL NOVEL MODE (watch a customizable narrative and interactive storytelling)
-				elseif extrasMenu == 5 then
+				elseif extrasMenu == 4 then
 					if #t_selVN ~= 0 then
 						f_vnMenu()
 					else
@@ -3465,10 +3462,10 @@ function f_extrasMenu()
 						infoScreen = true
 					end
 				--THE VAULT MODE (insert secret codes to unlock things)
-				elseif extrasMenu == 6 then
+				elseif extrasMenu == 5 then
 					f_theVault()
 				--RANDOMTEST (generate AI rank data)
-				elseif extrasMenu == 7 then
+				elseif extrasMenu == 6 then
 					setGameMode('randomtest')
 					randomTest()
 				end
@@ -12674,7 +12671,11 @@ function f_selectStage()
 					--end
 				end
 			else --For loaded stages
-				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= "" then textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[stageList].author) end
+				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= "" then
+					textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[stageList].author)
+				else
+					textImgSetText(txt_stageAuthor, txt_authorStageText.."???")
+				end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageAuthor) end --Draw Info Text
 		end
@@ -12695,7 +12696,11 @@ function f_selectStage()
 					--end
 				end
 			else
-				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= "" then textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[stageList].location) end
+				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= "" then
+					textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[stageList].location)
+				else
+					textImgSetText(txt_stageLocation, txt_locationStageText.."???")
+				end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageLocation) end
 		end
@@ -12716,7 +12721,11 @@ function f_selectStage()
 					--end
 				end
 			else
-				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= "" then textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[stageList].daytime) end
+				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= "" then
+					textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[stageList].daytime)
+				else
+					textImgSetText(txt_stageDayTime, txt_daytimeStageText.."???")
+				end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageDayTime) end
 		end
@@ -17883,29 +17892,6 @@ function f_tourneyChampion()
 		textImgDraw(txt_tourneyPlace1)
 		textImgDraw(txt_tourneyPlace2)
 		if data.tourney3rdPlace then textImgDraw(txt_tourneyPlace3) end
-	    animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;=================================================================================================
---; ADVENTURE MODE (WIP)
---;=================================================================================================
-function f_selectAdventure()
---TODO
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	playBGM(bgmAdventure)
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			f_comingSoon()
-			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-			f_resetMenuInputs()
-			break
-		end
-		animDraw(adventureMap)
 	    animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

@@ -14,7 +14,7 @@ sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
---sprAdventure = sffNew("data/screenpack/adventure.sff") --load adventure sprites
+--sprAdventure = sffNew("data/screenpack/adventure.sff")
 
 --Sound Data (Sound effects do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -919,7 +919,6 @@ t_extrasMenu = {
 	{id = textImgNew(), text = "ENDLESS"},
 	{id = textImgNew(), text = "EVENTS"},
 	{id = textImgNew(), text = "TOURNAMENT"},
-	{id = textImgNew(), text = "ADVENTURE"},
 	{id = textImgNew(), text = "VISUAL NOVEL"},
 	{id = textImgNew(), text = "THE VAULT"},
 	{id = textImgNew(), text = "RANDOMTEST"},
@@ -4446,16 +4445,6 @@ tourneyAwards2 = animNew(sprTourney, [[
 ]])
 animAddPos(tourneyAwards2, 0, 0)
 animUpdate(tourneyAwards2)
-
---;=================================================================================================
---; ADVENTURE MODE SCREENPACK DEFINITION (WIP)
---;=================================================================================================
-adventureMap = animNew(sprSys, [[
-2000,0, 0,0, -1
-]])
-animAddPos(adventureMap, -55, 0)
-animUpdate(adventureMap)
-animSetScale(adventureMap, 0.335, 0.335)
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION
