@@ -78,8 +78,6 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una o en última instancia que el usuario defina de qué directorios debe cargar músicas.
 
-- Al usar data.stage hacer que se puedan reconocer los nombres almacenados en t_stageDef, usando mayusculas y minusculas en lugar de solo minusculas. Ejemplo data.stage = {t_stageDef["stages/**S**akura.def"]} en lugar de data.stage = {t_stageDef["stages/**s**akura.def"]}. Para esto hay que hacer que la tabla que recibe los datos introducidos convierta el texto recibido a minusculas con la función lowercase() y así evitar incompatibilidad.
-
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
 - Co-Op para el Versus Mode.
