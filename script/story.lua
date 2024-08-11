@@ -4,7 +4,7 @@ module(..., package.seeall)
 --;===========================================================
 txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 11)
 txt_storyProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
-txt_storyText = createTextImg(font6, 0, 1, "", 0, 0,0.65,0.65)
+txt_storyText = createTextImg(font6, 0, 1, "", 0, 0)
 
 --Scrolling background
 storyBG0 = animNew(sprSys, [[
@@ -48,7 +48,7 @@ animUpdate(padlock)
 storyBG2 = animNew(sprSys, [[
 230,1, 0,0,
 ]])
-animSetPos(storyBG2, 158, 82)
+animSetPos(storyBG2, 168, 82)
 animUpdate(storyBG2)
 
 --Arc Left Arrow
@@ -62,7 +62,7 @@ storyLeftArrow = animNew(sprSys, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(storyLeftArrow, -10, 43)
+animAddPos(storyLeftArrow, 0, 38)
 animUpdate(storyLeftArrow)
 animSetScale(storyLeftArrow, 0.6, 0.6)
 
@@ -77,7 +77,7 @@ storyRightArrow = animNew(sprSys, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(storyRightArrow, 320, 43)
+animAddPos(storyRightArrow, 310, 38)
 animUpdate(storyRightArrow)
 animSetScale(storyRightArrow, 0.6, 0.6)
 
@@ -92,7 +92,7 @@ storyUpArrow = animNew(sprSys, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(storyUpArrow, -40, 80)
+animAddPos(storyUpArrow, 0, 82)
 animUpdate(storyUpArrow)
 animSetScale(storyUpArrow, 0.5, 0.5)
 
@@ -107,7 +107,7 @@ storyDownArrow = animNew(sprSys, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(storyDownArrow, -40, 213)
+animAddPos(storyDownArrow, 0, 208)
 animUpdate(storyDownArrow)
 animSetScale(storyDownArrow, 0.5, 0.5)
 
@@ -451,14 +451,14 @@ function f_storyMenu()
 			animDraw(storyBG2)
 		--Draw Chapter Wood BG
 			animSetPos(woodBG1, 0, 90)
-			animSetWindow(woodBG1, 0, 0, 155, 240)
+			animSetWindow(woodBG1, 0, 0, 165, 240)
 			animDraw(woodBG1)
 		--Draw Below Bamboo BG
 			animSetPos(bambooBG1, -2, 81)
-			animSetWindow(bambooBG1, 0, 0, 156, 240)
+			animSetWindow(bambooBG1, 0, 0, 166, 240)
 			animDraw(bambooBG1)
 		--Draw Chapter Table Cursor
-			animSetWindow(cursorBox, 0,72+cursorPosY*20, 155,15)
+			animSetWindow(cursorBox, 0,72+cursorPosY*20, 165,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		else
@@ -608,20 +608,22 @@ function f_storyMenu()
 		end
 	--Draw Chapter Preview Image
 		if lockedStory == false then --If some arc is unlocked:
-			animSetPos(t_arcSelect[chapterMenu].Preview, 161, 86)
+			animSetPos(t_arcSelect[chapterMenu].Preview, 171, 86)
 			animSetScale(t_arcSelect[chapterMenu].Preview, 0.113, 0.106)
 			animUpdate(t_arcSelect[chapterMenu].Preview)
 			animDraw(t_arcSelect[chapterMenu].Preview)
 		--Draw Chapter Info
 			textImgSetAlign(txt_storyText, 1)
-			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 160, 155, 15, 1.2, 40)
+			textImgSetScale(txt_storyText, 0.55, 0.55)
+			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 168, 155, 12, 1.2, 35)
 		--Draw Check Chapter Status Icon
-			animSetPos(t_arcSelect[chapterMenu].Status, 320, 100)
-			animSetScale(t_arcSelect[chapterMenu].Status, 0.4, 0.4)
+			animSetPos(t_arcSelect[chapterMenu].Status, 295, 90)
+			animSetScale(t_arcSelect[chapterMenu].Status, 0.3, 0.3)
 			animUpdate(t_arcSelect[chapterMenu].Status)
 			animDraw(t_arcSelect[chapterMenu].Status)
 		else --If some arc is locked, don't draw preview, status and draw text in another position
 			textImgSetAlign(txt_storyText, 0)
+			textImgSetScale(txt_storyText, 0.65, 0.65)
 			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 150, 102, 15, 1.5, 40)
 		end
 	--Set Chapters Scroll Logic
