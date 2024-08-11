@@ -189,8 +189,8 @@ function demoModeCfg()
 	data.victoryscreen = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
-	data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
+	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
+	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_selectSimple()
 	f_resetTemp()
@@ -1152,8 +1152,8 @@ function randomModeCfg()
 	data.rosterMode = "versus"
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
-	data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
+	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
+	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -1431,7 +1431,7 @@ function f_training()
 	--sndPlay(sndSys, 100, 1)
 	if #t_trainingChar ~= 0 then --If a training char is detected in select.def with training=1 paramvalue
 		data.p2In = 2
-		data.p2Char = {t_trainingChar[math.random(#t_trainingChar)]} --pick a random training char from the table
+		data.p2Char = {t_selChars[t_trainingChar[math.random(#t_trainingChar)]+1].char} --pick a random training char from the table
 	else --Training Char will be selected in char select if there is not training chars detected in select.def with training=1 paramvalue
 		data.p2In = 1
 		data.p2Faces = true
@@ -1821,10 +1821,10 @@ function f_missionMenu()
 				setRoundsToWin(1)
 				setPauseVar("nogiveup")
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
+				data.p1Char = {"Kung Fu Man/Evil/Evil Kung Fu Man.def"}
 				data.p1Pal = 1
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd["kung fu man"]}
+				data.p2Char = {"Kung Fu Man"}
 				data.p2Pal = 1
 				data.stage = "stages/Mountainside Temple/Dark Corridor.def"
 				data.versusScreen = false
@@ -1836,7 +1836,7 @@ function f_missionMenu()
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
+				data.p1Char = {"Kung Fu Man/Master/Master Kung Fu Man.def"}
 				data.p1Pal = 1
 				data.p2SelectMenu = false
 				data.challengerScreen = false
@@ -1848,7 +1848,7 @@ function f_missionMenu()
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
+				data.p1Char = {"Kung Fu Girl/Master/Master Kung Fu Girl.def"}
 				data.p1Pal = 1
 				--data.p2TeamMenu = {mode = 2, chars = 4}
 				data.p2SelectMenu = false
@@ -2219,7 +2219,7 @@ function bossHumanvsCPU()
 	end
 	data.p2In = 1
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_bossChars[bossChars]}
+	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
 	P2overP1 = false
 end
@@ -2235,7 +2235,7 @@ function bossCPUvsHuman()
 	data.p2In = 2
 	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_bossChars[bossChars]}
+	data.p1Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
 	P2overP1 = false
 end
@@ -2246,7 +2246,7 @@ function bossCPUvsCPU()
 	data.aiFight = true
 	data.rosterMode = "cpu"
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_bossChars[bossChars]}
+	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
 end
 
@@ -2667,7 +2667,7 @@ function bonusHumanvsCPU()
 	end
 	data.p2In = 1
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_bonusChars[bonusExtras]}
+	data.p2Char = {t_selChars[t_bonusChars[bonusExtras]+1].char}
 	f_selectSimple()
 	P2overP1 = false
 end
@@ -2683,7 +2683,7 @@ function bonusCPUvsHuman()
 	data.p2In = 2
 	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_bonusChars[bonusExtras]}
+	data.p1Char = {t_selChars[t_bonusChars[bonusExtras]+1].char}
 	f_selectSimple()
 	P2overP1 = false
 end
@@ -3739,7 +3739,7 @@ function f_eventMenu()
 						setRoundsToWin(1)
 						data.p2In = 1
 						data.p2TeamMenu = {mode = 0, chars = 1}
-						data.p2Char = {t_charAdd["event 1"]}
+						data.p2Char = {"Event 1"}
 						textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
 						f_selectSimple()
 						if winner == 1 then f_eventStatus() end --Save progress only if you win
@@ -3802,7 +3802,7 @@ function f_eventMenu()
 	--Set Event Info, Preview and Progress
 	--Event 1
 		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
-			t_eventMenu[1].available = false
+			t_eventMenu[1].available = true
 			t_eventMenu[1].info = "Survive 40 Rounds in The Call of Zombies!"
 			t_eventMenu[1].preview = event1
 		else --Event Unavailable...
@@ -4279,8 +4279,8 @@ function f_watchMenu()
 						data.victoryscreen = false
 						data.p1TeamMenu = {mode = 0, chars = 1}			
 						data.p2TeamMenu = {mode = 0, chars = 1}
-						data.p1Char = {t_charAdd["stage viewer"]}
-						data.p2Char = {t_charAdd["stage viewer"]}
+						data.p1Char = {"Stage Viewer"}
+						data.p2Char = {"Stage Viewer"}
 						data.gameMode = "stage viewer"
 						setGameMode('stageviewer')
 						textImgSetText(txt_mainSelect, "STAGE VIEWER")
@@ -8089,8 +8089,8 @@ function f_secretFight()
 	if keepLSide then
 		data.p1TeamMenu = {mode = 0, chars = 1} --{mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {data.t_p1selected[1].cel} --Get previous Arcade Character Selected --{t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
-		data.p2Char = {secretSel} --Set intermission rival
+		data.p1Char = {data.t_p1selected[1].path} --Get previous Arcade Character Selected
+		data.p2Char = {secretChar.char} --Set intermission rival
 		data.p1Pal = data.t_p1selected[1].pal --Get previous Palette Selected
 		data.p2Pal = 1
 		if P2overP1 then
@@ -8101,8 +8101,8 @@ function f_secretFight()
 	elseif keepRSide then
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p2TeamMenu = {mode = 0, chars = 1} --{mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
-		data.p1Char = {secretSel}
-		data.p2Char = {data.t_p2selected[1].cel}
+		data.p1Char = {secretChar.char}
+		data.p2Char = {data.t_p2selected[1].path}
 		data.p1Pal = 1
 		data.p2Pal = data.t_p2selected[1].pal
 		remapInput(1, 2)
@@ -9750,31 +9750,41 @@ end
 --; PLAYER 1 CHARACTER SELECTING
 --;===========================================================
 function f_p1SelectMenu()
+--Load P1 Custom Character
 	if data.p1Char ~= nil then
+		local t_p1CharID = {} --Create new table to store data.p1Char information and avoid overwrite that data
+		for i, v in ipairs(data.p1Char) do
+			t_p1CharID[i] = string.lower(v) --Convert each element to lowercase to avoid issues
+		end
+		for item=1, #t_p1CharID do
+			t_p1CharID[item] = t_charAdd[t_p1CharID[item]] --Convert each element to character ID
+		end
 		local t = {}
-		for i=1, #data.p1Char do
+		for i=1, #t_p1CharID do
 			local updateAnim = false
-			if t[data.p1Char[i]] == nil then
+			if t[t_p1CharID[i]] == nil then
 				updateAnim = true
-				t[data.p1Char[i]] = ''
+				t[t_p1CharID[i]] = ''
 			end
 			if data.p1Pal ~= nil then --Set Manual Palette
-				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = data.p1Pal, ['up'] = updateAnim, ['name'] = t_selChars[data.p1Char[i]+1].name, ['displayname'] = t_selChars[data.p1Char[i]+1].displayname, ['path'] = t_selChars[data.p1Char[i]+1].char, ['author'] = t_selChars[data.p1Char[i]+1].author}
+				data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = data.p1Pal, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author}
 			else
-				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim, ['name'] = t_selChars[data.p1Char[i]+1].name, ['displayname'] = t_selChars[data.p1Char[i]+1].displayname, ['path'] = t_selChars[data.p1Char[i]+1].char, ['author'] = t_selChars[data.p1Char[i]+1].author}
+				data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = math.random(1,12), ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author}
 			end
 			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
 		end
-		p1Portrait = data.p1Char[1]
+		p1Portrait = t_p1CharID[1]
 		--local numChars = p1numChars
 		--if data.coop then numChars = 1 end
 		p1SelEnd = true
+--Skip P1 Character Select
 	elseif not data.p1SelectMenu then
 		if data.gameMode == "challenger" then
 			data.t_p1selected = t_p1selectedTemp --Get previous arcade selected characters
 			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
 		end
 		p1SelEnd = true
+--Start P1 Character Select
 	else
 		if not exclusiveStageMenu then
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
@@ -11117,21 +11127,28 @@ end
 --;===========================================================
 function f_p2SelectMenu()
 	if data.p2Char ~= nil then
+		local t_p2CharID = {}
+		for i, v in ipairs(data.p2Char) do
+			t_p2CharID[i] = string.lower(v)
+		end
+		for item=1, #t_p2CharID do
+			t_p2CharID[item] = t_charAdd[t_p2CharID[item]]
+		end
 		local t = {}
-		for i=1, #data.p2Char do
+		for i=1, #t_p2CharID do
 			local updateAnim = false
-			if t[data.p2Char[i]] == nil then
+			if t[t_p2CharID[i]] == nil then
 				updateAnim = true
-				t[data.p2Char[i]] = ''
+				t[t_p2CharID[i]] = ''
 			end
 			if data.p2Pal ~= nil then
-				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = data.p2Pal, ['up'] = updateAnim, ['name'] = t_selChars[data.p2Char[i]+1].name, ['displayname'] = t_selChars[data.p2Char[i]+1].displayname, ['path'] = t_selChars[data.p2Char[i]+1].char, ['author'] = t_selChars[data.p2Char[i]+1].author}
+				data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = data.p2Pal, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author}
 			else
-				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim, ['name'] = t_selChars[data.p2Char[i]+1].name, ['displayname'] = t_selChars[data.p2Char[i]+1].displayname, ['path'] = t_selChars[data.p2Char[i]+1].char, ['author'] = t_selChars[data.p2Char[i]+1].author}
+				data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = math.random(1,12), ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author}
 			end
 			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt") end
 		end
-		p2Portrait = data.p2Char[1]
+		p2Portrait = t_p2CharID[1]
 		--local numChars = p2numChars
 		--local t_selected = data.t_p2selected
 		--if data.coop then
@@ -12823,10 +12840,9 @@ function f_selectStage()
 				end
 			end
 		else --if data.stage ~= nil then Assign Custom Stage Loaded in select.def via lua script, with data.stage
-			--Get stageNo + Info from table t_stageDef
 			data.stage = data.stage:lower() --Convert to lower case to avoid issues
-			local stageID = t_stageDef[data.stage] --Get stage number
-			t_stageSelected = {['cel'] = stageID, ['name'] = t_selStages[stageID].name, ['path'] = t_selStages[stageID].stage, ['author'] = t_selStages[stageID].author, ['location'] = t_selStages[stageID].location, ['daytime'] = t_selStages[stageID].daytime}
+			local stageID = t_stageDef[data.stage] --Get stage number from table t_stageDef
+			t_stageSelected = {['cel'] = stageID, ['name'] = t_selStages[stageID].name, ['path'] = t_selStages[stageID].stage, ['author'] = t_selStages[stageID].author, ['location'] = t_selStages[stageID].location, ['daytime'] = t_selStages[stageID].daytime} --get stage info
 			if data.debugLog then f_printTable(t_stageSelected, "save/debug/t_stageSelected.txt") end
 			--stagePortrait = t_stageSelected.cel
 			stageNo = t_stageSelected.cel

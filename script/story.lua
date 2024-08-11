@@ -717,10 +717,10 @@ function f_arc1_chapter1()
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {t_charAdd["kung fu man"]}
+		data.p1Char = {"Kung Fu Man"}
 		data.p1Pal = 1
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		data.p2Char = {t_charAdd["mako mayama/vnfight.def"]}
+		data.p2Char = {"Mako Mayama/vnFight.def"}
 		data.p2Pal = 1
 		setRoundTime(-1)
 		setRoundsToWin(1)
@@ -739,10 +739,10 @@ function f_arc1_chapter1()
 			f_default() --Reset settings for the custom fight
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
-			data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters (needs to be loaded in select.def)
+			data.p1Char = {"Kung Fu Man"} --Set P1 Characters (needs to be loaded in select.def)
 			data.p1Pal = 1 --Set P1 Character Palette
 			data.p2TeamMenu = {mode = 1, chars = 4}
-			data.p2Char = {t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"]}
+			data.p2Char = {"Suave Dude/Minion/Minion.def", "Suave Dude/Minion/Minion.def", "Suave Dude/Minion/Minion.def", "Suave Dude/Minion/Minion.def"}
 			data.p2Pal = 1
 			setRoundTime(-1)
 			setRoundsToWin(1)
@@ -777,10 +777,10 @@ function f_arc1_chapter2()
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {t_charAdd["kung fu man"]}
+		data.p1Char = {"Kung Fu Man"}
 		data.p1Pal = 1
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		data.p2Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
+		data.p2Char = {"Kung Fu Man/Evil/Evil Kung Fu Man.def"}
 		data.p2Pal = 1
 		setRoundTime(-1)
 		setRoundsToWin(1)
@@ -814,10 +814,10 @@ function f_arc1_chapter3_1()
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
+		data.p1Char = {"Kung Fu Man/Master/Master Kung Fu Man.def"}
 		data.p1Pal = 1
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		data.p2Char = {t_charAdd["suave dude"]}
+		data.p2Char = {"Suave Dude"}
 		data.p2Pal = 1
 		setRoundTime(60*60)
 		setRoundsToWin(1)
@@ -852,9 +852,9 @@ function f_arc1_chapter3_2()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1Pal = 1
 		data.p1TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {t_charAdd["kung fu man"]}
+		data.p1Char = {"Kung Fu Man"}
 		data.p2TeamMenu = {mode = 2, chars = 2}
-		data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"], t_charAdd["suave dude"]}
+		data.p2Char = {"Kung Fu Girl/Master/Master Kung Fu Girl.def", "Suave Dude"}
 		data.p2Pal = 1
 		setRoundTime(-1)
 		setRoundsToWin(3)
@@ -895,10 +895,10 @@ function f_arc1_chapter4_1()
 		data.storyNo = "1-4A"
 		--[[
 		data.p1TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
+		data.p1Char = {"Kung Fu Man/Master/Master Kung Fu Man.def"}
 		data.p1Pal = 1
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"]}
+		data.p2Char = {"Kung Fu Girl/Master/Master Kung Fu Girl.def"}
 		data.p2Pal = 1
 		setRoundTime(-1)
 		setRoundsToWin(1)
