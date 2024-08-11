@@ -76,8 +76,6 @@ This Ikemen is an expansion of his original SSZ code.
 **v1.5 (Next Update)**
 ------------
 
-- Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una o en última instancia que el usuario defina de qué directorios debe cargar músicas.
-
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
 - Co-Op para el Versus Mode.
