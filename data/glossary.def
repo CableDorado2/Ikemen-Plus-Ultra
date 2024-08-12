@@ -1,0 +1,23 @@
+[Section 1]
+displaytitle = Characters
+icon = 1,0
+
+displayname = Kung Fu Man
+text:
+Kung Fu Man Description.
+
+displayname = Suave Dude
+text:
+Suave Dude Description.
+
+displayname = Kung Fu Girl
+text:
+Kung Fu Girl Description.
+
+[Section 2]
+displaytitle = Locations
+icon = 1,1
+
+displayname = Mountainside Temple
+text:
+Location Description.
