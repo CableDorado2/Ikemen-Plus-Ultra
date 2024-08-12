@@ -3,18 +3,19 @@
 --;===========================================================
 --Sprite Data
 sprFade = sffNew("data/screenpack/fade.sff") --load fade sprites
-sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
+sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu MUGEN sprites
+--sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprMission = sffNew("data/screenpack/missions.sff") --load missions menu sprites
 sprEvent = sffNew("data/screenpack/events.sff") --load events menu sprites
-sprGallery = sffNew("data/screenpack/gallery.sff") --load gallery sprites
 sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
---sprAdventure = sffNew("data/screenpack/adventure.sff")
+sprGlossary = sffNew("data/screenpack/glossary.sff") --load glossary sprites
+sprArtwork = sffNew("data/screenpack/artwork.sff") --load artwork sprites
 
 --Sound Data (Sound effects do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -1313,12 +1314,9 @@ animSetScale(questionWindowBGVN, 1.3, 1)
 t_watchMenu = {
 	{id = textImgNew(), text = "REPLAYS"},
 	{id = textImgNew(), text = "STAGE VIEWER"},
-	{id = textImgNew(), text = "PLAYER RECORDS"},
-	{id = textImgNew(), text = "STORYBOARDS"},
-	{id = textImgNew(), text = "CUTSCENES"},
-	{id = textImgNew(), text = "SOUND TEST"},
-	{id = textImgNew(), text = "SCREENSHOTS"},
+	{id = textImgNew(), text = "PLAYER DATA"},
 	{id = textImgNew(), text = "GALLERY"},
+	{id = textImgNew(), text = "GLOSSARY"},
 	{id = textImgNew(), text = "LICENSES"},
 	{id = textImgNew(), text = "CREDITS"},
 }
@@ -1499,6 +1497,65 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --;===========================================================
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
+txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
+
+t_galleryMenu = {
+	{varID = textImgNew(), text = "ARTWORKS"},
+	{varID = textImgNew(), text = "STORYBOARDS"},
+	{varID = textImgNew(), text = "CUTSCENES"},
+	{varID = textImgNew(), text = "SOUND TEST"},
+	{varID = textImgNew(), text = "SCREENSHOTS"},
+}
+
+--Scrolling background
+galleryBG0 = animNew(sprSys, [[
+100,0, 0,0, -1
+]])
+animAddPos(galleryBG0, 160, 0)
+animSetTile(galleryBG0, 1, 1)
+animSetColorKey(galleryBG0, -1)
+
+--Transparent background
+galleryBG1 = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(galleryBG1, 30, 20)
+animSetAlpha(galleryBG1, 20, 100)
+animUpdate(galleryBG1)
+
+--Up Arrow
+galleryUpArrow = animNew(sprSys, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(galleryUpArrow, 278, 11)
+animUpdate(galleryUpArrow)
+animSetScale(galleryUpArrow, 0.5, 0.5)
+
+--Down Arrow
+galleryDownArrow = animNew(sprSys, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(galleryDownArrow, 278, 201.5)
+animUpdate(galleryDownArrow)
+animSetScale(galleryDownArrow, 0.5, 0.5)
+
+--;===========================================================
+--; ARTWORK MENU SCREENPACK DEFINITION
+--;===========================================================
 --Left Page Arrow
 arrowsGL = animNew(sprSys, [[
 223,0, 0,0, 10
@@ -1536,8 +1593,8 @@ gInputsBG = animNew(sprSys, [[
 animSetScale(gInputsBG, 2.9, 0.75)
 animSetAlpha(gInputsBG, 155, 22)
 
---Gallery Input Hints Panel
-function drawGalleryInputHints()
+--Artwork Input Hints Panel
+function drawArtInputHints()
 	local inputHintYPos = 197
 	local inputHintYPos2 = 219
 	local hintFont = font2

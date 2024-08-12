@@ -4289,28 +4289,18 @@ function f_watchMenu()
 						stviewerInfo = true
 						infoScreen = true
 					end
-				--STATISTICS (display overall player data)
+				--PLAYER DATA (display overall player statistics)
 				elseif watchMenu == 3 then
 					--assert(loadfile(saveStatsPath))()
 					f_statsMenu()
-				--STORYBOARDS (play storyboards)
+				--GALLERY ()
 				elseif watchMenu == 4 then
-					f_storyboardMenu()
-				--CUTSCENES (play video cutscenes)
-				elseif watchMenu == 5 then
-					f_videoMenu()
-				--SOUND TEST (listen sounds)
-				elseif watchMenu == 6 then
-					soundTest = true
-					f_songMenu()
-				--SCREENSHOTS (watch screenshots taken)
-				elseif watchMenu == 7 then
-					sszOpen("screenshots", "") --added via script.ssz
-				--GALLERY (watch illustrations)
-				elseif watchMenu == 8 then
 					f_galleryMenu()
+				--GLOSSARY ()
+				elseif watchMenu == 5 then
+					f_glossaryMenu()
 				--LICENSE (display license.txt file)
-				elseif watchMenu == 9 then
+				elseif watchMenu == 6 then
 					f_watchLicense()
 				--CREDITS (play credits)
 				else
@@ -4871,6 +4861,126 @@ end
 --; GALLERY MENU
 --;===========================================================
 function f_galleryMenu()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local galleryMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 12
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			galleryMenu = galleryMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			galleryMenu = galleryMenu + 1
+		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			sndPlay(sndSys, 100, 1)
+			--ARTWORK (watch illustrations)
+			if galleryMenu == 1 then
+				f_artMenu()
+			--STORYBOARDS (play storyboards)
+			elseif galleryMenu == 2 then
+				f_storyboardMenu()
+			--CUTSCENES (play video cutscenes)
+			elseif galleryMenu == 3 then
+				f_videoMenu()
+			--SOUND TEST (listen sounds)
+			elseif galleryMenu == 4 then
+				soundTest = true
+				f_songMenu()
+			--SCREENSHOTS (watch screenshots taken)
+			elseif galleryMenu == 5 then
+				sszOpen("screenshots", "") --added via script.ssz
+			end
+		end
+		--Cursor position calculation
+		if galleryMenu < 1 then
+			galleryMenu = #t_galleryMenu
+			if #t_galleryMenu > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_galleryMenu
+			end
+		elseif galleryMenu > #t_galleryMenu then
+			galleryMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveTxt = (galleryMenu - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (galleryMenu - 1) * 15
+		end	
+		if #t_galleryMenu <= maxItems then
+			maxGallery = #t_galleryMenu
+		elseif galleryMenu - cursorPosY > 0 then
+			maxGallery = galleryMenu + maxItems - cursorPosY
+		else
+			maxGallery = maxItems
+		end
+		animDraw(f_animVelocity(galleryBG0, -1, -1))
+		--Draw Transparent Table BG
+		animSetScale(galleryBG1, 280, maxGallery*15)
+		animSetWindow(galleryBG1, 30,20, 260,180)
+		animDraw(galleryBG1)
+		--Draw Title Menu
+		textImgDraw(txt_galleryTitle)
+		--Draw Items Table Cursor
+		animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Items Text for Table
+		for i=1, maxGallery do
+			if i > galleryMenu - cursorPosY then
+				if t_galleryMenu[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_galleryMenu[i].varID, font2, 0, 1, t_galleryMenu[i].text, 35, 15+i*15-moveTxt))
+				end
+			end
+		end
+		--Draw Up Animated Cursor
+		if maxGallery > maxItems then
+			animDraw(galleryUpArrow)
+			animUpdate(galleryUpArrow)
+		end
+		--Draw Down Animated Cursor
+		if #t_galleryMenu > maxItems and maxGallery < #t_galleryMenu then
+			animDraw(galleryDownArrow)
+			animUpdate(galleryDownArrow)
+		end
+		drawListInputHints()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ARTWORK MENU
+--;===========================================================
+function f_artMenu()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local bufu = 0
 	local bufd = 0
@@ -4882,8 +4992,8 @@ function f_galleryMenu()
 	local bufy = 0
 	local moveArt = 1 --Start in image 0,0
 	local hideMenu = false
-	f_resetGalleryPos()
-	galleryList = 0 --Important to avoid errors when read
+	f_resetArtPos()
+	artList = 0 --Important to avoid errors when read
 	cmdInput()
 	while true do
 		--RETURN
@@ -4893,21 +5003,21 @@ function f_galleryMenu()
 			break
 		--NEXT ART PAGE
 		elseif ((commandGetState(p1Cmd, 'c') or commandGetState(p2Cmd, 'c')) or 
-		((commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc')) and bufc >= 30)) and moveArt <= 9 then --moveArt <= Number of your Gallery Limit
+		((commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc')) and bufc >= 30)) and moveArt <= 9 then --moveArt <= Number of your Pictures Limit
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 3)
-			f_resetGalleryPos()
+			f_resetArtPos()
 			moveArt = moveArt + 1
 		--PREVIOUS ART PAGE
 		elseif ((commandGetState(p1Cmd, 'b') or commandGetState(p2Cmd, 'b')) or 
 		((commandGetState(p1Cmd, 'holdb') or commandGetState(p2Cmd, 'holdb')) and bufb >= 30)) and moveArt > 1 then --Keep in image 0,0 when press previous key until finish
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 3)
-			f_resetGalleryPos()
+			f_resetArtPos()
 			moveArt = moveArt - 1
 		--RESET ART POSITION
 		elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
-			f_resetGalleryPos()
+			f_resetArtPos()
 		--HIDE MENU
 		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 			if not hideMenu then hideMenu = true else hideMenu = false end
@@ -4939,12 +5049,11 @@ function f_galleryMenu()
 		((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 10)) and artScale >= 0.01 then
 			artScale = artScale - 0.01
 		end
-		galleryList = moveArt --Use menu position to show image in these order
+		artList = moveArt --Use menu position to show image in these order
 		f_drawPicture()
 		--Draw HUD Assets
 		if not hideMenu then
-			f_drawQuickText(txt_artNumber, font14, 0, 0, galleryList.."/10", 292, 15) --draw gallery limit numbers text
-			--f_drawQuickText(aas, font14, 0, 0, artScale, 292, 55) --scale test
+			f_drawQuickText(txt_artNumber, font14, 0, 0, artList.."/10", 292, 15) --draw pictures limit numbers text
 			if moveArt > 1 then
 				animDraw(arrowsGL)
 				animUpdate(arrowsGL)
@@ -4956,7 +5065,7 @@ function f_galleryMenu()
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		if not hideMenu then drawGalleryInputHints() end --Draw Input Hints Panel
+		if not hideMenu then drawArtInputHints() end --Draw Input Hints Panel
 		--ART PAGE BUF KEY CONTROL
 		if commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc') then
 			bufb = 0
@@ -5006,19 +5115,19 @@ function f_galleryMenu()
 	end
 end
 
-function f_resetGalleryPos()
+function f_resetArtPos()
 artPosX = 160
 artPosY = 120
 artScale = 0.30 --0.305
 end
 
 function f_drawPicture()
-gallery = '0,' .. galleryList-1 .. ', 0,0, 0'
-galleryPic = animNew(sprGallery, gallery)
-animSetScale(galleryPic, artScale, artScale)
-animSetPos(galleryPic, artPosX, artPosY)
-animUpdate(galleryPic)
-animDraw(galleryPic)
+art = '0,' .. artList-1 .. ', 0,0, 0'
+artPic = animNew(sprArtwork, art)
+animSetScale(artPic, artScale, artScale)
+animSetPos(artPic, artPosX, artPosY)
+animUpdate(artPic)
+animDraw(artPic)
 end
 
 --;===========================================================

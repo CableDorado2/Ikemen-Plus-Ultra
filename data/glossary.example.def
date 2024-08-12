@@ -1,0 +1,60 @@
+This file contains list of all available parameters and the default
+values used by Glossary Menu definition file.
+
+This file IS NOT loaded by engine and should not be used as-is. It's meant to
+be a reference for adding parameters to your own vnselect.def file.
+
+ ____________________
+/      GLOSSARY      \_____________________________________________________
+
+WARNING: THIS IS AN EXPERIMENTAL FEATURE.
+
+Load large amounts of text grouped by sections.
+It would help creators have a space to explain what their game is about.
+Glossary Terms added can be displayed in: Watch - Glossary submenu.
+
+Setup following parameters below "[Section <0...>]" section:
+
+- displaytitle = Name
+Set to title name that should be displayed in Glossary Menu.
+Also initiates new section declaration, so it has to be assigned before
+any other parameter used. All sections should have unique names.
+
+- icon = <groupNo,indexNo>
+Set groupNo and indexNo to read from sprite file defined in screenpack.lua
+to use draw logic under GLOSSARY MENU SCREENPACK and show icon sprite for section.
+
+- displayname
+Set to name that should be displayed in selected section of Glossary Menu.
+
+- text:
+Set the text to be displayed in screen.
+To be detected, it is necessary that the text be written below "text:" parameter.
+Like this description.
+
+;---------------------------------------------------------------------------------
+Some Examples:
+
+[Section 1]
+displaytitle = Title 1
+icon = 1,0
+
+displayname = Test 1
+text:
+Test 1 Description.
+
+displayname = Test 2
+text:
+Test 2 Description.
+
+[Section 2]
+displaytitle = Title 2
+icon = 1,1
+
+displayname = Test 1
+text:
+Test 1 Description.
+
+displayname = Test 2
+text:
+Test 2 Description.
