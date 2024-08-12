@@ -1325,7 +1325,7 @@ function f_pauseSongs()
 	elseif pn == 2 then textImgSetBank(txt_PsongMenu, 1)
 	end
 	textImgSetText(txt_PsongMenu, "SONG SELECT [P"..pn.."]")
-	textImgSetText(txt_Psong, "FOLDER ".."["..t_songList[songFolder][songMenu].folder.."]")
+	textImgSetText(txt_Psong, "["..t_songList[songFolder].folder:upper().."]")
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sndSys, 100, 2)

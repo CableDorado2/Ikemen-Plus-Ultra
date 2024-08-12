@@ -3040,9 +3040,6 @@ function f_loadMusic(path)
 				rowFolder = #t_songList+1
 				t_songList[rowFolder] = {}
 				t_songList[rowFolder]['folder'] = details
-				--Add extra items to the end of "Folder" sub-row Created
-				--t_songList[rowFolder] = {id = '', folder = path, name = 'RANDOM SELECT', path = 'Random'}
-				--t_songList[rowFolder] = {id = '', folder = path, name = '          BACK', path = ''}
 			end
 		end
 	end
@@ -3065,6 +3062,12 @@ for i, songFile in ipairs(t_songFile) do
 			break --Exit inner loop once a match file is found
 		end
 	end
+end
+--Add extra items to the end of "Folder" sub-row Created
+for folder=1, #t_songList do
+local row = #t_songList[folder]+1
+t_songList[folder][row] = {id = '', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][row+1] = {id = '', name = '          BACK', path = ''}
 end
 f_printTable(t_songList, 'save/debug/t_songList.txt')
 end

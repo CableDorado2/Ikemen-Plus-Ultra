@@ -5159,7 +5159,7 @@ function f_songMenu()
 		animSetWindow(songBG1, 80,20, 160,180)
 		animDraw(songBG1)
 		--Draw Title Menu
-		textImgSetText(txt_song, "SONG SELECT [".. t_songList[songFolder][songMenu].folder .."]")
+		textImgSetText(txt_song, "[".. t_songList[songFolder].folder:upper().."]")
 		textImgDraw(txt_song)
 		if not confirmSong then
 			--Draw Table Cursor
@@ -5221,7 +5221,7 @@ function f_songMenu()
 			bufr = 0
 			bufl = 0
 		end
-		if selectedSong == nil then	f_fadeOutBGM(1) else f_resetFadeBGM() end
+		--if selectedSong == nil then f_fadeOutBGM(1) else f_resetFadeBGM() end
 		cmdInput()
 		refresh()
 	end
