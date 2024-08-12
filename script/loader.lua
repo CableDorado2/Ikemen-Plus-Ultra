@@ -1199,36 +1199,6 @@ function generateCharsList(path)
 	io.close(dscr)
 end
 
---Move to common.lua --> f_soundtrack()
-local t_file = {}
-local t_folder = {}
-function f_loadDir(path)
-	for item in lfs.dir(path) do --For each item readed in path
-		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
-			local details = path.."/"..item --Get path and file name
-			local attribute = lfs.attributes(details) --Get atributes from items readed
-			assert(type(attribute) == "table")
-			f_loadDir(details)
-			if attribute.mode == "directory" then --If the item have "folder/dir" attribute
-				--f_loadDir(details)
-				--row = #t_file+1
-				--t_file[row] = details --Add item to table
-			elseif attribute.mode == "file" then --If the item have "file" attribute
-				if item:match('^.*(%.)[Mm][Pp][3]$') then
-					row = #t_file+1
-					t_file[row] = {}
-					t_file[row]['id'] = ""
-					t_file[row]['folder'] = "TODO"
-					t_file[row]['path'] = details
-					t_file[row]['name'] = item:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
-				end
-				f_printTable(t_file, 'save/debug/Test.txt')
-			end
-		end
-	end
-end
-f_loadDir("sound")
-
 function f_updateLogs()
 	if data.debugLog then
 		f_printTable(t_selChars, "save/debug/t_selChars.txt")

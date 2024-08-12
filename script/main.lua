@@ -8058,7 +8058,7 @@ end
 function f_getIntermission()
 t_secretChallenger = {} --If you use a char that can appear in the intermission, this table will guarantee when randomizing it you fight against another
 for i, c in ipairs(t_intermissionChars) do --Read all table items and save each value in c var
-	local intermissionChar = c['path'] --Create variable with name from t_intermissionChars now stored in c var (Since it is in a for, the name will be different in each round)
+	local intermissionChar = c['path'] --Create variable with name from t_intermissionChars now stored in c var (Since it is in a for, the name will be different in each loop)
 	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
 		selectaChar = data.t_p1selected[1]['path'] --Create another variable with the first name from data.t_p1selected (Your Selected Character)
 	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then

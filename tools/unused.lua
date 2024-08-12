@@ -108,3 +108,132 @@ end
 file:close() --Close .txt file
 if data.debugLog then f_printTable(t, "save/debug/t_txtBoxText.txt") end
 end
+
+--Move to common.lua --> f_soundtrack()
+t_file = {}
+folder = #t_file+1
+t_file[folder] = {} --Add 1st folder
+function f_loadDir(path)
+	for item in lfs.dir(path) do --For each item readed in path
+		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
+			local details = path.."/"..item --Get path and file name
+			local attribute = lfs.attributes(details) --Get atributes from items readed
+			assert(type(attribute) == "table")
+			f_loadDir(details)
+			if attribute.mode == "directory" then --If the item have "folder/dir" attribute
+				folder = #t_file+1
+				t_file[folder] = {} --Add new folder
+			elseif attribute.mode == "file" then --If the item have "file" attribute
+				if item:match('^.*(%.)[Mm][Pp][3]$') then
+					t_file[folder][#t_file[folder]+1] = {}
+					t_file[folder][#t_file[folder]]['id'] = ""
+					t_file[folder][#t_file[folder]]['folder'] = "TODO"
+					t_file[folder][#t_file[folder]]['path'] = details --Add item to table
+					t_file[folder][#t_file[folder]]['name'] = item:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+				end
+				--f_printTable(t_file, 'save/debug/Test.txt')
+			end
+		end
+	end
+	f_printTable(t_file, 'save/debug/Test.txt')
+end
+f_loadDir("sound")
+
+function f_soundtrack()
+t_songList = {} --Create Table
+--;=================================================================
+--;	FOLDER 1
+--;=================================================================
+folder = #t_songList+1 --Set "Folder 1" row for the table
+t_songList[folder] = {} --Add 1st Folder
+for file in lfs.dir[[.\\sound\\]] do --Read Dir
+	if file:match('^.*(%.)[Mm][Pp][3]$') then --Filter Files .mp3			
+		t_songList[folder][#t_songList[folder]+1] = {} --Add songs filtered to the end of the "folder" sub-table
+		t_songList[folder][#t_songList[folder]]['id'] = '' --Reserve id to create text
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL' --Folder name where is located the song
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1') --Get song name without extension
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file --Get song file path
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then --Filter Files .ogg
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
+	end
+end
+--Add extra items to the end of "Folder" sub-row Created
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 2
+--;=================================================================
+folder = #t_songList+1 --Set "Folder 2" row for the table
+t_songList[folder] = {} --Add 2nd Folder
+for file in lfs.dir[[.\\sound\system\\]] do
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 3
+--;=================================================================
+folder = #t_songList+1
+t_songList[folder] = {}
+for file in lfs.dir[[.\\sound\system\menu\\]] do
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 4
+--;=================================================================
+folder = #t_songList+1
+t_songList[folder] = {}
+for file in lfs.dir[[.\\sound\system\select\\]] do
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = '          BACK', path = ''}
+--;=================================================================
+--;	SET YOUR FOLDER BELOW
+--;=================================================================
+
+--Save Log
+if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
+end

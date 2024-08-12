@@ -38,6 +38,9 @@ fightDef = "data/screenpack/fight.def"
 --License Path (Please always distribute license files for use this program)
 licensesPath = "docs/Licenses"
 
+--Main Soundtrack Path
+musicPath = "sound"
+
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
 
