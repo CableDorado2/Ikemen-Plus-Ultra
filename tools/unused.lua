@@ -237,3 +237,31 @@ t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT
 --Save Log
 if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
 end
+
+--Glossary Menu Table First Design
+t_glossary = {
+	{
+		title = "section 1",
+		icon = "1,0",
+		[1] = {
+			name = "name 1", content = "description"
+		},
+		[2] = {
+			name = "name 2", content = "description"
+		},
+		[3] = {
+			name = "name 3", content = "description"
+		},
+	},
+	{
+		title = "section 2",
+		icon = "1,1",
+		[1] = {
+			name = "name 1", content = "description"
+		},
+		[2] = {
+			name = "name 2", content = "description"
+		},
+	},
+}
+if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.txt") end

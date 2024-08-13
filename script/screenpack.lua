@@ -1828,6 +1828,107 @@ animUpdate(storyboardDownArrow)
 animSetScale(storyboardDownArrow, 0.5, 0.5)
 
 --;===========================================================
+--; GLOSSARY MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
+txt_glossaryText = createTextImg(font7, 0, 1, "", 0, 0)
+
+t_glossary = {
+	{
+		title = "section 1",
+		icon = "1,0",
+		[1] = {
+			name = "name 1", content = "description"
+		},
+		[2] = {
+			name = "name 2", content = "description"
+		},
+		[3] = {
+			name = "name 3", content = "description"
+		},
+	},
+	{
+		title = "section 2",
+		icon = "1,1",
+		[1] = {
+			name = "name 1", content = "description"
+		},
+		[2] = {
+			name = "name 2", content = "description"
+		},
+	},
+}
+if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.txt") end
+
+--Left Page Arrow
+glossaryLeftArrow = animNew(sprSys, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(glossaryLeftArrow, 69, 21)
+animUpdate(glossaryLeftArrow)
+animSetScale(glossaryLeftArrow, 0.5, 0.5)
+
+--Right Page Arrow
+glossaryRightArrow = animNew(sprSys, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(glossaryRightArrow, 242, 21)
+animUpdate(glossaryRightArrow)
+animSetScale(glossaryRightArrow, 0.5, 0.5)
+
+--Title BG
+glossaryTitleBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(glossaryTitleBG, 2.9, 0.30)
+animSetAlpha(glossaryTitleBG, 155, 22)
+
+--Input Hints BG
+gsInputsBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(gsInputsBG, 2.9, 0.37)
+animSetAlpha(gsInputsBG, 155, 22)
+
+--Input Hints Panel
+function drawGlossaryInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	animPosDraw(gsInputsBG, -56, 217) --Draw Input Hints BG
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 132, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+function drawGlossaryInputHints2()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	animPosDraw(gsInputsBG, -56, 217)
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 132, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 191, hintFontYPos)
+end
+
+--;===========================================================
 --; LICENSES MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_licenseTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)

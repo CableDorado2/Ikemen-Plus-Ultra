@@ -347,7 +347,7 @@ function f_mainMenu()
 						onlinegame = false
 						assert(loadfile(saveCfgPath))()
 						script.options.f_mainCfg()
-					--GALLERY (display additional content)
+					--GALLERY (view pictures, storyboards, cutscenes and listen music)
 					elseif mainMenu == 4 then
 						assert(loadfile(saveStatsPath))()
 						f_galleryMenu()
@@ -4293,13 +4293,13 @@ function f_watchMenu()
 				elseif watchMenu == 3 then
 					--assert(loadfile(saveStatsPath))()
 					f_statsMenu()
-				--GALLERY ()
+				--GALLERY (view pictures, storyboards, cutscenes and listen music)
 				elseif watchMenu == 4 then
 					f_galleryMenu()
-				--GLOSSARY ()
+				--GLOSSARY (explain all terminology that shows up in the game)
 				elseif watchMenu == 5 then
 					f_glossaryMenu()
-				--LICENSE (display license.txt file)
+				--LICENSE (display license files)
 				elseif watchMenu == 6 then
 					f_watchLicense()
 				--CREDITS (play credits)
@@ -4884,20 +4884,20 @@ function f_galleryMenu()
 			galleryMenu = galleryMenu + 1
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sndSys, 100, 1)
-			--ARTWORK (watch illustrations)
+			--ARTWORK (watch pictures)
 			if galleryMenu == 1 then
 				f_artMenu()
-			--STORYBOARDS (play storyboards)
+			--STORYBOARDS (watch storyboards)
 			elseif galleryMenu == 2 then
 				f_storyboardMenu()
-			--CUTSCENES (play video cutscenes)
+			--CUTSCENES (watch video cutscenes)
 			elseif galleryMenu == 3 then
 				f_videoMenu()
 			--SOUND TEST (listen sounds)
 			elseif galleryMenu == 4 then
 				soundTest = true
 				f_songMenu()
-			--SCREENSHOTS (watch screenshots taken)
+			--SCREENSHOTS (view your screenshots collection)
 			elseif galleryMenu == 5 then
 				sszOpen("screenshots", "") --added via script.ssz
 			end
@@ -5655,6 +5655,132 @@ function f_storyboardMenu()
 		else
 			bufu = 0
 			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; GLOSSARY MENU
+--;===========================================================
+function f_glossaryMenu()
+	cmdInput()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	local cursorPosX = 1
+	local moveTxt = 0
+	local glossaryMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 1
+	local cursorUpdate = true
+	local reading = false
+	--
+	local txtPosX = -52
+	local function f_resetYPos() txtPosY = 30 end
+	f_resetYPos()
+	local txtSpacing = 12
+	while true do
+		if not reading then --When have Menu Controls
+			--BACK
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 2)
+				break
+			--START READING
+			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				reading = true
+			--PREVIOUS SECTION
+			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+				sndPlay(sndSys, 100, 0)
+				glossaryMenu = glossaryMenu - 1
+				cursorUpdate = true
+				f_resetYPos()
+			--NEXT SECTION
+			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+				sndPlay(sndSys, 100, 0)
+				glossaryMenu = glossaryMenu + 1
+				cursorUpdate = true
+				f_resetYPos()
+			--PREVIOUS CONTENT
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
+				
+			--NEXT CONTENT
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
+				
+			end
+		else --When have text controls
+			--READING DONE
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				reading = false
+			--MOVE UP TXT
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) and txtPosY < 30 then
+				txtPosY = txtPosY + 1
+			--MOVE DOWN TXT
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
+				txtPosY = txtPosY - 1
+			end
+		end
+		if glossaryMenu < 1 then
+			glossaryMenu = #t_glossary
+			if #t_glossary > maxItems then
+				cursorPosX = maxItems
+			else
+				cursorPosX = #t_glossary
+			end
+		elseif glossaryMenu > #t_glossary then
+			glossaryMenu = 1
+			cursorPosX = 1
+		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+			cursorPosX = cursorPosX - 1
+		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
+			cursorPosX = cursorPosX + 1
+		end
+		if cursorPosX == maxItems then
+			moveTxt = (glossaryMenu - maxItems) * 15
+		elseif cursorPosX == 1 then
+			moveTxt = (glossaryMenu - 1) * 15
+		end
+		if #t_glossary <= maxItems then
+			maxGlossary = #t_glossary
+		elseif glossaryMenu - cursorPosX > 0 then
+			maxGlossary = glossaryMenu + maxItems - cursorPosX
+		else
+			maxGlossary = maxItems
+		end
+		if cursorUpdate then
+			--f_readLicense(t_glossary[glossaryMenu].path) --Get Text Data
+			cursorUpdate = false
+		end
+		--f_textRender(txt_glossaryText, glossaryContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
+		animPosDraw(glossaryTitleBG, -56, 0) --Draw Title BG
+		textImgDraw(txt_glossaryTitle) --Draw Menu Title
+		if not reading then drawGlossaryInputHints() else drawGlossaryInputHints2() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufr = 0
+			bufl = 0
 		end
 		cmdInput()
 		refresh()
