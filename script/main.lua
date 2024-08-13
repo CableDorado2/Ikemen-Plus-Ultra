@@ -3452,7 +3452,7 @@ function f_extrasMenu()
 					f_eventMenu()
 				--TOURNAMENT MODE (participate in customizable tournaments)
 				elseif extrasMenu == 3 then
-					--f_tourneyCfg()
+					f_tourneyCfg()
 				--VISUAL NOVEL MODE (watch a customizable narrative and interactive storytelling)
 				elseif extrasMenu == 4 then
 					if #t_selVN ~= 0 then
