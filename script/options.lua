@@ -6067,7 +6067,7 @@ t_videoCfg = {
 	{varID = textImgNew(), text = "Screen Mode",  		varText = ""},
 	{varID = textImgNew(), text = "Window Type", 		varText = ""},
 	{varID = textImgNew(), text = "Fullscreen Type",	varText = ""},
-	{varID = textImgNew(), text = "Aspect Ratio", 		varText = ""},
+	{varID = textImgNew(), text = "Aspect Ratio 16:9", 		varText = ""},
 	{varID = textImgNew(), text = "Sdlplugin Version",	varText = ""},
 	{varID = textImgNew(), text = "Brightness",			varText = ""},
 	--{varID = textImgNew(), text = "OpenGL 2.0", 		varText = ""},

@@ -5668,8 +5668,10 @@ function f_glossaryMenu()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local cursorPosX = 1
+	local cursorPosY = 1
 	local moveTxt = 0
 	local glossaryMenu = 1
+	local glossaryText = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -5706,11 +5708,11 @@ function f_glossaryMenu()
 				cursorUpdate = true
 				f_resetYPos()
 			--PREVIOUS CONTENT
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
-				
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) then
+				glossaryText = glossaryText - 1
 			--NEXT CONTENT
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
-				
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) then
+				glossaryText = glossaryText + 1
 			end
 		else --When have text controls
 			--READING DONE
@@ -5725,6 +5727,7 @@ function f_glossaryMenu()
 				txtPosY = txtPosY - 1
 			end
 		end
+		--Section Scroll Logic
 		if glossaryMenu < 1 then
 			glossaryMenu = #t_glossary
 			if #t_glossary > maxItems then
@@ -5746,16 +5749,51 @@ function f_glossaryMenu()
 			moveTxt = (glossaryMenu - 1) * 15
 		end
 		if #t_glossary <= maxItems then
-			maxGlossary = #t_glossary
+			maxSection = #t_glossary
 		elseif glossaryMenu - cursorPosX > 0 then
-			maxGlossary = glossaryMenu + maxItems - cursorPosX
+			maxSection = glossaryMenu + maxItems - cursorPosX
 		else
-			maxGlossary = maxItems
+			maxSection = maxItems
 		end
+		--Content Scroll Logic
+		if glossaryText < 1 then
+			glossaryText = #t_glossary[glossaryMenu]
+			if #t_glossary[glossaryMenu] > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_glossary[glossaryMenu]
+			end
+		elseif glossaryText > #t_glossary[glossaryMenu] then
+			glossaryText = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveTxt = (glossaryText - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (glossaryText - 1) * 15
+		end
+		if #t_glossary[glossaryMenu] <= maxItems then
+			maxName = #t_glossary[glossaryMenu]
+		elseif glossaryText - cursorPosY > 0 then
+			maxName = glossaryText + maxItems - cursorPosY
+		else
+			maxName = maxItems
+		end
+		--Draw Section Text
+		textImgSetText(txt_glossarySection, t_glossary[glossaryMenu].title)
+		textImgDraw(txt_glossarySection)
+		--Draw Content Title Text
+		textImgSetText(txt_glossaryTitleText, t_glossary[glossaryMenu][glossaryText].name)
+		textImgDraw(txt_glossaryTitleText)
 		if cursorUpdate then
 			--f_readLicense(t_glossary[glossaryMenu].path) --Get Text Data
 			cursorUpdate = false
 		end
+		--Draw Content Text
 		--f_textRender(txt_glossaryText, glossaryContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
 		animPosDraw(glossaryTitleBG, -56, 0) --Draw Title BG
 		textImgDraw(txt_glossaryTitle) --Draw Menu Title

@@ -1830,31 +1830,33 @@ animSetScale(storyboardDownArrow, 0.5, 0.5)
 --;===========================================================
 --; GLOSSARY MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
+txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "GLOSSARY", 159, 13)
+txt_glossarySection = createTextImg(font7, 0, 0, "", 10, 30)
+txt_glossaryTitleText = createTextImg(font7, 0, 0, "", 155, 52)
 txt_glossaryText = createTextImg(font7, 0, 1, "", 0, 0)
 
 t_glossary = {
 	{
-		title = "section 1",
+		title = "CHARACTERS",
 		icon = "1,0",
 		[1] = {
-			name = "name 1", content = "description"
+			name = "KUNG FU MAN", content = "description"
 		},
 		[2] = {
-			name = "name 2", content = "description"
+			name = "KUNG FU GIRL", content = "description"
 		},
 		[3] = {
-			name = "name 3", content = "description"
+			name = "SUAVE DUDE", content = "description"
 		},
 	},
 	{
-		title = "section 2",
+		title = "LOCATIONS",
 		icon = "1,1",
 		[1] = {
-			name = "name 1", content = "description"
+			name = "MOUNTAINSIDE TEMPLE", content = "description"
 		},
 		[2] = {
-			name = "name 2", content = "description"
+			name = "MOUNTAIN VALLEY", content = "description"
 		},
 	},
 }
@@ -1910,11 +1912,12 @@ function drawGlossaryInputHints()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(gsInputsBG, -56, 217) --Draw Input Hints BG
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 132, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+	drawInputHintsP1("u","-30,"..inputHintYPos,"d","-10,"..inputHintYPos,"l","10,"..inputHintYPos,"r","30,"..inputHintYPos,"s","90,"..inputHintYPos,"w","155,"..inputHintYPos,"e","210,"..inputHintYPos,"q","270,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 51, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Search", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Read", 176, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 291, hintFontYPos)
 end
 
 function drawGlossaryInputHints2()
@@ -1922,10 +1925,10 @@ function drawGlossaryInputHints2()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(gsInputsBG, -56, 217)
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 132, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 191, hintFontYPos)
+	drawInputHintsP1("u","50,"..inputHintYPos,"d","70,"..inputHintYPos,"e","130,"..inputHintYPos,"q","190,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 91, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 151, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
 end
 
 --;===========================================================
