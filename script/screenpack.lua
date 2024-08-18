@@ -39,8 +39,8 @@ fightDef = "data/screenpack/fight.def"
 --License Path (Please always distribute license files for use this program)
 licensesPath = "docs/Licenses"
 
---Main Soundtrack Path
-musicPath = "sound"
+--Glossary Data (Glossary definition filename)
+glossaryDef = "data/glossary.def"
 
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -94,6 +94,9 @@ font45 = fontNew("font/MKTIMER.fnt")
 font46 = fontNew("font/NameWins - difficulty.fnt")
 font47 = fontNew("font/Timer_MK3_Silver.fnt")
 font48 = fontNew("font/Timer_MK3_Yellow.fnt")
+
+--Main Soundtrack Path
+musicPath = "sound"
 
 --Music Data (ONLY MP3 and OGG formats are Supported)
 bgmNothing = " .mp3"
@@ -1834,33 +1837,6 @@ txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "GLOSSARY", 159, 13)
 txt_glossarySection = createTextImg(font7, 0, 0, "", 10, 30)
 txt_glossaryTitleText = createTextImg(font7, 0, 0, "", 155, 52)
 txt_glossaryText = createTextImg(font7, 0, 1, "", 0, 0)
-
-t_glossary = {
-	{
-		title = "CHARACTERS",
-		icon = "1,0",
-		[1] = {
-			name = "KUNG FU MAN", content = "description"
-		},
-		[2] = {
-			name = "KUNG FU GIRL", content = "description"
-		},
-		[3] = {
-			name = "SUAVE DUDE", content = "description"
-		},
-	},
-	{
-		title = "LOCATIONS",
-		icon = "1,1",
-		[1] = {
-			name = "MOUNTAINSIDE TEMPLE", content = "description"
-		},
-		[2] = {
-			name = "MOUNTAIN VALLEY", content = "description"
-		},
-	},
-}
-if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.txt") end
 
 --Left Page Arrow
 glossaryLeftArrow = animNew(sprSys, [[

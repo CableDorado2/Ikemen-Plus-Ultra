@@ -5665,6 +5665,7 @@ end
 --; GLOSSARY MENU
 --;===========================================================
 function f_glossaryMenu()
+	f_glossaryLoad() --Load Glossary Data from .def file
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local cursorPosX = 1
@@ -5677,7 +5678,6 @@ function f_glossaryMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 1
-	local cursorUpdate = true
 	local reading = false
 	--
 	local txtPosX = -52
@@ -5699,13 +5699,11 @@ function f_glossaryMenu()
 			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 				sndPlay(sndSys, 100, 0)
 				glossaryMenu = glossaryMenu - 1
-				cursorUpdate = true
 				f_resetYPos()
 			--NEXT SECTION
 			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 				sndPlay(sndSys, 100, 0)
 				glossaryMenu = glossaryMenu + 1
-				cursorUpdate = true
 				f_resetYPos()
 			--PREVIOUS CONTENT
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) then
@@ -5789,12 +5787,8 @@ function f_glossaryMenu()
 		--Draw Content Title Text
 		textImgSetText(txt_glossaryTitleText, t_glossary[glossaryMenu][glossaryText].name)
 		textImgDraw(txt_glossaryTitleText)
-		if cursorUpdate then
-			--f_readLicense(t_glossary[glossaryMenu].path) --Get Text Data
-			cursorUpdate = false
-		end
 		--Draw Content Text
-		--f_textRender(txt_glossaryText, glossaryContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
+		f_textRender(txt_glossaryText, t_glossary[glossaryMenu][glossaryText].content, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
 		animPosDraw(glossaryTitleBG, -56, 0) --Draw Title BG
 		textImgDraw(txt_glossaryTitle) --Draw Menu Title
 		if not reading then drawGlossaryInputHints() else drawGlossaryInputHints2() end

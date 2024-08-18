@@ -36,25 +36,25 @@ Like this description.
 Some Examples:
 
 [Section 1]
-displaytitle = Title 1
+displaytitle = Characters
 icon = 1,0
 
-displayname = Test 1
+displayname = Character 1
 text:
-Test 1 Description.
+Character Description.
 
-displayname = Test 2
+displayname = Character 2
 text:
-Test 2 Description.
+Character Description.
 
 [Section 2]
-displaytitle = Title 2
+displaytitle = Stages
 icon = 1,1
 
-displayname = Test 1
+displayname = Stage 1
 text:
-Test 1 Description.
+Stage Description.
 
-displayname = Test 2
+displayname = Stage 2
 text:
-Test 2 Description.
+Stage Description.

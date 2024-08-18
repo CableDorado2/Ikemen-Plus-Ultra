@@ -4,15 +4,74 @@ icon = 1,0
 
 displayname = Kung Fu Man
 text:
-Kung Fu Man Description.
+Often abbreviated to KFM is the very first M.U.G.E.N character ever made
+and comes pre-installed with all versions of the M.U.G.E.N engine when downloaded from
+Elecbyte's website.
+°
+Kung Fu Man's story begins with himself and his girlfriend going for a walk.
+Sometime during this walk, they are ambushed by Suave Dude and his minions; of course
+Kung Fu Man fends off Suave Dude's minions, though while he is preoccupied, Suave Dude
+captures Kung Fu Man's girlfriend and retreats back to his secret hideout.
+In order to get his girlfriend back, Kung Fu Man sets off for Suave Dude's hideout
+letting nothing stand in his way.
+°
+In M.U.G.E.N, Kung Fu Man has been made four times by Elecbyte, the creators of M.U.G.E.N.
+All four versions are fundamentally the same, using simple attacks based around Chinese
+martial arts and presumably original sound effects; each version highlights some of the new
+features of an engine version that weren't present in previous versions, such as the third
+and fourth versions using localcoord, a feature introduced in M.U.G.E.N 1.0.
+°
+Due to the character's nature as a template, many edits of Kung Fu Man exist that change
+his gameplay, moveset and/or even his name.
+°
+Taken from: https://mugen.fandom.com/wiki/Kung_Fu_Man
 
 displayname = Suave Dude
 text:
-Suave Dude Description.
+A character that serves as the main antagonist of M.U.G.E.N's Arcade mode.
+He is a rich man who looks rather suave and sophisticated (hence his name)
+wearing blue jeans, a black shirt and a pair of sunglasses, and lives in the Mountainside Temple
+with many minions (presumably the characters in the player's M.U.G.E.N roster).
+He is the mortal enemy of Kung Fu Man and the would-be final boss of M.U.G.E.N should Elecbyte
+ever make the Suave Dude character.
+°
+Long before he served any real purpose, Suave Dude originally appeared in an example image
+for PCXClean to illustrate its functions, but was seemingly wiped from existence within seconds
+with only Kung Fu Man left standing. What truly happened to Suave Dude remains a mystery
+but he reappeared a few years later to kidnap Kung Fu Man's Girlfriend, only to disappear
+once Kung Fu Man arrives at his temple and defeats an evil clone of himself.
+°
+While only the Suave Dude sprite exists, it was originally kept as a tradition by many
+M.U.G.E.N fans to never make a Suave Dude character in order to keep Kung Fu Man's ending "true".
+Despite this however, various creators have created their own interpretations of Suave Dude
+most notably Masukenpu-kun's version.
+°
+Taken from: https://mugen.fandom.com/wiki/Suave_Dude
 
 displayname = Kung Fu Girl
 text:
-Kung Fu Girl Description.
+A female version of Kung Fu Man. She is a young woman with a busty upper body and red hair.
+°
+Kung Fu Girl shares some similarities to Kung Fu Man like performing some of his signature
+moves such as Kung Fu Palm and so on. Unlike Kung Fu Man, however, she has some unique abilities
+such as being able to produce a chibi ghost version of herself as a projectile, the ability to
+stretch her arm long distances, and to release a powerful energy blast covering the whole screen.
+She also has a certain passion for disguises.
+°
+In M.U.G.E.N, Kung Fu Girl has been made three times, once each by different creators.
+°
+Taken from: https://mugen.fandom.com/wiki/Kung_Fu_Girl
+
+displayname = Evil Kung Fu Man
+text:
+An evil android version of Kung Fu Man who is under the control of KFM's arch nemesis, Suave Dude.
+Originally, there was no Evil KFM around until this version made by Most_Mysterious came.
+Since his release he has had some major updates by The_None.
+°
+Going by Kung Fu Man's Arcade mode story, Evil Kung Fu Man would be the last opponent
+Kung Fu Man faces before Suave Dude.
+
+Taken from: https://mugen.fandom.com/wiki/Evil_Kung_Fu_Man
 
 [Section 2]
 displaytitle = Locations
@@ -20,4 +79,60 @@ icon = 1,1
 
 displayname = Mountainside Temple
 text:
-Location Description.
+The secret hideout of Suave Dude located somewhere in a mountainous region.
+Kung Fu Man sets out on a journey to reach the temple in an effort to defeat the evil Suave Dude and
+rescue his kidnapped girlfriend. In Evil Kung Fu Man's Arcade intro, it was featured as the destination
+where Kung Fu Man was repelled by his evil clone while searching for Suave Dude.
+°
+In M.U.G.E.N, Mountainside Temple has been made by Elecbyte and is one of two default stages that comes
+with pre-installed with an official M.U.G.E.N download, the other being Training Room.
+°
+Elecbyte's Mountainside Temple has combatants fight inside the titular temple, with the
+mountainous region where the temple is located being visible through the various windows
+and openings in the rear wall. The temple itself is mostly constructed out of wood, with the only
+non-wooden parts of its construction being the stone pillars that are placed at regular intervals
+alongside the rear wall. While each new version of the M.U.G.E.N engine comes bundled with a new
+variant of the stage, its appearance has remained relatively unchanged since its creation in the late
+20th century, though the variant that comes with M.U.G.E.N 1.1 has slightly brighter colours than
+its predecessors; for some inexplicable reason known only to Elecbyte, any particular variant of the
+stage that comes with a download of the engine is incompatible with older versions of the engine
+though no such limitations occur when using an older iteration of the stage with a newer
+version of the engine. Similar to the creators' Training Room stage, Mountainside Temple isn't overly
+wide and lacks any real height, as the camera barely has to scroll much distance vertically before
+it's prevented from going any further.
+°
+Taken from: https://mugen.fandom.com/wiki/Mountainside_Temple
+
+displayname = Training Room
+text:
+One of two default stages included with an official M.U.G.E.N download from Elecbyte's webpage.
+It doesn't have any relation to the stories of the characters.
+°
+The iconic Training Room stage born from the creators of the M.U.G.E.N engine is a relatively
+simple stage that hasn't visually changed since its initial conception, mostly being comprised of a
+blue background and floor, with a lighter blue chequered pattern overlaying them; the blue is
+actually a colour gradient, as it gets darker as it reaches the top of the screen (background) or as
+it reaches the background (floor). Each of the three definitions come packaged separately with a different
+version of M.U.G.E.N, though they can be differentiated by the M.U.G.E.N 1.0 and M.U.G.E.N 1.1 variants
+using an otherwise redundant localcoord value, and the 1.0 variant having an internal name of 'Wasteland'.
+Curiously, the stage isn't particularly wide, though this pales in comparison to the stage's short
+height, where the camera barely has to scroll much distance vertically before it's prevented
+from going any further.
+°
+Taken from: https://mugen.fandom.com/wiki/Training_Room
+
+[Section 3]
+displaytitle = Engines
+icon = 1,2
+
+displayname = M.U.G.E.N
+text:
+
+
+Taken from: https://mugen.fandom.com/wiki/M.U.G.E.N
+
+displayname = I.K.E.M.E.N
+text:
+
+
+Taken from: https://mugen.fandom.com/wiki/Ikemen
