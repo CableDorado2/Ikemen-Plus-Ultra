@@ -241,10 +241,13 @@ If you need help, you can find support from developers and contributors for this
 >- S-SIZE Project Source Code:
 >https://osdn.net/projects/ssz/
 >
+>- B.I.J.I.N RandomSelect's Build Source Code:
+>https://code.google.com/archive/p/random-tac/
+>
 >- Original Ikemen SSZ Source Code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
 >
->- Ikemen Plus Source Code:
+>- Ikemen Plus (What this project is based on) Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
 >- Ikemen Go Plus Source Code:
