@@ -691,7 +691,7 @@ end
 function f_gameDefault()
 	data.difficulty = 8
 	data.roundTime = 99
-	data.lifebar = "data/screenpack/fight.def"
+	data.lifebar = fightDef
 	data.roundsNum = 2
 	drawNum = 2
 	data.lifeMul = 100
