@@ -9959,6 +9959,7 @@ function f_defaultStats()
 	data.survivalTime = 0
 	data.bossTime = 0
 	data.bonusTime = 0
+	data.timerushTime = 0
 	data.timeattackTime = 0
 	data.scoreattackTime = 0
 	data.endlessTime = 0

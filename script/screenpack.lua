@@ -661,68 +661,11 @@ t_arcadeMenu = {
 }
 
 --;===========================================================
---; CLASSIC ARCADE MENU SCREENPACK DEFINITION
---;===========================================================
-t_arcadeClassicMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
-
---;===========================================================
---; TOWER ARCADE MENU SCREENPACK DEFINITION
---;===========================================================
-t_towerMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
-
---;===========================================================
 --; VERSUS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_vsMenu = {
 	{id = textImgNew(), text = "QUICK MATCH"},
 	{id = textImgNew(), text = "FREE BATTLE"},
-}
-
---;===========================================================
---; QUICK/RANDOM MATCH MENU SCREENPACK DEFINITION
---;===========================================================
-t_randomMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1 VS P2"},
-	{id = textImgNew(), text = "P2 VS P1"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-	--{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-}
-
---;===========================================================
---; FREE BATTLE MENU SCREENPACK DEFINITION
---;===========================================================
-t_freeMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1 VS P2"},
-	{id = textImgNew(), text = "P2 VS P1"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-	--{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	--{id = textImgNew(), text = "P1&P3 VS P2&P4"},
 }
 
 --;===========================================================
@@ -733,15 +676,56 @@ t_challengeMenu = {
 	{id = textImgNew(), text = "MISSIONS"},
 	{id = textImgNew(), text = "BOSS FIGHT"},
 	{id = textImgNew(), text = "BONUS GAMES"},
-	{id = textImgNew(), text = "TIME ATTACK"},
 	{id = textImgNew(), text = "SCORE ATTACK"},
+	{id = textImgNew(), text = "TIME ATTACK"},
+	{id = textImgNew(), text = "TIME RUSH"},
 	{id = textImgNew(), text = "SUDDEN DEATH"},
 }
 
 --;===========================================================
---; SURVIVAL MENU SCREENPACK DEFINITION
+--; BOSS FIGHT MENU SCREENPACK DEFINITION
 --;===========================================================
-t_survivalMenu = {
+t_bossMenu = {
+	{id = textImgNew(), text = "VS SINGLE BOSS"},
+	{id = textImgNew(), text = "BOSS RUSH"},
+}
+
+--;===========================================================
+--; BONUS GAMES MENU SCREENPACK DEFINITION
+--;===========================================================
+t_bonusMenu = {
+	{id = textImgNew(), text = "SINGLE MODE"},
+	{id = textImgNew(), text = "BONUS RUSH"},
+}
+
+--;===========================================================
+--; BONUS RUSH MENU SCREENPACK DEFINITION
+--;===========================================================
+t_bonusrushMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+}
+
+--;===========================================================
+--; EXTRAS MENU SCREENPACK DEFINITION
+--;===========================================================
+t_extrasMenu = {
+	{id = textImgNew(), text = "ENDLESS"},
+	{id = textImgNew(), text = "EVENTS"},
+	{id = textImgNew(), text = "TOURNAMENT"},
+	{id = textImgNew(), text = "VISUAL NOVEL"},
+	{id = textImgNew(), text = "THE VAULT"},
+	{id = textImgNew(), text = "RANDOMTEST"},
+}
+
+--;===========================================================
+--; COMMON SUB-MENUS SCREENPACK DEFINITION
+--;===========================================================
+t_commonSubMenu = {
 	{id = textImgNew(), text = "P1 VS CPU"},
 	{id = textImgNew(), text = "P2 VS CPU"},
 	{id = textImgNew(), text = "CPU VS P1"},
@@ -749,6 +733,19 @@ t_survivalMenu = {
 	{id = textImgNew(), text = "P1&P2 VS CPU"},
 	--{id = textImgNew(), text = "CPU VS P1&P2"},
 	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+t_commonSubMenu2 = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1 VS P2"},
+	{id = textImgNew(), text = "P2 VS P1"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+	--{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	--{id = textImgNew(), text = "P1&P3 VS P2&P4"},
 }
 
 --;===========================================================
@@ -838,111 +835,6 @@ function drawMissionInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
-
---;===========================================================
---; BOSS FIGHT MENU SCREENPACK DEFINITION
---;===========================================================
-t_bossMenu = {
-	{id = textImgNew(), text = "VS SINGLE BOSS"},
-	{id = textImgNew(), text = "BOSS RUSH"},
-}
-
---;===========================================================
---; BOSS RUSH MENU SCREENPACK DEFINITION
---;===========================================================
-t_bossrushMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
-
---;===========================================================
---; BONUS GAMES MENU SCREENPACK DEFINITION
---;===========================================================
-t_bonusMenu = {
-	{id = textImgNew(), text = "SINGLE MODE"},
-	{id = textImgNew(), text = "BONUS RUSH"},
-}
-
---;===========================================================
---; BONUS RUSH MENU SCREENPACK DEFINITION
---;===========================================================
-t_bonusrushMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-}
-
---;===========================================================
---; TIME ATTACK MENU SCREENPACK DEFINITION (WIP)
---;===========================================================
-t_timeMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
-
---;===========================================================
---; SCORE ATTACK MENU SCREENPACK DEFINITION (WIP)
---;===========================================================
-t_scoreMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
-
---;===========================================================
---; SUDDEN DEATH MENU SCREENPACK DEFINITION
---;===========================================================
-t_suddenMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
-
---;===========================================================
---; EXTRAS MENU SCREENPACK DEFINITION
---;===========================================================
-t_extrasMenu = {
-	{id = textImgNew(), text = "ENDLESS"},
-	{id = textImgNew(), text = "EVENTS"},
-	{id = textImgNew(), text = "TOURNAMENT"},
-	{id = textImgNew(), text = "VISUAL NOVEL"},
-	{id = textImgNew(), text = "THE VAULT"},
-	{id = textImgNew(), text = "RANDOMTEST"},
-}
-
---;===========================================================
---; ENDLESS MENU SCREENPACK DEFINITION
---;===========================================================
-t_allcharsMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
 
 --;===========================================================
 --; EVENTS MENU SCREENPACK DEFINITION
@@ -1317,7 +1209,7 @@ animSetScale(questionWindowBGVN, 1.3, 1)
 t_watchMenu = {
 	{id = textImgNew(), text = "REPLAYS"},
 	{id = textImgNew(), text = "STAGE VIEWER"},
-	{id = textImgNew(), text = "PLAYER DATA"},
+	{id = textImgNew(), text = "PROFILE"}, --(RANKING, RECORDS, ACHIEVEMENTS, PLAYER DATA)
 	{id = textImgNew(), text = "GALLERY"},
 	{id = textImgNew(), text = "GLOSSARY"},
 	{id = textImgNew(), text = "LICENSES"},
@@ -2125,9 +2017,10 @@ t_mainLobby = {
 	{id = textImgNew(), text = "ENDLESS"},
 	{id = textImgNew(), text = "BOSS RUSH"},
 	{id = textImgNew(), text = "BONUS RUSH"},
-	{id = textImgNew(), text = "SUDDEN DEATH"},
-	--{id = textImgNew(), text = "TIME ATTACK"},
 	--{id = textImgNew(), text = "SCORE ATTACK"},
+	--{id = textImgNew(), text = "TIME ATTACK"},
+	{id = textImgNew(), text = "TIME RUSH"},
+	{id = textImgNew(), text = "SUDDEN DEATH"},
 	{id = textImgNew(), text = "ONLINE SETTINGS"},
 }
 

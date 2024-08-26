@@ -3586,6 +3586,7 @@ function f_saveProgress()
 		['data.survivalTime'] = data.survivalTime,
 		['data.bossTime'] = data.bossTime,
 		['data.bonusTime'] = data.bonusTime,
+		['data.timerushTime'] = data.timerushTime,
 		['data.timeattackTime'] = data.timeattackTime,
 		['data.scoreattackTime'] = data.scoreattackTime,
 		['data.endlessTime'] = data.endlessTime,
