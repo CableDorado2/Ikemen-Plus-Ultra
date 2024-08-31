@@ -14,7 +14,6 @@ sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
-sprGlossary = sffNew("data/screenpack/glossary.sff") --load glossary sprites
 sprArtwork = sffNew("data/screenpack/artwork.sff") --load artwork sprites
 
 --Sound Data (Sound effects do not interrupt music/bgm)
@@ -38,9 +37,6 @@ fightDef = "data/screenpack/fight.def"
 
 --License Path (Please always distribute license files for use this program)
 licensesPath = "docs/Licenses"
-
---Glossary Data (Glossary definition filename)
-glossaryDef = "data/glossary.def"
 
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -1211,7 +1207,6 @@ t_watchMenu = {
 	{id = textImgNew(), text = "STAGE VIEWER"},
 	{id = textImgNew(), text = "PROFILE"}, --(RANKING, RECORDS, ACHIEVEMENTS, PLAYER DATA)
 	{id = textImgNew(), text = "GALLERY"},
-	{id = textImgNew(), text = "GLOSSARY"},
 	{id = textImgNew(), text = "LICENSES"},
 	{id = textImgNew(), text = "CREDITS"},
 }
@@ -1721,83 +1716,6 @@ storyboardDownArrow = animNew(sprSys, [[
 animAddPos(storyboardDownArrow, 228, 201.5)
 animUpdate(storyboardDownArrow)
 animSetScale(storyboardDownArrow, 0.5, 0.5)
-
---;===========================================================
---; GLOSSARY MENU SCREENPACK DEFINITION
---;===========================================================
-txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "GLOSSARY", 159, 13)
-txt_glossarySection = createTextImg(font7, 0, 0, "", 10, 30)
-txt_glossaryTitleText = createTextImg(font7, 0, 0, "", 155, 52)
-txt_glossaryText = createTextImg(font7, 0, 1, "", 0, 0)
-
---Left Page Arrow
-glossaryLeftArrow = animNew(sprSys, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(glossaryLeftArrow, 69, 21)
-animUpdate(glossaryLeftArrow)
-animSetScale(glossaryLeftArrow, 0.5, 0.5)
-
---Right Page Arrow
-glossaryRightArrow = animNew(sprSys, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(glossaryRightArrow, 242, 21)
-animUpdate(glossaryRightArrow)
-animSetScale(glossaryRightArrow, 0.5, 0.5)
-
---Title BG
-glossaryTitleBG = animNew(sprSys, [[
-230,3, 0,0, -1
-]])
-animSetScale(glossaryTitleBG, 2.9, 0.30)
-animSetAlpha(glossaryTitleBG, 155, 22)
-
---Input Hints BG
-gsInputsBG = animNew(sprSys, [[
-230,3, 0,0, -1
-]])
-animSetScale(gsInputsBG, 2.9, 0.37)
-animSetAlpha(gsInputsBG, 155, 22)
-
---Input Hints Panel
-function drawGlossaryInputHints()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(gsInputsBG, -56, 217) --Draw Input Hints BG
-	drawInputHintsP1("u","-30,"..inputHintYPos,"d","-10,"..inputHintYPos,"l","10,"..inputHintYPos,"r","30,"..inputHintYPos,"s","90,"..inputHintYPos,"w","155,"..inputHintYPos,"e","210,"..inputHintYPos,"q","270,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 51, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Search", 111, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Read", 176, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 291, hintFontYPos)
-end
-
-function drawGlossaryInputHints2()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(gsInputsBG, -56, 217)
-	drawInputHintsP1("u","50,"..inputHintYPos,"d","70,"..inputHintYPos,"e","130,"..inputHintYPos,"q","190,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 91, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 151, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
-end
 
 --;===========================================================
 --; LICENSES MENU SCREENPACK DEFINITION

@@ -52,6 +52,13 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				end
+				if line:match('^%s*glossaryname%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['glossaryname'] = line:gsub('^%s*glossaryname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
 			elseif section == 2 then --[Files]
 				if line:match('^%s*sprite%s*=') then
 					line = line:gsub('%s*;.*$', '')
