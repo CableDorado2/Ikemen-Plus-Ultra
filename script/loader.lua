@@ -25,16 +25,18 @@ function f_parseChar(t, cel)
 			line = line:lower()
 			if line:match('^%s*%[%s*info%s*%]') then
 				section = 1
-			elseif line:match('^%s*%[%s*files%s*%]') then
+			elseif line:match('^%s*%[%s*ja.info%s*%]') then --This will avoid error when reading the sff path of a character with his section declared
 				section = 2
-			elseif line:match('^%s*%[%s*palette%s*keymap%s*%]') then
+			elseif line:match('^%s*%[%s*files%s*%]') then
 				section = 3
-			elseif line:match('^%s*%[%s*arcade%s*%]') then
+			elseif line:match('^%s*%[%s*palette%s*keymap%s*%]') then
 				section = 4
-			elseif line:match('^%s*%[%s*unlock%s*%]') then
+			elseif line:match('^%s*%[%s*arcade%s*%]') then
 				section = 5
-			elseif line:match('^%s*%[%s*portraits%s*%]') then
+			elseif line:match('^%s*%[%s*unlock%s*%]') then
 				section = 6
+			elseif line:match('^%s*%[%s*portraits%s*%]') then
+				section = 7
 			elseif line:match('^%s*%[') then --in case character shares DEF file with other files
 				break
 			elseif section == 1 then --[Info]
@@ -59,7 +61,29 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				end
-			elseif section == 2 then --[Files]
+			elseif section == 2 then --[Ja.Info]
+				if line:match('^%s*name%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['namejp'] = line:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*displayname%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['displaynamejp'] = line:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*author%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['authorjp'] = line:gsub('^%s*author%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+			elseif section == 3 then --[Files]
 				if line:match('^%s*sprite%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -103,9 +127,9 @@ function f_parseChar(t, cel)
 						t.st[#t.st+1] = stPath
 					end
 				end
-			elseif section == 3 then --[Palette Keymap]
+			elseif section == 4 then --[Palette Keymap]
 				--nothing until palletes swap function is implemented
-			elseif section == 4 then --[Arcade]
+			elseif section == 5 then --[Arcade]
 				--Load Storyboard Files
 				if line:match('^%s*intro%.storyboard%s*=') then
 					line = line:gsub('%s*;.*$', '')
@@ -141,7 +165,7 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				end
-			elseif section == 5 then --[Unlock]
+			elseif section == 6 then --[Unlock]
 				if line:match('^%s*condition%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -168,7 +192,7 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				end
-			elseif section == 6 then --[Portraits]
+			elseif section == 7 then --[Portraits]
 				--Load Select Face Icon Portrait Data
 				if line:match('^%s*face.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
@@ -290,7 +314,7 @@ function f_parseChar(t, cel)
 					--readLines = readLines - 1
 				end
 			end
-			if stPath ~= '' and section ~= 2 and section ~= 3 and section ~= 4 and section ~= 5 and section ~= 6 then
+			if stPath ~= '' and section ~= 3 and section ~= 4 and section ~= 5 and section ~= 6 and section ~= 7 then
 				break
 				--readLines = readLines - 1
 			end

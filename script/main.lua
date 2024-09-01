@@ -5076,33 +5076,88 @@ end
 --;===========================================================
 --; GALLERY MENU
 --;===========================================================
+t_cellX = {}
+t_cellY = {}
 function f_galleryMenu()
 	cmdInput()
+	local logicalCalc = 1
+	local cursorPosX = 1
 	local cursorPosY = 1
-	local moveTxt = 0
-	local galleryMenu = 1
+	local menuSizeX = 4
+	local menuSizeY = 3
+	local maxLimit = 12
+	local moveItem = 0
+	local galleryImage = false
+	local galleryCell = 1
+	f_galleryCellDraw(menuSizeX, maxLimit)
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local maxItems = 12
+	local galleryMenu = 1 --(Artwork=1, storyboards=2, cutscenes=3, sound test=4)
+	local cursorSectionPosX = 1
+	local moveSectionTxt = 0
+	local maxSectionItems = 3
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
+		--BACK BUTTON
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+		--PREVIOUS SECTION
+		elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') or ((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 30) then
 			sndPlay(sndSys, 100, 0)
 			galleryMenu = galleryMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+		--NEXT SECTION
+		elseif commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z') or ((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 30) then
 			sndPlay(sndSys, 100, 0)
 			galleryMenu = galleryMenu + 1
-		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		end
+		--SCROLL UP
+		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			if galleryCell > menuSizeX then
+				sndPlay(sndSys, 100, 0)
+				galleryCell = galleryCell - menuSizeX
+				cursorPosY = cursorPosY - 1
+				logicalCalc = logicalCalc - 4
+			end
+		--SCROLL DOWN
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			if galleryCell <= maxLimit - menuSizeX then
+				if galleryCell < maxLimit then
+					sndPlay(sndSys, 100, 0)
+					galleryCell = galleryCell + menuSizeX
+					cursorPosY = cursorPosY + 1
+					logicalCalc = logicalCalc + 4
+				end
+			end
+		--SCROLL LEFT
+		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+			if cursorPosX > 1 then
+				sndPlay(sndSys, 100, 0)
+				galleryCell = galleryCell - 1
+				cursorPosX = cursorPosX - 1
+				logicalCalc = logicalCalc - 1
+			end
+		--SCROLL RIGHT
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+			if cursorPosX < menuSizeX then
+				if galleryCell < maxLimit then
+					sndPlay(sndSys, 100, 0)
+					galleryCell = galleryCell + 1
+					cursorPosX = cursorPosX + 1
+					logicalCalc = logicalCalc + 1
+				end
+			end
+		end
+		--ENTER BUTTON
+		if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 			sndPlay(sndSys, 100, 1)
 			--ARTWORK (watch pictures)
 			if galleryMenu == 1 then
-				f_artMenu()
+				galleryImage = true
+				f_artMenu(galleryCell, maxLimit)
 			--STORYBOARDS (watch storyboards)
 			elseif galleryMenu == 2 then
 				f_storyboardMenu()
@@ -5118,85 +5173,150 @@ function f_galleryMenu()
 				sszOpen("screenshots", "") --added via script.ssz
 			end
 		end
-		--Cursor position calculation
+		--Section Cursor position calculation
 		if galleryMenu < 1 then
 			galleryMenu = #t_galleryMenu
-			if #t_galleryMenu > maxItems then
-				cursorPosY = maxItems
+			if #t_galleryMenu > maxSectionItems then
+				cursorSectionPosX = maxSectionItems
 			else
-				cursorPosY = #t_galleryMenu
+				cursorSectionPosX = #t_galleryMenu
 			end
 		elseif galleryMenu > #t_galleryMenu then
 			galleryMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
+			cursorSectionPosX = 1
+		elseif ((commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y')) or ((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 30)) and cursorSectionPosX > 1 then
+			cursorSectionPosX = cursorSectionPosX - 1
+		elseif ((commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z')) or ((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 30)) and cursorSectionPosX < maxSectionItems then
+			cursorSectionPosX = cursorSectionPosX + 1
 		end
-		if cursorPosY == maxItems then
-			moveTxt = (galleryMenu - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (galleryMenu - 1) * 15
+		if cursorSectionPosX == maxSectionItems then
+			moveSectionTxt = (galleryMenu - maxSectionItems) * 15
+		elseif cursorSectionPosX == 1 then
+			moveSectionTxt = (galleryMenu - 1) * 15
 		end	
-		if #t_galleryMenu <= maxItems then
-			maxGallery = #t_galleryMenu
-		elseif galleryMenu - cursorPosY > 0 then
-			maxGallery = galleryMenu + maxItems - cursorPosY
+		if #t_galleryMenu <= maxSectionItems then
+			maxSection = #t_galleryMenu
+		elseif galleryMenu - cursorSectionPosX > 0 then
+			maxSection = galleryMenu + maxSectionItems - cursorSectionPosX
 		else
-			maxGallery = maxItems
+			maxSection = maxSectionItems
 		end
+		--Draw BG
 		animDraw(f_animVelocity(galleryBG0, -1, -1))
-		--Draw Transparent Table BG
-		animSetScale(galleryBG1, 280, maxGallery*15)
-		animSetWindow(galleryBG1, 30,20, 260,180)
-		animDraw(galleryBG1)
 		--Draw Title Menu
 		textImgDraw(txt_galleryTitle)
-		--Draw Items Table Cursor
-		animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Items Text for Table
-		for i=1, maxGallery do
-			if i > galleryMenu - cursorPosY then
+		--[[Draw Items Text for Gallery Section Table
+		for i=1, maxSection do
+			if i > galleryMenu - cursorSectionPosX then
 				if t_galleryMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_galleryMenu[i].varID, font2, 0, 1, t_galleryMenu[i].text, 35, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_galleryMenu[i].varID, font2, 0, 1, t_galleryMenu[i].text, 35, 15+i*15-moveSectionTxt))
 				end
 			end
 		end
 		--Draw Up Animated Cursor
-		if maxGallery > maxItems then
-			animDraw(galleryUpArrow)
-			animUpdate(galleryUpArrow)
+		if maxSection > maxSectionItems then
+			animDraw(galleryLeftArrow)
+			animUpdate(galleryLeftArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_galleryMenu > maxItems and maxGallery < #t_galleryMenu then
-			animDraw(galleryDownArrow)
-			animUpdate(galleryDownArrow)
+		if #t_galleryMenu > maxSectionItems and maxSection < #t_galleryMenu then
+			animDraw(galleryRightArrow)
+			animUpdate(galleryRightArrow)
 		end
+		]]
+		--Gallery Cell Cursor position calculation
+		if cursorPosY > menuSizeY then
+			cursorPosY = menuSizeY
+			moveItem = moveItem + 1
+		elseif cursorPosY < 1 then
+			cursorPosY = 1
+			moveItem = moveItem - 1
+		end
+		--Draw Gallery Preview Content
+		for i=1, maxLimit do
+			if t_cellX ~= nil then
+				f_drawGalleryPreview("0", i-1, (galleryCellPosX*2) + t_cellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_cellY[i]*(galleryCellSpacingY*2) - (moveItem*galleryCellSpacingY*2))
+			end
+		end
+		--Draw Gallery Cell Cursor
+		animPosDraw(galleryCursor, galleryCursorPosX+cursorPosX*galleryCursorSpacingX, galleryCursorPosY+cursorPosY*galleryCursorSpacingY)
+		--Draw Input Hints Panel
 		drawListInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		--GALLERY MENU BUF KEY CONTROL
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
 		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
+		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
 		else
+			bufr = 0
+			bufl = 0
 			bufu = 0
 			bufd = 0
+		end
+		--LATERAL ITEMS BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz') then
+			bufy = 0
+			bufz = bufz + 1
+		elseif commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy') then
+			bufz = 0
+			bufy = bufy + 1
+		else
+			bufz = 0
+			bufy = 0
 		end
 		cmdInput()
 		refresh()
 	end
 end
 
+function f_galleryCellDraw(menuSizeX, maxLimit)
+	local i = 0
+	local counter = 0
+	local posX = 0
+	local posY = 0
+	local galleryCellDraw = 0
+	while true do
+		if galleryCellDraw == maxLimit then
+			break
+		end
+		i = i + 1
+		counter = counter + 1
+		if i > menuSizeX then
+			i = 1
+			posY = posY + 1
+		end
+		posX = i
+		t_cellX[#t_cellX + 1] = posX
+		t_cellY[#t_cellY + 1] = posY
+		galleryCellDraw = counter
+		refresh()
+	end
+end
+
+function f_drawGalleryPreview(group, index, posX, posY)
+	local anim = group..','..index..', 0,0, 0'
+	anim = animNew(sprArtwork, anim)
+	animSetScale(anim, 0.050, 0.050)
+	--animSetWindow(anim, )
+	animSetPos(anim, posX, posY)
+	animUpdate(anim)
+	animDraw(anim)
+end
+
 --;===========================================================
 --; ARTWORK MENU
 --;===========================================================
-function f_artMenu()
+function f_artMenu(artNo, artLimit)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local bufu = 0
 	local bufd = 0
@@ -5206,10 +5326,11 @@ function f_artMenu()
 	local bufb = 0
 	local bufz = 0
 	local bufy = 0
-	local moveArt = 1 --Start in image 0,0
+	local moveArt = artNo --Start in image
+	local maxArt = artLimit
 	local hideMenu = false
 	f_resetArtPos()
-	artList = 0 --Important to avoid errors when read
+	artList = nil --Important to avoid errors when read
 	cmdInput()
 	while true do
 		--RETURN
@@ -5219,7 +5340,7 @@ function f_artMenu()
 			break
 		--NEXT ART PAGE
 		elseif ((commandGetState(p1Cmd, 'c') or commandGetState(p2Cmd, 'c')) or 
-		((commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc')) and bufc >= 30)) and moveArt <= 9 then --moveArt <= Number of your Pictures Limit
+		((commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc')) and bufc >= 30)) and moveArt < maxArt then --moveArt <= Number of your Pictures Limit
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 3)
 			f_resetArtPos()
@@ -5266,15 +5387,15 @@ function f_artMenu()
 			artScale = artScale - 0.01
 		end
 		artList = moveArt --Use menu position to show image in these order
-		f_drawPicture()
+		f_drawGalleryArt()
 		--Draw HUD Assets
 		if not hideMenu then
-			f_drawQuickText(txt_artNumber, font14, 0, 0, artList.."/10", 292, 15) --draw pictures limit numbers text
+			f_drawQuickText(txt_artNumber, font14, 0, 0, artList.."/"..maxArt, 292, 15) --draw pictures limit numbers text
 			if moveArt > 1 then
 				animDraw(arrowsGL)
 				animUpdate(arrowsGL)
 			end
-			if moveArt <= 9 then
+			if moveArt < maxArt then
 				animDraw(arrowsGR)
 				animUpdate(arrowsGR)
 			end
@@ -5337,7 +5458,7 @@ artPosY = 120
 artScale = 0.30 --0.305
 end
 
-function f_drawPicture()
+function f_drawGalleryArt()
 art = '0,' .. artList-1 .. ', 0,0, 0'
 artPic = animNew(sprArtwork, art)
 animSetScale(artPic, artScale, artScale)

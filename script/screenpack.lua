@@ -4,7 +4,7 @@
 --Sprite Data
 sprFade = sffNew("data/screenpack/fade.sff") --load fade sprites
 sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu MUGEN sprites
---sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
+sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
@@ -1442,6 +1442,23 @@ galleryDownArrow = animNew(sprSys, [[
 animAddPos(galleryDownArrow, 278, 201.5)
 animUpdate(galleryDownArrow)
 animSetScale(galleryDownArrow, 0.5, 0.5)
+
+--Menu Cursor
+galleryCursor = animNew(sprIkemen, [[
+20,0, 0,0, -1
+]])
+animSetScale(galleryCursor, 0.49, 0.5)
+
+galleryCursorPosX = -74.3
+galleryCursorPosY = 4.3
+galleryCursorSpacingX = 78.09
+galleryCursorSpacingY = 44.1
+
+--Gallery Items
+galleryCellPosX = -17.5
+galleryCellPosY = 35
+galleryCellSpacingX = 39
+galleryCellSpacingY = 22
 
 --;===========================================================
 --; ARTWORK MENU SCREENPACK DEFINITION
