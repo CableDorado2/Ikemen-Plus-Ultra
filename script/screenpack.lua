@@ -1206,6 +1206,7 @@ t_watchMenu = {
 	{id = textImgNew(), text = "REPLAYS"},
 	{id = textImgNew(), text = "STAGE VIEWER"},
 	{id = textImgNew(), text = "PROFILE"}, --(RANKING, RECORDS, ACHIEVEMENTS, PLAYER DATA)
+	{id = textImgNew(), text = "SOUND TEST"},
 	{id = textImgNew(), text = "GALLERY"},
 	{id = textImgNew(), text = "LICENSES"},
 	{id = textImgNew(), text = "CREDITS"},
@@ -1393,8 +1394,7 @@ t_galleryMenu = {
 	{varID = textImgNew(), text = "ARTWORKS"},
 	{varID = textImgNew(), text = "STORYBOARDS"},
 	{varID = textImgNew(), text = "CUTSCENES"},
-	{varID = textImgNew(), text = "SOUND TEST"},
-	{varID = textImgNew(), text = "SCREENSHOTS"},
+	--{varID = textImgNew(), text = "SCREENSHOTS"},
 }
 
 --Scrolling background
@@ -1631,108 +1631,6 @@ t_confirmSongMenu = {
 	{id = textImgNew(), text = "YES"},
 	{id = textImgNew(), text = "NO"},
 }
-
---;===========================================================
---; CUTSCENES MENU SCREENPACK DEFINITION
---;===========================================================
-txt_video = createTextImg(jgFnt, 0, 0, "CUTSCENE SELECT", 159, 13)
-
---Scrolling background
-videoBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(videoBG0, 160, 0)
-animSetTile(videoBG0, 1, 1)
-animSetColorKey(videoBG0, -1)
-
---Transparent background
-videoBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(videoBG1, 20, 20)
-animSetAlpha(videoBG1, 20, 100)
-animUpdate(videoBG1)
-
---Up Arrow
-videoUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(videoUpArrow, 228, 11)
-animUpdate(videoUpArrow)
-animSetScale(videoUpArrow, 0.5, 0.5)
-
---Down Arrow
-videoDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(videoDownArrow, 228, 201.5)
-animUpdate(videoDownArrow)
-animSetScale(videoDownArrow, 0.5, 0.5)
-
---;===========================================================
---; STORYBOARDS MENU SCREENPACK DEFINITION
---;===========================================================
-txt_storyboard = createTextImg(jgFnt, 0, 0, "STORYBOARD SELECT", 159, 13)
-
---Scrolling background
-storyboardBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(storyboardBG0, 160, 0)
-animSetTile(storyboardBG0, 1, 1)
-animSetColorKey(storyboardBG0, -1)
-
---Transparent background
-storyboardBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(storyboardBG1, 20, 20)
-animSetAlpha(storyboardBG1, 20, 100)
-animUpdate(storyboardBG1)
-
---Up Arrow
-storyboardUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(storyboardUpArrow, 228, 11)
-animUpdate(storyboardUpArrow)
-animSetScale(storyboardUpArrow, 0.5, 0.5)
-
---Down Arrow
-storyboardDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(storyboardDownArrow, 228, 201.5)
-animUpdate(storyboardDownArrow)
-animSetScale(storyboardDownArrow, 0.5, 0.5)
 
 --;===========================================================
 --; LICENSES MENU SCREENPACK DEFINITION

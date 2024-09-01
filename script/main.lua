@@ -4477,11 +4477,15 @@ function f_watchMenu()
 				elseif watchMenu == 3 then
 					--assert(loadfile(saveStatsPath))()
 					f_statsMenu()
-				--GALLERY (view pictures, storyboards, cutscenes and listen music)
+				--SOUND TEST (listen sounds)
 				elseif watchMenu == 4 then
+					soundTest = true
+					f_songMenu()
+				--GALLERY (view pictures, storyboards and video cutscenes)
+				elseif watchMenu == 5 then
 					f_galleryMenu()
 				--LICENSE (display license files)
-				elseif watchMenu == 5 then
+				elseif watchMenu == 6 then
 					f_watchLicense()
 				--CREDITS (play credits)
 				else
@@ -5160,17 +5164,21 @@ function f_galleryMenu()
 				f_artMenu(galleryCell, maxLimit)
 			--STORYBOARDS (watch storyboards)
 			elseif galleryMenu == 2 then
-				f_storyboardMenu()
+			--Play Storyboard
+				cmdInput()
+				f_storyboard(t_storyboardList[storyboardMenu].path) --Start Storyboard
+			--When Storyboard Ends:
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+				f_menuMusic()
 			--CUTSCENES (watch video cutscenes)
 			elseif galleryMenu == 3 then
-				f_videoMenu()
-			--SOUND TEST (listen sounds)
-			elseif galleryMenu == 4 then
-				soundTest = true
-				f_songMenu()
+				playVideo(t_videoList[videoMenu].path)
+			--When Video Ends:
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+				f_menuMusic()
 			--SCREENSHOTS (view your screenshots collection)
-			elseif galleryMenu == 5 then
-				sszOpen("screenshots", "") --added via script.ssz
+			--elseif galleryMenu == 4 then
+				--sszOpen("screenshots", "") --added via script.ssz
 			end
 		end
 		--Section Cursor position calculation
@@ -5748,254 +5756,6 @@ function f_confirmSongReset()
 	--Cursor pos in NO
 	cursorPosYSongConfirm = 1
 	confirmSongMenu = 2
-end
-
---;===========================================================
---; CUTSCENES MENU
---;===========================================================
-function f_videoMenu()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local videoMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 12
-	moviesPath = "movie"
-	t_videoList = {}
-	for file in lfs.dir(moviesPath) do
-		if file:match('^.*(%.)[Ww][Mm][Vv]$') then
-			row = #t_videoList+1
-			t_videoList[row] = {}
-			t_videoList[row]['id'] = ''
-			t_videoList[row]['name'] = file:gsub('^(.*)[%.][Ww][Mm][Vv]$', '%1')
-			t_videoList[row]['path'] = moviesPath.."/"..file
-		end
-	end
-	t_videoList[#t_videoList+1] = {id = '', name = "          BACK"}
-	if data.debugLog then f_printTable(t_videoList, "save/debug/t_videoList.txt") end
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			videoMenu = videoMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			videoMenu = videoMenu + 1
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			if videoMenu == #t_videoList then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				sndPlay(sndSys, 100, 2)
-				break
-			else
-				playVideo(t_videoList[videoMenu].path)
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-				f_menuMusic()
-			end
-		end
-		if videoMenu < 1 then
-			videoMenu = #t_videoList
-			if #t_videoList > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_videoList
-			end
-		elseif videoMenu > #t_videoList then
-			videoMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (videoMenu - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (videoMenu - 1) * 15
-		end	
-		if #t_videoList <= maxItems then
-			maxVideos = #t_videoList
-		elseif videoMenu - cursorPosY > 0 then
-			maxVideos = videoMenu + maxItems - cursorPosY
-		else
-			maxVideos = maxItems
-		end
-		animDraw(f_animVelocity(videoBG0, -1, -1))
-		animSetScale(videoBG1, 220, maxVideos*15)
-		animSetWindow(videoBG1, 80,20, 160,180)
-		animDraw(videoBG1)
-		textImgDraw(txt_video)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		for i=1, maxVideos do
-			if t_videoList[i].name:len() > 28 then
-				VideoText = string.sub(t_videoList[i].name, 1, 24)
-				VideoText = tostring(VideoText .. "...")
-			else
-				VideoText = t_videoList[i].name
-			end
-			if i > videoMenu - cursorPosY then
-				t_videoList[i].id = createTextImg(font2, 0, 1, VideoText, 85, 15+i*15-moveTxt)
-				textImgDraw(t_videoList[i].id)
-			end
-		end
-		if maxVideos > maxItems then
-			animDraw(videoUpArrow)
-			animUpdate(videoUpArrow)
-		end
-		if #t_videoList > maxItems and maxVideos < #t_videoList then
-			animDraw(videoDownArrow)
-			animUpdate(videoDownArrow)
-		end
-		drawListInputHints()
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; STORYBOARDS MENU
---;===========================================================
-function f_storyboardMenu()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local storyboardMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 12
-	storyboardsPath = "storyboard"
-	t_storyboardList = {}
-	for file in lfs.dir(storyboardsPath) do
-		if file:match('^.*(%.)[Dd][Ee][Ff]$') then
-			row = #t_storyboardList+1
-			t_storyboardList[row] = {}
-			t_storyboardList[row]['id'] = ''
-			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.][Dd][Ee][Ff]$', '%1')
-			t_storyboardList[row]['path'] = storyboardsPath.."/"..file
-		end
-	end
-	t_storyboardList[#t_storyboardList+1] = {id = '', name = "          BACK"}
-	if data.debugLog then f_printTable(t_storyboardList, "save/debug/t_storyboardList.txt") end
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			storyboardMenu = storyboardMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			storyboardMenu = storyboardMenu + 1
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			if storyboardMenu == #t_storyboardList then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				sndPlay(sndSys, 100, 2)
-				break
-			--Play Storyboard
-			else
-				cmdInput()
-				storyboardFile = (t_storyboardList[storyboardMenu].path)
-				f_storyboard(storyboardFile) --Start Storyboard
-			--When Storyboard Ends:
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-				f_menuMusic()
-			end
-		end
-		if storyboardMenu < 1 then
-			storyboardMenu = #t_storyboardList
-			if #t_storyboardList > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_storyboardList
-			end
-		elseif storyboardMenu > #t_storyboardList then
-			storyboardMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (storyboardMenu - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (storyboardMenu - 1) * 15
-		end	
-		if #t_storyboardList <= maxItems then
-			maxStoryboards = #t_storyboardList
-		elseif storyboardMenu - cursorPosY > 0 then
-			maxStoryboards = storyboardMenu + maxItems - cursorPosY
-		else
-			maxStoryboards = maxItems
-		end
-		animDraw(f_animVelocity(storyboardBG0, -1, -1))
-		animSetScale(storyboardBG1, 220, maxStoryboards*15)
-		animSetWindow(storyboardBG1, 80,20, 160,180)
-		animDraw(storyboardBG1)
-		textImgDraw(txt_storyboard)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))		
-		for i=1, maxStoryboards do
-			if t_storyboardList[i].name:len() > 28 then
-				storyboardText = string.sub(t_storyboardList[i].name, 1, 24)
-				storyboardText = tostring(storyboardText .. "...")
-			else
-				storyboardText = t_storyboardList[i].name
-			end
-			if i > storyboardMenu - cursorPosY then
-				t_storyboardList[i].id = createTextImg(font2, 0, 1, storyboardText, 85, 15+i*15-moveTxt)
-				textImgDraw(t_storyboardList[i].id)
-			end
-		end
-		if maxStoryboards > maxItems then
-			animDraw(storyboardUpArrow)
-			animUpdate(storyboardUpArrow)
-		end
-		if #t_storyboardList > maxItems and maxStoryboards < #t_storyboardList then
-			animDraw(storyboardDownArrow)
-			animUpdate(storyboardDownArrow)
-		end
-		drawListInputHints()
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
 end
 
 --;===========================================================

@@ -1,0 +1,37 @@
+[Artworks]
+previewfile = data/screenpack/artworks.sff
+
+[Art 1]
+previewspr = 0,0
+info = Test Information
+unlock = true
+
+[Art 2]
+previewspr = 0,1
+info = Test Information 2
+unlock = true
+
+[Art 3]
+previewspr = 0,2
+info = Test Information 3
+unlock = true
+
+;----------------------------------------------------------
+[Storyboards]
+previewfile = data/screenpack/gallery.sff
+
+[Cutscene 1]
+previewspr = 0,0
+file = storyboard/Kung Fu Man [Arcade Intro].def
+info = Test Information
+unlock = true
+
+;----------------------------------------------------------
+[Movies]
+previewfile = data/screenpack/gallery.sff
+
+[Video 1]
+previewspr = 0,0
+file = movie/Opening.wmv
+info = Test Information
+unlock = true

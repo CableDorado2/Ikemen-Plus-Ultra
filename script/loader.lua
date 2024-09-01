@@ -1010,6 +1010,115 @@ for line in content:gmatch('[^\r\n]+') do
 	refresh()
 end
 --;===========================================================
+--; LOADING SCREEN 4 (LOAD GALLERY.DEF DATA)
+--;===========================================================
+function f_loadGallery()
+t_gallery = {}
+galleryDef = "data/gallery.def"
+local section = 0
+local file = io.open(galleryDef,"r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+	for line in content:gmatch('[^\r\n]+') do
+		line = line:lower()
+		if line:match('^%s*%[%s*artworks%s*%]') then
+			section = 1
+			row = #t_gallery+1
+			t_gallery[row] = {}
+		elseif line:match('^%s*%[%s*storyboards%s*%]') then
+			section = 2
+			row = #t_gallery+1
+			t_gallery[row] = {}
+		elseif line:match('^%s*%[%s*movies%s*%]') then
+			section = 3
+			row = #t_gallery+1
+			t_gallery[row] = {}
+		elseif section == 1 then --[Artworks]
+			if line:match('^%s*previewfile%s*=') then
+				t_gallery['data'] = {}
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery['data']['previewfile'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then
+				t_gallery[row][#t_gallery[row]+1] = {}
+				--t_gallery[row][#t_gallery[row]]['art'] = {}
+			end
+			if line:match('^%s*previewspr%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*info%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['ID'] = textImgNew()
+					t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+		elseif section == 2 then --[Storyboards]
+			--Add PreviewFile Load
+			
+			if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then
+				t_gallery[row][#t_gallery[row]+1] = {}
+			end
+			if line:match('^%s*previewspr%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*file%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['file'] = data:gsub('^%s*file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*info%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['ID'] = textImgNew()
+					t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+		elseif section == 3 then --[Movies]
+			--Add PreviewFile Load
+			
+			if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then
+				t_gallery[row][#t_gallery[row]+1] = {}
+			end
+			if line:match('^%s*previewspr%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*file%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['file'] = data:gsub('^%s*file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*info%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_gallery[row][#t_gallery[row]]['ID'] = textImgNew()
+					t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+		end
+		textImgSetText(txt_loading, "LOADING GALLERY...")
+		textImgDraw(txt_loading)
+		refresh()
+	end
+	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
+end
+f_loadGallery()
+--;===========================================================
 --; SPRITE CONVERSION SCREEN
 --;===========================================================
 --if sprite generation is needed and conversion has not been permanently disabled
