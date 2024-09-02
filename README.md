@@ -90,6 +90,10 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Los combates de intermisiones dejan de funcionar si se juega en team mode.
 
+- En tournament cuando 2 jugadores humanos tienen el mismo control ejemplo p1 y p1, podría incluir un side select para que uno de los 2 se convierta en p2 y así evitar que se controlen como espejo al tener el mismo player asignado.
+
+- Añadir una entrada de nombre para cada char escogido para que sea reconocido en el torneo (en caso de que se repita) y ese name que aparezca en lifebar durante el match.
+
 - Sistema de puntos.
 
 - Ranking al completar o perder en Modo Arcade.
@@ -131,6 +135,10 @@ This Ikemen is an expansion of his original SSZ code.
 - Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - Leer archivos movelist.dat dentro de los chars.
+
+- Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
+
+- Crear un trigger para activar o desactivar las transiciones por cada round. Al desactivarlas, el inicio de cada nuevo round sería como X-Men COTA o Mortal Kombat.
 
 - Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
 
