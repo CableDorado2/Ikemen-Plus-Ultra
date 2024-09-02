@@ -1,91 +1,86 @@
 [Artworks]
-previewfile = data/screenpack/artworks.sff
+displayname = ARTWORKS
+preview.file = data/screenpack/artworks.sff
 
 [Art 1]
-previewspr = 0,0
+preview.spr = 0,0
+preview.scale = 0.050,0.050
 info = Kung Fu Man Artwork
-unlock = true
 
 [Art 2]
-previewspr = 0,1
+preview.spr = 0,1
+preview.scale = 0.050,0.050
 info = Kung Fu Girl Artwork
-unlock = true
 
 [Art 3]
-previewspr = 0,2
+preview.spr = 0,2
+preview.scale = 0.050,0.050
 info = Suave Dude Artwork
-unlock = true
 
 ;----------------------------------------------------------
 [Storyboards]
-previewfile = data/screenpack/gallery.sff
+displayname = STORYBOARDS
+preview.file = data/screenpack/gallery.sff
 
 [Cutscene 1]
-previewspr = 0,0
+preview.spr = 0,0
 file = chars/Kung Fu Man/intro.def
 info = Kung Fu Man's Arcade Intro
-unlock = true
 
 [Cutscene 2]
-previewspr = 0,1
+preview.spr = 0,1
+preview.scale = 0.050,0.050
 file = chars/Kung Fu Man/ending.def
 info = Kung Fu Man's Arcade Ending
-unlock = true
 
 [Cutscene 3]
-previewspr = 0,2
+preview.spr = 0,2
+preview.scale = 0.050,0.050
 file = chars/Kung Fu Girl/storyboard/intro_j.def
 info = Kung Fu Girl's Arcade Intro
-unlock = false
 
 [Cutscene 4]
-previewspr = 0,3
+preview.spr = 0,3
+preview.scale = 0.050,0.050
 file = chars/Kung Fu Girl/storyboard/ending_j.def
 info = Kung Fu Girl's Arcade Ending
-unlock = false
 
 [Cutscene 5]
-previewspr = 0,4
+preview.spr = 0,4
 file = chars/Shin Gouki/unlock.def
 info = Shin Gouki's Unlock Screen
-unlock = false
 
 ;----------------------------------------------------------
 [Movies]
-previewfile = data/screenpack/gallery.sff
+displayname = CUTSCENES
+preview.file = data/screenpack/gallery.sff
 
 [Video 1]
-previewspr = 100,0
+preview.spr = 100,0
 file = movie/Opening.wmv
 info = IKEMEN Plus Ultra v1.4 Opening
-unlock = true
 
 [Video 2]
-previewspr = 100,1
+preview.spr = 100,1
 file = movie/KFM-Prologue.wmv
 info = Kung Fu Man's Story - Prologue
-unlock = true
 
 [Video 3]
-previewspr = 100,2
+preview.spr = 100,2
 file = movie/KFM-Fall.wmv
 info = Kung Fu Man's Story - The Fall of A Legend
-unlock = true
 
 [Video 4]
-previewspr = 100,3
+preview.spr = 100,3
 file = movie/The Lost Chapter.wmv
 info = Evil Kung Fu Man's Mission
-unlock = true
 
 [Video 5]
-previewspr = 100,4
+preview.spr = 100,4
 file = chars/Shin Gouki/Intro.wmv
 info = Shin Gouki's Arcade Intro
-unlock = true
 
 [Video 6]
-previewspr = 100,5
+preview.spr = 100,5
 file = chars/Shin Gouki/Ending.wmv
 info = Shin Gouki's Arcade Ending
-unlock = true

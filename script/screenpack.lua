@@ -1208,9 +1208,9 @@ animSetScale(questionWindowBGVN, 1.3, 1)
 t_watchMenu = {
 	{id = textImgNew(), text = "REPLAYS"},
 	{id = textImgNew(), text = "STAGE VIEWER"},
-	{id = textImgNew(), text = "PROFILE"}, --(RANKING, RECORDS, ACHIEVEMENTS, PLAYER DATA)
 	{id = textImgNew(), text = "SOUND TEST"},
 	{id = textImgNew(), text = "GALLERY"},
+	{id = textImgNew(), text = "PROFILE"}, --(RANKING, RECORDS, ACHIEVEMENTS, PLAYER DATA)
 	{id = textImgNew(), text = "LICENSES"},
 	{id = textImgNew(), text = "CREDITS"},
 }
@@ -1392,14 +1392,25 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
-txt_galleryInfo = createTextImg(font1, 0, 0, "", 159, 210)
+txt_galleryInfo = createTextImg(font1, 0, 0, "", 159, 202)
 
-t_galleryMenu = {
-	{varID = textImgNew(), text = "ARTWORKS"},
-	{varID = textImgNew(), text = "STORYBOARDS"},
-	{varID = textImgNew(), text = "CUTSCENES"},
-	--{varID = textImgNew(), text = "SCREENSHOTS"},
-}
+--Gallery Cursor
+galleryCursorPosX = -74.3
+galleryCursorPosY = 4.3
+galleryCursorSpacingX = 78.09
+galleryCursorSpacingY = 44.1
+
+--Gallery Items
+galleryCellPosX = -17.5
+galleryCellPosY = 35
+galleryCellSpacingX = 39
+galleryCellSpacingY = 22
+
+--Menu Cursor
+galleryCursor = animNew(sprIkemen, [[
+20,0, 0,0, -1
+]])
+animSetScale(galleryCursor, 0.49, 0.5)
 
 --Scrolling background
 galleryBG0 = animNew(sprSys, [[
@@ -1447,22 +1458,53 @@ animAddPos(galleryDownArrow, 278, 201.5)
 animUpdate(galleryDownArrow)
 animSetScale(galleryDownArrow, 0.5, 0.5)
 
---Menu Cursor
-galleryCursor = animNew(sprIkemen, [[
-20,0, 0,0, -1
+--Left Arrow
+galleryLeftArrow = animNew(sprSys, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
 ]])
-animSetScale(galleryCursor, 0.49, 0.5)
+animAddPos(galleryLeftArrow, 0, 190)
+animUpdate(galleryLeftArrow)
+animSetScale(galleryLeftArrow, 0.6, 0.6)
 
-galleryCursorPosX = -74.3
-galleryCursorPosY = 4.3
-galleryCursorSpacingX = 78.09
-galleryCursorSpacingY = 44.1
+--Right Arrow
+galleryRightArrow = animNew(sprSys, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(galleryRightArrow, 310, 190)
+animUpdate(galleryRightArrow)
+animSetScale(galleryRightArrow, 0.6, 0.6)
 
---Gallery Items
-galleryCellPosX = -17.5
-galleryCellPosY = 35
-galleryCellSpacingX = 39
-galleryCellSpacingY = 22
+--Info BG
+galleryInfoBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(galleryInfoBG, 2.9, 0.40)
+animSetAlpha(galleryInfoBG, 155, 22)
+
+function drawGalleryInputHints()
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	drawInputHintsP1("y","20,5","z","270,5","u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","184,"..inputHintYPos,"q","244,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 139, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 205, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 265, hintFontYPos)
+end
 
 --;===========================================================
 --; ARTWORK MENU SCREENPACK DEFINITION

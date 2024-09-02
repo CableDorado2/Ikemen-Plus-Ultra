@@ -4473,17 +4473,17 @@ function f_watchMenu()
 						stviewerInfo = true
 						infoScreen = true
 					end
-				--PROFILE (display overall player data)
-				elseif watchMenu == 3 then
-					--assert(loadfile(saveStatsPath))()
-					f_statsMenu()
 				--SOUND TEST (listen sounds)
-				elseif watchMenu == 4 then
+				elseif watchMenu == 3 then
 					soundTest = true
 					f_songMenu()
 				--GALLERY (view pictures, storyboards and video cutscenes)
-				elseif watchMenu == 5 then
+				elseif watchMenu == 4 then
 					f_galleryMenu()
+				--PROFILE (display overall player data)
+				elseif watchMenu == 5 then
+					--assert(loadfile(saveStatsPath))()
+					f_statsMenu()
 				--LICENSE (display license files)
 				elseif watchMenu == 6 then
 					f_watchLicense()
@@ -5145,7 +5145,7 @@ function f_galleryMenu()
 			end
 		--NEXT SECTION
 		elseif commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z') or ((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 30) then
-			if galleryMenu < #t_galleryMenu then
+			if galleryMenu < #t_gallery then
 				sndPlay(sndSys, 100, 0)
 				galleryMenu = galleryMenu + 1
 				f_updateGallery()
@@ -5195,7 +5195,7 @@ function f_galleryMenu()
 			if galleryMenu == 1 then
 				f_artMenu(galleryCell, galleryMaxLimit)
 			--STORYBOARDS (watch storyboards)
-			elseif galleryMenu == 2 then
+			elseif galleryMenu == 2 and t_gallery[galleryMenu][galleryCell].file ~= nil then
 			--Play Storyboard
 				cmdInput()
 				f_storyboard(t_gallery[galleryMenu][galleryCell].file) --Start Storyboard
@@ -5203,25 +5203,25 @@ function f_galleryMenu()
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 				f_menuMusic()
 			--CUTSCENES (watch video cutscenes)
-			elseif galleryMenu == 3 then
+			elseif galleryMenu == 3 and t_gallery[galleryMenu][galleryCell].file ~= nil then
 				playVideo(t_gallery[galleryMenu][galleryCell].file)
 			--When Video Ends:
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 				f_menuMusic()
 			--SCREENSHOTS (view your screenshots collection)
 			--elseif galleryMenu == 4 then
-				--sszOpen("screenshots", "") --added via script.ssz
+				
 			end
 		end
 		--Section Cursor position calculation
 		if galleryMenu < 1 then
-			galleryMenu = #t_galleryMenu
-			if #t_galleryMenu > maxSectionItems then
+			galleryMenu = #t_gallery
+			if #t_gallery > maxSectionItems then
 				cursorSectionPosX = maxSectionItems
 			else
-				cursorSectionPosX = #t_galleryMenu
+				cursorSectionPosX = #t_gallery
 			end
-		elseif galleryMenu > #t_galleryMenu then
+		elseif galleryMenu > #t_gallery then
 			galleryMenu = 1
 			cursorSectionPosX = 1
 		elseif ((commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y')) or ((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 30)) and cursorSectionPosX > 1 then
@@ -5234,8 +5234,8 @@ function f_galleryMenu()
 		elseif cursorSectionPosX == 1 then
 			moveSectionTxt = (galleryMenu - 1) * 15
 		end	
-		if #t_galleryMenu <= maxSectionItems then
-			maxSection = #t_galleryMenu
+		if #t_gallery <= maxSectionItems then
+			maxSection = #t_gallery
 		elseif galleryMenu - cursorSectionPosX > 0 then
 			maxSection = galleryMenu + maxSectionItems - cursorSectionPosX
 		else
@@ -5245,11 +5245,16 @@ function f_galleryMenu()
 		animDraw(f_animVelocity(galleryBG0, -1, -1))
 		--Draw Title Menu
 		textImgDraw(txt_galleryTitle)
-		--[[Draw Items Text for Gallery Section Table
+		--Draw Items Text for Gallery Section Table
 		for i=1, maxSection do
 			if i > galleryMenu - cursorSectionPosX then
-				if t_galleryMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_galleryMenu[i].varID, font2, 0, 1, t_galleryMenu[i].text, 35, 15+i*15-moveSectionTxt))
+				if i == galleryMenu then
+					bank = 5
+				else
+					bank = 0
+				end
+				if t_gallery[i].displayname ~= nil then
+					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 35))
 				end
 			end
 		end
@@ -5259,11 +5264,10 @@ function f_galleryMenu()
 			animUpdate(galleryLeftArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_galleryMenu > maxSectionItems and maxSection < #t_galleryMenu then
+		if #t_gallery > maxSectionItems and maxSection < #t_gallery then
 			animDraw(galleryRightArrow)
 			animUpdate(galleryRightArrow)
 		end
-		]]
 		--Gallery Cell Cursor position calculation
 		if galleryYpos > galleryMenuSizeY then
 			galleryYpos = galleryMenuSizeY
@@ -5275,20 +5279,25 @@ function f_galleryMenu()
 		--Draw Gallery Preview Content
 		for i=1, galleryMaxLimit do
 			if t_galleryCellX ~= nil then
-				f_drawGalleryPreview(t_gallery[galleryMenu][i].sprGroup, t_gallery[galleryMenu][i].sprIndex, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2))
-				--testa = f_drawGalleryPreview( )
-				--animDraw(testa)
+				if t_gallery[galleryMenu][galleryCell].previewspr ~= nil then
+					f_drawGalleryPreview(t_gallery[galleryMenu][i].sprGroup, t_gallery[galleryMenu][i].sprIndex, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2), t_gallery[galleryMenu][i].sprScaleX, t_gallery[galleryMenu][i].sprScaleY)
+					--testperfomance = f_drawGalleryPreview( )
+					--animDraw(testperfomance)
+				else --Draw Unknown Sprite
+					
+				end
 			end
 		end
 		--Draw Gallery Cell Cursor
 		animPosDraw(galleryCursor, galleryCursorPosX+galleryXpos*galleryCursorSpacingX, galleryCursorPosY+galleryYpos*galleryCursorSpacingY)
 		--Draw Item Text Info
 		if t_gallery[galleryMenu][galleryCell].info ~= nil then
+			animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
 			textImgSetText(txt_galleryInfo, t_gallery[galleryMenu][galleryCell].info)
 			textImgDraw(txt_galleryInfo)
 		end
 		--Draw Input Hints Panel
-		drawListInputHints()
+		drawGalleryInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		--GALLERY MENU BUF KEY CONTROL
@@ -5326,11 +5335,12 @@ function f_galleryMenu()
 	end
 end
 
-function f_drawGalleryPreview(group, index, posX, posY)
+function f_drawGalleryPreview(group, index, posX, posY, scaleX, scaleY)
+	scaleX = scaleX or 1
+	scaleY = scaleY or 1
 	local anim = group..','..index..', 0,0, 0'
 	anim = animNew(t_gallery[galleryMenu].sffData, anim)
-	animSetScale(anim, 0.050, 0.050)
-	--animSetWindow(anim, )
+	animSetScale(anim, scaleX, scaleY)
 	animSetPos(anim, posX, posY)
 	animUpdate(anim)
 	animDraw(anim)

@@ -1033,24 +1033,44 @@ for line in content:gmatch('[^\r\n]+') do
 		row = #t_gallery+1
 		t_gallery[row] = {}
 	elseif section == 1 then --[Artworks]
-		if line:match('^%s*previewfile%s*=') then
+		--displayname = string
+		if line:match('^%s*displayname%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['previewfile'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['txtID'] = textImgNew()
 			end
 		end
-		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then
+		--preview.file = filename (string)
+		if line:match('^%s*preview.file%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row]['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then --[Art No]
 			t_gallery[row][#t_gallery[row]+1] = {}
 			--t_gallery[row][#t_gallery[row]]['art'] = {}
 		end
-		if line:match('^%s*previewspr%s*=') then
+		--preview.spr = groupNo, indexNo (int, int)
+		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				local sprData = t_gallery[row][#t_gallery[row]]['previewspr'] --Prepare data to separate numbers below
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 			end
 		end
+		--preview.scale = scaleX, scaleY (int, int)
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local scaleData = t_gallery[row][#t_gallery[row]]['previewscale']
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--info = string
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
@@ -1058,23 +1078,39 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	elseif section == 2 then --[Storyboards]
-		if line:match('^%s*previewfile%s*=') then
+		if line:match('^%s*displayname%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['previewfile'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['txtID'] = textImgNew()
 			end
 		end
-		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then
-			t_gallery[row][#t_gallery[row]+1] = {}
-		end
-		if line:match('^%s*previewspr%s*=') then
+		if line:match('^%s*preview.file%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then --[Cutscene No]
+			t_gallery[row][#t_gallery[row]+1] = {}
+		end
+		if line:match('^%s*preview.spr%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				local sprData = t_gallery[row][#t_gallery[row]]['previewspr']
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local scaleData = t_gallery[row][#t_gallery[row]]['previewscale']
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--file = filename (string)
 		if line:match('^%s*file%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
@@ -1088,21 +1124,36 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	elseif section == 3 then --[Movies]
-		if line:match('^%s*previewfile%s*=') then
+		if line:match('^%s*displayname%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['previewfile'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['txtID'] = textImgNew()
 			end
 		end
-		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then
-			t_gallery[row][#t_gallery[row]+1] = {}
-		end
-		if line:match('^%s*previewspr%s*=') then
+		if line:match('^%s*preview.file%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then --[Video No]
+			t_gallery[row][#t_gallery[row]+1] = {}
+		end
+		if line:match('^%s*preview.spr%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				local sprData = t_gallery[row][#t_gallery[row]]['previewspr']
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local scaleData = t_gallery[row][#t_gallery[row]]['previewscale']
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*file%s*=') then
@@ -1122,10 +1173,11 @@ for line in content:gmatch('[^\r\n]+') do
 	textImgDraw(txt_loading)
 	refresh()
 end
-for i=1, #t_gallery do --Store sff data to be used in gallery previews
-	t_gallery[i].sffData = sffNew(t_gallery[i].previewfile)
+if #t_gallery ~= 0 then
+	for i=1, #t_gallery do --Store sff data to be used in gallery previews
+		t_gallery[i].sffData = sffNew(t_gallery[i].previewfile)
+	end
 end
-if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
 --;===========================================================
@@ -1262,7 +1314,7 @@ t_selMusic = {
 }
 
 --Populate t_selMusic table with SOUND FOLDER data
-selMusicPath = "sound"
+selMusicPath = musicPath --loaded from screnpack.lua
 for file in lfs.dir(selMusicPath) do
 	if file:match('^.*(%.)[Mm][Pp][3]$') then
 		row = #t_selMusic+1
@@ -1363,6 +1415,7 @@ function f_updateLogs()
 		f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 		f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
 		f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
+		f_printTable(t_gallery, "save/debug/t_gallery.txt")
 	end
 end
 

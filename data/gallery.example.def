@@ -14,15 +14,21 @@ Gallery items added can be displayed in: Watch - Gallery submenu.
 
 Setup following parameters below "[Artworks/Storyboards/Movies]" sections:
 
-- previewfile = path.sff
+- displayname = text
+Set the section title text that should be displayed in gallery screen.
+
+- preview.file = path.sff
 Set the name of the sprites file to use for gallery items.
 
 
 Setup following parameters below "[Art/Cutscene/Video <0...>]" section:
 
-- previewspr = <groupNo,indexNo>
+- preview.spr = <groupNo,indexNo>
 Set groupNo and indexNo to read from sprite file defined in previewfile paramvalue
 to show sprite preview for item.
+
+- preview.scale = <scaleX,scaleY>
+Set scaleX and scaleY to sprite preview defined in preview.sprite paramvalue.
 
 - file = path.def/.wmv
 Set the name of the storyboard or video file to show.
