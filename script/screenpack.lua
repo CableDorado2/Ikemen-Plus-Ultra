@@ -14,7 +14,7 @@ sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
-sprArtwork = sffNew("data/screenpack/artwork.sff") --load artwork sprites
+sprArtwork = sffNew("data/screenpack/artworks.sff") --load artworks sprites
 
 --Sound Data (Sound effects do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -1392,7 +1392,7 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
-txt_galleryInfo = createTextImg(jgFnt, 0, 0, "", 159, 20)
+txt_galleryInfo = createTextImg(font1, 0, 0, "", 159, 210)
 
 t_galleryMenu = {
 	{varID = textImgNew(), text = "ARTWORKS"},

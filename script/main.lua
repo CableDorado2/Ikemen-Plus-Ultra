@@ -5080,9 +5080,6 @@ end
 --;===========================================================
 --; GALLERY MENU
 --;===========================================================
-t_galleryCellX = {}
-t_galleryCellY = {}
-
 function f_updateGallery()
 	galleryCalc = 1
 	galleryXpos = 1
@@ -5092,6 +5089,8 @@ function f_updateGallery()
 	galleryMenuSizeY = 3
 	galleryMaxLimit = #t_gallery[galleryMenu]
 	galleryCell = 1
+	t_galleryCellX = {}
+	t_galleryCellY = {}
 	f_galleryCellDraw(galleryMenuSizeX, galleryMaxLimit)
 end
 
@@ -5115,7 +5114,6 @@ function f_galleryCellDraw(galleryMenuSizeX, galleryMaxLimit)
 		t_galleryCellX[#t_galleryCellX + 1] = posX
 		t_galleryCellY[#t_galleryCellY + 1] = posY
 		galleryCellDraw = counter
-		--refresh()
 	end
 end
 
@@ -5277,7 +5275,7 @@ function f_galleryMenu()
 		--Draw Gallery Preview Content
 		for i=1, galleryMaxLimit do
 			if t_galleryCellX ~= nil then
-				f_drawGalleryPreview("0", i-1, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2))
+				f_drawGalleryPreview(t_gallery[galleryMenu][i].sprGroup, t_gallery[galleryMenu][i].sprIndex, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2))
 				--testa = f_drawGalleryPreview( )
 				--animDraw(testa)
 			end
@@ -5330,7 +5328,7 @@ end
 
 function f_drawGalleryPreview(group, index, posX, posY)
 	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(sprArtwork, anim)
+	anim = animNew(t_gallery[galleryMenu].sffData, anim)
 	animSetScale(anim, 0.050, 0.050)
 	--animSetWindow(anim, )
 	animSetPos(anim, posX, posY)

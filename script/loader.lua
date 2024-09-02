@@ -1020,16 +1020,15 @@ file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 content = content:gsub('\n%s*\n', '\n')
 for line in content:gmatch('[^\r\n]+') do
-	line = line:lower()
-	if line:match('^%s*%[%s*artworks%s*%]') then
+	if line:match('^%s*%[%s*[Aa][Rr][Tt][Ww][Oo][Rr][Kk][Ss]%s*%]') then
 		section = 1
 		row = #t_gallery+1
 		t_gallery[row] = {}
-	elseif line:match('^%s*%[%s*storyboards%s*%]') then
+	elseif line:match('^%s*%[%s*[Ss][Tt][Oo][Rr][Yy][Bb][Oo][Aa][Rr][Dd][Ss]%s*%]') then
 		section = 2
 		row = #t_gallery+1
 		t_gallery[row] = {}
-	elseif line:match('^%s*%[%s*movies%s*%]') then
+	elseif line:match('^%s*%[%s*[Mm][Oo][Vv][Ii][Ee][Ss]%s*%]') then
 		section = 3
 		row = #t_gallery+1
 		t_gallery[row] = {}
@@ -1037,7 +1036,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*previewfile%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['data'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['previewfile'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then
@@ -1048,12 +1047,13 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local sprData = t_gallery[row][#t_gallery[row]]['previewspr'] --Prepare data to separate numbers below
+				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 			end
 		end
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['ID'] = textImgNew()
 				t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
@@ -1061,7 +1061,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*previewfile%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['data'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['previewfile'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then
@@ -1071,6 +1071,8 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local sprData = t_gallery[row][#t_gallery[row]]['previewspr']
+				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*file%s*=') then
@@ -1082,7 +1084,6 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['ID'] = textImgNew()
 				t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
@@ -1090,7 +1091,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*previewfile%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['data'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['previewfile'] = data:gsub('^%s*previewfile%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then
@@ -1100,6 +1101,8 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*previewspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local sprData = t_gallery[row][#t_gallery[row]]['previewspr']
+				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*file%s*=') then
@@ -1111,7 +1114,6 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['ID'] = textImgNew()
 				t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
@@ -1119,6 +1121,9 @@ for line in content:gmatch('[^\r\n]+') do
 	textImgSetText(txt_loading, "LOADING GALLERY...")
 	textImgDraw(txt_loading)
 	refresh()
+end
+for i=1, #t_gallery do --Store sff data to be used in gallery previews
+	t_gallery[i].sffData = sffNew(t_gallery[i].previewfile)
 end
 if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
 --;===========================================================

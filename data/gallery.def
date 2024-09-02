@@ -55,37 +55,37 @@ unlock = false
 previewfile = data/screenpack/gallery.sff
 
 [Video 1]
-previewspr = 0,0
+previewspr = 100,0
 file = movie/Opening.wmv
 info = IKEMEN Plus Ultra v1.4 Opening
 unlock = true
 
 [Video 2]
-previewspr = 0,1
+previewspr = 100,1
 file = movie/KFM-Prologue.wmv
 info = Kung Fu Man's Story - Prologue
 unlock = true
 
 [Video 3]
-previewspr = 0,2
+previewspr = 100,2
 file = movie/KFM-Fall.wmv
 info = Kung Fu Man's Story - The Fall of A Legend
 unlock = true
 
 [Video 4]
-previewspr = 0,3
+previewspr = 100,3
 file = movie/The Lost Chapter.wmv
 info = Evil Kung Fu Man's Mission
 unlock = true
 
 [Video 5]
-previewspr = 0,4
+previewspr = 100,4
 file = chars/Shin Gouki/Intro.wmv
 info = Shin Gouki's Arcade Intro
 unlock = true
 
 [Video 6]
-previewspr = 0,5
+previewspr = 100,5
 file = chars/Shin Gouki/Ending.wmv
 info = Shin Gouki's Arcade Ending
 unlock = true
