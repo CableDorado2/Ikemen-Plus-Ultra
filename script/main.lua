@@ -5080,28 +5080,57 @@ end
 --;===========================================================
 --; GALLERY MENU
 --;===========================================================
-t_cellX = {}
-t_cellY = {}
+t_galleryCellX = {}
+t_galleryCellY = {}
+
+function f_updateGallery()
+	galleryCalc = 1
+	galleryXpos = 1
+	galleryYpos = 1
+	galleryMove = 0
+	galleryMenuSizeX = 4
+	galleryMenuSizeY = 3
+	galleryMaxLimit = #t_gallery[galleryMenu]
+	galleryCell = 1
+	f_galleryCellDraw(galleryMenuSizeX, galleryMaxLimit)
+end
+
+function f_galleryCellDraw(galleryMenuSizeX, galleryMaxLimit)
+	local i = 0
+	local counter = 0
+	local posX = 0
+	local posY = 0
+	local galleryCellDraw = 0
+	while true do
+		if galleryCellDraw == galleryMaxLimit then
+			break
+		end
+		i = i + 1
+		counter = counter + 1
+		if i > galleryMenuSizeX then
+			i = 1
+			posY = posY + 1
+		end
+		posX = i
+		t_galleryCellX[#t_galleryCellX + 1] = posX
+		t_galleryCellY[#t_galleryCellY + 1] = posY
+		galleryCellDraw = counter
+		--refresh()
+	end
+end
+
 function f_galleryMenu()
 	cmdInput()
-	local logicalCalc = 1
-	local cursorPosX = 1
-	local cursorPosY = 1
-	local menuSizeX = 4
-	local menuSizeY = 3
-	local maxLimit = 12
-	local moveItem = 0
-	local galleryImage = false
-	local galleryCell = 1
-	f_galleryCellDraw(menuSizeX, maxLimit)
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local galleryMenu = 1 --(Artwork=1, storyboards=2, cutscenes=3, sound test=4)
+	--Section Vars
+	galleryMenu = 1
 	local cursorSectionPosX = 1
 	local moveSectionTxt = 0
 	local maxSectionItems = 3
+	f_updateGallery()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		--BACK BUTTON
@@ -5111,47 +5140,53 @@ function f_galleryMenu()
 			break
 		--PREVIOUS SECTION
 		elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') or ((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 30) then
-			sndPlay(sndSys, 100, 0)
-			galleryMenu = galleryMenu - 1
+			if galleryMenu > 1 then
+				sndPlay(sndSys, 100, 0)
+				galleryMenu = galleryMenu - 1
+				f_updateGallery()
+			end
 		--NEXT SECTION
 		elseif commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z') or ((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 30) then
-			sndPlay(sndSys, 100, 0)
-			galleryMenu = galleryMenu + 1
+			if galleryMenu < #t_galleryMenu then
+				sndPlay(sndSys, 100, 0)
+				galleryMenu = galleryMenu + 1
+				f_updateGallery()
+			end
 		end
 		--SCROLL UP
 		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			if galleryCell > menuSizeX then
+			if galleryCell > galleryMenuSizeX then
 				sndPlay(sndSys, 100, 0)
-				galleryCell = galleryCell - menuSizeX
-				cursorPosY = cursorPosY - 1
-				logicalCalc = logicalCalc - 4
+				galleryCell = galleryCell - galleryMenuSizeX
+				galleryYpos = galleryYpos - 1
+				galleryCalc = galleryCalc - 4
 			end
 		--SCROLL DOWN
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			if galleryCell <= maxLimit - menuSizeX then
-				if galleryCell < maxLimit then
+			if galleryCell <= galleryMaxLimit - galleryMenuSizeX then
+				if galleryCell < galleryMaxLimit then
 					sndPlay(sndSys, 100, 0)
-					galleryCell = galleryCell + menuSizeX
-					cursorPosY = cursorPosY + 1
-					logicalCalc = logicalCalc + 4
+					galleryCell = galleryCell + galleryMenuSizeX
+					galleryYpos = galleryYpos + 1
+					galleryCalc = galleryCalc + 4
 				end
 			end
 		--SCROLL LEFT
 		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
-			if cursorPosX > 1 then
+			if galleryXpos > 1 then
 				sndPlay(sndSys, 100, 0)
 				galleryCell = galleryCell - 1
-				cursorPosX = cursorPosX - 1
-				logicalCalc = logicalCalc - 1
+				galleryXpos = galleryXpos - 1
+				galleryCalc = galleryCalc - 1
 			end
 		--SCROLL RIGHT
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
-			if cursorPosX < menuSizeX then
-				if galleryCell < maxLimit then
+			if galleryXpos < galleryMenuSizeX then
+				if galleryCell < galleryMaxLimit then
 					sndPlay(sndSys, 100, 0)
 					galleryCell = galleryCell + 1
-					cursorPosX = cursorPosX + 1
-					logicalCalc = logicalCalc + 1
+					galleryXpos = galleryXpos + 1
+					galleryCalc = galleryCalc + 1
 				end
 			end
 		end
@@ -5160,19 +5195,18 @@ function f_galleryMenu()
 			sndPlay(sndSys, 100, 1)
 			--ARTWORK (watch pictures)
 			if galleryMenu == 1 then
-				galleryImage = true
-				f_artMenu(galleryCell, maxLimit)
+				f_artMenu(galleryCell, galleryMaxLimit)
 			--STORYBOARDS (watch storyboards)
 			elseif galleryMenu == 2 then
 			--Play Storyboard
 				cmdInput()
-				f_storyboard(t_storyboardList[storyboardMenu].path) --Start Storyboard
+				f_storyboard(t_gallery[galleryMenu][galleryCell].file) --Start Storyboard
 			--When Storyboard Ends:
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 				f_menuMusic()
 			--CUTSCENES (watch video cutscenes)
 			elseif galleryMenu == 3 then
-				playVideo(t_videoList[videoMenu].path)
+				playVideo(t_gallery[galleryMenu][galleryCell].file)
 			--When Video Ends:
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 				f_menuMusic()
@@ -5233,21 +5267,28 @@ function f_galleryMenu()
 		end
 		]]
 		--Gallery Cell Cursor position calculation
-		if cursorPosY > menuSizeY then
-			cursorPosY = menuSizeY
-			moveItem = moveItem + 1
-		elseif cursorPosY < 1 then
-			cursorPosY = 1
-			moveItem = moveItem - 1
+		if galleryYpos > galleryMenuSizeY then
+			galleryYpos = galleryMenuSizeY
+			galleryMove = galleryMove + 1
+		elseif galleryYpos < 1 then
+			galleryYpos = 1
+			galleryMove = galleryMove - 1
 		end
 		--Draw Gallery Preview Content
-		for i=1, maxLimit do
-			if t_cellX ~= nil then
-				f_drawGalleryPreview("0", i-1, (galleryCellPosX*2) + t_cellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_cellY[i]*(galleryCellSpacingY*2) - (moveItem*galleryCellSpacingY*2))
+		for i=1, galleryMaxLimit do
+			if t_galleryCellX ~= nil then
+				f_drawGalleryPreview("0", i-1, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2))
+				--testa = f_drawGalleryPreview( )
+				--animDraw(testa)
 			end
 		end
 		--Draw Gallery Cell Cursor
-		animPosDraw(galleryCursor, galleryCursorPosX+cursorPosX*galleryCursorSpacingX, galleryCursorPosY+cursorPosY*galleryCursorSpacingY)
+		animPosDraw(galleryCursor, galleryCursorPosX+galleryXpos*galleryCursorSpacingX, galleryCursorPosY+galleryYpos*galleryCursorSpacingY)
+		--Draw Item Text Info
+		if t_gallery[galleryMenu][galleryCell].info ~= nil then
+			textImgSetText(txt_galleryInfo, t_gallery[galleryMenu][galleryCell].info)
+			textImgDraw(txt_galleryInfo)
+		end
 		--Draw Input Hints Panel
 		drawListInputHints()
 		animDraw(data.fadeTitle)
@@ -5287,30 +5328,6 @@ function f_galleryMenu()
 	end
 end
 
-function f_galleryCellDraw(menuSizeX, maxLimit)
-	local i = 0
-	local counter = 0
-	local posX = 0
-	local posY = 0
-	local galleryCellDraw = 0
-	while true do
-		if galleryCellDraw == maxLimit then
-			break
-		end
-		i = i + 1
-		counter = counter + 1
-		if i > menuSizeX then
-			i = 1
-			posY = posY + 1
-		end
-		posX = i
-		t_cellX[#t_cellX + 1] = posX
-		t_cellY[#t_cellY + 1] = posY
-		galleryCellDraw = counter
-		refresh()
-	end
-end
-
 function f_drawGalleryPreview(group, index, posX, posY)
 	local anim = group..','..index..', 0,0, 0'
 	anim = animNew(sprArtwork, anim)
@@ -5319,6 +5336,7 @@ function f_drawGalleryPreview(group, index, posX, posY)
 	animSetPos(anim, posX, posY)
 	animUpdate(anim)
 	animDraw(anim)
+	--return anim
 end
 
 --;===========================================================

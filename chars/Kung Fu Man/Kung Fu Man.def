@@ -40,8 +40,8 @@ z = 6
 ;c2 = 12
 
 [Arcade]
-intro.storyboard = ..\../storyboard/Kung Fu Man [Arcade Intro].def
-ending.storyboard = ..\../storyboard/Kung Fu Man [Arcade Ending].def
+intro.storyboard = intro.def
+ending.storyboard = ending.def
 
 ;[Unlock]
 ;condition = "Unlocked by Default" ;Set unlock condition info text

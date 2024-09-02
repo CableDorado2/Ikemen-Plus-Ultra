@@ -1,13 +1,13 @@
-; Introduction cutscene for KFM's story.
+; Ending cutscene for KFM's story.
 
-; This storyboard has multiple scenes.
+; Like the intro, this storyboard has multiple scenes.
 ; Each scene uses two overlay anims, one for the picture, and
 ; another for the text.
 ; The fadein and fadeout parameters are used to fade one screen
 ; to the next.
 
 [SceneDef]
-spr = Kung Fu Man [Arcade Intro].sff
+spr = ending.sff
 startscene = 0         ;Starting scene number (for debugging)
 
 ;------------------------------------
@@ -27,10 +27,10 @@ layer0.starttime = 0   ;Time to start display
 layer1.anim =  1
 layer1.offset = 0,176
 ; Music
-bgm = intro.mp3        ;Name of music file to play
+bgm = ending.mp3       ;Name of music file to play
 bgm.loop = 0
 ; Total time
-end.time = 300
+end.time = 460
 
 ;------------------------------------
 [Scene 1]
@@ -56,8 +56,8 @@ end.time = 300
 ; Fade
 fadein.time = 15
 fadein.col = 255,255,255
-fadeout.time = 15
-fadeout.col = 255,255,255
+fadeout.time = 90
+fadeout.col = 0,0,0
 ; Overlay Anims (from 0 to 9)
 layer0.anim =  20
 layer0.offset = 0,32
@@ -65,41 +65,7 @@ layer0.starttime = 0
 layer1.anim =  21
 layer1.offset = 0,176
 ; Total time
-end.time = 300
-
-;------------------------------------
-[Scene 3]
-; Fade
-fadein.time = 15
-fadein.col = 255,255,255
-fadeout.time = 15
-fadeout.col = 255,255,255
-; Overlay Anims (from 0 to 9)
-layer0.anim =  30
-layer0.offset = 0,32
-layer0.starttime = 0
-layer1.anim =  31
-layer1.offset = 0,176
-; Total time
-end.time = 300
-
-;------------------------------------
-[Scene 4]
-; Fade
-fadein.time = 15
-fadein.col = 255,255,255
-fadeout.time = 90
-fadeout.col = 0,0,0
-; Overlay Anims (from 0 to 9)
-layer0.anim =  40
-layer0.offset = 0,32
-layer0.starttime = 0
-layer1.anim =  41
-layer1.offset = 53,85
-layer2.anim =  42
-layer2.offset = 0,176
-; Total time
-end.time = 600
+end.time = 400
 
 ;Background image
 [Begin Action 0]
@@ -107,7 +73,8 @@ end.time = 600
 
 ;Text
 [Begin Action 1]
-1,0, 0,0, -1
+1,0, 0,0, 200
+1,1, 0,0, -1
 
 ;Background image
 [Begin Action 10]
@@ -124,25 +91,3 @@ end.time = 600
 ;Text
 [Begin Action 21]
 21,0, 0,0, -1
-
-;Background image
-[Begin Action 30]
-30,0, 0,0, -1
-
-;Text
-[Begin Action 31]
-31,0, 0,0, -1
-
-;Background image
-[Begin Action 40]
-40,0, 0,0, -1
-
-;Blinking arrow
-[Begin Action 41]
-41,0, 0,0, 40
--1,0, 0,0, 20
-
-;Text (two lines)
-[Begin Action 42]
-42,0, 0,0, 200
-42,1, 0,0, -1

@@ -1,0 +1,39 @@
+This file contains list of all available parameters and the default
+values used by Gallery Menu definition file.
+
+This file IS NOT loaded by engine and should not be used as-is. It's meant to
+be a reference for adding parameters to your own gallery.def file.
+
+ ____________________
+/      GALLERY       \_____________________________________________________
+
+WARNING: THIS IS AN EXPERIMENTAL FEATURE.
+
+Load gallery assets.
+Gallery items added can be displayed in: Watch - Gallery submenu.
+
+Setup following parameters below "[Artworks/Storyboards/Movies]" sections:
+
+- previewfile = path.sff
+Set the name of the sprites file to use for gallery items.
+
+
+Setup following parameters below "[Art/Cutscene/Video <0...>]" section:
+
+- previewspr = <groupNo,indexNo>
+Set groupNo and indexNo to read from sprite file defined in previewfile paramvalue
+to show sprite preview for item.
+
+- file = path.def/.wmv
+Set the name of the storyboard or video file to show.
+
+- info = text
+Set the info text that should be displayed in gallery screen.
+
+- unlock (currently unused)
+If it evaluates to boolean 'true' the gallery item will be selectable
+from gallery menu, or hidden on 'false'. Default: true.
+
+;---------------------------------------------------------------------------------
+Some Examples:
+

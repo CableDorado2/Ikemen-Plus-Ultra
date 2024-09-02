@@ -38,6 +38,9 @@ fightDef = "data/screenpack/fight.def"
 --License Path (Please always distribute license files for use this program)
 licensesPath = "docs/Licenses"
 
+--Gallery Data (Gallery definition filename)
+galleryDef = "data/gallery.def"
+
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
 
@@ -1389,6 +1392,7 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
+txt_galleryInfo = createTextImg(jgFnt, 0, 0, "", 159, 20)
 
 t_galleryMenu = {
 	{varID = textImgNew(), text = "ARTWORKS"},
