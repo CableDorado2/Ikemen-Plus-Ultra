@@ -29,14 +29,16 @@ function f_parseChar(t, cel)
 				section = 2
 			elseif line:match('^%s*%[%s*files%s*%]') then
 				section = 3
-			elseif line:match('^%s*%[%s*palette%s*keymap%s*%]') then
+			elseif line:match('^%s*%[%s*ja.files%s*%]') then
 				section = 4
-			elseif line:match('^%s*%[%s*arcade%s*%]') then
+			elseif line:match('^%s*%[%s*palette%s*keymap%s*%]') then
 				section = 5
-			elseif line:match('^%s*%[%s*unlock%s*%]') then
+			elseif line:match('^%s*%[%s*arcade%s*%]') then
 				section = 6
-			elseif line:match('^%s*%[%s*portraits%s*%]') then
+			elseif line:match('^%s*%[%s*unlock%s*%]') then
 				section = 7
+			elseif line:match('^%s*%[%s*portraits%s*%]') then
+				section = 8
 			elseif line:match('^%s*%[') then --in case character shares DEF file with other files
 				break
 			elseif section == 1 then --[Info]
@@ -127,9 +129,53 @@ function f_parseChar(t, cel)
 						t.st[#t.st+1] = stPath
 					end
 				end
-			elseif section == 4 then --[Palette Keymap]
+			elseif section == 4 then --[ja.Files]
+				if line:match('^%s*sprite%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						sffPath = dir .. line:gsub('^%s*sprite%s*=%s*(.-)%s*$', '%1')
+						t['sffjp'] = sffPath
+					end
+					--readLines = readLines - 1
+				elseif line:match('^%s*sound%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						sndPath = dir .. line:gsub('^%s*sound%s*=%s*(.-)%s*$', '%1')
+						t['sndjp'] = sndPath
+					end
+					--readLines = readLines - 1
+				elseif line:match('^%s*anim%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						airPath = dir .. line:gsub('^%s*anim%s*=%s*(.-)%s*$', '%1')
+						t['airjp'] = airPath
+					end
+					--readLines = readLines - 1
+				elseif line:match('^%s*cns%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						cnsPath = dir .. line:gsub('^%s*cns%s*=%s*(.-)%s*$', '%1')
+						t['cnsjp'] = cnsPath
+					end
+					--readLines = readLines - 1
+				elseif line:match('^%s*st[0-9]*%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						if t['stjp'] == nil then
+							t['stjp'] = {}
+						end
+						stPath = dir .. line:gsub('^%s*st[0-9]*%s*=%s*(.-)%s*$', '%1')
+						t.stjp[#t.stjp+1] = stPath
+					end
+				end
+			elseif section == 5 then --[Palette Keymap]
 				--nothing until palletes swap function is implemented
-			elseif section == 5 then --[Arcade]
+			elseif section == 6 then --[Arcade]
 				--Load Storyboard Files
 				if line:match('^%s*intro%.storyboard%s*=') then
 					line = line:gsub('%s*;.*$', '')
@@ -165,7 +211,7 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				end
-			elseif section == 6 then --[Unlock]
+			elseif section == 7 then --[Unlock]
 				if line:match('^%s*condition%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -192,7 +238,7 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				end
-			elseif section == 7 then --[Portraits]
+			elseif section == 8 then --[Portraits]
 				--Load Select Face Icon Portrait Data
 				if line:match('^%s*face.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
@@ -314,7 +360,7 @@ function f_parseChar(t, cel)
 					--readLines = readLines - 1
 				end
 			end
-			if stPath ~= '' and section ~= 3 and section ~= 4 and section ~= 5 and section ~= 6 and section ~= 7 then
+			if stPath ~= '' and section ~= 3 and section ~= 4 and section ~= 5 and section ~= 6 and section ~= 7 and section ~= 8 then
 				break
 				--readLines = readLines - 1
 			end
@@ -324,6 +370,7 @@ function f_parseChar(t, cel)
 			end
 			]]
 		end
+	--Extract Character Victory Quotes
 		local quotes = false
 		if io.open(cnsPath or '','r') ~= nil then
 			for line in io.lines(cnsPath) do
@@ -395,6 +442,7 @@ function f_parseChar(t, cel)
 				end
 			end
 		end
+	--Extract Character Anims
 		if io.open(airPath or '','r') ~= nil then
 			for line in io.lines(airPath) do
 				line = line:lower()

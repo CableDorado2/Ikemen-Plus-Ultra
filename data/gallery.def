@@ -5,17 +5,17 @@ preview.file = data/screenpack/artworks.sff
 [Art 1]
 preview.spr = 0,0
 preview.scale = 0.050,0.050
-info = Kung Fu Man Artwork
+info = Special Artwork: Author
 
 [Art 2]
 preview.spr = 0,1
 preview.scale = 0.050,0.050
-info = Kung Fu Girl Artwork
+info = Special Artwork: Author
 
 [Art 3]
 preview.spr = 0,2
 preview.scale = 0.050,0.050
-info = Suave Dude Artwork
+info = Special Artwork: Author
 
 ;----------------------------------------------------------
 [Storyboards]
@@ -24,29 +24,31 @@ preview.file = data/screenpack/gallery.sff
 
 [Cutscene 1]
 preview.spr = 0,0
+preview.scale = 0.090,0.090
 file = chars/Kung Fu Man/intro.def
-info = Kung Fu Man's Arcade Intro
+info = Kung Fu Man: Arcade Intro
 
 [Cutscene 2]
 preview.spr = 0,1
-preview.scale = 0.050,0.050
+preview.scale = 0.090,0.090
 file = chars/Kung Fu Man/ending.def
-info = Kung Fu Man's Arcade Ending
+info = Kung Fu Man: Arcade Ending
 
 [Cutscene 3]
 preview.spr = 0,2
-preview.scale = 0.050,0.050
+preview.scale = 0.20,0.18
 file = chars/Kung Fu Girl/storyboard/intro_j.def
-info = Kung Fu Girl's Arcade Intro
+info = Kung Fu Girl: Arcade Intro
 
 [Cutscene 4]
 preview.spr = 0,3
-preview.scale = 0.050,0.050
+preview.scale = 0.20,0.18
 file = chars/Kung Fu Girl/storyboard/ending_j.def
-info = Kung Fu Girl's Arcade Ending
+info = Kung Fu Girl: Arcade Ending
 
 [Cutscene 5]
 preview.spr = 0,4
+preview.scale = 0.050,0.050
 file = chars/Shin Gouki/unlock.def
 info = Shin Gouki's Unlock Screen
 
@@ -57,30 +59,36 @@ preview.file = data/screenpack/gallery.sff
 
 [Video 1]
 preview.spr = 100,0
+preview.scale = 0.059,0.056
 file = movie/Opening.wmv
-info = IKEMEN Plus Ultra v1.4 Opening
+info = I.K.E.M.E.N PLUS ULTRA [OPENING]
 
 [Video 2]
 preview.spr = 100,1
+preview.scale = 0.059,0.056
 file = movie/KFM-Prologue.wmv
 info = Kung Fu Man's Story - Prologue
 
 [Video 3]
 preview.spr = 100,2
+preview.scale = 0.059,0.056
 file = movie/KFM-Fall.wmv
 info = Kung Fu Man's Story - The Fall of A Legend
 
 [Video 4]
 preview.spr = 100,3
+preview.scale = 0.059,0.056
 file = movie/The Lost Chapter.wmv
-info = Evil Kung Fu Man's Mission
+info = The Lost Chapter
 
 [Video 5]
 preview.spr = 100,4
+preview.scale = 0.059,0.056
 file = chars/Shin Gouki/Intro.wmv
-info = Shin Gouki's Arcade Intro
+info = Shin Gouki: Arcade Intro
 
 [Video 6]
 preview.spr = 100,5
+preview.scale = 0.059,0.056
 file = chars/Shin Gouki/Ending.wmv
-info = Shin Gouki's Arcade Ending
+info = Shin Gouki: Arcade Ending

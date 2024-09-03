@@ -1392,7 +1392,7 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
-txt_galleryInfo = createTextImg(font1, 0, 0, "", 159, 202)
+txt_galleryInfo = createTextImg(font7, 0, 0, "", 159, 202)
 
 --Gallery Cursor
 galleryCursorPosX = -74.3
