@@ -5235,7 +5235,7 @@ function f_galleryMenu()
 					bank = 0
 				end
 				if t_gallery[i].displayname ~= nil then
-					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 35))
+					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 39))
 				end
 			end
 		end

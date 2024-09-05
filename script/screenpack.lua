@@ -1500,7 +1500,7 @@ function drawGalleryInputHints()
 end
 
 --;===========================================================
---; ARTWORK MENU SCREENPACK DEFINITION
+--; ARTWORK DISPLAY SCREENPACK DEFINITION
 --;===========================================================
 --Left Page Arrow
 arrowsGL = animNew(sprSys, [[

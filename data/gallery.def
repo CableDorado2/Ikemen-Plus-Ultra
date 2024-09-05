@@ -17,6 +17,36 @@ preview.spr = 0,2
 preview.scale = 0.050,0.050
 info = Special Artwork: Author
 
+[Art 4]
+preview.spr = 0,3
+preview.scale = 0.050,0.050
+info = Winmugen
+
+[Art 5]
+preview.spr = 0,4
+preview.scale = 0.050,0.050
+info = Mugen 1.0
+
+[Art 6]
+preview.spr = 0,5
+preview.scale = 0.050,0.050
+info = Ikemen S-SIZE
+
+[Art 7]
+preview.spr = 0,6
+preview.scale = 0.050,0.050
+info = Ikemen Plus
+
+[Art 8]
+preview.spr = 0,7
+preview.scale = 0.050,0.050
+info = Ikemen GO
+
+[Art 9]
+preview.spr = 0,8
+preview.scale = 0.050,0.050
+info = Ikemen Plus Ultra
+
 ;----------------------------------------------------------
 [Storyboards]
 displayname = STORYBOARDS
