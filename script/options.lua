@@ -1572,8 +1572,10 @@ function f_mainCfg()
 			if esc() or exitSave or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 2)
-				if data.erase == true then
-					--delete stats file
+				if data.erase == true then --reset stats files
+					init_generalStats()
+					init_unlocksStats()
+					f_saveStats()
 					f_saveVN()
 					data.erase = false
 				end
@@ -1647,9 +1649,8 @@ function f_mainCfg()
 					exitSave = true
 				--Back Without Save
 				elseif mainCfg == 12 then
-					assert(loadfile('save/data_sav.lua'))() --Load old data no saved
-					assert(loadfile('save/stats_sav.lua'))() --Load old data no saved
-					if data.engineMode == "VN" then assert(loadfile('save/vn_sav.lua'))() end
+					assert(loadfile(saveCfgPath))() --Load old data no saved
+					if data.engineMode == "VN" then assert(loadfile(saveVNPath))() end
 					f_loadCfg()
 					f_loadEXCfg()
 					setFullScreenMode(b_fullscreenMode)

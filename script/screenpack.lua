@@ -2177,7 +2177,7 @@ txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black 
 txt_attractTimer = createTextImg(font1, 0, 0, "", 302, 215)
 txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 170)
 function f_attractCredits()
-	txt_credits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins, 181.5, 212)
+	txt_credits = createTextImg(font1, 0, -1, "Credits: "..stats.attractCoins, 181.5, 212)
 	textImgDraw(txt_credits)
 end
 

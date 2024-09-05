@@ -3550,14 +3550,14 @@ end
 
 --General Sections
 function init_generalStats()
-if stats.firstRun == nil then stats.firstRun = true end
-if stats.playtime == nil then stats.playtime = 0 end
-if stats.coins == nil then stats.coins = 0 end
+if stats.firstRun == nil or data.erase then stats.firstRun = true end
+if stats.playtime == nil or data.erase then stats.playtime = 0 end
+if stats.coins == nil or data.erase then stats.coins = 0 end
 if stats.attractCoins == nil then stats.attractCoins = 0 end
-if stats.continueCount == nil then stats.continueCount = 0 end
-if stats.wins == nil then stats.wins = 0 end
-if stats.losses == nil then stats.losses = 0 end
-if stats.modes == nil then
+if stats.continueCount == nil or data.erase then stats.continueCount = 0 end
+if stats.wins == nil or data.erase then stats.wins = 0 end
+if stats.losses == nil or data.erase then stats.losses = 0 end
+if stats.modes == nil or data.erase then
 	stats.modes = {}
 	
 	stats.modes.arcade = {}
@@ -3648,8 +3648,8 @@ if stats.modes == nil then
 	stats.modes.event.clear2 = 0
 	stats.modes.event.clear3 = 0
 end
-if stats.characters == nil then stats.characters = {} end --To store times used for favorite chars stats
-if stats.stages == nil then stats.stages = {} end --To store times used for favorite stages stats
+if stats.characters == nil or data.erase then stats.characters = {} end --To store times used for favorite chars stats
+if stats.stages == nil or data.erase then stats.stages = {} end --To store times used for favorite stages stats
 if stats.vault == nil then stats.vault = "Ultra" end
 end
 
@@ -3689,34 +3689,34 @@ data.story3_1Unlock = true
 
 --Unlocks Section
 function init_unlocksStats()
-if stats.unlocks == nil then --If unlocks section does not exists
+if stats.unlocks == nil or data.erase then --If unlocks section does not exists
 	stats.unlocks = {} --Create global space
 	stats.unlocks.chars = {} --Create space for characters
 	stats.unlocks.stages = {} --Create space for stages
 	stats.unlocks.modes = {} --Create space for game modes
 end
 --If Character Unlock Data does not exists, create it:
-if stats.unlocks.chars.reika == nil then stats.unlocks.chars.reika = false end
-if stats.unlocks.chars.gouki == nil then stats.unlocks.chars.gouki = false end
+if stats.unlocks.chars.reika == nil or data.erase then stats.unlocks.chars.reika = false end
+if stats.unlocks.chars.gouki == nil or data.erase then stats.unlocks.chars.gouki = false end
 --if stats.unlocks.chars.charname == nil then stats.unlocks.chars.charname = false end
 
 --If Stage Unlock Data does not exists, create it:
-if stats.unlocks.stages.hiddenpath == nil then stats.unlocks.stages.hiddenpath = false end
-if stats.unlocks.stages.hiddenpathnight == nil then stats.unlocks.stages.hiddenpathnight = false end
-if stats.unlocks.stages.outside == nil then stats.unlocks.stages.outside = false end
-if stats.unlocks.stages.lobby2night == nil then stats.unlocks.stages.lobby2night = false end
-if stats.unlocks.stages.darkcorridor == nil then stats.unlocks.stages.darkcorridor = false end
-if stats.unlocks.stages.winter == nil then stats.unlocks.stages.winter = false end
-if stats.unlocks.stages.secrethallway == nil then stats.unlocks.stages.secrethallway = false end
-if stats.unlocks.stages.clonelaboratory == nil then stats.unlocks.stages.clonelaboratory = false end
-if stats.unlocks.stages.clonelaboratory2 == nil then stats.unlocks.stages.clonelaboratory2 = false end
-if stats.unlocks.stages.trainingroom2 == nil then stats.unlocks.stages.trainingroom2 = false end
---if stats.unlocks.stages.stagename == nil then stats.unlocks.stages.stagename = false end
+if stats.unlocks.stages.hiddenpath == nil or data.erase then stats.unlocks.stages.hiddenpath = false end
+if stats.unlocks.stages.hiddenpathnight == nil or data.erase then stats.unlocks.stages.hiddenpathnight = false end
+if stats.unlocks.stages.outside == nil or data.erase then stats.unlocks.stages.outside = false end
+if stats.unlocks.stages.lobby2night == nil or data.erase then stats.unlocks.stages.lobby2night = false end
+if stats.unlocks.stages.darkcorridor == nil or data.erase then stats.unlocks.stages.darkcorridor = false end
+if stats.unlocks.stages.winter == nil or data.erase then stats.unlocks.stages.winter = false end
+if stats.unlocks.stages.secrethallway == nil or data.erase then stats.unlocks.stages.secrethallway = false end
+if stats.unlocks.stages.clonelaboratory == nil or data.erase then stats.unlocks.stages.clonelaboratory = false end
+if stats.unlocks.stages.clonelaboratory2 == nil or data.erase then stats.unlocks.stages.clonelaboratory2 = false end
+if stats.unlocks.stages.trainingroom2 == nil or data.erase then stats.unlocks.stages.trainingroom2 = false end
+--if stats.unlocks.stages.stagename == nil or data.erase then stats.unlocks.stages.stagename = false end
 
 --If Story Chapter Unlock Data does not exists, create it:
-if stats.unlocks.modes.story == nil then stats.unlocks.modes.story = {} end --Create space for story chapters
-if stats.unlocks.modes.story.arc2 == nil then stats.unlocks.modes.story.arc2 = false end
---if stats.unlocks.modes.story.arcname == nil then stats.unlocks.modes.story.arcname = false end
+if stats.unlocks.modes.story == nil or data.erase then stats.unlocks.modes.story = {} end --Create space for story chapters
+if stats.unlocks.modes.story.arc2 == nil or data.erase then stats.unlocks.modes.story.arc2 = false end
+--if stats.unlocks.modes.story.arcname == nil or data.erase then stats.unlocks.modes.story.arcname = false end
 end
 init_generalStats() --Create general stats data (first run)
 init_unlocksStats()
