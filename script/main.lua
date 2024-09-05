@@ -42,8 +42,8 @@ MainFadeInTime = 30
 data.rivalMatch = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
 
 function f_resetArcadeStuff()
-data.continueCount = 0 --Restart Times Continue in Arcade
-f_saveProgress()
+stats.continueCount = 0 --Restart Times Continue in Arcade
+f_saveStats()
 keepLSide = false
 keepRSide = false
 end
@@ -107,8 +107,8 @@ function f_mainStart()
 			f_resetArcadeStuff()
 			if data.attractMode == true then
 				coinSystem = false
-				--data.attractCoins = 0 --Enable for Restart Credits for Attract Mode
-				--f_saveProgress() --Enable for Restart Credits for Attract Mode
+				--stats.attractCoins = 0 --Enable for Restart Credits for Attract Mode
+				--f_saveStats() --Enable for Restart Credits for Attract Mode
 				f_mainAttract()
 			else
 				f_mainTitle()
@@ -217,7 +217,7 @@ function f_mainMenu()
 	while true do
 		if not infoScreen and not infoboxScreen then
 			--First Run Msg
-			if data.firstRun then
+			if stats.firstRun then
 				firstRunInfo = true
 				infoScreen = true
 			end
@@ -292,8 +292,7 @@ function f_mainMenu()
 						f_challengeMenu()
 					--EXTRAS (play custom game modes)
 					elseif mainMenu == 7 then
-						assert(loadfile(saveStatsPath))()
-						if data.arcadeClear == true then
+						if stats.modes.arcade.clear >= 1 then
 							f_extrasMenu()
 						else
 							f_secret()
@@ -349,7 +348,6 @@ function f_mainMenu()
 						script.options.f_mainCfg()
 					--GALLERY (view pictures, storyboards, cutscenes and listen music)
 					elseif mainMenu == 4 then
-						assert(loadfile(saveStatsPath))()
 						f_galleryMenu()
 					--EXIT
 					elseif mainMenu == 5 then
@@ -1801,11 +1799,11 @@ function f_missionMenu()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 	--Missions Progress Logic
-		data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
-		missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
+		stats.modes.mission.clearall = stats.modes.mission.clear1 + stats.modes.mission.clear2 + stats.modes.mission.clear3
+		missionsData = (math.floor((stats.modes.mission.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
 		textImgSetText(txt_missionProgress,"["..missionsData.."%]")
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			f_saveProgress()
+			f_saveStats()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			break
@@ -1921,9 +1919,9 @@ function f_missionMenu()
 	--Draw Mission Info
 		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].varID, font11, 0, 0, t_missionMenu[missionMenu].info, 157, 13.5))
 	--Set mission status
-		if data.mission1Status == 1 then t_missionMenu[1].status = "COMPLETED" end
-		if data.mission2Status == 1 then t_missionMenu[2].status = "COMPLETED" end
-		if data.mission3Status == 1 then t_missionMenu[3].status = "COMPLETED" end
+		if stats.modes.mission.clear1 == 1 then t_missionMenu[1].status = "COMPLETED" end
+		if stats.modes.mission.clear2 == 1 then t_missionMenu[2].status = "COMPLETED" end
+		if stats.modes.mission.clear3 == 1 then t_missionMenu[3].status = "COMPLETED" end
 	--Draw Text for Below Table
 		for i=1, maxMissions do
 			if i > missionMenu - cursorPosY then
@@ -1978,12 +1976,11 @@ end
 --; MISSION SAVE DATA
 --;===========================================================
 function f_missionStatus()
-	if data.missionNo == 1 then data.mission1Status = 1
-	elseif data.missionNo == 2 then data.mission2Status = 1
-	elseif data.missionNo == 3 then data.mission3Status = 1
+	if data.missionNo == 1 then stats.modes.mission.clear1 = 1
+	elseif data.missionNo == 2 then stats.modes.mission.clear2 = 1
+	elseif data.missionNo == 3 then stats.modes.mission.clear3 = 1
 	end
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	f_saveStats()
 end
 
 --;===========================================================
@@ -3893,12 +3890,12 @@ function f_eventMenu()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 	--Event Progress Logic
-		data.eventsProgress = (data.event1Status + data.event2Status + data.event3Status)
-		eventsData = (math.floor((data.eventsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
+		stats.modes.event.clearall = (stats.modes.event.clear1 + stats.modes.event.clear2 + stats.modes.event.clear3)
+		eventsData = (math.floor((stats.modes.event.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
 		textImgSetText(txt_eventProgress,"["..eventsData.."%]")
 		if not lockedScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				f_saveProgress()
+				f_saveStats()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 2)
 				break
@@ -3994,7 +3991,7 @@ function f_eventMenu()
 			t_eventMenu[1].info = "WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00"
 			t_eventMenu[1].preview = event1L
 		end
-		if data.event1Status == 1 then t_eventMenu[1].status = "COMPLETED" end
+		if stats.modes.event.clear1 == 1 then t_eventMenu[1].status = "COMPLETED" end
 	--Event 2
 		--[[
 		if sysTime >= ??? and sysTime <= ??? then
@@ -4007,7 +4004,7 @@ function f_eventMenu()
 			t_eventMenu[2].preview = event2L
 		end
 		]]
-		if data.event2Status == 1 then t_eventMenu[2].status = "COMPLETED" end
+		if stats.modes.event.clear2 == 1 then t_eventMenu[2].status = "COMPLETED" end
 	--Event 3
 		--[[
 		if sysTime >= ??? and sysTime <= ??? then
@@ -4020,7 +4017,7 @@ function f_eventMenu()
 			t_eventMenu[3].preview = event3L
 		end
 		]]
-		if data.event3Status == 1 then t_eventMenu[3].status = "COMPLETED" end
+		if stats.modes.event.clear3 == 1 then t_eventMenu[3].status = "COMPLETED" end
 	--Set Scroll Logic
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
@@ -4124,12 +4121,11 @@ end
 --; EVENT SAVE DATA
 --;===========================================================
 function f_eventStatus()
-	if data.eventNo == 1 then data.event1Status = 1
-	elseif data.eventNo == 2 then data.event2Status = 1
-	elseif data.eventNo == 3 then data.event3Status = 1
+	if data.eventNo == 1 then stats.modes.event.clear1 = 1
+	elseif data.eventNo == 2 then stats.modes.event.clear2 = 1
+	elseif data.eventNo == 3 then stats.modes.event.clear3 = 1
 	end
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	f_saveStats()
 end
 
 --;===========================================================
@@ -4315,21 +4311,18 @@ function f_theVault()
 					vaultKey = (tostring(word))
 					if vaultKey == "ultra" or vaultKey == "Ultra" or vaultKey == "ULTRA" then
 						sndPlay(sndSys, 100, 1)
-						data.vault = "Ultra"
-						f_saveProgress()
-						assert(loadfile(saveStatsPath))()
+						stats.vault = "Ultra"
+						f_saveStats()
 						prize = true
 					elseif vaultKey == "zen" or vaultKey == "Zen" or vaultKey == "ZEN" then
 						sndPlay(sndSys, 100, 1)
-						data.vault = "Zen"
-						f_saveProgress()
-						assert(loadfile(saveStatsPath))()
+						stats.vault = "Zen"
+						f_saveStats()
 						prize = true
 					elseif vaultKey == "ssz" or vaultKey == "Ssz" or vaultKey == "SSZ" then
 						sndPlay(sndSys, 100, 1)
-						data.vault = "SSZ"
-						f_saveProgress()
-						assert(loadfile(saveStatsPath))()
+						stats.vault = "SSZ"
+						f_saveStats()
 						prize = true
 					else
 						prize = false
@@ -4482,7 +4475,6 @@ function f_watchMenu()
 					f_galleryMenu()
 				--PROFILE (display overall player data)
 				elseif watchMenu == 5 then
-					--assert(loadfile(saveStatsPath))()
 					f_statsMenu()
 				--LICENSE (display license files)
 				elseif watchMenu == 6 then
@@ -4652,18 +4644,17 @@ end
 --; PLAYER SAVE DATA
 --;===========================================================
 function f_victories()
-	data.victories = data.victories + 1
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	stats.wins = stats.wins + 1
+	f_saveStats()
 end
 
 function f_defeats()
-	data.defeats = data.defeats + 1
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	stats.losses = stats.losses + 1
+	f_saveStats()
 end
 
 function f_records()
+	--[[
 	if data.rosterMode == "suddendeath" then
 		if winCnt > data.suddenrecord then
 			data.suddenrecord = winCnt
@@ -4673,54 +4664,51 @@ function f_records()
 			data.endlessrecord = winCnt
 		end
 	end
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	f_saveStats()
+	]]
 end
 
 function f_modeplayTime()
-	if data.rosterMode == "story" then data.storyTime = data.storyTime + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
-	elseif data.rosterMode == "arcade" then data.arcadeTime = data.arcadeTime + clearTime
-	elseif data.rosterMode == "versus" then data.vsTime = data.vsTime + clearTime
-	elseif data.rosterMode == "training" then data.trainingTime = data.trainingTime + clearTime
-	elseif data.rosterMode == "cpu" then data.cpumatchTime = data.cpumatchTime + clearTime
-	elseif data.rosterMode == "survival" then data.survivalTime = data.survivalTime + clearTime
-	elseif data.rosterMode == "boss" then data.bossTime = data.bossTime + clearTime
-	elseif data.rosterMode == "bonus" then data.bonusTime = data.bonusTime + clearTime
-	elseif data.rosterMode == "scoreattack" then data.scoreattackTime = data.scoreattackTime + clearTime
-	elseif data.rosterMode == "timeattack" then data.timeattackTime = data.timeattackTime + clearTime
-	elseif data.rosterMode == "timerush" then data.timerushTime = data.timerushTime + clearTime
-	elseif data.rosterMode == "endless" then data.endlessTime = data.endlessTime + clearTime
-	elseif data.rosterMode == "suddendeath" then data.suddendeathTime = data.suddendeathTime + clearTime
-	elseif data.rosterMode == "mission" then data.missionsTime = data.missionsTime + clearTime
-	elseif data.rosterMode == "event" then data.eventsTime = data.eventsTime + clearTime
-	elseif data.rosterMode == "tower" then data.towerTime = data.towerTime + clearTime
-	elseif data.rosterMode == "tourney" then data.tourneyTime = data.tourneyTime + clearTime
-	elseif data.rosterMode == "adventure" then data.adventureTime = data.adventureTime + clearTime
+	if data.rosterMode == "story" then stats.modes.story.playtime = stats.modes.story.playtime + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
+	elseif data.rosterMode == "arcade" then stats.modes.arcade.playtime = stats.modes.arcade.playtime + clearTime
+	elseif data.rosterMode == "versus" then stats.modes.versus.playtime = stats.modes.versus.playtime + clearTime
+	elseif data.rosterMode == "training" then stats.modes.training.playtime = stats.modes.training.playtime + clearTime
+	elseif data.rosterMode == "cpu" then stats.modes.watch.playtime = stats.modes.watch.playtime + clearTime
+	elseif data.rosterMode == "survival" then stats.modes.survival.playtime = stats.modes.survival.playtime + clearTime
+	elseif data.rosterMode == "boss" then stats.modes.boss.playtime = stats.modes.boss.playtime + clearTime
+	elseif data.rosterMode == "bonus" then stats.modes.bonus.playtime = stats.modes.bonus.playtime + clearTime
+	elseif data.rosterMode == "scoreattack" then stats.modes.scoreattack.playtime = stats.modes.scoreattack.playtime + clearTime
+	elseif data.rosterMode == "timeattack" then stats.modes.timeattack.playtime = stats.modes.timeattack.playtime + clearTime
+	elseif data.rosterMode == "timerush" then stats.modes.timerush.playtime = stats.modes.timerush.playtime + clearTime
+	elseif data.rosterMode == "endless" then stats.modes.endless.playtime = stats.modes.endless.playtime + clearTime
+	elseif data.rosterMode == "suddendeath" then stats.modes.suddendeath.playtime = stats.modes.suddendeath.playtime + clearTime
+	elseif data.rosterMode == "mission" then stats.modes.mission.playtime = stats.modes.mission.playtime + clearTime
+	elseif data.rosterMode == "event" then stats.modes.event.playtime = stats.modes.event.playtime + clearTime
+	elseif data.rosterMode == "tower" then stats.modes.tower.playtime = stats.modes.tower.playtime + clearTime
+	elseif data.rosterMode == "tourney" then stats.modes.tourney.playtime = stats.modes.tourney.playtime + clearTime
+	elseif data.rosterMode == "adventure" then stats.modes.adventure.playtime = stats.modes.adventure.playtime + clearTime
 	end
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	f_saveStats()
 end
 
 function f_favoriteChar()
 	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic with json
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	f_saveStats()
 end
 
 function f_favoriteStage()
 	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with json
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	f_saveStats()
 end
 
 function f_gameState()
-if data.arcadeClear == true then arcadeProgress = 1 elseif data.arcadeClear == false then arcadeProgress = 0 end
-if data.survivalClear == true then survivalProgress = 1 elseif data.survivalClear == false then survivalProgress = 0 end
-gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress + (data.storiesProgress/100))
+if stats.modes.arcade.clear >= 1 then arcadeProgress = 1 else arcadeProgress = 0 end
+if stats.modes.survival.clear >= 1 then survivalProgress = 1 else survivalProgress = 0 end
+gameProgress = (arcadeProgress + survivalProgress + stats.modes.mission.clearall + stats.modes.event.clearall + (data.storiesProgress/100))
 gameData = (math.floor((gameProgress * 100 / 11) + 0.5))
 --[[
 The number (11) is the sumation of true amount of all gameProgress values:
-(arcadeProgress = 1 + survivalProgress = 1 + data.missionsProgress = 3 + data.eventsProgress = 3 + data.storiesProgress = 3)
+(arcadeProgress = 1 + survivalProgress = 1 + stats.modes.mission.clearall = 3 + stats.modes.event.clearall = 3 + data.storiesProgress = 3)
 ]]
 end
 
@@ -4730,344 +4718,337 @@ function f_getStats()
 	textImgSetText(txt_statsMenu,"" .. data.userName .. " PROGRESS:")
 	textImgSetText(txt_statsProgress,"["..gameData.."%]")
 --Get Stats Info
-	s = math.floor((data.playTime%60))
-	m = math.floor((data.playTime%3600)/60)
-	h = math.floor((data.playTime%86400)/3600)
-	d = math.floor(data.playTime/86400)
+	s = math.floor((stats.playtime%60))
+	m = math.floor((stats.playtime%3600)/60)
+	h = math.floor((stats.playtime%86400)/3600)
+	d = math.floor(stats.playtime/86400)
 	--timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", d, h, m, s)
 	timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes", d, h, m)
 	t_statsMenu[1].varText = timePlayed
-	t_statsMenu[2].varText = (data.victories+data.defeats)
-	t_statsMenu[3].varText = data.victories
-	t_statsMenu[4].varText = data.defeats
+	t_statsMenu[2].varText = (stats.wins+stats.losses)
+	t_statsMenu[3].varText = stats.wins
+	t_statsMenu[4].varText = stats.losses
 	t_statsMenu[5].varText = "WIP"--data.favoriteChar
 	t_statsMenu[6].varText = "WIP"--data.favoriteStage
 	t_statsMenu[7].varText = "None" --If all Preferred Mode are equal
 	--Preferred Mode Logic
-	if (data.storyTime > data.arcadeTime) and
-	   (data.storyTime > data.vsTime) and
-	   (data.storyTime > data.survivalTime) and
-	   (data.storyTime > data.bossTime) and
-	   (data.storyTime > data.bonusTime) and
-	   (data.storyTime > data.timeattackTime) and
-	   (data.storyTime > data.timerushTime) and
-	   (data.storyTime > data.suddendeathTime) and
-	   (data.storyTime > data.cpumatchTime) and
-	   (data.storyTime > data.eventsTime) and
-	   (data.storyTime > data.missionsTime) and
-	   (data.storyTime > data.endlessTime) and
-	   (data.storyTime > data.scoreattackTime) and
-	   (data.storyTime > data.towerTime) and
-	   (data.storyTime > data.tourneyTime) and
-	   (data.storyTime > data.adventureTime) then
+	if (stats.modes.story.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.story.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.story.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.story.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.story.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.story.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.story.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.story.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.story.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.story.playtime > stats.modes.event.playtime) and
+	   (stats.modes.story.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.story.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.story.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.story.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.story.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.story.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Story"
 	end
-	if (data.arcadeTime > data.vsTime) and
-	   (data.arcadeTime > data.survivalTime) and
-	   (data.arcadeTime > data.bossTime) and
-	   (data.arcadeTime > data.bonusTime) and
-	   (data.arcadeTime > data.timeattackTime) and
-	   (data.arcadeTime > data.timerushTime) and
-	   (data.arcadeTime > data.suddendeathTime) and
-	   (data.arcadeTime > data.cpumatchTime) and
-	   (data.arcadeTime > data.eventsTime) and
-	   (data.arcadeTime > data.missionsTime) and
-	   (data.arcadeTime > data.endlessTime) and
-	   (data.arcadeTime > data.scoreattackTime) and
-	   (data.arcadeTime > data.towerTime) and
-	   (data.arcadeTime > data.storyTime) and
-	   (data.arcadeTime > data.tourneyTime) and
-	   (data.arcadeTime > data.adventureTime) then
+	if (stats.modes.arcade.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.event.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.story.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Arcade"
 	end
-	if (data.vsTime > data.arcadeTime) and
-	   (data.vsTime > data.survivalTime) and
-	   (data.vsTime > data.bossTime) and
-	   (data.vsTime > data.bonusTime) and
-	   (data.vsTime > data.timeattackTime) and
-	   (data.vsTime > data.timerushTime) and
-	   (data.vsTime > data.suddendeathTime) and
-	   (data.vsTime > data.cpumatchTime) and
-	   (data.vsTime > data.eventsTime) and
-	   (data.vsTime > data.missionsTime) and
-	   (data.vsTime > data.endlessTime) and
-	   (data.vsTime > data.scoreattackTime) and
-	   (data.vsTime > data.towerTime) and
-	   (data.vsTime > data.storyTime) and
-	   (data.vsTime > data.tourneyTime) and
-	   (data.vsTime > data.adventureTime) then
+	if (stats.modes.versus.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.event.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.story.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Versus"
 	end
-	if (data.cpumatchTime > data.arcadeTime) and
-	   (data.cpumatchTime > data.vsTime) and
-	   (data.cpumatchTime > data.survivalTime) and
-	   (data.cpumatchTime > data.bossTime) and
-	   (data.cpumatchTime > data.bonusTime) and
-	   (data.cpumatchTime > data.timeattackTime) and
-	   (data.cpumatchTime > data.timerushTime) and
-	   (data.cpumatchTime > data.suddendeathTime) and
-	   (data.cpumatchTime > data.eventsTime) and
-	   (data.cpumatchTime > data.missionsTime) and
-	   (data.cpumatchTime > data.endlessTime) and
-	   (data.cpumatchTime > data.scoreattackTime) and
-	   (data.cpumatchTime > data.towerTime) and
-	   (data.cpumatchTime > data.storyTime) and
-	   (data.cpumatchTime > data.tourneyTime) and
-	   (data.cpumatchTime > data.adventureTime) then
+	if (stats.modes.watch.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.event.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.story.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "CPU Match"
 	end
-	if (data.survivalTime > data.arcadeTime) and
-	   (data.survivalTime > data.vsTime) and
-	   (data.survivalTime > data.bossTime) and
-	   (data.survivalTime > data.bonusTime) and
-	   (data.survivalTime > data.timeattackTime) and
-	   (data.survivalTime > data.timerushTime) and
-	   (data.survivalTime > data.suddendeathTime) and
-	   (data.survivalTime > data.cpumatchTime) and
-	   (data.survivalTime > data.eventsTime) and
-	   (data.survivalTime > data.missionsTime) and
-	   (data.survivalTime > data.endlessTime) and
-	   (data.survivalTime > data.scoreattackTime) and
-	   (data.survivalTime > data.towerTime) and
-	   (data.survivalTime > data.storyTime) and
-	   (data.survivalTime > data.tourneyTime) and
-	   (data.survivalTime > data.adventureTime) then
+	if (stats.modes.survival.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.event.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.story.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Survival"
 	end
-	if (data.bossTime > data.arcadeTime) and
-	   (data.bossTime > data.vsTime) and
-	   (data.bossTime > data.survivalTime) and
-	   (data.bossTime > data.bonusTime) and
-	   (data.bossTime > data.timeattackTime) and
-	   (data.bossTime > data.timerushTime) and
-	   (data.bossTime > data.suddendeathTime) and
-	   (data.bossTime > data.cpumatchTime) and
-	   (data.bossTime > data.eventsTime) and
-	   (data.bossTime > data.missionsTime) and
-	   (data.bossTime > data.endlessTime) and
-	   (data.bossTime > data.scoreattackTime) and
-	   (data.bossTime > data.towerTime) and
-	   (data.bossTime > data.storyTime) and
-	   (data.bossTime > data.tourneyTime) and
-	   (data.bossTime > data.adventureTime) then
+	if (stats.modes.boss.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.event.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.story.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Boss Fight"
 	end
-	if (data.bonusTime > data.arcadeTime) and
-	   (data.bonusTime > data.vsTime) and
-	   (data.bonusTime > data.survivalTime) and
-	   (data.bonusTime > data.bossTime) and
-	   (data.bonusTime > data.timeattackTime) and
-	   (data.bonusTime > data.timerushTime) and
-	   (data.bonusTime > data.suddendeathTime) and
-	   (data.bonusTime > data.cpumatchTime) and
-	   (data.bonusTime > data.eventsTime) and
-	   (data.bonusTime > data.missionsTime) and
-	   (data.bonusTime > data.endlessTime) and
-	   (data.bonusTime > data.scoreattackTime) and
-	   (data.bonusTime > data.towerTime) and
-	   (data.bonusTime > data.storyTime) and
-	   (data.bonusTime > data.tourneyTime) and
-	   (data.bonusTime > data.adventureTime) then
+	if (stats.modes.bonus.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.event.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.story.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Bonus Games"
 	end
-	if (data.timeattackTime > data.arcadeTime) and
-	   (data.timeattackTime > data.vsTime) and
-	   (data.timeattackTime > data.survivalTime) and
-	   (data.timeattackTime > data.bossTime) and
-	   (data.timeattackTime > data.bonusTime) and
-	   (data.timeattackTime > data.suddendeathTime) and
-	   (data.timeattackTime > data.cpumatchTime) and
-	   (data.timeattackTime > data.eventsTime) and
-	   (data.timeattackTime > data.missionsTime) and
-	   (data.timeattackTime > data.endlessTime) and
-	   (data.timeattackTime > data.scoreattackTime) and
-	   (data.timeattackTime > data.timerushTime) and
-	   (data.timeattackTime > data.towerTime) and
-	   (data.timeattackTime > data.storyTime) and
-	   (data.timeattackTime > data.tourneyTime) and
-	   (data.timeattackTime > data.adventureTime) then
+	if (stats.modes.timeattack.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.event.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.story.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Time Attack"
 	end
-	if (data.timerushTime > data.arcadeTime) and
-	   (data.timerushTime > data.vsTime) and
-	   (data.timerushTime > data.survivalTime) and
-	   (data.timerushTime > data.bossTime) and
-	   (data.timerushTime > data.bonusTime) and
-	   (data.timerushTime > data.suddendeathTime) and
-	   (data.timerushTime > data.cpumatchTime) and
-	   (data.timerushTime > data.eventsTime) and
-	   (data.timerushTime > data.missionsTime) and
-	   (data.timerushTime > data.endlessTime) and
-	   (data.timerushTime > data.scoreattackTime) and
-	   (data.timerushTime > data.timeattackTime) and
-	   (data.timerushTime > data.towerTime) and
-	   (data.timerushTime > data.storyTime) and
-	   (data.timerushTime > data.tourneyTime) and
-	   (data.timerushTime > data.adventureTime) then
+	if (stats.modes.timerush.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.event.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.story.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Time Rush"
 	end
-	if (data.scoreattackTime > data.arcadeTime) and
-	   (data.scoreattackTime > data.vsTime) and
-	   (data.scoreattackTime > data.survivalTime) and
-	   (data.scoreattackTime > data.bossTime) and
-	   (data.scoreattackTime > data.bonusTime) and
-	   (data.scoreattackTime > data.timeattackTime) and
-	   (data.scoreattackTime > data.timerushTime) and
-	   (data.scoreattackTime > data.suddendeathTime) and
-	   (data.scoreattackTime > data.cpumatchTime) and
-	   (data.scoreattackTime > data.eventsTime) and
-	   (data.scoreattackTime > data.missionsTime) and
-	   (data.scoreattackTime > data.endlessTime) and
-	   (data.scoreattackTime > data.towerTime) and
-	   (data.scoreattackTime > data.storyTime) and
-	   (data.scoreattackTime > data.tourneyTime) and
-	   (data.scoreattackTime > data.adventureTime) then
+	if (stats.modes.scoreattack.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.event.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.story.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Score Attack"
 	end
-	if (data.endlessTime > data.arcadeTime) and
-	   (data.endlessTime > data.vsTime) and
-	   (data.endlessTime > data.survivalTime) and
-	   (data.endlessTime > data.bossTime) and
-	   (data.endlessTime > data.bonusTime) and
-	   (data.endlessTime > data.timeattackTime) and
-	   (data.endlessTime > data.timerushTime) and
-	   (data.endlessTime > data.suddendeathTime) and
-	   (data.endlessTime > data.cpumatchTime) and
-	   (data.endlessTime > data.eventsTime) and
-	   (data.endlessTime > data.missionsTime) and
-	   (data.endlessTime > data.scoreattackTime) and
-	   (data.endlessTime > data.towerTime) and
-	   (data.endlessTime > data.storyTime) and
-	   (data.endlessTime > data.tourneyTime) and
-	   (data.endlessTime > data.adventureTime) then
+	if (stats.modes.endless.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.event.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.story.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Endless"
 	end
-	if (data.suddendeathTime > data.arcadeTime) and
-	   (data.suddendeathTime > data.vsTime) and
-	   (data.suddendeathTime > data.survivalTime) and
-	   (data.suddendeathTime > data.bossTime) and
-	   (data.suddendeathTime > data.bonusTime) and
-	   (data.suddendeathTime > data.timeattackTime) and
-	   (data.suddendeathTime > data.timerushTime) and
-	   (data.suddendeathTime > data.cpumatchTime) and
-	   (data.suddendeathTime > data.eventsTime) and
-	   (data.suddendeathTime > data.missionsTime) and
-	   (data.suddendeathTime > data.endlessTime) and
-	   (data.suddendeathTime > data.scoreattackTime) and
-	   (data.suddendeathTime > data.towerTime) and
-	   (data.suddendeathTime > data.storyTime) and
-	   (data.suddendeathTime > data.tourneyTime) and
-	   (data.suddendeathTime > data.adventureTime) then
+	if (stats.modes.suddendeath.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.event.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.story.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Sudden Death"
 	end
-	if (data.missionsTime > data.arcadeTime) and
-	   (data.missionsTime > data.vsTime) and
-	   (data.missionsTime > data.survivalTime) and
-	   (data.missionsTime > data.bossTime) and
-	   (data.missionsTime > data.bonusTime) and
-	   (data.missionsTime > data.timeattackTime) and
-	   (data.missionsTime > data.timerushTime) and
-	   (data.missionsTime > data.suddendeathTime) and
-	   (data.missionsTime > data.cpumatchTime) and
-	   (data.missionsTime > data.eventsTime) and
-	   (data.missionsTime > data.endlessTime) and
-	   (data.missionsTime > data.scoreattackTime) and
-	   (data.missionsTime > data.towerTime) and
-	   (data.missionsTime > data.storyTime) and
-	   (data.missionsTime > data.tourneyTime) and
-	   (data.missionsTime > data.adventureTime) then
+	if (stats.modes.mission.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.event.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.story.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Missions"
 	end
-	if (data.eventsTime > data.arcadeTime) and
-	   (data.eventsTime > data.vsTime) and
-	   (data.eventsTime > data.survivalTime) and
-	   (data.eventsTime > data.bossTime) and
-	   (data.eventsTime > data.bonusTime) and
-	   (data.eventsTime > data.timeattackTime) and
-	   (data.eventsTime > data.timerushTime) and
-	   (data.eventsTime > data.suddendeathTime) and
-	   (data.eventsTime > data.cpumatchTime) and
-	   (data.eventsTime > data.missionsTime) and
-	   (data.eventsTime > data.endlessTime) and
-	   (data.eventsTime > data.scoreattackTime) and
-	   (data.eventsTime > data.towerTime) and
-	   (data.eventsTime > data.storyTime) and
-	   (data.eventsTime > data.tourneyTime) and
-	   (data.eventsTime > data.adventureTime) then
+	if (stats.modes.event.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.event.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.event.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.event.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.event.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.event.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.event.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.event.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.event.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.event.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.event.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.event.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.event.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.event.playtime > stats.modes.story.playtime) and
+	   (stats.modes.event.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.event.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Events"
 	end
-	if (data.towerTime > data.arcadeTime) and
-	   (data.towerTime > data.vsTime) and
-	   (data.towerTime > data.survivalTime) and
-	   (data.towerTime > data.bossTime) and
-	   (data.towerTime > data.bonusTime) and
-	   (data.towerTime > data.timeattackTime) and
-	   (data.towerTime > data.timerushTime) and
-	   (data.towerTime > data.suddendeathTime) and
-	   (data.towerTime > data.cpumatchTime) and
-	   (data.towerTime > data.eventsTime) and
-	   (data.towerTime > data.missionsTime) and
-	   (data.towerTime > data.endlessTime) and
-	   (data.towerTime > data.scoreattackTime) and
-	   (data.towerTime > data.storyTime) and
-	   (data.towerTime > data.tourneyTime) and
-	   (data.towerTime > data.adventureTime) then
+	if (stats.modes.tower.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.event.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.story.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Tower"
 	end
-	if (data.tourneyTime > data.arcadeTime) and
-	   (data.tourneyTime > data.vsTime) and
-	   (data.tourneyTime > data.survivalTime) and
-	   (data.tourneyTime > data.bossTime) and
-	   (data.tourneyTime > data.bonusTime) and
-	   (data.tourneyTime > data.timeattackTime) and
-	   (data.tourneyTime > data.timerushTime) and
-	   (data.tourneyTime > data.suddendeathTime) and
-	   (data.tourneyTime > data.cpumatchTime) and
-	   (data.tourneyTime > data.eventsTime) and
-	   (data.tourneyTime > data.missionsTime) and
-	   (data.tourneyTime > data.endlessTime) and
-	   (data.tourneyTime > data.scoreattackTime) and
-	   (data.tourneyTime > data.towerTime) and
-	   (data.tourneyTime > data.storyTime) and
-	   (data.tourneyTime > data.adventureTime) then
+	if (stats.modes.tourney.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.event.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.story.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Tourney"
 	end
-	if (data.adventureTime > data.arcadeTime) and
-	   (data.adventureTime > data.vsTime) and
-	   (data.adventureTime > data.survivalTime) and
-	   (data.adventureTime > data.bossTime) and
-	   (data.adventureTime > data.bonusTime) and
-	   (data.adventureTime > data.timeattackTime) and
-	   (data.adventureTime > data.timerushTime) and
-	   (data.adventureTime > data.suddendeathTime) and
-	   (data.adventureTime > data.cpumatchTime) and
-	   (data.adventureTime > data.eventsTime) and
-	   (data.adventureTime > data.missionsTime) and
-	   (data.adventureTime > data.endlessTime) and
-	   (data.adventureTime > data.scoreattackTime) and
-	   (data.adventureTime > data.towerTime) and
-	   (data.adventureTime > data.storyTime) and
-	   (data.adventureTime > data.tourneyTime) then
+	if (stats.modes.adventure.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.event.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.story.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.tourney.playtime) then
 		t_statsMenu[7].varText = "Adventure"
 	end
-	ts = math.floor((data.trainingTime%60))
-	tm = math.floor((data.trainingTime%3600)/60)
-	th = math.floor((data.trainingTime%86400)/3600)
-	td = math.floor(data.trainingTime/86400)
+	ts = math.floor((stats.modes.training.playtime%60))
+	tm = math.floor((stats.modes.training.playtime%3600)/60)
+	th = math.floor((stats.modes.training.playtime%86400)/3600)
+	td = math.floor(stats.modes.training.playtime/86400)
 	--practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", td, th, tm, ts)
 	practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes", td, th, tm)
 	t_statsMenu[8].varText = practiceTime
-	t_statsMenu[9].varText = data.coins
-	if data.arcadeClear == false then t_statsMenu[10].varText = "INCOMPLETE" elseif data.arcadeClear == true then t_statsMenu[10].varText = "COMPLETED" end
-	if data.survivalClear == false then t_statsMenu[11].varText = "INCOMPLETE" elseif data.survivalClear == true then t_statsMenu[11].varText = "COMPLETED" end
-	if data.bossrushClear == false then t_statsMenu[12].varText = "INCOMPLETE" elseif data.bossrushClear == true then t_statsMenu[12].varText = "COMPLETED" end
-	t_statsMenu[13].varText = math.floor(data.storiesProgress/100).."/3"
-	t_statsMenu[14].varText = data.missionsProgress.."/3"
-	t_statsMenu[15].varText = data.eventsProgress.."/3"
-	t_statsMenu[16].varText = data.suddenrecord.." Wins"
-	t_statsMenu[17].varText = data.endlessrecord.." Wins"
-	t_statsMenu[18].varText = "WIP"--data.timerecord..""
-	t_statsMenu[19].varText = "WIP"--data.scorerecord..""
+	t_statsMenu[9].varText = stats.coins
+	t_statsMenu[10].varText = math.floor(data.storiesProgress/100).."/3"
+	t_statsMenu[11].varText = stats.modes.mission.clearall.."/3"
+	t_statsMenu[12].varText = stats.modes.event.clearall.."/3"
 end
 
 --;===========================================================
@@ -7506,9 +7487,9 @@ function f_infoMenu()
 	--Actions
 	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		sndPlay(sndSys, 100, 2)
-		if firstRunInfo and data.firstRun == true then
-			data.firstRun = false
-			f_saveProgress()
+		if firstRunInfo and stats.firstRun then
+			stats.firstRun = false
+			f_saveStats()
 		end
 		f_infoReset()
 	end
@@ -8384,9 +8365,9 @@ if unlockScreen.UnlockStoryboard ~= nil and io.open(unlockScreen.UnlockStoryboar
 elseif unlockScreen.UnlockMovie ~= nil and io.open(unlockScreen.UnlockMovie or '','r') ~= nil then
 	playVideo(unlockScreen.UnlockMovie)
 end
-if secretTarget[1].displayname == goukiName then data.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
+if secretTarget[1].displayname == goukiName then stats.unlocks.chars.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
 secretTarget = "" --Reset Var
-f_saveProgress()
+f_saveStats()
 end
 
 --;===========================================================
@@ -8405,16 +8386,16 @@ function f_mainAttract()
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		   sndPlay(sndSys, 200, 0)
 		   demoTimer = 0
-		   data.attractCoins = data.attractCoins + 1
-		   f_saveProgress()
+		   stats.attractCoins = stats.attractCoins + 1
+		   f_saveStats()
 		   attractTimer = attractSeconds*gameTick --Reset Timer
 		--START GAME MODE
-		elseif ((commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) or attractTimer == 0) and data.attractCoins > 0 then
+		elseif ((commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) or attractTimer == 0) and stats.attractCoins > 0 then
 		   --playVideo(videoHowToPlay)
 		   data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		   sndPlay(sndSys, 100, 1)
-		   data.attractCoins = data.attractCoins - 1
-		   f_saveProgress()
+		   stats.attractCoins = stats.attractCoins - 1
+		   f_saveStats()
 		   attractTimer = attractSeconds*gameTick
 		   f_default()
 		   --data.p1TeamMenu = {mode = 0, chars = 1}
@@ -8460,7 +8441,7 @@ function f_mainAttract()
 		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
 		nodecimalAttractTime = string.format("%.0f",attractTimeNumber) --Delete Decimals
 		textImgSetText(txt_attractTimer, nodecimalAttractTime)
-		if attractTimer > 0 and data.attractCoins > 0 then
+		if attractTimer > 0 and stats.attractCoins > 0 then
 			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
 			textImgDraw(txt_attractTimer)
 		else --when attractTimer <= 0
@@ -8469,7 +8450,7 @@ function f_mainAttract()
 		f_sysTime()
 		drawAttractInputHints()
 		if t%60 < 30 then
-			if data.attractCoins > 0 then
+			if stats.attractCoins > 0 then
 				textImgDraw(txt_mainTitle)
 			else
 				textImgDraw(txt_coinTitle)
@@ -9262,9 +9243,9 @@ end
 function f_winCoins()
 	if onlinegame == false then	
 		if coinSystem == true then
-			data.coins = data.coins + 5 --Earn 5 Coins by Win :)
+			stats.coins = stats.coins + 5 --Earn 5 Coins by Win :)
 			--sndPlay(sndSys, 200, 0) --Coin Earned Song
-			f_saveProgress()
+			f_saveStats()
 		elseif coinSystem == false then
 			--Do nothing and don't lose or win coins
 		end
@@ -9275,11 +9256,11 @@ end
 
 function f_loseCoins()
 	if coinSystem == true then
-		if data.coins < 1 then
-			data.coins = 0
-		elseif data.coins >= 1 then
-			data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
-			f_saveProgress()
+		if stats.coins < 1 then
+			stats.coins = 0
+		elseif stats.coins >= 1 then
+			stats.coins = stats.coins - 1 --Lose 1 Coin by be defeated :c
+			f_saveStats()
 		end
 	elseif coinSystem == false then
 		--Do nothing and don't lose or win coins
@@ -15109,11 +15090,11 @@ function f_continue()
 		anim4 = f_animFromTable(tablePos4['dizzy'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 	end
 	if data.attractMode == true then
-		textImgSetText(txt_coins, "CREDITS: "..data.attractCoins)
+		textImgSetText(txt_coins, "CREDITS: "..stats.attractCoins)
 	--else
-		--textImgSetText(txt_coins, "COINS: "..data.coins)
+		--textImgSetText(txt_coins, "COINS: "..stats.coins)
 	end
-	textImgSetText(txt_cont, "TIMES CONTINUED: "..data.continueCount)
+	textImgSetText(txt_cont, "TIMES CONTINUED: "..stats.continueCount)
 	cmdInput()
 	while true do
 		animDraw(contBG0)
@@ -15165,31 +15146,31 @@ function f_continue()
 				end
 				if onlinegame == false then
 					if data.attractMode == true then
-						if data.attractCoins < 1 then
-							data.attractCoins = 0
-						elseif data.attractCoins >= 1 then
-							data.attractCoins = data.attractCoins - 1
+						if stats.attractCoins < 1 then
+							stats.attractCoins = 0
+						elseif stats.attractCoins >= 1 then
+							stats.attractCoins = stats.attractCoins - 1
 						end
-						f_saveProgress()
+						f_saveStats()
 					--else
-						--if data.coins < 1 then
-							--data.coins = 0
-						--elseif data.coins >= 1 then
-							--data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+						--if stats.coins < 1 then
+							--stats.coins = 0
+						--elseif stats.coins >= 1 then
+							--stats.coins = stats.coins - 1 --Lose 1 Coin by be defeated :c
 						--end
-						--f_saveProgress()
+						--f_saveStats()
 					end
 				elseif onlinegame == true then
 					--Free Online Arcade to Avoid Desync
 				end
-				data.continueCount = data.continueCount + 1 --Times Continue
-				--f_saveProgress()
+				stats.continueCount = stats.continueCount + 1 --Times Continue
+				--f_saveStats()
 				if data.attractMode == true then
-					textImgSetText(txt_coins, "CREDITS: "..data.attractCoins)
+					textImgSetText(txt_coins, "CREDITS: "..stats.attractCoins)
 				--else
-					--textImgSetText(txt_coins, "COINS: "..data.coins)
+					--textImgSetText(txt_coins, "COINS: "..stats.coins)
 				end
-				textImgSetText(txt_cont, "TIMES CONTINUED: "..data.continueCount)				
+				textImgSetText(txt_cont, "TIMES CONTINUED: "..stats.continueCount)				
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', sprFade)
 				data.continue = 1
 			elseif i > 1366 then --Continue = NO
@@ -15687,18 +15668,18 @@ end
 function f_arcadeEnd()
 	f_missionStatus() --Because for some reason, mission 2 not save data in his script..
 	if data.rosterMode == "arcade" then
-		data.arcadeClear = true --Progress
+		stats.modes.arcade.clear = stats.modes.arcade.clear + 1 --Progress
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side
 			unlockTarget = data.t_p2selected
 		else --Player 1 in Left Side
 			unlockTarget = data.t_p1selected
 		end
-		if unlockTarget[1].displayname == "Suave Dude" then	data.reika = true end --Character Unlock
-		f_saveProgress()
+		if unlockTarget[1].displayname == "Suave Dude" then	stats.unlocks.chars.reika = true end --Character Unlock
+		f_saveStats()
 		unlockTarget = "" --Reset Var
 	elseif data.rosterMode == "tower" then
 		data.towerClear = true
-		f_saveProgress()
+		f_saveStats()
 	end
 	--Intermissions Access
 	if data.rosterMode == "arcade" and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
@@ -15721,11 +15702,11 @@ end
 
 function f_advancedEnd()
 	if data.rosterMode == "survival" then
-		data.survivalClear = true
-		f_saveProgress()
+		stats.modes.survival.clear = stats.modes.survival.clear + 1
+		f_saveStats()
 	elseif data.rosterMode == "boss" then
-		data.bossrushClear = true
-		f_saveProgress()
+		stats.modes.bossrush.clear = stats.modes.bossrush.clear + 1
+		f_saveStats()
 	end
 	f_storyboard("data/screenpack/gameover.def")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -15898,7 +15879,7 @@ if validCells() then
 			--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
+				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 					--Victory screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -16035,7 +16016,7 @@ if validCells() then
 			--Player 1 (IN LEFT SIDE):
 			else
 				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
+				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 					--Victory Screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -16096,7 +16077,7 @@ if validCells() then
 		--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
 		else
 			--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
-			if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
+			if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 				looseCnt = looseCnt + 1
 				if data.gameMode == "arcade" or data.gameMode == "tower" then --Attract Arcade
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -18481,7 +18462,7 @@ function f_playCredits()
 	if data.intermission then
 		f_getIntermission() --Load t_secretChallenger
 		--Conditions to enter in secret fight
-		if #t_secretChallenger ~= 0 and data.continueCount == 0 and data.difficulty >= 4 then
+		if #t_secretChallenger ~= 0 and stats.continueCount == 0 and data.difficulty >= 4 then
 			f_intermission()
 			f_secretFight()
 		end

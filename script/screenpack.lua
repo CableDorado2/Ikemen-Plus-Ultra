@@ -507,9 +507,9 @@ animUpdate(arrowsD)
 animSetScale(arrowsD, 0.5, 0.5)
 
 function f_titleText()
-	if data.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
-	elseif data.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
-	elseif data.vault == "SSZ" then textImgSetText(txt_subTitle, "SSZ")
+	if stats.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
+	elseif stats.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
+	elseif stats.vault == "SSZ" then textImgSetText(txt_subTitle, "SSZ")
 	end
 	textImgDraw(txt_subTitle)
 end
@@ -1328,16 +1328,9 @@ t_statsMenu = {
 	{varID = textImgNew(), text = "Preferred Game Mode", 		varText = ""},
 	{varID = textImgNew(), text = "Training Time",  			varText = ""},
 	{varID = textImgNew(), text = "Collected Coins",    		varText = ""},
-	{varID = textImgNew(), text = "Arcade Status",     			varText = ""},
-	{varID = textImgNew(), text = "Survival Status",     		varText = ""},
-	{varID = textImgNew(), text = "Boss Rush Status",     		varText = ""},
 	{varID = textImgNew(), text = "Stories Completed",     		varText = ""},
 	{varID = textImgNew(), text = "Missions Completed",     	varText = ""},
 	{varID = textImgNew(), text = "Events Completed",     		varText = ""},
-	{varID = textImgNew(), text = "Sudden Death Record",    	varText = ""},
-	{varID = textImgNew(), text = "Endless Record",    			varText = ""},
-	{varID = textImgNew(), text = "Time Attack Record",    		varText = ""},
-	{varID = textImgNew(), text = "Score Attack Record",    	varText = ""},
 	{varID = textImgNew(), text = "Leaderboards",		    	varText = "WIP"},
 	{varID = textImgNew(), text = "                   BACK",    varText = ""},
 }

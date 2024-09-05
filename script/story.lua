@@ -285,7 +285,7 @@ function f_storyMenu()
 	textImgSetText(txt_storyProgress, "["..storyData.."%]")
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			f_saveProgress()
+			f_saveStats()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			f_menuMusic()
@@ -1054,6 +1054,5 @@ function f_storyStatus()
 	elseif data.storyNo == "3-0" then data.story3_0Status = 1
 	elseif data.storyNo == "3-1" then data.story3_1Status = 1
 	end
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	f_saveStats()
 end

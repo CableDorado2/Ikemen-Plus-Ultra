@@ -126,7 +126,7 @@ animSetScale(optionsDownArrowP2, 0.5, 0.5)
 
 txt_creditsCfg = createTextImg(font1, 0, -1, "", 181.5, 219)
 function f_attractcfgCredits()
-	textImgSetText(txt_creditsCfg, "Credits: "..data.attractCoins.."")
+	textImgSetText(txt_creditsCfg, "Credits: "..stats.attractCoins.."")
 	textImgDraw(txt_creditsCfg)
 end
 
@@ -1573,7 +1573,7 @@ function f_mainCfg()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 2)
 				if data.erase == true then
-					f_saveProgress()
+					--delete stats file
 					f_saveVN()
 					data.erase = false
 				end
@@ -9933,89 +9933,6 @@ end
 
 --Set Default Stats
 function f_defaultStats()
-	data.firstRun = true
-	data.arcadeClear = false
-	data.survivalClear = false
-	data.bossrushClear = false
-	data.coins = 0
-	--data.attractCoins = 0
-	data.continueCount = 0
-	--data.vault = "Ultra"
-	data.playTime = 0
-	data.trainingTime = 0
-	data.favoriteChar = "None"
-	data.favoriteStage = "None"
-	data.victories = 0
-	data.defeats = 0
---Records Data
-	data.timerecord = 0
-	data.scorerecord = 0
-	data.suddenrecord = 0
-	data.endlessrecord = 0
---Time Played Data
-	data.storyTime = 0
-	data.arcadeTime = 0
-	data.vsTime = 0
-	data.survivalTime = 0
-	data.bossTime = 0
-	data.bonusTime = 0
-	data.timerushTime = 0
-	data.timeattackTime = 0
-	data.scoreattackTime = 0
-	data.endlessTime = 0
-	data.suddendeathTime = 0
-	data.missionsTime = 0
-	data.eventsTime = 0
-	data.towerTime = 0
-	data.tourneyTime = 0
-	data.adventureTime = 0
-	data.cpumatchTime = 0
---Event Mode Data
-	data.eventsProgress = 0
-	data.event1Status = 0
-	data.event2Status = 0
-	data.event3Status = 0
---Mission Mode Data
-	data.missionsProgress = 0
-	data.mission1Status = 0
-	data.mission2Status = 0
-	data.mission3Status = 0
---Story Mode Data
-	data.storiesProgress = 0
---Arc 1 Data
-	data.story1_0Status = 0
-	data.story1_1Status = 0
-	data.story1_2Status = 0
-	data.story1_3AStatus = 0
-	data.story1_3BStatus = 0
-	data.story1_4AStatus = 0
-	data.story1_4BStatus = 0
-	data.story1_4CStatus = 0
-	data.story1_4DStatus = 0
-	--Arc 2 Data
-	data.story2_0Status = 0
-	data.story2_1Status = 0
-	data.story2_2Status = 0
-	--Arc 3 Data
-	data.story3_0Status = 0
-	data.story3_1Status = 0
---Story Mode - Arc 1 Chapters Unlocks
-	data.story1_1Unlock = false
-	data.story1_2Unlock = false
-	data.story1_3AUnlock = false
-	data.story1_3BUnlock = false
-	data.story1_4AUnlock = false
-	data.story1_4BUnlock = false
-	data.story1_4CUnlock = false
-	data.story1_4DUnlock = false
---Story Mode - Arc 2 Chapters Unlocks
-	data.story2_1Unlock = false
-	data.story2_2Unlock = false
---Story Mode - Arc 3 Chapters Unlocks
-	data.story3_1Unlock = false
---Characters Unlock
-	data.reika = false
-	data.gouki = false
 --Visual Novel Data
 	data.VNarc = ""
 	data.VNchapter = 0

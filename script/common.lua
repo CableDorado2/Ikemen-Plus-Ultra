@@ -47,84 +47,9 @@ saveNetCfgPath = "save/data_netsav.lua"
 saveHostRoomPath = "save/host_rooms.json"
 saveTempPath = "save/temp_sav.lua"
 saveTrainingPath = "save/training_sav.lua"
-saveStatsPath = "save/stats_sav.lua"
+saveStatsPath = "save/stats_sav.json"
 saveTourneyPath = "save/tourney_sav.lua"
 saveVNPath = "save/vn_sav.lua"
-
---Load saved variables
-assert(loadfile(saveCfgPath))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile(saveStatsPath))() --player records data
-assert(loadfile(saveTrainingPath))() --training data
-assert(loadfile(saveTourneyPath))() --tournament data
-assert(loadfile(saveVNPath))() --visual novel data
-assert(loadfile(saveTempPath))() --temp data
-
---Data loading from host_rooms.json
-local file = io.open(saveHostRoomPath,"r")
-host_rooms = json.decode(file:read("*all"))
-file:close()
-
---Data loading from stats_sav.lua
-local file = io.open(saveStatsPath,"r")
-statsDataLUA = file:read("*all")
-file:close()
-
---Data loading from vn_sav.lua
-local vnFile = io.open(saveVNPath,"r")
-s_vndataLUA = vnFile:read("*all")
-vnFile:close()
-
---Data loading from temp_sav.lua
-local tempFile = io.open(saveTempPath,"r")
-s_tempdataLUA = tempFile:read("*all")
-tempFile:close()
-
---Data loading from tourney_sav.lua
-local tourneyFile = io.open(saveTourneyPath,"r")
-s_tourneydataLUA = tourneyFile:read("*all")
-tourneyFile:close()
-
---Data loading from config.ssz
-local file = io.open(saveCoreCfgPath,"r")
-s_configSSZ = file:read("*all")
-file:close()
-
---;===========================================================
---; DISCORD RICH PRESENCE DEFINITION
---;===========================================================
-discordGameID = "1200228516554346567" --Discord AppID
-discordGameState = "In Logos" --Game State
-discordGameDetails = "Create Advanced MUGENS or your own Fighting Game!" --Game State Details
-discordGameBigImg = "gameicon" --Discord App Game Icon
-discordGameAbout = "Game Name" --Game Description
-discordGameMiniIcon = "charactericon" --Discord App Mini Icon
-discordGameMiniTxt = "character name" --Mini Icon Description
-discordPublicRoomID = "party1234" --Public Room ID
-discordPrivateRoomID = "xyzzy" --Private Room ID
-discordPrivateJoin = "join" --
-discordPrivateWatch = "look" --
-discordRoomMax = 2 --Room Max Capacity
-discordRoomSize = 0 --Room Capacity. Add 1 when online mode with rich presence works
-discordGameInstance = 0 --???
-
---[[
-discordInit(discordGameID) --Start Discord Rich Presence
-discordUpdate() --Update Discord Rich Presence
-discordEnd() --End Discord Rich Presence
-setDiscordState(discordGameState)
-setDiscordDetails(discordGameDetails)
-setDiscordBigImg(discordGameBigImg)
-setDiscordBigTxt(discordGameAbout)
-setDiscordMiniImg(discordGameMiniIcon)
-setDiscordMiniTxt(discordGameMiniTxt)
-setDiscordPartyID(discordPublicRoomID)
-setDiscordSecretID(discordPrivateRoomID)
-setDiscordSecretJoin(discordPrivateJoin)
-setDiscordSecretWatch(discordPrivateWatch)
-setDiscordPartyMax(discordRoomMax)
-setDiscordPartySize(discordRoomSize)
-setDiscordInstance(discordGameInstance)
-]]
 
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION
@@ -606,6 +531,23 @@ function f_wrap(str, limit, indent, indent1)
 	end)
 end
 
+--return sorted and capped table
+function f_formattedTable(t, append, f, size)
+	local t = t or {}
+	local size = size or -1
+	local t_tmp = {}
+	local tmp = 0
+	table.insert(t, append)
+	for _, v in main.f_sortKeys(t, f) do
+		tmp = tmp + 1
+		table.insert(t_tmp, v)
+		if tmp == size then
+			break
+		end
+	end
+	return t_tmp
+end
+
 --Convert DEF string to table (each line = next item; %i, %s swapped with variable values)
 function f_extractText(txt, v1, v2, v3, v4)
 	local t = {v1 or '', v2 or '', v3 or '', v4 or ''}
@@ -659,6 +601,30 @@ function f_strSub(str, t)
 	return str, txt
 end
 
+--return file content
+function f_fileRead(path, mode)
+	local file = io.open(path, mode or 'r')
+	if file == nil then --File doesn't exist
+		return
+	end
+	local str = file:read("*all")
+	file:close()
+	return str
+end
+
+--write to file
+function f_fileWrite(path, str, mode)
+	if str == nil then
+		return
+	end
+	local file = io.open(path, mode or 'w+')
+	if file == nil then --File doesn't exist
+		return
+	end
+	file:write(str)
+	file:close()
+end
+
 function strsplit(delimiter, text)
 	local list = {}
 	local pos = 1
@@ -705,7 +671,87 @@ function f_minMax(v,mn,mx)
 	return math.max(mn,math.min(mx,v))
 end
 
---input stuff
+--;===========================================================
+--; DATA LOADING
+--;===========================================================
+--Load saved variables
+assert(loadfile(saveCfgPath))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
+assert(loadfile(saveTrainingPath))() --training data
+assert(loadfile(saveTourneyPath))() --tournament data
+assert(loadfile(saveVNPath))() --visual novel data
+assert(loadfile(saveTempPath))() --temp data
+
+--Data loading from host_rooms.json
+local file = io.open(saveHostRoomPath,"r")
+host_rooms = json.decode(file:read("*all"))
+file:close()
+
+--Data loading from vn_sav.lua
+local vnFile = io.open(saveVNPath,"r")
+s_vndataLUA = vnFile:read("*all")
+vnFile:close()
+
+--Data loading from temp_sav.lua
+local tempFile = io.open(saveTempPath,"r")
+s_tempdataLUA = tempFile:read("*all")
+tempFile:close()
+
+--Data loading from tourney_sav.lua
+local tourneyFile = io.open(saveTourneyPath,"r")
+s_tourneydataLUA = tourneyFile:read("*all")
+tourneyFile:close()
+
+--Data loading from config.ssz
+local file = io.open(saveCoreCfgPath,"r")
+s_configSSZ = file:read("*all")
+file:close()
+
+--Data loading from config.json
+--config = json.decode(f_fileRead(saveCfgPath))
+
+--Data loading from stats.json
+stats = json.decode(f_fileRead(saveStatsPath))
+
+--;===========================================================
+--; DISCORD RICH PRESENCE DEFINITION
+--;===========================================================
+discordGameID = "1200228516554346567" --Discord AppID
+discordGameState = "In Logos" --Game State
+discordGameDetails = "Create Advanced MUGENS or your own Fighting Game!" --Game State Details
+discordGameBigImg = "gameicon" --Discord App Game Icon
+discordGameAbout = "Game Name" --Game Description
+discordGameMiniIcon = "charactericon" --Discord App Mini Icon
+discordGameMiniTxt = "character name" --Mini Icon Description
+discordPublicRoomID = "party1234" --Public Room ID
+discordPrivateRoomID = "xyzzy" --Private Room ID
+discordPrivateJoin = "join" --
+discordPrivateWatch = "look" --
+discordRoomMax = 2 --Room Max Capacity
+discordRoomSize = 0 --Room Capacity. Add 1 when online mode with rich presence works
+discordGameInstance = 0 --???
+
+--[[
+discordInit(discordGameID) --Start Discord Rich Presence
+discordUpdate() --Update Discord Rich Presence
+discordEnd() --End Discord Rich Presence
+setDiscordState(discordGameState)
+setDiscordDetails(discordGameDetails)
+setDiscordBigImg(discordGameBigImg)
+setDiscordBigTxt(discordGameAbout)
+setDiscordMiniImg(discordGameMiniIcon)
+setDiscordMiniTxt(discordGameMiniTxt)
+setDiscordPartyID(discordPublicRoomID)
+setDiscordSecretID(discordPrivateRoomID)
+setDiscordSecretJoin(discordPrivateJoin)
+setDiscordSecretWatch(discordPrivateWatch)
+setDiscordPartyMax(discordRoomMax)
+setDiscordPartySize(discordRoomSize)
+setDiscordInstance(discordGameInstance)
+]]
+
+--;===========================================================
+--; INPUT STUFF
+--;===========================================================
 inputdia = inputDialogNew()
 data.p1In = 1
 data.p2In = 2 --Activate Player 2 Control in Menus
@@ -3409,8 +3455,8 @@ function f_secretCode(key)
 	--Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
 		sndPlay(sndSys, 200, 2)
-		--data.reika = true
-		--f_saveProgress()
+		--stats.unlocks.chars.reika = true
+		--f_saveStats()
 		cmdReward = true
 	else--If table are not equals
 		cmdReward = false
@@ -3426,9 +3472,8 @@ end
 --;===========================================================
 function f_playTime()
 	gTime = os.clock() - gameTime
-	data.playTime = (data.playTime + gTime)
-	f_saveProgress()
-	assert(loadfile(saveStatsPath))()
+	stats.playtime = (stats.playtime + gTime)
+	f_saveStats()
 end
 
 --Data saving to temp_sav.lua
@@ -3497,111 +3542,197 @@ function f_saveVN()
 	vnFile:close()
 end
 
---Data saving to stats_sav.lua
-function f_saveProgress()
-	local t_progress = {
-		['data.firstRun'] = data.firstRun,
-		['data.arcadeClear'] = data.arcadeClear,
-		['data.survivalClear'] = data.survivalClear,
-		['data.bossrushClear'] = data.bossrushClear,
-		['data.coins'] = data.coins,
-		['data.attractCoins'] = data.attractCoins,
-		['data.continueCount'] = data.continueCount,
-		['data.vault'] = data.vault,
-		['data.playTime'] = data.playTime,
-		['data.trainingTime'] = data.trainingTime,
-		['data.favoriteChar'] = data.favoriteChar,
-		['data.favoriteStage'] = data.favoriteStage,
-		['data.victories'] = data.victories,
-		['data.defeats'] = data.defeats,
-	--Records Data
-		['data.timerecord'] = data.timerecord,
-		['data.scorerecord'] = data.scorerecord,
-		['data.suddenrecord'] = data.suddenrecord,
-		['data.endlessrecord'] = data.endlessrecord,
-	--Time Played Data
-		['data.storyTime'] = data.storyTime,
-		['data.arcadeTime'] = data.arcadeTime,
-		['data.vsTime'] = data.vsTime,
-		['data.survivalTime'] = data.survivalTime,
-		['data.bossTime'] = data.bossTime,
-		['data.bonusTime'] = data.bonusTime,
-		['data.timerushTime'] = data.timerushTime,
-		['data.timeattackTime'] = data.timeattackTime,
-		['data.scoreattackTime'] = data.scoreattackTime,
-		['data.endlessTime'] = data.endlessTime,
-		['data.suddendeathTime'] = data.suddendeathTime,
-		['data.missionsTime'] = data.missionsTime,
-		['data.eventsTime'] = data.eventsTime,
-		['data.towerTime'] = data.towerTime,
-		['data.tourneyTime'] = data.tourneyTime,
-		['data.adventureTime'] = data.adventureTime,
-		['data.cpumatchTime'] = data.cpumatchTime,
-	--Event Mode Data
-		['data.eventsProgress'] = data.eventsProgress,
-		['data.event1Status'] = data.event1Status,
-		['data.event2Status'] = data.event2Status,
-		['data.event3Status'] = data.event3Status,
-	--Mission Mode Data
-		['data.missionsProgress'] = data.missionsProgress,
-		['data.mission1Status'] = data.mission1Status,
-		['data.mission2Status'] = data.mission2Status,
-		['data.mission3Status'] = data.mission3Status,
-	--Story Mode Data
-		['data.storiesProgress'] = data.storiesProgress,
-	--Arc 1 Data
-		['data.story1_0Status'] = data.story1_0Status,
-		['data.story1_1Status'] = data.story1_1Status,
-		['data.story1_2Status'] = data.story1_2Status,
-		['data.story1_3AStatus'] = data.story1_3AStatus,
-		['data.story1_3BStatus'] = data.story1_3BStatus,
-		['data.story1_4AStatus'] = data.story1_4AStatus,
-		['data.story1_4BStatus'] = data.story1_4BStatus,
-		['data.story1_4CStatus'] = data.story1_4CStatus,
-		['data.story1_4DStatus'] = data.story1_4DStatus,
-	--Arc 2 Data
-		['data.story2_0Status'] = data.story2_0Status,
-		['data.story2_1Status'] = data.story2_1Status,
-		['data.story2_2Status'] = data.story2_2Status,
-	--Arc 3 Data
-		['data.story3_0Status'] = data.story3_0Status,
-		['data.story3_1Status'] = data.story3_1Status,
-	--Arc 1 - Story Chapters Unlocks
-		['data.story1_1Unlock'] = data.story1_1Unlock,
-		['data.story1_2Unlock'] = data.story1_2Unlock,
-		['data.story1_3AUnlock'] = data.story1_3AUnlock,
-		['data.story1_3BUnlock'] = data.story1_3BUnlock,
-		['data.story1_4AUnlock'] = data.story1_4AUnlock,
-		['data.story1_4BUnlock'] = data.story1_4BUnlock,
-		['data.story1_4CUnlock'] = data.story1_4CUnlock,
-		['data.story1_4DUnlock'] = data.story1_4DUnlock,
-	--Arc 2 - Story Chapters Unlocks
-		['data.story2_1Unlock'] = data.story2_1Unlock,
-		['data.story2_2Unlock'] = data.story2_2Unlock,
-	--Arc 3 - Story Chapters Unlocks
-		['data.story3_1Unlock'] = data.story3_1Unlock,
-	--Characters Unlocks
-		['data.reika'] = data.reika,
-		['data.gouki'] = data.gouki
-	}
-	statsDataLUA = f_strSub(statsDataLUA, t_progress)
-	local file = io.open(saveStatsPath,"w+")
-	file:write(statsDataLUA)
-	file:close()
+--Data saving to stats.json
+function f_saveStats()
+	--if data.debugLog then f_printTable(stats, 'save/debug/t_stats.txt') end
+	f_fileWrite(saveStatsPath, json.encode(stats, {indent = 2}))
 end
+
+--General Sections
+function init_generalStats()
+if stats.firstRun == nil then stats.firstRun = true end
+if stats.playtime == nil then stats.playtime = 0 end
+if stats.coins == nil then stats.coins = 0 end
+if stats.attractCoins == nil then stats.attractCoins = 0 end
+if stats.continueCount == nil then stats.continueCount = 0 end
+if stats.wins == nil then stats.wins = 0 end
+if stats.losses == nil then stats.losses = 0 end
+if stats.modes == nil then
+	stats.modes = {}
+	
+	stats.modes.arcade = {}
+	stats.modes.arcade.playtime = 0
+	stats.modes.arcade.clear = 0
+	stats.modes.arcade.ranking = {}
+	
+	stats.modes.tower = {}
+	stats.modes.tower.playtime = 0
+	stats.modes.tower.clear = 0
+	stats.modes.tower.ranking = {}
+	
+	stats.modes.survival = {}
+	stats.modes.survival.playtime = 0
+	stats.modes.survival.clear = 0
+	stats.modes.survival.ranking = {}
+	
+	stats.modes.bossrush = {}
+	stats.modes.bossrush.playtime = 0
+	stats.modes.bossrush.clear = 0
+	stats.modes.bossrush.ranking = {}
+	
+	stats.modes.bonusrush = {}
+	stats.modes.bonusrush.playtime = 0
+	stats.modes.bonusrush.clear = 0
+	stats.modes.bonusrush.ranking = {}
+	
+	stats.modes.timeattack = {}
+	stats.modes.timeattack.playtime = 0
+	stats.modes.timeattack.clear = 0
+	stats.modes.timeattack.ranking = {}
+	
+	stats.modes.scoreattack = {}
+	stats.modes.scoreattack.playtime = 0
+	stats.modes.scoreattack.clear = 0
+	stats.modes.scoreattack.ranking = {}
+	
+	stats.modes.suddendeath = {}
+	stats.modes.suddendeath.playtime = 0
+	stats.modes.suddendeath.clear = 0
+	stats.modes.suddendeath.ranking = {}
+	
+	stats.modes.endless = {}
+	stats.modes.endless.playtime = 0
+	stats.modes.endless.clear = 0
+	stats.modes.endless.ranking = {}
+	
+	stats.modes.tourney = {}
+	stats.modes.tourney.playtime = 0
+	stats.modes.tourney.clear = 0
+	stats.modes.tourney.ranking = {}
+	
+	stats.modes.training = {}
+	stats.modes.training.playtime = 0
+	
+	stats.modes.versus = {}
+	stats.modes.versus.playtime = 0
+	
+	stats.modes.watch = {}
+	stats.modes.watch.playtime = 0
+	
+	stats.modes.boss = {}
+	stats.modes.boss.playtime = 0
+	
+	stats.modes.bonus = {}
+	stats.modes.bonus.playtime = 0
+	
+	stats.modes.timerush = {}
+	stats.modes.timerush.playtime = 0
+	
+	stats.modes.story = {}
+	stats.modes.story.playtime = 0
+	
+	stats.modes.adventure = {}
+	stats.modes.adventure.playtime = 0
+	
+	stats.modes.mission = {}
+	stats.modes.mission.playtime = 0
+	stats.modes.mission.clearall = 0
+	stats.modes.mission.clear1 = 0
+	stats.modes.mission.clear2 = 0
+	stats.modes.mission.clear3 = 0
+	
+	stats.modes.event = {}
+	stats.modes.event.playtime = 0
+	stats.modes.event.clearall = 0
+	stats.modes.event.clear1 = 0
+	stats.modes.event.clear2 = 0
+	stats.modes.event.clear3 = 0
+end
+if stats.characters == nil then stats.characters = {} end --To store times used for favorite chars stats
+if stats.stages == nil then stats.stages = {} end --To store times used for favorite stages stats
+if stats.vault == nil then stats.vault = "Ultra" end
+end
+
+--Story Mode Data
+data.storiesProgress = 300
+--Arc 1 Data
+data.story1_0Status = 1
+data.story1_1Status = 1
+data.story1_2Status = 1
+data.story1_3AStatus = 1
+data.story1_3BStatus = 1
+data.story1_4AStatus = 1
+data.story1_4BStatus = 1
+data.story1_4CStatus = 1
+data.story1_4DStatus = 1
+--Arc 2 Data
+data.story2_0Status = 1
+data.story2_1Status = 1
+data.story2_2Status = 1
+--Arc 3 Data
+data.story3_0Status = 1
+data.story3_1Status = 1
+--Story Mode - Arc 1 Chapters Unlocks
+data.story1_1Unlock = true
+data.story1_2Unlock = true
+data.story1_3AUnlock = true
+data.story1_3BUnlock = true
+data.story1_4AUnlock = true
+data.story1_4BUnlock = true
+data.story1_4CUnlock = true
+data.story1_4DUnlock = true
+--Story Mode - Arc 2 Chapters Unlocks
+data.story2_1Unlock = true
+data.story2_2Unlock = true
+--Story Mode - Arc 3 Chapters Unlocks
+data.story3_1Unlock = true
+
+--Unlocks Section
+function init_unlocksStats()
+if stats.unlocks == nil then --If unlocks section does not exists
+	stats.unlocks = {} --Create global space
+	stats.unlocks.chars = {} --Create space for characters
+	stats.unlocks.stages = {} --Create space for stages
+	stats.unlocks.modes = {} --Create space for game modes
+end
+--If Character Unlock Data does not exists, create it:
+if stats.unlocks.chars.reika == nil then stats.unlocks.chars.reika = false end
+if stats.unlocks.chars.gouki == nil then stats.unlocks.chars.gouki = false end
+--if stats.unlocks.chars.charname == nil then stats.unlocks.chars.charname = false end
+
+--If Stage Unlock Data does not exists, create it:
+if stats.unlocks.stages.hiddenpath == nil then stats.unlocks.stages.hiddenpath = false end
+if stats.unlocks.stages.hiddenpathnight == nil then stats.unlocks.stages.hiddenpathnight = false end
+if stats.unlocks.stages.outside == nil then stats.unlocks.stages.outside = false end
+if stats.unlocks.stages.lobby2night == nil then stats.unlocks.stages.lobby2night = false end
+if stats.unlocks.stages.darkcorridor == nil then stats.unlocks.stages.darkcorridor = false end
+if stats.unlocks.stages.winter == nil then stats.unlocks.stages.winter = false end
+if stats.unlocks.stages.secrethallway == nil then stats.unlocks.stages.secrethallway = false end
+if stats.unlocks.stages.clonelaboratory == nil then stats.unlocks.stages.clonelaboratory = false end
+if stats.unlocks.stages.clonelaboratory2 == nil then stats.unlocks.stages.clonelaboratory2 = false end
+if stats.unlocks.stages.trainingroom2 == nil then stats.unlocks.stages.trainingroom2 = false end
+--if stats.unlocks.stages.stagename == nil then stats.unlocks.stages.stagename = false end
+
+--If Story Chapter Unlock Data does not exists, create it:
+if stats.unlocks.modes.story == nil then stats.unlocks.modes.story = {} end --Create space for story chapters
+if stats.unlocks.modes.story.arc2 == nil then stats.unlocks.modes.story.arc2 = false end
+--if stats.unlocks.modes.story.arcname == nil then stats.unlocks.modes.story.arcname = false end
+end
+init_generalStats() --Create general stats data (first run)
+init_unlocksStats()
+f_saveStats()
 
 --;===========================================================
 --; UNLOCKS CHECKING
 --;===========================================================
 function f_unlocksCheck()
-	assert(loadfile(saveStatsPath))()
-	if data.arcadeClear == true then --Verify if you comply with this condition and then..
+	if stats.modes.arcade.clear >= 1 then --Verify if you comply with this condition and then..
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
 	end
-	if data.reika == true then
+	if stats.unlocks.chars.reika == true then
 		t_selChars[t_charAdd["reika murasame"]+1].unlock = 1
 	end
-	if data.gouki == true then
+	if stats.unlocks.chars.gouki == true then
 		t_selChars[t_charAdd["shin gouki"]+1].unlock = 1
 	end
 	if data.story1_1Unlock == true then
@@ -3610,21 +3741,98 @@ function f_unlocksCheck()
 	if data.story1_2Unlock == true then
 		t_selChars[t_charAdd["mako mayama"]+1].unlock = 1
 	end
-	if data.bossrushClear == true then
+	if stats.modes.bossrush.clear >= 1 then
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path night.def"]].unlock = 1
 		t_selStages[t_stageDef["stages/mountainside temple/outside.def"]].unlock = 1
 	end
-	if data.mission1Status == 1 then
+	if stats.modes.mission.clear1 == 1 then
 		t_selStages[t_stageDef["stages/mountainside temple/dark corridor.def"]].unlock = 1
 	end
 	if data.story1_4AStatus == 1 then
 		t_selChars[t_charAdd["suave dude"]+1].unlock = 1
 	end
-	if data.event1Status == 1 then
+	if stats.modes.event.clear1 == 1 then
 		t_selStages[t_stageDef["stages/mountainside temple/winter.def"]].unlock = 1
 	end
-	if data.trainingTime > 1500 then
+	if stats.modes.training.playtime > 1500 then
 		t_selStages[t_stageDef["stages/training room 2.def"]].unlock = 1
 	end
 	f_updateLogs()
 end
+
+--[[stats data
+function f_storeStats()
+	local cleared = false
+	if t_clearCondition[gamemode()] ~= nil then
+		cleared = t_clearCondition[gamemode()]()
+	end
+	if stats.modes == nil then
+		stats.modes = {}
+	end
+	--play time
+	stats.playtime = f_round((stats.playtime or 0) + t_savedData.time.total / 60, 2)
+	--mode play time
+	if stats.modes[gamemode()] == nil then
+		stats.modes[gamemode()] = {}
+	end
+	local t = stats.modes[gamemode()]
+	t.playtime = f_round((t.playtime or 0) + t_savedData.time.total / 60, 2)
+	if t_sortRanking[gamemode()] == nil or t_hiscoreData[gamemode()] == nil then
+		return cleared, -1 --mode can't be cleared
+	end
+	--number times cleared
+	if cleared then
+		t.clear = (t.clear or 0) + 1
+	elseif t.clear == nil then
+		t.clear = 0
+	end
+	--team leader mode cleared count
+	if t.clearcount == nil then
+		t.clearcount = {}
+	end
+	if cleared then
+		local leader = f_getCharData(p[1].t_selected[1].ref).char:lower()
+		t.clearcount[leader] = (t.clearcount[leader] or 0) + 1
+	end
+	--ranking data exceptions
+	if t_hiscoreData[gamemode()].data == 'score' and t_savedData.score.total[1] == 0 then
+		return cleared, -1
+	end
+	if t_hiscoreData[gamemode()].data == 'win' and t_savedData.win[1] == 0 then
+		return cleared, -1
+	end
+	if not cleared and rankingCondition then
+		return cleared, -1 --only winning produces ranking data
+	end
+	if t_savedData.debugflag[1] then
+		return cleared, -1 --using debug keys disables high score table registering
+	end
+	--rankings
+	t.ranking = f_formattedTable(
+		t.ranking,
+		{
+			score = t_savedData.score.total[1],
+			time = f_round(t_savedData.time.total / 60, 2),
+			name = t_savedData.name or '',
+			chars = f_listCharRefs(p[1].t_selected),
+			tmode = p[1].teamMode,
+			ailevel = config.Difficulty,
+			win = t_savedData.win[1],
+			lose = t_savedData.lose[1],
+			consecutive = t_savedData.consecutive[1],
+			flag = true,
+		},
+		t_sortRanking[gamemode()],
+		rankingvisibleitems
+	)
+	local place = 0
+	for k, v in ipairs(t.ranking) do
+		if v.flag then
+			place = k
+			v.flag = nil
+			break
+		end
+	end
+	return cleared, place
+end
+]]

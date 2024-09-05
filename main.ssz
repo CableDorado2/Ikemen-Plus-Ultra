@@ -11,6 +11,32 @@ sh.open(.cfg.Executable, "ssz/ikemen.ssz", "", false, true);
 //BACKUP DATA FILES
 ////////////////////
 
+//Stats File
+const ^/char statsfile = "save/stats_sav.json";
+if(#file.find(statsfile) == 0){
+	&file.File f;
+	f.open(statsfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{
+	
+}"
+	);
+}
+
+//Host Rooms File
+const ^/char hostroomsfile = "save/host_rooms.json";
+if(#file.find(hostroomsfile) == 0){
+	&file.File f;
+	f.open(hostroomsfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{
+	
+}"
+	);
+}
+
 //No DLC Backup
 const ^/char dlcfile = "script/dlc.lua";
 if(#file.find(dlcfile) == 0){

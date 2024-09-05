@@ -148,7 +148,7 @@ end
 --;===========================================================
 --; PAUSE MENU SCREENPACK
 --;===========================================================
-txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins.."", 181.5, 235)
+txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..stats.attractCoins.."", 181.5, 235)
 
 --Scrolling background
 pauseBG0 = animNew(sprSys, [[
