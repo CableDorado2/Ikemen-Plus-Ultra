@@ -14685,6 +14685,7 @@ function f_service()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	serviceBack = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmService)
 	cmdInput()
@@ -15030,13 +15031,13 @@ end
 --;===========================================================
 function f_continue()
 	setService("")
+	serviceTeam = false
 	sndPlay(sndCont, 1, 1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmContinue)
 	f_contTimerReset()
 	f_gameOverReset()
 	data.continue = 0
-	serviceTeam = false
 	local tablePos = ''
 	local tablePos2 = ''
 	local tablePos3 = ''
@@ -15287,15 +15288,11 @@ function f_continue()
 					animUpdate(fadeContinue)
 				end
 			else
-				data.fadeSelect = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				cmdInput()
 				--service screen
-				if data.serviceScreen == false then
-					--Do nothing and don't show the screen
-				elseif data.serviceScreen == true then
+				if data.serviceScreen then
 					f_service()
 				end
-				if serviceTeam == false then --Draw Portrait BG when select a service different of Change Team
+				if not serviceTeam then --Draw Portrait BG when select a service different of Change Team
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						p2BG = true
 						p2memberPreview = 1
@@ -15311,9 +15308,7 @@ function f_continue()
 					end
 				end
 				--challenger screen
-				if data.challengerScreen == false then
-					f_selectMusic() --and don't show the screen
-				elseif data.challengerScreen == true then
+				if data.challengerScreen then
 					f_selectChallenger()
 					f_challengerMusic()
 				else
@@ -15557,9 +15552,7 @@ if validCells() then
 					end
 				--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
-					if data.challengerScreen == false then
-						f_selectMusic() --and don't show the screen
-					elseif data.challengerScreen == true then
+					if data.challengerScreen then
 						f_selectChallenger()
 						f_challengerMusic()
 					else
