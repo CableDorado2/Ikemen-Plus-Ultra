@@ -6,14 +6,6 @@ txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 11)
 txt_storyProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
 txt_storyText = createTextImg(font6, 0, 1, "", 0, 0)
 
---Scrolling background
-storyBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(storyBG0, 160, 0)
-animSetTile(storyBG0, 1, 1)
-animSetColorKey(storyBG0, -1)
-
 --Below Wood background
 woodBG1 = animNew(sprSys, [[
 105,0, 0,0,
@@ -303,13 +295,13 @@ function f_storyMenu()
 			f_resetChaptSel()
 	--Chapter Selection
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			if lockedStory == false then
+			if not lockedStory then
 				t = 0
 				sndPlay(sndSys, 100, 0)
 				chapterMenu = chapterMenu - 1
 			end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			if lockedStory == false then
+			if not lockedStory then
 				t = 0
 				sndPlay(sndSys, 100, 0)
 				chapterMenu = chapterMenu + 1
@@ -411,7 +403,7 @@ function f_storyMenu()
 			lockedStory = false
 		end
 	--Chapter Cursor position calculation
-		if lockedStory == false then
+		if not lockedStory then
 			if chapterMenu < 1 then
 				chapterMenu = #t_arcSelect
 				if #t_arcSelect > 6 then
@@ -440,11 +432,11 @@ function f_storyMenu()
 				maxchapters = 6
 			end
 		end
-		animDraw(f_animVelocity(storyBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Title Menu
 		textImgDraw(txt_storyMenu)
 		textImgDraw(txt_storyProgress)
-		if lockedStory == false then
+		if not lockedStory then
 		--Draw Chapter Text BG
 			--animSetScale(storyBG2, 205, 137)
 			--animSetWindow(storyBG2, 156,94, 269,210)
@@ -461,7 +453,7 @@ function f_storyMenu()
 			animSetWindow(cursorBox, 0,72+cursorPosY*20, 165,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
-		else
+		else --Locked Story Assets
 			animSetPos(woodBG1, 50, 90)
 			animSetWindow(woodBG1, 0, 0, 320, 240)
 			animDraw(woodBG1)
@@ -607,7 +599,7 @@ function f_storyMenu()
 			end
 		end
 	--Draw Chapter Preview Image
-		if lockedStory == false then --If some arc is unlocked:
+		if not lockedStory then --If some arc is unlocked:
 			animSetPos(t_arcSelect[chapterMenu].Preview, 171, 86)
 			animSetScale(t_arcSelect[chapterMenu].Preview, 0.113, 0.106)
 			animUpdate(t_arcSelect[chapterMenu].Preview)
@@ -627,7 +619,7 @@ function f_storyMenu()
 			f_textRender(txt_storyText, t_arcSelect[chapterMenu].Info, t, 150, 102, 15, 1.5, 40)
 		end
 	--Set Chapters Scroll Logic
-		if lockedStory == false then
+		if not lockedStory then
 			for i=1, maxchapters do
 				if i > chapterMenu - cursorPosY then
 					if i == chapterMenu then

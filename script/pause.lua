@@ -150,14 +150,6 @@ end
 --;===========================================================
 txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..stats.attractCoins.."", 181.5, 170)
 
---Scrolling background
-pauseBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(pauseBG0, 160, 0)
-animSetTile(pauseBG0, 1, 1)
-animSetColorKey(pauseBG0, -1)
-
 --Transparent Background Instantaneous (fade in)
 darkenIn = animNew(sprSys, [[300,1, 0,0, -1, 0, AS256D102]])
 animSetPos(darkenIn, -54, 0)
@@ -489,7 +481,7 @@ function f_pauseMain(p, st, esc)
 	end
 	cmdInput()
 	if pauseMode == "" or mainGoTo ~= "" then
-		if challengerActive == false then
+		if not challengerActive then
 			if pn == 1 then textImgSetBank(txt_pause, 5) --Set color depending player id
 			elseif pn == 2 then textImgSetBank(txt_pause, 1)
 			end
@@ -640,7 +632,7 @@ function f_pauseMain(p, st, esc)
 					maxPause = 7
 				end
 				--Draw BG
-				--animDraw(f_animVelocity(pauseBG0, -1, -1))
+				--animDraw(f_animVelocity(commonBG0, -1, -1))
 				--Draw Transparent Table BG
 				animSetScale(pauseBG1, 220, maxPause*15)
 				animSetWindow(pauseBG1, 80,70, 160,105)
@@ -1049,7 +1041,7 @@ function f_pauseSettings()
 				f_gameCfgdisplayTxt()
 				hasChanged = false
 			end
-			--animDraw(f_animVelocity(pauseBG0, -1, -1))
+			--animDraw(f_animVelocity(commonBG0, -1, -1))
 			animSetScale(pauseBG1, 220, maxgameCfg*15)
 			animSetWindow(pauseBG1, 80,70, 160,105)
 			animDraw(pauseBG1)
@@ -1265,7 +1257,7 @@ function f_pauseAudio()
 			setPanStr(pan_str / 100)
 			hasChanged = false
 		end
-		--animDraw(f_animVelocity(pauseBG0, -1, -1))
+		--animDraw(f_animVelocity(commonBG0, -1, -1))
 		animSetScale(pauseBG1, 220, maxAudioCfg*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
@@ -1438,7 +1430,7 @@ function f_pauseSongs()
 				bufl = 0
 			end
 		end
-		--animDraw(f_animVelocity(pauseBG0, -1, -1))
+		--animDraw(f_animVelocity(commonBG0, -1, -1))
 		animSetScale(pauseBG1, 220, maxSongs*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
@@ -2066,7 +2058,7 @@ function f_pauseTraining()
 				setInputDisplay(data.inputDisplay)
 				hasChanged = false
 			end
-			--animDraw(f_animVelocity(pauseBG0, -1, -1))
+			--animDraw(f_animVelocity(commonBG0, -1, -1))
 			animSetScale(pauseBG1, 240, maxtrainingCfg*15)
 			animSetWindow(pauseBG1, 55,70, 240,105)
 			animDraw(pauseBG1)
@@ -2328,7 +2320,7 @@ function f_pausePlayback()
 		else
 			maxPlaybackCfg = 7
 		end
-		--animDraw(f_animVelocity(pauseBG0, -1, -1))
+		--animDraw(f_animVelocity(commonBG0, -1, -1))
 		animSetScale(pauseBG1, 240, maxPlaybackCfg*15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
 		animDraw(pauseBG1)
@@ -2513,7 +2505,7 @@ function f_pauseCharCfg()
 		else
 			maxcharCfg = 7
 		end
-		--animDraw(f_animVelocity(pauseBG0, -1, -1))
+		--animDraw(f_animVelocity(commonBG0, -1, -1))
 		animSetScale(pauseBG1, 240, maxcharCfg*15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
 		animDraw(pauseBG1)

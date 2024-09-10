@@ -378,11 +378,11 @@ function f_loadEXCfg()
 end
 
 --Load Data Functions
-if onlinegame == false then
-	f_loadCfg()
-	f_loadEXCfg()
-elseif onlinegame == true then
+if onlinegame then
 	f_loadNETCfg()
+	f_loadEXCfg()
+else
+	f_loadCfg()
 	f_loadEXCfg()
 end
 
@@ -729,7 +729,7 @@ end
 
 --Default System Values
 function f_systemDefault()
-	if onlinegame == false then
+	if not onlinegame then
 		data.language = "ENGLISH"
 		data.clock = "Standard"
 		data.date = "Type A"
@@ -1400,7 +1400,7 @@ function f_defaultMenu()
 	elseif cursorPosYDefault == 0 then
 		moveTxtDefault = (defaultMenu - 1) * 13
 	end
-	if resetStats == false then
+	if not resetStats then
 		--Draw Fade BG
 		animDraw(fadeWindowBG)
 	end
@@ -1726,7 +1726,7 @@ function f_mainCfg()
 		animDraw(optionsBG1)
 		--Draw Title Menu
 		textImgDraw(txt_mainCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			--Draw Table Cursor
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -2209,7 +2209,7 @@ function f_gameCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 				sndPlay(sndSys, 100, 2)
@@ -2369,9 +2369,9 @@ function f_gameCfg()
 				end
 			--Game Speed
 			elseif gameCfg == 7 then
-				if onlinegame == true then --Detects if this option needs to be locked in online settings
+				if onlinegame then --Detects if this option needs to be locked in online settings
 					lockSetting = true --Boolean to show a Lock setting message
-				elseif onlinegame == false then --allow use the option offline
+				else --allow use the option offline
 					if commandGetState(p1Cmd, 'r') and gameSpeed < 72 then
 						sndPlay(sndSys, 100, 0)
 						if gameSpeed < 48 then
@@ -2478,12 +2478,12 @@ function f_gameCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_gameCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if lockSetting == true then
+		if lockSetting then
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
 			end
@@ -2567,7 +2567,7 @@ function f_teamCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -2765,7 +2765,7 @@ function f_teamCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_teamCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -2839,7 +2839,7 @@ function f_zoomCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -2983,7 +2983,7 @@ function f_zoomCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_zoomCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -3062,7 +3062,7 @@ function f_UICfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
 				sndPlay(sndSys, 100, 2)
@@ -3081,9 +3081,9 @@ function f_UICfg()
 				if bufr then bufr = 0 end
 			--Language Settings
 			elseif UICfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then
+				else
 					--[[
 					if commandGetState(p1Cmd, 'r') and data.language == "ENGLISH" then
 						sndPlay(sndSys, 100, 0)
@@ -3110,9 +3110,9 @@ function f_UICfg()
 				end
 			--Clock Display
 			elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then
+				else
 					if commandGetState(p1Cmd, 'r') and data.clock == "Standard" then
 						sndPlay(sndSys, 100, 0)
 						data.clock = "Full Standard"
@@ -3141,9 +3141,9 @@ function f_UICfg()
 				end
 			--Date Display
 			elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then	
+				else
 					if commandGetState(p1Cmd, 'r') and data.date == "Type A" then
 						sndPlay(sndSys, 100, 0)
 						data.date = "Type B"
@@ -3180,9 +3180,9 @@ function f_UICfg()
 				end
 			--Attract Mode
 			elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then	
+				else
 					sndPlay(sndSys, 100, 0)
 					if data.attractMode then
 						data.attractMode = false
@@ -3228,9 +3228,9 @@ function f_UICfg()
 				end
 			--Display Versus Win Counter
 			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then
+				else
 					sndPlay(sndSys, 100, 0)
 					if data.vsDisplayWin then
 						data.vsDisplayWin = false
@@ -3275,9 +3275,9 @@ function f_UICfg()
 				f_timeCfg()
 			--System Songs Settings
 			elseif UICfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then
+				else
 					sndPlay(sndSys, 100, 1)
 					f_songCfg()
 				end
@@ -3324,12 +3324,12 @@ function f_UICfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_UICfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if lockSetting == true then
+		if lockSetting then
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
 			end
@@ -3406,7 +3406,7 @@ function f_selectCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -3426,9 +3426,9 @@ function f_selectCfg()
 				f_rosterCfg()
 			--Character Select Display Type
 			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then
+				else
 					sndPlay(sndSys, 100, 0)
 					if data.selectType == "Advanced" then data.selectType = "Simple"
 					elseif data.selectType == "Simple" then data.selectType = "Advanced"
@@ -3550,7 +3550,7 @@ function f_selectCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_selectCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -4613,7 +4613,7 @@ function f_rosterCfg()
 		animSetWindow(optionsBG1, 80,20, 160,30)
 		animDraw(optionsBG1)
 		textImgDraw(txt_rosterCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -4721,7 +4721,7 @@ function f_stageCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -4858,7 +4858,7 @@ function f_stageCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_stageCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -4932,7 +4932,7 @@ function f_timeCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -5192,7 +5192,7 @@ function f_timeCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_timeCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -5292,7 +5292,7 @@ function f_songCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				sndPlay(sndSys, 100, 2)
@@ -5368,7 +5368,7 @@ function f_songCfg()
 		animSetWindow(optionsBG2, 2,20, 316.5,210)
 		animDraw(optionsBG2)
 		textImgDraw(txt_songCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 2,5+cursorPosY*15, 316.5,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -5443,7 +5443,7 @@ function f_audioCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -5680,7 +5680,7 @@ function f_audioCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_audioCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -5762,7 +5762,7 @@ function f_engineCfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
 				sndPlay(sndSys, 100, 2)
@@ -5781,9 +5781,9 @@ function f_engineCfg()
 				if bufr then bufr = 0 end					
 			--Debug Mode
 			elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then	
+				else
 					sndPlay(sndSys, 100, 0)
 					if data.debugMode then
 						data.debugMode = false
@@ -5797,9 +5797,9 @@ function f_engineCfg()
 				end
 			--Print Debug Logs
 			elseif engineCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then	
+				else
 					sndPlay(sndSys, 100, 0)
 					if data.debugLog then
 						data.debugLog = false
@@ -5823,9 +5823,9 @@ function f_engineCfg()
 				sszOpen("save", "00_ExtraStagesList.txt")
 			--Engine Mode
 			elseif engineCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then	
+				else
 					sndPlay(sndSys, 100, 0)
 					if data.engineMode == "VN" then
 						data.engineMode = "FG"
@@ -5955,9 +5955,9 @@ function f_engineCfg()
 				end
 			--Erase/Reset Statistics
 			elseif engineCfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then	
+				else
 					sndPlay(sndSys, 100, 1)
 					f_unlocksWarning()
 				end
@@ -6004,12 +6004,12 @@ function f_engineCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_engineCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if lockSetting == true then
+		if lockSetting then
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
 			end
@@ -6134,7 +6134,7 @@ function f_videoCfg()
 			end
 			modified = 1
 		end
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				lockSetting = false
@@ -6241,9 +6241,9 @@ function f_videoCfg()
 				end
 			--Sdlplugin
 			elseif videoCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
+				if onlinegame then
 					lockSetting = true
-				elseif onlinegame == false then
+				else
 					sndPlay(sndSys, 100, 0)
 					if data.sdl == "Original" then
 						data.sdl = "New"
@@ -6286,7 +6286,7 @@ function f_videoCfg()
 			--[[OpenGL 2.0
 			elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
-				if b_openGL == false then
+				if not b_openGL then
 					b_openGL = true
 					s_openGL = "Yes"
 					f_glWarning()
@@ -6302,7 +6302,7 @@ function f_videoCfg()
 			--[[Save Memory
 			elseif videoCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
-				if b_saveMemory == false then
+				if not b_saveMemory then
 					b_saveMemory = true
 					s_saveMemory = "Yes"
 					f_memWarning()
@@ -6359,7 +6359,7 @@ function f_videoCfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_videoCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -7109,7 +7109,7 @@ function f_inputCfg()
 	padTester = 0
 	padTesterActive = false
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -7136,7 +7136,7 @@ function f_inputCfg()
 				--[[Player 1 Gamepad Status
 				elseif inputCfg == 3 then
 					sndPlay(sndSys, 100, 1)
-					if data.disablePadP1 == false then
+					if not data.disablePadP1 then
 						data.disablePadP1 = true
 						s_disablePadP1 = "Disabled"
 					else
@@ -7150,7 +7150,7 @@ function f_inputCfg()
 				--[[Player 2 Gamepad Status
 				elseif inputCfg == 4 then
 					sndPlay(sndSys, 100, 1)
-					if data.disablePadP2 == false then
+					if not data.disablePadP2 then
 						data.disablePadP2 = true
 						s_disablePadP2 = "Disabled"
 					else
@@ -7236,7 +7236,7 @@ function f_inputCfg()
 		animSetWindow(optionsBG1, 68,20, 184,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_inputCfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 68,5+cursorPosY*15, 184,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -9643,7 +9643,7 @@ function f_gameVNcfg()
 	local bufl = 0
 	local maxItems = 12
 	while true do
-		if defaultScreen == false then
+		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
 				sndPlay(sndSys, 100, 2)
@@ -9833,12 +9833,12 @@ function f_gameVNcfg()
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_gameVNcfg)
-		if defaultScreen == false then
+		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if lockSetting == true then
+		if lockSetting then
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
 			end

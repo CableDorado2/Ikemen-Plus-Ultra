@@ -1,125 +1,125 @@
 {
-  "wins":1,
-  "playtime":250.928112,
-  "losses":1,
-  "coins":5,
-  "characters":[],
-  "continueCount":0,
-  "unlocks":{
-    "chars":{
-      "gouki":false,
-      "reika":false
-    },
-    "stages":{
-      "secrethallway":false,
-      "lobby2night":false,
-      "outside":false,
-      "hiddenpathnight":false,
-      "trainingroom2":false,
-      "clonelaboratory2":false,
-      "hiddenpath":false,
-      "clonelaboratory":false,
-      "darkcorridor":false,
-      "winter":false
-    },
-    "modes":{
-      "story":{
-        "arc2":false
-      }
-    }
-  },
+  "wins":0,
   "vault":"Ultra",
-  "firstRun":false,
-  "attractCoins":0,
   "stages":[],
+  "attractCoins":80,
+  "characters":[],
+  "playtime":1884.633519,
   "modes":{
-    "suddendeath":{
-      "playtime":0,
+    "endless":{
       "clear":0,
+      "playtime":0,
       "ranking":[]
     },
-    "event":{
-      "clearall":0,
-      "clear2":0,
-      "clear3":0,
-      "clear1":0,
+    "training":{
       "playtime":0
     },
-    "timeattack":{
-      "playtime":0,
+    "bonusrush":{
       "clear":0,
+      "playtime":0,
       "ranking":[]
     },
-    "scoreattack":{
+    "mission":{
+      "clear2":0,
+      "clearall":0,
+      "clear1":0,
       "playtime":0,
-      "clear":0,
-      "ranking":[]
+      "clear3":0
     },
     "watch":{
       "playtime":0
     },
-    "adventure":{
+    "survival":{
+      "clear":0,
+      "playtime":0,
+      "ranking":[]
+    },
+    "event":{
+      "clear2":0,
+      "clearall":0,
+      "clear1":0,
+      "playtime":0,
+      "clear3":0
+    },
+    "bonus":{
       "playtime":0
     },
-    "mission":{
-      "clearall":1,
-      "clear2":0,
-      "clear3":0,
-      "clear1":1,
-      "playtime":98.575
+    "versus":{
+      "playtime":0
+    },
+    "timeattack":{
+      "clear":0,
+      "playtime":0,
+      "ranking":[]
     },
     "tower":{
-      "playtime":0,
       "clear":0,
+      "playtime":0,
+      "ranking":[]
+    },
+    "arcade":{
+      "clear":1,
+      "playtime":0,
       "ranking":[]
     },
     "story":{
       "playtime":0
     },
-    "arcade":{
-      "playtime":0,
-      "clear":1,
-      "ranking":[]
-    },
-    "timerush":{
-      "playtime":0
-    },
-    "survival":{
-      "playtime":0,
+    "bossrush":{
       "clear":0,
+      "playtime":0,
       "ranking":[]
     },
     "tourney":{
-      "playtime":0,
       "clear":0,
-      "ranking":[]
-    },
-    "bossrush":{
       "playtime":0,
-      "clear":0,
-      "ranking":[]
-    },
-    "versus":{
-      "playtime":0
-    },
-    "bonus":{
-      "playtime":0
-    },
-    "bonusrush":{
-      "playtime":0,
-      "clear":0,
       "ranking":[]
     },
     "boss":{
       "playtime":0
     },
-    "endless":{
-      "playtime":0,
+    "timerush":{
+      "playtime":0
+    },
+    "suddendeath":{
       "clear":0,
+      "playtime":0,
       "ranking":[]
     },
-    "training":{
+    "scoreattack":{
+      "clear":0,
+      "playtime":0,
+      "ranking":[]
+    },
+    "adventure":{
       "playtime":0
     }
-  }
+  },
+  "continueCount":0,
+  "unlocks":{
+    "stages":{
+      "winter":false,
+      "outside":false,
+      "trainingroom2":false,
+      "secrethallway":false,
+      "lobby2night":false,
+      "hiddenpathnight":false,
+      "clonelaboratory":false,
+      "hiddenpath":false,
+      "clonelaboratory2":false,
+      "darkcorridor":false
+    },
+    "modes":{
+      "story":{
+        "arc2":false
+      }
+    },
+    "chars":{
+      "gouki":false,
+      "reika":false
+    }
+  },
+  "firstRun":false,
+  "losses":0,
+  "coins":0
 }

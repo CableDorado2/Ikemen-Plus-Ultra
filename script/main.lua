@@ -21,6 +21,7 @@ replaygame = false
 coinSystem = true
 songsSettings = false
 soundTest = false
+altBGM = false
 data.tagmode = 1
 data.stageviewer = false
 menuSelect = ""
@@ -39,6 +40,8 @@ p1teamMode = 0
 p2teamMode = 0
 --Editable Vars
 MainFadeInTime = 30
+selectFadeinTime = 10 --TODO
+selectFadeoutTime = 10 --TODO
 data.rivalMatch = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
 
 function f_resetArcadeStuff()
@@ -125,7 +128,7 @@ function f_mainLogos()
 	f_storyboard(storyboardLogo)
 	f_mainOpening()
 end
-altBGM = false
+
 function f_mainOpening()
 	--if altBGM then playBGM(bgmIntroJP) else playBGM(bgmIntro) end
 	--f_storyboard("data/screenpack/intro.def")
@@ -214,6 +217,7 @@ function f_mainMenu()
 	f_infoReset()
 	f_infoboxReset()
 	f_resetFadeBGM()
+	f_resetMenuArrowsPos()
 	while true do
 		if not infoScreen and not infoboxScreen then
 			--First Run Msg
@@ -382,12 +386,12 @@ function f_mainMenu()
 			textImgDraw(txt_version)
 			textImgDraw(txt_f1)
 			if maxMainMenu > 6 then
-				animDraw(arrowsU)
-				animUpdate(arrowsU)
+				animDraw(menuArrowUp)
+				animUpdate(menuArrowUp)
 			end
 			if #t_mainMenu > 6 and maxMainMenu < #t_mainMenu then
-				animDraw(arrowsD)
-				animUpdate(arrowsD)
+				animDraw(menuArrowDown)
+				animUpdate(menuArrowDown)
 			end
 		end
 		if infoScreen then
@@ -513,12 +517,12 @@ function f_arcadeMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxArcadeMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_arcadeMenu > 6 and maxArcadeMenu < #t_arcadeMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if not infoScreen and not sideScreen then drawMenuInputHints() end
 		if sideScreen then f_sideSelect() end --Show Side Select
@@ -619,12 +623,12 @@ function f_arcadeClassicMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxarcadeClassicMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxarcadeClassicMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -807,12 +811,12 @@ function f_towerMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxtowerMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxtowerMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -1011,12 +1015,12 @@ function f_vsMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxVSMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_vsMenu > 6 and maxVSMenu < #t_vsMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
@@ -1117,12 +1121,12 @@ function f_randomMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxRandomMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu2 > 6 and maxRandomMenu < #t_commonSubMenu2 then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -1295,12 +1299,12 @@ function f_freeMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxfreeMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu2 > 6 and maxfreeMenu < #t_commonSubMenu2 then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -1581,12 +1585,12 @@ function f_challengeMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxChallengeMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_challengeMenu > 6 and maxChallengeMenu < #t_challengeMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if not infoScreen and not sideScreen then drawMenuInputHints() end
 		if sideScreen then f_sideSelect() end
@@ -1687,12 +1691,12 @@ function f_survivalMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxSurvivalMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxSurvivalMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -1797,6 +1801,8 @@ function f_missionMenu()
 	local bufl = 0
 	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowUp, 280, 130)
+	animSetPos(menuArrowDown, 280, 195)
 	while true do
 	--Missions Progress Logic
 		stats.modes.mission.clearall = stats.modes.mission.clear1 + stats.modes.mission.clear2 + stats.modes.mission.clear3
@@ -1806,6 +1812,7 @@ function f_missionMenu()
 			f_saveStats()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
+			f_resetMenuArrowsPos()
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -1893,7 +1900,7 @@ function f_missionMenu()
 		else
 			maxMissions = 5
 		end
-		animDraw(f_animVelocity(missionBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Above Transparent BG
 		animSetScale(missionBG1, 219.5, 94)
 		animSetWindow(missionBG1, 0,5, 320,110)
@@ -1933,13 +1940,13 @@ function f_missionMenu()
 		end
 	--Draw Up Animated Cursor
 		if maxMissions > 5 then
-			animDraw(arrowsMSU)
-			animUpdate(arrowsMSU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 	--Draw Down Animated Cursor
 		if #t_missionMenu > 5 and maxMissions < #t_missionMenu then
-			animDraw(arrowsMSD)
-			animUpdate(arrowsMSD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 	--Draw Input Hints Panel
 		drawMissionInputHints()
@@ -2072,12 +2079,12 @@ function f_bossMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBossMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_bossMenu > 6 and maxBossMenu < #t_bossMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
@@ -2181,12 +2188,12 @@ function f_bossChars()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBossChars > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_bossSingle > 6 and maxBossChars < #t_bossSingle then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
@@ -2334,12 +2341,12 @@ function f_bossrushMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBossRushMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxBossRushMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -2518,12 +2525,12 @@ function f_bonusMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBonusMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_bonusMenu > 6 and maxBonusMenu < #t_bonusMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
@@ -2627,12 +2634,12 @@ function f_bonusExtras()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBonusExtras > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_bonusExtras > 6 and maxBonusExtras < #t_bonusExtras then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if sideScreen then f_sideSelect() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
@@ -2771,12 +2778,12 @@ function f_bonusrushMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBonusRushMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_bonusrushMenu > 6 and maxBonusRushMenu < #t_bonusrushMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -2939,12 +2946,12 @@ function f_scoreMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxScoreMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxScoreMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -3115,12 +3122,12 @@ function f_timeMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxTimeMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxTimeMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -3291,12 +3298,12 @@ function f_timeRushMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxTimeMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxTimeMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -3467,12 +3474,12 @@ function f_suddenMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxSuddenMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxSuddenMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -3672,12 +3679,12 @@ function f_extrasMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxExtrasMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_extrasMenu > 6 and maxExtrasMenu < #t_extrasMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if not infoScreen and not sideScreen then drawMenuInputHints() end
 		if sideScreen then f_sideSelect() end
@@ -3778,12 +3785,12 @@ function f_allcharsMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxAllCharsMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_commonSubMenu > 6 and maxAllCharsMenu < #t_commonSubMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -3968,7 +3975,7 @@ function f_eventMenu()
 		else
 			maxEvents = 3
 		end
-		animDraw(f_animVelocity(eventBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Event Title Transparent BG
 		animSetScale(eventBG1, 319.5, 94)
 		animSetWindow(eventBG1, 0,21, 320,22)
@@ -4140,17 +4147,20 @@ function f_vnMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	if vnAddOneTime then
 		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
 		vnAddOneTime = false
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	f_resetListArrowsPos()
 	cmdInput()
 	while true do
 		--Select Menu Actions
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
+			f_resetMenuArrowsPos()
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -4161,9 +4171,7 @@ function f_vnMenu()
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--Back Button
 			if vnMenu == #t_selVN then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			--Start Visual Novel Selected
 			else
 				f_vnMain(t_selVN[vnMenu].path)
@@ -4201,10 +4209,10 @@ function f_vnMenu()
 			maxVN = maxItems
 		end
 		--Draw Menu Assets
-		animDraw(f_animVelocity(novelBG0, -1, -1))
-		animSetScale(novelBG1, 220, maxVN*15)
-		animSetWindow(novelBG1, 80,20, 160,180)
-		animDraw(novelBG1)
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animSetScale(commonTBG, 240, maxVN*15)
+		animSetWindow(commonTBG, 80,20, 160,180)
+		animDraw(commonTBG)
 		textImgDraw(txt_vnSelect)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -4222,12 +4230,12 @@ function f_vnMenu()
 			end
 		end
 		if maxVN > maxItems then
-			animDraw(novelUpArrow)
-			animUpdate(novelUpArrow)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_selVN > maxItems and maxVN < #t_selVN then
-			animDraw(novelDownArrow)
-			animUpdate(novelDownArrow)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawListInputHints()
 		animDraw(data.fadeTitle)
@@ -4505,12 +4513,12 @@ function f_watchMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxWatchMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_watchMenu > 6 and maxWatchMenu < #t_watchMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if infoScreen then f_infoMenu() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
@@ -4543,13 +4551,17 @@ function f_statsMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	f_getStats() --Load Stats
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowUp, 278, 11)
+	animSetPos(menuArrowDown, 278, 201.5)
 	while true do
 		--f_playTime() --Test Played Time on live...
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
+			f_resetMenuArrowsPos()
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -4559,9 +4571,7 @@ function f_statsMenu()
 			statsMenu = statsMenu + 1
 		--BACK
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and statsMenu == #t_statsMenu then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 2)
-			break
+			back = true
 		end
 		--Cursor position calculation
 		if statsMenu < 1 then
@@ -4591,11 +4601,11 @@ function f_statsMenu()
 		else
 			maxStats = maxItems
 		end
-		animDraw(f_animVelocity(statsBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Transparent Table BG
-		animSetScale(statsBG1, 280, maxStats*15)
-		animSetWindow(statsBG1, 30,20, 260,180)
-		animDraw(statsBG1)
+		animSetScale(commonTBG, 290, maxStats*15)
+		animSetWindow(commonTBG, 30,20, 260,180)
+		animDraw(commonTBG)
 		--Draw Title Menu
 		textImgDraw(txt_statsMenu)
 		textImgDraw(txt_statsProgress)
@@ -4614,13 +4624,13 @@ function f_statsMenu()
 		end
 		--Draw Up Animated Cursor
 		if maxStats > maxItems then
-			animDraw(statsUpArrow)
-			animUpdate(statsUpArrow)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		--Draw Down Animated Cursor
 		if #t_statsMenu > maxItems and maxStats < #t_statsMenu then
-			animDraw(statsDownArrow)
-			animUpdate(statsDownArrow)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawListInputHints()
 		animDraw(data.fadeTitle)
@@ -5052,7 +5062,7 @@ function f_getStats()
 end
 
 --;===========================================================
--- LEADERBOARDS SCREEN (display rankings data)
+--; LEADERBOARDS SCREEN (display rankings data)
 --;===========================================================
 function f_rankings()
 	--TODO
@@ -5223,7 +5233,7 @@ function f_galleryMenu()
 			maxSection = maxSectionItems
 		end
 		--Draw BG
-		animDraw(f_animVelocity(galleryBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Title Menu
 		textImgDraw(txt_galleryTitle)
 		--Draw Items Text for Gallery Section Table
@@ -5502,6 +5512,7 @@ function f_songMenu()
 	folderRefer = "" --To use in random select song
 	songChanged = false
 	f_soundtrack() --Reload from common.lua
+	f_resetListArrowsPos()
 	while true do
 		if backSongConfirm == true then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -5511,6 +5522,7 @@ function f_songMenu()
 			backSongConfirm = false
 			soundTest = false
 			f_resetFadeBGM()
+			f_resetMenuArrowsPos()
 			break
 		end
 		if not confirmSong then
@@ -5614,11 +5626,11 @@ function f_songMenu()
 			end
 		end
 		--Draw Menu BG
-		animDraw(f_animVelocity(songBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Transparent Table BG
-		animSetScale(songBG1, 220, maxSongs*15)
-		animSetWindow(songBG1, 80,20, 160,180)
-		animDraw(songBG1)
+		animSetScale(commonTBG, 240, maxSongs*15)
+		animSetWindow(commonTBG, 80,20, 160,180)
+		animDraw(commonTBG)
 		--Draw Title Menu
 		textImgSetText(txt_song, "[".. t_songList[songFolder].folder:upper().."]")
 		textImgDraw(txt_song)
@@ -5643,13 +5655,13 @@ function f_songMenu()
 		end
 		--Draw Up Animated Cursor
 		if maxSongs > maxItems then
-			animDraw(songUpArrow)
-			animUpdate(songUpArrow)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		--Draw Down Animated Cursor
 		if #t_songList[songFolder] > maxItems and maxSongs < #t_songList[songFolder] then
-			animDraw(songDownArrow)
-			animUpdate(songDownArrow)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		--Draw Left Animated Cursor
 		if songFolder > 1 then
@@ -5983,12 +5995,12 @@ function f_replayMenu()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxreplayMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_replayMenu > 6 and maxreplayMenu < #t_replayMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		if infoScreen then f_infoMenu() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
@@ -6026,6 +6038,7 @@ function f_mainReplay()
 	netPlayer = "Host"
 	coinSystem = false
 	f_replayTable() --Load table
+	f_resetListArrowsPos()
 	while true do
 		if exitReplayMenu then
 			onlinegame = false --only for identify purposes
@@ -6035,6 +6048,7 @@ function f_mainReplay()
 			assert(loadfile(saveCfgPath))()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
+			f_resetMenuArrowsPos()
 			break
 		end
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then exitReplayMenu = true
@@ -6104,7 +6118,7 @@ function f_mainReplay()
 							break
 						end
 					end
-					animDraw(f_animVelocity(replayBG0, -1, -1))
+					animDraw(f_animVelocity(commonBG0, -1, -1))
 				--Draw Replay Title
 					animSetScale(replayMenuBG, 324, 74)
 					animSetWindow(replayMenuBG, 0,5, 324,27)
@@ -6173,10 +6187,10 @@ function f_mainReplay()
 		else
 			maxReplays = maxItems
 		end
-		animDraw(f_animVelocity(replayBG0, -1, -1))
-		animSetScale(replayBG1, 220, maxReplays*15)
-		animSetWindow(replayBG1, 80,20, 160,180)
-		animDraw(replayBG1)
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animSetScale(commonTBG, 240, maxReplays*15)
+		animSetWindow(commonTBG, 80,20, 160,180)
+		animDraw(commonTBG)
 		textImgDraw(txt_replay)
 		--animSetScale(cursorBox, 160,maxReplays*15) --For Optimized Cursor Box
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -6195,12 +6209,12 @@ function f_mainReplay()
 			end
 		end
 		if maxReplays > maxItems then
-			animDraw(replayUpArrow)
-			animUpdate(replayUpArrow)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_replayList > maxItems and maxReplays < #t_replayList then
-			animDraw(replayDownArrow)
-			animUpdate(replayDownArrow)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawListInputHints()
 		animDraw(data.fadeTitle)
@@ -6352,12 +6366,12 @@ function f_mainNetplay()
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxMainNetplay > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_mainNetplay > 6 and maxMainNetplay < #t_mainNetplay then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawMenuInputHints()
 		animDraw(data.fadeTitle)
@@ -6420,7 +6434,7 @@ function f_create()
 			return true
 		end
 		--Draw BG
-		animDraw(f_animVelocity(onlineBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Menu Title
 		textImgDraw(txt_hostTitle)
 		--Draw Window BG
@@ -6524,7 +6538,7 @@ function f_directConnect()
 				end
 			end
 			--Draw BG
-			animDraw(f_animVelocity(onlineBG0, -1, -1))
+			animDraw(f_animVelocity(commonBG0, -1, -1))
 			--Draw Menu Title
 			textImgDraw(txt_clientTitle)
 			--Draw IP Window BG
@@ -6575,7 +6589,7 @@ function f_directConnect()
 			return true
 		end
 		--Draw Connecting BG
-		animDraw(f_animVelocity(onlineBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Connecting Menu Title
 		textImgSetText(txt_clientTitle, "SEARCHING HOST ROOM")
 		textImgDraw(txt_clientTitle)
@@ -6718,12 +6732,12 @@ function f_hostRooms()
 		f_sysTime()
 		if crudHostScreen == false then
 			if maxhostList > 6 then
-				animDraw(arrowsU)
-				animUpdate(arrowsU)
+				animDraw(menuArrowUp)
+				animUpdate(menuArrowUp)
 			end
 			if #t_hostList > 6 and maxhostList < #t_hostList then
-				animDraw(arrowsD)
-				animUpdate(arrowsD)
+				animDraw(menuArrowDown)
+				animUpdate(menuArrowDown)
 			end
 		end
 		if not crudHostScreen and not editHostScreen then drawMenuInputHints() end --Draw Input Hints Panel for Host Rooms
@@ -7136,7 +7150,7 @@ function f_databaseConnect()
 			return true
 		end
 		--Draw Connecting BG
-		animDraw(f_animVelocity(onlineBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Connecting Title
 		textImgDraw(txt_clientTitle)
 		--Draw Window BG
@@ -7358,12 +7372,12 @@ function f_mainLobby()
 			t_mainLobby[1].text = "VERSUS PLAYER 1"
 		end
 		if maxmainLobby > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_mainLobby > 6 and maxmainLobby < #t_mainLobby then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -8467,9 +8481,6 @@ end
 --;===========================================================
 --; CHARACTER SELECT CONFIG
 --;===========================================================
-selectFadeinTime = 10 --TODO
-selectFadeoutTime = 10 --TODO
-
 --Icon for random select
 function f_randomSlot()
 cellRandomSprGroup = 151 --System.def cell.random.spr for Group
@@ -9241,28 +9252,28 @@ end
 ]]
 
 function f_winCoins()
-	if onlinegame == false then	
-		if coinSystem == true then
+	if not onlinegame then	
+		if coinSystem then
 			stats.coins = stats.coins + 5 --Earn 5 Coins by Win :)
 			--sndPlay(sndSys, 200, 0) --Coin Earned Song
 			f_saveStats()
-		elseif coinSystem == false then
+		else
 			--Do nothing and don't lose or win coins
 		end
-	elseif onlinegame == true then
+	else
 		--Do nothing and don't lose or win coins
 	end
 end
 
 function f_loseCoins()
-	if coinSystem == true then
+	if coinSystem then
 		if stats.coins < 1 then
 			stats.coins = 0
 		elseif stats.coins >= 1 then
 			stats.coins = stats.coins - 1 --Lose 1 Coin by be defeated :c
 			f_saveStats()
 		end
-	elseif coinSystem == false then
+	else
 		--Do nothing and don't lose or win coins
 	end
 end
@@ -9518,7 +9529,7 @@ function f_selectScreen()
 			animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 		else
-			animDraw(f_animVelocity(selectBG0, -1, -1))
+			animDraw(f_animVelocity(commonBG0, -1, -1))
 		end
 	end
 	--Player 1 Selection		
@@ -12678,32 +12689,24 @@ function f_selectStage()
 					if bufStagel then bufStagel = 0 end
 					if bufStager then bufStager = 0 end
 					--Allow Stage Select
-					if stageSelect == true then
-						stageSelect = false
-					elseif stageSelect == false then
-						stageSelect = true
+					if stageSelect then stageSelect = false
+					else stageSelect = true
 					end
 					--Allow Song Select
-					if songSelect == true then
-						songSelect = false
-					elseif songSelect == false then
-						songSelect = true
+					if songSelect then songSelect = false
+					else songSelect = true
 					end
 				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
 					sndPlay(sndSys, 100, 0)
 					if bufStagel then bufStagel = 0 end
 					if bufStager then bufStager = 0 end
 					--Allow Stage Select
-					if stageSelect == true then
-						stageSelect = false
-					elseif stageSelect == false then
-						stageSelect = true
+					if stageSelect then stageSelect = false
+					else stageSelect = true
 					end
 					--Allow Song Select
-					if songSelect == true then
-						songSelect = false
-					elseif songSelect == false then
-						songSelect = true
+					if songSelect then songSelect = false
+					else songSelect = true
 					end
 				elseif (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufStager >= 30) then
 					sndPlay(sndSys, 100, 0)
@@ -13355,14 +13358,14 @@ function f_orderSelect()
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
-					animDraw(f_animVelocity(selectBG0, -1, -1))
+					animDraw(f_animVelocity(commonBG0, -1, -1))
 				end
 			end
 		--Draw Window Portraits
 			animDraw(f_animVelocity(orderWindowL, -2, 0))
 			animDraw(f_animVelocity(orderWindowR, 2, 0))
 		--Set Order Status Assets
-			if p1Confirmed == false then
+			if not p1Confirmed then
 				--textImgSetBank(txt_p1State, 3) --Set Blue Color
 				textImgSetText(txt_p1State, txt_waitingOrder) --Set Text
 			else
@@ -13370,7 +13373,7 @@ function f_orderSelect()
 				textImgSetText(txt_p1State, txt_orderFinished)
 				p1Anim = "p1AnimWin" --Change Anim when Order Select is complete
 			end
-			if p2Confirmed == false then
+			if not p2Confirmed then
 				--textImgSetBank(txt_p2State, 1) --Set Red Color
 				textImgSetText(txt_p2State, txt_waitingOrder)
 			else
@@ -13832,7 +13835,7 @@ function f_selectVersus()
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
-					animDraw(f_animVelocity(selectBG0, -1, -1))
+					animDraw(f_animVelocity(commonBG0, -1, -1))
 				end
 			end
 		--Draw Window Portraits
@@ -14013,7 +14016,7 @@ function f_selectWin()
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
-					animDraw(f_animVelocity(selectBG0, -1, -1))
+					animDraw(f_animVelocity(commonBG0, -1, -1))
 				end
 			end
 		--Draw Permanent Victory Quote Message
@@ -14297,47 +14300,18 @@ end
 --; END RANKED MATCH SCREEN
 --;===========================================================
 function f_ftcontrol()
-	if p1Wins == data.ftcontrol then
+	if (p1Wins == data.ftcontrol) or (p2Wins == data.ftcontrol) then
 		--os.exit()--Fightcade System
 		cmdInput()
 		while true do
 			--Draw BG
-			animDraw(f_animVelocity(rankedBG, -1, -1))
+			animDraw(f_animVelocity(commonBG0, -1, -1))
 			--Draw Menu BG
 			animDraw(rankWindowBG)
 			animUpdate(rankWindowBG)
 			--Draw Info Text
 			f_textRender(txt_rankText, txt_rankMsg, 0, 160, 125, 10, 0, 25)
 			--Draw Esc Text
-			textImgDraw(txt_rankESC)
-			--Draw Cursor
-			animSetWindow(cursorBox, 87,141, 144,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-			--Draw Info Title Text
-			textImgDraw(txt_rankInfo)
-			--Actions
-			if esc() then
-				sndPlay(sndSys, 100, 2)
-				break
-			end
-			animDraw(data.fadeTitle)
-			animUpdate(data.fadeTitle)
-			cmdInput()
-			refresh()
-		end
-	elseif p2Wins == data.ftcontrol then
-		--os.exit()--Fightcade System
-		cmdInput()
-		while true do
-			--Draw BG
-			animDraw(f_animVelocity(rankedBG, -1, -1))
-			--Draw Menu BG
-			animDraw(rankWindowBG)
-			animUpdate(rankWindowBG)
-			--Draw Info Text
-			f_textRender(txt_rankText, txt_rankMsg, 0, 160, 125, 10, 0, 25)
-			--Draw Ok Text
 			textImgDraw(txt_rankESC)
 			--Draw Cursor
 			animSetWindow(cursorBox, 87,141, 144,13)
@@ -14378,7 +14352,7 @@ function f_rematch()
 		end
 	end
 	--Draw BG only when Winscreen is off
-	if data.victoryscreen == false then animDraw(f_animVelocity(rematchBG, -1, -1)) end
+	if not data.victoryscreen then animDraw(f_animVelocity(commonBG0, -1, -1)) end
 	if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
 		--Draw Menu BG
 		animDraw(rematchCPUWindowBG)
@@ -14620,7 +14594,7 @@ function f_selectChallenger()
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else
-				animDraw(f_animVelocity(selectBG0, -1, -1))
+				animDraw(f_animVelocity(commonBG0, -1, -1))
 			end
 		end
 		animDraw(f_animVelocity(challengerWindow, 0, 1.5))
@@ -14688,6 +14662,7 @@ function f_service()
 	serviceBack = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmService)
+	f_resetListArrowsPos()
 	cmdInput()
 	while true do
 		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -14700,7 +14675,8 @@ function f_service()
 			noService = false
 			sndPlay(sndSys, 100, 0)
 			serviceMenu = serviceMenu + 1
-		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or serviceTimer == 0 then
+		end
+		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or serviceTimer == 0 then
 			--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
 			if serviceMenu == 1 then
 				sndPlay(sndSys, 100, 1)
@@ -14711,25 +14687,22 @@ function f_service()
 					--tmpDifficulty = data.difficulty - 1
 					--setCom(2, tmpDifficulty)
 				end
-				if onlinegame == true then
+				if onlinegame then
 					script.options.f_netsaveCfg()
-				elseif onlinegame == false then
+				else
 					script.options.f_saveCfg()
 				end
 				serviceBack = true
-				break
 			--FULL POWER
 			elseif serviceMenu == 2 then
 				sndPlay(sndSys, 100, 1)
 				setService("max power")
 				serviceBack = true
-				break
 			--LOW CPU LIFE
 			elseif serviceMenu == 3 then
 				sndPlay(sndSys, 100, 1)
 				setService("low cpu life")
 				serviceBack = true
-				break
 			--CHANGE PLAYER TEAM MODE
 			elseif serviceMenu == 4 then
 				if data.coop == true then
@@ -14746,23 +14719,26 @@ function f_service()
 				sndPlay(sndSys, 100, 1)
 				setService("defence x2")
 				serviceBack = true
-				break
 			--[[???
 			elseif serviceMenu == 6 then
 				devService = true
 				sndPlay(sndSys, 100, 1)
 				setService("?")
-				break
 			]]
 			--NOT SERVICE
 			else
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 1)
 				serviceBack = true
-				break
 			end
+		end
+		if serviceTimer == 0 and noService then --Based in KOF games, set no service when time over...
+			setService("")
+			serviceBack = true
+		end
+		if serviceBack then
 			commandBufReset(p1Cmd, 1)
 			commandBufReset(p2Cmd, 2)
+			break
 		end
 		--Cursor position calculation
 		if serviceMenu < 1 then
@@ -14805,13 +14781,13 @@ function f_service()
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else
-				animDraw(f_animVelocity(selectBG0, -1, -1))
+				animDraw(f_animVelocity(commonBG0, -1, -1))
 			end
 		end
 		--Draw Transparent Table BG		
-		animSetScale(serviceBG1, 220, maxService*15)
-		animSetWindow(serviceBG1, 80,20, 160,180)
-		animDraw(serviceBG1)
+		animSetScale(commonTBG, 240, maxService*15)
+		animSetWindow(commonTBG, 80,20, 160,180)
+		animDraw(commonTBG)
 		--Draw Title Menu
 		textImgDraw(txt_service)
 		--Draw Cursor
@@ -14846,7 +14822,6 @@ function f_service()
 		serviceTimeNumber = serviceTimer/gameTick
 		nodecimalServiceTime = string.format("%.0f",serviceTimeNumber)
 		textImgSetText(txt_serviceTime, nodecimalServiceTime)
-		if serviceTimer == 1 and noService == true then serviceTimer = data.serviceTime end --Reset the timer to avoid being trapped because the service is unavailable.
 		if serviceTimer > 0 then
 			serviceTimer = serviceTimer - 0.5 --Activate Service Timer
 			textImgDraw(txt_serviceTime)
@@ -14855,13 +14830,13 @@ function f_service()
 		end
 		--Draw Up Animated Cursor
 		if maxService > maxItems then
-			animDraw(serviceUpArrow)
-			animUpdate(serviceUpArrow)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		--Draw Down Animated Cursor
 		if #t_service > maxItems and maxService < #t_service then
-			animDraw(serviceDownArrow)
-			animUpdate(serviceDownArrow)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawServiceInputHints() --Draw Input Hints Panel
 		animDraw(data.fadeTitle)
@@ -15145,8 +15120,8 @@ function f_continue()
 				else
 					animLength4 = 0
 				end
-				if onlinegame == false then
-					if data.attractMode == true then
+				if not onlinegame then
+					if data.attractMode then
 						if stats.attractCoins < 1 then
 							stats.attractCoins = 0
 						elseif stats.attractCoins >= 1 then
@@ -15161,7 +15136,7 @@ function f_continue()
 						--end
 						--f_saveStats()
 					end
-				elseif onlinegame == true then
+				else
 					--Free Online Arcade to Avoid Desync
 				end
 				stats.continueCount = stats.continueCount + 1 --Times Continue
@@ -15318,9 +15293,9 @@ function f_continue()
 			end
 		end
 		if i >= 71 then --show when count starts counting down
-			if onlinegame == false then
+			if not onlinegame then
 				textImgDraw(txt_coins) --Show Coins Count
-			elseif onlinegame == true then
+			else
 				--Don't Show Coins Count
 			end
 			textImgDraw(txt_cont) --Always Show Times Continue Count
@@ -15494,9 +15469,9 @@ if validCells() then
 			commandBufReset(p2Cmd)
 		end
 		while not selScreenEnd do
-			if onlinegame == false then
+			if not onlinegame then
 				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
-			elseif onlinegame == true then
+			else
 				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
@@ -15560,9 +15535,9 @@ if validCells() then
 					end
 					f_selectReset()
 					while not selScreenEnd do
-						if onlinegame == false then
+						if not onlinegame then
 							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
-						elseif onlinegame == true then
+						else
 							if esc() then f_exitOnline() end
 						end
 						f_selectScreen()
@@ -15767,7 +15742,7 @@ if validCells() then
 	f_backReset()
 	f_selectInit()
 	f_selectReset()
-	if data.stageMenu == false then stageEnd = true end
+	if not data.stageMenu then stageEnd = true end
 	cmdInput()
 	while true do
 		if data.gameMode == "bossrush" or data.rosterMode == "suddendeath" then playBGM(bgmSelectBoss)
@@ -15778,9 +15753,9 @@ if validCells() then
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		selectStart()
 		while not selScreenEnd do
-			if onlinegame == false then
+			if not onlinegame then
 				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect2() end
-			elseif onlinegame == true then
+			else
 				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
@@ -16343,7 +16318,7 @@ if validCells() then
 		end
 		setMatchNo(matchNo)
 		f_aiLevel()
-		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
+		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters
 		f_matchInfo()
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		f_orderSelect()
@@ -16430,9 +16405,9 @@ if validCells() then
 			commandBufReset(p2Cmd)
 		end
 		while not selScreenEnd do
-			if onlinegame == false then
+			if not onlinegame then
 				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
-			elseif onlinegame == true then
+			else
 				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
@@ -16910,11 +16885,14 @@ function f_tourneyCfg()
 	exitTourney = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmTourney)
+	f_resetListArrowsPos()
+	animSetPos(menuArrowDown, 228, 126)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitTourney then
 			sndPlay(sndSys, 100, 2)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			f_menuMusic()
+			f_resetMenuArrowsPos()
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -17122,7 +17100,7 @@ function f_tourneyCfg()
 			maxtourneyCfg = maxItems
 		end
 		--Draw BG
-		animDraw(f_animVelocity(tourneyBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Tourney BG Grids
 		if data.tourneySize == 4 then
 			animSetScale(tourney4, 0.359, 0.341)
@@ -17135,9 +17113,9 @@ function f_tourneyCfg()
 			animPosDraw(tourney16, 100, 130)
 		end
 		--Draw Settings BG
-		animSetScale(tourneyBG1, 220, maxtourneyCfg*15)
-		animSetWindow(tourneyBG1, 80,20, 160,105)
-		animDraw(tourneyBG1)
+		animSetScale(commonTBG, 240, maxtourneyCfg*15)
+		animSetWindow(commonTBG, 80,20, 160,105)
+		animDraw(commonTBG)
 		--Draw Title
 		textImgDraw(txt_tourneyCfg)
 		--Draw Cursor
@@ -17170,12 +17148,12 @@ function f_tourneyCfg()
 			end
 		end
 		if maxtourneyCfg > maxItems then
-			animDraw(tourneyUpArrow)
-			animUpdate(tourneyUpArrow)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
 		end
 		if #t_tourneyCfg > maxItems and maxtourneyCfg < #t_tourneyCfg then
-			animDraw(tourneyDownArrow)
-			animUpdate(tourneyDownArrow)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
 		end
 		drawTourneyInputHints()
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -17413,7 +17391,7 @@ function f_tourneyMenu()
 			end
 		end
 		--Draw BG
-		animDraw(f_animVelocity(tourneyBG0, -1, -1))
+		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Tourney BG Grids
 		if data.tourneySize == 4 then
 			animSetScale(tourney4, 1.059, 1.041)
@@ -17759,7 +17737,7 @@ function f_tourneySelStage()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if matchNo == lastMatch then animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Match
-		else animDraw(f_animVelocity(selectBG0, -1, -1)) --Draw Blue BG for normal Matches
+		else animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw Blue BG for normal Matches
 		end
 		f_selectStage()
 		if stageEnd then break end --Go to next screen
@@ -17816,9 +17794,9 @@ if validCells() then
 		--Tourney Screen Logic
 		if not startTourney then --When tourney has not been started
 			while not selScreenEnd do
-				if onlinegame == false then
+				if not onlinegame then
 					if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
-				elseif onlinegame == true then
+				else
 					if esc() then f_exitOnline() end
 				end
 				f_selectScreen()
@@ -17925,9 +17903,9 @@ if validCells() then
 					f_selectReset()
 					--selectStart()
 					while not selScreenEnd do
-						if onlinegame == false then
+						if not onlinegame then
 							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
-						elseif onlinegame == true then
+						else
 							if esc() then f_exitOnline() end
 						end
 						f_selectScreen()
@@ -18096,7 +18074,7 @@ function f_tourneyChampion()
 			exitTourney = true
 			break
 		end
-		animDraw(f_animVelocity(tourneyChampionBG0, -1, -1)) --Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 		--Draw Character Portraits
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 			if data.tourney3rdPlace then

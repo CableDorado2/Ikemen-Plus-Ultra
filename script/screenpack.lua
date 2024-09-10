@@ -389,6 +389,7 @@ txt_f1 = createTextImg(font1, 0, 0, "Press F1 for Info", 159, 240)
 txt_titleFt = createTextImg(font5, 0, 0, "", 156, 240)
 txt_titleClock = createTextImg(font12, 0, -1, "", 0, 0)
 txt_titleDate = createTextImg(font12, 0, 1, "", 0, 0)
+txt_subTitle = createTextImg(font3, 0, 0, "", 159, 100) --PLUS ULTRA Sub-Title Text
 
 --Buttons Background
 titleBG0 = animNew(sprSys, [[
@@ -454,6 +455,25 @@ animAddPos(titleBG6, 160, 0)
 animSetTile(titleBG6, 1, 0)
 animUpdate(titleBG6)
 
+--;===========================================================
+--; COMMON SCREENPACK DEFINITION
+--;===========================================================
+--Common Scrolling background
+commonBG0 = animNew(sprSys, [[
+100,0, 0,0, -1
+]])
+animAddPos(commonBG0, 160, 0)
+animSetTile(commonBG0, 1, 1)
+animSetColorKey(commonBG0, -1)
+
+--Common Transparent background
+commonTBG = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(commonTBG, 0, 20)
+animSetAlpha(commonTBG, 20, 100)
+animUpdate(commonTBG)
+
 --Cursor Box
 cursorBox = animNew(sprSys, [[
 100,1, 0,0, -1
@@ -476,8 +496,8 @@ animSetPos(fadeWindowBG, -54, 0)
 animSetScale(fadeWindowBG, 427, 240)
 animUpdate(fadeWindowBG)
 
---Up Menu Arrow
-arrowsU = animNew(sprSys, [[
+--Common Menu Up Arrows
+menuArrowUp = animNew(sprSys, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -487,12 +507,10 @@ arrowsU = animNew(sprSys, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(arrowsU, 153.5, 116)
-animUpdate(arrowsU)
-animSetScale(arrowsU, 0.5, 0.5)
+animSetScale(menuArrowUp, 0.5, 0.5)
 
---Down Menu Arrow
-arrowsD = animNew(sprSys, [[
+--Common Menu Down Arrows
+menuArrowDown = animNew(sprSys, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -502,9 +520,17 @@ arrowsD = animNew(sprSys, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(arrowsD, 153.5, 204)
-animUpdate(arrowsD)
-animSetScale(arrowsD, 0.5, 0.5)
+animSetScale(menuArrowDown, 0.5, 0.5)
+
+function f_resetMenuArrowsPos() --Used in Main Menus
+animSetPos(menuArrowUp, 153.5, 116)
+animSetPos(menuArrowDown, 153.5, 204)
+end
+
+function f_resetListArrowsPos() --Used in many List Menus
+animSetPos(menuArrowUp, 228, 11)
+animSetPos(menuArrowDown, 228, 201.5)
+end
 
 function f_titleText()
 	if stats.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
@@ -582,7 +608,7 @@ txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0)
 
 --Info Window BG
 infoWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(infoWindowBG, 83.5, 97)
 animUpdate(infoWindowBG)
@@ -601,7 +627,6 @@ end
 --; MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
-txt_subTitle = createTextImg(font3, 0, 0, "", 159, 100) --PLUS ULTRA Sub-Title Text
 
 if data.engineMode == "FG" then --Menu Items for Fighting Engine Mode
 t_mainMenu = {
@@ -698,18 +723,6 @@ t_bonusMenu = {
 }
 
 --;===========================================================
---; BONUS RUSH MENU SCREENPACK DEFINITION
---;===========================================================
-t_bonusrushMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-}
-
---;===========================================================
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
@@ -719,6 +732,18 @@ t_extrasMenu = {
 	{id = textImgNew(), text = "VISUAL NOVEL"},
 	{id = textImgNew(), text = "THE VAULT"},
 	{id = textImgNew(), text = "RANDOMTEST"},
+}
+
+--;===========================================================
+--; BONUS RUSH MENU SCREENPACK DEFINITION
+--;===========================================================
+t_bonusrushMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
 }
 
 --;===========================================================
@@ -769,14 +794,6 @@ t_missionMenu = {
 	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
 }
 
---Scrolling background
-missionBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(missionBG0, 160, 0)
-animSetTile(missionBG0, 1, 1)
-animSetColorKey(missionBG0, -1)
-
 --Above Transparent background
 missionBG1 = animNew(sprSys, [[
 3,0, 0,0, -1
@@ -792,36 +809,6 @@ missionBG2 = animNew(sprSys, [[
 animSetPos(missionBG2, 40, 130)
 animSetAlpha(missionBG2, 20, 100)
 animUpdate(missionBG2)
-
---Up Special Arrow
-arrowsMSU = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(arrowsMSU, 280, 130)
-animUpdate(arrowsMSU)
-animSetScale(arrowsMSU, 0.5, 0.5)
-
---Down Special Arrow
-arrowsMSD = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(arrowsMSD, 280, 195)
-animUpdate(arrowsMSD)
-animSetScale(arrowsMSD, 0.5, 0.5)
 
 --Missions Input Hints Panel
 function drawMissionInputHints()
@@ -861,14 +848,6 @@ t_eventMenu = {
 	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", available = true},
 	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", available = true},
 }
-
---Scrolling background
-eventBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(eventBG0, 160, 0)
-animSetTile(eventBG0, 1, 1)
-animSetColorKey(eventBG0, -1)
 
 --Above Transparent background
 eventBG1 = animNew(sprSys, [[
@@ -923,7 +902,7 @@ txt_lockedOk = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
 
 --Info Window BG
 infoEventWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(infoEventWindowBG, 83.5, 97)
 animUpdate(infoEventWindowBG)
@@ -984,52 +963,6 @@ end
 --; VISUAL NOVEL MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
-
---Scrolling background
-novelBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(novelBG0, 160, 0)
-animSetTile(novelBG0, 1, 1)
-animSetColorKey(novelBG0, -1)
-
---Transparent background
-novelBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(novelBG1, 20, 20)
-animSetAlpha(novelBG1, 20, 100)
-animUpdate(novelBG1)
-
---Up Arrow
-novelUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(novelUpArrow, 228, 11)
-animUpdate(novelUpArrow)
-animSetScale(novelUpArrow, 0.5, 0.5)
-
---Down Arrow
-novelDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(novelDownArrow, 228, 201.5)
-animUpdate(novelDownArrow)
-animSetScale(novelDownArrow, 0.5, 0.5)
 
 --;===========================================================
 --; VISUAL NOVEL INTRO SCREENPACK DEFINITION
@@ -1196,7 +1129,7 @@ t_questionMenuVN = {
 
 --Default Window BG
 questionWindowBGVN = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(questionWindowBGVN, 61, 97)
 animUpdate(questionWindowBGVN)
@@ -1237,52 +1170,6 @@ t_replayOption = {
 for i=1, #t_replayOption do
 	t_replayOption[i].id = createTextImg(jgFnt, 0, 0, t_replayOption[i].text, -80+i*120, 172)
 end
-
---Scrolling background
-replayBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(replayBG0, 160, 0)
-animSetTile(replayBG0, 1, 1)
-animSetColorKey(replayBG0, -1)
-
---Transparent background
-replayBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(replayBG1, 20, 20)
-animSetAlpha(replayBG1, 20, 100)
-animUpdate(replayBG1)
-
---Up Arrow
-replayUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(replayUpArrow, 228, 11)
-animUpdate(replayUpArrow)
-animSetScale(replayUpArrow, 0.5, 0.5)
-
---Down Arrow
-replayDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(replayDownArrow, 228, 201.5)
-animUpdate(replayDownArrow)
-animSetScale(replayDownArrow, 0.5, 0.5)
 
 --Replay Title Transparent background
 replayMenuBG = animNew(sprSys, [[
@@ -1335,52 +1222,6 @@ t_statsMenu = {
 	{varID = textImgNew(), text = "                   BACK",    varText = ""},
 }
 
---Scrolling background
-statsBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(statsBG0, 160, 0)
-animSetTile(statsBG0, 1, 1)
-animSetColorKey(statsBG0, -1)
-
---Transparent background
-statsBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(statsBG1, 30, 20)
-animSetAlpha(statsBG1, 20, 100)
-animUpdate(statsBG1)
-
---Up Arrow
-statsUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(statsUpArrow, 278, 11)
-animUpdate(statsUpArrow)
-animSetScale(statsUpArrow, 0.5, 0.5)
-
---Down Arrow
-statsDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(statsDownArrow, 278, 201.5)
-animUpdate(statsDownArrow)
-animSetScale(statsDownArrow, 0.5, 0.5)
-
 --;===========================================================
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -1404,52 +1245,6 @@ galleryCursor = animNew(sprIkemen, [[
 20,0, 0,0, -1
 ]])
 animSetScale(galleryCursor, 0.49, 0.5)
-
---Scrolling background
-galleryBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(galleryBG0, 160, 0)
-animSetTile(galleryBG0, 1, 1)
-animSetColorKey(galleryBG0, -1)
-
---Transparent background
-galleryBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(galleryBG1, 30, 20)
-animSetAlpha(galleryBG1, 20, 100)
-animUpdate(galleryBG1)
-
---Up Arrow
-galleryUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(galleryUpArrow, 278, 11)
-animUpdate(galleryUpArrow)
-animSetScale(galleryUpArrow, 0.5, 0.5)
-
---Down Arrow
-galleryDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(galleryDownArrow, 278, 201.5)
-animUpdate(galleryDownArrow)
-animSetScale(galleryDownArrow, 0.5, 0.5)
 
 --Left Arrow
 galleryLeftArrow = animNew(sprSys, [[
@@ -1565,52 +1360,6 @@ end
 --;===========================================================
 txt_song = createTextImg(jgFnt, 0, 0, "", 159, 13)
 
---Scrolling background
-songBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(songBG0, 160, 0)
-animSetTile(songBG0, 1, 1)
-animSetColorKey(songBG0, -1)
-
---Transparent background
-songBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(songBG1, 20, 20)
-animSetAlpha(songBG1, 20, 100)
-animUpdate(songBG1)
-
---Up Arrow
-songUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(songUpArrow, 228, 11)
-animUpdate(songUpArrow)
-animSetScale(songUpArrow, 0.5, 0.5)
-
---Down Page Arrow
-songDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(songDownArrow, 228, 201.5)
-animUpdate(songDownArrow)
-animSetScale(songDownArrow, 0.5, 0.5)
-
 --Left Page Arrow
 songLeftArrow = animNew(sprSys, [[
 223,0, 0,0, 10
@@ -1660,7 +1409,7 @@ txt_confirmSong = createTextImg(jgFnt, 0, 0, "USE THIS SONG?", 160, 108, 0.63, 0
 
 --Confirm Window BG
 confirmSongWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(confirmSongWindowBG, 83.5, 97)
 animUpdate(confirmSongWindowBG)
@@ -1750,55 +1499,9 @@ txt_netPort = createTextImg(jgFnt, 0, 0, "", 159, 72, 0.9, 0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, "", 159, 228)
 txt_cancel = createTextImg(jgFnt, 1, 0, "CANCEL(ESC)", 161, 165)
 
---Scrolling background
-onlineBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(onlineBG0, 160, 0)
-animSetTile(onlineBG0, 1, 1)
-animSetColorKey(onlineBG0, -1)
-
---Transparent background
---onlineBG1 = animNew(sprSys, [[
---3,0, 0,0, -1
---]])
---animSetPos(onlineBG1, 20, 20)
---animSetAlpha(onlineBG1, 20, 100)
---animUpdate(onlineBG1)
-
---Up Arrow
---onlineUpArrow = animNew(sprSys, [[
---225,0, 0,0, 10
---225,1, 0,0, 10
---225,2, 0,0, 10
---225,3, 0,0, 10
---225,3, 0,0, 10
---225,2, 0,0, 10
---225,1, 0,0, 10
---225,0, 0,0, 10
---]])
---animAddPos(onlineUpArrow, 228, 11)
---animUpdate(onlineUpArrow)
---animSetScale(onlineUpArrow, 0.5, 0.5)
-
---Down Arrow
---onlineDownArrow = animNew(sprSys, [[
---226,0, 0,0, 10
---226,1, 0,0, 10
---226,2, 0,0, 10
---226,3, 0,0, 10
---226,3, 0,0, 10
---226,2, 0,0, 10
---226,1, 0,0, 10
---226,0, 0,0, 10
---]])
---animAddPos(onlineDownArrow, 228, 231)
---animUpdate(onlineDownArrow)
---animSetScale(onlineDownArrow, 0.5, 0.5)
-
 --IP Window BG
 textWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(textWindowBG, 83.5, 97)
 animUpdate(textWindowBG)
@@ -1806,7 +1509,7 @@ animSetScale(textWindowBG, 1, 1)
 
 --Connecting Window BG
 joinWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(joinWindowBG, 83.5, 54)
 animUpdate(joinWindowBG)
@@ -1860,7 +1563,7 @@ end
 
 --CRUD Window BG
 crudHostWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(crudHostWindowBG, 60.5, 125)
 animUpdate(crudHostWindowBG)
@@ -2126,7 +1829,7 @@ txt_confirmQuestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
 
 --Confirm Window BG
 confirmWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(confirmWindowBG, 83.5, 97)
 animUpdate(confirmWindowBG)
@@ -2155,7 +1858,7 @@ txt_question = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
 
 --Exit Window BG
 exitWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(exitWindowBG, 83.5, 97)
 animUpdate(exitWindowBG)
@@ -2206,7 +1909,7 @@ txt_palHintM = "PRESS MENU BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS"
 
 --Back Window BG
 backWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(backWindowBG, 83.5, 97)
 animUpdate(backWindowBG)
@@ -2245,14 +1948,6 @@ p1ActiveCursor = animNew(sprSys, [[
 p2ActiveCursor = animNew(sprSys, [[
 170,0, 0,0, -1
 ]])
-
---Scrolling background
-selectBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(selectBG0, 160, 0)
-animSetTile(selectBG0, 1, 1) --Makes the image repeat
-animSetColorKey(selectBG0, -1)
 
 --Hardcore Scrolling background
 selectHardBG0 = animNew(sprSys, [[
@@ -3171,17 +2866,9 @@ t_battleOption2 = {
 	{id = textImgNew(), text = t_battleOption[4].text},
 }
 
---Scrolling background
-rematchBG = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(rematchBG, 160, 0)
-animSetTile(rematchBG, 1, 1)
-animSetColorKey(rematchBG, -1)
-
 --Rematch Window BG
 rematchWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(rematchWindowBG, 0.4, 82)
 animUpdate(rematchWindowBG)
@@ -3189,7 +2876,7 @@ animSetScale(rematchWindowBG, 1.005, 1.1)
 
 --Rematch Window BG CPU
 rematchCPUWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(rematchCPUWindowBG, 83.5, 82)
 animUpdate(rematchCPUWindowBG)
@@ -3197,7 +2884,7 @@ animSetScale(rematchCPUWindowBG, 1.005, 1.1)
 
 --Rematch Window BG Player 2
 rematch2WindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(rematch2WindowBG, 168.4, 82)
 animUpdate(rematch2WindowBG)
@@ -3221,18 +2908,10 @@ txt_rankInfo = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
 txt_rankESC = createTextImg(jgFnt, 5, 0, "PRESS ESC TO EXIT", 159, 151)
 txt_rankText = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
 txt_rankMsg = "ONLINE MATCH RANKED HAS FINISHED"
-	
---Scrolling background
-rankedBG = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(rankedBG, 160, 0)
-animSetTile(rankedBG, 1, 1)
-animSetColorKey(rankedBG, -1)
 
 --Ranked Info Window BG
 rankWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(rankWindowBG, 83.5, 97)
 animUpdate(rankWindowBG)
@@ -3273,44 +2952,6 @@ t_devService = {
 for i=1, #t_devService do
 	t_devService[i].id = createTextImg(font2, 0, 0, t_devService[i].text, 161, 210+i*15)
 end
-
---Transparent background
-serviceBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(serviceBG1, 20, 20)
-animSetAlpha(serviceBG1, 20, 100)
-animUpdate(serviceBG1)
-
---Up Arrow
-serviceUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(serviceUpArrow, 228, 11)
-animUpdate(serviceUpArrow)
-animSetScale(serviceUpArrow, 0.5, 0.5)
-
---Down Arrow
-serviceDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(serviceDownArrow, 228, 231)
-animUpdate(serviceDownArrow)
-animSetScale(serviceDownArrow, 0.5, 0.5)
 
 --Service Input Hints Panel
 function drawServiceInputHints()
@@ -4099,52 +3740,6 @@ function drawTourneyInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
 end
 
---Scrolling background
-tourneyBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(tourneyBG0, 160, 0)
-animSetTile(tourneyBG0, 1, 1)
-animSetColorKey(tourneyBG0, -1)
-
---Transparent background
-tourneyBG1 = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(tourneyBG1, 20, 20)
-animSetAlpha(tourneyBG1, 20, 100)
-animUpdate(tourneyBG1)
-
---Up Arrow
-tourneyUpArrow = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(tourneyUpArrow, 228, 11)
-animUpdate(tourneyUpArrow)
-animSetScale(tourneyUpArrow, 0.5, 0.5)
-
---Down Arrow
-tourneyDownArrow = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(tourneyDownArrow, 228, 126)
-animUpdate(tourneyDownArrow)
-animSetScale(tourneyDownArrow, 0.5, 0.5)
-
 --4 Players Grid
 tourney4 = animNew(sprTourney, [[
 1,4, 0,0, -1
@@ -4328,14 +3923,6 @@ txt_tourneyChampionTitle = createTextImg(font21, 0, 0, "CONGRATULATIONS!", 159, 
 txt_tourneyPlace1 = createTextImg(font13, 0, 0, "", 163, 157, 0.65, 0.65)
 txt_tourneyPlace2 = createTextImg(font13, 0, 0, "", 62, 182, 0.65, 0.65)
 txt_tourneyPlace3 = createTextImg(font13, 0, 0, "", 261, 201, 0.65, 0.65)
-
---Scrolling background
-tourneyChampionBG0 = animNew(sprSys, [[
-100,0, 0,0, -1
-]])
-animAddPos(tourneyChampionBG0, 160, 0)
-animSetTile(tourneyChampionBG0, 1, 1)
-animSetColorKey(tourneyChampionBG0, -1)
 
 --Awards Assets (Single Elimination) Unused
 tourneyAwards1 = animNew(sprTourney, [[
