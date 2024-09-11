@@ -3595,6 +3595,11 @@ if stats.modes == nil or data.erase then
 	stats.modes.scoreattack.clear = 0
 	stats.modes.scoreattack.ranking = {}
 	
+	stats.modes.vskumite = {}
+	stats.modes.vskumite.playtime = 0
+	stats.modes.vskumite.clear = 0
+	stats.modes.vskumite.ranking = {}
+	
 	stats.modes.suddendeath = {}
 	stats.modes.suddendeath.playtime = 0
 	stats.modes.suddendeath.clear = 0

@@ -1554,8 +1554,16 @@ function f_challengeMenu()
 					else
 						f_timeRushMenu()
 					end
-				--SUDDEN DEATH (defeat opponents in 1 hit)
+				--VS X KUMITE (defeat as many opponents as you can in predefined successive matches)
 				elseif challengeMenu == 8 then
+					if data.sideSelect == "Modern" then
+						menuSelect = "kumite"
+						sideScreen = true
+					else
+						f_kumiteMenu()
+					end
+				--SUDDEN DEATH (defeat opponents in 1 hit)
+				else
 					if data.sideSelect == "Modern" then
 						menuSelect = "sudden death"
 						sideScreen = true
@@ -1574,6 +1582,7 @@ function f_challengeMenu()
 			end
 			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 122+i*13-moveTxt))
 		end
+		t_challengeMenu[8].text = getKumiteData()
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -2978,7 +2987,6 @@ function scoreattackCfg()
 	data.rosterMode = "scoreattack"
 	--data.stageMenu = true
 	setRoundTime(-1)
-	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3392,6 +3400,181 @@ function timerushCPUvsCPU()
 	data.aiFight = true
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TIME RUSH")
+	f_selectAdvance()
+end
+
+--;===========================================================
+--; VS X KUMITE MENU
+--;===========================================================
+function f_kumiteMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local kumiteMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			sndPlay(sndSys, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			kumiteMenu = kumiteMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			kumiteMenu = kumiteMenu + 1
+		end
+		if kumiteMenu < 1 then
+			kumiteMenu = #t_commonSubMenu
+			if #t_commonSubMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_commonSubMenu-1
+			end
+		elseif kumiteMenu > #t_commonSubMenu then
+			kumiteMenu = 1
+			cursorPosY = 0
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (kumiteMenu - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (kumiteMenu - 1) * 13
+		end
+		if #t_commonSubMenu <= 5 then
+			maxkumiteMenu = #t_commonSubMenu
+		elseif kumiteMenu - cursorPosY > 0 then
+			maxkumiteMenu = kumiteMenu + 5 - cursorPosY
+		else
+			maxkumiteMenu = 5
+		end
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			kumiteCfg()
+			if kumiteMenu == 1 then kumiteHumanvsCPU()
+			elseif kumiteMenu == 2 then P2overP1 = true kumiteHumanvsCPU()
+			elseif kumiteMenu == 3 then kumiteCPUvsHuman()
+			elseif kumiteMenu == 4 then P2overP1 = true kumiteCPUvsHuman()
+			elseif kumiteMenu == 5 then kumiteP1P2vsCPU()
+			--elseif kumiteMenu == 6 then kumiteCPUvsP1P2()
+			elseif kumiteMenu == 6 then kumiteCPUvsCPU()
+			end
+		end	
+		drawBottomMenuSP()
+		for i=1, #t_commonSubMenu do
+			if i == kumiteMenu then
+				bank = 1
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_commonSubMenu[i].id, jgFnt, bank, 0, t_commonSubMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, getKumiteData().." MODE")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxkumiteMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_commonSubMenu > 6 and maxkumiteMenu < #t_commonSubMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		drawMenuInputHints()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--Load Common Settings for VS X Kumite Modes
+function kumiteCfg()
+	f_default()
+	data.gameMode = "vskumite"
+	data.rosterMode = "vskumite"
+	--data.stageMenu = true
+	setRoundsToWin(1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--P1 VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from left side)
+function kumiteHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, getKumiteData())
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--CPU VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from right side)
+function kumiteCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, getKumiteData())
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down in 1 Hit)
+function kumiteP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, getKumiteData().." COOPERATIVE")
+	f_selectAdvance()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of all roster you can take down in 1 Hit)
+function kumiteCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, getKumiteData().." COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (see how many characters out of all roster the CPU can take down in 1 Hit)
+function kumiteCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH "..getKumiteData())
 	f_selectAdvance()
 end
 
@@ -4692,6 +4875,7 @@ function f_modeplayTime()
 	elseif data.rosterMode == "timerush" then stats.modes.timerush.playtime = stats.modes.timerush.playtime + clearTime
 	elseif data.rosterMode == "endless" then stats.modes.endless.playtime = stats.modes.endless.playtime + clearTime
 	elseif data.rosterMode == "suddendeath" then stats.modes.suddendeath.playtime = stats.modes.suddendeath.playtime + clearTime
+	elseif data.rosterMode == "vskumite" then stats.modes.vskumite.playtime = stats.modes.vskumite.playtime + clearTime
 	elseif data.rosterMode == "mission" then stats.modes.mission.playtime = stats.modes.mission.playtime + clearTime
 	elseif data.rosterMode == "event" then stats.modes.event.playtime = stats.modes.event.playtime + clearTime
 	elseif data.rosterMode == "tower" then stats.modes.tower.playtime = stats.modes.tower.playtime + clearTime
@@ -4750,6 +4934,7 @@ function f_getStats()
 	   (stats.modes.story.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.story.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.story.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.story.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.story.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.story.playtime > stats.modes.event.playtime) and
 	   (stats.modes.story.playtime > stats.modes.mission.playtime) and
@@ -4767,6 +4952,7 @@ function f_getStats()
 	   (stats.modes.arcade.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.arcade.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.arcade.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.arcade.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.arcade.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.arcade.playtime > stats.modes.event.playtime) and
 	   (stats.modes.arcade.playtime > stats.modes.mission.playtime) and
@@ -4785,6 +4971,7 @@ function f_getStats()
 	   (stats.modes.versus.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.versus.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.versus.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.versus.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.versus.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.versus.playtime > stats.modes.event.playtime) and
 	   (stats.modes.versus.playtime > stats.modes.mission.playtime) and
@@ -4804,6 +4991,7 @@ function f_getStats()
 	   (stats.modes.watch.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.watch.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.watch.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.watch.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.watch.playtime > stats.modes.event.playtime) and
 	   (stats.modes.watch.playtime > stats.modes.mission.playtime) and
 	   (stats.modes.watch.playtime > stats.modes.endless.playtime) and
@@ -4821,6 +5009,7 @@ function f_getStats()
 	   (stats.modes.survival.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.survival.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.survival.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.survival.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.survival.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.survival.playtime > stats.modes.event.playtime) and
 	   (stats.modes.survival.playtime > stats.modes.mission.playtime) and
@@ -4839,6 +5028,7 @@ function f_getStats()
 	   (stats.modes.boss.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.boss.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.boss.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.boss.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.boss.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.boss.playtime > stats.modes.event.playtime) and
 	   (stats.modes.boss.playtime > stats.modes.mission.playtime) and
@@ -4857,6 +5047,7 @@ function f_getStats()
 	   (stats.modes.bonus.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.bonus.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.bonus.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.bonus.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.bonus.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.bonus.playtime > stats.modes.event.playtime) and
 	   (stats.modes.bonus.playtime > stats.modes.mission.playtime) and
@@ -4874,6 +5065,7 @@ function f_getStats()
 	   (stats.modes.timeattack.playtime > stats.modes.boss.playtime) and
 	   (stats.modes.timeattack.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.timeattack.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.timeattack.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.timeattack.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.timeattack.playtime > stats.modes.event.playtime) and
 	   (stats.modes.timeattack.playtime > stats.modes.mission.playtime) and
@@ -4892,6 +5084,7 @@ function f_getStats()
 	   (stats.modes.timerush.playtime > stats.modes.boss.playtime) and
 	   (stats.modes.timerush.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.timerush.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.timerush.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.timerush.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.timerush.playtime > stats.modes.event.playtime) and
 	   (stats.modes.timerush.playtime > stats.modes.mission.playtime) and
@@ -4912,6 +5105,7 @@ function f_getStats()
 	   (stats.modes.scoreattack.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.scoreattack.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.scoreattack.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.scoreattack.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.scoreattack.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.scoreattack.playtime > stats.modes.event.playtime) and
 	   (stats.modes.scoreattack.playtime > stats.modes.mission.playtime) and
@@ -4930,6 +5124,7 @@ function f_getStats()
 	   (stats.modes.endless.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.endless.playtime > stats.modes.timerush.playtime) and
 	   (stats.modes.endless.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.endless.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.endless.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.endless.playtime > stats.modes.event.playtime) and
 	   (stats.modes.endless.playtime > stats.modes.mission.playtime) and
@@ -4947,6 +5142,7 @@ function f_getStats()
 	   (stats.modes.suddendeath.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.suddendeath.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.suddendeath.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.suddendeath.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.suddendeath.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.suddendeath.playtime > stats.modes.event.playtime) and
 	   (stats.modes.suddendeath.playtime > stats.modes.mission.playtime) and
@@ -4958,6 +5154,25 @@ function f_getStats()
 	   (stats.modes.suddendeath.playtime > stats.modes.adventure.playtime) then
 		t_statsMenu[7].varText = "Sudden Death"
 	end
+	if (stats.modes.vskumite.playtime > stats.modes.arcade.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.versus.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.survival.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.boss.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.bonus.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.timeattack.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.suddendeath.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.watch.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.event.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.mission.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.endless.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.scoreattack.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.tower.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.story.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.tourney.playtime) and
+	   (stats.modes.vskumite.playtime > stats.modes.adventure.playtime) then
+		t_statsMenu[7].varText = getKumiteData()
+	end
 	if (stats.modes.mission.playtime > stats.modes.arcade.playtime) and
 	   (stats.modes.mission.playtime > stats.modes.versus.playtime) and
 	   (stats.modes.mission.playtime > stats.modes.survival.playtime) and
@@ -4965,6 +5180,7 @@ function f_getStats()
 	   (stats.modes.mission.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.mission.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.mission.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.mission.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.mission.playtime > stats.modes.suddendeath.playtime) and
 	   (stats.modes.mission.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.mission.playtime > stats.modes.event.playtime) and
@@ -4983,6 +5199,7 @@ function f_getStats()
 	   (stats.modes.event.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.event.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.event.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.event.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.event.playtime > stats.modes.suddendeath.playtime) and
 	   (stats.modes.event.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.event.playtime > stats.modes.mission.playtime) and
@@ -5001,6 +5218,7 @@ function f_getStats()
 	   (stats.modes.tower.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.tower.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.tower.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.tower.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.tower.playtime > stats.modes.suddendeath.playtime) and
 	   (stats.modes.tower.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.tower.playtime > stats.modes.event.playtime) and
@@ -5019,6 +5237,7 @@ function f_getStats()
 	   (stats.modes.tourney.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.tourney.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.tourney.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.tourney.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.tourney.playtime > stats.modes.suddendeath.playtime) and
 	   (stats.modes.tourney.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.tourney.playtime > stats.modes.event.playtime) and
@@ -5037,6 +5256,7 @@ function f_getStats()
 	   (stats.modes.adventure.playtime > stats.modes.bonus.playtime) and
 	   (stats.modes.adventure.playtime > stats.modes.timeattack.playtime) and
 	   (stats.modes.adventure.playtime > stats.modes.timerush.playtime) and
+	   (stats.modes.adventure.playtime > stats.modes.vskumite.playtime) and
 	   (stats.modes.adventure.playtime > stats.modes.suddendeath.playtime) and
 	   (stats.modes.adventure.playtime > stats.modes.watch.playtime) and
 	   (stats.modes.adventure.playtime > stats.modes.event.playtime) and
@@ -7286,6 +7506,7 @@ function f_mainLobby()
 				end
 			--ONLINE SURVIVAL	
 			elseif mainLobby == 5 then
+				setRoundsToWin(1)
 				data.gameMode = "survival"
 				data.rosterMode = "survival"
 				textImgSetText(txt_mainSelect, "ONLINE SURVIVAL COOPERATIVE")
@@ -7307,6 +7528,7 @@ function f_mainLobby()
 			--ONLINE BONUS RUSH
 			elseif mainLobby == 8 then
 				if #t_bonusChars ~= 0 then
+					setRoundsToWin(1)
 					data.versusScreen = false
 					data.gameMode = "bonusrush"
 					data.rosterMode = "bonus"
@@ -7316,6 +7538,7 @@ function f_mainLobby()
 			--ONLINE TIME RUSH
 			elseif mainLobby == 9 then
 				setRoundTime(3600)
+				setRoundsToWin(1)
 				data.gameMode = "allroster"
 				data.rosterMode = "timerush"
 				textImgSetText(txt_mainSelect, "ONLINE TIME RUSH COOPERATIVE")
@@ -7323,23 +7546,30 @@ function f_mainLobby()
 		--[[
 			--ONLINE TIME ATTACK
 			elseif mainLobby == 10 then
-				setRoundTime(-1)
+				setRoundsToWin(1)
 				data.gameMode = "allroster"
 				data.rosterMode = "timeattack"
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				f_selectAdvance()
 			--ONLINE SCORE ATTACK
 			elseif mainLobby == 11 then
-				setRoundTime(-1)
 				data.gameMode = "allroster"
 				data.rosterMode = "scoreattack"
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
 		]]
-			--ONLINE SUDDEN DEATH
+			--ONLINE VS X KUMITE
 			elseif mainLobby == 10 then
+				setRoundsToWin(1)
+				data.gameMode = "vskumite"
+				data.rosterMode = "vskumite"
+				textImgSetText(txt_mainSelect, "ONLINE "..getKumiteData().." COOPERATIVE")
+				f_selectAdvance()
+			--ONLINE SUDDEN DEATH
+			elseif mainLobby == 11 then
 				setRoundTime(1000)
 				setLifeMul(0)
+				setRoundsToWin(1)
 				data.gameMode = "allroster"
 				data.rosterMode = "suddendeath"
 				textImgSetText(txt_mainSelect, "ONLINE SUDDEN DEATH COOPERATIVE")
@@ -7371,6 +7601,7 @@ function f_mainLobby()
 		elseif netPlayer == "Client" then
 			t_mainLobby[1].text = "VERSUS PLAYER 1"
 		end
+		t_mainLobby[10].text = getKumiteData()
 		if maxmainLobby > 6 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
@@ -8044,6 +8275,7 @@ function f_sideSelect()
 		elseif menuSelect == "time rush" then timerushCfg()
 		elseif menuSelect == "time attack" then timeattackCfg()
 		elseif menuSelect == "score attack" then scoreattackCfg()
+		elseif menuSelect == "kumite" then kumiteCfg()
 		elseif menuSelect == "sudden death" then suddenCfg()
 		elseif menuSelect == "endless" then endlessCfg()
 		end
@@ -8060,6 +8292,7 @@ function f_sideSelect()
 			elseif menuSelect == "time rush" then timerushCPUvsCPU()
 			elseif menuSelect == "time attack" then timeattackCPUvsCPU()
 			elseif menuSelect == "score attack" then scoreattackCPUvsCPU()
+			elseif menuSelect == "kumite" then kumiteCPUvsCPU()
 			elseif menuSelect == "sudden death" then suddenCPUvsCPU()
 			elseif menuSelect == "endless" then endlessCPUvsCPU()
 			end
@@ -8084,6 +8317,7 @@ function f_sideSelect()
 			elseif menuSelect == "time rush" then timerushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
+			elseif menuSelect == "kumite" then kumiteHumanvsCPU()
 			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
 			elseif menuSelect == "endless" then endlessHumanvsCPU()
 			end
@@ -8104,6 +8338,7 @@ function f_sideSelect()
 			elseif menuSelect == "time rush" then timerushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
+			elseif menuSelect == "kumite" then kumiteHumanvsCPU()
 			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
 			elseif menuSelect == "endless" then endlessHumanvsCPU()
 			end
@@ -8123,6 +8358,7 @@ function f_sideSelect()
 			elseif menuSelect == "time rush" then timerushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
+			elseif menuSelect == "kumite" then kumiteCPUvsHuman()
 			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
 			elseif menuSelect == "endless" then endlessCPUvsHuman()
 			end
@@ -8143,6 +8379,7 @@ function f_sideSelect()
 			elseif menuSelect == "time rush" then timerushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
+			elseif menuSelect == "kumite" then kumiteCPUvsHuman()
 			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
 			elseif menuSelect == "endless" then endlessCPUvsHuman()
 			end
@@ -8186,6 +8423,7 @@ function f_sideSelect()
 			elseif menuSelect == "time rush" then timerushP1P2vsCPU()
 			elseif menuSelect == "time attack" then timeattackP1P2vsCPU()
 			elseif menuSelect == "score attack" then scoreattackP1P2vsCPU()
+			elseif menuSelect == "kumite" then kumiteP1P2vsCPU()
 			elseif menuSelect == "sudden death" then suddenP1P2vsCPU()
 			elseif menuSelect == "endless" then endlessP1P2vsCPU()
 			end
@@ -8208,6 +8446,7 @@ function f_sideSelect()
 			elseif menuSelect == "time rush" then timerushCPUvsP1P2()
 			elseif menuSelect == "time attack" then timeattackCPUvsP1P2()
 			elseif menuSelect == "score attack" then scoreattackCPUvsP1P2()
+			elseif menuSelect == "kumite" then kumiteCPUvsP1P2()
 			elseif menuSelect == "sudden death" then suddenCPUvsP1P2()
 			elseif menuSelect == "endless" then endlessCPUvsP1P2()
 			end
@@ -8845,7 +9084,7 @@ function f_makeRoster()
 		end
 	--Survival / Boss Rush / Bonus Rush / All Roster
 	else
-		if data.gameMode == "survival" then
+		if data.gameMode == "survival" or data.gameMode == "allroster" then
 			t = t_randomChars
 			cnt = #t
 			local i = 0
@@ -8860,8 +9099,10 @@ function f_makeRoster()
 					cnt = #t + i
 				end
 			end
-		elseif data.gameMode == "bossrush" then
-			t = t_bossChars
+		elseif data.gameMode == "bossrush" or data.gameMode == "bonusrush" then
+			if data.gameMode == "bossrush" then t = t_bossChars
+			elseif data.gameMode == "bonusrush" then t = t_bonusChars
+			end
 			cnt = #t
 			local i = 0
 			if (data.p1In == 2 and data.p2In == 2) then
@@ -8875,35 +9116,12 @@ function f_makeRoster()
 					cnt = #t + i
 				end
 			end
-		elseif data.gameMode == "bonusrush" then
-			t = t_bonusChars
-			cnt = #t
-			local i = 0
-			if (data.p1In == 2 and data.p2In == 2) then
-				while cnt / p1numChars ~= math.ceil(cnt / p1numChars) do
-					i = i + 1
-					cnt = #t + i
-				end
-			else
-				while cnt / p2numChars ~= math.ceil(cnt / p2numChars) do
-					i = i + 1
-					cnt = #t + i
-				end
-			end
-		elseif data.gameMode == "allroster" then
+		elseif data.gameMode == 'vskumite' then
 			t = t_randomChars
-			cnt = #t
-			local i = 0
 			if (data.p1In == 2 and data.p2In == 2) then
-				while cnt / p1numChars ~= math.ceil(cnt / p1numChars) do --not integer
-					i = i + 1
-					cnt = #t + i
-				end
+				cnt = data.kumite * p1numChars
 			else
-				while cnt / p2numChars ~= math.ceil(cnt / p2numChars) do --not integer
-					i = i + 1
-					cnt = #t + i
-				end
+				cnt = data.kumite * p2numChars
 			end
 		end
 		while cnt > 0 do
@@ -9135,7 +9353,7 @@ function f_aiLevel()
 					end
 				end
 			end
-		elseif p2teamMode == 2 then --Turns --and not data.gameMode == "bossrush" then
+		elseif p2teamMode == 2 then --Turns
 			for i=2, p2numChars*2 do
 				if i % 2 == 0 then
 					if data.p2In == 2 and not data.aiFight then
@@ -13859,7 +14077,7 @@ function f_selectVersus()
 		--Draw Match Info
 			if data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "tourney" then
 				textImgDraw(txt_matchNo)
-			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "intermission" then
+			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "vskumite" or data.gameMode == "allroster" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
 			elseif data.gameMode == "bossrush" then
 				textImgDraw(txt_bossNo)
@@ -14871,7 +15089,7 @@ function f_result(state)
 	local charPortr = nil
 	local charTable = nil
 	local scaleData = nil
-	if data.gameMode == "survival" or data.gameMode == "endless" or data.gameMode == "allroster" then
+	if data.gameMode == "survival" or data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
 		--Common Data
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -14901,7 +15119,7 @@ function f_result(state)
 			textImgSetPos(txt_resultName, 318, 60)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
-		else--if data.gameMode == "endless" or data.gameMode == "allroster" then
+		else--if data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
 			textImgSetAlign(txt_resultTeam, 1)
 			textImgSetPos(txt_resultTeam, 2, 50)
 			textImgSetAlign(txt_resultName, 1)
@@ -14911,6 +15129,7 @@ function f_result(state)
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
 			elseif data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS")
 			elseif data.rosterMode == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
+			elseif data.rosterMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData().." RESULTS")
 			--elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
 			--elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
 			end
@@ -15732,9 +15951,9 @@ function f_nextMatch()
 	f_1stStageSel()
 end
 
---;=========================================================================================================
---; ADVANCED MODES (ARCADE, TOWER, SURVIVAL, BOSS/BONUS/TIME RUSH, SUDDEN DEATH, TIME/SCORE ATTACK, ENDLESS)
---;=========================================================================================================
+--;======================================================================================================================
+--; ADVANCED MODES (ARCADE, TOWER, SURVIVAL, BOSS/BONUS/TIME RUSH, SUDDEN DEATH, TIME/SCORE ATTACK, VS X KUMITE, ENDLESS)
+--;======================================================================================================================
 function f_selectAdvance()
 if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
@@ -15802,7 +16021,7 @@ if validCells() then
 			matchNo = 1
 			if data.gameMode ~= "endless" then f_aiRamp() end --generate AI ramping table
 	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
-		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster") then
+		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite") then
 			if data.gameMode ~= "endless" then looseCnt = looseCnt + 1 end --because in endless a give up not counts as a loose
 			assert(loadfile(saveTempPath))()
 			if data.tempBack == true then
@@ -15816,7 +16035,7 @@ if validCells() then
 			f_resetMenuInputs()
 			return
 	--Endless or All Roster modes (BOTH SIDES)
-		elseif data.gameMode == "endless" or data.gameMode == "allroster" then
+		elseif data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if winner == 2 then
 					winCnt = winCnt + 1

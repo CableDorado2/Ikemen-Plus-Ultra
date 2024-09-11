@@ -14,7 +14,7 @@ data.language = "ENGLISH"
 data.clock = "Standard"
 data.date = "Type A"
 data.attractMode = false
-data.sideSelect = "Classic"
+data.sideSelect = "Modern"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.charPresentation = "Mixed"
@@ -29,6 +29,7 @@ data.aipal = "Default"
 data.aiRamping = true
 data.autoguard = false
 data.quickCont = false
+data.kumite = 100
 --Team Data
 data.team1VS2Life = 120
 data.turnsRecoveryRate = 300

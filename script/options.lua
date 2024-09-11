@@ -420,6 +420,7 @@ function f_saveCfg()
 		['data.lifeMul'] = data.lifeMul,
 		['data.aipal'] = data.aipal,
 		['data.aiRamping'] = data.aiRamping,
+		['data.kumite'] = data.kumite,
 		['data.autoguard'] = data.autoguard,
 		['data.quickCont'] = data.quickCont,
 	--Team Data
@@ -617,6 +618,7 @@ function f_netsaveCfg()
 		['data.quickCont'] = data.quickCont,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.aipal'] = data.aipal,
+		['data.data.kumite'] = data.data.kumite,
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
@@ -698,6 +700,7 @@ function f_gameDefault()
 	data.aipal = "Default"
 	data.aiRamping = true
 	s_aiRamping = "Yes"
+	data.kumite = 100
 	data.autoguard = false
 	s_autoguard = "No"
 	gameSpeed = 60
@@ -2192,6 +2195,7 @@ t_gameCfg = {
 	{varID = textImgNew(), text = "Quick Arcade Continue",	varText = s_quickCont},
 	{varID = textImgNew(), text = "AI Palette",  	    	varText = data.aipal},
 	{varID = textImgNew(), text = "AI Ramping",             varText = s_aiRamping},
+	{varID = textImgNew(), text = "VS Kumite Amount",  	    varText = data.kumite},
 	{varID = textImgNew(), text = "Team Settings",  		varText = ""},
 	{varID = textImgNew(), text = "Zoom Settings",  		varText = ""},
 	{varID = textImgNew(), text = "Default Values",		    varText = ""},
@@ -2427,12 +2431,41 @@ function f_gameCfg()
 					s_aiRamping = "Yes"
 					modified = 1
 				end
+			--VS Kumite Amount
+			elseif gameCfg == 11 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if data.kumite < 1000 then
+						data.kumite = data.kumite + 1
+					else
+						data.kumite = 1
+					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if data.kumite > 0 then
+						data.kumite = data.kumite - 1
+					else
+						data.kumite = 1000
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
 			--Team Settings
-			elseif gameCfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameCfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_teamCfg()
 			--Zoom Settings
-			elseif gameCfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
+			elseif gameCfg == 13 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
 				sndPlay(sndSys, 100, 1)
 				f_zoomCfg()
 			--Default Values
@@ -2502,6 +2535,7 @@ function f_gameCfg()
 		t_gameCfg[8].varText = s_quickCont
 		t_gameCfg[9].varText = data.aipal
 		t_gameCfg[10].varText = s_aiRamping
+		t_gameCfg[11].varText = data.kumite
 		for i=1, maxGameCfg do	
 			if i > gameCfg - cursorPosY then
 				if t_gameCfg[i].varID ~= nil then

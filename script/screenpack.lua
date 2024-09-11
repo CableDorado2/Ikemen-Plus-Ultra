@@ -703,8 +703,14 @@ t_challengeMenu = {
 	{id = textImgNew(), text = "SCORE ATTACK"},
 	{id = textImgNew(), text = "TIME ATTACK"},
 	{id = textImgNew(), text = "TIME RUSH"},
+	{id = textImgNew(), text = ""}, --VS X KUMITE --(X = data.kumite)
 	{id = textImgNew(), text = "SUDDEN DEATH"},
 }
+
+function getKumiteData()
+kumiteDataText = "VS "..data.kumite.." KUMITE"
+return kumiteDataText
+end
 
 --;===========================================================
 --; BOSS FIGHT MENU SCREENPACK DEFINITION
@@ -1595,6 +1601,7 @@ t_mainLobby = {
 	--{id = textImgNew(), text = "SCORE ATTACK"},
 	--{id = textImgNew(), text = "TIME ATTACK"},
 	{id = textImgNew(), text = "TIME RUSH"},
+	{id = textImgNew(), text = ""}, --VS X KUMITE
 	{id = textImgNew(), text = "SUDDEN DEATH"},
 	{id = textImgNew(), text = "ONLINE SETTINGS"},
 }
@@ -2748,6 +2755,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR: "..matchNo-1) --Set Tower Match Text
 	end
 	if data.gameMode == "survival" or data.gameMode == "allroster" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
+	elseif data.gameMode == "vskumite" then textImgSetText(txt_gameNo, gameNo.."/"..data.kumite) --Set VS X Kumite Match Text
 	elseif data.gameMode == "bossrush" then textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
 	elseif data.gameMode == "bonusrush" then textImgSetText(txt_bonusNo, "BONUS: "..bonusNo) --Set Bonus Rush Match Text
 	elseif data.gameMode == "intermission" then textImgSetText(txt_gameNo, "EXTRA STAGE") --Set Intermission Match Text

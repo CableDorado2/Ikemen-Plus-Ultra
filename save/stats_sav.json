@@ -1,58 +1,37 @@
 {
-  "wins":0,
-  "vault":"Ultra",
   "stages":[],
-  "attractCoins":80,
-  "characters":[],
-  "playtime":1884.633519,
   "modes":{
-    "endless":{
-      "clear":0,
-      "playtime":0,
-      "ranking":[]
-    },
-    "training":{
-      "playtime":0
-    },
-    "bonusrush":{
-      "clear":0,
-      "playtime":0,
-      "ranking":[]
-    },
-    "mission":{
-      "clear2":0,
-      "clearall":0,
-      "clear1":0,
-      "playtime":0,
-      "clear3":0
-    },
-    "watch":{
-      "playtime":0
-    },
     "survival":{
       "clear":0,
       "playtime":0,
       "ranking":[]
     },
+    "bonus":{
+      "playtime":0
+    },
     "event":{
       "clear2":0,
       "clearall":0,
-      "clear1":0,
+      "clear3":0,
       "playtime":0,
-      "clear3":0
+      "clear1":0
     },
-    "bonus":{
-      "playtime":0
+    "mission":{
+      "clear2":0,
+      "clearall":0,
+      "clear3":0,
+      "playtime":0,
+      "clear1":0
+    },
+    "vskumite":{
+      "clear":0,
+      "playtime":663.473,
+      "ranking":[]
     },
     "versus":{
       "playtime":0
     },
-    "timeattack":{
-      "clear":0,
-      "playtime":0,
-      "ranking":[]
-    },
-    "tower":{
+    "scoreattack":{
       "clear":0,
       "playtime":0,
       "ranking":[]
@@ -62,12 +41,19 @@
       "playtime":0,
       "ranking":[]
     },
-    "story":{
-      "playtime":0
+    "bonusrush":{
+      "clear":0,
+      "playtime":0,
+      "ranking":[]
     },
     "bossrush":{
       "clear":0,
       "playtime":0,
+      "ranking":[]
+    },
+    "suddendeath":{
+      "clear":0,
+      "playtime":3.759,
       "ranking":[]
     },
     "tourney":{
@@ -75,39 +61,57 @@
       "playtime":0,
       "ranking":[]
     },
+    "training":{
+      "playtime":0
+    },
+    "watch":{
+      "playtime":63.16
+    },
     "boss":{
       "playtime":0
     },
-    "timerush":{
-      "playtime":0
-    },
-    "suddendeath":{
-      "clear":0,
-      "playtime":0,
-      "ranking":[]
-    },
-    "scoreattack":{
-      "clear":0,
-      "playtime":0,
-      "ranking":[]
-    },
     "adventure":{
       "playtime":0
+    },
+    "timerush":{
+      "playtime":4.091
+    },
+    "tower":{
+      "clear":0,
+      "playtime":0,
+      "ranking":[]
+    },
+    "story":{
+      "playtime":0
+    },
+    "timeattack":{
+      "clear":0,
+      "playtime":0,
+      "ranking":[]
+    },
+    "endless":{
+      "clear":0,
+      "playtime":0,
+      "ranking":[]
     }
   },
+  "coins":0,
+  "vault":"Ultra",
+  "characters":[],
   "continueCount":0,
+  "losses":0,
   "unlocks":{
     "stages":{
-      "winter":false,
-      "outside":false,
+      "clonelaboratory2":false,
       "trainingroom2":false,
+      "winter":false,
       "secrethallway":false,
-      "lobby2night":false,
-      "hiddenpathnight":false,
       "clonelaboratory":false,
       "hiddenpath":false,
-      "clonelaboratory2":false,
-      "darkcorridor":false
+      "lobby2night":false,
+      "darkcorridor":false,
+      "outside":false,
+      "hiddenpathnight":false
     },
     "modes":{
       "story":{
@@ -115,11 +119,12 @@
       }
     },
     "chars":{
-      "gouki":false,
-      "reika":false
+      "reika":false,
+      "gouki":false
     }
   },
   "firstRun":false,
-  "losses":0,
-  "coins":0
+  "wins":0,
+  "attractCoins":80,
+  "playtime":4055.798571
 }
