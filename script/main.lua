@@ -5341,8 +5341,7 @@ function f_galleryMenu()
 	local maxSectionItems = 3
 	f_updateGallery()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	animSetPos(menuArrowLeft, 0, 190)
-	animSetPos(menuArrowRight, 310, 190)
+	f_resetGalleryArrowsPos()
 	while true do
 		--BACK BUTTON
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5578,8 +5577,7 @@ function f_artMenu(artNo, artLimit)
 	local hideMenu = false
 	f_resetArtPos()
 	artList = nil --Important to avoid errors when read
-	animSetPos(menuArrowLeft, 264, 5.5)
-	animSetPos(menuArrowRight, 312, 5.5)
+	f_resetArtworkArrowsPos()
 	cmdInput()
 	while true do
 		--RETURN
@@ -5737,8 +5735,7 @@ function f_songMenu()
 	songChanged = false
 	f_soundtrack() --Reload from common.lua
 	f_resetListArrowsPos()
-	animSetPos(menuArrowLeft, 69, 21)
-	animSetPos(menuArrowRight, 242, 21)
+	f_resetSoundTestArrowsPos()
 	while true do
 		if backSongConfirm == true then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -16731,8 +16728,7 @@ function f_selectDestiny()
 			sndPlay(twSfx, sfxGroup, sfxIndex)
 		end
 	end
-	animSetPos(menuArrowLeft, 0, 190)
-	animSetPos(menuArrowRight, 310, 190)
+	f_resetTowerArrowsPos()
 	f_backReset()
 	cmdInput()
 	while true do

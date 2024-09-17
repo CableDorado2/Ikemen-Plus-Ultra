@@ -558,9 +558,24 @@ menuArrowRight = animNew(sprSys, [[
 ]])
 animSetScale(menuArrowRight, 0.5, 0.5)
 
-function f_resetMenuArrowsHPos()
---animSetPos(menuArrowLeft, , )
---animSetPos(menuArrowRight, , )
+function f_resetGalleryArrowsPos() --Used in Gallery Menu
+animSetPos(menuArrowLeft, 0, 190)
+animSetPos(menuArrowRight, 310, 190)
+end
+
+function f_resetArtworkArrowsPos() --Used in Artworks Menu
+animSetPos(menuArrowLeft, 264, 5.5)
+animSetPos(menuArrowRight, 312, 5.5)
+end
+
+function f_resetSoundTestArrowsPos() --Used in Sound Test Menu
+animSetPos(menuArrowLeft, 69, 21)
+animSetPos(menuArrowRight, 242, 21)
+end
+
+function f_resetTowerArrowsPos() --Used in Tower Select
+animSetPos(menuArrowLeft, 0, 190)
+animSetPos(menuArrowRight, 310, 190)
 end
 
 function f_titleText()
