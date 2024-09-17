@@ -532,6 +532,37 @@ animSetPos(menuArrowUp, 228, 11)
 animSetPos(menuArrowDown, 228, 201.5)
 end
 
+--Common Menu Left Arrows
+menuArrowLeft = animNew(sprSys, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animSetScale(menuArrowLeft, 0.5, 0.5)
+
+--Common Menu Right Arrows
+menuArrowRight = animNew(sprSys, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animSetScale(menuArrowRight, 0.5, 0.5)
+
+function f_resetMenuArrowsHPos()
+--animSetPos(menuArrowLeft, , )
+--animSetPos(menuArrowRight, , )
+end
+
 function f_titleText()
 	if stats.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
 	elseif stats.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
@@ -1252,36 +1283,6 @@ galleryCursor = animNew(sprIkemen, [[
 ]])
 animSetScale(galleryCursor, 0.49, 0.5)
 
---Left Arrow
-galleryLeftArrow = animNew(sprSys, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(galleryLeftArrow, 0, 190)
-animUpdate(galleryLeftArrow)
-animSetScale(galleryLeftArrow, 0.6, 0.6)
-
---Right Arrow
-galleryRightArrow = animNew(sprSys, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(galleryRightArrow, 310, 190)
-animUpdate(galleryRightArrow)
-animSetScale(galleryRightArrow, 0.6, 0.6)
-
 --Info BG
 galleryInfoBG = animNew(sprSys, [[
 230,3, 0,0, -1
@@ -1303,36 +1304,6 @@ end
 --;===========================================================
 --; ARTWORK DISPLAY SCREENPACK DEFINITION
 --;===========================================================
---Left Page Arrow
-arrowsGL = animNew(sprSys, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(arrowsGL, 264, 5.5)
-animUpdate(arrowsGL)
-animSetScale(arrowsGL, 0.5, 0.5)
-
---Right Page Arrow
-arrowsGR = animNew(sprSys, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(arrowsGR, 312, 5.5)
-animUpdate(arrowsGR)
-animSetScale(arrowsGR, 0.5, 0.5)
-
 --Input Hints BG
 gInputsBG = animNew(sprSys, [[
 230,3, 0,0, -1
@@ -1365,36 +1336,6 @@ end
 --; SOUND TEST MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_song = createTextImg(jgFnt, 0, 0, "", 159, 13)
-
---Left Page Arrow
-songLeftArrow = animNew(sprSys, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(songLeftArrow, 69, 21)
-animUpdate(songLeftArrow)
-animSetScale(songLeftArrow, 0.5, 0.5)
-
---Right Page Arrow
-songRightArrow = animNew(sprSys, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(songRightArrow, 242, 21)
-animUpdate(songRightArrow)
-animSetScale(songRightArrow, 0.5, 0.5)
 
 --Input Hints Panel
 function drawSoundTestInputHints()
@@ -1431,36 +1372,6 @@ t_confirmSongMenu = {
 --;===========================================================
 txt_licenseTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
 txt_license = createTextImg(font7, 0, 1, "", 0, 0)
-
---Left Page Arrow
-licenseLeftArrow = animNew(sprSys, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(licenseLeftArrow, 69, 21)
-animUpdate(licenseLeftArrow)
-animSetScale(licenseLeftArrow, 0.5, 0.5)
-
---Right Page Arrow
-licenseRightArrow = animNew(sprSys, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(licenseRightArrow, 242, 21)
-animUpdate(licenseRightArrow)
-animSetScale(licenseRightArrow, 0.5, 0.5)
 
 --Title BG
 licenseTitleBG = animNew(sprSys, [[
@@ -1713,7 +1624,7 @@ gamepadIcon = animNew(sprSys, [[20,0, 0,0,]])
 lifebarsImg = animNew(sprSys, [[21,0, 0,0,]])
 
 --Left Arrows
-L_arrow = animNew(sprSys, [[
+sideSelArrowLeft = animNew(sprSys, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -1725,7 +1636,7 @@ L_arrow = animNew(sprSys, [[
 ]])
 
 --Right Arrows
-R_arrow = animNew(sprSys, [[
+sideSelArrowRight = animNew(sprSys, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -2412,50 +2323,16 @@ function f_p2charAnnouncer()
 end
 
 --;===========================================================
---; PLAYER 1 PALETTE SELECT SCREENPACK DEFINITION
+--; PALETTE SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_palText = "PALETTE:"
 txt_p1Pal = createTextImg(jgFnt, 5, 1, txt_palText, 5, 237)
-txt_p1PalNo = createTextImg(font14, 0, 0, "", 95, 237) --draw palette limit numbers text
-	
---Left Arrow for Player 1 Palette Select
-arrowsPL = animNew(sprSys, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(arrowsPL, 67, 228.5)
-animUpdate(arrowsPL)
-animSetScale(arrowsPL, 0.45, 0.45)
-
---Right Arrow for Player 1 Palette Select
-arrowsPR = animNew(sprSys, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(arrowsPR, 115, 228.5)
-animUpdate(arrowsPR)
-animSetScale(arrowsPR, 0.45, 0.45)
-
---;===========================================================
---; PLAYER 2 PALETTE SELECT SCREENPACK DEFINITION
---;===========================================================
 txt_p2Pal = createTextImg(jgFnt, 5, -1, txt_palText, 266, 237)
+txt_p1PalNo = createTextImg(font14, 0, 0, "", 95, 237) --draw palette limit numbers text
 txt_p2PalNo = createTextImg(font14, 0, -1, "", 310, 237)
 
---Left Arrow for Player 2 Palette Select
-arrowsPL2 = animNew(sprSys, [[
+--Palette Select Left Arrow
+palSelArrowLeft = animNew(sprSys, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -2465,12 +2342,17 @@ arrowsPL2 = animNew(sprSys, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(arrowsPL2, 264, 228.5)
-animUpdate(arrowsPL2)
-animSetScale(arrowsPL2, 0.45, 0.45)
+palSelArrowLScaleX = 0.45 --Scale X
+palSelArrowLScaleY = 0.45 --Scale Y
 
---Right Arrow for Player 2 Palette Select
-arrowsPR2 = animNew(sprSys, [[
+palSelArrowLP1posX = 67 --Player 1 X-Axis
+palSelArrowLP1posY = 228.5 --Player 1 Y-Axis
+
+palSelArrowLP2posX = 264 --Player 2 X-Axis
+palSelArrowLP2posY = 228.5 --Player 2 Y-Axis
+
+--Palette Select Right Arrow
+palSelArrowRight = animNew(sprSys, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -2480,9 +2362,14 @@ arrowsPR2 = animNew(sprSys, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(arrowsPR2, 312, 228.5)
-animUpdate(arrowsPR2)
-animSetScale(arrowsPR2, 0.45, 0.45)
+palSelArrowRScaleX = 0.45 --Scale X
+palSelArrowRScaleY = 0.45 --Scale Y
+
+palSelArrowRP1posX = 115 --Player 1 X-Axis
+palSelArrowRP1posY = 228.5 --Player 1 Y-Axis
+
+palSelArrowRP2posX = 312 --Player 2 X-Axis
+palSelArrowRP2posY = 228.5 --Player 2 Y-Axis
 
 --;===========================================================
 --; STAGE SELECT SCREENPACK DEFINITION
@@ -3634,36 +3521,6 @@ destinyCursor = animNew(sprTower, [[
 animSetScale(destinyCursor, 0.135, 0.135)
 animSetAlpha(destinyCursor, 188, 0)
 animUpdate(destinyCursor)
-
---Tower Left Arrow
-towerLeftArrow = animNew(sprSys, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(towerLeftArrow, 0, 190)
-animUpdate(towerLeftArrow)
-animSetScale(towerLeftArrow, 0.6, 0.6)
-
---Tower Right Arrow
-towerRightArrow = animNew(sprSys, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(towerRightArrow, 310, 190)
-animUpdate(towerRightArrow)
-animSetScale(towerRightArrow, 0.6, 0.6)
 
 --Tower Slot
 towerSlot = animNew(sprTower, [[3,0, 0,0,]])

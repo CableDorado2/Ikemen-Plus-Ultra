@@ -5341,6 +5341,8 @@ function f_galleryMenu()
 	local maxSectionItems = 3
 	f_updateGallery()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowLeft, 0, 190)
+	animSetPos(menuArrowRight, 310, 190)
 	while true do
 		--BACK BUTTON
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5471,13 +5473,13 @@ function f_galleryMenu()
 		end
 		--Draw Up Animated Cursor
 		if maxSection > maxSectionItems then
-			animDraw(galleryLeftArrow)
-			animUpdate(galleryLeftArrow)
+			animDraw(menuArrowLeft)
+			animUpdate(menuArrowLeft)
 		end
 		--Draw Down Animated Cursor
 		if #t_gallery > maxSectionItems and maxSection < #t_gallery then
-			animDraw(galleryRightArrow)
-			animUpdate(galleryRightArrow)
+			animDraw(menuArrowRight)
+			animUpdate(menuArrowRight)
 		end
 		--Gallery Cell Cursor position calculation
 		if galleryYpos > galleryMenuSizeY then
@@ -5576,6 +5578,8 @@ function f_artMenu(artNo, artLimit)
 	local hideMenu = false
 	f_resetArtPos()
 	artList = nil --Important to avoid errors when read
+	animSetPos(menuArrowLeft, 264, 5.5)
+	animSetPos(menuArrowRight, 312, 5.5)
 	cmdInput()
 	while true do
 		--RETURN
@@ -5637,12 +5641,12 @@ function f_artMenu(artNo, artLimit)
 		if not hideMenu then
 			f_drawQuickText(txt_artNumber, font14, 0, 0, artList.."/"..maxArt, 292, 15) --draw pictures limit numbers text
 			if moveArt > 1 then
-				animDraw(arrowsGL)
-				animUpdate(arrowsGL)
+				animDraw(menuArrowLeft)
+				animUpdate(menuArrowLeft)
 			end
 			if moveArt < maxArt then
-				animDraw(arrowsGR)
-				animUpdate(arrowsGR)
+				animDraw(menuArrowRight)
+				animUpdate(menuArrowRight)
 			end
 		end
 		animDraw(data.fadeTitle)
@@ -5733,6 +5737,8 @@ function f_songMenu()
 	songChanged = false
 	f_soundtrack() --Reload from common.lua
 	f_resetListArrowsPos()
+	animSetPos(menuArrowLeft, 69, 21)
+	animSetPos(menuArrowRight, 242, 21)
 	while true do
 		if backSongConfirm == true then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -5885,13 +5891,13 @@ function f_songMenu()
 		end
 		--Draw Left Animated Cursor
 		if songFolder > 1 then
-			animDraw(songLeftArrow)
-			animUpdate(songLeftArrow)
+			animDraw(menuArrowLeft)
+			animUpdate(menuArrowLeft)
 		end
 		--Draw Right Animated Cursor
 		if songFolder < #t_songList then
-			animDraw(songRightArrow)
-			animUpdate(songRightArrow)
+			animDraw(menuArrowRight)
+			animUpdate(menuArrowRight)
 		end
 		if confirmSong then f_confirmSongMenu() else drawSoundTestInputHints() end
 		animDraw(data.fadeTitle)
@@ -8221,31 +8227,31 @@ function f_sideSelect()
 	--Draw P1 Assets
 	if p1Side == 0 then --Draw in Middle
 		f_drawQuickSpr(gamepadIcon, gamepadPosXcenter, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
-		f_drawQuickSpr(L_arrow, arrowLposXcenter, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
-		f_drawQuickSpr(R_arrow, arrowRposXcenter, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
+		f_drawQuickSpr(sideSelArrowLeft, arrowLposXcenter, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
+		f_drawQuickSpr(sideSelArrowRight, arrowRposXcenter, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
 		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXcenter, p1txtPosY, txtScale, txtScale) --Player ID
 	elseif p1Side == -1 then --Draw in Left
 		f_drawQuickSpr(gamepadIcon, gamepadPosXleft, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
-		f_drawQuickSpr(R_arrow, arrowRposXleft, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
+		f_drawQuickSpr(sideSelArrowRight, arrowRposXleft, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
 		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXleft, p1txtPosY, txtScale, txtScale) --Player ID
 	elseif p1Side == 1 then --Draw in Right
 		f_drawQuickSpr(gamepadIcon, gamepadPosXright, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
-		f_drawQuickSpr(L_arrow, arrowLposXright, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
+		f_drawQuickSpr(sideSelArrowLeft, arrowLposXright, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
 		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXright, p1txtPosY, txtScale, txtScale) --Player ID
 	end
 	--Draw P2 Assets
 	if p2Side == 0 then
 		f_drawQuickSpr(gamepadIcon, gamepadPosXcenter, p2gamepadPosY, gamepadScale, gamepadScale)
-		f_drawQuickSpr(L_arrow, arrowLposXcenter, p2arrowPosY, arrowScale, arrowScale)
-		f_drawQuickSpr(R_arrow, arrowRposXcenter, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickSpr(sideSelArrowLeft, arrowLposXcenter, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickSpr(sideSelArrowRight, arrowRposXcenter, p2arrowPosY, arrowScale, arrowScale)
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXcenter, p2txtPosY, txtScale, txtScale)
 	elseif p2Side == -1 then
 		f_drawQuickSpr(gamepadIcon, gamepadPosXleft, p2gamepadPosY, gamepadScale, gamepadScale)
-		f_drawQuickSpr(R_arrow, arrowRposXleft, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickSpr(sideSelArrowRight, arrowRposXleft, p2arrowPosY, arrowScale, arrowScale)
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXleft, p2txtPosY, txtScale, txtScale)
 	elseif p2Side == 1 then
 		f_drawQuickSpr(gamepadIcon, gamepadPosXright, p2gamepadPosY, gamepadScale, gamepadScale)
-		f_drawQuickSpr(L_arrow, arrowLposXright, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickSpr(sideSelArrowLeft, arrowLposXright, p2arrowPosY, arrowScale, arrowScale)
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXright, p2txtPosY, txtScale, txtScale)
 	end
 	--Draw Input Hint Panel
@@ -11381,12 +11387,10 @@ function f_p1palList()
 	textImgSetText(txt_p1PalNo, p1palSelect.."/12")
 	textImgDraw(txt_p1PalNo)
 	if p1movePal > 1 then
-		animDraw(arrowsPL)
-		animUpdate(arrowsPL)
+		f_drawQuickSpr(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY, palSelArrowLScaleX, palSelArrowLScaleY)
 	end
 	if p1movePal <= 11 then
-		animDraw(arrowsPR)
-		animUpdate(arrowsPR)
+		f_drawQuickSpr(palSelArrowRight, palSelArrowRP1posX, palSelArrowRP1posY, palSelArrowRScaleX, palSelArrowRScaleY)
 	end
 	if btnPalNo(p1Cmd) > 0 then
 		sndPlay(sndSys, 100, 1)
@@ -12775,12 +12779,10 @@ function f_p2palList()
 	textImgSetText(txt_p2PalNo, p2palSelect.."/12")
 	textImgDraw(txt_p2PalNo)
 	if p2movePal > 1 then
-		animDraw(arrowsPL2)
-		animUpdate(arrowsPL2)
+		f_drawQuickSpr(palSelArrowLeft, palSelArrowLP2posX, palSelArrowLP2posY, palSelArrowLScaleX, palSelArrowLScaleY)
 	end
 	if p2movePal <= 11 then
-		animDraw(arrowsPR2)
-		animUpdate(arrowsPR2)
+		f_drawQuickSpr(palSelArrowRight, palSelArrowRP2posX, palSelArrowRP2posY, palSelArrowRScaleX, palSelArrowRScaleY)
 	end
 	if btnPalNo(p2Cmd) > 0 then
 		sndPlay(sndSys, 100, 1)
@@ -16729,6 +16731,8 @@ function f_selectDestiny()
 			sndPlay(twSfx, sfxGroup, sfxIndex)
 		end
 	end
+	animSetPos(menuArrowLeft, 0, 190)
+	animSetPos(menuArrowRight, 310, 190)
 	f_backReset()
 	cmdInput()
 	while true do
@@ -16819,13 +16823,13 @@ function f_selectDestiny()
 		textImgDraw(txt_towerSelect)
 	--Draw Left Animated Cursor
 		if maxDestiny > 3 then
-			animDraw(towerLeftArrow)
-			animUpdate(towerLeftArrow)
+			animDraw(menuArrowLeft)
+			animUpdate(menuArrowLeft)
 		end
 	--Draw Right Animated Cursor
 		if #t_selTower > 3 and maxDestiny < #t_selTower then
-			animDraw(towerRightArrow)
-			animUpdate(towerRightArrow)
+			animDraw(menuArrowRight)
+			animUpdate(menuArrowRight)
 		end
 	--Destiny Select Timer
 		destinyTimeNumber = destinyTimer/gameTick
