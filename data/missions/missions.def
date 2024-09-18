@@ -1,17 +1,26 @@
-[MissionMode]
+preview.file = data/missions/missions.sff
+;preview.spr.unknown = 0,0
+;preview.spr.pos.common = 0,0 ;Allow set common pos for all items, don't use if your items use different values
+;preview.spr.scale.common = 0.168, 0.125
 
 [Mission 1]
 name = Target Confirmed
 info = Defeat Original Kung Fu Man!
+preview.spr = 0,1
+preview.scale = 0.168, 0.125
 path = data/missions/mission1.lua
 
 [Mission 2]
 name = True Kung Fu Spirit
 info = Use the full power of Kung Fu Man!
+preview.spr = 0,2
+preview.scale = 0.168, 0.125
 path = data/missions/mission2.lua
 
 [Mission 3]
 name = Unlimited Power
 info = Kung Fu Girl's power is out of control, defeat everyone!
+preview.spr = 0,3
+preview.scale = 0.168, 0.125
 path = data/missions/mission3.lua
 ;unlock = stats.modes.mission2.score > 0

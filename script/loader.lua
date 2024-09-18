@@ -194,19 +194,19 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				--Load Video Files
-				elseif line:match('^%s*intro%.movie%s*=') then
+				elseif line:match('^%s*intro%.video%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						line = line:gsub('\\', '/')
-						introPath = dir .. line:gsub('^%s*intro%.movie%s*=%s*(.-)%s*$', '%1')
+						introPath = dir .. line:gsub('^%s*intro%.video%s*=%s*(.-)%s*$', '%1')
 						t['intro2'] = introPath
 					end
 					--readLines = readLines - 1
-				elseif line:match('^%s*ending%.movie%s*=') then
+				elseif line:match('^%s*ending%.video%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						line = line:gsub('\\', '/')
-						endingPath = dir .. line:gsub('^%s*ending%.movie%s*=%s*(.-)%s*$', '%1')
+						endingPath = dir .. line:gsub('^%s*ending%.video%s*=%s*(.-)%s*$', '%1')
 						t['ending2'] = endingPath
 					end
 					--readLines = readLines - 1
@@ -229,12 +229,12 @@ function f_parseChar(t, cel)
 					end
 					--readLines = readLines - 1
 				--Load Video Files for Unlock Screen
-				elseif line:match('^%s*movie%s*=') then
+				elseif line:match('^%s*video%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						line = line:gsub('\\', '/')
-						unlockPath = dir .. line:gsub('^%s*movie%s*=%s*(.-)%s*$', '%1')
-						t['UnlockMovie'] = unlockPath
+						unlockPath = dir .. line:gsub('^%s*video%s*=%s*(.-)%s*$', '%1')
+						t['UnlockVideo'] = unlockPath
 					end
 					--readLines = readLines - 1
 				end
@@ -1228,7 +1228,7 @@ if #t_gallery ~= 0 then
 	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
 end
 --;===========================================================
---; LOADING SCREEN 5 (LOAD MISSION.DEF DATA)
+--; LOADING SCREEN 5 (LOAD MISSIONS.DEF DATA)
 --;===========================================================
 t_missionMenu = {}
 local section = 0
@@ -1238,13 +1238,18 @@ file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 content = content:gsub('\n%s*\n', '\n')
 for line in content:gmatch('[^\r\n]+') do
-	if line:match('^%s*%[%s*[Mm][Ii][Ss][Ss][Ii][Oo][Nn][Mm][Oo][Dd][Ee]%s*%]') then --[MissionMode]
-	--preview.file = filename (string)
-		if line:match('^%s*preview.file%s*=') then
-			local data = line:gsub('%s*;.*$', '')
-			if not data:match('=%s*$') then
-				t_missionMenu['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			end
+--preview.file = filename (string)
+	if line:match('^%s*preview.file%s*=') then
+		local data = line:gsub('%s*;.*$', '')
+		if not data:match('=%s*$') then
+			t_missionMenu['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')) --Store sff data to be used in mission previews
+		end
+--preview.spr.unknown = groupNo, indexNo (int, int)
+	elseif line:match('^%s*preview.spr.unknown%s*=') then
+		local data = line:gsub('%s*;.*$', '')
+		if not data:match('=%s*$') then
+			local sprData = data:gsub('^%s*preview.spr.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
+			t_missionMenu['unknownSprGroup'], t_missionMenu['unknownSprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 		end
 	elseif line:match('^%s*%[%s*[Mm][Ii][Ss][Ss][Ii][Oo][Nn]%s+[0-9]+$*%]') then
 		section = 1
@@ -1267,19 +1272,11 @@ for line in content:gmatch('[^\r\n]+') do
 				t_missionMenu[row]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--path = string
-		if line:match('^%s*path%s*=') then
-			local data = line:gsub('%s*;.*$', '')
-			if not data:match('=%s*$') then
-				t_missionMenu[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			end
-		end
 		--preview.spr = groupNo, indexNo (int, int)
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_missionMenu[row]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local sprData = t_missionMenu[row]['previewspr'] --Prepare data to separate numbers below
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				t_missionMenu[row]['sprGroup'], t_missionMenu[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 			end
 		end
@@ -1287,14 +1284,98 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_missionMenu[row]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local scaleData = t_missionMenu[row]['previewscale']
-				t_missionMenu[row]['sprScaleX'], t_missionMenu[row][#t_missionMenu[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_missionMenu[row]['sprScaleX'], t_missionMenu[row]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
+		--path = string
+		if line:match('^%s*path%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--unlock = 
+		--TODO
 	end
 	if data.debugLog then f_printTable(t_missionMenu, "save/debug/t_missionMenu.txt") end
 	textImgSetText(txt_loading, "LOADING MISSIONS...")
+	textImgDraw(txt_loading)
+	refresh()
+end
+--;===========================================================
+--; LOADING SCREEN 6 (LOAD EVENTS.DEF DATA)
+--;===========================================================
+t_eventMenu = {}
+local section = 0
+local file = io.open(eventDef,"r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+for line in content:gmatch('[^\r\n]+') do
+--preview.file = filename (string)
+	if line:match('^%s*preview.file%s*=') then
+		local data = line:gsub('%s*;.*$', '')
+		if not data:match('=%s*$') then
+			t_eventMenu['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')) --Store sff data to be used in mission previews
+		end
+--preview.spr.unknown = groupNo, indexNo (int, int)
+	elseif line:match('^%s*preview.spr.unknown%s*=') then
+		local data = line:gsub('%s*;.*$', '')
+		if not data:match('=%s*$') then
+			local sprData = data:gsub('^%s*preview.spr.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
+			t_eventMenu['unknownSprGroup'], t_eventMenu['unknownSprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+		end
+	elseif line:match('^%s*%[%s*[Ee][Vv][Ee][Nn][Tt]%s+[0-9]+$*%]') then
+		section = 1
+		row = #t_eventMenu+1
+		t_eventMenu[row] = {}
+	elseif section == 1 then --[Event No]
+		--info.unlocked = string
+		if line:match('^%s*info.unlocked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_eventMenu[row]['infounlock'] = data:gsub('^%s*info.unlocked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_eventMenu[row]['status'] = txt_missionIncomplete
+				t_eventMenu[row]['txtID'] = textImgNew()
+			end
+		end
+		--info.locked = string
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_eventMenu[row]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--preview.spr = groupNo, indexNo (int, int)
+		if line:match('^%s*preview.spr%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_eventMenu[row]['sprGroup'], t_eventMenu[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+			end
+		end
+		--preview.scale = scaleX, scaleY (int, int)
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_eventMenu[row]['sprScaleX'], t_eventMenu[row]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--path = string
+		if line:match('^%s*path%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_eventMenu[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--unlock = 
+		--TODO
+	end
+	if data.debugLog then f_printTable(t_eventMenu, "save/debug/t_eventMenu.txt") end
+	textImgSetText(txt_loading, "LOADING EVENTS...")
 	textImgDraw(txt_loading)
 	refresh()
 end

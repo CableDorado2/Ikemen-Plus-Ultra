@@ -8,8 +8,6 @@ sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN s
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
-sprMission = sffNew("data/screenpack/missions.sff") --load missions menu sprites
-sprEvent = sffNew("data/screenpack/events.sff") --load events menu sprites
 sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
@@ -26,8 +24,8 @@ storyboardLogo = "data/screenpack/logo.def"
 --storyboardIntro = "data/screenpack/intro.def"
 
 --Video Data (Recommended for large cutscenes instead storyboards)
-videoOpening = "movie/Opening.wmv"
-videoHowToPlay = "movie/How To Play.wmv"
+videoOpening = "data/videos/Opening.wmv"
+videoHowToPlay = "data/videos/How To Play.wmv"
 
 --Characters and Stage selection list
 selectDef = "data/select.def"
@@ -38,11 +36,14 @@ fightDef = "data/screenpack/fight.def"
 --License Path (Please always distribute license files for use this program)
 licensesPath = "docs/Licenses"
 
---Gallery Data (Gallery definition filename)
-galleryDef = "data/gallery.def"
-
 --Missions Data (Mission definition filename)
 missionDef = "data/missions/missions.def"
+
+--Events Data (Event definition filename)
+eventDef = "data/events/events.def"
+
+--Gallery Data (Gallery definition filename)
+galleryDef = "data/gallery.def"
 
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -872,18 +873,7 @@ txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
 txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
 txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
 
---EVENTS IMAGES:
-
---Unknown Event Unlocked Preview
-eventUnknown = animNew(sprEvent, [[1,0, 0,0,]])
-
---Event 1 Unlocked Preview
-event1 = animNew(sprEvent, [[0,0, 0,0,]])
-
---Event 1 Locked Preview
-event1L = animNew(sprEvent, [[0,1, 0,0,]])
-
-t_eventMenu = {
+t_eventMenu2 = {
 	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", available = true}, --Add Event Slot
 	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", available = true},
 	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", available = true},

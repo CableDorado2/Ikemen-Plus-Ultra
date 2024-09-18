@@ -696,7 +696,7 @@ kfmVNtxtStart = 1
 
 --PROLOGUE
 function f_arc1_prologue()
-	playVideo("movie/KFM-Prologue.wmv") --Play video cutscene
+	playVideo("data/videos/KFM-Prologue.wmv") --Play video cutscene
 	data.storyNo = "1-0"
 	data.story1_1Unlock = true --Unlock next chapter
 	f_storyStatus() --Save progress
@@ -980,7 +980,7 @@ end
 --;===========================================================
 --PROLOGUE
 function f_arc2_prologue()
-	--playVideo("movie/???.wmv")
+	--playVideo("data/videos/???.wmv")
 	data.storyNo = "2-0"
 	data.story2_1Unlock = true
 	f_storyStatus()
@@ -989,7 +989,7 @@ end
 
 --CHAPTER 1
 function f_arc2_chapter1()
-	--playVideo("movie/???.wmv")
+	--playVideo("data/videos/???.wmv")
 	data.storyNo = "2-1"
 	data.story2_2Unlock = true
 	f_storyStatus()
@@ -998,7 +998,7 @@ end
 
 --CHAPTER 2
 function f_arc2_chapter2()
-	--playVideo("movie/???.wmv")
+	--playVideo("data/videos/???.wmv")
 	data.storyNo = "2-2"
 	f_storyStatus()
 	--f_playCredits()
@@ -1009,7 +1009,7 @@ end
 --;===========================================================
 --PROLOGUE
 function f_arc3_prologue()
-	--playVideo("movie/???.wmv")
+	--playVideo("data/videos/???.wmv")
 	data.storyNo = "3-0"
 	data.story3_1Unlock = true
 	f_storyStatus()
@@ -1018,7 +1018,7 @@ end
 
 --CHAPTER 1
 function f_arc3_chapter1()
-	--playVideo("movie/???.wmv")
+	--playVideo("data/videos/???.wmv")
 	data.storyNo = "3-1"
 	f_storyStatus()
 	--f_playCredits()

@@ -90,25 +90,25 @@ preview.file = data/screenpack/gallery.sff
 [Video 1]
 preview.spr = 100,0
 preview.scale = 0.059,0.056
-file = movie/Opening.wmv
+file = data/videos/Opening.wmv
 info = I.K.E.M.E.N PLUS ULTRA [OPENING]
 
 [Video 2]
 preview.spr = 100,1
 preview.scale = 0.059,0.056
-file = movie/KFM-Prologue.wmv
+file = data/videos/KFM-Prologue.wmv
 info = Kung Fu Man's Story - Prologue
 
 [Video 3]
 preview.spr = 100,2
 preview.scale = 0.059,0.056
-file = movie/KFM-Fall.wmv
+file = data/videos/KFM-Fall.wmv
 info = Kung Fu Man's Story - The Fall of A Legend
 
 [Video 4]
 preview.spr = 100,3
 preview.scale = 0.059,0.056
-file = movie/The Lost Chapter.wmv
+file = data/videos/The Lost Chapter.wmv
 info = The Lost Chapter
 
 [Video 5]

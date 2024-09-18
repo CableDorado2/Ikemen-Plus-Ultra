@@ -1808,7 +1808,6 @@ function f_missionMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 280, 130)
 	animSetPos(menuArrowDown, 280, 195)
@@ -1892,8 +1891,8 @@ function f_missionMenu()
 		animSetWindow(cursorBox, 40,115+cursorPosY*15, 239,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		missionList = missionMenu --Uses menu position to show image in these order
-		f_missionPreview() --Show mission image preview
+		--Draw Mission Image Preview
+		f_drawMissionPreview(t_missionMenu[missionMenu].sprGroup, t_missionMenu[missionMenu].sprIndex, 50, 21, t_missionMenu[missionMenu].sprScaleX, t_missionMenu[missionMenu].sprScaleY)
 	--Draw Mission Info
 		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, t_missionMenu[missionMenu].info, 157, 13.5))
 	--Set mission status
@@ -1938,16 +1937,17 @@ function f_missionMenu()
 	end
 end
 
---Missions Preview
-function f_missionPreview()
-	missionPreview = ''
-	missionPreview = '0,' .. missionList-1 .. ', 0,0, 0'
-	missionPreview = animNew(sprMission, missionPreview)
-	animSetScale(missionPreview, 0.168, 0.125)
-	animSetPos(missionPreview, 50, 21)
-	animUpdate(missionPreview)
-	animDraw(missionPreview)
-	return missionPreview
+--Get Missions Preview
+function f_drawMissionPreview(group, index, posX, posY, scaleX, scaleY)
+	local scaleX = scaleX or 1
+	local scaleY = scaleY or 1
+	local anim = group..','..index..', 0,0, 0'
+	anim = animNew(t_missionMenu.sffData, anim)
+	animSetScale(anim, scaleX, scaleY)
+	animSetPos(anim, posX, posY)
+	animUpdate(anim)
+	animDraw(anim)
+	--return anim
 end
 
 --;===========================================================
@@ -4061,28 +4061,15 @@ function f_eventMenu()
 				sndPlay(sndSys, 100, 1)
 				--EVENT AVAILABLE
 				if t_eventMenu[eventMenu].available == true then
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					f_default()
 					data.rosterMode = "event"
 					setGameMode('event')
 					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
-					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-					--EVENT 1
-					if eventMenu == 1 then
-						setRoundTime(-1)
-						setRoundsToWin(1)
-						data.p2In = 1
-						data.p2TeamMenu = {mode = 0, chars = 1}
-						data.p2Char = {"Event 1"}
-						textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
-						f_selectSimple()
-						if winner == 1 then f_eventStatus() end --Save progress only if you win
-				--EVENT 2
-					elseif eventMenu == 2 then
-						f_eventStatus()
-				--EVENT 3
-					elseif eventMenu == 3 then
-						f_eventStatus()
+					if t_eventMenu[eventMenu].path ~= nil then --Detects if lua file is defined
+						assert(loadfile(t_eventMenu[eventMenu].path))()
 					end
+					if winner == 1 then f_eventStatus() end --Save progress only if you win
 				--EVENT UNAVAILABLE
 				else
 					eventInfo = true
@@ -4133,42 +4120,15 @@ function f_eventMenu()
 		animSetWindow(eventBG2, 3,49, 314,154)
 		animDraw(eventBG2)
 	--Set Event Info, Preview and Progress
-	--Event 1
 		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
 			t_eventMenu[1].available = true
-			t_eventMenu[1].info = "Survive 40 Rounds in The Call of Zombies!"
-			t_eventMenu[1].preview = event1
+			
 		else --Event Unavailable...
 			t_eventMenu[1].available = false
-			t_eventMenu[1].info = "WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00"
-			t_eventMenu[1].preview = event1L
+			
 		end
 		if stats.modes.event.clear1 == 1 then t_eventMenu[1].status = "COMPLETED" end
-	--Event 2
-		--[[
-		if sysTime >= ??? and sysTime <= ??? then
-			t_eventMenu[2].available = true
-			t_eventMenu[2].info = "???"
-			t_eventMenu[2].preview = event2
-		else --Event Unavailable...
-			t_eventMenu[2].available = false
-			t_eventMenu[2].info = "WILL BE AVAILABLE FROM ??? TO ???"
-			t_eventMenu[2].preview = event2L
-		end
-		]]
 		if stats.modes.event.clear2 == 1 then t_eventMenu[2].status = "COMPLETED" end
-	--Event 3
-		--[[
-		if sysTime >= ??? and sysTime <= ??? then
-			t_eventMenu[3].available = true
-			t_eventMenu[3].info = "???"
-			t_eventMenu[3].preview = event3
-		else --Event Unavailable...
-			t_eventMenu[3].available = false
-			t_eventMenu[3].info = "WILL BE AVAILABLE FROM ??? TO ???"
-			t_eventMenu[3].preview = event3L
-		end
-		]]
 		if stats.modes.event.clear3 == 1 then t_eventMenu[3].status = "COMPLETED" end
 	--Set Scroll Logic
 		for i=1, maxEvents do
@@ -4179,13 +4139,16 @@ function f_eventMenu()
 					bank = 0
 				end
 			--Draw Text for Event Status
-				if t_eventMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, 0, t_eventMenu[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+				if t_eventMenu[i].txtID ~= nil then
+					textImgDraw(f_updateTextImg(t_eventMenu[i].txtID, jgFnt, bank, 0, t_eventMenu[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
+				f_drawEventPreview(t_eventMenu[i].sprGroup, t_eventMenu[i].sprIndex, -100+i*105-moveTxt, 51)
+				--[[
 				animSetPos(t_eventMenu[i].preview, -100+i*105-moveTxt, 51)
 				animUpdate(t_eventMenu[i].preview)
 				animDraw(t_eventMenu[i].preview)
+				]]
 			end
 		end
 	--Draw Event Cursor
@@ -4195,7 +4158,7 @@ function f_eventMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--Draw Event Info
-		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].varID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 34))
+		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].txtID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 34))
 		f_eventTime() --Draw Date and Time
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
@@ -4223,6 +4186,19 @@ function f_eventMenu()
 		cmdInput()
 		refresh()
 	end
+end
+
+--Get Events Preview
+function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY)
+	local scaleX = scaleX or 1
+	local scaleY = scaleY or 1
+	local anim = group..','..index..', 0,0, 0'
+	anim = animNew(t_eventMenu.sffData, anim)
+	animSetScale(anim, scaleX, scaleY)
+	animSetPos(anim, posX, posY)
+	animUpdate(anim)
+	animDraw(anim)
+	--return anim
 end
 
 --[[
@@ -5510,8 +5486,8 @@ function f_galleryMenu()
 end
 
 function f_drawGalleryPreview(group, index, posX, posY, scaleX, scaleY)
-	scaleX = scaleX or 1
-	scaleY = scaleY or 1
+	local scaleX = scaleX or 1
+	local scaleY = scaleY or 1
 	local anim = group..','..index..', 0,0, 0'
 	anim = animNew(t_gallery[galleryMenu].sffData, anim)
 	animSetScale(anim, scaleX, scaleY)
@@ -8580,8 +8556,8 @@ local unlockScreen = t_selChars[secretTarget[1].cel+1]
 --Show Unlock Screen if is available
 if unlockScreen.UnlockStoryboard ~= nil and io.open(unlockScreen.UnlockStoryboard or '','r') ~= nil then
 	f_storyboard(unlockScreen.UnlockStoryboard)
-elseif unlockScreen.UnlockMovie ~= nil and io.open(unlockScreen.UnlockMovie or '','r') ~= nil then
-	playVideo(unlockScreen.UnlockMovie)
+elseif unlockScreen.UnlockVideo ~= nil and io.open(unlockScreen.UnlockVideo or '','r') ~= nil then
+	playVideo(unlockScreen.UnlockVideo)
 end
 if secretTarget[1].displayname == goukiName then stats.unlocks.chars.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
 secretTarget = "" --Reset Var

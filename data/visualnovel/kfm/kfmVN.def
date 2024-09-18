@@ -1123,7 +1123,7 @@ date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 
-video = movie/KFM-Fall.wmv
+video = data/videos/KFM-Fall.wmv
 
 character = Suave Dude
 sfx = 0,15

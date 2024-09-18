@@ -116,7 +116,7 @@ character = Strong FS
 text:
 Hey guys, do you want watch a movie?
 
-video = movie/MUGENGERS 4 - The Orochi's Origin.wmv
+video = data/movie/MUGENGERS 4 - The Orochi's Origin.wmv
 
 [Chapter 1]
 id = 2A
