@@ -41,6 +41,9 @@ licensesPath = "docs/Licenses"
 --Gallery Data (Gallery definition filename)
 galleryDef = "data/gallery.def"
 
+--Missions Data (Mission definition filename)
+missionDef = "data/missions/missions.def"
+
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
 
@@ -829,22 +832,10 @@ t_commonSubMenu2 = {
 --;===========================================================
 txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
+txt_missionIncomplete = "INCOMPLETE"
 
 --Unknown Mission Preview
 missionUnknown = animNew(sprSys, [[110,4, 0,0,]])
-
-t_missionMenu = {
-	{varID = textImgNew(), name = "Target Confirmed", 		   info = "Defeat Original Kung Fu Man!", 	  		status = "INCOMPLETE"}, --Add Mission Slot
-	{varID = textImgNew(), name = "True Kung Fu Spirit",  	   info = "Use the full power of Kung Fu Man!", 	status = "INCOMPLETE"},
-	{varID = textImgNew(), name = "Unlimited Power",		   info = "Kung Fu Girl's power is out of control, defeat everyone!", 	status = "INCOMPLETE"},
-	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
-	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								 	status = ""},
-	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
-	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								 	status = ""},
-	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
-	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
-	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
-}
 
 --Above Transparent background
 missionBG1 = animNew(sprSys, [[

@@ -1829,57 +1829,19 @@ function f_missionMenu()
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
 			missionMenu = missionMenu + 1
+		--START MISSION
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 1)
 			f_default()
 			data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
 			data.rosterMode = "mission"
 			setGameMode('mission')
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 1)
-		--MISSION 1
-			if missionMenu == 1 then
-				playVideo("movie/The Lost Chapter.wmv")
-				setRoundTime(-1)
-				setRoundsToWin(1)
-				setPauseVar("nogiveup")
-				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {"Kung Fu Man/Evil/Evil Kung Fu Man.def"}
-				data.p1Pal = 1
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {"Kung Fu Man"}
-				data.p2Pal = 1
-				data.stage = "stages/Mountainside Temple/Dark Corridor.def"
-				data.versusScreen = false
-				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
-				f_selectSimple()
-				if winner == 1 then f_missionStatus() end --Save progress only if you win
-		--MISSION 2
-			elseif missionMenu == 2 then
-				setRoundTime(-1)
-				setRoundsToWin(1)
-				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {"Kung Fu Man/Master/Master Kung Fu Man.def"}
-				data.p1Pal = 1
-				data.p2SelectMenu = false
-				data.challengerScreen = false
-				data.gameMode = "arcade"
-				f_selectAdvance()
-				if winner == 1 then f_missionStatus() end
-		--MISSION 3
-			elseif missionMenu == 3 then
-				setRoundTime(-1)
-				setRoundsToWin(1)
-				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {"Kung Fu Girl/Master/Master Kung Fu Girl.def"}
-				data.p1Pal = 1
-				--data.p2TeamMenu = {mode = 2, chars = 4}
-				data.p2SelectMenu = false
-				data.stageMenu = true
-				data.versusScreen = false
-				data.gameMode = "survival"
-				f_selectAdvance()
-				if winner == 1 then f_missionStatus() end 
+			textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
+			if t_missionMenu[data.missionNo].path ~= nil then --Detects if lua file is defined
+				assert(loadfile(t_missionMenu[data.missionNo].path))()
 			end
+			if winner == 1 then f_missionStatus() end --Save progress only if you win
 		end
 	--Cursor position calculation
 		if missionMenu < 1 then
@@ -1933,7 +1895,7 @@ function f_missionMenu()
 		missionList = missionMenu --Uses menu position to show image in these order
 		f_missionPreview() --Show mission image preview
 	--Draw Mission Info
-		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].varID, font11, 0, 0, t_missionMenu[missionMenu].info, 157, 13.5))
+		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, t_missionMenu[missionMenu].info, 157, 13.5))
 	--Set mission status
 		if stats.modes.mission.clear1 == 1 then t_missionMenu[1].status = "COMPLETED" end
 		if stats.modes.mission.clear2 == 1 then t_missionMenu[2].status = "COMPLETED" end
@@ -1941,9 +1903,9 @@ function f_missionMenu()
 	--Draw Text for Below Table
 		for i=1, maxMissions do
 			if i > missionMenu - cursorPosY then
-				if t_missionMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].name, 45, 125+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].status, 275, 125+i*15-moveTxt))
+				if t_missionMenu[i].txtID ~= nil then
+					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, 1, t_missionMenu[i].name, 45, 125+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, -1, t_missionMenu[i].status, 275, 125+i*15-moveTxt))
 				end
 			end
 		end

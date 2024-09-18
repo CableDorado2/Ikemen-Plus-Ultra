@@ -1225,6 +1225,78 @@ if #t_gallery ~= 0 then
 	for i=1, #t_gallery do --Store sff data to be used in gallery previews
 		t_gallery[i].sffData = sffNew(t_gallery[i].previewfile)
 	end
+	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
+end
+--;===========================================================
+--; LOADING SCREEN 5 (LOAD MISSION.DEF DATA)
+--;===========================================================
+t_missionMenu = {}
+local section = 0
+local file = io.open(missionDef,"r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+for line in content:gmatch('[^\r\n]+') do
+	if line:match('^%s*%[%s*[Mm][Ii][Ss][Ss][Ii][Oo][Nn][Mm][Oo][Dd][Ee]%s*%]') then --[MissionMode]
+	--preview.file = filename (string)
+		if line:match('^%s*preview.file%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+	elseif line:match('^%s*%[%s*[Mm][Ii][Ss][Ss][Ii][Oo][Nn]%s+[0-9]+$*%]') then
+		section = 1
+		row = #t_missionMenu+1
+		t_missionMenu[row] = {}
+	elseif section == 1 then --[Mission No]
+		--displayname = string
+		if line:match('^%s*name%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['name'] = data:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_missionMenu[row]['status'] = txt_missionIncomplete
+				t_missionMenu[row]['txtID'] = textImgNew()
+			end
+		end
+		--info = string
+		if line:match('^%s*info%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--path = string
+		if line:match('^%s*path%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--preview.spr = groupNo, indexNo (int, int)
+		if line:match('^%s*preview.spr%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local sprData = t_missionMenu[row]['previewspr'] --Prepare data to separate numbers below
+				t_missionMenu[row]['sprGroup'], t_missionMenu[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+			end
+		end
+		--preview.scale = scaleX, scaleY (int, int)
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				local scaleData = t_missionMenu[row]['previewscale']
+				t_missionMenu[row]['sprScaleX'], t_missionMenu[row][#t_missionMenu[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+	end
+	if data.debugLog then f_printTable(t_missionMenu, "save/debug/t_missionMenu.txt") end
+	textImgSetText(txt_loading, "LOADING MISSIONS...")
+	textImgDraw(txt_loading)
+	refresh()
 end
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
@@ -1463,7 +1535,6 @@ function f_updateLogs()
 		f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 		f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
 		f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
-		f_printTable(t_gallery, "save/debug/t_gallery.txt")
 	end
 end
 

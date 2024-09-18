@@ -1,0 +1,17 @@
+[MissionMode]
+
+[Mission 1]
+name = Target Confirmed
+info = Defeat Original Kung Fu Man!
+path = data/missions/mission1.lua
+
+[Mission 2]
+name = True Kung Fu Spirit
+info = Use the full power of Kung Fu Man!
+path = data/missions/mission2.lua
+
+[Mission 3]
+name = Unlimited Power
+info = Kung Fu Girl's power is out of control, defeat everyone!
+path = data/missions/mission3.lua
+;unlock = stats.modes.mission2.score > 0
