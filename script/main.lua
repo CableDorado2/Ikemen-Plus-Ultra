@@ -5429,7 +5429,7 @@ function f_galleryMenu()
 		--Draw Gallery Preview Content
 		for i=1, galleryMaxLimit do
 			if t_galleryCellX ~= nil then
-				if t_gallery[galleryMenu][galleryCell].previewspr ~= nil then
+				if t_gallery[galleryMenu].sffData ~= nil and t_gallery[galleryMenu][galleryCell].sprGroup ~= nil and t_gallery[galleryMenu][galleryCell].sprIndex ~= nil then
 					f_drawGalleryPreview(t_gallery[galleryMenu][i].sprGroup, t_gallery[galleryMenu][i].sprIndex, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2), t_gallery[galleryMenu][i].sprScaleX, t_gallery[galleryMenu][i].sprScaleY)
 					--testperfomance = f_drawGalleryPreview( )
 					--animDraw(testperfomance)
@@ -5644,8 +5644,9 @@ artScale = 0.30 --0.305
 end
 
 function f_drawGalleryArt()
-art = '0,' .. artList-1 .. ', 0,0, 0'
-artPic = animNew(sprArtwork, art)
+local sffData = t_gallery[1].sffData --Reuse Artworks Preview File
+local art = '0,' .. artList-1 .. ', 0,0, 0'
+artPic = animNew(sffData, art)
 animSetScale(artPic, artScale, artScale)
 animSetPos(artPic, artPosX, artPosY)
 animUpdate(artPic)

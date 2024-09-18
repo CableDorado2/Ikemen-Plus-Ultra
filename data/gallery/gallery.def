@@ -1,6 +1,6 @@
 [Artworks]
 displayname = ARTWORKS
-preview.file = data/screenpack/artworks.sff
+preview.file = data/gallery/artworks.sff
 
 [Art 1]
 preview.spr = 0,0
@@ -50,7 +50,7 @@ info = Ikemen Plus Ultra
 ;----------------------------------------------------------
 [Storyboards]
 displayname = STORYBOARDS
-preview.file = data/screenpack/gallery.sff
+preview.file = data/gallery/gallery.sff
 
 [Cutscene 1]
 preview.spr = 0,0
@@ -85,7 +85,7 @@ info = Shin Gouki's Unlock Screen
 ;----------------------------------------------------------
 [Movies]
 displayname = CUTSCENES
-preview.file = data/screenpack/gallery.sff
+preview.file = data/gallery/gallery.sff
 
 [Video 1]
 preview.spr = 100,0

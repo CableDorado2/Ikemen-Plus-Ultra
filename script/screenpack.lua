@@ -9,10 +9,9 @@ sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprStory = sffNew("data/screenpack/story.sff") --load story sprites
-sprVN = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
-sprArtwork = sffNew("data/screenpack/artworks.sff") --load artworks sprites
+sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel sprites
 
 --Sound Data (Sound effects do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -43,7 +42,7 @@ missionDef = "data/missions/missions.def"
 eventDef = "data/events/events.def"
 
 --Gallery Data (Gallery definition filename)
-galleryDef = "data/gallery.def"
+galleryDef = "data/gallery/gallery.def"
 
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"

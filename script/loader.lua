@@ -1093,7 +1093,8 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.file%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				--Store sff data to be used in gallery previews
+				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
 			end
 		end
 		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then --[Art No]
@@ -1104,8 +1105,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local sprData = t_gallery[row][#t_gallery[row]]['previewspr'] --Prepare data to separate numbers below
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 			end
 		end
@@ -1113,8 +1113,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local scaleData = t_gallery[row][#t_gallery[row]]['previewscale']
+				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
@@ -1136,7 +1135,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.file%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
 			end
 		end
 		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then --[Cutscene No]
@@ -1145,16 +1144,14 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local sprData = t_gallery[row][#t_gallery[row]]['previewspr']
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local scaleData = t_gallery[row][#t_gallery[row]]['previewscale']
+				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
@@ -1182,7 +1179,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.file%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row]['previewfile'] = data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
 			end
 		end
 		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then --[Video No]
@@ -1191,16 +1188,14 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewspr'] = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local sprData = t_gallery[row][#t_gallery[row]]['previewspr']
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['previewscale'] = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				local scaleData = t_gallery[row][#t_gallery[row]]['previewscale']
+				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
@@ -1217,15 +1212,10 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	end
+	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
 	textImgSetText(txt_loading, "LOADING GALLERY...")
 	textImgDraw(txt_loading)
 	refresh()
-end
-if #t_gallery ~= 0 then
-	for i=1, #t_gallery do --Store sff data to be used in gallery previews
-		t_gallery[i].sffData = sffNew(t_gallery[i].previewfile)
-	end
-	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
 end
 --;===========================================================
 --; LOADING SCREEN 5 (LOAD MISSIONS.DEF DATA)
