@@ -1322,13 +1322,21 @@ for line in content:gmatch('[^\r\n]+') do
 		row = #t_eventMenu+1
 		t_eventMenu[row] = {}
 	elseif section == 1 then --[Event No]
+		--id = string
+		if line:match('^%s*id%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_eventMenu[row]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_eventMenu[row]['status'] = txt_missionIncomplete
+				t_eventMenu[row]['txtID'] = textImgNew()
+				t_eventMenu[row]['unlock'] = "true"
+			end
+		end
 		--info.unlocked = string
 		if line:match('^%s*info.unlocked%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_eventMenu[row]['infounlock'] = data:gsub('^%s*info.unlocked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_eventMenu[row]['status'] = txt_missionIncomplete
-				t_eventMenu[row]['txtID'] = textImgNew()
 			end
 		end
 		--info.locked = string
@@ -1361,13 +1369,21 @@ for line in content:gmatch('[^\r\n]+') do
 				t_eventMenu[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--unlock = 
-		--TODO
+		--unlock = lua condition
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_eventMenu[row]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
 	end
 	if data.debugLog then f_printTable(t_eventMenu, "save/debug/t_eventMenu.txt") end
 	textImgSetText(txt_loading, "LOADING EVENTS...")
 	textImgDraw(txt_loading)
 	refresh()
+end
+for k, v in ipairs(t_eventMenu) do --Send Events Unlock Condition to t_unlockLua table
+	t_unlockLua.modes[v.id] = v.unlock
 end
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
@@ -1606,6 +1622,7 @@ function f_updateLogs()
 		f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 		f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
 		f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
+		f_printTable(t_unlockLua, "save/debug/t_unlockLua.txt")
 	end
 end
 

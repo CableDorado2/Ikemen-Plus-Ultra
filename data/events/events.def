@@ -1,11 +1,19 @@
 preview.file = data/events/events.sff
 preview.spr.unknown = 0,0
-;preview.spr.pos.common = 0,51 ;Allow set common pos for all items, don't use if your items use different values
+;preview.spr.pos.common = -100,51 ;Allow set common pos for all items, don't use if your items use different values
 
 [Event 1]
+id = event1
 info.unlocked = Survive 40 Rounds in The Call of Zombies!
 info.locked = WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00
 preview.spr = 0,1
-preview.pos = -100, 51
 path = data/events/event1.lua
-;unlock = sysTime >= 13 and sysTime <= 23 ;Event Available at this Time!
+unlock = sysTime >= 13 and sysTime <= 23 ;Event Available at this Time!
+
+[Event 2]
+id = event2
+info.unlocked = Unlock Test
+info.locked = COMPLETE EVENT 1
+preview.spr = 0,1
+path = data/events/event1.lua
+unlock = stats.modes.event.clear1 > 0

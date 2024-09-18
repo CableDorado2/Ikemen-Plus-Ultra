@@ -102,6 +102,7 @@ function f_mainStart()
 	else --Everything is "ok"
 		f_resetTemp()
 		f_soundtrack() --Load Soundtrack Tables from common.lua for use in menus
+		f_unlock(false) --Check For Unlocked Content
 		f_mainLogos()
 		if data.engineMode == "VN" then --Engine will load main menu function for Visual Novel Game
 			f_mainTitle()
@@ -4038,6 +4039,9 @@ function f_eventMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local eventInfotxt = nil
+	local previewGroup = nil
+	local previewIndex = nil
 	f_lockedInfoReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
@@ -4060,7 +4064,8 @@ function f_eventMenu()
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				sndPlay(sndSys, 100, 1)
 				--EVENT AVAILABLE
-				if t_eventMenu[eventMenu].available == true then
+				--if t_eventMenu[eventMenu].available == true then
+				if t_unlockLua.modes[t_eventMenu[eventMenu].id] == nil then --If the event is unlocked
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					f_default()
 					data.rosterMode = "event"
@@ -4119,14 +4124,7 @@ function f_eventMenu()
 		animSetScale(eventBG2, 318, 154)
 		animSetWindow(eventBG2, 3,49, 314,154)
 		animDraw(eventBG2)
-	--Set Event Info, Preview and Progress
-		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
-			t_eventMenu[1].available = true
-			
-		else --Event Unavailable...
-			t_eventMenu[1].available = false
-			
-		end
+	--Set Event Progress
 		if stats.modes.event.clear1 == 1 then t_eventMenu[1].status = "COMPLETED" end
 		if stats.modes.event.clear2 == 1 then t_eventMenu[2].status = "COMPLETED" end
 		if stats.modes.event.clear3 == 1 then t_eventMenu[3].status = "COMPLETED" end
@@ -4143,12 +4141,14 @@ function f_eventMenu()
 					textImgDraw(f_updateTextImg(t_eventMenu[i].txtID, jgFnt, bank, 0, t_eventMenu[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
-				f_drawEventPreview(t_eventMenu[i].sprGroup, t_eventMenu[i].sprIndex, -100+i*105-moveTxt, 51)
-				--[[
-				animSetPos(t_eventMenu[i].preview, -100+i*105-moveTxt, 51)
-				animUpdate(t_eventMenu[i].preview)
-				animDraw(t_eventMenu[i].preview)
-				]]
+				if t_unlockLua.modes[t_eventMenu[i].id] == nil then --If the event is unlocked
+					previewGroup = t_eventMenu[i].sprGroup
+					previewIndex = t_eventMenu[i].sprIndex
+				else
+					previewGroup = t_eventMenu.unknownSprGroup
+					previewIndex = t_eventMenu.unknownSprIndex
+				end
+				f_drawEventPreview(previewGroup, previewIndex, -100+i*105-moveTxt, 51)
 			end
 		end
 	--Draw Event Cursor
@@ -4158,7 +4158,12 @@ function f_eventMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--Draw Event Info
-		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].txtID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 34))
+		if t_unlockLua.modes[t_eventMenu[eventMenu].id] == nil then --If the event is unlocked
+			eventInfotxt = t_eventMenu[eventMenu].infounlock
+		else
+			eventInfotxt = t_eventMenu[eventMenu].infolock
+		end
+		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].txtID, font11, 0, 0, eventInfotxt, 160, 34))
 		f_eventTime() --Draw Date and Time
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
