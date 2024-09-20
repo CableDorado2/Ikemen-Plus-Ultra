@@ -522,13 +522,20 @@ for line in content:gmatch('[^\r\n]+') do
 		t_selChars[row] = {}
 		for i, c in ipairs(strsplit(',', line)) do
 			c = c:gsub('^%s*(.-)%s*$', '%1')
+			--charname = path
 			if i == 1 then
 				c = c:gsub('\\', '/')
 				c = tostring(c)
 				t_selChars[row]['char'] = c
+				t_selChars[row]['unlock'] = "true" --character unlocked by default
 				--t_selChars[row]['intermissionSpr'] = {"9000,9, 0,0, -1"}
 				addChar(c)
 				t_charAdd[c] = row - 1
+			--unlock = lua condition
+			elseif c:match('unlock%s*=%s*') then
+				local unlockData = c:match('^unlock%s*=%s*(.-)%s*$')
+				t_selChars[row]['unlock'] = unlockData
+			--music = path
 			elseif c:match('music%s*=%s*') then
 				c = c:gsub('\\', '/')
 				local bgmvolume = c:match('%s([0-9]+)$')
@@ -545,15 +552,18 @@ for line in content:gmatch('[^\r\n]+') do
 				t_selChars[row].music[#t_selChars[row].music+1] = {}
 				t_selChars[row].music[#t_selChars[row].music]['bgmusic'] = bgmusic
 				t_selChars[row].music[#t_selChars[row].music]['bgmvolume'] = bgmvolume
+			--1, 2, (...)/Arcade Route = charname
 			elseif c:match('[0-9]+%s*=%s*[^%s]') then
 				local var1, var2 = c:match('([0-9]+)%s*=%s*(.+)%s*$')
 				t_selChars[row][tonumber(var1)] = var2:lower()
+			--stages/mybg.def
 			elseif c:match('%.[Dd][Ee][Ff]') then
 				c = c:gsub('\\', '/')
 				if t_selChars[row]['stage'] == nil then
 					t_selChars[row]['stage'] = {}
 				end
 				t_selChars[row].stage[#t_selChars[row].stage+1] = c
+			--Extra Paramvalues
 			else
 				local param, value = c:match('^(.-)%s*=%s*(.-)$')
 				t_selChars[row][param] = tonumber(value)
@@ -585,17 +595,21 @@ for line in content:gmatch('[^\r\n]+') do
 				if file == nil then
 					break
 				end
+		--Inside Stage.def file
 				t_selStages[row] = {}
 				local tmp = file:read("*all")
 				file:close()
+				--zoomout = number
 				local zoomout = tmp:match('\n%s*zoomout%s*=%s*([0-9%.]+)')
 				if zoomout ~= nil then
 					t_selStages[row]['zoommin'] = tonumber(zoomout)
 				end
+				--zoommin = number
 				local zoomin = tmp:match('\n%s*zoomin%s*=%s*([0-9%.]+)')
 				if zoomin ~= nil then
 					t_selStages[row]['zoommax'] = tonumber(zoomin)
 				end
+				--bgmusic = path
 				local bgmusic = tmp:match('\n%s*bgmusic%s*=%s*([^;\n]+)%s*;?.*\n')
 				if bgmusic ~= nil then
 					bgmusic = bgmusic:gsub('^%s*(.-)%s*$', '%1')
@@ -612,6 +626,7 @@ for line in content:gmatch('[^\r\n]+') do
 						end
 					end
 				end
+				--author = string
 				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*AUTHOR%s*=%s*([^;\n]+)%s*;?.*\n')
 				if author ~= nil then
 					author = author:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -622,6 +637,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--author = ''
 					--t_selStages[row]['author'] = author
 				end
+				--location = string
 				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*LOCATION%s*=%s*([^;\n]+)%s*;?.*\n')
 				if location ~= nil then
 					location = location:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -632,6 +648,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--location = ''
 					--t_selStages[row]['location'] = location
 				end
+				--daytime = string
 				local daytime = tmp:match('\n%s*daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*dayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DAYTIME%s*=%s*([^;\n]+)%s*;?.*\n')
 				if daytime ~= nil then
 					daytime = daytime:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -642,6 +659,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--daytime = ''
 					--t_selStages[row]['daytime'] = daytime
 				end
+				--unlock.info = string
 				local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
 				if unlockcondition ~= nil then
 					unlockcondition = unlockcondition:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -666,9 +684,16 @@ for line in content:gmatch('[^\r\n]+') do
 					t_selStages[row]['name'] = name
 				end
 				]]
+		--In select.def [ExtraStages] section
 				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[row]['stage'] = c
+				t_selStages[row]['unlock'] = "true" --stage unlocked by default
 				t_stageDef[c] = row
+			--unlock = lua condition
+			elseif c:match('unlock%s*=%s*') then
+				local unlockData = c:match('^unlock%s*=%s*(.-)%s*$')
+				t_selStages[row]['unlock'] = unlockData
+			--music = path
 			elseif c:match('music%s*=%s*') then
 				c = c:gsub('\\', '/')
 				local bgmvolume = c:match('%s([0-9]+)$')
@@ -685,6 +710,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_selStages[row].music[#t_selStages[row].music+1] = {}
 				t_selStages[row].music[#t_selStages[row].music]['bgmusic'] = bgmusic
 				t_selStages[row].music[#t_selStages[row].music]['bgmvolume'] = bgmvolume
+			--Extra Paramvalues
 			else
 				local param, value = c:match('^(.-)%s*=%s*(.-)$')
 				t_selStages[row][param] = tonumber(value)
@@ -943,6 +969,14 @@ if t_selChars ~= nil then
 			end
 		end
 	end
+end
+
+for k, v in ipairs(t_selChars) do --Send Characters Unlock Condition to t_unlockLua table
+	t_unlockLua.chars[v.char] = v.unlock
+end
+
+for k, v in ipairs(t_selStages) do --Send Stages Unlock Condition to t_unlockLua table
+	t_unlockLua.stages[v.stage] = v.unlock
 end
 --;===========================================================
 --; LOAD SELECT.DEF TOWER DATA
@@ -1246,13 +1280,21 @@ for line in content:gmatch('[^\r\n]+') do
 		row = #t_missionMenu+1
 		t_missionMenu[row] = {}
 	elseif section == 1 then --[Mission No]
+		--id = string
+		if line:match('^%s*id%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_missionMenu[row]['status'] = txt_missionIncomplete
+				t_missionMenu[row]['txtID'] = textImgNew()
+				t_missionMenu[row]['unlock'] = "true"
+			end
+		end
 		--displayname = string
 		if line:match('^%s*name%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_missionMenu[row]['name'] = data:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_missionMenu[row]['status'] = txt_missionIncomplete
-				t_missionMenu[row]['txtID'] = textImgNew()
 			end
 		end
 		--info = string
@@ -1285,13 +1327,21 @@ for line in content:gmatch('[^\r\n]+') do
 				t_missionMenu[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--unlock = 
-		--TODO
+		--unlock = lua condition
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
 	end
 	if data.debugLog then f_printTable(t_missionMenu, "save/debug/t_missionMenu.txt") end
 	textImgSetText(txt_loading, "LOADING MISSIONS...")
 	textImgDraw(txt_loading)
 	refresh()
+end
+for k, v in ipairs(t_missionMenu) do --Send Missions Unlock Condition to t_unlockLua table
+	t_unlockLua.modes[v.id] = v.unlock
 end
 --;===========================================================
 --; LOADING SCREEN 6 (LOAD EVENTS.DEF DATA)
@@ -1327,7 +1377,7 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_eventMenu[row]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_eventMenu[row]['status'] = txt_missionIncomplete
+				t_eventMenu[row]['status'] = txt_eventIncomplete
 				t_eventMenu[row]['txtID'] = textImgNew()
 				t_eventMenu[row]['unlock'] = "true"
 			end
@@ -1606,27 +1656,28 @@ function generateCharsList(path)
 	io.close(dscr)
 end
 
-function f_updateLogs()
-	if data.debugLog then
-		f_printTable(t_selChars, "save/debug/t_selChars.txt")
-		f_printTable(t_selStages, "save/debug/t_selStages.txt")
-		f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
-		f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
-		f_printTable(t_selVN, "save/debug/t_selVN.txt")
-		f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
-		f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
-		f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
-		f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
-		f_printTable(t_randomTourneyChars, "save/debug/t_randomTourneyChars.txt")
-		f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
-		f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
-		f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
-		f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
-		f_printTable(t_unlockLua, "save/debug/t_unlockLua.txt")
-	end
+--print tables
+if data.debugLog then
+	f_printTable(t_selChars, "save/debug/t_selChars.txt")
+	f_printTable(t_selStages, "save/debug/t_selStages.txt")
+	f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
+	f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
+	f_printTable(t_selVN, "save/debug/t_selVN.txt")
+	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
+	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
+	f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
+	f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
+	f_printTable(t_randomTourneyChars, "save/debug/t_randomTourneyChars.txt")
+	f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
+	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
+	f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
+	f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
+	f_printTable(t_unlockLua, "save/debug/t_unlockLua.txt")
 end
 
-f_updateLogs() --print tables
+function f_updateUnlocks() --To refresh unlocks data
+if data.debugLog then f_printTable(t_unlockLua, "save/debug/t_unlockLua.txt") end
+end
 
 function f_rushTables()
 	t_bossSingle = {} --This is the table of the boss chars menu to fight against them individually, it must be loaded after this parser script or it will give an error

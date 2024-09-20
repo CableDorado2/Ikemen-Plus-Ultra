@@ -3468,6 +3468,43 @@ function f_secretCode(key)
 end
 
 --;===========================================================
+--; UNLOCKS CHECKING
+--;===========================================================
+t_unlockLua = { --Create table to manage unlock conditions in real-time
+chars = {}, stages = {}, modes = {}
+}
+
+--asserts content unlock conditions
+function f_unlock(permanent)
+	for group, t in pairs(t_unlockLua) do
+		local t_del = {}
+		for k, v in pairs(t) do
+			local bool = assert(loadstring('return ' .. v))()
+			if type(bool) == 'boolean' then
+				--[[
+				if group == 'chars' then
+					f_unlockChar(k, bool, false)
+				elseif group == 'stages' then
+					f_unlockStage(k, bool)
+				elseif group == 'modes' then
+					--already handled via t_del cleaning
+				end
+				]]
+				if bool and (permanent or group == 'chars' or group == 'stages' or group == 'modes') then
+					table.insert(t_del, k)
+				end
+			else
+				--Error: Lua code does not return boolean value
+			end
+		end
+		--clean lua code that already returned true
+		for k, v in ipairs(t_del) do
+			t[v] = nil
+		end
+	end
+end
+
+--;===========================================================
 --; SAVE DATA DEFINITION
 --;===========================================================
 function f_playTime()
@@ -3726,119 +3763,6 @@ end
 init_generalStats() --Create general stats data (first run)
 init_unlocksStats()
 f_saveStats()
-
---;===========================================================
---; UNLOCKS CHECKING
---;===========================================================
-t_unlockLua = { --Create table to manage unlock conditions in real-time
-chars = {}, stages = {}, modes = {}
-}
-
---asserts content unlock conditions
-function f_unlock(permanent)
-	for group, t in pairs(t_unlockLua) do
-		local t_del = {}
-		for k, v in pairs(t) do
-			local bool = assert(loadstring('return ' .. v))()
-			if type(bool) == 'boolean' then
-				if group == 'chars' then
-					--f_unlockChar(k, bool, false)
-				elseif group == 'stages' then
-					--f_unlockStage(k, bool)
-				elseif group == 'modes' then
-					--already handled via t_del cleaning
-				end
-				if bool and (permanent or group == 'modes') then
-					table.insert(t_del, k)
-				end
-			else
-				--Error: Lua code does not return boolean value
-			end
-		end
-		--clean lua code that already returned true
-		for k, v in ipairs(t_del) do
-			t[v] = nil
-		end
-	end
-end
-
---unlock characters (select screen grid only)
---function f_unlockChar(num, bool, reset)
-	--if bool then
-		--if main.t_selChars[num].hidden ~= 0 then
-			--main.t_selChars[num].hidden_default = main.t_selChars[num].hidden
-			--main.t_selChars[num].hidden = 0
-			--for k, t in pairs({order = main.t_orderChars, ordersurvival = main.t_orderSurvival}) do
-				--if main.t_selChars[num][k] ~= nil and main.t_selChars[num][k] < 0 then
-					--main.t_selChars[num][k] = 0 - main.t_selChars[num][k]
-					--if t[main.t_selChars[num][k]] == nil then
-						--t[main.t_selChars[num][k]] = {}
-					--end
-					--table.insert(t[main.t_selChars[num][k]], main.t_selChars[num].char_ref)
-				--end
-			--end
-			--start.t_grid[main.t_selChars[num].row][main.t_selChars[num].col].hidden = main.t_selChars[num].hidden
-			--if reset then start.f_resetGrid() end
-		--end
-	--elseif main.t_selChars[num].hidden_default == nil then
-		--return
-	--elseif main.t_selChars[num].hidden ~= main.t_selChars[num].hidden_default then
-		--main.t_selChars[num].hidden = main.t_selChars[num].hidden_default
-		--start.t_grid[main.t_selChars[num].row][main.t_selChars[num].col].hidden = main.t_selChars[num].hidden
-		--if reset then start.f_resetGrid() end
-	--end
---end
-
---unlock stages (stage selection menu only)
---function f_unlockStage(num, bool)
-	--if bool then
-		--if main.t_selStages[num].hidden ~= 0 then
-			--main.t_selStages[num].hidden_default = main.t_selStages[num].hidden
-			--main.t_selStages[num].hidden = 0
-			--main.f_updateSelectableStages()
-		--end
-	--elseif main.t_selStages[num].hidden_default == nil then
-		--return
-	--elseif main.t_selStages[num].hidden ~= main.t_selStages[num].hidden_default then
-		--main.t_selStages[num].hidden = main.t_selStages[num].hidden_default
-		--main.f_updateSelectableStages()
-	--end
---end
-
-function f_unlocksCheck()
-	if stats.modes.arcade.clear >= 1 then --Verify if you comply with this condition and then..
-		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
-	end
-	if stats.unlocks.chars.reika == true then
-		t_selChars[t_charAdd["reika murasame"]+1].unlock = 1
-	end
-	if stats.unlocks.chars.gouki == true then
-		t_selChars[t_charAdd["shin gouki"]+1].unlock = 1
-	end
-	if data.story1_1Unlock == true then
-		t_selStages[t_stageDef["stages/mountainside temple/lobby 2 night.def"]].unlock = 1
-	end
-	if data.story1_2Unlock == true then
-		t_selChars[t_charAdd["mako mayama"]+1].unlock = 1
-	end
-	if stats.modes.bossrush.clear >= 1 then
-		t_selStages[t_stageDef["stages/mountainside temple/hidden path night.def"]].unlock = 1
-		t_selStages[t_stageDef["stages/mountainside temple/outside.def"]].unlock = 1
-	end
-	if stats.modes.mission.clear1 == 1 then
-		t_selStages[t_stageDef["stages/mountainside temple/dark corridor.def"]].unlock = 1
-	end
-	if data.story1_4AStatus == 1 then
-		t_selChars[t_charAdd["suave dude"]+1].unlock = 1
-	end
-	if stats.modes.event.clear1 == 1 then
-		t_selStages[t_stageDef["stages/mountainside temple/winter.def"]].unlock = 1
-	end
-	if stats.modes.training.playtime > 1500 then
-		t_selStages[t_stageDef["stages/training room 2.def"]].unlock = 1
-	end
-	f_updateLogs()
-end
 
 --[[stats data
 function f_storeStats()

@@ -871,6 +871,7 @@ end
 txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
 txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
 txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
+txt_eventIncomplete = "INCOMPLETE"
 
 --Above Transparent background
 eventBG1 = animNew(sprSys, [[

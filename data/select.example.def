@@ -106,10 +106,14 @@ Set the paramvalue to 1 to avoid including this character
 when some tourney participant slots have not been set manually
 and character is chosen randomly.
 
-- unlock (Experimental)
-Set the paramvalue to 0 to lock a character in character select.
-If it evaluates to 1 the character will become manually selectable.
-On 0 it will be unselectable. By Default all characters are: unlock=1.
+- unlock
+Paramvalue is executed as Lua code condition, right after
+new game mode is initiated and upon returning to main menu.
+If it evaluates to boolean 'true' the character locked via 'hidden'
+parameter will become selectable. On 'false' it will be hidden.
+Due to parameters syntax, 'unlock' is recommended to be the last parameter
+used in line (everything that follows is treated as a pure Lua code).
+Default: true (if character is not hidden, otherwise: false)
 
 - order
 Set the paramvalue to the ordering priority to give the
@@ -140,7 +144,7 @@ this, put the word "randomselect" on a line of its own, with no
 extra parameters.
 
 Full Reference:
-charname, unlock=0, stages/.def, music=sound/.mp3, zoom=0, bonus=1, boss=1, intermission=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, excludetourney=1, order=1, 1=charname, 4=charname
+charname, stages/.def, music=sound/.mp3, zoom=0, bonus=1, boss=1, intermission=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, excludetourney=1, order=1, 1=charname, 4=charname, unlock=stats.modes.survival.clear > 1
 
 Some examples:
 
@@ -160,7 +164,7 @@ randomselect
 empty
 
 ;BOSS CHARACTERS EXAMPLE:
-Suave Dude, unlock=0, boss=1, roundtime=60, order=8, 4=Kung Fu Man
+Suave Dude, unlock=stats.modes.bossrush.clear > 1, boss=1, roundtime=60, order=8, 4=Kung Fu Man
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=7
 
 ;BONUS CHARACTERS EXAMPLE:
@@ -207,16 +211,19 @@ maximum zoom in setting for this particular stage.
 Set the paramvalue to overwrite global
 zoom speed setting for this particular stage.
 
-- unlock (Experimental)
-Set the paramvalue to 0 to lock a stage in stage select
-(it can be selectable only in random select).
-If it evaluates to 1 the stage will become manually selectable.
-On 0 it will be unselectable. By Default all stages are: unlock=1.
+- unlock
+Paramvalue is executed as Lua code condition, right after
+new game mode is initiated and upon returning to main menu.
+If it evaluates to boolean 'true' the stage locked via 'hidden'
+parameter will become selectable. On 'false' it will be hidden.
+Due to parameters syntax, 'unlock' is recommended to be the last parameter
+used in line (everything that follows is treated as a pure Lua code).
+Default: true (if stage is not hidden, otherwise: false)
 
 Some examples:
 
 [ExtraStages]
-stages/mybg.def, unlock=0, music=sound/song.mp3, music=sound/song2.mp3
+stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3, unlock=stats.modes.arcade.clear > 1
 stages/mybg.def, zoom=0
 stages/mybg.def, zoom=1, zoomMin=0.75, zoomMax=1.1, zoomSpeed=1
 
