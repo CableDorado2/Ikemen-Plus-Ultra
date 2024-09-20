@@ -78,17 +78,15 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
-- Co-Op para el Versus Mode.
-
-- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa).
-
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
-- Preset team para el arcade a lo kof 2002 (definir en el select.def los equipos que aparecerán en el modo arcade cuando juegues contra la cpu turns o simul y que antes del order select te permita escoger contra cuál team luchar)
+- Implementar los parametros: ordersurvival, hidden, slot en select.def
 
-- Implementar los parametros: ordersurvival, hidden, slot y mejorar unlock en select.def
+- Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
 - Los combates de intermisiones dejan de funcionar si se juega en team mode.
+
+- Arreglar preview de random chars que no coincide con el char al usar la visualización por sprites.
 
 - En tournament cuando 2 jugadores humanos tienen el mismo control ejemplo p1 y p1, podría incluir un side select para que uno de los 2 se convierta en p2 y así evitar que se controlen como espejo al tener el mismo player asignado.
 
@@ -96,15 +94,11 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Sistema de puntos.
 
-- Ranking al completar o perder en Modo Arcade.
+- Ranking al completar o perder en Modos Arcade, Survival, etc.
 
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
-- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
-
-- Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, etc)
-
-- Arreglar preview de random chars que no coincide con el char al usar la visualización por sprites.
+- Durante el arcade, la forma en que está programada el here comes a new challenger hace uso de setCom(2, 0) en el menú de pausa causa que la IA se quede en nivel 0, pero es porque el jugador 2 recibe por unos instantes el control para poner pausa y que se vea la pantalla del challenger.
 
 - Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
@@ -112,21 +106,17 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
-- Durante el arcade, la forma en que está programada el here comes a new challenger hace uso de setCom(2, 0) en el menú de pausa causa que la IA se quede en nivel 0, pero es porque el jugador 2 recibe por unos instantes el control para poner pausa y que se vea la pantalla del challenger.
-
-- Al configurar el Gamepad/Joystick del jugador 2 garantizar que no pierda el control después de asignar un botón.
-
-- Lograr que los estados en reposo cuando se tiene cualquier mando conectado sean "101" en lugar de "-9" u otro valor (función getInputID en system-script.ssz). Así mismo en la asignación de botones, evitar que se asigne el propio valor de reposo.
-
-- Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
-
-- Configurar controles de batalla desde el menú de pausa en plena partida.
+- Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, etc)
 
 **v1.6**
 ------------
 
 - 3er tipo de visualización de stages estilo “chart”, (lógica basada en el char select) al ser activado debe cargarse desde una función diferente a la normal para evitar conflictos, asímismo debe usar los portrait (9000,0) para mostrar los íconos: https://www.youtube.com/watch?v=FHwlSkCkQ50
 [![Alt text](https://static.wikia.nocookie.net/streetfighter/images/d/d6/SF%C3%97TK_Cosmic_Elevator_select.jpg/revision/latest?cb=20150201185002&path-prefix=es)](https://youtu.be/FHwlSkCkQ50)
+
+- Preset team para el arcade a lo kof 2002 (definir en el select.def los equipos que aparecerán en el modo arcade cuando juegues contra la cpu turns o simul y que antes del order select te permita escoger contra cuál team luchar)
+
+- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
 
 - Integrar la función de bgm.loops.
 
@@ -150,20 +140,30 @@ This Ikemen is an expansion of his original SSZ code.
 
   - Ambas características se han implementado en el código del paquete de pantalla actual, pero la solución actual tiene un alto rendimiento (aumenta el tiempo de carga cuando se inicia el ejecutable) y no es perfecta (no hay acceso para coincidir con los datos relacionados que a menudo son verificados por winscreens como WinKO, Life, etc.)
 
+- Al configurar el Gamepad/Joystick del jugador 2 garantizar que no pierda el control después de asignar un botón.
+
+- Lograr que los estados en reposo cuando se tiene cualquier mando conectado sean "101" en lugar de "-9" u otro valor (función getInputID en system-script.ssz). Así mismo en la asignación de botones, evitar que se asigne el propio valor de reposo.
+
+- Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
+
+- Configurar controles de batalla desde el menú de pausa en plena partida.
+
 - Detección al reconectar un mando.
 
 **v1.7**
 ------------
 
+- Incluir pregunta para guardar o no los replays online.
+
+- Co-Op para el Versus Mode.
+
+- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa).
+
 - AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-- Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
-
 - Implementar parametros de transiciones entre stages (round<num>def).
-
-- Incluir pregunta para guardar o no los replays online.
 
 - Ver cómo se podría integrar un sistema de diálogo en los matches.
 
