@@ -834,9 +834,6 @@ txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
 txt_missionIncomplete = "INCOMPLETE"
 
---Unknown Mission Preview
-missionUnknown = animNew(sprSys, [[110,4, 0,0,]])
-
 --Above Transparent background
 missionBG1 = animNew(sprSys, [[
 3,0, 0,0, -1

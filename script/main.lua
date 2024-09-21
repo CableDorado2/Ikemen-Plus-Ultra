@@ -1809,6 +1809,12 @@ function f_missionMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local missionInfotxt = nil
+	local missionNametxt = nil
+	local previewGroup = nil
+	local previewIndex = nil
+	local previewScaleX = nil
+	local previewScaleY = nil
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 280, 130)
 	animSetPos(menuArrowDown, 280, 195)
@@ -1831,17 +1837,23 @@ function f_missionMenu()
 			missionMenu = missionMenu + 1
 		--START MISSION
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 1)
-			f_default()
-			data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
-			data.rosterMode = "mission"
-			setGameMode('mission')
-			textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
-			if t_missionMenu[data.missionNo].path ~= nil then --Detects if lua file is defined
-				assert(loadfile(t_missionMenu[data.missionNo].path))()
+			--MISSION AVAILABLE
+			if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then --If the mission is unlocked
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 1)
+				f_default()
+				data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
+				data.rosterMode = "mission"
+				setGameMode('mission')
+				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
+				if t_missionMenu[data.missionNo].path ~= nil then --Detects if lua file is defined
+					assert(loadfile(t_missionMenu[data.missionNo].path))()
+				end
+				if winner == 1 then f_missionStatus() end --Save progress only if you win
+			--MISSION UNAVAILABLE
+			else
+				sndPlay(sndSys, 100, 5)
 			end
-			if winner == 1 then f_missionStatus() end --Save progress only if you win
 		end
 	--Cursor position calculation
 		if missionMenu < 1 then
@@ -1876,11 +1888,6 @@ function f_missionMenu()
 		animSetScale(missionBG1, 219.5, 94)
 		animSetWindow(missionBG1, 0,5, 320,110)
 		animDraw(missionBG1)
-	--Draw Empty Mission Icon
-		animSetPos(missionUnknown, 50, 21)
-		animSetScale(missionUnknown, 0.168, 0.18)
-		animUpdate(missionUnknown)
-		animDraw(missionUnknown)
 	--Draw Title Menu
 		textImgDraw(txt_missionMenu)
 		textImgDraw(txt_missionProgress)
@@ -1893,18 +1900,39 @@ function f_missionMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Mission Image Preview
-		f_drawMissionPreview(t_missionMenu[missionMenu].sprGroup, t_missionMenu[missionMenu].sprIndex, 50, 21, t_missionMenu[missionMenu].sprScaleX, t_missionMenu[missionMenu].sprScaleY)
+		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then --If the mission is unlocked
+			previewGroup = t_missionMenu[missionMenu].sprGroup
+			previewIndex = t_missionMenu[missionMenu].sprIndex
+			previewScaleX = t_missionMenu[missionMenu].sprScaleX
+			previewScaleY = t_missionMenu[missionMenu].sprScaleY
+		else
+			previewGroup = t_missionMenu.unknownSprGroup
+			previewIndex = t_missionMenu.unknownSprIndex
+			previewScaleX = t_missionMenu.unknownSprScaleX
+			previewScaleY = t_missionMenu.unknownSprScaleY
+		end
+		f_drawMissionPreview(previewGroup, previewIndex, 50, 21, previewScaleX, previewScaleY)
 	--Draw Mission Info
-		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, t_missionMenu[missionMenu].info, 157, 13.5))
+		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then
+			missionInfotxt = t_missionMenu[missionMenu].infounlock
+		else
+			missionInfotxt = t_missionMenu[missionMenu].infolock
+		end
+		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, missionInfotxt, 157, 13.5))
 	--Set mission status
 		if stats.modes.mission.clear1 == 1 then t_missionMenu[1].status = "COMPLETED" end
 		if stats.modes.mission.clear2 == 1 then t_missionMenu[2].status = "COMPLETED" end
 		if stats.modes.mission.clear3 == 1 then t_missionMenu[3].status = "COMPLETED" end
 	--Draw Text for Below Table
 		for i=1, maxMissions do
+			if t_unlockLua.modes[t_missionMenu[i].id] == nil then
+				missionNametxt = t_missionMenu[i].name
+			else
+				missionNametxt = "???"
+			end
 			if i > missionMenu - cursorPosY then
 				if t_missionMenu[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, 1, t_missionMenu[i].name, 45, 125+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, 1, missionNametxt, 45, 125+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, -1, t_missionMenu[i].status, 275, 125+i*15-moveTxt))
 				end
 			end
@@ -4157,7 +4185,7 @@ function f_eventMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--Draw Event Info
-		if t_unlockLua.modes[t_eventMenu[eventMenu].id] == nil then --If the event is unlocked
+		if t_unlockLua.modes[t_eventMenu[eventMenu].id] == nil then
 			eventInfotxt = t_eventMenu[eventMenu].infounlock
 		else
 			eventInfotxt = t_eventMenu[eventMenu].infolock

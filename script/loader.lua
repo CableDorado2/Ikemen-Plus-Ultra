@@ -1275,6 +1275,13 @@ for line in content:gmatch('[^\r\n]+') do
 			local sprData = data:gsub('^%s*preview.spr.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
 			t_missionMenu['unknownSprGroup'], t_missionMenu['unknownSprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 		end
+--preview.spr.scale.unknown = scaleX, scaleY (int, int)
+	elseif line:match('^%s*preview.spr.scale.unknown%s*=') then
+		local data = line:gsub('%s*;.*$', '')
+		if not data:match('=%s*$') then
+			local scaleData = data:gsub('^%s*preview.spr.scale.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			t_missionMenu['unknownSprScaleX'], t_missionMenu['unknownSprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+		end
 	elseif line:match('^%s*%[%s*[Mm][Ii][Ss][Ss][Ii][Oo][Nn]%s+[0-9]+$*%]') then
 		section = 1
 		row = #t_missionMenu+1
@@ -1288,6 +1295,8 @@ for line in content:gmatch('[^\r\n]+') do
 				t_missionMenu[row]['status'] = txt_missionIncomplete
 				t_missionMenu[row]['txtID'] = textImgNew()
 				t_missionMenu[row]['unlock'] = "true"
+				t_missionMenu[row]['name'] = ""
+				t_missionMenu[row]['info'] = ""
 			end
 		end
 		--displayname = string
@@ -1301,7 +1310,14 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_missionMenu[row]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_missionMenu[row]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--info.locked = string
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_missionMenu[row]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		--preview.spr = groupNo, indexNo (int, int)
@@ -1367,6 +1383,13 @@ for line in content:gmatch('[^\r\n]+') do
 			local sprData = data:gsub('^%s*preview.spr.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
 			t_eventMenu['unknownSprGroup'], t_eventMenu['unknownSprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 		end
+--preview.spr.scale.unknown = scaleX, scaleY (int, int)
+	elseif line:match('^%s*preview.spr.scale.unknown%s*=') then
+		local data = line:gsub('%s*;.*$', '')
+		if not data:match('=%s*$') then
+			local scaleData = data:gsub('^%s*preview.spr.scale.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			t_eventMenu['unknownSprScaleX'], t_eventMenu['unknownSprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+		end
 	elseif line:match('^%s*%[%s*[Ee][Vv][Ee][Nn][Tt]%s+[0-9]+$*%]') then
 		section = 1
 		row = #t_eventMenu+1
@@ -1382,11 +1405,11 @@ for line in content:gmatch('[^\r\n]+') do
 				t_eventMenu[row]['unlock'] = "true"
 			end
 		end
-		--info.unlocked = string
-		if line:match('^%s*info.unlocked%s*=') then
+		--info = string
+		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_eventMenu[row]['infounlock'] = data:gsub('^%s*info.unlocked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_eventMenu[row]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		--info.locked = string

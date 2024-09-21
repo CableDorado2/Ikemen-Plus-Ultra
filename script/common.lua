@@ -3736,6 +3736,7 @@ if stats.unlocks == nil or data.erase then --If unlocks section does not exists
 	stats.unlocks.chars = {} --Create space for characters
 	stats.unlocks.stages = {} --Create space for stages
 	stats.unlocks.modes = {} --Create space for game modes
+	stats.unlocks.gallery = {} --Create space for gallery items
 end
 --If Character Unlock Data does not exists, create it:
 if stats.unlocks.chars.reika == nil or data.erase then stats.unlocks.chars.reika = false end
@@ -3743,15 +3744,6 @@ if stats.unlocks.chars.gouki == nil or data.erase then stats.unlocks.chars.gouki
 --if stats.unlocks.chars.charname == nil then stats.unlocks.chars.charname = false end
 
 --If Stage Unlock Data does not exists, create it:
-if stats.unlocks.stages.hiddenpath == nil or data.erase then stats.unlocks.stages.hiddenpath = false end
-if stats.unlocks.stages.hiddenpathnight == nil or data.erase then stats.unlocks.stages.hiddenpathnight = false end
-if stats.unlocks.stages.outside == nil or data.erase then stats.unlocks.stages.outside = false end
-if stats.unlocks.stages.lobby2night == nil or data.erase then stats.unlocks.stages.lobby2night = false end
-if stats.unlocks.stages.darkcorridor == nil or data.erase then stats.unlocks.stages.darkcorridor = false end
-if stats.unlocks.stages.winter == nil or data.erase then stats.unlocks.stages.winter = false end
-if stats.unlocks.stages.secrethallway == nil or data.erase then stats.unlocks.stages.secrethallway = false end
-if stats.unlocks.stages.clonelaboratory == nil or data.erase then stats.unlocks.stages.clonelaboratory = false end
-if stats.unlocks.stages.clonelaboratory2 == nil or data.erase then stats.unlocks.stages.clonelaboratory2 = false end
 if stats.unlocks.stages.trainingroom2 == nil or data.erase then stats.unlocks.stages.trainingroom2 = false end
 --if stats.unlocks.stages.stagename == nil or data.erase then stats.unlocks.stages.stagename = false end
 

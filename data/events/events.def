@@ -4,7 +4,7 @@ preview.spr.unknown = 0,0
 
 [Event 1]
 id = event1
-info.unlocked = Survive 40 Rounds in The Call of Zombies!
+info = Survive 40 Rounds in The Call of Zombies!
 info.locked = WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00
 preview.spr = 0,1
 path = data/events/event1.lua
@@ -12,7 +12,7 @@ unlock = sysTime >= 13 and sysTime <= 23 ;Event Available at this Time!
 
 [Event 2]
 id = event2
-info.unlocked = Unlock Test
+info = Unlock Test
 info.locked = COMPLETE EVENT 1
 preview.spr = 0,1
 path = data/events/event1.lua

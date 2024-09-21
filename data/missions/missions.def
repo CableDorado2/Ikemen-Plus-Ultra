@@ -1,7 +1,10 @@
 preview.file = data/missions/missions.sff
-;preview.spr.unknown = 0,0
 ;preview.spr.pos.common = 0,0 ;Allow set common pos for all items, don't use if your items use different values
 ;preview.spr.scale.common = 0.168, 0.125
+
+preview.spr.unknown = 0,0
+;preview.spr.pos.unknown = 50,21
+preview.spr.scale.unknown = 0.168, 0.18
 
 [Mission 1]
 id = mission1
@@ -23,7 +26,8 @@ path = data/missions/mission2.lua
 id = mission3
 name = Unlimited Power
 info = Kung Fu Girl's power is out of control, defeat everyone!
+info.locked = Complete Mission 2
 preview.spr = 0,3
 preview.scale = 0.168, 0.125
 path = data/missions/mission3.lua
-unlock = stats.modes.mission.clear2 > 0
+unlock = stats.modes.event.clear1 > 0
