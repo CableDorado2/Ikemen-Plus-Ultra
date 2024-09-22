@@ -1,13 +1,13 @@
 preview.file = data/missions/missions.sff
 preview.common.pos = 50,21 ;Allow set common pos for all items, don't use if your items use different values
-preview.common.scale = 0.168, 0.125
+preview.common.scale = 0.168,0.125 ;Allow set common scale for all items
 
 [Mission 1]
 id = mission1
 name = Target Confirmed
 info = Defeat Original Kung Fu Man!
 preview.spr = 0,1
-preview.scale = 0.168, 0.125
+preview.scale = 0.168,0.125
 path = data/missions/mission1.lua
 
 [Mission 2]
@@ -15,7 +15,7 @@ id = mission2
 name = True Kung Fu Spirit
 info = Use the full power of Kung Fu Man!
 preview.spr = 0,2
-preview.scale = 0.168, 0.125
+preview.scale = 0.168,0.125
 path = data/missions/mission2.lua
 
 [Mission 3]
@@ -24,6 +24,6 @@ name = Unlimited Power
 info = Kung Fu Girl's power is out of control, defeat everyone!
 info.locked = Complete Mission 2
 preview.spr = 0,3
-preview.scale = 0.168, 0.125
+preview.scale = 0.168,0.125
 path = data/missions/mission3.lua
 unlock = stats.modes.mission.clear2 > 0

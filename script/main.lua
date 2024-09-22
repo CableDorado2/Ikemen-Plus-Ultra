@@ -4316,6 +4316,7 @@ function f_eventMenu()
 	local previewTransS = nil
 	local previewTransD = nil
 	f_lockedInfoReset()
+	f_resetEventArrowsPos()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 	--Event Progress Logic
@@ -4420,9 +4421,12 @@ function f_eventMenu()
 					previewTransS = 150 --Apply Transparent
 					previewTransD = 0
 				end
-				f_drawEventPreview(t_eventMenu[i].sprGroup, t_eventMenu[i].sprIndex, -100+i*105-moveTxt, 51, previewTransS, previewTransD)
+				f_drawEventPreview(t_eventMenu[i].sprGroup, t_eventMenu[i].sprIndex, -95+i*105-moveTxt, 61, t_eventMenu[i].sprScaleX, t_eventMenu[i].sprScaleY, previewTransS, previewTransD)
+			--Draw Event Slot Icon
+				f_drawQuickSpr(eventSlot, eventSlotPosX+i*105-moveTxt, eventSlotPosY, eventSlotScaleX, eventSlotScaleY, previewTransS, previewTransD)
+			--Draw Padlock Icon
 				if t_unlockLua.modes[t_eventMenu[i].id] ~= nil then
-					animPosDraw(padlock, padlockEventPosX+i*105-moveTxt, padlockEventPosY) --Draw Padlock Icon
+					animPosDraw(padlock, padlockEventPosX+i*105-moveTxt, padlockEventPosY)
 				end
 			end
 		end
@@ -4442,13 +4446,13 @@ function f_eventMenu()
 		f_eventTime() --Draw Date and Time
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
-			animDraw(arrowsEL)
-			animUpdate(arrowsEL)
+			animDraw(menuArrowLeft)
+			animUpdate(menuArrowLeft)
 		end
 	--Draw Right Animated Cursor
 		if #t_eventMenu > 3 and maxEvents < #t_eventMenu then
-			animDraw(arrowsER)
-			animUpdate(arrowsER)
+			animDraw(menuArrowRight)
+			animUpdate(menuArrowRight)
 		end
 		if lockedScreen then f_lockedInfo() else drawEventInputHints() end --Show Locked Event Info Message
 		animDraw(data.fadeTitle)

@@ -594,6 +594,11 @@ animSetPos(menuArrowLeft, 0, 190)
 animSetPos(menuArrowRight, 310, 190)
 end
 
+function f_resetEventArrowsPos() --Used in Events Mode
+animSetPos(menuArrowLeft, 0, 123)
+animSetPos(menuArrowRight, 303, 123)
+end
+
 function f_titleText()
 	if stats.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
 	elseif stats.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
@@ -880,8 +885,10 @@ end
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
-txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
 txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
+txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 111)
+txt_lockedOk = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
+txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
 txt_eventIncomplete = "INCOMPLETE"
 txt_eventClear = "COMPLETED"
 
@@ -901,40 +908,15 @@ animSetPos(eventBG2, 3, 49)
 animSetAlpha(eventBG2, 20, 100)
 animUpdate(eventBG2)
 
---Right Menu Arrow
-arrowsER = animNew(sprSys, [[
-221,0, 0,0, 10
-221,1, 0,0, 10
-221,2, 0,0, 10
-221,3, 0,0, 10
-221,4, 0,0, 10
-221,3, 0,0, 10
-221,2, 0,0, 10
-221,1, 0,0, 10
-221,0, 0,0, 10
+--Event Slot
+eventSlot = animNew(sprIkemen, [[
+30,0, 0,0, -1
 ]])
-animAddPos(arrowsER, 303, 123)
-animUpdate(arrowsER)
-animSetScale(arrowsER, 1.7, 1.7)
+eventSlotPosX = -100
+eventSlotPosY = 51
 
---Left Menu Arrow
-arrowsEL = animNew(sprSys, [[
-221,5, 0,0, 10
-221,6, 0,0, 10
-221,7, 0,0, 10
-221,8, 0,0, 10
-221,9, 0,0, 10
-221,8, 0,0, 10
-221,7, 0,0, 10
-221,6, 0,0, 10
-221,5, 0,0, 10
-]])
-animAddPos(arrowsEL, 0, 123)
-animUpdate(arrowsEL)
-animSetScale(arrowsEL, 1.7, 1.7)
-
-txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 111)
-txt_lockedOk = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
+eventSlotScaleX = 1
+eventSlotScaleY = 1
 
 --Info Window BG
 infoEventWindowBG = animNew(sprSys, [[
