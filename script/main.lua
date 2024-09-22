@@ -201,6 +201,100 @@ function demoModeCfg()
 end
 
 --;===========================================================
+--; ATTRACT MENU
+--;===========================================================
+function f_mainAttract()
+	cmdInput()
+	local t = 0
+	attractSeconds = data.attractTime
+	attractTimer = attractSeconds*gameTick --Set time for Attract Title Screen
+	local demoTimer = 0
+	playBGM(bgmTitle)
+	f_attractExitItem()
+	while true do
+		--INSERT COIN
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		   sndPlay(sndSys, 200, 0)
+		   demoTimer = 0
+		   stats.attractCoins = stats.attractCoins + 1
+		   f_saveStats()
+		   attractTimer = attractSeconds*gameTick --Reset Timer
+		--START GAME MODE
+		elseif ((commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) or attractTimer == 0) and stats.attractCoins > 0 then
+		   --playVideo(videoHowToPlay)
+		   data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+		   sndPlay(sndSys, 100, 1)
+		   stats.attractCoins = stats.attractCoins - 1
+		   f_saveStats()
+		   attractTimer = attractSeconds*gameTick
+		   f_default()
+		   --data.p1TeamMenu = {mode = 0, chars = 1}
+		   --data.p2TeamMenu = {mode = 0, chars = 1}
+		   data.p2In = 1
+		   data.p2SelectMenu = false
+		   data.serviceScreen = true
+		   data.arcadeIntro = true
+		   data.arcadeEnding = true
+		   --data.stageMenu = true
+		   setGameMode('arcade')
+		   data.gameMode = "arcade"
+		   data.rosterMode = "arcade"
+		   textImgSetText(txt_mainSelect, "ARCADE")
+		   f_selectAdvance()
+		--START DEMO MODE
+		elseif demoTimer == 350 then
+		   demoModeCfg()
+		   f_mainLogos()
+		   playBGM(bgmTitle)
+		   demoTimer = 0
+		   attractTimer = attractSeconds*gameTick
+		--EXIT
+		elseif esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			sndPlay(sndSys, 100, 2)
+			attractTimer = attractSeconds*gameTick
+			f_exitMenu()
+			--attractSeconds = data.attractTime --Load New Attract Time settings in case that you modify them
+		end
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		animSetWindow(cursorBox, 0, 160, 290, 13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		f_titleText()
+		f_attractCredits()
+		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
+		nodecimalAttractTime = string.format("%.0f",attractTimeNumber) --Delete Decimals
+		textImgSetText(txt_attractTimer, nodecimalAttractTime)
+		if attractTimer > 0 and stats.attractCoins > 0 then
+			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
+			textImgDraw(txt_attractTimer)
+		else --when attractTimer <= 0
+			demoTimer = demoTimer + 1
+		end
+		f_sysTime()
+		drawAttractInputHints()
+		if t%60 < 30 then
+			if stats.attractCoins > 0 then
+				textImgDraw(txt_mainTitle)
+			else
+				textImgDraw(txt_coinTitle)
+			end
+		end
+		t = t >= 60 and 0 or t + 1
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; MAIN MENU
 --;===========================================================
 function f_mainMenu()
@@ -528,6 +622,607 @@ function f_arcadeMenu()
 		if not infoScreen and not sideScreen then drawMenuInputHints() end
 		if sideScreen then f_sideSelect() end --Show Side Select
 		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; VERSUS MENU
+--;===========================================================
+function f_vsMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local vsMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_sideReset()
+	while true do
+		if not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				vsMenu = vsMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				vsMenu = vsMenu + 1
+			end
+			if vsMenu < 1 then
+				vsMenu = #t_vsMenu
+				if #t_vsMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_vsMenu-1
+				end
+			elseif vsMenu > #t_vsMenu then
+				vsMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (vsMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (vsMenu - 1) * 13
+			end
+			if #t_vsMenu <= 5 then
+				maxVSMenu = #t_vsMenu
+			elseif vsMenu - cursorPosY > 0 then
+				maxVSMenu = vsMenu + 5 - cursorPosY
+			else
+				maxVSMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				--QUICK VERSUS (play a random fight)
+				if vsMenu == 1 then
+					if data.sideSelect == "Modern" then
+						menuSelect = "quick match"
+						sideScreen = true
+					else
+						f_randomMenu()
+					end
+				--FREE BATTLE (play fights with your own rules)
+				elseif vsMenu == 2 then
+					if data.sideSelect == "Modern" then
+						menuSelect = "free battle"
+						sideScreen = true
+					else
+						f_freeMenu()
+					end
+				end
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_vsMenu do
+			if i == vsMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not sideScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "VERSUS MODE")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxVSMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_vsMenu > 6 and maxVSMenu < #t_vsMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if sideScreen then f_sideSelect() else drawMenuInputHints() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; TRAINING MODE
+--;===========================================================
+function f_training()
+	f_default()
+	setGameMode('practice')
+	data.gameMode = "training"
+	data.rosterMode = "training"
+	setRoundTime(-1) --round time disabled
+	data.versusScreen = false --versus screen disabled
+	data.victoryscreen = false --victory screen disabled
+	data.stageMenu = true
+	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
+	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	--sndPlay(sndSys, 100, 1)
+	if #t_trainingChar ~= 0 then --If a training char is detected in select.def with training=1 paramvalue
+		data.p2In = 2
+		data.p2Char = {t_selChars[t_trainingChar[math.random(#t_trainingChar)]+1].char} --pick a random training char from the table
+	else --Training Char will be selected in char select if there is not training chars detected in select.def with training=1 paramvalue
+		data.p2In = 1
+		data.p2Faces = true
+	end
+	textImgSetText(txt_mainSelect, "TRAINING MODE")
+	f_selectSimple()
+end
+
+--;===========================================================
+--; CHALLENGES MENU
+--;===========================================================	
+function f_challengeMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local challengeMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_infoReset()
+	f_sideReset()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				challengeMenu = challengeMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				challengeMenu = challengeMenu + 1
+			end
+			if challengeMenu < 1 then
+				challengeMenu = #t_challengeMenu
+				if #t_challengeMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_challengeMenu-1
+				end
+			elseif challengeMenu > #t_challengeMenu then
+				challengeMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (challengeMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (challengeMenu - 1) * 13
+			end
+			if #t_challengeMenu <= 5 then
+				maxChallengeMenu = #t_challengeMenu
+			elseif challengeMenu - cursorPosY > 0 then
+				maxChallengeMenu = challengeMenu + 5 - cursorPosY
+			else
+				maxChallengeMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				--SURVIVAL (defeat opponents with a single health meter)
+				if challengeMenu == 1 then
+					if data.sideSelect == "Modern" then
+						menuSelect = "survival"
+						sideScreen = true
+					else
+						f_survivalMenu()
+					end
+				--MISSIONS/TRIALS (complete missions or combos trial challenges)
+				elseif challengeMenu == 2 then
+					f_missionMenu()
+				--BOSS FIGHT (defeat boss characters)
+				elseif challengeMenu == 3 then
+					if #t_bossChars ~= 0 then
+						f_bossMenu()
+					else
+						bossInfo = true
+						infoScreen = true
+					end
+				--BONUS GAMES (play bonus games)
+				elseif challengeMenu == 4 then
+					if #t_bonusChars ~= 0 then
+						f_bonusMenu()
+					else
+						bonusInfo = true
+						infoScreen = true
+					end
+				--SCORE ATTACK (defeat opponents getting high score as possible) WIP
+				elseif challengeMenu == 5 then
+					f_comingSoon()
+					--[[
+					if data.sideSelect == "Modern" then
+						menuSelect = "score attack"
+						sideScreen = true
+					else
+						f_scoreMenu()
+					end
+					]]
+				--TIME ATTACK (defeat opponents as quickly as possible) WIP
+				elseif challengeMenu == 6 then
+					f_comingSoon()
+					--[[
+					if data.sideSelect == "Modern" then
+						menuSelect = "time attack"
+						sideScreen = true
+					else
+						f_timeMenu()
+					end
+					]]
+				--TIME RUSH (rush to defeat opponents before time runs out)
+				elseif challengeMenu == 7 then
+					if data.sideSelect == "Modern" then
+						menuSelect = "time rush"
+						sideScreen = true
+					else
+						f_timeRushMenu()
+					end
+				--VS X KUMITE (defeat as many opponents as you can in predefined successive matches)
+				elseif challengeMenu == 8 then
+					if data.sideSelect == "Modern" then
+						menuSelect = "kumite"
+						sideScreen = true
+					else
+						f_kumiteMenu()
+					end
+				--SUDDEN DEATH (defeat opponents in 1 hit)
+				else
+					if data.sideSelect == "Modern" then
+						menuSelect = "sudden death"
+						sideScreen = true
+					else
+						f_suddenMenu()
+					end
+				end
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_challengeMenu do
+			if i == challengeMenu then
+				bank = 1
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		t_challengeMenu[8].text = getKumiteData()
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "CHALLENGES MODES")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxChallengeMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_challengeMenu > 6 and maxChallengeMenu < #t_challengeMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; EXTRAS MENU
+--;===========================================================	
+function f_extrasMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local extrasMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_sideReset()
+	f_infoReset()
+	while true do
+		if not sideScreen and not infoScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				extrasMenu = extrasMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				extrasMenu = extrasMenu + 1
+			end
+			if extrasMenu < 1 then
+				extrasMenu = #t_extrasMenu
+				if #t_extrasMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_extrasMenu-1
+				end
+			elseif extrasMenu > #t_extrasMenu then
+				extrasMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (extrasMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (extrasMenu - 1) * 13
+			end
+			if #t_extrasMenu <= 5 then
+				maxExtrasMenu = #t_extrasMenu
+			elseif extrasMenu - cursorPosY > 0 then
+				maxExtrasMenu = extrasMenu + 5 - cursorPosY
+			else
+				maxExtrasMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				--ENDLESS MODE (fight in endless battles)
+				if extrasMenu == 1 then
+					if data.sideSelect == "Modern" then
+						menuSelect = "endless"
+						sideScreen = true
+					else
+						f_allcharsMenu()
+					end
+				--EVENTS MODE (complete events at certain hours, days, weeks, months or years)
+				elseif extrasMenu == 2 then
+					f_eventMenu()
+				--TOURNAMENT MODE (participate in customizable tournaments)
+				elseif extrasMenu == 3 then
+					f_tourneyCfg()
+				--VISUAL NOVEL MODE (watch a customizable narrative and interactive storytelling)
+				elseif extrasMenu == 4 then
+					if #t_selVN ~= 0 then
+						f_vnMenu()
+					else
+						vnInfo = true
+						infoScreen = true
+					end
+				--THE VAULT MODE (insert secret codes to unlock things)
+				elseif extrasMenu == 5 then
+					f_theVault()
+				--RANDOMTEST (generate AI rank data)
+				elseif extrasMenu == 6 then
+					setGameMode('randomtest')
+					randomTest()
+				end
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_extrasMenu do
+			if i == extrasMenu then
+				bank = 2
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not sideScreen and not infoScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "EXTRA MODES")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxExtrasMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_extrasMenu > 6 and maxExtrasMenu < #t_extrasMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; WATCH MENU
+--;===========================================================
+function f_watchMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local watchMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_infoReset()
+	while true do
+		if not infoScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				watchMenu = watchMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				watchMenu = watchMenu + 1
+			end
+			if watchMenu < 1 then
+				watchMenu = #t_watchMenu
+				if #t_watchMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_watchMenu-1
+				end
+			elseif watchMenu > #t_watchMenu then
+				watchMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (watchMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (watchMenu - 1) * 13
+			end
+			if #t_watchMenu <= 5 then
+				maxWatchMenu = #t_watchMenu
+			elseif watchMenu - cursorPosY > 0 then
+				maxWatchMenu = watchMenu + 5 - cursorPosY
+			else
+				maxWatchMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				--REPLAYS (watch recorded battles)
+				if watchMenu == 1 then
+					f_replayMenu()
+				--STAGE VIEWER (watch a selected stage without fight)
+				elseif watchMenu == 2 then
+					if data.stageviewer then
+						f_default()
+						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+						setRoundTime(-1)
+						data.p2In = 2
+						data.stageMenu = true
+						data.versusScreen = false
+						data.victoryscreen = false
+						data.p1TeamMenu = {mode = 0, chars = 1}			
+						data.p2TeamMenu = {mode = 0, chars = 1}
+						data.p1Char = {"Stage Viewer"}
+						data.p2Char = {"Stage Viewer"}
+						data.gameMode = "stage viewer"
+						setGameMode('stageviewer')
+						textImgSetText(txt_mainSelect, "STAGE VIEWER")
+						f_selectSimple()
+					else
+						stviewerInfo = true
+						infoScreen = true
+					end
+				--SOUND TEST (listen sounds)
+				elseif watchMenu == 3 then
+					soundTest = true
+					f_songMenu()
+				--GALLERY (view pictures, storyboards and video cutscenes)
+				elseif watchMenu == 4 then
+					f_galleryMenu()
+				--PROFILE (display overall player data)
+				elseif watchMenu == 5 then
+					f_statsMenu()
+				--LICENSE (display license files)
+				elseif watchMenu == 6 then
+					f_watchLicense()
+				--CREDITS (play credits)
+				else
+					f_playCredits()
+				end
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_watchMenu do
+			if i == watchMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not infoScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "WATCH CONTENT")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxWatchMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_watchMenu > 6 and maxWatchMenu < #t_watchMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if infoScreen then f_infoMenu() else drawMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -924,124 +1619,6 @@ function towerCPUvsCPU()
 end
 
 --;===========================================================
---; VERSUS MENU
---;===========================================================
-function f_vsMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local vsMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	f_sideReset()
-	while true do
-		if not sideScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				vsMenu = vsMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				vsMenu = vsMenu + 1
-			end
-			if vsMenu < 1 then
-				vsMenu = #t_vsMenu
-				if #t_vsMenu > 5 then
-					cursorPosY = 5
-				else
-					cursorPosY = #t_vsMenu-1
-				end
-			elseif vsMenu > #t_vsMenu then
-				vsMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 5 then
-				moveTxt = (vsMenu - 6) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (vsMenu - 1) * 13
-			end
-			if #t_vsMenu <= 5 then
-				maxVSMenu = #t_vsMenu
-			elseif vsMenu - cursorPosY > 0 then
-				maxVSMenu = vsMenu + 5 - cursorPosY
-			else
-				maxVSMenu = 5
-			end
-			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				sndPlay(sndSys, 100, 1)
-				--QUICK VERSUS (play a random fight)
-				if vsMenu == 1 then
-					if data.sideSelect == "Modern" then
-						menuSelect = "quick match"
-						sideScreen = true
-					else
-						f_randomMenu()
-					end
-				--FREE BATTLE (play fights with your own rules)
-				elseif vsMenu == 2 then
-					if data.sideSelect == "Modern" then
-						menuSelect = "free battle"
-						sideScreen = true
-					else
-						f_freeMenu()
-					end
-				end
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_vsMenu do
-			if i == vsMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 122+i*13-moveTxt))
-		end
-		if not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "VERSUS MODE")
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxVSMenu > 6 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_vsMenu > 6 and maxVSMenu < #t_vsMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if sideScreen then f_sideSelect() else drawMenuInputHints() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
 --; QUICK/RANDOM MATCH MENU
 --;===========================================================
 function f_randomMenu()
@@ -1417,212 +1994,6 @@ end
 ]]
 
 --;===========================================================
---; TRAINING MODE
---;===========================================================
-function f_training()
-	f_default()
-	setGameMode('practice')
-	data.gameMode = "training"
-	data.rosterMode = "training"
-	setRoundTime(-1) --round time disabled
-	data.versusScreen = false --versus screen disabled
-	data.victoryscreen = false --victory screen disabled
-	data.stageMenu = true
-	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
-	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	--sndPlay(sndSys, 100, 1)
-	if #t_trainingChar ~= 0 then --If a training char is detected in select.def with training=1 paramvalue
-		data.p2In = 2
-		data.p2Char = {t_selChars[t_trainingChar[math.random(#t_trainingChar)]+1].char} --pick a random training char from the table
-	else --Training Char will be selected in char select if there is not training chars detected in select.def with training=1 paramvalue
-		data.p2In = 1
-		data.p2Faces = true
-	end
-	textImgSetText(txt_mainSelect, "TRAINING MODE")
-	f_selectSimple()
-end
-
---;===========================================================
---; CHALLENGES MENU
---;===========================================================	
-function f_challengeMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local challengeMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	f_infoReset()
-	f_sideReset()
-	while true do
-		if not infoScreen and not sideScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				challengeMenu = challengeMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				challengeMenu = challengeMenu + 1
-			end
-			if challengeMenu < 1 then
-				challengeMenu = #t_challengeMenu
-				if #t_challengeMenu > 5 then
-					cursorPosY = 5
-				else
-					cursorPosY = #t_challengeMenu-1
-				end
-			elseif challengeMenu > #t_challengeMenu then
-				challengeMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 5 then
-				moveTxt = (challengeMenu - 6) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (challengeMenu - 1) * 13
-			end
-			if #t_challengeMenu <= 5 then
-				maxChallengeMenu = #t_challengeMenu
-			elseif challengeMenu - cursorPosY > 0 then
-				maxChallengeMenu = challengeMenu + 5 - cursorPosY
-			else
-				maxChallengeMenu = 5
-			end
-			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				sndPlay(sndSys, 100, 1)
-				--SURVIVAL (defeat opponents with a single health meter)
-				if challengeMenu == 1 then
-					if data.sideSelect == "Modern" then
-						menuSelect = "survival"
-						sideScreen = true
-					else
-						f_survivalMenu()
-					end
-				--MISSIONS/TRIALS (complete missions or combos trial challenges)
-				elseif challengeMenu == 2 then
-					f_missionMenu()
-				--BOSS FIGHT (defeat boss characters)
-				elseif challengeMenu == 3 then
-					if #t_bossChars ~= 0 then
-						f_bossMenu()
-					else
-						bossInfo = true
-						infoScreen = true
-					end
-				--BONUS GAMES (play bonus games)
-				elseif challengeMenu == 4 then
-					if #t_bonusChars ~= 0 then
-						f_bonusMenu()
-					else
-						bonusInfo = true
-						infoScreen = true
-					end
-				--SCORE ATTACK (defeat opponents getting high score as possible) WIP
-				elseif challengeMenu == 5 then
-					f_comingSoon()
-					--[[
-					if data.sideSelect == "Modern" then
-						menuSelect = "score attack"
-						sideScreen = true
-					else
-						f_scoreMenu()
-					end
-					]]
-				--TIME ATTACK (defeat opponents as quickly as possible) WIP
-				elseif challengeMenu == 6 then
-					f_comingSoon()
-					--[[
-					if data.sideSelect == "Modern" then
-						menuSelect = "time attack"
-						sideScreen = true
-					else
-						f_timeMenu()
-					end
-					]]
-				--TIME RUSH (rush to defeat opponents before time runs out)
-				elseif challengeMenu == 7 then
-					if data.sideSelect == "Modern" then
-						menuSelect = "time rush"
-						sideScreen = true
-					else
-						f_timeRushMenu()
-					end
-				--VS X KUMITE (defeat as many opponents as you can in predefined successive matches)
-				elseif challengeMenu == 8 then
-					if data.sideSelect == "Modern" then
-						menuSelect = "kumite"
-						sideScreen = true
-					else
-						f_kumiteMenu()
-					end
-				--SUDDEN DEATH (defeat opponents in 1 hit)
-				else
-					if data.sideSelect == "Modern" then
-						menuSelect = "sudden death"
-						sideScreen = true
-					else
-						f_suddenMenu()
-					end
-				end
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_challengeMenu do
-			if i == challengeMenu then
-				bank = 1
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 122+i*13-moveTxt))
-		end
-		t_challengeMenu[8].text = getKumiteData()
-		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "CHALLENGES MODES")
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxChallengeMenu > 6 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_challengeMenu > 6 and maxChallengeMenu < #t_challengeMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
-		if sideScreen then f_sideSelect() end
-		if infoScreen then f_infoMenu() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
 --; SURVIVAL MENU
 --;===========================================================
 function f_survivalMenu()
@@ -1795,199 +2166,6 @@ function survivalCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SURVIVAL")
 	f_selectAdvance()
-end
-
---;===========================================================
---; MISSIONS MENU
---;===========================================================
-function f_missionMenu()
-	cmdInput()
-	local missionMenu = 1
-	local cursorPosY = 1
-	local moveTxt = 0
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local missionInfotxt = nil
-	local missionNametxt = nil
-	local previewGroup = nil
-	local previewIndex = nil
-	local previewScaleX = nil
-	local previewScaleY = nil
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	animSetPos(menuArrowUp, 280, 130)
-	animSetPos(menuArrowDown, 280, 195)
-	while true do
-	--Missions Progress Logic
-		stats.modes.mission.clearall = stats.modes.mission.clear1 + stats.modes.mission.clear2 + stats.modes.mission.clear3
-		missionsData = (math.floor((stats.modes.mission.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
-		textImgSetText(txt_missionProgress,"["..missionsData.."%]")
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			f_saveStats()
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 2)
-			f_resetMenuArrowsPos()
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			missionMenu = missionMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			missionMenu = missionMenu + 1
-		--START MISSION
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--MISSION AVAILABLE
-			if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then --If the mission is unlocked
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				sndPlay(sndSys, 100, 1)
-				f_default()
-				data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
-				data.rosterMode = "mission"
-				setGameMode('mission')
-				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
-				if t_missionMenu[data.missionNo].path ~= nil then --Detects if lua file is defined
-					assert(loadfile(t_missionMenu[data.missionNo].path))()
-				end
-				if winner == 1 then f_missionStatus() end --Save progress only if you win
-			--MISSION UNAVAILABLE
-			else
-				sndPlay(sndSys, 100, 5)
-			end
-		end
-	--Cursor position calculation
-		if missionMenu < 1 then
-			missionMenu = #t_missionMenu
-			if #t_missionMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_missionMenu
-			end
-		elseif missionMenu > #t_missionMenu then
-			missionMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (missionMenu - 5) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (missionMenu - 1) * 15
-		end
-		if #t_missionMenu <= 5 then
-			maxMissions = #t_missionMenu
-		elseif missionMenu - cursorPosY > 0 then
-			maxMissions = missionMenu + 5 - cursorPosY
-		else
-			maxMissions = 5
-		end
-		animDraw(f_animVelocity(commonBG0, -1, -1))
-	--Draw Above Transparent BG
-		animSetScale(missionBG1, 219.5, 94)
-		animSetWindow(missionBG1, 0,5, 320,110)
-		animDraw(missionBG1)
-	--Draw Title Menu
-		textImgDraw(txt_missionMenu)
-		textImgDraw(txt_missionProgress)
-	--Draw Below Transparent Table BG
-		animSetScale(missionBG2, 240, maxMissions*15)
-		animSetWindow(missionBG2, 10,10, 269,195)
-		animDraw(missionBG2)
-	--Draw Below Table Cursor
-		animSetWindow(cursorBox, 40,115+cursorPosY*15, 239,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Mission Image Preview
-		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then --If the mission is unlocked
-			previewGroup = t_missionMenu[missionMenu].sprGroup
-			previewIndex = t_missionMenu[missionMenu].sprIndex
-			previewScaleX = t_missionMenu[missionMenu].sprScaleX
-			previewScaleY = t_missionMenu[missionMenu].sprScaleY
-		else
-			previewGroup = t_missionMenu.unknownSprGroup
-			previewIndex = t_missionMenu.unknownSprIndex
-			previewScaleX = t_missionMenu.unknownSprScaleX
-			previewScaleY = t_missionMenu.unknownSprScaleY
-		end
-		f_drawMissionPreview(previewGroup, previewIndex, 50, 21, previewScaleX, previewScaleY)
-	--Draw Mission Info
-		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then
-			missionInfotxt = t_missionMenu[missionMenu].infounlock
-		else
-			missionInfotxt = t_missionMenu[missionMenu].infolock
-		end
-		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, missionInfotxt, 157, 13.5))
-	--Set mission status
-		if stats.modes.mission.clear1 == 1 then t_missionMenu[1].status = "COMPLETED" end
-		if stats.modes.mission.clear2 == 1 then t_missionMenu[2].status = "COMPLETED" end
-		if stats.modes.mission.clear3 == 1 then t_missionMenu[3].status = "COMPLETED" end
-	--Draw Text for Below Table
-		for i=1, maxMissions do
-			if t_unlockLua.modes[t_missionMenu[i].id] == nil then
-				missionNametxt = t_missionMenu[i].name
-			else
-				missionNametxt = "???"
-			end
-			if i > missionMenu - cursorPosY then
-				if t_missionMenu[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, 1, missionNametxt, 45, 125+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, -1, t_missionMenu[i].status, 275, 125+i*15-moveTxt))
-				end
-			end
-		end
-	--Draw Up Animated Cursor
-		if maxMissions > 5 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-	--Draw Down Animated Cursor
-		if #t_missionMenu > 5 and maxMissions < #t_missionMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-	--Draw Input Hints Panel
-		drawMissionInputHints()
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---Get Missions Preview
-function f_drawMissionPreview(group, index, posX, posY, scaleX, scaleY)
-	local scaleX = scaleX or 1
-	local scaleY = scaleY or 1
-	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(t_missionMenu.sffData, anim)
-	animSetScale(anim, scaleX, scaleY)
-	animSetPos(anim, posX, posY)
-	animUpdate(anim)
-	animDraw(anim)
-	--return anim
-end
-
---;===========================================================
---; MISSION SAVE DATA
---;===========================================================
-function f_missionStatus()
-	if data.missionNo == 1 then stats.modes.mission.clear1 = 1
-	elseif data.missionNo == 2 then stats.modes.mission.clear2 = 1
-	elseif data.missionNo == 3 then stats.modes.mission.clear3 = 1
-	end
-	f_saveStats()
 end
 
 --;===========================================================
@@ -3747,140 +3925,6 @@ function suddenCPUvsCPU()
 end
 
 --;===========================================================
---; EXTRAS MENU
---;===========================================================	
-function f_extrasMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local extrasMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	f_sideReset()
-	f_infoReset()
-	while true do
-		if not sideScreen and not infoScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				extrasMenu = extrasMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				extrasMenu = extrasMenu + 1
-			end
-			if extrasMenu < 1 then
-				extrasMenu = #t_extrasMenu
-				if #t_extrasMenu > 5 then
-					cursorPosY = 5
-				else
-					cursorPosY = #t_extrasMenu-1
-				end
-			elseif extrasMenu > #t_extrasMenu then
-				extrasMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 5 then
-				moveTxt = (extrasMenu - 6) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (extrasMenu - 1) * 13
-			end
-			if #t_extrasMenu <= 5 then
-				maxExtrasMenu = #t_extrasMenu
-			elseif extrasMenu - cursorPosY > 0 then
-				maxExtrasMenu = extrasMenu + 5 - cursorPosY
-			else
-				maxExtrasMenu = 5
-			end
-			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				sndPlay(sndSys, 100, 1)
-				--ENDLESS MODE (fight in endless battles)
-				if extrasMenu == 1 then
-					if data.sideSelect == "Modern" then
-						menuSelect = "endless"
-						sideScreen = true
-					else
-						f_allcharsMenu()
-					end
-				--EVENTS MODE (complete events at certain hours, days, weeks, months or years)
-				elseif extrasMenu == 2 then
-					f_eventMenu()
-				--TOURNAMENT MODE (participate in customizable tournaments)
-				elseif extrasMenu == 3 then
-					f_tourneyCfg()
-				--VISUAL NOVEL MODE (watch a customizable narrative and interactive storytelling)
-				elseif extrasMenu == 4 then
-					if #t_selVN ~= 0 then
-						f_vnMenu()
-					else
-						vnInfo = true
-						infoScreen = true
-					end
-				--THE VAULT MODE (insert secret codes to unlock things)
-				elseif extrasMenu == 5 then
-					f_theVault()
-				--RANDOMTEST (generate AI rank data)
-				elseif extrasMenu == 6 then
-					setGameMode('randomtest')
-					randomTest()
-				end
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_extrasMenu do
-			if i == extrasMenu then
-				bank = 2
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 122+i*13-moveTxt))
-		end
-		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "EXTRA MODES")
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxExtrasMenu > 6 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_extrasMenu > 6 and maxExtrasMenu < #t_extrasMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
-		if sideScreen then f_sideSelect() end
-		if infoScreen then f_infoMenu() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
 --; ENDLESS MENU
 --;===========================================================
 function f_allcharsMenu()
@@ -4056,6 +4100,203 @@ function endlessCPUvsCPU()
 end
 
 --;===========================================================
+--; MISSIONS MENU
+--;===========================================================
+function f_missionMenu()
+	cmdInput()
+	local missionMenu = 1
+	local cursorPosY = 1
+	local moveTxt = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local missionInfotxt = nil
+	local missionNametxt = nil
+	local previewPosX = nil
+	local previewPosY = nil
+	local previewScaleX = nil
+	local previewScaleY = nil
+	local previewTransS = nil
+	local previewTransD = nil
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowUp, 280, 130)
+	animSetPos(menuArrowDown, 280, 195)
+	while true do
+	--Missions Progress Logic
+		stats.modes.mission.clearall = stats.modes.mission.clear1 + stats.modes.mission.clear2 + stats.modes.mission.clear3
+		missionsData = (math.floor((stats.modes.mission.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
+		textImgSetText(txt_missionProgress,"["..missionsData.."%]")
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			f_saveStats()
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			f_resetMenuArrowsPos()
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			missionMenu = missionMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			missionMenu = missionMenu + 1
+		--START MISSION
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			--MISSION AVAILABLE
+			if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then --If the mission is unlocked
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 1)
+				f_default()
+				data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
+				data.rosterMode = "mission"
+				setGameMode('mission')
+				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
+				if t_missionMenu[data.missionNo].path ~= nil then --Detects if lua file is defined
+					assert(loadfile(t_missionMenu[data.missionNo].path))()
+				end
+				if winner == 1 then f_missionStatus() end --Save progress only if you win
+			--MISSION UNAVAILABLE
+			else
+				sndPlay(sndSys, 100, 5)
+			end
+		end
+	--Cursor position calculation
+		if missionMenu < 1 then
+			missionMenu = #t_missionMenu
+			if #t_missionMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_missionMenu
+			end
+		elseif missionMenu > #t_missionMenu then
+			missionMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (missionMenu - 5) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (missionMenu - 1) * 15
+		end
+		if #t_missionMenu <= 5 then
+			maxMissions = #t_missionMenu
+		elseif missionMenu - cursorPosY > 0 then
+			maxMissions = missionMenu + 5 - cursorPosY
+		else
+			maxMissions = 5
+		end
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+	--Draw Above Transparent BG
+		animSetScale(missionBG1, 219.5, 94)
+		animSetWindow(missionBG1, 0,5, 320,110)
+		animDraw(missionBG1)
+	--Draw Title Menu
+		textImgDraw(txt_missionMenu)
+		textImgDraw(txt_missionProgress)
+	--Draw Below Transparent Table BG
+		animSetScale(missionBG2, 240, maxMissions*15)
+		animSetWindow(missionBG2, 10,10, 269,195)
+		animDraw(missionBG2)
+	--Draw Below Table Cursor
+		animSetWindow(cursorBox, 40,115+cursorPosY*15, 239,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Mission Image Preview
+			previewScaleX = t_missionMenu[missionMenu].sprScaleX
+			previewScaleY = t_missionMenu[missionMenu].sprScaleY
+		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then --If the mission is unlocked
+			previewTransS = nil
+			previewTransD = nil
+		else
+			previewTransS = 150 --Apply Transparent
+			previewTransD = 0
+		end
+		f_drawMissionPreview(t_missionMenu[missionMenu].sprGroup, t_missionMenu[missionMenu].sprIndex, 50, 21, previewScaleX, previewScaleY, previewTransS, previewTransD)
+	--Draw Mission Info
+		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then
+			missionInfotxt = t_missionMenu[missionMenu].infounlock
+		else
+			animPosDraw(padlock, padlockMissionPosX, padlockMissionPosY) --Draw Padlock Icon
+			missionInfotxt = t_missionMenu[missionMenu].infolock
+		end
+		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, missionInfotxt, 157, 13.5))
+	--Set mission status
+		if stats.modes.mission.clear1 == 1 then t_missionMenu[1].status = txt_missionClear end
+		if stats.modes.mission.clear2 == 1 then t_missionMenu[2].status = txt_missionClear end
+		if stats.modes.mission.clear3 == 1 then t_missionMenu[3].status = txt_missionClear end
+	--Draw Text for Below Table
+		for i=1, maxMissions do
+			if t_unlockLua.modes[t_missionMenu[i].id] == nil then
+				missionNametxt = t_missionMenu[i].name
+			else
+				missionNametxt = "???"
+			end
+			if i > missionMenu - cursorPosY then
+				if t_missionMenu[i].txtID ~= nil then
+					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, 1, missionNametxt, 45, 125+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].txtID, font2, 0, -1, t_missionMenu[i].status, 275, 125+i*15-moveTxt))
+				end
+			end
+		end
+	--Draw Up Animated Cursor
+		if maxMissions > 5 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+	--Draw Down Animated Cursor
+		if #t_missionMenu > 5 and maxMissions < #t_missionMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+	--Draw Input Hints Panel
+		drawMissionInputHints()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--Get Missions Preview
+function f_drawMissionPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
+	local scaleX = scaleX or 1
+	local scaleY = scaleY or 1
+	local alphaS = alphaS or 255
+	local alphaD = alphaD or 0
+	local anim = group..','..index..', 0,0, 0'
+	anim = animNew(t_missionMenu.sffData, anim)
+	animSetAlpha(anim, alphaS, alphaD)
+	animSetScale(anim, scaleX, scaleY)
+	animSetPos(anim, posX, posY)
+	animUpdate(anim)
+	animDraw(anim)
+	--return anim
+end
+
+--;===========================================================
+--; MISSION SAVE DATA
+--;===========================================================
+function f_missionStatus()
+	if data.missionNo == 1 then stats.modes.mission.clear1 = 1
+	elseif data.missionNo == 2 then stats.modes.mission.clear2 = 1
+	elseif data.missionNo == 3 then stats.modes.mission.clear3 = 1
+	end
+	f_saveStats()
+end
+
+--;===========================================================
 --; EVENTS MENU
 --;===========================================================
 function f_eventMenu()
@@ -4068,8 +4309,12 @@ function f_eventMenu()
 	local bufr = 0
 	local bufl = 0
 	local eventInfotxt = nil
-	local previewGroup = nil
-	local previewIndex = nil
+	local previewPosX = nil
+	local previewPosY = nil
+	local previewScaleX = nil
+	local previewScaleY = nil
+	local previewTransS = nil
+	local previewTransD = nil
 	f_lockedInfoReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
@@ -4152,9 +4397,9 @@ function f_eventMenu()
 		animSetWindow(eventBG2, 3,49, 314,154)
 		animDraw(eventBG2)
 	--Set Event Progress
-		if stats.modes.event.clear1 == 1 then t_eventMenu[1].status = "COMPLETED" end
-		if stats.modes.event.clear2 == 1 then t_eventMenu[2].status = "COMPLETED" end
-		if stats.modes.event.clear3 == 1 then t_eventMenu[3].status = "COMPLETED" end
+		if stats.modes.event.clear1 == 1 then t_eventMenu[1].status = txt_eventClear end
+		if stats.modes.event.clear2 == 1 then t_eventMenu[2].status = txt_eventClear end
+		if stats.modes.event.clear3 == 1 then t_eventMenu[3].status = txt_eventClear end
 	--Set Scroll Logic
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
@@ -4169,13 +4414,16 @@ function f_eventMenu()
 				end
 			--Draw Event Preview Image
 				if t_unlockLua.modes[t_eventMenu[i].id] == nil then --If the event is unlocked
-					previewGroup = t_eventMenu[i].sprGroup
-					previewIndex = t_eventMenu[i].sprIndex
+					previewTransS = nil
+					previewTransD = nil
 				else
-					previewGroup = t_eventMenu.unknownSprGroup
-					previewIndex = t_eventMenu.unknownSprIndex
+					previewTransS = 150 --Apply Transparent
+					previewTransD = 0
 				end
-				f_drawEventPreview(previewGroup, previewIndex, -100+i*105-moveTxt, 51)
+				f_drawEventPreview(t_eventMenu[i].sprGroup, t_eventMenu[i].sprIndex, -100+i*105-moveTxt, 51, previewTransS, previewTransD)
+				if t_unlockLua.modes[t_eventMenu[i].id] ~= nil then
+					animPosDraw(padlock, padlockEventPosX+i*105-moveTxt, padlockEventPosY) --Draw Padlock Icon
+				end
 			end
 		end
 	--Draw Event Cursor
@@ -4221,11 +4469,14 @@ function f_eventMenu()
 end
 
 --Get Events Preview
-function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY)
+function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
 	local scaleX = scaleX or 1
 	local scaleY = scaleY or 1
+	local alphaS = alphaS or 255
+	local alphaD = alphaD or 0
 	local anim = group..','..index..', 0,0, 0'
 	anim = animNew(t_eventMenu.sffData, anim)
+	animSetAlpha(anim, alphaS, alphaD)
 	animSetScale(anim, scaleX, scaleY)
 	animSetPos(anim, posX, posY)
 	animUpdate(anim)
@@ -4546,149 +4797,6 @@ function f_prizeWords()
 	textImgSetBank(txt_vaultWords,5) --Set new color when you get the prize
 	f_getVaultPrize()
 	txtRandom = (t_vaultPrizeMsg[math.random(1, #t_vaultPrizeMsg)])
-end
-
---;===========================================================
---; WATCH MENU
---;===========================================================
-function f_watchMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local watchMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	f_infoReset()
-	while true do
-		if not infoScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				watchMenu = watchMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				watchMenu = watchMenu + 1
-			end
-			if watchMenu < 1 then
-				watchMenu = #t_watchMenu
-				if #t_watchMenu > 5 then
-					cursorPosY = 5
-				else
-					cursorPosY = #t_watchMenu-1
-				end
-			elseif watchMenu > #t_watchMenu then
-				watchMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 5 then
-				moveTxt = (watchMenu - 6) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (watchMenu - 1) * 13
-			end
-			if #t_watchMenu <= 5 then
-				maxWatchMenu = #t_watchMenu
-			elseif watchMenu - cursorPosY > 0 then
-				maxWatchMenu = watchMenu + 5 - cursorPosY
-			else
-				maxWatchMenu = 5
-			end
-			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				sndPlay(sndSys, 100, 1)
-				--REPLAYS (watch recorded battles)
-				if watchMenu == 1 then
-					f_replayMenu()
-				--STAGE VIEWER (watch a selected stage without fight)
-				elseif watchMenu == 2 then
-					if data.stageviewer then
-						f_default()
-						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-						setRoundTime(-1)
-						data.p2In = 2
-						data.stageMenu = true
-						data.versusScreen = false
-						data.victoryscreen = false
-						data.p1TeamMenu = {mode = 0, chars = 1}			
-						data.p2TeamMenu = {mode = 0, chars = 1}
-						data.p1Char = {"Stage Viewer"}
-						data.p2Char = {"Stage Viewer"}
-						data.gameMode = "stage viewer"
-						setGameMode('stageviewer')
-						textImgSetText(txt_mainSelect, "STAGE VIEWER")
-						f_selectSimple()
-					else
-						stviewerInfo = true
-						infoScreen = true
-					end
-				--SOUND TEST (listen sounds)
-				elseif watchMenu == 3 then
-					soundTest = true
-					f_songMenu()
-				--GALLERY (view pictures, storyboards and video cutscenes)
-				elseif watchMenu == 4 then
-					f_galleryMenu()
-				--PROFILE (display overall player data)
-				elseif watchMenu == 5 then
-					f_statsMenu()
-				--LICENSE (display license files)
-				elseif watchMenu == 6 then
-					f_watchLicense()
-				--CREDITS (play credits)
-				else
-					f_playCredits()
-				end
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_watchMenu do
-			if i == watchMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 122+i*13-moveTxt))
-		end
-		if not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "WATCH CONTENT")
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxWatchMenu > 6 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_watchMenu > 6 and maxWatchMenu < #t_watchMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if infoScreen then f_infoMenu() else drawMenuInputHints() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
 end
 
 --;===========================================================
@@ -8595,100 +8703,6 @@ end
 if secretTarget[1].displayname == goukiName then stats.unlocks.chars.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
 secretTarget = "" --Reset Var
 f_saveStats()
-end
-
---;===========================================================
---; ATTRACT MENU
---;===========================================================
-function f_mainAttract()
-	cmdInput()
-	local t = 0
-	attractSeconds = data.attractTime
-	attractTimer = attractSeconds*gameTick --Set time for Attract Title Screen
-	local demoTimer = 0
-	playBGM(bgmTitle)
-	f_attractExitItem()
-	while true do
-		--INSERT COIN
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-		   sndPlay(sndSys, 200, 0)
-		   demoTimer = 0
-		   stats.attractCoins = stats.attractCoins + 1
-		   f_saveStats()
-		   attractTimer = attractSeconds*gameTick --Reset Timer
-		--START GAME MODE
-		elseif ((commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) or attractTimer == 0) and stats.attractCoins > 0 then
-		   --playVideo(videoHowToPlay)
-		   data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-		   sndPlay(sndSys, 100, 1)
-		   stats.attractCoins = stats.attractCoins - 1
-		   f_saveStats()
-		   attractTimer = attractSeconds*gameTick
-		   f_default()
-		   --data.p1TeamMenu = {mode = 0, chars = 1}
-		   --data.p2TeamMenu = {mode = 0, chars = 1}
-		   data.p2In = 1
-		   data.p2SelectMenu = false
-		   data.serviceScreen = true
-		   data.arcadeIntro = true
-		   data.arcadeEnding = true
-		   --data.stageMenu = true
-		   setGameMode('arcade')
-		   data.gameMode = "arcade"
-		   data.rosterMode = "arcade"
-		   textImgSetText(txt_mainSelect, "ARCADE")
-		   f_selectAdvance()
-		--START DEMO MODE
-		elseif demoTimer == 350 then
-		   demoModeCfg()
-		   f_mainLogos()
-		   playBGM(bgmTitle)
-		   demoTimer = 0
-		   attractTimer = attractSeconds*gameTick
-		--EXIT
-		elseif esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			attractTimer = attractSeconds*gameTick
-			f_exitMenu()
-			--attractSeconds = data.attractTime --Load New Attract Time settings in case that you modify them
-		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		animSetWindow(cursorBox, 0, 160, 290, 13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		f_titleText()
-		f_attractCredits()
-		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
-		nodecimalAttractTime = string.format("%.0f",attractTimeNumber) --Delete Decimals
-		textImgSetText(txt_attractTimer, nodecimalAttractTime)
-		if attractTimer > 0 and stats.attractCoins > 0 then
-			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
-			textImgDraw(txt_attractTimer)
-		else --when attractTimer <= 0
-			demoTimer = demoTimer + 1
-		end
-		f_sysTime()
-		drawAttractInputHints()
-		if t%60 < 30 then
-			if stats.attractCoins > 0 then
-				textImgDraw(txt_mainTitle)
-			else
-				textImgDraw(txt_coinTitle)
-			end
-		end
-		t = t >= 60 and 0 or t + 1
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
 end
 
 --;===========================================================

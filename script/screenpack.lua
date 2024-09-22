@@ -499,6 +499,19 @@ animSetPos(fadeWindowBG, -54, 0)
 animSetScale(fadeWindowBG, 427, 240)
 animUpdate(fadeWindowBG)
 
+--Common Padlock Sprite
+padlock = animNew(sprSys, [[
+108,0, 0,0, -1
+]])
+animSetScale(padlock, 0.20, 0.20)
+animUpdate(padlock)
+
+padlockMissionPosX = 125 --Position for Missions Menu
+padlockMissionPosY = 25
+
+padlockEventPosX = -85 --Position for Events Menu
+padlockEventPosY = 85
+
 --Common Menu Up Arrows
 menuArrowUp = animNew(sprSys, [[
 225,0, 0,0, 10
@@ -833,6 +846,7 @@ t_commonSubMenu2 = {
 txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
 txt_missionIncomplete = "INCOMPLETE"
+txt_missionClear = "COMPLETED"
 
 --Above Transparent background
 missionBG1 = animNew(sprSys, [[
@@ -869,6 +883,7 @@ txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
 txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
 txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
 txt_eventIncomplete = "INCOMPLETE"
+txt_eventClear = "COMPLETED"
 
 --Above Transparent background
 eventBG1 = animNew(sprSys, [[

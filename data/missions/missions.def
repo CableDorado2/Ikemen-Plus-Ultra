@@ -1,10 +1,6 @@
 preview.file = data/missions/missions.sff
-;preview.spr.pos.common = 0,0 ;Allow set common pos for all items, don't use if your items use different values
-;preview.spr.scale.common = 0.168, 0.125
-
-preview.spr.unknown = 0,0
-;preview.spr.pos.unknown = 50,21
-preview.spr.scale.unknown = 0.168, 0.18
+preview.common.pos = 50,21 ;Allow set common pos for all items, don't use if your items use different values
+preview.common.scale = 0.168, 0.125
 
 [Mission 1]
 id = mission1
@@ -30,4 +26,4 @@ info.locked = Complete Mission 2
 preview.spr = 0,3
 preview.scale = 0.168, 0.125
 path = data/missions/mission3.lua
-unlock = stats.modes.event.clear1 > 0
+unlock = stats.modes.mission.clear2 > 0

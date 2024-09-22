@@ -21,12 +21,12 @@ animSetScale(bambooBG1, 0.72, 0.6)
 animUpdate(bambooBG1)
 
 --Lock
-padlock = animNew(sprSys, [[
+lockIcon = animNew(sprSys, [[
 108,0, 0,0,
 ]])
-animAddPos(padlock, 118, 125)
-animSetScale(padlock, 0.20, 0.20)
-animUpdate(padlock)
+animSetPos(lockIcon, 118, 125)
+animSetScale(lockIcon, 0.20, 0.20)
+animUpdate(lockIcon)
 
 --Below Transparent background
 --storyBG2 = animNew(sprSys, [[
@@ -460,7 +460,7 @@ function f_storyMenu()
 			animSetPos(bambooBG1, 50, 81)
 			animSetWindow(bambooBG1, 0, 0, 320, 240)
 			animDraw(bambooBG1)
-			animDraw(padlock)
+			animDraw(lockIcon)
 			animSetWindow(cursorBox, 50,94, 198,112) --198,30
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))

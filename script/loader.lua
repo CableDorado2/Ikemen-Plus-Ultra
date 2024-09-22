@@ -1268,19 +1268,19 @@ for line in content:gmatch('[^\r\n]+') do
 		if not data:match('=%s*$') then
 			t_missionMenu['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')) --Store sff data to be used in mission previews
 		end
---preview.spr.unknown = groupNo, indexNo (int, int)
-	elseif line:match('^%s*preview.spr.unknown%s*=') then
+--preview.common.pos = posX, posY (int, int)
+	elseif line:match('^%s*preview.common.pos%s*=') then
 		local data = line:gsub('%s*;.*$', '')
 		if not data:match('=%s*$') then
-			local sprData = data:gsub('^%s*preview.spr.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
-			t_missionMenu['unknownSprGroup'], t_missionMenu['unknownSprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+			local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
+			t_missionMenu['commonSprPosX'], t_missionMenu['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 		end
---preview.spr.scale.unknown = scaleX, scaleY (int, int)
-	elseif line:match('^%s*preview.spr.scale.unknown%s*=') then
+--preview.common.scale = scaleX, scaleY (int, int)
+	elseif line:match('^%s*preview.common.scale%s*=') then
 		local data = line:gsub('%s*;.*$', '')
 		if not data:match('=%s*$') then
-			local scaleData = data:gsub('^%s*preview.spr.scale.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			t_missionMenu['unknownSprScaleX'], t_missionMenu['unknownSprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+			local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			t_missionMenu['commonSprScaleX'], t_missionMenu['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 		end
 	elseif line:match('^%s*%[%s*[Mm][Ii][Ss][Ss][Ii][Oo][Nn]%s+[0-9]+$*%]') then
 		section = 1
@@ -1376,19 +1376,19 @@ for line in content:gmatch('[^\r\n]+') do
 		if not data:match('=%s*$') then
 			t_eventMenu['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')) --Store sff data to be used in mission previews
 		end
---preview.spr.unknown = groupNo, indexNo (int, int)
-	elseif line:match('^%s*preview.spr.unknown%s*=') then
+--preview.common.pos = posX, posY (int, int)
+	elseif line:match('^%s*preview.common.pos%s*=') then
 		local data = line:gsub('%s*;.*$', '')
 		if not data:match('=%s*$') then
-			local sprData = data:gsub('^%s*preview.spr.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
-			t_eventMenu['unknownSprGroup'], t_eventMenu['unknownSprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+			local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
+			t_eventMenu['commonSprPosX'], t_eventMenu['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 		end
---preview.spr.scale.unknown = scaleX, scaleY (int, int)
-	elseif line:match('^%s*preview.spr.scale.unknown%s*=') then
+--preview.common.scale = scaleX, scaleY (int, int)
+	elseif line:match('^%s*preview.common.scale%s*=') then
 		local data = line:gsub('%s*;.*$', '')
 		if not data:match('=%s*$') then
-			local scaleData = data:gsub('^%s*preview.spr.scale.unknown%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			t_eventMenu['unknownSprScaleX'], t_eventMenu['unknownSprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+			local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			t_eventMenu['commonSprScaleX'], t_eventMenu['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 		end
 	elseif line:match('^%s*%[%s*[Ee][Vv][Ee][Nn][Tt]%s+[0-9]+$*%]') then
 		section = 1

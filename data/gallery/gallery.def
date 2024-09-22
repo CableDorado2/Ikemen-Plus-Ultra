@@ -1,6 +1,7 @@
 [Artworks]
 displayname = ARTWORKS
 preview.file = data/gallery/artworks.sff
+preview.common.scale = 0.050,0.050
 
 [Art 1]
 preview.spr = 0,0
@@ -51,6 +52,7 @@ info = Ikemen Plus Ultra
 [Storyboards]
 displayname = STORYBOARDS
 preview.file = data/gallery/gallery.sff
+;preview.common.scale = 0.090,0.090
 
 [Cutscene 1]
 preview.spr = 0,0
@@ -86,6 +88,7 @@ info = Shin Gouki's Unlock Screen
 [Movies]
 displayname = CUTSCENES
 preview.file = data/gallery/gallery.sff
+preview.common.scale = 0.059,0.056
 
 [Video 1]
 preview.spr = 100,0
