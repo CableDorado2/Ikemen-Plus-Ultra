@@ -509,8 +509,8 @@ animUpdate(padlock)
 padlockMissionPosX = 125 --Position for Missions Menu
 padlockMissionPosY = 25
 
-padlockEventPosX = -85 --Position for Events Menu
-padlockEventPosY = 85
+padlockEventPosX = -83 --Position for Events Menu
+padlockEventPosY = 86
 
 --Common Menu Up Arrows
 menuArrowUp = animNew(sprSys, [[
@@ -596,7 +596,7 @@ end
 
 function f_resetEventArrowsPos() --Used in Events Mode
 animSetPos(menuArrowLeft, 0, 123)
-animSetPos(menuArrowRight, 303, 123)
+animSetPos(menuArrowRight, 312, 123)
 end
 
 function f_titleText()
@@ -853,6 +853,12 @@ txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
 txt_missionIncomplete = "INCOMPLETE"
 txt_missionClear = "COMPLETED"
 
+missionCommonPosX = 50 --Allow set common pos for all previews
+missionCommonPosY = 21
+
+missionCommonScaleX = 0.168 --Allow set common scale for all previews
+missionCommonScaleY = 0.125
+
 --Above Transparent background
 missionBG1 = animNew(sprSys, [[
 3,0, 0,0, -1
@@ -891,6 +897,12 @@ txt_lockedOk = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
 txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
 txt_eventIncomplete = "INCOMPLETE"
 txt_eventClear = "COMPLETED"
+
+eventCommonPosX = -95 --Allow set common pos for all previews
+eventCommonPosY = 61
+
+eventCommonScaleX = 1.1 --Allow set common scale for all previews
+eventCommonScaleY = 1.1
 
 --Above Transparent background
 eventBG1 = animNew(sprSys, [[

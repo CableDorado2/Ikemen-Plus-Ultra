@@ -4203,9 +4203,20 @@ function f_missionMenu()
 		animSetWindow(cursorBox, 40,115+cursorPosY*15, 239,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Mission Image Preview
-			previewScaleX = t_missionMenu[missionMenu].sprScaleX
-			previewScaleY = t_missionMenu[missionMenu].sprScaleY
+	--Draw Mission Image Preview
+		if t_missionMenu[missionMenu].sprPosX ~= nil then previewPosX = t_missionMenu[missionMenu].sprPosX --Use position stored in events.def file
+		else previewPosX = missionCommonPosX --Use common position loaded in screenpack.lua
+		end
+		if t_missionMenu[missionMenu].sprPosY ~= nil then previewPosY = t_missionMenu[missionMenu].sprPosY
+		else previewPosY = missionCommonPosY
+		end
+		if t_missionMenu[missionMenu].sprScaleX ~= nil then previewScaleX = t_missionMenu[missionMenu].sprScaleX --Use scale stored in events.def file
+		else previewScaleX = missionCommonScaleX --Use common scale loaded in screenpack.lua
+		end
+		if t_missionMenu[missionMenu].sprScaleY ~= nil then previewScaleY = t_missionMenu[missionMenu].sprScaleY
+		else previewScaleY = missionCommonScaleY
+		end
+		--
 		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then --If the mission is unlocked
 			previewTransS = nil
 			previewTransD = nil
@@ -4213,7 +4224,7 @@ function f_missionMenu()
 			previewTransS = 150 --Apply Transparent
 			previewTransD = 0
 		end
-		f_drawMissionPreview(t_missionMenu[missionMenu].sprGroup, t_missionMenu[missionMenu].sprIndex, 50, 21, previewScaleX, previewScaleY, previewTransS, previewTransD)
+		f_drawMissionPreview(t_missionMenu[missionMenu].sprGroup, t_missionMenu[missionMenu].sprIndex, previewPosX, previewPosY, previewScaleX, previewScaleY, previewTransS, previewTransD)
 	--Draw Mission Info
 		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then
 			missionInfotxt = t_missionMenu[missionMenu].infounlock
@@ -4414,6 +4425,19 @@ function f_eventMenu()
 					textImgDraw(f_updateTextImg(t_eventMenu[i].txtID, jgFnt, bank, 0, t_eventMenu[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
+				if t_eventMenu[i].sprPosX ~= nil then previewPosX = t_eventMenu[i].sprPosX --Use position stored in events.def file
+				else previewPosX = eventCommonPosX --Use common position loaded in screenpack.lua
+				end
+				if t_eventMenu[i].sprPosY ~= nil then previewPosY = t_eventMenu[i].sprPosY
+				else previewPosY = eventCommonPosY
+				end
+				if t_eventMenu[i].sprScaleX ~= nil then previewScaleX = t_eventMenu[i].sprScaleX --Use scale stored in events.def file
+				else previewScaleX = eventCommonScaleX --Use common scale loaded in screenpack.lua
+				end
+				if t_eventMenu[i].sprScaleY ~= nil then previewScaleY = t_eventMenu[i].sprScaleY
+				else previewScaleY = eventCommonScaleY
+				end
+				--
 				if t_unlockLua.modes[t_eventMenu[i].id] == nil then --If the event is unlocked
 					previewTransS = nil
 					previewTransD = nil
@@ -4421,7 +4445,7 @@ function f_eventMenu()
 					previewTransS = 150 --Apply Transparent
 					previewTransD = 0
 				end
-				f_drawEventPreview(t_eventMenu[i].sprGroup, t_eventMenu[i].sprIndex, -95+i*105-moveTxt, 61, t_eventMenu[i].sprScaleX, t_eventMenu[i].sprScaleY, previewTransS, previewTransD)
+				f_drawEventPreview(t_eventMenu[i].sprGroup, t_eventMenu[i].sprIndex, previewPosX+i*105-moveTxt, previewPosY, previewScaleX, previewScaleY, previewTransS, previewTransD)
 			--Draw Event Slot Icon
 				f_drawQuickSpr(eventSlot, eventSlotPosX+i*105-moveTxt, eventSlotPosY, eventSlotScaleX, eventSlotScaleY, previewTransS, previewTransD)
 			--Draw Padlock Icon

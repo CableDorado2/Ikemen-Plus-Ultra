@@ -1328,12 +1328,20 @@ for line in content:gmatch('[^\r\n]+') do
 				t_missionMenu[row]['sprGroup'], t_missionMenu[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 			end
 		end
+		--preview.pos = posX, posY (int, int)
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_missionMenu[row]['sprPosX'], t_missionMenu[row]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
 		--preview.scale = scaleX, scaleY (int, int)
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_missionMenu[row]['sprScaleX'], t_missionMenu[row]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_missionMenu[row]['sprScaleX'], t_missionMenu[row]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		--path = string
@@ -1427,12 +1435,20 @@ for line in content:gmatch('[^\r\n]+') do
 				t_eventMenu[row]['sprGroup'], t_eventMenu[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 			end
 		end
+		--preview.pos = posX, posY (int, int)
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_eventMenu[row]['sprPosX'], t_eventMenu[row]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
 		--preview.scale = scaleX, scaleY (int, int)
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_eventMenu[row]['sprScaleX'], t_eventMenu[row]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_eventMenu[row]['sprScaleX'], t_eventMenu[row]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		--path = string
