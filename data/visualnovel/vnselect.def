@@ -1,8 +1,9 @@
 [VisualNovel]
-name = arc1
+id = arc1
 displayname = Kung Fu Man
 path = data/visualnovel/vn1.def
 
-name = arc2
-displayname = ???
+id = arc2
+displayname = The Test
 path = data/visualnovel/vn2.def
+unlock = stats.modes.story.playtime > 0

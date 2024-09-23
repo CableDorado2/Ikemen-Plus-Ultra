@@ -5,47 +5,42 @@ preview.common.scale = 0.050,0.050
 
 [Art 1]
 preview.spr = 0,0
-preview.scale = 0.050,0.050
 info = Special Artwork: Author
 
 [Art 2]
 preview.spr = 0,1
-preview.scale = 0.050,0.050
 info = Special Artwork: Author
+info.locked = Complete Mission 3
+;unlock = stats.modes.mission.clear3 > 0
 
 [Art 3]
 preview.spr = 0,2
-preview.scale = 0.050,0.050
 info = Special Artwork: Author
+info.locked = Unlock Suave Dude
+;unlock = stats.modes.
 
 [Art 4]
 preview.spr = 0,3
-preview.scale = 0.050,0.050
 info = Winmugen
 
 [Art 5]
 preview.spr = 0,4
-preview.scale = 0.050,0.050
 info = Mugen 1.0
 
 [Art 6]
 preview.spr = 0,5
-preview.scale = 0.050,0.050
 info = Ikemen S-SIZE
 
 [Art 7]
 preview.spr = 0,6
-preview.scale = 0.050,0.050
 info = Ikemen Plus
 
 [Art 8]
 preview.spr = 0,7
-preview.scale = 0.050,0.050
 info = Ikemen GO
 
 [Art 9]
 preview.spr = 0,8
-preview.scale = 0.050,0.050
 info = Ikemen Plus Ultra
 
 ;----------------------------------------------------------
@@ -92,36 +87,30 @@ preview.common.scale = 0.059,0.056
 
 [Video 1]
 preview.spr = 100,0
-preview.scale = 0.059,0.056
 file = data/videos/Opening.wmv
 info = I.K.E.M.E.N PLUS ULTRA [OPENING]
 
 [Video 2]
 preview.spr = 100,1
-preview.scale = 0.059,0.056
 file = data/videos/KFM-Prologue.wmv
 info = Kung Fu Man's Story - Prologue
 
 [Video 3]
 preview.spr = 100,2
-preview.scale = 0.059,0.056
 file = data/videos/KFM-Fall.wmv
 info = Kung Fu Man's Story - The Fall of A Legend
 
 [Video 4]
 preview.spr = 100,3
-preview.scale = 0.059,0.056
 file = data/videos/The Lost Chapter.wmv
 info = The Lost Chapter
 
 [Video 5]
 preview.spr = 100,4
-preview.scale = 0.059,0.056
 file = chars/Shin Gouki/Intro.wmv
 info = Shin Gouki: Arcade Intro
 
 [Video 6]
 preview.spr = 100,5
-preview.scale = 0.059,0.056
 file = chars/Shin Gouki/Ending.wmv
 info = Shin Gouki: Arcade Ending

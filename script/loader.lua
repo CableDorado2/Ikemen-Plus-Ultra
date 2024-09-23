@@ -1038,9 +1038,11 @@ content = content:gsub('\n%s*\n', '\n')
 				end
 			end
 		end
-		--textImgSetText(txt_loading, "LOADING TOWERS...")
-		--textImgDraw(txt_loading)
-		--refresh()
+		--[[
+		textImgSetText(txt_loading, "LOADING TOWERS...")
+		textImgDraw(txt_loading)
+		refresh()
+		]]
 	end
 	--Set random chars
 	for k,v in ipairs(t_selTower) do --For each item stored in t_selTower
@@ -1062,37 +1064,7 @@ content = content:gsub('\n%s*\n', '\n')
 	if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower.txt") end
 end
 --;===========================================================
---; LOADING SCREEN 3 (LOAD VNSELECT.DEF DATA)
---;===========================================================
-t_selVN = {}
-local t_vnList = {}
-local section = 0
-local file = io.open("data/visualnovel/vnselect.def","r")
-local content = file:read("*all")
-file:close()
-content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
-content = content:gsub('\n%s*\n', '\n')
-for line in content:gmatch('[^\r\n]+') do
-	line = line:lower()
-	if line:match('^%s*%[%s*visualnovel%s*%]') then
-		section = 1
-	elseif section == 1 then --[VisualNovel]
-		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
-		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			if param:match('^name$') then
-				table.insert(t_selVN, {name = value, displayname = '', path = '', unlock = 'true'})
-				t_vnList[value] = true
-			elseif t_selVN[#t_selVN][param] ~= nil then
-				t_selVN[#t_selVN][param] = value
-			end
-		end
-	end
-	textImgDraw(txt_loading)
-	refresh()
-end
---;===========================================================
---; LOADING SCREEN 4 (LOAD GALLERY.DEF DATA)
+--; LOADING SCREEN 3 (LOAD GALLERY.DEF DATA)
 --;===========================================================
 t_gallery = {}
 local section = 0
@@ -1134,6 +1106,8 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then --[Art No]
 			t_gallery[row][#t_gallery[row]+1] = {}
 			--t_gallery[row][#t_gallery[row]]['art'] = {}
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
 		end
 		--preview.spr = groupNo, indexNo (int, int)
 		if line:match('^%s*preview.spr%s*=') then
@@ -1143,19 +1117,41 @@ for line in content:gmatch('[^\r\n]+') do
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 			end
 		end
+		--preview.pos = posX, posY (int, int)
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprPosX'], t_gallery[row][#t_gallery[row]]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
 		--preview.scale = scaleX, scaleY (int, int)
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		--info = string
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--info.locked = string
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--unlock = lua condition
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 	elseif section == 2 then --[Storyboards]
@@ -1174,6 +1170,8 @@ for line in content:gmatch('[^\r\n]+') do
 		end
 		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then --[Cutscene No]
 			t_gallery[row][#t_gallery[row]+1] = {}
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
 		end
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -1182,11 +1180,18 @@ for line in content:gmatch('[^\r\n]+') do
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprPosX'], t_gallery[row][#t_gallery[row]]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		--file = filename (string)
@@ -1199,7 +1204,19 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 	elseif section == 3 then --[Movies]
@@ -1218,6 +1235,8 @@ for line in content:gmatch('[^\r\n]+') do
 		end
 		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then --[Video No]
 			t_gallery[row][#t_gallery[row]+1] = {}
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
 		end
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -1226,11 +1245,18 @@ for line in content:gmatch('[^\r\n]+') do
 				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprPosX'], t_gallery[row][#t_gallery[row]]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
 		if line:match('^%s*preview.scale%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				local scaleData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*file%s*=') then
@@ -1242,14 +1268,61 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_gallery[row][#t_gallery[row]]['info'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 	end
 	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
+	--[[
 	textImgSetText(txt_loading, "LOADING GALLERY...")
 	textImgDraw(txt_loading)
 	refresh()
+	]]
+end
+--;===========================================================
+--; LOADING SCREEN 4 (LOAD VNSELECT.DEF DATA)
+--;===========================================================
+t_selVN = {}
+local t_vnList = {}
+local section = 0
+local file = io.open(vnDef,"r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+for line in content:gmatch('[^\r\n]+') do
+	line = line:lower()
+	if line:match('^%s*%[%s*visualnovel%s*%]') then
+		section = 1
+	elseif section == 1 then --[VisualNovel]
+		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
+		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
+			if param:match('^id$') then
+				table.insert(t_selVN, {id = value, displayname = '', path = '', unlock = 'true'})
+				t_vnList[value] = true
+			elseif t_selVN[#t_selVN][param] ~= nil then
+				t_selVN[#t_selVN][param] = value
+			end
+		end
+	end
+	textImgDraw(txt_loading)
+	refresh()
+end
+for k, v in ipairs(t_selVN) do --Send Visual Novel Story Unlock Condition to t_unlockLua table
+	t_unlockLua.modes[v.id] = v.unlock
 end
 --;===========================================================
 --; LOADING SCREEN 5 (LOAD MISSIONS.DEF DATA)
@@ -1296,7 +1369,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_missionMenu[row]['txtID'] = textImgNew()
 				t_missionMenu[row]['unlock'] = "true"
 				t_missionMenu[row]['name'] = ""
-				t_missionMenu[row]['info'] = ""
+				t_missionMenu[row]['infounlock'] = ""
 			end
 		end
 		--displayname = string
@@ -1411,6 +1484,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_eventMenu[row]['status'] = txt_eventIncomplete
 				t_eventMenu[row]['txtID'] = textImgNew()
 				t_eventMenu[row]['unlock'] = "true"
+				t_eventMenu[row]['infounlock'] = ""
 			end
 		end
 		--info = string

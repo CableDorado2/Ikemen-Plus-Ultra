@@ -44,6 +44,9 @@ eventDef = "data/events/events.def"
 --Gallery Data (Gallery definition filename)
 galleryDef = "data/gallery/gallery.def"
 
+--Visual Novel Data (Visual Novel definition filename)
+vnDef = "data/visualnovel/vnselect.def"
+
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
 

@@ -1,13 +1,11 @@
 This file contains list of all available parameters and the default
 values used by Gallery Menu definition file.
 
-This file IS NOT loaded by engine and should not be used as-is. It's meant to
-be a reference for adding parameters to your own gallery.def file.
+This file IS NOT loaded by engine and should not be used as-is.
+It's meant to be a reference for adding parameters to your own gallery.def file.
 
  ____________________
 /      GALLERY       \_____________________________________________________
-
-WARNING: THIS IS AN EXPERIMENTAL FEATURE.
 
 Load gallery assets.
 Gallery items added can be displayed in: Watch - Gallery submenu.
@@ -20,6 +18,12 @@ Set the section title text that should be displayed in gallery screen.
 - preview.file = path.sff
 Set the name of the sprites file to use for gallery items.
 
+- preview.common.pos(unused)= posX, posY
+Set posX and posY to all sprite previews defined in preview.spr paramvalue.
+
+- preview.common.scale(unused)= scaleX, scaleY
+Set scaleX and scaleY to all sprite previews defined in preview.spr paramvalue.
+
 
 Setup following parameters below "[Art/Cutscene/Video <0...>]" section:
 
@@ -27,18 +31,27 @@ Setup following parameters below "[Art/Cutscene/Video <0...>]" section:
 Set groupNo and indexNo to read from sprite file defined in previewfile paramvalue
 to show sprite preview for item.
 
+- preview.pos = <posX,posY>
+Set posX and posY to sprite preview defined in preview.spr paramvalue.
+
 - preview.scale = <scaleX,scaleY>
-Set scaleX and scaleY to sprite preview defined in preview.sprite paramvalue.
+Set scaleX and scaleY to sprite preview defined in preview.spr paramvalue.
 
 - file = path.def/.wmv
-Set the name of the storyboard or video file to show.
+Path to file (relative to game directory) with def extension (if it is a storyboard)
+or wmv extension (if it is a video).
+This paramvalue does not apply to Art Section.
 
 - info = text
-Set the info text that should be displayed in gallery screen.
+Set the info text that should be displayed for a item unlocked.
+
+- info.locked = text
+Set the info text that should be displayed for a item locked.
 
 - unlock
+Pure Lua code, executed exactly as is, each time upon loading gallery menu
 If it evaluates to boolean 'true' the gallery item will be selectable
-from gallery menu, or hidden on 'false'. Default: true.
+or locked on 'false'. Default: true.
 
 ;---------------------------------------------------------------------------------
 Some Examples:

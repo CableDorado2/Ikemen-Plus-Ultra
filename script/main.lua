@@ -29,7 +29,6 @@ P2overP1 = false
 secretTarget = ""
 unlockTarget = ""
 vnNoSel = true
-vnAddOneTime = true
 --Default turns/simul count after starting the game
 p1numTurns = 2
 p2numTurns = 2
@@ -4579,17 +4578,12 @@ function f_vnMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
-	local back = false
-	if vnAddOneTime then
-		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
-		vnAddOneTime = false
-	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetListArrowsPos()
 	cmdInput()
 	while true do
 		--Select Menu Actions
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			f_resetMenuArrowsPos()
@@ -4600,17 +4594,12 @@ function f_vnMenu()
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
 			vnMenu = vnMenu + 1
+		--Start Visual Novel Selected
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--Back Button
-			if vnMenu == #t_selVN then
-				back = true
-			--Start Visual Novel Selected
-			else
-				f_vnMain(t_selVN[vnMenu].path)
+			f_vnMain(t_selVN[vnMenu].path)
 			--When Ends
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-				f_menuMusic()
-			end
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+			f_menuMusic()
 		end
 		--Menu Scroll Logic
 		if vnMenu < 1 then
@@ -4657,8 +4646,8 @@ function f_vnMenu()
 				visualnovelSelText = t_selVN[i].displayname
 			end
 			if i > vnMenu - cursorPosY then
-				t_selVN[i].name = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
-				textImgDraw(t_selVN[i].name)
+				t_selVN[i].id = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_selVN[i].id)
 			end
 		end
 		if maxVN > maxItems then
@@ -5609,9 +5598,9 @@ function f_galleryMenu()
 		--Draw Gallery Cell Cursor
 		animPosDraw(galleryCursor, galleryCursorPosX+galleryXpos*galleryCursorSpacingX, galleryCursorPosY+galleryYpos*galleryCursorSpacingY)
 		--Draw Item Text Info
-		if t_gallery[galleryMenu][galleryCell].info ~= nil then
+		if t_gallery[galleryMenu][galleryCell].infounlock ~= nil then
 			animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
-			textImgSetText(txt_galleryInfo, t_gallery[galleryMenu][galleryCell].info)
+			textImgSetText(txt_galleryInfo, t_gallery[galleryMenu][galleryCell].infounlock)
 			textImgDraw(txt_galleryInfo)
 		end
 		--Draw Input Hints Panel
