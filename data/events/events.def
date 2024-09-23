@@ -6,4 +6,4 @@ info = Survive 40 Rounds in The Call of Zombies!
 info.locked = WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00
 preview.spr = 0,1
 path = data/events/event1.lua
-unlock = sysTime >= 13 and sysTime <= 23 ;Event Available at this Time!
+unlock = sysTime >= 13 and sysTime <= 23
