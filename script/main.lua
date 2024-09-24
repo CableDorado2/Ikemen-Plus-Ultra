@@ -54,7 +54,7 @@ end
 --; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
 assert(loadfile("script/loader.lua"))()
-assert(loadfile("script/VNresources.lua"))()
+assert(loadfile("data/visualnovel/VNresources.lua"))()
 require("script.options")
 require("script.story")
 
@@ -4121,6 +4121,8 @@ function f_missionMenu()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 280, 130)
 	animSetPos(menuArrowDown, 280, 195)
+	f_unlock(false)
+	f_updateUnlocks()
 	while true do
 	--Missions Progress Logic
 		stats.modes.mission.clearall = stats.modes.mission.clear1 + stats.modes.mission.clear2 + stats.modes.mission.clear3
@@ -4153,6 +4155,8 @@ function f_missionMenu()
 					assert(loadfile(t_missionMenu[data.missionNo].path))()
 				end
 				if winner == 1 then f_missionStatus() end --Save progress only if you win
+				f_unlock(false)
+				f_updateUnlocks()
 			--MISSION UNAVAILABLE
 			else
 				sndPlay(sndSys, 100, 5)
@@ -4328,6 +4332,8 @@ function f_eventMenu()
 	f_lockedInfoReset()
 	f_resetEventArrowsPos()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	f_unlock(false)
+	f_updateUnlocks()
 	while true do
 	--Event Progress Logic
 		stats.modes.event.clearall = (stats.modes.event.clear1 + stats.modes.event.clear2 + stats.modes.event.clear3)
@@ -4358,6 +4364,8 @@ function f_eventMenu()
 						assert(loadfile(t_eventMenu[eventMenu].path))()
 					end
 					if winner == 1 then f_eventStatus() end --Save progress only if you win
+					f_unlock(false)
+					f_updateUnlocks()
 				--EVENT UNAVAILABLE
 				else
 					eventInfo = true
@@ -4697,6 +4705,8 @@ function f_theVault()
 			sndPlay(sndSys, 100, 2)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			f_menuMusic()
+			f_unlock(false)
+			f_updateUnlocks()
 			break
 		end
 		--MAIN SCREEN
@@ -5437,6 +5447,8 @@ function f_galleryMenu()
 	f_updateGallery()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetGalleryArrowsPos()
+	f_unlock(false)
+	f_updateUnlocks()
 	while true do
 		--BACK BUTTON
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then

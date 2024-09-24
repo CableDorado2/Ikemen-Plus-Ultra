@@ -1105,9 +1105,9 @@ for line in content:gmatch('[^\r\n]+') do
 		end
 		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then --[Art No]
 			t_gallery[row][#t_gallery[row]+1] = {}
-			--t_gallery[row][#t_gallery[row]]['art'] = {}
-			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
 			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
 		end
 		--preview.spr = groupNo, indexNo (int, int)
 		if line:match('^%s*preview.spr%s*=') then
@@ -1170,8 +1170,9 @@ for line in content:gmatch('[^\r\n]+') do
 		end
 		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then --[Cutscene No]
 			t_gallery[row][#t_gallery[row]+1] = {}
-			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
 			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
 		end
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -1235,8 +1236,9 @@ for line in content:gmatch('[^\r\n]+') do
 		end
 		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then --[Video No]
 			t_gallery[row][#t_gallery[row]+1] = {}
-			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
 			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
 		end
 		if line:match('^%s*preview.spr%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -1290,6 +1292,16 @@ for line in content:gmatch('[^\r\n]+') do
 	textImgDraw(txt_loading)
 	refresh()
 	]]
+end
+for i=1, #t_gallery do
+	local section = nil
+	if i == 1 then section = "artworks"
+	elseif i == 2 then section = "storyboards"
+	elseif i == 3 then section = "videos"
+	end
+	for k, v in ipairs(t_gallery[i]) do --Send Gallery Unlocks Condition to t_unlockLua table
+		t_unlockLua[section][v.id] = v.unlock
+	end
 end
 --;===========================================================
 --; LOADING SCREEN 4 (LOAD VNSELECT.DEF DATA)

@@ -38,7 +38,7 @@ if(#file.find(hostroomsfile) == 0){
 }
 
 //No DLC Backup
-const ^/char dlcfile = "script/dlc.lua";
+const ^/char dlcfile = "script/mods/DLC.lua";
 if(#file.find(dlcfile) == 0){
 	&file.File f;
 	f.open(dlcfile, "wb");

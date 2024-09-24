@@ -3471,7 +3471,7 @@ end
 --; UNLOCKS CHECKING
 --;===========================================================
 t_unlockLua = { --Create table to manage unlock conditions in real-time
-chars = {}, stages = {}, modes = {}
+chars = {}, stages = {}, modes = {}, artworks = {}, storyboards = {}, videos = {}
 }
 
 --asserts content unlock conditions
@@ -3486,11 +3486,12 @@ function f_unlock(permanent)
 					f_unlockChar(k, bool, false)
 				elseif group == 'stages' then
 					f_unlockStage(k, bool)
-				elseif group == 'modes' then
-					--already handled via t_del cleaning
 				end
 				]]
-				if bool and (permanent or group == 'chars' or group == 'stages' or group == 'modes') then
+				if bool and (permanent or 
+				group == 'chars' or group == 'stages' or group == 'modes' or 
+				group == 'artworks' or group == 'storyboards' or group == 'videos'
+				) then
 					table.insert(t_del, k)
 				end
 			else

@@ -11,7 +11,7 @@ info = Special Artwork: Author
 preview.spr = 0,1
 info = Special Artwork: Author
 info.locked = Complete Mission 3
-;unlock = stats.modes.mission.clear3 > 0
+unlock = stats.modes.mission.clear3 > 0
 
 [Art 3]
 preview.spr = 0,2
@@ -78,6 +78,7 @@ preview.spr = 0,4
 preview.scale = 0.050,0.050
 file = chars/Shin Gouki/unlock.def
 info = Shin Gouki's Unlock Screen
+unlock = stats.unlocks.chars.gouki == true
 
 ;----------------------------------------------------------
 [Movies]
@@ -104,11 +105,13 @@ info = Kung Fu Man's Story - The Fall of A Legend
 preview.spr = 100,3
 file = data/videos/The Lost Chapter.wmv
 info = The Lost Chapter
+unlock = stats.modes.mission.clear1 > 0
 
 [Video 5]
 preview.spr = 100,4
 file = chars/Shin Gouki/Intro.wmv
 info = Shin Gouki: Arcade Intro
+unlock = stats.unlocks.chars.gouki == true
 
 [Video 6]
 preview.spr = 100,5
