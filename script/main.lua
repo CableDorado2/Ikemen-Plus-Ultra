@@ -6619,7 +6619,6 @@ function f_mainReplay()
 end
 
 function f_replayTable()
-	replaysPath = "replays"
 	t_replayList = {}
 	for file in lfs.dir(replaysPath) do
 		if file:match('^.*(%.)[Rr][Ee][Pp][Ll][Aa][Yy]$') and not file:match('^data.replay$') then
@@ -18738,51 +18737,25 @@ end
 --;===========================================================
 --; EXTERNAL LUA CODE
 --;===========================================================
---[[
-local t_modules = {}
-for _, v in ipairs(getDirectoryFiles('script/mods')) do
-	if v:lower():match('%.([^%.\\/]-)$') == 'lua' then
-		table.insert(t_modules, v)
-	end
-end
-for _, v in ipairs(t_modules) do
-	--print('Loading module: ' .. v)
-	v = v:gsub('^%s*[%./\\]*', '')
-	v = v:gsub('%.[^%.]+$', '')
-	require(v:gsub('[/\\]+', '.'))
-	--assert(loadfile(v))()
-end
-]]
-
-function f_moduleTable()
-	modulesPath = "script/mods"
-	t_modulesList = {}
+function f_loadExternalModules()
+	local t_modulesList = {}
 	for file in lfs.dir(modulesPath) do
 		if file:match('^.*(%.)[Ll][Uu][Aa]$') then
 			row = #t_modulesList+1
 			t_modulesList[row] = {}
-			t_modulesList[row]['id'] = ''
-			t_modulesList[row]['name'] = file:gsub('^(.*)[%.][Rr][Ee][Pp][Ll][Aa][Yy]$', '%1')
+			t_modulesList[row]['name'] = file:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
 			t_modulesList[row]['path'] = modulesPath.."/"..file
 		end
 	end
 	if data.debugLog then f_printTable(t_modulesList, "save/debug/t_modulesList.txt") end
+	for _, v in ipairs(t_modulesList) do
+		--require(v.path:gsub('[/\\]+', '.'))
+		assert(loadfile(v.path))()
+	end
 end
 
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
+f_loadExternalModules() --Load External Modules
 f_mainStart() --Start Menu
-
---[[
-function f_mainStartTest()
-	while true do
-		drawBottomMenuSP()
-		drawMiddleMenuSP()
-		cmdInput()
-		refresh()
-	end
-end
-
-f_mainStartTest()
-]]

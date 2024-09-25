@@ -35,6 +35,12 @@ fightDef = "data/screenpack/fight.def"
 --License Path (Please always distribute license files for use this program)
 licensesPath = "docs/Licenses"
 
+--Replays Path
+replaysPath = "replays"
+
+--Lua External Modules Path
+modulesPath = "script/mods"
+
 --Missions Data (Mission definition filename)
 missionDef = "data/missions/missions.def"
 
