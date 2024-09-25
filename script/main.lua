@@ -4110,7 +4110,7 @@ function f_missionMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local missionInfotxt = nil
+	local previewInfotxt = nil
 	local missionNametxt = nil
 	local previewPosX = nil
 	local previewPosY = nil
@@ -4230,12 +4230,12 @@ function f_missionMenu()
 		f_drawMissionPreview(t_missionMenu[missionMenu].sprGroup, t_missionMenu[missionMenu].sprIndex, previewPosX, previewPosY, previewScaleX, previewScaleY, previewTransS, previewTransD)
 	--Draw Mission Info
 		if t_unlockLua.modes[t_missionMenu[missionMenu].id] == nil then
-			missionInfotxt = t_missionMenu[missionMenu].infounlock
+			previewInfotxt = t_missionMenu[missionMenu].infounlock
 		else
 			animPosDraw(padlock, padlockMissionPosX, padlockMissionPosY) --Draw Padlock Icon
-			missionInfotxt = t_missionMenu[missionMenu].infolock
+			previewInfotxt = t_missionMenu[missionMenu].infolock
 		end
-		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, missionInfotxt, 157, 13.5))
+		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].txtID, font11, 0, 0, previewInfotxt, 157, 13.5))
 	--Set mission status
 		if stats.modes.mission.clear1 == 1 then t_missionMenu[1].status = txt_missionClear end
 		if stats.modes.mission.clear2 == 1 then t_missionMenu[2].status = txt_missionClear end
@@ -4322,7 +4322,7 @@ function f_eventMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local eventInfotxt = nil
+	local previewInfotxt = nil
 	local previewPosX = nil
 	local previewPosY = nil
 	local previewScaleX = nil
@@ -4469,11 +4469,11 @@ function f_eventMenu()
 		end
 	--Draw Event Info
 		if t_unlockLua.modes[t_eventMenu[eventMenu].id] == nil then
-			eventInfotxt = t_eventMenu[eventMenu].infounlock
+			previewInfotxt = t_eventMenu[eventMenu].infounlock
 		else
-			eventInfotxt = t_eventMenu[eventMenu].infolock
+			previewInfotxt = t_eventMenu[eventMenu].infolock
 		end
-		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].txtID, font11, 0, 0, eventInfotxt, 160, 34))
+		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].txtID, font11, 0, 0, previewInfotxt, 160, 34))
 		f_eventTime() --Draw Date and Time
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
@@ -5633,31 +5633,13 @@ function f_galleryMenu()
 				if t_gallery[galleryMenu][i].sprScaleY ~= nil then previewScaleY = t_gallery[galleryMenu][i].sprScaleY
 				else previewScaleY = t_gallery[galleryMenu].commonSprScaleY
 				end
-				--
-				if galleryMenu == 1 then
-					if t_unlockLua.artworks[i] == nil then --If the item is unlocked
-						previewTransS = nil
-						previewTransD = nil
-					else
-						previewTransS = 150 --Apply Transparent
-						previewTransD = 0
-					end
-				elseif galleryMenu == 2 then
-					if t_unlockLua.storyboards[i] == nil then
-						previewTransS = nil
-						previewTransD = nil
-					else
-						previewTransS = 150
-						previewTransD = 0
-					end
-				elseif galleryMenu == 3 then
-					if t_unlockLua.videos[i] == nil then
-						previewTransS = nil
-						previewTransD = nil
-					else
-						previewTransS = 150
-						previewTransD = 0
-					end
+				--If the item is unlocked
+				if (galleryMenu == 1 and t_unlockLua.artworks[i] == nil) or (galleryMenu == 2 and t_unlockLua.storyboards[i] == nil) or (galleryMenu == 3 and t_unlockLua.videos[i] == nil) then
+					previewTransS = nil
+					previewTransD = nil
+				else
+					previewTransS = 150
+					previewTransD = 0
 				end
 				if t_gallery[galleryMenu].sffData ~= nil and t_gallery[galleryMenu][galleryCell].sprGroup ~= nil and t_gallery[galleryMenu][galleryCell].sprIndex ~= nil then
 					f_drawGalleryPreview(t_gallery[galleryMenu][i].sprGroup, t_gallery[galleryMenu][i].sprIndex, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2), previewScaleX, previewScaleY, previewTransS, previewTransD)
@@ -5666,16 +5648,23 @@ function f_galleryMenu()
 				else --Draw Unknown Sprite
 					
 				end
+			--Draw Padlock Icon
+				if (galleryMenu == 1 and t_unlockLua.artworks[galleryCell] == nil) or (galleryMenu == 2 and t_unlockLua.storyboards[galleryCell] == nil) or (galleryMenu == 3 and t_unlockLua.videos[galleryCell] == nil) then
+					--animPosDraw(padlock, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2), previewScaleX, previewScaleY)
+				end
 			end
 		end
 	--Draw Gallery Cell Cursor
 		animPosDraw(galleryCursor, galleryCursorPosX+galleryXpos*galleryCursorSpacingX, galleryCursorPosY+galleryYpos*galleryCursorSpacingY)
 	--Draw Item Text Info
-		if t_gallery[galleryMenu][galleryCell].infounlock ~= nil then
-			animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
-			textImgSetText(txt_galleryInfo, t_gallery[galleryMenu][galleryCell].infounlock)
-			textImgDraw(txt_galleryInfo)
+		if (galleryMenu == 1 and t_unlockLua.artworks[galleryCell] == nil) or (galleryMenu == 2 and t_unlockLua.storyboards[galleryCell] == nil) or (galleryMenu == 3 and t_unlockLua.videos[galleryCell] == nil) then
+			previewInfotxt = t_gallery[galleryMenu][galleryCell].infounlock
+		else
+			previewInfotxt = t_gallery[galleryMenu][galleryCell].infolock
 		end
+		animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
+		textImgSetText(txt_galleryInfo, previewInfotxt)
+		textImgDraw(txt_galleryInfo)
 	--Draw Input Hints Panel
 		drawGalleryInputHints()
 		animDraw(data.fadeTitle)

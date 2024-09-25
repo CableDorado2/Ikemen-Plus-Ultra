@@ -1123,6 +1123,7 @@ for line in content:gmatch('[^\r\n]+') do
 			t_gallery[row][#t_gallery[row]+1] = {}
 			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
 			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['infolock'] = "???"
 			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
 		end
 		--preview.spr = groupNo, indexNo (int, int)
@@ -1202,6 +1203,7 @@ for line in content:gmatch('[^\r\n]+') do
 			t_gallery[row][#t_gallery[row]+1] = {}
 			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
 			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['infolock'] = "???"
 			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
 		end
 		if line:match('^%s*preview.spr%s*=') then
@@ -1282,6 +1284,7 @@ for line in content:gmatch('[^\r\n]+') do
 			t_gallery[row][#t_gallery[row]+1] = {}
 			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
 			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['infolock'] = "???"
 			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
 		end
 		if line:match('^%s*preview.spr%s*=') then

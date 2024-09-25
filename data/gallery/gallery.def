@@ -17,7 +17,7 @@ unlock = stats.modes.mission.clear3 > 0
 preview.spr = 0,2
 info = Special Artwork: Author
 info.locked = Unlock Suave Dude
-;unlock = stats.modes.
+unlock = data.story1_4AStatus == 1
 
 [Art 4]
 preview.spr = 0,3
@@ -77,6 +77,7 @@ preview.spr = 0,4
 preview.scale = 0.050,0.050
 file = chars/Shin Gouki/unlock.def
 info = Shin Gouki's Unlock Screen
+info.locked = Unlock Gouki
 unlock = stats.unlocks.chars.gouki == true
 
 ;----------------------------------------------------------
@@ -104,15 +105,19 @@ info = Kung Fu Man's Story - The Fall of A Legend
 preview.spr = 100,3
 file = data/videos/The Lost Chapter.wmv
 info = The Lost Chapter
+info.locked = Complete Mission 1
 unlock = stats.modes.mission.clear1 > 0
 
 [Video 5]
 preview.spr = 100,4
 file = chars/Shin Gouki/Intro.wmv
 info = Shin Gouki: Arcade Intro
+info.locked = Complete Gouki Arcade
 unlock = stats.unlocks.chars.gouki == true
 
 [Video 6]
 preview.spr = 100,5
 file = chars/Shin Gouki/Ending.wmv
 info = Shin Gouki: Arcade Ending
+info.locked = Complete Gouki Arcade
+unlock = stats.unlocks.chars.gouki == true
