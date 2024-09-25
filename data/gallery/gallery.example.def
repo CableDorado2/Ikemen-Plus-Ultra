@@ -21,7 +21,7 @@ Set the name of the sprites file to use for gallery items.
 - preview.common.pos(unused)= posX, posY
 Set posX and posY to all sprite previews defined in preview.spr paramvalue.
 
-- preview.common.scale(unused)= scaleX, scaleY
+- preview.common.scale = scaleX, scaleY
 Set scaleX and scaleY to all sprite previews defined in preview.spr paramvalue.
 
 

@@ -5439,6 +5439,13 @@ function f_galleryMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local previewInfotxt = nil
+	local previewPosX = nil
+	local previewPosY = nil
+	local previewScaleX = nil
+	local previewScaleY = nil
+	local previewTransS = nil
+	local previewTransD = nil
 	--Section Vars
 	galleryMenu = 1
 	local cursorSectionPosX = 1
@@ -5450,19 +5457,19 @@ function f_galleryMenu()
 	f_unlock(false)
 	f_updateUnlocks()
 	while true do
-		--BACK BUTTON
+	--BACK BUTTON
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			break
-		--PREVIOUS SECTION
+	--PREVIOUS SECTION
 		elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') or ((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 30) then
 			if galleryMenu > 1 then
 				sndPlay(sndSys, 100, 0)
 				galleryMenu = galleryMenu - 1
 				f_updateGallery()
 			end
-		--NEXT SECTION
+	--NEXT SECTION
 		elseif commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z') or ((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 30) then
 			if galleryMenu < #t_gallery then
 				sndPlay(sndSys, 100, 0)
@@ -5470,7 +5477,7 @@ function f_galleryMenu()
 				f_updateGallery()
 			end
 		end
-		--SCROLL UP
+	--SCROLL UP
 		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			if galleryCell > galleryMenuSizeX then
 				sndPlay(sndSys, 100, 0)
@@ -5478,7 +5485,7 @@ function f_galleryMenu()
 				galleryYpos = galleryYpos - 1
 				galleryCalc = galleryCalc - 4
 			end
-		--SCROLL DOWN
+	--SCROLL DOWN
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			if galleryCell <= galleryMaxLimit - galleryMenuSizeX then
 				if galleryCell < galleryMaxLimit then
@@ -5488,7 +5495,7 @@ function f_galleryMenu()
 					galleryCalc = galleryCalc + 4
 				end
 			end
-		--SCROLL LEFT
+	--SCROLL LEFT
 		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 			if galleryXpos > 1 then
 				sndPlay(sndSys, 100, 0)
@@ -5496,7 +5503,7 @@ function f_galleryMenu()
 				galleryXpos = galleryXpos - 1
 				galleryCalc = galleryCalc - 1
 			end
-		--SCROLL RIGHT
+	--SCROLL RIGHT
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			if galleryXpos < galleryMenuSizeX then
 				if galleryCell < galleryMaxLimit then
@@ -5507,32 +5514,46 @@ function f_galleryMenu()
 				end
 			end
 		end
-		--ENTER BUTTON
+	--ENTER BUTTON
 		if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
-			sndPlay(sndSys, 100, 1)
 			--ARTWORK (watch pictures)
 			if galleryMenu == 1 then
-				f_artMenu(galleryCell, galleryMaxLimit)
+				if t_unlockLua.artworks[galleryCell] == nil then --If the artwork is unlocked
+					sndPlay(sndSys, 100, 1)
+					f_artMenu(galleryCell, galleryMaxLimit)
+				else
+					sndPlay(sndSys, 100, 5)
+				end
 			--STORYBOARDS (watch storyboards)
 			elseif galleryMenu == 2 and t_gallery[galleryMenu][galleryCell].file ~= nil then
-			--Play Storyboard
-				cmdInput()
-				f_storyboard(t_gallery[galleryMenu][galleryCell].file) --Start Storyboard
-			--When Storyboard Ends:
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-				f_menuMusic()
+				if t_unlockLua.storyboards[galleryCell] == nil then --If the storyboard is unlocked
+					sndPlay(sndSys, 100, 1)
+				--Play Storyboard
+					cmdInput()
+					f_storyboard(t_gallery[galleryMenu][galleryCell].file) --Start Storyboard
+				--When Storyboard Ends:
+					data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+					f_menuMusic()
+				else
+					sndPlay(sndSys, 100, 5)
+				end
 			--CUTSCENES (watch video cutscenes)
 			elseif galleryMenu == 3 and t_gallery[galleryMenu][galleryCell].file ~= nil then
-				playVideo(t_gallery[galleryMenu][galleryCell].file)
-			--When Video Ends:
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-				f_menuMusic()
+				if t_unlockLua.videos[galleryCell] == nil then --If the video is unlocked
+					sndPlay(sndSys, 100, 1)
+					playVideo(t_gallery[galleryMenu][galleryCell].file)
+				--When Video Ends:
+					data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+					f_menuMusic()
+				else
+					sndPlay(sndSys, 100, 5)
+				end
 			--SCREENSHOTS (view your screenshots collection)
 			--elseif galleryMenu == 4 then
 				
 			end
 		end
-		--Section Cursor position calculation
+	--Section Cursor position calculation
 		if galleryMenu < 1 then
 			galleryMenu = #t_gallery
 			if #t_gallery > maxSectionItems then
@@ -5560,11 +5581,11 @@ function f_galleryMenu()
 		else
 			maxSection = maxSectionItems
 		end
-		--Draw BG
+	--Draw BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
-		--Draw Title Menu
+	--Draw Title Menu
 		textImgDraw(txt_galleryTitle)
-		--Draw Items Text for Gallery Section Table
+	--Draw Items Text for Gallery Section Table
 		for i=1, maxSection do
 			if i > galleryMenu - cursorSectionPosX then
 				if i == galleryMenu then
@@ -5577,17 +5598,17 @@ function f_galleryMenu()
 				end
 			end
 		end
-		--Draw Up Animated Cursor
+	--Draw Up Animated Cursor
 		if maxSection > maxSectionItems then
 			animDraw(menuArrowLeft)
 			animUpdate(menuArrowLeft)
 		end
-		--Draw Down Animated Cursor
+	--Draw Down Animated Cursor
 		if #t_gallery > maxSectionItems and maxSection < #t_gallery then
 			animDraw(menuArrowRight)
 			animUpdate(menuArrowRight)
 		end
-		--Gallery Cell Cursor position calculation
+	--Gallery Cell Cursor position calculation
 		if galleryYpos > galleryMenuSizeY then
 			galleryYpos = galleryMenuSizeY
 			galleryMove = galleryMove + 1
@@ -5595,11 +5616,51 @@ function f_galleryMenu()
 			galleryYpos = 1
 			galleryMove = galleryMove - 1
 		end
-		--Draw Gallery Preview Content
+	--Draw Gallery Preview Content
 		for i=1, galleryMaxLimit do
 			if t_galleryCellX ~= nil then
+				--[[ CUSTOM POSITION NO IMPLEMENTED
+				if t_gallery[galleryMenu][galleryCell].sprPosX ~= nil then previewPosX = t_gallery[galleryMenu][galleryCell].sprPosX --Use position stored in events.def file
+				else previewPosX = CommonPosX --Use common position loaded in screenpack.lua
+				end
+				if t_gallery[galleryMenu][galleryCell].sprPosY ~= nil then previewPosY = t_gallery[galleryMenu][galleryCell].sprPosY
+				else previewPosY = galleryCommonPosY
+				end
+			]]
+				if t_gallery[galleryMenu][i].sprScaleX ~= nil then previewScaleX = t_gallery[galleryMenu][i].sprScaleX --Use scale stored in events.def file
+				else previewScaleX = t_gallery[galleryMenu].commonSprScaleX --Use common scale loaded in gallery.def
+				end
+				if t_gallery[galleryMenu][i].sprScaleY ~= nil then previewScaleY = t_gallery[galleryMenu][i].sprScaleY
+				else previewScaleY = t_gallery[galleryMenu].commonSprScaleY
+				end
+				--
+				if galleryMenu == 1 then
+					if t_unlockLua.artworks[i] == nil then --If the item is unlocked
+						previewTransS = nil
+						previewTransD = nil
+					else
+						previewTransS = 150 --Apply Transparent
+						previewTransD = 0
+					end
+				elseif galleryMenu == 2 then
+					if t_unlockLua.storyboards[i] == nil then
+						previewTransS = nil
+						previewTransD = nil
+					else
+						previewTransS = 150
+						previewTransD = 0
+					end
+				elseif galleryMenu == 3 then
+					if t_unlockLua.videos[i] == nil then
+						previewTransS = nil
+						previewTransD = nil
+					else
+						previewTransS = 150
+						previewTransD = 0
+					end
+				end
 				if t_gallery[galleryMenu].sffData ~= nil and t_gallery[galleryMenu][galleryCell].sprGroup ~= nil and t_gallery[galleryMenu][galleryCell].sprIndex ~= nil then
-					f_drawGalleryPreview(t_gallery[galleryMenu][i].sprGroup, t_gallery[galleryMenu][i].sprIndex, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2), t_gallery[galleryMenu][i].sprScaleX, t_gallery[galleryMenu][i].sprScaleY)
+					f_drawGalleryPreview(t_gallery[galleryMenu][i].sprGroup, t_gallery[galleryMenu][i].sprIndex, (galleryCellPosX*2) + t_galleryCellX[i]*(galleryCellSpacingX*2), (galleryCellPosY*2) + t_galleryCellY[i]*(galleryCellSpacingY*2) - (galleryMove*galleryCellSpacingY*2), previewScaleX, previewScaleY, previewTransS, previewTransD)
 					--testperfomance = f_drawGalleryPreview( )
 					--animDraw(testperfomance)
 				else --Draw Unknown Sprite
@@ -5607,19 +5668,19 @@ function f_galleryMenu()
 				end
 			end
 		end
-		--Draw Gallery Cell Cursor
+	--Draw Gallery Cell Cursor
 		animPosDraw(galleryCursor, galleryCursorPosX+galleryXpos*galleryCursorSpacingX, galleryCursorPosY+galleryYpos*galleryCursorSpacingY)
-		--Draw Item Text Info
+	--Draw Item Text Info
 		if t_gallery[galleryMenu][galleryCell].infounlock ~= nil then
 			animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
 			textImgSetText(txt_galleryInfo, t_gallery[galleryMenu][galleryCell].infounlock)
 			textImgDraw(txt_galleryInfo)
 		end
-		--Draw Input Hints Panel
+	--Draw Input Hints Panel
 		drawGalleryInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		--GALLERY MENU BUF KEY CONTROL
+	--GALLERY MENU BUF KEY CONTROL
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5638,7 +5699,7 @@ function f_galleryMenu()
 			bufu = 0
 			bufd = 0
 		end
-		--LATERAL ITEMS BUF KEY CONTROL
+	--LATERAL ITEMS BUF KEY CONTROL
 		if commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz') then
 			bufy = 0
 			bufz = bufz + 1
@@ -5654,11 +5715,14 @@ function f_galleryMenu()
 	end
 end
 
-function f_drawGalleryPreview(group, index, posX, posY, scaleX, scaleY)
+function f_drawGalleryPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
 	local scaleX = scaleX or 1
 	local scaleY = scaleY or 1
+	local alphaS = alphaS or 255
+	local alphaD = alphaD or 0
 	local anim = group..','..index..', 0,0, 0'
 	anim = animNew(t_gallery[galleryMenu].sffData, anim)
+	animSetAlpha(anim, alphaS, alphaD)
 	animSetScale(anim, scaleX, scaleY)
 	animSetPos(anim, posX, posY)
 	animUpdate(anim)
@@ -18680,6 +18744,40 @@ function f_playCredits()
 		end
 	end
 	f_default()
+end
+
+--;===========================================================
+--; EXTERNAL LUA CODE
+--;===========================================================
+--[[
+local t_modules = {}
+for _, v in ipairs(getDirectoryFiles('script/mods')) do
+	if v:lower():match('%.([^%.\\/]-)$') == 'lua' then
+		table.insert(t_modules, v)
+	end
+end
+for _, v in ipairs(t_modules) do
+	--print('Loading module: ' .. v)
+	v = v:gsub('^%s*[%./\\]*', '')
+	v = v:gsub('%.[^%.]+$', '')
+	require(v:gsub('[/\\]+', '.'))
+	--assert(loadfile(v))()
+end
+]]
+
+function f_moduleTable()
+	modulesPath = "script/mods"
+	t_modulesList = {}
+	for file in lfs.dir(modulesPath) do
+		if file:match('^.*(%.)[Ll][Uu][Aa]$') then
+			row = #t_modulesList+1
+			t_modulesList[row] = {}
+			t_modulesList[row]['id'] = ''
+			t_modulesList[row]['name'] = file:gsub('^(.*)[%.][Rr][Ee][Pp][Ll][Aa][Yy]$', '%1')
+			t_modulesList[row]['path'] = modulesPath.."/"..file
+		end
+	end
+	if data.debugLog then f_printTable(t_modulesList, "save/debug/t_modulesList.txt") end
 end
 
 --;===========================================================

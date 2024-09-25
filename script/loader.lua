@@ -1103,6 +1103,22 @@ for line in content:gmatch('[^\r\n]+') do
 				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
 			end
 		end
+		--preview.common.pos = posX, posY (int, int)
+		if line:match('^%s*preview.common.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprPosX'], t_gallery[row]['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--preview.common.scale = scaleX, scaleY (int, int)
+		if line:match('^%s*preview.common.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprScaleX'], t_gallery[row]['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
 		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then --[Art No]
 			t_gallery[row][#t_gallery[row]+1] = {}
 			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
@@ -1166,6 +1182,20 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
+			end
+		end
+		if line:match('^%s*preview.common.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprPosX'], t_gallery[row]['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.common.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprScaleX'], t_gallery[row]['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then --[Cutscene No]
@@ -1232,6 +1262,20 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
+			end
+		end
+		if line:match('^%s*preview.common.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprPosX'], t_gallery[row]['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.common.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprScaleX'], t_gallery[row]['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 			end
 		end
 		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then --[Video No]

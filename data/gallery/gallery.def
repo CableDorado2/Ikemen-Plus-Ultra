@@ -47,7 +47,6 @@ info = Ikemen Plus Ultra
 [Storyboards]
 displayname = STORYBOARDS
 preview.file = data/gallery/gallery.sff
-;preview.common.scale = 0.090,0.090
 
 [Cutscene 1]
 preview.spr = 0,0
