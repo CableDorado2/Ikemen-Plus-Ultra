@@ -5747,18 +5747,33 @@ function f_artMenu(artNo, artLimit)
 			break
 		--NEXT ART PAGE
 		elseif ((commandGetState(p1Cmd, 'c') or commandGetState(p2Cmd, 'c')) or 
-		((commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc')) and bufc >= 30)) and moveArt < maxArt then --moveArt <= Number of your Pictures Limit
+		((commandGetState(p1Cmd, 'holdc') or commandGetState(p2Cmd, 'holdc')) and bufc >= 30)) then
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 3)
 			f_resetArtPos()
-			moveArt = moveArt + 1
+			if moveArt >= maxArt then --Go to first art
+				moveArt = 1
+			else
+				moveArt = moveArt + 1
+				if t_unlockLua.artworks[moveArt] ~= nil then --If the artwork is locked
+					if moveArt >= maxArt then
+						moveArt = 1
+					else
+						moveArt = moveArt + 1 --skip to an art unlocked
+					end
+				end
+			end
 		--PREVIOUS ART PAGE
 		elseif ((commandGetState(p1Cmd, 'b') or commandGetState(p2Cmd, 'b')) or 
-		((commandGetState(p1Cmd, 'holdb') or commandGetState(p2Cmd, 'holdb')) and bufb >= 30)) and moveArt > 1 then --Keep in image 0,0 when press previous key until finish
+		((commandGetState(p1Cmd, 'holdb') or commandGetState(p2Cmd, 'holdb')) and bufb >= 30)) then
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 3)
 			f_resetArtPos()
-			moveArt = moveArt - 1
+			if moveArt <= 1 then --Go to last art
+				moveArt = maxArt
+			else --Keep in image 0,0 when press previous key until finish
+				moveArt = moveArt - 1
+			end
 		--RESET ART POSITION
 		elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 			f_resetArtPos()
