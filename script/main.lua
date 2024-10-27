@@ -11723,7 +11723,9 @@ function f_p2SelectMenu()
 					end
 				end
 				if getCharName(p2Cell) == "Random" then
-					--sndPlay(sndSys, 100, 0)
+					if getCharName(p1Cell) ~= "Random" then --Play Random Cursor SFX only when p1 it is not on the same cell type to overlap the sfx
+						--sndPlay(sndSys, 100, 0)
+					end
 					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--drawPortrait(t_randomChars[math.random(#t_randomChars)], 320 - 60*(#t_selected-1), 20, -1, 1)
 						if p2numChars == 1 then
