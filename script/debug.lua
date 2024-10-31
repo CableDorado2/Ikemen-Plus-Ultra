@@ -16,8 +16,8 @@ addHotkey('F3', false, false, false, 'setTime(0)') --Sets Time Over
 addHotkey('F4', false, false, false, 'roundReset()') --Reset the round
 addHotkey('F4', false, false, true, 'reload()') --Shift+F4: Reloads stage, characters and fight data
 addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2);lifeMax(3);lifeMax(4);lifeMax(5);lifeMax(6);lifeMax(7);lifeMax(8)') --Gives Players' full life
-addHotkey('F5', true, false, false, 'lifeMax(2);lifeMax(4);lifeMax(6);lifeMax(8)') --Ctrl+F1: Gives Player 2's full life
-addHotkey('F5', false, false, true, 'lifeMax(1);lifeMax(3);lifeMax(5);lifeMax(7)') --Shift+F1: Gives Player 1's full life
+addHotkey('F5', true, false, false, 'lifeMax(2);lifeMax(4);lifeMax(6);lifeMax(8)') --Ctrl+F5: Gives Player 2's full life
+addHotkey('F5', false, false, true, 'lifeMax(1);lifeMax(3);lifeMax(5);lifeMax(7)') --Shift+F5: Gives Player 1's full life
 addHotkey('F6', false, false, false, 'powMax(1);powMax(2);powMax(3);powMax(4);powMax(5);powMax(6);powMax(7);powMax(8)') --Gives both players full power
 addHotkey('F6', true, false, false, 'barAdd(2)') --Ctrl+F6: Increases Player 2's power to 1
 addHotkey('F6', false, false, true, 'barAdd(1)') --Shift+F6: Increases Player 1's power to 1
