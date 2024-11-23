@@ -8868,7 +8868,7 @@ f_p1randomReset()
 data.t_p1selected = {}
 p1TeamEnd = false
 p1CharEnd = false --To use in Modern Palette Select
-p1PalEnd = true
+p1PalEnd = false
 p1SelEnd = false
 p1BG = false
 p1SelBack = false
@@ -9669,7 +9669,7 @@ function f_backMenu()
 						p1Cell = nil
 						p1Portrait = nil
 						data.t_p1selected = {}
-						p1PalEnd = true
+						p1PalEnd = false
 						p1SelEnd = false
 					end
 					if data.coop then
@@ -9997,26 +9997,15 @@ function f_selectScreen()
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
-	--Draw Palette Select Hint
-	if data.palType == "Classic" then
-		textImgSetText(txt_palHint, txt_palHintC)
-	elseif data.palType == "Modern" then
-		textImgSetText(txt_palHint, txt_palHintM)
-	end
-	if p1TeamEnd or p2TeamEnd then
-		if (p1PalEnd and p2PalEnd) and not stageMenuActive then
-			--textImgDraw(txt_palHint)
-		end
-	end
 	--Palette Select
 	if data.palType == "Modern" then
 		--Player1
-		if not p1PalEnd then
+		if p1CharEnd and not p1PalEnd then
 			f_p1palList()
 		end
 		--Player2
 		if not p2PalEnd then
-			f_p2palList()
+			--f_p2palList()
 		end
 	end
 	--Stage select
@@ -11150,7 +11139,7 @@ function f_p1SelectMenu()
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY
-			if backScreen == false and p1PalEnd then
+			if backScreen == false and not p1CharEnd then
 				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30) then
 					local foundCel = false
 					while true do
@@ -11236,12 +11225,6 @@ function f_p1SelectMenu()
 					end
 					if tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
-					end
-				end
-				if commandGetState(p1Cmd, 's') then --Start Button Activates Palette Select
-					if data.palType == "Modern" then
-						sndPlay(sndSys, 100, 3)
-						p1PalEnd = false
 					end
 				end
 				if commandGetState(p1Cmd, 'holdu') then
@@ -11374,7 +11357,55 @@ function f_p1SelectMenu()
 				end
 				f_p1Selection()
 			end
-			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
+		--When all selections are finished for 1 character
+			if p1PalEnd and p1CharEnd then
+				local cel = p1Cell
+				if getCharName(cel) == "Random" then
+					randomP1Rematch = true
+					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
+					if p1memberPreview == 1 then p1member1Random = true	end
+					if p1memberPreview == 2 then p1member2Random = true	end
+					if p1memberPreview == 3 then p1member3Random = true	end
+					if p1memberPreview == 4 then p1member4Random = true	end
+				else
+					f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
+				end
+			--Change p1memberPreview on each char selection
+				if p1numChars > 1 and not data.coop then --For Team Modes
+					if p1memberPreview == 1 then p1memberPreview = 2
+					elseif p1memberPreview == 2 then p1memberPreview = 3
+					elseif p1memberPreview == 3 then p1memberPreview = 4
+					elseif p1memberPreview == 4 then p1memberPreview = 1 --To Restart
+					end
+				end
+			--Store data selected in Tables
+				local updateAnim = true
+				for i=1, #data.t_p1selected do
+					if data.t_p1selected[i].cel == p1Cell then 
+						updateAnim = false
+					end
+				end
+				if data.coop then
+					data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					p1SelEnd = true
+				else
+					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+				--When characters selected are equal to team mode amount selected
+					if #data.t_p1selected == p1numChars then
+						if data.p2In == 1 and matchNo == 0 then
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						end
+						p1SelEnd = true
+				--Reset specific char vars for the new member select
+					else
+						p1PalEnd = false
+						p1CharEnd = false
+					end
+				end
+				if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
+			end
 		end
 	end
 end
@@ -11382,52 +11413,14 @@ end
 --Actions when you select a Character
 function f_p1Selection()
 	sndPlay(sndSys, 100, 1)
-	local cel = p1Cell
-	if getCharName(cel) == "Random" then
-		randomP1Rematch = true
-		cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
-		if p1memberPreview == 1 then p1member1Random = true	end
-		if p1memberPreview == 2 then p1member2Random = true	end
-		if p1memberPreview == 3 then p1member3Random = true	end
-		if p1memberPreview == 4 then p1member4Random = true	end
-	else
-		f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
-	end
-	--Change p1memberPreview on each char selection
-	if p1numChars > 1 and not data.coop then --For Team Modes
-		if p1memberPreview == 1 then p1memberPreview = 2
-		elseif p1memberPreview == 2 then p1memberPreview = 3
-		elseif p1memberPreview == 3 then p1memberPreview = 4
-		elseif p1memberPreview == 4 then p1memberPreview = 1 --To Restart
-		end
-	end
-	local updateAnim = true
-	for i=1, #data.t_p1selected do
-		if data.t_p1selected[i].cel == p1Cell then 
-			updateAnim = false
-		end
-	end
+	p1CharEnd = true
+--Classic Palette Select
 	if data.palType == "Classic" then
 		p1palSelect = btnPalNo(p1Cmd)
 		if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
-	elseif data.palType == "Modern" then
-		p1palSelect = p1palSelect
+		p1PalEnd = true
 	end
-	if data.coop then
-		data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
-		p1SelEnd = true
-	else
-		data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
-		if #data.t_p1selected == p1numChars then
-			if data.p2In == 1 and matchNo == 0 then
-				p2TeamEnd = false
-				p2SelEnd = false
-				--commandBufReset(p2Cmd)
-			end
-			p1SelEnd = true
-		end
-	end
-	cmdInput()
+	--cmdInput()
 end
 
 --;===========================================================
