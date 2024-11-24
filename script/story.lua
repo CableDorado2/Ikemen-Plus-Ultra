@@ -961,7 +961,7 @@ function f_storyRosterTest()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_charAdd["kung fu man"]}
+	data.p2Char = {"Kung Fu Man"}
 	data.p2Pal = 1
 	setRoundTime(-1)
 	setRoundsToWin(1)
