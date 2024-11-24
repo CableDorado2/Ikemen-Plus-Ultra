@@ -2329,6 +2329,8 @@ txt_p1Pal = createTextImg(jgFnt, 5, 1, txt_palText, 5, 183)
 txt_p2Pal = createTextImg(jgFnt, 5, -1, txt_palText, 258, 183)
 txt_p1PalNo = createTextImg(font14, 0, 0, "", 100, 183) --draw palette limit numbers text
 txt_p2PalNo = createTextImg(font14, 0, -1, "", 305, 183)
+--txt_p1PalTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
+--txt_p2PalTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 --Palette Select Left Arrow
 palSelArrowLeft = animNew(sprSys, [[
@@ -2382,6 +2384,44 @@ palSelBGP1posY = 166 --Player 1 Y-Axis
 
 palSelBGP2posX = 173 --Player 2 X-Axis
 palSelBGP2posY = 166 --Player 2 Y-Axis
+
+--;===========================================================
+--; HANDICAP SELECT SCREENPACK DEFINITION
+--;===========================================================
+txt_handicapTitle = "HANDICAP SELECT"
+txt_handicapP1 = createTextImg(font6, 0, 0, txt_handicapTitle, 77, 168)
+txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 237, 87)
+--txt_p1HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
+--txt_p2HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
+
+t_handicapSelect = {
+	{id = textImgNew(), text = "NORMAL"},
+	{id = textImgNew(), text = "HP-75%"},
+	{id = textImgNew(), text = "HP-50%"},
+	{id = textImgNew(), text = "HP-25%"},
+	{id = textImgNew(), text = "INSTAKILL"},
+	{id = textImgNew(), text = "POW-LV1"},
+	{id = textImgNew(), text = "POW-MAX"},
+}
+
+t_handicapSelect2 = {}
+for i=1, #t_handicapSelect do --Make a copy of all items from t_handicapSelect table
+	t_handicapSelect2[i] = {}
+	t_handicapSelect2[i]['id'] = t_handicapSelect[i].id
+	t_handicapSelect2[i]['text'] = t_handicapSelect[i].text
+end
+
+--Handicap Window BG
+handicapWindowBG = animNew(sprSys, [[
+230,1, 0,0, -1
+]])
+animSetScale(handicapWindowBG, 1.005, 0.85)
+
+handicapSelBGP1posX = 0.4 --Player 1 X-Axis
+handicapSelBGP1posY = 166 --Player 1 Y-Axis
+
+handicapSelBGP2posX = 168.4 --Player 2 X-Axis
+handicapSelBGP2posY = 166 --Player 2 Y-Axis
 
 --;===========================================================
 --; STAGE SELECT SCREENPACK DEFINITION
@@ -2843,21 +2883,21 @@ t_lockedService = {
 	{id = '', text = "This service is Unavailable in Co-Op Mode."},
 }
 for i=1, #t_lockedService do
-	t_lockedService[i].id = createTextImg(font2, 0, 0, t_lockedService[i].text, 161, 210+i*15)
+	t_lockedService[i].id = createTextImg(font2, 0, 0, t_lockedService[i].text, 161, 190+i*15)
 end
 
 t_noService = {
 	{id = '', text = "You have Disabled Change Characters by Quick Continue."},
 }
 for i=1, #t_noService do
-	t_noService[i].id = createTextImg(font2, 0, 0, t_noService[i].text, 159.5, 210+i*15)
+	t_noService[i].id = createTextImg(font2, 0, 0, t_noService[i].text, 159.5, 190+i*15)
 end
 
 t_devService = {
 	{id = '', text = "This service will be available coming soon."},
 }
 for i=1, #t_devService do
-	t_devService[i].id = createTextImg(font2, 0, 0, t_devService[i].text, 161, 210+i*15)
+	t_devService[i].id = createTextImg(font2, 0, 0, t_devService[i].text, 161, 190+i*15)
 end
 
 --Service Input Hints Panel

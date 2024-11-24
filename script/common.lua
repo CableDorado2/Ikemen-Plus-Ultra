@@ -3231,7 +3231,7 @@ t_keyMenuCfg = {
 }
 
 t_keyMenuCfg2 = {}
-for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
+for i=1, #t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
 	t_keyMenuCfg2[i] = {}
 	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
 	if i == 15 then

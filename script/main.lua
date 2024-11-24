@@ -8869,12 +8869,15 @@ data.t_p1selected = {}
 p1TeamEnd = false
 p1CharEnd = false
 p1PalEnd = false
+p1HandicapEnd = false
 p1SelEnd = false
 p1BG = false
 p1SelBack = false
 p1TeamBack = true
-p1palSelect = 1
-p1movePal = 1
+p1PalSel = 1
+p1HandicapSel = 1
+p1HandicapCursorPosY = 1
+p1HandicapMoveTxt = 0
 randomP1Rematch = false
 end
 
@@ -8899,8 +8902,10 @@ p2SelEnd = false
 p2BG = false
 p2SelBack = false
 p2TeamBack = true
-p2palSelect = 1
-p2movePal = 1
+p2PalSel = 1
+p2HandicapSel = 1
+p2HandicapCursorPosY = 1
+p2HandicapMoveTxt = 0
 randomP2Rematch = false
 end
 
@@ -8986,31 +8991,47 @@ function f_selectInit()
 	p1OffsetColumn = 0
 	p2OffsetColumn = 0
 	back = false
-	--Quick Scrolling
+	--Quick Scrolling Vars
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0
 	bufTml = 0
+	
 	bufTm2u = 0
 	bufTm2d = 0
 	bufTm2r = 0
 	bufTm2l = 0
+	--
 	bufSelu = 0
 	bufSeld = 0
 	bufSelr = 0
 	bufSell = 0
+	
 	bufSel2u = 0
 	bufSel2d = 0
 	bufSel2r = 0
 	bufSel2l = 0
+	--
 	bufPalu = 0
 	bufPald = 0
 	bufPalr = 0
 	bufPall = 0
+	
 	bufPal2u = 0
 	bufPal2d = 0
 	bufPal2r = 0
 	bufPal2l = 0
+	--
+	bufHandu = 0
+	bufHandd = 0
+	bufHandr = 0
+	bufHandl = 0
+	
+	bufHand2u = 0
+	bufHand2d = 0
+	bufHand2r = 0
+	bufHand2l = 0
+	--
 	bufStageu = 0
 	bufStaged = 0
 	bufStager = 0
@@ -9834,7 +9855,7 @@ function f_selectScreen()
 			animDraw(f_animVelocity(commonBG0, -1, -1))
 		end
 	end
-	--Player 1 Selection		
+--Player 1 Selection		
 	if not p1TeamEnd then
 		f_p1TeamMenu() --Team Mode Select
 	elseif data.p1In > 0 or data.p1Char ~= nil then
@@ -9876,7 +9897,7 @@ function f_selectScreen()
 			end
 		end
 	end
-	--Player 2 Selection
+--Player 2 Selection
 	if not p2TeamEnd then
 		if data.gameMode == "tourney" and not tourneyCharSel then
 			p2TeamEnd = true
@@ -9926,7 +9947,7 @@ function f_selectScreen()
 			end
 		end
 	end
-	--Cells
+--Cells
 	if not stageMenuActive then
 		if data.p2Faces and data.selectType == "Advanced" then
 			animDraw(f_animVelocity(selectBG1a, -1, 0))
@@ -9978,7 +9999,7 @@ function f_selectScreen()
 			animSetScale(p2ActiveCursor, data.cellScaleX, data.cellScaleY)
 		end
 	end
-	--Character Select Timer
+--Character Select Timer
 	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
 		charTimeNumber = selectTimer/gameTick --Convert Ticks to Seconds
 		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
@@ -9990,25 +10011,41 @@ function f_selectScreen()
 			
 		end
 	end
-	--Win Count
+--Win Count
 	if (data.gameMode == "versus" or data.gameMode == "tourney") and data.vsDisplayWin == true then
 		textImgSetText(txt_p1Wins, "WINS: " .. p1Wins)
 		textImgSetText(txt_p2Wins, "WINS: " .. p2Wins)
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
-	--Palette Select Assets
+--Palette Select
 	if data.palType == "Modern" then
 		--Player1
 		if p1CharEnd and not p1PalEnd then
+			cmdInput() --Remove to allow player 2 move his cursor during player 1 pal select
 			f_p1SelectPal()
 		end
 		--Player2
 		if p2CharEnd and not p2PalEnd then
+			cmdInput() --Remove to allow player 1 move his cursor during player 2 pal select
 			f_p2SelectPal()
 		end
 	end
-	--Stage select
+--Handicap Select
+	if data.gameMode == "versus" then
+		--Player1
+		if p1PalEnd and not p1HandicapEnd then
+			cmdInput()
+			f_p1SelectHandicap()
+		end
+		--[[Player2
+		if p2PalEnd and not p2HandicapEnd then
+			cmdInput()
+			f_p2SelectHandicap()
+		end
+		]]
+	end
+--Stage select
 	if p1SelEnd and p2SelEnd then
 		charSelect = false
 		selectTimer = 0 --Disappear Char Select Timer to don't disturb Stage Timer
@@ -10026,11 +10063,11 @@ function f_selectScreen()
 			selScreenEnd = true
 		end
 	end
-	--Activate Stage Announcer Timer
+--Activate Stage Announcer Timer
 	if stageAnnouncer == true then
 		announcerTimer = announcerTimer + 1
 	end
-	--Deselect Character for Left Side
+--Deselect Character for Left Side
 	if data.coop then
 		if commandGetState(p1Cmd, 'e') and p1SelEnd then
 			sndPlay(sndSys, 100, 2)
@@ -10057,7 +10094,7 @@ function f_selectScreen()
 		end
 		]]
 	end
-	--Deselect Character for Right Side
+--Deselect Character for Right Side
 	if data.p2In == 2 then
 		if data.coop then
 			if commandGetState(p2Cmd, 'e') and p2SelEnd then
@@ -10084,7 +10121,7 @@ function f_selectScreen()
 			]]
 		end
 	end
-	--Show Back Menu
+--Show Back Menu
 	if backScreen then
 		if onlinegame == false then
 			f_backMenu()
@@ -11358,7 +11395,7 @@ function f_p1SelectMenu()
 				f_p1Selection()
 			end
 		--When all selections are finished for 1 character
-			if p1PalEnd and p1CharEnd then
+			if p1HandicapEnd and p1PalEnd and p1CharEnd then
 				local cel = p1Cell
 				if getCharName(cel) == "Random" then
 					randomP1Rematch = true
@@ -11386,10 +11423,10 @@ function f_p1SelectMenu()
 					end
 				end
 				if data.coop then
-					data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 					p1SelEnd = true
 				else
-					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 				--When characters selected are equal to team mode amount selected
 					if #data.t_p1selected == p1numChars then
 						if data.p2In == 1 and matchNo == 0 then
@@ -11400,6 +11437,7 @@ function f_p1SelectMenu()
 						p1SelEnd = true
 				--Reset specific char vars for the new member select
 					else
+						--p1HandicapEnd = false
 						p1PalEnd = false
 						p1CharEnd = false
 					end
@@ -11415,15 +11453,20 @@ function f_p1Selection()
 	sndPlay(sndSys, 100, 1)
 --Classic Palette Select
 	if data.palType == "Classic" then
-		p1palSelect = btnPalNo(p1Cmd)
-		if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
+		p1PalSel = btnPalNo(p1Cmd)
+		if selectTimer == 0 then p1PalSel = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
 		p1PalEnd = true
 --Modern Palette Select Random Select Case
 	else
 		if getCharName(p1Cell) == "Random" then
-			p1palSelect = math.random(1,12) --Set Random Palette for random select
+			p1PalSel = math.random(1,12) --Set Random Palette for random select
 			p1PalEnd = true
 		end
+	end
+--No Handicap in Game Modes differents to VS
+	if data.gameMode ~= "versus" then
+		p1HandicapSel = 1
+		p1HandicapEnd = true
 	end
 	p1CharEnd = true
 	cmdInput()
@@ -11433,12 +11476,13 @@ end
 --; PLAYER 1 PALETTE SELECT
 --;===========================================================
 function f_p1SelectPal()
-	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
+--Cursor
+	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1PalSel <= 11 then --p1PalSel <= Number of your Palette List Limit
 		sndPlay(sndSys, 100, 0)
-		p1movePal = p1movePal + 1
-	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1movePal > 1 then --Keep in palette 1 when press left until finish
+		p1PalSel = p1PalSel + 1
+	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1PalSel > 1 then --Keep in palette 1 when press left until finish
 		sndPlay(sndSys, 100, 0)
-		p1movePal = p1movePal - 1
+		p1PalSel = p1PalSel - 1
 	end
 	if commandGetState(p1Cmd, 'holdu') then
 		bufPald = 0
@@ -11458,24 +11502,127 @@ function f_p1SelectPal()
 		bufPalr = 0
 		bufPall = 0
 	end
-	p1palSelect = p1movePal --Uses menu position to show palette in these order
+--Draw Assets
 	animPosDraw(palSelBG, palSelBGP1posX, palSelBGP1posY) --Draw Palette Select BG
 	textImgDraw(txt_p1Pal)
-	textImgSetText(txt_p1PalNo, p1palSelect.."/12")
+	textImgSetText(txt_p1PalNo, p1PalSel.."/12")
 	textImgDraw(txt_p1PalNo)
-	if p1movePal > 1 then
+	if p1PalSel > 1 then
 		f_drawQuickSpr(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY, palSelArrowLScaleX, palSelArrowLScaleY)
 	end
-	if p1movePal <= 11 then
+	if p1PalSel <= 11 then
 		f_drawQuickSpr(palSelArrowRight, palSelArrowRP1posX, palSelArrowRP1posY, palSelArrowRScaleX, palSelArrowRScaleY)
 	end
+--Confirm Palette
 	if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
 		p1PalEnd = true
 		cmdInput()
+--Back to Character Selection
 	elseif commandGetState(p1Cmd, 'e') then
-		p1PalEnd = true
-		--cmdInput()
+		sndPlay(sndSys, 100, 2)
+		p1CharEnd = false
+		cmdInput()
+	end
+end
+--;===========================================================
+--; PLAYER 1 HANDICAP SELECT
+--;===========================================================
+function f_p1SelectHandicap()
+	local maxItems = 3
+	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufHandu >= 30) then
+		sndPlay(sndSys, 100, 0)
+		p1HandicapSel = p1HandicapSel - 1
+	elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufHandd >= 30) then
+		sndPlay(sndSys, 100, 0)
+		p1HandicapSel = p1HandicapSel + 1
+	end
+--Cursor position calculation
+	if p1HandicapSel < 1 then
+		p1HandicapSel = #t_handicapSelect
+		if #t_handicapSelect > maxItems then
+			p1HandicapCursorPosY = maxItems
+		else
+			p1HandicapCursorPosY = #t_handicapSelect
+		end
+	elseif p1HandicapSel > #t_handicapSelect then
+		p1HandicapSel = 1
+		p1HandicapCursorPosY = 1
+	elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufHandu >= 30)) and p1HandicapCursorPosY > 1 then
+		p1HandicapCursorPosY = p1HandicapCursorPosY - 1
+	elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufHandd >= 30)) and p1HandicapCursorPosY < maxItems then
+		p1HandicapCursorPosY = p1HandicapCursorPosY + 1
+	end
+	if p1HandicapCursorPosY == maxItems then
+		p1HandicapMoveTxt = (p1HandicapSel - maxItems) * 13
+	elseif p1HandicapCursorPosY == 1 then
+		p1HandicapMoveTxt = (p1HandicapSel - 1) * 13
+	end
+	if #t_handicapSelect <= maxItems then
+		maxP1Handicap = #t_handicapSelect
+	elseif p1HandicapSel - p1HandicapCursorPosY > 0 then
+		maxP1Handicap = p1HandicapSel + maxItems - p1HandicapCursorPosY
+	else
+		maxP1Handicap = maxItems
+	end
+	if commandGetState(p1Cmd, 'holdu') then
+		bufHandd = 0
+		bufHandu = bufHandu + 1
+	elseif commandGetState(p1Cmd, 'holdd') then
+		bufHandu = 0
+		bufHandd = bufHandd + 1
+	elseif commandGetState(p1Cmd, 'holdr') then
+		bufHandl = 0
+		bufHandr = bufHandr + 1
+	elseif commandGetState(p1Cmd, 'holdl') then
+		bufHandr = 0
+		bufHandl = bufHandl + 1
+	else
+		bufHandu = 0
+		bufHandd = 0
+		bufHandr = 0
+		bufHandl = 0
+	end
+--Draw Assets
+	animPosDraw(handicapWindowBG, handicapSelBGP1posX, handicapSelBGP1posY) --Draw Handicap Select BG
+	textImgDraw(txt_handicapP1) --Draw Title
+--Set Color and Text Position
+	for i=1, maxP1Handicap do
+		if i > p1HandicapSel - p1HandicapCursorPosY then
+			if i == p1HandicapSel then
+				p1Handbank = 5
+			else
+				p1Handbank = 0
+			end
+		--Draw Handicaps Names
+			if t_handicapSelect[i].id ~= nil then
+				textImgDraw(f_updateTextImg(t_handicapSelect[i].id, jgFnt, p1Handbank, 0, t_handicapSelect[i].text, 76, 168+i*13-p1HandicapMoveTxt, 0.95, 0.95))
+			end
+		end
+	end
+--Draw Cursor
+	animSetWindow(cursorBox, 4, 158+p1HandicapCursorPosY*13, 145, 13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+--Draw Arrows
+	if maxP1Handicap > maxItems then
+		animDraw(menuArrowUp)
+		animUpdate(menuArrowUp)
+	end
+	if #t_handicapSelect > maxItems and maxP1Handicap < #t_handicapSelect then
+		animDraw(menuArrowDown)
+		animUpdate(menuArrowDown)
+	end
+--Confirm Handicap
+	if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
+		sndPlay(sndSys, 100, 1)
+		p1HandicapEnd = true
+		cmdInput()
+--Back to Palette Selection
+	elseif commandGetState(p1Cmd, 'e') then
+		sndPlay(sndSys, 100, 2)
+		p1PalEnd = false
+		cmdInput()
 	end
 end
 
@@ -12779,7 +12926,7 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
-					data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 					p2coopReady = true
 					p2SelEnd = true
 				else
@@ -12788,7 +12935,7 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
-					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 					if #data.t_p2selected == p2numChars then
 						--
 						if data.p1In == 2 and matchNo == 0 then
@@ -12815,12 +12962,12 @@ end
 function f_p2Selection()
 	sndPlay(sndSys, 100, 1)
 	if data.palType == "Classic" then
-		p2palSelect = btnPalNo(p2Cmd)
-		if selectTimer == 0 then p2palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
+		p2PalSel = btnPalNo(p2Cmd)
+		if selectTimer == 0 then p2PalSel = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
 		p2PalEnd = true
 	else
 		if getCharName(p2Cell) == "Random" then
-			p2palSelect = math.random(1,12) --Set Random Palette for random select
+			p2PalSel = math.random(1,12) --Set Random Palette for random select
 			p2PalEnd = true
 		end
 	end
@@ -12832,12 +12979,12 @@ end
 --; PLAYER 2 PALETTE SELECT
 --;===========================================================
 function f_p2SelectPal()
-	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
+	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2PalSel <= 11 then
 		sndPlay(sndSys, 100, 0)
-		p2movePal = p2movePal + 1
-	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2movePal > 1 then
+		p2PalSel = p2PalSel + 1
+	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2PalSel > 1 then
 		sndPlay(sndSys, 100, 0)
-		p2movePal = p2movePal - 1
+		p2PalSel = p2PalSel - 1
 	end
 	if commandGetState(p2Cmd, 'holdu') then
 		bufPal2d = 0
@@ -12857,15 +13004,14 @@ function f_p2SelectPal()
 		bufPal2r = 0
 		bufPal2l = 0
 	end
-	p2palSelect = p2movePal
 	animPosDraw(palSelBG, palSelBGP2posX, palSelBGP2posY)
 	textImgDraw(txt_p2Pal)
-	textImgSetText(txt_p2PalNo, p2palSelect.."/12")
+	textImgSetText(txt_p2PalNo, p2PalSel.."/12")
 	textImgDraw(txt_p2PalNo)
-	if p2movePal > 1 then
+	if p2PalSel > 1 then
 		f_drawQuickSpr(palSelArrowLeft, palSelArrowLP2posX, palSelArrowLP2posY, palSelArrowLScaleX, palSelArrowLScaleY)
 	end
-	if p2movePal <= 11 then
+	if p2PalSel <= 11 then
 		f_drawQuickSpr(palSelArrowRight, palSelArrowRP2posX, palSelArrowRP2posY, palSelArrowRScaleX, palSelArrowRScaleY)
 	end
 	if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
@@ -12873,7 +13019,9 @@ function f_p2SelectPal()
 		p2PalEnd = true
 		cmdInput()
 	elseif commandGetState(p1Cmd, 'e') then
-		p2PalEnd = true
+		sndPlay(sndSys, 100, 2)
+		p2CharEnd = false
+		cmdInput()
 	end
 end
 
@@ -16009,8 +16157,12 @@ function f_editLeftSide()
 	if serviceTeam == true then p1TeamEnd = false end
 	data.t_p1selected = {}
 	p1Portrait = nil
+	p1CharEnd = false
+	p1PalEnd = false
 	p1SelEnd = false
 	if data.coop then
+		p2CharEnd = false
+		p2PalEnd = false
 		p2SelEnd = false
 	end
 end
@@ -16020,8 +16172,12 @@ function f_editRightSide()
 	if serviceTeam == true then p2TeamEnd = false end
 	data.t_p2selected = {}
 	p2Portrait = nil
+	p2CharEnd = false
+	p2PalEnd = false
 	p2SelEnd = false
 	if data.coop then
+		p1CharEnd = false
+		p1PalEnd = false
 		p1SelEnd = false
 	end
 end
@@ -17993,31 +18149,47 @@ function f_tourneySelectReset()
 	p1OffsetColumn = 0
 	p2OffsetColumn = 0
 	back = false
-	--Quick Scrolling
+	--Quick Scrolling Vars
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0
 	bufTml = 0
+
 	bufTm2u = 0
 	bufTm2d = 0
 	bufTm2r = 0
 	bufTm2l = 0
+	--
 	bufSelu = 0
 	bufSeld = 0
 	bufSelr = 0
 	bufSell = 0
+	
 	bufSel2u = 0
 	bufSel2d = 0
 	bufSel2r = 0
 	bufSel2l = 0
+	--
 	bufPalu = 0
 	bufPald = 0
 	bufPalr = 0
 	bufPall = 0
+	
 	bufPal2u = 0
 	bufPal2d = 0
 	bufPal2r = 0
 	bufPal2l = 0
+	--
+	bufHandu = 0
+	bufHandd = 0
+	bufHandr = 0
+	bufHandl = 0
+	
+	bufHand2u = 0
+	bufHand2d = 0
+	bufHand2r = 0
+	bufHand2l = 0
+	--
 	bufStageu = 0
 	bufStaged = 0
 	bufStager = 0
