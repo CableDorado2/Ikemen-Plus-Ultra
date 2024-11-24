@@ -8867,7 +8867,7 @@ p1memberPreview = nil
 f_p1randomReset()
 data.t_p1selected = {}
 p1TeamEnd = false
-p1CharEnd = false --To use in Modern Palette Select
+p1CharEnd = false
 p1PalEnd = false
 p1SelEnd = false
 p1BG = false
@@ -8893,8 +8893,8 @@ p2memberPreview = nil
 f_p2randomReset()
 data.t_p2selected = {}
 p2TeamEnd = false
-p2CharEnd = false --To use in Modern Palette Select
-p2PalEnd = true
+p2CharEnd = false
+p2PalEnd = false
 p2SelEnd = false
 p2BG = false
 p2SelBack = false
@@ -9663,7 +9663,7 @@ function f_backMenu()
 						p2Cell = nil
 						p2Portrait = nil
 						data.t_p2selected = {}
-						p2PalEnd = true
+						p2PalEnd = false
 						p2SelEnd = false
 					else
 						p1Cell = nil
@@ -9676,7 +9676,7 @@ function f_backMenu()
 						p2Cell = nil
 						p2Portrait = nil
 						data.t_p2selected = {}
-						p2PalEnd = true
+						p2PalEnd = false
 						p2SelEnd = false
 					end
 				else
@@ -10004,8 +10004,8 @@ function f_selectScreen()
 			f_p1palList()
 		end
 		--Player2
-		if not p2PalEnd then
-			--f_p2palList()
+		if p2CharEnd and not p2PalEnd then
+			f_p2palList()
 		end
 	end
 	--Stage select
@@ -11413,21 +11413,26 @@ end
 --Actions when you select a Character
 function f_p1Selection()
 	sndPlay(sndSys, 100, 1)
-	p1CharEnd = true
 --Classic Palette Select
 	if data.palType == "Classic" then
 		p1palSelect = btnPalNo(p1Cmd)
 		if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
 		p1PalEnd = true
+--Modern Palette Select Random Select Case
+	else
+		if getCharName(p1Cell) == "Random" then
+			p1palSelect = math.random(1,12) --Set Random Palette for random select
+			p1PalEnd = true
+		end
 	end
-	--cmdInput()
+	p1CharEnd = true
+	cmdInput()
 end
 
 --;===========================================================
 --; PLAYER 1 PALETTE SELECT
 --;===========================================================
 function f_p1palList()
-	cmdInput()
 	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
 		sndPlay(sndSys, 100, 0)
 		p1movePal = p1movePal + 1
@@ -12511,7 +12516,7 @@ function f_p2SelectMenu()
 		if not p2SelEnd then
 			local tmpCelX = p2SelX
 			local tmpCelY = p2SelY
-			if backScreen == false and p2PalEnd then
+			if backScreen == false and not p2CharEnd then
 				if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30) then
 					local foundCel = false
 					while true do
@@ -12597,12 +12602,6 @@ function f_p2SelectMenu()
 					end
 					if tmpCelX ~= p2SelX then
 						sndPlay(sndSys, 100, 0)
-					end
-				end
-				if commandGetState(p2Cmd, 's') then
-					if data.palType == "Modern" then
-						sndPlay(sndSys, 100, 3)
-						p2PalEnd = false
 					end
 				end
 				if commandGetState(p2Cmd, 'holdu') then
@@ -12751,9 +12750,61 @@ function f_p2SelectMenu()
 				end
 				f_p2Selection()
 			end
-			if data.debugLog then
-				f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt")
-				f_printTable(t_selected, "save/debug/t_selected.txt")
+			if p2PalEnd and p2CharEnd then
+				local cel = p2Cell
+				if getCharName(cel) == "Random" then
+					randomP2Rematch = true
+					cel = t_randomChars[math.random(#t_randomChars)]
+					if data.coop then p2coopRandom = true end
+					if p2memberPreview == 1 then p2member1Random = true	end
+					if p2memberPreview == 2 then p2member2Random = true	end
+					if p2memberPreview == 3 then p2member3Random = true	end
+					if p2memberPreview == 4 then p2member4Random = true	end
+				else
+					f_p2charAnnouncer()
+				end
+				if p2numChars > 1 and not data.coop then
+					if p2memberPreview == 1 then p2memberPreview = 2
+					elseif p2memberPreview == 2 then p2memberPreview = 3
+					elseif p2memberPreview == 3 then p2memberPreview = 4
+					elseif p2memberPreview == 4 then p2memberPreview = 1
+					end
+				end
+				local updateAnim = true
+				if data.coop then
+					for i=1, #data.t_p1selected do
+						if data.t_p1selected[i].cel == p2Cell then 
+							updateAnim = false
+						end
+					end
+					data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					p2coopReady = true
+					p2SelEnd = true
+				else
+					for i=1, #data.t_p2selected do
+						if data.t_p2selected[i].cel == p2Cell then 
+							updateAnim = false
+						end
+					end
+					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					if #data.t_p2selected == p2numChars then
+						--
+						if data.p1In == 2 and matchNo == 0 then
+							p1TeamEnd = false
+							p1SelEnd = false
+							--commandBufReset(p1Cmd)
+						end
+						--
+						p2SelEnd = true
+					else
+						p2PalEnd = false
+						p2CharEnd = false
+					end
+				end
+				if data.debugLog then
+					f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt")
+					f_printTable(t_selected, "save/debug/t_selected.txt")
+				end
 			end
 		end
 	end
@@ -12761,59 +12812,17 @@ end
 
 function f_p2Selection()
 	sndPlay(sndSys, 100, 1)
-	local cel = p2Cell
-	if getCharName(cel) == "Random" then
-		randomP2Rematch = true
-		cel = t_randomChars[math.random(#t_randomChars)]
-		if data.coop then p2coopRandom = true end
-		if p2memberPreview == 1 then p2member1Random = true	end
-		if p2memberPreview == 2 then p2member2Random = true	end
-		if p2memberPreview == 3 then p2member3Random = true	end
-		if p2memberPreview == 4 then p2member4Random = true	end
-	else
-		f_p2charAnnouncer()
-	end
-	if p2numChars > 1 and not data.coop then
-		if p2memberPreview == 1 then p2memberPreview = 2
-		elseif p2memberPreview == 2 then p2memberPreview = 3
-		elseif p2memberPreview == 3 then p2memberPreview = 4
-		elseif p2memberPreview == 4 then p2memberPreview = 1
-		end
-	end
-	local updateAnim = true
 	if data.palType == "Classic" then
 		p2palSelect = btnPalNo(p2Cmd)
 		if selectTimer == 0 then p2palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
-	elseif data.palType == "Modern" then
-		p2palSelect = p2palSelect
-	end
-	if data.coop then
-		for i=1, #data.t_p1selected do
-			if data.t_p1selected[i].cel == p2Cell then 
-				updateAnim = false
-			end
-		end
-		data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
-		p2coopReady = true
-		p2SelEnd = true
+		p2PalEnd = true
 	else
-		for i=1, #data.t_p2selected do
-			if data.t_p2selected[i].cel == p2Cell then 
-				updateAnim = false
-			end
-		end
-		data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
-		if #data.t_p2selected == p2numChars then
-			--
-			if data.p1In == 2 and matchNo == 0 then
-				p1TeamEnd = false
-				p1SelEnd = false
-				--commandBufReset(p1Cmd)
-			end
-			--
-			p2SelEnd = true
+		if getCharName(p2Cell) == "Random" then
+			p2palSelect = math.random(1,12) --Set Random Palette for random select
+			p2PalEnd = true
 		end
 	end
+	p2CharEnd = true
 	cmdInput()
 end
 
@@ -12821,7 +12830,6 @@ end
 --; PLAYER 2 PALETTE SELECT
 --;===========================================================
 function f_p2palList()
-	cmdInput()
 	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
 		sndPlay(sndSys, 100, 0)
 		p2movePal = p2movePal + 1
@@ -13311,7 +13319,7 @@ function f_selectStage()
 				p2Cell = nil
 				p2Portrait = nil
 				data.t_p2selected = {}
-				p2PalEnd = true
+				p2PalEnd = false
 				p2SelEnd = false
 			end
 			stageEnd = true
