@@ -2325,10 +2325,10 @@ end
 --; PALETTE SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_palText = "PALETTE:"
-txt_p1Pal = createTextImg(jgFnt, 5, 1, txt_palText, 5, 237)
-txt_p2Pal = createTextImg(jgFnt, 5, -1, txt_palText, 266, 237)
-txt_p1PalNo = createTextImg(font14, 0, 0, "", 95, 237) --draw palette limit numbers text
-txt_p2PalNo = createTextImg(font14, 0, -1, "", 310, 237)
+txt_p1Pal = createTextImg(jgFnt, 5, 1, txt_palText, 5, 183)
+txt_p2Pal = createTextImg(jgFnt, 5, -1, txt_palText, 258, 183)
+txt_p1PalNo = createTextImg(font14, 0, 0, "", 100, 183) --draw palette limit numbers text
+txt_p2PalNo = createTextImg(font14, 0, -1, "", 305, 183)
 
 --Palette Select Left Arrow
 palSelArrowLeft = animNew(sprSys, [[
@@ -2344,11 +2344,11 @@ palSelArrowLeft = animNew(sprSys, [[
 palSelArrowLScaleX = 0.45 --Scale X
 palSelArrowLScaleY = 0.45 --Scale Y
 
-palSelArrowLP1posX = 67 --Player 1 X-Axis
-palSelArrowLP1posY = 228.5 --Player 1 Y-Axis
+palSelArrowLP1posX = 72 --Player 1 X-Axis
+palSelArrowLP1posY = 174.5 --Player 1 Y-Axis
 
-palSelArrowLP2posX = 264 --Player 2 X-Axis
-palSelArrowLP2posY = 228.5 --Player 2 Y-Axis
+palSelArrowLP2posX = 259 --Player 2 X-Axis
+palSelArrowLP2posY = 174.5 --Player 2 Y-Axis
 
 --Palette Select Right Arrow
 palSelArrowRight = animNew(sprSys, [[
@@ -2364,11 +2364,24 @@ palSelArrowRight = animNew(sprSys, [[
 palSelArrowRScaleX = 0.45 --Scale X
 palSelArrowRScaleY = 0.45 --Scale Y
 
-palSelArrowRP1posX = 115 --Player 1 X-Axis
-palSelArrowRP1posY = 228.5 --Player 1 Y-Axis
+palSelArrowRP1posX = 120 --Player 1 X-Axis
+palSelArrowRP1posY = 174.5 --Player 1 Y-Axis
 
-palSelArrowRP2posX = 312 --Player 2 X-Axis
-palSelArrowRP2posY = 228.5 --Player 2 Y-Axis
+palSelArrowRP2posX = 307 --Player 2 X-Axis
+palSelArrowRP2posY = 174.5 --Player 2 Y-Axis
+
+--Palette Select BG
+palSelBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(palSelBG, 0.97, 0.41)
+animSetAlpha(palSelBG, 155, 22)
+
+palSelBGP1posX = 0 --Player 1 X-Axis
+palSelBGP1posY = 166 --Player 1 Y-Axis
+
+palSelBGP2posX = 173 --Player 2 X-Axis
+palSelBGP2posY = 166 --Player 2 Y-Axis
 
 --;===========================================================
 --; STAGE SELECT SCREENPACK DEFINITION

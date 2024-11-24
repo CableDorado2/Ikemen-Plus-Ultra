@@ -9836,9 +9836,9 @@ function f_selectScreen()
 	end
 	--Player 1 Selection		
 	if not p1TeamEnd then
-		f_p1TeamMenu()
+		f_p1TeamMenu() --Team Mode Select
 	elseif data.p1In > 0 or data.p1Char ~= nil then
-		f_p1SelectMenu()
+		f_p1SelectMenu() --Character Select
 		if (data.p1In == 2 and data.p2In == 2) then
 			--Draw VS Single Bosses Portraits if you are playing in Right Side
 			if data.gameMode == "singleboss" then
@@ -9997,15 +9997,15 @@ function f_selectScreen()
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
-	--Palette Select
+	--Palette Select Assets
 	if data.palType == "Modern" then
 		--Player1
 		if p1CharEnd and not p1PalEnd then
-			f_p1palList()
+			f_p1SelectPal()
 		end
 		--Player2
 		if p2CharEnd and not p2PalEnd then
-			f_p2palList()
+			f_p2SelectPal()
 		end
 	end
 	--Stage select
@@ -11432,11 +11432,11 @@ end
 --;===========================================================
 --; PLAYER 1 PALETTE SELECT
 --;===========================================================
-function f_p1palList()
-	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
+function f_p1SelectPal()
+	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
 		sndPlay(sndSys, 100, 0)
 		p1movePal = p1movePal + 1
-	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1movePal > 1 then --Keep in palette 1 when press left until finish
+	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1movePal > 1 then --Keep in palette 1 when press left until finish
 		sndPlay(sndSys, 100, 0)
 		p1movePal = p1movePal - 1
 	end
@@ -11459,6 +11459,7 @@ function f_p1palList()
 		bufPall = 0
 	end
 	p1palSelect = p1movePal --Uses menu position to show palette in these order
+	animPosDraw(palSelBG, palSelBGP1posX, palSelBGP1posY) --Draw Palette Select BG
 	textImgDraw(txt_p1Pal)
 	textImgSetText(txt_p1PalNo, p1palSelect.."/12")
 	textImgDraw(txt_p1PalNo)
@@ -12830,11 +12831,11 @@ end
 --;===========================================================
 --; PLAYER 2 PALETTE SELECT
 --;===========================================================
-function f_p2palList()
-	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
+function f_p2SelectPal()
+	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
 		sndPlay(sndSys, 100, 0)
 		p2movePal = p2movePal + 1
-	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2movePal > 1 then
+	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2movePal > 1 then
 		sndPlay(sndSys, 100, 0)
 		p2movePal = p2movePal - 1
 	end
@@ -12857,6 +12858,7 @@ function f_p2palList()
 		bufPal2l = 0
 	end
 	p2palSelect = p2movePal
+	animPosDraw(palSelBG, palSelBGP2posX, palSelBGP2posY)
 	textImgDraw(txt_p2Pal)
 	textImgSetText(txt_p2PalNo, p2palSelect.."/12")
 	textImgDraw(txt_p2PalNo)
