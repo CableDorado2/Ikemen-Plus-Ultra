@@ -11468,12 +11468,13 @@ function f_p1palList()
 	if p1movePal <= 11 then
 		f_drawQuickSpr(palSelArrowRight, palSelArrowRP1posX, palSelArrowRP1posY, palSelArrowRScaleX, palSelArrowRScaleY)
 	end
-	if btnPalNo(p1Cmd) > 0 then
+	if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
 		p1PalEnd = true
 		cmdInput()
-	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
+	elseif commandGetState(p1Cmd, 'e') then
 		p1PalEnd = true
+		--cmdInput()
 	end
 end
 
@@ -12865,11 +12866,11 @@ function f_p2palList()
 	if p2movePal <= 11 then
 		f_drawQuickSpr(palSelArrowRight, palSelArrowRP2posX, palSelArrowRP2posY, palSelArrowRScaleX, palSelArrowRScaleY)
 	end
-	if btnPalNo(p2Cmd) > 0 then
+	if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
 		p2PalEnd = true
 		cmdInput()
-	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
+	elseif commandGetState(p1Cmd, 'e') then
 		p2PalEnd = true
 	end
 end

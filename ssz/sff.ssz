@@ -1063,6 +1063,7 @@ public &Anim<frame_t>
   public int nazotime = 0;
   public short mask = -1;
   public short salpha = -1, dalpha = 0;
+  public int sremap = -1, iremap = 0;
   public bool newframe = true, loopend = false;
   new()
   {
@@ -1095,6 +1096,8 @@ public &Anim<frame_t>
     `mask = a.mask;
     `salpha = a.salpha;
     `dalpha = a.dalpha;
+	`sremap = a.sremap;
+    `iremap = a.iremap;
     `newframe = a.newframe;
     `loopend = a.loopend;
   }
@@ -1313,8 +1316,16 @@ public &Anim<frame_t>
     branch{
     cond<remap> #fx > 0 && #fx~remap > 0:
       `sff~palList.swapPalMap(fx~remap=);
+	branch{
+	cond `sremap >= 0 && `iremap >= 0:
+		`sff~palList.remap(`sremap,`iremap);
+	}
     comm:
       pal = `spr~getPal(`sff~palList=);
+	branch{
+	cond `sremap >= 0 && `iremap >= 0:
+		`sff~palList.remap(`sremap,`iremap);
+	}
     diff<remap>:
       `sff~palList.swapPalMap(fx~remap=);
     }

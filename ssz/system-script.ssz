@@ -300,6 +300,11 @@ public &Anim
     `ani~salpha = sa;
     `ani~dalpha = da;
   }
+  public void setPalette(int rpg, int rpi)
+  {
+    `ani~sremap = rpg;
+    `ani~iremap = rpi;
+  }
   public void setWindow(float x, float y, float w, float h)
   {
     `window.x = (int)((x+(float)(.com.GameWidth-320)/2.0)*.com.WidthScale);
@@ -320,6 +325,7 @@ public &Anim
     `oldScale = .com.WidthScale;
   }
 }
+
 void animNew(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 1;
@@ -335,6 +341,7 @@ void animNew(&.lua.State L=, int re=)
   }
   L.pushRef(anim);
 }
+
 void animSetPos(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -343,6 +350,7 @@ void animSetPos(&.lua.State L=, int re=)
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~setPos(x, y);
 }
+
 void animAddPos(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -351,6 +359,7 @@ void animAddPos(&.lua.State L=, int re=)
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~addPos(x, y);
 }
+
 void animSetTile(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -359,6 +368,7 @@ void animSetTile(&.lua.State L=, int re=)
   int y = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~setTile(x, y);
 }
+
 void animSetColorKey(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -366,6 +376,7 @@ void animSetColorKey(&.lua.State L=, int re=)
   int ck = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~setColorKey(ck);
 }
+
 void animSetAlpha(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -374,6 +385,16 @@ void animSetAlpha(&.lua.State L=, int re=)
   int y = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~setAlpha(x, y);
 }
+
+void animSetPalette(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
+  int s = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  anim~setPalette(s, i);
+}
+
 void animSetScale(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -382,6 +403,7 @@ void animSetScale(&.lua.State L=, int re=)
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~setScale(x, y);
 }
+
 void animSetWindow(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -392,6 +414,7 @@ void animSetWindow(&.lua.State L=, int re=)
   float h = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~setWindow(x, y, w, h);
 }
+
 void animGetFrame(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 1;
@@ -401,18 +424,21 @@ void animGetFrame(&.lua.State L=, int re=)
   else: L.pushNumber((double)0);
   }
 }
+
 void animUpdate(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
   anim~update();
 }
+
 void animReset(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
   anim~reset();
 }
+
 void animDraw(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2246,6 +2272,7 @@ public void init(&.lua.State L=)
   L.register("animSetTile", .animSetTile);
   L.register("animSetColorKey", .animSetColorKey);
   L.register("animSetAlpha", .animSetAlpha);
+  L.register("animSetPalette", .animSetPalette);
   L.register("animSetScale", .animSetScale);
   L.register("animSetWindow", .animSetWindow);
   L.register("animGetFrame", .animGetFrame);
