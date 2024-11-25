@@ -11438,7 +11438,7 @@ function f_p1SelectMenu()
 						p1SelEnd = true
 				--Reset specific char vars for the new member select
 					else
-						--p1HandicapEnd = false
+						p1HandicapEnd = false
 						p1PalEnd = false
 						p1CharEnd = false
 					end
@@ -12946,7 +12946,7 @@ function f_p2SelectMenu()
 						--
 						p2SelEnd = true
 					else
-						--p2HandicapEnd = false
+						p2HandicapEnd = false
 						p2PalEnd = false
 						p2CharEnd = false
 					end

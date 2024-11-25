@@ -2868,17 +2868,25 @@ end
 --; MAIN MENU STUFF
 --;===========================================================
 function f_default() --Reset Game Modes Configuration
+--settings adjustable via options
 	resetRemapInput()
-	--settings adjustable via options
+	--Auto-Guard for Left Side
 	setAutoguard(1, data.autoguard)
+	setAutoguard(3, data.autoguard)
+	setAutoguard(5, data.autoguard)
+	setAutoguard(7, data.autoguard)
+	--Auto-Guard for Right Side
 	setAutoguard(2, data.autoguard)
+	setAutoguard(4, data.autoguard)
+	setAutoguard(6, data.autoguard)
+	setAutoguard(8, data.autoguard)
 	setRoundTime(data.roundTime * 60)
 	setRoundsToWin(data.roundsNum)
 	setLifeMul(data.lifeMul / 100)
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
-	--values adjustable via lua scripts
+--values adjustable via lua scripts
 	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
 	data.p1Pal = nil --no predefined P1 character palette
@@ -2910,7 +2918,7 @@ function f_default() --Reset Game Modes Configuration
 	data.missionNo = nil --additional variable used to identify missions in select screen
 	data.eventNo = nil --additional variable used to identify events in select screen
 	data.storyNo = nil --additional variable used to identify stories in select screen
-	--Match Settings
+--Match Settings
 	setAutoLevel(false) --generate autolevel.txt in debug dir
 	setHUD(true) --just enable or disable hud elements in game
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
