@@ -2390,7 +2390,7 @@ palSelBGP2posY = 166 --Player 2 Y-Axis
 --;===========================================================
 txt_handicapTitle = "HANDICAP SELECT"
 txt_handicapP1 = createTextImg(font6, 0, 0, txt_handicapTitle, 77, 168)
-txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 237, 87)
+txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 248, 168)
 --txt_p1HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 --txt_p2HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
@@ -2402,6 +2402,8 @@ t_handicapSelect = {
 	{id = textImgNew(), text = "INSTAKILL"},
 	{id = textImgNew(), text = "POW-LV1"},
 	{id = textImgNew(), text = "POW-MAX"},
+	{id = textImgNew(), text = "POW-UNLIMITED"},
+	{id = textImgNew(), text = "AUTO-GUARD"},
 }
 
 t_handicapSelect2 = {}

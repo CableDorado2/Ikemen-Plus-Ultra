@@ -8898,6 +8898,7 @@ data.t_p2selected = {}
 p2TeamEnd = false
 p2CharEnd = false
 p2PalEnd = false
+p2HandicapEnd = false
 p2SelEnd = false
 p2BG = false
 p2SelBack = false
@@ -10032,18 +10033,17 @@ function f_selectScreen()
 		end
 	end
 --Handicap Select
-	if data.gameMode == "versus" then
+	if data.gameMode == "versus" or data.ftcontrol == -1 then
 		--Player1
 		if p1PalEnd and not p1HandicapEnd then
 			cmdInput()
 			f_p1SelectHandicap()
 		end
-		--[[Player2
+		--Player2
 		if p2PalEnd and not p2HandicapEnd then
 			cmdInput()
 			f_p2SelectHandicap()
 		end
-		]]
 	end
 --Stage select
 	if p1SelEnd and p2SelEnd then
@@ -11463,9 +11463,9 @@ function f_p1Selection()
 			p1PalEnd = true
 		end
 	end
---No Handicap in Game Modes differents to VS
-	if data.gameMode ~= "versus" then
-		p1HandicapSel = 1
+--No Handicap Allowed
+	if data.gameMode ~= "versus" or data.ftcontrol > 0 then
+		p1HandicapSel = 1 --Set Normal Handicap as Default
 		p1HandicapEnd = true
 	end
 	p1CharEnd = true
@@ -11525,6 +11525,7 @@ function f_p1SelectPal()
 		cmdInput()
 	end
 end
+
 --;===========================================================
 --; PLAYER 1 HANDICAP SELECT
 --;===========================================================
@@ -12899,7 +12900,7 @@ function f_p2SelectMenu()
 				end
 				f_p2Selection()
 			end
-			if p2PalEnd and p2CharEnd then
+			if p2HandicapEnd and p2PalEnd and p2CharEnd then
 				local cel = p2Cell
 				if getCharName(cel) == "Random" then
 					randomP2Rematch = true
@@ -12946,6 +12947,7 @@ function f_p2SelectMenu()
 						--
 						p2SelEnd = true
 					else
+						--p2HandicapEnd = false
 						p2PalEnd = false
 						p2CharEnd = false
 					end
@@ -12970,6 +12972,10 @@ function f_p2Selection()
 			p2PalSel = math.random(1,12) --Set Random Palette for random select
 			p2PalEnd = true
 		end
+	end
+	if data.gameMode ~= "versus" or data.ftcontrol > 0 then
+		p2HandicapSel = 1 --Set Normal Handicap as Default
+		p2HandicapEnd = true
 	end
 	p2CharEnd = true
 	cmdInput()
@@ -13021,6 +13027,99 @@ function f_p2SelectPal()
 	elseif commandGetState(p1Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		p2CharEnd = false
+		cmdInput()
+	end
+end
+
+--;===========================================================
+--; PLAYER 2 HANDICAP SELECT
+--;===========================================================
+function f_p2SelectHandicap()
+	local maxItems = 3
+	if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufHand2u >= 30) then
+		sndPlay(sndSys, 100, 0)
+		p2HandicapSel = p2HandicapSel - 1
+	elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufHand2d >= 30) then
+		sndPlay(sndSys, 100, 0)
+		p2HandicapSel = p2HandicapSel + 1
+	end
+	if p2HandicapSel < 1 then
+		p2HandicapSel = #t_handicapSelect2
+		if #t_handicapSelect2 > maxItems then
+			p2HandicapCursorPosY = maxItems
+		else
+			p2HandicapCursorPosY = #t_handicapSelect2
+		end
+	elseif p2HandicapSel > #t_handicapSelect2 then
+		p2HandicapSel = 1
+		p2HandicapCursorPosY = 1
+	elseif (commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufHand2u >= 30)) and p2HandicapCursorPosY > 1 then
+		p2HandicapCursorPosY = p2HandicapCursorPosY - 1
+	elseif (commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufHand2d >= 30)) and p2HandicapCursorPosY < maxItems then
+		p2HandicapCursorPosY = p2HandicapCursorPosY + 1
+	end
+	if p2HandicapCursorPosY == maxItems then
+		p2HandicapMoveTxt = (p2HandicapSel - maxItems) * 13
+	elseif p2HandicapCursorPosY == 1 then
+		p2HandicapMoveTxt = (p2HandicapSel - 1) * 13
+	end
+	if #t_handicapSelect2 <= maxItems then
+		maxP2Handicap = #t_handicapSelect2
+	elseif p2HandicapSel - p2HandicapCursorPosY > 0 then
+		maxP2Handicap = p2HandicapSel + maxItems - p2HandicapCursorPosY
+	else
+		maxP2Handicap = maxItems
+	end
+	if commandGetState(p2Cmd, 'holdu') then
+		bufHand2d = 0
+		bufHand2u = bufHand2u + 1
+	elseif commandGetState(p2Cmd, 'holdd') then
+		bufHand2u = 0
+		bufHand2d = bufHand2d + 1
+	elseif commandGetState(p2Cmd, 'holdr') then
+		bufHand2l = 0
+		bufHand2r = bufHand2r + 1
+	elseif commandGetState(p2Cmd, 'holdl') then
+		bufHand2r = 0
+		bufHand2l = bufHand2l + 1
+	else
+		bufHand2u = 0
+		bufHand2d = 0
+		bufHand2r = 0
+		bufHand2l = 0
+	end
+	animPosDraw(handicapWindowBG, handicapSelBGP2posX, handicapSelBGP2posY)
+	textImgDraw(txt_handicapP2)
+	for i=1, maxP2Handicap do
+		if i > p2HandicapSel - p2HandicapCursorPosY then
+			if i == p2HandicapSel then
+				p2Handbank = 5
+			else
+				p2Handbank = 0
+			end
+			if t_handicapSelect2[i].id ~= nil then
+				textImgDraw(f_updateTextImg(t_handicapSelect2[i].id, jgFnt, p2Handbank, 0, t_handicapSelect2[i].text, 244, 168+i*13-p2HandicapMoveTxt, 0.95, 0.95))
+			end
+		end
+	end
+	animSetWindow(cursorBox, 172, 158+p2HandicapCursorPosY*13, 145, 13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	if maxP2Handicap > maxItems then
+		animDraw(menuArrowUp)
+		animUpdate(menuArrowUp)
+	end
+	if #t_handicapSelect2 > maxItems and maxP2Handicap < #t_handicapSelect2 then
+		animDraw(menuArrowDown)
+		animUpdate(menuArrowDown)
+	end
+	if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
+		sndPlay(sndSys, 100, 1)
+		p2HandicapEnd = true
+		cmdInput()
+	elseif commandGetState(p2Cmd, 'e') then
+		sndPlay(sndSys, 100, 2)
+		p2PalEnd = false
 		cmdInput()
 	end
 end
