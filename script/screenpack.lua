@@ -616,11 +616,11 @@ function f_titleText()
 	textImgDraw(txt_subTitle)
 end
 
-function drawBottomMenuSP() --Below Menu Fonts
+function drawBottomMenuSP() --Layer 0
 	animDraw(f_animVelocity(titleBG0, -2.15, 0))
 end
 
-function drawMiddleMenuSP() --After Cursor Box
+function drawMiddleMenuSP() --Layer 1 (After Cursor Box)
 	animDraw(titleBG1)
 	animAddPos(titleBG2, -1, 0)
 	animUpdate(titleBG2)
@@ -632,7 +632,7 @@ function drawMiddleMenuSP() --After Cursor Box
 	f_titleText()
 end
 
-function drawTopMenuSP() --Always In front
+function drawTopMenuSP() --Layer 2 (Always In front)
 	
 end
 
@@ -2343,8 +2343,7 @@ palSelArrowLeft = animNew(sprSys, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-palSelArrowLScaleX = 0.45 --Scale X
-palSelArrowLScaleY = 0.45 --Scale Y
+animSetScale(palSelArrowLeft, 0.45, 0.45)
 
 palSelArrowLP1posX = 72 --Player 1 X-Axis
 palSelArrowLP1posY = 174.5 --Player 1 Y-Axis
@@ -2363,8 +2362,7 @@ palSelArrowRight = animNew(sprSys, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-palSelArrowRScaleX = 0.45 --Scale X
-palSelArrowRScaleY = 0.45 --Scale Y
+animSetScale(palSelArrowRight, 0.45, 0.45)
 
 palSelArrowRP1posX = 120 --Player 1 X-Axis
 palSelArrowRP1posY = 174.5 --Player 1 Y-Axis
@@ -2412,6 +2410,44 @@ for i=1, #t_handicapSelect do --Make a copy of all items from t_handicapSelect t
 	t_handicapSelect2[i]['id'] = t_handicapSelect[i].id
 	t_handicapSelect2[i]['text'] = t_handicapSelect[i].text
 end
+
+--Handicap Select Up Arrows
+handicapSelArrowUp = animNew(sprSys, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animSetScale(handicapSelArrowUp, 0.5, 0.5)
+
+handicapSelArrowUP1posX = 138 --Player 1 X-Axis
+handicapSelArrowUP1posY = 165 --Player 1 Y-Axis
+
+handicapSelArrowUP2posX = 175 --Player 2 X-Axis
+handicapSelArrowUP2posY = 165 --Player 2 Y-Axis
+
+--Handicap Select Down Arrows
+handicapSelArrowDown = animNew(sprSys, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animSetScale(handicapSelArrowDown, 0.5, 0.5)
+
+handicapSelArrowDP1posX = 138 --Player 1 X-Axis
+handicapSelArrowDP1posY = 210 --Player 1 Y-Axis
+
+handicapSelArrowDP2posX = 175 --Player 2 X-Axis
+handicapSelArrowDP2posY = 210 --Player 2 Y-Axis
 
 --Handicap Window BG
 handicapWindowBG = animNew(sprSys, [[

@@ -9786,6 +9786,7 @@ function f_exitToMainMenu() --For Advanced Select
 	f_saveTemp()
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
+	f_resetMenuArrowsPos()
 end
 
 function validCells()
@@ -11508,10 +11509,10 @@ function f_p1SelectPal()
 	textImgSetText(txt_p1PalNo, p1PalSel.."/12")
 	textImgDraw(txt_p1PalNo)
 	if p1PalSel > 1 then
-		f_drawQuickSpr(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY, palSelArrowLScaleX, palSelArrowLScaleY)
+		animPosDraw(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY)
 	end
 	if p1PalSel <= 11 then
-		f_drawQuickSpr(palSelArrowRight, palSelArrowRP1posX, palSelArrowRP1posY, palSelArrowRScaleX, palSelArrowRScaleY)
+		animPosDraw(palSelArrowRight, palSelArrowRP1posX, palSelArrowRP1posY)
 	end
 --Confirm Palette
 	if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
@@ -11607,12 +11608,10 @@ function f_p1SelectHandicap()
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Arrows
 	if maxP1Handicap > maxItems then
-		animDraw(menuArrowUp)
-		animUpdate(menuArrowUp)
+		animPosDraw(handicapSelArrowUp, handicapSelArrowUP1posX, handicapSelArrowUP1posY)
 	end
 	if #t_handicapSelect > maxItems and maxP1Handicap < #t_handicapSelect then
-		animDraw(menuArrowDown)
-		animUpdate(menuArrowDown)
+		animPosDraw(handicapSelArrowDown, handicapSelArrowDP1posX, handicapSelArrowDP1posY)
 	end
 --Confirm Handicap
 	if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
@@ -13015,16 +13014,16 @@ function f_p2SelectPal()
 	textImgSetText(txt_p2PalNo, p2PalSel.."/12")
 	textImgDraw(txt_p2PalNo)
 	if p2PalSel > 1 then
-		f_drawQuickSpr(palSelArrowLeft, palSelArrowLP2posX, palSelArrowLP2posY, palSelArrowLScaleX, palSelArrowLScaleY)
+		animPosDraw(palSelArrowLeft, palSelArrowLP2posX, palSelArrowLP2posY)
 	end
 	if p2PalSel <= 11 then
-		f_drawQuickSpr(palSelArrowRight, palSelArrowRP2posX, palSelArrowRP2posY, palSelArrowRScaleX, palSelArrowRScaleY)
+		animPosDraw(palSelArrowRight, palSelArrowRP2posX, palSelArrowRP2posY)
 	end
 	if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
 		p2PalEnd = true
 		cmdInput()
-	elseif commandGetState(p1Cmd, 'e') then
+	elseif commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		p2CharEnd = false
 		cmdInput()
@@ -13106,12 +13105,10 @@ function f_p2SelectHandicap()
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	if maxP2Handicap > maxItems then
-		animDraw(menuArrowUp)
-		animUpdate(menuArrowUp)
+		animPosDraw(handicapSelArrowUp, handicapSelArrowUP2posX, handicapSelArrowUP2posY)
 	end
 	if #t_handicapSelect2 > maxItems and maxP2Handicap < #t_handicapSelect2 then
-		animDraw(menuArrowDown)
-		animUpdate(menuArrowDown)
+		animPosDraw(handicapSelArrowDown, handicapSelArrowDP2posX, handicapSelArrowDP2posY)
 	end
 	if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
@@ -16052,6 +16049,7 @@ if validCells() then
 					f_favoriteChar() --Store Favorite Character (WIP)
 					f_favoriteStage() --Store Favorite Stage (WIP)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+					f_resetMenuArrowsPos()
 					f_resetMenuInputs()
 					break
 				--BACK TO STAGE SELECT
@@ -16212,6 +16210,7 @@ function f_arcadeEnd()
 	f_mainOpening()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuArrowsPos()
 	f_resetMenuInputs()
 end
 
@@ -16233,6 +16232,7 @@ function f_advancedEnd()
 	f_storyboard("data/screenpack/gameover.def")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuArrowsPos()
 	f_resetMenuInputs()
 end
 
@@ -16248,6 +16248,7 @@ function f_loseAdvanced()
 	--f_mainOpening()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuArrowsPos()
 	f_resetMenuInputs()
 end
 
