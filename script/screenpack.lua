@@ -2393,15 +2393,15 @@ txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 248, 168)
 --txt_p2HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 t_handicapSelect = {
-	{id = textImgNew(), text = "NORMAL"},
-	{id = textImgNew(), text = "HP-75%"},
-	{id = textImgNew(), text = "HP-50%"},
-	{id = textImgNew(), text = "HP-25%"},
-	{id = textImgNew(), text = "INSTAKILL"},
-	{id = textImgNew(), text = "POW-LV1"},
-	{id = textImgNew(), text = "POW-MAX"},
-	{id = textImgNew(), text = "POW-UNLIMITED"},
-	{id = textImgNew(), text = "AUTO-GUARD"},
+	{id = textImgNew(), text = "NORMAL", service = ""},
+	{id = textImgNew(), text = "HP-75%", service = "life 75"},
+	{id = textImgNew(), text = "HP-50%", service = "life 50"},
+	{id = textImgNew(), text = "HP-25%", service = "life 25"},
+	{id = textImgNew(), text = "INSTAKILL", service = "life 0"},
+	{id = textImgNew(), text = "POW-LV1", service = "power lv1"},
+	{id = textImgNew(), text = "POW-MAX", service = "power max"},
+	{id = textImgNew(), text = "POW-UNLIMITED", service = "power unlimited"},
+	{id = textImgNew(), text = "AUTO-GUARD", service = "autoguard"},
 }
 
 t_handicapSelect2 = {}
