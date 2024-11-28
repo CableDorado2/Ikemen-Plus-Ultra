@@ -1214,8 +1214,7 @@ public &Command
   }
   public void step(^&.Buffer kbuf, bool ai, bool hitpause, int buftime)
   {
-    //if(!hitpause && `curbuftime > 0) `curbuftime--;
-    if(`curbuftime > 0) `curbuftime--;
+    if(!hitpause && `curbuftime > 0) `curbuftime--;
 	if(#`cmd == 0) ret;
     {
       int ocbt = `curbuftime;
