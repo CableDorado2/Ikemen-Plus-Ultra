@@ -12,7 +12,7 @@
 - Help and cooperation are appreciated.
 
 ## Minimum System Requirements
-- **System:** Windows XP SP3 - 32 Bits **(NOT WORKS IN WINDOWS 11)**.
+- **System:** Windows XP SP3 - 32 Bits **(MAY NOT WORK IN WINDOWS 11)**.
 - **Proccessor:** Intel(R) Atom(TM) CPU N455 1.66GHz
 - **Memory:** 1GB RAM
 - **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
