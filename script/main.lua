@@ -5714,6 +5714,7 @@ function f_drawGalleryPreview(group, index, posX, posY, scaleX, scaleY, alphaS, 
 	animSetAlpha(anim, alphaS, alphaD)
 	animSetScale(anim, scaleX, scaleY)
 	animSetPos(anim, posX, posY)
+	animSetWindow(anim, 0, 42, 320, 145) --This will enclose the items in a window
 	animUpdate(anim)
 	animDraw(anim)
 	--return anim
