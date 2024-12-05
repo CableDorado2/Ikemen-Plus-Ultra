@@ -1,1 +1,0 @@
-CMD=Ikemen Plus Ultra.exe
