@@ -1,9 +1,0 @@
-; SampleSrEngine.def : Declares the module parameters.
-
-LIBRARY      "SampleSrEngine.DLL"
-
-EXPORTS
-	DllCanUnloadNow     PRIVATE
-	DllGetClassObject   PRIVATE
-	DllRegisterServer   PRIVATE
-	DllUnregisterServer	PRIVATE

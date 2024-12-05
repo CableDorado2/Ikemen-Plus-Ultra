@@ -1,8 +1,0 @@
-LIBRARY		WSManAuthzPlugin.dll
-EXPORTS
-    WSManPluginStartup
-    WSManPluginShutdown
-    WSManPluginAuthzUser
-    WSManPluginAuthzOperation
-    WSManPluginAuthzQueryQuota
-    WSManPluginAuthzReleaseContext

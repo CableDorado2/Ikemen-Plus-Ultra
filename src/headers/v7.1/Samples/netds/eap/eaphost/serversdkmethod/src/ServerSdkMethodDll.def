@@ -1,9 +1,0 @@
-LIBRARY ServerSdkMethodDll.dll
-
-EXPORTS
-   DllRegisterServer PRIVATE
-   DllUnregisterServer PRIVATE
-   EapMethodAuthenticatorFreeErrorMemory
-   EapMethodAuthenticatorGetInfo
-   EapMethodAuthenticatorInvokeConfigUI
-   EapMethodAuthenticatorFreeMemory  

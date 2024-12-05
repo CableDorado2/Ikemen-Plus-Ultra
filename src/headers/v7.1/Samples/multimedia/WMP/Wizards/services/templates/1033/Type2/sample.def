@@ -1,9 +1,0 @@
-; [!output root].def : Declares the module parameters.
-
-LIBRARY      "[!output ROOT].DLL"
-
-EXPORTS
-	DllCanUnloadNow     PRIVATE
-	DllGetClassObject   PRIVATE
-	DllRegisterServer   PRIVATE
-	DllUnregisterServer PRIVATE

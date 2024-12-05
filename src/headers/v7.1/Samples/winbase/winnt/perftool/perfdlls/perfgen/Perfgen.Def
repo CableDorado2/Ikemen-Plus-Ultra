@@ -1,6 +1,0 @@
-LIBRARY PerfGen
-
-EXPORTS
-    OpenSigGenPerformanceData	        @1
-    CollectSigGenPerformanceData        @2
-    CloseSigGenPerformanceData	        @3

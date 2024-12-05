@@ -1,9 +1,0 @@
-; ADOPriv.def : Declares the module parameters.
-
-LIBRARY      "ADOPriv.DLL"
-
-EXPORTS
-	DllCanUnloadNow      PRIVATE
-	DllGetClassObject    PRIVATE
-	DllRegisterServer    PRIVATE
-	DllUnregisterServer  PRIVATE
