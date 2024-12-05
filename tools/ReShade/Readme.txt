@@ -1,1 +1,0 @@
-Paste all in root folder (where is the executable)
