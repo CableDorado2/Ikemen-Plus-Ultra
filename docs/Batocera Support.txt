@@ -1,6 +1,0 @@
-Place your game files in /userdata/roms/mugen.
-
-They are usually distributed as a folder for Windows PC, with .exe files and everything.
-
-Rename the folder so that it has a .pc extension at the end. For example, if you have a game called MugenDreamVer1, copy it to your Batocera machine and rename it to /userdata/roms/mugen/MugenDreamVer1.pc.
-Similarly to Windows games, you need to create an autorun.cmd file that contains the name of the main .exe for the Mugen game you want to run. For my example here, the autorun.cmd file would contain: CMD=MUGENDreamVer1.exe
