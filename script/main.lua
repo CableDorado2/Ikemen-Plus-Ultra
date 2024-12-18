@@ -9480,14 +9480,58 @@ function f_selectChar(player, t)
 	for i=1, #t do
 		selectChar(player, t[i].cel, t[i].pal)
 		--Set Handicap
-		if gameMode == "versus" or data.ftcontrol > 0 then
-			if t[i].service == "autoguard" then --t[i].service is like t_handicapSelect[i].service
+		if data.gameMode == "versus" or data.ftcontrol > 0 then
+			if t_handicapSelect[t[i].handicap].service == "autoguard" then
 				setAutoguard(player, true)
-			elseif t[i].service == "life" then
+			elseif t_handicapSelect[t[i].handicap].service == "life 75" then
+				--setLife(player, 75) --This is the way what we need to manage this
+				if player == 1 then
+					setLifeStateP1(75)
+				elseif player == 2 then
+					setLifeStateP2(75)
+				end
+			elseif t_handicapSelect[t[i].handicap].service == "life 50" then
 				--setLife(player, 50)
-				--setService(t[i].service)
-			elseif t[i].service == "power" then
-				--setPower(player, 50)
+				if player == 1 then
+					setLifeStateP1(50)
+				elseif player == 2 then
+					setLifeStateP2(50)
+				end
+			elseif t_handicapSelect[t[i].handicap].service == "life 25" then
+				--setLife(player, 25)
+				if player == 1 then
+					setLifeStateP1(25)
+				elseif player == 2 then
+					setLifeStateP2(25)
+				end
+			elseif t_handicapSelect[t[i].handicap].service == "instakill" then
+				--setLife(player, 0)
+				if player == 1 then
+					setLifeStateP1(666)
+				elseif player == 2 then
+					setLifeStateP2(666)
+				end
+			elseif t_handicapSelect[t[i].handicap].service == "power lv1" then
+				--setPower(player, 1)
+				if player == 1 then
+					setPowerStateP1(1)
+				elseif player == 2 then
+					setPowerStateP2(1)
+				end
+			elseif t_handicapSelect[t[i].handicap].service == "power max" then
+				--setPowerMax(player, true)
+				if player == 1 then
+					setPowerStateP1(10)
+				elseif player == 2 then
+					setPowerStateP2(10)
+				end
+			elseif t_handicapSelect[t[i].handicap].service == "power unlimited" then
+				--setPowerUnlimited(player, true)
+				if player == 1 then
+					setPowerStateP1(666)
+				elseif player == 2 then
+					setPowerStateP2(666)
+				end
 			end
 		end
 	end
@@ -9614,6 +9658,18 @@ function f_loseCoins()
 	end
 end
 
+--Services/Handicaps Reset
+function f_resetHandicaps()
+setService("")
+if not data.autoguard then
+	for i=1, 8 do setAutoguard(i, false) end
+end
+setLifeStateP1(-1)
+setLifeStateP2(-1)
+setPowerStateP1(-1)
+setPowerStateP2(-1)
+end
+
 --;===========================================================
 --; BACK TO MAIN MENU
 --;===========================================================
@@ -9680,7 +9736,7 @@ function f_backMenu()
 			if waitingTowerSel then
 				data.tempBack = true
 			else
-				setService("")
+				f_resetHandicaps()
 				back = true
 			end
 		--NO
@@ -11627,9 +11683,15 @@ function f_p1SelectHandicap()
 	end
 --Confirm Handicap
 	if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
-		sndPlay(sndSys, 100, 1)
-		p1HandicapEnd = true
-		cmdInput()
+		--Skip autoguard if is enabled via options
+		if data.autoguard and t_handicapSelect[p1HandicapSel].service == "autoguard" then
+			sndPlay(sndSys, 100, 5)
+			if selectTimer == 0 then p1HandicapSel = 1 end --set normal handicap
+		else
+			sndPlay(sndSys, 100, 1)
+			p1HandicapEnd = true
+			cmdInput()
+		end
 --Back to Palette Selection
 	elseif commandGetState(p1Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
@@ -13123,9 +13185,15 @@ function f_p2SelectHandicap()
 		animPosDraw(handicapSelArrowDown, handicapSelArrowDP2posX, handicapSelArrowDP2posY)
 	end
 	if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
-		sndPlay(sndSys, 100, 1)
-		p2HandicapEnd = true
-		cmdInput()
+		--Skip autoguard if is enabled via options
+		if data.autoguard and t_handicapSelect[p2HandicapSel].service == "autoguard" then
+			sndPlay(sndSys, 100, 5)
+			if selectTimer == 0 then p2HandicapSel = 1 end --set normal handicap
+		else
+			sndPlay(sndSys, 100, 1)
+			p2HandicapEnd = true
+			cmdInput()
+		end
 	elseif commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		p2PalEnd = false
@@ -14500,7 +14568,7 @@ function f_selectWin()
 	p2Cursor = 1
 	p1Ready = false
 	p2Ready = false
-	setService("") --Erase Service
+	f_resetHandicaps()
 	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
 	if data.winscreen == "Fixed" or not data.victoryscreen then
 		playBGM(bgmNothing)

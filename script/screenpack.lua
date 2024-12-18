@@ -125,7 +125,7 @@ bgmResults = "sound/System/Results.mp3"
 bgmService = "sound/System/Service.mp3"
 bgmContinue = "sound/System/Continue.mp3"
 bgmGameOver = "sound/System/Game Over.mp3"
-bgmVault = "sound/System/The Vault.mp3"
+bgmVault = "sound/System/The Vault.ogg"
 bgmStory = "sound/System/Story.mp3"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
@@ -2397,7 +2397,7 @@ t_handicapSelect = {
 	{id = textImgNew(), text = "HP-75%", service = "life 75"},
 	{id = textImgNew(), text = "HP-50%", service = "life 50"},
 	{id = textImgNew(), text = "HP-25%", service = "life 25"},
-	{id = textImgNew(), text = "INSTAKILL", service = "life 0"},
+	{id = textImgNew(), text = "INSTAKILL", service = "instakill"},
 	{id = textImgNew(), text = "POW-LV1", service = "power lv1"},
 	{id = textImgNew(), text = "POW-MAX", service = "power max"},
 	{id = textImgNew(), text = "POW-UNLIMITED", service = "power unlimited"},

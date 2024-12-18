@@ -637,3 +637,54 @@ triggerall = GameMode = "practice"
 trigger1 = PowerStateP1 = 666
 trigger2 = PowerStateP2 = 666
 value = PowerMax
+
+;===========================================================================
+; HANDICAP SERVICES
+;===========================================================================
+[State 0, HP 75%]
+type = LifeSet
+triggerall = GameMode = "vs" && RoundState < 2 ;Activate at start of Round in VS Mode
+trigger1 = LifeStateP1 = 75 && TeamSide = 1 ;Apply to Left Side
+trigger2 = LifeStateP2 = 75 && TeamSide = 2 ;Apply to Right Side
+value = LifeMax / 1.333
+
+[State 0, HP 50%]
+type = LifeSet
+triggerall = GameMode = "vs" && RoundState < 2
+trigger1 = LifeStateP1 = 50 && TeamSide = 1
+trigger2 = LifeStateP2 = 50 && TeamSide = 2
+value = LifeMax / 2
+
+[State 0, HP 25%]
+type = LifeSet
+triggerall = GameMode = "vs" && RoundState < 2
+trigger1 = LifeStateP1 = 25 && TeamSide = 1
+trigger2 = LifeStateP2 = 25 && TeamSide = 2
+value = LifeMax / 4
+
+[State 0, INSTAKILL]
+type = LifeSet
+triggerall = GameMode = "vs" && RoundState < 2
+trigger1 = LifeStateP1 = 666 && TeamSide = 1
+trigger2 = LifeStateP2 = 666 && TeamSide = 2
+value = 1
+
+[State 0, POW LV1]
+type = PowerSet
+triggerall = GameMode = "vs" && RoundState < 2
+trigger1 = PowerStateP1 = 1 && TeamSide = 1
+trigger2 = PowerStateP2 = 1 && TeamSide = 2
+value = 1000
+
+[State 0, POW MAX]
+type = PowerAdd
+trigger1 = GameMode = "vs" && PowerStateP1 = 10 && RoundState < 2 && TeamSide = 1
+trigger2 = GameMode = "vs" && PowerStateP2 = 10 && RoundState < 2 && TeamSide = 2
+value = PowerMax
+
+[State 0, POW UNLIMITED]
+type = PowerSet
+triggerall = GameMode = "vs"
+trigger1 = PowerStateP1 = 666
+trigger2 = PowerStateP2 = 666
+value = PowerMax
