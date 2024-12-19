@@ -1028,11 +1028,14 @@ function f_extrasMenu()
 				--EVENTS MODE (complete events at certain hours, days, weeks, months or years)
 				elseif extrasMenu == 2 then
 					f_eventMenu()
-				--TOURNAMENT MODE (participate in customizable tournaments)
+				--ABYSS MODE (Defeat way of enemies, strengthening your character along the way)
 				elseif extrasMenu == 3 then
+					f_abyssCfg()
+				--TOURNAMENT MODE (participate in customizable tournaments)
+				elseif extrasMenu == 4 then
 					f_tourneyCfg()
 				--VISUAL NOVEL MODE (watch a customizable narrative and interactive storytelling)
-				elseif extrasMenu == 4 then
+				elseif extrasMenu == 5 then
 					if #t_selVN ~= 0 then
 						f_vnMenu()
 					else
@@ -1040,10 +1043,10 @@ function f_extrasMenu()
 						infoScreen = true
 					end
 				--THE VAULT MODE (insert secret codes to unlock things)
-				elseif extrasMenu == 5 then
+				elseif extrasMenu == 6 then
 					f_theVault()
 				--RANDOMTEST (generate AI rank data)
-				elseif extrasMenu == 6 then
+				elseif extrasMenu == 7 then
 					setGameMode('randomtest')
 					randomTest()
 				end
@@ -18776,6 +18779,121 @@ function f_tourneyChampion()
 		textImgDraw(txt_tourneyPlace2)
 		if data.tourney3rdPlace then textImgDraw(txt_tourneyPlace3) end
 	    animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ABYSS SELECT MENU
+--;===========================================================
+function f_abyssCfg()
+	cmdInput()
+	local cursorPosX = 1
+	local moveTxt = 0
+	local abyssCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 3
+	exitAbyss = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmAbyss)
+	f_resetAbyssArrowsPos()
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAbyss then
+			sndPlay(sndSys, 100, 2)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			f_menuMusic()
+			--f_resetMenuArrowsPos()
+			break
+		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+			sndPlay(sndSys, 100, 0)
+			abyssCfg = abyssCfg - 1
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+			sndPlay(sndSys, 100, 0)
+			abyssCfg = abyssCfg + 1
+		--Abyss Level Select
+		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			sndPlay(sndSys, 100, 1)
+			if abyssCfg == 1 then
+				
+			end
+			--f_abyssMenu()
+		end
+		if abyssCfg < 1 then
+			abyssCfg = #t_abyssSel
+			if #t_abyssSel > maxItems then
+				cursorPosX = maxItems
+			else
+				cursorPosX = #t_abyssSel
+			end
+		elseif abyssCfg > #t_abyssSel then
+			abyssCfg = 1
+			cursorPosX = 1
+		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+			cursorPosX = cursorPosX - 1
+		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
+			cursorPosX = cursorPosX + 1
+		end
+		if cursorPosX == maxItems then
+			moveTxt = (abyssCfg - maxItems) * 104
+		elseif cursorPosX == 1 then
+			moveTxt = (abyssCfg - 1) * 104
+		end	
+		if #t_abyssSel <= maxItems then
+			maxabyssCfg = #t_abyssSel
+		elseif abyssCfg - cursorPosX > 0 then
+			maxabyssCfg = abyssCfg + maxItems - cursorPosX
+		else
+			maxabyssCfg = maxItems
+		end
+		--Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		--Draw Title
+		textImgDraw(txt_abyssCfg)
+		animPosDraw(abyssCfgInfoBG, -56, 190) --Draw Info Text BG
+		textImgSetText(txt_abyssLvInfo, t_abyssSel[cursorPosX].info)
+		textImgDraw(txt_abyssLvInfo)
+		--Draw Abyss Level Content Text
+		for i=1, maxabyssCfg do
+			if i > abyssCfg - cursorPosX then
+				if t_abyssSel[i].id ~= nil then
+					animPosDraw(abyssSelWindowBG, -100+cursorPosX+i*105,50)
+					textImgDraw(f_updateTextImg(t_abyssSel[i].id, jgFnt, 0, 0, t_abyssSel[i].depth, -65+i*104-moveTxt, 120))
+					textImgSetPos(txt_abyssLv, -65+i*104-moveTxt, 75)
+					textImgDraw(txt_abyssLv)
+					textImgSetPos(txt_abyssDepth, -65+i*104-moveTxt, 100)
+					textImgDraw(txt_abyssDepth)
+				end
+			end
+		end
+		--Draw Cursor
+		animSetWindow(cursorBox, -100+cursorPosX*104,50, 90,80)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if maxabyssCfg > maxItems then
+			animDraw(menuArrowLeft)
+			animUpdate(menuArrowLeft)
+		end
+		if #t_abyssSel > maxItems and maxabyssCfg < #t_abyssSel then
+			animDraw(menuArrowRight)
+			animUpdate(menuArrowRight)
+		end
+		drawAbyssInputHints()
+		if commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		else
+			bufl = 0
+			bufr = 0
+		end
+		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()

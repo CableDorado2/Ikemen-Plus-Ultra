@@ -130,6 +130,8 @@ bgmStory = "sound/System/Story.mp3"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
 bgmTourneyChampion = "sound/System/Champion.mp3"
+bgmAbyss = "sound/System/Abyss.mp3"
+bgmLegion = "sound/System/Legion.mp3"
 bgmAdventure = "sound/System/Adventure.mp3"
 
 --;===========================================================
@@ -608,6 +610,11 @@ animSetPos(menuArrowLeft, 0, 123)
 animSetPos(menuArrowRight, 312, 123)
 end
 
+function f_resetAbyssArrowsPos() --Used in Abyss Mode
+animSetPos(menuArrowLeft, 0, 123)
+animSetPos(menuArrowRight, 312, 123)
+end
+
 function f_titleText()
 	if stats.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
 	elseif stats.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
@@ -810,6 +817,8 @@ t_bonusMenu = {
 t_extrasMenu = {
 	{id = textImgNew(), text = "ENDLESS"},
 	{id = textImgNew(), text = "EVENTS"},
+	{id = textImgNew(), text = "ABYSS"},
+	--{id = textImgNew(), text = "LEGION"},
 	{id = textImgNew(), text = "TOURNAMENT"},
 	{id = textImgNew(), text = "VISUAL NOVEL"},
 	{id = textImgNew(), text = "THE VAULT"},
@@ -3892,6 +3901,46 @@ tourneyAwards2 = animNew(sprTourney, [[
 ]])
 animAddPos(tourneyAwards2, 0, 0)
 animUpdate(tourneyAwards2)
+
+--;===========================================================
+--; ABYSS SELECT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_abyssCfg = createTextImg(jgFnt, 0, 0, "ABYSS SELECT", 159, 13)
+txt_abyssLv = createTextImg(font7, 0, 0, "LEVEL ", 0, 0)
+txt_abyssDepth = createTextImg(font7, 0, 0, "DEPTH", 0, 0)
+txt_abyssContinue = createTextImg(font7, 0, 0, "CONTINUE", 159, 232)
+txt_abyssLvInfo = createTextImg(font7, 0, 0, "", 159, 205)
+
+t_abyssSel = {
+ {id = textImgNew(), depth = "100", info = "Easy Level"},
+ {id = textImgNew(), depth = "500", info = "Normal Level"},
+ {id = textImgNew(), depth = "999", info = "Hard Level"},
+}
+
+--Info BG
+abyssCfgInfoBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(abyssCfgInfoBG, 2.9, 0.40)
+animSetAlpha(abyssCfgInfoBG, 155, 22)
+
+--Info Window BG
+abyssSelWindowBG = animNew(sprSys, [[
+230,2, 0,0, -1
+]])
+animUpdate(abyssSelWindowBG)
+animSetScale(abyssSelWindowBG, 0.8, 1.4)
+
+function drawAbyssInputHints()
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","184,"..inputHintYPos,"q","244,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 139, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 205, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 265, hintFontYPos)
+end
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION
