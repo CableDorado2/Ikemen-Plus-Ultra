@@ -1274,7 +1274,7 @@ t_statsMenu = {
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
-txt_galleryInfo = createTextImg(font7, 0, 0, "", 159, 202)
+txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
 
 --Gallery Cursor
 galleryCursorPosX = -74.3
@@ -3905,16 +3905,16 @@ animUpdate(tourneyAwards2)
 --;===========================================================
 --; ABYSS SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_abyssCfg = createTextImg(jgFnt, 0, 0, "ABYSS SELECT", 159, 13)
-txt_abyssLv = createTextImg(font7, 0, 0, "LEVEL ", 0, 0)
-txt_abyssDepth = createTextImg(font7, 0, 0, "DEPTH", 0, 0)
-txt_abyssContinue = createTextImg(font7, 0, 0, "CONTINUE", 159, 232)
-txt_abyssLvInfo = createTextImg(font7, 0, 0, "", 159, 205)
+txt_abyssCfg = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 30, 1.2, 1.2)
+txt_abyssLv = createTextImg(font20, 2, 0, "", 0, 0)
+txt_abyssDepth = createTextImg(font20, 1, 0, "DEPTH", 0, 0)
+txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
+txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
 t_abyssSel = {
- {id = textImgNew(), depth = "100", info = "Easy Level"},
- {id = textImgNew(), depth = "500", info = "Normal Level"},
- {id = textImgNew(), depth = "999", info = "Hard Level"},
+ {id = textImgNew(), depth = "100", info = "[Easy] difficulty geared towards beginners"},
+ {id = textImgNew(), depth = "500", info = "[Normal] difficulty for average players"},
+ {id = textImgNew(), depth = "999", info = "[Hard] difficulty for expert players"},
 }
 
 --Info BG
@@ -3930,6 +3930,13 @@ abyssSelWindowBG = animNew(sprSys, [[
 ]])
 animUpdate(abyssSelWindowBG)
 animSetScale(abyssSelWindowBG, 0.8, 1.4)
+
+--Continue Window BG
+abyssContBG = animNew(sprSys, [[
+230,2, 0,0, -1
+]])
+animUpdate(abyssContBG)
+animSetScale(abyssContBG, 0.95, 0.40)
 
 function drawAbyssInputHints()
 	local inputHintYPos = 219

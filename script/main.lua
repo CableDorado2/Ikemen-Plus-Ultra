@@ -18854,24 +18854,28 @@ function f_abyssCfg()
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Title
 		textImgDraw(txt_abyssCfg)
-		animPosDraw(abyssCfgInfoBG, -56, 190) --Draw Info Text BG
+		animPosDraw(abyssCfgInfoBG, -56, 185) --Draw Info Text BG
 		textImgSetText(txt_abyssLvInfo, t_abyssSel[cursorPosX].info)
 		textImgDraw(txt_abyssLvInfo)
 		--Draw Abyss Level Content Text
 		for i=1, maxabyssCfg do
 			if i > abyssCfg - cursorPosX then
 				if t_abyssSel[i].id ~= nil then
-					animPosDraw(abyssSelWindowBG, -100+cursorPosX+i*105,50)
-					textImgDraw(f_updateTextImg(t_abyssSel[i].id, jgFnt, 0, 0, t_abyssSel[i].depth, -65+i*104-moveTxt, 120))
-					textImgSetPos(txt_abyssLv, -65+i*104-moveTxt, 75)
+					animPosDraw(abyssSelWindowBG, -94+i*104-moveTxt,50)
+					textImgDraw(f_updateTextImg(t_abyssSel[i].id, font20, 4, 0, t_abyssSel[i].depth, -50+i*104-moveTxt, 120))
+					textImgSetPos(txt_abyssLv, -50+i*104-moveTxt, 75)
+					textImgSetText(txt_abyssLv, "LEVEL "..i)
 					textImgDraw(txt_abyssLv)
-					textImgSetPos(txt_abyssDepth, -65+i*104-moveTxt, 100)
+					textImgSetPos(txt_abyssDepth, -50+i*104-moveTxt, 105)
 					textImgDraw(txt_abyssDepth)
 				end
 			end
 		end
+		--Draw Continue Box
+		animPosDraw(abyssContBG, 106, 147)
+		textImgDraw(txt_abyssContinue)
 		--Draw Cursor
-		animSetWindow(cursorBox, -100+cursorPosX*104,50, 90,80)
+		animSetWindow(cursorBox, -94+cursorPosX*104,54, 89.5,78)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if maxabyssCfg > maxItems then
