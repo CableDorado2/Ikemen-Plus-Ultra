@@ -618,7 +618,7 @@ function f_netsaveCfg()
 		['data.quickCont'] = data.quickCont,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.aipal'] = data.aipal,
-		['data.data.kumite'] = data.data.kumite,
+		['data.kumite'] = data.kumite,
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,

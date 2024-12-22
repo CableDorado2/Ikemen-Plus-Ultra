@@ -6196,7 +6196,7 @@ function f_watchLicense()
 	local maxItems = 1
 	local cursorUpdate = true
 	--
-	local txtPosX = -52
+	local txtPosX = -50
 	local function f_resetYPos() txtPosY = 30 end
 	f_resetYPos()
 	local txtSpacing = 12
@@ -6269,6 +6269,7 @@ function f_watchLicense()
 			f_readLicense(licenseList[licenseMenu].path) --Get Text Data
 			cursorUpdate = false
 		end
+		animDraw(f_animVelocity(licenseBG, -0.1, -0.1))
 		f_textRender(txt_license, licenseContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
 		animPosDraw(licenseTitleBG, -56, 0) --Draw Title BG
 		textImgSetText(txt_licenseTitle, licenseList[licenseMenu].name.." LICENSE")
@@ -18851,11 +18852,12 @@ function f_abyssCfg()
 			maxabyssCfg = maxItems
 		end
 		--Draw BG
-		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animDraw(abyssBG)
+		animDraw(f_animVelocity(abyssFog, -1, -1))
 		--Draw Title
 		textImgDraw(txt_abyssCfg)
 		animPosDraw(abyssCfgInfoBG, -56, 185) --Draw Info Text BG
-		textImgSetText(txt_abyssLvInfo, t_abyssSel[cursorPosX].info)
+		textImgSetText(txt_abyssLvInfo, t_abyssSel[abyssCfg].info)
 		textImgDraw(txt_abyssLvInfo)
 		--Draw Abyss Level Content Text
 		for i=1, maxabyssCfg do

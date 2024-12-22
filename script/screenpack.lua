@@ -9,9 +9,9 @@ sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprStory = sffNew("data/screenpack/story.sff") --load story sprites
-sprTower = sffNew("data/screenpack/tower.sff") --load tower sprites
-sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel sprites
+
+sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
 
 --Sound Data (Sound effects do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -611,8 +611,8 @@ animSetPos(menuArrowRight, 312, 123)
 end
 
 function f_resetAbyssArrowsPos() --Used in Abyss Mode
-animSetPos(menuArrowLeft, 0, 123)
-animSetPos(menuArrowRight, 312, 123)
+animSetPos(menuArrowLeft, 0, 90)
+animSetPos(menuArrowRight, 312, 90)
 end
 
 function f_titleText()
@@ -1382,7 +1382,16 @@ t_confirmSongMenu = {
 --; LICENSES MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_licenseTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
-txt_license = createTextImg(font7, 0, 1, "", 0, 0)
+txt_license = createTextImg(font2, 0, 1, "", 0, 0)
+
+--Background
+licenseBG = animNew(sprIkemen, [[
+0,0, 0,0, -1
+]])
+animAddPos(licenseBG, 160, 0)
+animSetTile(licenseBG, 1, 1)
+animSetColorKey(licenseBG, -1)
+animSetAlpha(licenseBG, 150, 0)
 
 --Title BG
 licenseTitleBG = animNew(sprSys, [[
@@ -1719,7 +1728,7 @@ animSetTile(intermissionBG0, 1, 1)
 animSetColorKey(intermissionBG0, -1)
 
 --Intermission Scrolling background 2
-intermissionBG1 = animNew(sprTower, [[
+intermissionBG1 = animNew(sprIkemen, [[
 0,0, 0,0, -1
 ]])
 animAddPos(intermissionBG1, 160, 0)
@@ -1884,7 +1893,7 @@ animSetTile(selectHardBG0, 1, 1)
 animSetColorKey(selectHardBG0, -1)
 
 --Tower Scrolling background
-selectTowerBG0 = animNew(sprTower, [[
+selectTowerBG0 = animNew(sprIkemen, [[
 0,0, 0,0, -1
 ]])
 animAddPos(selectTowerBG0, 160, 0)
@@ -3583,46 +3592,46 @@ txt_towerSelect = createTextImg(font35, 0, 0, "CHOOSE YOUR DESTINY", 159, 13, 0.
 txt_destinyTime = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 --Destiny Select BG
-destinyBG = animNew(sprTower, [[
-1,0, 0,0, -1
+destinyBG = animNew(sprIkemen, [[
+40,0, 0,0, -1
 ]])
 animAddPos(destinyBG, -55, 0)
 animUpdate(destinyBG)
 animSetScale(destinyBG, 1.1, 1)
 
 --Destiny Cursor
-destinyCursor = animNew(sprTower, [[
-2,0, 0,0, 3
-2,1, 0,0, 3
-2,2, 0,0, 3
-2,3, 0,0, 3
-2,4, 0,0, 3
-2,5, 0,0, 3
-2,6, 0,0, 3
-2,7, 0,0, 3
-2,8, 0,0, 3
-2,9, 0,0, 3
-2,10, 0,0, 3
-2,11, 0,0, 3
-2,12, 0,0, 3
-2,13, 0,0, 3
-2,14, 0,0, 3
-2,15, 0,0, 3
-2,16, 0,0, 3
-2,17, 0,0, 3
-2,18, 0,0, 3
-2,19, 0,0, 3
-2,20, 0,0, 3
-2,21, 0,0, 3
-2,22, 0,0, 3
-2,23, 0,0, 3
+destinyCursor = animNew(sprIkemen, [[
+42,0, 0,0, 3
+42,1, 0,0, 3
+42,2, 0,0, 3
+42,3, 0,0, 3
+42,4, 0,0, 3
+42,5, 0,0, 3
+42,6, 0,0, 3
+42,7, 0,0, 3
+42,8, 0,0, 3
+42,9, 0,0, 3
+42,10, 0,0, 3
+42,11, 0,0, 3
+42,12, 0,0, 3
+42,13, 0,0, 3
+42,14, 0,0, 3
+42,15, 0,0, 3
+42,16, 0,0, 3
+42,17, 0,0, 3
+42,18, 0,0, 3
+42,19, 0,0, 3
+42,20, 0,0, 3
+42,21, 0,0, 3
+42,22, 0,0, 3
+42,23, 0,0, 3
 ]])
 animSetScale(destinyCursor, 0.135, 0.135)
 animSetAlpha(destinyCursor, 188, 0)
 animUpdate(destinyCursor)
 
 --Tower Slot
-towerSlot = animNew(sprTower, [[3,0, 0,0,]])
+towerSlot = animNew(sprIkemen, [[43,0, 0,0,]])
 animSetScale(towerSlot, 0.5, 0.5)
 animUpdate(towerSlot)
 
@@ -3649,20 +3658,20 @@ end
 --; TOWER BATTLE PLAN SCREENPACK DEFINITION
 --;=================================================================================================
 --Final Destiny BG
-destinyFinalBG = animNew(sprTower, [[
-1,1, 0,0, -1
+destinyFinalBG = animNew(sprIkemen, [[
+40,1, 0,0, -1
 ]])
 animAddPos(destinyFinalBG, 0, 0)
 animUpdate(destinyFinalBG)
 animSetScale(destinyFinalBG, 1.1, 1)
 
 --Tower Slot
-battleSlot = animNew(sprTower, [[3,1, 0,0,]])
+battleSlot = animNew(sprIkemen, [[43,1, 0,0,]])
 animSetScale(battleSlot, 1.3, 1.3)
 animUpdate(battleSlot)
 
 --VS Preview
-vsPreview = animNew(sprTower, [[4,1, 0,0,]])
+vsPreview = animNew(sprIkemen, [[44,1, 0,0,]])
 animAddPos(vsPreview, 138, 113)
 animUpdate(vsPreview)
 animSetScale(vsPreview, 0.75, 0.75)
@@ -3915,7 +3924,24 @@ t_abyssSel = {
  {id = textImgNew(), depth = "100", info = "[Easy] difficulty geared towards beginners"},
  {id = textImgNew(), depth = "500", info = "[Normal] difficulty for average players"},
  {id = textImgNew(), depth = "999", info = "[Hard] difficulty for expert players"},
+ {id = textImgNew(), depth = "2953", info = "[TEST1] difficulty for expert players"},
+ {id = textImgNew(), depth = "8988", info = "[TEST2] difficulty for expert players"},
 }
+
+--Background
+abyssBG = animNew(sprIkemen, [[
+60,0, 0,0, -1
+]])
+animSetScale(abyssBG, 0.40, 0.60)
+animSetPos(abyssBG, -400,-475)
+animUpdate(abyssBG)
+
+--BG Fog
+abyssFog = animNew(sprSys, [[
+100,1, 0,0, -1
+]])
+animSetTile(abyssFog, 1, 1)
+animSetAlpha(abyssFog, 50,255)
 
 --Info BG
 abyssCfgInfoBG = animNew(sprSys, [[
