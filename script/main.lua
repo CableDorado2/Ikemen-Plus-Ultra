@@ -5400,7 +5400,6 @@ end
 --; GALLERY MENU
 --;===========================================================
 function f_updateGallery()
-	galleryCalc = 1
 	galleryXpos = 1
 	galleryYpos = 1
 	galleryMove = 0
@@ -5486,7 +5485,6 @@ function f_galleryMenu()
 				sndPlay(sndSys, 100, 0)
 				galleryCell = galleryCell - galleryMenuSizeX
 				galleryYpos = galleryYpos - 1
-				galleryCalc = galleryCalc - 4
 			end
 	--SCROLL DOWN
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
@@ -5495,7 +5493,6 @@ function f_galleryMenu()
 					sndPlay(sndSys, 100, 0)
 					galleryCell = galleryCell + galleryMenuSizeX
 					galleryYpos = galleryYpos + 1
-					galleryCalc = galleryCalc + 4
 				end
 			end
 	--SCROLL LEFT
@@ -5504,7 +5501,6 @@ function f_galleryMenu()
 				sndPlay(sndSys, 100, 0)
 				galleryCell = galleryCell - 1
 				galleryXpos = galleryXpos - 1
-				galleryCalc = galleryCalc - 1
 			end
 	--SCROLL RIGHT
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
@@ -5513,7 +5509,6 @@ function f_galleryMenu()
 					sndPlay(sndSys, 100, 0)
 					galleryCell = galleryCell + 1
 					galleryXpos = galleryXpos + 1
-					galleryCalc = galleryCalc + 1
 				end
 			end
 		end

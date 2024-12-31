@@ -3918,6 +3918,7 @@ txt_abyssCfg = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 30, 1.2, 1.2)
 txt_abyssLv = createTextImg(font20, 2, 0, "", 0, 0)
 txt_abyssDepth = createTextImg(font20, 1, 0, "DEPTH", 0, 0)
 txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
+txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
 t_abyssSel = {
