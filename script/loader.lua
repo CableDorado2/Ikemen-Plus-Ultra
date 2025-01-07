@@ -1066,6 +1066,71 @@ end
 --;===========================================================
 --; LOADING SCREEN 3 (LOAD GALLERY.DEF DATA)
 --;===========================================================
+--[[
+function f_loadGallery() --Load def file which contains artworks data
+	t_gallery = {}
+	local section = 0
+	local row = 0
+	local content = main.f_fileRead(galleryDef)
+	content = content:gsub('([^\r\n;]*)%s*;[^\r\n]*', '%1')
+	content = content:gsub('\n%s*\n', '\n')
+	for line in content:gmatch('[^\r\n]+') do
+		local lineCase = line:lower()
+		if lineCase:match('^%s*%[%s*galleryartworks%s*%]') then
+			row = 0
+			section = 1
+		elseif lineCase:match('^%s*%[%w+%]$') then
+			section = -1
+		elseif section == 1 then --[GalleryArtworks]
+			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
+			--Generate Table to manage each item with default values
+				if param:match('^id$') then
+					table.insert(t_gallery,
+						{
+							id = value,
+							spr = {},
+							size = {motif.artviewer_info.art_size[1], motif.artviewer_info.art_size[2]},
+							pos = {motif.artviewer_info.art_offset[1], motif.artviewer_info.art_offset[2]},
+							scale = {motif.artviewer_info.art_scale[1], motif.artviewer_info.art_scale[2]},
+							zoomlimit = {motif.artviewer_info.art_zoomlimit[1], motif.artviewer_info.art_zoomlimit[2]},
+							movelimit = {motif.artviewer_info.art_movelimit[1], motif.artviewer_info.art_movelimit[2], motif.artviewer_info.art_movelimit[3], motif.artviewer_info.art_movelimit[4]},
+							info = motif.gallery_info.info_unknown_text,
+							previewpos = motif.gallery_info.preview_art_offset,
+							previewspacing = motif.gallery_info.preview_art_spacing,
+							previewscale = motif.gallery_info.preview_art_scale,
+							unlock = 'true'
+						}
+					)
+			--Store comma separated number values to table
+				elseif param:match('^spr$') or param:match('^size$') or param:match('^pos$') or param:match('^scale$') or param:match('^zoomlimit$') or param:match('^movelimit$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
+					local tbl = {}
+					for num in value:gmatch('([^,]+)') do
+						table.insert(tbl, tonumber(num))
+					end
+					t_gallery[#t_gallery][param] = tbl
+			--Store extra values
+				elseif t_gallery[#t_gallery][param] ~= nil then
+					t_gallery[#t_gallery][param] = value
+				end
+			end
+		end
+	end
+	for k, v in ipairs(t_gallery) do --Set Unlock Conditions
+		if main.t_unlockLua.gallery == nil then main.t_unlockLua['gallery'] = {} end
+		main.t_unlockLua.gallery[v.id] = v.unlock
+	end
+	if main.debugLog then main.f_printTable(t_gallery, 'debug/t_gallery.txt') end
+--Load .sff file with Artworks
+	if main.f_fileExists(motif.gallery_info.artworks_spr) then
+		motif.files.gallery_data = sffNew(motif.gallery_info.artworks_spr)
+	else
+		motif.files.gallery_data = sffNew()
+	end
+end
+f_loadGallery()
+]]
+
 t_gallery = {}
 local section = 0
 local file = io.open(galleryDef,"r")

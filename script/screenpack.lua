@@ -1275,24 +1275,64 @@ t_statsMenu = {
 --;===========================================================
 txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
 txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
+txt_galleryNoData = "NO SPRITE DATA FOUND."
 
---Gallery Cursor
-galleryCursorPosX = -74.3
-galleryCursorPosY = 4.3
-galleryCursorSpacingX = 78.09
-galleryCursorSpacingY = 44.1
+--Gallery Size Definition
+galleryColumns = 3
+galleryHiddenColumns = 1
+galleryRows = 3
+galleryHiddenRows = 1
 
---Gallery Items
-galleryCellPosX = -17.5
-galleryCellPosY = 35
-galleryCellSpacingX = 39
-galleryCellSpacingY = 22
+--Gallery Window
+galleryWindowX1 = 0
+galleryWindowY1 = 42
+galleryWindowX2 = 320
+galleryWindowY1 = 145
 
---Menu Cursor
-galleryCursor = animNew(sprIkemen, [[
+--Preview Slot Item
+galleryPreviewSlot = animNew(sprIkemen, [[
 20,0, 0,0, -1
 ]])
-animSetScale(galleryCursor, 0.49, 0.5)
+animSetScale(galleryPreviewSlot, 1.0, 1.0)
+
+galleryPreviewSlotPosX = 5
+galleryPreviewSlotPosY = 13
+
+galleryPreviewSlotSizeX = 96
+galleryPreviewSlotSizeY = 56
+
+galleryPreviewSlotSpacingX = 6
+galleryPreviewSlotSpacingY = 6
+
+--Preview Cursor
+galleryPreviewCursor = animNew(sprIkemen, [[
+22,0, 0,0, -1
+]])
+animSetScale(galleryPreviewCursor, 1.0, 1.0)
+
+galleryPreviewCursorPosX = 5
+galleryPreviewCursorPosY = 13
+
+galleryPreviewCursorSizeX = 96
+galleryPreviewCursorSizeY = 56
+
+galleryPreviewCursorSpacingX = 6
+galleryPreviewCursorSpacingY = 6
+
+--Preview Unknown
+galleryPreviewUnknown = animNew(sprIkemen, [[
+23,0, 0,0, -1
+]])
+animSetScale(galleryPreviewUnknown, 1.0, 1.0)
+
+galleryPreviewUnknownPosX = 6.9
+galleryPreviewUnknownPosY = 14.9
+
+galleryPreviewUnknownSizeX = 90
+galleryPreviewUnknownSizeY = 50
+
+galleryPreviewUnknownSpacingX = 12
+galleryPreviewUnknownSpacingY = 12
 
 --Info BG
 galleryInfoBG = animNew(sprSys, [[
@@ -1315,6 +1355,14 @@ end
 --;===========================================================
 --; ARTWORK DISPLAY SCREENPACK DEFINITION
 --;===========================================================
+galleryArtMoveLimitX1 = 0
+galleryArtMoveLimitY1 = 0
+galleryArtMoveLimitX2 = 320
+galleryArtMoveLimitY2 = 240
+
+galleryArtMoveSpeed = 14
+galleryArtZoomSpeed = 0.01
+
 --Input Hints BG
 gInputsBG = animNew(sprSys, [[
 230,3, 0,0, -1
