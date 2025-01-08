@@ -5434,15 +5434,13 @@ function f_drawGallery(t, columns, rows) --Draw Gallery Content
 			--Draw Preview (only if has Spr Data defined)
 				if t[index].spr[1] and t[index].spr[2] ~= nil then
 					if t_unlockLua.gallery[t[index].id] == nil then --If the artwork is Unlocked
-						--[[
 						f_drawGalleryPreview(
 							t[index].spr[1], t[index].spr[2],
 							t[index].previewpos[1] + i * (t[index].size[1] + t[index].previewspacing[1]) - (galleryMoveX * (t[index].size[1] + t[index].previewspacing[1])),
-							t[index].previewpos[2] + j * (t[index].size[2] + t[index].previewspacing[2]) - (galleryMoveY * (t[index].size[2] + t[index].previewspacing[2]))
+							t[index].previewpos[2] + j * (t[index].size[2] + t[index].previewspacing[2]) - (galleryMoveY * (t[index].size[2] + t[index].previewspacing[2])),
 							t[index].previewscale[1], t[index].previewscale[2],
 							galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2
 						)
-						]]
 					else --If the artwork is Locked
 						animPosDraw(
 							galleryPreviewUnknown,

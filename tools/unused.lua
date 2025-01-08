@@ -67,6 +67,291 @@ end
 --;===========================================================
 --; GALLERY MENU
 --;===========================================================
+t_gallery = {}
+local section = 0
+local file = io.open(galleryDef,"r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+for line in content:gmatch('[^\r\n]+') do
+	if line:match('^%s*%[%s*[Aa][Rr][Tt][Ww][Oo][Rr][Kk][Ss]%s*%]') then
+		section = 1
+		row = #t_gallery+1
+		t_gallery[row] = {}
+	elseif line:match('^%s*%[%s*[Ss][Tt][Oo][Rr][Yy][Bb][Oo][Aa][Rr][Dd][Ss]%s*%]') then
+		section = 2
+		row = #t_gallery+1
+		t_gallery[row] = {}
+	elseif line:match('^%s*%[%s*[Mm][Oo][Vv][Ii][Ee][Ss]%s*%]') then
+		section = 3
+		row = #t_gallery+1
+		t_gallery[row] = {}
+	elseif section == 1 then --[Artworks]
+		--displayname = string
+		if line:match('^%s*displayname%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['txtID'] = textImgNew()
+			end
+		end
+		--preview.file = filename (string)
+		if line:match('^%s*preview.file%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				--Store sff data to be used in gallery previews
+				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
+			end
+		end
+		--preview.common.pos = posX, posY (int, int)
+		if line:match('^%s*preview.common.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprPosX'], t_gallery[row]['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--preview.common.scale = scaleX, scaleY (int, int)
+		if line:match('^%s*preview.common.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprScaleX'], t_gallery[row]['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*%[%s*[Aa][Rr][Tt]%s+[0-9]+$*%]') then --[Art No]
+			t_gallery[row][#t_gallery[row]+1] = {}
+			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
+			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['infolock'] = "???"
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+		end
+		--preview.spr = groupNo, indexNo (int, int)
+		if line:match('^%s*preview.spr%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
+				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+			end
+		end
+		--preview.pos = posX, posY (int, int)
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprPosX'], t_gallery[row][#t_gallery[row]]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--preview.scale = scaleX, scaleY (int, int)
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--info = string
+		if line:match('^%s*info%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--info.locked = string
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--unlock = lua condition
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+	elseif section == 2 then --[Storyboards]
+		if line:match('^%s*displayname%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['txtID'] = textImgNew()
+			end
+		end
+		if line:match('^%s*preview.file%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
+			end
+		end
+		if line:match('^%s*preview.common.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprPosX'], t_gallery[row]['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.common.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprScaleX'], t_gallery[row]['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*%[%s*[Cc][Uu][Tt][Ss][Cc][Ee][Nn][Ee]%s+[0-9]+$*%]') then --[Cutscene No]
+			t_gallery[row][#t_gallery[row]+1] = {}
+			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
+			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['infolock'] = "???"
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+		end
+		if line:match('^%s*preview.spr%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprPosX'], t_gallery[row][#t_gallery[row]]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		--file = filename (string)
+		if line:match('^%s*file%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['file'] = data:gsub('^%s*file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*info%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+	elseif section == 3 then --[Movies]
+		if line:match('^%s*displayname%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['txtID'] = textImgNew()
+			end
+		end
+		if line:match('^%s*preview.file%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row]['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1'))
+			end
+		end
+		if line:match('^%s*preview.common.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprPosX'], t_gallery[row]['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.common.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row]['commonSprScaleX'], t_gallery[row]['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*%[%s*[Vv][Ii][Dd][Ee][Oo]%s+[0-9]+$*%]') then --[Video No]
+			t_gallery[row][#t_gallery[row]+1] = {}
+			t_gallery[row][#t_gallery[row]]['id'] = #t_gallery[row]
+			t_gallery[row][#t_gallery[row]]['infounlock'] = ""
+			t_gallery[row][#t_gallery[row]]['infolock'] = "???"
+			t_gallery[row][#t_gallery[row]]['unlock'] = "true"
+		end
+		if line:match('^%s*preview.spr%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprGroup'], t_gallery[row][#t_gallery[row]]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.pos%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprPosX'], t_gallery[row][#t_gallery[row]]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*preview.scale%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_gallery[row][#t_gallery[row]]['sprScaleX'], t_gallery[row][#t_gallery[row]]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
+			end
+		end
+		if line:match('^%s*file%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['file'] = data:gsub('^%s*file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*info%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*info.locked%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*unlock%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_gallery[row][#t_gallery[row]]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+	end
+	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
+	--[[
+	textImgSetText(txt_loading, "LOADING GALLERY...")
+	textImgDraw(txt_loading)
+	refresh()
+	]]
+end
+for i=1, #t_gallery do
+	local section = nil
+	if i == 1 then section = "artworks"
+	elseif i == 2 then section = "storyboards"
+	elseif i == 3 then section = "videos"
+	end
+	for k, v in ipairs(t_gallery[i]) do --Send Gallery Unlocks Condition to t_unlockLua table
+		t_unlockLua[section][v.id] = v.unlock
+	end
+end
+
 function f_galleryMenu()
 	cmdInput()
 	local bufu = 0

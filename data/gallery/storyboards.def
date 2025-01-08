@@ -1,0 +1,139 @@
+;Gallery Artworks declaration. Assigned artworks are selectable via Gallery Mode
+;submenu ('menu.itemname.gallery' parameter in screenpack DEF file)
+
+;Declaring artworks consists of setting up following parameters:
+ 
+; - id
+;   Set to name that should be stored for use with unlocks paramvalue.
+;   This parameter also initiates new artworks declaration, so it has to be
+;   assigned before any other parameter used by the same artwork.
+;   All artworks should have unique id names.
+
+; - spr
+; 	Set groupNo and indexNo to load from sff file defined in "artworks.spr"
+;   system.def [Gallery Info] paramvalue, to show sprite for items.
+;   If is not defined, nothing will be displayed.
+
+; - size
+; 	Set Width and Height of sprite defined in spr paramvalue.
+;   If is not defined, "art.size" system.def [ArtViewer Info] paramvalue will be used.
+
+; - pos (only used in artwork viewer)
+; 	Set posX and posY for sprite defined in spr paramvalue.
+;   If is not defined, "art.offset" system.def [ArtViewer Info] paramvalue will be used.
+
+; - scale (only used in artwork viewer)
+; 	Set scaleX and scaleY for sprite defined in spr paramvalue.
+;   If is not defined, "art.scale" system.def [ArtViewer Info] paramvalue will be used.
+
+; - zoomlimit (only used in artwork viewer)
+; 	Set maxZoomOut and maxZoomIn for sprite defined in spr paramvalue.
+;   If is not defined, "art.zoomlimit" system.def [ArtViewer Info] paramvalue will be used.
+
+; - movelimit (only used in artwork viewer)
+; 	Set maxPosX1, maxPosY1, maxPosX2, maxPosY2 for sprite defined in spr paramvalue.
+;   If is not defined, "art.movelimit" system.def [ArtViewer Info] paramvalue will be used.
+
+; - previewpos (only used in main gallery screen)
+; 	Set posX and posY for gallery preview sprite which is the same defined in spr paramvalue.
+;   If is not defined, "preview.art.offset" system.def [Gallery Info] paramvalue will be used.
+
+; - previewspacing (only used in main gallery screen)
+; 	Set spacingX and spacingY for gallery preview sprite which is the same defined in spr paramvalue.
+;   If is not defined, "preview.art.spacing" system.def [Gallery Info] paramvalue will be used.
+
+; - previewscale (only used in main gallery screen)
+; 	Set scaleX and scaleY for gallery preview sprite which is the same defined in spr paramvalue.
+;   If is not defined, "preview.art.scale" system.def [Gallery Info] paramvalue will be used.
+
+; - info
+;   Set to description that should be displayed for artwork selected.
+;   If is not defined, "info.unknown.text" system.def [Gallery Info] paramvalue will be used.
+
+; - unlock
+;   Pure Lua code, executed exactly as is, each time upon loading gallery menu.
+;   If it evaluates to boolean 'true' the artwork will be selectable from
+;   gallery mode submenu, or hidden on 'false'. Default: true.
+;   https://github.com/ikemen-engine/Ikemen-GO/wiki/Lua#content-unlocking
+
+;Examples:
+ 
+[GalleryArtworks]
+id = Art 1
+spr = 1,1
+size = 600, 800
+pos = 190,0
+scale = 0.3, 0.3
+zoomlimit = 0.20, 1.20
+movelimit = -500,-700, 1500,1000
+info = Unofficial Artwork 1 of Kung Fu Man By act52
+previewpos = 630,455
+previewspacing = 1000,185
+previewscale = 0.063, 0.063
+
+id = Art 2
+spr = 1,2
+size = 779, 1800
+pos = 590,0
+scale = 0.15, 0.15
+zoomlimit = 0.10, 0.65
+movelimit = -590,-1500, 2500,2000
+info = Unofficial Artwork of Suave Dude By Koorogi
+previewpos = 1500,1030
+previewspacing = 3000,420
+previewscale = 0.028, 0.028
+
+id = Art 3
+spr = 1,3
+size = 827, 1210
+pos = 365,0
+scale = 0.20, 0.20
+zoomlimit = 0.15, 0.60
+movelimit = -700,-1200, 1500,1000
+info = Mugen Satoru Louisa Riyu: The Kung Fu Girl By GrapplerGray1985
+previewpos = 965,695
+previewspacing = 1650,284
+previewscale = 0.0415, 0.0415
+
+id = Art 4
+spr = 1,4
+info = Original Mugen Character The Kung Fu Man By GrapplerGray1985
+
+id = Art 5
+spr = 1,5
+info = Original Mugen Hero The Kung Fu Woman By GrapplerGray1985
+
+id = Art 6
+spr = 1,6
+info = Unofficial Artwork of Kung Fu Man By GrapplerGray1985
+
+id = Art 7
+spr = 1,7
+size = 352, 640
+pos = 225,0
+scale = 0.38, 0.38
+zoomlimit = 0.30, 0.80
+movelimit = -200,-600, 1000,600
+info = Unofficial Artwork 2 of Kung Fu Man By act52
+previewpos = 560,360
+previewspacing = 940,145
+previewscale = 0.079, 0.079
+unlock = stats.modes ~= nil and stats.modes.arcade ~= nil and stats.modes.arcade.clearcount ~= nil and stats.modes.arcade.clearcount.kfmz ~= nil and stats.modes.arcade.clearcount.kfmz > 0
+
+id = Art 8
+spr = 1,8
+size = 600, 800
+pos = 190,0
+scale = 0.30, 0.30
+zoomlimit = 0.26,1.30
+movelimit = -500,-600, 900,600
+info = Unofficial Artwork of Kung Fu Man By Esaka
+previewpos = 600,455
+previewspacing = 1000,184
+previewscale = 0.063, 0.063
+unlock = stats.modes ~= nil and stats.modes.arcade ~= nil and stats.modes.arcade.clearcount ~= nil and stats.modes.arcade.clearcount.kfm720 ~= nil and stats.modes.arcade.clearcount.kfm720 > 0
+
+;Note:
+;It is recommended not to use some paramvalues ​​in this file for those images that share the same size/dimensions.
+;In the examples above, items 4, 5, and 6 share the same dimensions, so instead of adding custom values for each (except: id, spr, info and unlock)
+;the COMMON VALUES are read from system.def according to the description of what happens "if not defined".

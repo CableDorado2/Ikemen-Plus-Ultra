@@ -48,7 +48,9 @@ missionDef = "data/missions/missions.def"
 eventDef = "data/events/events.def"
 
 --Gallery Data (Gallery definition filename)
-galleryDef = "data/gallery/gallery.def"
+galleryArtworksDef = "data/gallery/artworks.def"
+galleryStoryboardsDef = "data/gallery/storyboards.def"
+galleryMoviesDef = "data/gallery/movies.def"
 
 --Visual Novel Data (Visual Novel definition filename)
 vnDef = "data/visualnovel/vnselect.def"
@@ -1276,6 +1278,7 @@ t_statsMenu = {
 txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
 txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
 txt_galleryNoData = "NO SPRITE DATA FOUND."
+txt_galleryUnknown = "???"
 
 --Gallery Size Definition
 galleryColumns = 3
@@ -1288,6 +1291,16 @@ galleryWindowX1 = 0
 galleryWindowY1 = 42
 galleryWindowX2 = 320
 galleryWindowY1 = 145
+
+--Gallery Art Common Values
+galleryPreviewArtPosX = 50
+galleryPreviewArtPosY = 50
+
+galleryPreviewArtSpacingX = 6
+galleryPreviewArtSpacingY = 6
+
+galleryPreviewArtScaleX = 1.0
+galleryPreviewArtScaleY = 1.0
 
 --Preview Slot Item
 galleryPreviewSlot = animNew(sprIkemen, [[
@@ -1355,13 +1368,25 @@ end
 --;===========================================================
 --; ARTWORK DISPLAY SCREENPACK DEFINITION
 --;===========================================================
+galleryArtPosX = 190
+galleryArtPosY = 0
+
+galleryArtSizeX = 120
+galleryArtSizeY = 140
+
+galleryArtScaleX = 0.3
+galleryArtScaleY = 0.3
+
+galleryArtMoveSpeed = 14
+galleryArtZoomSpeed = 0.01
+
+galleryArtZoomLimitX = 0.05
+galleryArtZoomLimitY = 1.99
+
 galleryArtMoveLimitX1 = 0
 galleryArtMoveLimitY1 = 0
 galleryArtMoveLimitX2 = 320
 galleryArtMoveLimitY2 = 240
-
-galleryArtMoveSpeed = 14
-galleryArtZoomSpeed = 0.01
 
 --Input Hints BG
 gInputsBG = animNew(sprSys, [[
