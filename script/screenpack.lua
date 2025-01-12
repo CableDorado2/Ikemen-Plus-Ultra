@@ -10,6 +10,9 @@ sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel sprites
+sprArtworks = sffNew("data/gallery/artworks.sff") --load sff data to be used in gallery artwork previews
+sprStoryboards = sffNew("data/gallery/storyboards.sff") --load sff data to be used in gallery storyboard previews
+sprMovies = sffNew("data/gallery/movies.sff") --load sff data to be used in gallery movie previews
 
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
 
@@ -1290,7 +1293,7 @@ galleryHiddenRows = 1
 galleryWindowX1 = 0
 galleryWindowY1 = 42
 galleryWindowX2 = 320
-galleryWindowY1 = 145
+galleryWindowY2 = 145
 
 --Gallery Art Common Values
 galleryPreviewArtPosX = 50

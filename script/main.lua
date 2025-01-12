@@ -5456,6 +5456,7 @@ function f_drawGallery(t, columns, rows) --Draw Gallery Content
 end
 
 function f_galleryMenu()
+	cmdInput()
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -9892,6 +9893,12 @@ function f_exitOnline()
 		break
 		cmdInput()
 		refresh()
+	end
+end
+
+function f_resetP2CoopInput()
+	if onlinegame and data.coop then
+		setCom(2, 0) --Fix player 2 control lose when exit from online mode, reconnects and re-enter in Co-Op Mode
 	end
 end
 
@@ -16348,6 +16355,7 @@ if validCells() then
 		f_unlock(false)
 		f_updateUnlocks()
 		playBGM("")
+		f_resetP2CoopInput()
 		cmdInput()
 		refresh()
 	end
@@ -16784,7 +16792,11 @@ if validCells() then
 				end
 			end
 		--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
-		else
+		else --if winner == -1
+			if onlinegame and winner == -1 then
+				f_exitToMainMenu()
+				return
+			end
 			--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
 			if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 				looseCnt = looseCnt + 1
@@ -17116,6 +17128,7 @@ if validCells() then
 				setTeamMode(2, p2teamMode, p2numChars)
 			end
 		end
+		f_resetP2CoopInput()
 		cmdInput()
 		refresh()
 	end
@@ -17219,6 +17232,7 @@ if validCells() then
 		f_unlock(false)
 		f_updateUnlocks()
 		playBGM("")
+		f_resetP2CoopInput()
 		cmdInput()
 		refresh()
 	end
@@ -17259,6 +17273,7 @@ function f_selectDestiny()
 	cmdInput()
 	while true do
 		--Actions
+		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
 		if selection == 0 and not backScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
@@ -17436,6 +17451,10 @@ function f_battlePlan()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	cmdInput()
 	while true do
+		if esc() and onlinegame then --Exit during online mode
+			data.tempBack = true
+			break
+		end
 		if startKombat then break end --Go to next Screen
 		if matchNo == 1 then --Battle Plan Presentation
 			if towerPlanTimer < towerPlanTimeLimit then --Intro Time
@@ -18797,6 +18816,7 @@ if validCells() then
 				end
 			end
 		end
+		f_resetP2CoopInput()
 		cmdInput()
 		refresh()
 	end

@@ -1124,11 +1124,38 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 				elseif t_gallery[section][#t_gallery][param] ~= nil then
 					t_gallery[section][#t_gallery][param] = value
 				end
-		--[GalleryStoryboards]
-			
-		--[GalleryMovies]
-			
+		--[GalleryStoryboards] / [GalleryMovies]
+		elseif section == 2 or section == 3 then
+			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
+			--Generate Table to manage each item with default values
+				if param:match('^id$') then
+					table.insert(t_gallery[section],
+						{
+							id = value,
+							spr = {},
+							file = {},
+							size = {galleryArtSizeX, galleryArtSizeY},
+							info = txt_galleryUnknown,
+							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
+							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
+							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
+							unlock = 'true'
+						}
+					)
+			--Store comma separated number values to table
+				elseif param:match('^spr$') or param:match('^size$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
+					local tbl = {}
+					for num in value:gmatch('([^,]+)') do
+						table.insert(tbl, tonumber(num))
+					end
+					t_gallery[section][#t_gallery][param] = tbl
+			--Store extra values
+				elseif t_gallery[section][#t_gallery][param] ~= nil then
+					t_gallery[section][#t_gallery][param] = value
+				end
 			end
+		end
 		end
 	end
 	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
