@@ -5399,7 +5399,7 @@ end
 --;===========================================================
 --; GALLERY MENU
 --;===========================================================
-function f_drawGalleryPreview(group, index, x, y, scaleX, scaleY, x1, y1, x2, y2, alphaS, alphaD)
+function f_drawGalleryPreview(sffData, group, index, x, y, scaleX, scaleY, x1, y1, x2, y2, alphaS, alphaD)
 	local x = x or 0
 	local y = y or 0
 	local scaleX = scaleX or 1
@@ -5407,7 +5407,7 @@ function f_drawGalleryPreview(group, index, x, y, scaleX, scaleY, x1, y1, x2, y2
 	local alphaS = alphaS or 255
 	local alphaD = alphaD or 0
 	local anim = group .. ',' .. index .. ',' .. x .. ',' .. y .. ',' .. '-1'
-	anim = animNew(t_gallery[galleryMenu].sffData, anim)
+	anim = animNew(sffData, anim)
 	animSetAlpha(anim, alphaS, alphaD)
 	animSetScale(anim, scaleX, scaleY)
 	animSetWindow(anim, x1, y1, x2, y2)
@@ -5420,6 +5420,18 @@ function f_setGalleryCursorPos() --Used to calculate gallery cursor pos in galle
 end
 
 function f_drawGallery(t, columns, rows) --Draw Gallery Content
+	local unlockSection = nil
+	local sprData = nil
+	if galleryMenu == 1 then
+		sprData = sprArtworks
+		unlockSection = 'artworks'
+	elseif galleryMenu == 2 then
+		sprData = sprStoryboards
+		unlockSection = 'storyboards'
+	elseif galleryMenu == 3 then
+		sprData = sprMovies
+		unlockSection = 'videos'
+	end
 	for i=0, columns-1 do
 		for j=0, rows-1 do
 			local index = (i + columns * j) + 1 --This is the same logic of f_setGalleryCursorPos() function
@@ -5433,8 +5445,9 @@ function f_drawGallery(t, columns, rows) --Draw Gallery Content
 				animSetWindow(galleryPreviewSlot, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
 			--Draw Preview (only if has Spr Data defined)
 				if t[index].spr[1] and t[index].spr[2] ~= nil then
-					if t_unlockLua.gallery[t[index].id] == nil then --If the artwork is Unlocked
+					if t_unlockLua[unlockSection][t[index].id] == nil then --If the artwork is Unlocked
 						f_drawGalleryPreview(
+							sprData,
 							t[index].spr[1], t[index].spr[2],
 							t[index].previewpos[1] + i * (t[index].size[1] + t[index].previewspacing[1]) - (galleryMoveX * (t[index].size[1] + t[index].previewspacing[1])),
 							t[index].previewpos[2] + j * (t[index].size[2] + t[index].previewspacing[2]) - (galleryMoveY * (t[index].size[2] + t[index].previewspacing[2])),
@@ -5468,20 +5481,21 @@ function f_galleryMenu()
 	galleryMoveX = 0
 	galleryMoveY = 0
 	f_setGalleryCursorPos()
-	local slotMax = (galleryColumns + galleryHiddenColumns)*(galleryRows + galleryHiddenRows)
-	local artMax = nil
-	if slotMax > #t_gallery then
-		artMax = #t_gallery --Set artworks loaded in t_gallery as slotMax amount to prevent issues
-	else
-		artMax = slotMax
-	end
-	local textData = nil
 --Sections Vars
 	galleryMenu = 1
 	local cursorSectionPosX = 1
 	local moveSectionTxt = 0
 	local maxSectionItems = 3
 	--f_updateGallery()
+--
+	local slotMax = (galleryColumns + galleryHiddenColumns)*(galleryRows + galleryHiddenRows)
+	local artMax = nil
+	if slotMax > #t_gallery[galleryMenu] then
+		artMax = #t_gallery[galleryMenu] --Set artworks loaded in t_gallery as slotMax amount to prevent issues
+	else
+		artMax = slotMax
+	end
+	local textData = nil
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetGalleryArrowsPos()
 	f_unlock(false)
@@ -5524,7 +5538,7 @@ function f_galleryMenu()
 			f_setGalleryCursorPos() --Set New Cursor Pos
 		--Prevent fall out of t_gallery items
 			if galleryCursor > artMax then
-				while t_gallery[galleryCursor] == nil do
+				while t_gallery[galleryMenu][galleryCursor] == nil do
 					galleryCursorY = galleryCursorY - 1
 					if galleryMoveY > 0 then
 						galleryMoveY = galleryMoveY - 1
@@ -5570,7 +5584,7 @@ function f_galleryMenu()
 			f_setGalleryCursorPos() --Set New Cursor Pos
 		--Prevent fall out of t_gallery items
 			if galleryCursor > artMax then
-				while t_gallery[galleryCursor] == nil do
+				while t_gallery[galleryMenu][galleryCursor] == nil do
 					galleryCursorX = galleryCursorX - 1
 					if galleryMoveX > 0 then
 						galleryMoveX = galleryMoveX - 1
@@ -5602,7 +5616,7 @@ function f_galleryMenu()
 		elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 		--ARTWORK (watch pictures)
 			if galleryMenu == 1 then
-				if t_unlockLua.artworks[galleryCell] == nil then --If the artwork is unlocked
+				if t_unlockLua.artworks[galleryCursor] == nil then --If the artwork is unlocked
 					sndPlay(sndSys, 100, 1)
 					f_artMenu(artMax)
 					f_setGalleryCursorPos() --Replace with a logic that calculates the new position of the cursor after having moved in artwork viewer...
@@ -5610,12 +5624,12 @@ function f_galleryMenu()
 					sndPlay(sndSys, 100, 5)
 				end
 		--STORYBOARDS (watch storyboards)
-			elseif galleryMenu == 2 and t_gallery[galleryMenu][galleryCell].file ~= nil then
-				if t_unlockLua.storyboards[galleryCell] == nil then --If the storyboard is unlocked
+			elseif galleryMenu == 2 and t_gallery[galleryMenu][galleryCursor].file ~= nil then
+				if t_unlockLua.storyboards[galleryCursor] == nil then --If the storyboard is unlocked
 					sndPlay(sndSys, 100, 1)
 				--Play Storyboard
 					cmdInput()
-					f_storyboard(t_gallery[galleryMenu][galleryCell].file) --Start Storyboard
+					f_storyboard(t_gallery[galleryMenu][galleryCursor].file) --Start Storyboard
 				--When Storyboard Ends:
 					data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 					f_menuMusic()
@@ -5623,10 +5637,10 @@ function f_galleryMenu()
 					sndPlay(sndSys, 100, 5)
 				end
 		--CUTSCENES (watch video cutscenes)
-			elseif galleryMenu == 3 and t_gallery[galleryMenu][galleryCell].file ~= nil then
-				if t_unlockLua.videos[galleryCell] == nil then --If the video is unlocked
+			elseif galleryMenu == 3 and t_gallery[galleryMenu][galleryCursor].file ~= nil then
+				if t_unlockLua.videos[galleryCursor] == nil then --If the video is unlocked
 					sndPlay(sndSys, 100, 1)
-					playVideo(t_gallery[galleryMenu][galleryCell].file)
+					playVideo(t_gallery[galleryMenu][galleryCursor].file)
 				--When Video Ends:
 					data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 					f_menuMusic()
@@ -5679,22 +5693,22 @@ function f_galleryMenu()
 					bank = 0
 				end
 				if t_gallery[i].displayname ~= nil then
-					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 39))
+					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 30))
 				end
 			end
 		end
-	--Draw Up Animated Cursor
+	--Draw Left Animated Cursor
 		if maxSection > maxSectionItems then
 			animDraw(menuArrowLeft)
 			animUpdate(menuArrowLeft)
 		end
-	--Draw Down Animated Cursor
+	--Draw Right Animated Cursor
 		if #t_gallery > maxSectionItems and maxSection < #t_gallery then
 			animDraw(menuArrowRight)
 			animUpdate(menuArrowRight)
 		end
 	--Draw Gallery Content
-		f_drawGallery(t_gallery, galleryColumns+galleryHiddenColumns, galleryRows+galleryHiddenRows)
+		f_drawGallery(t_gallery[galleryMenu], galleryColumns+galleryHiddenColumns, galleryRows+galleryHiddenRows)
 	--Draw Gallery Cursor
 		animPosDraw(
 			galleryPreviewCursor,
@@ -5702,26 +5716,29 @@ function f_galleryMenu()
 			galleryPreviewCursorPosY + (galleryCursorY-galleryMoveY) * (galleryPreviewCursorSizeY + galleryPreviewCursorSpacingY)
 		)
 		animSetWindow(galleryPreviewCursor, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
-	--Condition to Show Unlocked Text
-		if t_gallery[galleryCursor].spr[1] and t_gallery[galleryCursor].spr[2] ~= nil then
-			if t_unlockLua.gallery[t_gallery[galleryCursor].id] == nil then textData = t_gallery[galleryCursor].info else textData = motif.gallery_info.info_unknown_text end
+	--Draw Gallery Info
+		if t_gallery[galleryMenu][galleryCursor].spr[1] and t_gallery[galleryMenu][galleryCursor].spr[2] ~= nil then
+			if (galleryMenu == 1 and t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] == nil) or
+				(galleryMenu == 2 and t_unlockLua.storyboards[t_gallery[galleryMenu][galleryCursor].id] == nil) or
+				(galleryMenu == 3 and t_unlockLua.videos[t_gallery[galleryMenu][galleryCursor].id] == nil) then
+				textData = t_gallery[galleryMenu][galleryCursor].info
+			else
+				--textData = t_gallery[galleryMenu][galleryCursor].infolock
+				textData = txt_galleryUnknown
+			end
 		else
 			textData = txt_noData
 		end
-	--Draw Artwork Info
-		txt_previewInfo:draw()
-		txt_previewInfo:update({
-			text = textData,
-			x = motif.gallery_info.menu_pos[1] + motif.gallery_info.info_offset[1],
-			y = motif.gallery_info.menu_pos[2] + motif.gallery_info.info_offset[2]
-		})
+		animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
+		textImgSetText(txt_galleryInfo, textData)
+		textImgDraw(txt_galleryInfo)
 	--DEBUG STUFF
-	--[
-		f_drawQuickText(txt_debugGalleryCursor, jgFnt, 0, 1, "ITEM: "..galleryCursor, 10, 15)
-		f_drawQuickText(txt_debugGalleryCursorX, jgFnt, 0, 1, "CURSOR X: "..galleryCursorX, 10, 30)
-		f_drawQuickText(txt_debugGalleryCursorY, jgFnt, 0, 1, "CURSOR Y: "..galleryCursorY, 10, 45)
-		f_drawQuickText(txt_debugGalleryMoveX, jgFnt, 0, 1, "MOVE X: "..galleryMoveX, 10, 60)
-		f_drawQuickText(txt_debugGalleryMoveY, jgFnt, 0, 1, "MOVE Y: "..galleryMoveY, 10, 75)
+	--[[
+		f_drawQuickText(txt_debugGalleryCursor, jgFnt, 0, 1, "ITEM: "..galleryCursor, 10, 100+15)
+		f_drawQuickText(txt_debugGalleryCursorX, jgFnt, 0, 1, "CURSOR X: "..galleryCursorX, 10, 100+30)
+		f_drawQuickText(txt_debugGalleryCursorY, jgFnt, 0, 1, "CURSOR Y: "..galleryCursorY, 10, 100+45)
+		f_drawQuickText(txt_debugGalleryMoveX, jgFnt, 0, 1, "MOVE X: "..galleryMoveX, 10, 100+60)
+		f_drawQuickText(txt_debugGalleryMoveY, jgFnt, 0, 1, "MOVE Y: "..galleryMoveY, 10, 100+75)
 	--]]
 	--Draw Input Hints Panel
 		drawGalleryInputHints()
@@ -5765,18 +5782,18 @@ end
 --; ARTWORK VIEWER MENU
 --;===========================================================================================
 function f_drawArtwork()
-local artPic = t_gallery[galleryCursor].spr[1] ..','.. t_gallery[galleryCursor].spr[2] ..','.. artPosX ..','.. artPosY ..','.. '-1'
-artPic = animNew(motif.files.gallery_data, artPic)
-animSetScale(artPic, artScaleX, artScaleY)
+local artPic = t_gallery[galleryMenu][galleryCursor].spr[1] ..','.. t_gallery[galleryMenu][galleryCursor].spr[2] ..','.. artPosX ..','.. artPosY ..','.. '-1'
+artPic = animNew(sprArtworks, artPic)
+animSetScale(artPic, artScaleX, artScaleX)
 animUpdate(artPic)
 animDraw(artPic)
 end
 
 function f_resetArtPos()
-artPosX = t_gallery[galleryCursor].pos[1]
-artPosY = t_gallery[galleryCursor].pos[2]
-artScaleX = t_gallery[galleryCursor].scale[1]
-artScaleY = t_gallery[galleryCursor].scale[2]
+artPosX = t_gallery[galleryMenu][galleryCursor].pos[1]
+artPosY = t_gallery[galleryMenu][galleryCursor].pos[2]
+artScaleX = t_gallery[galleryMenu][galleryCursor].scale[1]
+artScaleY = t_gallery[galleryMenu][galleryCursor].scale[1]
 end
 
 function f_nextArt(limit)
@@ -5812,10 +5829,10 @@ function f_artMenu(artLimit)
 	local bufy = 0
 	local bufx = 0
 	
-	local artPosX = nil
-	local artPosY = nil
-	local artScaleX = nil
-	local artScaleY = nil
+	artPosX = nil
+	artPosY = nil
+	artScaleX = nil
+	artScaleY = nil
 	
 	local maxArt = artLimit
 	local artZero = ""
@@ -5839,7 +5856,7 @@ function f_artMenu(artLimit)
 			sndPlay(sndSys, 100, 3)
 			f_nextArt(maxArt)
 		--If current item is not unlocked
-			while t_unlockLua.gallery[t_gallery[galleryCursor].id] ~= nil do
+			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
 				f_nextArt(maxArt) --Go to an unlocked art
 			end
 			f_resetArtPos()
@@ -5850,7 +5867,7 @@ function f_artMenu(artLimit)
 			sndPlay(sndSys, 100, 3)
 			f_previousArt(maxArt)
 		--If current item is not unlocked
-			while t_unlockLua.gallery[t_gallery[galleryCursor].id] ~= nil do
+			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
 				f_previousArt(maxArt) --Go to an unlocked art
 			end
 			f_resetArtPos()
@@ -5864,60 +5881,57 @@ function f_artMenu(artLimit)
 	--MOVE UP ART
 		if ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or 
 		((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
-			if artPosY > t_gallery[galleryCursor].movelimit[2] then
+			if artPosY > t_gallery[galleryMenu][galleryCursor].movelimit[2] then
 				artPosY = artPosY - galleryArtMoveSpeed
 			end
 	--MOVE DOWN ART
 		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or 
 		((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
-			if artPosY < t_gallery[galleryCursor].movelimit[4] then
+			if artPosY < t_gallery[galleryMenu][galleryCursor].movelimit[4] then
 				artPosY = artPosY + galleryArtMoveSpeed
 			end
 		end
 	--MOVE LEFT ART
 		if ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or 
 		((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 5)) then
-			if artPosX > t_gallery[galleryCursor].movelimit[1] then
+			if artPosX > t_gallery[galleryMenu][galleryCursor].movelimit[1] then
 				artPosX = artPosX - galleryArtMoveSpeed
 			end
 	--MOVE RIGHT ART
 		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or 
 		((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 5)) then
-			if artPosX < t_gallery[galleryCursor].movelimit[3] then
+			if artPosX < t_gallery[galleryMenu][galleryCursor].movelimit[3] then
 				artPosX = artPosX + galleryArtMoveSpeed
 			end
 		end
 	--ZOOM IN ART
 		if ((commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z')) or 
 		((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 10)) then
-			if artScaleX < t_gallery[galleryCursor].zoomlimit[2] and artScaleY < t_gallery[galleryCursor].zoomlimit[2] then
+			if artScaleX < t_gallery[galleryMenu][galleryCursor].zoomlimit[2] and artScaleY < t_gallery[galleryMenu][galleryCursor].zoomlimit[2] then
 				artScaleX = artScaleX + galleryArtZoomSpeed
 				artScaleY = artScaleY + galleryArtZoomSpeed
 			end
 	--ZOOM OUT ART
 		elseif ((commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y')) or 
 		((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 10)) then
-			if artScaleX > t_gallery[galleryCursor].zoomlimit[1] and artScaleY > t_gallery[galleryCursor].zoomlimit[1] then
+			if artScaleX > t_gallery[galleryMenu][galleryCursor].zoomlimit[1] and artScaleY > t_gallery[galleryMenu][galleryCursor].zoomlimit[1] then
 				artScaleX = artScaleX - galleryArtZoomSpeed
 				artScaleY = artScaleY - galleryArtZoomSpeed
 			end
 		end
 	--Draw Artwork (only if has Spr Data defined)
-		if t_gallery[galleryCursor].spr[1] and t_gallery[galleryCursor].spr[2] ~= nil then
+		if t_gallery[galleryMenu][galleryCursor].spr[1] and t_gallery[galleryMenu][galleryCursor].spr[2] ~= nil then
 			f_drawArtwork()
-			textData = t_gallery[galleryCursor].info
+			textData = t_gallery[galleryMenu][galleryCursor].info
 		else
 			textData = txt_noData
 		end
 	--Draw HUD Assets
 		if not hideMenu then
 		--Draw Artwork Info
-			txt_artInfo:draw()
-			txt_artInfo:update({
-				text = textData,
-				x = motif.artviewer_info.menu_pos[1] + motif.artviewer_info.info_offset[1],
-				y = motif.artviewer_info.menu_pos[2] + motif.artviewer_info.info_offset[2]
-			})
+			--animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
+			textImgSetText(txt_artInfo, textData)
+			textImgDraw(txt_artInfo)
 		--Draw Page Info
 			if galleryCursor < 10 then artZero = "0" else artZero = "" end
 			f_drawQuickText(txt_galleryPageInfo, font14, 0, -1, "PAGE "..artZero..galleryCursor.."/"..artLimitZero..maxArt, 312, 15) --draw pictures page numbers text
@@ -9898,7 +9912,9 @@ end
 
 function f_resetP2CoopInput()
 	if onlinegame and data.coop then
-		setCom(2, 0) --Fix player 2 control lose when exit from online mode, reconnects and re-enter in Co-Op Mode
+		for i=1, p1numChars+p2numChars do
+			setCom(i, 0) --Fix player 2 control lose when exit from online mode, reconnects and re-enter in Co-Op Mode
+		end
 	end
 end
 

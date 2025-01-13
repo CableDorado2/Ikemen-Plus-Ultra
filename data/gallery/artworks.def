@@ -1,20 +1,20 @@
 [GalleryArtworks]
 id = Art 1
 spr = 0,1
+info = Unofficial Artwork 2 of Kung Fu Man By act52
 size = 352,640
 pos = 225,0
 scale = 0.38, 0.38
 zoomlimit = 0.30, 0.80
 movelimit = -200,-600, 1000,600
-info = "Unofficial Artwork 2 of Kung Fu Man By act52"
 previewpos = 560,360
 previewspacing = 940,145
 previewscale = 0.079, 0.079
 
 id = Art 2
 spr = 0,2
-info = "Unofficial Artwork of Suave Dude By Koorogi"
-info.locked = "Unlock Suave Dude"
+info = Unofficial Artwork of Suave Dude By Koorogi
+info.locked = Unlock Suave Dude
 size = 779,1800
 pos = 590,0
 scale = 0.15, 0.15
@@ -27,7 +27,7 @@ unlock = data.story1_4AStatus == 1
 
 id = Art 3
 spr = 0,3
-info = "Mugen Satoru Louisa Riyu: The Kung Fu Girl By GrapplerGray1985"
+info = Mugen Satoru Louisa Riyu: The Kung Fu Girl By GrapplerGray1985
 size = 827,1210
 pos = 365,0
 scale = 0.20, 0.20
@@ -39,19 +39,19 @@ previewscale = 0.0415, 0.0415
 
 id = Art 4
 spr = 0,4
-info = "Original Mugen Character The Kung Fu Man By GrapplerGray1985"
+info = Original Mugen Character The Kung Fu Man By GrapplerGray1985
 
 id = Art 5
 spr = 0,5
-info = "Original Mugen Hero The Kung Fu Woman By GrapplerGray1985"
+info = Original Mugen Hero The Kung Fu Woman By GrapplerGray1985
 
 id = Art 6
 spr = 0,6
-info = "Unofficial Artwork of Kung Fu Man By GrapplerGray1985"
+info = Unofficial Artwork of Kung Fu Man By GrapplerGray1985
 
 id = Art 8
 spr = 0,8
-info = "Unofficial Artwork of Kung Fu Man By Esaka"
+info = Unofficial Artwork of Kung Fu Man By Esaka
 size = 600,800
 pos = 190,0
 scale = 0.30, 0.30
@@ -63,7 +63,7 @@ previewscale = 0.063, 0.063
 
 id = Art 9
 spr = 0,8
-info = "Winmugen"
+info = Winmugen
 size = 1070,797
 pos = 190,0
 scale = 0.30, 0.30
@@ -75,7 +75,7 @@ previewscale = 0.063, 0.063
 
 id = Art 10
 spr = 0,4
-info = "Mugen 1.0"
+info = Mugen 1.0
 size = 1070,797
 pos = 190,0
 scale = 0.30, 0.30
@@ -87,7 +87,7 @@ previewscale = 0.063, 0.063
 
 id = Art 11
 spr = 0,5
-info = "Ikemen S-SIZE"
+info = Ikemen S-SIZE
 size = 1024,797
 pos = 190,0
 scale = 0.30, 0.30
@@ -99,7 +99,7 @@ previewscale = 0.063, 0.063
 
 id = Art 12
 spr = 0,6
-info = "Ikemen Plus"
+info = Ikemen Plus
 size = 1070,797
 pos = 190,0
 scale = 0.30, 0.30
@@ -111,7 +111,7 @@ previewscale = 0.063, 0.063
 
 id = Art 13
 spr = 0,7
-info = "Ikemen GO"
+info = Ikemen GO
 size = 1070,797
 pos = 190,0
 scale = 0.30, 0.30
@@ -123,7 +123,7 @@ previewscale = 0.063, 0.063
 
 id = Art 14
 spr = 0,8
-info = "Ikemen Plus Ultra"
+info = Ikemen Plus Ultra
 size = 1070,797
 pos = 190,0
 scale = 0.30, 0.30

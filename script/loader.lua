@@ -1071,24 +1071,26 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 	if reset then t_gallery = {} end
 	local file = path
 	local section = 0
-	--local row = 0
 	local content = f_fileRead(file)
 	content = content:gsub('([^\r\n;]*)%s*;[^\r\n]*', '%1')
 	content = content:gsub('\n%s*\n', '\n')
 	for line in content:gmatch('[^\r\n]+') do
 		local lineCase = line:lower()
 		if lineCase:match('^%s*%[%s*galleryartworks%s*%]') then
-			--row = 1
 			section = 1
 			t_gallery[section] = {}
+			t_gallery[section]['displayname'] = "ARTWORKS"
+			t_gallery[section]['txtID'] = textImgNew()
 		elseif lineCase:match('^%s*%[%s*gallerystoryboards%s*%]') then
-			--row = 2
 			section = 2
 			t_gallery[section] = {}
+			t_gallery[section]['displayname'] = "STORYBOARDS"
+			t_gallery[section]['txtID'] = textImgNew()
 		elseif lineCase:match('^%s*%[%s*gallerymovies%s*%]') then
-			--row = 3
 			section = 3
 			t_gallery[section] = {}
+			t_gallery[section]['displayname'] = "CUTSCENES"
+			t_gallery[section]['txtID'] = textImgNew()
 		elseif lineCase:match('^%s*%[%w+%]$') then
 			section = -1
 	--[GalleryArtworks]
@@ -1097,33 +1099,38 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
 			--Generate Table to manage each item with default values
 				if param:match('^id$') then
+					--local newItem = {
 					table.insert(t_gallery[section],
 						{
 							id = value,
 							spr = {},
+							info = txt_galleryUnknown,
 							size = {galleryArtSizeX, galleryArtSizeY},
 							pos = {galleryArtPosX, galleryArtPosY},
 							scale = {galleryArtScaleX, galleryArtScaleY},
 							zoomlimit = {galleryArtZoomLimitX, galleryArtZoomLimitY},
 							movelimit = {galleryArtMoveLimitX1, galleryArtMoveLimitY1, galleryArtMoveLimitX2, galleryArtMoveLimitY2},
-							info = txt_galleryUnknown,
 							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
 							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
 							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
 							unlock = 'true'
 						}
 					)
+					--table.insert(t_gallery[section], newItem)
 			--Store comma separated number values to table
 				elseif param:match('^spr$') or param:match('^size$') or param:match('^pos$') or param:match('^scale$') or param:match('^zoomlimit$') or param:match('^movelimit$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
 					local tbl = {}
 					for num in value:gmatch('([^,]+)') do
 						table.insert(tbl, tonumber(num))
 					end
-					t_gallery[section][#t_gallery][param] = tbl
+					if t_gallery[section][#t_gallery[section]] then
+						t_gallery[section][#t_gallery[section]][param] = tbl
+					end
 			--Store extra values
-				elseif t_gallery[section][#t_gallery][param] ~= nil then
-					t_gallery[section][#t_gallery][param] = value
+				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
+					t_gallery[section][#t_gallery[section]][param] = value
 				end
+			end
 		--[GalleryStoryboards] / [GalleryMovies]
 		elseif section == 2 or section == 3 then
 			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
@@ -1149,13 +1156,14 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 					for num in value:gmatch('([^,]+)') do
 						table.insert(tbl, tonumber(num))
 					end
-					t_gallery[section][#t_gallery][param] = tbl
+					if t_gallery[section][#t_gallery[section]] then
+						t_gallery[section][#t_gallery[section]][param] = tbl
+					end
 			--Store extra values
-				elseif t_gallery[section][#t_gallery][param] ~= nil then
-					t_gallery[section][#t_gallery][param] = value
+				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
+					t_gallery[section][#t_gallery[section]][param] = value
 				end
 			end
-		end
 		end
 	end
 	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
@@ -1164,8 +1172,6 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 	textImgDraw(txt_loading)
 	refresh()
 ]]
---Load .sff file with Artworks
-	
 end
 f_loadGallery(galleryArtworksDef, true)
 f_loadGallery(galleryStoryboardsDef, false)

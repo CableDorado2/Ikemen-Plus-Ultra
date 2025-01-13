@@ -596,8 +596,8 @@ animSetPos(menuArrowRight, 310, 190)
 end
 
 function f_resetArtworkArrowsPos() --Used in Artworks Menu
-animSetPos(menuArrowLeft, 264, 5.5)
-animSetPos(menuArrowRight, 312, 5.5)
+animSetPos(menuArrowLeft, 2, 120)
+animSetPos(menuArrowRight, 310, 120)
 end
 
 function f_resetSoundTestArrowsPos() --Used in Sound Test Menu
@@ -1285,15 +1285,15 @@ txt_galleryUnknown = "???"
 
 --Gallery Size Definition
 galleryColumns = 3
-galleryHiddenColumns = 1
-galleryRows = 3
-galleryHiddenRows = 1
+galleryHiddenColumns = 0
+galleryRows = 2
+galleryHiddenRows = 2
 
 --Gallery Window
 galleryWindowX1 = 0
-galleryWindowY1 = 42
+galleryWindowY1 = 35
 galleryWindowX2 = 320
-galleryWindowY2 = 145
+galleryWindowY2 = 160
 
 --Gallery Art Common Values
 galleryPreviewArtPosX = 50
@@ -1312,7 +1312,7 @@ galleryPreviewSlot = animNew(sprIkemen, [[
 animSetScale(galleryPreviewSlot, 1.0, 1.0)
 
 galleryPreviewSlotPosX = 5
-galleryPreviewSlotPosY = 13
+galleryPreviewSlotPosY = 43
 
 galleryPreviewSlotSizeX = 96
 galleryPreviewSlotSizeY = 56
@@ -1327,7 +1327,7 @@ galleryPreviewCursor = animNew(sprIkemen, [[
 animSetScale(galleryPreviewCursor, 1.0, 1.0)
 
 galleryPreviewCursorPosX = 5
-galleryPreviewCursorPosY = 13
+galleryPreviewCursorPosY = 43
 
 galleryPreviewCursorSizeX = 96
 galleryPreviewCursorSizeY = 56
@@ -1342,7 +1342,7 @@ galleryPreviewUnknown = animNew(sprIkemen, [[
 animSetScale(galleryPreviewUnknown, 1.0, 1.0)
 
 galleryPreviewUnknownPosX = 6.9
-galleryPreviewUnknownPosY = 14.9
+galleryPreviewUnknownPosY = 44.9
 
 galleryPreviewUnknownSizeX = 90
 galleryPreviewUnknownSizeY = 50
@@ -1371,6 +1371,8 @@ end
 --;===========================================================
 --; ARTWORK DISPLAY SCREENPACK DEFINITION
 --;===========================================================
+txt_artInfo = createTextImg(font5, 0, 0, "", 159, 190) --font2
+
 galleryArtPosX = 190
 galleryArtPosY = 0
 
