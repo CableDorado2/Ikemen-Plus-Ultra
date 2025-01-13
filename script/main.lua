@@ -5782,9 +5782,10 @@ end
 --; ARTWORK VIEWER MENU
 --;===========================================================================================
 function f_drawArtwork()
-local artPic = t_gallery[galleryMenu][galleryCursor].spr[1] ..','.. t_gallery[galleryMenu][galleryCursor].spr[2] ..','.. artPosX ..','.. artPosY ..','.. '-1'
+local artPic = t_gallery[galleryMenu][galleryCursor].spr[1] ..','.. t_gallery[galleryMenu][galleryCursor].spr[2].. ', 0,0, -1'
 artPic = animNew(sprArtworks, artPic)
-animSetScale(artPic, artScaleX, artScaleX)
+animSetScale(artPic, artScaleX, artScaleY)
+animSetPos(artPic, artPosX, artPosY)
 animUpdate(artPic)
 animDraw(artPic)
 end
@@ -5793,7 +5794,7 @@ function f_resetArtPos()
 artPosX = t_gallery[galleryMenu][galleryCursor].pos[1]
 artPosY = t_gallery[galleryMenu][galleryCursor].pos[2]
 artScaleX = t_gallery[galleryMenu][galleryCursor].scale[1]
-artScaleY = t_gallery[galleryMenu][galleryCursor].scale[1]
+artScaleY = t_gallery[galleryMenu][galleryCursor].scale[2]
 end
 
 function f_nextArt(limit)
