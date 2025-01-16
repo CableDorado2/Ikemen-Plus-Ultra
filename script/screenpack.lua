@@ -718,27 +718,26 @@ txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game 
 
 if data.engineMode == "FG" then --Menu Items for Fighting Engine Mode
 t_mainMenu = {
-	{id = textImgNew(), text = "STORY"},
-	{id = textImgNew(), text = "ARCADE"},
-	{id = textImgNew(), text = "VERSUS"},
-	{id = textImgNew(), text = "NETPLAY"},
-	{id = textImgNew(), text = "TRAINING"},
-	{id = textImgNew(), text = "CHALLENGES"},
-	{id = textImgNew(), text = "EXTRAS"},
-	{id = textImgNew(), text = "WATCH"},
-	{id = textImgNew(), text = "OPTIONS"},
-	{id = textImgNew(), text = "EXIT"},
-	{id = textImgNew(), text = "CHECK UPDATES"},
+	{id = textImgNew(), text = "ARCADE", gotomenu = "f_arcadeMenu()"},
+	{id = textImgNew(), text = "VERSUS", gotomenu = "f_vsMenu()"},
+	{id = textImgNew(), text = "NETPLAY", gotomenu = "f_mainNetplay()"},
+	{id = textImgNew(), text = "PRACTICE", gotomenu = "f_training()"},
+	{id = textImgNew(), text = "CHALLENGES", gotomenu = "f_challengeMenu()"},
+	{id = textImgNew(), text = "EXTRAS", gotomenu = "f_extrasMenu()"},
+	{id = textImgNew(), text = "WATCH", gotomenu = "f_watchMenu()"},
+	--{id = textImgNew(), text = "CUSTOMIZE", gotomenu = "f_theVault()"}, --(???, SHOP/THE VAULT)
+	{id = textImgNew(), text = "OPTIONS", gotomenu = "f_optionsMenu()"},
+	{id = textImgNew(), text = "EXIT", gotomenu = "f_exitMenu()"},
+	{id = textImgNew(), text = "CHECK UPDATES", gotomenu = "f_checkUpdates()"},
 }
 elseif data.engineMode == "VN" then --Menu Items for Visual Novel Engine Mode
 t_mainMenu = {
-	{id = textImgNew(), text = "NEW GAME"},
-	{id = textImgNew(), text = "LOAD GAME"},
-	--{id = textImgNew(), text = "NETPLAY"},
-	{id = textImgNew(), text = "CONFIG"},
-	{id = textImgNew(), text = "GALLERY"},
-	{id = textImgNew(), text = "EXIT"},
-	{id = textImgNew(), text = "CHECK UPDATES"},
+	{id = textImgNew(), text = "NEW GAME", gotomenu = "f_vnNewGame()"},
+	{id = textImgNew(), text = "LOAD GAME", gotomenu = "f_vnLoadGame()"},
+	{id = textImgNew(), text = "CONFIG", gotomenu = "f_optionsMenu()"},
+	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
+	{id = textImgNew(), text = "EXIT", gotomenu = "f_exitMenu()"},
+	{id = textImgNew(), text = "CHECK UPDATES", gotomenu = "f_checkUpdates()"},
 }
 end
 
@@ -768,104 +767,94 @@ end
 --; ARCADE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_arcadeMenu = {
-	{id = textImgNew(), text = "CLASSIC MODE"},
-	{id = textImgNew(), text = "TOWER MODE"},
+	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_arcadeBoot()"},
+	{id = textImgNew(), text = "TOWER MODE", gotomenu = "f_towerBoot()"},
+	--{id = textImgNew(), text = "BEAT EM UP MODE", gotomenu = ""},
 }
 
 --;===========================================================
 --; VERSUS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_vsMenu = {
-	{id = textImgNew(), text = "QUICK MATCH"},
-	{id = textImgNew(), text = "FREE BATTLE"},
+	{id = textImgNew(), text = "QUICK MATCH", gotomenu = "f_quickvsBoot()"},
+	{id = textImgNew(), text = "FREE BATTLE", gotomenu = "f_vsBoot()"},
+}
+
+--;===========================================================
+--; PRACTICE MENU SCREENPACK DEFINITION
+--;===========================================================
+t_practiceMenu = {
+	{id = textImgNew(), text = "TRAINING", gotomenu = ""},
+	{id = textImgNew(), text = "COMBO TRIALS", gotomenu = ""},
+	{id = textImgNew(), text = "TUTORIAL", gotomenu = ""},
 }
 
 --;===========================================================
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	{id = textImgNew(), text = "SURVIVAL"},
-	{id = textImgNew(), text = "MISSIONS"},
-	{id = textImgNew(), text = "BOSS FIGHT"},
-	{id = textImgNew(), text = "BONUS GAMES"},
-	{id = textImgNew(), text = "SCORE ATTACK"},
-	{id = textImgNew(), text = "TIME ATTACK"},
-	{id = textImgNew(), text = "TIME RUSH"},
-	{id = textImgNew(), text = ""}, --VS X KUMITE --(X = data.kumite)
-	{id = textImgNew(), text = "SUDDEN DEATH"},
+	{id = textImgNew(), text = "SURVIVAL", gotomenu = "f_survivalBoot()"},
+	{id = textImgNew(), text = "BOSS FIGHT", gotomenu = "f_bossMenu()"},
+	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
+	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"},
+	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackBoot()"},
+	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
+	--{id = textImgNew(), text = "UNLIMITED MARS", gotomenu = ""},
+	{id = textImgNew(), text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
+	{id = textImgNew(), text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
-
-function getKumiteData()
-kumiteDataText = "VS "..data.kumite.." KUMITE"
-return kumiteDataText
-end
 
 --;===========================================================
 --; BOSS FIGHT MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bossMenu = {
-	{id = textImgNew(), text = "VS SINGLE BOSS"},
-	{id = textImgNew(), text = "BOSS RUSH"},
+	{id = textImgNew(), text = "SINGLE ATTACK", gotomenu = ""},
+	{id = textImgNew(), text = "BOSS RUSH", gotomenu = ""},
 }
 
 --;===========================================================
 --; BONUS GAMES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bonusMenu = {
-	{id = textImgNew(), text = "SINGLE MODE"},
-	{id = textImgNew(), text = "BONUS RUSH"},
+	{id = textImgNew(), text = "SINGLE MODE", gotomenu = ""},
+	{id = textImgNew(), text = "BONUS RUSH", gotomenu = ""},
 }
 
 --;===========================================================
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	{id = textImgNew(), text = "ENDLESS"},
-	{id = textImgNew(), text = "EVENTS"},
-	{id = textImgNew(), text = "ABYSS"},
-	--{id = textImgNew(), text = "LEGION"},
-	{id = textImgNew(), text = "TOURNAMENT"},
-	{id = textImgNew(), text = "VISUAL NOVEL"},
-	{id = textImgNew(), text = "THE VAULT"},
-	{id = textImgNew(), text = "RANDOMTEST"},
+	{id = textImgNew(), text = "CHRONICLES", gotomenu = "f_chroniclesMenu()"},
+	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
+	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
+	{id = textImgNew(), text = "ABYSS", gotomenu = "f_abyssCfg()"},
+	--{id = textImgNew(), text = "LEGION/ALLIANCE", gotomenu = ""},
+	{id = textImgNew(), text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
+	{id = textImgNew(), text = "ENDLESS", gotomenu = "f_endlessBoot()"},
+	{id = textImgNew(), text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
 }
 
 --;===========================================================
---; BONUS RUSH MENU SCREENPACK DEFINITION
+--; CHRONICLES MENU SCREENPACK DEFINITION
 --;===========================================================
-t_bonusrushMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
+t_chroniclesMenu = {
+	{id = textImgNew(), text = "STORY", gotomenu = "script.story.f_storyMenu()"},
+	{id = textImgNew(), text = "VISUAL NOVEL", gotomenu = "f_vnMenu()"},
+	--{id = textImgNew(), text = "QUIZ", gotomenu = ""},
 }
 
 --;===========================================================
---; COMMON SUB-MENUS SCREENPACK DEFINITION
+--; WATCH MENU SCREENPACK DEFINITION
 --;===========================================================
-t_commonSubMenu = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-}
-
-t_commonSubMenu2 = {
-	{id = textImgNew(), text = "P1 VS CPU"},
-	{id = textImgNew(), text = "P2 VS CPU"},
-	{id = textImgNew(), text = "CPU VS P1"},
-	{id = textImgNew(), text = "CPU VS P2"},
-	{id = textImgNew(), text = "P1 VS P2"},
-	{id = textImgNew(), text = "P2 VS P1"},
-	{id = textImgNew(), text = "CPU VS CPU"},
-	--{id = textImgNew(), text = "P1&P2 VS CPU"},
-	--{id = textImgNew(), text = "CPU VS P1&P2"},
-	--{id = textImgNew(), text = "P1&P3 VS P2&P4"},
+t_watchMenu = {
+	{id = textImgNew(), text = "REPLAYS", gotomenu = "f_replayMenu()"},
+	{id = textImgNew(), text = "STAGE VIEWER", gotomenu = "f_stageViewer()"},
+	{id = textImgNew(), text = "SOUND TEST", gotomenu = "soundTest = true f_songMenu()"},
+	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
+	--{id = textImgNew(), text = "GLOSSARY", gotomenu = ""},
+	{id = textImgNew(), text = "PROFILE", gotomenu = "f_statsMenu()"}, --(display overall player data [PLAYER RECORDS, RANKINGS, ACHIEVEMENTS])
+	{id = textImgNew(), text = "LICENSES", gotomenu = "f_watchLicense()"},
+	{id = textImgNew(), text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
 
 --;===========================================================
@@ -1187,19 +1176,6 @@ questionWindowBGVN = animNew(sprSys, [[
 animSetPos(questionWindowBGVN, 61, 97)
 animUpdate(questionWindowBGVN)
 animSetScale(questionWindowBGVN, 1.3, 1)
-
---;===========================================================
---; WATCH MENU SCREENPACK DEFINITION
---;===========================================================
-t_watchMenu = {
-	{id = textImgNew(), text = "REPLAYS"},
-	{id = textImgNew(), text = "STAGE VIEWER"},
-	{id = textImgNew(), text = "SOUND TEST"},
-	{id = textImgNew(), text = "GALLERY"},
-	{id = textImgNew(), text = "PROFILE"}, --(RANKING, RECORDS, ACHIEVEMENTS, PLAYER DATA)
-	{id = textImgNew(), text = "LICENSES"},
-	{id = textImgNew(), text = "CREDITS"},
-}
 
 --;===========================================================
 --; REPLAY MENU SCREENPACK DEFINITION

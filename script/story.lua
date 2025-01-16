@@ -245,7 +245,7 @@ moveChapter = 0
 end
 
 --;===========================================================
---; STORY MENU
+--; STORY MENU (follow customizable story arcs)
 --;===========================================================
 function f_storyMenu()
 	cmdInput()

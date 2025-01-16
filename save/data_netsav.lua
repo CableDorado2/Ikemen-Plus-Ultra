@@ -14,7 +14,6 @@ data.language = "ENGLISH"
 data.clock = "Standard"
 data.date = "Type A"
 data.attractMode = false
-data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.charPresentation = "Portrait"
@@ -46,8 +45,8 @@ data.zoomSpeed = 1
 --Character Select Global Data
 data.selectType = "Advanced"
 data.palType = "Classic"
-data.randomPortrait = "Simple"
-data.randomCharRematch = "Variable"
+data.randomPortrait = "Roulette"
+data.randomCharRematch = "Fixed"
 data.charInfo = "Author"
 --Character Select Config
 data.selectRows = 2
@@ -76,7 +75,7 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = 31
+data.selectTime = -1
 data.stageTime = 21
 data.orderTime = -1
 data.rematchTime = 16

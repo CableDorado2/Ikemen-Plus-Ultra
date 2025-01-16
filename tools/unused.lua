@@ -1043,3 +1043,38 @@ t_glossary = {
 	},
 }
 if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.txt") end
+
+--;===========================================================
+--; OLD COMMON SUB-MENUS SCREENPACK DEFINITION
+--;===========================================================
+t_commonSubMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+t_commonSubMenu2 = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1 VS P2"},
+	{id = textImgNew(), text = "P2 VS P1"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+	--{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	--{id = textImgNew(), text = "P1&P3 VS P2&P4"},
+}
+
+t_bonusrushMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+}

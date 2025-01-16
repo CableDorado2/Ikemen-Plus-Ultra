@@ -671,6 +671,18 @@ function f_minMax(v,mn,mx)
 	return math.max(mn,math.min(mx,v))
 end
 
+--Start functions stored in strings
+function f_gotoFunction(func)
+	if not func or not func.gotomenu then return end --Return in case func does not exist or does not have "gotomenu"
+	local f, err = load(func.gotomenu)
+	if f then
+		f() --Call the function
+	else
+		print("Error loading function: " .. (err or "Unknown error"))
+		return --Error when loading function
+	end
+end
+
 --;===========================================================
 --; DATA LOADING
 --;===========================================================
