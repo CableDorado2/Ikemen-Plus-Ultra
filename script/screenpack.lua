@@ -795,7 +795,6 @@ t_practiceMenu = {
 t_challengeMenu = {
 	{id = textImgNew(), text = "SURVIVAL", gotomenu = "f_survivalBoot()"},
 	{id = textImgNew(), text = "BOSS FIGHT", gotomenu = "f_bossMenu()"},
-	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
 	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"},
 	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackBoot()"},
 	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
@@ -808,28 +807,29 @@ t_challengeMenu = {
 --; BOSS FIGHT MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bossMenu = {
-	{id = textImgNew(), text = "SINGLE ATTACK", gotomenu = ""},
-	{id = textImgNew(), text = "BOSS RUSH", gotomenu = ""},
+	{id = textImgNew(), text = "SINGLE ATTACK", gotomenu = "f_bossChars()"},
+	{id = textImgNew(), text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
 }
 
 --;===========================================================
 --; BONUS GAMES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bonusMenu = {
-	{id = textImgNew(), text = "SINGLE MODE", gotomenu = ""},
-	{id = textImgNew(), text = "BONUS RUSH", gotomenu = ""},
+	{id = textImgNew(), text = "SINGLE MODE", gotomenu = "f_bonusExtras()"},
+	{id = textImgNew(), text = "BONUS RUSH", gotomenu = "f_bonusrushBoot()"},
 }
 
 --;===========================================================
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	{id = textImgNew(), text = "CHRONICLES", gotomenu = "f_chroniclesMenu()"},
-	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
-	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
 	{id = textImgNew(), text = "ABYSS", gotomenu = "f_abyssCfg()"},
-	--{id = textImgNew(), text = "LEGION/ALLIANCE", gotomenu = ""},
+	--{id = textImgNew(), text = "LEGION", gotomenu = ""},
+	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
+	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
+	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
 	{id = textImgNew(), text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
+	{id = textImgNew(), text = "CHRONICLES", gotomenu = "f_chroniclesMenu()"},
 	{id = textImgNew(), text = "ENDLESS", gotomenu = "f_endlessBoot()"},
 	{id = textImgNew(), text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
 }
