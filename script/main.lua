@@ -56,7 +56,6 @@ end
 assert(loadfile("script/loader.lua"))()
 assert(loadfile("data/visualnovel/VNresources.lua"))()
 require("script.options")
-require("script.story")
 
 --;===========================================================
 --; GAME START
@@ -6590,6 +6589,9 @@ function f_infoMenu()
 	elseif stviewerInfo == true then
 		textImgSetScale(txt_info, 0.60, 0.60)
 		f_textRender(txt_info, "NO STAGE VIEWER FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
+	elseif licenseInfo == true then
+		textImgSetScale(txt_info, 0.60, 0.60)
+		f_textRender(txt_info, "NO LICENSES FOUND IN SCREENPACK.LUA", 0, 160, 125, 10, 0, 25)
 	elseif resolutionInfo == true then
 		textImgSetScale(txt_info, 0.56, 0.56)
 		f_textRender(txt_info, "SET A 16:9 RESOLUTION TO AVOID DESYNC", 0, 160, 125, 10, 0, 25)
@@ -6632,6 +6634,7 @@ function f_infoReset()
 	eventInfo = false
 	bonusInfo = false
 	stviewerInfo = false
+	licenseInfo = false
 	resolutionInfo = false
 end
 
@@ -15746,110 +15749,6 @@ end
 
 end
 
---;==============================================================================
---; STORY MODE (CHARACTER SELECT/FIGHTS LAUNCHER)
---;==============================================================================
-function f_selectStory()
-if validCells() then
-	f_unlock(false)
-	f_updateUnlocks()
-	f_backReset()
-	f_selectInit()
-	cmdInput()
-	while true do
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-		--f_selectMusic()
-		if winner < 1 then
-			f_selectReset()
-		else
-			selectStart()
-			commandBufReset(p1Cmd)
-			commandBufReset(p2Cmd)
-		end
-		while not selScreenEnd do
-			if not onlinegame then
-				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
-			else
-				if esc() then f_exitOnline() end
-			end
-			f_selectScreen()
-			assert(loadfile(saveTempPath))()
-			--Back from Pause Menu
-			if data.tempBack == true then
-				if data.rosterMode == "story" then
-					playBGM(bgmStory)
-				else
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				end
-				data.tempBack = false
-				f_saveTemp()
-				f_resetMenuInputs()
-				return
-			end
-			--Back from Char Select
-			if back == true then return end
-		end
-		if winner > 0 then
-			--Victory Screen
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
-			else
-				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
-			end
-			if data.rosterMode == "story" then
-				playBGM(bgmStory)
-			else
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-			end
-			f_resetMenuInputs()
-			return
-		end
-		f_aiLevel()
-		f_matchInfo()
-		f_orderSelect()
-		--Versus Screen
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		else
-			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		end
-		sndStop()
-		f_loading()
-		f_setZoom()
-		matchTime = os.clock()
-		if data.songSelect then f_assignMusic() end
-		winner = game() --Get into the fight
-		matchTime = os.clock() - matchTime
-		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds*gameTick
-		stageTimer = stageSeconds*gameTick
-		rematchTimer = rematchSeconds*gameTick
-		serviceTimer = serviceSeconds*gameTick
-		--f_favoriteChar() --Store Favorite Character (WIP)
-		--f_favoriteStage() --Store Favorite Stage (WIP)
-		f_unlock(false)
-		f_updateUnlocks()
-		playBGM("")
-		f_resetP2CoopInput()
-		cmdInput()
-		refresh()
-	end
-else
-	cmdInput()
-	f_invalidCells()
-	return --back to main menu
-end
-
-end
-
 --;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
@@ -17956,25 +17855,36 @@ end
 --;===========================================================
 --; EXTERNAL LUA CODE
 --;===========================================================
-function f_loadExternalModules()
-	local t_modulesList = {}
-	for file in lfs.dir(modulesPath) do
-		if file:match('^.*(%.)[Ll][Uu][Aa]$') then
-			row = #t_modulesList+1
-			t_modulesList[row] = {}
-			t_modulesList[row]['name'] = file:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
-			t_modulesList[row]['path'] = modulesPath.."/"..file
+local t_luaExternalMods = {}
+function f_loadExternalModules(path)
+if path == nil or path == "" then return end
+	for item in lfs.dir(path) do --For each item readed in path
+		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
+			local details = path.."/"..item --Get path and file name
+			local attribute = lfs.attributes(details) --Get atributes from items readed
+			assert(type(attribute) == "table")
+			f_loadExternalModules(details)
+			if attribute.mode == "file" then --If the item have "file" attribute
+				if item:match('^.*(%.)[Ll][Uu][Aa]$') then
+					row = #t_luaExternalMods+1
+					t_luaExternalMods[row] = {}
+					t_luaExternalMods[row]['folder'] = path
+					t_luaExternalMods[row]['path'] = details
+					t_luaExternalMods[row]['name'] = item:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
+				end
+			end
 		end
 	end
-	if data.debugLog then f_printTable(t_modulesList, "save/debug/t_modulesList.txt") end
-	for _, v in ipairs(t_modulesList) do
-		--require(v.path:gsub('[/\\]+', '.'))
-		assert(loadfile(v.path))()
-	end
+	if data.debugLog then f_printTable(t_luaExternalMods, 'save/debug/t_luaExternalMods.txt') end
 end
-
+for mods=1, #luaModules do
+	f_loadExternalModules(luaModules[mods]) --Load External Modules
+end
+for _, v in ipairs(t_luaExternalMods) do
+	--require(v.path:gsub('[/\\]+', '.'))
+	assert(loadfile(v.path))()
+end
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
-f_loadExternalModules() --Load External Modules
 f_mainStart() --Start Menu

@@ -1,4 +1,6 @@
-module(..., package.seeall)
+--storyDef = "script/mods/glossary/story.def" --Story Data (Story definition filename)
+sprStory = sffNew("script/mods/story/story.sff") --load story sprites
+bgmStory = "script/mods/story/Story.mp3" --load story main bgm
 --;===========================================================
 --; STORY SCREENPACK
 --;===========================================================
@@ -1048,4 +1050,108 @@ function f_storyStatus()
 	elseif data.storyNo == "3-1" then data.story3_1Status = 1
 	end
 	f_saveStats()
+end
+
+--;==============================================================================
+--; STORY MODE (CHARACTER SELECT/FIGHTS LAUNCHER)
+--;==============================================================================
+function f_selectStory()
+if validCells() then
+	f_unlock(false)
+	f_updateUnlocks()
+	f_backReset()
+	f_selectInit()
+	cmdInput()
+	while true do
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+		--f_selectMusic()
+		if winner < 1 then
+			f_selectReset()
+		else
+			selectStart()
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+		end
+		while not selScreenEnd do
+			if not onlinegame then
+				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
+			else
+				if esc() then f_exitOnline() end
+			end
+			f_selectScreen()
+			assert(loadfile(saveTempPath))()
+			--Back from Pause Menu
+			if data.tempBack == true then
+				if data.rosterMode == "story" then
+					playBGM(bgmStory)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+				data.tempBack = false
+				f_saveTemp()
+				f_resetMenuInputs()
+				return
+			end
+			--Back from Char Select
+			if back == true then return end
+		end
+		if winner > 0 then
+			--Victory Screen
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
+					f_selectWin()
+				end
+			else
+				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
+					f_selectWin()
+				end
+			end
+			if data.rosterMode == "story" then
+				playBGM(bgmStory)
+			else
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+			end
+			f_resetMenuInputs()
+			return
+		end
+		f_aiLevel()
+		f_matchInfo()
+		f_orderSelect()
+		--Versus Screen
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
+				f_selectVersus()
+			end
+		else
+			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+				f_selectVersus()
+			end
+		end
+		sndStop()
+		f_loading()
+		f_setZoom()
+		matchTime = os.clock()
+		if data.songSelect then f_assignMusic() end
+		winner = game() --Get into the fight
+		matchTime = os.clock() - matchTime
+		clearTime = clearTime + matchTime
+		selectTimer = selectSeconds*gameTick
+		stageTimer = stageSeconds*gameTick
+		rematchTimer = rematchSeconds*gameTick
+		serviceTimer = serviceSeconds*gameTick
+		--f_favoriteChar() --Store Favorite Character (WIP)
+		--f_favoriteStage() --Store Favorite Stage (WIP)
+		f_unlock(false)
+		f_updateUnlocks()
+		playBGM("")
+		f_resetP2CoopInput()
+		cmdInput()
+		refresh()
+	end
+else
+	cmdInput()
+	f_invalidCells()
+	return --back to main menu
+end
+
 end

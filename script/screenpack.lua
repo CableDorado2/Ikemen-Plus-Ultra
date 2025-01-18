@@ -8,7 +8,6 @@ sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN s
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
-sprStory = sffNew("data/screenpack/story.sff") --load story sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel sprites
 sprArtworks = sffNew("data/gallery/artworks.sff") --load sff data to be used in gallery artwork previews
 sprStoryboards = sffNew("data/gallery/storyboards.sff") --load sff data to be used in gallery storyboard previews
@@ -16,47 +15,34 @@ sprMovies = sffNew("data/gallery/movies.sff") --load sff data to be used in gall
 
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
 
---Sound Data (Sound effects do not interrupt music/bgm)
+--Sound Data (Sound effects [SFX] do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
 sndAnncr = sndNew("data/screenpack/announcer.snd")
 sndCont = sndNew("data/screenpack/continue.snd")
 
---Storyboard Data (Optional)
-storyboardLogo = "data/screenpack/logo.def"
---storyboardIntro = "data/screenpack/intro.def"
-
---Video Data (Recommended for large cutscenes instead storyboards)
-videoOpening = "data/videos/Opening.wmv"
-videoHowToPlay = "data/videos/How To Play.wmv"
-
---Characters and Stage selection list
-selectDef = "data/select.def"
-
---Lifebar Data (Fight definition filename)
-fightDef = "data/screenpack/fight.def"
-
---License Path (Please always distribute license files for use this program)
-licensesPath = "docs/Licenses"
-
---Replays Path
-replaysPath = "replays"
-
---Lua External Modules Path
-modulesPath = "script/mods"
-
---Missions Data (Mission definition filename)
-missionDef = "data/missions/missions.def"
-
---Events Data (Event definition filename)
-eventDef = "data/events/events.def"
-
---Gallery Data (Gallery definition filename)
-galleryArtworksDef = "data/gallery/artworks.def"
-galleryStoryboardsDef = "data/gallery/storyboards.def"
-galleryMoviesDef = "data/gallery/movies.def"
-
---Visual Novel Data (Visual Novel definition filename)
-vnDef = "data/visualnovel/vnselect.def"
+--Music Data (ONLY MP3 and OGG formats are Supported)
+bgmNothing = " .mp3"
+bgmIntro = "sound/System/Opening.mp3"
+bgmIntroJP = "sound/System/Opening Lyrics.mp3"
+bgmTitle = "sound/System/Title.mp3"
+bgmSelectBoss = "sound/System/select/Select Boss.mp3"
+bgmSelectOrder = "sound/System/Order Select.mp3"
+bgmSelectOrderFinal = "sound/System/Order Select Final.mp3"
+bgmVS = "sound/System/VS.mp3"
+bgmVSFinal = "sound/System/VS Final.mp3"
+bgmVSSpecial = "sound/system/VS Special.mp3"
+bgmVictory = "sound/System/Results.mp3"
+bgmResults = "sound/System/Results.mp3"
+bgmService = "sound/System/Service.mp3"
+bgmContinue = "sound/System/Continue.mp3"
+bgmGameOver = "sound/System/Game Over.mp3"
+bgmVault = "sound/System/The Vault.ogg"
+bgmTower = "sound/System/Tower.mp3"
+bgmTourney = "sound/System/Tourney.mp3"
+bgmTourneyChampion = "sound/System/Champion.mp3"
+bgmAbyss = "sound/System/Abyss.mp3"
+bgmLegion = "sound/System/Legion.mp3"
+bgmAdventure = "sound/System/Adventure.mp3"
 
 --Fonts Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -111,33 +97,32 @@ font46 = fontNew("font/NameWins - difficulty.fnt")
 font47 = fontNew("font/Timer_MK3_Silver.fnt")
 font48 = fontNew("font/Timer_MK3_Yellow.fnt")
 
---Main Soundtrack Path
-musicPath = "sound"
+--Storyboard Data (Optional)
+storyboardLogo = "data/screenpack/logo.def"
+--storyboardIntro = "data/screenpack/intro.def"
 
---Music Data (ONLY MP3 and OGG formats are Supported)
-bgmNothing = " .mp3"
-bgmIntro = "sound/System/Opening.mp3"
-bgmIntroJP = "sound/System/Opening Lyrics.mp3"
-bgmTitle = "sound/System/Title.mp3"
-bgmSelectBoss = "sound/System/select/Select Boss.mp3"
-bgmSelectOrder = "sound/System/Order Select.mp3"
-bgmSelectOrderFinal = "sound/System/Order Select Final.mp3"
-bgmVS = "sound/System/VS.mp3"
-bgmVSFinal = "sound/System/VS Final.mp3"
-bgmVSSpecial = "sound/system/VS Special.mp3"
-bgmVictory = "sound/System/Results.mp3"
-bgmResults = "sound/System/Results.mp3"
-bgmService = "sound/System/Service.mp3"
-bgmContinue = "sound/System/Continue.mp3"
-bgmGameOver = "sound/System/Game Over.mp3"
-bgmVault = "sound/System/The Vault.ogg"
-bgmStory = "sound/System/Story.mp3"
-bgmTower = "sound/System/Tower.mp3"
-bgmTourney = "sound/System/Tourney.mp3"
-bgmTourneyChampion = "sound/System/Champion.mp3"
-bgmAbyss = "sound/System/Abyss.mp3"
-bgmLegion = "sound/System/Legion.mp3"
-bgmAdventure = "sound/System/Adventure.mp3"
+--Video Data (Recommended for large cutscenes instead storyboards)
+videoOpening = "data/videos/Opening.wmv"
+videoHowToPlay = "data/videos/How To Play.wmv"
+
+--Definition Data
+selectDef = "data/select.def" --Characters and Stage selection list
+fightDef = "data/screenpack/fight.def" --Lifebar/Fight
+vnDef = "data/visualnovel/vnselect.def" --Visual Novels
+missionDef = "data/missions/missions.def" --Missions
+eventDef = "data/events/events.def" --Events
+galleryArtworksDef = "data/gallery/artworks.def" --Gallery Artworks
+galleryStoryboardsDef = "data/gallery/storyboards.def" --Gallery Storyboards
+galleryMoviesDef = "data/gallery/movies.def" --Gallery Videos
+
+--Paths Data
+licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
+replaysPath = "replays" --Replays Path
+musicPath = "sound" --Main Soundtrack Path
+luaModules = { --Lua External Modules Folder Paths
+"script/mods",
+"data/lua"
+}
 
 --;===========================================================
 --; MOVELIST SCREENPACK DEFINITION
@@ -725,7 +710,7 @@ t_mainMenu = {
 	{id = textImgNew(), text = "CHALLENGES", gotomenu = "f_challengeMenu()"},
 	{id = textImgNew(), text = "EXTRAS", gotomenu = "f_extrasMenu()"},
 	{id = textImgNew(), text = "WATCH", gotomenu = "f_watchMenu()"},
-	--{id = textImgNew(), text = "CUSTOMIZE", gotomenu = "f_theVault()"}, --(???, SHOP/THE VAULT)
+	--{id = textImgNew(), text = "CUSTOMIZE", gotomenu = "f_theVault()"}, --(???, SHOP/THE VAULT) Buy using in-game currency.
 	{id = textImgNew(), text = "OPTIONS", gotomenu = "f_optionsMenu()"},
 	{id = textImgNew(), text = "EXIT", gotomenu = "f_exitMenu()"},
 	{id = textImgNew(), text = "CHECK UPDATES", gotomenu = "f_checkUpdates()"},
@@ -807,8 +792,9 @@ t_challengeMenu = {
 --; BOSS FIGHT MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bossMenu = {
-	{id = textImgNew(), text = "SINGLE ATTACK", gotomenu = "f_bossChars()"},
+	{id = textImgNew(), text = "SINGLE ASSAULT", gotomenu = "f_bossChars()"},
 	{id = textImgNew(), text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
+	{id = textImgNew(), text = "TITAN ATTACK", gotomenu = "f_titanAttack()"}, --Challenge a formidable Customizable Titan Boss Character.
 }
 
 --;===========================================================
@@ -829,18 +815,8 @@ t_extrasMenu = {
 	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
 	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
 	{id = textImgNew(), text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
-	{id = textImgNew(), text = "CHRONICLES", gotomenu = "f_chroniclesMenu()"},
 	{id = textImgNew(), text = "ENDLESS", gotomenu = "f_endlessBoot()"},
 	{id = textImgNew(), text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
-}
-
---;===========================================================
---; CHRONICLES MENU SCREENPACK DEFINITION
---;===========================================================
-t_chroniclesMenu = {
-	{id = textImgNew(), text = "STORY", gotomenu = "script.story.f_storyMenu()"},
-	{id = textImgNew(), text = "VISUAL NOVEL", gotomenu = "f_vnMenu()"},
-	--{id = textImgNew(), text = "QUIZ", gotomenu = "f_quizMenu()"},
 }
 
 --;===========================================================
@@ -851,7 +827,6 @@ t_watchMenu = {
 	{id = textImgNew(), text = "STAGE VIEWER", gotomenu = "f_stageViewer()"},
 	{id = textImgNew(), text = "SOUND TEST", gotomenu = "soundTest = true f_songMenu()"},
 	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
-	--{id = textImgNew(), text = "GLOSSARY", gotomenu = "f_glossaryMenu()"},
 	{id = textImgNew(), text = "PROFILE", gotomenu = "f_statsMenu()"}, --(display overall player data [PLAYER RECORDS, RANKINGS, ACHIEVEMENTS])
 	{id = textImgNew(), text = "LICENSES", gotomenu = "f_licenseMenu()"},
 	{id = textImgNew(), text = "STAFF CREDITS", gotomenu = "f_playCredits()"},

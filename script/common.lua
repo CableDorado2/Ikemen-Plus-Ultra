@@ -3109,8 +3109,8 @@ function f_loadMusic(path)
 			end
 		end
 	end
-	f_printTable(t_songFile, 'save/debug/t_songFile.txt')
-	f_printTable(t_songList, 'save/debug/t_songList.txt')
+	if data.debugLog then f_printTable(t_songFile, 'save/debug/t_songFile.txt') end
+	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.txt') end
 end
 
 function f_soundtrack()
@@ -3135,7 +3135,7 @@ local row = #t_songList[folder]+1
 t_songList[folder][row] = {id = '', name = 'RANDOM SELECT', path = 'Random'}
 t_songList[folder][row+1] = {id = '', name = '          BACK', path = ''}
 end
-f_printTable(t_songList, 'save/debug/t_songList.txt')
+if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.txt') end
 end
 
 --;===========================================================
