@@ -4855,7 +4855,13 @@ end
 --;===========================================================
 --; LICENSES MENU (display engine license files)
 --;===========================================================
-function f_watchLicense()
+function f_licenseMenu()
+	if data.debugMode then f_loadLicenses() end
+	if #t_licenseList == 0 then
+		licenseInfo = true
+		infoScreen = true
+		return
+	end
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local cursorPosX = 1
@@ -4872,19 +4878,6 @@ function f_watchLicense()
 	local function f_resetYPos() txtPosY = 30 end
 	f_resetYPos()
 	local txtSpacing = 12
-	--
-	licenseList = {}
-	for file in lfs.dir(licensesPath) do
-		if file:match('^.*(%.)[Tt][Xx][Tt]$') then
-			row = #licenseList+1
-			licenseList[row] = {}
-			licenseList[row]['id'] = ''
-			licenseList[row]['name'] = file:gsub('^(.*)[%.][Tt][Xx][Tt]$', '%1')
-			licenseList[row]['path'] = licensesPath.."/"..file
-			licenseList[row]['content'] = f_txtLoad(licensesPath.."/"..file)
-		end
-	end
-	if data.debugLog then f_printTable(licenseList, "save/debug/licenseList.txt") end
 	while true do
 		--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -4896,13 +4889,11 @@ function f_watchLicense()
 			sndPlay(sndSys, 100, 0)
 			licenseMenu = licenseMenu - 1
 			cursorUpdate = true
-			f_resetYPos()
 		--NEXT PAGE
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			sndPlay(sndSys, 100, 0)
 			licenseMenu = licenseMenu + 1
 			cursorUpdate = true
-			f_resetYPos()
 		--MOVE UP TXT
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) and txtPosY < 30 then
 			txtPosY = txtPosY + 1
@@ -4911,13 +4902,13 @@ function f_watchLicense()
 			txtPosY = txtPosY - 1
 		end
 		if licenseMenu < 1 then
-			licenseMenu = #licenseList
-			if #licenseList > maxItems then
+			licenseMenu = #t_licenseList
+			if #t_licenseList > maxItems then
 				cursorPosX = maxItems
 			else
-				cursorPosX = #licenseList
+				cursorPosX = #t_licenseList
 			end
-		elseif licenseMenu > #licenseList then
+		elseif licenseMenu > #t_licenseList then
 			licenseMenu = 1
 			cursorPosX = 1
 		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
@@ -4930,21 +4921,28 @@ function f_watchLicense()
 		elseif cursorPosX == 1 then
 			moveTxt = (licenseMenu - 1) * 15
 		end
-		if #licenseList <= maxItems then
-			maxLicenses = #licenseList
+		if #t_licenseList <= maxItems then
+			maxLicenses = #t_licenseList
 		elseif licenseMenu - cursorPosX > 0 then
 			maxLicenses = licenseMenu + maxItems - cursorPosX
 		else
 			maxLicenses = maxItems
 		end
 		if cursorUpdate then
-			f_readLicense(licenseList[licenseMenu].path) --Get Text Data
+			f_resetYPos()
+			--f_readLicense(t_licenseList[licenseMenu].path) --Get Text Data (old method)
 			cursorUpdate = false
 		end
 		animDraw(f_animVelocity(licenseBG, -0.1, -0.1))
-		f_textRender(txt_license, licenseContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
+	--Draw License Text Content
+		for i=1, #t_licenseList[licenseMenu].content do
+			textImgSetText(txt_license, t_licenseList[licenseMenu].content[i])
+			textImgSetPos(txt_license, txtPosX, txtPosY + txtSpacing * (i - 1))
+			textImgDraw(txt_license)
+		end
+		--f_textRender(txt_license, licenseContent, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text from license file (old method)
 		animPosDraw(licenseTitleBG, -56, 0) --Draw Title BG
-		textImgSetText(txt_licenseTitle, licenseList[licenseMenu].name.." LICENSE")
+		textImgSetText(txt_licenseTitle, t_licenseList[licenseMenu].name.." LICENSE")
 		textImgDraw(txt_licenseTitle) --Draw Menu Title
 		drawLicenseInputHints()
 		animDraw(data.fadeTitle)

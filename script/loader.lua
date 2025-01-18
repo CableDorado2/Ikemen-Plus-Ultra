@@ -1463,6 +1463,22 @@ local file = io.open(eventDef,"r")
 	refresh()
 end
 f_loadEvents()
+
+function f_loadLicenses()
+t_licenseList = {}
+	for file in lfs.dir(licensesPath) do
+		if file:match('^.*(%.)[Tt][Xx][Tt]$') then
+			row = #t_licenseList+1
+			t_licenseList[row] = {}
+			t_licenseList[row]['id'] = ''
+			t_licenseList[row]['name'] = file:gsub('^(.*)[%.][Tt][Xx][Tt]$', '%1')
+			t_licenseList[row]['path'] = licensesPath.."/"..file
+			t_licenseList[row]['content'] = f_txtLoad(licensesPath.."/"..file)
+		end
+	end
+	if data.debugLog then f_printTable(t_licenseList, "save/debug/t_licenseList.txt") end
+end
+f_loadLicenses()
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
 --;===========================================================

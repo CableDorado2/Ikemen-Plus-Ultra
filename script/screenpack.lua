@@ -718,7 +718,7 @@ txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game 
 
 if data.engineMode == "FG" then --Menu Items for Fighting Engine Mode
 t_mainMenu = {
-	{id = textImgNew(), text = "ARCADE", gotomenu = "f_arcadeMenu()"},
+	{id = textImgNew(), text = "ARCADE", gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
 	{id = textImgNew(), text = "VERSUS", gotomenu = "f_vsMenu()"},
 	{id = textImgNew(), text = "NETPLAY", gotomenu = "f_mainNetplay()"},
 	{id = textImgNew(), text = "PRACTICE", gotomenu = "f_training()"},
@@ -769,7 +769,7 @@ end
 t_arcadeMenu = {
 	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_arcadeBoot()"},
 	{id = textImgNew(), text = "TOWER MODE", gotomenu = "f_towerBoot()"},
-	--{id = textImgNew(), text = "BEAT EM UP MODE", gotomenu = ""},
+	--{id = textImgNew(), text = "BEAT EM UP MODE", gotomenu = "f_beatemupBoot()"},
 }
 
 --;===========================================================
@@ -784,9 +784,9 @@ t_vsMenu = {
 --; PRACTICE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_practiceMenu = {
-	{id = textImgNew(), text = "TRAINING", gotomenu = ""},
-	{id = textImgNew(), text = "COMBO TRIALS", gotomenu = ""},
-	{id = textImgNew(), text = "TUTORIAL", gotomenu = ""},
+	{id = textImgNew(), text = "TRAINING", gotomenu = "f_training()"},
+	{id = textImgNew(), text = "COMBO TRIALS", gotomenu = "f_trials()"},
+	{id = textImgNew(), text = "TUTORIAL", gotomenu = "f_tutorial()"},
 }
 
 --;===========================================================
@@ -798,7 +798,7 @@ t_challengeMenu = {
 	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"},
 	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackBoot()"},
 	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
-	--{id = textImgNew(), text = "UNLIMITED MARS", gotomenu = ""},
+	--{id = textImgNew(), text = "UNLIMITED MARS", gotomenu = "f_unlimitedmarsBoot()"},
 	{id = textImgNew(), text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
 	{id = textImgNew(), text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
@@ -824,7 +824,7 @@ t_bonusMenu = {
 --;===========================================================
 t_extrasMenu = {
 	{id = textImgNew(), text = "ABYSS", gotomenu = "f_abyssCfg()"},
-	--{id = textImgNew(), text = "LEGION", gotomenu = ""},
+	--{id = textImgNew(), text = "LEGION", gotomenu = "f_legionCfg()"},
 	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
 	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
 	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
@@ -840,7 +840,7 @@ t_extrasMenu = {
 t_chroniclesMenu = {
 	{id = textImgNew(), text = "STORY", gotomenu = "script.story.f_storyMenu()"},
 	{id = textImgNew(), text = "VISUAL NOVEL", gotomenu = "f_vnMenu()"},
-	--{id = textImgNew(), text = "QUIZ", gotomenu = ""},
+	--{id = textImgNew(), text = "QUIZ", gotomenu = "f_quizMenu()"},
 }
 
 --;===========================================================
@@ -851,9 +851,9 @@ t_watchMenu = {
 	{id = textImgNew(), text = "STAGE VIEWER", gotomenu = "f_stageViewer()"},
 	{id = textImgNew(), text = "SOUND TEST", gotomenu = "soundTest = true f_songMenu()"},
 	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
-	--{id = textImgNew(), text = "GLOSSARY", gotomenu = ""},
+	--{id = textImgNew(), text = "GLOSSARY", gotomenu = "f_glossaryMenu()"},
 	{id = textImgNew(), text = "PROFILE", gotomenu = "f_statsMenu()"}, --(display overall player data [PLAYER RECORDS, RANKINGS, ACHIEVEMENTS])
-	{id = textImgNew(), text = "LICENSES", gotomenu = "f_watchLicense()"},
+	{id = textImgNew(), text = "LICENSES", gotomenu = "f_licenseMenu()"},
 	{id = textImgNew(), text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
 
