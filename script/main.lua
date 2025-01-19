@@ -1546,7 +1546,7 @@ function f_bossMenu()
 end
 
 --;===========================================================
---; SINGLE BOSS MENU (defeat a selected boss character)
+--; SINGLE BOSS MENU (Challenge a specific Boss Character)
 --;===========================================================
 function f_bossChars()
 	cmdInput()
@@ -1697,6 +1697,33 @@ function bossCPUvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
+end
+
+--;===========================================================
+--; TITAN ATTACK MODE (Challenge a formidable Giant Boss Character)
+--;===========================================================
+function f_titanAttack()
+	f_default()
+	data.gameMode = "singleboss"
+	data.rosterMode = "boss"
+	data.versusScreen = false
+	data.victoryscreen = false
+	setRoundTime(-1)
+	setRoundsToWin(1)
+	--data.stage = "stage/"
+	--data.bgm = "sound/"
+	textImgSetText(txt_mainSelect, "TITAN ATTACK")
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {"Red Dragon"}
+	--data.p2Pal = 1
+	f_selectSimple()
+	P2overP1 = false
 end
 
 --;===========================================================
@@ -17438,10 +17465,7 @@ function f_abyssCfg()
 		--Abyss Level Select
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sndSys, 100, 1)
-			if abyssCfg == 1 then
-				
-			end
-			--f_abyssMenu()
+			f_abyssMenu()
 		end
 		if abyssCfg < 1 then
 			abyssCfg = #t_abyssSel
@@ -17517,6 +17541,119 @@ function f_abyssCfg()
 		else
 			bufl = 0
 			bufr = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ABYSS MAIN MENU
+--;===========================================================
+function f_abyssMenu()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local abyssMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 10
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	f_resetAbyssArrowsPos()
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			exitAbyss = true
+			sndPlay(sndSys, 100, 2)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			f_menuMusic()
+			--f_resetMenuArrowsPos()
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			abyssMenu = abyssMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			abyssMenu = abyssMenu + 1
+	--Abyss Option Select
+		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			sndPlay(sndSys, 100, 1)
+			
+		end
+		if abyssMenu < 1 then
+			abyssMenu = #t_abyssMenu
+			if #t_abyssMenu > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_abyssMenu
+			end
+		elseif abyssMenu > #t_abyssMenu then
+			abyssMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveTxt = (abyssMenu - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (abyssMenu - 1) * 15
+		end	
+		if #t_abyssMenu <= maxItems then
+			maxabyssMenu = #t_abyssMenu
+		elseif abyssMenu - cursorPosY > 0 then
+			maxabyssMenu = abyssMenu + maxItems - cursorPosY
+		else
+			maxabyssMenu = maxItems
+		end
+	--Draw BG
+		animDraw(abyssBG)
+		animDraw(f_animVelocity(abyssFog, -1, -1))
+	--Draw Title
+		textImgDraw(txt_abyssMain)
+	--Draw Menu Options BG
+		animSetScale(abyssTBG, 240, maxabyssMenu*15)
+		animSetWindow(abyssTBG, 2,20, 165,155)
+		animDraw(abyssTBG)
+	--Draw Cursor
+		animSetWindow(cursorBox, 2,10+cursorPosY*15, 165,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Menu Options Text
+		for i=1, maxabyssMenu do
+			if i > abyssMenu - cursorPosY then
+				if t_abyssMenu[i].id ~= nil then
+					textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, 1, t_abyssMenu[i].text, 10, 20+i*15-moveTxt))
+				end
+			end
+		end
+	--Draw Info Text Stuff
+		animPosDraw(abyssCfgInfoBG, -56, 185)
+		textImgSetText(txt_abyssLvInfo, t_abyssMenu[abyssMenu].info)
+		textImgDraw(txt_abyssLvInfo)
+		f_abyssProfile() --Draw Char Profile Box
+		if maxabyssMenu > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_abyssMenu > maxItems and maxabyssMenu < #t_abyssMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		drawAbyssInputHints()
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

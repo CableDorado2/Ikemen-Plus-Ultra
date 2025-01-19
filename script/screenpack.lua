@@ -794,7 +794,7 @@ t_challengeMenu = {
 t_bossMenu = {
 	{id = textImgNew(), text = "SINGLE ASSAULT", gotomenu = "f_bossChars()"},
 	{id = textImgNew(), text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
-	{id = textImgNew(), text = "TITAN ATTACK", gotomenu = "f_titanAttack()"}, --Challenge a formidable Customizable Titan Boss Character.
+	{id = textImgNew(), text = "TITAN ATTACK", gotomenu = "f_titanAttack()"},
 }
 
 --;===========================================================
@@ -4003,6 +4003,67 @@ function drawAbyssInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 139, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 205, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 265, hintFontYPos)
+end
+
+--;===========================================================
+--; ABYSS MAIN MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_abyssMain = createTextImg(font11, 0, 1, "ABYSS MODE", 15, 15, 1.2, 1.2)
+txt_abyssCurrency = createTextImg(font11, 0, -1, "", 315, 15, 1.2, 1.2)
+txt_abyssCharName = createTextImg(font11, 0, 0, "", 241, 68, 1, 1)
+
+t_abyssMenu = {
+ {id = textImgNew(), text = "Item Shop", 		info = "Purchase items"},
+ {id = textImgNew(), text = "Begin the Game", 	info = "Start game"},
+}
+
+--Menu Options Transparent background
+abyssTBG = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(abyssTBG, 0, 25)
+animSetAlpha(abyssTBG, 20, 100)
+animUpdate(abyssTBG)
+
+--Character Profile Window BG
+abyssProfileBG = animNew(sprIkemen, [[
+62,1, 0,0, -1
+]])
+animUpdate(abyssProfileBG)
+animSetScale(abyssProfileBG, 1, 1)
+
+--Character Profile Atributes Sprites
+abyssProfileAtributes = animNew(sprIkemen, [[
+62,2, 0,0, -1
+]])
+animUpdate(abyssProfileAtributes)
+animSetScale(abyssProfileAtributes, 0.6, 0.6)
+
+function f_abyssProfile()
+	animPosDraw(abyssProfileBG, 165, 20)
+	animPosDraw(abyssProfileAtributes, 190, 76)
+--Character Stuff
+	textImgSetText(txt_abyssCharName, "Kung Fu Man")
+	textImgDraw(txt_abyssCharName)
+--Attributes
+	local attrFont = font2
+	local attrFontXPos = 208
+	local attrFontYPos = 85
+	local attrSymb = "+"
+	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb.."MAX", attrFontXPos, attrFontYPos)
+	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb.."MAX", attrFontXPos, attrFontYPos+18)
+	f_drawQuickText(txt_abyssDefense, attrFont, 0, 1, attrSymb.."MAX", attrFontXPos+60, attrFontYPos)
+	f_drawQuickText(txt_abyssSpeed, attrFont, 0, 1, attrSymb.."MAX", attrFontXPos+60, attrFontYPos+18)
+--Special Items
+	local spFont = font2
+	local spFontXPos = 172
+	local spFontYPos = 128
+	f_drawQuickText(txt_abyssSP1, spFont, 0, 1, "Maze Walker Lv.1", spFontXPos, spFontYPos)
+	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, "Victory Rush Lv.2", spFontXPos, spFontYPos+23)
+	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, "Regeneration Lv.Max", spFontXPos, spFontYPos+45)
+--Currency
+	textImgSetText(txt_abyssCurrency, stats.coins.." C")
+	textImgDraw(txt_abyssCurrency)
 end
 
 --;===========================================================

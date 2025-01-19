@@ -2880,24 +2880,24 @@ end
 --; MAIN MENU STUFF
 --;===========================================================
 function f_default() --Reset Game Modes Configuration
---settings adjustable via options
 	resetRemapInput()
-	--Auto-Guard for Left Side
-	setAutoguard(1, data.autoguard)
-	setAutoguard(3, data.autoguard)
-	setAutoguard(5, data.autoguard)
-	setAutoguard(7, data.autoguard)
-	--Auto-Guard for Right Side
-	setAutoguard(2, data.autoguard)
-	setAutoguard(4, data.autoguard)
-	setAutoguard(6, data.autoguard)
-	setAutoguard(8, data.autoguard)
+--settings adjustable via options
 	setRoundTime(data.roundTime * 60)
 	setRoundsToWin(data.roundsNum)
 	setLifeMul(data.lifeMul / 100)
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
+--Auto-Guard for Left Side
+	setAutoguard(1, data.autoguard)
+	setAutoguard(3, data.autoguard)
+	setAutoguard(5, data.autoguard)
+	setAutoguard(7, data.autoguard)
+--Auto-Guard for Right Side
+	setAutoguard(2, data.autoguard)
+	setAutoguard(4, data.autoguard)
+	setAutoguard(6, data.autoguard)
+	setAutoguard(8, data.autoguard)
 --values adjustable via lua scripts
 	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
