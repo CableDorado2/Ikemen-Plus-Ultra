@@ -412,6 +412,7 @@ elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "SKIP MATCH"
+elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "CHARACTER STATUS"
 end
 
 --Pause Menu for Replays

@@ -788,7 +788,6 @@ t_challengeMenu = {
 	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"},
 	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackBoot()"},
 	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
-	--{id = textImgNew(), text = "UNLIMITED MARS", gotomenu = "f_unlimitedmarsBoot()"},
 	{id = textImgNew(), text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
 	{id = textImgNew(), text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
@@ -814,7 +813,7 @@ t_bonusMenu = {
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	{id = textImgNew(), text = "ABYSS", gotomenu = "f_abyssCfg()"},
+	{id = textImgNew(), text = "ABYSS", gotomenu = "f_abyssSelect()"},
 	--{id = textImgNew(), text = "LEGION", gotomenu = "f_legionCfg()"},
 	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
 	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
@@ -3948,7 +3947,7 @@ animUpdate(tourneyAwards2)
 --;===========================================================
 --; ABYSS SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_abyssCfg = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 30, 1.2, 1.2)
+txt_abyssSel = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 30, 1.2, 1.2)
 txt_abyssLv = createTextImg(font20, 2, 0, "", 0, 0)
 txt_abyssDepth = createTextImg(font20, 1, 0, "DEPTH", 0, 0)
 txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
@@ -3956,11 +3955,11 @@ txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
 t_abyssSel = {
- {id = textImgNew(), depth = "100", info = "[Easy] difficulty geared towards beginners"},
- {id = textImgNew(), depth = "500", info = "[Normal] difficulty for average players"},
- {id = textImgNew(), depth = "999", info = "[Hard] difficulty for expert players"},
- {id = textImgNew(), depth = "2953", info = "[TEST1] difficulty for expert players"},
- {id = textImgNew(), depth = "8988", info = "[TEST2] difficulty for expert players"},
+ {id = textImgNew(), depth = 100, info = "[Easy] difficulty geared towards beginners"},
+ {id = textImgNew(), depth = 500, info = "[Normal] difficulty for average players"},
+ {id = textImgNew(), depth = 999, info = "[Hard] difficulty for expert players"},
+ {id = textImgNew(), depth = 2953, info = "[TEST1] difficulty for expert players"},
+ {id = textImgNew(), depth = 8988, info = "[TEST2] difficulty for expert players"},
 }
 
 --Background
@@ -3979,11 +3978,11 @@ animSetTile(abyssFog, 1, 1)
 animSetAlpha(abyssFog, 50,255)
 
 --Info BG
-abyssCfgInfoBG = animNew(sprSys, [[
+abyssSelInfoBG = animNew(sprSys, [[
 230,3, 0,0, -1
 ]])
-animSetScale(abyssCfgInfoBG, 2.9, 0.40)
-animSetAlpha(abyssCfgInfoBG, 155, 22)
+animSetScale(abyssSelInfoBG, 2.9, 0.40)
+animSetAlpha(abyssSelInfoBG, 155, 22)
 
 --Info Window BG
 abyssSelWindowBG = animNew(sprSys, [[
@@ -4085,8 +4084,8 @@ function f_abyssProfile()
 	animPosDraw(abyssProfileBG, 165, 20)
 	animPosDraw(abyssProfileAtributes, 190, 76)
 --Character Stuff
-	drawPortrait(0, 223, 25, 0.32, 0.32)
-	textImgSetText(txt_abyssCharName, "Kung Fu Man")
+	drawPortrait(data.t_p1selected[1].cel, 223, 25, 0.32, 0.32)
+	textImgSetText(txt_abyssCharName, data.t_p1selected[1].displayname)
 	textImgDraw(txt_abyssCharName)
 --Attributes
 	local attrFont = font2

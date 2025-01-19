@@ -3628,6 +3628,11 @@ if stats.modes == nil or data.erase then
 	stats.modes.tower.clear = 0
 	stats.modes.tower.ranking = {}
 	
+	stats.modes.beatemup = {}
+	stats.modes.beatemup.playtime = 0
+	stats.modes.beatemup.clear = 0
+	stats.modes.beatemup.ranking = {}
+	
 	stats.modes.survival = {}
 	stats.modes.survival.playtime = 0
 	stats.modes.survival.clear = 0
@@ -3676,6 +3681,9 @@ if stats.modes == nil or data.erase then
 	stats.modes.training = {}
 	stats.modes.training.playtime = 0
 	
+	stats.modes.trials = {}
+	stats.modes.trials.playtime = 0
+	
 	stats.modes.versus = {}
 	stats.modes.versus.playtime = 0
 	
@@ -3690,6 +3698,12 @@ if stats.modes == nil or data.erase then
 	
 	stats.modes.timerush = {}
 	stats.modes.timerush.playtime = 0
+	
+	stats.modes.abyss = {}
+	stats.modes.abyss.playtime = 0
+	
+	stats.modes.legion = {}
+	stats.modes.legion.playtime = 0
 	
 	stats.modes.story = {}
 	stats.modes.story.playtime = 0

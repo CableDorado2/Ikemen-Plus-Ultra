@@ -3563,6 +3563,7 @@ function f_modeplayTime()
 	elseif data.rosterMode == "arcade" then stats.modes.arcade.playtime = stats.modes.arcade.playtime + clearTime
 	elseif data.rosterMode == "versus" then stats.modes.versus.playtime = stats.modes.versus.playtime + clearTime
 	elseif data.rosterMode == "training" then stats.modes.training.playtime = stats.modes.training.playtime + clearTime
+	elseif data.rosterMode == "trials" then stats.modes.trials.playtime = stats.modes.trials.playtime + clearTime
 	elseif data.rosterMode == "cpu" then stats.modes.watch.playtime = stats.modes.watch.playtime + clearTime
 	elseif data.rosterMode == "survival" then stats.modes.survival.playtime = stats.modes.survival.playtime + clearTime
 	elseif data.rosterMode == "boss" then stats.modes.boss.playtime = stats.modes.boss.playtime + clearTime
@@ -3577,6 +3578,9 @@ function f_modeplayTime()
 	elseif data.rosterMode == "event" then stats.modes.event.playtime = stats.modes.event.playtime + clearTime
 	elseif data.rosterMode == "tower" then stats.modes.tower.playtime = stats.modes.tower.playtime + clearTime
 	elseif data.rosterMode == "tourney" then stats.modes.tourney.playtime = stats.modes.tourney.playtime + clearTime
+	elseif data.rosterMode == "abyss" then stats.modes.abyss.playtime = stats.modes.abyss.playtime + clearTime
+	elseif data.rosterMode == "legion" then stats.modes.legion.playtime = stats.modes.legion.playtime + clearTime
+	elseif data.rosterMode == "beatemup" then stats.modes.beatemup.playtime = stats.modes.beatemup.playtime + clearTime
 	elseif data.rosterMode == "adventure" then stats.modes.adventure.playtime = stats.modes.adventure.playtime + clearTime
 	end
 	f_saveStats()
@@ -7179,6 +7183,7 @@ function f_sideSelect()
 		elseif menuSelect == "arcade" then arcadeCfg()
 		elseif menuSelect == "tower" then towerCfg()
 		elseif menuSelect == "survival" then survivalCfg()
+		elseif menuSelect == "abyss" then abyssCfg()
 		elseif menuSelect == "boss" then bossCfg()
 		elseif menuSelect == "boss rush" then bossrushCfg()
 		elseif menuSelect == "bonus" then bonusCfg()
@@ -7198,6 +7203,7 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsCPU()
 			elseif menuSelect == "tower" then towerCPUvsCPU()
 			elseif menuSelect == "survival" then survivalCPUvsCPU()
+			elseif menuSelect == "abyss" then abyssCPUvsCPU()
 			elseif menuSelect == "boss" then bossCPUvsCPU()
 			elseif menuSelect == "boss rush" then bossrushCPUvsCPU()
 			elseif menuSelect == "time rush" then timerushCPUvsCPU()
@@ -7221,6 +7227,7 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
 			elseif menuSelect == "tower" then towerHumanvsCPU()
 			elseif menuSelect == "survival" then survivalHumanvsCPU()
+			elseif menuSelect == "abyss" then abyssHumanvsCPU()
 			elseif menuSelect == "boss" then bossHumanvsCPU()
 			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
 			elseif menuSelect == "bonus" then bonusHumanvsCPU()
@@ -7242,6 +7249,7 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
 			elseif menuSelect == "tower" then towerHumanvsCPU()
 			elseif menuSelect == "survival" then survivalHumanvsCPU()
+			elseif menuSelect == "abyss" then abyssHumanvsCPU()
 			elseif menuSelect == "boss" then bossHumanvsCPU()
 			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
 			elseif menuSelect == "bonus" then bonusHumanvsCPU()
@@ -7262,6 +7270,7 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
 			elseif menuSelect == "tower" then towerCPUvsHuman()
 			elseif menuSelect == "survival" then survivalCPUvsHuman()
+			elseif menuSelect == "abyss" then abyssCPUvsHuman()
 			elseif menuSelect == "boss" then bossCPUvsHuman()
 			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
 			elseif menuSelect == "bonus" then bonusCPUvsHuman()
@@ -7283,6 +7292,7 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
 			elseif menuSelect == "tower" then towerCPUvsHuman()
 			elseif menuSelect == "survival" then survivalCPUvsHuman()
+			elseif menuSelect == "abyss" then abyssCPUvsHuman()
 			elseif menuSelect == "boss" then bossCPUvsHuman()
 			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
 			elseif menuSelect == "bonus" then bonusCPUvsHuman()
@@ -7329,6 +7339,7 @@ function f_sideSelect()
 			if menuSelect == "arcade" then arcadeP1P2vsCPU()
 			elseif menuSelect == "tower" then towerP1P2vsCPU()
 			elseif menuSelect == "survival" then survivalP1P2vsCPU()
+			elseif menuSelect == "abyss" then abyssP1P2vsCPU()
 			elseif menuSelect == "boss rush" then bossrushP1P2vsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushP1P2vsCPU()
 			elseif menuSelect == "time rush" then timerushP1P2vsCPU()
@@ -7352,6 +7363,7 @@ function f_sideSelect()
 			if menuSelect == "arcade" then arcadeCPUvsP1P2()
 			elseif menuSelect == "tower" then towerCPUvsP1P2()
 			elseif menuSelect == "survival" then survivalCPUvsP1P2()
+			elseif menuSelect == "abyss" then abyssCPUvsP1P2()
 			elseif menuSelect == "boss rush" then bossrushCPUvsP1P2()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsP1P2()
 			elseif menuSelect == "time rush" then timerushCPUvsP1P2()
@@ -7887,7 +7899,7 @@ function f_makeRoster()
 	t_roster = {}
 	local t = {}
 	local cnt = 0
-	--Arcade
+--Arcade
 	if data.gameMode == "arcade" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if p1teamMode == 0 then --Single
@@ -7921,7 +7933,7 @@ function f_makeRoster()
 				end
 			end
 		end
-	--Survival / Boss Rush / Bonus Rush / All Roster
+--Survival / Boss Rush / Bonus Rush / All Roster
 	else
 		if data.gameMode == "survival" or data.gameMode == "allroster" then
 			t = t_randomChars
@@ -8540,6 +8552,7 @@ end
 
 function f_resetMenuAssets()
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	exitAbyss = true
 	backtomenu = false --Restart special back for Challenger Mode
 	data.tempBack = false
 	f_saveTemp()
@@ -8592,6 +8605,7 @@ end
 function f_exitToMainMenu() --For Advanced Select
 	data.tempBack = false
 	f_saveTemp()
+	exitAbyss = true
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
 	f_resetMenuArrowsPos()
@@ -8654,8 +8668,8 @@ function f_selectScreen()
 		animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 --Draw Character Select Normal Matchs Backgrounds
 	else
-		--Draw Black BG only for Tower Mode
-		if data.gameMode == "tower" then
+		--Draw Black BG only for Tower/Abyss Mode
+		if data.gameMode == "tower" or data.gameMode == "abyss" then
 			animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
 		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
@@ -12718,8 +12732,8 @@ function f_orderSelect()
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Order Select Normal Matchs Backgrounds
 			else
-				--Draw Black BG only for Tower Mode
-				if data.gameMode == "tower" then
+				--Draw Black BG only for Tower/Abyss Mode
+				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
 				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
@@ -13195,8 +13209,8 @@ function f_selectVersus()
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Versus Screen Normal Matchs Backgrounds
 			else
-				--Draw Black BG only for Tower Mode
-				if data.gameMode == "tower" then
+				--Draw Black BG only for Tower/Abyss Mode
+				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
 				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
@@ -13376,8 +13390,8 @@ function f_selectWin()
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Winner Screen Normal Matchs Backgrounds
 			else
-				--Draw Black BG only for Tower Mode
-				if data.gameMode == "tower" then
+				--Draw Black BG only for Tower/Abyss Mode
+				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
 				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
@@ -13484,6 +13498,7 @@ function f_selectWin()
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 					elseif data.gameMode == "tower" then playBGM(bgmTower)
+					elseif data.gameMode == "abyss" then playBGM(bgmAbyss)
 					elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 					end
 					commandBufReset(p1Cmd, 1)
@@ -13501,6 +13516,7 @@ function f_selectWin()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 				elseif data.gameMode == "tower" then playBGM(bgmTower)
+				elseif data.gameMode == "abyss" then playBGM(bgmAbyss)
 				elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 				end
 				commandBufReset(p1Cmd, 1)
@@ -13954,8 +13970,8 @@ function f_selectChallenger()
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Normal Matchs Backgrounds
 		else
-			--Draw Black BG only for Tower Mode
-			if data.gameMode == "tower" then
+			--Draw Black BG only for Tower/Abyss Mode
+			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 			--Draw Red BG for Special Modes
 			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
@@ -14045,7 +14061,7 @@ function f_service()
 			serviceMenu = serviceMenu + 1
 		end
 		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or serviceTimer == 0 then
-			--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
+		--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
 			if serviceMenu == 1 then
 				sndPlay(sndSys, 100, 1)
 				if data.difficulty == 1 then
@@ -14061,17 +14077,17 @@ function f_service()
 					script.options.f_saveCfg()
 				end
 				serviceBack = true
-			--FULL POWER
+		--FULL POWER
 			elseif serviceMenu == 2 then
 				sndPlay(sndSys, 100, 1)
 				setService("max power")
 				serviceBack = true
-			--LOW CPU LIFE
+		--LOW CPU LIFE
 			elseif serviceMenu == 3 then
 				sndPlay(sndSys, 100, 1)
 				setService("low cpu life")
 				serviceBack = true
-			--CHANGE PLAYER TEAM MODE
+		--CHANGE PLAYER TEAM MODE
 			elseif serviceMenu == 4 then
 				if data.coop == true then
 					noService = true
@@ -14082,18 +14098,19 @@ function f_service()
 					serviceTeam = true
 					break
 				end
-			--PLAYER DEFENCE X2
+		--PLAYER DEFENCE X2
 			elseif serviceMenu == 5 then
 				sndPlay(sndSys, 100, 1)
 				setService("defence x2")
 				serviceBack = true
-			--[[???
+		--[[
+		--???
 			elseif serviceMenu == 6 then
 				devService = true
 				sndPlay(sndSys, 100, 1)
 				setService("?")
-			]]
-			--NOT SERVICE
+		]]
+		--NOT SERVICE
 			else
 				sndPlay(sndSys, 100, 1)
 				serviceBack = true
@@ -14108,7 +14125,7 @@ function f_service()
 			commandBufReset(p2Cmd, 2)
 			break
 		end
-		--Cursor position calculation
+	--Cursor position calculation
 		if serviceMenu < 1 then
 			serviceMenu = #t_service
 			if #t_service > maxItems then
@@ -14136,33 +14153,33 @@ function f_service()
 		else
 			maxService = maxItems
 		end		
-		--Draw Character Select Last Match Backgrounds
+	--Draw Character Select Last Match Backgrounds
 		if matchNo == lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
-		--Draw Character Select Normal Matchs Backgrounds
+	--Draw Character Select Normal Matchs Backgrounds
 		else
-			--Draw Black BG only for Tower Mode
+		--Draw Black BG only for Tower Mode
 			if data.gameMode == "tower" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
-			--Draw Red BG for Special Modes
+		--Draw Red BG for Special Modes
 			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
-			--Draw Blue BG for Normal Modes
+		--Draw Blue BG for Normal Modes
 			else
 				animDraw(f_animVelocity(commonBG0, -1, -1))
 			end
 		end
-		--Draw Transparent Table BG		
+	--Draw Transparent Table BG		
 		animSetScale(commonTBG, 240, maxService*15)
 		animSetWindow(commonTBG, 80,20, 160,180)
 		animDraw(commonTBG)
-		--Draw Title Menu
+	--Draw Title Menu
 		textImgDraw(txt_service)
-		--Draw Cursor
+	--Draw Cursor
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Service Info
+	--Draw Service Info
 		if noService == true then
 			if data.coop == true then
 				for i=1, #t_lockedService do
@@ -14179,14 +14196,14 @@ function f_service()
 				textImgDraw(t_devService[i].id)
 			end
 		end
-		--Draw Text for Table
+	--Draw Text for Table
 		for i=1, maxService do	
 			if i > serviceMenu - cursorPosY then
 				t_service[i].id = createTextImg(font2, 0, 0, t_service[i].text, 158.5, 15+i*15-moveTxt)
 				textImgDraw(t_service[i].id)
 			end
 		end
-		--Service Option Timer
+	--Service Option Timer
 		serviceTimeNumber = serviceTimer/gameTick
 		nodecimalServiceTime = string.format("%.0f",serviceTimeNumber)
 		textImgSetText(txt_serviceTime, nodecimalServiceTime)
@@ -14196,12 +14213,12 @@ function f_service()
 		else --when serviceTimer <= 0
 			
 		end
-		--Draw Up Animated Cursor
+	--Draw Up Animated Cursor
 		if maxService > maxItems then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		--Draw Down Animated Cursor
+	--Draw Down Animated Cursor
 		if #t_service > maxItems and maxService < #t_service then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
@@ -14240,7 +14257,7 @@ function f_result(state)
 	local charTable = nil
 	local scaleData = nil
 	if data.gameMode == "survival" or data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
-		--Common Data
+	--Common Data
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -14287,7 +14304,7 @@ function f_result(state)
 	else --Boss/Bonus Rush Exit
 		return
 	end
-	--Portraits Scale Logic
+--Portraits Scale Logic
 	local charData = t_selChars[charPortr+1]
 	if charData.resultSprScale ~= nil then
 		scaleData = charData.resultSprScale
@@ -14302,10 +14319,10 @@ function f_result(state)
 			break
 		end
 		if data.gameMode == "survival" then
-			--Draw Character Portrait
+		--Draw Character Portrait
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawResultPortrait(charPortr, 320, 80, -xPortScale, yPortScale)
-			--Draw Character Sprite Animations
+		--Draw Character Sprite Animations
 			elseif data.charPresentation == "Sprite" then
 				for j=#charTable, 1, -1 do
 					f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 206.5, charTable[j].up)
@@ -14314,7 +14331,7 @@ function f_result(state)
 			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultNo)
 			textImgDraw(txt_resultRank)
-			--Show Ranks According Some Percentage Rates
+		--Show Ranks According Some Percentage Rates
 			if victoriesPercent < 35 then --0% -- 34%
 				animDraw(rankF)
 			elseif victoriesPercent >= 35 and victoriesPercent < 40 then --35% -- 39%
@@ -14345,10 +14362,10 @@ function f_result(state)
 				animDraw(rankGDLK)
 			end
 		else
-			--Draw Character Portrait
+		--Draw Character Portrait
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
-			--Draw Character Sprite Animations
+		--Draw Character Sprite Animations
 			elseif data.charPresentation == "Sprite" then
 				for j=#charTable, 1, -1 do
 					f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 206.5, charTable[j].up)
@@ -15019,7 +15036,7 @@ function f_arcadeEnd()
 		f_saveStats()
 		unlockTarget = "" --Reset Var
 	elseif data.rosterMode == "tower" then
-		data.towerClear = true
+		stats.modes.tower.clear = stats.modes.tower.clear + 1
 		f_saveStats()
 	end
 	--Intermissions Access
@@ -15116,9 +15133,9 @@ function f_nextMatch()
 	f_1stStageSel()
 end
 
---;======================================================================================================================
---; ADVANCED MODES (ARCADE, TOWER, SURVIVAL, BOSS/BONUS/TIME RUSH, SUDDEN DEATH, TIME/SCORE ATTACK, VS X KUMITE, ENDLESS)
---;======================================================================================================================
+--;===========================================================================================================================
+--; ADVANCED MODES (ARCADE, TOWER, SURVIVAL/ABYSS, BOSS/BONUS/TIME RUSH, SUDDEN DEATH, TIME/SCORE ATTACK, VS X KUMITE, ENDLESS)
+--;===========================================================================================================================
 function f_selectAdvance()
 if validCells() then
 	f_unlock(false)
@@ -15133,6 +15150,7 @@ if validCells() then
 		if data.gameMode == "bossrush" or data.rosterMode == "suddendeath" then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == "challenger" then f_challengerMusic()
 		elseif data.gameMode == "tower" then playBGM(bgmTower)
+		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
 		else f_selectMusic()
 		end
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -15152,7 +15170,7 @@ if validCells() then
 		end
 	--FIRST MATCH
 		if matchNo == 0 then
-			--Arcade Intro
+		--Arcade Intro
 			if data.arcadeIntro == true then
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					storyBoardSide = t_selChars[data.t_p2selected[1].cel+1]
@@ -15173,8 +15191,15 @@ if validCells() then
 					return
 				end
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
+			elseif data.gameMode == "abyss" then
+				f_abyssMenu() --Go to that Abyss Menu that contains the item shop
+				if data.tempBack == true then
+					f_exitToMainMenu()
+					return
+				end
+				lastMatch = t_abyssSel[abyssSel].depth --get roster selected in abyss depth select
 			else
-				--generate roster for other modes (arcade, survival, etc)
+			--generate roster for other modes (arcade, survival, etc)
 				if data.gameMode ~= "endless" then --because for endless we gonna make this infinite
 					f_makeRoster()
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -15215,7 +15240,7 @@ if validCells() then
 					looseCnt = looseCnt + 1
 				end
 			end
-			--No More Matches Left
+		--No More Matches Left
 			if matchNo == lastMatch then
 				f_winAdvanced()
 				f_storyboard("data/screenpack/gameover.def")
@@ -15223,7 +15248,7 @@ if validCells() then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
 				return
-			--Next Match Available
+		--Next Match Available
 			else
 				f_nextMatch()
 			end
@@ -15231,10 +15256,10 @@ if validCells() then
 		elseif winner == 1 then
 			--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
+			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
 				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 					looseCnt = looseCnt + 1
-					--Victory screen
+				--Victory screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
@@ -15256,17 +15281,17 @@ if validCells() then
 						return
 					end
 					f_records()
-					--Victory Screen
+				--Victory Screen
 					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 						f_selectWin()
 					end
-					--Continue Screen
+				--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
 						f_noContinue()
 						return
 					end
-					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
+				--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
 					if not data.quickCont then
 						f_editRightSide()
 						f_rosterReset()
@@ -15279,7 +15304,7 @@ if validCells() then
 								return
 							end
 						end
-					--Exit
+				--Exit
 					elseif commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 						sndPlay(sndSys, 100, 2)
@@ -15289,23 +15314,23 @@ if validCells() then
 					end
 					f_1stStageSel()
 				end
-			--Player 1 (IN LEFT SIDE):
+		--Player 1 (IN LEFT SIDE):
 			else
-				--Wins in (Arcade, Survival, Boss/Bonus Rush)
+			--Wins in (Arcade, Survival, Boss/Bonus Rush)
 				if winner == 1 then
 					winCnt = winCnt + 1
 				else
 					looseCnt = looseCnt + 1
 				end
-				--Victory Screen
+			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
 					if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
 				end
-				--No More Matches Left
+			--No More Matches Left
 				if matchNo == lastMatch then
-					--Arcade Ending
+				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p1selected[1].cel+1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
@@ -15322,30 +15347,30 @@ if validCells() then
 						f_advancedEnd()
 						return
 					end
-				--Next Match Available
+			--Next Match Available
 				else
 					f_nextMatch()
 				end
 			end
 	--RIGHT SIDE
 		elseif winner == 2 then
-			--Player 1 (IN RIGHT SIDE):
+		--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				--Wins in (Arcade, Survival, Boss/Bonus Rush)
+			--Wins in (Arcade, Survival, Boss/Bonus Rush)
 				if winner == 2 then
 					winCnt = winCnt + 1
 				else
 					looseCnt = looseCnt + 1
 				end
-				--Victory Screen
+			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
 					if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
 				end
-				--No More Matches Left
+			--No More Matches Left
 				if matchNo == lastMatch then
-					--Arcade Ending
+				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p2selected[1].cel+1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
@@ -15362,16 +15387,16 @@ if validCells() then
 						f_advancedEnd()
 						return
 					end
-				--Next Match Available
+			--Next Match Available
 				else
 					f_nextMatch()
 				end
-			--Player 1 (IN LEFT SIDE):
+		--Player 1 (IN LEFT SIDE):
 			else
-				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
+			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
 				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 					looseCnt = looseCnt + 1
-					--Victory Screen
+				--Victory Screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
@@ -15384,7 +15409,7 @@ if validCells() then
 					end
 					f_loseAdvanced()
 					return
-				--Lose BUT can Continue (Arcade)
+			--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
 					assert(loadfile(saveTempPath))()
@@ -15393,17 +15418,17 @@ if validCells() then
 						return
 					end
 					f_records() --Save Stats
-					--Victory Screen
+				--Victory Screen
 					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 						f_selectWin()
 					end
-					--Continue Screen
+				--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
 						f_noContinue()
 						return
 					end
-					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
+				--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
 					if not data.quickCont then
 						f_editLeftSide()
 						f_rosterReset()
@@ -15416,7 +15441,7 @@ if validCells() then
 								return
 							end
 						end
-					--Exit
+				--Exit
 					elseif commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 						sndPlay(sndSys, 100, 2)
@@ -15427,13 +15452,13 @@ if validCells() then
 					f_1stStageSel()
 				end
 			end
-		--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
+	--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
 		else --if winner == -1
 			if onlinegame and winner == -1 then
 				f_exitToMainMenu()
 				return
 			end
-			--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
+		--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
 			if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 				looseCnt = looseCnt + 1
 				if data.gameMode == "arcade" or data.gameMode == "tower" then --Attract Arcade
@@ -15454,7 +15479,7 @@ if validCells() then
 				end
 				f_loseAdvanced()
 				return
-			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
+		--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
 				assert(loadfile(saveTempPath))()
 			--Here comes a New Challenger Route
@@ -15613,7 +15638,7 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
-					elseif data.gameMode == "endless" then
+					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 						p1Cell = t_randomChars[math.random(#t_randomChars)] --get random character
 					else
 						p1Cell = t_roster[matchNo*p1numChars-i+1]
@@ -15635,7 +15660,7 @@ if validCells() then
 					f_shuffleTable(data.t_p1selected)
 				end
 			end
-			--Team conversion to Single match
+		--Team conversion to Single match
 			restoreTeam = false
 			teamMode = p1teamMode --was local function
 			numChars = p1numChars --was local function
@@ -15664,8 +15689,14 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
-					elseif data.gameMode == "endless" then
+					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 						p2Cell = t_randomChars[math.random(#t_randomChars)] --get random character
+					--[[
+					--Fight against boss character predefined at some depth/MatchNo
+						if data.gameMode == "abyss" and MatchNo == t_abyssSel[abyssSel].depthboss[MatchNo] then
+							p2Cell = 
+						end
+					]]
 					else
 						p2Cell = t_roster[matchNo*p2numChars-i+1]
 					end
@@ -15686,7 +15717,7 @@ if validCells() then
 					f_shuffleTable(data.t_p2selected)
 				end
 			end
-			--Team conversion to Single match
+		--Team conversion to Single match
 			restoreTeam = false
 			teamMode = p2teamMode
 			numChars = p2numChars --was local function
@@ -15710,8 +15741,9 @@ if validCells() then
 		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters
 		f_matchInfo()
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
+		--if data.gameMode == "abyss" then f_abyssMap() end
 		f_orderSelect()
-		--Versus Screen
+	--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
 				f_selectVersus()
@@ -15726,7 +15758,7 @@ if validCells() then
 			f_setRounds() --Set Rounds to Win for specific characters
 		end
 		f_setZoom()
-		--inputs
+	--inputs
 		if data.coop then
 			remapInput(3,2) --P2 controls assigned to P3 character
 			--remapInput(2,3) --P3 controls assigned to P2 character
@@ -15750,14 +15782,14 @@ if validCells() then
 		f_unlock(false)
 		f_updateUnlocks()
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--restore P1 Team settings if needed
+		--restore P1 Team settings if needed
 			if restoreTeam then
 				p1teamMode = teamMode
 				p1numChars = numChars
 				setTeamMode(1, p1teamMode, p1numChars)
 			end
 		else
-			--restore P2 Team settings if needed
+		--restore P2 Team settings if needed
 			if restoreTeam then
 				p2teamMode = teamMode
 				p2numChars = numChars
@@ -17435,76 +17467,87 @@ end
 --;===========================================================
 --; ABYSS SELECT MENU (Defeat way of enemies, strengthening your character along the way)
 --;===========================================================
-function f_abyssCfg()
+function f_abyssSelect()
 	cmdInput()
 	local cursorPosX = 1
 	local moveTxt = 0
-	local abyssCfg = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 3
+	local continue = false
+	f_sideReset()
+	abyssSel = 1
 	exitAbyss = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmAbyss)
 	f_resetAbyssArrowsPos()
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAbyss then
-			sndPlay(sndSys, 100, 2)
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			f_menuMusic()
-			--f_resetMenuArrowsPos()
-			break
-		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
-			sndPlay(sndSys, 100, 0)
-			abyssCfg = abyssCfg - 1
-		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
-			sndPlay(sndSys, 100, 0)
-			abyssCfg = abyssCfg + 1
+		if not sideScreen then
+			if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+				sndPlay(sndSys, 100, 0)
+				abyssSel = abyssSel - 1
+			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+				sndPlay(sndSys, 100, 0)
+				abyssSel = abyssSel + 1
 		--Abyss Level Select
-		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			sndPlay(sndSys, 100, 1)
-			f_abyssMenu()
-		end
-		if abyssCfg < 1 then
-			abyssCfg = #t_abyssSel
-			if #t_abyssSel > maxItems then
-				cursorPosX = maxItems
-			else
-				cursorPosX = #t_abyssSel
+			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sndSys, 100, 1)
+			--Continue Game
+				if continue then
+					
+			--New Game
+				else
+					f_abyssBoot() --Open Side Select
+				end
 			end
-		elseif abyssCfg > #t_abyssSel then
-			abyssCfg = 1
-			cursorPosX = 1
-		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
-			cursorPosX = cursorPosX - 1
-		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
-			cursorPosX = cursorPosX + 1
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAbyss then
+				sndPlay(sndSys, 100, 2)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				f_menuMusic()
+				f_resetMenuArrowsPos()
+				break
+			end
+			if abyssSel < 1 then
+				abyssSel = #t_abyssSel
+				if #t_abyssSel > maxItems then
+					cursorPosX = maxItems
+				else
+					cursorPosX = #t_abyssSel
+				end
+			elseif abyssSel > #t_abyssSel then
+				abyssSel = 1
+				cursorPosX = 1
+			elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+				cursorPosX = cursorPosX - 1
+			elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
+				cursorPosX = cursorPosX + 1
+			end
+			if cursorPosX == maxItems then
+				moveTxt = (abyssSel - maxItems) * 104
+			elseif cursorPosX == 1 then
+				moveTxt = (abyssSel - 1) * 104
+			end	
+			if #t_abyssSel <= maxItems then
+				maxabyssSel = #t_abyssSel
+			elseif abyssSel - cursorPosX > 0 then
+				maxabyssSel = abyssSel + maxItems - cursorPosX
+			else
+				maxabyssSel = maxItems
+			end
 		end
-		if cursorPosX == maxItems then
-			moveTxt = (abyssCfg - maxItems) * 104
-		elseif cursorPosX == 1 then
-			moveTxt = (abyssCfg - 1) * 104
-		end	
-		if #t_abyssSel <= maxItems then
-			maxabyssCfg = #t_abyssSel
-		elseif abyssCfg - cursorPosX > 0 then
-			maxabyssCfg = abyssCfg + maxItems - cursorPosX
-		else
-			maxabyssCfg = maxItems
-		end
-		--Draw BG
+	--Draw BG
 		animDraw(abyssBG)
 		animDraw(f_animVelocity(abyssFog, -1, -1))
-		--Draw Title
-		textImgDraw(txt_abyssCfg)
-		animPosDraw(abyssCfgInfoBG, -56, 185) --Draw Info Text BG
-		textImgSetText(txt_abyssLvInfo, t_abyssSel[abyssCfg].info)
+	--Draw Title
+		textImgDraw(txt_abyssSel)
+		animPosDraw(abyssSelInfoBG, -56, 185) --Draw Info Text BG
+		textImgSetText(txt_abyssLvInfo, t_abyssSel[abyssSel].info)
 		textImgDraw(txt_abyssLvInfo)
-		--Draw Abyss Level Content Text
-		for i=1, maxabyssCfg do
-			if i > abyssCfg - cursorPosX then
+	--Draw Abyss Level Content Text
+		for i=1, maxabyssSel do
+			if i > abyssSel - cursorPosX then
 				if t_abyssSel[i].id ~= nil then
 					animPosDraw(abyssSelWindowBG, -94+i*104-moveTxt,50)
 					textImgDraw(f_updateTextImg(t_abyssSel[i].id, font20, 4, 0, t_abyssSel[i].depth, -50+i*104-moveTxt, 120))
@@ -17516,22 +17559,22 @@ function f_abyssCfg()
 				end
 			end
 		end
-		--Draw Continue Box
+	--Draw Continue Box
 		animPosDraw(abyssContBG, 106, 147)
 		textImgDraw(txt_abyssContinue)
-		--Draw Cursor
+	--Draw Cursor
 		animSetWindow(cursorBox, -94+cursorPosX*104,54, 89.5,78)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if maxabyssCfg > maxItems then
+		if maxabyssSel > maxItems then
 			animDraw(menuArrowLeft)
 			animUpdate(menuArrowLeft)
 		end
-		if #t_abyssSel > maxItems and maxabyssCfg < #t_abyssSel then
+		if #t_abyssSel > maxItems and maxabyssSel < #t_abyssSel then
 			animDraw(menuArrowRight)
 			animUpdate(menuArrowRight)
 		end
-		drawAbyssInputHints()
+		if sideScreen then f_sideSelect() else drawAbyssInputHints() end
 		if commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
 			bufr = 0
 			bufl = bufl + 1
@@ -17547,6 +17590,94 @@ function f_abyssCfg()
 		cmdInput()
 		refresh()
 	end
+end
+
+function f_abyssBoot()
+	menuSelect = "abyss"
+	sideScreen = true
+end
+
+--Load Common Settings for Abyss Modes
+function abyssCfg()
+	f_default()
+	setGameMode('abyss')
+	data.gameMode = "abyss"
+	data.rosterMode = "abyss"
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (fight against CPU controlled opponents from left side)
+function abyssHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+		setPlayerSide('p2left')
+	else
+		setPlayerSide('p1left')
+	end
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "ABYSS MODE")
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--CPU VS HUMAN (fight against CPU controlled opponents from right side)
+function abyssCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+		setPlayerSide('p1right')
+	else
+		setPlayerSide('p2right')
+	end
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "ABYSS MODE")
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents)
+function abyssP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	setPlayerSide('p1left')
+	setGameMode('abysscoop')
+	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE")
+	f_selectAdvance()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents)
+function abyssCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	setGameMode('abysscoop')
+	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch CPU fight in abyss)
+function abyssCPUvsCPU()
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	setPlayerSide('p1left')
+	setGameMode('abysscpu')
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH ABYSS")
+	f_selectAdvance()
 end
 
 --;===========================================================
@@ -17571,7 +17702,7 @@ function f_abyssMenu()
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sndSys, 100, 2)
 			if not shop then
-				exitAbyss = true
+				data.tempBack = true --To exit to Main Menu
 				break
 			else
 				t_abyssMenu = t_menuBackup
@@ -17592,7 +17723,7 @@ function f_abyssMenu()
 					t_abyssMenu = t_abyssShop
 					shop = true
 				elseif abyssMenu == 2 then
-					--Start Abyss Mode
+					break --Start Abyss Mode
 				end
 		--Abyss Shop
 			else
@@ -17648,7 +17779,7 @@ function f_abyssMenu()
 			end
 		end
 	--Draw Info Text Stuff
-		animPosDraw(abyssCfgInfoBG, -56, 185)
+		animPosDraw(abyssSelInfoBG, -56, 185)
 		textImgSetText(txt_abyssLvInfo, t_abyssMenu[abyssMenu].info)
 		textImgDraw(txt_abyssLvInfo)
 		f_abyssProfile() --Draw Char Profile Box
