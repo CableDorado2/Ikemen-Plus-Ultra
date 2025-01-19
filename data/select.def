@@ -1,7 +1,7 @@
 [Characters]
 Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
-Mako Mayama, unlock=data.story1_2Unlock == true, stages/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
-Suave Dude, unlock=data.story1_4AStatus == 1, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
+Mako Mayama, stages/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
+Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
 Reika Murasame, unlock=stats.unlocks.chars.reika == true, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=1
 Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude
 randomselect
@@ -18,6 +18,7 @@ Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclud
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, 4=Kung Fu Man
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, intermission=1, ai=8, order=-1, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl
 Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, intermission=1, ai=8, order=-1, single=1
+Red Dragon, chars/Red Dragon/stage/The Red Dragon's Lair.def, zoom=0, includestage=0, exclude=1, order=-1, excludetourney=1
 Break The Car, stages/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
 Strength Training, stages/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=-1
