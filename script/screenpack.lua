@@ -600,9 +600,14 @@ animSetPos(menuArrowLeft, 0, 123)
 animSetPos(menuArrowRight, 312, 123)
 end
 
-function f_resetAbyssArrowsPos() --Used in Abyss Mode
+function f_resetAbyssArrowsPos() --Used in Abyss Select
 animSetPos(menuArrowLeft, 0, 90)
 animSetPos(menuArrowRight, 312, 90)
+end
+
+function f_resetAbyss2ArrowsPos() --Used in Abyss Main Menu
+animSetPos(menuArrowUp, 153, 15)
+animSetPos(menuArrowDown, 153, 175.5)
 end
 
 function f_titleText()
@@ -4011,10 +4016,47 @@ end
 txt_abyssMain = createTextImg(font11, 0, 1, "ABYSS MODE", 15, 15, 1.2, 1.2)
 txt_abyssCurrency = createTextImg(font11, 0, -1, "", 315, 15, 1.2, 1.2)
 txt_abyssCharName = createTextImg(font11, 0, 0, "", 241, 68, 1, 1)
+txt_abyssShopItemLock = "???"
+txt_abyssShopInfoLock = "This item has yet to be discovered"
+txt_abyssShopItem = "Increases attack level by 1"
+
+txt_abyssShopItemAttack = "Attack"
+txt_abyssShopItemPower = "Power"
+txt_abyssShopItemDefense = "Defense"
+txt_abyssShopItemSpeed = "Speed"
+
+txt_abyssShopItemPrice1 = 250
+txt_abyssShopItemPrice2 = txt_abyssShopItemPrice1*2
+txt_abyssShopItemPrice3 = txt_abyssShopItemPrice1*3
+txt_abyssShopItemPriceMax = txt_abyssShopItemPrice1*4
 
 t_abyssMenu = {
  {id = textImgNew(), text = "Item Shop", 		info = "Purchase items"},
- {id = textImgNew(), text = "Begin the Game", 	info = "Start game"},
+ {id = textImgNew(), text = "Begin the Game", 	info = "Enter the Abyss"},
+}
+
+t_abyssShop = {
+--Attack Items
+ {id = textImgNew(), level = 1, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice1, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 2, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice1, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 3, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice1, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 4, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice2, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 5, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice2, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 6, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice2, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 7, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice3, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 8, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice3, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 9, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPrice3, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+ {id = textImgNew(), level = 10, attrib = txt_abyssShopItemAttack, price = txt_abyssShopItemPriceMax, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+--Defense Items
+ {id = textImgNew(), level = 1, attrib = txt_abyssShopItemDefense, price = txt_abyssShopItemPrice1, text = txt_abyssShopItemLock, info = txt_abyssShopInfoLock},
+--Power Items
+
+--Speed Items
+
+--Special Items
+
+--Depth Descend Items
+
 }
 
 --Menu Options Transparent background
@@ -4043,6 +4085,7 @@ function f_abyssProfile()
 	animPosDraw(abyssProfileBG, 165, 20)
 	animPosDraw(abyssProfileAtributes, 190, 76)
 --Character Stuff
+	drawPortrait(0, 223, 25, 0.32, 0.32)
 	textImgSetText(txt_abyssCharName, "Kung Fu Man")
 	textImgDraw(txt_abyssCharName)
 --Attributes
@@ -4190,9 +4233,11 @@ TERUO KONISHI
 TETSUYA SHIBATA
 TORU ITOGA
 TOSHIHIKO HORIYAMA
+U2 AKIYAMA
 WIZZYWHIPITWONDERFUL
 XONTRON
 YASUFUMI FUKUDA
+ZIRCON
 
 
 

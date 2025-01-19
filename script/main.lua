@@ -17562,26 +17562,42 @@ function f_abyssMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 10
+	local shop = false
+	local t_menuBackup = t_abyssMenu
+	local t_shopBackup = t_abyssShop
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	f_resetAbyssArrowsPos()
+	f_resetAbyss2ArrowsPos()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			exitAbyss = true
 			sndPlay(sndSys, 100, 2)
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			f_menuMusic()
-			--f_resetMenuArrowsPos()
-			break
+			if not shop then
+				exitAbyss = true
+				break
+			else
+				t_abyssMenu = t_menuBackup
+				shop = false
+			end
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
 			abyssMenu = abyssMenu - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
 			abyssMenu = abyssMenu + 1
-	--Abyss Option Select
+	--Actions
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sndSys, 100, 1)
-			
+		--Abyss Option Select
+			if not shop then
+				if abyssMenu == 1 then
+					t_abyssMenu = t_abyssShop
+					shop = true
+				elseif abyssMenu == 2 then
+					--Start Abyss Mode
+				end
+		--Abyss Shop
+			else
+				
+			end
 		end
 		if abyssMenu < 1 then
 			abyssMenu = #t_abyssMenu
