@@ -1,0 +1,25 @@
+[Info]
+name ="Red Dragon"
+displayname ="Red Dragon"
+versiondate = 30,1,2008    ;Version date of character (MM-DD-YYYY)
+mugenversion = 04,14,2002   ;Version of M.U.G.E.N character works on
+author="Doggiedoo"
+pal.defaults = 1
+
+[Files]
+sprite=reddragon.sff
+sound=reddragon.snd
+anim=reddragon.air
+cmd=reddragon.cmd
+cns=reddragon.cns
+st=reddragon.cns
+st2=config.txt
+stcommon=common1.cns
+pal1=pal1.act
+pal2=flamewing.act
+pal3=synn.act
+pal4=pal2.act
+pal5=pal3.act
+pal6=pal4.act
+pal7=pal5.act
+pal8=pal6.act

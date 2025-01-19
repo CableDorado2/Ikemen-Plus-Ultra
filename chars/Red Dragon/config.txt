@@ -1,0 +1,276 @@
+[Statedef 5901];DO NOT EDIT THIS LINE
+[State AI Aggressiveness];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+AI AGGRESSIVENESS SETTING
+	Affects how often Red will attack
+	when under AI control. Values greater
+	than 1.0 do not necessarily make him
+	more difficult, just more aggressive.
+	Values less than 1.0 however, do make
+	him generally easier.
+;=============================================
+
+fvar(10) = 0.5
+
+;Recommended values are 0.1 to 2.0. Values
+;higher than 2.0 have little effect. 
+;Default is 0.5.
+
+
+
+
+
+[State Stun Resistance];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+STUN RESISTANCE SETTING
+	The amount of damage Red must receive
+	before flinching. This stun guage
+	fills faster if he is hit while
+	biting, when idle, or by Super
+	Attacks.
+;=============================================
+
+var(14) = 400
+
+;Default is 400.
+
+
+
+
+
+[State Stun Duration];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+STUN DURATION SETTING
+	After being stunned, Red will be
+	staggered for the specified number of
+	ticks; 60 ticks = 1 second.
+;=============================================
+
+var(17) = 150
+
+;Default is 150 (2.5 seconds).
+;Set to 0 to disable.
+
+
+
+
+
+[State Stun Recovery];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+STUN RECOVERY SETTING
+	Red's stun guage empties over time.
+	This setting controls the amount of
+	stun damage he heals per second.
+;=============================================
+
+fvar(7) = 20
+
+;Default is 20.
+
+
+
+
+
+[State LifeBar];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+LIFEBAR SETTING
+	Enables or disables Red's boss life
+	bar, which appears near the bottom of
+	the screen. Use if Red obstructs the
+	lifebars in your screenpack.
+;=============================================
+
+var(19) = 0
+
+;Default is 0. Set to 1 to enable.
+
+
+
+
+
+[State Skeleton Count];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+SKELETEN COUNT SETTING
+	Controls how many skeletons are
+	conjured by Undead Summoning.
+;=============================================
+
+var(21) = 3
+
+;Default is 3. Valid range is from 0 to 6.
+;Set to 0 to disable Undead Summoning.
+
+
+
+
+
+[State Skeleton Life];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+SKELETEN LIFE SETTING
+	Controls how much life each skeleton
+	has.
+;=============================================
+
+var(22) = 400
+
+;Default is 400. 0 or less causes each
+;skeleton to be destroyed in one hit.
+
+
+
+
+
+[State Scorching Sphere Waves];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+SCORCHING SPHERE WAVES
+	Controls how many waves Scorching
+	Spheres generate before they expire.
+;=============================================
+
+var(25) = 3
+
+;Default is 3.
+;Set to 0 to disable Scorching Spheres.
+
+
+
+
+
+[State AI Breath Usage];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+AI BREATH USAGE SETTING
+	Select whether Red's AI uses his
+	breath a: once a round, at low health
+	(default), b: while recovering from
+	stun, or c: as a normal (but rare)
+	attack.
+;=============================================
+
+var(20) = 0
+
+;0 = breathe fire once a round (default).
+;1 = breathe fire after being stunned.
+;2 = breathe fire at random intervals.
+
+
+
+
+
+[State Rockfall];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+PRE-BREATH ROCKFALL SETTING
+	Enables or disables the falling rocks
+	before the horizontal or full screen
+	breaths.
+;=============================================
+
+var(18) = 1
+
+;Default is 1. Set to 0 to disable.
+
+
+
+
+
+[State Text Dialogue];DO NOT EDIT LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+;=============================================
+TEXT DIALOGUE SETTING
+	Enables or disables text speech during
+	matches.
+;=============================================
+
+var(26) = 0
+
+;Default is 0. Set to 1 to enable.
+
+
+
+
+
+[State Music Fix];DO NOT EDIT THIS LINE
+type = AssertSpecial;DO NOT EDIT THIS LINE
+trigger1 = Time = 0;DO NOT EDIT THIS LINE
+trigger1 = roundno = 1;DO NOT EDIT THIS LINE
+flag = nomusic;DO NOT EDIT THIS LINE
+;=============================================
+MUSIC FIX
+	Enable this if your stage's bgvolume
+	setting has no effect on the music's
+	volume.
+;=============================================
+
+trigger1 = 1
+
+;1 = enable, 0 = disable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;=============================================
+     <<END OF CONFIGURATION SECTION>>
+;=============================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[State 5901, VarSet];DO NOT EDIT THIS LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = fvar(10) = 0.0;DO NOT EDIT THIS LINE
+fvar(10) = 0.0000000001;DO NOT EDIT THIS LINE
+[State 5901, VarSet];DO NOT EDIT THIS LINE
+type = VarSet;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+fvar(7) = fvar(7)/60.0;DO NOT EDIT THIS LINE
+[State 5901, 3];DO NOT EDIT THIS LINE
+type = ChangeState;DO NOT EDIT THIS LINE
+trigger1 = 1;DO NOT EDIT THIS LINE
+value = 190;DO NOT EDIT THIS LINE
