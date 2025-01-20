@@ -14249,6 +14249,7 @@ function f_result(state)
 	--elseif state == "lost" then
 	--end
 	if data.gameMode == "tower" then rosterSize = #t_selTower[destinySelect].kombats
+	elseif data.gameMode == "abyss" then rosterSize = t_abyssSel[abyssSel].depth
 	elseif data.gameMode == "endless" then rosterSize = 1
 	else rosterSize = #t_roster
 	end
@@ -14256,7 +14257,7 @@ function f_result(state)
 	local charPortr = nil
 	local charTable = nil
 	local scaleData = nil
-	if data.gameMode == "survival" or data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
+	if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
 	--Common Data
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -15086,6 +15087,7 @@ function f_loseAdvanced()
 	--f_mainOpening()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	exitAbyss = true
 	f_resetMenuArrowsPos()
 	f_resetMenuInputs()
 end
@@ -15257,7 +15259,7 @@ if validCells() then
 			--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
+				if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 				--Victory screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -15394,7 +15396,7 @@ if validCells() then
 		--Player 1 (IN LEFT SIDE):
 			else
 			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
+				if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then --if stats.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and stats.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 				--Victory Screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -17600,9 +17602,13 @@ end
 --Load Common Settings for Abyss Modes
 function abyssCfg()
 	f_default()
+	setRoundsToWin(1)
+	setRoundTime(99*60)
 	setGameMode('abyss')
 	data.gameMode = "abyss"
 	data.rosterMode = "abyss"
+	data.victoryscreen = false
+	data.stage = "stages/Mountainside Temple/Lobby.def" --Abyss Initial Stage
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
