@@ -4013,8 +4013,6 @@ end
 --; ABYSS MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_abyssMain = createTextImg(font11, 0, 1, "ABYSS MODE", 15, 15, 1.2, 1.2)
-txt_abyssCurrency = createTextImg(font11, 0, -1, "", 315, 15, 1.2, 1.2)
-txt_abyssCharName = createTextImg(font11, 0, 0, "", 241, 68, 1, 1)
 txt_abyssShopItemLock = "???"
 txt_abyssShopInfoLock = "This item has yet to be discovered"
 txt_abyssShopItem = "Increases attack level by 1"
@@ -4080,17 +4078,27 @@ abyssProfileAtributes = animNew(sprIkemen, [[
 animUpdate(abyssProfileAtributes)
 animSetScale(abyssProfileAtributes, 0.6, 0.6)
 
-function f_abyssProfile()
-	animPosDraw(abyssProfileBG, 165, 20)
-	animPosDraw(abyssProfileAtributes, 190, 76)
+function f_abyssProfile(NewPosX, NewPosY)
+	local NewPosX = NewPosX or 0
+	local NewPosY = NewPosY or 0
+	animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
+	animPosDraw(abyssProfileAtributes, 190+NewPosX, 76+NewPosY)
 --Character Stuff
-	drawPortrait(data.t_p1selected[1].cel, 223, 25, 0.32, 0.32)
-	textImgSetText(txt_abyssCharName, data.t_p1selected[1].displayname)
-	textImgDraw(txt_abyssCharName)
+	local playerDat = nil
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		playerDat = data.t_p2selected
+	else
+		playerDat = data.t_p1selected
+	end
+--[
+	--drawPortrait(playerDat[1].cel, 223, 25, 0.32, 0.32)
+	drawPortrait(0, 223+NewPosX, 25+NewPosY, 0.32, 0.32)
+	--f_drawQuickText(txt_abyssCharName, font11, 0, 0, playerDat[1].displayname, 241+NewPosX, 68+NewPosY, 1, 1)
+--]]
 --Attributes
 	local attrFont = font2
-	local attrFontXPos = 208
-	local attrFontYPos = 85
+	local attrFontXPos = 208+NewPosX
+	local attrFontYPos = 85+NewPosY
 	local attrSymb = "+"
 	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb.."MAX", attrFontXPos, attrFontYPos)
 	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb.."MAX", attrFontXPos, attrFontYPos+18)
@@ -4098,14 +4106,13 @@ function f_abyssProfile()
 	f_drawQuickText(txt_abyssSpeed, attrFont, 0, 1, attrSymb.."MAX", attrFontXPos+60, attrFontYPos+18)
 --Special Items
 	local spFont = font2
-	local spFontXPos = 172
-	local spFontYPos = 128
+	local spFontXPos = 172+NewPosX
+	local spFontYPos = 128+NewPosY
 	f_drawQuickText(txt_abyssSP1, spFont, 0, 1, "Maze Walker Lv.1", spFontXPos, spFontYPos)
 	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, "Victory Rush Lv.2", spFontXPos, spFontYPos+23)
 	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, "Regeneration Lv.Max", spFontXPos, spFontYPos+45)
 --Currency
-	textImgSetText(txt_abyssCurrency, stats.coins.." C")
-	textImgDraw(txt_abyssCurrency)
+	f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." C", 315+NewPosX, 15+NewPosY, 1.2, 1.2)
 end
 
 --;===========================================================

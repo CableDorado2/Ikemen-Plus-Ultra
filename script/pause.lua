@@ -93,7 +93,7 @@ end
 
 --Load Training Settings Saved from training_sav.lua
 if getGameMode() == "practice" then
-	--Screen Info
+--Screen Info
 	setDamageDisplay(data.damageDisplay)
 	setInputDisplay(data.inputDisplay)
 	if data.hitbox then toggleClsnDraw() end
@@ -487,13 +487,13 @@ function f_pauseMain(p, st, esc)
 			elseif pn == 2 then textImgSetBank(txt_pause, 1)
 			end
 			textImgSetText(txt_pause, "PAUSE [P"..pn.."]")			
-			--HIDE MENU
+		--HIDE MENU
 			if getGameMode() == "replay" or getGameMode() == "randomtest" then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
 			else
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
 			end
-			--RESUME GAME
+		--RESUME GAME
 			if (escape or start or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and delayMenu == 2 then
 				sndPlay(sndSys, 100, 2)
 				animReset(darkenOut)
@@ -537,18 +537,18 @@ function f_pauseMain(p, st, esc)
 					sndPlay(sndSys, 100, 0)
 					pauseMenu = pauseMenu + 1
 				end
-				--Actions in Demo or Replay Modes
+			--Actions in Demo or Replay Modes
 				if getGameMode() == "replay" or getGameMode() == "randomtest" then
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-						--SETTINGS
+					--SETTINGS
 						if pauseMenu == 2 then
 							sndPlay(sndSys, 100, 1)
 							f_gameCfgMenuReset()
-						--BATTLE INFO
+					--BATTLE INFO
 						elseif pauseMenu == 4 then
 							sndPlay(sndSys, 100, 1)
 							f_trainingCfgMenuReset()
-						--EXIT
+					--EXIT
 						elseif pauseMenu == 5 then
 							sndPlay(sndSys, 100, 1)
 							f_confirmReset()
@@ -560,20 +560,29 @@ function f_pauseMain(p, st, esc)
 							delayMenu = -2
 						end
 					end
-				--Actions in rest of Game Modes
+			--Actions in rest of Game Modes
 				else
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-						--MOVELIST
+					--MOVELIST
 						if pauseMenu == 2 then
 							sndPlay(sndSys, 100, 5)
-						--SETTINGS
+					--SETTINGS
 						elseif pauseMenu == 3 then
 							sndPlay(sndSys, 100, 1)
 							f_gameCfgMenuReset()
-						--BACK TO CHARACTER SELECT
+					--BACK TO CHARACTER SELECT
 						elseif pauseMenu == 5 then
 							if getGameMode() == "story" then
 								sndPlay(sndSys, 100, 5)
+							elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
+								sndPlay(sndSys, 100, 1)
+							--[[
+								abyssStats = 1
+								cursorPosY = 1
+								moveTxt = 0
+							]]
+								mainGoTo = "AbyssStats"
+								delayMenu = -2
 							elseif getGameMode() == "random" or getGameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
 								sndPlay(sndSys, 100, 1)
 								f_confirmReset()
@@ -586,21 +595,21 @@ function f_pauseMain(p, st, esc)
 								mainGoTo = "Confirm"
 								delayMenu = -2
 							end
-						--EXIT TO MAIN MENU
+					--EXIT TO MAIN MENU
 						elseif pauseMenu == 6 then
 							sndPlay(sndSys, 100, 1)
 							f_confirmReset()
 							mainGoTo = "Confirm"
 							mainMenuBack = true
 							delayMenu = -2
-						--TRAINING SETTINGS
+					--TRAINING SETTINGS
 						elseif pauseMenu == 7 then
 							sndPlay(sndSys, 100, 1)
 							f_trainingCfgMenuReset()
 						end
 					end
 				end
-				--Cursor position calculation
+			--Cursor position calculation
 				if pauseMenu < 1 then
 					pauseMenu = #t_pauseMain
 					if #t_pauseMain > 7 then
@@ -632,32 +641,32 @@ function f_pauseMain(p, st, esc)
 				else
 					maxPause = 7
 				end
-				--Draw BG
+			--Draw BG
 				--animDraw(f_animVelocity(commonBG0, -1, -1))
-				--Draw Transparent Table BG
+			--Draw Transparent Table BG
 				animSetScale(pauseBG1, 220, maxPause*15)
 				animSetWindow(pauseBG1, 80,70, 160,105)
 				animDraw(pauseBG1)
 				animUpdate(pauseBG1)
-				--Draw Title Menu
+			--Draw Title Menu
 				textImgDraw(txt_pause)
-				--Draw Cursor
+			--Draw Cursor
 				animSetWindow(cursorBox, 80,55+PcursorPosY*15, 160,15)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
-				--Draw Text for Table
+			--Draw Text for Table
 				for i=1, maxPause do	
 					if i > pauseMenu - PcursorPosY then
 						t_pauseMain[i].id = createTextImg(font14, 0, 0, t_pauseMain[i].text, 158.5, 65+i*15-PmoveTxt,0.85,0.85)
 						textImgDraw(t_pauseMain[i].id)
 					end
 				end
-				--Draw Up Animated Cursor
+			--Draw Up Animated Cursor
 				if maxPause > 7 then
 					animDraw(pauseUpArrow)
 					animUpdate(pauseUpArrow)
 				end
-				--Draw Down Animated Cursor
+			--Draw Down Animated Cursor
 				if #t_pauseMain > 7 and maxPause < #t_pauseMain then
 					animDraw(pauseDownArrow)
 					animUpdate(pauseDownArrow)
@@ -689,6 +698,8 @@ function f_pauseMain(p, st, esc)
 		f_pauseSettings()
 	elseif pauseMode == "Training" or pauseMode == "CharacterCfg" or pauseMode == "Playback" then
 		f_pauseTraining()
+	elseif pauseMode == "AbyssStats" then
+		f_pauseAbyssStats()
 	elseif pauseMode == "Confirm" then
 		f_pauseConfirm()
 	end
@@ -723,7 +734,7 @@ t_confirmPause = {
 }
 
 function f_pauseConfirm()
-	--MESSAGES FOR BACK TO A MAIN MENU
+--MESSAGES FOR BACK TO A MAIN MENU
 	if mainMenuBack == true then
 		if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel)
 			if getPauseVar() == "nogiveup" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel) end
@@ -736,7 +747,7 @@ function f_pauseConfirm()
 			end
 		else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_mainmenuBack)
 		end
-	--MESSAGES FOR BACK TO A CHARACTER SELECT
+--MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
 		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backCharSel)
 		elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStgSel)
@@ -754,7 +765,7 @@ function f_pauseConfirm()
 				pauseMenuActive = false
 				bufl = 0
 				bufr = 0
-			--BACK/NO ACTION
+		--BACK/NO ACTION
 			elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == #t_confirmPause) then
 				sndPlay(sndSys, 100, 2)
 				delayMenu = -2
@@ -832,7 +843,7 @@ function f_pauseConfirm()
 			f_sysTime()
 			drawPauseInputHints2()
 			if data.attractMode then textImgDraw(txt_attractCredits) end
-			--BACK TO MAIN MENU
+		--BACK TO MAIN MENU
 			if mainMenuBack == true then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sndSys, 100, 1)
@@ -841,7 +852,7 @@ function f_pauseConfirm()
 					f_saveTemp()
 					exitMatch()
 				end
-			--BACK TO CHARACTER SELECT
+		--BACK TO CHARACTER SELECT
 			elseif mainMenuBack == false then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sndSys, 100, 1)
@@ -907,7 +918,7 @@ function f_pauseSettings()
 				pauseMenuActive = false
 				bufl = 0
 				bufr = 0
-			--BACK
+		--BACK
 			elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and gameCfg == #t_gameCfg) then
 				sndPlay(sndSys, 100, 2)
 				delayMenu = -2
@@ -953,7 +964,7 @@ function f_pauseSettings()
 				if bufr then bufr = 0 end
 			end
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-				--Audio Settings
+			--Audio Settings
 				if gameCfg == 1 then
 					sndPlay(sndSys, 100, 1)
 					cfgGoTo = "Audio"
@@ -961,14 +972,14 @@ function f_pauseSettings()
 					cursorPosY = 1
 					moveTxt = 0
 					delayMenu = -2
-				--Input Settings
+			--Input Settings
 				elseif gameCfg == 2 then
 					sndPlay(sndSys, 100, 5)
-				--Open Screenshots Folder
+			--Open Screenshots Folder
 				elseif gameCfg == 4 then
 					sndPlay(sndSys, 100, 1)
 					sszOpen("screenshots", "")
-				--Play/Change Song
+			--Play/Change Song
 				elseif gameCfg == 5 then
 					sndPlay(sndSys, 100, 1)
 					cfgGoTo = "Songs"
@@ -980,7 +991,7 @@ function f_pauseSettings()
 					delayMenu = -2
 				end
 			end
-			--HUD Status
+		--HUD Status
 			if gameCfg == 3 then
 				if (pn == 1 and btnPalNo(p1Cmd) > 0) or ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					sndPlay(sndSys, 100, 1)
@@ -1160,7 +1171,7 @@ function f_pauseAudio()
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		end
-		--Master volume
+	--Master volume
 		if audioCfg == 1 then
 			if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr'))) and bufr >= 20 and gl_vol < 100) then
 				if gl_vol < 100 then gl_vol = gl_vol + 1 else gl_vol = 0 end
@@ -1171,7 +1182,7 @@ function f_pauseAudio()
 				if (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) then sndPlay(sndSys, 100, 0) end
 				hasChanged = true
 			end
-		--SFX volume
+	--SFX volume
 		elseif audioCfg == 2 then
 			if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr'))) and bufr >= 20 and se_vol < 100) then
 				if se_vol < 100 then se_vol = se_vol + 1 else se_vol = 0 end
@@ -1182,7 +1193,7 @@ function f_pauseAudio()
 				if (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) then sndPlay(sndSys, 100, 0) end
 				hasChanged = true
 			end
-		--BGM volume
+	--BGM volume
 		elseif audioCfg == 3 then
 			if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr'))) and bufr >= 20 and bgm_vol < 100) then
 				if bgm_vol < 100 then bgm_vol = bgm_vol + 1 else bgm_vol = 0 end
@@ -1193,7 +1204,7 @@ function f_pauseAudio()
 				if (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) then sndPlay(sndSys, 100, 0) end
 				hasChanged = true
 			end
-		--Audio Panning
+	--Audio Panning
 		elseif audioCfg == 4 then
 			if commandGetState(p1Cmd, 'r') then
 				sndPlay(sndSys, 100, 0)
@@ -1327,7 +1338,7 @@ function f_pauseSongs()
 			pauseMenuActive = false
 			bufl = 0
 			bufr = 0
-		--BACK
+	--BACK
 		elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and songMenu == #t_songList[songFolder]) then
 			sndPlay(sndSys, 100, 2)
 			delayMenu = -2
@@ -1546,34 +1557,34 @@ end
 if data.hitbox then t_trainingCfg[3].varText = "Yes" else t_trainingCfg[3].varText = "No" end
 if data.debugInfo then t_trainingCfg[4].varText = "Yes" else t_trainingCfg[4].varText = "No" end
 if getGameMode() == "practice" then --To don't display in battle info menu
-	--Lifebar P1
+--Lifebar P1
 	if data.LifeStateP1 == 0 then t_trainingCfg[5].varText = "No Regenerate"
 	else t_trainingCfg[5].varText = data.LifeStateP1.."%"
 	end
-	--Lifebar P2
+--Lifebar P2
 	if data.LifeStateP2 == 0 then t_trainingCfg[6].varText = "No Regenerate"
 	else t_trainingCfg[6].varText = data.LifeStateP2.."%"
 	end
-	--Power Gauge P1
+--Power Gauge P1
 	if data.PowerStateP1 == 0 then t_trainingCfg[7].varText = "No Recovery"
 	elseif data.PowerStateP1 == 10 then t_trainingCfg[7].varText = "Recovery"
 	elseif data.PowerStateP1 == 11 then t_trainingCfg[7].varText = "Max at Start"
 	elseif data.PowerStateP1 == 666 then t_trainingCfg[7].varText = "Unlimited"
 	else t_trainingCfg[7].varText = "Level "..data.PowerStateP1
 	end
-	--Power Gauge P2
+--Power Gauge P2
 	if data.PowerStateP2 == 0 then t_trainingCfg[8].varText = "No Recovery"
 	elseif data.PowerStateP2 == 10 then t_trainingCfg[8].varText = "Recovery"
 	elseif data.PowerStateP2 == 11 then t_trainingCfg[8].varText = "Max at Start"
 	elseif data.PowerStateP2 == 666 then t_trainingCfg[8].varText = "Unlimited"
 	else t_trainingCfg[8].varText = "Level "..data.PowerStateP2
 	end
-	--Auto Guard Mode
+--Auto Guard Mode
 	if data.autoguardP1 then t_trainingCfg[9].varText = "Yes" else t_trainingCfg[9].varText = "No" end
 	if data.autoguardP2 then t_trainingCfg[10].varText = "Yes" else t_trainingCfg[10].varText = "No" end
-	--AI Level
+--AI Level
 	t_trainingCfg[11].varText = data.AIlevel
-	--Dummy Mode
+--Dummy Mode
 	if data.dummyMode == 0 then t_trainingCfg[15].varText = "Manual"
 	elseif data.dummyMode == 1 then t_trainingCfg[15].varText = "CPU"
 	elseif data.dummyMode == 2 then t_trainingCfg[15].varText = "Playback"
@@ -1629,7 +1640,7 @@ function f_pauseTraining()
 				bufl = 0
 				bufr = 0
 				if modified then f_saveTrgCfg() end
-			--BACK
+		--BACK
 			elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and trainingCfg == #t_trainingCfg) then
 				sndPlay(sndSys, 100, 2)
 				delayMenu = -2
@@ -1676,9 +1687,9 @@ function f_pauseTraining()
 				if bufr then bufr = 0 end
 				recWarning = false
 			end
-			--Actions
+		--Actions
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-				--Character Settings
+			--Character Settings
 				if trainingCfg == 12 then
 					sndPlay(sndSys, 100, 1)
 					trainingGoTo = "CharacterCfg"
@@ -1686,7 +1697,7 @@ function f_pauseTraining()
 					cursorPosY = 1
 					moveTxt = 0
 					delayMenu = -2
-				--Playback Settings
+			--Playback Settings
 				elseif trainingCfg == 13 then
 					sndPlay(sndSys, 100, 1)
 					trainingGoTo = "Playback"
@@ -1694,7 +1705,7 @@ function f_pauseTraining()
 					cursorPosY = 1
 					moveTxt = 0
 					delayMenu = -2
-				--Start Dummy Recording
+			--Start Dummy Recording
 				elseif trainingCfg == 14 then
 					if data.dummyMode == 3 or data.dummyMode == 2 or data.dummyMode == 1 then
 						sndPlay(sndSys, 100, 5)
@@ -1711,11 +1722,11 @@ function f_pauseTraining()
 					end
 				end
 			end
-			--Common Button Logic
+		--Common Button Logic
 			if (trainingCfg >= 3 and trainingCfg < 5) or trainingCfg == 9 or trainingCfg == 10 then
 				if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) or (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) or (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then
 					sndPlay(sndSys, 100, 1)
-					--Hitbox Display
+				--Hitbox Display
 					if trainingCfg == 3 then
 						if not data.hitbox then
 							data.hitbox = true
@@ -1723,7 +1734,7 @@ function f_pauseTraining()
 							data.hitbox = false
 						end
 						toggleClsnDraw()
-					--Debug Info Display
+				--Debug Info Display
 					elseif trainingCfg == 4 then
 						if not data.debugInfo then
 							data.debugInfo = true
@@ -1731,14 +1742,14 @@ function f_pauseTraining()
 							data.debugInfo = false
 						end
 						toggleDebugDraw()
-					--Auto Guard P1
+				--Auto Guard P1
 					elseif trainingCfg == 9 then
 						if not data.autoguardP1 then
 							data.autoguardP1 = true
 						else
 							data.autoguardP1 = false
 						end
-					--Auto Guard P2
+				--Auto Guard P2
 					elseif trainingCfg == 10 then
 						if not data.autoguardP2 then
 							data.autoguardP2 = true
@@ -1748,27 +1759,27 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--Info Display
+		--Info Display
 			elseif trainingCfg == 1 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					--[[
+				--[[
 					if data.damageDisplay > 0 then
 						sndPlay(sndSys, 100, 1)
 						data.damageDisplay = data.damageDisplay - 1
 					end
 					hasChanged = true
-					]]
+				]]
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
 					sndPlay(sndSys, 100, 5)
-					--[[
+				--[[
 					if data.damageDisplay < 1 then
 						sndPlay(sndSys, 100, 1)
 						data.damageDisplay = data.damageDisplay + 1
 					end
 					hasChanged = true
-					]]
+				]]
 				end
-			--Input Display
+		--Input Display
 			elseif trainingCfg == 2 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					if data.inputDisplay > 0 then
@@ -1783,7 +1794,7 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--Left Side Life Gauge Setup
+		--Left Side Life Gauge Setup
 			elseif trainingCfg == 5 and getGameMode() == "practice" then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					if data.LifeStateP1 == 0 then
@@ -1816,7 +1827,7 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--Right Side Life Gauge Setup
+		--Right Side Life Gauge Setup
 			elseif trainingCfg == 6 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
 					if data.LifeStateP2 == 0 then
@@ -1849,7 +1860,7 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--Left Side Power Gauge Setup
+		--Left Side Power Gauge Setup
 			elseif trainingCfg == 7 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
 					if data.PowerStateP1 == 11 then
@@ -1894,7 +1905,7 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--Right Side Power Gauge Setup
+		--Right Side Power Gauge Setup
 			elseif trainingCfg == 8 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
 					if data.PowerStateP2 == 11 then
@@ -1939,18 +1950,18 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--[[
-			--Distance
+	--[[
+		--Distance
 			elseif trainingCfg == ??? then
 				
-			--Tech
+		--Tech
 			elseif trainingCfg == ??? then
 				
-			--Counter Hit
+		--Counter Hit
 			elseif trainingCfg == ??? then
 				
-			]]
-			--AI Level
+	]]
+		--AI Level
 			elseif trainingCfg == 11 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					if data.AIlevel > 1 then
@@ -1965,22 +1976,22 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--Dummy Control
+		--Dummy Control
 			elseif trainingCfg == 15 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					--Set CPU Controls
+				--Set CPU Controls
 					if data.dummyMode == 3 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 1
 						--setCom(2, data.AIlevel)
 						remapInput(2, 2)
 						toggleAI(2)
-					--Set Manual Controls
+				--Set Manual Controls
 					elseif data.dummyMode == 1 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 0
 						toggleAI(2)
-					--Set Playback Controls
+				--Set Playback Controls
 					elseif data.dummyMode == 0 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 2
@@ -1988,17 +1999,17 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					--Set Manual Controls
+				--Set Manual Controls
 					if data.dummyMode == 2 then
 						--sndPlay(sndSys, 100, 1)
 						data.dummyMode = 0
 						endDummyPlayback(sndSys)
-					--Set CPU Controls
+				--Set CPU Controls
 					elseif data.dummyMode == 0 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 1
 						toggleAI(2)
-					--Set Mirror Controls
+				--Set Mirror Controls
 					elseif data.dummyMode == 1 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 3
@@ -2185,7 +2196,7 @@ function f_pausePlayback()
 			bufl = 0
 			bufr = 0
 			if modified then f_saveTrgCfg() end
-		--BACK
+	--BACK
 		elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and playbackCfg == #t_playbackCfg) then
 			sndPlay(sndSys, 100, 2)
 			delayMenu = -2
@@ -2224,7 +2235,7 @@ function f_pausePlayback()
 			if bufr then bufr = 0 end
 			pbWarning = false
 		end
-		--Recording Slot
+	--Recording Slot
 		if playbackCfg == 1 then
 			if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 				if data.pbkRecSlot > 1 then
@@ -2239,7 +2250,7 @@ function f_pausePlayback()
 					hasChanged = true
 				end
 			end
-		--Playback Slot
+	--Playback Slot
 		elseif playbackCfg == 2 then
 			if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 				if data.pbkPlaySlot > 1 then
@@ -2254,34 +2265,36 @@ function f_pausePlayback()
 					hasChanged = true
 				end
 			end
-		--Common Button Logic
+	--Common Button Logic
 		elseif playbackCfg >= 3 and playbackCfg < 8 then
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) or (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) or (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then
 				sndPlay(sndSys, 100, 1)
-				--Playback Type
-				--if playbackCfg == 3 then
-					--if data.pbkPlayLoop then data.pbkPlayLoop = false else data.pbkPlayLoop = true end
-				--Slot 1
+			--Playback Type
+			--[[
+				if playbackCfg == 3 then
+					if data.pbkPlayLoop then data.pbkPlayLoop = false else data.pbkPlayLoop = true end
+			]]
+			--Slot 1
 				if playbackCfg == 3 then
 					if data.pbkSlot1 then data.pbkSlot1 = false else data.pbkSlot1 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot1 = true end
-				--Slot 2
+			--Slot 2
 				elseif playbackCfg == 4 then
 					if data.pbkSlot2 then data.pbkSlot2 = false else data.pbkSlot2 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot2 = true end
-				--Slot 3
+			--Slot 3
 				elseif playbackCfg == 5 then
 					if data.pbkSlot3 then data.pbkSlot3 = false else data.pbkSlot3 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot3 = true end
-				--Slot 4
+			--Slot 4
 				elseif playbackCfg == 6 then
 					if data.pbkSlot4 then data.pbkSlot4 = false else data.pbkSlot4 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot4 = true end
-				--Slot 5
+			--Slot 5
 				elseif playbackCfg == 7 then
 					if data.pbkSlot5 then data.pbkSlot5 = false else data.pbkSlot5 = true end
 					checkPBSlots()
@@ -2389,6 +2402,75 @@ function f_pausePlayback()
 end
 
 --;===========================================================
+--; ABYSS CHARACTER STATS
+--;===========================================================
+txt_PabyssStats = createTextImg(jgFnt, 0, 0, "", 159, 35)
+
+function f_pauseAbyssStats()
+	if pn == 1 then textImgSetBank(txt_PabyssStats, 5)
+	elseif pn == 2 then textImgSetBank(txt_PabyssStats, 1)
+	end
+	textImgSetText(txt_PabyssStats, "CHARACTER STATS [P"..pn.."]")
+	if pauseMode == "AbyssStats" or cfgGoTo ~= "" then
+		if delayMenu == 2 then
+			if start then
+				sndPlay(sndSys, 100, 2)
+				animReset(darkenOut)
+				animUpdate(darkenOut)
+				pauseMenuActive = false
+				bufl = 0
+				bufr = 0
+		--BACK
+			elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) ) then
+				sndPlay(sndSys, 100, 2)
+				delayMenu = -2
+				bufl = 0
+				bufr = 0
+			end
+		end
+		if pauseMenuActive == true and delayMenu < 2 then
+			delayMenu = delayMenu + 1
+			--animUpdate(darkenIn)
+		elseif pauseMenuActive == false and delayMenu > 0 then
+			delayMenu = delayMenu - 1
+			--animUpdate(darkenOut)
+		end
+		if pauseMenuActive == false and delayMenu == 0 then
+			f_pauseMenuReset()
+			return
+		end
+		if pauseMenuActive then
+			animDraw(darkenIn)
+		else
+			animDraw(darkenOut)
+		end
+		if delayMenu == -1 then
+			if cfgGoTo == nil or cfgGoTo == "" then
+				pauseMode = ""
+			else
+				pauseMode = cfgGoTo
+				cfgGoTo = ""
+			end
+			delayMenu = 0
+		end
+		if delayMenu == 2 then
+			--animDraw(f_animVelocity(commonBG0, -1, -1))
+			textImgDraw(txt_PabyssStats)
+			f_abyssProfile(-85, 32)
+			f_sysTime()
+			drawPauseInputHints()
+			if data.attractMode then textImgDraw(txt_attractCredits) end
+		end
+--[[
+	elseif pauseMode == "???" then
+		f_pause1()
+	elseif pauseMode == "???" then
+		f_pause2()
+]]
+	end
+end
+
+--;===========================================================
 --; CHARACTERS SETTINGS
 --;===========================================================
 txt_charCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
@@ -2422,7 +2504,7 @@ function f_pauseCharCfg()
 			bufl = 0
 			bufr = 0
 			if modified then f_saveTrgCfg() end
-		--BACK
+	--BACK
 		elseif escape or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and charCfg == #t_charCfg) then
 			sndPlay(sndSys, 100, 2)
 			delayMenu = -2
@@ -2459,7 +2541,7 @@ function f_pauseCharCfg()
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		end
-		--Suave Dude Mode
+	--Suave Dude Mode
 		if charCfg == 1 then
 			if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 				if data.suavemode > 0 then

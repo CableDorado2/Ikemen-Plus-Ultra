@@ -15755,7 +15755,7 @@ if validCells() then
 				f_selectVersus()
 			end
 		end
-		if data.rosterMode == "arcade" or data.rosterMode == "tower" or data.rosterMode == "cpu" then
+		if data.gameMode == "arcade" or data.gameMode == "tower" then
 			f_setRoundTime() --Set Round Time for specific characters
 			f_setRounds() --Set Rounds to Win for specific characters
 		end
