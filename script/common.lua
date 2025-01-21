@@ -3706,6 +3706,7 @@ if stats.modes == nil or data.erase then
 	
 	stats.modes.abyss = {}
 	stats.modes.abyss.playtime = 0
+	stats.modes.abyss.maxdepth = 0
 	
 	stats.modes.legion = {}
 	stats.modes.legion.playtime = 0

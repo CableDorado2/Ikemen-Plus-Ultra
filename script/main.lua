@@ -6910,7 +6910,7 @@ end
 --;===========================================================
 function f_confirmMenu()
 	cmdInput()
-	--Cursor Position
+--Cursor Position
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 		sndPlay(sndSys, 100, 0)
 		confirmMenu = confirmMenu - 1
@@ -6938,14 +6938,14 @@ function f_confirmMenu()
 	elseif cursorPosYConfirm == 0 then
 		moveTxtConfirm = (confirmMenu - 1) * 13
 	end
-	--Draw Fade BG
+--Draw Fade BG
 	animDraw(fadeWindowBG)
-	--Draw Menu BG
+--Draw Menu BG
 	animDraw(confirmWindowBG)
 	animUpdate(confirmWindowBG)
-	--Draw Title
+--Draw Title
 	textImgDraw(txt_confirmQuestion)
-	--Draw Table Text
+--Draw Table Text
 	for i=1, #t_confirmMenu do
 		if i == confirmMenu then
 			bank = 5
@@ -6954,21 +6954,21 @@ function f_confirmMenu()
 		end
 		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, t_confirmMenu[i].text, 159, 120+i*13-moveTxtConfirm))
 	end
-	--Draw Cursor
+--Draw Cursor
 	animSetWindow(cursorBox, 87,123+cursorPosYConfirm*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Draw Input Hints Panel
+--Draw Input Hints Panel
 	drawConfirmInputHints()
-	--Actions
+--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		f_confirmReset()
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-		--YES
+	--YES
 		if confirmMenu == 1 then
 			sndPlay(sndSys, 100, 1)
-			--DELETE HOST DATA
+		--DELETE HOST DATA
 			if crudHostOption == 1 then
 				f_crudHostReset()
 				host_rooms.IP[hostRoomName] = nil
@@ -6983,12 +6983,13 @@ function f_confirmMenu()
 				file:write(json.encode(host_rooms, {indent = true}))
 				file:close()
 				f_hostTable() --Refresh
-			--DELETE REPLAY
+		--OTHERS
 			else
 				deleteReplay = true --For Replay Menu
 				tourneyBack = true --For Tournament Menu
+				exitAbyss = true --For Abyss Menu
 			end
-		--NO
+	--NO
 		else
 			crudHostOption = 0
 			sndPlay(sndSys, 100, 2)
@@ -13199,7 +13200,7 @@ function f_selectVersus()
 		cmdInput()
 		while true do
 		--Actions
-			if screenTime == timeLimit then--or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Disable temporarily to prevent desync in online mode
+			if screenTime == timeLimit then --or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Disable temporarily to prevent desync in online mode
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				break
@@ -13239,7 +13240,7 @@ function f_selectVersus()
 				end
 			end
 		--Draw Match Info
-			if data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "tourney" then
+			if data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
 				textImgDraw(txt_matchNo)
 			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "vskumite" or data.gameMode == "allroster" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
@@ -16516,7 +16517,7 @@ function f_tourneyMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
-	--Iteration Position Logic
+--Iteration Position Logic
 	local slotWidth = 29 --Sprite Width
 	local slotHeight = 29 --Sprite Height
 	local iconWidth = 25
@@ -16530,7 +16531,7 @@ function f_tourneyMenu()
 	local updateSpacingY = 29.95
 	local changeX = 2 --When tourneySize is more small how much will the values ​​of the axis change?
 	local changeY = 2.92
-	--Positions for 16 Participants
+--Positions for 16 Participants
 	--Originals values
 		slotStartPosX = 0.3
 		slotSpacingX = 261
@@ -16546,7 +16547,7 @@ function f_tourneyMenu()
 		ctrlSpacingX = 270
 		ctrlStartPosY = 20
 		ctrlSpacingY = 23.2
-	--Positions for 8 Participants
+--Positions for 8 Participants
 	if data.tourneySize == 8 then
 		slotStartPosX = slotStartPosX + updateStartPosX
 		slotSpacingX = slotSpacingX - updateSpacingX
@@ -16562,7 +16563,7 @@ function f_tourneyMenu()
 		ctrlSpacingX = ctrlSpacingX - updateSpacingX
 		ctrlStartPosY = ctrlStartPosY + updateStartPosY
 		ctrlSpacingY = ctrlSpacingY + updateSpacingY
-	--Positions for 4 Participants
+--Positions for 4 Participants
 	elseif data.tourneySize == 4 then
 		slotStartPosX = slotStartPosX + (updateStartPosX*changeX)
 		slotSpacingX = slotSpacingX - (updateSpacingX*changeX)
@@ -16597,14 +16598,14 @@ function f_tourneyMenu()
 	confirmRandomSel = false --Controls when random select occurs
 	while true do
 		if exitTourney then break end --Back to Main Menu
-		--Prepare Final Match
+	--Prepare Final Match
 		if (tourneyRoundNo == 4 and data.tourneySize == 16) or (tourneyRoundNo == 3 and data.tourneySize == 8) or (tourneyRoundNo == 2 and data.tourneySize == 4) then endTourney = true end
 		if not startTourney then
-			--BACK TO TOURNEY SETTINGS
+		--BACK TO TOURNEY SETTINGS
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
-			--START TOURNAMENT
+		--START TOURNAMENT
 			elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				sndPlay(sndSys, 100, 1)
 				f_tourneySelRandomPlayer()
@@ -16618,14 +16619,14 @@ function f_tourneyMenu()
 					f_tourneySelCfg()
 				end
 				confirmRandomSel = false
-			--SLOT SELECT
+		--SLOT SELECT
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
 				tourneyRow = tourneyRow - 1
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sndSys, 100, 0)
 				tourneyRow = tourneyRow + 1
-			--GROUP SIDE SELECT
+		--GROUP SIDE SELECT
 			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 				sndPlay(sndSys, 100, 0)
 				if tourneyGroup == 1 then
@@ -16642,10 +16643,10 @@ function f_tourneyMenu()
 					tourneyGroup = 1
 				end
 				--tourneyGroup = tourneyGroup + 1
-			--HIDE INPUT HINTS MENU
+		--HIDE INPUT HINTS MENU
 			elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') then
 				if not hideMenu then hideMenu = true else hideMenu = false end
-			--SET CHARACTER CONTROL
+		--SET CHARACTER CONTROL
 			elseif commandGetState(p1Cmd, 'a') or commandGetState(p2Cmd, 'a') then
 				local slotControl = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl
 				local slotLevel = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel
@@ -16665,14 +16666,14 @@ function f_tourneyMenu()
 						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharControl = "CPU"
 					end
 				end
-			--EDIT CHARACTER SLOT
+		--EDIT CHARACTER SLOT
 			elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				sndPlay(sndSys, 100, 1)
 				startTourney = false
 				f_tourneySelCfg()
 				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 			end
-			--Cursor position calculation
+		--Cursor position calculation
 			if tourneyRow < 1 then
 				tourneyRow = #t_tourneyMenu.Group[tourneyGroup].Round[1]
 				if #t_tourneyMenu.Group[tourneyGroup].Round[1] > maxItems then
@@ -16701,7 +16702,7 @@ function f_tourneyMenu()
 				maxSlots = maxItems
 			end
 		else --If tournament has been started
-			--BACK TO TOURNEY SETTINGS
+		--BACK TO TOURNEY SETTINGS
 			if tourneyBack then
 				startTourney = false
 				tourneyBack = false
@@ -16710,19 +16711,19 @@ function f_tourneyMenu()
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				confirmScreen = true
-			--HIDE INPUT HINTS MENU
+		--HIDE INPUT HINTS MENU
 			elseif commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y') then
 				if not hideMenu then hideMenu = true else hideMenu = false end
-			--START NEXT MATCH
+		--START NEXT MATCH
 			elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				hideMenu = false
 				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
 				f_tourneySelCfg()
 			end
 		end
-		--Draw BG
+	--Draw BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
-		--Draw Tourney BG Grids
+	--Draw Tourney BG Grids
 		if data.tourneySize == 4 then
 			animSetScale(tourney4, 1.059, 1.041)
 			animPosDraw(tourney4, -10, -5)
@@ -16733,7 +16734,7 @@ function f_tourneyMenu()
 			animSetScale(tourney16, 1.059, 1.041)
 			animPosDraw(tourney16, -10, -5)
 		end
-		--Draw Menu Titles
+	--Draw Menu Titles
 		textImgDraw(txt_tourneyType)
 		f_setTourneyState()
 		textImgSetText(txt_tourneyState, tourneyState)
@@ -16745,10 +16746,10 @@ function f_tourneyMenu()
 		end
 		]]
 		textImgDraw(txt_tourneyTitle)
-		--Draw Group A Assets
+	--Draw Group A Assets
 		for c=1, #t_tourneyMenu.Group[1].Round do
 			for d=1, #t_tourneyMenu.Group[1].Round[c] do
-				--Set AI Icon
+			--Set AI Icon
 				local ctrlIcon = nil
 				local GroupAai = t_tourneyMenu.Group[1].Round[c][d].AIlevel
 				if GroupAai == 1 then ctrlIcon = tourneyAI1
@@ -16760,11 +16761,11 @@ function f_tourneyMenu()
 				elseif GroupAai == 7 then ctrlIcon = tourneyAI7
 				elseif GroupAai == 8 then ctrlIcon = tourneyAI8
 				end
-				--Set Player Icon
+			--Set Player Icon
 				if t_tourneyMenu.Group[1].Round[c][d].Player == 1 then ctrlIcon = tourneyP1
 				elseif t_tourneyMenu.Group[1].Round[c][d].Player == 2 then ctrlIcon = tourneyP2
 				end
-				--Draw Characters Icon
+			--Draw Characters Icon
 				local newStartPosX = 0
 				local newSpacingX = 0
 				local newStartPosY = 0
@@ -16825,17 +16826,17 @@ function f_tourneyMenu()
 							newChangeY = 2.38
 						end
 					end
-					--Draw Face
+				--Draw Face
 					drawTourneyPortrait(character-1, (iconStartPosX+(newStartPosX*newChangeX))+(1-1)*(iconWidth+(iconSpacingX-(newSpacingX*newChangeX))), (iconStartPosY+(newStartPosY*newChangeY))+(d-1)*(iconHeight+(iconSpacingY+(newSpacingY*newChangeY))))
 				end
-				--Draw Control Icon
+			--Draw Control Icon
 				animPosDraw(ctrlIcon, (ctrlStartPosX+(newStartPosX*newChangeX))+(1-1)*(ctrlWidth+(ctrlSpacingX-(newSpacingX*newChangeX))), (ctrlStartPosY+(newStartPosY*newChangeY))+(d-1)*(ctrlHeight+(ctrlSpacingY+(newSpacingY*newChangeY))))
 			end
 		end
-		--Draw Group B Assets
+	--Draw Group B Assets
 		for c=1, #t_tourneyMenu.Group[2].Round do
 			for d=1, #t_tourneyMenu.Group[2].Round[c] do
-				--Set AI Icon
+			--Set AI Icon
 				local ctrlIcon = nil
 				local GroupBai = t_tourneyMenu.Group[2].Round[c][d].AIlevel
 				if GroupBai == 1 then ctrlIcon = tourneyAI1
@@ -16847,11 +16848,11 @@ function f_tourneyMenu()
 				elseif GroupBai == 7 then ctrlIcon = tourneyAI7
 				elseif GroupBai == 8 then ctrlIcon = tourneyAI8
 				end
-				--Set Player Icon
+			--Set Player Icon
 				if t_tourneyMenu.Group[2].Round[c][d].Player == 1 then ctrlIcon = tourneyP1
 				elseif t_tourneyMenu.Group[2].Round[c][d].Player == 2 then ctrlIcon = tourneyP2
 				end
-				--Draw Characters Icon
+			--Draw Characters Icon
 				local newStartPosX = 0
 				local newSpacingX = 0
 				local newStartPosY = 0
@@ -16911,14 +16912,14 @@ function f_tourneyMenu()
 							newChangeY = 5.1
 						end
 					end
-					--Draw Face
+				--Draw Face
 					drawTourneyPortrait(character-1, (iconStartPosX+(newStartPosX*newChangeX))+(2-1)*(iconWidth+(iconSpacingX-(newSpacingX*newChangeX))), (iconStartPosY+(newStartPosY*newChangeY))+(d-1)*(iconHeight+(iconSpacingY+(newSpacingY*newChangeY))))
 				end
-				--Draw Control Icon
+			--Draw Control Icon
 				animPosDraw(ctrlIcon, (ctrlStartPosX+(newStartPosX*newChangeX))+(2-1)*(ctrlWidth+(ctrlSpacingX-(newSpacingX*newChangeX))), (ctrlStartPosY+(newStartPosY*newChangeY))+(d-1)*(ctrlHeight+(ctrlSpacingY+(newSpacingY*newChangeY))))
 			end
 		end
-		--Draw Slot Cursor
+	--Draw Slot Cursor
 		if not startTourney then
 			animPosDraw(tourneyP1Cursor, slotStartPosX+(tourneyGroup-1)*(slotWidth+slotSpacingX), slotStartPosY+(tourneyRow-1)*(slotHeight+slotSpacingY))
 			if not hideMenu then drawTourneyInputHints2() end --Draw Input Hints
@@ -16931,7 +16932,7 @@ function f_tourneyMenu()
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		--VERTICAL BUF KEY CONTROL
+	--VERTICAL BUF KEY CONTROL
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -16942,7 +16943,7 @@ function f_tourneyMenu()
 			bufu = 0
 			bufd = 0			
 		end
-		--LATERAL BUF KEY CONTROL
+	--LATERAL BUF KEY CONTROL
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
@@ -16959,7 +16960,7 @@ function f_tourneyMenu()
 end
 
 function f_tourneySelRandomPlayer()
-	--Group A
+--Group A
 	for i=1, #t_tourneyMenu.Group[1].Round[1] do
 		local character = t_tourneyMenu.Group[1].Round[1][i].CharID
 		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
@@ -16968,7 +16969,7 @@ function f_tourneySelRandomPlayer()
 			confirmRandomSel = true
 		end
 	end
-	--Group B
+--Group B
 	for i=1, #t_tourneyMenu.Group[2].Round[1] do
 		local character = t_tourneyMenu.Group[2].Round[1][i].CharID
 		if character == "randomselect" then
@@ -17609,7 +17610,7 @@ function abyssCfg()
 	data.gameMode = "abyss"
 	data.rosterMode = "abyss"
 	data.victoryscreen = false
-	data.stage = "stages/Mountainside Temple/Lobby.def" --Abyss Initial Stage
+	data.stage = "stages/Mountainside Temple/Dark Corridor.def" --Abyss Initial Stage
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -17625,7 +17626,7 @@ function abyssHumanvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ABYSS MODE")
+	textImgSetText(txt_mainSelect, "ABYSS MODE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -17643,7 +17644,7 @@ function abyssCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ABYSS MODE")
+	textImgSetText(txt_mainSelect, "ABYSS MODE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -17655,23 +17656,23 @@ function abyssP1P2vsCPU()
 	data.coop = true
 	setPlayerSide('p1left')
 	setGameMode('abysscoop')
-	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE")
+	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents)
 function abyssCPUvsP1P2()
 	f_comingSoon()
-	--[[
+--[[
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
 	setGameMode('abysscoop')
-	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE")
+	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
-	]]
+]]
 end
 
 --CPU MODE (watch CPU fight in abyss)
@@ -17683,7 +17684,7 @@ function abyssCPUvsCPU()
 	setPlayerSide('p1left')
 	setGameMode('abysscpu')
 	data.rosterMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH ABYSS")
+	textImgSetText(txt_mainSelect, "WATCH ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 end
 
@@ -17705,6 +17706,7 @@ function f_abyssMenu()
 	local t_shopBackup = t_abyssShop
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetAbyss2ArrowsPos()
+	f_confirmReset()
 --Store Player Data
 	local playerDat = nil
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -17716,63 +17718,68 @@ function f_abyssMenu()
 	abyssDat.nosave.cel = playerDat[1].cel
 	f_saveStats()
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			if not shop then
-				data.tempBack = true --To exit to Main Menu
-				break
-			else
-				t_abyssMenu = t_menuBackup
-				shop = false
-			end
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			abyssMenu = abyssMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			abyssMenu = abyssMenu + 1
-	--Actions
-		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			sndPlay(sndSys, 100, 1)
-		--Abyss Option Select
-			if not shop then
-				if abyssMenu == 1 then
-					t_abyssMenu = t_abyssShop
-					shop = true
-				elseif abyssMenu == 2 then
-					break --Start Abyss Mode
+		if not confirmScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				if not shop then
+					confirmScreen = true
+				else
+					t_abyssMenu = t_menuBackup
+					shop = false
 				end
-		--Abyss Shop
-			else
-				
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				abyssMenu = abyssMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				abyssMenu = abyssMenu + 1
+		--Actions
+			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sndSys, 100, 1)
+			--Abyss Option Select
+				if not shop then
+					if abyssMenu == 1 then
+						t_abyssMenu = t_abyssShop
+						shop = true
+					elseif abyssMenu == 2 then
+						break --Start Abyss Mode
+					end
+			--Abyss Shop
+				else
+					
+				end
 			end
-		end
-		if abyssMenu < 1 then
-			abyssMenu = #t_abyssMenu
-			if #t_abyssMenu > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_abyssMenu
+			if exitAbyss then
+				data.tempBack = true --To exit to Main Menu from Abyss Menu
+				break
 			end
-		elseif abyssMenu > #t_abyssMenu then
-			abyssMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (abyssMenu - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (abyssMenu - 1) * 15
-		end	
-		if #t_abyssMenu <= maxItems then
-			maxabyssMenu = #t_abyssMenu
-		elseif abyssMenu - cursorPosY > 0 then
-			maxabyssMenu = abyssMenu + maxItems - cursorPosY
-		else
-			maxabyssMenu = maxItems
+			if abyssMenu < 1 then
+				abyssMenu = #t_abyssMenu
+				if #t_abyssMenu > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_abyssMenu
+				end
+			elseif abyssMenu > #t_abyssMenu then
+				abyssMenu = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (abyssMenu - maxItems) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (abyssMenu - 1) * 15
+			end	
+			if #t_abyssMenu <= maxItems then
+				maxabyssMenu = #t_abyssMenu
+			elseif abyssMenu - cursorPosY > 0 then
+				maxabyssMenu = abyssMenu + maxItems - cursorPosY
+			else
+				maxabyssMenu = maxItems
+			end
 		end
 	--Draw BG
 		animDraw(abyssBG)
@@ -17784,9 +17791,11 @@ function f_abyssMenu()
 		animSetWindow(abyssTBG, 2,20, 165,155)
 		animDraw(abyssTBG)
 	--Draw Cursor
-		animSetWindow(cursorBox, 2,10+cursorPosY*15, 165,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if not confirmScreen then
+			animSetWindow(cursorBox, 2,10+cursorPosY*15, 165,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 	--Draw Menu Options Text
 		for i=1, maxabyssMenu do
 			if i > abyssMenu - cursorPosY then
@@ -17808,7 +17817,7 @@ function f_abyssMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		drawAbyssInputHints()
+		if confirmScreen then f_confirmMenu() else drawAbyssInputHints() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
