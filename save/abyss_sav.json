@@ -1,0 +1,18 @@
+{
+  "nosave":{
+    "cel":0,
+    "power":0,
+    "defense":0,
+    "name":"Kung Fu Man",
+    "sp3":"",
+    "sp1":"",
+    "speed":0,
+    "sp2":"",
+    "attack":0
+  },
+  "save1":[],
+  "save5":[],
+  "save3":[],
+  "save4":[],
+  "save2":[]
+}

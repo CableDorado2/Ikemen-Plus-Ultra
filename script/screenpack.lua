@@ -4078,23 +4078,17 @@ abyssProfileAtributes = animNew(sprIkemen, [[
 animUpdate(abyssProfileAtributes)
 animSetScale(abyssProfileAtributes, 0.6, 0.6)
 
-function f_abyssProfile(NewPosX, NewPosY)
+function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
+	local PauseMenu = PauseMenu or false
 	animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
 	animPosDraw(abyssProfileAtributes, 190+NewPosX, 76+NewPosY)
 --Character Stuff
-	local playerDat = nil
-	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		playerDat = data.t_p2selected
-	else
-		playerDat = data.t_p1selected
+	if not PauseMenu then
+		drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32)
 	end
---[
-	--drawPortrait(playerDat[1].cel, 223, 25, 0.32, 0.32)
-	drawPortrait(0, 223+NewPosX, 25+NewPosY, 0.32, 0.32)
-	--f_drawQuickText(txt_abyssCharName, font11, 0, 0, playerDat[1].displayname, 241+NewPosX, 68+NewPosY, 1, 1)
---]]
+	f_drawQuickText(txt_abyssCharName, font11, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
 --Attributes
 	local attrFont = font2
 	local attrFontXPos = 208+NewPosX

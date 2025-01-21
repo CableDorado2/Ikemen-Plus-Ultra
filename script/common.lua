@@ -48,6 +48,7 @@ saveHostRoomPath = "save/host_rooms.json"
 saveTempPath = "save/temp_sav.lua"
 saveTrainingPath = "save/training_sav.lua"
 saveStatsPath = "save/stats_sav.json"
+saveAbyssPath = "save/abyss_sav.json"
 saveTourneyPath = "save/tourney_sav.lua"
 saveVNPath = "save/vn_sav.lua"
 
@@ -721,8 +722,11 @@ file:close()
 --Data loading from config.json
 --config = json.decode(f_fileRead(saveCfgPath))
 
---Data loading from stats.json
+--Data loading from stats_sav.json
 stats = json.decode(f_fileRead(saveStatsPath))
+
+--Data loading from abyss_sav.json
+abyssDat = json.decode(f_fileRead(saveAbyssPath))
 
 --;===========================================================
 --; DISCORD RICH PRESENCE DEFINITION
@@ -3604,6 +3608,7 @@ end
 function f_saveStats()
 	--if data.debugLog then f_printTable(stats, 'save/debug/t_stats.txt') end
 	f_fileWrite(saveStatsPath, json.encode(stats, {indent = 2}))
+	f_fileWrite(saveAbyssPath, json.encode(abyssDat, {indent = 2}))
 end
 
 --General Sections
@@ -3763,6 +3768,26 @@ data.story2_1Unlock = true
 data.story2_2Unlock = true
 --Story Mode - Arc 3 Chapters Unlocks
 data.story3_1Unlock = true
+
+--Abyss Mode Characters Stats Section
+t_abyssDefaultSave = {
+	name = "",
+	attack = 0,
+	power = 0,
+	speed = 0,
+	defense = 0,
+	sp1 = "",
+	sp2 = "",
+	sp3 = ""
+}
+function init_abyssStats()
+	abyssDat.nosave = t_abyssDefaultSave
+	if abyssDat.save1 == nil then abyssDat.save1 = {} end
+	if abyssDat.save2 == nil then abyssDat.save2 = {} end
+	if abyssDat.save3 == nil then abyssDat.save3 = {} end
+	if abyssDat.save4 == nil then abyssDat.save4 = {} end
+	if abyssDat.save5 == nil then abyssDat.save5 = {} end
+end
 
 --Unlocks Section
 function init_unlocksStats()

@@ -17597,6 +17597,7 @@ end
 function f_abyssBoot()
 	menuSelect = "abyss"
 	sideScreen = true
+	init_abyssStats()
 end
 
 --Load Common Settings for Abyss Modes
@@ -17704,6 +17705,16 @@ function f_abyssMenu()
 	local t_shopBackup = t_abyssShop
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetAbyss2ArrowsPos()
+--Store Player Data
+	local playerDat = nil
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		playerDat = data.t_p2selected
+	else
+		playerDat = data.t_p1selected
+	end
+	abyssDat.nosave.name = playerDat[1].displayname
+	abyssDat.nosave.cel = playerDat[1].cel
+	f_saveStats()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sndSys, 100, 2)
