@@ -17,9 +17,9 @@
 ; overridden with caution:
 ; Jump Start (40): airjumping bookkeeping at time = 0
 ; All guard states (120-155): guard handling throughout state
-; Hit_trip, shaking (5070): defense increases at time = 0
+; Hit_trip, shaking (5070): defence increases at time = 0
 ; Downed get-hit (hit ground from fall) (5100):
-;   defense increases at time = 0, player becomes invincible if within 10
+;   defence increases at time = 0, player becomes invincible if within 10
 ;   ticks of getting up
 ; Hit_liedown (5110): player changes to get-up state (5120) when ready
 ; Hit_getup (5120): player's defence is restored to normal at time = 0

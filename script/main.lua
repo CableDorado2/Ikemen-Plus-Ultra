@@ -8224,11 +8224,9 @@ end
 function f_selectChar(player, t)
 	for i=1, #t do
 		selectChar(player, t[i].cel, t[i].pal)
-		--Set Handicap
+	--Set Handicap
 		if data.gameMode == "versus" or data.ftcontrol > 0 then
-			if t_handicapSelect[t[i].handicap].service == "autoguard" then
-				setAutoguard(player, true)
-			elseif t_handicapSelect[t[i].handicap].service == "life 75" then
+			if t_handicapSelect[t[i].handicap].service == "life 75" then
 				--setLife(player, 75) --This is the way what we need to manage this
 				if player == 1 then
 					setLifeStateP1(75)
@@ -8278,6 +8276,8 @@ function f_selectChar(player, t)
 					setPowerStateP2(666)
 				end
 			end
+		elseif data.gameMode == "abyss" then
+			--setAutoguard(player, true)
 		end
 	end
 end
@@ -10438,15 +10438,9 @@ function f_p1SelectHandicap()
 	end
 --Confirm Handicap
 	if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
-		--Skip autoguard if is enabled via options
-		if data.autoguard and t_handicapSelect[p1HandicapSel].service == "autoguard" then
-			sndPlay(sndSys, 100, 5)
-			if selectTimer == 0 then p1HandicapSel = 1 end --set normal handicap
-		else
-			sndPlay(sndSys, 100, 1)
-			p1HandicapEnd = true
-			cmdInput()
-		end
+		sndPlay(sndSys, 100, 1)
+		p1HandicapEnd = true
+		cmdInput()
 --Back to Palette Selection
 	elseif commandGetState(p1Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
@@ -11940,15 +11934,9 @@ function f_p2SelectHandicap()
 		animPosDraw(handicapSelArrowDown, handicapSelArrowDP2posX, handicapSelArrowDP2posY)
 	end
 	if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
-		--Skip autoguard if is enabled via options
-		if data.autoguard and t_handicapSelect[p2HandicapSel].service == "autoguard" then
-			sndPlay(sndSys, 100, 5)
-			if selectTimer == 0 then p2HandicapSel = 1 end --set normal handicap
-		else
-			sndPlay(sndSys, 100, 1)
-			p2HandicapEnd = true
-			cmdInput()
-		end
+		sndPlay(sndSys, 100, 1)
+		p2HandicapEnd = true
+		cmdInput()
 	elseif commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		p2PalEnd = false
@@ -15647,10 +15635,20 @@ if validCells() then
 						p1Cell = t_roster[matchNo*p1numChars-i+1]
 					end
 				end
-				if data.aipal == "Default" then
-					p1Pal = 1
-				elseif data.aipal == "Random" then
-					p1Pal = math.random(1,12)
+			--Set AI Palette
+				if data.gameMode == "abyss" then
+				--Boss character predefined Palette
+					--if MatchNo == t_abyssSel[abyssSel].depthboss[MatchNo] then
+						--p1Pal = 1
+					--else
+						p1Pal = math.random(2,12)
+					--end
+				else
+					if data.aipal == "Default" then
+						p1Pal = 1
+					elseif data.aipal == "Random" then
+						p1Pal = math.random(1,12)
+					end
 				end
 				local updateAnim = true
 				for j=1, #data.t_p1selected do
@@ -15704,10 +15702,20 @@ if validCells() then
 						p2Cell = t_roster[matchNo*p2numChars-i+1]
 					end
 				end
-				if data.aipal == "Default" then
-					p2Pal = 1
-				elseif data.aipal == "Random" then
-					p2Pal = math.random(1,12)
+			--Set AI Palette
+				if data.gameMode == "abyss" then
+				--Boss character predefined Palette
+					--if MatchNo == t_abyssSel[abyssSel].depthboss[MatchNo] then
+						--p1Pal = 1
+					--else
+						p2Pal = math.random(2,12)
+					--end
+				else
+					if data.aipal == "Default" then
+						p2Pal = 1
+					elseif data.aipal == "Random" then
+						p2Pal = math.random(1,12)
+					end
 				end
 				local updateAnim = true
 				for j=1, #data.t_p2selected do
@@ -15746,7 +15754,7 @@ if validCells() then
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
 			setAbyssDepth(matchNo)
-			setAbyssReward((matchNo+23)*3) --TODO
+			setAbyssReward((matchNo-1)*75) --TODO
 			--f_abyssMap() --TODO
 		end
 		f_orderSelect()
