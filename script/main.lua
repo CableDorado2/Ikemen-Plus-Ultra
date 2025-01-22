@@ -15744,7 +15744,11 @@ if validCells() then
 		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters
 		f_matchInfo()
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
-		--if data.gameMode == "abyss" then f_abyssMap() end
+		if data.gameMode == "abyss" then
+			setAbyssDepth(matchNo)
+			setAbyssReward((matchNo+23)*3) --TODO
+			--f_abyssMap() --TODO
+		end
 		f_orderSelect()
 	--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
