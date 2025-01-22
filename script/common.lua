@@ -2946,6 +2946,8 @@ function f_default() --Reset Game Modes Configuration
 	setService("") --set different fight services for players (service examples are available in match.cns)
 	setPauseVar("") --set pause menu extra variable to adjust internal settings.
 	setTourneyState("") --set tournament state to show in tourney mode lifebar.
+	setAbyssReward(0) --set reward to show during abyss mode match lifebar.
+	setAbyssDepth(0) --set depth level to show during abyss mode match lifebar.
 	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end

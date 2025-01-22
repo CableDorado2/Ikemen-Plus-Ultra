@@ -5500,6 +5500,14 @@ public &Char
   {
     ret .com.match;
   }
+  public int trAbyssDepth()
+  {
+    ret .com.abyssDepth;
+  }
+  public int trAbyssReward()
+  {
+    ret .com.abyssReward;
+  }
   public int trFTNo()
   {
     ret .com.matchsToWin;

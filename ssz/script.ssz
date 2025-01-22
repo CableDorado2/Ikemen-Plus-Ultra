@@ -1143,6 +1143,20 @@ void setTourneyState(&.lua.State L=, int re=)
   .com.tourneyState = ts;
 }
 
+void setAbyssDepth(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ad = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssDepth = ad;
+}
+
+void setAbyssReward(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ar = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssReward = ar;
+}
+
 void exitMatch(&.lua.State L=, int re=)
 {
   re = 0;
@@ -1305,6 +1319,8 @@ public void init(&.lua.State L=)
   L.register("setP1matchWins", .setP1matchWins);
   L.register("setP2matchWins", .setP2matchWins);
   L.register("setTourneyState", .setTourneyState);
+  L.register("setAbyssReward", .setAbyssReward);
+  L.register("setAbyssDepth", .setAbyssDepth);
   L.register("exitMatch", .exitMatch);
   L.register("setSharedString", .setSharedString);
   //L.register("debugKey", .debugKey);

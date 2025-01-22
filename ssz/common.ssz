@@ -49,6 +49,8 @@ public int p2consecutiveWins = 0;
 public int p1matchWins = 0; //To display wins count
 public int p2matchWins = 0;
 public int matchsToWin = 0; //FT
+public int abyssDepth = 0; //To display abyss mode level depth
+public int abyssReward = 0; //To display abyss mode reward
 public ^/char tourneyState;
 
 public int suaveMode = 0;

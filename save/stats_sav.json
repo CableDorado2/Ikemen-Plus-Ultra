@@ -1,137 +1,137 @@
 {
-  "characters":[],
-  "playtime":5847.680942,
   "vault":"Ultra",
-  "coins":10,
-  "losses":4,
-  "unlocks":{
-    "modes":{
-      "story":{
-        "arc2":false
-      }
-    },
-    "gallery":[],
-    "stages":{
-      "trainingroom2":false
-    },
-    "chars":{
-      "gouki":false,
-      "reika":false
-    }
-  },
-  "wins":2,
-  "firstRun":false,
+  "continueCount":0,
   "modes":{
-    "suddendeath":{
-      "ranking":[],
-      "playtime":0,
-      "clear":0
+    "watch":{
+      "playtime":303.781
     },
-    "arcade":{
+    "beatemup":{
+      "clear":0,
       "ranking":[],
-      "playtime":0,
-      "clear":1
-    },
-    "boss":{
       "playtime":0
     },
     "bonusrush":{
+      "clear":0,
       "ranking":[],
-      "playtime":0,
-      "clear":0
-    },
-    "vskumite":{
-      "ranking":[],
-      "playtime":0,
-      "clear":0
-    },
-    "scoreattack":{
-      "ranking":[],
-      "playtime":0,
-      "clear":0
-    },
-    "story":{
       "playtime":0
     },
-    "timeattack":{
+    "suddendeath":{
+      "clear":0,
       "ranking":[],
-      "playtime":0,
-      "clear":0
+      "playtime":0
     },
-    "timerush":{
+    "tourney":{
+      "clear":0,
+      "ranking":[],
+      "playtime":36.61
+    },
+    "trials":{
+      "playtime":0
+    },
+    "vskumite":{
+      "clear":0,
+      "ranking":[],
       "playtime":0
     },
     "adventure":{
       "playtime":0
     },
-    "bossrush":{
-      "ranking":[],
+    "event":{
+      "clear1":0,
+      "clearall":0,
       "playtime":0,
-      "clear":0
+      "clear2":0,
+      "clear3":0
+    },
+    "endless":{
+      "clear":0,
+      "ranking":[],
+      "playtime":0
+    },
+    "tower":{
+      "clear":0,
+      "ranking":[],
+      "playtime":0
     },
     "legion":{
       "playtime":0
     },
-    "mission":{
-      "clear2":0,
-      "playtime":0,
-      "clearall":0,
-      "clear1":0,
-      "clear3":0
-    },
-    "training":{
-      "playtime":304.308
-    },
-    "endless":{
+    "survival":{
+      "clear":0,
       "ranking":[],
-      "playtime":0,
-      "clear":0
-    },
-    "tower":{
-      "ranking":[],
-      "playtime":0,
-      "clear":0
-    },
-    "tourney":{
-      "ranking":[],
-      "playtime":36.61,
-      "clear":0
-    },
-    "versus":{
-      "playtime":22.119
-    },
-    "watch":{
-      "playtime":303.781
-    },
-    "beatemup":{
-      "ranking":[],
-      "playtime":0,
-      "clear":0
+      "playtime":17.949
     },
     "bonus":{
       "playtime":0
     },
-    "abyss":{
-      "maxdepth":0,
-      "playtime":4075.816
-    },
-    "trials":{
+    "timerush":{
       "playtime":0
     },
-    "event":{
-      "clear2":0,
-      "playtime":0,
-      "clearall":0,
+    "mission":{
       "clear1":0,
+      "clearall":0,
+      "playtime":0,
+      "clear2":0,
       "clear3":0
     },
-    "survival":{
+    "scoreattack":{
+      "clear":0,
       "ranking":[],
-      "playtime":17.949,
-      "clear":0
+      "playtime":0
+    },
+    "story":{
+      "playtime":0
+    },
+    "versus":{
+      "playtime":22.119
+    },
+    "boss":{
+      "playtime":0
+    },
+    "timeattack":{
+      "clear":0,
+      "ranking":[],
+      "playtime":0
+    },
+    "arcade":{
+      "clear":1,
+      "ranking":[],
+      "playtime":0
+    },
+    "abyss":{
+      "maxdepth":0,
+      "playtime":4621.2
+    },
+    "bossrush":{
+      "clear":0,
+      "ranking":[],
+      "playtime":0
+    },
+    "training":{
+      "playtime":304.308
     }
   },
-  "continueCount":0,
+  "playtime":5935.806537,
   "attractCoins":0,
-  "stages":[]
+  "stages":[],
+  "losses":4,
+  "coins":10,
+  "wins":2,
+  "firstRun":false,
+  "unlocks":{
+    "gallery":[],
+    "stages":{
+      "trainingroom2":false
+    },
+    "chars":{
+      "reika":false,
+      "gouki":false
+    },
+    "modes":{
+      "story":{
+        "arc2":false
+      }
+    }
+  },
+  "characters":[]
 }
