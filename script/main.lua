@@ -17812,7 +17812,10 @@ function f_abyssMenu()
 		for i=1, maxabyssMenu do
 			if i > abyssMenu - cursorPosY then
 				if t_abyssMenu[i].id ~= nil then
-					textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, 1, t_abyssMenu[i].text, 10, 20+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, 1, t_abyssMenu[i].text, 5, 20+i*15-moveTxt))
+					if shop then
+						textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, -1, t_abyssMenu[i].price, 163, 20+i*15-moveTxt))
+					end
 				end
 			end
 		end
