@@ -3998,15 +3998,18 @@ abyssContBG = animNew(sprSys, [[
 animUpdate(abyssContBG)
 animSetScale(abyssContBG, 0.95, 0.40)
 
-function drawAbyssInputHints()
+function drawAbyssInputHints(bool)
+	local shop = bool or false
+	local btnInfo = ""
+	if shop then btnInfo = ":Buy" else btnInfo = "Confirm" end
 	local inputHintYPos = 219
 	local hintFont = font2
 	local hintFontYPos = 233
 	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","184,"..inputHintYPos,"q","244,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 139, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, btnInfo, 139, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 205, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 265, hintFontYPos)
+	if shop then f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Refund", 265, hintFontYPos) end
 end
 
 --;===========================================================
@@ -4015,6 +4018,8 @@ end
 txt_abyssMain = createTextImg(font11, 0, 1, "ABYSS MODE", 15, 15, 1.2, 1.2)
 txt_abyssShopItemLock = "???"
 txt_abyssShopInfoLock = "This item has yet to be discovered"
+txt_abyssShopItemSold = "Sold Out"
+txt_abyssShopInfoSold = "This item has already been obtained"
 
 --Common Items
 txt_abyssShopItemAttack = "Attack +"
@@ -4046,73 +4051,81 @@ t_abyssMenu = {
 
 t_abyssShop = {
 --Attack Items
- {id = textImgNew(), level = 1, text = txt_abyssShopItemAttack.."1", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 1"},
- {id = textImgNew(), level = 2, text = txt_abyssShopItemAttack.."2", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 2"},
- {id = textImgNew(), level = 3, text = txt_abyssShopItemAttack.."3", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 3"},
- {id = textImgNew(), level = 4, text = txt_abyssShopItemAttack.."4", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 4"},
- {id = textImgNew(), level = 5, text = txt_abyssShopItemAttack.."5", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 5"},
- {id = textImgNew(), level = 6, text = txt_abyssShopItemAttack.."6", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 6"},
- {id = textImgNew(), level = 7, text = txt_abyssShopItemAttack.."7", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 7"},
- {id = textImgNew(), level = 8, text = txt_abyssShopItemAttack.."8", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 8"},
- {id = textImgNew(), level = 9, text = txt_abyssShopItemAttack.."9", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 9"},
- {id = textImgNew(), level = 10, text = txt_abyssShopItemAttack.."10", price = txt_abyssShopItemPriceMax, info = "Increases Attack Level by 10"},
+ {level = 1, text = txt_abyssShopItemAttack.."1", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 1"},
+ {level = 2, text = txt_abyssShopItemAttack.."2", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 2"},
+ {level = 3, text = txt_abyssShopItemAttack.."3", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 3"},
+ {level = 4, text = txt_abyssShopItemAttack.."4", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 4"},
+ {level = 5, text = txt_abyssShopItemAttack.."5", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 5"},
+ {level = 6, text = txt_abyssShopItemAttack.."6", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 6"},
+ {level = 7, text = txt_abyssShopItemAttack.."7", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 7"},
+ {level = 8, text = txt_abyssShopItemAttack.."8", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 8"},
+ {level = 9, text = txt_abyssShopItemAttack.."9", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 9"},
+ {level = 10, text = txt_abyssShopItemAttack.."10", price = txt_abyssShopItemPriceMax, info = "Increases Attack Level by 10"},
 --Defence Items
- {id = textImgNew(), level = 1, text = txt_abyssShopItemDefence.."1", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 1"},
- {id = textImgNew(), level = 2, text = txt_abyssShopItemDefence.."2", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 2"},
- {id = textImgNew(), level = 3, text = txt_abyssShopItemDefence.."3", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 3"},
- {id = textImgNew(), level = 4, text = txt_abyssShopItemDefence.."4", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 4"},
- {id = textImgNew(), level = 5, text = txt_abyssShopItemDefence.."5", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 5"},
- {id = textImgNew(), level = 6, text = txt_abyssShopItemDefence.."6", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 6"},
- {id = textImgNew(), level = 7, text = txt_abyssShopItemDefence.."7", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 7"},
- {id = textImgNew(), level = 8, text = txt_abyssShopItemDefence.."8", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 8"},
- {id = textImgNew(), level = 9, text = txt_abyssShopItemDefence.."9", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 9"},
- {id = textImgNew(), level = 10, text = txt_abyssShopItemDefence.."10", price = txt_abyssShopItemPriceMax, info = "Increases Defence Level by 10"},
+ {level = 1, text = txt_abyssShopItemDefence.."1", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 1"},
+ {level = 2, text = txt_abyssShopItemDefence.."2", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 2"},
+ {level = 3, text = txt_abyssShopItemDefence.."3", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 3"},
+ {level = 4, text = txt_abyssShopItemDefence.."4", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 4"},
+ {level = 5, text = txt_abyssShopItemDefence.."5", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 5"},
+ {level = 6, text = txt_abyssShopItemDefence.."6", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 6"},
+ {level = 7, text = txt_abyssShopItemDefence.."7", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 7"},
+ {level = 8, text = txt_abyssShopItemDefence.."8", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 8"},
+ {level = 9, text = txt_abyssShopItemDefence.."9", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 9"},
+ {level = 10, text = txt_abyssShopItemDefence.."10", price = txt_abyssShopItemPriceMax, info = "Increases Defence Level by 10"},
 --Power Items
- {id = textImgNew(), level = 1, text = txt_abyssShopItemPower.."1", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 1"},
- {id = textImgNew(), level = 2, text = txt_abyssShopItemPower.."2", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 2"},
- {id = textImgNew(), level = 3, text = txt_abyssShopItemPower.."3", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 3"},
- {id = textImgNew(), level = 4, text = txt_abyssShopItemPower.."4", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 4"},
- {id = textImgNew(), level = 5, text = txt_abyssShopItemPower.."5", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 5"},
- {id = textImgNew(), level = 6, text = txt_abyssShopItemPower.."6", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 6"},
- {id = textImgNew(), level = 7, text = txt_abyssShopItemPower.."7", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 7"},
- {id = textImgNew(), level = 8, text = txt_abyssShopItemPower.."8", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 8"},
- {id = textImgNew(), level = 9, text = txt_abyssShopItemPower.."9", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 9"},
- {id = textImgNew(), level = 10, text = txt_abyssShopItemPower.."10", price = txt_abyssShopItemPriceMax, info = "Increases Power Level by 10"},
+ {level = 1, text = txt_abyssShopItemPower.."1", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 1"},
+ {level = 2, text = txt_abyssShopItemPower.."2", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 2"},
+ {level = 3, text = txt_abyssShopItemPower.."3", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 3"},
+ {level = 4, text = txt_abyssShopItemPower.."4", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 4"},
+ {level = 5, text = txt_abyssShopItemPower.."5", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 5"},
+ {level = 6, text = txt_abyssShopItemPower.."6", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 6"},
+ {level = 7, text = txt_abyssShopItemPower.."7", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 7"},
+ {level = 8, text = txt_abyssShopItemPower.."8", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 8"},
+ {level = 9, text = txt_abyssShopItemPower.."9", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 9"},
+ {level = 10, text = txt_abyssShopItemPower.."10", price = txt_abyssShopItemPriceMax, info = "Increases Power Level by 10"},
 --Speed Items
- {id = textImgNew(), level = 1, text = txt_abyssShopItemSpeed.."1", price = txt_abyssShopItemPrice1, info = "Increases Speed by 1"},
- {id = textImgNew(), level = 2, text = txt_abyssShopItemSpeed.."2", price = txt_abyssShopItemPrice1, info = ""},
- {id = textImgNew(), level = 3, text = txt_abyssShopItemSpeed.."3", price = txt_abyssShopItemPrice1, info = ""},
- {id = textImgNew(), level = 4, text = txt_abyssShopItemSpeed.."4", price = txt_abyssShopItemPrice2, info = ""},
- {id = textImgNew(), level = 5, text = txt_abyssShopItemSpeed.."5", price = txt_abyssShopItemPrice2, info = ""},
- {id = textImgNew(), level = 6, text = txt_abyssShopItemSpeed.."6", price = txt_abyssShopItemPrice2, info = ""},
- {id = textImgNew(), level = 7, text = txt_abyssShopItemSpeed.."7", price = txt_abyssShopItemPrice3, info = ""},
- {id = textImgNew(), level = 8, text = txt_abyssShopItemSpeed.."8", price = txt_abyssShopItemPrice3, info = ""},
- {id = textImgNew(), level = 9, text = txt_abyssShopItemSpeed.."9", price = txt_abyssShopItemPrice3, info = ""},
- {id = textImgNew(), level = 10, text = txt_abyssShopItemSpeed.."10", price = txt_abyssShopItemPriceMax, info = ""},
+ {level = 1, text = txt_abyssShopItemSpeed.."1", price = txt_abyssShopItemPrice1, info = "Increases Speed by 1"},
+ {level = 2, text = txt_abyssShopItemSpeed.."2", price = txt_abyssShopItemPrice1, info = ""},
+ {level = 3, text = txt_abyssShopItemSpeed.."3", price = txt_abyssShopItemPrice1, info = ""},
+ {level = 4, text = txt_abyssShopItemSpeed.."4", price = txt_abyssShopItemPrice2, info = ""},
+ {level = 5, text = txt_abyssShopItemSpeed.."5", price = txt_abyssShopItemPrice2, info = ""},
+ {level = 6, text = txt_abyssShopItemSpeed.."6", price = txt_abyssShopItemPrice2, info = ""},
+ {level = 7, text = txt_abyssShopItemSpeed.."7", price = txt_abyssShopItemPrice3, info = ""},
+ {level = 8, text = txt_abyssShopItemSpeed.."8", price = txt_abyssShopItemPrice3, info = ""},
+ {level = 9, text = txt_abyssShopItemSpeed.."9", price = txt_abyssShopItemPrice3, info = ""},
+ {level = 10, text = txt_abyssShopItemSpeed.."10", price = txt_abyssShopItemPriceMax, info = ""},
 --Special Items
- {id = textImgNew(), level = 1, text = txt_abyssShopLifeRegeneration, price = 1000, info = "Gradually regenerates HP over time."},
- {id = textImgNew(), level = 2, text = txt_abyssShopLifeRegeneration, price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)"},
- {id = textImgNew(), level = "MAX", text = txt_abyssShopLifeRegeneration, price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)"},
+ {level = 1, text = txt_abyssShopLifeRegeneration, price = 1000, info = "Gradually regenerates HP over time."},
+ {level = 2, text = txt_abyssShopLifeRegeneration, price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)"},
+ {level = "MAX", text = txt_abyssShopLifeRegeneration, price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)"},
  
- {id = textImgNew(), level = 1, text = txt_abyssShopLifeRestore, price = 1500, info = "Regenerates a small amount of HP after the match has been won."},
- {id = textImgNew(), level = 2, text = txt_abyssShopLifeRestore, price = 4500, info = "Regenerates a medium amount of HP after the match has been won."},
- {id = textImgNew(), level = "MAX", text = txt_abyssShopLifeRestore, price = 8000, info = "Regenerates a large amount of HP after the match has been won."},
+ {level = 1, text = txt_abyssShopLifeRestore, price = 1500, info = "Regenerates a small amount of HP after the match has been won."},
+ {level = 2, text = txt_abyssShopLifeRestore, price = 4500, info = "Regenerates a medium amount of HP after the match has been won."},
+ {level = "MAX", text = txt_abyssShopLifeRestore, price = 8000, info = "Regenerates a large amount of HP after the match has been won."},
  
- {id = textImgNew(), level = 1, text = txt_abyssShopPowerRegeneration, price = 1000, info = "Gradually regenerates MP over time."},
- {id = textImgNew(), level = 2, text = txt_abyssShopPowerRegeneration, price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)"},
- {id = textImgNew(), level = "MAX", text = txt_abyssShopPowerRegeneration, price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)"},
+ {level = 1, text = txt_abyssShopPowerRegeneration, price = 1000, info = "Gradually regenerates MP over time."},
+ {level = 2, text = txt_abyssShopPowerRegeneration, price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)"},
+ {level = "MAX", text = txt_abyssShopPowerRegeneration, price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)"},
  
- {id = textImgNew(), level = 1, text = txt_abyssShopDepthSpeed, price = 3000, info = "Slightly increases the rate of descent into the Abyss."},
- {id = textImgNew(), level = 2, text = txt_abyssShopDepthSpeed, price = 4000, info = "Increases the rate of descent into the Abyss."},
- {id = textImgNew(), level = "MAX", text = txt_abyssShopDepthSpeed, price = 5000, info = "Greatly increases the rate of descent into the Abyss."},
+ {level = 1, text = txt_abyssShopDepthSpeed, price = 3000, info = "Slightly increases the rate of descent into the Abyss."},
+ {level = 2, text = txt_abyssShopDepthSpeed, price = 4000, info = "Increases the rate of descent into the Abyss."},
+ {level = "MAX", text = txt_abyssShopDepthSpeed, price = 5000, info = "Greatly increases the rate of descent into the Abyss."},
 
- {id = textImgNew(), level = 1, text = txt_abyssShopDamageX2, price = 4200, info = "Increases the rate of descent into the Abyss."},
- {id = textImgNew(), level = 1, text = txt_abyssShopAutoguard, price = 2500, info = "When remaining HP is low, Player’s damage output is multiplied by 2."},
- {id = textImgNew(), level = 1, text = txt_abyssShopPowerUnlimited, price = 5400, info = "Power Gauge will be Unlimited"},
- {id = textImgNew(), level = 1, text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically."},
+ {level = 1, text = txt_abyssShopDamageX2, price = 4200, info = "Increases the rate of descent into the Abyss."},
+ {level = 1, text = txt_abyssShopAutoguard, price = 2500, info = "When remaining HP is low, Player’s damage output is multiplied by 2."},
+ {level = 1, text = txt_abyssShopPowerUnlimited, price = 5400, info = "Power Gauge will be Unlimited"},
+ {level = 1, text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically."},
 --Depth Descend Items
 
 }
+--function f_abyssShopDefault()
+	for i=1, #t_abyssShop do
+		t_abyssShop[i]['id'] = textImgNew()
+		t_abyssShop[i]['sold'] = false
+		t_abyssShop[i]['unlock'] = true
+	end
+	if data.debugLog then f_printTable(t_abyssShop, "save/debug/t_abyssShop.txt") end
+--end
 
 --Menu Options Transparent background
 abyssTBG = animNew(sprSys, [[
