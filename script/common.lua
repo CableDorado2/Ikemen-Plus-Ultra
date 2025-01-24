@@ -3789,25 +3789,27 @@ data.story2_2Unlock = true
 --Story Mode - Arc 3 Chapters Unlocks
 data.story3_1Unlock = true
 
+function init_abyssStats()
 --Abyss Mode Characters Stats Section
-t_abyssDefaultSave = {
+local t_abyssDefaultSave = {
 	name = "",
 	level = 0,
 	attack = 0,
 	power = 0,
 	speed = 0,
 	defence = 0,
+	startdepth = 1,
 	sp1 = "",
 	sp2 = "",
 	sp3 = ""
 }
-function init_abyssStats()
-	abyssDat.nosave = t_abyssDefaultSave
-	if abyssDat.save1 == nil or data.erase then abyssDat.save1 = {} end
-	if abyssDat.save2 == nil or data.erase then abyssDat.save2 = {} end
-	if abyssDat.save3 == nil or data.erase then abyssDat.save3 = {} end
-	if abyssDat.save4 == nil or data.erase then abyssDat.save4 = {} end
-	if abyssDat.save5 == nil or data.erase then abyssDat.save5 = {} end
+abyssDat.nosave = {} --Reset data
+abyssDat.nosave = t_abyssDefaultSave
+if abyssDat.save1 == nil or data.erase then abyssDat.save1 = {} end
+if abyssDat.save2 == nil or data.erase then abyssDat.save2 = {} end
+if abyssDat.save3 == nil or data.erase then abyssDat.save3 = {} end
+if abyssDat.save4 == nil or data.erase then abyssDat.save4 = {} end
+if abyssDat.save5 == nil or data.erase then abyssDat.save5 = {} end
 end
 
 --Unlocks Section
@@ -3836,6 +3838,7 @@ if stats.unlocks.modes.story.arc2 == nil or data.erase then stats.unlocks.modes.
 end
 init_generalStats() --Create general stats data (first run)
 init_unlocksStats()
+init_abyssStats()
 f_saveStats()
 
 --[[stats data

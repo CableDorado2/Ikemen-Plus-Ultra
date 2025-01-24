@@ -17491,8 +17491,11 @@ function f_abyssSelect()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 3
-	local continue = false
+	local continue = true --TODO
+	local continueBox = false --TODO
 	f_sideReset()
+	init_abyssStats() --Reset Abyss Character Stats Data
+	f_saveStats()
 	abyssSel = 1
 	exitAbyss = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17510,8 +17513,8 @@ function f_abyssSelect()
 			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 			--Continue Game
-				if continue then
-					
+				if continueBox then
+					--TODO
 			--New Game
 				else
 					f_abyssBoot() --Open Side Select
@@ -17558,8 +17561,7 @@ function f_abyssSelect()
 	--Draw Title
 		textImgDraw(txt_abyssSel)
 		animPosDraw(abyssSelInfoBG, -56, 185) --Draw Info Text BG
-		textImgSetText(txt_abyssLvInfo, t_abyssSel[abyssSel].info)
-		textImgDraw(txt_abyssLvInfo)
+		f_textRender(txt_abyssLvInfo, t_abyssSel[abyssSel].info, 0, 159, 200, 10, 0, 100)
 	--Draw Abyss Level Content Text
 		for i=1, maxabyssSel do
 			if i > abyssSel - cursorPosX then
@@ -17575,8 +17577,10 @@ function f_abyssSelect()
 			end
 		end
 	--Draw Continue Box
-		animPosDraw(abyssContBG, 106, 147)
-		textImgDraw(txt_abyssContinue)
+		if continue then
+			animPosDraw(abyssContBG, 106, 147)
+			textImgDraw(txt_abyssContinue)
+		end
 	--Draw Cursor
 		animSetWindow(cursorBox, -94+cursorPosX*104,54, 89.5,78)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -17610,7 +17614,6 @@ end
 function f_abyssBoot()
 	menuSelect = "abyss"
 	sideScreen = true
-	init_abyssStats()
 end
 
 --Load Common Settings for Abyss Modes
@@ -17715,7 +17718,6 @@ function f_abyssMenu()
 	local maxItems = 10
 	local shop = false
 	local t_menuBackup = t_abyssMenu
-	--local t_shopBackup = t_abyssShop
 	local backupCurrency = stats.coins
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetAbyss2ArrowsPos()
@@ -17766,19 +17768,35 @@ function f_abyssMenu()
 					end
 			--Abyss Shop
 				else
-				--Shop Item is unlocked/has been found
+				--Shop Item is unlocked/has been found and player have enough currency to buy it
 					if (t_unlockLua.abyss[t_abyssMenu[abyssMenu].text] == nil) and stats.coins >= t_abyssMenu[abyssMenu].price then
 					--Shop Item is NOT sold out
 						if not t_abyssMenu[abyssMenu].sold then
 							sndPlay(sndSys, 200, 3)
 							stats.coins = stats.coins - t_abyssMenu[abyssMenu].price
+						--Attribute Assign
+							if t_abyssMenu[abyssMenu].attack then
+								abyssDat.nosave.attack = abyssDat.nosave.attack + t_abyssMenu[abyssMenu].val
+							elseif t_abyssMenu[abyssMenu].defence then
+								abyssDat.nosave.defence = abyssDat.nosave.defence + t_abyssMenu[abyssMenu].val
+							elseif t_abyssMenu[abyssMenu].power then
+								abyssDat.nosave.power = abyssDat.nosave.power + t_abyssMenu[abyssMenu].val
+							elseif t_abyssMenu[abyssMenu].speed then
+								abyssDat.nosave.speed = abyssDat.nosave.speed + t_abyssMenu[abyssMenu].val
+							elseif t_abyssMenu[abyssMenu].depth then
+								abyssDat.nosave.startdepth = abyssDat.nosave.startdepth + t_abyssMenu[abyssMenu].val
+						--Special Items Assign
+							else
+								
+							end
+						--Save Data
 							f_saveStats()
 							t_abyssMenu[abyssMenu].sold = true --Item Sold out
 					--Shop Item is sold out
 						else
 							sndPlay(sndSys, 100, 5)
 						end
-				--Shop Item is locked/has not been discovered/is sold out
+				--Shop Item is locked/has not been discovered/is sold out or player NOT have enough currency to buy it
 					else
 						sndPlay(sndSys, 100, 5)
 					end
@@ -17788,6 +17806,21 @@ function f_abyssMenu()
 				if shop and t_abyssMenu[abyssMenu].sold then
 					sndPlay(sndSys, 100, 2)
 					stats.coins = stats.coins + t_abyssMenu[abyssMenu].price
+				--Attribute Refund
+					if t_abyssMenu[abyssMenu].attack then
+						abyssDat.nosave.attack = abyssDat.nosave.attack - t_abyssMenu[abyssMenu].val
+					elseif t_abyssMenu[abyssMenu].defence then
+						abyssDat.nosave.defence = abyssDat.nosave.defence - t_abyssMenu[abyssMenu].val
+					elseif t_abyssMenu[abyssMenu].power then
+						abyssDat.nosave.power = abyssDat.nosave.power - t_abyssMenu[abyssMenu].val
+					elseif t_abyssMenu[abyssMenu].speed then
+						abyssDat.nosave.speed = abyssDat.nosave.speed - t_abyssMenu[abyssMenu].val
+					elseif t_abyssMenu[abyssMenu].depth then
+						abyssDat.nosave.startdepth = abyssDat.nosave.startdepth - t_abyssMenu[abyssMenu].val
+				--Special Items Refund
+					else
+						
+					end
 					f_saveStats()
 					t_abyssMenu[abyssMenu].sold = false --Item available again
 				end
@@ -17881,8 +17914,7 @@ function f_abyssMenu()
 		else --Item is locked/has not been discovered
 			itemInfo = txt_abyssShopInfoLock
 		end
-		textImgSetText(txt_abyssLvInfo, itemInfo)
-		textImgDraw(txt_abyssLvInfo)
+		f_textRender(txt_abyssLvInfo, itemInfo, 0, 159, 196, 10, 0, 40)
 		f_abyssProfile() --Draw Char Profile Box
 		if maxabyssMenu > maxItems then
 			animDraw(menuArrowUp)
