@@ -2,28 +2,43 @@
 --; LIBRARY DEFINITION
 --;===========================================================
 lfs = require("lfs") --load lfs.dll
-package.path = package.path..";./lib/ltn12.lua" --load ltn12 lua library
+
+--load ltn12 lua library
+package.path = package.path..";./lib/ltn12.lua"
 ltn12 = require("ltn12")
-package.path = package.path..";./lib/dkjson.lua" --load dkjson lua library
+
+--load dkjson lua library
+package.path = package.path..";./lib/dkjson.lua"
 dkjson = require("dkjson")
-json = (loadfile "lib/dkjson.lua")() --One-time load of the json routines
+
+--One-time load of the json routines
+json = (loadfile "lib/json.lua")()
+
 --[[
 package.path = package.path..";./lib/net/http.lua"
 http = require("http")
+
 package.path = package.path..";./lib/net/socket.lua"
 socket = require("socket")
+
 package.path = package.path..";./lib/net/ftp.lua"
 ftp = require("ftp")
+
 package.path = package.path..";./lib/net/headers.lua"
 headers = require("headers")
+
 package.path = package.path..";./lib/net/mbox.lua"
 mbox = require("mbox")
+
 package.path = package.path..";./lib/net/mime.lua"
 mime = require("mime")
+
 package.path = package.path..";./lib/net/smtp.lua"
 smtp = require("smtp")
+
 package.path = package.path..";./lib/net/tp.lua"
 tp = require("tp")
+
 package.path = package.path..";./lib/net/url.lua"
 url = require("url")
 ]]
@@ -3497,7 +3512,9 @@ end
 --; UNLOCKS CHECKING
 --;===========================================================
 t_unlockLua = { --Create table to manage unlock conditions in real-time
-chars = {}, stages = {}, modes = {}, artworks = {}, storyboards = {}, videos = {}
+chars = {}, stages = {}, modes = {},
+artworks = {}, storyboards = {}, videos = {},
+abyss = {}
 }
 
 --asserts content unlock conditions
@@ -3507,17 +3524,17 @@ function f_unlock(permanent)
 		for k, v in pairs(t) do
 			local bool = assert(loadstring('return ' .. v))()
 			if type(bool) == 'boolean' then
-				--[[
+			--[[
 				if group == 'chars' then
 					f_unlockChar(k, bool, false)
 				elseif group == 'stages' then
 					f_unlockStage(k, bool)
 				end
-				]]
+			]]
 				if bool and (permanent or 
 				group == 'chars' or group == 'stages' or group == 'modes' or 
-				group == 'artworks' or group == 'storyboards' or group == 'videos'
-				) then
+				group == 'artworks' or group == 'storyboards' or group == 'videos' or
+				group == 'abyss') then
 					table.insert(t_del, k)
 				end
 			else
@@ -3775,6 +3792,7 @@ data.story3_1Unlock = true
 --Abyss Mode Characters Stats Section
 t_abyssDefaultSave = {
 	name = "",
+	level = 0,
 	attack = 0,
 	power = 0,
 	speed = 0,
@@ -3785,11 +3803,11 @@ t_abyssDefaultSave = {
 }
 function init_abyssStats()
 	abyssDat.nosave = t_abyssDefaultSave
-	if abyssDat.save1 == nil then abyssDat.save1 = {} end
-	if abyssDat.save2 == nil then abyssDat.save2 = {} end
-	if abyssDat.save3 == nil then abyssDat.save3 = {} end
-	if abyssDat.save4 == nil then abyssDat.save4 = {} end
-	if abyssDat.save5 == nil then abyssDat.save5 = {} end
+	if abyssDat.save1 == nil or data.erase then abyssDat.save1 = {} end
+	if abyssDat.save2 == nil or data.erase then abyssDat.save2 = {} end
+	if abyssDat.save3 == nil or data.erase then abyssDat.save3 = {} end
+	if abyssDat.save4 == nil or data.erase then abyssDat.save4 = {} end
+	if abyssDat.save5 == nil or data.erase then abyssDat.save5 = {} end
 end
 
 --Unlocks Section
@@ -3800,6 +3818,7 @@ if stats.unlocks == nil or data.erase then --If unlocks section does not exists
 	stats.unlocks.stages = {} --Create space for stages
 	stats.unlocks.modes = {} --Create space for game modes
 	stats.unlocks.gallery = {} --Create space for gallery items
+	stats.unlocks.abyss = {} --Create space for abyss shop items
 end
 --If Character Unlock Data does not exists, create it:
 if stats.unlocks.chars.reika == nil or data.erase then stats.unlocks.chars.reika = false end

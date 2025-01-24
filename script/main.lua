@@ -17715,7 +17715,7 @@ function f_abyssMenu()
 	local maxItems = 10
 	local shop = false
 	local t_menuBackup = t_abyssMenu
-	local t_shopBackup = t_abyssShop
+	--local t_shopBackup = t_abyssShop
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetAbyss2ArrowsPos()
 	f_confirmReset()
@@ -17729,6 +17729,13 @@ function f_abyssMenu()
 	abyssDat.nosave.name = playerDat[1].displayname
 	abyssDat.nosave.cel = playerDat[1].cel
 	f_saveStats()
+--Check Shop Item Unlocks
+	f_unlock(false)
+	f_updateUnlocks()
+	local itemName = nil
+	local itemPrice = nil
+	local itemInfo = nil
+	f_abyssResetShop()
 	while true do
 		if not confirmScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -17747,9 +17754,9 @@ function f_abyssMenu()
 				abyssMenu = abyssMenu + 1
 		--Actions
 			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sndSys, 100, 1)
 			--Abyss Option Select
 				if not shop then
+					sndPlay(sndSys, 100, 1)
 					if abyssMenu == 1 then
 						t_abyssMenu = t_abyssShop
 						shop = true
@@ -17758,7 +17765,20 @@ function f_abyssMenu()
 					end
 			--Abyss Shop
 				else
-					
+				--Shop Item is unlocked/has been found
+					if (t_unlockLua.abyss[t_abyssMenu[abyssMenu].text] == nil) then
+					--Shop Item is NOT sold out
+						if not t_abyssMenu[abyssMenu].sold then
+							sndPlay(sndSys, 200, 3)
+							t_abyssMenu[abyssMenu].sold = true --Item Sold out
+					--Shop Item is sold out
+						else
+							sndPlay(sndSys, 100, 5)
+						end
+				--Shop Item is locked/has not been discovered/is sold out
+					else
+						sndPlay(sndSys, 100, 5)
+					end
 				end
 			end
 			if exitAbyss then
@@ -17797,6 +17817,11 @@ function f_abyssMenu()
 		animDraw(abyssBG)
 		animDraw(f_animVelocity(abyssFog, -1, -1))
 	--Draw Title
+		if shop then
+			textImgSetText(txt_abyssMain, "ABYSS SHOP")
+		else
+			textImgSetText(txt_abyssMain, "ABYSS MENU")
+		end
 		textImgDraw(txt_abyssMain)
 	--Draw Menu Options BG
 		animSetScale(abyssTBG, 240, maxabyssMenu*15)
@@ -17812,16 +17837,39 @@ function f_abyssMenu()
 		for i=1, maxabyssMenu do
 			if i > abyssMenu - cursorPosY then
 				if t_abyssMenu[i].id ~= nil then
-					textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, 1, t_abyssMenu[i].text, 5, 20+i*15-moveTxt))
-					if shop then
-						textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, -1, t_abyssMenu[i].price, 163, 20+i*15-moveTxt))
+					if shop then --SHOP MENU
+						if t_unlockLua.abyss[t_abyssMenu[i].text] == nil then --Item is unlocked/has been found
+							if t_abyssMenu[i].sold then --Item is sold out
+								itemName = txt_abyssShopItemSold
+								itemPrice = ""
+							else --Item is NOT sold out
+								itemName = t_abyssMenu[i].text
+								itemPrice = t_abyssMenu[i].price
+							end
+						else --Item is locked/has not been discovered
+							itemName = txt_abyssShopItemLock
+							itemPrice = ""
+						end
+						textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, -1, itemPrice, 163, 20+i*15-moveTxt))
+					else --NORMAL MENU
+						itemName = t_abyssMenu[i].text
 					end
+					textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, 1, itemName, 5, 20+i*15-moveTxt))
 				end
 			end
 		end
 	--Draw Info Text Stuff
 		animPosDraw(abyssSelInfoBG, -56, 185)
-		textImgSetText(txt_abyssLvInfo, t_abyssMenu[abyssMenu].info)
+		if t_unlockLua.abyss[t_abyssMenu[abyssMenu].text] == nil then --Item is unlocked/has been found
+			if t_abyssMenu[abyssMenu].sold then --Item is sold out
+				itemInfo = txt_abyssShopInfoSold
+			else --Item is NOT sold out
+				itemInfo = t_abyssMenu[abyssMenu].info
+			end
+		else --Item is locked/has not been discovered
+			itemInfo = txt_abyssShopInfoLock
+		end
+		textImgSetText(txt_abyssLvInfo, itemInfo)
 		textImgDraw(txt_abyssLvInfo)
 		f_abyssProfile() --Draw Char Profile Box
 		if maxabyssMenu > maxItems then
@@ -17832,7 +17880,7 @@ function f_abyssMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if confirmScreen then f_confirmMenu() else drawAbyssInputHints() end
+		if confirmScreen then f_confirmMenu() else drawAbyssInputHints(shop) end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1

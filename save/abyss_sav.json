@@ -1,18 +1,19 @@
 {
-  "save1":[],
-  "save5":[],
-  "save3":[],
-  "save4":[],
-  "nosave":{
-    "power":0,
-    "sp1":"",
-    "defence":0,
-    "sp3":"",
-    "attack":0,
-    "speed":0,
-    "sp2":"",
-    "cel":0,
-    "name":"Kung Fu Man"
+  "save2": [],
+  "nosave": {
+    "speed": 0,
+    "attack": 0,
+    "defence": 0,
+    "power": 0,
+    "sp1": "",
+    "cel": 0,
+    "sp3": "",
+    "sp2": "",
+    "level": 0,
+    "name": "Kung Fu Man"
   },
-  "save2":[]
+  "save1": [],
+  "save4": [],
+  "save3": [],
+  "save5": []
 }

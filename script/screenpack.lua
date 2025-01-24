@@ -40,7 +40,8 @@ bgmVault = "sound/System/The Vault.ogg"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
 bgmTourneyChampion = "sound/System/Champion.mp3"
-bgmAbyss = "sound/System/Abyss.mp3"
+bgmAbyss = "sound/System/Abyss2.mp3"
+--bgmAbyss = "sound/System/Abyss.mp3"
 bgmLegion = "sound/System/Legion.mp3"
 bgmAdventure = "sound/System/Adventure.mp3"
 
@@ -4001,11 +4002,17 @@ animSetScale(abyssContBG, 0.95, 0.40)
 function drawAbyssInputHints(bool)
 	local shop = bool or false
 	local btnInfo = ""
-	if shop then btnInfo = ":Buy" else btnInfo = "Confirm" end
+	local keyInfo = ""
+	if shop then
+		btnInfo = ":Buy"
+		keyInfo = "q"
+	else
+		btnInfo = "Confirm"
+	end
 	local inputHintYPos = 219
 	local hintFont = font2
 	local hintFontYPos = 233
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","184,"..inputHintYPos,"q","244,"..inputHintYPos)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","184,"..inputHintYPos,keyInfo,"244,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, btnInfo, 139, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 205, hintFontYPos)
@@ -4015,7 +4022,7 @@ end
 --;===========================================================
 --; ABYSS MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_abyssMain = createTextImg(font11, 0, 1, "ABYSS MODE", 15, 15, 1.2, 1.2)
+txt_abyssMain = createTextImg(font11, 0, 1, "", 15, 15, 1.2, 1.2)
 txt_abyssShopItemLock = "???"
 txt_abyssShopInfoLock = "This item has yet to be discovered"
 txt_abyssShopItemSold = "Sold Out"
@@ -4026,6 +4033,7 @@ txt_abyssShopItemAttack = "Attack +"
 txt_abyssShopItemPower = "Power +"
 txt_abyssShopItemDefence = "Defence +"
 txt_abyssShopItemSpeed = "Speed +"
+txt_abyssShopItemDescend = "Depth +"
 
 --Special Items
 txt_abyssShopLifeRegeneration = "Regeneration Lv."
@@ -4051,81 +4059,93 @@ t_abyssMenu = {
 
 t_abyssShop = {
 --Attack Items
- {level = 1, text = txt_abyssShopItemAttack.."1", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 1"},
- {level = 2, text = txt_abyssShopItemAttack.."2", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 2"},
- {level = 3, text = txt_abyssShopItemAttack.."3", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 3"},
- {level = 4, text = txt_abyssShopItemAttack.."4", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 4"},
- {level = 5, text = txt_abyssShopItemAttack.."5", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 5"},
- {level = 6, text = txt_abyssShopItemAttack.."6", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 6"},
- {level = 7, text = txt_abyssShopItemAttack.."7", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 7"},
- {level = 8, text = txt_abyssShopItemAttack.."8", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 8"},
- {level = 9, text = txt_abyssShopItemAttack.."9", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 9"},
- {level = 10, text = txt_abyssShopItemAttack.."10", price = txt_abyssShopItemPriceMax, info = "Increases Attack Level by 10"},
+ {val = 1, text = txt_abyssShopItemAttack.."1", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 1", unlock = "true"},
+ {val = 2, text = txt_abyssShopItemAttack.."2", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 2", unlock = "true"},
+ {val = 3, text = txt_abyssShopItemAttack.."3", price = txt_abyssShopItemPrice1, info = "Increases Attack Level by 3", unlock = "true"},
+ {val = 4, text = txt_abyssShopItemAttack.."4", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 4", unlock = "true"},
+ {val = 5, text = txt_abyssShopItemAttack.."5", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 5", unlock = "true"},
+ {val = 6, text = txt_abyssShopItemAttack.."6", price = txt_abyssShopItemPrice2, info = "Increases Attack Level by 6", unlock = "true"},
+ {val = 7, text = txt_abyssShopItemAttack.."7", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 7", unlock = "true"},
+ {val = 8, text = txt_abyssShopItemAttack.."8", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 8", unlock = "true"},
+ {val = 9, text = txt_abyssShopItemAttack.."9", price = txt_abyssShopItemPrice3, info = "Increases Attack Level by 9", unlock = "false"},
+ {val = 10, text = txt_abyssShopItemAttack.."10", price = txt_abyssShopItemPriceMax, info = "Increases Attack Level by 10", unlock = "false"},
 --Defence Items
- {level = 1, text = txt_abyssShopItemDefence.."1", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 1"},
- {level = 2, text = txt_abyssShopItemDefence.."2", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 2"},
- {level = 3, text = txt_abyssShopItemDefence.."3", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 3"},
- {level = 4, text = txt_abyssShopItemDefence.."4", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 4"},
- {level = 5, text = txt_abyssShopItemDefence.."5", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 5"},
- {level = 6, text = txt_abyssShopItemDefence.."6", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 6"},
- {level = 7, text = txt_abyssShopItemDefence.."7", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 7"},
- {level = 8, text = txt_abyssShopItemDefence.."8", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 8"},
- {level = 9, text = txt_abyssShopItemDefence.."9", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 9"},
- {level = 10, text = txt_abyssShopItemDefence.."10", price = txt_abyssShopItemPriceMax, info = "Increases Defence Level by 10"},
+ {val = 1, text = txt_abyssShopItemDefence.."1", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 1", unlock = "true"},
+ {val = 2, text = txt_abyssShopItemDefence.."2", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 2", unlock = "true"},
+ {val = 3, text = txt_abyssShopItemDefence.."3", price = txt_abyssShopItemPrice1, info = "Increases Defence Level by 3", unlock = "true"},
+ {val = 4, text = txt_abyssShopItemDefence.."4", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 4", unlock = "true"},
+ {val = 5, text = txt_abyssShopItemDefence.."5", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 5", unlock = "true"},
+ {val = 6, text = txt_abyssShopItemDefence.."6", price = txt_abyssShopItemPrice2, info = "Increases Defence Level by 6", unlock = "true"},
+ {val = 7, text = txt_abyssShopItemDefence.."7", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 7", unlock = "true"},
+ {val = 8, text = txt_abyssShopItemDefence.."8", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 8", unlock = "true"},
+ {val = 9, text = txt_abyssShopItemDefence.."9", price = txt_abyssShopItemPrice3, info = "Increases Defence Level by 9", unlock = "true"},
+ {val = 10, text = txt_abyssShopItemDefence.."10", price = txt_abyssShopItemPriceMax, info = "Increases Defence Level by 10", unlock = "true"},
 --Power Items
- {level = 1, text = txt_abyssShopItemPower.."1", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 1"},
- {level = 2, text = txt_abyssShopItemPower.."2", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 2"},
- {level = 3, text = txt_abyssShopItemPower.."3", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 3"},
- {level = 4, text = txt_abyssShopItemPower.."4", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 4"},
- {level = 5, text = txt_abyssShopItemPower.."5", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 5"},
- {level = 6, text = txt_abyssShopItemPower.."6", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 6"},
- {level = 7, text = txt_abyssShopItemPower.."7", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 7"},
- {level = 8, text = txt_abyssShopItemPower.."8", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 8"},
- {level = 9, text = txt_abyssShopItemPower.."9", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 9"},
- {level = 10, text = txt_abyssShopItemPower.."10", price = txt_abyssShopItemPriceMax, info = "Increases Power Level by 10"},
+ {val = 1, text = txt_abyssShopItemPower.."1", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 1", unlock = "true"},
+ {val = 2, text = txt_abyssShopItemPower.."2", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 2", unlock = "true"},
+ {val = 3, text = txt_abyssShopItemPower.."3", price = txt_abyssShopItemPrice1, info = "Increases Power Level by 3", unlock = "true"},
+ {val = 4, text = txt_abyssShopItemPower.."4", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 4", unlock = "true"},
+ {val = 5, text = txt_abyssShopItemPower.."5", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 5", unlock = "true"},
+ {val = 6, text = txt_abyssShopItemPower.."6", price = txt_abyssShopItemPrice2, info = "Increases Power Level by 6", unlock = "false"},
+ {val = 7, text = txt_abyssShopItemPower.."7", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 7", unlock = "false"},
+ {val = 8, text = txt_abyssShopItemPower.."8", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 8", unlock = "false"},
+ {val = 9, text = txt_abyssShopItemPower.."9", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 9", unlock = "false"},
+ {val = 10, text = txt_abyssShopItemPower.."10", price = txt_abyssShopItemPriceMax, info = "Increases Power Level by 10", unlock = "false"},
 --Speed Items
- {level = 1, text = txt_abyssShopItemSpeed.."1", price = txt_abyssShopItemPrice1, info = "Increases Speed by 1"},
- {level = 2, text = txt_abyssShopItemSpeed.."2", price = txt_abyssShopItemPrice1, info = ""},
- {level = 3, text = txt_abyssShopItemSpeed.."3", price = txt_abyssShopItemPrice1, info = ""},
- {level = 4, text = txt_abyssShopItemSpeed.."4", price = txt_abyssShopItemPrice2, info = ""},
- {level = 5, text = txt_abyssShopItemSpeed.."5", price = txt_abyssShopItemPrice2, info = ""},
- {level = 6, text = txt_abyssShopItemSpeed.."6", price = txt_abyssShopItemPrice2, info = ""},
- {level = 7, text = txt_abyssShopItemSpeed.."7", price = txt_abyssShopItemPrice3, info = ""},
- {level = 8, text = txt_abyssShopItemSpeed.."8", price = txt_abyssShopItemPrice3, info = ""},
- {level = 9, text = txt_abyssShopItemSpeed.."9", price = txt_abyssShopItemPrice3, info = ""},
- {level = 10, text = txt_abyssShopItemSpeed.."10", price = txt_abyssShopItemPriceMax, info = ""},
+ {val = 1, text = txt_abyssShopItemSpeed.."1", price = txt_abyssShopItemPrice1, info = "Increases Speed by 1", unlock = "true"},
+ {val = 2, text = txt_abyssShopItemSpeed.."2", price = txt_abyssShopItemPrice1, info = "Increases Speed by 2", unlock = "true"},
+ {val = 3, text = txt_abyssShopItemSpeed.."3", price = txt_abyssShopItemPrice1, info = "Increases Speed by 3", unlock = "true"},
+ {val = 4, text = txt_abyssShopItemSpeed.."4", price = txt_abyssShopItemPrice2, info = "Increases Speed by 4", unlock = "false"},
+ {val = 5, text = txt_abyssShopItemSpeed.."5", price = txt_abyssShopItemPrice2, info = "Increases Speed by 5", unlock = "false"},
+ {val = 6, text = txt_abyssShopItemSpeed.."6", price = txt_abyssShopItemPrice2, info = "Increases Speed by 6", unlock = "false"},
+ {val = 7, text = txt_abyssShopItemSpeed.."7", price = txt_abyssShopItemPrice3, info = "Increases Speed by 7", unlock = "false"},
+ {val = 8, text = txt_abyssShopItemSpeed.."8", price = txt_abyssShopItemPrice3, info = "Increases Speed by 8", unlock = "false"},
+ {val = 9, text = txt_abyssShopItemSpeed.."9", price = txt_abyssShopItemPrice3, info = "Increases Speed by 9", unlock = "false"},
+ {val = 10, text = txt_abyssShopItemSpeed.."10", price = txt_abyssShopItemPriceMax, info = "Increases Speed by 10", unlock = "false"},
 --Special Items
- {level = 1, text = txt_abyssShopLifeRegeneration, price = 1000, info = "Gradually regenerates HP over time."},
- {level = 2, text = txt_abyssShopLifeRegeneration, price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)"},
- {level = "MAX", text = txt_abyssShopLifeRegeneration, price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)"},
+ {val = 1, text = txt_abyssShopLifeRegeneration.."1", price = 1000, info = "Gradually regenerates HP over time.", unlock = "true"},
+ {val = 2, text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
+ {val = 3, text = txt_abyssShopLifeRegeneration.."MAX", price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)", unlock = "true"},
  
- {level = 1, text = txt_abyssShopLifeRestore, price = 1500, info = "Regenerates a small amount of HP after the match has been won."},
- {level = 2, text = txt_abyssShopLifeRestore, price = 4500, info = "Regenerates a medium amount of HP after the match has been won."},
- {level = "MAX", text = txt_abyssShopLifeRestore, price = 8000, info = "Regenerates a large amount of HP after the match has been won."},
+ {val = 1, text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "false"},
+ {val = 2, text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "false"},
+ {val = 3, text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "false"},
  
- {level = 1, text = txt_abyssShopPowerRegeneration, price = 1000, info = "Gradually regenerates MP over time."},
- {level = 2, text = txt_abyssShopPowerRegeneration, price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)"},
- {level = "MAX", text = txt_abyssShopPowerRegeneration, price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)"},
+ {val = 1, text = txt_abyssShopPowerRegeneration.."1", price = 1000, info = "Gradually regenerates MP over time.", unlock = "true"},
+ {val = 2, text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "true"},
+ {val = 3, text = txt_abyssShopPowerRegeneration.."MAX", price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)", unlock = "false"},
  
- {level = 1, text = txt_abyssShopDepthSpeed, price = 3000, info = "Slightly increases the rate of descent into the Abyss."},
- {level = 2, text = txt_abyssShopDepthSpeed, price = 4000, info = "Increases the rate of descent into the Abyss."},
- {level = "MAX", text = txt_abyssShopDepthSpeed, price = 5000, info = "Greatly increases the rate of descent into the Abyss."},
+ {val = 1, text = txt_abyssShopDepthSpeed.."1", price = 3000, info = "Slightly increases the rate of descent into the Abyss.", unlock = "false"},
+ {val = 2, text = txt_abyssShopDepthSpeed.."2", price = 4000, info = "Increases the rate of descent into the Abyss.", unlock = "false"},
+ {val = 3, text = txt_abyssShopDepthSpeed.."MAX", price = 5000, info = "Greatly increases the rate of descent into the Abyss.", unlock = "false"},
 
- {level = 1, text = txt_abyssShopDamageX2, price = 4200, info = "Increases the rate of descent into the Abyss."},
- {level = 1, text = txt_abyssShopAutoguard, price = 2500, info = "When remaining HP is low, Player’s damage output is multiplied by 2."},
- {level = 1, text = txt_abyssShopPowerUnlimited, price = 5400, info = "Power Gauge will be Unlimited"},
- {level = 1, text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically."},
+ {val = 1, text = txt_abyssShopDamageX2, price = 4200, info = "???", unlock = "false"},
+ {val = 1, text = txt_abyssShopAutoguard, price = 2500, info = "When remaining HP is low, Player’s damage output is multiplied by 2.", unlock = "false"},
+ {val = 1, text = txt_abyssShopPowerUnlimited, price = 5400, info = "Power Gauge will be Unlimited", unlock = "true"},
+ {val = 1, text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically.", unlock = "true"},
 --Depth Descend Items
-
+ {val = 10, text = txt_abyssShopItemDescend.."10", price = 500, info = "Descend 10 Levels from where you start.", unlock = "true"},
+ {val = 30, text = txt_abyssShopItemDescend.."30", price = 500, info = "Descend 30 Levels from where you start.", unlock = "true"},
+ {val = 50, text = txt_abyssShopItemDescend.."50", price = 1000, info = "Descend 50 Levels from where you start.", unlock = "true"},
+ {val = 70, text = txt_abyssShopItemDescend.."70", price = 1000, info = "Descend 70 Levels from where you start.", unlock = "false"},
+ {val = 90, text = txt_abyssShopItemDescend.."90", price = 1500, info = "Descend 90 Levels from where you start.", unlock = "false"},
+ {val = 110, text = txt_abyssShopItemDescend.."110", price = 1500, info = "Descend 110 Levels from where you start.", unlock = "false"},
+ {val = 130, text = txt_abyssShopItemDescend.."130", price = 2000, info = "Descend 130 Levels from where you start.", unlock = "false"},
+ {val = 150, text = txt_abyssShopItemDescend.."150", price = 2000, info = "Descend 150 Levels from where you start.", unlock = "false"},
+ {val = 170, text = txt_abyssShopItemDescend.."170", price = 2500, info = "Descend 170 Levels from where you start.", unlock = "false"},
+ {val = 190, text = txt_abyssShopItemDescend.."190", price = 2500, info = "Descend 190 Levels from where you start.", unlock = "false"},
 }
---function f_abyssShopDefault()
-	for i=1, #t_abyssShop do
-		t_abyssShop[i]['id'] = textImgNew()
+for i=1, #t_abyssShop do --Set ID to all items
+	t_abyssShop[i]['id'] = textImgNew()
+end
+if data.debugLog then f_printTable(t_abyssShop, "save/debug/t_abyssShop.txt") end
+
+function f_abyssResetShop()
+	for i=1, #t_abyssShop do --Reset sold value for shop items to buy in a new game
 		t_abyssShop[i]['sold'] = false
-		t_abyssShop[i]['unlock'] = true
 	end
 	if data.debugLog then f_printTable(t_abyssShop, "save/debug/t_abyssShop.txt") end
---end
+end
 
 --Menu Options Transparent background
 abyssTBG = animNew(sprSys, [[
@@ -4159,6 +4179,7 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	if not PauseMenu then
 		drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32)
 	end
+	f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..abyssDat.nosave.level, 310+NewPosX, 35+NewPosY, 1, 1)
 	f_drawQuickText(txt_abyssCharName, font11, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
 --Attributes
 	local attrFont = font2

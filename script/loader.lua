@@ -1464,6 +1464,10 @@ local file = io.open(eventDef,"r")
 end
 f_loadEvents()
 
+for k, v in ipairs(t_abyssShop) do --Send Abyss Unlock Items Condition to t_unlockLua table
+	t_unlockLua.abyss[v.text] = v.unlock
+end
+
 function f_loadLicenses()
 t_licenseList = {}
 	for file in lfs.dir(licensesPath) do
