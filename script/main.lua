@@ -17716,6 +17716,7 @@ function f_abyssMenu()
 	local shop = false
 	local t_menuBackup = t_abyssMenu
 	--local t_shopBackup = t_abyssShop
+	local backupCurrency = stats.coins
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetAbyss2ArrowsPos()
 	f_confirmReset()
@@ -17766,10 +17767,12 @@ function f_abyssMenu()
 			--Abyss Shop
 				else
 				--Shop Item is unlocked/has been found
-					if (t_unlockLua.abyss[t_abyssMenu[abyssMenu].text] == nil) then
+					if (t_unlockLua.abyss[t_abyssMenu[abyssMenu].text] == nil) and stats.coins >= t_abyssMenu[abyssMenu].price then
 					--Shop Item is NOT sold out
 						if not t_abyssMenu[abyssMenu].sold then
 							sndPlay(sndSys, 200, 3)
+							stats.coins = stats.coins - t_abyssMenu[abyssMenu].price
+							f_saveStats()
 							t_abyssMenu[abyssMenu].sold = true --Item Sold out
 					--Shop Item is sold out
 						else
@@ -17780,8 +17783,17 @@ function f_abyssMenu()
 						sndPlay(sndSys, 100, 5)
 					end
 				end
+		--Refund
+			elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+				if shop and t_abyssMenu[abyssMenu].sold then
+					sndPlay(sndSys, 100, 2)
+					stats.coins = stats.coins + t_abyssMenu[abyssMenu].price
+					f_saveStats()
+					t_abyssMenu[abyssMenu].sold = false --Item available again
+				end
 			end
 			if exitAbyss then
+				stats.coins = backupCurrency --Restore money only if not start a game
 				data.tempBack = true --To exit to Main Menu from Abyss Menu
 				break
 			end
@@ -17880,7 +17892,7 @@ function f_abyssMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if confirmScreen then f_confirmMenu() else drawAbyssInputHints(shop) end
+		if confirmScreen then f_confirmMenu() else drawAbyssInputHints(shop, t_abyssMenu[abyssMenu].sold) end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1

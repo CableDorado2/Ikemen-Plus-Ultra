@@ -40,8 +40,8 @@ bgmVault = "sound/System/The Vault.ogg"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
 bgmTourneyChampion = "sound/System/Champion.mp3"
-bgmAbyss = "sound/System/Abyss2.mp3"
---bgmAbyss = "sound/System/Abyss.mp3"
+--bgmAbyss = "sound/System/Abyss2.mp3"
+bgmAbyss = "sound/System/Abyss.mp3"
 bgmLegion = "sound/System/Legion.mp3"
 bgmAdventure = "sound/System/Adventure.mp3"
 
@@ -3953,7 +3953,7 @@ txt_abyssLv = createTextImg(font20, 2, 0, "", 0, 0)
 txt_abyssDepth = createTextImg(font20, 1, 0, "DEPTH", 0, 0)
 txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
 txt_abyssContinueInfo = "Begin the game from where you last left off."
-txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
+txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200, 0.92, 0.92)
 
 t_abyssSel = {
  {id = textImgNew(), depth = 100, info = "[Easy] difficulty geared towards beginners"},
@@ -3999,24 +3999,25 @@ abyssContBG = animNew(sprSys, [[
 animUpdate(abyssContBG)
 animSetScale(abyssContBG, 0.95, 0.40)
 
-function drawAbyssInputHints(bool)
-	local shop = bool or false
+function drawAbyssInputHints(shop, refund)
+	local shop = shop or false
+	local refund = refund or false
 	local btnInfo = ""
 	local keyInfo = ""
 	if shop then
-		btnInfo = ":Buy"
-		keyInfo = "q"
+		btnInfo = ":Buy Item"
 	else
 		btnInfo = "Confirm"
 	end
+	if refund then keyInfo = "s" end
 	local inputHintYPos = 219
 	local hintFont = font2
 	local hintFontYPos = 233
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","184,"..inputHintYPos,keyInfo,"244,"..inputHintYPos)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","186,"..inputHintYPos,keyInfo,"244,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, btnInfo, 139, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 205, hintFontYPos)
-	if shop then f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Refund", 265, hintFontYPos) end
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 207, hintFontYPos)
+	if refund then f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Refund", 265, hintFontYPos) end
 end
 
 --;===========================================================
@@ -4107,7 +4108,7 @@ t_abyssShop = {
  {val = 2, text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
  {val = 3, text = txt_abyssShopLifeRegeneration.."MAX", price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)", unlock = "true"},
  
- {val = 1, text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "false"},
+ {val = 1, text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "true"},
  {val = 2, text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "false"},
  {val = 3, text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "false"},
  
@@ -4115,12 +4116,12 @@ t_abyssShop = {
  {val = 2, text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "true"},
  {val = 3, text = txt_abyssShopPowerRegeneration.."MAX", price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)", unlock = "false"},
  
- {val = 1, text = txt_abyssShopDepthSpeed.."1", price = 3000, info = "Slightly increases the rate of descent into the Abyss.", unlock = "false"},
+ {val = 1, text = txt_abyssShopDepthSpeed.."1", price = 3000, info = "Slightly increases the rate of descent into the Abyss.", unlock = "true"},
  {val = 2, text = txt_abyssShopDepthSpeed.."2", price = 4000, info = "Increases the rate of descent into the Abyss.", unlock = "false"},
  {val = 3, text = txt_abyssShopDepthSpeed.."MAX", price = 5000, info = "Greatly increases the rate of descent into the Abyss.", unlock = "false"},
 
- {val = 1, text = txt_abyssShopDamageX2, price = 4200, info = "???", unlock = "false"},
- {val = 1, text = txt_abyssShopAutoguard, price = 2500, info = "When remaining HP is low, Player’s damage output is multiplied by 2.", unlock = "false"},
+ {val = 1, text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player’s damage output is multiplied by 2.", unlock = "false"},
+ {val = 1, text = txt_abyssShopAutoguard, price = 2500, info = "", unlock = "true"},
  {val = 1, text = txt_abyssShopPowerUnlimited, price = 5400, info = "Power Gauge will be Unlimited", unlock = "true"},
  {val = 1, text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically.", unlock = "true"},
 --Depth Descend Items
