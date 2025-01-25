@@ -4204,6 +4204,55 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 end
 
 --;===========================================================
+--; ABYSS MAP MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_abyssMapReward = createTextImg(font20, 0, -1, "", 314, 15)
+txt_abyssMapDepth = createTextImg(font20, 1, 0, "", 70, 60)
+
+--Map Background
+abyssMapBG = animNew(sprIkemen, [[
+60,0, 0,0, -1
+]])
+animSetScale(abyssMapBG, 0.201, 0.188)
+animSetPos(abyssMapBG, -54, 15)
+animUpdate(abyssMapBG)
+
+--Reward BG
+abyssMapRewardBG = animNew(sprIkemen, [[
+63,0, 0,0, -1
+]])
+animSetPos(abyssMapRewardBG, -80, 0)
+animUpdate(abyssMapRewardBG)
+
+--Depth Path BG
+abyssMapDepthBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(abyssMapDepthBG, 0.2, 3)
+animSetAlpha(abyssMapDepthBG, 155, 22)
+animSetPos(abyssMapDepthBG, 0, 0)
+animUpdate(abyssMapDepthBG)
+
+--Inputs Info Window BG
+abyssMapInputWindowBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(abyssMapInputWindowBG, 1.32, 0.41)
+animSetAlpha(abyssMapInputWindowBG, 155, 22)
+animSetPos(abyssMapInputWindowBG, 124, 206)
+animUpdate(abyssMapInputWindowBG)
+
+function drawAbyssMapInputHints()
+	local inputHintYPos = 209
+	local hintFont = font2
+	local hintFontYPos = 223
+	drawInputHintsP1("w","128,"..inputHintYPos,"e","196,"..inputHintYPos,"q","244,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 151, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 219, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
+end
+
+--;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION
 --;===========================================================
 txt_creditsBox = [[

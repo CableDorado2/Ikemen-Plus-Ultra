@@ -15755,7 +15755,12 @@ if validCells() then
 		if data.gameMode == "abyss" then
 			setAbyssDepth(matchNo)
 			setAbyssReward((matchNo-1)*75) --TODO
-			--f_abyssMap() --TODO
+			--if matchNo == 1 then f_abyssMap() end
+			f_abyssMap()
+			if data.tempBack == true then
+				f_exitToMainMenu()
+				return
+			end
 		end
 		f_orderSelect()
 	--Versus Screen
@@ -17717,6 +17722,7 @@ function f_abyssMenu()
 	local bufl = 0
 	local maxItems = 10
 	local shop = false
+	local buyDone = false
 	local t_menuBackup = t_abyssMenu
 	local backupCurrency = stats.coins
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17772,26 +17778,44 @@ function f_abyssMenu()
 					if (t_unlockLua.abyss[t_abyssMenu[abyssMenu].text] == nil) and stats.coins >= t_abyssMenu[abyssMenu].price then
 					--Shop Item is NOT sold out
 						if not t_abyssMenu[abyssMenu].sold then
-							sndPlay(sndSys, 200, 3)
-							stats.coins = stats.coins - t_abyssMenu[abyssMenu].price
 						--Attribute Assign
 							if t_abyssMenu[abyssMenu].attack then
+								buyDone = true
 								abyssDat.nosave.attack = abyssDat.nosave.attack + t_abyssMenu[abyssMenu].val
 							elseif t_abyssMenu[abyssMenu].defence then
+								buyDone = true
 								abyssDat.nosave.defence = abyssDat.nosave.defence + t_abyssMenu[abyssMenu].val
 							elseif t_abyssMenu[abyssMenu].power then
+								buyDone = true
 								abyssDat.nosave.power = abyssDat.nosave.power + t_abyssMenu[abyssMenu].val
 							elseif t_abyssMenu[abyssMenu].speed then
+								buyDone = true
 								abyssDat.nosave.speed = abyssDat.nosave.speed + t_abyssMenu[abyssMenu].val
 							elseif t_abyssMenu[abyssMenu].depth then
+								buyDone = true
 								abyssDat.nosave.startdepth = abyssDat.nosave.startdepth + t_abyssMenu[abyssMenu].val
 						--Special Items Assign
 							else
-								
+							--Special Items Slots are Full
+								if abyssDat.nosave.sp3 ~= "" then
+									sndPlay(sndSys, 100, 5)
+							--At least there is 1 Special Items Slot free
+								else
+									if abyssDat.nosave.sp1 == "" then abyssDat.nosave.sp1 = t_abyssMenu[abyssMenu].text
+									elseif abyssDat.nosave.sp2 == "" then abyssDat.nosave.sp2 = t_abyssMenu[abyssMenu].text
+									elseif abyssDat.nosave.sp3 == "" then abyssDat.nosave.sp3 = t_abyssMenu[abyssMenu].text
+									end
+									buyDone = true
+								end
 							end
-						--Save Data
-							f_saveStats()
-							t_abyssMenu[abyssMenu].sold = true --Item Sold out
+							if buyDone then
+								sndPlay(sndSys, 200, 3)
+								stats.coins = stats.coins - t_abyssMenu[abyssMenu].price
+							--Save Data
+								f_saveStats()
+								t_abyssMenu[abyssMenu].sold = true --Item Sold out
+								buyDone = false
+							end
 					--Shop Item is sold out
 						else
 							sndPlay(sndSys, 100, 5)
@@ -17819,7 +17843,13 @@ function f_abyssMenu()
 						abyssDat.nosave.startdepth = abyssDat.nosave.startdepth - t_abyssMenu[abyssMenu].val
 				--Special Items Refund
 					else
-						
+						if abyssDat.nosave.sp1 == t_abyssMenu[abyssMenu].text then
+							abyssDat.nosave.sp1 = ""
+						elseif abyssDat.nosave.sp2 == t_abyssMenu[abyssMenu].text then
+							abyssDat.nosave.sp2 = ""
+						elseif abyssDat.nosave.sp3 == t_abyssMenu[abyssMenu].text then
+							abyssDat.nosave.sp3 = ""
+						end
 					end
 					f_saveStats()
 					t_abyssMenu[abyssMenu].sold = false --Item available again
@@ -17935,6 +17965,55 @@ function f_abyssMenu()
 			bufu = 0
 			bufd = 0
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ABYSS MAP MENU
+--;===========================================================
+function f_abyssMap()
+	cmdInput()
+	local abyssDepth = getAbyssDepth() --From script.ssz
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	f_confirmReset()
+	while true do
+		if not confirmScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				confirmScreen = true
+		--Actions
+			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sndSys, 100, 1)
+				break --Go to vs
+			end
+		end
+		if exitAbyss then
+			data.tempBack = true --To exit to Main Menu from Abyss Menu
+			break
+		end
+	--Draw BG
+		animDraw(abyssMapBG)
+		animDraw(f_animVelocity(abyssFog, -1, -1))
+	--Draw Depth Stuff
+		animDraw(abyssMapDepthBG)
+		textImgSetText(txt_abyssMapDepth, "DEPTH "..getAbyssDepth())
+		textImgDraw(txt_abyssMapDepth)
+	--Draw Cursor
+		if not confirmScreen then
+			
+		end
+	--Draw Reward Text Stuff
+		animDraw(abyssMapRewardBG)
+		textImgSetText(txt_abyssMapReward, "REWARD "..getAbyssReward())
+		textImgDraw(txt_abyssMapReward)
+	--Draw Char Profile Box
+		f_abyssProfile(0,14)
+		animDraw(abyssMapInputWindowBG)
+		if confirmScreen then f_confirmMenu() else drawAbyssMapInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
