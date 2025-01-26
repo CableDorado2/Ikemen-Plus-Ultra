@@ -15750,18 +15750,19 @@ if validCells() then
 		setMatchNo(matchNo)
 		f_aiLevel()
 		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters
-		f_matchInfo()
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
+			if matchNo > 1 then matchNo = matchNo+3 end --TODO
+			setMatchNo(matchNo)
 			setAbyssDepth(matchNo)
 			setAbyssReward((matchNo-1)*75) --TODO
-			--if matchNo == 1 then f_abyssMap() end
-			f_abyssMap()
+			if getAbyssDepth() == 1 or getAbyssDepth() == 100 then f_abyssMap() end
 			if data.tempBack == true then
 				f_exitToMainMenu()
 				return
 			end
 		end
+		f_matchInfo()
 		f_orderSelect()
 	--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -18003,8 +18004,16 @@ function f_abyssMap()
 		textImgSetText(txt_abyssMapDepth, "DEPTH "..getAbyssDepth())
 		textImgDraw(txt_abyssMapDepth)
 	--Draw Cursor
-		if not confirmScreen then
-			
+		
+	--Draw Depth Levels
+		for i=1, 8 do
+			local startNo = nil
+			if getAbyssDepth() == 1 then startNo = 1
+			else startNo = 0
+			end
+			textImgSetText(txt_abyssMapDepthLv, getAbyssDepth()-startNo + (i-1)*10)
+			textImgSetPos(txt_abyssMapDepthLv, 25, 0.3+i*28)
+			textImgDraw(txt_abyssMapDepthLv)
 		end
 	--Draw Reward Text Stuff
 		animDraw(abyssMapRewardBG)

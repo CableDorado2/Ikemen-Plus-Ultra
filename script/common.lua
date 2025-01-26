@@ -3838,7 +3838,6 @@ if stats.unlocks.modes.story.arc2 == nil or data.erase then stats.unlocks.modes.
 end
 init_generalStats() --Create general stats data (first run)
 init_unlocksStats()
-init_abyssStats()
 f_saveStats()
 
 --[[stats data

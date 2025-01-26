@@ -2781,7 +2781,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	elseif data.gameMode == "arcade" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE: "..matchNo) --Set Arcade Match Text
 	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
 	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR: "..matchNo-1) --Set Tower Match Text
-	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH: "..matchNo) --Set Abyss Depth Match Text
+	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH: "..getAbyssDepth()) --Set Abyss Depth Match Text
 	end
 	if data.gameMode == "survival" or data.gameMode == "allroster" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
 	elseif data.gameMode == "vskumite" then textImgSetText(txt_gameNo, gameNo.."/"..data.kumite) --Set VS X Kumite Match Text
@@ -4121,7 +4121,7 @@ t_abyssShop = {
  {text = txt_abyssShopDepthSpeed.."MAX", price = 5000, info = "Greatly increases the rate of descent into the Abyss.", unlock = "false"},
 
  {text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player’s damage output is multiplied by 2.", unlock = "false"},
- {text = txt_abyssShopAutoguard, price = 2500, info = "", unlock = "true"},
+ {text = txt_abyssShopAutoguard, price = 2500, info = "Guard attacks automatically.", unlock = "true"},
  {text = txt_abyssShopPowerUnlimited, price = 5400, info = "Power Gauge will be Unlimited", unlock = "true"},
  {text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically.", unlock = "true"},
 --Depth Descend Items
@@ -4208,6 +4208,7 @@ end
 --;===========================================================
 txt_abyssMapReward = createTextImg(font20, 0, -1, "", 314, 15)
 txt_abyssMapDepth = createTextImg(font20, 1, 0, "", 70, 60)
+txt_abyssMapDepthLv = createTextImg(font5, 0, -1, "", 0, 0) --font2
 
 --Map Background
 abyssMapBG = animNew(sprIkemen, [[
@@ -4228,8 +4229,8 @@ animUpdate(abyssMapRewardBG)
 abyssMapDepthBG = animNew(sprSys, [[
 230,3, 0,0, -1
 ]])
-animSetScale(abyssMapDepthBG, 0.2, 3)
-animSetAlpha(abyssMapDepthBG, 155, 22)
+animSetScale(abyssMapDepthBG, 0.35, 4)
+animSetAlpha(abyssMapDepthBG, 255, 110)
 animSetPos(abyssMapDepthBG, 0, 0)
 animUpdate(abyssMapDepthBG)
 
