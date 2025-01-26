@@ -3008,11 +3008,27 @@ txt_resultTitle = createTextImg(font14, 0, 0, "", 159, 20)
 txt_resultNo = createTextImg(survNumFnt, 0, 1, "", 2, 150)
 txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 110)
 txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 200)
+
 txt_resultTime = createTextImg(jgFnt, 0, 1, "TIME: 9'99''999", 32, 220) --WIP
 txt_resultScore = createTextImg(jgFnt, 0, 1, "SCORE: 999.999.999", 32, 234) --WIP
+
 txt_resultRank = createTextImg(jgFnt, 0, 1, "RANK", 262, 205)
 txt_resultName = createTextImg(font6, 0, 0, "", 0, 0)
 txt_resultTeam = createTextImg(font6, 0, 0, "", 0, 0)
+
+function f_drawAbyssResults()
+	local PosX = 225
+	local PosY = 130
+	local ts = math.floor((clearTime%60))
+	local tm = math.floor((clearTime%3600)/60)
+	local th = math.floor((clearTime%86400)/3600)
+	local abyssResultsTime = string.format("%02d:%02d:%02d", th, tm, ts)	
+	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, 0, "DEPTH", PosX, PosY-20)
+	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, 0, getAbyssDepth(), PosX, PosY-40, 0.82, 0.82)
+	f_drawQuickText(txt_timeTitle, font2, 0, 0, "Time: "..abyssResultsTime, PosX, PosY)
+	f_drawQuickText(txt_winsTitle, font2, 0, 0, "Wins: "..winCnt, PosX, PosY+20)
+	f_drawQuickText(txt_expenseTitle, font2, 0, 0, "Shop Expense: "..abyssDat.nosave.expense.." IKC", PosX, PosY+40)
+end
 
 --Result BG
 resultBG = animNew(sprSys, [[280,0, 0,0, -1]])
@@ -3959,8 +3975,8 @@ t_abyssSel = {
  {id = textImgNew(), depth = 100, info = "[Easy] difficulty geared towards beginners"},
  {id = textImgNew(), depth = 500, info = "[Normal] difficulty for average players"},
  {id = textImgNew(), depth = 999, info = "[Hard] difficulty for expert players"},
- {id = textImgNew(), depth = 2953, info = "[TEST1] difficulty for expert players"},
- {id = textImgNew(), depth = 8988, info = "[TEST2] difficulty for expert players"},
+ {id = textImgNew(), depth = 2357, info = "[TEST1] difficulty for expert players"},
+ {id = textImgNew(), depth = 8488, info = "[TEST2] difficulty for expert players"},
 }
 
 --Background
@@ -4200,15 +4216,15 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.sp2, spFontXPos, spFontYPos+23)
 	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.sp3, spFontXPos, spFontYPos+45)
 --Currency
-	f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." C", 315+NewPosX, 15+NewPosY, 1.2, 1.2)
+	f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2)
 end
 
 --;===========================================================
 --; ABYSS MAP MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_abyssMapReward = createTextImg(font20, 0, -1, "", 314, 15)
-txt_abyssMapDepth = createTextImg(font20, 1, 0, "", 70, 60)
-txt_abyssMapDepthLv = createTextImg(font5, 0, -1, "", 0, 0) --font2
+txt_abyssMapDepth = createTextImg(font20, 1, 0, "", 30, 35)
+txt_abyssMapDepthLv = createTextImg(font2, 0, -1, "", 0, 0)
 
 --Map Background
 abyssMapBG = animNew(sprIkemen, [[
@@ -4229,7 +4245,7 @@ animUpdate(abyssMapRewardBG)
 abyssMapDepthBG = animNew(sprSys, [[
 230,3, 0,0, -1
 ]])
-animSetScale(abyssMapDepthBG, 0.35, 4)
+animSetScale(abyssMapDepthBG, 0.3, 4)
 animSetAlpha(abyssMapDepthBG, 255, 110)
 animSetPos(abyssMapDepthBG, 0, 0)
 animUpdate(abyssMapDepthBG)

@@ -14276,6 +14276,12 @@ function f_result(state)
 			textImgSetPos(txt_resultName, 318, 60)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
+		elseif data.gameMode == "abyss" then
+			textImgSetAlign(txt_resultTeam, 1)
+			textImgSetPos(txt_resultTeam, 2, 50)
+			textImgSetAlign(txt_resultName, 1)
+			textImgSetPos(txt_resultName, 2, 65)
+			textImgSetText(txt_resultTitle, "ABYSS RESULTS")
 		else--if data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
 			textImgSetAlign(txt_resultTeam, 1)
 			textImgSetPos(txt_resultTeam, 2, 50)
@@ -14289,6 +14295,7 @@ function f_result(state)
 			elseif data.rosterMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData().." RESULTS")
 			--elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
 			--elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
+			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
 	else --Boss/Bonus Rush Exit
@@ -14364,6 +14371,9 @@ function f_result(state)
 			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultWins)
 			textImgDraw(txt_resultLoses)
+		end
+		if data.gameMode == "abyss" then
+			f_drawAbyssResults()
 		end
 		--textImgDraw(txt_resultTime)
 		--textImgDraw(txt_resultScore)
@@ -15752,10 +15762,10 @@ if validCells() then
 		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
-			if matchNo > 1 then matchNo = matchNo+3 end --TODO
+			if matchNo > 1 then matchNo = matchNo+15 end --TODO
 			setMatchNo(matchNo)
 			setAbyssDepth(matchNo)
-			setAbyssReward((matchNo-1)*75) --TODO
+			setAbyssReward((matchNo-1)*15) --TODO
 			if getAbyssDepth() == 1 or getAbyssDepth() == 100 then f_abyssMap() end
 			if data.tempBack == true then
 				f_exitToMainMenu()
@@ -17771,6 +17781,8 @@ function f_abyssMenu()
 						t_abyssMenu = t_abyssShop
 						shop = true
 					elseif abyssMenu == 2 then
+						abyssDat.nosave.expense = backupCurrency - stats.coins --calculates the amount spent in the store to be displayed on the results screen
+						f_saveStats()
 						break --Start Abyss Mode
 					end
 			--Abyss Shop
@@ -18003,16 +18015,14 @@ function f_abyssMap()
 		animDraw(abyssMapDepthBG)
 		textImgSetText(txt_abyssMapDepth, "DEPTH "..getAbyssDepth())
 		textImgDraw(txt_abyssMapDepth)
-	--Draw Cursor
-		
 	--Draw Depth Levels
-		for i=1, 8 do
+		for i=2, 11 do
 			local startNo = nil
 			if getAbyssDepth() == 1 then startNo = 1
 			else startNo = 0
 			end
 			textImgSetText(txt_abyssMapDepthLv, getAbyssDepth()-startNo + (i-1)*10)
-			textImgSetPos(txt_abyssMapDepthLv, 25, 0.3+i*28)
+			textImgSetPos(txt_abyssMapDepthLv, 42, 10+i*22)
 			textImgDraw(txt_abyssMapDepthLv)
 		end
 	--Draw Reward Text Stuff
