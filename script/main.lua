@@ -15765,7 +15765,7 @@ if validCells() then
 			if matchNo > 1 then matchNo = matchNo+15 end --TODO
 			setMatchNo(matchNo)
 			setAbyssDepth(matchNo)
-			setAbyssReward((matchNo-1)*15) --TODO
+			setAbyssReward((matchNo-1)*3) --TODO
 			if getAbyssDepth() == 1 or getAbyssDepth() == 100 then f_abyssMap() end
 			if data.tempBack == true then
 				f_exitToMainMenu()

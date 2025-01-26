@@ -4197,7 +4197,7 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 		drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32)
 	end
 	f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..abyssDat.nosave.level, 310+NewPosX, 35+NewPosY, 1, 1)
-	f_drawQuickText(txt_abyssCharName, font11, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
+	f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
 --Attributes
 	local attrFont = font2
 	local attrFontXPos = 208+NewPosX
