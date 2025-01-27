@@ -3025,9 +3025,11 @@ function f_drawAbyssResults()
 	local abyssResultsTime = string.format("%02d:%02d:%02d", th, tm, ts)	
 	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, 0, "DEPTH", PosX, PosY-20)
 	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, 0, getAbyssDepth(), PosX, PosY-40, 0.82, 0.82)
-	f_drawQuickText(txt_timeTitle, font2, 0, 0, "Time: "..abyssResultsTime, PosX, PosY)
-	f_drawQuickText(txt_winsTitle, font2, 0, 0, "Wins: "..winCnt, PosX, PosY+20)
-	f_drawQuickText(txt_expenseTitle, font2, 0, 0, "Shop Expense: "..abyssDat.nosave.expense.." IKC", PosX, PosY+40)
+	
+	f_drawQuickText(txt_levelTitle, font2, 0, 0, "Abyss: "..abyssSel, PosX, PosY)
+	f_drawQuickText(txt_timeTitle, font2, 0, 0, "Time: "..abyssResultsTime, PosX, PosY+20)
+	f_drawQuickText(txt_winsTitle, font2, 0, 0, "Wins: "..winCnt, PosX, PosY+40)
+	f_drawQuickText(txt_expenseTitle, font2, 0, 0, "Shop Expense: "..abyssDat.nosave.expense.." IKC", PosX, PosY+60)
 end
 
 --Result BG
@@ -4109,16 +4111,16 @@ t_abyssShop = {
  {power = true, val = 9, text = txt_abyssShopItemPower.."9", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 9", unlock = "false"},
  {power = true, val = 10, text = txt_abyssShopItemPower.."10", price = txt_abyssShopItemPriceMax, info = "Increases Power Level by 10", unlock = "false"},
 --Speed Items
- {speed = true, val = 1, text = txt_abyssShopItemSpeed.."1", price = txt_abyssShopItemPrice1, info = "Increases Speed by 1", unlock = "true"},
- {speed = true, val = 2, text = txt_abyssShopItemSpeed.."2", price = txt_abyssShopItemPrice1, info = "Increases Speed by 2", unlock = "true"},
- {speed = true, val = 3, text = txt_abyssShopItemSpeed.."3", price = txt_abyssShopItemPrice1, info = "Increases Speed by 3", unlock = "true"},
- {speed = true, val = 4, text = txt_abyssShopItemSpeed.."4", price = txt_abyssShopItemPrice2, info = "Increases Speed by 4", unlock = "false"},
- {speed = true, val = 5, text = txt_abyssShopItemSpeed.."5", price = txt_abyssShopItemPrice2, info = "Increases Speed by 5", unlock = "false"},
- {speed = true, val = 6, text = txt_abyssShopItemSpeed.."6", price = txt_abyssShopItemPrice2, info = "Increases Speed by 6", unlock = "false"},
- {speed = true, val = 7, text = txt_abyssShopItemSpeed.."7", price = txt_abyssShopItemPrice3, info = "Increases Speed by 7", unlock = "false"},
- {speed = true, val = 8, text = txt_abyssShopItemSpeed.."8", price = txt_abyssShopItemPrice3, info = "Increases Speed by 8", unlock = "false"},
- {speed = true, val = 9, text = txt_abyssShopItemSpeed.."9", price = txt_abyssShopItemPrice3, info = "Increases Speed by 9", unlock = "false"},
- {speed = true, val = 10, text = txt_abyssShopItemSpeed.."10", price = txt_abyssShopItemPriceMax, info = "Increases Speed by 10", unlock = "false"},
+ {speed = true, val = 1, text = txt_abyssShopItemSpeed.."1", price = txt_abyssShopItemPrice1-50, info = "Increases Speed by 1", unlock = "true"},
+ {speed = true, val = 2, text = txt_abyssShopItemSpeed.."2", price = txt_abyssShopItemPrice1-50, info = "Increases Speed by 2", unlock = "true"},
+ {speed = true, val = 3, text = txt_abyssShopItemSpeed.."3", price = txt_abyssShopItemPrice1-50, info = "Increases Speed by 3", unlock = "true"},
+ {speed = true, val = 4, text = txt_abyssShopItemSpeed.."4", price = txt_abyssShopItemPrice2-50, info = "Increases Speed by 4", unlock = "false"},
+ {speed = true, val = 5, text = txt_abyssShopItemSpeed.."5", price = txt_abyssShopItemPrice2-50, info = "Increases Speed by 5", unlock = "false"},
+ {speed = true, val = 6, text = txt_abyssShopItemSpeed.."6", price = txt_abyssShopItemPrice2-50, info = "Increases Speed by 6", unlock = "false"},
+ {speed = true, val = 7, text = txt_abyssShopItemSpeed.."7", price = txt_abyssShopItemPrice3-50, info = "Increases Speed by 7", unlock = "false"},
+ {speed = true, val = 8, text = txt_abyssShopItemSpeed.."8", price = txt_abyssShopItemPrice3-50, info = "Increases Speed by 8", unlock = "false"},
+ {speed = true, val = 9, text = txt_abyssShopItemSpeed.."9", price = txt_abyssShopItemPrice3-50, info = "Increases Speed by 9", unlock = "false"},
+ {speed = true, val = 10, text = txt_abyssShopItemSpeed.."10", price = txt_abyssShopItemPriceMax-50, info = "Increases Speed by 10", unlock = "false"},
 --Special Items
  {text = txt_abyssShopLifeRegeneration.."1", price = 1000, info = "Gradually regenerates HP over time.", unlock = "true"},
  {text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
