@@ -40,7 +40,6 @@ bgmVault = "sound/System/The Vault.ogg"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
 bgmTourneyChampion = "sound/System/Champion.mp3"
---bgmAbyss = "sound/System/Abyss2.mp3"
 bgmAbyss = "sound/System/Abyss.mp3"
 bgmLegion = "sound/System/Legion.mp3"
 bgmAdventure = "sound/System/Adventure.mp3"
@@ -716,10 +715,8 @@ t_mainMenu = {
 	{id = textImgNew(), text = "CHALLENGES", gotomenu = "f_challengeMenu()"},
 	{id = textImgNew(), text = "EXTRAS", gotomenu = "f_extrasMenu()"},
 	{id = textImgNew(), text = "WATCH", gotomenu = "f_watchMenu()"},
-	--{id = textImgNew(), text = "CUSTOMIZE", gotomenu = "f_theVault()"}, --(???, SHOP/THE VAULT) Buy using in-game currency.
 	{id = textImgNew(), text = "OPTIONS", gotomenu = "f_optionsMenu()"},
 	{id = textImgNew(), text = "EXIT", gotomenu = "f_exitMenu()"},
-	{id = textImgNew(), text = "CHECK UPDATES", gotomenu = "f_checkUpdates()"},
 }
 elseif data.engineMode == "VN" then --Menu Items for Visual Novel Engine Mode
 t_mainMenu = {
@@ -728,7 +725,6 @@ t_mainMenu = {
 	{id = textImgNew(), text = "CONFIG", gotomenu = "f_optionsMenu()"},
 	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
 	{id = textImgNew(), text = "EXIT", gotomenu = "f_exitMenu()"},
-	{id = textImgNew(), text = "CHECK UPDATES", gotomenu = "f_checkUpdates()"},
 }
 end
 
@@ -769,6 +765,8 @@ t_arcadeMenu = {
 t_vsMenu = {
 	{id = textImgNew(), text = "QUICK MATCH", gotomenu = "f_quickvsBoot()"},
 	{id = textImgNew(), text = "FREE BATTLE", gotomenu = "f_vsBoot()"},
+	{id = textImgNew(), text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
+	{id = textImgNew(), text = "TITAN ATTACK", gotomenu = "f_titanAttack()"},
 }
 
 --;===========================================================
@@ -784,8 +782,7 @@ t_practiceMenu = {
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	{id = textImgNew(), text = "SURVIVAL", gotomenu = "f_survivalBoot()"},
-	{id = textImgNew(), text = "BOSS FIGHT", gotomenu = "f_bossMenu()"},
+	{id = textImgNew(), text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
 	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"},
 	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackBoot()"},
 	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
@@ -794,12 +791,25 @@ t_challengeMenu = {
 }
 
 --;===========================================================
---; BOSS FIGHT MENU SCREENPACK DEFINITION
+--; SURVIVAL MENU SCREENPACK DEFINITION
 --;===========================================================
-t_bossMenu = {
-	{id = textImgNew(), text = "SINGLE ASSAULT", gotomenu = "f_bossChars()"},
+t_survivalMenu = {
+	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_survivalBoot()"},
+	{id = textImgNew(), text = "ABYSS MODE", gotomenu = "f_abyssSelect()"},
 	{id = textImgNew(), text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
-	{id = textImgNew(), text = "TITAN ATTACK", gotomenu = "f_titanAttack()"},
+}
+
+--;===========================================================
+--; EXTRAS MENU SCREENPACK DEFINITION
+--;===========================================================
+t_extrasMenu = {
+	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
+	{id = textImgNew(), text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
+	--{id = textImgNew(), text = "LEGION", gotomenu = "f_legionCfg()"},
+	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
+	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
+	{id = textImgNew(), text = "ENDLESS", gotomenu = "f_endlessBoot()"},
+	{id = textImgNew(), text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
 }
 
 --;===========================================================
@@ -811,20 +821,6 @@ t_bonusMenu = {
 }
 
 --;===========================================================
---; EXTRAS MENU SCREENPACK DEFINITION
---;===========================================================
-t_extrasMenu = {
-	{id = textImgNew(), text = "ABYSS", gotomenu = "f_abyssSelect()"},
-	--{id = textImgNew(), text = "LEGION", gotomenu = "f_legionCfg()"},
-	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
-	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
-	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
-	{id = textImgNew(), text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
-	{id = textImgNew(), text = "ENDLESS", gotomenu = "f_endlessBoot()"},
-	{id = textImgNew(), text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
-}
-
---;===========================================================
 --; WATCH MENU SCREENPACK DEFINITION
 --;===========================================================
 t_watchMenu = {
@@ -832,7 +828,7 @@ t_watchMenu = {
 	{id = textImgNew(), text = "STAGE VIEWER", gotomenu = "f_stageViewer()"},
 	{id = textImgNew(), text = "SOUND TEST", gotomenu = "soundTest = true f_songMenu()"},
 	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
-	{id = textImgNew(), text = "PROFILE", gotomenu = "f_statsMenu()"}, --(display overall player data [PLAYER RECORDS, RANKINGS, ACHIEVEMENTS])
+	{id = textImgNew(), text = "PROFILE", gotomenu = "f_statsMenu()"},
 	{id = textImgNew(), text = "LICENSES", gotomenu = "f_licenseMenu()"},
 	{id = textImgNew(), text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
@@ -1570,100 +1566,6 @@ t_mainLobby = {
 	{id = textImgNew(), text = "SUDDEN DEATH"},
 	{id = textImgNew(), text = "ONLINE SETTINGS"},
 }
-
---;===========================================================
---; THE VAULT SCREENPACK DEFINITION
---;===========================================================
-txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
-txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
-txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
-txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0,0.9,0.9)
-
-t_vaultMenu = {
-	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
-}
-for i=1, #t_vaultMenu do
-	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
-end
-
-function f_getVaultWords()
-t_vaultMsg = nil --Reset Table
-t_vaultMsg = {
-"Don't touch!",
-"Just, stop.",
-"No one seems to be home.",
-"zzzZZZ...",
-"Go away!",
-"No!",
-"It's a secret...",
-"Stop it!",
-"Not allowed!",
-"Nothing to see here...",
-'"CD3" is a joke alias of evil CD2.',
-"Ready to leave yet?",
-"Whenever you're ready...",
-"Fine, I can wait.",
-"So... what's up?",
-"Are you always like this?",
-"I mean, what's the point?",
-"Let me guess, you're gonna push the button?",
-"What a surprise...",
-"Don't push the button!",
-"I'm gonna stop talking",
-"...",
-"......",
-"GAH!",
-"I have heard about you "..data.userName..".",
-"Do you know what name of this Ikemen Plus was going to be?",
-"It was actually going to be called Ikemen Plus ???",
-"Zen is the search for enlightenment",
-"SSZ is a programming language written by Suehiro",
-"OpenGL? what's that?",
-"Who would thought that Ikemen Go had a Plus Version",
-"Go beyond, plus ULTRA!",
-"PlasmoidThunder? he is one of the greats devs",
-"If I could have access to an internet database...",
-"CD2 likes Geometry Dash so much that it occurred to him to imitate this screen",
-"I am a Legend?", "This is not supposed to be here but yes in the USX Project..",
-"I debuted in v1.3 of Ikemen Plus Ultra",
-"Is CD2 really planning to make all those changes from it TODO List?",
-"Did you know that this guy who programmed me started learning this in 2021?",
-"Let's play hangman S- _ _ _ E",
-"Let's play hangman U _ _ R _",
-"Let's play hangman _ _ N",
-"Press Start To Select an Option",
-"You can Write below",
-"Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio",
-"Strong FS? is the guy that inspired CD2",
-"Greetings! "..data.userName,
-data.userName.." Add your messages here."
-}
-end
-
-function f_getVaultPrize()
-t_vaultPrizeMsg = nil --Reset Table
-t_vaultPrizeMsg = {
-"YES! YOU DID IT. If you go back to Main Menu you might find a surprise 0_0",
-"Well, this is a little Minigame to show you what the LUA is capable of",
-data.userName.." Add your prize message here!"
-}
-end
-
---Background
-vaultBG0 = animNew(sprSys, [[
-2000,1, 0,0,
-]])
-animSetPos(vaultBG0, 160, 119)
-animUpdate(vaultBG0)
-animSetScale(vaultBG0, 0.30, 0.305)
-
---Text Window BG
-vaultWindowBG = animNew(sprSys, [[
-3,0, 0,0, -1
-]])
-animSetPos(vaultWindowBG, 20, 100)
-animSetAlpha(vaultWindowBG, 20, 100)
-animUpdate(vaultWindowBG)
 
 --;===========================================================
 --; SIDE SELECT SCREENPACK DEFINITION

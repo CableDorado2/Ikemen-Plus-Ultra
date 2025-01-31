@@ -2456,7 +2456,7 @@ function f_pauseAbyssStats()
 		if delayMenu == 2 then
 			--animDraw(f_animVelocity(commonBG0, -1, -1))
 			textImgDraw(txt_PabyssStats)
-			f_abyssProfile(-83, 34, true)
+			f_abyssProfile(-180, 34, true)
 			f_sysTime()
 			drawPauseInputHints()
 			if data.attractMode then textImgDraw(txt_attractCredits) end
