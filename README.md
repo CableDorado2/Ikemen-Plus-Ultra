@@ -36,7 +36,7 @@ Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-U
 >
 >[Games Made in Ikemen Plus Ultra](#games-made-in-ikemen-plus-ultra)
 >
->[TODO List](#todo-list)
+>[TODO List](#roadmap)
 >
 >[Tutorials](#tutorials)
 >
@@ -70,8 +70,8 @@ This Ikemen is an expansion of his original SSZ code.
 - *MUGENGERS: THE OROCHI'S ORIGIN*
 - *ULTIMATE SMASHBOX*
 
-## TODO List
-**CD2:** Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
+## Roadmap
+This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future, but you should expect all these features. If you want to offer help, it will be great for progressing with this engine!
 
 **v1.5 (Next Update)**
 ------------
