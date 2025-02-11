@@ -36,7 +36,7 @@ Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-U
 >
 >[Games Made in Ikemen Plus Ultra](#games-made-in-ikemen-plus-ultra)
 >
->[TODO List](#roadmap)
+>[Roadmap](#roadmap)
 >
 >[Tutorials](#tutorials)
 >
