@@ -5,7 +5,7 @@ table.insert(t_extrasMenu,1,{id = textImgNew(), text = "CHRONICLES", gotomenu = 
 t_chroniclesMenu = {
 	{id = textImgNew(), text = "STORY MODE", gotomenu = "f_storyMenu()"},
 	{id = textImgNew(), text = "VISUAL NOVEL", gotomenu = "f_vnMenu()"},
-	{id = textImgNew(), text = "QUIZ MODE", gotomenu = "f_quizMenu()"},
+	--{id = textImgNew(), text = "QUIZ MODE", gotomenu = "f_quizMenu()"},
 }
 --;===========================================================
 --; CHRONICLES MENU (play special story game modes)
