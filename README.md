@@ -80,8 +80,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
-- Implementar los parametros: ordersurvival, hidden, slot en select.def
-
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
 - Los combates de intermisiones dejan de funcionar si se juega en team mode.
@@ -100,11 +98,9 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Durante el arcade, la forma en que está programada el here comes a new challenger hace uso de setCom(2, 0) en el menú de pausa causa que la IA se quede en nivel 0, pero es porque el jugador 2 recibe por unos instantes el control para poner pausa y que se vea la pantalla del challenger.
 
-- Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
-
 - Agregar soporte para Localcoord en cada char, stage y fight.def.
 
-- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
+- Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
 - Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, etc)
 
@@ -116,7 +112,11 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Preset team o Path Select para el arcade a lo kof 2002, Street Fighter 3 Third Strike o Arcana Heart 3 (definir en el select.def los equipos que aparecerán en el modo arcade cuando juegues contra la cpu turns o simul y que antes del order select te permita escoger contra cuál team luchar, lo mismo para el single basado en SF3)
 
+- Implementar los parametros: ordersurvival, hidden, slot en select.def
+
 - Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
+
+- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
 - Integrar la función de bgm.loops.
 
@@ -168,8 +168,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - Ver cómo se podría integrar un sistema de diálogo en los matches.
 
 - Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
-
-- Los trials para los chars deberian ser programados dentro de los .def de los mismos, debajo de la sección [Arcade].
 
 **v1.8**
 ------------
