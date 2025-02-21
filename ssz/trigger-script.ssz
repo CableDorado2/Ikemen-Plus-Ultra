@@ -157,6 +157,18 @@ void playerid(&.lua.State L=, int re=)
   L.pushBoolean(#.chr.c > 0);
 }
 
+void attack(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iATTACK] : 0));
+}
+
+void defence(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iDEFENCE] : 0));
+}
+
 void ailevel(&.lua.State L=, int re=)
 {
   re = 1;
@@ -848,6 +860,12 @@ void movetype(&.lua.State L=, int re=)
   L.pushString(mtype);
 }
 
+void playerno(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double)(.cwc~playerno+1) : 0.0);
+}
+
 void name(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1284,6 +1302,8 @@ public void registerFunction(&.lua.State L=)
   L.register("enemy", .enemy);
   L.register("enemynear", .enemynear);
   L.register("playerid", .playerid);
+  L.register("attack", .attack);
+  L.register("defence", .defence);
   L.register("ailevel", .ailevel);
   L.register("tagmode", .tagmode);
   L.register("alive", .alive);
@@ -1355,6 +1375,7 @@ public void registerFunction(&.lua.State L=)
   L.register("posY", .posY);
   L.register("power", .power);
   L.register("powermax", .powermax);
+  L.register("playerno", .playerno);
   L.register("playeridexist", .playeridexist);
   L.register("prevstateno", .prevstateno);
   L.register("projcanceltime", .projcanceltime);

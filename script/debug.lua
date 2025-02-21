@@ -127,23 +127,30 @@ local oldid = id()
 	end
 end
 
-function info()
-puts(string.format(
-	'name:%s state:%d>%d %s move:%s physics:%s', 
-	name(), prevstateno(), stateno(), statetype(), movetype(), physics()
-))
-puts(string.format(
-	'anim:%d %d elem:%d %d pos:%.3f,%.3f vel:%.3f,%.3f', 
-	anim(), animtime(), animelemno(0), animelemtime(animelemno(0)), posX(), posY(), velX(), velY()
-))
-end
-
 function status(p)
 local oldid = id()
 if not player(p) then return false end
 ret = string.format(
-	'STA:%s%s%s%6d(%d) ANI:%6d(%d)%2d LIF:%5d POW:%5d PAL:%d CPU:%d TIM:%d', 
-	statetype(), movetype(), physics(), stateno(), stateOwner(), anim(), animOwner(), animelemno(0), life(), power(), palno(), ailevel(), time())
+	'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d', 
+	playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel())
 	playerid(oldid)
 	return ret;
 end
+
+function info(p)
+--Action Info
+puts(string.format(
+	'ActionID:%d %d ElemNo:%d %d Pos:%.3f,%.3f Vel:%.3f,%.3f', 
+	anim(), animtime(), animelemno(0), animelemtime(animelemno(0)), posX(), posY(), velX(), velY()
+))
+--State Info
+puts(string.format(
+	'%s %d StateNo:%d>%d %s MoveType:%s Physics:%s Time:%d', 
+	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time()
+))
+end
+
+--[[
+STA:%s%s%s%6d(%d) ANI:%6d(%d)%2d
+statetype(), movetype(), physics(), stateno(), stateOwner(), anim(), animOwner(), animelemno(0)
+]]
