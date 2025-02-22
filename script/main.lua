@@ -509,7 +509,7 @@ function f_arcadeMenu()
 		end
 		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)		
-		textImgSetText(txt_gameFt, "ARCADE MODE")
+		textImgSetText(txt_gameFt, "ARCADE MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxArcadeMenu > 6 then
@@ -614,7 +614,7 @@ function f_vsMenu()
 		end
 		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "VERSUS MODE")
+		textImgSetText(txt_gameFt, "VERSUS MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxVSMenu > 6 then
@@ -1360,6 +1360,108 @@ end
 ]]
 
 --;===========================================================
+--; SURVIVAL MENU (survive in a serie of challenges)
+--;===========================================================
+function f_survivalMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local survivalMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_sideReset()
+	while true do
+		if not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				survivalMenu = survivalMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				survivalMenu = survivalMenu + 1
+			end
+			if survivalMenu < 1 then
+				survivalMenu = #t_survivalMenu
+				if #t_survivalMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_survivalMenu-1
+				end
+			elseif survivalMenu > #t_survivalMenu then
+				survivalMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (survivalMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (survivalMenu - 1) * 13
+			end
+			if #t_survivalMenu <= 5 then
+				maxsurvivalMenu = #t_survivalMenu
+			elseif survivalMenu - cursorPosY > 0 then
+				maxsurvivalMenu = survivalMenu + 5 - cursorPosY
+			else
+				maxsurvivalMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				f_gotoFunction(t_survivalMenu[survivalMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_survivalMenu do
+			if i == survivalMenu then
+				bank = 1
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not sideScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "SURVIVAL MODES")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxsurvivalMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_survivalMenu > 6 and maxsurvivalMenu < #t_survivalMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if sideScreen then f_sideSelect() else drawMenuInputHints() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; SURVIVAL MODE (defeat opponents with a single health meter)
 --;===========================================================
 function f_survivalBoot()
@@ -1439,116 +1541,92 @@ function survivalCPUvsCPU()
 end
 
 --;===========================================================
---; BOSS FIGHT MENU (defeat boss characters)
+--; BOSS RUSH MODE (defeat all bosses in a row)
 --;===========================================================
-function f_bossMenu()
-	if #t_bossChars == 0 then
-		bossInfo = true
-		infoScreen = true
-		return
+function f_bossrushBoot()
+	menuSelect = "boss rush"
+	sideScreen = true
+end
+
+--Load Common Settings for Boss Rush Modes
+function bossrushCfg()
+	f_default()
+	data.gameMode = "bossrush"
+	data.rosterMode = "boss"
+	--data.stageMenu = true
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (defeat all bosses in a row from left side)
+function bossrushHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
 	end
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local bossMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	f_sideReset()
-	while true do
-		if not sideScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				bossMenu = bossMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				bossMenu = bossMenu + 1
-			end
-			if bossMenu < 1 then
-				bossMenu = #t_bossMenu
-				if #t_bossMenu > 5 then
-					cursorPosY = 5
-				else
-					cursorPosY = #t_bossMenu-1
-				end
-			elseif bossMenu > #t_bossMenu then
-				bossMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 5 then
-				moveTxt = (bossMenu - 6) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (bossMenu - 1) * 13
-			end
-			if #t_bossMenu <= 5 then
-				maxBossMenu = #t_bossMenu
-			elseif bossMenu - cursorPosY > 0 then
-				maxBossMenu = bossMenu + 5 - cursorPosY
-			else
-				maxBossMenu = 5
-			end
-			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				sndPlay(sndSys, 100, 1)
-				f_gotoFunction(t_bossMenu[bossMenu])
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_bossMenu do
-			if i == bossMenu then
-				bank = 1
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_bossMenu[i].id, jgFnt, bank, 0, t_bossMenu[i].text, 159, 122+i*13-moveTxt))
-		end
-		if not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "BOSS FIGHT MODES")
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxBossMenu > 6 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_bossMenu > 6 and maxBossMenu < #t_bossMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if sideScreen then f_sideSelect() else drawMenuInputHints() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "BOSS RUSH")					
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--CPU VS HUMAN (defeat all bosses in a row from right side)
+function bossrushCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
 	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "BOSS RUSH")					
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all bosses in a row)
+function bossrushP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
+	f_selectAdvance()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all bosses in a row)
+function bossrushCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch CPU defeat all bosses in a row)
+function bossrushCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH BOSS RUSH")
+	f_selectAdvance()
 end
 
 --;===========================================================
 --; SINGLE BOSS MENU (Challenge a specific Boss Character)
 --;===========================================================
 function f_bossChars()
+	if #t_bossChars == 0 then
+		bossInfo = true
+		infoScreen = true
+		return
+	end
 	cmdInput()
 	f_rushTables() --From loader.lua
 	bossChars = 1 --Need to be public to be readed by above functions
@@ -1697,84 +1775,6 @@ function bossCPUvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
-end
-
---;===========================================================
---; BOSS RUSH MODE (defeat all bosses in a row)
---;===========================================================
-function f_bossrushBoot()
-	menuSelect = "boss rush"
-	sideScreen = true
-end
-
---Load Common Settings for Boss Rush Modes
-function bossrushCfg()
-	f_default()
-	data.gameMode = "bossrush"
-	data.rosterMode = "boss"
-	--data.stageMenu = true
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (defeat all bosses in a row from left side)
-function bossrushHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "BOSS RUSH")					
-	f_selectAdvance()
-	P2overP1 = false
-end
-
---CPU VS HUMAN (defeat all bosses in a row from right side)
-function bossrushCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "BOSS RUSH")					
-	f_selectAdvance()
-	P2overP1 = false
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all bosses in a row)
-function bossrushP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
-	f_selectAdvance()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all bosses in a row)
-function bossrushCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (watch CPU defeat all bosses in a row)
-function bossrushCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.rosterMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH BOSS RUSH")
-	f_selectAdvance()
 end
 
 --;===========================================================
@@ -4782,7 +4782,7 @@ function f_replayMenu()
 		end
 		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "REPLAY MODE")
+		textImgSetText(txt_gameFt, "REPLAY MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxreplayMenu > 6 then
