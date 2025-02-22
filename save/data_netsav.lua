@@ -33,6 +33,7 @@ data.kumite = 100
 data.team1VS2Life = 120
 data.turnsRecoveryRate = 300
 data.teamLifeShare = false
+data.teamPowerShare = true
 data.numTurns = 4
 data.numSimul = 4
 data.simulType = "Assist"

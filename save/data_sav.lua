@@ -19,7 +19,7 @@ data.winscreen = "Classic"
 data.charPresentation = "Mixed"
 data.sffConversion = true
 --Game Data
-data.difficulty = 8
+data.difficulty = 7
 data.roundTime = 99
 data.roundsNum = 2
 data.lifebar = "data/screenpack/fight.def"
@@ -33,6 +33,7 @@ data.kumite = 100
 data.team1VS2Life = 120
 data.turnsRecoveryRate = 300
 data.teamLifeShare = false
+data.teamPowerShare = true
 data.numTurns = 4
 data.numSimul = 4
 data.simulType = "Assist"
