@@ -17,7 +17,7 @@ public ^/char pauseVar;
 public int roundTime = 999 * 6;
 public int roundsToWin = 2;
 public float life = 1.0;
-public float power = 1.0;
+public int power = 0;
 public float attack = 1.0;
 public float defence = 1.0;
 public float team1VS2Life = 1.0;

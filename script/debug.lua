@@ -102,6 +102,14 @@ local oldid = id()
 	end
 end
 
+function powerSet(p)
+local oldid = id()
+	if player(1) then
+		setPower(powermax())
+		playerid(oldid)
+	end
+end
+
 function barAdd(p)
 local oldid = id()
 	if player(p) then

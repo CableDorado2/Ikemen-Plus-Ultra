@@ -34,7 +34,7 @@ public &Share
   public int roundTime;
   public int roundsToWin;
   public float life;
-  public float power;
+  public int power;
   public float attack;
   public float defence;
   public float team1VS2Life;
