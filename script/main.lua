@@ -1700,33 +1700,6 @@ function bossCPUvsCPU()
 end
 
 --;===========================================================
---; TITAN ATTACK MODE (Challenge a formidable Giant Boss Character)
---;===========================================================
-function f_titanAttack()
-	f_default()
-	data.gameMode = "singleboss"
-	data.rosterMode = "boss"
-	data.versusScreen = false
-	data.victoryscreen = false
-	setRoundTime(-1)
-	setRoundsToWin(1)
-	--data.stage = "stage/"
-	--data.bgm = "sound/"
-	textImgSetText(txt_mainSelect, "TITAN ATTACK")
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {"Red Dragon"}
-	--data.p2Pal = 1
-	f_selectSimple()
-	P2overP1 = false
-end
-
---;===========================================================
 --; BOSS RUSH MODE (defeat all bosses in a row)
 --;===========================================================
 function f_bossrushBoot()

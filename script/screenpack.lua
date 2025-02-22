@@ -766,11 +766,10 @@ t_vsMenu = {
 	{id = textImgNew(), text = "QUICK MATCH", gotomenu = "f_quickvsBoot()"},
 	{id = textImgNew(), text = "FREE BATTLE", gotomenu = "f_vsBoot()"},
 	{id = textImgNew(), text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
-	{id = textImgNew(), text = "TITAN ATTACK", gotomenu = "f_titanAttack()"},
 }
 
 --;===========================================================
---; PRACTICE MENU SCREENPACK DEFINITION
+--; PRACTICE MENU SCREENPACK DEFINITION (NOT IMPLEMENTED)
 --;===========================================================
 t_practiceMenu = {
 	{id = textImgNew(), text = "TRAINING", gotomenu = "f_training()"},

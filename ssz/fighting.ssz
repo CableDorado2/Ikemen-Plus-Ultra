@@ -171,6 +171,7 @@ void game()
   {:<-
     if(!.com.debugdraw || #.fnt.debugFont == 0) ret;
     float y = -(float)(.com.GameHeight-240);
+//CHARS STATUS INFO
     if(#.com.debugScript > 0) loop{index i = 0; while; do:
       if(#.chr.chars[i] > 0){
         .dscri.L.getGlobal("status");
@@ -183,8 +184,8 @@ void game()
       }
       i++;
     while i < #.chr.chars:}
+//MATCH GLOBAL INFO
     y = .m.max!float?(y, 48.0 - (float)(.com.GameHeight-240));
-	//GLOBAL INFO
 	`put(y=, "GAME MODE:" + .com.gameMode); //Display Game Mode
 	//`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
 	`put(y=, "SERVICE:" + .com.gameService); //Display Service Active
@@ -210,7 +211,30 @@ void game()
 	`put(y=, "PLAYBACK STATE:" + ''.com.playbackState); //Display Dummy Playback State
 	`put(y=, "GAME SPEED:" + ''.com.Speed); //Display Game Speed
 	`put(y=, ""); //Enter a space to separate
-	//CONTENT INFO
+//CHARS INFO
+    loop{index i = 0; while; do:
+      if(#.chr.chars[i] > 0){
+	//ACTION INFO
+		.dscri.L.getGlobal("actioninfo");
+		.dscri.L.pushNumber((double)(i+1));
+        if(!.dscri.L.pcall(1, 1)) break;
+        ^/char actioninfo;
+        if(.dscri.L.isString(-1)) actioninfo = .dscri.L.toString(-1);
+        .dscri.L.pop(1);
+        if(#actioninfo > 0) `put(y=, actioninfo);
+	//STATE INFO	
+		.dscri.L.getGlobal("stateinfo");
+		.dscri.L.pushNumber((double)(i+1));
+        if(!.dscri.L.pcall(1, 1)) break;
+        ^/char stateinfo;
+        if(.dscri.L.isString(-1)) stateinfo = .dscri.L.toString(-1);
+        .dscri.L.pop(1);
+        if(#stateinfo > 0) `put(y=, stateinfo);
+		`put(y=, ""); //Enter a space to separate
+      }
+      i++;
+    while i < #.chr.chars:}
+//CONTENT INFO
 	loop{index i = 0; while; do:
       if(#.chr.chars[i] > 0) `put(y=, .chr.cgi[i].def);
       i++;
@@ -222,8 +246,8 @@ void game()
         ? "P"+''(.tscri.cwc~playerno+1)+":" + .tscri.cwc~name : "")
       + "> " + `line);
     loop{index i = 0; while; do:
-      if(#.chr.chars[i] > 0) loop{index j = 0; while; do:
-        `put(y=, .com.clipboardText[i][j]);
+      if(#.chr.chars[i] > 0) loop{index j = 0; while; do:		
+		`put(y=, .com.clipboardText[i][j]);
         j++;
       while j < #.com.clipboardText[i]:}
       y += (float).fnt.debugFont~sizey/.com.HeightScale;

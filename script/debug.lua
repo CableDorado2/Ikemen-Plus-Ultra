@@ -130,27 +130,51 @@ end
 function status(p)
 local oldid = id()
 if not player(p) then return false end
-ret = string.format(
-	'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d', 
-	playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel())
+local ret = string.format(
+	'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d',
+	playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel()
+)
 	playerid(oldid)
 	return ret;
 end
 
-function info(p)
---Action Info
-puts(string.format(
-	'ActionID:%d %d ElemNo:%d %d Pos:%.3f,%.3f Vel:%.3f,%.3f', 
-	anim(), animtime(), animelemno(0), animelemtime(animelemno(0)), posX(), posY(), velX(), velY()
-))
---State Info
-puts(string.format(
-	'%s %d StateNo:%d>%d %s MoveType:%s Physics:%s Time:%d', 
-	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time()
-))
+function actioninfo(p)
+local oldid = id()
+if not player(p) then return false end
+local ret = string.format(
+	'ActionID:%d(P%d) Time:%d ElemNo:%d ElemTime:%d Pos:%.3f,%.3f Vel:%.3f,%.3f', 
+	anim(), animOwner(), animtime(), animelemno(0), animelemtime(animelemno(0)), posX(), posY(), velX(), velY()
+)
+	playerid(oldid)
+	return ret;
 end
 
---[[
+
+function stateinfo(p)
+local oldid = id()
+if not player(p) then return false end
+local ret = string.format(
+	'StateNo:%d>%d(P%d) Type:%s MoveType:%s Physics:%s Time:%d', 
+	prevstateno(), stateno(), stateOwner(), statetype(), movetype(), physics(), time()
+)
+	playerid(oldid)
+	return ret;
+end
+
+--[[DEFAULT
 STA:%s%s%s%6d(%d) ANI:%6d(%d)%2d
 statetype(), movetype(), physics(), stateno(), stateOwner(), anim(), animOwner(), animelemno(0)
 ]]
+
+function info(p) --Unused
+--Action Info
+puts(string.format(
+	'ActionID:%d %d ElemNo:%d %d Pos:%.3f,%.3f Vel:%.3f,%.3f', 
+	anim(), animtime(), animelemno(0), animelemtime(animelemno(0)), posX(), posY(), velX(), velY())
+)
+--State Info
+puts(string.format(
+	'%s %d StateNo:%d>%d %s MoveType:%s Physics:%s Time:%d', 
+	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time())
+)
+end

@@ -7,3 +7,11 @@ info.locked = WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00
 preview.spr = 0,1
 path = data/events/event1.lua
 unlock = sysTime >= 13 and sysTime <= 23
+
+[Event 2]
+id = event2
+info = Challenge a formidable Ancient Dragon!
+info.locked = WILL BE AVAILABLE FROM 6PM/18:00 TO 8PM/20:00
+preview.spr = 0,2
+path = data/events/event2.lua
+unlock = sysTime >= 18 and sysTime <= 20
