@@ -552,9 +552,10 @@ function f_vsMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_infoReset()
 	f_sideReset()
 	while true do
-		if not sideScreen then
+		if not infoScreen and not sideScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -607,7 +608,7 @@ function f_vsMenu()
 			end
 			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		if not sideScreen then
+		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -625,7 +626,9 @@ function f_vsMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -1360,7 +1363,7 @@ end
 ]]
 
 --;===========================================================
---; SURVIVAL MENU (survive in a serie of challenges)
+--; SURVIVAL MENU (survive in a series of matches with special conditions)
 --;===========================================================
 function f_survivalMenu()
 	cmdInput()
@@ -1371,9 +1374,10 @@ function f_survivalMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_infoReset()
 	f_sideReset()
 	while true do
-		if not sideScreen then
+		if not infoScreen and not sideScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -1425,7 +1429,7 @@ function f_survivalMenu()
 			end
 			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		if not sideScreen then
+		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -1443,7 +1447,9 @@ function f_survivalMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -1544,8 +1550,14 @@ end
 --; BOSS RUSH MODE (defeat all bosses in a row)
 --;===========================================================
 function f_bossrushBoot()
-	menuSelect = "boss rush"
-	sideScreen = true
+	if #t_bossChars == 0 then
+		bossInfo = true
+		infoScreen = true
+		return
+	else
+		menuSelect = "boss rush"
+		sideScreen = true
+	end
 end
 
 --Load Common Settings for Boss Rush Modes
@@ -1619,7 +1631,7 @@ function bossrushCPUvsCPU()
 end
 
 --;===========================================================
---; SINGLE BOSS MENU (Challenge a specific Boss Character)
+--; SINGLE BOSS MENU (face a specific Boss Character)
 --;===========================================================
 function f_bossChars()
 	if #t_bossChars == 0 then

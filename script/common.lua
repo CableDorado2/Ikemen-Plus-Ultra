@@ -2907,6 +2907,8 @@ function f_default() --Reset Game Modes Configuration
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
+	setPowerShare(1, data.teamPowerShare) --Team Power Share for Left Side
+	setPowerShare(2, data.teamPowerShare) --Team Power Share for Right Side
 --Auto-Guard for Left Side
 	setAutoguard(1, data.autoguard)
 	setAutoguard(3, data.autoguard)

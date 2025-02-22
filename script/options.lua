@@ -324,6 +324,12 @@ function f_loadEXCfg()
 	else
 		s_teamLifeShare = "No"
 	end
+	
+	if data.teamPowerShare then
+		s_teamPowerShare = "Yes"
+	else
+		s_teamPowerShare = "No"
+	end
 
 	if data.zoomActive then
 		s_zoomActive = "Yes"
@@ -426,6 +432,7 @@ function f_saveCfg()
 		['data.team1VS2Life'] = data.team1VS2Life,
 		['data.turnsRecoveryRate'] = data.turnsRecoveryRate,
 		['data.teamLifeShare'] = data.teamLifeShare,
+		['data.teamPowerShare'] = data.teamPowerShare,
 		['data.numTurns'] = data.numTurns,
 		['data.numSimul'] = data.numSimul,
 		['data.simulType'] = data.simulType,
@@ -604,6 +611,7 @@ function f_netsaveCfg()
 		['data.team1VS2Life'] = data.team1VS2Life,
 		['data.turnsRecoveryRate'] = data.turnsRecoveryRate,
 		['data.teamLifeShare'] = data.teamLifeShare,
+		['data.teamPowerShare'] = data.teamPowerShare,
 		['data.zoomActive'] = data.zoomActive,
 		['data.zoomMin'] = data.zoomMin,
 		['data.zoomMax'] = data.zoomMax,
@@ -714,6 +722,8 @@ function f_teamDefault()
 	data.turnsRecoveryRate = 300
 	data.teamLifeShare = false
 	s_teamLifeShare = "No"
+	data.teamPowerShare = true
+	s_teamPowerShare = "Yes"
 	data.numTurns = 4
 	data.numSimul = 4
 	data.simulType = "Assist"
@@ -2579,7 +2589,8 @@ txt_teamCfg = createTextImg(jgFnt, 0, 0, "TEAM SETTINGS", 159, 13)
 t_teamCfg = {
 	{varID = textImgNew(), text = "Single Vs Team Life",     	varText = data.team1VS2Life.."%"},
 	{varID = textImgNew(), text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
-	{varID = textImgNew(), text = "Disadvantage Life Share", 	varText = s_teamLifeShare},
+	{varID = textImgNew(), text = "Life Share", 				varText = s_teamLifeShare},
+	{varID = textImgNew(), text = "Power Share", 				varText = s_teamPowerShare},
 	{varID = textImgNew(), text = "Turns Players Limit",     	varText = data.numTurns},
 	{varID = textImgNew(), text = "Simul Players Limit",     	varText = data.numSimul},
 	{varID = textImgNew(), text = "Simul Type",              	varText = data.simulType},
@@ -2613,7 +2624,7 @@ function f_teamCfg()
 				teamCfg = teamCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--P1 Vs Team Life
+		--P1 Vs Team Life
 			elseif teamCfg == 1 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.team1VS2Life < 3000 then sndPlay(sndSys, 100, 0) end
@@ -2638,7 +2649,7 @@ function f_teamCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Turns HP Recovery
+		--Turns HP Recovery
 			elseif teamCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.turnsRecoveryRate < 3000 then sndPlay(sndSys, 100, 0) end
@@ -2663,7 +2674,7 @@ function f_teamCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Disadvantage Life Share
+		--Team Life Share
 			elseif teamCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.teamLifeShare then
@@ -2675,8 +2686,20 @@ function f_teamCfg()
 					s_teamLifeShare = "Yes"
 					modified = 1
 				end
-			--Turns Limit (by default also requires editing 'if(!.m.inRange!int?(1, 4, nt)){' in ssz/system-script.ssz)
-			elseif teamCfg == 4 then
+		--Team Power Share
+			elseif teamCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if data.teamPowerShare then
+					data.teamPowerShare = false
+					s_teamPowerShare = "No"
+					modified = 1
+				else
+					data.teamPowerShare = true
+					s_teamPowerShare = "Yes"
+					modified = 1
+				end
+		--Turns Limit (by default also requires editing 'if(!.m.inRange!int?(1, 4, nt)){' in ssz/system-script.ssz)
+			elseif teamCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.numTurns < 4 then sndPlay(sndSys, 100, 0) end
 					if data.numTurns < 4 then
@@ -2700,8 +2723,8 @@ function f_teamCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Simul Limit (by default also requires editing 'const int maxSimul = 4;' in ssz/common.ssz)
-			elseif teamCfg == 5 then
+		--Simul Limit (by default also requires editing 'const int maxSimul = 4;' in ssz/common.ssz)
+			elseif teamCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.numSimul < 4 then sndPlay(sndSys, 100, 0) end
 					if data.numSimul < 4 then
@@ -2725,8 +2748,8 @@ function f_teamCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Simul Type (Fixed by Strong FS)
-			elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		--Simul Type (Fixed by Strong FS)
+			elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				sndPlay(sndSys, 100, 0)
 				if data.simulType == "Tag" then
 					data.simulType = "Assist"
@@ -2735,8 +2758,8 @@ function f_teamCfg()
 					data.simulType = "Tag"
 					modified = 1
 				end
-			--Co-op CPU Team Mode
-			elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		--Co-Op CPU Team Mode
+			elseif teamCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.coopenemy == "Single" then
 					sndPlay(sndSys, 100, 0)
 					data.coopenemy = "Simul"
@@ -2754,12 +2777,12 @@ function f_teamCfg()
 					data.coopenemy = "Simul"
 					modified = 1
 				end
-			--Default Values
+		--Default Values
 			elseif teamCfg == #t_teamCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultTeam = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif teamCfg == #t_teamCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -2805,10 +2828,11 @@ function f_teamCfg()
 		t_teamCfg[1].varText = data.team1VS2Life.."%"
 		t_teamCfg[2].varText = data.turnsRecoveryRate.."%"
 		t_teamCfg[3].varText = s_teamLifeShare
-		t_teamCfg[4].varText = data.numTurns
-		t_teamCfg[5].varText = data.numSimul
-		t_teamCfg[6].varText = data.simulType
-		t_teamCfg[7].varText = data.coopenemy
+		t_teamCfg[4].varText = s_teamPowerShare
+		t_teamCfg[5].varText = data.numTurns
+		t_teamCfg[6].varText = data.numSimul
+		t_teamCfg[7].varText = data.simulType
+		t_teamCfg[8].varText = data.coopenemy
 		for i=1, maxTeamCfg do
 			if i > teamCfg - cursorPosY then
 				if t_teamCfg[i].varID ~= nil then
