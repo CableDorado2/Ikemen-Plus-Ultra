@@ -455,14 +455,14 @@ void game()
           .chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
 		  //.com.clsndraw = false;
         if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0; //.com.power
-	//SET POWER TEST START
+	//SET HANDICAP VIA DEBUG.LUA TEST START
 		//if(.com.round == 1) .tscri.cwc~setPower(2000);
-        if(.com.round == 1) {
-			.dscri.L.getGlobal("powerSet"); //Read lua function from debug.lua
+        //if(.com.round == 1) {
+			.dscri.L.getGlobal("handicapSet"); //Read lua function from debug.lua
 			.dscri.L.pushNumber((double)(i+1)); //players arguments: f_name(p)
 			if(!.dscri.L.pcall(1, 1)) ret; //arguments
-		}
-	//SET POWER TEST END
+		//}
+	//SET HANDICAP VIA DEBUG.LUA TEST END
       }
 	  //if(.s.equ(.com.gameMode, "practice")){
         //branch{

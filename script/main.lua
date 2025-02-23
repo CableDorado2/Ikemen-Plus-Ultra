@@ -7921,9 +7921,18 @@ function f_aiLevel()
 end
 
 function f_selectChar(player, t)
+--Transfer data.t_p1selected and data.t_p2selected to p1Dat and p2Dat (global access tables) in order to access in pause menu or debug.lua scripts
+	if player == 1 then
+		--p1Dat = {}
+		p1Dat = t
+	elseif player == 2 then
+		--p2Dat = {}
+		p2Dat = t
+	end
+	f_savePlayerDat()
 	for i=1, #t do
 		selectChar(player, t[i].cel, t[i].pal)
-	--Set Handicap
+	--[[Set Handicap
 		if data.gameMode == "versus" or data.ftcontrol > 0 then
 			if t_handicapSelect[t[i].handicap].service == "life 75" then
 				--setLife(player, 75) --This is the way what we need to manage this
@@ -7975,9 +7984,11 @@ function f_selectChar(player, t)
 					setPowerStateP2(666)
 				end
 			end
+	--Set Abyss Atributes
 		elseif data.gameMode == "abyss" then
 			--setAutoguard(player, true)
 		end
+	]]
 	end
 end
 

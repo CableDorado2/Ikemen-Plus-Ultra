@@ -2346,14 +2346,15 @@ txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 248, 168)
 --txt_p2HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 t_handicapSelect = {
-	{id = textImgNew(), text = "NORMAL", service = ""},
-	{id = textImgNew(), text = "HP-75%", service = "life 75"},
-	{id = textImgNew(), text = "HP-50%", service = "life 50"},
-	{id = textImgNew(), text = "HP-25%", service = "life 25"},
-	{id = textImgNew(), text = "INSTAKILL", service = "instakill"},
-	{id = textImgNew(), text = "POW-LV1", service = "power lv1"},
-	{id = textImgNew(), text = "POW-MAX", service = "power max"},
-	{id = textImgNew(), text = "POW-UNLIMITED", service = "power unlimited"},
+	{id = textImgNew(), text = "NORMAL", 		service = "", 			 val = nil},
+	{id = textImgNew(), text = "HP-75%", 		service = "life", 		 val = 1.333}, --lifemax/1.333
+	{id = textImgNew(), text = "HP-50%", 		service = "life", 		 val = 2}, --lifemax/2
+	{id = textImgNew(), text = "HP-25%", 		service = "life", 		 val = 4}, --lifemax/4
+	{id = textImgNew(), text = "INSTAKILL", 	service = "life", 		 val = nil}, --lifemax/lifemax
+	{id = textImgNew(), text = "POW-LV1", 		service = "power", 		 val = 1000},
+	{id = textImgNew(), text = "POW-LV2", 		service = "power", 		 val = 2000},
+	{id = textImgNew(), text = "POW-MAX", 		service = "power",		 val = nil},
+	{id = textImgNew(), text = "POW-UNLIMITED", service = "",	 		 val = nil},
 }
 
 t_handicapSelect2 = {}

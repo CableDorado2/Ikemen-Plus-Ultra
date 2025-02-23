@@ -102,14 +102,6 @@ local oldid = id()
 	end
 end
 
-function powerSet(p)
-local oldid = id()
-	if player(1) then
-		setPower(powermax())
-		playerid(oldid)
-	end
-end
-
 function barAdd(p)
 local oldid = id()
 	if player(p) then
@@ -132,6 +124,34 @@ local oldid = id()
 	if player(p) then
 		selfState(0)
 		playerid(oldid)
+	end
+end
+
+function handicapSet(p)
+	if getGameMode() == "vs" or data.ftcontrol > 0 then
+		for i=1, #p1Dat do
+			if player(i) then
+			--Life Handicaps
+				if t_handicapSelect[p1Dat[i].handicap].service == "life" then
+				--Instakill
+					if t_handicapSelect[p1Dat[i].handicap].val == nil then
+						setLife(lifemax()/lifemax())
+				--HP at 75%, 50%, 25%...
+					else
+						setLife(lifemax()/t_handicapSelect[p1Dat[i].handicap].val)
+					end
+			--Power Handicaps
+				elseif t_handicapSelect[p1Dat[i].handicap].service == "power" then
+				--Power at MAX
+					if t_handicapSelect[p1Dat[i].handicap].val == nil then
+						setPower(powermax())
+				--Power at Specific value level
+					else
+						setPower(t_handicapSelect[p1Dat[i].handicap].val)
+					end
+				end
+			end
+		end
 	end
 end
 

@@ -1,0 +1,42 @@
+[
+  {
+    "handicap": 2,
+    "path": "kung fu man",
+    "author": "elecbyte",
+    "name": "kung fu man",
+    "cel": 0,
+    "up": true,
+    "pal": 1,
+    "displayname": "Kung Fu Man"
+  },
+  {
+    "handicap": 3,
+    "path": "mako mayama",
+    "author": "taruse",
+    "name": "kung fu mako",
+    "cel": 1,
+    "up": true,
+    "pal": 1,
+    "displayname": "Mako Mayama"
+  },
+  {
+    "handicap": 4,
+    "path": "suave dude",
+    "author": "masukenpu-kun",
+    "name": "suave dude",
+    "cel": 2,
+    "up": true,
+    "pal": 1,
+    "displayname": "Suave Dude"
+  },
+  {
+    "handicap": 6,
+    "path": "kung fu girl",
+    "author": "proud of ragequittin",
+    "name": "kung fu girl",
+    "cel": 4,
+    "up": true,
+    "pal": 1,
+    "displayname": "Kung Fu Girl"
+  }
+]

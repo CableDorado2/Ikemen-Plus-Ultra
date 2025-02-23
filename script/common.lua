@@ -63,6 +63,8 @@ saveHostRoomPath = "save/host_rooms.json"
 saveTempPath = "save/temp_sav.lua"
 saveTrainingPath = "save/training_sav.lua"
 saveStatsPath = "save/stats_sav.json"
+saveP1Path = "save/p1_sav.json"
+saveP2Path = "save/p2_sav.json"
 saveAbyssPath = "save/abyss_sav.json"
 saveTourneyPath = "save/tourney_sav.lua"
 saveVNPath = "save/vn_sav.lua"
@@ -739,6 +741,10 @@ file:close()
 
 --Data loading from stats_sav.json
 stats = json.decode(f_fileRead(saveStatsPath))
+
+--Data loading from p1_sav.json and p2_sav.json
+p1Dat = json.decode(f_fileRead(saveP1Path))
+p2Dat = json.decode(f_fileRead(saveP2Path))
 
 --Data loading from abyss_sav.json
 abyssDat = json.decode(f_fileRead(saveAbyssPath))
@@ -3631,6 +3637,12 @@ function f_saveStats()
 	--if data.debugLog then f_printTable(stats, 'save/debug/t_stats.txt') end
 	f_fileWrite(saveStatsPath, json.encode(stats, {indent = 2}))
 	f_fileWrite(saveAbyssPath, json.encode(abyssDat, {indent = 2}))
+end
+
+--Data saving to p1_sav.json and p2_sav.json
+function f_savePlayerDat()
+	f_fileWrite(saveP1Path, json.encode(p1Dat, {indent = 2}))
+	f_fileWrite(saveP2Path, json.encode(p2Dat, {indent = 2}))
 end
 
 --General Sections

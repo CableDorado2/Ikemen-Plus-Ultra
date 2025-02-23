@@ -1,0 +1,42 @@
+[
+  {
+    "handicap": 1,
+    "path": "kung fu man",
+    "author": "elecbyte",
+    "name": "kung fu man",
+    "cel": 0,
+    "up": true,
+    "pal": 1,
+    "displayname": "Kung Fu Man"
+  },
+  {
+    "handicap": 1,
+    "path": "kung fu man",
+    "author": "elecbyte",
+    "name": "kung fu man",
+    "cel": 0,
+    "up": false,
+    "pal": 1,
+    "displayname": "Kung Fu Man"
+  },
+  {
+    "handicap": 1,
+    "path": "kung fu man",
+    "author": "elecbyte",
+    "name": "kung fu man",
+    "cel": 0,
+    "up": false,
+    "pal": 1,
+    "displayname": "Kung Fu Man"
+  },
+  {
+    "handicap": 1,
+    "path": "kung fu man",
+    "author": "elecbyte",
+    "name": "kung fu man",
+    "cel": 0,
+    "up": false,
+    "pal": 1,
+    "displayname": "Kung Fu Man"
+  }
+]
