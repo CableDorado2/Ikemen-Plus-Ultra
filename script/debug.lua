@@ -127,25 +127,6 @@ local oldid = id()
 	end
 end
 
-addHotkey('a', true, false, false, 'attackAdd(1)') --CTRL+A: Add 100 Attack Points
-addHotkey('s', true, false, false, 'defenceAdd(1)') --CTRL+S: Add 100 Defence Points
-
-function attackAdd(p)
-local oldid = id()
-	if player(p) then
-		setAttack(attack()+100)
-		playerid(oldid)
-	end
-end
-
-function defenceAdd(p)
-local oldid = id()
-	if player(p) then
-		setDefence(defence()+100)
-		playerid(oldid)
-	end
-end
-
 function handicapSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	if getGameMode() == "vs" or data.ftcontrol > 0 then
 		for side=1, 2 do
@@ -173,6 +154,24 @@ function handicapSet(p) --Maybe not gonna work in online or replays because debu
 							setPower(t_handicapSelect[pDat[i].handicap].val)
 						end
 					end
+				end
+			end
+		end
+	end
+end
+
+function statsSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+	if getGameMode() == "abyss" then
+		for side=1, 2 do
+			local pDat = nil
+			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
+			for i=1, #pDat do
+			--For each Player Selected
+				if player(pDat[i].pn) then
+					--setNewLife(life()+100)
+					setPower(power()+100)
+					setAttack(attack()+100)
+					setDefence(defence()+100)
 				end
 			end
 		end
@@ -218,7 +217,8 @@ STA:%s%s%s%6d(%d) ANI:%6d(%d)%2d
 statetype(), movetype(), physics(), stateno(), stateOwner(), anim(), animOwner(), animelemno(0)
 ]]
 
-function info(p) --Unused
+--[[UNUSED
+function info(p)
 --Action Info
 puts(string.format(
 	'ActionID:%d %d ElemNo:%d %d Pos:%.3f,%.3f Vel:%.3f,%.3f', 
@@ -230,3 +230,4 @@ puts(string.format(
 	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time())
 )
 end
+]]

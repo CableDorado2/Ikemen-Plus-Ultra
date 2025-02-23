@@ -107,6 +107,12 @@ function f_resetTrainingCfg() --Reset when you exit from Training Mode or Replay
 	if data.debugInfo then toggleDebugDraw() end
 	setDamageDisplay(0)
 	setInputDisplay(0)
+--[[	
+	setLifeStateP1(-1)
+	setLifeStateP2(-1)
+]]
+	setPowerStateP1(-1)
+	setPowerStateP2(-1)
 end
 
 --Save Data to training_sav.lua and Apply Settings

@@ -3801,12 +3801,12 @@ public &Char
   public void setAttack(int a)
   {
     //if(.roundEnd()) ret;
-	`sysivar[.iATTACK] = .m.max!int?(0)<, .m.min!int?(`sysivar[.iATTACK])<, a; //(float)`sysivar[.iATTACK] / 100.0
+	`sysivar[.iATTACK] = a; //.m.max!int?(0)<, .m.min!int?(`sysivar[.iATTACK])<, a;
   }
   public void setDefence(int d)
   {
-    if(.roundEnd()) ret;
-    `sysivar[.iDEFENCE] = .m.max!int?(0)<, .m.min!int?(`sysivar[.iDEFENCE])<, d;
+    //if(.roundEnd()) ret;
+    `sysivar[.iDEFENCE] = d; //.m.max!int?(0)<, .m.min!int?(`sysivar[.iDEFENCE])<, d;
   }
   public void cmdUpdate(int f)
   {

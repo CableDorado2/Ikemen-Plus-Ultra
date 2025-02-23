@@ -448,16 +448,25 @@ void game()
         .chr.chars[i][0]~sysivar[.chr.iLIFE] =
           .chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
 		  //.com.clsndraw = false;
-        if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0; //.com.power
-	//SET HANDICAP VIA DEBUG.LUA TEST START
-		//if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iATTACK] = 200;
+        if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0; //.com.power; //setPowerMul()
+		//if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iATTACK] = .com.attack; //setAttackMul()
+		//if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iDEFENCE] = .com.defence; //setDefenceMul()
+	//SET HANDICAP VIA DEBUG.LUA START
 		//if(.com.round == 1) .tscri.cwc~setPower(2000);
         //if(.com.round == 1) {
 			.dscri.L.getGlobal("handicapSet"); //Read lua function from debug.lua
 			.dscri.L.pushNumber((double)(i+1)); //players arguments: f_name(p)
 			if(!.dscri.L.pcall(1, 1)) ret; //arguments
 		//}
-	//SET HANDICAP VIA DEBUG.LUA TEST END
+	//SET HANDICAP VIA DEBUG.LUA END
+	
+	//SET ABYSS CHAR STATS VIA DEBUG.LUA START
+		//if(.com.round == 1) {
+			.dscri.L.getGlobal("statsSet");
+			.dscri.L.pushNumber((double)(i+1));
+			if(!.dscri.L.pcall(1, 1)) ret;
+		//}
+	//SET ABYSS CHAR STATS VIA DEBUG.LUA END
       }
 	  //if(.s.equ(.com.gameMode, "practice")){
         //branch{
