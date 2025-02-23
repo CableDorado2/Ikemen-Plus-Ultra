@@ -7921,6 +7921,29 @@ function f_aiLevel()
 end
 
 function f_selectChar(player, t)
+	for i=1, #t do
+		selectChar(player, t[i].cel, t[i].pal)
+	--Set Handicaps that cannont be asigned via debug.lua
+		if data.gameMode == "versus" or data.ftcontrol > 0 then
+			if t_handicapSelect[t[i].handicap].service == "unlimitedpower" then
+				--setPowerUnlimited(player, true)
+				if player == 1 then
+					setPowerStateP1(666) --temporarily Reusing Training Service
+				elseif player == 2 then
+					setPowerStateP2(666)
+				end
+			end
+	--Set Abyss Mode Special Attributes
+		elseif data.gameMode == "abyss" then
+		--[[
+			if then
+				setAutoguard(player, true)
+			elseif then
+				
+			end
+		]]
+		end
+	end
 --Transfer data.t_p1selected and data.t_p2selected to p1Dat and p2Dat (global access tables) in order to access in pause menu or debug.lua scripts
 	if player == 1 then
 		--p1Dat = {}
@@ -7930,66 +7953,6 @@ function f_selectChar(player, t)
 		p2Dat = t
 	end
 	f_savePlayerDat()
-	for i=1, #t do
-		selectChar(player, t[i].cel, t[i].pal)
-	--[[Set Handicap
-		if data.gameMode == "versus" or data.ftcontrol > 0 then
-			if t_handicapSelect[t[i].handicap].service == "life 75" then
-				--setLife(player, 75) --This is the way what we need to manage this
-				if player == 1 then
-					setLifeStateP1(75)
-				elseif player == 2 then
-					setLifeStateP2(75)
-				end
-			elseif t_handicapSelect[t[i].handicap].service == "life 50" then
-				--setLife(player, 50)
-				if player == 1 then
-					setLifeStateP1(50)
-				elseif player == 2 then
-					setLifeStateP2(50)
-				end
-			elseif t_handicapSelect[t[i].handicap].service == "life 25" then
-				--setLife(player, 25)
-				if player == 1 then
-					setLifeStateP1(25)
-				elseif player == 2 then
-					setLifeStateP2(25)
-				end
-			elseif t_handicapSelect[t[i].handicap].service == "instakill" then
-				--setLife(player, 0)
-				if player == 1 then
-					setLifeStateP1(666)
-				elseif player == 2 then
-					setLifeStateP2(666)
-				end
-			elseif t_handicapSelect[t[i].handicap].service == "power lv1" then
-				--setPower(player, 1)
-				if player == 1 then
-					setPowerStateP1(1)
-				elseif player == 2 then
-					setPowerStateP2(1)
-				end
-			elseif t_handicapSelect[t[i].handicap].service == "power max" then
-				--setPowerMax(player, true)
-				if player == 1 then
-					setPowerStateP1(10)
-				elseif player == 2 then
-					setPowerStateP2(10)
-				end
-			elseif t_handicapSelect[t[i].handicap].service == "power unlimited" then
-				--setPowerUnlimited(player, true)
-				if player == 1 then
-					setPowerStateP1(666)
-				elseif player == 2 then
-					setPowerStateP2(666)
-				end
-			end
-	--Set Abyss Atributes
-		elseif data.gameMode == "abyss" then
-			--setAutoguard(player, true)
-		end
-	]]
-	end
 end
 
 function f_findCelYAdd(selY, faceOffset, offsetRow)
@@ -12979,7 +12942,23 @@ end
 function f_loading()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
+		for i=1, #data.t_p1selected do --To set real Player Value to set handicaps and player(data.t_p1selected[i].pn) stuff
+			local playerID = 1
+			if i == 2 then playerID = 3
+			elseif i == 3 then playerID = 5
+			elseif i == 4 then playerID = 7
+			end
+			data.t_p1selected[i]['pn'] = playerID
+		end
 		f_selectChar(1, data.t_p1selected)
+		for i=1, #data.t_p2selected do
+			local playerID = 2
+			if i == 2 then playerID = 4
+			elseif i == 3 then playerID = 6
+			elseif i == 4 then playerID = 8
+			end
+			data.t_p2selected[i]['pn'] = playerID
+		end
 		f_selectChar(2, data.t_p2selected)
 	end
 	local t = 0

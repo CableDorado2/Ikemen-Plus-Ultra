@@ -186,29 +186,23 @@ void game()
     while i < #.chr.chars:}
 //MATCH GLOBAL INFO
     y = .m.max!float?(y, 48.0 - (float)(.com.GameHeight-240));
-	`put(y=, "GAME MODE:" + .com.gameMode); //Display Game Mode
+	`put(y=, "GAME MODE:" + .com.gameMode + " - SERVICE:" + .com.gameService); //Display Game Mode & Service Active
 	//`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
-	`put(y=, "SERVICE:" + .com.gameService); //Display Service Active
 	`put(y=, "PLAYER SIDE:" + .com.playerSide); //Display Player Side
 	`put(y=, "TOURNEY STATE:" + .com.tourneyState); //Display Tourney State
+	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward); //Display Abyss Depth Level & Abyss Reward
 	`put(y=, ""); //Enter a space to separate
-	`put(y=, "MATCH:" + ''.com.match); //Display Match Number
-	`put(y=, "MATCHS TO WIN:" + ''.com.matchsToWin); //Display Matchs to Win (FT)
+	`put(y=, "MATCHS TO WIN:" + ''.com.matchsToWin + " - CURRENT MATCH:" + ''.com.match); //Display Matchs to Win (FT) & Current Match Number
 	`put(y=, "P1 MATCH WINS:" + ''.com.p1matchWins); //Display Player 1 Match Wins
-	`put(y=, "P2 MATCH WINS:" + ''.com.p2matchWins);
+	`put(y=, "P2 MATCH WINS:" + ''.com.p2matchWins); //Display Player 2 Match Wins
 	`put(y=, ""); //Enter a space to separate
-	`put(y=, "ROUND:" + ''.com.round); //Display Round Number
-	`put(y=, "ROUNDS TO WIN:" + ''.com.roundsToWin); //Display Rounds to Win
+	`put(y=, "ROUNDS TO WIN:" + ''.com.roundsToWin + " - CURRENT ROUND:" + ''.com.round); //Display Rounds to Win & Current Round Number
 	`put(y=, "P1 ROUND WINS:" + ''.com.p1wins); //Display Player 1 Round Wins
-	`put(y=, "P2 ROUND WINS:" + ''.com.p2wins);
+	`put(y=, "P2 ROUND WINS:" + ''.com.p2wins); //Display Player 2 Round Wins
 	//`put(y=, "ROUND TIME:" + ''.com.roundTime); //Display Round Time
 	`put(y=, "ROUND STATE:" + ''.tscri.cwc~roundState()); //Display Round State
 	`put(y=, ""); //Enter a space to separate
-	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth); //Display Abyss Depth Level
-	`put(y=, "ABYSS REWARD:" + ''.com.abyssReward); //Display Abyss Reward
-	`put(y=, ""); //Enter a space to separate
-	`put(y=, "RECORDING STATE:" + ''.com.recordState); //Display Dummy Record State
-	`put(y=, "PLAYBACK STATE:" + ''.com.playbackState); //Display Dummy Playback State
+	`put(y=, "RECORDING STATE:" + ''.com.recordState + " - PLAYBACK STATE:" + ''.com.playbackState); //Display Dummy Record State & Dummy Playback State
 	`put(y=, "GAME SPEED:" + ''.com.Speed); //Display Game Speed
 	`put(y=, ""); //Enter a space to separate
 //CHARS INFO

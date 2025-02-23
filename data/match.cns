@@ -547,7 +547,7 @@ trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) |
 value = 0.5
 
 ;===========================================================================
-; TRAINING SERVICES
+; TRAINING HANDICAPS
 ;===========================================================================
 [State 0, Life Recovery 100%]
 type = LifeAdd
@@ -618,7 +618,7 @@ trigger2 = PowerStateP2 = 666
 value = PowerMax
 
 ;===========================================================================
-; STORY SERVICES
+; STORY HANDICAPS EXAMPLE
 ;===========================================================================
 [State -2, Undefeatable]
 type = LifeSet
@@ -637,3 +637,13 @@ type = DefenceMulSet
 triggerall = GameMode = "story" && Service = "balance"
 trigger1 = TeamSide = 1
 value = 0.5
+
+;===========================================================================
+; VS HANDICAPS
+;===========================================================================
+[State 0, POW UNLIMITED]
+type = PowerSet
+triggerall = GameMode = "vs"
+trigger1 = PowerStateP1 = 666 && TeamSide = 1
+trigger2 = PowerStateP2 = 666 && TeamSide = 2
+value = PowerMax

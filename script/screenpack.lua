@@ -2346,15 +2346,15 @@ txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 248, 168)
 --txt_p2HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 t_handicapSelect = {
-	{id = textImgNew(), text = "NORMAL", 		service = "", 			 val = nil},
-	{id = textImgNew(), text = "HP-75%", 		service = "life", 		 val = 1.333}, --lifemax/1.333
-	{id = textImgNew(), text = "HP-50%", 		service = "life", 		 val = 2}, --lifemax/2
-	{id = textImgNew(), text = "HP-25%", 		service = "life", 		 val = 4}, --lifemax/4
-	{id = textImgNew(), text = "INSTAKILL", 	service = "life", 		 val = nil}, --lifemax/lifemax
-	{id = textImgNew(), text = "POW-LV1", 		service = "power", 		 val = 1000},
-	{id = textImgNew(), text = "POW-LV2", 		service = "power", 		 val = 2000},
-	{id = textImgNew(), text = "POW-MAX", 		service = "power",		 val = nil},
-	{id = textImgNew(), text = "POW-UNLIMITED", service = "",	 		 val = nil},
+	{id = textImgNew(), text = "NORMAL", 		service = "", 			 	val = nil}, --NO HANDICAP
+	{id = textImgNew(), text = "HP-75%", 		service = "life", 		 	val = 1.333}, --setLife(lifemax()/1.333)
+	{id = textImgNew(), text = "HP-50%", 		service = "life", 		 	val = 2}, --setLife(lifemax()/2)
+	{id = textImgNew(), text = "HP-25%", 		service = "life", 		 	val = 4}, --setLife(lifemax()/4)
+	{id = textImgNew(), text = "INSTAKILL", 	service = "life", 		 	val = nil}, --setLife(lifemax()/lifemax())
+	{id = textImgNew(), text = "POW-LV1", 		service = "power", 		 	val = 1000}, --setPower(1000)
+	{id = textImgNew(), text = "POW-LV2", 		service = "power", 		 	val = 2000}, --setPower(2000)
+	{id = textImgNew(), text = "POW-MAX", 		service = "power",		 	val = nil}, --setPower(powermax())
+	{id = textImgNew(), text = "POW-UNLIMITED", service = "unlimitedpower", val = nil}, --Manage via match.cns
 }
 
 t_handicapSelect2 = {}

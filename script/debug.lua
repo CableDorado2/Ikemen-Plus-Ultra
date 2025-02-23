@@ -129,25 +129,30 @@ end
 
 function handicapSet(p)
 	if getGameMode() == "vs" or data.ftcontrol > 0 then
-		for i=1, #p1Dat do
-			if player(i) then
-			--Life Handicaps
-				if t_handicapSelect[p1Dat[i].handicap].service == "life" then
-				--Instakill
-					if t_handicapSelect[p1Dat[i].handicap].val == nil then
-						setLife(lifemax()/lifemax())
-				--HP at 75%, 50%, 25%...
-					else
-						setLife(lifemax()/t_handicapSelect[p1Dat[i].handicap].val)
-					end
-			--Power Handicaps
-				elseif t_handicapSelect[p1Dat[i].handicap].service == "power" then
-				--Power at MAX
-					if t_handicapSelect[p1Dat[i].handicap].val == nil then
-						setPower(powermax())
-				--Power at Specific value level
-					else
-						setPower(t_handicapSelect[p1Dat[i].handicap].val)
+		for side=1, 2 do
+			local pDat = nil
+			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
+			for i=1, #pDat do
+			--For each Player Selected
+				if player(pDat[i].pn) then
+				--Life Handicaps
+					if t_handicapSelect[pDat[i].handicap].service == "life" then --and RoundState() < 2
+					--Instakill
+						if t_handicapSelect[pDat[i].handicap].val == nil then
+							setLife(lifemax()/lifemax())
+					--HP at 75%, 50%, 25%...
+						else
+							setLife(lifemax()/t_handicapSelect[pDat[i].handicap].val)
+						end
+				--Power Handicaps
+					elseif t_handicapSelect[pDat[i].handicap].service == "power" then
+					--Power at MAX
+						if t_handicapSelect[pDat[i].handicap].val == nil then
+							setPower(powermax())
+					--Power at Specific value level
+						else
+							setPower(t_handicapSelect[pDat[i].handicap].val)
+						end
 					end
 				end
 			end
