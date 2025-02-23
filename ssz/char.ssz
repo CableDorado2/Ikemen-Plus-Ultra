@@ -3798,6 +3798,16 @@ public &Char
     .chars[`playerno&(.com.powerShare[`playerno&1]?1:-1)]<>
       ~setPower(`getSharePower() + p);
   }
+  public void setAttack(int a)
+  {
+    //if(.roundEnd()) ret;
+	`sysivar[.iATTACK] = .m.max!int?(0)<, .m.min!int?(`sysivar[.iATTACK])<, a; //(float)`sysivar[.iATTACK] / 100.0
+  }
+  public void setDefence(int d)
+  {
+    if(.roundEnd()) ret;
+    `sysivar[.iDEFENCE] = .m.max!int?(0)<, .m.min!int?(`sysivar[.iDEFENCE])<, d;
+  }
   public void cmdUpdate(int f)
   {
     bool act =

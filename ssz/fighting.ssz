@@ -450,6 +450,7 @@ void game()
 		  //.com.clsndraw = false;
         if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0; //.com.power
 	//SET HANDICAP VIA DEBUG.LUA TEST START
+		//if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iATTACK] = 200;
 		//if(.com.round == 1) .tscri.cwc~setPower(2000);
         //if(.com.round == 1) {
 			.dscri.L.getGlobal("handicapSet"); //Read lua function from debug.lua

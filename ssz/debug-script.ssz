@@ -37,6 +37,24 @@ void setPower(&.lua.State L=, int re=)
   }
 }
 
+void setAttack(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int attack = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && #.tscri.cwc > 0){
+    .tscri.cwc~setAttack(attack);
+  }
+}
+
+void setDefence(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int defence = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && #.tscri.cwc > 0){
+    .tscri.cwc~setDefence(defence);
+  }
+}
+
 void selfState(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -203,6 +221,8 @@ public ^/char loadFile(^/char file)
   .L.register("puts", .puts);
   .L.register("setLife", .setLife);
   .L.register("setPower", .setPower);
+  .L.register("setAttack", .setAttack);
+  .L.register("setDefence", .setDefence);
   .L.register("selfState", .selfState);
   .L.register("addHotkey", .addHotkey);
   .L.register("toggleClsnDraw", .toggleClsnDraw);

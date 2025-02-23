@@ -157,16 +157,16 @@ void playerid(&.lua.State L=, int re=)
   L.pushBoolean(#.chr.c > 0);
 }
 
-void attack(&.lua.State L=, int re=)
+void abyssreward(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iATTACK] : 0));
+  L.pushNumber((double).com.abyssReward);
 }
 
-void defence(&.lua.State L=, int re=)
+void abyssdepth(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iDEFENCE] : 0));
+  L.pushNumber((double).com.abyssDepth);
 }
 
 void ailevel(&.lua.State L=, int re=)
@@ -782,6 +782,18 @@ void leftedge(&.lua.State L=, int re=)
   L.pushNumber(#.cwc > 0 ? .cwc~trLeftEdge() : 0.0);
 }
 
+void attack(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iATTACK] : 0));
+}
+
+void defence(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iDEFENCE] : 0));
+}
+
 void life(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1302,8 +1314,8 @@ public void registerFunction(&.lua.State L=)
   L.register("enemy", .enemy);
   L.register("enemynear", .enemynear);
   L.register("playerid", .playerid);
-  L.register("attack", .attack);
-  L.register("defence", .defence);
+  L.register("abyssreward", .abyssreward);
+  L.register("abyssdepth", .abyssdepth);
   L.register("ailevel", .ailevel);
   L.register("tagmode", .tagmode);
   L.register("alive", .alive);
@@ -1349,6 +1361,8 @@ public void registerFunction(&.lua.State L=)
   L.register("ishelper", .ishelper);
   L.register("ishometeam", .ishometeam);
   L.register("leftedge", .leftedge);
+  L.register("attack", .attack);
+  L.register("defence", .defence);
   L.register("life", .life);
   L.register("lifemax", .lifemax);
   L.register("lose", .lose);

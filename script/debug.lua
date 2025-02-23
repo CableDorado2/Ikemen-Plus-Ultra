@@ -127,7 +127,26 @@ local oldid = id()
 	end
 end
 
-function handicapSet(p)
+addHotkey('a', true, false, false, 'attackAdd(1)') --CTRL+A: Add 100 Attack Points
+addHotkey('s', true, false, false, 'defenceAdd(1)') --CTRL+S: Add 100 Defence Points
+
+function attackAdd(p)
+local oldid = id()
+	if player(p) then
+		setAttack(attack()+100)
+		playerid(oldid)
+	end
+end
+
+function defenceAdd(p)
+local oldid = id()
+	if player(p) then
+		setDefence(defence()+100)
+		playerid(oldid)
+	end
+end
+
+function handicapSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	if getGameMode() == "vs" or data.ftcontrol > 0 then
 		for side=1, 2 do
 			local pDat = nil
