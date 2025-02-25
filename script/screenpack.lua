@@ -3875,12 +3875,14 @@ txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
 txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
+abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a boss?
+
 t_abyssSel = {
- {id = textImgNew(), depth = 100, info = "[Easy] difficulty geared towards beginners"},
- {id = textImgNew(), depth = 500, info = "[Normal] difficulty for average players"},
- {id = textImgNew(), depth = 999, info = "[Hard] difficulty for expert players"},
- {id = textImgNew(), depth = 2357, info = "[TEST1] difficulty for expert players"},
- {id = textImgNew(), depth = 8488, info = "[TEST2] difficulty for expert players"},
+ {id = textImgNew(), depth = 100, cpustats = 0, info = "[Easy] difficulty geared towards beginners"},
+ {id = textImgNew(), depth = 500, cpustats = 5, info = "[Normal] difficulty for average players"},
+ {id = textImgNew(), depth = 999, cpustats = 10, info = "[Hard] difficulty for expert players"},
+ {id = textImgNew(), depth = 2357, cpustats = 15, info = "[TEST1] difficulty for expert players"},
+ {id = textImgNew(), depth = 8488, cpustats = 20, info = "[TEST2] difficulty for expert players"},
 }
 
 --Background
@@ -3953,7 +3955,7 @@ txt_abyssShopInfoSold = "This item has already been obtained"
 txt_abyssShopItemAttack = "Attack +"
 txt_abyssShopItemPower = "Power +"
 txt_abyssShopItemDefence = "Defence +"
-txt_abyssShopItemSpeed = "Speed +"
+txt_abyssShopItemLife = "Life +"
 txt_abyssShopItemDescend = "Depth +"
 
 --Special Items
@@ -4012,17 +4014,17 @@ t_abyssShop = {
  {power = true, val = 8, text = txt_abyssShopItemPower.."8", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 8", unlock = "false"},
  {power = true, val = 9, text = txt_abyssShopItemPower.."9", price = txt_abyssShopItemPrice3, info = "Increases Power Level by 9", unlock = "false"},
  {power = true, val = 10, text = txt_abyssShopItemPower.."10", price = txt_abyssShopItemPriceMax, info = "Increases Power Level by 10", unlock = "false"},
---Speed Items
- {speed = true, val = 1, text = txt_abyssShopItemSpeed.."1", price = txt_abyssShopItemPrice1-50, info = "Increases Speed by 1", unlock = "true"},
- {speed = true, val = 2, text = txt_abyssShopItemSpeed.."2", price = txt_abyssShopItemPrice1-50, info = "Increases Speed by 2", unlock = "true"},
- {speed = true, val = 3, text = txt_abyssShopItemSpeed.."3", price = txt_abyssShopItemPrice1-50, info = "Increases Speed by 3", unlock = "true"},
- {speed = true, val = 4, text = txt_abyssShopItemSpeed.."4", price = txt_abyssShopItemPrice2-50, info = "Increases Speed by 4", unlock = "false"},
- {speed = true, val = 5, text = txt_abyssShopItemSpeed.."5", price = txt_abyssShopItemPrice2-50, info = "Increases Speed by 5", unlock = "false"},
- {speed = true, val = 6, text = txt_abyssShopItemSpeed.."6", price = txt_abyssShopItemPrice2-50, info = "Increases Speed by 6", unlock = "false"},
- {speed = true, val = 7, text = txt_abyssShopItemSpeed.."7", price = txt_abyssShopItemPrice3-50, info = "Increases Speed by 7", unlock = "false"},
- {speed = true, val = 8, text = txt_abyssShopItemSpeed.."8", price = txt_abyssShopItemPrice3-50, info = "Increases Speed by 8", unlock = "false"},
- {speed = true, val = 9, text = txt_abyssShopItemSpeed.."9", price = txt_abyssShopItemPrice3-50, info = "Increases Speed by 9", unlock = "false"},
- {speed = true, val = 10, text = txt_abyssShopItemSpeed.."10", price = txt_abyssShopItemPriceMax-50, info = "Increases Speed by 10", unlock = "false"},
+--Life Items
+ {life = true, val = 1, text = txt_abyssShopItemLife.."1", price = txt_abyssShopItemPrice1-50, info = "Increases Life by 1", unlock = "true"},
+ {life = true, val = 2, text = txt_abyssShopItemLife.."2", price = txt_abyssShopItemPrice1-50, info = "Increases Life by 2", unlock = "true"},
+ {life = true, val = 3, text = txt_abyssShopItemLife.."3", price = txt_abyssShopItemPrice1-50, info = "Increases Life by 3", unlock = "true"},
+ {life = true, val = 4, text = txt_abyssShopItemLife.."4", price = txt_abyssShopItemPrice2-50, info = "Increases Life by 4", unlock = "false"},
+ {life = true, val = 5, text = txt_abyssShopItemLife.."5", price = txt_abyssShopItemPrice2-50, info = "Increases Life by 5", unlock = "false"},
+ {life = true, val = 6, text = txt_abyssShopItemLife.."6", price = txt_abyssShopItemPrice2-50, info = "Increases Life by 6", unlock = "false"},
+ {life = true, val = 7, text = txt_abyssShopItemLife.."7", price = txt_abyssShopItemPrice3-50, info = "Increases Life by 7", unlock = "false"},
+ {life = true, val = 8, text = txt_abyssShopItemLife.."8", price = txt_abyssShopItemPrice3-50, info = "Increases Life by 8", unlock = "false"},
+ {life = true, val = 9, text = txt_abyssShopItemLife.."9", price = txt_abyssShopItemPrice3-50, info = "Increases Life by 9", unlock = "false"},
+ {life = true, val = 10, text = txt_abyssShopItemLife.."10", price = txt_abyssShopItemPriceMax-50, info = "Increases Life by 10", unlock = "false"},
 --Special Items
  {text = txt_abyssShopLifeRegeneration.."1", price = 1000, info = "Gradually regenerates HP over time.", unlock = "true"},
  {text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
@@ -4094,6 +4096,7 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
 	local PauseMenu = PauseMenu or false
+	local pLevel = (abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4 --Just an Average
 	animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
 	animPosDraw(abyssProfileAtributes, 190+NewPosX, 76+NewPosY)
 --Character Stuff
@@ -4111,7 +4114,7 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..abyssDat.nosave.attack, attrFontXPos, attrFontYPos)
 	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..abyssDat.nosave.power, attrFontXPos, attrFontYPos+18)
 	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..abyssDat.nosave.defence, attrFontXPos+60, attrFontYPos)
-	f_drawQuickText(txt_abyssSpeed, attrFont, 0, 1, attrSymb..abyssDat.nosave.speed, attrFontXPos+60, attrFontYPos+18)
+	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..abyssDat.nosave.life, attrFontXPos+60, attrFontYPos+18)
 --Special Items
 	local spFont = font2
 	local spFontXPos = 172+NewPosX
@@ -4121,6 +4124,33 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.sp3, spFontXPos, spFontYPos+45)
 --Currency
 	f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2)
+end
+
+function f_abyssProfileCPU() --Only Used in Pause Menu
+	local pLevel = (p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life)/4 --Just an Average
+	animPosDraw(abyssProfileBG, 169, 54)
+	animPosDraw(abyssProfileAtributes, 194, 110)
+--Character Stuff
+	--drawPortrait(abyssDat.nosave.cel, 223, 59, 0.32, 0.32)
+	f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel, 314, 69, 1, 1)
+	f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 102, 1, 1)
+--Attributes
+	local attrFont = font2
+	local attrFontXPos = 212
+	local attrFontYPos = 119
+	local attrSymb = "+"
+	local attrMax = "MAX"
+	f_drawQuickText(txt_abyssAttackCPU, attrFont, 0, 1, attrSymb..p2Dat[1].attack, attrFontXPos, attrFontYPos)
+	f_drawQuickText(txt_abyssPowerCPU, attrFont, 0, 1, attrSymb..p2Dat[1].power, attrFontXPos, attrFontYPos+18)
+	f_drawQuickText(txt_abyssDefenceCPU, attrFont, 0, 1, attrSymb..p2Dat[1].defence, attrFontXPos+60, attrFontYPos)
+	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos+60, attrFontYPos+18)
+--Special Items
+	local spFont = font2
+	local spFontXPos = 274
+	local spFontYPos = 162
+	f_drawQuickText(txt_abyssSP1CPU, spFont, 0, 1, p2Dat[1].sp1, spFontXPos, spFontYPos)
+	f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].sp2, spFontXPos, spFontYPos+23)
+	f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].sp3, spFontXPos, spFontYPos+45)
 end
 
 --;===========================================================

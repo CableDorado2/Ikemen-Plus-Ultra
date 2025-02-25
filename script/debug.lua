@@ -168,13 +168,24 @@ function statsSet(p) --Maybe not gonna work in online or replays because debug-s
 			for i=1, #pDat do
 			--For each Player Selected
 				if player(pDat[i].pn) then
-					--setNewLife(life()+100)
-					setPower(power()+100)
-					setAttack(attack()+100)
-					setDefence(defence()+100)
+					--setNewLife(life()+pDat[i].life)
+					setPower(power()+pDat[i].power)
+					setAttack(attack()+pDat[i].attack)
+					setDefence(defence()+pDat[i].defence)
 				end
 			end
 		end
+	end
+end
+
+addHotkey('F9', true, false, false, 'lifeAdd(2)') --Ctrl+F9: Increases Player 2's power to 1
+addHotkey('F9', false, false, true, 'lifeAdd(1)') --Shift+F9: Increases Player 1's power to 1
+
+function lifeAdd(p)
+local oldid = id()
+	if player(p) then
+		setNewLife(life()+1000)
+		playerid(oldid)
 	end
 end
 

@@ -3809,12 +3809,14 @@ function init_abyssStats()
 local t_abyssDefaultSave = {
 	name = "",
 	level = 0,
-	expense = 0,
-	attack = 0,
+	life = 0,
 	power = 0,
-	speed = 0,
+	attack = 0,
 	defence = 0,
 	startdepth = 1,
+	nextboss = 0,
+	reward = 0,
+	expense = 0,
 	sp1 = "",
 	sp2 = "",
 	sp3 = ""

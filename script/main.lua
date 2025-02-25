@@ -12814,6 +12814,7 @@ end
 function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local i = 0
+	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
 	if not data.versusScreen then
 		while true do
 			if i == 0 then
@@ -12934,6 +12935,50 @@ end
 
 function f_getVSHint()
 	textImgSetText(txt_hints, t_vsHints[math.random(1, #t_vsHints)].text) --Get Random Hint from t_vsHints Table
+end
+
+function f_setAbyssStats()
+	local statsPlus = 0
+	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch*2 end
+--[[If t_abyssSel[abyssSel].depth == 100 then abyssBossMatch will be 20
+	then each time that this screen start, abyssBossMatch will increase *2 (ONLY if matchNo > abyssBossMatch)
+		
+	Examples:
+		matchNo = 19
+		abyssBossMatch = 20
+		
+		matchNo = 21
+		abyssBossMatch = 20*2 = 40
+		
+		matchNo = 41
+		abyssBossMatch = 40*2 = 60
+		
+	abyssBossMatch will back to his original value in each New Game, Continue Game logic is missing!]]
+	if matchNo == abyssBossMatch then statsPlus = abyssBossStatsIncrease end --When enter in boss match increase cpu stats for it
+--Store Abyss Stats for each player	
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		--TODO
+	else
+		for p=1, #data.t_p1selected do
+			data.t_p1selected[p]['life'] = abyssDat.nosave.life
+			data.t_p1selected[p]['power'] = abyssDat.nosave.power
+			data.t_p1selected[p]['attack'] = abyssDat.nosave.attack
+			data.t_p1selected[p]['defence'] = abyssDat.nosave.defence
+		end
+		for p=1, #data.t_p2selected do
+			data.t_p2selected[p]['life'] = t_abyssSel[abyssSel].cpustats+statsPlus
+			data.t_p2selected[p]['power'] = t_abyssSel[abyssSel].cpustats+statsPlus
+			data.t_p2selected[p]['attack'] = t_abyssSel[abyssSel].cpustats+statsPlus
+			data.t_p2selected[p]['defence'] = t_abyssSel[abyssSel].cpustats+statsPlus
+			--
+			data.t_p2selected[p]['sp1'] = "" --TODO
+			data.t_p2selected[p]['sp2'] = ""
+			data.t_p2selected[p]['sp3'] = ""
+		end
+	end
+	abyssDat.nosave.nextboss = abyssBossMatch
+	abyssDat.nosave.reward = getAbyssReward()
+	f_saveStats()
 end
 
 --;===========================================================
@@ -17222,6 +17267,9 @@ function f_abyssSelect()
 					--TODO
 			--New Game
 				else
+					abyssBossMatch = t_abyssSel[abyssSel].depth / 4 --Each t_abyssSel[abyssSel].depth / 4 match will appear a boss, need to be here to reset it in each new game
+					abyssDat.nosave.nextboss = abyssBossMatch
+					f_saveStats()
 					f_abyssBoot() --Open Side Select
 				end
 			end
@@ -17490,9 +17538,9 @@ function f_abyssMenu()
 							elseif t_abyssMenu[abyssMenu].power then
 								buyDone = true
 								abyssDat.nosave.power = abyssDat.nosave.power + t_abyssMenu[abyssMenu].val
-							elseif t_abyssMenu[abyssMenu].speed then
+							elseif t_abyssMenu[abyssMenu].life then
 								buyDone = true
-								abyssDat.nosave.speed = abyssDat.nosave.speed + t_abyssMenu[abyssMenu].val
+								abyssDat.nosave.life = abyssDat.nosave.life + t_abyssMenu[abyssMenu].val
 							elseif t_abyssMenu[abyssMenu].depth then
 								buyDone = true
 								abyssDat.nosave.startdepth = abyssDat.nosave.startdepth + t_abyssMenu[abyssMenu].val
@@ -17539,8 +17587,8 @@ function f_abyssMenu()
 						abyssDat.nosave.defence = abyssDat.nosave.defence - t_abyssMenu[abyssMenu].val
 					elseif t_abyssMenu[abyssMenu].power then
 						abyssDat.nosave.power = abyssDat.nosave.power - t_abyssMenu[abyssMenu].val
-					elseif t_abyssMenu[abyssMenu].speed then
-						abyssDat.nosave.speed = abyssDat.nosave.speed - t_abyssMenu[abyssMenu].val
+					elseif t_abyssMenu[abyssMenu].life then
+						abyssDat.nosave.life = abyssDat.nosave.life - t_abyssMenu[abyssMenu].val
 					elseif t_abyssMenu[abyssMenu].depth then
 						abyssDat.nosave.startdepth = abyssDat.nosave.startdepth - t_abyssMenu[abyssMenu].val
 				--Special Items Refund
