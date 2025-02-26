@@ -1566,6 +1566,7 @@ function bossrushCfg()
 	data.gameMode = "bossrush"
 	data.rosterMode = "boss"
 	--data.stageMenu = true
+	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -12940,8 +12941,7 @@ end
 function f_setAbyssStats()
 	local statsPlus = 0
 	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch*2 end
---[[If t_abyssSel[abyssSel].depth == 100 then abyssBossMatch will be 20
-	then each time that this screen start, abyssBossMatch will increase *2 (ONLY if matchNo > abyssBossMatch)
+--[[Each time that this screen start, abyssBossMatch will increase *2 ONLY if matchNo(depth) > abyssBossMatch
 		
 	Examples:
 		matchNo = 19
@@ -17267,7 +17267,7 @@ function f_abyssSelect()
 					--TODO
 			--New Game
 				else
-					abyssBossMatch = t_abyssSel[abyssSel].depth / 4 --Each t_abyssSel[abyssSel].depth / 4 match will appear a boss, need to be here to reset it in each new game
+					abyssBossMatch = 20 --Each 20 depth will appear a boss, need to be here to reset it in each new game
 					abyssDat.nosave.nextboss = abyssBossMatch
 					f_saveStats()
 					f_abyssBoot() --Open Side Select

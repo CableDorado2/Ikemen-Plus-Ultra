@@ -3875,15 +3875,73 @@ txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
 txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
-abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a boss?
+abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a normal boss?
 
 t_abyssSel = {
- {id = textImgNew(), depth = 100, cpustats = 0, info = "[Easy] difficulty geared towards beginners"},
- {id = textImgNew(), depth = 500, cpustats = 5, info = "[Normal] difficulty for average players"},
- {id = textImgNew(), depth = 999, cpustats = 10, info = "[Hard] difficulty for expert players"},
- {id = textImgNew(), depth = 2357, cpustats = 15, info = "[TEST1] difficulty for expert players"},
- {id = textImgNew(), depth = 8488, cpustats = 20, info = "[TEST2] difficulty for expert players"},
+	{depth = 100, cpustats = 0, info = "[Easy] difficulty geared towards beginners",
+		boss = {
+		--Boss 1
+			{
+				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+				stage = "stages/Mountainside Temple/Dark Corridor.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+				song = "", --Music Path (if it is empty an auto song will be loaded)
+				depth = 100, --At what depth/matchNo will the boss appear
+				stats = 10, --Boss stats (life, power, attack, defence)
+				ailevel = 8 --CPU Level
+			},
+		},
+	},
+	{depth = 500, cpustats = 5, info = "[Normal] difficulty for average players",
+		boss = {
+		--Boss 1
+			{
+				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+				stage = "stages/Mountainside Temple/Dark Corridor.def",
+				song = "",
+				depth = 100,
+				stats = 10,
+				ailevel = 8
+			},
+		--Boss 2
+			{
+				char = "Suave Dude",
+				stage = "stages/Mountainside Temple/Dark Corridor.def",
+				song = "",
+				depth = 100,
+				stats = 10,
+				ailevel = 8
+			},
+		},
+	},
+	{depth = 999, cpustats = 10, info = "[Hard] difficulty for expert players",
+		
+	},
+	{depth = 2357, cpustats = 15, info = "[TEST1] difficulty for expert players",
+		
+	},
+	{depth = 8488, cpustats = 20, info = "[TEST2] difficulty for expert players",
+		
+	},
 }
+
+for i=1, #t_abyssSel do
+	t_abyssSel[i]['id'] = textImgNew()
+end
+if data.debugLog then f_printTable(t_abyssSel, "save/debug/t_abyssSel.txt") end
+
+--[[ UNUSED
+t_abyssSpecialBoss = {
+	{
+		char = "", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+		stage = "", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+		song = "", --Music Path (if it is empty an auto song will be loaded)
+		abyss = 1, --At what abyss difficulty will the boss appear
+		depth = 100, --At what depth/matchNo will the boss appear
+		stats = 10, --Boss stats (life, power, attack, defence)
+		ailevel = 8 --CPU Level
+	},
+}
+]]
 
 --Background
 abyssBG = animNew(sprIkemen, [[
@@ -4096,14 +4154,14 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
 	local PauseMenu = PauseMenu or false
-	local pLevel = (abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4 --Just an Average
+	local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
 	animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
 	animPosDraw(abyssProfileAtributes, 190+NewPosX, 76+NewPosY)
 --Character Stuff
 	if not PauseMenu then
 		drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32)
 	end
-	f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..abyssDat.nosave.level, 310+NewPosX, 35+NewPosY, 1, 1)
+	f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 35+NewPosY, 1, 1)
 	f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
 --Attributes
 	local attrFont = font2
@@ -4127,12 +4185,12 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 end
 
 function f_abyssProfileCPU() --Only Used in Pause Menu
-	local pLevel = (p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life)/4 --Just an Average
+	local pLevel = math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life)/4) --Just an Average with rounding up
 	animPosDraw(abyssProfileBG, 169, 54)
 	animPosDraw(abyssProfileAtributes, 194, 110)
 --Character Stuff
 	--drawPortrait(abyssDat.nosave.cel, 223, 59, 0.32, 0.32)
-	f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel, 314, 69, 1, 1)
+	f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel+1, 314, 69, 1, 1)
 	f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 102, 1, 1)
 --Attributes
 	local attrFont = font2
