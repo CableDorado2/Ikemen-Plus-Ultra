@@ -639,6 +639,15 @@ trigger1 = TeamSide = 1
 value = 0.5
 
 ;===========================================================================
+; ABYSS MODE
+;===========================================================================
+[State 0, Increase Abyss Depth Count]
+type = AbyssDepthSet
+triggerall = GameMode = "abyss"
+trigger1 = MoveContact = 1 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2))
+value = 1 ;Increase Depth Count by 1 when conditions are meet
+
+;===========================================================================
 ; VS HANDICAPS
 ;===========================================================================
 [State 0, POW UNLIMITED]

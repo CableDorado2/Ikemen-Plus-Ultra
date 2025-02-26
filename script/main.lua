@@ -37,11 +37,6 @@ p2numSimul = 2
 --default team mode after starting the game (0 - Single, 1 - Simul, 2 - Turns)
 p1teamMode = 0
 p2teamMode = 0
---Editable Vars
-MainFadeInTime = 30
-selectFadeinTime = 10 --TODO
-selectFadeoutTime = 10 --TODO
-data.rivalMatch = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
 
 function f_resetArcadeStuff()
 stats.continueCount = 0 --Restart Times Continue in Arcade
@@ -109,8 +104,10 @@ function f_mainStart()
 			f_resetArcadeStuff()
 			if data.attractMode == true then
 				coinSystem = false
-				--stats.attractCoins = 0 --Enable for Restart Credits for Attract Mode
-				--f_saveStats() --Enable for Restart Credits for Attract Mode
+			--[[Restart Credits for Attract Mode
+				stats.attractCoins = 0
+				f_saveStats()
+			]]
 				f_mainAttract()
 			else
 				f_mainTitle()
@@ -12940,20 +12937,21 @@ end
 
 function f_setAbyssStats()
 	local statsPlus = 0
-	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch*2 end
---[[Each time that this screen start, abyssBossMatch will increase *2 ONLY if matchNo(depth) > abyssBossMatch
+	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch+abyssBossMatchNo end
+--[[Each time that this screen start, abyssBossMatch will increase abyssBossMatchNo ONLY if matchNo(depth) > abyssBossMatch
 		
 	Examples:
+		abyssBossMatchNo = 20 --loaded from screenpack.lua
+		
 		matchNo = 19
-		abyssBossMatch = 20
+		abyssBossMatch = 0+20
 		
 		matchNo = 21
-		abyssBossMatch = 20*2 = 40
+		abyssBossMatch = 20+20 = 40
 		
 		matchNo = 41
-		abyssBossMatch = 40*2 = 60
-		
-	abyssBossMatch will back to his original value in each New Game, Continue Game logic is missing!]]
+		abyssBossMatch = 40+20 = 60
+	]]
 	if matchNo == abyssBossMatch then statsPlus = abyssBossStatsIncrease end --When enter in boss match increase cpu stats for it
 --Store Abyss Stats for each player	
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -12987,7 +12985,7 @@ end
 function f_loading()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
-		for i=1, #data.t_p1selected do --To set real Player Value to set handicaps and player(data.t_p1selected[i].pn) stuff
+		for i=1, #data.t_p1selected do --To set real Player Value to set handicaps and player(data.t_p1selected[i].pn) stuff in debug.lua
 			local playerID = 1
 			if i == 2 then playerID = 3
 			elseif i == 3 then playerID = 5
@@ -15436,24 +15434,41 @@ if validCells() then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 						p2Cell = t_randomChars[math.random(#t_randomChars)] --get random character
-					--[[
 					--Fight against boss character predefined at some depth/MatchNo
-						if data.gameMode == "abyss" and MatchNo == t_abyssSel[abyssSel].depthboss[MatchNo] then
-							p2Cell = 
+						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
+							for i=1, #t_abyssSel[abyssSel].specialboss do
+								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
+									local bossChar = nil
+								--Pick Specific Char
+									if t_abyssSel[abyssSel].specialboss[i].char ~= nil then
+										bossChar = t_abyssSel[abyssSel].specialboss[i].char --:lower()
+								--Pick Random Char
+									else
+										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char
+									end
+									p2Cell = t_charAdd[bossChar]
+								end
+							end
 						end
-					]]
 					else
 						p2Cell = t_roster[matchNo*p2numChars-i+1]
 					end
 				end
 			--Set AI Palette
 				if data.gameMode == "abyss" then
-				--Boss character predefined Palette
-					--if MatchNo == t_abyssSel[abyssSel].depthboss[MatchNo] then
-						--p1Pal = 1
-					--else
-						p2Pal = math.random(2,12)
-					--end
+					if matchNo == abyssBossMatch then
+						p2Pal = 1 --Normal Boss Specific Palette
+					else
+						p2Pal = math.random(2,12) --Normal Enemy Random Palette
+					end
+				--Special Boss character predefined Palette
+					if t_abyssSel[abyssSel].specialboss ~= nil then
+						for i=1, #t_abyssSel[abyssSel].specialboss do
+							if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
+								p2Pal = t_abyssSel[abyssSel].specialboss[i].pal
+							end
+						end
+					end
 				else
 					if data.aipal == "Default" then
 						p2Pal = 1
@@ -15496,9 +15511,7 @@ if validCells() then
 		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
-			if matchNo > 1 then matchNo = matchNo+15 end --TODO
-			setMatchNo(matchNo)
-			setAbyssDepth(matchNo)
+			setMatchNo(getAbyssDepth())
 			setAbyssReward((matchNo-1)*3) --TODO
 			if getAbyssDepth() == 1 or getAbyssDepth() == 100 then f_abyssMap() end
 			if data.tempBack == true then
@@ -17318,9 +17331,11 @@ function f_abyssSelect()
 	--Draw Abyss Level Content Text
 		for i=1, maxabyssSel do
 			if i > abyssSel - cursorPosX then
+				local txtDepth = ""
+				if t_abyssSel[i].depth == -1 then txtDepth = "INFINITE" else txtDepth = t_abyssSel[i].depth end
 				if t_abyssSel[i].id ~= nil then
 					animPosDraw(abyssSelWindowBG, -94+i*104-moveTxt,50)
-					textImgDraw(f_updateTextImg(t_abyssSel[i].id, font20, 4, 0, t_abyssSel[i].depth, -50+i*104-moveTxt, 120))
+					textImgDraw(f_updateTextImg(t_abyssSel[i].id, font20, 4, 0, txtDepth, -50+i*104-moveTxt, 120))
 					textImgSetPos(txt_abyssLv, -50+i*104-moveTxt, 75)
 					textImgSetText(txt_abyssLv, "LEVEL "..i)
 					textImgDraw(txt_abyssLv)

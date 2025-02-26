@@ -58,6 +58,7 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   VictoryQuote,
   RemapPal,
   Zoom,
+  AbyssDepthSet, AbyssRewardSet,
   ExitMatch,
   PlayBGM,
   ForceCommand,
@@ -3378,6 +3379,8 @@ public &StateBuilder
         if(!`remapPal(am=)) ret false;
       case .CtrlTy::Zoom:
         if(!`zoom(am=)) ret false;
+	  case .CtrlTy::AbyssDepthSet:
+        if(!`abyssDepthSet(am=)) ret false;
 	  case .CtrlTy::ExitMatch:
         if(!`exitMatch(am=)) ret false;
 	  case .CtrlTy::PlayBGM:
@@ -6039,6 +6042,25 @@ public &StateBuilder
       }
       ret true;
     }]);
+  }  
+  bool abyssDepthSet(&.tbl.NameTable!^/char? param=)
+  {
+    ret `stateSec(param=,[bool(){
+      bool value = false;
+      if(!`stateParam(param=, "value", [`paraF_t(data=){
+        value = true;
+        if(
+          !`fullExpression(
+            `state.ctrlList[-1].task=, data=,
+            "`setAbyssDepth(", ");", 2)) ret false;
+        ret true;
+      }])) ret false;
+      if(!value){
+        `lasterror = "value not specified";
+        ret false;
+      }
+      ret true;
+    }]);
   }
   bool moveHitReset(&.tbl.NameTable!^/char? param=)
   {
@@ -8197,6 +8219,8 @@ public &StateBuilder
           `state.ctrlList[-1].typ = .CtrlTy::RemapPal;
         cond .s.equ(s, "zoom"):
           `state.ctrlList[-1].typ = .CtrlTy::Zoom;
+		cond .s.equ(s, "abyssdepthset"):
+          `state.ctrlList[-1].typ = .CtrlTy::AbyssDepthSet;
 		cond .s.equ(s, "exitmatch"):
           `state.ctrlList[-1].typ = .CtrlTy::ExitMatch;
 		cond .s.equ(s, "playbgm"):

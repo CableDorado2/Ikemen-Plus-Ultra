@@ -3808,6 +3808,11 @@ public &Char
     //if(.roundEnd()) ret;
     `sysivar[.iDEFENCE] = d; //.m.max!int?(0)<, .m.min!int?(`sysivar[.iDEFENCE])<, d;
   }
+  public void setAbyssDepth(int n)
+  {
+    .com.abyssDepth = n + .com.abyssDepth;
+	//Is there a posibility to play a SFX, like playback stuff?
+  }
   public void cmdUpdate(int f)
   {
     bool act =

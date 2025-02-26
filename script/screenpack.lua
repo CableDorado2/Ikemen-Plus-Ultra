@@ -705,6 +705,7 @@ end
 --; MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
+MainFadeInTime = 30
 
 if data.engineMode == "FG" then --Menu Items for Fighting Engine Mode
 t_mainMenu = {
@@ -1777,6 +1778,9 @@ txt_backquestion = createTextImg(jgFnt, 1, 0, "BACK TO MAIN MENU?", 160.5, 110,0
 txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)
 
+selectFadeinTime = 10 --TODO
+selectFadeoutTime = 10 --TODO
+
 --Back Window BG
 backWindowBG = animNew(sprSys, [[
 230,1, 0,0, -1
@@ -2673,13 +2677,15 @@ txt_gameNo = createTextImg(font21, 0, 0, "", 160, 20)
 txt_bossNo = createTextImg(font12, 0, 0, "", 160, 20)
 txt_bonusNo = createTextImg(font21, 0, 0, "", 160, 20)
 
+arcadeRivalMatchNo = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
+
 function f_matchInfo() --Not draws! only prepare the info for use in versus screen
 --Match Info Vars
 	gameNo = gameNo+1
 	bossNo = bossNo+1
 	bonusNo = bonusNo+1
 --Set Match Info Texts
-	if data.gameMode == "arcade" and matchNo == data.rivalMatch then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
+	if data.gameMode == "arcade" and matchNo == arcadeRivalMatchNo then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
 	elseif data.gameMode == "arcade" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE: "..matchNo) --Set Arcade Match Text
 	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
 	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR: "..matchNo-1) --Set Tower Match Text
@@ -3875,11 +3881,12 @@ txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
 txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
-abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a normal boss?
+abyssBossMatchNo = 20 --Each 20 match a boss will appear
+abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a normal boss
 
-t_abyssSel = {
+t_abyssSel = { --TODO: Generate this via .def file format for comfortable customization
 	{depth = 100, cpustats = 0, info = "[Easy] difficulty geared towards beginners",
-		boss = {
+		specialboss = {
 		--Boss 1
 			{
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
@@ -3887,12 +3894,13 @@ t_abyssSel = {
 				song = "", --Music Path (if it is empty an auto song will be loaded)
 				depth = 100, --At what depth/matchNo will the boss appear
 				stats = 10, --Boss stats (life, power, attack, defence)
+				pal = 1, --Boss Palette
 				ailevel = 8 --CPU Level
 			},
 		},
 	},
 	{depth = 500, cpustats = 5, info = "[Normal] difficulty for average players",
-		boss = {
+		specialboss = {
 		--Boss 1
 			{
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
@@ -3900,6 +3908,7 @@ t_abyssSel = {
 				song = "",
 				depth = 100,
 				stats = 10,
+				pal = 1,
 				ailevel = 8
 			},
 		--Boss 2
@@ -3907,21 +3916,29 @@ t_abyssSel = {
 				char = "Suave Dude",
 				stage = "stages/Mountainside Temple/Dark Corridor.def",
 				song = "",
-				depth = 100,
+				depth = 200,
 				stats = 10,
+				pal = 1,
 				ailevel = 8
 			},
 		},
 	},
 	{depth = 999, cpustats = 10, info = "[Hard] difficulty for expert players",
-		
+		specialboss = {
+		--Boss 1
+			{
+				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+				stage = "stages/Mountainside Temple/Dark Corridor.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+				song = "", --Music Path (if it is empty an auto song will be loaded)
+				depth = 100, --At what depth/matchNo will the boss appear
+				stats = 10, --Boss stats (life, power, attack, defence)
+				pal = 1, --Boss Palette
+				ailevel = 8 --CPU Level
+			},
+		},
 	},
-	{depth = 2357, cpustats = 15, info = "[TEST1] difficulty for expert players",
-		
-	},
-	{depth = 8488, cpustats = 20, info = "[TEST2] difficulty for expert players",
-		
-	},
+	{depth = -1, cpustats = 15, info = "[Infinite] difficulty for insane players"},
+	{depth = 20000, cpustats = 20, info = "[TEST] difficulty for ??? players"},
 }
 
 for i=1, #t_abyssSel do
@@ -3938,6 +3955,7 @@ t_abyssSpecialBoss = {
 		abyss = 1, --At what abyss difficulty will the boss appear
 		depth = 100, --At what depth/matchNo will the boss appear
 		stats = 10, --Boss stats (life, power, attack, defence)
+		pal = 1, --Boss Palette
 		ailevel = 8 --CPU Level
 	},
 }
