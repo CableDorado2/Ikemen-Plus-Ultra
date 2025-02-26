@@ -53,6 +53,27 @@ function pauseMenu(p, st, esc)
 	script.pause.f_pauseMain(p, st, esc)
 end
 
+challengerTime = 0
+
+function challengerScreen()
+	if challengerTime < 200 then --Here Comes a New Challenger!
+		if challengerTime == 0 then
+			togglePause() --Pause Screen
+			playBGM(bgmNothing) --Stop Stage Song
+			sndPlay(sndSys, 200, 1)
+		end
+		challengerTime = challengerTime + 1
+		animDraw(f_animVelocity(challengerWindow, 0, 1.5)) --Draw from common.lua
+		animDraw(challengerText)
+		animUpdate(challengerText)
+		if challengerTime == 200 then
+			--data.challengerMode = true
+			--f_saveTemp()
+			exitMatch()
+		end
+	end
+end
+
 speed = 1.0
 
 function changeSpeed()

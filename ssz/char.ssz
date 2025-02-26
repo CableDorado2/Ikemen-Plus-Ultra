@@ -5519,6 +5519,10 @@ public &Char
   {
     ret .com.abyssDepth;
   }
+  public int trAbyssDepthBoss()
+  {
+    ret .com.abyssDepthBoss;
+  }
   public int trAbyssReward()
   {
     ret .com.abyssReward;

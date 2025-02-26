@@ -190,7 +190,7 @@ void game()
 	//`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
 	`put(y=, "PLAYER SIDE:" + .com.playerSide); //Display Player Side
 	`put(y=, "TOURNEY STATE:" + .com.tourneyState); //Display Tourney State
-	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward); //Display Abyss Depth Level & Abyss Reward
+	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward + " - ABYSS DEPTH BOSS:" + ''.com.abyssDepthBoss); //Display Abyss Depth Level, Abyss Reward & Next Abyss Boss Match
 	`put(y=, ""); //Enter a space to separate
 	`put(y=, "MATCHS TO WIN:" + ''.com.matchsToWin + " - CURRENT MATCH:" + ''.com.match); //Display Matchs to Win (FT) & Current Match Number
 	`put(y=, "P1 MATCH WINS:" + ''.com.p1matchWins); //Display Player 1 Match Wins
@@ -628,6 +628,12 @@ void game()
       }
       .chr.draw(dx, dy, dscl);
     }
+//SPECIAL CHALLENGER SCREEN
+	if(.com.abyssDepth == .com.abyssDepthBoss) {
+		.dscri.L.getGlobal("challengerScreen");
+		if(!.dscri.L.pcall(0, 1)) ret;
+	}
+//
 	drawPauseMenu(pmSt, pmEsc);
 	pmSt = pmEsc = false;
     drawDebug();

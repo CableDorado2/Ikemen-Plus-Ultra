@@ -169,6 +169,12 @@ void abyssdepth(&.lua.State L=, int re=)
   L.pushNumber((double).com.abyssDepth);
 }
 
+void abyssdepthboss(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssDepthBoss);
+}
+
 void ailevel(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1316,6 +1322,7 @@ public void registerFunction(&.lua.State L=)
   L.register("playerid", .playerid);
   L.register("abyssreward", .abyssreward);
   L.register("abyssdepth", .abyssdepth);
+  L.register("abyssdepthboss", .abyssdepthboss);
   L.register("ailevel", .ailevel);
   L.register("tagmode", .tagmode);
   L.register("alive", .alive);

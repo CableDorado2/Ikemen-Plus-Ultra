@@ -2972,6 +2972,7 @@ function f_default() --Reset Game Modes Configuration
 	setTourneyState("") --set tournament state to show in tourney mode lifebar.
 	setAbyssReward(0) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
+	setAbyssDepthBoss(0) --set next abyss boss depth.
 	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end

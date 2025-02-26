@@ -53,8 +53,7 @@ public &Share
   public ^/char pauseVar;
   public ^/char tourneyState;
   public int gameType;
-  public int abyssDepth;
-  public int abyssReward;
+  public int abyssDepth, abyssDepthBoss, abyssReward;
   public int inputDisplay;
   public int damageDisplay;
   public int powerStateP1;
@@ -136,6 +135,7 @@ public &Share
 	`tourneyState = .com.tourneyState;
 	`gameType = .com.gameType;
 	`abyssDepth = .com.abyssDepth;
+	`abyssDepthBoss = .com.abyssDepthBoss;
 	`abyssReward = .com.abyssReward;
 	`inputDisplay = .com.inputDisplay;
 	`damageDisplay = .com.damageDisplay;
@@ -222,6 +222,7 @@ public &Share
 	.com.tourneyState = `tourneyState;
 	.com.gameType = `gameType;
 	.com.abyssDepth = `abyssDepth;
+	.com.abyssDepthBoss = `abyssDepthBoss;
 	.com.abyssReward = `abyssReward;
 	.com.inputDisplay = `inputDisplay;
 	.com.damageDisplay = `damageDisplay;

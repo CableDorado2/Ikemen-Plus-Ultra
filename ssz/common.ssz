@@ -54,6 +54,7 @@ public int p2matchWins = 0;
 public int matchsToWin = 0; //FT
 
 public int abyssDepth = 1; //To display abyss mode level depth
+public int abyssDepthBoss = 0; //To display abyss boss depth appear
 public int abyssReward = 0; //To display abyss mode reward
 public ^/char tourneyState;
 

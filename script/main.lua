@@ -12974,6 +12974,7 @@ function f_setAbyssStats()
 			data.t_p2selected[p]['sp3'] = ""
 		end
 	end
+	setAbyssDepthBoss(abyssBossMatch) --store boss depthNo in ssz to manage as ".com.abyssDepthBoss" via fighting.ssz, match.cns, etc
 	abyssDat.nosave.nextboss = abyssBossMatch
 	abyssDat.nosave.reward = getAbyssReward()
 	f_saveStats()
