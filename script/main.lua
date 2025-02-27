@@ -8278,6 +8278,10 @@ function f_exitToMainMenu() --For Advanced Select
 	data.tempBack = false
 	f_saveTemp()
 	exitAbyss = true
+	if data.gameMode == "abyss" and (getAbyssDepth() > stats.modes.abyss.maxdepth) then
+		stats.modes.abyss.maxdepth = getAbyssDepth()
+		f_saveStats()
+	end
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
 	f_resetMenuArrowsPos()
@@ -12957,8 +12961,15 @@ function f_setAbyssStats()
 		matchNo = 41
 		abyssBossMatch = 40+20 = 60
 	]]
-	if matchNo == abyssBossMatch then 
-		statsPlus = abyssBossStatsIncrease --When enter in boss match increase cpu stats for it
+	if matchNo == abyssBossMatch then
+		statsPlus = abyssBossStatsIncrease --When enter in a normal boss match set specific cpu stats (loaded from screenpack.lua)
+		if t_abyssSel[abyssSel].specialboss ~= nil then
+			for i=1, #t_abyssSel[abyssSel].specialboss do
+				if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
+					statsPlus = t_abyssSel[abyssSel].specialboss[i].stats --Set specific cpu stats for a special boss
+				end
+			end
+		end
 		abyssBossMatch = abyssBossMatch+abyssBossMatchNo --Also increase abyssBossMatch counter to the next boss to avoid boss challenger loop when enter in the match
 		setAbyssBossFight(1) --This match is an Abyss Boss Fight
 	end
@@ -14805,12 +14816,13 @@ end
 function f_advancedEnd()
 	if data.rosterMode == "survival" then
 		stats.modes.survival.clear = stats.modes.survival.clear + 1
-		f_saveStats()
 	elseif data.rosterMode == "boss" then
 		stats.modes.bossrush.clear = stats.modes.bossrush.clear + 1
-		f_saveStats()
 	end
+	if data.gameMode == "abyss" then stats.coins = stats.coins + abyssDat.nosave.reward end --Get abyss reward when end it
+	f_saveStats()
 	f_storyboard("data/screenpack/gameover.def")
+	exitAbyss = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuArrowsPos()
@@ -15391,18 +15403,41 @@ if validCells() then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 						p1Cell = t_randomChars[math.random(#t_randomChars)] --get random character
+						--Fight against boss character predefined at some depth/MatchNo
+						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
+							for i=1, #t_abyssSel[abyssSel].specialboss do
+								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
+									local bossChar = nil
+								--Pick Specific Char
+									if t_abyssSel[abyssSel].specialboss[i].char ~= nil then
+										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
+								--Pick Random Char
+									else
+										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char:lower()
+									end
+									p1Cell = t_charAdd[bossChar]
+								end
+							end
+						end
 					else
 						p1Cell = t_roster[matchNo*p1numChars-i+1]
 					end
 				end
 			--Set AI Palette
 				if data.gameMode == "abyss" then
-				--Boss character predefined Palette
-					--if MatchNo == t_abyssSel[abyssSel].depthboss[MatchNo] then
-						--p1Pal = 1
-					--else
-						p1Pal = math.random(2,12)
-					--end
+					if matchNo == abyssBossMatch then
+						p1Pal = 1 --Normal Boss Specific Palette
+					else
+						p1Pal = math.random(2,12) --Normal Enemy Random Palette
+					end
+				--Special Boss character predefined Palette
+					if t_abyssSel[abyssSel].specialboss ~= nil then
+						for i=1, #t_abyssSel[abyssSel].specialboss do
+							if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
+								p1Pal = t_abyssSel[abyssSel].specialboss[i].pal
+							end
+						end
+					end
 				else
 					if data.aipal == "Default" then
 						p1Pal = 1
