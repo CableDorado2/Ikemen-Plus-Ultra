@@ -3890,10 +3890,10 @@ t_abyssSel = { --TODO: Generate this via .def file format for comfortable custom
 		--Boss 1
 			{
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
-				stage = "stages/Mountainside Temple/Dark Corridor.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
-				song = "", --Music Path (if it is empty an auto song will be loaded)
+				stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+				--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
 				depth = 100, --At what depth/matchNo will the boss appear
-				stats = 10, --Boss stats (life, power, attack, defence)
+				stats = 5, --Boss stats (life, power, attack, defence)
 				pal = 1, --Boss Palette
 				ailevel = 8 --CPU Level
 			},
@@ -3903,10 +3903,9 @@ t_abyssSel = { --TODO: Generate this via .def file format for comfortable custom
 		specialboss = {
 		--Boss 1
 			{
-				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
-				stage = "stages/Mountainside Temple/Dark Corridor.def",
-				song = "",
-				depth = 100,
+				char = "Kung Fu Man/Master/Master Kung Fu Man.def",
+				stage = "stages/Mountainside Temple/Lobby Night.def",
+				depth = 200,
 				stats = 10,
 				pal = 1,
 				ailevel = 8
@@ -3914,10 +3913,20 @@ t_abyssSel = { --TODO: Generate this via .def file format for comfortable custom
 		--Boss 2
 			{
 				char = "Suave Dude",
-				stage = "stages/Mountainside Temple/Dark Corridor.def",
-				song = "",
-				depth = 200,
-				stats = 10,
+				stage = "stages/Mountainside Temple/Outside.def",
+				music = "sound/Death Corridor.mp3",
+				depth = 400,
+				stats = 15,
+				pal = 1,
+				ailevel = 8
+			},
+		--Boss 3
+			{
+				char = "Kung Fu Girl/Master/Master Kung Fu Girl.def",
+				stage = "stages/Mountainside Temple/Hidden Path Night.def",
+				--music = "sound/",
+				depth = 500,
+				stats = 20,
 				pal = 1,
 				ailevel = 8
 			},
@@ -3927,13 +3936,51 @@ t_abyssSel = { --TODO: Generate this via .def file format for comfortable custom
 		specialboss = {
 		--Boss 1
 			{
-				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
-				stage = "stages/Mountainside Temple/Dark Corridor.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
-				song = "", --Music Path (if it is empty an auto song will be loaded)
-				depth = 100, --At what depth/matchNo will the boss appear
-				stats = 10, --Boss stats (life, power, attack, defence)
-				pal = 1, --Boss Palette
-				ailevel = 8 --CPU Level
+				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+				stage = "stages/Mountainside Temple/Lobby 2 Night.def",
+				music = "sound/Killer Mirror.mp3",
+				depth = 40,
+				stats = 15,
+				pal = 1,
+				ailevel = 8
+			},
+		--Boss 2
+			{
+				char = "Kung Fu Man/Master/Master Kung Fu Man.def",
+				stage = "stages/Mountainside Temple/Lobby Night.def",
+				depth = 200,
+				stats = 20,
+				pal = 1,
+				ailevel = 8
+			},
+		--Boss 3
+			{
+				char = "Kung Fu Girl/Master/Master Kung Fu Girl.def",
+				stage = "stages/Mountainside Temple/Outside.def",
+				depth = 400,
+				stats = 25,
+				pal = 7,
+				ailevel = 8
+			},
+		--Boss 4
+			{
+				char = "Shin Gouki",
+				stage = "stages/Mountainside Temple/Hidden Path Night.def",
+				music = "sound/God Hands.mp3",
+				depth = 700,
+				stats = 30,
+				pal = 1,
+				ailevel = 8
+			},
+		--Boss 5
+			{
+				char = "Red Dragon",
+				--stage = "stages/",
+				--music = "sound/",
+				depth = 999,
+				stats = 35,
+				pal = 1,
+				ailevel = 8
 			},
 		},
 	},
@@ -3951,7 +3998,7 @@ t_abyssSpecialBoss = {
 	{
 		char = "", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 		stage = "", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
-		song = "", --Music Path (if it is empty an auto song will be loaded)
+		music = "", --Song Path (if it is empty an auto song will be loaded)
 		abyss = 1, --At what abyss difficulty will the boss appear
 		depth = 100, --At what depth/matchNo will the boss appear
 		stats = 10, --Boss stats (life, power, attack, defence)

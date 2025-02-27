@@ -8278,10 +8278,6 @@ function f_exitToMainMenu() --For Advanced Select
 	data.tempBack = false
 	f_saveTemp()
 	exitAbyss = true
-	if data.gameMode == "abyss" and (getAbyssDepth() > stats.modes.abyss.maxdepth) then
-		stats.modes.abyss.maxdepth = getAbyssDepth()
-		f_saveStats()
-	end
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
 	f_resetMenuArrowsPos()
@@ -13991,7 +13987,13 @@ function f_result(state)
 	--elseif state == "lost" then
 	--end
 	if data.gameMode == "tower" then rosterSize = #t_selTower[destinySelect].kombats
-	elseif data.gameMode == "abyss" then rosterSize = t_abyssSel[abyssSel].depth
+	elseif data.gameMode == "abyss" then
+		rosterSize = t_abyssSel[abyssSel].depth
+	--Save Max Abyss Depth
+		if getAbyssDepth() > stats.modes.abyss.maxdepth then
+			stats.modes.abyss.maxdepth = getAbyssDepth()
+			f_saveStats()
+		end
 	elseif data.gameMode == "endless" then rosterSize = 1
 	else rosterSize = #t_roster
 	end
@@ -15490,8 +15492,10 @@ if validCells() then
 					--Fight against boss character predefined at some depth/MatchNo
 						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
-								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
+								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then --should replace matchNo with getAbyssDepth()?
 									local bossChar = nil
+									local bossStage = nil
+									local bossSong = nil
 								--Pick Specific Char
 									if t_abyssSel[abyssSel].specialboss[i].char ~= nil then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
@@ -15500,6 +15504,14 @@ if validCells() then
 										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char:lower()
 									end
 									p2Cell = t_charAdd[bossChar]
+								--Set Custom Stage
+									if t_abyssSel[abyssSel].specialboss[i].stage ~= nil then
+										data.stage = t_abyssSel[abyssSel].specialboss[i].stage
+									end
+								--Set Custom BGM
+									if t_abyssSel[abyssSel].specialboss[i].music ~= nil then
+										data.bgm = t_abyssSel[abyssSel].specialboss[i].music
+									end
 								end
 							end
 						end
