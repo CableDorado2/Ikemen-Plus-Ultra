@@ -628,9 +628,9 @@ void game()
       }
       .chr.draw(dx, dy, dscl);
     }
-//SPECIAL CHALLENGER SCREEN
-	if(.com.abyssDepth == .com.abyssDepthBoss) {
-		.dscri.L.getGlobal("challengerScreen");
+//ABYSS BOSS CHALLENGER SCREEN
+	if (.com.abyssDepth == .com.abyssDepthBoss) {
+		.dscri.L.getGlobal("abyssBossChallenger");
 		if(!.dscri.L.pcall(0, 1)) ret;
 	}
 //

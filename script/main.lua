@@ -12921,6 +12921,10 @@ function f_selectVersus()
 				hintTime = 0 --Restart timer for a new random hint
 			end
 			textImgDraw(txt_hints) --Draw Hints
+			if data.debugMode and data.gameMode == "abyss" then
+				f_drawQuickText(txt_mtcno, font2, 0, 1, "MATCH: "..matchNo, 100, 60)
+				f_drawQuickText(txt_abmtcno, font2, 0, 1, "ABYSS BOSS MATCH: "..abyssBossMatch, 100, 90)
+			end
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			hintTime = hintTime + 1 --Start Timer for Randoms Hints
@@ -12939,7 +12943,7 @@ function f_setAbyssStats()
 	local statsPlus = 0
 	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch+abyssBossMatchNo end
 --[[Each time that this screen start, abyssBossMatch will increase abyssBossMatchNo ONLY if matchNo(depth) > abyssBossMatch
-		
+	
 	Examples:
 		abyssBossMatchNo = 20 --loaded from screenpack.lua
 		
@@ -12952,7 +12956,10 @@ function f_setAbyssStats()
 		matchNo = 41
 		abyssBossMatch = 40+20 = 60
 	]]
-	if matchNo == abyssBossMatch then statsPlus = abyssBossStatsIncrease end --When enter in boss match increase cpu stats for it
+	if matchNo == abyssBossMatch then 
+		statsPlus = abyssBossStatsIncrease --When enter in boss match increase cpu stats for it
+		abyssBossMatch = abyssBossMatch+abyssBossMatchNo --Also increase abyssBossMatch counter to the next boss to avoid boss challenger loop when enter in the match
+	end
 --Store Abyss Stats for each player	
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		--TODO
@@ -14265,7 +14272,7 @@ function f_continue()
 				--else
 					--textImgSetText(txt_coins, "COINS: "..stats.coins)
 				end
-				textImgSetText(txt_cont, "TIMES CONTINUED: "..stats.continueCount)				
+				textImgSetText(txt_cont, "TIMES CONTINUED: "..stats.continueCount)
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', sprFade)
 				data.continue = 1
 			elseif i > 1366 then --Continue = NO
@@ -14419,6 +14426,7 @@ function f_continue()
 			end
 			textImgDraw(txt_cont) --Always Show Times Continue Count
 		end
+		if data.debugMode then f_drawQuickText(txt_winreveal, font2, 0, 1, "WINNER: "..winner, 80, 60) end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -15188,6 +15196,7 @@ if validCells() then
 			end
 	--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
 		else --if winner == -1
+			assert(loadfile(saveTempPath))()
 			if onlinegame and winner == -1 then
 				f_exitToMainMenu()
 				return
@@ -15213,6 +15222,12 @@ if validCells() then
 				end
 				f_loseAdvanced()
 				return
+		--Abyss Boss Challenger
+			elseif data.gameMode == "abyss" and data.challengerAbyss then
+			--Don't Exit, just prepare stuff
+				matchNo = getAbyssDepth()
+				data.challengerAbyss = false
+				f_saveTemp()
 		--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
 				assert(loadfile(saveTempPath))()
@@ -17281,9 +17296,6 @@ function f_abyssSelect()
 					--TODO
 			--New Game
 				else
-					abyssBossMatch = 20 --Each 20 depth will appear a boss, need to be here to reset it in each new game
-					abyssDat.nosave.nextboss = abyssBossMatch
-					f_saveStats()
 					f_abyssBoot() --Open Side Select
 				end
 			end

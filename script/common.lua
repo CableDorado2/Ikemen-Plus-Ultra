@@ -2973,6 +2973,7 @@ function f_default() --Reset Game Modes Configuration
 	setAbyssReward(0) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
 	setAbyssDepthBoss(0) --set next abyss boss depth.
+	abyssBossMatch = getAbyssDepthBoss()
 	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end
@@ -3573,6 +3574,7 @@ function f_saveTemp()
 		['data.tempBack'] = data.tempBack,
 		['data.replayDone'] = data.replayDone,
 		['data.challengerMode'] = data.challengerMode,
+		['data.challengerAbyss'] = data.challengerAbyss,
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
@@ -3588,6 +3590,7 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.tempBack = false
 	data.replayDone = false
 	data.challengerMode = false
+	data.challengerAbyss = false
 	data.VNbreaker = false
 	data.p1Lose = false
 	data.p2Lose = false

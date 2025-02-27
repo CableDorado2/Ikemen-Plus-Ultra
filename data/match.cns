@@ -643,7 +643,7 @@ value = 0.5
 ;===========================================================================
 [State 0, Increase Abyss Depth Count]
 type = AbyssDepthSet
-triggerall = GameMode = "abyss"
+triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
 trigger1 = MoveContact = 1 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2))
 value = 1 ;Increase Depth Count by 1 when conditions are meet
 

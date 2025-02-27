@@ -55,21 +55,24 @@ end
 
 challengerTime = 0
 
-function challengerScreen()
-	if challengerTime < 200 then --Here Comes a New Challenger!
-		if challengerTime == 0 then
-			togglePause() --Pause Screen
-			playBGM(bgmNothing) --Stop Stage Song
-			sndPlay(sndSys, 200, 1)
-		end
-		challengerTime = challengerTime + 1
-		animDraw(f_animVelocity(challengerWindow, 0, 1.5)) --Draw from common.lua
-		animDraw(challengerText)
-		animUpdate(challengerText)
-		if challengerTime == 200 then
-			--data.challengerMode = true
-			--f_saveTemp()
-			exitMatch()
+function abyssBossChallenger()
+	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
+		if challengerTime < 200 then --Here Comes a New Challenger!
+			if challengerTime == 0 then
+				togglePause() --Pause Screen
+				playBGM(bgmNothing) --Stop Stage Song
+				sndPlay(sndSys, 200, 1)
+			end
+			challengerTime = challengerTime + 1
+			animDraw(f_animVelocity(selectHardBG0, -1, -1))
+			animDraw(f_animVelocity(challengerWindow, 0, 1.5)) --Draw from common.lua
+			animDraw(challengerText)
+			animUpdate(challengerText)
+			if challengerTime == 200 then
+				data.challengerAbyss = true
+				f_saveTemp()
+				exitMatch()
+			end
 		end
 	end
 end
@@ -182,7 +185,7 @@ function handicapSet(p) --Maybe not gonna work in online or replays because debu
 end
 
 function statsSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
-	if getGameMode() == "abyss" then
+	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 		for side=1, 2 do
 			local pDat = nil
 			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
@@ -199,8 +202,9 @@ function statsSet(p) --Maybe not gonna work in online or replays because debug-s
 	end
 end
 
-addHotkey('F9', true, false, false, 'lifeAdd(2)') --Ctrl+F9: Increases Player 2's power to 1
-addHotkey('F9', false, false, true, 'lifeAdd(1)') --Shift+F9: Increases Player 1's power to 1
+--Test
+addHotkey('F9', true, false, false, 'lifeAdd(2)') --Ctrl+F9: Increases Player 2's lifemax
+addHotkey('F9', false, false, true, 'lifeAdd(1)') --Shift+F9: Increases Player 1's lifemax
 
 function lifeAdd(p)
 local oldid = id()
@@ -209,6 +213,7 @@ local oldid = id()
 		playerid(oldid)
 	end
 end
+--Test
 
 function status(p)
 local oldid = id()

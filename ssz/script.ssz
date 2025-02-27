@@ -1347,6 +1347,7 @@ public void init(&.lua.State L=)
   L.register("setAbyssReward", .setAbyssReward);
   L.register("setAbyssDepth", .setAbyssDepth);
   L.register("setAbyssDepthBoss", .setAbyssDepthBoss);
+  L.register("getAbyssDepthBoss", .getAbyssDepthBoss);
   L.register("getAbyssReward", .getAbyssReward);
   L.register("getAbyssDepth", .getAbyssDepth);
   L.register("exitMatch", .exitMatch);
