@@ -12923,7 +12923,7 @@ function f_selectVersus()
 			textImgDraw(txt_hints) --Draw Hints
 			if data.debugMode and data.gameMode == "abyss" then
 				f_drawQuickText(txt_mtcno, font2, 0, 1, "MATCH: "..matchNo, 100, 60)
-				f_drawQuickText(txt_abmtcno, font2, 0, 1, "ABYSS BOSS MATCH: "..abyssBossMatch, 100, 90)
+				f_drawQuickText(txt_abmtcno, font2, 0, 1, "NEXT ABYSS BOSS MATCH: "..abyssBossMatch, 100, 90)
 			end
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
@@ -12941,6 +12941,7 @@ end
 
 function f_setAbyssStats()
 	local statsPlus = 0
+	setAbyssBossFight(0)
 	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch+abyssBossMatchNo end
 --[[Each time that this screen start, abyssBossMatch will increase abyssBossMatchNo ONLY if matchNo(depth) > abyssBossMatch
 	
@@ -12959,6 +12960,7 @@ function f_setAbyssStats()
 	if matchNo == abyssBossMatch then 
 		statsPlus = abyssBossStatsIncrease --When enter in boss match increase cpu stats for it
 		abyssBossMatch = abyssBossMatch+abyssBossMatchNo --Also increase abyssBossMatch counter to the next boss to avoid boss challenger loop when enter in the match
+		setAbyssBossFight(1) --This match is an Abyss Boss Fight
 	end
 --Store Abyss Stats for each player	
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -15457,10 +15459,10 @@ if validCells() then
 									local bossChar = nil
 								--Pick Specific Char
 									if t_abyssSel[abyssSel].specialboss[i].char ~= nil then
-										bossChar = t_abyssSel[abyssSel].specialboss[i].char --:lower()
+										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
 								--Pick Random Char
 									else
-										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char
+										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char:lower()
 									end
 									p2Cell = t_charAdd[bossChar]
 								end
@@ -15528,7 +15530,7 @@ if validCells() then
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
-			setAbyssReward((matchNo-1)*3) --TODO
+			setAbyssReward((getAbyssDepth()-1)*3)
 			if getAbyssDepth() == 1 or getAbyssDepth() == 100 then f_abyssMap() end
 			if data.tempBack == true then
 				f_exitToMainMenu()

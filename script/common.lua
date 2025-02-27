@@ -2974,6 +2974,7 @@ function f_default() --Reset Game Modes Configuration
 	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
 	setAbyssDepthBoss(0) --set next abyss boss depth.
 	abyssBossMatch = getAbyssDepthBoss()
+	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
 	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end

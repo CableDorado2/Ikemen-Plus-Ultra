@@ -1285,6 +1285,18 @@ public &StateBuilder
     cond .s.equ("roundno", token):
       out .= ".com.round";
       typ = 2;
+	cond .s.equ("abyssdepth", token):
+      out .= "`trAbyssDepth()";
+      typ = 2;
+	cond .s.equ("abyssdepthboss", token):
+      out .= "`trAbyssDepthBoss()";
+      typ = 2;
+	cond .s.equ("abyssbossfight", token):
+      out .= "`trAbyssBossFight()";
+      typ = 2;
+	cond .s.equ("abyssreward", token):
+      out .= "`trAbyssReward()";
+      typ = 2;
     cond .s.equ("tickspersecond", token):
       out .= ".cfg.GameSpeed";
       typ = 2;

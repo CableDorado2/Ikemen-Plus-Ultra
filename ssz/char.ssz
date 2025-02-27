@@ -5523,6 +5523,10 @@ public &Char
   {
     ret .com.abyssDepthBoss;
   }
+  public int trAbyssBossFight()
+  {
+    ret .com.abyssBossFight;
+  }
   public int trAbyssReward()
   {
     ret .com.abyssReward;

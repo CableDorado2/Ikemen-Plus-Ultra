@@ -1169,6 +1169,13 @@ void getAbyssDepthBoss(&.lua.State L=, int re=)
   L.pushNumber((double).com.abyssDepthBoss);
 }
 
+void setAbyssBossFight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int adbf = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssBossFight = adbf;
+}
+
 void setAbyssReward(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1348,6 +1355,7 @@ public void init(&.lua.State L=)
   L.register("setAbyssDepth", .setAbyssDepth);
   L.register("setAbyssDepthBoss", .setAbyssDepthBoss);
   L.register("getAbyssDepthBoss", .getAbyssDepthBoss);
+  L.register("setAbyssBossFight", .setAbyssBossFight);
   L.register("getAbyssReward", .getAbyssReward);
   L.register("getAbyssDepth", .getAbyssDepth);
   L.register("exitMatch", .exitMatch);
