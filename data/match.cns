@@ -644,9 +644,8 @@ value = 0.5
 [State 0, Increase Abyss Depth Count]
 type = AbyssDepthSet
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-;trigger1 = AbyssBossFight = 0 && GetHitVar(damage) > 30 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-trigger1 = AbyssBossFight = 0 && GetHitVar(hitcount) = 3 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-trigger2 = Time = 1
+trigger1 = AbyssBossFight = 0 && GetHitVar(damage) > 30 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+;trigger1 = AbyssBossFight = 0 && GetHitVar(hitcount) = 2 && Time = 0 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 value = 1 ;Increase Depth Count by 1 when conditions are meet
 
 ;===========================================================================

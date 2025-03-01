@@ -53,28 +53,17 @@ function pauseMenu(p, st, esc)
 	script.pause.f_pauseMain(p, st, esc)
 end
 
-challengerTime = 0
-
 function abyssBossChallenger()
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
-		if challengerTime < 200 then --Here Comes a New Challenger!
-			if challengerTime == 0 then
-				togglePause() --Pause Screen
-				sndStop() --Stop SFX
-				playBGM(bgmNothing) --Stop Stage Song
-				sndPlay(sndSys, 200, 1)
-			end
-			challengerTime = challengerTime + 1
-			animDraw(f_animVelocity(selectTowerBG0, -1, -1))
-			animDraw(f_animVelocity(challengerWindow, 0, 1.5)) --Draw from common.lua
-			animDraw(challengerText)
-			animUpdate(challengerText)
-			if challengerTime == 200 then
-				data.challengerAbyss = true
-				f_saveTemp()
-				exitMatch()
-			end
-		end
+		data.challengerAbyss = true
+		f_saveTemp()
+		exitMatch()
+	end
+end
+
+function abyssBossReward()
+	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
+		
 	end
 end
 

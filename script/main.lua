@@ -13690,15 +13690,17 @@ end
 --; HERE COMES A NEW CHALLENGER SCREEN
 --;===========================================================
 function f_selectChallenger()
-	if data.quickCont == true and data.rosterAdvanced == true then return end
+	if data.gameMode ~= "abyss" then
+		if data.quickCont == true and data.rosterAdvanced == true then return end
+		data.rosterMode = "challenger"
+	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmNothing)
 	sndPlay(sndSys, 200, 1) --Here comes a new Challenger!
 	local i = 0
-	data.rosterMode = "challenger"
 	cmdInput()
 	while true do
-		if i == 150 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		if i == 150 then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			cmdInput()
 			break
@@ -13708,13 +13710,13 @@ function f_selectChallenger()
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Normal Matchs Backgrounds
 		else
-			--Draw Black BG only for Tower/Abyss Mode
+		--Draw Black BG only for Tower/Abyss Mode
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
-			--Draw Red BG for Special Modes
+		--Draw Red BG for Special Modes
 			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
-			--Draw Blue BG for Normal Modes
+		--Draw Blue BG for Normal Modes
 			else
 				animDraw(f_animVelocity(commonBG0, -1, -1))
 			end
@@ -15242,6 +15244,7 @@ if validCells() then
 			elseif data.gameMode == "abyss" and data.challengerAbyss then
 			--Don't Exit, just prepare stuff
 				matchNo = getAbyssDepth()
+				f_selectChallenger()
 				data.challengerAbyss = false
 				f_saveTemp()
 		--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
