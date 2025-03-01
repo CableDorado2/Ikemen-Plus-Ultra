@@ -515,7 +515,7 @@ pos = 0,88888
 ;===========================================================================
 [State 500, Intro for Round 1]
 type = assertspecial
-triggerall = GameMode != "story"
+triggerall = GameMode != "story" && GameMode != "practice" && GameMode != "abyss" && GameMode != "abysscoop" && GameMode != "abysscpu"
 trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
 flag2 = nomusic
@@ -644,7 +644,9 @@ value = 0.5
 [State 0, Increase Abyss Depth Count]
 type = AbyssDepthSet
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && MoveContact = 1 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2))
+;trigger1 = AbyssBossFight = 0 && GetHitVar(damage) > 30 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+trigger1 = AbyssBossFight = 0 && GetHitVar(hitcount) = 3 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+trigger2 = Time = 1
 value = 1 ;Increase Depth Count by 1 when conditions are meet
 
 ;===========================================================================

@@ -15408,8 +15408,10 @@ if validCells() then
 						--Fight against boss character predefined at some depth/MatchNo
 						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
-								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
+								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then --should replace matchNo with getAbyssDepth()?
 									local bossChar = nil
+									local bossStage = nil
+									local bossSong = nil
 								--Pick Specific Char
 									if t_abyssSel[abyssSel].specialboss[i].char ~= nil then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
@@ -15418,6 +15420,14 @@ if validCells() then
 										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char:lower()
 									end
 									p1Cell = t_charAdd[bossChar]
+								--Set Custom Stage
+									if t_abyssSel[abyssSel].specialboss[i].stage ~= nil then
+										data.stage = t_abyssSel[abyssSel].specialboss[i].stage
+									end
+								--Set Custom BGM
+									if t_abyssSel[abyssSel].specialboss[i].music ~= nil then
+										data.bgm = t_abyssSel[abyssSel].specialboss[i].music
+									end
 								end
 							end
 						end
@@ -15577,8 +15587,8 @@ if validCells() then
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
-			setAbyssReward((getAbyssDepth()-1)*3)
-			if getAbyssDepth() == 1 or getAbyssDepth() == 100 then f_abyssMap() end
+			setAbyssReward((getAbyssDepth()-1)*5)
+			if getAbyssDepth() == 1 then f_abyssMap() end
 			if data.tempBack == true then
 				f_exitToMainMenu()
 				return
