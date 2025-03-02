@@ -3811,7 +3811,6 @@ public &Char
   public void setAbyssDepth(int n)
   {
     .com.abyssDepth = n + .com.abyssDepth;
-	//Is there a posibility to play a SFX, like playback stuff?
   }
   public void cmdUpdate(int f)
   {

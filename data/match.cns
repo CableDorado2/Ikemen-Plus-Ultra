@@ -456,12 +456,12 @@ type = VarSet
 trigger1 = 1
 sysvar(9) = !noko && life <= 0
 
-[State -I1, KO1]
-type = PlaySnd
-triggerall = sysvar(9)
-triggerall = !nokosnd
-trigger1 = !(sysvar(56) & 4);SYSFLAG,KO
-value = 11, 0
+;[State -I1, KO1]
+;type = PlaySnd
+;triggerall = sysvar(9)
+;triggerall = !nokosnd
+;trigger1 = !(sysvar(56) & 4);SYSFLAG,KO
+;value = 11, 0
 
 [State -I1, KO2]
 type = VarSet
@@ -642,7 +642,7 @@ value = 0.5
 ; ABYSS MODE
 ;===========================================================================
 ;[State 0, Increase Abyss Depth TEST]
-;type = AbyssDepthSet
+;type = AbyssDepthAdd
 ;triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
 ;trigger1 = AbyssBossFight = 0 && GetHitVar(damage) > 10 && GetHitVar(hitcount) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 ;value = 1 ;Increase Depth Count by 1 when conditions are meet
@@ -657,14 +657,20 @@ value = 0.5
 [State 0, Start Hit Count]
 type = VarSet
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && GetHitVar(hitcount) >= 1 && GetHitVar(damage) > 5 && Time = 0 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+trigger1 = AbyssBossFight = 0 && RoundState = 2 && GetHitVar(hitcount) >= 1 && Time = 0 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 var(1) = var(1) + 1 ;Increase counter in "var(1)"
 
 [State 0, Increase Abyss Depth Counter]
-type = AbyssDepthSet
+type = AbyssDepthAdd
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
 trigger1 = AbyssBossFight = 0 && var(1) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 value = 1 ;Increase Depth Count by 1 when conditions are meet
+
+[State 0, Plays back SFX from "data/common.snd"]
+type = PlaySnd
+triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
+trigger1 = AbyssBossFight = 0 && var(1) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+value = F22,0
 
 [State 0, Reset Hit Count]
 type = VarSet

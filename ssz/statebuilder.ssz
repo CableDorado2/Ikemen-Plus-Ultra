@@ -58,7 +58,7 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   VictoryQuote,
   RemapPal,
   Zoom,
-  AbyssDepthSet, AbyssRewardSet,
+  AbyssDepthAdd, AbyssRewardAdd,
   ExitMatch,
   PlayBGM,
   ForceCommand,
@@ -3391,8 +3391,8 @@ public &StateBuilder
         if(!`remapPal(am=)) ret false;
       case .CtrlTy::Zoom:
         if(!`zoom(am=)) ret false;
-	  case .CtrlTy::AbyssDepthSet:
-        if(!`abyssDepthSet(am=)) ret false;
+	  case .CtrlTy::AbyssDepthAdd:
+        if(!`abyssDepthAdd(am=)) ret false;
 	  case .CtrlTy::ExitMatch:
         if(!`exitMatch(am=)) ret false;
 	  case .CtrlTy::PlayBGM:
@@ -6055,7 +6055,7 @@ public &StateBuilder
       ret true;
     }]);
   }  
-  bool abyssDepthSet(&.tbl.NameTable!^/char? param=)
+  bool abyssDepthAdd(&.tbl.NameTable!^/char? param=)
   {
     ret `stateSec(param=,[bool(){
       bool value = false;
@@ -8231,8 +8231,8 @@ public &StateBuilder
           `state.ctrlList[-1].typ = .CtrlTy::RemapPal;
         cond .s.equ(s, "zoom"):
           `state.ctrlList[-1].typ = .CtrlTy::Zoom;
-		cond .s.equ(s, "abyssdepthset"):
-          `state.ctrlList[-1].typ = .CtrlTy::AbyssDepthSet;
+		cond .s.equ(s, "abyssdepthadd"):
+          `state.ctrlList[-1].typ = .CtrlTy::AbyssDepthAdd;
 		cond .s.equ(s, "exitmatch"):
           `state.ctrlList[-1].typ = .CtrlTy::ExitMatch;
 		cond .s.equ(s, "playbgm"):

@@ -142,7 +142,7 @@ local oldid = id()
 end
 
 function handicapSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
-	if getGameMode() == "vs" or data.ftcontrol > 0 then
+	if getGameMode() == "vs" then
 		for side=1, 2 do
 			local pDat = nil
 			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
@@ -176,17 +176,22 @@ end
 
 function statsSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
-		for side=1, 2 do
-			local pDat = nil
-			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
-			for i=1, #pDat do
-			--For each Player Selected
-				if player(pDat[i].pn) then
-					--setNewLife(life()+pDat[i].life)
-					setPower(power()+pDat[i].power)
-					setAttack(attack()+pDat[i].attack)
-					setDefence(defence()+pDat[i].defence)
-				end
+	--For each Left Side Player Selected
+		for i=1, #p1Dat do
+			if player(p1Dat[i].pn) then
+				--setNewLife(life()+p1Dat[i].life)
+				setPower(power()+p1Dat[i].power)
+				setAttack(attack()+p1Dat[i].attack)
+				setDefence(defence()+p1Dat[i].defence)
+			end
+		end
+	--For each Right Side Player Selected
+		for i=1, #p2Dat do
+			if player(p2Dat[i].pn) then
+				--setNewLife(life()+p2Dat[i].life)
+				setPower(power()+p2Dat[i].power)
+				setAttack(attack()+p2Dat[i].attack)
+				setDefence(defence()+p2Dat[i].defence)
 			end
 		end
 	end

@@ -133,7 +133,7 @@ void toggleStatusDraw(&.lua.State L=, int re=)
 void toggleRecord(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  ^&.sc.Snd snd = .sc.refArg!&.sc.Snd?(L=, re=, argc=, nret); if(re < 0) ret;  
+  ^&.sc.Snd snd = .sc.refArg!&.sc.Snd?(L=, re=, argc=, nret); if(re < 0) ret;
   if(!.s.equ(.com.gameMode, "practice") || (.chr.chars[0]<>~stVal.no == 0 && !.chr.chars[0]<>~ctrl) || .com.pause || .com.pauseMenu > 0) ret;
   branch{
   cond .cmd.pbState == .cmd.PlaybackState::None:
