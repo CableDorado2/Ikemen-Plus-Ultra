@@ -86,21 +86,17 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Arreglar preview de random chars que no coincide con el char al usar la visualización por sprites.
 
-- En tournament cuando 2 jugadores humanos tienen el mismo control ejemplo p1 y p1, podría incluir un side select para que uno de los 2 se convierta en p2 y así evitar que se controlen como espejo al tener el mismo player asignado.
-
-- Añadir una entrada de nombre para cada char escogido para que sea reconocido en el torneo (en caso de que se repita) y ese name que aparezca en lifebar durante el match.
-
 - Sistema de puntos.
 
 - Ranking al completar o perder en Modos Arcade, Survival, etc.
 
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
+- Añadir sistema de decisiones al Modo Visual Novel.
+
 - Durante el arcade, la forma en que está programada el here comes a new challenger hace uso de setCom(2, 0) en el menú de pausa causa que la IA se quede en nivel 0, pero es porque el jugador 2 recibe por unos instantes el control para poner pausa y que se vea la pantalla del challenger.
 
-- Agregar soporte para Localcoord en cada char, stage y fight.def.
-
-- Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
+- Hacer que los inputs de control del jugador 2 se puedan configurar como botones no utilizados o inputs "void", para no cambiar el control del jugador 1 cuando no responda debido a que el jugador 2 tiene o comparte mismos botones.
 
 - Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, etc)
 
@@ -114,23 +110,21 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Implementar los parametros: ordersurvival, hidden, slot en select.def
 
+- En tournament cuando 2 jugadores humanos tienen el mismo control ejemplo p1 y p1, podría incluir un side select para que uno de los 2 se convierta en p2 y así evitar que se controlen como espejo al tener el mismo player asignado.
+
+- Añadir una entrada de nombre para cada char escogido para que sea reconocido en el torneo (en caso de que se repita) y ese name que aparezca en lifebar durante el match.
+
+- Opción para jugar el Modo Torneo en formato Eliminación Doble.
+
 - Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
 
-- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
+- Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-- Integrar la función de bgm.loops.
-
-- Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
-
-- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
-
-- Leer archivos movelist.dat dentro de los chars.
+- Integrar un sistema de diálogo en los matches siguiendo la lógica usada para la selección de recompensa del abyss mode.
 
 - Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
 
 - Crear un trigger para activar o desactivar las transiciones por cada round. Al desactivarlas, el inicio de cada nuevo round sería como X-Men COTA o Mortal Kombat.
-
-- Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
 
 - Crear una función como setDebugScript pero que permita soportar todas las funciones de script.ssz (debug.lua por alguna razón no lo hace) y ejecutarse durante toda la batalla o al menos al final de la partida. Para implementar las siguientes características:
 
@@ -139,6 +133,41 @@ This is a general view of what you can expect in next releases. This roadmap is 
   - Como lo anterior pero para la pantalla Continuar
 
   - Ambas características se han implementado en el código del paquete de pantalla actual, pero la solución actual tiene un alto rendimiento (aumenta el tiempo de carga cuando se inicia el ejecutable) y no es perfecta (no hay acceso para coincidir con los datos relacionados que a menudo son verificados por winscreens como WinKO, Life, etc.)
+
+- Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
+
+- Leer archivos movelist.dat dentro de los chars.
+
+- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
+
+- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa).
+
+- Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
+
+- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+
+- El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
+
+**v1.7**
+------------
+
+- Probar mod de smash de forma global en match.cns: https://youtu.be/B4b4N16zigA?t=49
+
+- Incluir pregunta para guardar o no los replays online.
+
+- Co-Op para el Versus Mode.
+
+- Implementar parametros de transiciones entre stages (round<num>def).
+
+- AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
+
+- Agregar soporte para Localcoord en cada char, stage y fight.def.
+
+- Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
+
+- Integrar la función de bgm.loops.
+
+- Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
 
 - Al configurar el Gamepad/Joystick del jugador 2 garantizar que no pierda el control después de asignar un botón.
 
@@ -150,25 +179,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Detección al reconectar un mando.
 
-**v1.7**
-------------
-
-- Incluir pregunta para guardar o no los replays online.
-
-- Co-Op para el Versus Mode.
-
-- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa).
-
-- AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
-
-- Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
-
-- Implementar parametros de transiciones entre stages (round<num>def).
-
-- Ver cómo se podría integrar un sistema de diálogo en los matches.
-
-- Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
-
 **v1.8**
 ------------
 
@@ -178,7 +188,7 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Soporte para cargar archivos PNG o PCX externos en lugar de usar siempre el formato SFF usando la función IMG_Load del SDL2.
 
-- Soporte para modelos 3D integrando glTF.
+- Soporte para modelos 3D integrando glTF?
 
 - Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en ¿local replays?.
 
@@ -190,8 +200,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - Hacer realidad las funciones del menú Netplay Settings.
 
 - En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
-
-- El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
 
 - Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
