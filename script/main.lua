@@ -12345,7 +12345,7 @@ function f_orderSelect()
 		textImgSetBank(txt_p1State, 0) --Reset Text Color
 		textImgSetBank(txt_p2State, 0)
 	--Set Order Select Music
-		if matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch then
 			playBGM(bgmSelectOrderFinal)
 		else	
 			playBGM(bgmSelectOrder)
@@ -12388,7 +12388,7 @@ function f_orderSelect()
 			nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
 			textImgSetText(txt_orderTime, nodecimalOrderTime)
 		--Draw Order Select Last Match Backgrounds
-			if matchNo >= lastMatch then
+			if data.rosterAdvanced and matchNo >= lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Order Select Normal Matchs Backgrounds
 			else
@@ -12832,7 +12832,7 @@ function f_selectVersus()
 		local hintTime = 0
 		local timeLimit = 150
 	--Set Versus Screen Music
-		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then
+		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
 			playBGM(bgmVSFinal)
 		elseif data.gameMode == "intermission" then
 			playBGM(bgmVSSpecial)
@@ -12866,7 +12866,7 @@ function f_selectVersus()
 				break
 			end
 		--Draw Versus Screen Last Match Backgrounds
-			if matchNo >= lastMatch then
+			if data.rosterAdvanced and matchNo >= lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Versus Screen Normal Matchs Backgrounds
 			else
@@ -13137,7 +13137,7 @@ function f_selectWin()
 	while true do
 		if data.victoryscreen then --Only shows if data.victoryscreen == true
 		--Draw Winner Screen Last Match Backgrounds
-			if matchNo >= lastMatch then
+			if data.rosterAdvanced and matchNo >= lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Winner Screen Normal Matchs Backgrounds
 			else
@@ -13719,7 +13719,7 @@ function f_selectChallenger()
 			break
 		end
 	--Draw Last Match Backgrounds
-		if matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Normal Matchs Backgrounds
 		else
@@ -13907,7 +13907,7 @@ function f_service()
 			maxService = maxItems
 		end		
 	--Draw Character Select Last Match Backgrounds
-		if matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Character Select Normal Matchs Backgrounds
 		else

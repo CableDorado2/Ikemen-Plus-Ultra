@@ -174,7 +174,7 @@ void game()
 //CHARS STATUS INFO
     if(#.com.debugScript > 0) loop{index i = 0; while; do:
       if(#.chr.chars[i] > 0){
-        .dscri.L.getGlobal("status");
+        .dscri.L.getGlobal("statusInfo");
         .dscri.L.pushNumber((double)(i+1));
         if(!.dscri.L.pcall(1, 1)) break;
         ^/char status;
@@ -212,7 +212,7 @@ void game()
     loop{index i = 0; while; do:
       if(#.chr.chars[i] > 0){
 	//ACTION INFO
-		.dscri.L.getGlobal("actioninfo");
+		.dscri.L.getGlobal("actionInfo");
 		.dscri.L.pushNumber((double)(i+1));
         if(!.dscri.L.pcall(1, 1)) break;
         ^/char actioninfo;
@@ -220,7 +220,7 @@ void game()
         .dscri.L.pop(1);
         if(#actioninfo > 0) `put(y=, actioninfo);
 	//STATE INFO	
-		.dscri.L.getGlobal("stateinfo");
+		.dscri.L.getGlobal("stateInfo");
 		.dscri.L.pushNumber((double)(i+1));
         if(!.dscri.L.pcall(1, 1)) break;
         ^/char stateinfo;
