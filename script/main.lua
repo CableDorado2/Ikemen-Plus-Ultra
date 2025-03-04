@@ -7631,9 +7631,9 @@ function f_makeRoster()
 				end
 			end
 		end
---Survival / Boss Rush / Bonus Rush / All Roster
+--Survival / Boss Rush / Bonus Rush / All Roster / Abyss / Endless
 	else
-		if data.gameMode == "survival" or data.gameMode == "allroster" then
+		if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "endless" then
 			t = t_randomChars
 			cnt = #t
 			local i = 0
@@ -12345,7 +12345,7 @@ function f_orderSelect()
 		textImgSetBank(txt_p1State, 0) --Reset Text Color
 		textImgSetBank(txt_p2State, 0)
 	--Set Order Select Music
-		if matchNo == lastMatch then
+		if matchNo >= lastMatch then
 			playBGM(bgmSelectOrderFinal)
 		else	
 			playBGM(bgmSelectOrder)
@@ -12388,7 +12388,7 @@ function f_orderSelect()
 			nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
 			textImgSetText(txt_orderTime, nodecimalOrderTime)
 		--Draw Order Select Last Match Backgrounds
-			if matchNo == lastMatch then
+			if matchNo >= lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Order Select Normal Matchs Backgrounds
 			else
@@ -12866,7 +12866,7 @@ function f_selectVersus()
 				break
 			end
 		--Draw Versus Screen Last Match Backgrounds
-			if matchNo == lastMatch then
+			if matchNo >= lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Versus Screen Normal Matchs Backgrounds
 			else
@@ -12921,10 +12921,13 @@ function f_selectVersus()
 				hintTime = 0 --Restart timer for a new random hint
 			end
 			textImgDraw(txt_hints) --Draw Hints
+			--[[
 			if data.debugMode and data.gameMode == "abyss" then
 				f_drawQuickText(txt_mtcno, font2, 0, 1, "MATCH: "..matchNo, 100, 60)
 				f_drawQuickText(txt_abmtcno, font2, 0, 1, "NEXT ABYSS BOSS MATCH: "..abyssBossMatch, 100, 90)
+				f_drawQuickText(txt_absmtcno, font2, 0, 1, "NEXT ABYSS SPECIAL BOSS MATCH: "..getAbyssDepthBossSpecial(), 100, 120)
 			end
+			]]
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			hintTime = hintTime + 1 --Start Timer for Randoms Hints
@@ -12942,6 +12945,7 @@ end
 function f_setAbyssStats()
 	local statsPlus = 0
 	setAbyssBossFight(0)
+--Prepare Normal Boss Battle
 	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch+abyssBossMatchNo end
 --[[Each time that this screen start, abyssBossMatch will increase abyssBossMatchNo ONLY if matchNo(depth) > abyssBossMatch
 	
@@ -12959,15 +12963,26 @@ function f_setAbyssStats()
 	]]
 	if matchNo == abyssBossMatch then
 		statsPlus = abyssBossStatsIncrease --When enter in a normal boss match set specific cpu stats (loaded from screenpack.lua)
-		if t_abyssSel[abyssSel].specialboss ~= nil then
-			for i=1, #t_abyssSel[abyssSel].specialboss do
-				if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then
-					statsPlus = t_abyssSel[abyssSel].specialboss[i].stats --Set specific cpu stats for a special boss
-				end
-			end
-		end
 		abyssBossMatch = abyssBossMatch+abyssBossMatchNo --Also increase abyssBossMatch counter to the next boss to avoid boss challenger loop when enter in the match
 		setAbyssBossFight(1) --This match is an Abyss Boss Fight
+	end
+	setAbyssDepthBoss(abyssBossMatch) --Save NORMAL boss depthNo in ssz to manage as ".com.abyssDepthBoss" via fighting.ssz, match.cns, etc
+	abyssDat.nosave.nextboss = abyssBossMatch
+--Prepare Special Boss Battle
+	if t_abyssSel[abyssSel].specialboss ~= nil then
+		if t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt] ~= nil then
+			if matchNo == t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].depth then
+				statsPlus = t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].stats --Set specific cpu stats for a SPECIAL boss
+				abyssSpecialBossCnt = abyssSpecialBossCnt + 1 --Increase special abyss boss count for next special fight
+				setAbyssBossFight(1) --This match is an Abyss Boss Fight
+			end
+			if t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt] == nil then
+				setAbyssDepthBossSpecial(0) --No more special boss left
+			else
+				setAbyssDepthBossSpecial(t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].depth) --Save SPECIAL boss depthNo in ssz to manage as ".com.abyssDepthBossSpecial" via fighting.ssz, match.cns, etc
+			end
+			abyssDat.nosave.nextspecialboss = getAbyssDepthBossSpecial()
+		end
 	end
 --Store Abyss Stats for each player	
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -12990,8 +13005,6 @@ function f_setAbyssStats()
 			data.t_p2selected[p]['sp3'] = ""
 		end
 	end
-	setAbyssDepthBoss(abyssBossMatch) --store boss depthNo in ssz to manage as ".com.abyssDepthBoss" via fighting.ssz, match.cns, etc
-	abyssDat.nosave.nextboss = abyssBossMatch
 	abyssDat.nosave.reward = getAbyssReward()
 	f_saveStats()
 end
@@ -13124,7 +13137,7 @@ function f_selectWin()
 	while true do
 		if data.victoryscreen then --Only shows if data.victoryscreen == true
 		--Draw Winner Screen Last Match Backgrounds
-			if matchNo == lastMatch then
+			if matchNo >= lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Winner Screen Normal Matchs Backgrounds
 			else
@@ -13706,7 +13719,7 @@ function f_selectChallenger()
 			break
 		end
 	--Draw Last Match Backgrounds
-		if matchNo == lastMatch then
+		if matchNo >= lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Normal Matchs Backgrounds
 		else
@@ -13894,7 +13907,7 @@ function f_service()
 			maxService = maxItems
 		end		
 	--Draw Character Select Last Match Backgrounds
-		if matchNo == lastMatch then
+		if matchNo >= lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Character Select Normal Matchs Backgrounds
 		else
@@ -14957,11 +14970,12 @@ if validCells() then
 					f_exitToMainMenu()
 					return
 				end
+				f_makeRoster()
 				lastMatch = t_abyssSel[abyssSel].depth --get roster selected in abyss depth select
 			else
 			--generate roster for other modes (arcade, survival, etc)
+				f_makeRoster()
 				if data.gameMode ~= "endless" then --because for endless we gonna make this infinite
-					f_makeRoster()
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						lastMatch = #t_roster / p1numChars
 					else
@@ -15001,7 +15015,7 @@ if validCells() then
 				end
 			end
 		--No More Matches Left
-			if matchNo == lastMatch then
+			if matchNo >= lastMatch then
 				f_winAdvanced()
 				f_storyboard("data/screenpack/gameover.def")
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -15089,7 +15103,7 @@ if validCells() then
 					end
 				end
 			--No More Matches Left
-				if matchNo == lastMatch then
+				if matchNo >= lastMatch then
 				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p1selected[1].cel+1]
@@ -15129,7 +15143,7 @@ if validCells() then
 					end
 				end
 			--No More Matches Left
-				if matchNo == lastMatch then
+				if matchNo >= lastMatch then
 				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p2selected[1].cel+1]
@@ -15407,8 +15421,8 @@ if validCells() then
 					if data.gameMode == "tower" then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
-						p1Cell = t_randomChars[math.random(#t_randomChars)] --get random character
-						--Fight against boss character predefined at some depth/MatchNo
+						p1Cell = t_roster[math.random(#t_roster)] --get random character
+					--Fight against boss character predefined at some depth/MatchNo
 						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
 								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then --should replace matchNo with getAbyssDepth()?
@@ -15420,7 +15434,7 @@ if validCells() then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
 								--Pick Random Char
 									else
-										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char:lower()
+										bossChar = t_selChars[t_roster[math.random(#t_roster)]+1].char:lower()
 									end
 									p1Cell = t_charAdd[bossChar]
 								--Set Custom Stage
@@ -15501,7 +15515,7 @@ if validCells() then
 					if data.gameMode == "tower" then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
-						p2Cell = t_randomChars[math.random(#t_randomChars)] --get random character
+						p2Cell = t_roster[#t_roster] --Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew. This logic will ensure that chars are not repeated until the entire roster is defeated.
 					--Fight against boss character predefined at some depth/MatchNo
 						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
@@ -15514,7 +15528,7 @@ if validCells() then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
 								--Pick Random Char
 									else
-										bossChar = t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char:lower()
+										bossChar = t_selChars[t_roster[#t_roster]+1].char:lower()
 									end
 									p2Cell = t_charAdd[bossChar]
 								--Set Custom Stage
@@ -15612,6 +15626,11 @@ if validCells() then
 		if data.gameMode == "arcade" or data.gameMode == "tower" then
 			f_setRoundTime() --Set Round Time for specific characters
 			f_setRounds() --Set Rounds to Win for specific characters
+		elseif data.gameMode == "abyss" or data.gameMode == "endless" then
+			--Remove the last char loaded for the CPU side from t_roster and make a check so that when t_roster is empty, use f_makeRoster() again
+			table.remove(t_roster, #t_roster)
+			if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.txt") end
+			if #t_roster == 0 or t_roster == nil then f_makeRoster() end
 		end
 		f_setZoom()
 	--inputs

@@ -53,11 +53,13 @@ public int p1matchWins = 0; //To display wins count
 public int p2matchWins = 0;
 public int matchsToWin = 0; //FT
 
-public int abyssDepth = 1; //To display abyss mode level depth
-public int abyssDepthBoss = 0; //To display abyss boss depth appear
-public int abyssBossFight = 0; //To detect if player is in an abyss fight
-public int abyssReward = 0; //To display abyss mode reward
 public ^/char tourneyState;
+
+public int abyssDepth = 1; //To display at what abyss depth level player is
+public int abyssDepthBoss = 0; //To display at what depth of the abyss a NORMAL boss appears
+public int abyssDepthBossSpecial = 0; //To display at what depth of the abyss a SPECIAL boss appears
+public int abyssBossFight = 0; //To detect if player is in an abyss boss fight
+public int abyssReward = 0; //To display abyss reward
 
 public int suaveMode = 0;
 
@@ -117,7 +119,7 @@ public int GameHeight;
 public float WidthScale;
 public float HeightScale;
 
-const bool CharLocalCoord320 = false;
+const bool CharLocalCoord320 = true;
 
 public float CharGameWidth;
 public float CharGameLeft;

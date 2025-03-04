@@ -175,6 +175,12 @@ void abyssdepthboss(&.lua.State L=, int re=)
   L.pushNumber((double).com.abyssDepthBoss);
 }
 
+void abyssdepthbossspecial(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssDepthBossSpecial);
+}
+
 void abyssbossfight(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1329,6 +1335,7 @@ public void registerFunction(&.lua.State L=)
   L.register("abyssreward", .abyssreward);
   L.register("abyssdepth", .abyssdepth);
   L.register("abyssdepthboss", .abyssdepthboss);
+  L.register("abyssdepthbossspecial", .abyssdepthbossspecial);
   L.register("abyssbossfight", .abyssbossfight);
   L.register("ailevel", .ailevel);
   L.register("tagmode", .tagmode);

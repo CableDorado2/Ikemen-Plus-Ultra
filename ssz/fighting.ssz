@@ -190,7 +190,10 @@ void game()
 	//`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
 	`put(y=, "PLAYER SIDE:" + .com.playerSide); //Display Player Side
 	`put(y=, "TOURNEY STATE:" + .com.tourneyState); //Display Tourney State
-	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward + " - NEXT ABYSS DEPTH BOSS:" + ''.com.abyssDepthBoss + " - ABYSS BOSS STATE:" + ''.com.abyssBossFight); //Display Abyss Depth Level, Abyss Reward, Next Abyss Boss Match & Abyss Boss State
+//Display Abyss Depth Level, Abyss Reward & Abyss Boss State
+	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward + " - ABYSS BOSS STATE:" + ''.com.abyssBossFight);
+//Display Next Abyss Normal Boss Match & Next Abyss Special Boss Match	
+	`put(y=, "NEXT ABYSS NORMAL BOSS DEPTH:" + ''.com.abyssDepthBoss + " - NEXT ABYSS SPECIAL BOSS DEPTH:" + ''.com.abyssDepthBossSpecial);
 	`put(y=, ""); //Enter a space to separate
 	`put(y=, "MATCHS TO WIN:" + ''.com.matchsToWin + " - CURRENT MATCH:" + ''.com.match); //Display Matchs to Win (FT) & Current Match Number
 	`put(y=, "P1 MATCH WINS:" + ''.com.p1matchWins); //Display Player 1 Match Wins
@@ -629,7 +632,7 @@ void game()
       .chr.draw(dx, dy, dscl);
     }
 //ABYSS BOSS CHALLENGER SCREEN
-	if (.com.abyssDepth == .com.abyssDepthBoss) {
+	if (.com.abyssDepth == .com.abyssDepthBoss || .com.abyssDepth == .com.abyssDepthBossSpecial) {
 		.dscri.L.getGlobal("abyssBossChallenger");
 		if(!.dscri.L.pcall(0, 1)) ret;
 	}

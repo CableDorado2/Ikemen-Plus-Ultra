@@ -5518,17 +5518,21 @@ public &Char
   {
     ret .com.abyssDepth;
   }
+  public int trAbyssReward()
+  {
+    ret .com.abyssReward;
+  }
   public int trAbyssDepthBoss()
   {
     ret .com.abyssDepthBoss;
   }
+  public int trAbyssDepthBossSpecial()
+  {
+    ret .com.abyssDepthBossSpecial;
+  }
   public int trAbyssBossFight()
   {
     ret .com.abyssBossFight;
-  }
-  public int trAbyssReward()
-  {
-    ret .com.abyssReward;
   }
   public int trFTNo()
   {

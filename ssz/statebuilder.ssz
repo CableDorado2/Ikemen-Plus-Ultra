@@ -1291,6 +1291,9 @@ public &StateBuilder
 	cond .s.equ("abyssdepthboss", token):
       out .= "`trAbyssDepthBoss()";
       typ = 2;
+	cond .s.equ("abyssdepthbossspecial", token):
+      out .= "`trAbyssDepthBossSpecial()";
+      typ = 2;
 	cond .s.equ("abyssbossfight", token):
       out .= "`trAbyssBossFight()";
       typ = 2;
