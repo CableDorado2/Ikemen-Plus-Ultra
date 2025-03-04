@@ -6,9 +6,9 @@ math.randomseed(os.time())
 --Load Common stuff (shared with pause.lua)
 require("script.common")
 
---Debug stuff
+--Debug/Match Stuff
 loadDebugFont(fontDebug)
-setDebugScript("script/debug.lua")
+setDebugScript("script/match.lua")
 
 --Assign Lifebar Screenpack
 loadLifebar(fightDef)

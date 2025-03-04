@@ -631,11 +631,9 @@ void game()
       }
       .chr.draw(dx, dy, dscl);
     }
-//ABYSS BOSS CHALLENGER SCREEN
-	if (.com.abyssDepth == .com.abyssDepthBoss || .com.abyssDepth == .com.abyssDepthBossSpecial) {
-		.dscri.L.getGlobal("abyssBossChallenger");
-		if(!.dscri.L.pcall(0, 1)) ret;
-	}
+//ABYSS MODE FUNCTION
+	.dscri.L.getGlobal("abyssLoop");
+	if(!.dscri.L.pcall(0, 1)) ret;
 //
 	drawPauseMenu(pmSt, pmEsc);
 	pmSt = pmEsc = false;
