@@ -87,6 +87,18 @@ void toggleDebugDraw(&.lua.State L=, int re=)
   if(#.cmd.net == 0) .com.debugdraw!!;
 }
 
+void toggleStatusDraw(&.lua.State L=, int re=)
+{
+  re = 0;
+  if(#.cmd.net == 0) .com.statusDraw!!;
+}
+
+void togglePostMatch(&.lua.State L=, int re=)
+{
+  re = 0;
+  if(#.cmd.net == 0) .com.postMatchFlg!!;
+}
+
 void togglePause(&.lua.State L=, int re=)
 {
   re = 0;
@@ -122,12 +134,6 @@ void step(&.lua.State L=, int re=)
 {
   re = 0;
   if(#.cmd.net == 0 && .com.pauseMenu == 0) .com.step = true;
-}
-
-void toggleStatusDraw(&.lua.State L=, int re=)
-{
-  re = 0;
-  if(#.cmd.net == 0) .com.statusDraw!!;
 }
 
 void toggleRecord(&.lua.State L=, int re=)
@@ -227,10 +233,11 @@ public ^/char loadFile(^/char file)
   .L.register("addHotkey", .addHotkey);
   .L.register("toggleClsnDraw", .toggleClsnDraw);
   .L.register("toggleDebugDraw", .toggleDebugDraw);
+  .L.register("toggleStatusDraw", .toggleStatusDraw);
+  .L.register("togglePostMatch", .togglePostMatch);
   .L.register("togglePause", .togglePause);
   .L.register("togglePauseMenu", .togglePauseMenu);
   .L.register("step", .step);
-  .L.register("toggleStatusDraw", .toggleStatusDraw);
   .L.register("toggleRecord", .toggleRecord);
   .L.register("toggleRecordEnd", .toggleRecordEnd);
   .L.register("togglePlayback", .togglePlayback);

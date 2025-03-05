@@ -4065,6 +4065,9 @@ txt_abyssShopItemPower = "Power +"
 txt_abyssShopItemDefence = "Defence +"
 txt_abyssShopItemLife = "Life +"
 txt_abyssShopItemDescend = "Depth +"
+--Match Reward Items
+txt_abyssShopItemMaxHP = "Maximum HP"
+txt_abyssShopItemReward = "Reward +"
 
 --Special Items
 txt_abyssShopLifeRegeneration = "Regeneration Lv."
@@ -4310,6 +4313,27 @@ function drawAbyssMapInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 219, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 266, hintFontYPos)
 end
+
+--;===========================================================
+--; ABYSS BOSS ITEMS REWARD SCREENPACK DEFINITION
+--;===========================================================
+txt_abyssRewardMain = createTextImg(font11, 0, 0, "REWARD SELECT", 80, 18, 1.2, 1.2)
+txt_abyssRewardInfo = createTextImg(font5, 0, 0, "", 159, 200)
+
+t_abyssReward = {
+ {attack = true, val = 1, text = txt_abyssShopItemAttack.."1", info = "Increases Attack Level by 1"},
+ {defence = true, val = 1, text = txt_abyssShopItemDefence.."1", info = "Increases Defence Level by 1"},
+ {power = true, val = 1, text = txt_abyssShopItemPower.."1", info = "Increases Power Level by 1"},
+ {life = true, val = 1, text = txt_abyssShopItemLife.."1", info = "Increases Life by 1"},
+ 
+ {special = true, text = txt_abyssShopLifeRegeneration.."1", info = "Gradually regenerates HP over time."},
+ {depth = true, val = 10, text = txt_abyssShopItemDescend.."10", info = "Descend 10 Levels from where you start."},
+ {reward = true, val = 500, text = txt_abyssShopItemReward.."500", info = "Add 500 to your Reward."},
+}
+for i=1, #t_abyssReward do --Set ID to all items
+	t_abyssReward[i]['id'] = textImgNew()
+end
+if data.debugLog then f_printTable(t_abyssReward, "save/debug/t_abyssReward.txt") end
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION

@@ -61,6 +61,9 @@ public int abyssDepthBossSpecial = 0; //To display at what depth of the abyss a 
 public int abyssBossFight = 0; //To detect if player is in an abyss boss fight
 public int abyssReward = 0; //To display abyss reward
 
+//Post Match Flag
+public bool postMatchFlg = false;
+
 public int suaveMode = 0;
 
 
