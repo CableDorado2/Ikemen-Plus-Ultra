@@ -12989,10 +12989,10 @@ function f_setAbyssStats()
 		--TODO
 	else
 		for p=1, #data.t_p1selected do
-			data.t_p1selected[p]['life'] = abyssDat.nosave.life
-			data.t_p1selected[p]['power'] = abyssDat.nosave.power
-			data.t_p1selected[p]['attack'] = abyssDat.nosave.attack
-			data.t_p1selected[p]['defence'] = abyssDat.nosave.defence
+			data.t_p1selected[p]['life'] = getAbyssLife()
+			data.t_p1selected[p]['power'] = getAbyssPower()
+			data.t_p1selected[p]['attack'] = getAbyssAttack()
+			data.t_p1selected[p]['defence'] = getAbyssDefence()
 		end
 		for p=1, #data.t_p2selected do
 			data.t_p2selected[p]['life'] = t_abyssSel[abyssSel].cpustats+statsPlus
@@ -13005,7 +13005,12 @@ function f_setAbyssStats()
 			data.t_p2selected[p]['sp3'] = ""
 		end
 	end
+	abyssDat.nosave.life = getAbyssLife()
+	abyssDat.nosave.power = getAbyssPower()
+	abyssDat.nosave.attack = getAbyssAttack()
+	abyssDat.nosave.defence = getAbyssDefence()
 	abyssDat.nosave.reward = getAbyssReward()
+	abyssDat.nosave.depth = getAbyssDepth()
 	f_saveStats()
 end
 
@@ -14836,7 +14841,7 @@ function f_advancedEnd()
 	elseif data.rosterMode == "boss" then
 		stats.modes.bossrush.clear = stats.modes.bossrush.clear + 1
 	end
-	if data.gameMode == "abyss" then stats.coins = stats.coins + abyssDat.nosave.reward end --Get abyss reward when end it
+	if data.gameMode == "abyss" then stats.coins = stats.coins + getAbyssReward() end --Get abyss reward when end it
 	f_saveStats()
 	f_storyboard("data/screenpack/gameover.def")
 	exitAbyss = true
@@ -15604,7 +15609,7 @@ if validCells() then
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
-			setAbyssReward((getAbyssDepth()-1)*5)
+			setAbyssReward(getAbyssReward()+(getAbyssDepth()-1)*5)
 			if getAbyssDepth() == 1 then f_abyssMap() end
 			if data.tempBack == true then
 				f_exitToMainMenu()
@@ -17640,19 +17645,19 @@ function f_abyssMenu()
 						--Attribute Assign
 							if t_abyssMenu[abyssMenu].attack then
 								buyDone = true
-								abyssDat.nosave.attack = abyssDat.nosave.attack + t_abyssMenu[abyssMenu].val
+								setAbyssAttack(getAbyssAttack() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].defence then
 								buyDone = true
-								abyssDat.nosave.defence = abyssDat.nosave.defence + t_abyssMenu[abyssMenu].val
+								setAbyssDefence(getAbyssDefence() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].power then
 								buyDone = true
-								abyssDat.nosave.power = abyssDat.nosave.power + t_abyssMenu[abyssMenu].val
+								setAbyssPower(getAbyssPower() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].life then
 								buyDone = true
-								abyssDat.nosave.life = abyssDat.nosave.life + t_abyssMenu[abyssMenu].val
+								setAbyssLife(getAbyssLife() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].depth then
 								buyDone = true
-								abyssDat.nosave.startdepth = abyssDat.nosave.startdepth + t_abyssMenu[abyssMenu].val
+								setAbyssDepth(getAbyssDepth() + t_abyssMenu[abyssMenu].val)
 						--Special Items Assign
 							else
 							--Special Items Slots are Full
@@ -17691,15 +17696,15 @@ function f_abyssMenu()
 					stats.coins = stats.coins + t_abyssMenu[abyssMenu].price
 				--Attribute Refund
 					if t_abyssMenu[abyssMenu].attack then
-						abyssDat.nosave.attack = abyssDat.nosave.attack - t_abyssMenu[abyssMenu].val
+						setAbyssAttack(getAbyssAttack() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].defence then
-						abyssDat.nosave.defence = abyssDat.nosave.defence - t_abyssMenu[abyssMenu].val
+						setAbyssDefence(getAbyssDefence() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].power then
-						abyssDat.nosave.power = abyssDat.nosave.power - t_abyssMenu[abyssMenu].val
+						setAbyssPower(getAbyssPower() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].life then
-						abyssDat.nosave.life = abyssDat.nosave.life - t_abyssMenu[abyssMenu].val
+						setAbyssLife(getAbyssLife() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].depth then
-						abyssDat.nosave.startdepth = abyssDat.nosave.startdepth - t_abyssMenu[abyssMenu].val
+						setAbyssDepth(getAbyssDepth() - t_abyssMenu[abyssMenu].val)
 				--Special Items Refund
 					else
 						if abyssDat.nosave.sp1 == t_abyssMenu[abyssMenu].text then

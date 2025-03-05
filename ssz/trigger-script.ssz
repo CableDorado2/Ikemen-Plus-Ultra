@@ -27,7 +27,6 @@ public ^&chr.Char cwc;
   ret buf;
 }
 
-
 void player(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 1;
@@ -155,6 +154,30 @@ void playerid(&.lua.State L=, int re=)
   .cwc~trPlayerID(id);
   if(#.chr.c > 0) .cwc = .chr.c;
   L.pushBoolean(#.chr.c > 0);
+}
+
+void abysslife(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssLife);
+}
+
+void abysspower(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssPower);
+}
+
+void abyssattack(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssAttack);
+}
+
+void abyssdefence(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssDefence);
 }
 
 void abyssreward(&.lua.State L=, int re=)
@@ -1332,6 +1355,10 @@ public void registerFunction(&.lua.State L=)
   L.register("enemy", .enemy);
   L.register("enemynear", .enemynear);
   L.register("playerid", .playerid);
+  L.register("abysslife", .abysslife);
+  L.register("abysspower", .abysspower);
+  L.register("abyssattack", .abyssattack);
+  L.register("abyssdefence", .abyssdefence);
   L.register("abyssreward", .abyssreward);
   L.register("abyssdepth", .abyssdepth);
   L.register("abyssdepthboss", .abyssdepthboss);

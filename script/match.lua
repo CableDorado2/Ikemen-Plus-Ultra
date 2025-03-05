@@ -167,7 +167,7 @@ local oldid = id()
 	if not player(p) then return false end
 	local ret = string.format(
 		'StateNo:%d>%d(P%d) Type:%s MoveType:%s Physics:%s Time:%d', 
-		prevstateno(), stateno(), stateOwner(), statetype(), movetype(), physics(), time()
+		prevstateno(), stateno(), stateOwner(), statetype(), movetype(), physics(), time()-1
 	)
 	playerid(oldid)
 	return ret
@@ -196,7 +196,7 @@ puts(string.format(
 --State Info
 puts(string.format(
 	'%s %d StateNo:%d>%d %s MoveType:%s Physics:%s Time:%d', 
-	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time())
+	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time()-1)
 )
 end
 ]]
@@ -205,6 +205,7 @@ end
 --;===========================================================
 local function f_abyssRewardsInit()
 	abyssPause = false
+	abyssRewardDone = false
 	cursorPosY = 1
 	moveTxt = 0
 	rewardMenu = 1
@@ -231,28 +232,28 @@ local function f_abyssBossReward()
 		--Attack +
 			if t_abyssReward[rewardMenu].attack then
 				itemDone = true
-				abyssDat.nosave.attack = abyssDat.nosave.attack + t_abyssReward[rewardMenu].val
+				setAbyssAttack(getAbyssAttack() + t_abyssReward[rewardMenu].val)
 		--Defence +
 			elseif t_abyssReward[rewardMenu].defence then
 				itemDone = true
-				abyssDat.nosave.defence = abyssDat.nosave.defence + t_abyssReward[rewardMenu].val
+				setAbyssDefence(getAbyssDefence() + t_abyssReward[rewardMenu].val)
 		--Power +
 			elseif t_abyssReward[rewardMenu].power then
 				itemDone = true
-				abyssDat.nosave.power = abyssDat.nosave.power + t_abyssReward[rewardMenu].val
+				setAbyssPower(getAbyssPower() + t_abyssReward[rewardMenu].val)
 		--Life +
 			elseif t_abyssReward[rewardMenu].life then
 				itemDone = true
-				abyssDat.nosave.life = abyssDat.nosave.life + t_abyssReward[rewardMenu].val
+				setAbyssLife(getAbyssLife() + t_abyssReward[rewardMenu].val)
 		--Depth +
 			elseif t_abyssReward[rewardMenu].depth then
 				itemDone = true
-				setAbyssDepth(abyssdepth() + t_abyssReward[rewardMenu].val)
+				setAbyssDepth(getAbyssDepth() + t_abyssReward[rewardMenu].val)
 		--Reward +
 			elseif t_abyssReward[rewardMenu].reward then
 				itemDone = true
-				setAbyssReward(abyssreward() + t_abyssReward[rewardMenu].val)
-		--Special Items Assign
+				setAbyssReward(getAbyssReward() + t_abyssReward[rewardMenu].val)
+		--Special Items Assign (TODO)
 			else
 			--Special Items Slots are Full
 				if abyssDat.nosave.sp3 ~= "" then
@@ -269,8 +270,12 @@ local function f_abyssBossReward()
 		--Save Data
 			if itemDone then
 				sndPlay(sndSys, 100, 1)
-				f_saveStats()
+				--f_saveStats()
 				itemDone = false
+				togglePause(0)
+				setSysCtrl(0) --Swap to Game Controls
+				abyssRewardDone = true
+				return
 			end
 		end
 		if rewardMenu < 1 then
@@ -348,14 +353,22 @@ local function f_abyssBossReward()
 end
 
 function pauseMenu(p, st, esc)
-	if not abyssPause then
+	if not abyssPause or abyssRewardDone then
 		script.pause.f_pauseMain(p, st, esc)
 	end
 end
 
 --Function called during match
 function abyssLoop()
+	--[[if player(1) then
+		setAttack(1000)
+	end
+	]]
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
+	--Set Abyss Stats
+		if roundno() == 1 and roundstate() == 0 and gametime() == 1 then
+			f_abyssStatsSet()
+		end
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
 			data.challengerAbyss = true
@@ -363,9 +376,10 @@ function abyssLoop()
 			exitMatch()
 		end
 	--Boss Rewards
-		if roundstate() == 2 then
+		if abyssbossfight() == 1 and roundstate() == 4 and not abyssRewardDone then
 			if not abyssPause then
 				togglePause(1)
+				setSysCtrl(10) --Swap to Menu Controls
 				f_resetAbyss2ArrowsPos()
 				abyssPause = true
 			else
@@ -375,7 +389,7 @@ function abyssLoop()
 	end
 end
 
-function statsSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+function f_abyssStatsSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--For each Left Side Player Selected
 		for i=1, #p1Dat do
@@ -420,7 +434,7 @@ function handicapSet(p) --Maybe not gonna work in online or replays because debu
 			--For each Player Selected
 				if player(pDat[i].pn) then
 				--Life Handicaps
-					if t_handicapSelect[pDat[i].handicap].service == "life" then --and RoundState() < 2
+					if t_handicapSelect[pDat[i].handicap].service == "life" then --and roundstate() < 2
 					--Instakill
 						if t_handicapSelect[pDat[i].handicap].val == nil then
 							setLife(lifemax()/lifemax())

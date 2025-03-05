@@ -4207,7 +4207,7 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
 	local PauseMenu = PauseMenu or false
-	local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
+	local pLevel = math.floor((getAbyssAttack() + getAbyssPower() + getAbyssDefence() + getAbyssLife())/4) --Just an Average
 	animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
 	animPosDraw(abyssProfileAtributes, 190+NewPosX, 76+NewPosY)
 --Character Stuff
@@ -4222,10 +4222,10 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	local attrFontYPos = 85+NewPosY
 	local attrSymb = "+"
 	local attrMax = "MAX"
-	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..abyssDat.nosave.attack, attrFontXPos, attrFontYPos)
-	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..abyssDat.nosave.power, attrFontXPos, attrFontYPos+18)
-	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..abyssDat.nosave.defence, attrFontXPos+60, attrFontYPos)
-	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..abyssDat.nosave.life, attrFontXPos+60, attrFontYPos+18)
+	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..getAbyssAttack(), attrFontXPos, attrFontYPos)
+	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..getAbyssPower(), attrFontXPos, attrFontYPos+18)
+	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..getAbyssDefence(), attrFontXPos+60, attrFontYPos)
+	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos+60, attrFontYPos+18)
 --Special Items
 	local spFont = font2
 	local spFontXPos = 172+NewPosX
@@ -4242,7 +4242,7 @@ function f_abyssProfileCPU() --Only Used in Pause Menu
 	animPosDraw(abyssProfileBG, 169, 54)
 	animPosDraw(abyssProfileAtributes, 194, 110)
 --Character Stuff
-	--drawPortrait(abyssDat.nosave.cel, 223, 59, 0.32, 0.32)
+	--drawPortrait(p2Dat[1].cel, 223, 59, 0.32, 0.32)
 	f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel+1, 314, 69, 1, 1)
 	f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 102, 1, 1)
 --Attributes

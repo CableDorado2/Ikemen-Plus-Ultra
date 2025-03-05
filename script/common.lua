@@ -2962,14 +2962,23 @@ function f_default() --Reset Game Modes Configuration
 	setAutoLevel(false) --generate autolevel.txt in debug dir
 	setHUD(true) --just enable or disable hud elements in game
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
-	setFTNo(1) --Set Matchs To Wins/FT (To show in lifebar of Tournament Mode)
-	setP1matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
-	setP2matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
 	setPauseVar("") --set pause menu extra variable to adjust internal settings.
+	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
+	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
+--Tournament Stuff
+	setFTNo(1) --Set Matchs To Wins/FT (To show in lifebar of Tournament Mode)
+	setP1matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
+	setP2matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
 	setTourneyState("") --set tournament state to show in tourney mode lifebar.
+--Abyss Stuff
+	setAbyssLife(0) --set life points to show during abyss mode profile and which be apply to the player.
+	setAbyssPower(0) --set power points to show during abyss mode profile and which be apply to the player.
+	setAbyssAttack(0) --set attack points to show during abyss mode profile and which be apply to the player.
+	setAbyssDefence(0) --set defence points to show during abyss mode profile and which be apply to the player.
+	
 	setAbyssReward(0) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
 	setAbyssDepthBoss(0) --set next abyss NORMAL boss depth.
@@ -2977,8 +2986,6 @@ function f_default() --Reset Game Modes Configuration
 	abyssBossMatch = getAbyssDepthBoss()
 	abyssSpecialBossCnt = 1 --Start count for Abyss Special Boss Matchs
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
-	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
-	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end
 
 --Take Screenshots
@@ -3819,10 +3826,11 @@ local t_abyssDefaultSave = {
 	power = 0,
 	attack = 0,
 	defence = 0,
-	startdepth = 1,
-	nextboss = 0,
 	reward = 0,
 	expense = 0,
+	depth = 0,
+	nextboss = 0,
+	nextspecialboss = 0,
 	sp1 = "",
 	sp2 = "",
 	sp3 = ""

@@ -465,11 +465,12 @@ void game()
 	
 	//SET ABYSS CHAR STATS VIA DEBUG.LUA START
 		//if(.com.round == 1) {
-			.dscri.L.getGlobal("statsSet");
-			.dscri.L.pushNumber((double)(i+1));
-			if(!.dscri.L.pcall(1, 1)) ret;
+			//.dscri.L.getGlobal("f_abyssStatsSet");
+			//.dscri.L.pushNumber((double)(i+1));
+			//if(!.dscri.L.pcall(1, 1)) ret;
 		//}
 	//SET ABYSS CHAR STATS VIA DEBUG.LUA END
+	
       }
 	  //if(.s.equ(.com.gameMode, "practice")){
         //branch{

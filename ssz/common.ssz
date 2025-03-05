@@ -60,6 +60,11 @@ public int abyssDepthBoss = 0; //To display at what depth of the abyss a NORMAL 
 public int abyssDepthBossSpecial = 0; //To display at what depth of the abyss a SPECIAL boss appears
 public int abyssBossFight = 0; //To detect if player is in an abyss boss fight
 public int abyssReward = 0; //To display abyss reward
+//Unlike above paramvalues this is exclusive to manage abyss player stats
+public int abyssLife = 0; //To save abyss life
+public int abyssPower = 0; //To save abyss Power
+public int abyssAttack = 0; //To save abyss Attack
+public int abyssDefence = 0; //To save abyss Defence
 
 //Post Match Flag
 public bool postMatchFlg = false;
