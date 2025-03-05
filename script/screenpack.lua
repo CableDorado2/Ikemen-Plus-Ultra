@@ -4037,7 +4037,7 @@ function drawAbyssInputHints(shop, refund)
 	if shop then
 		btnInfo = ":Buy Item"
 	else
-		btnInfo = "Confirm"
+		btnInfo = ":Confirm"
 	end
 	if refund then keyInfo = "s" end
 	local inputHintYPos = 219
@@ -4334,6 +4334,30 @@ for i=1, #t_abyssReward do --Set ID to all items
 	t_abyssReward[i]['id'] = textImgNew()
 end
 if data.debugLog then f_printTable(t_abyssReward, "save/debug/t_abyssReward.txt") end
+
+--Title Info BG
+abyssRewardTitleBG = animNew(sprSys, [[
+230,3, 0,0, -1
+]])
+animSetScale(abyssRewardTitleBG, 2.9, 0.41)
+animSetAlpha(abyssRewardTitleBG, 155, 22)
+
+--Menu Transparent background
+abyssRewardTBG = animNew(sprSys, [[
+3,0, 0,0, -1
+]])
+animSetPos(abyssRewardTBG, 0, 25)
+animSetAlpha(abyssRewardTBG, 20, 40)
+animUpdate(abyssRewardTBG)
+
+function drawAbyssRewardInputHints()
+	local inputHintYPos = 216
+	local hintFont = font2
+	local hintFontYPos = 230
+	drawInputHintsP1("u","50,"..inputHintYPos,"d","70,"..inputHintYPos,"l","90,"..inputHintYPos,"r","110,"..inputHintYPos,"w","168,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 132, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 190, hintFontYPos)
+end
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION

@@ -203,24 +203,22 @@ end
 --;===========================================================
 --; MATCH LOOP
 --;===========================================================
-function pauseMenu(p, st, esc)
-	script.pause.f_pauseMain(p, st, esc)
+local function f_abyssRewardsInit()
+	abyssPause = false
+	cursorPosY = 1
+	moveTxt = 0
+	rewardMenu = 1
+	bufu = 0
+	bufd = 0
+	bufr = 0
+	bufl = 0
+	maxItems = 8
+	itemDone = false
 end
-
-local pauseGame = false
+f_abyssRewardsInit()
 
 local function f_abyssBossReward()
 	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local rewardMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 5
-	local itemDone = false
-	--f_resetAbyss2ArrowsPos()
 	--while true do
 	--Actions
 		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -259,7 +257,7 @@ local function f_abyssBossReward()
 			--Special Items Slots are Full
 				if abyssDat.nosave.sp3 ~= "" then
 					sndPlay(sndSys, 100, 5)
-				--At least there is 1 Special Items Slot free
+			--At least there is 1 Special Items Slot free
 				else
 					if abyssDat.nosave.sp1 == "" then abyssDat.nosave.sp1 = t_abyssReward[rewardMenu].text
 					elseif abyssDat.nosave.sp2 == "" then abyssDat.nosave.sp2 = t_abyssReward[rewardMenu].text
@@ -303,14 +301,15 @@ local function f_abyssBossReward()
 			maxrewardMenu = maxItems
 		end
 	--Draw Title
+		animPosDraw(abyssRewardTitleBG, -56, 0)
 		textImgDraw(txt_abyssRewardMain)
 	--Draw Menu Items BG
-		animSetScale(abyssTBG, 240, maxrewardMenu*15)
-		animSetWindow(abyssTBG, 2,20, 165,155)
-		animDraw(abyssTBG)
+		animSetScale(abyssRewardTBG, 240, maxrewardMenu*15)
+		animSetWindow(abyssRewardTBG, 2,20, 165,155)
+		animDraw(abyssRewardTBG)
 	--Draw Cursor
 		animSetWindow(cursorBox, 2,10+cursorPosY*15, 165,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		f_dynamicAlpha(cursorBox, 20,200,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Menu Items Text
 		for i=1, maxrewardMenu do
@@ -332,7 +331,7 @@ local function f_abyssBossReward()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		--drawAbyssRewardInputHints()
+		drawAbyssRewardInputHints()
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -348,6 +347,12 @@ local function f_abyssBossReward()
 	--end
 end
 
+function pauseMenu(p, st, esc)
+	if not abyssPause then
+		script.pause.f_pauseMain(p, st, esc)
+	end
+end
+
 --Function called during match
 function abyssLoop()
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
@@ -359,16 +364,12 @@ function abyssLoop()
 		end
 	--Boss Rewards
 		if roundstate() == 2 then
-			if not pauseGame then
-				togglePause()
-				pauseGame = true
+			if not abyssPause then
+				togglePause(1)
+				f_resetAbyss2ArrowsPos()
+				abyssPause = true
 			else
 				f_abyssBossReward()
-			--[[
-				animDraw(f_animVelocity(challengerWindow, 0, 1.5)) --Draw from common.lua
-				animDraw(challengerText)
-				animUpdate(challengerText)
-			]]
 			end
 		end
 	end
