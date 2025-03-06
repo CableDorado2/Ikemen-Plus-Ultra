@@ -28,6 +28,15 @@ void setLife(&.lua.State L=, int re=)
   }
 }
 
+void setLifeMax(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lifemax = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && #.tscri.cwc > 0){
+    .tscri.cwc~setLifeMax(lifemax);
+  }
+}
+
 void setPower(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -226,6 +235,7 @@ public ^/char loadFile(^/char file)
   .sscri.init(.L=);
   .L.register("puts", .puts);
   .L.register("setLife", .setLife);
+  .L.register("setLifeMax", .setLifeMax);
   .L.register("setPower", .setPower);
   .L.register("setAttack", .setAttack);
   .L.register("setDefence", .setDefence);

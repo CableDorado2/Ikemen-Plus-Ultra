@@ -677,13 +677,3 @@ type = VarSet
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
 trigger1 = AbyssBossFight = 0 && var(228) >= 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 var(228) = 0 ;Reset hit counter to 0 when "var(228)" >= 2
-
-;===========================================================================
-; VS HANDICAPS
-;===========================================================================
-[State 0, POW UNLIMITED]
-type = PowerSet
-triggerall = GameMode = "vs"
-trigger1 = PowerStateP1 = 666 && TeamSide = 1
-trigger2 = PowerStateP2 = 666 && TeamSide = 2
-value = PowerMax

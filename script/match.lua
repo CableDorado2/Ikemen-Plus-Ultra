@@ -203,6 +203,58 @@ end
 --;===========================================================
 --; MATCH LOOP
 --;===========================================================
+local function f_handicapSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+	for side=1, 2 do
+		local pDat = nil
+		if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
+		for i=1, #pDat do
+		--For each Player Selected
+			if player(pDat[i].pn) then
+			--Life Handicaps
+				if t_handicapSelect[pDat[i].handicap].service == "life" then
+				--Instakill
+					if t_handicapSelect[pDat[i].handicap].val == nil then
+						setLife(lifemax()/lifemax())
+				--HP at 75%, 50%, 25%...
+					else
+						setLife(lifemax()/t_handicapSelect[pDat[i].handicap].val)
+					end
+			--Power Handicaps
+				elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 then
+				--Power at MAX
+					if t_handicapSelect[pDat[i].handicap].val == nil then
+						setPower(powermax())
+				--Power at Specific value level
+					else
+						setPower(t_handicapSelect[pDat[i].handicap].val)
+					end
+				end
+			end
+		end
+	end
+end
+
+local function f_abyssStatsSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+--For each Left Side Player Selected
+	for i=1, #p1Dat do
+		if player(p1Dat[i].pn) then
+			setLifeMax(life()+p1Dat[i].life)
+			setPower(power()+p1Dat[i].power)
+			setAttack(attack()+p1Dat[i].attack)
+			setDefence(defence()+p1Dat[i].defence)
+		end
+	end
+--For each Right Side Player Selected
+	for i=1, #p2Dat do
+		if player(p2Dat[i].pn) then
+			setLifeMax(life()+p2Dat[i].life)
+			setPower(power()+p2Dat[i].power)
+			setAttack(attack()+p2Dat[i].attack)
+			setDefence(defence()+p2Dat[i].defence)
+		end
+	end
+end
+
 local function f_abyssRewardsInit()
 	abyssPause = false
 	abyssRewardDone = false
@@ -359,7 +411,8 @@ function pauseMenu(p, st, esc)
 end
 
 --Function called during match
-function abyssLoop()
+function loop()
+--During Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Set Abyss Stats
 		if roundno() == 1 and roundstate() == 0 and gametime() == 1 then
@@ -382,72 +435,10 @@ function abyssLoop()
 				f_abyssBossReward()
 			end
 		end
-	end
-end
-
---Test
-addHotkey('F9', true, false, false, 'lifeAdd(2)') --Ctrl+F9: Increases Player 2's lifemax
-addHotkey('F9', false, false, true, 'lifeAdd(1)') --Shift+F9: Increases Player 1's lifemax
-
-function lifeAdd(p)
-local oldid = id()
-	if player(p) then
-		setNewLife(life()+1000)
-		playerid(oldid)
-	end
-end
---Test
-
-function f_abyssStatsSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
---For each Left Side Player Selected
-	for i=1, #p1Dat do
-		if player(p1Dat[i].pn) then
-			--setNewLife(life()+p1Dat[i].life)
-			setPower(power()+p1Dat[i].power)
-			setAttack(attack()+p1Dat[i].attack)
-			setDefence(defence()+p1Dat[i].defence)
-		end
-	end
---For each Right Side Player Selected
-	for i=1, #p2Dat do
-		if player(p2Dat[i].pn) then
-			--setNewLife(life()+p2Dat[i].life)
-			setPower(power()+p2Dat[i].power)
-			setAttack(attack()+p2Dat[i].attack)
-			setDefence(defence()+p2Dat[i].defence)
-		end
-	end
-end
-
-function handicapSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
-	if getGameMode() == "vs" then
-		for side=1, 2 do
-			local pDat = nil
-			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
-			for i=1, #pDat do
-			--For each Player Selected
-				if player(pDat[i].pn) then
-				--Life Handicaps
-					if t_handicapSelect[pDat[i].handicap].service == "life" then --and roundstate() < 2
-					--Instakill
-						if t_handicapSelect[pDat[i].handicap].val == nil then
-							setLife(lifemax()/lifemax())
-					--HP at 75%, 50%, 25%...
-						else
-							setLife(lifemax()/t_handicapSelect[pDat[i].handicap].val)
-						end
-				--Power Handicaps
-					elseif t_handicapSelect[pDat[i].handicap].service == "power" then
-					--Power at MAX
-						if t_handicapSelect[pDat[i].handicap].val == nil then
-							setPower(powermax())
-					--Power at Specific value level
-						else
-							setPower(t_handicapSelect[pDat[i].handicap].val)
-						end
-					end
-				end
-			end
+--During VS Mode
+	elseif getGameMode() == "vs" then
+		if roundstate() < 2 then
+			f_handicapSet()
 		end
 	end
 end

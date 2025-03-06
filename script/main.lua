@@ -7921,7 +7921,7 @@ end
 function f_selectChar(player, t)
 	for i=1, #t do
 		selectChar(player, t[i].cel, t[i].pal)
-	--Set Handicaps that cannont be asigned via debug.lua
+--[[ --Set Handicaps that cannont be asigned via match.lua
 		if data.gameMode == "versus" or data.ftcontrol > 0 then
 			if t_handicapSelect[t[i].handicap].service == "unlimitedpower" then
 				--setPowerUnlimited(player, true)
@@ -7933,16 +7933,16 @@ function f_selectChar(player, t)
 			end
 	--Set Abyss Mode Special Attributes
 		elseif data.gameMode == "abyss" then
-		--[[
+		
 			if then
 				setAutoguard(player, true)
 			elseif then
 				
 			end
-		]]
 		end
+]]
 	end
---Transfer data.t_p1selected and data.t_p2selected to p1Dat and p2Dat (global access tables) in order to access in pause menu or debug.lua scripts
+--Transfer data.t_p1selected and data.t_p2selected to p1Dat and p2Dat (global access tables) in order to access in pause menu or match.lua scripts
 	if player == 1 then
 		--p1Dat = {}
 		p1Dat = t
@@ -13020,7 +13020,7 @@ end
 function f_loading()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
-		for i=1, #data.t_p1selected do --To set real Player Value to set handicaps and player(data.t_p1selected[i].pn) stuff in debug.lua
+		for i=1, #data.t_p1selected do --To set real Player Value to set handicaps and player(data.t_p1selected[i].pn) stuff in match.lua
 			local playerID = 1
 			if i == 2 then playerID = 3
 			elseif i == 3 then playerID = 5

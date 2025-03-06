@@ -3798,6 +3798,10 @@ public &Char
     .chars[`playerno&(.com.powerShare[`playerno&1]?1:-1)]<>
       ~setPower(`getSharePower() + p);
   }
+  public void setLifeMax(int l)
+  {
+	`sysivar[.iLIFEMAX] = l;
+  }
   public void setAttack(int a)
   {
 	`sysivar[.iATTACK] = a;

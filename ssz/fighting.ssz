@@ -454,13 +454,15 @@ void game()
         if(.com.round == 1) {
 			.chr.chars[i][0]~sysivar[.chr.iPOWER] = .com.power; //Can be modified by setPowerMul()
 		}
-	//SET HANDICAP VIA DEBUG.LUA START
+		
+	//SET HANDICAP VIA DEBUG.LUA START (UNUSED)
         //if(.com.round == 1) {
-			.dscri.L.getGlobal("handicapSet"); //Read lua function from debug.lua
-			.dscri.L.pushNumber((double)(i+1)); //players arguments: f_name(p)
-			if(!.dscri.L.pcall(1, 1)) ret; //arguments
+			//.dscri.L.getGlobal("f_handicapSet"); //Read lua function from debug.lua
+			//.dscri.L.pushNumber((double)(i+1)); //players arguments: f_name(p)
+			//if(!.dscri.L.pcall(1, 1)) ret; //arguments
 		//}
-	//SET HANDICAP VIA DEBUG.LUA END	
+	//SET HANDICAP VIA DEBUG.LUA END (UNUSED)
+	
       }
 	  //if(.s.equ(.com.gameMode, "practice")){
         //branch{
@@ -622,8 +624,8 @@ void game()
       }
       .chr.draw(dx, dy, dscl);
     }
-//ABYSS MODE FUNCTION
-	.dscri.L.getGlobal("abyssLoop");
+//LOOP FUNCTION
+	.dscri.L.getGlobal("loop");
 	if(!.dscri.L.pcall(0, 1)) ret;
 //
 	drawPauseMenu(pmSt, pmEsc);
