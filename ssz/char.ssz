@@ -3800,13 +3800,13 @@ public &Char
   }
   public void setAttack(int a)
   {
-    //if(.roundEnd()) ret;
-	`sysivar[.iATTACK] = a; //.m.max!int?(0)<, .m.min!int?(`sysivar[.iATTACK])<, a;
+	`sysivar[.iATTACK] = a;
+	`attackmul = (float)`sysivar[.iATTACK] / 100.0;
   }
   public void setDefence(int d)
   {
-    //if(.roundEnd()) ret;
-    `sysivar[.iDEFENCE] = d; //.m.max!int?(0)<, .m.min!int?(`sysivar[.iDEFENCE])<, d;
+    `sysivar[.iDEFENCE] = d;
+	`defencemul = (float)`sysivar[.iDEFENCE] / 100.0;
   }
   public void setAbyssDepth(int n)
   {

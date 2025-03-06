@@ -142,8 +142,8 @@ function statusInfo(p)
 local oldid = id()
 	if not player(p) then return false end
 	local ret = string.format(
-		'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d',
-		playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel()
+		'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d TEAM:%d HITCNT:%d',
+		playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel(), teamside(), gethitvar("hitcount")
 	)
 	playerid(oldid)
 	return ret
@@ -360,10 +360,6 @@ end
 
 --Function called during match
 function abyssLoop()
-	--[[if player(1) then
-		setAttack(1000)
-	end
-	]]
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Set Abyss Stats
 		if roundno() == 1 and roundstate() == 0 and gametime() == 1 then
@@ -389,29 +385,6 @@ function abyssLoop()
 	end
 end
 
-function f_abyssStatsSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
-	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
-	--For each Left Side Player Selected
-		for i=1, #p1Dat do
-			if player(p1Dat[i].pn) then
-				--setNewLife(life()+p1Dat[i].life)
-				setPower(power()+p1Dat[i].power)
-				setAttack(attack()+p1Dat[i].attack)
-				setDefence(defence()+p1Dat[i].defence)
-			end
-		end
-	--For each Right Side Player Selected
-		for i=1, #p2Dat do
-			if player(p2Dat[i].pn) then
-				--setNewLife(life()+p2Dat[i].life)
-				setPower(power()+p2Dat[i].power)
-				setAttack(attack()+p2Dat[i].attack)
-				setDefence(defence()+p2Dat[i].defence)
-			end
-		end
-	end
-end
-
 --Test
 addHotkey('F9', true, false, false, 'lifeAdd(2)') --Ctrl+F9: Increases Player 2's lifemax
 addHotkey('F9', false, false, true, 'lifeAdd(1)') --Shift+F9: Increases Player 1's lifemax
@@ -424,6 +397,27 @@ local oldid = id()
 	end
 end
 --Test
+
+function f_abyssStatsSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+--For each Left Side Player Selected
+	for i=1, #p1Dat do
+		if player(p1Dat[i].pn) then
+			--setNewLife(life()+p1Dat[i].life)
+			setPower(power()+p1Dat[i].power)
+			setAttack(attack()+p1Dat[i].attack)
+			setDefence(defence()+p1Dat[i].defence)
+		end
+	end
+--For each Right Side Player Selected
+	for i=1, #p2Dat do
+		if player(p2Dat[i].pn) then
+			--setNewLife(life()+p2Dat[i].life)
+			setPower(power()+p2Dat[i].power)
+			setAttack(attack()+p2Dat[i].attack)
+			setDefence(defence()+p2Dat[i].defence)
+		end
+	end
+end
 
 function handicapSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	if getGameMode() == "vs" then

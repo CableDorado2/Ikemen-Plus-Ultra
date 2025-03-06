@@ -14,14 +14,13 @@ public ^/char gameService;
 public ^/char playerSide;
 public ^/char pauseVar;
 
-public int roundTime = 999 * 6;
-public int roundsToWin = 2;
-public float life = 1.0;
-public int power = 0;
+public float life = 1.0; //Used by setLifeMul()
+public int power = 0; //Used by setPowerMul()
 public float attack = 1.0;
 public float defence = 1.0;
 public float team1VS2Life = 1.0;
 public float turnsRecoveryRate = 1.0 / 300.0;
+
 public bool sharedLife = true;
 public int sysControls = 0; //0 = Fight, 10 = Menu
 public int gameState = 0; //1 = Fight, 0 = Menu
@@ -47,11 +46,14 @@ public int scoreTotal = 0;
 public int p1score = 0;
 public int p2score = 0;
 
+public int roundTime = 999 * 6;
+public int roundsToWin = 2;
 public int p1consecutiveWins = 0; //To display consecutive wins
 public int p2consecutiveWins = 0;
 public int p1matchWins = 0; //To display wins count
 public int p2matchWins = 0;
 public int matchsToWin = 0; //FT
+public bool postMatchFlg = false; //Post Match Flag
 
 public ^/char tourneyState;
 
@@ -65,9 +67,6 @@ public int abyssLife = 0; //To save abyss life
 public int abyssPower = 0; //To save abyss Power
 public int abyssAttack = 0; //To save abyss Attack
 public int abyssDefence = 0; //To save abyss Defence
-
-//Post Match Flag
-public bool postMatchFlg = false;
 
 public int suaveMode = 0;
 

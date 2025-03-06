@@ -1937,20 +1937,6 @@ void setPowerMul(&.lua.State L=, int re=)
   .com.power = p;
 }
 
-void setAttackMul(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  float a = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.attack = a;
-}
-
-void setDefenceMul(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  float d = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.attack = d;
-}
-
 void setTeam1VS2Life(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2380,8 +2366,6 @@ public void init(&.lua.State L=)
   L.register("setDebugScript", .setDebugScript);
   L.register("setLifeMul", .setLifeMul);
   L.register("setPowerMul", .setPowerMul);
-  L.register("setAttackMul", .setAttackMul);
-  L.register("setDefenceMul", .setDefenceMul);
   L.register("setTeam1VS2Life", .setTeam1VS2Life);
   L.register("setTurnsRecoveryRate", .setTurnsRecoveryRate);
   L.register("setZoom", .setZoom);

@@ -658,25 +658,25 @@ value = 0.5
 type = VarSet
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
 trigger1 = AbyssBossFight = 0 && RoundState = 2 && GetHitVar(hitcount) >= 1 && Time = 0 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-var(1) = var(1) + 1 ;Increase counter in "var(1)"
+var(228) = var(228) + 1 ;Increase counter in "var(228)"
 
 [State 0, Increase Abyss Depth Counter]
 type = AbyssDepthAdd
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && var(1) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+trigger1 = AbyssBossFight = 0 && var(228) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 value = 1 ;Increase Depth Count by 1 when conditions are meet
 
 [State 0, Plays back SFX from "data/common.snd"]
 type = PlaySnd
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && var(1) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+trigger1 = AbyssBossFight = 0 && var(228) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 value = F22,0
 
 [State 0, Reset Hit Count]
 type = VarSet
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && var(1) >= 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-var(1) = 0 ;Reset hit counter to 0 when "var(1)" >= 2
+trigger1 = AbyssBossFight = 0 && var(228) >= 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+var(228) = 0 ;Reset hit counter to 0 when "var(228)" >= 2
 
 ;===========================================================================
 ; VS HANDICAPS

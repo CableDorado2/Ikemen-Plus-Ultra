@@ -2910,7 +2910,7 @@ function f_default() --Reset Game Modes Configuration
 	setRoundTime(data.roundTime * 60)
 	setRoundsToWin(data.roundsNum)
 	setLifeMul(data.lifeMul / 100)
-	--setPowerMul(0)
+	setPowerMul(0)
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
