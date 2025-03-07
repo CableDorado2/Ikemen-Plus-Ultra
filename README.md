@@ -17,7 +17,7 @@
 - **OpenGL:** 2.0 but also, runs with DirectX
 
 ## Operating System Compatibility
-| O.S | Runs |
+| OS | Currently Runs |
 | --- | --- |
 | Windows | Native |
 | Linux | [Wine](https://wiki.winehq.org/Main_Page) |
