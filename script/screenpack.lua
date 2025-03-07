@@ -2350,16 +2350,22 @@ txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 248, 168)
 --txt_p2HandicapTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 t_handicapSelect = {
-	{id = textImgNew(), text = "NORMAL", 		service = "", 			 	val = nil}, --NO HANDICAP
-	{id = textImgNew(), text = "HP-75%", 		service = "life", 		 	val = 1.333}, --setLife(lifemax()/1.333)
-	{id = textImgNew(), text = "HP-50%", 		service = "life", 		 	val = 2}, --setLife(lifemax()/2)
-	{id = textImgNew(), text = "HP-25%", 		service = "life", 		 	val = 4}, --setLife(lifemax()/4)
-	{id = textImgNew(), text = "INSTAKILL", 	service = "life", 		 	val = nil}, --setLife(lifemax()/lifemax())
-	{id = textImgNew(), text = "POW-LV1", 		service = "power", 		 	val = 1000}, --setPower(1000)
-	{id = textImgNew(), text = "POW-LV2", 		service = "power", 		 	val = 2000}, --setPower(2000)
-	{id = textImgNew(), text = "POW-MAX", 		service = "power",		 	val = nil}, --setPower(powermax())
-	{id = textImgNew(), text = "POW-UNLIMITED", service = "unlimitedpower", val = nil}, --Manage via match.cns
+	{text = "NORMAL", 	 service = "", 	    val = nil}, --NO HANDICAP
+	{text = "HP-75%", 	 service = "life",  val = 1.333}, --setLife(lifemax()/1.333)
+	{text = "HP-50%", 	 service = "life",  val = 2}, --setLife(lifemax()/2)
+	{text = "HP-25%", 	 service = "life",  val = 4}, --setLife(lifemax()/4)
+	{text = "INSTAKILL", service = "life",  val = nil}, --setLife(lifemax()/lifemax())
+	{text = "POW-LV1", 	 service = "power", val = 1000}, --setPower(1000)
+	{text = "POW-LV2", 	 service = "power", val = 2000}, --setPower(2000)
+	{text = "POW-MAX", 	 service = "power", val = nil}, --setPower(powermax())
+	{text = "ARMOR-75%", service = "armor", val = 1.333}, --setDefence(defence()/1.333)
+	{text = "ARMOR-50%", service = "armor", val = 2}, --setDefence(defence()/2)
+	{text = "ARMOR-25%", service = "armor", val = 4}, --setDefence(defence()/4)
 }
+for i=1, #t_handicapSelect do
+	--t_handicapSelect[i] = {}
+	t_handicapSelect[i]['id'] = textImgNew()
+end
 
 t_handicapSelect2 = {}
 for i=1, #t_handicapSelect do --Make a copy of all items from t_handicapSelect table

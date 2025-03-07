@@ -1,138 +1,138 @@
 {
-  "coins": 500200,
+  "attractCoins": 0,
+  "wins": 20,
+  "coins": 760402097,
+  "characters": [],
+  "unlocks": {
+    "gallery": [],
+    "abyss": [],
+    "chars": {
+      "gouki": true,
+      "reika": true
+    },
+    "stages": {
+      "trainingroom2": false
+    },
+    "modes": {
+      "story": {
+        "arc2": false
+      }
+    }
+  },
+  "continueCount": 0,
+  "firstRun": false,
+  "vault": "Ultra",
+  "playtime": 97974.966726,
+  "losses": 16,
+  "stages": [],
   "modes": {
-    "boss": {
+    "mission": {
+      "clear1": 1,
+      "playtime": 268.146,
+      "clear2": 1,
+      "clearall": 2,
+      "clear3": 0
+    },
+    "timeattack": {
+      "clear": 0,
+      "ranking": [],
       "playtime": 0
     },
-    "beatemup": {
+    "tourney": {
       "clear": 0,
-      "playtime": 0,
-      "ranking": []
-    },
-    "endless": {
-      "clear": 0,
-      "playtime": 0,
-      "ranking": []
-    },
-    "survival": {
-      "clear": 0,
-      "playtime": 17.949,
-      "ranking": []
-    },
-    "legion": {
-      "playtime": 0
+      "ranking": [],
+      "playtime": 36.61
     },
     "scoreattack": {
       "clear": 0,
-      "playtime": 0,
-      "ranking": []
+      "ranking": [],
+      "playtime": 0
+    },
+    "training": {
+      "playtime": 36450.822
+    },
+    "arcade": {
+      "clear": 1,
+      "ranking": [],
+      "playtime": 95.266
+    },
+    "abyss": {
+      "maxdepth": 1023,
+      "playtime": 78541.474
     },
     "trials": {
       "playtime": 0
     },
-    "bossrush": {
+    "versus": {
+      "playtime": 1180.093
+    },
+    "beatemup": {
       "clear": 0,
-      "playtime": 0,
-      "ranking": []
+      "ranking": [],
+      "playtime": 0
+    },
+    "legion": {
+      "playtime": 0
+    },
+    "bonusrush": {
+      "clear": 0,
+      "ranking": [],
+      "playtime": 0
     },
     "tower": {
       "clear": 0,
-      "playtime": 0,
-      "ranking": []
+      "ranking": [],
+      "playtime": 43.91
     },
-    "training": {
-      "playtime": 1569.389
+    "vskumite": {
+      "clear": 0,
+      "ranking": [],
+      "playtime": 0
     },
-    "arcade": {
-      "clear": 1,
-      "playtime": 0,
-      "ranking": []
+    "watch": {
+      "playtime": 702583.946
     },
     "bonus": {
       "playtime": 0
     },
-    "vskumite": {
-      "clear": 0,
-      "playtime": 0,
-      "ranking": []
-    },
-    "timeattack": {
-      "clear": 0,
-      "playtime": 0,
-      "ranking": []
-    },
-    "suddendeath": {
-      "clear": 0,
-      "playtime": 0,
-      "ranking": []
-    },
-    "mission": {
-      "clear3": 0,
-      "clearall": 0,
-      "clear1": 0,
-      "playtime": 0,
-      "clear2": 0
-    },
-    "abyss": {
-      "maxdepth": 0,
-      "playtime": 7013.779
-    },
-    "tourney": {
-      "clear": 0,
-      "playtime": 36.61,
-      "ranking": []
-    },
-    "bonusrush": {
-      "clear": 0,
-      "playtime": 0,
-      "ranking": []
-    },
     "event": {
-      "clear3": 0,
-      "clearall": 0,
       "clear1": 0,
       "playtime": 0,
-      "clear2": 0
+      "clear2": 0,
+      "clearall": 0,
+      "clear3": 0
+    },
+    "bossrush": {
+      "clear": 1,
+      "ranking": [],
+      "playtime": 0
+    },
+    "endless": {
+      "clear": 0,
+      "ranking": [],
+      "playtime": 0
     },
     "timerush": {
       "playtime": 0
     },
-    "versus": {
-      "playtime": 22.119
+    "suddendeath": {
+      "clear": 0,
+      "ranking": [],
+      "playtime": 0
+    },
+    "boss": {
+      "playtime": 884.866
+    },
+    "survival": {
+      "clear": 0,
+      "ranking": [],
+      "playtime": 17.949
     },
     "adventure": {
       "playtime": 0
     },
     "story": {
       "playtime": 0
-    },
-    "watch": {
-      "playtime": 327.653
     }
-  },
-  "losses": 4,
-  "playtime": 10948.08371,
-  "characters": [],
-  "firstRun": false,
-  "continueCount": 0,
-  "unlocks": {
-    "modes": {
-      "story": {
-        "arc2": false
-      }
-    },
-    "chars": {
-      "gouki": false,
-      "reika": false
-    },
-    "abyss": [],
-    "gallery": [],
-    "stages": {
-      "trainingroom2": false
-    }
-  },
-  "vault": "Ultra",
-  "attractCoins": 0,
-  "wins": 2,
-  "stages": []
+  }
 }

@@ -203,30 +203,36 @@ end
 --;===========================================================
 --; MATCH LOOP
 --;===========================================================
-local function f_handicapSet(p) --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+local function f_handicapSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	for side=1, 2 do
 		local pDat = nil
 		if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
 		for i=1, #pDat do
 		--For each Player Selected
 			if player(pDat[i].pn) then
-			--Life Handicaps
+			--Life Handicaps (Based in Street Fighter 4)
 				if t_handicapSelect[pDat[i].handicap].service == "life" then
 				--Instakill
 					if t_handicapSelect[pDat[i].handicap].val == nil then
-						setLife(lifemax()/lifemax())
+						setLife(lifemax() / lifemax())
 				--HP at 75%, 50%, 25%...
 					else
-						setLife(lifemax()/t_handicapSelect[pDat[i].handicap].val)
+						setLife(lifemax() / t_handicapSelect[pDat[i].handicap].val)
 					end
-			--Power Handicaps
-				elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 then
+			--Power Handicaps (Based in KOF XIII)
+				elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 and gametime() == 1 then
 				--Power at MAX
 					if t_handicapSelect[pDat[i].handicap].val == nil then
 						setPower(powermax())
 				--Power at Specific value level
 					else
 						setPower(t_handicapSelect[pDat[i].handicap].val)
+					end
+			--Armor Handicaps (Based in Guilty Gear Xrd Rev 2)
+				elseif t_handicapSelect[pDat[i].handicap].service == "armor" and roundno() == 1 and gametime() == 1 then
+				--Armor/Defence at 75%, 50%, 25%...
+					if t_handicapSelect[pDat[i].handicap].val ~= nil then
+						setDefence(math.floor(defence() / t_handicapSelect[pDat[i].handicap].val))
 					end
 				end
 			end
@@ -238,19 +244,19 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then
-			setLifeMax(life()+p1Dat[i].life)
-			setPower(power()+p1Dat[i].power)
-			setAttack(attack()+p1Dat[i].attack)
-			setDefence(defence()+p1Dat[i].defence)
+			setLifeMax(life() + p1Dat[i].life)
+			setPower(power() + p1Dat[i].power)
+			setAttack(attack() + p1Dat[i].attack)
+			setDefence(defence() + p1Dat[i].defence)
 		end
 	end
 --For each Right Side Player Selected
 	for i=1, #p2Dat do
 		if player(p2Dat[i].pn) then
-			setLifeMax(life()+p2Dat[i].life)
-			setPower(power()+p2Dat[i].power)
-			setAttack(attack()+p2Dat[i].attack)
-			setDefence(defence()+p2Dat[i].defence)
+			setLifeMax(life() + p2Dat[i].life)
+			setPower(power() + p2Dat[i].power)
+			setAttack(attack() + p2Dat[i].attack)
+			setDefence(defence() + p2Dat[i].defence)
 		end
 	end
 end
@@ -271,7 +277,6 @@ end
 f_abyssRewardsInit()
 
 local function f_abyssBossReward()
-	cmdInput()
 	--while true do
 	--Actions
 		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -399,7 +404,7 @@ local function f_abyssBossReward()
 			bufu = 0
 			bufd = 0
 		end
-		--cmdInput()
+		cmdInput()
 		--refresh()
 	--end
 end
@@ -411,7 +416,7 @@ function pauseMenu(p, st, esc)
 end
 
 --Function called during match
-function loop()
+function loop() --The code for this function should be thought of as if it were always inside a while true do
 --During Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Set Abyss Stats

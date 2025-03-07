@@ -15020,7 +15020,7 @@ if validCells() then
 				end
 			end
 		--No More Matches Left
-			if matchNo >= lastMatch then
+			if data.gameMode ~= "endless" and matchNo >= lastMatch then
 				f_winAdvanced()
 				f_storyboard("data/screenpack/gameover.def")
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
