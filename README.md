@@ -69,9 +69,10 @@ This Ikemen is an expansion of his original SSZ code.
 ## Projects Made in Ikemen Plus Ultra
 - *MUGENGERS: THE OROCHI'S ORIGIN*
 - *ULTIMATE SMASHBOX*
+- ???
 
 ## Roadmap
-This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future, but you should expect all these features. If you want to offer help, it will be great for progressing with this engine!
+This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future. If you want to offer help, it will be great for progressing with this engine!
 
 **v1.5 (Next Update)**
 ------------
