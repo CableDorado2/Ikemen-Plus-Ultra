@@ -58,7 +58,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 **IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
 
-**IKEMEN Plus Ultra** is an unofficial large scale update of the previous version that contains new features and engine improvements inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games. This branch is maintained by **CD2** in association with **Strong FS**.
+**IKEMEN Plus Ultra** is an unofficial large scale update of the previous version maintained by **CD2** in association with **Strong FS** that contains new features and engine improvements inspired from: Ikemen GO, Commercial Fighting Games and Touhou: Gensokyo Reloaded.
 
 **IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
 
