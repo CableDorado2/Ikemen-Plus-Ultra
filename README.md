@@ -1,15 +1,13 @@
 # I.K.E.M.E.N PLUS ULTRA
-*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus). The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently developing by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
+*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus). The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently in development by [***CD2***](https://www.youtube.com/@CableDorado2) and some features developed by [***Strong FS***](https://www.youtube.com/@StrongFS) and [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
-- If you are looking for the latest or current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
+- If you are looking for the official latest/current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
 
 - Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
 
 - This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on Low resources PC, without a graphics card (Because can use DirectX Render).
 
-- The current version is a public development release for testing purposes, may contain bugs and incomplete features that we hope will be finished in *the final release*.
-
-- Help and cooperation are appreciated.
+- The current version is a public development release for testing purposes, may contain bugs and incomplete features, this means that comprehension, help and cooperation are appreciated.
 
 ## Minimum System Requirements
 - **System:** Windows XP SP3 - 32 Bits **(MAY NOT WORK IN WINDOWS 11)**.
@@ -60,7 +58,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 **IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
 
-**IKEMEN Plus Ultra** is an unofficial large scale update of the previous version that contains new features and engine improvements inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games. This branch is maintained by **CD2** with help of **Strong FS**.
+**IKEMEN Plus Ultra** is an unofficial large scale update of the previous version that contains new features and engine improvements inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games. This branch is maintained by **CD2** in association with **Strong FS**.
 
 **IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
 
