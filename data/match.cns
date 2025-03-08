@@ -526,28 +526,7 @@ trigger1 = GameMode = "demo" ;HUD Disable for Demo Mode
 flag = nobardisplay
 
 ;===========================================================================
-; ARCADE SERVICES
-;===========================================================================
-[State -2, Max Power]
-type = PowerSet
-triggerall = (Service = "max power" || Service = "undefeatable") ;POWER WILL AT MAX SERVICE
-trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2)) && RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
-value = PowerMax
-
-[State -2, Enemy Lifebar 1/3]
-type = LifeSet
-triggerall = Service = "low cpu life" ;ENEMY LIFE AT 1/3 SERVICE
-trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1)) && RoundState < 2 ;RoundNo = 1 ;FOR 1 ROUND
-value = LifeMax / 3
-
-[State 2, Double Defence]
-type = DefenceMulSet
-triggerall = Service = "defence x2" ;DOUBLE DEFENCE SERVICE
-trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2)) && RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
-value = 0.5
-
-;===========================================================================
-; TRAINING HANDICAPS
+; TRAINING SETTINGS
 ;===========================================================================
 [State 0, Life Recovery 100%]
 type = LifeAdd
@@ -618,6 +597,27 @@ trigger2 = PowerStateP2 = 666
 value = PowerMax
 
 ;===========================================================================
+; ARCADE SERVICES
+;===========================================================================
+[State -2, Max Power]
+type = PowerSet
+triggerall = (Service = "max power" || Service = "undefeatable") ;POWER WILL AT MAX SERVICE
+trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2)) && RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
+value = PowerMax
+
+[State -2, Enemy Lifebar 1/3]
+type = LifeSet
+triggerall = Service = "low cpu life" ;ENEMY LIFE AT 1/3 SERVICE
+trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1)) && RoundState < 2 ;RoundNo = 1 ;FOR 1 ROUND
+value = LifeMax / 3
+
+[State 2, Double Defence]
+type = DefenceMulSet
+triggerall = Service = "defence x2" ;DOUBLE DEFENCE SERVICE
+trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2)) && RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
+value = 0.5
+
+;===========================================================================
 ; STORY HANDICAPS EXAMPLE
 ;===========================================================================
 [State -2, Undefeatable]
@@ -637,43 +637,3 @@ type = DefenceMulSet
 triggerall = GameMode = "story" && Service = "balance"
 trigger1 = TeamSide = 1
 value = 0.5
-
-;===========================================================================
-; ABYSS MODE
-;===========================================================================
-;[State 0, Increase Abyss Depth TEST]
-;type = AbyssDepthAdd
-;triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-;trigger1 = AbyssBossFight = 0 && GetHitVar(damage) > 10 && GetHitVar(hitcount) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-;value = 1 ;Increase Depth Count by 1 when conditions are meet
-
-; According to BlazBlue Continuum Shift Extend:
-; While fighting enemies in this mode, a "Depth Counter" will steadily increase
-; depending on the number of successful hits, including Astral Heats.
-; On most occasions, depth will increase every 2 successful hits.
-
-; Note: Depth is not accumulated during a Boss Fight.
-
-[State 0, Start Hit Count]
-type = VarSet
-triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && RoundState = 2 && GetHitVar(hitcount) >= 1 && Time = 0 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-var(228) = var(228) + 1 ;Increase counter in "var(228)"
-
-[State 0, Increase Abyss Depth Counter]
-type = AbyssDepthAdd
-triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && var(228) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-value = 1 ;Increase Depth Count by 1 when conditions are meet
-
-[State 0, Plays back SFX from "data/common.snd"]
-type = PlaySnd
-triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && var(228) = 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-value = F22,0
-
-[State 0, Reset Hit Count]
-type = VarSet
-triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
-trigger1 = AbyssBossFight = 0 && var(228) >= 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-var(228) = 0 ;Reset hit counter to 0 when "var(228)" >= 2

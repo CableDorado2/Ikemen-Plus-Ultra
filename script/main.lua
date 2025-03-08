@@ -12920,6 +12920,11 @@ function f_selectVersus()
 				f_getVSHint() --Update Hint
 				hintTime = 0 --Restart timer for a new random hint
 			end
+		--Draw Abyss Mode Characters Stats
+			if data.gameMode == "abyss" then
+				f_abyssProfile(-155, 120, false, true)
+				f_abyssProfileCPU(0, 100, true)
+			end
 			textImgDraw(txt_hints) --Draw Hints
 			--[[
 			if data.debugMode and data.gameMode == "abyss" then
@@ -12972,7 +12977,7 @@ function f_setAbyssStats()
 	if t_abyssSel[abyssSel].specialboss ~= nil then
 		if t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt] ~= nil then
 			if matchNo == t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].depth then
-				statsPlus = t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].stats --Set specific cpu stats for a SPECIAL boss
+				statsPlus = abyssBossStatsIncrease + t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].stats --Set specific cpu stats for a SPECIAL boss
 				abyssSpecialBossCnt = abyssSpecialBossCnt + 1 --Increase special abyss boss count for next special fight
 				setAbyssBossFight(1) --This match is an Abyss Boss Fight
 			end

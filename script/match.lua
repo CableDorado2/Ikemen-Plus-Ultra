@@ -415,10 +415,30 @@ function pauseMenu(p, st, esc)
 	end
 end
 
+local abyssHitCnt = 0
+
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
 --During Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
+	--Increase Abyss Depth Counter
+		if abyssbossfight() == 0 and roundstate() == 2 and gethitvar("hitcount") >= 1 and time() == 0 and teamside() == 2 then --&& (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
+			abyssHitCnt = abyssHitCnt + 1
+		end
+	--[[	
+		According to BlazBlue Continuum Shift Extend:
+		While fighting enemies in this mode, a "Depth Counter" will steadily increase
+		depending on the number of successful hits, including Astral Heats.
+		On most occasions, depth will increase every 2 successful hits.
+
+		Note: Depth is not accumulated during a Boss Fight.
+	]]
+		if abyssHitCnt == 2 and time() == 0 then
+			setAbyssDepth(abyssdepth() + 1)
+			sndPlay(sndSys, 201, 0)
+			abyssHitCnt = 0 --Reset Hit Cnt
+		end
+		if data.debugMode then f_drawQuickText(txt_abycnt, font14, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, 95, 50) end
 	--Set Abyss Stats
 		if roundno() == 1 and roundstate() == 0 and gametime() == 1 then
 			f_abyssStatsSet()

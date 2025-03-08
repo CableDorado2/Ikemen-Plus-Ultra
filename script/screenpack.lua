@@ -3890,17 +3890,17 @@ txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 abyssBossMatchNo = 20 --Each 20 match a boss will appear
 abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a normal boss
 
-t_abyssSel = { --TODO: Generate this via .def file format for comfortable customization
+t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortable customization
 	{depth = 100, cpustats = 0, info = "[Easy] difficulty geared towards beginners",
 		specialboss = {
 		--Boss 1
 			{
-				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Special Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 				stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 				--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
-				depth = 100, --At what depth/matchNo will the boss appear
-				stats = 5, --Boss stats (life, power, attack, defence)
-				pal = 1, --Boss Palette
+				depth = 100, --At what depth/matchNo will the special boss appear
+				stats = 5, --Special Boss stats (life, power, attack, defence)
+				pal = 1, --Palette
 				ailevel = 8 --CPU Level
 			},
 		},
@@ -4209,19 +4209,24 @@ abyssProfileAtributes = animNew(sprIkemen, [[
 animUpdate(abyssProfileAtributes)
 animSetScale(abyssProfileAtributes, 0.6, 0.6)
 
-function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
+function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
 	local PauseMenu = PauseMenu or false
+	local VSscreen = VSscreen or false
 	local pLevel = math.floor((getAbyssAttack() + getAbyssPower() + getAbyssDefence() + getAbyssLife())/4) --Just an Average
-	animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
+	if not VSscreen then
+		animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
+	else
+		--animPosDraw(abyssProfileVSBG, 165+NewPosX, 20+NewPosY)
+	end
 	animPosDraw(abyssProfileAtributes, 190+NewPosX, 76+NewPosY)
 --Character Stuff
-	if not PauseMenu then
-		drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32)
+	if not VSscreen then
+		if not PauseMenu then drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32) end
+		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 35+NewPosY, 1, 1)
+		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
 	end
-	f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 35+NewPosY, 1, 1)
-	f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
 --Attributes
 	local attrFont = font2
 	local attrFontXPos = 208+NewPosX
@@ -4240,21 +4245,28 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu)
 	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.sp2, spFontXPos, spFontYPos+23)
 	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.sp3, spFontXPos, spFontYPos+45)
 --Currency
-	f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2)
+	if not VSscreen then f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2) end
 end
 
-function f_abyssProfileCPU() --Only Used in Pause Menu
+function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
+	local NewPosX = NewPosX or 0
+	local NewPosY = NewPosY or 0
+	local VSscreen = VSscreen or false
 	local pLevel = math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life)/4) --Just an Average with rounding up
-	animPosDraw(abyssProfileBG, 169, 54)
-	animPosDraw(abyssProfileAtributes, 194, 110)
+	if not VSscreen then
+		animPosDraw(abyssProfileBG, 169, 54)
+	end
+	animPosDraw(abyssProfileAtributes, 194+NewPosX, 110+NewPosY)
 --Character Stuff
-	--drawPortrait(p2Dat[1].cel, 223, 59, 0.32, 0.32)
-	f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel+1, 314, 69, 1, 1)
-	f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 102, 1, 1)
+	if not VSscreen then
+		--drawPortrait(p2Dat[1].cel, 223, 59, 0.32, 0.32)
+		f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel+1, 314, 69, 1, 1)
+		f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 102, 1, 1)
+	end
 --Attributes
 	local attrFont = font2
-	local attrFontXPos = 212
-	local attrFontYPos = 119
+	local attrFontXPos = 212+NewPosX
+	local attrFontYPos = 119+NewPosY
 	local attrSymb = "+"
 	local attrMax = "MAX"
 	f_drawQuickText(txt_abyssAttackCPU, attrFont, 0, 1, attrSymb..p2Dat[1].attack, attrFontXPos, attrFontYPos)
@@ -4263,8 +4275,8 @@ function f_abyssProfileCPU() --Only Used in Pause Menu
 	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos+60, attrFontYPos+18)
 --Special Items
 	local spFont = font2
-	local spFontXPos = 274
-	local spFontYPos = 162
+	local spFontXPos = 274+NewPosX
+	local spFontYPos = 162+NewPosY
 	f_drawQuickText(txt_abyssSP1CPU, spFont, 0, 1, p2Dat[1].sp1, spFontXPos, spFontYPos)
 	f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].sp2, spFontXPos, spFontYPos+23)
 	f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].sp3, spFontXPos, spFontYPos+45)
