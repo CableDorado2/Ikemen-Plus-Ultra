@@ -327,7 +327,6 @@ local function f_abyssBossReward()
 		--Save Data
 			if itemDone then
 				sndPlay(sndSys, 100, 1)
-				--f_saveStats()
 				itemDone = false
 				togglePause(0)
 				setSysCtrl(0) --Swap to Game Controls
@@ -422,10 +421,12 @@ function loop() --The code for this function should be thought of as if it were 
 --During Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Increase Abyss Depth Counter
-		if abyssbossfight() == 0 and roundstate() == 2 and gethitvar("hitcount") >= 1 and time() == 0 and teamside() == 2 then --&& (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
-			abyssHitCnt = abyssHitCnt + 1
+		if abyssbossfight() == 0 and roundstate() == 2 then
+			if gethitvar("hitcount") >= 1 and time() == 0 and (teamside() == 2 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (teamside() == 1 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+				abyssHitCnt = abyssHitCnt + 1
+			end
 		end
-	--[[	
+	--[[
 		According to BlazBlue Continuum Shift Extend:
 		While fighting enemies in this mode, a "Depth Counter" will steadily increase
 		depending on the number of successful hits, including Astral Heats.
@@ -451,13 +452,15 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	--Boss Rewards
 		if abyssbossfight() == 1 and roundstate() == 4 and not abyssRewardDone then
-			if not abyssPause then
-				togglePause(1)
-				setSysCtrl(10) --Swap to Menu Controls
-				f_resetAbyss2ArrowsPos()
-				abyssPause = true
-			else
-				f_abyssBossReward()
+			if (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+				if not abyssPause then
+					togglePause(1)
+					setSysCtrl(10) --Swap to Menu Controls
+					f_resetAbyss2ArrowsPos()
+					abyssPause = true
+				else
+					f_abyssBossReward()
+				end
 			end
 		end
 --During VS Mode

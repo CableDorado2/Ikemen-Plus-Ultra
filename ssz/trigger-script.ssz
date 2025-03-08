@@ -1271,6 +1271,12 @@ void velY(&.lua.State L=, int re=)
   L.pushNumber(#.cwc > 0 ? .cwc~sysfvar[.chr.fVY] : 0.0);
 }
 
+void winnerteam(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(.com.win + 1));
+}
+
 void win(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1470,6 +1476,7 @@ public void registerFunction(&.lua.State L=)
   L.register("var", .var);
   L.register("velX", .velX);
   L.register("velY", .velY);
+  L.register("winnerteam", .winnerteam);
   L.register("win", .win);
   L.register("winko", .winko);
   L.register("wintime", .wintime);
