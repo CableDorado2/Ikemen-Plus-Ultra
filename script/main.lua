@@ -7921,36 +7921,7 @@ end
 function f_selectChar(player, t)
 	for i=1, #t do
 		selectChar(player, t[i].cel, t[i].pal)
---[[ --Set Handicaps that cannont be asigned via match.lua
-		if data.gameMode == "versus" or data.ftcontrol > 0 then
-			if t_handicapSelect[t[i].handicap].service == "unlimitedpower" then
-				--setPowerUnlimited(player, true)
-				if player == 1 then
-					setPowerStateP1(666) --temporarily Reusing Training Service
-				elseif player == 2 then
-					setPowerStateP2(666)
-				end
-			end
-	--Set Abyss Mode Special Attributes
-		elseif data.gameMode == "abyss" then
-		
-			if then
-				setAutoguard(player, true)
-			elseif then
-				
-			end
-		end
-]]
 	end
---Transfer data.t_p1selected and data.t_p2selected to p1Dat and p2Dat (global access tables) in order to access in pause menu or match.lua scripts
-	if player == 1 then
-		--p1Dat = {}
-		p1Dat = t
-	elseif player == 2 then
-		--p2Dat = {}
-		p2Dat = t
-	end
-	f_savePlayerDat()
 end
 
 function f_findCelYAdd(selY, faceOffset, offsetRow)
@@ -12275,10 +12246,7 @@ function f_orderSelect()
 --Order Select OFF
 	if not data.orderSelect then
 		while true do
-			if i == 0 then
-				--f_selectChar(1, data.t_p1selected)
-				--f_selectChar(2, data.t_p2selected)
-			elseif i == 10 then
+			if i == 10 then
 				cmdInput()
 				break
 			end
@@ -12289,10 +12257,7 @@ function f_orderSelect()
 --Order Select OFF when playing in CO-OP Mode
 	elseif data.coop == true then
 		while true do
-			if i == 0 then
-				--f_selectChar(1, data.t_p1selected)
-				--f_selectChar(2, data.t_p2selected)
-			elseif i == 10 then
+			if i == 10 then
 				cmdInput()
 				break
 			end
@@ -12303,10 +12268,7 @@ function f_orderSelect()
 --Order Select OFF when P1 and P2 playing in Single Team Mode
 	elseif p1teamMode == 0 and p2teamMode == 0 then
 		while true do
-			if i == 0 then
-				--f_selectChar(1, data.t_p1selected)
-				--f_selectChar(2, data.t_p2selected)
-			elseif i == 10 then
+			if i == 10 then
 				cmdInput()
 				break
 			end
@@ -12358,9 +12320,7 @@ function f_orderSelect()
 		elseif #data.t_p1selected > 1 or data.coop == true then
 			--orderTime = #data.t_p1selected * 60 --Order Time is setting by the amount of characters selected
 		else
-			--f_selectChar(1, data.t_p1selected)
 			p1Confirmed = true
-			--f_selectChar(2, data.t_p2selected)
 			--p2Confirmed = true --Activate to don't order CPU characters in team modes
 		end
 		--Portraits Scale Logic
@@ -12451,13 +12411,11 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 then
 					if not p1Confirmed then
 						sndNumber = 1
-						--f_selectChar(1, data.t_p1selected)
 						p1Confirmed = true
 						commandBufReset(p1Cmd)
 					end
 					if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
 						if not p2Confirmed then
-							--f_selectChar(2, data.t_p2selected)
 							p2Confirmed = true
 						end
 					end
@@ -12515,13 +12473,11 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 then
 					if not p1Confirmed then
 						sndNumber = 1
-						--f_selectChar(1, data.t_p1selected)
 						p1Confirmed = true
 						commandBufReset(p1Cmd)
 					end
 					if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
 						if not p2Confirmed then
-							--f_selectChar(2, data.t_p2selected)
 							p2Confirmed = true
 						end
 					end
@@ -12579,7 +12535,6 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 then
 					if not p2Confirmed then
 						sndNumber = 1
-						--f_selectChar(2, data.t_p2selected)
 						p2Confirmed = true
 					end
 				elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
@@ -12636,7 +12591,6 @@ function f_orderSelect()
 				if btnPalNo(p2Cmd) > 0 then
 					if not p2Confirmed then
 						sndNumber = 1
-						--f_selectChar(2, data.t_p2selected)
 						p2Confirmed = true
 					end
 				elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufOrder2u >= 30) then
@@ -12696,11 +12650,9 @@ function f_orderSelect()
 		--Order Time Over
 			if orderTime == 0 then
 				if not p1Confirmed then
-					--f_selectChar(1, data.t_p1selected)
 					p1Confirmed = true
 				end
 				if not p2Confirmed then
-					--f_selectChar(2, data.t_p2selected)
 					p2Confirmed = true
 				end
 				if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -12806,19 +12758,55 @@ function f_getOrderHint()
 	textImgSetText(txt_hints, t_orderHints[math.random(1, #t_orderHints)].text) 
 end
 
+--Transfer data.t_p1selected and data.t_p2selected to p1Dat and p2Dat (global access tables) in order to access in pause menu or match.lua scripts
+function f_genPlayerDat()
+	if data.t_p1selected ~= nil then
+		for i=1, #data.t_p1selected do --To set real Player Value to set handicaps and player(data.t_p1selected[i].pn) stuff in match.lua
+			local playerID = 1
+			if i == 2 then playerID = 3
+			elseif i == 3 then playerID = 5
+			elseif i == 4 then playerID = 7
+			end
+			data.t_p1selected[i]['pn'] = playerID
+		end
+		p1Dat = data.t_p1selected
+	end
+	if data.t_p2selected ~= nil then
+		for i=1, #data.t_p2selected do
+			local playerID = 2
+			if i == 2 then playerID = 4
+			elseif i == 3 then playerID = 6
+			elseif i == 4 then playerID = 8
+			end
+			data.t_p2selected[i]['pn'] = playerID
+		end
+		p2Dat = data.t_p2selected
+	end
+	f_savePlayerDat()
+end
+
 --;===========================================================
 --; VERSUS SCREEN
 --;===========================================================
 function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local i = 0
+	local vsScreen = false
 	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
-	if not data.versusScreen then
+	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
+--Manage Access to the screen
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
+			vsScreen = true
+		end
+	else
+		if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+			vsScreen = true
+		end
+	end
+	if not data.versusScreen or not vsScreen then
 		while true do
-			if i == 0 then
-				--f_selectChar(1, data.t_p1selected)
-				--f_selectChar(2, data.t_p2selected)
-			elseif i == 30 then
+			if i == 30 then
 				cmdInput()
 				break
 			end
@@ -12923,7 +12911,7 @@ function f_selectVersus()
 		--Draw Abyss Mode Characters Stats
 			if data.gameMode == "abyss" then
 				f_abyssProfile(-155, 120, false, true)
-				f_abyssProfileCPU(0, 100, true)
+				f_abyssProfileCPU(0, 86, true)
 			end
 			textImgDraw(txt_hints) --Draw Hints
 			--[[
@@ -12989,7 +12977,7 @@ function f_setAbyssStats()
 			abyssDat.nosave.nextspecialboss = getAbyssDepthBossSpecial()
 		end
 	end
---Store Abyss Stats for each player	
+--Store Abyss Stats for each player
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		--TODO
 	else
@@ -13025,23 +13013,7 @@ end
 function f_loading()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
-		for i=1, #data.t_p1selected do --To set real Player Value to set handicaps and player(data.t_p1selected[i].pn) stuff in match.lua
-			local playerID = 1
-			if i == 2 then playerID = 3
-			elseif i == 3 then playerID = 5
-			elseif i == 4 then playerID = 7
-			end
-			data.t_p1selected[i]['pn'] = playerID
-		end
 		f_selectChar(1, data.t_p1selected)
-		for i=1, #data.t_p2selected do
-			local playerID = 2
-			if i == 2 then playerID = 4
-			elseif i == 3 then playerID = 6
-			elseif i == 4 then playerID = 8
-			end
-			data.t_p2selected[i]['pn'] = playerID
-		end
 		f_selectChar(2, data.t_p2selected)
 	end
 	local t = 0
@@ -14760,17 +14732,8 @@ if validCells() then
 			end
 		end
 		f_matchInfo()
-		f_orderSelect()
-		--Versus Screen
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		else
-			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		end
+		f_orderSelect() --Order Select Screen
+		f_selectVersus() --Versus Screen
 		sndStop()
 		f_loading()
 		f_setZoom()
@@ -15623,16 +15586,7 @@ if validCells() then
 		end
 		f_matchInfo()
 		f_orderSelect()
-	--Versus Screen
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		else
-			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		end
+		f_selectVersus()
 		if data.gameMode == "arcade" or data.gameMode == "tower" then
 			f_setRoundTime() --Set Round Time for specific characters
 			f_setRounds() --Set Rounds to Win for specific characters

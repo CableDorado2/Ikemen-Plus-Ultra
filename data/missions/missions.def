@@ -17,7 +17,7 @@ path = data/missions/mission2.lua
 [Mission 3]
 id = mission3
 name = Unlimited Power
-info = Kung Fu Girl's power is out of control, defeat everyone!
+info = Defeat everyone!
 info.locked = Complete Mission 2
 preview.spr = 0,3
 path = data/missions/mission3.lua

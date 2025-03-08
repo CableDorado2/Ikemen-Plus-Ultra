@@ -1116,17 +1116,8 @@ if validCells() then
 		end
 		f_aiLevel()
 		f_matchInfo()
-		f_orderSelect()
-		--Versus Screen
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		else
-			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		end
+		f_orderSelect() --Order Select Screen
+		f_selectVersus() --Versus Screen
 		sndStop()
 		f_loading()
 		f_setZoom()
