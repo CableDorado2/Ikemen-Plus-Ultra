@@ -4345,7 +4345,7 @@ t_abyssReward = {
  {life = true, val = 1, text = txt_abyssShopItemLife.."1", info = "Increases Life by 1"},
  
  {special = true, text = txt_abyssShopLifeRegeneration.."1", info = "Gradually regenerates HP over time."},
- {depth = true, val = 10, text = txt_abyssShopItemDescend.."10", info = "Descend 10 Levels from where you start."},
+ {depth = true, val = 10, text = txt_abyssShopItemDescend.."10", info = "Descend 10 Levels from where you are."},
  {reward = true, val = 500, text = txt_abyssShopItemReward.."500", info = "Add 500 to your Reward."},
 }
 for i=1, #t_abyssReward do --Set ID to all items

@@ -3801,6 +3801,7 @@ public &Char
   public void setLifeMax(int l)
   {
 	`sysivar[.iLIFEMAX] = l;
+	`sysivar[.iLIFE] = `sysivar[.iLIFEMAX];
   }
   public void setAttack(int a)
   {

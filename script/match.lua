@@ -244,19 +244,19 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then
-			setLifeMax(life() + p1Dat[i].life)
-			setPower(power() + p1Dat[i].power)
-			setAttack(attack() + p1Dat[i].attack)
-			setDefence(defence() + p1Dat[i].defence)
+			setLifeMax(lifemax() + (p1Dat[i].life * 100))
+			setPower(p1Dat[i].power * 100)
+			setAttack(attack() + (p1Dat[i].attack * 100))
+			setDefence(defence() + (p1Dat[i].defence * 100))
 		end
 	end
 --For each Right Side Player Selected
 	for i=1, #p2Dat do
 		if player(p2Dat[i].pn) then
-			setLifeMax(life() + p2Dat[i].life)
-			setPower(power() + p2Dat[i].power)
-			setAttack(attack() + p2Dat[i].attack)
-			setDefence(defence() + p2Dat[i].defence)
+			setLifeMax(lifemax() + (p2Dat[i].life * 100))
+			setPower(p2Dat[i].power * 100)
+			setAttack(attack() + (p2Dat[i].attack * 100))
+			setDefence(defence() + (p2Dat[i].defence * 100))
 		end
 	end
 end
