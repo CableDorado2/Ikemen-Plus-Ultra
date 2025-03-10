@@ -271,7 +271,7 @@ local function f_abyssRewardsInit()
 	bufd = 0
 	bufr = 0
 	bufl = 0
-	maxItems = 8
+	maxItems = 10
 	itemDone = false
 end
 f_abyssRewardsInit()
@@ -287,29 +287,41 @@ local function f_abyssBossReward()
 			rewardMenu = rewardMenu + 1
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 		--Attack +
-			if t_abyssReward[rewardMenu].attack then
+			if t_abyssBossRewards[rewardMenu].attack then
 				itemDone = true
-				setAbyssAttack(getAbyssAttack() + t_abyssReward[rewardMenu].val)
+				setAbyssAttack(getAbyssAttack() + t_abyssBossRewards[rewardMenu].val)
 		--Defence +
-			elseif t_abyssReward[rewardMenu].defence then
+			elseif t_abyssBossRewards[rewardMenu].defence then
 				itemDone = true
-				setAbyssDefence(getAbyssDefence() + t_abyssReward[rewardMenu].val)
+				setAbyssDefence(getAbyssDefence() + t_abyssBossRewards[rewardMenu].val)
 		--Power +
-			elseif t_abyssReward[rewardMenu].power then
+			elseif t_abyssBossRewards[rewardMenu].power then
 				itemDone = true
-				setAbyssPower(getAbyssPower() + t_abyssReward[rewardMenu].val)
+				setAbyssPower(getAbyssPower() + t_abyssBossRewards[rewardMenu].val)
 		--Life +
-			elseif t_abyssReward[rewardMenu].life then
+			elseif t_abyssBossRewards[rewardMenu].life then
 				itemDone = true
-				setAbyssLife(getAbyssLife() + t_abyssReward[rewardMenu].val)
+				setAbyssLife(getAbyssLife() + t_abyssBossRewards[rewardMenu].val)
+		--All +
+			elseif t_abyssBossRewards[rewardMenu].allstats then
+				itemDone = true
+				local rewardValue = t_abyssBossRewards[rewardMenu].val
+				setAbyssLife(getAbyssLife() + rewardValue)
+				setAbyssPower(getAbyssPower() + rewardValue)
+				setAbyssAttack(getAbyssAttack() + rewardValue)
+				setAbyssDefence(getAbyssDefence() + rewardValue)
 		--Depth +
-			elseif t_abyssReward[rewardMenu].depth then
+			elseif t_abyssBossRewards[rewardMenu].depth then
 				itemDone = true
-				setAbyssDepth(getAbyssDepth() + t_abyssReward[rewardMenu].val)
+				setAbyssDepth(getAbyssDepth() + t_abyssBossRewards[rewardMenu].val)
 		--Reward +
-			elseif t_abyssReward[rewardMenu].reward then
+			elseif t_abyssBossRewards[rewardMenu].reward then
 				itemDone = true
-				setAbyssReward(getAbyssReward() + t_abyssReward[rewardMenu].val)
+				setAbyssReward(getAbyssReward() + t_abyssBossRewards[rewardMenu].val)
+		--Exclusive Boss Reward Item (TODO)
+			elseif t_abyssBossRewards[rewardMenu].exclusiveitem then
+				itemDone = true
+				--a = t_abyssBossRewards[rewardMenu].text
 		--Special Items Assign (TODO)
 			else
 			--Special Items Slots are Full
@@ -317,9 +329,9 @@ local function f_abyssBossReward()
 					sndPlay(sndSys, 100, 5)
 			--At least there is 1 Special Items Slot free
 				else
-					if abyssDat.nosave.sp1 == "" then abyssDat.nosave.sp1 = t_abyssReward[rewardMenu].text
-					elseif abyssDat.nosave.sp2 == "" then abyssDat.nosave.sp2 = t_abyssReward[rewardMenu].text
-					elseif abyssDat.nosave.sp3 == "" then abyssDat.nosave.sp3 = t_abyssReward[rewardMenu].text
+					if abyssDat.nosave.sp1 == "" then abyssDat.nosave.sp1 = t_abyssBossRewards[rewardMenu].text
+					elseif abyssDat.nosave.sp2 == "" then abyssDat.nosave.sp2 = t_abyssBossRewards[rewardMenu].text
+					elseif abyssDat.nosave.sp3 == "" then abyssDat.nosave.sp3 = t_abyssBossRewards[rewardMenu].text
 					end
 					itemDone = true
 				end
@@ -335,13 +347,13 @@ local function f_abyssBossReward()
 			end
 		end
 		if rewardMenu < 1 then
-			rewardMenu = #t_abyssReward
-			if #t_abyssReward > maxItems then
+			rewardMenu = #t_abyssBossRewards
+			if #t_abyssBossRewards > maxItems then
 				cursorPosY = maxItems
 			else
-				cursorPosY = #t_abyssReward
+				cursorPosY = #t_abyssBossRewards
 			end
-		elseif rewardMenu > #t_abyssReward then
+		elseif rewardMenu > #t_abyssBossRewards then
 			rewardMenu = 1
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
@@ -354,8 +366,8 @@ local function f_abyssBossReward()
 		elseif cursorPosY == 1 then
 			moveTxt = (rewardMenu - 1) * 15
 		end	
-		if #t_abyssReward <= maxItems then
-			maxrewardMenu = #t_abyssReward
+		if #t_abyssBossRewards <= maxItems then
+			maxrewardMenu = #t_abyssBossRewards
 		elseif rewardMenu - cursorPosY > 0 then
 			maxrewardMenu = rewardMenu + maxItems - cursorPosY
 		else
@@ -375,20 +387,20 @@ local function f_abyssBossReward()
 	--Draw Menu Items Text
 		for i=1, maxrewardMenu do
 			if i > rewardMenu - cursorPosY then
-				if t_abyssReward[i].id ~= nil then
-					textImgDraw(f_updateTextImg(t_abyssReward[i].id, font2, 0, 1, t_abyssReward[i].text, 5, 20+i*15-moveTxt))
+				if t_abyssBossRewards[i].id ~= nil then
+					textImgDraw(f_updateTextImg(t_abyssBossRewards[i].id, font2, 0, 1, t_abyssBossRewards[i].text, 5, 20+i*15-moveTxt))
 				end
 			end
 		end
 	--Draw Info Text Stuff
 		animPosDraw(abyssSelInfoBG, -56, 185)
-		f_textRender(txt_abyssRewardInfo, t_abyssReward[rewardMenu].info, 0, 159, 196, 10, 0, 40)
+		f_textRender(txt_abyssRewardInfo, t_abyssBossRewards[rewardMenu].info, 0, 159, 196, 10, 0, 40)
 		f_abyssProfile(0, 0, true) --Draw Char Profile Box
 		if maxrewardMenu > maxItems then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_abyssReward > maxItems and maxrewardMenu < #t_abyssReward then
+		if #t_abyssBossRewards > maxItems and maxrewardMenu < #t_abyssBossRewards then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -457,6 +469,7 @@ function loop() --The code for this function should be thought of as if it were 
 					togglePause(1)
 					setSysCtrl(10) --Swap to Menu Controls
 					f_resetAbyss2ArrowsPos()
+					f_generateAbyssRewards() --Generate abyss rewards table (coded in screenpack.lua)
 					abyssPause = true
 				else
 					f_abyssBossReward()
