@@ -744,6 +744,7 @@ local name = ''
 local batch = 'mkdir data\\charAnim\nmkdir debug'
 local t_gen = {}
 t_trainingChar = {}
+t_tutorialChar = {}
 t_bossChars = {}
 t_bonusChars = {}
 t_randomChars = {}
@@ -853,48 +854,52 @@ if t_selChars ~= nil then
 				end
 			end
 		end
-		--if character's name has been stored
+	--if character's name has been stored
 		if t_selChars[i].displayname ~= nil then
 			local charCel = i - 1
-			--generate table for fixed training character
+		--generate table for fixed training character
 			if t_selChars[i].training ~= nil and t_selChars[i].training == 1 then
 				t_trainingChar[#t_trainingChar+1] = charCel
 			end
-			--detects stage viewer character
+		--generate table for fixed tutorial character
+			if t_selChars[i].tutorial ~= nil and t_selChars[i].tutorial == 1 then
+				t_tutorialChar[#t_tutorialChar+1] = charCel
+			end
+		--detects stage viewer character
 			if t_selChars[i].name == "stage viewer" then
 				data.stageviewer = true
 			end
-			--generate table for boss rush mode
+		--generate table for boss rush mode
 			if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then
 				t_bossChars[#t_bossChars+1] = charCel
 			end
-			--generate table for bonus games mode
+		--generate table for bonus games mode
 			if t_selChars[i].bonus ~= nil and t_selChars[i].bonus == 1 then
 				t_bonusChars[#t_bonusChars+1] = charCel
 			end
-			--generate table with characters allowed to be random selected
+		--generate table with characters allowed to be random selected
 			if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
 				t_randomChars[#t_randomChars+1] = charCel
 			end
-			--generate table with characters allowed to be random selected in tournament mode
+		--generate table with characters allowed to be random selected in tournament mode
 			if t_selChars[i].excludetourney == nil or t_selChars[i].excludetourney == 0 then
 				t_randomTourneyChars[#t_randomTourneyChars+1] = charCel
 			end
-			--generate table for intermissions
+		--generate table for intermissions
 			if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
 				t_intermissionChars[#t_intermissionChars+1] = {['cel'] = charCel, ['name'] = t_selChars[i].name, ['displayname'] = t_selChars[i].displayname, ['author'] = t_selChars[i].author, ['path'] = t_selChars[i].char}
 			end
-			--create variable with character's name, whitespace replaced with underscore
+		--create variable with character's name, whitespace replaced with underscore
 			displayname = t_selChars[i].name:gsub('%s+', '_')
-			--if data/charAnim/displayname.def doesn't exist
+		--if data/charAnim/displayname.def doesn't exist
 			if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
-				--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
+			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
 				batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
-				--store character's reference that needs conversion into table to save time later on
+			--store character's reference that needs conversion into table to save time later on
 				t_gen[#t_gen+1] = i
-				--enable sprite generation later on
+			--enable sprite generation later on
 				generate = true
-			--otherwise load SFF file
+		--otherwise load SFF file
 			else
 				t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
 				--t_selChars[i]['intermissionData'] = sffAnim(t_selChars[i].sff)
@@ -1678,6 +1683,7 @@ if data.debugLog then
 	f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
 	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 	f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
+	f_printTable(t_tutorialChar, "save/debug/t_tutorialChar.txt")
 	f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
 	f_printTable(t_unlockLua, "save/debug/t_unlockLua.txt")
 end

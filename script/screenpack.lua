@@ -712,7 +712,7 @@ t_mainMenu = {
 	{id = textImgNew(), text = "ARCADE", gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
 	{id = textImgNew(), text = "VERSUS", gotomenu = "f_vsMenu()"},
 	{id = textImgNew(), text = "NETPLAY", gotomenu = "f_mainNetplay()"},
-	{id = textImgNew(), text = "PRACTICE", gotomenu = "f_training()"},
+	{id = textImgNew(), text = "PRACTICE", gotomenu = "f_practiceMenu()"},
 	{id = textImgNew(), text = "CHALLENGES", gotomenu = "f_challengeMenu()"},
 	{id = textImgNew(), text = "EXTRAS", gotomenu = "f_extrasMenu()"},
 	{id = textImgNew(), text = "WATCH", gotomenu = "f_watchMenu()"},
@@ -770,12 +770,11 @@ t_vsMenu = {
 }
 
 --;===========================================================
---; PRACTICE MENU SCREENPACK DEFINITION (NOT IMPLEMENTED)
+--; PRACTICE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_practiceMenu = {
 	{id = textImgNew(), text = "TRAINING", gotomenu = "f_training()"},
 	{id = textImgNew(), text = "COMBO TRIALS", gotomenu = "f_trials()"},
-	{id = textImgNew(), text = "TUTORIAL", gotomenu = "f_tutorial()"},
 }
 
 --;===========================================================
@@ -2666,11 +2665,13 @@ animSetTile(vsWindowR, 1, 1)
 animSetWindow(vsWindowR, 180, 30, 120, 140)
 
 t_vsHints = {
+--[[
 	{text = "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON"},
 	{text = "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH"},
 	{text = "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT"},
-	--{text = "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE"},
-	--{text = "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE"},
+	{text = "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE"},
+	{text = "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE"},
+]]
 	{text = "ADD YOUR HINTS HERE"},
 	{text = "ADD YOUR HINTS HERE"},
 }
@@ -4459,7 +4460,7 @@ function f_generateAbyssRewards()
 	f_addAbyssBossRewards(t_abyssLife)
 	--f_addAbyssBossRewards(t_abyssSpecialReward)
 	--f_addAbyssBossRewards(t_abyssSpecial)
-	f_addAbyssBossRewards(t_abyssAll)
+	--f_addAbyssBossRewards(t_abyssAll)
 	f_addAbyssBossRewards(t_abyssDepth)
 --When all reward items are ready:
 	for i=1, #t_abyssBossRewards do --Set ID to all items
@@ -4491,6 +4492,40 @@ function drawAbyssRewardInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 132, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 190, hintFontYPos)
 end
+
+--;===========================================================
+--; TUTORIAL TEST SCREENPACK DEFINITION
+--;===========================================================
+txt_tutoDiag = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
+
+--Text background
+tutorialWindow = animNew(sprVN, [[
+100,0, 0,0, -1
+]])
+animAddPos(tutorialWindow, -55, 0)
+animSetScale(tutorialWindow, 2.85, 1.3)
+animUpdate(tutorialWindow)
+
+--Next Text Arrow (Down)
+tutorialNext = animNew(sprVN, [[
+102,0, 0,0, 10
+102,1, 0,0, 10
+102,2, 0,0, 10
+102,3, 0,0, 10
+102,3, 0,0, 10
+102,2, 0,0, 10
+102,1, 0,0, 10
+102,0, 0,0, 10
+]])
+animAddPos(tutorialNext, 306, 65)
+animSetScale(tutorialNext, 0.5, 0.5)
+animUpdate(tutorialNext)
+
+t_tutorialDiag = {
+	{txt = "THIS IS A TEST DIALOGUE"},
+	{txt = "DIALOGUE 2 LET'S THISS THIS ONE, LALALALLA"},
+	{txt = "ARE YOU OK?"},
+}
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION

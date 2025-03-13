@@ -240,6 +240,8 @@ local function f_handicapSet() --Maybe not gonna work in online or replays becau
 	end
 end
 
+local abyssStatsReady = false
+
 local function f_abyssStatsSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
@@ -259,6 +261,7 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 			setDefence(defence() + (p2Dat[i].defence * 100))
 		end
 	end
+	abyssStatsReady = true
 end
 
 local function f_abyssRewardsInit()
@@ -427,6 +430,8 @@ function pauseMenu(p, st, esc)
 end
 
 local abyssHitCnt = 0
+local tutoi = 0
+local tutoDiag = 1
 
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
@@ -453,8 +458,8 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 		if data.debugMode then f_drawQuickText(txt_abycnt, font14, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, 95, 50) end
 	--Set Abyss Stats
-		if roundno() == 1 and roundstate() == 0 and gametime() == 1 then
-			f_abyssStatsSet()
+		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2 --roundstate() == 0 and gametime() == 1 then
+			if not abyssStatsReady then f_abyssStatsSet() end
 		end
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
@@ -482,4 +487,23 @@ function loop() --The code for this function should be thought of as if it were 
 			f_handicapSet()
 		end
 	end
+	if getGameMode() == "tutorial" and roundstate() == 2 then
+		if not script.pause.pauseMenuActive then f_nextTutoText() end
+		animDraw(tutorialWindow)
+		animDraw(tutorialNext)
+		animUpdate(tutorialNext)
+		tutoi = tutoi + 1
+        f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 35)
+	end
+end
+
+function f_nextTutoText()
+	if commandGetState(p1Cmd, 'e') then
+		--Dialogue Limits
+		if tutoDiag < #t_tutorialDiag then
+			tutoi = 0
+			tutoDiag = tutoDiag + 1
+		end
+	end
+	cmdInput()
 end

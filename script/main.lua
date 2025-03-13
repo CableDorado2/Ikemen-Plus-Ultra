@@ -644,6 +644,111 @@ function f_vsMenu()
 end
 
 --;===========================================================
+--; PRACTICE MENU (Learn the basics of 2D Fighting Games through customizable Game Modes designed to practice)
+--;===========================================================
+function f_practiceMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local practiceMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_infoReset()
+	f_sideReset()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				practiceMenu = practiceMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				practiceMenu = practiceMenu + 1
+			end
+			if practiceMenu < 1 then
+				practiceMenu = #t_practiceMenu
+				if #t_practiceMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_practiceMenu-1
+				end
+			elseif practiceMenu > #t_practiceMenu then
+				practiceMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (practiceMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (practiceMenu - 1) * 13
+			end
+			if #t_practiceMenu <= 5 then
+				maxpracticeMenu = #t_practiceMenu
+			elseif practiceMenu - cursorPosY > 0 then
+				maxpracticeMenu = practiceMenu + 5 - cursorPosY
+			else
+				maxpracticeMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				f_gotoFunction(t_practiceMenu[practiceMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_practiceMenu do
+			if i == practiceMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, t_practiceMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "PRACTICE MODES")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxpracticeMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_practiceMenu > 6 and maxpracticeMenu < #t_practiceMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; TRAINING MODE (practice special attacks and combos with training dummy character(s) of your choice)
 --;===========================================================
 function f_training()
@@ -14071,6 +14176,7 @@ function f_result(state)
 		--Draw Character Portrait
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawResultPortrait(charPortr, 320, 80, -xPortScale, yPortScale)
+				animDraw(fadeWindowBG)
 		--Draw Character Sprite Animations
 			elseif data.charPresentation == "Sprite" then
 				for j=#charTable, 1, -1 do
@@ -14114,6 +14220,7 @@ function f_result(state)
 		--Draw Character Portrait
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
+				animDraw(fadeWindowBG)
 		--Draw Character Sprite Animations
 			elseif data.charPresentation == "Sprite" then
 				for j=#charTable, 1, -1 do
