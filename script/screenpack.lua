@@ -774,7 +774,7 @@ t_vsMenu = {
 --;===========================================================
 t_practiceMenu = {
 	{id = textImgNew(), text = "TRAINING", gotomenu = "f_training()"},
-	{id = textImgNew(), text = "COMBO TRIALS", gotomenu = "f_trials()"},
+	--{id = textImgNew(), text = "TRIALS", gotomenu = "f_trials()"},
 }
 
 --;===========================================================
@@ -4492,40 +4492,6 @@ function drawAbyssRewardInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 132, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 190, hintFontYPos)
 end
-
---;===========================================================
---; TUTORIAL TEST SCREENPACK DEFINITION
---;===========================================================
-txt_tutoDiag = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
-
---Text background
-tutorialWindow = animNew(sprVN, [[
-100,0, 0,0, -1
-]])
-animAddPos(tutorialWindow, -55, 0)
-animSetScale(tutorialWindow, 2.85, 1.3)
-animUpdate(tutorialWindow)
-
---Next Text Arrow (Down)
-tutorialNext = animNew(sprVN, [[
-102,0, 0,0, 10
-102,1, 0,0, 10
-102,2, 0,0, 10
-102,3, 0,0, 10
-102,3, 0,0, 10
-102,2, 0,0, 10
-102,1, 0,0, 10
-102,0, 0,0, 10
-]])
-animAddPos(tutorialNext, 306, 65)
-animSetScale(tutorialNext, 0.5, 0.5)
-animUpdate(tutorialNext)
-
-t_tutorialDiag = {
-	{txt = "THIS IS A TEST DIALOGUE"},
-	{txt = "DIALOGUE 2 LET'S THISS THIS ONE, LALALALLA"},
-	{txt = "ARE YOU OK?"},
-}
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION

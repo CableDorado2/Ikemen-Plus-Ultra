@@ -400,7 +400,7 @@ t_pauseMain = {
 	{id = '', text = "GIVE UP"},
 	{id = '', text = "MAIN MENU"}
 }
-if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
+if getGameMode() == "practice" or getGameMode() == "tutorial" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
 	t_pauseMain[5].text = "CHARACTER SELECT"
 	if getGameMode() == "practice" then
 		table.insert(t_pauseMain,7,{id = '', text = "TRAINING MENU"})
@@ -755,7 +755,7 @@ function f_pauseConfirm()
 		end
 --MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
-		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backCharSel)
+		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "tutorial" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backCharSel)
 		elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStgSel)
 		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
 		elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_mainmenuBack)

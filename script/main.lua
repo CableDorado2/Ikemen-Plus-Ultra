@@ -18283,40 +18283,8 @@ function f_playCredits()
 	end
 	f_default()
 end
-
---;===========================================================
---; EXTERNAL LUA CODE
---;===========================================================
-local t_luaExternalMods = {}
-function f_loadExternalModules(path)
-if path == nil or path == "" then return end
-	for item in lfs.dir(path) do --For each item readed in path
-		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
-			local details = path.."/"..item --Get path and file name
-			local attribute = lfs.attributes(details) --Get atributes from items readed
-			assert(type(attribute) == "table")
-			f_loadExternalModules(details)
-			if attribute.mode == "file" then --If the item have "file" attribute
-				if item:match('^.*(%.)[Ll][Uu][Aa]$') then
-					row = #t_luaExternalMods+1
-					t_luaExternalMods[row] = {}
-					t_luaExternalMods[row]['folder'] = path
-					t_luaExternalMods[row]['path'] = details
-					t_luaExternalMods[row]['name'] = item:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
-				end
-			end
-		end
-	end
-	if data.debugLog then f_printTable(t_luaExternalMods, 'save/debug/t_luaExternalMods.txt') end
-end
-for mods=1, #luaModules do
-	f_loadExternalModules(luaModules[mods]) --Load External Modules
-end
-for _, v in ipairs(t_luaExternalMods) do
-	--require(v.path:gsub('[/\\]+', '.'))
-	assert(loadfile(v.path))()
-end
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
+f_loadLuaMods() --Load External Lua Modules
 f_mainStart() --Start Menu

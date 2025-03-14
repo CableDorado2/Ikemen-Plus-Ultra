@@ -3,6 +3,7 @@
 --;===========================================================
 assert(loadfile("script/common.lua"))() --For load options data, screenshot sfx, data_sav, screenpack assets, etc.
 require("script.pause")
+f_loadLuaMods() --Load External Lua Modules
 --;===========================================================
 --; DEBUG HOTKEYS DEFINITION
 --;===========================================================
@@ -435,8 +436,13 @@ local tutoDiag = 1
 
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
+--During VS Mode
+	if getGameMode() == "vs" then
+		if roundstate() < 2 then
+			f_handicapSet()
+		end
 --During Abyss Mode
-	if getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
+	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Increase Abyss Depth Counter
 		if abyssbossfight() == 0 and roundstate() == 2 then
 			if gethitvar("hitcount") >= 1 and time() == 0 and (teamside() == 2 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (teamside() == 1 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
@@ -481,24 +487,28 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 			end
 		end
---During VS Mode
-	elseif getGameMode() == "vs" then
-		if roundstate() < 2 then
-			f_handicapSet()
+--During Tutorial Mode
+	elseif getGameMode() == "tutorial" then
+		if roundstate() == 0 and gametime() == 1 then
+			full(1)
+			full(2)
+		elseif roundstate() == 2 then
+			lifeMax(2)
+			if not script.pause.pauseMenuActive then f_nextTutoText() end --Text Ctrl
+		--Draw Window Assets
+			animDraw(tutorialWindow)
+			animDraw(kfmTutoPortrait)
+			animDraw(tutorialNext)
+			animUpdate(tutorialNext)
+		--Draw Text
+			tutoi = tutoi + 1
+			f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 45)
 		end
-	end
-	if getGameMode() == "tutorial" and roundstate() == 2 then
-		if not script.pause.pauseMenuActive then f_nextTutoText() end
-		animDraw(tutorialWindow)
-		animDraw(tutorialNext)
-		animUpdate(tutorialNext)
-		tutoi = tutoi + 1
-        f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 35)
 	end
 end
 
 function f_nextTutoText()
-	if commandGetState(p1Cmd, 'e') then
+	if commandGetState(p1Cmd, 'e') then --Select Button
 		--Dialogue Limits
 		if tutoDiag < #t_tutorialDiag then
 			tutoi = 0

@@ -515,7 +515,7 @@ pos = 0,88888
 ;===========================================================================
 [State 500, Intro for Round 1]
 type = assertspecial
-triggerall = GameMode != "story" && GameMode != "practice" && GameMode != "abyss" && GameMode != "abysscoop" && GameMode != "abysscpu"
+triggerall = GameMode != "story" && GameMode != "practice" && GameMode != "tutorial" && GameMode != "abyss" && GameMode != "abysscoop" && GameMode != "abysscpu"
 trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
 flag2 = nomusic

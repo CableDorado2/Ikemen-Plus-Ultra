@@ -1,5 +1,5 @@
 [Characters]
-Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, tutorial=1, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 Mako Mayama, stages/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
 Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
 Reika Murasame, unlock=stats.unlocks.chars.reika == true, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=1
