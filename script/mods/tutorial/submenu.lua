@@ -1,7 +1,7 @@
 ﻿--;===========================================================
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_practiceMenu,1,{id = textImgNew(), text = "TUTORIAL", gotomenu = "f_tutorial()"}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
+table.insert(t_practiceMenu,#t_practiceMenu,{id = textImgNew(), text = "TUTORIAL", gotomenu = "f_tutorial()"}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
 sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --load tutorial sprites
 --[[
 - tutorial
@@ -10,7 +10,7 @@ If more than 1 character have setting tutorial parameter
 the tutorial character will be randomly chosen.
 
 ;SPECIFIC TUTORIAL DUMMY CHARACTER EXAMPLE:
-Kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
+kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 ]]
 --;===========================================================
 --; TUTORIAL MODE (Learn Game Rules and Battle Tactics)
@@ -80,5 +80,6 @@ animUpdate(kfmTutoPortrait)
 t_tutorialDiag = {
 	{txt = "WELCOME TO THE TUTORIAL MODE!                THIS IS A DIALOGUE TEST.                 PLEASE USE [SELECT] BUTTON TO ADVANCE..."},
 	{txt = "OK, LET'S TRY SOME MOVES"},
-	{txt = "ARE YOU OK?"},
+	{txt = "PRESS FORDWARD BUTTON AND COME TO ME."},
+	{txt = "NICE. NOW GO BACK USING LEFT BUTTON"},
 }

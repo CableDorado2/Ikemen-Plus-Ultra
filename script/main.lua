@@ -2218,6 +2218,111 @@ function bonusrushCPUvsP1P2()
 end
 
 --;===========================================================
+--; SCORE ATTACK MENU (fight in a series of matches with score conditions)
+--;===========================================================
+function f_scoreattackMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local scoreattackMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_infoReset()
+	f_sideReset()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				scoreattackMenu = scoreattackMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				scoreattackMenu = scoreattackMenu + 1
+			end
+			if scoreattackMenu < 1 then
+				scoreattackMenu = #t_scoreattackMenu
+				if #t_scoreattackMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_scoreattackMenu-1
+				end
+			elseif scoreattackMenu > #t_scoreattackMenu then
+				scoreattackMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (scoreattackMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (scoreattackMenu - 1) * 13
+			end
+			if #t_scoreattackMenu <= 5 then
+				maxscoreattackMenu = #t_scoreattackMenu
+			elseif scoreattackMenu - cursorPosY > 0 then
+				maxscoreattackMenu = scoreattackMenu + 5 - cursorPosY
+			else
+				maxscoreattackMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				f_gotoFunction(t_scoreattackMenu[scoreattackMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_scoreattackMenu do
+			if i == scoreattackMenu then
+				bank = 1
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 0, t_scoreattackMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "SCORE ATTACK MODES")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxscoreattackMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_scoreattackMenu > 6 and maxscoreattackMenu < #t_scoreattackMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; SCORE ATTACK MODE (defeat opponents getting high score as possible)
 --;===========================================================
 function f_scoreattackBoot()
@@ -2297,6 +2402,111 @@ function scoreattackCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
 	f_selectAdvance()
+end
+
+--;===========================================================
+--; TIME ATTACK MENU (fight in a series of matches with time conditions)
+--;===========================================================
+function f_timeattackMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local timeattackMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_infoReset()
+	f_sideReset()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				timeattackMenu = timeattackMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				timeattackMenu = timeattackMenu + 1
+			end
+			if timeattackMenu < 1 then
+				timeattackMenu = #t_timeattackMenu
+				if #t_timeattackMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_timeattackMenu-1
+				end
+			elseif timeattackMenu > #t_timeattackMenu then
+				timeattackMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (timeattackMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (timeattackMenu - 1) * 13
+			end
+			if #t_timeattackMenu <= 5 then
+				maxtimeattackMenu = #t_timeattackMenu
+			elseif timeattackMenu - cursorPosY > 0 then
+				maxtimeattackMenu = timeattackMenu + 5 - cursorPosY
+			else
+				maxtimeattackMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sndSys, 100, 1)
+				f_gotoFunction(t_timeattackMenu[timeattackMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_timeattackMenu do
+			if i == timeattackMenu then
+				bank = 1
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 0, t_timeattackMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "TIME ATTACK MODES")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxtimeattackMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_timeattackMenu > 6 and maxtimeattackMenu < #t_timeattackMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================

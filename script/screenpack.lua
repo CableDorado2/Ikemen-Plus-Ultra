@@ -774,17 +774,17 @@ t_vsMenu = {
 --;===========================================================
 t_practiceMenu = {
 	{id = textImgNew(), text = "TRAINING", gotomenu = "f_training()"},
-	--{id = textImgNew(), text = "TRIALS", gotomenu = "f_trials()"},
+	{id = textImgNew(), text = "TRIALS", gotomenu = "f_comingSoon()"},
 }
 
 --;===========================================================
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
+	--{id = textImgNew(), text = "LEGION", gotomenu = "f_legionCfg()"},
 	{id = textImgNew(), text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
-	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"},
-	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackBoot()"},
-	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
+	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
+	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackMenu()"},
 	{id = textImgNew(), text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
 	{id = textImgNew(), text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
@@ -799,12 +799,27 @@ t_survivalMenu = {
 }
 
 --;===========================================================
+--; SCORE ATTACK MENU SCREENPACK DEFINITION
+--;===========================================================
+t_scoreattackMenu = {
+	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_scoreattackBoot()"},
+	--{id = textImgNew(), text = "??? MODE", gotomenu = ""},
+}
+
+--;===========================================================
+--; TIME ATTACK MENU SCREENPACK DEFINITION
+--;===========================================================
+t_timeattackMenu = {
+	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_timeattackBoot()"},
+	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
+}
+
+--;===========================================================
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
 	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
 	{id = textImgNew(), text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
-	--{id = textImgNew(), text = "LEGION", gotomenu = "f_legionCfg()"},
 	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
 	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
 	{id = textImgNew(), text = "ENDLESS", gotomenu = "f_endlessBoot()"},

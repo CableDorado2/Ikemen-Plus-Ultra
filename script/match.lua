@@ -3,7 +3,7 @@
 --;===========================================================
 assert(loadfile("script/common.lua"))() --For load options data, screenshot sfx, data_sav, screenpack assets, etc.
 require("script.pause")
-f_loadLuaMods() --Load External Lua Modules
+f_loadLuaMods() --Load External Lua Modules (Becareful with load big sff files from modules, is better load them in screenpack.lua)
 --;===========================================================
 --; DEBUG HOTKEYS DEFINITION
 --;===========================================================
