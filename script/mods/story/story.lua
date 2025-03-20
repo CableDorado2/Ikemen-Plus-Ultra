@@ -1,4 +1,4 @@
---storyDef = "script/mods/glossary/story.def" --Story Data (Story definition filename)
+--storyDef = "script/mods/story/story.def" --Story Data (Story definition filename)
 sprStory = sffNew("script/mods/story/story.sff") --load story sprites
 bgmStory = "script/mods/story/Story.mp3" --load story main bgm
 --;===========================================================

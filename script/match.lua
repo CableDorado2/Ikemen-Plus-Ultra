@@ -143,8 +143,8 @@ function statusInfo(p)
 local oldid = id()
 	if not player(p) then return false end
 	local ret = string.format(
-		'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d TEAM:%d HITCNT:%d',
-		playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel(), teamside(), gethitvar("hitcount")
+		'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d TEAM:%d HITCNT:%d HITTO : %d',
+		playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel(), teamside(), gethitvar("hitcount"), hitcount()
 	)
 	playerid(oldid)
 	return ret
@@ -489,12 +489,16 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Tutorial Mode
 	elseif getGameMode() == "tutorial" then
-		if roundstate() == 0 and gametime() == 1 then
+		--if roundstate() == 0 and gametime() == 1 then
+			--full(1)
+			--full(2)
+		if roundstate() == 2 then
 			full(1)
 			full(2)
-		elseif roundstate() == 2 then
-			lifeMax(2)
-			if not script.pause.pauseMenuActive then f_nextTutoText() end --Text Ctrl
+		--Next Text Logic
+			if not script.pause.pauseMenuActive and tutoDiag < #t_tutorialDiag then
+				f_nextTutoText()
+			end
 		--Draw Window Assets
 			animDraw(tutorialWindow)
 			animDraw(kfmTutoPortrait)
@@ -508,12 +512,20 @@ function loop() --The code for this function should be thought of as if it were 
 end
 
 function f_nextTutoText()
-	if commandGetState(p1Cmd, 'e') then --Select Button
-		--Dialogue Limits
-		if tutoDiag < #t_tutorialDiag then
-			tutoi = 0
-			tutoDiag = tutoDiag + 1
+	local nextText = false
+	if t_tutorialDiag[tutoDiag].btntonext then --Select Button will show the next text
+		if commandGetState(p1Cmd, 'e') then nextText = true end --Select Button
+	else --A player action will show the next text
+		local conditionFunc = t_tutorialDiag[tutoDiag].condition
+	--Call and check the function stored in t_tutorialDiag[tutoDiag].condition
+		if conditionFunc ~= "" and _G[conditionFunc] and _G[conditionFunc]() then
+			nextText = true
 		end
+	end
+	if nextText then
+		tutoi = 0
+		tutoDiag = tutoDiag + 1
+		nextText = false
 	end
 	cmdInput()
 end

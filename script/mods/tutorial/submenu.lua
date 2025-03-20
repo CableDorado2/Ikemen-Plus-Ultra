@@ -78,8 +78,85 @@ animSetScale(kfmTutoPortrait, 0.52, 0.52)
 animUpdate(kfmTutoPortrait)
 
 t_tutorialDiag = {
-	{txt = "WELCOME TO THE TUTORIAL MODE!                THIS IS A DIALOGUE TEST.                 PLEASE USE [SELECT] BUTTON TO ADVANCE..."},
-	{txt = "OK, LET'S TRY SOME MOVES"},
-	{txt = "PRESS FORDWARD BUTTON AND COME TO ME."},
-	{txt = "NICE. NOW GO BACK USING LEFT BUTTON"},
+{condition = "", btntonext = true, txt = "WELCOME TO THE TUTORIAL MODE!                THIS IS A DIALOGUE TEST.                 PLEASE USE [SELECT] BUTTON TO ADVANCE..."},
+{condition = "", btntonext = true, txt = "OK, LET'S TRY SOME MOVES"},
+{condition = "f_tutoCheck1", btntonext = false, txt = "PRESS FORDWARD BUTTON AND COME TO ME."},
+{condition = "f_tutoCheck2", btntonext = false, txt = "NICE. NOW GO BACK USING LEFT BUTTON"},
+{condition = "f_tutoCheck3", btntonext = false, txt = "GOOD. NOW CROUCH WITH DOWN BUTTON"},
+{condition = "f_tutoCheck4", btntonext = false, txt = "YEP. JUMP WITH UP BUTTON"},
+{condition = "f_tutoCheck5", btntonext = false, txt = "HMM. TAP 2 TIMES LEFT BUTTON"},
+{condition = "f_tutoCheck6", btntonext = false, txt = "NOW. TAP 2 TIMES RIGHT BUTTON"},
+{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO ATTACK ME."},
+{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "f_tutoCheck9", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "f_tutoCheck10", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "f_tutoCheck11", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "f_tutoCheck12", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "f_tutoCheck13", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "f_tutoCheck14", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "f_tutoCheck15", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
 }
+
+--The next checks uses the CNS triggers and KFG char as base example
+function f_tutoCheck1()
+	if teamside() == 1 and anim() == 20 and posX() >= 10 then
+		return true
+	else
+		return false
+	end
+end
+
+function f_tutoCheck2()
+	if teamside() == 1 and anim() == 21 and posX() <= 90 then
+		return true
+	end
+end
+
+function f_tutoCheck3()
+	if teamside() == 1 and anim() == 11 then
+		return true
+	end
+end
+
+function f_tutoCheck4()
+	if teamside() == 1 and anim() == 41 and time() >= 30 then
+		return true
+	end
+end
+
+function f_tutoCheck5()
+	if teamside() == 1 and anim() == 106 then
+		return true
+	end
+end
+
+function f_tutoCheck6()
+	if teamside() == 1 and anim() == 101 then
+		return true
+	end
+end
+
+local success = false
+local check1 = false
+local check2 = false
+local check3 = false
+
+function f_tutoCheck7()
+	if teamside() == 1 then
+	--Check LP
+		if anim() == 200 and (teamside() == 2 and gethitvar("hitcount") == 1) and not check1 then
+			check1 = true
+		end
+	--Check MP
+		if anim() == 210 and  not check2 then
+			check2 = true
+		end
+	--Check HP
+		if anim() == 220 or anim() == 221 and  and check3 then
+			check3 = true
+		end
+	end
+	if check1 and check2 and check3 then
+		return true
+	end
+end
