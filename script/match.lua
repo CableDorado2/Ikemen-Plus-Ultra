@@ -143,8 +143,8 @@ function statusInfo(p)
 local oldid = id()
 	if not player(p) then return false end
 	local ret = string.format(
-		'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d TEAM:%d HITCNT:%d HITTO : %d',
-		playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel(), teamside(), gethitvar("hitcount"), hitcount()
+		'P%d(%d) LIF:%5d POW:%5d ATK:%5d DEF:%5d PAL:%d AI:%d TEAM:%d HITCNT:%d',
+		playerno(), id(), life(), power(), attack(), defence(), palno(), ailevel(), teamside(), gethitvar("hitcount")
 	)
 	playerid(oldid)
 	return ret

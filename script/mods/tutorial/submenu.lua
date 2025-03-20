@@ -79,22 +79,27 @@ animUpdate(kfmTutoPortrait)
 
 t_tutorialDiag = {
 {condition = "", btntonext = true, txt = "WELCOME TO THE TUTORIAL MODE!                THIS IS A DIALOGUE TEST.                 PLEASE USE [SELECT] BUTTON TO ADVANCE..."},
-{condition = "", btntonext = true, txt = "OK, LET'S TRY SOME MOVES"},
-{condition = "f_tutoCheck1", btntonext = false, txt = "PRESS FORDWARD BUTTON AND COME TO ME."},
-{condition = "f_tutoCheck2", btntonext = false, txt = "NICE. NOW GO BACK USING LEFT BUTTON"},
-{condition = "f_tutoCheck3", btntonext = false, txt = "GOOD. NOW CROUCH WITH DOWN BUTTON"},
-{condition = "f_tutoCheck4", btntonext = false, txt = "YEP. JUMP WITH UP BUTTON"},
-{condition = "f_tutoCheck5", btntonext = false, txt = "HMM. TAP 2 TIMES LEFT BUTTON"},
-{condition = "f_tutoCheck6", btntonext = false, txt = "NOW. TAP 2 TIMES RIGHT BUTTON"},
-{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO ATTACK ME."},
-{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
-{condition = "f_tutoCheck9", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
-{condition = "f_tutoCheck10", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
-{condition = "f_tutoCheck11", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
-{condition = "f_tutoCheck12", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
-{condition = "f_tutoCheck13", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
-{condition = "f_tutoCheck14", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
-{condition = "f_tutoCheck15", btntonext = false, txt = "LET'S TRY THOSE FITS, USE [A] [B] AND [C] BUTTONS TO PUNCH ME."},
+{condition = "", btntonext = true, txt = "DURING THIS TUTORIAL ALL MOVES ARE EXPLAINED CONSIDERING THAT YOUR CHARACTERS IS ON LEFT SIDE FACING TO THE OPPONENT ON THE RIGHT SIDE..."},
+{condition = "", btntonext = true, txt = "OK, LET'S TRY SOME MOVES..."},
+{condition = "f_tutoCheck1", btntonext = false, txt = "GO FORDWARD USING [RIGHT] BUTTON AND COME TO ME."},
+{condition = "f_tutoCheck2", btntonext = false, txt = "NICE. NOW GO BACK USING [LEFT] BUTTON."},
+{condition = "f_tutoCheck3", btntonext = false, txt = "GOOD. NOW CROUCH WITH [DOWN] BUTTON."},
+{condition = "f_tutoCheck4", btntonext = false, txt = "YEP. JUMP WITH [UP] BUTTON."},
+{condition = "f_tutoCheck5", btntonext = false, txt = "HMM. TAP 2 TIMES [LEFT] BUTTON"},
+{condition = "f_tutoCheck6", btntonext = false, txt = "NOW. TAP 2 TIMES [RIGHT] BUTTON"},
+{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FITS, PRESS [A], [B] AND [C] BUTTONS TO ATTACK ME."},
+{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE KICKS, PRESS [X], [Y] AND [Z] BUTTONS TO KICK ME."},
+{condition = "", btntonext = true, txt = "EACH BUTTON HAVE DIFFERENT DAMAGE PROPERTIES..."},
+{condition = "", btntonext = true, txt = "LOW ATTACKS LP/LK[A/X] ARE FASTER..."},
+{condition = "", btntonext = true, txt = "MEDIUM ATTACKS MP/MK[B/Y] STUN THE OPPONENT FOR LONGER..."},
+{condition = "", btntonext = true, txt = "HIGH ATTACKS HP/HK[C/Z] ARE SLOWER BUT HEAVIER, SO IN ADDITION TO DOING MORE DAMAGE, THEY STUN FOR LONGER THAN MEDIUM ATTACKS..."},
+{condition = "f_tutoCheck9", btntonext = false, txt = "COOL. NOW TRY ALL PREVIOUS ATTACKS DURING JUMP (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS ON AIR)."},
+{condition = "f_tutoCheck10", btntonext = false, txt = "GREAT. LIKE JUMPING YOU CAN ALSO ATTACK DURING CROUCH (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
+{condition = "f_tutoCheck11", btntonext = false, txt = ""},
+{condition = "f_tutoCheck12", btntonext = false, txt = ""},
+{condition = "f_tutoCheck13", btntonext = false, txt = ""},
+{condition = "f_tutoCheck14", btntonext = false, txt = ""},
+{condition = "f_tutoCheck15", btntonext = false, txt = "AWESOME! TEST YOUR MIGHT WITH EX MOVES"},
 }
 
 --The next checks uses the CNS triggers and KFG char as base example
@@ -140,23 +145,128 @@ local success = false
 local check1 = false
 local check2 = false
 local check3 = false
+local check4 = false
+local check5 = false
+local check6 = false
 
 function f_tutoCheck7()
 	if teamside() == 1 then
 	--Check LP
-		if anim() == 200 and (teamside() == 2 and gethitvar("hitcount") == 1) and not check1 then
+		if anim() == 200 and hitcount() == 1 and not check1 then
 			check1 = true
 		end
 	--Check MP
-		if anim() == 210 and  not check2 then
+		if anim() == 210 and hitcount() == 1 and not check2 then
 			check2 = true
 		end
 	--Check HP
-		if anim() == 220 or anim() == 221 and  and check3 then
+		if (anim() == 220 or anim() == 221) and hitcount() == 1 and not check3 then
 			check3 = true
 		end
 	end
 	if check1 and check2 and check3 then
+		check1 = false
+		check2 = false
+		check3 = false
+		return true
+	end
+end
+
+function f_tutoCheck8()
+	if teamside() == 1 then
+	--Check LK
+		if (anim() == 230 or anim() == 231) and hitcount() == 1 and not check1 then
+			check1 = true
+		end
+	--Check MK
+		if anim() == 240 and hitcount() == 1 and not check2 then
+			check2 = true
+		end
+	--Check HK
+		if (anim() == 250 or anim() == 251) and hitcount() == 1 and not check3 then
+			check3 = true
+		end
+	end
+	if check1 and check2 and check3 then
+		check1 = false
+		check2 = false
+		check3 = false
+		return true
+	end
+end
+
+function f_tutoCheck9()
+	if teamside() == 1 then
+	--Check AIR LP
+		if anim() == 600 and hitcount() == 1 and not check1 then
+			check1 = true
+		end
+	--Check AIR MP
+		if anim() == 610 and hitcount() == 1 and not check2 then
+			check2 = true
+		end
+	--Check AIR HP
+		if anim() == 620 and hitcount() == 1 and not check3 then
+			check3 = true
+		end	
+	--Check AIR LK
+		if anim() == 630 and hitcount() == 1 and not check4 then
+			check4 = true
+		end
+	--Check AIR MK
+		if anim() == 640 and hitcount() == 1 and not check5 then
+			check5 = true
+		end
+	--Check AIR HK
+		if anim() == 650 and hitcount() == 1 and not check6 then
+			check6 = true
+		end
+	end
+	if check1 and check2 and check3 and check4 and check5 and check6 then
+		check1 = false
+		check2 = false
+		check3 = false
+		check4 = false
+		check5 = false
+		check6 = false
+		return true
+	end
+end
+
+function f_tutoCheck10()
+	if teamside() == 1 then
+	--Check DOWN LP
+		if anim() == 400 and hitcount() == 1 and not check1 then
+			check1 = true
+		end
+	--Check DOWN MP
+		if anim() == 410 and hitcount() == 1 and not check2 then
+			check2 = true
+		end
+	--Check DOWN HP
+		if anim() == 420 and hitcount() == 1 and not check3 then
+			check3 = true
+		end	
+	--Check DOWN LK
+		if anim() == 430 and hitcount() == 1 and not check4 then
+			check4 = true
+		end
+	--Check DOWN MK
+		if anim() == 440 and hitcount() == 1 and not check5 then
+			check5 = true
+		end
+	--Check DOWN HK
+		if anim() == 450 and hitcount() == 1 and not check6 then
+			check6 = true
+		end
+	end
+	if check1 and check2 and check3 and check4 and check5 and check6 then
+		check1 = false
+		check2 = false
+		check3 = false
+		check4 = false
+		check5 = false
+		check6 = false
 		return true
 	end
 end
