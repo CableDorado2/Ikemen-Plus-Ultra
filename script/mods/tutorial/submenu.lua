@@ -20,7 +20,7 @@ function f_tutorial()
 	setGameMode('tutorial')
 	--data.gameMode = "training"
 	--data.rosterMode = "training"
-	setRoundsToWin(-1) --rounds to win
+	setRoundsToWin(1) --rounds to win
 	setRoundTime(-1) --round time disabled
 	data.versusScreen = false --versus screen disabled
 	data.victoryscreen = false --victory screen disabled
@@ -28,6 +28,8 @@ function f_tutorial()
 	data.bgm = "sound/System/Tutorial.mp3" --predefined custom song route
 	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
+	data.p1Pal = 1
+	data.p1Char = {"Kung Fu Girl"}
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if #t_tutorialChar ~= 0 then --If a tutorial char is detected in select.def with tutorial=1 paramvalue
 		data.p2In = 2
@@ -79,32 +81,40 @@ animUpdate(kfmTutoPortrait)
 
 t_tutorialDiag = {
 {condition = "", btntonext = true, txt = "WELCOME TO THE TUTORIAL MODE!                THIS IS A DIALOGUE TEST.                 PLEASE USE [SELECT] BUTTON TO ADVANCE..."},
-{condition = "", btntonext = true, txt = "DURING THIS TUTORIAL ALL MOVES ARE EXPLAINED CONSIDERING THAT YOUR CHARACTERS IS ON LEFT SIDE FACING TO THE OPPONENT ON THE RIGHT SIDE..."},
+{condition = "", btntonext = true, txt = "DURING THIS TUTORIAL, ALL MOVES ARE EXPLAINED CONSIDERING THAT YOUR CHARACTERS IS ON LEFT SIDE FACING TO THE OPPONENT ON THE RIGHT SIDE..."},
 {condition = "", btntonext = true, txt = "OK, LET'S TRY SOME MOVES..."},
 {condition = "f_tutoCheck1", btntonext = false, txt = "GO FORDWARD USING [RIGHT] BUTTON AND COME TO ME."},
 {condition = "f_tutoCheck2", btntonext = false, txt = "NICE. NOW GO BACK USING [LEFT] BUTTON."},
 {condition = "f_tutoCheck3", btntonext = false, txt = "GOOD. NOW CROUCH WITH [DOWN] BUTTON."},
 {condition = "f_tutoCheck4", btntonext = false, txt = "YEP. JUMP WITH [UP] BUTTON."},
 {condition = "f_tutoCheck5", btntonext = false, txt = "HMM. TAP 2 TIMES [LEFT] BUTTON"},
-{condition = "f_tutoCheck6", btntonext = false, txt = "NOW. TAP 2 TIMES [RIGHT] BUTTON"},
-{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FITS, PRESS [A], [B] AND [C] BUTTONS TO ATTACK ME."},
-{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE KICKS, PRESS [X], [Y] AND [Z] BUTTONS TO KICK ME."},
+{condition = "f_tutoCheck6", btntonext = false, txt = "NOW! TAP 2 TIMES [RIGHT] BUTTON"},
+{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FIST.           PRESS [A], [B] AND [C] BUTTONS TO ATTACK ME."},
+{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE KICKS.          PRESS [X], [Y] AND [Z] BUTTONS TO KICK ME."},
 {condition = "", btntonext = true, txt = "EACH BUTTON HAVE DIFFERENT DAMAGE PROPERTIES..."},
 {condition = "", btntonext = true, txt = "LOW ATTACKS LP/LK[A/X] ARE FASTER..."},
-{condition = "", btntonext = true, txt = "MEDIUM ATTACKS MP/MK[B/Y] STUN THE OPPONENT FOR LONGER..."},
-{condition = "", btntonext = true, txt = "HIGH ATTACKS HP/HK[C/Z] ARE SLOWER BUT HEAVIER, SO IN ADDITION TO DOING MORE DAMAGE, THEY STUN FOR LONGER THAN MEDIUM ATTACKS..."},
+{condition = "", btntonext = true, txt = "MEDIUM ATTACKS MP/MK[B/Y] STUN THE OPPONENT FOR A SHORT TIME..."},
+{condition = "", btntonext = true, txt = "HEAVY ATTACKS HP/HK[C/Z] ARE SLOWER BUT IN ADDITION TO DOING MORE DAMAGE, IT STUN FOR LONGER TIME THAN MEDIUM ATTACKS..."},
 {condition = "f_tutoCheck9", btntonext = false, txt = "COOL. NOW TRY ALL PREVIOUS ATTACKS DURING JUMP (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS ON AIR)."},
-{condition = "f_tutoCheck10", btntonext = false, txt = "GREAT. LIKE JUMPING YOU CAN ALSO ATTACK DURING CROUCH (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
-{condition = "f_tutoCheck11", btntonext = false, txt = ""},
-{condition = "f_tutoCheck12", btntonext = false, txt = ""},
-{condition = "f_tutoCheck13", btntonext = false, txt = ""},
-{condition = "f_tutoCheck14", btntonext = false, txt = ""},
-{condition = "f_tutoCheck15", btntonext = false, txt = "AWESOME! TEST YOUR MIGHT WITH EX MOVES"},
+{condition = "f_tutoCheck10", btntonext = false, txt = "GREAT!           LIKE JUMPING, YOU CAN ALSO ATTACK DURING CROUCH.       (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
+{condition = "f_tutoCheck11", btntonext = false, txt = "MARVELOUS!       YOU CAN GRAB THE OPPONENT BY PRESSING [B] AND [Y] BUTTON AT THE SAME TIME WITH [RIGHT] OR [LEFT] BUTTONS."},
+{condition = "f_tutoCheck12", btntonext = false, txt = "WONDERFUL!       YOU CAN STOP AND PUSH YOUR OPPONENT WHILE HE IS ATTACKING OR NOT BY PRESSING [C] AND [Z] BUTTONS AT THE SAME TIME."},
+{condition = "", btntonext = true, txt = "FANTASTIC! NOW...      SPECIAL MOVES ARE BUTTON COMBINATIONS THAT ALLOW YOU TO DEAL MORE DAMAGE THAN NORMAL HITS..."},
+{condition = "", btntonext = true, txt = "KUNG FU GIRL HAS 3 SPECIAL MOVES..."},
+{condition = "f_tutoCheck13", btntonext = false, txt = 'THE FIRST ONE IS A "KUNG FU PALM". YOU CAN EXECUTE IT BY PRESSING [DOWN]+[RIGHT]+[ANY PUNCH]. TRY IT!'},
+{condition = "f_tutoCheck14", btntonext = false, txt = "THE SECOND ONE IS A KICK COMBINATION. YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[ANY KICK]. TRY IT!"},
+{condition = "f_tutoCheck15", btntonext = false, txt = "THIS ONE CAN BE FOLLOWED BY MASHING ANY KICK BUTTON. TRY IT!"},
+{condition = "f_tutoCheck16", btntonext = false, txt = "THE LAST ONE IS A DIVE KICK. TO DO IT, PRESS [RIGHT]+[DOWN]+[RIGHT]+[ANY KICK 2 TIMES]."},
+{condition = "", btntonext = true, txt = "AWESOME! NOW LET'S TALK ABOUT THE EX MOVES..."},
+{condition = "", btntonext = true, txt = "THE EX MOVES ARE IMPROVEMENTS FOR THE SPECIAL MOVES. TO EXECUTE IT, YOU NEED AT LEAST 1 POWER BAR AND PRESS AT THE SAME TIME 2 BUTTONS THAT EXECUTE THE MOVE..."},
+{condition = "f_tutoCheck17", btntonext = false, txt = "DO EX VERSION FOR ALL SPECIAL MOVES!"},
+{condition = "f_tutoCheck18", btntonext = false, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED AND THE POWER RESOURCES AVAILABLE, TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
+{condition = "", btntonext = true, txt = ""},
 }
 
 --The next checks uses the CNS triggers and KFG char as base example
 function f_tutoCheck1()
-	if teamside() == 1 and anim() == 20 and posX() >= 10 then
+	if teamside() == 1 and anim() == 20 and time() > 30 and posX() >= 10 then
 		return true
 	else
 		return false
@@ -112,7 +122,7 @@ function f_tutoCheck1()
 end
 
 function f_tutoCheck2()
-	if teamside() == 1 and anim() == 21 and posX() <= 90 then
+	if teamside() == 1 and anim() == 21 and time() > 30 and posX() <= 90 then
 		return true
 	end
 end
@@ -267,6 +277,77 @@ function f_tutoCheck10()
 		check4 = false
 		check5 = false
 		check6 = false
+		return true
+	end
+end
+
+function f_tutoCheck11()
+	if teamside() == 1 then
+	--Check Grab to Right
+		if anim() == 810 and not check1 then
+			check1 = true
+		end
+	--Check Grab to Left
+		if anim() == 850 and not check2 then
+			check2 = true
+		end
+	end
+	if check1 and check2 then
+		check1 = false
+		check2 = false
+		return true
+	end
+end
+
+function f_tutoCheck12()
+	if teamside() == 1 and anim() == 1420 then
+		return true
+	end
+end
+
+function f_tutoCheck13()
+	if teamside() == 1 and (anim() == 1000 or anim() == 1010 or anim() == 1020) and time() >= 20 then
+		return true
+	end
+end
+
+function f_tutoCheck14()
+	if teamside() == 1 and anim() == 1300 and time() >= 20 then
+		return true
+	end
+end
+
+function f_tutoCheck15()
+	if teamside() == 1 and anim() == 1302 and time() >= 20 then
+		return true
+	end
+end
+
+function f_tutoCheck16()
+	if teamside() == 1 and anim() == 1105 and time() >= 20 then
+		return true
+	end
+end
+
+function f_tutoCheck17()
+	if teamside() == 1 then
+	--Check EX KUNG FU PALM
+		if anim() == 1030 and not check1 then
+			check1 = true
+		end
+	--Check EX DIVE KICK
+		if anim() == 1135 and not check2 then
+			check2 = true
+		end
+	--Check EX ? KICK
+		if anim() == 1332 and not check3 then
+			check3 = true
+		end
+	end
+	if check1 and check2 and check3 then
+		check1 = false
+		check2 = false
+		check3 = false
 		return true
 	end
 end
