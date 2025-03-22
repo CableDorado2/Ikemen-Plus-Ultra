@@ -77,9 +77,9 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
-- Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
-
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
+
+- Leer archivos movelist.dat dentro de los chars.
 
 - Los combates de intermisiones dejan de funcionar si se juega en team mode.
 
@@ -105,7 +105,9 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - 3er tipo de visualización de stages estilo “chart”, (lógica basada en el char select) al ser activado debe cargarse desde una función diferente a la normal para evitar conflictos, asímismo debe usar los portrait (9000,0) para mostrar los íconos: https://www.youtube.com/watch?v=FHwlSkCkQ50
 [![Alt text](https://static.wikia.nocookie.net/streetfighter/images/d/d6/SF%C3%97TK_Cosmic_Elevator_select.jpg/revision/latest?cb=20150201185002&path-prefix=es)](https://youtu.be/FHwlSkCkQ50)
 
-- Preset team o Path Select para el arcade a lo kof 2002, Street Fighter 3 Third Strike o Arcana Heart 3 (definir en el select.def los equipos que aparecerán en el modo arcade cuando juegues contra la cpu turns o simul y que antes del order select te permita escoger contra cuál team luchar, lo mismo para el single basado en SF3)
+- Preset team o Path Select para el arcade a lo kof 2002, Street Fighter 3 Third Strike o Arcana Heart 3 (definir en el select.def los equipos que aparecerán en el modo arcade cuando juegues contra la cpu turns o simul y que antes del order select te permita escoger contra cuál team luchar, lo mismo para el single basado en SF3).
+
+- Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
 - Implementar los parametros: ordersurvival, hidden, slot en select.def
 
@@ -114,8 +116,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - Añadir una entrada de nombre para cada char escogido para que sea reconocido en el torneo (en caso de que se repita) y ese name que aparezca en lifebar durante el match.
 
 - Opción para jugar el Modo Torneo en formato Eliminación Doble.
-
-- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
@@ -134,8 +134,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
   - Ambas características se han implementado en el código del paquete de pantalla actual, pero la solución actual tiene un alto rendimiento (aumenta el tiempo de carga cuando se inicia el ejecutable) y no es perfecta (no hay acceso para coincidir con los datos relacionados que a menudo son verificados por winscreens como WinKO, Life, etc.)
 
 - Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
-
-- Leer archivos movelist.dat dentro de los chars.
 
 - Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
@@ -165,6 +163,8 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
 - Integrar la función de bgm.loops.
+
+- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
 
 - Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
 
