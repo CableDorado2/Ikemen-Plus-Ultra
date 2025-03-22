@@ -430,14 +430,23 @@ function pauseMenu(p, st, esc)
 	end
 end
 
+local bgmstate = 0
 local abyssHitCnt = 0
 local tutoi = 0
 local tutoDiag = 1
+
+local function f_setStageMusic()
+	if bgmstate == 1 then
+		playBGM(bgmIntro)
+		bgmstate = 0
+	end
+end
 
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
 --During VS Mode
 	if getGameMode() == "vs" then
+		if roundno() == 2 and roundstate() == 0 then bgmstate = 1 end
 		if roundstate() < 2 then
 			f_handicapSet()
 		end
@@ -506,9 +515,10 @@ function loop() --The code for this function should be thought of as if it were 
 			animUpdate(tutorialNext)
 		--Draw Text
 			tutoi = tutoi + 1
-			f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 45)
+			f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 43)
 		end
 	end
+	f_setStageMusic()
 end
 
 function f_nextTutoText()
