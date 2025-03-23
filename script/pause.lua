@@ -388,22 +388,97 @@ function f_confirmReset()
 end
 
 --;===========================================================
+--; PAUSE MENU ITEMS FUNCTIONS
+--;===========================================================
+--HIDE MENU
+function f_hidePause()
+	hide = true
+end
+
+--RESUME GAME
+function f_resumePause()
+	
+end
+
+--MOVELIST
+function f_movelistPause()
+	sndPlay(sndSys, 100, 5)
+end
+
+--SETTINGS
+function f_settingsPause()
+	sndPlay(sndSys, 100, 1)
+	f_gameCfgMenuReset()
+end
+
+--BACK TO CHARACTER SELECT
+function f_exitPause()
+	if getGameMode() == "story" then
+		sndPlay(sndSys, 100, 5)
+	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
+		sndPlay(sndSys, 100, 1)
+	--[[
+		abyssStats = 1
+		cursorPosY = 1
+		moveTxt = 0
+	]]
+		mainGoTo = "AbyssStats"
+		delayMenu = -2
+	elseif getGameMode() == "random" or getGameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
+		sndPlay(sndSys, 100, 1)
+		f_confirmReset()
+		mainGoTo = "Confirm"
+		mainMenuBack = true
+		delayMenu = -2
+	else
+		sndPlay(sndSys, 100, 1)
+		f_confirmReset()
+		mainGoTo = "Confirm"
+		delayMenu = -2
+	end
+end
+
+--EXIT TO MAIN MENU
+function f_mainmenuPause()	
+	sndPlay(sndSys, 100, 1)
+	f_confirmReset()
+	mainGoTo = "Confirm"
+	mainMenuBack = true
+	if getGameMode() == "replay" then
+		data.replayDone = true
+	end
+	delayMenu = -2
+end
+
+--TRAINING SETTINGS
+function f_practicePause()
+	sndPlay(sndSys, 100, 1)
+	f_trainingCfgMenuReset()
+end
+
+--BATTLE INFO
+function f_infoPause()
+	sndPlay(sndSys, 100, 1)
+	f_trainingCfgMenuReset()
+end
+
+--;===========================================================
 --; PAUSE MENU
 --;===========================================================
 txt_pause = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_pauseMain = {
-	{id = '', text = "CONTINUE"},
-	{id = '', text = "MOVELIST"},
-	{id = '', text = "SETTINGS"},
-	{id = '', text = "HIDE MENU"},
-	{id = '', text = "GIVE UP"},
-	{id = '', text = "MAIN MENU"}
+	{text = "CONTINUE", gotomenu = "f_resumePause()"},
+	{text = "MOVELIST", gotomenu = "f_movelistPause()"},
+	{text = "SETTINGS", gotomenu = "f_settingsPause()"},
+	{text = "HIDE MENU", gotomenu = "f_hidePause()"},
+	{text = "GIVE UP", gotomenu = "f_exitPause()"},
+	{text = "MAIN MENU", gotomenu = "f_mainmenuPause()"}
 }
-if getGameMode() == "practice" or getGameMode() == "tutorial" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
+if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
 	t_pauseMain[5].text = "CHARACTER SELECT"
 	if getGameMode() == "practice" then
-		table.insert(t_pauseMain,7,{id = '', text = "TRAINING MENU"})
+		table.insert(t_pauseMain,7,{text = "TRAINING MENU", gotomenu = "f_practicePause()"})
 	elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
 		if getPauseVar() == "giveup" then
 			t_pauseMain[6].text = "GIVE UP"
@@ -416,6 +491,7 @@ elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
 	if getPauseVar() == "nogiveup" then table.remove(t_pauseMain,5) end
 elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
+elseif getGameMode() == "tutorial" then table.remove(t_pauseMain,5)
 elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "SKIP MATCH"
 elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "CHARACTER STATUS"
@@ -425,12 +501,31 @@ end
 if getGameMode() == "replay" or getGameMode() == "randomtest" then
 t_pauseMain = nil
 t_pauseMain = {
-	{id = '', text = "CONTINUE"},
-	{id = '', text = "SETTINGS"},
-	{id = '', text = "HIDE MENU"},
-	{id = '', text = "BATTLE INFO"},
-	{id = '', text = "EXIT"}
+	{text = "CONTINUE", gotomenu = "f_resumePause()"},
+	{text = "SETTINGS", gotomenu = "f_settingsPause()"},
+	{text = "HIDE MENU", gotomenu = "f_hidePause()"},
+	{text = "BATTLE INFO", gotomenu = "f_infoPause()"},
+	{text = "EXIT", gotomenu = "f_mainmenuPause()"}
 }
+end
+
+--Set ID to all final items
+for i=1, #t_pauseMain do
+	t_pauseMain[i]['id'] = ""
+end
+
+if data.debugLog then f_printTable(t_pauseMain, "save/debug/t_pauseMain.txt") end
+
+--Start functions stored in strings
+function f_gotoFunction(func)
+	if not func or not func.gotomenu then return end --Return in case func does not exist or does not have "gotomenu"
+	local f, err = load(func.gotomenu)
+	if f then
+		f() --Call the function
+	else
+		print("Error loading function: " .. (err or "Unknown error"))
+		return --Error when loading function
+	end
 end
 
 if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
@@ -492,13 +587,7 @@ function f_pauseMain(p, st, esc)
 			if pn == 1 then textImgSetBank(txt_pause, 5) --Set color depending player id
 			elseif pn == 2 then textImgSetBank(txt_pause, 1)
 			end
-			textImgSetText(txt_pause, "PAUSE [P"..pn.."]")			
-		--HIDE MENU
-			if getGameMode() == "replay" or getGameMode() == "randomtest" then
-				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
-			else
-				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
-			end
+			textImgSetText(txt_pause, "PAUSE [P"..pn.."]")
 		--RESUME GAME
 			if (escape or start or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and delayMenu == 2 then
 				sndPlay(sndSys, 100, 2)
@@ -543,6 +632,12 @@ function f_pauseMain(p, st, esc)
 					sndPlay(sndSys, 100, 0)
 					pauseMenu = pauseMenu + 1
 				end
+		--[[
+			--Actions are called from functions stored in t_pauseMain table
+				if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+					f_gotoFunction(t_pauseMain[pauseMenu])
+				end
+		]]
 			--Actions in Demo or Replay Modes
 				if getGameMode() == "replay" or getGameMode() == "randomtest" then
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
@@ -582,11 +677,11 @@ function f_pauseMain(p, st, esc)
 								sndPlay(sndSys, 100, 5)
 							elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
 								sndPlay(sndSys, 100, 1)
-							--[[
-								abyssStats = 1
-								cursorPosY = 1
-								moveTxt = 0
-							]]
+							
+								--abyssStats = 1
+								--cursorPosY = 1
+								--moveTxt = 0
+							
 								mainGoTo = "AbyssStats"
 								delayMenu = -2
 							elseif getGameMode() == "random" or getGameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
@@ -755,7 +850,7 @@ function f_pauseConfirm()
 		end
 --MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
-		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "tutorial" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backCharSel)
+		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backCharSel)
 		elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStgSel)
 		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
 		elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_mainmenuBack)

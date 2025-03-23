@@ -18,6 +18,7 @@ kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 function f_tutorial()
 	f_default()
 	setGameMode('tutorial')
+	setPauseVar('nogiveup') --To avoid write exit conditionals in pause menu
 	--data.gameMode = "training"
 	--data.rosterMode = "training"
 	setRoundsToWin(1) --rounds to win
@@ -81,7 +82,7 @@ animUpdate(kfmTutoPortrait)
 
 t_tutorialDiag = {
 {condition = "", btntonext = true, txt = "WELCOME TO THE TUTORIAL MODE!                THIS IS A DIALOGUE TEST.                 PLEASE USE [SELECT] BUTTON TO ADVANCE..."},
-{condition = "", btntonext = true, txt = "DURING THIS TUTORIAL, ALL MOVES ARE EXPLAINED CONSIDERING THAT YOUR CHARACTERS IS ON LEFT SIDE FACING TO THE OPPONENT ON THE RIGHT SIDE..."},
+{condition = "", btntonext = true, txt = "DURING THIS TUTORIAL, ALL MOVES ARE EXPLAINED CONSIDERING THAT YOUR CHARACTER IS ON LEFT SIDE FACING TO THE OPPONENT ON THE RIGHT SIDE..."},
 {condition = "", btntonext = true, txt = "OK, LET'S TRY SOME MOVES..."},
 {condition = "f_tutoCheck1", btntonext = false, txt = "GO FORDWARD USING [RIGHT] BUTTON AND COME TO ME."},
 {condition = "f_tutoCheck2", btntonext = false, txt = "NICE. NOW GO BACK USING [LEFT] BUTTON."},
@@ -89,26 +90,26 @@ t_tutorialDiag = {
 {condition = "f_tutoCheck4", btntonext = false, txt = "YEP. JUMP WITH [UP] BUTTON."},
 {condition = "f_tutoCheck5", btntonext = false, txt = "HMM. TAP 2 TIMES [LEFT] BUTTON"},
 {condition = "f_tutoCheck6", btntonext = false, txt = "NOW! TAP 2 TIMES [RIGHT] BUTTON"},
-{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FIST.           PRESS [A], [B] AND [C] BUTTONS TO ATTACK ME."},
-{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE KICKS.          PRESS [X], [Y] AND [Z] BUTTONS TO KICK ME."},
+{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FIST.                      PRESS [A], [B] AND [C] BUTTONS TO ATTACK ME."},
+{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE KICKS.                     PRESS [X], [Y] AND [Z] BUTTONS TO KICK ME."},
 {condition = "", btntonext = true, txt = "EACH BUTTON HAVE DIFFERENT DAMAGE PROPERTIES..."},
 {condition = "", btntonext = true, txt = "LOW ATTACKS LP/LK[A/X] ARE FASTER..."},
 {condition = "", btntonext = true, txt = "MEDIUM ATTACKS MP/MK[B/Y] STUN THE OPPONENT FOR A SHORT TIME..."},
 {condition = "", btntonext = true, txt = "HEAVY ATTACKS HP/HK[C/Z] ARE SLOWER BUT IN ADDITION TO DOING MORE DAMAGE, IT STUN FOR LONGER TIME THAN MEDIUM ATTACKS..."},
 {condition = "f_tutoCheck9", btntonext = false, txt = "COOL. NOW TRY ALL PREVIOUS ATTACKS DURING JUMP (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS ON AIR)."},
-{condition = "f_tutoCheck10", btntonext = false, txt = "GREAT!           LIKE JUMPING, YOU CAN ALSO ATTACK DURING CROUCH.       (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
-{condition = "f_tutoCheck11", btntonext = false, txt = "MARVELOUS!       YOU CAN GRAB THE OPPONENT BY PRESSING [B] AND [Y] BUTTON AT THE SAME TIME WITH [RIGHT] OR [LEFT] BUTTONS."},
-{condition = "f_tutoCheck12", btntonext = false, txt = "WONDERFUL!       YOU CAN STOP AND PUSH YOUR OPPONENT WHILE HE IS ATTACKING OR NOT BY PRESSING [C] AND [Z] BUTTONS AT THE SAME TIME."},
-{condition = "", btntonext = true, txt = "FANTASTIC! NOW...      SPECIAL MOVES ARE BUTTON COMBINATIONS THAT ALLOW YOU TO DEAL MORE DAMAGE THAN NORMAL HITS..."},
+{condition = "f_tutoCheck10", btntonext = false, txt = "GREAT! LIKE JUMPING, YOU CAN ALSO ATTACK DURING CROUCH.(PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
+{condition = "f_tutoCheck11", btntonext = false, txt = "MARVELOUS! YOU CAN GRAB THE OPPONENT BY PRESSING [B] AND [Y] BUTTON AT THE SAME TIME WITH [RIGHT] OR [LEFT] BUTTONS."},
+{condition = "f_tutoCheck12", btntonext = false, txt = "WONDERFUL! YOU CAN STOP AND PUSH YOUR OPPONENT WHILE HE IS ATTACKING OR NOT BY PRESSING [C] AND [Z] BUTTONS AT THE SAME TIME."},
+{condition = "", btntonext = true, txt = "FANTASTIC! NOW... SPECIAL MOVES ARE BUTTON COMBINATIONS THAT ALLOW YOU TO DEAL MORE DAMAGE THAN NORMAL HITS..."},
 {condition = "", btntonext = true, txt = "KUNG FU GIRL HAS 3 SPECIAL MOVES..."},
-{condition = "f_tutoCheck13", btntonext = false, txt = 'THE FIRST ONE IS A "KUNG FU PALM". YOU CAN EXECUTE IT BY PRESSING [DOWN]+[RIGHT]+[ANY PUNCH]. TRY IT!'},
-{condition = "f_tutoCheck14", btntonext = false, txt = "THE SECOND ONE IS A KICK COMBINATION. YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[ANY KICK]. TRY IT!"},
+{condition = "f_tutoCheck13", btntonext = false, txt = 'THE FIRST ONE IS A "KUNG FU PALM".       YOU CAN EXECUTE IT BY PRESSING [DOWN]+[RIGHT]+[ANY PUNCH]. TRY IT!'},
+{condition = "f_tutoCheck14", btntonext = false, txt = "THE SECOND ONE IS A KICK COMBINATION.    YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[ANY KICK]. TRY IT!"},
 {condition = "f_tutoCheck15", btntonext = false, txt = "THIS ONE CAN BE FOLLOWED BY MASHING ANY KICK BUTTON. TRY IT!"},
 {condition = "f_tutoCheck16", btntonext = false, txt = "THE LAST ONE IS A DIVE KICK. TO DO IT, PRESS [RIGHT]+[DOWN]+[RIGHT]+[ANY KICK 2 TIMES]."},
-{condition = "", btntonext = true, txt = "AWESOME! NOW LET'S TALK ABOUT THE EX MOVES..."},
-{condition = "", btntonext = true, txt = "THE EX MOVES ARE IMPROVEMENTS FOR THE SPECIAL MOVES. TO EXECUTE IT, YOU NEED AT LEAST 1 POWER BAR AND PRESS AT THE SAME TIME 2 BUTTONS THAT EXECUTE THE MOVE..."},
+{condition = "", btntonext = true, txt = "AWESOME!                                  NOW LET'S TALK ABOUT THE EX MOVES..."},
+{condition = "", btntonext = true, txt = "THE EX MOVES ARE IMPROVEMENTS FOR SPECIAL MOVES. TO EXECUTE IT, YOU NEED AT LEAST 1 POWER BAR AND PRESS AT THE SAME TIME 2 BUTTONS THAT EXECUTE THE MOVE..."},
 {condition = "f_tutoCheck17", btntonext = false, txt = "DO EX VERSION FOR ALL SPECIAL MOVES!"},
-{condition = "f_tutoCheck18", btntonext = false, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED AND THE POWER RESOURCES AVAILABLE, TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
+{condition = "f_tutoCheck18", btntonext = false, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED:                                           TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
 {condition = "", btntonext = true, txt = ""},
 }
 

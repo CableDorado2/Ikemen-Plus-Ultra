@@ -709,24 +709,29 @@ MainFadeInTime = 30
 
 if data.engineMode == "FG" then --Menu Items for Fighting Engine Mode
 t_mainMenu = {
-	{id = textImgNew(), text = "ARCADE", gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
-	{id = textImgNew(), text = "VERSUS", gotomenu = "f_vsMenu()"},
-	{id = textImgNew(), text = "NETPLAY", gotomenu = "f_mainNetplay()"},
-	{id = textImgNew(), text = "PRACTICE", gotomenu = "f_practiceMenu()"},
-	{id = textImgNew(), text = "CHALLENGES", gotomenu = "f_challengeMenu()"},
-	{id = textImgNew(), text = "EXTRAS", gotomenu = "f_extrasMenu()"},
-	{id = textImgNew(), text = "WATCH", gotomenu = "f_watchMenu()"},
-	{id = textImgNew(), text = "OPTIONS", gotomenu = "f_optionsMenu()"},
-	{id = textImgNew(), text = "EXIT", gotomenu = "f_exitMenu()"},
+	{text = "ARCADE", gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
+	{text = "VERSUS", gotomenu = "f_vsMenu()"},
+	{text = "NETPLAY", gotomenu = "f_mainNetplay()"},
+	{text = "PRACTICE", gotomenu = "f_practiceMenu()"},
+	{text = "CHALLENGES", gotomenu = "f_challengeMenu()"},
+	{text = "EXTRAS", gotomenu = "f_extrasMenu()"},
+	{text = "WATCH", gotomenu = "f_watchMenu()"},
+	{text = "OPTIONS", gotomenu = "f_optionsMenu()"},
+	{text = "EXIT", gotomenu = "f_exitMenu()"},
 }
 elseif data.engineMode == "VN" then --Menu Items for Visual Novel Engine Mode
 t_mainMenu = {
-	{id = textImgNew(), text = "NEW GAME", gotomenu = "f_vnNewGame()"},
-	{id = textImgNew(), text = "LOAD GAME", gotomenu = "f_vnLoadGame()"},
-	{id = textImgNew(), text = "CONFIG", gotomenu = "f_optionsMenu()"},
-	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
-	{id = textImgNew(), text = "EXIT", gotomenu = "f_exitMenu()"},
+	{text = "NEW GAME", gotomenu = "f_vnNewGame()"},
+	{text = "LOAD GAME", gotomenu = "f_vnLoadGame()"},
+	{text = "CONFIG", gotomenu = "f_optionsMenu()"},
+	{text = "GALLERY", gotomenu = "f_galleryMenu()"},
+	{text = "EXIT", gotomenu = "f_exitMenu()"},
 }
+end
+
+--Set ID to all final items
+for i=1, #t_mainMenu do
+	t_mainMenu[i]['id'] = textImgNew()
 end
 
 function drawMenuInputHints()
@@ -755,97 +760,137 @@ end
 --; ARCADE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_arcadeMenu = {
-	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_arcadeBoot()"},
-	{id = textImgNew(), text = "TOWER MODE", gotomenu = "f_towerBoot()"},
-	--{id = textImgNew(), text = "BEAT EM UP MODE", gotomenu = "f_beatemupBoot()"},
+	{text = "CLASSIC MODE", gotomenu = "f_arcadeBoot()"},
+	{text = "TOWER MODE", gotomenu = "f_towerBoot()"},
+	--{text = "BEAT EM UP MODE", gotomenu = "f_beatemupBoot()"},
 }
+
+for i=1, #t_arcadeMenu do
+	t_arcadeMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; VERSUS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_vsMenu = {
-	{id = textImgNew(), text = "QUICK MATCH", gotomenu = "f_quickvsBoot()"},
-	{id = textImgNew(), text = "FREE BATTLE", gotomenu = "f_vsBoot()"},
-	{id = textImgNew(), text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
+	{text = "QUICK MATCH", gotomenu = "f_quickvsBoot()"},
+	{text = "FREE BATTLE", gotomenu = "f_vsBoot()"},
+	{text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
 }
+
+for i=1, #t_vsMenu do
+	t_vsMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; PRACTICE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_practiceMenu = {
-	{id = textImgNew(), text = "TRAINING", gotomenu = "f_training()"},
-	{id = textImgNew(), text = "TRIALS", gotomenu = "f_comingSoon()"},
+	{text = "TRAINING", gotomenu = "f_training()"},
+	{text = "TRIALS", gotomenu = "f_comingSoon()"},
 }
+
+for i=1, #t_practiceMenu do
+	t_practiceMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	--{id = textImgNew(), text = "LEGION", gotomenu = "f_legionCfg()"},
-	{id = textImgNew(), text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
-	{id = textImgNew(), text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
-	{id = textImgNew(), text = "TIME ATTACK", gotomenu = "f_timeattackMenu()"},
-	{id = textImgNew(), text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
-	{id = textImgNew(), text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
+	--{text = "LEGION", gotomenu = "f_legionCfg()"},
+	{text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
+	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
+	{text = "TIME ATTACK", gotomenu = "f_timeattackMenu()"},
+	{text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
+	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
+
+for i=1, #t_challengeMenu do
+	t_challengeMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; SURVIVAL MENU SCREENPACK DEFINITION
 --;===========================================================
 t_survivalMenu = {
-	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_survivalBoot()"},
-	{id = textImgNew(), text = "ABYSS MODE", gotomenu = "f_abyssSelect()"},
-	{id = textImgNew(), text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
+	{text = "CLASSIC MODE", gotomenu = "f_survivalBoot()"},
+	{text = "ABYSS MODE", gotomenu = "f_abyssSelect()"},
+	{text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
 }
+
+for i=1, #t_survivalMenu do
+	t_survivalMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; SCORE ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_scoreattackMenu = {
-	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_scoreattackBoot()"},
-	--{id = textImgNew(), text = "??? MODE", gotomenu = ""},
+	{text = "CLASSIC MODE", gotomenu = "f_scoreattackBoot()"},
+	--{text = "??? MODE", gotomenu = ""},
 }
+
+for i=1, #t_scoreattackMenu do
+	t_scoreattackMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; TIME ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_timeattackMenu = {
-	{id = textImgNew(), text = "CLASSIC MODE", gotomenu = "f_timeattackBoot()"},
-	{id = textImgNew(), text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
+	{text = "CLASSIC MODE", gotomenu = "f_timeattackBoot()"},
+	{text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
 }
+
+for i=1, #t_timeattackMenu do
+	t_timeattackMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	{id = textImgNew(), text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
-	{id = textImgNew(), text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
-	{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"},
-	{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"},
-	{id = textImgNew(), text = "ENDLESS", gotomenu = "f_endlessBoot()"},
-	{id = textImgNew(), text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
+	{text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
+	{text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
+	{text = "EVENTS", gotomenu = "f_eventMenu()"},
+	{text = "MISSIONS", gotomenu = "f_missionMenu()"},
+	{text = "ENDLESS", gotomenu = "f_endlessBoot()"},
+	{text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
 }
+
+for i=1, #t_extrasMenu do
+	t_extrasMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; BONUS GAMES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bonusMenu = {
-	{id = textImgNew(), text = "SINGLE MODE", gotomenu = "f_bonusExtras()"},
-	{id = textImgNew(), text = "BONUS RUSH", gotomenu = "f_bonusrushBoot()"},
+	{text = "SINGLE MODE", gotomenu = "f_bonusExtras()"},
+	{text = "BONUS RUSH", gotomenu = "f_bonusrushBoot()"},
 }
+
+for i=1, #t_bonusMenu do
+	t_bonusMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; WATCH MENU SCREENPACK DEFINITION
 --;===========================================================
 t_watchMenu = {
-	{id = textImgNew(), text = "REPLAYS", gotomenu = "f_replayMenu()"},
-	{id = textImgNew(), text = "STAGE VIEWER", gotomenu = "f_stageViewer()"},
-	{id = textImgNew(), text = "SOUND TEST", gotomenu = "soundTest = true f_songMenu()"},
-	{id = textImgNew(), text = "GALLERY", gotomenu = "f_galleryMenu()"},
-	{id = textImgNew(), text = "PROFILE", gotomenu = "f_statsMenu()"},
-	{id = textImgNew(), text = "LICENSES", gotomenu = "f_licenseMenu()"},
-	{id = textImgNew(), text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
+	{text = "REPLAYS", gotomenu = "f_replayMenu()"},
+	{text = "STAGE VIEWER", gotomenu = "f_stageViewer()"},
+	{text = "SOUND TEST", gotomenu = "soundTest = true f_songMenu()"},
+	{text = "GALLERY", gotomenu = "f_galleryMenu()"},
+	{text = "PROFILE", gotomenu = "f_statsMenu()"},
+	{text = "LICENSES", gotomenu = "f_licenseMenu()"},
+	{text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
+
+for i=1, #t_watchMenu do
+	t_watchMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION
