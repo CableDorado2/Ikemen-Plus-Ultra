@@ -109,7 +109,8 @@ t_tutorialDiag = {
 {condition = "", btntonext = true, txt = "AWESOME!                                  NOW LET'S TALK ABOUT THE EX MOVES."},
 {condition = "", btntonext = true, txt = "THE EX MOVES ARE IMPROVEMENTS FOR SPECIAL MOVES. TO EXECUTE IT, YOU NEED AT LEAST 1 POWER BAR AND PRESS AT THE SAME TIME 2 BUTTONS THAT EXECUTE THE MOVE."},
 {condition = "f_tutoCheck17", btntonext = false, txt = "DO EX VERSION FOR ALL SPECIAL MOVES!"},
-{condition = "f_tutoCheck18", btntonext = false, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED:                                           TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
+{condition = "", btntonext = true, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED:                                           TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
+{condition = "", hidediag = true, infight = true},
 }
 
 --The next checks uses the CNS triggers and KFG char as base example

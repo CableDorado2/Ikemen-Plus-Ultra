@@ -498,22 +498,34 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Tutorial Mode
 	elseif getGameMode() == "tutorial" then
-		--if roundstate() == 0 and gametime() == 1 then
-			--full(1)
-			--full(2)
-		if roundstate() == 2 then
-			full(1)
+		if roundstate() == 0 and gametime() == 1 then
+			full(1) --Player 1 Full Life and Power
 			full(2)
+		elseif roundstate() == 2 then
 		--Draw Window Assets
-			animDraw(tutorialWindow)
-			animDraw(kfmTutoPortrait)
+			if not t_tutorialDiag[tutoDiag].hidediag then
+				animDraw(tutorialWindow)
+				animDraw(kfmTutoPortrait)
+			end
 		--Next Text Logic
 			if not script.pause.pauseMenuActive and tutoDiag < #t_tutorialDiag then
 				f_nextTutoText()
 			end
-		--Draw Text
-			tutoi = tutoi + 1
-			f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 43)
+			if not t_tutorialDiag[tutoDiag].infight then
+			--Draw Text
+				tutoi = tutoi + 1
+				f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 43)
+			--Set Life
+				lifeMax(1)
+				lifeMax(2)
+			--Set Power
+				powMax(1)
+			else --A fight started
+				if player(2) then --Activate CPU for Player 2
+					setAILevel(8)
+				end
+				lifeMax(1)
+			end
 		end
 	end
 	f_setStageMusic()

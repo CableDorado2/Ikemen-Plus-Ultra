@@ -14940,7 +14940,7 @@ if validCells() then
 			end
 		end
 		if winner > 0 then
-			--Victory Screen
+		--Victory Screen
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
@@ -14951,7 +14951,7 @@ if validCells() then
 				end
 			end
 			if data.gameMode == "versus" then
-				--BACK TO MAIN MENU
+			--BACK TO MAIN MENU
 				if battleOption == 4 or battleOption2 == 4 then
 					f_favoriteChar() --Store Favorite Character (WIP)
 					f_favoriteStage() --Store Favorite Stage (WIP)
@@ -14959,7 +14959,7 @@ if validCells() then
 					f_resetMenuArrowsPos()
 					f_resetMenuInputs()
 					break
-				--BACK TO STAGE SELECT
+			--BACK TO STAGE SELECT
 				elseif battleOption == 3 or battleOption2 == 3 then
 					f_selectMusic()
 					f_randomRematch()
@@ -14983,7 +14983,7 @@ if validCells() then
 							return
 						end
 					end
-				--BACK TO CHARACTER SELECT
+			--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
 					if data.challengerScreen then
 						f_selectChallenger()
@@ -15004,7 +15004,7 @@ if validCells() then
 							return
 						end
 					end
-				--REMATCH
+			--REMATCH
 				elseif battleOption == 1 and battleOption2 == 1 then
 					rematchEnd = false
 					battleOption = 0 --Reset Rematch Battle Option
@@ -15013,11 +15013,11 @@ if validCells() then
 					f_loadStage()
 					f_loadSong()
 				end
-			--For Challenger Route in Arcade Mode
+		--For Challenger Route in Arcade Mode
 			elseif data.gameMode == "challenger" then
 				return
-			--For Missions, Events, Quick Match or intermission Modes
-			elseif data.gameMode == "demo" or data.gameMode == "quick match" or data.gameMode == "intermission" or data.rosterMode == "mission" or data.rosterMode == "event" then
+		--For Missions, Events, Quick Match, intermission or special quick match Modes
+			elseif getPauseVar() == "nogiveup" or data.gameMode == "demo" or data.gameMode == "quick match" or data.gameMode == "intermission" or data.rosterMode == "mission" or data.rosterMode == "event" then
 				if data.gameMode == "demo" then
 					--Don't playBGM
 				else
@@ -15025,7 +15025,7 @@ if validCells() then
 				end
 				f_resetMenuInputs()
 				return
-			--For Single Boss/Bonus
+		--For Single Boss/Bonus
 			else
 				f_selectReset()
 				while not selScreenEnd do
