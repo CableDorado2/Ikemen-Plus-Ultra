@@ -504,15 +504,13 @@ function loop() --The code for this function should be thought of as if it were 
 		if roundstate() == 2 then
 			full(1)
 			full(2)
+		--Draw Window Assets
+			animDraw(tutorialWindow)
+			animDraw(kfmTutoPortrait)
 		--Next Text Logic
 			if not script.pause.pauseMenuActive and tutoDiag < #t_tutorialDiag then
 				f_nextTutoText()
 			end
-		--Draw Window Assets
-			animDraw(tutorialWindow)
-			animDraw(kfmTutoPortrait)
-			animDraw(tutorialNext)
-			animUpdate(tutorialNext)
 		--Draw Text
 			tutoi = tutoi + 1
 			f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 43)
@@ -524,7 +522,10 @@ end
 function f_nextTutoText()
 	local nextText = false
 	if t_tutorialDiag[tutoDiag].btntonext then --Select Button will show the next text
-		if commandGetState(p1Cmd, 'e') then nextText = true end --Select Button
+	--Draw Down Arrow Animation
+		animDraw(tutorialNext)
+		animUpdate(tutorialNext)
+		if commandGetState(p1Cmd, 'e') then nextText = true end --Select Button to advance
 	else --A player action will show the next text
 		local conditionFunc = t_tutorialDiag[tutoDiag].condition
 	--Call and check the function stored in t_tutorialDiag[tutoDiag].condition
