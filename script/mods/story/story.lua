@@ -46,7 +46,7 @@ animSetPos(storyBG2, 168, 82)
 animUpdate(storyBG2)
 
 --Arc Left Arrow
-storyLeftArrow = animNew(sprSys, [[
+storyLeftArrow = animNew(sprIkemen, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -61,7 +61,7 @@ animUpdate(storyLeftArrow)
 animSetScale(storyLeftArrow, 0.6, 0.6)
 
 --Arc Right Arrow
-storyRightArrow = animNew(sprSys, [[
+storyRightArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -76,7 +76,7 @@ animUpdate(storyRightArrow)
 animSetScale(storyRightArrow, 0.6, 0.6)
 
 --Chapter Up Arrow
-storyUpArrow = animNew(sprSys, [[
+storyUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -91,7 +91,7 @@ animUpdate(storyUpArrow)
 animSetScale(storyUpArrow, 0.5, 0.5)
 
 --Chapter Down Arrow
-storyDownArrow = animNew(sprSys, [[
+storyDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10

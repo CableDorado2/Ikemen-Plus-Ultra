@@ -10066,20 +10066,6 @@ function f_p1SelectMenu()
 			end
 			p1Cell = p1SelX + selectColumns*p1SelY
 			p1Portrait = p1Cell
-			--Draw Hidden Rows Cursors
-			--[[
-			if offsetRows >= 1 and not data.p2Faces then
-				animDraw(arrowsUSR)
-				animUpdate(arrowsUSR)
-				animDraw(arrowsDSR)
-				animUpdate(arrowsDSR)
-			elseif offsetRows >= 1 and data.p2Faces then
-				animDraw(arrowsUMR)
-				animUpdate(arrowsUMR)
-				animDraw(arrowsDMR)
-				animUpdate(arrowsDMR)
-			end
-			]]
 		--Draw Author Info Text Preview
 			if data.charInfo == "Author" then
 				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == "Random" then
@@ -11554,20 +11540,6 @@ function f_p2SelectMenu()
 			end
 			p2Cell = p2SelX + selectColumns*p2SelY
 			p2Portrait = p2Cell
-			--Draw Hidden Rows Cursors
-			--[[
-			if offsetRows >= 1 and not data.p2Faces then
-				animDraw(arrowsUSR)
-				animUpdate(arrowsUSR)
-				animDraw(arrowsDSR)
-				animUpdate(arrowsDSR)
-			elseif offsetRows >= 1 and data.p2Faces then
-				animDraw(arrowsUMR2)
-				animUpdate(arrowsUMR2)
-				animDraw(arrowsDMR2)
-				animUpdate(arrowsDMR2)
-			end
-			]]
 			if data.charInfo == "Author" then
 				if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == "Random" then
 					if t_selChars[p2Cell+1].author ~= nil then

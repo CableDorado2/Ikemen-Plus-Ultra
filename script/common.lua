@@ -77,90 +77,90 @@ gameTick = 20
 
 --shortcut for creating new text with minimal parameters (for width calculation)
 function createTextImgLite(font, text, scaleX, scaleY)
-	local ti = textImgNew()
-	textImgSetFont(ti, font)
-	textImgSetText(ti, text)
+	local textName = textImgNew()
+	textImgSetFont(textName, font)
+	textImgSetText(textName, text)
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
-	textImgSetScale(ti, scaleX, scaleY)
-	return ti
+	textImgSetScale(textName, scaleX, scaleY)
+	return textName
 end
 
 --shortcut for creating new text with several parameters
 function createTextImg(font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
-	local ti = textImgNew()
-	textImgSetFont(ti, font)
-	textImgSetBank(ti, bank)
-	textImgSetAlign(ti, aline)
-	textImgSetText(ti, text)
-	textImgSetPos(ti, x, y)
+	local textName = textImgNew()
+	textImgSetFont(textName, font)
+	textImgSetBank(textName, bank)
+	textImgSetAlign(textName, aline)
+	textImgSetText(textName, text)
+	textImgSetPos(textName, x, y)
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
-	textImgSetScale(ti, scaleX, scaleY)
+	textImgSetScale(textName, scaleX, scaleY)
 	alphaS = alphaS or 255
 	alphaD = alphaD or 0
-	textImgSetAlpha(ti, alphaS, alphaD)
-	return ti
+	textImgSetAlpha(textName, alphaS, alphaD)
+	return textName
 end
 
 --textImgDraw at specified coordinates
-function textImgPosDraw(ti, x, y)
-	textImgSetPos(ti, x, y)
-	textImgDraw(ti)
+function textImgPosDraw(textName, x, y)
+	textImgSetPos(textName, x, y)
+	textImgDraw(textName)
 end
 
 --textImgDraw at specified coordinates + Scale
-function textImgScalePosDraw(ti, x, y, scaleX, scaleY)
-	textImgSetPos(ti, x, y)
+function textImgScalePosDraw(textName, x, y, scaleX, scaleY)
+	textImgSetPos(textName, x, y)
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
-	textImgSetScale(ti, scaleX, scaleY)
-	textImgDraw(ti)
+	textImgSetScale(textName, scaleX, scaleY)
+	textImgDraw(textName)
 end
 
 --shortcut for updating text with several parameters
-function f_updateTextImg(animName, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
-	textImgSetFont(animName, font)
-	textImgSetBank(animName, bank)
-	textImgSetAlign(animName, aline)
-	textImgSetText(animName, text)
-	textImgSetPos(animName, x, y)
+function f_updateTextImg(textName, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
+	textImgSetFont(textName, font)
+	textImgSetBank(textName, bank)
+	textImgSetAlign(textName, aline)
+	textImgSetText(textName, text)
+	textImgSetPos(textName, x, y)
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
-	textImgSetScale(animName, scaleX, scaleY)
+	textImgSetScale(textName, scaleX, scaleY)
 	alphaS = alphaS or 255
 	alphaD = alphaD or 0
-	textImgSetAlpha(animName, alphaS, alphaD)
-	return animName
+	textImgSetAlpha(textName, alphaS, alphaD)
+	return textName
 end
 
 --shortcut for updating text velocity
-function f_textVelocity(animName, addX, addY)
-	textImgAddPos(animName, addX, addY)
-	textImgDraw(animName)
-	return animName
+function f_textVelocity(textName, addX, addY)
+	textImgAddPos(textName, addX, addY)
+	textImgDraw(textName)
+	return textName
 end
 
 --shortcut for draw new text with all parameters
-function f_drawQuickText(id, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
-	local id = textImgNew()
-	textImgSetFont(id, font)
-	textImgSetBank(id, bank)
-	textImgSetAlign(id, aline)
-	textImgSetText(id, text)
-	textImgSetPos(id, x, y)
+function f_drawQuickText(textName, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
+	local textName = textImgNew()
+	textImgSetFont(textName, font)
+	textImgSetBank(textName, bank)
+	textImgSetAlign(textName, aline)
+	textImgSetText(textName, text)
+	textImgSetPos(textName, x, y)
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
-	textImgSetScale(id, scaleX, scaleY)
+	textImgSetScale(textName, scaleX, scaleY)
 	alphaS = alphaS or 255
 	alphaD = alphaD or 0
-	textImgSetAlpha(id, alphaS, alphaD)
-	textImgDraw(id)
-	return id
+	textImgSetAlpha(textName, alphaS, alphaD)
+	textImgDraw(textName)
+	return textName
 end
 
 --- Draw string letter by letter + wrap lines.
--- @data: text data
+-- @textName: text data
 -- @str: string (text you want to draw)
 -- @counter: external counter (values should be increased each frame by 1 starting from 1)
 -- @x: first line X position
@@ -168,7 +168,7 @@ end
 -- @spacing: spacing between lines (rendering Y position increasement for each line)
 -- @delay (optional): ticks (frames) delay between each letter is rendered, defaults to 0 (all text rendered immediately)
 -- @limit (optional): maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
-function f_textRender(data, str, counter, x, y, spacing, delay, limit)
+function f_textRender(textName, str, counter, x, y, spacing, delay, limit)
 	local delay = delay or 0
 	local limit = limit or -1
 	str = tostring(str)
@@ -198,46 +198,46 @@ function f_textRender(data, str, counter, x, y, spacing, delay, limit)
 				t[i] = t[i]:sub(0, subEnd - lengthCnt)
 			end
 		end
-		textImgSetText(data, t[i])
-		textImgSetPos(data, x, y + spacing * (i - 1))
-		textImgDraw(data)
+		textImgSetText(textName, t[i])
+		textImgSetPos(textName, x, y + spacing * (i - 1))
+		textImgDraw(textName)
 	end
 	return lengthCnt --We gonna use this in Visual Novel Features
 end
 
 --shortcut for draw text for character select
-function f_drawSelectName(id, t, x, y, scaleX, scaleY, color)
+function f_drawSelectName(textName, t, x, y, scaleX, scaleY, color)
 	scaleX = scaleX or 0.8
 	scaleY = scaleY or 0.8
 	color = color or 5
-	textImgSetText(id, f_getName(t.cel))
-	textImgSetPos(id, x, y)
-	textImgSetScale(id, scaleX, scaleY)
-	textImgSetBank(id, color)
-	textImgDraw(id)
+	textImgSetText(textName, f_getName(t.cel))
+	textImgSetPos(textName, x, y)
+	textImgSetScale(textName, scaleX, scaleY)
+	textImgSetBank(textName, color)
+	textImgDraw(textName)
 	x = x
 	y = y
 	return x, y
 end
 
 --shortcut for draw player name texts for character select functions in list format
-function f_drawNameList(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
+function f_drawNameList(textName, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
 	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel)) --t[i].cel get all names of table inserted
-		textImgSetPos(id, x, y)
+		textImgSetText(textName, f_getName(t[i].cel)) --t[i].cel get all names of table inserted
+		textImgSetPos(textName, x, y)
 		scaleX = scaleX or 0.8
 		scaleY = scaleY or 0.8
-		textImgSetScale(id, scaleX, scaleY)
+		textImgSetScale(textName, scaleX, scaleY)
 		if rowUnique ~= nil then
 			if i == rowUnique then
-				textImgSetBank(id, bank) --Color when cursor is over text
+				textImgSetBank(textName, bank) --Color when cursor is over text
 			else
-				textImgSetBank(id, bankUnique) --Color of text when cursor is not over text
+				textImgSetBank(textName, bankUnique) --Color of text when cursor is not over text
 			end
 		else
-			textImgSetBank(id, bank)
+			textImgSetBank(textName, bank)
 		end
-		textImgDraw(id)
+		textImgDraw(textName)
 		x = x + spacingX
 		y = y + spacingY
 	end
@@ -245,10 +245,10 @@ function f_drawNameList(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUn
 end
 
 --animDraw at specified coordinates
-function animPosDraw(a, x, y)
-	animSetPos(a, x, y)
-	animUpdate(a)
-	animDraw(a)
+function animPosDraw(animName, x, y)
+	animSetPos(animName, x, y)
+	animUpdate(animName)
+	animDraw(animName)
 end
 
 --[[shortcut for updating scale
@@ -267,30 +267,30 @@ function f_animVelocity(animName, addX, addY)
 end
 
 --shortcut for draw sprites quickly
-function f_drawQuickSpr(data, x, y, scaleX, scaleY, alphaS, alphaD)
-	if data ~= nil then
+function f_drawQuickSpr(animName, x, y, scaleX, scaleY, alphaS, alphaD)
+	if animName ~= nil then
 		scaleX = scaleX or 1
 		scaleY = scaleY or 1
 		alphaS = alphaS or 255
 		alphaD = alphaD or 0
-		animSetScale(data, scaleX, scaleY)
-		animSetAlpha(data, alphaS, alphaD)
-		animSetPos(data, x, y)
-		animUpdate(data)
-		animDraw(data)
+		animSetScale(animName, scaleX, scaleY)
+		animSetAlpha(animName, alphaS, alphaD)
+		animSetPos(animName, x, y)
+		animUpdate(animName)
+		animDraw(animName)
 		return true
 	end
 	return false
 end
 
 --shortcut for draw sprites with trans values quickly
-function f_quickAlpha(data, alphaS, alphaD)
-	if data ~= nil then
+function f_quickAlpha(animName, alphaS, alphaD)
+	if animName ~= nil then
 		alphaS = alphaS or 255
 		alphaD = alphaD or 0
-		animSetAlpha(data, alphaS, alphaD)
-		animUpdate(data)
-		animDraw(data)
+		animSetAlpha(animName, alphaS, alphaD)
+		animUpdate(animName)
+		animDraw(animName)
 		return true
 	end
 	return false

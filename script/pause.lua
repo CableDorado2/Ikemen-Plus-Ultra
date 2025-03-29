@@ -156,48 +156,6 @@ end
 --;===========================================================
 txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..stats.attractCoins.."", 181.5, 170)
 
---Transparent Background Instantaneous (fade in)
-darkenIn = animNew(sprIkemen, [[5,0, 0,0, -1, 0, AS256D102]])
-animSetPos(darkenIn, -54, 0)
-animSetScale(darkenIn, 427, 240)
-
---Transparent Background Instantaneous (fade out)
-darkenOut = animNew(sprIkemen, [[5,0, 0,0, -1, 0, AS256D256]])
-animSetPos(darkenOut, -54, 0)
-animSetScale(darkenOut, 427, 240)
-
---Transparent Background Full Animation (fade in)
-darkenInAnim = animNew(sprIkemen, [[
-5,0, 0,0, 1, 0, AS256D240
-5,0, 0,0, 1, 0, AS256D225
-5,0, 0,0, 1, 0, AS256D209
-5,0, 0,0, 1, 0, AS256D194
-5,0, 0,0, 1, 0, AS256D179
-5,0, 0,0, 1, 0, AS256D163
-5,0, 0,0, 1, 0, AS256D148
-5,0, 0,0, 1, 0, AS256D132
-5,0, 0,0, 1, 0, AS256D117
-5,0, 0,0, -1, 0, AS256D102
-]])
-animSetPos(darkenInAnim, -54, 0)
-animSetScale(darkenInAnim, 427, 240)
-
---Transparent Background (fade out)
-darkenOutAnim = animNew(sprIkemen, [[
-5,0, 0,0, 1, 0, AS256D117
-5,0, 0,0, 1, 0, AS256D132
-5,0, 0,0, 1, 0, AS256D148
-5,0, 0,0, 1, 0, AS256D163
-5,0, 0,0, 1, 0, AS256D179
-5,0, 0,0, 1, 0, AS256D194
-5,0, 0,0, 1, 0, AS256D209
-5,0, 0,0, 1, 0, AS256D225
-5,0, 0,0, 1, 0, AS256D240
-5,0, 0,0, -1, 0, AS256D256
-]])
-animSetPos(darkenOutAnim, -54, 0)
-animSetScale(darkenOutAnim, 427, 240)
-
 --Transparent background
 pauseBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
@@ -205,7 +163,7 @@ pauseBG1 = animNew(sprIkemen, [[
 animSetPos(pauseBG1, 20, 70)
 animSetAlpha(pauseBG1, 20, 100)
 
---Message Fade BG
+--Pause Fade BG
 fadeWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
@@ -228,7 +186,7 @@ animSetTile(cursorBox, 1, 1)
 --animUpdate(cursorBox)
 
 --Up Arrow
-pauseUpArrow = animNew(sprSys, [[
+pauseUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -242,7 +200,7 @@ animAddPos(pauseUpArrow, 228, 61)
 animSetScale(pauseUpArrow, 0.5, 0.5)
 
 --Down Arrow
-pauseDownArrow = animNew(sprSys, [[
+pauseDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -256,7 +214,7 @@ animAddPos(pauseDownArrow, 228, 176)
 animSetScale(pauseDownArrow, 0.5, 0.5)
 
 --Left Page Arrow
-pauseLeftArrow = animNew(sprSys, [[
+pauseLeftArrow = animNew(sprIkemen, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -271,7 +229,7 @@ animUpdate(pauseLeftArrow)
 animSetScale(pauseLeftArrow, 0.5, 0.5)
 
 --Right Page Arrow
-pauseRightArrow = animNew(sprSys, [[
+pauseRightArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -570,8 +528,6 @@ function f_pauseMain(p, st, esc)
 		end
 	end
 	if pauseMenuActive == false and delayMenu == -1 then --Start Pause Menu
-		animReset(darkenIn)
-		animUpdate(darkenIn)
 		pauseMenuActive = true
 		if not challengerActive and not pbrecActive then sndPlay(sndSys, 100, 1) end --Play Pause SFX
 		delayMenu = 0
@@ -591,16 +547,12 @@ function f_pauseMain(p, st, esc)
 		--RESUME GAME
 			if (escape or start or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and delayMenu == 2 then
 				sndPlay(sndSys, 100, 2)
-				animReset(darkenOut)
-				animUpdate(darkenOut)
 				pauseMenuActive = false
 			end
 			if pauseMenuActive == true and delayMenu < 2 then --To delay Menu Fade In
 				delayMenu = delayMenu + 1
-				animUpdate(darkenIn)
 			elseif pauseMenuActive == false and delayMenu > 0 then --To delay Menu Fade Out
 				delayMenu = delayMenu - 1
-				animUpdate(darkenOut)
 			end
 			if pauseMenuActive == false and delayMenu == 0 then
 				togglePauseMenu(0)
@@ -612,11 +564,6 @@ function f_pauseMain(p, st, esc)
 				setSysCtrl(0)
 				delayMenu = -1
 				return
-			end
-			if pauseMenuActive then
-				animDraw(darkenIn)
-			else
-				animDraw(darkenOut)
 			end
 			if delayMenu == -1 and mainGoTo ~= "" then
 				delayMenu = 0
@@ -744,6 +691,7 @@ function f_pauseMain(p, st, esc)
 				end
 			--Draw BG
 				--animDraw(f_animVelocity(commonBG0, -1, -1))
+				animDraw(fadeWindowBG)
 			--Draw Transparent Table BG
 				animSetScale(pauseBG1, 220, maxPause*15)
 				animSetWindow(pauseBG1, 80,70, 160,105)
@@ -861,8 +809,6 @@ function f_pauseConfirm()
 		if delayMenu == 2 then
 			if start then
 				sndPlay(sndSys, 100, 2)
-				animReset(darkenOut)
-				animUpdate(darkenOut)
 				pauseMenuActive = false
 				bufl = 0
 				bufr = 0
@@ -878,16 +824,10 @@ function f_pauseConfirm()
 			delayMenu = delayMenu + 1
 		elseif pauseMenuActive == false and delayMenu > 0 then
 			delayMenu = delayMenu - 1
-			--animUpdate(darkenOut)
 		end
 		if pauseMenuActive == false and delayMenu == 0 then
 			f_pauseMenuReset()
 			return
-		end
-		if pauseMenuActive then
-			animDraw(darkenIn)
-		else
-			animDraw(darkenOut)
 		end
 		if delayMenu == -1 then
 			if okGoTo == nil or okGoTo == "" then
@@ -1014,8 +954,6 @@ function f_pauseSettings()
 		if delayMenu == 2 then
 			if start then
 				sndPlay(sndSys, 100, 2)
-				animReset(darkenOut)
-				animUpdate(darkenOut)
 				pauseMenuActive = false
 				bufl = 0
 				bufr = 0
@@ -1029,19 +967,12 @@ function f_pauseSettings()
 		end
 		if pauseMenuActive == true and delayMenu < 2 then
 			delayMenu = delayMenu + 1
-			--animUpdate(darkenIn)
 		elseif pauseMenuActive == false and delayMenu > 0 then
 			delayMenu = delayMenu - 1
-			--animUpdate(darkenOut)
 		end
 		if pauseMenuActive == false and delayMenu == 0 then
 			f_pauseMenuReset()
 			return
-		end
-		if pauseMenuActive then
-			animDraw(darkenIn)
-		else
-			animDraw(darkenOut)
 		end
 		if delayMenu == -1 then
 			if cfgGoTo == nil or cfgGoTo == "" then
@@ -1155,6 +1086,7 @@ function f_pauseSettings()
 				hasChanged = false
 			end
 			--animDraw(f_animVelocity(commonBG0, -1, -1))
+			animDraw(fadeWindowBG)
 			animSetScale(pauseBG1, 220, maxgameCfg*15)
 			animSetWindow(pauseBG1, 80,70, 160,105)
 			animDraw(pauseBG1)
@@ -1230,8 +1162,6 @@ function f_pauseAudio()
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sndSys, 100, 2)
-			animReset(darkenOut)
-			animUpdate(darkenOut)
 			pauseMenuActive = false
 			bufl = 0
 			bufr = 0
@@ -1248,16 +1178,10 @@ function f_pauseAudio()
 		delayMenu = delayMenu + 1
 	elseif pauseMenuActive == false and delayMenu > 0 then
 		delayMenu = delayMenu - 1
-		--animUpdate(darkenOut)
 	end
 	if pauseMenuActive == false and delayMenu == 0 then
 		f_pauseMenuReset()
 		return
-	end
-	if pauseMenuActive then
-		animDraw(darkenIn)
-	else
-		animDraw(darkenOut)
 	end
 	if delayMenu == -1 then f_gameCfgMenuReset2() end
 	if delayMenu == 2 then
@@ -1371,6 +1295,7 @@ function f_pauseAudio()
 			hasChanged = false
 		end
 		--animDraw(f_animVelocity(commonBG0, -1, -1))
+		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 220, maxAudioCfg*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
@@ -1434,8 +1359,6 @@ function f_pauseSongs()
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sndSys, 100, 2)
-			animReset(darkenOut)
-			animUpdate(darkenOut)
 			pauseMenuActive = false
 			bufl = 0
 			bufr = 0
@@ -1451,16 +1374,10 @@ function f_pauseSongs()
 		delayMenu = delayMenu + 1
 	elseif pauseMenuActive == false and delayMenu > 0 then
 		delayMenu = delayMenu - 1
-		--animUpdate(darkenOut)
 	end
 	if pauseMenuActive == false and delayMenu == 0 then
 		f_pauseMenuReset()
 		return
-	end
-	if pauseMenuActive then
-		animDraw(darkenIn)
-	else
-		animDraw(darkenOut)
 	end
 	if delayMenu == -1 then f_gameCfgMenuReset2() end
 	if delayMenu == 2 then
@@ -1544,6 +1461,7 @@ function f_pauseSongs()
 			end
 		end
 		--animDraw(f_animVelocity(commonBG0, -1, -1))
+		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 220, maxSongs*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
@@ -1697,7 +1615,7 @@ end
 f_trainingCfgdisplayTxt() --Load Display Text
 
 --Training Settings Up Arrow
-pauseTUpArrow = animNew(sprSys, [[
+pauseTUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -1711,7 +1629,7 @@ animAddPos(pauseTUpArrow, 250, 61)
 animSetScale(pauseTUpArrow, 0.5, 0.5)
 
 --Training Settings Down Arrow
-pauseTDownArrow = animNew(sprSys, [[
+pauseTDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -1735,8 +1653,6 @@ function f_pauseTraining()
 		if delayMenu == 2 then
 			if start then
 				sndPlay(sndSys, 100, 2)
-				animReset(darkenOut)
-				animUpdate(darkenOut)
 				pauseMenuActive = false
 				bufl = 0
 				bufr = 0
@@ -1754,16 +1670,10 @@ function f_pauseTraining()
 			delayMenu = delayMenu + 1
 		elseif pauseMenuActive == false and delayMenu > 0 then
 			delayMenu = delayMenu - 1
-			--animUpdate(darkenOut)
 		end
 		if pauseMenuActive == false and delayMenu == 0 then
 			f_pauseMenuReset()
 			return
-		end
-		if pauseMenuActive then
-			animDraw(darkenIn)
-		else
-			animDraw(darkenOut)
 		end
 		if delayMenu == -1 then
 			if trainingGoTo == nil or trainingGoTo == "" then
@@ -1814,8 +1724,6 @@ function f_pauseTraining()
 					else
 						startDummyRecord(sndSys)
 						pbrecActive = true
-						animReset(darkenOut)
-						animUpdate(darkenOut)
 						pauseMenuActive = false
 						bufl = 0
 						bufr = 0
@@ -2172,6 +2080,7 @@ function f_pauseTraining()
 				hasChanged = false
 			end
 			--animDraw(f_animVelocity(commonBG0, -1, -1))
+			animDraw(fadeWindowBG)
 			animSetScale(pauseBG1, 240, maxtrainingCfg*15)
 			animSetWindow(pauseBG1, 55,70, 240,105)
 			animDraw(pauseBG1)
@@ -2291,8 +2200,6 @@ function f_pausePlayback()
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sndSys, 100, 2)
-			animReset(darkenOut)
-			animUpdate(darkenOut)
 			pauseMenuActive = false
 			bufl = 0
 			bufr = 0
@@ -2310,16 +2217,10 @@ function f_pausePlayback()
 		delayMenu = delayMenu + 1
 	elseif pauseMenuActive == false and delayMenu > 0 then
 		delayMenu = delayMenu - 1
-		--animUpdate(darkenOut)
 	end
 	if pauseMenuActive == false and delayMenu == 0 then
 		f_pauseMenuReset()
 		return
-	end
-	if pauseMenuActive then
-		animDraw(darkenIn)
-	else
-		animDraw(darkenOut)
 	end
 	if delayMenu == -1 then f_trainingCfgMenuReset2() end
 	if delayMenu == 2 then
@@ -2436,6 +2337,7 @@ function f_pausePlayback()
 			maxPlaybackCfg = 7
 		end
 		--animDraw(f_animVelocity(commonBG0, -1, -1))
+		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 240, maxPlaybackCfg*15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
 		animDraw(pauseBG1)
@@ -2516,8 +2418,6 @@ function f_pauseAbyssStats()
 		if delayMenu == 2 then
 			if start then
 				sndPlay(sndSys, 100, 2)
-				animReset(darkenOut)
-				animUpdate(darkenOut)
 				pauseMenuActive = false
 				bufl = 0
 				bufr = 0
@@ -2531,19 +2431,12 @@ function f_pauseAbyssStats()
 		end
 		if pauseMenuActive == true and delayMenu < 2 then
 			delayMenu = delayMenu + 1
-			--animUpdate(darkenIn)
 		elseif pauseMenuActive == false and delayMenu > 0 then
 			delayMenu = delayMenu - 1
-			--animUpdate(darkenOut)
 		end
 		if pauseMenuActive == false and delayMenu == 0 then
 			f_pauseMenuReset()
 			return
-		end
-		if pauseMenuActive then
-			animDraw(darkenIn)
-		else
-			animDraw(darkenOut)
 		end
 		if delayMenu == -1 then
 			if cfgGoTo == nil or cfgGoTo == "" then
@@ -2556,6 +2449,7 @@ function f_pauseAbyssStats()
 		end
 		if delayMenu == 2 then
 			--animDraw(f_animVelocity(commonBG0, -1, -1))
+			animDraw(fadeWindowBG)
 			textImgDraw(txt_PabyssStats)
 			f_abyssProfile(-165, 34, true)
 			f_abyssProfileCPU()
@@ -2600,8 +2494,6 @@ function f_pauseCharCfg()
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sndSys, 100, 2)
-			animReset(darkenOut)
-			animUpdate(darkenOut)
 			pauseMenuActive = false
 			bufl = 0
 			bufr = 0
@@ -2619,16 +2511,10 @@ function f_pauseCharCfg()
 		delayMenu = delayMenu + 1
 	elseif pauseMenuActive == false and delayMenu > 0 then
 		delayMenu = delayMenu - 1
-		--animUpdate(darkenOut)
 	end
 	if pauseMenuActive == false and delayMenu == 0 then
 		f_pauseMenuReset()
 		return
-	end
-	if pauseMenuActive then
-		animDraw(darkenIn)
-	else
-		animDraw(darkenOut)
 	end
 	if delayMenu == -1 then f_trainingCfgMenuReset2() end
 	if delayMenu == 2 then
@@ -2691,6 +2577,7 @@ function f_pauseCharCfg()
 			maxcharCfg = 7
 		end
 		--animDraw(f_animVelocity(commonBG0, -1, -1))
+		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 240, maxcharCfg*15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
 		animDraw(pauseBG1)

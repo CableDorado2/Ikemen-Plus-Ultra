@@ -10,7 +10,7 @@ txt_glossaryTitleText = createTextImg(font2, 0, 1, "", -50, 210)
 txt_glossaryText = createTextImg(font2, 0, 1, "", 0, 0)
 
 --Left Page Arrow
-glossaryLeftArrow = animNew(sprSys, [[
+glossaryLeftArrow = animNew(sprIkemen, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -25,7 +25,7 @@ animUpdate(glossaryLeftArrow)
 animSetScale(glossaryLeftArrow, 0.5, 0.5)
 
 --Right Page Arrow
-glossaryRightArrow = animNew(sprSys, [[
+glossaryRightArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10

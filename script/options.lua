@@ -35,7 +35,7 @@ animSetAlpha(infoBG, 20, 100)
 animUpdate(infoBG)
 
 --Up Arrow
-optionsUpArrow = animNew(sprSys, [[
+optionsUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -50,7 +50,7 @@ animUpdate(optionsUpArrow)
 animSetScale(optionsUpArrow, 0.5, 0.5)
 
 --Down Arrow
-optionsDownArrow = animNew(sprSys, [[
+optionsDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -65,7 +65,7 @@ animUpdate(optionsDownArrow)
 animSetScale(optionsDownArrow, 0.5, 0.5)
 
 --Up Arrow for Player 1 Controls Cfg
-optionsUpArrowP1 = animNew(sprSys, [[
+optionsUpArrowP1 = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -80,7 +80,7 @@ animUpdate(optionsUpArrowP1)
 animSetScale(optionsUpArrowP1, 0.5, 0.5)
 
 --Down Arrow for Player 1 Controls Cfg
-optionsDownArrowP1 = animNew(sprSys, [[
+optionsDownArrowP1 = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -95,7 +95,7 @@ animUpdate(optionsDownArrowP1)
 animSetScale(optionsDownArrowP1, 0.5, 0.5)
 
 --Up Arrow for Player 2 Controls Cfg
-optionsUpArrowP2 = animNew(sprSys, [[
+optionsUpArrowP2 = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -110,7 +110,7 @@ animUpdate(optionsUpArrowP2)
 animSetScale(optionsUpArrowP2, 0.5, 0.5)
 
 --Down Arrow for Player 2 Controls Cfg
-optionsDownArrowP2 = animNew(sprSys, [[
+optionsDownArrowP2 = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -3700,7 +3700,7 @@ t_rosterCfg2 = {
 }
 
 --Up Arrow
-rosterCfgUpArrow = animNew(sprSys, [[
+rosterCfgUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -3715,7 +3715,7 @@ animUpdate(rosterCfgUpArrow)
 animSetScale(rosterCfgUpArrow, 0.5, 0.5)
 
 --Down Arrow
-rosterCfgDownArrow = animNew(sprSys, [[
+rosterCfgDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10

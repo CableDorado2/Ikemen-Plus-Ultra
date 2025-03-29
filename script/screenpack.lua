@@ -291,13 +291,12 @@ btnNIL = animNew(sprBtn, [[1,0, 0,0, -1]])
 --;===========================================================
 --; DRAW SPRITES REFERENCES
 --;===========================================================
-
---animName = animNew(sprSys, [[ 
---grpNo, indexNo, x, y, time, facing, trans
---]])
+---
+-- animName = animNew(sprSys, [[ 
+-- grpNo, indexNo, x, y, time, facing, trans
+-- ]])
 
 --[[
-
 Description: Assigns new animation to animName variable of your choice.
 
 Required parameters:
@@ -310,16 +309,14 @@ time: length of time to display the element before moving onto the next, measure
 Optional parameters:
 facing: H = Flip horizontally; V = Flip vertically
 trans: transparency blending a = add; a1 = add1; s = sub; AS???D??? (??? - values of the source and destination alpha)
-
 ]]
 
 --[[
-
 animAddPos(animName, addX, addY)
-Description: Dynamically assigns x- and y-velocities movement in direction depending on the value.
+Description: Dynamically assigns x- and y- element velocities movement in direction depending on the value.
 
 animSetPos(animName, setX, setY)
-Description: Changes x- and y-position.
+Description: Changes x- and y- element position.
 
 animSetScale(animName, scaleX, scaleY)
 Description: scaleX: horizontal scale factor; scaleY: vertical scale factor.
@@ -342,16 +339,14 @@ Description: Updates previously specified animation by 1 tick.
 
 animDraw(animName)
 Description: Draw element on screen [Refresh() function resets the screen, so this one often needs to be used at each frame, even if the element is static].
-
 ]]
 
 --;===========================================================
 --; DRAW TEXT REFERENCES
 --;===========================================================
 
+--- textName = createTextImg(fontName, bankNo, alignNo, textData, x, y, xcale, yscale)
 --[[
-textName = createTextImg(fontName, bankNo, alignNo, textData, x, y, xcale, yscale)
-
 Description: Assigns new text to textName variable of your choice.
 
 Required parameters:
@@ -366,12 +361,32 @@ Optional parameters:
 xcale: X scale to the text
 ycale: Y scale to the text
 trans: transparency blending a = add; a1 = add1; s = sub; AS???D??? (??? - values of the source and destination alpha)
-
 ]]
 
 --[[
+textImgSetFont(textName, fontName)
+Description: Assigns font to text.
 
+textImgSetBank(textName, bankNo)
+Description: Assigns bank to text.
 
+textImgSetAlign(textName, alignNo)
+Description: Assigns alignment to text. (1= Align text to Left; 0= Align text to Center; -1= Align text to Right)
+
+textImgSetText(textName, text)
+Description: Assigns text string to show.
+
+textImgSetPos(textName, setX, setY)
+Description: Assigns x- and y- position to text.
+
+textImgSetScale(textName, scaleX, scaleY)
+Description: scaleX: horizontal scale factor; scaleY: vertical scale factor.
+
+textImgSetAlpha(textName, transRange1, transRange2)
+Description: Assigns alpha channel to text. Ranges: 0-255.
+
+textImgDraw(textName)
+Description: Draw text on screen.
 ]]
 
 --;===========================================================
@@ -511,7 +526,7 @@ padlockEventPosX = -83 --Position for Events Menu
 padlockEventPosY = 86
 
 --Common Menu Up Arrows
-menuArrowUp = animNew(sprSys, [[
+menuArrowUp = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -524,7 +539,7 @@ menuArrowUp = animNew(sprSys, [[
 animSetScale(menuArrowUp, 0.5, 0.5)
 
 --Common Menu Down Arrows
-menuArrowDown = animNew(sprSys, [[
+menuArrowDown = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
@@ -547,7 +562,7 @@ animSetPos(menuArrowDown, 228, 201.5)
 end
 
 --Common Menu Left Arrows
-menuArrowLeft = animNew(sprSys, [[
+menuArrowLeft = animNew(sprIkemen, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -560,7 +575,7 @@ menuArrowLeft = animNew(sprSys, [[
 animSetScale(menuArrowLeft, 0.5, 0.5)
 
 --Common Menu Right Arrows
-menuArrowRight = animNew(sprSys, [[
+menuArrowRight = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -1636,7 +1651,7 @@ gamepadIcon = animNew(sprIkemen, [[15,0, 0,0,]])
 lifebarsImg = animNew(sprIkemen, [[16,0, 0,0,]])
 
 --Left Arrows
-sideSelArrowLeft = animNew(sprSys, [[
+sideSelArrowLeft = animNew(sprIkemen, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -1648,7 +1663,7 @@ sideSelArrowLeft = animNew(sprSys, [[
 ]])
 
 --Right Arrows
-sideSelArrowRight = animNew(sprSys, [[
+sideSelArrowRight = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -1894,7 +1909,7 @@ selectBG1a = animNew(sprSys, [[
 ]])
 animAddPos(selectBG1a, 160, 0)
 animSetTile(selectBG1a, 1, 0)
-animSetWindow(selectBG1a, 5, 0, 151, 239) --The first values ​​are the location of the sprite on the screen and the last values ​​are the extension of the sprite
+animSetWindow(selectBG1a, 5, 0, 151, 239)
 
 --Dark Box (Player2 side)
 selectBG1b = animNew(sprSys, [[
@@ -1953,90 +1968,6 @@ charBG3 = animNew(sprSys, [[
 animAddPos(charBG3, 160, 0)
 animSetTile(charBG3, 1, 1)
 animSetWindow(charBG3, 200, 20, 120, 140)
-
---Up Arrows 1 for Muti Roster 1 (Left Side) [Advanced Type]
-arrowsUMR = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(arrowsUMR, 5, 140)
-animUpdate(arrowsUMR)
-animSetScale(arrowsUMR, 0.95, 0.95)
-
---Down Arrows 1 for Muti Roster 1 (Left Side) [Advanced Type]
-arrowsDMR = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(arrowsDMR, 5, 213)
-animUpdate(arrowsDMR)
-animSetScale(arrowsDMR, 0.95, 0.95)
-
---Up Arrows 1 for Muti Roster 2 (Right Side) [Advanced Type]
-arrowsUMR2 = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(arrowsUMR2, 307, 140)
-animUpdate(arrowsUMR2)
-animSetScale(arrowsUMR2, 0.95, 0.95)
-
---Down Arrows 2 for Muti Roster 2 (Right Side) [Advanced Type]
-arrowsDMR2 = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(arrowsDMR2, 307, 203)
-animUpdate(arrowsDMR2)
-animSetScale(arrowsDMR2, 0.95, 0.95)
-
---Up Arrows for Single Roster (Simple Type)
-arrowsUSR = animNew(sprSys, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(arrowsUSR, 156, 140)
-animUpdate(arrowsUSR)
-animSetScale(arrowsUSR, 0.95, 0.95)
-
---Down Arrows for Single Roster (Simple Type)
-arrowsDSR = animNew(sprSys, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(arrowsDSR, 156, 203)
-animUpdate(arrowsDSR)
-animSetScale(arrowsDSR, 0.95, 0.95)
 
 --Cell Lock
 cellLock = animNew(sprIkemen, [[
@@ -2326,7 +2257,7 @@ txt_p2PalNo = createTextImg(font14, 0, -1, "", 305, 183)
 --txt_p2PalTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 --Palette Select Left Arrow
-palSelArrowLeft = animNew(sprSys, [[
+palSelArrowLeft = animNew(sprIkemen, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
 223,2, 0,0, 10
@@ -2345,7 +2276,7 @@ palSelArrowLP2posX = 259 --Player 2 X-Axis
 palSelArrowLP2posY = 174.5 --Player 2 Y-Axis
 
 --Palette Select Right Arrow
-palSelArrowRight = animNew(sprSys, [[
+palSelArrowRight = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -2411,7 +2342,7 @@ for i=1, #t_handicapSelect do --Make a copy of all items from t_handicapSelect t
 end
 
 --Handicap Select Up Arrows
-handicapSelArrowUp = animNew(sprSys, [[
+handicapSelArrowUp = animNew(sprIkemen, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
 225,2, 0,0, 10
@@ -2430,7 +2361,7 @@ handicapSelArrowUP2posX = 175 --Player 2 X-Axis
 handicapSelArrowUP2posY = 165 --Player 2 Y-Axis
 
 --Handicap Select Down Arrows
-handicapSelArrowDown = animNew(sprSys, [[
+handicapSelArrowDown = animNew(sprIkemen, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
 226,2, 0,0, 10
