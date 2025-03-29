@@ -9,29 +9,29 @@ txt_storyProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
 txt_storyText = createTextImg(font6, 0, 1, "", 0, 0)
 
 --Below Wood background
-woodBG1 = animNew(sprSys, [[
-105,0, 0,0,
+woodBG1 = animNew(sprIkemen, [[
+105,0, 0,0, -1
 ]])
 animSetScale(woodBG1, 1.55, 1.5)
 animUpdate(woodBG1)
 
 --Below Bamboo background
-bambooBG1 = animNew(sprSys, [[
+bambooBG1 = animNew(sprIkemen, [[
 106,0, 0,0, -1
 ]])
 animSetScale(bambooBG1, 0.72, 0.6)
 animUpdate(bambooBG1)
 
 --Lock
-lockIcon = animNew(sprSys, [[
-108,0, 0,0,
+lockIcon = animNew(sprIkemen, [[
+108,0, 0,0, -1
 ]])
 animSetPos(lockIcon, 118, 125)
 animSetScale(lockIcon, 0.20, 0.20)
 animUpdate(lockIcon)
 
 --Below Transparent background
---storyBG2 = animNew(sprSys, [[
+--storyBG2 = animNew(sprIkemen, [[
 --3,0, 0,0, -1
 --]])
 --animSetPos(storyBG2, 156, 94)
@@ -39,8 +39,8 @@ animUpdate(lockIcon)
 --animUpdate(storyBG2)
 
 --Below Info Window BG
-storyBG2 = animNew(sprSys, [[
-230,1, 0,0,
+storyBG2 = animNew(sprIkemen, [[
+230,1, 0,0, -1
 ]])
 animSetPos(storyBG2, 168, 82)
 animUpdate(storyBG2)
@@ -119,12 +119,12 @@ arcUnknown = animNew(sprStory, [[0,0, 0,0,]])
 arcSel = animNew(sprStory, [[0,1, 0,0,]])
 
 --Chapter Complete Icon
-checkIco = animNew(sprSys, [[104,0, 0,0,]])
+checkIco = animNew(sprIkemen, [[104,0, 0,0,]])
 
-checkNA = animNew(sprSys, [[9999,9999, 0,0,]])
+checkNA = animNew(sprIkemen, [[9999,9999, 0,0,]])
 
 --Unknown Chapter Preview
-chaptUnknown = animNew(sprSys, [[110,4, 0,0,]])
+chaptUnknown = animNew(sprStory, [[100,0, 0,0,]])
 
 --Unknown Chapter Arc
 t_arcNull = {

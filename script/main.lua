@@ -7439,8 +7439,8 @@ function f_intermission() --Secret Fight Intro
 		end
 		intermissionTime = intermissionTime + 1
 		--Draw BG Assets
-		animDraw(f_animVelocity(intermissionBG0, -1, -1))
-		--animDraw(f_animVelocity(intermissionBG1, -1, -1))
+		animDraw(f_animVelocity(selectHardBG0, -1, -1))
+		--animDraw(f_animVelocity(intermissionBG0, -1, -1))
 		animDraw(intermissionBG2)
 		animDraw(f_animVelocity(intermissionWindowSlideU, -1.5, 0))
 		animDraw(f_animVelocity(intermissionWindowSlideD, 1.5, 0))

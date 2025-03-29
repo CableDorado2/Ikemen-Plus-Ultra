@@ -8,12 +8,11 @@ sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN s
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
-sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel sprites
+sprTourney = sffNew("data/screenpack/tournament.sff") --load tournament mode sprites
+sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
 sprArtworks = sffNew("data/gallery/artworks.sff") --load sff data to be used in gallery artwork previews
 sprStoryboards = sffNew("data/gallery/storyboards.sff") --load sff data to be used in gallery storyboard previews
 sprMovies = sffNew("data/gallery/movies.sff") --load sff data to be used in gallery movie previews
-
-sprTourney = sffNew("data/screenpack/tournament.sff") --load tourney sprites
 
 --Sound Data (Sound effects [SFX] do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -36,15 +35,13 @@ bgmResults = "sound/System/Results.mp3"
 bgmService = "sound/System/Service.mp3"
 bgmContinue = "sound/System/Continue.mp3"
 bgmGameOver = "sound/System/Game Over.mp3"
-bgmVault = "sound/System/The Vault.ogg"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
 bgmTourneyChampion = "sound/System/Champion.mp3"
 bgmAbyss = "sound/System/Abyss.mp3"
 bgmLegion = "sound/System/Legion.mp3"
-bgmAdventure = "sound/System/Adventure.mp3"
 
---Fonts Data (At the moments only FNT Format is Supported)
+--Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
 
 padFnt = fontNew("font/f-pad.fnt")
@@ -452,8 +449,8 @@ animSetAlpha(titleBG5, 0, 0)
 animUpdate(titleBG5)
 
 --Background Footer
-titleBG6 = animNew(sprSys, [[
-300,0, 0,233, -1
+titleBG6 = animNew(sprIkemen, [[
+4,0, 0,233, -1
 ]])
 animAddPos(titleBG6, 160, 0)
 animSetTile(titleBG6, 1, 0)
@@ -471,7 +468,7 @@ animSetTile(commonBG0, 1, 1)
 animSetColorKey(commonBG0, -1)
 
 --Common Transparent background
-commonTBG = animNew(sprSys, [[
+commonTBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(commonTBG, 0, 20)
@@ -485,15 +482,15 @@ cursorBox = animNew(sprSys, [[
 animSetTile(cursorBox, 1, 1)
 
 --Optimized Cursor Box
---cursorBox = animNew(sprSys, [[
---3,1, 0,0, -1
+--cursorBox = animNew(sprIkemen, [[
+--2,0, 0,0, -1
 --]])
 --animSetPos(cursorBox, 80, 20)
 --animSetAlpha(cursorBox, 20, 100)
 --animUpdate(cursorBox)
 
 --Message Fade BG
-fadeWindowBG = animNew(sprSys, [[
+fadeWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
 animSetPos(fadeWindowBG, -54, 0)
@@ -501,7 +498,7 @@ animSetScale(fadeWindowBG, 427, 240)
 animUpdate(fadeWindowBG)
 
 --Common Padlock Sprite
-padlock = animNew(sprSys, [[
+padlock = animNew(sprIkemen, [[
 108,0, 0,0, -1
 ]])
 animSetScale(padlock, 0.20, 0.20)
@@ -685,7 +682,7 @@ txt_ok = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
 txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0)
 
 --Info Window BG
-infoWindowBG = animNew(sprSys, [[
+infoWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(infoWindowBG, 83.5, 97)
@@ -762,7 +759,7 @@ end
 t_arcadeMenu = {
 	{text = "CLASSIC MODE", gotomenu = "f_arcadeBoot()"},
 	{text = "TOWER MODE", gotomenu = "f_towerBoot()"},
-	--{text = "BEAT EM UP MODE", gotomenu = "f_beatemupBoot()"},
+	--{text = "BEAT EM UP", gotomenu = "f_beatemupBoot()"},
 }
 
 for i=1, #t_arcadeMenu do
@@ -798,11 +795,11 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
+	{text = "MISSIONS", gotomenu = "f_missionMenu()"},
 	--{text = "LEGION", gotomenu = "f_legionCfg()"},
 	{text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
 	{text = "TIME ATTACK", gotomenu = "f_timeattackMenu()"},
-	{text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
 	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
 
@@ -853,8 +850,8 @@ end
 t_extrasMenu = {
 	{text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
 	{text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
+	{text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
 	{text = "EVENTS", gotomenu = "f_eventMenu()"},
-	{text = "MISSIONS", gotomenu = "f_missionMenu()"},
 	{text = "ENDLESS", gotomenu = "f_endlessBoot()"},
 	{text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
 }
@@ -907,7 +904,7 @@ missionCommonScaleX = 0.168 --Allow set common scale for all previews
 missionCommonScaleY = 0.125
 
 --Above Transparent background
-missionBG1 = animNew(sprSys, [[
+missionBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(missionBG1, 48, 19)
@@ -915,7 +912,7 @@ animSetAlpha(missionBG1, 20, 100)
 animUpdate(missionBG1)
 
 --Below Transparent background
-missionBG2 = animNew(sprSys, [[
+missionBG2 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(missionBG2, 40, 130)
@@ -952,7 +949,7 @@ eventCommonScaleX = 1.1 --Allow set common scale for all previews
 eventCommonScaleY = 1.1
 
 --Above Transparent background
-eventBG1 = animNew(sprSys, [[
+eventBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(eventBG1, 0, 18)
@@ -960,7 +957,7 @@ animSetAlpha(eventBG1, 20, 100)
 animUpdate(eventBG1)
 
 --Below Transparent background
-eventBG2 = animNew(sprSys, [[
+eventBG2 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(eventBG2, 3, 49)
@@ -978,7 +975,7 @@ eventSlotScaleX = 1
 eventSlotScaleY = 1
 
 --Info Window BG
-infoEventWindowBG = animNew(sprSys, [[
+infoEventWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(infoEventWindowBG, 83.5, 97)
@@ -1205,7 +1202,7 @@ t_questionMenuVN = {
 }
 
 --Default Window BG
-questionWindowBGVN = animNew(sprSys, [[
+questionWindowBGVN = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(questionWindowBGVN, 61, 97)
@@ -1236,7 +1233,7 @@ for i=1, #t_replayOption do
 end
 
 --Replay Title Transparent background
-replayMenuBG = animNew(sprSys, [[
+replayMenuBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(replayMenuBG, 0, 5)
@@ -1244,7 +1241,7 @@ animSetAlpha(replayMenuBG, 20, 100)
 animUpdate(replayMenuBG)
 
 --Replay Option background
-replayMenuBG2 = animNew(sprSys, [[
+replayMenuBG2 = animNew(sprIkemen, [[
 250,0, 0,0,
 ]])
 animSetPos(replayMenuBG2, -13, 77)
@@ -1362,7 +1359,7 @@ galleryPreviewUnknownSpacingX = 12
 galleryPreviewUnknownSpacingY = 12
 
 --Info BG
-galleryInfoBG = animNew(sprSys, [[
+galleryInfoBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(galleryInfoBG, 2.9, 0.40)
@@ -1405,7 +1402,7 @@ galleryArtMoveLimitX2 = 320
 galleryArtMoveLimitY2 = 240
 
 --Input Hints BG
-gInputsBG = animNew(sprSys, [[
+gInputsBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(gInputsBG, 2.9, 0.75)
@@ -1455,7 +1452,7 @@ end
 txt_confirmSong = createTextImg(jgFnt, 0, 0, "USE THIS SONG?", 160, 108, 0.63, 0.63)
 
 --Confirm Window BG
-confirmSongWindowBG = animNew(sprSys, [[
+confirmSongWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(confirmSongWindowBG, 83.5, 97)
@@ -1483,14 +1480,14 @@ animSetColorKey(licenseBG, -1)
 animSetAlpha(licenseBG, 150, 0)
 
 --Title BG
-licenseTitleBG = animNew(sprSys, [[
+licenseTitleBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(licenseTitleBG, 2.9, 0.30)
 animSetAlpha(licenseTitleBG, 155, 22)
 
 --Input Hints BG
-lInputsBG = animNew(sprSys, [[
+lInputsBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(lInputsBG, 2.9, 0.37)
@@ -1526,7 +1523,7 @@ txt_hosting = createTextImg(jgFnt, 0, 0, "", 159, 228)
 txt_cancel = createTextImg(jgFnt, 1, 0, "CANCEL(ESC)", 161, 165)
 
 --IP Window BG
-textWindowBG = animNew(sprSys, [[
+textWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(textWindowBG, 83.5, 97)
@@ -1534,7 +1531,7 @@ animUpdate(textWindowBG)
 animSetScale(textWindowBG, 1, 1)
 
 --Connecting Window BG
-joinWindowBG = animNew(sprSys, [[
+joinWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(joinWindowBG, 83.5, 54)
@@ -1542,7 +1539,7 @@ animUpdate(joinWindowBG)
 animSetScale(joinWindowBG, 1, 2)
 
 --Connecting Icon
-wirelessBG = animNew(sprSys, [[
+wirelessBG = animNew(sprIkemen, [[
 400,0, 0,0, 18
 400,1, 0,0, 18
 400,2, 0,0, 18
@@ -1588,7 +1585,7 @@ for i=1, #t_editOption do
 end
 
 --CRUD Window BG
-crudHostWindowBG = animNew(sprSys, [[
+crudHostWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(crudHostWindowBG, 60.5, 125)
@@ -1633,10 +1630,10 @@ txt_sideTitle = createTextImg(font14, 0, 0, "SIDE SELECT", 157, 8, 0.9, 0.9)
 txt_sideWarning = createTextImg(font6, 0, 0, "THE SIDE SELECTED IS NOT ALLOWED FOR THIS GAME MODE", 157, 70, 0.75, 0.75)
 
 --Gamepad Icon
-gamepadIcon = animNew(sprSys, [[20,0, 0,0,]])
+gamepadIcon = animNew(sprIkemen, [[15,0, 0,0,]])
 
 --Lifebars Image
-lifebarsImg = animNew(sprSys, [[21,0, 0,0,]])
+lifebarsImg = animNew(sprIkemen, [[16,0, 0,0,]])
 
 --Left Arrows
 sideSelArrowLeft = animNew(sprSys, [[
@@ -1685,7 +1682,7 @@ animSetTile(challengerWindow, 1, 1)
 animSetWindow(challengerWindow, -54, 67, 428, 100)
 
 --Challenger Text
-challengerText = animNew(sprSys, [[
+challengerText = animNew(sprIkemen, [[
 500,0, 0,0, 5
 500,1, 0,0, 5
 500,2, 0,0, 5
@@ -1715,24 +1712,16 @@ APPROACHING!
 ]]
 
 --Intermission Scrolling background
-intermissionBG0 = animNew(sprSys, [[
-101,0, 0,0, -1
+intermissionBG0 = animNew(sprIkemen, [[
+0,0, 0,0, -1
 ]])
 animAddPos(intermissionBG0, 160, 0)
 animSetTile(intermissionBG0, 1, 1)
 animSetColorKey(intermissionBG0, -1)
+animSetAlpha(intermissionBG0, 150, 0)
 
 --Intermission Scrolling background 2
-intermissionBG1 = animNew(sprIkemen, [[
-0,0, 0,0, -1
-]])
-animAddPos(intermissionBG1, 160, 0)
-animSetTile(intermissionBG1, 1, 1)
-animSetColorKey(intermissionBG1, -1)
-animSetAlpha(intermissionBG1, 150, 0)
-
---Intermission Scrolling background 2
-intermissionBG2 = animNew(sprSys, [[
+intermissionBG2 = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animAddPos(intermissionBG2, -55, 47)
@@ -1761,7 +1750,7 @@ animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
 txt_confirmQuestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
 
 --Confirm Window BG
-confirmWindowBG = animNew(sprSys, [[
+confirmWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(confirmWindowBG, 83.5, 97)
@@ -1790,7 +1779,7 @@ end
 txt_question = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
 
 --Exit Window BG
-exitWindowBG = animNew(sprSys, [[
+exitWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(exitWindowBG, 83.5, 97)
@@ -1841,7 +1830,7 @@ selectFadeinTime = 10 --TODO
 selectFadeoutTime = 10 --TODO
 
 --Back Window BG
-backWindowBG = animNew(sprSys, [[
+backWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(backWindowBG, 83.5, 97)
@@ -1852,6 +1841,23 @@ t_backMenu = {
 	{id = textImgNew(), text = "YES"},
 	{id = textImgNew(), text = "NO"},
 }
+
+--Hardcore Scrolling background
+selectHardBG0 = animNew(sprIkemen, [[
+0,1, 0,0, -1
+]])
+animAddPos(selectHardBG0, 160, 0)
+animSetTile(selectHardBG0, 1, 1)
+animSetColorKey(selectHardBG0, -1)
+
+--Tower Scrolling background
+selectTowerBG0 = animNew(sprIkemen, [[
+0,0, 0,0, -1
+]])
+animAddPos(selectTowerBG0, 160, 0)
+animSetTile(selectTowerBG0, 1, 1)
+animSetColorKey(selectTowerBG0, -1)
+animSetAlpha(selectTowerBG0, 150, 0)
 
 --P1 Cursor
 p1CursorActiveAnim = 160
@@ -1881,23 +1887,6 @@ p1ActiveCursor = animNew(sprSys, [[
 p2ActiveCursor = animNew(sprSys, [[
 170,0, 0,0, -1
 ]])
-
---Hardcore Scrolling background
-selectHardBG0 = animNew(sprSys, [[
-101,0, 0,0, -1
-]])
-animAddPos(selectHardBG0, 160, 0)
-animSetTile(selectHardBG0, 1, 1)
-animSetColorKey(selectHardBG0, -1)
-
---Tower Scrolling background
-selectTowerBG0 = animNew(sprIkemen, [[
-0,0, 0,0, -1
-]])
-animAddPos(selectTowerBG0, 160, 0)
-animSetTile(selectTowerBG0, 1, 1)
-animSetColorKey(selectTowerBG0, -1)
-animSetAlpha(selectTowerBG0, 150, 0)
 
 --Dark Box (Player1 side)
 selectBG1a = animNew(sprSys, [[
@@ -1967,15 +1956,13 @@ animSetWindow(charBG3, 200, 20, 120, 140)
 
 --Up Arrows 1 for Muti Roster 1 (Left Side) [Advanced Type]
 arrowsUMR = animNew(sprSys, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
 ]])
 animAddPos(arrowsUMR, 5, 140)
 animUpdate(arrowsUMR)
@@ -1983,15 +1970,13 @@ animSetScale(arrowsUMR, 0.95, 0.95)
 
 --Down Arrows 1 for Muti Roster 1 (Left Side) [Advanced Type]
 arrowsDMR = animNew(sprSys, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
 ]])
 animAddPos(arrowsDMR, 5, 213)
 animUpdate(arrowsDMR)
@@ -1999,15 +1984,13 @@ animSetScale(arrowsDMR, 0.95, 0.95)
 
 --Up Arrows 1 for Muti Roster 2 (Right Side) [Advanced Type]
 arrowsUMR2 = animNew(sprSys, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
 ]])
 animAddPos(arrowsUMR2, 307, 140)
 animUpdate(arrowsUMR2)
@@ -2015,15 +1998,13 @@ animSetScale(arrowsUMR2, 0.95, 0.95)
 
 --Down Arrows 2 for Muti Roster 2 (Right Side) [Advanced Type]
 arrowsDMR2 = animNew(sprSys, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
 ]])
 animAddPos(arrowsDMR2, 307, 203)
 animUpdate(arrowsDMR2)
@@ -2031,15 +2012,13 @@ animSetScale(arrowsDMR2, 0.95, 0.95)
 
 --Up Arrows for Single Roster (Simple Type)
 arrowsUSR = animNew(sprSys, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
 ]])
 animAddPos(arrowsUSR, 156, 140)
 animUpdate(arrowsUSR)
@@ -2047,29 +2026,27 @@ animSetScale(arrowsUSR, 0.95, 0.95)
 
 --Down Arrows for Single Roster (Simple Type)
 arrowsDSR = animNew(sprSys, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
 ]])
 animAddPos(arrowsDSR, 156, 203)
 animUpdate(arrowsDSR)
 animSetScale(arrowsDSR, 0.95, 0.95)
 
 --Cell Lock
-cellLock = animNew(sprSys, [[
+cellLock = animNew(sprIkemen, [[
 108,0, 0,0,
 ]])
 animSetScale(cellLock, 0.07, 0.07)
 animUpdate(cellLock)
 
 --Cell Locked Fade Window
-cellLockWindowBG = animNew(sprSys, [[
+cellLockWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
 animSetScale(cellLockWindowBG, 91.5, 51)
@@ -2268,16 +2245,16 @@ txt_p1Author = createTextImg(jgFnt, 0, 1, "", 0, 20, 0.65, 0.65)
 txt_authorText = "AUTHOR: "
 
 --P1 Random Portrait
-p1randomPortrait = animNew(sprSys, [[151,1, 0,0,]])
+p1randomPortrait = animNew(sprIkemen, [[152,0, 0,0,]])
 
 --P1 Random Sprite
-p1randomSprite = animNew(sprSys, [[151,2, 0,0,]])
+p1randomSprite = animNew(sprIkemen, [[153,0, 0,0,]])
 
 --P1 Big Portrait Lock
-p1portraitLock = animNew(sprSys, [[108,0, 0,0,]])
+p1portraitLock = animNew(sprIkemen, [[108,0, 0,0,]])
 
 --P1 Big Portrait Locked Fade Window
-p1portraitLockWindowBG = animNew(sprSys, [[3,0, 0,0, -1, 0]])
+p1portraitLockWindowBG = animNew(sprIkemen, [[3,0, 0,0, -1, 0]])
 
 function f_p1charAnnouncer()
 	if f_getName(p1Cell) == "Kung Fu Man" then
@@ -2306,16 +2283,16 @@ txt_p2Name = createTextImg(jgFnt, 1, -1, "", 0, 0, 0.8, 0.8)
 txt_p2Author = createTextImg(jgFnt, 0, -1, "", 320, 20, 0.65, 0.65)
 
 --P2 Random Portrait
-p2randomPortrait = animNew(sprSys, [[151,1, -120,0,]])
+p2randomPortrait = animNew(sprIkemen, [[152,0, -120,0,]])
 
 --P2 Random Sprite
-p2randomSprite = animNew(sprSys, [[151,2, 0,0,]])
+p2randomSprite = animNew(sprIkemen, [[153,0, 0,0,]])
 
 --P2 Big Portrait Lock
-p2portraitLock = animNew(sprSys, [[108,0, -320,0,]])
+p2portraitLock = animNew(sprIkemen, [[108,0, -320,0,]])
 
 --P2 Big Portrait Locked Fade Window
-p2portraitLockWindowBG = animNew(sprSys, [[3,0, -1, 0,]])
+p2portraitLockWindowBG = animNew(sprIkemen, [[3,0, -1, 0,]])
 
 function f_p2charAnnouncer()
 	if f_getName(p2Cell) == "Kung Fu Man" then
@@ -2387,7 +2364,7 @@ palSelArrowRP2posX = 307 --Player 2 X-Axis
 palSelArrowRP2posY = 174.5 --Player 2 Y-Axis
 
 --Palette Select BG
-palSelBG = animNew(sprSys, [[
+palSelBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(palSelBG, 0.97, 0.41)
@@ -2472,7 +2449,7 @@ handicapSelArrowDP2posX = 175 --Player 2 X-Axis
 handicapSelArrowDP2posY = 210 --Player 2 Y-Axis
 
 --Handicap Window BG
-handicapWindowBG = animNew(sprSys, [[
+handicapWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetScale(handicapWindowBG, 1.005, 0.85)
@@ -2540,7 +2517,7 @@ animAddPos(selectSTBG2c, 160, 46)
 animSetTile(selectSTBG2c, 1, 0)
 
 --Classic Stage Select
-selStage = animNew(sprSys, [[
+selStage = animNew(sprIkemen, [[
 110,0, 0,0, 10
 110,1, 0,0, 10
 110,2, 0,0, 10
@@ -2549,7 +2526,7 @@ animAddPos(selStage, 83.5, 166)
 animUpdate(selStage)
 
 --Modern Stage Select
-selStageM = animNew(sprSys, [[
+selStageM = animNew(sprIkemen, [[
 110,0, 0,0, 10
 110,1, 0,0, 10
 110,2, 0,0, 10
@@ -2559,39 +2536,39 @@ animUpdate(selStageM)
 animSetScale(selStageM, 2.10, 2.10)
 
 --Classic Stage 0 (Random Icon)
-stage0 = animNew(sprSys, [[
-110,3, 0,0,
+stage0 = animNew(sprIkemen, [[
+111,0, 0,0, -1
 ]])
 animAddPos(stage0, 115, 172)
 animUpdate(stage0)
 animSetScale(stage0, 0.98, 0.98)
 
 --Modern Stage 0 (Random Icon)
-stage0M = animNew(sprSys, [[
-110,3, 0,0,
+stage0M = animNew(sprIkemen, [[
+111,0, 0,0, -1
 ]])
 animSetPos(stage0M, 66, 76)
 animUpdate(stage0M)
 animSetScale(stage0M, 2.09, 2.09)
 
 --Classic Lock
-stageLock = animNew(sprSys, [[
-108,0, 0,0,
+stageLock = animNew(sprIkemen, [[
+108,0, 0,0, -1
 ]])
 animAddPos(stageLock, 144, 178)
 animSetScale(stageLock, 0.10, 0.10)
 animUpdate(stageLock)
 
 --Modern Lock
-stageMLock = animNew(sprSys, [[
-108,0, 0,0,
+stageMLock = animNew(sprIkemen, [[
+108,0, 0,0, -1
 ]])
 animAddPos(stageMLock, 130.5, 90)
 animSetScale(stageMLock, 0.20, 0.20)
 animUpdate(stageMLock)
 
 --Classic Locked Fade Window
-stageLockWindowBG = animNew(sprSys, [[
+stageLockWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
 animSetPos(stageLockWindowBG, 114, 172)
@@ -2599,7 +2576,7 @@ animSetScale(stageLockWindowBG, 91.5, 51)
 animUpdate(stageLockWindowBG)
 
 --Modern Locked Fade Window
-stageMLockWindowBG = animNew(sprSys, [[
+stageMLockWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
 animSetPos(stageMLockWindowBG, 64, 74)
@@ -2629,8 +2606,8 @@ animAddPos(vsLogo, 160, 95)
 end
 
 --Background Footer
-footerBG = animNew(sprSys, [[
-300,0, 0,128, -1
+footerBG = animNew(sprIkemen, [[
+4,0, 0,128, -1
 ]])
 animSetScale(footerBG, 1.2, 1.8)
 animAddPos(footerBG, 160, 0)
@@ -2670,14 +2647,14 @@ animSetTile(orderWindowR, 1, 1)
 animSetWindow(orderWindowR, 180, 25, 140, 140)
 
 --P1 Order cursor
-p1OrderCursor = animNew(sprSys, [[
+p1OrderCursor = animNew(sprIkemen, [[
 195,0, 0,0, -1
 ]])
 animSetScale(p1OrderCursor, 0.10, 0.10)
 animUpdate(p1OrderCursor)
 
 --P2 Order cursor
-p2OrderCursor = animNew(sprSys, [[
+p2OrderCursor = animNew(sprIkemen, [[
 195,1, 0,0, -1
 ]])
 animSetScale(p2OrderCursor, 0.10, 0.10)
@@ -2879,7 +2856,7 @@ t_battleOption2 = {
 }
 
 --Rematch Window BG
-rematchWindowBG = animNew(sprSys, [[
+rematchWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rematchWindowBG, 0.4, 82)
@@ -2887,7 +2864,7 @@ animUpdate(rematchWindowBG)
 animSetScale(rematchWindowBG, 1.005, 1.1)
 
 --Rematch Window BG CPU
-rematchCPUWindowBG = animNew(sprSys, [[
+rematchCPUWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rematchCPUWindowBG, 83.5, 82)
@@ -2895,7 +2872,7 @@ animUpdate(rematchCPUWindowBG)
 animSetScale(rematchCPUWindowBG, 1.005, 1.1)
 
 --Rematch Window BG Player 2
-rematch2WindowBG = animNew(sprSys, [[
+rematch2WindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rematch2WindowBG, 168.4, 82)
@@ -2919,10 +2896,10 @@ end
 txt_rankInfo = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
 txt_rankESC = createTextImg(jgFnt, 5, 0, "PRESS ESC TO EXIT", 159, 151)
 txt_rankText = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
-txt_rankMsg = "ONLINE MATCH RANKED HAS FINISHED"
+txt_rankMsg = "ONLINE RANKED MATCH HAS FINISHED"
 
 --Ranked Info Window BG
-rankWindowBG = animNew(sprSys, [[
+rankWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rankWindowBG, 83.5, 97)
@@ -3008,12 +2985,12 @@ function f_drawAbyssResults()
 end
 
 --Result BG
-resultBG = animNew(sprSys, [[280,0, 0,0, -1]])
+resultBG = animNew(sprIkemen, [[280,0, 0,0, -1]])
 animAddPos(resultBG, 0, 0)
 animUpdate(resultBG)
 
 --Rank F
-rankF = animNew(sprSys, [[
+rankF = animNew(sprIkemen, [[
 210,0, 0,0,
 ]])
 animAddPos(rankF, 236, 205)
@@ -3021,7 +2998,7 @@ animUpdate(rankF)
 animSetScale(rankF, 0.5, 0.5)
 
 --Rank D-
-rankDM = animNew(sprSys, [[
+rankDM = animNew(sprIkemen, [[
 210,1, 0,0,
 ]])
 animAddPos(rankDM, 236, 205)
@@ -3029,7 +3006,7 @@ animUpdate(rankDM)
 animSetScale(rankDM, 0.5, 0.5)
 
 --Rank D
-rankD = animNew(sprSys, [[
+rankD = animNew(sprIkemen, [[
 210,2, 0,0,
 ]])
 animAddPos(rankD, 236, 205)
@@ -3037,7 +3014,7 @@ animUpdate(rankD)
 animSetScale(rankD, 0.5, 0.5)
 
 --Rank D+
-rankDP = animNew(sprSys, [[
+rankDP = animNew(sprIkemen, [[
 210,3, 0,0,
 ]])
 animAddPos(rankDP, 236, 205)
@@ -3045,7 +3022,7 @@ animUpdate(rankDP)
 animSetScale(rankDP, 0.5, 0.5)
 
 --Rank C
-rankC = animNew(sprSys, [[
+rankC = animNew(sprIkemen, [[
 210,4, 0,0,
 ]])
 animAddPos(rankC, 236, 205)
@@ -3053,7 +3030,7 @@ animUpdate(rankC)
 animSetScale(rankC, 0.5, 0.5)
 
 --Rank C+
-rankCP = animNew(sprSys, [[
+rankCP = animNew(sprIkemen, [[
 210,5, 0,0,
 ]])
 animAddPos(rankCP, 236, 205)
@@ -3061,7 +3038,7 @@ animUpdate(rankCP)
 animSetScale(rankCP, 0.5, 0.5)
 
 --Rank B
-rankB = animNew(sprSys, [[
+rankB = animNew(sprIkemen, [[
 210,6, 0,0,
 ]])
 animAddPos(rankB, 236, 205)
@@ -3069,7 +3046,7 @@ animUpdate(rankB)
 animSetScale(rankB, 0.5, 0.5)
 
 --Rank B+
-rankBP = animNew(sprSys, [[
+rankBP = animNew(sprIkemen, [[
 210,7, 0,0,
 ]])
 animAddPos(rankBP, 236, 205)
@@ -3077,7 +3054,7 @@ animUpdate(rankBP)
 animSetScale(rankBP, 0.5, 0.5)
 
 --Rank A
-rankA = animNew(sprSys, [[
+rankA = animNew(sprIkemen, [[
 210,8, 0,0,
 ]])
 animAddPos(rankA, 236, 205)
@@ -3085,7 +3062,7 @@ animUpdate(rankA)
 animSetScale(rankA, 0.5, 0.5)
 
 --Rank A+
-rankAP = animNew(sprSys, [[
+rankAP = animNew(sprIkemen, [[
 210,9, 0,0,
 ]])
 animAddPos(rankAP, 236, 205)
@@ -3093,7 +3070,7 @@ animUpdate(rankAP)
 animSetScale(rankAP, 0.5, 0.5)
 
 --Rank S
-rankS = animNew(sprSys, [[
+rankS = animNew(sprIkemen, [[
 210,10, 0,0,
 ]])
 animAddPos(rankS, 236, 205)
@@ -3101,7 +3078,7 @@ animUpdate(rankS)
 animSetScale(rankS, 0.5, 0.5)
 
 --Rank S+
-rankSP = animNew(sprSys, [[
+rankSP = animNew(sprIkemen, [[
 210,11, 0,0,
 ]])
 animAddPos(rankSP, 236, 205)
@@ -3109,7 +3086,7 @@ animUpdate(rankSP)
 animSetScale(rankSP, 0.5, 0.5)
 
 --Rank XS
-rankXS = animNew(sprSys, [[
+rankXS = animNew(sprIkemen, [[
 210,12, 0,0,
 ]])
 animAddPos(rankXS, 232, 205)
@@ -3117,7 +3094,7 @@ animUpdate(rankXS)
 animSetScale(rankXS, 0.5, 0.5)
 
 --Rank GDLK
-rankGDLK = animNew(sprSys, [[
+rankGDLK = animNew(sprIkemen, [[
 210,13, 0,0,
 ]])
 animAddPos(rankGDLK, 240, 205)
@@ -3663,8 +3640,8 @@ animSetScale(towerSlot, 0.5, 0.5)
 animUpdate(towerSlot)
 
 --Tower Stage Preview (Random Icon)
-towerStgPreview = animNew(sprSys, [[
-110,3, 0,0,
+towerStgPreview = animNew(sprIkemen, [[
+111,0, 0,0, -1
 ]])
 animUpdate(towerStgPreview)
 animSetScale(towerStgPreview, 0.79, 0.50)
@@ -3704,8 +3681,8 @@ animUpdate(vsPreview)
 animSetScale(vsPreview, 0.75, 0.75)
 
 --Stage Preview (Random Icon)
-battleStgPreview = animNew(sprSys, [[
-110,3, 0,0,
+battleStgPreview = animNew(sprIkemen, [[
+111,0, 0,0, -1
 ]])
 animUpdate(battleStgPreview)
 animSetScale(battleStgPreview, 1.53, 1.34)
@@ -3880,7 +3857,7 @@ tourneyRandomIcon = animNew(sprTourney, [[
 ]])
 
 --Input Hints BG
-tourneyInputsBG = animNew(sprSys, [[
+tourneyInputsBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(tourneyInputsBG, 2.9, 0.75)
@@ -4076,21 +4053,21 @@ animSetTile(abyssFog, 1, 1)
 animSetAlpha(abyssFog, 50,255)
 
 --Info BG
-abyssSelInfoBG = animNew(sprSys, [[
+abyssSelInfoBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(abyssSelInfoBG, 2.9, 0.40)
 animSetAlpha(abyssSelInfoBG, 155, 22)
 
 --Info Window BG
-abyssSelWindowBG = animNew(sprSys, [[
+abyssSelWindowBG = animNew(sprIkemen, [[
 230,2, 0,0, -1
 ]])
 animUpdate(abyssSelWindowBG)
 animSetScale(abyssSelWindowBG, 0.8, 1.4)
 
 --Continue Window BG
-abyssContBG = animNew(sprSys, [[
+abyssContBG = animNew(sprIkemen, [[
 230,2, 0,0, -1
 ]])
 animUpdate(abyssContBG)
@@ -4295,7 +4272,7 @@ function f_abyssResetShop()
 end
 
 --Menu Options Transparent background
-abyssTBG = animNew(sprSys, [[
+abyssTBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(abyssTBG, 0, 25)
@@ -4412,7 +4389,7 @@ animSetPos(abyssMapRewardBG, -80, 0)
 animUpdate(abyssMapRewardBG)
 
 --Depth Path BG
-abyssMapDepthBG = animNew(sprSys, [[
+abyssMapDepthBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(abyssMapDepthBG, 0.42, 4)
@@ -4421,7 +4398,7 @@ animSetPos(abyssMapDepthBG, -18, 0)
 animUpdate(abyssMapDepthBG)
 
 --Inputs Info Window BG
-abyssMapInputWindowBG = animNew(sprSys, [[
+abyssMapInputWindowBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(abyssMapInputWindowBG, 1.32, 0.41)
@@ -4530,14 +4507,14 @@ function f_generateAbyssRewards()
 end
 
 --Title Info BG
-abyssRewardTitleBG = animNew(sprSys, [[
+abyssRewardTitleBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(abyssRewardTitleBG, 2.9, 0.41)
 animSetAlpha(abyssRewardTitleBG, 155, 22)
 
---Menu Transparent background
-abyssRewardTBG = animNew(sprSys, [[
+--Transparent background
+abyssRewardTBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(abyssRewardTBG, 0, 25)

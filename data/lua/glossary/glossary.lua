@@ -40,14 +40,14 @@ animUpdate(glossaryRightArrow)
 animSetScale(glossaryRightArrow, 0.5, 0.5)
 
 --Title BG
-glossaryTitleBG = animNew(sprSys, [[
+glossaryTitleBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(glossaryTitleBG, 2.9, 0.30)
 animSetAlpha(glossaryTitleBG, 155, 22)
 
 --Input Hints BG
-gsInputsBG = animNew(sprSys, [[
+gsInputsBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(gsInputsBG, 2.9, 0.37)

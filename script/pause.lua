@@ -157,56 +157,56 @@ end
 txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..stats.attractCoins.."", 181.5, 170)
 
 --Transparent Background Instantaneous (fade in)
-darkenIn = animNew(sprSys, [[300,1, 0,0, -1, 0, AS256D102]])
+darkenIn = animNew(sprIkemen, [[5,0, 0,0, -1, 0, AS256D102]])
 animSetPos(darkenIn, -54, 0)
 animSetScale(darkenIn, 427, 240)
 
 --Transparent Background Instantaneous (fade out)
-darkenOut = animNew(sprSys, [[300,1, 0,0, -1, 0, AS256D256]])
+darkenOut = animNew(sprIkemen, [[5,0, 0,0, -1, 0, AS256D256]])
 animSetPos(darkenOut, -54, 0)
 animSetScale(darkenOut, 427, 240)
 
 --Transparent Background Full Animation (fade in)
-darkenInAnim = animNew(sprSys, [[
-300,1, 0,0, 1, 0, AS256D240
-300,1, 0,0, 1, 0, AS256D225
-300,1, 0,0, 1, 0, AS256D209
-300,1, 0,0, 1, 0, AS256D194
-300,1, 0,0, 1, 0, AS256D179
-300,1, 0,0, 1, 0, AS256D163
-300,1, 0,0, 1, 0, AS256D148
-300,1, 0,0, 1, 0, AS256D132
-300,1, 0,0, 1, 0, AS256D117
-300,1, 0,0, -1, 0, AS256D102
+darkenInAnim = animNew(sprIkemen, [[
+5,0, 0,0, 1, 0, AS256D240
+5,0, 0,0, 1, 0, AS256D225
+5,0, 0,0, 1, 0, AS256D209
+5,0, 0,0, 1, 0, AS256D194
+5,0, 0,0, 1, 0, AS256D179
+5,0, 0,0, 1, 0, AS256D163
+5,0, 0,0, 1, 0, AS256D148
+5,0, 0,0, 1, 0, AS256D132
+5,0, 0,0, 1, 0, AS256D117
+5,0, 0,0, -1, 0, AS256D102
 ]])
 animSetPos(darkenInAnim, -54, 0)
 animSetScale(darkenInAnim, 427, 240)
 
 --Transparent Background (fade out)
-darkenOutAnim = animNew(sprSys, [[
-300,1, 0,0, 1, 0, AS256D117
-300,1, 0,0, 1, 0, AS256D132
-300,1, 0,0, 1, 0, AS256D148
-300,1, 0,0, 1, 0, AS256D163
-300,1, 0,0, 1, 0, AS256D179
-300,1, 0,0, 1, 0, AS256D194
-300,1, 0,0, 1, 0, AS256D209
-300,1, 0,0, 1, 0, AS256D225
-300,1, 0,0, 1, 0, AS256D240
-300,1, 0,0, -1, 0, AS256D256
+darkenOutAnim = animNew(sprIkemen, [[
+5,0, 0,0, 1, 0, AS256D117
+5,0, 0,0, 1, 0, AS256D132
+5,0, 0,0, 1, 0, AS256D148
+5,0, 0,0, 1, 0, AS256D163
+5,0, 0,0, 1, 0, AS256D179
+5,0, 0,0, 1, 0, AS256D194
+5,0, 0,0, 1, 0, AS256D209
+5,0, 0,0, 1, 0, AS256D225
+5,0, 0,0, 1, 0, AS256D240
+5,0, 0,0, -1, 0, AS256D256
 ]])
 animSetPos(darkenOutAnim, -54, 0)
 animSetScale(darkenOutAnim, 427, 240)
 
 --Transparent background
-pauseBG1 = animNew(sprSys, [[
+pauseBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(pauseBG1, 20, 70)
 animSetAlpha(pauseBG1, 20, 100)
 
 --Message Fade BG
-fadeWindowBG = animNew(sprSys, [[
+fadeWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
 animSetPos(fadeWindowBG, -54, 0)
@@ -220,8 +220,8 @@ cursorBox = animNew(sprSys, [[
 animSetTile(cursorBox, 1, 1)
 
 --Optimized Cursor Box
---cursorBox = animNew(sprSys, [[
---3,1, 0,0, -1
+--cursorBox = animNew(sprIkemen, [[
+--2,0, 0,0, -1
 --]])
 --animSetPos(cursorBox, 80, 20)
 --animSetAlpha(cursorBox, 20, 100)
@@ -822,8 +822,8 @@ txt_leaveMatch = "] WILL LEAVE THIS MATCH"
 txt_mainmenuBack = "] WILL BACK TO MAIN MENU"
 
 --Confirm Window BG
-confirmPauseBG = animNew(sprSys, [[
-230,1, 0,0,
+confirmPauseBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
 ]])
 animSetPos(confirmPauseBG, 83.5, 77)
 animUpdate(confirmPauseBG)

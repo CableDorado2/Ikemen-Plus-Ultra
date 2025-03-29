@@ -1,4 +1,6 @@
-﻿--;===========================================================
+﻿sprShop = sffNew("script/mods/shop/shop.sff") --load sprites
+bgmVault = "sound/System/The Vault.ogg" --load bgm
+--;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_mainMenu table loaded by screenpack.lua
@@ -88,15 +90,15 @@ data.userName.." Add your prize message here!"
 end
 
 --Background
-vaultBG0 = animNew(sprSys, [[
-2000,1, 0,0,
+vaultBG0 = animNew(sprShop, [[
+20,0, 0,0, -1
 ]])
 animSetPos(vaultBG0, 160, 119)
 animUpdate(vaultBG0)
 animSetScale(vaultBG0, 0.30, 0.305)
 
 --Text Window BG
-vaultWindowBG = animNew(sprSys, [[
+vaultWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(vaultWindowBG, 20, 100)

@@ -11,7 +11,7 @@ animSetTile(optionsBG0, 1, 1)
 animSetColorKey(optionsBG0, -1)
 
 --Transparent background
-optionsBG1 = animNew(sprSys, [[
+optionsBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(optionsBG1, 30, 20)
@@ -19,7 +19,7 @@ animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
 
 --Transparent background 2
-optionsBG2 = animNew(sprSys, [[
+optionsBG2 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(optionsBG2, 0, 20)
@@ -27,7 +27,7 @@ animSetAlpha(optionsBG2, 20, 100)
 animUpdate(optionsBG2)
 
 --Transparent Info background
-infoBG = animNew(sprSys, [[
+infoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(infoBG, 20, 20)
@@ -1075,8 +1075,8 @@ txt_Warning = createTextImg(jgFnt, 5, 0, "WARNING", 159, 63)
 txt_okOptions = createTextImg(jgFnt, 5, 0, "OK", 159, 143)
 
 --Info Window BG
-infoOptionsWindowBG = animNew(sprSys, [[
-230,1, 0,0,
+infoOptionsWindowBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
 ]])
 animSetPos(infoOptionsWindowBG, 83.5, 130)
 animUpdate(infoOptionsWindowBG)
@@ -1185,7 +1185,7 @@ end
 --; SDL VIDEO WARNING
 --;===========================================================
 --SDL Beta Info 1
-sdlImg1 = animNew(sprSys, [[
+sdlImg1 = animNew(sprIkemen, [[
 3000,0, 0,0,
 ]])
 animSetPos(sdlImg1, 76, 190)
@@ -1193,7 +1193,7 @@ animUpdate(sdlImg1)
 animSetScale(sdlImg1, 0.35, 0.35)
 
 --SDL Beta Info 1
-sdlImg2 = animNew(sprSys, [[
+sdlImg2 = animNew(sprIkemen, [[
 3000,1, 0,0,
 ]])
 animSetPos(sdlImg2, 243, 190)
@@ -1374,7 +1374,7 @@ t_defaultMenu = {
 }
 
 --Default Window BG
-defaultWindowBG = animNew(sprSys, [[
+defaultWindowBG = animNew(sprIkemen, [[
 230,1, 0,0,
 ]])
 animSetPos(defaultWindowBG, 83.5, 97)
