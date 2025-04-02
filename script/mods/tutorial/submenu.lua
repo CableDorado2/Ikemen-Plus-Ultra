@@ -124,7 +124,6 @@ local TbuttonS = animNew(sprGlyphs, [[51,0, 0,0, -1]])
 
 local currentIndex = 1
 local currentInputTick = 0
-local delay = 0
 
 function f_tutoInputDisplay(t)
 	local t_inputs = t
@@ -166,17 +165,31 @@ function f_tutoInputDisplay(t)
 	local posXP2 = 0
 	local posYP2 = 122
 --Display Logic
+	local spritesToDraw = {}  --Crear una tabla para almacenar los sprites a dibujar
 	if currentIndex > #t_inputs then currentIndex = 1 end --restart hints (loop)
 --Get Current Button and Display Time	
 	local currentInput = t_inputs[currentIndex]
 	local button = currentInput.btn
 	local displayTime = currentInput.time
---Si se ha alcanzado el tiempo, pasar al siguiente	
+	local hold = currentInput.hold
+--If the time has been reached, move on to the next
 	if currentInputTick < displayTime then
 		currentInputTick = currentInputTick + 1
 	else
 		currentIndex = currentIndex + 1
 		currentInputTick = 0
+	end
+--Always draw current button
+	if button then
+		table.insert(spritesToDraw, button)
+	end
+--If any button have "hold=true", keep previous sprite
+	for i=1, currentIndex-1 do
+		local pastInput = t_inputs[i]
+		local pastButton = pastInput.btn
+		if pastInput.hold then
+			table.insert(spritesToDraw, pastButton)
+		end
 	end
 --Draw Assets
 --Player 1
@@ -222,19 +235,21 @@ function f_tutoInputDisplay(t)
 	if commandGetState(p1Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr, posYr, scaleX, scaleY, alphaSB, alphaDB) end
 	if commandGetState(p1Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaSB, alphaDB) end
 --SHOW BUTTONS FOR PLAYER 2/HINTS
-	if button == "_U" then f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "_D" then f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "_B" then f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "_F" then f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^A" then f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^B" then f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^C" then f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^X" then f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^Y" then f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^Z" then f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^L" then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^R" then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if button == "^S" then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	for _, button in ipairs(spritesToDraw) do
+		if button == "_U" then f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "_D" then f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "_B" then f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "_F" then f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^A" then f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^B" then f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^C" then f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^X" then f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^Y" then f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^Z" then f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^L" then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^R" then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^S" then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	end
 end
 
 --Input Hints Tables uses Input Display Guide assets to display
@@ -242,23 +257,21 @@ t_tutoInput1 = {
 --Step 1
 	{
 		btn = "_F", --What button will be displayed
-		time = 500, --For what ticks will be displayed
+		time = 0, --For what ticks will be displayed
 	},
 }
 
 t_tutoInput2 = {
---Step 1
 	{
 		btn = "_B",
-		time = 500,
+		time = 0,
 	},
 }
 
 t_tutoInput3 = {
---Step 1
 	{
 		btn = "_D",
-		time = 500,
+		time = 0,
 	},
 }
 
@@ -266,69 +279,160 @@ t_tutoInput4 = {
 --Step 1
 	{
 		btn = "_U",
-		time = 500,
+		time = 20,
+	},
+--Step 2
+	{
+		btn = "",
+		time = 20,
 	},
 }
 
 t_tutoInput5 = {
---Step 1
 	{
 		btn = "_B",
 		time = 10,
 	},
---Step 2
 	{
 		btn = "",
-		time = 10,
+		time = 5,
 	},
 }
 
 t_tutoInput6 = {
---Step 1
 	{
 		btn = "_F",
 		time = 10,
 	},
---Step 2
 	{
 		btn = "",
-		time = 10,
+		time = 5,
 	},
 }
 
 t_tutoInput7 = {
---Step 1
 	{
 		btn = "^X",
-		time = 10,
+		time = 25,
 	},
---Step 2
 	{
 		btn = "^Y",
-		time = 10,
+		time = 25,
 	},
---Step 3
 	{
 		btn = "^Z",
-		time = 10,
+		time = 25,
 	},
 }
 
 t_tutoInput8 = {
---Step 1
 	{
 		btn = "^A",
-		time = 10,
+		time = 25,
 	},
---Step 2
 	{
 		btn = "^B",
-		time = 10,
+		time = 25,
 	},
---Step 3
 	{
 		btn = "^C",
-		time = 10,
+		time = 25,
+	},
+}
+
+t_tutoInput9 = {
+	{
+		btn = "_U",
+		hold = true,
+		time = 0,
+	},
+	{
+		btn = "^A",
+		time = 25,
+	},
+	{
+		btn = "^X",
+		time = 25,
+	},
+	{
+		btn = "^B",
+		time = 25,
+	},
+	{
+		btn = "^Y",
+		time = 25,
+	},
+	{
+		btn = "^C",
+		time = 25,
+	},
+	{
+		btn = "^Z",
+		time = 25,
+	},
+}
+
+t_tutoInput10 = {
+	{
+		btn = "_D",
+		hold = true,
+		time = 0,
+	},
+	{
+		btn = "^A",
+		time = 25,
+	},
+	{
+		btn = "^X",
+		time = 25,
+	},
+	{
+		btn = "^B",
+		time = 25,
+	},
+	{
+		btn = "^Y",
+		time = 25,
+	},
+	{
+		btn = "^C",
+		time = 25,
+	},
+	{
+		btn = "^Z",
+		time = 25,
+	},
+}
+
+t_tutoInput11 = {
+	{
+		btn = "_D",
+		hold = true,
+		time = 0,
+	},
+	{
+		btn = "^A",
+		time = 25,
+	},
+	{
+		btn = "^X",
+		time = 25,
+	},
+	{
+		btn = "^B",
+		time = 25,
+	},
+	{
+		btn = "^Y",
+		time = 25,
+	},
+	{
+		btn = "^C",
+		time = 25,
+	},
+	{
+		btn = "^Z",
+		time = 25,
 	},
 }
 
