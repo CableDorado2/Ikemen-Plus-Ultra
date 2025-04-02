@@ -122,7 +122,7 @@ local TbuttonL = animNew(sprGlyphs, [[27,0, 0,0, -1]])
 --Start Button
 local TbuttonS = animNew(sprGlyphs, [[51,0, 0,0, -1]])
 
-local currentIndex = 1
+local currentItem = 1
 local currentInputTick = 0
 
 function f_tutoInputDisplay(t)
@@ -131,44 +131,52 @@ function f_tutoInputDisplay(t)
 	local alphaD = 100
 	local alphaSB = 255
 	local alphaDB = 0
-	local scaleX = 0.35
-	local scaleY = 0.35
+	local scaleX = 0.25
+	local scaleY = 0.25
 --Button Pos X
-	local posXup = 65
-	local posXdo = 65
-	local posXle = 45
-	local posXri = 85
-	local posXa = 110
-	local posXb = 135
-	local posXc = 160
-	local posXx = 117
-	local posXy = 140
-	local posXz = 165
-	local posXl = 190
-	local posXr = 185
-	local posXs = 215
+	local posXup = 16
+	local posXdo = 16
+	local posXle = 0
+	local posXri = 31
+	
+	local posXa = 55
+	local posXb = 75
+	local posXc = 95
+	
+	local posXx = 62
+	local posXy = 80
+	local posXz = 100
+	
+	local posXl = 120
+	local posXr = 115
+	
+	local posXs = 135
 --Button Pos Y
-	local posYup = 45
-	local posYdo = 85
-	local posYle = 65
-	local posYri = 65
-	local posYa = 85
-	local posYb = 80
-	local posYc = 80
-	local posYx = 60
-	local posYy = 53
-	local posYz = 53
-	local posYl = 53
-	local posYr = 80
-	local posYs = 68
+	local posYup = 183
+	local posYdo = 215
+	local posYle = 200
+	local posYri = 200
+	
+	local posYa = 215
+	local posYb = 210
+	local posYc = 210
+	
+	local posYx = 198
+	local posYy = 192
+	local posYz = 192
+	
+	local posYl = 192
+	local posYr = 210
+	
+	local posYs = 204
 --Player 2/Hints Assets Pos X and Y Distance
-	local posXP2 = 0
-	local posYP2 = 122
+	local posXP2 = 200
+	local posYP2 = 0
 --Display Logic
 	local spritesToDraw = {}  --Crear una tabla para almacenar los sprites a dibujar
-	if currentIndex > #t_inputs then currentIndex = 1 end --restart hints (loop)
+	if currentItem > #t_inputs then currentItem = 1 end --restart hints (loop)
 --Get Current Button and Display Time	
-	local currentInput = t_inputs[currentIndex]
+	local currentInput = t_inputs[currentItem]
 	local button = currentInput.btn
 	local displayTime = currentInput.time
 	local hold = currentInput.hold
@@ -176,7 +184,7 @@ function f_tutoInputDisplay(t)
 	if currentInputTick < displayTime then
 		currentInputTick = currentInputTick + 1
 	else
-		currentIndex = currentIndex + 1
+		currentItem = currentItem + 1
 		currentInputTick = 0
 	end
 --Always draw current button
@@ -184,7 +192,7 @@ function f_tutoInputDisplay(t)
 		table.insert(spritesToDraw, button)
 	end
 --If any button have "hold=true", keep previous sprite
-	for i=1, currentIndex-1 do
+	for i=1, currentItem-1 do
 		local pastInput = t_inputs[i]
 		local pastButton = pastInput.btn
 		if pastInput.hold then
@@ -257,7 +265,7 @@ t_tutoInput1 = {
 --Step 1
 	{
 		btn = "_F", --What button will be displayed
-		time = 0, --For what ticks will be displayed
+		time = 0, --For how many ticks will be displayed
 	},
 }
 
@@ -406,34 +414,144 @@ t_tutoInput10 = {
 
 t_tutoInput11 = {
 	{
-		btn = "_D",
+		btn = "^Y",
 		hold = true,
 		time = 0,
 	},
 	{
-		btn = "^A",
-		time = 25,
-	},
-	{
-		btn = "^X",
-		time = 25,
-	},
-	{
 		btn = "^B",
-		time = 25,
+		hold = true,
+		time = 0,
 	},
 	{
-		btn = "^Y",
-		time = 25,
+		btn = "_F",
+		time = 40,
+	},
+	{
+		btn = "_B",
+		time = 40,
+	},
+}
+
+t_tutoInput12 = {
+	{
+		btn = "^Z",
+		hold = true,
+		time = 0,
 	},
 	{
 		btn = "^C",
-		time = 25,
+		hold = true,
+		time = 0,
 	},
 	{
-		btn = "^Z",
-		time = 25,
+		btn = "",
+		time = 40,
 	},
+}
+
+t_tutoInput13 = {
+	{
+		btn = "_D",
+		time = 10,
+	},
+	{
+		btn = "_F",
+		time = 10,
+	},
+	{
+		btn = "^X",
+		time = 10,
+	},
+	{
+		btn = "",
+		time = 60,
+	},
+}
+
+t_tutoInput14 = {
+	{
+		btn = "_D",
+		time = 10,
+	},
+	{
+		btn = "_B",
+		time = 10,
+	},
+	{
+		btn = "^A",
+		time = 10,
+	},
+	{
+		btn = "",
+		time = 60,
+	},
+}
+
+t_tutoInput15 = {
+	{
+		btn = "_D",
+		time = 10,
+	},
+	{
+		btn = "_B",
+		time = 10,
+	},
+	{
+		btn = "^A",
+		time = 10,
+	},
+	{
+		btn = "",
+		time = 10,
+	},
+	{
+		btn = "^A",
+		time = 10,
+	},
+	{
+		btn = "",
+		time = 10,
+	},
+	{
+		btn = "^A",
+		time = 10,
+	},
+	{
+		btn = "",
+		time = 60,
+	},
+}
+
+t_tutoInput16 = {
+	{
+		btn = "_F",
+		time = 10,
+	},
+	{
+		btn = "_D",
+		time = 10,
+	},
+	{
+		btn = "_F",
+		time = 10,
+	},
+	{
+		btn = "^B",
+		time = 10,
+	},
+	{
+		btn = "",
+		time = 10,
+	},
+	{
+		btn = "^B",
+		time = 10,
+	},
+	{
+		btn = "",
+		time = 60,
+	},	
 }
 
 t_tutorialDiag = {
@@ -459,9 +577,9 @@ t_tutorialDiag = {
 {btntonext = true, txt = "FANTASTIC! NOW... SPECIAL MOVES ARE BUTTON COMBINATIONS THAT ALLOW YOU TO DEAL MORE DAMAGE THAN NORMAL HITS."},
 {btntonext = true, txt = "KUNG FU GIRL HAS 3 SPECIAL MOVES."},
 {condition = "f_tutoCheck13", inputhint = t_tutoInput13, txt = 'THE FIRST ONE IS A "KUNG FU PALM".       YOU CAN EXECUTE IT BY PRESSING [DOWN]+[RIGHT]+[X/Y/Z]. TRY IT!'},
-{condition = "f_tutoCheck14", inputhint = t_tutoInput14, txt = "THE SECOND ONE IS A KICK COMBINATION.    YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[A/B/C]. TRY IT!"},
-{condition = "f_tutoCheck15", inputhint = t_tutoInput15, txt = "THIS ONE CAN BE FOLLOWED BY MASHING ANY KICK BUTTON. TRY IT!"},
-{condition = "f_tutoCheck16", inputhint = t_tutoInput16, txt = "THE LAST ONE IS A DIVE KICK. TO DO IT, PRESS [RIGHT]+[DOWN]+[RIGHT]+[B/C (2 TIMES)]."},
+{condition = "f_tutoCheck14", inputhint = t_tutoInput14, txt = 'THE SECOND ONE IS A "KUNG FU SHUFFLE".    YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[A/B/C]. TRY IT!'},
+{condition = "f_tutoCheck15", inputhint = t_tutoInput15, txt = "THIS ONE CAN BE FOLLOWED BY MASHING 3 TIMES ANY KICK BUTTON. TRY IT!"},
+{condition = "f_tutoCheck16", inputhint = t_tutoInput16, txt = 'THE LAST ONE IS A "KUNG FU KNEE". TO DO IT,    PRESS [RIGHT]+[DOWN]+[RIGHT]+[B/C + B/C].'},
 {btntonext = true, txt = "AWESOME!                                  NOW LET'S TALK ABOUT THE EX MOVES."},
 {btntonext = true, txt = "THE EX MOVES ARE IMPROVEMENTS FOR SPECIAL MOVES. TO EXECUTE IT, YOU NEED AT LEAST 1 POWER BAR AND PRESS AT THE SAME TIME 2 BUTTONS THAT EXECUTE THE MOVE."},
 {condition = "f_tutoCheck17", txt = "DO EX VERSION FOR ALL SPECIAL MOVES!"},
