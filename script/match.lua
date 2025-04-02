@@ -517,7 +517,7 @@ function loop() --The code for this function should be thought of as if it were 
 				f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 43)
 			--Draw Input Display Guide
 				if t_tutorialDiag[tutoDiag].inputhint then
-					f_tutoInputDisplay(t_tutorialDiag[tutoDiag].inputhint.btn)
+					f_tutoInputDisplay(t_tutorialDiag[tutoDiag].inputhint)
 				end
 			--Set Life
 				lifeMax(1)

@@ -122,7 +122,12 @@ local TbuttonL = animNew(sprGlyphs, [[27,0, 0,0, -1]])
 --Start Button
 local TbuttonS = animNew(sprGlyphs, [[51,0, 0,0, -1]])
 
-function f_tutoInputDisplay(key1, key2, key3, key4, key5)
+local currentIndex = 1
+local currentInputTick = 0
+local delay = 0
+
+function f_tutoInputDisplay(t)
+	local t_inputs = t
 	local alphaS = 20
 	local alphaD = 100
 	local alphaSB = 255
@@ -160,6 +165,19 @@ function f_tutoInputDisplay(key1, key2, key3, key4, key5)
 --Player 2/Hints Assets Pos X and Y Distance
 	local posXP2 = 0
 	local posYP2 = 122
+--Display Logic
+	if currentIndex > #t_inputs then currentIndex = 1 end --restart hints (loop)
+--Get Current Button and Display Time	
+	local currentInput = t_inputs[currentIndex]
+	local button = currentInput.btn
+	local displayTime = currentInput.time
+--Si se ha alcanzado el tiempo, pasar al siguiente	
+	if currentInputTick < displayTime then
+		currentInputTick = currentInputTick + 1
+	else
+		currentIndex = currentIndex + 1
+		currentInputTick = 0
+	end
 --Draw Assets
 --Player 1
 	f_drawQuickSpr(TbuttonUp, posXup, posYup, scaleX, scaleY, alphaS, alphaD)
@@ -204,56 +222,145 @@ function f_tutoInputDisplay(key1, key2, key3, key4, key5)
 	if commandGetState(p1Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr, posYr, scaleX, scaleY, alphaSB, alphaDB) end
 	if commandGetState(p1Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaSB, alphaDB) end
 --SHOW BUTTONS FOR PLAYER 2/HINTS
-	if key1 == "_U" then f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "_D" then f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "_B" then f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "_F" then f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^A" then f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^B" then f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^C" then f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^X" then f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^Y" then f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^Z" then f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^L" then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^R" then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-	if key1 == "^S" then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "_U" then f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "_D" then f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "_B" then f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "_F" then f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^A" then f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^B" then f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^C" then f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^X" then f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^Y" then f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^Z" then f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^L" then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^R" then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+	if button == "^S" then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
 end
 
 --Input Hints Tables uses Input Display Guide assets to display
 t_tutoInput1 = {
-	btn = "_F", --What button will be displayed
-	time = 500, --For what ticks will be displayed
+--Step 1
+	{
+		btn = "_F", --What button will be displayed
+		time = 500, --For what ticks will be displayed
+	},
+}
+
+t_tutoInput2 = {
+--Step 1
+	{
+		btn = "_B",
+		time = 500,
+	},
+}
+
+t_tutoInput3 = {
+--Step 1
+	{
+		btn = "_D",
+		time = 500,
+	},
+}
+
+t_tutoInput4 = {
+--Step 1
+	{
+		btn = "_U",
+		time = 500,
+	},
+}
+
+t_tutoInput5 = {
+--Step 1
+	{
+		btn = "_B",
+		time = 10,
+	},
+--Step 2
+	{
+		btn = "",
+		time = 10,
+	},
+}
+
+t_tutoInput6 = {
+--Step 1
+	{
+		btn = "_F",
+		time = 10,
+	},
+--Step 2
+	{
+		btn = "",
+		time = 10,
+	},
+}
+
+t_tutoInput7 = {
+--Step 1
+	{
+		btn = "^X",
+		time = 10,
+	},
+--Step 2
+	{
+		btn = "^Y",
+		time = 10,
+	},
+--Step 3
+	{
+		btn = "^Z",
+		time = 10,
+	},
+}
+
+t_tutoInput8 = {
+--Step 1
+	{
+		btn = "^A",
+		time = 10,
+	},
+--Step 2
+	{
+		btn = "^B",
+		time = 10,
+	},
+--Step 3
+	{
+		btn = "^C",
+		time = 10,
+	},
 }
 
 t_tutorialDiag = {
 {btntonext = true, txt = "WELCOME TO THE TUTORIAL MODE!                THIS IS A DIALOGUE TEST.                 WHEN THE [DOWN] ARROW APPEARS, PLEASE USE [SELECT] BUTTON TO GO TO THE NEXT TEXT..."},
 {btntonext = true, txt = "DURING THIS TUTORIAL, ALL MOVES ARE EXPLAINED CONSIDERING THAT YOUR CHARACTER IS ON LEFT SIDE FACING TO THE OPPONENT ON THE RIGHT SIDE."},
 {btntonext = true, txt = "OK, LET'S TRY SOME MOVES."},
-{condition = "f_tutoCheck1", inputhint = t_tutoInput1, btntonext = false, txt = "GO FORDWARD USING [RIGHT] BUTTON AND COME TO ME."},
-{condition = "f_tutoCheck2", btntonext = false, txt = "NICE. NOW GO BACK USING [LEFT] BUTTON."},
-{condition = "f_tutoCheck3", btntonext = false, txt = "GOOD. NOW CROUCH WITH [DOWN] BUTTON."},
-{condition = "f_tutoCheck4", btntonext = false, txt = "YEP. JUMP WITH [UP] BUTTON."},
-{condition = "f_tutoCheck5", btntonext = false, txt = "HMM. TAP 2 TIMES [LEFT] BUTTON"},
-{condition = "f_tutoCheck6", btntonext = false, txt = "NOW! TAP 2 TIMES [RIGHT] BUTTON"},
-{condition = "f_tutoCheck7", btntonext = false, txt = "LET'S TRY THOSE FIST.                      PRESS [X], [Y] AND [Z] BUTTONS TO ATTACK ME."},
-{condition = "f_tutoCheck8", btntonext = false, txt = "LET'S TRY THOSE KICKS.                     PRESS [A], [B] AND [C] BUTTONS TO KICK ME."},
+{condition = "f_tutoCheck1", inputhint = t_tutoInput1, txt = "GO FORDWARD USING [RIGHT] BUTTON AND COME TO ME."},
+{condition = "f_tutoCheck2", inputhint = t_tutoInput2, txt = "NICE. NOW GO BACK USING [LEFT] BUTTON."},
+{condition = "f_tutoCheck3", inputhint = t_tutoInput3, txt = "GOOD. NOW CROUCH WITH [DOWN] BUTTON."},
+{condition = "f_tutoCheck4", inputhint = t_tutoInput4, txt = "YEP. JUMP WITH [UP] BUTTON."},
+{condition = "f_tutoCheck5", inputhint = t_tutoInput5, txt = "HMM. TAP 2 TIMES [LEFT] BUTTON"},
+{condition = "f_tutoCheck6", inputhint = t_tutoInput6, txt = "NOW! TAP 2 TIMES [RIGHT] BUTTON"},
+{condition = "f_tutoCheck7", inputhint = t_tutoInput7, txt = "LET'S TRY THOSE FIST.                      PRESS [X], [Y] AND [Z] BUTTONS TO ATTACK ME."},
+{condition = "f_tutoCheck8", inputhint = t_tutoInput8, txt = "LET'S TRY THOSE KICKS.                     PRESS [A], [B] AND [C] BUTTONS TO KICK ME."},
 {btntonext = true, txt = "EACH BUTTON HAVE DIFFERENT DAMAGE PROPERTIES."},
 {btntonext = true, txt = "LOW ATTACKS LP/LK[X/A] ARE FASTER."},
 {btntonext = true, txt = "MEDIUM ATTACKS MP/MK[Y/B] STUN THE OPPONENT FOR A SHORT TIME."},
 {btntonext = true, txt = "HEAVY ATTACKS HP/HK[Z/C] ARE SLOWER BUT IN ADDITION TO DOING MORE DAMAGE, IT STUN FOR LONGER TIME THAN MEDIUM ATTACKS."},
-{condition = "f_tutoCheck9", btntonext = false, txt = "COOL. NOW TRY ALL PREVIOUS ATTACKS DURING JUMP (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS ON AIR)."},
-{condition = "f_tutoCheck10", btntonext = false, txt = "GREAT! LIKE JUMPING, YOU CAN ALSO ATTACK DURING CROUCH.(PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
-{condition = "f_tutoCheck11", btntonext = false, txt = "MARVELOUS! YOU CAN GRAB THE OPPONENT BY PRESSING [B] AND [Y] BUTTON AT THE SAME TIME WITH [RIGHT] OR [LEFT] BUTTONS."},
-{condition = "f_tutoCheck12", btntonext = false, txt = "WONDERFUL! YOU CAN STOP AND PUSH YOUR OPPONENT WHILE HE IS ATTACKING OR NOT BY PRESSING [C] AND [Z] BUTTONS AT THE SAME TIME."},
+{condition = "f_tutoCheck9", inputhint = t_tutoInput9, txt = "COOL. NOW TRY ALL PREVIOUS ATTACKS DURING JUMP (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS ON AIR)."},
+{condition = "f_tutoCheck10", inputhint = t_tutoInput10, txt = "GREAT! LIKE JUMPING, YOU CAN ALSO ATTACK DURING CROUCH.(PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
+{condition = "f_tutoCheck11", inputhint = t_tutoInput11, txt = "MARVELOUS! YOU CAN GRAB THE OPPONENT BY PRESSING [B] AND [Y] BUTTON AT THE SAME TIME WITH [RIGHT] OR [LEFT] BUTTONS."},
+{condition = "f_tutoCheck12", inputhint = t_tutoInput12, txt = "WONDERFUL! YOU CAN STOP AND PUSH YOUR OPPONENT WHILE HE IS ATTACKING OR NOT BY PRESSING [C] AND [Z] BUTTONS AT THE SAME TIME."},
 {btntonext = true, txt = "FANTASTIC! NOW... SPECIAL MOVES ARE BUTTON COMBINATIONS THAT ALLOW YOU TO DEAL MORE DAMAGE THAN NORMAL HITS."},
 {btntonext = true, txt = "KUNG FU GIRL HAS 3 SPECIAL MOVES."},
-{condition = "f_tutoCheck13", btntonext = false, txt = 'THE FIRST ONE IS A "KUNG FU PALM".       YOU CAN EXECUTE IT BY PRESSING [DOWN]+[RIGHT]+[X/Y/Z]. TRY IT!'},
-{condition = "f_tutoCheck14", btntonext = false, txt = "THE SECOND ONE IS A KICK COMBINATION.    YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[A/B/C]. TRY IT!"},
-{condition = "f_tutoCheck15", btntonext = false, txt = "THIS ONE CAN BE FOLLOWED BY MASHING ANY KICK BUTTON. TRY IT!"},
-{condition = "f_tutoCheck16", btntonext = false, txt = "THE LAST ONE IS A DIVE KICK. TO DO IT, PRESS [RIGHT]+[DOWN]+[RIGHT]+[B/C (2 TIMES)]."},
+{condition = "f_tutoCheck13", inputhint = t_tutoInput13, txt = 'THE FIRST ONE IS A "KUNG FU PALM".       YOU CAN EXECUTE IT BY PRESSING [DOWN]+[RIGHT]+[X/Y/Z]. TRY IT!'},
+{condition = "f_tutoCheck14", inputhint = t_tutoInput14, txt = "THE SECOND ONE IS A KICK COMBINATION.    YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[A/B/C]. TRY IT!"},
+{condition = "f_tutoCheck15", inputhint = t_tutoInput15, txt = "THIS ONE CAN BE FOLLOWED BY MASHING ANY KICK BUTTON. TRY IT!"},
+{condition = "f_tutoCheck16", inputhint = t_tutoInput16, txt = "THE LAST ONE IS A DIVE KICK. TO DO IT, PRESS [RIGHT]+[DOWN]+[RIGHT]+[B/C (2 TIMES)]."},
 {btntonext = true, txt = "AWESOME!                                  NOW LET'S TALK ABOUT THE EX MOVES."},
 {btntonext = true, txt = "THE EX MOVES ARE IMPROVEMENTS FOR SPECIAL MOVES. TO EXECUTE IT, YOU NEED AT LEAST 1 POWER BAR AND PRESS AT THE SAME TIME 2 BUTTONS THAT EXECUTE THE MOVE."},
-{condition = "f_tutoCheck17", btntonext = false, txt = "DO EX VERSION FOR ALL SPECIAL MOVES!"},
+{condition = "f_tutoCheck17", txt = "DO EX VERSION FOR ALL SPECIAL MOVES!"},
 {btntonext = true, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED:                                           TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
 {hidediag = true, infight = true},
 }
