@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/" />
 <title>Trigger Reference</title>
 <style type="text/css">
 
@@ -174,9 +174,9 @@ code, tt {
 <div class="document" id="trigger-reference">
 <h1 class="title">Trigger Reference</h1>
 
-<p>M.U.G.E.N, (c) Elecbyte 1999-2010</p>
-<p>Documentation for version 1.0</p>
-<p>Updated 29 June 2010</p>
+<p>M.U.G.E.N, (c) Elecbyte 1999-2013</p>
+<p>Documentation for version 1.1 (2013)</p>
+<p>Updated 09 June 2013</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
@@ -194,110 +194,120 @@ code, tt {
 <li><a class="reference internal" href="#asin-math" id="id12">Asin (math)</a></li>
 <li><a class="reference internal" href="#atan-math" id="id13">Atan (math)</a></li>
 <li><a class="reference internal" href="#authorname" id="id14">AuthorName(*,***)</a></li>
-<li><a class="reference internal" href="#backedgebodydist" id="id15">BackEdgeBodyDist</a></li>
-<li><a class="reference internal" href="#backedgedist" id="id16">BackEdgeDist</a></li>
-<li><a class="reference internal" href="#canrecover" id="id17">CanRecover</a></li>
-<li><a class="reference internal" href="#ceil-math" id="id18">Ceil (math)</a></li>
-<li><a class="reference internal" href="#command" id="id19">Command (*,***)</a></li>
-<li><a class="reference internal" href="#cond-math" id="id20">Cond (math)</a></li>
-<li><a class="reference internal" href="#const" id="id21">Const (*)</a></li>
-<li><a class="reference internal" href="#const240p" id="id22">Const240p</a></li>
-<li><a class="reference internal" href="#const480p" id="id23">Const480p</a></li>
-<li><a class="reference internal" href="#const720p" id="id24">Const720p</a></li>
-<li><a class="reference internal" href="#cos-math" id="id25">Cos (math)</a></li>
-<li><a class="reference internal" href="#ctrl" id="id26">Ctrl</a></li>
-<li><a class="reference internal" href="#drawgame" id="id27">DrawGame</a></li>
-<li><a class="reference internal" href="#e-math" id="id28">E (math)</a></li>
-<li><a class="reference internal" href="#exp-math" id="id29">Exp (math)</a></li>
-<li><a class="reference internal" href="#facing" id="id30">Facing</a></li>
-<li><a class="reference internal" href="#floor-math" id="id31">Floor (math)</a></li>
-<li><a class="reference internal" href="#frontedgebodydist" id="id32">FrontEdgeBodyDist</a></li>
-<li><a class="reference internal" href="#frontedgedist" id="id33">FrontEdgeDist</a></li>
-<li><a class="reference internal" href="#fvar" id="id34">FVar</a></li>
-<li><a class="reference internal" href="#gameheight" id="id35">GameHeight</a></li>
-<li><a class="reference internal" href="#gametime" id="id36">GameTime</a></li>
-<li><a class="reference internal" href="#gamewidth" id="id37">GameWidth</a></li>
-<li><a class="reference internal" href="#gethitvar" id="id38">GetHitVar(*)</a></li>
-<li><a class="reference internal" href="#hitcount" id="id39">HitCount</a></li>
-<li><a class="reference internal" href="#hitdefattr" id="id40">HitDefAttr(*,***)</a></li>
-<li><a class="reference internal" href="#hitfall" id="id41">HitFall</a></li>
-<li><a class="reference internal" href="#hitover" id="id42">HitOver</a></li>
-<li><a class="reference internal" href="#hitpausetime" id="id43">HitPauseTime</a></li>
-<li><a class="reference internal" href="#hitshakeover" id="id44">HitShakeOver</a></li>
-<li><a class="reference internal" href="#hitvel" id="id45">HitVel</a></li>
-<li><a class="reference internal" href="#id" id="id46">ID</a></li>
-<li><a class="reference internal" href="#ifelse-math" id="id47">IfElse (math)</a></li>
-<li><a class="reference internal" href="#inguarddist" id="id48">InGuardDist</a></li>
-<li><a class="reference internal" href="#ishelper" id="id49">IsHelper</a></li>
-<li><a class="reference internal" href="#ishometeam" id="id50">IsHomeTeam</a></li>
-<li><a class="reference internal" href="#life" id="id51">Life</a></li>
-<li><a class="reference internal" href="#lifemax" id="id52">LifeMax</a></li>
-<li><a class="reference internal" href="#ln-math" id="id53">Ln (math)</a></li>
-<li><a class="reference internal" href="#log-math" id="id54">Log (math)</a></li>
-<li><a class="reference internal" href="#lose" id="id55">Lose</a></li>
-<li><a class="reference internal" href="#matchno" id="id56">MatchNo</a></li>
-<li><a class="reference internal" href="#matchover" id="id57">MatchOver</a></li>
-<li><a class="reference internal" href="#movecontact" id="id58">MoveContact</a></li>
-<li><a class="reference internal" href="#moveguarded" id="id59">MoveGuarded</a></li>
-<li><a class="reference internal" href="#movehit" id="id60">MoveHit</a></li>
-<li><a class="reference internal" href="#movetype" id="id61">MoveType(*,***)</a></li>
-<li><a class="reference internal" href="#movereversed" id="id62">MoveReversed</a></li>
-<li><a class="reference internal" href="#name" id="id63">Name(*,***)</a></li>
-<li><a class="reference internal" href="#numenemy" id="id64">NumEnemy</a></li>
-<li><a class="reference internal" href="#numexplod" id="id65">NumExplod</a></li>
-<li><a class="reference internal" href="#numhelper" id="id66">NumHelper</a></li>
-<li><a class="reference internal" href="#numpartner" id="id67">NumPartner</a></li>
-<li><a class="reference internal" href="#numproj" id="id68">NumProj</a></li>
-<li><a class="reference internal" href="#numprojid" id="id69">NumProjID</a></li>
-<li><a class="reference internal" href="#numtarget" id="id70">NumTarget</a></li>
-<li><a class="reference internal" href="#p1name" id="id71">P1Name(*,***)</a></li>
-<li><a class="reference internal" href="#p2bodydist" id="id72">P2BodyDist</a></li>
-<li><a class="reference internal" href="#p2dist" id="id73">P2Dist</a></li>
-<li><a class="reference internal" href="#p2life" id="id74">P2Life</a></li>
-<li><a class="reference internal" href="#p2movetype" id="id75">P2MoveType</a></li>
-<li><a class="reference internal" href="#p2name" id="id76">P2Name(*,***)</a></li>
-<li><a class="reference internal" href="#p2stateno" id="id77">P2StateNo</a></li>
-<li><a class="reference internal" href="#p2statetype" id="id78">P2StateType</a></li>
-<li><a class="reference internal" href="#p3name" id="id79">P3Name(*,***)</a></li>
-<li><a class="reference internal" href="#p4name" id="id80">P4Name(*,***)</a></li>
-<li><a class="reference internal" href="#palno" id="id81">PalNo</a></li>
-<li><a class="reference internal" href="#parentdist" id="id82">ParentDist</a></li>
-<li><a class="reference internal" href="#pi-math" id="id83">Pi (math)</a></li>
-<li><a class="reference internal" href="#pos" id="id84">Pos</a></li>
-<li><a class="reference internal" href="#power" id="id85">Power</a></li>
-<li><a class="reference internal" href="#powermax" id="id86">PowerMax</a></li>
-<li><a class="reference internal" href="#playeridexist" id="id87">PlayerIDExist</a></li>
-<li><a class="reference internal" href="#prevstateno" id="id88">PrevStateNo</a></li>
-<li><a class="reference internal" href="#projcanceltime" id="id89">ProjCancelTime</a></li>
-<li><a class="reference internal" href="#projcontact" id="id90">ProjContact(*,***)</a></li>
-<li><a class="reference internal" href="#projcontacttime" id="id91">ProjContactTime</a></li>
-<li><a class="reference internal" href="#projguarded" id="id92">ProjGuarded(*,***)</a></li>
-<li><a class="reference internal" href="#projguardedtime" id="id93">ProjGuardedTime</a></li>
-<li><a class="reference internal" href="#projhit" id="id94">ProjHit(*,***)</a></li>
-<li><a class="reference internal" href="#projhittime" id="id95">ProjHitTime</a></li>
-<li><a class="reference internal" href="#random" id="id96">Random</a></li>
-<li><a class="reference internal" href="#rootdist" id="id97">RootDist</a></li>
-<li><a class="reference internal" href="#roundno" id="id98">RoundNo</a></li>
-<li><a class="reference internal" href="#roundsexisted" id="id99">RoundsExisted</a></li>
-<li><a class="reference internal" href="#roundstate" id="id100">RoundState</a></li>
-<li><a class="reference internal" href="#screenpos" id="id101">ScreenPos</a></li>
-<li><a class="reference internal" href="#selfanimexist" id="id102">SelfAnimExist</a></li>
-<li><a class="reference internal" href="#sin-math" id="id103">Sin (math)</a></li>
-<li><a class="reference internal" href="#stateno" id="id104">StateNo</a></li>
-<li><a class="reference internal" href="#statetype" id="id105">StateType</a></li>
-<li><a class="reference internal" href="#stagevar" id="id106">StageVar(*,***)</a></li>
-<li><a class="reference internal" href="#sysfvar" id="id107">SysFVar</a></li>
-<li><a class="reference internal" href="#sysvar" id="id108">SysVar</a></li>
-<li><a class="reference internal" href="#tan-math" id="id109">Tan (math)</a></li>
-<li><a class="reference internal" href="#teammode" id="id110">TeamMode(*,***)</a></li>
-<li><a class="reference internal" href="#teamside" id="id111">TeamSide</a></li>
-<li><a class="reference internal" href="#tickspersecond" id="id112">TicksPerSecond</a></li>
-<li><a class="reference internal" href="#time" id="id113">Time</a></li>
-<li><a class="reference internal" href="#timemod" id="id114">TimeMod(*,**,***)</a></li>
-<li><a class="reference internal" href="#uniqhitcount" id="id115">UniqHitCount</a></li>
-<li><a class="reference internal" href="#var" id="id116">Var</a></li>
-<li><a class="reference internal" href="#vel" id="id117">Vel</a></li>
-<li><a class="reference internal" href="#win" id="id118">Win</a></li>
+<li><a class="reference internal" href="#backedge" id="id15">BackEdge</a></li>
+<li><a class="reference internal" href="#backedgebodydist" id="id16">BackEdgeBodyDist</a></li>
+<li><a class="reference internal" href="#backedgedist" id="id17">BackEdgeDist</a></li>
+<li><a class="reference internal" href="#bottomedge" id="id18">BottomEdge</a></li>
+<li><a class="reference internal" href="#camerapos" id="id19">CameraPos</a></li>
+<li><a class="reference internal" href="#camerazoom" id="id20">CameraZoom</a></li>
+<li><a class="reference internal" href="#canrecover" id="id21">CanRecover</a></li>
+<li><a class="reference internal" href="#ceil-math" id="id22">Ceil (math)</a></li>
+<li><a class="reference internal" href="#command" id="id23">Command (*,***)</a></li>
+<li><a class="reference internal" href="#cond-math" id="id24">Cond (math)</a></li>
+<li><a class="reference internal" href="#const" id="id25">Const (*)</a></li>
+<li><a class="reference internal" href="#const240p" id="id26">Const240p</a></li>
+<li><a class="reference internal" href="#const480p" id="id27">Const480p</a></li>
+<li><a class="reference internal" href="#const720p" id="id28">Const720p</a></li>
+<li><a class="reference internal" href="#cos-math" id="id29">Cos (math)</a></li>
+<li><a class="reference internal" href="#ctrl" id="id30">Ctrl</a></li>
+<li><a class="reference internal" href="#drawgame" id="id31">DrawGame</a></li>
+<li><a class="reference internal" href="#e-math" id="id32">E (math)</a></li>
+<li><a class="reference internal" href="#exp-math" id="id33">Exp (math)</a></li>
+<li><a class="reference internal" href="#facing" id="id34">Facing</a></li>
+<li><a class="reference internal" href="#floor-math" id="id35">Floor (math)</a></li>
+<li><a class="reference internal" href="#frontedge" id="id36">FrontEdge</a></li>
+<li><a class="reference internal" href="#frontedgebodydist" id="id37">FrontEdgeBodyDist</a></li>
+<li><a class="reference internal" href="#frontedgedist" id="id38">FrontEdgeDist</a></li>
+<li><a class="reference internal" href="#fvar" id="id39">FVar</a></li>
+<li><a class="reference internal" href="#gameheight" id="id40">GameHeight</a></li>
+<li><a class="reference internal" href="#gametime" id="id41">GameTime</a></li>
+<li><a class="reference internal" href="#gamewidth" id="id42">GameWidth</a></li>
+<li><a class="reference internal" href="#gethitvar" id="id43">GetHitVar(*)</a></li>
+<li><a class="reference internal" href="#hitcount" id="id44">HitCount</a></li>
+<li><a class="reference internal" href="#hitdefattr" id="id45">HitDefAttr(*,***)</a></li>
+<li><a class="reference internal" href="#hitfall" id="id46">HitFall</a></li>
+<li><a class="reference internal" href="#hitover" id="id47">HitOver</a></li>
+<li><a class="reference internal" href="#hitpausetime" id="id48">HitPauseTime</a></li>
+<li><a class="reference internal" href="#hitshakeover" id="id49">HitShakeOver</a></li>
+<li><a class="reference internal" href="#hitvel" id="id50">HitVel</a></li>
+<li><a class="reference internal" href="#id" id="id51">ID</a></li>
+<li><a class="reference internal" href="#ifelse-math" id="id52">IfElse (math)</a></li>
+<li><a class="reference internal" href="#inguarddist" id="id53">InGuardDist</a></li>
+<li><a class="reference internal" href="#ishelper" id="id54">IsHelper</a></li>
+<li><a class="reference internal" href="#ishometeam" id="id55">IsHomeTeam</a></li>
+<li><a class="reference internal" href="#leftedge" id="id56">LeftEdge</a></li>
+<li><a class="reference internal" href="#life" id="id57">Life</a></li>
+<li><a class="reference internal" href="#lifemax" id="id58">LifeMax</a></li>
+<li><a class="reference internal" href="#ln-math" id="id59">Ln (math)</a></li>
+<li><a class="reference internal" href="#log-math" id="id60">Log (math)</a></li>
+<li><a class="reference internal" href="#lose" id="id61">Lose</a></li>
+<li><a class="reference internal" href="#matchno" id="id62">MatchNo</a></li>
+<li><a class="reference internal" href="#matchover" id="id63">MatchOver</a></li>
+<li><a class="reference internal" href="#movecontact" id="id64">MoveContact</a></li>
+<li><a class="reference internal" href="#moveguarded" id="id65">MoveGuarded</a></li>
+<li><a class="reference internal" href="#movehit" id="id66">MoveHit</a></li>
+<li><a class="reference internal" href="#movetype" id="id67">MoveType(*,***)</a></li>
+<li><a class="reference internal" href="#movereversed" id="id68">MoveReversed</a></li>
+<li><a class="reference internal" href="#name" id="id69">Name(*,***)</a></li>
+<li><a class="reference internal" href="#numenemy" id="id70">NumEnemy</a></li>
+<li><a class="reference internal" href="#numexplod" id="id71">NumExplod</a></li>
+<li><a class="reference internal" href="#numhelper" id="id72">NumHelper</a></li>
+<li><a class="reference internal" href="#numpartner" id="id73">NumPartner</a></li>
+<li><a class="reference internal" href="#numproj" id="id74">NumProj</a></li>
+<li><a class="reference internal" href="#numprojid" id="id75">NumProjID</a></li>
+<li><a class="reference internal" href="#numtarget" id="id76">NumTarget</a></li>
+<li><a class="reference internal" href="#p1name" id="id77">P1Name(*,***)</a></li>
+<li><a class="reference internal" href="#p2bodydist" id="id78">P2BodyDist</a></li>
+<li><a class="reference internal" href="#p2dist" id="id79">P2Dist</a></li>
+<li><a class="reference internal" href="#p2life" id="id80">P2Life</a></li>
+<li><a class="reference internal" href="#p2movetype" id="id81">P2MoveType</a></li>
+<li><a class="reference internal" href="#p2name" id="id82">P2Name(*,***)</a></li>
+<li><a class="reference internal" href="#p2stateno" id="id83">P2StateNo</a></li>
+<li><a class="reference internal" href="#p2statetype" id="id84">P2StateType</a></li>
+<li><a class="reference internal" href="#p3name" id="id85">P3Name(*,***)</a></li>
+<li><a class="reference internal" href="#p4name" id="id86">P4Name(*,***)</a></li>
+<li><a class="reference internal" href="#palno" id="id87">PalNo</a></li>
+<li><a class="reference internal" href="#parentdist" id="id88">ParentDist</a></li>
+<li><a class="reference internal" href="#pi-math" id="id89">Pi (math)</a></li>
+<li><a class="reference internal" href="#pos" id="id90">Pos</a></li>
+<li><a class="reference internal" href="#power" id="id91">Power</a></li>
+<li><a class="reference internal" href="#powermax" id="id92">PowerMax</a></li>
+<li><a class="reference internal" href="#playeridexist" id="id93">PlayerIDExist</a></li>
+<li><a class="reference internal" href="#prevstateno" id="id94">PrevStateNo</a></li>
+<li><a class="reference internal" href="#projcanceltime" id="id95">ProjCancelTime</a></li>
+<li><a class="reference internal" href="#projcontact" id="id96">ProjContact(*,***)</a></li>
+<li><a class="reference internal" href="#projcontacttime" id="id97">ProjContactTime</a></li>
+<li><a class="reference internal" href="#projguarded" id="id98">ProjGuarded(*,***)</a></li>
+<li><a class="reference internal" href="#projguardedtime" id="id99">ProjGuardedTime</a></li>
+<li><a class="reference internal" href="#projhit" id="id100">ProjHit(*,***)</a></li>
+<li><a class="reference internal" href="#projhittime" id="id101">ProjHitTime</a></li>
+<li><a class="reference internal" href="#random" id="id102">Random</a></li>
+<li><a class="reference internal" href="#rightedge" id="id103">RightEdge</a></li>
+<li><a class="reference internal" href="#rootdist" id="id104">RootDist</a></li>
+<li><a class="reference internal" href="#roundno" id="id105">RoundNo</a></li>
+<li><a class="reference internal" href="#roundsexisted" id="id106">RoundsExisted</a></li>
+<li><a class="reference internal" href="#roundstate" id="id107">RoundState</a></li>
+<li><a class="reference internal" href="#screenpos" id="id108">ScreenPos</a></li>
+<li><a class="reference internal" href="#screenheight" id="id109">ScreenHeight</a></li>
+<li><a class="reference internal" href="#screenwidth" id="id110">ScreenWidth</a></li>
+<li><a class="reference internal" href="#selfanimexist" id="id111">SelfAnimExist</a></li>
+<li><a class="reference internal" href="#sin-math" id="id112">Sin (math)</a></li>
+<li><a class="reference internal" href="#stateno" id="id113">StateNo</a></li>
+<li><a class="reference internal" href="#statetype" id="id114">StateType</a></li>
+<li><a class="reference internal" href="#stagevar" id="id115">StageVar(*,***)</a></li>
+<li><a class="reference internal" href="#sysfvar" id="id116">SysFVar</a></li>
+<li><a class="reference internal" href="#sysvar" id="id117">SysVar</a></li>
+<li><a class="reference internal" href="#tan-math" id="id118">Tan (math)</a></li>
+<li><a class="reference internal" href="#teammode" id="id119">TeamMode(*,***)</a></li>
+<li><a class="reference internal" href="#teamside" id="id120">TeamSide</a></li>
+<li><a class="reference internal" href="#tickspersecond" id="id121">TicksPerSecond</a></li>
+<li><a class="reference internal" href="#time" id="id122">Time</a></li>
+<li><a class="reference internal" href="#timemod" id="id123">TimeMod(*,**,***)</a></li>
+<li><a class="reference internal" href="#topedge" id="id124">TopEdge</a></li>
+<li><a class="reference internal" href="#uniqhitcount" id="id125">UniqHitCount</a></li>
+<li><a class="reference internal" href="#var" id="id126">Var</a></li>
+<li><a class="reference internal" href="#vel" id="id127">Vel</a></li>
+<li><a class="reference internal" href="#win" id="id128">Win</a></li>
 </ul>
 </li>
 </ul>
@@ -678,8 +688,29 @@ trigger1 = Authorname = &quot;Suika&quot;
   Returns true if the character's author is named Suika.
 </pre>
 </div>
+<div class="section" id="backedge">
+<h2><a class="toc-backref" href="#id15">BackEdge</a></h2>
+<p>BackEdge returns the x position of the edge of the screen that is behind the player, in absolute stage coordinates.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>BackEdge</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>This trigger is equivalent to the expression &quot;ifelse(facing = 1, LeftEdge, RightEdge)&quot;.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+trigger1 = Pos X + CameraPos X &lt; BackEdge
+  Triggers if the player is to the left of the back edge of the screen.
+</pre>
+</div>
 <div class="section" id="backedgebodydist">
-<h2><a class="toc-backref" href="#id15">BackEdgeBodyDist</a></h2>
+<h2><a class="toc-backref" href="#id16">BackEdgeBodyDist</a></h2>
 <p>BackEdgeBodyDist gives the distance from the back of the player, as determined by the end of his width bar, to the back edge of the screen.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -699,7 +730,7 @@ trigger1 = BackEdgeBodyDist &lt; 30
 </pre>
 </div>
 <div class="section" id="backedgedist">
-<h2><a class="toc-backref" href="#id16">BackEdgeDist</a></h2>
+<h2><a class="toc-backref" href="#id17">BackEdgeDist</a></h2>
 <p>BackEdgeDist gives the distance between the x-axis of the player and the edge of the screen behind of the player.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -718,8 +749,81 @@ trigger1 = BackEdgeDist &lt; 30
   of the edge of the screen in back of him.
 </pre>
 </div>
+<div class="section" id="bottomedge">
+<h2><a class="toc-backref" href="#id18">BottomEdge</a></h2>
+<p>BottomEdge returns the y position of the bottom edge of the screen, in absolute stage coordinates.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>BottomEdge</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>This trigger is equivalent to the expression &quot;Pos Y - ScreenPos Y + GameHeight&quot;.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+trigger1 = Pos Y &lt; BottomEdge
+  Triggers if the player is above the bottom edge of the screen.
+</pre>
+</div>
+<div class="section" id="camerapos">
+<h2><a class="toc-backref" href="#id19">CameraPos</a></h2>
+<p>Gets the value of the camera's position relative to the stage.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>CameraPos [component]</dd>
+<dt>Arguments:</dt>
+<dd><dl class="first last docutils">
+<dt>[component]</dt>
+<dd>X, Y</dd>
+</dl>
+</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Details:</dt>
+<dd><p class="first">The home position of the camera is 0, 0.
+The value of &quot;CameraPos X&quot; increases as the camera moves to the right.
+The value of &quot;CameraPos Y&quot; decreases as the camera moves upwards.</p>
+<p class="last">The units of the position returned is in the coordspace of the player.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+trigger1 = CameraPos X &gt;= 0
+  True when the camera is to the left of the center of the stage.
+</pre>
+</div>
+<div class="section" id="camerazoom">
+<h2><a class="toc-backref" href="#id20">CameraZoom</a></h2>
+<p>Gets the value of the camera's zoom factor.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>CameraZoom</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Details:</dt>
+<dd>The zoom factor de</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+fvar(1) = CameraZoom * ScreenWidth
+  Sets fvar(1) to the distance between the left and right edges
+  of the screen.  The expression &quot;CameraZoom * ScreenWidth&quot; is
+  equivalent to the GameWidth trigger.
+</pre>
+</div>
 <div class="section" id="canrecover">
-<h2><a class="toc-backref" href="#id17">CanRecover</a></h2>
+<h2><a class="toc-backref" href="#id21">CanRecover</a></h2>
 <p>If the player is currently in a falling state, returns 1 if he is currently able to recover, and 0 if he is not currently able to recover. If the player is not currently falling, the output of this trigger is undefined.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -733,7 +837,7 @@ trigger1 = BackEdgeDist &lt; 30
 </dl>
 </div>
 <div class="section" id="ceil-math">
-<h2><a class="toc-backref" href="#id18">Ceil (math)</a></h2>
+<h2><a class="toc-backref" href="#id22">Ceil (math)</a></h2>
 <p>Implements the &quot;ceiling&quot; function. Returns the least integer which is greater than or equal to the specified argument.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -758,7 +862,7 @@ trigger1 = BackEdgeDist &lt; 30
 </pre>
 </div>
 <div class="section" id="command">
-<h2><a class="toc-backref" href="#id19">Command (*,***)</a></h2>
+<h2><a class="toc-backref" href="#id23">Command (*,***)</a></h2>
 <p>Triggers if the user has input the specified command.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -788,7 +892,7 @@ trigger1 = Command = &quot;fireball motion&quot;
 </pre>
 </div>
 <div class="section" id="cond-math">
-<h2><a class="toc-backref" href="#id20">Cond (math)</a></h2>
+<h2><a class="toc-backref" href="#id24">Cond (math)</a></h2>
 <p>This trigger takes three arguments. The first argument is a condition argument.
 If the condition is true (i.e., nonzero), Cond evaluates and returns the second
 argument. If the condition is false, Cond evaluates and returns the third
@@ -825,7 +929,7 @@ value = Cond(var(3),1,2)
 </pre>
 </div>
 <div class="section" id="const">
-<h2><a class="toc-backref" href="#id21">Const (*)</a></h2>
+<h2><a class="toc-backref" href="#id25">Const (*)</a></h2>
 <p>Returns the value of one of the player's constants.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1002,7 +1106,7 @@ trigger1 = Const(velocity.walk.fwd.x) &gt; 4
 </pre>
 </div>
 <div class="section" id="const240p">
-<h2><a class="toc-backref" href="#id22">Const240p</a></h2>
+<h2><a class="toc-backref" href="#id26">Const240p</a></h2>
 <p>Converts a value from the 240p coordinate space to the player's coordinate space.
 The conversion ratio between coordinate spaces is the ratio of their widths.</p>
 <dl class="docutils">
@@ -1032,7 +1136,7 @@ value = Const240p(3)
 </pre>
 </div>
 <div class="section" id="const480p">
-<h2><a class="toc-backref" href="#id23">Const480p</a></h2>
+<h2><a class="toc-backref" href="#id27">Const480p</a></h2>
 <p>Converts a value from the 480p coordinate space to the player's coordinate space.
 The conversion ratio between coordinate spaces is the ratio of their widths.</p>
 <dl class="docutils">
@@ -1062,7 +1166,7 @@ value = Const480p(6)
 </pre>
 </div>
 <div class="section" id="const720p">
-<h2><a class="toc-backref" href="#id24">Const720p</a></h2>
+<h2><a class="toc-backref" href="#id28">Const720p</a></h2>
 <p>Converts a value from the 720p coordinate space to the player's coordinate space.
 The conversion ratio between coordinate spaces is the ratio of their widths.</p>
 <dl class="docutils">
@@ -1092,7 +1196,7 @@ value = Const720p(12)
 </pre>
 </div>
 <div class="section" id="cos-math">
-<h2><a class="toc-backref" href="#id25">Cos (math)</a></h2>
+<h2><a class="toc-backref" href="#id29">Cos (math)</a></h2>
 <p>Computes the cosine of the specified argument (in radians.)</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1116,7 +1220,7 @@ value = cos(0)
 </pre>
 </div>
 <div class="section" id="ctrl">
-<h2><a class="toc-backref" href="#id26">Ctrl</a></h2>
+<h2><a class="toc-backref" href="#id30">Ctrl</a></h2>
 <p>Returns the control flag of p1.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1135,7 +1239,7 @@ trigger1 = Ctrl
 </pre>
 </div>
 <div class="section" id="drawgame">
-<h2><a class="toc-backref" href="#id27">DrawGame</a></h2>
+<h2><a class="toc-backref" href="#id31">DrawGame</a></h2>
 <p>Returns 1 if the player (or the player's team, in team mode) has ended the round in a draw, 0 otherwise.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1154,7 +1258,7 @@ trigger1 = DrawGame
 </pre>
 </div>
 <div class="section" id="e-math">
-<h2><a class="toc-backref" href="#id28">E (math)</a></h2>
+<h2><a class="toc-backref" href="#id32">E (math)</a></h2>
 <p>Returns the value of e (2.718281828...)</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1168,7 +1272,7 @@ trigger1 = DrawGame
 </dl>
 </div>
 <div class="section" id="exp-math">
-<h2><a class="toc-backref" href="#id29">Exp (math)</a></h2>
+<h2><a class="toc-backref" href="#id33">Exp (math)</a></h2>
 <p>Computes the exponential of the argument (e raised to the power of
 the argument.) This produces slightly more accurate results than the
 equivalent expression e**(argument).</p>
@@ -1193,7 +1297,7 @@ value = exp(4-var(0))
 </pre>
 </div>
 <div class="section" id="facing">
-<h2><a class="toc-backref" href="#id30">Facing</a></h2>
+<h2><a class="toc-backref" href="#id34">Facing</a></h2>
 <p>Returns 1 if the player is facing to the right, and -1 if the player is facing to the left.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1212,7 +1316,7 @@ Trigger = Facing = -1
 </pre>
 </div>
 <div class="section" id="floor-math">
-<h2><a class="toc-backref" href="#id31">Floor (math)</a></h2>
+<h2><a class="toc-backref" href="#id35">Floor (math)</a></h2>
 <p>Implements the floor function. Returns the greatest integer less than or equal to its argument.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1236,8 +1340,29 @@ Trigger = Facing = -1
   Sets value to -2.
 </pre>
 </div>
+<div class="section" id="frontedge">
+<h2><a class="toc-backref" href="#id36">FrontEdge</a></h2>
+<p>FrontEdge returns the x position of the edge of the screen that is in front the player, in absolute stage coordinates.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>FrontEdge</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>This trigger is equivalent to the expression &quot;ifelse(facing = 1, RightEdge, LeftEdge)&quot;.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+trigger1 = facing * (Pos X + CameraPos X) &lt; facing * (FrontEdge)
+  Triggers if the player is behind the front edge of the screen.
+</pre>
+</div>
 <div class="section" id="frontedgebodydist">
-<h2><a class="toc-backref" href="#id32">FrontEdgeBodyDist</a></h2>
+<h2><a class="toc-backref" href="#id37">FrontEdgeBodyDist</a></h2>
 <p>FrontEdgeBodyDist gives the distance between the front of the player (as determined by the front edge of his width bar) and the edge of the screen.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1257,7 +1382,7 @@ trigger1 = FrontEdgeBodyDist &lt; 30
 </pre>
 </div>
 <div class="section" id="frontedgedist">
-<h2><a class="toc-backref" href="#id33">FrontEdgeDist</a></h2>
+<h2><a class="toc-backref" href="#id38">FrontEdgeDist</a></h2>
 <p>FrontEdgeDist gives the distance between the x-axis of the player and the edge of the screen in front of the player.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1277,7 +1402,7 @@ trigger1 = FrontEdgeDist &lt; 30
 </pre>
 </div>
 <div class="section" id="fvar">
-<h2><a class="toc-backref" href="#id34">FVar</a></h2>
+<h2><a class="toc-backref" href="#id39">FVar</a></h2>
 <p>This trigger takes a mandatory variable number as an argument. It returns the value of the player's specified float variable.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1302,13 +1427,11 @@ trigger1 = FVar(5) = -1.23
 </pre>
 </div>
 <div class="section" id="gameheight">
-<h2><a class="toc-backref" href="#id35">GameHeight</a></h2>
-<p>Returns the height of the game space in the player's local coordinate space.
-The game space is defined as a spatial mapping to the visible area of the screen
-in which players interact.  Intuitively, it can be thought of as encompassing the
-graphical area of the game.
-The dimensions of the game space is specified by the GameWidth and GameHeight
-parameters in mugen.cfg.</p>
+<h2><a class="toc-backref" href="#id40">GameHeight</a></h2>
+<p>Returns the current height of the game space in the player's local coordinate space.
+The game space is defined as the currently-visible area of the stage in which players interact.
+The dimensions of the game space at a zoom factor of 1.0 is specified by the
+GameWidth and GameHeight parameters in mugen.cfg.</p>
 <dl class="docutils">
 <dt>Format:</dt>
 <dd>GameHeight</dd>
@@ -1318,6 +1441,13 @@ parameters in mugen.cfg.</p>
 <dd>float</dd>
 <dt>Error conditions:</dt>
 <dd>none</dd>
+<dt>Notes:</dt>
+<dd><p class="first">GameWidth and GameHeight scale inversely with the zoom factor of the camera.
+For example, if the camera zoom factor is 0.5, the values returned by GameWidth
+and GameHeight will be double that of at zoom factor 1.</p>
+<p class="last">ScreenWidth and ScreenHeight are the equivalent triggers that are not
+affected by the camera zoom factor.</p>
+</dd>
 </dl>
 <p>Example:</p>
 <pre class="literal-block">
@@ -1326,7 +1456,7 @@ trigger1 = ScreenPos Y &lt; GameHeight / 2
 </pre>
 </div>
 <div class="section" id="gametime">
-<h2><a class="toc-backref" href="#id36">GameTime</a></h2>
+<h2><a class="toc-backref" href="#id41">GameTime</a></h2>
 <p>Returns the total number of ticks that have elapsed in the game so far.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1345,13 +1475,11 @@ trigger1 = (GameTime % 27) = 0
 </pre>
 </div>
 <div class="section" id="gamewidth">
-<h2><a class="toc-backref" href="#id37">GameWidth</a></h2>
-<p>Returns the width of the game space in the player's local coordinate space.
-The game space is defined as a spatial mapping to the visible area of the screen
-in which players interact.  Intuitively, it can be thought of as encompassing the
-graphical area of the game.
-The dimensions of the game space is specified by the GameWidth and GameHeight
-parameters in mugen.cfg.</p>
+<h2><a class="toc-backref" href="#id42">GameWidth</a></h2>
+<p>Returns the current width of the game space in the player's local coordinate space.
+The game space is defined as the currently-visible area of the stage in which players interact.
+The dimensions of the game space at a zoom factor of 1.0 is specified by the
+GameWidth and GameHeight parameters in mugen.cfg.</p>
 <dl class="docutils">
 <dt>Format:</dt>
 <dd>GameHeight</dd>
@@ -1361,6 +1489,13 @@ parameters in mugen.cfg.</p>
 <dd>float</dd>
 <dt>Error conditions:</dt>
 <dd>none</dd>
+<dt>Notes:</dt>
+<dd><p class="first">GameWidth and GameHeight scale inversely with the zoom factor of the camera.
+For example, if the camera zoom factor is 0.5, the values returned by GameWidth
+and GameHeight will be double that of at zoom factor 1.</p>
+<p class="last">ScreenWidth and ScreenHeight are the equivalent triggers that are not
+affected by the camera zoom factor.</p>
+</dd>
 </dl>
 <p>Example:</p>
 <pre class="literal-block">
@@ -1369,7 +1504,7 @@ trigger1 = ScreenPos X &gt;= GameWidth / 2
 </pre>
 </div>
 <div class="section" id="gethitvar">
-<h2><a class="toc-backref" href="#id38">GetHitVar(*)</a></h2>
+<h2><a class="toc-backref" href="#id43">GetHitVar(*)</a></h2>
 <p>When the player is in a gethit state, returns the value of the specified hit parameter.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1459,7 +1594,7 @@ trigger1 = GetHitVar(yvel) &lt; -5.5
 </pre>
 </div>
 <div class="section" id="hitcount">
-<h2><a class="toc-backref" href="#id39">HitCount</a></h2>
+<h2><a class="toc-backref" href="#id44">HitCount</a></h2>
 <p>Returns the number times the player's current attack move has hit one or more opponents. This value is valid only for a single state; after any state change, it resets to 0. To prevent it from resetting to 0, set hitcountpersist in the StateDef (see cns documentation for details). The HitCount and UniqHitCount triggers differ only when the player is hitting more than one opponent. In the case where the player is hitting two opponents with the same attack, HitCount will increase by 1 for every hit, while UniqHitCount increases by 2.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1479,7 +1614,7 @@ trigger1 = HitCount &gt; 8
 </pre>
 </div>
 <div class="section" id="hitdefattr">
-<h2><a class="toc-backref" href="#id40">HitDefAttr(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id45">HitDefAttr(*,***)</a></h2>
 <p>Checks the attribute parameter of the player's currently-active HitDef.
 If the player is not currently attacking, then no parameters will match.
 Can be used for simple move-interrupts from weaker to stronger attacks in the CMD file.</p>
@@ -1537,7 +1672,7 @@ trigger1 = HitDefAttr = SC, NA, SA
 </pre>
 </div>
 <div class="section" id="hitfall">
-<h2><a class="toc-backref" href="#id41">HitFall</a></h2>
+<h2><a class="toc-backref" href="#id46">HitFall</a></h2>
 <p>If the player is currently in a gethit state, returns the fall flag of the hit. The output of this trigger is undefined if the player is not in a gethit state. For an explanation of the fall flag, see the HitDef documentation.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1556,7 +1691,7 @@ trigger1 = !HitFall
 </pre>
 </div>
 <div class="section" id="hitover">
-<h2><a class="toc-backref" href="#id42">HitOver</a></h2>
+<h2><a class="toc-backref" href="#id47">HitOver</a></h2>
 <p>If the player is in a gethit state, returns 1 when the hittime has expired, and 0 otherwise. For an explanation of hittime, see the HitDef documentation.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1575,7 +1710,7 @@ trigger1 = HitOver = 1
 </pre>
 </div>
 <div class="section" id="hitpausetime">
-<h2><a class="toc-backref" href="#id43">HitPauseTime</a></h2>
+<h2><a class="toc-backref" href="#id48">HitPauseTime</a></h2>
 <p>Returns the time until the player's hitpause expires. The player enters a hitpause when his attack comes in contact with an opponent. The initial hitpause time is equal to the first value of the pausetime parameter in the player's HitDef. If ignorehitpause is not set, this will always return 0.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1594,7 +1729,7 @@ trigger1 = HitPauseTime = 0
 </pre>
 </div>
 <div class="section" id="hitshakeover">
-<h2><a class="toc-backref" href="#id44">HitShakeOver</a></h2>
+<h2><a class="toc-backref" href="#id49">HitShakeOver</a></h2>
 <p>If the player is in a gethit state, returns 1 if the hit shake (the period when he is shaking in place) has ended, and 0 otherwise.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1613,7 +1748,7 @@ trigger1 = HitShakeOver = 0
 </pre>
 </div>
 <div class="section" id="hitvel">
-<h2><a class="toc-backref" href="#id45">HitVel</a></h2>
+<h2><a class="toc-backref" href="#id50">HitVel</a></h2>
 <p>Gets the value of the velocity imparted to the player by a hit.
 You must specify the component that you want to check, eg.
 &quot;HitVel Y&quot; to check the vertical velocity component.</p>
@@ -1644,7 +1779,7 @@ trigger1 = HitVel X &gt; 0.5
 </pre>
 </div>
 <div class="section" id="id">
-<h2><a class="toc-backref" href="#id46">ID</a></h2>
+<h2><a class="toc-backref" href="#id51">ID</a></h2>
 <p>Returns the ID number of the player. The ID number is unique for every player throughout the course of a match. Any helper that is created during this time will also receive its own unique ID number. This trigger may be useful for getting opponents' ID numbers, to be later used with the &quot;playerID&quot; redirection keyword (see exp docs). Do not confuse playerID with targetID.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1665,7 +1800,7 @@ value = EnemyNear, ID
 </pre>
 </div>
 <div class="section" id="ifelse-math">
-<h2><a class="toc-backref" href="#id47">IfElse (math)</a></h2>
+<h2><a class="toc-backref" href="#id52">IfElse (math)</a></h2>
 <p>This trigger takes three arguments. If the first is nonzero, IfElse returns the
 value of the second argument. Else, it returns the value of the third argument.
 All arguments are evaluated prior to execution of IfElse. In particular, any
@@ -1698,7 +1833,7 @@ value = ifelse(var(3),1,2)
 </pre>
 </div>
 <div class="section" id="inguarddist">
-<h2><a class="toc-backref" href="#id48">InGuardDist</a></h2>
+<h2><a class="toc-backref" href="#id53">InGuardDist</a></h2>
 <p>Returns 1 if the player is within guarding distance of an opponent's physical or projectile attack. The guarding distance is the value of the guard.dist parameter of the opponent's HitDef. Returns 0 if out of guard distance, or the opponent is not attacking.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1714,7 +1849,7 @@ value = ifelse(var(3),1,2)
 </dl>
 </div>
 <div class="section" id="ishelper">
-<h2><a class="toc-backref" href="#id49">IsHelper</a></h2>
+<h2><a class="toc-backref" href="#id54">IsHelper</a></h2>
 <p>This trigger takes an optional ID number as an argument. If the ID number is omitted, IsHelper returns 1 if the player is a helper character, and 0 otherwise. If the ID number is included, then IsHelper returns 1 if the player is a helper character with the specified ID number, and 0 otherwise.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1739,7 +1874,7 @@ value = ifelse(var(3),1,2)
 </pre>
 </div>
 <div class="section" id="ishometeam">
-<h2><a class="toc-backref" href="#id50">IsHomeTeam</a></h2>
+<h2><a class="toc-backref" href="#id55">IsHomeTeam</a></h2>
 <p>Returns 1 if the player's team is considered the &quot;home team&quot;. In arcade modes, the computer is always considered the home team. In versus modes, P1's side (left) is the home team.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1754,8 +1889,29 @@ value = ifelse(var(3),1,2)
 <dd>none</dd>
 </dl>
 </div>
+<div class="section" id="leftedge">
+<h2><a class="toc-backref" href="#id56">LeftEdge</a></h2>
+<p>LeftEdge returns the x position of the left edge of the screen, in absolute stage coordinates.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>LeftEdge</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>This trigger is equivalent to the expression &quot;CameraPos X - GameWidth / 2&quot;.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+trigger1 = Pos X + CameraPos X &lt; LeftEdge
+  Triggers if the player is to the left of the left edge of the screen.
+</pre>
+</div>
 <div class="section" id="life">
-<h2><a class="toc-backref" href="#id51">Life</a></h2>
+<h2><a class="toc-backref" href="#id57">Life</a></h2>
 <p>Returns the player's life.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1774,7 +1930,7 @@ trigger1 = life &lt;= 10
 </pre>
 </div>
 <div class="section" id="lifemax">
-<h2><a class="toc-backref" href="#id52">LifeMax</a></h2>
+<h2><a class="toc-backref" href="#id58">LifeMax</a></h2>
 <p>Returns the maximum amount of life the player can have. This is normally the value of the &quot;life&quot; parameter in the [Data] group of the player variables, but may be different in situations such as team modes.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1793,7 +1949,7 @@ trigger1 = life &lt; lifemax / 4
 </pre>
 </div>
 <div class="section" id="ln-math">
-<h2><a class="toc-backref" href="#id53">Ln (math)</a></h2>
+<h2><a class="toc-backref" href="#id59">Ln (math)</a></h2>
 <p>Returns the natural logarithm of its argument. This produces slightly more accurate results than the otherwise equivalent expression log(e,(argument)).</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1817,7 +1973,7 @@ value = ln(time)
 </pre>
 </div>
 <div class="section" id="log-math">
-<h2><a class="toc-backref" href="#id54">Log (math)</a></h2>
+<h2><a class="toc-backref" href="#id60">Log (math)</a></h2>
 <p>Takes two arguments a and b, and returns the base-a logarithm of b.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1844,7 +2000,7 @@ value=log(2,64)
 </pre>
 </div>
 <div class="section" id="lose">
-<h2><a class="toc-backref" href="#id55">Lose</a></h2>
+<h2><a class="toc-backref" href="#id61">Lose</a></h2>
 <p>Returns 1 if the player (or the player's team, in team mode) has lost the round, 0 otherwise. Can be suffixed with &quot;KO&quot; or &quot;Time&quot; to return 1 only when the round has been lost by a KO or by time expiring, respectively.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1874,7 +2030,7 @@ value=log(2,64)
 </pre>
 </div>
 <div class="section" id="matchno">
-<h2><a class="toc-backref" href="#id56">MatchNo</a></h2>
+<h2><a class="toc-backref" href="#id62">MatchNo</a></h2>
 <p>Returns the current match number.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1890,7 +2046,7 @@ value=log(2,64)
 </dl>
 </div>
 <div class="section" id="matchover">
-<h2><a class="toc-backref" href="#id57">MatchOver</a></h2>
+<h2><a class="toc-backref" href="#id63">MatchOver</a></h2>
 <p>Returns 1 if the match has ended. (For example, in the case of a best-of-three match, this will return true when one of the players or teams has won two rounds.)</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -1915,7 +2071,7 @@ trigger1 = !matchover
 </pre>
 </div>
 <div class="section" id="movecontact">
-<h2><a class="toc-backref" href="#id58">MoveContact</a></h2>
+<h2><a class="toc-backref" href="#id64">MoveContact</a></h2>
 <p>This trigger is valid only when the player is in an attack state.
 MoveContact gives a non-zero value if P2 has either been hit, or has guarded P1's attack. It gives 0 otherwise. P1 is the player, and P2 is his opponent.
 Typically used with the &quot;StateNo&quot; and &quot;Command&quot; triggers for detecting move-interrupts in the CMD file.</p>
@@ -1944,7 +2100,7 @@ trigger1 = MoveContact = 1
 </pre>
 </div>
 <div class="section" id="moveguarded">
-<h2><a class="toc-backref" href="#id59">MoveGuarded</a></h2>
+<h2><a class="toc-backref" href="#id65">MoveGuarded</a></h2>
 <p>This trigger is valid only when the player is in an attack state.
 MoveGuarded gives a non-zero value if P2 is guarding, or has guarded, P1's attack. It gives 0 otherwise. P1 is the player, and P2 is his opponent.
 Typically used with the &quot;StateNo&quot; and &quot;Command&quot; triggers for detecting move-interrupts in the CMD file.</p>
@@ -1967,7 +2123,7 @@ trigger1 = MoveGuarded
 </pre>
 </div>
 <div class="section" id="movehit">
-<h2><a class="toc-backref" href="#id60">MoveHit</a></h2>
+<h2><a class="toc-backref" href="#id66">MoveHit</a></h2>
 <p>This trigger is valid only when the player is in an attack state.
 MoveHit gives a non-zero value if P2 has been hit by P1's attack. It gives 0 otherwise.
 Typically used with the &quot;StateNo&quot; and &quot;Command&quot; triggers for detecting move-interrupts in the CMD file.</p>
@@ -1990,7 +2146,7 @@ trigger1 = MoveHit
 </pre>
 </div>
 <div class="section" id="movetype">
-<h2><a class="toc-backref" href="#id61">MoveType(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id67">MoveType(*,***)</a></h2>
 <p>MoveType gives the player's move-type. Refer to the section
 on StateDef in the CNS documentation for more details on MoveType.
 Useful for &quot;move interrupts&quot; in the CMD file.</p>
@@ -2021,7 +2177,7 @@ trigger1 = movetype != H
 </pre>
 </div>
 <div class="section" id="movereversed">
-<h2><a class="toc-backref" href="#id62">MoveReversed</a></h2>
+<h2><a class="toc-backref" href="#id68">MoveReversed</a></h2>
 <p>This trigger is valid only when the player is in an attack state.
 MoveReversed gives a non-zero value if P1's attack has been reversed by P2. It gives 0 otherwise.</p>
 <dl class="docutils">
@@ -2043,7 +2199,7 @@ trigger1 = MoveReversed
 </pre>
 </div>
 <div class="section" id="name">
-<h2><a class="toc-backref" href="#id63">Name(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id69">Name(*,***)</a></h2>
 <p>Returns the player's name (the internal name specified in the .DEF file, which may not be the same as the displayed name).</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2068,7 +2224,7 @@ trigger1 = Name = &quot;Kumquat&quot;
 </pre>
 </div>
 <div class="section" id="numenemy">
-<h2><a class="toc-backref" href="#id64">NumEnemy</a></h2>
+<h2><a class="toc-backref" href="#id70">NumEnemy</a></h2>
 <p>NumEnemy returns the number of opponents that exist. Neutral players and normal helpers are not considered opponents.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2089,7 +2245,7 @@ trigger1 = enemynear(1), name = &quot;Squash&quot;
 </pre>
 </div>
 <div class="section" id="numexplod">
-<h2><a class="toc-backref" href="#id65">NumExplod</a></h2>
+<h2><a class="toc-backref" href="#id71">NumExplod</a></h2>
 <p>This trigger takes an ID number as an optional argument. If the ID number is omitted, NumExplod returns the number of explods owned by the player. If the ID number is included, then NumExplod returns the number of explods with that ID number that are owned by the player. The ID number must be greater than -1. An ID number of -1 or less will give the same behavior as if the ID number is omitted.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2119,7 +2275,7 @@ trigger1 = enemynear(1), name = &quot;Squash&quot;
 </pre>
 </div>
 <div class="section" id="numhelper">
-<h2><a class="toc-backref" href="#id66">NumHelper</a></h2>
+<h2><a class="toc-backref" href="#id72">NumHelper</a></h2>
 <p>This trigger takes an ID number as an optional argument. If the ID number is omitted, then NumHelper returns the total number of helpers currently owned by the player. If the ID number is included, then NumHelper returns the total number of helpers with that ID number owned by the player. The ID number must be greater than 0. If the ID
 number is 0 or less, then all helpers are counted.</p>
 <dl class="docutils">
@@ -2149,7 +2305,7 @@ number is 0 or less, then all helpers are counted.</p>
 </pre>
 </div>
 <div class="section" id="numpartner">
-<h2><a class="toc-backref" href="#id67">NumPartner</a></h2>
+<h2><a class="toc-backref" href="#id73">NumPartner</a></h2>
 <p>NumPartner returns the number of partners that exist. Neutral players and normal helpers are not considered partners.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2169,7 +2325,7 @@ trigger1 = partner, life &lt; 200
 </pre>
 </div>
 <div class="section" id="numproj">
-<h2><a class="toc-backref" href="#id68">NumProj</a></h2>
+<h2><a class="toc-backref" href="#id74">NumProj</a></h2>
 <p>Returns the total number of projectiles currently owned by the player.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2188,7 +2344,7 @@ trigger1 = NumProj = 0
 </pre>
 </div>
 <div class="section" id="numprojid">
-<h2><a class="toc-backref" href="#id69">NumProjID</a></h2>
+<h2><a class="toc-backref" href="#id75">NumProjID</a></h2>
 <p>This trigger takes an ID number as a required argument. It returns the number of projectiles currently owned by the player and having the specified ID number.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2213,7 +2369,7 @@ trigger1 = NumProjID(1234) = 1
 </pre>
 </div>
 <div class="section" id="numtarget">
-<h2><a class="toc-backref" href="#id70">NumTarget</a></h2>
+<h2><a class="toc-backref" href="#id76">NumTarget</a></h2>
 <p>This trigger takes an ID number as an optional argument. If the ID number is omitted, NumTarget returns the current number of targets for the player. If the ID number is included, then NumTarget returns the number of targets for the player which have that target ID number. The ID number must be greater than -1. An ID number of -1 or less will give the same behavior as if the ID number is omitted.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2243,11 +2399,11 @@ trigger1 = NumProjID(1234) = 1
 </pre>
 </div>
 <div class="section" id="p1name">
-<h2><a class="toc-backref" href="#id71">P1Name(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id77">P1Name(*,***)</a></h2>
 <p>This is an alias for the Name trigger. See &quot;Name&quot;.</p>
 </div>
 <div class="section" id="p2bodydist">
-<h2><a class="toc-backref" href="#id72">P2BodyDist</a></h2>
+<h2><a class="toc-backref" href="#id78">P2BodyDist</a></h2>
 <p>Returns the distance of P2 from P1, where P1 is the player, and P2 is his opponent. P2BodyDist is useful in the CMD for cases where P1 has an attack that is different when performed close to P2.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2283,7 +2439,7 @@ trigger1 = P2BodyDist X &lt; 30
 </pre>
 </div>
 <div class="section" id="p2dist">
-<h2><a class="toc-backref" href="#id73">P2Dist</a></h2>
+<h2><a class="toc-backref" href="#id79">P2Dist</a></h2>
 <p>Returns the distance of P2 from P1, where P1 is the player, and P2 is his opponent.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2315,21 +2471,21 @@ trigger1 = P2Dist Y &lt;= -12
 </pre>
 </div>
 <div class="section" id="p2life">
-<h2><a class="toc-backref" href="#id74">P2Life</a></h2>
+<h2><a class="toc-backref" href="#id80">P2Life</a></h2>
 <p>Same as Life, except that this returns the opponent's life.</p>
 </div>
 <div class="section" id="p2movetype">
-<h2><a class="toc-backref" href="#id75">P2MoveType</a></h2>
+<h2><a class="toc-backref" href="#id81">P2MoveType</a></h2>
 <p>Same as MoveType, except that this returns the opponent's movetype.</p>
 </div>
 <div class="section" id="p2name">
-<h2><a class="toc-backref" href="#id76">P2Name(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id82">P2Name(*,***)</a></h2>
 <p>Same as P1Name, except that this returns the name of the primary opponent (the opponent in versus mode, or the first opponent in team mode).</p>
 <p>If there is no primary opponent, then p2name = &quot;name&quot; returns 0 no
 matter what name is specified. Similarly, p2name != &quot;name&quot; will return 1 no matter what name is specified.</p>
 </div>
 <div class="section" id="p2stateno">
-<h2><a class="toc-backref" href="#id77">P2StateNo</a></h2>
+<h2><a class="toc-backref" href="#id83">P2StateNo</a></h2>
 <p>Same as StateNo, except that this returns the opponent's state number.</p>
 <dl class="docutils">
 <dt>Error conditions:</dt>
@@ -2338,7 +2494,7 @@ has been won.)</dd>
 </dl>
 </div>
 <div class="section" id="p2statetype">
-<h2><a class="toc-backref" href="#id78">P2StateType</a></h2>
+<h2><a class="toc-backref" href="#id84">P2StateType</a></h2>
 <p>Same as StateType, except that this returns the opponent's state type.</p>
 <dl class="docutils">
 <dt>Error conditions:</dt>
@@ -2347,17 +2503,17 @@ has been won.)</dd>
 </dl>
 </div>
 <div class="section" id="p3name">
-<h2><a class="toc-backref" href="#id79">P3Name(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id85">P3Name(*,***)</a></h2>
 <p>Same as P1Name, except that this returns the name of the player's teammate, if present.</p>
 <p>If there is no teammate, then p3name = &quot;name&quot; returns 0 no matter what name is specified. Similarly, p3name != &quot;name&quot; will return 1 no matter what name is specified.</p>
 </div>
 <div class="section" id="p4name">
-<h2><a class="toc-backref" href="#id80">P4Name(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id86">P4Name(*,***)</a></h2>
 <p>Same as P1Name, except that this returns the name of the secondary opponent, if present.</p>
 <p>If there is no secondary opponent, then p4name = &quot;name&quot; returns 0 no matter what name is specified. Similarly, p4name != &quot;name&quot; will return 1 no matter what name is specified.</p>
 </div>
 <div class="section" id="palno">
-<h2><a class="toc-backref" href="#id81">PalNo</a></h2>
+<h2><a class="toc-backref" href="#id87">PalNo</a></h2>
 <p>Returns the palette number of the player (i.e., the color scheme chosen for the character during character select.)</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2384,7 +2540,7 @@ trigger1 = PalNo = 5
 </pre>
 </div>
 <div class="section" id="parentdist">
-<h2><a class="toc-backref" href="#id82">ParentDist</a></h2>
+<h2><a class="toc-backref" href="#id88">ParentDist</a></h2>
 <p>This trigger is only valid for helper-type characters.
 ParentDist returns the distance from the helper to its parent. It works similarly to P2Dist.</p>
 <dl class="docutils">
@@ -2417,7 +2573,7 @@ trigger1 = ParentDist X != 0
 </pre>
 </div>
 <div class="section" id="pi-math">
-<h2><a class="toc-backref" href="#id83">Pi (math)</a></h2>
+<h2><a class="toc-backref" href="#id89">Pi (math)</a></h2>
 <p>This trigger returns the numeric value of pi (3.141593...)</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2431,7 +2587,7 @@ trigger1 = ParentDist X != 0
 </dl>
 </div>
 <div class="section" id="pos">
-<h2><a class="toc-backref" href="#id84">Pos</a></h2>
+<h2><a class="toc-backref" href="#id90">Pos</a></h2>
 <p>Gets the value of the player's position. You must specify the component that you want to check, eg. &quot;Pos Y&quot; to check the Y-position.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2449,6 +2605,10 @@ trigger1 = ParentDist X != 0
 <dt>Details:</dt>
 <dd><p class="first">For &quot;Pos X&quot;, the value is relative to the center of the
 screen (value 0). Negative is left, positive is right.</p>
+<p>Due to historical reasons, &quot;Pos X&quot; does not return absolute
+position of the player (i.e. relative to the center of the stage),
+which may be the more intuitive behavior.
+To get the absolute position of the player, use &quot;Pos X + CameraPos X&quot;.</p>
 <p class="last">For &quot;Pos Y&quot;, the value is relative to the floor. Negative
 is higher up, positive is below the floor.</p>
 </dd>
@@ -2460,7 +2620,7 @@ trigger1 = Pos Y &gt;= 0
 </pre>
 </div>
 <div class="section" id="power">
-<h2><a class="toc-backref" href="#id85">Power</a></h2>
+<h2><a class="toc-backref" href="#id91">Power</a></h2>
 <p>Returns the amount of power the player has.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2479,7 +2639,7 @@ trigger1 = power &gt;= 1000
 </pre>
 </div>
 <div class="section" id="powermax">
-<h2><a class="toc-backref" href="#id86">PowerMax</a></h2>
+<h2><a class="toc-backref" href="#id92">PowerMax</a></h2>
 <p>Returns the maximum amount of power the player can have. This is normally 3000 (level 3).</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2498,7 +2658,7 @@ trigger1 = power &lt; powermax / 2
 </pre>
 </div>
 <div class="section" id="playeridexist">
-<h2><a class="toc-backref" href="#id87">PlayerIDExist</a></h2>
+<h2><a class="toc-backref" href="#id93">PlayerIDExist</a></h2>
 <p>Returns 1 if a player with the specified ID number exists, 0 otherwise. This ID number is obtained using the &quot;ID&quot; trigger (see ID). Do not confuse PlayerID with TargetID.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2522,7 +2682,7 @@ trigger1 = PlayerIDExist(var(4))
 </pre>
 </div>
 <div class="section" id="prevstateno">
-<h2><a class="toc-backref" href="#id88">PrevStateNo</a></h2>
+<h2><a class="toc-backref" href="#id94">PrevStateNo</a></h2>
 <p>Returns the number of the state that the player was last in. The results of this trigger are not guaranteed to be accurate.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2542,7 +2702,7 @@ trigger1 = PrevStateNo = [200,650]
 </pre>
 </div>
 <div class="section" id="projcanceltime">
-<h2><a class="toc-backref" href="#id89">ProjCancelTime</a></h2>
+<h2><a class="toc-backref" href="#id95">ProjCancelTime</a></h2>
 <p>This trigger takes an required nonnegative ID number as an argument.  If the player's last projectile to make any kind of contact was cancelled by an opponent's projectile and had the specified ID number, then ProjCancelTime returns the number of ticks since that contact occurred. If the specified ID number is 0, then the projectile ID is not checked. If no projectile meets all the above conditions, then ProjCancelTime returns -1.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2570,7 +2730,7 @@ specified, then the ID defaults to zero.</dd>
 </pre>
 </div>
 <div class="section" id="projcontact">
-<h2><a class="toc-backref" href="#id90">ProjContact(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id96">ProjContact(*,***)</a></h2>
 <p>This trigger takes an optional ID number as a suffix. If the ID number is omitted, ProjContact returns true if any of the player's projectiles either successfully hit the opponent or were guarded by the opponent. When the ID number is specified, ProjContact returns true only if any of the player's projectiles with the specified ID number either successfully hit the opponent or was guarded.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2618,7 +2778,7 @@ number is omitted (check all projectiles).</p>
 </pre>
 </div>
 <div class="section" id="projcontacttime">
-<h2><a class="toc-backref" href="#id91">ProjContactTime</a></h2>
+<h2><a class="toc-backref" href="#id97">ProjContactTime</a></h2>
 <p>This trigger takes an required nonnegative ID number as an argument.  If the player's last projectile to make any kind of contact, made contact with the opponent and had the specified ID number, then ProjContactTime returns the number of ticks since that contact occurred. If the specified ID number is 0, then the projectile ID is not checked. If no projectile meets all the above conditions, then ProjContactTime returns -1.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2646,7 +2806,7 @@ specified, then the ID defaults to zero.</dd>
 </pre>
 </div>
 <div class="section" id="projguarded">
-<h2><a class="toc-backref" href="#id92">ProjGuarded(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id98">ProjGuarded(*,***)</a></h2>
 <p>This trigger takes an optional ID number as a suffix. If the ID number is omitted, ProjGuarded returns true if any of the player's projectiles were guarded by the opponent. When the ID number is specified, ProjGuarded returns true only if one of the player's projectiles with the specified ID number was guarded by the opponent.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2693,7 +2853,7 @@ number is omitted (check all projectiles).</p>
 </pre>
 </div>
 <div class="section" id="projguardedtime">
-<h2><a class="toc-backref" href="#id93">ProjGuardedTime</a></h2>
+<h2><a class="toc-backref" href="#id99">ProjGuardedTime</a></h2>
 <p>This trigger takes an required nonnegative ID number as an argument.  If the player's last projectile to make any kind of contact was guarded by the opponent and had the specified ID number, then ProjGuardedTime returns the number of ticks since that contact occurred. If the specified ID number is 0, then the projectile ID is not checked. If no projectile meets all the above conditions, then ProjGuardedTime returns -1.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2721,7 +2881,7 @@ specified, then the ID defaults to zero.</dd>
 </pre>
 </div>
 <div class="section" id="projhit">
-<h2><a class="toc-backref" href="#id94">ProjHit(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id100">ProjHit(*,***)</a></h2>
 <p>This trigger takes an optional positive ID number as a suffix. If the ID number is omitted, ProjHit returns true if any of the player's projectiles successfully hit the opponent. When the ID number is specified, ProjHit returns true only if one of the player's projectiles with the specified ID number successfully hit the opponent.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2769,7 +2929,7 @@ number is omitted (check all projectiles).</p>
 </pre>
 </div>
 <div class="section" id="projhittime">
-<h2><a class="toc-backref" href="#id95">ProjHitTime</a></h2>
+<h2><a class="toc-backref" href="#id101">ProjHitTime</a></h2>
 <p>This trigger takes an required nonnegative ID number as an argument.  If the player's last projectile to make any kind of contact successfully hit the opponent and had the specified ID number, then ProjHit returns the number of ticks since that contact occurred. If the specified ID number is 0, then the projectile ID is not checked.
 If no projectile meets all the above conditions, then ProjHitTime returns -1.</p>
 <dl class="docutils">
@@ -2798,7 +2958,7 @@ specified, then the ID defaults to zero.</dd>
 </pre>
 </div>
 <div class="section" id="random">
-<h2><a class="toc-backref" href="#id96">Random</a></h2>
+<h2><a class="toc-backref" href="#id102">Random</a></h2>
 <p>Returns a random number between 0 and 999, inclusive.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2817,8 +2977,29 @@ trigger1 = Random &lt;= 249
   249. (This occurs with 25% probability.)
 </pre>
 </div>
+<div class="section" id="rightedge">
+<h2><a class="toc-backref" href="#id103">RightEdge</a></h2>
+<p>RightEdge returns the x position of the right edge of the screen, in absolute stage coordinates.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>LeftEdge</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>This trigger is equivalent to the expression &quot;CameraPos X + GameWidth / 2&quot;.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+trigger1 = Pos X + CameraPos X &gt; RightEdge
+  Triggers if the player is to the right of the right edge of the screen.
+</pre>
+</div>
 <div class="section" id="rootdist">
-<h2><a class="toc-backref" href="#id97">RootDist</a></h2>
+<h2><a class="toc-backref" href="#id104">RootDist</a></h2>
 <p>This trigger is only valid for helper-type characters.
 RootDist returns the distance from the helper to its root. The root is the main player character who owns the helper: for instance, if you select Kumquat to play with, and Kumquat spawns a helper named Kiwi, who in turn spawns a helper named Penguin, then Penguin's root is Kumquat, and Penguin is a descendant of Kumquat. RootDist works similarly to P2Dist.</p>
 <dl class="docutils">
@@ -2851,7 +3032,7 @@ trigger1 = RootDist X != 0
 </pre>
 </div>
 <div class="section" id="roundno">
-<h2><a class="toc-backref" href="#id98">RoundNo</a></h2>
+<h2><a class="toc-backref" href="#id105">RoundNo</a></h2>
 <p>Returns the current round number.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2870,7 +3051,7 @@ trigger1 = RoundNo = 3
 </pre>
 </div>
 <div class="section" id="roundsexisted">
-<h2><a class="toc-backref" href="#id99">RoundsExisted</a></h2>
+<h2><a class="toc-backref" href="#id106">RoundsExisted</a></h2>
 <p>Returns the number of rounds the player has existed for. On the first round, returns 0. This is useful for a Turns mode intro.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2894,7 +3075,7 @@ trigger1 = RoundNo &gt; 0
 </pre>
 </div>
 <div class="section" id="roundstate">
-<h2><a class="toc-backref" href="#id100">RoundState</a></h2>
+<h2><a class="toc-backref" href="#id107">RoundState</a></h2>
 <p>Returns the current round state number.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2921,11 +3102,11 @@ trigger1 = RoundState = 2
 </pre>
 </div>
 <div class="section" id="screenpos">
-<h2><a class="toc-backref" href="#id101">ScreenPos</a></h2>
-<p>Gets the value of the player's absolute (screen-relative) position. You must specify the component that you want to check, eg. &quot;Pos Y&quot; to check the Y-position.</p>
+<h2><a class="toc-backref" href="#id108">ScreenPos</a></h2>
+<p>Gets the value of the player's position relative to the top-right corner of the screen.</p>
 <dl class="docutils">
 <dt>Format:</dt>
-<dd>Pos [component]</dd>
+<dd>ScreenPos [component]</dd>
 <dt>Arguments:</dt>
 <dd><dl class="first last docutils">
 <dt>[component]</dt>
@@ -2949,12 +3130,61 @@ trigger1 = ScreenPos Y &gt;= 0 &amp;&amp; ScreenPos Y &lt; GameHeight
   True when the player's is in the screen's vertical extent.
 </pre>
 </div>
+<div class="section" id="screenheight">
+<h2><a class="toc-backref" href="#id109">ScreenHeight</a></h2>
+<p>Returns the height of the screen space in the player's local coordinate space.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>ScreenHeight</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>ScreenWidth and ScreenHeight are not affected by the camera zoom factor.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+type = Explod
+space = screen
+pos = 0, ScreenHeight
+...
+  Creates an explod in screen-space in the lower-right corner
+  of the screen.
+</pre>
+</div>
+<div class="section" id="screenwidth">
+<h2><a class="toc-backref" href="#id110">ScreenWidth</a></h2>
+<p>Returns the width of the screen space in the player's local coordinate space.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>ScreenWidth</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>ScreenWidth and ScreenHeight are not affected by the camera zoom factor.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+type = Explod
+space = screen
+pos = ScreenWidth / 2, ScreenHeight / 2
+...
+  Creates an explod in screen-space in the center of the screen.
+</pre>
+</div>
 <div class="section" id="selfanimexist">
-<h2><a class="toc-backref" href="#id102">SelfAnimExist</a></h2>
+<h2><a class="toc-backref" href="#id111">SelfAnimExist</a></h2>
 <p>Like AnimExist, except that this only checks P1's animation data. If P1 has been given P2's animation data by a hit, SelfAnimExist will not check P2's animation data to determine whether or not a given action exists.</p>
 </div>
 <div class="section" id="sin-math">
-<h2><a class="toc-backref" href="#id103">Sin (math)</a></h2>
+<h2><a class="toc-backref" href="#id112">Sin (math)</a></h2>
 <p>Computes the sine of the specified argument (in radians.)</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2978,7 +3208,7 @@ value = sin(pi/2)
 </pre>
 </div>
 <div class="section" id="stateno">
-<h2><a class="toc-backref" href="#id104">StateNo</a></h2>
+<h2><a class="toc-backref" href="#id113">StateNo</a></h2>
 <p>Returns the player's current state number. Useful for &quot;move interrupts&quot; in the CMD file.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -2998,7 +3228,7 @@ trigger1 = stateno = [200,650]
 </pre>
 </div>
 <div class="section" id="statetype">
-<h2><a class="toc-backref" href="#id105">StateType</a></h2>
+<h2><a class="toc-backref" href="#id114">StateType</a></h2>
 <p>StateType gives the player's state-type. Refer to the section
 on StateDef in the CNS documentation for more details on StateType.
 Useful for &quot;move interrupts&quot; in the CMD file.</p>
@@ -3011,8 +3241,8 @@ Useful for &quot;move interrupts&quot; in the CMD file.</p>
 <dd>=, !=   (other operators not valid)</dd>
 <dt>state_type (char)</dt>
 <dd><dl class="first last docutils">
-<dt>S, C, A</dt>
-<dd>Stand, Crouch and Air state-types.</dd>
+<dt>S, C, A, L</dt>
+<dd>Stand, Crouch, Air and Liedown state-types.</dd>
 </dl>
 </dd>
 </dl>
@@ -3029,7 +3259,7 @@ trigger1 = StateType != A
 </pre>
 </div>
 <div class="section" id="stagevar">
-<h2><a class="toc-backref" href="#id106">StageVar(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id115">StageVar(*,***)</a></h2>
 <p>Returns information about the stage.
 A limited number of parameters are supported.</p>
 <dl class="docutils">
@@ -3073,13 +3303,13 @@ trigger1 = StageVar(info.author) = &quot;Suika&quot;
 </pre>
 </div>
 <div class="section" id="sysfvar">
-<h2><a class="toc-backref" href="#id107">SysFVar</a></h2>
+<h2><a class="toc-backref" href="#id116">SysFVar</a></h2>
 <p>This trigger takes a mandatory variable number as an argument. It returns the value of the player's specified system float variable.
 This trigger should NOT be used under normal circumstances. System
 variables are reserved for bookkeeping in common1.cns.</p>
 <dl class="docutils">
 <dt>Format:</dt>
-<dd>FVar(exprn)</dd>
+<dd>SysFVar(exprn)</dd>
 <dt>Arguments:</dt>
 <dd><dl class="first last docutils">
 <dt>exprn</dt>
@@ -3100,13 +3330,13 @@ trigger1 = SysFVar(0) = -1.23
 </pre>
 </div>
 <div class="section" id="sysvar">
-<h2><a class="toc-backref" href="#id108">SysVar</a></h2>
+<h2><a class="toc-backref" href="#id117">SysVar</a></h2>
 <p>This trigger takes a mandatory variable number as an argument. It returns the value of the player's specified system int variable.
 This trigger is NOT to be used under normal circumstances. System
 variables are reserved for bookkeeping in common1.cns.</p>
 <dl class="docutils">
 <dt>Format:</dt>
-<dd>Var(exprn)</dd>
+<dd>SysVar(exprn)</dd>
 <dt>Arguments:</dt>
 <dd><dl class="first last docutils">
 <dt>exprn</dt>
@@ -3127,7 +3357,7 @@ trigger1 = SysVar(0) = -34
 </pre>
 </div>
 <div class="section" id="tan-math">
-<h2><a class="toc-backref" href="#id109">Tan (math)</a></h2>
+<h2><a class="toc-backref" href="#id118">Tan (math)</a></h2>
 <p>Computes the tangent of the specified argument (in radians.)</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3151,7 +3381,7 @@ value = tan(pi/4)
 </pre>
 </div>
 <div class="section" id="teammode">
-<h2><a class="toc-backref" href="#id110">TeamMode(*,***)</a></h2>
+<h2><a class="toc-backref" href="#id119">TeamMode(*,***)</a></h2>
 <p>TeamMode gives the current mode of play for the player's team.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3183,7 +3413,7 @@ trigger1 = TeamMode = Single
 </pre>
 </div>
 <div class="section" id="teamside">
-<h2><a class="toc-backref" href="#id111">TeamSide</a></h2>
+<h2><a class="toc-backref" href="#id120">TeamSide</a></h2>
 <p>Returns the team side the player is on. 1 represents P1 side (left), 2 for P2 side (right).</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3202,7 +3432,7 @@ trigger1 = TeamSide = 2
 </pre>
 </div>
 <div class="section" id="tickspersecond">
-<h2><a class="toc-backref" href="#id112">TicksPerSecond</a></h2>
+<h2><a class="toc-backref" href="#id121">TicksPerSecond</a></h2>
 <p>Returns the number of ticks per second. Useful for time calculations.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3221,7 +3451,7 @@ trigger1 = Time &gt; 10 * TicksPerSecond
 </pre>
 </div>
 <div class="section" id="time">
-<h2><a class="toc-backref" href="#id113">Time</a></h2>
+<h2><a class="toc-backref" href="#id122">Time</a></h2>
 <p>Returns the state-time of the player (that is, the number of ticks that the player has been in the current state so far).</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3240,7 +3470,7 @@ trigger1 = Time = 2
 </pre>
 </div>
 <div class="section" id="timemod">
-<h2><a class="toc-backref" href="#id114">TimeMod(*,**,***)</a></h2>
+<h2><a class="toc-backref" href="#id123">TimeMod(*,**,***)</a></h2>
 <p>Returns the remainder when the state-time of the player is divided by the specified value.</p>
 <p>The % operator subsumes the functionality of TimeMod, so it is recommended that you use % instead.</p>
 <dl class="docutils">
@@ -3267,8 +3497,29 @@ trigger1 = TimeMod = 4, 3
   Triggers when the state-time is 3, 7, 11, 15, ...
 </pre>
 </div>
+<div class="section" id="topedge">
+<h2><a class="toc-backref" href="#id124">TopEdge</a></h2>
+<p>TopEdge returns the y position of the top edge of the screen, in absolute stage coordinates.</p>
+<dl class="docutils">
+<dt>Format:</dt>
+<dd>TopEdge</dd>
+<dt>Arguments:</dt>
+<dd>none</dd>
+<dt>Return type:</dt>
+<dd>float</dd>
+<dt>Error conditions:</dt>
+<dd>none</dd>
+<dt>Notes:</dt>
+<dd>This trigger is equivalent to the expression &quot;Pos Y - ScreenPos Y&quot;.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+trigger1 = Pos Y &gt; TopEdge
+  Triggers if the player is below the top edge of the screen.
+</pre>
+</div>
 <div class="section" id="uniqhitcount">
-<h2><a class="toc-backref" href="#id115">UniqHitCount</a></h2>
+<h2><a class="toc-backref" href="#id125">UniqHitCount</a></h2>
 <p>Returns the total number of hits the player's current attack move has done. This value is valid only for a single state; after any state change, it resets to 0. To prevent it from resetting to 0, set hitcountpersist in the StateDef (see cns documentation for details). The HitCount and UniqHitCount triggers differ only when the player is hitting more than one opponent. In the case where the player is hitting two opponents with the same attack, HitCount will increase by 1 for every hit, while UniqHitCount increases by 2.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3288,7 +3539,7 @@ trigger1 = UniqHitCount = [4,6]
 </pre>
 </div>
 <div class="section" id="var">
-<h2><a class="toc-backref" href="#id116">Var</a></h2>
+<h2><a class="toc-backref" href="#id126">Var</a></h2>
 <p>This trigger takes a mandatory variable number as an argument. It returns the value of the player's specified int variable.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3313,7 +3564,7 @@ trigger1 = Var(0) = -34
 </pre>
 </div>
 <div class="section" id="vel">
-<h2><a class="toc-backref" href="#id117">Vel</a></h2>
+<h2><a class="toc-backref" href="#id127">Vel</a></h2>
 <p>Gets the value of the player's velocity. You must specify the component that you want to check, eg. &quot;Vel Y&quot; to check the Y-velocity.</p>
 <dl class="docutils">
 <dt>Format:</dt>
@@ -3338,7 +3589,7 @@ trigger1 = Vel Y &gt;= 0
 </pre>
 </div>
 <div class="section" id="win">
-<h2><a class="toc-backref" href="#id118">Win</a></h2>
+<h2><a class="toc-backref" href="#id128">Win</a></h2>
 <p>Returns true if the player (or the player's team, in team mode) has won the round, false otherwise. Can be suffixed with &quot;KO&quot;, &quot;Time&quot;, or &quot;Perfect&quot; to return true only when the round has been won by a KO, by time expiring, or with no life lost, respectively.</p>
 <p>Format:
 1. Win

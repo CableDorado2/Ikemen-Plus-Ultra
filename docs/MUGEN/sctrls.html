@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/" />
 <title>State Controller Reference</title>
 <style type="text/css">
 
@@ -174,9 +174,9 @@ code, tt {
 <div class="document" id="state-controller-reference">
 <h1 class="title">State Controller Reference</h1>
 
-<p>M.U.G.E.N, (c) Elecbyte 1999-2009</p>
-<p>Documentation for version 1.0 (2009)</p>
-<p>Updated 13 September 2010</p>
+<p>M.U.G.E.N, (c) Elecbyte 1999-2013</p>
+<p>Documentation for version 1.1 (2013)</p>
+<p>Updated 09 June 2013</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
@@ -619,8 +619,7 @@ bind to. Defaults to 0,0.</dd>
 </dl>
 </dd>
 <dt>Notes:</dt>
-<dd>If the player's root is destroyed (for example, if it is a
-helper, and executes DestroySelf), then the effect of
+<dd>If the player's root is disabled for any reason, then the effect of
 BindToRoot is terminated.</dd>
 <dt>Example:</dt>
 <dd>none</dd>
@@ -768,7 +767,22 @@ value = .5
 <dt>Required parameters:</dt>
 <dd>none</dd>
 <dt>Optional parameters:</dt>
-<dd>none</dd>
+<dd><dl class="first last docutils">
+<dt>recursive = <em>recursive_flag</em> (int)</dt>
+<dd>If 1, all helper descendents of this helper will also be destroyed.
+Defaults to 0.</dd>
+<dt>removeexplods = <em>remove_explods</em> (int)</dt>
+<dd>If 1, all explods belonging to the helper will also be removed.
+If <em>recursive_flag</em> is 1, explods belonging to descendents of the helper
+will also be removed.
+Defaults to 0.</dd>
+</dl>
+</dd>
+<dt>Notes:</dt>
+<dd><p class="first">Any players or explods bound to the helper will be forcefully unbound when DestroySelf
+is executed.</p>
+<p class="last">Any unremoved explods belonging to a destroyed helper will become orphaned.</p>
+</dd>
 <dt>Example:</dt>
 <dd>none</dd>
 </dl>
@@ -890,7 +904,7 @@ the default phase offset is 90.</dd>
 <dt>anim = <em>[F]anim_no</em> (int)</dt>
 <dd><em>anim_no</em> specifies the number of the animation to play back. The
 'F' prefix is optional: if included, then the animation is played
-back from fight.def.</dd>
+back from fightfx.air.</dd>
 </dl>
 </dd>
 <dt>Optional parameters:</dt>
@@ -898,22 +912,133 @@ back from fight.def.</dd>
 <dt>ID = <em>id_no</em> (int)</dt>
 <dd><em>id_no</em> specifies an ID number for this explod. Used to identify particular explods in
 triggers and controllers that affect explods.</dd>
-<dt>pos = <em>off_x</em>, <em>off_y</em> (int, int)</dt>
-<dd><em>off_x</em> and <em>off_y</em> specify the offset at which to create the explod.
-The exact behavior depends on the postype. If these parameters are
-omitted, they default to 0.</dd>
+<dt>space = <em>space</em> (string)</dt>
+<dd><p class="first">Specifies the coordinate space in which the explod is to be created.
+Valid values for <em>space</em> are:</p>
+<dl class="last docutils">
+<dt>screen</dt>
+<dd>This coordinate space maps to the screen.  The upper-left corner is
+0,0 and the lower-right corner is ScreenWidth,ScreenHeight (refer to the
+triggers with these names).  Explods created in screen space are not
+affected by camera movement or zoom.</dd>
+<dt>stage</dt>
+<dd>This coordinate space maps to the stage space in which players reside.
+0,0 is the center of the stage at ground level.
+Explods created in screen space are affected by camera movement and zoom.
+This is the default.</dd>
+</dl>
+</dd>
+<dt>pos = <em>off_x</em>, <em>off_y</em> (float, float)</dt>
+<dd>If the explod is not bound, <em>off_x</em> and <em>off_y</em> specify the position at
+which to create the explod.
+If the explod is bound, <em>off_x</em> and <em>off_y</em> specify the offset from the
+object to which the explod is bound to.</dd>
+<dt>facing = <em>facing</em> (int)</dt>
+<dd>Set <em>facing</em> to 1 to have the explod face in the same direction as
+the positive <em>off_x</em>, and -1 to have the explod face in the opposite
+direction. Defaults to 1.</dd>
+<dt>vfacing = <em>vfacing</em> (int)</dt>
+<dd>Set <em>vfacing</em> to -1 to have the explod display vertically flipped,
+or 1 to have the explod display vertically unflipped. Defaults to
+1.</dd>
+<dt>bindID = <em>bind_id</em> (int)</dt>
+<dd>ID number of a player or helper to bind to.  The position of a bound
+explod is relative to the object that it is bound to.
+Special values are -1 (bind to any single player) and -2 (do not bind).
+Defaults to -2.  The bindtime parameter is required if bindID is not -2.
+Screen space explods cannot be bound.</dd>
+<dt>bindtime = <em>bind_time</em> (int)</dt>
+<dd>Specifies the number of game ticks to keep the explod bound.
+After the bindtime has expired, the explod will be
+explod will no longer be bound to the bind point, and will
+maintain its position (unless affected by the vel or accel
+parameters). If <em>bind_time</em> is -1, then the explod will be bound
+until the explod is removed or another controller affects the bindtime.</dd>
+<dt>vel = <em>x_vel</em>, <em>y_vel</em> (float, float)</dt>
+<dd>Specifies initial X and Y velocity components for the explod.
+These are interpreted relative to the explod's &quot;facing&quot; direction.
+These default to 0 if omitted.</dd>
+<dt>accel = <em>x_accel</em>, <em>y_accel</em> (float, float)</dt>
+<dd>Specifies X and Y acceleration components for the explod. These
+default to 0.</dd>
+<dt>removetime = <em>rem_time</em> (int)</dt>
+<dd>If <em>rem_time</em> is positive, the explod will be removed after having
+been displayed for that number of game ticks. If <em>rem_time</em> is -1,
+the explod will be displayed indefinitely. If <em>rem_time</em> is -2,
+the explod will be removed when its animtime reaches 0. The
+default value is -2.</dd>
+<dt>supermovetime = <em>move_time</em> (int)</dt>
+<dd>Specifies the number of ticks that the explod will be
+unfrozen during a SuperPause. Used where you want the
+explod to be animated during a SuperPause, such as for custom
+super sparks. Defaults to 0.</dd>
+<dt>pausemovetime = <em>move_time</em> (int)</dt>
+<dd>Specifies the number of ticks that the explod should be
+unfrozen during a Pause. Defaults to 0.</dd>
+<dt>scale = <em>x_scale</em>, <em>y_scale</em> (float, float)</dt>
+<dd><em>x_scale</em> and <em>y_scale</em> specify the scaling factors to apply to the
+explod in the horizontal and vertical directions. Both default to
+1 (no scaling) if omitted.</dd>
+<dt>angle = <em>angle</em> (float)</dt>
+<dd><em>angle</em> specifies the explod's drawing angle in degrees.
+Defaults to 0.</dd>
+<dt>yangle = <em>y_angle</em> (float)</dt>
+<dd><em>y_angle</em> specifies the explod's drawing angle around the y-axis in degrees.
+Defaults to 0.</dd>
+<dt>xangle = <em>x_angle</em> (float)</dt>
+<dd><em>x_angle</em> specifies the explod's drawing angle around the x-axis in degrees.
+Defaults to 0.</dd>
+<dt>sprpriority = <em>pr</em> (int)</dt>
+<dd><em>pr</em> specifies the drawing priority for the explod. Animations
+with higher priority get drawn over animations with lesser
+priority. For instances, setting sprpriority = -3 will cause the
+explod to be drawn under most characters and other explods, which
+usually have sprpriority &gt;= -2.
+Defaults to 0 if omitted.</dd>
+<dt>ontop = <em>bvalue</em> (boolean)</dt>
+<dd>Set ontop = 1 to have the explod drawn over all other sprites and
+background layers. This parameter has precedence over sprpriority.
+Defaults to 0.</dd>
+<dt>shadow = <em>shadow</em> (int)</dt>
+<dd>If <em>shadow</em> is not 0, a shadow will be drawn for the explod,
+else no shadow will be drawn.  Defaults to 0.</dd>
+<dt>ownpal = <em>ownpal_flag</em> (int)</dt>
+<dd><p class="first">If <em>ownpal_flag</em> is 0, the explod color will be affected by subsequent
+execution of the player's PalFX and RemapPal controllers. This
+is normally the default.</p>
+<p class="last">If <em>ownpal_flag</em> is 1, the explod color will not be affected by subsequent
+execution of the player's PalFX and RemapPal controllers.
+This is the default if the anim is from fightfx.air.</p>
+</dd>
+<dt>remappal = <em>dst_pal_grp</em>, <em>dst_pal_item</em> (int, int)</dt>
+<dd>Forces a palette remap of the explod's indexed-color sprites to the specified palette.
+This parameter is used only if <em>ownpal_flag</em> is non-zero and a fight.def
+anim is not used.
+If <em>dst_pal_grp</em> is -1, this parameter will be ignored.
+Defaults to -1, 0.</dd>
+<dt>removeongethit = <em>bvalue</em> (boolean)</dt>
+<dd>Setting this to 1 will cause the explod removed if the player gets
+hit. Defaults to 0.</dd>
+<dt>ignorehitpause = <em>bvalue</em> (boolean)</dt>
+<dd>If this is 1, the explod will be animated independently of the
+player that created it. If set to 0, it will not be updated when
+the player is in hitpause. Defaults to 1.</dd>
+<dt>trans = <em>trans_type</em> (string)</dt>
+<dd>Overrides the explod's animation transparency settings. See the Trans controller for details. An &quot;alpha&quot; parameter may be specified if trans_type is an additive type. If omitted, does nothing.</dd>
+</dl>
+</dd>
+<dt>Deprecated parameters:</dt>
+<dd><dl class="first last docutils">
 <dt>postype = <em>postype_string</em> (string)</dt>
 <dd><p class="first"><em>postype_string</em> specifies how to interpret the pos parameters.
 In all cases, a positive <em>off_y</em> means a downward displacement.</p>
 <p>Valid values for <em>postype_string</em> are the following:</p>
-<dl class="last docutils">
+<dl class="docutils">
 <dt>p1</dt>
 <dd>Interprets pos relative to p1's axis. A positive <em>off_x</em> is toward the front of p1.
-This is the default value for postype.
-Refer to the note at the end of this controller's description.</dd>
+This is the default value for postype for characters with a mugenversion of 1.0 or less.</dd>
 <dt>p2</dt>
-<dd>Interprets pos relative to p2's axis. A positive <em>off_x</em> is toward the front of p2.
-Refer to the note at the end of this controller's description.</dd>
+<dd>Interprets pos relative to p2's axis. A positive <em>off_x</em> is toward the front of p2.</dd>
 <dt>front</dt>
 <dd>Interprets <em>off_x</em> relative to the edge of the screen that p1 is
 facing toward, and <em>off_y</em> relative to the top of the screen. A
@@ -934,33 +1059,55 @@ screen.</dd>
 <dd>Interprets <em>off_x</em> and <em>off_y</em> relative to the upper-right corner of
 the screen. A positive <em>off_x</em> is toward the right of the
 screen.</dd>
+<dt>none</dt>
+<dd>Interprets <em>off_x</em> and <em>off_y</em> as an absolute position.
+This is the default value for postype for characters with a mugenversion
+of 1.1 or higher.</dd>
 </dl>
+<p>The use of p1 or p2 postype will create an explod in stage space.
+The use of front, back, left or right postype will create an explod in
+screen space.</p>
+<p>The postype parameter has been deprecated in 1.1, with its functionality
+replaced by a combination of the space and bindID parameters, as well as
+the ScreenWidth, ScreenHeight, and various Edge triggers.</p>
+<p>In 1.1, the equivalent parameters that replace postype are:</p>
+<p>postype = p1</p>
+<pre class="literal-block">
+space = stage
+pos = Pos X + CameraPos X, Pos Y
+facing = facing
+</pre>
+<p>postype = p2</p>
+<pre class="literal-block">
+space = stage
+pos = (enemynear, Pos X) + CameraPos X, (enemynear, Pos Y)
+facing = enemynear, facing
+</pre>
+<p>postype = front</p>
+<pre class="literal-block">
+space = screen
+pos = ifelse(facing = -1, 0, ScreenWidth), 0
+facing = 1
+</pre>
+<p>postype = back</p>
+<pre class="literal-block">
+space = screen
+pos = ifelse(facing = 1, 0, ScreenWidth), 0
+facing = facing
+</pre>
+<p>postype = left</p>
+<pre class="literal-block">
+space = screen
+pos = 0, 0
+facing = 1
+</pre>
+<p>postype = right</p>
+<pre class="last literal-block">
+space = screen
+pos = ScreenWidth, 0
+facing = 1
+</pre>
 </dd>
-<dt>facing = <em>facing</em> (int)</dt>
-<dd>Set <em>facing</em> to 1 to have the explod face in the same direction as
-the positive <em>off_x</em> (as determined by postype), and -1 to have
-the explod face in the opposite direction. Defaults to 1.</dd>
-<dt>vfacing = <em>vfacing</em> (int)</dt>
-<dd>Set <em>vfacing</em> to -1 to have the explod display vertically flipped,
-or 1 to have the explod display vertically unflipped. Defaults to
-1.</dd>
-<dt>bindtime = <em>bind_time</em> (int)</dt>
-<dd>Specifies the number of game ticks to bind the explod to the bind
-point specified by postype. For instance, if postype = p1, pos =
-30, -40, and bindtime = 5, then the explod will be drawn at
-position 30, -40 relative to p1's axis for 5 ticks, no matter how
-p1 moves during this time. After the bindtime has expired, the
-explod will no longer be bound to the bind point, and will
-maintain its position (unless affected by the vel or accel
-parameters). If <em>bind_time</em> is -1, then the explod will be bound
-until the explod is removed or another controller affects the bindtime.</dd>
-<dt>vel = <em>x_vel</em>, <em>y_vel</em> (float, float)</dt>
-<dd>Specifies initial X and Y velocity components for the explod.
-These are interpreted relative to the explod's &quot;facing&quot; direction.
-These default to 0 if omitted.</dd>
-<dt>accel = <em>x_accel</em>, <em>y_accel</em> (float, float)</dt>
-<dd>Specifies X and Y acceleration components for the explod. These
-default to 0.</dd>
 <dt>random = <em>rand_x</em>, <em>rand_y</em> (int, int)</dt>
 <dd>Causes the explod's bind point to be displaced by a random amount
 when created. <em>rand_x</em> specifies the displacement range in the x
@@ -969,65 +1116,22 @@ direction. For instance, if pos = 0,0 and random = 40,80, then the
 explod's x location will be a random number between -20 and 19,
 and its y location will be a random number between -40 and 39.
 Both arg1 and arg2 default to 0 if omitted.</dd>
-<dt>removetime = <em>rem_time</em> (int)</dt>
-<dd>If <em>rem_time</em> is positive, the explod will be removed after having
-been displayed for that number of game ticks. If <em>rem_time</em> is -1,
-the explod will be displayed indefinitely. If <em>rem_time</em> is -2,
-the explod will be removed when its animtime reaches 0. The
-default value is -2.</dd>
 <dt>supermove = <em>bvalue</em> (boolean)</dt>
 <dd><p class="first"><strong>This parameter is deprecated -- use supermovetime parameter instead</strong></p>
 <p class="last">Set supermove = 1 to have the explod persist until the end of a
 super pause, regardless of the value of removetime. Defaults to 0.</p>
 </dd>
-<dt>supermovetime = <em>move_time</em> (int)</dt>
-<dd>Specifies the number of ticks that the explod will be
-unfrozen during a SuperPause. Used where you want the
-explod to be animated during a SuperPause, such as for custom
-super sparks. Defaults to 0.</dd>
-<dt>pausemovetime = <em>move_time</em> (int)</dt>
-<dd>Specifies the number of ticks that the explod should be
-unfrozen during a Pause. Defaults to 0.</dd>
-<dt>scale = <em>x_scale</em>, <em>y_scale</em> (float, float)</dt>
-<dd><em>x_scale</em> and <em>y_scale</em> specify the scaling factors to apply to the
-explod in the horizontal and vertical directions. Both default to
-1 (no scaling) if omitted.</dd>
-<dt>sprpriority = <em>pr</em> (int)</dt>
-<dd><em>pr</em> specifies the drawing priority for the explod. Animations
-with higher priority get drawn over animations with lesser
-priority. For instances, setting sprpriority = -3 will cause the
-explod to be drawn under most characters and other explods, which
-usually have sprpriority &gt;= -2.
-Defaults to 0 if omitted.</dd>
-<dt>ontop = <em>bvalue</em> (boolean)</dt>
-<dd>Set ontop = 1 to have the explod drawn over all other sprites and
-background layers. This parameter has precedence over sprpriority.
-Defaults to 0.</dd>
-<dt>shadow = <em>shad_r</em>, <em>shad_g</em>, <em>shad_b</em> (int, int, int)</dt>
-<dd>Specifies the R, G, and B components of the explod's shadow. Valid
-values for each component are 0-255. The greater a component, the
-less of that color will be displayed in the shadow. To use the
-shadow color of the stage, set shad_r to -1. Defaults to 0,0,0 (no
-shadow).</dd>
-<dt>ownpal = <em>bvalue</em> (boolean)</dt>
-<dd>Set ownpal = 1 to give the explod its own copy of its palette.
-This is desirable if you want to keep temporary changes to the
-player's palette (e.g. from using the PalFX controller) from
-affecting the color of the explod. Defaults to 0 if omitted.</dd>
-<dt>removeongethit = <em>bvalue</em> (boolean)</dt>
-<dd>Setting this to 1 will have the explod removed if the player gets
-hit. Defaults to 0.</dd>
-<dt>ignorehitpause = <em>bvalue</em> (boolean)</dt>
-<dd>If this is 1, the explod will be animated independently of the
-player that created it. If set to 0, it will not be updated when
-the player is in hitpause. Defaults to 1.</dd>
-<dt>trans = <em>trans_type</em> (string)</dt>
-<dd>Overrides the explod's animation transparency settings. See the Trans controller for details. An &quot;alpha&quot; parameter must be specified if trans_type is &quot;addalpha&quot;. If omitted, does nothing.</dd>
 </dl>
 </dd>
 <dt>Notes:</dt>
-<dd><p class="first">The position of an explod that is created relative to a player (eg. using &quot;postype = p1&quot;) is determined only after all player updates have completed (contrast this to helpers, which are created relative to the player's immediate position when the controller was executed). This behavior is necessary to make explods bind properly to the player's screen position.</p>
-<p class="last">For example, assume the player has an x velocity of 5 and a position of (160,0). If an explod is created with an offset of 0,0 relative to p1, then the explod's actual screen position will be 165,0.</p>
+<dd><p class="first">The position of an explod that is bound to a player is determined only after
+all player updates have completed (compared to helpers, which are created
+relative to the player's immediate position when the controller was executed).
+This behavior is necessary to make explods bind properly to the player's
+screen position.</p>
+<p class="last">For example, assume the player has an x velocity of 5 and a position of (160,0).
+If an explod is created with an offset of 0,0 relative to p1, then the explod's
+actual screen position will be 165,0.</p>
 </dd>
 </dl>
 </div>
@@ -1179,7 +1283,7 @@ where &lt;parent&gt; represents the name of the player creating the
 helper.</dd>
 <dt>ID = <em>id_no</em> (int)</dt>
 <dd>Sets an ID number to refer to this helper by. Defaults to 0.</dd>
-<dt>pos = <em>off_x</em>, <em>off_y</em> (int)</dt>
+<dt>pos = <em>off_x</em>, <em>off_y</em> (float)</dt>
 <dd>Specifies the x and y offsets to create this helper at. The
 precise meaning of these parameters is dependent on the postype.
 Defaults to 0,0.</dd>
@@ -1235,12 +1339,18 @@ the player (e.g., the keyboard or joystick). Also, the helper will
 inherit its root's State -1. If <em>ctrl_flag</em> is 0, then the helper does
 not have access to command input, and does not inherit State -1.
 The default value of <em>ctrl_flag</em> is 0.</dd>
-<dt>ownpal = <em>pal_flag</em> (boolean)</dt>
-<dd>If <em>pal_flag</em> is 0, the helper will inherit its parent's palette. If the
-parent's palette is temporarily changed (eg. by a PalFX controller), the
-changes will be reflected in the helper too. If <em>pal_flag</em> is 1, the helper
-will receive its own working palette, that is independent of its
-parent's. Defaults to 0.</dd>
+<dt>ownpal = <em>ownpal_flag</em> (boolean)</dt>
+<dd><p class="first">If <em>ownpal_flag</em> is 0, the helper will be affected by subsequent
+execution of its parent's PalFX and RemapPal controllers. This
+is the default.</p>
+<p class="last">If <em>ownpal_flag</em> is 1, the helper will receive its own working palette
+which is independent of its parent's.</p>
+</dd>
+<dt>remappal = <em>dst_pal_grp</em>, <em>dst_pal_item</em> (int, int)</dt>
+<dd>Forces a palette remap of the helper's indexed-color sprites to the specified palette.
+This parameter is used only if <em>ownpal_flag</em> is non-zero.
+If <em>dst_pal_grp</em> is -1, this parameter will be ignored.
+Defaults to -1, 0.</dd>
 <dt>supermovetime = <em>move_time</em> (int)</dt>
 <dd>Specifies the number of ticks that the helper should be
 unfrozen during a SuperPause. Defaults to 0.</dd>
@@ -1891,10 +2001,6 @@ cloud of dust every third frame. spacing should be 1 or greater.</dd>
 the same as Explod. However, this controller is subject to future
 change. Any code relying on this controller is not guaranteed to
 work in the future.</p>
-<dl class="docutils">
-<dt>Notes:</dt>
-<dd>The pos and postype parameters must be specified together.</dd>
-</dl>
 </div>
 <div class="section" id="movehitreset">
 <h2><a class="toc-backref" href="#id47">MoveHitReset</a></h2>
@@ -1953,12 +2059,14 @@ value = , NA, AP
 </div>
 <div class="section" id="null">
 <h2><a class="toc-backref" href="#id49">Null</a></h2>
-<p>Does nothing. May be used for temporarily disabling other state controllers by simply changing their type to Null.</p>
+<p>Does nothing. May be used for disabling other state controllers by changing their type to Null.</p>
 <dl class="docutils">
 <dt>Required parameters:</dt>
 <dd>none</dd>
 <dt>Optional parameters:</dt>
 <dd>none</dd>
+<dt>Notes:</dt>
+<dd>Any triggers associated with the controller will still be evaluated.</dd>
 </dl>
 </div>
 <div class="section" id="offset">
@@ -1982,7 +2090,7 @@ or both of the optional parameters.</dd>
 </div>
 <div class="section" id="palfx">
 <h2><a class="toc-backref" href="#id51">PalFX</a></h2>
-<p>Applies temporary effects the player's palette. These will also affect the palette of any explods and helpers the player owns, unless they have specified ownpal = 1.</p>
+<p>Applies temporary effects the player's palette. These will also affect the palette of any explods and helpers the player owns, unless they have set ownpal to a nonzero value.</p>
 <dl class="docutils">
 <dt>Required parameters:</dt>
 <dd>none</dd>
@@ -2063,10 +2171,14 @@ add and mul. Values must be in range 0 to 256. Default value is
 syntax listed above matches neither the syntax for variable
 assignment within an expression, nor the syntax for variable
 addition within an expression.</p>
-<p class="last">If you have placed P2 in a custom state through a successful hit, do
+<p>If you have placed P2 in a custom state through a successful hit, do
 not use variable assignment within the custom states. Otherwise, you
 will overwrite P2's parent's variables, which can cause unintended
 malfunction of the opponent player.</p>
+<dl class="last docutils">
+<dt>Warning:  System variables (sysvar, sysfvar) cannot be used within this</dt>
+<dd>controller.</dd>
+</dl>
 </dd>
 <dt>Example:</dt>
 <dd>none</dd>
@@ -2104,10 +2216,14 @@ malfunction of the opponent player.</p>
 <dd><p class="first">Due to historical reasons, note that the alternate variable
 assignment syntax listed above does not exactly match the syntax for
 variable assignment within an expression.</p>
-<p class="last">If you have placed P2 in a custom state through a successful hit, do
+<p>If you have placed P2 in a custom state through a successful hit, do
 not use variable assignment within the custom states. Otherwise, you
 will overwrite P2's parent's variables, which can cause unintended
 malfunction of the opponent player.</p>
+<dl class="last docutils">
+<dt>Warning:  System variables (sysvar, sysfvar) cannot be used within this</dt>
+<dd>controller.</dd>
+</dl>
 </dd>
 <dt>Example:</dt>
 <dd>none</dd>
@@ -2439,19 +2555,27 @@ the screen. A positive <em>off_x</em> is toward the front of p1.</dd>
 the screen. A positive <em>off_x</em> is toward the front of p1.</dd>
 </dl>
 </dd>
-<dt>projshadow = <em>shad_r</em>, <em>shad_g</em>, <em>shad_b</em> (int, int, int)</dt>
-<dd>Specifies the R, G, and B components of the projectile's shadow.
-These components should be integers between 0 and 255,
-inclusive. If <em>shad_r</em> evaluates to -1, then the stage's shadow
-color will be used. The higher a component value, the less of
-that color is displayed in the shadow. So a perfectly black shadow
-is 255,255,255. Defaults to 0,0,0 (no shadow).</dd>
+<dt>projshadow = <em>shadow</em> (int)</dt>
+<dd>If <em>shadow</em> is not 0, a shadow will be drawn for the explod,
+else no shadow will be drawn.  Defaults to 0.</dd>
 <dt>supermovetime = <em>move_time</em> (int)</dt>
 <dd>Specifies the number of ticks that the projectile will be
 unfrozen during a SuperPause. Defaults to 0.</dd>
 <dt>pausemovetime = <em>move_time</em> (int)</dt>
 <dd>Specifies the number of ticks that the projectile will be
 unfrozen during a Pause. Defaults to 0.</dd>
+<dt>ownpal = <em>ownpal_flag</em> (boolean)</dt>
+<dd><p class="first">If <em>ownpal_flag</em> is 0, the projectile will be affected by subsequent
+execution of its owner's PalFX and RemapPal controllers. This
+is the default.</p>
+<p class="last">If <em>ownpal_flag</em> is 1, the projectile will not be affected by its
+owner's PalFX and RemapPal controllers.</p>
+</dd>
+<dt>remappal = <em>dst_pal_grp</em>, <em>dst_pal_item</em> (int, int)</dt>
+<dd>Forces a palette remap of the projectile's indexed-color sprites to the specified palette.
+This parameter is used only if <em>ownpal_flag</em> is non-zero.
+If <em>dst_pal_grp</em> is -1, this parameter will be ignored.
+Defaults to -1, 0.</dd>
 <dt>afterimage.time = <em>aftimg_time</em> (int)</dt>
 <dd>See below.</dd>
 <dt>afterimage.length</dt>
@@ -2477,15 +2601,33 @@ state and animation data.</p>
 <p>Changes one of the player's palettes to another.</p>
 <dl class="docutils">
 <dt>Required parameters:</dt>
+<dd>none</dd>
+<dt>Optional parameters:</dt>
 <dd><dl class="first last docutils">
 <dt>source = <em>src_pal_grp</em>, <em>src_pal_item</em></dt>
 <dd>See below.</dd>
 <dt>dest = <em>dst_pal_grp</em>, <em>dst_pal_item</em></dt>
-<dd>All of the player sprites that use the source palette will be drawn using the dest palette instead. The source and dest palettes must exist within the player's sprites, and both must be of the same color depth. Note that the dest palette number refers to an unmapped palette; e.g. if you map (1,1) -&gt; (1,6), and then you map (2,2) -&gt; (1,1), the result is that (2,2) will be mapped to palette (1,1) from the original sprite file, not (1,6).</dd>
+<dd><p class="first">All of the player sprites that use the source palette will be drawn using the dest palette instead.
+The source and dest palettes must exist within the player's sprites, and both must be of the same color depth.</p>
+<p>If <em>src_pal_grp</em> is -1, all indexed-color sprites will be remapped to the dest palette.
+This only affects sprites of the same color depth as the dest palette.
+All other existing mappings will be removed.</p>
+<p>If <em>dst_pal_grp</em> is -1, the mapping for the source is removed.
+Setting the dest pair to the same values as the source pair has the same effect.</p>
+<p class="last">The default value for source is -1,0.
+The default value for dest is -1,0.</p>
+</dd>
 </dl>
 </dd>
-<dt>Optional parameters:</dt>
-<dd>none</dd>
+<dt>Notes:</dt>
+<dd><p class="first">Palette mappings are not transitive; i.e. mapping 1,0 to 2,0 and 2,0 to 3,0
+will not map 1,0 to 3,0.</p>
+<p class="last">In 1.1 and newer, each player is allowed up to 8 different palette mappings
+at the same time.
+Subsequent calls of RemapPal will fail if the source pair is not already
+being mapped.  Unused mappings can be removed by setting <em>dst_pal_grp</em> to -1
+for a given source pair.</p>
+</dd>
 </dl>
 <p>Example:</p>
 <pre class="literal-block">
@@ -2544,7 +2686,7 @@ means stand+air, normal attack, special attack.</dd>
 <dd><dl class="first last docutils">
 <dt>value = <em>bound_flag</em> (boolean)</dt>
 <dd>If <em>bound_flag</em> is 0, the player will be allowed to move off the
-screen. If 1, the player is constraing to the screen. Defaults to 0 if omitted.</dd>
+screen. If 1, the player is constrained within the screen. Defaults to 0 if omitted.</dd>
 <dt>movecamera = <em>move_x_flag</em>, <em>move_y_flag</em> (boolean, boolean)</dt>
 <dd>If 1, specifies that camera should pan to follow the player in
 the x direction and in the y direction, respectively. Defaults to
@@ -2886,10 +3028,10 @@ target ID will be affected. Defaults to -1 (affects all targets.)</dd>
 <ul class="last simple">
 <li>default  - does nothing</li>
 <li>none     - disables transparency</li>
-<li>add      - draws with full additive transparency</li>
-<li>addalpha - draws with additive transparency (alpha must be specified)</li>
-<li>add1     - draws with additive transparency, with alpha at 256,128</li>
-<li>sub      - draws with full subtractive transparency</li>
+<li>add      - draws with additive transparency (alpha defaults to 256,256)</li>
+<li>addalpha - deprecated in 1.1; draws with additive transparency (alpha defaults to 256,0)</li>
+<li>add1     - deprecated in 1.1; draws with additive transparency (alpha defaults to 256,128)</li>
+<li>sub      - draws with full subtractive transparency (alpha is fixed at 256,256)</li>
 </ul>
 </dd>
 </dl>
@@ -2897,9 +3039,9 @@ target ID will be affected. Defaults to -1 (affects all targets.)</dd>
 <dt>Optional parameters:</dt>
 <dd><dl class="first last docutils">
 <dt>alpha = <em>source_alpha</em>, <em>dest_alpha</em> (int, int)</dt>
-<dd>These are the source and destination alpha values for the addalpha
-trans type. Valid values are from 0 (low) to 256 (high). If omitted,
-defaults to 256,0.</dd>
+<dd>These are the source and destination alpha values for the add
+trans types. Valid values are from 0 (low) to 256 (high). If omitted,
+default depends on <em>trans_type</em>.</dd>
 </dl>
 </dd>
 </dl>
@@ -2908,7 +3050,7 @@ defaults to 256,0.</dd>
 ; Fades the character in, over 256 ticks.
 type = Trans
 trigger1 = time &lt; 256
-trans = add_alpha
+trans = add
 alpha = time, 256-time
 </pre>
 </div>

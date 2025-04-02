@@ -425,13 +425,6 @@ function f_optionsMenu()
 end
 
 --;===========================================================
---; CHECK UPDATES
---;===========================================================
-function f_checkUpdates()
-	webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra")
-end
-
---;===========================================================
 --; ARCADE MENU (select arcade variants)
 --;===========================================================
 function f_arcadeMenu()

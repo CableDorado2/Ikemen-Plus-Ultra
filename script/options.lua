@@ -7427,8 +7427,9 @@ function f_testMenu()
 	local posYl = 53
 	local posYr = 80
 	local posYs = 68
-	--Player 2 Assets Pos Y Distance
-	local posP2 = 122
+	--Player 2 Assets Pos X and Y Distance
+	local posXP2 = 0
+	local posYP2 = 122
 	cmdInput()
 	setSysCtrl(0) --Load Battle Controls from config.ssz
 	f_cmdCodeReset()
@@ -7441,7 +7442,7 @@ function f_testMenu()
 	--Draw Assets
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_inputTest)
-		--Player 1
+	--Player 1
 		f_drawQuickSpr(TbuttonUp, posXup, posYup, scaleX, scaleY, alphaS, alphaD)
 		f_drawQuickSpr(TbuttonDown, posXdo, posYdo, scaleX, scaleY, alphaS, alphaD)
 		f_drawQuickSpr(TbuttonLeft, posXle, posYle, scaleX, scaleY, alphaS, alphaD)
@@ -7455,20 +7456,20 @@ function f_testMenu()
 		f_drawQuickSpr(TbuttonL, posXl, posYl, scaleX, scaleY, alphaS, alphaD)
 		f_drawQuickSpr(TbuttonR, posXr, posYr, scaleX, scaleY, alphaS, alphaD)
 		f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaS, alphaD)
-		--Player 2
-		f_drawQuickSpr(TbuttonUp, posXup, posYup+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonDown, posXdo, posYdo+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonLeft, posXle, posYle+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonRight, posXri, posYri+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonA, posXa, posYa+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonB, posXb, posYb+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonC, posXc, posYc+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonX, posXx, posYx+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonY, posXy, posYy+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonZ, posXz, posYz+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonL, posXl, posYl+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonR, posXr, posYr+posP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonS, posXs, posYs+posP2, scaleX, scaleY, alphaS, alphaD)
+	--Player 2
+		f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaS, alphaD)
 	--SHOW BUTTONS FOR PLAYER 1 CONTROL
 		if commandGetState(p1Cmd, 'holdu') then
 			cmdCode = true
@@ -7487,19 +7488,19 @@ function f_testMenu()
 		if commandGetState(p1Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr, posYr, scaleX, scaleY, alphaSB, alphaDB) end
 		if commandGetState(p1Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaSB, alphaDB) end
 	--SHOW BUTTONS FOR PLAYER 2 CONTROL
-		if commandGetState(p2Cmd, 'holdu') then f_drawQuickSpr(TbuttonUp, posXup, posYup+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdd') then f_drawQuickSpr(TbuttonDown, posXdo, posYdo+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdl') then f_drawQuickSpr(TbuttonLeft, posXle, posYle+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdr') then f_drawQuickSpr(TbuttonRight, posXri, posYri+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holda') then f_drawQuickSpr(TbuttonA, posXa, posYa+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdb') then f_drawQuickSpr(TbuttonB, posXb, posYb+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdc') then f_drawQuickSpr(TbuttonC, posXc, posYc+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdx') then f_drawQuickSpr(TbuttonX, posXx, posYx+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdy') then f_drawQuickSpr(TbuttonY, posXy, posYy+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdz') then f_drawQuickSpr(TbuttonZ, posXz, posYz+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdq') then f_drawQuickSpr(TbuttonL, posXl, posYl+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr, posYr+posP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs, posYs+posP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdu') then f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdd') then f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdl') then f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdr') then f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holda') then f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdb') then f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdc') then f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdx') then f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdy') then f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdz') then f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdq') then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
 		if data.attractMode then f_attractcfgCredits() end
 		if cmdCode then f_cmdCode() end
 		f_drawQuickText(txt_keyHint, font1, 0, 0, 'Press [SELECT] or [ESC] button to back', 162, 30)
