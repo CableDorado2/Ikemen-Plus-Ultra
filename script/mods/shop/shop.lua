@@ -1,5 +1,5 @@
-﻿sprShop = sffNew("script/mods/shop/shop.sff") --load sprites
-bgmVault = "sound/System/The Vault.ogg" --load bgm
+﻿sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
+bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;===========================================================

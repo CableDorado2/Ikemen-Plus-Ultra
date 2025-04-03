@@ -2,7 +2,8 @@
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_practiceMenu,#t_practiceMenu,{id = textImgNew(), text = "TUTORIAL", gotomenu = "f_tutorial()"}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
-sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --load tutorial sprites
+sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
+bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
 --[[
 - tutorial
 Set the paramvalue to 1 to predefined this character as a tutorial char.
@@ -19,14 +20,12 @@ function f_tutorial()
 	f_default()
 	setGameMode('tutorial')
 	setPauseVar('nogiveup') --To avoid write exit conditionals in pause menu
-	--data.gameMode = "training"
-	--data.rosterMode = "training"
 	setRoundsToWin(1) --rounds to win
 	setRoundTime(-1) --round time disabled
 	data.versusScreen = false --versus screen disabled
 	data.victoryscreen = false --victory screen disabled
-	data.stage = "stages/HD TEST/Training Room(Scale).def" --predefined custom stage
-	data.bgm = "sound/System/Tutorial.mp3" --predefined custom song route
+	data.stage = "stages/HD TEST/Training Room.def" --predefined custom stage
+	data.bgm = bgmTutorial --predefined custom song route
 	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 	data.p1Pal = 1
