@@ -151,25 +151,25 @@ function f_tutoInputDisplay(t)
 	
 	local posXs = 135
 --Button Pos Y
-	local posYup = 183
-	local posYdo = 215
-	local posYle = 200
-	local posYri = 200
+	local posYup = 193
+	local posYdo = 225
+	local posYle = 210
+	local posYri = 210
 	
-	local posYa = 215
-	local posYb = 210
-	local posYc = 210
+	local posYa = 220
+	local posYb = 215
+	local posYc = 215
 	
-	local posYx = 198
-	local posYy = 192
-	local posYz = 192
+	local posYx = 203
+	local posYy = 197
+	local posYz = 197
 	
-	local posYl = 192
-	local posYr = 210
+	local posYl = 197
+	local posYr = 215
 	
-	local posYs = 204
+	local posYs = 209
 --Player 2/Hints Assets Pos X and Y Distance
-	local posXP2 = 200
+	local posXP2 = 170
 	local posYP2 = 0
 --Display Logic
 	local spritesToDraw = {}  --Crear una tabla para almacenar los sprites a dibujar
@@ -626,150 +626,202 @@ function f_tutoCheck6()
 	end
 end
 
-local success = false
-local check1 = false
-local check2 = false
-local check3 = false
-local check4 = false
-local check5 = false
-local check6 = false
+function f_resetVars()
+tutoSuccess = false
+tutoCheck1 = false
+tutoCheck2 = false
+tutoCheck3 = false
+tutoCheck4 = false
+tutoCheck5 = false
+tutoCheck6 = false
+
+tutoColor1 = 0
+tutoColor2 = 0
+tutoColor3 = 0
+tutoColor4 = 0
+tutoColor5 = 0
+tutoColor6 = 0
+end
+f_resetVars()
+
+local tutoHintFont = font2
+local tutoHintPosX = 2
+local tutoHintPosY = 0
+
+local tutoHintPunch = "Punch "
+local tutoHintKick = "Kick "
+
+local tutoHintLight = "Light "
+local tutoHintMedium = "Medium "
+local tutoHintStrong = "Strong "
+
+local tutoHintStand = "Stand "
+local tutoHintJump = "Jump "
+local tutoHintCrouch = "Crouching "
 
 function f_tutoCheck7()
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintStand..tutoHintLight..tutoHintPunch, tutoHintPosX, 110)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintStand..tutoHintMedium..tutoHintPunch, tutoHintPosX, 130)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintStand..tutoHintStrong..tutoHintPunch, tutoHintPosX, 150)
 	if teamside() == 1 then
 	--Check LP
-		if anim() == 200 and hitcount() == 1 and not check1 then
-			check1 = true
+		if anim() == 200 and hitcount() == 1 and not tutoCheck1 then
+			tutoCheck1 = true
+			tutoColor1 = 5
 		end
 	--Check MP
-		if anim() == 210 and hitcount() == 1 and not check2 then
-			check2 = true
+		if anim() == 210 and hitcount() == 1 and not tutoCheck2 then
+			tutoCheck2 = true
+			tutoColor2 = 5
 		end
 	--Check HP
-		if (anim() == 220 or anim() == 221) and hitcount() == 1 and not check3 then
-			check3 = true
+		if (anim() == 220 or anim() == 221) and hitcount() == 1 and not tutoCheck3 then
+			tutoCheck3 = true
+			tutoColor3 = 5
 		end
 	end
-	if check1 and check2 and check3 then
-		check1 = false
-		check2 = false
-		check3 = false
+	if tutoCheck1 and tutoCheck2 and tutoCheck3 then
+		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck8()
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintStand..tutoHintLight..tutoHintKick, tutoHintPosX, 110)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintStand..tutoHintMedium..tutoHintKick, tutoHintPosX, 130)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintStand..tutoHintStrong..tutoHintKick, tutoHintPosX, 150)
 	if teamside() == 1 then
 	--Check LK
-		if (anim() == 230 or anim() == 231) and hitcount() == 1 and not check1 then
-			check1 = true
+		if (anim() == 230 or anim() == 231) and hitcount() == 1 and not tutoCheck1 then
+			tutoCheck1 = true
+			tutoColor1 = 5
 		end
 	--Check MK
-		if anim() == 240 and hitcount() == 1 and not check2 then
-			check2 = true
+		if anim() == 240 and hitcount() == 1 and not tutoCheck2 then
+			tutoCheck2 = true
+			tutoColor2 = 5
 		end
 	--Check HK
-		if (anim() == 250 or anim() == 251) and hitcount() == 1 and not check3 then
-			check3 = true
+		if (anim() == 250 or anim() == 251) and hitcount() == 1 and not tutoCheck3 then
+			tutoCheck3 = true
+			tutoColor3 = 5
 		end
 	end
-	if check1 and check2 and check3 then
-		check1 = false
-		check2 = false
-		check3 = false
+	if tutoCheck1 and tutoCheck2 and tutoCheck3 then
+		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck9()
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintJump..tutoHintLight..tutoHintPunch, tutoHintPosX, 90)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintJump..tutoHintMedium..tutoHintPunch, tutoHintPosX, 110)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintJump..tutoHintStrong..tutoHintPunch, tutoHintPosX, 130)
+	
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor4, 1, tutoHintJump..tutoHintLight..tutoHintKick, tutoHintPosX, 150)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor5, 1, tutoHintJump..tutoHintMedium..tutoHintKick, tutoHintPosX, 170)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor6, 1, tutoHintJump..tutoHintStrong..tutoHintKick, tutoHintPosX, 190)
 	if teamside() == 1 then
 	--Check AIR LP
-		if anim() == 600 and hitcount() == 1 and not check1 then
-			check1 = true
+		if anim() == 600 and hitcount() == 1 and not tutoCheck1 then
+			tutoCheck1 = true
+			tutoColor1 = 5
 		end
 	--Check AIR MP
-		if anim() == 610 and hitcount() == 1 and not check2 then
-			check2 = true
+		if anim() == 610 and hitcount() == 1 and not tutoCheck2 then
+			tutoCheck2 = true
+			tutoColor2 = 5
 		end
 	--Check AIR HP
-		if anim() == 620 and hitcount() == 1 and not check3 then
-			check3 = true
+		if anim() == 620 and hitcount() == 1 and not tutoCheck3 then
+			tutoCheck3 = true
+			tutoColor3 = 5
 		end	
 	--Check AIR LK
-		if anim() == 630 and hitcount() == 1 and not check4 then
-			check4 = true
+		if anim() == 630 and hitcount() == 1 and not tutoCheck4 then
+			tutoCheck4 = true
+			tutoColor4 = 5
 		end
 	--Check AIR MK
-		if anim() == 640 and hitcount() == 1 and not check5 then
-			check5 = true
+		if anim() == 640 and hitcount() == 1 and not tutoCheck5 then
+			tutoCheck5 = true
+			tutoColor5 = 5
 		end
 	--Check AIR HK
-		if anim() == 650 and hitcount() == 1 and not check6 then
-			check6 = true
+		if anim() == 650 and hitcount() == 1 and not tutoCheck6 then
+			tutoCheck6 = true
+			tutoColor6 = 5
 		end
 	end
-	if check1 and check2 and check3 and check4 and check5 and check6 then
-		check1 = false
-		check2 = false
-		check3 = false
-		check4 = false
-		check5 = false
-		check6 = false
+	if tutoCheck1 and tutoCheck2 and tutoCheck3 and tutoCheck4 and tutoCheck5 and tutoCheck6 then
+		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck10()
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintCrouch..tutoHintLight..tutoHintPunch, tutoHintPosX, 90)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintCrouch..tutoHintMedium..tutoHintPunch, tutoHintPosX, 110)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintCrouch..tutoHintStrong..tutoHintPunch, tutoHintPosX, 130)
+	
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor4, 1, tutoHintCrouch..tutoHintLight..tutoHintKick, tutoHintPosX, 150)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor5, 1, tutoHintCrouch..tutoHintMedium..tutoHintKick, tutoHintPosX, 170)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor6, 1, tutoHintCrouch..tutoHintStrong..tutoHintKick, tutoHintPosX, 190)
 	if teamside() == 1 then
 	--Check DOWN LP
-		if anim() == 400 and hitcount() == 1 and not check1 then
-			check1 = true
+		if anim() == 400 and hitcount() == 1 and not tutoCheck1 then
+			tutoCheck1 = true
+			tutoColor1 = 5
 		end
 	--Check DOWN MP
-		if anim() == 410 and hitcount() == 1 and not check2 then
-			check2 = true
+		if anim() == 410 and hitcount() == 1 and not tutoCheck2 then
+			tutoCheck2 = true
+			tutoColor2 = 5
 		end
 	--Check DOWN HP
-		if anim() == 420 and hitcount() == 1 and not check3 then
-			check3 = true
+		if anim() == 420 and hitcount() == 1 and not tutoCheck3 then
+			tutoCheck3 = true
+			tutoColor3 = 5
 		end	
 	--Check DOWN LK
-		if anim() == 430 and hitcount() == 1 and not check4 then
-			check4 = true
+		if anim() == 430 and hitcount() == 1 and not tutoCheck4 then
+			tutoCheck4 = true
+			tutoColor4 = 5
 		end
 	--Check DOWN MK
-		if anim() == 440 and hitcount() == 1 and not check5 then
-			check5 = true
+		if anim() == 440 and hitcount() == 1 and not tutoCheck5 then
+			tutoCheck5 = true
+			tutoColor5 = 5
 		end
 	--Check DOWN HK
-		if anim() == 450 and hitcount() == 1 and not check6 then
-			check6 = true
+		if anim() == 450 and hitcount() == 1 and not tutoCheck6 then
+			tutoCheck6 = true
+			tutoColor6 = 5
 		end
 	end
-	if check1 and check2 and check3 and check4 and check5 and check6 then
-		check1 = false
-		check2 = false
-		check3 = false
-		check4 = false
-		check5 = false
-		check6 = false
+	if tutoCheck1 and tutoCheck2 and tutoCheck3 and tutoCheck4 and tutoCheck5 and tutoCheck6 then
+		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck11()
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, "Forward Throw", tutoHintPosX, 110)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, "Back Throw", tutoHintPosX, 130)
 	if teamside() == 1 then
 	--Check Grab to Right
-		if anim() == 810 and not check1 then
-			check1 = true
+		if anim() == 810 and not tutoCheck1 then
+			tutoCheck1 = true
+			tutoColor1 = 5
 		end
 	--Check Grab to Left
-		if anim() == 850 and not check2 then
-			check2 = true
+		if anim() == 850 and not tutoCheck2 then
+			tutoCheck2 = true
+			tutoColor2 = 5
 		end
 	end
-	if check1 and check2 then
-		check1 = false
-		check2 = false
+	if tutoCheck1 and tutoCheck2 then
+		f_resetVars()
 		return true
 	end
 end
@@ -805,24 +857,28 @@ function f_tutoCheck16()
 end
 
 function f_tutoCheck17()
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, "EX Kung Fu Palm", tutoHintPosX, 110)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, "EX Kung Fu Knee", tutoHintPosX, 130)
+	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, "EX Kung Fu Shuffle", tutoHintPosX, 150)
 	if teamside() == 1 then
 	--Check EX KUNG FU PALM
-		if anim() == 1030 and not check1 then
-			check1 = true
+		if anim() == 1030 and not tutoCheck1 then
+			tutoCheck1 = true
+			tutoColor1 = 5
 		end
-	--Check EX DIVE KICK
-		if anim() == 1135 and not check2 then
-			check2 = true
+	--Check EX KUNG FU KNEE
+		if anim() == 1135 and not tutoCheck2 then
+			tutoCheck2 = true
+			tutoColor2 = 5
 		end
-	--Check EX ? KICK
-		if anim() == 1332 and not check3 then
-			check3 = true
+	--Check EX KUNG FU SHUFFLE
+		if anim() == 1332 and not tutoCheck3 then
+			tutoCheck3 = true
+			tutoColor3 = 5
 		end
 	end
-	if check1 and check2 and check3 then
-		check1 = false
-		check2 = false
-		check3 = false
+	if tutoCheck1 and tutoCheck2 and tutoCheck3 then
+		f_resetVars()
 		return true
 	end
 end
