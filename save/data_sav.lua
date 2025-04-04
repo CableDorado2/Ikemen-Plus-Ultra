@@ -19,7 +19,7 @@ data.winscreen = "Classic"
 data.charPresentation = "Mixed"
 data.sffConversion = true
 --Game Data
-data.difficulty = 7
+data.difficulty = 8
 data.roundTime = 99
 data.roundsNum = 2
 data.lifebar = "data/screenpack/fight.def"

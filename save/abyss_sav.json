@@ -1,23 +1,23 @@
 {
-  "nosave": {
-    "nextspecialboss": 40,
-    "sp1": "",
-    "cel": 0,
-    "depth": 1,
-    "sp2": "",
-    "reward": 0,
-    "attack": 0,
-    "defence": 0,
-    "expense": 0,
-    "life": 0,
-    "nextboss": 20,
-    "power": 0,
-    "sp3": "",
-    "name": "Kung Fu Man"
-  },
   "save1": [],
-  "save3": [],
-  "save5": [],
   "save4": [],
-  "save2": []
+  "save3": [],
+  "nosave": {
+    "cel": 0,
+    "life": 0,
+    "defence": 0,
+    "sp2": "",
+    "depth": 0,
+    "expense": 0,
+    "name": "Kung Fu Man",
+    "power": 0,
+    "nextboss": 0,
+    "nextspecialboss": 0,
+    "sp3": "",
+    "reward": 0,
+    "sp1": "",
+    "attack": 0
+  },
+  "save2": [],
+  "save5": []
 }

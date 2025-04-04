@@ -2942,7 +2942,7 @@ function f_default() --Reset Game Modes Configuration
 	data.aiFight = false --AI = data.difficulty for all characters disabled
 	data.stageMenu = false --stage selection disabled
 	data.stage = nil --no predefined custom stage
-	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = data.zoomMax, zoomSpeed = data.zoomSpeed} --predefined custom Zoom Stage values (assigned via table: {zoom = false, zoomMin = 0.5, zoomMax = 1, zoomSpeed = 1} )
+	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = data.zoomMax, zoomSpeed = data.zoomSpeed} --predefined custom Zoom Stage values (assigned via table: {zoom = false, zoomOut = 0.5, zoomIn = 1, zoomSpeed = 1} )
 	data.bgm = nil --no predefined custom song route
 	data.songSelect = true --enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
 	data.arcadeIntro = false --character arcade intro disabled

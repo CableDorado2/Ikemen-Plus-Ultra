@@ -1,5 +1,5 @@
 --Dialogue Settings
-data.VNdelay = 3
+data.VNdelay = 2
 data.VNtxtBGTransS = 255
 data.VNtxtBGTransD = 0
 data.VNdisplayName = true

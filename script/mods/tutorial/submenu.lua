@@ -560,10 +560,10 @@ t_tutorialDiag = {
 {btntonext = true, txt = "OK, LET'S TRY SOME MOVES."},
 {condition = "f_tutoCheck1", inputhint = t_tutoInput1, txt = "GO FORDWARD USING [RIGHT] BUTTON AND COME TO ME."},
 {condition = "f_tutoCheck2", inputhint = t_tutoInput2, txt = "NICE. NOW GO BACK USING [LEFT] BUTTON."},
-{condition = "f_tutoCheck3", inputhint = t_tutoInput3, txt = "GOOD. NOW CROUCH WITH [DOWN] BUTTON."},
-{condition = "f_tutoCheck4", inputhint = t_tutoInput4, txt = "YEP. JUMP WITH [UP] BUTTON."},
-{condition = "f_tutoCheck5", inputhint = t_tutoInput5, txt = "HMM. TAP 2 TIMES [LEFT] BUTTON"},
-{condition = "f_tutoCheck6", inputhint = t_tutoInput6, txt = "NOW! TAP 2 TIMES [RIGHT] BUTTON"},
+{condition = "f_tutoCheck3", inputhint = t_tutoInput3, txt = "GOOD. YOU CAN CROUCH WITH [DOWN] BUTTON."},
+{condition = "f_tutoCheck4", inputhint = t_tutoInput4, txt = "EXCELLENT. JUMP WITH [UP] BUTTON."},
+{condition = "f_tutoCheck5", inputhint = t_tutoInput5, txt = "HMM. TAP 2 TIMES [LEFT] BUTTON TO RUN BACKWARD."},
+{condition = "f_tutoCheck6", inputhint = t_tutoInput6, txt = "NOW! TAP 2 TIMES [RIGHT] BUTTON TO RUN FORDWARD."},
 {condition = "f_tutoCheck7", inputhint = t_tutoInput7, txt = "LET'S TRY THOSE FIST.                      PRESS [X], [Y] AND [Z] BUTTONS TO ATTACK ME."},
 {condition = "f_tutoCheck8", inputhint = t_tutoInput8, txt = "LET'S TRY THOSE KICKS.                     PRESS [A], [B] AND [C] BUTTONS TO KICK ME."},
 {btntonext = true, txt = "EACH BUTTON HAVE DIFFERENT DAMAGE PROPERTIES."},
@@ -572,15 +572,16 @@ t_tutorialDiag = {
 {btntonext = true, txt = "HEAVY ATTACKS HP/HK[Z/C] ARE SLOWER BUT IN ADDITION TO DOING MORE DAMAGE, IT STUN FOR LONGER TIME THAN MEDIUM ATTACKS."},
 {condition = "f_tutoCheck9", inputhint = t_tutoInput9, txt = "COOL. NOW TRY ALL PREVIOUS ATTACKS DURING JUMP (PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS ON AIR)."},
 {condition = "f_tutoCheck10", inputhint = t_tutoInput10, txt = "GREAT! LIKE JUMPING, YOU CAN ALSO ATTACK DURING CROUCH.(PRESS [A], [B], [C], [X], [Y] AND [Z] BUTTONS WHEN CROUCH)."},
-{condition = "f_tutoCheck11", inputhint = t_tutoInput11, txt = "MARVELOUS! YOU CAN GRAB THE OPPONENT BY PRESSING [B] AND [Y] BUTTON AT THE SAME TIME WITH [RIGHT] OR [LEFT] BUTTONS."},
+{condition = "f_tutoCheck11", inputhint = t_tutoInput11, txt = "MARVELOUS! YOU CAN GRAB AND THROW YOUR OPPONENT BY PRESSING [B] AND [Y] BUTTON AT THE SAME TIME WITH [RIGHT] OR [LEFT] BUTTONS."},
 {condition = "f_tutoCheck12", inputhint = t_tutoInput12, txt = "WONDERFUL! YOU CAN STOP AND PUSH YOUR OPPONENT WHILE HE IS ATTACKING OR NOT BY PRESSING [C] AND [Z] BUTTONS AT THE SAME TIME."},
 {btntonext = true, txt = "FANTASTIC! NOW... SPECIAL MOVES ARE BUTTON COMBINATIONS THAT ALLOW YOU TO DEAL MORE DAMAGE THAN NORMAL HITS."},
 {btntonext = true, txt = "KUNG FU GIRL HAS 3 SPECIAL MOVES."},
 {condition = "f_tutoCheck13", inputhint = t_tutoInput13, txt = 'THE FIRST ONE IS A "KUNG FU PALM".       YOU CAN EXECUTE IT BY PRESSING [DOWN]+[RIGHT]+[X/Y/Z]. TRY IT!'},
 {condition = "f_tutoCheck14", inputhint = t_tutoInput14, txt = 'THE SECOND ONE IS A "KUNG FU SHUFFLE".    YOU CAN EXECUTE IT BY PRESSING [DOWN]+[LEFT]+[A/B/C]. TRY IT!'},
-{condition = "f_tutoCheck15", inputhint = t_tutoInput15, txt = "THIS ONE CAN BE FOLLOWED BY MASHING 3 TIMES ANY KICK BUTTON. TRY IT!"},
+{condition = "f_tutoCheck15", inputhint = t_tutoInput15, txt = '"KUNG FU SHUFFLE" CAN BE FOLLOWED BY MASHING 2 TIMES ANY KICK BUTTON. TRY IT!'},
 {condition = "f_tutoCheck16", inputhint = t_tutoInput16, txt = 'THE LAST ONE IS A "KUNG FU KNEE". TO DO IT,    PRESS [RIGHT]+[DOWN]+[RIGHT]+[B/C + B/C].'},
 {btntonext = true, txt = "AWESOME!                                  NOW LET'S TALK ABOUT THE EX MOVES."},
+{btntonext = true, txt = "EVERY TIME THAT YOU ATTACK OR CONNECT HITS, YOUR POWER BAR INCREASES."},
 {btntonext = true, txt = "THE EX MOVES ARE IMPROVEMENTS FOR SPECIAL MOVES. TO EXECUTE IT, YOU NEED AT LEAST 1 POWER BAR AND PRESS AT THE SAME TIME 2 BUTTONS THAT EXECUTE THE MOVE."},
 {condition = "f_tutoCheck17", txt = "DO EX VERSION FOR ALL SPECIAL MOVES!"},
 {btntonext = true, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED:                                           TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
@@ -810,7 +811,7 @@ function f_tutoCheck11()
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, "Forward Throw", tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, "Back Throw", tutoHintPosX, 130)
 	if teamside() == 1 then
-	--Check Grab to Right
+	--Check Throw to Right
 		if anim() == 810 and not tutoCheck1 then
 			tutoCheck1 = true
 			tutoColor1 = 5
