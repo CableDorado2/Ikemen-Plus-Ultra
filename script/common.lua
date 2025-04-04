@@ -2931,8 +2931,8 @@ function f_default() --Reset Game Modes Configuration
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
 	data.p1Pal = nil --no predefined P1 character palette
 	data.p2Pal = nil --no predefined P2 character palette
-	data.p1TeamMenu = nil --no predefined P1 team mode (assigned via table: {mode = X, chars = Y})
-	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y})
+	data.p1TeamMenu = nil --no predefined P1 team mode (assigned via table: {mode = X, chars = Y} )
+	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y} )
 	data.p1In = 1 --P1 controls P1 side of the select screen
 	data.p2In = 0 --P2 controls in the select screen disabled
 	data.coop = false --P2 fighting on P1 side disabled
@@ -2942,6 +2942,7 @@ function f_default() --Reset Game Modes Configuration
 	data.aiFight = false --AI = data.difficulty for all characters disabled
 	data.stageMenu = false --stage selection disabled
 	data.stage = nil --no predefined custom stage
+	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = data.zoomMax, zoomSpeed = data.zoomSpeed} --predefined custom Zoom Stage values (assigned via table: {zoom = false, zoomMin = 0.5, zoomMax = 1, zoomSpeed = 1} )
 	data.bgm = nil --no predefined custom song route
 	data.songSelect = true --enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
 	data.arcadeIntro = false --character arcade intro disabled

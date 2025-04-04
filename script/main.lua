@@ -7835,10 +7835,12 @@ end
 
 function f_setRoundTime()
 	local roundTime = data.roundTime --Use default time saved in settings
-	--Set New Time from select.def ExtraStages section
-	--if t_selStages[stageNo].roundtime ~= nil then
-		--roundTime = t_selChars[stageNo].roundtime
-	--end
+--Set New Time from select.def ExtraStages section
+--[[
+	if t_selStages[stageNo].roundtime ~= nil then
+		roundTime = t_selChars[stageNo].roundtime
+	end
+]]
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 	--Set New Time from select.def chars section
 		if t_selChars[data.t_p1selected[1].cel+1].roundtime ~= nil then
@@ -7853,7 +7855,7 @@ function f_setRoundTime()
 end
 
 function f_setZoom()
-	local zoom = data.zoomActive
+	local zoom = data.zoomStage.zoom --data.zoomActive
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		if t_selChars[data.t_p1selected[1].cel+1].zoom ~= nil then
 			if t_selChars[data.t_p1selected[1].cel+1].zoom == 1 then
@@ -7884,17 +7886,17 @@ function f_setZoom()
 		end
 	end
 	setZoom(zoom)
-	local zoomMin = data.zoomMin
+	local zoomMin = data.zoomStage.zoomOut --data.zoomMin
 	if t_selStages[stageNo].zoommin ~= nil then
 		zoomMin = t_selStages[stageNo].zoommin
 	end
 	setZoomMin(zoomMin)
-	local zoomMax = data.zoomMax
+	local zoomMax = data.zoomStage.zoomIn --data.zoomMax
 	if t_selStages[stageNo].zoommax ~= nil then
 		zoomMax = t_selStages[stageNo].zoommax
 	end
 	setZoomMax(zoomMax)
-	local zoomSpeed = data.zoomSpeed
+	local zoomSpeed = data.zoomStage.zoomSpeed --data.zoomSpeed
 	if t_selStages[stageNo].zoomspeed ~= nil then
 		zoomSpeed = t_selStages[stageNo].zoomspeed
 	end

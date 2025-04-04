@@ -24,7 +24,8 @@ function f_tutorial()
 	setRoundTime(-1) --round time disabled
 	data.versusScreen = false --versus screen disabled
 	data.victoryscreen = false --victory screen disabled
-	data.stage = "stages/HD TEST/Training Room.def" --predefined custom stage
+	data.stage = "stages/Training Room 2.def" --predefined custom stage
+	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = 0.8, zoomSpeed = data.zoomSpeed} --custom zoom values for this match
 	data.bgm = bgmTutorial --predefined custom song route
 	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
