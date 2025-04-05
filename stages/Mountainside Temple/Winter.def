@@ -2,6 +2,7 @@
 name = "Winter"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+daytime = "Morning"
 unlockcondition = "Complete Event 1"
 ;--------------------------------------------------------
 [Camera]

@@ -1,0 +1,35 @@
+[Characters]
+Kung Fu Man, stages/kfm.def, includestage=0
+Kung Fu Girl
+randomselect
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+randomselect
+empty
+empty
+;---------------------------------------------------------------------------------
+[ExtraStages]
+stages/stage0.def
+stages/stage0-720.def
+stages/stage1.def
+stages/stageZ.def
+;---------------------------------------------------------------------------------
+[Options]
+arcade.maxmatches = 6,1,1,0,0,0,0,0,0,0
+team.maxmatches = 4,1,1,0,0,0,0,0,0,0
+
+arcade.AIramp.start = 2, 0
+arcade.AIramp.end   = 4, 2
+
+team.AIramp.start = 1, 0
+team.AIramp.end   = 3, 2
+
+survival.AIramp.start = 0, -3
+survival.AIramp.end   = 16, 4

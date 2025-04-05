@@ -5,6 +5,7 @@ versiondate = 09,30,2014
 mugenversion = 1.1          
 author = "HekuttaSaint"
 location = "Mountainside Temple"
+daytime = "Day"
 ;--------------------------------------------------------
 [Camera]
 startx = 0

@@ -1,0 +1,126 @@
+[Info]
+
+name			= "Training Room 2"
+displayname		= "Training Room 2"
+versiondate		= 29,06,2021
+mugenversion	= 1.0
+author			= "applest0re"
+;--------------------------------------------------------------------------------
+[Camera]
+
+startx			= -2
+starty			= 0
+boundleft		= -320
+boundright		= 320
+boundhigh		= -120
+boundlow		= 0
+verticalfollow	= .75
+floortension	= 0
+tension			= 60
+overdrawhigh	= 40
+overdrawlow		= 40
+cuthigh			= 0
+cutlow			= 0
+
+;--------------------------------------------------------------------------------
+[PlayerInfo]
+
+p1startx		= -70
+p1starty		= 0
+p1facing		= 1
+
+p2startx		= 68
+p2starty		= 0
+p2facing		= -1
+
+p3startx		= -120
+p3starty		= 0
+p3facing		= 1
+
+p4startx		= 120
+p4starty		= 0
+p4facing		= -1
+
+leftbound		= -1000
+rightbound		= 1000
+
+;--------------------------------------------------------------------------------
+[Bound]
+
+screenleft		= 15
+screenright		= 15
+
+;--------------------------------------------------------------------------------
+[StageInfo]
+
+zoffset			= 206
+autoturn		= 1
+resetBG			= 0
+localcoord		= 320, 240
+xscale			= 1
+yscale			= 1
+
+;--------------------------------------------------------------------------------
+[Shadow]
+
+intensity		= 0
+color			= 0,0,0
+yscale			= .3
+fade.range		= 0,0
+
+;--------------------------------------------------------------------------------
+[Reflection]
+
+reflect			= 1
+intensity		= 128
+scale			= 
+
+;--------------------------------------------------------------------------------
+[Music]
+
+bgmusic			= sound/Training Room 2.mp3
+;bgmloopstart	= 
+;bgmloopend		= 
+bgmvolume		= 100
+
+;================================================================================
+[BGdef]
+
+spr				= Training Room 2.sff
+debugbg			= 0
+bgclearcolor	= 102,102,102
+
+[BG Wall]
+
+type			=parallax
+spriteno		= 1,0
+layerno			= 0
+width			= 16,16
+start			= 0,240
+delta			= .5,1
+tile			= 1,1
+mask			= 0
+
+[BG floor]
+
+type			= parallax
+spriteno		= 0,0
+layerno			= 0
+width			= 16,84
+start			= 0,240
+delta			= .5,1
+tile			= 1,1
+mask			= 0
+
+[BG reflection]
+
+type			= normal     
+spriteno		= 2,0
+start			= 8,240
+delta			= .5,1
+tile			= 1,0
+mask			= 1
+Trans			= add1
+Alpha			= 200,256
+
+;================================================================================

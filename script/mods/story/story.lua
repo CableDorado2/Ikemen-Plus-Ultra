@@ -723,7 +723,7 @@ function f_arc1_chapter1()
 		setRoundsToWin(1)
 		data.versusScreen = false
 		data.victoryscreen = false
-		data.stage = "stages/Mountain Valley.def"
+		data.stage = "stages/Others/Mountain Valley.def"
 		data.songSelect = false --Star fight using music played in visual novel mode
 		data.rosterMode = "story"
 		setGameMode('story')
@@ -890,7 +890,7 @@ function f_arc1_chapter4_1()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4A"
-		--[[
+	--[[
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man/Master/Master Kung Fu Man.def"}
 		data.p1Pal = 1
@@ -901,10 +901,10 @@ function f_arc1_chapter4_1()
 		setRoundsToWin(1)
 		data.versusScreen = false
 		data.victoryscreen = false
-		data.stage = "stages/Sakura.def"
+		data.stage = "stages/Others/Sakura.def"
 		setGameMode('story')
 		f_selectStory()
-		]]
+	]]
 		f_storyStatus()
 		f_playCredits() --Go to credits screen
 	else

@@ -1,7 +1,7 @@
 [Characters]
 Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, tutorial=1, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
-Mako Mayama, stages/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
-Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude
+Mako Mayama, stages/Others/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
+Kung Fu Girl, stages/Others/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude
 Reika Murasame, unlock=stats.unlocks.chars.reika == true, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=1
 Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
 randomselect
@@ -17,16 +17,15 @@ blank
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclude=1, order=1
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, 4=Kung Fu Man
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, exclude=1, intermission=1, ai=8, order=-1, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, exclude=1, intermission=1, ai=8, order=-1, single=1
+Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Others/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, exclude=1, intermission=1, ai=8, order=-1, single=1
 Red Dragon, chars/Red Dragon/stage/The Red Dragon's Lair.def, zoom=0, includestage=0, exclude=1, order=-1, excludetourney=1
-Break The Car, stages/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
-Strength Training, stages/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
+Break The Car, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
+Strength Training, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=-1
-Event 1, zoom=0, exclude=1, excludetourney=1, order=-1, victoryscreen=0, vsscreen=0, stages/Training Room.def
+Event 1, zoom=0, exclude=1, excludetourney=1, order=-1, victoryscreen=0, vsscreen=0, stages/stage0.def, includestage=0
 Mako Mayama/vnFight.def, exclude=1, excludetourney=1, order=-1
 ;Training, exclude=1, excludetourney=1, training=1, order=-1
 Stage Viewer, exclude=1, excludetourney=1, order=-1, stages/Mountainside Temple/Roof Night.def, includestage=0
-
 ;---------------------------------------------------------------------------------
 [ExtraStages]
 ;stages/Mountainside Temple/Temple Entrance Afternoon.def
@@ -46,17 +45,16 @@ stages/Mountainside Temple/Winter.def, unlock=stats.modes.event.clear1 == 1
 ;stages/Mountainside Temple/Secret Hallway.def, unlock=???
 ;stages/Mountainside Temple/Clone Laboratory.def, unlock=??
 ;stages/Mountainside Temple/Clone Laboratory 2.def, unlock=??
-stages/China.def
-stages/HD TEST/Australian Outback.def
-stages/HD TEST/Fairy Day 4_3.def
-stages/HD TEST/Fairy Day 16_9.def
-stages/HD TEST/Aensland Castle.def
-stages/HD TEST/Training Room.def
-stages/HD TEST/Training Room(Scale).def
-stages/Green Screen.def
-stages/Training Room.def
-stages/Training Room 2.def, music=sound/Fake World.mp3, unlock=stats.modes.training.playtime > 1500
-
+stages/Others/China.def
+stages/Others/Space Rainbow.def
+stages/Others/Training Room.def
+stages/Others/Training Room 2.def, music=sound/Fake World.mp3, unlock=stats.modes.training.playtime > 1500
+;stages/Others/Green Screen.def
+;stages/HD TEST/Australian Outback.def
+;stages/HD TEST/Fairy Day 4_3.def
+;stages/HD TEST/Fairy Day 16_9.def
+;stages/HD TEST/Aensland Castle.def
+;stages/HD TEST/Training Room.def
 ;---------------------------------------------------------------------------------
 [Options]
 arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
@@ -70,7 +68,6 @@ team.AIramp.end   = 3, 2
 
 survival.AIramp.start = 0, -3
 survival.AIramp.end   = 16, 4
-
 ;---------------------------------------------------------------------------------
 [TowerMode]
 snd = data/screenpack/tower.snd

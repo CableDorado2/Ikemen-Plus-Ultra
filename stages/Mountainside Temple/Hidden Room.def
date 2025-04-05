@@ -2,6 +2,7 @@
 name = "Hidden Room"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+daytime = "Afternoon"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

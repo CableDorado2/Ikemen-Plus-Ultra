@@ -13546,7 +13546,12 @@ function f_selectWin()
 		refresh()
 	end
 end
-
+--[[
+The problem with the following function f_winParse is that since it's outside the match, there are triggers
+like those in life that can't be evaluated and are omitted.
+There are also cases where using brackets [1,2] causes an error in Lua because they aren't processed that way.
+They must be sent to a table.
+]]
 function f_winParse(winner, looser, pal)
 	local quote = -1
 	local logVar = winner.name .. '\n'

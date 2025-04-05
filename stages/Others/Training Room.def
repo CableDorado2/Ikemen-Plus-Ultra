@@ -1,0 +1,139 @@
+[Info]
+name = "Training Room"
+author = "Ryon"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -500
+boundright = 500
+boundhigh = -150
+boundlow = 0
+verticalfollow = .8
+floortension = 30
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 218
+autoturn = 1
+resetBG = 1
+HIres = 1
+
+[Shadow]
+intensity = 128
+color = 0,0,0
+yscale = .1
+fade.range = 0,0
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/Training Room 1.mp3
+bgvolume = 0
+
+;========================================================
+; [BG x]
+; type = ?       "Normal"/"Parallax"  (def: "normal")
+; spriteno = ?, ? Sprite group and number: groupno, imgno  (req'd)
+; start = ?, ?   Starting location (integer)  (def: 0, 0)
+; delta = ?, ?   Change in location per camera unit moved (float)  (def: 1,1)
+; trans = ?      Transparency settings: "none"/"add"/"add1"/"sub"" (def: "none")
+; mask = ?       Masking (int): 0 - off, 1 - on  (def: 0)
+; velocity = ?, ? Velocity: x, y (float): speed background moves (def: 0, 0)
+; tile = ?, ?    Tiling: xtile, ytile (int): 0 - off, 1 - infinite,
+;                        >1 - tile that number of times  (def: 0, 0) - only for Normal BG
+; tilespacing = ?, ? Tiling: x, y (int) : space between tiles (def: 0, 0)
+;  Parallax-only:
+; xscale = ?, ?    Top xscale, bottom xscale (float)
+; width = ?, ?     Top width, bottom width (int)  (use either this or above, but not both)
+; yscalestart = ?  Starting y-scale (float, in percent)  (def: 100)
+; yscaledelta = ?  Change in y-scale per unit (float, in percent)  (def: 0)
+;========================================================
+
+[BGdef]
+spr = Training Room.sff
+
+[BG 1] ; Wall
+type  = normal
+spriteno = 0, 1
+start = -128,-435
+delta = 1.7, 2
+mask = 0
+trans = none
+velocity = 0, 0
+tile = 1, 1
+tilespacing = 0, 0
+
+[BG 1] ; Wall
+type  = normal
+spriteno = 3, 0
+start = -128,-435
+delta = 1.7, 2
+mask = 0
+trans = none
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+[BG 1] ; 25 Feet
+type  = anim
+actionno = 1
+start = 100, 139
+delta = 1.7, 2
+
+[BG 1] ; 50 Feet
+type  = anim
+actionno = 2
+start = -100, -181
+delta = 1.7, 2
+
+[Begin Action 1]
+1,0, 0,0, -1,,AS256D228
+
+[Begin Action 2]
+1,1, 0,0, -1,,AS256D228
+
+[BG 1] ; Floor Middle
+type  = parallax
+spriteno = 0,2
+start = 0, 395
+tile = 1,0
+delta = 1.7,2
+width = 256,356
+yscalestart = 300
+yscaledelta = 0
+
+[BG 1] ; Floor Middle
+type  = parallax
+spriteno = 0,4
+start = 0, 395
+tile = 0,0
+delta = 1.7,2
+width = 256,356
+yscalestart = 300
+yscaledelta = 0

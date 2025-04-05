@@ -1,0 +1,295 @@
+;; Sakura (Hanami) ver.2014
+;; For people who missed seeing the Hanami event this year.
+;; These trees are Transplanted from the "Yoshino" of "Samurai Spirits" by SNK
+
+[Info]
+	name="Sakura"
+	displayname="Sakura"
+	versiondate=08,08,2014
+	mugenversion=1.1
+	author= "Shiyo Kakuge"
+	daytime = "Morning"
+
+[Camera]
+	startx=0
+	starty=0
+	boundleft= -260
+	boundright= 260
+	boundhigh= -220
+	boundlow=0
+	verticalfollow=1
+	tension=100
+	floortension=150
+
+	;;--- * v1.1 (zoom) *---
+	;;cuthigh=30
+	cutlow=10
+	;;---
+	overdrawhigh=5
+	overdrawlow=5
+	;;---
+	tensionhigh=85 ;;t_hi
+	tensionlow=25
+	startzoom=1
+	zoomout= 0.85 ; 1
+	zoomin=  1    ; 1.2
+	;;--- * v1.1 (zoom) *---
+
+[PlayerInfo]
+	p1startx=-70
+	p1starty=0
+	p1startz=0
+	p1facing=1
+
+	p2startx=70
+	p2starty=0
+	p2startz=0
+	p2facing=-1
+
+	leftbound=-1000
+	rightbound=1000
+	topbound=0
+	botbound=0
+
+[Scaling]
+	topz=0
+	botz=50
+	topscale=1
+	botscale=1.2
+
+[Bound]
+	screenleft=15
+	screenright=15
+
+[StageInfo]
+	zoffset=215
+	autoturn=1
+	resetBG=0
+	localcoord=320,240
+
+
+[Shadow]
+	color=0,0,0
+	intensity=196
+;;	reflect=0;1
+	yscale=-0.05
+	fade.range=-120,0
+;[Reflection]
+;	intensity=64
+
+
+[Music]
+	bgmusic=sound/Student.mp3
+	bgvolume= 100
+
+[BGdef]
+	spr=Sakura.sff
+	debugbg=0
+
+
+
+
+
+;-------------------
+
+;-------------------
+[bg 0] ; sky
+	type=normal
+	spriteno=0,0
+	start=0,160
+	delta=0.1,0.15 ;; 0.1,0.7
+	tile=1,1
+	tilespacing=0,0
+	trans=none
+	mask=0
+	velocity=-0.1
+	;---
+	scalestart=0.75,0.5
+	zoomdelta=0.65
+
+[bg 0] ; tree 3/3
+	type=normal
+	spriteno=0,1
+	start=0,162
+	delta=0.2,0.3 ;; 0.2,0.75
+	tile=1,0
+	tilespacing=0,0
+	mask=1
+	;---
+	scalestart=0.5,0.5
+;;-	scaledelta=0,0
+	zoomdelta=0.7
+
+[bg 0] ; sakura_mai
+	type=normal
+	spriteno=0,4
+	start=0,0
+	delta=0.2,0.3 ;; 0.2,0.75
+	tile=1,1
+	tilespacing=380,260
+	mask=1
+	velocity=-0.3,0.2
+	window=-800,108,800,166
+	windowdelta=0.2,0.4
+	sin.x=8,800
+	sin.y=6,600
+	;---
+	scalestart=0.75,0.45
+	zoomdelta=0.75
+
+[bg 0] ; tree 2/3
+	type=normal
+	spriteno=0,2
+	start=-80,165
+	delta=0.3,0.45 ;; 0.3,0.8
+	tile=1,0
+	tilespacing=0,0
+	mask=1
+	;---
+	scalestart=0.65,0.65
+	zoomdelta=0.8
+
+[bg 0] ; ship
+	type=normal
+	spriteno=30,9
+	start=-260,167
+	delta=0.35,0.525 ;; 0.35,0.85
+	tile=1,0
+	tilespacing=1200,0
+	mask=1
+	velocity=0.1,0
+	;---
+	scalestart=0.8,0.8
+	zoomdelta=0.8
+
+[bg 0] ; sakura_mai
+	type=normal
+	spriteno=0,4
+	start=160,120
+	delta=0.35,0.525 ;; 0.35,0.85
+	tile=1,1
+	tilespacing=420,280
+	mask=1
+	velocity=-0.4,0.3
+	window=-800,90,800,170
+	windowdelta=1,1
+	sin.x=12,900
+	sin.y=10,800
+	;---
+	scalestart=1,0.5
+	zoomdelta=0.85
+
+;---
+[bg 0] ; tree 3/3
+	type=normal
+	spriteno=0,3
+	start=-280,170
+	delta=0.4,0.6 ;; 0.4,0.9
+	tile=3,0
+	mask=1
+	;---
+	scalestart=0.75,0.75
+	zoomdelta=0.9
+
+
+;---
+;---
+[bg 0] ; light
+	type=normal
+	spriteno=20,0
+	layerno=0
+	start=-65,178
+	delta=0.5,0.75 ;; 0.5,1
+	tile=1,0
+	tilespacing=200,0
+	mask=1
+	;---
+	scalestart=0.8,0.8
+
+;;---
+;; sub_char
+;;---
+[bg 0] ; sub_characters
+	type=anim
+	actionno=300
+	start=60,178
+	delta=0.5,0.75 ;; 0.5,1
+	mask=1
+	;---
+	scalestart=0.8,0.8
+
+[Begin Action 300]
+30,10,0,0,15
+30,11,0,0,15
+
+;---
+;---
+[bg 0] ; floor
+	type=parallax
+	spriteno=20,1 ;;[194x188]
+	start=0,178
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	;---
+;	delta=0.5,1
+;	width=200,744 ;; 100,372
+;	yscalestart=188
+	;---
+	delta=0.5,0.75
+;;	xscale=1,1.75
+	width=200,744 ;; 100,372
+	yscalestart=188
+	yscaledelta=1.2
+
+;---
+[bg 0] ; floor_flower
+	type=parallax
+	id=100
+	spriteno=0,4 ;;[320x240]
+	start=0,178
+	mask=1
+	tile=1,0
+	;---
+;	delta=0.5,1
+;	width=100,372
+;	yscalestart=240
+	;---
+	delta=0.5,0.75
+	width=100,372
+	yscalestart=240
+	yscaledelta=1.2
+
+;;---
+;;---
+;;[bg 0] ; debug
+;;	type=normal
+;;	spriteno=0,0
+;;	start=0,0
+;;	delta=1,1
+;;	tile=1,1
+;;	window=120,-800,121,214
+;;	windowdelta=1,1
+;;	velocity=2,10
+
+
+;---
+;---
+
+
+;:--------------
+:;[bgctrldef mics]
+;:looptime=800
+;:ctrlid=100
+;:[bgctrl 0]
+;:	type=veladd
+;:	time=250,269
+;:	x=-0.02
+;:[bgctrl 0]
+;:	type=veladd
+;:	time=300,399
+;:	x=0.004
+
+;--------------
+
+;[EOF]

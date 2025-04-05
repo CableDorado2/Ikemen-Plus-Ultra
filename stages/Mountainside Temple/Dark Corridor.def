@@ -2,6 +2,7 @@
 name = "Dark Corridor"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+daytime = "Night"
 unlockcondition = "Complete Mission 1"
 ;--------------------------------------------------------
 [Camera]

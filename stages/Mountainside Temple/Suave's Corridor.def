@@ -2,6 +2,7 @@
 name = "Suave's Corridor"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+daytime = "Night"
 ;--------------------------------------------------------
 [Camera]
 startx = 0
