@@ -80,6 +80,13 @@ animAddPos(kfmTutoPortrait, -47, 1)
 animSetScale(kfmTutoPortrait, 0.52, 0.52)
 animUpdate(kfmTutoPortrait)
 
+--Steps BG
+tutorialStepBG = animNew(sprTutorial, [[
+3,0, 0,0, -1
+]])
+animSetAlpha(tutorialStepBG, 255, 22)
+animUpdate(tutorialStepBG)
+
 --Clear Message
 tutorialClear = animNew(sprTutorial, [[
 10,0, 0,0, -1
@@ -663,6 +670,9 @@ local tutoHintJump = "Jump "
 local tutoHintCrouch = "Crouching "
 
 function f_tutoCheck7()
+	animSetPos(tutorialStepBG, -2, 100)
+	animDraw(tutorialStepBG)
+	animUpdate(tutorialStepBG)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintStand..tutoHintLight..tutoHintPunch, tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintStand..tutoHintMedium..tutoHintPunch, tutoHintPosX, 130)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintStand..tutoHintStrong..tutoHintPunch, tutoHintPosX, 150)

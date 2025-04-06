@@ -435,8 +435,9 @@ local abyssHitCnt = 0
 local tutoi = 0
 local tutoDiag = 1
 local tutoClearCnt = 0
-local tutoClearAlphaS = 255
-local tutoClearAlphaD = 0
+local tutoClearAlphaS = 0
+local tutoClearAlphaD = 255
+local tutoClearX = 0
 local tutoClearAction = false
 
 local function f_setStageMusic()
@@ -541,6 +542,8 @@ end
 
 function f_nextTutoText()
 	local nextText = false
+	local revealTime = 10
+	local clearSpeedX = 5
 	if t_tutorialDiag[tutoDiag].btntonext then --Select Button will show the next text
 	--Draw Down Arrow Animation
 		animDraw(tutorialNext)
@@ -554,16 +557,28 @@ function f_nextTutoText()
 			tutoClearAction = true --Activate Clear Animation
 		end
 	end
-	if tutoClearAction and tutoClearCnt <= 100 then --Draw During 200 Ticks
+	if tutoClearAction and tutoClearCnt <= 100 then --Draw During these Ticks
 		if tutoClearCnt == 0 then sndPlay(sndTutorial, 1, 0) end --Play Clear SFX
+		--
+		if tutoClearAlphaS < 255 then tutoClearAlphaS = tutoClearAlphaS + revealTime end
+		if tutoClearAlphaS > 255 then tutoClearAlphaS = 255 end --Correction
+		if tutoClearAlphaD > 0 then tutoClearAlphaD = tutoClearAlphaD - revealTime end
+		if tutoClearAlphaD < 0 then tutoClearAlphaD = 0 end --Correction
 		animSetAlpha(tutorialClear, tutoClearAlphaS, tutoClearAlphaD)
-		animSetPos(tutorialClear, 45, 120)
+		--
+		if tutoClearX < 45 then tutoClearX = tutoClearX + clearSpeedX end
+		if tutoClearX > 45 then tutoClearX = 45 end
+		animSetPos(tutorialClear, tutoClearX, 120)
+		--
 		animDraw(tutorialClear)
 		animUpdate(tutorialClear)
 		tutoClearCnt = tutoClearCnt + 1
 	elseif tutoClearAction and tutoClearCnt >= 100 then --Disable Clear Animation and Restart Vars
 		tutoClearAction = false
 		tutoClearCnt = 0
+		tutoClearAlphaS = 0
+		tutoClearAlphaD = 255
+		tutoClearX = 0
 		nextText = true
 	end
 --Go to the next Dialogue
