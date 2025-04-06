@@ -3,6 +3,7 @@
 --;===========================================================
 table.insert(t_practiceMenu,#t_practiceMenu,{id = textImgNew(), text = "TUTORIAL", gotomenu = "f_tutorial()"}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
 sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
+sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
 bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
 --[[
 - tutorial
@@ -43,7 +44,6 @@ function f_tutorial()
 	textImgSetText(txt_mainSelect, "TUTORIAL MODE")
 	f_selectSimple()
 end
-
 --;===========================================================
 --; TUTORIAL TEST SCREENPACK DEFINITION
 --;===========================================================
@@ -79,6 +79,11 @@ kfmTutoPortrait = animNew(sprTutorial, [[
 animAddPos(kfmTutoPortrait, -47, 1)
 animSetScale(kfmTutoPortrait, 0.52, 0.52)
 animUpdate(kfmTutoPortrait)
+
+--Clear Message
+tutorialClear = animNew(sprTutorial, [[
+10,0, 0,0, -1
+]])
 
 --;===========================================================
 --; INPUT DISPLAY GUIDE
@@ -284,23 +289,19 @@ t_tutoInput3 = {
 }
 
 t_tutoInput4 = {
---Step 1
 	{
 		btn = "_U",
-		time = 20,
-	},
---Step 2
-	{
-		btn = "",
-		time = 20,
+		time = 0,
 	},
 }
 
 t_tutoInput5 = {
+--Step 1
 	{
 		btn = "_B",
 		time = 10,
 	},
+--Step 2
 	{
 		btn = "",
 		time = 5,

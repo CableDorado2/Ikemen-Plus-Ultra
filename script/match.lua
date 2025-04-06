@@ -434,6 +434,10 @@ local bgmstate = 0
 local abyssHitCnt = 0
 local tutoi = 0
 local tutoDiag = 1
+local tutoClearCnt = 0
+local tutoClearAlphaS = 255
+local tutoClearAlphaD = 0
+local tutoClearAction = false
 
 local function f_setStageMusic()
 	if bgmstate == 1 then
@@ -545,10 +549,24 @@ function f_nextTutoText()
 	else --A player action will show the next text
 		local conditionFunc = t_tutorialDiag[tutoDiag].condition
 	--Call and check the function stored in t_tutorialDiag[tutoDiag].condition
-		if conditionFunc ~= "" and _G[conditionFunc] and _G[conditionFunc]() then
-			nextText = true
+		if conditionFunc ~= "" and _G[conditionFunc] and _G[conditionFunc]() and not tutoClearAction then
+			--Falta Desactivar el control del personaje durante la animación Clear
+			tutoClearAction = true --Activate Clear Animation
 		end
 	end
+	if tutoClearAction and tutoClearCnt <= 100 then --Draw During 200 Ticks
+		if tutoClearCnt == 0 then sndPlay(sndTutorial, 1, 0) end --Play Clear SFX
+		animSetAlpha(tutorialClear, tutoClearAlphaS, tutoClearAlphaD)
+		animSetPos(tutorialClear, 45, 120)
+		animDraw(tutorialClear)
+		animUpdate(tutorialClear)
+		tutoClearCnt = tutoClearCnt + 1
+	elseif tutoClearAction and tutoClearCnt >= 100 then --Disable Clear Animation and Restart Vars
+		tutoClearAction = false
+		tutoClearCnt = 0
+		nextText = true
+	end
+--Go to the next Dialogue
 	if nextText then
 		tutoi = 0
 		tutoDiag = tutoDiag + 1
