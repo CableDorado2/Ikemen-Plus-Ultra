@@ -50,7 +50,7 @@ end
 --;===========================================================
 assert(loadfile("script/loader.lua"))()
 assert(loadfile("data/visualnovel/VNresources.lua"))()
-require("script.options")
+--require("script.options") --already loaded by common.lua
 
 --;===========================================================
 --; GAME START

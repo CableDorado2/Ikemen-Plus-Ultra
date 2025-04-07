@@ -92,6 +92,24 @@ tutorialClear = animNew(sprTutorial, [[
 10,0, 0,0, -1
 ]])
 
+--Inputs Info Window BG
+tutorialInputWindowBG = animNew(sprTutorial, [[
+3,0, 0,0, -1
+]])
+animSetScale(tutorialInputWindowBG, 1, 0.41)
+animSetAlpha(tutorialInputWindowBG, 155, 22)
+animSetPos(tutorialInputWindowBG, 224, 106)
+animUpdate(tutorialInputWindowBG)
+
+function drawTutorialInputHints()
+	local inputHintYPos = 109
+	local hintFont = font2
+	local hintFontYPos = 123
+	--animDraw(tutorialInputWindowBG)
+	drawInGameInputHintsP1("e","350,85")
+	--f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Next Step", 251, hintFontYPos)
+end
+
 --;===========================================================
 --; INPUT DISPLAY GUIDE
 --;===========================================================

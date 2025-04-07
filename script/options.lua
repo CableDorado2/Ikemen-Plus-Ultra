@@ -7805,38 +7805,6 @@ end
 --; KEYBOARD/GAMEPAD BUTTONS
 --;===========================================================
 txt_battleCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [BATTLE]", 159, 13)
-t_keyBattleCfg = {
-	{varID = textImgNew(), text = "JUMP",   				varText = "", cmd = "u"},
-	{varID = textImgNew(), text = "CROUCH", 				varText = "", cmd = "d"},
-	{varID = textImgNew(), text = "BACK",  					varText = "", cmd = "l"},
-	{varID = textImgNew(), text = "FORWARD",				varText = "", cmd = "r"},
-	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"},
-	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
-	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
-	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
-	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
-	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"},
-	{varID = textImgNew(), text = "L", 						varText = "", cmd = "q"},
-	{varID = textImgNew(), text = "R", 						varText = "", cmd = "w"},
-	{varID = textImgNew(), text = "SELECT",					varText = "", cmd = "e"},
-	{varID = textImgNew(), text = "START", 					varText = "", cmd = "s"},
-	{varID = textImgNew(), text = "Default Config (F1)",	varText = ""},
-	{varID = textImgNew(), text = "Confirm Config (ESC)",	varText = ""},
-}
-
-t_keyBattleCfg2 = {}
-for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
-	t_keyBattleCfg2[i] = {}
-	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
-	if i == 15 then
-		t_keyBattleCfg2[i]['text'] = "Default Config (F2)"
-	else
-		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
-	end
-	t_keyBattleCfg2[i]['varText'] = ""
-	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
-end
-
 txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [MENUS]", 159, 13)
 
 txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 81.5, 30)
@@ -8416,6 +8384,40 @@ function f_inputBattleRead(playerNo, controller)
 				t_keyBattleCfg[i].varText = c
 			else
 				t_keyBattleCfg2[i].varText = c
+			end
+		end
+	end
+end
+
+function f_inputMenuRead(playerNo, controller)
+	local tmp = nil
+	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
+	--Keyboard Read
+	if tmp ~= nil and tmp ~= '' then
+		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
+		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
+	--Gamepad Read
+	else
+		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
+		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
+		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
+	end
+	for i, c
+		in ipairs(strsplit(',', tmp))
+	do
+		if controller == -1 then --Load Keyboard Controls
+			if playerNo == 0 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
+			end
+		else --Load Gamepad Controls
+			if playerNo == 2 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
 			end
 		end
 	end
@@ -9990,4 +9992,19 @@ function f_defaultStats()
 	data.erase = true
 	modified = 1
 	needReload = 1
+end
+
+--Load Inputs for Inputs Hints Data
+f_inputMenuRead(0, -1) -- 0=P1, -1=Keyboard
+f_inputMenuRead(1, -1) -- 1=P2
+
+f_inputBattleRead(0, -1) -- 0=P1, -1=Keyboard
+f_inputBattleRead(1, -1) -- 1=P2
+
+if data.debugLog then
+	f_printTable(t_keyBattleCfg, "save/debug/battleInputsP1.txt")
+	f_printTable(t_keyBattleCfg2, "save/debug/battleInputsP2.txt")
+	
+	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.txt")
+	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.txt")
 end

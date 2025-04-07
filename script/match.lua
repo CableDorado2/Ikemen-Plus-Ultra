@@ -548,6 +548,7 @@ function f_nextTutoText()
 	--Draw Down Arrow Animation
 		animDraw(tutorialNext)
 		animUpdate(tutorialNext)
+		drawTutorialInputHints()
 		if commandGetState(p1Cmd, 'e') then nextText = true end --Select Button to advance
 	else --A player action will show the next text
 		local conditionFunc = t_tutorialDiag[tutoDiag].condition

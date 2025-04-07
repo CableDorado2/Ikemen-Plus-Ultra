@@ -3272,6 +3272,41 @@ function f_sysTime()
 end
 
 --;===========================================================
+--; BATTLE CONTROLS DEFINITION (Here because we gonna re-use t_keyBattleCfg for inputs hints)
+--;===========================================================
+t_keyBattleCfg = {
+	{varID = textImgNew(), text = "JUMP",   				varText = "", cmd = "u"},
+	{varID = textImgNew(), text = "CROUCH", 				varText = "", cmd = "d"},
+	{varID = textImgNew(), text = "BACK",  					varText = "", cmd = "l"},
+	{varID = textImgNew(), text = "FORWARD",				varText = "", cmd = "r"},
+	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"},
+	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
+	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
+	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
+	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
+	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"},
+	{varID = textImgNew(), text = "L", 						varText = "", cmd = "q"},
+	{varID = textImgNew(), text = "R", 						varText = "", cmd = "w"},
+	{varID = textImgNew(), text = "SELECT",					varText = "", cmd = "e"},
+	{varID = textImgNew(), text = "START", 					varText = "", cmd = "s"},
+	{varID = textImgNew(), text = "Default Config (F1)",	varText = ""},
+	{varID = textImgNew(), text = "Confirm Config (ESC)",	varText = ""},
+}
+
+t_keyBattleCfg2 = {}
+for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
+	t_keyBattleCfg2[i] = {}
+	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
+	if i == 15 then
+		t_keyBattleCfg2[i]['text'] = "Default Config (F2)"
+	else
+		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
+	end
+	t_keyBattleCfg2[i]['varText'] = ""
+	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
+end
+
+--;===========================================================
 --; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
 --;===========================================================
 t_keyMenuCfg = {
@@ -3304,48 +3339,6 @@ for i=1, #t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
 	end
 	t_keyMenuCfg2[i]['varText'] = ""
 	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
-end
-
-function f_inputMenuRead(playerNo, controller)
-	local tmp = nil
-	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
-	--Keyboard Read
-	if tmp ~= nil and tmp ~= '' then
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
-		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
-		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-	--Gamepad Read
-	else
-		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
-		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
-		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
-	end
-	for i, c
-		in ipairs(strsplit(',', tmp))
-	do
-		if controller == -1 then --Load Keyboard Controls
-			if playerNo == 0 then
-				t_keyMenuCfg[i].varText = c
-			else
-				t_keyMenuCfg2[i].varText = c
-			end
-		else --Load Gamepad Controls
-			if playerNo == 2 then
-				t_keyMenuCfg[i].varText = c
-			else
-				t_keyMenuCfg2[i].varText = c
-			end
-		end
-	end
-end
-
-f_inputMenuRead(0, -1) -- 0=P1, -1=Keyboard
-f_inputMenuRead(1, -1) -- 1=P2
-
-if data.debugLog then
-	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.txt")
-	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.txt")
 end
 
 --Associate Button Key to Button Sprites
@@ -3425,8 +3418,8 @@ t_btnHint = {
 	{keyTxt = "NIL", 			keySpr = btnNIL},
 }
 
-function f_searchCmd(input)
-	for i, v in ipairs(t_keyMenuCfg) do --For each item in table
+function f_searchCmd(input, btntype)
+	for i, v in ipairs(btntype) do --For each item in table
 		if v.cmd == input then --if table cmd item is equal to input entered
 			return i --Returns the position of the item in the table
 		end
@@ -3448,9 +3441,28 @@ function drawInputHintsP1(...) --(...) Manage unlimited arguments
 	for i=1, #t_args, 2 do --For each argument stored in table
 		local cmd = t_args[i] --Set first argument (key name) to cmd var
 		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
-		local nameKey = f_searchCmd(cmd) --get table pos from button name configured based on cmd entry name
+		local nameKey = f_searchCmd(cmd, t_keyMenuCfg) --get table pos from button name configured based on cmd entry name
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText) --Get button name configured
+			local key = t_btnHint[btn].keySpr --Get button sprite
+			--local posKey = cmdPos --Get button "X,Y" positions
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, 0.7, 0.7)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+function drawInGameInputHintsP1(...) --(...) Manage unlimited arguments
+	local t_args = {...} --Store all arguments taken in a table
+	for i=1, #t_args, 2 do --For each argument stored in table
+		local cmd = t_args[i] --Set first argument (key name) to cmd var
+		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
+		local nameKey = f_searchCmd(cmd, t_keyBattleCfg) --get table pos from button name configured based on cmd entry name
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyBattleCfg[nameKey].varText) --Get button name configured
 			local key = t_btnHint[btn].keySpr --Get button sprite
 			--local posKey = cmdPos --Get button "X,Y" positions
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
@@ -3984,3 +3996,5 @@ function f_loadLuaMods()
 		assert(loadfile(v.path))()
 	end
 end
+
+require("script.options") --Load options script
