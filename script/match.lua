@@ -584,6 +584,7 @@ function f_nextTutoText()
 	end
 --Go to the next Dialogue
 	if nextText then
+		f_resetTutoVars()
 		tutoi = 0
 		tutoDiag = tutoDiag + 1
 		nextText = false

@@ -654,7 +654,7 @@ function f_tutoCheck6()
 	end
 end
 
-function f_resetVars()
+function f_resetTutoVars()
 tutoSuccess = false
 tutoCheck1 = false
 tutoCheck2 = false
@@ -670,7 +670,7 @@ tutoColor4 = 0
 tutoColor5 = 0
 tutoColor6 = 0
 end
-f_resetVars()
+f_resetTutoVars()
 
 local tutoHintFont = font2
 local tutoHintPosX = 2
@@ -688,9 +688,7 @@ local tutoHintJump = "Jump "
 local tutoHintCrouch = "Crouching "
 
 function f_tutoCheck7()
-	animSetPos(tutorialStepBG, -2, 100)
-	animDraw(tutorialStepBG)
-	animUpdate(tutorialStepBG)
+	animPosDraw(tutorialStepBG, -2, 100)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintStand..tutoHintLight..tutoHintPunch, tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintStand..tutoHintMedium..tutoHintPunch, tutoHintPosX, 130)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintStand..tutoHintStrong..tutoHintPunch, tutoHintPosX, 150)
@@ -712,12 +710,12 @@ function f_tutoCheck7()
 		end
 	end
 	if tutoCheck1 and tutoCheck2 and tutoCheck3 then
-		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck8()
+	animPosDraw(tutorialStepBG, -2, 100)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintStand..tutoHintLight..tutoHintKick, tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintStand..tutoHintMedium..tutoHintKick, tutoHintPosX, 130)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintStand..tutoHintStrong..tutoHintKick, tutoHintPosX, 150)
@@ -739,12 +737,14 @@ function f_tutoCheck8()
 		end
 	end
 	if tutoCheck1 and tutoCheck2 and tutoCheck3 then
-		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck9()
+	animSetScale(tutorialStepBG, 1, 1.76)
+	animPosDraw(tutorialStepBG, -2, 83)
+	
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintJump..tutoHintLight..tutoHintPunch, tutoHintPosX, 90)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintJump..tutoHintMedium..tutoHintPunch, tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintJump..tutoHintStrong..tutoHintPunch, tutoHintPosX, 130)
@@ -785,12 +785,13 @@ function f_tutoCheck9()
 		end
 	end
 	if tutoCheck1 and tutoCheck2 and tutoCheck3 and tutoCheck4 and tutoCheck5 and tutoCheck6 then
-		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck10()
+	animPosDraw(tutorialStepBG, -2, 83)
+	
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, tutoHintCrouch..tutoHintLight..tutoHintPunch, tutoHintPosX, 90)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, tutoHintCrouch..tutoHintMedium..tutoHintPunch, tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, tutoHintCrouch..tutoHintStrong..tutoHintPunch, tutoHintPosX, 130)
@@ -831,12 +832,13 @@ function f_tutoCheck10()
 		end
 	end
 	if tutoCheck1 and tutoCheck2 and tutoCheck3 and tutoCheck4 and tutoCheck5 and tutoCheck6 then
-		f_resetVars()
 		return true
 	end
 end
 
 function f_tutoCheck11()
+	animSetScale(tutorialStepBG, 1, 1)
+	animPosDraw(tutorialStepBG, -2, 100)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, "Forward Throw", tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, "Back Throw", tutoHintPosX, 130)
 	if teamside() == 1 then
@@ -852,7 +854,6 @@ function f_tutoCheck11()
 		end
 	end
 	if tutoCheck1 and tutoCheck2 then
-		f_resetVars()
 		return true
 	end
 end
@@ -888,6 +889,7 @@ function f_tutoCheck16()
 end
 
 function f_tutoCheck17()
+	animPosDraw(tutorialStepBG, -2, 100)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor1, 1, "EX Kung Fu Palm", tutoHintPosX, 110)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor2, 1, "EX Kung Fu Knee", tutoHintPosX, 130)
 	f_drawQuickText(txt_tutoHint, tutoHintFont, tutoColor3, 1, "EX Kung Fu Shuffle", tutoHintPosX, 150)
@@ -909,7 +911,6 @@ function f_tutoCheck17()
 		end
 	end
 	if tutoCheck1 and tutoCheck2 and tutoCheck3 then
-		f_resetVars()
 		return true
 	end
 end
