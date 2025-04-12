@@ -57,6 +57,8 @@ public bool postMatchFlg = false; //Post Match Flag
 
 public ^/char tourneyState;
 
+public int lifePersistence = 0;
+
 public int abyssDepth = 1; //To display at what abyss depth level player is
 public int abyssDepthBoss = 0; //To display at what depth of the abyss a NORMAL boss appears
 public int abyssDepthBossSpecial = 0; //To display at what depth of the abyss a SPECIAL boss appears
@@ -126,7 +128,7 @@ public int GameHeight;
 public float WidthScale;
 public float HeightScale;
 
-const bool CharLocalCoord320 = true;
+const bool CharLocalCoord320 = false;
 
 public float CharGameWidth;
 public float CharGameLeft;

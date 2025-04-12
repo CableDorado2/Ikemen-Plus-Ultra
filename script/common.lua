@@ -2987,6 +2987,7 @@ function f_default() --Reset Game Modes Configuration
 	abyssBossMatch = getAbyssDepthBoss()
 	abyssSpecialBossCnt = 1 --Start count for Abyss Special Boss Matchs
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
+	setLifePersistence(0) --To store last life bar value when life is maintained after match
 end
 
 --Take Screenshots
@@ -3601,7 +3602,7 @@ function f_saveTemp()
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
-		['data.AIskip'] = data.AIskip
+		['data.AIskip'] = data.AIskip,
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
 	local tempFile = io.open(saveTempPath,"w+")
@@ -3617,6 +3618,7 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.VNbreaker = false
 	data.p1Lose = false
 	data.p2Lose = false
+	data.AIskip = false
 	f_saveTemp()
 end
 

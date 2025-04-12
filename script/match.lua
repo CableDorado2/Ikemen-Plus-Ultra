@@ -248,6 +248,7 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then
 			setLifeMax(lifemax() + (p1Dat[i].life * 100))
+			if abyssdepth() > 1 then setLife(getLifePersistence()) end
 			setPower(p1Dat[i].power * 100)
 			setAttack(attack() + (p1Dat[i].attack * 100))
 			setDefence(defence() + (p1Dat[i].defence * 100))
@@ -527,6 +528,13 @@ function loop() --The code for this function should be thought of as if it were 
 				else
 					f_abyssBossReward()
 				end
+			end
+		end
+	--Store Player Life when Match is finished
+		if roundstate() == 4 and (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+			if player(1) then
+				setLifePersistence(life())
+				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 80) end
 			end
 		end
 --During Tutorial Mode
