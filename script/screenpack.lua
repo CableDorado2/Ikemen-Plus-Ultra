@@ -3852,7 +3852,8 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 				depth = 100, --At what depth/matchNo will the special boss appear
 				stats = 5, --Special Boss stats (life, power, attack, defence)
 				pal = 1, --Palette
-				ailevel = 8 --CPU Level
+				ailevel = 8, --CPU Level
+				itemslot = {[1] = "Test", [2] = "A", [3] = ""} --Special Items
 			},
 		},
 	},
@@ -4044,19 +4045,19 @@ t_abyssSpecial = {
  {text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
  {text = txt_abyssShopLifeRegeneration.."MAX", price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)", unlock = "true"},
  
- {text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "true"},
+ {text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "false"},
  {text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "false"},
  {text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "false"},
  
  {text = txt_abyssShopPowerRegeneration.."1", price = 1000, info = "Gradually regenerates MP over time.", unlock = "true"},
- {text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "false"},
- {text = txt_abyssShopPowerRegeneration.."MAX", price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)", unlock = "false"},
+ {text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "true"},
+ {text = txt_abyssShopPowerRegeneration.."MAX", price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)", unlock = "true"},
  
  {text = txt_abyssShopDepthSpeed.."1", price = 3000, info = "Slightly increases the rate of descent into the Abyss.", unlock = "true"},
- {text = txt_abyssShopDepthSpeed.."2", price = 4000, info = "Increases the rate of descent into the Abyss.", unlock = "false"},
- {text = txt_abyssShopDepthSpeed.."MAX", price = 5000, info = "Greatly increases the rate of descent into the Abyss.", unlock = "false"},
+ {text = txt_abyssShopDepthSpeed.."2", price = 4000, info = "Increases the rate of descent into the Abyss.", unlock = "true"},
+ {text = txt_abyssShopDepthSpeed.."MAX", price = 5000, info = "Greatly increases the rate of descent into the Abyss.", unlock = "true"},
 
- {text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player’s damage output is multiplied by 2.", unlock = "false"},
+ {text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player’s damage output is multiplied by 2.", unlock = "true"},
  {text = txt_abyssShopAutoguard, price = 2500, info = "Guard attacks automatically.", unlock = "true"},
  {text = txt_abyssShopPowerUnlimited, price = 5400, info = "Power Gauge will be Unlimited", unlock = "true"},
  {text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically.", unlock = "true"},
@@ -4238,9 +4239,9 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 	local spFont = font2
 	local spFontXPos = 172+NewPosX
 	local spFontYPos = 128+NewPosY
-	f_drawQuickText(txt_abyssSP1, spFont, 0, 1, abyssDat.nosave.sp1, spFontXPos, spFontYPos)
-	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.sp2, spFontXPos, spFontYPos+23)
-	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.sp3, spFontXPos, spFontYPos+45)
+	f_drawQuickText(txt_abyssSP1, spFont, 0, 1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
+	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+23)
+	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+45)
 --Currency
 	if not VSscreen then f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2) end
 end
@@ -4274,9 +4275,11 @@ function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
 	local spFont = font2
 	local spFontXPos = 274+NewPosX
 	local spFontYPos = 162+NewPosY
-	f_drawQuickText(txt_abyssSP1CPU, spFont, 0, 1, p2Dat[1].sp1, spFontXPos, spFontYPos)
-	f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].sp2, spFontXPos, spFontYPos+23)
-	f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].sp3, spFontXPos, spFontYPos+45)
+	if p2Dat[1].itemslot ~= nil then
+		if p2Dat[1].itemslot[1] ~= nil then f_drawQuickText(txt_abyssSP1CPU, spFont, 0, 1, p2Dat[1].itemslot[1], spFontXPos, spFontYPos) end
+		if p2Dat[1].itemslot[2] ~= nil then f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].itemslot[2], spFontXPos, spFontYPos+23) end
+		if p2Dat[1].itemslot[3] ~= nil then f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].itemslot[3], spFontXPos, spFontYPos+45) end
+	end
 end
 
 --;===========================================================

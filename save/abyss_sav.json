@@ -1,23 +1,25 @@
 {
-  "save1": [],
   "save4": [],
   "save3": [],
+  "save1": [],
   "nosave": {
-    "cel": 0,
-    "life": 0,
+    "nextboss": 40,
     "defence": 0,
-    "sp2": "",
-    "depth": 0,
-    "expense": 0,
+    "nextspecialboss": 100,
+    "reward": 125,
     "name": "Kung Fu Man",
     "power": 0,
-    "nextboss": 0,
-    "nextspecialboss": 0,
-    "sp3": "",
-    "reward": 0,
-    "sp1": "",
-    "attack": 0
+    "cel": 0,
+    "itemslot": [
+      "Autoguard",
+      "Unlimited Heat",
+      ""
+    ],
+    "depth": 20,
+    "expense": 7900,
+    "attack": 0,
+    "life": 0
   },
-  "save2": [],
-  "save5": []
+  "save5": [],
+  "save2": []
 }

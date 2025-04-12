@@ -13219,6 +13219,7 @@ end
 
 function f_setAbyssStats()
 	local statsPlus = 0
+	local cpuItems = {}
 	setAbyssBossFight(0)
 --Prepare Normal Boss Battle
 	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch+abyssBossMatchNo end
@@ -13248,6 +13249,7 @@ function f_setAbyssStats()
 		if t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt] ~= nil then
 			if matchNo == t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].depth then
 				statsPlus = abyssBossStatsIncrease + t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].stats --Set specific cpu stats for a SPECIAL boss
+				cpuItems = t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].itemslot --Set Special Items
 				abyssSpecialBossCnt = abyssSpecialBossCnt + 1 --Increase special abyss boss count for next special fight
 				setAbyssBossFight(1) --This match is an Abyss Boss Fight
 			end
@@ -13268,16 +13270,16 @@ function f_setAbyssStats()
 			data.t_p1selected[p]['power'] = getAbyssPower()
 			data.t_p1selected[p]['attack'] = getAbyssAttack()
 			data.t_p1selected[p]['defence'] = getAbyssDefence()
+			data.t_p1selected[p]['itemslot'] = abyssDat.nosave.itemslot --Special Items
 		end
 		for p=1, #data.t_p2selected do
 			data.t_p2selected[p]['life'] = t_abyssSel[abyssSel].cpustats+statsPlus
 			data.t_p2selected[p]['power'] = t_abyssSel[abyssSel].cpustats+statsPlus
 			data.t_p2selected[p]['attack'] = t_abyssSel[abyssSel].cpustats+statsPlus
 			data.t_p2selected[p]['defence'] = t_abyssSel[abyssSel].cpustats+statsPlus
-			--
-			data.t_p2selected[p]['sp1'] = "" --TODO
-			data.t_p2selected[p]['sp2'] = ""
-			data.t_p2selected[p]['sp3'] = ""
+			if cpuItems ~= nil then
+				data.t_p2selected[p]['itemslot'] = cpuItems
+			end
 		end
 	end
 	abyssDat.nosave.life = getAbyssLife()
@@ -17909,13 +17911,15 @@ function f_abyssMenu()
 						--Special Items Assign
 							else
 							--Special Items Slots are Full
-								if abyssDat.nosave.sp3 ~= "" then
+								if abyssDat.nosave.itemslot[#abyssDat.nosave.itemslot] ~= "" then
 									sndPlay(sndSys, 100, 5)
 							--At least there is 1 Special Items Slot free
 								else
-									if abyssDat.nosave.sp1 == "" then abyssDat.nosave.sp1 = t_abyssMenu[abyssMenu].text
-									elseif abyssDat.nosave.sp2 == "" then abyssDat.nosave.sp2 = t_abyssMenu[abyssMenu].text
-									elseif abyssDat.nosave.sp3 == "" then abyssDat.nosave.sp3 = t_abyssMenu[abyssMenu].text
+									for slot=1, #abyssDat.nosave.itemslot do
+										if abyssDat.nosave.itemslot[slot] == "" then
+											abyssDat.nosave.itemslot[slot] = t_abyssMenu[abyssMenu].text
+											break --Exit the loop once the assignment has been made for 1 slot (this avoid asign same item to all slots)
+										end
 									end
 									buyDone = true
 								end
@@ -17955,12 +17959,11 @@ function f_abyssMenu()
 						setAbyssDepth(getAbyssDepth() - t_abyssMenu[abyssMenu].val)
 				--Special Items Refund
 					else
-						if abyssDat.nosave.sp1 == t_abyssMenu[abyssMenu].text then
-							abyssDat.nosave.sp1 = ""
-						elseif abyssDat.nosave.sp2 == t_abyssMenu[abyssMenu].text then
-							abyssDat.nosave.sp2 = ""
-						elseif abyssDat.nosave.sp3 == t_abyssMenu[abyssMenu].text then
-							abyssDat.nosave.sp3 = ""
+						for slot=1, #abyssDat.nosave.itemslot do
+							if abyssDat.nosave.itemslot[slot] == t_abyssMenu[abyssMenu].text then
+								abyssDat.nosave.itemslot[slot] = ""
+								break
+							end
 						end
 					end
 					f_saveStats()

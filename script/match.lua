@@ -265,6 +265,30 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 	abyssStatsReady = true
 end
 
+--Special Items Assignment
+local function f_abyssItemsSet()
+	local oldid = id()
+	for i=1, 1 do --#p1Dat do
+		if player(p1Dat[i].pn) then
+			for slot=1, #p1Dat[i].itemslot do
+			--Life Regen
+				if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."1" then setLife(life() + 1) end
+				if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."2" then setLife(life() + 2) end
+				if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) end
+			--Power Regen
+				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) end
+				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) end
+				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) end
+			--Autoguard
+				if p1Dat[i].itemslot[slot] == txt_abyssShopAutoguard then setAutoguard(p1Dat[i].pn, true) end
+			--Unlimited Power
+				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerUnlimited then setPower(powermax()) end
+			end
+		end
+		playerid(oldid)
+	end
+end
+
 local function f_abyssRewardsInit()
 	abyssPause = false
 	abyssRewardDone = false
@@ -329,13 +353,15 @@ local function f_abyssBossReward()
 		--Special Items Assign (TODO)
 			else
 			--Special Items Slots are Full
-				if abyssDat.nosave.sp3 ~= "" then
+				if abyssDat.nosave.itemslot[#abyssDat.nosave.itemslot] ~= "" then
 					sndPlay(sndSys, 100, 5)
 			--At least there is 1 Special Items Slot free
 				else
-					if abyssDat.nosave.sp1 == "" then abyssDat.nosave.sp1 = t_abyssBossRewards[rewardMenu].text
-					elseif abyssDat.nosave.sp2 == "" then abyssDat.nosave.sp2 = t_abyssBossRewards[rewardMenu].text
-					elseif abyssDat.nosave.sp3 == "" then abyssDat.nosave.sp3 = t_abyssBossRewards[rewardMenu].text
+					for slot=1, #abyssDat.nosave.itemslot do
+						if abyssDat.nosave.itemslot[slot] == "" then
+							abyssDat.nosave.itemslot[slot] = t_abyssBossRewards[rewardMenu].text
+							break --Exit the loop once the assignment has been made for 1 slot (this avoid asign same item to all slots)
+						end
 					end
 					itemDone = true
 				end
@@ -481,6 +507,8 @@ function loop() --The code for this function should be thought of as if it were 
 		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2 --roundstate() == 0 and gametime() == 1 then
 			if not abyssStatsReady then f_abyssStatsSet() end
 		end
+	--Set Abyss Special Items
+		if roundstate() == 2 then f_abyssItemsSet() end
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
 			data.challengerAbyss = true

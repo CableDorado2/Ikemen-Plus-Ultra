@@ -3844,9 +3844,7 @@ local t_abyssDefaultSave = {
 	depth = 0,
 	nextboss = 0,
 	nextspecialboss = 0,
-	sp1 = "",
-	sp2 = "",
-	sp3 = ""
+	itemslot = {[1] = "", [2] = "", [3] = ""},
 }
 abyssDat.nosave = {} --Reset data
 abyssDat.nosave = t_abyssDefaultSave
