@@ -7,10 +7,12 @@ a = a
 b = b
 c = c
 s = s
+
 ;-| Default Values |-------------------------------------------------------
 [Defaults]
 command.time = 15
 command.buffer.time = 1
+
 ;-| Special Motions |------------------------------------------------------
 [Command]
 name = "KF Palm"
@@ -147,6 +149,22 @@ name = "EX KF Shuffle"
 command = ~D, DB, B, a+c
 time = 12
 
+;-| Super Motions |--------------------------------------------------------
+[Command]
+name = "Triple KF Palm"
+command = ~D, DF, F, D, DF, F, x
+time = 20
+
+[Command]
+name = "Triple KF Palm"
+command = ~D, DF, F, D, DF, F, y
+time = 20
+
+[Command]
+name = "Triple KF Palm"
+command = ~D, DF, F, D, DF, F, z
+time = 20
+
 ;-| Double Tap |-----------------------------------------------------------
 [Command]
 name = "FF"     ;Required (do not remove)
@@ -174,8 +192,6 @@ name = "c+z"
 command = c+z
 time = 1
 
-
-
 [Command]
 name = "recovery"
 command = x+y
@@ -195,6 +211,7 @@ time = 1
 name = "recovery"
 command = a+x
 time = 1
+
 ;-| Dir + Button |---------------------------------------------------------
 [Command]
 name = "back_x"
@@ -543,12 +560,14 @@ time = 1
 name = "rlsc"
 command = ~c
 time = 1
+
 ;---------------------------------------------------------------------------
 ;Other
 [Command]
 name = "highjump"
 command = $D, $U
 time = 15
+
 ;---------------------------------------------------------------------------
 [Statedef -1]
 
@@ -714,6 +733,22 @@ triggerall = !AIlevel
 trigger1 = command = "BB"
 trigger1 = statetype = S
 trigger1 = ctrl
+
+;---------------------------------------------------------------------------
+;Triple Kung Fu Palm (uses one super bar)
+[State -1, Triple Kung Fu Palm]
+type = ChangeState
+value = 3000
+triggerall = !ailevel
+triggerall = command = "Triple KF Palm"
+triggerall = power >= 1000
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = statetype != A
+trigger2 = hitdefattr = SC, NA, SA, HA
+trigger2 = stateno != [3000,3050)
+trigger2 = movecontact
+;trigger3 = stateno = 1310 || stateno = 1330 ;From blocking
 
 ;--------------------------------------------------------------------------
 [State -1, Stand Light Punch]

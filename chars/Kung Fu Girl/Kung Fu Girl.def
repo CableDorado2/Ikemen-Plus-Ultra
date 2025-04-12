@@ -17,6 +17,7 @@ stcommon = common1.cns
 st1=Coding/Normal.cns
 st2=Coding/Helpers.cns
 st3=Coding/Specials.cns
+st4=Coding/Supers.cns ;Added by Cable Dorado 2 (CD2)
 pal1=Palettes/1.act
 pal2=Palettes/2.act
 pal3=Palettes/3.act
