@@ -1,4 +1,4 @@
-preview.file = data/missions/missions.sff
+preview.file = script/mods/missions/missions.sff
 
 [Mission 1]
 id = mission1

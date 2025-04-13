@@ -1,5 +1,5 @@
-glossaryDef = "data/lua/glossary/glossary.def" --Glossary Data (Glossary definition filename)
---sprGlossary = sffNew("data/lua/glossary/glossary.sff") --load glossary sprites
+glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossary definition filename)
+--sprGlossary = sffNew("script/mods/glossary/glossary.sff") --Load glossary sprites
 --;===========================================================
 --; GLOSSARY MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -243,7 +243,7 @@ function f_glossaryMenu()
 end
 
 --;===========================================================
---; LOAD GLOSSARY DATA
+--; LOAD GLOSSARY.DEF DATA
 --;===========================================================
 function f_glossaryLoad()
 t_glossary = {}

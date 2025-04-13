@@ -88,8 +88,6 @@ videoHowToPlay = "data/videos/How To Play.wmv"
 selectDef = "data/select.def" --Characters and Stage selection list
 fightDef = "data/screenpack/fight.def" --Lifebar/Fight
 vnDef = "data/visualnovel/vnselect.def" --Visual Novels
-missionDef = "data/missions/missions.def" --Missions
-eventDef = "data/events/events.def" --Events
 galleryArtworksDef = "data/gallery/artworks.def" --Gallery Artworks
 galleryStoryboardsDef = "data/gallery/storyboards.def" --Gallery Storyboards
 galleryMoviesDef = "data/gallery/movies.def" --Gallery Videos
@@ -501,12 +499,6 @@ padlock = animNew(sprIkemen, [[
 animSetScale(padlock, 0.20, 0.20)
 animUpdate(padlock)
 
-padlockMissionPosX = 125 --Position for Missions Menu
-padlockMissionPosY = 25
-
-padlockEventPosX = -83 --Position for Events Menu
-padlockEventPosY = 86
-
 --Common Menu Up Arrows
 menuArrowUp = animNew(sprIkemen, [[
 225,0, 0,0, 10
@@ -587,11 +579,6 @@ end
 function f_resetTowerArrowsPos() --Used in Tower Select
 animSetPos(menuArrowLeft, 0, 190)
 animSetPos(menuArrowRight, 310, 190)
-end
-
-function f_resetEventArrowsPos() --Used in Events Mode
-animSetPos(menuArrowLeft, 0, 123)
-animSetPos(menuArrowRight, 312, 123)
 end
 
 function f_resetAbyssArrowsPos() --Used in Abyss Select
@@ -722,7 +709,6 @@ t_mainMenu = {
 	{text = "EXIT", gotomenu = "f_exitMenu()"},
 }
 end
-
 --Set ID to all final items
 for i=1, #t_mainMenu do
 	t_mainMenu[i]['id'] = textImgNew()
@@ -758,7 +744,6 @@ t_arcadeMenu = {
 	{text = "TOWER MODE", gotomenu = "f_towerBoot()"},
 	--{text = "BEAT EM UP", gotomenu = "f_beatemupBoot()"},
 }
-
 for i=1, #t_arcadeMenu do
 	t_arcadeMenu[i]['id'] = textImgNew()
 end
@@ -771,7 +756,6 @@ t_vsMenu = {
 	{text = "FREE BATTLE", gotomenu = "f_vsBoot()"},
 	{text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
 }
-
 for i=1, #t_vsMenu do
 	t_vsMenu[i]['id'] = textImgNew()
 end
@@ -783,7 +767,6 @@ t_practiceMenu = {
 	{text = "TRAINING", gotomenu = "f_training()"},
 	{text = "TRIALS", gotomenu = "f_comingSoon()"},
 }
-
 for i=1, #t_practiceMenu do
 	t_practiceMenu[i]['id'] = textImgNew()
 end
@@ -792,14 +775,12 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	{text = "MISSIONS", gotomenu = "f_missionMenu()"},
 	--{text = "LEGION", gotomenu = "f_legionCfg()"},
 	{text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
 	{text = "TIME ATTACK", gotomenu = "f_timeattackMenu()"},
 	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
-
 for i=1, #t_challengeMenu do
 	t_challengeMenu[i]['id'] = textImgNew()
 end
@@ -812,7 +793,6 @@ t_survivalMenu = {
 	{text = "ABYSS MODE", gotomenu = "f_abyssSelect()"},
 	{text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
 }
-
 for i=1, #t_survivalMenu do
 	t_survivalMenu[i]['id'] = textImgNew()
 end
@@ -824,7 +804,6 @@ t_scoreattackMenu = {
 	{text = "CLASSIC MODE", gotomenu = "f_scoreattackBoot()"},
 	--{text = "??? MODE", gotomenu = ""},
 }
-
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
 end
@@ -836,7 +815,6 @@ t_timeattackMenu = {
 	{text = "CLASSIC MODE", gotomenu = "f_timeattackBoot()"},
 	{text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
 }
-
 for i=1, #t_timeattackMenu do
 	t_timeattackMenu[i]['id'] = textImgNew()
 end
@@ -848,11 +826,9 @@ t_extrasMenu = {
 	{text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
 	{text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
 	{text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
-	{text = "EVENTS", gotomenu = "f_eventMenu()"},
 	{text = "ENDLESS", gotomenu = "f_endlessBoot()"},
 	{text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
 }
-
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()
 end
@@ -864,7 +840,6 @@ t_bonusMenu = {
 	{text = "SINGLE MODE", gotomenu = "f_bonusExtras()"},
 	{text = "BONUS RUSH", gotomenu = "f_bonusrushBoot()"},
 }
-
 for i=1, #t_bonusMenu do
 	t_bonusMenu[i]['id'] = textImgNew()
 end
@@ -881,153 +856,8 @@ t_watchMenu = {
 	{text = "LICENSES", gotomenu = "f_licenseMenu()"},
 	{text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
-
 for i=1, #t_watchMenu do
 	t_watchMenu[i]['id'] = textImgNew()
-end
-
---;===========================================================
---; MISSIONS MENU SCREENPACK DEFINITION
---;===========================================================
-txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
-txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
-txt_missionIncomplete = "INCOMPLETE"
-txt_missionClear = "COMPLETED"
-
-missionCommonPosX = 50 --Allow set common pos for all previews
-missionCommonPosY = 21
-
-missionCommonScaleX = 0.168 --Allow set common scale for all previews
-missionCommonScaleY = 0.125
-
---Above Transparent background
-missionBG1 = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetPos(missionBG1, 48, 19)
-animSetAlpha(missionBG1, 20, 100)
-animUpdate(missionBG1)
-
---Below Transparent background
-missionBG2 = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetPos(missionBG2, 40, 130)
-animSetAlpha(missionBG2, 20, 100)
-animUpdate(missionBG2)
-
---Missions Input Hints Panel
-function drawMissionInputHints()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
-end
-
---;===========================================================
---; EVENTS MENU SCREENPACK DEFINITION
---;===========================================================
-txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
-txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
-txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 111)
-txt_lockedOk = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
-txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
-txt_eventIncomplete = "INCOMPLETE"
-txt_eventClear = "COMPLETED"
-
-eventCommonPosX = -95 --Allow set common pos for all previews
-eventCommonPosY = 61
-
-eventCommonScaleX = 1.1 --Allow set common scale for all previews
-eventCommonScaleY = 1.1
-
---Above Transparent background
-eventBG1 = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetPos(eventBG1, 0, 18)
-animSetAlpha(eventBG1, 20, 100)
-animUpdate(eventBG1)
-
---Below Transparent background
-eventBG2 = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetPos(eventBG2, 3, 49)
-animSetAlpha(eventBG2, 20, 100)
-animUpdate(eventBG2)
-
---Event Slot
-eventSlot = animNew(sprIkemen, [[
-30,0, 0,0, -1
-]])
-eventSlotPosX = -100
-eventSlotPosY = 51
-
-eventSlotScaleX = 1
-eventSlotScaleY = 1
-
---Info Window BG
-infoEventWindowBG = animNew(sprIkemen, [[
-230,1, 0,0, -1
-]])
-animSetPos(infoEventWindowBG, 83.5, 97)
-animUpdate(infoEventWindowBG)
-animSetScale(infoEventWindowBG, 1, 1)
-
---Events Input Hints Panel
-function drawEventInputHints()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
-end
-
-function drawInfoEventInputHints()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("w","70,"..inputHintYPos,"q","190,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 211, hintFontYPos)
-end
-
-function f_eventTime()
-	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
-	--sysTime3 = tonumber(os.date("%m"))
-	--Clock
-	if data.clock == "Standard" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
-	elseif data.clock == "Full Standard" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
-	elseif data.clock == "Military" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
-	elseif data.clock == "Full Military" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
-	end
-	--Date
-	if data.date == "Type A" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
-	elseif data.date == "Type B" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
-	elseif data.date == "Type C" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
-	elseif data.date == "Type D" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
-	elseif data.date == "Type E" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
-	end
-	textImgDraw(txt_titleClock) --Draw Clock
-	textImgDraw(txt_titleDate) --Draw Date
 end
 
 --;===========================================================
@@ -3970,7 +3800,6 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 	{depth = -1, cpustats = 15, ailevel = 8, info = "[Infinite] difficulty for insane players"},
 	{depth = 20000, cpustats = 20, info = "[TEST] difficulty for ??? players"},
 }
-
 for i=1, #t_abyssSel do
 	t_abyssSel[i]['id'] = textImgNew()
 end

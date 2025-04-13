@@ -6489,15 +6489,101 @@ function f_videoCfg()
 	end
 end
 --;===========================================================
---; ASPECT RATIO SETTINGS
+--; RESOLUTIONS SETTINGS
 --;===========================================================
 txt_resCfg = createTextImg(jgFnt, 0, 0, "ASPECT RATIO SETTINGS", 159, 13)
+txt_resCfgSet = createTextImg(jgFnt, 0, 0, "", 159, 13)
 
+--4:3 RESOLUTIONS
+t_resCfg4_3 = {
+	{x = 320,  y = 240,  text = "320x240             (QVGA)"},
+	{x = 512,  y = 384,  text = "512x384        (MACINTOSH)"},
+	{x = 640,  y = 480,  text = "640x480              (VGA)"},
+	{x = 800,  y = 600,  text = "800x600             (SVGA)"},
+	{x = 960,  y = 720,  text = "960x720               (HD)"},
+	{x = 1024, y = 768,  text = "1024x768             (XGA)"},
+	{x = 1152, y = 864,  text = "1152x864            (XGA+)"},
+	{x = 1200, y = 900,  text = "1200x900             (HD+)"},
+	{x = 1280, y = 960,  text = "1280x960        (Quad-VGA)"},
+	{x = 1440, y = 1080, text = "1440x1080            (FHD)"},
+	{x = 1600, y = 1200, text = "1600x1200            (XGA)"},
+	{x = 1920, y = 1440, text = "1920x1440          (UXGA+)"},
+	{x = 2048, y = 1536, text = "2048x1536           (QXGA)"},
+	{x = 3200, y = 2400, text = "3200x2400          (QUXGA)"},
+	{x = 6400, y = 4800, text = "6400x4800          (HUXGA)"},
+	{text = "          BACK "},
+}
+for i=1, #t_resCfg4_3 do
+	t_resCfg4_3[i]['id'] = ''
+end
+
+--16:9 RESOLUTIONS
+t_resCfg16_9 = {
+	{x = 427,  y = 240,  text = "427x240        (ULTRA LOW)"},
+	{x = 640,  y = 360,  text = "640x360              (LOW)"},
+	{x = 853,  y = 480,  text = "853x480               (SD)"},
+	{x = 1280, y = 720,  text = "1280x720              (HD)"},
+	{x = 1600, y = 900,  text = "1600x900             (HD+)"},
+	{x = 1920, y = 1080, text = "1920x1080        (FULL HD)"},
+	{x = 2048, y = 1152, text = "2048x1152          (QWXGA)"},
+	{x = 2560, y = 1440, text = "2560x1440            (QHD)"},
+	{x = 3840, y = 2160, text = "3840x2160        (4K UHDV)"},
+	{text = "          BACK"},
+}
+for i=1, #t_resCfg16_9 do
+	t_resCfg16_9[i]['id'] = ''
+end
+
+--16:10 RESOLUTIONS
+t_resCfg16_10 = {
+	{x = 320,  y = 200,  text = "320x200              (CGA)"},
+	{x = 1280, y = 800,  text = "1280x800            (WXGA)"},
+	{x = 1440, y = 900,  text = "1440x900           (WXGA+)"},
+	{x = 1680, y = 1050, text = "1680x1050         (WSXGA+)"},
+	{x = 1920, y = 1200, text = "1920x1200          (WUXGA)"},
+	{x = 2560, y = 1600, text = "2560x1600          (WQXGA)"},
+	{x = 2880, y = 1800, text = "2880x1800  (RETINA DISPLAY)"},
+	{x = 3840, y = 2400, text = "3840x2400         (WQUXGA)"},
+	{x = 7680, y = 4800, text = "7680x4800         (WHUXGA)"},
+	{text = "          BACK"},
+}
+for i=1, #t_resCfg16_10 do
+	t_resCfg16_10[i]['id'] = ''
+end
+
+--EXTRA RESOLUTIONS
+t_EXresCfg = {
+	{x = 400,  y = 254,  text = "400x254           (ARCADE)"},
+	{x = 400,  y = 508,  text = "400x508        (ARCADE x2)"},
+	{x = 640,  y = 350,  text = "640x350         (EGA 11:6)"},
+	{x = 720,  y = 348,  text = "720x348         (HGC 60:9)"},
+	{x = 720,  y = 350,  text = "720x350        (MDA 72:35)"},
+	{x = 720,  y = 360,  text = "720x360    (APPLE LISA 2:1)"},
+	{x = 1024, y = 600,  text = "1024x600 (CANAIMA MG101A3)"},
+	{x = 1360, y = 768,  text = "1360x768      (WXGA 85:48)"},
+	{x = 1366, y = 728,  text = "1366x728 (CANAIMA EF10M12)"},
+	{x = 1200, y = 762,  text = "1200x762       (ARCADE x3)"},
+	{x = 1280, y = 1024, text = "1280x1024       (SXGA 5:4)"},
+	{x = 1600, y = 1016, text = "1600x1016      (ARCADE x4)"},
+	{x = 2048, y = 1080, text = "2048x1080        (2K 17:9)"},
+	{x = 2560, y = 2048, text = "2560x2048       (QSXA 5:4)"},
+	{x = 3200, y = 2048, text = "3200x2048    (WQSXA 25:16)"},
+	{x = 4096, y = 2160, text = "4096x2160  (4K CINEMA 17:9)"},
+	{x = 5120, y = 4096, text = "5120x4096      (HSXGA 5:4)"},
+	{x = 6400, y = 4096, text = "6400x4096   (WHSXGA 25:16)"},
+	{x = 7680, y = 4320, text = "7680x4320         (8K UHD)"},
+	{text = "          BACK"},
+}
+for i=1, #t_EXresCfg do
+	t_EXresCfg[i]['id'] = ''
+end
+
+--Aspect Ratio Menu Items
 t_resCfg = {
-	{text = "4:3 Resolutions"},
-	{text = "16:9 Resolutions"},
-	{text = "16:10 Resolutions"},
-	{text = "Extra Resolutions"},
+	{text = "4:3 Resolutions",   aspectRatio = t_resCfg4_3,   title = "(4:3)"},
+	{text = "16:9 Resolutions",  aspectRatio = t_resCfg16_9,  title = "(16:9)"},
+	{text = "16:10 Resolutions", aspectRatio = t_resCfg16_10, title = "(16:10)"},
+	{text = "Extra Resolutions", aspectRatio = t_EXresCfg, 	  title = ""},
 	{text = "          BACK"},
 }
 for i=1, #t_resCfg do
@@ -6530,26 +6616,14 @@ function f_resCfg()
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-		--4:3 Resolutions
-			if resCfg == 1 then
-				sndPlay(sndSys, 100, 1)
-				f_resCfg4_3()
-		--16:9 Resolutions
-			elseif resCfg == 2 then
-				sndPlay(sndSys, 100, 1)
-				f_resCfg16_9()
-		--16:10 Resolutions
-			elseif resCfg == 3 then
-				sndPlay(sndSys, 100, 1)
-				f_resCfg16_10()
-		--Extra Resolutions
-			elseif resCfg == 4 then
-				sndPlay(sndSys, 100, 1)
-				f_EXresCfg()
 		--BACK
-			else
+			if resCfg == #t_resCfg then
 				sndPlay(sndSys, 100, 2)
 				break
+		--Resolutions Menu
+			else
+				sndPlay(sndSys, 100, 1)
+				f_resCfgSet(t_resCfg[resCfg].aspectRatio, t_resCfg[resCfg].title)
 			end
 		end
 		if resCfg < 1 then
@@ -6618,46 +6692,21 @@ function f_resCfg()
 	end
 end
 
---;===========================================================
---; 4:3 RESOLUTIONS
---;===========================================================
-txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (4:3)", 159, 13)
-
-t_resCfg4_3 = {
-	{x = 320,  y = 240,  text = "320x240             (QVGA)"},
-	{x = 512,  y = 384,  text = "512x384        (MACINTOSH)"},
-	{x = 640,  y = 480,  text = "640x480              (VGA)"},
-	{x = 800,  y = 600,  text = "800x600             (SVGA)"},
-	{x = 960,  y = 720,  text = "960x720               (HD)"},
-	{x = 1024, y = 768,  text = "1024x768             (XGA)"},
-	{x = 1152, y = 864,  text = "1152x864            (XGA+)"},
-	{x = 1200, y = 900,  text = "1200x900             (HD+)"},
-	{x = 1280, y = 960,  text = "1280x960        (Quad-VGA)"},
-	{x = 1440, y = 1080, text = "1440x1080            (FHD)"},
-	{x = 1600, y = 1200, text = "1600x1200            (XGA)"},
-	{x = 1920, y = 1440, text = "1920x1440          (UXGA+)"},
-	{x = 2048, y = 1536, text = "2048x1536           (QXGA)"},
-	{x = 3200, y = 2400, text = "3200x2400          (QUXGA)"},
-	{x = 6400, y = 4800, text = "6400x4800          (HUXGA)"},
-	{text = "          BACK "},
-}
-for i=1, #t_resCfg4_3 do
-	t_resCfg4_3[i]['id'] = ''
-end
-
-function f_resCfg4_3()
+function f_resCfgSet(t, title)
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
-	local resCfg4_3 = 1
+	local resCfgSet = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
-	for i=1, #t_resCfg4_3 do
-		if t_resCfg4_3[i].text == resolutionWidth.."x"..resolutionHeight then
-			resCfg4_3 = i
+	local t_aspectRatio = t
+	local title = title
+	for i=1, #t_aspectRatio do
+		if t_aspectRatio[i].text == resolutionWidth.."x"..resolutionHeight then
+			resCfgSet = i
 			break
 		end
 	end
@@ -6667,20 +6716,20 @@ function f_resCfg4_3()
 			return false
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
-			resCfg4_3 = resCfg4_3 - 1
+			resCfgSet = resCfgSet - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
-			resCfg4_3 = resCfg4_3 + 1
+			resCfgSet = resCfgSet + 1
 		end
-		if resCfg4_3 < 1 then
-			resCfg4_3 = #t_resCfg4_3
-			if #t_resCfg4_3 > maxItems then
+		if resCfgSet < 1 then
+			resCfgSet = #t_aspectRatio
+			if #t_aspectRatio > maxItems then
 				cursorPosY = maxItems
 			else
-				cursorPosY = #t_resCfg4_3
+				cursorPosY = #t_aspectRatio
 			end
-		elseif resCfg4_3 > #t_resCfg4_3 then
-			resCfg4_3 = 1
+		elseif resCfgSet > #t_aspectRatio then
+			resCfgSet = 1
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
@@ -6688,28 +6737,25 @@ function f_resCfg4_3()
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == maxItems then
-			moveTxt = (resCfg4_3 - maxItems) * 15
+			moveTxt = (resCfgSet - maxItems) * 15
 		elseif cursorPosY == 1 then
-			moveTxt = (resCfg4_3 - 1) * 15
+			moveTxt = (resCfgSet - 1) * 15
 		end
-		if #t_resCfg4_3 <= maxItems then
-			maxResCfg4_3 = #t_resCfg4_3
-		elseif resCfg4_3 - cursorPosY > 0 then
-			maxResCfg4_3 = resCfg4_3 + maxItems - cursorPosY
+		if #t_aspectRatio <= maxItems then
+			maxresCfgSet = #t_aspectRatio
+		elseif resCfgSet - cursorPosY > 0 then
+			maxresCfgSet = resCfgSet + maxItems - cursorPosY
 		else
-			maxResCfg4_3 = maxItems
+			maxresCfgSet = maxItems
 		end
-	--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-		--BACK
-			if resCfg4_3 == #t_resCfg4_3 then
+			if resCfgSet == #t_aspectRatio then
 				sndPlay(sndSys, 100, 2)
 				return false
-		--CHOOSE RESOLUTION
 			else
 				sndPlay(sndSys, 100, 1)
-				resolutionWidth = t_resCfg4_3[resCfg4_3].x
-				resolutionHeight = t_resCfg4_3[resCfg4_3].y
+				resolutionWidth = t_aspectRatio[resCfgSet].x
+				resolutionHeight = t_aspectRatio[resCfgSet].y
 				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
 					f_resWarning()
 				end
@@ -6719,425 +6765,25 @@ function f_resCfg4_3()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxResCfg4_3*15)
+		animSetScale(optionsBG1, 220, maxresCfgSet*15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
-		textImgDraw(txt_resCfg4_3)
+		textImgSetText(txt_resCfgSet, "RESOLUTION SELECT "..title)
+		textImgDraw(txt_resCfgSet)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		for i=1, maxResCfg4_3 do
-			if i > resCfg4_3 - cursorPosY then
-				t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15-moveTxt)
-				textImgDraw(t_resCfg4_3[i].id)
+		for i=1, maxresCfgSet do
+			if i > resCfgSet - cursorPosY then
+				t_aspectRatio[i].id = createTextImg(font2, 0, 1, t_aspectRatio[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_aspectRatio[i].id)
 			end
 		end
-		if maxResCfg4_3 > maxItems then
+		if maxresCfgSet > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_resCfg4_3 > maxItems and maxResCfg4_3 < #t_resCfg4_3 then
-			animDraw(optionsDownArrow)
-			animUpdate(optionsDownArrow)
-		end
-		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; 16:9 RESOLUTIONS
---;===========================================================
-txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (16:9)", 159, 13)
-
-t_resCfg16_9 = {
-	{x = 427,  y = 240,  text = "427x240        (ULTRA LOW)"},
-	{x = 640,  y = 360,  text = "640x360              (LOW)"},
-	{x = 853,  y = 480,  text = "853x480               (SD)"},
-	{x = 1280, y = 720,  text = "1280x720              (HD)"},
-	{x = 1600, y = 900,  text = "1600x900             (HD+)"},
-	{x = 1920, y = 1080, text = "1920x1080        (FULL HD)"},
-	{x = 2048, y = 1152, text = "2048x1152          (QWXGA)"},
-	{x = 2560, y = 1440, text = "2560x1440            (QHD)"},
-	{x = 3840, y = 2160, text = "3840x2160        (4K UHDV)"},
-	{text = "          BACK"},
-}
-for i=1, #t_resCfg16_9 do
-	t_resCfg16_9[i]['id'] = ''
-end
-
-function f_resCfg16_9()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local resCfg16_9 = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 12
-	for i=1, #t_resCfg16_9 do
-		if t_resCfg16_9[i].text == resolutionWidth.."x"..resolutionHeight then
-			resCfg16_9 = i
-			break
-		end
-	end
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			return false
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			resCfg16_9 = resCfg16_9 - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			resCfg16_9 = resCfg16_9 + 1
-		end
-		if resCfg16_9 < 1 then
-			resCfg16_9 = #t_resCfg16_9
-			if #t_resCfg16_9 > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_resCfg16_9
-			end
-		elseif resCfg16_9 > #t_resCfg16_9 then
-			resCfg16_9 = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (resCfg16_9 - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (resCfg16_9 - 1) * 15
-		end
-		if #t_resCfg16_9 <= maxItems then
-			maxResCfg16_9 = #t_resCfg16_9
-		elseif resCfg16_9 - cursorPosY > 0 then
-			maxResCfg16_9 = resCfg16_9 + maxItems - cursorPosY
-		else
-			maxResCfg16_9 = maxItems
-		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			if resCfg16_9 == #t_resCfg16_9 then
-				sndPlay(sndSys, 100, 2)
-				return false
-			else
-				sndPlay(sndSys, 100, 1)
-				resolutionWidth = t_resCfg16_9[resCfg16_9].x
-				resolutionHeight = t_resCfg16_9[resCfg16_9].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
-				return true
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxResCfg16_9*15)
-		animSetWindow(optionsBG1, 80,20, 160,180)
-		animDraw(optionsBG1)
-		textImgDraw(txt_resCfg16_9)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		for i=1, maxResCfg16_9 do
-			if i > resCfg16_9 - cursorPosY then
-				t_resCfg16_9[i].id = createTextImg(font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15-moveTxt)
-				textImgDraw(t_resCfg16_9[i].id)
-			end
-		end
-		if maxResCfg16_9 > maxItems then
-			animDraw(optionsUpArrow)
-			animUpdate(optionsUpArrow)
-		end
-		if #t_resCfg16_9 > maxItems and maxResCfg16_9 < #t_resCfg16_9 then
-			animDraw(optionsDownArrow)
-			animUpdate(optionsDownArrow)
-		end
-		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; 16:10 RESOLUTIONS
---;===========================================================
-txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (16:10)", 159, 13)
-
-t_resCfg16_10 = {
-	{x = 320,  y = 200,  text = "320x200              (CGA)"},
-	{x = 1280, y = 800,  text = "1280x800            (WXGA)"},
-	{x = 1440, y = 900,  text = "1440x900           (WXGA+)"},
-	{x = 1680, y = 1050, text = "1680x1050         (WSXGA+)"},
-	{x = 1920, y = 1200, text = "1920x1200          (WUXGA)"},
-	{x = 2560, y = 1600, text = "2560x1600          (WQXGA)"},
-	{x = 2880, y = 1800, text = "2880x1800  (RETINA DISPLAY)"},
-	{x = 3840, y = 2400, text = "3840x2400         (WQUXGA)"},
-	{x = 7680, y = 4800, text = "7680x4800         (WHUXGA)"},
-	{text = "          BACK"},
-}
-for i=1, #t_resCfg16_10 do
-	t_resCfg16_10[i]['id'] = ''
-end
-
-function f_resCfg16_10()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local resCfg16_10 = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 12
-	for i=1, #t_resCfg16_10 do
-		if t_resCfg16_10[i].text == resolutionWidth.."x"..resolutionHeight then
-			resCfg16_10 = i
-			break
-		end
-	end
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			return false
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			resCfg16_10 = resCfg16_10 - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			resCfg16_10 = resCfg16_10 + 1
-		end
-		if resCfg16_10 < 1 then
-			resCfg16_10 = #t_resCfg16_10
-			if #t_resCfg16_10 > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_resCfg16_10
-			end
-		elseif resCfg16_10 > #t_resCfg16_10 then
-			resCfg16_10 = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (resCfg16_10 - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (resCfg16_10 - 1) * 15
-		end
-		if #t_resCfg16_10 <= maxItems then
-			maxResCfg16_10 = #t_resCfg16_10
-		elseif resCfg16_10 - cursorPosY > 0 then
-			maxResCfg16_10 = resCfg16_10 + maxItems - cursorPosY
-		else
-			maxResCfg16_10 = maxItems
-		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			if resCfg16_10 == #t_resCfg16_10 then
-				sndPlay(sndSys, 100, 2)
-				return false
-			else
-				sndPlay(sndSys, 100, 1)
-				resolutionWidth = t_resCfg16_10[resCfg16_10].x
-				resolutionHeight = t_resCfg16_10[resCfg16_10].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
-				return true
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxResCfg16_10*15)
-		animSetWindow(optionsBG1, 80,20, 160,180)
-		animDraw(optionsBG1)
-		textImgDraw(txt_resCfg16_10)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		for i=1, maxResCfg16_10 do
-			if i > resCfg16_10 - cursorPosY then
-				t_resCfg16_10[i].id = createTextImg(font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15-moveTxt)
-				textImgDraw(t_resCfg16_10[i].id)
-			end
-		end
-		if maxResCfg16_10 > maxItems then
-			animDraw(optionsUpArrow)
-			animUpdate(optionsUpArrow)
-		end
-		if #t_resCfg16_10 > maxItems and maxResCfg16_10 < #t_resCfg16_10 then
-			animDraw(optionsDownArrow)
-			animUpdate(optionsDownArrow)
-		end
-		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; EXTRA RESOLUTIONS
---;===========================================================
-txt_EXresCfg = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT", 159, 13)
-
-t_EXresCfg = {
-	{x = 400,  y = 254,  text = "400x254           (ARCADE)"},
-	{x = 400,  y = 508,  text = "400x508        (ARCADE x2)"},
-	{x = 640,  y = 350,  text = "640x350         (EGA 11:6)"},
-	{x = 720,  y = 348,  text = "720x348         (HGC 60:9)"},
-	{x = 720,  y = 350,  text = "720x350        (MDA 72:35)"},
-	{x = 720,  y = 360,  text = "720x360    (APPLE LISA 2:1)"},
-	{x = 1024, y = 600,  text = "1024x600 (CANAIMA MG101A3)"},
-	{x = 1360, y = 768,  text = "1360x768      (WXGA 85:48)"},
-	{x = 1366, y = 728,  text = "1366x728 (CANAIMA EF10M12)"},
-	{x = 1200, y = 762,  text = "1200x762       (ARCADE x3)"},
-	{x = 1280, y = 1024, text = "1280x1024       (SXGA 5:4)"},
-	{x = 1600, y = 1016, text = "1600x1016      (ARCADE x4)"},
-	{x = 2048, y = 1080, text = "2048x1080        (2K 17:9)"},
-	{x = 2560, y = 2048, text = "2560x2048       (QSXA 5:4)"},
-	{x = 3200, y = 2048, text = "3200x2048    (WQSXA 25:16)"},
-	{x = 4096, y = 2160, text = "4096x2160  (4K CINEMA 17:9)"},
-	{x = 5120, y = 4096, text = "5120x4096      (HSXGA 5:4)"},
-	{x = 6400, y = 4096, text = "6400x4096   (WHSXGA 25:16)"},
-	{x = 7680, y = 4320, text = "7680x4320         (8K UHD)"},
-	--{x = 30720, y = 17208, text = "30720x17208 (24K SUPER DEATH BATMETAL)"},
-	{text = "          BACK"},
-}
-for i=1, #t_EXresCfg do
-	t_EXresCfg[i]['id'] = ''
-end
-
-function f_EXresCfg()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local EXresCfg = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 12
-	for i=1, #t_EXresCfg do
-		if t_EXresCfg[i].text == resolutionWidth.."x"..resolutionHeight then
-			EXresCfg = i
-			break
-		end
-	end
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sndSys, 100, 2)
-			return false
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			EXresCfg = EXresCfg - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			EXresCfg = EXresCfg + 1
-		end
-		if EXresCfg < 1 then
-			EXresCfg = #t_EXresCfg
-			if #t_EXresCfg > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_EXresCfg
-			end
-		elseif EXresCfg > #t_EXresCfg then
-			EXresCfg = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (EXresCfg - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (EXresCfg - 1) * 15
-		end
-		if #t_EXresCfg <= maxItems then
-			maxEXresCfg = #t_EXresCfg
-		elseif EXresCfg - cursorPosY > 0 then
-			maxEXresCfg = EXresCfg + maxItems - cursorPosY
-		else
-			maxEXresCfg = maxItems
-		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			if EXresCfg == #t_EXresCfg then
-				sndPlay(sndSys, 100, 2)
-				return false
-			else
-				sndPlay(sndSys, 100, 1)
-				resolutionWidth = t_EXresCfg[EXresCfg].x
-				resolutionHeight = t_EXresCfg[EXresCfg].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
-				return true
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxEXresCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,180)
-		animDraw(optionsBG1)
-		textImgDraw(txt_EXresCfg)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		for i=1, maxEXresCfg do
-			if i > EXresCfg - cursorPosY then
-				t_EXresCfg[i].id = createTextImg(font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15-moveTxt)
-				textImgDraw(t_EXresCfg[i].id)
-			end
-		end
-		if maxEXresCfg > maxItems then
-			animDraw(optionsUpArrow)
-			animUpdate(optionsUpArrow)
-		end
-		if #t_EXresCfg > maxItems and maxEXresCfg < #t_EXresCfg then
+		if #t_aspectRatio > maxItems and maxresCfgSet < #t_aspectRatio then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end

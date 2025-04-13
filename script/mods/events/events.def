@@ -1,4 +1,4 @@
-preview.file = data/events/events.sff
+preview.file = script/mods/events/events.sff
 
 [Event 1]
 id = event1
