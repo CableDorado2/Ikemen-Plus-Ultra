@@ -1095,13 +1095,13 @@ end
 --; REBOOT INFORMATION
 --;===========================================================
 t_exitInfo = {
-	{id = '', text = ""},
-	{id = '', text = "Some selected options require restart Ikemen. Press"},
-	{id = '', text = "start key to reboot Ikemen and load your new settings."},
-	{id = '', text = ""},
+	{text = ""},
+	{text = "Some selected options require restart Ikemen. Press"},
+	{text = "start key to reboot Ikemen and load your new settings."},
+	{text = ""},
 }
 for i=1, #t_exitInfo do
-	t_exitInfo[i].id = createTextImg(font2, 0, 1, t_exitInfo[i].text, 25, 65+i*15)
+	t_exitInfo[i]['id'] = createTextImg(font2, 0, 1, t_exitInfo[i].text, 25, 65+i*15)
 end
 
 function f_exitInfo()
@@ -1144,13 +1144,13 @@ end
 --; ASPECT RATIO WARNING
 --;===========================================================
 t_resWarning = {
-	{id = '', text = ""},
-	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
-	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
-	{id = '', text = ""},
+	{text = ""},
+	{text = "Non 4:3 resolutions requires stages coded for different"},
+	{text = "aspect ratio. Change it back to 4:3 if stages look off."},
+	{text = ""},
 }
 for i=1, #t_resWarning do
-	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 65+i*15)
+	t_resWarning[i]['id'] = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 65+i*15)
 end
 
 function f_resWarning()
@@ -1201,13 +1201,13 @@ animUpdate(sdlImg2)
 animSetScale(sdlImg2, 0.35, 0.35)
 
 t_sdlWarning = {
-	{id = '', text = "The New version of the Sdlplugin allows loading video"},
-	{id = '', text = "files in WMV format. However, still in development and"},
-	{id = '', text = "ONLY SFF sprites Version 1.0.1.0 or Version 2.0.0.0"},
-	{id = '', text = "are supported."},
+	{text = "The New version of the Sdlplugin allows loading video"},
+	{text = "files in WMV format. However, still in development and"},
+	{text = "ONLY SFF sprites Version 1.0.1.0 or Version 2.0.0.0"},
+	{text = "are supported."},
 }
 for i=1, #t_sdlWarning do
-	t_sdlWarning[i].id = createTextImg(font2, 0, 1, t_sdlWarning[i].text, 25, 65+i*15)
+	t_sdlWarning[i]['id'] = createTextImg(font2, 0, 1, t_sdlWarning[i].text, 25, 65+i*15)
 end
 
 function f_sdlWarning()
@@ -1247,13 +1247,13 @@ end
 --; OPENGL 2.0 WARNING
 --;===========================================================
 t_glWarning = {
-	{id = '', text = ""},
-	{id = '', text = "If your system doesn't support OpenGL 2.0 or later"},
-	{id = '', text = "edit in save/config.ssz: const bool OpenGL = false"},
-	{id = '', text = ""},
+	{text = ""},
+	{text = "If your system doesn't support OpenGL 2.0 or later"},
+	{text = "edit in save/config.ssz: const bool OpenGL = false"},
+	{text = ""},
 }
 for i=1, #t_glWarning do
-	t_glWarning[i].id = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 65+i*15)
+	t_glWarning[i]['id'] = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 65+i*15)
 end
 
 function f_glWarning()
@@ -1288,13 +1288,13 @@ end
 --; SAVE MEMORY WARNING
 --;===========================================================
 t_memWarning = {
-	{id = '', text = ""},
-	{id = '', text = "Enabling 'Save memory' option negatively affects FPS."},
-	{id = '', text = "It's not yet known if disabling it has any drawbacks."},
-	{id = '', text = ""},
+	{text = ""},
+	{text = "Enabling 'Save memory' option negatively affects FPS."},
+	{text = "It's not yet known if disabling it has any drawbacks."},
+	{text = ""},
 }
 for i=1, #t_memWarning do
-	t_memWarning[i].id = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 65+i*15)
+	t_memWarning[i]['id'] = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 65+i*15)
 end
 
 function f_memWarning()
@@ -1329,38 +1329,38 @@ end
 --; WORK IN PROGRESS INFORMATION
 --;===========================================================
 t_wip = {
-	{id = '', text = "This option is still Under Development."},
+	{text = "This option is still Under Development."},
 }
 for i=1, #t_wip do
-	t_wip[i].id = createTextImg(font2, 0, 0, t_wip[i].text, 164, 222.5+i*15)
+	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 164, 222.5+i*15)
 end
 
 t_sdlBeta = {
-	{id = '', text = "This option requires Sdlplugin New Version."},
+	{text = "This option requires Sdlplugin New Version."},
 }
 for i=1, #t_sdlBeta do
-	t_sdlBeta[i].id = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 164, 222.5+i*15)
+	t_sdlBeta[i]['id'] = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 164, 222.5+i*15)
 end
 
 --;===========================================================
 --; ONLINE INFORMATION
 --;===========================================================
 t_locked = {
-	{id = '', text = "This option is Unavailable in Online Mode."},
+	{text = "This option is Unavailable in Online Mode."},
 }
 for i=1, #t_locked do
-	t_locked[i].id = createTextImg(font2, 0, 0, t_locked[i].text, 163, 222.5+i*15)
+	t_locked[i]['id'] = createTextImg(font2, 0, 0, t_locked[i].text, 163, 222.5+i*15)
 end
 
 --;===========================================================
 --; SAVE CONFIGURATION INFORMATION
 --;===========================================================
 t_restart = {
-	{id = '', text = "The changes that you have made"},
-	{id = '', text = "require Save and Back."},
+	{text = "The changes that you have made"},
+	{text = "require Save and Back."},
 }
 for i=1, #t_restart do
-	t_restart[i].id = createTextImg(font2, 0, 0, t_restart[i].text, 168, 200+i*15)
+	t_restart[i]['id'] = createTextImg(font2, 0, 0, t_restart[i].text, 168, 200+i*15)
 end
 
 --;===========================================================
@@ -1543,20 +1543,23 @@ txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5+5*15, .5, .5)
 
 t_mainCfg = {
-	{varID = textImgNew(), text = "Game Settings",	  				varText = ""},
-	{varID = textImgNew(), text = "System Settings",  				varText = ""},
-	{varID = textImgNew(), text = "Video Settings",  				varText = ""},
-	{varID = textImgNew(), text = "Audio Settings",  				varText = ""},
-	{varID = textImgNew(), text = "Input Settings",  				varText = ""},
-	{varID = textImgNew(), text = "Engine Settings",  				varText = ""},
-	{varID = textImgNew(), text = "Nickname",        				varText = data.userName},
-	{varID = textImgNew(), text = "Netplay Port",        			varText = getListenPort()},
-	{varID = textImgNew(), text = "Netplay Connection",				varText = data.connectMode},
-	{varID = textImgNew(), text = "All Default Values",				varText = ""},
-	{varID = textImgNew(), text = "              Save and Back",  	varText = ""},
-	{varID = textImgNew(), text = "          Back Without Saving",	varText = ""},
-	{varID = textImgNew(), text = "              Online Settings",	varText = ""}, --Only for Dev Purposes (Delete when test are finished)
+	{text = "Game Settings",	  			 varText = ""},
+	{text = "System Settings",  			 varText = ""},
+	{text = "Video Settings",  				 varText = ""},
+	{text = "Audio Settings",  				 varText = ""},
+	{text = "Input Settings",  				 varText = ""},
+	{text = "Engine Settings",  			 varText = ""},
+	{text = "Nickname",        				 varText = data.userName},
+	{text = "Netplay Port",        			 varText = getListenPort()},
+	{text = "Netplay Connection",			 varText = data.connectMode},
+	{text = "All Default Values",			 varText = ""},
+	{text = "              Save and Back",   varText = ""},
+	{text = "          Back Without Saving", varText = ""},
+	{text = "              Online Settings", varText = ""}, --Only for Dev Purposes (Delete when test are finished)
 }
+for i=1, #t_mainCfg do
+	t_mainCfg[i]['varID'] = textImgNew()
+end
 
 function f_mainCfg()
 	cmdInput()
@@ -1906,11 +1909,14 @@ end
 txt_onlineCfg = createTextImg(jgFnt, 0, 0, "ONLINE SETTINGS", 159, 13)
 
 t_onlineCfg = {
-	{varID = textImgNew(), text = "Game Settings",				varText = ""},
-	{varID = textImgNew(), text = "Engine Settings",			varText = ""},
-	{varID = textImgNew(), text = "Lobby Settings",				varText = ""},
-	{varID = textImgNew(), text = "      SAVE AND PLAY",		varText = ""},
+	{text = "Game Settings",		varText = ""},
+	{text = "Engine Settings",		varText = ""},
+	{text = "Lobby Settings",		varText = ""},
+	{text = "      SAVE AND PLAY",	varText = ""},
 }
+for i=1, #t_onlineCfg do
+	t_onlineCfg[i]['varID'] = textImgNew()
+end
 
 function f_onlineCfg()
 	cmdInput()
@@ -2035,16 +2041,19 @@ end
 txt_netplayCfg = createTextImg(jgFnt, 0, 0, "NETPLAY ROOM SETTINGS", 159, 13)
 
 t_netplayCfg = {
-	{varID = textImgNew(), text = "VS Match",			varText = data.ftcontrol},
-	{varID = textImgNew(), text = "Room Name",			varText = ""},
-	{varID = textImgNew(), text = "Pause Menu",			varText = "No"},
-	{varID = textImgNew(), text = "Looby Size",			varText = "2"},
-	{varID = textImgNew(), text = "Spectate",			varText = "No"},
-	{varID = textImgNew(), text = "Private Game",		varText = "Yes"},
-	{varID = textImgNew(), text = "Show Names",			varText = "No"},
-	{varID = textImgNew(), text = "Show Input Delay",	varText = "No"},
-	{varID = textImgNew(), text = "          BACK",  	varText = ""},
+	{text = "VS Match",			varText = data.ftcontrol},
+	{text = "Room Name",		varText = ""},
+	{text = "Pause Menu",		varText = "No"},
+	{text = "Looby Size",		varText = "2"},
+	{text = "Spectate",			varText = "No"},
+	{text = "Private Game",		varText = "Yes"},
+	{text = "Show Names",		varText = "No"},
+	{text = "Show Input Delay",	varText = "No"},
+	{text = "          BACK",  	varText = ""},
 }
+for i=1, #t_netplayCfg do
+	t_netplayCfg[i]['varID'] = textImgNew()
+end
 
 function f_netplayCfg()
 	cmdInput()
@@ -2193,22 +2202,25 @@ end
 txt_gameCfg = createTextImg(jgFnt, 0, 0, "GAME SETTINGS", 159, 13)
 
 t_gameCfg = {
-	{varID = textImgNew(), text = "Difficulty Level",       varText = data.difficulty},
-	{varID = textImgNew(), text = "Time Limit",         	varText = data.roundTime},
-	{varID = textImgNew(), text = "Rounds to Win",      	varText = data.roundsNum},
-	{varID = textImgNew(), text = "Max Draw Games",      	varText = drawNum},
-	{varID = textImgNew(), text = "Life",               	varText = data.lifeMul.."%"},
-	{varID = textImgNew(), text = "Auto-Guard",             varText = s_autoguard},
-	{varID = textImgNew(), text = "Game Speed",  	        varText = s_gameSpeed},
-	{varID = textImgNew(), text = "Quick Arcade Continue",	varText = s_quickCont},
-	{varID = textImgNew(), text = "AI Palette",  	    	varText = data.aipal},
-	{varID = textImgNew(), text = "AI Ramping",             varText = s_aiRamping},
-	{varID = textImgNew(), text = "VS Kumite Amount",  	    varText = data.kumite},
-	{varID = textImgNew(), text = "Team Settings",  		varText = ""},
-	{varID = textImgNew(), text = "Zoom Settings",  		varText = ""},
-	{varID = textImgNew(), text = "Default Values",		    varText = ""},
-	{varID = textImgNew(), text = "          BACK",  		varText = ""},
+	{text = "Difficulty Level",      varText = data.difficulty},
+	{text = "Time Limit",         	 varText = data.roundTime},
+	{text = "Rounds to Win",      	 varText = data.roundsNum},
+	{text = "Max Draw Games",      	 varText = drawNum},
+	{text = "Life",               	 varText = data.lifeMul.."%"},
+	{text = "Auto-Guard",            varText = s_autoguard},
+	{text = "Game Speed",  	         varText = s_gameSpeed},
+	{text = "Quick Arcade Continue", varText = s_quickCont},
+	{text = "AI Palette",  	    	 varText = data.aipal},
+	{text = "AI Ramping",            varText = s_aiRamping},
+	{text = "VS Kumite Amount",  	 varText = data.kumite},
+	{text = "Team Settings",  		 varText = ""},
+	{text = "Zoom Settings",  		 varText = ""},
+	{text = "Default Values",		 varText = ""},
+	{text = "          BACK",  		 varText = ""},
 }
+for i=1, #t_gameCfg do
+	t_gameCfg[i]['varID'] = textImgNew()
+end
 
 function f_gameCfg()
 	cmdInput()
@@ -2587,17 +2599,20 @@ end
 txt_teamCfg = createTextImg(jgFnt, 0, 0, "TEAM SETTINGS", 159, 13)
 
 t_teamCfg = {
-	{varID = textImgNew(), text = "Single Vs Team Life",     	varText = data.team1VS2Life.."%"},
-	{varID = textImgNew(), text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
-	{varID = textImgNew(), text = "Life Share", 				varText = s_teamLifeShare},
-	{varID = textImgNew(), text = "Power Share", 				varText = s_teamPowerShare},
-	{varID = textImgNew(), text = "Turns Players Limit",     	varText = data.numTurns},
-	{varID = textImgNew(), text = "Simul Players Limit",     	varText = data.numSimul},
-	{varID = textImgNew(), text = "Simul Type",              	varText = data.simulType},
-	{varID = textImgNew(), text = "Co-Op CPU Team",          	varText = data.coopenemy},
-	{varID = textImgNew(), text = "Default Values",  	  		varText = ""},
-	{varID = textImgNew(), text = "          BACK",  			varText = ""},
+	{text = "Single Vs Team Life",     	varText = data.team1VS2Life.."%"},
+	{text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
+	{text = "Life Share", 				varText = s_teamLifeShare},
+	{text = "Power Share", 				varText = s_teamPowerShare},
+	{text = "Turns Players Limit",     	varText = data.numTurns},
+	{text = "Simul Players Limit",     	varText = data.numSimul},
+	{text = "Simul Type",              	varText = data.simulType},
+	{text = "Co-Op CPU Team",          	varText = data.coopenemy},
+	{text = "Default Values",  	  		varText = ""},
+	{text = "          BACK",  			varText = ""},
 }
+for i=1, #t_teamCfg do
+	t_teamCfg[i]['varID'] = textImgNew()
+end
 
 function f_teamCfg()
 	cmdInput()
@@ -2876,13 +2891,16 @@ end
 txt_zoomCfg = createTextImg(jgFnt, 0, 0, "ZOOM SETTINGS", 159, 13)
 
 t_zoomCfg = {
-	{varID = textImgNew(), text = "Zoom Active",    			varText = s_zoomActive},
-	{varID = textImgNew(), text = "Max Zoom Out",   			varText = data.zoomMin},
-	{varID = textImgNew(), text = "Max Zoom In",    			varText = data.zoomMax},
-	{varID = textImgNew(), text = "Zoom Speed",     			varText = data.zoomSpeed},
-	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
-	{varID = textImgNew(), text = "          BACK", 			varText = ""},
+	{text = "Zoom Active",    			varText = s_zoomActive},
+	{text = "Max Zoom Out",   			varText = data.zoomMin},
+	{text = "Max Zoom In",    			varText = data.zoomMax},
+	{text = "Zoom Speed",     			varText = data.zoomSpeed},
+	{text = "Default Values",  	 		varText = ""},
+	{text = "          BACK", 			varText = ""},
 }
+for i=1, #t_zoomCfg do
+	t_zoomCfg[i]['varID'] = textImgNew()
+end
 
 function f_zoomCfg()
 	cmdInput()
@@ -3091,20 +3109,23 @@ end
 txt_UICfg = createTextImg(jgFnt, 0, 0, "SYSTEM SETTINGS", 159, 13)
 
 t_UICfg = {
-	{varID = textImgNew(), text = "Language", 		           varText = data.language},
-	{varID = textImgNew(), text = "Clock Format",              varText = data.clock},
-	{varID = textImgNew(), text = "Date Format",               varText = data.date},
-	{varID = textImgNew(), text = "Attract Mode",  	      	   varText = s_attractMode},
-	{varID = textImgNew(), text = "Character Presentation",    varText = data.charPresentation},
-	{varID = textImgNew(), text = "Versus Win Counter",  	   varText = s_vsDisplayWin},
-	{varID = textImgNew(), text = "Win Screen",	    		   varText = data.winscreen},
-	{varID = textImgNew(), text = "Character Select Settings", varText = ""},
-	{varID = textImgNew(), text = "Stage Select Settings",     varText = ""},
-	{varID = textImgNew(), text = "Timers Settings",  	  	   varText = ""},
-	{varID = textImgNew(), text = "Songs Settings",	 		   varText = ""},
-	{varID = textImgNew(), text = "Default Settings",  	  	   varText = ""},
-	{varID = textImgNew(), text = "          BACK",  		   varText = ""},
+	{text = "Language", 		         varText = data.language},
+	{text = "Clock Format",              varText = data.clock},
+	{text = "Date Format",               varText = data.date},
+	{text = "Attract Mode",  	      	 varText = s_attractMode},
+	{text = "Character Presentation",    varText = data.charPresentation},
+	{text = "Versus Win Counter",  	     varText = s_vsDisplayWin},
+	{text = "Win Screen",	    		 varText = data.winscreen},
+	{text = "Character Select Settings", varText = ""},
+	{text = "Stage Select Settings",     varText = ""},
+	{text = "Timers Settings",  	  	 varText = ""},
+	{text = "Songs Settings",	 		 varText = ""},
+	{text = "Default Settings",  	  	 varText = ""},
+	{text = "          BACK",  		     varText = ""},
 }
+for i=1, #t_UICfg do
+	t_UICfg[i]['varID'] = textImgNew()
+end
 
 function f_UICfg()
 	cmdInput()
@@ -3432,15 +3453,18 @@ end
 txt_selectCfg = createTextImg(jgFnt, 0, 0, "CHARACTER SELECT SETTINGS", 159, 13)
 
 t_selectCfg = {
-	{varID = textImgNew(), text = "Edit Roster",	   	     	varText = ""},
-	{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
-	{varID = textImgNew(), text = "Palette Select",	    		varText = data.palType},
-	{varID = textImgNew(), text = "Information",    			varText = data.charInfo},
-	{varID = textImgNew(), text = "Random Portrait",	     	varText = data.randomPortrait},
-	{varID = textImgNew(), text = "Random Select Rematch",		varText = data.randomCharRematch},
-	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
-	{varID = textImgNew(), text = "          BACK", 			varText = ""},
+	{text = "Edit Roster",	   	     	varText = ""},
+	{text = "Roster Type",	   	     	varText = data.selectType},
+	{text = "Palette Select",	    	varText = data.palType},
+	{text = "Information",    			varText = data.charInfo},
+	{text = "Random Portrait",	     	varText = data.randomPortrait},
+	{text = "Random Select Rematch",	varText = data.randomCharRematch},
+	{text = "Default Values",  	 		varText = ""},
+	{text = "          BACK", 			varText = ""},
 }
+for i=1, #t_selectCfg do
+	t_selectCfg[i]['varID'] = textImgNew()
+end
 
 function f_selectCfg()
 	cmdInput()
@@ -3651,53 +3675,59 @@ txt_rosterCfg = createTextImg(jgFnt, 0, 0, "ROSTER CONFIG", 159, 13)
 
 --Simple Roster
 t_rosterCfg1 = {
-	{varID = textImgNew(), text = "Rows",	   			     	varText = data.selectRows},
-	{varID = textImgNew(), text = "Columns",		   	     	varText = data.selectColumns},
-	{varID = textImgNew(), text = "Wrapping X",		   	     	varText = data.wrappingX},
-	{varID = textImgNew(), text = "Wrapping Y",		   	     	varText = data.wrappingY},
-	{varID = textImgNew(), text = "Cells Pos X",	    		varText = data.p1FaceX},
-	{varID = textImgNew(), text = "Cells Pos Y",    			varText = data.p1FaceY},
-	{varID = textImgNew(), text = "Cells Size X",	    		varText = data.cellSizeX},
-	{varID = textImgNew(), text = "Cells Size Y",    			varText = data.cellSizeY},
-	{varID = textImgNew(), text = "Cells Spacing X",     		varText = data.cellSpacingX},
-	{varID = textImgNew(), text = "Cells Spacing Y",     		varText = data.cellSpacingY},
-	{varID = textImgNew(), text = "Cells Scale X",     			varText = data.cellScaleX},
-	{varID = textImgNew(), text = "Cells Scale Y",     			varText = data.cellScaleY},
-	{varID = textImgNew(), text = "P1 Cursor Start Cell X",    	varText = data.p1SelX},
-	{varID = textImgNew(), text = "P1 Cursor Start Cell Y",    	varText = data.p1SelY},
-	{varID = textImgNew(), text = "P2 Cursor Start Cell X",    	varText = data.p2SelX},
-	{varID = textImgNew(), text = "P2 Cursor Start Cell Y",    	varText = data.p2SelY},
-	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
-	--{varID = textImgNew(), text = "Reload Select.def", 	 		varText = ""},
-	{varID = textImgNew(), text = "          BACK", 			varText = ""},
+	{text = "Rows",	   			     	varText = data.selectRows},
+	{text = "Columns",		   	     	varText = data.selectColumns},
+	{text = "Wrapping X",		   	    varText = data.wrappingX},
+	{text = "Wrapping Y",		   	    varText = data.wrappingY},
+	{text = "Cells Pos X",	    		varText = data.p1FaceX},
+	{text = "Cells Pos Y",    			varText = data.p1FaceY},
+	{text = "Cells Size X",	    		varText = data.cellSizeX},
+	{text = "Cells Size Y",    			varText = data.cellSizeY},
+	{text = "Cells Spacing X",     		varText = data.cellSpacingX},
+	{text = "Cells Spacing Y",     		varText = data.cellSpacingY},
+	{text = "Cells Scale X",     		varText = data.cellScaleX},
+	{text = "Cells Scale Y",     		varText = data.cellScaleY},
+	{text = "P1 Cursor Start Cell X",   varText = data.p1SelX},
+	{text = "P1 Cursor Start Cell Y",   varText = data.p1SelY},
+	{text = "P2 Cursor Start Cell X",   varText = data.p2SelX},
+	{text = "P2 Cursor Start Cell Y",   varText = data.p2SelY},
+	{text = "Default Values",  	 		varText = ""},
+	--{text = "Reload Select.def", 	 	varText = ""},
+	{text = "          BACK", 			varText = ""},
 }
+for i=1, #t_rosterCfg1 do
+	t_rosterCfg1[i]['varID'] = textImgNew()
+end
 
 --Advanced Roster (BlazBlue Cross Tag Battle Roster Type)
 t_rosterCfg2 = {
-	{varID = textImgNew(), text = "Rows",	   			     	varText = data.selectRows},
-	{varID = textImgNew(), text = "Columns",		   	     	varText = data.selectColumns},
-	{varID = textImgNew(), text = "Hidden Rows",	    	 	varText = data.offsetRows},
-	{varID = textImgNew(), text = "Hidden Columns",	   	     	varText = data.offsetColumns},
-	{varID = textImgNew(), text = "Wrapping X",		   	     	varText = data.wrappingX},
-	{varID = textImgNew(), text = "Wrapping Y",		   	     	varText = data.wrappingY},
-	{varID = textImgNew(), text = "P1 Cells Pos X",	    		varText = data.p1FaceX},
-	{varID = textImgNew(), text = "P1 Cells Pos Y",	   			varText = data.p1FaceY},
-	{varID = textImgNew(), text = "P2 Cells Pos X",	    		varText = data.p2FaceX},
-	{varID = textImgNew(), text = "P2 Cells Pos Y",	   			varText = data.p2FaceY},
-	{varID = textImgNew(), text = "Cells Size X",	    		varText = data.cellSizeX},
-	{varID = textImgNew(), text = "Cells Size Y",    			varText = data.cellSizeY},
-	{varID = textImgNew(), text = "Cells Spacing X",     		varText = data.cellSpacingX},
-	{varID = textImgNew(), text = "Cells Spacing Y",     		varText = data.cellSpacingY},
-	{varID = textImgNew(), text = "Cells Scale X",     			varText = data.cellScaleX},
-	{varID = textImgNew(), text = "Cells Scale Y",     			varText = data.cellScaleY},
-	{varID = textImgNew(), text = "P1 Cursor Start Cell X",    	varText = data.p1SelX},
-	{varID = textImgNew(), text = "P1 Cursor Start Cell Y",    	varText = data.p1SelY},
-	{varID = textImgNew(), text = "P2 Cursor Start Cell X",    	varText = data.p2SelX},
-	{varID = textImgNew(), text = "P2 Cursor Start Cell Y",    	varText = data.p2SelY},
-	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
-	--{varID = textImgNew(), text = "Reload Select.def", 	 		varText = ""},
-	{varID = textImgNew(), text = "          BACK", 			varText = ""},
+	{text = "Rows",	   			     	varText = data.selectRows},
+	{text = "Columns",		   	     	varText = data.selectColumns},
+	{text = "Hidden Rows",	    	 	varText = data.offsetRows},
+	{text = "Hidden Columns",	   	    varText = data.offsetColumns},
+	{text = "Wrapping X",		   	    varText = data.wrappingX},
+	{text = "Wrapping Y",		   	    varText = data.wrappingY},
+	{text = "P1 Cells Pos X",	    	varText = data.p1FaceX},
+	{text = "P1 Cells Pos Y",	   		varText = data.p1FaceY},
+	{text = "P2 Cells Pos X",	    	varText = data.p2FaceX},
+	{text = "P2 Cells Pos Y",	   		varText = data.p2FaceY},
+	{text = "Cells Size X",	    		varText = data.cellSizeX},
+	{text = "Cells Size Y",    			varText = data.cellSizeY},
+	{text = "Cells Spacing X",     		varText = data.cellSpacingX},
+	{text = "Cells Spacing Y",     		varText = data.cellSpacingY},
+	{text = "Cells Scale X",     		varText = data.cellScaleX},
+	{text = "Cells Scale Y",     		varText = data.cellScaleY},
+	{text = "P1 Cursor Start Cell X",   varText = data.p1SelX},
+	{text = "P1 Cursor Start Cell Y",   varText = data.p1SelY},
+	{text = "P2 Cursor Start Cell X",   varText = data.p2SelX},
+	{text = "P2 Cursor Start Cell Y",   varText = data.p2SelY},
+	{text = "Default Values",  	 		varText = ""},
+	--{text = "Reload Select.def", 	 	varText = ""},
+	{text = "          BACK", 			varText = ""},
 }
+for i=1, #t_rosterCfg2 do
+	t_rosterCfg2[i]['varID'] = textImgNew()
+end
 
 --Up Arrow
 rosterCfgUpArrow = animNew(sprIkemen, [[
@@ -4749,13 +4779,16 @@ end
 txt_stageCfg = createTextImg(jgFnt, 0, 0, "STAGE SELECT SETTINGS", 159, 13)
 
 t_stageCfg = {
-	{varID = textImgNew(), text = "Presentation",	        varText = data.stageType},
-	{varID = textImgNew(), text = "Random Portrait",   		varText = data.randomStagePortrait},
-	{varID = textImgNew(), text = "Information",      		varText = data.stageInfo},
-	{varID = textImgNew(), text = "Random Select Rematch",	varText = data.randomStageRematch},
-	{varID = textImgNew(), text = "Default Values",  	 	varText = ""},
-	{varID = textImgNew(), text = "          BACK", 		varText = ""},
+	{text = "Presentation",	         varText = data.stageType},
+	{text = "Random Portrait",   	 varText = data.randomStagePortrait},
+	{text = "Information",      	 varText = data.stageInfo},
+	{text = "Random Select Rematch", varText = data.randomStageRematch},
+	{text = "Default Values",  	 	 varText = ""},
+	{text = "          BACK", 		 varText = ""},
 }
+for i=1, #t_stageCfg do
+	t_stageCfg[i]['varID'] = textImgNew()
+end
 
 function f_stageCfg()
 	cmdInput()
@@ -4957,16 +4990,19 @@ end
 txt_timeCfg = createTextImg(jgFnt, 0, 0, "TIMERS SETTINGS", 159, 13)
 
 t_timeCfg = {
-	{varID = textImgNew(), text = "Character Select",   varText = data.selectTime .." Seconds"},
-	{varID = textImgNew(), text = "Stage Select",   	varText = data.stageTime .." Seconds"},
-	{varID = textImgNew(), text = "Order Select",     	varText = data.orderTime .." Seconds"},
-	{varID = textImgNew(), text = "Rematch Option",	   	varText = data.rematchTime .." Seconds"},
-	{varID = textImgNew(), text = "Service Screen", 	varText = data.serviceTime .." Seconds"},
-	{varID = textImgNew(), text = "Attract Title", 		varText = data.attractTime .." Seconds"},
-	{varID = textImgNew(), text = "Tower Select", 		varText = data.destinyTime .." Seconds"},
-	{varID = textImgNew(), text = "Default Values",  	varText = ""},
-	{varID = textImgNew(), text = "          BACK", 	varText = ""},
+	{text = "Character Select", varText = data.selectTime .." Seconds"},
+	{text = "Stage Select",   	varText = data.stageTime .." Seconds"},
+	{text = "Order Select",     varText = data.orderTime .." Seconds"},
+	{text = "Rematch Option",	varText = data.rematchTime .." Seconds"},
+	{text = "Service Screen", 	varText = data.serviceTime .." Seconds"},
+	{text = "Attract Title", 	varText = data.attractTime .." Seconds"},
+	{text = "Tower Select", 	varText = data.destinyTime .." Seconds"},
+	{text = "Default Values",  	varText = ""},
+	{text = "          BACK", 	varText = ""},
 }
+for i=1, #t_timeCfg do
+	t_timeCfg[i]['varID'] = textImgNew()
+end
 
 function f_timeCfg()
 	cmdInput()
@@ -5294,12 +5330,15 @@ end
 txt_songCfg = createTextImg(jgFnt, 0, 0, "SYSTEM SONG SETTINGS", 159, 13)
 
 t_songCfg = {
-	{varID = textImgNew(), text = "Main Menu", 						varText = ""},
-	{varID = textImgNew(), text = "Character Select",				varText = ""},
-	{varID = textImgNew(), text = "Challenger",		 				varText = ""},
-	{varID = textImgNew(), text = "Default Values",  	 			varText = ""},
-	{varID = textImgNew(), text = "                       BACK", 	varText = ""},
+	{text = "Main Menu", 					varText = ""},
+	{text = "Character Select",				varText = ""},
+	{text = "Challenger",		 			varText = ""},
+	{text = "Default Values",  	 			varText = ""},
+	{text = "                       BACK", 	varText = ""},
 }
+for i=1, #t_songCfg do
+	t_songCfg[i]['varID'] = textImgNew()
+end
 
 function f_setCfgSong()
 	if songsSettings == true then --Only save if you come from this option script
@@ -5468,16 +5507,19 @@ end
 txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
 t_audioCfg = {
-	{varID = textImgNew(), text = "Master Volume",		varText = gl_vol.."%"},
-	{varID = textImgNew(), text = "SFX Volume",			varText = se_vol.."%"},
-	{varID = textImgNew(), text = "BGM Volume",			varText = bgm_vol.."%"},
-	{varID = textImgNew(), text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{varID = textImgNew(), text = "Sample Rate",     	varText = freq},
-	{varID = textImgNew(), text = "Channels",        	varText = s_channels},
-	{varID = textImgNew(), text = "Buffer Samples",  	varText = buffer},
-	{varID = textImgNew(), text = "Default Values",		varText = ""},
-	{varID = textImgNew(), text = "          BACK",  	varText = ""},
+	{text = "Master Volume",	varText = gl_vol.."%"},
+	{text = "SFX Volume",		varText = se_vol.."%"},
+	{text = "BGM Volume",		varText = bgm_vol.."%"},
+	{text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "Sample Rate",     	varText = freq},
+	{text = "Channels",        	varText = s_channels},
+	{text = "Buffer Samples",  	varText = buffer},
+	{text = "Default Values",	varText = ""},
+	{text = "          BACK",  	varText = ""},
 }
+for i=1, #t_audioCfg do
+	t_audioCfg[i]['varID'] = textImgNew()
+end
 
 function f_audioCfg()
 	cmdInput()
@@ -5784,19 +5826,22 @@ end
 txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 
 t_engineCfg = {
-	{varID = textImgNew(), text = "Debug Mode",  	      		varText = s_debugMode},
-	{varID = textImgNew(), text = "Save Debug Logs",        	varText = s_debugLog},
-	{varID = textImgNew(), text = "Generate Characters List", 	varText = ""},
-	{varID = textImgNew(), text = "Generate Stages List", 		varText = ""},
-	{varID = textImgNew(), text = "Engine Mode",        		varText = data.engineMode},
-	{varID = textImgNew(), text = "HelperMax",              	varText = HelperMaxEngine},
-	{varID = textImgNew(), text = "PlayerProjectileMax",		varText = PlayerProjectileMaxEngine},
-	{varID = textImgNew(), text = "ExplodMax",              	varText = ExplodMaxEngine},
-	{varID = textImgNew(), text = "AfterImageMax",          	varText = AfterImageMaxEngine},
-	{varID = textImgNew(), text = "Erase/Reset Statistics", 	varText = ""},
-	{varID = textImgNew(), text = "Default Settings",  	  		varText = ""},
-	{varID = textImgNew(), text = "          BACK",  	  		varText = ""},
+	{text = "Debug Mode",  	      		varText = s_debugMode},
+	{text = "Save Debug Logs",        	varText = s_debugLog},
+	{text = "Generate Characters List", varText = ""},
+	{text = "Generate Stages List", 	varText = ""},
+	{text = "Engine Mode",        		varText = data.engineMode},
+	{text = "HelperMax",              	varText = HelperMaxEngine},
+	{text = "PlayerProjectileMax",		varText = PlayerProjectileMaxEngine},
+	{text = "ExplodMax",              	varText = ExplodMaxEngine},
+	{text = "AfterImageMax",          	varText = AfterImageMaxEngine},
+	{text = "Erase/Reset Statistics", 	varText = ""},
+	{text = "Default Settings",  	  	varText = ""},
+	{text = "          BACK",  	  		varText = ""},
 }
+for i=1, #t_engineCfg do
+	t_engineCfg[i]['varID'] = textImgNew()
+end
 
 function f_engineCfg()
 	cmdInput()
@@ -6111,18 +6156,21 @@ end
 txt_videoCfg = createTextImg(jgFnt, 0, 0, "VIDEO SETTINGS", 159, 13)
 
 t_videoCfg = {
-	{varID = textImgNew(), text = "Resolution",  		varText = ""},
-	{varID = textImgNew(), text = "Screen Mode",  		varText = ""},
-	{varID = textImgNew(), text = "Window Type", 		varText = ""},
-	{varID = textImgNew(), text = "Fullscreen Type",	varText = ""},
-	{varID = textImgNew(), text = "Aspect Ratio 16:9", 		varText = ""},
-	{varID = textImgNew(), text = "Sdlplugin Version",	varText = ""},
-	{varID = textImgNew(), text = "Brightness",			varText = ""},
-	--{varID = textImgNew(), text = "OpenGL 2.0", 		varText = ""},
-	--{varID = textImgNew(), text = "Save Memory", 		varText = ""},
-	{varID = textImgNew(), text = "Default Graphics",	varText = ""},
-	{varID = textImgNew(), text = "          BACK",  	varText = ""},
+	{text = "Resolution",  		 varText = ""},
+	{text = "Screen Mode",  	 varText = ""},
+	{text = "Window Type", 		 varText = ""},
+	{text = "Fullscreen Type",	 varText = ""},
+	{text = "Aspect Ratio 16:9", varText = ""},
+	{text = "Sdlplugin Version", varText = ""},
+	{text = "Brightness",		 varText = ""},
+	--{text = "OpenGL 2.0", 	 varText = ""},
+	--{text = "Save Memory", 	 varText = ""},
+	{text = "Default Graphics",	 varText = ""},
+	{text = "          BACK",  	 varText = ""},
 }
+for i=1, #t_videoCfg do
+	t_videoCfg[i]['varID'] = textImgNew()
+end
 
 function f_videoCfg()
 	cmdInput()
@@ -6468,12 +6516,15 @@ end
 txt_resCfg = createTextImg(jgFnt, 0, 0, "ASPECT RATIO SETTINGS", 159, 13)
 
 t_resCfg = {
-	{id = '', text = "4:3 Resolutions"},
-	{id = '', text = "16:9 Resolutions"},
-	{id = '', text = "16:10 Resolutions"},
-	{id = '', text = "Extra Resolutions"},
-	{id = '', text = "          BACK"},
+	{text = "4:3 Resolutions"},
+	{text = "16:9 Resolutions"},
+	{text = "16:10 Resolutions"},
+	{text = "Extra Resolutions"},
+	{text = "          BACK"},
 }
+for i=1, #t_resCfg do
+	t_resCfg[i]['id'] = ''
+end
 
 function f_resCfg()
 	cmdInput()
@@ -6595,23 +6646,26 @@ end
 txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (4:3)", 159, 13)
 
 t_resCfg4_3 = {
-	{id = '', x = 320,  y = 240,  text = "320x240             (QVGA)"},
-	{id = '', x = 512,  y = 384,  text = "512x384        (MACINTOSH)"},
-	{id = '', x = 640,  y = 480,  text = "640x480              (VGA)"},
-	{id = '', x = 800,  y = 600,  text = "800x600             (SVGA)"},
-	{id = '', x = 960,  y = 720,  text = "960x720               (HD)"},
-	{id = '', x = 1024, y = 768,  text = "1024x768             (XGA)"},
-	{id = '', x = 1152, y = 864,  text = "1152x864            (XGA+)"},
-	{id = '', x = 1200, y = 900,  text = "1200x900             (HD+)"},
-	{id = '', x = 1280, y = 960,  text = "1280x960        (Quad-VGA)"},
-	{id = '', x = 1440, y = 1080, text = "1440x1080            (FHD)"},
-	{id = '', x = 1600, y = 1200, text = "1600x1200            (XGA)"},
-	{id = '', x = 1920, y = 1440, text = "1920x1440          (UXGA+)"},
-	{id = '', x = 2048, y = 1536, text = "2048x1536           (QXGA)"},
-	{id = '', x = 3200, y = 2400, text = "3200x2400          (QUXGA)"},
-	{id = '', x = 6400, y = 4800, text = "6400x4800          (HUXGA)"},
-	{id = '', text = "          BACK "},
+	{x = 320,  y = 240,  text = "320x240             (QVGA)"},
+	{x = 512,  y = 384,  text = "512x384        (MACINTOSH)"},
+	{x = 640,  y = 480,  text = "640x480              (VGA)"},
+	{x = 800,  y = 600,  text = "800x600             (SVGA)"},
+	{x = 960,  y = 720,  text = "960x720               (HD)"},
+	{x = 1024, y = 768,  text = "1024x768             (XGA)"},
+	{x = 1152, y = 864,  text = "1152x864            (XGA+)"},
+	{x = 1200, y = 900,  text = "1200x900             (HD+)"},
+	{x = 1280, y = 960,  text = "1280x960        (Quad-VGA)"},
+	{x = 1440, y = 1080, text = "1440x1080            (FHD)"},
+	{x = 1600, y = 1200, text = "1600x1200            (XGA)"},
+	{x = 1920, y = 1440, text = "1920x1440          (UXGA+)"},
+	{x = 2048, y = 1536, text = "2048x1536           (QXGA)"},
+	{x = 3200, y = 2400, text = "3200x2400          (QUXGA)"},
+	{x = 6400, y = 4800, text = "6400x4800          (HUXGA)"},
+	{text = "          BACK "},
 }
+for i=1, #t_resCfg4_3 do
+	t_resCfg4_3[i]['id'] = ''
+end
 
 function f_resCfg4_3()
 	cmdInput()
@@ -6731,17 +6785,20 @@ end
 txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (16:9)", 159, 13)
 
 t_resCfg16_9 = {
-	{id = '', x = 427,  y = 240,  text = "427x240        (ULTRA LOW)"},
-	{id = '', x = 640,  y = 360,  text = "640x360              (LOW)"},
-	{id = '', x = 853,  y = 480,  text = "853x480               (SD)"},
-	{id = '', x = 1280, y = 720,  text = "1280x720              (HD)"},
-	{id = '', x = 1600, y = 900,  text = "1600x900             (HD+)"},
-	{id = '', x = 1920, y = 1080, text = "1920x1080        (FULL HD)"},
-	{id = '', x = 2048, y = 1152, text = "2048x1152          (QWXGA)"},
-	{id = '', x = 2560, y = 1440, text = "2560x1440            (QHD)"},
-	{id = '', x = 3840, y = 2160, text = "3840x2160        (4K UHDV)"},
-	{id = '', text = "          BACK"},
+	{x = 427,  y = 240,  text = "427x240        (ULTRA LOW)"},
+	{x = 640,  y = 360,  text = "640x360              (LOW)"},
+	{x = 853,  y = 480,  text = "853x480               (SD)"},
+	{x = 1280, y = 720,  text = "1280x720              (HD)"},
+	{x = 1600, y = 900,  text = "1600x900             (HD+)"},
+	{x = 1920, y = 1080, text = "1920x1080        (FULL HD)"},
+	{x = 2048, y = 1152, text = "2048x1152          (QWXGA)"},
+	{x = 2560, y = 1440, text = "2560x1440            (QHD)"},
+	{x = 3840, y = 2160, text = "3840x2160        (4K UHDV)"},
+	{text = "          BACK"},
 }
+for i=1, #t_resCfg16_9 do
+	t_resCfg16_9[i]['id'] = ''
+end
 
 function f_resCfg16_9()
 	cmdInput()
@@ -6861,17 +6918,20 @@ end
 txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (16:10)", 159, 13)
 
 t_resCfg16_10 = {
-	{id = '', x = 320,  y = 200,  text = "320x200              (CGA)"},
-	{id = '', x = 1280, y = 800,  text = "1280x800            (WXGA)"},
-	{id = '', x = 1440, y = 900,  text = "1440x900           (WXGA+)"},
-	{id = '', x = 1680, y = 1050, text = "1680x1050         (WSXGA+)"},
-	{id = '', x = 1920, y = 1200, text = "1920x1200          (WUXGA)"},
-	{id = '', x = 2560, y = 1600, text = "2560x1600          (WQXGA)"},
-	{id = '', x = 2880, y = 1800, text = "2880x1800  (RETINA DISPLAY)"},
-	{id = '', x = 3840, y = 2400, text = "3840x2400         (WQUXGA)"},
-	{id = '', x = 7680, y = 4800, text = "7680x4800         (WHUXGA)"},
-	{id = '', text = "          BACK"},
+	{x = 320,  y = 200,  text = "320x200              (CGA)"},
+	{x = 1280, y = 800,  text = "1280x800            (WXGA)"},
+	{x = 1440, y = 900,  text = "1440x900           (WXGA+)"},
+	{x = 1680, y = 1050, text = "1680x1050         (WSXGA+)"},
+	{x = 1920, y = 1200, text = "1920x1200          (WUXGA)"},
+	{x = 2560, y = 1600, text = "2560x1600          (WQXGA)"},
+	{x = 2880, y = 1800, text = "2880x1800  (RETINA DISPLAY)"},
+	{x = 3840, y = 2400, text = "3840x2400         (WQUXGA)"},
+	{x = 7680, y = 4800, text = "7680x4800         (WHUXGA)"},
+	{text = "          BACK"},
 }
+for i=1, #t_resCfg16_10 do
+	t_resCfg16_10[i]['id'] = ''
+end
 
 function f_resCfg16_10()
 	cmdInput()
@@ -6991,28 +7051,31 @@ end
 txt_EXresCfg = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT", 159, 13)
 
 t_EXresCfg = {
-	{id = '', x = 400,  y = 254,  text = "400x254           (ARCADE)"},
-	{id = '', x = 400,  y = 508,  text = "400x508        (ARCADE x2)"},
-	{id = '', x = 640,  y = 350,  text = "640x350         (EGA 11:6)"},
-	{id = '', x = 720,  y = 348,  text = "720x348         (HGC 60:9)"},
-	{id = '', x = 720,  y = 350,  text = "720x350        (MDA 72:35)"},
-	{id = '', x = 720,  y = 360,  text = "720x360    (APPLE LISA 2:1)"},
-	{id = '', x = 1024, y = 600,  text = "1024x600 (CANAIMA MG101A3)"},
-	{id = '', x = 1360, y = 768,  text = "1360x768      (WXGA 85:48)"},
-	{id = '', x = 1366, y = 728,  text = "1366x728 (CANAIMA EF10M12)"},
-	{id = '', x = 1200, y = 762,  text = "1200x762       (ARCADE x3)"},
-	{id = '', x = 1280, y = 1024, text = "1280x1024       (SXGA 5:4)"},
-	{id = '', x = 1600, y = 1016, text = "1600x1016      (ARCADE x4)"},
-	{id = '', x = 2048, y = 1080, text = "2048x1080        (2K 17:9)"},
-	{id = '', x = 2560, y = 2048, text = "2560x2048       (QSXA 5:4)"},
-	{id = '', x = 3200, y = 2048, text = "3200x2048    (WQSXA 25:16)"},
-	{id = '', x = 4096, y = 2160, text = "4096x2160  (4K CINEMA 17:9)"},
-	{id = '', x = 5120, y = 4096, text = "5120x4096      (HSXGA 5:4)"},
-	{id = '', x = 6400, y = 4096, text = "6400x4096   (WHSXGA 25:16)"},
-	{id = '', x = 7680, y = 4320, text = "7680x4320         (8K UHD)"},
-	--{id = '', x = 30720, y = 17208, text = "30720x17208 (24K SUPER DEATH BATMETAL)"},
-	{id = '', text = "          BACK"},
+	{x = 400,  y = 254,  text = "400x254           (ARCADE)"},
+	{x = 400,  y = 508,  text = "400x508        (ARCADE x2)"},
+	{x = 640,  y = 350,  text = "640x350         (EGA 11:6)"},
+	{x = 720,  y = 348,  text = "720x348         (HGC 60:9)"},
+	{x = 720,  y = 350,  text = "720x350        (MDA 72:35)"},
+	{x = 720,  y = 360,  text = "720x360    (APPLE LISA 2:1)"},
+	{x = 1024, y = 600,  text = "1024x600 (CANAIMA MG101A3)"},
+	{x = 1360, y = 768,  text = "1360x768      (WXGA 85:48)"},
+	{x = 1366, y = 728,  text = "1366x728 (CANAIMA EF10M12)"},
+	{x = 1200, y = 762,  text = "1200x762       (ARCADE x3)"},
+	{x = 1280, y = 1024, text = "1280x1024       (SXGA 5:4)"},
+	{x = 1600, y = 1016, text = "1600x1016      (ARCADE x4)"},
+	{x = 2048, y = 1080, text = "2048x1080        (2K 17:9)"},
+	{x = 2560, y = 2048, text = "2560x2048       (QSXA 5:4)"},
+	{x = 3200, y = 2048, text = "3200x2048    (WQSXA 25:16)"},
+	{x = 4096, y = 2160, text = "4096x2160  (4K CINEMA 17:9)"},
+	{x = 5120, y = 4096, text = "5120x4096      (HSXGA 5:4)"},
+	{x = 6400, y = 4096, text = "6400x4096   (WHSXGA 25:16)"},
+	{x = 7680, y = 4320, text = "7680x4320         (8K UHD)"},
+	--{x = 30720, y = 17208, text = "30720x17208 (24K SUPER DEATH BATMETAL)"},
+	{text = "          BACK"},
 }
+for i=1, #t_EXresCfg do
+	t_EXresCfg[i]['id'] = ''
+end
 
 function f_EXresCfg()
 	cmdInput()
@@ -7132,15 +7195,18 @@ end
 txt_inputCfg = createTextImg(jgFnt, 0, 0, "INPUT SETTINGS", 159, 13)
 
 t_inputCfg = {
-	{varID = textImgNew(), text = "Keyboard Config",  		 varText = ""},
-	{varID = textImgNew(), text = "Gamepad Config",	  		 varText = ""},
-	--{varID = textImgNew(), text = "Player 1 Gamepad Status", varText = s_disablePadP1},
-	--{varID = textImgNew(), text = "Player 2 Gamepad Status", varText = s_disablePadP2},
-	{varID = textImgNew(), text = "Swap Gamepads", 			 varText = ""},
-	{varID = textImgNew(), text = "Test Controls",  		 varText = ""},
-	{varID = textImgNew(), text = "Default Controls",  		 varText = ""},
-	{varID = textImgNew(), text = "             BACK",  	 varText = ""},
+	{text = "Keyboard Config",  		 varText = ""},
+	{text = "Gamepad Config",	  		 varText = ""},
+	--{text = "Player 1 Gamepad Status", varText = s_disablePadP1},
+	--{text = "Player 2 Gamepad Status", varText = s_disablePadP2},
+	{text = "Swap Gamepads", 			 varText = ""},
+	{text = "Test Controls",  		 	 varText = ""},
+	{text = "Default Controls",  		 varText = ""},
+	{text = "             BACK",  	 	 varText = ""},
 }
+for i=1, #t_inputCfg do
+	t_inputCfg[i]['varID'] = textImgNew()
+end
 
 function f_inputCfg()
 	cmdInput()
@@ -7515,10 +7581,13 @@ end
 txt_keyMenu = createTextImg(jgFnt, 0, 0, "KEYBOARD SETTINGS", 159, 13)
 
 t_keyMenu = {
-	{id = '', text = "Battle Controls"},
-	{id = '', text = "Menu Controls"},
-	{id = '', text = "          BACK"},
+	{text = "Battle Controls"},
+	{text = "Menu Controls"},
+	{text = "          BACK"},
 }
+for i=1, #t_keyMenu do
+	t_keyMenu[i]['id'] = ''
+end
 
 function f_keyMenu()
 	cmdInput()
@@ -7638,13 +7707,13 @@ end
 --; TEMP GAMEPAD WARNING
 --;===========================================================
 t_tempWarning = {
-	{id = '', text = "Some of the connected Gamepads cannot be configured"},
-	{id = '', text = "To make it work, will need to configure it manually"},
-	{id = '', text = "in save/config.ssz file or use third-party software"},
-	{id = '', text = ""},
+	{text = "Some of the connected Gamepads cannot be configured"},
+	{text = "To make it work, will need to configure it manually"},
+	{text = "in save/config.ssz file or use third-party software"},
+	{text = ""},
 }
 for i=1, #t_tempWarning do
-	t_tempWarning[i].id = createTextImg(font2, 0, 1, t_tempWarning[i].text, 25, 65+i*15)
+	t_tempWarning[i]['id'] = createTextImg(font2, 0, 1, t_tempWarning[i].text, 25, 65+i*15)
 end
 
 function f_tempWarning()
@@ -7680,10 +7749,13 @@ end
 txt_joyMenu = createTextImg(jgFnt, 0, 0, "GAMEPAD SETTINGS", 159, 13)
 
 t_joyMenu = {
-	{id = '', text = "Battle Controls"},
-	{id = '', text = "Menu Controls"},
-	{id = '', text = "          BACK"},
+	{text = "Battle Controls"},
+	{text = "Menu Controls"},
+	{text = "          BACK"},
 }
+for i=1, #t_joyMenu do
+	t_joyMenu[i]['id'] = ''
+end
 
 function f_joyMenu()
 	cmdInput()
@@ -9671,16 +9743,19 @@ end
 txt_gameVNcfg = createTextImg(jgFnt, 0, 0, "GAME SETTINGS", 159, 13)
 
 t_gameVNcfg = {
-	{varID = textImgNew(), text = "Language", 		           	varText = data.language},
-	{varID = textImgNew(), text = "Clock Format",              	varText = data.clock},
-	{varID = textImgNew(), text = "Date Format",               	varText = data.date},
-	{varID = textImgNew(), text = "Text Speed", 			 	varText = ""},
-	{varID = textImgNew(), text = "Text BG Transparency", 	 	varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
-	{varID = textImgNew(), text = "Auto Skip Text", 		 	varText = ""},
-	--{varID = textImgNew(), text = "Auto Save",				 	varText = ""},
-	--{varID = textImgNew(), text = "Default Settings",  	  	   	varText = ""},
-	{varID = textImgNew(), text = "          BACK",  		   	varText = ""},
+	{text = "Language", 		        varText = data.language},
+	{text = "Clock Format",             varText = data.clock},
+	{text = "Date Format",              varText = data.date},
+	{text = "Text Speed", 			 	varText = ""},
+	{text = "Text BG Transparency", 	varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
+	{text = "Auto Skip Text", 		 	varText = ""},
+	--{text = "Auto Save",				varText = ""},
+	--{text = "Default Settings",  	  	varText = ""},
+	{text = "          BACK",  		   	varText = ""},
 }
+for i=1, #t_gameVNcfg do
+	t_gameVNcfg[i]['varID'] = textImgNew()
+end
 
 function f_gameVNcfg()
 	cmdInput()
@@ -9954,10 +10029,10 @@ end
 --; ERASE/RESET STATISTICS DATA WARNING
 --;===========================================================
 t_unlocksWarning = {
-	{id = '', text = "   All unlocked data or progress will be delete."},
+	{text = "   All unlocked data or progress will be delete."},
 }
 for i=1, #t_unlocksWarning do
-	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 65+i*15)
+	t_unlocksWarning[i]['id'] = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 65+i*15)
 end
 
 function f_unlocksWarning()

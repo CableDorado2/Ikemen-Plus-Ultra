@@ -1604,21 +1604,24 @@ end
 --; ONLINE LOBBY MENU SCREENPACK DEFINITION
 --;===========================================================
 t_mainLobby = {
-	{id = textImgNew(), text = ""},
-	{id = textImgNew(), text = "PRACTICE"},
-	{id = textImgNew(), text = "ARCADE"},
-	{id = textImgNew(), text = "TOWER"},
-	{id = textImgNew(), text = "SURVIVAL"},
-	{id = textImgNew(), text = "ENDLESS"},
-	{id = textImgNew(), text = "BOSS RUSH"},
-	{id = textImgNew(), text = "BONUS RUSH"},
-	--{id = textImgNew(), text = "SCORE ATTACK"},
-	--{id = textImgNew(), text = "TIME ATTACK"},
-	{id = textImgNew(), text = "TIME RUSH"},
-	{id = textImgNew(), text = ""}, --VS X KUMITE
-	{id = textImgNew(), text = "SUDDEN DEATH"},
-	{id = textImgNew(), text = "ONLINE SETTINGS"},
+	{text = ""},
+	{text = "PRACTICE"},
+	{text = "ARCADE"},
+	{text = "TOWER"},
+	{text = "SURVIVAL"},
+	{text = "ENDLESS"},
+	{text = "BOSS RUSH"},
+	{text = "BONUS RUSH"},
+	--{text = "SCORE ATTACK"},
+	--{text = "TIME ATTACK"},
+	{text = "TIME RUSH"},
+	{text = ""}, --VS X KUMITE
+	{text = "SUDDEN DEATH"},
+	{text = "ONLINE SETTINGS"},
 }
+for i=1, #t_mainLobby do
+	t_mainLobby[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; SIDE SELECT SCREENPACK DEFINITION
@@ -1995,12 +1998,12 @@ p1SelTmTxt = createTextImg(jgFnt, 5, 1, "TEAM MODE", 20, 30)
 IASelTmTxt = createTextImg(jgFnt, 5, 1, "CPU MODE", 20, 30)
 
 t_p1selTeam = {
-	{id = '', text = "SINGLE"},
-	{id = '', text = "SIMUL"},
-	{id = '', text = "TURNS"},
+	{text = "SINGLE"},
+	{text = "SIMUL"},
+	{text = "TURNS"},
 }
 for i=1, #t_p1selTeam do
-	t_p1selTeam[i].id = createTextImg(jgFnt, 0, 1, t_p1selTeam[i].text, 20, 35+i*15)
+	t_p1selTeam[i]['id'] = createTextImg(jgFnt, 0, 1, t_p1selTeam[i].text, 20, 35+i*15)
 end
 
 --P1 Team cursor
@@ -2076,12 +2079,12 @@ p2SelTmTxt = createTextImg(jgFnt, 5, -1, "TEAM MODE", 300, 30)
 IASelTmTxt2 = createTextImg(jgFnt, 5, -1, "CPU MODE", 300, 30)
 
 t_p2selTeam = {
-	{id = '', text = t_p1selTeam[1].text}, --Get text from player 1 team table
-	{id = '', text = t_p1selTeam[2].text},
-	{id = '', text = t_p1selTeam[3].text},
+	{text = t_p1selTeam[1].text}, --Get text from player 1 team table
+	{text = t_p1selTeam[2].text},
+	{text = t_p1selTeam[3].text},
 }
 for i=1, #t_p2selTeam do
-	t_p2selTeam[i].id = createTextImg(jgFnt, 0, -1, t_p2selTeam[i].text, 300, 35+i*15)
+	t_p2selTeam[i]['id'] = createTextImg(jgFnt, 0, -1, t_p2selTeam[i].text, 300, 35+i*15)
 end
 
 --P2 Team cursor
@@ -2755,18 +2758,24 @@ txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 237, 87)
 txt_rematchTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 t_battleOption = {
-	{id = textImgNew(), text = "REMATCH"},
-	{id = textImgNew(), text = "CHARACTER SELECT"},
-	{id = textImgNew(), text = "STAGE SELECT"},
-	{id = textImgNew(), text = "MAIN MENU"},
+	{text = "REMATCH"},
+	{text = "CHARACTER SELECT"},
+	{text = "STAGE SELECT"},
+	{text = "MAIN MENU"},
 }
+for i=1, #t_battleOption do
+	t_battleOption[i]['id'] = textImgNew()
+end
 
 t_battleOption2 = {
-	{id = textImgNew(), text = t_battleOption[1].text}, --Get rematch text from above table
-	{id = textImgNew(), text = t_battleOption[2].text},
-	{id = textImgNew(), text = t_battleOption[3].text},
-	{id = textImgNew(), text = t_battleOption[4].text},
+	{text = t_battleOption[1].text}, --Get rematch text from above table
+	{text = t_battleOption[2].text},
+	{text = t_battleOption[3].text},
+	{text = t_battleOption[4].text},
 }
+for i=1, #t_battleOption2 do
+	t_battleOption2[i]['id'] = textImgNew()
+end
 
 --Rematch Window BG
 rematchWindowBG = animNew(sprIkemen, [[
@@ -2826,33 +2835,36 @@ txt_service = createTextImg(jgFnt, 0, 0, "SELECT A SERVICE", 159, 13)
 txt_serviceTime = createTextImg(jgFnt, 0, 0, "", 160, 122)
 
 t_service = {
-	{id = '', text = "DIFFICULTY LEVEL DOWN"},
-	{id = '', text = "POWER WILL START AT MAX"},
-	{id = '', text = "ENEMY LIFE AT 1/3"},
-	{id = '', text = "CHANGE TEAM MODE"},
-	{id = '', text = "DOUBLE DEFENCE"},
-	{id = '', text = "NO SERVICE"},
+	{text = "DIFFICULTY LEVEL DOWN"},
+	{text = "POWER WILL START AT MAX"},
+	{text = "ENEMY LIFE AT 1/3"},
+	{text = "CHANGE TEAM MODE"},
+	{text = "DOUBLE DEFENCE"},
+	{text = "NO SERVICE"},
 }
+for i=1, #t_service do
+	t_service[i]['id'] = ''
+end
 
 t_lockedService = {
-	{id = '', text = "This service is Unavailable in Co-Op Mode."},
+	{text = "This service is Unavailable in Co-Op Mode."},
 }
 for i=1, #t_lockedService do
-	t_lockedService[i].id = createTextImg(font2, 0, 0, t_lockedService[i].text, 161, 190+i*15)
+	t_lockedService[i]['id'] = createTextImg(font2, 0, 0, t_lockedService[i].text, 161, 190+i*15)
 end
 
 t_noService = {
-	{id = '', text = "You have Disabled Change Characters by Quick Continue."},
+	{text = "You have Disabled Change Characters by Quick Continue."},
 }
 for i=1, #t_noService do
-	t_noService[i].id = createTextImg(font2, 0, 0, t_noService[i].text, 159.5, 190+i*15)
+	t_noService[i]['id'] = createTextImg(font2, 0, 0, t_noService[i].text, 159.5, 190+i*15)
 end
 
 t_devService = {
-	{id = '', text = "This service will be available coming soon."},
+	{text = "This service will be available coming soon."},
 }
 for i=1, #t_devService do
-	t_devService[i].id = createTextImg(font2, 0, 0, t_devService[i].text, 161, 190+i*15)
+	t_devService[i]['id'] = createTextImg(font2, 0, 0, t_devService[i].text, 161, 190+i*15)
 end
 
 --Service Input Hints Panel
