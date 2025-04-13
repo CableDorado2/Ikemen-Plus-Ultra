@@ -3273,64 +3273,31 @@ function f_sysTime()
 end
 
 --;===========================================================
---; BATTLE CONTROLS DEFINITION (Here because we gonna re-use t_keyBattleCfg for inputs hints)
---;===========================================================
-t_keyBattleCfg = {
-	{varID = textImgNew(), text = "JUMP",   				varText = "", cmd = "u"},
-	{varID = textImgNew(), text = "CROUCH", 				varText = "", cmd = "d"},
-	{varID = textImgNew(), text = "BACK",  					varText = "", cmd = "l"},
-	{varID = textImgNew(), text = "FORWARD",				varText = "", cmd = "r"},
-	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"},
-	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
-	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
-	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
-	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
-	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"},
-	{varID = textImgNew(), text = "L", 						varText = "", cmd = "q"},
-	{varID = textImgNew(), text = "R", 						varText = "", cmd = "w"},
-	{varID = textImgNew(), text = "SELECT",					varText = "", cmd = "e"},
-	{varID = textImgNew(), text = "START", 					varText = "", cmd = "s"},
-	{varID = textImgNew(), text = "Default Config (F1)",	varText = ""},
-	{varID = textImgNew(), text = "Confirm Config (ESC)",	varText = ""},
-}
-
-t_keyBattleCfg2 = {}
-for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
-	t_keyBattleCfg2[i] = {}
-	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
-	if i == 15 then
-		t_keyBattleCfg2[i]['text'] = "Default Config (F2)"
-	else
-		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
-	end
-	t_keyBattleCfg2[i]['varText'] = ""
-	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
-end
-
---;===========================================================
 --; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
 --;===========================================================
 t_keyMenuCfg = {
-	{varID = textImgNew(), text = "UP",    					varText = "", cmd = "u"}, --cmd is the same command registered for commandGetState(p1Cmd, 'cmd')
-	{varID = textImgNew(), text = "DOWN",  					varText = "", cmd = "d"},
-	{varID = textImgNew(), text = "LEFT",  					varText = "", cmd = "l"},
-	{varID = textImgNew(), text = "RIGHT", 					varText = "", cmd = "r"},
-	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"},
-	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
-	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
-	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
-	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
-	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"},
-	{varID = textImgNew(), text = "SCREENSHOT",				varText = "", cmd = "q"},
-	{varID = textImgNew(), text = "CONFIRM",				varText = "", cmd = "w"},
-	{varID = textImgNew(), text = "RETURN",					varText = "", cmd = "e"},
-	{varID = textImgNew(), text = "MENU",		 			varText = "", cmd = "s"}, --PAUSE GAME
-	{varID = textImgNew(), text = "Default Config (F1)",	varText = ""},
-	{varID = textImgNew(), text = "Confirm Config (ESC)",	varText = ""},
+	{text = "UP",    				cmd = "u"}, --cmd is the same command registered for commandGetState(p1Cmd, 'cmd')
+	{text = "DOWN",  				cmd = "d"},
+	{text = "LEFT",  				cmd = "l"},
+	{text = "RIGHT", 				cmd = "r"},
+	{text = "A",     				cmd = "a"},
+	{text = "B",     				cmd = "b"},
+	{text = "C",     				cmd = "c"},
+	{text = "X",     				cmd = "x"},
+	{text = "Y",     				cmd = "y"},
+	{text = "Z",     				cmd = "z"},
+	{text = "SCREENSHOT",			cmd = "q"},
+	{text = "CONFIRM",				cmd = "w"},
+	{text = "RETURN",				cmd = "e"},
+	{text = "MENU",		 			cmd = "s"}, --PAUSE GAME
+	{text = "Default Config (F1)"},
+	{text = "Confirm Config (ESC)"},
 }
-
 t_keyMenuCfg2 = {}
-for i=1, #t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
+for i=1, #t_keyMenuCfg do
+	t_keyMenuCfg[i]['varID'] = textImgNew()
+	t_keyMenuCfg[i]['varText'] = ""
+--Make a copy of all items from t_keyMenuCfg table to t_keyMenuCfg2
 	t_keyMenuCfg2[i] = {}
 	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
 	if i == 15 then
@@ -3338,8 +3305,45 @@ for i=1, #t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
 	else
 		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
 	end
-	t_keyMenuCfg2[i]['varText'] = ""
+	t_keyMenuCfg2[i]['varText'] = t_keyMenuCfg[i].varText
 	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
+end
+
+--;===========================================================
+--; BATTLE CONTROLS DEFINITION (Here because we gonna re-use t_keyBattleCfg for inputs hints)
+--;===========================================================
+t_keyBattleCfg = {
+	{text = "JUMP",   				cmd = "u"},
+	{text = "CROUCH", 				cmd = "d"},
+	{text = "BACK",  				cmd = "l"},
+	{text = "FORWARD",				cmd = "r"},
+	{text = "A",     				cmd = "a"},
+	{text = "B",     				cmd = "b"},
+	{text = "C",     				cmd = "c"},
+	{text = "X",     				cmd = "x"},
+	{text = "Y",     				cmd = "y"},
+	{text = "Z",     				cmd = "z"},
+	{text = "L", 					cmd = "q"},
+	{text = "R", 					cmd = "w"},
+	{text = "SELECT",				cmd = "e"},
+	{text = "START", 				cmd = "s"},
+	{text = "Default Config (F1)"},
+	{text = "Confirm Config (ESC)"},
+}
+t_keyBattleCfg2 = {}
+for i=1, #t_keyBattleCfg do
+	t_keyBattleCfg[i]['varID'] = textImgNew()
+	t_keyBattleCfg[i]['varText'] = ""
+
+	t_keyBattleCfg2[i] = {}
+	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
+	if i == 15 then
+		t_keyBattleCfg2[i]['text'] = "Default Config (F2)"
+	else
+		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
+	end
+	t_keyBattleCfg2[i]['varText'] = t_keyBattleCfg[i].varText
+	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
 end
 
 --Associate Button Key to Button Sprites
