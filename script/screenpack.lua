@@ -1123,18 +1123,21 @@ txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
 txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED!", 159, 235)
 
 t_vnPauseMenu = {
-	{varID = textImgNew(), text = "Text Speed", 			 varText = ""},
-	{varID = textImgNew(), text = "Text BG Transparency", 	 varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
-	{varID = textImgNew(), text = "Auto Skip Text", 		 varText = ""},
-	{varID = textImgNew(), text = "Display Character Name",  varText = ""},
-	{varID = textImgNew(), text = "Sound Settings", 		 varText = ""},
-	--{varID = textImgNew(), text = "Control Guide", 		 	 varText = ""},
-	{varID = textImgNew(), text = "Restore Settings", 		 varText = ""},
-	{varID = textImgNew(), text = "Save Progress",			 varText = ""},
-	{varID = textImgNew(), text = "Skip All Dialogues",		 varText = ""},
-	{varID = textImgNew(), text = "Back to Main Menu",		 varText = ""},
-	{varID = textImgNew(), text = "           Continue", 	 varText = ""},
+	{text = "Text Speed", 			  varText = ""},
+	{text = "Text BG Transparency",   varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
+	{text = "Auto Skip Text", 		  varText = ""},
+	{text = "Display Character Name", varText = ""},
+	{text = "Sound Settings", 		  varText = ""},
+	--{text = "Control Guide", 		  varText = ""},
+	{text = "Restore Settings", 	  varText = ""},
+	{text = "Save Progress",		  varText = ""},
+	{text = "Skip All Dialogues",	  varText = ""},
+	{text = "Back to Main Menu",	  varText = ""},
+	{text = "           Continue", 	  varText = ""},
 }
+for i=1, #t_vnPauseMenu do
+	t_vnPauseMenu[i]['varID'] = textImgNew()
+end
 
 --Pause background
 vnPauseBG = animNew(sprVN, [[100,1, 0,0, -1]])
@@ -1180,13 +1183,16 @@ txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
 
 t_audioCfg = {
-	{varID = textImgNew(), text = "Master Volume",		varText = gl_vol.."%"},
-	{varID = textImgNew(), text = "SFX Volume",			varText = se_vol.."%"},
-	{varID = textImgNew(), text = "BGM Volume",			varText = bgm_vol.."%"},
-	{varID = textImgNew(), text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{varID = textImgNew(), text = "Default Values",		varText = ""},
-	{varID = textImgNew(), text = "          BACK",  	varText = ""},
+	{text = "Master Volume",	varText = gl_vol.."%"},
+	{text = "SFX Volume",		varText = se_vol.."%"},
+	{text = "BGM Volume",		varText = bgm_vol.."%"},
+	{text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "Default Values",	varText = ""},
+	{text = "          BACK",  	varText = ""},
 }
+for i=1, #t_audioCfg do
+	t_audioCfg[i]['varID'] = textImgNew()
+end
 
 --;===============================================================
 --; VISUAL NOVEL EXIT/DEFAULT VALUES MESSAGE SCREENPACK DEFINITION
@@ -1264,21 +1270,25 @@ txt_statsMenu = createTextImg(jgFnt, 0, -1, "", 202, 13)
 txt_statsProgress = createTextImg(jgFnt, 2, 1, "", 208, 13)
 
 t_statsMenu = {
-	{varID = textImgNew(), text = "Play Time",	  				varText = ""},
-	{varID = textImgNew(), text = "Matchs Played",  			varText = ""},
-	{varID = textImgNew(), text = "Wins",	     				varText = ""},
-	{varID = textImgNew(), text = "Losses",	     				varText = ""},
-	{varID = textImgNew(), text = "Favorite Character",  		varText = ""},
-	{varID = textImgNew(), text = "Favorite Stage",				varText = ""},
-	{varID = textImgNew(), text = "Preferred Game Mode", 		varText = ""},
-	{varID = textImgNew(), text = "Training Time",  			varText = ""},
-	{varID = textImgNew(), text = "Collected Coins",    		varText = ""},
-	{varID = textImgNew(), text = "Stories Completed",     		varText = ""},
-	{varID = textImgNew(), text = "Missions Completed",     	varText = ""},
-	{varID = textImgNew(), text = "Events Completed",     		varText = ""},
-	{varID = textImgNew(), text = "Leaderboards",		    	varText = "WIP"},
-	{varID = textImgNew(), text = "                   BACK",    varText = ""},
+	{text = "Play Time"},
+	{text = "Matchs Played"},
+	{text = "Wins"},
+	{text = "Losses"},
+	{text = "Favorite Character"},
+	{text = "Favorite Stage"},
+	{text = "Preferred Game Mode"},
+	{text = "Training Time"},
+	{text = "Collected Coins"},
+	{text = "Stories Completed"},
+	{text = "Missions Completed"},
+	{text = "Events Completed"},
+	{text = "Leaderboards"},
+	{text = "                   BACK"},
 }
+for i=1, #t_statsMenu do
+	t_statsMenu[i]['varID'] = textImgNew()
+	t_statsMenu[i]['varText'] = ""
+end
 
 --;===========================================================
 --; GALLERY MENU SCREENPACK DEFINITION
@@ -3394,7 +3404,7 @@ function f_contTimerReset()
 	12,17, 0,0, 75 --1365
 	12,18, 0,0, 1 --1366
 	]])
-	--black background for 1 frame
+--black background for 1 frame
 	animAddPos(contTimer, -53, 0)
 end
 
@@ -3510,7 +3520,7 @@ function f_gameOverReset()
 	101,75, 0,0, 119 --226
 	101,75, 0,0, -1
 	]])
-	--black background for 24 frames
+--black background for 24 frames
 	animAddPos(gameOver, -53, 0)
 end
 
@@ -3618,17 +3628,20 @@ animSetScale(battleStgPreview, 1.53, 1.34)
 txt_tourneyCfg = createTextImg(jgFnt, 0, 0, "TOURNAMENT RULES", 159, 13)
 
 t_tourneyCfg = {
-	{varID = textImgNew(), text = "Max Participants",	     	varText = data.tourneySize},
-	--{varID = textImgNew(), text = "Format",				       	varText = data.tourneyType},
-	--{varID = textImgNew(), text = "Team Mode",		       		varText = data.tourneyTeam},
-	{varID = textImgNew(), text = "Character Select",		 	varText = data.tourneyCharSel},
-	{varID = textImgNew(), text = "Stage Select",			 	varText = data.tourneyStgSel},
-	{varID = textImgNew(), text = "Time Limit",         		varText = data.tourneyRoundTime},
-	{varID = textImgNew(), text = "Rounds to Win",      		varText = data.tourneyRoundsNum},
-	{varID = textImgNew(), text = "Matchs to Win",              varText = data.tourneyMatchsNum},
-	--{varID = textImgNew(), text = "3rd Place Match",    		varText = data.tourney3rdPlace},
-	{varID = textImgNew(), text = "    CREATE TOURNAMENT",  			varText = ""},
+	{text = "Max Participants",	     varText = data.tourneySize},
+	--{text = "Format",				 varText = data.tourneyType},
+	--{text = "Team Mode",		     varText = data.tourneyTeam},
+	{text = "Character Select",		 varText = data.tourneyCharSel},
+	{text = "Stage Select",			 varText = data.tourneyStgSel},
+	{text = "Time Limit",         	 varText = data.tourneyRoundTime},
+	{text = "Rounds to Win",      	 varText = data.tourneyRoundsNum},
+	{text = "Matchs to Win",         varText = data.tourneyMatchsNum},
+	--{text = "3rd Place Match",     varText = data.tourney3rdPlace},
+	{text = "    CREATE TOURNAMENT", varText = ""},
 }
+for i=1, #t_tourneyCfg do
+	t_tourneyCfg[i]['varID'] = textImgNew()
+end
 
 --Input Hints Panel
 function drawTourneyInputHints()

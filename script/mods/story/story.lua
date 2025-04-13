@@ -156,14 +156,17 @@ arc2 = animNew(sprStory, [[0,5, 0,0,]])
 arc3 = animNew(sprStory, [[0,6, 0,0,]])
 
 t_storySelect = {
-	{ID = textImgNew(), Name = "KUNG FU MAN", 	Icon = arc1, 	   Sel = arcSel, File = arcFolderEmpty, Status = ""}, --Add Arc Slot
-	{ID = textImgNew(), Name = "???", 			Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
-	{ID = textImgNew(), Name = "???", 			Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
-	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
-	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
-	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
-	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{Name = "KUNG FU MAN", 	 Icon = arc1, 	    Sel = arcSel, File = arcFolderEmpty, Status = ""}, --Add Arc Slot
+	{Name = "???", 			 Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{Name = "???", 			 Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
 }
+for i=1, #t_storySelect do
+	t_storySelect[i]['ID'] = textImgNew()
+end
 
 --;===========================================================
 --; ARC 1 CHAPTER SELECT
@@ -196,17 +199,21 @@ st1_4C = animNew(sprStory, [[1,42, 0,0,]])
 st1_4D = animNew(sprStory, [[1,43, 0,0,]])
 
 t_arc1 = {
-	{ID = textImgNew(), Name = "PROLOGUE", 			   	   Preview = st1_0, 	   Status = checkNA, Info = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES."}, --Add Chapter Slot for Arc 1
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS CHAPTER!"},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE THE PREVIOUS CHAPTER TO UNLOCK THIS ONE."},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
-	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "TEST"},
+	{Name = "PROLOGUE", 		 Preview = st1_0, 	   	 Info = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES."}, --Add Chapter Slot for Arc 1
+	{Name = "???", 				 Preview = chaptUnknown, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS CHAPTER!"},
+	{Name = "???", 				 Preview = chaptUnknown, Info = "COMPLETE THE PREVIOUS CHAPTER TO UNLOCK THIS ONE."},
+	{Name = "???", 				 Preview = chaptUnknown, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{Name = "???", 				 Preview = chaptUnknown, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{Name = "???", 				 Preview = chaptUnknown, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{Name = "???", 				 Preview = chaptUnknown, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{Name = "???", 				 Preview = chaptUnknown, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{Name = "???", 				 Preview = chaptUnknown, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{Name = "YOUR CHAPTER HERE", Preview = chaptUnknown, Info = "TEST"},
 }
+for i=1, #t_arc1 do
+	t_arc1[i]['ID'] = textImgNew()
+	t_arc1[i]['Status'] = checkNA
+end
 
 --;===========================================================
 --; ARC 2 CHAPTER SELECT
@@ -221,10 +228,14 @@ st2_1 = animNew(sprStory, [[2,10, 0,0,]])
 st2_2 = animNew(sprStory, [[2,20, 0,0,]])
 
 t_arc2 = {
-	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
+	{Name = "YOUR CHAPTER HERE", Preview = chaptUnknown, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
+	{Name = "???", 				 Preview = chaptUnknown, Info = ""},
+	{Name = "???", 				 Preview = chaptUnknown, Info = ""},
 }
+for i=1, #t_arc2 do
+	t_arc2[i]['ID'] = textImgNew()
+	t_arc2[i]['Status'] = checkNA
+end
 
 --;===========================================================
 --; ARC 3 CHAPTER SELECT
@@ -236,9 +247,13 @@ st3_0 = animNew(sprStory, [[3,0, 0,0,]])
 st3_1 = animNew(sprStory, [[3,10, 0,0,]])
 
 t_arc3 = {
-	{ID = textImgNew(), Name = "YOUR CHAPTER HERE",  	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
-	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
+	{Name = "YOUR CHAPTER HERE", Preview = chaptUnknown, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
+	{Name = "???", 				 Preview = chaptUnknown, Info = ""},
 }
+for i=1, #t_arc3 do
+	t_arc3[i]['ID'] = textImgNew()
+	t_arc3[i]['Status'] = checkNA
+end
 
 function f_resetChaptSel()
 chapterMenu = 1
@@ -492,12 +507,12 @@ function f_storyMenu()
 	--Set Arcs Scroll Logic
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
-				--Draw Arc Folder BG
+			--Draw Arc Folder BG
 				animSetPos(t_storySelect[i].File, -95+i*105-moveArc, 15)
 				animSetScale(t_storySelect[i].File, 0.05, 0.05)
 				animUpdate(t_storySelect[i].File)
 				animDraw(t_storySelect[i].File)
-				--Draw Arc Preview Image
+			--Draw Arc Preview Image
 				animSetPos(t_storySelect[i].Icon, -62+i*105-moveArc, 26.5)
 				animUpdate(t_storySelect[i].Icon)
 				animDraw(t_storySelect[i].Icon)
@@ -708,7 +723,7 @@ end
 
 --KIDNAPPING
 function f_arc1_chapter1()
-	--Part 1
+--Part 1
 	f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in common.lua f_vnScene function
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
@@ -730,7 +745,7 @@ function f_arc1_chapter1()
 		setPlayerSide('p1left')
 		setPauseVar("giveup")
 		f_selectStory() --Start Fight with previous settings
-		--Part 2
+	--Part 2
 		f_vnScene(kfmVN,1,16)
 		if not data.VNbreak then
 			f_default() --Reset settings for the custom fight
@@ -1031,7 +1046,7 @@ end
 --; STORY SAVE DATA
 --;===========================================================
 function f_storyStatus()
-	--Arc 1
+--Arc 1
 	if data.storyNo == "1-0" then data.story1_0Status = 1
 	elseif data.storyNo == "1-1" then data.story1_1Status = 1
 	elseif data.storyNo == "1-2" then data.story1_2Status = 1
@@ -1041,11 +1056,11 @@ function f_storyStatus()
 	elseif data.storyNo == "1-4B" then data.story1_4BStatus = 1
 	elseif data.storyNo == "1-4C" then data.story1_4CStatus = 1
 	elseif data.storyNo == "1-4D" then data.story1_4DStatus = 1
-	--Arc 2
+--Arc 2
 	elseif data.storyNo == "2-0" then data.story2_0Status = 1
 	elseif data.storyNo == "2-1" then data.story2_1Status = 1
 	elseif data.storyNo == "2-2" then data.story2_2Status = 1
-	--Arc 3
+--Arc 3
 	elseif data.storyNo == "3-0" then data.story3_0Status = 1
 	elseif data.storyNo == "3-1" then data.story3_1Status = 1
 	end
@@ -1056,6 +1071,7 @@ end
 --; STORY MODE (CHARACTER SELECT/FIGHTS LAUNCHER)
 --;==============================================================================
 function f_selectStory()
+
 if validCells() then
 	f_unlock(false)
 	f_updateUnlocks()
@@ -1080,7 +1096,7 @@ if validCells() then
 			end
 			f_selectScreen()
 			assert(loadfile(saveTempPath))()
-			--Back from Pause Menu
+		--Back from Pause Menu
 			if data.tempBack == true then
 				if data.rosterMode == "story" then
 					playBGM(bgmStory)
@@ -1092,11 +1108,11 @@ if validCells() then
 				f_resetMenuInputs()
 				return
 			end
-			--Back from Char Select
+		--Back from Char Select
 			if back == true then return end
 		end
 		if winner > 0 then
-			--Victory Screen
+		--Victory Screen
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()

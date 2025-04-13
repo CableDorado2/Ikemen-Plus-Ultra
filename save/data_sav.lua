@@ -21,12 +21,11 @@ data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
-data.roundsNum = 2
+data.roundsNum = 1
 data.lifebar = "data/screenpack/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"
 data.aiRamping = true
-data.autoguard = false
 data.quickCont = false
 data.kumite = 100
 --Team Data

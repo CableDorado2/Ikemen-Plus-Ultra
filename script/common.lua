@@ -577,7 +577,7 @@ function f_extractText(txt, v1, v2, v3, v4)
 		end
 		tmp = tmp .. c .. t[i]
 	end
-	--store each line in different row
+--store each line in different row
 	t = {}
 	for i, c in ipairs(strsplit('\n', tmp)) do --split string using "\n" delimiter
 		t[i] = c
@@ -1283,8 +1283,8 @@ function f_storyboard(path)
 end
 
 function f_storyboardPlay(tIn)
-	--Info Optional Parameters:
-	--localcoord = width, height (int, int)
+--Info Optional Parameters:
+--localcoord = width, height (int, int)
 	local tOut = {}
 	if tIn.info ~= nil and tIn.info.localcoord ~= nil then
 		tOut['xScale'], tOut['yScale'] = tIn.info.localcoord:match('^([^,]-)%s*,%s*(.-)$')
@@ -1294,8 +1294,8 @@ function f_storyboardPlay(tIn)
 		tOut['xScale'] = 1
 		tOut['yScale'] = 1
 	end
-	--SceneDef Required Parameters:
-	--spr = filename (string)
+--SceneDef Required Parameters:
+--spr = filename (string)
 	if tIn.scenedef.spr ~= nil then
 		if tIn.scenedef.spr:match('[/\\]') then
 			tOut['sff'] = tIn.scenedef.spr
@@ -1306,8 +1306,8 @@ function f_storyboardPlay(tIn)
 			t_data[tOut.sff] = sffNew(tOut.sff)
 		end
 	end
-	--SceneDef Optional Parameters:
-	--snd = filename (string)
+--SceneDef Optional Parameters:
+--snd = filename (string)
 	if tIn.scenedef.snd ~= nil then
 		if tIn.scenedef.snd:match('[/\\]') then
 			tOut['snd'] = tIn.scenedef.snd
@@ -1318,7 +1318,7 @@ function f_storyboardPlay(tIn)
 			t_data[tOut.snd] = sndNew(tOut.snd)
 		end
 	end
-	--fontX = filename (string)
+--fontX = filename (string)
 	tOut['fnt'] = {}
 	for i=0, 9 do
 		if tIn.scenedef['font' .. i] ~= nil then
@@ -1334,53 +1334,53 @@ function f_storyboardPlay(tIn)
 			end
 		end
 	end
-	--startscene = scene_number (int)
+--startscene = scene_number (int)
 	if tIn.scenedef.startscene ~= nil then
 		tOut['startscene'] = tIn.scenedef.startscene + 1
 	else
 		tOut['startscene'] = 1
 	end
-	--Scene Parameters:
+--Scene Parameters:
 	tOut['scenes'] = {}
 	for i=1, #tIn.scenes do
 		tOut.scenes[i] = {}
-		--Required parameters:
-		--end.time = t (int)
+	--Required parameters:
+	--end.time = t (int)
 		if tIn.scenes[i]['end.time'] ~= nil then
 			tOut.scenes[i]['endTime'] = tIn.scenes[i]['end.time']
 		else
 			tOut.scenes[i]['endTime'] = 0
 		end
-		--Optional parameters:
-		--fadein.time = duration (int)
+	--Optional parameters:
+	--fadein.time = duration (int)
 		if tIn.scenes[i]['fadein.time'] ~= nil then
 			tOut.scenes[i]['fadeinTime'] = tIn.scenes[i]['fadein.time']
 		else
 			tOut.scenes[i]['fadeinTime'] = 0
 		end
-		--fadein.col = r, g, b (int, int, int)
+	--fadein.col = r, g, b (int, int, int)
 		if tIn.scenes[i]['fadein.col'] ~= nil and tIn.scenes[i]['fadein.col']:match('255%s*,%s*255,%s*255') then
 			tOut.scenes[i]['fadeinCol'] = 'white'
 		else
 			tOut.scenes[i]['fadeinCol'] = 'black'
 		end
-		--fadein (anim data)
+	--fadein (anim data)
 		tOut.scenes[i]['fadeinData'] = f_fadeAnim(tOut.scenes[i].fadeinTime, 'fadein', tOut.scenes[i].fadeinCol, sprFade)
-		--fadeout.time = duration (int)
+	--fadeout.time = duration (int)
 		if tIn.scenes[i]['fadeout.time'] ~= nil then
 			tOut.scenes[i]['fadeoutTime'] = tIn.scenes[i]['fadeout.time']
 		else
 			tOut.scenes[i]['fadeoutTime'] = 0
 		end
-		--fadeout.col = r, g, b (int, int, int)
+	--fadeout.col = r, g, b (int, int, int)
 		if tIn.scenes[i]['fadeout.col'] ~= nil and tIn.scenes[i]['fadeout.col']:match('255%s*,%s*255,%s*255') then
 			tOut.scenes[i]['fadeoutCol'] = 'white'
 		else
 			tOut.scenes[i]['fadeoutCol'] = 'black'
 		end
-		--fadeout (anim data)
+	--fadeout (anim data)
 		tOut.scenes[i]['fadeoutData'] = f_fadeAnim(tOut.scenes[i].fadeoutTime, 'fadeout', tOut.scenes[i].fadeoutCol, sprFade)
-		--clearcolor = r, g, b (int, int, int) --currently only black when average of RGB <= 128 and white if >128, can't generate a color not from sprite
+	--clearcolor = r, g, b (int, int, int) --currently only black when average of RGB <= 128 and white if >128, can't generate a color not from sprite
 		if tIn.scenes[i]['clearcolor'] ~= nil then
 			local tmp1, tmp2, tmp3 = tIn.scenes[i]['clearcolor']:match('([0-9]+)%s*,%s*([0-9]+)%s*,%s*([0-9]+)')
 			if (tmp1+tmp2+tmp3)/3 > 128 then
@@ -1400,7 +1400,7 @@ function f_storyboardPlay(tIn)
 			tOut.scenes[i]['clearcolorData'] = animNew(sprFade, '0,0, 0,0, -1')
 			animUpdate(tOut.scenes[i]['clearcolorData'])
 		end
-		--layerall.pos = x, y (int, int)
+	--layerall.pos = x, y (int, int)
 		if tIn.scenes[i]['layerall.pos'] ~= nil then
 			tOut.scenes[i]['layerallPosX'], tOut.scenes[i]['layerallPosY'] = tIn.scenes[i]['layerall.pos']:match('^([^,]-)%s*,%s*(.-)$')
 		elseif i > 1 then
@@ -1410,7 +1410,7 @@ function f_storyboardPlay(tIn)
 			tOut.scenes[i]['layerallPosX'] = 0
 			tOut.scenes[i]['layerallPosY'] = 0
 		end
-		--window = x1, y1, x2, y2 (int, int, int, int)
+	--window = x1, y1, x2, y2 (int, int, int, int)
 		if tIn.scenes[i]['window'] ~= nil then
 			tOut.scenes[i]['windowX1'], tOut.scenes[i]['windowY1'], tOut.scenes[i]['windowX2'], tOut.scenes[i]['windowY2'] = tIn.scenes[i]['window']:match('([0-9]+)%s*,%s*([0-9]+)%s*,%s*([0-9]+)%s*,%s*([0-9]+)')
 			tOut.scenes[i]['windowX2'] = tOut.scenes[i]['windowX2'] - tOut.scenes[i]['windowX1']
@@ -1421,20 +1421,20 @@ function f_storyboardPlay(tIn)
 			tOut.scenes[i]['windowX2'] = 320
 			tOut.scenes[i]['windowY2'] = 240
 		end
-		--layerX
+	--layerX
 		tOut.scenes[i]['layers'] = {}
 		for j=0, 9 do
 			tOut.scenes[i].layers[j+1] = {}
 			local posOut = tOut.scenes[i].layers[j+1]
 			local layerX = 'layer' .. j
-			--layerX.offset = offx, offy (int, int)
+		--layerX.offset = offx, offy (int, int)
 			if tIn.scenes[i][layerX .. '.offset'] ~= nil then
 				posOut['offsetX'], posOut['offsetY'] = tIn.scenes[i][layerX .. '.offset']:match('^([^,]-)%s*,%s*(.-)$')
 			else
 				posOut['offsetX'] = 0
 				posOut['offsetY'] = 0
 			end
-			--layerX.anim = actionno (int)
+		--layerX.anim = actionno (int)
 			if tIn.scenes[i][layerX .. '.anim'] ~= nil then
 				posOut['anim'] = tIn.anim[tIn.scenes[i][layerX .. '.anim']+1] --for debugging only
 				posOut['animNumber'] = tIn.scenes[i][layerX .. '.anim'] --for debugging only
@@ -1454,16 +1454,17 @@ function f_storyboardPlay(tIn)
 			if tIn.scenes[i][layerX .. '.text'] ~= nil then
 				posOut['text'] = tostring(tIn.scenes[i][layerX .. '.text'])
 			end
-			--layerX.text = text (string)
+		--layerX.text = text (string)
 			if tIn.scenes[i][layerX .. '.text'] ~= nil then
 				posOut['text'] = tIn.scenes[i][layerX .. '.text']:match('^"?(.-)"?$')
 			end
-			--layerX.font = font_no, bank, align, r, g, b (int, int, int, int, int, int) --r, g, b parameters currently unsupported
-			--IKEMEN feature: additional optional parameters:
-			-- spacing: spacing between lines (rendering Y position increasement for each line), defaults to 20
-			-- limit: maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
-			-- scaleX: X scale factor, defaults to 1.0
-			-- scaleY: Y scale factor, defaults to 1.0
+		--layerX.font = font_no, bank, align, r, g, b (int, int, int, int, int, int) --r, g, b parameters currently unsupported
+		--[[IKEMEN feature: additional optional parameters:
+			spacing: spacing between lines (rendering Y position increasement for each line), defaults to 20
+			limit: maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
+			scaleX: X scale factor, defaults to 1.0
+			scaleY: Y scale factor, defaults to 1.0
+		]]
 			if tIn.scenes[i][layerX .. '.font'] ~= nil then
 				posOut['font'] = tIn.scenes[i][layerX .. '.font'] --for debugging only
 				posOut['fontData'] = textImgNew()
@@ -1505,51 +1506,51 @@ function f_storyboardPlay(tIn)
 				posOut['limit'] = limit
 				posOut['counter'] = 0
 			end
-			--layerX.textdelay = delay (int)
+		--layerX.textdelay = delay (int)
 			if tIn.scenes[i][layerX .. '.textdelay'] ~= nil then
 				posOut['textdelay'] = tIn.scenes[i][layerX .. '.textdelay']
 			else
 				posOut['textdelay'] = 0
 			end
-			--layerX.starttime = t (int, int)
+		--layerX.starttime = t (int, int)
 			if tIn.scenes[i][layerX .. '.starttime'] ~= nil then
 				posOut['starttime'] = tIn.scenes[i][layerX .. '.starttime']
 			else
 				posOut['starttime'] = 0
 			end
-			--layerX.endtime = t (int, int)
+		--layerX.endtime = t (int, int)
 			if tIn.scenes[i][layerX .. '.endtime'] ~= nil then
 				posOut['endtime'] = tIn.scenes[i][layerX .. '.endtime']
 			else
 				posOut['endtime'] = tOut.scenes[i].endTime
 			end
 		end
-		--soundX
+	--soundX
 		tOut.scenes[i]['sounds'] = {}
 		for j=0, 99 do
 			local soundX = 'sound' .. j
 			if tIn.scenes[i][soundX .. '.value'] ~= nil then
 				tOut.scenes[i].sounds[#tOut.scenes[i].sounds+1] = {}
 				local posOut = tOut.scenes[i].sounds[#tOut.scenes[i].sounds]
-				--soundX.value = group_no, sound_no (int, int)
+			--soundX.value = group_no, sound_no (int, int)
 				posOut['group'], posOut['sound'] = tIn.scenes[i][soundX .. '.value']:match('^([^,]-)%s*,%s*(.-)$')
-				--soundX.starttime = t (int)
+			--soundX.starttime = t (int)
 				if tIn.scenes[i][soundX .. '.starttime'] ~= nil then
 					posOut['starttime'] = tIn.scenes[i][soundX .. '.starttime']
 				else
 					posOut['starttime'] = 0
 				end
-				--soundX.volumescale = volume_scale (double) --currently unsupported
+			--soundX.volumescale = volume_scale (double) --currently unsupported
 				if tIn.scenes[i][soundX .. '.volumescale'] ~= nil then
 					posOut['volumescale'] = tIn.scenes[i][soundX .. '.volumescale']
 				end
-				--soundX.pan = p (int) --currently unsupported
+			--soundX.pan = p (int) --currently unsupported
 				if tIn.scenes[i][soundX .. '.pan'] ~= nil then
 					posOut['pan'] = tIn.scenes[i][soundX .. '.pan']
 				end
 			end
 		end
-		--bgm = filename (string)
+	--bgm = filename (string)
 		if tIn.scenes[i]['bgm'] ~= nil then
 			if tIn.scenes[i]['bgm']:match('[/\\]') then
 				tOut.scenes[i]['bgm'] = tIn.scenes[i]['bgm']
@@ -1557,45 +1558,45 @@ function f_storyboardPlay(tIn)
 				tOut.scenes[i]['bgm'] = tIn.fileDir .. tIn.scenes[i]['bgm']
 			end
 		end
-		--bgm.loop = loop (boolean) --currently unsupported
+	--bgm.loop = loop (boolean) --currently unsupported
 		if tIn.scenes[i]['bgm.loop'] ~= nil then
 			tOut.scenes[i]['bgmLoop'] = tIn.scenes[i]['bgm.loop']
 		end
-		--bg.name = bgname (string)
+	--bg.name = bgname (string)
 		if tIn.scenes[i]['bg.name'] ~= nil then
-			--Background element parameters:
+		--Background element parameters:
 			tOut.scenes[i]['backgrounds'] = {}
 			for j=1, #tIn[tIn.scenes[i]['bg.name']] do
 				local posIn = tIn[tIn.scenes[i]['bg.name']][j]
 				tOut.scenes[i]['backgrounds'][j] = {}
 				local posOut = tOut.scenes[i]['backgrounds'][j]
-				--type = normal (string)
+			--type = normal (string)
 				if posIn['type'] ~= nil then
 					posOut['type'] = posIn['type']
 				else
 					posOut['type'] = ''
 				end
 				posOut['type'] = bgType
-				--layer
+			--layer
 				if posIn['layer'] ~= nil then
 					posOut['layer'] = posIn['layer']
 				else
 					posOut['layer'] = 0
 				end
-				--id
+			--id
 				if posIn['id'] ~= nil then
 					posOut['id'] = posIn['id']
 				else
 					posOut['id'] = 0
 				end
-				--spriteno = groupno, imageno (int, int)
+			--spriteno = groupno, imageno (int, int)
 				if posIn['spriteno'] ~= nil then
 					posOut['group'], posOut['sprite'] = posIn['spriteno']:match('^([^,]-)%s*,%s*(.-)$')
 				else
 					posOut['group'] = '-1'
 					posOut['sprite'] = '-1'
 				end
-				--start = x,y (float, float)
+			--start = x,y (float, float)
 				if posIn['start'] ~= nil then
 					if type(posIn['start']) ~= 'string' then
 						posOut['startX'] = posIn['start']
@@ -1607,7 +1608,7 @@ function f_storyboardPlay(tIn)
 					posOut['startX'] = 0
 					posOut['startY'] = 0
 				end
-				--velocity = vel_x, vel_y (float, float)
+			--velocity = vel_x, vel_y (float, float)
 				if posIn['velocity'] ~= nil then
 					if type(posIn['velocity']) ~= 'string' then
 						posOut['velocityX'] = posIn['velocity']
@@ -1619,7 +1620,7 @@ function f_storyboardPlay(tIn)
 					posOut['velocityX'] = 0
 					posOut['velocityY'] = 0
 				end
-				--tile = x_tile,y_tile (int, int)
+			--tile = x_tile,y_tile (int, int)
 				if posIn['tile'] ~= nil then
 					if type(posIn['tile']) ~= 'string' then
 						posOut['tileX'] = posIn['tile']
@@ -1631,7 +1632,7 @@ function f_storyboardPlay(tIn)
 					posOut['tileX'] = 0
 					posOut['tileY'] = 0
 				end
-				--tilespacing = x_spacing,y_spacing (int, int) --currently unsupported
+			--tilespacing = x_spacing,y_spacing (int, int) --currently unsupported
 				if posIn['tilespacing'] ~= nil then
 					if type(posIn['tilespacing']) ~= 'string' then
 						posOut['tilespacingX'] = posIn['tilespacing']
@@ -1643,7 +1644,7 @@ function f_storyboardPlay(tIn)
 					posOut['tilespacingX'] = 0
 					posOut['tilespacingY'] = 0
 				end
-				--trans = trans (string)
+			--trans = trans (string)
 				if posIn['trans'] ~= nil then
 					if posIn['trans'] == 'add' then
 						posOut['trans'] = 'a'
@@ -1657,7 +1658,7 @@ function f_storyboardPlay(tIn)
 				else
 					posOut['trans'] = ''
 				end
-				--window = x1,y1,x2,y2 ; (int, int, int, int)
+			--window = x1,y1,x2,y2 ; (int, int, int, int)
 				if posIn['window'] ~= nil then
 					posOut['windowX1'], posOut['windowY1'], posOut['windowX2'], posOut['windowY2'] = posIn['window']:match('([0-9]+)%s*,%s*([0-9]+)%s*,%s*([0-9]+)%s*,%s*([0-9]+)')
 					posOut['windowX2'] = posOut['windowX2'] - posOut['windowX1']
@@ -1681,14 +1682,14 @@ function f_storyboardPlay(tIn)
 			end
 		end
 	end
-	--Background controller parameters:
+--Background controller parameters:
 	local tPos = ''
 	for i=1, #tIn.ctrldef do
 		for j=1, #tIn.ctrldef[i].ctrl do
 			tPos = tIn.ctrldef[i].ctrl[j]
-			--time = START_TIME, END_TIME, LOOPTIME
-			--code reference for future use
-			--[[
+		--time = START_TIME, END_TIME, LOOPTIME
+		--code reference for future use
+		--[[
 			if tPos['time'] ~= nil then
 				for k, c in ipairs(strsplit(',', tPos.time)) do
 					if k == 1 then
@@ -1709,7 +1710,7 @@ function f_storyboardPlay(tIn)
 			if tPos['timeLoop'] == nil then
 				tPos['timeLoop'] = -1
 			end
-			]]
+		]]
 			if tPos['time'] ~= nil then
 				if type(tPos['time']) ~= 'string' then
 					tPos['timeEnd'] = -1
@@ -1729,7 +1730,7 @@ function f_storyboardPlay(tIn)
 	end
 	tOut['ctrldef'] = {}
 	tOut.ctrldef = tIn.ctrldef
-	--Actual storyboard loop
+--Actual storyboard loop
 	if data.debugLog then f_printTable(tOut, 'save/debug/t_storyboard.txt') end
 	local velX = 0
 	local velY = 0
@@ -1849,7 +1850,7 @@ end
 ]]
 
 for line in content:gmatch('[^\r\n]+') do
-	--storyname = string
+--storyname = string
 	if line:match('^%s*storyname%s*=') then
 		section = 1
 		local data = line:gsub('%s*;.*$', '')
@@ -1862,70 +1863,70 @@ for line in content:gmatch('[^\r\n]+') do
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
 		t_vnBoxText[chapt]["data"] = {}
 	elseif section == 2 then --[Chapter No]
-		--id = chapterID (string)
+	--id = chapterID (string)
 		if line:match('^%s*id%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt]["data"]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--name = chaptername (string)
+	--name = chaptername (string)
 		if line:match('^%s*name%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt]["data"]['name'] = data:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--author = chapterauthor (string)
+	--author = chapterauthor (string)
 		if line:match('^%s*author%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt]["data"]['author'] = data:gsub('^%s*author%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--date = chapterdate (string)
+	--date = chapterdate (string)
 		if line:match('^%s*date%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt]["data"]['date'] = data:gsub('^%s*date%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--info = chapterdescription (string)
+	--info = chapterdescription (string)
 		if line:match('^%s*info%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt]["data"]['description'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--snd = filename (string)
+	--snd = filename (string)
 		if line:match('^%s*snd%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt]["data"]['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--draw lua path = filename (string)
+	--draw lua path = filename (string)
 		if line:match('^%s*drawpath%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt]["data"]['drawPath'] = data:gsub('^%s*drawpath%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--character = string
+	--character = string
 		if line:match('^%s*character%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {} --Add content filtered to the end of the "chapter" sub-table
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['character'] = data:gsub('^%s*character%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
-		--video = filename (string)
+	--video = filename (string)
 		elseif line:match('^%s*video%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['video'] = data:gsub('^%s*video%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
-		--cut = number
+	--cut = number
 		elseif line:match('^%s*cut%s*=') then
 			--local data = line:gsub('%s*;.*$', '')
 			local num = line:match('%s([0-9]+)$')
@@ -1942,7 +1943,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ending'] = tonumber(num) --data:gsub('^%s*end%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
-		--side = number
+	--side = number
 		if line:match('^%s*side%s*=') then
 			local num = line:match('%s([0-9]+)$')
 			local data = line:gsub('%s*;.*$', '')
@@ -1950,7 +1951,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['side'] = tonumber(num) --data:gsub('^%s*side%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--sfx.clean = number
+	--sfx.clean = number
 		if line:match('^%s*sfx.clean%s*=') then
 			local num = line:match('%s([0-9]+)$')
 			local data = line:gsub('%s*;.*$', '')
@@ -1958,21 +1959,21 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['sfxclean'] = tonumber(num)
 			end
 		end
-		--sfx = group_no, index_no (int, int)
+	--sfx = group_no, index_no (int, int)
 		if line:match('^%s*sfx%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['sfxplay'] = data:gsub('^%s*sfx%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--bgm = filename (string)
+	--bgm = filename (string)
 		if line:match('^%s*bgm%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['bgm'] = data:gsub('^%s*bgm%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--fadein = number
+	--fadein = number
 		if line:match('^%s*fadein%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			local num = line:match('%s([0-9]+)$')
@@ -1980,7 +1981,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['fadein'] = tonumber(num) --data:gsub('^%s*fadein%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--fadeout = number
+	--fadeout = number
 		if line:match('^%s*fadeout%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			local num = line:match('%s([0-9]+)$')
@@ -1988,7 +1989,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['fadeout'] = tonumber(num) --data:gsub('^%s*fadeout%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		--text: string
+	--text: string
 		if line:match('text:$') then
 			t_vnBoxText[chapt][#t_vnBoxText[chapt]]['text'] = ""
 		end
@@ -2013,56 +2014,56 @@ end
 --;===========================================================
 --Common Textbox Settings
 function f_resetFullVN()
-VNautoSkipTime = 5 --Set Time to auto skip text (in seconds)
-VNautoTxt = 0
-VNtxtActive = 1
-VNscroll = 0
-VNnodelay = 0
-VNdelay = data.VNdelay
-VNskip = false
-VNhide = false
-VNendActive = false
-VNtxtReady = false
-VNtxtEnd = false
+	VNautoSkipTime = 5 --Set Time to auto skip text (in seconds)
+	VNautoTxt = 0
+	VNtxtActive = 1
+	VNscroll = 0
+	VNnodelay = 0
+	VNdelay = data.VNdelay
+	VNskip = false
+	VNhide = false
+	VNendActive = false
+	VNtxtReady = false
+	VNtxtEnd = false
 --Multimedia Control
-VNbgmActive = false
-VNbgmNew = false
---VNbgm = ""
-VNvideoNew = false
-VNvideoActive = false
+	VNbgmActive = false
+	VNbgmNew = false
+	--VNbgm = ""
+	VNvideoNew = false
+	VNvideoActive = false
 --Fade Control
-vnFadeInTime = 40
-vnFadeOutTime = 40
-vnFadeIn = false
-vnFadeOut = false
-vnFadeInC = 0
-vnFadeOutC = 0
+	vnFadeInTime = 40
+	vnFadeOutTime = 40
+	vnFadeIn = false
+	vnFadeOut = false
+	vnFadeInC = 0
+	vnFadeOutC = 0
 --Narrative Text Config
-VNtxtSpacing = 9 --spacing between lines (rendering Y position increasement for each line)
-VNtxtPosX = 2
-VNtxtPosY = 184 --194
-VNtxtBank = 0
-VNtxtAlphaS = 255
-VNtxtAlphaD = 0
-f_vnPauseMenuReset()
-f_questionResetVN()
+	VNtxtSpacing = 9 --spacing between lines (rendering Y position increasement for each line)
+	VNtxtPosX = 2
+	VNtxtPosY = 184 --194
+	VNtxtBank = 0
+	VNtxtAlphaS = 255
+	VNtxtAlphaD = 0
+	f_vnPauseMenuReset()
+	f_questionResetVN()
 end
 
 function f_resetSimpleVN()
-vnFadeIn = false
-vnFadeOut = false
-vnFadeInC = 0
-vnFadeOutC = 0
-f_fadeData()
+	vnFadeIn = false
+	vnFadeOut = false
+	vnFadeInC = 0
+	vnFadeOutC = 0
+	f_vnFadeData()
 --Reset Text Box
-VNtxtReady = false
-VNtxtActive = 1
-VNscroll = 0
-VNdelay = data.VNdelay
-VNautoTxt = 0
+	VNtxtReady = false
+	VNtxtActive = 1
+	VNscroll = 0
+	VNdelay = data.VNdelay
+	VNautoTxt = 0
 end
 
-function f_fadeData()
+function f_vnFadeData()
 data.fadeIn = f_fadeAnim(vnFadeInTime, 'fadein', 'black', sprFade)
 data.fadeOut = f_fadeAnim(vnFadeOutTime, 'fadeout', 'black', sprFade)
 end
@@ -2087,7 +2088,7 @@ function f_drawVNIntro()
 	local t = 0
 	local endTime = 422
 	local fadeOutTime = 50
-	--Display Data
+--Display Data
 	local vnName = ""
 	local chapterID = vnChapter --Use f_vnScene chaptNo
 	local chapterName = ""
@@ -2103,7 +2104,7 @@ function f_drawVNIntro()
 	cmdInput()
 	while true do
 		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or endIntro then
-			f_fadeData()
+			f_vnFadeData()
 			break
 		end
 		if t == endTime then endIntro = true end
@@ -2168,9 +2169,9 @@ end
 --;===========================================================
 function f_vnScene(arcPath, chaptNo, dialogueNo)
 	f_vnLoad(arcPath) --What Visual Novel File will load?
-	--Actions when visual novel chapters are loaded
+--Actions when visual novel chapters are loaded
 	f_resetFullVN()
-	f_fadeData()
+	f_vnFadeData()
 	vnArc = arcPath
 	vnChapter = chaptNo --What chapter number does it start in?
 	VNtxt = dialogueNo --What dialogue number does it start in?
@@ -2183,7 +2184,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	end
 	cmdInput()
 	while true do
-		--Actions when the chapter has started
+	--Actions when the chapter has started
 		if t_vnBoxText[vnChapter][VNtxt].cut ~= nil or VNtxtEnd then
 			sndStop()
 			break
@@ -2203,42 +2204,42 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			else
 				VNhide = false
 			end
-			--Auto Skip Text
+		--Auto Skip Text
 			if data.VNautoSkip and VNtxtActive == 0 and VNautoTxt == VNautoSkipTime*60 then
 				VNtxtReady = true
 			end
 		end
-		--Start fade out only if is loaded by dialogue, when that dialogue is drawed and fadeOut count is reseted
+	--Start fade out only if is loaded by dialogue, when that dialogue is drawed and fadeOut count is reseted
 		if t_vnBoxText[vnChapter][VNtxt].fadeout ~= nil and VNtxtReady and vnFadeOutC == 0 then
 			vnFadeOut = true
 		end
 		if not vnFadeOut then
-			--Load New Txt
+		--Load New Txt
 			if VNtxt < #t_vnBoxText[vnChapter] then --Only show new text if is store in the table
 				if VNtxtReady then --When text is fully drawed
 					VNtxt = VNtxt + 1
 					f_resetSimpleVN()
 				end
-			--Last Txt
+		--Last Txt
 			elseif VNtxt == #t_vnBoxText[vnChapter] then
 				if VNtxtReady then
 					VNtxtEnd = true
 				end
 			end
 		end
-		--SFX STOP
+	--SFX STOP
 		if t_vnBoxText[vnChapter][VNtxt].sfxclean ~= nil then
 			sndStop()
 			t_vnBoxText[vnChapter][VNtxt].sfxclean = nil --Delete paramvalue from table after to stop to avoid cicle
 		end
-		--SFX PLAY
+	--SFX PLAY
 		if t_vnBoxText[vnChapter].data.snd ~= nil then --If there is a snd file defined for this chapter
 			if t_vnBoxText[vnChapter][VNtxt].sfxplay ~= nil then
 				f_playVNsfx()
 				t_vnBoxText[vnChapter][VNtxt].sfxplay = nil --Delete paramvalue from table after to play to avoid cicle
 			end
 		end
-		--BGM PLAY
+	--BGM PLAY
 		if not VNbgmActive then
 			if t_vnBoxText[vnChapter][VNtxt].bgm ~= nil then
 				f_playVNbgm()
@@ -2253,7 +2254,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			f_playVNbgm()
 			VNbgmNew = false
 		end
-		--VIDEO PLAY
+	--VIDEO PLAY
 		if not VNvideoActive then
 			if t_vnBoxText[vnChapter][VNtxt].video ~= nil then
 				playVideo(t_vnBoxText[vnChapter][VNtxt].video)
@@ -2269,7 +2270,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				animDraw(vnNext) --Draw Next Text Arrow
 				animUpdate(vnNext)
 			end
-			--Text to Show
+		--Text to Show
 			if t_vnBoxText[vnChapter][VNtxt].side == 2 then
 				textImgSetPos(txt_nameCfg, 320, 175) --Show Text in Right Side
 				textImgSetAlign(txt_nameCfg, -1)
@@ -2359,7 +2360,7 @@ function f_vnPauseMenu()
 	if not audioCfgVNActive then
 		if not questionScreenVN then
 			cmdInput()
-			--Cursor Position
+		--Cursor Position
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufuVNP >= 30) then
 				sndPlay(sndSys, 100, 0)
 				vnPauseMenu = vnPauseMenu - 1
@@ -2400,13 +2401,13 @@ function f_vnPauseMenu()
 			else
 				maxVNP = 10
 			end
-			--Actions
+		--Actions
 			if esc() or vnPauseMenuBack or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				sndPlay(sndSys, 100, 2)
 				f_vnPauseMenuReset()
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				if vnPauseMenu > 4 and vnPauseMenu < #t_vnPauseMenu then sndPlay(sndSys, 100, 1) end
-				--Sound Settings
+			--Sound Settings
 				if vnPauseMenu == 5 then
 					cursorPosYAVN = 1
 					moveTxtAVN = 0
@@ -2416,11 +2417,11 @@ function f_vnPauseMenu()
 					bufr = 0
 					bufl = 0
 					audioCfgVNActive = true
-				--Restore Settings
+			--Restore Settings
 				elseif vnPauseMenu == 6 then
 					questionScreenVN = true
 					defaultVN = true
-				--Save Progress
+			--Save Progress
 				elseif vnPauseMenu == 7 then
 					if data.engineMode == "VN" then
 						f_vnProgress()
@@ -2428,19 +2429,19 @@ function f_vnPauseMenu()
 					else
 						sndPlay(sndSys, 100, 5)
 					end
-				--Skip Scene
+			--Skip Scene
 				elseif vnPauseMenu == 8 then
 					VNtxtEnd = true
-				--Back to Main Menu
+			--Back to Main Menu
 				elseif vnPauseMenu == 9 then
 					questionScreenVN = true
 					exitVN = true
-				--Resume
+			--Resume
 				elseif vnPauseMenu == #t_vnPauseMenu then
 					vnPauseMenuBack = true
 				end
 			end
-			--Text Speed
+		--Text Speed
 			if vnPauseMenu == 1 then
 				if commandGetState(p1Cmd, 'r') then
 					if data.VNdelay > 0 then
@@ -2455,7 +2456,7 @@ function f_vnPauseMenu()
 					end
 					hasChangedVN = true
 				end
-			--Text BG Transparency
+		--Text BG Transparency
 			elseif vnPauseMenu == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufrVNP >= 30) then
 					if data.VNtxtBGTransD < 255 then
@@ -2478,33 +2479,33 @@ function f_vnPauseMenu()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					hasChangedVN = true
 				end
-			--Auto Skip Text
+		--Auto Skip Text
 			elseif vnPauseMenu == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 				sndPlay(sndSys, 100, 1)
 				if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
 				hasChangedVN = true
-			--Display Character Name
+		--Display Character Name
 			elseif vnPauseMenu == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 				sndPlay(sndSys, 100, 1)
 				if data.VNdisplayName then data.VNdisplayName = false else data.VNdisplayName = true end
 				hasChangedVN = true
 			end
 		end
-		--Draw Pause Menu BG
+	--Draw Pause Menu BG
 		animSetScale(vnPauseBG, 1.28, maxVNP*0.25)
 		animSetWindow(vnPauseBG, 63,20, 200, 150)
 		animSetAlpha(vnPauseBG, 255, 22)
 		animPosDraw(vnPauseBG, 63, 20)
-		--Draw Title
+	--Draw Title
 		textImgDraw(txt_vnPTitle)
-		--Set Table Text
+	--Set Table Text
 		if hasChangedVN then
 			f_saveVN()
 			f_vnCfgdisplayTxt()
 			t_vnPauseMenu[2].varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"
 			hasChangedVN = false
 		end
-		--Draw Table Text
+	--Draw Table Text
 		for i=1, maxVNP do
 			if i > vnPauseMenu - cursorPosYVNP then
 				if t_vnPauseMenu[i].varID ~= nil then
@@ -2513,7 +2514,7 @@ function f_vnPauseMenu()
 				end
 			end
 		end
-		--Draw Cursor
+	--Draw Cursor
 		if not questionScreenVN then
 			animSetWindow(cursorBox, 64,5+cursorPosYVNP*15, 192,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -2602,7 +2603,7 @@ function f_audioCfgVN()
 			audioCfgVN = audioCfgVN + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end			
-		--Master Volume
+	--Master Volume
 		elseif audioCfgVN == 1 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if gl_vol < 100 then
@@ -2631,7 +2632,7 @@ function f_audioCfgVN()
 				bufr = 0
 				bufl = 0
 			end
-		--SFX Volume
+	--SFX Volume
 		elseif audioCfgVN == 2 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if se_vol < 100 then
@@ -2660,7 +2661,7 @@ function f_audioCfgVN()
 				bufr = 0
 				bufl = 0
 			end
-		--BGM Volume
+	--BGM Volume
 		elseif audioCfgVN == 3 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if bgm_vol < 100 then
@@ -2689,7 +2690,7 @@ function f_audioCfgVN()
 				bufr = 0
 				bufl = 0
 			end
-		--Audio Panning
+	--Audio Panning
 		elseif audioCfgVN == 4 then
 			if commandGetState(p1Cmd, 'r') and pan_str < 160 then
 				sndPlay(sndSys, 100, 0)
@@ -2701,12 +2702,12 @@ function f_audioCfgVN()
 				modifiedVN = true
 			end
 			setPanStr(pan_str / 100)
-		--Default Values
+	--Default Values
 		elseif audioCfgVN == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sndSys, 100, 1)
 			questionScreenVN = true
 			defaultAudioVN = true
-		--BACK
+	--BACK
 		elseif audioCfgVN == #t_audioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			audioCfgVNActive = false
 			sndPlay(sndSys, 100, 2)
@@ -2793,7 +2794,7 @@ end
 --;===============================================================
 function f_questionMenuVN()
 	cmdInput()
-	--Cursor Position
+--Cursor Position
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 		sndPlay(sndSys, 100, 0)
 		questionMenuVN = questionMenuVN - 1
@@ -2821,12 +2822,12 @@ function f_questionMenuVN()
 	elseif cursorPosYQuestionVN == 0 then
 		moveTxtQuestionVN = (questionMenuVN - 1) * 13
 	end
-	--Draw Fade BG
+--Draw Fade BG
 	animDraw(fadeWindowBG)
-	--Draw Menu BG
+--Draw Menu BG
 	animDraw(questionWindowBGVN)
 	animUpdate(questionWindowBGVN)
-	--Draw Title
+--Draw Title
 	if exitVN then
 		textImgSetText(txt_questionVN, "UNSAVED DATA WILL BE LOST!")
 		t_questionMenuVN[1].text = "OK"
@@ -2837,7 +2838,7 @@ function f_questionMenuVN()
 		t_questionMenuVN[2].text = "NO"
 	end
 	textImgDraw(txt_questionVN)
-	--Draw Table Text
+--Draw Table Text
 	for i=1, #t_questionMenuVN do
 		if i == questionMenuVN then
 			bank = 5
@@ -2846,26 +2847,26 @@ function f_questionMenuVN()
 		end
 		textImgDraw(f_updateTextImg(t_questionMenuVN[i].id, jgFnt, bank, 0, t_questionMenuVN[i].text, 159, 120+i*13-moveTxtQuestionVN))
 	end
-	--Draw Cursor
+--Draw Cursor
 	animSetWindow(cursorBox, 87,123+cursorPosYQuestionVN*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Draw Input Hints Panel
+--Draw Input Hints Panel
 	drawVNInputHints3()	
-	--Actions
+--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		f_questionResetVN()
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-		--YES
+	--YES
 		if questionMenuVN == 1 then
 			sndPlay(sndSys, 100, 1)
-			--Reset Visual Novel Settings
+		--Reset Visual Novel Settings
 			if defaultVN == true then
 				f_restoreVNcfg()
 				hasChangedVN = true
 				--modifiedVN = true
-			--Reset Sound Settings
+		--Reset Sound Settings
 			elseif defaultAudioVN == true then
 				gl_vol = 80
 				se_vol = 80
@@ -2874,14 +2875,14 @@ function f_questionMenuVN()
 				pan_str = 80
 				setPanStr(pan_str / 100)
 				modifiedVN = true
-			--Exit from Visual Novel
+		--Exit from Visual Novel
 			elseif exitVN == true then
 				sndStop()
 				data.VNbreak = true
 				f_saveTemp()
 				VNtxtEnd = true
 			end
-		--NO
+	--NO
 		else
 			sndPlay(sndSys, 100, 2)
 		end
@@ -2891,10 +2892,10 @@ end
 
 function f_questionResetVN()
 	moveTxtQuestionVN = 0
-	--Cursor pos in NO
+--Cursor pos in NO
 	cursorPosYQuestionVN = 1
 	questionMenuVN = 2
-	--Reset
+--Reset
 	questionScreenVN = false
 	defaultVN = false
 	defaultAudioVN = false
@@ -2917,15 +2918,15 @@ function f_default() --Reset Game Modes Configuration
 	setPowerShare(1, data.teamPowerShare) --Team Power Share for Left Side
 	setPowerShare(2, data.teamPowerShare) --Team Power Share for Right Side
 --Auto-Guard for Left Side
-	setAutoguard(1, data.autoguard)
-	setAutoguard(3, data.autoguard)
-	setAutoguard(5, data.autoguard)
-	setAutoguard(7, data.autoguard)
+	setAutoguard(1, false)
+	setAutoguard(3, false)
+	setAutoguard(5, false)
+	setAutoguard(7, false)
 --Auto-Guard for Right Side
-	setAutoguard(2, data.autoguard)
-	setAutoguard(4, data.autoguard)
-	setAutoguard(6, data.autoguard)
-	setAutoguard(8, data.autoguard)
+	setAutoguard(2, false)
+	setAutoguard(4, false)
+	setAutoguard(6, false)
+	setAutoguard(8, false)
 --values adjustable via lua scripts
 	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
@@ -3158,28 +3159,28 @@ function f_loadMusic(path)
 end
 
 function f_soundtrack()
-t_songFile = {}
-t_songList = { [1] = {folder = musicPath } } --Create folder table with main music dir as 1st item
-f_loadMusic(musicPath)
+	t_songFile = {}
+	t_songList = { [1] = {folder = musicPath } } --Create folder table with main music dir as 1st item
+	f_loadMusic(musicPath)
 --Loop through t_songFile table
-for i, songFile in ipairs(t_songFile) do
+	for i, songFile in ipairs(t_songFile) do
 	--Loop through t_songList table
-	for k, songFolder in ipairs(t_songList) do
+		for k, songFolder in ipairs(t_songList) do
 		--Associate songs paths
-		if songFile.folder == songFolder.folder then
+			if songFile.folder == songFolder.folder then
 			--Send each file from t_songFile corresponding to his folder in t_songList
-			table.insert(t_songList[k], songFile)
-			break --Exit inner loop once a match file is found
+				table.insert(t_songList[k], songFile)
+				break --Exit inner loop once a match file is found
+			end
 		end
 	end
-end
 --Add extra items to the end of "Folder" sub-row Created
-for folder=1, #t_songList do
-local row = #t_songList[folder]+1
-t_songList[folder][row] = {id = '', name = 'RANDOM SELECT', path = 'Random'}
-t_songList[folder][row+1] = {id = '', name = '          BACK', path = ''}
-end
-if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.txt') end
+	for folder=1, #t_songList do
+		local row = #t_songList[folder]+1
+		t_songList[folder][row] = {id = '', name = 'RANDOM SELECT', path = 'Random'}
+		t_songList[folder][row+1] = {id = '', name = '          BACK', path = ''}
+	end
+	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.txt') end
 end
 
 --;===========================================================
@@ -3208,32 +3209,32 @@ function f_sysTime()
 	local dateTypeC = (os.date("%a %d.%b.%Y"))
 	local dateTypeD = (os.date("%A"))
 	local dateTypeE = (os.date("%B.%Y"))
-	--4:3 Resolution
+--4:3 Resolution
 	if (resolutionHeight / 3 * 4) == resolutionWidth then
 		clockPosX = 314
 		--clockPosY = 8
 		datePosX = 8
 		--datePosY = 8
-	--16:10 Resolution
+--16:10 Resolution
 	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
 		clockPosX = 345
 		--clockPosY = 8
 		datePosX = -25
 		--datePosY = 8
-	--16:9 Resolution
+--16:9 Resolution
 	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
 		clockPosX = 365
 		--clockPosY = 8
 		datePosX = -45
 		--datePosY = 8
-	--Extra Resolution
+--Extra Resolution
 	else
 		clockPosX = 345
 		--clockPosY = 8
 		datePosX = -25
 		--datePosY = 8
 	end
-	--Set Clock
+--Set Clock
 	if data.clock == "Standard" then
 		textImgSetText(txt_titleClock, clockStandard)
 		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
@@ -3247,7 +3248,7 @@ function f_sysTime()
 		textImgSetText(txt_titleClock, clockFullMilitary)
 		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
 	end
-	--Set Date
+--Set Date
 	if data.date == "Type A" then
 		textImgSetText(txt_titleDate, dateTypeA)
 		textImgSetPos(txt_titleDate, datePosX, datePosY)
@@ -3500,7 +3501,7 @@ end
 
 function f_cmdCode()
 	local secretTxt = f_extractText(txt_secretBox)
-	--Actions
+--Actions
 	if getButton(p1Cmd) ~= "" then
 		codeEntry = getButton(p1Cmd)
 		newcmdCode = true
@@ -3508,7 +3509,7 @@ function f_cmdCode()
 		codeEntry = getButton(p2Cmd)
 		newcmdCode = true
 	end
-	--Check Entries
+--Check Entries
 	if newcmdCode then
 		f_secretCode(codeEntry)
 		newcmdCode = false
@@ -3524,15 +3525,17 @@ end
 --User Entries
 function f_secretCode(key)
 	table.insert(t_secretEntry, key) --Insert key/entry received to t_secretEntry table
-	--if #t_secretEntry > #t_secretCode then --If entries exceed t_secretCode table limit
-		--t_secretEntry = {} --Reset Table to try again.
-	--end
+--[[
+	if #t_secretEntry > #t_secretCode then --If entries exceed t_secretCode table limit
+		t_secretEntry = {} --Reset Table to try again.
+	end
+]]
 	for i = 1, #t_secretEntry do
 		if t_secretEntry[i] ~= t_secretCode[i] then --Check if the user key entry is equal to secret code position
 			t_secretEntry = {} --Reset Table to try again.
 		end
 	end
-	--Compare User Entries Table with Secret Code Table
+--Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
 		sndPlay(sndSys, 200, 2)
 		--stats.unlocks.chars.reika = true
@@ -3580,7 +3583,7 @@ function f_unlock(permanent)
 				--Error: Lua code does not return boolean value
 			end
 		end
-		--clean lua code that already returned true
+	--clean lua code that already returned true
 		for k, v in ipairs(t_del) do
 			t[v] = nil
 		end
@@ -3648,13 +3651,13 @@ end
 --Data saving to vn_sav.lua
 function f_saveVN()
 	local t_vn = {
-		--Dialogue Settings
+	--Dialogue Settings
 		['data.VNdelay'] = data.VNdelay,
 		['data.VNtxtBGTransS'] = data.VNtxtBGTransS,
 		['data.VNtxtBGTransD'] = data.VNtxtBGTransD,
 		['data.VNdisplayName'] = data.VNdisplayName,
 		['data.VNautoSkip'] = data.VNautoSkip,
-		--Progress Data
+	--Progress Data
 		['data.VNarc'] = data.VNarc,
 		['data.VNchapter'] = data.VNchapter,
 		['data.VNdialogue'] = data.VNdialogue
@@ -3898,9 +3901,9 @@ function f_storeStats()
 	if stats.modes == nil then
 		stats.modes = {}
 	end
-	--play time
+--play time
 	stats.playtime = f_round((stats.playtime or 0) + t_savedData.time.total / 60, 2)
-	--mode play time
+--mode play time
 	if stats.modes[gamemode()] == nil then
 		stats.modes[gamemode()] = {}
 	end
@@ -3909,13 +3912,13 @@ function f_storeStats()
 	if t_sortRanking[gamemode()] == nil or t_hiscoreData[gamemode()] == nil then
 		return cleared, -1 --mode can't be cleared
 	end
-	--number times cleared
+--number times cleared
 	if cleared then
 		t.clear = (t.clear or 0) + 1
 	elseif t.clear == nil then
 		t.clear = 0
 	end
-	--team leader mode cleared count
+--team leader mode cleared count
 	if t.clearcount == nil then
 		t.clearcount = {}
 	end
@@ -3923,7 +3926,7 @@ function f_storeStats()
 		local leader = f_getCharData(p[1].t_selected[1].ref).char:lower()
 		t.clearcount[leader] = (t.clearcount[leader] or 0) + 1
 	end
-	--ranking data exceptions
+--ranking data exceptions
 	if t_hiscoreData[gamemode()].data == 'score' and t_savedData.score.total[1] == 0 then
 		return cleared, -1
 	end
@@ -3936,7 +3939,7 @@ function f_storeStats()
 	if t_savedData.debugflag[1] then
 		return cleared, -1 --using debug keys disables high score table registering
 	end
-	--rankings
+--rankings
 	t.ranking = f_formattedTable(
 		t.ranking,
 		{

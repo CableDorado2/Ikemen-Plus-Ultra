@@ -26,7 +26,6 @@ data.lifebar = "data/screenpack/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"
 data.aiRamping = true
-data.autoguard = false
 data.quickCont = true
 data.kumite = 100
 --Team Data

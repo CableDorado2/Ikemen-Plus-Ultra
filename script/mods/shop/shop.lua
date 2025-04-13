@@ -6,11 +6,13 @@ bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --Insert new item to t_mainMenu table loaded by screenpack.lua
 table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_theVault()"})
 t_shopMenu = {
-	{id = textImgNew(), text = "TEST"},
-	{id = textImgNew(), text = "???"},
-	{id = textImgNew(), text = "???"},
+	{text = "TEST"},
+	{text = "???"},
+	{text = "???"},
 }
-
+for i=1, #t_shopMenu do
+	t_shopMenu[i]['id'] = textImgNew()
+end
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
 --;===========================================================
@@ -220,7 +222,7 @@ function f_theVault()
 	playBGM(bgmVault)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-		--EXIT LOGIC
+	--EXIT LOGIC
 		if vaultExit == true then
 			clearInputText()
 			sndPlay(sndSys, 100, 2)
@@ -230,7 +232,7 @@ function f_theVault()
 			f_updateUnlocks()
 			break
 		end
-		--MAIN SCREEN
+	--MAIN SCREEN
 		if esc() then
 			vaultExit = true
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then
@@ -259,12 +261,12 @@ function f_theVault()
 				setInputText(word)
 			end
 		end
-		--BUTTON SELECT
+	--BUTTON SELECT
 		if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
-			--BACK
+		--BACK
 			if vaultMenu == 1 then
 				vaultExit = true
-			--ENTER
+		--ENTER
 			elseif vaultMenu == 2 then
 				t = 0 --Reset Vault Words Delay Time
 				if word ~= '' and word ~= nil then
@@ -295,24 +297,24 @@ function f_theVault()
 				if not prize then f_randomWords() else f_prizeWords() end
 			end
 		end
-		--Draw BG
+	--Draw BG
 		animDraw(vaultBG0)
 		animUpdate(vaultBG0)
-		--Draw Menu Title
+	--Draw Menu Title
 		textImgDraw(txt_vaultTitle)
-		--Draw Text Window BG
+	--Draw Text Window BG
 		animSetScale(vaultWindowBG, 220, 30)
 		animSetWindow(vaultWindowBG, 80,100, 160,30)
 		animDraw(vaultWindowBG)
-		--Draw Valt Words
+	--Draw Valt Words
 		f_textRender(txt_vaultWords, txtRandom, t, 160, 78, 15, 2.5, 45)
-		--Draw Text
+	--Draw Text
 		textImgSetText(txt_vaultText,word)
 		textImgDraw(txt_vaultText)
 		if i%60 < 30 then
 			textImgPosDraw(txt_vaultBar, 160 +(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)> 0 and 2 or 0), 120)
 		end
-		--Draw Button Option Text
+	--Draw Button Option Text
 		for i=1, #t_vaultMenu do
 			if i == vaultMenu then
 				textImgSetBank(t_vaultMenu[i].id, 5)

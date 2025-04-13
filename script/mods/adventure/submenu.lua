@@ -4,10 +4,13 @@
 --;===========================================================
 table.insert(t_extrasMenu,1,{id = textImgNew(), text = "WORLD TOUR", gotomenu = "f_worldtourMenu()"}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 t_worldtourMenu = {
-	{id = textImgNew(), text = "START", gotomenu = "f_storyMenu()"},
-	{id = textImgNew(), text = "SAVE", gotomenu = "f_vnMenu()"},
-	--{id = textImgNew(), text = "LOAD", gotomenu = "f_quizMenu()"},
+	{text = "START", gotomenu = "f_storyMenu()"},
+	{text = "SAVE", gotomenu = "f_vnMenu()"},
+	--{text = "LOAD", gotomenu = "f_quizMenu()"},
 }
+for i=1, #t_worldtourMenu do
+	t_worldtourMenu[i]['id'] = textImgNew()
+end
 --;===========================================================
 --; WORLD TOUR MENU (play special story game modes)
 --;===========================================================	

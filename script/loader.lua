@@ -41,7 +41,8 @@ function f_parseChar(t, cel)
 			elseif line:match('^%s*%[') then --in case character shares DEF file with other files
 				section = 9
 				--break
-			elseif section == 1 then --[Info]
+		--[Info]
+			elseif section == 1 then
 				if line:match('^%s*name%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -60,7 +61,8 @@ function f_parseChar(t, cel)
 						t['glossaryname'] = line:gsub('^%s*glossaryname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-			elseif section == 2 then --[Ja.Info]
+		--[Ja.Info]
+			elseif section == 2 then
 				if line:match('^%s*name%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -79,7 +81,8 @@ function f_parseChar(t, cel)
 						t['authorjp'] = line:gsub('^%s*author%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-			elseif section == 3 then --[Files]
+		--[Files]
+			elseif section == 3 then
 				if line:match('^%s*sprite%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -119,7 +122,8 @@ function f_parseChar(t, cel)
 						t.st[#t.st+1] = stPath
 					end
 				end
-			elseif section == 4 then --[ja.Files]
+		--[ja.Files]
+			elseif section == 4 then
 				if line:match('^%s*sprite%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -159,10 +163,12 @@ function f_parseChar(t, cel)
 						t.stjp[#t.stjp+1] = stPath
 					end
 				end
-			elseif section == 5 then --[Palette Keymap]
+		--[Palette Keymap]
+			elseif section == 5 then
 				--nothing until palletes swap function is implemented
-			elseif section == 6 then --[Arcade]
-				--Load Storyboard Files
+		--[Arcade]
+			elseif section == 6 then
+			--Load Storyboard Files
 				if line:match('^%s*intro%.storyboard%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -177,7 +183,7 @@ function f_parseChar(t, cel)
 						endingPath = dir .. line:gsub('^%s*ending%.storyboard%s*=%s*(.-)%s*$', '%1')
 						t['ending'] = endingPath
 					end
-				--Load Video Files
+			--Load Video Files
 				elseif line:match('^%s*intro%.video%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -193,14 +199,15 @@ function f_parseChar(t, cel)
 						t['ending2'] = endingPath
 					end
 				end
-			elseif section == 7 then --[Unlock]
+		--[Unlock]
+			elseif section == 7 then
 				if line:match('^%s*condition%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						t['UnlockCondition'] = line:gsub('^%s*condition%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Storyboard Files for Unlock Screen
+			--Load Storyboard Files for Unlock Screen
 				if line:match('^%s*storyboard%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -208,7 +215,7 @@ function f_parseChar(t, cel)
 						unlockPath = dir .. line:gsub('^%s*storyboard%s*=%s*(.-)%s*$', '%1')
 						t['UnlockStoryboard'] = unlockPath
 					end
-				--Load Video Files for Unlock Screen
+			--Load Video Files for Unlock Screen
 				elseif line:match('^%s*video%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -217,8 +224,9 @@ function f_parseChar(t, cel)
 						t['UnlockVideo'] = unlockPath
 					end
 				end
-			elseif section == 8 then --[Portraits]
-				--Load Select Face Icon Portrait Data
+		--[Portraits]
+			elseif section == 8 then
+			--Load Select Face Icon Portrait Data
 				if line:match('^%s*face.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -231,7 +239,7 @@ function f_parseChar(t, cel)
 						t['faceSprScale'] = line:gsub('^%s*face.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Select Big Portrait Data
+			--Load Select Big Portrait Data
 				if line:match('^%s*select.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -244,7 +252,7 @@ function f_parseChar(t, cel)
 						t['selectSprScale'] = line:gsub('^%s*select.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Order Select Portrait Data
+			--Load Order Select Portrait Data
 				if line:match('^%s*order.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -257,7 +265,7 @@ function f_parseChar(t, cel)
 						t['orderSprScale'] = line:gsub('^%s*order.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Versus Portrait Data
+			--Load Versus Portrait Data
 				if line:match('^%s*vs.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -270,7 +278,7 @@ function f_parseChar(t, cel)
 						t['vsSprScale'] = line:gsub('^%s*vs.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Winner Portrait Data
+			--Load Winner Portrait Data
 				if line:match('^%s*win.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -283,7 +291,7 @@ function f_parseChar(t, cel)
 						t['winSprScale'] = line:gsub('^%s*win.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Loser Portrait Data
+			--Load Loser Portrait Data
 				if line:match('^%s*lose.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -296,7 +304,7 @@ function f_parseChar(t, cel)
 						t['loseSprScale'] = line:gsub('^%s*lose.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Results Portrait Data
+			--Load Results Portrait Data
 				if line:match('^%s*result.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -309,7 +317,7 @@ function f_parseChar(t, cel)
 						t['resultSprScale'] = line:gsub('^%s*result.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--Load Intermission Portrait Data
+			--Load Intermission Portrait Data
 				if line:match('^%s*intermission.portrait.spr%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -322,7 +330,8 @@ function f_parseChar(t, cel)
 						t['intermissionSprScale'] = line:gsub('^%s*intermission.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-			elseif section == 9 then --[???]
+		--[???]
+			elseif section == 9 then
 				--This will avoid error when loading a character with an unknown section declared
 			end
 			if stPath ~= '' and section ~= 3 and section ~= 4 and section ~= 5 and section ~= 6 and section ~= 7 and section ~= 8 and section ~= 9 then
@@ -406,27 +415,27 @@ function f_parseChar(t, cel)
 			for line in io.lines(airPath) do
 				line = line:lower()
 				line = line:gsub('%s*;.*$', '')
-				--Standing Animation [Begin Action 0]
+			--Standing Animation [Begin Action 0]
 				if line:match('^%s*%[%s*begin%s*action%s*0%s*%]') then
 					row = 'stand'
 					t[row] = {}
 					cnt = 1
-				--Win [Begin Action 181]
+			--Win [Begin Action 181]
 				elseif line:match('^%s*%[%s*begin%s*action%s*181%s*%]') then
 					row = 'win'
 					t[row] = {}
 					cnt = 1
-				--LieDown Hit (stay down) [Begin Action 5080]
+			--LieDown Hit (stay down) [Begin Action 5080]
 				elseif line:match('^%s*%[%s*begin%s*action%s*5080%s*%]') then
 					row = 'lieDown'
 					t[row] = {}
 					cnt = 1
-				--Dizzy [Begin Action 5300]
+			--Dizzy [Begin Action 5300]
 				elseif line:match('^%s*%[%s*begin%s*action%s*5300%s*%]') then
 					row = 'dizzy'
 					t[row] = {}
 					cnt = 1
-				--Cheese kill [Begin Action 5950]
+			--Cheese kill [Begin Action 5950]
 				elseif line:match('^%s*%[%s*begin%s*action%s*5950%s*%]') then
 					row = 'cheese'
 					t[row] = {}
@@ -475,13 +484,14 @@ for line in content:gmatch('[^\r\n]+') do
 	elseif line:match('^%s*%[%s*options%s*%]') then
 		t_selOptions = {}
 		section = 3
-	elseif section == 1 then --[Characters]
+--[Characters]
+	elseif section == 1 then
 		textImgSetText(txt_loading, "LOADING CHARACTERS...")
 		row = #t_selChars+1
 		t_selChars[row] = {}
 		for i, c in ipairs(strsplit(',', line)) do
 			c = c:gsub('^%s*(.-)%s*$', '%1')
-			--charname = path
+		--charname = path
 			if i == 1 then
 				c = c:gsub('\\', '/')
 				c = tostring(c)
@@ -490,11 +500,11 @@ for line in content:gmatch('[^\r\n]+') do
 				--t_selChars[row]['intermissionSpr'] = {"9000,9, 0,0, -1"}
 				addChar(c)
 				t_charAdd[c] = row - 1
-			--unlock = lua condition
+		--unlock = lua condition
 			elseif c:match('unlock%s*=%s*') then
 				local unlockData = c:match('^unlock%s*=%s*(.-)%s*$')
 				t_selChars[row]['unlock'] = unlockData
-			--music = path
+		--music = path
 			elseif c:match('music%s*=%s*') then
 				c = c:gsub('\\', '/')
 				local bgmvolume = c:match('%s([0-9]+)$')
@@ -511,26 +521,26 @@ for line in content:gmatch('[^\r\n]+') do
 				t_selChars[row].music[#t_selChars[row].music+1] = {}
 				t_selChars[row].music[#t_selChars[row].music]['bgmusic'] = bgmusic
 				t_selChars[row].music[#t_selChars[row].music]['bgmvolume'] = bgmvolume
-			--1, 2, (...)/Arcade Route = charname
+		--1, 2, (...)/Arcade Route = charname
 			elseif c:match('[0-9]+%s*=%s*[^%s]') then
 				local var1, var2 = c:match('([0-9]+)%s*=%s*(.+)%s*$')
 				t_selChars[row][tonumber(var1)] = var2:lower()
-			--stages/mybg.def
+		--stages/mybg.def
 			elseif c:match('%.[Dd][Ee][Ff]') then
 				c = c:gsub('\\', '/')
 				if t_selChars[row]['stage'] == nil then
 					t_selChars[row]['stage'] = {}
 				end
 				t_selChars[row].stage[#t_selChars[row].stage+1] = c
-			--Extra Paramvalues
+		--Extra Paramvalues
 			else
 				local param, value = c:match('^(.-)%s*=%s*(.-)$')
 				t_selChars[row][param] = tonumber(value)
 			end
 		end
-		--parse char data
+	--parse char data
 		f_parseChar(t_selChars[row], row-1)
-		--force order entry
+	--force order entry
 		local tmp = getCharName(row-1)
 		if tmp ~= '' and tmp ~= '"Training"' and getCharFileName(row-1) ~= 'randomselect' then
 		--Arcade Order
@@ -542,7 +552,8 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 			t_orderChars[t_selChars[row].order][#t_orderChars[t_selChars[row].order]+1] = row-1
 		end
-	elseif section == 2 then --[ExtraStages]
+--[ExtraStages]
+	elseif section == 2 then
 		textImgSetText(txt_loading, "LOADING STAGES...")
 		row = #t_selStages+1
 		for i, c in ipairs(strsplit(',', line)) do
@@ -558,17 +569,17 @@ for line in content:gmatch('[^\r\n]+') do
 				t_selStages[row] = {}
 				local tmp = file:read("*all")
 				file:close()
-				--zoomout = number
+			--zoomout = number
 				local zoomout = tmp:match('\n%s*zoomout%s*=%s*([0-9%.]+)')
 				if zoomout ~= nil then
 					t_selStages[row]['zoommin'] = tonumber(zoomout)
 				end
-				--zoommin = number
+			--zoommin = number
 				local zoomin = tmp:match('\n%s*zoomin%s*=%s*([0-9%.]+)')
 				if zoomin ~= nil then
 					t_selStages[row]['zoommax'] = tonumber(zoomin)
 				end
-				--bgmusic = path
+			--bgmusic = path
 				local bgmusic = tmp:match('\n%s*bgmusic%s*=%s*([^;\n]+)%s*;?.*\n')
 				if bgmusic ~= nil then
 					bgmusic = bgmusic:gsub('^%s*(.-)%s*$', '%1')
@@ -585,7 +596,7 @@ for line in content:gmatch('[^\r\n]+') do
 						end
 					end
 				end
-				--author = string
+			--author = string
 				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*AUTHOR%s*=%s*([^;\n]+)%s*;?.*\n')
 				if author ~= nil then
 					author = author:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -596,7 +607,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--author = ''
 					--t_selStages[row]['author'] = author
 				end
-				--location = string
+			--location = string
 				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*LOCATION%s*=%s*([^;\n]+)%s*;?.*\n')
 				if location ~= nil then
 					location = location:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -607,7 +618,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--location = ''
 					--t_selStages[row]['location'] = location
 				end
-				--daytime = string
+			--daytime = string
 				local daytime = tmp:match('\n%s*daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*dayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DAYTIME%s*=%s*([^;\n]+)%s*;?.*\n')
 				if daytime ~= nil then
 					daytime = daytime:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -618,7 +629,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--daytime = ''
 					--t_selStages[row]['daytime'] = daytime
 				end
-				--unlock.info = string
+			--unlock.info = string
 				local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
 				if unlockcondition ~= nil then
 					unlockcondition = unlockcondition:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -631,7 +642,7 @@ for line in content:gmatch('[^\r\n]+') do
 				end
 				addStage(c)
 				data.includestage = data.includestage + 1
-				--[[
+			--[[
 				local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
 				if name ~= nil then
 					name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -642,17 +653,17 @@ for line in content:gmatch('[^\r\n]+') do
 					name = ''
 					t_selStages[row]['name'] = name
 				end
-				]]
-		--In select.def [ExtraStages] section
+			]]
+	--In select.def [ExtraStages] section
 				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[row]['stage'] = c
 				t_selStages[row]['unlock'] = "true" --stage unlocked by default
 				t_stageDef[c] = row
-			--unlock = lua condition
+		--unlock = lua condition
 			elseif c:match('unlock%s*=%s*') then
 				local unlockData = c:match('^unlock%s*=%s*(.-)%s*$')
 				t_selStages[row]['unlock'] = unlockData
-			--music = path
+		--music = path
 			elseif c:match('music%s*=%s*') then
 				c = c:gsub('\\', '/')
 				local bgmvolume = c:match('%s([0-9]+)$')
@@ -669,13 +680,14 @@ for line in content:gmatch('[^\r\n]+') do
 				t_selStages[row].music[#t_selStages[row].music+1] = {}
 				t_selStages[row].music[#t_selStages[row].music]['bgmusic'] = bgmusic
 				t_selStages[row].music[#t_selStages[row].music]['bgmvolume'] = bgmvolume
-			--Extra Paramvalues
+		--Extra Paramvalues
 			else
 				local param, value = c:match('^(.-)%s*=%s*(.-)$')
 				t_selStages[row][param] = tonumber(value)
 			end
 		end
-	elseif section == 3 then --[Options]
+--[Options]
+	elseif section == 3 then
 		textImgSetText(txt_loading, "LOADING ARCADE SETTINGS...")
 		if line:match('^%s*.-%.maxmatches%s*=%s*') then
 			local rowName, line = line:match('^%s*(.-)%.maxmatches%s*=%s*(.+)')
@@ -833,7 +845,7 @@ if t_selChars ~= nil then
 						--unlockcondition = ''
 						--t_selStages[row]['unlockcondition'] = unlockcondition
 					end
-					--[[
+				--[[
 					local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
 					if name ~= nil then
 						name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
@@ -844,7 +856,7 @@ if t_selChars ~= nil then
 						name = ''
 						t_selStages[row]['name'] = name
 					end
-					]]
+				]]
 					t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 					t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
 					t_stageDef[t_selChars[i].stage[j]] = #t_selStages --add hidden (not includestage) for use in custom fights (story mode for example)
@@ -959,7 +971,8 @@ content = content:gsub('\n%s*\n', '\n')
 		line = line:lower()
 		if line:match('^%s*%[%s*towermode%s*%]') then
 			section = 1
-		elseif section == 1 then --[TowerMode]
+	--[TowerMode]
+		elseif section == 1 then
 			if line:match('^%s*snd%s*=') then
 				t_selTower['data'] = {}t_selTower['data'] = {}
 				local data = line:gsub('%s*;.*$', '')
@@ -1004,7 +1017,7 @@ content = content:gsub('\n%s*\n', '\n')
 			end
 		end
 	end
-	--Set random chars
+--Set random chars
 	for k,v in ipairs(t_selTower) do --For each item stored in t_selTower
 		for i, val in ipairs(v.kombats) do --For each subtable [kombats]
 			if val == "randomselect" then --If the char stored is randomselect
@@ -1097,7 +1110,7 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 					t_gallery[section][#t_gallery[section]][param] = value
 				end
 			end
-		--[GalleryStoryboards] / [GalleryMovies]
+	--[GalleryStoryboards] / [GalleryMovies]
 		elseif section == 2 or section == 3 then
 			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
 			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
@@ -1175,7 +1188,8 @@ for line in content:gmatch('[^\r\n]+') do
 	line = line:lower()
 	if line:match('^%s*%[%s*visualnovel%s*%]') then
 		section = 1
-	elseif section == 1 then --[VisualNovel]
+--[VisualNovel]
+	elseif section == 1 then
 		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
 		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
 		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
@@ -1230,8 +1244,9 @@ local file = io.open(missionDef,"r")
 				section = 1
 				row = #t_missions+1
 				t_missions[row] = {}
-			elseif section == 1 then --[Mission No]
-				--id = string
+		--[Mission No]
+			elseif section == 1 then
+			--id = string
 				if line:match('^%s*id%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1243,28 +1258,28 @@ local file = io.open(missionDef,"r")
 						t_missions[row]['infounlock'] = ""
 					end
 				end
-				--displayname = string
+			--displayname = string
 				if line:match('^%s*name%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
 						t_missions[row]['name'] = data:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--info = string
+			--info = string
 				if line:match('^%s*info%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
 						t_missions[row]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--info.locked = string
+			--info.locked = string
 				if line:match('^%s*info.locked%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
 						t_missions[row]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--preview.spr = groupNo, indexNo (int, int)
+			--preview.spr = groupNo, indexNo (int, int)
 				if line:match('^%s*preview.spr%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1272,7 +1287,7 @@ local file = io.open(missionDef,"r")
 						t_missions[row]['sprGroup'], t_missions[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 					end
 				end
-				--preview.pos = posX, posY (int, int)
+			--preview.pos = posX, posY (int, int)
 				if line:match('^%s*preview.pos%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1280,7 +1295,7 @@ local file = io.open(missionDef,"r")
 						t_missions[row]['sprPosX'], t_missions[row]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 					end
 				end
-				--preview.scale = scaleX, scaleY (int, int)
+			--preview.scale = scaleX, scaleY (int, int)
 				if line:match('^%s*preview.scale%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1288,14 +1303,14 @@ local file = io.open(missionDef,"r")
 						t_missions[row]['sprScaleX'], t_missions[row]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 					end
 				end
-				--path = string
+			--path = string
 				if line:match('^%s*path%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
 						t_missions[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--unlock = lua condition
+			--unlock = lua condition
 				if line:match('^%s*unlock%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1351,8 +1366,9 @@ local file = io.open(eventDef,"r")
 				section = 1
 				row = #t_events+1
 				t_events[row] = {}
-			elseif section == 1 then --[Event No]
-				--id = string
+		--[Event No]
+			elseif section == 1 then
+			--id = string
 				if line:match('^%s*id%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1363,21 +1379,21 @@ local file = io.open(eventDef,"r")
 						t_events[row]['infounlock'] = ""
 					end
 				end
-				--info = string
+			--info = string
 				if line:match('^%s*info%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
 						t_events[row]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--info.locked = string
+			--info.locked = string
 				if line:match('^%s*info.locked%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
 						t_events[row]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--preview.spr = groupNo, indexNo (int, int)
+			--preview.spr = groupNo, indexNo (int, int)
 				if line:match('^%s*preview.spr%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1385,7 +1401,7 @@ local file = io.open(eventDef,"r")
 						t_events[row]['sprGroup'], t_events[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 					end
 				end
-				--preview.pos = posX, posY (int, int)
+			--preview.pos = posX, posY (int, int)
 				if line:match('^%s*preview.pos%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1393,7 +1409,7 @@ local file = io.open(eventDef,"r")
 						t_events[row]['sprPosX'], t_events[row]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 					end
 				end
-				--preview.scale = scaleX, scaleY (int, int)
+			--preview.scale = scaleX, scaleY (int, int)
 				if line:match('^%s*preview.scale%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1401,14 +1417,14 @@ local file = io.open(eventDef,"r")
 						t_events[row]['sprScaleX'], t_events[row]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
 					end
 				end
-				--path = string
+			--path = string
 				if line:match('^%s*path%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
 						t_events[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
-				--unlock = lua condition
+			--unlock = lua condition
 				if line:match('^%s*unlock%s*=') then
 					local data = line:gsub('%s*;.*$', '')
 					if not data:match('=%s*$') then
@@ -1522,19 +1538,19 @@ if generate and data.sffConversion then
 		batch = ''
 		--batOpen("", "batch.bat")
 		os.execute('batch.bat')
-		--open each line in data/charTrash/charName/s-sff.def to compare
+	--open each line in data/charTrash/charName/s-sff.def to compare
 		for i=1, #t_gen do
 			local append = ''
 			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
-				--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
+			--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
 				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line)  .. f_charAnim(t_selChars[t_gen[i]].intermissionSpr, line)
 			end
-			--remove duplicated sprites from string via f_uniq function
+		--remove duplicated sprites from string via f_uniq function
 			append = f_uniq(append .. '\n', '[^\n]+\n', '^%s*[0-9-]-%s*,%s*[0-9-]-%s*,')
-			--print variable for both debugging and sprite generation purpose
+		--print variable for both debugging and sprite generation purpose
 			f_printVar(sff2png .. append, 'data/charAnim/' .. displayname .. '.def')
-			--create a batch variable used to generate sff files all at once
+		--create a batch variable used to generate sff files all at once
 			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "data\\charAnim\\' .. displayname .. '.sff" "data\\charAnim\\' .. displayname .. '.def" >> save\\debug\\sprmake2.log'
 		end
 		batch = batch .. '\n' .. 'del batch.bat'

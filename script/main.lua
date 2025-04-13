@@ -8358,9 +8358,6 @@ end
 --Services/Handicaps Reset
 function f_resetHandicaps()
 setService("")
-if not data.autoguard then
-	for i=1, 8 do setAutoguard(i, false) end
-end
 setLifeStateP1(-1)
 setLifeStateP2(-1)
 setPowerStateP1(-1)

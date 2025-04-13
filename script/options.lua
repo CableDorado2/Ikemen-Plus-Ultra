@@ -177,7 +177,7 @@ function f_loadCfg()
 	s_configSSZ = file:read("*all")
 	file:close()
 --Apply settings from config.ssz
-	--Video Settings
+--Video Settings
 	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 	b_fullscreenMode = s_configSSZ:match('const bool FullScreenReal%s*=%s*([^;%s]+)')
@@ -187,20 +187,20 @@ function f_loadCfg()
 	b_resizableMode = s_configSSZ:match('const bool WindowResizable%s*=%s*([^;%s]+)')
 	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
 	brightnessAdjust = tonumber(s_configSSZ:match('const int Brightness%s*=%s*(%d+)'))
-	--Audio Settings
+--Audio Settings
 	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
 	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
 	pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
-	--Perfomance Settings
+--Perfomance Settings
 	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
 	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
 	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
 	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 	b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
-	--Game Settings
+--Game Settings
 	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
-	--Input Settings
+--Input Settings
 	data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
 	data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
 end
@@ -352,12 +352,6 @@ function f_loadEXCfg()
 		s_aiRamping = "No"
 	end
 
-	if data.autoguard then
-		s_autoguard = "Yes"
-	else
-		s_autoguard = "No"
-	end
-
 	if data.vsDisplayWin then
 		s_vsDisplayWin = "Yes"
 	else
@@ -426,7 +420,6 @@ function f_saveCfg()
 		['data.aipal'] = data.aipal,
 		['data.aiRamping'] = data.aiRamping,
 		['data.kumite'] = data.kumite,
-		['data.autoguard'] = data.autoguard,
 		['data.quickCont'] = data.quickCont,
 	--Team Data
 		['data.team1VS2Life'] = data.team1VS2Life,
@@ -627,7 +620,6 @@ function f_netsaveCfg()
 		['data.aipal'] = data.aipal,
 		['data.kumite'] = data.kumite,
 		['data.aiRamping'] = data.aiRamping,
-		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
@@ -708,8 +700,6 @@ function f_gameDefault()
 	data.aiRamping = true
 	s_aiRamping = "Yes"
 	data.kumite = 100
-	data.autoguard = false
-	s_autoguard = "No"
 	gameSpeed = 60
 	s_gameSpeed = "Normal"
 	data.quickCont = true
@@ -1112,24 +1102,24 @@ function f_exitInfo()
 			f_saveCfg()
 			break
 		end
-		--Draw BG
+	--Draw BG
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--Draw Info Title Text
+	--Draw Info Title Text
 		textImgDraw(txt_exitInfo)
-		--Draw Above Window BG
+	--Draw Above Window BG
 		animSetScale(infoBG, 300, 111)
 		animSetWindow(infoBG, 0,70, 295.5,#t_exitInfo*15)
 		animDraw(infoBG)
-		--Draw Above Info Text
+	--Draw Above Info Text
 		for i=1, #t_exitInfo do
 			textImgDraw(t_exitInfo[i].id)
 		end
-		--Draw Message Menu BG
+	--Draw Message Menu BG
 		animDraw(infoOptionsWindowBG)
 		animUpdate(infoOptionsWindowBG)
-		--Draw OK Below Info Text
+	--Draw OK Below Info Text
 		textImgDraw(txt_okOptions)
-		--Draw Below Cursor
+	--Draw Below Cursor
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -1231,7 +1221,7 @@ function f_sdlWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw SDL Beta Reference
+	--Draw SDL Beta Reference
 		animDraw(sdlImg1)
 		animUpdate(sdlImg1)
 		animDraw(sdlImg2)
@@ -1383,7 +1373,7 @@ animSetScale(defaultWindowBG, 1, 1)
 
 function f_defaultMenu()
 	cmdInput()
-	--Cursor Position
+--Cursor Position
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 		sndPlay(sndSys, 100, 0)
 		defaultMenu = defaultMenu - 1
@@ -1412,13 +1402,13 @@ function f_defaultMenu()
 		moveTxtDefault = (defaultMenu - 1) * 13
 	end
 	if not resetStats then
-		--Draw Fade BG
+	--Draw Fade BG
 		animDraw(fadeWindowBG)
 	end
-	--Draw Menu BG
+--Draw Menu BG
 	animDraw(defaultWindowBG)
 	animUpdate(defaultWindowBG)
-	--Draw Title
+--Draw Title
 	if resetStats == true then
 		textImgSetText(txt_defaultquestion, "ARE YOU SURE?")
 		textImgSetScale(txt_defaultquestion, 1, 1)
@@ -1427,7 +1417,7 @@ function f_defaultMenu()
 		textImgSetScale(txt_defaultquestion, 0.8, 0.8)
 	end
 	textImgDraw(txt_defaultquestion)
-	--Draw Table Text
+--Draw Table Text
 	for i=1, #t_defaultMenu do
 		if i == defaultMenu then
 			bank = 5
@@ -1436,18 +1426,18 @@ function f_defaultMenu()
 		end
 		textImgDraw(f_updateTextImg(t_defaultMenu[i].id, jgFnt, bank, 0, t_defaultMenu[i].text, 159, 120+i*13-moveTxtDefault))
 	end
-	--Draw Cursor
+--Draw Cursor
 	animSetWindow(cursorBox, 87,123+cursorPosYDefault*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Draw Input Hints Panel
+--Draw Input Hints Panel
 	drawConfirmInputHints()
-	--Actions
+--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		f_defaultReset()
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-		--YES
+	--YES
 		if defaultMenu == 1 then
 			sndPlay(sndSys, 100, 1)
 			if defaultAll == true then
@@ -1502,7 +1492,7 @@ function f_defaultMenu()
 			elseif resetStats == true then
 				f_defaultStats()
 			end
-		--NO
+	--NO
 		else
 			sndPlay(sndSys, 100, 2)
 		end
@@ -1513,10 +1503,10 @@ end
 
 function f_defaultReset()
 	moveTxtDefault = 0
-	--Cursor pos in NO
+--Cursor pos in NO
 	cursorPosYDefault = 1
 	defaultMenu = 2
-	--Reset
+--Reset
 	defaultScreen = false
 	defaultAll = false
 	defaultGame = false
@@ -1582,7 +1572,7 @@ function f_mainCfg()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if defaultScreen == false and editDone == true then --Stay in Options screen (For Pop-Ups messages or Username and Online Port fields)
-			--Save and Back
+		--Save and Back
 			if esc() or exitSave or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 2)
@@ -1609,36 +1599,36 @@ function f_mainCfg()
 				mainCfg = mainCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Common Actions
+		--Common Actions
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				if (mainCfg < 9 or mainCfg == 10) then sndPlay(sndSys, 100, 1) end
-				--Game Settings
+			--Game Settings
 				if mainCfg == 1 then
 					if data.engineMode == "FG" then f_gameCfg()
 					elseif data.engineMode == "VN" then f_gameVNcfg()
 					end
-				--System Settings
+			--System Settings
 				elseif mainCfg == 2 then
 					if data.engineMode == "FG" then
 						f_UICfg()
 					else
 						sndPlay(sndSys, 100, 5)
 					end
-				--Video Settings
+			--Video Settings
 				elseif mainCfg == 3 then
 					f_videoCfg()
-				--Audio Settings
+			--Audio Settings
 				elseif mainCfg == 4 then
 					f_audioCfg()
-				--Input Settings
+			--Input Settings
 				elseif mainCfg == 5 then
 					--commandBufReset(p1Cmd)
 					--commandBufReset(p2Cmd)
 					f_inputCfg()
-				--Engine Settings
+			--Engine Settings
 				elseif mainCfg == 6 then
 					f_engineCfg()
-				--Edit Player Name
+			--Edit Player Name
 				elseif mainCfg == 7 then
 					playerName = ""
 					nameEdit = true
@@ -1646,7 +1636,7 @@ function f_mainCfg()
 					i = 0
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
-				--Edit Online Port
+			--Edit Online Port
 				elseif mainCfg == 8 then
 					onlinePort = ""
 					portEdit = true
@@ -1654,14 +1644,14 @@ function f_mainCfg()
 					i = 0
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
-				--Default Values
+			--Default Values
 				elseif mainCfg == 10 then
 					defaultAll = true
 					defaultScreen = true
-				--Save and Back
+			--Save and Back
 				elseif mainCfg == 11 then
 					exitSave = true
-				--Back Without Save
+			--Back Without Save
 				elseif mainCfg == 12 then
 					assert(loadfile(saveCfgPath))() --Load old data no saved
 					if data.engineMode == "VN" then assert(loadfile(saveVNPath))() end
@@ -1680,7 +1670,7 @@ function f_mainCfg()
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					sndPlay(sndSys, 100, 2)
 					break
-				--Online Settings from Offline Mode	
+			--Online Settings from Offline Mode	
 				elseif mainCfg == 13 then --Only for Dev Purposes (Delete when test are finished)
 					f_onlineCfg()
 				end
@@ -1703,7 +1693,7 @@ function f_mainCfg()
 					modified = 1
 				end
 			end
-			--Cursor position calculation
+		--Cursor position calculation
 			if mainCfg < 1 then
 				mainCfg = #t_mainCfg
 				if #t_mainCfg > maxItems then
@@ -1732,21 +1722,21 @@ function f_mainCfg()
 				maxMainCfg = maxItems
 			end
 		end
-		--Draw Menu BG
+	--Draw Menu BG
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--Draw Transparent Table BG
+	--Draw Transparent Table BG
 		animSetScale(optionsBG1, 220, maxMainCfg*15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
-		--Draw Title Menu
+	--Draw Title Menu
 		textImgDraw(txt_mainCfg)
 		if not defaultScreen then
-			--Draw Table Cursor
+		--Draw Table Cursor
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		--Draw Menu Info
+	--Draw Menu Info
 		if needReload == 1 then
 			for i=1, #t_restart do
 				if t%60 < 40 then
@@ -1756,7 +1746,7 @@ function f_mainCfg()
 			end
 		end
 		t_mainCfg[9].varText = data.connectMode
-		--Player Name Change
+	--Player Name Change
 		if not editDone and nameEdit == true then
 			if esc() then
 				clearInputText()
@@ -1780,13 +1770,13 @@ function f_mainCfg()
 			if playerName ~= '' and playerName ~= nil then
 				if playerName:match('^"*(%")$') then
 					playerName = playerName:gsub('^("*)[%"]$','%1')
-					--[[
+				--[[
 					What if you want to get certain pieces out of a string of text?
 					This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures
 					will be returned from string.match.
 					string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
 					foo 123 bar 456
-					]]
+				]]
 					setInputText(playerName)
 				end
 			end
@@ -1806,7 +1796,7 @@ function f_mainCfg()
 				t_mainCfg[7].varText = playerName
 			end
 		end
-		--Online Port Change
+	--Online Port Change
 		if not editDone and portEdit == true then
 			if esc() then
 				clearInputText()
@@ -1854,7 +1844,7 @@ function f_mainCfg()
 				t_mainCfg[8].varText = onlinePort
 			end
 		end
-		--Draw Text for Table
+	--Draw Text for Table
 		for i=1, maxMainCfg do	
 			if i > mainCfg - cursorPosY then
 				if t_mainCfg[i].varID ~= nil then
@@ -1863,19 +1853,19 @@ function f_mainCfg()
 				end
 			end
 		end
-		--Draw Blinking Cursor for Username and Online Port Fields
+	--Draw Blinking Cursor for Username and Online Port Fields
 		if not editDone then
 			if i%60 < 30 then
 				textImgPosDraw(txt_bar,235+1.5,17.5+cursorPosY*15)
 			end
 			i = i >= 60 and 0 or i + 1
 		end
-		--Draw Up Animated Cursor
+	--Draw Up Animated Cursor
 		if maxMainCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		--Draw Down Animated Cursor
+	--Draw Down Animated Cursor
 		if #t_mainCfg > maxItems and maxMainCfg < #t_mainCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
@@ -1946,16 +1936,16 @@ function f_onlineCfg()
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			sndPlay(sndSys, 100, 1)
-			--Game Settings
+		--Game Settings
 			if onlineCfg == 1 then
 				f_gameCfg()
-			--Engine Settings
+		--Engine Settings
 			elseif onlineCfg == 2 then
 				f_engineCfg()
-			--Lobby Settings
+		--Lobby Settings
 			elseif onlineCfg == 3 then
 				f_netplayCfg()
-			--Save and Play
+		--Save and Play
 			elseif onlineCfg == 4 then
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				if modified == 1 then
@@ -2082,7 +2072,7 @@ function f_netplayCfg()
 			netplayCfg = netplayCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		--Ranked Matchs
+	--Ranked Matchs
 		elseif netplayCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 			sndPlay(sndSys, 100, 0)
 			if (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.ftcontrol == -1 then
@@ -2110,10 +2100,10 @@ function f_netplayCfg()
 			elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) and data.ftcontrol == 2 then
 				data.ftcontrol = -1
 			end
-		--WIP
+	--WIP
 		elseif (netplayCfg == 2 or netplayCfg == 3 or netplayCfg == 4 or netplayCfg == 5 or netplayCfg == 6 or netplayCfg == 7 or netplayCfg == 8) and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			lockSetting = true
-		--BACK
+	--BACK
 		elseif netplayCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sndSys, 100, 2)
 			break
@@ -2207,7 +2197,6 @@ t_gameCfg = {
 	{text = "Rounds to Win",      	 varText = data.roundsNum},
 	{text = "Max Draw Games",      	 varText = drawNum},
 	{text = "Life",               	 varText = data.lifeMul.."%"},
-	{text = "Auto-Guard",            varText = s_autoguard},
 	{text = "Game Speed",  	         varText = s_gameSpeed},
 	{text = "Quick Arcade Continue", varText = s_quickCont},
 	{text = "AI Palette",  	    	 varText = data.aipal},
@@ -2250,7 +2239,7 @@ function f_gameCfg()
 				gameCfg = gameCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Difficulty Level
+		--Difficulty Level
 			elseif gameCfg == 1 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.difficulty < 8 then sndPlay(sndSys, 100, 0) end
@@ -2275,7 +2264,7 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Round Time
+		--Round Time
 			elseif gameCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.roundTime < 1000 then
@@ -2304,7 +2293,7 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Rounds to Win
+		--Rounds to Win
 			elseif gameCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.roundsNum < 5 then sndPlay(sndSys, 100, 0) end
@@ -2329,7 +2318,7 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Max Draw Games
+		--Max Draw Games
 			elseif gameCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and drawNum < 2 then sndPlay(sndSys, 100, 0) end
@@ -2354,7 +2343,7 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Life
+		--Life
 			elseif gameCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.lifeMul < 300 then sndPlay(sndSys, 100, 0) end
@@ -2379,20 +2368,8 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Auto-Guard
-			elseif gameCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sndSys, 100, 0)
-				if data.autoguard then
-					data.autoguard = false
-					s_autoguard = "No"
-					modified = 1
-				else
-					data.autoguard = true
-					s_autoguard = "Yes"
-					modified = 1
-				end
-			--Game Speed
-			elseif gameCfg == 7 then
+		--Game Speed
+			elseif gameCfg == 6 then
 				if onlinegame then --Detects if this option needs to be locked in online settings
 					lockSetting = true --Boolean to show a Lock setting message
 				else --allow use the option offline
@@ -2421,8 +2398,8 @@ function f_gameCfg()
 						modified = 1
 					end
 				end
-			--Quick Continue for Arcade
-			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		--Quick Continue for Arcade
+			elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.quickCont then
 					data.quickCont = false
@@ -2433,14 +2410,14 @@ function f_gameCfg()
 					s_quickCont = "Yes"
 					modified = 1
 				end
-			--AI Palette
-			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		--AI Palette
+			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aipal == "Default" then data.aipal = "Random"
 				elseif data.aipal == "Random" then data.aipal = "Default"
 				end
-			--AI Ramping
-			elseif gameCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		--AI Ramping
+			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aiRamping then
 					data.aiRamping = false
@@ -2451,8 +2428,8 @@ function f_gameCfg()
 					s_aiRamping = "Yes"
 					modified = 1
 				end
-			--VS Kumite Amount
-			elseif gameCfg == 11 then
+		--VS Kumite Amount
+			elseif gameCfg == 10 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.kumite < 1000 then
 						data.kumite = data.kumite + 1
@@ -2480,20 +2457,20 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Team Settings
-			elseif gameCfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		--Team Settings
+			elseif gameCfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_teamCfg()
-			--Zoom Settings
-			elseif gameCfg == 13 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
+		--Zoom Settings
+			elseif gameCfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
 				sndPlay(sndSys, 100, 1)
 				f_zoomCfg()
-			--Default Values
+		--Default Values
 			elseif gameCfg == #t_gameCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultGame = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif gameCfg == #t_gameCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -2550,12 +2527,11 @@ function f_gameCfg()
 		t_gameCfg[3].varText = data.roundsNum
 		t_gameCfg[4].varText = drawNum		
 		t_gameCfg[5].varText = data.lifeMul.."%"
-		t_gameCfg[6].varText = s_autoguard
-		t_gameCfg[7].varText = s_gameSpeed
-		t_gameCfg[8].varText = s_quickCont
-		t_gameCfg[9].varText = data.aipal
-		t_gameCfg[10].varText = s_aiRamping
-		t_gameCfg[11].varText = data.kumite
+		t_gameCfg[6].varText = s_gameSpeed
+		t_gameCfg[7].varText = s_quickCont
+		t_gameCfg[8].varText = data.aipal
+		t_gameCfg[9].varText = s_aiRamping
+		t_gameCfg[10].varText = data.kumite
 		for i=1, maxGameCfg do	
 			if i > gameCfg - cursorPosY then
 				if t_gameCfg[i].varID ~= nil then
@@ -2927,7 +2903,7 @@ function f_zoomCfg()
 				zoomCfg = zoomCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Zoom Active
+		--Zoom Active
 			elseif zoomCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.zoomActive then
@@ -2939,7 +2915,7 @@ function f_zoomCfg()
 					s_zoomActive = 'Yes'
 					modified = 1
 				end
-			--Max Zoom Out
+		--Max Zoom Out
 			elseif zoomCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.zoomMin < 10 then sndPlay(sndSys, 100, 0) end
@@ -2964,7 +2940,7 @@ function f_zoomCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Max Zoom In
+		--Max Zoom In
 			elseif zoomCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.zoomMax < 10 then sndPlay(sndSys, 100, 0) end
@@ -2989,7 +2965,7 @@ function f_zoomCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Zoom Speed
+		--Zoom Speed
 			elseif zoomCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.zoomSpeed < 10 then	sndPlay(sndSys, 100, 0) end
@@ -3014,12 +2990,12 @@ function f_zoomCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Default Values
+		--Default Values
 			elseif zoomCfg == #t_zoomCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultZoom = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif zoomCfg == #t_zoomCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -3155,12 +3131,12 @@ function f_UICfg()
 				UICfg = UICfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Language Settings
+		--Language Settings
 			elseif UICfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
 				else
-					--[[
+				--[[
 					if commandGetState(p1Cmd, 'r') and data.language == "ENGLISH" then
 						sndPlay(sndSys, 100, 0)
 						data.language = "SPANISH"
@@ -3182,9 +3158,9 @@ function f_UICfg()
 						modified = 1
 						needReload = 1
 					end
-					]]
+				]]
 				end
-			--Clock Display
+		--Clock Display
 			elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
@@ -3215,7 +3191,7 @@ function f_UICfg()
 						modified = 1
 					end
 				end
-			--Date Display
+		--Date Display
 			elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
@@ -3254,7 +3230,7 @@ function f_UICfg()
 						modified = 1
 					end
 				end
-			--Attract Mode
+		--Attract Mode
 			elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -3272,7 +3248,7 @@ function f_UICfg()
 						needReload = 1
 					end
 				end
-			--Character Presentation Display Type
+		--Character Presentation Display Type
 			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charPresentation == "Portrait" then
 					sndPlay(sndSys, 100, 0)
@@ -3295,7 +3271,7 @@ function f_UICfg()
 					data.sffConversion = true
 					modified = 1	
 				end
-			--Display Versus Win Counter
+		--Display Versus Win Counter
 			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -3311,7 +3287,7 @@ function f_UICfg()
 						modified = 1
 					end
 				end
-			--Win Screen Display Type
+		--Win Screen Display Type
 			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.winscreen == "Classic" then
 					sndPlay(sndSys, 100, 0)
@@ -3330,19 +3306,19 @@ function f_UICfg()
 					data.winscreen = "Classic"
 					modified = 1
 				end
-			--Character Select Settings
+		--Character Select Settings
 			elseif UICfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
-			--Stage Select Settings
+		--Stage Select Settings
 			elseif UICfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
-			--Timers Settings
+		--Timers Settings
 			elseif UICfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
-			--System Songs Settings
+		--System Songs Settings
 			elseif UICfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -3350,12 +3326,12 @@ function f_UICfg()
 					sndPlay(sndSys, 100, 1)
 					f_songCfg()
 				end
-			--Default Values
+		--Default Values
 			elseif UICfg == #t_UICfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif UICfg == #t_UICfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -3491,11 +3467,11 @@ function f_selectCfg()
 				selectCfg = selectCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Character Select Roster Config
+		--Character Select Roster Config
 			elseif selectCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_rosterCfg()
-			--Character Select Display Type
+		--Character Select Display Type
 			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -3506,20 +3482,20 @@ function f_selectCfg()
 					end
 					modified = 1
 				end
-			--Character Palette Select Display Type
+		--Character Palette Select Display Type
 			elseif selectCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.palType == "Classic" then data.palType = "Modern"
 				elseif data.palType == "Modern" then data.palType = "Classic"
 				end
 				modified = 1
-			--Character Info Display
+		--Character Info Display
 			elseif selectCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charInfo == "None" then
 					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Author"
 					modified = 1
-				--[[
+			--[[
 				elseif commandGetState(p1Cmd, 'r') and data.charInfo == "Author" then
 					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Series"
@@ -3532,12 +3508,12 @@ function f_selectCfg()
 					sndPlay(sndSys, 100, 0)
 					data.charInfo = "All"
 					modified = 1
-				]]
+			]]
 				elseif commandGetState(p1Cmd, 'l') and data.charInfo == "Author" then
 					sndPlay(sndSys, 100, 0)
 					data.charInfo = "None"
 					modified = 1
-				--[[
+			--[[
 				elseif commandGetState(p1Cmd, 'l') and data.charInfo == "Series" then
 					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Author"
@@ -3550,9 +3526,9 @@ function f_selectCfg()
 					sndPlay(sndSys, 100, 0)
 					data.charInfo = "Title"
 					modified = 1
-				]]
+			]]
 				end
-			--Character Random Portrait Display Type
+		--Character Random Portrait Display Type
 			elseif selectCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.randomPortrait == "Simple" then
 					sndPlay(sndSys, 100, 0)
@@ -3571,19 +3547,19 @@ function f_selectCfg()
 					data.randomPortrait = "Fixed"
 					modified = 1	
 				end
-			--Character Random Selection in Rematch
+		--Character Random Selection in Rematch
 			elseif selectCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.randomCharRematch == "Variable" then data.randomCharRematch = "Fixed"
 				elseif data.randomCharRematch == "Fixed" then data.randomCharRematch = "Variable"
 				end
 				modified = 1
-			--Default Values
+		--Default Values
 			elseif selectCfg == #t_selectCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSelect = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif selectCfg == #t_selectCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -3787,9 +3763,9 @@ function f_rosterCfg()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			end
-			--Settings for Simple Roster
+		--Settings for Simple Roster
 			if data.selectType == "Simple" then
-				--Character Select Rows Number
+			--Character Select Rows Number
 				if rosterCfg == 1 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectRows < 100 then
@@ -3819,7 +3795,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Columns Number
+			--Character Select Columns Number
 				elseif rosterCfg == 2 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectColumns < 100 then
@@ -3849,21 +3825,21 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Cells Wrapping (X Axis)
+			--Character Select Cells Wrapping (X Axis)
 				elseif rosterCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingX then data.wrappingX = false
 					else data.wrappingX = true
 					end
 					modified = 1
-				--Character Select Cells Wrapping (Y Axis)
+			--Character Select Cells Wrapping (Y Axis)
 				elseif rosterCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingY then data.wrappingY = false
 					else data.wrappingY = true
 					end
 					modified = 1
-				--Character Select Draw Cells Position (X Axis)
+			--Character Select Draw Cells Position (X Axis)
 				elseif rosterCfg == 5 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						if data.p1FaceX < 320 then
@@ -3881,7 +3857,7 @@ function f_rosterCfg()
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
-					--Activate Manual Keyboard Entry
+				--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
@@ -3899,7 +3875,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Draw Cells Position (Y Axis)
+			--Character Select Draw Cells Position (Y Axis)
 				elseif rosterCfg == 6 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						if data.p1FaceY < 240 then
@@ -3917,7 +3893,7 @@ function f_rosterCfg()
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
-					--Activate Manual Keyboard Entry
+				--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
@@ -3936,9 +3912,9 @@ function f_rosterCfg()
 						bufl = 0
 					end
 				end
-			--Settings for Advanced Roster
+		--Settings for Advanced Roster
 			elseif data.selectType == "Advanced" then
-				--Character Select Rows Number
+			--Character Select Rows Number
 				if rosterCfg == 1 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectRows < 100 then
@@ -3968,7 +3944,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Columns Number
+			--Character Select Columns Number
 				elseif rosterCfg == 2 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.selectColumns < 100 then
@@ -3998,7 +3974,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Hidden Rows Number
+			--Character Select Hidden Rows Number
 				elseif rosterCfg == 3 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.offsetRows < 1000 then
@@ -4028,7 +4004,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Hidden Columns Number
+			--Character Select Hidden Columns Number
 				elseif rosterCfg == 4 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						--if data.offsetColumns < 1000 then
@@ -4058,21 +4034,21 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Cells Wrapping (X Axis)
+			--Character Select Cells Wrapping (X Axis)
 				elseif rosterCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingX then data.wrappingX = false
 					else data.wrappingX = true
 					end
 					modified = 1
-				--Character Select Cells Wrapping (Y Axis)
+			--Character Select Cells Wrapping (Y Axis)
 				elseif rosterCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingY then data.wrappingY = false
 					else data.wrappingY = true
 					end
 					modified = 1
-				--Character Select Draw [PLAYER 1] Cells Position (X Axis)
+			--Character Select Draw [PLAYER 1] Cells Position (X Axis)
 				elseif rosterCfg == 7 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						if data.p1FaceX < 320 then
@@ -4090,7 +4066,7 @@ function f_rosterCfg()
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
-					--Activate Manual Keyboard Entry
+				--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
@@ -4108,7 +4084,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Draw [PLAYER 1] Cells Position (Y Axis)
+			--Character Select Draw [PLAYER 1] Cells Position (Y Axis)
 				elseif rosterCfg == 8 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						if data.p1FaceY < 240 then
@@ -4126,7 +4102,7 @@ function f_rosterCfg()
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
-					--Activate Manual Keyboard Entry
+				--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
@@ -4144,7 +4120,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Draw [PLAYER 2] Cells Position (X Axis)
+			--Character Select Draw [PLAYER 2] Cells Position (X Axis)
 				elseif rosterCfg == 9 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						if data.p2FaceX < 320 then
@@ -4162,7 +4138,7 @@ function f_rosterCfg()
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
-					--Activate Manual Keyboard Entry
+				--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
@@ -4180,7 +4156,7 @@ function f_rosterCfg()
 						bufr = 0
 						bufl = 0
 					end
-				--Character Select Draw [PLAYER 2] Cells Position (Y Axis)
+			--Character Select Draw [PLAYER 2] Cells Position (Y Axis)
 				elseif rosterCfg == 10 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 						if data.p2FaceY < 240 then
@@ -4198,7 +4174,7 @@ function f_rosterCfg()
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
-					--Activate Manual Keyboard Entry
+				--Activate Manual Keyboard Entry
 					elseif btnPalNo(p1Cmd) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
@@ -4219,7 +4195,7 @@ function f_rosterCfg()
 				end
 			end
 		--Common Rosters Settings
-			--Character Select Cells Size (X Axis)
+		--Character Select Cells Size (X Axis)
 			if rosterCfg == #t_rosterCfg-11 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSizeX < 500 then
@@ -4237,7 +4213,7 @@ function f_rosterCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-				--Activate Manual Keyboard Entry
+			--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
@@ -4255,7 +4231,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Cells Size (Y Axis)
+		--Character Select Cells Size (Y Axis)
 			elseif rosterCfg == #t_rosterCfg-10 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSizeY < 500 then
@@ -4273,7 +4249,7 @@ function f_rosterCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-				--Activate Manual Keyboard Entry
+			--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
@@ -4291,7 +4267,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Cells Spacing (X Axis)
+		--Character Select Cells Spacing (X Axis)
 			elseif rosterCfg == #t_rosterCfg-9 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSpacingX < 500 then
@@ -4309,7 +4285,7 @@ function f_rosterCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-				--Activate Manual Keyboard Entry
+			--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
@@ -4327,7 +4303,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Cells Spacing (Y Axis)
+		--Character Select Cells Spacing (Y Axis)
 			elseif rosterCfg == #t_rosterCfg-8 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSpacingY < 500 then
@@ -4345,7 +4321,7 @@ function f_rosterCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-				--Activate Manual Keyboard Entry
+			--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
@@ -4363,7 +4339,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Cells Scale (X Axis)
+		--Character Select Cells Scale (X Axis)
 			elseif rosterCfg == #t_rosterCfg-7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellScaleX < 10 then
@@ -4381,7 +4357,7 @@ function f_rosterCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-				--Activate Manual Keyboard Entry
+			--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
@@ -4399,7 +4375,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Cells Scale (Y Axis)
+		--Character Select Cells Scale (Y Axis)
 			elseif rosterCfg == #t_rosterCfg-6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellScaleY < 10 then
@@ -4417,7 +4393,7 @@ function f_rosterCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-				--Activate Manual Keyboard Entry
+			--Activate Manual Keyboard Entry
 				elseif btnPalNo(p1Cmd) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
@@ -4435,7 +4411,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select [PLAYER 1] Cursor Start (X Axis)
+		--Character Select [PLAYER 1] Cursor Start (X Axis)
 			elseif rosterCfg == #t_rosterCfg-5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p1SelX < data.selectColumns-1 then
@@ -4464,7 +4440,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select [PLAYER 1] Cursor Start (Y Axis)
+		--Character Select [PLAYER 1] Cursor Start (Y Axis)
 			elseif rosterCfg == #t_rosterCfg-4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p1SelY < data.selectRows-1 then
@@ -4493,7 +4469,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select [PLAYER 2] Cursor Start (X Axis)
+		--Character Select [PLAYER 2] Cursor Start (X Axis)
 			elseif rosterCfg == #t_rosterCfg-3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p2SelX < data.selectColumns-1 then
@@ -4522,7 +4498,7 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select [PLAYER 2] Cursor Start (Y Axis)
+		--Character Select [PLAYER 2] Cursor Start (Y Axis)
 			elseif rosterCfg == #t_rosterCfg-2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p2SelY < data.selectRows-1 then
@@ -4551,16 +4527,18 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Default Values
+		--Default Values
 			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultRoster = true
 				defaultScreen = true
-			--Reload Select.def
-			--elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				--sndPlay(sndSys, 100, 1)
-				--assert(loadfile("script/loader.lua"))()
-			--BACK
+		--Reload Select.def
+		--[[
+			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sndSys, 100, 1)
+				assert(loadfile("script/loader.lua"))()
+		]]
+		--BACK
 			elseif rosterCfg == #t_rosterCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -4592,7 +4570,7 @@ function f_rosterCfg()
 			else
 				maxrosterCfg = 2
 			end
-		--Manual Keyboard Entry
+	--Manual Keyboard Entry
 		elseif not editDone then
 			if esc() then
 				clearInputText()
@@ -4654,7 +4632,7 @@ function f_rosterCfg()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 	--REAL TIME Test
-		--Roster 1
+	--Roster 1
 		setSelColRow(data.selectColumns, data.selectRows)
 		setSelCellSize(data.cellSizeX+data.cellSpacingX, data.cellSizeY+data.cellSpacingY)
 		setSelCellScale(data.cellScaleX, data.cellScaleY)
@@ -4669,7 +4647,7 @@ function f_rosterCfg()
 				--end
 			end
 		end
-		--Roster 2
+	--Roster 2
 		if data.selectType == "Advanced" then
 			drawFace(data.p2FaceX, data.p2FaceY, 0)
 			for i=0, data.selectColumns-1 do
@@ -4695,7 +4673,7 @@ function f_rosterCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		--Draw Blinking Cursor for Manual Keyboard Entry Field
+	--Draw Blinking Cursor for Manual Keyboard Entry Field
 		if not editDone then
 			if i%60 < 30 then
 				textImgPosDraw(txt_bar,235+1.5,17.5+cursorPosY*15)
@@ -4815,7 +4793,7 @@ function f_stageCfg()
 				stageCfg = stageCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Stage Select Display Type
+		--Stage Select Display Type
 			elseif stageCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.stageType == "Classic" then
 					sndPlay(sndSys, 100, 0)
@@ -4834,7 +4812,7 @@ function f_stageCfg()
 					data.stageType = "Classic"
 					modified = 1
 				end
-			--Random Stage Portrait Display Type
+		--Random Stage Portrait Display Type
 			elseif stageCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.randomStagePortrait == "Simple" then
 					sndPlay(sndSys, 100, 0)
@@ -4853,7 +4831,7 @@ function f_stageCfg()
 					data.randomStagePortrait = "Fixed"
 					modified = 1	
 				end
-			--Stage Info Display
+		--Stage Info Display
 			elseif stageCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.stageInfo == "None" then
 					sndPlay(sndSys, 100, 0)
@@ -4888,19 +4866,19 @@ function f_stageCfg()
 					data.stageInfo = "Time"
 					modified = 1
 				end
-			--Random Stage Selection in Rematch
+		--Random Stage Selection in Rematch
 			elseif stageCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.randomStageRematch == "Variable" then data.randomStageRematch = "Fixed"
 				elseif data.randomStageRematch == "Fixed" then data.randomStageRematch = "Variable"
 				end
 				modified = 1
-			--Default Values
+		--Default Values
 			elseif stageCfg == #t_stageCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultStage = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif stageCfg == #t_stageCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -5029,7 +5007,7 @@ function f_timeCfg()
 				timeCfg = timeCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Character Select Time
+		--Character Select Time
 			elseif timeCfg == 1 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.selectTime < 61 then sndPlay(sndSys, 100, 0) end
@@ -5058,7 +5036,7 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Stage Select Time
+		--Stage Select Time
 			elseif timeCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.stageTime < 61 then sndPlay(sndSys, 100, 0) end
@@ -5087,7 +5065,7 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Order Select Time
+		--Order Select Time
 			elseif timeCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.orderTime < 61 then sndPlay(sndSys, 100, 0) end
@@ -5116,7 +5094,7 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Rematch Option Time
+		--Rematch Option Time
 			elseif timeCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.rematchTime < 61 then sndPlay(sndSys, 100, 0) end
@@ -5145,7 +5123,7 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Service Select Time
+		--Service Select Time
 			elseif timeCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.serviceTime < 61 then sndPlay(sndSys, 100, 0) end
@@ -5174,7 +5152,7 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Attract Title Screen Time
+		--Attract Title Screen Time
 			elseif timeCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.attractTime < 61 then sndPlay(sndSys, 100, 0) end
@@ -5203,7 +5181,7 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Tower/Choose Your Destiny Time
+		--Tower/Choose Your Destiny Time
 			elseif timeCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.destinyTime < 61 then sndPlay(sndSys, 100, 0) end
@@ -5232,12 +5210,12 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Default Values
+		--Default Values
 			elseif timeCfg == #t_timeCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultTime = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif timeCfg == #t_timeCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -5394,33 +5372,33 @@ function f_songCfg()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			end
-			--Set Main Menu Song
+		--Set Main Menu Song
 			if songCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				songsSettings = true --For identify purposes
 				f_songMenu() --Go to Sound Test
-			--Set Character Select Song
+		--Set Character Select Song
 			elseif songCfg == 2 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				songsSettings = true
 				f_songMenu()
-			--Set Challenger Select Song
+		--Set Challenger Select Song
 			elseif songCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				songsSettings = true
 				f_songMenu()
-			--Default Values
+		--Default Values
 			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSong = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif songCfg == #t_songCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			end
-			--Setting Menu Logic
+		--Setting Menu Logic
 			if songCfg < 1 then
 				songCfg = #t_songCfg
 				if #t_songCfg > maxItems then
@@ -5546,7 +5524,7 @@ function f_audioCfg()
 				audioCfg = audioCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end			
-			--Master Volume
+		--Master Volume
 			elseif audioCfg == 1 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if gl_vol < 100 then
@@ -5575,7 +5553,7 @@ function f_audioCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--SFX Volume
+		--SFX Volume
 			elseif audioCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if se_vol < 100 then
@@ -5604,7 +5582,7 @@ function f_audioCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--BGM Volume
+		--BGM Volume
 			elseif audioCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if bgm_vol < 100 then
@@ -5633,7 +5611,7 @@ function f_audioCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Audio Panning
+		--Audio Panning
 			elseif audioCfg == 4 then
 				if commandGetState(p1Cmd, 'r') and pan_str < 160 then
 					sndPlay(sndSys, 100, 0)
@@ -5645,7 +5623,7 @@ function f_audioCfg()
 					modified = 1
 				end
 				setPanStr(pan_str / 100)
-			--Sample Rate
+		--Sample Rate
 			elseif audioCfg == 5 then
 				if commandGetState(p1Cmd, 'r') and freq < 96000 then
 					sndPlay(sndSys, 100, 0)
@@ -5682,7 +5660,7 @@ function f_audioCfg()
 					modified = 1
 					needReload = 1
 				end
-			--Channels
+		--Channels
 			elseif audioCfg == 6 then
 				if commandGetState(p1Cmd, 'r') and  channels < 6 then
 					sndPlay(sndSys, 100, 0)
@@ -5713,7 +5691,7 @@ function f_audioCfg()
 					modified = 1
 					needReload = 1
 				end
-			--Buffer Samples
+		--Buffer Samples
 			elseif audioCfg == 7 then
 				if commandGetState(p1Cmd, 'r') and buffer < 8192 then
 					sndPlay(sndSys, 100, 0)
@@ -5726,12 +5704,12 @@ function f_audioCfg()
 					modified = 1
 					needReload = 1
 				end
-			--Default Values
+		--Default Values
 			elseif audioCfg == #t_audioCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif audioCfg == #t_audioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -5871,7 +5849,7 @@ function f_engineCfg()
 				engineCfg = engineCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end					
-			--Debug Mode
+		--Debug Mode
 			elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -5887,7 +5865,7 @@ function f_engineCfg()
 						modified = 1
 					end
 				end
-			--Print Debug Logs
+		--Print Debug Logs
 			elseif engineCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -5903,17 +5881,17 @@ function f_engineCfg()
 						modified = 1
 					end
 				end
-			--Generate Characters List
+		--Generate Characters List
 			elseif engineCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				generateCharsList("chars")
 				sszOpen("save", "00_CharactersList.txt")
-			--Generate Stages List
+		--Generate Stages List
 			elseif engineCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				generateStageList("stages")
 				sszOpen("save", "00_ExtraStagesList.txt")
-			--Engine Mode
+		--Engine Mode
 			elseif engineCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -5929,7 +5907,7 @@ function f_engineCfg()
 						needReload = 1
 					end
 				end
-			--HelperMax
+		--HelperMax
 			elseif engineCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if HelperMaxEngine < 1000 then --You can increase this limit
@@ -5958,7 +5936,7 @@ function f_engineCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--PlayerProjectileMax
+		--PlayerProjectileMax
 			elseif engineCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
@@ -5987,7 +5965,7 @@ function f_engineCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--ExplodMax
+		--ExplodMax
 			elseif engineCfg == 8 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if ExplodMaxEngine < 1000 then --You can increase this limit
@@ -6016,7 +5994,7 @@ function f_engineCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--AfterImageMax
+		--AfterImageMax
 			elseif engineCfg == 9 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if AfterImageMaxEngine < 1000 then --You can increase this limit
@@ -6045,7 +6023,7 @@ function f_engineCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Erase/Reset Statistics
+		--Erase/Reset Statistics
 			elseif engineCfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
 				if onlinegame then
 					lockSetting = true
@@ -6053,12 +6031,12 @@ function f_engineCfg()
 					sndPlay(sndSys, 100, 1)
 					f_unlocksWarning()
 				end
-			--Default Values
+		--Default Values
 			elseif engineCfg == #t_engineCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif engineCfg == #t_engineCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -6246,13 +6224,13 @@ function f_videoCfg()
 				videoCfg = videoCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Resolution
+		--Resolution
 			elseif videoCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				if f_resCfg() then
 					modified = 1
 				end
-			--Fullscreen
+		--Fullscreen
 			elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if not b_screenMode then
@@ -6264,7 +6242,7 @@ function f_videoCfg()
 				end
 				modified = 1
 				setScreenMode(b_screenMode) --added via system-script.ssz
-			--Window Type
+		--Window Type
 			elseif videoCfg == 3 then
 				if data.sdl == "Original" then
 					lockSetting = true
@@ -6296,7 +6274,7 @@ function f_videoCfg()
 						setBorderMode(b_borderMode)
 					end
 				end
-			--Fullscreen Type
+		--Fullscreen Type
 			elseif videoCfg == 4 then
 				if data.sdl == "Original" then
 					lockSetting = true
@@ -6317,7 +6295,7 @@ function f_videoCfg()
 						setFullScreenMode(b_fullscreenMode)
 					end
 				end
-			--Keep Aspect Ratio
+		--Keep Aspect Ratio
 			elseif videoCfg == 5 then
 				if data.sdl == "Original" then
 					lockSetting = true
@@ -6334,7 +6312,7 @@ function f_videoCfg()
 					needReload = 1
 					setAspectRatio(b_aspectMode)
 				end
-			--Sdlplugin
+		--Sdlplugin
 			elseif videoCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame then
 					lockSetting = true
@@ -6349,7 +6327,7 @@ function f_videoCfg()
 					modified = 1
 					needReload = 1
 				end
-			--Brightness Adjust
+		--Brightness Adjust
 			elseif videoCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if brightnessAdjust < 256 then
@@ -6378,7 +6356,7 @@ function f_videoCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--[[OpenGL 2.0
+		--[[OpenGL 2.0
 			elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if not b_openGL then
@@ -6394,7 +6372,7 @@ function f_videoCfg()
 					needReload = 0
 				end
 			]]
-			--[[Save Memory
+		--[[Save Memory
 			elseif videoCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if not b_saveMemory then
@@ -6411,12 +6389,12 @@ function f_videoCfg()
 					needReload = 1
 				end
 			]]
-			--Default Values
+		--Default Values
 			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
-			--BACK
+		--BACK
 			elseif videoCfg == #t_videoCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
@@ -6552,23 +6530,23 @@ function f_resCfg()
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--4:3 Resolutions
+		--4:3 Resolutions
 			if resCfg == 1 then
 				sndPlay(sndSys, 100, 1)
 				f_resCfg4_3()
-			--16:9 Resolutions
+		--16:9 Resolutions
 			elseif resCfg == 2 then
 				sndPlay(sndSys, 100, 1)
 				f_resCfg16_9()
-			--16:10 Resolutions
+		--16:10 Resolutions
 			elseif resCfg == 3 then
 				sndPlay(sndSys, 100, 1)
 				f_resCfg16_10()
-			--Extra Resolutions
+		--Extra Resolutions
 			elseif resCfg == 4 then
 				sndPlay(sndSys, 100, 1)
 				f_EXresCfg()
-			--BACK
+		--BACK
 			else
 				sndPlay(sndSys, 100, 2)
 				break
@@ -6721,13 +6699,13 @@ function f_resCfg4_3()
 		else
 			maxResCfg4_3 = maxItems
 		end
-		--Options
+	--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--BACK
+		--BACK
 			if resCfg4_3 == #t_resCfg4_3 then
 				sndPlay(sndSys, 100, 2)
 				return false
-			--CHOOSE RESOLUTION
+		--CHOOSE RESOLUTION
 			else
 				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_resCfg4_3[resCfg4_3].x
@@ -6854,13 +6832,10 @@ function f_resCfg16_9()
 		else
 			maxResCfg16_9 = maxItems
 		end
-		--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--BACK
 			if resCfg16_9 == #t_resCfg16_9 then
 				sndPlay(sndSys, 100, 2)
 				return false
-			--CHOOSE RESOLUTION
 			else
 				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_resCfg16_9[resCfg16_9].x
@@ -6987,13 +6962,10 @@ function f_resCfg16_10()
 		else
 			maxResCfg16_10 = maxItems
 		end
-		--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--BACK
 			if resCfg16_10 == #t_resCfg16_10 then
 				sndPlay(sndSys, 100, 2)
 				return false
-			--CHOOSE RESOLUTION
 			else
 				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_resCfg16_10[resCfg16_10].x
@@ -7131,13 +7103,10 @@ function f_EXresCfg()
 		else
 			maxEXresCfg = maxItems
 		end
-		--Options
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--BACK
 			if EXresCfg == #t_EXresCfg then
 				sndPlay(sndSys, 100, 2)
 				return false
-			--CHOOSE RESOLUTION
 			else
 				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_EXresCfg[EXresCfg].x
@@ -7238,15 +7207,15 @@ function f_inputCfg()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				--Keyboard Config
+			--Keyboard Config
 				if inputCfg == 1 then
 					sndPlay(sndSys, 100, 1)
 					f_keyMenu()
-				--Gamepad Config
+			--Gamepad Config
 				elseif inputCfg == 2 then
 					sndPlay(sndSys, 100, 1)
 					padTesterActive = true
-				--[[Player 1 Gamepad Status
+			--[[Player 1 Gamepad Status
 				elseif inputCfg == 3 then
 					sndPlay(sndSys, 100, 1)
 					if not data.disablePadP1 then
@@ -7259,8 +7228,8 @@ function f_inputCfg()
 					modified = 1
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
-				]]
-				--[[Player 2 Gamepad Status
+			]]
+			--[[Player 2 Gamepad Status
 				elseif inputCfg == 4 then
 					sndPlay(sndSys, 100, 1)
 					if not data.disablePadP2 then
@@ -7273,8 +7242,8 @@ function f_inputCfg()
 					modified = 1
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
-				]]
-				--Swap Controller
+			]]
+			--Swap Controller
 				elseif inputCfg == 3 then
 					sndPlay(sndSys, 100, 1)
 					f_swapGamepad(data.p2Gamepad, data.p1Gamepad)
@@ -7288,7 +7257,7 @@ function f_inputCfg()
 					modified = 1
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
-				--Input Test
+			--Input Test
 				elseif inputCfg == 4 then
 					if data.engineMode == "FG" then
 						sndPlay(sndSys, 100, 1)
@@ -7296,12 +7265,12 @@ function f_inputCfg()
 					else
 						sndPlay(sndSys, 100, 5)
 					end
-				--Default Values
+			--Default Values
 				elseif inputCfg == #t_inputCfg-1 then
 					sndPlay(sndSys, 100, 1)
 					defaultInput = true
 					defaultScreen = true
-				--BACK
+			--BACK
 				else
 					sndPlay(sndSys, 100, 2)
 					break
@@ -7465,7 +7434,7 @@ function f_testMenu()
 	local alphaDB = 0
 	local scaleX = 0.35
 	local scaleY = 0.35
-	--Button Pos X
+--Button Pos X
 	local posXup = 65
 	local posXdo = 65
 	local posXle = 45
@@ -7479,7 +7448,7 @@ function f_testMenu()
 	local posXl = 190
 	local posXr = 185
 	local posXs = 215
-	--Button Pos Y
+--Button Pos Y
 	local posYup = 45
 	local posYdo = 85
 	local posYle = 65
@@ -7493,7 +7462,7 @@ function f_testMenu()
 	local posYl = 53
 	local posYr = 80
 	local posYs = 68
-	--Player 2 Assets Pos X and Y Distance
+--Player 2 Assets Pos X and Y Distance
 	local posXP2 = 0
 	local posYP2 = 122
 	cmdInput()
@@ -7617,7 +7586,7 @@ function f_keyMenu()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 			end
-			--[KEYBOARD] BATTLE CONTROLS
+		--[KEYBOARD] BATTLE CONTROLS
 			if keyMenu == 1 then
 				if data.engineMode == "FG" then
 					f_inputBattleRead(0, -1) --Player 1 Controls
@@ -7626,12 +7595,12 @@ function f_keyMenu()
 				else
 					sndPlay(sndSys, 100, 5)
 				end
-			--[KEYBOARD] MENU CONTROLS
+		--[KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 2 then
 				f_inputMenuRead(0, -1)
 				f_inputMenuRead(1, -1)
 				f_keyMenuCfg(0, -1)
-			--BACK
+		--BACK
 			else
 				sndPlay(sndSys, 100, 2)
 				break
@@ -7785,7 +7754,7 @@ function f_joyMenu()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 			end
-			--[GAMEPAD] BATTLE CONTROLS
+		--[GAMEPAD] BATTLE CONTROLS
 			if joyMenu == 1 then
 				if data.engineMode == "FG" then
 					f_inputBattleRead(2, data.p1Gamepad)
@@ -7795,13 +7764,13 @@ function f_joyMenu()
 				else
 					sndPlay(sndSys, 100, 5)
 				end
-			--[GAMEPAD] MENU CONTROLS
+		--[GAMEPAD] MENU CONTROLS
 			elseif joyMenu == 2 then
 				f_inputMenuRead(2, data.p1Gamepad)
 				f_inputMenuRead(3, data.p2Gamepad)
 				f_keyMenuCfg(2, data.p1Gamepad)
 				--f_keyMenuCfg(3, data.p2Gamepad)
-			--BACK
+		--BACK
 			else
 				sndPlay(sndSys, 100, 2)
 				break
@@ -7980,7 +7949,7 @@ function f_keyBattleCfg(playerNo, controller)
 	p1waitingKey = false
 	p2waitingKey = false
 	while true do
-		--Common Actions
+	--Common Actions
 		if esc() or configEnd then
 			sndPlay(sndSys, 100, 2)
 			f_keyBattleSave(playerNo, controller) --Save Player 1 Controls
@@ -7999,13 +7968,13 @@ function f_keyBattleCfg(playerNo, controller)
 			end
 			defaultP2 = false
 		end
-		--[[Backup Reset
-			if controllerSet == 1 and playerNo == 0 then f_p1keyboardBattleDefault()
-			elseif controllerSet == 1 and playerNo == 1 then f_p2keyboardBattleDefault()
-			elseif controllerSet == 2 and playerNo == 2 then f_p1gamepadBattleDefault()
-			elseif controllerSet == 2 and playerNo == 3 then f_p2gamepadBattleDefault()
-		]]
-		--Player 1 Actions
+	--[[Backup Reset
+		if controllerSet == 1 and playerNo == 0 then f_p1keyboardBattleDefault()
+		elseif controllerSet == 1 and playerNo == 1 then f_p2keyboardBattleDefault()
+		elseif controllerSet == 2 and playerNo == 2 then f_p1gamepadBattleDefault()
+		elseif controllerSet == 2 and playerNo == 3 then f_p2gamepadBattleDefault()
+	]]
+	--Player 1 Actions
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
 			keyCfg = keyCfg - 1
@@ -8020,7 +7989,7 @@ function f_keyBattleCfg(playerNo, controller)
 		if btnPalNo(p1Cmd) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			--Modify Battle Controls
+		--Modify Battle Controls
 			if keyCfg < #t_keyBattleCfg-1 then
 				sndPlay(sndSys, 100, 1)
 				p1waitingKey = true
@@ -8031,16 +8000,16 @@ function f_keyBattleCfg(playerNo, controller)
 				end
 				t_keyBattleCfg[keyCfg].varText = f_readBattleInput(t_keyBattleCfg[keyCfg].varText) --Get New Controls
 				setInputConfig(playerNo, controller, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
-			--Default Config
+		--Default Config
 			elseif keyCfg == 15 then
 				defaultP1 = true
-			--End Config
+		--End Config
 			else
 				configEnd = true
 			end
 			modified = 1
 		end
-		--Player 1 Scroll Logic
+	--Player 1 Scroll Logic
 		if keyCfg < 1 then
 			keyCfg = #t_keyBattleCfg
 			if #t_keyBattleCfg > cursorLimit then
@@ -8068,7 +8037,7 @@ function f_keyBattleCfg(playerNo, controller)
 		else
 			maxKeyCfg = cursorLimit
 		end
-		--Player 2 Actions
+	--Player 2 Actions
 		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
 			sndPlay(sndSys, 100, 0)
 			keyCfg2 = keyCfg2 - 1
@@ -8083,7 +8052,7 @@ function f_keyBattleCfg(playerNo, controller)
 		if btnPalNo(p2Cmd) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			--Modify Battle Controls
+		--Modify Battle Controls
 			if keyCfg2 < #t_keyBattleCfg2-1 then
 				sndPlay(sndSys, 100, 1)
 				p2waitingKey = true
@@ -8094,16 +8063,16 @@ function f_keyBattleCfg(playerNo, controller)
 				end
 				t_keyBattleCfg2[keyCfg2].varText = f_readBattleInput(t_keyBattleCfg2[keyCfg2].varText)
 				setInputConfig(playerNo+1, controller, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText)
-			--Default Config
+		--Default Config
 			elseif keyCfg2 == 15 then
 				defaultP2 = true
-			--End Config
+		--End Config
 			else
 				configEnd = true
 			end
 			modified = 1
 		end
-		--Player 2 Scroll Logic
+	--Player 2 Scroll Logic
 		if keyCfg2 < 1 then
 			keyCfg2 = #t_keyBattleCfg2
 			if #t_keyBattleCfg2 > cursorLimit then
@@ -8131,7 +8100,7 @@ function f_keyBattleCfg(playerNo, controller)
 		else
 			maxKeyCfg2 = cursorLimit
 		end
-		--Draw Common Assets
+	--Draw Common Assets
 		f_drawBattleKeyAssets()
 		textImgSetBank(txt_inputHint, 5)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
@@ -8252,7 +8221,7 @@ function f_keyMenuCfg(playerNo, controller)
 	p1waitingKey = false
 	p2waitingKey = false
 	while true do
-		--Common Actions
+	--Common Actions
 		if esc() or configEnd then
 			sndPlay(sndSys, 100, 2)
 			f_keyMenuSave(playerNo, controller == -1 and controller or data.p1Gamepad) --Save Player 1 Controls
@@ -8271,7 +8240,7 @@ function f_keyMenuCfg(playerNo, controller)
 			end
 			defaultP2 = false
 		end
-		--Player 1 Actions
+	--Player 1 Actions
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
 			keyCfg = keyCfg - 1
@@ -8286,7 +8255,7 @@ function f_keyMenuCfg(playerNo, controller)
 		if btnPalNo(p1Cmd) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			--Modify Menu Controls
+		--Modify Menu Controls
 			if keyCfg < #t_keyMenuCfg-1 then
 				sndPlay(sndSys, 100, 1)
 				p1waitingKey = true
@@ -8297,16 +8266,16 @@ function f_keyMenuCfg(playerNo, controller)
 				end
 				t_keyMenuCfg[keyCfg].varText = f_readMenuInput(t_keyMenuCfg[keyCfg].varText)
 				setInputConfig(playerNo+10, controller, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText)
-			--Default Config
+		--Default Config
 			elseif keyCfg == 15 then
 				defaultP1 = true
-			--End Config
+		--End Config
 			else
 				configEnd = true
 			end
 			modified = 1
 		end
-		--Player 1 Scroll Logic
+	--Player 1 Scroll Logic
 		if keyCfg < 1 then
 			keyCfg = #t_keyMenuCfg
 			if #t_keyMenuCfg > cursorLimit then
@@ -8334,7 +8303,7 @@ function f_keyMenuCfg(playerNo, controller)
 		else
 			maxKeyCfg = cursorLimit
 		end
-		--Player 2 Actions
+	--Player 2 Actions
 		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
 			sndPlay(sndSys, 100, 0)
 			keyCfg2 = keyCfg2 - 1
@@ -8349,7 +8318,7 @@ function f_keyMenuCfg(playerNo, controller)
 		if btnPalNo(p2Cmd) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			--Modify Menu Controls
+		--Modify Menu Controls
 			if keyCfg2 < #t_keyMenuCfg2-1 then
 				sndPlay(sndSys, 100, 1)
 				p2waitingKey = true
@@ -8360,16 +8329,16 @@ function f_keyMenuCfg(playerNo, controller)
 				end
 				t_keyMenuCfg2[keyCfg2].varText = f_readMenuInput(t_keyMenuCfg2[keyCfg2].varText)
 				setInputConfig(playerNo+11, controller, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText)
-			--Default Config
+		--Default Config
 			elseif keyCfg2 == 15 then
 				defaultP2 = true
-			--End Config
+		--End Config
 			else
 				configEnd = true
 			end
 			modified = 1
 		end
-		--Player 2 Scroll Logic
+	--Player 2 Scroll Logic
 		if keyCfg2 < 1 then
 			keyCfg2 = #t_keyMenuCfg2
 			if #t_keyMenuCfg2 > cursorLimit then
@@ -8397,7 +8366,7 @@ function f_keyMenuCfg(playerNo, controller)
 		else
 			maxKeyCfg2 = cursorLimit
 		end
-		--Draw Common Assets
+	--Draw Common Assets
 		f_drawMenuKeyAssets()
 		textImgSetBank(txt_inputHint, 5)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
@@ -8430,12 +8399,12 @@ end
 function f_inputBattleRead(playerNo, controller)
 	local tmp = nil
 	tmp = s_configSSZ:match('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
-	--Keyboard Read
+--Keyboard Read
 	if tmp ~= nil and tmp ~= '' then
 		tmp = tmp:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-	--Gamepad Read
+--Gamepad Read
 	else
 		tmp = s_configSSZ:match('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
 		tmp = tmp:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
@@ -8464,12 +8433,12 @@ end
 function f_inputMenuRead(playerNo, controller)
 	local tmp = nil
 	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
-	--Keyboard Read
+--Keyboard Read
 	if tmp ~= nil and tmp ~= '' then
 		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-	--Gamepad Read
+--Gamepad Read
 	else
 		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
 		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
@@ -8527,7 +8496,7 @@ function f_readBattleInput(oldkey)
 		f_drawBattleKeyAssets()
 		readTime = readTime + 1
 		if getKeyboard == '' then
-			--Time to show Hints
+		--Time to show Hints
 			if t < 120 then
 				if not sameKey then
 					textImgSetBank(txt_inputHint, 2)
@@ -8543,7 +8512,7 @@ function f_readBattleInput(oldkey)
 					t = 0
 				end
 			end
-			--Time to show Same Key Message
+		--Time to show Same Key Message
 			if sameKey then
 				if sameKeyTime < 100 then
 					textImgSetBank(txt_inputHint, 1)
@@ -8566,7 +8535,7 @@ function f_readBattleInput(oldkey)
 	--Waiting Key Press
 		if readTime > 10 then
 			if esc() then getKeyboard = oldkey --No Replace
-			--MAIN
+		--MAIN
 			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
 			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
 			elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'			
@@ -8621,7 +8590,7 @@ function f_readBattleInput(oldkey)
 			--elseif nonushashKey() and controllerSet == 1 then getKeyboard = 'NONUSHASH'
 			--elseif apostropheKey() and controllerSet == 1 then getKeyboard = 'APOSTROPHE'
 			--elseif graveKey() and controllerSet == 1 then getKeyboard = 'GRAVE'
-			--CONTROL
+		--CONTROL
 			elseif insertKey() and controllerSet == 1 then getKeyboard = 'INSERT'
 			elseif homeKey() and controllerSet == 1 then getKeyboard = 'HOME'
 			elseif pageupKey() and controllerSet == 1 then getKeyboard = 'PAGEUP'
@@ -8632,7 +8601,7 @@ function f_readBattleInput(oldkey)
 			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
 			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
 			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
-			--NUMPAD
+		--NUMPAD
 			elseif kdivideKey() and controllerSet == 1 then getKeyboard = 'KP_DIVIDE'
 			elseif kmultiplyKey() and controllerSet == 1 then getKeyboard = 'KP_MULTIPLY'
 			elseif kminusKey() and controllerSet == 1 then getKeyboard = 'KP_MINUS'
@@ -8649,14 +8618,14 @@ function f_readBattleInput(oldkey)
 			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
 			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
 			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
-			--GAMEPAD
+		--GAMEPAD
 			elseif getInputID(gamepadData) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(gamepadData)
 			end
-			--When you press a key to assing
+		--When you press a key to assing
 			if getKeyboard ~= '' then
 			--Prevent assing same keys between player 1 and player 2 battle controls (with this logic both players can have same keys in his own controls)
 				if p1waitingKey then
-					--JUMP [PLAYER 1] (t_keyBattleCfg[1].varText)
+				--JUMP [PLAYER 1] (t_keyBattleCfg[1].varText)
 					if keyCfg == 1 and getKeyboard ~= t_keyBattleCfg2[1].varText and getKeyboard ~= t_keyBattleCfg2[2].varText and
 					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8667,7 +8636,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--CROUCH [PLAYER 1] (t_keyBattleCfg[2].varText)
+				--CROUCH [PLAYER 1] (t_keyBattleCfg[2].varText)
 					elseif keyCfg == 2 and getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8678,7 +8647,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--BACK [PLAYER 1] (t_keyBattleCfg[3].varText)
+				--BACK [PLAYER 1] (t_keyBattleCfg[3].varText)
 					elseif keyCfg == 3 and getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8689,7 +8658,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--FORWARD [PLAYER 1] (t_keyBattleCfg[4].varText)
+				--FORWARD [PLAYER 1] (t_keyBattleCfg[4].varText)
 					elseif keyCfg == 4 and getKeyboard ~= t_keyBattleCfg2[4].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8700,7 +8669,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--A [PLAYER 1] (t_keyBattleCfg[5].varText)
+				--A [PLAYER 1] (t_keyBattleCfg[5].varText)
 					elseif keyCfg == 5 and getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8711,7 +8680,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--B [PLAYER 1] (t_keyBattleCfg[6].varText)
+				--B [PLAYER 1] (t_keyBattleCfg[6].varText)
 					elseif keyCfg == 6 and getKeyboard ~= t_keyBattleCfg2[6].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and
@@ -8722,7 +8691,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--C [PLAYER 1] (t_keyBattleCfg[7].varText)
+				--C [PLAYER 1] (t_keyBattleCfg[7].varText)
 					elseif keyCfg == 7 and getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8733,7 +8702,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--X [PLAYER 1] (t_keyBattleCfg[8].varText)
+				--X [PLAYER 1] (t_keyBattleCfg[8].varText)
 					elseif keyCfg == 8 and getKeyboard ~= t_keyBattleCfg2[8].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8744,7 +8713,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Y [PLAYER 1] (t_keyBattleCfg[9].varText)
+				--Y [PLAYER 1] (t_keyBattleCfg[9].varText)
 					elseif keyCfg == 9 and getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8755,7 +8724,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Z [PLAYER 1] (t_keyBattleCfg[10].varText)
+				--Z [PLAYER 1] (t_keyBattleCfg[10].varText)
 					elseif keyCfg == 10 and getKeyboard ~= t_keyBattleCfg2[10].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8766,7 +8735,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--L [PLAYER 1] (t_keyBattleCfg[11].varText)
+				--L [PLAYER 1] (t_keyBattleCfg[11].varText)
 					elseif keyCfg == 11 and getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8777,7 +8746,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--R [PLAYER 1] (t_keyBattleCfg[12].varText)
+				--R [PLAYER 1] (t_keyBattleCfg[12].varText)
 					elseif keyCfg == 12 and getKeyboard ~= t_keyBattleCfg2[12].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8788,7 +8757,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--SELECT [PLAYER 1] (t_keyBattleCfg[13].varText)
+				--SELECT [PLAYER 1] (t_keyBattleCfg[13].varText)
 					elseif keyCfg == 13 and getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8799,7 +8768,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--START [PLAYER 1] (t_keyBattleCfg[14].varText)
+				--START [PLAYER 1] (t_keyBattleCfg[14].varText)
 					elseif keyCfg == 14 and getKeyboard ~= t_keyBattleCfg2[14].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and
 					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8810,7 +8779,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--show a message that it key has been already added in player 2 controls
+				--show a message that it key has been already added in player 2 controls
 					else
 						if controllerSet == 2 then --Allow same key as player 2 FOR GAMEPAD control because it will not affect the control
 							f_validKey()
@@ -8821,7 +8790,7 @@ function f_readBattleInput(oldkey)
 						end
 					end
 				elseif p2waitingKey then
-					--JUMP [PLAYER 2] (t_keyBattleCfg2[1].varText)
+				--JUMP [PLAYER 2] (t_keyBattleCfg2[1].varText)
 					if keyCfg2 == 1 and getKeyboard ~= t_keyBattleCfg[1].varText and getKeyboard ~= t_keyBattleCfg[2].varText and
 					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8832,7 +8801,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--CROUCH [PLAYER 2] (t_keyBattleCfg2[2].varText)
+				--CROUCH [PLAYER 2] (t_keyBattleCfg2[2].varText)
 					elseif keyCfg2 == 2 and getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8843,7 +8812,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--BACK [PLAYER 2] (t_keyBattleCfg2[3].varText)
+				--BACK [PLAYER 2] (t_keyBattleCfg2[3].varText)
 					elseif keyCfg2 == 3 and getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8854,7 +8823,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--FORWARD [PLAYER 2] (t_keyBattleCfg2[4].varText)
+				--FORWARD [PLAYER 2] (t_keyBattleCfg2[4].varText)
 					elseif keyCfg2 == 4 and getKeyboard ~= t_keyBattleCfg[4].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[3].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8865,7 +8834,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--A [PLAYER 2] (t_keyBattleCfg2[5].varText)
+				--A [PLAYER 2] (t_keyBattleCfg2[5].varText)
 					elseif keyCfg2 == 5 and getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8876,7 +8845,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--B [PLAYER 2] (t_keyBattleCfg2[6].varText)
+				--B [PLAYER 2] (t_keyBattleCfg2[6].varText)
 					elseif keyCfg2 == 6 and getKeyboard ~= t_keyBattleCfg[6].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[3].varText and
@@ -8887,7 +8856,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--C [PLAYER 2] (t_keyBattleCfg2[7].varText)
+				--C [PLAYER 2] (t_keyBattleCfg2[7].varText)
 					elseif keyCfg2 == 7 and getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8898,7 +8867,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--X [PLAYER 2] (t_keyBattleCfg2[8].varText)
+				--X [PLAYER 2] (t_keyBattleCfg2[8].varText)
 					elseif keyCfg2 == 8 and getKeyboard ~= t_keyBattleCfg[8].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8909,7 +8878,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Y [PLAYER 2] (t_keyBattleCfg2[9].varText)
+				--Y [PLAYER 2] (t_keyBattleCfg2[9].varText)
 					elseif keyCfg2 == 9 and getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8920,7 +8889,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Z [PLAYER 2] (t_keyBattleCfg2[10].varText)
+				--Z [PLAYER 2] (t_keyBattleCfg2[10].varText)
 					elseif keyCfg2 == 10 and getKeyboard ~= t_keyBattleCfg[10].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8931,7 +8900,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--L [PLAYER 2] (t_keyBattleCfg2[11].varText)
+				--L [PLAYER 2] (t_keyBattleCfg2[11].varText)
 					elseif keyCfg2 == 11 and getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8942,7 +8911,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--R [PLAYER 2] (t_keyBattleCfg2[12].varText)
+				--R [PLAYER 2] (t_keyBattleCfg2[12].varText)
 					elseif keyCfg2 == 12 and getKeyboard ~= t_keyBattleCfg[12].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8953,7 +8922,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--SELECT [PLAYER 2] (t_keyBattleCfg2[13].varText)
+				--SELECT [PLAYER 2] (t_keyBattleCfg2[13].varText)
 					elseif keyCfg2 == 13 and getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8964,7 +8933,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--START [PLAYER 2] (t_keyBattleCfg2[14].varText)
+				--START [PLAYER 2] (t_keyBattleCfg2[14].varText)
 					elseif keyCfg2 == 14 and getKeyboard ~= t_keyBattleCfg[14].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
 					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and
 					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and
@@ -8975,7 +8944,7 @@ function f_readBattleInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--show a message that it key has been already added in player 1 controls
+				--show a message that it key has been already added in player 1 controls
 					else
 						if controllerSet == 2 then --Allow same key as player 1 FOR GAMEPAD control because it will not affect the control
 							f_validKey()
@@ -9011,7 +8980,7 @@ function f_readMenuInput(oldkey)
 		f_drawMenuKeyAssets()
 		readTime = readTime + 1
 		if getKeyboard == '' then
-			--Time to show Hints
+		--Time to show Hints
 			if t < 120 then
 				if not sameKey then
 					textImgSetBank(txt_inputHint, 2)
@@ -9027,7 +8996,7 @@ function f_readMenuInput(oldkey)
 					t = 0
 				end
 			end
-			--Time to show Same Key Message
+		--Time to show Same Key Message
 			if sameKey then
 				if sameKeyTime < 100 then
 					textImgSetBank(txt_inputHint, 1)
@@ -9050,7 +9019,7 @@ function f_readMenuInput(oldkey)
 	--Waiting Key Press
 		if readTime > 10 then
 			if esc() then getKeyboard = oldkey --No Replace
-			--MAIN
+		--MAIN
 			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
 			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
 			elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'			
@@ -9105,7 +9074,7 @@ function f_readMenuInput(oldkey)
 			--elseif nonushashKey() and controllerSet == 1 then getKeyboard = 'NONUSHASH'
 			--elseif apostropheKey() and controllerSet == 1 then getKeyboard = 'APOSTROPHE'
 			--elseif graveKey() and controllerSet == 1 then getKeyboard = 'GRAVE'
-			--CONTROL
+		--CONTROL
 			elseif insertKey() and controllerSet == 1 then getKeyboard = 'INSERT'
 			elseif homeKey() and controllerSet == 1 then getKeyboard = 'HOME'
 			elseif pageupKey() and controllerSet == 1 then getKeyboard = 'PAGEUP'
@@ -9116,7 +9085,7 @@ function f_readMenuInput(oldkey)
 			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
 			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
 			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
-			--NUMPAD
+		--NUMPAD
 			elseif kdivideKey() and controllerSet == 1 then getKeyboard = 'KP_DIVIDE'
 			elseif kmultiplyKey() and controllerSet == 1 then getKeyboard = 'KP_MULTIPLY'
 			elseif kminusKey() and controllerSet == 1 then getKeyboard = 'KP_MINUS'
@@ -9133,14 +9102,14 @@ function f_readMenuInput(oldkey)
 			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
 			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
 			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
-			--GAMEPAD
+		--GAMEPAD
 			elseif getInputID(gamepadData) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(gamepadData)
 			end
-			--When you press a key to assing
+		--When you press a key to assing
 			if getKeyboard ~= '' then
 			--Prevent assing same keys between player 1 and player 2 menu controls (with this logic all keys assigned for both players need to be diferents)
 				if p1waitingKey then
-					--UP [PLAYER 1] (t_keyMenuCfg[1].varText)
+				--UP [PLAYER 1] (t_keyMenuCfg[1].varText)
 					if keyCfg == 1 and getKeyboard ~= t_keyMenuCfg[2].varText and
 					getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9159,7 +9128,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--DOWN [PLAYER 1] (t_keyMenuCfg[2].varText)
+				--DOWN [PLAYER 1] (t_keyMenuCfg[2].varText)
 					elseif keyCfg == 2 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9178,7 +9147,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--LEFT [PLAYER 1] (t_keyMenuCfg[3].varText)
+				--LEFT [PLAYER 1] (t_keyMenuCfg[3].varText)
 					elseif keyCfg == 3 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9197,7 +9166,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--RIGHT [PLAYER 1] (t_keyMenuCfg[4].varText)
+				--RIGHT [PLAYER 1] (t_keyMenuCfg[4].varText)
 					elseif keyCfg == 4 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[3].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9216,7 +9185,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--A [PLAYER 1] (t_keyMenuCfg[5].varText)
+				--A [PLAYER 1] (t_keyMenuCfg[5].varText)
 					elseif keyCfg == 5 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9235,7 +9204,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--B [PLAYER 1] (t_keyMenuCfg[6].varText)
+				--B [PLAYER 1] (t_keyMenuCfg[6].varText)
 					elseif keyCfg == 6 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[3].varText and
@@ -9254,7 +9223,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--C [PLAYER 1] (t_keyMenuCfg[7].varText)
+				--C [PLAYER 1] (t_keyMenuCfg[7].varText)
 					elseif keyCfg == 7 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9273,7 +9242,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--X [PLAYER 1] (t_keyMenuCfg[8].varText)
+				--X [PLAYER 1] (t_keyMenuCfg[8].varText)
 					elseif keyCfg == 8 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9292,7 +9261,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Y [PLAYER 1] (t_keyMenuCfg[9].varText)
+				--Y [PLAYER 1] (t_keyMenuCfg[9].varText)
 					elseif keyCfg == 9 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9311,7 +9280,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Z [PLAYER 1] (t_keyMenuCfg[10].varText)
+				--Z [PLAYER 1] (t_keyMenuCfg[10].varText)
 					elseif keyCfg == 10 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9330,7 +9299,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--SCREENSHOT [PLAYER 1] (t_keyMenuCfg[11].varText)
+				--SCREENSHOT [PLAYER 1] (t_keyMenuCfg[11].varText)
 					elseif keyCfg == 11 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9349,7 +9318,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--CONFIRM [PLAYER 1] (t_keyMenuCfg[12].varText)
+				--CONFIRM [PLAYER 1] (t_keyMenuCfg[12].varText)
 					elseif keyCfg == 12 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9368,7 +9337,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--RETURN [PLAYER 1] (t_keyMenuCfg[13].varText)
+				--RETURN [PLAYER 1] (t_keyMenuCfg[13].varText)
 					elseif keyCfg == 13 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9387,7 +9356,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--MENU/PAUSE [PLAYER 1] (t_keyMenuCfg[14].varText)
+				--MENU/PAUSE [PLAYER 1] (t_keyMenuCfg[14].varText)
 					elseif keyCfg == 14 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9406,7 +9375,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--show a message that it key has been already added
+				--show a message that it key has been already added
 					else
 						if controllerSet == 2 then --Allow same key as player 2 FOR GAMEPAD control because it will not affect the control but is missing that those of the same player are not repeated
 							f_validKey()
@@ -9417,7 +9386,7 @@ function f_readMenuInput(oldkey)
 						end
 					end
 				elseif p2waitingKey then
-					--UP [PLAYER 2] (t_keyMenuCfg2[1].varText)
+				--UP [PLAYER 2] (t_keyMenuCfg2[1].varText)
 					if keyCfg2 == 1 and getKeyboard ~= t_keyMenuCfg[2].varText and
 					getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9436,7 +9405,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--DOWN [PLAYER 2] (t_keyMenuCfg2[2].varText)
+				--DOWN [PLAYER 2] (t_keyMenuCfg2[2].varText)
 					elseif keyCfg2 == 2 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9455,7 +9424,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--LEFT [PLAYER 2] (t_keyMenuCfg2[3].varText)
+				--LEFT [PLAYER 2] (t_keyMenuCfg2[3].varText)
 					elseif keyCfg2 == 3 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9474,7 +9443,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--RIGHT [PLAYER 2] (t_keyMenuCfg2[4].varText)
+				--RIGHT [PLAYER 2] (t_keyMenuCfg2[4].varText)
 					elseif keyCfg2 == 4 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[3].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9493,7 +9462,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--A [PLAYER 2] (t_keyMenuCfg2[5].varText)
+				--A [PLAYER 2] (t_keyMenuCfg2[5].varText)
 					elseif keyCfg2 == 5 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9512,7 +9481,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--B [PLAYER 2] (t_keyMenuCfg2[6].varText)
+				--B [PLAYER 2] (t_keyMenuCfg2[6].varText)
 					elseif keyCfg2 == 6 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[3].varText and
@@ -9531,7 +9500,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--C [PLAYER 2] (t_keyMenuCfg2[7].varText)
+				--C [PLAYER 2] (t_keyMenuCfg2[7].varText)
 					elseif keyCfg2 == 7 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9550,7 +9519,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--X [PLAYER 2] (t_keyMenuCfg2[8].varText)
+				--X [PLAYER 2] (t_keyMenuCfg2[8].varText)
 					elseif keyCfg2 == 8 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9569,7 +9538,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Y [PLAYER 2] (t_keyMenuCfg2[9].varText)
+				--Y [PLAYER 2] (t_keyMenuCfg2[9].varText)
 					elseif keyCfg2 == 9 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9588,7 +9557,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--Z [PLAYER 2] (t_keyMenuCfg2[10].varText)
+				--Z [PLAYER 2] (t_keyMenuCfg2[10].varText)
 					elseif keyCfg2 == 10 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9607,7 +9576,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--SCREENSHOT [PLAYER 2] (t_keyMenuCfg2[11].varText)
+				--SCREENSHOT [PLAYER 2] (t_keyMenuCfg2[11].varText)
 					elseif keyCfg2 == 11 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9626,7 +9595,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--CONFIRM [PLAYER 2] (t_keyMenuCfg2[12].varText)
+				--CONFIRM [PLAYER 2] (t_keyMenuCfg2[12].varText)
 					elseif keyCfg2 == 12 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9645,7 +9614,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--RETURN [PLAYER 2] (t_keyMenuCfg2[13].varText)
+				--RETURN [PLAYER 2] (t_keyMenuCfg2[13].varText)
 					elseif keyCfg2 == 13 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9664,7 +9633,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--MENU/PAUSE [PLAYER 2] (t_keyMenuCfg2[14].varText)
+				--MENU/PAUSE [PLAYER 2] (t_keyMenuCfg2[14].varText)
 					elseif keyCfg2 == 14 and getKeyboard ~= t_keyMenuCfg[1].varText and
 					getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and
 					getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and
@@ -9683,7 +9652,7 @@ function f_readMenuInput(oldkey)
 						f_validKey()
 						break
 						cmdInput()
-					--show a message that it key has been already added
+				--show a message that it key has been already added
 					else
 						if controllerSet == 2 then --Allow same key as player 1 FOR GAMEPAD control because it will not affect the control but is missing that those of the same player are not repeated
 							f_validKey()
@@ -9705,10 +9674,10 @@ end
 
 function f_keyBattleSave(playerNo, controller)
 	if playerNo == 0 or playerNo == 2 then --Save Player 1 Battle Controls
-		--Keyboard
+	--Keyboard
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
 		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[14].varText .. ');')
-		--Gamepad
+	--Gamepad
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
 		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg[1].varText .. ', ' .. t_keyBattleCfg[2].varText .. ', ' .. t_keyBattleCfg[3].varText .. ', ' .. t_keyBattleCfg[4].varText .. ', ' .. t_keyBattleCfg[5].varText .. ', ' .. t_keyBattleCfg[6].varText .. ', ' .. t_keyBattleCfg[7].varText .. ', ' .. t_keyBattleCfg[8].varText .. ', ' .. t_keyBattleCfg[9].varText .. ', ' .. t_keyBattleCfg[10].varText .. ', ' .. t_keyBattleCfg[11].varText .. ', ' .. t_keyBattleCfg[12].varText .. ', ' .. t_keyBattleCfg[13].varText .. ', ' .. t_keyBattleCfg[14].varText .. ');')
 	else --Save Player 2 Battle Controls
@@ -9722,10 +9691,10 @@ end
 
 function f_keyMenuSave(playerNo, controller)
 	if playerNo == 0 or playerNo == 2 then --Save Player 1 Menu Controls
-		--Keyboard
+	--Keyboard
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
 		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].varText .. ');')
-		--Gamepad
+	--Gamepad
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
 		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].varText .. ', ' .. t_keyMenuCfg[2].varText .. ', ' .. t_keyMenuCfg[3].varText .. ', ' .. t_keyMenuCfg[4].varText .. ', ' .. t_keyMenuCfg[5].varText .. ', ' .. t_keyMenuCfg[6].varText .. ', ' .. t_keyMenuCfg[7].varText .. ', ' .. t_keyMenuCfg[8].varText .. ', ' .. t_keyMenuCfg[9].varText .. ', ' .. t_keyMenuCfg[10].varText .. ', ' .. t_keyMenuCfg[11].varText .. ', ' .. t_keyMenuCfg[12].varText .. ', ' .. t_keyMenuCfg[13].varText .. ', ' .. t_keyMenuCfg[14].varText .. ');')
 	else --Save Player 2 Menu Controls
@@ -9785,9 +9754,9 @@ function f_gameVNcfg()
 				gameVNcfg = gameVNcfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Language Settings
+		--Language Settings
 			elseif gameVNcfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				--[[
+			--[[
 				if commandGetState(p1Cmd, 'r') and data.language == "ENGLISH" then
 					sndPlay(sndSys, 100, 0)
 					data.language = "SPANISH"
@@ -9809,8 +9778,8 @@ function f_gameVNcfg()
 					modified = 1
 					needReload = 1
 				end
-				]]
-			--Clock Display
+			]]
+		--Clock Display
 			elseif gameVNcfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.clock == "Standard" then
 					sndPlay(sndSys, 100, 0)
@@ -9837,7 +9806,7 @@ function f_gameVNcfg()
 					data.clock = "Military"
 					modified = 1
 				end
-			--Date Display
+		--Date Display
 			elseif gameVNcfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.date == "Type A" then
 					sndPlay(sndSys, 100, 0)
@@ -9872,7 +9841,7 @@ function f_gameVNcfg()
 					data.date = "Type D"
 					modified = 1
 				end
-			--Text Speed
+		--Text Speed
 			elseif gameVNcfg == 4 then
 				if commandGetState(p1Cmd, 'r') then
 					if data.VNdelay > 0 then
@@ -9885,7 +9854,7 @@ function f_gameVNcfg()
 						data.VNdelay = data.VNdelay + 1
 					end
 				end
-			--Text BG Transparency
+		--Text BG Transparency
 			elseif gameVNcfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.VNtxtBGTransD < 255 then
@@ -9907,20 +9876,19 @@ function f_gameVNcfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				end
-			--Auto Skip Text
+		--Auto Skip Text
 			elseif gameVNcfg == 6 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 				sndPlay(sndSys, 100, 1)
 				if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
-			--Auto Save (TODO)
+		--Auto Save (TODO)
 				
-			--Default Values
-			--[[
+		--[[Default Values
 			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultVN = true
 				defaultScreen = true
-			]]
-			--BACK
+		]]
+		--BACK
 			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break

@@ -3,10 +3,13 @@
 --;===========================================================
 table.insert(t_extrasMenu,1,{id = textImgNew(), text = "CHRONICLES", gotomenu = "f_chroniclesMenu()"}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 t_chroniclesMenu = {
-	{id = textImgNew(), text = "STORY MODE", gotomenu = "f_storyMenu()"},
-	{id = textImgNew(), text = "VISUAL NOVEL", gotomenu = "f_vnMenu()"},
-	--{id = textImgNew(), text = "QUIZ MODE", gotomenu = "f_quizMenu()"},
+	{text = "STORY MODE", gotomenu = "f_storyMenu()"},
+	{text = "VISUAL NOVEL", gotomenu = "f_vnMenu()"},
+	--{text = "QUIZ MODE", gotomenu = "f_quizMenu()"},
 }
+for i=1, #t_chroniclesMenu do
+	t_chroniclesMenu[i]['id'] = textImgNew()
+end
 --;===========================================================
 --; CHRONICLES MENU (play special story game modes)
 --;===========================================================	
@@ -163,7 +166,7 @@ function f_vnMenu()
 	f_resetListArrowsPos()
 	cmdInput()
 	while true do
-		--Select Menu Actions
+	--Select Menu Actions
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
@@ -175,14 +178,14 @@ function f_vnMenu()
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
 			vnMenu = vnMenu + 1
-		--Start Visual Novel Selected
+	--Start Visual Novel Selected
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			f_vnMain(t_selVN[vnMenu].path)
-			--When Ends
+		--When Ends
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 			f_menuMusic()
 		end
-		--Menu Scroll Logic
+	--Menu Scroll Logic
 		if vnMenu < 1 then
 			vnMenu = #t_selVN
 			if #t_selVN > maxItems then
@@ -210,7 +213,7 @@ function f_vnMenu()
 		else
 			maxVN = maxItems
 		end
-		--Draw Menu Assets
+	--Draw Menu Assets
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 		animSetScale(commonTBG, 240, maxVN*15)
 		animSetWindow(commonTBG, 80,20, 160,180)

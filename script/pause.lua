@@ -340,7 +340,7 @@ function f_confirmReset()
 	mainMenuBack = false
 	confirmScreen = false
 	moveTxtConfirm = 0
-	--Cursor pos in NO
+--Cursor pos in NO
 	cursorPosYConfirm = 1
 	confirmPause = 2
 end
@@ -459,11 +459,11 @@ end
 if getGameMode() == "replay" or getGameMode() == "randomtest" then
 t_pauseMain = nil
 t_pauseMain = {
-	{text = "CONTINUE", gotomenu = "f_resumePause()"},
-	{text = "SETTINGS", gotomenu = "f_settingsPause()"},
-	{text = "HIDE MENU", gotomenu = "f_hidePause()"},
-	{text = "BATTLE INFO", gotomenu = "f_infoPause()"},
-	{text = "EXIT", gotomenu = "f_mainmenuPause()"}
+	{text = "CONTINUE", gotomenu = "script.pause.f_resumePause()"},
+	{text = "SETTINGS", gotomenu = "script.pause.f_settingsPause()"},
+	{text = "HIDE MENU", gotomenu = "script.pause.f_hidePause()"},
+	{text = "BATTLE INFO", gotomenu = "script.pause.f_infoPause()"},
+	{text = "EXIT", gotomenu = "script.pause.f_mainmenuPause()"}
 }
 end
 
@@ -473,18 +473,6 @@ for i=1, #t_pauseMain do
 end
 
 if data.debugLog then f_printTable(t_pauseMain, "save/debug/t_pauseMain.txt") end
-
---Start functions stored in strings
-function f_gotoFunction(func)
-	if not func or not func.gotomenu then return end --Return in case func does not exist or does not have "gotomenu"
-	local f, err = load(func.gotomenu)
-	if f then
-		f() --Call the function
-	else
-		print("Error loading function: " .. (err or "Unknown error"))
-		return --Error when loading function
-	end
-end
 
 if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
 	data.p1In = 2
@@ -927,13 +915,16 @@ end
 txt_PgameCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_gameCfg = {
-	{varID = textImgNew(), text = "Audio Settings",   		varText = ""},
-	{varID = textImgNew(), text = "Input Settings",   		varText = ""},
-	{varID = textImgNew(), text = "HUD Display",			varText = ""},
-	{varID = textImgNew(), text = "Open Screenshots",		varText = ""},
-	{varID = textImgNew(), text = "Change Stage Song",		varText = ""},
-	{varID = textImgNew(), text = "              BACK",   	varText = ""},
+	{text = "Audio Settings",   	varText = ""},
+	{text = "Input Settings",   	varText = ""},
+	{text = "HUD Display",			varText = ""},
+	{text = "Open Screenshots",		varText = ""},
+	{text = "Change Stage Song",	varText = ""},
+	{text = "              BACK",   varText = ""},
 }
+for i=1, #t_gameCfg do
+	t_gameCfg[i]['varID'] = textImgNew()
+end
 
 if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg,5) end
 
@@ -1146,12 +1137,15 @@ end
 txt_PaudioCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_audioCfg = {
-	{varID = textImgNew(), text = "Master Volume",   		varText = gl_vol},
-	{varID = textImgNew(), text = "SFX Volume",       		varText = se_vol},
-	{varID = textImgNew(), text = "BGM Volume",      		varText = bgm_vol},
-	{varID = textImgNew(), text = "Audio Panning",   		varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{varID = textImgNew(), text = "              BACK",  	varText = ""},
+	{text = "Master Volume",   		varText = gl_vol},
+	{text = "SFX Volume",       	varText = se_vol},
+	{text = "BGM Volume",      		varText = bgm_vol},
+	{text = "Audio Panning",   		varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "              BACK",  	varText = ""},
 }
+for i=1, #t_audioCfg do
+	t_audioCfg[i]['varID'] = textImgNew()
+end
 
 function f_pauseAudio()
 	local hasChanged = false
@@ -1529,26 +1523,29 @@ end
 txt_PtrainingCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_trainingCfg = {
-	{varID = textImgNew(), text = "Damage Display", 			varText = ""},
-	{varID = textImgNew(), text = "Input Display",				varText = ""},
-	{varID = textImgNew(), text = "Hitbox Display", 			varText = ""},
-	{varID = textImgNew(), text = "Debug Info",					varText = ""},
-	{varID = textImgNew(), text = "Lifebar P1",					varText = ""},
-	{varID = textImgNew(), text = "Lifebar P2",					varText = ""},
-	{varID = textImgNew(), text = "Power Gauge P1",				varText = ""},
-	{varID = textImgNew(), text = "Power Gauge P2",				varText = ""},
-	{varID = textImgNew(), text = "Auto Guard P1", 				varText = ""},
-	{varID = textImgNew(), text = "Auto Guard P2", 				varText = ""},
-	--{varID = textImgNew(), text = "Distance", 				varText = ""},
-	--{varID = textImgNew(), text = "Tech Recovery", 			varText = ""},
-	--{varID = textImgNew(), text = "Counter Hit", 				varText = ""},
-	{varID = textImgNew(), text = "AI Level", 					varText = ""},
-	{varID = textImgNew(), text = "Character Settings",			varText = ""},
-	{varID = textImgNew(), text = "Playback Settings",			varText = ""},
-	{varID = textImgNew(), text = "Dummy Recording Start",		varText = ""},
-	{varID = textImgNew(), text = "Dummy Control", 				varText = ""},
-	{varID = textImgNew(), text = "                   BACK",   	varText = ""},
+	{text = "Damage Display", 			varText = ""},
+	{text = "Input Display",			varText = ""},
+	{text = "Hitbox Display", 			varText = ""},
+	{text = "Debug Info",				varText = ""},
+	{text = "Lifebar P1",				varText = ""},
+	{text = "Lifebar P2",				varText = ""},
+	{text = "Power Gauge P1",			varText = ""},
+	{text = "Power Gauge P2",			varText = ""},
+	{text = "Auto Guard P1", 			varText = ""},
+	{text = "Auto Guard P2", 			varText = ""},
+	--{text = "Distance", 				varText = ""},
+	--{text = "Tech Recovery", 			varText = ""},
+	--{text = "Counter Hit", 			varText = ""},
+	{text = "AI Level", 				varText = ""},
+	{text = "Character Settings",		varText = ""},
+	{text = "Playback Settings",		varText = ""},
+	{text = "Dummy Recording Start",	varText = ""},
+	{text = "Dummy Control", 			varText = ""},
+	{text = "                   BACK",  varText = ""},
 }
+for i=1, #t_trainingCfg do
+	t_trainingCfg[i]['varID'] = textImgNew()
+end
 
 --Battle Info for Replays
 if getGameMode() ~= "practice" then --if getGameMode() == "replay" or getGameMode() == "randomtest" then
@@ -1567,14 +1564,18 @@ end
 
 --Logic to Display Text instead Boolean Values
 function f_trainingCfgdisplayTxt()
+
 if data.damageDisplay == 0 then t_trainingCfg[1].varText = "No"
 elseif data.damageDisplay == 1 then t_trainingCfg[1].varText = "Yes"
 end
+
 if data.inputDisplay == 0 then t_trainingCfg[2].varText = "No"
 elseif data.inputDisplay == 1 then t_trainingCfg[2].varText = "Yes"
 end
+
 if data.hitbox then t_trainingCfg[3].varText = "Yes" else t_trainingCfg[3].varText = "No" end
 if data.debugInfo then t_trainingCfg[4].varText = "Yes" else t_trainingCfg[4].varText = "No" end
+
 if getGameMode() == "practice" then --To don't display in battle info menu
 --Lifebar P1
 	if data.LifeStateP1 == 0 then t_trainingCfg[5].varText = "No Regenerate"
@@ -1610,6 +1611,7 @@ if getGameMode() == "practice" then --To don't display in battle info menu
 	elseif data.dummyMode == 3 then t_trainingCfg[15].varText = "Mirror"
 	end
 end
+
 end
 
 f_trainingCfgdisplayTxt() --Load Display Text
@@ -2152,19 +2154,23 @@ txt_pbIncludeSlot = "Include"
 txt_pbExcludeSlot = "Exclude"
 
 t_playbackCfg = {
-	{varID = textImgNew(), text = "Recording Slot",   		 varText = data.pbkRecSlot},
-	{varID = textImgNew(), text = "Playback Slot",      	 varText = ""},
-	--{varID = textImgNew(), text = "Playback Type",      	 varText = ""},
-	{varID = textImgNew(), text = "Slot 1",   				 varText = ""},
-	{varID = textImgNew(), text = "Slot 2",   				 varText = ""},
-	{varID = textImgNew(), text = "Slot 3",   				 varText = ""},
-	{varID = textImgNew(), text = "Slot 4",   				 varText = ""},
-	{varID = textImgNew(), text = "Slot 5",   				 varText = ""},
-	{varID = textImgNew(), text = "                   BACK", varText = ""},
+	{text = "Recording Slot",   	   varText = data.pbkRecSlot},
+	{text = "Playback Slot",      	   varText = ""},
+	--{text = "Playback Type",         varText = ""},
+	{text = "Slot 1",   			   varText = ""},
+	{text = "Slot 2",   			   varText = ""},
+	{text = "Slot 3",   			   varText = ""},
+	{text = "Slot 4",   			   varText = ""},
+	{text = "Slot 5",   			   varText = ""},
+	{text = "                   BACK", varText = ""},
 }
+for i=1, #t_playbackCfg do
+	t_playbackCfg[i]['varID'] = textImgNew()
+end
 
 --Logic to Display Text instead Number Values
 function f_pbkdisplayTxt()
+
 if data.pbkPlaySlot == 6 then t_playbackCfg[2].varText = "Random"
 elseif data.pbkPlaySlot == 7 then t_playbackCfg[2].varText = "All"
 elseif data.pbkPlaySlot == 8 then t_playbackCfg[2].varText = "Random All"
@@ -2472,9 +2478,12 @@ end
 txt_charCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_charCfg = {
-	{varID = textImgNew(), text = "Suave Dude Mode",   	 	 varText = ""},
-	{varID = textImgNew(), text = "                   BACK", varText = ""},
+	{text = "Suave Dude Mode",   	 	varText = ""},
+	{text = "                   BACK", 	varText = ""},
 }
+for i=1, #t_charCfg do
+	t_charCfg[i]['varID'] = textImgNew()
+end
 
 --Logic to Display Text instead Number Values
 function f_charCfgdisplayTxt()

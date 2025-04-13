@@ -590,7 +590,6 @@ function f_nextTutoText()
 		local conditionFunc = t_tutorialDiag[tutoDiag].condition
 	--Call and check the function stored in t_tutorialDiag[tutoDiag].condition
 		if conditionFunc ~= "" and _G[conditionFunc] and _G[conditionFunc]() and not tutoClearAction then
-			--Falta Desactivar el control del personaje durante la animación Clear
 			tutoClearAction = true --Activate Clear Animation
 		end
 	end

@@ -103,50 +103,50 @@ function f_glossaryMenu()
 	local txtSpacing = 12
 	while true do
 		if not reading then --When have Menu Controls
-			--BACK
+		--BACK
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 2)
 				break
-			--START READING
+		--START READING
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				sndPlay(sndSys, 100, 1)
 				reading = true
-			--PREVIOUS SECTION
+		--PREVIOUS SECTION
 			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 				sndPlay(sndSys, 100, 0)
 				glossaryMenu = glossaryMenu - 1
 				f_resetYPos()
-			--NEXT SECTION
+		--NEXT SECTION
 			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 				sndPlay(sndSys, 100, 0)
 				glossaryMenu = glossaryMenu + 1
 				f_resetYPos()
-			--PREVIOUS CONTENT
+		--PREVIOUS CONTENT
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) then
 				sndPlay(sndSys, 100, 0)
 				glossaryText = glossaryText - 1
 				f_resetYPos()
-			--NEXT CONTENT
+		--NEXT CONTENT
 			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) then
 				sndPlay(sndSys, 100, 0)
 				glossaryText = glossaryText + 1
 				f_resetYPos()
 			end
 		else --When have text controls
-			--READING DONE
+		--READING DONE
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				reading = false
-			--MOVE UP TXT
+		--MOVE UP TXT
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) and txtPosY < 45 then
 				txtPosY = txtPosY + 1
-			--MOVE DOWN TXT
+		--MOVE DOWN TXT
 			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
 				txtPosY = txtPosY - 1
 			end
 		end
-		--Section Scroll Logic
+	--Section Scroll Logic
 		if glossaryMenu < 1 then
 			glossaryMenu = #t_glossary
 			if #t_glossary > maxItems then
@@ -174,7 +174,7 @@ function f_glossaryMenu()
 		else
 			maxSection = maxItems
 		end
-		--Content Scroll Logic
+	--Content Scroll Logic
 		if glossaryText < 1 then
 			glossaryText = #t_glossary[glossaryMenu]
 			if #t_glossary[glossaryMenu] > maxItems then
@@ -202,15 +202,15 @@ function f_glossaryMenu()
 		else
 			maxName = maxItems
 		end
-		--Draw Section Text
+	--Draw Section Text
 		textImgSetText(txt_glossarySection, t_glossary[glossaryMenu].title)
 		textImgDraw(txt_glossarySection)
-		--Draw Content Title Text
+	--Draw Content Title Text
 		textImgSetText(txt_glossaryTitleText, t_glossary[glossaryMenu][glossaryText].name)
 		textImgDraw(txt_glossaryTitleText)
-		--Draw Content Preview
+	--Draw Content Preview
 		--f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30, 158, true, 1, 1)
-		--Draw Content Text
+	--Draw Content Text
 		f_textRender(txt_glossaryText, t_glossary[glossaryMenu][glossaryText].content, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
 		animPosDraw(glossaryTitleBG, -56, 0) --Draw Title BG
 		textImgDraw(txt_glossaryTitle) --Draw Menu Title
@@ -260,29 +260,30 @@ for line in content:gmatch('[^\r\n]+') do
 		section = 1
 		row = #t_glossary+1
 		t_glossary[row] = {}
-	elseif section == 1 then --[Section No]
-		--displaytitle = section name (string)
+--[Section No]
+	elseif section == 1 then
+	--displaytitle = section name (string)
 		if line:match('^%s*displaytitle%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			t_glossary[row]['title'] = data:gsub('^%s*displaytitle%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 		end
-		--icon = group_no, index_no (int, int)
+	--icon = group_no, index_no (int, int)
 		if line:match('^%s*icon%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			t_glossary[row]['icon'] = data:gsub('^%s*icon%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 		end
-		--displayname = string
+	--displayname = string
 		if line:match('^%s*displayname%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			t_glossary[row][#t_glossary[row]+1] = {}
 			t_glossary[row][#t_glossary[row]]['name'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 		end
-		--id = item ID (string) UNUSED
+	--id = item ID (string) UNUSED
 		if line:match('^%s*id%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			t_glossary[row][#t_glossary[row]]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 		end
-		--text: string
+	--text: string
 		if line:match('text:$') then
 			t_glossary[row][#t_glossary[row]]['content'] = ""
 		end
