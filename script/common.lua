@@ -643,6 +643,25 @@ function f_fileWrite(path, str, mode)
 	file:close()
 end
 
+--delete a directory
+function deldir(dir)
+	for file in lfs.dir(dir) do
+		if file ~= "." and file ~= ".." then
+			local file_path = dir..'/'..file --Create the full path of the file or folder.
+			local mode = lfs.attributes(file_path, 'mode') --Gets the mode of the file (whether it is a file or a directory).
+		--If mode is 'file', the file is deleted.
+			if mode == 'file' then
+				os.remove(file_path)
+		--If mode is 'directory', deldir function is called recursively to remove its contents.
+			elseif mode == 'directory' then
+				deldir(file_path)
+			end
+		end
+	end
+--Once all files and subdirectories have been deleted, the directory itself is deleted.
+	lfs.rmdir(dir)
+end
+
 function strsplit(delimiter, text)
 	local list = {}
 	local pos = 1
