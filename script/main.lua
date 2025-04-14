@@ -3578,6 +3578,22 @@ function f_drawGallery(t, columns, rows) --Draw Gallery Content
 	end
 end
 
+function f_updateGallery() --When move through gallery sections, update gallery content
+	galleryCursorX = 0
+	galleryCursorY = 0
+	galleryMoveX = 0
+	galleryMoveY = 0
+	f_setGalleryCursorPos()
+	
+	gallerySlotMax = (galleryColumns + galleryHiddenColumns)*(galleryRows + galleryHiddenRows)
+	galleryArtMax = nil
+	if gallerySlotMax > #t_gallery[galleryMenu] then
+		galleryArtMax = #t_gallery[galleryMenu] --Set artworks loaded in t_gallery as gallerySlotMax amount to prevent issues
+	else
+		galleryArtMax = gallerySlotMax
+	end
+end
+
 function f_galleryMenu()
 	cmdInput()
 	local bufu = 0
@@ -3586,26 +3602,12 @@ function f_galleryMenu()
 	local bufl = 0
 	local bufz = 0
 	local bufy = 0
-	galleryCursorX = 0
-	galleryCursorY = 0
-	galleryMoveX = 0
-	galleryMoveY = 0
-	f_setGalleryCursorPos()
---Sections Vars
-	galleryMenu = 1
+	local textData = nil
 	local cursorSectionPosX = 1
 	local moveSectionTxt = 0
 	local maxSectionItems = 3
-	--f_updateGallery()
---
-	local slotMax = (galleryColumns + galleryHiddenColumns)*(galleryRows + galleryHiddenRows)
-	local artMax = nil
-	if slotMax > #t_gallery[galleryMenu] then
-		artMax = #t_gallery[galleryMenu] --Set artworks loaded in t_gallery as slotMax amount to prevent issues
-	else
-		artMax = slotMax
-	end
-	local textData = nil
+	galleryMenu = 1
+	f_updateGallery()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_resetGalleryArrowsPos()
 	f_unlock(false)
@@ -3621,14 +3623,14 @@ function f_galleryMenu()
 			if galleryMenu > 1 then
 				sndPlay(sndSys, 100, 0)
 				galleryMenu = galleryMenu - 1
-				--f_updateGallery()
+				f_updateGallery()
 			end
 	--NEXT SECTION
 		elseif commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z') or ((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 30) then
 			if galleryMenu < #t_gallery then
 				sndPlay(sndSys, 100, 0)
 				galleryMenu = galleryMenu + 1
-				--f_updateGallery()
+				f_updateGallery()
 			end
 	--SCROLL UP (Cursor Y - Previous Row)
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -3647,7 +3649,7 @@ function f_galleryMenu()
 			end
 			f_setGalleryCursorPos() --Set New Cursor Pos
 		--Prevent fall out of t_gallery items
-			if galleryCursor > artMax then
+			if galleryCursor > galleryArtMax then
 				while t_gallery[galleryMenu][galleryCursor] == nil do
 					galleryCursorY = galleryCursorY - 1
 					if galleryMoveY > 0 then
@@ -3671,7 +3673,7 @@ function f_galleryMenu()
 			end
 			f_setGalleryCursorPos() --Set New Cursor Pos
 		--Prevent fall out of t_gallery items
-			if galleryCursor > artMax then
+			if galleryCursor > galleryArtMax then
 				galleryCursorY = 0
 				galleryMoveY = 0
 				f_setGalleryCursorPos()
@@ -3693,7 +3695,7 @@ function f_galleryMenu()
 			end
 			f_setGalleryCursorPos() --Set New Cursor Pos
 		--Prevent fall out of t_gallery items
-			if galleryCursor > artMax then
+			if galleryCursor > galleryArtMax then
 				while t_gallery[galleryMenu][galleryCursor] == nil do
 					galleryCursorX = galleryCursorX - 1
 					if galleryMoveX > 0 then
@@ -3717,7 +3719,7 @@ function f_galleryMenu()
 			end
 			f_setGalleryCursorPos() --Set New Cursor Pos
 		--Prevent fall out of t_gallery items
-			if galleryCursor > artMax then
+			if galleryCursor > galleryArtMax then
 				galleryCursorX = 0
 				galleryMoveX = 0
 				f_setGalleryCursorPos()
@@ -3728,7 +3730,7 @@ function f_galleryMenu()
 			if galleryMenu == 1 then
 				if t_unlockLua.artworks[galleryCursor] == nil then --If the artwork is unlocked
 					sndPlay(sndSys, 100, 1)
-					f_artMenu(artMax)
+					f_artMenu(galleryArtMax)
 					f_setGalleryCursorPos() --Replace with a logic that calculates the new position of the cursor after having moved in artwork viewer...
 				else
 					sndPlay(sndSys, 100, 5)
@@ -3759,7 +3761,7 @@ function f_galleryMenu()
 				end
 		--SCREENSHOTS (view your screenshots collection)
 			--elseif galleryMenu == 4 then
-				
+				--Do it when we can load png using IMGLoad c++ function
 			end
 		end
 	--Section Cursor position calculation
@@ -5042,7 +5044,7 @@ function f_saveReplay()
 			if lfs.attributes("save/data.replay", "size") > 0 then --Save replay if have content
 				ltn12.pump.all(
 				ltn12.source.file(assert(io.open("save/data.replay", "rb"))), --Use this file to make a copy
-				ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb"))) --Save replay with a new name
+				ltn12.sink.file(assert(io.open(replaysPath.."/".. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb"))) --Save replay with a new name
 				)
 			end
 			netplayFile:close()

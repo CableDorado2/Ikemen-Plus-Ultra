@@ -95,6 +95,7 @@ galleryMoviesDef = "data/gallery/movies.def" --Gallery Videos
 --Paths Data
 licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
 replaysPath = "replays" --Replays Path
+screenshotPath = "screenshots" --Screenshots Path
 musicPath = "sound" --Main Soundtrack Path
 luaModules = { --Lua External Modules Folder Paths
 "script/mods",

@@ -3013,7 +3013,7 @@ end
 --Take Screenshots
 function f_screenShot()
 	sndPlay(sndSys, 22, 0) --sndPlay(sndSys, 22, 1)
-	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
+	takeScreenShot(screenshotPath.."/ ".. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
 end
 
 function f_resetFadeBGM()
