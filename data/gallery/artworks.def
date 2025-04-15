@@ -20,7 +20,7 @@ pos = 590,0
 scale = 0.15, 0.15
 zoomlimit = 0.10, 0.65
 movelimit = -590,-1500, 2500,2000
-previewpos = 1500,1030
+previewpos = 1720,2540
 previewspacing = 3000,420
 previewscale = 0.028, 0.028
 unlock = data.story1_4AStatus == 1
@@ -33,7 +33,7 @@ pos = 365,0
 scale = 0.20, 0.20
 zoomlimit = 0.15, 0.60
 movelimit = -700,-1200, 1500,1000
-previewpos = 9965,695
+previewpos = 1250,1710
 previewspacing = 1650,284
 previewscale = 0.0415, 0.0415
 
