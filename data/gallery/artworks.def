@@ -1,7 +1,7 @@
 [GalleryArtworks]
 id = Art 1
 spr = 0,1
-info = Unofficial Artwork 2 of Kung Fu Man By act52
+info = Unofficial Artwork of Kung Fu Man By act52
 size = 352,640
 pos = 225,0
 scale = 0.38, 0.38
@@ -50,7 +50,7 @@ spr = 0,6
 info = Unofficial Artwork of Kung Fu Man By GrapplerGray1985
 
 id = Art 8
-spr = 0,8
+spr = 0,7
 info = Unofficial Artwork of Kung Fu Man By Esaka
 size = 600,800
 pos = 190,0
@@ -74,7 +74,7 @@ previewspacing = 1000,184
 previewscale = 0.063, 0.063
 
 id = Art 10
-spr = 0,4
+spr = 0,9
 info = Mugen 1.0
 size = 1070,797
 pos = 190,0
@@ -86,7 +86,7 @@ previewspacing = 1000,184
 previewscale = 0.063, 0.063
 
 id = Art 11
-spr = 0,5
+spr = 0,10
 info = Ikemen S-SIZE
 size = 1024,797
 pos = 190,0
@@ -98,7 +98,7 @@ previewspacing = 1000,184
 previewscale = 0.063, 0.063
 
 id = Art 12
-spr = 0,6
+spr = 0,11
 info = Ikemen Plus
 size = 1070,797
 pos = 190,0
@@ -110,8 +110,8 @@ previewspacing = 1000,184
 previewscale = 0.063, 0.063
 
 id = Art 13
-spr = 0,7
-info = Ikemen GO
+spr = 0,12
+info = Ikemen Plus Ultra
 size = 1070,797
 pos = 190,0
 scale = 0.30, 0.30
@@ -122,8 +122,8 @@ previewspacing = 1000,184
 previewscale = 0.063, 0.063
 
 id = Art 14
-spr = 0,8
-info = Ikemen Plus Ultra
+spr = 0,13
+info = Ikemen GO
 size = 1070,797
 pos = 190,0
 scale = 0.30, 0.30
