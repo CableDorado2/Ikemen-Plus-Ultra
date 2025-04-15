@@ -1142,14 +1142,14 @@ galleryWindowX2 = 320
 galleryWindowY2 = 160
 
 --Gallery Art Common Values
-galleryPreviewArtPosX = 50
-galleryPreviewArtPosY = 150
+galleryPreviewArtPosX = 940
+galleryPreviewArtPosY = 1270
 
-galleryPreviewArtSpacingX = 6
-galleryPreviewArtSpacingY = 6
+galleryPreviewArtSpacingX = 950
+galleryPreviewArtSpacingY = 218
 
-galleryPreviewArtScaleX = 0.05
-galleryPreviewArtScaleY = 0.05
+galleryPreviewArtScaleX = 0.0558
+galleryPreviewArtScaleY = 0.0558
 
 --Preview Slot Item
 galleryPreviewSlot = animNew(sprIkemen, [[
@@ -1219,14 +1219,14 @@ end
 --;===========================================================
 txt_artInfo = createTextImg(font5, 0, 0, "", 159, 190) --font2
 
-galleryArtPosX = 190
-galleryArtPosY = 0
+galleryArtPosX = 159
+galleryArtPosY = 120
 
-galleryArtSizeX = 120
-galleryArtSizeY = 140
+galleryArtSizeX = 894
+galleryArtSizeY = 894
 
-galleryArtScaleX = 0.3
-galleryArtScaleY = 0.3
+galleryArtScaleX = 0.27
+galleryArtScaleY = 0.27
 
 galleryArtMoveSpeed = 14
 galleryArtZoomSpeed = 0.01

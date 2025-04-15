@@ -4,20 +4,11 @@ spr = 0,1
 file = chars/Kung Fu Man/intro.def
 info = Kung Fu Man: Arcade Intro
 size = 853,480
-previewpos = 630,455
-previewspacing = 1000,185
-previewscale = 0.090, 0.090
+previewpos = 560,760
+previewspacing = 225,180
+previewscale = 0.095, 0.095
 
 id = Storyboard 2
-spr = 0,2
-file = chars/Kung Fu Man/ending.def
-info = Kung Fu Man: Arcade Ending
-size = 853,480
-previewpos = 630,455
-previewspacing = 1000,185
-previewscale = 0.090, 0.090
-
-id = Storyboard 3
 spr = 0,3
 file = chars/Kung Fu Girl/storyboard/intro_j.def
 info = Kung Fu Girl: Arcade Intro
@@ -26,16 +17,7 @@ previewpos = 189,343
 previewspacing = 43,60
 previewscale = 0.281, 0.207
 
-id = Storyboard 4
-spr = 0,4
-file = chars/Kung Fu Girl/storyboard/ending_j.def
-info = Kung Fu Girl: Arcade Ending
-size = 320,233
-previewpos = 189,331
-previewspacing = 43,57
-previewscale = 0.281, 0.214
-
-id = Storyboard 5
+id = Storyboard 3
 spr = 0,5
 file = chars/Shin Gouki/unlock.def
 info = Shin Gouki's Unlock Screen
@@ -46,39 +28,20 @@ previewspacing = 102,190
 previewscale = 0.113, 0.0625
 unlock = stats.unlocks.chars.gouki == true
 
-
 id = Storyboard 4
+spr = 0,2
+file = chars/Kung Fu Man/ending.def
+info = Kung Fu Man: Arcade Ending
+size = 853,480
+previewpos = 560,760
+previewspacing = 225,180
+previewscale = 0.095, 0.095
+
+id = Storyboard 5
 spr = 0,4
 file = chars/Kung Fu Girl/storyboard/ending_j.def
 info = Kung Fu Girl: Arcade Ending
 size = 320,233
-previewpos = 630,455
-previewspacing = 1000,185
-previewscale = 0.20, 0.18
-
-id = Storyboard 4
-spr = 0,4
-file = chars/Kung Fu Girl/storyboard/ending_j.def
-info = Kung Fu Girl: Arcade Ending
-size = 320,233
-previewpos = 630,455
-previewspacing = 1000,185
-previewscale = 0.20, 0.18
-
-id = Storyboard 1
-spr = 0,1
-file = chars/Kung Fu Man/intro.def
-info = Kung Fu Man: Arcade Intro
-size = 853,480
-previewpos = 630,455
-previewspacing = 1000,185
-previewscale = 0.090, 0.090
-
-id = Storyboard 1
-spr = 0,1
-file = chars/Kung Fu Man/intro.def
-info = Kung Fu Man: Arcade Intro
-size = 853,480
-previewpos = 630,455
-previewspacing = 1000,185
-previewscale = 0.090, 0.090
+previewpos = 189,331
+previewspacing = 43,57
+previewscale = 0.281, 0.214
