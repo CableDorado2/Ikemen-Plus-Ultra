@@ -1152,9 +1152,11 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 	refresh()
 ]]
 end
-f_loadGallery(galleryArtworksDef, true)
-f_loadGallery(galleryStoryboardsDef, false)
-f_loadGallery(galleryMoviesDef, false)
+function f_loadGalleryDat()
+	f_loadGallery(galleryArtworksDef, true)
+	f_loadGallery(galleryStoryboardsDef, false)
+	f_loadGallery(galleryMoviesDef, false)
+end
 --[[
 for k, v in ipairs(t_gallery) do --Set Unlock Conditions
 	if main.t_unlockLua.gallery == nil then main.t_unlockLua['gallery'] = {} end

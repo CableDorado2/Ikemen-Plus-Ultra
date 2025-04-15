@@ -3595,6 +3595,7 @@ function f_updateGallery() --When move through gallery sections, update gallery 
 end
 
 function f_galleryMenu()
+	if data.debugMode then f_loadGalleryDat() end --Load in real-time only if dev/debug mode is enabled
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
@@ -3805,7 +3806,7 @@ function f_galleryMenu()
 					bank = 0
 				end
 				if t_gallery[i].displayname ~= nil then
-					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 30))
+					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 36))
 				end
 			end
 		end

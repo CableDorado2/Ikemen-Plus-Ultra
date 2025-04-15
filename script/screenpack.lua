@@ -1133,7 +1133,7 @@ txt_galleryUnknown = "???"
 galleryColumns = 3
 galleryHiddenColumns = 0
 galleryRows = 2
-galleryHiddenRows = 2
+galleryHiddenRows = 3
 
 --Gallery Window
 galleryWindowX1 = 0
@@ -1143,13 +1143,13 @@ galleryWindowY2 = 160
 
 --Gallery Art Common Values
 galleryPreviewArtPosX = 50
-galleryPreviewArtPosY = 50
+galleryPreviewArtPosY = 150
 
 galleryPreviewArtSpacingX = 6
 galleryPreviewArtSpacingY = 6
 
-galleryPreviewArtScaleX = 1.0
-galleryPreviewArtScaleY = 1.0
+galleryPreviewArtScaleX = 0.05
+galleryPreviewArtScaleY = 0.05
 
 --Preview Slot Item
 galleryPreviewSlot = animNew(sprIkemen, [[
