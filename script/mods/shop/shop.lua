@@ -96,14 +96,15 @@ vaultBG0 = animNew(sprShop, [[
 20,0, 0,0, -1
 ]])
 animSetPos(vaultBG0, 160, 119)
-animUpdate(vaultBG0)
 animSetScale(vaultBG0, 0.30, 0.305)
+animUpdate(vaultBG0)
 
 --Text Window BG
 vaultWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
-animSetPos(vaultWindowBG, 20, 100)
+animSetPos(vaultWindowBG, 80, 100)
+animSetScale(vaultWindowBG, 160, 30)
 animSetAlpha(vaultWindowBG, 20, 100)
 animUpdate(vaultWindowBG)
 
@@ -299,12 +300,9 @@ function f_theVault()
 		end
 	--Draw BG
 		animDraw(vaultBG0)
-		animUpdate(vaultBG0)
 	--Draw Menu Title
 		textImgDraw(txt_vaultTitle)
 	--Draw Text Window BG
-		animSetScale(vaultWindowBG, 220, 30)
-		animSetWindow(vaultWindowBG, 80,100, 160,30)
 		animDraw(vaultWindowBG)
 	--Draw Valt Words
 		f_textRender(txt_vaultWords, txtRandom, t, 160, 78, 15, 2.5, 45)

@@ -242,7 +242,6 @@ local function f_handicapSet() --Maybe not gonna work in online or replays becau
 end
 
 local abyssStatsReady = false
-
 local function f_abyssStatsSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
@@ -266,27 +265,50 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 	abyssStatsReady = true
 end
 
+local regenItemTime = 0
+local specialItemDone = false
 --Special Items Assignment
 local function f_abyssItemsSet()
 	local oldid = id()
 	for i=1, 1 do --#p1Dat do
 		if player(p1Dat[i].pn) then
 			for slot=1, #p1Dat[i].itemslot do
-			--Life Regen
-				if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."1" then setLife(life() + 1) end
-				if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."2" then setLife(life() + 2) end
-				if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) end
-			--Power Regen
-				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) end
-				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) end
-				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) end
-			--Autoguard
-				if p1Dat[i].itemslot[slot] == txt_abyssShopAutoguard then setAutoguard(p1Dat[i].pn, true) end
-			--Unlimited Power
-				if p1Dat[i].itemslot[slot] == txt_abyssShopPowerUnlimited then setPower(powermax()) end
+			--Restore Life after round win
+				if roundstate() == 4 and time() == 0 and not script.pause.pauseMenuActive then
+					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."1" then setLife(life() + math.floor(lifemax() / 9)) end
+					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."2" then setLife(life() + math.floor(lifemax() / 5)) end
+					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."MAX" then setLife(life() + math.floor(lifemax() / 2)) end
+				end
+				if roundstate() == 2 then
+				--Timer Items
+					if regenItemTime < 20 then
+					--Life Regen
+						if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."1" then setLife(life() + 1) end
+						if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."2" then setLife(life() + 2) end
+						if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) end
+					--Power Regen
+						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) end
+						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) end
+						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) end
+					elseif regenItemTime >= 80 then
+						regenItemTime = 0 --Reset
+					end
+				--One-time Items
+					if not specialItemDone then
+					--Autoguard
+						if p1Dat[i].itemslot[slot] == txt_abyssShopAutoguard then setAutoguard(p1Dat[i].pn, true) end
+						specialItemDone = true
+					end
+				--Constant Items
+				--Unlimited Power
+					if p1Dat[i].itemslot[slot] == txt_abyssShopPowerUnlimited then setPower(powermax()) end
+				end
 			end
 		end
 		playerid(oldid)
+	end
+	if not script.pause.pauseMenuActive and roundstate() == 2 then
+		regenItemTime = regenItemTime + 1
 	end
 end
 
@@ -504,12 +526,13 @@ function loop() --The code for this function should be thought of as if it were 
 			abyssHitCnt = 0 --Reset Hit Cnt
 		end
 		if data.debugMode then f_drawQuickText(txt_abycnt, font14, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, 95, 50) end
+		if data.debugMode then f_drawQuickText(txt_abyreget, font14, 0, 1, "Regeneration Time: "..regenItemTime, 95, 70) end
 	--Set Abyss Stats
 		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2 --roundstate() == 0 and gametime() == 1 then
 			if not abyssStatsReady then f_abyssStatsSet() end
 		end
 	--Set Abyss Special Items
-		if roundstate() == 2 then f_abyssItemsSet() end
+		f_abyssItemsSet()
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
 			data.challengerAbyss = true

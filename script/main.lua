@@ -9,10 +9,7 @@ require("script.common")
 --Debug/Match Stuff
 loadDebugFont(fontDebug)
 setDebugScript("script/match.lua")
-
---Assign Lifebar Screenpack
-loadLifebar(fightDef)
-
+loadLifebar(fightDef) --Assign Lifebar Screenpack
 --;===========================================================
 --; GLOBAL VARIABLES DEFINITION
 --;===========================================================
@@ -44,13 +41,11 @@ f_saveStats()
 keepLSide = false
 keepRSide = false
 end
-
 --;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
 assert(loadfile("script/loader.lua"))()
 assert(loadfile("data/visualnovel/VNresources.lua"))()
---require("script.options") --already loaded by common.lua
 
 --;===========================================================
 --; GAME START
@@ -4033,6 +4028,7 @@ function f_artMenu(artLimit)
 				artScaleY = artScaleY - galleryArtZoomSpeed
 			end
 		end
+		animDraw(artworkBG) --Draw BG
 	--Draw Artwork (only if has Spr Data defined)
 		if t_gallery[galleryMenu][galleryCursor].spr[1] and t_gallery[galleryMenu][galleryCursor].spr[2] ~= nil then
 			f_drawArtwork()
@@ -4043,7 +4039,7 @@ function f_artMenu(artLimit)
 	--Draw HUD Assets
 		if not hideMenu then
 		--Draw Artwork Info
-			--animPosDraw(galleryInfoBG, -56, 185) --Draw Info Text BG
+			animDraw(artworkInfoBG) --Draw Info Text BG
 			textImgSetText(txt_artInfo, textData)
 			textImgDraw(txt_artInfo)
 		--Draw Page Info

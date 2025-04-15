@@ -1217,9 +1217,9 @@ end
 --;===========================================================
 --; ARTWORK DISPLAY SCREENPACK DEFINITION
 --;===========================================================
-txt_artInfo = createTextImg(font5, 0, 0, "", 159, 190) --font2
+txt_artInfo = createTextImg(font5, 0, 0, "", 159, 180) --font2
 
-galleryArtPosX = 159
+galleryArtPosX = 160
 galleryArtPosY = 120
 
 galleryArtSizeX = 894
@@ -1228,16 +1228,32 @@ galleryArtSizeY = 894
 galleryArtScaleX = 0.27
 galleryArtScaleY = 0.27
 
-galleryArtMoveSpeed = 14
+galleryArtMoveSpeed = 10
 galleryArtZoomSpeed = 0.01
 
 galleryArtZoomLimitX = 0.05
 galleryArtZoomLimitY = 1.99
 
-galleryArtMoveLimitX1 = 0
-galleryArtMoveLimitY1 = 0
-galleryArtMoveLimitX2 = 320
-galleryArtMoveLimitY2 = 240
+galleryArtMoveLimitX1 = -320
+galleryArtMoveLimitY1 = -300
+galleryArtMoveLimitX2 = 420
+galleryArtMoveLimitY2 = 640
+
+--Background
+artworkBG = animNew(sprFade, [[
+0,1, 0,0, -1
+]])
+animAddPos(artworkBG, 0, 0)
+animUpdate(artworkBG)
+
+--Info BG
+artworkInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(artworkInfoBG, -54, 166)
+animSetScale(artworkInfoBG, 428, 20)
+animSetAlpha(artworkInfoBG, 20, 50)
+animUpdate(artworkInfoBG)
 
 --Input Hints BG
 gInputsBG = animNew(sprIkemen, [[
@@ -3900,9 +3916,9 @@ t_abyssSpecial = {
  {text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
  {text = txt_abyssShopLifeRegeneration.."MAX", price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)", unlock = "true"},
  
- {text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "false"},
- {text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "false"},
- {text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "false"},
+ {text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "true"},
+ {text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "true"},
+ {text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "true"},
  
  {text = txt_abyssShopPowerRegeneration.."1", price = 1000, info = "Gradually regenerates MP over time.", unlock = "true"},
  {text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "true"},
