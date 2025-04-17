@@ -3951,7 +3951,7 @@ t_abyssSpecial = {
  --{text = txt_abyssShopNoGuardCPU, price = 5500, info = "Opponent’s Guard Gauge will deplete automatically.", unlock = "true"},
  --{text = txt_abyssShopNoDizzy, price = 3500, info = "Your character cannot be dizzied, and guard damage is reduced.", unlock = "true"},
  {text = txt_abyssShopTimeStats, price = 2000, info = "Increases you character’s stats when the remaining time is low.", unlock = "true"},
- {text = txt_abyssShopRewardUp, price = 5000, info = "All basic stats will return to their default values, but IKC earned will double.", unlock = "true"},
+ {text = txt_abyssShopRewardUp, price = 5000, info = "All basic stats will return to their default values.IKC earned will double.", unlock = "true"},
  {text = txt_abyssShopDepthStats, price = 10000, info = "Increases your characters' stats as the depth increases.", unlock = "true"},
  {text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
 }
@@ -4098,7 +4098,7 @@ abyssProfileAtributes = animNew(sprIkemen, [[
 62,2, 0,0, -1
 ]])
 animUpdate(abyssProfileAtributes)
-animSetScale(abyssProfileAtributes, 0.6, 0.6)
+animSetScale(abyssProfileAtributes, 0.5, 0.5)
 
 function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 	local NewPosX = NewPosX or 0
@@ -4111,7 +4111,7 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 	else
 		--animPosDraw(abyssProfileVSBG, 165+NewPosX, 20+NewPosY)
 	end
-	animPosDraw(abyssProfileAtributes, 190+NewPosX, 76+NewPosY)
+	animPosDraw(abyssProfileAtributes, 190+NewPosX, 74+NewPosY)
 --Character Stuff
 	if not VSscreen then
 		if not PauseMenu then drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32) end
@@ -4126,8 +4126,8 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 	local attrMax = "MAX"
 	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..getAbyssAttack(), attrFontXPos, attrFontYPos)
 	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..getAbyssPower(), attrFontXPos, attrFontYPos+18)
-	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..getAbyssDefence(), attrFontXPos+60, attrFontYPos)
-	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos+60, attrFontYPos+18)
+	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..getAbyssDefence(), attrFontXPos+62, attrFontYPos)
+	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos+62, attrFontYPos+18)
 --Special Items
 	local spFont = font2
 	local spFontXPos = 172+NewPosX
@@ -4147,7 +4147,7 @@ function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
 	if not VSscreen then
 		animPosDraw(abyssProfileBG, 169, 54)
 	end
-	animPosDraw(abyssProfileAtributes, 194+NewPosX, 110+NewPosY)
+	animPosDraw(abyssProfileAtributes, 194+NewPosX, 108+NewPosY)
 --Character Stuff
 	if not VSscreen then
 		--drawPortrait(p2Dat[1].cel, 223, 59, 0.32, 0.32)
@@ -4162,8 +4162,8 @@ function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
 	local attrMax = "MAX"
 	f_drawQuickText(txt_abyssAttackCPU, attrFont, 0, 1, attrSymb..p2Dat[1].attack, attrFontXPos, attrFontYPos)
 	f_drawQuickText(txt_abyssPowerCPU, attrFont, 0, 1, attrSymb..p2Dat[1].power, attrFontXPos, attrFontYPos+18)
-	f_drawQuickText(txt_abyssDefenceCPU, attrFont, 0, 1, attrSymb..p2Dat[1].defence, attrFontXPos+60, attrFontYPos)
-	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos+60, attrFontYPos+18)
+	f_drawQuickText(txt_abyssDefenceCPU, attrFont, 0, 1, attrSymb..p2Dat[1].defence, attrFontXPos+62, attrFontYPos)
+	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos+62, attrFontYPos+18)
 --Special Items
 	local spFont = font2
 	local spFontXPos = 274+NewPosX

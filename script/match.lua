@@ -246,20 +246,20 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then
-			setLifeMax(lifemax() + (p1Dat[i].life * 100))
+			setLifeMax(lifemax() + (p1Dat[i].life * 10))
 			if abyssdepth() > 1 then setLife(getLifePersistence()) end
-			setPower(p1Dat[i].power * 100)
-			setAttack(attack() + (p1Dat[i].attack * 100))
-			setDefence(defence() + (p1Dat[i].defence * 100))
+			setPower(p1Dat[i].power * 10)
+			setAttack(attack() + (p1Dat[i].attack * 10))
+			setDefence(defence() + (p1Dat[i].defence * 10))
 		end
 	end
 --For each Right Side Player Selected
 	for i=1, #p2Dat do
 		if player(p2Dat[i].pn) then
-			setLifeMax(lifemax() + (p2Dat[i].life * 100))
-			setPower(p2Dat[i].power * 100)
-			setAttack(attack() + (p2Dat[i].attack * 100))
-			setDefence(defence() + (p2Dat[i].defence * 100))
+			setLifeMax(lifemax() + (p2Dat[i].life * 10))
+			setPower(p2Dat[i].power * 10)
+			setAttack(attack() + (p2Dat[i].attack * 10))
+			setDefence(defence() + (p2Dat[i].defence * 10))
 		end
 	end
 	abyssStatsReady = true
@@ -271,8 +271,9 @@ local specialItemDone = false
 local function f_abyssItemsSet()
 	local oldid = id()
 	for i=1, 1 do --#p1Dat do
-		if player(p1Dat[i].pn) then
-			for slot=1, #p1Dat[i].itemslot do
+		for slot=1, #p1Dat[i].itemslot do
+		--Affects Player Side
+			if player(p1Dat[i].pn) then
 			--Restore Life after round win
 				if roundstate() == 4 and time() == 0 and not script.pause.pauseMenuActive then
 					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."1" then setLife(life() + math.floor(lifemax() / 9)) end
@@ -312,31 +313,32 @@ local function f_abyssItemsSet()
 						if p1Dat[i].itemslot[slot] == txt_abyssShopTimeControl then setTime(getRoundTime() / 2) end
 					--Damage X2
 						if p1Dat[i].itemslot[slot] == txt_abyssShopDamageX2 and (life() < math.floor(lifemax() / 3)) then setAttack(attack() * 2) end
-						--
-						specialItemDone = true
+					--After Check all Slots
+						if slot == #p1Dat[i].itemslot then specialItemDone = true end
 					end
 				--Constant Items
-				--No CPU Power
-					if p1Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
-						for player = 1, 8 do
-							if player % 2 == 0 then --Is an Even Player Number
-								setPower(0)
-							end
-						end
-					end
-				--[[No CPU Guard
-					if p1Dat[i].itemslot[slot] == txt_abyssShopNoGuardCPU then
-						for player = 1, 8 do
-							if player % 2 == 0 then --Is an Even Player Number
-								setGuard(0)
-							end
-						end
-					end
 				--Infinite Guard Gauge
-					if p1Dat[i].itemslot[slot] == txt_abyssShopGuardInfinite then setGuard(guardmax()) end
-				]]
+					--if p1Dat[i].itemslot[slot] == txt_abyssShopGuardInfinite then setGuard(guardmax()) end
 				end
 			end
+		--Affects CPU Side
+		--No CPU Power
+			if p1Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
+				for p=1, 8 do
+					if p%2 == 0 then --Is an Even Player Number
+						if player(p) then setPower(0) end
+					end
+				end
+			end
+		--[[No CPU Guard
+			if p1Dat[i].itemslot[slot] == txt_abyssShopNoGuardCPU then
+				for player = 1, 8 do
+					if player % 2 == 0 then --Is an Even Player Number
+						setGuard(0)
+					end
+				end
+			end
+		]]
 		end
 		playerid(oldid)
 	end
@@ -569,6 +571,7 @@ function loop() --The code for this function should be thought of as if it were 
 		f_abyssItemsSet()
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
+			setLifePersistence(life())
 			data.challengerAbyss = true
 			f_saveTemp()
 			exitMatch()
@@ -588,7 +591,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 	--Store Player Life when Match is finished
-		if roundstate() == 4 and (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+		if (abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone)) and roundstate() == 4 and (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
 			if player(1) then
 				setLifePersistence(life())
 				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 80) end
