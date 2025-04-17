@@ -297,11 +297,44 @@ local function f_abyssItemsSet()
 					if not specialItemDone then
 					--Autoguard
 						if p1Dat[i].itemslot[slot] == txt_abyssShopAutoguard then setAutoguard(p1Dat[i].pn, true) end
+					--No Dizzy
+						--if p1Dat[i].itemslot[slot] == txt_abyssShopNoDizzy then setDizzy(-1) end
+					--Power Max
+						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerMax then setPower(powermax()) end
+					--Time Stats
+						if p1Dat[i].itemslot[slot] == txt_abyssShopTimeStats and (getRoundTime() < (getRoundTime() / 3)) then
+							setAttack(attack() + 100)
+							setDefence(defence() + 100)
+						end
+					--Depth Speed
+						if p1Dat[i].itemslot[slot] == txt_abyssShopDepthSpeed then abyssHitTarget = 1 end
+					--Time Control
+						if p1Dat[i].itemslot[slot] == txt_abyssShopTimeControl then setTime(getRoundTime() / 2) end
+					--Damage X2
+						if p1Dat[i].itemslot[slot] == txt_abyssShopDamageX2 and (life() < math.floor(lifemax() / 3)) then setAttack(attack() * 2) end
+						--
 						specialItemDone = true
 					end
 				--Constant Items
-				--Unlimited Power
-					if p1Dat[i].itemslot[slot] == txt_abyssShopPowerUnlimited then setPower(powermax()) end
+				--No CPU Power
+					if p1Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
+						for player = 1, 8 do
+							if player % 2 == 0 then --Is an Even Player Number
+								setPower(0)
+							end
+						end
+					end
+				--[[No CPU Guard
+					if p1Dat[i].itemslot[slot] == txt_abyssShopNoGuardCPU then
+						for player = 1, 8 do
+							if player % 2 == 0 then --Is an Even Player Number
+								setGuard(0)
+							end
+						end
+					end
+				--Infinite Guard Gauge
+					if p1Dat[i].itemslot[slot] == txt_abyssShopGuardInfinite then setGuard(guardmax()) end
+				]]
 				end
 			end
 		end
@@ -481,6 +514,7 @@ end
 
 local bgmstate = 0
 local abyssHitCnt = 0
+abyssHitTarget = 2
 local tutoi = 0
 local tutoDiag = 1
 local tutoClearCnt = 0
@@ -520,7 +554,7 @@ function loop() --The code for this function should be thought of as if it were 
 
 		Note: Depth is not accumulated during a Boss Fight.
 	]]
-		if abyssHitCnt == 2 and time() == 0 then
+		if abyssHitCnt == abyssHitTarget and time() == 0 then
 			setAbyssDepth(abyssdepth() + 1)
 			sndPlay(sndSys, 201, 0)
 			abyssHitCnt = 0 --Reset Hit Cnt
