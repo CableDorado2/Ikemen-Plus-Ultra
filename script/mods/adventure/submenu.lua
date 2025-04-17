@@ -1,4 +1,5 @@
-﻿bgmAdventure = "sound/System/Adventure.mp3" --load bgm
+﻿local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
+bgmAdventure = "sound/System/Adventure.mp3" --load bgm
 --;===========================================================
 --; WORLD TOUR MENU SCREENPACK DEFINITION
 --;===========================================================

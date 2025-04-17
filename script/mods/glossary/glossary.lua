@@ -1,3 +1,4 @@
+local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossary definition filename)
 --sprGlossary = sffNew("script/mods/glossary/glossary.sff") --Load glossary sprites
 --;===========================================================

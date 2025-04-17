@@ -1,3 +1,4 @@
+local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 missionDef = "script/mods/missions/missions.def" --Missions Data (Missions definition filename)
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION

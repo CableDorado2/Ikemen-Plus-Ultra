@@ -3991,10 +3991,12 @@ end
 --;===========================================================
 --; EXTERNAL LUA CODE
 --;===========================================================
-function f_loadLuaMods()
+function f_loadLuaMods(bool)
 	local t_luaExternalMods = {}
+	local matchload = bool or false
+	local excludeFile = false
 	function f_loadExternalModules(path)
-	if path == nil or path == "" then return end
+		if path == nil or path == "" then return end
 		for item in lfs.dir(path) do --For each item readed in path
 			if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
 				local details = path.."/"..item --Get path and file name
@@ -4003,20 +4005,39 @@ function f_loadLuaMods()
 				f_loadExternalModules(details)
 				if attribute.mode == "file" then --If the item have "file" attribute
 					if item:match('^.*(%.)[Ll][Uu][Aa]$') then
-						row = #t_luaExternalMods+1
-						t_luaExternalMods[row] = {}
-						t_luaExternalMods[row]['folder'] = path
-						t_luaExternalMods[row]['path'] = details
-						t_luaExternalMods[row]['name'] = item:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
+					--Check if the file contains a specific line if matchload bool is true
+						if matchload then
+							local file = io.open(details, "r")
+							excludeFile = false
+							if file then
+								for line in file:lines() do
+									if line:find("local excludeLuaMatch = true") then
+										excludeFile = true
+										break
+									end
+								end
+								file:close()
+							end
+						end
+					--Only add the module if it does not contain the "exclude" line
+						if not excludeFile then
+							row = #t_luaExternalMods+1
+							t_luaExternalMods[row] = {}
+							t_luaExternalMods[row]['folder'] = path
+							t_luaExternalMods[row]['path'] = details
+							t_luaExternalMods[row]['name'] = item:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
+						end
 					end
 				end
 			end
 		end
 		if data.debugLog then f_printTable(t_luaExternalMods, 'save/debug/t_luaExternalMods.txt') end
 	end
+--Loads modules from the paths specified in luaModules
 	for mods=1, #luaModules do
 		f_loadExternalModules(luaModules[mods])
 	end
+--Run the modules that were loaded
 	for _, v in ipairs(t_luaExternalMods) do
 		--require(v.path:gsub('[/\\]+', '.'))
 		assert(loadfile(v.path))()

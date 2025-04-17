@@ -1,3 +1,4 @@
+local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 eventDef = "script/mods/events/events.def" --Events Data (Events definition filename)
 --;===========================================================
 --; EVENTS MENU SCREENPACK DEFINITION

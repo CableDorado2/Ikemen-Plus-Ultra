@@ -1,4 +1,5 @@
-﻿sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
+﻿local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
+sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
 bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION

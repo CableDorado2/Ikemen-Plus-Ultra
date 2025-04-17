@@ -1,3 +1,4 @@
+local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 --storyDef = "script/mods/story/story.def" --Story Data (Story definition filename)
 sprStory = sffNew("script/mods/story/story.sff") --load story sprites
 bgmStory = "script/mods/story/Story.mp3" --load story main bgm

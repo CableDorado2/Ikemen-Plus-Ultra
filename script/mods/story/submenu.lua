@@ -1,4 +1,5 @@
-﻿--;===========================================================
+﻿local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
+--;===========================================================
 --; CHRONICLES MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_extrasMenu,1,{id = textImgNew(), text = "CHRONICLES", gotomenu = "f_chroniclesMenu()"}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
