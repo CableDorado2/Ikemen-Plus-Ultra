@@ -265,7 +265,10 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 	abyssStatsReady = true
 end
 
+local regenItem = false
 local regenItemTime = 0
+local poisonItem = false
+local poisonItemTime = 0
 local specialItemDone = false
 --Special Items Assignment
 local function f_abyssItemsSet()
@@ -275,23 +278,26 @@ local function f_abyssItemsSet()
 		--Affects Player Side
 			if player(p1Dat[i].pn) then
 			--Restore Life after round win
-				if roundstate() == 4 and time() == 0 and not script.pause.pauseMenuActive then
-					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."1" then setLife(life() + math.floor(lifemax() / 9)) end
-					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."2" then setLife(life() + math.floor(lifemax() / 5)) end
-					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."MAX" then setLife(life() + math.floor(lifemax() / 2)) end
+				if roundstate() == 4 and time() == 0 then
+					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."1" then setLife(life() + math.floor(lifemax() / 9))
+					elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."2" then setLife(life() + math.floor(lifemax() / 5))
+					elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."MAX" then setLife(life() + math.floor(lifemax() / 2))
+					end
 				end
-				if roundstate() == 2 then
+				if roundstate() == 2 then --During fight (after characters intros)
 				--Timer Items
 					if regenItemTime < 20 then
 					--Life Regen
-						if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."1" then setLife(life() + 1) end
-						if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."2" then setLife(life() + 2) end
-						if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) end
+						if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."1" then setLife(life() + 1) regenItem = true
+						elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."2" then setLife(life() + 2) regenItem = true
+						elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) regenItem = true
+						end
 					--Power Regen
-						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) end
-						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) end
-						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) end
-					elseif regenItemTime >= 80 then
+						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) regenItem = true
+						elseif p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) regenItem = true
+						elseif p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) regenItem = true
+						end
+					elseif regenItemTime >= 200 then
 						regenItemTime = 0 --Reset
 					end
 				--One-time Items
@@ -322,28 +328,69 @@ local function f_abyssItemsSet()
 				end
 			end
 		--Affects CPU Side
-		--No CPU Power
-			if p1Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
-				for p=1, 8 do
-					if p%2 == 0 then --Is an Even Player Number
-						if player(p) then setPower(0) end
+			if roundstate() == 2 then
+			--Poison
+			--During 5 Seconds
+				if p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" then
+					if poisonItemTime < 100 then
+						poisonItem = true
+					elseif poisonItemTime > 100 then
+						poisonItem = false
+						
+					end
+			--During 15 Seconds
+				elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" then
+					if poisonItemTime < 300 then
+						poisonItem = true
+					elseif poisonItemTime > 300 then
+						poisonItem = false
+						
+					end
+			--During 20 Seconds
+				elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
+					if poisonItemTime < 400 then
+						poisonItem = true
+					elseif poisonItemTime > 400 then
+						poisonItem = false
+						
 					end
 				end
-			end
-		--[[No CPU Guard
-			if p1Dat[i].itemslot[slot] == txt_abyssShopNoGuardCPU then
-				for player = 1, 8 do
-					if player % 2 == 0 then --Is an Even Player Number
-						setGuard(0)
+			--No CPU Power
+				if p1Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
+					for p=1, 8 do
+						if p%2 == 0 then --Is an Even Player Number
+							if player(p) then setPower(0) end
+						end
 					end
 				end
+			--[[No CPU Guard
+				if p1Dat[i].itemslot[slot] == txt_abyssShopNoGuardCPU then
+					for player = 1, 8 do
+						if player % 2 == 0 then --Is an Even Player Number
+							setGuard(0)
+						end
+					end
+				end
+			]]
 			end
-		]]
 		end
 		playerid(oldid)
 	end
-	if not script.pause.pauseMenuActive and roundstate() == 2 then
-		regenItemTime = regenItemTime + 1
+--Timers
+	if not script.pause.pauseMenuActive then
+		if regenItem then regenItemTime = regenItemTime + 1 end
+		if poisonItem and gethitvar("hitcount") >= 1 and teamside() == 2 then
+			poisonItemTime = poisonItemTime + 1
+			for p=1, 8 do
+				if p%2 == 0 then --Is an Even Player Number
+					if player(p) then setLife(life() - 1) end
+				end
+			end
+		end
+	end
+	if roundstate() ~= 2 then
+		regenItem = false
+		poisonItem = false
 	end
 end
 
@@ -509,9 +556,9 @@ local function f_abyssBossReward()
 end
 
 function pauseMenu(p, st, esc)
-	if not abyssPause or abyssRewardDone then
+	--if not abyssPause or abyssRewardDone then
 		script.pause.f_pauseMain(p, st, esc)
-	end
+	--end
 end
 
 local bgmstate = 0
@@ -561,8 +608,11 @@ function loop() --The code for this function should be thought of as if it were 
 			sndPlay(sndSys, 201, 0)
 			abyssHitCnt = 0 --Reset Hit Cnt
 		end
-		if data.debugMode then f_drawQuickText(txt_abycnt, font14, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, 95, 50) end
-		if data.debugMode then f_drawQuickText(txt_abyreget, font14, 0, 1, "Regeneration Time: "..regenItemTime, 95, 70) end
+		if data.debugMode then
+			f_drawQuickText(txt_abycnt, font14, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, 95, 50)
+			f_drawQuickText(txt_abyreget, font14, 0, 1, "Regeneration Time: "..regenItemTime, 95, 170, 0.7, 0.7)
+			f_drawQuickText(txt_abypoison, font14, 0, 1, "Poison Time: "..poisonItemTime, 95, 190, 0.7, 0.7)
+		end
 	--Set Abyss Stats
 		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2 --roundstate() == 0 and gametime() == 1 then
 			if not abyssStatsReady then f_abyssStatsSet() end
@@ -594,7 +644,7 @@ function loop() --The code for this function should be thought of as if it were 
 		if (abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone)) and roundstate() == 4 and (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
 			if player(1) then
 				setLifePersistence(life())
-				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 80) end
+				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150) end
 			end
 		end
 --During Tutorial Mode
