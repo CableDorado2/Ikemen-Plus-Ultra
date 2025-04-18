@@ -1,0 +1,81 @@
+;数値がはっきり決められない技を"start"で出せるようにして、
+
+[State -1, Command]
+type = ChangeState
+value = 774
+triggerall = command = "start"
+trigger1 = statetype != A && ctrl
+
+
+
+;数値を決めたい所はvarを使って記述します。
+[State 774, 色の変更]
+type = PalFX
+trigger1 = 1
+add = var(3), var(4), var(5)
+
+
+
+;そして[statedef -2]に、以下の文を書き込みます。
+
+[State -2, デバッグ表示]
+type = DisplayToClipboard
+trigger1 = 1
+text = "V3=%d, V4=%d, V5=%d"
+params = var(3), var(4), var(5)
+
+
+[State -2, Variable+]
+type = VarSet
+trigger1 = var(3) = [0,79]
+var(3) = var(3) + command = "x"
+
+[State -2, Variable+]
+type = VarSet
+trigger1 = var(4) = [0,79]
+var(4) = var(4) + command = "y"
+
+[State -2, Variable+]
+type = VarSet
+trigger1 = var(5) = [0,79]
+var(5) = var(5) + command = "z"
+
+
+[State -2, Variable-]
+type = VarSet
+trigger1 = var(3) = [1,80]
+var(3) = var(3) - command = "a"
+
+[State -2, Variable-]
+type = VarSet
+trigger1 = var(4) = [1,80]
+var(4) = var(4) - command = "b"
+
+[State -2, Variable-]
+type = VarSet
+trigger1 = var(5) = [1,80]
+var(5) = var(5) - command = "c"
+
+
+;この時、[x,y]でその値の取り得る範囲を指定します。
+;0から80の範囲で考えるときは上記の様に指定します。
+
+
+;この状態でMUGENを開始します。
+
+;ctrl+Dを押してデバッグ画面を表示させると、現在のvarの値が表示されるはずです。
+;x,y,zを押すと各数値が上昇、a,b,cを押すと下降するので、
+;数値をセットしてstartで技を発動、結果をチェック…を繰り返すことが出来ます。
+
+
+
+;数値の幅が広くて大変なときは、以下の様に倍化させましょう。
+[State 774, 色の変更]
+type = PalFX
+trigger1 = 1
+add = var(3)*3, var(4)*3, var(5)*3
+
+;こうすれば数値が3倍されるので、
+;ボタン一回で値が3ずつ変化すると考えられるようになります。
+
+;今回の例では0から80だったものが、0から240までカバー出来るようになります。

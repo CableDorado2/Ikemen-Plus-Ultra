@@ -1,0 +1,860 @@
+﻿;追加ステートファイル。 追加アビリティなどを記述。
+
+;---------------------------------------------------------------------------------
+; 高速ジャンプ
+;
+; 普通のジャンプステートのコピーですが、各速度を増加させています。
+; 垂直ジャンプなら高さがおよそ倍に、前後ジャンプなら飛距離が倍になります。
+; また、東方萃夢想風残像と東方緋想天風（？）衝撃エフェクトを付属しました。
+;（エフェクトはK10-SD.cns参照）
+; 
+; コマンド成功でフラグであるvar(1)が1になり、var(1)が0でなければ
+; ジャンプ開始ステートであるstateno=40から50に移行した瞬間、
+; この高速ジャンプステートへ移行します。
+
+
+[Statedef 54]
+type    = A
+physics = A
+
+[State 54, 倍速];垂直ジャンプの場合はX速度が0な事を利用して分岐
+type = VelMul
+trigger1 = Time = 0
+x = ifelse(vel x = 0, 0, 2)      ;前後ジャンプの場合は2倍速
+y = ifelse(vel x = 0, 1.42, 1.04);垂直の場合は高さが約2倍、そうでなくても追加重力補正でやや上昇
+
+[State 54, 効果音]
+type = PlaySnd
+trigger1 = Time = 0
+value = 1, 2
+
+[State 54, フラグOFF];高速ジャンプフラグをリセット
+type = VarSet
+trigger1 = Time = 0
+var(1) = 0
+
+[State 54, 初期化];common1.cnsのstateno=50を参照
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 54, アニメ選択]
+type = ChangeAnim
+trigger1 = Vel X != 0 && Time = 0
+value = ifelse((vel x) > 0, 42, 43)
+
+[State 54, アニメ1F延長]
+type = ChangeAnim
+trigger1 = Vel X = 0 && Time <= 1
+value = 41
+
+[State 54, 残像]
+type = AfterImage
+trigger1 = Time = 0
+time = 100
+trans = add
+timegap = 1            ;残像と残像の間隔と考えると分かり易い（1が一番狭い）
+framegap = 3           ;残像の数はceil(length/framegap)-1個、
+length = 10            ;つまりlength÷framegapの少数点以下を切り上げた数から1を引いた数
+palbright = 0,0,0      ;デフォルトはAll30
+palcontrast = 0,0,256  ;0に近いほど黒くなる
+paladd = 0,0,0         ;デフォルトは10,10,25
+palmul = 0,0,0.5
+
+[State 54, 追加重力];高速感を出すために一工夫
+type = VelAdd
+trigger1 = Time > 1
+y = Const(movement.yaccel) / 10.0  ;重力1割増
+
+[State 54, 落下アニメ]
+type = ChangeAnim
+trigger1 = Vel Y > -2  ;1.0ではConst240p(-2)=Const480p(-4)=Const720p(-8)
+trigger1 = SelfAnimExist(anim + 3)
+trigger1 = Anim >= 41 && Anim <= 43
+persistent = 0
+value = Anim + 3
+
+
+
+;---------------------------------------------------------------------------------
+; カンフーシャドー
+;
+; 所謂避けですが、効果中は当たり判定を完全消滅させます。
+; 避けと言うよりその場阿修羅閃空と言った方が分かり易いかも知れません。
+; この系統の弱点である投げ技も回避出来ますが、無敵が最後まで続かないので
+; 連続発動によって長時間回避し続けることは出来ません。
+; また、発動中にEX必殺技のコマンドを入力すると、無敵終了直前に対応した技を発動します。
+; これにより攻撃を避けつつ、カウンターとして攻撃することも出来ます。（パワー消費は通常と同じ）
+
+; この技のタイムチャート
+; 1から29Fまで判定消失（無敵）、30,31Fで幅の狭い判定出現（非無敵）、32Fで通常判定に戻る
+; 1から28FまでEX必殺技のコマンド受付、29Fで受け付けた技が発動
+
+[Statedef 2000]
+type     = S
+movetype = I
+physics  = S
+velset   = 0,0
+ctrl     = 0
+anim     = 2000
+sprpriority = -1
+
+[State 2000, ヘルパーを出す]
+type = Helper
+trigger1 = Time = 0
+name = "zanzou"     ;ヘルパーの名前と
+stateno = 2010      ;ヘルパーの設定をするステート番号と
+ID = 2009           ;ヘルパーを区別するためのIDナンバーは、最低限指定しておく
+pos = 3,0           ;カウンターの都合上、やや前に出現させる
+
+[State 2000, ヘルパーを出す]
+type = Helper
+trigger1 = Time = 0
+name = "bunshin"
+stateno = 2010
+ID = 2011           ;上とステートナンバーは同じだが、IDが異なる
+pos = 3,0
+
+[State 2000, 透過設定]
+type = Trans
+trigger1 = Time < 31
+trans = addalpha
+alpha = 128,160
+
+
+;透過設定の解説
+;
+;Transはairファイルで指定出来る透過設定と同じ設定がステートごとに行えます。
+;airファイルでは、A,A1,S,ASxxxDyyyというような形で指定しますが
+;Transでは
+; trans = add  （airでいうA,またはAS256S256）
+; trans = add1 （airでいうA1またはAS256S128）
+; trans = sub  （airでいうS,色が反転する、減算透過）
+; trans = addalpha
+;
+;というように指定します。
+;trans = addalphaの場合は、alpha = xxx,yyyで細かく透過度を指定出来るため
+;フェードイン･アウトなどによく使われます。
+;なお、alphaのxxxには色の明るさを、yyyには透過度を指定します。
+;例を示せば、
+;alpha = 128,128で半透明、alpha = 0,0で真っ黒、alpha = 0,256で完全な透明になり
+;alpha = 256,0で透過していない通常の状態、つまりデフォルトとなります。
+
+
+[State 2000, 効果音]
+type = PlaySnd
+trigger1 = Time = 1
+trigger2 = Time = 16
+value = 0, 0
+
+[State 2000, リセット]
+type = VarSet
+trigger1 = Time = 0
+var(2) = 0
+
+[State 2000, コマンド受付]
+type = VarSet
+triggerall = Time < 29
+trigger1 = command = "236_xy"  ;このコマンドを入力すると、Var(2)が4になる
+trigger2 = command = "FF_ab"   ;こちらだとVar(2)は5になる
+trigger3 = command = "623_xy"  ;同じく6になる
+trigger4 = command = "214_xy"  ;(command="214_xy"*7)と書くと、入力しないときは0×7で0になる
+trigger5 = command = "236_ab"  ;(command="236_ab"*8)のときコマンド入力すると、1×8で8になる
+var(2) = (command="236_xy"*4)+(command="FF_ab"*5)+(command="623_xy"*6)+(command="214_xy"*7)+(command="236_ab"*8)
+
+;Var(2)の変化幅を4～8にした理由
+;例えばこれが1から5だったとすると、もし同時にコマンドが実行された場合、1+2は3になってしまうと考えたためです。
+;4+5なら9になるので範囲から外れ、何も起こらないはずです。
+;そもそも同時に入力することは出来ないと思いますが…
+;ちなみにVar(2)は投げ技にも使われていますが、お互いに干渉することはありません。
+
+
+[State 2000, EXパーム]
+type = ChangeState
+trigger1 = var(2) = 4 && power >= 333 && Time = 29
+value = 1020
+
+[State 2000, EXニー]
+type = ChangeState
+trigger1 = var(2) = 5 && power >= 333 && Time = 29
+value = 1070
+
+[State 2000, EXアッパー]
+type = ChangeState
+trigger1 = var(2) = 6 && power >= 333 && Time = 29
+value = 1120
+
+[State 2000, EXブロウ]
+type = ChangeState
+trigger1 = var(2) = 7 && power >= 333 && Time = 29
+value = 1220
+
+[State 2000, EXザンコウ]
+type = ChangeState
+trigger1 = var(2) = 8 && power >= 333 && Time = 29
+value = 1420
+
+[State 2000, 幅設定];ぶつかり判定出現の瞬間は幅を狭くして違和感を軽減
+type = Width
+trigger1 = AnimElem = 2
+edge = -13,0      ;自分の後ろの壁との距離を変更すると、壁端で画面がぶれる
+player = -13, -13
+
+[State 2000, アニメ変更]
+type = ChangeAnim
+trigger1 = Time = 31
+value = 0
+elem = 2
+
+[State 2000, 戻る]
+type = ChangeState
+trigger1 = Time = 32
+value = 0
+ctrl = 1
+
+
+;残像1＆残像2
+
+[Statedef 2010]
+type    = S
+physics = N
+ctrl    = 0
+anim    = 2010
+
+[State 2009, 表示優先度]
+type = SprPriority
+trigger1 = IsHelper(2009)     ;ヘルパーIDが2009の場合はこちら
+value = floor(-sin(time/5.1))
+
+[State 2009, 速度設定]
+type = VelSet
+trigger1 = IsHelper(2009)
+x = cos(time/5.1) * 2
+y = -cos(time/5.1) / 5
+
+[State 2011, 表示優先度]
+type = SprPriority
+trigger1 = IsHelper(2011)     ;ヘルパーIDが2011の場合は動きが逆
+value = floor(sin(time/5.1))
+
+[State 2011, 速度設定]
+type = VelSet
+trigger1 = IsHelper(2011)
+x = -cos(time/5.1) * 2
+y = cos(time/5.1) / 5
+
+
+;三角関数について（Sin,Cos）
+;
+;殆どの人が一度は習っていても、既に忘れてしまっていると思われる三角関数ですが
+;往復や回転運動への使い勝手は良好です。難しい原理は省いて結果だけ説明すると、
+;Sinは0～1～0～-1～0というように、「0から始まり、1と-1の間を振り子のように往復」します。
+;Cosは1～0～-1～0～1というように、「1から始まり、1と-1の間を振り子のように往復」します。
+;
+;振り子は端で止まり、反対方向へ加速、中心で最高速、そこから減速して反対端で止まり、
+;再び反対方向へ加速する、という動作を繰り返しますがSin,Cosの変化も同様です。
+;SinとCosは半分だけ周期がずれているので、うまく利用すればいろいろな動きを作れます。
+;
+;数学の時間に習った範囲では、恐らく円（0°から360°で1周する）を使って説明を受けていたと思います。
+;（Sin0°= 0, Sin90°= 1, Sin180°= 0, Sin270°= -1, Sin360°= 0 = Sin0°そしてSin30°= 0.5等…）
+;しかしMUGENではこの°（度）ではなく、rad（ラジアン）という単位を使って計算します。
+;ラジアンは物理の時間で習った人もいると思いますが、上の円が0から2πで1周する物に変わるだけです。
+;（π = 円周率 = 3.14…、MUGENでは"Pi"と表します。 Pi = π）
+;つまり0°= 0rad, 90°= 0.5πrad, 180°= πrad, 270°= 1.5πrad, 360°= 2πrad = 0radです。
+;
+;度からラジアンへの変換式も簡単に求められます。
+;180°* x = πrad ですから、x = π/180, 度数にこのπ/180を掛ければラジアンが出て来ます。
+;度数を180/πで割っても同じですので、私は度数÷57.3で概算することもあります。
+;
+;MUGEN上での話に移ります。
+;cos(0)=1, cos(0.5*Pi)=0, cos(Pi)=-1, cos(1.5*Pi)=0, cos(2*Pi)=1とループするので
+;例えば速度をcos(time/5.1)と指定すると、time=0で1（つまり最高速、振り子の中心）になり
+;そこから減速しつつtime=8辺りで0（停止、振り子の端）になり、そこから逆方向へ加速を始め
+;time=16辺りで-1（逆方向最速、元の位置）になり、time=24辺りで再び0（停止、振り子の逆端）
+;となります。
+;
+;ちなみに半周期（上の場合はtime=16）を正確に決定するためには、
+;"半周期/Pi"でtimeを割ればOKです（今回は誤差を無視出来る時間内なので、16÷3.14≒5.1を利用）。
+
+
+;cos(time/5.1)だけでは1～-1のループなので
+;これを2倍してcos(time/5.1)*2とし2～-2の範囲にしました。
+;マイナスをつけて、-cos(time/5.1)とすれば動作を真逆に出来ます。
+;また、XとY速度を共にCosにすれば斜めの往復が作れ、
+;X速度をCos(z)、Y速度をSin(z)とすれば綺麗な回転運動が再現出来ます。
+
+
+
+[State 2010, 透過設定]
+type = Trans
+trigger1 = 1
+trans = addalpha
+alpha = 160,128
+
+[State 2010, 残像]
+type = AfterImage
+trigger1 = Time = 0
+time = 31
+trans = add1
+timegap = 1
+framegap = 6
+length = 7
+palbright = 0,0,0
+palcontrast = 128,128,128
+palpostbright = 0,8,8     ;残像の色は何故か赤色が強くなるようなので青系を補正
+
+;残像の色＝(自分の色 + bright) * contrast / 256 + postbright
+;二つ目以降残像の色＝(前の残像の色 + add) * mul
+
+
+[State 2010, 消滅]
+type = DestroySelf
+trigger1 = Time = 31
+trigger2 = parent,stateno != 2000
+
+
+
+;---------------------------------------------------------------------------------
+; カンフーローリング
+;
+; 所謂回り込みですが、相手に飛び込みつつ攻撃を回避するので
+; この系統の弱点である投げ技もある程度回避出来ます。
+; その代わり無敵発生は瞬時ではなく、動作も遅めです。
+
+
+[Statedef 2100]
+type     = C
+movetype = I
+physics  = N
+velset   = 0,0
+anim     = 2100
+ctrl     = 0
+sprpriority = -1
+
+
+;無敵判定の解説
+;
+;NotHitByはvalueで指定された属性の攻撃を無効化します。
+;HitByはvalueで指定された属性の攻撃以外を無効化します。
+;無敵判定はフラグで管理されており、フラグの組み合わせで無敵を設定します。
+;フラグは12種（S,C,AとNA,SA,HA,NT,ST,HT,NP,SP,HP）あり、それぞれの意味を羅列すると
+;一文字の3つ…S(立ち),C(屈み),A(空中)
+;二文字の9つ…頭のN(通常技),S(必殺技),H(超必殺技)と、
+; 　　　　　　後ろのA(打撃),T(投げ),P(飛び道具)の組み合わせ
+;
+;というようになっています。
+;NAとSAとHAをまとめてAA（All･A）と記述することも出来ます。同様にAT,APも使えます。
+;valueには、value = a, b という風に記述します。
+;aにはS,C,Aを指定し、bにはそれ以外のフラグを","で区切って指定します。
+;例：value = CA, NA,HT,SP
+;NotHitByの場合、value = , NA,HT,SPという様に記述することも出来ます。
+
+
+[State 2100, 無敵];32Fまでの間は空中攻撃と全飛び道具が回避可能
+type = NotHitBy
+trigger1 = Time < 32
+value = A, AP
+
+[State 2100, 非無敵];3～29Fの間は地上投げ属性のみ回避不能
+type = HitBy
+trigger1 = Time = [2,29)
+value = SC, AT
+
+[State 2100, 非無敵];5～28Fの間は空中投げ属性のみ回避不能
+type = HitBy
+trigger1 = Time = [4,28)
+value = A, AT
+
+
+;この技の無敵について
+;
+;まず上から、NotHitByのvalueに"A, AP"が指定されています。
+;次にHitByで"SC, AT"が指定されています。
+;これらが重なると下の方が優先され、前のフラグは無効になります。
+;（無効にさせないためには"value2"で指定するのですが、あまり使い道はありません）
+;さらにHitByで"A, AT"が指定され、前二者が無効になります。
+;それぞれの有効時間を見ると1～32、3～29、5～28と範囲が狭まっているので
+;結果として無敵フラグは、
+;開始から2FまでA,AP、そこから2FがA,AA,AP、次の24FはS,C,AA,AP、次が1FのA,AA,AP、残り3FがA,AP
+;ということになります。
+;
+;参考までに、フラグ管理上「屈み打撃と立ち投げだけを無効に」などということは不可能です。
+;Cを指定すれば全屈み攻撃が無効になり、ATを指定すれば全投げ技が無効化されてしまうためです。
+
+
+
+[State 2100, 幅追加];壁とのぶつかり判定を増大＋相手とのぶつかり判定を縮小
+type = Width
+trigger1 = Time = [2,32]
+edge = 4,0               ;画面端との衝突幅追加（前,後）
+player = -6, -5          ;相手との衝突幅追加（前,後）
+                         ;edgeとplayerを同時に変更する場合はvalueを使う
+
+[State 2100, 残像]
+type = AfterImage
+trigger1 = Time = 4
+time = 25
+trans = add1
+timegap = 1
+framegap = 3
+length = 7
+palbright = 0,0,0
+palcontrast = 128,128,128
+palpostbright = 0,8,8
+paladd = 0,4,8
+palmul = .8,.8,.8
+
+[State 2100, 速度設定];初速と減速を同時に設定
+type = VelSet
+trigger1 = Time = 2      ;X方向のみ
+trigger2 = Time = [4,26] ;Y方向追加
+x = 4.3
+y = ifelse(time=2,0,time*0.30-4.637) ;VelSetとVelAddを計算式を使って同時に設定
+
+[State 2100, 摩擦設定];着地後暫く滑らせて最後に速度0倍、つまり0にする
+type = VelMul
+trigger1 = Time > 26
+x = ifelse(time > 32, 0, 0.5) ;MUGEN1.0ではcond(time>32,0,0.5)でも可
+
+[State 2100, 速度設定];落下停止
+type = VelSet
+trigger1 = Time = 28
+y = 0
+
+[State 2100, 軸位置設定];約1/100ドット分地面に埋まるので補正
+type = PosSet
+trigger1 = Pos Y > 0 && Time > 28
+y = 0
+
+[State 2100, 着地音]
+type = PlaySnd
+trigger1 = Time = 28
+value = 40, 0
+
+[State 2100, ぶつかり判定];相手をすり抜けられるようにするため
+type = PlayerPush
+trigger1 = Time = [3,30]
+value = 0                ;0にしている間だけ相手をすり抜けられる
+
+[State 2100, 状態変更];空中状態に変更
+type = StateTypeSet
+trigger1 = Time = 4
+statetype = A       ;S,C,A,Lから選択、Statedef直下の設定を変更
+;movetype = I       ;I,A,H  から選択、Iは通常状態
+;physics =  N       ;S,C,A,Nから選択、Nは無重力状態
+
+[State 2100, 状態変更];屈み状態に戻す
+type = StateTypeSet
+trigger1 = Time = 28
+statetype = C
+
+
+[State 2100, 角度変更命令];回転させる
+type = AngleDraw
+trigger1 = Time = [4,27]
+value = -45 * ceil((time-4)/3)
+scale = 0.25, 0.25
+
+;AngleDrawで回転許可、AngleSetで角度変更、AngleAddやMulで回転させるのが基本ですが
+;ここではAngleDrawのみで回転を行っています。
+;AngleDrawのvalueは、AngleSetのvalueと同じなので
+;計算式を使い、3F毎に-45度回転させています（マイナスだと時計回り）。
+;
+;また、scaleで画像サイズを1/4に縮小していますが、
+;ここでは回転用にkfm720のような4倍サイズの画像を用いているためです。
+;1.0のようなHD環境でプレイすると実寸が確認出来ます。
+
+
+
+[State 2100, 振り返る];相手の後ろに回り込んだとき、振り向いて終了させる
+type = Turn
+trigger1 = AnimTime = 0 && p2dist X < -10
+
+[State 2100, 終了]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------------
+; ガードキャンセルカウンター
+; 
+; 地上ガード硬直中にカンフーブロッキングのコマンドを入力することで、
+; LV1分のパワーを消費してカウンター攻撃を出します。
+; 立ちガードからはカンフーブロウ、屈みガードからはカンフーザンコウで反撃します。
+; ブロウ版の方が威力が高く、ザンコウ版の方はリーチが長いです。
+
+
+[Statedef 2300]
+type     = U   ;直前のタイプを維持
+movetype = A
+physics  = S
+poweradd = -1000
+velset   = 0,0
+ctrl     = 0
+sprpriority = 2
+
+[State 2300, 無敵になる];停止中は効果持続するので、攻撃判定出現直後まで有効
+type = NotHitBy
+trigger1 = Time = 0
+value = SCA
+time = 10
+
+[State 2300, 一瞬止まる]
+type = Pause
+trigger1 = Time = 0
+time = 8
+pausemovetime = 8
+
+[State 2300, 一瞬光る]
+type = Envcolor
+trigger1 = Time = 0
+value = 255, 255, 255
+time = 1
+under = 1
+supermove = 1
+persistent = 0
+ignorehitpause = 1
+
+[State 2300, EX音];カウンター発動音代用
+type = PlaySnd
+trigger1 = Time = 1
+value = 1, 0
+
+[State 2300, 残像];EXの色違い版
+type = AfterImage
+trigger1 = Time = 1
+length = 13
+palbright   =  30, 0,  30
+palcontrast =  70, 20, 70
+paladd      = -10,-10,-10
+palmul      = .85,.50,.85
+timegap  = 1
+framegap = 2
+trans = Add
+time = 34
+
+[State 2300, 色の変更];黄色からピンク系に入れ替え
+type = PalFX
+trigger1 = Time = 1
+time = 21
+add = 32,0,16
+sinadd = 64,5,32,3
+
+[State 2300, カウンター攻撃へ];立ちガードなら2310へ移行、それ以外は2320へ
+type = ChangeState
+trigger1 = Time = 1
+value = ifelse(anim = 150, 2310, 2320)
+
+
+; カンフーブロウ（カウンター）
+; 
+; 相手を勢い良く突き飛ばして転倒させます。
+; クリーンヒットしなかった場合、相手は吹き飛びません。
+
+[Statedef 2310]
+type     = S
+movetype = A
+physics  = S
+juggle   = 4
+poweradd = 0
+anim     = 2310
+ctrl     = 0
+sprpriority = 2
+
+[State 2310, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 3
+
+[State 2310, 幅設定];通常のKFブロウは10～20まで広がるが、ここでは15固定
+type = Width
+trigger1 = AnimElemTime(4) >= 0 && AnimElemTime(8) < 0
+value = 15,0
+
+[State 2310, 攻撃設定]
+type = HitDef
+trigger1 = Time = 1
+attr = S, SA
+animtype  = Hard
+damage    = 44, 4
+getpower  = 0
+priority  = 5
+guardflag = MA
+pausetime = 12,12
+sparkxy = 0,-65
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 16
+ground.hittime  = 20
+ground.velocity = -12
+ground.cornerpush.veloff = -12
+guard.velocity = -7
+air.velocity = -8,-0.5
+airguard.velocity = -3.5,-4.5
+fall.recover = 0 ;受身不可
+p2stateno = 2340
+p2facing = 1
+kill = 0         ;GCカウンターでは相手を倒せないのが基本
+
+[State 2310, 攻撃設定];攻撃判定発生から1F後
+type = HitDef
+trigger1 = AnimElemTime(5) = 1 && !MoveContact
+attr = S, SA
+animtype  = Hard
+damage    = 44, 4
+priority  = 5
+guardflag = MA
+pausetime = 12,12
+sparkxy = 0,-65
+hitsound   = 5,3
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 16
+ground.hittime  = 20
+ground.velocity = -10
+ground.cornerpush.veloff = -12
+guard.velocity = -7
+air.velocity = -3.5,-4.5
+airguard.velocity = -3.5,-4.5
+kill = 0
+
+[State 2310, チェンジ]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+; カンフーザンコウ（カウンター）
+; 
+; 前進しつつ、相手を突き飛ばして転倒させます。
+; これらカウンター技は空中の相手に当ててもほぼ真横に飛ばします。
+
+[Statedef 2320]
+type     = S
+movetype = A
+physics  = N
+juggle   = 4
+poweradd = 0
+anim     = 2320
+ctrl     = 0
+sprpriority = 2
+
+[State 2320, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 3
+
+[State 2320, 地面との摩擦]
+type = VelMul
+trigger1 = 1
+x = 0.65
+
+[State 2320, 位置調整]
+type = PosAdd
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+trigger3 = AnimElem = 4
+x = 10
+
+[State 2320, 速度設定]
+type = VelSet
+trigger1 = AnimElem = 3
+x = 8
+
+[State 2320, 位置調整]
+type = PosAdd
+trigger1 = AnimElem = 9
+x = 10
+
+[State 2320, 攻撃設定]
+type = HitDef
+trigger1 = Time = 1
+attr = S, SA
+animtype  = Hard
+damage    = 40, 4
+getpower  = 0
+priority  = 4
+guardflag = MA
+pausetime = 12,12
+sparkxy = 0,-65
+hitsound   = 5,3
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 17
+ground.velocity = -9
+ground.cornerpush.veloff = -15
+guard.velocity = -9
+air.velocity = -7,-0.5
+airguard.velocity = -3.5,-4.5
+air.fall = 1
+fall.recover = 0
+p2stateno = 2340
+p2facing = 1
+kill = 0
+
+[State 2320, 攻撃設定];攻撃判定発生から1F後
+type = HitDef
+trigger1 = AnimElemTime(4) = 1 && !MoveContact
+attr = S, SA
+animtype  = Hard
+damage    = 40, 4
+priority  = 4
+guardflag = MA
+pausetime = 12,12
+sparkxy = 0,-65
+hitsound   = 5,3
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 17
+ground.velocity = -9
+ground.cornerpush.veloff = -15
+guard.velocity = -9
+air.velocity = -2,-5
+airguard.velocity = -3.5,-4.5
+air.fall = 1
+kill = 0
+
+[State 2320, 終了]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+; 相手のヒット硬直
+; 
+; EXカンフーパームのように、相手をこちらのステートで操作します。
+; まずはアニメ変更からです。
+
+[Statedef 2340]
+type     = U
+movetype = H
+physics  = N
+velset   = 0,0
+
+[State 2340, 制御した相手のアニメ変更]
+type = ChangeAnim2
+trigger1 = 1
+value = 1025
+
+[State 2340, 次へ]
+type = ChangeState
+trigger1 = HitShakeOver = 1
+value = 2350
+
+
+; 相手吹き飛び
+; 
+; 相手が地面を滑っていき、ある程度で躓いて転倒するように操作します。
+; 地面を滑る場合には摩擦も設定しています。
+
+[Statedef 2350]
+type     = A
+movetype = H
+physics  = N
+
+[State 2350, 攻撃を食らった時の移動速度]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1               ;1にすると受けた攻撃の速度に設定される
+y = 1               ;0だと効果なし
+
+[State 2350, 重力];空中時
+type = VelAdd
+trigger1 = Pos Y < -15 && Vel Y != 0
+y = 0.3
+
+[State 2350, 摩擦];地上時、転倒前まで
+type = VelMul
+trigger1 = Time < 8 && Vel Y = 0
+x = 0.92
+
+;[State 2350, 砂埃];MakeDustは非推奨故に下のExplodで代用
+;type = MakeDust
+;trigger1 = Time = 8 && Vel Y = 0
+;pos = -5, 0   ;一箇所目
+;pos2 = 5, 0   ;二箇所目
+;spacing = 1   ;連続して出す場合、次回出現までの空き時間
+
+[State 2350, エフェクト];地上転倒時、足元から砂煙を出す
+type = Explod
+trigger1 = Time = 8 && Vel Y = 0
+anim = F120  ;砂埃
+pos = -5, 0
+ownpal = 1
+
+[State 2350, 相手ステートに戻す];空中着地時
+type = SelfState
+trigger1 = Vel Y > 0 && Pos Y >= 0
+value = 5100
+
+[State 2350, 相手ステートに戻す]
+type = SelfState
+trigger1 = Time > 16
+value = 5050
+
+
+
+;---------------------------------------------------------------------------------
+; ホップバックキック
+; 
+; カンフーマンは昔から、バックステップ時に攻撃やガードが出来るという特徴があり
+; 最速でバックステップ→強キックと入力すると、低空強キックが繰り出せます。
+; 密着状態でしか当たりませんが、攻撃自体は普通の空中強キックなので屈みガードが出来ず
+; シビアながらコンボに組み込むことも可能な特殊中段技となります。
+; その裏技をカンフーマンの裏奥義として再現してみました。
+
+[Statedef 2400]
+type     = A
+movetype = A          ;本来は3FまでI
+physics  = A
+juggle   = 4
+poweradd = 30         ;本来は4F目
+velset   = -4.5,-3.8  ;run.back
+anim     = 2400
+ctrl     = 0
+sprpriority = 2       ;本来は1
+
+[State 2400, 位置調整];人間が後ろを一瞬押したときの移動距離分を補正
+type = PosAdd
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+x = 3
+
+[State 2400, 効果音]
+type = PlaySnd
+trigger1 = Time = 5
+value = 0, 1
+
+[State 2400, 攻撃設定];空中強キック互換
+type = HitDef
+trigger1 = Time = 4
+attr = A, NA
+damage    = 70
+guardflag = HA
+priority = 5      ;強化
+pausetime = 12,12
+sparkno = 1
+sparkxy = -10,-40
+hitsound   = 5,3
+guardsound = 6,0
+animtype = Medium
+ground.type = Low     ;変更
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -7
+air.velocity = -3,-4
+
+[State 2400, 着地]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 106
+

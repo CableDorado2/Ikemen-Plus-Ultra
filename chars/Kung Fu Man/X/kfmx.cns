@@ -1,0 +1,433 @@
+﻿; このキャラクターの基本データ、サイズ等を決めるための第一CNSファイル。
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+
+[Data];データ
+life              = 1000    ;最大体力
+power             = 3000    ;最大パワーゲージ
+attack            = 100     ;攻撃力%
+defence           = 100     ;防御力%
+fall.defence_up   = 50      ;ダウン時に攻撃された時に一時的に上がる防御力
+liedown.time      = 60      ;倒れてから起き上がるまでの最大時間
+airjuggle         = 15      ;エアジャグルポイント
+sparkno           = 2       ;hitdefで設定していない時の基本ヒットスパークナンバー
+guard.sparkno     = 40      ;hitdefで設定していない時の基本ガードスパークナンバー
+KO.echo           = 0       ;0にするとKOされた時に声にエコーがかからない
+volume            = 128     ;音量
+intpersistindex   = 20      ;Varの次ラウンド持ち越し設定
+floatpersistindex = 25      ;同じくFVarの次ラウンド持ち越し設定
+
+; 変数持ち越しの例
+; IntPersistIndex = 20　（Var(20)以降の変数が次のラウンドへ持ち越され、それ以外は0に戻る）
+; FloatPersistIndex = 25（FVar(25)以降の変数が次のラウンドへ持ち越され、それ以外は0に戻る）
+
+
+;---------------------------------------------------------------------------
+
+[Size];サイズ
+xscale           = 1        ;水平方向の縮尺
+yscale           = 1        ;垂直方向の縮尺
+ground.back      = 15       ;キャラクターの幅（後方、地上）
+ground.front     = 16       ;キャラクターの幅（前方、地上）
+air.back         = 12       ;キャラクターの幅（後方、空中）
+air.front        = 12       ;キャラクターの幅（前方、空中）
+height           = 60       ;キャラの高さ(の3分の2くらいを指定)
+attack.dist      = 160      ;攻撃時に相手がガード体勢に入る最低距離
+proj.attack.dist = 90       ;相手がガード体勢に入る発射物との最低距離
+proj.doscale     = 0        ;xscale, yscaleの設定が発射物にも有効かどうかの設定（1なら有効）
+head.pos         = -5, -90  ;頭の大体の座標（BindToTarget使用時に必要）
+mid.pos          = -5, -60  ;体中心の大体の座標（BindToTarget使用時に必要）
+shadowoffset     = 0        ;影の垂直方向オフセット(画像位置ズレ補正手段)
+draw.offset      = 0,0      ;描画位置オフセット(画像位置ズレ補正最終手段)
+
+;---------------------------------------------------------------------------
+
+[Velocity];移動速度
+walk.fwd     = 2.4          ;前に歩く時の速度
+walk.back    = -2.2         ;後ろに歩く時の速度
+run.fwd      = 4.6, 0       ;前に走る時の速度 (x, y) ホップさせる時は y を 0 以下にする
+run.back     = -4.5,-3.8    ;後ろに走る時の速度 (x, y) 走らせる時は y を 0 にします
+jump.neu     = 0,-8.4       ;ジャンプ時の垂直移動速度 (x, y)
+jump.back    = -2.5         ;後ろにジャンプした時の水平移動速度
+jump.fwd     = 2.55         ;前にジャンプした時の水平移動速度
+runjump.back = -2.55,-8.1   ;後ろに走りながらのジャンプ時の速度指定
+runjump.fwd  = 4,-8.1       ;前に走りながらのジャンプ時の速度指定
+airjump.neu  = 0,-8.1       ;空中ジャンプ時の垂直移動速度
+airjump.back = -2.5         ;空中で後ろにジャンプした時の水平移動速度
+airjump.fwd  = 2.55         ;空中で前にジャンプした時の水平移動速度
+air.gethit.groundrecover   = -.15,-3.5  ;地上受身の速度（x,y）
+air.gethit.airrecover.mul　= .5,.2      ;空中受身に掛かる加速度（x,y）ブレーキ効果
+air.gethit.airrecover.add　= 0,-4.5     ;空中受身の速度（x,y）
+air.gethit.airrecover.back = -1         ;空中受身時に後ろを押した場合の追加速度 x
+air.gethit.airrecover.fwd  = 0          ;空中受身時に前を押した場合の追加速度 x
+air.gethit.airrecover.up   = -2         ;空中受身時に上を押した場合の追加速度 y
+air.gethit.airrecover.down = 1.5        ;空中受身時に下を押した場合の追加速度 y
+ 
+;---------------------------------------------------------------------------
+
+[Movement];動作
+airjump.num     = 1                     ;空中ジャンプの回数
+airjump.height  = 35                    ;空中ジャンプに必要な最低限の高さ
+yaccel          = .44                   ;垂直方向にかかる加速度（重力）
+stand.friction  = .85                   ;立ち状態の摩擦係数
+crouch.friction = .82                   ;屈み状態の摩擦係数
+stand.friction.threshold     = 2                ;立ち状態で滑っている時、この速度未満になると止まる
+crouch.friction.threshold    = .05              ;屈み状態で滑っている時、この速度未満になると止まる
+air.gethit.groundlevel       = 25               ;この数値以上床下に落ちると、地面にぶつかる
+air.gethit.groundrecover.ground.threshold = -20 ;Y座標がこの値以上で、地上受身が出来る
+air.gethit.groundrecover.groundlevel      = 10  ;Y座標がこの位置になると地上受身開始
+air.gethit.airrecover.threshold           = -1  ;Y速度がこの値以上になると空中受身が出来る
+air.gethit.airrecover.yaccel = .35              ;受身中に掛かる重力
+air.gethit.trip.groundlevel  = 15               ;転倒技を受けた時、この値以上床下に落ちると地面にぶつかる
+down.bounce.offset           = 0, 20            ;地面でバウンドする瞬間、この位置に補正される（x,y）
+down.bounce.yaccel           = .4               ;バウンド中の重力
+down.bounce.groundlevel      = 12               ;バウンド後、Y座標がこの値でダウンモーションに入る
+down.friction.threshold      = .05              ;ダウン状態で滑っている時、この速度未満になると止まる
+
+
+;---------------------------------------------------------------------------
+;勝利台詞（英語）
+[Quotes]
+; victory0～99まで設定可能
+victory1 = "You must defeat Tu Shou to stand a chance."
+victory2 = "You need a lot of training. Come back in ten years."
+victory3 = "You look familiar. Did I see you on TV?"
+victory4 = "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
+victory5 = "That was a good workout."
+victory6 = "I want to challenge more skilled fighters."
+victory7 = "I'm Kung Fu Man!"
+
+;日本語
+[ja.Quotes]
+victory1 = "俺はカンフーマン！"
+victory2 = "俺はカンフーマン！\n変装の達人だ！！"
+victory3 = "俺はカンフーマン！\n親兄弟、皆カンフーマンだ！！"
+victory4 = "俺はカンフーマン！\nカンフーマンとは我ら一門の総称だ！！"
+victory5 = "俺はカンフーマン！\n全ての原点だ！！"
+;以降、更新の度に追加予定
+
+
+;---------------------------------------------------------------------------
+; Varの使用状況
+; ここに自分が使ったvarをメモしておくといろいろと好都合です。
+; var(1)  - 高速ジャンプフラグに使用
+; var(2)  - 投げ技とカンフーシャドーに使用
+; var(3)  - 
+; var(4)  - 
+; var(5)  - 
+; var(59) - CPUフラグに使用（本体、ヘルパー）
+;
+; fvar(39) - 人間フラグに使用（本体、ヘルパー）
+;
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+; 基本行動のステート
+;---------------------------------------------------------------------------
+; タイムオーバー時
+
+[Statedef 170]
+type   = S
+ctrl   = 0   ;ここでCtrlSetを簡略化できます。　1=自由に動かせる
+anim   = 170
+velset = 0,0 ;ここでVelSetを簡略化できます。　x方向,y方向 の順
+
+[State 170, 無敵]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+
+;---------------------------------------------------------------------------
+; 勝利ポーズ分岐
+;
+;ここで勝利ポーズを選択する。　MatchOverは試合終了を判定するので、
+;一回目と二回目勝利を別のポーズにしたい時に便利。
+
+[Statedef 180]
+type = S
+
+[State 180, 勝利ポーズ1]
+type = ChangeState
+triggerall = RoundState != 0 ;エンディング対策
+trigger1 = Time = 0
+trigger1 = MatchOver = 0     ;0なら次の試合がまだ残ってるということ
+value = 182
+
+[State 180, 勝利ポーズ2]
+type = ChangeState
+trigger1 = Time = 0
+trigger1 = MatchOver = 1     ;これが1だと試合終了したとき
+trigger2 = RoundState = 0    ;エンディング時はこちらを使う
+value = 181
+
+;---------------------------------------------------------------------------
+; 勝利ポーズ
+
+[Statedef 181];深くお辞儀
+type   = S
+ctrl   = 0
+anim   = 181
+velset = 0,0
+
+[State 181, 無敵]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 181, 勝利宣言]
+type = AssertSpecial
+trigger1 = Time < 120
+flag = RoundNotOver
+
+[State 181, カンフーボイス]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = Alive
+value = 90,0
+channel = 0
+
+[Statedef 182];腕を突き上げる
+type   = S
+ctrl   = 0
+anim   = 182
+velset = 0,0
+
+[State 182, 勝利フラグ]
+type = AssertSpecial
+trigger1 = Time < 120
+flag = RoundNotOver
+
+
+;---------------------------------------------------------------------------
+; イントロ分岐
+;
+; ここではRandomを使っています。
+; Randomは0～999の値をランダムに返すので、いろいろな分岐条件に使います。
+; これは同じ時間に2箇所以上で指定しても違う値になってしまうので
+; 分岐条件をifelseによって指定しています。
+
+;イントロ選択
+[Statedef 190]
+type   = S
+ctrl   = 0
+anim   = 0
+velset = 0,0
+
+[State 190, 確率分岐]
+type = ChangeState
+trigger1 = Time = 1
+value = ifelse(random < 600, 191, 192)
+;       ifelse(条件指定, 条件に合う場合の値, 条件に合わない場合の値)
+; Randomが600未満なら191に移行、それ以外なら192へ移行するという意味
+
+
+;---------------------------------------------------------------------------
+; イントロ
+
+[Statedef 191]
+type   = S
+ctrl   = 0
+anim   = 190
+velset = 0,0
+
+[State 191, アニメ変更]
+type = ChangeAnim
+trigger1 = RoundState = 0
+value = 190
+
+[State 191, 特殊効果]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 191, カンフーボイス]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = Alive
+value = 20,0
+channel = 0
+
+[State 191, ステート変更]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+
+;木の板
+[State 191, 板を表示]
+type = Explod
+trigger1 = RoundState != 0
+persistent = 0
+anim = 191
+postype = P1
+pos = 260, -90
+velocity = -4.2, -7
+accel = 0, .32
+removetime = 48
+
+[State 191, 割れる板を表示]
+type = Explod
+trigger1 = AnimElemTime(7) = 1
+anim = 192
+postype = P1
+pos = 60, -70
+velocity = 2, -4
+accel = 0, .32
+removetime = 35
+
+;これらは蹴られて割れて吹っ飛ぶ板の音を再生します。
+[State 191, 音を鳴らす]
+type = PlaySnd
+trigger1 = AnimElem = 7
+value = F5,2 ;Fが付く音はcommon.sndから再生
+volume = -40 ;固有音量、ここで設定すると全体の音量に関係しなくなる。非推奨
+
+[State 191, 音を鳴らす]
+type = PlaySnd
+trigger1 = AnimElemTime(7) = 3
+value = F5,3
+volume = -80
+
+
+; 画面外から歩いて登場する
+;
+; 自分は透明になって元の位置から動かず、ヘルパーを画面外から歩かせて
+; あたかも自分が画面外から登場しているように見せます。
+
+[Statedef 192]
+type = S
+ctrl = 0
+anim = 0
+velset = 0,0
+
+[State 192, 無敵]
+type = NotHitBy
+trigger1 = Time < 110
+value = SCA
+
+[State 192, イントロ用フラグ]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 192, 透明化]
+type = AssertSpecial
+trigger1 = Time < 110
+flag = Invisible  ;これを使うと自キャラが見えなくなる
+
+[State 192, 立ちのまま]
+type = ChangeAnim
+trigger1 = Time < 110
+value = 0
+
+[State 192, ヘルパーを出す]
+type = Helper
+trigger1 = Time = 30
+name = "NAOK"
+stateno = 193
+ID = 193
+pos = -200, 0 ;自分の後方200から出現
+
+[State 192, 礼をさせる]
+type = ChangeAnim
+trigger1 = Time = 115
+trigger1 = Anim = 0   ;使わなくても良いが、使う癖をつけた方がいいかも
+value = 195
+
+[State 192, ステート変更]
+type = ChangeState
+trigger1 = Anim = 195
+trigger1 = AnimTime = 0
+value = 0
+
+;後ろから歩いてくるNAOKのヘルパー
+[Statedef 193]
+type = S
+ctrl = 0
+anim = 20
+velset = 2.5,0
+
+[State 193, 無敵]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 193, 画面外対策];?
+type = PosSet
+trigger1 = Time <= 25
+y = 100 - (time * 4)
+
+[State 193, 消滅]
+type = DestroySelf
+trigger1 = Time = 80
+trigger2 = Parent,stateno != 192 ;本体に変化があっても消えるように
+
+
+;---------------------------------------------------------------------------
+;AssertSpecialは特殊なフラグを設定します。同時に三つまで設定できます。
+
+;[State xxx, フラグ設定記述例]
+;type = AssertSpecial
+;trigger1 = 1
+;flag  = invisible
+;flag2 = noshadow
+;flag3 = timerfreeze
+
+;種類一覧
+;intro　　　　　 イントロの動作をしていることを宣言します。
+;invisible　　　 設定している間は、キャラクターの姿が見えなくなります。
+;　　　　　　　　但し、AfterImageの残像は見えます。
+;roundnotover　　キャラが勝ちポーズ中であることを宣言します。
+;nobardisplay　　設定中はライフバー、パワーバーが消えます。
+;noBG　　　　　　設定中は背景が綺麗に黒になります。
+;noFG　　　　　　設定中はステージレイヤー１が消えます。
+;nostandguard　　設定中は立ち防御不可能になります。
+;nocrouchguard　 設定中はしゃがみ防御不可能になります。
+;noairguard　　　設定中は空中防御不可能になります。
+;noautoturn　　　設定中はキャラが自動的にターンしないようになります。
+;nojugglecheck　 設定中はキャラのJuggleがカウントされなくなります。
+;　　　　　　　　特殊モード時に連続ヒットさせる時等に使用します。
+;nokosnd　　　 　設定中はノックアウト時に11,0(KOsnd)を再生できなくするフラグです。
+;nokoslow　　　　設定中はノックアウト時にスローモーションを効かなくする。
+;noshadow　　　　設定中『影』が未表示になります。
+;globalnoshadow　設定中全てのキャラクター、Helper、Explodの影が消えます。
+;nomusic　　　　 設定中、BGMが停止します。
+;nowalk　　　　　設定中、歩く状態にならなくなります。
+;　　　　　　　　ダッシュ状態が歩き状態にならないようにすることに使用するのが主。
+;timerfreeze　 　設定中、時間がカウントされなくなります。
+;unguardable　　 設定中、全てのHitdefのガードフラグが無視されます。
+;　　　　　　　　つまり、ガード不能技になります。
+
+
+
+;---------------------------------------------------------------------------
+; アピール、挑発行動等
+
+[Statedef 195]
+type     = S
+movetype = I
+physics  = S
+anim     = 195
+velset   = 0,0
+ctrl     = 0
+sprpriority = 2 ;ここで表示優先度を決定できます。　範囲は-5～5、大きいほど手前に表示される
+facep2 = 1      ;相手の方を向いてから（結構重要）
+
+[State 195, パワーが溜まる];(闘婚風味)
+type = PowerAdd
+trigger1 = Time = 44
+value = 100
+
+[State 195, コントロールセット]
+type = CtrlSet
+trigger1 = Time = 48
+value = 1
+
+[State 195, ステート変更]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+

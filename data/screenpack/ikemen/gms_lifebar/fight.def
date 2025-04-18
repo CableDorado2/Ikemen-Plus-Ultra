@@ -1,0 +1,527 @@
+;----------------------------------------------------------------
+;
+; GMS Lifebar                     Made by GoodbyeMeta 2008/03/10
+;
+;----------------------------------------------------------------
+
+[Files]
+sff = data/gms_lifebar/fight.sff
+snd = fight.snd
+font1 = data/gms_lifebar/font2.fnt
+font2 = data/gms_lifebar/timer.fnt
+font3 = data/gms_lifebar/round.fnt
+font4 = data/gms_lifebar/combo.fnt
+font5 = data/gms_lifebar/wincount.fnt
+fightfx.sff = fightfx.sff
+fightfx.air = fightfx.air
+common.snd = common.snd
+
+;-----------------------------------------------------------
+[Lifebar]
+;Player 1
+p1.pos    = 142,12
+p1.bg0.anim = 10
+p1.bg0.scale = 0.5,0.5
+p1.bg1.spr = 11,0
+p1.bg1.scale = 0.5,0.5
+p1.bg2.anim = 45
+p1.bg2.scale = 0.5,0.5
+p1.mid.anim = 12
+p1.mid.scale = 0.5,0.5
+p1.front.anim = 13,0
+p1.front.scale = 0.5,0.5
+p1.range.x  = 0,-124
+;Player 2
+p2.pos    = 177,12
+p2.bg0.anim = 10
+p2.bg0.scale = 0.5,0.5
+p2.bg0.facing = -1
+p2.bg1.spr = 11,0
+p2.bg1.facing = -1
+p2.bg1.scale = 0.5,0.5
+p2.mid.anim = 12
+p2.mid.facing = -1
+p2.mid.scale = 0.5,0.5
+p2.front.anim = 13
+p2.front.facing = -1
+p2.front.scale = 0.5,0.5
+p2.range.x = 0,124
+
+[Begin Action 10] ;âe
+10,0, 0,0, 1, , S
+
+[Begin Action 12] ;ê‘
+12,0, 0,0, 1, , AS128D128
+
+[Begin Action 13] ;ûÚ
+13,0, 0,0, 1, , AS220D64
+
+[Begin Action 45] ;É^ÉCÉ}Å[âe
+45,0, 0,0, 1, , S
+
+[Simul Lifebar]
+;Player 1
+p1.pos    = 142,12
+p1.bg0.anim = 10
+p1.bg0.scale = 0.5,0.5
+p1.bg1.spr = 21,0
+p1.bg1.scale = 0.5,0.5
+p1.bg2.anim = 45
+p1.bg2.scale = 0.5,0.5
+p1.mid.anim = 12,0
+p1.mid.scale = 0.5,0.5
+p1.front.anim = 13
+p1.front.scale = 0.5,0.5
+p1.range.x  = 0,-124
+;Player 2
+p2.pos    = 177,12
+p2.bg0.anim = 10
+p2.bg0.scale = 0.5,0.5
+p2.bg0.facing = -1
+p2.bg1.spr = 21,0
+p2.bg1.facing = -1
+p2.bg1.scale = 0.5,0.5
+p2.mid.anim = 12
+p2.mid.facing = -1
+p2.mid.scale = 0.5,0.5
+p2.front.anim = 13
+p2.front.facing = -1
+p2.front.scale = 0.5,0.5
+p2.range.x = 0,124
+;Player 3
+p3.pos    = 142,21
+p3.bg0.anim = 20
+p3.bg0.scale = 0.5,0.5
+p3.bg0.facing = 1
+p3.mid.anim = 22
+p3.mid.scale = 0.5,0.5
+p3.front.anim = 23
+p3.front.scale = 0.5,0.5
+p3.range.x  = 0,-124
+;Player 4
+p4.pos    = 177,21
+p4.bg0.anim = 20
+p4.bg0.scale = 0.5,0.5
+p4.bg0.facing = -1
+p4.mid.anim = 22
+p4.mid.facing = -1
+p4.mid.scale = 0.5,0.5
+p4.front.anim = 23
+p4.front.facing = -1
+p4.front.scale = 0.5,0.5
+p4.range.x = 0,124
+
+[Begin Action 20] ;âe
+20,0, 0,0, 1, , S
+
+[Begin Action 22] ;ê‘
+22,0, 0,0, 1, , AS128D128
+
+[Begin Action 23] ;ûÚ
+23,0, 0,0, 1, , AS220D64
+
+[Turns Lifebar]
+;Player 1
+p1.pos    = 142,12
+p1.bg0.anim = 10
+p1.bg0.scale = 0.5,0.5
+p1.bg1.spr = 11,0
+p1.bg1.scale = 0.5,0.5
+p1.bg2.anim = 45
+p1.bg2.scale = 0.5,0.5
+p1.mid.anim = 12
+p1.mid.scale = 0.5,0.5
+p1.front.anim = 13
+p1.front.scale = 0.5,0.5
+p1.range.x  = 0,-124
+;Player 2
+p2.pos    = 177,12
+p2.bg0.anim = 10
+p2.bg0.scale = 0.5,0.5
+p2.bg0.facing = -1
+p2.bg1.spr = 11,0
+p2.bg1.facing = -1
+p2.bg1.scale = 0.5,0.5
+p2.mid.anim = 12
+p2.mid.facing = -1
+p2.mid.scale = 0.5,0.5
+p2.front.anim = 13
+p2.front.facing = -1
+p2.front.scale = 0.5,0.5
+p2.range.x = 0,124
+
+;-----------------------------------------------------------
+[Powerbar]
+;Player 1
+p1.pos    = 132,17
+p1.bg0.anim = 40
+p1.bg0.scale = 0.5,0.5
+;p1.mid.spr = 42,0
+p1.front.anim = 43
+p1.front.scale = 0.5,0.5
+p1.range.x = 0,-45
+p1.counter.offset = 5,0
+p1.counter.font = 5,0, 0
+
+;Player 2
+p2.pos    = 187,17
+p2.bg0.anim = 40
+p2.bg0.facing = -1
+p2.bg0.scale = 0.5,0.5
+;p2.mid.spr = 42,0
+;p2.mid.facing = -1
+p2.front.anim = 43
+p2.front.facing = -1
+p2.front.scale = 0.5,0.5
+p2.range.x  = 0,45
+p2.counter.offset = -6.5,0
+p2.counter.font = 5,0, 0
+
+; --level sounds---
+level1.snd = 21,0
+level2.snd = 21,0
+level3.snd = 21,0
+
+[Begin Action 40] ;âe
+40,0, 0,0, 1, , S
+
+[Begin Action 43] ;ê¬
+43,0, 0,0, 1, , AS220D64
+
+
+;-----------------------------------------------------------
+[Face]
+;Player 1
+p1.pos    = 3,4
+p1.bg.anim = 50,0
+p1.bg.scale = 0.5,0.5
+p1.face.spr = 9000,0
+p1.face.facing = 1
+p1.face.scale = 0.56,0.56
+;Player 2
+p2.pos    = 316,4
+p2.bg.anim = 50,0
+p2.bg.facing = -1
+p2.bg.scale = 0.5,0.5
+p2.face.spr = 9000,0
+p2.face.facing = -1
+p2.face.scale = 0.56,0.56
+
+[Simul Face]
+;Player 1
+p1.pos    = 3,4
+p1.bg.anim = 50,0
+p1.bg.scale = 0.5,0.5
+p1.face.spr = 9000,0
+p1.face.scale = 0.56,0.56
+p1.face.facing = 1
+;Player 2
+p2.pos    = 316,4
+p2.bg.anim = 50,0
+p2.bg.facing = -1
+p2.bg.scale = 0.5,0.5
+p2.face.spr = 9000,0
+p2.face.facing = -1
+p2.face.scale = 0.56,0.56
+;Player 3
+p3.pos    = 3,21
+p3.bg.anim = 50,0
+p3.bg.scale = 0.5,0.5
+p3.face.spr = 9000,0
+p3.face.scale = 0.56,0.56
+p3.face.facing = 1
+;Player 4
+p4.pos    = 316,21
+p4.bg.facing = -1
+p4.bg.anim = 50,0
+p4.bg.scale = 0.5,0.5
+p4.face.spr = 9000,0
+p4.face.scale = 0.56,0.56
+p4.face.facing = -1
+
+[Turns Face]
+;Player 1
+p1.pos    = 3,4
+p1.bg.anim = 50,0
+p1.bg.scale = 0.5,0.5
+p1.face.spr = 9000,0
+p1.face.scale = 0.56,0.56
+p1.face.facing = 1
+p1.teammate.pos = 3,21
+p1.teammate.spacing = 13,0
+p1.teammate.bg.anim = 60
+p1.teammate.bg.scale = 0.5,0.5
+p1.teammate.ko.anim = 70
+p1.teammate.ko.scale = 0.5,0.5
+p1.teammate.face.spr = 9000,0
+p1.teammate.face.scale = 0.48,0.48
+p1.teammate.face.facing = 1
+p1.teammate.face.offset = 0,0
+;Player 2
+p2.pos    = 316,4
+p2.bg.anim = 50,0
+p2.bg.facing = -1
+p2.bg.scale = 0.5,0.5
+p2.face.spr = 9000,0
+p2.face.facing = -1
+p2.face.scale = 0.56,0.56
+p2.teammate.pos = 316,21
+p2.teammate.spacing = -13,0
+p2.teammate.bg.anim = 60
+p2.teammate.bg.facing = -1
+p2.teammate.bg.scale = 0.5,0.5
+p2.teammate.ko.anim = 70
+p2.teammate.ko.facing = -1
+p2.teammate.ko.scale = 0.5,0.5
+p2.teammate.face.spr = 9000,0
+p2.teammate.face.scale = 0.48,0.48
+p2.teammate.face.facing = -1
+p2.teammate.face.offset = 0,0
+
+[Begin Action 50] ;âe
+50,0, 0,0, 1, , S
+
+[Begin Action 60] ;É`Å[ÉÄâe
+60,0, 0,0, 1, , S
+
+[Begin Action 70] ;É`Å[ÉÄê‘
+70,0, 0,0, 1, , AS128D128
+
+;-----------------------------------------------------------
+[Name]
+p1.pos = 21,10
+;p1.bg. =
+p1.name.font = 1,0, 1
+;p2.bg. =
+p2.pos = 298,10
+p2.name.font = 1,0, -1
+
+[Simul Name]
+p1.pos = 21,10
+p1.name.font = 1,0, 1
+p2.pos = 298,10
+p2.name.font = 1,0, -1
+p3.pos = 21,35
+p3.name.font = 1,0, 1
+p4.pos = 298,35
+p4.name.font = 1,0, -1
+
+[Turns Name]
+p1.pos = 21,10
+;p1.bg. =
+p1.name.font = 1,0, 1
+;p2.bg. =
+p2.pos = 298,10
+p2.name.font = 1,0, -1
+
+;-----------------------------------------------------------
+[Time]
+pos = 159,11
+
+; Time count display
+counter.offset = 0.5,0
+counter.font = 2,0, 0
+; Ticks for each count
+framespercount = 60
+
+;-----------------------------------------------------------
+[Combo]
+pos = 15,98
+start.x = -1500
+;counter.font = 4,0,0
+counter.shake = 1
+text.text = H%iC
+text.font = 4,0
+text.layerno = 1
+text.offset = 0,0
+displaytime = 90
+
+;-----------------------------------------------------------
+[Round]
+match.wins = 2
+match.maxdrawgames = 1
+start.waittime = 30
+
+pos = 0,0
+
+; ROUND X
+round.time = 0
+round.default.offset = 160, 140
+
+round.default.font = 3,0, 0
+round.default.text = R%iC
+round.default.displaytime = 60
+
+round1.snd = 0,1
+round2.snd = 0,2
+round3.snd = 0,3
+round.sndtime = 0
+
+;round1.offset = 160, 100
+;round1.anim = 
+
+; FIGHT
+fight.time = 0
+fight.offset = 160, 90
+fight.anim = 80
+fight.scale = 0.5,0.5
+;fight.font   = 1,0
+;fight.text   = Fight!
+fight.displaytime = 60
+fight.snd = 1,0
+fight.sndtime = 0
+
+ctrl.time = 60
+
+; KO
+KO.time    = 0
+KO.offset  = 160, 90
+KO.anim    = 200
+KO.scale = 0.5,0.5
+KO.snd     = 2,0
+KO.sndtime = 0
+; Double KO
+DKO.offset = 160, 90
+DKO.font   = 1,0
+DKO.text   = Double K.O.
+DKO.displaytime = 60
+DKO.snd    = 2,1
+; Time Over
+TO.offset  = 160, 90
+TO.font    = 1,0
+TO.text    = Time Over
+TO.displaytime = 60
+TO.snd     = 2,2
+
+slow.time  = 60
+over.waittime = 45
+over.hittime = 10
+over.wintime = 45
+over.time = 210
+
+win.time = 60
+; Win text
+win.offset = 160, 90
+win.font = 1,0
+win.text = %s Wins
+win.displaytime = 540
+; 2-player win text
+win2.offset = 160, 90
+win2.font = 1,0
+win2.text = %s and %s Win
+win2.displaytime = 540
+; Draw text
+draw.offset = 160, 90
+draw.font = 1,0
+draw.text = Draw Game
+draw.displaytime = 540
+
+;"Fight!" Animation
+[Begin Action 80]
+80,10, 0,0, 1, ,AS32D224
+80,11, 0,0, 1, ,AS64D192
+80,12, 0,0, 1, ,AS128D128
+80,13, 0,0, 1, ,AS192D64
+80,14, 0,0, 1
+80,15, 0,0, 1
+80,16, 0,0, 1
+80,0, 0,0, 1
+80,1, 0,0, 1
+80,0, 0,0, 1
+80,1, 0,0, 1
+80,0, 0,0, 38
+80,1, 0,0, 1
+80,0, 0,0, 1
+80,1, 0,0, 1
+80,0, 0,0, 1
+80,20, 0,0, 1
+80,21, 0,0, 1
+80,22, 0,0, 1
+80,23, 0,0, 1, ,AS192D64
+80,24, 0,0, 1, ,AS128D128
+80,25, 0,0, 1, ,AS64D192
+80,26, 0,0, 1, ,AS32D224
+
+;"K.O." Animation
+[Begin Action 200]
+200,10, 0,0, 1, ,AS32D224
+200,11, 0,0, 1, ,AS64D192
+200,12, 0,0, 1, ,AS128D128
+200,13, 0,0, 1, ,AS192D64
+200,14, 0,0, 1
+200,15, 0,0, 1
+200,0, 0,0, 1
+200,1, 0,0, 1
+200,0, 0,0, 1
+200,1, 0,0, 1
+200, 0, 0,0, 40
+200,1, 0,0, 1
+200,0, 0,0, 1
+200,1, 0,0, 1
+200,0, 0,0, 1
+200,20, 0,0, 1
+200,21, 0,0, 1
+200,22, 0,0, 1, ,AS192D64
+200,23, 0,0, 1, ,AS128D128
+200,24, 0,0, 1, ,AS64D192
+200,25, 0,0, 1, ,AS32D224
+
+;-----------------------------------------------------------
+[WinIcon]
+p1.pos = 131,18    ;33,43
+p2.pos = 187,18   ;286,43
+; Offset for next icon (x,y)
+p1.iconoffset = 3,0
+p2.iconoffset = -3,0
+; Counter text font and offset for representing wins
+p1.counter.offset = 23,17
+p1.counter.font = 1,0,-1
+p2.counter.offset = -22,17
+p2.counter.font = 1,0,1
+; Win by normal
+p1.n.spr = 100,0
+p1.n.scale = 0.5,0.5
+p2.n.spr = 100,0
+p2.n.scale = 0.5,0.5
+; Win by special
+p1.s.spr = 101,0
+p1.s.scale = 0.5,0.5
+p2.s.spr = 101,0
+p2.s.scale = 0.5,0.5
+; Win by hyper (super)
+p1.h.spr = 102,0
+p1.h.scale = 0.5,0.5
+p2.h.spr = 102,0
+p2.h.scale = 0.5,0.5
+; Win by normal throw
+p1.throw.spr = 103,0
+p1.throw.scale = 0.5,0.5
+p2.throw.spr = 103,0
+p2.throw.scale = 0.5,0.5
+; Win by cheese
+p1.c.spr = 104,0
+p1.c.scale = 0.5,0.5
+p2.c.spr = 104,0
+p2.c.scale = 0.5,0.5
+; Win by time over
+p1.t.spr = 105,0
+p1.t.scale = 0.5,0.5
+p2.t.spr = 105,0
+p2.t.scale = 0.5,0.5
+; Win by suicide (here's a fun one)
+p1.suicide.spr = 106,0
+p1.suicide.scale = 0.5,0.5
+p2.suicide.spr = 106,0
+p2.suicide.scale = 0.5,0.5
+; Opponent beaten by his own teammate (another fun one)
+p1.teammate.spr = 107,0
+p1.teammate.scale = 0.5,0.5
+p2.teammate.spr = 107,0
+p2.teammate.scale = 0.5,0.5
+; Win by perfect (overlay icon)
+p1.perfect.spr = 110,0
+p1.perfect.scale = 0.5,0.5
+p2.perfect.spr = 110,0
+p2.perfect.scale = 0.5,0.5
+; Use icons up until this number of wins
+useiconupto = -1

@@ -1,0 +1,56 @@
+﻿;このキャラクターの情報と使用ファイルリストです。
+;ここに登録されているファイルが全て揃っていないとエラーとなります。
+
+[Info];情報
+Name         = "Kung Fu Man X"
+DisplayName  = "Kung Fu Man X" 
+VersionDate  = 02,05,2010      ;月,日,西暦 または X.XX（1.02など）
+MugenVersion = 1.0             ;06,14,2003 または 1.0 など
+Author       = "GATT"
+Pal.Defaults = 5,2,6,3
+LocalCoord   = 320,240         ;240p,480p,720pの区別
+
+[Files];ファイルリスト
+Cmd      = kfmx.c        ;拡張子を.cmdから.cに変えています
+Cns      = kfmx.cns
+St       = kfmx.cns
+St1      = K10-NA.cns
+St2      = K10-SA.cns
+St3      = K10-HA.cns
+St4      = K10-PA.cns
+
+;St6      = K10-WIP.cns  ;追加更新中のファイル
+
+St8      = K10-SD.cns
+
+StCommon = common1.cns
+Sprite   = kfmx.sff
+Anim     = kfmx.air
+Sound    = kfmx.snd
+
+Pal1  = Act/kfmx1.act
+Pal2  = Act/kfmx2.act
+Pal3  = Act/kfmx3.act
+Pal4  = Act/kfmx4.act
+Pal5  = Act/kfmx5.act
+Pal6  = Act/kfmx6.act
+Pal7  = Act/NAOK7.act
+Pal8  = Act/NAOK8.act
+Pal9  = Act/NAOK9.act
+Pal10 = Act/NAOK10.act
+Pal11 = Act/NAOK11.act
+Pal12 = Act/NAOK12.act
+
+;[Palette Keymap];MUGEN1.0専用項目です
+;x = 1
+;y = 2
+;z = 3
+;a = 4
+;b = 5
+;c = 6
+;x2 = 7
+;y2 = 8
+;z2 = 9
+;a2 = 10
+;b2 = 11
+;c2 = 12

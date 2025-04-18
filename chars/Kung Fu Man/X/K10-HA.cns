@@ -1,0 +1,695 @@
+﻿;超必殺技用のステート
+
+
+;-------------------------------------------------------------
+; トリプルカンフーパーム (LV1)
+;
+; レベル１の技、ゲージを1本使います。
+; カンフーパームを3発繰り出すという
+; 歴代カンフーマンの伝統的な奥義です。
+
+[Statedef 3000]
+type     = S
+movetype = A
+physics  = S
+juggle   = 4
+velset   = 0,0
+anim     = 3000
+ctrl     = 0
+sprpriority = 2
+
+[State 3000, 物理的なキャラの幅]
+type = Width
+trigger1 = AnimElem = 2, >= 0
+value = 15,0
+
+[State 3000, 超必殺技発動の時間停止]
+type = SuperPause
+trigger1 = AnimElem = 2, 1
+pos = 25, -57
+anim = 100   ;LV1用アニメ。　LV2は101、LV3は102を使う。
+sound = 20, 0
+poweradd = -1000
+
+[State 3000, カンフーボイス];追加（ボイスありの場合のみ）
+type = PlaySnd
+trigger1 = AnimElem = 2, 1
+value = 100,0
+channel = 0
+
+[State 3000, 残像]
+type = AfterImage
+trigger1 = AnimElem = 2, 1
+time = 2
+length = 17
+
+[State 3000, 残像表示時間]
+type = AfterImageTime
+trigger1 = AnimElemTime(2) >= 1 && Time < 60
+time = 2
+
+[State 3000, 無敵]
+type = NotHitBy
+trigger1 = AnimElem = 2
+value = , NA, SA, AT
+time = 11
+
+[State 3000, 無敵]
+type = NotHitBy
+trigger1 = AnimElemTime(2) >= 0 && AnimElemTime(14) < 0
+value2 = C, NA
+time = 1
+
+[State 3000, サンレンダァ！]
+type = PlaySnd
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 12
+trigger3 = AnimElem = 20
+value = 0, 3
+
+[State 3000, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 20
+
+[State 3000, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 3
+trigger2 = AnimElem = 11
+trigger3 = AnimElem = 13
+trigger4 = AnimElem = 19
+trigger5 = AnimElem = 21
+trigger6 = AnimElem = 31   ;本家はtrigger4
+x = 10
+
+[State 3000, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 5
+x = 5
+
+[State 3000, 移動速度]
+type = VelSet
+trigger1 = AnimElem = 5
+trigger2 = AnimElem = 13
+trigger3 = AnimElem = 21
+x = 6
+
+[State 3000, 攻撃設定]
+type = HitDef
+trigger1 = AnimElem = 5
+trigger2 = AnimElem = 13
+attr = S, HA              ;Stand － Hyper Attack
+animtype  = Hard
+damage    = 72,7
+getpower  = 0
+priority  = 6
+guardflag = MA
+pausetime = 15,15
+sparkxy = -10,-60
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 30
+ground.hittime  = 32
+ground.velocity = -6
+air.velocity = -3,-2.8
+air.fall = 1
+fall.animtype = Hard
+fall.recover = 0
+
+[State 3000, 攻撃設定]
+type = HitDef
+trigger1 = AnimElem = 21
+attr = S, HA
+animtype  = Hard
+damage    = 75,7
+getpower  = 0
+priority  = 5
+guardflag = MA
+pausetime = 15,15
+sparkxy = -10,-60
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 30
+ground.hittime  = 32
+ground.velocity = -5, -4
+guard.velocity = -12
+air.velocity = -5,-4
+airguard.velocity = -3,-3
+fall.animtype = Hard
+fall = 1
+fall.recover = 0
+
+[State 3000, チェンジ]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;-------------------------------------------------------------
+; トリプルカンフーアタック (LV2)
+;
+; レベル２の技、ゲージを2本使います。
+; 無敵時間や攻撃力の考え方の参考用です。
+; 三段目はカンフーニーでフィニッシュします。
+
+[Statedef 3010]
+type     = S
+movetype = A
+physics  = S
+juggle   = 4
+velset   = 0,0
+anim     = 3010
+ctrl     = 0
+sprpriority = 2
+
+[State 3010, 物理的なキャラの幅]
+type = Width
+trigger1 = AnimElemTime(2) >= 0 && AnimElemTime(20) < 0
+value = 15,0
+
+[State 3010, 超必殺技発動の時間停止]
+type = SuperPause
+trigger1 = AnimElem = 2, 1
+time = 35      ;停止時間はデフォルトで30なので、それ以上にしたい時は設定する
+pos = 25, -57
+anim = 101     ;レベル2用
+sound = 20, 0
+poweradd = -2000
+
+[State 3010, カンフーボイス]
+type = PlaySnd
+trigger1 = AnimElem = 2, 1
+value = 100,0
+channel = 0
+
+[State 3010, 残像表示設定]
+type = AfterImage
+trigger1 = AnimElem = 2, 1
+time = 2
+length = 17
+palcontrast = 120, 220, 120
+paladd = 10,25,10
+palmul = .65,.75,.65
+
+[State 3010, 残像表示時間]
+type = AfterImageTime
+trigger1 = AnimElemTime(2) >= 1 && Time < 60
+time = 4
+
+[State 3010, 無敵];2ゲージ使うので無敵効果も高いはずです。
+type = NotHitBy
+trigger1 = AnimElem = 2
+value =  , NA, SA, AT ,NP, SP ;飛び道具に対しても無敵になった
+time = 18                     ;時間も延長
+
+[State 3010, 無敵]
+type = NotHitBy
+trigger1 = AnimElemTime(2) >= 0 && AnimElemTime(14) < 0
+value2 = SC, NA, AT           ;無敵部位が広がり、地上攻撃を防ぐ
+time = 1
+
+[State 3010, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 12
+value = 0, 3
+
+[State 3010, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 20
+
+[State 3010, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 3
+trigger2 = AnimElem = 11
+trigger3 = AnimElem = 13
+trigger4 = AnimElem = 19
+x = 10
+
+[State 3010, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 5
+x = 5
+
+[State 3010, 移動速度]
+type = VelSet
+trigger1 = AnimElem = 5
+trigger2 = AnimElem = 13
+x = 6
+
+[State 3010, 攻撃設定]
+type = HitDef
+trigger1 = AnimElem = 5
+trigger2 = AnimElem = 13
+attr = S, HA
+animtype  = Hard
+damage    = 103,10  ;CVS2風味で1.43倍にした。　1.4から1.6倍くらいが基本。
+getpower  = 0
+priority  = 6
+guardflag = MA
+pausetime = 15,15
+sparkxy = -10,-60
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 30
+ground.hittime  = 32
+ground.velocity = -5   ;ノックバックがやや減少
+air.velocity = -3,-2.8
+air.fall = 1
+fall.animtype = Hard
+fall.recover = 0
+
+[State 3010, 移動速度]
+type = VelSet
+trigger1 = AnimElemTime(20) = 0
+x = 2
+
+[State 3010, 物理的なキャラの幅]
+type = Width
+trigger1 = AnimElemTime(20) > 0
+value = -3,0
+
+[State 3010, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 21
+value = 0, 2
+
+[State 3010, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 21
+x = 6
+
+[State 3010, 軸位置移動]
+type = PosAdd
+trigger1 = AnimElem = 23
+x = 21
+
+[State 3010, 攻撃設定]
+type = HitDef
+trigger1 = AnimElem = 23
+attr = S, HA
+animtype  = Medium
+getpower  = 0
+damage    = 107, 10
+priority  = 5
+guardflag = MA
+pausetime = 15,14
+sparkxy = -10,-70
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 24
+ground.hittime  = 26
+ground.velocity = -3,-9.5
+guard.velocity = -7
+air.velocity = -3,-9
+fall = 1
+fall.recover = 0
+
+[State 3010, チェンジ]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 3011
+
+
+;-----------------------
+; フィニッシュニー･上昇＆落下部分
+
+[Statedef 3011]
+type     = A
+movetype = A
+physics  = N
+velset   = 2.5,-9
+anim     = 1071
+hitdefpersist = 1
+
+[State 3011, 残像表示時間]
+type = AfterImageTime
+trigger1 = Pos Y < -10
+time = 2
+
+[State 3011, 速度加算]
+type = VelAdd
+trigger1 = 1
+y = .5
+
+[State 3011, 速度加算]
+type = VelAdd
+trigger1 = Vel Y >= -1
+y = .2
+
+[State 3011, チェンジ]
+type = ChangeState
+trigger1 = Vel Y > 0 && Pos Y >= -10
+value = 1052
+
+
+
+
+;-------------------------------------------------------------
+; スマッシュカンフーアッパー (LV1)
+;
+; レベル１の技、ゲージを1本使います。
+; 比較的新しいカンフーマンの奥義です。
+
+[Statedef 3050]
+type     = S
+movetype = A
+physics  = S
+juggle   = 4
+velset   = 0,0
+anim     = 3050
+ctrl     = 0
+sprpriority = 2
+
+[State 3050, 物理的なキャラの幅]
+type = Width
+trigger1 = AnimElemTime(4) >= 0 && AnimElemTime(16) < 0
+value = 5,0
+
+[State 3050, 超必殺技発動の時間停止]
+type = SuperPause
+trigger1 = AnimElem = 2
+pos = -5, -55
+anim = 100
+sound = 20, 0
+poweradd = -1000
+
+[State 3050, カンフーボイス];追加（ボイス対応時のみ）
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = 100,1
+channel = 0
+
+[State 3050, 残像]
+type = AfterImage
+trigger1 = AnimElem = 2
+time = 2
+
+;残像の設定を省くと、以下の値が適用されます。
+;length = 20
+;timegap = 1
+;framegap = 4
+;palbright = 30,30,30
+;palcontrast = 120, 120, 220
+;paladd = 10,10,25
+;palmul = .65,.65,.75
+;trans = none
+
+
+;以下の解説は、クリエイターズジャパン2より抜粋。
+
+;length = x、timegap = y、framegap = zのとき、
+;yフレーム毎にx個の履歴を保存し、履歴の中からz個毎に表示する。
+;例えば、length = 10 timegap = 3 framegap = 4なら
+;命令が開始されたフレームから数えて1、4、7、10、13、16、19、22、25、28フレーム目の
+;自キャラの画像と場所が履歴に保存される。（履歴1、履歴2、・・・履歴10）
+;その中から履歴1、履歴5、履歴9が残像として表示される。
+
+
+[State 3050, 残像表示時間]
+type = AfterImageTime
+trigger1 = AnimElemTime(2) >= 0
+time = 2
+
+[State 3050, 無敵]
+type = NotHitBy
+trigger1 = AnimElem = 2
+value = , NA, SA, AT
+time = 6
+
+[State 3050, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 0, 2
+
+[State 3050, 攻撃設定]
+type = HitDef
+trigger1 = Time = 0
+attr = S, HA
+animtype  = Up
+damage    = 155, 15
+getpower  = 0
+priority  = 5
+guardflag = MA
+pausetime = 30,30
+sparkno = 3
+sparkxy = 0,-110
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 26
+ground.hittime  = 28
+ground.velocity = -1.3,-25
+guard.velocity = -11
+air.velocity = -1.3,-25
+airguard.velocity = -4.5,-5
+envshake.time = 25
+envshake.ampl = 7
+envshake.freq = 176
+p2facing = 1
+fall = 1
+fall.recover = 0
+fall.damage = 70
+fall.envshake.ampl = 6
+fall.envshake.freq = 178
+fall.envshake.time = 15
+mindist = 50,-100
+maxdist = 100,-10
+yaccel = .8        ;相手に与える落下加速度、速く落としたりゆっくり落としたりできる
+
+[State 3050, チェンジ]
+type = ChangeState
+trigger1 = MoveHit
+value = 3051
+
+[State 3050, チェンジ]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;Hit後
+[Statedef 3051]
+type     = S
+movetype = A
+physics  = S
+anim     = 3051
+
+[State 3051, 残像表示時間]
+type = AfterImageTime
+trigger1 = AnimTime < -2
+time = 2
+
+[State 3051, チェンジ]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; カンフーマウンテンクラッシャー (LV3)
+;
+; 3ゲージを要する強力な攻撃です。
+; 威力、無敵時間などは最高のランクになります。
+
+[Statedef 3060]
+type     = S
+movetype = A
+physics  = S
+juggle   = 6
+poweradd = 0
+velset   = 0,0
+ctrl     = 0
+anim     = 3060
+sprpriority = 2
+
+[State 3060, 完全無敵帯]
+type = NotHitBy
+trigger1 = Time = 0
+value = SCA
+time = 42
+
+[State 3060, 超必殺技発動の時間停止]
+type = SuperPause
+trigger1 = AnimElem = 2
+time = 40
+pos = 34, -72
+anim = 102    ;レベル3用
+sound = 20, 0
+poweradd = -3000
+movetime = 20  ;20フレーム動ける
+
+[State 3060, カンフーボイス]
+type = PlaySnd
+trigger1 = AnimElem = 8
+value = 100,1
+channel = 0
+
+[State 3060, 残像表示設定]
+type = AfterImage
+trigger1 = AnimElem = 8
+time = 2
+length = 17
+palcontrast = 220, 120, 120
+paladd = 25,10,10
+palmul = .75,.65,.65
+
+[State 3060, 残像表示時間]
+type = AfterImageTime
+trigger1 = AnimElemTime(8) >= 1 && Time < 153
+time = 2
+
+[State 3060, 幅]
+type = Width
+trigger1 = AnimElemTime(12) >= 0 && AnimElemTime(17) < 0
+value = 15,0
+
+[State 3060, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 11
+value = 0, 3
+
+[State 3060, 一発目の攻撃設定]
+type = HitDef
+trigger1 = AnimElem = 13
+attr = S, HA
+damage    = 60, 6
+animtype  = Hard
+hitflag = MAF
+guardflag = MA
+getpower  = 0
+pausetime = 13,30 ;長く硬直する
+sparkno = 3
+sparkxy = 0,-65
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 20
+ground.hittime  = 30
+ground.cornerpush.veloff = -2
+ground.velocity = -1
+air.velocity = -.5,-1
+envshake.time = 5
+envshake.ampl = 3
+envshake.freq = 90
+air.fall = 1
+fall.animtype = Hard
+yaccel = .3
+
+[State 3060, 位置移動]
+type = PosAdd
+trigger1 = AnimElem = 20
+trigger2 = AnimElem = 21
+trigger3 = AnimElem = 22
+x = 11
+
+[State 3060, 前進]
+type = VelSet
+trigger1 = AnimElem = 22
+x = 8
+
+[State 3060, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 21
+value = 0, 3
+
+[State 3060, 二発目の攻撃設定]
+type = HitDef
+trigger1 = AnimElem = 21
+attr = S, HA
+damage    = 50, 5
+animtype  = Hard
+priority  = 4
+hitflag = MAF
+guardflag = MA
+getpower  = 0
+pausetime = 13,30
+sparkno = 3
+sparkxy = 0,-65
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 14
+ground.hittime  = 30
+ground.velocity = -1,-9
+guard.velocity = -4
+air.velocity = -1,-8
+airguard.velocity = -3.5,-4.5
+ground.cornerpush.veloff = -5
+guard.cornerpush.veloff = -15
+yaccel = .5
+fall = 1
+fall.recover = 0
+envshake.time = 7
+envshake.ampl = 4
+envshake.freq = 96
+
+[State 3060, 移動]
+type = PosAdd
+trigger1 = AnimElem = 28
+x = 10
+
+[State 3060, 物理的なキャラの幅]
+type = Width
+trigger1 = AnimElemTime(34) >= 0 && AnimElemTime(48) < 0
+value = 5,0
+
+[State 3060, 効果音]
+type = PlaySnd
+trigger1 = AnimElem = 34
+value = 0, 2
+
+[State 3060, 三発目の攻撃設定]
+type = HitDef
+trigger1 = AnimElem = 36
+attr = S, HA
+animtype  = Up
+damage    = 250, 25
+getpower  = 0
+priority  = 5
+guardflag = MA
+pausetime = 30,30
+sparkno = 3
+sparkxy = 0,-110
+hitsound   = 5,4
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 26
+ground.hittime  = 28
+ground.velocity = -1,-26
+guard.velocity = -11
+air.velocity = -.3,-26
+airguard.velocity = -4.5,-6
+envshake.time = 26
+envshake.ampl = 7
+envshake.freq = 177
+p2facing = 1
+fall = 1
+fall.recover = 0
+fall.damage = 90
+fall.envshake.ampl = 6
+fall.envshake.freq = 179
+fall.envshake.time = 16
+mindist = 51,-101
+maxdist = 102,-11
+yaccel = .7
+
+[State 3060, チェンジ]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+;この下、一行以上空ける事。
+
+

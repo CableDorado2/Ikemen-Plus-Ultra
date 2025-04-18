@@ -1,0 +1,324 @@
+﻿;最終ステートファイル。 主にstatedef -2,-3を記述。
+
+;-----------------------------------------------------------------------------
+;-----------------------------------------------------------------------------
+;暴走防止対策済みAI起動プログラム（1.0対応）
+;
+;非常に簡素な作りですが、十分実用レベルに達しているはずです。
+;大抵のキャラクターにそのまま移植出来るものを目指しました。
+;工夫次第でもっと安全確実なものに昇華出来ます。
+;
+;MUGEN1.0からは"AILevel"という新トリガーがあるため、不要になります。
+;CPUフラグであるVar(59)や、その値によるレベル選択なども必要なくなります。
+
+; ※ AILevelが示す値は…
+;    人間操作時＝0、CPU操作時＝本体オプションで設定出来るAIレベルの数字
+
+
+[Statedef 55948]
+anim = 5300 ;透明＆無判定なanimを指定推奨
+ctrl = 0
+
+[State 55948, Invisible]
+type = AssertSpecial
+trigger1 = 1
+flag = Invisible ;透明animを用意出来ない場合
+
+[State 55948, Invincibility]
+type = NotHitBy  ;無判定ではない場合のみ
+trigger1 = 1
+value = SCA
+
+[State 55948, HUMANOnly]
+type = VarSet
+triggerall = time > 0
+trigger1 = command="x" || command="y"
+trigger2 = command="z" || command="a"
+trigger3 = command="b" || command="c"
+ignorehitpause = 1
+fvar(39) = 1.0 ;人間判定(ヘルパーVar)
+
+[State 55948, SetRootVar]
+type = ParentVarSet
+trigger1 = fvar(39)
+trigger2 = var(59)
+fvar(39) = 1.0 ;任意の未使用Varを選択
+
+[State 55948, Destroy]
+type = DestroySelf
+trigger1 = fvar(39)
+trigger2 = roundstate = 4
+
+[State 55948, CPU&HUMAN]
+type = VarSet
+triggerall = time > 0
+trigger1 = root,command="x" || root,command="y"
+trigger2 = root,command="z" || root,command="a"
+trigger3 = root,command="b" || root,command="c"
+ignorehitpause = 1
+var(59) = 1 ;仮AIフラグ(ヘルパーVar)
+
+[State 55948, Next]
+type = ChangeState
+trigger1 = time > 0 && !fvar(39) && var(59)
+value = 55949
+
+
+[Statedef 55949];本体にCPUフラグを転送して消滅
+ctrl = 0
+
+[State 55949, Invisible]
+type = AssertSpecial
+trigger1 = 1
+flag = Invisible ;透明animを用意出来なかった場合
+
+[State 55949, Invincibility]
+type = NotHitBy ;無判定ではない場合のみ
+trigger1 = 1
+value = SCA
+
+[State 55949, Set-AI-Var]
+type = ParentVarSet
+trigger1 = !fvar(39)
+var(59) = var(59) ;root.var=helper.var
+
+[State 55949, Destroy]
+type = DestroySelf
+trigger1 = time > 0
+
+
+;---------------------------------------------------------------------------
+[statedef -2]
+
+
+;---------------------------------------------------------------------------
+;暴走防止対策済みAI起動ヘルパー設置
+;
+;Win版以前のMUGENで人間とCPUを区別するためのヘルパーです。
+
+[State -2, CallHelper]
+type = Helper
+triggerall = !ishelper && !fvar(39)
+triggerall = roundstate < 3 && !var(59)
+trigger1 = !numhelper(55948)
+ID = 55948  ;Sapphire
+name = "AI.Cheat=0"
+pos = 0,240 ;地面の下に埋めている
+stateno = 55948
+keyctrl = 1
+
+
+;---------------------------------------------------------------------------
+;StateNo 5900について
+;
+;5900番のステートは、2試合目以降のラウンドコール前に呼び出されます。
+;このステートでVarやFVarを初期化しています。
+;なのでTurn Modeでは、初登場でも2試合目なのでイントロがありません。
+
+
+[State -2, 二人目のイントロ]
+type = ChangeState             ;二人目でもイントロを作る
+value = 190                    ;イントロへ
+triggerall = RoundsExisted = 0 ;自分が初参戦時
+triggerall = TeamMode = Turns  ;ターンモード
+trigger1 = stateno = 5900      ;5900番
+
+
+;---------------------------------------------------------------------------
+;勝利ポーズ時に歩くことが出来るバグについて
+;
+;WinMUGEN, MUGEN1.0ともに存在するバグへの対策です。
+;相手をKOした時、吹き飛んだ相手をジャンプなどで飛び越えて着地した場合に
+;方向キーを横に入れたままにすると歩き出してしまうので、
+;CtrlSetを使って強制的に制御不能にさせます。
+
+[State -2, 勝利バグ解消]
+type = CtrlSet                 ;歩きバグ対策
+trigger1 = RoundState = 4      ;勝利ポーズ時
+trigger1 = Win && Ctrl = 1     ;動ける場合
+value = 0                      ;制御不能に
+
+
+;---------------------------------------------------------------------------
+;AfterImage（残像）消去
+;
+;残像を表示させたい行動以外の状態に移行したとき、
+;すぐに残像を消去するためのステートです。
+
+[State -2]
+type = AfterImageTime
+trigger1 = MoveType = H  ;攻撃を受けた場合
+trigger2 = stateno != (40,60)
+trigger2 = stateno != [1000,1500)
+trigger2 = stateno != [2300,2330]
+trigger2 = stateno != [3000,3500)
+trigger2 = stateno != [2000,2100]
+trigger3 = stateno != [2000,2100]
+trigger3 = MoveType = I  ;攻撃以外の落下時、着地直前
+trigger3 = (Vel y > 0) && (Pos y > -20)
+time = 0
+
+
+;----------------------------------------------------------------------------
+;デバッグ支援記述集
+;
+; ※ この一連の記述は、キャラが完成したら消すか";"を付けて無効化しましょう。
+;　　僅かにでも処理が重くなることが理由です。（ちなみにNullでは無意味です）
+
+
+;デバッグモードに白い文字の表示を加える
+[State -2, デバッグ表示]
+type = DisplayToClipboard
+trigger1 = 1
+text = "V1=%d,V2=%d,V3=%d,V4=%d,V5=%d"
+params = var(1),var(2),var(3),var(4),var(5)
+ignorehitpause = 1
+
+;表示を横に加える
+[State -2, デバッグ表示その2]
+type = AppendToClipboard
+trigger1 = 1
+text = " HU=%d,CP=%d,Pos X=%d,Y=%d"
+params = floor(fvar(39)),var(59),ceil(Pos X),floor(Pos Y)
+ignorehitpause = 1
+
+;表示を下に加える
+[State -2, デバッグ表示その3]
+type = AppendToClipboard
+trigger1 = 1
+text = "\nDist X=%d,Y=%d, Vel X=%d/10,Y=%d/10 : Power=%d"
+params = floor(P2BodyDist X),ceil(P2BodyDist Y),ceil(Vel X*10),floor(Vel Y*10),Power
+ignorehitpause = 1
+
+
+; ※ 関数説明：floor(1.5) = 1、ceil(1.4) = 2になります。 小数を含む場合によく使います。
+;　　小数を詳しく見たい場合は%dの代わりに%fを使います。
+;　　Vel X*10に対し、表記はVel X=%d/10になっています。 10で割った数値が目安のVel Xです。
+;　　PosとDistはfloorとceilが逆になっています。
+
+
+
+
+;---------------------------------------------------------------------------
+[Statedef -3]
+
+
+[State -3, 着地音]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 52
+trigger2 = stateno = 106
+value = 40, 0
+
+[State -3, 高速ジャンプエフェクト]
+type = Explod
+triggerall = Var(1) && stateno = 40
+trigger1 = Time = 2
+anim = F62
+sprpriority = 3
+
+
+
+;---------------------------------------------------------------------------
+;カンフーボイス
+;
+;以下のいくつかの項目は、大部分のボイスを設定しています。
+;SNDファイルの指定のアドレスにボイスを追加することで利用出来ます。
+
+[State -3, ダメージボイス]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = Alive && GameTime % 3 = 0                  ;生きている時＆3Fに一回の確率で
+trigger1 = stateno=5000 || stateno=5010 || stateno=5020 ;ダメージの瞬間
+trigger2 = stateno = 5070 || stateno = 5080             ;ダメージの瞬間
+value = 50,random/250                                   ;50,0～50,3までをランダムに決定
+channel = 0 ;チャンネルを決定しています。同じチャンネルの音は重なりません。
+
+[State -3, ガードボイス]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = Alive && GameTime % 4 = 0               ;%は割ったあまりを求める
+trigger1 = stateno=151 || stateno=153 || stateno=155 ;ガードのノックバック時
+trigger2 = stateno = 702                             ;シールド成功時
+value = 60,random/334                                ;60,0～60,2までをランダムに決定
+channel = 0 ;例えば4チャンネルの音が新たに鳴った場合、現在の4chの音は消えます。
+
+[State -3, 受身ボイス]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = Alive && GameTime % 3 = 0      ;GameTimeを3で割ったあまりが0の時
+trigger1 = stateno = 5200 || stateno = 5210 ;受身直後
+value = 70,random/334
+channel = 0 ;そのおかげで、各ボイスが同時に発せられることがなくなります。
+
+[State -3, 起き上がりボイス]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = Alive && GameTime % 3 = 0
+trigger1 = stateno = 5120              ;起き上がり時
+value = 80,random/334
+channel = 0 ;キャラボイスは0chを推奨
+
+;以下二つは、各技のステートに直接設定する方が良いです
+
+[State -3, カンフーボイス]
+type = PlaySnd
+triggerall = Alive && GameTime % 3 = 0
+trigger1 = Time = 1
+trigger1 = (stateno=[1000,1020])||(stateno=[1100,1120])||(stateno=[1400,1420]) ;必殺技の瞬間
+trigger2 = Time = 1
+trigger2 = stateno = 1055 || stateno = 1075 ;追撃蹴り時
+trigger3 = Time = 15 && stateno = 1210      ;強カンフーブロウ
+trigger4 = Time = 8
+trigger4 = stateno=1200 || stateno=1220 ;弱＆EXブロウ
+value = 5,random/250
+channel = 0
+
+[State -3, カンフーボイス2種のみ]
+type = PlaySnd
+triggerall = Alive && GameTime % 4 = 0
+triggerall = Time = 1
+trigger1 = stateno = 1050 || stateno = 1060 || stateno = 1070 ;カンフーニー
+value = 5,random/500
+channel = 0
+
+
+
+;---------------------------------------------------------------------------
+;CPU限定の行動
+;
+;所謂AIです。
+;完成前からAIを組んでしまうと、追加技などを搭載したときに面倒なことになりがちです。
+;このカンフーマンは素材用なので尚更面倒を避けて、一例に留めます。
+
+
+[State -3, 空中コンボ]
+type = ChangeState
+value = 1050
+triggerall = var(59) && roundstate = 2     ;CPUフラグがON、かつ、試合中
+triggerall = p2stateno = 1028              ;壁に跳ね返った相手に対して（K10-SA.cns参照）
+triggerall = p2bodydist X = [-10,32]       ;相手との距離指定、近距離限定
+triggerall = p2bodydist Y = [-70,-20]      ;相手の高さ指定、丁度良い高さを選択
+triggerall = Random > (p2bodydist X +10)*2 ;確率指定、距離が離れるほど確率低下（しかしほぼ確実）
+triggerall = enemy,hitfall = 1             ;相手が吹き飛び状態であることを確認
+trigger1   = statetype != A && ctrl        ;人間でも繰り出せる条件を指定することを忘れずに
+
+[State -3, カンフー連還腿]
+type = ChangeState
+value = 1055
+triggerall = var(59)                 ;ステート1051,1061番に"!var(59)"を付けると完璧
+triggerall = p2statetype != L        ;相手が倒れていない
+triggerall = p2statetype != C        ;相手がしゃがんでいない
+triggerall = pos Y < -10             ;人間でも繰り出せる条件（K10-SA.cns参照）
+triggerall = vel Y < -1              ;同じくK10-SA.cns参照
+triggerall = time > 4                ;ディレイをかけさせる
+triggerall = p2bodydist X = [-15,45] ;相手との距離指定、近距離限定
+triggerall = Random > 650            ;確率指定、やや下げることによって僅かにディレイを追加
+trigger1   = stateno = 1051          ;カンフーニー弱の場合
+trigger1   = p2bodydist Y = [-70,10] ;相手の高さ指定
+trigger2   = stateno = 1061          ;カンフーニー強の場合
+trigger2   = p2bodydist Y = [-60,20] ;相手の高さ指定
+trigger3   = stateno = 1051 || stateno = 1061
+trigger3   = vel Y = [-1.6,-1)       ;最大ディレイの場合は相手の高さを無視
+
+
