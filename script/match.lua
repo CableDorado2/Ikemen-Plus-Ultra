@@ -306,6 +306,11 @@ local function f_abyssItemsSet()
 					elseif regenItemTime >= 200 then
 						regenItemTime = 0 --Reset
 					end
+				--Time Stats
+					if p1Dat[i].itemslot[slot] == txt_abyssShopTimeStats and (timeremaining() == (getRoundTime() / 3)) then
+						setAttack(attack() + 10)
+						setDefence(defence() + 10)
+					end
 				--One-time Items
 					if not specialItemDone then
 					--Autoguard
@@ -314,21 +319,19 @@ local function f_abyssItemsSet()
 						--if p1Dat[i].itemslot[slot] == txt_abyssShopNoDizzy then setDizzy(-1) end
 					--Power Max
 						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerMax then setPower(powermax()) end
-					--Time Stats
-						if p1Dat[i].itemslot[slot] == txt_abyssShopTimeStats and (getRoundTime() < (getRoundTime() / 3)) then
-							setAttack(attack() + 100)
-							setDefence(defence() + 100)
-						end
 					--Depth Speed
 						if p1Dat[i].itemslot[slot] == txt_abyssShopDepthSpeed then abyssHitTarget = 1 end
 					--Time Control
 						if p1Dat[i].itemslot[slot] == txt_abyssShopTimeControl then setTime(getRoundTime() / 2) end
-					--Damage X2
-						if p1Dat[i].itemslot[slot] == txt_abyssShopDamageX2 and (life() < math.floor(lifemax() / 3)) then setAttack(attack() * 2) end
 					--After Check all Slots
 						if slot == #p1Dat[i].itemslot then specialItemDone = true end
 					end
 				--Constant Items
+				--Damage X2
+					if p1Dat[i].itemslot[slot] == txt_abyssShopDamageX2 and (life() < math.floor(lifemax() / 3)) then
+						setAttack(attack() * 2)
+						--setService(txt_abyssShopDamageX2)
+					end
 				--Infinite Guard Gauge
 					--if p1Dat[i].itemslot[slot] == txt_abyssShopGuardInfinite then setGuard(guardmax()) end
 				end
@@ -342,7 +345,6 @@ local function f_abyssItemsSet()
 						poisonItem = true
 					elseif poisonItemTime > 100 then
 						poisonItem = false
-						
 					end
 			--During 15 Seconds
 				elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" then
@@ -350,7 +352,6 @@ local function f_abyssItemsSet()
 						poisonItem = true
 					elseif poisonItemTime > 300 then
 						poisonItem = false
-						
 					end
 			--During 20 Seconds
 				elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
@@ -358,7 +359,6 @@ local function f_abyssItemsSet()
 						poisonItem = true
 					elseif poisonItemTime > 400 then
 						poisonItem = false
-						
 					end
 				end
 			--No CPU Power

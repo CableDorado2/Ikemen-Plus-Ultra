@@ -202,7 +202,7 @@ void game()
 	`put(y=, "ROUNDS TO WIN:" + ''.com.roundsToWin + " - CURRENT ROUND:" + ''.com.round); //Display Rounds to Win & Current Round Number
 	`put(y=, "P1 ROUND WINS:" + ''.com.p1wins); //Display Player 1 Round Wins
 	`put(y=, "P2 ROUND WINS:" + ''.com.p2wins); //Display Player 2 Round Wins
-	//`put(y=, "ROUND TIME:" + ''.com.roundTime); //Display Round Time
+	//`put(y=, "TOTAL ROUND TIME:" + ''.com.roundTime); //Display Total Round Time in ticks
 	`put(y=, "ROUND STATE:" + ''.tscri.cwc~roundState()); //Display Round State
 	`put(y=, ""); //Enter a space to separate
 	`put(y=, "RECORDING STATE:" + ''.com.recordState + " - PLAYBACK STATE:" + ''.com.playbackState); //Display Dummy Record State & Dummy Playback State

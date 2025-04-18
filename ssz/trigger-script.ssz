@@ -1233,6 +1233,36 @@ void time(&.lua.State L=, int re=)
   L.pushNumber((double)(#.cwc > 0 ? .cwc~stVal.time : 0));
 }
 
+//void timeelapsed(&.lua.State L=, int re=)
+//{
+  //re = 1;
+  //L.pushNumber((double).com.timeElapsed); //TODO
+//}
+//Returns the amount of clock ticks since the battle began (0 if time is disabled).
+//Value returned by this trigger corresponds to lifebar timer (only ticks during RoundState = 2)
+
+void timeremaining(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.time);
+}
+//Returns the amount of clock ticks until time over (-1 if time is disabled).
+//Value returned by this trigger corresponds to lifebar timer (only ticks during RoundState = 2)
+
+//void timetotal(&.lua.State L=, int re=)
+//{
+  //re = 1;
+  //L.pushNumber((double).com.timeTotal); //TODO
+//}
+//Returns the total number of clock ticks that have elapsed so far.
+//Takes into account previous rounds and matches since the start of this game mode.
+
+void roundtime(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.roundTime); //Returns Total Round Time in ticks
+}
+
 void topedge(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1454,6 +1484,7 @@ public void registerFunction(&.lua.State L=)
   L.register("roundno", .roundno);
   L.register("roundsexisted", .roundsexisted);
   L.register("roundstate", .roundstate);
+  L.register("roundtime", .roundtime);
   L.register("screenheight", .screenheight);
   L.register("screenposX", .screenposX);
   L.register("screenposY", .screenposY);
@@ -1470,6 +1501,9 @@ public void registerFunction(&.lua.State L=)
   L.register("tfvar", .tfvar);
   L.register("tickspersecond", .tickspersecond);
   L.register("time", .time);
+  //L.register("timeelapsed", .timeelapsed);
+  L.register("timeremaining", .timeremaining);
+  //L.register("timetotal", .timetotal);
   L.register("topedge", .topedge);
   L.register("tvar", .tvar);
   L.register("uniqhitcount", .uniqhitcount);

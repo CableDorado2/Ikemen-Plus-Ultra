@@ -3943,7 +3943,7 @@ t_abyssSpecial = {
  
  {text = txt_abyssShopDepthSpeed, price = 3000, info = "Increases the rate of descent into the Abyss.", unlock = "true"},
  {text = txt_abyssShopTimeControl, price = 2400, info = "Shortens the time of a round.", unlock = "true"},
- {text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player’s damage output is multiplied by 2.", unlock = "true"},
+ {text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player damage output is multiplied by 2.", unlock = "true"},
  {text = txt_abyssShopAutoguard, price = 2500, info = "Guard attacks automatically.", unlock = "true"},
  --{text = txt_abyssShopGuardInfinite, price = 3000, info = "Guard Gauge becomes infinite.", unlock = "true"},
  {text = txt_abyssShopPowerMax, price = 4500, info = "Upon entering battle, the Power Gauge will be maxed out.", unlock = "true"},
