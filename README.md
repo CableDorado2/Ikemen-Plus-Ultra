@@ -30,8 +30,6 @@ Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-U
 
 ## Table of Contents
 
->[About All IKEMEN Versions](#about-all-ikemen-versions)
->
 >[Games Made in Ikemen Plus Ultra](#games-made-in-ikemen-plus-ultra)
 >
 >[Roadmap](#roadmap)
@@ -46,25 +44,13 @@ Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-U
 >
 >[Discord Support](#discord-support)
 >
+>[About All IKEMEN Versions](#about-all-ikemen-versions)
+>
 >[References](#references)
 >
 >[License](#license)
 
-## About All IKEMEN Versions
-**S-SIZE Project** is an original programming language project done by **Suehiro** with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
-
-**IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
-This Ikemen is an expansion of his original SSZ code.
-
-**IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
-
-**IKEMEN Plus Ultra** is an unofficial large scale update of the previous version maintained by **CD2** in association with **Strong FS**. It contains new features and engine improvements inspired from: Ikemen GO, Commercial Fighting Games and Touhou: Gensokyo Reloaded.
-
-**IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
-
-**IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
-
-## Projects Made in Ikemen Plus Ultra
+## Games Made in Ikemen Plus Ultra
 - *MUGENGERS: THE OROCHI'S ORIGIN*
 - *ULTIMATE SMASHBOX*
 - ???
@@ -119,25 +105,21 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-- Integrar un sistema de diálogo en los matches siguiendo la lógica usada para la selección de recompensa del abyss mode.
-
 - Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
 
 - Crear un trigger para activar o desactivar las transiciones por cada round. Al desactivarlas, el inicio de cada nuevo round sería como X-Men COTA o Mortal Kombat.
 
-- Crear una función como setDebugScript pero que permita soportar todas las funciones de script.ssz (debug.lua por alguna razón no lo hace) y ejecutarse durante toda la batalla o al menos al final de la partida. Para implementar las siguientes características:
+- Integrar un sistema de diálogo en los matches siguiendo la lógica usada para la selección de reward del abyss mode.
 
-  - Win Screen que se muestra al final de la pelea mientras todos los personajes y los datos del escenario aún están cargados (por lo que podríamos usar el fondo del escenario y los datos de animación de los personajes).
+- Añadir opción para mostrar la Victory Screen al final de la pelea mientras todos los personajes y los datos del escenario aún están cargados. (Garantizar el acceso para coincidir con los datos relacionados que a menudo son verificados por winscreens como WinKO, Life, etc. Para los Victory Quotes).
 
-  - Como lo anterior pero para la pantalla Continuar
-
-  - Ambas características se han implementado en el código del paquete de pantalla actual, pero la solución actual tiene un alto rendimiento (aumenta el tiempo de carga cuando se inicia el ejecutable) y no es perfecta (no hay acceso para coincidir con los datos relacionados que a menudo son verificados por winscreens como WinKO, Life, etc.)
+- Como lo anterior pero para la pantalla Continue.
 
 - Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
 
 - Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
-- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa).
+- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa). Probar añadirlo desde match.lua.
 
 - Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
 
@@ -246,6 +228,20 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 
 ## Discord Support
 If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, **keep in mind that those who use this version can be counted on the fingers of ONE hand**): https://discord.gg/KV5EPnMuA7
+
+## About All IKEMEN Versions
+**S-SIZE Project** is an original programming language project done by **Suehiro** with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
+
+**IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
+This Ikemen is an expansion of his original SSZ code.
+
+**IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
+
+**IKEMEN Plus Ultra** is an unofficial large scale update of the previous version maintained by **CD2** in association with **Strong FS**. It contains new features and engine improvements inspired from: Ikemen GO, Commercial Fighting Games and Touhou: Gensokyo Reloaded.
+
+**IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
+
+**IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
 ## References
 >- Suehiro's Main Page:
