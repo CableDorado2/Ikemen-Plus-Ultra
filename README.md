@@ -259,6 +259,9 @@ This Ikemen is an expansion of his original SSZ code.
 >- Ikemen Plus (What this project is based on) Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
+>- Ikemen Plus Ultra Linux Fork:
+>https://github.com/Ahmed-Dzair-Dev/Ikemen-Plus-Ultra-Linux
+>
 >- Ikemen Go Plus Source Code:
 >https://github.com/K4thos/Ikemen-GO-Plus
 >
