@@ -3921,39 +3921,39 @@ t_abyssMenu = {
 }
 
 --Special Items
-t_abyssSpecial = {
- {text = txt_abyssShopLifeRegeneration.."1", price = 1000, info = "Gradually regenerates HP over time.", unlock = "true"},
- {text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
- {text = txt_abyssShopLifeRegeneration.."MAX", price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)", unlock = "true"},
+t_abyssSpecialItems = {
+ {showfromdepth = 0, text = txt_abyssShopLifeRegeneration.."1", price = 1000, info = "Gradually regenerates HP over time.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopLifeRegeneration.."MAX", price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)", unlock = "true"},
  
- {text = txt_abyssShopPoison.."1", price = 2000, info = "Landing an attack on the opponent will poison him for a short time.", unlock = "true"},
- {text = txt_abyssShopPoison.."2", price = 5000, info = "Landing an attack on the opponent will poison him for a medium time.", unlock = "true"},
- {text = txt_abyssShopPoison.."MAX", price = 8000, info = "Landing an attack on the opponent will poison him for a long time.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopPoison.."1", price = 2000, info = "Landing an attack on the opponent will poison him for a short time.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopPoison.."2", price = 5000, info = "Landing an attack on the opponent will poison him for a medium time.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopPoison.."MAX", price = 8000, info = "Landing an attack on the opponent will poison him for a long time.", unlock = "true"},
  
- {text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "true"},
- {text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "true"},
- {text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "true"},
  
- {text = txt_abyssShopCurse.."1", price = 6660, info = "Half of the damage you take, your opponent will take, also.", unlock = "true"},
- {text = txt_abyssShopCurse.."MAX", price = 9990, info = "All of the damage you take, your opponent will take, also.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopCurse.."1", price = 6660, info = "Half of the damage you take, your opponent will take, also.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopCurse.."MAX", price = 9990, info = "All of the damage you take, your opponent will take, also.", unlock = "true"},
  
- {text = txt_abyssShopPowerRegeneration.."1", price = 1000, info = "Gradually regenerates MP over time.", unlock = "true"},
- {text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "true"},
- {text = txt_abyssShopPowerRegeneration.."MAX", price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopPowerRegeneration.."1", price = 1000, info = "Gradually regenerates MP over time.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopPowerRegeneration.."MAX", price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)", unlock = "true"},
  
- {text = txt_abyssShopDepthSpeed, price = 3000, info = "Increases the rate of descent into the Abyss.", unlock = "true"},
- {text = txt_abyssShopTimeControl, price = 2400, info = "Shortens the time of a round.", unlock = "true"},
- {text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player damage output is multiplied by 2.", unlock = "true"},
- {text = txt_abyssShopAutoguard, price = 2500, info = "Guard attacks automatically.", unlock = "true"},
- --{text = txt_abyssShopGuardInfinite, price = 3000, info = "Guard Gauge becomes infinite.", unlock = "true"},
- {text = txt_abyssShopPowerMax, price = 4500, info = "Upon entering battle, the Power Gauge will be maxed out.", unlock = "true"},
- {text = txt_abyssShopNoPowerCPU, price = 6400, info = "Enemy Power Gauge will deplete automatically.", unlock = "true"},
- --{text = txt_abyssShopNoGuardCPU, price = 5500, info = "Enemy Guard Gauge will deplete automatically.", unlock = "true"},
- --{text = txt_abyssShopNoDizzy, price = 3500, info = "Your character cannot be dizzied, and guard damage is reduced.", unlock = "true"},
- {text = txt_abyssShopTimeStats, price = 2000, info = "Increases you character stats when the remaining time is low.", unlock = "true"},
- {text = txt_abyssShopRewardUp, price = 5000, info = "All basic stats will return to their default values.IKC earned will double.", unlock = "true"},
- {text = txt_abyssShopDepthStats, price = 10000, info = "Increases your character stats as the depth increases.", unlock = "true"},
- {text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopDepthSpeed, price = 3000, info = "Increases the rate of descent into the Abyss.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopTimeControl, price = 2400, info = "Shortens the time of a round.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player damage output is multiplied by 2.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopAutoguard, price = 2500, info = "Guard attacks automatically.", unlock = "true"},
+ --{showfromdepth = 0, text = txt_abyssShopGuardInfinite, price = 3000, info = "Guard Gauge becomes infinite.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopPowerMax, price = 4500, info = "Upon entering battle, the Power Gauge will be maxed out.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopNoPowerCPU, price = 6400, info = "Enemy Power Gauge will deplete automatically.", unlock = "true"},
+ --{showfromdepth = 0, text = txt_abyssShopNoGuardCPU, price = 5500, info = "Enemy Guard Gauge will deplete automatically.", unlock = "true"},
+ --{showfromdepth = 0, text = txt_abyssShopNoDizzy, price = 3500, info = "Your character cannot be dizzied, and guard damage is reduced.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopTimeStats, price = 2000, info = "Increases you character stats when the remaining time is low.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopRewardUp, price = 5000, info = "All basic stats will return to their default values.IKC earned will double.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopDepthStats, price = 10000, info = "Increases your character stats as the depth increases.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
 }
 
 --Life Items
@@ -4062,7 +4062,7 @@ f_setAbyssShop(t_abyssAttack)
 f_setAbyssShop(t_abyssDefence)
 f_setAbyssShop(t_abyssPower)
 f_setAbyssShop(t_abyssLife)
-f_setAbyssShop(t_abyssSpecial)
+f_setAbyssShop(t_abyssSpecialItems)
 f_setAbyssShop(t_abyssDepth)
 --When all shop items are ready:
 table.remove(t_abyssShop, t_abyssShop.delete) --Remove first item ("delete") generate as placeholder to use f_setAbyssShop
@@ -4298,15 +4298,15 @@ function f_addAbyssBossRewards(t_items) --Add items to t_abyssBossRewards, accor
 end
 
 function f_generateAbyssRewards()
+	local t_randomItemSel = {t_abyssSpecialReward, t_abyssAll}
+	local t_randomStatSel = {t_abyssAttack, t_abyssPower}
+	local t_randomStatSel2 = {t_abyssDefence, t_abyssLife}
 	t_abyssBossRewards = {} --Create Boss Rewards Item Table
 	f_addAbyssBossRewards(t_abyssReward) --This will be the last item using "tPos" variable
-	f_addAbyssBossRewards(t_abyssDefence)
-	f_addAbyssBossRewards(t_abyssAttack)
-	f_addAbyssBossRewards(t_abyssPower)
-	f_addAbyssBossRewards(t_abyssLife)
-	--f_addAbyssBossRewards(t_abyssSpecialReward)
-	--f_addAbyssBossRewards(t_abyssSpecial)
-	--f_addAbyssBossRewards(t_abyssAll)
+	f_addAbyssBossRewards(t_randomStatSel[math.random(1, #t_randomStatSel)])
+	f_addAbyssBossRewards(t_randomStatSel2[math.random(1, #t_randomStatSel2)])
+	f_addAbyssBossRewards(t_randomItemSel[math.random(1, #t_randomItemSel)])
+	f_addAbyssBossRewards(t_abyssSpecialItems)
 	f_addAbyssBossRewards(t_abyssDepth)
 --When all reward items are ready:
 	for i=1, #t_abyssBossRewards do --Set ID to all items

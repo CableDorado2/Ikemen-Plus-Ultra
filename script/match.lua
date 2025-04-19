@@ -503,14 +503,13 @@ local function f_abyssBossReward()
 				setAbyssReward(getAbyssReward() + t_abyssBossRewards[rewardMenu].val)
 		--Exclusive Boss Reward Item
 			elseif t_abyssBossRewards[rewardMenu].exclusiveitem then
-				itemDone = true
-				local rewardValue = nil
-				if teamside() == 1 then
+				if player(1) then
 				--Add Life
 					if t_abyssBossRewards[rewardMenu].text == "Maximum HP" then setLife(lifemax())
-					elseif t_abyssBossRewards[rewardMenu].text == "Half-HP" then setLife(life + lifemax() / 2)
+					elseif t_abyssBossRewards[rewardMenu].text == "Half-HP" then setLife(life() + lifemax() / 2)
 					end
 				end
+				itemDone = true
 		--Special Items Assign (FALTA ASEGURAR QUE ESTO SE GUARDE CUANDO REGRESES AL VS SCREEN)
 			else
 			--Special Items Slots are Full
@@ -612,9 +611,7 @@ local function f_abyssBossReward()
 end
 
 function pauseMenu(p, st, esc)
-	--if not abyssPause or abyssRewardDone then
-		script.pause.f_pauseMain(p, st, esc)
-	--end
+	script.pause.f_pauseMain(p, st, esc)
 end
 
 local bgmstate = 0
