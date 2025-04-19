@@ -271,12 +271,43 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 	abyssStatsReady = true
 end
 
+local function f_applyToSide(side, atrib, val)
+	local side = side or ""
+	local atrib = atrib or ""
+	local val = val or nil
+	for p=1,8 do
+		if p%2 == 0 then --Is an Even Player Number (Right Side)
+			if side == "right" then
+				if player(p) then
+					if atrib == "-life" then
+						setLife(life() - val)
+					elseif atrib == "powerset" then
+						setPower(val)
+					end
+				end
+			end
+		else --Is an Odd Player Number (Left Side)
+			if side == "left" then
+				if player(p) then
+					if atrib == "-life" then
+						setLife(life() - val)
+					elseif atrib == "powerset" then
+						setPower(val)
+					end
+				end
+			end
+		end
+	end
+end
+
 local regenItem = false
 local regenItemTime = 0
 local poisonItem = false
 local poisonItemTime = 0
+local poisonItemTimeTarget = 0
 local specialItemDone = false
 local damagex2Item = false
+local damageReceived = 0
 --Special Items Assignment
 local function f_abyssItemsSet()
 	local oldid = id()
@@ -340,40 +371,51 @@ local function f_abyssItemsSet()
 		--Affects CPU Side
 			if roundstate() == 2 then
 			--Poison
-			--During 5 Seconds
-				if p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" then
-					if poisonItemTime < 100 then
+				if p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" or p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" or p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
+				--During 5 Seconds
+					if p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" then
+						poisonItemTimeTarget = 100
+				--During 15 Seconds
+					elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" then
+						poisonItemTimeTarget = 300
+				--During 20 Seconds
+					elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
+						poisonItemTimeTarget = 400
+					end
+				--Poison Status
+					if poisonItemTime < poisonItemTimeTarget then
 						poisonItem = true
-					elseif poisonItemTime > 100 then
+					elseif poisonItemTime > poisonItemTimeTarget then
 						poisonItem = false
 					end
-			--During 15 Seconds
-				elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" then
-					if poisonItemTime < 300 then
-						poisonItem = true
-					elseif poisonItemTime > 300 then
-						poisonItem = false
+				end
+			--Damage Curse
+				if p1Dat[i].itemslot[slot] == txt_abyssShopCurse.."1" or p1Dat[i].itemslot[slot] == txt_abyssShopCurse.."MAX" then
+					if player(1) then
+						damageReceived = gethitvar("damage") --Get Total Damage received from the Enemy
 					end
-			--During 20 Seconds
-				elseif p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
-					if poisonItemTime < 400 then
-						poisonItem = true
-					elseif poisonItemTime > 400 then
-						poisonItem = false
+					if p1Dat[i].itemslot[slot] == txt_abyssShopCurse.."1" then damageReceived = damageReceived / 2 end --Reduce to half
+					--f_applyToSide("right", "-life", damageReceived)
+					for p=1, 8 do
+						if p%2 == 0 then
+							if player(p) then setLife(life() - damageReceived) end
+						end
 					end
 				end
 			--No CPU Power
 				if p1Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
+					--f_applyToSide("right", "powerset", 0)
 					for p=1, 8 do
-						if p%2 == 0 then --Is an Even Player Number
+						if p%2 == 0 then
 							if player(p) then setPower(0) end
 						end
 					end
 				end
 			--[[No CPU Guard
 				if p1Dat[i].itemslot[slot] == txt_abyssShopNoGuardCPU then
+					--f_applyToSide("right", "guardset", 0)
 					for player = 1, 8 do
-						if player % 2 == 0 then --Is an Even Player Number
+						if player % 2 == 0 then
 							setGuard(0)
 						end
 					end
@@ -388,6 +430,7 @@ local function f_abyssItemsSet()
 		if regenItem then regenItemTime = regenItemTime + 1 end
 		if poisonItem and gethitvar("hitcount") >= 1 and teamside() == 2 then
 			poisonItemTime = poisonItemTime + 1
+			--f_applyToSide("right", "-life", 1) --Replace below with this
 			for p=1, 8 do
 				if p%2 == 0 then --Is an Even Player Number
 					if player(p) then setLife(life() - 1) end
@@ -458,11 +501,17 @@ local function f_abyssBossReward()
 			elseif t_abyssBossRewards[rewardMenu].reward then
 				itemDone = true
 				setAbyssReward(getAbyssReward() + t_abyssBossRewards[rewardMenu].val)
-		--Exclusive Boss Reward Item (TODO)
+		--Exclusive Boss Reward Item
 			elseif t_abyssBossRewards[rewardMenu].exclusiveitem then
 				itemDone = true
-				--a = t_abyssBossRewards[rewardMenu].text
-		--Special Items Assign (TODO)
+				local rewardValue = nil
+				if teamside() == 1 then
+				--Add Life
+					if t_abyssBossRewards[rewardMenu].text == "Maximum HP" then setLife(lifemax())
+					elseif t_abyssBossRewards[rewardMenu].text == "Half-HP" then setLife(life + lifemax() / 2)
+					end
+				end
+		--Special Items Assign (FALTA ASEGURAR QUE ESTO SE GUARDE CUANDO REGRESES AL VS SCREEN)
 			else
 			--Special Items Slots are Full
 				if abyssDat.nosave.itemslot[#abyssDat.nosave.itemslot] ~= "" then

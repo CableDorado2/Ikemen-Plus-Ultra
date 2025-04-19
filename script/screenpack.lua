@@ -3721,7 +3721,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Special Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 				stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 				--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
-				depth = 100, --At what depth/matchNo will the special boss appear
+				depth = 3, --At what depth/matchNo will the special boss appear
 				stats = 5, --Special Boss stats (life, power, attack, defence)
 				pal = 1, --Palette
 				ailevel = 8, --CPU Level
@@ -3947,12 +3947,12 @@ t_abyssSpecial = {
  {text = txt_abyssShopAutoguard, price = 2500, info = "Guard attacks automatically.", unlock = "true"},
  --{text = txt_abyssShopGuardInfinite, price = 3000, info = "Guard Gauge becomes infinite.", unlock = "true"},
  {text = txt_abyssShopPowerMax, price = 4500, info = "Upon entering battle, the Power Gauge will be maxed out.", unlock = "true"},
- {text = txt_abyssShopNoPowerCPU, price = 6400, info = "Opponent’s Power Gauge will deplete automatically.", unlock = "true"},
- --{text = txt_abyssShopNoGuardCPU, price = 5500, info = "Opponent’s Guard Gauge will deplete automatically.", unlock = "true"},
+ {text = txt_abyssShopNoPowerCPU, price = 6400, info = "Enemy Power Gauge will deplete automatically.", unlock = "true"},
+ --{text = txt_abyssShopNoGuardCPU, price = 5500, info = "Enemy Guard Gauge will deplete automatically.", unlock = "true"},
  --{text = txt_abyssShopNoDizzy, price = 3500, info = "Your character cannot be dizzied, and guard damage is reduced.", unlock = "true"},
- {text = txt_abyssShopTimeStats, price = 2000, info = "Increases you character’s stats when the remaining time is low.", unlock = "true"},
+ {text = txt_abyssShopTimeStats, price = 2000, info = "Increases you character stats when the remaining time is low.", unlock = "true"},
  {text = txt_abyssShopRewardUp, price = 5000, info = "All basic stats will return to their default values.IKC earned will double.", unlock = "true"},
- {text = txt_abyssShopDepthStats, price = 10000, info = "Increases your characters' stats as the depth increases.", unlock = "true"},
+ {text = txt_abyssShopDepthStats, price = 10000, info = "Increases your character stats as the depth increases.", unlock = "true"},
  {text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
 }
 
