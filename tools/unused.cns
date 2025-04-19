@@ -37,3 +37,12 @@ type = VarSet
 triggerall = GameMode = "abyss" || GameMode = "abysscoop" || GameMode = "abysscpu"
 trigger1 = AbyssBossFight = 0 && var(228) >= 2 && (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1))
 var(228) = 0 ;Reset hit counter to 0 when "var(228)" >= 2
+
+;===========================================================================
+; ABYSS SPECIAL ITEMS EXAMPLE
+;===========================================================================
+[State 2, Attack X2]
+type = AttackMulSet
+triggerall = Service = "Revenger"
+trigger1 = TeamSide = 1
+value = 2.0 ;All damage the player gives is scaled by this amount.

@@ -276,6 +276,7 @@ local regenItemTime = 0
 local poisonItem = false
 local poisonItemTime = 0
 local specialItemDone = false
+local damagex2Item = false
 --Special Items Assignment
 local function f_abyssItemsSet()
 	local oldid = id()
@@ -306,11 +307,6 @@ local function f_abyssItemsSet()
 					elseif regenItemTime >= 200 then
 						regenItemTime = 0 --Reset
 					end
-				--Time Stats
-					if p1Dat[i].itemslot[slot] == txt_abyssShopTimeStats and (timeremaining() == (getRoundTime() / 3)) then
-						setAttack(attack() + 10)
-						setDefence(defence() + 10)
-					end
 				--One-time Items
 					if not specialItemDone then
 					--Autoguard
@@ -326,12 +322,17 @@ local function f_abyssItemsSet()
 					--After Check all Slots
 						if slot == #p1Dat[i].itemslot then specialItemDone = true end
 					end
-				--Constant Items
-				--Damage X2
-					if p1Dat[i].itemslot[slot] == txt_abyssShopDamageX2 and (life() < math.floor(lifemax() / 3)) then
-						setAttack(attack() * 2)
-						--setService(txt_abyssShopDamageX2)
+				--Time Stats
+					if p1Dat[i].itemslot[slot] == txt_abyssShopTimeStats and (timeremaining() == (getRoundTime() / 3)) then
+						setAttack(attack() + 10)
+						setDefence(defence() + 10)
 					end
+				--Damage X2
+					if p1Dat[i].itemslot[slot] == txt_abyssShopDamageX2 and (life() < math.floor(lifemax() / 3)) and not damagex2Item then
+						setAttack(attack() * 2)
+						damagex2Item = true
+					end
+				--Constant Items
 				--Infinite Guard Gauge
 					--if p1Dat[i].itemslot[slot] == txt_abyssShopGuardInfinite then setGuard(guardmax()) end
 				end

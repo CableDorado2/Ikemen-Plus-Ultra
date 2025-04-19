@@ -637,12 +637,3 @@ type = DefenceMulSet
 triggerall = GameMode = "story" && Service = "balance"
 trigger1 = TeamSide = 1
 value = 0.5
-
-;===========================================================================
-; ABYSS SPECIAL ITEMS EXAMPLE
-;===========================================================================
-[State 2, Attack X2]
-type = AttackMulSet
-triggerall = Service = "Revenger"
-trigger1 = TeamSide = 1
-value = 2.0 ;All damage the player gives is scaled by this amount.
