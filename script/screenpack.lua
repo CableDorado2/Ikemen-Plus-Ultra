@@ -3888,13 +3888,12 @@ txt_abyssShopInfoLock = "This item has yet to be discovered"
 txt_abyssShopItemSold = "Sold Out"
 txt_abyssShopInfoSold = "This item has already been obtained"
 
---Special Items Common Text
+--Special Items Common Name Text (This names are used in match.lua)
 txt_abyssShopLifeRegeneration = "Regeneration Lv."
 txt_abyssShopLifeRestore = "Victory Rush Lv."
 txt_abyssShopPowerRegeneration = "Burning Soul Lv."
 txt_abyssShopPoison = "Poison Lv."
 txt_abyssShopCurse = "Cursed Touch Lv."
-
 txt_abyssShopDepthSpeed = "Maze Walker"
 txt_abyssShopAutoguard = "Autoguard"
 txt_abyssShopDamageX2 = "Revenger"
@@ -3909,7 +3908,7 @@ txt_abyssShopRewardUp = "Trader"
 txt_abyssShopTimeControl = "Time Lord"
 txt_abyssShopMirror = "Glass Mirror"
 
---Item Prices
+--Common Item Prices
 txt_abyssShopItemPrice1 = 250
 txt_abyssShopItemPrice2 = txt_abyssShopItemPrice1*2
 txt_abyssShopItemPrice3 = txt_abyssShopItemPrice1*3
@@ -3920,27 +3919,8 @@ t_abyssMenu = {
  {id = textImgNew(), text = "Begin the Game", 	info = "Enter the Abyss"},
 }
 
---Special Items
-t_abyssSpecialItems = {
- {showfromdepth = 0, text = txt_abyssShopLifeRegeneration.."1", price = 1000, info = "Gradually regenerates HP over time.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopLifeRegeneration.."2", price = 4000, info = "Gradually regenerates HP over time. (Quicker than Lv.1)", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopLifeRegeneration.."MAX", price = 7000, info = "Gradually regenerates HP over time. (Quicker than Lv.2)", unlock = "true"},
- 
- {showfromdepth = 0, text = txt_abyssShopPoison.."1", price = 2000, info = "Landing an attack on the opponent will poison him for a short time.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopPoison.."2", price = 5000, info = "Landing an attack on the opponent will poison him for a medium time.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopPoison.."MAX", price = 8000, info = "Landing an attack on the opponent will poison him for a long time.", unlock = "true"},
- 
- {showfromdepth = 0, text = txt_abyssShopLifeRestore.."1", price = 1500, info = "Regenerates a small amount of HP after the match has been won.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopLifeRestore.."2", price = 4500, info = "Regenerates a medium amount of HP after the match has been won.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopLifeRestore.."MAX", price = 8000, info = "Regenerates a large amount of HP after the match has been won.", unlock = "true"},
- 
- {showfromdepth = 0, text = txt_abyssShopCurse.."1", price = 6660, info = "Half of the damage you take, your opponent will take, also.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopCurse.."MAX", price = 9990, info = "All of the damage you take, your opponent will take, also.", unlock = "true"},
- 
- {showfromdepth = 0, text = txt_abyssShopPowerRegeneration.."1", price = 1000, info = "Gradually regenerates MP over time.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopPowerRegeneration.."2", price = 4000, info = "Gradually regenerates MP over time. (Quicker than Lv.1)", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopPowerRegeneration.."MAX", price = 7000, info = "Gradually regenerates MP over time. (Quicker than Lv.2)", unlock = "true"},
- 
+--Special Items without Levels
+local t_nolvItems = {
  {showfromdepth = 0, text = txt_abyssShopDepthSpeed, price = 3000, info = "Increases the rate of descent into the Abyss.", unlock = "true"},
  {showfromdepth = 0, text = txt_abyssShopTimeControl, price = 2400, info = "Shortens the time of a round.", unlock = "true"},
  {showfromdepth = 0, text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player damage output is multiplied by 2.", unlock = "true"},
@@ -3956,6 +3936,88 @@ t_abyssSpecialItems = {
  {showfromdepth = 0, text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
 }
 
+--Special Items with Levels
+local t_regenHPItems = {
+ {showfromdepth = 0, price = 1000, lvinfo = "", unlock = "true"},
+ {showfromdepth = 0, price = 4000, lvinfo = " (Quicker than Lv.1)", unlock = "true"},
+ {showfromdepth = 0, price = 7000, lvinfo = " (Quicker than Lv.2)", unlock = "true"},
+}
+for i=1, #t_regenHPItems do
+	local lv = i
+	if i == #t_regenHPItems then lv = "MAX" end --How will be named the last level for a item
+	--t_regenHPItems[i].life = true
+	t_regenHPItems[i].text = txt_abyssShopLifeRegeneration..lv
+	t_regenHPItems[i].info = "Gradually regenerates Life over time."..t_regenHPItems[i].lvinfo
+end
+--;---------------------------------------------------------------------------------------------------
+local t_poisonItems = {
+ {showfromdepth = 0, price = 2000, lvinfo = "short", unlock = "true"},
+ {showfromdepth = 0, price = 5000, lvinfo = "medium", unlock = "true"},
+ {showfromdepth = 0, price = 8000, lvinfo = "long", unlock = "true"},
+}
+for i=1, #t_poisonItems do
+	local lv = i
+	if i == #t_poisonItems then lv = "MAX" end
+	--t_poisonItems[i].life = true
+	t_poisonItems[i].text = txt_abyssShopPoison..lv
+	t_poisonItems[i].info = "Landing an attack on the opponent will poison him for a "..t_poisonItems[i].lvinfo.." time."
+end
+--;---------------------------------------------------------------------------------------------------
+local t_restoreHPItems = {
+ {showfromdepth = 0, price = 1500, lvinfo = "small", unlock = "true"},
+ {showfromdepth = 0, price = 4500, lvinfo = "medium", unlock = "true"},
+ {showfromdepth = 0, price = 8000, lvinfo = "large", unlock = "true"},
+}
+for i=1, #t_restoreHPItems do
+	local lv = i
+	if i == #t_restoreHPItems then lv = "MAX" end
+	--t_restoreHPItems[i].life = true
+	t_restoreHPItems[i].text = txt_abyssShopLifeRestore..lv
+	t_restoreHPItems[i].info = "Regenerates a "..t_restoreHPItems[i].lvinfo.." amount of Life after the match has been won."
+end
+--;---------------------------------------------------------------------------------------------------
+local t_curseItems = {
+ {showfromdepth = 0, price = 6660, lvinfo = "Half", unlock = "true"},
+ {showfromdepth = 0, price = 9990, lvinfo = "All", unlock = "true"},
+}
+for i=1, #t_curseItems do
+	local lv = i
+	if i == #t_curseItems then lv = "MAX" end
+	--t_curseItems[i].life = true
+	t_curseItems[i].text = txt_abyssShopCurse..lv
+	t_curseItems[i].info = t_curseItems[i].lvinfo.." of the damage you take, your opponent will take."
+end
+--;---------------------------------------------------------------------------------------------------
+local t_regenPowItems = {
+ {showfromdepth = 0, price = 1000, lvinfo = "", unlock = "true"},
+ {showfromdepth = 0, price = 4000, lvinfo = " (Quicker than Lv.1)", unlock = "true"},
+ {showfromdepth = 0, price = 7000, lvinfo = " (Quicker than Lv.2)", unlock = "true"},
+}
+for i=1, #t_regenPowItems do
+	local lv = i
+	if i == #t_regenPowItems then lv = "MAX" end
+	--t_regenPowItems[i].life = true
+	t_regenPowItems[i].text = txt_abyssShopPowerRegeneration..lv
+	t_regenPowItems[i].info = "Gradually regenerates Power over time."..t_regenPowItems[i].lvinfo
+end
+--;---------------------------------------------------------------------------------------------------
+t_abyssSpecialItems = {"delete"} --Create All Special Items Table
+local function f_addAbyssSPItems(t)
+	for i=1, #t do --Send all Items from "t" table to t_abyssSpecialItems
+		table.insert(t_abyssSpecialItems, #t_abyssSpecialItems, t[i])
+	end
+end
+--Add Special Items in the following order:
+f_addAbyssSPItems(t_regenHPItems)
+f_addAbyssSPItems(t_poisonItems)
+f_addAbyssSPItems(t_restoreHPItems)
+f_addAbyssSPItems(t_curseItems)
+f_addAbyssSPItems(t_regenPowItems)
+f_addAbyssSPItems(t_nolvItems)
+--When all items are ready:
+table.remove(t_abyssSpecialItems, t_abyssSpecialItems.delete) --Remove first item ("delete") generate as placeholder to use f_addAbyssSPItems
+if data.debugLog then f_printTable(t_abyssSpecialItems, "save/debug/t_abyssSpecialItems.txt") end
+--;---------------------------------------------------------------------------------------------------
 --Life Items
 t_abyssLife = {
  {val = 1,  showfromdepth = 0, 	 price = txt_abyssShopItemPrice1-50,   unlock = "true"},
@@ -4235,7 +4297,7 @@ txt_abyssRewardInfo = createTextImg(font5, 0, 0, "", 159, 200)
 t_abyssSpecialReward = {
  {showfromdepth = 100, text = "Maximum HP", info = "Restore all Life."},
  {showfromdepth = 0,   text = "Half-HP", info = "Restore Half-Life"},
- {showfromdepth = 120, text = "???", info = "???"},
+ --{showfromdepth = 120, text = "???", info = "???"},
 }
 for i=1, #t_abyssSpecialReward do
 	t_abyssSpecialReward[i].exclusiveitem = true
