@@ -3721,11 +3721,11 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Special Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 				stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 				--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
-				depth = 100, --At what depth/matchNo will the special boss appear
+				depth = 5, --At what depth/matchNo will the special boss appear
 				stats = 5, --Special Boss stats (life, power, attack, defence)
 				pal = 1, --Palette
 				ailevel = 8, --CPU Level
-				itemslot = {[1] = "Test", [2] = "A", [3] = ""} --Special Items
+				itemslot = {[1] = "Power Drain", [2] = "", [3] = ""} --Special Items
 			},
 		},
 	},
@@ -4227,12 +4227,12 @@ function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
 	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos+62, attrFontYPos+18)
 --Special Items
 	local spFont = font2
-	local spFontXPos = 274+NewPosX
+	local spFontXPos = 314+NewPosX
 	local spFontYPos = 162+NewPosY
 	if p2Dat[1].itemslot ~= nil then
-		if p2Dat[1].itemslot[1] ~= nil then f_drawQuickText(txt_abyssSP1CPU, spFont, 0, 1, p2Dat[1].itemslot[1], spFontXPos, spFontYPos) end
-		if p2Dat[1].itemslot[2] ~= nil then f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].itemslot[2], spFontXPos, spFontYPos+23) end
-		if p2Dat[1].itemslot[3] ~= nil then f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].itemslot[3], spFontXPos, spFontYPos+45) end
+		if p2Dat[1].itemslot[1] ~= nil then f_drawQuickText(txt_abyssSP1CPU, spFont, 0, -1, p2Dat[1].itemslot[1], spFontXPos, spFontYPos) end
+		if p2Dat[1].itemslot[2] ~= nil then f_drawQuickText(txt_abyssSP2CPU, spFont, 0, -1, p2Dat[1].itemslot[2], spFontXPos, spFontYPos+23) end
+		if p2Dat[1].itemslot[3] ~= nil then f_drawQuickText(txt_abyssSP3CPU, spFont, 0, -1, p2Dat[1].itemslot[3], spFontXPos, spFontYPos+45) end
 	end
 end
 

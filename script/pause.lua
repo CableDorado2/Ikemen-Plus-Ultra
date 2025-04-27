@@ -426,44 +426,44 @@ end
 txt_pause = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_pauseMain = {
-	{text = "CONTINUE", gotomenu = "f_resumePause()"},
-	{text = "MOVELIST", gotomenu = "f_movelistPause()"},
-	{text = "SETTINGS", gotomenu = "f_settingsPause()"},
-	{text = "HIDE MENU", gotomenu = "f_hidePause()"},
-	{text = "GIVE UP", gotomenu = "f_exitPause()"},
-	{text = "MAIN MENU", gotomenu = "f_mainmenuPause()"}
+	{text = "Continue", gotomenu = "f_resumePause()"},
+	{text = "Movelist", gotomenu = "f_movelistPause()"},
+	{text = "Settings", gotomenu = "f_settingsPause()"},
+	{text = "Hide Menu", gotomenu = "f_hidePause()"},
+	{text = "Give Up", gotomenu = "f_exitPause()"},
+	{text = "Main Menu", gotomenu = "f_mainmenuPause()"}
 }
 if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
-	t_pauseMain[5].text = "CHARACTER SELECT"
+	t_pauseMain[5].text = "Character Select"
 	if getGameMode() == "practice" then
-		table.insert(t_pauseMain,7,{text = "TRAINING MENU", gotomenu = "f_practicePause()"})
+		table.insert(t_pauseMain,7,{text = "Training Menu", gotomenu = "f_practicePause()"})
 	elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
 		if getPauseVar() == "giveup" then
-			t_pauseMain[6].text = "GIVE UP"
+			t_pauseMain[6].text = "Give Up"
 		else
-			t_pauseMain[6].text = "STORY SELECT"
+			t_pauseMain[6].text = "Story Select"
 		end
 	end
-elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "STAGE SELECT"
-elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
+elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "Stage Select"
+elseif getGameMode() == "mission" then t_pauseMain[6].text = "Mission Select"
 	if getPauseVar() == "nogiveup" then table.remove(t_pauseMain,5) end
-elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
+elseif getGameMode() == "event" then t_pauseMain[6].text = "Event Select"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "tutorial" then table.remove(t_pauseMain,5)
 elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
-elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "SKIP MATCH"
-elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "CHARACTER STATUS"
+elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "Skip Match"
+elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "Characters Stats"
 end
 
 --Pause Menu for Replays
 if getGameMode() == "replay" or getGameMode() == "randomtest" then
 t_pauseMain = nil
 t_pauseMain = {
-	{text = "CONTINUE", gotomenu = "script.pause.f_resumePause()"},
-	{text = "SETTINGS", gotomenu = "script.pause.f_settingsPause()"},
-	{text = "HIDE MENU", gotomenu = "script.pause.f_hidePause()"},
-	{text = "BATTLE INFO", gotomenu = "script.pause.f_infoPause()"},
-	{text = "EXIT", gotomenu = "script.pause.f_mainmenuPause()"}
+	{text = "Continue", gotomenu = "script.pause.f_resumePause()"},
+	{text = "Settings", gotomenu = "script.pause.f_settingsPause()"},
+	{text = "Hide Menu", gotomenu = "script.pause.f_hidePause()"},
+	{text = "Battle Info", gotomenu = "script.pause.f_infoPause()"},
+	{text = "Exit", gotomenu = "script.pause.f_mainmenuPause()"}
 }
 end
 
@@ -694,7 +694,7 @@ function f_pauseMain(p, st, esc)
 			--Draw Text for Table
 				for i=1, maxPause do	
 					if i > pauseMenu - PcursorPosY then
-						t_pauseMain[i].id = createTextImg(jgFnt, 0, 0, t_pauseMain[i].text, 158.5, 65+i*15-PmoveTxt,0.85,0.85)
+						t_pauseMain[i].id = createTextImg(jgFnt, 0, 0, t_pauseMain[i].text:upper(), 158.5, 65+i*15-PmoveTxt,0.85,0.85)
 						textImgDraw(t_pauseMain[i].id)
 					end
 				end
@@ -864,7 +864,7 @@ function f_pauseConfirm()
 				else
 					bank = 0
 				end
-				textImgDraw(f_updateTextImg(t_confirmPause[i].id, jgFnt, bank, 0, t_confirmPause[i].text, 159, 100+i*13-moveTxtConfirm))
+				textImgDraw(f_updateTextImg(t_confirmPause[i].id, jgFnt, bank, 0, t_confirmPause[i].text:upper(), 159, 100+i*13-moveTxtConfirm))
 			end
 			animSetWindow(cursorBox, 87,103+cursorPosYConfirm*13, 144,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -915,15 +915,16 @@ end
 txt_PgameCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_gameCfg = {
-	{text = "Audio Settings",   	varText = ""},
-	{text = "Input Settings",   	varText = ""},
-	{text = "HUD Display",			varText = ""},
-	{text = "Open Screenshots",		varText = ""},
-	{text = "Change Stage Song",	varText = ""},
-	{text = "              BACK",   varText = ""},
+	{text = "Audio Settings"	},
+	{text = "Input Settings"	},
+	{text = "HUD Display"		},
+	{text = "Open Screenshots"	},
+	{text = "Change Stage BGM"	},
+	{text = "              BACK"},
 }
 for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
+	t_gameCfg[i]['varText'] = ""
 end
 
 if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg,5) end
@@ -1089,8 +1090,8 @@ function f_pauseSettings()
 			for i=1, maxgameCfg do
 				if i > gameCfg - cursorPosY then
 					if t_gameCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, 1, t_gameCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
-						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, -1, t_gameCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, 1, t_gameCfg[i].text:upper(), 85, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, -1, t_gameCfg[i].varText:upper(), 235, 65+i*15-moveTxt,0.85,0.85))
 					end
 				end
 			end
@@ -1301,7 +1302,7 @@ function f_pauseAudio()
 		for i=1, maxAudioCfg do
 			if i > audioCfg - cursorPosY then
 				if t_audioCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, 1, t_audioCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, 1, t_audioCfg[i].text:upper(), 85, 65+i*15-moveTxt,0.85,0.85))
 					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, -1, t_audioCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
@@ -1473,7 +1474,7 @@ function f_pauseSongs()
 				songText = t_songList[songFolder][i].name
 			end
 			if i > songMenu - cursorPosY then
-				t_songList[songFolder][i].id = createTextImg(jgFnt, 0, 1, songText, 85, 65+i*15-moveTxt,0.85,0.85)
+				t_songList[songFolder][i].id = createTextImg(jgFnt, 0, 1, songText:upper(), 85, 65+i*15-moveTxt,0.85,0.85)
 				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
@@ -1523,28 +1524,29 @@ end
 txt_PtrainingCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_trainingCfg = {
-	{text = "Damage Display", 			varText = ""},
-	{text = "Input Display",			varText = ""},
-	{text = "Hitbox Display", 			varText = ""},
-	{text = "Debug Info",				varText = ""},
-	{text = "Lifebar P1",				varText = ""},
-	{text = "Lifebar P2",				varText = ""},
-	{text = "Power Gauge P1",			varText = ""},
-	{text = "Power Gauge P2",			varText = ""},
-	{text = "Auto Guard P1", 			varText = ""},
-	{text = "Auto Guard P2", 			varText = ""},
-	--{text = "Distance", 				varText = ""},
-	--{text = "Tech Recovery", 			varText = ""},
-	--{text = "Counter Hit", 			varText = ""},
-	{text = "AI Level", 				varText = ""},
-	{text = "Character Settings",		varText = ""},
-	{text = "Playback Settings",		varText = ""},
-	{text = "Dummy Recording Start",	varText = ""},
-	{text = "Dummy Control", 			varText = ""},
-	{text = "                   BACK",  varText = ""},
+	{text = "Damage Display"		 },
+	{text = "Input Display"			 },
+	{text = "Hitbox Display"		 },
+	{text = "Debug Info"			 },
+	{text = "Lifebar P1"			 },
+	{text = "Lifebar P2"			 },
+	{text = "Power Gauge P1"		 },
+	{text = "Power Gauge P2"		 },
+	{text = "Auto Guard P1"			 },
+	{text = "Auto Guard P2"			 },
+	--{text = "Distance"			 },
+	--{text = "Tech Recovery"		 },
+	--{text = "Counter Hit"			 },
+	{text = "AI Level"				 },
+	{text = "Character Settings"	 },
+	{text = "Playback Settings"		 },
+	{text = "Dummy Recording Start"	 },
+	{text = "Dummy Control"			 },
+	{text = "                   BACK"},
 }
 for i=1, #t_trainingCfg do
 	t_trainingCfg[i]['varID'] = textImgNew()
+	t_trainingCfg[i]['varText'] = ""
 end
 
 --Battle Info for Replays
@@ -2098,7 +2100,7 @@ function f_pauseTraining()
 			for i=1, maxtrainingCfg do
 				if i > trainingCfg - cursorPosY then
 					if t_trainingCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, 1, t_trainingCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, 1, t_trainingCfg[i].text:upper(), 60, 65+i*15-moveTxt,0.85,0.85))
 						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, -1, t_trainingCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 					end
 				end
@@ -2373,7 +2375,7 @@ function f_pausePlayback()
 		for i=1, maxPlaybackCfg do
 			if i > playbackCfg - cursorPosY then
 				if t_playbackCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, 1, t_playbackCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, 1, t_playbackCfg[i].text:upper(), 60, 65+i*15-moveTxt,0.85,0.85))
 					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, -1, t_playbackCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
@@ -2478,11 +2480,12 @@ end
 txt_charCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_charCfg = {
-	{text = "Suave Dude Mode",   	 	varText = ""},
-	{text = "                   BACK", 	varText = ""},
+	{text = "Suave Dude Mode"		 },
+	{text = "                   BACK"},
 }
 for i=1, #t_charCfg do
 	t_charCfg[i]['varID'] = textImgNew()
+	t_charCfg[i]['varText'] = ""
 end
 
 --Logic to Display Text instead Number Values
@@ -2603,8 +2606,8 @@ function f_pauseCharCfg()
 		for i=1, maxcharCfg do
 			if i > charCfg - cursorPosY then
 				if t_charCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, 1, t_charCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, -1, t_charCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, 1, t_charCfg[i].text:upper(), 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, -1, t_charCfg[i].varText:upper(), 257, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
 		end

@@ -301,6 +301,7 @@ local function f_applyToSide(side, atrib, val)
 	end
 end
 
+--Player Special Items Assignment
 local regenItem = false
 local regenItemTime = 0
 local poisonItem = false
@@ -309,7 +310,6 @@ local poisonItemTimeTarget = 0
 local specialItemDone = false
 local damagex2Item = false
 local damageReceived = 0
---Special Items Assignment
 local function f_abyssItemsSet()
 	local oldid = id()
 	for i=1, 1 do --#p1Dat do
@@ -371,7 +371,7 @@ local function f_abyssItemsSet()
 			end
 		--Affects CPU Side
 			if roundstate() == 2 then
-			--Poison
+			--Poison to CPU
 				if p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" or p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" or p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
 				--During 5 Seconds
 					if p1Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" then
@@ -442,6 +442,130 @@ local function f_abyssItemsSet()
 	if roundstate() ~= 2 then
 		regenItem = false
 		poisonItem = false
+	end
+end
+
+--CPU Special Items Assignment
+local regenItemCPU = false
+local regenItemTimeCPU = 0
+local poisonItemCPU = false
+local poisonItemTimeCPU = 0
+local poisonItemTimeTargetCPU = 0
+local specialItemDoneCPU = false
+local damagex2ItemCPU = false
+local damageReceivedCPU = 0
+local function f_abyssItemsSetCPU()
+	local oldid = id()
+	local i = 1 --for i=1, #p2Dat do
+		for slot=1, #p2Dat[i].itemslot do
+		--Affects CPU Side
+			if player(p2Dat[i].pn) then
+				if roundstate() == 2 then --During fight (after characters intros)
+				--Timer Items
+					if regenItemTimeCPU < 20 then
+					--CPU Life Regen
+						if p2Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."1" then setLife(life() + 1) regenItemCPU = true
+						elseif p2Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."2" then setLife(life() + 2) regenItemCPU = true
+						elseif p2Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) regenItemCPU = true
+						end
+					--CPU Power Regen
+						if p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) regenItemCPU = true
+						elseif p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) regenItemCPU = true
+						elseif p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) regenItemCPU = true
+						end
+					elseif regenItemTimeCPU >= 200 then
+						regenItemTimeCPU = 0 --Reset
+					end
+				--One-time Items
+					if not specialItemDoneCPU then
+					--CPU Autoguard
+						if p2Dat[i].itemslot[slot] == txt_abyssShopAutoguard then setAutoguard(p2Dat[i].pn, true) end
+					--CPU Power Max
+						if p2Dat[i].itemslot[slot] == txt_abyssShopPowerMax then setPower(powermax()) end
+					--After Check all Slots
+						if slot == #p2Dat[i].itemslot then specialItemDoneCPU = true end
+					end
+				--CPU Time Stats
+					if p2Dat[i].itemslot[slot] == txt_abyssShopTimeStats and (timeremaining() == (getRoundTime() / 3)) then
+						setAttack(attack() + 10)
+						setDefence(defence() + 10)
+					end
+				--CPU Damage X2
+					if p2Dat[i].itemslot[slot] == txt_abyssShopDamageX2 and (life() < math.floor(lifemax() / 3)) and not damagex2ItemCPU then
+						setAttack(attack() * 2)
+						damagex2ItemCPU = true
+					end
+				end
+			end
+		--Affects Player Side
+			if roundstate() == 2 then
+			--Poison
+				if p2Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" or p2Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" or p2Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
+				--During 5 Seconds
+					if p2Dat[i].itemslot[slot] == txt_abyssShopPoison.."1" then
+						poisonItemTimeTargetCPU = 100
+				--During 15 Seconds
+					elseif p2Dat[i].itemslot[slot] == txt_abyssShopPoison.."2" then
+						poisonItemTimeTargetCPU = 300
+				--During 20 Seconds
+					elseif p2Dat[i].itemslot[slot] == txt_abyssShopPoison.."MAX" then
+						poisonItemTimeTargetCPU = 400
+					end
+				--Poison Status
+					if poisonItemTimeCPU < poisonItemTimeTargetCPU then
+						poisonItemCPU = true
+					elseif poisonItemTimeCPU > poisonItemTimeTargetCPU then
+						poisonItemCPU = false
+					end
+				end
+			--Damage Curse
+				if p2Dat[i].itemslot[slot] == txt_abyssShopCurse.."1" or p2Dat[i].itemslot[slot] == txt_abyssShopCurse.."MAX" then
+					if player(2) then
+						damageReceivedCPU = gethitvar("damage") --Get Total Damage received from the Player
+					end
+					if p2Dat[i].itemslot[slot] == txt_abyssShopCurse.."1" then damageReceivedCPU = damageReceivedCPU / 2 end --Reduce to half
+					--f_applyToSide("left", "-life", damageReceivedCPU)
+					for p=1, 8 do
+						if p%2 == 0 then
+							
+						else
+							if player(p) then setLife(life() - damageReceivedCPU) end
+						end
+					end
+				end
+			--No Player Power
+				if p2Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
+					--f_applyToSide("left", "powerset", 0)
+					for p=1, 8 do
+						if p%2 == 0 then
+						
+						else
+							if player(p) then setPower(0) end
+						end
+					end
+				end
+			end
+		end
+		playerid(oldid)
+	--end
+--Timers
+	if not script.pause.pauseMenuActive then
+		if regenItemCPU then regenItemTimeCPU = regenItemTimeCPU + 1 end
+		if poisonItemCPU and gethitvar("hitcount") >= 1 and teamside() == 1 then
+			poisonItemTimeCPU = poisonItemTimeCPU + 1
+			--f_applyToSide("left", "-life", 1) --Replace below with this
+			for p=1, 8 do
+				if p%2 == 0 then --Is an Even Player Number
+					
+				else
+					if player(p) then setLife(life() - 1) end
+				end
+			end
+		end
+	end
+	if roundstate() ~= 2 then
+		regenItemCPU = false
+		poisonItemCPU = false
 	end
 end
 
@@ -615,7 +739,6 @@ function pauseMenu(p, st, esc)
 	script.pause.f_pauseMain(p, st, esc)
 end
 
-
 local abyssHitCnt = 0
 abyssHitTarget = 2
 
@@ -709,6 +832,9 @@ function loop() --The code for this function should be thought of as if it were 
 			f_drawQuickText(txt_abycnt, font14, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, 95, 50)
 			f_drawQuickText(txt_abyreget, font14, 0, 1, "Regeneration Time: "..regenItemTime, 95, 170, 0.7, 0.7)
 			f_drawQuickText(txt_abypoison, font14, 0, 1, "Poison Time: "..poisonItemTime, 95, 190, 0.7, 0.7)
+			
+			f_drawQuickText(txt_abyregetCPU, font14, 0, 1, "CPU Regeneration Time: "..regenItemTimeCPU, 95, 200, 0.7, 0.7)
+			f_drawQuickText(txt_abypoisonCPU, font14, 0, 1, "CPU Poison Time: "..poisonItemTimeCPU, 95, 220, 0.7, 0.7)
 		end
 	--Set Abyss Stats
 		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2 --roundstate() == 0 and gametime() == 1 then
@@ -716,6 +842,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	--Set Abyss Special Items
 		f_abyssItemsSet()
+		f_abyssItemsSetCPU()
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
 			if player(1) then setLifePersistence(life()) end --Get Current P1 Life
