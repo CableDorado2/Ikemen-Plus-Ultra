@@ -11964,16 +11964,23 @@ function f_assignMusic()
 	end
 	if musicList == #t_selMusic-2 then --Mute Song
 		playBGM(bgmNothing)
+		f_setStgBGM(bgmNothing)
 	elseif musicList == #t_selMusic-1 then --Player 1 Song
 		playBGM(p1charSong)
+		f_setStgBGM(p1charSong)
 	elseif musicList == 0 then --Auto Stage Song
 		playBGM(track)
+		f_setStgBGM(track)
 	elseif musicList == 1 then --Player 2 Song
 		playBGM(p2charSong)
+		f_setStgBGM(p2charSong)
 	elseif musicList == 2 then --Random Song
-		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
+		local randomBGM = t_selMusic[math.random(3, #t_selMusic)].bgmfile
+		playBGM(randomBGM)
+		f_setStgBGM(randomBGM)
 	else --Sound Folder Song
 		playBGM(t_selMusic[musicList+1].bgmfile)
+		f_setStgBGM(t_selMusic[musicList+1].bgmfile)
 	end
 end
 
@@ -12016,15 +12023,6 @@ function f_loadStage()
 	end
 	setStage(stageNo)
 	selectStage(stageNo)
-end
-
-function f_loadSong() --Can be replaced by f_assignMusic() ?
-	if musicList == #t_selMusic-1 then playBGM(p1charSong) --Player 1 Song
-	elseif musicList == 0 then f_assignMusic() --Auto Stage Song
-	elseif musicList == 1 then playBGM(p2charSong) --Player 2 Song
-	elseif musicList == 2 then --Random Song
-		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
-	end
 end
 
 --;===========================================================
@@ -14493,7 +14491,7 @@ if validCells() then
 					battleOption2 = 0
 					f_randomRematch()
 					f_loadStage()
-					f_loadSong()
+					f_assignMusic()
 				end
 		--For Challenger Route in Arcade Mode
 			elseif data.gameMode == "challenger" then
@@ -14669,7 +14667,7 @@ function f_1stStageSel()
 	--Load first stage selected for all next matches
 	if data.stageMenu == true then
 		f_loadStage()
-		f_loadSong()
+		f_assignMusic()
 	end
 end
 
@@ -15171,7 +15169,7 @@ if validCells() then
 					end
 					if data.stageMenu == true then
 						f_loadStage()
-						f_loadSong()
+						f_assignMusic()
 					end
 				end
 			--If you exit in char select from challenger mode then back to main menu
@@ -16941,7 +16939,7 @@ if validCells() then
 			else --Load First Stage Selected
 				--f_randomRematch()
 				f_loadStage()
-				f_loadSong()
+				f_assignMusic()
 			end
 			f_matchInfo()
 			f_orderSelect()

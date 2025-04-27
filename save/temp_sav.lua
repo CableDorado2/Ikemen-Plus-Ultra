@@ -6,3 +6,4 @@ data.VNbreaker = false
 data.p1Lose = false
 data.p2Lose = false
 data.AIskip = false
+data.stgBGM = ""

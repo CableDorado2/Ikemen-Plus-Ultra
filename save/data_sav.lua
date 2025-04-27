@@ -9,6 +9,7 @@ data.selectSong = "sound/system/select/Select 1.mp3"
 data.selectSongFolder = 4
 data.challengerSong = "sound/system/select/Select Challenger.mp3"
 data.challengerSongFolder = 4
+data.bgmDisplay = true
 --System Data
 data.language = "ENGLISH"
 data.clock = "Standard"

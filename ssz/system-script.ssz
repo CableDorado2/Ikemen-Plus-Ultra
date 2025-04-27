@@ -1389,7 +1389,7 @@ void selectStage(&.lua.State L=, int re=)
   .syst.selinf.sel.selectStage(n);
 }
 
-void setMusic(&.lua.State L=, int re=)
+void setStgMusic(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^/char bgm = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
@@ -2336,7 +2336,7 @@ public void init(&.lua.State L=)
   L.register("numSelCells", .numSelCells);
   L.register("setStage", .setStage);
   L.register("selectStage", .selectStage);
-  L.register("setMusic", .setMusic);
+  L.register("setStgMusic", .setStgMusic);
   L.register("setTeamMode", .setTeamMode);
   L.register("getCharName", .getCharName);
   L.register("getCharFileName", .getCharFileName);

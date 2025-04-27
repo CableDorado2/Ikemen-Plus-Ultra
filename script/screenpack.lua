@@ -3721,7 +3721,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Special Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 				stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 				--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
-				depth = 3, --At what depth/matchNo will the special boss appear
+				depth = 100, --At what depth/matchNo will the special boss appear
 				stats = 5, --Special Boss stats (life, power, attack, defence)
 				pal = 1, --Palette
 				ailevel = 8, --CPU Level
@@ -4102,10 +4102,9 @@ t_abyssDepth = {
  {val = 70,  showfromdepth = 300, price = 1000, unlock = "true"},
  {val = 90,  showfromdepth = 400, price = 1500, unlock = "true"},
  {val = 110, showfromdepth = 500, price = 1500, unlock = "false"},
- {val = 130, showfromdepth = 600, price = 2000, unlock = "false"},
- {val = 150, showfromdepth = 700, price = 2000, unlock = "false"},
- {val = 170, showfromdepth = 800, price = 2500, unlock = "false"},
- {val = 190, showfromdepth = 900, price = 2500, unlock = "false"},
+ {val = 190, showfromdepth = 600, price = 3000, unlock = "false"},
+ {val = 290, showfromdepth = 700, price = 5000, unlock = "false"},
+ {val = 390, showfromdepth = 800, price = 5000, unlock = "false"},
 }
 for i=1, #t_abyssDepth do
 	t_abyssDepth[i].depth = true

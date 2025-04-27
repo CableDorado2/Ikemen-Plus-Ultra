@@ -252,8 +252,9 @@ local function f_abyssStatsSet() --Maybe not gonna work in online or replays bec
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then
+			local residualLife = lifemax() - getLifePersistence()
 			setLifeMax(lifemax() + (p1Dat[i].life * 10))
-			if abyssdepth() > 1 then setLife(getLifePersistence()) end
+			if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
 			setPower(p1Dat[i].power * 10)
 			setAttack(attack() + (p1Dat[i].attack * 10))
 			setDefence(defence() + (p1Dat[i].defence * 10))
@@ -630,6 +631,9 @@ local function f_setStageMusic()
 		playBGM(bgmIntro)
 		bgmstate = 0
 	end
+	if roundstate() < 2 then
+		if data.bgmDisplay then f_drawQuickText(txt_roundSndName, font14, 0, 1, "BGM: "..data.stgBGM, 0, 220) end
+	end
 end
 
 --Function called during match
@@ -674,7 +678,7 @@ function loop() --The code for this function should be thought of as if it were 
 		f_abyssItemsSet()
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
-			setLifePersistence(life())
+			if player(1) then setLifePersistence(life()) end --Get Current P1 Life
 			data.challengerAbyss = true
 			f_saveTemp()
 			exitMatch()

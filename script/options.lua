@@ -319,62 +319,8 @@ function f_loadEXCfg()
 		b_resizableMode = true
 	end
 	
-	if data.teamLifeShare then
-		s_teamLifeShare = "Yes"
-	else
-		s_teamLifeShare = "No"
-	end
-	
-	if data.teamPowerShare then
-		s_teamPowerShare = "Yes"
-	else
-		s_teamPowerShare = "No"
-	end
-
-	if data.zoomActive then
-		s_zoomActive = "Yes"
-	else
-		s_zoomActive = "No"
-	end
-	
 	s_disablePadP1 = data.disablePadP1 and "Disabled" or "Enabled"
 	s_disablePadP2 = data.disablePadP2 and "Disabled" or "Enabled"
-
-	if data.quickCont then
-		s_quickCont = "Yes"
-	else
-		s_quickCont = "No"
-	end
-
-	if data.aiRamping then
-		s_aiRamping = "Yes"
-	else
-		s_aiRamping = "No"
-	end
-
-	if data.vsDisplayWin then
-		s_vsDisplayWin = "Yes"
-	else
-		s_vsDisplayWin = "No"
-	end
-
-	if data.debugMode then
-		s_debugMode = "Enabled"
-	else
-		s_debugMode = "Disabled"
-	end
-	
-	if data.debugLog then
-		s_debugLog = "Enabled"
-	else
-		s_debugLog = "Disabled"
-	end
-	
-	if data.attractMode then
-		s_attractMode = "Enabled"
-	else
-		s_attractMode = "Disabled"
-	end
 end
 
 --Load Data Functions
@@ -402,6 +348,7 @@ function f_saveCfg()
 		['data.selectSongFolder'] = data.selectSongFolder,
 		['data.challengerSong'] = data.challengerSong,
 		['data.challengerSongFolder'] = data.challengerSongFolder,
+		['data.bgmDisplay'] = data.bgmDisplay,
 	--System Data
 		['data.language'] = data.language,
 		['data.clock'] = data.clock,
@@ -698,12 +645,10 @@ function f_gameDefault()
 	data.lifeMul = 100
 	data.aipal = "Default"
 	data.aiRamping = true
-	s_aiRamping = "Yes"
 	data.kumite = 100
 	gameSpeed = 60
 	s_gameSpeed = "Normal"
 	data.quickCont = true
-	s_quickCont = "Yes"
 end
 
 --Default Team Values
@@ -711,9 +656,7 @@ function f_teamDefault()
 	data.team1VS2Life = 120
 	data.turnsRecoveryRate = 300
 	data.teamLifeShare = false
-	s_teamLifeShare = "No"
 	data.teamPowerShare = true
-	s_teamPowerShare = "Yes"
 	data.numTurns = 4
 	data.numSimul = 4
 	data.simulType = "Assist"
@@ -723,7 +666,6 @@ end
 --Default Zoom Values
 function f_zoomDefault()
 	data.zoomActive = true
-	s_zoomActive = "Yes"
 	data.zoomMin = 0.75
 	data.zoomMax = 1.1
 	data.zoomSpeed = 1.0
@@ -737,9 +679,7 @@ function f_systemDefault()
 		data.date = "Type A"
 	end
 	data.attractMode = false
-	s_attractMode = "Disabled"
 	data.vsDisplayWin = true
-	s_vsDisplayWin = "Yes"
 	data.winscreen = "Classic"
 	data.charPresentation = "Portrait"
 	data.sffConversion = true
@@ -809,6 +749,7 @@ function f_songDefault()
 	data.selectSongFolder = 4
 	data.challengerSong = "Random"
 	data.challengerSongFolder = 4
+	data.bgmDisplay = true
 end
 
 --Default Video Values
@@ -856,9 +797,7 @@ end
 --Default Engine Values
 function f_engineDefault()
 	data.debugMode = false
-	s_debugMode = "Disabled"
 	data.debugLog = false
-	s_debugLog = "Disabled"
 	--data.engineMode = "FG"
 	HelperMaxEngine = 56
 	PlayerProjectileMaxEngine = 50
@@ -2198,9 +2137,9 @@ t_gameCfg = {
 	{text = "Max Draw Games",      	 varText = drawNum},
 	{text = "Life",               	 varText = data.lifeMul.."%"},
 	{text = "Game Speed",  	         varText = s_gameSpeed},
-	{text = "Quick Arcade Continue", varText = s_quickCont},
+	{text = "Quick Arcade Continue", varText = ""},
 	{text = "AI Palette",  	    	 varText = data.aipal},
-	{text = "AI Ramping",            varText = s_aiRamping},
+	{text = "AI Ramping",            varText = ""},
 	{text = "VS Kumite Amount",  	 varText = data.kumite},
 	{text = "Team Settings",  		 varText = ""},
 	{text = "Zoom Settings",  		 varText = ""},
@@ -2403,11 +2342,9 @@ function f_gameCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.quickCont then
 					data.quickCont = false
-					s_quickCont = "No"
 					modified = 1
 				else
 					data.quickCont = true
-					s_quickCont = "Yes"
 					modified = 1
 				end
 		--AI Palette
@@ -2421,11 +2358,9 @@ function f_gameCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.aiRamping then
 					data.aiRamping = false
-					s_aiRamping = "No"
 					modified = 1
 				else
 					data.aiRamping = true
-					s_aiRamping = "Yes"
 					modified = 1
 				end
 		--VS Kumite Amount
@@ -2528,9 +2463,9 @@ function f_gameCfg()
 		t_gameCfg[4].varText = drawNum		
 		t_gameCfg[5].varText = data.lifeMul.."%"
 		t_gameCfg[6].varText = s_gameSpeed
-		t_gameCfg[7].varText = s_quickCont
+		if data.quickCont then t_gameCfg[7].varText = "Yes" else t_gameCfg[7].varText = "No" end
 		t_gameCfg[8].varText = data.aipal
-		t_gameCfg[9].varText = s_aiRamping
+		if data.aiRamping then t_gameCfg[9].varText = "Yes" else t_gameCfg[9].varText = "No" end
 		t_gameCfg[10].varText = data.kumite
 		for i=1, maxGameCfg do	
 			if i > gameCfg - cursorPosY then
@@ -2577,8 +2512,8 @@ txt_teamCfg = createTextImg(jgFnt, 0, 0, "TEAM SETTINGS", 159, 13)
 t_teamCfg = {
 	{text = "Single Vs Team Life",     	varText = data.team1VS2Life.."%"},
 	{text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
-	{text = "Life Share", 				varText = s_teamLifeShare},
-	{text = "Power Share", 				varText = s_teamPowerShare},
+	{text = "Life Share", 				varText = ""},
+	{text = "Power Share", 				varText = ""},
 	{text = "Turns Players Limit",     	varText = data.numTurns},
 	{text = "Simul Players Limit",     	varText = data.numSimul},
 	{text = "Simul Type",              	varText = data.simulType},
@@ -2670,11 +2605,9 @@ function f_teamCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.teamLifeShare then
 					data.teamLifeShare = false
-					s_teamLifeShare = "No"
 					modified = 1
 				else
 					data.teamLifeShare = true
-					s_teamLifeShare = "Yes"
 					modified = 1
 				end
 		--Team Power Share
@@ -2682,11 +2615,9 @@ function f_teamCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.teamPowerShare then
 					data.teamPowerShare = false
-					s_teamPowerShare = "No"
 					modified = 1
 				else
 					data.teamPowerShare = true
-					s_teamPowerShare = "Yes"
 					modified = 1
 				end
 		--Turns Limit (by default also requires editing 'if(!.m.inRange!int?(1, 4, nt)){' in ssz/system-script.ssz)
@@ -2818,8 +2749,8 @@ function f_teamCfg()
 		end
 		t_teamCfg[1].varText = data.team1VS2Life.."%"
 		t_teamCfg[2].varText = data.turnsRecoveryRate.."%"
-		t_teamCfg[3].varText = s_teamLifeShare
-		t_teamCfg[4].varText = s_teamPowerShare
+		if data.teamLifeShare then t_teamCfg[3].varText = "Yes" else t_teamCfg[3].varText = "No" end
+		if data.teamPowerShare then t_teamCfg[4].varText = "Yes" else t_teamCfg[4].varText = "No" end
 		t_teamCfg[5].varText = data.numTurns
 		t_teamCfg[6].varText = data.numSimul
 		t_teamCfg[7].varText = data.simulType
@@ -2867,7 +2798,7 @@ end
 txt_zoomCfg = createTextImg(jgFnt, 0, 0, "ZOOM SETTINGS", 159, 13)
 
 t_zoomCfg = {
-	{text = "Zoom Active",    			varText = s_zoomActive},
+	{text = "Zoom Active",    			varText = ""},
 	{text = "Max Zoom Out",   			varText = data.zoomMin},
 	{text = "Max Zoom In",    			varText = data.zoomMax},
 	{text = "Zoom Speed",     			varText = data.zoomSpeed},
@@ -2908,11 +2839,9 @@ function f_zoomCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.zoomActive then
 					data.zoomActive = false
-					s_zoomActive = 'No'
 					modified = 1
 				else
 					data.zoomActive = true
-					s_zoomActive = 'Yes'
 					modified = 1
 				end
 		--Max Zoom Out
@@ -3038,7 +2967,7 @@ function f_zoomCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		t_zoomCfg[1].varText = s_zoomActive
+		if data.zoomActive then t_zoomCfg[1].varText = "Yes" else t_zoomCfg[1].varText = "No" end
 		t_zoomCfg[2].varText = data.zoomMin
 		t_zoomCfg[3].varText = data.zoomMax
 		t_zoomCfg[4].varText = data.zoomSpeed
@@ -3088,9 +3017,9 @@ t_UICfg = {
 	{text = "Language", 		         varText = data.language},
 	{text = "Clock Format",              varText = data.clock},
 	{text = "Date Format",               varText = data.date},
-	{text = "Attract Mode",  	      	 varText = s_attractMode},
+	{text = "Attract Mode",  	      	 varText = ""},
 	{text = "Character Presentation",    varText = data.charPresentation},
-	{text = "Versus Win Counter",  	     varText = s_vsDisplayWin},
+	{text = "Versus Win Counter",  	     varText = ""},
 	{text = "Win Screen",	    		 varText = data.winscreen},
 	{text = "Character Select Settings", varText = ""},
 	{text = "Stage Select Settings",     varText = ""},
@@ -3238,12 +3167,10 @@ function f_UICfg()
 					sndPlay(sndSys, 100, 0)
 					if data.attractMode then
 						data.attractMode = false
-						s_attractMode = "Disabled"
 						modified = 1
 						needReload = 1
 					else
 						data.attractMode = true
-						s_attractMode = "Enabled"
 						modified = 1
 						needReload = 1
 					end
@@ -3279,11 +3206,9 @@ function f_UICfg()
 					sndPlay(sndSys, 100, 0)
 					if data.vsDisplayWin then
 						data.vsDisplayWin = false
-						s_vsDisplayWin = "No"
 						modified = 1
 					else
 						data.vsDisplayWin = true
-						s_vsDisplayWin = "Yes"
 						modified = 1
 					end
 				end
@@ -3382,9 +3307,9 @@ function f_UICfg()
 		t_UICfg[1].varText = data.language
 		t_UICfg[2].varText = data.clock
 		t_UICfg[3].varText = data.date
-		t_UICfg[4].varText = s_attractMode
+		if data.attractMode then t_UICfg[4].varText = "Enabled" else t_UICfg[4].varText = "Disabled" end
 		t_UICfg[5].varText = data.charPresentation
-		t_UICfg[6].varText = s_vsDisplayWin
+		if data.vsDisplayWin then t_UICfg[6].varText = "Yes" else t_UICfg[6].varText = "No" end
 		t_UICfg[7].varText = data.winscreen
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
@@ -5308,14 +5233,16 @@ end
 txt_songCfg = createTextImg(jgFnt, 0, 0, "SYSTEM SONG SETTINGS", 159, 13)
 
 t_songCfg = {
-	{text = "Main Menu", 					varText = ""},
-	{text = "Character Select",				varText = ""},
-	{text = "Challenger",		 			varText = ""},
-	{text = "Default Values",  	 			varText = ""},
-	{text = "                       BACK", 	varText = ""},
+	{text = "Main Menu"					 },
+	{text = "Character Select"			 },
+	{text = "Challenger"				 },
+	{text = "Display BGM Name In-Match"	 },
+	{text = "Default Values"			 },
+	{text = "                       BACK"},
 }
 for i=1, #t_songCfg do
 	t_songCfg[i]['varID'] = textImgNew()
+	t_songCfg[i]['varText'] = ""
 end
 
 function f_setCfgSong()
@@ -5387,6 +5314,10 @@ function f_songCfg()
 				sndPlay(sndSys, 100, 1)
 				songsSettings = true
 				f_songMenu()
+		--Display BGM Name
+			elseif songCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then 
+				sndPlay(sndSys, 100, 1)
+				if data.bgmDisplay then data.bgmDisplay = false else data.bgmDisplay = true end
 		--Default Values
 			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sndSys, 100, 1)
@@ -5440,6 +5371,7 @@ function f_songCfg()
 		t_songCfg[1].varText = data.menuSong
 		t_songCfg[2].varText = data.selectSong
 		t_songCfg[3].varText = data.challengerSong
+		if data.bgmDisplay then t_songCfg[4].varText = "Enabled" else t_songCfg[4].varText = "Disabled" end
 		for i=1, maxsongCfg do
 			if i > songCfg - cursorPosY then
 				if t_songCfg[i].varID ~= nil then
@@ -5804,8 +5736,8 @@ end
 txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 
 t_engineCfg = {
-	{text = "Debug Mode",  	      		varText = s_debugMode},
-	{text = "Save Debug Logs",        	varText = s_debugLog},
+	{text = "Debug Mode",  	      		varText = ""},
+	{text = "Save Debug Logs",        	varText = ""},
 	{text = "Generate Characters List", varText = ""},
 	{text = "Generate Stages List", 	varText = ""},
 	{text = "Engine Mode",        		varText = data.engineMode},
@@ -5857,11 +5789,9 @@ function f_engineCfg()
 					sndPlay(sndSys, 100, 0)
 					if data.debugMode then
 						data.debugMode = false
-						s_debugMode = "Disabled"
 						modified = 1
 					else
 						data.debugMode = true
-						s_debugMode = "Enabled"
 						modified = 1
 					end
 				end
@@ -5873,11 +5803,9 @@ function f_engineCfg()
 					sndPlay(sndSys, 100, 0)
 					if data.debugLog then
 						data.debugLog = false
-						s_debugLog = "Disabled"
 						modified = 1
 					else
 						data.debugLog = true
-						s_debugLog = "Enabled"
 						modified = 1
 					end
 				end
@@ -6084,8 +6012,8 @@ function f_engineCfg()
 				textImgDraw(t_locked[i].id)
 			end
 		end
-		t_engineCfg[1].varText = s_debugMode
-		t_engineCfg[2].varText = s_debugLog
+		if data.debugMode then t_engineCfg[1].varText = "Enabled" else t_engineCfg[1].varText = "Disabled" end
+		if data.debugLog then t_engineCfg[2].varText = "Enabled" else t_engineCfg[2].varText = "Disabled" end
 		if data.engineMode == "FG" then t_engineCfg[5].varText = "Fighting Game" elseif data.engineMode == "VN" then t_engineCfg[5].varText = "Visual Novel" end
 		t_engineCfg[6].varText = HelperMaxEngine
 		t_engineCfg[7].varText = PlayerProjectileMaxEngine

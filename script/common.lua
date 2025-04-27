@@ -3629,6 +3629,7 @@ function f_saveTemp()
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
 		['data.AIskip'] = data.AIskip,
+		['data.stgBGM'] = data.stgBGM,
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
 	local tempFile = io.open(saveTempPath,"w+")
@@ -3645,6 +3646,14 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.p1Lose = false
 	data.p2Lose = false
 	data.AIskip = false
+	data.stgBGM = ""
+	f_saveTemp()
+end
+
+function f_setStgBGM(name)
+	local name = name or ""
+	local cleanName = name:match("([^/]+)%.[^.]+$") --Extract Song Name
+	data.stgBGM = cleanName
 	f_saveTemp()
 end
 
