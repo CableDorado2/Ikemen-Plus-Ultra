@@ -694,7 +694,7 @@ function f_pauseMain(p, st, esc)
 			--Draw Text for Table
 				for i=1, maxPause do	
 					if i > pauseMenu - PcursorPosY then
-						t_pauseMain[i].id = createTextImg(font14, 0, 0, t_pauseMain[i].text, 158.5, 65+i*15-PmoveTxt,0.85,0.85)
+						t_pauseMain[i].id = createTextImg(jgFnt, 0, 0, t_pauseMain[i].text, 158.5, 65+i*15-PmoveTxt,0.85,0.85)
 						textImgDraw(t_pauseMain[i].id)
 					end
 				end
@@ -745,7 +745,7 @@ end
 --;===========================================================
 --; PAUSE CONFIRM MESSAGE
 --;===========================================================
-txt_pauseQuestion = createTextImg(font14, 0, 0, "", 160, 70,0.7,0.7)
+txt_pauseQuestion = createTextImg(jgFnt, 0, 0, "", 160, 70,0.7,0.7)
 txt_pauseConfirm = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 90)
 txt_playerID = "[PLAYER "
 txt_backStorySel = "] WILL BACK TO STORY SELECT"
@@ -1089,8 +1089,8 @@ function f_pauseSettings()
 			for i=1, maxgameCfg do
 				if i > gameCfg - cursorPosY then
 					if t_gameCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font14, 0, 1, t_gameCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
-						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font14, 0, -1, t_gameCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, 1, t_gameCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, -1, t_gameCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
 					end
 				end
 			end
@@ -1301,8 +1301,8 @@ function f_pauseAudio()
 		for i=1, maxAudioCfg do
 			if i > audioCfg - cursorPosY then
 				if t_audioCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font14, 0, 1, t_audioCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font14, 0, -1, t_audioCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, 1, t_audioCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, -1, t_audioCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
 		end
@@ -1473,7 +1473,7 @@ function f_pauseSongs()
 				songText = t_songList[songFolder][i].name
 			end
 			if i > songMenu - cursorPosY then
-				t_songList[songFolder][i].id = createTextImg(font14, 0, 1, songText, 85, 65+i*15-moveTxt,0.85,0.85)
+				t_songList[songFolder][i].id = createTextImg(jgFnt, 0, 1, songText, 85, 65+i*15-moveTxt,0.85,0.85)
 				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
@@ -2098,8 +2098,8 @@ function f_pauseTraining()
 			for i=1, maxtrainingCfg do
 				if i > trainingCfg - cursorPosY then
 					if t_trainingCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, 1, t_trainingCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, -1, t_trainingCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, 1, t_trainingCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, -1, t_trainingCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 					end
 				end
 			end
@@ -2373,8 +2373,8 @@ function f_pausePlayback()
 		for i=1, maxPlaybackCfg do
 			if i > playbackCfg - cursorPosY then
 				if t_playbackCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, font14, 0, 1, t_playbackCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, font14, 0, -1, t_playbackCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, 1, t_playbackCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, -1, t_playbackCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
 		end
@@ -2603,8 +2603,8 @@ function f_pauseCharCfg()
 		for i=1, maxcharCfg do
 			if i > charCfg - cursorPosY then
 				if t_charCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_charCfg[i].varID, font14, 0, 1, t_charCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_charCfg[i].varID, font14, 0, -1, t_charCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, 1, t_charCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, -1, t_charCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
 		end

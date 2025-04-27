@@ -4401,6 +4401,17 @@ function drawAbyssRewardInputHints()
 end
 
 --;===========================================================
+--; MATCH EXTRA ASSETS SCREENPACK DEFINITION
+--;===========================================================
+--BGM Info BG
+stgBGMInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(stgBGMInfoBG, -54, 20)
+animSetScale(stgBGMInfoBG, 428, 20)
+animUpdate(stgBGMInfoBG)
+
+--;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION
 --;===========================================================
 txt_creditsBox = [[

@@ -615,9 +615,10 @@ function pauseMenu(p, st, esc)
 	script.pause.f_pauseMain(p, st, esc)
 end
 
-local bgmstate = 0
+
 local abyssHitCnt = 0
 abyssHitTarget = 2
+
 local tutoi = 0
 local tutoDiag = 1
 local tutoClearCnt = 0
@@ -626,13 +627,52 @@ local tutoClearAlphaD = 255
 local tutoClearX = 0
 local tutoClearAction = false
 
+local bgmState = 0
+local bgmChanged = false
+local bgmDisplayTime = 0
+local bgmBGalphaS = 0
+local bgmBGalphaD = 255
+local bgmTxTalphaS = 0
+local bgmTxTalphaD = 255
+
 local function f_setStageMusic()
-	if bgmstate == 1 then
+	if bgmState == 1 then
 		playBGM(bgmIntro)
-		bgmstate = 0
+		bgmState = 0
 	end
-	if roundstate() < 2 then
-		if data.bgmDisplay then f_drawQuickText(txt_roundSndName, font14, 0, 1, "BGM: "..data.stgBGM, 0, 220) end
+	if roundstate() == 0 and bgmChanged then bgmDisplayTime = 0 end --Reset BGM Display Timer
+	if data.bgmDisplay then
+		if bgmDisplayTime < 200 then
+			bgmDisplayTime = bgmDisplayTime + 1
+		--Display BGM Text BG
+			if bgmDisplayTime < 100 then --Fade In
+				if bgmBGalphaS < 20 then bgmBGalphaS = bgmBGalphaS + 5 end
+				if bgmBGalphaS > 20 then bgmBGalphaS = 20 end --Correction
+				if bgmBGalphaD > 50 then bgmBGalphaD = bgmBGalphaD - 5 end
+				if bgmBGalphaD < 50 then bgmBGalphaD = 50 end --Correction
+			else --Fade Out
+				if bgmBGalphaS > 0 then bgmBGalphaS = bgmBGalphaS - 5 end
+				if bgmBGalphaS < 0 then bgmBGalphaS = 0 end --Correction
+				if bgmBGalphaD < 255 then bgmBGalphaD = bgmBGalphaD + 5 end
+				if bgmBGalphaD > 255 then bgmBGalphaD = 255 end --Correction
+			end
+			animSetAlpha(stgBGMInfoBG, bgmBGalphaS, bgmBGalphaD)
+			animDraw(stgBGMInfoBG)
+			animUpdate(stgBGMInfoBG)
+		--Display BGM Text
+			if bgmDisplayTime < 100 then --Fade In
+				if bgmTxTalphaS < 255 then bgmTxTalphaS = bgmTxTalphaS + 5 end
+				if bgmTxTalphaS > 255 then bgmTxTalphaS = 255 end --Correction
+				if bgmTxTalphaD > 0 then bgmTxTalphaD = bgmTxTalphaD - 5 end
+				if bgmTxTalphaD < 0 then bgmTxTalphaD = 0 end --Correction
+			else --Fade Out
+				if bgmTxTalphaS > 0 then bgmTxTalphaS = bgmTxTalphaS - 5 end
+				if bgmTxTalphaS < 0 then bgmTxTalphaS = 0 end --Correction
+				if bgmTxTalphaD < 255 then bgmTxTalphaD = bgmTxTalphaD + 5 end
+				if bgmTxTalphaD > 255 then bgmTxTalphaD = 255 end --Correction
+			end
+			f_drawQuickText(txt_roundSndName, font2, 0, 1, "BGM: "..data.stgBGM, 0, 34, 1, 1, bgmTxTalphaS, bgmTxTalphaD)
+		end
 	end
 end
 
@@ -640,7 +680,7 @@ end
 function loop() --The code for this function should be thought of as if it were always inside a while true do
 --During VS Mode
 	if getGameMode() == "vs" then
-		if roundno() == 2 and roundstate() == 0 then bgmstate = 1 end
+		if roundno() == 2 and roundstate() == 0 then bgmState = 1 end
 		if roundstate() < 2 then
 			f_handicapSet()
 		end
