@@ -186,6 +186,7 @@ void game()
     while i < #.chr.chars:}
 //MATCH GLOBAL INFO
     y = .m.max!float?(y, 48.0 - (float)(.com.GameHeight-240));
+	//`put(y=, "INTRO STATE:" + ''.com.intro); //Display Intro State
 	`put(y=, "GAME MODE:" + .com.gameMode + " - SERVICE:" + .com.gameService); //Display Game Mode & Service Active
 	//`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
 	`put(y=, "PLAYER SIDE:" + .com.playerSide); //Display Player Side

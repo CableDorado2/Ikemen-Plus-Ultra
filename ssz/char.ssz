@@ -7118,10 +7118,12 @@ public float action(
     if(
       (
         .shuttertime > 0
+        //&& .com.intro > .fight~ro.ctrl_time) //No skip button
         || .cmd.anybutton() && .com.intro > .fight~ro.ctrl_time)
       && ++.shuttertime == 15)
     {
       .resetGblEffect();
+      //.com.intro = .fight~ro.ctrl_time+1; //Skip to Round Start
       .com.intro = .fight~ro.ctrl_time;
       loop{index i = 0; while; do:
         if(#.chars[i] > 0){
