@@ -740,7 +740,7 @@ function pauseMenu(p, st, esc)
 end
 
 local abyssHitCnt = 0
-abyssHitTarget = 2
+abyssHitTarget = 3 --Amount of Hits to Increase Depth
 
 local tutoi = 0
 local tutoDiag = 1

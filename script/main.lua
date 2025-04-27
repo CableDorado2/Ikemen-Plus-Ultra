@@ -7633,7 +7633,7 @@ function f_aiLevel()
 			setTag(4, f_tagMode(4, tagset))
 		end
 	else
-		--Player 1
+	--Player 1
 		if p1teamMode == 0 then --Single
 			if data.p1In == 1 and not data.aiFight then
 				setCom(1, 0)
@@ -7685,7 +7685,7 @@ function f_aiLevel()
 				end
 			end
 		end
-		--Player 2
+	--Player 2
 		if p2teamMode == 0 then --Single
 			if data.p2In == 2 and not data.aiFight then
 				setCom(2, 0)
@@ -12726,6 +12726,7 @@ end
 function f_setAbyssStats()
 	local statsPlus = 0
 	local cpuItems = {}
+	local difficulty = nil
 	setAbyssBossFight(0)
 --Prepare Normal Boss Battle
 	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch+abyssBossMatchNo end
@@ -12756,6 +12757,7 @@ function f_setAbyssStats()
 			if matchNo == t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].depth then
 				statsPlus = abyssBossStatsIncrease + t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].stats --Set specific cpu stats for a SPECIAL boss
 				cpuItems = t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].itemslot --Set Special Items
+				difficulty = t_abyssSel[abyssSel].specialboss[abyssSpecialBossCnt].ailevel --Set AI Level
 				abyssSpecialBossCnt = abyssSpecialBossCnt + 1 --Increase special abyss boss count for next special fight
 				setAbyssBossFight(1) --This match is an Abyss Boss Fight
 			end
@@ -12785,8 +12787,19 @@ function f_setAbyssStats()
 			data.t_p2selected[p]['defence'] = t_abyssSel[abyssSel].cpustats+statsPlus
 			if cpuItems ~= nil then
 				data.t_p2selected[p]['itemslot'] = cpuItems
+			else
+				data.t_p2selected[p]['itemslot'] = {[1] = "", [2] = "", [3] = ""}
 			end
 		end
+	--Set AI Level
+		if difficulty == nil then
+			if t_abyssSel[abyssSel].ailevel ~= nil then
+				difficulty = t_abyssSel[abyssSel].ailevel
+			else
+				difficulty = math.random(1,8)
+			end
+		end
+		setCom(2, difficulty) --Set CPU Level
 	end
 	abyssDat.nosave.life = getAbyssLife()
 	abyssDat.nosave.power = getAbyssPower()
