@@ -323,6 +323,10 @@ public bool modKeyState(bool keyState, int jn, int key)
   {
     ret (`stat & (`A|`B|`C|`X|`Y|`Z)) != 0;
   }
+  /bool startbutton()
+  {
+    ret (`stat & (`S|`S|`S|`S|`S|`S)) != 0;
+  }
 }
 
 &KeyBuffer
@@ -557,6 +561,14 @@ public &NetInput
     while i < #`kb:}
     ret false;
   }
+  public bool startbutton()
+  {
+    loop{index i = 0; while; do:
+      if(`kb[i].data[`kb[i].timec&31].startbutton()) ret true;
+      i++;
+    while i < #`kb:}
+    ret false;
+  }
   public bool update()
   {
     if(`st<> != .NetState::Stoped) `stopedcnt = 0;
@@ -643,6 +655,14 @@ public &FileInput
   {
     loop{index i = 0; while; do:
       if(`ki[i].anybutton()) ret true;
+      i++;
+    while i < #`ki:}
+    ret false;
+  }
+  public bool startbutton()
+  {
+    loop{index i = 0; while; do:
+      if(`ki[i].startbutton()) ret true;
       i++;
     while i < #`ki:}
     ret false;
@@ -1490,6 +1510,34 @@ public bool startButton(int pn)
   else: .sBuf[pn-1] = 0;
   }
   ret .sBuf[pn-1] == 1 || .sBuf[pn-1] == 2;
+}
+
+bool startHardButton()
+{
+  loop{
+    index i = 0;
+    int jn;
+    while;
+  do:
+    jn = .cfg.in[i].jn;
+    if(
+      jn >= -1 && (
+        !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
+        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
+        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
+        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
+        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
+        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s))) ret true;
+    i++;
+  while i < #.cfg.in:}
+  ret false;
+}
+
+public bool introbutton()
+{
+  if(#.replay > 0) ret .replay~startbutton();
+  if(#.net > 0) ret .net~startbutton();
+  ret .startHardButton();
 }
 
 bool anyHardButton()
