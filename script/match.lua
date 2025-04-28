@@ -318,9 +318,9 @@ local function f_abyssItemsSet()
 			if player(p1Dat[i].pn) then
 			--Restore Life after round win
 				if roundstate() == 4 and time() == 0 then
-					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."1" then setLife(life() + math.floor(lifemax() / 9))
-					elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."2" then setLife(life() + math.floor(lifemax() / 5))
-					elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."MAX" then setLife(life() + math.floor(lifemax() / 2))
+					if p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."1" then setLife(life() + math.floor(lifemax() / 4))
+					elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."2" then setLife(life() + math.floor(lifemax() / 2))
+					elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRestore.."MAX" then setLife(life() + (lifemax() - 50))
 					end
 				end
 				if roundstate() == 2 then --During fight (after characters intros)
@@ -332,9 +332,9 @@ local function f_abyssItemsSet()
 						elseif p1Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) regenItem = true
 						end
 					--Power Regen
-						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) regenItem = true
-						elseif p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) regenItem = true
-						elseif p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) regenItem = true
+						if p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 10) regenItem = true
+						elseif p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 20) regenItem = true
+						elseif p1Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 30) regenItem = true
 						end
 					elseif regenItemTime >= 200 then
 						regenItemTime = 0 --Reset
@@ -469,9 +469,9 @@ local function f_abyssItemsSetCPU()
 						elseif p2Dat[i].itemslot[slot] == txt_abyssShopLifeRegeneration.."MAX" then setLife(life() + 3) regenItemCPU = true
 						end
 					--CPU Power Regen
-						if p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 1) regenItemCPU = true
-						elseif p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 2) regenItemCPU = true
-						elseif p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 3) regenItemCPU = true
+						if p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."1" then setPower(power() + 10) regenItemCPU = true
+						elseif p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."2" then setPower(power() + 20) regenItemCPU = true
+						elseif p2Dat[i].itemslot[slot] == txt_abyssShopPowerRegeneration.."MAX" then setPower(power() + 30) regenItemCPU = true
 						end
 					elseif regenItemTimeCPU >= 200 then
 						regenItemTimeCPU = 0 --Reset
