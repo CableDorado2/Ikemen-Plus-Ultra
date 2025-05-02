@@ -1,26 +1,191 @@
 ﻿local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
+bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
 bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
+--Insert new item to t_mainMenu table loaded by screenpack.lua
+table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_shopMenu()"})
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
---;===========================================================
---Insert new item to t_mainMenu table loaded by screenpack.lua
-table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_theVault()"})
+--;=========================================================== 
+local txt_shopTitle = createTextImg(jgFnt, 0, 0, "GAME SHOP", 72, 13)
+local txt_shopCurrency = createTextImg(jgFnt, 0, -1, "", 318, 13)
+local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 13)
+
 t_shopMenu = {
-	{text = "TEST"},
-	{text = "???"},
-	{text = "???"},
+	{text = "Characters", 		info = ""},
+	{text = "Costumes",   		info = ""},
+	{text = "Stages",  			info = ""},
+	{text = "Titles",  			info = ""},
+	{text = "Profile Designs",  info = ""},
+	{text = "Soundtracks",  	info = ""},
 }
 for i=1, #t_shopMenu do
 	t_shopMenu[i]['id'] = textImgNew()
 end
+
+--Info BG
+local shopInfoBG = animNew(sprIkemen, [[
+230,3, 0,0, -1
+]])
+animSetPos(shopInfoBG, -56, 190)
+animSetScale(shopInfoBG, 2.9, 0.40)
+animSetAlpha(shopInfoBG, 155, 22)
+animUpdate(shopInfoBG)
+
+--Item BG
+local shopItemBG = animNew(sprIkemen, [[
+62,0, 0,0, -1
+]])
+animSetPos(shopItemBG, 169, 20)
+animUpdate(shopItemBG)
+
+--The Vault Item Access BG
+local shopVaultAccessBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetPos(shopVaultAccessBG, 5, 120)
+animUpdate(shopVaultAccessBG)
+
+function drawShopInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("s","70,171","u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+	
+	f_drawQuickText(txt_btnHint, font6, 0, 0, "The Vault", 80, 125)
+end
+
+--;===========================================================
+--; SHOP MENU (Buy/Unlock features using in-game currency.)
+--;===========================================================
+function f_shopMenu()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local shopMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 11
+	playBGM(bgmShop)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowUp, 278, 11)
+	animSetPos(menuArrowDown, 278, 201.5)
+	while true do
+	--Back
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			f_resetMenuArrowsPos()
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			shopMenu = shopMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			shopMenu = shopMenu + 1
+	--Enter Actions
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			sndPlay(sndSys, 100, 1)
+			f_gotoFunction(t_shopMenu[shopMenu])
+	--???
+		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+			f_theVault()
+		end
+	--Cursor position calculation
+		if shopMenu < 1 then
+			shopMenu = #t_shopMenu
+			if #t_shopMenu > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_shopMenu
+			end
+		elseif shopMenu > #t_shopMenu then
+			shopMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveTxt = (shopMenu - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (shopMenu - 1) * 15
+		end	
+		if #t_shopMenu <= maxItems then
+			maxShop = #t_shopMenu
+		elseif shopMenu - cursorPosY > 0 then
+			maxShop = shopMenu + maxItems - cursorPosY
+		else
+			maxShop = maxItems
+		end
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+	--Draw Transparent Table BG
+		animSetScale(commonTBG, 290, maxShop*15)
+		animSetWindow(commonTBG, 0,20, 165,165)
+		animDraw(commonTBG)
+	--Draw Title Menu
+		textImgDraw(txt_shopTitle)
+		textImgSetText(txt_shopCurrency, stats.coins.." IKC")
+		textImgDraw(txt_shopCurrency)
+	--Draw Table Cursor
+		animSetWindow(cursorBox, 0,5+cursorPosY*15, 165,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Text for Table
+		for i=1, maxShop do
+			if i > shopMenu - cursorPosY then
+				if t_shopMenu[i].id ~= nil then
+					textImgDraw(f_updateTextImg(t_shopMenu[i].id, font2, 0, 1, t_shopMenu[i].text, 5, 15+i*15-moveTxt))
+				end
+			end
+		end
+		animDraw(shopVaultAccessBG)
+		animDraw(shopItemBG)
+	--Draw Info Text Stuff
+		animDraw(shopInfoBG)
+	--Draw Up Animated Cursor
+		if maxShop > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+	--Draw Down Animated Cursor
+		if #t_shopMenu > maxItems and maxShop < #t_shopMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		drawShopInputHints()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
 --;===========================================================
 txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
 txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
 txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
-txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0,0.9,0.9)
+txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.9, 0.9)
 
 t_vaultMenu = {
 	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
@@ -62,14 +227,14 @@ t_vaultMsg = {
 "Zen is the search for enlightenment",
 "SSZ is a programming language written by Suehiro",
 "OpenGL? what's that?",
-"Who would thought that Ikemen Go had a Plus Version",
-"Go beyond, plus ULTRA!",
-"PlasmoidThunder? he is one of the greats devs",
+"Who would thought that Ikemen GO had a Plus Version",
+"Go beyond, PLUS ULTRA!",
+"PlasmoidThunder? he is a misterious cool guy",
 "If I could have access to an internet database...",
 "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen",
 "I am a Legend?", "This is not supposed to be here but yes in the USX Project..",
 "I debuted in v1.3 of Ikemen Plus Ultra",
-"Is CD2 really planning to make all those changes from it TODO List?",
+"Is CD2 really planning to make all those changes from the Roadmap?",
 "Did you know that this guy who programmed me started learning this in 2021?",
 "Let's play hangman S- _ _ _ E",
 "Let's play hangman U _ _ R _",
@@ -108,106 +273,6 @@ animSetPos(vaultWindowBG, 80, 100)
 animSetScale(vaultWindowBG, 160, 30)
 animSetAlpha(vaultWindowBG, 20, 100)
 animUpdate(vaultWindowBG)
-
---;===========================================================
---; SHOP MENU (Buy/Unlock features using in-game currency.)
---;===========================================================
-function f_shopMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local shopMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	f_sideReset()
-	f_infoReset()
-	while true do
-		if not sideScreen and not infoScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				shopMenu = shopMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				shopMenu = shopMenu + 1
-			end
-			if shopMenu < 1 then
-				shopMenu = #t_shopMenu
-				if #t_shopMenu > 5 then
-					cursorPosY = 5
-				else
-					cursorPosY = #t_shopMenu-1
-				end
-			elseif shopMenu > #t_shopMenu then
-				shopMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 5 then
-				moveTxt = (shopMenu - 6) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (shopMenu - 1) * 13
-			end
-			if #t_shopMenu <= 5 then
-				maxshopMenu = #t_shopMenu
-			elseif shopMenu - cursorPosY > 0 then
-				maxshopMenu = shopMenu + 5 - cursorPosY
-			else
-				maxshopMenu = 5
-			end
-		--Enter Actions
-			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				sndPlay(sndSys, 100, 1)
-				f_gotoFunction(t_shopMenu[shopMenu])
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_shopMenu do
-			if i == shopMenu then
-				bank = 2
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_shopMenu[i].id, jgFnt, bank, 0, t_shopMenu[i].text, 159, 122+i*13-moveTxt))
-		end
-		if not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		if maxshopMenu > 6 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_shopMenu > 6 and maxshopMenu < #t_shopMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if not infoScreen then drawMenuInputHints() end
-		if infoScreen then f_infoMenu() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
 
 --;===========================================================
 --; THE VAULT MENU (insert secret codes to unlock things)
