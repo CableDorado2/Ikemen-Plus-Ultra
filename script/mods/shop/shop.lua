@@ -7,17 +7,43 @@ table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomen
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;=========================================================== 
-local txt_shopTitle = createTextImg(jgFnt, 0, 0, "GAME SHOP", 72, 13)
+local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(jgFnt, 0, -1, "", 318, 13)
-local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 13)
+local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
+local txt_shopPurchase = "Purchase"
+local txt_shopMain = "GAME SHOP"
+
+t_shopChars = {
+	
+}
+
+t_shopStages = {
+	
+}
+
+t_shopBGM = {
+	
+}
+
+t_shopColors = {
+	
+}
+
+t_shopTitles = {
+	
+}
+
+t_shopCards = {
+	
+}
 
 t_shopMenu = {
-	{text = "Characters", 		info = ""},
-	{text = "Costumes",   		info = ""},
-	{text = "Stages",  			info = ""},
-	{text = "Titles",  			info = ""},
-	{text = "Profile Designs",  info = ""},
-	{text = "Soundtracks",  	info = ""},
+	{text = "Characters", 		category = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!"},
+	{text = "Costumes",   		category = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!"},
+	{text = "Stages",  			category = t_shopStages, 	info = txt_shopPurchase.." Stages!"},
+	{text = "Titles",  			category = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
+	{text = "Profile Designs",  category = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
+	{text = "Soundtracks",  	category = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!"},
 }
 for i=1, #t_shopMenu do
 	t_shopMenu[i]['id'] = textImgNew()
@@ -46,17 +72,21 @@ local shopVaultAccessBG = animNew(sprIkemen, [[
 animSetPos(shopVaultAccessBG, 5, 120)
 animUpdate(shopVaultAccessBG)
 
-function drawShopInputHints()
+function drawShopInputHints(vault)
+	local vault = vault
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("s","70,171","u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	local vaultKeyPos = "99999,99999"
+	if vault then
+		vaultKeyPos = "70,160"
+		f_drawQuickText(txt_btnHint, font6, 0, 0, "The Vault", 80, 125)
+	end
+	drawInputHintsP1("s",vaultKeyPos,"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
-	
-	f_drawQuickText(txt_btnHint, font6, 0, 0, "The Vault", 80, 125)
 end
 
 --;===========================================================
@@ -72,17 +102,30 @@ function f_shopMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 11
+	local inCategory = false
+	local vaultAccess = false
+	local back = false
+	local Exit = false
+	textImgSetText(txt_shopTitle, txt_shopMain)
 	playBGM(bgmShop)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 278, 11)
 	animSetPos(menuArrowDown, 278, 201.5)
 	while true do
-	--Back
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 2)
-			f_resetMenuArrowsPos()
-			break
+		--Back
+			if inCategory then
+				textImgSetText(txt_shopTitle, txt_shopMain)
+				
+				inCategory = false
+		--Exit
+			else
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 2)
+				f_resetMenuArrowsPos()
+				f_menuMusic()
+				break
+			end
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
 			shopMenu = shopMenu - 1
@@ -92,10 +135,13 @@ function f_shopMenu()
 	--Enter Actions
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			sndPlay(sndSys, 100, 1)
+			textImgSetText(txt_shopTitle, t_shopMenu[shopMenu].text:upper())
+			if not inCategory then inCategory = true end
 			f_gotoFunction(t_shopMenu[shopMenu])
 	--???
 		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 			f_theVault()
+			playBGM(bgmShop)
 		end
 	--Cursor position calculation
 		if shopMenu < 1 then
@@ -146,10 +192,18 @@ function f_shopMenu()
 				end
 			end
 		end
-		animDraw(shopVaultAccessBG)
 		animDraw(shopItemBG)
+	--Vault Access Stuff
+		if inCategory then vaultAccess = false else vaultAccess = true end
+		if vaultAccess then
+			animDraw(shopVaultAccessBG)
+			animDraw(shopVaultAccessArt)
+		end
 	--Draw Info Text Stuff
+		drawShopInputHints(vaultAccess)
 		animDraw(shopInfoBG)
+		textImgSetText(txt_ShopItemInfo, t_shopMenu[shopMenu].info)
+		textImgDraw(txt_ShopItemInfo)
 	--Draw Up Animated Cursor
 		if maxShop > maxItems then
 			animDraw(menuArrowUp)
@@ -160,7 +214,6 @@ function f_shopMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		drawShopInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -178,7 +231,14 @@ function f_shopMenu()
 	end
 end
 
-
+--The Vault Item Access Art
+shopVaultAccessArt = animNew(sprShop, [[
+20,1, 0,0, -1
+]])
+animSetPos(shopVaultAccessArt, 8, 122)
+animSetWindow(shopVaultAccessArt, 0,125, 568,274)
+animSetScale(shopVaultAccessArt, 0.255, 0.198)
+animUpdate(shopVaultAccessArt)
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
 --;===========================================================
@@ -294,7 +354,6 @@ function f_theVault()
 			clearInputText()
 			sndPlay(sndSys, 100, 2)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			f_menuMusic()
 			f_unlock(false)
 			f_updateUnlocks()
 			break

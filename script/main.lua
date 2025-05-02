@@ -134,7 +134,7 @@ function f_mainTitle()
 	cmdInput()
 	local i = 0
 	local t = 0
-	f_resetFadeBGM()
+	--f_resetFadeBGM()
 	playBGM(bgmTitle)
 	while true do
 		if i == 500 then
@@ -300,7 +300,7 @@ function f_mainMenu()
 	f_menuMusic()
 	f_infoReset()
 	f_infoboxReset()
-	f_resetFadeBGM()
+	--f_resetFadeBGM()
 	f_resetMenuArrowsPos()
 	while true do
 		if not infoScreen and not infoboxScreen then
@@ -4142,7 +4142,7 @@ function f_songMenu()
 			sndPlay(sndSys, 100, 2)
 			backSongConfirm = false
 			soundTest = false
-			f_resetFadeBGM()
+			--f_resetFadeBGM()
 			f_resetMenuArrowsPos()
 			break
 		end
