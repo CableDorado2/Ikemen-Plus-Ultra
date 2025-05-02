@@ -3557,7 +3557,7 @@ function f_secretCode(key)
 --Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
 		sndPlay(sndSys, 200, 2)
-		--stats.unlocks.chars.reika = true
+		--stats.unlocks.chars.reika = true --Character Unlock
 		--f_saveStats()
 		cmdReward = true
 	else--If table are not equals

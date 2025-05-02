@@ -34,7 +34,7 @@ pal6     =reika6.ACT;
 ;pal12    =reika12.ACT;
 
 [Unlock]
-Condition = "Complete Arcade Mode as Suave Dude"
+Condition = "Purchase in Shop"
 
 [Portraits]
 result.portrait.scale = 0.80,0.80

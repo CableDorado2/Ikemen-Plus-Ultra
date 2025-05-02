@@ -10,16 +10,41 @@ table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomen
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(jgFnt, 0, -1, "", 318, 13)
 local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
+local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 318, 170)
+local txt_shopMain = "SHOP"
+
+--Shorcuts
 local txt_shopPurchase = "Purchase"
-local txt_shopMain = "GAME SHOP"
+local txt_shopUnlock = "Unlocks "
+local txt_shopSold = "Sold Out"
+
+local txt_shopCharType = "Character: "
+local txt_shopStgType = "Stage: "
+local txt_shopBGMType = "BGM: "
 
 t_shopChars = {
-	
+	{text = "Reika Murasame", 	price = 1500},
+	{text = "Ryu", 				price = 2000},
+	{text = "Kyo Kusanagi", 	price = 2000},
+	{text = "Terry Bogard", 	price = 2000},
+	{text = "Ciel", 			price = 4200},
 }
+for i=1, #t_shopChars do
+	t_shopChars[i]['id'] = textImgNew()
+	t_shopChars[i]['type'] = "chars"
+	t_shopChars[i]['info'] = txt_shopUnlock..t_shopChars[i].text
+end
 
 t_shopStages = {
-	
+	{text = "Temple Entrance Afternoon", 	price = 500},
+	{text = "Temple Entrance Dusk", 		price = 500},
+	{text = "Temple Entrance Night", 		price = 500},
 }
+for i=1, #t_shopStages do
+	t_shopStages[i]['id'] = textImgNew()
+	t_shopStages[i]['type'] = "stages"
+	t_shopStages[i]['info'] = txt_shopUnlock..t_shopStages[i].text
+end
 
 t_shopBGM = {
 	
@@ -97,26 +122,33 @@ function f_shopMenu()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local shopMenu = 1
+	local function f_resetCursor()
+		cursorPosY = 1
+		moveTxt = 0
+		shopMenu = 1
+	end
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local maxItems = 11
+	local maxItems = 10
+	
 	local inCategory = false
 	local vaultAccess = false
-	local back = false
-	local Exit = false
+	local t_shopMenuBackup = t_shopMenu
 	textImgSetText(txt_shopTitle, txt_shopMain)
 	playBGM(bgmShop)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	animSetPos(menuArrowUp, 278, 11)
-	animSetPos(menuArrowDown, 278, 201.5)
+	animSetPos(menuArrowUp, 152, 10)
+	animSetPos(menuArrowDown, 152, 172)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		--Back
 			if inCategory then
 				textImgSetText(txt_shopTitle, txt_shopMain)
-				
+				f_resetCursor()
+				t_shopMenu = t_shopMenuBackup --Restore Menu Items
+				sndPlay(sndSys, 100, 2)
 				inCategory = false
 		--Exit
 			else
@@ -134,12 +166,34 @@ function f_shopMenu()
 			shopMenu = shopMenu + 1
 	--Enter Actions
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sndSys, 100, 1)
-			textImgSetText(txt_shopTitle, t_shopMenu[shopMenu].text:upper())
-			if not inCategory then inCategory = true end
-			f_gotoFunction(t_shopMenu[shopMenu])
+		--Main Shop
+			if not inCategory then
+			--Load Available items
+				if #t_shopMenu[shopMenu].category ~= 0 then
+					sndPlay(sndSys, 100, 1)
+					textImgSetText(txt_shopTitle, t_shopMenu[shopMenu].text:upper()) --Change Title
+					t_shopMenu = t_shopMenu[shopMenu].category --Load Category selected items
+					f_resetCursor()
+					inCategory = true
+			--No Items Available
+				else
+					sndPlay(sndSys, 100, 5)
+				end
+		--Category Shop
+			else
+				if stats.coins >= t_shopMenu[shopMenu].price then
+					sndPlay(sndSys, 200, 3)
+					stats.coins = stats.coins - t_shopMenu[shopMenu].price
+				--Save Data
+					--t_shopMenu[shopMenu].sold = true --Item Sold out
+					f_saveStats()
+			--Item Sold Out or No enough Money
+				else
+					sndPlay(sndSys, 100, 5)
+				end
+			end
 	--???
-		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+		elseif vaultAccess and (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) then
 			f_theVault()
 			playBGM(bgmShop)
 		end
@@ -174,7 +228,7 @@ function f_shopMenu()
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Transparent Table BG
 		animSetScale(commonTBG, 290, maxShop*15)
-		animSetWindow(commonTBG, 0,20, 165,165)
+		animSetWindow(commonTBG, 0,20, 165,150)
 		animDraw(commonTBG)
 	--Draw Title Menu
 		textImgDraw(txt_shopTitle)
@@ -193,8 +247,15 @@ function f_shopMenu()
 			end
 		end
 		animDraw(shopItemBG)
+	--Draw Items Stuff
+		if inCategory then
+			vaultAccess = false
+			textImgSetText(txt_ShopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
+			textImgDraw(txt_ShopPriceInfo)
+		else
+			vaultAccess = true
+		end
 	--Vault Access Stuff
-		if inCategory then vaultAccess = false else vaultAccess = true end
 		if vaultAccess then
 			animDraw(shopVaultAccessBG)
 			animDraw(shopVaultAccessArt)

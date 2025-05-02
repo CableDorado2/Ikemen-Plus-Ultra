@@ -3,11 +3,11 @@ bgmAdventure = "sound/System/Adventure.mp3" --load bgm
 --;===========================================================
 --; WORLD TOUR MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_extrasMenu,1,{id = textImgNew(), text = "WORLD TOUR", gotomenu = "f_worldtourMenu()"}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu,1,{id = textImgNew(), text = "WORLD TOUR", gotomenu = "f_comingSoon()"}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 t_worldtourMenu = {
-	{text = "START", gotomenu = "f_storyMenu()"},
-	{text = "SAVE", gotomenu = "f_vnMenu()"},
-	--{text = "LOAD", gotomenu = "f_quizMenu()"},
+	{text = "START", gotomenu = ""},
+	{text = "SAVE", gotomenu = ""},
+	--{text = "LOAD", gotomenu = ""},
 }
 for i=1, #t_worldtourMenu do
 	t_worldtourMenu[i]['id'] = textImgNew()

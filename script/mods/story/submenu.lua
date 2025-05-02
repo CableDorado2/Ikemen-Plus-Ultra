@@ -6,7 +6,7 @@ table.insert(t_extrasMenu,1,{id = textImgNew(), text = "CHRONICLES", gotomenu = 
 t_chroniclesMenu = {
 	{text = "STORY MODE", gotomenu = "f_storyMenu()"},
 	{text = "VISUAL NOVEL", gotomenu = "f_vnMenu()"},
-	--{text = "QUIZ MODE", gotomenu = "f_quizMenu()"},
+	{text = "QUIZ MODE", gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_chroniclesMenu do
 	t_chroniclesMenu[i]['id'] = textImgNew()

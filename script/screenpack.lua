@@ -743,7 +743,7 @@ end
 t_arcadeMenu = {
 	{text = "CLASSIC MODE", gotomenu = "f_arcadeBoot()"},
 	{text = "TOWER MODE", gotomenu = "f_towerBoot()"},
-	--{text = "BEAT EM UP", gotomenu = "f_beatemupBoot()"},
+	{text = "BEAT EM UP", gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_arcadeMenu do
 	t_arcadeMenu[i]['id'] = textImgNew()
@@ -803,7 +803,7 @@ end
 --;===========================================================
 t_scoreattackMenu = {
 	{text = "CLASSIC MODE", gotomenu = "f_scoreattackBoot()"},
-	--{text = "??? MODE", gotomenu = ""},
+	{text = "???", gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
@@ -815,6 +815,7 @@ end
 t_timeattackMenu = {
 	{text = "CLASSIC MODE", gotomenu = "f_timeattackBoot()"},
 	{text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
+	{text = "???", gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_timeattackMenu do
 	t_timeattackMenu[i]['id'] = textImgNew()
@@ -3721,7 +3722,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def", --Special Boss Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 				stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 				--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
-				depth = 5, --At what depth/matchNo will the special boss appear
+				depth = 100, --At what depth/matchNo will the special boss appear
 				stats = 5, --Special Boss stats (life, power, attack, defence)
 				pal = 1, --Palette
 				ailevel = 8, --CPU Level
@@ -4609,4 +4610,5 @@ PRESENTED BY
 CABLE DORADO 2
 CD2
 
- ]]
+]]
+

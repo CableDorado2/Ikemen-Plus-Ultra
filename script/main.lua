@@ -14586,7 +14586,7 @@ function f_arcadeEnd()
 		else --Player 1 in Left Side
 			unlockTarget = data.t_p1selected
 		end
-		if unlockTarget[1].displayname == "Suave Dude" then	stats.unlocks.chars.reika = true end --Character Unlock
+		--if unlockTarget[1].displayname == "Suave Dude" then	stats.unlocks.chars.reika = true end --Character Unlock
 		f_saveStats()
 		unlockTarget = "" --Reset Var
 	elseif data.rosterMode == "tower" then
