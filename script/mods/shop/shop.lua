@@ -10,7 +10,7 @@ table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomen
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(jgFnt, 0, -1, "", 318, 13)
 local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
-local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 318, 170)
+local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 316, 170)
 local txt_shopMain = "SHOP"
 
 --Shorcuts
@@ -22,29 +22,51 @@ local txt_shopCharType = "Character: "
 local txt_shopStgType = "Stage: "
 local txt_shopBGMType = "BGM: "
 
-t_shopChars = {
-	{text = "Reika Murasame", 	price = 1500},
-	{text = "Ryu", 				price = 2000},
-	{text = "Kyo Kusanagi", 	price = 2000},
-	{text = "Terry Bogard", 	price = 2000},
-	{text = "Ciel", 			price = 4200},
+local t_tempChars = {
+	{id = "Reika Murasame", price = 1500},
+	{id = "Suave Dude/Minion/Minion.def", 				price = 2000},
+	{id = "Kung Fu Man/Evil/Evil Kung Fu Man.def", 				price = 2000},
+	{id = "", 				price = 2000},
+	{id = "", 				price = 4200},
 }
-for i=1, #t_shopChars do
-	t_shopChars[i]['id'] = textImgNew()
-	t_shopChars[i]['type'] = "chars"
-	t_shopChars[i]['info'] = txt_shopUnlock..t_shopChars[i].text
+t_shopChars = {} --Create Real Table
+for i=1, #t_tempChars do
+	local pathID = t_tempChars[i].id:lower()
+	if t_charAdd[pathID] ~= nil then --If this char has been registered, add items
+		t_shopChars[i] = {}
+		t_shopChars[i]['txtID'] = textImgNew()
+		t_shopChars[i]['category'] = "chars"
+		t_shopChars[i]['info'] = txt_shopUnlock..t_selChars[t_charAdd[pathID]+1].displayname
+		t_shopChars[i]['id'] = t_tempChars[i].id:lower()
+		t_shopChars[i]['price'] = t_tempChars[i].price
+		t_shopChars[i]['text'] = t_selChars[t_charAdd[pathID]+1].displayname
+	else --Ignore items that are not recognized
+		
+	end
 end
+if data.debugLog then f_printTable(t_shopChars, "save/debug/t_shopChars.txt") end
 
-t_shopStages = {
-	{text = "Temple Entrance Afternoon", 	price = 500},
-	{text = "Temple Entrance Dusk", 		price = 500},
-	{text = "Temple Entrance Night", 		price = 500},
+local t_tempStages = {
+	{id = "stages/Mountainside Temple/Temple Entrance Afternoon.def", price = 500, text = "Temple Entrance Afternoon"},
+	{id = "stages/Mountainside Temple/Temple Entrance Dusk.def", 	  price = 500, text = "Temple Entrance Dusk"},
+	{id = "stages/Mountainside Temple/Temple Entrance Night.def", 	  price = 500, text = "Temple Entrance Night"},
 }
-for i=1, #t_shopStages do
-	t_shopStages[i]['id'] = textImgNew()
-	t_shopStages[i]['type'] = "stages"
-	t_shopStages[i]['info'] = txt_shopUnlock..t_shopStages[i].text
+t_shopStages = {}
+for i=1, #t_tempStages do
+	local pathID = t_tempStages[i].id:lower()
+	local dayStr = ""
+	if t_stageDef[pathID] ~= nil then --If this stage has been registered, add items
+		if t_selStages[t_stageDef[pathID]].daytime then dayStr = t_selStages[t_stageDef[pathID]].daytime end
+		t_shopStages[i] = {}
+		t_shopStages[i]['txtID'] = textImgNew()
+		t_shopStages[i]['category'] = "stages"
+		t_shopStages[i]['info'] = txt_shopUnlock..t_selStages[t_stageDef[pathID]].name.." "..dayStr
+		t_shopStages[i]['id'] = t_tempStages[i].id:lower()
+		t_shopStages[i]['price'] = t_tempStages[i].price
+		t_shopStages[i]['text'] = t_selStages[t_stageDef[pathID]].name.." "..dayStr
+	end
 end
+if data.debugLog then f_printTable(t_shopStages, "save/debug/t_shopStages.txt") end
 
 t_shopBGM = {
 	
@@ -63,15 +85,15 @@ t_shopCards = {
 }
 
 t_shopMenu = {
-	{text = "Characters", 		category = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!"},
-	{text = "Costumes",   		category = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!"},
-	{text = "Stages",  			category = t_shopStages, 	info = txt_shopPurchase.." Stages!"},
-	{text = "Titles",  			category = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
-	{text = "Profile Designs",  category = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
-	{text = "Soundtracks",  	category = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!"},
+	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!"},
+	{text = "Costumes",   		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!"},
+	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!"},
+	{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
+	{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
+	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!"},
 }
 for i=1, #t_shopMenu do
-	t_shopMenu[i]['id'] = textImgNew()
+	t_shopMenu[i]['txtID'] = textImgNew()
 end
 
 --Info BG
@@ -96,6 +118,15 @@ local shopVaultAccessBG = animNew(sprIkemen, [[
 ]])
 animSetPos(shopVaultAccessBG, 5, 120)
 animUpdate(shopVaultAccessBG)
+
+--The Vault Item Access Art
+local shopVaultAccessArt = animNew(sprShop, [[
+20,1, 0,0, -1
+]])
+animSetPos(shopVaultAccessArt, 8, 122)
+animSetWindow(shopVaultAccessArt, 0,125, 568,274)
+animSetScale(shopVaultAccessArt, 0.255, 0.198)
+animUpdate(shopVaultAccessArt)
 
 function drawShopInputHints(vault)
 	local vault = vault
@@ -169,10 +200,10 @@ function f_shopMenu()
 		--Main Shop
 			if not inCategory then
 			--Load Available items
-				if #t_shopMenu[shopMenu].category ~= 0 then
+				if #t_shopMenu[shopMenu].items ~= 0 then
 					sndPlay(sndSys, 100, 1)
 					textImgSetText(txt_shopTitle, t_shopMenu[shopMenu].text:upper()) --Change Title
-					t_shopMenu = t_shopMenu[shopMenu].category --Load Category selected items
+					t_shopMenu = t_shopMenu[shopMenu].items --Load Category selected items
 					f_resetCursor()
 					inCategory = true
 			--No Items Available
@@ -241,8 +272,8 @@ function f_shopMenu()
 	--Draw Text for Table
 		for i=1, maxShop do
 			if i > shopMenu - cursorPosY then
-				if t_shopMenu[i].id ~= nil then
-					textImgDraw(f_updateTextImg(t_shopMenu[i].id, font2, 0, 1, t_shopMenu[i].text, 5, 15+i*15-moveTxt))
+				if t_shopMenu[i].txtID ~= nil then
+					textImgDraw(f_updateTextImg(t_shopMenu[i].txtID, font2, 0, 1, t_shopMenu[i].text, 5, 15+i*15-moveTxt))
 				end
 			end
 		end
@@ -250,6 +281,7 @@ function f_shopMenu()
 	--Draw Items Stuff
 		if inCategory then
 			vaultAccess = false
+			f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id)
 			textImgSetText(txt_ShopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
 			textImgDraw(txt_ShopPriceInfo)
 		else
@@ -292,14 +324,17 @@ function f_shopMenu()
 	end
 end
 
---The Vault Item Access Art
-shopVaultAccessArt = animNew(sprShop, [[
-20,1, 0,0, -1
-]])
-animSetPos(shopVaultAccessArt, 8, 122)
-animSetWindow(shopVaultAccessArt, 0,125, 568,274)
-animSetScale(shopVaultAccessArt, 0.255, 0.198)
-animUpdate(shopVaultAccessArt)
+function f_drawShopItemPreview(category, id)
+	local category = category or nil
+	local id = id or nil
+--Character Preview
+	if category == "chars" then
+		f_drawCharAnim(t_selChars[t_charAdd[id]+1], 'p1AnimStand', 245, 150, true)
+--Stage Preview
+	elseif category == "stages" then
+		drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
+	end
+end
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
 --;===========================================================
