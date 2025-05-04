@@ -6987,7 +6987,7 @@ for i, c in ipairs(t_intermissionChars) do --Read all table items and save each 
 	end
 	if intermissionChar ~= selectaChar then --Compare both names stored in previous vars and if the names are differents:
 	--Add only different intermission chars from the one you are using in this table
-		table.insert(t_secretChallenger, {['cel'] = t_charAdd[intermissionChar], ['name'] = t_selChars[t_charAdd[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charAdd[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charAdd[intermissionChar]+1].author})
+		table.insert(t_secretChallenger, {['cel'] = t_charDef[intermissionChar], ['name'] = t_selChars[t_charDef[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charDef[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charDef[intermissionChar]+1].author})
 	end
 end
 if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.txt") end
@@ -8608,7 +8608,7 @@ function f_p1SelectMenu()
 			t_p1CharID[i] = string.lower(v) --Convert each element to lowercase to avoid issues
 		end
 		for item=1, #t_p1CharID do
-			t_p1CharID[item] = t_charAdd[t_p1CharID[item]] --Convert each element to character ID
+			t_p1CharID[item] = t_charDef[t_p1CharID[item]] --Convert each element to character ID
 		end
 		local t = {}
 		for i=1, #t_p1CharID do
@@ -10087,7 +10087,7 @@ function f_p2SelectMenu()
 			t_p2CharID[i] = string.lower(v)
 		end
 		for item=1, #t_p2CharID do
-			t_p2CharID[item] = t_charAdd[t_p2CharID[item]]
+			t_p2CharID[item] = t_charDef[t_p2CharID[item]]
 		end
 		local t = {}
 		for i=1, #t_p2CharID do
@@ -15198,7 +15198,7 @@ if validCells() then
 			shuffle = true --was local function
 			for i=1, p1numChars do
 				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then --Force Arcade Path Fight according to match number: 1, 2, (...)
-					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
+					p1Cell = t_charDef[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
 					if data.gameMode == "tower" then
@@ -15219,7 +15219,7 @@ if validCells() then
 									else
 										bossChar = t_selChars[t_roster[math.random(#t_roster)]+1].char:lower()
 									end
-									p1Cell = t_charAdd[bossChar]
+									p1Cell = t_charDef[bossChar]
 								--Set Custom Stage
 									if t_abyssSel[abyssSel].specialboss[i].stage ~= nil then
 										data.stage = t_abyssSel[abyssSel].specialboss[i].stage
@@ -15278,7 +15278,7 @@ if validCells() then
 						p1teamMode = 0
 						p1numChars = 1
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
-						p1Cell = t_charAdd[t_selChars[data.t_p1selected[i].cel+1].char]
+						p1Cell = t_charDef[t_selChars[data.t_p1selected[i].cel+1].char]
 						data.t_p1selected = {}
 						data.t_p1selected[1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = p1Pal, ['handicap'] = p1HandicapSel, ['up'] = true, ['rand'] = false}
 						restoreTeam = true
@@ -15292,7 +15292,7 @@ if validCells() then
 			shuffle = true --was local function
 			for i=1, p2numChars do
 				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
-					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
+					p2Cell = t_charDef[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
 					if data.gameMode == "tower" then
@@ -15313,7 +15313,7 @@ if validCells() then
 									else
 										bossChar = t_selChars[t_roster[#t_roster]+1].char:lower()
 									end
-									p2Cell = t_charAdd[bossChar]
+									p2Cell = t_charDef[bossChar]
 								--Set Custom Stage
 									if t_abyssSel[abyssSel].specialboss[i].stage ~= nil then
 										data.stage = t_abyssSel[abyssSel].specialboss[i].stage
@@ -15372,7 +15372,7 @@ if validCells() then
 						p2teamMode = 0
 						p2numChars = 1
 						setTeamMode(2, 0, 1)
-						p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
+						p2Cell = t_charDef[t_selChars[data.t_p2selected[i].cel+1].char]
 						data.t_p2selected = {}
 						data.t_p2selected[1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = p2Pal, ['handicap'] = p2HandicapSel, ['up'] = true, ['rand'] = false}
 						restoreTeam = true

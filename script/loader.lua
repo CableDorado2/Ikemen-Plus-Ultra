@@ -463,8 +463,8 @@ end
 --start_time = os.time()
 data.includestage = 0
 t_orderChars = {}
+t_charDef = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
-t_charAdd = {}
 local section = 0
 local file = io.open(selectDef,"r")
 local content = file:read("*all")
@@ -499,7 +499,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_selChars[row]['unlock'] = "true" --character unlocked by default
 				--t_selChars[row]['intermissionSpr'] = {"9000,9, 0,0, -1"}
 				addChar(c)
-				t_charAdd[c] = row - 1
+				t_charDef[c] = row - 1
 		--unlock = lua condition
 			elseif c:match('unlock%s*=%s*') then
 				local unlockData = c:match('^unlock%s*=%s*(.-)%s*$')
@@ -1012,7 +1012,7 @@ content = content:gsub('\n%s*\n', '\n')
 				if var2:lower() == "randomselect" then --if there is a random char detected on a tower floor
 					t_selTower[row]['kombats'][tonumber(var1)] = var2:lower() --store "randomselect" name 
 				else
-					t_selTower[row]['kombats'][tonumber(var1)] = t_charAdd[var2] --instead of store chars name, save from t_selChars "cel" value that will be used to make roster and battle plan stuff
+					t_selTower[row]['kombats'][tonumber(var1)] = t_charDef[var2] --instead of store chars name, save from t_selChars "cel" value that will be used to make roster and battle plan stuff
 				end
 			end
 		end
@@ -1456,7 +1456,7 @@ if data.debugLog then
 	f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
 	f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
 	f_printTable(t_selVN, "save/debug/t_selVN.txt")
-	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
+	f_printTable(t_charDef, "save/debug/t_charDef.txt")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 	f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
 	f_printTable(t_randomChars, "save/debug/t_randomChars.txt")

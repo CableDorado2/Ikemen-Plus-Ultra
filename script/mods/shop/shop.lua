@@ -32,14 +32,14 @@ local t_tempChars = {
 t_shopChars = {} --Create Real Table
 for i=1, #t_tempChars do
 	local pathID = t_tempChars[i].id:lower()
-	if t_charAdd[pathID] ~= nil then --If this char has been registered, add items
+	if t_charDef[pathID] ~= nil then --If this char has been registered, add items
 		t_shopChars[i] = {}
 		t_shopChars[i]['txtID'] = textImgNew()
 		t_shopChars[i]['category'] = "chars"
-		t_shopChars[i]['info'] = txt_shopUnlock..t_selChars[t_charAdd[pathID]+1].displayname
+		t_shopChars[i]['info'] = txt_shopUnlock..t_selChars[t_charDef[pathID]+1].displayname
 		t_shopChars[i]['id'] = t_tempChars[i].id:lower()
 		t_shopChars[i]['price'] = t_tempChars[i].price
-		t_shopChars[i]['text'] = t_selChars[t_charAdd[pathID]+1].displayname
+		t_shopChars[i]['text'] = t_selChars[t_charDef[pathID]+1].displayname
 	else --Ignore items that are not recognized
 		
 	end
@@ -371,7 +371,7 @@ function f_drawShopItemPreview(category, id)
 			end
 			f_drawQuickSpr(shopCharClass, 142+i*30, 25, 0.07, 0.07, alphaS, alphaD)
 		end
-		f_drawCharAnim(t_selChars[t_charAdd[id]+1], 'p1AnimStand', 242, 160, true)
+		f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 242, 160, true)
 --Stage Preview
 	elseif category == "stages" then
 		drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
