@@ -8,9 +8,9 @@ table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomen
 --; SHOP MENU SCREENPACK DEFINITION
 --;=========================================================== 
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
-local txt_shopCurrency = createTextImg(jgFnt, 0, -1, "", 318, 13)
+local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
 local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
-local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 316, 170)
+local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 316, 173)
 local txt_shopMain = "SHOP"
 
 --Shorcuts
@@ -64,6 +64,7 @@ for i=1, #t_tempStages do
 		t_shopStages[i]['id'] = t_tempStages[i].id:lower()
 		t_shopStages[i]['price'] = t_tempStages[i].price
 		t_shopStages[i]['text'] = t_selStages[t_stageDef[pathID]].name.." "..dayStr
+		
 	end
 end
 if data.debugLog then f_printTable(t_shopStages, "save/debug/t_shopStages.txt") end
@@ -84,6 +85,18 @@ t_shopCards = {
 	
 }
 
+if stats.shopstock == nil then stats.shopstock = {} end --Create space to sell shop items
+function f_setShopStock(t)
+	for item=1, #t do
+	--Add Category to shop stock
+		local category = t[item].category
+		if stats.shopstock[category] == nil then stats.shopstock[category] = {} end
+	--Add item to shop stock
+		local itemname = t[item].text
+		if stats.shopstock[category][itemname] == nil then stats.shopstock[category][itemname] = true end
+	end
+end
+
 t_shopMenu = {
 	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!"},
 	{text = "Costumes",   		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!"},
@@ -94,7 +107,11 @@ t_shopMenu = {
 }
 for i=1, #t_shopMenu do
 	t_shopMenu[i]['txtID'] = textImgNew()
+	if #t_shopMenu[i].items ~= 0 then
+		f_setShopStock(t_shopMenu[i].items)
+	end
 end
+f_saveStats()
 
 --Info BG
 local shopInfoBG = animNew(sprIkemen, [[
@@ -111,6 +128,11 @@ local shopItemBG = animNew(sprIkemen, [[
 ]])
 animSetPos(shopItemBG, 169, 20)
 animUpdate(shopItemBG)
+
+--Item Stars
+local shopCharClass = animNew(sprShop, [[
+10,0, 0,0, -1
+]])
 
 --The Vault Item Access BG
 local shopVaultAccessBG = animNew(sprIkemen, [[
@@ -157,6 +179,7 @@ function f_shopMenu()
 		cursorPosY = 1
 		moveTxt = 0
 		shopMenu = 1
+		if data.debugLog then f_printTable(t_shopMenu, "save/debug/t_shopMenu.txt") end
 	end
 	local bufu = 0
 	local bufd = 0
@@ -212,11 +235,11 @@ function f_shopMenu()
 				end
 		--Category Shop
 			else
-				if stats.coins >= t_shopMenu[shopMenu].price then
+				if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].text] and stats.coins >= t_shopMenu[shopMenu].price then
 					sndPlay(sndSys, 200, 3)
-					stats.coins = stats.coins - t_shopMenu[shopMenu].price
 				--Save Data
-					--t_shopMenu[shopMenu].sold = true --Item Sold out
+					stats.coins = stats.coins - t_shopMenu[shopMenu].price
+					stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].text] = false --Item Sold out
 					f_saveStats()
 			--Item Sold Out or No enough Money
 				else
@@ -282,7 +305,11 @@ function f_shopMenu()
 		if inCategory then
 			vaultAccess = false
 			f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id)
-			textImgSetText(txt_ShopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
+			if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].text] then
+				textImgSetText(txt_ShopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
+			else
+				textImgSetText(txt_ShopPriceInfo, "SOLD OUT")
+			end
 			textImgDraw(txt_ShopPriceInfo)
 		else
 			vaultAccess = true
@@ -327,9 +354,18 @@ end
 function f_drawShopItemPreview(category, id)
 	local category = category or nil
 	local id = id or nil
+	local alphaS = nil
+	local alphaD = nil
 --Character Preview
 	if category == "chars" then
-		f_drawCharAnim(t_selChars[t_charAdd[id]+1], 'p1AnimStand', 245, 150, true)
+		for i=1, 5 do
+			if i > 3 then
+				alphaS = 100
+				aphaD = 20
+			end
+			f_drawQuickSpr(shopCharClass, 142+i*30, 25, 0.07, 0.07, alphaS, alphaD)
+		end
+		f_drawCharAnim(t_selChars[t_charAdd[id]+1], 'p1AnimStand', 242, 160, true)
 --Stage Preview
 	elseif category == "stages" then
 		drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
@@ -431,7 +467,7 @@ animSetAlpha(vaultWindowBG, 20, 100)
 animUpdate(vaultWindowBG)
 
 --;===========================================================
---; THE VAULT MENU (insert secret codes to unlock things)
+--; THE VAULT MENU (Insert secret codes to unlock things)
 --;===========================================================
 function f_theVault()
 	local word = ""

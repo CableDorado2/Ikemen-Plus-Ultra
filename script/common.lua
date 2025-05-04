@@ -3575,7 +3575,7 @@ end
 t_unlockLua = { --Create table to manage unlock conditions in real-time
 chars = {}, stages = {}, modes = {},
 artworks = {}, storyboards = {}, videos = {},
-abyss = {}
+palettes = {}, shop = {}, abyss = {}
 }
 
 --asserts content unlock conditions
@@ -3595,7 +3595,7 @@ function f_unlock(permanent)
 				if bool and (permanent or 
 				group == 'chars' or group == 'stages' or group == 'modes' or 
 				group == 'artworks' or group == 'storyboards' or group == 'videos' or
-				group == 'abyss') then
+				group == 'palettes' or group == 'abyss' or group == 'shop') then
 					table.insert(t_del, k)
 				end
 			else
