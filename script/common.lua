@@ -3557,7 +3557,7 @@ function f_secretCode(key)
 --Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
 		sndPlay(sndSys, 200, 2)
-		--stats.unlocks.chars.reika = true --Character Unlock
+		--stats.unlocks.chars.charname = true --Character Unlock
 		--f_saveStats()
 		cmdReward = true
 	else--If table are not equals
@@ -3903,7 +3903,6 @@ if stats.unlocks == nil or data.erase then --If unlocks section does not exists
 	stats.unlocks.abyss = {} --Create space for abyss shop items
 end
 --If Character Unlock Data does not exists, create it:
-if stats.unlocks.chars.reika == nil or data.erase then stats.unlocks.chars.reika = false end
 if stats.unlocks.chars.gouki == nil or data.erase then stats.unlocks.chars.gouki = false end
 --if stats.unlocks.chars.charname == nil then stats.unlocks.chars.charname = false end
 

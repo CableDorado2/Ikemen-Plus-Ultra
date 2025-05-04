@@ -24,9 +24,9 @@ local txt_shopBGMType = "BGM: "
 
 local t_tempChars = {
 	{id = "Reika Murasame", price = 1500},
-	{id = "Suave Dude/Minion/Minion.def", 				price = 2000},
-	{id = "Kung Fu Man/Evil/Evil Kung Fu Man.def", 				price = 2000},
-	{id = "", 				price = 2000},
+	{id = "Ryu", 				price = 2000},
+	{id = "Kyo Kusanagi", 				price = 2000},
+	{id = "Terry", 				price = 2000},
 	{id = "", 				price = 4200},
 }
 t_shopChars = {} --Create Real Table
@@ -47,9 +47,15 @@ end
 if data.debugLog then f_printTable(t_shopChars, "save/debug/t_shopChars.txt") end
 
 local t_tempStages = {
-	{id = "stages/Mountainside Temple/Temple Entrance Afternoon.def", price = 500, text = "Temple Entrance Afternoon"},
-	{id = "stages/Mountainside Temple/Temple Entrance Dusk.def", 	  price = 500, text = "Temple Entrance Dusk"},
-	{id = "stages/Mountainside Temple/Temple Entrance Night.def", 	  price = 500, text = "Temple Entrance Night"},
+	{id = "stages/Mountainside Temple/Temple Entrance Afternoon.def", price = 500},
+	{id = "stages/Mountainside Temple/Temple Entrance Dusk.def", 	  price = 500},
+	{id = "stages/Mountainside Temple/Temple Entrance Night.def", 	  price = 500},
+	{id = "stages/Mountainside Temple/Stairs - 1st Floor.def", 	  	  price = 500},
+	{id = "stages/Mountainside Temple/Stairs - 2nd Floor.def", 	  	  price = 500},
+	{id = "stages/Mountainside Temple/Stairs - 3rd Floor.def", 	  	  price = 500},
+	{id = "stages/Mountainside Temple/Secret Hallway.def", 	  		  price = 500},
+	{id = "stages/Mountainside Temple/Clone Laboratory.def", 	  	  price = 500},
+	{id = "stages/Mountainside Temple/Clone Laboratory 2.def", 	  	  price = 500},
 }
 t_shopStages = {}
 for i=1, #t_tempStages do
@@ -92,7 +98,7 @@ function f_setShopStock(t)
 		local category = t[item].category
 		if stats.shopstock[category] == nil then stats.shopstock[category] = {} end
 	--Add item to shop stock
-		local itemname = t[item].text
+		local itemname = t[item].id
 		if stats.shopstock[category][itemname] == nil then stats.shopstock[category][itemname] = true end
 	end
 end
@@ -101,8 +107,8 @@ t_shopMenu = {
 	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!"},
 	{text = "Costumes",   		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!"},
 	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!"},
-	{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
-	{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
+	--{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
+	--{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
 	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!"},
 }
 for i=1, #t_shopMenu do
@@ -235,11 +241,11 @@ function f_shopMenu()
 				end
 		--Category Shop
 			else
-				if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].text] and stats.coins >= t_shopMenu[shopMenu].price then
+				if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] and stats.coins >= t_shopMenu[shopMenu].price then
 					sndPlay(sndSys, 200, 3)
 				--Save Data
 					stats.coins = stats.coins - t_shopMenu[shopMenu].price
-					stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].text] = false --Item Sold out
+					stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
 					f_saveStats()
 			--Item Sold Out or No enough Money
 				else
@@ -305,7 +311,7 @@ function f_shopMenu()
 		if inCategory then
 			vaultAccess = false
 			f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id)
-			if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].text] then
+			if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] then
 				textImgSetText(txt_ShopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
 			else
 				textImgSetText(txt_ShopPriceInfo, "SOLD OUT")
