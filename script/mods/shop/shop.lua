@@ -23,11 +23,11 @@ local txt_shopStgType = "Stage: "
 local txt_shopBGMType = "BGM: "
 
 local t_tempChars = {
-	{id = "Reika Murasame", price = 1500},
-	{id = "Ryu", 				price = 2000},
-	{id = "Kyo Kusanagi", 				price = 2000},
-	{id = "Terry", 				price = 2000},
-	{id = "", 				price = 4200},
+	{id = "Reika Murasame", price = 1500, class = 3},
+	{id = "Ryu", 			price = 2000, class = 4},
+	{id = "Kyo Kusanagi", 	price = 2000, class = 3},
+	{id = "Terry", 			price = 2000, class = 4},
+	{id = "Ciel", 			price = 4200, class = 4},
 }
 t_shopChars = {} --Create Real Table
 for i=1, #t_tempChars do
@@ -36,6 +36,7 @@ for i=1, #t_tempChars do
 		t_shopChars[i] = {}
 		t_shopChars[i]['txtID'] = textImgNew()
 		t_shopChars[i]['category'] = "chars"
+		t_shopChars[i]['class'] = t_tempChars[i].class
 		t_shopChars[i]['info'] = txt_shopUnlock..t_selChars[t_charDef[pathID]+1].displayname
 		t_shopChars[i]['id'] = t_tempChars[i].id:lower()
 		t_shopChars[i]['price'] = t_tempChars[i].price
@@ -50,12 +51,12 @@ local t_tempStages = {
 	{id = "stages/Mountainside Temple/Temple Entrance Afternoon.def", price = 500},
 	{id = "stages/Mountainside Temple/Temple Entrance Dusk.def", 	  price = 500},
 	{id = "stages/Mountainside Temple/Temple Entrance Night.def", 	  price = 500},
-	{id = "stages/Mountainside Temple/Stairs - 1st Floor.def", 	  	  price = 500},
-	{id = "stages/Mountainside Temple/Stairs - 2nd Floor.def", 	  	  price = 500},
-	{id = "stages/Mountainside Temple/Stairs - 3rd Floor.def", 	  	  price = 500},
-	{id = "stages/Mountainside Temple/Secret Hallway.def", 	  		  price = 500},
-	{id = "stages/Mountainside Temple/Clone Laboratory.def", 	  	  price = 500},
-	{id = "stages/Mountainside Temple/Clone Laboratory 2.def", 	  	  price = 500},
+	{id = "stages/Mountainside Temple/Stairs - 1st Floor.def", 	  	  price = 250},
+	{id = "stages/Mountainside Temple/Stairs - 2nd Floor.def", 	  	  price = 250},
+	{id = "stages/Mountainside Temple/Stairs - 3rd Floor.def", 	  	  price = 250},
+	{id = "stages/Mountainside Temple/Secret Hallway.def", 	  		  price = 1500},
+	{id = "stages/Mountainside Temple/Clone Laboratory.def", 	  	  price = 2000},
+	{id = "stages/Mountainside Temple/Clone Laboratory 2.def", 	  	  price = 2000},
 }
 t_shopStages = {}
 for i=1, #t_tempStages do
@@ -104,12 +105,12 @@ function f_setShopStock(t)
 end
 
 t_shopMenu = {
-	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!"},
-	{text = "Costumes",   		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!"},
-	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!"},
+	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!", spr = {2,0}},
+	{text = "Costumes",   		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!", spr = {2,1}},
+	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!", spr = {2,2}},
 	--{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
 	--{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
-	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!"},
+	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!", spr = {2,3}},
 }
 for i=1, #t_shopMenu do
 	t_shopMenu[i]['txtID'] = textImgNew()
@@ -135,7 +136,7 @@ local shopItemBG = animNew(sprIkemen, [[
 animSetPos(shopItemBG, 169, 20)
 animUpdate(shopItemBG)
 
---Item Stars
+--Item Stars Class
 local shopCharClass = animNew(sprShop, [[
 10,0, 0,0, -1
 ]])
@@ -310,14 +311,15 @@ function f_shopMenu()
 	--Draw Items Stuff
 		if inCategory then
 			vaultAccess = false
-			f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id)
+			f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu)
 			if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] then
 				textImgSetText(txt_ShopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
 			else
-				textImgSetText(txt_ShopPriceInfo, "SOLD OUT")
+				textImgSetText(txt_ShopPriceInfo, "Sold Out")
 			end
 			textImgDraw(txt_ShopPriceInfo)
 		else
+			f_drawShopItemArtwork(shopMenu)
 			vaultAccess = true
 		end
 	--Vault Access Stuff
@@ -357,15 +359,25 @@ function f_shopMenu()
 	end
 end
 
-function f_drawShopItemPreview(category, id)
+function f_drawShopItemArtwork(index)
+local img = t_shopMenu[index].spr[1] ..','.. t_shopMenu[index].spr[2].. ', 0,0, -1'
+	img = animNew(sprShop, img)
+	animSetScale(img, 0.21, 0.21)
+	animSetPos(img, 173, 25)
+	animUpdate(img)
+	animDraw(img)
+end
+
+function f_drawShopItemPreview(category, id, itemNo)
 	local category = category or nil
 	local id = id or nil
+	local itemNo = itemNo or nil
 	local alphaS = nil
 	local alphaD = nil
 --Character Preview
 	if category == "chars" then
 		for i=1, 5 do
-			if i > 3 then
+			if i > t_shopMenu[itemNo].class then
 				alphaS = 100
 				aphaD = 20
 			end
@@ -380,10 +392,10 @@ end
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
 --;===========================================================
-txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
-txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
-txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
-txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.9, 0.9)
+local txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
+local txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
+local txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
+local txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.9, 0.9)
 
 t_vaultMenu = {
 	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
@@ -456,7 +468,7 @@ data.userName.." Add your prize message here!"
 end
 
 --Background
-vaultBG0 = animNew(sprShop, [[
+local vaultBG0 = animNew(sprShop, [[
 20,0, 0,0, -1
 ]])
 animSetPos(vaultBG0, 160, 119)
@@ -464,7 +476,7 @@ animSetScale(vaultBG0, 0.30, 0.305)
 animUpdate(vaultBG0)
 
 --Text Window BG
-vaultWindowBG = animNew(sprIkemen, [[
+local vaultWindowBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(vaultWindowBG, 80, 100)
