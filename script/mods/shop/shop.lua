@@ -11,7 +11,7 @@ local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
 local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
 local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 316, 173)
-local txt_ShopQuestion = createTextImg(font14, 0, 0, "Do you want to purchase this content?", 160, 40)
+local txt_ShopQuestion = createTextImg(font14, 0, 0, "Do you want to purchase this content?", 160, 35)
 local txt_shopMain = "ITEM SHOP"
 
 --Shorcuts
@@ -408,14 +408,7 @@ function f_drawShopItemPreview(category, id, itemNo, menu)
 			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 242, 160, true)
 	--During Purchase Confirm
 		else
-			for i=1, 5 do
-				if i > t_shopMenu[itemNo].class then
-					alphaS = 100
-					aphaD = 20
-				end
-				f_drawQuickSpr(shopCharClass, 42+i*30, 25, 0.07, 0.07, alphaS, alphaD)
-			end
-			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 142, 160, true)
+			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 70, 144, false, 0.75, 0.75)
 		end
 --Stage Preview
 	elseif category == "stages" then
@@ -477,6 +470,7 @@ function f_confirmPurchase()
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Content
+	f_drawQuickText(txt_shpName, jgFnt, 5, 0, t_shopMenu[shopMenu].text, 160, 50)
 	f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu, true)
 --Draw Accounting
 	f_drawQuickText(txt_shp1, font2, 0, -1, "Price "..t_shopMenu[shopMenu].price.." IKC", 110, 154)
