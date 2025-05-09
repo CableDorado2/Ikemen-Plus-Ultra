@@ -11,12 +11,14 @@ local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
 local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
 local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 316, 173)
-local txt_shopMain = "SHOP"
+local txt_ShopQuestion = createTextImg(font14, 0, 0, "Do you want to purchase this content?", 160, 40)
+local txt_shopMain = "ITEM SHOP"
 
 --Shorcuts
 local txt_shopPurchase = "Purchase"
 local txt_shopUnlock = "Unlocks "
 local txt_shopSold = "Sold Out"
+local txt_shopBalance = "Balance"
 
 local txt_shopCharType = "Character: "
 local txt_shopStgType = "Stage: "
@@ -157,6 +159,20 @@ animSetWindow(shopVaultAccessArt, 0,125, 568,274)
 animSetScale(shopVaultAccessArt, 0.255, 0.198)
 animUpdate(shopVaultAccessArt)
 
+--Confirm Purchase Window BG
+confirmShopBG = animNew(sprIkemen, [[
+62,0, 0,0, -1
+]])
+animSetPos(confirmShopBG, 0, 20)
+animSetScale(confirmShopBG, 2.13, 1)
+animUpdate(confirmShopBG)
+
+t_confirmShop = {
+	{id = textImgNew(), text = "YES"}, --{id = textImgNew(), text = "Purchase with Orbs"},
+										--{id = textImgNew(), text = "Purchase with Diamons"},
+	{id = textImgNew(), text = "NO"}, --{id = textImgNew(), text = "Cancel Order"},
+}
+
 function drawShopInputHints(vault)
 	local vault = vault
 	local inputHintYPos = 218
@@ -181,7 +197,7 @@ function f_shopMenu()
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
-	local shopMenu = 1
+	shopMenu = 1
 	local function f_resetCursor()
 		cursorPosY = 1
 		moveTxt = 0
@@ -193,7 +209,7 @@ function f_shopMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 10
-	
+	f_confirmShopReset()
 	local inCategory = false
 	local vaultAccess = false
 	local t_shopMenuBackup = t_shopMenu
@@ -203,88 +219,88 @@ function f_shopMenu()
 	animSetPos(menuArrowUp, 152, 10)
 	animSetPos(menuArrowDown, 152, 172)
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-		--Back
-			if inCategory then
-				textImgSetText(txt_shopTitle, txt_shopMain)
-				f_resetCursor()
-				t_shopMenu = t_shopMenuBackup --Restore Menu Items
-				sndPlay(sndSys, 100, 2)
-				inCategory = false
-		--Exit
-			else
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				sndPlay(sndSys, 100, 2)
-				f_resetMenuArrowsPos()
-				f_menuMusic()
-				break
-			end
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			shopMenu = shopMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			shopMenu = shopMenu + 1
-	--Enter Actions
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-		--Main Shop
-			if not inCategory then
-			--Load Available items
-				if #t_shopMenu[shopMenu].items ~= 0 then
-					sndPlay(sndSys, 100, 1)
-					textImgSetText(txt_shopTitle, t_shopMenu[shopMenu].text:upper()) --Change Title
-					t_shopMenu = t_shopMenu[shopMenu].items --Load Category selected items
+		if not confirmPurchase then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			--Back
+				if inCategory then
+					textImgSetText(txt_shopTitle, txt_shopMain)
 					f_resetCursor()
-					inCategory = true
-			--No Items Available
+					t_shopMenu = t_shopMenuBackup --Restore Menu Items
+					sndPlay(sndSys, 100, 2)
+					inCategory = false
+			--Exit
 				else
-					sndPlay(sndSys, 100, 5)
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+					sndPlay(sndSys, 100, 2)
+					f_resetMenuArrowsPos()
+					f_menuMusic()
+					break
 				end
-		--Category Shop
-			else
-				if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] and stats.coins >= t_shopMenu[shopMenu].price then
-					sndPlay(sndSys, 200, 3)
-				--Save Data
-					stats.coins = stats.coins - t_shopMenu[shopMenu].price
-					stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
-					f_saveStats()
-			--Item Sold Out or No enough Money
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				shopMenu = shopMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				shopMenu = shopMenu + 1
+		--Enter Actions
+			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			--Main Shop
+				if not inCategory then
+				--Load Available items
+					if #t_shopMenu[shopMenu].items ~= 0 then
+						sndPlay(sndSys, 100, 1)
+						textImgSetText(txt_shopTitle, t_shopMenu[shopMenu].text:upper()) --Change Title
+						t_shopMenu = t_shopMenu[shopMenu].items --Load Category selected items
+						f_resetCursor()
+						inCategory = true
+				--No Items Available
+					else
+						sndPlay(sndSys, 100, 5)
+					end
+			--Category Shop
 				else
-					sndPlay(sndSys, 100, 5)
+				--Purchase
+					if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] and stats.coins >= t_shopMenu[shopMenu].price then
+						sndPlay(sndSys, 100, 1)
+						confirmPurchase = true --Show Confirm Purchase
+				--Item Sold Out or No enough Money
+					else
+						sndPlay(sndSys, 100, 5)
+					end
 				end
+		--???
+			elseif vaultAccess and (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) then
+				f_theVault()
+				playBGM(bgmShop)
 			end
-	--???
-		elseif vaultAccess and (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) then
-			f_theVault()
-			playBGM(bgmShop)
-		end
-	--Cursor position calculation
-		if shopMenu < 1 then
-			shopMenu = #t_shopMenu
-			if #t_shopMenu > maxItems then
-				cursorPosY = maxItems
+		--Cursor position calculation
+			if shopMenu < 1 then
+				shopMenu = #t_shopMenu
+				if #t_shopMenu > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_shopMenu
+				end
+			elseif shopMenu > #t_shopMenu then
+				shopMenu = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (shopMenu - maxItems) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (shopMenu - 1) * 15
+			end	
+			if #t_shopMenu <= maxItems then
+				maxShop = #t_shopMenu
+			elseif shopMenu - cursorPosY > 0 then
+				maxShop = shopMenu + maxItems - cursorPosY
 			else
-				cursorPosY = #t_shopMenu
+				maxShop = maxItems
 			end
-		elseif shopMenu > #t_shopMenu then
-			shopMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == maxItems then
-			moveTxt = (shopMenu - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (shopMenu - 1) * 15
-		end	
-		if #t_shopMenu <= maxItems then
-			maxShop = #t_shopMenu
-		elseif shopMenu - cursorPosY > 0 then
-			maxShop = shopMenu + maxItems - cursorPosY
-		else
-			maxShop = maxItems
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Transparent Table BG
@@ -293,12 +309,14 @@ function f_shopMenu()
 		animDraw(commonTBG)
 	--Draw Title Menu
 		textImgDraw(txt_shopTitle)
-		textImgSetText(txt_shopCurrency, stats.coins.." IKC")
-		textImgDraw(txt_shopCurrency)
-	--Draw Table Cursor
-		animSetWindow(cursorBox, 0,5+cursorPosY*15, 165,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if not confirmPurchase then
+			textImgSetText(txt_shopCurrency, stats.coins.." IKC")
+			textImgDraw(txt_shopCurrency)
+		--Draw Table Cursor
+			animSetWindow(cursorBox, 0,5+cursorPosY*15, 165,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 	--Draw Text for Table
 		for i=1, maxShop do
 			if i > shopMenu - cursorPosY then
@@ -342,6 +360,7 @@ function f_shopMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
+		if confirmPurchase then f_confirmPurchase() end --Show Purchase Question
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -368,26 +387,129 @@ local img = t_shopMenu[index].spr[1] ..','.. t_shopMenu[index].spr[2].. ', 0,0, 
 	animDraw(img)
 end
 
-function f_drawShopItemPreview(category, id, itemNo)
+function f_drawShopItemPreview(category, id, itemNo, menu)
 	local category = category or nil
 	local id = id or nil
 	local itemNo = itemNo or nil
+	local purchaseMenu = menu or false
 	local alphaS = nil
 	local alphaD = nil
 --Character Preview
 	if category == "chars" then
-		for i=1, 5 do
-			if i > t_shopMenu[itemNo].class then
-				alphaS = 100
-				aphaD = 20
+	--During Item Select
+		if not purchaseMenu then
+			for i=1, 5 do
+				if i > t_shopMenu[itemNo].class then
+					alphaS = 100
+					aphaD = 20
+				end
+				f_drawQuickSpr(shopCharClass, 142+i*30, 25, 0.07, 0.07, alphaS, alphaD)
 			end
-			f_drawQuickSpr(shopCharClass, 142+i*30, 25, 0.07, 0.07, alphaS, alphaD)
+			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 242, 160, true)
+	--During Purchase Confirm
+		else
+			for i=1, 5 do
+				if i > t_shopMenu[itemNo].class then
+					alphaS = 100
+					aphaD = 20
+				end
+				f_drawQuickSpr(shopCharClass, 42+i*30, 25, 0.07, 0.07, alphaS, alphaD)
+			end
+			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 142, 160, true)
 		end
-		f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 242, 160, true)
 --Stage Preview
 	elseif category == "stages" then
-		drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
+		if not purchaseMenu then
+			drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
+		else
+			drawStagePortrait(t_stageDef[id]-1, 10, 60, 0.113, 0.113)
+		end
 	end
+end
+
+function f_confirmPurchase()
+	cmdInput()
+--Cursor Position
+	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
+		sndPlay(sndSys, 100, 0)
+		confirmShop = confirmShop - 1
+	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
+		sndPlay(sndSys, 100, 0)
+		confirmShop = confirmShop + 1
+	end
+	if confirmShop < 1 then
+		confirmShop = #t_confirmShop
+		if #t_confirmShop > 4 then
+			cursorYConfirmShop = 4
+		else
+			cursorYConfirmShop = #t_confirmShop-1
+		end
+	elseif confirmShop > #t_confirmShop then
+		confirmShop = 1
+		cursorYConfirmShop = 0
+	elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) and cursorYConfirmShop > 0 then
+		cursorYConfirmShop = cursorYConfirmShop - 1
+	elseif (commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) and cursorYConfirmShop < 4 then
+		cursorYConfirmShop = cursorYConfirmShop + 1
+	end
+	if cursorYConfirmShop == 4 then
+		moveTxTConfirmShop = (confirmShop - 5) * 13
+	elseif cursorYConfirmShop == 0 then
+		moveTxTConfirmShop = (confirmShop - 1) * 13
+	end
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(confirmShopBG)
+--Draw Title
+	textImgDraw(txt_ShopQuestion)
+--Draw Table Text
+	for i=1, #t_confirmShop do
+		if i == confirmShop then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_confirmShop[i].id, jgFnt, bank, 0, t_confirmShop[i].text, 239, 80+i*13-moveTxTConfirmShop))
+	end
+--Draw Cursor
+	animSetWindow(cursorBox, 167,83+cursorYConfirmShop*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+--Draw Content
+	f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu, true)
+--Draw Accounting
+	f_drawQuickText(txt_shp1, font2, 0, -1, "Price "..t_shopMenu[shopMenu].price.." IKC", 110, 154)
+	f_drawQuickText(txt_shp2, font2, 0, -1, "Balance "..stats.coins.." IKC", 310, 154)
+	f_drawQuickText(txt_shp3, font2, 0, -1, "Balance after Purchase "..stats.coins-t_shopMenu[shopMenu].price.." IKC", 310, 173)
+--Draw Input Hints Panel
+	drawConfirmInputHints()
+--Actions
+	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		sndPlay(sndSys, 100, 2)
+		f_confirmShopReset()
+	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+	--YES
+		if confirmShop == 1 then
+		--Item Purchased (Save Data)
+			sndPlay(sndSys, 200, 3)
+			stats.coins = stats.coins - t_shopMenu[shopMenu].price
+			stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
+			f_saveStats()
+	--NO
+		else
+			sndPlay(sndSys, 100, 2)
+		end
+		f_confirmShopReset()
+	end
+end
+
+function f_confirmShopReset()
+	confirmPurchase = false
+	moveTxTConfirmShop = 0
+--Cursor pos in NO
+	cursorYConfirmShop = 1
+	confirmShop = 2
 end
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
