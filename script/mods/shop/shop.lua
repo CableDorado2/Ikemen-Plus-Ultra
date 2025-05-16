@@ -3,7 +3,7 @@ sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
 bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
 bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --Insert new item to t_mainMenu table loaded by screenpack.lua
-table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_shopMenu()"})
+
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;=========================================================== 
@@ -505,6 +505,7 @@ function f_confirmShopReset()
 	cursorYConfirmShop = 1
 	confirmShop = 2
 end
+--table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_shopMenu()"})
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
 --;===========================================================
