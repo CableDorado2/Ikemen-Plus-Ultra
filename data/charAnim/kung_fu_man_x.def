@@ -1,0 +1,45 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+   0, 0, data\charTrash\kung_fu_man_x\s002.png,  18,105
+   0, 1, data\charTrash\kung_fu_man_x\s003.png,  18,104
+   0, 2, data\charTrash\kung_fu_man_x\s004.png,  18,104
+   0, 3, data\charTrash\kung_fu_man_x\s005.png,  18,104
+   0, 4, data\charTrash\kung_fu_man_x\s006.png,  18,104
+   0, 5, data\charTrash\kung_fu_man_x\s007.png,  18,104
+ 181, 0, data\charTrash\kung_fu_man_x\s073.png,  16,108
+ 181, 1, data\charTrash\kung_fu_man_x\s074.png,  12,113
+ 181, 2, data\charTrash\kung_fu_man_x\s075.png,  13,113
+ 181, 3, data\charTrash\kung_fu_man_x\s076.png,  12,112
+ 181, 4, data\charTrash\kung_fu_man_x\s077.png,  13,104
+ 181, 5, data\charTrash\kung_fu_man_x\s078.png,  13, 89
+ 181, 6, data\charTrash\kung_fu_man_x\s079.png,  13, 85
+ 200, 0, data\charTrash\kung_fu_man_x\s086.png,  16,105
+5040, 0, data\charTrash\kung_fu_man_x\s251.png,  49, 45
+5040,10, data\charTrash\kung_fu_man_x\s253.png,  50, 33
+5040,20, data\charTrash\kung_fu_man_x\s255.png,  49, 55
+5300, 0, data\charTrash\kung_fu_man_x\s278.png,  31, 82
+5300, 1, data\charTrash\kung_fu_man_x\s279.png,  31, 81
+5300, 2, data\charTrash\kung_fu_man_x\s280.png,  31, 79
+5300, 3, data\charTrash\kung_fu_man_x\s281.png,  31, 78
