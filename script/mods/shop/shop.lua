@@ -221,21 +221,6 @@ function f_shopMenu()
 	while true do
 		if not confirmPurchase then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			--Back
-				if inCategory then
-					textImgSetText(txt_shopTitle, txt_shopMain)
-					f_resetCursor()
-					t_shopMenu = t_shopMenuBackup --Restore Menu Items
-					sndPlay(sndSys, 100, 2)
-					inCategory = false
-			--Exit
-				else
-					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-					sndPlay(sndSys, 100, 2)
-					f_resetMenuArrowsPos()
-					f_menuMusic()
-					break
-				end
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
 				shopMenu = shopMenu - 1
@@ -273,34 +258,6 @@ function f_shopMenu()
 				f_theVault()
 				playBGM(bgmShop)
 			end
-		--Cursor position calculation
-			if shopMenu < 1 then
-				shopMenu = #t_shopMenu
-				if #t_shopMenu > maxItems then
-					cursorPosY = maxItems
-				else
-					cursorPosY = #t_shopMenu
-				end
-			elseif shopMenu > #t_shopMenu then
-				shopMenu = 1
-				cursorPosY = 1
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == maxItems then
-				moveTxt = (shopMenu - maxItems) * 15
-			elseif cursorPosY == 1 then
-				moveTxt = (shopMenu - 1) * 15
-			end	
-			if #t_shopMenu <= maxItems then
-				maxShop = #t_shopMenu
-			elseif shopMenu - cursorPosY > 0 then
-				maxShop = shopMenu + maxItems - cursorPosY
-			else
-				maxShop = maxItems
-			end
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Transparent Table BG
@@ -337,30 +294,8 @@ function f_shopMenu()
 			end
 			textImgDraw(txt_ShopPriceInfo)
 		else
-			f_drawShopItemArtwork(shopMenu)
 			vaultAccess = true
 		end
-	--Vault Access Stuff
-		if vaultAccess then
-			animDraw(shopVaultAccessBG)
-			animDraw(shopVaultAccessArt)
-		end
-	--Draw Info Text Stuff
-		drawShopInputHints(vaultAccess)
-		animDraw(shopInfoBG)
-		textImgSetText(txt_ShopItemInfo, t_shopMenu[shopMenu].info)
-		textImgDraw(txt_ShopItemInfo)
-	--Draw Up Animated Cursor
-		if maxShop > maxItems then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-	--Draw Down Animated Cursor
-		if #t_shopMenu > maxItems and maxShop < #t_shopMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if confirmPurchase then f_confirmPurchase() end --Show Purchase Question
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
