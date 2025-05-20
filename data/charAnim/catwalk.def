@@ -22,3 +22,5 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
+1030, 0, data\charTrash\catwalk\s099.png,  -1, -1
+1033, 0, data\charTrash\catwalk\s101.png,  -1, -1
