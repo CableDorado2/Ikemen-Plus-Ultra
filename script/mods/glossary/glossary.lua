@@ -301,5 +301,5 @@ for line in content:gmatch('[^\r\n]+') do
 	--textImgDraw(txt_loading)
 	--refresh()
 end
-if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.txt") end
+if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.log") end
 end

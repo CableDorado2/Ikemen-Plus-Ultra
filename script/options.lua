@@ -9619,9 +9619,9 @@ f_inputBattleRead(0, -1) -- 0=P1, -1=Keyboard
 f_inputBattleRead(1, -1) -- 1=P2
 
 if data.debugLog then
-	f_printTable(t_keyBattleCfg, "save/debug/battleInputsP1.txt")
-	f_printTable(t_keyBattleCfg2, "save/debug/battleInputsP2.txt")
+	f_printTable(t_keyBattleCfg, "save/debug/battleInputsP1.log")
+	f_printTable(t_keyBattleCfg2, "save/debug/battleInputsP2.log")
 	
-	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.txt")
-	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.txt")
+	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.log")
+	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.log")
 end

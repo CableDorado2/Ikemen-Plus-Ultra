@@ -321,7 +321,7 @@ t_tutorialDiag = {
 {btntonext = true, txt = "PERFECT! NOW TEST YOUR MIGHT DEFEATING ME. AND.. THIS IS OPTIONAL BUT WITH WHAT YOU HAVE LEARNED:                                           TRY TO MAKE A COMBO OF MORE THAN 10 HITS!"},
 {hidediag = true, infight = true},
 }
-if data.debugLog then f_printTable(t_tutorialDiag, "save/debug/t_tutorialDiag.txt") end
+if data.debugLog then f_printTable(t_tutorialDiag, "save/debug/t_tutorialDiag.log") end
 
 --Checks functions uses the CNS triggers and KFG char as base example
 function f_tutoCheck1()

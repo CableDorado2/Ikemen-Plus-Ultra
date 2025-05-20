@@ -432,7 +432,7 @@ end
 
 --prints "t" table content into "toFile" file
 function f_printTable(t, toFile)
-	local toFile = toFile or 'save/debug/table_print.txt'
+	local toFile = toFile or 'save/debug/table_print.log'
 	local txt = ''
 	local print_t_cache = {}
 	local function sub_print_t(t, indent)
@@ -472,7 +472,7 @@ end
 
 --prints "v" variable into "toFile" file
 function f_printVar(v, toFile)
-	local toFile = toFile or 'save/debug/var_print.txt'
+	local toFile = toFile or 'save/debug/var_print.log'
 	local file = io.open(toFile,"w+")
 	file:write(v)
 	file:close()
@@ -1296,7 +1296,7 @@ function f_storyboard(path)
 		end
 	end
 	file:close()
-	if data.debugLog then f_printTable(t, 'save/debug/storyboard/t_' .. fileName) end
+	if data.debugLog then f_printTable(t, 'save/debug/storyboard/t_'..fileName..'.log') end
 	f_storyboardPlay(t)
 	return
 end
@@ -1750,7 +1750,7 @@ function f_storyboardPlay(tIn)
 	tOut['ctrldef'] = {}
 	tOut.ctrldef = tIn.ctrldef
 --Actual storyboard loop
-	if data.debugLog then f_printTable(tOut, 'save/debug/t_storyboard.txt') end
+	if data.debugLog then f_printTable(tOut, 'save/debug/t_storyboard.log') end
 	local velX = 0
 	local velY = 0
 	for i=tOut.startscene, #tOut.scenes do
@@ -2025,7 +2025,7 @@ for line in content:gmatch('[^\r\n]+') do
 	--textImgDraw(txt_loading)
 	--refresh()
 end
-if data.debugLog then f_printTable(t_vnBoxText, "save/debug/t_vnBoxText.txt") end
+if data.debugLog then f_printTable(t_vnBoxText, "save/debug/t_vnBoxText.log") end
 end
 
 --;===========================================================
@@ -2980,7 +2980,7 @@ function f_default() --Reset Game Modes Configuration
 	data.eventNo = nil --additional variable used to identify events in select screen
 	data.storyNo = nil --additional variable used to identify stories in select screen
 --Match Settings
-	setAutoLevel(false) --generate autolevel.txt in debug dir
+	setAutoLevel(false) --generate autolevel.log in debug dir
 	setHUD(true) --just enable or disable hud elements in game
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	setPlayerSide("") --set player side variable to adjust internal settings.
@@ -3139,7 +3139,7 @@ function f_bgmrandomVS()
 		end
 	end
 	playBGM(t_randomsongList[math.random(1, #t_randomsongList)].path)
-	if data.debugLog then f_printTable(t_randomsongList, "save/debug/t_randomsongList.txt") end
+	if data.debugLog then f_printTable(t_randomsongList, "save/debug/t_randomsongList.log") end
 end
 
 --Load Songs from Folders
@@ -3173,8 +3173,8 @@ function f_loadMusic(path)
 			end
 		end
 	end
-	if data.debugLog then f_printTable(t_songFile, 'save/debug/t_songFile.txt') end
-	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.txt') end
+	if data.debugLog then f_printTable(t_songFile, 'save/debug/t_songFile.log') end
+	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.log') end
 end
 
 function f_soundtrack()
@@ -3199,7 +3199,7 @@ function f_soundtrack()
 		t_songList[folder][row] = {id = '', name = 'RANDOM SELECT', path = 'Random'}
 		t_songList[folder][row+1] = {id = '', name = '          BACK', path = ''}
 	end
-	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.txt') end
+	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.log') end
 end
 
 --;===========================================================
@@ -3564,8 +3564,8 @@ function f_secretCode(key)
 		cmdReward = false
 	end
 	if data.debugLog then
-		f_printTable(t_secretEntry, "save/debug/t_secretEntry.txt")
-		f_printTable(t_secretCode, "save/debug/t_secretCode.txt")
+		f_printTable(t_secretEntry, "save/debug/t_secretEntry.log")
+		f_printTable(t_secretCode, "save/debug/t_secretCode.log")
 	end
 end
 
@@ -3698,7 +3698,7 @@ end
 
 --Data saving to stats.json
 function f_saveStats()
-	--if data.debugLog then f_printTable(stats, 'save/debug/t_stats.txt') end
+	--if data.debugLog then f_printTable(stats, 'save/debug/t_stats.log') end
 	f_fileWrite(saveStatsPath, json.encode(stats, {indent = 2}))
 	f_fileWrite(saveAbyssPath, json.encode(abyssDat, {indent = 2}))
 end
@@ -4039,7 +4039,7 @@ function f_loadLuaMods(bool)
 				end
 			end
 		end
-		if data.debugLog then f_printTable(t_luaExternalMods, 'save/debug/t_luaExternalMods.txt') end
+		if data.debugLog then f_printTable(t_luaExternalMods, 'save/debug/t_luaExternalMods.log') end
 	end
 --Loads modules from the paths specified in luaModules
 	for mods=1, #luaModules do

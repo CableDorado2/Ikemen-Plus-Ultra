@@ -4866,7 +4866,7 @@ function f_replayTable()
 		end
 	end
 	t_replayList[#t_replayList+1] = {id = '', name = "          BACK"}
-	if data.debugLog then f_printTable(t_replayList, "save/debug/t_replayList.txt") end
+	if data.debugLog then f_printTable(t_replayList, "save/debug/t_replayList.log") end
 end
 
 --;===========================================================
@@ -6990,7 +6990,7 @@ for i, c in ipairs(t_intermissionChars) do --Read all table items and save each 
 		table.insert(t_secretChallenger, {['cel'] = t_charDef[intermissionChar], ['name'] = t_selChars[t_charDef[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charDef[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charDef[intermissionChar]+1].author})
 	end
 end
-if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.txt") end
+if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.log") end
 end
 
 function f_secretFight()
@@ -7505,7 +7505,7 @@ function f_makeRoster()
 			end
 		end
 	end
-	if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.txt") end
+	if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
 end
 
 function f_aiRamp()
@@ -7569,7 +7569,7 @@ function f_aiRamp()
 			t_aiRamp[#t_aiRamp+1] = endAI
 		end
 	end
-	if data.debugLog then f_printTable(t_aiRamp, "save/debug/t_aiRamp.txt") end
+	if data.debugLog then f_printTable(t_aiRamp, "save/debug/t_aiRamp.log") end
 end
 
 function f_difficulty(player, offset)
@@ -8622,7 +8622,7 @@ function f_p1SelectMenu()
 			else
 				data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = math.random(1,12), ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author}
 			end
-			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
+			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
 		end
 		p1Portrait = t_p1CharID[1]
 		--local numChars = p1numChars
@@ -8632,7 +8632,7 @@ function f_p1SelectMenu()
 	elseif not data.p1SelectMenu then
 		if data.gameMode == "challenger" then
 			data.t_p1selected = t_p1selectedTemp --Get previous arcade selected characters
-			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
+			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
 		end
 		p1SelEnd = true
 --Start P1 Character Select
@@ -9712,7 +9712,7 @@ function f_p1SelectMenu()
 						p1CharEnd = false
 					end
 				end
-				if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
+				if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
 			end
 		end
 	end
@@ -10101,7 +10101,7 @@ function f_p2SelectMenu()
 			else
 				data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = math.random(1,12), ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author}
 			end
-			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt") end
+			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log") end
 		end
 		p2Portrait = t_p2CharID[1]
 		--local numChars = p2numChars
@@ -10114,7 +10114,7 @@ function f_p2SelectMenu()
 	elseif not data.p2SelectMenu then
 		if data.gameMode == "challenger" then
 			data.t_p2selected = t_p2selectedTemp --Get previous arcade selected characters
-			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt") end
+			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log") end
 		end
 		p2SelEnd = true
 	else
@@ -11207,8 +11207,8 @@ function f_p2SelectMenu()
 					end
 				end
 				if data.debugLog then
-					f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt")
-					f_printTable(t_selected, "save/debug/t_selected.txt")
+					f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log")
+					f_printTable(t_selected, "save/debug/t_selected.log")
 				end
 			end
 		end
@@ -11380,7 +11380,7 @@ end
 --; STAGE SELECT MENU
 --;===========================================================
 function f_selectStage()
-	if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
+	if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
 	if data.stageMenu then --If Stage Select is Enabled
 		stageMenuActive = true --To Delete content from previous menu
 		if data.rosterAdvanced == true then
@@ -11877,7 +11877,7 @@ function f_selectStage()
 			data.stage = data.stage:lower() --Convert to lower case to avoid issues
 			local stageID = t_stageDef[data.stage] --Get stage number from table t_stageDef
 			t_stageSelected = {['cel'] = stageID, ['name'] = t_selStages[stageID].name, ['path'] = t_selStages[stageID].stage, ['author'] = t_selStages[stageID].author, ['location'] = t_selStages[stageID].location, ['daytime'] = t_selStages[stageID].daytime} --get stage info
-			if data.debugLog then f_printTable(t_stageSelected, "save/debug/t_stageSelected.txt") end
+			if data.debugLog then f_printTable(t_stageSelected, "save/debug/t_stageSelected.log") end
 			--stagePortrait = t_stageSelected.cel
 			stageNo = t_stageSelected.cel
 		end
@@ -15059,8 +15059,8 @@ if validCells() then
 					p1RestoreCharsNo = p1numChars --Get a copy of amount of chars selected
 					p2RestoreCharsNo = p2numChars
 					restoreMatchNo = matchNo --Get a copy of matchNo where arcade was cut
-					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.txt") end
-					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.txt") end
+					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.log") end
+					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.log") end
 				--Load Side Player Data
 					if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
 						keepLSide = true
@@ -15403,7 +15403,7 @@ if validCells() then
 		elseif data.gameMode == "abyss" or data.gameMode == "endless" then
 			--Remove the last char loaded for the CPU side from t_roster and make a check so that when t_roster is empty, use f_makeRoster() again
 			table.remove(t_roster, #t_roster)
-			if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.txt") end
+			if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
 			if #t_roster == 0 or t_roster == nil then f_makeRoster() end
 		end
 		f_setZoom()
@@ -16261,7 +16261,7 @@ function f_tourneyMenu()
 					tourneyGroupNo = 1 --Start tourney from Left Group
 					tourneyParticipantNo = 0 --Player Slot ID
 					tourneyNextRound = true
-					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.log") end
 					f_tourneySelCfg()
 				end
 				confirmRandomSel = false
@@ -16317,7 +16317,7 @@ function f_tourneyMenu()
 				sndPlay(sndSys, 100, 1)
 				startTourney = false
 				f_tourneySelCfg()
-				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.log") end
 			end
 		--Cursor position calculation
 			if tourneyRow < 1 then
@@ -16363,7 +16363,7 @@ function f_tourneyMenu()
 		--START NEXT MATCH
 			elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				hideMenu = false
-				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.log") end
 				f_tourneySelCfg()
 			end
 		end
@@ -16624,7 +16624,7 @@ function f_tourneySelRandomPlayer()
 			confirmRandomSel = true
 		end
 	end
-	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.log") end
 end
 
 --Load Common Settings for Tournament Battles
@@ -16856,7 +16856,7 @@ if validCells() then
 				end
 			--Back to Tourney Menu
 				f_resetMenuInputs()
-				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+				if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.log") end
 				break
 			end
 		--Show Character Select every Match
@@ -16930,7 +16930,7 @@ if validCells() then
 					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].up = data.t_p2selected[1].up
 					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].pal = data.t_p2selected[1].pal
 					--t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].handicap = data.t_p2selected[1].handicap
-					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+					if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.log") end
 				end
 			end
 		--Assign Characters to the Match
@@ -17714,7 +17714,7 @@ function eachAllChars(f)
 end
 
 function rakuBenry()
-	local alf = "save/debug/autolevel.txt"
+	local alf = "save/debug/autolevel.log"
 	local veljnz = {}
 	local winct = {}
 	local buf = '\239\187\191'
@@ -17875,7 +17875,7 @@ function rosterTxt()
 	for i = 1, #roster do
 		str = str .. '\n' .. getCharFileName(roster[i])
 	end
-	dscr = io.open("save/debug/AI_Rank.txt", 'w')
+	dscr = io.open("save/debug/AI_Rank.log", 'w')
 	dscr:write(str)
 	io.close(dscr)
 end

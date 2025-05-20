@@ -488,7 +488,7 @@ local file = io.open(eventDef,"r")
 			t_unlockLua.modes[v.id] = v.unlock
 		end
 	end
-	if data.debugLog then f_printTable(t_events, "save/debug/t_events.txt") end
+	if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
 	textImgSetText(txt_loading, "LOADING EVENTS...")
 	textImgDraw(txt_loading)
 	refresh()

@@ -1034,7 +1034,7 @@ content = content:gsub('\n%s*\n', '\n')
 		end
 		v.kombats = f_delRepeated(v.kombats) --get final towers without characters repeated
 	end
-	if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower.txt") end
+	if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower.log") end
 	if loadingScreen then
 		textImgSetText(txt_loading, "LOADING TOWERS...")
 		textImgDraw(txt_loading)
@@ -1145,7 +1145,7 @@ function f_loadGallery(path, reset) --Load def file which contains artworks data
 			end
 		end
 	end
-	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.txt") end
+	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.log") end
 --[[
 	textImgSetText(txt_loading, "LOADING GALLERY...")
 	textImgDraw(txt_loading)
@@ -1226,7 +1226,7 @@ t_licenseList = {}
 			t_licenseList[row]['content'] = f_txtLoad(licensesPath.."/"..file)
 		end
 	end
-	if data.debugLog then f_printTable(t_licenseList, "save/debug/t_licenseList.txt") end
+	if data.debugLog then f_printTable(t_licenseList, "save/debug/t_licenseList.log") end
 end
 f_loadLicenses()
 --;===========================================================
@@ -1404,7 +1404,7 @@ function generateStageList(path)
 				if item:match('^.*(%.)[Dd][Ee][Ff]$') then --Get only .def files
 					t_extraStages[#t_extraStages+1] = details
 				end
-				--f_printTable(t_extraStages, 'save/debug/StageListCreator.txt')
+				--f_printTable(t_extraStages, 'save/debug/StageListCreator.log')
 			end
 		end
 	end
@@ -1436,7 +1436,7 @@ function generateCharsList(path)
 						
 					end
 				end
-				--f_printTable(t_characters, 'save/debug/CharsListCreator.txt')
+				--f_printTable(t_characters, 'save/debug/CharsListCreator.log')
 			end
 		end
 	end
@@ -1451,26 +1451,26 @@ end
 
 --print tables
 if data.debugLog then
-	f_printTable(t_selChars, "save/debug/t_selChars.txt")
-	f_printTable(t_selStages, "save/debug/t_selStages.txt")
-	f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
-	f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
-	f_printTable(t_selVN, "save/debug/t_selVN.txt")
-	f_printTable(t_charDef, "save/debug/t_charDef.txt")
-	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
-	f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
-	f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
-	f_printTable(t_randomTourneyChars, "save/debug/t_randomTourneyChars.txt")
-	f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
-	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
-	f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
-	f_printTable(t_tutorialChar, "save/debug/t_tutorialChar.txt")
-	f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
-	f_printTable(t_unlockLua, "save/debug/t_unlockLua.txt")
+	f_printTable(t_selChars, "save/debug/t_selChars.log")
+	f_printTable(t_selStages, "save/debug/t_selStages.log")
+	f_printTable(t_selMusic, "save/debug/t_selMusic.log")
+	f_printTable(t_selOptions, "save/debug/t_selOptions.log")
+	f_printTable(t_selVN, "save/debug/t_selVN.log")
+	f_printTable(t_charDef, "save/debug/t_charDef.log")
+	f_printTable(t_stageDef, "save/debug/t_stageDef.log")
+	f_printTable(t_orderChars, "save/debug/t_orderChars.log")
+	f_printTable(t_randomChars, "save/debug/t_randomChars.log")
+	f_printTable(t_randomTourneyChars, "save/debug/t_randomTourneyChars.log")
+	f_printTable(t_bossChars, "save/debug/t_bossChars.log")
+	f_printTable(t_bonusChars, "save/debug/t_bonusChars.log")
+	f_printTable(t_trainingChar, "save/debug/t_trainingChar.log")
+	f_printTable(t_tutorialChar, "save/debug/t_tutorialChar.log")
+	f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.log")
+	f_printTable(t_unlockLua, "save/debug/t_unlockLua.log")
 end
 
 function f_updateUnlocks() --To refresh unlocks data
-if data.debugLog then f_printTable(t_unlockLua, "save/debug/t_unlockLua.txt") end
+if data.debugLog then f_printTable(t_unlockLua, "save/debug/t_unlockLua.log") end
 end
 
 function f_rushTables()

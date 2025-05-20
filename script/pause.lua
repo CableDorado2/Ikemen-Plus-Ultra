@@ -472,7 +472,7 @@ for i=1, #t_pauseMain do
 	t_pauseMain[i]['id'] = ""
 end
 
-if data.debugLog then f_printTable(t_pauseMain, "save/debug/t_pauseMain.txt") end
+if data.debugLog then f_printTable(t_pauseMain, "save/debug/t_pauseMain.log") end
 
 if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
 	data.p1In = 2

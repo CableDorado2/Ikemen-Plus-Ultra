@@ -182,7 +182,7 @@ t_glyphs = { --glyphs spr data
 	['_('] = {130, 0}, --Away
 	['_`'] = {135, 0}, --Small Dot
 }
-if data.debugLog then f_printTable(t_glyphs, "save/debug/t_glyphs.txt") end
+if data.debugLog then f_printTable(t_glyphs, "save/debug/t_glyphs.log") end
 
 --;===========================================================
 --; INPUT HINTS SCREENPACK DEFINITION
@@ -3574,7 +3574,7 @@ function f_addTourneySlots()
 		t_tourneyMenu.Group[2].Round[1][i]['Loser'] = false
 		t_tourneyMenu.Group[2].Round[1][i]['Active'] = true
 	end
-	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.txt") end
+	if data.debugLog then f_printTable(t_tourneyMenu, "save/debug/t_tourneyMenu.log") end
 end
 
 --P1 active cursor
@@ -3821,7 +3821,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 for i=1, #t_abyssSel do
 	t_abyssSel[i]['id'] = textImgNew()
 end
-if data.debugLog then f_printTable(t_abyssSel, "save/debug/t_abyssSel.txt") end
+if data.debugLog then f_printTable(t_abyssSel, "save/debug/t_abyssSel.log") end
 
 --Background
 abyssBG = animNew(sprIkemen, [[
@@ -4017,7 +4017,7 @@ f_addAbyssSPItems(t_regenPowItems)
 f_addAbyssSPItems(t_nolvItems)
 --When all items are ready:
 table.remove(t_abyssSpecialItems, t_abyssSpecialItems.delete) --Remove first item ("delete") generate as placeholder to use f_addAbyssSPItems
-if data.debugLog then f_printTable(t_abyssSpecialItems, "save/debug/t_abyssSpecialItems.txt") end
+if data.debugLog then f_printTable(t_abyssSpecialItems, "save/debug/t_abyssSpecialItems.log") end
 --;---------------------------------------------------------------------------------------------------
 --Life Items
 t_abyssLife = {
@@ -4131,13 +4131,13 @@ table.remove(t_abyssShop, t_abyssShop.delete) --Remove first item ("delete") gen
 for i=1, #t_abyssShop do --Set ID to all final items
 	t_abyssShop[i]['id'] = textImgNew()
 end
-if data.debugLog then f_printTable(t_abyssShop, "save/debug/t_abyssShop.txt") end
+if data.debugLog then f_printTable(t_abyssShop, "save/debug/t_abyssShop.log") end
 
 function f_abyssResetShop()
 	for i=1, #t_abyssShop do --Reset sold value for shop items to buy in a new game
 		t_abyssShop[i]['sold'] = false
 	end
-	if data.debugLog then f_printTable(t_abyssShop, "save/debug/t_abyssShop.txt") end
+	if data.debugLog then f_printTable(t_abyssShop, "save/debug/t_abyssShop.log") end
 end
 
 --Menu Options Transparent background
@@ -4374,7 +4374,7 @@ function f_generateAbyssRewards()
 	for i=1, #t_abyssBossRewards do --Set ID to all items
 		t_abyssBossRewards[i]['id'] = textImgNew()
 	end
-	if data.debugLog then f_printTable(t_abyssBossRewards, "save/debug/t_abyssBossRewards.txt") end
+	if data.debugLog then f_printTable(t_abyssBossRewards, "save/debug/t_abyssBossRewards.log") end
 end
 
 --Title Info BG

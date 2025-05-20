@@ -380,7 +380,7 @@ local file = io.open(missionDef,"r")
 			t_unlockLua.modes[v.id] = v.unlock
 		end
 	end
-	if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.txt") end
+	if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.log") end
 	textImgSetText(txt_loading, "LOADING MISSIONS...")
 	textImgDraw(txt_loading)
 	refresh()
