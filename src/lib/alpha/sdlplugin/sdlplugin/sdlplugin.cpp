@@ -765,8 +765,8 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		//UpdateDiscordPresence();
 		IMG_Init(imgFlags); //Initialize PNG loading https://wiki.libsdl.org/SDL2_image/IMG_Init
 		TTF_Init(); //Initialize TTF loading
-		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
-		g_window = SDL_CreateWindow(//https://wiki.libsdl.org/SDL2/SDL_CreateWindow
+		g_scrflag = SDL_SWSURFACE; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
+		g_window = SDL_CreateWindow( //https://wiki.libsdl.org/SDL2/SDL_CreateWindow
 			pu->refToAstr(CP_UTF8, cap).c_str(),
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			w, h, g_scrflag);
@@ -997,9 +997,7 @@ TUserFunc(bool, JoystickButtonState, int32_t btn, int32_t joy)
 
 TUserFunc(void, Fill, uint32_t color, SDL_Rect* prect)
 {
-	SDL_SetRenderDrawColor(
-		g_renderer, color>>16&0xff, color>>8&0xff, color&0xff, 0xff);
-		//g_renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(g_renderer, color>>16&0xff, color>>8&0xff, color&0xff, 0xff); //g_renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(g_renderer, prect);
 }
 
@@ -1082,7 +1080,7 @@ TUserFunc(
 {
 	SDL_Surface* psrc = SDL_CreateRGBSurfaceFrom(ppx, w, h, 8, w, 0, 0, 0, 0); //(ppx, w, h, 16, w, 0, 0, 0, 0);
 	SDL_SetPaletteColors(psrc->format->palette, ppl, 0, 256);
-	SDL_Surface* pdst = SDL_ConvertSurface(psrc, psrc->format, SDL_RLEACCEL);
+	SDL_Surface* pdst = SDL_ConvertSurface(psrc, psrc->format, SDL_SWSURFACE);
 	SDL_FreeSurface(psrc);
 	return (intptr_t)pdst;
 }
@@ -1106,7 +1104,7 @@ TUserFunc(intptr_t, AllocSurface, int32_t h, int32_t w)
 {
 	return
 		(intptr_t)SDL_CreateRGBSurface(
-			SDL_RLEACCEL, w, h, 32, 0x00FF0000, //, w, h, 16, 0x00FF0000,   //32 BPP / Bits / BitsPerPixel
+			SDL_SWSURFACE, w, h, 32, 0x00FF0000, //, w, h, 16, 0x00FF0000,   //32 BPP / Bits / BitsPerPixel
 			0x0000FF00, 0x000000FF, 0xFF000000);
 }
 
