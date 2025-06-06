@@ -9,15 +9,22 @@
 
 - Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
 
+- The current version is a public development release for testing purposes, may contain bugs and incomplete features, this means that comprehension, help and cooperation are appreciated.
+
 - This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on Low resources PC, without a graphics card (Because can use DirectX Render).
 
-- The current version is a public development release for testing purposes, may contain bugs and incomplete features, this means that comprehension, help and cooperation are appreciated.
+> [!NOTE]
+> GAMES MADE IN IKEMEN PLUS ULTRA:
+> 
+> *MUGENGERS: THE OROCHI'S ORIGIN*
+> 
+> *ULTIMATE SMASHBOX*
+> 
+> ???
 
 ## Table of Contents
 
 > - [Minimum System Requirements](#minimum-system-requirements)
->
-> - [Games Made in Ikemen Plus Ultra](#games-made-in-ikemen-plus-ultra)
 >
 > - [Roadmap](#roadmap)
 >
@@ -40,12 +47,12 @@
 ## Minimum System Requirements
 - **Operating System:**
     - Windows XP (Service Pack 3) [32 Bits]
-    - Linux ??? ([Wine](https://wiki.winehq.org/Main_Page) is recommended)
-    - Android [Winlator](https://github.com/brunodev85/winlator) is recommended.
+    - Linux: ([Wine](https://wiki.winehq.org/Main_Page) is recommended)
+    - Android: [Winlator](https://github.com/brunodev85/winlator) is recommended.
 - **CPU:**
     - Intel Atom CPU N455 (1.66GHz)
     - AMD ???
-- **GPU with support for Direct3D 9 or OpenGL 2.0:**
+- **GPU with support for DirectX 11 or OpenGL 2.0:**
     - Intel Graphics Media Accelerator 3150 (256MB)
 - **Memory:**
     - 1GB RAM
@@ -53,13 +60,8 @@
     - With Source Code: 5 GiB required
     - Without Source Code: 1 GiB required
 
-> [!NOTE]
+> [!WARNING]
 > THIS ENGINE MAY NOT WORK IN WINDOWS 11.
-
-## Games Made in Ikemen Plus Ultra
-- *MUGENGERS: THE OROCHI'S ORIGIN*
-- *ULTIMATE SMASHBOX*
-- ???
 
 ## Roadmap
 This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future. If you want to offer help, it will be great for progressing with this engine!
@@ -233,7 +235,11 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 - For create characters and stages, you have to use the official MUGEN Elecbyte Documentation: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
 ## Discord Support
-If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, **keep in mind that those who use this version can be counted on the fingers of ONE hand**): https://discord.gg/KV5EPnMuA7
+If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
+
+> [!CAUTION]
+> **Keep in mind that those who use this engine version can be counted on the fingers of ONE hand**
+> Developers normally answer questions about the lastest: **Ikemen GO**
 
 ## About All IKEMEN Versions
 **S-SIZE Project** is an original programming language project done by **Suehiro** with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
