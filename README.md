@@ -58,7 +58,7 @@
     - Without Source Code: 1 GiB required
 
 > [!WARNING]
-> THE ENGINE MAY NOT WORK IN WINDOWS 11.
+> **THE ENGINE MAY NOT WORK IN WINDOWS 11.**
 
 ## Roadmap
 This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future. If you want to offer help, it will be great for progressing with this engine!
@@ -235,7 +235,7 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
 
 > [!CAUTION]
-> **Keep in mind that those who use this engine version can be counted on the fingers of ONE hand**
+> **Keep in mind that those who use this engine version can be counted on the fingers of ONE hand**.
 > Developers normally answer questions about the lastest: **Ikemen GO**
 
 ## About All IKEMEN Versions
@@ -251,6 +251,8 @@ This Ikemen is an expansion of his original SSZ code.
 **IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
 
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
+
+**I**tsu made mo **K**ansei shinai **E**ien ni **M**ikansei **EN**gine
 
 ## References
 >- Suehiro's Main Page:
