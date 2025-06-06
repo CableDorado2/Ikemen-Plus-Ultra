@@ -5,22 +5,19 @@
 ---
 *Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus). The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently in development by [***CD2***](https://www.youtube.com/@CableDorado2) + some features developed by [***Strong FS***](https://www.youtube.com/@StrongFS) and [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
-- If you are looking for the official latest/current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
-
-- Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
-
-- The current version is a public development release for testing purposes, may contain bugs and incomplete features, this means that comprehension, help and cooperation are appreciated.
-
-- This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on Low resources PC, without a graphics card (Because can use DirectX Render).
-
 > [!NOTE]
-> GAMES MADE IN IKEMEN PLUS ULTRA:
-> 
-> *MUGENGERS: THE OROCHI'S ORIGIN*
-> 
-> *ULTIMATE SMASHBOX*
-> 
-> ???
+> - If you are looking for the official latest/current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
+>
+> - Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
+>
+> - The current version is a public development release for testing purposes, may contain bugs and incomplete features, this means that comprehension, help and cooperation are appreciated.
+>
+> - This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on Low resources PC, without a graphics card (Because can use DirectX Render).
+>
+> Games Made with this Engine:
+> - ***MUGENGERS: THE OROCHI'S ORIGIN***
+> - ***ULTIMATE SMASHBOX***
+> - ***???***
 
 ## Table of Contents
 
@@ -47,7 +44,7 @@
 ## Minimum System Requirements
 - **Operating System:**
     - Windows XP (Service Pack 3) [32 Bits]
-    - Linux: ([Wine](https://wiki.winehq.org/Main_Page) is recommended)
+    - Linux: [Wine](https://wiki.winehq.org/Main_Page) is recommended
     - Android: [Winlator](https://github.com/brunodev85/winlator) is recommended.
 - **CPU:**
     - Intel Atom CPU N455 (1.66GHz)
@@ -61,7 +58,7 @@
     - Without Source Code: 1 GiB required
 
 > [!WARNING]
-> THIS ENGINE MAY NOT WORK IN WINDOWS 11.
+> THE ENGINE MAY NOT WORK IN WINDOWS 11.
 
 ## Roadmap
 This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future. If you want to offer help, it will be great for progressing with this engine!
