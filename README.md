@@ -13,46 +13,48 @@
 
 - The current version is a public development release for testing purposes, may contain bugs and incomplete features, this means that comprehension, help and cooperation are appreciated.
 
-## Minimum System Requirements
-- **System:** Windows XP SP3 - 32 Bits **(MAY NOT WORK IN WINDOWS 11)**.
-- **Proccessor:** Intel(R) Atom(TM) CPU N455 1.66GHz
-- **Memory:** 1GB RAM
-- **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
-- **OpenGL:** 2.0 but also, runs with DirectX
-
-## Operating System Compatibility
-| OS | Currently Runs |
-| --- | --- |
-| Windows | Native |
-| Linux | [Wine](https://wiki.winehq.org/Main_Page) |
-| MacOS | ? |
-| Android | [Winlator](https://github.com/brunodev85/winlator) |
-
-## Download
-Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
-![v1 3](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/3eee08af-8687-49f9-85b3-d1b43c7f750b)
-
 ## Table of Contents
 
->[Games Made in Ikemen Plus Ultra](#games-made-in-ikemen-plus-ultra)
+> - [Minimum System Requirements](#minimum-system-requirements)
 >
->[Roadmap](#roadmap)
+> - [Games Made in Ikemen Plus Ultra](#games-made-in-ikemen-plus-ultra)
 >
->[Tutorials](#tutorials)
+> - [Roadmap](#roadmap)
 >
->[Resources](#resources)
+> - [Tutorials](#tutorials)
 >
->[Tools](#tools)
+> - [Resources](#resources)
 >
->[Engine Manual](#engine-manual)
+> - [Tools](#tools)
 >
->[Discord Support](#discord-support)
+> - [Engine Manual](#engine-manual)
 >
->[About All IKEMEN Versions](#about-all-ikemen-versions)
+> - [Discord Support](#discord-support)
 >
->[References](#references)
+> - [About All IKEMEN Versions](#about-all-ikemen-versions)
 >
->[License](#license)
+> - [References](#references)
+>
+> - [License](#license)
+
+## Minimum System Requirements
+- **Operating System:**
+    - Windows XP (Service Pack 3) [32 Bits]
+    - Linux ??? ([Wine](https://wiki.winehq.org/Main_Page) is recommended)
+    - Android [Winlator](https://github.com/brunodev85/winlator) is recommended.
+- **CPU:**
+    - Intel Atom CPU N455 (1.66GHz)
+    - AMD ???
+- **GPU with support for Direct3D 9 or OpenGL 2.0:**
+    - Intel Graphics Media Accelerator 3150 (256MB)
+- **Memory:**
+    - 1GB RAM
+- **Storage:**
+    - With Source Code: 5 GiB required
+    - Without Source Code: 1 GiB required
+
+> [!NOTE]
+> THIS ENGINE MAY NOT WORK IN WINDOWS 11.
 
 ## Games Made in Ikemen Plus Ultra
 - *MUGENGERS: THE OROCHI'S ORIGIN*
