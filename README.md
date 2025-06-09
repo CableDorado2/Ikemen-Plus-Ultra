@@ -252,7 +252,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
-**I**tsu made mo **K**ansei shinai **E**ien ni **M**ikansei **EN**gine
+>**I**tsu made mo **K**ansei shinai **E**ien ni **M**ikansei **EN**gine
 
 ## References
 >- Suehiro's Main Page:
