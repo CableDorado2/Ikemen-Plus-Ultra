@@ -241,6 +241,8 @@ If you need help, you can find support from developers and contributors for this
 ## About All IKEMEN Versions
 **S-SIZE Project** is an original programming language project done by **Suehiro** with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
 
+>**I**tsu made mo **K**ansei shinai **E**ien ni **M**ikansei **EN**gine
+
 **IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
 This Ikemen is an expansion of his original SSZ code.
 
@@ -251,8 +253,6 @@ This Ikemen is an expansion of his original SSZ code.
 **IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
 
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
-
->**I**tsu made mo **K**ansei shinai **E**ien ni **M**ikansei **EN**gine
 
 ## References
 >- Suehiro's Main Page:
