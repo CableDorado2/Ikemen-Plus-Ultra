@@ -145,7 +145,7 @@ function f_mainTitle()
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			sndPlay(sndSys, 100, 1) --Play SFX from .snd file
 			i = 0
-			f_mainMenu()
+			if startEn then f_mainMenu() end
 		elseif esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			i = 0
 			sndPlay(sndSys, 100, 2)

@@ -3,15 +3,15 @@ sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
 bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
 bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --Insert new item to t_mainMenu table loaded by screenpack.lua
-
+table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_shopMenu()"})
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;=========================================================== 
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
-local txt_ShopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
-local txt_ShopPriceInfo = createTextImg(font14, 0, -1, "", 316, 173)
-local txt_ShopQuestion = createTextImg(font14, 0, 0, "Do you want to purchase this content?", 160, 35)
+local txt_shopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
+local txt_shopPriceInfo = createTextImg(font14, 0, -1, "", 316, 173)
+local txt_shopQuestion = createTextImg(font14, 0, 0, "Do you want to purchase this content?", 160, 35)
 local txt_shopMain = "ITEM SHOP"
 
 --Shorcuts
@@ -47,7 +47,7 @@ for i=1, #t_tempChars do
 		
 	end
 end
-if data.debugLog then f_printTable(t_shopChars, "save/debug/t_shopChars.txt") end
+if data.debugLog then f_printTable(t_shopChars, "save/debug/t_shopChars.log") end
 
 local t_tempStages = {
 	{id = "stages/Mountainside Temple/Temple Entrance Afternoon.def", price = 500},
@@ -76,7 +76,7 @@ for i=1, #t_tempStages do
 		
 	end
 end
-if data.debugLog then f_printTable(t_shopStages, "save/debug/t_shopStages.txt") end
+if data.debugLog then f_printTable(t_shopStages, "save/debug/t_shopStages.log") end
 
 t_shopBGM = {
 	
@@ -202,7 +202,7 @@ function f_shopMenu()
 		cursorPosY = 1
 		moveTxt = 0
 		shopMenu = 1
-		if data.debugLog then f_printTable(t_shopMenu, "save/debug/t_shopMenu.txt") end
+		if data.debugLog then f_printTable(t_shopMenu, "save/debug/t_shopMenu.log") end
 	end
 	local bufu = 0
 	local bufd = 0
@@ -221,6 +221,21 @@ function f_shopMenu()
 	while true do
 		if not confirmPurchase then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			--Back
+				if inCategory then
+					textImgSetText(txt_shopTitle, txt_shopMain)
+					f_resetCursor()
+					t_shopMenu = t_shopMenuBackup --Restore Menu Items
+					sndPlay(sndSys, 100, 2)
+					inCategory = false
+			--Exit
+				else
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+					sndPlay(sndSys, 100, 2)
+					f_resetMenuArrowsPos()
+					f_menuMusic()
+					break
+				end
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
 				shopMenu = shopMenu - 1
@@ -258,6 +273,34 @@ function f_shopMenu()
 				f_theVault()
 				playBGM(bgmShop)
 			end
+		--Cursor position calculation
+			if shopMenu < 1 then
+				shopMenu = #t_shopMenu
+				if #t_shopMenu > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_shopMenu
+				end
+			elseif shopMenu > #t_shopMenu then
+				shopMenu = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (shopMenu - maxItems) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (shopMenu - 1) * 15
+			end	
+			if #t_shopMenu <= maxItems then
+				maxShop = #t_shopMenu
+			elseif shopMenu - cursorPosY > 0 then
+				maxShop = shopMenu + maxItems - cursorPosY
+			else
+				maxShop = maxItems
+			end
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Transparent Table BG
@@ -288,14 +331,36 @@ function f_shopMenu()
 			vaultAccess = false
 			f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu)
 			if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] then
-				textImgSetText(txt_ShopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
+				textImgSetText(txt_shopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
 			else
-				textImgSetText(txt_ShopPriceInfo, "Sold Out")
+				textImgSetText(txt_shopPriceInfo, "Sold Out")
 			end
-			textImgDraw(txt_ShopPriceInfo)
+			textImgDraw(txt_shopPriceInfo)
 		else
+			f_drawShopItemArtwork(shopMenu)
 			vaultAccess = true
 		end
+	--Vault Access Stuff
+		if vaultAccess then
+			animDraw(shopVaultAccessBG)
+			animDraw(shopVaultAccessArt)
+		end
+	--Draw Info Text Stuff
+		drawShopInputHints(vaultAccess)
+		animDraw(shopInfoBG)
+		textImgSetText(txt_shopItemInfo, t_shopMenu[shopMenu].info)
+		textImgDraw(txt_shopItemInfo)
+	--Draw Up Animated Cursor
+		if maxShop > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+	--Draw Down Animated Cursor
+		if #t_shopMenu > maxItems and maxShop < #t_shopMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if confirmPurchase then f_confirmPurchase() end --Show Purchase Question
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -390,7 +455,7 @@ function f_confirmPurchase()
 --Draw Menu BG
 	animDraw(confirmShopBG)
 --Draw Title
-	textImgDraw(txt_ShopQuestion)
+	textImgDraw(txt_shopQuestion)
 --Draw Table Text
 	for i=1, #t_confirmShop do
 		if i == confirmShop then
@@ -440,7 +505,7 @@ function f_confirmShopReset()
 	cursorYConfirmShop = 1
 	confirmShop = 2
 end
---table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_shopMenu()"})
+
 --;===========================================================
 --; THE VAULT SCREENPACK DEFINITION
 --;===========================================================
