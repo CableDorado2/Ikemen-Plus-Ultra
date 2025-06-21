@@ -194,6 +194,7 @@ end
 --; SHOP MENU (Buy/Unlock features using in-game currency.)
 --;===========================================================
 function f_shopMenu()
+	if not startEn then return end
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
