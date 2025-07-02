@@ -1098,6 +1098,7 @@ function arcadeCfg()
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.rosterMode = "arcade" --to record statistics
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
+	data.arcadeTravel = true --Enable Arcade Travel Screen before order select
 	data.arcadeIntro = true --Enable characters arcade intro before versus screen
 	data.arcadeEnding = true --Enable characters arcade ending before credits screen
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -12026,6 +12027,100 @@ function f_loadStage()
 end
 
 --;===========================================================
+--; ARCADE TRAVEL SCREEN
+--;===========================================================
+function f_arcadeTravel()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	local screenTime = 0
+	local timeLimit = 150
+--[[Set Screen Music
+	if data.gameMode == "bossrush" or data.rosterMode == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
+		playBGM(bgmVSFinal)
+	elseif data.gameMode == "intermission" then
+		playBGM(bgmVSSpecial)
+		timeLimit = 350
+	else
+		playBGM(bgmVS)
+	end
+]]
+--Side Logic
+	local enemySide = nil
+	local enemyData = nil
+	local xPortScale = nil
+	local yPortScale = nil
+	local scaleData = nil
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		enemySide = data.t_p1selected
+	else
+		enemySide = data.t_p2selected
+	end
+--Portraits Scale Logic
+	for i=#enemySide, 1, -1 do
+		enemyData = t_selChars[enemySide[i].cel+1]
+		if enemyData.vsSprScale ~= nil then
+			scaleData = enemyData.vsSprScale
+		else
+			scaleData = "1.0,1.0"
+		end
+		xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+	end
+	cmdInput()
+	while true do
+	--Actions
+		if screenTime == timeLimit or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			--break
+		end
+	--Draw Versus Screen Last Match Backgrounds
+		if data.rosterAdvanced and matchNo >= lastMatch then
+			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
+	--Draw Versus Screen Normal Matchs Backgrounds
+		else
+		--Draw Black BG only for Tower/Abyss Mode
+			if data.gameMode == "tower" or data.gameMode == "abyss" then
+				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
+		--Draw Red BG for Special Modes
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+				animDraw(f_animVelocity(selectHardBG0, -1, -1))
+		--Draw Blue BG for Normal Modes
+			else
+				animDraw(f_animVelocity(commonBG0, -1, -1))
+			end
+		end
+	--Draw Info
+		drawStagePortrait(9, -52, 0, 0.34, 0.34)
+		animDraw(travelBarUp)
+		animDraw(travelBarDown)
+		textImgSetText(txt_nextMatchNo, "STAGE "..matchNo)
+		textImgDraw(txt_nextMatchNo)
+		textImgSetText(txt_nextStageName, "TEST ROOM")
+		textImgDraw(txt_nextStageName)
+		textImgSetText(txt_nextEnemyName, "ENEMY TEAM")
+		textImgDraw(txt_nextEnemyName)
+		for enemyRoster=1, 10 do --replace 10 by: t_roster
+			animPosDraw(travelSlotIcon, 30*enemyRoster - 20, 210)
+		end
+	--Draw Character Portraits
+		--animDraw(f_animVelocity(vsWindowR, 2, 0))
+		for i=#enemySide, 1, -1 do
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+				drawPortrait(enemySide[i].cel, 20 - (2*i-1) * 18, 30, xPortScale, yPortScale)
+			end
+		--Draw Character Sprite Animations
+			if data.charPresentation == "Sprite" then
+				f_drawCharAnim(t_selChars[enemySide[i].cel+1], 'p1AnimWin', 139 - (2*i-1) * 18, 168, enemySide[i].up)
+			end
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		screenTime = screenTime + 1 --Start Timer for Screen
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; ORDER SELECT
 --;===========================================================
 function f_orderSelect()
@@ -15395,6 +15490,7 @@ if validCells() then
 			end
 		end
 		f_matchInfo()
+		if data.arcadeTravel then f_arcadeTravel() end
 		f_orderSelect()
 		f_selectVersus()
 		if data.gameMode == "arcade" or data.gameMode == "tower" then

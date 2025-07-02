@@ -2358,6 +2358,37 @@ animSetScale(stageMLockWindowBG, 192, 108)
 animUpdate(stageMLockWindowBG)
 
 --;===========================================================
+--; ARCADE TRAVEL SCREENPACK DEFINITION
+--;===========================================================
+txt_nextMatchNo = createTextImg(font21, 0, -1, "", 318, 15)
+txt_nextStageName = createTextImg(font14, 0, 0, "", 120, 25)
+txt_nextEnemyName = createTextImg(font14, 0, 0, "", 160, 200)
+
+--Up Bar
+travelBarUp = animNew(sprIkemen, [[
+290,0, 0,0, -1
+]])
+animAddPos(travelBarUp, -50, 0)
+animUpdate(travelBarUp)
+
+--Down Bar
+travelBarDown = animNew(sprIkemen, [[
+291,0, 0,0, -1
+]])
+animAddPos(travelBarDown, -50, 180)
+animUpdate(travelBarDown)
+
+--Travel Arrow
+
+--Travel Slot
+travelSlotIcon = animNew(sprIkemen, [[
+295,0, 0,0, -1
+]])
+--animAddPos(travelSlotIcon, 0, 150)
+animSetScale(travelSlotIcon, 0.4, 0.4)
+animUpdate(travelSlotIcon)
+
+--;===========================================================
 --; ORDER SELECT AND VERSUS SCREEN COMMON SCREENPACK DEFINITION
 --;===========================================================
 txt_hints = createTextImg(font5, 0, 0, "", 160, 239)
