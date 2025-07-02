@@ -27,6 +27,7 @@ bgmTitle = "sound/System/Title.mp3"
 bgmSelectBoss = "sound/System/select/Select Boss.mp3"
 bgmSelectOrder = "sound/System/Order Select.mp3"
 bgmSelectOrderFinal = "sound/System/Order Select Final.mp3"
+bgmNextStage = "sound/System/Next Stage.mp3"
 bgmVS = "sound/System/VS.mp3"
 bgmVSFinal = "sound/System/VS Final.mp3"
 bgmVSSpecial = "sound/system/VS Special.mp3"
@@ -40,6 +41,7 @@ bgmTourney = "sound/System/Tourney.mp3"
 bgmTourneyChampion = "sound/System/Champion.mp3"
 bgmAbyss = "sound/System/Abyss.mp3"
 bgmLegion = "sound/System/Legion.mp3"
+bgmAlliance = "sound/System/Alliance.mp3"
 
 --Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -2360,33 +2362,82 @@ animUpdate(stageMLockWindowBG)
 --;===========================================================
 --; ARCADE TRAVEL SCREENPACK DEFINITION
 --;===========================================================
-txt_nextMatchNo = createTextImg(font21, 0, -1, "", 318, 15)
-txt_nextStageName = createTextImg(font14, 0, 0, "", 120, 25)
-txt_nextEnemyName = createTextImg(font14, 0, 0, "", 160, 200)
+txt_nextStage = createTextImg(font21, 0, 0, "NEXT STAGE", 160, 16)
+txt_nextStageName = createTextImg(font14, 0, 0, "", 160, 27)
+txt_nextEnemyName = createTextImg(font14, 0, 0, "", 160, 198)
 
 --Up Bar
 travelBarUp = animNew(sprIkemen, [[
 290,0, 0,0, -1
 ]])
-animAddPos(travelBarUp, -50, 0)
+animAddPos(travelBarUp, 0, 0)
 animUpdate(travelBarUp)
 
 --Down Bar
 travelBarDown = animNew(sprIkemen, [[
 291,0, 0,0, -1
 ]])
-animAddPos(travelBarDown, -50, 180)
+animAddPos(travelBarDown, 0, 181)
 animUpdate(travelBarDown)
 
+--Travel Char Preview Platform
+travelCharPlatform = animNew(sprIkemen, [[
+292,0, 0,0, -1
+]])
+animSetScale(travelCharPlatform, 0.3, 0.3)
+animUpdate(travelCharPlatform)
+
 --Travel Arrow
+travelArrow = animNew(sprIkemen, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(travelArrow, 9, 204)
+animSetScale(travelArrow, 0.5, 0.5)
+animUpdate(travelArrow)
 
 --Travel Slot
 travelSlotIcon = animNew(sprIkemen, [[
 295,0, 0,0, -1
 ]])
---animAddPos(travelSlotIcon, 0, 150)
-animSetScale(travelSlotIcon, 0.4, 0.4)
+animSetScale(travelSlotIcon, 0.5, 0.39)
 animUpdate(travelSlotIcon)
+
+testTeamSize1Xc1 = 100
+testTeamSize1Yc1 = 137
+
+testTeamSize2Xc1 = 40
+testTeamSize2Yc1 = 45
+
+testTeamSize2Xc2 = 160
+testTeamSize2Yc2 = 45
+
+testTeamSize3Xc1 = 100
+testTeamSize3Yc1 = 45
+
+testTeamSize3Xc2 = 100
+testTeamSize3Yc2 = 45
+
+testTeamSize3Xc3 = 100
+testTeamSize3Yc3 = 45
+
+testTeamSize4Xc1 = 100
+testTeamSize4Yc1 = 45
+
+testTeamSize4Xc2 = 100
+testTeamSize4Yc2 = 45
+
+testTeamSize4Xc3 = 100
+testTeamSize4Yc3 = 45
+
+testTeamSize4Xc4 = 100
+testTeamSize4Yc4 = 45
 
 --;===========================================================
 --; ORDER SELECT AND VERSUS SCREEN COMMON SCREENPACK DEFINITION

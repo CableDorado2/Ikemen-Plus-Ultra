@@ -12032,17 +12032,7 @@ end
 function f_arcadeTravel()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local screenTime = 0
-	local timeLimit = 150
---[[Set Screen Music
-	if data.gameMode == "bossrush" or data.rosterMode == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
-		playBGM(bgmVSFinal)
-	elseif data.gameMode == "intermission" then
-		playBGM(bgmVSSpecial)
-		timeLimit = 350
-	else
-		playBGM(bgmVS)
-	end
-]]
+	local timeLimit = 350
 --Side Logic
 	local enemySide = nil
 	local enemyData = nil
@@ -12064,13 +12054,14 @@ function f_arcadeTravel()
 		end
 		xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 	end
+	playBGM(bgmNextStage)
 	cmdInput()
 	while true do
 	--Actions
 		if screenTime == timeLimit or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			--break
+			break
 		end
 	--Draw Versus Screen Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch then
@@ -12089,27 +12080,68 @@ function f_arcadeTravel()
 			end
 		end
 	--Draw Info
-		drawStagePortrait(9, -52, 0, 0.34, 0.34)
+		drawStagePortrait(stageNo-1, -53, 0, 0.34, 0.34)
+		animDraw(fadeWindowBG)
 		animDraw(travelBarUp)
-		animDraw(travelBarDown)
-		textImgSetText(txt_nextMatchNo, "STAGE "..matchNo)
-		textImgDraw(txt_nextMatchNo)
-		textImgSetText(txt_nextStageName, "TEST ROOM")
+		textImgDraw(txt_nextStage)
+		textImgSetText(txt_nextStageName, t_selStages[stageNo].name)
 		textImgDraw(txt_nextStageName)
-		textImgSetText(txt_nextEnemyName, "ENEMY TEAM")
+		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
 		textImgDraw(txt_nextEnemyName)
+		animDraw(travelArrow)
+		animUpdate(travelArrow)
 		for enemyRoster=1, 10 do --replace 10 by: t_roster
-			animPosDraw(travelSlotIcon, 30*enemyRoster - 20, 210)
+			animPosDraw(travelSlotIcon, 30*enemyRoster - 30, 213)
+			drawFacePortrait(0, 30*enemyRoster - 28, 214)
 		end
 	--Draw Character Portraits
-		--animDraw(f_animVelocity(vsWindowR, 2, 0))
-		for i=#enemySide, 1, -1 do
-			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-				drawPortrait(enemySide[i].cel, 20 - (2*i-1) * 18, 30, xPortScale, yPortScale)
+		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+			if #enemySide == 1 then
+				drawPortrait(enemySide[1].cel, 100, 45, xPortScale, yPortScale)
+			elseif #enemySide == 2 then
+				drawPortrait(enemySide[2].cel, 160, 45, xPortScale, yPortScale)
+				drawPortrait(enemySide[1].cel, 40, 45, xPortScale, yPortScale)
+			elseif #enemySide == 3 then
+				drawPortrait(enemySide[3].cel, 0, 45, xPortScale, yPortScale)
+				drawPortrait(enemySide[2].cel, 205, 45, xPortScale, yPortScale)
+				drawPortrait(enemySide[1].cel, 100, 45, xPortScale, yPortScale)
+			elseif #enemySide == 4 then
+				drawPortrait(enemySide[4].cel, 205, 45, xPortScale, yPortScale)
+				drawPortrait(enemySide[3].cel, 0, 45, xPortScale, yPortScale)
+				drawPortrait(enemySide[2].cel, 160, 45, xPortScale, yPortScale)
+				drawPortrait(enemySide[1].cel, 40, 45, xPortScale, yPortScale)
 			end
-		--Draw Character Sprite Animations
-			if data.charPresentation == "Sprite" then
-				f_drawCharAnim(t_selChars[enemySide[i].cel+1], 'p1AnimWin', 139 - (2*i-1) * 18, 168, enemySide[i].up)
+		elseif data.charPresentation == "Sprite" then
+			if #enemySide == 1 then
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize1Xc1, testTeamSize1Yc1, enemySide[1].up)
+			elseif #enemySide == 2 then
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimWin', testTeamSize2Xc2, testTeamSize2Yc2, enemySide[2].up)
+				
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize2Xc1, testTeamSize2Yc1, enemySide[1].up)
+			elseif #enemySide == 3 then
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimWin', testTeamSize3Xc3, testTeamSize3Yc3, enemySide[3].up)
+				
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimWin', testTeamSize3Xc2, testTeamSize3Yc2, enemySide[2].up)
+				
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize3Xc1, testTeamSize3Yc1, enemySide[1].up)
+			elseif #enemySide == 4 then
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[4].cel+1], 'p1AnimWin', testTeamSize4Xc4, testTeamSize4Yc4, enemySide[4].up)
+				
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimWin', testTeamSize4Xc3, testTeamSize4Yc3, enemySide[3].up)
+				
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimWin', testTeamSize4Xc2, testTeamSize4Yc2, enemySide[2].up)
+				
+				animPosDraw(travelCharPlatform, 100, 45)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize4Xc1, testTeamSize4Yc1, enemySide[1].up)
 			end
 		end
 		animDraw(data.fadeTitle)
