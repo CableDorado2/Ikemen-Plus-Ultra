@@ -764,7 +764,7 @@ local function f_setStageMusic()
 		bgmState = 0
 	end
 	if roundstate() == 0 and bgmChanged then bgmDisplayTime = 0 end --Reset BGM Display Timer
-	if data.bgmDisplay then
+	if data.bgmDisplay and roundstate() == 2 then
 		if bgmDisplayTime < 200 then
 			bgmDisplayTime = bgmDisplayTime + 1
 		--Display BGM Text BG

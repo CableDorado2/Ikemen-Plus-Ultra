@@ -12032,7 +12032,7 @@ end
 function f_arcadeTravel()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local screenTime = 0
-	local timeLimit = -1 --920
+	local timeLimit = 880
 --Side Logic
 	local enemySide = nil
 	local enemyData = nil
@@ -12106,8 +12106,8 @@ function f_arcadeTravel()
 				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 160, 185, enemySide[1].up)
 			elseif #enemySide == 2 then
 				f_drawQuickSpr(travelCharPlatform, 67, 173, 0.5, 0.5)
-				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 200, 185, enemySide[2].up)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 100, 185, enemySide[1].up)
+				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 190, 185, enemySide[2].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 120, 185, enemySide[1].up)
 			elseif #enemySide == 3 then
 				f_drawQuickSpr(travelCharPlatform, 47, 163, 0.65, 0.65)
 				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimStand', 100, 172, enemySide[3].up)
@@ -12128,11 +12128,24 @@ function f_arcadeTravel()
 		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
 		textImgDraw(txt_nextEnemyName)
 	--Draw Travel Stuff
-		animDraw(travelArrow)
-		animUpdate(travelArrow)
-		for enemyRoster=1, 10 do --replace 10 by: t_roster
+		animPosDraw(travelArrow, 9*matchNo, 204)
+		for enemyRoster=1, #t_roster do
+			local enemyPortrait = nil
+			--if #enemySide == 1 then --Single Mode
+				if enemyRoster == matchNo then
+					enemyPortrait = t_roster[matchNo]
+				elseif enemyRoster < matchNo then
+					enemyPortrait = t_roster[enemyRoster]
+				end
+			--else --Team Mode
+				--enemyPortrait = t_roster[matchNo][1]
+			--end
 			animPosDraw(travelSlotIcon, 30*enemyRoster - 30, 213)
-			drawFacePortrait(0, 30*enemyRoster - 28, 214)
+			if enemyRoster <= matchNo then
+				drawFacePortrait(enemyPortrait, 30*enemyRoster - 29, 213.9) --Enemy Portrait
+			else
+				animPosDraw(travelRandomIcon, 30*enemyRoster - 29, 213.9) --Random Icon
+			end
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

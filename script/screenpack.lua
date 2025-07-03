@@ -778,6 +778,7 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
+	--{text = "ALLIANCE", gotomenu = "f_allianceCfg()"},
 	--{text = "LEGION", gotomenu = "f_legionCfg()"},
 	{text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
@@ -2396,7 +2397,6 @@ travelArrow = animNew(sprIkemen, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(travelArrow, 9, 204)
 animSetScale(travelArrow, 0.5, 0.5)
 animUpdate(travelArrow)
 
@@ -2404,8 +2404,13 @@ animUpdate(travelArrow)
 travelSlotIcon = animNew(sprIkemen, [[
 295,0, 0,0, -1
 ]])
-animSetScale(travelSlotIcon, 0.5, 0.39)
+animSetScale(travelSlotIcon, 0.45, 0.39)
 animUpdate(travelSlotIcon)
+
+--Travel Random Icon
+travelRandomIcon = animNew(sprSys, [[
+151,0, 0,0, -1
+]])
 
 --;===========================================================
 --; ORDER SELECT AND VERSUS SCREEN COMMON SCREENPACK DEFINITION
