@@ -12032,7 +12032,7 @@ end
 function f_arcadeTravel()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local screenTime = 0
-	local timeLimit = 350
+	local timeLimit = -1 --920
 --Side Logic
 	local enemySide = nil
 	local enemyData = nil
@@ -12079,21 +12079,10 @@ function f_arcadeTravel()
 				animDraw(f_animVelocity(commonBG0, -1, -1))
 			end
 		end
-	--Draw Info
+	--Draw BG Stuff
 		drawStagePortrait(stageNo-1, -53, 0, 0.34, 0.34)
 		animDraw(fadeWindowBG)
 		animDraw(travelBarUp)
-		textImgDraw(txt_nextStage)
-		textImgSetText(txt_nextStageName, t_selStages[stageNo].name)
-		textImgDraw(txt_nextStageName)
-		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
-		textImgDraw(txt_nextEnemyName)
-		animDraw(travelArrow)
-		animUpdate(travelArrow)
-		for enemyRoster=1, 10 do --replace 10 by: t_roster
-			animPosDraw(travelSlotIcon, 30*enemyRoster - 30, 213)
-			drawFacePortrait(0, 30*enemyRoster - 28, 214)
-		end
 	--Draw Character Portraits
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 			if #enemySide == 1 then
@@ -12113,36 +12102,37 @@ function f_arcadeTravel()
 			end
 		elseif data.charPresentation == "Sprite" then
 			if #enemySide == 1 then
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize1Xc1, testTeamSize1Yc1, enemySide[1].up)
+				f_drawQuickSpr(travelCharPlatform, 108, 178, 0.3, 0.3)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 160, 185, enemySide[1].up)
 			elseif #enemySide == 2 then
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimWin', testTeamSize2Xc2, testTeamSize2Yc2, enemySide[2].up)
-				
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize2Xc1, testTeamSize2Yc1, enemySide[1].up)
+				f_drawQuickSpr(travelCharPlatform, 67, 173, 0.5, 0.5)
+				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 200, 185, enemySide[2].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 100, 185, enemySide[1].up)
 			elseif #enemySide == 3 then
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimWin', testTeamSize3Xc3, testTeamSize3Yc3, enemySide[3].up)
-				
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimWin', testTeamSize3Xc2, testTeamSize3Yc2, enemySide[2].up)
-				
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize3Xc1, testTeamSize3Yc1, enemySide[1].up)
+				f_drawQuickSpr(travelCharPlatform, 47, 163, 0.65, 0.65)
+				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimStand', 100, 172, enemySide[3].up)
+				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 220, 172, enemySide[2].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 160, 184, enemySide[1].up)
 			elseif #enemySide == 4 then
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[4].cel+1], 'p1AnimWin', testTeamSize4Xc4, testTeamSize4Yc4, enemySide[4].up)
-				
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimWin', testTeamSize4Xc3, testTeamSize4Yc3, enemySide[3].up)
-				
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimWin', testTeamSize4Xc2, testTeamSize4Yc2, enemySide[2].up)
-				
-				animPosDraw(travelCharPlatform, 100, 45)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimWin', testTeamSize4Xc1, testTeamSize4Yc1, enemySide[1].up)
+				f_drawQuickSpr(travelCharPlatform, 47, 163, 0.65, 0.65)
+				f_drawCharAnim(t_selChars[enemySide[4].cel+1], 'p1AnimStand', 220, 170, enemySide[4].up)
+				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimStand', 100, 170, enemySide[3].up)
+				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 200, 185, enemySide[2].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 125, 185, enemySide[1].up)
 			end
+		end
+	--Draw Info
+		textImgDraw(txt_nextStage)
+		textImgSetText(txt_nextStageName, t_selStages[stageNo].name)
+		textImgDraw(txt_nextStageName)
+		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
+		textImgDraw(txt_nextEnemyName)
+	--Draw Travel Stuff
+		animDraw(travelArrow)
+		animUpdate(travelArrow)
+		for enemyRoster=1, 10 do --replace 10 by: t_roster
+			animPosDraw(travelSlotIcon, 30*enemyRoster - 30, 213)
+			drawFacePortrait(0, 30*enemyRoster - 28, 214)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

@@ -2384,8 +2384,6 @@ animUpdate(travelBarDown)
 travelCharPlatform = animNew(sprIkemen, [[
 292,0, 0,0, -1
 ]])
-animSetScale(travelCharPlatform, 0.3, 0.3)
-animUpdate(travelCharPlatform)
 
 --Travel Arrow
 travelArrow = animNew(sprIkemen, [[
@@ -2408,36 +2406,6 @@ travelSlotIcon = animNew(sprIkemen, [[
 ]])
 animSetScale(travelSlotIcon, 0.5, 0.39)
 animUpdate(travelSlotIcon)
-
-testTeamSize1Xc1 = 100
-testTeamSize1Yc1 = 137
-
-testTeamSize2Xc1 = 40
-testTeamSize2Yc1 = 45
-
-testTeamSize2Xc2 = 160
-testTeamSize2Yc2 = 45
-
-testTeamSize3Xc1 = 100
-testTeamSize3Yc1 = 45
-
-testTeamSize3Xc2 = 100
-testTeamSize3Yc2 = 45
-
-testTeamSize3Xc3 = 100
-testTeamSize3Yc3 = 45
-
-testTeamSize4Xc1 = 100
-testTeamSize4Yc1 = 45
-
-testTeamSize4Xc2 = 100
-testTeamSize4Yc2 = 45
-
-testTeamSize4Xc3 = 100
-testTeamSize4Yc3 = 45
-
-testTeamSize4Xc4 = 100
-testTeamSize4Yc4 = 45
 
 --;===========================================================
 --; ORDER SELECT AND VERSUS SCREEN COMMON SCREENPACK DEFINITION
