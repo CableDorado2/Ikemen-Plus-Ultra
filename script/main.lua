@@ -12128,23 +12128,19 @@ function f_arcadeTravel()
 		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
 		textImgDraw(txt_nextEnemyName)
 	--Draw Travel Stuff
-		animPosDraw(travelArrow, 9*matchNo, 204)
-		for enemyRoster=1, #t_roster do
+		animPosDraw(travelArrow, 30*matchNo - 22, 204)
+		for enemyRoster=1, lastMatch do
 			local enemyPortrait = nil
-			--if #enemySide == 1 then --Single Mode
-				if enemyRoster == matchNo then
-					enemyPortrait = t_roster[matchNo]
-				elseif enemyRoster < matchNo then
-					enemyPortrait = t_roster[enemyRoster]
-				end
-			--else --Team Mode
-				--enemyPortrait = t_roster[matchNo][1]
-			--end
+			if enemyRoster == matchNo then
+				enemyPortrait = t_roster[matchNo]
+			elseif enemyRoster < matchNo then
+				enemyPortrait = t_roster[enemyRoster]
+			end
 			animPosDraw(travelSlotIcon, 30*enemyRoster - 30, 213)
 			if enemyRoster <= matchNo then
-				drawFacePortrait(enemyPortrait, 30*enemyRoster - 29, 213.9) --Enemy Portrait
+				drawFacePortrait(enemyPortrait, 30*enemyRoster - 29, 214) --Enemy Portrait
 			else
-				animPosDraw(travelRandomIcon, 30*enemyRoster - 29, 213.9) --Random Icon
+				animPosDraw(travelRandomIcon, 30*enemyRoster - 29, 214) --Random Icon
 			end
 		end
 		animDraw(data.fadeTitle)
@@ -15416,6 +15412,7 @@ if validCells() then
 					end
 				end
 			end
+			t_roster[matchNo] = data.t_p1selected[1].cel --Refresh t_roster table
 	--Assign enemy team for AI in Player 2 (RIGHT SIDE)
 		else
 			data.t_p2selected = {}
@@ -15510,7 +15507,9 @@ if validCells() then
 					end
 				end
 			end
+			t_roster[matchNo] = data.t_p2selected[1].cel --Refresh t_roster table
 		end
+		if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
 		setMatchNo(matchNo)
 		f_aiLevel()
 		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters

@@ -4463,7 +4463,7 @@ end
 stgBGMInfoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
-animSetPos(stgBGMInfoBG, -54, 20)
+animSetPos(stgBGMInfoBG, -54, 50)
 animSetScale(stgBGMInfoBG, 428, 20)
 animUpdate(stgBGMInfoBG)
 

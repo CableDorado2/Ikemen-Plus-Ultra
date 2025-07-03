@@ -794,7 +794,7 @@ local function f_setStageMusic()
 				if bgmTxTalphaD < 255 then bgmTxTalphaD = bgmTxTalphaD + 5 end
 				if bgmTxTalphaD > 255 then bgmTxTalphaD = 255 end --Correction
 			end
-			f_drawQuickText(txt_roundSndName, font2, 0, 1, "BGM: "..data.stgBGM, 0, 34, 1, 1, bgmTxTalphaS, bgmTxTalphaD)
+			f_drawQuickText(txt_roundSndName, font2, 0, 1, "BGM: "..data.stgBGM, 0, 64, 1, 1, bgmTxTalphaS, bgmTxTalphaD)
 		end
 	end
 end
