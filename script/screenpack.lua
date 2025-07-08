@@ -3936,6 +3936,49 @@ function drawAbyssInputHints(shop, refund)
 end
 
 --;===========================================================
+--; ABYSS SAVE MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_abyssDatTitle = createTextImg(font11, 0, 0, "SAVE DATA", 159, 15, 1.2, 1.2) -- Y=30
+txt_abyssDatNo = createTextImg(font11, 0, 1, "DATA 1", 10, 35, 1.2, 1.2)
+txt_abyssDatName = createTextImg(font2, 0, 1, "Kung Fu Man", 80, 55)
+txt_abyssDatDiff = createTextImg(font2, 0, 1, "Abyss 1", 80, 75)
+txt_abyssDatDepth = createTextImg(font2, 0, 1, "Depth 945", 80, 95)
+txt_abyssDatReward = createTextImg(font2, 0, 1, "Reward 376", 80, 115)
+
+--Data Slot
+abyssDatSlot = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animAddPos(abyssDatSlot, 0, 40)
+animSetScale(abyssDatSlot, 2.12, 1.40)
+animUpdate(abyssDatSlot)
+
+function f_abyssDatProfile(posX, posY)
+	local NewPosX = posX or 0
+	local NewPosY = posY or 0
+	local pLevel = math.floor((getAbyssAttack() + getAbyssPower() + getAbyssDefence() + getAbyssLife())/4) --Just an Average
+	animPosDraw(abyssProfileAtributes, 190+NewPosX, 74+NewPosY)
+	drawPortrait(abyssDat.nosave.cel, 7, 48+NewPosY, 0.5, 0.5)
+--Attributes
+	local attrFont = font2
+	local attrFontXPos = 208+NewPosX
+	local attrFontYPos = 85+NewPosY
+	local attrSymb = "+"
+	local attrMax = "MAX"
+	f_drawQuickText(txt_abyssDatAttack, attrFont, 0, 1, attrSymb..getAbyssAttack(), attrFontXPos, attrFontYPos)
+	f_drawQuickText(txt_abyssDatPower, attrFont, 0, 1, attrSymb..getAbyssPower(), attrFontXPos, attrFontYPos+18)
+	f_drawQuickText(txt_abyssDatDefence, attrFont, 0, 1, attrSymb..getAbyssDefence(), attrFontXPos+62, attrFontYPos)
+	f_drawQuickText(txt_abyssDatLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos+62, attrFontYPos+18)
+--Special Items
+	local spFont = font2
+	local spFontXPos = 172+NewPosX
+	local spFontYPos = 128+NewPosY
+	f_drawQuickText(txt_abyssDatSP1, spFont, 0, 1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
+	f_drawQuickText(txt_abyssDatSP2, spFont, 0, 1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+23)
+	f_drawQuickText(txt_abyssDatSP3, spFont, 0, 1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+45)
+end
+
+--;===========================================================
 --; ABYSS MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_abyssMain = createTextImg(font11, 0, 0, "", 80, 18, 1.2, 1.2)
