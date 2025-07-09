@@ -17498,6 +17498,7 @@ function f_abyssMenu()
 	end
 	abyssDat.nosave.name = playerDat[1].displayname
 	abyssDat.nosave.cel = playerDat[1].cel
+	abyssDat.nosave.abysslv = t_abyssSel[abyssSel].depth
 	f_saveStats()
 --Check Shop Item Unlocks
 	f_unlock(false)

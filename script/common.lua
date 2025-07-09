@@ -3879,6 +3879,7 @@ local t_abyssDefaultSave = {
 	defence = 0,
 	reward = 0,
 	expense = 0,
+	abysslv = "",
 	depth = 0,
 	nextboss = 0,
 	nextspecialboss = 0,
@@ -3886,11 +3887,14 @@ local t_abyssDefaultSave = {
 }
 abyssDat.nosave = {} --Reset data
 abyssDat.nosave = t_abyssDefaultSave
-if abyssDat.save1 == nil or data.erase then abyssDat.save1 = {} end
-if abyssDat.save2 == nil or data.erase then abyssDat.save2 = {} end
-if abyssDat.save3 == nil or data.erase then abyssDat.save3 = {} end
-if abyssDat.save4 == nil or data.erase then abyssDat.save4 = {} end
-if abyssDat.save5 == nil or data.erase then abyssDat.save5 = {} end
+	if abyssDat.save == nil or data.erase then
+		abyssDat.save = {}
+		abyssDat.save[1] = t_abyssDefaultSave
+		abyssDat.save[2] = t_abyssDefaultSave
+		abyssDat.save[3] = t_abyssDefaultSave
+		abyssDat.save[4] = t_abyssDefaultSave
+		abyssDat.save[5] = t_abyssDefaultSave
+	end
 end
 
 --Unlocks Section
