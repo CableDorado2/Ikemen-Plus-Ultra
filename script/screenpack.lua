@@ -589,6 +589,11 @@ animSetPos(menuArrowLeft, 0, 90)
 animSetPos(menuArrowRight, 312, 90)
 end
 
+function f_resetAbyssDatArrowsPos() --Used in Abyss Continue Data Select
+animSetPos(menuArrowUp, 305, 14)
+animSetPos(menuArrowDown, 305, 220)
+end
+
 function f_resetAbyss2ArrowsPos() --Used in Abyss Main Menu
 animSetPos(menuArrowUp, 153, 15)
 animSetPos(menuArrowDown, 153, 175.5)
@@ -3916,47 +3921,62 @@ end
 --; ABYSS SAVE MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_abyssDatTitle = createTextImg(font11, 0, 0, "SAVE/LOAD DATA", 159, 15, 1.2, 1.2) -- Y=30
-txt_abyssDatNo = createTextImg(font11, 0, 1, "DATA 1", 10, 35, 1.2, 1.2)
+--txt_abyssDatNo = createTextImg(font11, 0, 1, "DATA 1", 10, 37, 1.2, 1.2)
 
 --Data Slot
 abyssDatSlot = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
-animAddPos(abyssDatSlot, 0, 40)
 animSetScale(abyssDatSlot, 2.12, 1.40)
 animUpdate(abyssDatSlot)
 
-function f_abyssDatProfile(posX, posY)
+--Special Item Sprite
+abyssSpecialItem = animNew(sprIkemen, [[
+62,4, 0,0, -1
+]])
+animSetScale(abyssSpecialItem, 0.5, 0.5)
+animUpdate(abyssSpecialItem)
+
+function f_abyssDatProfile(posX, posY, itemNo, data)
 	local NewPosX = posX or 0
 	local NewPosY = posY or 0
-	--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
-	drawPortrait(abyssDat.nosave.cel, 7, 48+NewPosY, 0.5, 0.5)
-	animPosDraw(abyssProfileAtributes, 207+NewPosX, 50+NewPosY)
---Stats
-	local stsFont = font2
-	local stsFontXPos = 70+NewPosX
-	local stsFontYPos = 56+NewPosY
-	f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, abyssDat.nosave.name, stsFontXPos, stsFontYPos)
-	f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..abyssDat.nosave.depth, stsFontXPos, stsFontYPos+20)
-	f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..abyssDat.nosave.abysslv, stsFontXPos, stsFontYPos+40)
-	f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..abyssDat.nosave.reward, stsFontXPos, stsFontYPos+60)
---Attributes
-	local attrFont = font2
-	local attrFontXPos = 225+NewPosX
-	local attrFontYPos = 61+NewPosY
-	local attrSymb = "+"
-	local attrMax = "MAX"
-	f_drawQuickText(txt_abyssDatAttack, attrFont, 0, 1, attrSymb..abyssDat.nosave.attack, attrFontXPos, attrFontYPos)
-	f_drawQuickText(txt_abyssDatPower, attrFont, 0, 1, attrSymb..abyssDat.nosave.power, attrFontXPos, attrFontYPos+18)
-	f_drawQuickText(txt_abyssDatDefence, attrFont, 0, 1, attrSymb..abyssDat.nosave.defence, attrFontXPos+62, attrFontYPos)
-	f_drawQuickText(txt_abyssDatLife, attrFont, 0, 1, attrSymb..abyssDat.nosave.life, attrFontXPos+62, attrFontYPos+18)
---Special Items
-	local spFont = font2
-	local spFontXPos = 310+NewPosX
-	local spFontYPos = 96+NewPosY
-	f_drawQuickText(txt_abyssDatSP1, spFont, 0, -1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
-	f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+9)
-	f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+20)
+	local itemNo = itemNo
+	local saveDat = data or true
+	animPosDraw(abyssDatSlot, 0+NewPosX, 40+NewPosY)
+	--animPosDraw(abyssDatSlotCursor, 0+NewPosX, 40+NewPosY) --Draw Cursor
+	f_drawQuickText(txt_abyssDatNo, font11, 0, 1, "DATA "..itemNo, 10+NewPosX, 37+NewPosY, 1.2, 1.2)
+	if not saveDat then --No Data Saved
+		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159+NewPosX, 90+NewPosY, 1.2, 1.2)
+	else --Show Data Saved
+		--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
+		drawPortrait(abyssDat.nosave.cel, 7+NewPosX, 48+NewPosY, 0.5, 0.5)
+		animPosDraw(abyssProfileAtributes, 207+NewPosX, 50+NewPosY)
+	--Stats
+		local stsFont = font2
+		local stsFontXPos = 70+NewPosX
+		local stsFontYPos = 56+NewPosY
+		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, abyssDat.nosave.name, stsFontXPos, stsFontYPos)
+		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..abyssDat.nosave.depth, stsFontXPos, stsFontYPos+20)
+		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..abyssDat.nosave.abysslv, stsFontXPos, stsFontYPos+40)
+		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..abyssDat.nosave.reward, stsFontXPos, stsFontYPos+60)
+	--Attributes
+		local attrFont = font2
+		local attrFontXPos = 225+NewPosX
+		local attrFontYPos = 61+NewPosY
+		local attrSymb = "+"
+		local attrMax = "MAX"
+		f_drawQuickText(txt_abyssDatAttack, attrFont, 0, 1, attrSymb..abyssDat.nosave.attack, attrFontXPos, attrFontYPos)
+		f_drawQuickText(txt_abyssDatPower, attrFont, 0, 1, attrSymb..abyssDat.nosave.power, attrFontXPos, attrFontYPos+18)
+		f_drawQuickText(txt_abyssDatDefence, attrFont, 0, 1, attrSymb..abyssDat.nosave.defence, attrFontXPos+62, attrFontYPos)
+		f_drawQuickText(txt_abyssDatLife, attrFont, 0, 1, attrSymb..abyssDat.nosave.life, attrFontXPos+62, attrFontYPos+18)
+	--Special Items
+		local spFont = font2
+		local spFontXPos = 310+NewPosX
+		local spFontYPos = 93+NewPosY
+		f_drawQuickText(txt_abyssDatSP1, spFont, 0, -1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
+		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+12)
+		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+24)
+	end
 end
 
 --;===========================================================
@@ -4256,6 +4276,9 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 --Character Stuff
 	if not VSscreen then
 		if not PauseMenu then drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32) end
+		for slot=1, 3 do
+			animPosDraw(abyssSpecialItem, 169+NewPosX, 92.5+slot*(22+0.9)+NewPosY)
+		end
 		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 35+NewPosY, 1, 1)
 		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
 	end
@@ -4271,13 +4294,13 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos+62, attrFontYPos+18)
 --Special Items
 	local spFont = font2
-	local spFontXPos = 172+NewPosX
+	local spFontXPos = 188+NewPosX
 	local spFontYPos = 128+NewPosY
 	f_drawQuickText(txt_abyssSP1, spFont, 0, 1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
 	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+23)
 	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+45)
 --Currency
-	if not VSscreen then f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2) end
+	if not VSscreen and not PauseMenu then f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2) end
 end
 
 function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
