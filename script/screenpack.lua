@@ -1601,6 +1601,7 @@ animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
 --; CONFIRM MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_confirmQuestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
+txt_abyssDatConfirmTitle = createTextImg(jgFnt, 0, 0, "", 160, 110)
 
 --Confirm Window BG
 confirmWindowBG = animNew(sprIkemen, [[
@@ -3920,8 +3921,7 @@ end
 --;===========================================================
 --; ABYSS SAVE MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_abyssDatTitle = createTextImg(font11, 0, 0, "SAVE/LOAD DATA", 159, 15, 1.2, 1.2) -- Y=30
---txt_abyssDatNo = createTextImg(font11, 0, 1, "DATA 1", 10, 37, 1.2, 1.2)
+txt_abyssDatTitle = createTextImg(font11, 0, 0, "", 159, 15, 1.2, 1.2)
 
 --Data Slot
 abyssDatSlot = animNew(sprIkemen, [[
@@ -3929,6 +3929,13 @@ abyssDatSlot = animNew(sprIkemen, [[
 ]])
 animSetScale(abyssDatSlot, 2.12, 1.40)
 animUpdate(abyssDatSlot)
+
+--Data Slot Cursor
+abyssDatSlotCursor = animNew(sprIkemen, [[
+231,1, 0,0, -1
+]])
+animSetScale(abyssDatSlotCursor, 2.12, 1.40)
+animUpdate(abyssDatSlotCursor)
 
 --Special Item Sprite
 abyssSpecialItem = animNew(sprIkemen, [[
@@ -3943,7 +3950,6 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 	local itemNo = itemNo
 	local saveDat = data or true
 	animPosDraw(abyssDatSlot, 0+NewPosX, 40+NewPosY)
-	--animPosDraw(abyssDatSlotCursor, 0+NewPosX, 40+NewPosY) --Draw Cursor
 	f_drawQuickText(txt_abyssDatNo, font11, 0, 1, "DATA "..itemNo, 10+NewPosX, 37+NewPosY, 1.2, 1.2)
 	if not saveDat then --No Data Saved
 		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159+NewPosX, 90+NewPosY, 1.2, 1.2)
@@ -3977,6 +3983,17 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+12)
 		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+24)
 	end
+end
+
+function drawAbyssDatInputHints()
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"w","108,"..inputHintYPos,"e","171,"..inputHintYPos,"q","229,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 71, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 129, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Cancel", 192, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Delete", 250, hintFontYPos)
 end
 
 --;===========================================================
