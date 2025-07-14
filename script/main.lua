@@ -6459,7 +6459,6 @@ function f_confirmMenu()
 	animDraw(fadeWindowBG)
 --Draw Menu BG
 	animDraw(confirmWindowBG)
-	animUpdate(confirmWindowBG)
 --Draw Title
 	textImgDraw(txt_confirmQuestion)
 --Draw Table Text
@@ -17255,11 +17254,16 @@ function f_abyssSelect()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 3
-	local continue = true --TODO
-	local continueBox = false --TODO
-	f_sideReset()
+	local continueCursor = false
+	local continueCheck = false
 	init_abyssStats() --Reset Abyss Character Stats Data
 	f_saveStats()
+	for i=1, #abyssDat.save do --Check if there is continue data available
+		if abyssDat.save[i].cel then
+			continueCheck = true
+		end
+	end
+	f_sideReset()
 	abyssSel = 1
 	exitAbyss = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17267,23 +17271,7 @@ function f_abyssSelect()
 	f_resetAbyssArrowsPos()
 	while true do
 		if not sideScreen then
-			if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
-				sndPlay(sndSys, 100, 0)
-				abyssSel = abyssSel - 1
-			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
-				sndPlay(sndSys, 100, 0)
-				abyssSel = abyssSel + 1
-		--Abyss Level Select
-			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sndSys, 100, 1)
-			--Continue Game
-				if continueBox then
-					--TODO
-			--New Game
-				else
-					f_abyssBoot() --Open Side Select
-				end
-			end
+		--Return Logic
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAbyss then
 				sndPlay(sndSys, 100, 2)
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17291,32 +17279,58 @@ function f_abyssSelect()
 				f_resetMenuArrowsPos()
 				break
 			end
-			if abyssSel < 1 then
-				abyssSel = #t_abyssSel
-				if #t_abyssSel > maxItems then
-					cursorPosX = maxItems
-				else
-					cursorPosX = #t_abyssSel
-				end
-			elseif abyssSel > #t_abyssSel then
-				abyssSel = 1
-				cursorPosX = 1
-			elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
-				cursorPosX = cursorPosX - 1
-			elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
-				cursorPosX = cursorPosX + 1
+		--Continue Cursor
+			if continueCheck and (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) then
+				sndPlay(sndSys, 100, 0)
+				if continueCursor then continueCursor = false else continueCursor = true end
 			end
-			if cursorPosX == maxItems then
-				moveTxt = (abyssSel - maxItems) * 104
-			elseif cursorPosX == 1 then
-				moveTxt = (abyssSel - 1) * 104
-			end	
-			if #t_abyssSel <= maxItems then
-				maxabyssSel = #t_abyssSel
-			elseif abyssSel - cursorPosX > 0 then
-				maxabyssSel = abyssSel + maxItems - cursorPosX
-			else
-				maxabyssSel = maxItems
+		--Cursor Actions
+			if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sndSys, 100, 1)
+			--Continue Game
+				if continueCheck and continueCursor then
+					f_abyssData("load") --Open Abyss Data Select
+			--New Game
+				else
+					f_abyssBoot() --Open Side Select
+				end
+			end
+		--Abyss Level Select
+			if not continueCursor then
+				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+					sndPlay(sndSys, 100, 0)
+					abyssSel = abyssSel - 1
+				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+					sndPlay(sndSys, 100, 0)
+					abyssSel = abyssSel + 1
+				end
+				if abyssSel < 1 then
+					abyssSel = #t_abyssSel
+					if #t_abyssSel > maxItems then
+						cursorPosX = maxItems
+					else
+						cursorPosX = #t_abyssSel
+					end
+				elseif abyssSel > #t_abyssSel then
+					abyssSel = 1
+					cursorPosX = 1
+				elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+					cursorPosX = cursorPosX - 1
+				elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
+					cursorPosX = cursorPosX + 1
+				end
+				if cursorPosX == maxItems then
+					moveTxt = (abyssSel - maxItems) * 104
+				elseif cursorPosX == 1 then
+					moveTxt = (abyssSel - 1) * 104
+				end	
+				if #t_abyssSel <= maxItems then
+					maxabyssSel = #t_abyssSel
+				elseif abyssSel - cursorPosX > 0 then
+					maxabyssSel = abyssSel + maxItems - cursorPosX
+				else
+					maxabyssSel = maxItems
+				end
 			end
 		end
 	--Draw BG
@@ -17325,7 +17339,9 @@ function f_abyssSelect()
 	--Draw Title
 		textImgDraw(txt_abyssSel)
 		animPosDraw(abyssSelInfoBG, -56, 185) --Draw Info Text BG
-		f_textRender(txt_abyssLvInfo, t_abyssSel[abyssSel].info, 0, 159, 200, 10, 0, 100)
+		local abyssInfo = ""
+		if continueCursor then abyssInfo = txt_abyssContinueInfo else abyssInfo = t_abyssSel[abyssSel].info end
+		f_textRender(txt_abyssLvInfo, abyssInfo, 0, 159, 200, 10, 0, 100)
 	--Draw Abyss Level Content Text
 		for i=1, maxabyssSel do
 			if i > abyssSel - cursorPosX then
@@ -17343,14 +17359,21 @@ function f_abyssSelect()
 			end
 		end
 	--Draw Continue Box
-		if continue then
+		if continueCheck then
 			animPosDraw(abyssContBG, 106, 147)
 			textImgDraw(txt_abyssContinue)
+			if continueCursor then
+				animSetWindow(cursorBox, 106,147, 106,24)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
 		end
 	--Draw Cursor
-		animSetWindow(cursorBox, -94+cursorPosX*104,54, 89.5,78)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if not continueCursor then
+			animSetWindow(cursorBox, -94+cursorPosX*104,54, 89.5,78)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		if maxabyssSel > maxItems then
 			animDraw(menuArrowLeft)
 			animUpdate(menuArrowLeft)
@@ -17720,6 +17743,221 @@ function f_abyssMenu()
 			animUpdate(menuArrowDown)
 		end
 		if confirmScreen then f_confirmMenu() else drawAbyssInputHints(shop, t_abyssMenu[abyssMenu].sold) end
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ABYSS DATA MESSAGE SCREEN
+--;===========================================================
+function f_abyssDatMessage(mode)
+	cmdInput()
+	local lastTxt = ""
+	local option = nil
+	if not abyssDatComplete then
+	--Cursor Position
+		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
+			sndPlay(sndSys, 100, 0)
+			abyssDatConfirm = abyssDatConfirm - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
+			sndPlay(sndSys, 100, 0)
+			abyssDatConfirm = abyssDatConfirm + 1
+		end
+		if abyssDatConfirm < 1 then
+			abyssDatConfirm = 2
+		elseif abyssDatConfirm > 2 then
+			abyssDatConfirm = 1
+		end
+	else
+		abyssDatConfirm = 2
+		lastTxt = "OK"
+		option = 2
+	end
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(abyssConfirmWindowBG)
+--Draw Title
+	if mode == "save" then
+		textImgSetText(txt_abyssDatConfirmTitle, "SAVE TO THIS DATA SLOT?")
+		if abyssDatOverwrite then textImgSetText(txt_abyssDatConfirmTitle, "OVERWRITE DATA?") end
+		if abyssDatComplete then textImgSetText(txt_abyssDatConfirmTitle, "SAVE COMPLETE!") end
+	else
+		textImgSetText(txt_abyssDatConfirmTitle, "LOAD THIS DATA SLOT?")
+	end
+	textImgDraw(txt_abyssDatConfirmTitle)
+--Draw Table Text
+	for i=1, #t_confirmMenu do
+		if i == abyssDatConfirm then
+			bank = 5
+		else
+			bank = 0
+		end
+		if not abyssDatComplete then
+			option = i
+			lastTxt = t_confirmMenu[i].text
+		end
+		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, lastTxt, 159, 120+option*13))
+	end
+--Draw Cursor
+	animSetWindow(cursorBox, 66.35,123+(abyssDatConfirm-1)*13, 188,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+--Draw Input Hints Panel
+	drawConfirmInputHints()
+--Actions
+	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		sndPlay(sndSys, 100, 2)
+		f_abyssDatConfirmReset()
+	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+	--YES
+		if abyssDatConfirm == 1 then
+			sndPlay(sndSys, 100, 1)
+		--Save Data
+			if mode == "save" then
+				abyssDatComplete = true
+		--Load Data
+			else
+				abyssDatEnd = true
+				loadAbyssDat = true
+			end
+	--NO/OK
+		else
+			sndPlay(sndSys, 100, 2)
+			abyssDatEnd = true
+		end
+	end
+	if abyssDatEnd then f_abyssDatConfirmReset() end
+end
+
+function f_abyssDatConfirmReset()
+	abyssDatConfirmScreen = false
+	--Cursor pos in NO
+	abyssDatConfirm = 2
+	abyssDatEnd = false
+	abyssDatComplete = false
+	abyssDatOverwrite = false
+end
+
+--;===========================================================
+--; ABYSS SAVE/LOAD MENU SCREEN
+--;===========================================================
+function f_abyssData(mode)
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local dataSel = 1
+	local cursorPosY = 1
+	local moveSlot = 0
+	local maxItems = 2
+	local done = false
+	local t_data = abyssDat.save
+	local menuMode = mode --It can be "save" or "load"
+	local txt_menuTitle = ""
+	loadAbyssDat = false
+	if menuMode == "save" then
+		txt_menuTitle = "SAVE DATA"
+	else
+		txt_menuTitle = "LOAD DATA"
+	end
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	f_resetAbyssDatArrowsPos()
+	f_abyssDatConfirmReset()
+	cmdInput()
+	while true do
+		if not abyssDatConfirmScreen then
+			if done or loadAbyssDat then
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				break
+			end
+		--Scroll Logic
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				dataSel = dataSel - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				dataSel = dataSel + 1
+		--Data Select
+			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			--NO DATA TO LOAD
+				if not abyssDat.save[dataSel].cel and menuMode == "load" then
+					sndPlay(sndSys, 100, 5)
+			--DATA AVAILABLE TO SAVE/LOAD
+				else
+					sndPlay(sndSys, 100, 1)
+					abyssDatConfirmScreen = true
+				end
+		--Delete Saved Data
+			--elseif abyssDat.save[dataSel].cel and commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then	
+				
+		--Close Menu
+			elseif esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				done = true
+			end
+			if dataSel < 1 then
+				dataSel = #t_data
+				if #t_data > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_data
+				end
+			elseif dataSel > #t_data then
+				dataSel = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveSlot = (dataSel - maxItems) * 105
+			elseif cursorPosY == 1 then
+				moveSlot = (dataSel - 1) * 105
+			end	
+			if #t_data <= maxItems then
+				maxdataSel = #t_data
+			elseif dataSel - cursorPosY > 0 then
+				maxdataSel = dataSel + maxItems - cursorPosY
+			else
+				maxdataSel = maxItems
+			end
+		end
+	--Draw BG
+		animDraw(abyssBG)
+		animDraw(f_animVelocity(abyssFog, -1, -1))
+	--Draw Title
+		textImgSetText(txt_abyssDatTitle, txt_menuTitle)
+		textImgDraw(txt_abyssDatTitle)
+		for slot=1, maxdataSel do
+			if slot > dataSel - cursorPosY then
+				f_abyssDatProfile(0, -120+slot*105-moveSlot, slot, abyssDat.save[slot])
+			end
+			if slot == dataSel then animPosDraw(abyssDatSlotCursor, 0, 40+(-120+slot*105-moveSlot)) end --Draw Cursor
+		end
+		if maxdataSel > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_data > maxItems and maxdataSel < #t_data then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if abyssDatConfirmScreen then f_abyssDatMessage(menuMode) else drawAbyssDatInputHints() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1

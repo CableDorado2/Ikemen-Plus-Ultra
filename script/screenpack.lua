@@ -1601,15 +1601,23 @@ animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
 --; CONFIRM MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_confirmQuestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
-txt_abyssDatConfirmTitle = createTextImg(jgFnt, 0, 0, "", 160, 110)
+txt_abyssDatConfirmTitle = createTextImg(jgFnt, 0, 0, "", 161.5, 112)
 
 --Confirm Window BG
 confirmWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(confirmWindowBG, 83.5, 97)
-animUpdate(confirmWindowBG)
 animSetScale(confirmWindowBG, 1, 1)
+animUpdate(confirmWindowBG)
+
+--Abyss Confirm Window BG
+abyssConfirmWindowBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetPos(abyssConfirmWindowBG, 62, 97)
+animSetScale(abyssConfirmWindowBG, 1.3, 1)
+animUpdate(abyssConfirmWindowBG)
 
 t_confirmMenu = {
 	{id = textImgNew(), text = "YES"},
@@ -3919,7 +3927,7 @@ function drawAbyssInputHints(shop, refund)
 end
 
 --;===========================================================
---; ABYSS SAVE MENU SCREENPACK DEFINITION
+--; ABYSS SAVE/LOAD MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_abyssDatTitle = createTextImg(font11, 0, 0, "", 159, 15, 1.2, 1.2)
 
@@ -3948,40 +3956,40 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 	local NewPosX = posX or 0
 	local NewPosY = posY or 0
 	local itemNo = itemNo
-	local saveDat = data or true
+	local saveDat = data or false
 	animPosDraw(abyssDatSlot, 0+NewPosX, 40+NewPosY)
 	f_drawQuickText(txt_abyssDatNo, font11, 0, 1, "DATA "..itemNo, 10+NewPosX, 37+NewPosY, 1.2, 1.2)
-	if not saveDat then --No Data Saved
+	if not saveDat.cel then --No Data Saved
 		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159+NewPosX, 90+NewPosY, 1.2, 1.2)
 	else --Show Data Saved
 		--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
-		drawPortrait(abyssDat.nosave.cel, 7+NewPosX, 48+NewPosY, 0.5, 0.5)
+		drawPortrait(saveDat.cel, 7+NewPosX, 48+NewPosY, 0.5, 0.5)
 		animPosDraw(abyssProfileAtributes, 207+NewPosX, 50+NewPosY)
 	--Stats
 		local stsFont = font2
 		local stsFontXPos = 70+NewPosX
 		local stsFontYPos = 56+NewPosY
-		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, abyssDat.nosave.name, stsFontXPos, stsFontYPos)
-		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..abyssDat.nosave.depth, stsFontXPos, stsFontYPos+20)
-		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..abyssDat.nosave.abysslv, stsFontXPos, stsFontYPos+40)
-		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..abyssDat.nosave.reward, stsFontXPos, stsFontYPos+60)
+		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, saveDat.name, stsFontXPos, stsFontYPos)
+		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..saveDat.depth, stsFontXPos, stsFontYPos+20)
+		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..saveDat.abysslv, stsFontXPos, stsFontYPos+40)
+		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..saveDat.reward, stsFontXPos, stsFontYPos+60)
 	--Attributes
 		local attrFont = font2
 		local attrFontXPos = 225+NewPosX
 		local attrFontYPos = 61+NewPosY
 		local attrSymb = "+"
 		local attrMax = "MAX"
-		f_drawQuickText(txt_abyssDatAttack, attrFont, 0, 1, attrSymb..abyssDat.nosave.attack, attrFontXPos, attrFontYPos)
-		f_drawQuickText(txt_abyssDatPower, attrFont, 0, 1, attrSymb..abyssDat.nosave.power, attrFontXPos, attrFontYPos+18)
-		f_drawQuickText(txt_abyssDatDefence, attrFont, 0, 1, attrSymb..abyssDat.nosave.defence, attrFontXPos+62, attrFontYPos)
-		f_drawQuickText(txt_abyssDatLife, attrFont, 0, 1, attrSymb..abyssDat.nosave.life, attrFontXPos+62, attrFontYPos+18)
+		f_drawQuickText(txt_abyssDatAttack, attrFont, 0, 1, attrSymb..saveDat.attack, attrFontXPos, attrFontYPos)
+		f_drawQuickText(txt_abyssDatPower, attrFont, 0, 1, attrSymb..saveDat.power, attrFontXPos, attrFontYPos+18)
+		f_drawQuickText(txt_abyssDatDefence, attrFont, 0, 1, attrSymb..saveDat.defence, attrFontXPos+62, attrFontYPos)
+		f_drawQuickText(txt_abyssDatLife, attrFont, 0, 1, attrSymb..saveDat.life, attrFontXPos+62, attrFontYPos+18)
 	--Special Items
 		local spFont = font2
 		local spFontXPos = 310+NewPosX
 		local spFontYPos = 93+NewPosY
-		f_drawQuickText(txt_abyssDatSP1, spFont, 0, -1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
-		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+12)
-		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+24)
+		f_drawQuickText(txt_abyssDatSP1, spFont, 0, -1, saveDat.itemslot[1], spFontXPos, spFontYPos)
+		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, saveDat.itemslot[2], spFontXPos, spFontYPos+12)
+		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, saveDat.itemslot[3], spFontXPos, spFontYPos+24)
 	end
 end
 

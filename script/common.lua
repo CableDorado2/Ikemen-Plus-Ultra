@@ -3889,11 +3889,9 @@ abyssDat.nosave = {} --Reset data
 abyssDat.nosave = t_abyssDefaultSave
 	if abyssDat.save == nil or data.erase then
 		abyssDat.save = {}
-		abyssDat.save[1] = t_abyssDefaultSave
-		abyssDat.save[2] = t_abyssDefaultSave
-		abyssDat.save[3] = t_abyssDefaultSave
-		abyssDat.save[4] = t_abyssDefaultSave
-		abyssDat.save[5] = t_abyssDefaultSave
+		for slot=1, 5 do
+			abyssDat.save[slot] = t_abyssDefaultSave
+		end
 	end
 end
 
