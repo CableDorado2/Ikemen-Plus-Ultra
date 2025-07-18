@@ -574,13 +574,31 @@ local function f_abyssSaveInit()
 	abyssSaveDone = false
 	abyssSaveButton = false
 	abyssSaveMenu = 1
+	abyssSaveTime = 0
 end
 f_abyssSaveInit()
 
-local function f_abyssSaveBtn()
-	if not abyssSaveButton then
-		if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then abyssSaveButton = true end
+local function f_abyssSaveInfo()
+	if abyssSaveTime < 105 then --Time to use save button until end match
+		abyssSaveTime = abyssSaveTime + 1
+		animDraw(abyssSaveInfoBG)
+		drawInGameInputHintsP1("e","264,218")
+		f_drawQuickText(txt_allowSave, font2, 0, -1, ":SAVE", 315, 230)
+		if commandGetState(p1Cmd, 'e') then abyssSaveButton = true end
 		cmdInput()
+	end
+end
+
+local function f_abyssSaveEnd()
+	if abyssSaveDone then
+		data.saveAbyss = true
+		f_saveTemp()
+		exitMatch()
+	else
+		abyssPause = false
+		togglePause(0)
+		setSysCtrl(0) --Swap to Game Controls
+		abyssSaveButton = false
 	end
 end
 
@@ -603,7 +621,7 @@ local function f_abyssSave()
 --Draw Menu BG
 	animDraw(abyssConfirmWindowBG)
 --Draw Title
-	textImgSetText(txt_abyssDatConfirmTitle, "SAVE PROGRESS?")
+	textImgSetText(txt_abyssDatConfirmTitle, "SAVE PROGRESS AND EXIT?")
 	textImgDraw(txt_abyssDatConfirmTitle)
 --Draw Table Text
 	for i=1, #t_confirmMenu do
@@ -623,24 +641,17 @@ local function f_abyssSave()
 --Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
-		--f_abyssSaveInit()
+		f_abyssSaveEnd()
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 	--YES (Exit to Save Data)
 		if abyssSaveMenu == 1 then
 			sndPlay(sndSys, 100, 1)
-			
+			abyssSaveDone = true
 	--NO
 		else
 			sndPlay(sndSys, 100, 2)
 		end
-		abyssSaveDone = true
-	end
-	if abyssSaveDone then
-		togglePause(0)
-		setSysCtrl(0) --Swap to Game Controls
-		abyssSaveDone = false
-		abyssSaveButton = false
-		return
+		f_abyssSaveEnd()
 	end
 	cmdInput()
 end
@@ -924,17 +935,20 @@ function loop() --The code for this function should be thought of as if it were 
 			exitMatch()
 		end
 	--Save Progress
-		f_abyssSaveBtn()
-		if roundstate() == 2 and abyssSaveButton then
-			--if (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
-				if not abyssPause then
-					togglePause(1)
-					setSysCtrl(10) --Swap to Menu Controls
-					abyssPause = true
+		if (abyssbossfight() == 1 and abyssRewardDone) or (abyssbossfight() == 0 and roundstate() == 4) then
+			if (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+				if abyssSaveButton then
+					if not abyssPause then
+						togglePause(1)
+						setSysCtrl(10) --Swap to Menu Controls
+						abyssPause = true
+					else
+						f_abyssSave() --Show Save Question
+					end
 				else
-					f_abyssSave()
+					f_abyssSaveInfo() --Show Save Button Info
 				end
-			--end
+			end
 		end
 	--Boss Rewards
 		if abyssbossfight() == 1 and roundstate() == 4 and not abyssRewardDone then

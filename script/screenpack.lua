@@ -4538,6 +4538,15 @@ animSetPos(stgBGMInfoBG, -54, 50)
 animSetScale(stgBGMInfoBG, 428, 20)
 animUpdate(stgBGMInfoBG)
 
+--Save Abyss Info BG
+abyssSaveInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(abyssSaveInfoBG, 258, 215)
+animSetScale(abyssSaveInfoBG, 65, 24)
+animSetAlpha(abyssSaveInfoBG, 0, 50)
+animUpdate(abyssSaveInfoBG)
+
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION
 --;===========================================================

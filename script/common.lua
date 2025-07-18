@@ -878,7 +878,8 @@ function cmdInput()
 	commandInput(p1Cmd, data.p1In)
 	commandInput(p2Cmd, data.p2In)
 	if f5Key() and data.debugMode then assert(loadfile("script/screenpack.lua"))() end --Refresh Screenpack file in Real Time
-	if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then f_screenShot() end --Take Screenshot in any menu (if you have control)
+	--if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then f_screenShot() end --Take Screenshot in any menu (if you have control)
+	if printscreenKey() then f_screenShot() end --Take Screenshot in any menu (if you have control)
 end
 
 --returns value depending on button pressed (a = 1; a + start = 7 etc.)
@@ -3626,6 +3627,7 @@ function f_saveTemp()
 		['data.replayDone'] = data.replayDone,
 		['data.challengerMode'] = data.challengerMode,
 		['data.challengerAbyss'] = data.challengerAbyss,
+		['data.saveAbyss'] = data.saveAbyss,
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
@@ -3643,6 +3645,7 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.replayDone = false
 	data.challengerMode = false
 	data.challengerAbyss = false
+	data.saveAbyss = false
 	data.VNbreaker = false
 	data.p1Lose = false
 	data.p2Lose = false
@@ -3869,9 +3872,8 @@ data.story2_2Unlock = true
 --Story Mode - Arc 3 Chapters Unlocks
 data.story3_1Unlock = true
 
-function init_abyssStats()
 --Abyss Mode Characters Stats Section
-local t_abyssDefaultSave = {
+t_abyssDefaultSave = {
 	name = "",
 	life = 0,
 	power = 0,
@@ -3885,6 +3887,7 @@ local t_abyssDefaultSave = {
 	nextspecialboss = 0,
 	itemslot = {[1] = "", [2] = "", [3] = ""},
 }
+function init_abyssStats()
 abyssDat.nosave = {} --Reset data
 abyssDat.nosave = t_abyssDefaultSave
 	if abyssDat.save == nil or data.erase then

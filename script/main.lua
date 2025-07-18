@@ -15169,6 +15169,13 @@ if validCells() then
 				f_selectChallenger()
 				data.challengerAbyss = false
 				f_saveTemp()
+		--Abyss Save and Exit
+			elseif data.gameMode == "abyss" and data.saveAbyss then
+			--Back to Abyss Select
+				data.saveAbyss = false
+				f_saveTemp()
+				f_abyssData("save") --Open Abyss Data Select
+				return
 		--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
 				assert(loadfile(saveTempPath))()
@@ -17763,7 +17770,7 @@ end
 --;===========================================================
 --; ABYSS DATA MESSAGE SCREEN
 --;===========================================================
-function f_abyssDatMessage(mode)
+function f_abyssDatMessage(mode, slot)
 	cmdInput()
 	local lastTxt = ""
 	local option = nil
@@ -17795,8 +17802,12 @@ function f_abyssDatMessage(mode)
 		textImgSetText(txt_abyssDatConfirmTitle, "SAVE TO THIS DATA SLOT?")
 		if abyssDatOverwrite then textImgSetText(txt_abyssDatConfirmTitle, "OVERWRITE DATA?") end
 		if abyssDatComplete then textImgSetText(txt_abyssDatConfirmTitle, "SAVE COMPLETE!") end
-	else
+	elseif mode == "load" then
 		textImgSetText(txt_abyssDatConfirmTitle, "LOAD THIS DATA SLOT?")
+	end
+	if eraseAbyssDat then
+		textImgSetText(txt_abyssDatConfirmTitle, "DELETE THIS DATA SLOT?")
+		if abyssDatComplete then textImgSetText(txt_abyssDatConfirmTitle, "DATA WAS DELETED!") end
 	end
 	textImgDraw(txt_abyssDatConfirmTitle)
 --Draw Table Text
@@ -17826,13 +17837,19 @@ function f_abyssDatMessage(mode)
 	--YES
 		if abyssDatConfirm == 1 then
 			sndPlay(sndSys, 100, 1)
-		--Save Data
-			if mode == "save" then
+			if eraseAbyssDat then
 				abyssDatComplete = true
-		--Load Data
+				abyssDat.save[slot] = t_abyssDefaultSave --Replace data with default empty slot
 			else
-				abyssDatEnd = true
-				loadAbyssDat = true
+			--Save Data
+				if mode == "save" then
+					abyssDatComplete = true
+					abyssDat.save[slot] = abyssDat.nosave --Replace Slot Data with No save Data
+			--Load Data
+				else
+					abyssDatEnd = true
+					loadAbyssDat = true
+				end
 			end
 	--NO/OK
 		else
@@ -17869,6 +17886,7 @@ function f_abyssData(mode)
 	local menuMode = mode --It can be "save" or "load"
 	local txt_menuTitle = ""
 	loadAbyssDat = false
+	eraseAbyssDat = false
 	if menuMode == "save" then
 		txt_menuTitle = "SAVE DATA"
 	else
@@ -17902,8 +17920,9 @@ function f_abyssData(mode)
 					abyssDatConfirmScreen = true
 				end
 		--Delete Saved Data
-			--elseif abyssDat.save[dataSel].cel and commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then	
-				
+			elseif abyssDat.save[dataSel].cel and commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then	
+				eraseAbyssDat = true
+				abyssDatConfirmScreen = true
 		--Close Menu
 			elseif esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
@@ -17957,7 +17976,7 @@ function f_abyssData(mode)
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if abyssDatConfirmScreen then f_abyssDatMessage(menuMode) else drawAbyssDatInputHints() end
+		if abyssDatConfirmScreen then f_abyssDatMessage(menuMode, dataSel) else drawAbyssDatInputHints() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
