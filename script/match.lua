@@ -740,6 +740,7 @@ local function f_abyssBossReward()
 	--Save Data
 		if itemDone then
 			sndPlay(sndSys, 100, 1)
+			--f_saveAbyss()
 			itemDone = false
 			togglePause(0)
 			setSysCtrl(0) --Swap to Game Controls

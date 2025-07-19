@@ -3959,20 +3959,20 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 	local saveDat = data or false
 	animPosDraw(abyssDatSlot, 0+NewPosX, 40+NewPosY)
 	f_drawQuickText(txt_abyssDatNo, font11, 0, 1, "DATA "..itemNo, 10+NewPosX, 37+NewPosY, 1.2, 1.2)
-	if not saveDat.cel then --No Data Saved
+	if not saveDat.player then --No Data Saved
 		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159+NewPosX, 90+NewPosY, 1.2, 1.2)
 	else --Show Data Saved
 		--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
-		drawPortrait(saveDat.cel, 7+NewPosX, 48+NewPosY, 0.5, 0.5)
+		drawPortrait(saveDat.player[1].cel, 7+NewPosX, 48+NewPosY, 0.5, 0.5)
 		animPosDraw(abyssProfileAtributes, 207+NewPosX, 50+NewPosY)
 	--Stats
 		local stsFont = font2
 		local stsFontXPos = 70+NewPosX
 		local stsFontYPos = 56+NewPosY
-		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, saveDat.name, stsFontXPos, stsFontYPos)
+		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, saveDat.player[1].displayname, stsFontXPos, stsFontYPos)
 		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..saveDat.depth, stsFontXPos, stsFontYPos+20)
 		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..t_abyssSel[saveDat.abysslv].depth, stsFontXPos, stsFontYPos+40)
-		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..saveDat.reward, stsFontXPos, stsFontYPos+60)
+		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..saveDat.reward.." IKC", stsFontXPos, stsFontYPos+60)
 	--Attributes
 		local attrFont = font2
 		local attrFontXPos = 225+NewPosX
@@ -4300,12 +4300,12 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 	animPosDraw(abyssProfileAtributes, 190+NewPosX, 74+NewPosY)
 --Character Stuff
 	if not VSscreen then
-		if not PauseMenu then drawPortrait(abyssDat.nosave.cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32) end
+		if not PauseMenu then drawPortrait(abyssDat.nosave.player[1].cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32) end
 		for slot=1, 3 do
 			animPosDraw(abyssSpecialItem, 169+NewPosX, 92.5+slot*(22+0.9)+NewPosY)
 		end
 		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 35+NewPosY, 1, 1)
-		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.name, 241+NewPosX, 68+NewPosY, 1, 1)
+		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.player[1].displayname, 241+NewPosX, 68+NewPosY, 1, 1)
 	end
 --Attributes
 	local attrFont = font2

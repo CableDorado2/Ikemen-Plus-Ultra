@@ -3704,6 +3704,16 @@ end
 function f_saveStats()
 	--if data.debugLog then f_printTable(stats, 'save/debug/t_stats.log') end
 	f_fileWrite(saveStatsPath, json.encode(stats, {indent = 2}))
+end
+
+--Data saving to abyss_save.json
+function f_saveAbyss()
+    --[[ Guardar la tabla de slots, no toda la estructura
+    local saveData = abyssDat.save
+    f_fileWrite(saveAbyssPath, json.encode(saveData, {indent = 2}))
+	]]
+	
+	--if data.debugLog then f_printTable(abyssDat, 'save/debug/t_abyssSave.log') end
 	f_fileWrite(saveAbyssPath, json.encode(abyssDat, {indent = 2}))
 end
 
@@ -3872,9 +3882,7 @@ data.story2_2Unlock = true
 --Story Mode - Arc 3 Chapters Unlocks
 data.story3_1Unlock = true
 
-abyssDat.default = { --For some reason can re-use t_abyssDefaultSave table because nosave data is copy to abyssDat.default when delete data...
-	name = "",
-	pal = 0,
+abyssDat.default = { --For some reason cannot re-use t_abyssDefaultSave table because nosave data is copy to abyssDat.default when delete data...
 	life = 0,
 	power = 0,
 	attack = 0,
@@ -3893,8 +3901,6 @@ abyssDat.default = { --For some reason can re-use t_abyssDefaultSave table becau
 function init_abyssStats()
 --Abyss Mode Characters Stats Section
 local t_abyssDefaultSave = {
-	name = "",
-	pal = 0,
 	life = 0,
 	power = 0,
 	attack = 0,

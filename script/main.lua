@@ -12935,7 +12935,7 @@ function f_setAbyssStats()
 	abyssDat.nosave.reward = getAbyssReward()
 	abyssDat.nosave.depth = getAbyssDepth()
 	abyssDat.nosave.lifebarstate = getLifePersistence()
-	f_saveStats()
+	--f_saveAbyss() --this overwrite abyssDat.save[slot]
 end
 
 --;===========================================================
@@ -14838,18 +14838,24 @@ if validCells() then
 		else f_selectMusic()
 		end
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-		selectStart()
-		while not selScreenEnd do
-			if not onlinegame then
-				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect2() end
-			else
-				if esc() then f_exitOnline() end
-			end
-			f_selectScreen()
-			assert(loadfile(saveTempPath))()
-			if back == true or data.tempBack == true then
-				f_resetMenuAssets()
-				return
+		if loadAbyssDat then --To skip char select during abyss mode load data
+			selScreenEnd = true
+			data.t_p1selected = abyssDat.nosave.player
+			
+		else
+			selectStart()
+			while not selScreenEnd do
+				if not onlinegame then
+					if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect2() end
+				else
+					if esc() then f_exitOnline() end
+				end
+				f_selectScreen()
+				assert(loadfile(saveTempPath))()
+				if back == true or data.tempBack == true then
+					f_resetMenuAssets()
+					return
+				end
 			end
 		end
 	--FIRST MATCH
@@ -17275,7 +17281,8 @@ function f_abyssSelect()
 	local continueCursor = false
 	local continueCheck = false
 	init_abyssStats() --Reset Abyss Character Stats Data
-	f_saveStats()
+	--f_saveStats()
+	f_saveAbyss()
 	f_sideReset()
 	abyssSel = 1
 	exitAbyss = false
@@ -17285,7 +17292,7 @@ function f_abyssSelect()
 	while true do
 	--Check if there is continue data available
 		for i=1, #abyssDat.save do
-			if abyssDat.save[i].cel then
+			if abyssDat.save[i].player then
 				continueCheck = true
 			end
 		end
@@ -17311,9 +17318,8 @@ function f_abyssSelect()
 					f_abyssData("load") --Open Abyss Data Select
 					if loadAbyssDat then
 						abyssSel = abyssDat.nosave.abysslv
-						selScreenEnd = true --To skip char select
 						abyssCfg()
-						abyssDat.nosave.sideselect() --Load/Call Side Select Function
+						_G[abyssDat.nosave.sideselect]() --Load/Call Side Select Function
 					end
 			--New Game
 				else
@@ -17446,6 +17452,7 @@ end
 
 --HUMAN VS CPU (fight against CPU controlled opponents from left side)
 function abyssHumanvsCPU()
+	abyssDat.nosave.sideselect = "abyssHumanvsCPU" --Save the name of this function to load data
 	if P2overP1 then
 		remapInput(1, 2)
 		setPlayerSide('p2left')
@@ -17462,6 +17469,7 @@ end
 
 --CPU VS HUMAN (fight against CPU controlled opponents from right side)
 function abyssCPUvsHuman()
+	abyssDat.nosave.sideselect = "abyssCPUvsHuman"
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
@@ -17480,6 +17488,7 @@ end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents)
 function abyssP1P2vsCPU()
+	abyssDat.nosave.sideselect = "abyssP1P2vsCPU"
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
@@ -17491,8 +17500,10 @@ end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents)
 function abyssCPUvsP1P2()
+	
 	f_comingSoon()
 --[[
+	abyssDat.nosave.sideselect = "abyssCPUvsP1P2"
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -17506,6 +17517,7 @@ end
 
 --CPU MODE (watch CPU fight in abyss)
 function abyssCPUvsCPU()
+	abyssDat.nosave.sideselect = "abyssCPUvsCPU"
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -17544,11 +17556,11 @@ function f_abyssMenu()
 	else
 		playerDat = data.t_p1selected
 	end
-	abyssDat.nosave.name = playerDat[1].displayname
-	abyssDat.nosave.cel = playerDat[1].cel
-	abyssDat.nosave.pal = playerDat[1].pal
+	--abyssDat.nosave.name = playerDat[1].displayname
+	--abyssDat.nosave.cel = playerDat[1].cel
+	abyssDat.nosave.player = playerDat --Store all player data
 	abyssDat.nosave.abysslv = abyssSel
-	f_saveStats()
+	f_saveAbyss()
 --Check Shop Item Unlocks
 	f_unlock(false)
 	f_updateUnlocks()
@@ -17582,7 +17594,7 @@ function f_abyssMenu()
 						shop = true
 					elseif abyssMenu == 2 then
 						abyssDat.nosave.expense = backupCurrency - stats.coins --calculates the amount spent in the store to be displayed on the results screen
-						f_saveStats()
+						f_saveAbyss()
 						break --Start Abyss Mode
 					end
 			--Abyss Shop
@@ -17628,6 +17640,7 @@ function f_abyssMenu()
 								stats.coins = stats.coins - t_abyssMenu[abyssMenu].price
 							--Save Data
 								f_saveStats()
+								f_saveAbyss()
 								t_abyssMenu[abyssMenu].sold = true --Item Sold out
 								buyDone = false
 							end
@@ -17666,6 +17679,7 @@ function f_abyssMenu()
 						end
 					end
 					f_saveStats()
+					f_saveAbyss()
 					t_abyssMenu[abyssMenu].sold = false --Item available again
 				end
 			end
@@ -17859,18 +17873,17 @@ function f_abyssDatMessage(mode, slot)
 			if eraseAbyssDat then
 				abyssDatComplete = true
 				abyssDat.save[slot] = abyssDat.default --Replace data with default empty slot
-				f_saveStats()
+				f_saveAbyss()
 			else
 			--Save Data
 				if mode == "save" then
 					abyssDatComplete = true
 					abyssDat.save[slot] = abyssDat.nosave --Replace Slot Data with No save Data
-					f_saveStats()
+					f_saveAbyss()
 			--Load Data
 				else
-					abyssDat.nosave = {}
 					abyssDat.nosave = abyssDat.save[slot] --Replace No Save Temp data with Slot Selected Data
-					f_saveStats()
+					f_saveAbyss()
 					abyssDatEnd = true
 					loadAbyssDat = true
 				end
@@ -17937,7 +17950,7 @@ function f_abyssData(mode)
 		--Data Select
 			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			--NO DATA TO LOAD
-				if not abyssDat.save[dataSel].cel and menuMode == "load" then
+				if not abyssDat.save[dataSel].player and menuMode == "load" then
 					sndPlay(sndSys, 100, 5)
 			--DATA AVAILABLE TO SAVE/LOAD
 				else
@@ -17947,7 +17960,7 @@ function f_abyssData(mode)
 		--Delete Saved Data
 			elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then	
 			--NO DATA TO DELETE
-				if not abyssDat.save[dataSel].cel then
+				if not abyssDat.save[dataSel].player then
 					sndPlay(sndSys, 100, 5)
 			--DATA AVAILABLE TO DELETE
 				else
@@ -18032,6 +18045,7 @@ end
 function f_abyssMap()
 	cmdInput()
 	local abyssDepth = getAbyssDepth() --From script.ssz
+	loadAbyssDat = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_confirmReset()
 	while true do
@@ -18068,7 +18082,7 @@ function f_abyssMap()
 		end
 	--Draw Reward Text Stuff
 		animDraw(abyssMapRewardBG)
-		textImgSetText(txt_abyssMapReward, "REWARD "..getAbyssReward())
+		textImgSetText(txt_abyssMapReward, "REWARD "..getAbyssReward().." IKC")
 		textImgDraw(txt_abyssMapReward)
 	--Draw Char Profile Box
 		f_abyssProfile(0,14)
