@@ -3872,8 +3872,7 @@ data.story2_2Unlock = true
 --Story Mode - Arc 3 Chapters Unlocks
 data.story3_1Unlock = true
 
---Abyss Mode Characters Stats Section
-t_abyssDefaultSave = {
+abyssDat.default = { --For some reason can re-use t_abyssDefaultSave table because nosave data is copy to abyssDat.default when delete data...
 	name = "",
 	life = 0,
 	power = 0,
@@ -3887,7 +3886,23 @@ t_abyssDefaultSave = {
 	nextspecialboss = 0,
 	itemslot = {[1] = "", [2] = "", [3] = ""},
 }
+
 function init_abyssStats()
+--Abyss Mode Characters Stats Section
+local t_abyssDefaultSave = {
+	name = "",
+	life = 0,
+	power = 0,
+	attack = 0,
+	defence = 0,
+	reward = 0,
+	expense = 0,
+	abysslv = "",
+	depth = 0,
+	nextboss = 0,
+	nextspecialboss = 0,
+	itemslot = {[1] = "", [2] = "", [3] = ""},
+}
 abyssDat.nosave = {} --Reset data
 abyssDat.nosave = t_abyssDefaultSave
 	if abyssDat.save == nil or data.erase then

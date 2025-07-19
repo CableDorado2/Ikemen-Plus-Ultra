@@ -17265,11 +17265,6 @@ function f_abyssSelect()
 	local continueCheck = false
 	init_abyssStats() --Reset Abyss Character Stats Data
 	f_saveStats()
-	for i=1, #abyssDat.save do --Check if there is continue data available
-		if abyssDat.save[i].cel then
-			continueCheck = true
-		end
-	end
 	f_sideReset()
 	abyssSel = 1
 	exitAbyss = false
@@ -17277,6 +17272,12 @@ function f_abyssSelect()
 	playBGM(bgmAbyss)
 	f_resetAbyssArrowsPos()
 	while true do
+	--Check if there is continue data available
+		for i=1, #abyssDat.save do
+			if abyssDat.save[i].cel then
+				continueCheck = true
+			end
+		end
 		if not sideScreen then
 		--Return Logic
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAbyss then
@@ -17839,12 +17840,14 @@ function f_abyssDatMessage(mode, slot)
 			sndPlay(sndSys, 100, 1)
 			if eraseAbyssDat then
 				abyssDatComplete = true
-				abyssDat.save[slot] = t_abyssDefaultSave --Replace data with default empty slot
+				abyssDat.save[slot] = abyssDat.default --Replace data with default empty slot
+				f_saveStats()
 			else
 			--Save Data
 				if mode == "save" then
 					abyssDatComplete = true
 					abyssDat.save[slot] = abyssDat.nosave --Replace Slot Data with No save Data
+					f_saveStats()
 			--Load Data
 				else
 					abyssDatEnd = true
@@ -17855,6 +17858,7 @@ function f_abyssDatMessage(mode, slot)
 		else
 			sndPlay(sndSys, 100, 2)
 			abyssDatEnd = true
+			eraseAbyssDat = false
 		end
 	end
 	if abyssDatEnd then f_abyssDatConfirmReset() end
@@ -17920,9 +17924,16 @@ function f_abyssData(mode)
 					abyssDatConfirmScreen = true
 				end
 		--Delete Saved Data
-			elseif abyssDat.save[dataSel].cel and commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then	
-				eraseAbyssDat = true
-				abyssDatConfirmScreen = true
+			elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then	
+			--NO DATA TO DELETE
+				if not abyssDat.save[dataSel].cel then
+					sndPlay(sndSys, 100, 5)
+			--DATA AVAILABLE TO DELETE
+				else
+					sndPlay(sndSys, 100, 1)
+					eraseAbyssDat = true
+					abyssDatConfirmScreen = true
+				end
 		--Close Menu
 			elseif esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
