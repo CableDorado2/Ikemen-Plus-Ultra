@@ -3971,7 +3971,7 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 		local stsFontYPos = 56+NewPosY
 		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, saveDat.name, stsFontXPos, stsFontYPos)
 		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..saveDat.depth, stsFontXPos, stsFontYPos+20)
-		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..saveDat.abysslv, stsFontXPos, stsFontYPos+40)
+		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..t_abyssSel[saveDat.abysslv].depth, stsFontXPos, stsFontYPos+40)
 		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..saveDat.reward, stsFontXPos, stsFontYPos+60)
 	--Attributes
 		local attrFont = font2

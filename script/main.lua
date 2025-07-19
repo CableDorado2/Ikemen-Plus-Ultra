@@ -12898,6 +12898,7 @@ function f_setAbyssStats()
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		--TODO
 	else
+	--PLAYER
 		for p=1, #data.t_p1selected do
 			data.t_p1selected[p]['life'] = getAbyssLife()
 			data.t_p1selected[p]['power'] = getAbyssPower()
@@ -12905,6 +12906,7 @@ function f_setAbyssStats()
 			data.t_p1selected[p]['defence'] = getAbyssDefence()
 			data.t_p1selected[p]['itemslot'] = abyssDat.nosave.itemslot --Special Items
 		end
+	--CPU
 		for p=1, #data.t_p2selected do
 			data.t_p2selected[p]['life'] = t_abyssSel[abyssSel].cpustats+statsPlus
 			data.t_p2selected[p]['power'] = t_abyssSel[abyssSel].cpustats+statsPlus
@@ -12932,6 +12934,7 @@ function f_setAbyssStats()
 	abyssDat.nosave.defence = getAbyssDefence()
 	abyssDat.nosave.reward = getAbyssReward()
 	abyssDat.nosave.depth = getAbyssDepth()
+	abyssDat.nosave.lifebarstate = getLifePersistence()
 	f_saveStats()
 end
 
@@ -14873,10 +14876,12 @@ if validCells() then
 				end
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
 			elseif data.gameMode == "abyss" then
-				f_abyssMenu() --Go to that Abyss Menu that contains the item shop
-				if data.tempBack == true then
-					f_exitToMainMenu()
-					return
+				if not loadAbyssDat then --Only show during a New Game
+					f_abyssMenu() --Go to that Abyss Menu that contains the item shop
+					if data.tempBack == true then
+						f_exitToMainMenu()
+						return
+					end
 				end
 				f_makeRoster()
 				lastMatch = t_abyssSel[abyssSel].depth --get roster selected in abyss depth select
@@ -15171,11 +15176,8 @@ if validCells() then
 				f_saveTemp()
 		--Abyss Save and Exit
 			elseif data.gameMode == "abyss" and data.saveAbyss then
-			--Back to Abyss Select
-				data.saveAbyss = false
-				f_saveTemp()
-				f_abyssData("save") --Open Abyss Data Select
-				return
+				matchNo = getAbyssDepth()
+				--Now go to versus screen and if data.saveAbyss is true back to main menu to save data
 		--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
 				assert(loadfile(saveTempPath))()
@@ -15523,13 +15525,22 @@ if validCells() then
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
 			setAbyssReward(getAbyssReward()+(getAbyssDepth()-1)*5)
-			if getAbyssDepth() == 1 then f_abyssMap() end
+			if getAbyssDepth() == 1 or loadAbyssDat then f_abyssMap() end
 			if data.tempBack == true then
 				f_exitToMainMenu()
 				return
 			end
 		end
 		f_matchInfo()
+	--Back to Main Menu and Save
+		if data.saveAbyss then
+			f_setAbyssStats() --Assign/Load Abyss Stats
+			data.saveAbyss = false
+			f_saveTemp()
+			f_abyssData("save") --Open Abyss Data Select
+			f_exitToMainMenu() --f_resetMenuInputs()
+			return
+		end
 		if data.arcadeTravel then f_arcadeTravel() end
 		f_orderSelect()
 		f_selectVersus()
@@ -17298,6 +17309,12 @@ function f_abyssSelect()
 			--Continue Game
 				if continueCheck and continueCursor then
 					f_abyssData("load") --Open Abyss Data Select
+					if loadAbyssDat then
+						abyssSel = abyssDat.nosave.abysslv
+						selScreenEnd = true --To skip char select
+						abyssCfg()
+						abyssDat.nosave.sideselect() --Load/Call Side Select Function
+					end
 			--New Game
 				else
 					f_abyssBoot() --Open Side Select
@@ -17529,7 +17546,8 @@ function f_abyssMenu()
 	end
 	abyssDat.nosave.name = playerDat[1].displayname
 	abyssDat.nosave.cel = playerDat[1].cel
-	abyssDat.nosave.abysslv = t_abyssSel[abyssSel].depth
+	abyssDat.nosave.pal = playerDat[1].pal
+	abyssDat.nosave.abysslv = abyssSel
 	f_saveStats()
 --Check Shop Item Unlocks
 	f_unlock(false)
@@ -17850,6 +17868,9 @@ function f_abyssDatMessage(mode, slot)
 					f_saveStats()
 			--Load Data
 				else
+					abyssDat.nosave = {}
+					abyssDat.nosave = abyssDat.save[slot] --Replace No Save Temp data with Slot Selected Data
+					f_saveStats()
 					abyssDatEnd = true
 					loadAbyssDat = true
 				end
