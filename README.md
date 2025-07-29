@@ -277,11 +277,11 @@ Yes, for Linux it uses Wine and for Android it uses Box86. Both programs can be 
 ## Do you have a website or Discord server?
 IKEMEN Plus Ultra still does not have an official website. If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
 
-Please link here when directing anyone to the project.
+Please link to this github repo when directing anyone to the project.
 
 > [!CAUTION]
-> **Keep in mind that those who use this engine version can be counted on the fingers of ONE hand**.
-> Developers normally answer questions about the lastest: **Ikemen GO**
+> Official Downloads/Updates are posted in our [Releases](https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases) page.
+> Any build found outside of this site may be outdated or be a misrepresentation (Always keep track of publication dates).
 
 ## About All IKEMEN Versions
 **S-SIZE Project** is an original programming language project done by **Suehiro** with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
