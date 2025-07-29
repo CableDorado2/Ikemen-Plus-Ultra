@@ -13,6 +13,7 @@ end
 f_resetearPausa() --Carga la función al leer el script
 
 function f_pauseMain(p, st, esc)
+	cmdInput()
 --Imagina que aquí hay un while true do
 	pn = p
 	escape = esc
@@ -32,6 +33,5 @@ function f_pauseMain(p, st, esc)
 		sndPlay(sndSys, 100, 2) --SFX Pausa Desactivada y no lo usamos en resetear porque sonaría al cargar el match
 		f_resetearPausa()
 	end
-	cmdInput()
 --Imagina que aquí hay un refresh()
 end

@@ -10,9 +10,6 @@ sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tournament mode sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
-sprArtworks = sffNew("data/gallery/artworks.sff") --load sff data to be used in gallery artwork previews
-sprStoryboards = sffNew("data/gallery/storyboards.sff") --load sff data to be used in gallery storyboard previews
-sprMovies = sffNew("data/gallery/movies.sff") --load sff data to be used in gallery movie previews
 
 --Sound Data (Sound effects [SFX] do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -28,6 +25,7 @@ bgmSelectBoss = "sound/System/select/Select Boss.mp3"
 bgmSelectOrder = "sound/System/Order Select.mp3"
 bgmSelectOrderFinal = "sound/System/Order Select Final.mp3"
 bgmNextStage = "sound/System/Next Stage.mp3"
+bgmIntermission = "sound/system/Intermission.mp3"
 bgmVS = "sound/System/VS.mp3"
 bgmVSFinal = "sound/System/VS Final.mp3"
 bgmVSSpecial = "sound/system/VS Special.mp3"
@@ -36,12 +34,14 @@ bgmResults = "sound/System/Results.mp3"
 bgmService = "sound/System/Service.mp3"
 bgmContinue = "sound/System/Continue.mp3"
 bgmGameOver = "sound/System/Game Over.mp3"
+bgmCredits = "sound/system/credits.mp3"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
 bgmTourneyChampion = "sound/System/Champion.mp3"
 bgmAbyss = "sound/System/Abyss.mp3"
 bgmLegion = "sound/System/Legion.mp3"
 bgmAlliance = "sound/System/Alliance.mp3"
+bgmVNIntro = "sound/System/Ranking.mp3"
 
 --Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -60,6 +60,7 @@ font16 = fontNew("font/num1.fnt")
 --Extra Fonts
 fontMK = fontNew("font/extra/KombatZone.fnt")
 fontMK2 = fontNew("font/extra/mk3-name-wins.fnt")
+fontsfa2 = fontNew("font/extra/sfa2_font.fnt")
 font5 = fontNew("font/extra/Qoh_small.fnt")
 font6 = fontNew("font/extra/QOH_BIG.fnt")
 font9 = fontNew("font/extra/font3.fnt")
@@ -80,19 +81,16 @@ font30 = fontNew("font/extra/F-.fnt")
 
 --Storyboard Data (Optional)
 storyboardLogo = "data/screenpack/logo.def"
---storyboardIntro = "data/screenpack/intro.def"
+storyboardIntro = "data/screenpack/intro.def"
+storyboardGameOver = "data/screenpack/gameover.def"
 
 --Video Data (Recommended for large cutscenes instead storyboards)
-videoOpening = "data/videos/Opening.wmv"
 videoHowToPlay = "data/videos/How To Play.wmv"
 
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
 fightDef = "data/screenpack/fight.def" --Lifebar/Fight
 vnDef = "data/visualnovel/vnselect.def" --Visual Novels
-galleryArtworksDef = "data/gallery/artworks.def" --Gallery Artworks
-galleryStoryboardsDef = "data/gallery/storyboards.def" --Gallery Storyboards
-galleryMoviesDef = "data/gallery/movies.def" --Gallery Videos
 
 --Paths Data
 licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
@@ -381,7 +379,7 @@ txt_loading = createTextImg(font1, 0, -1, "", 310, 230)
 --;===========================================================
 --; TITLE SCREEN SCREENPACK DEFINITION
 --;===========================================================
-txt_mainTitle = createTextImg(jgFnt, 5, 0, "-- PRESS START --", 159, 170) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+txt_mainTitle = createTextImg(jgFnt, 5, 0, "PRESS START", 159, 170) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 --txt_version = createTextImg(font1, 0, -1, "v1.?.0", 319, 240)
 txt_version = createTextImg(font1, 0, -1, "Dev. Build", 319, 240)
 txt_f1 = createTextImg(font1, 0, 0, "Press F1 for Info", 159, 240)
@@ -495,6 +493,13 @@ animSetPos(fadeWindowBG, -54, 0)
 animSetScale(fadeWindowBG, 427, 240)
 animUpdate(fadeWindowBG)
 
+--Common Input Hints BG
+inputHintsBG = animNew(sprIkemen, [[
+230,3, 0,0, -1
+]])
+animSetScale(inputHintsBG, 2.9, 0.35)
+animSetAlpha(inputHintsBG, 155, 22)
+
 --Common Padlock Sprite
 padlock = animNew(sprIkemen, [[
 108,0, 0,0, -1
@@ -564,41 +569,6 @@ menuArrowRight = animNew(sprIkemen, [[
 ]])
 animSetScale(menuArrowRight, 0.5, 0.5)
 
-function f_resetGalleryArrowsPos() --Used in Gallery Menu
-animSetPos(menuArrowLeft, 0, 190)
-animSetPos(menuArrowRight, 310, 190)
-end
-
-function f_resetArtworkArrowsPos() --Used in Artworks Menu
-animSetPos(menuArrowLeft, 2, 120)
-animSetPos(menuArrowRight, 310, 120)
-end
-
-function f_resetSoundTestArrowsPos() --Used in Sound Test Menu
-animSetPos(menuArrowLeft, 69, 21)
-animSetPos(menuArrowRight, 242, 21)
-end
-
-function f_resetTowerArrowsPos() --Used in Tower Select
-animSetPos(menuArrowLeft, 0, 190)
-animSetPos(menuArrowRight, 310, 190)
-end
-
-function f_resetAbyssArrowsPos() --Used in Abyss Select
-animSetPos(menuArrowLeft, 0, 90)
-animSetPos(menuArrowRight, 312, 90)
-end
-
-function f_resetAbyssDatArrowsPos() --Used in Abyss Continue Data Select
-animSetPos(menuArrowUp, 305, 14)
-animSetPos(menuArrowDown, 305, 220)
-end
-
-function f_resetAbyss2ArrowsPos() --Used in Abyss Main Menu
-animSetPos(menuArrowUp, 153, 15)
-animSetPos(menuArrowDown, 153, 175.5)
-end
-
 function f_titleText()
 	if stats.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
 	elseif stats.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
@@ -631,9 +601,59 @@ function drawTitleInputHints()
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
-	drawInputHintsP1("w","50,"..inputHintYPos,"e","120,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 71, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
+	animPosDraw(inputHintsBG, -56, 212)
+	drawInputHintsP1("s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+end
+
+--;===========================================================
+--; ATTRACT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_attractState = createTextImg(jgFnt, 0, 0, "", 159, 170)
+txt_attractTimer = createTextImg(jgFnt, 0, 0, "", 159, 200)
+txt_attractCredits = createTextImg(fontsfa2, 0, -1, "", 318, 230)
+txt_attractCopyrightCfg = createTextImg(font14, 0, 0, "", 159, 220, 0.8, 0.8)
+
+txt_attractState1 = "INSERT COIN"
+txt_attractState2 = "PRESS 1P OR 2P START"
+txt_attractState3 = "PRESS START" --After Start a Game to Challenger Join
+txt_attractFreePlay = "FREE PLAY"
+
+txt_attractCopyright = [[
+Itsu made mo Kansei shinai Eien ni Mikansei ENgine
+@SUEHIRO., S-SIZE PROJECT 2006
+]]
+
+function f_attractCredits(x, y, align)
+	local x = x or 318
+	local y = y or 215
+	local align = align or -1
+	local s = ""
+	local zero = ""
+	if getCredits() > 1 then s = "s" else s = "" end
+	if getCredits() > 9 then zero = "" else zero = "0" end
+	textImgSetPos(txt_attractCredits, x, y)
+	textImgSetAlign(txt_attractCredits, align)
+	textImgSetText(txt_attractCredits, "CREDIT"..s.." "..zero..getCredits())
+	textImgDraw(txt_attractCredits)
+end
+
+attractCnt = 0
+function drawAttractStatus(txt, bank, align, x, y)
+	if attractCnt%60 < 30 then
+		if getCredits() > 0 then
+			textImgSetBank(txt_attractState, 5)
+			textImgSetAlign(txt_attractState, 0)
+			textImgSetText(txt_attractState, txt_attractState2)
+		else
+			textImgSetBank(txt_attractState, 0)
+			textImgSetAlign(txt_attractState, 0)
+			textImgSetText(txt_attractState, txt_attractState1)
+		end
+		textImgDraw(txt_attractState)
+	end
+	attractCnt = attractCnt >= 60 and 0 or attractCnt + 1
 end
 
 --;===========================================================
@@ -656,7 +676,7 @@ txt_infobox = [[
 
 
 
-This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
+This is an unofficial version of S-SIZE I.K.E.M.E.N. Engine maintained by CD2.
 
 * This is a public development release, for testing purposes.
 * This build may contain bugs and incomplete features.
@@ -666,26 +686,90 @@ This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
 ]]
 
 --;===========================================================
---; INFO MESSAGE SCREENPACK DEFINITION
+--; INFORMATION MESSAGE SCREENPACK DEFINITION
 --;===========================================================
-txt_infoTitle = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
-txt_ok = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
-txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_infoTitle = createTextImg(font5, 0, 0, "INFORMATION", 157, 86)
+txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.7, 0.7)
 
 --Info Window BG
 infoWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
-animSetPos(infoWindowBG, 83.5, 97)
+animSetPos(infoWindowBG, 39, 80)
+animSetScale(infoWindowBG, 1.6, 1.3)
 animUpdate(infoWindowBG)
-animSetScale(infoWindowBG, 1, 1)
 
 function drawInfoInputHints()
-	local inputHintYPos = 212
+	local inputHintYPos = 134
 	local hintFont = font2
-	local hintFontYPos = 226
-	drawInputHintsP1("w","70,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
+	local hintFontYPos = 148
+--Draw Cursor
+	animSetWindow(cursorBox, 43.9,134, 232,20)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+--Draw Inputs
+	drawInputHintsP1("s","137,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Ok", 158, hintFontYPos)
+end
+
+--;===========================================================
+--; CONFIRM MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_confirmTitle = createTextImg(jgFnt, 1, 0, "", 160, 110)
+txt_abyssDatConfirmTitle = createTextImg(jgFnt, 0, 0, "", 161.5, 112)
+
+t_confirmMenu = {
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
+}
+
+txt_confirmQuestion = "ARE YOU SURE?"
+txt_exitQuestion = "CLOSE ENGINE?"
+txt_restartQuestion = "RESTART ENGINE?"
+
+txt_tourneyConfirmExit = [[
+Return to Tournament Rules Menu
+Tournament will End
+]]
+
+txt_abyssConfirmShopBack = [[
+Return to Main Menu
+Items purchased at the Shop will reset
+and Currency spended will be returned
+]]
+
+txt_abyssConfirmCheckpoint = [[
+Reward acquired will be converted to IKC
+Items discovered will be added to the Shop
+Would you like to Stop Exploring this Abyss?
+]]
+
+--Confirm Window BG
+confirmWindowBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetPos(confirmWindowBG, 39, 80)
+animSetScale(confirmWindowBG, 1.6, 1.3)
+animUpdate(confirmWindowBG)
+
+--Abyss Confirm Window BG
+abyssConfirmWindowBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetPos(abyssConfirmWindowBG, 62, 97)
+animSetScale(abyssConfirmWindowBG, 1.3, 1)
+animUpdate(abyssConfirmWindowBG)
+
+--Input Hints Panel
+function drawConfirmInputHints()
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================
@@ -696,23 +780,23 @@ MainFadeInTime = 30
 
 if data.engineMode == "FG" then --Menu Items for Fighting Engine Mode
 t_mainMenu = {
-	{text = "ARCADE", gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
-	{text = "VERSUS", gotomenu = "f_vsMenu()"},
-	{text = "NETPLAY", gotomenu = "f_mainNetplay()"},
-	{text = "PRACTICE", gotomenu = "f_practiceMenu()"},
-	{text = "CHALLENGES", gotomenu = "f_challengeMenu()"},
-	{text = "EXTRAS", gotomenu = "f_extrasMenu()"},
-	{text = "WATCH", gotomenu = "f_watchMenu()"},
-	{text = "OPTIONS", gotomenu = "f_optionsMenu()"},
-	{text = "EXIT", gotomenu = "f_exitMenu()"},
+	{text = "ARCADE", 		gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
+	{text = "VERSUS", 		gotomenu = "f_vsMenu()"},
+	{text = "NETPLAY", 		gotomenu = "f_mainNetplay()"},
+	{text = "PRACTICE", 	gotomenu = "f_practiceMenu()"},
+	{text = "CHALLENGES", 	gotomenu = "f_challengeMenu()"},
+	{text = "EXTRAS", 		gotomenu = "f_extrasMenu()"},
+	{text = "WATCH", 		gotomenu = "f_watchMenu()"},
+	{text = "OPTIONS", 		gotomenu = "f_optionsMenu()"},
+	{text = "EXIT", 		gotomenu = "f_exitMenu()"},
 }
 elseif data.engineMode == "VN" then --Menu Items for Visual Novel Engine Mode
 t_mainMenu = {
-	{text = "NEW GAME", gotomenu = "f_vnNewGame()"},
+	{text = "NEW GAME",  gotomenu = "f_vnNewGame()"},
 	{text = "LOAD GAME", gotomenu = "f_vnLoadGame()"},
-	{text = "CONFIG", gotomenu = "f_optionsMenu()"},
-	{text = "GALLERY", gotomenu = "f_galleryMenu()"},
-	{text = "EXIT", gotomenu = "f_exitMenu()"},
+	{text = "CONFIG", 	 gotomenu = "f_optionsMenu()"},
+	{text = "GALLERY", 	 gotomenu = "f_galleryMenu()"}, --Gallery Mod Required
+	{text = "EXIT", 	 gotomenu = "f_exitMenu()"},
 }
 end
 --Set ID to all final items
@@ -724,28 +808,31 @@ function drawMenuInputHints()
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	animPosDraw(inputHintsBG, -56, 212)
+	drawInputHintsP1("u","20,"..inputHintYPos,"d","40,"..inputHintYPos,"s","100,"..inputHintYPos,"e","165,"..inputHintYPos,"q","227,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 61, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 186, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":???", 248, hintFontYPos)
 end
 
 function drawListInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 219
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================
 --; ARCADE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_arcadeMenu = {
-	{text = "CLASSIC MODE", gotomenu = "f_arcadeBoot()"},
-	{text = "TOWER MODE", gotomenu = "f_towerBoot()"},
+	{text = "CLASSIC",	  gotomenu = "f_arcadeBoot()"},
+	{text = "TOWER", 	  gotomenu = "f_towerBoot()"},
 	{text = "BEAT EM UP", gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_arcadeMenu do
@@ -756,8 +843,8 @@ end
 --; VERSUS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_vsMenu = {
-	{text = "QUICK MATCH", gotomenu = "f_quickvsBoot()"},
-	{text = "FREE BATTLE", gotomenu = "f_vsBoot()"},
+	{text = "QUICK MATCH",  gotomenu = "f_quickvsBoot()"},
+	{text = "FREE BATTLE",  gotomenu = "f_vsBoot()"},
 	{text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
 }
 for i=1, #t_vsMenu do
@@ -769,7 +856,7 @@ end
 --;===========================================================
 t_practiceMenu = {
 	{text = "TRAINING", gotomenu = "f_training()"},
-	{text = "TRIALS", gotomenu = "f_comingSoon()"},
+	{text = "TRIALS", 	gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_practiceMenu do
 	t_practiceMenu[i]['id'] = textImgNew()
@@ -779,11 +866,11 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	--{text = "ALLIANCE", gotomenu = "f_allianceCfg()"},
-	--{text = "LEGION", gotomenu = "f_legionCfg()"},
-	{text = "SURVIVAL", gotomenu = "f_survivalMenu()"},
+	--{text = "ALLIANCE", 	gotomenu = "f_allianceCfg()"},
+	--{text = "LEGION", 		gotomenu = "f_legionCfg()"},
+	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
-	{text = "TIME ATTACK", gotomenu = "f_timeattackMenu()"},
+	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
 	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
 for i=1, #t_challengeMenu do
@@ -794,8 +881,8 @@ end
 --; SURVIVAL MENU SCREENPACK DEFINITION
 --;===========================================================
 t_survivalMenu = {
-	{text = "CLASSIC MODE", gotomenu = "f_survivalBoot()"},
-	{text = "ABYSS MODE", gotomenu = "f_abyssSelect()"},
+	{text = "CLASSIC", 	 gotomenu = "f_survivalBoot()"},
+	{text = "ABYSS", 	 gotomenu = "f_abyssSelect()"},
 	{text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
 }
 for i=1, #t_survivalMenu do
@@ -806,8 +893,8 @@ end
 --; SCORE ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_scoreattackMenu = {
-	{text = "CLASSIC MODE", gotomenu = "f_scoreattackBoot()"},
-	{text = "???", gotomenu = "f_comingSoon()"},
+	{text = "CLASSIC", 	gotomenu = "f_scoreattackBoot()"},
+	{text = "???", 		gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
@@ -817,9 +904,9 @@ end
 --; TIME ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_timeattackMenu = {
-	{text = "CLASSIC MODE", gotomenu = "f_timeattackBoot()"},
-	{text = "SPEED STAR", gotomenu = "f_timerushBoot()"},
-	{text = "???", gotomenu = "f_comingSoon()"},
+	{text = "CLASSIC", 		gotomenu = "f_timeattackBoot()"},
+	{text = "SPEED STAR", 	gotomenu = "f_timerushBoot()"},
+	{text = "???", 			gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_timeattackMenu do
 	t_timeattackMenu[i]['id'] = textImgNew()
@@ -829,11 +916,10 @@ end
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	{text = "BONUS GAMES", gotomenu = "f_bonusMenu()"},
-	{text = "TOURNAMENT", gotomenu = "f_tourneyCfg()"},
-	{text = "VS X KUMITE", gotomenu = "f_kumiteBoot()"},
-	{text = "ENDLESS", gotomenu = "f_endlessBoot()"},
-	{text = "RANDOMTEST", gotomenu = "setGameMode('randomtest') randomTest()"},
+	{text = "BONUS GAMES", 	gotomenu = "f_bonusMenu()"},
+	{text = "TOURNAMENT", 	gotomenu = "f_tourneyCfg()"},
+	{text = "ENDLESS", 		gotomenu = "f_endlessBoot()"},
+	{text = "VS X KUMITE", 	gotomenu = "f_kumiteBoot()"},
 }
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()
@@ -843,8 +929,8 @@ end
 --; BONUS GAMES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bonusMenu = {
-	{text = "SINGLE MODE", gotomenu = "f_bonusExtras()"},
-	{text = "BONUS RUSH", gotomenu = "f_bonusrushBoot()"},
+	{text = "GAME SELECT",  gotomenu = "f_bonusExtras()"},
+	{text = "MARATHON",		gotomenu = "f_bonusrushBoot()"},
 }
 for i=1, #t_bonusMenu do
 	t_bonusMenu[i]['id'] = textImgNew()
@@ -854,12 +940,11 @@ end
 --; WATCH MENU SCREENPACK DEFINITION
 --;===========================================================
 t_watchMenu = {
-	{text = "REPLAYS", gotomenu = "f_replayMenu()"},
-	{text = "STAGE VIEWER", gotomenu = "f_stageViewer()"},
-	{text = "SOUND TEST", gotomenu = "soundTest = true f_songMenu()"},
-	{text = "GALLERY", gotomenu = "f_galleryMenu()"},
-	{text = "PROFILE", gotomenu = "f_statsMenu()"},
-	{text = "LICENSES", gotomenu = "f_licenseMenu()"},
+	{text = "REPLAYS", 		 gotomenu = "f_replayMenu()"},
+	{text = "STAGE VIEWER",  gotomenu = "f_stageViewer()"},
+	{text = "SOUND TEST", 	 gotomenu = "soundTest = true f_songMenu()"},
+	{text = "PROFILE", 		 gotomenu = "f_statsMenu()"},
+	{text = "LICENSES", 	 gotomenu = "f_licenseMenu()"},
 	{text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
 for i=1, #t_watchMenu do
@@ -962,12 +1047,12 @@ t_vnPauseMenu = {
 	{text = "Text Speed", 			  varText = ""},
 	{text = "Text BG Transparency",   varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
 	{text = "Auto Skip Text", 		  varText = ""},
+	{text = "Text Skip",	  		  varText = ""}, --All Text/Previously Read Text
 	{text = "Display Character Name", varText = ""},
 	{text = "Sound Settings", 		  varText = ""},
 	--{text = "Control Guide", 		  varText = ""},
 	{text = "Restore Settings", 	  varText = ""},
 	{text = "Save Progress",		  varText = ""},
-	{text = "Skip All Dialogues",	  varText = ""},
 	{text = "Back to Main Menu",	  varText = ""},
 	{text = "           Continue", 	  varText = ""},
 }
@@ -983,7 +1068,8 @@ function drawVNInputHints()
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"s","185,"..inputHintYPos)
+	animPosDraw(inputHintsBG, -56, 212)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"s","185,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -993,7 +1079,8 @@ function drawVNInputHints2()
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
+	animPosDraw(inputHintsBG, -56, 212)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1003,7 +1090,8 @@ function drawVNInputHints3()
 	local inputHintYPos = 218
 	local hintFont = font2
 	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
+	animPosDraw(inputHintsBG, -56, 212)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
@@ -1042,8 +1130,8 @@ questionWindowBGVN = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(questionWindowBGVN, 61, 97)
-animUpdate(questionWindowBGVN)
 animSetScale(questionWindowBGVN, 1.3, 1)
+animUpdate(questionWindowBGVN)
 
 --;===========================================================
 --; REPLAY MENU SCREENPACK DEFINITION
@@ -1081,18 +1169,19 @@ replayMenuBG2 = animNew(sprIkemen, [[
 250,0, 0,0,
 ]])
 animSetPos(replayMenuBG2, -13, 77)
-animUpdate(replayMenuBG2)
 animSetScale(replayMenuBG2, 0.9, 0.9)
+animUpdate(replayMenuBG2)
 
 --Replay Option Input Hints Panel
 function drawReplayInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 219
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================
@@ -1123,180 +1212,27 @@ for i=1, #t_statsMenu do
 end
 
 --;===========================================================
---; GALLERY MENU SCREENPACK DEFINITION
---;===========================================================
-txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 13)
-txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
-txt_galleryNoData = "NO SPRITE DATA FOUND."
-txt_galleryUnknown = "???"
-
---Gallery Size Definition
-galleryColumns = 3
-galleryHiddenColumns = 0
-galleryRows = 2
-galleryHiddenRows = 3
-
---Gallery Window
-galleryWindowX1 = 0
-galleryWindowY1 = 35
-galleryWindowX2 = 320
-galleryWindowY2 = 160
-
---Gallery Art Common Values
-galleryPreviewArtPosX = 940
-galleryPreviewArtPosY = 1270
-
-galleryPreviewArtSpacingX = 950
-galleryPreviewArtSpacingY = 218
-
-galleryPreviewArtScaleX = 0.0558
-galleryPreviewArtScaleY = 0.0558
-
---Preview Slot Item
-galleryPreviewSlot = animNew(sprIkemen, [[
-20,0, 0,0, -1
-]])
-animSetScale(galleryPreviewSlot, 1.0, 1.0)
-
-galleryPreviewSlotPosX = 5
-galleryPreviewSlotPosY = 43
-
-galleryPreviewSlotSizeX = 96
-galleryPreviewSlotSizeY = 56
-
-galleryPreviewSlotSpacingX = 6
-galleryPreviewSlotSpacingY = 6
-
---Preview Cursor
-galleryPreviewCursor = animNew(sprIkemen, [[
-22,0, 0,0, -1
-]])
-animSetScale(galleryPreviewCursor, 1.0, 1.0)
-
-galleryPreviewCursorPosX = 5
-galleryPreviewCursorPosY = 43
-
-galleryPreviewCursorSizeX = 96
-galleryPreviewCursorSizeY = 56
-
-galleryPreviewCursorSpacingX = 6
-galleryPreviewCursorSpacingY = 6
-
---Preview Unknown
-galleryPreviewUnknown = animNew(sprIkemen, [[
-23,0, 0,0, -1
-]])
-animSetScale(galleryPreviewUnknown, 1.0, 1.0)
-
-galleryPreviewUnknownPosX = 6.9
-galleryPreviewUnknownPosY = 44.9
-
-galleryPreviewUnknownSizeX = 90
-galleryPreviewUnknownSizeY = 50
-
-galleryPreviewUnknownSpacingX = 12
-galleryPreviewUnknownSpacingY = 12
-
---Info BG
-galleryInfoBG = animNew(sprIkemen, [[
-230,3, 0,0, -1
-]])
-animSetScale(galleryInfoBG, 2.9, 0.40)
-animSetAlpha(galleryInfoBG, 155, 22)
-
-function drawGalleryInputHints()
-	local inputHintYPos = 219
-	local hintFont = font2
-	local hintFontYPos = 233
-	drawInputHintsP1("y","20,5","z","270,5","u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","184,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 139, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 205, hintFontYPos)
-end
-
---;===========================================================
---; ARTWORK DISPLAY SCREENPACK DEFINITION
---;===========================================================
-txt_artInfo = createTextImg(font5, 0, 0, "", 159, 180) --font2
-
-galleryArtPosX = 160
-galleryArtPosY = 120
-
-galleryArtSizeX = 894
-galleryArtSizeY = 894
-
-galleryArtScaleX = 0.27
-galleryArtScaleY = 0.27
-
-galleryArtMoveSpeed = 10
-galleryArtZoomSpeed = 0.01
-
-galleryArtZoomLimitX = 0.05
-galleryArtZoomLimitY = 1.99
-
-galleryArtMoveLimitX1 = -320
-galleryArtMoveLimitY1 = -300
-galleryArtMoveLimitX2 = 420
-galleryArtMoveLimitY2 = 640
-
---Background
-artworkBG = animNew(sprFade, [[
-0,1, 0,0, -1
-]])
-animAddPos(artworkBG, 0, 0)
-animUpdate(artworkBG)
-
---Info BG
-artworkInfoBG = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetPos(artworkInfoBG, -54, 166)
-animSetScale(artworkInfoBG, 428, 20)
-animSetAlpha(artworkInfoBG, 20, 50)
-animUpdate(artworkInfoBG)
-
---Input Hints BG
-gInputsBG = animNew(sprIkemen, [[
-230,3, 0,0, -1
-]])
-animSetScale(gInputsBG, 2.9, 0.75)
-animSetAlpha(gInputsBG, 155, 22)
-
---Artwork Input Hints Panel
-function drawArtInputHints()
-	local inputHintYPos = 197
-	local inputHintYPos2 = 219
-	local hintFont = font2
-	local hintFontYPos = 211
-	local hintFontYPos2 = 233
-	animPosDraw(gInputsBG, -56, 195) --Draw Input Hints BG
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"e","108,"..inputHintYPos,"b","165,"..inputHintYPos,"c","229,"..inputHintYPos,"s","277,"..inputHintYPos,"q","0,"..inputHintYPos2,"w","80,"..inputHintYPos2,"y","174,"..inputHintYPos2,"z","247,"..inputHintYPos2)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Move", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 129, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Previous", 186, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Next", 250, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 298, hintFontYPos)
-	--
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 21, hintFontYPos2)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Reset Position", 101, hintFontYPos2)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Zoom Out", 195, hintFontYPos2)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Zoom In", 268, hintFontYPos2)
-end
-
---;===========================================================
 --; SOUND TEST MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_song = createTextImg(jgFnt, 0, 0, "", 159, 13)
 
+--Menu Arrows
+function f_resetSoundTestArrowsPos()
+animSetPos(menuArrowLeft, 69, 21)
+animSetPos(menuArrowRight, 242, 21)
+end
+
 --Input Hints Panel
 function drawSoundTestInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Play", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Mute", 266, hintFontYPos)
 end
 
 --;===========================================================
@@ -1309,8 +1245,8 @@ confirmSongWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(confirmSongWindowBG, 83.5, 97)
-animUpdate(confirmSongWindowBG)
 animSetScale(confirmSongWindowBG, 1, 1)
+animUpdate(confirmSongWindowBG)
 
 t_confirmSongMenu = {
 	{id = textImgNew(), text = "YES"},
@@ -1339,23 +1275,16 @@ licenseTitleBG = animNew(sprIkemen, [[
 animSetScale(licenseTitleBG, 2.9, 0.30)
 animSetAlpha(licenseTitleBG, 155, 22)
 
---Input Hints BG
-lInputsBG = animNew(sprIkemen, [[
-230,3, 0,0, -1
-]])
-animSetScale(lInputsBG, 2.9, 0.37)
-animSetAlpha(lInputsBG, 155, 22)
-
 --Input Hints Panel
 function drawLicenseInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(lInputsBG, -56, 217) --Draw Input Hints BG
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 132, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("l","45,"..inputHintYPos,"r","65,"..inputHintYPos,"u","127,"..inputHintYPos,"d","147,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 86, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 169, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================
@@ -1379,16 +1308,16 @@ textWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(textWindowBG, 83.5, 97)
-animUpdate(textWindowBG)
 animSetScale(textWindowBG, 1, 1)
+animUpdate(textWindowBG)
 
 --Connecting Window BG
 joinWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(joinWindowBG, 83.5, 54)
-animUpdate(joinWindowBG)
 animSetScale(joinWindowBG, 1, 2)
+animUpdate(joinWindowBG)
 
 --Connecting Icon
 wirelessBG = animNew(sprIkemen, [[
@@ -1401,8 +1330,8 @@ wirelessBG = animNew(sprIkemen, [[
 400,6, 0,0, 18
 ]])
 animAddPos(wirelessBG, 125, 87.5)
-animUpdate(wirelessBG)
 animSetScale(wirelessBG, 0.25, 0.25)
+animUpdate(wirelessBG)
 
 --;===========================================================
 --; ONLINE DIRECT JOIN CLIENT MENU SCREENPACK DEFINITION
@@ -1441,14 +1370,15 @@ crudHostWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(crudHostWindowBG, 60.5, 125)
-animUpdate(crudHostWindowBG)
 animSetScale(crudHostWindowBG, 1.3, 1.3)
+animUpdate(crudHostWindowBG)
 
 function drawCrudHostInputHints()
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
+	animPosDraw(inputHintsBG, -56, 212)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1513,14 +1443,16 @@ sideSelArrowRight = animNew(sprIkemen, [[
 224,0, 0,0, 10
 ]])
 
+--Input Hints Panel
 function drawSideInputHints()
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	animPosDraw(inputHintsBG, -56, 212)
+	drawInputHintsP1("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================
@@ -1598,91 +1530,16 @@ animSetTile(intermissionWindowSlideD, 1, 1)
 animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
 
 --;===========================================================
---; CONFIRM MENU SCREENPACK DEFINITION
---;===========================================================
-txt_confirmQuestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
-txt_abyssDatConfirmTitle = createTextImg(jgFnt, 0, 0, "", 161.5, 112)
-
---Confirm Window BG
-confirmWindowBG = animNew(sprIkemen, [[
-230,1, 0,0, -1
-]])
-animSetPos(confirmWindowBG, 83.5, 97)
-animSetScale(confirmWindowBG, 1, 1)
-animUpdate(confirmWindowBG)
-
---Abyss Confirm Window BG
-abyssConfirmWindowBG = animNew(sprIkemen, [[
-230,1, 0,0, -1
-]])
-animSetPos(abyssConfirmWindowBG, 62, 97)
-animSetScale(abyssConfirmWindowBG, 1.3, 1)
-animUpdate(abyssConfirmWindowBG)
-
-t_confirmMenu = {
-	{id = textImgNew(), text = "YES"},
-	{id = textImgNew(), text = "NO"},
-}
-
-function drawConfirmInputHints()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
-end
-
---;===========================================================
---; CLOSE/RESTART MESSAGE SCREENPACK DEFINITION
---;===========================================================
-txt_question = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
-
---Exit Window BG
-exitWindowBG = animNew(sprIkemen, [[
-230,1, 0,0, -1
-]])
-animSetPos(exitWindowBG, 83.5, 97)
-animUpdate(exitWindowBG)
-animSetScale(exitWindowBG, 1, 1)
-
-t_closeMenu = {
-	{id = textImgNew(), text = "YES"},
-	{id = textImgNew(), text = "NO"},
-}
-
---;===========================================================
 --; BLACK SCREEN MESSAGE SCREENPACK DEFINITION
 --;===========================================================
 txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
-
---;===========================================================
---; ATTRACT MENU SCREENPACK DEFINITION
---;===========================================================
-txt_attractTimer = createTextImg(font1, 0, 0, "", 302, 215)
-txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 170)
-function f_attractCredits()
-	txt_credits = createTextImg(font1, 0, -1, "Credits: "..stats.attractCoins, 181.5, 212)
-	textImgDraw(txt_credits)
-end
-
-function drawAttractInputHints()
-	local inputHintYPos = 217
-	local hintFont = font2
-	local hintFontYPos = 231
-	drawInputHintsP1("w","5,"..inputHintYPos,"s","90,"..inputHintYPos,"e","160,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Add Coin", 26, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 111, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 181, hintFontYPos)
-end
 
 --;===========================================================
 --; CHARACTER SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
 txt_charTime = createTextImg(jgFnt, 0, 0, "", 160, 70)
-txt_backquestion = createTextImg(jgFnt, 1, 0, "BACK TO MAIN MENU?", 160.5, 110,0.9,0.9)
+txt_backquestion = createTextImg(jgFnt, 0, 0, "BACK TO MAIN MENU?", 160.5, 110,0.9,0.9)
 txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)
 
@@ -1694,8 +1551,8 @@ backWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(backWindowBG, 83.5, 97)
-animUpdate(backWindowBG)
 animSetScale(backWindowBG, 1, 1)
+animUpdate(backWindowBG)
 
 t_backMenu = {
 	{id = textImgNew(), text = "YES"},
@@ -1833,7 +1690,8 @@ function drawSelectInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
 	local hintFontYPos = 234
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1844,7 +1702,8 @@ function drawStageInputHints()
 	local inputHintYPos = 21
 	local hintFont = font2
 	local hintFontYPos = 35
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	animPosDraw(inputHintsBG, -56, 21)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -2492,7 +2351,8 @@ function drawOrderInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
 	local hintFontYPos = 234
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","80,"..inputHintYPos,"r","100,"..inputHintYPos,"w","179,"..inputHintYPos)
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","80,"..inputHintYPos,"r","100,"..inputHintYPos,"s","179,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Order", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 199.5, hintFontYPos)
@@ -2664,8 +2524,8 @@ animSetWindow(quoteBG, 14, 152, 290, 65)
 --; REMATCH SCREENPACK DEFINITION
 --;===========================================================
 txt_rematchCPU = createTextImg(font6, 0, 0, "BATTLE OPTION", 160, 87)
-txt_rematch = createTextImg(font6, 0, 0, "P1 BATTLE OPTION", 86, 87)
-txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 237, 87)
+txt_rematch = createTextImg(font6, 0, 0, "P1 BATTLE OPTION", 76, 87)
+txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 246, 87)
 txt_rematchTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
 t_battleOption = {
@@ -2677,49 +2537,41 @@ t_battleOption = {
 for i=1, #t_battleOption do
 	t_battleOption[i]['id'] = textImgNew()
 end
-
-t_battleOption2 = {
-	{text = t_battleOption[1].text}, --Get rematch text from above table
-	{text = t_battleOption[2].text},
-	{text = t_battleOption[3].text},
-	{text = t_battleOption[4].text},
-}
-for i=1, #t_battleOption2 do
-	t_battleOption2[i]['id'] = textImgNew()
-end
+t_battleOption2 = t_battleOption --Reuse t_battleOption to generate P2 table
 
 --Rematch Window BG
 rematchWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rematchWindowBG, 0.4, 82)
-animUpdate(rematchWindowBG)
 animSetScale(rematchWindowBG, 1.005, 1.1)
+animUpdate(rematchWindowBG)
 
 --Rematch Window BG CPU
 rematchCPUWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rematchCPUWindowBG, 83.5, 82)
-animUpdate(rematchCPUWindowBG)
 animSetScale(rematchCPUWindowBG, 1.005, 1.1)
+animUpdate(rematchCPUWindowBG)
 
 --Rematch Window BG Player 2
 rematch2WindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rematch2WindowBG, 168.4, 82)
-animUpdate(rematch2WindowBG)
 animSetScale(rematch2WindowBG, 1.005, 1.1)
+animUpdate(rematch2WindowBG)
 
 --Rematch Input Hints Panel
 function drawRematchInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","130,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 151, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"s","172,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 193, hintFontYPos)
 end
 
 --;===========================================================
@@ -2735,56 +2587,41 @@ rankWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(rankWindowBG, 83.5, 97)
-animUpdate(rankWindowBG)
 animSetScale(rankWindowBG, 1, 1)
+animUpdate(rankWindowBG)
 
 --;===========================================================
 --; SERVICE SCREENPACK
 --;===========================================================
 txt_service = createTextImg(jgFnt, 0, 0, "SELECT A SERVICE", 159, 13)
 txt_serviceTime = createTextImg(jgFnt, 0, 0, "", 160, 122)
+txt_noService = createTextImg(font2, 0, 0, "", 159.5, 210)
+
+txt_noServiceCoop = "This service is Unavailable in Co-Op Mode."
+txt_noServiceQuickCont = "You have Disabled Change Characters by Quick Continue."
 
 t_service = {
-	{text = "DIFFICULTY LEVEL DOWN"},
-	{text = "POWER WILL START AT MAX"},
-	{text = "ENEMY LIFE AT 1/3"},
-	{text = "CHANGE TEAM MODE"},
-	{text = "DOUBLE DEFENCE"},
-	{text = "NO SERVICE"},
+	{text = "DIFFICULTY LEVEL DOWN",	service = "ailevel"},
+	{text = "POWER WILL START AT MAX",	service = "max power"},
+	{text = "ENEMY LIFE AT 1/3",		service = "low cpu life"},
+	{text = "CHANGE TEAM MODE",			service = "team change"},
+	{text = "DOUBLE DEFENCE",			service = "defence x2"},
+	{text = "NO SERVICE",				service = ""},
 }
 for i=1, #t_service do
 	t_service[i]['id'] = ''
 end
 
-t_lockedService = {
-	{text = "This service is Unavailable in Co-Op Mode."},
-}
-for i=1, #t_lockedService do
-	t_lockedService[i]['id'] = createTextImg(font2, 0, 0, t_lockedService[i].text, 161, 190+i*15)
-end
-
-t_noService = {
-	{text = "You have Disabled Change Characters by Quick Continue."},
-}
-for i=1, #t_noService do
-	t_noService[i]['id'] = createTextImg(font2, 0, 0, t_noService[i].text, 159.5, 190+i*15)
-end
-
-t_devService = {
-	{text = "This service will be available coming soon."},
-}
-for i=1, #t_devService do
-	t_devService[i]['id'] = createTextImg(font2, 0, 0, t_devService[i].text, 161, 190+i*15)
-end
-
 --Service Input Hints Panel
 function drawServiceInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 219
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","130,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 151, hintFontYPos)
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":No Service", 231, hintFontYPos)
 end
 
 --;===========================================================
@@ -2828,112 +2665,112 @@ rankF = animNew(sprIkemen, [[
 210,0, 0,0,
 ]])
 animAddPos(rankF, 236, 205)
-animUpdate(rankF)
 animSetScale(rankF, 0.5, 0.5)
+animUpdate(rankF)
 
 --Rank D-
 rankDM = animNew(sprIkemen, [[
 210,1, 0,0,
 ]])
 animAddPos(rankDM, 236, 205)
-animUpdate(rankDM)
 animSetScale(rankDM, 0.5, 0.5)
+animUpdate(rankDM)
 
 --Rank D
 rankD = animNew(sprIkemen, [[
 210,2, 0,0,
 ]])
 animAddPos(rankD, 236, 205)
-animUpdate(rankD)
 animSetScale(rankD, 0.5, 0.5)
+animUpdate(rankD)
 
 --Rank D+
 rankDP = animNew(sprIkemen, [[
 210,3, 0,0,
 ]])
 animAddPos(rankDP, 236, 205)
-animUpdate(rankDP)
 animSetScale(rankDP, 0.5, 0.5)
+animUpdate(rankDP)
 
 --Rank C
 rankC = animNew(sprIkemen, [[
 210,4, 0,0,
 ]])
 animAddPos(rankC, 236, 205)
-animUpdate(rankC)
 animSetScale(rankC, 0.5, 0.5)
+animUpdate(rankC)
 
 --Rank C+
 rankCP = animNew(sprIkemen, [[
 210,5, 0,0,
 ]])
 animAddPos(rankCP, 236, 205)
-animUpdate(rankCP)
 animSetScale(rankCP, 0.5, 0.5)
+animUpdate(rankCP)
 
 --Rank B
 rankB = animNew(sprIkemen, [[
 210,6, 0,0,
 ]])
 animAddPos(rankB, 236, 205)
-animUpdate(rankB)
 animSetScale(rankB, 0.5, 0.5)
+animUpdate(rankB)
 
 --Rank B+
 rankBP = animNew(sprIkemen, [[
 210,7, 0,0,
 ]])
 animAddPos(rankBP, 236, 205)
-animUpdate(rankBP)
 animSetScale(rankBP, 0.5, 0.5)
+animUpdate(rankBP)
 
 --Rank A
 rankA = animNew(sprIkemen, [[
 210,8, 0,0,
 ]])
 animAddPos(rankA, 236, 205)
-animUpdate(rankA)
 animSetScale(rankA, 0.5, 0.5)
+animUpdate(rankA)
 
 --Rank A+
 rankAP = animNew(sprIkemen, [[
 210,9, 0,0,
 ]])
 animAddPos(rankAP, 236, 205)
-animUpdate(rankAP)
 animSetScale(rankAP, 0.5, 0.5)
+animUpdate(rankAP)
 
 --Rank S
 rankS = animNew(sprIkemen, [[
 210,10, 0,0,
 ]])
 animAddPos(rankS, 236, 205)
-animUpdate(rankS)
 animSetScale(rankS, 0.5, 0.5)
+animUpdate(rankS)
 
 --Rank S+
 rankSP = animNew(sprIkemen, [[
 210,11, 0,0,
 ]])
 animAddPos(rankSP, 236, 205)
-animUpdate(rankSP)
 animSetScale(rankSP, 0.5, 0.5)
+animUpdate(rankSP)
 
 --Rank XS
 rankXS = animNew(sprIkemen, [[
 210,12, 0,0,
 ]])
 animAddPos(rankXS, 232, 205)
-animUpdate(rankXS)
 animSetScale(rankXS, 0.5, 0.5)
+animUpdate(rankXS)
 
 --Rank GDLK
 rankGDLK = animNew(sprIkemen, [[
 210,13, 0,0,
 ]])
 animAddPos(rankGDLK, 240, 205)
-animUpdate(rankGDLK)
 animSetScale(rankGDLK, 0.5, 0.5)
+animUpdate(rankGDLK)
 
 --;===========================================================
 --; CONTINUE SCREENPACK DEFINITION
@@ -2972,10 +2809,9 @@ animUpdate(contBG2)
 function drawContinueInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 234
-	drawInputHintsP1("a","0,200","b","20,200","c","40,200","x","0,"..inputHintYPos,"y","20,"..inputHintYPos,"z","40,"..inputHintYPos,"w","150,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Countdown", 61, 224)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 171, hintFontYPos)
+	drawInputHintsP1("a","60,200","b","80,200","c","100,200","x","60,"..inputHintYPos,"y","80,"..inputHintYPos,"z","100,"..inputHintYPos,"s","180,211")
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Countdown", 121, 224)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 201, 224)
 end
 
 --;===========================================================
@@ -3433,8 +3269,8 @@ destinyBG = animNew(sprIkemen, [[
 40,0, 0,0, -1
 ]])
 animAddPos(destinyBG, -55, 0)
-animUpdate(destinyBG)
 animSetScale(destinyBG, 1.1, 1)
+animUpdate(destinyBG)
 
 --Destiny Cursor
 destinyCursor = animNew(sprIkemen, [[
@@ -3476,18 +3312,25 @@ animUpdate(towerSlot)
 towerStgPreview = animNew(sprIkemen, [[
 111,0, 0,0, -1
 ]])
-animUpdate(towerStgPreview)
 animSetScale(towerStgPreview, 0.79, 0.50)
+animUpdate(towerStgPreview)
+
+--Menu Arrows
+function f_resetTowerArrowsPos()
+animSetPos(menuArrowLeft, 0, 200)
+animSetPos(menuArrowRight, 310, 200)
+end
 
 --Tower Input Hints Panel
 function drawTowerInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;=================================================================================================
@@ -3498,8 +3341,8 @@ destinyFinalBG = animNew(sprIkemen, [[
 40,1, 0,0, -1
 ]])
 animAddPos(destinyFinalBG, 0, 0)
-animUpdate(destinyFinalBG)
 animSetScale(destinyFinalBG, 1.1, 1)
+animUpdate(destinyFinalBG)
 
 --Tower Slot
 battleSlot = animNew(sprIkemen, [[43,1, 0,0,]])
@@ -3509,15 +3352,15 @@ animUpdate(battleSlot)
 --VS Preview
 vsPreview = animNew(sprIkemen, [[44,1, 0,0,]])
 animAddPos(vsPreview, 138, 113)
-animUpdate(vsPreview)
 animSetScale(vsPreview, 0.75, 0.75)
+animUpdate(vsPreview)
 
 --Stage Preview (Random Icon)
 battleStgPreview = animNew(sprIkemen, [[
 111,0, 0,0, -1
 ]])
-animUpdate(battleStgPreview)
 animSetScale(battleStgPreview, 1.53, 1.34)
+animUpdate(battleStgPreview)
 
 --;===========================================================
 --; TOURNAMENT SETTINGS SCREENPACK DEFINITION
@@ -3542,13 +3385,14 @@ end
 
 --Input Hints Panel
 function drawTourneyInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
 
 --4 Players Grid
@@ -3699,30 +3543,35 @@ animSetAlpha(tourneyInputsBG, 155, 22)
 
 --Tournament Not Started Input Hints Panel
 function drawTourneyInputHints2()
-	local inputHintYPos = 218
+	local inputHintYPosUp = 199
+	local inputHintYPosDown = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(tourneyInputsBG, -56, 195) --Draw Input Hints BG
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos,"a","0,197","s","120,197","w","245,197")
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Set Control", 22, 210)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Tourney", 142, 210)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Slot", 266, 210)
+	local hintFontYPosUp = 212
+	local hintFontYPosDown = 234
+	animPosDraw(tourneyInputsBG, -56, 198) --Draw Input Hints BG
+	drawInputHintsP1(
+		"w","25,"..inputHintYPosUp,"s","110,"..inputHintYPosUp,"e","185,"..inputHintYPosUp,"q","250,"..inputHintYPosUp,
+		"u","5,"..inputHintYPosDown,"d","25,"..inputHintYPosDown,"l","45,"..inputHintYPosDown,"r","65,"..inputHintYPosDown,"a","125,"..inputHintYPosDown,"b","145,"..inputHintYPosDown,"c","165,"..inputHintYPosDown,"x","185,"..inputHintYPosDown,"y","205,"..inputHintYPosDown,"z","225,"..inputHintYPosDown
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Set Control", 46, hintFontYPosUp)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Slot", 131, hintFontYPosUp)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPosUp)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 271, hintFontYPosUp)
 	--
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 86, hintFontYPosDown)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Tourney", 246, hintFontYPosDown)
 end
 
 --Tournament Started Input Hints Panel
 function drawTourneyInputHints3()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(tourneyInputsBG, -56, 215) --Draw Input Hints BG
-	drawInputHintsP1("w","0,"..inputHintYPos,"e","120,"..inputHintYPos,"y","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Next Match", 21, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 206, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(tourneyInputsBG, -56, 219) --Draw Input Hints BG
+	drawInputHintsP1("s","40,"..inputHintYPos,"e","162,"..inputHintYPos,"q","223,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Next Match", 61, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 183, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 244, hintFontYPos)
 end
 
 --;===========================================================
@@ -3757,6 +3606,7 @@ txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
 txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
+abyssCheckpointNo = 5 --Each 100 Depths you will reach a checkpoint (Back to Abyss Map to choose "continue" or "stop exploring")
 abyssBossMatchNo = 20 --Each 20 match a boss will appear
 abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a normal boss
 
@@ -3772,7 +3622,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 				stats = 5, --Special Boss stats (life, power, attack, defence)
 				pal = 1, --Palette
 				ailevel = 8, --CPU Level
-				itemslot = {[1] = "Power Drain", [2] = "", [3] = ""} --Special Items
+				itemslot = {[1] = "Power Drain", [2] = "", [3] = "", [4] = ""} --Special Items
 			},
 		},
 	},
@@ -3800,7 +3650,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 		--Boss 3
 			{
 				char = "Kung Fu Girl/Master/Master Kung Fu Girl.def",
-				stage = "stages/Mountainside Temple/Hidden Path Night.def",
+				stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 				--music = "sound/",
 				depth = 500,
 				stats = 20,
@@ -3814,7 +3664,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 		--Boss 1
 			{
 				char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
-				stage = "stages/Mountainside Temple/Lobby 2 Night.def",
+				stage = "stages/Mountainside Temple/Lobby Night.def",
 				music = "sound/Killer Mirror.mp3",
 				depth = 40,
 				stats = 15,
@@ -3824,7 +3674,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 		--Boss 2
 			{
 				char = "Kung Fu Man/Master/Master Kung Fu Man.def",
-				stage = "stages/Mountainside Temple/Lobby Night.def",
+				stage = "stages/Mountainside Temple/Outside.def",
 				depth = 200,
 				stats = 20,
 				pal = 1,
@@ -3833,7 +3683,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 		--Boss 3
 			{
 				char = "Kung Fu Girl/Master/Master Kung Fu Girl.def",
-				stage = "stages/Mountainside Temple/Outside.def",
+				stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 				depth = 400,
 				stats = 25,
 				pal = 7,
@@ -3886,44 +3736,42 @@ animSetAlpha(abyssFog, 50,255)
 
 --Info BG
 abyssSelInfoBG = animNew(sprIkemen, [[
-230,3, 0,0, -1
+3,0, 0,0, -1
 ]])
-animSetScale(abyssSelInfoBG, 2.9, 0.40)
-animSetAlpha(abyssSelInfoBG, 155, 22)
+animSetScale(abyssSelInfoBG, 430, 24)
+animSetAlpha(abyssSelInfoBG, 0, 50)
+animUpdate(abyssSelInfoBG)
 
 --Info Window BG
 abyssSelWindowBG = animNew(sprIkemen, [[
 230,2, 0,0, -1
 ]])
-animUpdate(abyssSelWindowBG)
 animSetScale(abyssSelWindowBG, 0.8, 1.4)
+animUpdate(abyssSelWindowBG)
 
 --Continue Window BG
 abyssContBG = animNew(sprIkemen, [[
 230,2, 0,0, -1
 ]])
-animUpdate(abyssContBG)
 animSetScale(abyssContBG, 0.95, 0.40)
+animUpdate(abyssContBG)
 
-function drawAbyssInputHints(shop, refund)
-	local shop = shop or false
-	local refund = refund or false
-	local btnInfo = ""
-	local keyInfo = ""
-	if shop then
-		btnInfo = ":Buy Item"
-	else
-		btnInfo = ":Confirm"
-	end
-	if refund then keyInfo = "s" end
-	local inputHintYPos = 219
+--Menu Arrows
+function f_resetAbyssArrowsPos()
+animSetPos(menuArrowLeft, 0, 90)
+animSetPos(menuArrowRight, 312, 90)
+end
+
+function drawAbyssSelInputHints()
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 233
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","118,"..inputHintYPos,"e","186,"..inputHintYPos,keyInfo,"244,"..inputHintYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, btnInfo, 139, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 207, hintFontYPos)
-	if refund then f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Refund", 265, hintFontYPos) end
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Drop Skills", 266, hintFontYPos)
 end
 
 --;===========================================================
@@ -3963,8 +3811,8 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159+NewPosX, 90+NewPosY, 1.2, 1.2)
 	else --Show Data Saved
 		--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
-		drawPortrait(saveDat.player[1].cel, 7+NewPosX, 48+NewPosY, 0.5, 0.5)
-		animPosDraw(abyssProfileAtributes, 207+NewPosX, 50+NewPosY)
+		drawPortrait(saveDat.player[1].cel, 6+NewPosX, 47+NewPosY, 0.515, 0.517)
+		animPosDraw(abyssProfileAtributes, 207+NewPosX, 47+NewPosY)
 	--Stats
 		local stsFont = font2
 		local stsFontXPos = 70+NewPosX
@@ -3976,7 +3824,7 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 	--Attributes
 		local attrFont = font2
 		local attrFontXPos = 225+NewPosX
-		local attrFontYPos = 61+NewPosY
+		local attrFontYPos = 58+NewPosY
 		local attrSymb = "+"
 		local attrMax = "MAX"
 		f_drawQuickText(txt_abyssDatAttack, attrFont, 0, 1, attrSymb..saveDat.attack, attrFontXPos, attrFontYPos)
@@ -3986,18 +3834,26 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 	--Special Items
 		local spFont = font2
 		local spFontXPos = 310+NewPosX
-		local spFontYPos = 93+NewPosY
+		local spFontYPos = 88+NewPosY
 		f_drawQuickText(txt_abyssDatSP1, spFont, 0, -1, saveDat.itemslot[1], spFontXPos, spFontYPos)
-		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, saveDat.itemslot[2], spFontXPos, spFontYPos+12)
-		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, saveDat.itemslot[3], spFontXPos, spFontYPos+24)
+		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, saveDat.itemslot[2], spFontXPos, spFontYPos+10)
+		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, saveDat.itemslot[3], spFontXPos, spFontYPos+20)
+		f_drawQuickText(txt_abyssDatSP4, spFont, 0, -1, saveDat.itemslot[4], spFontXPos, spFontYPos+30)
 	end
 end
 
+--Menu Arrows
+function f_resetAbyssDatArrowsPos()
+animSetPos(menuArrowUp, 305, 14)
+animSetPos(menuArrowDown, 305, 220)
+end
+
 function drawAbyssDatInputHints()
-	local inputHintYPos = 219
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 233
-	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"w","108,"..inputHintYPos,"e","171,"..inputHintYPos,"q","229,"..inputHintYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"s","108,"..inputHintYPos,"e","171,"..inputHintYPos,"q","229,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 71, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 129, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Cancel", 192, hintFontYPos)
@@ -4276,41 +4132,41 @@ animUpdate(abyssTBG)
 abyssProfileBG = animNew(sprIkemen, [[
 62,1, 0,0, -1
 ]])
-animUpdate(abyssProfileBG)
 animSetScale(abyssProfileBG, 1, 1)
+animUpdate(abyssProfileBG)
 
 --Character Profile Atributes Sprites
 abyssProfileAtributes = animNew(sprIkemen, [[
 62,2, 0,0, -1
 ]])
-animUpdate(abyssProfileAtributes)
 animSetScale(abyssProfileAtributes, 0.5, 0.5)
+animUpdate(abyssProfileAtributes)
 
-function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
-	local NewPosX = NewPosX or 0
-	local NewPosY = NewPosY or 0
+function f_abyssProfile(PauseMenu, VSscreen, NewPosX, NewPosY)
 	local PauseMenu = PauseMenu or false
 	local VSscreen = VSscreen or false
+	local NewPosX = NewPosX or 0
+	local NewPosY = NewPosY or 0
 	local pLevel = math.floor((getAbyssAttack() + getAbyssPower() + getAbyssDefence() + getAbyssLife())/4) --Just an Average
 	if not VSscreen then
-		animPosDraw(abyssProfileBG, 165+NewPosX, 20+NewPosY)
+		animPosDraw(abyssProfileBG, 165+NewPosX, 10+NewPosY)
 	else
 		--animPosDraw(abyssProfileVSBG, 165+NewPosX, 20+NewPosY)
 	end
-	animPosDraw(abyssProfileAtributes, 190+NewPosX, 74+NewPosY)
+	animPosDraw(abyssProfileAtributes, 190+NewPosX, 64+NewPosY)
 --Character Stuff
 	if not VSscreen then
-		if not PauseMenu then drawPortrait(abyssDat.nosave.player[1].cel, 223+NewPosX, 25+NewPosY, 0.32, 0.32) end
-		for slot=1, 3 do
-			animPosDraw(abyssSpecialItem, 169+NewPosX, 92.5+slot*(22+0.9)+NewPosY)
+		if not PauseMenu then drawPortrait(abyssDat.nosave.player[1].cel, 223+NewPosX, 15+NewPosY, 0.32, 0.32) end
+		for slot=1, 4 do
+			animPosDraw(abyssSpecialItem, 169+NewPosX, 82.5+slot*(22.6)+NewPosY)
 		end
-		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 35+NewPosY, 1, 1)
-		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.player[1].displayname, 241+NewPosX, 68+NewPosY, 1, 1)
+		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 25+NewPosY, 1, 1)
+		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.player[1].displayname, 241+NewPosX, 58+NewPosY, 1, 1)
 	end
 --Attributes
 	local attrFont = font2
 	local attrFontXPos = 208+NewPosX
-	local attrFontYPos = 85+NewPosY
+	local attrFontYPos = 75+NewPosY
 	local attrSymb = "+"
 	local attrMax = "MAX"
 	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..getAbyssAttack(), attrFontXPos, attrFontYPos)
@@ -4320,33 +4176,35 @@ function f_abyssProfile(NewPosX, NewPosY, PauseMenu, VSscreen)
 --Special Items
 	local spFont = font2
 	local spFontXPos = 188+NewPosX
-	local spFontYPos = 128+NewPosY
+	local spFontYPos = 118+NewPosY
 	f_drawQuickText(txt_abyssSP1, spFont, 0, 1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
 	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+23)
 	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+45)
---Currency
-	if not VSscreen and not PauseMenu then f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.coins.." IKC", 315+NewPosX, 15+NewPosY, 1.2, 1.2) end
+	f_drawQuickText(txt_abyssSP4, spFont, 0, 1, abyssDat.nosave.itemslot[4], spFontXPos, spFontYPos+68)
 end
 
-function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
+function f_abyssProfileCPU(VSscreen, NewPosX, NewPosY)
+	local VSscreen = VSscreen or false
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
-	local VSscreen = VSscreen or false
 	local pLevel = math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life)/4) --Just an Average with rounding up
 	if not VSscreen then
-		animPosDraw(abyssProfileBG, 169, 54)
+		animPosDraw(abyssProfileBG, 169, 34)
+		for slot=1, 4 do
+			animPosDraw(abyssSpecialItem, 172, 107+slot*(22.6))
+		end
 	end
-	animPosDraw(abyssProfileAtributes, 194+NewPosX, 108+NewPosY)
+	animPosDraw(abyssProfileAtributes, 194+NewPosX, 88+NewPosY)
 --Character Stuff
 	if not VSscreen then
-		--drawPortrait(p2Dat[1].cel, 223, 59, 0.32, 0.32)
-		f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel+1, 314, 69, 1, 1)
-		f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 102, 1, 1)
+		--drawPortrait(p2Dat[1].cel, 223, 39, 0.32, 0.32)
+		f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel+1, 314, 49, 1, 1)
+		f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 82, 1, 1)
 	end
 --Attributes
 	local attrFont = font2
 	local attrFontXPos = 212+NewPosX
-	local attrFontYPos = 119+NewPosY
+	local attrFontYPos = 99+NewPosY
 	local attrSymb = "+"
 	local attrMax = "MAX"
 	f_drawQuickText(txt_abyssAttackCPU, attrFont, 0, 1, attrSymb..p2Dat[1].attack, attrFontXPos, attrFontYPos)
@@ -4355,20 +4213,50 @@ function f_abyssProfileCPU(NewPosX, NewPosY, VSscreen)
 	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos+62, attrFontYPos+18)
 --Special Items
 	local spFont = font2
-	local spFontXPos = 314+NewPosX
-	local spFontYPos = 162+NewPosY
+	local spFontXPos = 191+NewPosX
+	local spFontYPos = 142+NewPosY
 	if p2Dat[1].itemslot ~= nil then
-		if p2Dat[1].itemslot[1] ~= nil then f_drawQuickText(txt_abyssSP1CPU, spFont, 0, -1, p2Dat[1].itemslot[1], spFontXPos, spFontYPos) end
-		if p2Dat[1].itemslot[2] ~= nil then f_drawQuickText(txt_abyssSP2CPU, spFont, 0, -1, p2Dat[1].itemslot[2], spFontXPos, spFontYPos+23) end
-		if p2Dat[1].itemslot[3] ~= nil then f_drawQuickText(txt_abyssSP3CPU, spFont, 0, -1, p2Dat[1].itemslot[3], spFontXPos, spFontYPos+45) end
+		if p2Dat[1].itemslot[1] ~= nil then f_drawQuickText(txt_abyssSP1CPU, spFont, 0, 1, p2Dat[1].itemslot[1], spFontXPos, spFontYPos) end
+		if p2Dat[1].itemslot[2] ~= nil then f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].itemslot[2], spFontXPos, spFontYPos+23) end
+		if p2Dat[1].itemslot[3] ~= nil then f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].itemslot[3], spFontXPos, spFontYPos+45) end
+		if p2Dat[1].itemslot[4] ~= nil then f_drawQuickText(txt_abyssSP4CPU, spFont, 0, 1, p2Dat[1].itemslot[4], spFontXPos, spFontYPos+68) end
 	end
+end
+
+--Menu Arrows
+function f_resetAbyss2ArrowsPos()
+animSetPos(menuArrowUp, 153, 15)
+animSetPos(menuArrowDown, 153, 175.5)
+end
+
+--Input Hints Panel
+function drawAbyssInputHints(shop, refund)
+	local shop = shop or false
+	local refund = refund or false
+	local btnInfo = ""
+	local keyInfo = ""
+	if shop then
+		btnInfo = ":Buy Item"
+	else
+		btnInfo = ":Confirm"
+	end
+	if refund then keyInfo = "q" end
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","190,"..inputHintYPos,keyInfo,"244,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, btnInfo, 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 211, hintFontYPos)
+	if refund then f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Refund", 265, hintFontYPos) end
 end
 
 --;===========================================================
 --; ABYSS MAP MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_abyssMapReward = createTextImg(font20, 0, -1, "", 314, 15)
-txt_abyssMapDepth = createTextImg(font20, 1, 0, "", 30, 35)
+txt_abyssMapDepth = createTextImg(font20, 1, 1, "", 2, 35)
 txt_abyssMapDepthLv = createTextImg(font2, 0, -1, "", 0, 0)
 
 --Map Background
@@ -4399,24 +4287,31 @@ animUpdate(abyssMapDepthBG)
 abyssMapInputWindowBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
-animSetScale(abyssMapInputWindowBG, 1.32, 0.41)
+animSetScale(abyssMapInputWindowBG, 1.18, 0.34)
 animSetAlpha(abyssMapInputWindowBG, 155, 22)
-animSetPos(abyssMapInputWindowBG, 124, 206)
 animUpdate(abyssMapInputWindowBG)
 
-function drawAbyssMapInputHints()
-	local inputHintYPos = 209
+function drawAbyssMapInputHints(checkpoint)
+	local checkpoint = checkpoint or false
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 223
-	drawInputHintsP1("w","128,"..inputHintYPos,"e","196,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 151, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 219, hintFontYPos)
+	local hintFontYPos = 234
+	local exitTxT = ""
+	local exitPosX = "99999"
+	if checkpoint then
+		exitTxT = ":Stop Exploring"
+		exitPosX = "220"
+	end
+	animPosDraw(abyssMapInputWindowBG, 142, 219)
+	drawInputHintsP1("s","148,"..inputHintYPos,"e",exitPosX..","..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, exitTxT, 243, hintFontYPos)
 end
 
 --;===========================================================
 --; ABYSS BOSS REWARDS ITEM SCREENPACK DEFINITION
 --;===========================================================
-txt_abyssRewardMain = createTextImg(font11, 0, 0, "REWARD SELECT", 80, 18, 1.2, 1.2)
+txt_abyssRewardMain = createTextImg(font11, 0, 0, "ITEM SELECT", 80, 18, 1.2, 1.2)
 txt_abyssRewardInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
 --Boss Special Reward Items
@@ -4463,8 +4358,8 @@ t_abyssReward = {
 }
 for i=1, #t_abyssReward do --Set common values to all table items
 	t_abyssReward[i].reward = true
-	t_abyssReward[i].text = "Reward +"..t_abyssReward[i].val
-	t_abyssReward[i].info = "Add "..t_abyssReward[i].val.." to your Reward."
+	t_abyssReward[i].text = "Reward +"..t_abyssReward[i].val.." IKC"
+	t_abyssReward[i].info = "Add "..t_abyssReward[i].val.."IKC to your Reward."
 end
 
 function f_addAbyssBossRewards(t_items) --Add items to t_abyssBossRewards, according to Depth Level and Abyss Difficulty
@@ -4519,12 +4414,13 @@ animSetAlpha(abyssRewardTBG, 20, 40)
 animUpdate(abyssRewardTBG)
 
 function drawAbyssRewardInputHints()
-	local inputHintYPos = 216
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 230
-	drawInputHintsP1("u","50,"..inputHintYPos,"d","70,"..inputHintYPos,"l","90,"..inputHintYPos,"r","110,"..inputHintYPos,"w","168,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 132, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 190, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"s","172,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 193, hintFontYPos)
 end
 
 --;===========================================================
@@ -4535,7 +4431,7 @@ stgBGMInfoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(stgBGMInfoBG, -54, 50)
-animSetScale(stgBGMInfoBG, 428, 20)
+animSetScale(stgBGMInfoBG, 430, 20)
 animUpdate(stgBGMInfoBG)
 
 --Save Abyss Info BG
@@ -4551,7 +4447,7 @@ animUpdate(abyssSaveInfoBG)
 --; CREDITS SCREEN SCREENPACK DEFINITION
 --;===========================================================
 txt_creditsBox = [[
-I.K.E.M.E.N PLUS ULTRA
+I.K.E.M.E.N. PLUS ULTRA
 DEVELOPER BUILD
 
 
@@ -4747,4 +4643,3 @@ CABLE DORADO 2
 CD2
 
 ]]
-

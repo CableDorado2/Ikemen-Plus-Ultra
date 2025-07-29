@@ -3,12 +3,12 @@ eventDef = "script/mods/events/events.def" --Events Data (Events definition file
 --;===========================================================
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_extrasMenu,5,{id = textImgNew(), text = "EVENTS", gotomenu = "f_eventMenu()"}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu,5,{text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
-txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
-txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 111)
-txt_lockedOk = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
 txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
+txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
+txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
+
 txt_eventIncomplete = "INCOMPLETE"
 txt_eventClear = "COMPLETED"
 
@@ -52,31 +52,38 @@ infoEventWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(infoEventWindowBG, 83.5, 97)
-animUpdate(infoEventWindowBG)
 animSetScale(infoEventWindowBG, 1, 1)
+animUpdate(infoEventWindowBG)
 
-function f_resetEventArrowsPos() --Used in Events Mode
+--Menu Arrows
+function f_resetEventArrowsPos()
 animSetPos(menuArrowLeft, 0, 123)
 animSetPos(menuArrowRight, 312, 123)
 end
 
 --Events Input Hints Panel
 function drawEventInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 219
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 function drawInfoEventInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 134
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("w","70,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
+	local hintFontYPos = 148
+--Draw Cursor
+	animSetWindow(cursorBox, 87,134, 144.5,20)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+--Draw Inputs
+	drawInputHintsP1("s","137,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Accept", 158, hintFontYPos)
 end
 
 function f_eventTime()
@@ -133,17 +140,17 @@ function f_eventMenu()
 	local previewScaleY = nil
 	local previewTransS = nil
 	local previewTransD = nil
-	f_lockedInfoReset()
+	f_eventLockedReset()
 	f_resetEventArrowsPos()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_unlock(false)
 	f_updateUnlocks()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 	--Event Progress Logic
 		stats.modes.event.clearall = (stats.modes.event.clear1 + stats.modes.event.clear2 + stats.modes.event.clear3)
 		eventsData = (math.floor((stats.modes.event.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
 		textImgSetText(txt_eventProgress,"["..eventsData.."%]")
-		if not lockedScreen then
+		if not eventLocked then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				f_saveStats()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -155,25 +162,24 @@ function f_eventMenu()
 			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 				sndPlay(sndSys, 100, 0)
 				eventMenu = eventMenu + 1
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
-				--EVENT AVAILABLE
+			--EVENT AVAILABLE
 				if t_unlockLua.modes[t_events[eventMenu].id] == nil then --If the event is unlocked
-					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					f_default()
 					data.rosterMode = "event"
 					setGameMode('event')
 					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					if t_events[eventMenu].path ~= nil then --Detects if lua file is defined
 						assert(loadfile(t_events[eventMenu].path))()
 					end
 					if winner == 1 then f_eventStatus() end --Save progress only if you win
 					f_unlock(false)
 					f_updateUnlocks()
-				--EVENT UNAVAILABLE
+			--EVENT UNAVAILABLE
 				else
-					noeventInfo = true
-					lockedScreen = true
+					eventLocked = true
 				end
 			end
 		--Cursor position calculation
@@ -266,7 +272,7 @@ function f_eventMenu()
 			end
 		end
 	--Draw Event Cursor
-		if not lockedScreen then
+		if not eventLocked then
 			animSetWindow(cursorBox, -100+cursorPosX*104.5,51, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -289,7 +295,7 @@ function f_eventMenu()
 			animDraw(menuArrowRight)
 			animUpdate(menuArrowRight)
 		end
-		if lockedScreen then f_lockedInfo() else drawEventInputHints() end --Show Locked Event Info Message
+		if eventLocked then f_eventLocked() else drawEventInputHints() end --Show Locked Event Info Message
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
@@ -333,38 +339,27 @@ function countdown(t) --TODO make a Countdown for the sysTime Event
 end
 ]]
 
-function f_lockedInfo()
+function f_eventLocked()
 	cmdInput()
-	--Draw Fade BG
+--Draw Fade BG
 	animDraw(fadeWindowBG)
-	--Draw Menu BG
+--Draw Menu BG
 	animDraw(infoEventWindowBG)
-	animUpdate(infoEventWindowBG)
-	--Draw Title
-	if noeventInfo then
-		textImgDraw(txt_lockedInfo)
-	end
-	--Draw Ok Text
-	textImgDraw(txt_lockedOk)
-	--Draw Cursor
-	animSetWindow(cursorBox, 87,141, 144,13)
-	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Draw Info Title Text
+--Draw Title
+	textImgDraw(txt_lockedInfo)
+--Draw Info Title Text
 	textImgDraw(txt_lockedinfoTitle)
-	--Draw Input Hints Panel
+--Draw Input Hints Panel
 	drawInfoEventInputHints()
-	--Actions
-	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+--Actions
+	if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 		sndPlay(sndSys, 100, 2)
-		f_lockedInfoReset()
+		f_eventLockedReset()
 	end
-	cmdInput()
 end
 
-function f_lockedInfoReset()
-	lockedScreen = false
-	noeventInfo = false
+function f_eventLockedReset()
+	eventLocked = false
 end
 
 --;===========================================================

@@ -3,7 +3,7 @@ sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
 bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
 bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --Insert new item to t_mainMenu table loaded by screenpack.lua
-table.insert(t_mainMenu,#t_mainMenu-2,{id = textImgNew(), text = "SHOP", gotomenu = "f_shopMenu()"})
+table.insert(t_mainMenu,#t_mainMenu-2,{text = "SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;=========================================================== 
@@ -124,11 +124,11 @@ f_saveStats()
 
 --Info BG
 local shopInfoBG = animNew(sprIkemen, [[
-230,3, 0,0, -1
+3,0, 0,0, -1
 ]])
 animSetPos(shopInfoBG, -56, 190)
-animSetScale(shopInfoBG, 2.9, 0.40)
-animSetAlpha(shopInfoBG, 155, 22)
+animSetScale(shopInfoBG, 430, 24)
+animSetAlpha(shopInfoBG, 0, 50)
 animUpdate(shopInfoBG)
 
 --Item BG
@@ -175,18 +175,21 @@ t_confirmShop = {
 
 function drawShopInputHints(vault)
 	local vault = vault
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
 	local vaultKeyPos = "99999,99999"
 	if vault then
 		vaultKeyPos = "70,160"
 		f_drawQuickText(txt_btnHint, font6, 0, 0, "The Vault", 80, 125)
 	end
-	drawInputHintsP1("s",vaultKeyPos,"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("q",vaultKeyPos,
+		"u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
 
 --;===========================================================
@@ -197,6 +200,14 @@ function f_shopMenu()
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 10
+	local inCategory = false
+	local vaultAccess = false
+	local t_shopMenuBackup = t_shopMenu
 	shopMenu = 1
 	local function f_resetCursor()
 		cursorPosY = 1
@@ -204,20 +215,12 @@ function f_shopMenu()
 		shopMenu = 1
 		if data.debugLog then f_printTable(t_shopMenu, "save/debug/t_shopMenu.log") end
 	end
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 10
 	f_confirmShopReset()
-	local inCategory = false
-	local vaultAccess = false
-	local t_shopMenuBackup = t_shopMenu
 	textImgSetText(txt_shopTitle, txt_shopMain)
-	playBGM(bgmShop)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 152, 10)
 	animSetPos(menuArrowDown, 152, 172)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmShop)
 	while true do
 		if not confirmPurchase then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -230,9 +233,9 @@ function f_shopMenu()
 					inCategory = false
 			--Exit
 				else
+					f_resetMenuArrowsPos()
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					sndPlay(sndSys, 100, 2)
-					f_resetMenuArrowsPos()
 					f_menuMusic()
 					break
 				end
@@ -243,7 +246,7 @@ function f_shopMenu()
 				sndPlay(sndSys, 100, 0)
 				shopMenu = shopMenu + 1
 		--Enter Actions
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			--Main Shop
 				if not inCategory then
 				--Load Available items
@@ -260,7 +263,7 @@ function f_shopMenu()
 			--Category Shop
 				else
 				--Purchase
-					if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] and stats.coins >= t_shopMenu[shopMenu].price then
+					if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] and stats.money >= t_shopMenu[shopMenu].price then
 						sndPlay(sndSys, 100, 1)
 						confirmPurchase = true --Show Confirm Purchase
 				--Item Sold Out or No enough Money
@@ -269,7 +272,7 @@ function f_shopMenu()
 					end
 				end
 		--???
-			elseif vaultAccess and (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) then
+			elseif vaultAccess and (commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q')) then
 				f_theVault()
 				playBGM(bgmShop)
 			end
@@ -310,7 +313,7 @@ function f_shopMenu()
 	--Draw Title Menu
 		textImgDraw(txt_shopTitle)
 		if not confirmPurchase then
-			textImgSetText(txt_shopCurrency, stats.coins.." IKC")
+			textImgSetText(txt_shopCurrency, stats.money.." IKC")
 			textImgDraw(txt_shopCurrency)
 		--Draw Table Cursor
 			animSetWindow(cursorBox, 0,5+cursorPosY*15, 165,15)
@@ -474,20 +477,20 @@ function f_confirmPurchase()
 	f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu, true)
 --Draw Accounting
 	f_drawQuickText(txt_shp1, font2, 0, -1, "Price "..t_shopMenu[shopMenu].price.." IKC", 110, 154)
-	f_drawQuickText(txt_shp2, font2, 0, -1, "Balance "..stats.coins.." IKC", 310, 154)
-	f_drawQuickText(txt_shp3, font2, 0, -1, "Balance after Purchase "..stats.coins-t_shopMenu[shopMenu].price.." IKC", 310, 173)
+	f_drawQuickText(txt_shp2, font2, 0, -1, "Balance "..stats.money.." IKC", 310, 154)
+	f_drawQuickText(txt_shp3, font2, 0, -1, "Balance after Purchase "..stats.money-t_shopMenu[shopMenu].price.." IKC", 310, 173)
 --Draw Input Hints Panel
 	drawConfirmInputHints()
 --Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		f_confirmShopReset()
-	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 	--YES
 		if confirmShop == 1 then
 		--Item Purchased (Save Data)
 			sndPlay(sndSys, 200, 3)
-			stats.coins = stats.coins - t_shopMenu[shopMenu].price
+			stats.money = stats.money - t_shopMenu[shopMenu].price
 			stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
 			f_saveStats()
 	--NO
@@ -605,6 +608,7 @@ animUpdate(vaultWindowBG)
 --; THE VAULT MENU (Insert secret codes to unlock things)
 --;===========================================================
 function f_theVault()
+	cmdInput()
 	local word = ""
 	local vaultMenu = 2
 	local i = 0
@@ -612,17 +616,16 @@ function f_theVault()
 	local prize = false
 	f_randomWords() --Get Random Words
 	vaultExit = false
-	cmdInput()
-	playBGM(bgmVault)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmVault)
 	while true do
 	--EXIT LOGIC
 		if vaultExit == true then
 			clearInputText()
-			sndPlay(sndSys, 100, 2)
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			f_unlock(false)
 			f_updateUnlocks()
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
 			break
 		end
 	--MAIN SCREEN
@@ -655,7 +658,8 @@ function f_theVault()
 			end
 		end
 	--BUTTON SELECT
-		if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+		if returnKey() then --If you are using a keyboard, use enter key to accept
+		--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 		--BACK
 			if vaultMenu == 1 then
 				vaultExit = true

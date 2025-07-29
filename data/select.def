@@ -29,18 +29,18 @@ Mako Mayama/vnFight.def, exclude=1, excludetourney=1, order=-1
 Stage Viewer, exclude=1, excludetourney=1, order=-1, stages/Mountainside Temple/Roof Night.def, includestage=0
 ;---------------------------------------------------------------------------------
 [ExtraStages]
+stages/Mountainside Temple/Hidden Path.def, unlock=stats.modes.arcade.clear >= 1
+stages/Mountainside Temple/Hidden Path Night.def, unlock=stats.modes.bossrush.clear >= 1
 stages/Mountainside Temple/Temple Entrance Afternoon.def, unlock=stats.shopstock.stages["stages/Mountainside Temple/Temple Entrance Afternoon.def"] == false
 stages/Mountainside Temple/Temple Entrance Dusk.def, unlock=stats.shopstock.stages["stages/Mountainside Temple/Temple Entrance Dusk.def"] == false
 stages/Mountainside Temple/Temple Entrance Night.def, unlock=stats.shopstock.stages["stages/Mountainside Temple/Temple Entrance Night.def"] == false
-stages/Mountainside Temple/Hidden Path.def, unlock=stats.modes.arcade.clear >= 1
-stages/Mountainside Temple/Hidden Path Night.def, unlock=stats.modes.bossrush.clear >= 1
 stages/Mountainside Temple/Stairs - 1st Floor.def, unlock=stats.shopstock.stages["stages/Mountainside Temple/Stairs - 1st Floor.def"] == false
 stages/Mountainside Temple/Stairs - 2nd Floor.def, unlock=stats.shopstock.stages["stages/Mountainside Temple/Stairs - 2nd Floor.def"] == false
 stages/Mountainside Temple/Stairs - 3rd Floor.def, unlock=stats.shopstock.stages["stages/Mountainside Temple/Stairs - 3rd Floor.def"] == false
 stages/Mountainside Temple/Outside.def, unlock=stats.modes.bossrush.clear >= 1
 stages/Mountainside Temple/Lobby.def
 stages/Mountainside Temple/Lobby Night.def
-stages/Mountainside Temple/Lobby 2 Night.def, unlock=data.story1_1Unlock == true
+;stages/Mountainside Temple/Lobby 2 Night.def, unlock=data.story1_1Unlock == true
 stages/Mountainside Temple/Dark Corridor.def, unlock=stats.modes.mission.clear1 == 1
 stages/Mountainside Temple/Winter.def, unlock=stats.modes.event.clear1 == 1
 stages/Mountainside Temple/Secret Hallway.def, unlock=stats.shopstock.stages["stages/Mountainside Temple/Secret Hallway.def"] == false
@@ -79,60 +79,53 @@ displayname = NOVICE
 sfx = 0,1
 1=Suave Dude/Minion/Minion.def
 2=Mako Mayama
-3=Kung Fu Man
+3=Kung Fu Man/Evil/Evil Kung Fu Man.def
 
 [Tower 2]
 displayname = WARRIOR
 sfx = 0,2
-1=Mako Mayama
-2=Strength Training
-3=Kung Fu Man
-4=Kung Fu Man/Evil/Evil Kung Fu Man.def
-5=Suave Dude
+1=Kung Fu Man/X/Kung Fu Man X.def
+2=Kung Fu Girl
+3=Kung Fu Man/Evil/Evil Kung Fu Man.def
+4=Suave Dude
 
 [Tower 3]
 displayname = MASTER
 sfx = 0,3
-1=Kung Fu Man/Master/Master Kung Fu Man.def
-2=Kung Fu Girl
-3=Mako Mayama
-4=Break The Car
-5=Reika Murasame
-6=Kung Fu Man/Evil/Evil Kung Fu Man.def
-7=Suave Dude
+1=Mako Mayama
+2=Kung Fu Man/Master/Master Kung Fu Man.def
+3=Kung Fu Girl
+4=Reika Murasame
+5=Kung Fu Man/Evil/Evil Kung Fu Man.def
+6=Suave Dude
 
 [Tower 4]
 displayname = EXPERT
 sfx = 0,4
-1=Kung Fu Man
-2=randomselect
-3=Kung Fu Girl
-4=randomselect
-5=Kung Fu Man/Evil/Evil Kung Fu Man.def
-6=Suave Dude
+1=Kung Fu Girl
+2=Reika Murasame
+3=randomselect
+4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+5=Suave Dude
 
 [Tower 5]
 displayname = CHAMPION
 sfx = 0,5
 1=Reika Murasame
-2=Suave Dude
-3=Kung Fu Man/Evil/Evil Kung Fu Man.def
-4=randomselect
-5=Shin Gouki
+2=randomselect
+3=Suave Dude
+4=Shin Gouki
 
 [Tower 6]
 displayname = DOOM
 sfx = 0,6
-1=Kung Fu Girl
-2=Kung Fu Man
+1=randomselect
+2=Suave Dude
 3=Reika Murasame
 4=Kung Fu Man/Master/Master Kung Fu Man.def
-5=Mako Mayama
-6=Kung Fu Man/Evil/Evil Kung Fu Man.def
-7=Suave Dude
-8=Shin Gouki
-9=Kung Fu Girl/Master/Master Kung Fu Girl.def
-10=Red Dragon
+5=Shin Gouki
+6=Kung Fu Girl/Master/Master Kung Fu Girl.def
+7=Red Dragon
 
 [Tower 7]
 displayname = ???

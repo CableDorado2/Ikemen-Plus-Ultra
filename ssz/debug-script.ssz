@@ -9,6 +9,8 @@ lib com = "common.ssz";
 lib m = <math.ssz>;
 lib s = <string.ssz>;
 lib snd = "sound.ssz";
+lib cfg = "../save/config.ssz";
+lib sh = <shell.ssz>;
 
 public bool roundResetFlg = false, reloadFlg = false;
 
@@ -17,6 +19,13 @@ void puts(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^/char text = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
   if(#.tscri.cwc > 0) .chr.appendClipboardText(.tscri.cwc~playerno, text + \n);
+}
+
+//Reload Engine (For use during Attract Mode)
+void sszReload(&.lua.State L=, int re=)
+{
+  re = 0;
+  .sh.open(.cfg.Executable, "", "", false, false);
 }
 
 void setLife(&.lua.State L=, int re=)
@@ -259,6 +268,7 @@ public ^/char loadFile(^/char file)
   .L.register("setAILevel", .setAILevel);
   .L.register("setTime", .setTime);
   .L.register("clear", .clear);
+  .L.register("sszReload", .sszReload);
   if(!.L.runFile(file)){
     ^/char err = .L.toString(-1);
     ret err;

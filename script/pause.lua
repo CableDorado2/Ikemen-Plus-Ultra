@@ -154,14 +154,13 @@ end
 --;===========================================================
 --; PAUSE MENU SCREENPACK
 --;===========================================================
-txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..stats.attractCoins.."", 181.5, 170)
-
 --Transparent background
 pauseBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(pauseBG1, 20, 70)
 animSetAlpha(pauseBG1, 20, 100)
+animUpdate(pauseBG1)
 
 --Pause Fade BG
 fadeWindowBG = animNew(sprIkemen, [[
@@ -225,8 +224,8 @@ pauseLeftArrow = animNew(sprIkemen, [[
 223,0, 0,0, 10
 ]])
 animAddPos(pauseLeftArrow, 69, 112)
-animUpdate(pauseLeftArrow)
 animSetScale(pauseLeftArrow, 0.5, 0.5)
+animUpdate(pauseLeftArrow)
 
 --Right Page Arrow
 pauseRightArrow = animNew(sprIkemen, [[
@@ -240,28 +239,31 @@ pauseRightArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 ]])
 animAddPos(pauseRightArrow, 242, 112)
-animUpdate(pauseRightArrow)
 animSetScale(pauseRightArrow, 0.5, 0.5)
+animUpdate(pauseRightArrow)
 
 --Input Hints Panel
 function drawPauseInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"a","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":???", 266, hintFontYPos)
 end
 
 function drawPauseInputHints2()
-	local inputHintYPos = 218
+	local inputHintYPos = 219
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"a","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================
@@ -290,6 +292,7 @@ pbrecActive = false
 recWarning = false
 
 data.hudDisplay = true
+hide = false
 
 function f_pauseMenuReset()
 	togglePauseMenu(0)
@@ -469,7 +472,6 @@ end
 for i=1, #t_pauseMain do
 	t_pauseMain[i]['id'] = ""
 end
-
 if data.debugLog then f_printTable(t_pauseMain, "save/debug/t_pauseMain.log") end
 
 if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
@@ -483,14 +485,10 @@ else --Pause Controls if P1 is in Left Side
 end
 
 function f_pauseMain(p, st, esc)
+	cmdInput()
 	pn = p
 	escape = esc
 	start = st
-	if getGameMode() == "demo" then --Exit when you press start or esc
-		data.tempBack = true
-		f_saveTemp()
-		exitMatch()
-	end
 	if start and getGameMode() == "arcade" then --Detects when you press start button in arcade mode
 		if pn == 2 and (getPlayerSide() == "p1left" or getPlayerSide() == "p1right") then --Player 2 in any side is the challenger
 			challengerActive = true
@@ -498,10 +496,24 @@ function f_pauseMain(p, st, esc)
 			challengerActive = true
 		end
 	end
-	if challengerActive == true and screenTime < 200 then --Here Comes a New Challenger!
+--Draw BG
+	if not hide then
+		--animDraw(f_animVelocity(commonBG0, -1, -1))
+		animDraw(fadeWindowBG)
+		f_sysTime()
+		drawPauseInputHints()
+	else --When Hide is active
+		if (escape or start or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)))) and delayMenu == 2 then
+			hide = false
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+		end
+	end
+--Here Comes a New Challenger!
+	if challengerActive == true and screenTime < 200 then
 		if screenTime == 0 then
-			playBGM(bgmNothing) --Stop Stage Song
 			sndPlay(sndSys, 200, 1)
+			playBGM(bgmNothing) --Stop Stage Song
 		end
 		screenTime = screenTime + 1
 		animDraw(f_animVelocity(challengerWindow, 0, 1.5)) --Draw from common.lua
@@ -513,25 +525,33 @@ function f_pauseMain(p, st, esc)
 			exitMatch()
 		end
 	end
-	if pauseMenuActive == false and delayMenu == -1 then --Start Pause Menu
+--Start Pause Menu
+	if pauseMenuActive == false and delayMenu == -1 then
 		pauseMenuActive = true
 		if not challengerActive and not pbrecActive then sndPlay(sndSys, 100, 1) end --Play Pause SFX
 		delayMenu = 0
 	end
-	if (escape or start) and pbrecActive then --Stop playback recording when you open pause menu
+--Stop playback recording when you open pause menu
+	if (escape or start) and pbrecActive then
 		endDummyPlayback(sndSys)
 		pbrecActive = false
 		pauseMenuActive = false
 	end
-	cmdInput()
+--Pause Logic
 	if pauseMode == "" or mainGoTo ~= "" then
-		if not challengerActive then
+		if not challengerActive and not hide then
 			if pn == 1 then textImgSetBank(txt_pause, 5) --Set color depending player id
 			elseif pn == 2 then textImgSetBank(txt_pause, 1)
 			end
 			textImgSetText(txt_pause, "PAUSE [P"..pn.."]")
+		--HIDE MENU
+			if getGameMode() == "replay" or getGameMode() == "randomtest" then
+				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
+			else
+				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
+			end
 		--RESUME GAME
-			if (escape or start or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and delayMenu == 2 then
+			if (escape or start or (pn == 1 and commandGetState(p1Cmd, 'e')) or (pn == 2 and commandGetState(p2Cmd, 'e')) or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 1)) and delayMenu == 2 and not hide then
 				sndPlay(sndSys, 100, 2)
 				pauseMenuActive = false
 			end
@@ -542,11 +562,6 @@ function f_pauseMain(p, st, esc)
 			end
 			if pauseMenuActive == false and delayMenu == 0 then
 				togglePauseMenu(0)
-				if hide then
-					togglePause()
-					f_screenShot()
-					hide = false
-				end
 				setSysCtrl(0)
 				delayMenu = -1
 				return
@@ -571,7 +586,7 @@ function f_pauseMain(p, st, esc)
 					f_gotoFunction(t_pauseMain[pauseMenu])
 				end
 		]]
-			--Actions in Demo or Replay Modes
+			--Actions in Randomtest or Replay Modes
 				if getGameMode() == "replay" or getGameMode() == "randomtest" then
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 					--SETTINGS
@@ -675,14 +690,11 @@ function f_pauseMain(p, st, esc)
 				else
 					maxPause = 7
 				end
-			--Draw BG
-				--animDraw(f_animVelocity(commonBG0, -1, -1))
-				animDraw(fadeWindowBG)
 			--Draw Transparent Table BG
 				animSetScale(pauseBG1, 220, maxPause*15)
 				animSetWindow(pauseBG1, 80,70, 160,105)
-				animDraw(pauseBG1)
 				animUpdate(pauseBG1)
+				animDraw(pauseBG1)
 			--Draw Title Menu
 				textImgDraw(txt_pause)
 			--Draw Cursor
@@ -706,9 +718,6 @@ function f_pauseMain(p, st, esc)
 					animDraw(pauseDownArrow)
 					animUpdate(pauseDownArrow)
 				end
-				f_sysTime()
-				drawPauseInputHints()
-				if data.attractMode then textImgDraw(txt_attractCredits) end --Draw Attract Credits
 				if commandGetState(p1Cmd, 'holdu') then
 					Pbufd = 0
 					Pbufu = Pbufu + 1
@@ -743,8 +752,8 @@ end
 --;===========================================================
 --; PAUSE CONFIRM MESSAGE
 --;===========================================================
-txt_pauseQuestion = createTextImg(jgFnt, 0, 0, "", 160, 70,0.7,0.7)
-txt_pauseConfirm = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 90)
+txt_pauseInfo = createTextImg(jgFnt, 0, 0, "", 160, 70,0.7,0.7)
+txt_pauseConfirm = createTextImg(jgFnt, 0, 0, "ARE YOU SURE?", 160, 90)
 txt_playerID = "[PLAYER "
 txt_backStorySel = "] WILL BACK TO STORY SELECT"
 txt_backMissionSel = "] WILL BACK TO MISSION SELECT"
@@ -761,7 +770,6 @@ confirmPauseBG = animNew(sprIkemen, [[
 ]])
 animSetPos(confirmPauseBG, 83.5, 77)
 animUpdate(confirmPauseBG)
-animSetScale(confirmPauseBG, 1, 1)
 
 t_confirmPause = {
 	{id = textImgNew(), text = "YES"},
@@ -769,26 +777,29 @@ t_confirmPause = {
 }
 
 function f_pauseConfirm()
+	if pn == 1 then textImgSetBank(txt_pauseInfo, 5)
+	elseif pn == 2 then textImgSetBank(txt_pauseInfo, 1)
+	end
 --MESSAGES FOR BACK TO A MAIN MENU
 	if mainMenuBack == true then
-		if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel)
-			if getPauseVar() == "nogiveup" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel) end
-		elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backEventSel)
-		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
-		elseif getGameMode() == "intermission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)
+		if getGameMode() == "mission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel)
+			if getPauseVar() == "nogiveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel) end
+		elseif getGameMode() == "event" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backEventSel)
+		elseif getGameMode() == "replay" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
+		elseif getGameMode() == "intermission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
 		elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
-			if getPauseVar() == "giveup" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)
-			else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStorySel)
+			if getPauseVar() == "giveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
+			else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStorySel)
 			end
-		else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_mainmenuBack)
+		else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
 		end
 --MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
-		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backCharSel)
-		elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStgSel)
-		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
-		elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_mainmenuBack)
-		else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)
+		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backCharSel)
+		elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStgSel)
+		elseif getGameMode() == "replay" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
+		elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
+		else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
 		end
 	end
 	if pauseMode == "Confirm" or okGoTo ~= "" then
@@ -853,9 +864,8 @@ function f_pauseConfirm()
 				moveTxtConfirm = (confirmPause - 1) * 13
 			end
 			animDraw(confirmPauseBG)
-			animUpdate(confirmPauseBG)
 			textImgDraw(txt_pauseConfirm)
-			textImgDraw(txt_pauseQuestion)
+			textImgDraw(txt_pauseInfo)
 			for i=1, #t_confirmPause do
 				if i == confirmPause then
 					bank = 5
@@ -869,7 +879,6 @@ function f_pauseConfirm()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			f_sysTime()
 			drawPauseInputHints2()
-			if data.attractMode then textImgDraw(txt_attractCredits) end
 		--BACK TO MAIN MENU
 			if mainMenuBack == true then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
@@ -1075,12 +1084,10 @@ function f_pauseSettings()
 				f_gameCfgdisplayTxt()
 				hasChanged = false
 			end
-			--animDraw(f_animVelocity(commonBG0, -1, -1))
-			animDraw(fadeWindowBG)
 			animSetScale(pauseBG1, 220, maxgameCfg*15)
 			animSetWindow(pauseBG1, 80,70, 160,105)
+			animUpdate(pauseBG1)
 			animDraw(pauseBG1)
-			--animUpdate(pauseBG1)
 			textImgDraw(txt_PgameCfg)
 			animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -1101,9 +1108,6 @@ function f_pauseSettings()
 				animDraw(pauseDownArrow)
 				animUpdate(pauseDownArrow)
 			end
-			f_sysTime()
-			drawPauseInputHints()
-			if data.attractMode then textImgDraw(txt_attractCredits) end
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -1287,12 +1291,10 @@ function f_pauseAudio()
 			setPanStr(pan_str / 100)
 			hasChanged = false
 		end
-		--animDraw(f_animVelocity(commonBG0, -1, -1))
-		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 220, maxAudioCfg*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
+		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
-		--animUpdate(pauseBG1)
 		textImgDraw(txt_PaudioCfg)
 		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -1313,9 +1315,6 @@ function f_pauseAudio()
 			animDraw(pauseDownArrow)
 			animUpdate(pauseDownArrow)
 		end
-		f_sysTime()
-		drawPauseInputHints()
-		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
@@ -1453,12 +1452,10 @@ function f_pauseSongs()
 				bufl = 0
 			end
 		end
-		--animDraw(f_animVelocity(commonBG0, -1, -1))
-		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 220, maxSongs*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
+		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
-		--animUpdate(pauseBG1)
 		textImgDraw(txt_PsongMenu)
 		textImgDraw(txt_Psong)
 		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
@@ -1492,9 +1489,6 @@ function f_pauseSongs()
 			animDraw(pauseRightArrow)
 			animUpdate(pauseRightArrow)
 		end
-		f_sysTime()
-		drawPauseInputHints()
-		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
@@ -2081,12 +2075,10 @@ function f_pauseTraining()
 				setInputDisplay(data.inputDisplay)
 				hasChanged = false
 			end
-			--animDraw(f_animVelocity(commonBG0, -1, -1))
-			animDraw(fadeWindowBG)
 			animSetScale(pauseBG1, 240, maxtrainingCfg*15)
 			animSetWindow(pauseBG1, 55,70, 240,105)
+			animUpdate(pauseBG1)
 			animDraw(pauseBG1)
-			--animUpdate(pauseBG1)
 			textImgDraw(txt_PtrainingCfg)
 			if recWarning then
 				textImgSetText(txt_playbackInfo, 'Set Dummy Control as "Manual" to Record Actions.')
@@ -2111,9 +2103,6 @@ function f_pauseTraining()
 				animDraw(pauseTDownArrow)
 				animUpdate(pauseTDownArrow)
 			end
-			f_sysTime()
-			drawPauseInputHints()
-			if data.attractMode then textImgDraw(txt_attractCredits) end
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -2342,12 +2331,10 @@ function f_pausePlayback()
 		else
 			maxPlaybackCfg = 7
 		end
-		--animDraw(f_animVelocity(commonBG0, -1, -1))
-		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 240, maxPlaybackCfg*15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
+		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
-		--animUpdate(pauseBG1)
 		textImgDraw(txt_playbackCfg)
 		if playbackCfg >=1 and playbackCfg < 8 then
 			if playbackCfg == 1 then textImgSetText(txt_playbackInfo, txt_pbRecord)
@@ -2386,9 +2373,6 @@ function f_pausePlayback()
 			animDraw(pauseTDownArrow)
 			animUpdate(pauseTDownArrow)
 		end
-		f_sysTime()
-		drawPauseInputHints()
-		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
@@ -2413,7 +2397,7 @@ end
 --;===========================================================
 --; ABYSS CHARACTER STATS
 --;===========================================================
-txt_PabyssStats = createTextImg(jgFnt, 0, 0, "", 159, 35)
+txt_PabyssStats = createTextImg(jgFnt, 0, 0, "", 159, 30)
 
 function f_pauseAbyssStats()
 	if pn == 1 then textImgSetBank(txt_PabyssStats, 5)
@@ -2454,14 +2438,9 @@ function f_pauseAbyssStats()
 			delayMenu = 0
 		end
 		if delayMenu == 2 then
-			--animDraw(f_animVelocity(commonBG0, -1, -1))
-			animDraw(fadeWindowBG)
 			textImgDraw(txt_PabyssStats)
-			f_abyssProfile(-165, 34, true)
+			f_abyssProfile(true, false, -165, 24)
 			f_abyssProfileCPU()
-			f_sysTime()
-			drawPauseInputHints()
-			if data.attractMode then textImgDraw(txt_attractCredits) end
 		end
 --[[
 	elseif pauseMode == "???" then
@@ -2586,12 +2565,10 @@ function f_pauseCharCfg()
 		else
 			maxcharCfg = 7
 		end
-		--animDraw(f_animVelocity(commonBG0, -1, -1))
-		animDraw(fadeWindowBG)
 		animSetScale(pauseBG1, 240, maxcharCfg*15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
+		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
-		--animUpdate(pauseBG1)
 		textImgDraw(txt_charCfg)
 		animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
 		f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
@@ -2617,9 +2594,6 @@ function f_pauseCharCfg()
 			animDraw(pauseTDownArrow)
 			animUpdate(pauseTDownArrow)
 		end
-		f_sysTime()
-		drawPauseInputHints()
-		if data.attractMode then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1

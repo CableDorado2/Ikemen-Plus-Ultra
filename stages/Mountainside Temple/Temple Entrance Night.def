@@ -56,7 +56,7 @@ fade.range = -400,-100
 
 ;--------------------------------------------------------
 [Music]
-bgmusic = sound/sfx/Wind.mp3
+bgmusic = sound/Pearl In The Sky.mp3
 bgmvolume = 100
 
 ;========================================================

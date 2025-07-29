@@ -74,6 +74,7 @@ saveVNPath = "save/vn_sav.lua"
 --;===========================================================
 --Constants/Standards
 gameTick = 20
+gameTime = (os.clock()/1000)
 
 --shortcut for creating new text with minimal parameters (for width calculation)
 function createTextImgLite(font, text, scaleX, scaleY)
@@ -823,10 +824,10 @@ function setCommand(c)
 	commandAdd(c, 'x', 'x')
 	commandAdd(c, 'y', 'y')
 	commandAdd(c, 'z', 'z')
-	commandAdd(c, 'q', 'q') --LT/SCREENSHOT
-	commandAdd(c, 'w', 'w') --RT/CONFIRM
+	commandAdd(c, 'q', 'q') --LT/FUNCTION 1
+	commandAdd(c, 'w', 'w') --RT/FUNCTION 2
 	commandAdd(c, 'e', 'e') --SELECT/RETURN
-	commandAdd(c, 's', 's') --START/PAUSE
+	commandAdd(c, 's', 's') --START/CONFIRM
 	commandAdd(c, 'holdu', '/U') --bufu
 	commandAdd(c, 'holdd', '/D') --bufd
 	commandAdd(c, 'holdl', '/B') --bufl
@@ -874,25 +875,52 @@ data.p1In = 1
 data.p2In = 2
 end
 
+inConfig = false
 function cmdInput()
 	commandInput(p1Cmd, data.p1In)
 	commandInput(p2Cmd, data.p2In)
-	if f5Key() and data.debugMode then assert(loadfile("script/screenpack.lua"))() end --Refresh Screenpack file in Real Time
-	--if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then f_screenShot() end --Take Screenshot in any menu (if you have control)
-	if printscreenKey() then f_screenShot() end --Take Screenshot in any menu (if you have control)
+--Refresh/Reload Screenpack file in Real Time
+	if f5Key() and data.debugMode then
+		assert(loadfile("script/screenpack.lua"))()
+		f_loadLuaMods() --Reload External Lua Modules
+		commandBufReset(p1Cmd)
+		commandBufReset(p2Cmd)
+	end
+--Take Screenshot in any menu (if you have control)
+	if printscreenKey() then
+		f_screenShot()
+		commandBufReset(p1Cmd)
+		commandBufReset(p2Cmd)
+	end
+	if data.attractMode and not inMatch and not onlinegame then --In-Match Keys are managed via match.lua hotkeys
+	--ATTRACT TEST MENU/CONFIGURATION
+		if nineKey() and not inConfig then
+			f_attractCfgMenu()
+	--RESET ENGINE
+		elseif zeroKey() then
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			f_resetEngine()
+	--INSERT COIN
+		elseif (oneKey() or twoKey()) and not inConfig then
+			f_addCoin()
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+		end
+	end
 end
 
---returns value depending on button pressed (a = 1; a + start = 7 etc.)
-function btnPalNo(cmd)
+--returns value depending on button pressed (a = 1; hold start + a = 7 etc.)
+function btnPalNo(cmd, start)
 	local s = 0
+	local start = start or false --Allow Start Button confirm in menus like pal buttons
 	if commandGetState(cmd, 'holds') then s = 6 end
-	if commandGetState(cmd, 'a') then return 1 + s end
+	if commandGetState(cmd, 'a') or (commandGetState(cmd, 's') and start) then return 1 + s end
 	if commandGetState(cmd, 'b') then return 2 + s end
 	if commandGetState(cmd, 'c') then return 3 + s end
 	if commandGetState(cmd, 'x') then return 4 + s end
 	if commandGetState(cmd, 'y') then return 5 + s end
 	if commandGetState(cmd, 'z') then return 6 + s end
-	if commandGetState(cmd, 'w') then return 1 + s end --It is not in the correct place, this is just to don't rewrite it in each menu
 	return 0
 end
 
@@ -1184,6 +1212,9 @@ resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
 data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
+
+opacityAdjust = math.floor(tonumber(s_configSSZ:match('const float Opacity%s*=%s*(%d%.*%d*)') * 100))
+opacityAdjust = f_minMax(opacityAdjust,0,100)
 
 gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
@@ -1756,7 +1787,8 @@ function f_storyboardPlay(tIn)
 	local velY = 0
 	for i=tOut.startscene, #tOut.scenes do
 		for j=0, tOut.scenes[i].endTime do
-			if esc() or commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then --Skip Button
+		--Skip
+			if (tIn.scenedef.skipbutton == nil or tIn.scenedef.skipbutton == 1) and (data.attractMode and getCredits() > 0) or not data.attractMode and (esc() or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) then
 				cmdInput()
 				refresh()
 				return
@@ -1810,6 +1842,10 @@ function f_storyboardPlay(tIn)
 			if j >= tOut.scenes[i].endTime - tOut.scenes[i].fadeoutTime then
 				animDraw(tOut.scenes[i].fadeoutData)
 				animUpdate(tOut.scenes[i].fadeoutData)
+			end
+		--Draw Insert Coin Stuff (Only when Attract Mode is Enabled and Storyboard Contains "attractstate = 1" paramvalue, under [Info] section)
+			if data.attractMode and tIn.scenedef.attractstate == 1 then
+				drawAttractStatus()
 			end
 			cmdInput()
 			refresh()
@@ -2103,7 +2139,7 @@ end
 --; VISUAL NOVEL INTRO SCREEN
 --;===========================================================
 function f_drawVNIntro()
-	playBGM("sound/System/Ranking.mp3")
+	cmdInput()
 	local endIntro = false
 	local t = 0
 	local endTime = 422
@@ -2121,10 +2157,12 @@ function f_drawVNIntro()
 	if t_vnBoxText[vnChapter].data.author ~= nil then chapterAuthor = t_vnBoxText[vnChapter].data.author end
 	if t_vnBoxText[vnChapter].data.date ~= nil then chapterDate = t_vnBoxText[vnChapter].data.date end
 	if t_vnBoxText[vnChapter].data.description ~= nil then chapterDescription = t_vnBoxText[vnChapter].data.description end
-	cmdInput()
+	playBGM(bgmVNIntro)
 	while true do
-		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or endIntro then
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or endIntro then
 			f_vnFadeData()
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
 			break
 		end
 		if t == endTime then endIntro = true end
@@ -2172,8 +2210,8 @@ end
 function f_VNback()
 	data.VNbreak = false --Reset visual novel back to main menu
 	--f_saveTemp()
-	f_menuMusic()
 	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', sprFade)
+	f_menuMusic()
 end
 
 function f_vnProgress()
@@ -2189,6 +2227,7 @@ end
 --;===========================================================
 function f_vnScene(arcPath, chaptNo, dialogueNo)
 	f_vnLoad(arcPath) --What Visual Novel File will load?
+	cmdInput()
 --Actions when visual novel chapters are loaded
 	f_resetFullVN()
 	f_vnFadeData()
@@ -2202,7 +2241,6 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	if t_vnBoxText[vnChapter].data.snd ~= nil then --Detects if snd file is defined
 		VNsfxData = sndNew(t_vnBoxText[vnChapter].data.snd) --Load snd file
 	end
-	cmdInput()
 	while true do
 	--Actions when the chapter has started
 		if t_vnBoxText[vnChapter][VNtxt].cut ~= nil or VNtxtEnd then
@@ -2422,13 +2460,13 @@ function f_vnPauseMenu()
 				maxVNP = 10
 			end
 		--Actions
-			if esc() or vnPauseMenuBack or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+			if esc() or vnPauseMenuBack or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				f_vnPauseMenuReset()
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if vnPauseMenu > 4 and vnPauseMenu < #t_vnPauseMenu then sndPlay(sndSys, 100, 1) end
+			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				if vnPauseMenu > 5 and vnPauseMenu < #t_vnPauseMenu then sndPlay(sndSys, 100, 1) end
 			--Sound Settings
-				if vnPauseMenu == 5 then
+				if vnPauseMenu == 6 then
 					cursorPosYAVN = 1
 					moveTxtAVN = 0
 					audioCfgVN = 1
@@ -2438,20 +2476,17 @@ function f_vnPauseMenu()
 					bufl = 0
 					audioCfgVNActive = true
 			--Restore Settings
-				elseif vnPauseMenu == 6 then
+				elseif vnPauseMenu == 7 then
 					questionScreenVN = true
 					defaultVN = true
 			--Save Progress
-				elseif vnPauseMenu == 7 then
+				elseif vnPauseMenu == 8 then
 					if data.engineMode == "VN" then
 						f_vnProgress()
 						VNsaveData = true
 					else
 						sndPlay(sndSys, 100, 5)
 					end
-			--Skip Scene
-				elseif vnPauseMenu == 8 then
-					VNtxtEnd = true
 			--Back to Main Menu
 				elseif vnPauseMenu == 9 then
 					questionScreenVN = true
@@ -2508,6 +2543,11 @@ function f_vnPauseMenu()
 			elseif vnPauseMenu == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 				sndPlay(sndSys, 100, 1)
 				if data.VNdisplayName then data.VNdisplayName = false else data.VNdisplayName = true end
+				hasChangedVN = true
+		--Text Skip Setting
+			elseif vnPauseMenu == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+				sndPlay(sndSys, 100, 1)
+				if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
 				hasChangedVN = true
 			end
 		end
@@ -2846,7 +2886,6 @@ function f_questionMenuVN()
 	animDraw(fadeWindowBG)
 --Draw Menu BG
 	animDraw(questionWindowBGVN)
-	animUpdate(questionWindowBGVN)
 --Draw Title
 	if exitVN then
 		textImgSetText(txt_questionVN, "UNSAVED DATA WILL BE LOST!")
@@ -2920,6 +2959,150 @@ function f_questionResetVN()
 	defaultVN = false
 	defaultAudioVN = false
 	exitVN = false
+end
+
+--;===========================================================
+--; VISUAL NOVEL SELECT MENU (play through customizable narrative and interactive storytellings)
+--;===========================================================
+--(start a new customizable narrative and interactive storytelling)
+function f_vnNewGame()
+--Check Content
+	if #t_selVN == 1 and vnNoSel then --1 story detected in select.def so don't show select menu
+		f_vnMain(t_selVN[1].path) --Start Unique Visual Novel
+	--When End
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+		f_menuMusic()
+	else
+		vnNoSel = false --More than 1 stories detected in select.def
+		f_vnMenu() --Start Visual Novel Select
+	end
+end
+
+--(continue the story from where you left off)
+function f_vnLoadGame()
+	assert(loadfile(saveVNPath))()
+	if data.VNarc == "" and data.VNchapter == 0 and data.VNdialogue == 0 then
+		sndPlay(sndSys, 100, 5) --No Data
+		vnDataInfo = true
+		infoScreen = true
+	else --Load Data
+		playBGM("")
+		f_vnMain(data.VNarc, data.VNchapter, data.VNdialogue)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+		f_menuMusic()
+	end
+end
+
+function f_vnMenu()
+	if #t_selVN == 0 then
+		vnInfo = true
+		infoScreen = true
+		return
+	end
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local vnMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 12
+	f_resetListArrowsPos()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	while true do
+	--Select Menu Actions
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			f_resetMenuArrowsPos()
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			vnMenu = vnMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			vnMenu = vnMenu + 1
+	--Start Visual Novel Selected
+		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+			f_vnMain(t_selVN[vnMenu].path)
+		--When Ends
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+			f_menuMusic()
+		end
+	--Menu Scroll Logic
+		if vnMenu < 1 then
+			vnMenu = #t_selVN
+			if #t_selVN > maxItems then
+				cursorPosY = maxItems
+			else
+				cursorPosY = #t_selVN
+			end
+		elseif vnMenu > #t_selVN then
+			vnMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == maxItems then
+			moveTxt = (vnMenu - maxItems) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (vnMenu - 1) * 15
+		end	
+		if #t_selVN <= maxItems then
+			maxVN = #t_selVN
+		elseif vnMenu - cursorPosY > 0 then
+			maxVN = vnMenu + maxItems - cursorPosY
+		else
+			maxVN = maxItems
+		end
+	--Draw Menu Assets
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animSetScale(commonTBG, 240, maxVN*15)
+		animSetWindow(commonTBG, 80,20, 160,180)
+		animDraw(commonTBG)
+		textImgDraw(txt_vnSelect)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))		
+		for i=1, maxVN do
+			if t_selVN[i].displayname:len() > 28 then
+				visualnovelSelText = string.sub(t_selVN[i].displayname, 1, 24)
+				visualnovelSelText = tostring(visualnovelSelText .. "...")
+			else
+				visualnovelSelText = t_selVN[i].displayname
+			end
+			if i > vnMenu - cursorPosY then
+				t_selVN[i].id = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_selVN[i].id)
+			end
+		end
+		if maxVN > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_selVN > maxItems and maxVN < #t_selVN then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		drawListInputHints()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
@@ -3004,10 +3187,12 @@ function f_default() --Reset Game Modes Configuration
 	
 	setAbyssReward(0) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
+	setAbyssFinalDepth(0) --set last abyss depth match.
 	setAbyssDepthBoss(0) --set next abyss NORMAL boss depth.
 	setAbyssDepthBossSpecial(0) --set next abyss SPECIAL boss depth.
 	abyssBossMatch = getAbyssDepthBoss()
 	abyssSpecialBossCnt = 1 --Start count for Abyss Special Boss Matchs
+	abyssNextCheckPoint = abyssCheckpointNo --Start count for Abyss Map Checkpoints
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
 	setLifePersistence(0) --To store last life bar value when life is maintained after match
 end
@@ -3016,6 +3201,33 @@ end
 function f_screenShot()
 	sndPlay(sndSys, 22, 0) --sndPlay(sndSys, 22, 1)
 	takeScreenShot(screenshotPath.."/ ".. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
+end
+
+--Insert Coins During Attract Mode
+attractDemoTimer = 0
+attractSeconds = data.attractTime
+attractTimer = attractSeconds*gameTick --Set time for Attract Title Screen
+function f_addCoin()
+	sndPlay(sndSys, 200, 0)
+	attractDemoTimer = 0
+	attractTimer = attractSeconds*gameTick --Reset Attract Title Timer
+	setCredits(getCredits() + 1)
+end
+
+--Reset Engine
+function f_resetEngine()
+	f_playTime()
+	sszReload() --Native Reboot, added via ikemen.ssz
+	os.exit()
+end
+
+--Configuration Menu Access for Attract Mode
+function f_attractCfgMenu()
+	inConfig = true
+	--onlinegame = false
+	assert(loadfile(saveCfgPath))()
+	script.options.f_mainCfg()
+	f_resetEngine()
 end
 
 function f_resetFadeBGM()
@@ -3308,10 +3520,10 @@ t_keyMenuCfg = {
 	{text = "X",     				cmd = "x"},
 	{text = "Y",     				cmd = "y"},
 	{text = "Z",     				cmd = "z"},
-	{text = "SCREENSHOT",			cmd = "q"},
-	{text = "CONFIRM",				cmd = "w"},
+	{text = "FUNCTION 1",			cmd = "q"},
+	{text = "FUNCTION 2",			cmd = "w"},
 	{text = "RETURN",				cmd = "e"},
-	{text = "MENU",		 			cmd = "s"}, --PAUSE GAME
+	{text = "CONFIRM",	 			cmd = "s"}, --PAUSE BUTTON
 	{text = "Default Config (F1)"},
 	{text = "Confirm Config (ESC)"},
 }
@@ -3708,11 +3920,6 @@ end
 
 --Data saving to abyss_save.json
 function f_saveAbyss()
-    --[[ Guardar la tabla de slots, no toda la estructura
-    local saveData = abyssDat.save
-    f_fileWrite(saveAbyssPath, json.encode(saveData, {indent = 2}))
-	]]
-	
 	--if data.debugLog then f_printTable(abyssDat, 'save/debug/t_abyssSave.log') end
 	f_fileWrite(saveAbyssPath, json.encode(abyssDat, {indent = 2}))
 end
@@ -3727,8 +3934,7 @@ end
 function init_generalStats()
 if stats.firstRun == nil or data.erase then stats.firstRun = true end
 if stats.playtime == nil or data.erase then stats.playtime = 0 end
-if stats.coins == nil or data.erase then stats.coins = 0 end
-if stats.attractCoins == nil then stats.attractCoins = 0 end
+if stats.money == nil or data.erase then stats.money = 0 end
 if stats.continueCount == nil or data.erase then stats.continueCount = 0 end
 if stats.wins == nil or data.erase then stats.wins = 0 end
 if stats.losses == nil or data.erase then stats.losses = 0 end
@@ -3893,9 +4099,12 @@ abyssDat.default = { --For some reason cannot re-use t_abyssDefaultSave table be
 	lifebarstate = 0,
 	abysslv = 0,
 	depth = 0,
+	nextcheckpoint = 0,
 	nextboss = 0,
 	nextspecialboss = 0,
-	itemslot = {[1] = "", [2] = "", [3] = ""},
+	specialbosscnt = 0,
+	winsCnt = 0,
+	itemslot = {[1] = "", [2] = "", [3] = "", [4] = ""},
 }
 
 function init_abyssStats()
@@ -3911,9 +4120,12 @@ local t_abyssDefaultSave = {
 	lifebarstate = 0,
 	abysslv = 0,
 	depth = 0,
+	nextcheckpoint = 0,
 	nextboss = 0,
 	nextspecialboss = 0,
-	itemslot = {[1] = "", [2] = "", [3] = ""},
+	specialbosscnt = 0,
+	winsCnt = 0,
+	itemslot = {[1] = "", [2] = "", [3] = "", [4] = ""},
 }
 abyssDat.nosave = {} --Reset data
 abyssDat.nosave = t_abyssDefaultSave

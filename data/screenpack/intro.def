@@ -7,7 +7,8 @@ localcoord = 320,240
 
 [SceneDef]
 spr = intro.sff
-
+attractstate = 1 ;0
+;skipbutton = 1
 ;------------------------------------
 ;Scrolling mountain
 ;This scene uses a background to achieve the movement

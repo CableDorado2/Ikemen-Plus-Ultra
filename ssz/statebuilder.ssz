@@ -1285,6 +1285,12 @@ public &StateBuilder
     cond .s.equ("roundno", token):
       out .= ".com.round";
       typ = 2;
+	cond .s.equ("credits", token):
+      out .= "trCredits()";
+      typ = 2;
+	cond .s.equ("coins", token):
+      out .= "trCoins()";
+      typ = 2;
 	cond .s.equ("abyssdepth", token):
       out .= "`trAbyssDepth()";
       typ = 2;
@@ -1296,6 +1302,9 @@ public &StateBuilder
       typ = 2;
 	cond .s.equ("abyssbossfight", token):
       out .= "`trAbyssBossFight()";
+      typ = 2;
+	cond .s.equ("abyssfinaldepth", token):
+      out .= "`trAbyssFinalDepth()";
       typ = 2;
 	cond .s.equ("abyssreward", token):
       out .= "`trAbyssReward()";

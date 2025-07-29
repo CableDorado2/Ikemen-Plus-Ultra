@@ -1,6 +1,6 @@
 ﻿MIT License
 
-Copyright (c) 2016 Suehiro
+Copyright (c) 2006 Suehiro
 Copyright (c) 2017 Alceris
 Copyright (c) 2018 K4thos
 Copyright (c) 2018 ShinLucho

@@ -3,7 +3,7 @@ missionDef = "script/mods/missions/missions.def" --Missions Data (Missions defin
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_challengeMenu,1,{id = textImgNew(), text = "MISSIONS", gotomenu = "f_missionMenu()"}) --Insert new item to t_challengeMenu table loaded by screenpack.lua
+table.insert(t_challengeMenu,1,{text = "MISSIONS", gotomenu = "f_missionMenu()", id = textImgNew()}) --Insert new item to t_challengeMenu table loaded by screenpack.lua
 txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
 txt_missionIncomplete = "INCOMPLETE"
@@ -36,13 +36,14 @@ animUpdate(missionBG2)
 
 --Missions Input Hints Panel
 function drawMissionInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 219
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================
@@ -71,11 +72,11 @@ function f_missionMenu()
 	local previewScaleY = nil
 	local previewTransS = nil
 	local previewTransD = nil
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 280, 130)
 	animSetPos(menuArrowDown, 280, 195)
 	f_unlock(false)
 	f_updateUnlocks()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 	--Missions Progress Logic
 		stats.modes.mission.clearall = stats.modes.mission.clear1 + stats.modes.mission.clear2 + stats.modes.mission.clear3
@@ -93,24 +94,24 @@ function f_missionMenu()
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
 			missionMenu = missionMenu + 1
-		--START MISSION
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--MISSION AVAILABLE
+	--START MISSION
+		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+		--MISSION AVAILABLE
 			if t_unlockLua.modes[t_missions[missionMenu].id] == nil then --If the mission is unlocked
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				sndPlay(sndSys, 100, 1)
 				f_default()
 				data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
 				data.rosterMode = "mission"
 				setGameMode('mission')
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missions[data.missionNo].status .. "]")
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 1)
 				if t_missions[data.missionNo].path ~= nil then --Detects if lua file is defined
 					assert(loadfile(t_missions[data.missionNo].path))()
 				end
 				if winner == 1 then f_missionStatus() end --Save progress only if you win
 				f_unlock(false)
 				f_updateUnlocks()
-			--MISSION UNAVAILABLE
+		--MISSION UNAVAILABLE
 			else
 				sndPlay(sndSys, 100, 5)
 			end

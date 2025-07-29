@@ -46,8 +46,8 @@ optionsUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 ]])
 animAddPos(optionsUpArrow, 242, 23)
-animUpdate(optionsUpArrow)
 animSetScale(optionsUpArrow, 0.5, 0.5)
+animUpdate(optionsUpArrow)
 
 --Down Arrow
 optionsDownArrow = animNew(sprIkemen, [[
@@ -61,8 +61,8 @@ optionsDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 ]])
 animAddPos(optionsDownArrow, 242, 190)
-animUpdate(optionsDownArrow)
 animSetScale(optionsDownArrow, 0.5, 0.5)
+animUpdate(optionsDownArrow)
 
 --Up Arrow for Player 1 Controls Cfg
 optionsUpArrowP1 = animNew(sprIkemen, [[
@@ -76,8 +76,8 @@ optionsUpArrowP1 = animNew(sprIkemen, [[
 225,0, 0,0, 10
 ]])
 animAddPos(optionsUpArrowP1, 5, 23)
-animUpdate(optionsUpArrowP1)
 animSetScale(optionsUpArrowP1, 0.5, 0.5)
+animUpdate(optionsUpArrowP1)
 
 --Down Arrow for Player 1 Controls Cfg
 optionsDownArrowP1 = animNew(sprIkemen, [[
@@ -91,8 +91,8 @@ optionsDownArrowP1 = animNew(sprIkemen, [[
 226,0, 0,0, 10
 ]])
 animAddPos(optionsDownArrowP1, 5, 218)
-animUpdate(optionsDownArrowP1)
 animSetScale(optionsDownArrowP1, 0.5, 0.5)
+animUpdate(optionsDownArrowP1)
 
 --Up Arrow for Player 2 Controls Cfg
 optionsUpArrowP2 = animNew(sprIkemen, [[
@@ -106,8 +106,8 @@ optionsUpArrowP2 = animNew(sprIkemen, [[
 225,0, 0,0, 10
 ]])
 animAddPos(optionsUpArrowP2, 303, 23)
-animUpdate(optionsUpArrowP2)
 animSetScale(optionsUpArrowP2, 0.5, 0.5)
+animUpdate(optionsUpArrowP2)
 
 --Down Arrow for Player 2 Controls Cfg
 optionsDownArrowP2 = animNew(sprIkemen, [[
@@ -121,34 +121,19 @@ optionsDownArrowP2 = animNew(sprIkemen, [[
 226,0, 0,0, 10
 ]])
 animAddPos(optionsDownArrowP2, 303, 218)
-animUpdate(optionsDownArrowP2)
 animSetScale(optionsDownArrowP2, 0.5, 0.5)
-
-txt_creditsCfg = createTextImg(font1, 0, -1, "", 181.5, 219)
-function f_attractcfgCredits()
-	textImgSetText(txt_creditsCfg, "Credits: "..stats.attractCoins.."")
-	textImgDraw(txt_creditsCfg)
-end
+animUpdate(optionsDownArrowP2)
 
 --Input Hints Panel
 function drawCfgInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-end
-
-function drawCfgInputHints2()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
 
 --;===========================================================
@@ -185,6 +170,7 @@ function f_loadCfg()
 	b_resizableMode = s_configSSZ:match('const bool WindowResizable%s*=%s*([^;%s]+)')
 	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
 	brightnessAdjust = tonumber(s_configSSZ:match('const int Brightness%s*=%s*(%d+)'))
+	opacityAdjust = math.floor(tonumber(s_configSSZ:match('const float Opacity%s*=%s*(%d%.*%d*)') * 100))
 --Audio Settings
 	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
@@ -278,10 +264,10 @@ function f_loadEXCfg()
 
 	if b_openGL == "true" then
 		b_openGL = true
-		s_openGL = "Yes"
+		s_openGL = "OpenGL 2.0"
 	elseif b_openGL == "false" then
 		b_openGL = false
-		s_openGL = "No"
+		s_openGL = "Software"
 	end
 	
 	if data.fullscreenType == "Exclusive" then
@@ -474,6 +460,7 @@ function f_saveCfg()
 		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
 	end
 	s_configSSZ = s_configSSZ:gsub('const int Brightness%s*=%s*%d+', 'const int Brightness = ' .. brightnessAdjust)
+	s_configSSZ = s_configSSZ:gsub('const float Opacity%s*=%s*%d%.*%d*', 'const float Opacity = ' .. opacityAdjust / 100)
 --Audio Settings
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
@@ -522,8 +509,7 @@ function f_saveCfg()
 --;===========================================================
 --Reload game if needed
 	if needReload == 1 then
-		--os.execute ("TASKKILL /IM Ikemen.exe /F")
-		f_playTime()
+		--os.execute ("TASKKILL /IM Ikemen Plus Ultra.exe /F")
 		if data.sdl == "Original" then
 			os.rename("lib/alpha/dll/sdlplugin.dll", "lib/alpha/dll/sdlpluginV.dll")
 			os.rename("lib/alpha/sdlplugin.ssz", "lib/alpha/sdlpluginV.ssz")
@@ -535,8 +521,7 @@ function f_saveCfg()
 			os.rename("lib/alpha/dll/sdlpluginV.dll", "lib/alpha/dll/sdlplugin.dll")
 			os.rename("lib/alpha/sdlpluginV.ssz", "lib/alpha/sdlplugin.ssz")
 		end
-		sszReload() --Native Reboot, added via ikemen.ssz
-		os.exit()
+		f_resetEngine()
 	end
 end
 
@@ -628,9 +613,7 @@ function f_offlineDefault()
 	f_audioDefault()
 	f_songDefault()
 	f_inputDefault()
-	data.connectMode = "Direct"
-	data.userName = "PLAYER" --setUserName('PLAYER')
-	setListenPort(7500)
+	f_netplayDefault()
 end
 
 --Default Game Values
@@ -755,7 +738,7 @@ function f_videoDefault()
 	--b_saveMemory = false
 	--s_saveMemory = 2No"
 	b_openGL = false
-	s_openGL = "No"
+	s_openGL = "Software"
 	b_screenMode = false
 	s_screenMode = "Window"
 	setScreenMode(b_screenMode)
@@ -775,6 +758,8 @@ function f_videoDefault()
 	--setGameRes(resolutionWidth,resolutionHeight)
 	brightnessAdjust = 256
 	setBrightness(brightnessAdjust)
+	opacityAdjust = 100
+	setOpacity(opacityAdjust / 100)
 	data.sdl = "New"
 end
 
@@ -801,6 +786,13 @@ function f_engineDefault()
 	PlayerProjectileMaxEngine = 50
 	ExplodMaxEngine = 256
 	AfterImageMaxEngine = 8
+end
+
+--Default Netplay Values
+function f_netplayDefault()
+	data.connectMode = "Direct"
+	setListenPort(7500)
+	data.userName = "PLAYER" --setUserName('PLAYER')
 end
 
 --Default Visual Novel Values
@@ -856,19 +848,19 @@ end
 
 --Default P2 KEYBOARD BATTLE
 function f_p2keyboardBattleDefault()
-	t_keyBattleCfg2[1].varText = 'KP_5'
+	t_keyBattleCfg2[1].varText = 'KP_8'
 	t_keyBattleCfg2[2].varText = 'KP_2'
-	t_keyBattleCfg2[3].varText = 'KP_1'
-	t_keyBattleCfg2[4].varText = 'KP_3'
+	t_keyBattleCfg2[3].varText = 'KP_4'
+	t_keyBattleCfg2[4].varText = 'KP_6'
 	t_keyBattleCfg2[5].varText = 'u'
 	t_keyBattleCfg2[6].varText = 'i'
 	t_keyBattleCfg2[7].varText = 'o'
 	t_keyBattleCfg2[8].varText = 'j'
 	t_keyBattleCfg2[9].varText = 'k'
 	t_keyBattleCfg2[10].varText = 'l'
-	t_keyBattleCfg2[11].varText = 'KP_4'
-	t_keyBattleCfg2[12].varText = 'KP_6'
-	t_keyBattleCfg2[13].varText = 'KP_PERIOD'
+	t_keyBattleCfg2[11].varText = 'KP_7'
+	t_keyBattleCfg2[12].varText = 'KP_9'
+	t_keyBattleCfg2[13].varText = 'KP_5'
 	t_keyBattleCfg2[14].varText = 'KP_0'
 	setInputConfig(1, -1, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(1,-1)
@@ -926,29 +918,29 @@ function f_p1keyboardMenuDefault()
 	t_keyMenuCfg[8].varText = 'z'
 	t_keyMenuCfg[9].varText = 'x'
 	t_keyMenuCfg[10].varText = 'c'
-	t_keyMenuCfg[11].varText = 'TAB'
-	t_keyMenuCfg[12].varText = 'RETURN'
+	t_keyMenuCfg[11].varText = 'q'
+	t_keyMenuCfg[12].varText = 'e'
 	t_keyMenuCfg[13].varText = 'BACKSPACE'
-	t_keyMenuCfg[14].varText = 'SPACE'
+	t_keyMenuCfg[14].varText = 'RETURN'
 	setInputConfig(10, -1, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
 	f_keyMenuSave(10,-1)
 end
 
 --Default P2 KEYBOARD MENU
 function f_p2keyboardMenuDefault()
-	t_keyMenuCfg2[1].varText = 'KP_5'
+	t_keyMenuCfg2[1].varText = 'KP_8'
 	t_keyMenuCfg2[2].varText = 'KP_2'
-	t_keyMenuCfg2[3].varText = 'KP_1'
-	t_keyMenuCfg2[4].varText = 'KP_3'
+	t_keyMenuCfg2[3].varText = 'KP_4'
+	t_keyMenuCfg2[4].varText = 'KP_6'
 	t_keyMenuCfg2[5].varText = 'u'
 	t_keyMenuCfg2[6].varText = 'i'
 	t_keyMenuCfg2[7].varText = 'o'
 	t_keyMenuCfg2[8].varText = 'j'
 	t_keyMenuCfg2[9].varText = 'k'
 	t_keyMenuCfg2[10].varText = 'l'
-	t_keyMenuCfg2[11].varText = 'KP_DIVIDE'
-	t_keyMenuCfg2[12].varText = 'KP_PLUS'
-	t_keyMenuCfg2[13].varText = 'KP_MINUS'
+	t_keyMenuCfg2[11].varText = 'KP_7'
+	t_keyMenuCfg2[12].varText = 'KP_9'
+	t_keyMenuCfg2[13].varText = 'KP_PERIOD'
 	t_keyMenuCfg2[14].varText = 'KP_ENTER'
 	setInputConfig(11, -1, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText) --Apply and Load New Controls
 	f_keyMenuSave(11,-1)
@@ -1006,15 +998,16 @@ infoOptionsWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(infoOptionsWindowBG, 83.5, 130)
-animUpdate(infoOptionsWindowBG)
 animSetScale(infoOptionsWindowBG, 1, 0.3)
+animUpdate(infoOptionsWindowBG)
 
 function drawInfoCfgInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 219
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("w","70,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 91, hintFontYPos)
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("s","132,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 end
 
 --;===========================================================
@@ -1033,7 +1026,7 @@ end
 function f_exitInfo()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 2)
 			f_saveCfg()
 			break
@@ -1052,14 +1045,12 @@ function f_exitInfo()
 		end
 	--Draw Message Menu BG
 		animDraw(infoOptionsWindowBG)
-		animUpdate(infoOptionsWindowBG)
 	--Draw OK Below Info Text
 		textImgDraw(txt_okOptions)
 	--Draw Below Cursor
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode then f_attractcfgCredits() end
 		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
@@ -1082,7 +1073,7 @@ end
 function f_resWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 1)
 			break
 		end
@@ -1095,12 +1086,10 @@ function f_resWarning()
 			textImgDraw(t_resWarning[i].id)
 		end
 		animDraw(infoOptionsWindowBG)
-		animUpdate(infoOptionsWindowBG)
 		textImgDraw(txt_okOptions)
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode then f_attractcfgCredits() end
 		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
@@ -1115,16 +1104,16 @@ sdlImg1 = animNew(sprIkemen, [[
 3000,0, 0,0,
 ]])
 animSetPos(sdlImg1, 76, 190)
-animUpdate(sdlImg1)
 animSetScale(sdlImg1, 0.35, 0.35)
+animUpdate(sdlImg1)
 
 --SDL Beta Info 1
 sdlImg2 = animNew(sprIkemen, [[
 3000,1, 0,0,
 ]])
 animSetPos(sdlImg2, 243, 190)
-animUpdate(sdlImg2)
 animSetScale(sdlImg2, 0.35, 0.35)
+animUpdate(sdlImg2)
 
 t_sdlWarning = {
 	{text = "The New version of the Sdlplugin allows loading video"},
@@ -1139,7 +1128,7 @@ end
 function f_sdlWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 1)
 			break
 		end
@@ -1152,17 +1141,13 @@ function f_sdlWarning()
 			textImgDraw(t_sdlWarning[i].id)
 		end
 		animDraw(infoOptionsWindowBG)
-		animUpdate(infoOptionsWindowBG)
 		textImgDraw(txt_okOptions)
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw SDL Beta Reference
 		animDraw(sdlImg1)
-		animUpdate(sdlImg1)
 		animDraw(sdlImg2)
-		animUpdate(sdlImg2)
-		if data.attractMode then f_attractcfgCredits() end
 		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
@@ -1185,7 +1170,7 @@ end
 function f_glWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 1)
 			break
 		end
@@ -1198,12 +1183,10 @@ function f_glWarning()
 			textImgDraw(t_glWarning[i].id)
 		end
 		animDraw(infoOptionsWindowBG)
-		animUpdate(infoOptionsWindowBG)
 		textImgDraw(txt_okOptions)
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode then f_attractcfgCredits() end
 		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
@@ -1226,7 +1209,7 @@ end
 function f_memWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 1)
 			break
 		end
@@ -1239,12 +1222,10 @@ function f_memWarning()
 			textImgDraw(t_memWarning[i].id)
 		end
 		animDraw(infoOptionsWindowBG)
-		animUpdate(infoOptionsWindowBG)
 		textImgDraw(txt_okOptions)
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode then f_attractcfgCredits() end
 		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
@@ -1258,14 +1239,14 @@ t_wip = {
 	{text = "This option is still Under Development."},
 }
 for i=1, #t_wip do
-	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 164, 222.5+i*15)
+	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 160, 222.5+i*15)
 end
 
 t_sdlBeta = {
 	{text = "This option requires Sdlplugin New Version."},
 }
 for i=1, #t_sdlBeta do
-	t_sdlBeta[i]['id'] = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 164, 222.5+i*15)
+	t_sdlBeta[i]['id'] = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 160, 222.5+i*15)
 end
 
 --;===========================================================
@@ -1275,7 +1256,7 @@ t_locked = {
 	{text = "This option is Unavailable in Online Mode."},
 }
 for i=1, #t_locked do
-	t_locked[i]['id'] = createTextImg(font2, 0, 0, t_locked[i].text, 163, 222.5+i*15)
+	t_locked[i]['id'] = createTextImg(font2, 0, 0, t_locked[i].text, 160, 222.5+i*15)
 end
 
 --;===========================================================
@@ -1286,13 +1267,13 @@ t_restart = {
 	{text = "require Save and Back."},
 }
 for i=1, #t_restart do
-	t_restart[i]['id'] = createTextImg(font2, 0, 0, t_restart[i].text, 168, 200+i*15)
+	t_restart[i]['id'] = createTextImg(font2, 0, 0, t_restart[i].text, 160, 182+i*15)
 end
 
 --;===========================================================
 --; DEFAULT VALUES MESSAGE
 --;===========================================================
-txt_defaultquestion = createTextImg(jgFnt, 1, 0, "", 160, 110)
+txt_defaultquestion = createTextImg(jgFnt, 0, 0, "", 160, 110)
 
 t_defaultMenu = {
 	{id = textImgNew(), text = "YES"},
@@ -1304,8 +1285,8 @@ defaultWindowBG = animNew(sprIkemen, [[
 230,1, 0,0,
 ]])
 animSetPos(defaultWindowBG, 83.5, 97)
-animUpdate(defaultWindowBG)
 animSetScale(defaultWindowBG, 1, 1)
+animUpdate(defaultWindowBG)
 
 function f_defaultMenu()
 	cmdInput()
@@ -1343,7 +1324,6 @@ function f_defaultMenu()
 	end
 --Draw Menu BG
 	animDraw(defaultWindowBG)
-	animUpdate(defaultWindowBG)
 --Draw Title
 	if resetStats == true then
 		textImgSetText(txt_defaultquestion, "ARE YOU SURE?")
@@ -1372,7 +1352,7 @@ function f_defaultMenu()
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		f_defaultReset()
-	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 	--YES
 		if defaultMenu == 1 then
 			sndPlay(sndSys, 100, 1)
@@ -1418,6 +1398,8 @@ function f_defaultMenu()
 				needReload = 1
 			elseif defaultInput == true then
 				f_inputDefault()
+			elseif defaultNetplay == true then
+				f_netplayDefault()
 			elseif defaultEngine == true then
 				f_engineDefault()
 				modified = 1
@@ -1434,7 +1416,6 @@ function f_defaultMenu()
 		end
 		f_defaultReset()
 	end
-	cmdInput()
 end
 
 function f_defaultReset()
@@ -1457,6 +1438,7 @@ function f_defaultReset()
 	defaultAudio = false
 	defaultSong = false
 	defaultInput = false
+	defaultNetplay = false
 	defaultEngine = false
 	defaultVN = false
 	resetStats = false
@@ -1466,53 +1448,45 @@ end
 --; SETTINGS MENU
 --;===========================================================
 txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
-txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5+5*15, .5, .5)
 
 t_mainCfg = {
-	{text = "Game Settings",	  			 varText = ""},
-	{text = "System Settings",  			 varText = ""},
-	{text = "Video Settings",  				 varText = ""},
-	{text = "Audio Settings",  				 varText = ""},
-	{text = "Input Settings",  				 varText = ""},
-	{text = "Engine Settings",  			 varText = ""},
-	{text = "Nickname",        				 varText = data.userName},
-	{text = "Netplay Port",        			 varText = getListenPort()},
-	{text = "Netplay Connection",			 varText = data.connectMode},
-	{text = "All Default Values",			 varText = ""},
-	{text = "              Save and Back",   varText = ""},
-	{text = "          Back Without Saving", varText = ""},
-	{text = "              Online Settings", varText = ""}, --Only for Dev Purposes (Delete when test are finished)
+	{text = "Game Settings",	  			 gotomenu = "if data.engineMode == 'FG' then script.options.f_gameCfg() elseif data.engineMode == 'VN' then script.options.f_gameVNcfg() end"},
+	{text = "System Settings",  			 gotomenu = "if data.engineMode == 'FG' then script.options.f_UICfg() else sndPlay(sndSys, 100, 5) end"},
+	{text = "Video Settings",  				 gotomenu = "script.options.f_videoCfg()"},
+	{text = "Audio Settings",  				 gotomenu = "script.options.f_audioCfg()"},
+	{text = "Input Settings",  				 gotomenu = "script.options.f_inputCfg()"},
+	{text = "Netplay Settings",  			 gotomenu = "script.options.f_netplayCfg()"},
+	{text = "Engine Settings",  			 gotomenu = "script.options.f_engineCfg()"},
+	{text = "All Default Values",			 gotomenu = "sndPlay(sndSys, 100, 1) script.options.defaultAll = true script.options.defaultScreen = true"},
+	{text = "              Save and Back",   gotomenu = "script.options.exitSaveCfg = true"},
+	{text = "          Back Without Saving", gotomenu = "script.options.exitNoSaveCfg = true"},
 }
 for i=1, #t_mainCfg do
 	t_mainCfg[i]['varID'] = textImgNew()
 end
+--Access to Online Settings from Offline Mode (Only for Dev Purposes, Delete when test are finished)
+table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "script.options.f_onlineCfg()", varID = textImgNew()})
 
 function f_mainCfg()
 	cmdInput()
-	local onlinePort = ""
-	local portEdit = false
-	local playerName = ""
-	local nameEdit = false
-	local editDone = true
 	local cursorPosY = 1
 	local moveTxt = 0
 	local mainCfg = 1
-	local t = 0
 	local bufl = 0
 	local bufr = 0
 	local bufu = 0
 	local bufd = 0
-	local exitSave = false
 	local maxItems = 12
+	local t = 0
+	exitSaveCfg = false
+	exitNoSaveCfg = false
 	f_defaultReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-		if defaultScreen == false and editDone == true then --Stay in Options screen (For Pop-Ups messages or Username and Online Port fields)
+		if not defaultScreen then --Stay in Options screen (For Pop-Ups messages)
 		--Save and Back
-			if esc() or exitSave or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				sndPlay(sndSys, 100, 2)
-				if data.erase == true then --reset stats files
+			if esc() or exitSaveCfg or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				if data.erase then --reset stats files
 					init_generalStats()
 					init_unlocksStats()
 					f_saveStats()
@@ -1524,110 +1498,44 @@ function f_mainCfg()
 				end
 				f_saveCfg()
 				if data.engineMode == "VN" then f_saveVN() end
-				return
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 2)
+				break
+		--Back Without Save
+			elseif exitNoSaveCfg then
+				assert(loadfile(saveCfgPath))() --Load old data no saved
+				if data.engineMode == "VN" then assert(loadfile(saveVNPath))() end
+				f_loadCfg()
+				f_loadEXCfg()
+				setFullScreenMode(b_fullscreenMode)
+				setScreenMode(b_screenMode)
+				setAspectRatio(b_aspectMode)
+				setResizableMode(b_resizableMode)
+				setBorderMode(b_borderMode)
+				--setGameRes(resolutionWidth,resolutionHeight)
+				setBrightness(brightnessAdjust)
+				setOpacity(opacityAdjust / 100)
+				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+				setPanStr(pan_str / 100)
+				needReload = 0
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				sndPlay(sndSys, 100, 2)
+				break
+		--Up
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
 				mainCfg = mainCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
+		--Down
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sndSys, 100, 0)
 				mainCfg = mainCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-		--Common Actions
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if (mainCfg < 9 or mainCfg == 10) then sndPlay(sndSys, 100, 1) end
-			--Game Settings
-				if mainCfg == 1 then
-					if data.engineMode == "FG" then f_gameCfg()
-					elseif data.engineMode == "VN" then f_gameVNcfg()
-					end
-			--System Settings
-				elseif mainCfg == 2 then
-					if data.engineMode == "FG" then
-						f_UICfg()
-					else
-						sndPlay(sndSys, 100, 5)
-					end
-			--Video Settings
-				elseif mainCfg == 3 then
-					f_videoCfg()
-			--Audio Settings
-				elseif mainCfg == 4 then
-					f_audioCfg()
-			--Input Settings
-				elseif mainCfg == 5 then
-					--commandBufReset(p1Cmd)
-					--commandBufReset(p2Cmd)
-					f_inputCfg()
-			--Engine Settings
-				elseif mainCfg == 6 then
-					f_engineCfg()
-			--Edit Player Name
-				elseif mainCfg == 7 then
-					playerName = ""
-					nameEdit = true
-					editDone = false
-					i = 0
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-			--Edit Online Port
-				elseif mainCfg == 8 then
-					onlinePort = ""
-					portEdit = true
-					editDone = false
-					i = 0
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-			--Default Values
-				elseif mainCfg == 10 then
-					defaultAll = true
-					defaultScreen = true
-			--Save and Back
-				elseif mainCfg == 11 then
-					exitSave = true
-			--Back Without Save
-				elseif mainCfg == 12 then
-					assert(loadfile(saveCfgPath))() --Load old data no saved
-					if data.engineMode == "VN" then assert(loadfile(saveVNPath))() end
-					f_loadCfg()
-					f_loadEXCfg()
-					setFullScreenMode(b_fullscreenMode)
-					setScreenMode(b_screenMode)
-					setAspectRatio(b_aspectMode)
-					setResizableMode(b_resizableMode)
-					setBorderMode(b_borderMode)
-					--setGameRes(resolutionWidth,resolutionHeight)
-					setBrightness(brightnessAdjust)
-					setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
-					setPanStr(pan_str / 100)
-					needReload = 0
-					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-					sndPlay(sndSys, 100, 2)
-					break
-			--Online Settings from Offline Mode	
-				elseif mainCfg == 13 then --Only for Dev Purposes (Delete when test are finished)
-					f_onlineCfg()
-				end
-			end
-		--Netplay Connection Type
-			if mainCfg == 9 then
-				if (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.connectMode == "Direct" then
-					sndPlay(sndSys, 100, 0)
-					data.connectMode = "Database"
-					modified = 1
-				--elseif (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.connectMode == "Database" then
-					--data.connectMode = "Server"
-					--modified = 1
-				--elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) and data.connectMode == "Server" then
-					--data.connectMode = "Database"
-					--modified = 1
-				elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) and data.connectMode == "Database" then
-					sndPlay(sndSys, 100, 0)
-					data.connectMode = "Direct"
-					modified = 1
-				end
+		--Common Enter Actions
+			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				f_gotoFunction(t_mainCfg[mainCfg]) --Functions are called from t_mainCfg table
 			end
 		--Cursor position calculation
 			if mainCfg < 1 then
@@ -1672,7 +1580,26 @@ function f_mainCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-	--Draw Menu Info
+	--Draw Text for Table
+		for i=1, maxMainCfg do	
+			if i > mainCfg - cursorPosY then
+				if t_mainCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15-moveTxt))
+					--textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, -1, t_mainCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+	--Draw Up Animated Cursor
+		if maxMainCfg > maxItems then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+	--Draw Down Animated Cursor
+		if #t_mainCfg > maxItems and maxMainCfg < #t_mainCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+	--Draw Info
 		if needReload == 1 then
 			for i=1, #t_restart do
 				if t%60 < 40 then
@@ -1681,13 +1608,175 @@ function f_mainCfg()
 				t = t >= 60 and 0 or t + 1
 			end
 		end
-		t_mainCfg[9].varText = data.connectMode
+		if defaultScreen then
+			f_defaultMenu() --Show Default Screen Message
+		else
+			drawCfgInputHints()
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; NETPLAY SETTINGS
+--;===========================================================
+txt_netplayCfg = createTextImg(jgFnt, 0, 0, "NETPLAY SETTINGS", 159, 13)
+txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5+5*15, .5, .5)
+
+t_netplayCfg = {
+	{text = "Username",        		 varText = data.userName},
+	{text = "Port Change",        	 varText = getListenPort()},
+	{text = "Connection Type",		 varText = data.connectMode},
+--[[
+	{text = "Input Delay",		 	 varText = from 0 to 4},
+	{text = "Show Input Delay",	 	 varText = Yes/No},
+	{text = "Show Username",	 	 varText = Yes/No},
+]]
+	{text = "Default Values",  	 	 varText = ""},
+	{text = "          BACK", 		 varText = ""},
+}
+for i=1, #t_netplayCfg do
+	t_netplayCfg[i]['varID'] = textImgNew()
+end
+
+function f_netplayCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local netplayCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 12
+	--
+	local onlinePort = ""
+	local portEdit = false
+	local playerName = ""
+	local nameEdit = false
+	local editDone = true
+	sndPlay(sndSys, 100, 1)
+	while true do
+		if not defaultScreen and editDone then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				netplayCfg = netplayCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				netplayCfg = netplayCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+		--Edit Player Name
+			elseif netplayCfg == 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				playerName = ""
+				nameEdit = true
+				editDone = false
+				i = 0
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+		--Edit Online Port
+			elseif netplayCfg == 2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				onlinePort = ""
+				portEdit = true
+				editDone = false
+				i = 0
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+		--Netplay Connection Type
+			elseif netplayCfg == 3 then
+				if (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.connectMode == "Direct" then
+					sndPlay(sndSys, 100, 0)
+					data.connectMode = "Database"
+					modified = 1
+				--elseif (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.connectMode == "Database" then
+					--data.connectMode = "Server"
+					--modified = 1
+				--elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) and data.connectMode == "Server" then
+					--data.connectMode = "Database"
+					--modified = 1
+				elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) and data.connectMode == "Database" then
+					sndPlay(sndSys, 100, 0)
+					data.connectMode = "Direct"
+					modified = 1
+				end
+		--Default Values
+			elseif netplayCfg == #t_netplayCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				defaultNetplay = true
+				defaultScreen = true
+		--BACK
+			elseif netplayCfg == #t_netplayCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 2)
+				break
+			end
+			if netplayCfg < 1 then
+				netplayCfg = #t_netplayCfg
+				if #t_netplayCfg > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_netplayCfg
+				end
+			elseif netplayCfg > #t_netplayCfg then
+				netplayCfg = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (netplayCfg - maxItems) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (netplayCfg - 1) * 15
+			end	
+			if #t_netplayCfg <= maxItems then
+				maxnetplayCfg = #t_netplayCfg
+			elseif netplayCfg - cursorPosY > 0 then
+				maxnetplayCfg = netplayCfg + maxItems - cursorPosY
+			else
+				maxnetplayCfg = maxItems
+			end
+		--Update Values
+			t_netplayCfg[1].varText = data.userName
+			t_netplayCfg[2].varText = getListenPort()
+			t_netplayCfg[3].varText = data.connectMode
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxnetplayCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,180)
+		animDraw(optionsBG1)
+		textImgDraw(txt_netplayCfg)
+		if not defaultScreen then
+			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 	--Player Name Change
-		if not editDone and nameEdit == true then
+		if not editDone and nameEdit then
 			if esc() then
 				clearInputText()
 				sndPlay(sndSys, 100, 2)
-				t_mainCfg[7].varText = data.userName--getUserName()
+				t_netplayCfg[1].varText = data.userName--getUserName()
 				nameEdit = false
 				editDone = true
 			end
@@ -1716,7 +1805,10 @@ function f_mainCfg()
 					setInputText(playerName)
 				end
 			end
-			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+			if returnKey() then --If you are using a keyboard, use enter key to accept
+			--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
 				if playerName ~= '' and playerName ~= nil then
 					clearInputText()
 					sndPlay(sndSys, 100, 1)
@@ -1728,16 +1820,16 @@ function f_mainCfg()
 					sndPlay(sndSys, 100, 5)
 				end
 			end
-			if not editDone and nameEdit == true then
-				t_mainCfg[7].varText = playerName
+			if not editDone and nameEdit then
+				t_netplayCfg[1].varText = playerName
 			end
 		end
 	--Online Port Change
-		if not editDone and portEdit == true then
+		if not editDone and portEdit then
 			if esc() then
 				clearInputText()
 				sndPlay(sndSys, 100, 2)
-				t_mainCfg[8].varText = getListenPort()
+				t_netplayCfg[2].varText = getListenPort()
 				portEdit = false
 				editDone = true
 			end
@@ -1764,7 +1856,10 @@ function f_mainCfg()
 					end
 				end
 			end
-			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+			if returnKey() then --If you are using a keyboard, use enter key to accept
+			--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
 				if onlinePort ~= '' and onlinePort ~= nil and tonumber(onlinePort) ~= nil then --Port is a valid Number
 					clearInputText()
 					sndPlay(sndSys, 100, 1)
@@ -1776,17 +1871,8 @@ function f_mainCfg()
 					sndPlay(sndSys, 100, 5)
 				end
 			end
-			if not editDone and portEdit == true then
-				t_mainCfg[8].varText = onlinePort
-			end
-		end
-	--Draw Text for Table
-		for i=1, maxMainCfg do	
-			if i > mainCfg - cursorPosY then
-				if t_mainCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, -1, t_mainCfg[i].varText, 235, 15+i*15-moveTxt))
-				end
+			if not editDone and portEdit then
+				t_netplayCfg[2].varText = onlinePort
 			end
 		end
 	--Draw Blinking Cursor for Username and Online Port Fields
@@ -1796,24 +1882,27 @@ function f_mainCfg()
 			end
 			i = i >= 60 and 0 or i + 1
 		end
-	--Draw Up Animated Cursor
-		if maxMainCfg > maxItems then
+		for i=1, maxnetplayCfg do
+			if i > netplayCfg - cursorPosY then
+				if t_netplayCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, 1, t_netplayCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxnetplayCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-	--Draw Down Animated Cursor
-		if #t_mainCfg > maxItems and maxMainCfg < #t_mainCfg then
+		if #t_netplayCfg > maxItems and maxnetplayCfg < #t_netplayCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if defaultScreen == true then
-			f_defaultMenu() --Show Default Screen Message
+		if defaultScreen then
+			f_defaultMenu()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1830,7 +1919,7 @@ function f_mainCfg()
 end
 
 --;===========================================================
---; ONLINE SETTINGS
+--; ONLINE SETTINGS (TEMPORARY FOR WHEN BOTH PLAYERS ARE CONNECTED)
 --;===========================================================
 txt_onlineCfg = createTextImg(jgFnt, 0, 0, "ONLINE SETTINGS", 159, 13)
 
@@ -1855,6 +1944,7 @@ function f_onlineCfg()
 	local bufd = 0
 	local maxItems = 12
 	f_defaultReset() --To avoid maxCfg erros when enter in any sub-menu when reset settings
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -1870,7 +1960,7 @@ function f_onlineCfg()
 			onlineCfg = onlineCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 1)
 		--Game Settings
 			if onlineCfg == 1 then
@@ -1880,10 +1970,10 @@ function f_onlineCfg()
 				f_engineCfg()
 		--Lobby Settings
 			elseif onlineCfg == 3 then
-				f_netplayCfg()
+				f_lobbyCfg()
 		--Save and Play
 			elseif onlineCfg == 4 then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade) --Delete?
 				if modified == 1 then
 					f_netsaveCfg()
 				end
@@ -1943,7 +2033,6 @@ function f_onlineCfg()
 			animUpdate(optionsDownArrow)
 		end
 		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -1962,11 +2051,11 @@ function f_onlineCfg()
 end
 
 --;===========================================================
---; NETPLAY SETTINGS (WIP)
+--; NETPLAY LOBBY SETTINGS (WIP)
 --;===========================================================
-txt_netplayCfg = createTextImg(jgFnt, 0, 0, "NETPLAY ROOM SETTINGS", 159, 13)
+txt_lobbyCfg = createTextImg(jgFnt, 0, 0, "NETPLAY ROOM SETTINGS", 159, 13)
 
-t_netplayCfg = {
+t_lobbyCfg = {
 	{text = "VS Match",			varText = data.ftcontrol},
 	{text = "Room Name",		varText = ""},
 	{text = "Pause Menu",		varText = "No"},
@@ -1977,20 +2066,21 @@ t_netplayCfg = {
 	{text = "Show Input Delay",	varText = "No"},
 	{text = "          BACK",  	varText = ""},
 }
-for i=1, #t_netplayCfg do
-	t_netplayCfg[i]['varID'] = textImgNew()
+for i=1, #t_lobbyCfg do
+	t_lobbyCfg[i]['varID'] = textImgNew()
 end
 
-function f_netplayCfg()
+function f_lobbyCfg()
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
-	local netplayCfg = 1
+	local lobbyCfg = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sndSys, 100, 2)
@@ -1999,17 +2089,17 @@ function f_netplayCfg()
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
 			lockSetting = false
-			netplayCfg = netplayCfg - 1
+			lobbyCfg = lobbyCfg - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
 			lockSetting = false
-			netplayCfg = netplayCfg + 1
+			lobbyCfg = lobbyCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 	--Ranked Matchs
-		elseif netplayCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+		elseif lobbyCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 			sndPlay(sndSys, 100, 0)
 			if (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.ftcontrol == -1 then
 				data.ftcontrol = 2
@@ -2037,22 +2127,22 @@ function f_netplayCfg()
 				data.ftcontrol = -1
 			end
 	--WIP
-		elseif (netplayCfg == 2 or netplayCfg == 3 or netplayCfg == 4 or netplayCfg == 5 or netplayCfg == 6 or netplayCfg == 7 or netplayCfg == 8) and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif (lobbyCfg == 2 or lobbyCfg == 3 or lobbyCfg == 4 or lobbyCfg == 5 or lobbyCfg == 6 or lobbyCfg == 7 or lobbyCfg == 8) and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			lockSetting = true
 	--BACK
-		elseif netplayCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif lobbyCfg == 9 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			sndPlay(sndSys, 100, 2)
 			break
 		end
-		if netplayCfg < 1 then
-			netplayCfg = #t_netplayCfg
-			if #t_netplayCfg > maxItems then
+		if lobbyCfg < 1 then
+			lobbyCfg = #t_lobbyCfg
+			if #t_lobbyCfg > maxItems then
 				cursorPosY = maxItems
 			else
-				cursorPosY = #t_netplayCfg
+				cursorPosY = #t_lobbyCfg
 			end
-		elseif netplayCfg > #t_netplayCfg then
-			netplayCfg = 1
+		elseif lobbyCfg > #t_lobbyCfg then
+			lobbyCfg = 1
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
@@ -2060,53 +2150,52 @@ function f_netplayCfg()
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == maxItems then
-			moveTxt = (netplayCfg - maxItems) * 15
+			moveTxt = (lobbyCfg - maxItems) * 15
 		elseif cursorPosY == 1 then
-			moveTxt = (netplayCfg - 1) * 15
+			moveTxt = (lobbyCfg - 1) * 15
 		end	
-		if #t_netplayCfg <= maxItems then
-			maxNetplayCfg = #t_netplayCfg
-		elseif netplayCfg - cursorPosY > 0 then
-			maxNetplayCfg = netplayCfg + maxItems - cursorPosY
+		if #t_lobbyCfg <= maxItems then
+			maxlobbyCfg = #t_lobbyCfg
+		elseif lobbyCfg - cursorPosY > 0 then
+			maxlobbyCfg = lobbyCfg + maxItems - cursorPosY
 		else
-			maxNetplayCfg = maxItems
+			maxlobbyCfg = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxNetplayCfg*15)
+		animSetScale(optionsBG1, 220, maxlobbyCfg*15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
-		textImgDraw(txt_netplayCfg)
+		textImgDraw(txt_lobbyCfg)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if lockSetting == true then
+		if lockSetting then
 			for i=1, #t_wip do
 				textImgDraw(t_wip[i].id)
 			end
 		end	
 		if data.ftcontrol == -1 then
-			t_netplayCfg[1].varText = "Unranked/FFA"
+			t_lobbyCfg[1].varText = "Unranked/FFA"
 		else
-			t_netplayCfg[1].varText = "Ranked/FT"..data.ftcontrol
+			t_lobbyCfg[1].varText = "Ranked/FT"..data.ftcontrol
 		end		
-		for i=1, maxNetplayCfg do	
-			if i > netplayCfg - cursorPosY then
-				if t_netplayCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, 1, t_netplayCfg[i].text, 85, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15+i*15-moveTxt))
+		for i=1, maxlobbyCfg do	
+			if i > lobbyCfg - cursorPosY then
+				if t_lobbyCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, 1, t_lobbyCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, -1, t_lobbyCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
 		end
-		if maxNetplayCfg > maxItems then
+		if maxlobbyCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_netplayCfg > maxItems and maxNetplayCfg < #t_netplayCfg then
+		if #t_lobbyCfg > maxItems and maxlobbyCfg < #t_lobbyCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
 		drawCfgInputHints()
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2135,6 +2224,10 @@ t_gameCfg = {
 	{text = "Life",               	 varText = data.lifeMul.."%"},
 	{text = "Game Speed",  	         varText = s_gameSpeed},
 	{text = "Quick Arcade Continue", varText = ""},
+--[[
+	{text = "Dizzy", 				 varText = data.stun},
+	{text = "Guard Break", 			 varText = data.guardBreak},
+]]
 	{text = "AI Palette",  	    	 varText = data.aipal},
 	{text = "AI Ramping",            varText = ""},
 	{text = "VS Kumite Amount",  	 varText = data.kumite},
@@ -2157,6 +2250,7 @@ function f_gameCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -2335,7 +2429,7 @@ function f_gameCfg()
 					end
 				end
 		--Quick Continue for Arcade
-			elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.quickCont then
 					data.quickCont = false
@@ -2345,13 +2439,13 @@ function f_gameCfg()
 					modified = 1
 				end
 		--AI Palette
-			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aipal == "Default" then data.aipal = "Random"
 				elseif data.aipal == "Random" then data.aipal = "Default"
 				end
 		--AI Ramping
-			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aiRamping then
 					data.aiRamping = false
@@ -2390,20 +2484,20 @@ function f_gameCfg()
 					bufl = 0
 				end
 		--Team Settings
-			elseif gameCfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameCfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_teamCfg()
 		--Zoom Settings
-			elseif gameCfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
+			elseif gameCfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
 				sndPlay(sndSys, 100, 1)
 				f_zoomCfg()
 		--Default Values
-			elseif gameCfg == #t_gameCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameCfg == #t_gameCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultGame = true
 				defaultScreen = true
 		--BACK
-			elseif gameCfg == #t_gameCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameCfg == #t_gameCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -2485,7 +2579,6 @@ function f_gameCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2507,10 +2600,11 @@ end
 txt_teamCfg = createTextImg(jgFnt, 0, 0, "TEAM SETTINGS", 159, 13)
 
 t_teamCfg = {
-	{text = "Single Vs Team Life",     	varText = data.team1VS2Life.."%"},
+	{text = "Single VS Team Life",     	varText = data.team1VS2Life.."%"},
 	{text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
 	{text = "Life Share", 				varText = ""},
 	{text = "Power Share", 				varText = ""},
+	--{text = "Team Duplicates",			varText = data.teamDuplicates},
 	{text = "Turns Players Limit",     	varText = data.numTurns},
 	{text = "Simul Players Limit",     	varText = data.numSimul},
 	{text = "Simul Type",              	varText = data.simulType},
@@ -2532,6 +2626,7 @@ function f_teamCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -2598,7 +2693,7 @@ function f_teamCfg()
 					bufl = 0
 				end
 		--Team Life Share
-			elseif teamCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif teamCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.teamLifeShare then
 					data.teamLifeShare = false
@@ -2608,7 +2703,7 @@ function f_teamCfg()
 					modified = 1
 				end
 		--Team Power Share
-			elseif teamCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif teamCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.teamPowerShare then
 					data.teamPowerShare = false
@@ -2697,12 +2792,12 @@ function f_teamCfg()
 					modified = 1
 				end
 		--Default Values
-			elseif teamCfg == #t_teamCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif teamCfg == #t_teamCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultTeam = true
 				defaultScreen = true
 		--BACK
-			elseif teamCfg == #t_teamCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif teamCfg == #t_teamCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -2773,7 +2868,6 @@ function f_teamCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2816,6 +2910,7 @@ function f_zoomCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -2832,7 +2927,7 @@ function f_zoomCfg()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 		--Zoom Active
-			elseif zoomCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif zoomCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.zoomActive then
 					data.zoomActive = false
@@ -2917,12 +3012,12 @@ function f_zoomCfg()
 					bufl = 0
 				end
 		--Default Values
-			elseif zoomCfg == #t_zoomCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif zoomCfg == #t_zoomCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultZoom = true
 				defaultScreen = true
 		--BACK
-			elseif zoomCfg == #t_zoomCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif zoomCfg == #t_zoomCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -2989,7 +3084,6 @@ function f_zoomCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3039,6 +3133,7 @@ function f_UICfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -3157,7 +3252,7 @@ function f_UICfg()
 					end
 				end
 		--Attract Mode
-			elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3196,7 +3291,7 @@ function f_UICfg()
 					modified = 1	
 				end
 		--Display Versus Win Counter
-			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3229,19 +3324,19 @@ function f_UICfg()
 					modified = 1
 				end
 		--Character Select Settings
-			elseif UICfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 8 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
 		--Stage Select Settings
-			elseif UICfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 9 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
 		--Timers Settings
-			elseif UICfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 10 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
 		--System Songs Settings
-			elseif UICfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3249,12 +3344,12 @@ function f_UICfg()
 					f_songCfg()
 				end
 		--Default Values
-			elseif UICfg == #t_UICfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == #t_UICfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
 		--BACK
-			elseif UICfg == #t_UICfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == #t_UICfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -3329,7 +3424,6 @@ function f_UICfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3374,6 +3468,7 @@ function f_selectCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -3390,11 +3485,11 @@ function f_selectCfg()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 		--Character Select Roster Config
-			elseif selectCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif selectCfg == 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_rosterCfg()
 		--Character Select Display Type
-			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3405,7 +3500,7 @@ function f_selectCfg()
 					modified = 1
 				end
 		--Character Palette Select Display Type
-			elseif selectCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.palType == "Classic" then data.palType = "Modern"
 				elseif data.palType == "Modern" then data.palType = "Classic"
@@ -3470,19 +3565,19 @@ function f_selectCfg()
 					modified = 1	
 				end
 		--Character Random Selection in Rematch
-			elseif selectCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.randomCharRematch == "Variable" then data.randomCharRematch = "Fixed"
 				elseif data.randomCharRematch == "Fixed" then data.randomCharRematch = "Variable"
 				end
 				modified = 1
 		--Default Values
-			elseif selectCfg == #t_selectCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif selectCfg == #t_selectCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSelect = true
 				defaultScreen = true
 		--BACK
-			elseif selectCfg == #t_selectCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif selectCfg == #t_selectCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -3550,7 +3645,6 @@ function f_selectCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3639,8 +3733,8 @@ rosterCfgUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 ]])
 animAddPos(rosterCfgUpArrow, 242, 23)
-animUpdate(rosterCfgUpArrow)
 animSetScale(rosterCfgUpArrow, 0.5, 0.5)
+animUpdate(rosterCfgUpArrow)
 
 --Down Arrow
 rosterCfgDownArrow = animNew(sprIkemen, [[
@@ -3654,8 +3748,8 @@ rosterCfgDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 ]])
 animAddPos(rosterCfgDownArrow, 242, 40)
-animUpdate(rosterCfgDownArrow)
 animSetScale(rosterCfgDownArrow, 0.5, 0.5)
+animUpdate(rosterCfgDownArrow)
 
 function f_rosterCfg()
 	cmdInput()
@@ -3669,6 +3763,7 @@ function f_rosterCfg()
 	local bufr = 0
 	local bufl = 0
 	if data.selectType == "Simple" then	t_rosterCfg = t_rosterCfg1 elseif data.selectType == "Advanced" then t_rosterCfg = t_rosterCfg2 end --Load different table settings values for specific roster type
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if defaultScreen == false and editDone then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -3748,14 +3843,14 @@ function f_rosterCfg()
 						bufl = 0
 					end
 			--Character Select Cells Wrapping (X Axis)
-				elseif rosterCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				elseif rosterCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingX then data.wrappingX = false
 					else data.wrappingX = true
 					end
 					modified = 1
 			--Character Select Cells Wrapping (Y Axis)
-				elseif rosterCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				elseif rosterCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingY then data.wrappingY = false
 					else data.wrappingY = true
@@ -3780,7 +3875,7 @@ function f_rosterCfg()
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 				--Activate Manual Keyboard Entry
-					elseif btnPalNo(p1Cmd) > 0 then
+					elseif btnPalNo(p1Cmd, true) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
@@ -3816,7 +3911,7 @@ function f_rosterCfg()
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 				--Activate Manual Keyboard Entry
-					elseif btnPalNo(p1Cmd) > 0 then
+					elseif btnPalNo(p1Cmd, true) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
@@ -3957,14 +4052,14 @@ function f_rosterCfg()
 						bufl = 0
 					end
 			--Character Select Cells Wrapping (X Axis)
-				elseif rosterCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				elseif rosterCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingX then data.wrappingX = false
 					else data.wrappingX = true
 					end
 					modified = 1
 			--Character Select Cells Wrapping (Y Axis)
-				elseif rosterCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				elseif rosterCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 					sndPlay(sndSys, 100, 0)
 					if data.wrappingY then data.wrappingY = false
 					else data.wrappingY = true
@@ -3989,7 +4084,7 @@ function f_rosterCfg()
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 				--Activate Manual Keyboard Entry
-					elseif btnPalNo(p1Cmd) > 0 then
+					elseif btnPalNo(p1Cmd, true) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
@@ -4025,7 +4120,7 @@ function f_rosterCfg()
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 				--Activate Manual Keyboard Entry
-					elseif btnPalNo(p1Cmd) > 0 then
+					elseif btnPalNo(p1Cmd, true) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
@@ -4061,7 +4156,7 @@ function f_rosterCfg()
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 				--Activate Manual Keyboard Entry
-					elseif btnPalNo(p1Cmd) > 0 then
+					elseif btnPalNo(p1Cmd, true) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
@@ -4097,7 +4192,7 @@ function f_rosterCfg()
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 				--Activate Manual Keyboard Entry
-					elseif btnPalNo(p1Cmd) > 0 then
+					elseif btnPalNo(p1Cmd, true) > 0 then
 						sndPlay(sndSys, 100, 1)
 						editDone = false
 						i = 0
@@ -4136,7 +4231,7 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 			--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
+				elseif btnPalNo(p1Cmd, true) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
@@ -4172,7 +4267,7 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 			--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
+				elseif btnPalNo(p1Cmd, true) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
@@ -4208,7 +4303,7 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 			--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
+				elseif btnPalNo(p1Cmd, true) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
@@ -4244,7 +4339,7 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 			--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
+				elseif btnPalNo(p1Cmd, true) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
@@ -4280,7 +4375,7 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 			--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
+				elseif btnPalNo(p1Cmd, true) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
@@ -4316,7 +4411,7 @@ function f_rosterCfg()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
 			--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
+				elseif btnPalNo(p1Cmd, true) > 0 then
 					sndPlay(sndSys, 100, 1)
 					editDone = false
 					i = 0
@@ -4450,18 +4545,18 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Default Values
-			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultRoster = true
 				defaultScreen = true
 		--Reload Select.def
 		--[[
-			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				assert(loadfile("script/loader.lua"))()
 		]]
 		--BACK
-			elseif rosterCfg == #t_rosterCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif rosterCfg == #t_rosterCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -4522,7 +4617,8 @@ function f_rosterCfg()
 					end
 				end
 			end
-			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+			if returnKey() then --If you are using a keyboard, use enter key to accept
+			--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				if newValue ~= '' and newValue ~= nil and tonumber(newValue) ~= nil then --Value entered is a valid Number
 					clearInputText()
 					sndPlay(sndSys, 100, 1)
@@ -4657,7 +4753,6 @@ function f_rosterCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4700,6 +4795,7 @@ function f_stageCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -4789,19 +4885,19 @@ function f_stageCfg()
 					modified = 1
 				end
 		--Random Stage Selection in Rematch
-			elseif stageCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif stageCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.randomStageRematch == "Variable" then data.randomStageRematch = "Fixed"
 				elseif data.randomStageRematch == "Fixed" then data.randomStageRematch = "Variable"
 				end
 				modified = 1
 		--Default Values
-			elseif stageCfg == #t_stageCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif stageCfg == #t_stageCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultStage = true
 				defaultScreen = true
 		--BACK
-			elseif stageCfg == #t_stageCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif stageCfg == #t_stageCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -4868,7 +4964,6 @@ function f_stageCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4914,6 +5009,7 @@ function f_timeCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5133,12 +5229,12 @@ function f_timeCfg()
 					bufl = 0
 				end
 		--Default Values
-			elseif timeCfg == #t_timeCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif timeCfg == #t_timeCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultTime = true
 				defaultScreen = true
 		--BACK
-			elseif timeCfg == #t_timeCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif timeCfg == #t_timeCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -5208,7 +5304,6 @@ function f_timeCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5273,17 +5368,18 @@ function f_songCfg()
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
-	songCfg = 1 --To read Above
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	songCfg = 1 --To recognize f_setCfgSong()
+	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				sndPlay(sndSys, 100, 2)
+				if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -5297,33 +5393,33 @@ function f_songCfg()
 				if bufr then bufr = 0 end
 			end
 		--Set Main Menu Song
-			if songCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			if songCfg == 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				songsSettings = true --For identify purposes
 				f_songMenu() --Go to Sound Test
 		--Set Character Select Song
-			elseif songCfg == 2 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif songCfg == 2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				songsSettings = true
 				f_songMenu()
 		--Set Challenger Select Song
-			elseif songCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif songCfg == 3 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				songsSettings = true
 				f_songMenu()
 		--Display BGM Name
-			elseif songCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then 
+			elseif songCfg == 4 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then 
 				sndPlay(sndSys, 100, 1)
 				if data.bgmDisplay then data.bgmDisplay = false else data.bgmDisplay = true end
 		--Default Values
-			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSong = true
 				defaultScreen = true
 		--BACK
-			elseif songCfg == #t_songCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif songCfg == #t_songCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			end
 		--Setting Menu Logic
@@ -5390,7 +5486,6 @@ function f_songCfg()
 		else
 			drawListInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5415,9 +5510,9 @@ txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
 t_audioCfg = {
 	{text = "Master Volume",	varText = gl_vol.."%"},
-	{text = "SFX Volume",		varText = se_vol.."%"},
 	{text = "BGM Volume",		varText = bgm_vol.."%"},
-	{text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "SFX Volume",		varText = se_vol.."%"},
+	{text = "Panning Range",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
 	{text = "Sample Rate",     	varText = freq},
 	{text = "Channels",        	varText = s_channels},
 	{text = "Buffer Samples",  	varText = buffer},
@@ -5438,6 +5533,7 @@ function f_audioCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5482,37 +5578,8 @@ function f_audioCfg()
 					bufr = 0
 					bufl = 0
 				end
-		--SFX Volume
-			elseif audioCfg == 2 then
-				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if se_vol < 100 then
-						se_vol = se_vol + 1
-					else
-						se_vol = 0
-					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if se_vol > 0 then
-						se_vol = se_vol - 1
-					else
-						se_vol = 100
-					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
-					modified = 1
-				end
-				if commandGetState(p1Cmd, 'holdr') then
-					bufl = 0
-					bufr = bufr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufr = 0
-					bufl = bufl + 1
-				else
-					bufr = 0
-					bufl = 0
-				end
 		--BGM Volume
-			elseif audioCfg == 3 then
+			elseif audioCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if bgm_vol < 100 then
 						bgm_vol = bgm_vol + 1
@@ -5540,7 +5607,36 @@ function f_audioCfg()
 					bufr = 0
 					bufl = 0
 				end
-		--Audio Panning
+		--SFX Volume
+			elseif audioCfg == 3 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if se_vol < 100 then
+						se_vol = se_vol + 1
+					else
+						se_vol = 0
+					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if se_vol > 0 then
+						se_vol = se_vol - 1
+					else
+						se_vol = 100
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+		--Audio Panning Range
 			elseif audioCfg == 4 then
 				if commandGetState(p1Cmd, 'r') and pan_str < 160 then
 					sndPlay(sndSys, 100, 0)
@@ -5634,12 +5730,12 @@ function f_audioCfg()
 					needReload = 1
 				end
 		--Default Values
-			elseif audioCfg == #t_audioCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif audioCfg == #t_audioCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
 		--BACK
-			elseif audioCfg == #t_audioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif audioCfg == #t_audioCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -5682,8 +5778,8 @@ function f_audioCfg()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		t_audioCfg[1].varText = gl_vol.."%"
-		t_audioCfg[2].varText = se_vol.."%"
-		t_audioCfg[3].varText = bgm_vol.."%"
+		t_audioCfg[2].varText = bgm_vol.."%"
+		t_audioCfg[3].varText = se_vol.."%"
 		t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
 		t_audioCfg[5].varText = freq
 		t_audioCfg[6].varText = s_channels
@@ -5711,7 +5807,6 @@ function f_audioCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5760,6 +5855,7 @@ function f_engineCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5779,7 +5875,7 @@ function f_engineCfg()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end					
 		--Debug Mode
-			elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -5793,7 +5889,7 @@ function f_engineCfg()
 					end
 				end
 		--Print Debug Logs
-			elseif engineCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif engineCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -5807,17 +5903,17 @@ function f_engineCfg()
 					end
 				end
 		--Generate Characters List
-			elseif engineCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif engineCfg == 3 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				generateCharsList("chars")
 				sszOpen("save", "00_CharactersList.txt")
 		--Generate Stages List
-			elseif engineCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif engineCfg == 4 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				generateStageList("stages")
 				sszOpen("save", "00_ExtraStagesList.txt")
 		--Engine Mode
-			elseif engineCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif engineCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -5949,7 +6045,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 		--Erase/Reset Statistics
-			elseif engineCfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
+			elseif engineCfg == 10 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
 				if onlinegame then
 					lockSetting = true
 				else
@@ -5957,12 +6053,12 @@ function f_engineCfg()
 					f_unlocksWarning()
 				end
 		--Default Values
-			elseif engineCfg == #t_engineCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif engineCfg == #t_engineCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
 		--BACK
-			elseif engineCfg == #t_engineCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif engineCfg == #t_engineCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -6037,7 +6133,6 @@ function f_engineCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6059,15 +6154,16 @@ end
 txt_videoCfg = createTextImg(jgFnt, 0, 0, "VIDEO SETTINGS", 159, 13)
 
 t_videoCfg = {
+	{text = "Renderer", 	 	 varText = ""},
 	{text = "Resolution",  		 varText = ""},
 	{text = "Screen Mode",  	 varText = ""},
 	{text = "Window Type", 		 varText = ""},
 	{text = "Fullscreen Type",	 varText = ""},
-	{text = "Aspect Ratio 16:9", varText = ""},
-	{text = "Sdlplugin Version", varText = ""},
+	{text = "Keep Aspect Ratio", varText = ""},
+	{text = "Window Opacity",	 varText = ""},
 	{text = "Brightness",		 varText = ""},
-	--{text = "OpenGL 2.0", 	 varText = ""},
-	--{text = "Save Memory", 	 varText = ""},
+	{text = "Save Memory", 	 	 varText = ""},
+	{text = "Sdlplugin Version", varText = ""},
 	{text = "Default Graphics",	 varText = ""},
 	{text = "          BACK",  	 varText = ""},
 }
@@ -6085,6 +6181,7 @@ function f_videoCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	sndPlay(sndSys, 100, 1)
 	while true do
 		if b_fullscreenMode ~= getFullScreenMode() then
 			if getFullScreenMode() then
@@ -6102,18 +6199,7 @@ function f_videoCfg()
 				b_screenMode = false
 				s_screenMode = "Window"
 			end
-			t_videoCfg[2].varText = s_screenMode
-			modified = 1
-		end
-		if b_aspectMode ~= getAspectRatio() then
-			if getAspectRatio() then
-				b_aspectMode = true
-				s_aspectMode = "Yes"
-			else
-				b_aspectMode = false
-				s_aspectMode = "No"
-			end
-			t_videoCfg[5].varText = s_aspectMode
+			t_videoCfg[3].varText = s_screenMode
 			modified = 1
 		end
 		if b_borderMode ~= getBorderMode() then
@@ -6130,6 +6216,17 @@ function f_videoCfg()
 			else
 				b_resizableMode = false
 			end
+			modified = 1
+		end
+		if b_aspectMode ~= getAspectRatio() then
+			if getAspectRatio() then
+				b_aspectMode = true
+				s_aspectMode = "Yes"
+			else
+				b_aspectMode = false
+				s_aspectMode = "No"
+			end
+			t_videoCfg[6].varText = s_aspectMode
 			modified = 1
 		end
 		if not defaultScreen then
@@ -6149,14 +6246,27 @@ function f_videoCfg()
 				videoCfg = videoCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-		--Resolution
-			elseif videoCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sndSys, 100, 1)
-				if f_resCfg() then
+		--(Software/OpenGL 2.0)
+			elseif videoCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if not b_openGL then
+					b_openGL = true
+					s_openGL = "OpenGL 2.0"
+					f_glWarning()
 					modified = 1
+					needReload = 1				
+				else
+					b_openGL = false
+					s_openGL = "Software"
+					modified = 1
+					needReload = 1
 				end
-		--Fullscreen
-			elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		--Resolution
+			elseif videoCfg == 2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				if f_resCfg() then modified = 1 end
+		--Screen Mode
+			elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if not b_screenMode then
 					b_screenMode = true
@@ -6168,7 +6278,7 @@ function f_videoCfg()
 				modified = 1
 				setScreenMode(b_screenMode) --added via system-script.ssz
 		--Window Type
-			elseif videoCfg == 3 then
+			elseif videoCfg == 4 then
 				if data.sdl == "Original" then
 					lockSetting = true
 				elseif data.sdl == "New" then
@@ -6200,11 +6310,11 @@ function f_videoCfg()
 					end
 				end
 		--Fullscreen Type
-			elseif videoCfg == 4 then
+			elseif videoCfg == 5 then
 				if data.sdl == "Original" then
 					lockSetting = true
 				elseif data.sdl == "New" then
-					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 						sndPlay(sndSys, 100, 0)
 						if data.fullscreenType == "Exclusive" then
 							data.fullscreenType = "Borderless"
@@ -6221,11 +6331,11 @@ function f_videoCfg()
 					end
 				end
 		--Keep Aspect Ratio
-			elseif videoCfg == 5 then
+			elseif videoCfg == 6 then
 				if data.sdl == "Original" then
 					lockSetting = true
-				elseif data.sdl == "New" and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sndSys, 100, 0)
+				elseif data.sdl == "New" and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+					sndPlay(sndSys, 100, 0)
 					if not b_aspectMode then
 						b_aspectMode = true
 						s_aspectMode = "Yes"
@@ -6237,23 +6347,39 @@ function f_videoCfg()
 					needReload = 1
 					setAspectRatio(b_aspectMode)
 				end
-		--Sdlplugin
-			elseif videoCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame then
+		--Window Opacity Adjust
+			elseif videoCfg == 7 then
+				if data.sdl == "Original" then
 					lockSetting = true
-				else
-					sndPlay(sndSys, 100, 0)
-					if data.sdl == "Original" then
-						data.sdl = "New"
-						f_sdlWarning()
-					elseif data.sdl == "New" then
-						data.sdl = "Original"
+				elseif data.sdl == "New" and commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if opacityAdjust < 100 then
+						opacityAdjust = opacityAdjust + 1
+					else
+						opacityAdjust = 0
 					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-					needReload = 1
+				elseif data.sdl == "New" and commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if opacityAdjust > 0 then
+						opacityAdjust = opacityAdjust - 1
+					else
+						opacityAdjust = 100
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
 				end
 		--Brightness Adjust
-			elseif videoCfg == 7 then
+			elseif videoCfg == 8 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if brightnessAdjust < 256 then
 						brightnessAdjust = brightnessAdjust + 1
@@ -6281,24 +6407,8 @@ function f_videoCfg()
 					bufr = 0
 					bufl = 0
 				end
-		--[[OpenGL 2.0
-			elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sndSys, 100, 0)
-				if not b_openGL then
-					b_openGL = true
-					s_openGL = "Yes"
-					f_glWarning()
-					modified = 1
-					needReload = 1				
-				else
-					b_openGL = false
-					s_openGL = "No"
-					modified = 1
-					needReload = 0
-				end
-			]]
-		--[[Save Memory
-			elseif videoCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		--Save Memory
+			elseif videoCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if not b_saveMemory then
 					b_saveMemory = true
@@ -6313,14 +6423,28 @@ function f_videoCfg()
 					modified = 1
 					needReload = 1
 				end
-			]]
+		--Sdlplugin (Temp Setting Until everything works as original one)
+			elseif videoCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				if onlinegame then
+					lockSetting = true
+				else
+					sndPlay(sndSys, 100, 0)
+					if data.sdl == "Original" then
+						data.sdl = "New"
+						f_sdlWarning()
+					elseif data.sdl == "New" then
+						data.sdl = "Original"
+					end
+					modified = 1
+					needReload = 1
+				end
 		--Default Values
-			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
 		--BACK
-			elseif videoCfg == #t_videoCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif videoCfg == #t_videoCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -6362,17 +6486,19 @@ function f_videoCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		t_videoCfg[1].varText = resolutionWidth.."x"..resolutionHeight
-		t_videoCfg[2].varText = s_screenMode
-		t_videoCfg[3].varText = data.windowType
-		t_videoCfg[4].varText = data.fullscreenType
-		t_videoCfg[5].varText = s_aspectMode
-		t_videoCfg[6].varText = data.sdl
-		t_videoCfg[7].varText = brightnessAdjust
+		t_videoCfg[1].varText = s_openGL
+		t_videoCfg[2].varText = resolutionWidth.."x"..resolutionHeight
+		t_videoCfg[3].varText = s_screenMode
+		t_videoCfg[4].varText = data.windowType
+		t_videoCfg[5].varText = data.fullscreenType
+		t_videoCfg[6].varText = s_aspectMode
+		t_videoCfg[7].varText = opacityAdjust.."%"
+		t_videoCfg[8].varText = brightnessAdjust
+		t_videoCfg[9].varText = s_saveMemory
+		t_videoCfg[10].varText = data.sdl
+		setOpacity(opacityAdjust / 100)
 		setBrightness(brightnessAdjust)
-		--t_videoCfg[8].varText = s_openGL
-		--t_videoCfg[9].varText = s_saveMemory
-		if lockSetting == true then
+		if lockSetting then
 			for i=1, #t_sdlBeta do
 				textImgDraw(t_sdlBeta[i].id)
 			end
@@ -6398,7 +6524,6 @@ function f_videoCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6540,7 +6665,7 @@ function f_resCfg()
 			resCfg = resCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 		--BACK
 			if resCfg == #t_resCfg then
 				sndPlay(sndSys, 100, 2)
@@ -6601,7 +6726,6 @@ function f_resCfg()
 			animUpdate(optionsDownArrow)
 		end
 		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6673,7 +6797,7 @@ function f_resCfgSet(t, title)
 		else
 			maxresCfgSet = maxItems
 		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			if resCfgSet == #t_aspectRatio then
 				sndPlay(sndSys, 100, 2)
 				return false
@@ -6713,7 +6837,6 @@ function f_resCfgSet(t, title)
 			animUpdate(optionsDownArrow)
 		end
 		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6761,6 +6884,7 @@ function f_inputCfg()
 	f_defaultReset()
 	padTester = 0
 	padTesterActive = false
+	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -6777,7 +6901,7 @@ function f_inputCfg()
 				inputCfg = inputCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			--Keyboard Config
 				if inputCfg == 1 then
 					sndPlay(sndSys, 100, 1)
@@ -6918,7 +7042,6 @@ function f_inputCfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6999,6 +7122,9 @@ TbuttonL = animNew(sprGlyphs, [[27,0, 0,0, -1]])
 TbuttonS = animNew(sprGlyphs, [[51,0, 0,0, -1]])
 
 function f_testMenu()
+	cmdInput()
+	setSysCtrl(0) --Load Battle Controls from config.ssz
+	f_cmdCodeReset() --Secret Button Combination
 	local alphaS = 20
 	local alphaD = 100
 	local alphaSB = 255
@@ -7036,9 +7162,6 @@ function f_testMenu()
 --Player 2 Assets Pos X and Y Distance
 	local posXP2 = 0
 	local posYP2 = 122
-	cmdInput()
-	setSysCtrl(0) --Load Battle Controls from config.ssz
-	f_cmdCodeReset()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sndSys, 100, 2)
@@ -7107,7 +7230,6 @@ function f_testMenu()
 		if commandGetState(p2Cmd, 'holdq') then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
 		if commandGetState(p2Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
 		if commandGetState(p2Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if data.attractMode then f_attractcfgCredits() end
 		if cmdCode then f_cmdCode() end
 		f_drawQuickText(txt_keyHint, font1, 0, 0, 'Press [SELECT] or [ESC] button to back', 162, 30)
 		cmdInput()
@@ -7150,7 +7272,7 @@ function f_keyMenu()
 			sndPlay(sndSys, 100, 0)
 			keyMenu = keyMenu + 1
 		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			if keyMenu == 1 or keyMenu == 2 then
 				sndPlay(sndSys, 100, 1)
 				controllerSet = 1 --Keyboard is the control to setup
@@ -7227,7 +7349,6 @@ function f_keyMenu()
 			animUpdate(optionsDownArrow)
 		end
 		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7259,7 +7380,7 @@ end
 function f_tempWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 1)
 			break
 		end
@@ -7272,12 +7393,10 @@ function f_tempWarning()
 			textImgDraw(t_tempWarning[i].id)
 		end
 		animDraw(infoOptionsWindowBG)
-		animUpdate(infoOptionsWindowBG)
 		textImgDraw(txt_okOptions)
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -7318,7 +7437,7 @@ function f_joyMenu()
 			sndPlay(sndSys, 100, 0)
 			joyMenu = joyMenu + 1
 		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			if joyMenu == 1 or joyMenu == 2 then
 				sndPlay(sndSys, 100, 1)
 				controllerSet = 2 --Gamepad is the control to setup
@@ -7397,7 +7516,6 @@ function f_joyMenu()
 			animUpdate(optionsDownArrow)
 		end
 		drawListInputHints()
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7557,7 +7675,7 @@ function f_keyBattleCfg(playerNo, controller)
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		end
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Battle Controls
@@ -7620,7 +7738,7 @@ function f_keyBattleCfg(playerNo, controller)
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
 		end
-		if btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p2Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Battle Controls
@@ -7677,7 +7795,6 @@ function f_keyBattleCfg(playerNo, controller)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
 		textImgSetAlign(txt_inputHint, 0)
 		textImgPosDraw(txt_inputHint, 163, 238)
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7823,7 +7940,7 @@ function f_keyMenuCfg(playerNo, controller)
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		end
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Menu Controls
@@ -7886,7 +8003,7 @@ function f_keyMenuCfg(playerNo, controller)
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
 		end
-		if btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p2Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Menu Controls
@@ -7943,7 +8060,6 @@ function f_keyMenuCfg(playerNo, controller)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
 		textImgSetAlign(txt_inputHint, 0)
 		textImgPosDraw(txt_inputHint, 163, 238)
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -8528,7 +8644,6 @@ function f_readBattleInput(oldkey)
 				end
 			end
 		end
-        if data.attractMode then f_attractcfgCredits() end			
 		refresh()
 	end
 	local key = getKeyboard
@@ -9236,7 +9351,6 @@ function f_readMenuInput(oldkey)
 				end
 			end
 		end
-        if data.attractMode then f_attractcfgCredits() end			
 		refresh()
 	end
 	local key = getKeyboard
@@ -9448,19 +9562,19 @@ function f_gameVNcfg()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				end
 		--Auto Skip Text
-			elseif gameVNcfg == 6 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+			elseif gameVNcfg == 6 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 				sndPlay(sndSys, 100, 1)
 				if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
 		--Auto Save (TODO)
 				
 		--[[Default Values
-			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultVN = true
 				defaultScreen = true
 		]]
 		--BACK
-			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -9538,7 +9652,6 @@ function f_gameVNcfg()
 		else
 			drawCfgInputHints()
 		end
-		if data.attractMode then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -9590,7 +9703,6 @@ function f_unlocksWarning()
 		end
 		if defaultScreen then f_defaultMenu() end
 		if not defaultScreen and not resetStats then break end
-		if data.attractMode then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end

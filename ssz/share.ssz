@@ -54,7 +54,8 @@ public &Share
   public ^/char tourneyState;
   public int gameType;
   public int lifePersistence;
-  public int abyssDepth, abyssDepthBoss, abyssDepthBossSpecial, abyssBossFight, abyssReward, abyssLife, abyssPower, abyssAttack, abyssDefence;
+  public int credits, coins;
+  public int abyssDepth, abyssDepthBoss, abyssDepthBossSpecial, abyssBossFight, abyssFinalDepth, abyssReward, abyssLife, abyssPower, abyssAttack, abyssDefence;
   public int inputDisplay;
   public int damageDisplay;
   public int powerStateP1;
@@ -136,10 +137,13 @@ public &Share
 	`tourneyState = .com.tourneyState;
 	`gameType = .com.gameType;
 	`lifePersistence = .com.lifePersistence;
+	`credits = .com.credits;
+	`coins = .com.coins;
 	`abyssDepth = .com.abyssDepth;
 	`abyssDepthBoss = .com.abyssDepthBoss;
 	`abyssDepthBossSpecial = .com.abyssDepthBossSpecial;
 	`abyssBossFight = .com.abyssBossFight;
+	`abyssFinalDepth = .com.abyssFinalDepth;
 	`abyssReward = .com.abyssReward;
 	`abyssLife = .com.abyssLife;
 	`abyssPower = .com.abyssPower;
@@ -230,10 +234,13 @@ public &Share
 	.com.tourneyState = `tourneyState;
 	.com.gameType = `gameType;
 	.com.lifePersistence = `lifePersistence;
+	.com.credits = `credits;
+	.com.coins = `coins;
 	.com.abyssDepth = `abyssDepth;
 	.com.abyssDepthBoss = `abyssDepthBoss;
 	.com.abyssDepthBossSpecial = `abyssDepthBossSpecial;
 	.com.abyssBossFight = `abyssBossFight;
+	.com.abyssFinalDepth = `abyssFinalDepth;
 	.com.abyssReward = `abyssReward;
 	.com.abyssLife = `abyssLife;
 	.com.abyssPower = `abyssPower;

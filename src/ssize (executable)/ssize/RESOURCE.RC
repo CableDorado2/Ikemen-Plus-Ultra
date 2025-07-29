@@ -5,8 +5,8 @@
 //File Description
 #define IDR_VERSION1  1
 IDR_VERSION1	VERSIONINFO	MOVEABLE IMPURE LOADONCALL DISCARDABLE
-  FILEVERSION	 1,4,0,0
-  PRODUCTVERSION 1,4,0,0
+  FILEVERSION	 1,5,0,0
+  PRODUCTVERSION 1,5,0,0
   FILEFLAGSMASK	VS_FFI_FILEFLAGSMASK
   FILEFLAGS	0
   FILEOS	VOS_DOS_WINDOWS32
@@ -19,14 +19,14 @@ BEGIN
     //language ID = U.S. English, char set = Windows, Multilingual
 
     BEGIN
-      VALUE "FileDescription", "I.K.E.M.E.N Engine"
-      VALUE "FileVersion",	"1.4.0\0"
+      VALUE "FileDescription", "I.K.E.M.E.N. ENGINE"
+      VALUE "FileVersion",	"1.5.0\0"
       VALUE "InternalName",	"S-SIZE\0"
       VALUE "OriginalFilename",	"ssize.exe\0"
-      VALUE "ProductName",	"I.K.E.M.E.N PLUS ULTRA\0"
-	  VALUE "ProductVersion",	"1.4.0\0"
+      VALUE "ProductName",	"I.K.E.M.E.N. PLUS ULTRA\0"
+	  VALUE "ProductVersion",	"1.5.0\0"
       VALUE "Comments","Engine modified by CD2 & Strong FS\0"
-      VALUE "LegalCopyright", "(C) 2016-2024 Check License.txt\0"
+      VALUE "LegalCopyright", "(C) 2006-2025 Check License.txt\0"
     END
   END
   BLOCK "VarFileInfo"

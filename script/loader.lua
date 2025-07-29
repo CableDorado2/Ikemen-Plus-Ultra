@@ -1043,140 +1043,7 @@ content = content:gsub('\n%s*\n', '\n')
 end
 f_loadTowers(true)
 --;===========================================================
---; LOADING SCREEN 3 (LOAD GALLERY.DEF DATA)
---;===========================================================
-function f_loadGallery(path, reset) --Load def file which contains artworks data
-	local reset = reset or false --To reset table
-	if reset then t_gallery = {} end
-	local file = path
-	local section = 0
-	local content = f_fileRead(file)
-	content = content:gsub('([^\r\n;]*)%s*;[^\r\n]*', '%1')
-	content = content:gsub('\n%s*\n', '\n')
-	for line in content:gmatch('[^\r\n]+') do
-		local lineCase = line:lower()
-		if lineCase:match('^%s*%[%s*galleryartworks%s*%]') then
-			section = 1
-			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "ARTWORKS"
-			t_gallery[section]['txtID'] = textImgNew()
-		elseif lineCase:match('^%s*%[%s*gallerystoryboards%s*%]') then
-			section = 2
-			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "STORYBOARDS"
-			t_gallery[section]['txtID'] = textImgNew()
-		elseif lineCase:match('^%s*%[%s*gallerymovies%s*%]') then
-			section = 3
-			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "CUTSCENES"
-			t_gallery[section]['txtID'] = textImgNew()
-		elseif lineCase:match('^%s*%[%w+%]$') then
-			section = -1
-	--[GalleryArtworks]
-		elseif section == 1 then
-			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			--Generate Table to manage each item with default values
-				if param:match('^id$') then
-					--local newItem = {
-					table.insert(t_gallery[section],
-						{
-							id = value,
-							spr = {},
-							info = txt_galleryUnknown,
-							size = {galleryArtSizeX, galleryArtSizeY},
-							pos = {galleryArtPosX, galleryArtPosY},
-							scale = {galleryArtScaleX, galleryArtScaleY},
-							zoomlimit = {galleryArtZoomLimitX, galleryArtZoomLimitY},
-							movelimit = {galleryArtMoveLimitX1, galleryArtMoveLimitY1, galleryArtMoveLimitX2, galleryArtMoveLimitY2},
-							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
-							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
-							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
-							unlock = 'true'
-						}
-					)
-					--table.insert(t_gallery[section], newItem)
-			--Store comma separated number values to table
-				elseif param:match('^spr$') or param:match('^size$') or param:match('^pos$') or param:match('^scale$') or param:match('^zoomlimit$') or param:match('^movelimit$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
-					local tbl = {}
-					for num in value:gmatch('([^,]+)') do
-						table.insert(tbl, tonumber(num))
-					end
-					if t_gallery[section][#t_gallery[section]] then
-						t_gallery[section][#t_gallery[section]][param] = tbl
-					end
-			--Store extra values
-				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
-					t_gallery[section][#t_gallery[section]][param] = value
-				end
-			end
-	--[GalleryStoryboards] / [GalleryMovies]
-		elseif section == 2 or section == 3 then
-			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			--Generate Table to manage each item with default values
-				if param:match('^id$') then
-					table.insert(t_gallery[section],
-						{
-							id = value,
-							spr = {},
-							file = {},
-							size = {galleryArtSizeX, galleryArtSizeY},
-							info = txt_galleryUnknown,
-							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
-							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
-							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
-							unlock = 'true'
-						}
-					)
-			--Store comma separated number values to table
-				elseif param:match('^spr$') or param:match('^size$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
-					local tbl = {}
-					for num in value:gmatch('([^,]+)') do
-						table.insert(tbl, tonumber(num))
-					end
-					if t_gallery[section][#t_gallery[section]] then
-						t_gallery[section][#t_gallery[section]][param] = tbl
-					end
-			--Store extra values
-				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
-					t_gallery[section][#t_gallery[section]][param] = value
-				end
-			end
-		end
-	end
-	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.log") end
---[[
-	textImgSetText(txt_loading, "LOADING GALLERY...")
-	textImgDraw(txt_loading)
-	refresh()
-]]
-end
-function f_loadGalleryDat()
-	f_loadGallery(galleryArtworksDef, true)
-	f_loadGallery(galleryStoryboardsDef, false)
-	f_loadGallery(galleryMoviesDef, false)
-end
---[[
-for k, v in ipairs(t_gallery) do --Set Unlock Conditions
-	if main.t_unlockLua.gallery == nil then main.t_unlockLua['gallery'] = {} end
-	main.t_unlockLua.gallery[v.id] = v.unlock
-end
-]]
---[[
-for i=1, #t_gallery do
-	local section = nil
-	if i == 1 then section = "artworks"
-	elseif i == 2 then section = "storyboards"
-	elseif i == 3 then section = "videos"
-	end
-	for k, v in ipairs(t_gallery[i]) do --Send Gallery Unlocks Condition to t_unlockLua table
-		t_unlockLua[section][v.id] = v.unlock
-	end
-end
-]]
---;===========================================================
---; LOADING SCREEN 4 (LOAD VNSELECT.DEF DATA)
+--; LOADING SCREEN 3 (LOAD VNSELECT.DEF DATA)
 --;===========================================================
 t_selVN = {}
 local t_vnList = {}
@@ -1215,6 +1082,8 @@ for k, v in ipairs(t_abyssShop) do --Send Abyss Unlock Items Condition to t_unlo
 end
 
 function f_loadLicenses()
+local file = f_fileRead("License.txt")
+f_fileWrite(licensesPath.."/I.K.E.M.E.N..txt", file)
 t_licenseList = {}
 	for file in lfs.dir(licensesPath) do
 		if file:match('^.*(%.)[Tt][Xx][Tt]$') then
@@ -1232,31 +1101,32 @@ f_loadLicenses()
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
 --;===========================================================
+txt_parserWarning = createTextImg(jgFnt, 0, 0, "WARNING", 159, 13)
+t_parserText = {
+	{text = #t_gen .. " new character(s) detected."},
+	{text = "In order to improve loading times and memory usage"},
+	{text = "some sprites needs to be extracted and repacked with"},
+	{text = "external Elecbyte tools (sff2png.exe and sprmake2.exe)"},
+	{text = ""},
+	{text = "This can be done automatically but will take some time."},
+	{text = "More information is available in the readme file."},
+	{text = ""},
+	{text = "Would you like to start the conversion?"},
+}
+for i=1, #t_parserText do
+	t_parserText[i]['id'] = createTextImg(font2, 0, 1, t_parserText[i].text, 25, 15+i*15)
+end
+t_parserOptions = {
+	{text = "Yes, do it now."},
+	{text = "No, skip it this time."},
+	--{text = "No, disable SFF building permanently."},
+}
+for i=1, #t_parserOptions do
+	t_parserOptions[i]['id'] = createTextImg(font2, 0, 1, t_parserOptions[i].text, 25, 165+i*15)
+end
+
 --if sprite generation is needed and conversion has not been permanently disabled
 if generate and data.sffConversion then
-	txt_parserWarning = createTextImg(jgFnt, 0, 0, "WARNING", 159, 13)
-	t_parserText = {
-		{id = '', text = #t_gen .. " new character(s) detected."},
-		{id = '', text = "In order to improve loading times and memory usage"},
-		{id = '', text = "some sprites needs to be extracted and repacked with"},
-		{id = '', text = "external Elecbyte tools (sff2png.exe and sprmake2.exe)"},
-		{id = '', text = ""},
-		{id = '', text = "This can be done automatically but will take some time."},
-		{id = '', text = "More information is available in the readme file."},
-		{id = '', text = ""},
-		{id = '', text = "Would you like to start the conversion?"},
-	}
-	for i=1, #t_parserText do
-		t_parserText[i].id = createTextImg(font2, 0, 1, t_parserText[i].text, 25, 15+i*15)
-	end
-	t_parserOptions = {
-		{id = '', text = "Yes, do it now."},
-		{id = '', text = "No, skip it this time."},
-		--{id = '', text = "No, disable SFF building permanently."},
-	}
-	for i=1, #t_parserOptions do
-		t_parserOptions[i].id = createTextImg(font2, 0, 1, t_parserOptions[i].text, 25, 165+i*15)
-	end
 	cmdInput()
 	local parserCfg = 1
 	while true do
@@ -1271,7 +1141,7 @@ if generate and data.sffConversion then
 			sndPlay(sndSys, 100, 0)
 			parserCfg = parserCfg + 1
 			if parserCfg > #t_parserOptions then parserCfg = 1 end
-		elseif btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds') or btnPalNo(p2Cmd) > 0 or commandGetState(p2Cmd, 'holds') then
+		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			--sndPlay(sndSys, 100, 0)
 			break
 		end

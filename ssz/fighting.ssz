@@ -21,7 +21,7 @@ const double lvmul = 2.0**(1.0/12.0);
 
 &WincntMgr
 {
-  /^/char wincFN = "save/debug/autolevel.txt";
+  /^/char wincFN = "save/debug/autolevelssz.log";
   &.tbl.NameTable!int? winct;
   ^int zeroAry(int sz)
   {
@@ -191,8 +191,8 @@ void game()
 	//`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
 	`put(y=, "PLAYER SIDE:" + .com.playerSide); //Display Player Side
 	`put(y=, "TOURNEY STATE:" + .com.tourneyState); //Display Tourney State
-//Display Abyss Depth Level, Abyss Reward & Abyss Boss State
-	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward + " - ABYSS BOSS STATE:" + ''.com.abyssBossFight);
+//Display Abyss Depth Level, Abyss Reward, Abyss Boss State, Abyss Final Depth State
+	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward + " - ABYSS BOSS STATE:" + ''.com.abyssBossFight + " - ABYSS FINAL DEPTH:" + ''.com.abyssFinalDepth);
 //Display Next Abyss Normal Boss Match & Next Abyss Special Boss Match	
 	`put(y=, "NEXT ABYSS NORMAL BOSS DEPTH:" + ''.com.abyssDepthBoss + " - NEXT ABYSS SPECIAL BOSS DEPTH:" + ''.com.abyssDepthBossSpecial);
 	`put(y=, ""); //Enter a space to separate
@@ -509,8 +509,8 @@ void game()
       i++;
     while i < #.se.eventKeys:}
 	branch{
-    cond .cmd.startButton(1) && .com.pauseMenu != 2: .dscri.L.runString("togglePauseMenu(1)");
-    cond .cmd.startButton(2) && .com.pauseMenu != 1 && .com.com[1] == 0: .dscri.L.runString("togglePauseMenu(2)");
+		cond .cmd.startButton(1) && !.s.equ(.com.gameMode,"demo") && .com.pauseMenu != 2: .dscri.L.runString("togglePauseMenu(1)");
+		cond .cmd.startButton(2) && !.s.equ(.com.gameMode,"demo") && .com.pauseMenu != 1 && .com.com[1] == 0: .dscri.L.runString("togglePauseMenu(2)");
     }
     if(.dscri.roundResetFlg){
 	  reset();
@@ -629,7 +629,9 @@ void game()
 	.dscri.L.getGlobal("loop");
 	if(!.dscri.L.pcall(0, 1)) ret;
 //
-	drawPauseMenu(pmSt, pmEsc);
+	//if(!.s.equ(.com.gameMode,"demo")) {
+		drawPauseMenu(pmSt, pmEsc);
+	//}
 	pmSt = pmEsc = false;
     drawDebug();
   /?/*.cfg.OpenGL:

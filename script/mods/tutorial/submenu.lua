@@ -1,7 +1,7 @@
 ﻿--;===========================================================
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_practiceMenu,#t_practiceMenu,{id = textImgNew(), text = "TUTORIAL", gotomenu = "f_tutorial()"}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
+table.insert(t_practiceMenu,#t_practiceMenu,{text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
 sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
 sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
 bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
@@ -32,7 +32,6 @@ function f_tutorial()
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 	data.p1Pal = 1
 	data.p1Char = {"Kung Fu Girl"}
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if #t_tutorialChar ~= 0 then --If a tutorial char is detected in select.def with tutorial=1 paramvalue
 		data.p2In = 2
 		data.p2Pal = 1
@@ -42,6 +41,7 @@ function f_tutorial()
 		data.p2Faces = true
 	end
 	textImgSetText(txt_mainSelect, "TUTORIAL MODE")
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_selectSimple()
 end
 --;===========================================================

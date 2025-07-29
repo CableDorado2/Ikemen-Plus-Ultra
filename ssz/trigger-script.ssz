@@ -156,6 +156,18 @@ void playerid(&.lua.State L=, int re=)
   L.pushBoolean(#.chr.c > 0);
 }
 
+void credits(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.credits);
+}
+
+void coins(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.coins);
+}
+
 void abysslife(&.lua.State L=, int re=)
 {
   re = 1;
@@ -208,6 +220,12 @@ void abyssbossfight(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.abyssBossFight);
+}
+
+void abyssfinaldepth(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssFinalDepth);
 }
 
 void ailevel(&.lua.State L=, int re=)
@@ -1391,6 +1409,8 @@ public void registerFunction(&.lua.State L=)
   L.register("enemy", .enemy);
   L.register("enemynear", .enemynear);
   L.register("playerid", .playerid);
+  L.register("credits", .credits);
+  L.register("coins", .coins);
   L.register("abysslife", .abysslife);
   L.register("abysspower", .abysspower);
   L.register("abyssattack", .abyssattack);
@@ -1400,6 +1420,7 @@ public void registerFunction(&.lua.State L=)
   L.register("abyssdepthboss", .abyssdepthboss);
   L.register("abyssdepthbossspecial", .abyssdepthbossspecial);
   L.register("abyssbossfight", .abyssbossfight);
+  L.register("abyssfinaldepth", .abyssfinaldepth);
   L.register("ailevel", .ailevel);
   L.register("tagmode", .tagmode);
   L.register("alive", .alive);

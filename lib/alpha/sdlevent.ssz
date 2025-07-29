@@ -72,7 +72,7 @@ public bool eventUpdate()
       cond (.sdle.key.keysym.mod & (.sdl.KMOD_LALT | .sdl.KMOD_RALT)) != 0x0:
         switch(.sdle.key.keysym.sym){
         case .sdl.K::RETURN:
-          if(.sdl.fullScreen(!!.full)) .sdl.showCursor(!.full);
+          if(.sdl.fullScreen(!!.full)) .sdl.showCursor(!.full || .full && !.fullReal);
         case .sdl.K::F4:
           .end = true;
           ret false;
@@ -85,7 +85,7 @@ public bool eventUpdate()
       else:
 		//switch(.sdle.key.keysym.sym){ //Take Global Screenshots
         //case .sdl.K::PRINTSCREEN:
-		  //.sdl.takeScreenShot(.cfg.ScreenshotDir);
+		  //.sdl.takeScreenShot(.cfg.ScreenshotFolder);
         //}
 		switch(.sdle.key.keysym.sym){
         case .sdl.K::ESCAPE:

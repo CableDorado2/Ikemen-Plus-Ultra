@@ -5519,6 +5519,14 @@ public &Char
   {
     ret .com.match;
   }
+  public int trCredits()
+  {
+    ret .com.credits;
+  }
+  public int trCoins()
+  {
+    ret .com.coins;
+  }
   public int trAbyssDepth()
   {
     ret .com.abyssDepth;
@@ -5538,6 +5546,10 @@ public &Char
   public int trAbyssBossFight()
   {
     ret .com.abyssBossFight;
+  }
+  public int trAbyssFinalDepth()
+  {
+    ret .com.abyssFinalDepth;
   }
   public int trFTNo()
   {

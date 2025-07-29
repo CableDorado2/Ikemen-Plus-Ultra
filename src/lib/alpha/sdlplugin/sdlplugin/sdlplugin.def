@@ -38,6 +38,7 @@ EXPORTS
     PlayVideo
     JoystickButtonState
     SetVolume
+	SetOpacity
 	DiscordInit
 	DiscordUpdate
 	DiscordEnd

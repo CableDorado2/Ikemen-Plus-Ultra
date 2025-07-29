@@ -125,7 +125,7 @@ reflect = 0
  ;0 will play a random audio track. For example, to play
  ;track 3 from a music CD, use:
  ;  bgmusic = 3.da
-bgmusic = sound/sfx/Wind.mp3
+bgmusic = sound/Pearl In The Sky.mp3
 
  ;Adjust the volume. 0 is normal, negative for softer, and
  ;positive for louder (only for mp3, mods and CDA)

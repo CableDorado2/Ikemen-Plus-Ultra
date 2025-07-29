@@ -2,10 +2,12 @@ local excludeLuaMatch = true --This module will not load during a match (for opt
 --storyDef = "script/mods/story/story.def" --Story Data (Story definition filename)
 sprStory = sffNew("script/mods/story/story.sff") --load story sprites
 bgmStory = "script/mods/story/Story.mp3" --load story main bgm
+videoIntro = "data/videos/Opening.wmv"
+--function f_mainOpening() playVideo(videoIntro) end --Replace Storyboard intro with a Video file
 --;===========================================================
 --; STORY SCREENPACK
 --;===========================================================
-txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 11)
+txt_storyMenu = createTextImg(jgFnt, 0, -1, "STORY SELECT:", 188, 11)
 txt_storyProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
 txt_storyText = createTextImg(font6, 0, 1, "", 0, 0)
 
@@ -58,8 +60,8 @@ storyLeftArrow = animNew(sprIkemen, [[
 223,0, 0,0, 10
 ]])
 animAddPos(storyLeftArrow, 0, 38)
-animUpdate(storyLeftArrow)
 animSetScale(storyLeftArrow, 0.6, 0.6)
+animUpdate(storyLeftArrow)
 
 --Arc Right Arrow
 storyRightArrow = animNew(sprIkemen, [[
@@ -73,8 +75,8 @@ storyRightArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 ]])
 animAddPos(storyRightArrow, 310, 38)
-animUpdate(storyRightArrow)
 animSetScale(storyRightArrow, 0.6, 0.6)
+animUpdate(storyRightArrow)
 
 --Chapter Up Arrow
 storyUpArrow = animNew(sprIkemen, [[
@@ -88,8 +90,8 @@ storyUpArrow = animNew(sprIkemen, [[
 225,0, 0,0, 10
 ]])
 animAddPos(storyUpArrow, 0, 82)
-animUpdate(storyUpArrow)
 animSetScale(storyUpArrow, 0.5, 0.5)
+animUpdate(storyUpArrow)
 
 --Chapter Down Arrow
 storyDownArrow = animNew(sprIkemen, [[
@@ -103,8 +105,8 @@ storyDownArrow = animNew(sprIkemen, [[
 226,0, 0,0, 10
 ]])
 animAddPos(storyDownArrow, 0, 208)
-animUpdate(storyDownArrow)
 animSetScale(storyDownArrow, 0.5, 0.5)
+animUpdate(storyDownArrow)
 
 --Arc Folder Empty Icon
 arcFolderEmpty = animNew(sprStory, [[0,2, 0,0, -1]])
@@ -134,13 +136,14 @@ t_arcNull = {
 
 --Story Input Hints Panel
 function drawStoryInputHints()
-	local inputHintYPos = 218
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","120,"..inputHintYPos,"e","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
 
 --;===========================================================
@@ -266,39 +269,39 @@ end
 --;===========================================================
 function f_storyMenu()
 	cmdInput()
-	storyMenu = 1
 	local cursorPosX = 1
 	local moveArc = 0
-	f_resetChaptSel()
-	t_arcSelect = nil
 	local t = 0
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
 	local lockedStory = false
-	playBGM(bgmStory)
+	storyMenu = 1
+	f_resetChaptSel()
+	t_arcSelect = nil
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmStory)
 	while true do
---Load Chapters Progress
-	data.story1Progress = data.story1_0Status + data.story1_1Status + data.story1_2Status + data.story1_3AStatus + data.story1_3BStatus + data.story1_4AStatus + data.story1_4BStatus + data.story1_4CStatus + data.story1_4DStatus
-	data.story2Progress = data.story2_0Status + data.story2_1Status + data.story2_2Status
-	data.story3Progress = data.story3_0Status + data.story3_1Status
---Arcs Progress Logic
-	story1Data = (math.floor((data.story1Progress * 100 / 9) + 0.5)) --The number (9) is the amount of all data.story1Progress
-	story2Data = (math.floor((data.story2Progress * 100 / 3) + 0.5))
-	story3Data = (math.floor((data.story3Progress * 100 / 2) + 0.5))
---Story Mode Progress Logic
-	data.storiesProgress = story1Data + story2Data + story3Data
-	storyData = (math.floor((data.storiesProgress / 3) + 0.5)) --The number (3) is the amount of all data.storiesProgress
-	textImgSetText(txt_storyProgress, "["..storyData.."%]")
+	--Load Chapters Progress
+		data.story1Progress = data.story1_0Status + data.story1_1Status + data.story1_2Status + data.story1_3AStatus + data.story1_3BStatus + data.story1_4AStatus + data.story1_4BStatus + data.story1_4CStatus + data.story1_4DStatus
+		data.story2Progress = data.story2_0Status + data.story2_1Status + data.story2_2Status
+		data.story3Progress = data.story3_0Status + data.story3_1Status
+	--Arcs Progress Logic
+		story1Data = (math.floor((data.story1Progress * 100 / 9) + 0.5)) --The number (9) is the amount of all data.story1Progress
+		story2Data = (math.floor((data.story2Progress * 100 / 3) + 0.5))
+		story3Data = (math.floor((data.story3Progress * 100 / 2) + 0.5))
+	--Story Mode Progress Logic
+		data.storiesProgress = story1Data + story2Data + story3Data
+		storyData = (math.floor((data.storiesProgress / 3) + 0.5)) --The number (3) is the amount of all data.storiesProgress
+		textImgSetText(txt_storyProgress, "["..storyData.."%]")
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveStats()
+			f_resetMenuArrowsPos()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			f_menuMusic()
-			f_resetMenuArrowsPos()
 			break
 	--Arc Selection
 		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
@@ -324,7 +327,7 @@ function f_storyMenu()
 				sndPlay(sndSys, 100, 0)
 				chapterMenu = chapterMenu + 1
 			end
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 		--SLOT 1
 			if storyMenu == 1 and chapterMenu == 1 then f_arc1_prologue() --Unlocked By Default
 			elseif storyMenu == 2 and chapterMenu == 1 and data.story1_1Unlock == true then f_arc2_prologue()
@@ -702,8 +705,8 @@ end
 function f_backStorySel()
 	data.VNbreak = false --Reset visual novel back to main menu
 	--f_saveTemp()
-	playBGM(bgmStory)
 	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', sprFade)
+	playBGM(bgmStory)
 end
 
 --;===========================================================
@@ -727,7 +730,6 @@ function f_arc1_chapter1()
 	f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in common.lua f_vnScene function
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man"}
 		data.p1Pal = 1
@@ -744,12 +746,12 @@ function f_arc1_chapter1()
 		setGameMode('story')
 		setPlayerSide('p1left')
 		setPauseVar("giveup")
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory() --Start Fight with previous settings
 	--Part 2
 		f_vnScene(kfmVN,1,16)
 		if not data.VNbreak then
 			f_default() --Reset settings for the custom fight
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
 			data.p1Char = {"Kung Fu Man"} --Set P1 Characters (needs to be loaded in select.def)
 			data.p1Pal = 1 --Set P1 Character Palette
@@ -768,6 +770,7 @@ function f_arc1_chapter1()
 			setGameMode('story')
 			setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
 			setPlayerSide('p1left')
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			f_selectStory() --Start Fight with previous settings
 			if winner == 1 then --Only if you win do:
 				data.story1_2Unlock = true --Unlock next chapter
@@ -787,7 +790,6 @@ function f_arc1_chapter2()
 	f_vnScene(kfmVN,2,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man"}
 		data.p1Pal = 1
@@ -804,6 +806,7 @@ function f_arc1_chapter2()
 		data.rosterMode = "story"
 		data.storyNo = "1-2"
 		setGameMode('story')
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory()
 		if winner == 1 then
 			data.story1_3AUnlock = true --Unlock Route A
@@ -824,7 +827,6 @@ function f_arc1_chapter3_1()
 	f_vnScene(kfmVN,3,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man/Master/Master Kung Fu Man.def"}
 		data.p1Pal = 1
@@ -841,6 +843,7 @@ function f_arc1_chapter3_1()
 		data.rosterMode = "story"
 		data.storyNo = "1-3A"
 		setGameMode('story')
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory()
 		if winner == 1 then
 			data.story1_4AUnlock = true
@@ -861,7 +864,6 @@ function f_arc1_chapter3_2()
 	f_vnScene(kfmVN,4,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.p1Pal = 1
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man"}
@@ -882,6 +884,7 @@ function f_arc1_chapter3_2()
 		setService("balance")
 		setAutoguard(1, true)
 		setAutoguard(2, false)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory()
 		if winner == 1 then
 			data.story1_4BUnlock = true
@@ -902,7 +905,6 @@ function f_arc1_chapter4_1()
 	f_vnScene(kfmVN,5,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4A"
 	--[[
@@ -918,6 +920,7 @@ function f_arc1_chapter4_1()
 		data.victoryscreen = false
 		data.stage = "stages/Others/Sakura.def"
 		setGameMode('story')
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory()
 	]]
 		f_storyStatus()
@@ -932,10 +935,10 @@ function f_arc1_chapter4_2()
 	f_vnScene(kfmVN,6,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4B"
 		f_storyStatus()
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_playCredits()
 	else
 		f_backStorySel()
@@ -947,10 +950,10 @@ function f_arc1_chapter4_3()
 	f_vnScene(kfmVN,7,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4C"
 		f_storyStatus()
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_playCredits()
 	else
 		f_backStorySel()
@@ -962,10 +965,10 @@ function f_arc1_chapter4_4()
 	f_vnScene(kfmVN,8,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		data.rosterMode = "story"
 		data.storyNo = "1-4D"
 		f_storyStatus()
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_playCredits()
 	else
 		f_backStorySel()
@@ -975,8 +978,6 @@ end
 --Character Select Test Chapter
 function f_storyRosterTest()
 	f_default()
-	sndPlay(sndSys, 100, 1)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {"Kung Fu Man"}
@@ -990,6 +991,8 @@ function f_storyRosterTest()
 	data.rosterMode = "story"
 	setGameMode('storyRoster')
 	textImgSetText(txt_mainSelect, "STORY MODE")
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
 	f_selectStory()
 end
 
@@ -1071,13 +1074,12 @@ end
 --; STORY MODE (CHARACTER SELECT/FIGHTS LAUNCHER)
 --;==============================================================================
 function f_selectStory()
-
+cmdInput()
 if validCells() then
 	f_unlock(false)
 	f_updateUnlocks()
 	f_backReset()
 	f_selectInit()
-	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		--f_selectMusic()
@@ -1098,14 +1100,14 @@ if validCells() then
 			assert(loadfile(saveTempPath))()
 		--Back from Pause Menu
 			if data.tempBack == true then
+				data.tempBack = false
+				f_saveTemp()
+				f_resetMenuInputs()
 				if data.rosterMode == "story" then
 					playBGM(bgmStory)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
-				data.tempBack = false
-				f_saveTemp()
-				f_resetMenuInputs()
 				return
 			end
 		--Back from Char Select
@@ -1122,12 +1124,12 @@ if validCells() then
 					f_selectWin()
 				end
 			end
+			f_resetMenuInputs()
 			if data.rosterMode == "story" then
 				playBGM(bgmStory)
 			else
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			end
-			f_resetMenuInputs()
 			return
 		end
 		f_aiLevel()
@@ -1140,6 +1142,7 @@ if validCells() then
 		matchTime = os.clock()
 		if data.songSelect then f_assignMusic() end
 		winner = game() --Get into the fight
+		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
 		selectTimer = selectSeconds*gameTick
@@ -1150,13 +1153,11 @@ if validCells() then
 		--f_favoriteStage() --Store Favorite Stage (WIP)
 		f_unlock(false)
 		f_updateUnlocks()
-		playBGM("")
 		f_resetP2CoopInput()
 		cmdInput()
 		refresh()
 	end
 else
-	cmdInput()
 	f_invalidCells()
 	return --back to main menu
 end

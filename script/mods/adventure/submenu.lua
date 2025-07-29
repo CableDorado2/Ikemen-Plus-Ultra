@@ -3,11 +3,11 @@ bgmAdventure = "sound/System/Adventure.mp3" --load bgm
 --;===========================================================
 --; ADVENTURE MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_extrasMenu,1,{id = textImgNew(), text = "ADVENTURE", gotomenu = "f_comingSoon()"}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu,1,{text = "ADVENTURE", gotomenu = "f_comingSoon()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 t_adventureMenu = {
 	{text = "START", gotomenu = ""},
-	{text = "SAVE", gotomenu = ""},
-	--{text = "LOAD", gotomenu = ""},
+	{text = "SAVE",  gotomenu = ""},
+	--{text = "LOAD",  gotomenu = ""},
 }
 for i=1, #t_adventureMenu do
 	t_adventureMenu[i]['id'] = textImgNew()
@@ -66,7 +66,7 @@ function f_adventureMenu()
 				maxadventureMenu = 5
 			end
 		--Enter Actions
-			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
 				f_gotoFunction(t_adventureMenu[adventureMenu])
 			end

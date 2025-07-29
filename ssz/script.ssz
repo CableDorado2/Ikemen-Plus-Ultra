@@ -1070,6 +1070,32 @@ void setPowerShare(&.lua.State L=, int re=)
   .com.powerShare[pn-1] = ps;
 }
 
+void setCredits(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int cd = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.credits = cd;
+}
+
+void getCredits(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.credits);
+}
+
+void setCoins(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int cs = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.coins = cs;
+}
+
+void getCoins(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.coins);
+}
+
 void setRoundTime(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1187,6 +1213,25 @@ void setAbyssBossFight(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   int adbf = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
   .com.abyssBossFight = adbf;
+}
+
+void getAbyssBossFight(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssBossFight);
+}
+
+void setAbyssFinalDepth(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int afd = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssFinalDepth = afd;
+}
+
+void getAbyssFinalDepth(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.abyssFinalDepth);
 }
 
 void setAbyssReward(&.lua.State L=, int re=)
@@ -1420,6 +1465,12 @@ public void init(&.lua.State L=)
   L.register("setAutoguard", .setAutoguard);
   L.register("setPowerShare", .setPowerShare);
   
+  L.register("setCoins", .setCoins);
+  L.register("getCoins", .getCoins);
+  
+  L.register("setCredits", .setCredits);
+  L.register("getCredits", .getCredits);
+  
   L.register("setRoundTime", .setRoundTime);
   L.register("getRoundTime", .getRoundTime);
   
@@ -1461,6 +1512,11 @@ public void init(&.lua.State L=)
   L.register("getAbyssDepthBossSpecial", .getAbyssDepthBossSpecial);
   
   L.register("setAbyssBossFight", .setAbyssBossFight);
+  L.register("getAbyssBossFight", .getAbyssBossFight);
+  
+  L.register("setAbyssFinalDepth", .setAbyssFinalDepth);
+  L.register("getAbyssFinalDepth", .getAbyssFinalDepth);
+  
   L.register("exitMatch", .exitMatch);
   L.register("setSharedString", .setSharedString);
   //L.register("debugKey", .debugKey);

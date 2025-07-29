@@ -14,32 +14,45 @@ as first line in the module, to avoid load it inside match (if is not necessary)
 --; DEBUG HOTKEYS DEFINITION
 --;===========================================================
 --Debug Hotkeys Structure: ('Key', CTRL, ALT, SHIFT, 'Function()')
-if data.debugMode == true then
+if data.debugMode then
 --Match Actions
 addHotkey('F1', false, false, false, 'kill(1); kill(2); kill(3); kill(4); kill(5); kill(6); kill(7); kill(8)') --F1: Sets Double KO
 addHotkey('F1', true, false, false, 'kill(1); kill(3); kill(5); kill(7)') --CTRL+F1: Sets Player 1's life to zero
 addHotkey('F1', false, false, true, 'kill(2); kill(4); kill(6); kill(8)') --SHIFT+F1: Player 2's life to zero
-addHotkey('F2', false, false, false, 'kill(1,1); kill(2,1); kill(3,1); kill(4,1); kill(5,1); kill(6,1); kill(7,1); kill(8,1)') --F2: Sets both players' life to 1
+
+addHotkey('F2', false, false, false, 'kill(1,1); kill(2,1); kill(3,1); kill(4,1); kill(5,1); kill(6,1); kill(7,1); kill(8,1)') --F2: Sets all Players life to 1
 addHotkey('F2', true, false, false, 'kill(1,1); kill(3,1); kill(5,1); kill(7,1)') --CTRL+F2: Sets Player 1's life to 1
 addHotkey('F2', false, false, true, 'kill(2,1); kill(4,1); kill(6,1); kill(8,1)') --SHIFT+F2: Sets Player 2's life to 1
+
 addHotkey('F3', false, false, false, 'setTime(0)') --F3: Sets Time Over
 addHotkey('F3', true, false, false, 'setTime(getRoundTime())') --CTRL+F3: Reset Round Time
 addHotkey('F3', false, false, true, 'setTime(-1)') --SHIFT+F3: Sets Infinite Time
+
 addHotkey('F4', false, false, false, 'roundReset()') --F4: Reset the round
 addHotkey('F4', false, false, true, 'reload()') --SHIFT+F4: Reloads stage, characters and fight data
-addHotkey('F5', false, false, false, 'full(1); full(2); full(3); full(4); full(5); full(6); full(7); full(8); setTime(getRoundTime())') --F5: Restores full life and power to all players
-addHotkey('F6', false, false, false, 'lifeMax(1); lifeMax(2); lifeMax(3); lifeMax(4); lifeMax(5); lifeMax(6); lifeMax(7); lifeMax(8)') --F6: Gives Players' full life
-addHotkey('F6', true, false, false, 'lifeMax(1); lifeMax(3); lifeMax(5); lifeMax(7)') --CTRL+F6: Gives Player 1's full life
-addHotkey('F6', false, false, true, 'lifeMax(2); lifeMax(4); lifeMax(6); lifeMax(8)') --SHIFT+F6: Gives Player 2's full life
-addHotkey('F7', false, false, false, 'powMax(1); powMax(2); powMax(3); powMax(4); powMax(5); powMax(6); powMax(7); powMax(8)') --F7: Gives both players full power
-addHotkey('F7', true, false, false, 'barAdd(1)') --CTRL+F7: Increases Player 1's power to 1
-addHotkey('F7', false, false, true, 'barAdd(2)') --SHIFT+F7: Increases Player 2's power to 1
---Engine Actions
+
+addHotkey('F5', false, false, false, 'lifeMax(1); lifeMax(2); lifeMax(3); lifeMax(4); lifeMax(5); lifeMax(6); lifeMax(7); lifeMax(8)') --F5: Gives to all Players Full Life
+addHotkey('F5', true, false, false, 'lifeMax(1); lifeMax(3); lifeMax(5); lifeMax(7)') --CTRL+F5: Gives Player 1's Full Life
+addHotkey('F5', false, false, true, 'lifeMax(2); lifeMax(4); lifeMax(6); lifeMax(8)') --SHIFT+F5: Gives Player 2's Full Life
+
+addHotkey('F6', false, false, false, 'powMax(1); powMax(2); powMax(3); powMax(4); powMax(5); powMax(6); powMax(7); powMax(8)') --F6: Gives to all Players Full Power
+addHotkey('F6', true, false, false, 'barAdd(1)') --CTRL+F6: Increases Player 1's Power Level to 1
+addHotkey('F6', false, false, true, 'barAdd(2)') --SHIFT+F6: Increases Player 2's Power Level to 1
+--[[
+addHotkey('F7', false, false, false, 'guardMax(1); guardMax(2); guardMax(3); guardMax(4); guardMax(5); guardMax(6); guardMax(7); guardMax(8)') --F7: Gives to all Players Full Guard
+addHotkey('F7', true, false, false, 'guardMax(1); guardMax(3); guardMax(5), guardMax(7)') --CTRL+F7: Gives Player 1's full Guard
+addHotkey('F7', false, false, true, 'guardMax(2); guardMax(4); guardMax(6); guardMax(8)') --SHIFT+F7: Gives Player 2's full Guard
+
+addHotkey('F8', false, false, false, 'dizzyMin(1); dizzyMin(2); dizzyMin(3); dizzyMin(4); dizzyMin(5); dizzyMin(6); dizzyMin(7); dizzyMin(8)') --F8: Reset all Players Stunbar
+addHotkey('F8', true, false, false, 'dizzyMin(1); dizzyMin(3); dizzyMin(5), dizzyMin(7)') --CTRL+F8: Reset Player 1's Stunbar
+addHotkey('F8', false, false, true, 'dizzyMin(2); dizzyMin(4); dizzyMin(6); dizzyMin(8)') --SHIFT+F8: Gives Player 2's Stunbar
+]]
+addHotkey('SPACE', false, false, false, 'full(1); full(2); full(3); full(4); full(5); full(6); full(7); full(8); setTime(getRoundTime())') --SPACE KEY: Restores full life and power to all Players
 addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 addHotkey('KP_PLUS', true, false, false, 'changeSpeed(1)') --CTRL+KP PLUS: Increase Game Speed
 addHotkey('KP_MINUS', true, false, false, 'changeSpeed(-1)') --CTRL+KP MINUS: Decrease Game Speed
 addHotkey('s', true, false, false, 'changeSpeed()') --CTRL+S: Change Game Speed
-addHotkey('i', true, false, false, 'stand(1); stand(2); stand(3); stand(4); stand(5); stand(6); stand(7); stand(8)') --CTRL+I: Forces both players into stand state
+addHotkey('i', true, false, false, 'stand(1); stand(2); stand(3); stand(4); stand(5); stand(6); stand(7); stand(8)') --CTRL+I: Forces all Players into stand state
 addHotkey('l', true, false, false, 'toggleStatusDraw()') --CTRL+L: Toggles display of the life and power bars
 --Debug Info
 addHotkey('c', true, false, false, 'toggleClsnDraw()') --CTRL+C: Toggles display of collision boxes, target data (including remaining juggle points) and NotHitBy attributes
@@ -58,10 +71,18 @@ addHotkey('6', true, false, false, 'toggleAI(6)')
 addHotkey('7', true, false, false, 'toggleAI(7)')
 addHotkey('8', true, false, false, 'toggleAI(8)')
 end
+--Attract Mode Actions
+if data.attractMode then
+	addHotkey('1', false, false, false, 'f_addCoin()') --Insert Coin
+	addHotkey('2', false, false, false, 'f_addCoin()') --Insert Coin
+	addHotkey('9', false, false, false, 'f_testMenu()') --Open Config Menu
+	addHotkey('0', false, false, false, 'f_resetEngine()') --Reset Engine
+end
 --Miscellaneous Actions
---addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
-addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way
-addHotkey('PRINTSCREEN', false, false, false, 'f_screenShot()') --Takes a screenshot and saves it to "screenshots" folder
+if getGameMode() ~= "demo" then
+	--addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
+	addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way
+end
 --;===========================================================
 --; DEBUG HOTKEYS FUNCTIONS
 --;===========================================================
@@ -210,6 +231,7 @@ end
 --;===========================================================
 --; MATCH LOOP
 --;===========================================================
+inMatch = true
 local function f_handicapSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	for side=1, 2 do
 		local pDat = nil
@@ -579,13 +601,13 @@ end
 f_abyssSaveInit()
 
 local function f_abyssSaveInfo()
-	if abyssSaveTime < 105 then --Time to use save button until end match
+	if abyssSaveTime < 105 and getAbyssFinalDepth() == 0 then --Time to use save button until end match
+		cmdInput()
 		abyssSaveTime = abyssSaveTime + 1
 		animDraw(abyssSaveInfoBG)
 		drawInGameInputHintsP1("e","264,218")
 		f_drawQuickText(txt_allowSave, font2, 0, -1, ":SAVE", 315, 230)
-		if commandGetState(p1Cmd, 'e') then abyssSaveButton = true end
-		cmdInput()
+		if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then abyssSaveButton = true end
 	end
 end
 
@@ -603,6 +625,7 @@ local function f_abyssSaveEnd()
 end
 
 local function f_abyssSave()
+	cmdInput()
 --Cursor Position
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 		sndPlay(sndSys, 100, 0)
@@ -639,10 +662,10 @@ local function f_abyssSave()
 --Draw Input Hints Panel
 	drawConfirmInputHints()
 --Actions
-	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+	if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		f_abyssSaveEnd()
-	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 	--YES (Exit to Save Data)
 		if abyssSaveMenu == 1 then
 			sndPlay(sndSys, 100, 1)
@@ -653,7 +676,6 @@ local function f_abyssSave()
 		end
 		f_abyssSaveEnd()
 	end
-	cmdInput()
 end
 
 local function f_abyssRewardsInit()
@@ -672,6 +694,7 @@ end
 f_abyssRewardsInit()
 
 local function f_abyssBossReward()
+	cmdInput()
 --Actions
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 		sndPlay(sndSys, 100, 0)
@@ -679,7 +702,7 @@ local function f_abyssBossReward()
 	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 		sndPlay(sndSys, 100, 0)
 		rewardMenu = rewardMenu + 1
-	elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 	--Attack +
 		if t_abyssBossRewards[rewardMenu].attack then
 			itemDone = true
@@ -795,9 +818,9 @@ local function f_abyssBossReward()
 		end
 	end
 --Draw Info Text Stuff
-	animPosDraw(abyssSelInfoBG, -56, 185)
-	f_textRender(txt_abyssRewardInfo, t_abyssBossRewards[rewardMenu].info, 0, 159, 196, 10, 0, 40)
-	f_abyssProfile(0, 0, true) --Draw Char Profile Box
+	animPosDraw(abyssSelInfoBG, -56, 195)
+	f_textRender(txt_abyssRewardInfo, t_abyssBossRewards[rewardMenu].info, 0, 159, 206, 10, 0, 40)
+	f_abyssProfile(true) --Draw Char Profile Box
 	if maxrewardMenu > maxItems then
 		animDraw(menuArrowUp)
 		animUpdate(menuArrowUp)
@@ -817,7 +840,6 @@ local function f_abyssBossReward()
 		bufu = 0
 		bufd = 0
 	end
-	cmdInput()
 end
 
 function pauseMenu(p, st, esc)
@@ -884,10 +906,23 @@ local function f_setStageMusic()
 	end
 end
 
+local function f_demoSkip()
+	cmdInput()
+--Exit when you press start or esc
+	if esc() or btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+		data.tempBack = true
+		f_saveTemp()
+		exitMatch()
+	end
+end
+
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
+--During Demo Mode
+	if getGameMode() == "demo" then
+		f_demoSkip()
 --During VS Mode
-	if getGameMode() == "vs" then
+	elseif getGameMode() == "vs" then
 		if roundno() == 2 and roundstate() == 0 then bgmState = 1 end
 		if roundstate() < 2 then
 			f_handicapSet()
@@ -1012,6 +1047,7 @@ function loop() --The code for this function should be thought of as if it were 
 end
 
 function f_nextTutoText()
+	cmdInput()
 	local nextText = false
 	local revealTime = 10
 	local clearSpeedX = 5
@@ -1059,5 +1095,4 @@ function f_nextTutoText()
 		tutoDiag = tutoDiag + 1
 		nextText = false
 	end
-	cmdInput()
 end

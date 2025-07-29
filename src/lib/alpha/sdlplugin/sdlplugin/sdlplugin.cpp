@@ -58,6 +58,7 @@ uint32_t* g_pix;
 SDL_GLContext g_gl = nullptr;
 int g_pitch;
 int g_w = 427, g_h = 240;
+float w_opacity = 1.0;
 uint32_t g_scrflag = 0;
 SDL_AudioSpec g_desired;
 HGLRC g_hglrc, g_hglrc2;
@@ -123,9 +124,7 @@ float bgm_vol = 1.0;
 
 LockSingler g_sndmtx;
 
-
 const double PI = 3.14159265358979323846264338327950288;
-
 
 struct OutBufList
 {
@@ -749,10 +748,9 @@ void RenderPNG()
 	//Update the surface
 	SDL_UpdateWindowSurface(g_window);
 }
-
 int imgFlags = IMG_INIT_PNG;
 
-//System Render
+//Software Render
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 {
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -771,9 +769,9 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			w, h, g_scrflag);
 		if(!g_window) return false;
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0"); //VSYNC TEST
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); Anisotropic Filter(2): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 		if(mugen){
 			g_target =
 				SDL_CreateTexture(
@@ -784,9 +782,8 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		}
 		winProcInit();
 		g_mainTreadId = GetCurrentThreadId();
-		//SDL_RenderSetIntegerScale(g_renderer, SDL_TRUE);
-		sndjoyinit();
 		screenSurface = SDL_GetWindowSurface(g_window); //Get Window Surface for PNG Images
+		sndjoyinit();
 	}
 	g_w = w;
 	g_h = h;
@@ -794,6 +791,7 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 }
 
 //OpenGL Render
+int isOpenGL = 0;
 TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 {
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -802,11 +800,11 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 	}
 	else
 	{
+		isOpenGL = 1;
 		TTF_Init();
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 		g_scrflag = SDL_WINDOW_OPENGL; //SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 		g_window = SDL_CreateWindow(
 			pu->refToAstr(CP_UTF8, cap).c_str(),
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, g_scrflag);
@@ -835,6 +833,7 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 		g_hglrc2 = wglCreateContext(g_hdc);
 		wglShareLists(g_hglrc, g_hglrc2);
 		g_mainTreadId = GetCurrentThreadId();
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		sndjoyinit();
 	}
 	g_w = w;
@@ -878,19 +877,19 @@ TUserFunc(void, End)
 }
 
 int fsMode = 0;
-
 TUserFunc(void, FullScreenReal, bool fsr)
 {
 	if(fsr == true){
 		fsMode = SDL_WINDOW_FULLSCREEN;
+		//SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1");
 	}else{
 		fsMode = SDL_WINDOW_FULLSCREEN_DESKTOP;
+		SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0"); //Don't Minimize SDL_Window if it loses key focus when in fullscreen mode. Defaults to true.
 	}
 	(fsr ? fsMode : fsMode);
 }
 
 bool fullscreenChecker = false;
-
 TUserFunc(bool, FullScreen, bool fs)
 {
 	//fullscreenChecker = !fullscreenChecker; //Change the value of fullscreen Checker to its opposite
@@ -913,17 +912,33 @@ TUserFunc(void, WindowResizable, bool wr)
 	SDL_SetWindowResizable(g_window, wr ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_RESIZABLE flag and allow/disallow user resizing of the window. This is a no-op if the window's resizable state already matches the requested state. You can't change the resizable state of a fullscreen window.
 }
 
-int cube = 0;
-int rectan = 0;
-
 TUserFunc(void, AspectRatio, bool aspect)
 {
 	if(aspect == true){
-		rectan = SDL_RenderSetLogicalSize(g_renderer, 427,240);
+		SDL_RenderSetLogicalSize(g_renderer, g_w, g_h);
 	}else{
-		//cube = SDL_RenderSetLogicalSize(g_renderer, 320,240);
+	/*
+		if((g_h / 3 * 4) == g_w){ //4:3 Resolutions
+			SDL_RenderSetLogicalSize(g_renderer, 640, 480);
+		}else if((g_h / 10 * 16) == g_w){ //16:10 Resolutions
+			SDL_RenderSetLogicalSize(g_renderer, 320, 200);
+		}else{ //16:9 Resolutions
+			SDL_RenderSetLogicalSize(g_renderer, 427, 240);
+		}
+	*/
 	}
-	(aspect ? cube : rectan);
+	//SDL_UpdateWindowSurface(g_window);
+}
+
+TUserFunc(void, SetOpacity, float wo)
+{
+	w_opacity = wo;
+	if(w_opacity < 0.0){
+		w_opacity = 0.0;
+	}else if(w_opacity > 1.0){
+		w_opacity = 1.0;
+	}
+	SDL_SetWindowOpacity(g_window, w_opacity); //(0.0f - transparent, 1.0f - opaque)
 }
 
 TUserFunc(void, TakeScreenShot, Reference dir)

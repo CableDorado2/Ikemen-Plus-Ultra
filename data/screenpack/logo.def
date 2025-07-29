@@ -1,9 +1,10 @@
 [Info]
-localcoord = 640,508;640,360
+localcoord = 640,508 ;640,360
 
 [SceneDef]
 spr = logo.sff
-
+;skipbutton = 0
+;attractstate = 1
 ;------------------------------------
 ;[Scene 0]
 

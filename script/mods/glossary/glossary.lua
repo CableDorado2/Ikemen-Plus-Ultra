@@ -4,11 +4,20 @@ glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossary defi
 --;===========================================================
 --; GLOSSARY MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_watchMenu,5,{id = textImgNew(), text = "GLOSSARY", gotomenu = "f_glossaryMenu()"}) --Insert new item to t_watchMenu table loaded by screenpack.lua
+table.insert(t_watchMenu,5,{text = "GLOSSARY", gotomenu = "f_glossaryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
 txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "GLOSSARY", 159, 13)
 txt_glossarySection = createTextImg(font2, 0, 0, "", 10, 30)
 txt_glossaryTitleText = createTextImg(font2, 0, 1, "", -50, 210)
 txt_glossaryText = createTextImg(font2, 0, 1, "", 0, 0)
+
+--Background
+glossaryBG = animNew(sprIkemen, [[
+0,0, 0,0, -1
+]])
+animAddPos(glossaryBG, 160, 0)
+animSetTile(glossaryBG, 1, 1)
+animSetColorKey(glossaryBG, -1)
+animSetAlpha(glossaryBG, 150, 0)
 
 --Left Page Arrow
 glossaryLeftArrow = animNew(sprIkemen, [[
@@ -22,8 +31,8 @@ glossaryLeftArrow = animNew(sprIkemen, [[
 223,0, 0,0, 10
 ]])
 animAddPos(glossaryLeftArrow, 69, 21)
-animUpdate(glossaryLeftArrow)
 animSetScale(glossaryLeftArrow, 0.5, 0.5)
+animUpdate(glossaryLeftArrow)
 
 --Right Page Arrow
 glossaryRightArrow = animNew(sprIkemen, [[
@@ -37,8 +46,8 @@ glossaryRightArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 ]])
 animAddPos(glossaryRightArrow, 242, 21)
-animUpdate(glossaryRightArrow)
 animSetScale(glossaryRightArrow, 0.5, 0.5)
+animUpdate(glossaryRightArrow)
 
 --Title BG
 glossaryTitleBG = animNew(sprIkemen, [[
@@ -60,11 +69,11 @@ function drawGlossaryInputHints()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(gsInputsBG, -56, 217) --Draw Input Hints BG
-	drawInputHintsP1("u","-30,"..inputHintYPos,"d","-10,"..inputHintYPos,"l","10,"..inputHintYPos,"r","30,"..inputHintYPos,"s","90,"..inputHintYPos,"w","155,"..inputHintYPos,"e","210,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 51, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Search", 111, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Read", 176, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+	drawInputHintsP1("u","10,"..inputHintYPos,"d","30,"..inputHintYPos,"l","50,"..inputHintYPos,"r","70,"..inputHintYPos,"q","130,"..inputHintYPos,"s","195,"..inputHintYPos,"e","250,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 91, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Search", 151, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Read", 216, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 271, hintFontYPos)
 end
 
 function drawGlossaryInputHints2()
@@ -72,9 +81,9 @@ function drawGlossaryInputHints2()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(gsInputsBG, -56, 217)
-	drawInputHintsP1("u","50,"..inputHintYPos,"d","70,"..inputHintYPos,"e","130,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 91, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 151, hintFontYPos)
+	drawInputHintsP1("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"e","170,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
 end
 
 --;===========================================================
@@ -83,7 +92,6 @@ end
 function f_glossaryMenu()
 	f_glossaryLoad() --Load Glossary Data from .def file
 	cmdInput()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	local cursorPosX = 1
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -100,6 +108,7 @@ function f_glossaryMenu()
 	local function f_resetYPos() txtPosY = 45 end
 	f_resetYPos()
 	local txtSpacing = 12
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if not reading then --When have Menu Controls
 		--BACK
@@ -108,7 +117,7 @@ function f_glossaryMenu()
 				sndPlay(sndSys, 100, 2)
 				break
 		--START READING
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
 				reading = true
 		--PREVIOUS SECTION
@@ -201,6 +210,8 @@ function f_glossaryMenu()
 		else
 			maxName = maxItems
 		end
+	--Draw BG
+		animDraw(f_animVelocity(glossaryBG, -0.1, -0.1))
 	--Draw Section Text
 		textImgSetText(txt_glossarySection, t_glossary[glossaryMenu].title)
 		textImgDraw(txt_glossarySection)

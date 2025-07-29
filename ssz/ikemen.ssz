@@ -40,6 +40,7 @@ void loaderReset()
 void loadStart(&.lua.State L=, int re=)
 {
   re = 0;
+  .com.exitMatch = false; //This fix randomtest because reset this var
   .chr.fight = .sc.syst.fig;
   .loaderReset();
   .ld.runTread();
@@ -205,7 +206,7 @@ void main()
 /*?*/
   .sdl.fullScreenMode(.cfg.FullScreenReal);
   if(.cfg.FullScreenReal) .se.fullReal = true;
-  if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);
+  if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen || .cfg.FullScreen && !.cfg.FullScreenReal);
   if(.cfg.FullScreen) .se.full = true;
   .sdl.keepAspectRatio(.cfg.AspectRatio);
   if(.cfg.AspectRatio) .se.aspect = true;
@@ -213,6 +214,7 @@ void main()
   if(.cfg.WindowBordered) .se.borders = true;
   .sdl.windowResizable(.cfg.WindowResizable);
   if(.cfg.WindowResizable) .se.resizable = true;
+  .sdl.setOpacity(.cfg.Opacity);
   &.lua.State L;
   if(!.init(L=)) ret;
   if(!L.runFile(.cfg.system)){
