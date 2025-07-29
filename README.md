@@ -27,15 +27,13 @@
 >
 > - [Tutorials](#tutorials)
 >
->  - [FAQ](#FAQ)
->
 > - [Resources](#resources)
 >
 > - [Tools](#tools)
 >
 > - [Engine Manual](#engine-manual)
 >
-> - [Discord Support](#discord-support)
+> - [FAQ](#FAQ)
 >
 > - [About All IKEMEN Versions](#about-all-ikemen-versions)
 >
@@ -208,6 +206,30 @@ v2.0 (Final Release)
 **Advanced:**
 - *Coming Soon!*
 
+## Resources
+Here you can find content to build your projects or just for play on Ikemen.
+- [Mugen Free For All](https://mugenfreeforall.com)
+- [Mugen Fighters Guild](https://mugenguild.com/forum/)
+- [Infinity Mugen Team](https://www.infinitymugenteam.com)
+- [MUGEN ARCHIVE](https://mugenarchive.com/forums/downloads.php)
+- [Gamebanana](https://gamebanana.com/games/5694)
+- [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
+
+## Tools
+Here you can find some tools that help you in development of your projects (Some missed tools are included in the main Ikemen Plus Ultra folder called "tools").
+- [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull Mugen editor)
+- [Notepad++](https://notepad-plus-plus.org/) (Script editor)
+- [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
+- [Mp3Tag](https://www.mp3tag.de/en/) (A music tag editor)
+- [Radmin VPN](https://www.radmin-vpn.com/) (For Online Netplay)
+- Visual C++ 2010 Express (IDE to edit and compile Source Code)
+
+## Engine Manual
+S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
+- To understand or modify the .lua scripts, you will need knowledge of the LUA programming language. There is the official manual from the version of Lua that uses this engine: https://www.lua.org/manual/5.2/
+
+- For create characters and stages, you have to use the official MUGEN Elecbyte Documentation: http://www.elecbyte.com/mugendocs-11b1/mugen.html
+
 ## FAQ
 
 ## Is this the latest official version of the I.K.E.M.E.N. engine?
@@ -252,32 +274,10 @@ In the options menu, System Settings-Character Select Settings, you can change t
 ## Can I run this engine on Android or Linux?
 Yes, for Linux it uses Wine and for Android it uses Box86. Both programs can be considered Windows application emulators designed for those operating systems. Native executables for Linux and possibly macOS are planned, but only time will tell.
 
-## Resources
-Here you can find content to build your projects or just for play on Ikemen.
-- [Mugen Free For All](https://mugenfreeforall.com)
-- [Mugen Fighters Guild](https://mugenguild.com/forum/)
-- [Infinity Mugen Team](https://www.infinitymugenteam.com)
-- [MUGEN ARCHIVE](https://mugenarchive.com/forums/downloads.php)
-- [Gamebanana](https://gamebanana.com/games/5694)
-- [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
+## Do you have a website or Discord server?
+IKEMEN Plus Ultra still does not have an official website. If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
 
-## Tools
-Here you can find some tools that help you in development of your projects (Some missed tools are included in the main Ikemen Plus Ultra folder called "tools").
-- [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull Mugen editor)
-- [Notepad++](https://notepad-plus-plus.org/) (Script editor)
-- [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
-- [Mp3Tag](https://www.mp3tag.de/en/) (A music tag editor)
-- [Radmin VPN](https://www.radmin-vpn.com/) (For Online Netplay)
-- Visual C++ 2010 Express (IDE to edit and compile Source Code)
-
-## Engine Manual
-S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
-- To understand or modify the .lua scripts, you will need knowledge of the LUA programming language. There is the official manual from the version of Lua that uses this engine: https://www.lua.org/manual/5.2/
-
-- For create characters and stages, you have to use the official MUGEN Elecbyte Documentation: http://www.elecbyte.com/mugendocs-11b1/mugen.html
-
-## Discord Support
-If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
+Please link here when directing anyone to the project.
 
 > [!CAUTION]
 > **Keep in mind that those who use this engine version can be counted on the fingers of ONE hand**.
