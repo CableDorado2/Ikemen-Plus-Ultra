@@ -27,6 +27,8 @@
 >
 > - [Tutorials](#tutorials)
 >
+>  - [FAQ](#FAQ)
+>
 > - [Resources](#resources)
 >
 > - [Tools](#tools)
@@ -206,6 +208,49 @@ v2.0 (Final Release)
 **Advanced:**
 - *Coming Soon!*
 
+## FAQ
+
+## Is this the latest official version of the I.K.E.M.E.N. engine?
+No, this is a modified and in-development version of an older version of the engine, specifically the Ikemen Plus version. The latest version is known as Ikemen GO and is developed by other developers (many of whom contributed to the version this modification is based on).
+
+## Why are you updating an older version?
+Because it doesn't rely solely on OpenGL to run (when I searched for this engine, the only version that worked for me was the Plus version because it uses software texture rendering as an alternative to OpenGL), which is the same as using DirectX if you're coming from Mugen.
+
+## Where can I find system.def and mugen.cfg in I.K.E.M.E.N. Plus Ultra?
+The loading of assets and main functions is located in the script folder, in the files:
+screenpack.lua
+common.lua
+main.lua
+
+While the configuration definition is located in options.lua and the saved data is shared in the directories:
+save/data_sav.lua
+save/config.ssz
+
+At the moment, there are no plans to include a system.def file that allows for simple and less risky modification of menu content. This is because the beauty of manipulating all the elements lies in the Lua language, and trying to literally transfer a copy of these would, in a sense, limit the user's ability to implement menu engine implementations quickly and with less dependency. In this case, they would have to implement their implementations in both Lua and the hypothetical copy of "system.def".
+
+In fact, if you're attentive or familiar with how this engine works, this issue already occurs to some extent when using and porting functions to Lua instead of using ssz itself. Because the latter is where the base functions are actually created and has direct communication with the libraries used by the engine, using a syntax similar to C++.
+
+## How can I port my M.U.G.E.N screenpack to I.K.E.M.E.N. Plus Ultra?
+First, consider trying Ikemen GO, which has system.def and greater compatibility with Mugen resources.
+
+However, if it didn't work for you, or you still want to use this alternative, You'll need to adapt all assets from system.def and/or derived assets so that the engine can first read them (for now, they must be 8-bit indexed sprites or images, or the equivalent of saving the sprite.sff file in Fighter Factory in M.U.G.E.N. 1.0 format). Then, declare their location in Lua (preferably screenpack.lua) and then call them with a drawing function like animPosDraw so that the element finally appears in the function/screen/menu where you're programming.
+
+Within all the scripts, there are many examples of ways you can import resources. It's recommended to start by gradually replacing the groups or indexes contained in the sprite.sff files to understand how they work and then finally be able to integrate your own.
+
+The only exception to this rule of using Lua is select.def (where characters and stages are added) and fight.def (where, like Mugen, you can add health bars and other elements that are displayed during the fight).
+
+## Are there tutorials on how to create functions or edit the I.K.E.M.E.N. Plus Ultra screenpack?
+There are tutorials on basic screenpack editing for the non-Ultra version, shared by user TheFclass97: https://www.youtube.com/playlist?list=PLUJEkERU43iJNxU59n0qELKSUrFTsb4zh
+
+They can be a good place to start understanding the engine. However, because the location of several functions has changed in the Plus Ultra version, it is recommended to wait until the engine is more consistent (expected to reach this state in v1.8) before offering documentation or a guide on how to use it.
+
+This is because with each update, the methods for doing certain things are changed or improved, and if something is explained in its current state, it will most likely be simpler or very different in the next version, rendering the guide "obsolete."
+
+## Where can I add rows and columns in I.K.E.M.E.N. Plus Ultra?
+In the options menu, System Settings-Character Select Settings, you can change the number of columns and rows, as well as customize the position and size of cells.
+
+## Can I run this engine on Android or Linux?
+Yes, for Linux it uses Wine and for Android it uses Box86. Both programs can be considered Windows application emulators designed for those operating systems. Native executables for Linux and possibly macOS are planned, but only time will tell.
 
 ## Resources
 Here you can find content to build your projects or just for play on Ikemen.
@@ -282,4 +327,4 @@ This Ikemen is an expansion of his original SSZ code.
 ## License
 The code is under the MIT Licence.
 Non-code assets are under CC-BY 3.0.
-Check [License.txt](docs/Licenses/I.K.E.M.E.N.txt) for more details.
+Check [License.txt](License.txt) for more details.
