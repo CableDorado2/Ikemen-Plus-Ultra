@@ -638,6 +638,7 @@ You fell! Hahahaha
 
 character = Suave Dude
 side = 2
+bgm = sound/One of The Kings.mp3
 text:
 NOW! Let's do a show:
 _
