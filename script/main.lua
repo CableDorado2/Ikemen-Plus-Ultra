@@ -16994,20 +16994,21 @@ function f_abyssDatMessage(mode, slot)
 	--YES
 		if abyssDatConfirm == 1 then
 			sndPlay(sndSys, 100, 1)
+		--Delete Data (Replace data with default empty slot)
 			if eraseAbyssDat then
-				abyssDatComplete = true
-				abyssDat.save[slot] = abyssDat.default --Replace data with default empty slot
+				f_transferData(abyssDat.default, abyssDat.save[slot])
 				f_saveAbyss()
+				abyssDatComplete = true
 			else
-			--Save Data
+			--Save Data (Replace Slot Data with No save Data)
 				if mode == "save" then
-					abyssDatComplete = true
-					abyssDat.save[slot] = abyssDat.nosave --Replace Slot Data with No save Data
+					f_transferData(abyssDat.nosave, abyssDat.save[slot])
 					f_saveAbyss()
-			--Load Data
+					abyssDatComplete = true
+			--Load Data (Replace No Save Temp data with Slot Selected Data)
 				else
-					abyssDat.nosave = abyssDat.save[slot] --Replace No Save Temp data with Slot Selected Data
-					--f_saveAbyss()
+					f_transferData(abyssDat.save[slot], abyssDat.nosave)
+					f_saveAbyss()
 					abyssDatEnd = true
 					loadAbyssDat = true
 				end
@@ -17024,8 +17025,7 @@ end
 
 function f_abyssDatConfirmReset()
 	abyssDatConfirmScreen = false
-	--Cursor pos in NO
-	abyssDatConfirm = 2
+	abyssDatConfirm = 2 --Cursor pos in NO
 	abyssDatEnd = false
 	abyssDatComplete = false
 	abyssDatOverwrite = false

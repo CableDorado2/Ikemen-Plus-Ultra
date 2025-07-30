@@ -709,6 +709,36 @@ function f_minMax(v,mn,mx)
 	return math.max(mn,math.min(mx,v))
 end
 
+--Function to copy a table recursively
+function f_deepcopy(orig)
+	local orig_type = type(orig)
+	local copy
+--For table type data
+	if orig_type == 'table' then
+		copy = {}
+		for key, value in pairs(orig) do
+			copy[key] = f_deepcopy(value)
+		end
+	else
+--For data of primitive types (numbers, strings, booleans, etc.)
+		copy = orig
+	end
+	return copy
+end
+
+--Function that receives an input table and copies it to another table
+--Use this function to copy data without shared references between Source File and Target File (This is to avoid that when updates the target data, source data also get that update)
+function f_transferData(sourceTable, targetTable)
+--Clean the destination table if necessary
+	for k in pairs(targetTable) do
+		targetTable[k] = nil
+	end
+--Copy Data
+	for key, value in pairs(sourceTable) do
+		targetTable[key] = f_deepcopy(value)
+	end
+end
+
 --Start functions stored in strings
 function f_gotoFunction(func)
 	if not func or not func.gotomenu then return end --Return in case func does not exist or does not have "gotomenu"
