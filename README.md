@@ -274,7 +274,7 @@ In the options menu, System Settings-Character Select Settings, you can change t
 ## Can I run this engine on Android or Linux?
 Yes, for Linux it uses Wine and for Android it uses Box86. Both programs can be considered Windows application emulators designed for those operating systems. Native executables for Linux and possibly macOS are planned, but only time will tell.
 
-## Do you have a website or Discord server?
+## Do you have a Website or Discord server?
 IKEMEN Plus Ultra still does not have an official website. If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
 
 Please link to this github repo when directing anyone to the project.
@@ -288,16 +288,16 @@ Please link to this github repo when directing anyone to the project.
 
 >**I**tsu made mo **K**ansei shinai **E**ien ni **M**ikansei **EN**gine
 
-**IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
+**I.K.E.M.E.N.** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
 This Ikemen is an expansion of his original SSZ code.
 
-**IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
+**I.K.E.M.E.N. Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
 
-**IKEMEN Plus Ultra** is an unofficial large scale update of the previous version maintained by **CD2** in association with **Strong FS**. It contains new features and engine improvements inspired from: Ikemen GO, Commercial Fighting Games and Touhou: Gensokyo Reloaded.
+**I.K.E.M.E.N. Plus Ultra** is an unofficial large scale update of the previous version maintained by **CD2** in association with **Strong FS**. It contains new features and engine improvements inspired from: Ikemen GO, Commercial Fighting Games and Touhou: Gensokyo Reloaded.
 
-**IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
+**I.K.E.M.E.N. GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
 
-**IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
+**I.K.E.M.E.N. GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
 ## References
 >- Suehiro's Main Page:
@@ -309,19 +309,22 @@ This Ikemen is an expansion of his original SSZ code.
 >- B.I.J.I.N RandomSelect's Build Source Code:
 >https://code.google.com/archive/p/random-tac/
 >
->- Original Ikemen SSZ Source Code:
+>- I.K.E.M.E.N. SSZ Source Code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
 >
->- Ikemen Plus (What this project is based on) Source Code:
+>- I.K.E.M.E.N. SSZ Google Code Archive:
+>https://code.google.com/archive/p/ikemen/
+>
+>- I.K.E.M.E.N. Plus (What this project is based on) Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
->- Ikemen Plus Ultra Linux Fork:
+>- I.K.E.M.E.N. Plus Ultra Linux Fork:
 >https://github.com/Ahmed-Dzair-Dev/Ikemen-Plus-Ultra-Linux
 >
->- Ikemen Go Plus Source Code:
+>- I.K.E.M.E.N. GO Plus Source Code:
 >https://github.com/K4thos/Ikemen-GO-Plus
 >
->- Lastest Ikemen Engine (Ikemen Go) Source Code:
+>- Lastest I.K.E.M.E.N. Engine (I.K.E.M.E.N. GO) Source Code:
 >https://github.com/ikemen-engine/Ikemen-GO
 
 ## License
