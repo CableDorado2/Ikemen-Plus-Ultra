@@ -20,6 +20,7 @@ EXPORTS
     FullScreen
 	WindowBordered
 	WindowResizable
+	WindowDecoration
 	AspectRatio
 	TakeScreenShot
     CreatePaletteSurface

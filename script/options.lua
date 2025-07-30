@@ -6344,7 +6344,6 @@ function f_videoCfg()
 						s_aspectMode = "No"
 					end
 					modified = 1
-					needReload = 1
 					setAspectRatio(b_aspectMode)
 				end
 		--Window Opacity Adjust

@@ -761,6 +761,8 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 	{
 		//DiscordInit();
 		//UpdateDiscordPresence();
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+		//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0"); //VSYNC TEST
 		IMG_Init(imgFlags); //Initialize PNG loading https://wiki.libsdl.org/SDL2_image/IMG_Init
 		TTF_Init(); //Initialize TTF loading
 		g_scrflag = SDL_SWSURFACE; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
@@ -769,8 +771,6 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			w, h, g_scrflag);
 		if(!g_window) return false;
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-		//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0"); //VSYNC TEST
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 		if(mugen){
 			g_target =
@@ -801,6 +801,7 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 	else
 	{
 		isOpenGL = 1;
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		TTF_Init();
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -833,7 +834,6 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 		g_hglrc2 = wglCreateContext(g_hdc);
 		wglShareLists(g_hglrc, g_hglrc2);
 		g_mainTreadId = GetCurrentThreadId();
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		sndjoyinit();
 	}
 	g_w = w;
@@ -912,22 +912,48 @@ TUserFunc(void, WindowResizable, bool wr)
 	SDL_SetWindowResizable(g_window, wr ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_RESIZABLE flag and allow/disallow user resizing of the window. This is a no-op if the window's resizable state already matches the requested state. You can't change the resizable state of a fullscreen window.
 }
 
+TUserFunc(void, WindowDecoration, bool wd)
+{
+	SDL_SysWMinfo info;
+	SDL_VERSION(&info.version);
+	if (SDL_GetWindowWMInfo(g_window, &info))
+	{
+		HWND hwnd = info.info.win.window;
+		// Get current window style
+		LONG style = GetWindowLong(hwnd, GWL_STYLE);
+		if (wd)
+		{
+			// Restore Buttons
+			//style |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME;
+			style |= WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+		}
+		else
+		{
+			// Remove minimize/maximize buttons
+			//style &= ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME);
+			style &= ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
+		}
+		SetWindowLong(hwnd, GWL_STYLE, style);
+		// Apply Changes
+		SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	}
+}
+
+/*
+int original_w, original_h;
+SDL_GetWindowSize(g_window, &original_w, &original_h);
+*/
+
 TUserFunc(void, AspectRatio, bool aspect)
 {
 	if(aspect == true){
 		SDL_RenderSetLogicalSize(g_renderer, g_w, g_h);
+		//SDL_SetWindowSize(g_window, g_w, g_h); //Ajusta el tamaño de la ventana
+		SDL_RenderClear(g_renderer); //To refresh the screen
 	}else{
-	/*
-		if((g_h / 3 * 4) == g_w){ //4:3 Resolutions
-			SDL_RenderSetLogicalSize(g_renderer, 640, 480);
-		}else if((g_h / 10 * 16) == g_w){ //16:10 Resolutions
-			SDL_RenderSetLogicalSize(g_renderer, 320, 200);
-		}else{ //16:9 Resolutions
-			SDL_RenderSetLogicalSize(g_renderer, 427, 240);
-		}
-	*/
+		//SDL_SetWindowSize(g_window, original_w, original_h); //Restaura el tamaño original de la ventana
+		SDL_RenderSetLogicalSize(g_renderer, 0, 0); //Clear LogicalSize to restore the window
 	}
-	//SDL_UpdateWindowSurface(g_window);
 }
 
 TUserFunc(void, SetOpacity, float wo)

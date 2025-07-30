@@ -833,13 +833,13 @@ function f_arc1_chapter3_1()
 		data.p2TeamMenu = {mode = 0, chars = 1}
 		data.p2Char = {"Suave Dude"}
 		data.p2Pal = 1
-		setRoundTime(60*60)
+		setRoundTime(123*60)
 		setRoundsToWin(1)
 		setLifeMul(1)
 		data.versusScreen = false
 		data.victoryscreen = false
 		data.stage = "stages/Mountainside Temple/Suave's Corridor.def"
-		data.bgm = "sound/Open War.mp3"
+		data.songSelect = false
 		data.rosterMode = "story"
 		data.storyNo = "1-3A"
 		setGameMode('story')
