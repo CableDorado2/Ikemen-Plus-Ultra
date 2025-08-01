@@ -14659,7 +14659,13 @@ if validCells() then
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
 			if not loadAbyssDat then setAbyssReward(getAbyssReward()+(getAbyssDepth()-1)*5) end
-			if getAbyssDepth() == 1 or loadAbyssDat or (getAbyssDepth() >= abyssNextCheckPoint and matchNo ~= abyssBossMatch) then f_abyssMap() end
+			if getAbyssDepth() == 1 or loadAbyssDat or (getAbyssDepth() >= abyssNextCheckPoint and matchNo ~= abyssBossMatch) and not data.saveAbyss then f_abyssMap() end
+		--Stop Exploring Option
+			if exitAbyss then
+				f_winAdvanced()
+				f_exitToMainMenu() --f_resetMenuInputs()
+				return
+			end
 		end
 		f_matchInfo()
 	--Back to Main Menu and Save
@@ -17214,7 +17220,6 @@ function f_abyssMap()
 	--Exit from Abyss Via Checkpoint
 		if exitAbyss then
 			--TODO: Transition from down to up
-			data.tempBack = true --To exit to Main Menu from Abyss Menu
 			break
 		end
 	--Draw BG
