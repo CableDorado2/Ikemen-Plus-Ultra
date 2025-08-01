@@ -3606,8 +3606,8 @@ txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
 txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
-abyssCheckpointNo = 5 --Each 100 Depths you will reach a checkpoint (Back to Abyss Map to choose "continue" or "stop exploring")
-abyssBossMatchNo = 5 --Each 20 match a boss will appear
+abyssCheckpointNo = 100 --Each 100 Depths you will reach a checkpoint (Back to Abyss Map to choose "continue" or "stop exploring")
+abyssBossMatchNo = 20 --Each 20 match a boss will appear
 abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a normal boss
 
 t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortable customization

@@ -744,7 +744,7 @@ local function f_abyssBossReward()
 				end
 			end
 			itemDone = true
-	--Special Items Assign (FALTA ASEGURAR QUE ESTO SE GUARDE CUANDO REGRESES AL VS SCREEN)
+	--Special Items Assign
 		else
 		--Special Items Slots are Full
 			if abyssDat.nosave.itemslot[#abyssDat.nosave.itemslot] ~= "" then

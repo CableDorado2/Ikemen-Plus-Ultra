@@ -12105,8 +12105,12 @@ function f_setAbyssStats()
 	abyssDat.nosave.lifebarstate = getLifePersistence()
 	abyssDat.nosave.specialbosscnt = abyssSpecialBossCnt
 	abyssDat.nosave.winsCnt = winCnt
-	if getAbyssDepth() >= abyssNextCheckPoint then abyssNextCheckPoint = abyssNextCheckPoint + abyssCheckpointNo end -- Adds +abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
+	if getAbyssDepth() >= abyssNextCheckPoint and not data.challengerAbyss then abyssNextCheckPoint = abyssNextCheckPoint + abyssCheckpointNo end -- Adds +abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
 	abyssDat.nosave.nextcheckpoint = abyssNextCheckPoint
+	if data.challengerAbyss then
+		data.challengerAbyss = false
+		f_saveTemp()
+	end
 	f_saveAbyss()
 end
 
@@ -14306,8 +14310,6 @@ if validCells() then
 			--Don't Exit, just prepare stuff
 				matchNo = getAbyssDepth()
 				f_selectChallenger()
-				data.challengerAbyss = false
-				f_saveTemp()
 		--Abyss Save and Exit
 			elseif data.gameMode == "abyss" and data.saveAbyss then
 				matchNo = getAbyssDepth()
@@ -14663,7 +14665,7 @@ if validCells() then
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
 			if not loadAbyssDat then setAbyssReward(getAbyssReward()+(getAbyssDepth()-1)*5) end
-			if getAbyssDepth() == 1 or loadAbyssDat or (getAbyssDepth() >= abyssNextCheckPoint and matchNo ~= abyssBossMatch) and not data.saveAbyss then f_abyssMap() end
+			if getAbyssDepth() == 1 or loadAbyssDat or (getAbyssDepth() >= abyssNextCheckPoint) and not data.challengerAbyss and not data.saveAbyss then f_abyssMap() end
 		--Stop Exploring Option
 			if exitAbyss then
 				stats.money = stats.money + getAbyssReward() --Get abyss reward
