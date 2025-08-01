@@ -14662,6 +14662,9 @@ if validCells() then
 			if getAbyssDepth() == 1 or loadAbyssDat or (getAbyssDepth() >= abyssNextCheckPoint and matchNo ~= abyssBossMatch) and not data.saveAbyss then f_abyssMap() end
 		--Stop Exploring Option
 			if exitAbyss then
+				stats.money = stats.money + getAbyssReward() --Get abyss reward
+				f_saveStats()
+				f_storyboard(storyboardGameOver)
 				f_winAdvanced()
 				f_exitToMainMenu() --f_resetMenuInputs()
 				return
@@ -17196,12 +17199,14 @@ function f_abyssMap()
 	local abyssDepth = getAbyssDepth() --From script.ssz
 	local checkpoint = false
 	local conquest = false
-	loadAbyssDat = false
 	if matchNo >= lastMatch then --if getAbyssDepth() >= lastMatch then
 		conquest = true
 	elseif getAbyssDepth() >= abyssNextCheckPoint then --Show Checkpoint Stuff
-		checkpoint = true
+		if not loadAbyssDat then
+			checkpoint = true
+		end
 	end
+	loadAbyssDat = false
 	f_confirmReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if conquest or checkpoint then playBGM(bgmAbyss) end
