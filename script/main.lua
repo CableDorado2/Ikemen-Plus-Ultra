@@ -12012,6 +12012,10 @@ function f_getVSHint()
 end
 
 function f_setAbyssStats()
+	abyssDat.nosave.itemslot[1] = getAbyssSP1()
+	abyssDat.nosave.itemslot[2] = getAbyssSP2()
+	abyssDat.nosave.itemslot[3] = getAbyssSP3()
+	abyssDat.nosave.itemslot[4] = getAbyssSP4()
 	local statsPlus = 0
 	local cpuItems = {}
 	local difficulty = nil
@@ -16725,6 +16729,7 @@ function f_abyssMenu()
 						shop = true
 					elseif abyssMenu == 2 then
 						abyssDat.nosave.expense = backupCurrency - stats.money --calculates the amount spent in the store to be displayed on the results screen
+						f_setAbyssItems()
 						break --Start Abyss Mode
 					end
 			--Abyss Shop
@@ -17038,6 +17043,7 @@ function f_abyssDatConfirmReset()
 	abyssDatEnd = false
 	abyssDatComplete = false
 	abyssDatOverwrite = false
+	eraseAbyssDat = false
 end
 
 --;===========================================================
@@ -17058,9 +17064,9 @@ function f_abyssData(mode)
 	local menuMode = mode --It can be "save" or "load"
 	local txt_menuTitle = ""
 	loadAbyssDat = false
-	eraseAbyssDat = false
 	if menuMode == "save" then
 		txt_menuTitle = "SAVE DATA"
+		playBGM(bgmAbyss)
 	else
 		txt_menuTitle = "LOAD DATA"
 	end
@@ -17177,7 +17183,7 @@ function f_loadAbyssStats()
 	setAbyssPower(abyssDat.nosave.power) --set power points to show during abyss mode profile and which be apply to the player.
 	setAbyssAttack(abyssDat.nosave.attack) --set attack points to show during abyss mode profile and which be apply to the player.
 	setAbyssDefence(abyssDat.nosave.defence) --set defence points to show during abyss mode profile and which be apply to the player.
-		
+	f_setAbyssItems()
 	setAbyssReward(abyssDat.nosave.reward) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(abyssDat.nosave.depth) --set depth level to show during abyss mode match lifebar.
 	setAbyssDepthBoss(abyssDat.nosave.nextboss) --set next abyss NORMAL boss depth.

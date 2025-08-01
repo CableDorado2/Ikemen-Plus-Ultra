@@ -1691,11 +1691,11 @@ function drawSelectInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"w","265,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Slot", 266, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Slot", 286, hintFontYPos)
 end
 
 function drawStageInputHints()
@@ -1703,11 +1703,11 @@ function drawStageInputHints()
 	local hintFont = font2
 	local hintFontYPos = 35
 	animPosDraw(inputHintsBG, -56, 21)
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"w","265,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Slot", 266, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Slot", 286, hintFontYPos)
 end
 
 --;===========================================================
@@ -3607,7 +3607,7 @@ txt_abyssContinueInfo = "Begin the game from where you last left off."
 txt_abyssLvInfo = createTextImg(font5, 0, 0, "", 159, 200)
 
 abyssCheckpointNo = 5 --Each 100 Depths you will reach a checkpoint (Back to Abyss Map to choose "continue" or "stop exploring")
-abyssBossMatchNo = 20 --Each 20 match a boss will appear
+abyssBossMatchNo = 5 --Each 20 match a boss will appear
 abyssBossStatsIncrease = 5 --How much will the Abyss CPU Stats values (cpustats) ​​increase when facing a normal boss
 
 t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortable customization
@@ -3820,7 +3820,7 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, saveDat.player[1].displayname, stsFontXPos, stsFontYPos)
 		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..saveDat.depth, stsFontXPos, stsFontYPos+20)
 		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..t_abyssSel[saveDat.abysslv].depth, stsFontXPos, stsFontYPos+40)
-		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "PLAYER REWARD: "..saveDat.reward.." IKC", stsFontXPos, stsFontYPos+60)
+		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "REWARD: "..saveDat.reward.." IKC", stsFontXPos, stsFontYPos+60)
 	--Attributes
 		local attrFont = font2
 		local attrFontXPos = 225+NewPosX
@@ -3912,9 +3912,9 @@ local t_nolvItems = {
  --{showfromdepth = 0, text = txt_abyssShopNoGuardCPU, price = 5500, info = "Enemy Guard Gauge will deplete automatically.", unlock = "true"},
  --{showfromdepth = 0, text = txt_abyssShopNoDizzy, price = 3500, info = "Your character cannot be dizzied, and guard damage is reduced.", unlock = "true"},
  {showfromdepth = 0, text = txt_abyssShopTimeStats, price = 2000, info = "Increases you character stats when the remaining time is low.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopRewardUp, price = 5000, info = "All basic stats will return to their default values.IKC earned will double.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopDepthStats, price = 10000, info = "Increases your character stats as the depth increases.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
+ --{showfromdepth = 0, text = txt_abyssShopRewardUp, price = 5000, info = "All basic stats will return to their default values.IKC earned will double.", unlock = "true"},
+ --{showfromdepth = 0, text = txt_abyssShopDepthStats, price = 10000, info = "Increases your character stats as the depth increases.", unlock = "true"},
+ --{showfromdepth = 0, text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
 }
 
 --Special Items with Levels
@@ -4359,7 +4359,7 @@ t_abyssReward = {
 for i=1, #t_abyssReward do --Set common values to all table items
 	t_abyssReward[i].reward = true
 	t_abyssReward[i].text = "Reward +"..t_abyssReward[i].val.." IKC"
-	t_abyssReward[i].info = "Add "..t_abyssReward[i].val.."IKC to your Reward."
+	t_abyssReward[i].info = "Add "..t_abyssReward[i].val.." IKC to your Reward."
 end
 
 function f_addAbyssBossRewards(t_items) --Add items to t_abyssBossRewards, according to Depth Level and Abyss Difficulty

@@ -1312,6 +1312,58 @@ void getAbyssDefence(&.lua.State L=, int re=)
   L.pushNumber((double).com.abyssDefence);
 }
 
+void setAbyssSP1(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char asp1 = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssSP1 = asp1;
+}
+
+void getAbyssSP1(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP1);
+}
+
+void setAbyssSP2(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char asp2 = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssSP2 = asp2;
+}
+
+void getAbyssSP2(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP2);
+}
+
+void setAbyssSP3(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char asp3 = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssSP3 = asp3;
+}
+
+void getAbyssSP3(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP3);
+}
+
+void setAbyssSP4(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char asp4 = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssSP4 = asp4;
+}
+
+void getAbyssSP4(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP4);
+}
+
 void exitMatch(&.lua.State L=, int re=)
 {
   re = 0;
@@ -1516,6 +1568,15 @@ public void init(&.lua.State L=)
   
   L.register("setAbyssFinalDepth", .setAbyssFinalDepth);
   L.register("getAbyssFinalDepth", .getAbyssFinalDepth);
+  
+  L.register("setAbyssSP1", .setAbyssSP1);
+  L.register("getAbyssSP1", .getAbyssSP1);
+  L.register("setAbyssSP2", .setAbyssSP2);
+  L.register("getAbyssSP2", .getAbyssSP2);
+  L.register("setAbyssSP3", .setAbyssSP3);
+  L.register("getAbyssSP3", .getAbyssSP3);
+  L.register("setAbyssSP4", .setAbyssSP4);
+  L.register("getAbyssSP4", .getAbyssSP4);
   
   L.register("exitMatch", .exitMatch);
   L.register("setSharedString", .setSharedString);

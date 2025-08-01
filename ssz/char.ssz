@@ -5551,6 +5551,22 @@ public &Char
   {
     ret .com.abyssFinalDepth;
   }
+  public bool trAbyssSP1(^/char text)
+  {
+    ret .s.equ(text, .com.abyssSP1);
+  }
+  public bool trAbyssSP2(^/char text)
+  {
+    ret .s.equ(text, .com.abyssSP2);
+  }
+  public bool trAbyssSP3(^/char text)
+  {
+    ret .s.equ(text, .com.abyssSP3);
+  }
+  public bool trAbyssSP4(^/char text)
+  {
+    ret .s.equ(text, .com.abyssSP4);
+  }
   public int trFTNo()
   {
     ret .com.matchsToWin;

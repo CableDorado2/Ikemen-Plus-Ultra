@@ -193,7 +193,7 @@ void game()
 	`put(y=, "TOURNEY STATE:" + .com.tourneyState); //Display Tourney State
 //Display Abyss Depth Level, Abyss Reward, Abyss Boss State, Abyss Final Depth State
 	`put(y=, "ABYSS DEPTH:" + ''.com.abyssDepth + " - ABYSS REWARD:" + ''.com.abyssReward + " - ABYSS BOSS STATE:" + ''.com.abyssBossFight + " - ABYSS FINAL DEPTH:" + ''.com.abyssFinalDepth);
-//Display Next Abyss Normal Boss Match & Next Abyss Special Boss Match	
+//Display Next Abyss Normal Boss Match & Next Abyss Special Boss Match
 	`put(y=, "NEXT ABYSS NORMAL BOSS DEPTH:" + ''.com.abyssDepthBoss + " - NEXT ABYSS SPECIAL BOSS DEPTH:" + ''.com.abyssDepthBossSpecial);
 	`put(y=, ""); //Enter a space to separate
 	`put(y=, "MATCHS TO WIN:" + ''.com.matchsToWin + " - CURRENT MATCH:" + ''.com.match); //Display Matchs to Win (FT) & Current Match Number

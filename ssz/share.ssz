@@ -56,6 +56,7 @@ public &Share
   public int lifePersistence;
   public int credits, coins;
   public int abyssDepth, abyssDepthBoss, abyssDepthBossSpecial, abyssBossFight, abyssFinalDepth, abyssReward, abyssLife, abyssPower, abyssAttack, abyssDefence;
+  public ^/char abyssSP1, abyssSP2, abyssSP3, abyssSP4;
   public int inputDisplay;
   public int damageDisplay;
   public int powerStateP1;
@@ -149,6 +150,10 @@ public &Share
 	`abyssPower = .com.abyssPower;
 	`abyssAttack = .com.abyssAttack;
 	`abyssDefence = .com.abyssDefence;
+	`abyssSP1 = .com.abyssSP1;
+	`abyssSP2 = .com.abyssSP2;
+	`abyssSP3 = .com.abyssSP3;
+	`abyssSP4 = .com.abyssSP4;
 	`inputDisplay = .com.inputDisplay;
 	`damageDisplay = .com.damageDisplay;
 	`powerStateP1 = .com.powerStateP1;
@@ -246,6 +251,10 @@ public &Share
 	.com.abyssPower = `abyssPower;
 	.com.abyssAttack = `abyssAttack;
 	.com.abyssDefence = `abyssDefence;
+	.com.abyssSP1 = `abyssSP1;
+	.com.abyssSP2 = `abyssSP2;
+	.com.abyssSP3 = `abyssSP3;
+	.com.abyssSP4 = `abyssSP4;
 	.com.inputDisplay = `inputDisplay;
 	.com.damageDisplay = `damageDisplay;
 	.com.powerStateP1 = `powerStateP1;

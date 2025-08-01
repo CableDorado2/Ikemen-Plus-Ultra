@@ -3225,6 +3225,18 @@ function f_default() --Reset Game Modes Configuration
 	abyssNextCheckPoint = abyssCheckpointNo --Start count for Abyss Map Checkpoints
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
 	setLifePersistence(0) --To store last life bar value when life is maintained after match
+--To save Special Items during Abyss Boss Reward Menu
+	setAbyssSP1("")
+	setAbyssSP2("")
+	setAbyssSP3("")
+	setAbyssSP4("")
+end
+
+function f_setAbyssItems()
+	setAbyssSP1(abyssDat.nosave.itemslot[1])
+	setAbyssSP2(abyssDat.nosave.itemslot[2])
+	setAbyssSP3(abyssDat.nosave.itemslot[3])
+	setAbyssSP4(abyssDat.nosave.itemslot[4])
 end
 
 --Take Screenshots

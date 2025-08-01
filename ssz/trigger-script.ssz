@@ -228,6 +228,30 @@ void abyssfinaldepth(&.lua.State L=, int re=)
   L.pushNumber((double).com.abyssFinalDepth);
 }
 
+void abysssp1(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP1);
+}
+
+void abysssp2(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP2);
+}
+
+void abysssp3(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP3);
+}
+
+void abysssp4(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.abyssSP4);
+}
+
 void ailevel(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1421,6 +1445,10 @@ public void registerFunction(&.lua.State L=)
   L.register("abyssdepthbossspecial", .abyssdepthbossspecial);
   L.register("abyssbossfight", .abyssbossfight);
   L.register("abyssfinaldepth", .abyssfinaldepth);
+  L.register("abysssp1", .abysssp1);
+  L.register("abysssp2", .abysssp2);
+  L.register("abysssp3", .abysssp3);
+  L.register("abysssp4", .abysssp4);
   L.register("ailevel", .ailevel);
   L.register("tagmode", .tagmode);
   L.register("alive", .alive);
