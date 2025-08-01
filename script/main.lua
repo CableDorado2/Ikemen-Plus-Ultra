@@ -17196,12 +17196,13 @@ end
 --;===========================================================
 function f_abyssMap()
 	cmdInput()
-	local abyssDepth = getAbyssDepth() --From script.ssz
+	local currentDepth = getAbyssDepth() --From script.ssz
+	local nextMultipleOf10 = math.ceil(currentDepth / 10) * 10 --Calculate the next multiple of 10 greater than the current depth
 	local checkpoint = false
 	local conquest = false
-	if matchNo >= lastMatch then --if getAbyssDepth() >= lastMatch then
+	if matchNo >= lastMatch then --if currentDepth >= lastMatch then
 		conquest = true
-	elseif getAbyssDepth() >= abyssNextCheckPoint then --Show Checkpoint Stuff
+	elseif currentDepth >= abyssNextCheckPoint then --Show Checkpoint Stuff
 		if not loadAbyssDat then
 			checkpoint = true
 		end
@@ -17232,16 +17233,12 @@ function f_abyssMap()
 		animDraw(f_animVelocity(abyssFog, -1, -1))
 	--Draw Depth Stuff
 		animDraw(abyssMapDepthBG)
-		textImgSetText(txt_abyssMapDepth, "DEPTH "..getAbyssDepth())
+		textImgSetText(txt_abyssMapDepth, "DEPTH "..currentDepth)
 		textImgDraw(txt_abyssMapDepth)
 	--Draw Depth Levels
-		for i=2, 11 do
-			local startNo = nil
-			if getAbyssDepth() == 1 then startNo = 1
-			else startNo = 0
-			end
-			textImgSetText(txt_abyssMapDepthLv, getAbyssDepth()-startNo + (i-1)*10)
-			textImgSetPos(txt_abyssMapDepthLv, 42, 10+i*22)
+		for i=1, 10 do
+			textImgSetText(txt_abyssMapDepthLv, nextMultipleOf10 + (i-1)*10)
+			textImgSetPos(txt_abyssMapDepthLv, 42, 30+i*22)
 			textImgDraw(txt_abyssMapDepthLv)
 		end
 	--Draw Reward Text Stuff
