@@ -1,0 +1,7 @@
+https://get.videolan.org/vlc/last/
+https://wiki.videolan.org/GenerateLibFromDll/
+https://wiki.videolan.org/LibVLC
+https://wiki.videolan.org/LibVLC_SampleCode_SDL/
+https://www.videolan.org/vlc/libvlc.html
+https://code.google.com/archive/p/vc-libvlc/downloads
+https://www.nuget.org/packages/VideoLAN.LibVLC.Windows/3.0.0

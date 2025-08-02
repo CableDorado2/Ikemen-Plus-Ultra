@@ -17245,9 +17245,12 @@ function f_abyssMap()
 		textImgDraw(txt_abyssMapDepth)
 	--Draw Depth Levels
 		for i=1, 10 do
-			textImgSetText(txt_abyssMapDepthLv, nextMultipleOf10 + (i-1)*10)
-			textImgSetPos(txt_abyssMapDepthLv, 42, 30+i*22)
-			textImgDraw(txt_abyssMapDepthLv)
+			local depthLv = nextMultipleOf10 + (i-1)*10
+			if depthLv <= t_abyssSel[abyssSel].depth then
+				textImgSetText(txt_abyssMapDepthLv, depthLv)
+				textImgSetPos(txt_abyssMapDepthLv, 42, 30+i*22)
+				textImgDraw(txt_abyssMapDepthLv)
+			end
 		end
 	--Draw Reward Text Stuff
 		animDraw(abyssMapRewardBG)
