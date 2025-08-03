@@ -735,8 +735,8 @@ end
 
 --Default Video Values
 function f_videoDefault()
-	--b_saveMemory = false
-	--s_saveMemory = 2No"
+	b_saveMemory = false
+	s_saveMemory = "No"
 	b_openGL = false
 	s_openGL = "Software"
 	b_screenMode = false
@@ -753,7 +753,7 @@ function f_videoDefault()
 	b_borderMode = true
 	setResizableMode(b_resizableMode)
 	setBorderMode(b_borderMode)
-	resolutionWidth = 853
+	resolutionWidth = 640
 	resolutionHeight = 480
 	setGameRes(resolutionWidth, resolutionHeight)
 	brightnessAdjust = 256
@@ -1239,14 +1239,14 @@ t_wip = {
 	{text = "This option is still Under Development."},
 }
 for i=1, #t_wip do
-	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 160, 222.5+i*15)
+	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 160, 197+i*15)
 end
 
 t_sdlBeta = {
 	{text = "This option requires Sdlplugin New Version."},
 }
 for i=1, #t_sdlBeta do
-	t_sdlBeta[i]['id'] = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 160, 222.5+i*15)
+	t_sdlBeta[i]['id'] = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 160, 197+i*15)
 end
 
 --;===========================================================
@@ -1256,7 +1256,7 @@ t_locked = {
 	{text = "This option is Unavailable in Online Mode."},
 }
 for i=1, #t_locked do
-	t_locked[i]['id'] = createTextImg(font2, 0, 0, t_locked[i].text, 160, 222.5+i*15)
+	t_locked[i]['id'] = createTextImg(font2, 0, 0, t_locked[i].text, 160, 197+i*15)
 end
 
 --;===========================================================
