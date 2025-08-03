@@ -248,11 +248,10 @@ function drawPauseInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"a","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":???", 266, hintFontYPos)
+	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"a","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
 
 function drawPauseInputHints2()

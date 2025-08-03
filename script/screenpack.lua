@@ -4263,8 +4263,7 @@ txt_abyssMapDepthLv = createTextImg(font2, 0, -1, "", 0, 0)
 abyssMapBG = animNew(sprIkemen, [[
 60,0, 0,0, -1
 ]])
-animSetScale(abyssMapBG, 0.201, 0.188)
-animSetPos(abyssMapBG, -54, 15)
+animSetScale(abyssMapBG, 0.301, 0.288)
 animUpdate(abyssMapBG)
 
 --Reward BG

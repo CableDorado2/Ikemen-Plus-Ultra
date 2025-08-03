@@ -12105,6 +12105,7 @@ function f_setAbyssStats()
 	abyssDat.nosave.lifebarstate = getLifePersistence()
 	abyssDat.nosave.specialbosscnt = abyssSpecialBossCnt
 	abyssDat.nosave.winsCnt = winCnt
+	abyssDat.nosave.stage = data.stage
 	if getAbyssDepth() >= abyssNextCheckPoint and not data.challengerAbyss then abyssNextCheckPoint = abyssNextCheckPoint + abyssCheckpointNo end -- Adds +abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
 	abyssDat.nosave.nextcheckpoint = abyssNextCheckPoint
 	if data.challengerAbyss then
@@ -14474,14 +14475,16 @@ if validCells() then
 					if data.gameMode == "tower" then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
-						p1Cell = t_roster[math.random(#t_roster)] --get random character
+						p1Cell = t_roster[#t_roster] --Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew. This logic will ensure that chars are not repeated until the entire roster is defeated.
 					--Fight against boss character predefined at some depth/MatchNo
 						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
+								local bossChar = nil
+							--[[
+								local bossStage = nil
+								local bossSong = nil
+							]]
 								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then --should replace matchNo with getAbyssDepth()?
-									local bossChar = nil
-									local bossStage = nil
-									local bossSong = nil
 								--Pick Specific Char
 									if t_abyssSel[abyssSel].specialboss[i].char ~= nil then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
@@ -14498,6 +14501,10 @@ if validCells() then
 									if t_abyssSel[abyssSel].specialboss[i].music ~= nil then
 										data.bgm = t_abyssSel[abyssSel].specialboss[i].music
 									end
+							--For No Bosses Depth
+								else
+									--data.stage = "stage/???" --Change stage
+									data.bgm = nil
 								end
 							end
 						end
@@ -14577,8 +14584,10 @@ if validCells() then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
 								if matchNo == t_abyssSel[abyssSel].specialboss[i].depth then --should replace matchNo with getAbyssDepth()?
 									local bossChar = nil
+								--[[
 									local bossStage = nil
 									local bossSong = nil
+								]]
 								--Pick Specific Char
 									if t_abyssSel[abyssSel].specialboss[i].char ~= nil then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
@@ -14595,6 +14604,10 @@ if validCells() then
 									if t_abyssSel[abyssSel].specialboss[i].music ~= nil then
 										data.bgm = t_abyssSel[abyssSel].specialboss[i].music
 									end
+								--For No Bosses Depth
+								else
+									--data.stage = "stage/???" --Change stage
+									data.bgm = nil
 								end
 							end
 						end
@@ -14660,7 +14673,7 @@ if validCells() then
 		if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
 		setMatchNo(matchNo)
 		f_aiLevel()
-		if not data.stageMenu then f_selectStage() end --Load specific stage and music for roster characters
+		if not data.stageMenu then f_selectStage() end --Avoid display stage select, to load specific stage and music for roster characters
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
@@ -17195,6 +17208,7 @@ function f_loadAbyssStats()
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
 	setLifePersistence(abyssDat.nosave.lifebarstate) --To store last life bar value when life is maintained after match
 	winCnt = abyssDat.nosave.winsCnt --Restore victories
+	data.stage = abyssDat.nosave.stage --Restore Last stage
 	abyssNextCheckPoint = abyssDat.nosave.nextcheckpoint --Start count for Abyss Map Checkpoints
 	--matchNo = getAbyssDepth()
 end
@@ -17237,7 +17251,7 @@ function f_abyssMap()
 			break
 		end
 	--Draw BG
-		animDraw(abyssMapBG)
+		animPosDraw(abyssMapBG, -118, -currentDepth+16)
 		animDraw(f_animVelocity(abyssFog, -1, -1))
 	--Draw Depth Stuff
 		animDraw(abyssMapDepthBG)
@@ -17246,7 +17260,7 @@ function f_abyssMap()
 	--Draw Depth Levels
 		for i=1, 10 do
 			local depthLv = nextMultipleOf10 + (i-1)*10
-			if depthLv <= t_abyssSel[abyssSel].depth then
+			if depthLv <= t_abyssSel[abyssSel].depth and (currentDepth < depthLv or currentDepth > depthLv) then
 				textImgSetText(txt_abyssMapDepthLv, depthLv)
 				textImgSetPos(txt_abyssMapDepthLv, 42, 30+i*22)
 				textImgDraw(txt_abyssMapDepthLv)

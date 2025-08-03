@@ -4146,6 +4146,7 @@ abyssDat.default = { --For some reason cannot re-use t_abyssDefaultSave table be
 	nextspecialboss = 0,
 	specialbosscnt = 0,
 	winsCnt = 0,
+	stage = "",
 	itemslot = {[1] = "", [2] = "", [3] = "", [4] = ""},
 }
 
@@ -4167,6 +4168,7 @@ local t_abyssDefaultSave = {
 	nextspecialboss = 0,
 	specialbosscnt = 0,
 	winsCnt = 0,
+	stage = "",
 	itemslot = {[1] = "", [2] = "", [3] = "", [4] = ""},
 }
 abyssDat.nosave = {} --Reset data
