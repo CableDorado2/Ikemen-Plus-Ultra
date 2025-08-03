@@ -69,7 +69,6 @@ DWORD g_mainTreadId;
 
 WNDPROC g_orgProc;
 char16_t g_lastChar = '\0', g_newChar = '\0';
-
 int test = 0;
 
 void lockTarget()
@@ -125,7 +124,6 @@ float wav_vol = 1.0;
 float bgm_vol = 1.0;
 
 LockSingler g_sndmtx;
-
 const double PI = 3.14159265358979323846264338327950288;
 
 struct OutBufList
@@ -199,6 +197,7 @@ void dummyconfig(HWND hwndParent){}
 void dummyabout(HWND hwndParent){}
 void dummyinit(){}
 void dummyquit(){}
+
 void bgmFlush(int t)
 {
 	g_omdata = g_omzero;
@@ -210,11 +209,13 @@ void bgmFlush(int t)
 	g_obl.clear();
 	om_closed = false;
 }
+
 void om_flush(int t)
 {
 	AutoLocker al(&g_sndmtx);
 	bgmFlush(t);
 }
+
 int om_open(
 	int samplerate, int numchannels, int bitspersamp,
 	int bufferlenms, int prebufferms)
@@ -232,10 +233,12 @@ int om_open(
 			|| om_bitspersamp == 16 || om_bitspersamp == 32)
 		? 0 : -1;
 }
+
 void om_close()
 {
 	om_closed = true;
 }
+
 int om_write(char* buf, int len)
 {
 	if(buf == nullptr || len <= 0) return 0;
@@ -244,6 +247,7 @@ int om_write(char* buf, int len)
 	om_writtentime += len;
 	return 0;
 }
+
 int om_canwrite()
 {
 	return
@@ -252,6 +256,7 @@ int om_canwrite()
 		/ (double)(om_numchannels*(om_bitspersamp>>3)*om_samplerate)
 		? 8192 : 0;
 }
+
 int om_isplaying()
 {
 	return 1;
@@ -264,14 +269,17 @@ int om_pause(int pause)
 	om_paused = pause != 0;
 	return pre;
 }
+
 void dummysetvolume(int volume){}
 void dummysetpan(int pan){}
+
 int om_getoutputtime()
 {
 	return
 		(int)((double)om_outputtime * 1000.0
 		/ (double)(om_numchannels*(om_bitspersamp>>3)*om_samplerate));
 }
+
 int om_getwrittentime()
 {
 	return
@@ -289,8 +297,7 @@ int dummyVSAGetMode(int* specNch, int* waveNch){return 0;}
 void dummyVSAAdd(void* data, int timestamp){}
 void dummyVSASetInfo(int nch, int srate){}
 int dummydsp_isactive(){return 0;}
-int dummydsp_dosamples(
-	short int* samples, int numsamples, int bps, int nch, int srate)
+int dummydsp_dosamples(short int* samples, int numsamples, int bps, int nch, int srate)
 {return numsamples;}
 void dummySetInfo(int bitrate, int srate, int stereo, int synched){}
 
@@ -941,19 +948,31 @@ TUserFunc(void, WindowDecoration, bool wd)
 	}
 }
 
-/*
-int original_w, original_h;
-SDL_GetWindowSize(g_window, &original_w, &original_h);
-*/
+TUserFunc(int, GetWidth)
+{
+	return GetSystemMetrics(SM_CXSCREEN);
+}
+
+TUserFunc(int, GetHeight)
+{
+	return GetSystemMetrics(SM_CYSCREEN);
+}
+
+TUserFunc(void, WindowSize, int width, int height)
+{
+	//g_w = width;
+	//g_h = height;
+	SDL_SetWindowSize(g_window, height, width);
+}
 
 TUserFunc(void, AspectRatio, bool aspect)
 {
 	if(aspect == true){
 		SDL_RenderSetLogicalSize(g_renderer, g_w, g_h);
-		//SDL_SetWindowSize(g_window, g_w, g_h); //Ajusta el tamaño de la ventana
+		//SDL_SetWindowSize(g_window, g_w, g_h); //Adjust window size
 		SDL_RenderClear(g_renderer); //To refresh the screen
 	}else{
-		//SDL_SetWindowSize(g_window, original_w, original_h); //Restaura el tamaño original de la ventana
+		//SDL_SetWindowSize(g_window, original_w, original_h); //Restore original window size
 		SDL_RenderSetLogicalSize(g_renderer, 0, 0); //Clear LogicalSize to restore the window
 	}
 }
@@ -1117,9 +1136,7 @@ TUserFunc(void, BlitSurface, SDL_Rect* prect, SDL_Surface* psrcs)
 	SDL_DestroyTexture(tex);
 }
 
-TUserFunc(
-	intptr_t, CreatePaletteSurface,
-	int32_t h, int32_t w, SDL_Color* ppl, uint8_t* ppx)
+TUserFunc(intptr_t, CreatePaletteSurface, int32_t h, int32_t w, SDL_Color* ppl, uint8_t* ppx)
 {
 	SDL_Surface* psrc = SDL_CreateRGBSurfaceFrom(ppx, w, h, 8, w, 0, 0, 0, 0); //(ppx, w, h, 16, w, 0, 0, 0, 0);
 	SDL_SetPaletteColors(psrc->format->palette, ppl, 0, 256);
@@ -1147,7 +1164,7 @@ TUserFunc(intptr_t, AllocSurface, int32_t h, int32_t w)
 {
 	return
 		(intptr_t)SDL_CreateRGBSurface(
-			SDL_SWSURFACE, w, h, 32, 0x00FF0000, //, w, h, 16, 0x00FF0000,   //32 BPP / Bits / BitsPerPixel
+			SDL_SWSURFACE, w, h, 32, 0x00FF0000, //, w, h, 16, 0x00FF0000, //32 BPP / Bits / BitsPerPixel
 			0x0000FF00, 0x000000FF, 0xFF000000);
 }
 
@@ -1183,9 +1200,7 @@ TUserFunc(void, CloseFont, TTF_Font* pf)
 	TTF_CloseFont(pf);
 }
 
-TUserFunc(
-	void, RenderFont, Reference str, int32_t y, int32_t x,
-	SDL_Color c, TTF_Font* pf)
+TUserFunc(void, RenderFont, Reference str, int32_t y, int32_t x, SDL_Color c, TTF_Font* pf)
 {
 	SDL_Surface* psrc;
 	SDL_Rect dest;
@@ -1211,6 +1226,7 @@ struct NormalizeVar
 	{
 	}
 };
+
 const double NormalizeVar::shitsu = 32.0;
 NormalizeVar g__nvAll, g__nvMusic;
 double normalize(double sam, const int chs, const int sps, NormalizeVar& v)
@@ -1257,6 +1273,7 @@ double normalize(double sam, const int chs, const int sps, NormalizeVar& v)
 	else if(v.heri > 1.0) v.heri = 1.0;
 	return sam;
 }
+
 TUserFunc(bool, SetSndBuf, int32_t* buf)
 {
 	if(g_snddata == g_sndbuf) return false;
@@ -1764,10 +1781,12 @@ public:
 		uint32_t*, int, int, int, Img, uint32_t, uint32_t,
 		bool, uint32_t, int, int, int, int, int, int, int, int, int);
 };
+
 void mTrans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 {
 	dst = color;
 }
+
 void mAddTrans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 {
 	uint32_t tmp =
@@ -1775,6 +1794,7 @@ void mAddTrans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 	uint32_t msk = (tmp << 1) - (tmp >> 7);
 	dst = ((dst + color) - msk) | msk;
 }
+
 void mAdd1Trans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 {
 	uint32_t tmpm = (1 << (8 - (colorkey >> 16))) - 1;
@@ -1785,6 +1805,7 @@ void mAdd1Trans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 	uint32_t msk = (tmp << 1) - (tmp >> 7);
 	dst = ((tmpd + color) - msk) | msk;
 }
+
 void mSubTrans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 {
 	uint32_t tmp =
@@ -1792,6 +1813,7 @@ void mSubTrans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 	uint32_t msk = tmp - (tmp >> 8);
 	dst = (dst - color + tmp) & ~msk;
 }
+
 void mAlphaTrans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 {
 	uint64_t tmpd =
@@ -1811,6 +1833,7 @@ void mAlphaTrans(uint32_t& dst, uint32_t color, uint32_t colorkey)
 		(uint32_t)((tmpd&0xff0000000000L)>>24
 		| (tmpd&0xff000000L)>>16 | (tmpd&0xff00L)>>8);
 }
+
 void mShadowTrans(uint32_t& dst, uint32_t color, uint32_t alpha)
 {
 	mSubTrans(dst, color, 0);
@@ -1931,6 +1954,7 @@ template<typename Img, copycolorproc ccp> void mzlLoop(
 		}
 	}
 }
+
 template<typename Img> void mzLineBilt(
 	typename Funcs<Img>::mzllporc loop, uint32_t* pdpx, SDL_Rect& dr,
 	float dcx, Img& pri, uint32_t* pspl, float cx, SDL_Rect& til,
@@ -2031,6 +2055,7 @@ BARBARBAR:
 	int ixcl = (int)(xscl*65536.0f);
 	loop(pdpx, pri, pspl, colorkey, xsign, tile, ix, dxend, ifx, ixcl, sx);
 }
+
 void getdxdy(int& dx, int& dy, const Zurashi* zt, uint8_t ztofs, uint32_t roto)
 {
 	if((roto & 0x80) == 0){
@@ -2059,6 +2084,7 @@ template<int sign> void inclrxy(
 		ry += sign*((dy^ymask) + yp1);
 	}
 }
+
 template<typename Img, copycolorproc ccp> void mzrlLoop(
 	uint32_t* pdpx, int dstw, int rx, int ry, Img pri, uint32_t* pspl,
 	uint32_t roto, bool biltflg, uint32_t colorkey, int rxsrt, int rxend,
@@ -2244,6 +2270,7 @@ template<typename Img, copycolorproc ccp> void mzrlLoop(
 		}
 	}
 }
+
 template<typename Img> void mzrLineBilt(
 	typename Funcs<Img>::mrllporc loop, uint32_t* pdpx, int dstw,
 	int rx, int ry, int xlim, int ylim, float fx, Img& pri, uint32_t* pspl,
@@ -2295,6 +2322,7 @@ template<typename Img> void mzrLineBilt(
 		pdpx, dstw, rx, ry, pri, pspl, roto, biltflg, colorkey,
 		rxsrt, rxend, rysrt, ryend, rxlimmask, rylimmask, ifx, ixcl);
 }
+
 template<typename Img> void mzScreenBilt(
 	typename Funcs<Img>::mzllporc loop, SDL_Rect& dr,
 	float rcx, Img pri, uint32_t *ppal, SDL_Rect& srcr, float cx, float ty,
@@ -2426,6 +2454,7 @@ template<typename Img> void mzScreenBilt(
 		pdpx += ysign*dstw;
 	}
 }
+
 template<typename Img> void mzrScreenBilt(
 	typename Funcs<Img>::mrllporc loop,
 	float rcx, float rcy, Img& pri, uint32_t* ppal, SDL_Rect& srcr,
@@ -2486,6 +2515,7 @@ template<typename Img> void mzrScreenBilt(
 		iy++;
 	}
 }
+
 template<copycolorproc ccp> void mRender(
 	SDL_Rect dr, float rcx, float rcy, Reference img,
 	uint32_t *ppal, SDL_Rect psrcr, float cx, float ty, SDL_Rect tile,
@@ -2519,6 +2549,7 @@ template<copycolorproc ccp> void mRender(
 		}
 	}
 }
+
 int foobar(int n)
 {
 	if(n == 127 || n == 128) return 1;
@@ -2530,6 +2561,7 @@ int foobar(int n)
 	if(n == 1 || n == 2) return 7;
 	return 0;
 }
+
 TUserFunc(
 	bool, RenderMugenZoom, Reference* pluginbuf, int32_t rle,
 	float rcy, float rcx, SDL_Rect* pdstr, int32_t alpha,
@@ -2680,6 +2712,7 @@ template<typename Img> void mzlShadowLoop(
 		}
 	}
 }
+
 template<typename Img> void mzShadowLineBilt(
 	typename Funcs<Img>::mzlslporc loop, uint32_t* pdpx, SDL_Rect& dr,
 	float fx, Img& pri, uint32_t color, float xscl, uint32_t alpha)
@@ -2748,6 +2781,7 @@ template<int sign> void inclrxyShadow(
 		ry += sign*((dy^ymask) + yp1)*vscl;
 	}
 }
+
 template<typename Img> void mzrlShadowLoop(
 	uint32_t* pdpx, int dstw, int rx, int ry, Img pri, uint32_t color,
 	uint32_t roto, bool biltflg, uint32_t alpha, int rxsrt, int rxend,
@@ -2934,6 +2968,7 @@ template<typename Img> void mzrlShadowLoop(
 		}
 	}
 }
+
 template<typename Img> void mzrShadowLineBilt(
 	typename Funcs<Img>::mrlslporc loop, uint32_t* pdpx, int dstw,
 	int rx, int ry, int xlim, int ylim, float fx, Img& pri, uint32_t color,
@@ -3030,6 +3065,7 @@ template<typename Img> void mzShadowScreenBilt(
 		pdpx = g_pix + iy*dstw;
 	}
 }
+
 template<typename Img> void mzrShadowScreenBilt(
 	typename Funcs<Img>::mrlslporc loop, float rcx,
 	float rcy, Img& pri, uint32_t color, SDL_Rect& srcr, float fx, float fy,
@@ -3104,6 +3140,7 @@ template<typename Img> void mzrShadowScreenBilt(
 		iy++;
 	}
 }
+
 void mShadowRender(
 	SDL_Rect dr, float rcx, float rcy, Reference img,
 	uint32_t color, SDL_Rect srcr, float cx, float ty,
@@ -3144,6 +3181,7 @@ void mShadowRender(
 		}
 	}
 }
+
 TUserFunc(
 	bool, RenderMugenShadow, Reference* pluginbuf, int32_t rle,
 	float rcy, float rcx, SDL_Rect* pdstr, int32_t alpha,
@@ -3478,6 +3516,7 @@ void drawTileHolizon(
 		if(abs(topbtwn) < 0.01) break;
 	}
 }
+
 void drawTile(
 	uint16_t w, uint16_t h, float x, float y,
 	SDL_Rect tile, float xtopscl, float xbotscl,  float yscl, float vscl,
@@ -3807,6 +3846,7 @@ void rectFillGl(float r, float g, float b, float a, SDL_Rect rect)
 	}
 	glEnd();
 }
+
 TUserFunc(void, MugenFillGl, int32_t alpha, uint32_t color, SDL_Rect rect)
 {
 	float r = (float)(color>>16&0xff)/255.0f;

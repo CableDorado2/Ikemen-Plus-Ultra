@@ -3545,6 +3545,10 @@ function f_sysTime()
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
+	--[[
+		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
+		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)
+	]]
 	end
 end
 

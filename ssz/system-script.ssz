@@ -748,26 +748,26 @@ void synchronize(&.lua.State L=, int re=)
   }
 }
 
-//void getWidth(&.lua.State L=, int re=)
-//{
-  //re = 1;
-  //L.pushNumber((double).sdl.getWidth());
-//}
+void getWidth(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).sdl.getWidth());
+}
 
-//void getHeight(&.lua.State L=, int re=)
-//{
-  //re = 1;
-  //L.pushNumber((double).sdl.getHeight());
-//}
+void getHeight(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).sdl.getHeight());
+}
 
-//void setGameRes(&.lua.State L=, int re=)
-//{
-  //int argc = 0, nret = 0;
-  //int w = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  //int h = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  //.com.setSize(w,h);
-  //.sdl.windowSize(w,h);
-//}
+void setGameRes(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int w = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int h = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //.com.setSize(w,h); //FIX WHEN CHANGE RESOLUTION DURING EXECUTION
+  .sdl.windowSize(w,h);
+}
 
 void getFullScreenMode(&.lua.State L=, int re=)
 {
@@ -2339,9 +2339,9 @@ public void init(&.lua.State L=)
   L.register("setOpacity", .setOpacity);
   L.register("setVolume", .setVolume);
   L.register("setPanStr", .setPanStr);
-  //L.register("getWidth", .getWidth);
-  //L.register("getHeight", .getHeight);
-  //L.register("setGameRes", .setGameRes);
+  L.register("getWidth", .getWidth);
+  L.register("getHeight", .getHeight);
+  L.register("setGameRes", .setGameRes);
   L.register("getFullScreenMode", .getFullScreenMode);
   L.register("setFullScreenMode", .setFullScreenMode);
   L.register("getScreenMode", .getScreenMode);

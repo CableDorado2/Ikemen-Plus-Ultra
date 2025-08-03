@@ -755,7 +755,7 @@ function f_videoDefault()
 	setBorderMode(b_borderMode)
 	resolutionWidth = 853
 	resolutionHeight = 480
-	--setGameRes(resolutionWidth,resolutionHeight)
+	setGameRes(resolutionWidth, resolutionHeight)
 	brightnessAdjust = 256
 	setBrightness(brightnessAdjust)
 	opacityAdjust = 100
@@ -1512,7 +1512,7 @@ function f_mainCfg()
 				setAspectRatio(b_aspectMode)
 				setResizableMode(b_resizableMode)
 				setBorderMode(b_borderMode)
-				--setGameRes(resolutionWidth,resolutionHeight)
+				setGameRes(resolutionWidth, resolutionHeight)
 				setBrightness(brightnessAdjust)
 				setOpacity(opacityAdjust / 100)
 				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
@@ -6804,6 +6804,7 @@ function f_resCfgSet(t, title)
 				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_aspectRatio[resCfgSet].x
 				resolutionHeight = t_aspectRatio[resCfgSet].y
+				setGameRes(resolutionWidth, resolutionHeight)
 				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
 					f_resWarning()
 				end
