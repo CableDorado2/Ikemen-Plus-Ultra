@@ -1,6 +1,7 @@
 --;===========================================================
---; LIBRARY DEFINITION
+--; LIBRARY DEFINITION (OLD STRUCTURE)
 --;===========================================================
+--[[
 lfs = require("lfs") --load lfs.dll
 
 --load ltn12 lua library
@@ -13,34 +14,36 @@ dkjson = require("dkjson")
 
 --One-time load of the json routines
 json = (loadfile "lib/json.lua")()
+]]
+--;===========================================================
+--; LIBRARY DEFINITION
+--;===========================================================
+--Configure search paths for shared libraries (c-extensions)
+package.cpath = "./lib/lua/?.dll;" ..
+				"./lib/lua/luasocket/?.dll;" ..
+				"./lib/lua/luasocket/socket/?.dll;" ..
+				"./lib/lua/luasocket/mime/?.dll;"
+
+--Configure search paths for Lua libraries
+package.path = "./?.lua;" ..
+				"./lib/lua/?.lua;" ..
+				"./lib/lua/luasocket/?.lua;"
+				
+--Load LuaFileSystem library
+lfs = require("lfs")
+--Load LuaSocket libraries
+--socket = require("socket")
+--http = require("socket.http")
+ltn12 = require("ltn12")
+--Load JSON libraries
+dkjson = require("dkjson")
+json = (loadfile "lib/lua/json.lua")() --One-time load of the json routines
+--json = dofile("lib/lua/json.lua")
 
 --[[
-package.path = package.path..";./lib/net/http.lua"
-http = require("http")
-
-package.path = package.path..";./lib/net/socket.lua"
-socket = require("socket")
-
-package.path = package.path..";./lib/net/ftp.lua"
-ftp = require("ftp")
-
-package.path = package.path..";./lib/net/headers.lua"
-headers = require("headers")
-
-package.path = package.path..";./lib/net/mbox.lua"
-mbox = require("mbox")
-
-package.path = package.path..";./lib/net/mime.lua"
-mime = require("mime")
-
-package.path = package.path..";./lib/net/smtp.lua"
-smtp = require("smtp")
-
-package.path = package.path..";./lib/net/tp.lua"
-tp = require("tp")
-
-package.path = package.path..";./lib/net/url.lua"
-url = require("url")
+--request home page via the socket library
+local homePage = http.request("https://github.com/CableDorado2/Ikemen-Plus-Ultra")
+print(homePage)
 ]]
 --;===========================================================
 --; DATA DEFINITION
@@ -3466,10 +3469,27 @@ sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based
 --sysTime3 = tonumber(os.date("%m"))
 
 function f_sysTime()
-	--local http = require("socket.http") -- import the socket.http module
-	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
-	--local date = headers.date -- LuaSocket makes all header names lowercase
-	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
+httest = ""
+--[[
+local response_body = {}
+local url = "http://worldclockapi.com/api/json/utc/now"
+--local url = "time.windows.com"
+local res, code, response_headers = http.request{
+    url = url,
+    sink = ltn12.sink.table(response_body)
+}
+
+if res == 1 and code == 200 then
+    local response_str = table.concat(response_body)
+    -- Si la respuesta es JSON, parsearla
+    local decoded = json.decode(response_str)
+    --print("Fecha y hora UTC: " .. decoded.currentDateTime)
+    httest = "Fecha y hora UTC: " .. decoded.currentDateTime
+else
+    --print("Error en la solicitud HTTP")
+    httest = "Error en la solicitud HTTP"
+end
+]]
 	local clockPosX = 0
 	local clockPosY = 8
 	local clockStandard = (os.date("%I:%M%p"))
@@ -3545,6 +3565,7 @@ function f_sysTime()
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
+		f_drawQuickText(txt_testW, font6, 0, 0, httest, 109, 38)
 	--[[
 		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
 		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)

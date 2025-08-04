@@ -14501,10 +14501,6 @@ if validCells() then
 									if t_abyssSel[abyssSel].specialboss[i].music ~= nil then
 										data.bgm = t_abyssSel[abyssSel].specialboss[i].music
 									end
-							--For No Bosses Depth
-								else
-									--data.stage = "stage/???" --Change stage
-									data.bgm = nil
 								end
 							end
 						end
@@ -14604,10 +14600,6 @@ if validCells() then
 									if t_abyssSel[abyssSel].specialboss[i].music ~= nil then
 										data.bgm = t_abyssSel[abyssSel].specialboss[i].music
 									end
-								--For No Bosses Depth
-								else
-									--data.stage = "stage/???" --Change stage
-									data.bgm = nil
 								end
 							end
 						end
@@ -14722,6 +14714,7 @@ if validCells() then
 		matchTime = os.clock()
 		f_assignMusic()
 		winner = game() --Get into the fight
+		if data.gameMode == "abyss" then data.bgm = nil end --To avoid play special boss music for the next normal depth match
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
