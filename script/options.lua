@@ -141,6 +141,7 @@ end
 --;===========================================================
 modified = 0
 needReload = 0
+local updateVars = false
 
 function f_loadCfg()
 --;===========================================================
@@ -163,12 +164,11 @@ function f_loadCfg()
 --Video Settings
 	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-	b_fullscreenMode = s_configSSZ:match('const bool FullScreenReal%s*=%s*([^;%s]+)')
+	b_fullscreenMode = s_configSSZ:match('const bool FullScreenExclusive%s*=%s*([^;%s]+)')
 	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)')
 	b_aspectMode = s_configSSZ:match('const bool AspectRatio%s*=%s*([^;%s]+)')
-	b_borderMode = s_configSSZ:match('const bool WindowBordered%s*=%s*([^;%s]+)')
-	b_resizableMode = s_configSSZ:match('const bool WindowResizable%s*=%s*([^;%s]+)')
 	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
+	windowType = tonumber(s_configSSZ:match('const int WindowType%s*=%s*(%d+)'))
 	brightnessAdjust = tonumber(s_configSSZ:match('const int Brightness%s*=%s*(%d+)'))
 	opacityAdjust = math.floor(tonumber(s_configSSZ:match('const float Opacity%s*=%s*(%d%.*%d*)') * 100))
 --Audio Settings
@@ -253,27 +253,11 @@ function f_loadEXCfg()
 	elseif channels == 1 then
 		s_channels = "Mono"
 	end
-
-	if b_saveMemory == "true" then
-		b_saveMemory = true
-		s_saveMemory = "Yes"
-	elseif b_saveMemory == "false" then
-		b_saveMemory = false
-		s_saveMemory = "No"
-	end
-
+--Convert Bool String loaded from SSZ to lua bool
 	if b_openGL == "true" then
 		b_openGL = true
-		s_openGL = "OpenGL 2.0"
 	elseif b_openGL == "false" then
 		b_openGL = false
-		s_openGL = "Software"
-	end
-	
-	if data.fullscreenType == "Exclusive" then
-		b_fullscreenMode = true
-	elseif data.fullscreenType == "Borderless" then
-		b_fullscreenMode = false
 	end
 	
 	if b_screenMode == "true" then
@@ -284,25 +268,25 @@ function f_loadEXCfg()
 		s_screenMode = "Window"
 	end
 	
+	if b_fullscreenMode == "true" then
+		b_fullscreenMode = true
+	elseif b_fullscreenMode == "false" then
+		b_fullscreenMode = false
+	end
+	
 	if b_aspectMode == "true" then
 		b_aspectMode = true
-		s_aspectMode = "Yes"
 	elseif b_aspectMode == "false" then
 		b_aspectMode = false
-		s_aspectMode = "No"
 	end
 	
-	if data.windowType == "Original" then
-		b_borderMode = true
-		b_resizableMode = false
-	elseif data.windowType == "No Border" then
-		b_borderMode = false
-		b_resizableMode = false
-	elseif data.windowType == "Resizable" then
-		b_borderMode = true
-		b_resizableMode = true
+	if b_saveMemory == "true" then
+		b_saveMemory = true
+		s_saveMemory = "Yes"
+	elseif b_saveMemory == "false" then
+		b_saveMemory = false
+		s_saveMemory = "No"
 	end
-	
 	s_disablePadP1 = data.disablePadP1 and "Disabled" or "Enabled"
 	s_disablePadP2 = data.disablePadP2 and "Disabled" or "Enabled"
 end
@@ -406,10 +390,6 @@ function f_saveCfg()
 		['data.serviceTime'] = data.serviceTime,
 		['data.attractTime'] = data.attractTime,
 		['data.destinyTime'] = data.destinyTime,
-	--Video Data
-		['data.windowType'] = data.windowType,
-		['data.fullscreenType'] = data.fullscreenType,
-		['data.sdl'] = data.sdl,
 	--Input Data
 		['data.disablePadP1'] = data.disablePadP1,
 		['data.disablePadP2'] = data.disablePadP2,
@@ -435,19 +415,9 @@ function f_saveCfg()
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
 	end
 	if b_fullscreenMode then
-		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = true')
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreenExclusive%s*=%s*[^;%s]+', 'const bool FullScreenExclusive = true')
 	else
-		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = false')
-	end
-	if b_borderMode then
-		s_configSSZ = s_configSSZ:gsub('const bool WindowBordered%s*=%s*[^;%s]+', 'const bool WindowBordered = true')
-	else
-		s_configSSZ = s_configSSZ:gsub('const bool WindowBordered%s*=%s*[^;%s]+', 'const bool WindowBordered = false')
-	end
-	if b_resizableMode then
-		s_configSSZ = s_configSSZ:gsub('const bool WindowResizable%s*=%s*[^;%s]+', 'const bool WindowResizable = true')
-	else
-		s_configSSZ = s_configSSZ:gsub('const bool WindowResizable%s*=%s*[^;%s]+', 'const bool WindowResizable = false')
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreenExclusive%s*=%s*[^;%s]+', 'const bool FullScreenExclusive = false')
 	end
 	if b_aspectMode then
 		s_configSSZ = s_configSSZ:gsub('const bool AspectRatio%s*=%s*[^;%s]+', 'const bool AspectRatio = true')
@@ -459,6 +429,7 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
 	end
+	s_configSSZ = s_configSSZ:gsub('const int WindowType%s*=%s*%d+', 'const int WindowType = ' .. windowType)
 	s_configSSZ = s_configSSZ:gsub('const int Brightness%s*=%s*%d+', 'const int Brightness = ' .. brightnessAdjust)
 	s_configSSZ = s_configSSZ:gsub('const float Opacity%s*=%s*%d%.*%d*', 'const float Opacity = ' .. opacityAdjust / 100)
 --Audio Settings
@@ -509,18 +480,7 @@ function f_saveCfg()
 --;===========================================================
 --Reload game if needed
 	if needReload == 1 then
-		--os.execute ("TASKKILL /IM Ikemen Plus Ultra.exe /F")
-		if data.sdl == "Original" then
-			os.rename("lib/alpha/dll/sdlplugin.dll", "lib/alpha/dll/sdlpluginV.dll")
-			os.rename("lib/alpha/sdlplugin.ssz", "lib/alpha/sdlpluginV.ssz")
-			os.rename("lib/alpha/dll/sdlpluginS.dll", "lib/alpha/dll/sdlplugin.dll")
-			os.rename("lib/alpha/sdlpluginS.ssz", "lib/alpha/sdlplugin.ssz")
-		elseif data.sdl == "New" then
-			os.rename("lib/alpha/dll/sdlplugin.dll", "lib/alpha/dll/sdlpluginS.dll")
-			os.rename("lib/alpha/sdlplugin.ssz", "lib/alpha/sdlpluginS.ssz")
-			os.rename("lib/alpha/dll/sdlpluginV.dll", "lib/alpha/dll/sdlplugin.dll")
-			os.rename("lib/alpha/sdlpluginV.ssz", "lib/alpha/sdlplugin.ssz")
-		end
+		--os.execute ("TASKKILL /IM ProcessName.exe /F")
 		f_resetEngine()
 	end
 end
@@ -738,21 +698,15 @@ function f_videoDefault()
 	b_saveMemory = false
 	s_saveMemory = "No"
 	b_openGL = false
-	s_openGL = "Software"
 	b_screenMode = false
 	s_screenMode = "Window"
 	setScreenMode(b_screenMode)
-	data.fullscreenType = "Borderless"
 	b_fullscreenMode = false
 	setFullScreenMode(b_fullscreenMode)
 	b_aspectMode = false
-	s_aspectMode = "No"
 	setAspectRatio(b_aspectMode)
-	data.windowType = "Original"
-	b_resizableMode = false
-	b_borderMode = true
-	setResizableMode(b_resizableMode)
-	setBorderMode(b_borderMode)
+	windowType = 1
+	setWindowType(windowType)
 	resolutionWidth = 640
 	resolutionHeight = 480
 	setGameRes(resolutionWidth, resolutionHeight)
@@ -760,7 +714,6 @@ function f_videoDefault()
 	setBrightness(brightnessAdjust)
 	opacityAdjust = 100
 	setOpacity(opacityAdjust / 100)
-	data.sdl = "New"
 end
 
 --Default Audio Values
@@ -806,17 +759,17 @@ end
 
 --Default Inputs Values
 function f_inputDefault()
-	--Reset P1
+--Reset P1
 	f_p1keyboardBattleDefault()
 	f_p1gamepadBattleDefault()
 	f_p1keyboardMenuDefault()
 	f_p1gamepadMenuDefault()
-	--Reset P2
+--Reset P2
 	f_p2keyboardBattleDefault()
 	f_p2gamepadBattleDefault()
 	f_p2keyboardMenuDefault()
 	f_p2gamepadMenuDefault()
-	--Reset Gamepads
+--Reset Gamepads
 	data.p1Gamepad = 0
 	data.p2Gamepad = 1
 	f_swapGamepad(0, 1)
@@ -1097,64 +1050,6 @@ function f_resWarning()
 end
 
 --;===========================================================
---; SDL VIDEO WARNING
---;===========================================================
---SDL Beta Info 1
-sdlImg1 = animNew(sprIkemen, [[
-3000,0, 0,0,
-]])
-animSetPos(sdlImg1, 76, 190)
-animSetScale(sdlImg1, 0.35, 0.35)
-animUpdate(sdlImg1)
-
---SDL Beta Info 1
-sdlImg2 = animNew(sprIkemen, [[
-3000,1, 0,0,
-]])
-animSetPos(sdlImg2, 243, 190)
-animSetScale(sdlImg2, 0.35, 0.35)
-animUpdate(sdlImg2)
-
-t_sdlWarning = {
-	{text = "The New version of the Sdlplugin allows loading video"},
-	{text = "files in WMV format. However, still in development and"},
-	{text = "ONLY SFF sprites Version 1.0.1.0 or Version 2.0.0.0"},
-	{text = "are supported."},
-}
-for i=1, #t_sdlWarning do
-	t_sdlWarning[i]['id'] = createTextImg(font2, 0, 1, t_sdlWarning[i].text, 25, 65+i*15)
-end
-
-function f_sdlWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-			sndPlay(sndSys, 100, 1)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		textImgDraw(txt_Warning)
-		animSetScale(infoBG, 300, 111)
-		animSetWindow(infoBG, 0,70, 296,#t_sdlWarning*15)
-		animDraw(infoBG)
-		for i=1, #t_sdlWarning do
-			textImgDraw(t_sdlWarning[i].id)
-		end
-		animDraw(infoOptionsWindowBG)
-		textImgDraw(txt_okOptions)
-		animSetWindow(cursorBox, 87,133, 144,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Draw SDL Beta Reference
-		animDraw(sdlImg1)
-		animDraw(sdlImg2)
-		drawInfoCfgInputHints()
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
 --; OPENGL 2.0 WARNING
 --;===========================================================
 t_glWarning = {
@@ -1240,13 +1135,6 @@ t_wip = {
 }
 for i=1, #t_wip do
 	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 160, 197+i*15)
-end
-
-t_sdlBeta = {
-	{text = "This option requires Sdlplugin New Version."},
-}
-for i=1, #t_sdlBeta do
-	t_sdlBeta[i]['id'] = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 160, 197+i*15)
 end
 
 --;===========================================================
@@ -1356,58 +1244,46 @@ function f_defaultMenu()
 	--YES
 		if defaultMenu == 1 then
 			sndPlay(sndSys, 100, 1)
-			if defaultAll == true then
+			modified = 1
+			updateVars = true
+			if defaultAll then
 				f_onlineDefault() --Set Default Options for Online/Offline Game
 				f_offlineDefault() --Set ONLY Default Options for Offline Game
-				modified = 1
 				needReload = 1
-			elseif defaultGame == true then
+			elseif defaultGame then
 				f_gameDefault()
-				modified = 1
-			elseif defaultTeam == true then
+			elseif defaultTeam then
 				f_teamDefault()
-				modified = 1
-			elseif defaultZoom == true then
+			elseif defaultZoom then
 				f_zoomDefault()
-				modified = 1
-			elseif defaultSystem == true then
+			elseif defaultSystem then
 				f_systemDefault()
-				modified = 1
-			elseif defaultSelect == true then
+			elseif defaultSelect then
 				f_selectGlobalDefault()
-				modified = 1
-			elseif defaultRoster == true then
+			elseif defaultRoster then
 				f_selectDefault()
-				modified = 1
-			elseif defaultStage == true then
+			elseif defaultStage then
 				f_stageDefault()
-				modified = 1
-			elseif defaultTime == true then
+			elseif defaultTime then
 				f_timeDefault()
-				modified = 1
-			elseif defaultAudio == true then
+			elseif defaultAudio then
 				f_audioDefault()
-				modified = 1
 				needReload = 1
-			elseif defaultSong == true then
+			elseif defaultSong then
 				f_songDefault()
-				modified = 1
-			elseif defaultVideo == true then
+			elseif defaultVideo then
 				f_videoDefault()
-				modified = 1
 				needReload = 1
-			elseif defaultInput == true then
+			elseif defaultInput then
 				f_inputDefault()
-			elseif defaultNetplay == true then
+			elseif defaultNetplay then
 				f_netplayDefault()
-			elseif defaultEngine == true then
+			elseif defaultEngine then
 				f_engineDefault()
-				modified = 1
 				needReload = 1
-			elseif defaultVN == true then
+			elseif defaultVN then
 				f_vnDefault()
-				modified = 1
-			elseif resetStats == true then
+			elseif resetStats then
 				f_defaultStats()
 			end
 	--NO
@@ -1510,8 +1386,7 @@ function f_mainCfg()
 				setFullScreenMode(b_fullscreenMode)
 				setScreenMode(b_screenMode)
 				setAspectRatio(b_aspectMode)
-				setResizableMode(b_resizableMode)
-				setBorderMode(b_borderMode)
+				setWindowType(windowType)
 				setGameRes(resolutionWidth, resolutionHeight)
 				setBrightness(brightnessAdjust)
 				setOpacity(opacityAdjust / 100)
@@ -6163,12 +6038,36 @@ t_videoCfg = {
 	{text = "Window Opacity",	 varText = ""},
 	{text = "Brightness",		 varText = ""},
 	{text = "Save Memory", 	 	 varText = ""},
-	{text = "Sdlplugin Version", varText = ""},
 	{text = "Default Graphics",	 varText = ""},
 	{text = "          BACK",  	 varText = ""},
 }
 for i=1, #t_videoCfg do
 	t_videoCfg[i]['varID'] = textImgNew()
+end
+
+local function f_setVideoVars()
+--Window Type
+	txt_windowType = ""
+	if windowType == 1 then
+		txt_windowType = "Resizable"
+	elseif windowType == 2 then
+		txt_windowType = "Bordered A"
+	elseif windowType == 3 then
+		txt_windowType = "Bordered B"
+	elseif windowType == 4 then
+		txt_windowType = "No Decoration"
+	else
+		txt_windowType = "???"
+	end
+--FullScreen Type
+	txt_fullscreenType = ""
+	if b_fullscreenMode then txt_fullscreenType = "Exclusive" else txt_fullscreenType = "Borderless" end
+--Aspect Ratio
+	txt_aspectRatio = ""
+	if b_aspectMode then txt_aspectRatio = "Yes" else txt_aspectRatio = "No" end
+--Render Mode
+	txt_renderMode = ""
+	if b_openGL then txt_renderMode = "OpenGL 2.0" else txt_renderMode = "Software" end
 end
 
 function f_videoCfg()
@@ -6181,8 +6080,11 @@ function f_videoCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	updateVars = true
+	f_setVideoVars()
 	sndPlay(sndSys, 100, 1)
 	while true do
+	--In case that use ALT+ENTER
 		if b_fullscreenMode ~= getFullScreenMode() then
 			if getFullScreenMode() then
 				b_fullscreenMode = true
@@ -6190,6 +6092,7 @@ function f_videoCfg()
 				b_fullscreenMode = false
 			end
 			modified = 1
+			updateVars = true
 		end
 		if b_screenMode ~= getScreenMode() then
 			if getScreenMode() then
@@ -6199,36 +6102,20 @@ function f_videoCfg()
 				b_screenMode = false
 				s_screenMode = "Window"
 			end
-			t_videoCfg[3].varText = s_screenMode
 			modified = 1
+			updateVars = true
 		end
-		if b_borderMode ~= getBorderMode() then
-			if getBorderMode() then
-				b_borderMode = true
-			else
-				b_borderMode = false
-			end
-			modified = 1
-		end
-		if b_resizableMode ~= getResizableMode() then
-			if getResizableMode() then
-				b_resizableMode = true
-			else
-				b_resizableMode = false
-			end
-			modified = 1
-		end
+	--[[
 		if b_aspectMode ~= getAspectRatio() then
 			if getAspectRatio() then
 				b_aspectMode = true
-				s_aspectMode = "Yes"
 			else
 				b_aspectMode = false
-				s_aspectMode = "No"
 			end
-			t_videoCfg[6].varText = s_aspectMode
 			modified = 1
+			updateVars = true
 		end
+	]]
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
@@ -6261,10 +6148,14 @@ function f_videoCfg()
 					modified = 1
 					needReload = 1
 				end
+				updateVars = true
 		--Resolution
 			elseif videoCfg == 2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
-				if f_resCfg() then modified = 1 end
+				if f_resCfg() then
+					modified = 1
+					updateVars = true
+				end
 		--Screen Mode
 			elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
@@ -6276,81 +6167,53 @@ function f_videoCfg()
 					s_screenMode = "Window"
 				end
 				modified = 1
+				updateVars = true
 				setScreenMode(b_screenMode) --added via system-script.ssz
 		--Window Type
-			elseif videoCfg == 4 then
-				if data.sdl == "Original" then
-					lockSetting = true
-				elseif data.sdl == "New" then
-					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-						if commandGetState(p1Cmd, 'r') and data.windowType == "Original" then
-							sndPlay(sndSys, 100, 0)
-							data.windowType = "No Border"
-							b_resizableMode = false
-							b_borderMode = false
-						elseif commandGetState(p1Cmd, 'r') and data.windowType == "No Border" then
-							sndPlay(sndSys, 100, 0)
-							data.windowType = "Resizable"
-							b_resizableMode = true
-							b_borderMode = true
-						elseif commandGetState(p1Cmd, 'l') and data.windowType == "Resizable" then
-							sndPlay(sndSys, 100, 0)
-							data.windowType = "No Border"
-							b_borderMode = false
-							b_resizableMode = false
-						elseif commandGetState(p1Cmd, 'l') and data.windowType == "No Border" then
-							sndPlay(sndSys, 100, 0)
-							data.windowType = "Original"
-							b_resizableMode = false
-							b_borderMode = true
-						end
-						modified = 1
-						setResizableMode(b_resizableMode)
-						setBorderMode(b_borderMode)
-					end
+			elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+				if commandGetState(p1Cmd, 'r') and windowType < 4 then
+					sndPlay(sndSys, 100, 0)
+					windowType = windowType + 1
+				elseif commandGetState(p1Cmd, 'l') and windowType > 1 then
+					sndPlay(sndSys, 100, 0)
+					windowType = windowType - 1
 				end
+				modified = 1
+				updateVars = true
+				setWindowType(windowType)
+				--f_setVideoVars() --Set Var Text
 		--Fullscreen Type
-			elseif videoCfg == 5 then
-				if data.sdl == "Original" then
-					lockSetting = true
-				elseif data.sdl == "New" then
-					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
-						sndPlay(sndSys, 100, 0)
-						if data.fullscreenType == "Exclusive" then
-							data.fullscreenType = "Borderless"
-							--b_aspectMode = false
-							b_fullscreenMode = false
-						elseif data.fullscreenType == "Borderless" then
-							data.fullscreenType = "Exclusive"
-							--b_aspectMode = false
-							b_fullscreenMode = true
-						end
-						modified = 1
-						--setAspectRatio(b_aspectMode)
-						setFullScreenMode(b_fullscreenMode)
-					end
+			elseif videoCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if b_fullscreenMode then
+					b_fullscreenMode = false
+				else
+					b_fullscreenMode = true
+				end
+				modified = 1
+				updateVars = true
+				setFullScreenMode(b_fullscreenMode)
+				--f_setVideoVars() --Set Var Text
+			--Apply FullScreen Type during execution
+				if s_screenMode == "Fullscreen" then
+					setScreenMode(false)
+					setScreenMode(true)
 				end
 		--Keep Aspect Ratio
-			elseif videoCfg == 6 then
-				if data.sdl == "Original" then
-					lockSetting = true
-				elseif data.sdl == "New" and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
-					sndPlay(sndSys, 100, 0)
-					if not b_aspectMode then
-						b_aspectMode = true
-						s_aspectMode = "Yes"
-					else
-						b_aspectMode = false
-						s_aspectMode = "No"
-					end
-					modified = 1
-					setAspectRatio(b_aspectMode)
+			elseif videoCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if not b_aspectMode then
+					b_aspectMode = true
+				else
+					b_aspectMode = false
 				end
+				modified = 1
+				updateVars = true
+				setAspectRatio(b_aspectMode)
+				--f_setVideoVars() --Set Var Text
 		--Window Opacity Adjust
 			elseif videoCfg == 7 then
-				if data.sdl == "Original" then
-					lockSetting = true
-				elseif data.sdl == "New" and commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if opacityAdjust < 100 then
 						opacityAdjust = opacityAdjust + 1
 					else
@@ -6358,7 +6221,8 @@ function f_videoCfg()
 					end
 					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
-				elseif data.sdl == "New" and commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					updateVars = true
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if opacityAdjust > 0 then
 						opacityAdjust = opacityAdjust - 1
 					else
@@ -6366,6 +6230,7 @@ function f_videoCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
+					updateVars = true
 				end
 				if commandGetState(p1Cmd, 'holdr') then
 					bufl = 0
@@ -6387,6 +6252,7 @@ function f_videoCfg()
 					end
 					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 					modified = 1
+					updateVars = true
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 					if brightnessAdjust > 50 then
 						brightnessAdjust = brightnessAdjust - 1
@@ -6395,6 +6261,7 @@ function f_videoCfg()
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
+					updateVars = true
 				end
 				if commandGetState(p1Cmd, 'holdr') then
 					bufl = 0
@@ -6422,21 +6289,7 @@ function f_videoCfg()
 					modified = 1
 					needReload = 1
 				end
-		--Sdlplugin (Temp Setting Until everything works as original one)
-			elseif videoCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
-				if onlinegame then
-					lockSetting = true
-				else
-					sndPlay(sndSys, 100, 0)
-					if data.sdl == "Original" then
-						data.sdl = "New"
-						f_sdlWarning()
-					elseif data.sdl == "New" then
-						data.sdl = "Original"
-					end
-					modified = 1
-					needReload = 1
-				end
+				updateVars = true
 		--Default Values
 			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
@@ -6485,22 +6338,20 @@ function f_videoCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		t_videoCfg[1].varText = s_openGL
-		t_videoCfg[2].varText = resolutionWidth.."x"..resolutionHeight
-		t_videoCfg[3].varText = s_screenMode
-		t_videoCfg[4].varText = data.windowType
-		t_videoCfg[5].varText = data.fullscreenType
-		t_videoCfg[6].varText = s_aspectMode
-		t_videoCfg[7].varText = opacityAdjust.."%"
-		t_videoCfg[8].varText = brightnessAdjust
-		t_videoCfg[9].varText = s_saveMemory
-		t_videoCfg[10].varText = data.sdl
-		setOpacity(opacityAdjust / 100)
-		setBrightness(brightnessAdjust)
-		if lockSetting then
-			for i=1, #t_sdlBeta do
-				textImgDraw(t_sdlBeta[i].id)
-			end
+		if updateVars then
+			f_setVideoVars() --Set Vars Text
+			t_videoCfg[1].varText = txt_renderMode
+			t_videoCfg[2].varText = resolutionWidth.."x"..resolutionHeight
+			t_videoCfg[3].varText = s_screenMode
+			t_videoCfg[4].varText = txt_windowType
+			t_videoCfg[5].varText = txt_fullscreenType
+			t_videoCfg[6].varText = txt_aspectRatio
+			t_videoCfg[7].varText = opacityAdjust.."%"
+			t_videoCfg[8].varText = brightnessAdjust
+			t_videoCfg[9].varText = s_saveMemory
+			setOpacity(opacityAdjust / 100)
+			setBrightness(brightnessAdjust)
+			updateVars = false
 		end
 		for i=1, maxVideoCfg do
 			if i > videoCfg - cursorPosY then

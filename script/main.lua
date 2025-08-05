@@ -17345,8 +17345,61 @@ function f_playCredits()
 	end
 	f_default()
 end
+
+--;===========================================================
+--; SDL VIDEO WARNING
+--;===========================================================
+--SDL Beta Info 1
+sdlImg1 = animNew(sprIkemen, [[
+3000,0, 0,0,
+]])
+animSetPos(sdlImg1, 76, 170)
+animSetScale(sdlImg1, 0.35, 0.35)
+animUpdate(sdlImg1)
+
+--SDL Beta Info 1
+sdlImg2 = animNew(sprIkemen, [[
+3000,1, 0,0,
+]])
+animSetPos(sdlImg2, 243, 170)
+animSetScale(sdlImg2, 0.35, 0.35)
+animUpdate(sdlImg2)
+
+t_sdlWarning = {
+	{text = "For the Current version of I.K.E.M.E.N. ENGINE"},
+	{text = "ONLY SFF sprites Version 1.0.1.0 or Version 2.0.0.0"},
+	{text = "are supported."},
+}
+for i=1, #t_sdlWarning do
+	t_sdlWarning[i]['id'] = createTextImg(font2, 0, 0, t_sdlWarning[i].text, 159, 65+i*15)
+end
+
+function f_sdlWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+			sndPlay(sndSys, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		textImgDraw(script.options.txt_Warning)
+		animSetScale(script.options.infoBG, 300, 111)
+		animSetWindow(script.options.infoBG, 0,70, 296,#t_sdlWarning*15)
+		animDraw(script.options.infoBG)
+		for i=1, #t_sdlWarning do
+			textImgDraw(t_sdlWarning[i].id)
+		end
+	--Draw SDL Beta Reference
+		animDraw(sdlImg1)
+		animDraw(sdlImg2)
+		script.options.drawInfoCfgInputHints()
+		cmdInput()
+		refresh()
+	end
+end
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
 f_loadLuaMods() --Load External Lua Modules
+f_sdlWarning()
 f_mainStart() --Start Menu

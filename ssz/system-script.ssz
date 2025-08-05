@@ -769,6 +769,19 @@ void setGameRes(&.lua.State L=, int re=)
   .sdl.windowSize(w,h);
 }
 
+void setWindowType(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int state = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.setWindowType(state);
+}
+
+void getWindowType(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).cfg.WindowType);
+}
+
 void getFullScreenMode(&.lua.State L=, int re=)
 {
   re = 1;
@@ -795,34 +808,6 @@ void setScreenMode(&.lua.State L=, int re=)
   bool f = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
   if(.sdl.fullScreen(f)) .sdl.showCursor(!f || f && !.se.fullReal);
   .se.full = f;
-}
-
-void getBorderMode(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushBoolean(.se.borders);
-}
-
-void setBorderMode(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  bool bor = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .sdl.windowBorders(bor);
-  .se.borders = bor;
-}
-
-void getResizableMode(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushBoolean(.se.resizable);
-}
-
-void setResizableMode(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  bool resz = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .sdl.windowResizable(resz);
-  .se.resizable = resz;
 }
 
 void getAspectRatio(&.lua.State L=, int re=)
@@ -2348,10 +2333,8 @@ public void init(&.lua.State L=)
   L.register("setScreenMode", .setScreenMode);
   L.register("getAspectRatio", .getAspectRatio);
   L.register("setAspectRatio", .setAspectRatio);
-  L.register("getBorderMode", .getBorderMode);
-  L.register("setBorderMode", .setBorderMode);
-  L.register("getResizableMode", .getResizableMode);
-  L.register("setResizableMode", .setResizableMode);
+  L.register("getWindowType", .getWindowType);
+  L.register("setWindowType", .setWindowType);
   L.register("takeScreenShot", .takeScreenShot);
   L.register("configModified", .configModified);
   L.register("connected", .connected);

@@ -1105,9 +1105,9 @@ t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
 
 t_audioCfg = {
 	{text = "Master Volume",	varText = gl_vol.."%"},
-	{text = "SFX Volume",		varText = se_vol.."%"},
 	{text = "BGM Volume",		varText = bgm_vol.."%"},
-	{text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "SFX Volume",		varText = se_vol.."%"},
+	{text = "Panning Range",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
 	{text = "Default Values",	varText = ""},
 	{text = "          BACK",  	varText = ""},
 }

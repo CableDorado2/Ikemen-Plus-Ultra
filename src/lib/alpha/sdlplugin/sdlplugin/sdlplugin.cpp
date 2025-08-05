@@ -886,7 +886,7 @@ TUserFunc(void, End)
 }
 
 int fsMode = 0;
-TUserFunc(void, FullScreenReal, bool fsr)
+TUserFunc(void, FullScreenExclusive, bool fsr) //FullScreenExclusive need to be register in sdlplugin.def to work in lib/alpha/sdlplugin.ssz
 {
 	if(fsr == true){
 		fsMode = SDL_WINDOW_FULLSCREEN;
@@ -911,17 +911,8 @@ TUserFunc(bool, FullScreen, bool fs)
 	SDL_SetWindowFullscreen(g_window, fs ? fsMode : 0) == 0; //flags may be SDL_WINDOW_FULLSCREEN, for "real" fullscreen with a videomode change; SDL_WINDOW_FULLSCREEN_DESKTOP for "fake" fullscreen that takes the size of the desktop; and 0 for windowed mode.
 }
 
-TUserFunc(void, WindowBordered, bool wb) //WindowBordered need to be register in sdlplugin.def to work in lib/alpha/sdlplugin.ssz
-{
-	SDL_SetWindowBordered(g_window, wb ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_BORDERLESS flag and add or remove the border from the actual window. This is a no-op if the window's border already matches the requested state. You can't change the border state of a fullscreen window.
-}
-
-TUserFunc(void, WindowResizable, bool wr)
-{
-	SDL_SetWindowResizable(g_window, wr ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_RESIZABLE flag and allow/disallow user resizing of the window. This is a no-op if the window's resizable state already matches the requested state. You can't change the resizable state of a fullscreen window.
-}
-
-TUserFunc(void, WindowDecoration, bool wd)
+//TUserFunc(void, WindowDecoration, bool wd)
+void WindowDecoration(bool wd)
 {
 	SDL_SysWMinfo info;
 	SDL_VERSION(&info.version);
@@ -945,6 +936,45 @@ TUserFunc(void, WindowDecoration, bool wd)
 		SetWindowLong(hwnd, GWL_STYLE, style);
 		// Apply Changes
 		SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	}
+}
+
+TUserFunc(void, WindowType, int state) //Can't change the Window state of a fullscreen window.
+{
+//Window Resizable (Minimize + Maximize & Close Box)
+	if(state == 1)
+	{
+		WindowDecoration(true);
+		SDL_SetWindowResizable(g_window, SDL_TRUE);
+		SDL_SetWindowBordered(g_window, SDL_TRUE);
+	}
+//Window Bordered A (Original State: Minimize & Close Box)
+	else if (state == 2)
+	{
+		WindowDecoration(true);
+		SDL_SetWindowResizable(g_window, SDL_FALSE);
+		SDL_SetWindowBordered(g_window, SDL_TRUE);
+	}
+//Window Bordered B (Only Show Close Box)
+	else if (state == 3)
+	{
+		WindowDecoration(false);
+		SDL_SetWindowResizable(g_window, SDL_FALSE);
+		SDL_SetWindowBordered(g_window, SDL_TRUE);
+	}
+//No Window Decorations (Remove decoration from actual window)
+	else if (state == 4)
+	{
+		WindowDecoration(false);
+		SDL_SetWindowResizable(g_window, SDL_FALSE);
+		SDL_SetWindowBordered(g_window, SDL_FALSE);
+	}
+//Load Default Resizable Setting
+	else
+	{
+		WindowDecoration(true);
+		SDL_SetWindowResizable(g_window, SDL_TRUE);
+		SDL_SetWindowBordered(g_window, SDL_TRUE);
 	}
 }
 

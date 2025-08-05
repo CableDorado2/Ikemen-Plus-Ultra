@@ -31,9 +31,11 @@ package.path = "./?.lua;" ..
 				
 --Load LuaFileSystem library
 lfs = require("lfs")
+--[[
 --Load LuaSocket libraries
---socket = require("socket")
---http = require("socket.http")
+socket = require("socket")
+http = require("socket.http")
+--]]
 ltn12 = require("ltn12")
 --Load JSON libraries
 dkjson = require("dkjson")
@@ -2725,21 +2727,21 @@ function f_audioCfgVN()
 				bufr = 0
 				bufl = 0
 			end
-	--SFX Volume
+	--BGM Volume
 		elseif audioCfgVN == 2 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if se_vol < 100 then
-					se_vol = se_vol + 1
+				if bgm_vol < 100 then
+					bgm_vol = bgm_vol + 1
 				else
-					se_vol = 0
+					bgm_vol = 0
 				end
 				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if se_vol > 0 then
-					se_vol = se_vol - 1
+				if bgm_vol > 0 then
+					bgm_vol = bgm_vol - 1
 				else
-					se_vol = 100
+					bgm_vol = 100
 				end
 				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
@@ -2754,21 +2756,21 @@ function f_audioCfgVN()
 				bufr = 0
 				bufl = 0
 			end
-	--BGM Volume
+	--SFX Volume
 		elseif audioCfgVN == 3 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if bgm_vol < 100 then
-					bgm_vol = bgm_vol + 1
+				if se_vol < 100 then
+					se_vol = se_vol + 1
 				else
-					bgm_vol = 0
+					se_vol = 0
 				end
 				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if bgm_vol > 0 then
-					bgm_vol = bgm_vol - 1
+				if se_vol > 0 then
+					se_vol = se_vol - 1
 				else
-					bgm_vol = 100
+					se_vol = 100
 				end
 				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 				modifiedVN = true

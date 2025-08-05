@@ -1,14 +1,13 @@
 //Video Settings
-const int Width = 960;
-const int Height = 720;
 const bool OpenGL = false;
 const bool AspectRatio = false;
 const bool FullScreen = false;
-const bool FullScreenReal = false;
-const bool WindowBordered = true;
-const bool WindowResizable = false;
-const float Opacity = 1;
+const bool FullScreenExclusive = false; //False: Borderless FullScreen, True: Exclusive FullScreen
+const int WindowType = 1; //1: Resizable, 2: Bordered A, 3: Bordered B, 4: No Decoration
+const int Width = 640;
+const int Height = 480;
 const int Brightness = 256;
+const float Opacity = 1;
 
 //Audio Settings
 const float GlVol = 0.8;
@@ -17,17 +16,17 @@ const float BGMVol = 0;
 const float PanStr = 0.8;
 
 //Perfomance Settings
+const bool SaveMemory = false;
 const int HelperMax = 56;
 const int PlayerProjectileMax = 50;
 const int ExplodMax = 256;
 const int AfterImageMax = 8;
-const bool SaveMemory = false;
 
 //Game Settings
+const int GameSpeed = 60;//frames/second
 const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 const float Super_TargetDefenceMul = 1.5;
-const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 1;
 
 //Portraits Settings
