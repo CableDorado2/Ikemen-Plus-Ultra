@@ -59,7 +59,7 @@ SDL_Texture* g_target = nullptr;
 uint32_t* g_pix;
 SDL_GLContext g_gl = nullptr;
 int g_pitch;
-int g_w = 427, g_h = 240;
+int g_w = 640, g_h = 480;
 float w_opacity = 1.0;
 uint32_t g_scrflag = 0;
 SDL_AudioSpec g_desired;
@@ -711,7 +711,7 @@ TUserFunc(bool, loadPNG, Reference dir)
 
 	//Load PNG surface
 	//PNGSurface = loadImage(pu->refToAstr(CP_THREAD_ACP, dir).c_str());
-	PNGSurface = loadImage("test.png");
+	PNGSurface = loadImage("tools/test.png");
 	if(PNGSurface == NULL)
 	{
 		//printf( "Failed to load PNG image!\n" );
@@ -784,7 +784,7 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		if(mugen){
 			g_target =
 				SDL_CreateTexture(
-					g_renderer, SDL_PIXELFORMAT_ARGB8888, //SDL_PIXELFORMAT_ARGB8888 //SDL_PIXELFORMAT_RGB888
+					g_renderer, SDL_PIXELFORMAT_ARGB8888,
 					SDL_TEXTUREACCESS_STREAMING, w, h);
 			SDL_SetTextureBlendMode(g_target, SDL_BLENDMODE_NONE);
 			lockTarget();
@@ -925,7 +925,8 @@ void WindowDecoration(bool wd)
 		{
 			// Restore Buttons
 			//style |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME;
-			style |= WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+			//style |= WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+			style |= WS_MINIMIZEBOX;
 		}
 		else
 		{
@@ -944,7 +945,7 @@ TUserFunc(void, WindowType, int state) //Can't change the Window state of a full
 //Window Resizable (Minimize + Maximize & Close Box)
 	if(state == 1)
 	{
-		WindowDecoration(true);
+		//WindowDecoration(true);
 		SDL_SetWindowResizable(g_window, SDL_TRUE);
 		SDL_SetWindowBordered(g_window, SDL_TRUE);
 	}
@@ -1168,7 +1169,7 @@ TUserFunc(void, BlitSurface, SDL_Rect* prect, SDL_Surface* psrcs)
 
 TUserFunc(intptr_t, CreatePaletteSurface, int32_t h, int32_t w, SDL_Color* ppl, uint8_t* ppx)
 {
-	SDL_Surface* psrc = SDL_CreateRGBSurfaceFrom(ppx, w, h, 8, w, 0, 0, 0, 0); //(ppx, w, h, 16, w, 0, 0, 0, 0);
+	SDL_Surface* psrc = SDL_CreateRGBSurfaceFrom(ppx, w, h, 8, w, 0, 0, 0, 0);
 	SDL_SetPaletteColors(psrc->format->palette, ppl, 0, 256);
 	SDL_Surface* pdst = SDL_ConvertSurface(psrc, psrc->format, SDL_SWSURFACE);
 	SDL_FreeSurface(psrc);
@@ -1194,7 +1195,7 @@ TUserFunc(intptr_t, AllocSurface, int32_t h, int32_t w)
 {
 	return
 		(intptr_t)SDL_CreateRGBSurface(
-			SDL_SWSURFACE, w, h, 32, 0x00FF0000, //, w, h, 16, 0x00FF0000, //32 BPP / Bits / BitsPerPixel
+			SDL_SWSURFACE, w, h, 32, 0x00FF0000,
 			0x0000FF00, 0x000000FF, 0xFF000000);
 }
 
