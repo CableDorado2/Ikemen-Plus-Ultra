@@ -435,6 +435,13 @@ void playBGM(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^/char file = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
   .snd.bgm~play(file);
+  .com.bgmName = file; //Store BGM Name
+}
+
+void getBGM(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.bgmName);
 }
 
 void fadeInBGM(&.lua.State L=, int re=)
@@ -1413,6 +1420,7 @@ public void init(&.lua.State L=)
   L.register("clipboardPaste", .clipboardPaste);
   L.register("getClipboardText", .getClipboardText);
   L.register("playBGM", .playBGM);
+  L.register("getBGM", .getBGM);
   L.register("fadeInBGM", .fadeInBGM);
   L.register("fadeOutBGM", .fadeOutBGM);
   L.register("playVideo", .playVideo);

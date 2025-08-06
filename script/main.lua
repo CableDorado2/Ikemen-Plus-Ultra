@@ -11158,25 +11158,20 @@ function f_assignMusic()
 		stageEnd = true
 	end
 	if musicList == #t_selMusic-2 then --Mute Song
-		f_setStgBGM(bgmNothing)
 		playBGM(bgmNothing)
 	elseif musicList == #t_selMusic-1 then --Player 1 Song
-		f_setStgBGM(p1charSong)
 		playBGM(p1charSong)
 	elseif musicList == 0 then --Auto Stage Song
-		f_setStgBGM(track)
 		playBGM(track)
 	elseif musicList == 1 then --Player 2 Song
-		f_setStgBGM(p2charSong)
 		playBGM(p2charSong)
 	elseif musicList == 2 then --Random Song
 		local randomBGM = t_selMusic[math.random(3, #t_selMusic)].bgmfile
-		f_setStgBGM(randomBGM)
 		playBGM(randomBGM)
 	else --Sound Folder Song
-		f_setStgBGM(t_selMusic[musicList+1].bgmfile)
 		playBGM(t_selMusic[musicList+1].bgmfile)
 	end
+	f_setStgBGM(getBGM())
 end
 
 function f_musicPreview()
