@@ -265,7 +265,7 @@ function f_loadEXCfg()
 		s_screenMode = "Fullscreen"
 	elseif b_screenMode == "false" then
 		b_screenMode = false
-		s_screenMode = "Window"
+		s_screenMode = "Windowed"
 	end
 	
 	if b_fullscreenMode == "true" then
@@ -699,7 +699,7 @@ function f_videoDefault()
 	s_saveMemory = "No"
 	b_openGL = false
 	b_screenMode = false
-	s_screenMode = "Window"
+	s_screenMode = "Windowed"
 	setScreenMode(b_screenMode)
 	b_fullscreenMode = false
 	setFullScreenMode(b_fullscreenMode)
@@ -6100,7 +6100,7 @@ function f_videoCfg()
 				s_screenMode = "Fullscreen"
 			else
 				b_screenMode = false
-				s_screenMode = "Window"
+				s_screenMode = "Windowed"
 			end
 			modified = 1
 			updateVars = true
@@ -6138,13 +6138,11 @@ function f_videoCfg()
 				sndPlay(sndSys, 100, 0)
 				if not b_openGL then
 					b_openGL = true
-					s_openGL = "OpenGL 2.0"
 					f_glWarning()
 					modified = 1
 					needReload = 1				
 				else
 					b_openGL = false
-					s_openGL = "Software"
 					modified = 1
 					needReload = 1
 				end
@@ -6164,7 +6162,7 @@ function f_videoCfg()
 					s_screenMode = "Fullscreen"
 				else
 					b_screenMode = false
-					s_screenMode = "Window"
+					s_screenMode = "Windowed"
 				end
 				modified = 1
 				updateVars = true

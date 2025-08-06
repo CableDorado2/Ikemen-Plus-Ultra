@@ -1730,66 +1730,15 @@ p1TmCursor = animNew(sprSys, [[
 180,0, 0,0, -1
 ]])
 
---P1 Team icon
+--P1 Team Icon
 p1TmIcon = animNew(sprSys, [[
 181,0, 0,0, -1
 ]])
 
---P1 Empty Team (icon 1)
-p1EmptyIcon = animNew(sprSys, [[
+--P1 Empty Team Icon
+p1TmEmpty = animNew(sprSys, [[
 182,0, 0,0, -1
 ]])
-animAddPos(p1EmptyIcon, 81, 66)
-animUpdate(p1EmptyIcon)
-
---P1 Empty Team (icon 2)
-p1EmptyIcon2 = animNew(sprSys, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon2, 87, 66)
-animUpdate(p1EmptyIcon2)
-
---P1 Empty Team (icon 3)
-p1EmptyIcon3 = animNew(sprSys, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon3, 93, 66)
-animUpdate(p1EmptyIcon3)
-
---P1 Empty Team (icon 4)
-p1EmptyIcon4 = animNew(sprSys, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon4, 99, 66)
-animUpdate(p1EmptyIcon4)
-
---P1 Empty Turns (icon 1)
-p1EmptyIcon5 = animNew(sprSys, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon5, 81, 81)
-animUpdate(p1EmptyIcon5)
-
---P1 Empty Turns (icon 2)
-p1EmptyIcon6 = animNew(sprSys, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon6, 87, 81)
-animUpdate(p1EmptyIcon6)
-
---P1 Empty Turns (icon 3)
-p1EmptyIcon7 = animNew(sprSys, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon7, 93, 81)
-animUpdate(p1EmptyIcon7)
-
---P1 Empty Turns (icon 4)
-p1EmptyIcon8 = animNew(sprSys, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon8, 99, 81)
-animUpdate(p1EmptyIcon8)
 
 --;===========================================================
 --; PLAYER 2 TEAM SELECT SCREENPACK
@@ -1816,61 +1765,10 @@ p2TmIcon = animNew(sprSys, [[
 191,0, 0,0, -1
 ]])
 
---P2 Empty Team (icon 1)
-p2EmptyIcon = animNew(sprSys, [[
+--P2 Empty Team Icon
+p2TmEmpty = animNew(sprSys, [[
 192,0, 0,0, -1
 ]])
-animAddPos(p2EmptyIcon, 239, 66)
-animUpdate(p2EmptyIcon)
-
---P2 Empty Team (icon 2)
-p2EmptyIcon2 = animNew(sprSys, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon2, 233, 66)
-animUpdate(p2EmptyIcon2)
-
---P2 Empty Team (icon 3)
-p2EmptyIcon3 = animNew(sprSys, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon3, 227, 66)
-animUpdate(p2EmptyIcon3)
-
---P2 Empty Team (icon 4)
-p2EmptyIcon4 = animNew(sprSys, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon4, 221, 66)
-animUpdate(p2EmptyIcon4)
-
---P2 Empty Turns (icon 1)
-p2EmptyIcon5 = animNew(sprSys, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon5, 239, 81)
-animUpdate(p2EmptyIcon5)
-
---P2 Empty Turns (icon 2)
-p2EmptyIcon6 = animNew(sprSys, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon6, 233, 81)
-animUpdate(p2EmptyIcon6)
-
---P2 Empty Turns (icon 3)
-p2EmptyIcon7 = animNew(sprSys, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon7, 227, 81)
-animUpdate(p2EmptyIcon7)
-
---P2 Empty Turns (icon 4)
-p2EmptyIcon8 = animNew(sprSys, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon8, 221, 81)
-animUpdate(p2EmptyIcon8)
 
 --;===========================================================
 --; PLAYER 1 CHARACTER SELECTING SCREENPACK DEFINITION

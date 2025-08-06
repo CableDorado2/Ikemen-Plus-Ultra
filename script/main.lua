@@ -7761,16 +7761,16 @@ function f_p1TeamMenu()
 			textImgDraw(t_p1selTeam[i].id)
 		end
 	--Only appears until you select a team mode
-		animDraw(p1EmptyIcon)
-	    animDraw(p1EmptyIcon2)
-		animDraw(p1EmptyIcon3)
-		animDraw(p1EmptyIcon4)
-		animDraw(p1EmptyIcon5)
-		animDraw(p1EmptyIcon6)
-		animDraw(p1EmptyIcon7)
-		animDraw(p1EmptyIcon8)
+	--Simul Icons
+		for i=1, data.numSimul do
+			animPosDraw(p1TmEmpty, 74 + i*6, 66)
+		end
 		for i=1, p1numSimul do
 			animPosDraw(p1TmIcon, 74 + i*6, 66)
+		end
+	--Turns Icons
+		for i=1, data.numTurns do
+			animPosDraw(p1TmEmpty, 74 + i*6, 81)
 		end
 		for i=1, p1numTurns do
 			animPosDraw(p1TmIcon, 74 + i*6, 81)
@@ -9234,16 +9234,16 @@ function f_p2TeamMenu()
 			end
 			textImgDraw(t_p2selTeam[i].id)
 		end
-		animDraw(p2EmptyIcon)
-		animDraw(p2EmptyIcon2)
-		animDraw(p2EmptyIcon3)
-		animDraw(p2EmptyIcon4)
-		animDraw(p2EmptyIcon5)
-		animDraw(p2EmptyIcon6)
-		animDraw(p2EmptyIcon7)
-		animDraw(p2EmptyIcon8)
+	--Simul Icons
+		for i=1, data.numSimul do
+			animPosDraw(p2TmEmpty, 246 - i*6, 66)
+		end
 		for i=1, p2numSimul do
 			animPosDraw(p2TmIcon, 246 - i*6, 66)
+		end
+	--Turns Icons
+		for i=1, data.numTurns do
+			animPosDraw(p2TmEmpty, 246 - i*6, 81)
 		end
 		for i=1, p2numTurns do
 			animPosDraw(p2TmIcon, 246 - i*6, 81)
