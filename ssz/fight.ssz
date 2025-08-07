@@ -2775,25 +2775,26 @@ public &Fight
       `ti.draw(layerno, .com.time, `fnt);
       `wi[0].draw(layerno, `fnt);
       `wi[1].draw(layerno, `fnt);
-	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
-		`wc1.bgDraw(layerno);
-		`wc1.draw(layerno, .com.p1matchWins, `fnt);
-		`wc2.bgDraw(layerno);
-		`wc2.draw(layerno, .com.p2matchWins, `fnt);
-	  }
 	  if(.s.equ(.com.gameMode, "arcade") || .s.equ(.com.gameMode, "arcadecoop") || .s.equ(.com.gameMode, "arcadecpu")) {
 		`mtch.bgDraw(layerno);
 		`mtch.draw(layerno, .com.match, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
+		`wc1.bgDraw(layerno);
+		`wc1.draw(layerno, .com.p1matchWins, `fnt);
+		`wc2.bgDraw(layerno);
+		`wc2.draw(layerno, .com.p2matchWins, `fnt);
+		
 		`ts.bgDraw(layerno);
 		`ts.draw(layerno, .com.tourneyState, `fnt);
+		
 		`ft.bgDraw(layerno);
 		`ft.draw(layerno, .com.matchsToWin, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop") || .s.equ(.com.gameMode, "abysscpu")) {
 		`reward.bgDraw(layerno);
 		`reward.draw(layerno, .com.abyssReward, `fnt);
+		
 		`depth.bgDraw(layerno);
 		`depth.draw(layerno, .com.abyssDepth, `fnt);
 	  }

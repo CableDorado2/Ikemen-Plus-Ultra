@@ -13792,6 +13792,9 @@ if validCells() then
 			end
 		end
 		f_matchInfo()
+		setMatchNo(gameNo)
+		setP1matchWins(p1Wins)
+		setP2matchWins(p2Wins)
 		f_orderSelect() --Order Select Screen
 		f_selectVersus() --Versus Screen
 		sndStop()

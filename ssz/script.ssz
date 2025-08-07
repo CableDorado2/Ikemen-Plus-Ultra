@@ -1148,11 +1148,23 @@ void setMatchNo(&.lua.State L=, int re=)
   .com.match = mn;
 }
 
+void getMatchNo(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.match);
+}
+
 void setFTNo(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   int fn = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
   .com.matchsToWin = fn;
+}
+
+void getFTNo(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.matchsToWin);
 }
 
 void setP1matchWins(&.lua.State L=, int re=)
@@ -1162,6 +1174,12 @@ void setP1matchWins(&.lua.State L=, int re=)
   .com.p1matchWins = p1mw;
 }
 
+void getP1matchWins(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.p1matchWins);
+}
+
 void setP2matchWins(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1169,11 +1187,23 @@ void setP2matchWins(&.lua.State L=, int re=)
   .com.p2matchWins = p2mw;
 }
 
+void getP2matchWins(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.p2matchWins);
+}
+
 void setTourneyState(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^/char ts = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
   .com.tourneyState = ts;
+}
+
+void getTourneyState(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.tourneyState);
 }
 
 void setAbyssDepth(&.lua.State L=, int re=)
@@ -1539,10 +1569,18 @@ public void init(&.lua.State L=)
   
   L.register("setHomeTeam", .setHomeTeam);
   L.register("setMatchNo", .setMatchNo);
+  L.register("getMatchNo", .getMatchNo);
+  
   L.register("setFTNo", .setFTNo);
+  L.register("getFTNo", .getFTNo);
+  
   L.register("setP1matchWins", .setP1matchWins);
+  L.register("getP1matchWins", .getP1matchWins);
   L.register("setP2matchWins", .setP2matchWins);
+  L.register("getP2matchWins", .getP2matchWins);
+  
   L.register("setTourneyState", .setTourneyState);
+  L.register("getTourneyState", .getTourneyState);
   
   L.register("setLifePersistence", .setLifePersistence);
   L.register("getLifePersistence", .getLifePersistence);

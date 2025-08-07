@@ -2160,8 +2160,6 @@ animUpdate(travelArrow)
 travelSlotIcon = animNew(sprIkemen, [[
 295,0, 0,0, -1
 ]])
-animSetScale(travelSlotIcon, 0.45, 0.39)
-animUpdate(travelSlotIcon)
 
 --Travel Random Icon
 travelRandomIcon = animNew(sprSys, [[
@@ -2306,7 +2304,7 @@ txt_gameNo = createTextImg(font21, 0, 0, "", 160, 20)
 txt_bossNo = createTextImg(font12, 0, 0, "", 160, 20)
 txt_bonusNo = createTextImg(font21, 0, 0, "", 160, 20)
 
-arcadeRivalMatchNo = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
+arcadeRivalMatchNo = -1 --3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
 
 function f_matchInfo() --Not draws! only prepare the info for use in versus screen
 --Match Info Vars
@@ -4323,6 +4321,20 @@ end
 --;===========================================================
 --; MATCH EXTRA ASSETS SCREENPACK DEFINITION
 --;===========================================================
+txt_DemoFightCfg = createTextImg(font15, 0, -1, "DEMO MODE", 305, 10)
+txt_MatchFightCfg = createTextImg(font12, 0, 0, "", 160, 233)
+txt_WinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
+txt_WinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
+txt_TourneyWinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
+txt_TourneyWinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
+txt_TourneyStateFightCfg = createTextImg(font12, 0, 0, "", 160, 239)
+txt_TourneyFTFightCfg = createTextImg(jgFnt, 5, 0, "", 160, 8, 0.7, 0.7)
+
+txt_MatchFight = "STAGE "
+txt_MatchFinalFight = "FINAL STAGE"
+txt_WinCountFight = "WINS "
+txt_TourneyFTFight = "FT"
+
 --BGM Info BG
 stgBGMInfoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1

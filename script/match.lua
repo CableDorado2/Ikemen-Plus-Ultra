@@ -916,17 +916,43 @@ local function f_demoSkip()
 	end
 end
 
+local function f_setMatchTexts()
+	local matchsFinished = getP1matchWins() + getP2matchWins()
+	textImgSetText(txt_MatchFightCfg, txt_MatchFight..matchno())
+	textImgSetText(txt_WinCountP1FightCfg, txt_WinCountFight.."("..getP1matchWins().."/"..matchsFinished..")")
+	textImgSetText(txt_WinCountP2FightCfg, txt_WinCountFight.."("..getP2matchWins().."/"..matchsFinished..")")
+	
+	textImgSetText(txt_TourneyWinCountP1FightCfg, getP1matchWins())
+	textImgSetText(txt_TourneyWinCountP2FightCfg, getP2matchWins())
+	textImgSetText(txt_TourneyFTFightCfg, txt_TourneyFTFight..getFTNo())
+	textImgSetText(txt_TourneyStateFightCfg, getTourneyState())
+end
+f_setMatchTexts() --Load 1 time when match start
+
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
 --During Demo Mode
 	if getGameMode() == "demo" then
+		textImgDraw(txt_DemoFight)
 		f_demoSkip()
+--During Arcade Mode
+	elseif getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu" then
+		textImgDraw(txt_MatchFightCfg)
 --During VS Mode
 	elseif getGameMode() == "vs" then
+		textImgDraw(txt_WinCountP1FightCfg)
+		textImgDraw(txt_WinCountP2FightCfg)
 		if roundno() == 2 and roundstate() == 0 then bgmState = 1 end
 		if roundstate() < 2 then
 			f_handicapSet()
 		end
+--During Tournament Mode
+	elseif getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
+		textImgDraw(txt_TourneyWinCountP1FightCfg)
+		textImgDraw(txt_TourneyWinCountP2FightCfg)
+		
+		textImgDraw(txt_TourneyFTFightCfg)
+		textImgDraw(txt_TourneyStateFightCfg)
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Increase Abyss Depth Counter
