@@ -1154,6 +1154,19 @@ void getMatchNo(&.lua.State L=, int re=)
   L.pushNumber((double).com.match);
 }
 
+void setLastMatch(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lm = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lastMatch = lm;
+}
+
+void getLastMatch(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.lastMatch);
+}
+
 void setFTNo(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1570,6 +1583,9 @@ public void init(&.lua.State L=)
   L.register("setHomeTeam", .setHomeTeam);
   L.register("setMatchNo", .setMatchNo);
   L.register("getMatchNo", .getMatchNo);
+  
+  L.register("setLastMatch", .setLastMatch);
+  L.register("getLastMatch", .getLastMatch);
   
   L.register("setFTNo", .setFTNo);
   L.register("getFTNo", .getFTNo);

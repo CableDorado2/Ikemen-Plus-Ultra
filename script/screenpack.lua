@@ -3,6 +3,7 @@
 --;===========================================================
 --Sprite Data
 sprFade = sffNew("data/screenpack/fade.sff") --load fade sprites
+sprLogos = sffNew("data/screenpack/logo.sff") --load logos sprites
 sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
@@ -615,9 +616,11 @@ txt_attractTimer = createTextImg(jgFnt, 0, 0, "", 159, 200)
 txt_attractCredits = createTextImg(fontsfa2, 0, -1, "", 318, 230)
 txt_attractCopyrightCfg = createTextImg(font14, 0, 0, "", 159, 220, 0.8, 0.8)
 
-txt_attractState1 = "INSERT COIN"
-txt_attractState2 = "PRESS 1P OR 2P START"
-txt_attractState3 = "PRESS START" --After Start a Game to Challenger Join
+txt_attractState0 = "INSERT COIN"
+txt_attractState1 = "PRESS 1P OR 2P START"
+txt_attractState2 = "PRESS START" --After Start a Game to Challenger Join
+txt_attractState3 = "GAME OVER" --When any side lose in Arcade
+txt_attractStateChallenger = "CHALLENGER" --During Versus Mode
 txt_attractFreePlay = "FREE PLAY"
 
 txt_attractCopyright = [[
@@ -640,16 +643,37 @@ function f_attractCredits(x, y, align)
 end
 
 attractCnt = 0
-function drawAttractStatus(txt, bank, align, x, y)
+function drawAttractStatus(state, x, y, align)
+	local state = state or 1
+	local x = x or 159
+	local y = y or 170
+	local align = align or 0
 	if attractCnt%60 < 30 then
-		if getCredits() > 0 then
-			textImgSetBank(txt_attractState, 5)
-			textImgSetAlign(txt_attractState, 0)
-			textImgSetText(txt_attractState, txt_attractState2)
-		else
-			textImgSetBank(txt_attractState, 0)
-			textImgSetAlign(txt_attractState, 0)
-			textImgSetText(txt_attractState, txt_attractState1)
+	--Title Screen
+		if state == 1 then
+			if getCredits() > 0 then
+				textImgSetBank(txt_attractState, 5)
+				textImgSetAlign(txt_attractState, align)
+				textImgSetPos(txt_attractState, x, y)
+				textImgSetText(txt_attractState, txt_attractState1)
+			else
+				textImgSetBank(txt_attractState, 0)
+				textImgSetAlign(txt_attractState, align)
+				textImgSetPos(txt_attractState, x, y)
+				textImgSetText(txt_attractState, txt_attractState0)
+			end
+		elseif state == 2 then
+			if getCredits() > 0 then
+				textImgSetBank(txt_attractState, 5)
+				textImgSetAlign(txt_attractState, align)
+				textImgSetPos(txt_attractState, x, y)
+				textImgSetText(txt_attractState, txt_attractState2)
+			else
+				textImgSetBank(txt_attractState, 0)
+				textImgSetAlign(txt_attractState, align)
+				textImgSetPos(txt_attractState, x, y)
+				textImgSetText(txt_attractState, txt_attractState0)
+			end
 		end
 		textImgDraw(txt_attractState)
 	end
@@ -4322,18 +4346,30 @@ end
 --; MATCH EXTRA ASSETS SCREENPACK DEFINITION
 --;===========================================================
 txt_DemoFightCfg = createTextImg(font15, 0, -1, "DEMO MODE", 305, 10)
-txt_MatchFightCfg = createTextImg(font12, 0, 0, "", 160, 233)
+txt_AiLevelFightCfg = createTextImg(font5, 0, 0, "", 160, 239)
+txt_MatchFightCfg = createTextImg(font5, 0, 0, "", 160, 40)
+
 txt_WinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
 txt_WinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
+
 txt_TourneyWinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
 txt_TourneyWinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
 txt_TourneyStateFightCfg = createTextImg(font12, 0, 0, "", 160, 239)
-txt_TourneyFTFightCfg = createTextImg(jgFnt, 5, 0, "", 160, 8, 0.7, 0.7)
+txt_TourneyFTFightCfg = createTextImg(jgFnt, 5, 0, "", 159, 8, 0.7, 0.7)
 
 txt_MatchFight = "STAGE "
 txt_MatchFinalFight = "FINAL STAGE"
 txt_WinCountFight = "WINS "
+txt_AiLevelFight = "CPU "
 txt_TourneyFTFight = "FT"
+
+--Demo Logo
+demoLogo = animNew(sprLogos, [[
+0,3, 0,0, -1
+]])
+animAddPos(demoLogo, 159, 25)
+animSetScale(demoLogo, 0.25, 0.25)
+animUpdate(demoLogo)
 
 --BGM Info BG
 stgBGMInfoBG = animNew(sprIkemen, [[

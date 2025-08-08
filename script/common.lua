@@ -3203,6 +3203,9 @@ function f_default() --Reset Game Modes Configuration
 	setAutoLevel(false) --generate autolevel.log in debug dir
 	setHUD(true) --just enable or disable hud elements in game
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
+	setP1matchWins(0) --Set Match Wins Count for Player 1
+	setP2matchWins(0) --Set Match Wins Count for Player 2
+	setLastMatch(-1) --Set Last Match Stage
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
@@ -3211,8 +3214,6 @@ function f_default() --Reset Game Modes Configuration
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 --Tournament Stuff
 	setFTNo(1) --Set Matchs To Wins/FT (To show in lifebar of Tournament Mode)
-	setP1matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
-	setP2matchWins(0) --Set Match Wins Count for Player 1 (To show in lifebar of Tournament Mode)
 	setTourneyState("") --set tournament state to show in tourney mode lifebar.
 --Abyss Stuff
 	setAbyssLife(0) --set life points to show during abyss mode profile and which be apply to the player.

@@ -135,7 +135,7 @@ function f_mainTitle()
 	while true do
 		if i == 500 then
 			i = 0
-			--if data.engineMode == "FG" then demoModeCfg() end
+			if data.engineMode == "FG" then demoModeCfg() end
 			f_mainLogos()
 			playBGM(bgmTitle)
 		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
@@ -1065,6 +1065,8 @@ end
 
 --HUMAN VS CPU (fight against CPU controlled opponents in a customizable arcade ladder from left side)
 function arcadeHumanvsCPU()
+	local modeName = "ARCADE"
+	if data.attractMode then modeName = "CHARACTER SELECT" end
 	if P2overP1 then --Set player 2 controls config over player 1
 		remapInput(1, 2) --P1 swap controls with p2 side
 		setPlayerSide('p2left') --will be used to open challenger screen
@@ -1073,13 +1075,15 @@ function arcadeHumanvsCPU()
 	end
 	data.p2In = 1 --P1 controls P2 side of the select screen (but not the character only menus)
 	data.p2SelectMenu = false --P2 character selection disabled
-	textImgSetText(txt_mainSelect, "ARCADE") --message displayed on top of select screen
+	textImgSetText(txt_mainSelect, modeName) --message displayed on top of select screen
 	f_selectAdvance() --start f_selectAdvance() function
 	P2overP1 = false --Reset Player 2 Control Swap Detection
 end
 
 --CPU VS HUMAN (fight against CPU controlled opponents in a customizable arcade ladder from right side)
 function arcadeCPUvsHuman()
+	local modeName = "ARCADE"
+	if data.attractMode then modeName = "CHARACTER SELECT" end
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1) --P2 swap controls with p1 side
@@ -1090,7 +1094,7 @@ function arcadeCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false --P1 character selection disabled
-	textImgSetText(txt_mainSelect, "ARCADE")
+	textImgSetText(txt_mainSelect, modeName)
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -14033,6 +14037,7 @@ if validCells() then
 				end
 			end
 			matchNo = 1
+			setLastMatch(lastMatch)
 			if data.gameMode ~= "endless" then f_aiRamp() end --generate AI ramping table
 	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
 		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite") then
@@ -17387,5 +17392,5 @@ end
 --; INITIALIZE LOOPS
 --;===========================================================
 f_loadLuaMods() --Load External Lua Modules
-f_sdlWarning()
+if not data.attractMode then f_sdlWarning() end
 f_mainStart() --Start Menu

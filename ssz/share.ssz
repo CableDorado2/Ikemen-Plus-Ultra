@@ -16,7 +16,7 @@ public &Share
   public ^&.chr.fgt.Fight f;
   public ^&.stage.Stage st;
   public ^int tm, nt, re;
-  public int chr_home, chr_match, chr_round, matchsToWin, p1matchWins, p2matchWins;
+  public int chr_home, chr_match, chr_round, lastMatch, matchsToWin, p1matchWins, p2matchWins;
   public int chr_p1mw, chr_p2mw, chr_p1w, chr_p2w, chr_drw;
   public int stt;
   public ^int com;
@@ -114,6 +114,7 @@ public &Share
     `playbackState = .com.playbackState;
     `roundTime = .com.roundTime;
 	`roundsToWin = .com.roundsToWin;
+	`lastMatch = .com.lastMatch;
 	`matchsToWin = .com.matchsToWin;
 	`p1matchWins = .com.p1matchWins;
 	`p2matchWins = .com.p2matchWins;
@@ -215,6 +216,7 @@ public &Share
     .com.playbackState = `playbackState;
     .com.roundTime = `roundTime;
 	.com.roundsToWin = `roundsToWin;
+	.com.lastMatch = `lastMatch;
 	.com.matchsToWin = `matchsToWin;
 	.com.p1matchWins = `p1matchWins;
 	.com.p2matchWins = `p2matchWins;

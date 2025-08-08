@@ -917,8 +917,16 @@ local function f_demoSkip()
 end
 
 local function f_setMatchTexts()
+	local stg = ""
+	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
+	textImgSetText(txt_MatchFightCfg, stg)
+	
+	--local ailv = nil
+	if (player(2) and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (player(1) and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then --To get always the cpu level
+		textImgSetText(txt_AiLevelFightCfg, txt_AiLevelFight..ailevel())
+	end
+	
 	local matchsFinished = getP1matchWins() + getP2matchWins()
-	textImgSetText(txt_MatchFightCfg, txt_MatchFight..matchno())
 	textImgSetText(txt_WinCountP1FightCfg, txt_WinCountFight.."("..getP1matchWins().."/"..matchsFinished..")")
 	textImgSetText(txt_WinCountP2FightCfg, txt_WinCountFight.."("..getP2matchWins().."/"..matchsFinished..")")
 	
@@ -927,27 +935,34 @@ local function f_setMatchTexts()
 	textImgSetText(txt_TourneyFTFightCfg, txt_TourneyFTFight..getFTNo())
 	textImgSetText(txt_TourneyStateFightCfg, getTourneyState())
 end
-f_setMatchTexts() --Load 1 time when match start
+f_setMatchTexts() --Load when match start
 
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
 --During Demo Mode
 	if getGameMode() == "demo" then
-		textImgDraw(txt_DemoFight)
+		textImgDraw(txt_DemoFightCfg)
+		animDraw(demoLogo)
 		f_demoSkip()
 --During Arcade Mode
 	elseif getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu" then
-		textImgDraw(txt_MatchFightCfg)
+		if roundstate() == 2 then
+			textImgDraw(txt_AiLevelFightCfg)
+			textImgDraw(txt_MatchFightCfg)
+		end
 --During VS Mode
 	elseif getGameMode() == "vs" then
-		textImgDraw(txt_WinCountP1FightCfg)
-		textImgDraw(txt_WinCountP2FightCfg)
+		if roundstate() == 2 then
+			textImgDraw(txt_WinCountP1FightCfg)
+			textImgDraw(txt_WinCountP2FightCfg)
+		end
 		if roundno() == 2 and roundstate() == 0 then bgmState = 1 end
 		if roundstate() < 2 then
 			f_handicapSet()
 		end
 --During Tournament Mode
 	elseif getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
+		if matchover() then f_setMatchTexts() end --Refresh Win Count Text
 		textImgDraw(txt_TourneyWinCountP1FightCfg)
 		textImgDraw(txt_TourneyWinCountP2FightCfg)
 		
@@ -1070,6 +1085,15 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	end
 	f_setStageMusic()
+--When Attract Mode is Enabled
+	if data.attractMode then
+		if getGameMode() == "demo" then
+			drawAttractStatus()
+		else
+			drawAttractStatus(2, 318, 18, -1)
+		end
+		f_attractCredits(318, 238, -1)
+	end
 end
 
 function f_nextTutoText()
