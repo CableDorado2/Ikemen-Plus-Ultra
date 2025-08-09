@@ -6815,10 +6815,22 @@ function f_difficulty(player, offset)
 		pos = math.floor(player / 2)
 		t = t_selChars[data.t_p2selected[pos].cel+1]
 	end
-	if t.ai ~= nil then
-		return t.ai
+--Set Difficulty Level Down Service
+	if getService() == "aileveldown" then
+	--Based on KOF Games, if difficulty is <= 4, AI Level will be 1
+		if data.difficulty <= 4 then
+			return 1
+	--Based on KOF Games, if difficulty is > 4, AI Level will be your difficulty setting - 4
+		else
+			return data.difficulty - 4
+		end
+--Set AI Level
 	else
-		return data.difficulty + offset
+		if t.ai ~= nil then
+			return t.ai
+		else
+			return data.difficulty + offset
+		end
 	end
 end
 
@@ -12934,14 +12946,8 @@ function f_service()
 		end
 	--Service Selected
 		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-		--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
-			if t_service[serviceMenu].service == "ailevel" then
-				if data.difficulty > 1 then
-					--tmpDifficulty = data.difficulty - 1
-					--setCom(2, tmpDifficulty)
-				end
 		--CHANGE PLAYER TEAM MODE
-			elseif t_service[serviceMenu].service == "team change" then
+			if t_service[serviceMenu].service == "team change" then
 				if data.coop or data.quickCont then
 					noService = true
 				else
@@ -12950,7 +12956,7 @@ function f_service()
 					break
 				end
 			end
-		--Load Service From t_service
+		--Load Service From t_service table
 			if noService then
 				sndPlay(sndSys, 100, 5)
 			else
@@ -17316,7 +17322,7 @@ function f_playCredits()
 	local scroll = 0
 	local speed = 0
 	local speed1 = 0.5
-	local speed2 = 1.8
+	local speed2 = 2.2
 	local skip = false
 	local txtFont = font7--font14
 	local txtBank = 0
@@ -17330,12 +17336,14 @@ function f_playCredits()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 	if data.rosterMode ~= "story" then playBGM(bgmCredits) end
 	while true do
-		if scroll > 2480 or esc() then break end --Credits Duration
+		if scroll > 2600 or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then break end --Credits Duration
 	--Actions
-		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and not skip then --Skip Button
-			skip = true
-		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and skip then --Unskip Button
-			skip = false
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			if not skip then
+				skip = true
+			else
+				skip = false
+			end
 		end
 		if not skip then speed = speed1 --Normal
 		elseif skip then speed = speed2 --Faster
@@ -17400,7 +17408,11 @@ end
 function f_sdlWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then break end
+		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			break
+		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 		textImgDraw(script.options.txt_Warning)
 		animSetScale(script.options.infoBG, 300, 111)

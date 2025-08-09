@@ -69,7 +69,7 @@ function drawGlossaryInputHints()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(gsInputsBG, -56, 217) --Draw Input Hints BG
-	drawInputHintsP1("u","10,"..inputHintYPos,"d","30,"..inputHintYPos,"l","50,"..inputHintYPos,"r","70,"..inputHintYPos,"q","130,"..inputHintYPos,"s","195,"..inputHintYPos,"e","250,"..inputHintYPos)
+	drawInputHints("u","10,"..inputHintYPos,"d","30,"..inputHintYPos,"l","50,"..inputHintYPos,"r","70,"..inputHintYPos,"q","130,"..inputHintYPos,"s","195,"..inputHintYPos,"e","250,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 91, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Search", 151, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Read", 216, hintFontYPos)
@@ -81,7 +81,7 @@ function drawGlossaryInputHints2()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(gsInputsBG, -56, 217)
-	drawInputHintsP1("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"e","170,"..inputHintYPos)
+	drawInputHints("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"e","170,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
 end

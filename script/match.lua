@@ -605,7 +605,7 @@ local function f_abyssSaveInfo()
 		cmdInput()
 		abyssSaveTime = abyssSaveTime + 1
 		animDraw(abyssSaveInfoBG)
-		drawInGameInputHintsP1("e","264,218")
+		drawBattleInputHintsP1("e","264,218")
 		f_drawQuickText(txt_allowSave, font2, 0, -1, ":SAVE", 315, 230)
 		if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then abyssSaveButton = true end
 	end

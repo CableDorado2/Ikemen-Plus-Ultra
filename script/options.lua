@@ -90,7 +90,7 @@ optionsDownArrowP1 = animNew(sprIkemen, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(optionsDownArrowP1, 5, 218)
+animAddPos(optionsDownArrowP1, 5, 188)
 animSetScale(optionsDownArrowP1, 0.5, 0.5)
 animUpdate(optionsDownArrowP1)
 
@@ -120,7 +120,7 @@ optionsDownArrowP2 = animNew(sprIkemen, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(optionsDownArrowP2, 303, 218)
+animAddPos(optionsDownArrowP2, 303, 188)
 animSetScale(optionsDownArrowP2, 0.5, 0.5)
 animUpdate(optionsDownArrowP2)
 
@@ -130,7 +130,7 @@ function drawCfgInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHintsP1("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	drawInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
@@ -954,12 +954,13 @@ animSetPos(infoOptionsWindowBG, 83.5, 130)
 animSetScale(infoOptionsWindowBG, 1, 0.3)
 animUpdate(infoOptionsWindowBG)
 
+--Input Hints Panel
 function drawInfoCfgInputHints()
 	local inputHintYPos = 219
 	local hintFont = font2
 	local hintFontYPos = 233
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHintsP1("s","132,"..inputHintYPos)
+	drawInputHints("s","132,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 end
 
@@ -7392,14 +7393,47 @@ txt_inputHint = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.7, 0.7)
 txt_newKey = "PRESS KEY TO ASSIGN ENTRY..."
 txt_sameKey = "THIS KEY HAS BEEN ALREADY ASSIGNED"
 txt_cancelKey = "PRESS ESC KEY TO CANCEL"
-txt_quickSaveKey = "PRESS ESC IN YOUR KEYBOARD TO QUICK SAVE AND BACK"
+
+--Player 1 Controls Spr
+function drawP1CfgInputs(mode)
+	local mode = mode or nil
+	local inputHintXPos = 50
+	if mode == "battle" then
+		drawBattleInputHintsP1("u",inputHintXPos..",30")
+	else
+		drawInputHintsP1("u",inputHintXPos..",30")
+	end
+end
+
+--Player 2 Controls Spr
+function drawP2CfgInputs(mode)
+	local mode = mode or nil
+	local inputHintXPos = 290
+	if mode == "battle" then
+		drawBattleInputHintsP2("u",inputHintXPos..",30")
+	else
+		drawInputHintsP2("u",inputHintXPos..",30")
+	end
+end
+
+--General Input Hints Panel
+function drawBtnCfgInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
+end
 
 function f_drawBattleKeyAssets()
 	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
 	textImgDraw(txt_battleCfg) --Title Text
 --Player 1 Controls Window BG
 	animSetScale(optionsBG2, 220, 15+maxKeyCfg*15)
-	animSetWindow(optionsBG2, 2,20, 155,195)
+	animSetWindow(optionsBG2, 2,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p1inputInfo) --Player Title Text
 --Player 1 Controls Cursor
@@ -7418,17 +7452,17 @@ function f_drawBattleKeyAssets()
 		end
 	end
 --Draw Player 1 Arrows
-	if maxKeyCfg > 12 then
+	if maxKeyCfg > 10 then
 		animDraw(optionsUpArrowP1)
 		animUpdate(optionsUpArrowP1)
 	end
-	if #t_keyBattleCfg > 12 and maxKeyCfg < #t_keyBattleCfg then
+	if #t_keyBattleCfg > 10 and maxKeyCfg < #t_keyBattleCfg then
 		animDraw(optionsDownArrowP1)
 		animUpdate(optionsDownArrowP1)
 	end
 --Player 2 Controls Window BG
 	animSetScale(optionsBG2, 318, 15+maxKeyCfg2*15)
-	animSetWindow(optionsBG2, 163,20, 155,195)
+	animSetWindow(optionsBG2, 163,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
@@ -7447,14 +7481,17 @@ function f_drawBattleKeyAssets()
 		end
 	end
 --Draw Player 2 Arrows
-	if maxKeyCfg2 > 12 then
+	if maxKeyCfg2 > 10 then
 		animDraw(optionsUpArrowP2)
 		animUpdate(optionsUpArrowP2)
 	end
-	if #t_keyBattleCfg2 > 12 and maxKeyCfg2 < #t_keyBattleCfg2 then
+	if #t_keyBattleCfg2 > 10 and maxKeyCfg2 < #t_keyBattleCfg2 then
 		animDraw(optionsDownArrowP2)
 		animUpdate(optionsDownArrowP2)
 	end
+	drawBtnCfgInputHints()
+	drawP1CfgInputs("battle")
+	drawP2CfgInputs("battle")
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p1Gamepad), 120, 30) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p2Gamepad), 295, 30)
@@ -7476,7 +7513,7 @@ function f_keyBattleCfg(playerNo, controller)
 	local configEnd = false
 	local defaultP1 = false
 	local defaultP2 = false
-	local cursorLimit = 12
+	local cursorLimit = 10
 	inputCursorPosY = 1
 	inputCursorPosY2 = 1
 	inputMoveTxt = 0
@@ -7640,10 +7677,6 @@ function f_keyBattleCfg(playerNo, controller)
 		end
 	--Draw Common Assets
 		f_drawBattleKeyAssets()
-		textImgSetBank(txt_inputHint, 5)
-		textImgSetText(txt_inputHint, txt_quickSaveKey)
-		textImgSetAlign(txt_inputHint, 0)
-		textImgPosDraw(txt_inputHint, 163, 238)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7672,7 +7705,7 @@ function f_drawMenuKeyAssets()
 	textImgDraw(txt_menuKeyCfg) --Title Text
 --Player 1 Controls Window BG
 	animSetScale(optionsBG2, 220, 15+maxKeyCfg*15)
-	animSetWindow(optionsBG2, 2,20, 155,195)
+	animSetWindow(optionsBG2, 2,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p1inputInfo) --Player Title Text
 --Player 1 Controls Cursor
@@ -7691,17 +7724,17 @@ function f_drawMenuKeyAssets()
 		end
 	end
 --Draw Player 1 Arrows
-	if maxKeyCfg > 12 then
+	if maxKeyCfg > 10 then
 		animDraw(optionsUpArrowP1)
 		animUpdate(optionsUpArrowP1)
 	end
-	if #t_keyMenuCfg > 12 and maxKeyCfg < #t_keyMenuCfg then
+	if #t_keyMenuCfg > 10 and maxKeyCfg < #t_keyMenuCfg then
 		animDraw(optionsDownArrowP1)
 		animUpdate(optionsDownArrowP1)
 	end
 --Player 2 Controls Window BG
 	animSetScale(optionsBG2, 318, 15+maxKeyCfg2*15)
-	animSetWindow(optionsBG2, 163,20, 155,195)
+	animSetWindow(optionsBG2, 163,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
@@ -7720,14 +7753,17 @@ function f_drawMenuKeyAssets()
 		end
 	end
 --Draw Player 2 Arrows
-	if maxKeyCfg2 > 12 then
+	if maxKeyCfg2 > 10 then
 		animDraw(optionsUpArrowP2)
 		animUpdate(optionsUpArrowP2)
 	end
-	if #t_keyMenuCfg2 > 12 and maxKeyCfg2 < #t_keyMenuCfg2 then
+	if #t_keyMenuCfg2 > 10 and maxKeyCfg2 < #t_keyMenuCfg2 then
 		animDraw(optionsDownArrowP2)
 		animUpdate(optionsDownArrowP2)
 	end
+	drawBtnCfgInputHints()
+	drawP1CfgInputs("menu")
+	drawP2CfgInputs("menu")
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p1Gamepad), 120, 30) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p2Gamepad), 295, 30)
@@ -7747,7 +7783,7 @@ function f_keyMenuCfg(playerNo, controller)
 	local configEnd = false
 	local defaultP1 = false
 	local defaultP2 = false
-	local cursorLimit = 12
+	local cursorLimit = 10
 	inputCursorPosY = 1
 	inputCursorPosY2 = 1
 	inputMoveTxt = 0
@@ -7905,10 +7941,6 @@ function f_keyMenuCfg(playerNo, controller)
 		end
 	--Draw Common Assets
 		f_drawMenuKeyAssets()
-		textImgSetBank(txt_inputHint, 5)
-		textImgSetText(txt_inputHint, txt_quickSaveKey)
-		textImgSetAlign(txt_inputHint, 0)
-		textImgPosDraw(txt_inputHint, 163, 238)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -8061,10 +8093,10 @@ function f_readBattleInput(oldkey)
 			end
 			if p1waitingKey then
 				textImgSetAlign(txt_inputHint, 1)
-				textImgPosDraw(txt_inputHint, 5, 238) --Draw Hints for Left Side
+				textImgPosDraw(txt_inputHint, 5, 208) --Draw Hints for Left Side
 			elseif p2waitingKey then
 				textImgSetAlign(txt_inputHint, -1)
-				textImgPosDraw(txt_inputHint, 315, 238) --Draw Hints for Right Side
+				textImgPosDraw(txt_inputHint, 315, 208) --Draw Hints for Right Side
 			end
 			t = t + 1
 		end
@@ -8544,10 +8576,10 @@ function f_readMenuInput(oldkey)
 			end
 			if p1waitingKey then
 				textImgSetAlign(txt_inputHint, 1)
-				textImgPosDraw(txt_inputHint, 5, 238) --Draw Hints for Left Side
+				textImgPosDraw(txt_inputHint, 5, 208) --Draw Hints for Left Side
 			elseif p2waitingKey then
 				textImgSetAlign(txt_inputHint, -1)
-				textImgPosDraw(txt_inputHint, 315, 238) --Draw Hints for Right Side
+				textImgPosDraw(txt_inputHint, 315, 208) --Draw Hints for Right Side
 			end
 			t = t + 1
 		end

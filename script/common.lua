@@ -3750,14 +3750,26 @@ function f_searchButton(inputkey) --Based on previous function
 	return #t_btnHint --return lastest table value that is an empty spr
 end
 
-function drawInputHintsP1(...) --(...) Manage unlimited arguments
+inputHintsCnt = 0
+function drawInputHints(...) --(...) Manage unlimited arguments
+	local t_control = nil
+	if onlinegame then
+		t_control = t_keyMenuCfg --Show only P1 Keys
+	else
+		if inputHintsCnt < 500 then
+			t_control = t_keyMenuCfg
+		else--if inputHintsCnt > 500 then
+			t_control = t_keyMenuCfg2
+		end
+		if inputHintsCnt > 1000 then inputHintsCnt = 0 end --Reset
+	end
 	local t_args = {...} --Store all arguments taken in a table
 	for i=1, #t_args, 2 do --For each argument stored in table
 		local cmd = t_args[i] --Set first argument (key name) to cmd var
 		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
-		local nameKey = f_searchCmd(cmd, t_keyMenuCfg) --get table pos from button name configured based on cmd entry name
+		local nameKey = f_searchCmd(cmd, t_control) --get table pos from button name configured based on cmd entry name
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText) --Get button name configured
+			local btn = f_searchButton(t_control[nameKey].varText) --Get button name configured
 			local key = t_btnHint[btn].keySpr --Get button sprite
 			--local posKey = cmdPos --Get button "X,Y" positions
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
@@ -3767,19 +3779,79 @@ function drawInputHintsP1(...) --(...) Manage unlimited arguments
 			animDraw(key)
 		end
 	end
+	if not onlinegame then
+		inputHintsCnt = inputHintsCnt + 1
+	end
 end
 
-function drawInGameInputHintsP1(...) --(...) Manage unlimited arguments
-	local t_args = {...} --Store all arguments taken in a table
-	for i=1, #t_args, 2 do --For each argument stored in table
-		local cmd = t_args[i] --Set first argument (key name) to cmd var
-		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
-		local nameKey = f_searchCmd(cmd, t_keyBattleCfg) --get table pos from button name configured based on cmd entry name
+function drawInputHintsP1(...)
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyMenuCfg)
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyBattleCfg[nameKey].varText) --Get button name configured
-			local key = t_btnHint[btn].keySpr --Get button sprite
-			--local posKey = cmdPos --Get button "X,Y" positions
-			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
+			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText)
+			local key = t_btnHint[btn].keySpr
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, 0.7, 0.7)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+function drawInputHintsP2(...)
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyMenuCfg2)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyMenuCfg2[nameKey].varText)
+			local key = t_btnHint[btn].keySpr
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, 0.7, 0.7)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+function drawBattleInputHintsP1(...)
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyBattleCfg)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyBattleCfg[nameKey].varText)
+			local key = t_btnHint[btn].keySpr
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, 0.7, 0.7)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+function drawBattleInputHintsP2(...)
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyBattleCfg2)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyBattleCfg2[nameKey].varText)
+			local key = t_btnHint[btn].keySpr
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
 			animSetPos(key, posKeyX, posKeyY)
 			animSetScale(key, 0.7, 0.7)
 			animUpdate(key)
