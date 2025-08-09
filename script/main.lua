@@ -1066,7 +1066,7 @@ end
 --HUMAN VS CPU (fight against CPU controlled opponents in a customizable arcade ladder from left side)
 function arcadeHumanvsCPU()
 	local modeName = "ARCADE"
-	if data.attractMode then modeName = "CHARACTER SELECT" end
+	if data.attractMode then modeName = txt_attractSelectTitle end
 	if P2overP1 then --Set player 2 controls config over player 1
 		remapInput(1, 2) --P1 swap controls with p2 side
 		setPlayerSide('p2left') --will be used to open challenger screen
@@ -1083,7 +1083,7 @@ end
 --CPU VS HUMAN (fight against CPU controlled opponents in a customizable arcade ladder from right side)
 function arcadeCPUvsHuman()
 	local modeName = "ARCADE"
-	if data.attractMode then modeName = "CHARACTER SELECT" end
+	if data.attractMode then modeName = txt_attractSelectTitle end
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1) --P2 swap controls with p1 side
@@ -7510,7 +7510,7 @@ function f_selectScreen()
 		end
 	end
 --Win Count
-	if (data.gameMode == "versus" or data.gameMode == "tourney") and data.vsDisplayWin == true then
+	if (data.gameMode == "versus" or data.gameMode == "tourney") and data.vsDisplayWin then
 		textImgSetText(txt_p1Wins, "WINS: " .. p1Wins)
 		textImgSetText(txt_p2Wins, "WINS: " .. p2Wins)
 		textImgDraw(txt_p1Wins)
@@ -7631,6 +7631,11 @@ function f_selectScreen()
 		else
 			drawStageInputHints()
 		end
+	end
+--When Attract Mode is Enabled
+	if data.attractMode then
+		drawAttractStatus(2, 318, 10, -1)
+		f_attractCredits(318, 218, -1)
 	end
 	animDraw(data.fadeSelect)
 	animUpdate(data.fadeSelect)
@@ -11336,6 +11341,11 @@ function f_arcadeTravel()
 				animPosDraw(travelRandomIcon, 30*enemyRoster - 29, 214) --Random Icon
 			end
 		end
+	--When Attract Mode is Enabled
+		if data.attractMode then
+			drawAttractStatus(2, 318, 10, -1)
+			f_attractCredits(318, 210, -1)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		screenTime = screenTime + 1 --Start Timer for Screen
@@ -11794,6 +11804,11 @@ function f_orderSelect()
 			textImgDraw(txt_hints) --Draw Hints
 		]]
 			drawOrderInputHints()
+		--When Attract Mode is Enabled
+			if data.attractMode then
+				drawAttractStatus(2, 318, 10, -1)
+				f_attractCredits(318, 238, -1)
+			end
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			hintTime = hintTime + 1 --Start timer for randoms hints
@@ -11996,6 +12011,11 @@ function f_selectVersus()
 				f_drawQuickText(txt_absmtcno, font2, 0, 1, "NEXT ABYSS SPECIAL BOSS MATCH: "..getAbyssDepthBossSpecial(), 100, 120)
 			end
 			]]
+		--When Attract Mode is Enabled
+			if data.attractMode then
+				drawAttractStatus(2, 318, 10, -1)
+				f_attractCredits(318, 229, -1)
+			end
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			hintTime = hintTime + 1 --Start Timer for Randoms Hints
@@ -12364,6 +12384,11 @@ function f_selectWin()
 				end
 				break
 			end
+		end
+	--When Attract Mode is Enabled
+		if data.attractMode then
+			drawAttractStatus(2, 318, 10, -1)
+			f_attractCredits(318, 235, -1)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -12834,7 +12859,7 @@ function f_selectChallenger()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		i = i + 1
-		cmdInput()
+		if not data.attractMode then cmdInput() end --To avoid add coins in this screen, during attract mode
 		refresh()
 	end
 end
@@ -13038,6 +13063,11 @@ function f_service()
 			textImgSetText(txt_noService, noserviceText)
 			textImgDraw(txt_noService)
 		end
+	--When Attract Mode is Enabled
+		if data.attractMode then
+			drawAttractStatus(2, 318, 10, -1)
+			f_attractCredits(318, 218, -1)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -13223,6 +13253,11 @@ end
 --;===========================================================
 --; CONTINUE SCREEN
 --;===========================================================
+function f_continueReset()
+	f_contTimerReset()
+	sndPlay(sndCont, 1, 1)
+end
+
 function f_continue()
 	cmdInput()
 	local tablePos = ''
@@ -13237,7 +13272,6 @@ function f_continue()
 	local animLength2 = 0
 	local animLength3 = 0
 	local animLength4 = 0
-	local i = 0
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
 			tablePos = t_selChars[data.t_p2selected[1].cel+1] --Your 1st char appear in continue screen
@@ -13277,27 +13311,18 @@ function f_continue()
 	if tablePos4.sffData ~= nil and tablePos4.dizzy ~= nil then
 		anim4 = f_animFromTable(tablePos4['dizzy'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 	end
-	if data.attractMode then
-		textImgSetText(txt_coins, "CREDITS: "..getCredits())
-	end
-	textImgSetText(txt_cont, "TIMES CONTINUED: "..stats.continueCount)
+	attractContinueTimer = 0
+	if attractContinueTimer == 0 then f_continueReset() end
+	f_gameOverReset()
+	textImgSetText(txt_contTimesCfg, txt_contTimes..stats.continueCount)
 	setService("")
 	serviceTeam = false
 	data.continue = 0
-	f_contTimerReset()
-	f_gameOverReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndCont, 1, 1)
 	playBGM(bgmContinue)
 	while true do
 		animDraw(contBG0)
-		i = i + 1
-		--[[
-		if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			playBGM(bgmTitle)
-			break
-		]]
+		attractContinueTimer = attractContinueTimer + 1
 		if data.continue == 0 then --waiting for player's decision
 			if anim4 then
 				animDraw(anim4)
@@ -13317,7 +13342,7 @@ function f_continue()
 				animDraw(contBG1)
 				animDraw(contBG2)
 			end
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+			if (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) and (not data.attractMode or data.attractMode and getCredits() > 0) then
 				if tablePos.sffData ~= nil and tablePos.win ~= nil then
 					anim, animLength = f_animFromTable(tablePos['win'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
 				else
@@ -13339,76 +13364,73 @@ function f_continue()
 					animLength4 = 0
 				end
 				if not onlinegame and data.attractMode then
-					if getCredits() >= 1 then
-						setCredits(getCredits() - 1)
-					end
+					setCredits(getCredits() - 1)
 				else
 					--Free Arcade Play
 				end
 				stats.continueCount = stats.continueCount + 1 --Times Continue
 				--f_saveStats()
-				if data.attractMode then
-					textImgSetText(txt_coins, "CREDITS: "..getCredits())
-				end
-				textImgSetText(txt_cont, "TIMES CONTINUED: "..stats.continueCount)
+				textImgSetText(txt_contTimesCfg, txt_contTimes..stats.continueCount) --Update Count
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', sprFade)
 				data.continue = 1
-			elseif i > 1366 then --Continue = NO
+			end
+			if attractContinueTimer > 1366 then --Continue = NO
 				data.continue = 2
 				f_gameOver()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				break
 			end
 			animDraw(contTimer)
-			if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and i >= 71 then
+		--Update Sprites Count
+			if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and attractContinueTimer >= 71 then
 				local cnt = 0
-				if i < 135 then
+				if attractContinueTimer < 135 then
 					cnt = 135
-				elseif i <= 262 then
+				elseif attractContinueTimer <= 262 then
 					cnt = 262
-				elseif i < 389 then
+				elseif attractContinueTimer < 389 then
 					cnt = 389
-				elseif i < 516 then
+				elseif attractContinueTimer < 516 then
 					cnt = 516
-				elseif i < 643 then
+				elseif attractContinueTimer < 643 then
 					cnt = 643
-				elseif i < 770 then
+				elseif attractContinueTimer < 770 then
 					cnt = 770
-				elseif i < 897 then
+				elseif attractContinueTimer < 897 then
 					cnt = 897
-				elseif i < 1024 then
+				elseif attractContinueTimer < 1024 then
 					cnt = 1024
-				elseif i < 1151 then
+				elseif attractContinueTimer < 1151 then
 					cnt = 1151
-				elseif i < 1278 then
+				elseif attractContinueTimer < 1278 then
 					cnt = 1278
 				end
-				while i < cnt do
-					i = i + 1
+				while attractContinueTimer < cnt do
+					attractContinueTimer = attractContinueTimer + 1
 					animUpdate(contTimer)
 				end
 			else
 				animUpdate(contTimer)
 			end
-			if i == 135 then
+			if attractContinueTimer == 135 then
 				sndPlay(sndCont, 0, 9)
-			elseif i == 262 then
+			elseif attractContinueTimer == 262 then
 				sndPlay(sndCont, 0, 8)
-			elseif i == 389 then
+			elseif attractContinueTimer == 389 then
 				sndPlay(sndCont, 0, 7)
-			elseif i == 516 then
+			elseif attractContinueTimer == 516 then
 				sndPlay(sndCont, 0, 6)
-			elseif i == 643 then
+			elseif attractContinueTimer == 643 then
 				sndPlay(sndCont, 0, 5)
-			elseif i == 770 then
+			elseif attractContinueTimer == 770 then
 				sndPlay(sndCont, 0, 4)
-			elseif i == 897 then
+			elseif attractContinueTimer == 897 then
 				sndPlay(sndCont, 0, 3)
-			elseif i == 1024 then
+			elseif attractContinueTimer == 1024 then
 				sndPlay(sndCont, 0, 2)
-			elseif i == 1151 then
+			elseif attractContinueTimer == 1151 then
 				sndPlay(sndCont, 0, 1)
-			elseif i == 1278 then
+			elseif attractContinueTimer == 1278 then
 				sndPlay(sndCont, 0, 0)
 			end
 			drawContinueInputHints()
@@ -13467,7 +13489,7 @@ function f_continue()
 					animUpdate(fadeContinue)
 				end
 			else
-				--service screen
+			--Service Screen
 				if data.serviceScreen then
 					f_service()
 				end
@@ -13486,7 +13508,7 @@ function f_continue()
 						p2coopRandom = false
 					end
 				end
-				--challenger screen
+			--Challenger Screen
 				if data.challengerScreen then
 					f_selectChallenger()
 					f_challengerMusic()
@@ -13496,15 +13518,19 @@ function f_continue()
 				break
 			end
 		end
-		if i >= 71 then --show when count starts counting down
-			if not onlinegame then
-				textImgDraw(txt_coins) --Show Coins Count
-			else
-				--Don't Show Coins Count
-			end
-			textImgDraw(txt_cont) --Always Show Times Continue Count
+		--if attractContinueTimer >= 71 then --show when count starts counting down
+			textImgDraw(txt_contTimesCfg) --Show Times Continue Count
+		--end
+		if data.debugMode then
+			f_drawQuickText(txt_contiTime, font2, 0, 1, "Cntinue Time: "..attractContinueTimer, 80, 90)
+			f_drawQuickText(txt_winreveal, font2, 0, 1, "WINNER: "..winner, 80, 60)
 		end
-		if data.debugMode then f_drawQuickText(txt_winreveal, font2, 0, 1, "WINNER: "..winner, 80, 60) end
+		if attractContinueTimer == 0 then f_continueReset() end
+	--When Attract Mode is Enabled
+		if data.attractMode then
+			drawAttractStatus(2, 318, 10, -1)
+			f_attractCredits(318, 30, -1)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

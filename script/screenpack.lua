@@ -622,6 +622,7 @@ txt_attractState2 = "PRESS START" --After Start a Game to Challenger Join
 txt_attractState3 = "GAME OVER" --When any side lose in Arcade
 txt_attractStateChallenger = "CHALLENGER" --During Versus Mode
 txt_attractFreePlay = "FREE PLAY"
+txt_attractSelectTitle = "PLAYER SELECT"
 
 txt_attractCopyright = [[
 Itsu made mo Kansei shinai Eien ni Mikansei ENgine
@@ -643,35 +644,33 @@ function f_attractCredits(x, y, align)
 end
 
 attractCnt = 0
-function drawAttractStatus(state, x, y, align)
+function drawAttractStatus(state, x, y, align, scaleX, scaleY)
 	local state = state or 1
 	local x = x or 159
 	local y = y or 170
 	local align = align or 0
+	local scaleX = scaleX or 1
+	local scaleY = scaleY or 1
+	textImgSetPos(txt_attractState, x, y)
+	textImgSetScale(txt_attractState, scaleX, scaleY)
+	textImgSetAlign(txt_attractState, align)
 	if attractCnt%60 < 30 then
 	--Title Screen
 		if state == 1 then
 			if getCredits() > 0 then
 				textImgSetBank(txt_attractState, 5)
-				textImgSetAlign(txt_attractState, align)
-				textImgSetPos(txt_attractState, x, y)
 				textImgSetText(txt_attractState, txt_attractState1)
 			else
 				textImgSetBank(txt_attractState, 0)
-				textImgSetAlign(txt_attractState, align)
-				textImgSetPos(txt_attractState, x, y)
 				textImgSetText(txt_attractState, txt_attractState0)
 			end
+	--Character Select and Next
 		elseif state == 2 then
 			if getCredits() > 0 then
 				textImgSetBank(txt_attractState, 5)
-				textImgSetAlign(txt_attractState, align)
-				textImgSetPos(txt_attractState, x, y)
 				textImgSetText(txt_attractState, txt_attractState2)
 			else
 				textImgSetBank(txt_attractState, 0)
-				textImgSetAlign(txt_attractState, align)
-				textImgSetPos(txt_attractState, x, y)
 				textImgSetText(txt_attractState, txt_attractState0)
 			end
 		end
@@ -2513,7 +2512,7 @@ animUpdate(rankWindowBG)
 --;===========================================================
 --; SERVICE SCREENPACK
 --;===========================================================
-txt_service = createTextImg(jgFnt, 0, 0, "SELECT A SERVICE", 159, 13)
+txt_service = createTextImg(jgFnt, 0, 0, "CONTINUE SERVICE", 159, 13)
 txt_serviceTime = createTextImg(jgFnt, 0, 0, "", 160, 122)
 txt_noService = createTextImg(font2, 0, 0, "", 159.5, 210)
 
@@ -2695,9 +2694,9 @@ animUpdate(rankGDLK)
 --;===========================================================
 --; CONTINUE SCREENPACK DEFINITION
 --;===========================================================
---Coins left text
-txt_coins = createTextImg(jgFnt, 0, 1, "", 15, 30)
-txt_cont = createTextImg(jgFnt, 0, 1, "", 158, 30)
+--Times Continue Text
+txt_contTimesCfg = createTextImg(jgFnt, 0, 1, "", 15, 30)
+txt_contTimes = "TIMES CONTINUED: "
 
 --Background
 contBG0 = animNew(sprCont, [[

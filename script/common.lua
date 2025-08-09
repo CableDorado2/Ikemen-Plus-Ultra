@@ -1823,7 +1823,9 @@ function f_storyboardPlay(tIn)
 	for i=tOut.startscene, #tOut.scenes do
 		for j=0, tOut.scenes[i].endTime do
 		--Skip
-			if (tIn.scenedef.skipbutton == nil or tIn.scenedef.skipbutton == 1) and (data.attractMode and getCredits() > 0) or not data.attractMode and (esc() or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) then
+			if (tIn.scenedef.skipbutton == nil or tIn.scenedef.skipbutton == 1) and (not data.attractMode and (esc() or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's'))) or
+			data.attractMode and (getCredits() > 0 and tIn.scenedef.attractstate == 1) or
+			(tIn.scenedef.attractstate == nil or tIn.scenedef.attractstate == 0) and (esc() or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) then
 				cmdInput()
 				refresh()
 				return
@@ -3253,11 +3255,13 @@ end
 
 --Insert Coins During Attract Mode
 attractDemoTimer = 0
+attractContinueTimer = 0
 attractSeconds = data.attractTime
 attractTimer = attractSeconds*gameTick --Set time for Attract Title Screen
 function f_addCoin()
 	sndPlay(sndSys, 200, 0)
 	attractDemoTimer = 0
+	attractContinueTimer = 0
 	attractTimer = attractSeconds*gameTick --Reset Attract Title Timer
 	setCredits(getCredits() + 1)
 end
@@ -3274,6 +3278,7 @@ function f_attractCfgMenu()
 	inConfig = true
 	--onlinegame = false
 	assert(loadfile(saveCfgPath))()
+	playBGM(bgmNothing)
 	script.options.f_mainCfg()
 	f_resetEngine()
 end

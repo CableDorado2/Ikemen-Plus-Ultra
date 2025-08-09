@@ -195,26 +195,23 @@ int game()
 void main()
 {//Itumademo Kanseishinai Eienni Mikansei ENgine
   if(!.sdl.init(.cfg.WindowTitle, .cfg.Width, .cfg.Height, .cfg.OpenGL, true)){
-    .error!.self?("Initialization failed.");
+    .error!.self?("Initialization Failed.");
     ret;
   }
 /?/*.cfg.OpenGL:
   if(!.sdl.InitMugenGl(::)){
-    .error!.self?("OpenGL Initialization failed, edit it as false in save/config.ssz");
+    .error!.self?("OpenGL Initialization Failed, edit it as false in save/config.ssz");
     ret;
   }
 /*?*/
-  .sdl.fullScreenMode(.cfg.FullScreenReal);
-  if(.cfg.FullScreenReal) .se.fullReal = true;
-  if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen || .cfg.FullScreen && !.cfg.FullScreenReal);
+  .sdl.fullScreenMode(.cfg.FullScreenExclusive);
+  if(.cfg.FullScreenExclusive) .se.fullReal = true;
+  if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen || .cfg.FullScreen && !.cfg.FullScreenExclusive);
   if(.cfg.FullScreen) .se.full = true;
   .sdl.keepAspectRatio(.cfg.AspectRatio);
   if(.cfg.AspectRatio) .se.aspect = true;
-  .sdl.windowBorders(.cfg.WindowBordered);
-  if(.cfg.WindowBordered) .se.borders = true;
-  .sdl.windowResizable(.cfg.WindowResizable);
-  if(.cfg.WindowResizable) .se.resizable = true;
   .sdl.setOpacity(.cfg.Opacity);
+  .sdl.setWindowType(.cfg.WindowType);
   &.lua.State L;
   if(!.init(L=)) ret;
   if(!L.runFile(.cfg.system)){

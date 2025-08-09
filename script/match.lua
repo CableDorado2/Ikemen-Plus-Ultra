@@ -75,7 +75,7 @@ end
 if data.attractMode then
 	addHotkey('1', false, false, false, 'f_addCoin()') --Insert Coin
 	addHotkey('2', false, false, false, 'f_addCoin()') --Insert Coin
-	addHotkey('9', false, false, false, 'f_testMenu()') --Open Config Menu
+	addHotkey('9', false, false, false, 'f_attractCfgMenu()') --Open Config Menu
 	addHotkey('0', false, false, false, 'f_resetEngine()') --Reset Engine
 end
 --Miscellaneous Actions
@@ -1090,7 +1090,7 @@ function loop() --The code for this function should be thought of as if it were 
 		if getGameMode() == "demo" then
 			drawAttractStatus()
 		else
-			drawAttractStatus(2, 318, 18, -1)
+			drawAttractStatus(2, 224, 9, -1, 0.6, 0.6)
 		end
 		f_attractCredits(318, 238, -1)
 	end
