@@ -978,7 +978,7 @@ function getButton(cmd)
 	return ""
 end
 
---Keyboard conversion table (Currently Unused)
+--Keyboard conversion table
 t_inputConvert = {
 	{num = '4', text = 'A'},
 	{num = '5', text = 'B'},
@@ -3605,8 +3605,10 @@ t_keyMenuCfg = {
 t_keyMenuCfg2 = {}
 for i=1, #t_keyMenuCfg do
 	t_keyMenuCfg[i]['varID'] = textImgNew()
-	t_keyMenuCfg[i]['varText'] = ""
---Make a copy of all items from t_keyMenuCfg table to t_keyMenuCfg2
+	t_keyMenuCfg[i]['varText'] = "" --below will replace this
+	t_keyMenuCfg[i]['keyboard'] = "" --To store keyboard inputs id
+	t_keyMenuCfg[i]['gamepad'] = "" --To store gamepad inputs id
+--Make a copy of all items from t_keyMenuCfg table to t_keyMenuCfg2 (Player 2 Inputs)
 	t_keyMenuCfg2[i] = {}
 	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
 	if i == 15 then
@@ -3614,7 +3616,9 @@ for i=1, #t_keyMenuCfg do
 	else
 		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
 	end
-	t_keyMenuCfg2[i]['varText'] = t_keyMenuCfg[i].varText
+	t_keyMenuCfg2[i]['varText'] = t_keyMenuCfg[i].varText --below will replace this
+	t_keyMenuCfg2[i]['keyboard'] = t_keyMenuCfg[i].keyboard
+	t_keyMenuCfg2[i]['gamepad'] = t_keyMenuCfg[i].gamepad
 	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
 end
 
@@ -3642,7 +3646,9 @@ t_keyBattleCfg = {
 t_keyBattleCfg2 = {}
 for i=1, #t_keyBattleCfg do
 	t_keyBattleCfg[i]['varID'] = textImgNew()
-	t_keyBattleCfg[i]['varText'] = ""
+	t_keyBattleCfg[i]['varText'] = "" --DELETE
+	t_keyBattleCfg[i]['keyboard'] = ""
+	t_keyBattleCfg[i]['gamepad'] = ""
 
 	t_keyBattleCfg2[i] = {}
 	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
@@ -3651,7 +3657,9 @@ for i=1, #t_keyBattleCfg do
 	else
 		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
 	end
-	t_keyBattleCfg2[i]['varText'] = t_keyBattleCfg[i].varText
+	t_keyBattleCfg2[i]['varText'] = t_keyBattleCfg[i].varText --DELETE
+	t_keyBattleCfg2[i]['keyboard'] = t_keyBattleCfg[i].keyboard
+	t_keyBattleCfg2[i]['gamepad'] = t_keyBattleCfg[i].gamepad
 	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
 end
 
@@ -3667,6 +3675,7 @@ t_btnHint = {
 	{keyTxt = "_7", 			keySpr = btn7},
 	{keyTxt = "_8", 			keySpr = btn8},
 	{keyTxt = "_9", 			keySpr = btn9},
+	
 	{keyTxt = "a", 				keySpr = btnA},
 	{keyTxt = "b", 				keySpr = btnB},
 	{keyTxt = "c", 				keySpr = btnC},
@@ -3693,6 +3702,34 @@ t_btnHint = {
 	{keyTxt = "x", 				keySpr = btnX},
 	{keyTxt = "y", 				keySpr = btnY},
 	{keyTxt = "z", 				keySpr = btnZ},
+	
+	{keyTxt = "A", 				keySpr = btnA},
+	{keyTxt = "B", 				keySpr = btnB},
+	{keyTxt = "C", 				keySpr = btnC},
+	{keyTxt = "D", 				keySpr = btnD},
+	{keyTxt = "E", 				keySpr = btnE},
+	{keyTxt = "F", 				keySpr = btnF},
+	{keyTxt = "G", 				keySpr = btnG},
+	{keyTxt = "H", 				keySpr = btnH},
+	{keyTxt = "I", 				keySpr = btnI},
+	{keyTxt = "J", 				keySpr = btnJ},
+	{keyTxt = "K", 				keySpr = btnK},
+	{keyTxt = "L",				keySpr = btnL},
+	{keyTxt = "M", 				keySpr = btnM},
+	{keyTxt = "N", 				keySpr = btnN},
+	{keyTxt = "G", 				keySpr = btnO},
+	{keyTxt = "H", 				keySpr = btnP},
+	{keyTxt = "I", 				keySpr = btnQ},
+	{keyTxt = "J", 				keySpr = btnR},
+	{keyTxt = "K", 				keySpr = btnS},
+	{keyTxt = "T", 				keySpr = btnT},
+	{keyTxt = "U", 				keySpr = btnU},
+	{keyTxt = "V", 				keySpr = btnV},
+	{keyTxt = "W", 				keySpr = btnW},
+	{keyTxt = "X", 				keySpr = btnX},
+	{keyTxt = "Y", 				keySpr = btnY},
+	{keyTxt = "Z", 				keySpr = btnZ},
+	
 	{keyTxt = "PERIOD", 		keySpr = btnPERIOD},
 	{keyTxt = "COMMA", 			keySpr = btnCOMMA},
 	{keyTxt = "MINUS", 			keySpr = btnMINUS},
@@ -3713,6 +3750,7 @@ t_btnHint = {
 	{keyTxt = "DOWN", 			keySpr = btnDOWN},
 	{keyTxt = "LEFT", 			keySpr = btnLEFT},
 	{keyTxt = "RIGHT", 			keySpr = btnRIGHT},
+	
 	{keyTxt = "KP_0", 			keySpr = btnKP_0},
 	{keyTxt = "KP_1", 			keySpr = btnKP_1},
 	{keyTxt = "KP_2", 			keySpr = btnKP_2},

@@ -7082,6 +7082,10 @@ function f_testMenu()
 		if commandGetState(p2Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
 		if cmdCode then f_cmdCode() end
 		f_drawQuickText(txt_keyHint, font1, 0, 0, 'Press [SELECT] or [ESC] button to back', 162, 30)
+		if data.debugMode then
+			f_drawQuickText(txt_testW, font6, 0, 0, getInputKeyboard(), 109, 50) --Keyboard
+			f_drawQuickText(txt_testW, font6, 0, 0, getInputID(data.p1Gamepad), 109, 70) --Gamepad
+		end
 		cmdInput()
 		refresh()
 	end
@@ -7422,10 +7426,11 @@ function drawBtnCfgInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
+	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","80,"..inputHintYPos,"r","100,"..inputHintYPos,"s","160,"..inputHintYPos,"e","225,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Unbind", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 181, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Save and Back", 246, hintFontYPos)
 end
 
 function f_drawBattleKeyAssets()
@@ -7529,6 +7534,7 @@ function f_keyBattleCfg(playerNo, controller)
 			sndPlay(sndSys, 100, 2)
 			f_keyBattleSave(playerNo, controller) --Save Player 1 Controls
 			f_keyBattleSave(playerNo+1, controller) --Save Player 2 Controls
+			f_exportDebugInputs()
 			break
 		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
 			sndPlay(sndSys, 100, 2)
@@ -7560,8 +7566,8 @@ function f_keyBattleCfg(playerNo, controller)
 			keyCfg = keyCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		end
-		if btnPalNo(p1Cmd, true) > 0 then
+	--Confirm Button
+		elseif btnPalNo(p1Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Battle Controls
@@ -7582,6 +7588,10 @@ function f_keyBattleCfg(playerNo, controller)
 			else
 				configEnd = true
 			end
+			modified = 1
+	--Back Button
+		elseif commandGetState(p1Cmd, 'e') then
+			configEnd = true
 			modified = 1
 		end
 	--Player 1 Scroll Logic
@@ -7623,8 +7633,8 @@ function f_keyBattleCfg(playerNo, controller)
 			keyCfg2 = keyCfg2 + 1
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
-		end
-		if btnPalNo(p2Cmd, true) > 0 then
+	--Confirm Button
+		elseif btnPalNo(p2Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Battle Controls
@@ -7645,6 +7655,10 @@ function f_keyBattleCfg(playerNo, controller)
 			else
 				configEnd = true
 			end
+			modified = 1
+	--Back Button
+		elseif commandGetState(p2Cmd, 'e') then
+			configEnd = true
 			modified = 1
 		end
 	--Player 2 Scroll Logic
@@ -7799,6 +7813,7 @@ function f_keyMenuCfg(playerNo, controller)
 			sndPlay(sndSys, 100, 2)
 			f_keyMenuSave(playerNo, controller == -1 and controller or data.p1Gamepad) --Save Player 1 Controls
 			f_keyMenuSave(playerNo+1, controller == -1 and controller or data.p2Gamepad) --Save Player 2 Controls
+			f_exportDebugInputs()
 			break
 		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
 			sndPlay(sndSys, 100, 2)
@@ -7824,8 +7839,8 @@ function f_keyMenuCfg(playerNo, controller)
 			keyCfg = keyCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		end
-		if btnPalNo(p1Cmd, true) > 0 then
+	--Confirm Button
+		elseif btnPalNo(p1Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Menu Controls
@@ -7846,6 +7861,10 @@ function f_keyMenuCfg(playerNo, controller)
 			else
 				configEnd = true
 			end
+			modified = 1
+	--Back Button
+		elseif commandGetState(p1Cmd, 'e') then
+			configEnd = true
 			modified = 1
 		end
 	--Player 1 Scroll Logic
@@ -7887,8 +7906,8 @@ function f_keyMenuCfg(playerNo, controller)
 			keyCfg2 = keyCfg2 + 1
 			if bufl2 then bufl2 = 0 end
 			if bufr2 then bufr2 = 0 end
-		end
-		if btnPalNo(p2Cmd, true) > 0 then
+	--Confirm Button
+		elseif btnPalNo(p2Cmd, true) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Menu Controls
@@ -7909,6 +7928,10 @@ function f_keyMenuCfg(playerNo, controller)
 			else
 				configEnd = true
 			end
+			modified = 1
+	--Back Button
+		elseif commandGetState(p2Cmd, 'e') then
+			configEnd = true
 			modified = 1
 		end
 	--Player 2 Scroll Logic
@@ -8103,95 +8126,17 @@ function f_readBattleInput(oldkey)
 	--Waiting Key Press
 		if readTime > 10 then
 			if esc() then getKeyboard = oldkey --No Replace
-		--MAIN
-			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
-			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
-			elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'			
-			elseif aKey() and controllerSet == 1 then getKeyboard = 'a'
-			elseif bKey() and controllerSet == 1 then getKeyboard = 'b'
-			elseif cKey() and controllerSet == 1 then getKeyboard = 'c'
-			elseif dKey() and controllerSet == 1 then getKeyboard = 'd'
-			elseif eKey() and controllerSet == 1 then getKeyboard = 'e'
-			elseif fKey() and controllerSet == 1 then getKeyboard = 'f'
-			elseif gKey() and controllerSet == 1 then getKeyboard = 'g'
-			elseif hKey() and controllerSet == 1 then getKeyboard = 'h'
-			elseif iKey() and controllerSet == 1 then getKeyboard = 'i'
-			elseif jKey() and controllerSet == 1 then getKeyboard = 'j'
-			elseif kKey() and controllerSet == 1 then getKeyboard = 'k'
-			elseif lKey() and controllerSet == 1 then getKeyboard = 'l'
-			elseif mKey() and controllerSet == 1 then getKeyboard = 'm'
-			elseif nKey() and controllerSet == 1 then getKeyboard = 'n'
-			elseif oKey() and controllerSet == 1 then getKeyboard = 'o'
-			elseif pKey() and controllerSet == 1 then getKeyboard = 'p'
-			elseif qKey() and controllerSet == 1 then getKeyboard = 'q'
-			elseif rKey() and controllerSet == 1 then getKeyboard = 'r'
-			elseif sKey() and controllerSet == 1 then getKeyboard = 's'
-			elseif tKey() and controllerSet == 1 then getKeyboard = 't'
-			elseif uKey() and controllerSet == 1 then getKeyboard = 'u'
-			elseif vKey() and controllerSet == 1 then getKeyboard = 'v'
-			elseif wKey() and controllerSet == 1 then getKeyboard = 'w'
-			elseif xKey() and controllerSet == 1 then getKeyboard = 'x'
-			elseif yKey() and controllerSet == 1 then getKeyboard = 'y'
-			elseif zKey() and controllerSet == 1 then getKeyboard = 'z'
-			elseif zeroKey() and controllerSet == 1 then getKeyboard = '_0'
-			elseif oneKey() and controllerSet == 1 then getKeyboard = '_1'
-			elseif twoKey() and controllerSet == 1 then getKeyboard = '_2'
-			elseif threeKey() and controllerSet == 1 then getKeyboard = '_3'
-			elseif fourKey() and controllerSet == 1 then getKeyboard = '_4'
-			elseif fiveKey() and controllerSet == 1 then getKeyboard = '_5'
-			elseif sixKey() and controllerSet == 1 then getKeyboard = '_6'
-			elseif sevenKey() and controllerSet == 1 then getKeyboard = '_7'
-			elseif eightKey() and controllerSet == 1 then getKeyboard = '_8'
-			elseif nineKey() and controllerSet == 1 then getKeyboard = '_9'
-			elseif lshiftKey() and controllerSet == 1 then getKeyboard = 'LSHIFT'
-			elseif rshiftKey() and controllerSet == 1 then getKeyboard = 'RSHIFT'
-			elseif tabKey() and controllerSet == 1 then getKeyboard = 'TAB'
-			elseif minusKey() and controllerSet == 1 then getKeyboard = 'MINUS'
-			elseif equalsKey() and controllerSet == 1 then getKeyboard = 'EQUALS'
-			elseif leftbracketKey() and controllerSet == 1 then getKeyboard = 'LEFTBRACKET'
-			elseif rightbracketKey() and controllerSet == 1 then getKeyboard = 'RIGHTBRACKET'
-			elseif backslashKey() and controllerSet == 1 then getKeyboard = 'BACKSLASH'
-			elseif semicolonKey() and controllerSet == 1 then getKeyboard = 'SEMICOLON'
-			elseif commaKey() and controllerSet == 1 then getKeyboard = 'COMMA'
-			elseif periodKey() and controllerSet == 1 then getKeyboard = 'PERIOD'
-			elseif slashKey() and controllerSet == 1 then getKeyboard = 'SLASH'
-			--elseif nonushashKey() and controllerSet == 1 then getKeyboard = 'NONUSHASH'
-			--elseif apostropheKey() and controllerSet == 1 then getKeyboard = 'APOSTROPHE'
-			--elseif graveKey() and controllerSet == 1 then getKeyboard = 'GRAVE'
-		--CONTROL
-			elseif insertKey() and controllerSet == 1 then getKeyboard = 'INSERT'
-			elseif homeKey() and controllerSet == 1 then getKeyboard = 'HOME'
-			elseif pageupKey() and controllerSet == 1 then getKeyboard = 'PAGEUP'
-			elseif deleteKey() and controllerSet == 1 then getKeyboard = 'DELETE'
-			elseif endKey() and controllerSet == 1 then getKeyboard = 'END'
-			elseif pagedownKey() and controllerSet == 1 then getKeyboard = 'PAGEDOWN'
-			elseif upKey() and controllerSet == 1 then getKeyboard = 'UP'
-			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
-			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
-			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
-		--NUMPAD
-			elseif kdivideKey() and controllerSet == 1 then getKeyboard = 'KP_DIVIDE'
-			elseif kmultiplyKey() and controllerSet == 1 then getKeyboard = 'KP_MULTIPLY'
-			elseif kminusKey() and controllerSet == 1 then getKeyboard = 'KP_MINUS'
-			elseif kplusKey() and controllerSet == 1 then getKeyboard = 'KP_PLUS'
-			elseif kenterKey() and controllerSet == 1 then getKeyboard = 'KP_ENTER'
-			elseif kperiodKey() and controllerSet == 1 then getKeyboard = 'KP_PERIOD'
-			elseif kzeroKey() and controllerSet == 1 then getKeyboard = 'KP_0'
-			elseif koneKey() and controllerSet == 1 then getKeyboard = 'KP_1'
-			elseif ktwoKey() and controllerSet == 1 then getKeyboard = 'KP_2'
-			elseif kthreeKey() and controllerSet == 1 then getKeyboard = 'KP_3'
-			elseif kfourKey() and controllerSet == 1 then getKeyboard = 'KP_4'
-			elseif kfiveKey() and controllerSet == 1 then getKeyboard = 'KP_5'
-			elseif ksixKey() and controllerSet == 1 then getKeyboard = 'KP_6'
-			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
-			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
-			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
+		--KEYBOARD
+			elseif controllerSet == 1 and getInputKeyboard() ~= 0 then --Exluding 0 which is the Keyboard iddle state
+				getKeyboard = tostring(getInputKeyboard()) --Get Keyboard Key ID
+				getKeyboard = f_inputConvert(getKeyboard, "text") --Convert ID to Display Text
 		--GAMEPAD
-			elseif getInputID(gamepadData) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(gamepadData)
+			elseif controllerSet == 2 and getInputID(gamepadData) ~= 101 then --Exluding 101 which is the Gamepad iddle state
+				getKeyboard = getInputID(gamepadData) --Get Gamepad Button ID
 			end
-		--When you press a key to assing
+		--When you press a key to assign
 			if getKeyboard ~= '' then
-			--Prevent assing same keys between player 1 and player 2 battle controls (with this logic both players can have same keys in his own controls)
+			--Prevent assign same keys between player 1 and player 2 battle controls (with this logic both players can have same keys in his own controls)
 				if p1waitingKey then
 				--JUMP [PLAYER 1] (t_keyBattleCfg[1].varText)
 					if keyCfg == 1 and getKeyboard ~= t_keyBattleCfg2[1].varText and getKeyboard ~= t_keyBattleCfg2[2].varText and
@@ -8586,95 +8531,17 @@ function f_readMenuInput(oldkey)
 	--Waiting Key Press
 		if readTime > 10 then
 			if esc() then getKeyboard = oldkey --No Replace
-		--MAIN
-			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
-			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
-			elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'			
-			elseif aKey() and controllerSet == 1 then getKeyboard = 'a'
-			elseif bKey() and controllerSet == 1 then getKeyboard = 'b'
-			elseif cKey() and controllerSet == 1 then getKeyboard = 'c'
-			elseif dKey() and controllerSet == 1 then getKeyboard = 'd'
-			elseif eKey() and controllerSet == 1 then getKeyboard = 'e'
-			elseif fKey() and controllerSet == 1 then getKeyboard = 'f'
-			elseif gKey() and controllerSet == 1 then getKeyboard = 'g'
-			elseif hKey() and controllerSet == 1 then getKeyboard = 'h'
-			elseif iKey() and controllerSet == 1 then getKeyboard = 'i'
-			elseif jKey() and controllerSet == 1 then getKeyboard = 'j'
-			elseif kKey() and controllerSet == 1 then getKeyboard = 'k'
-			elseif lKey() and controllerSet == 1 then getKeyboard = 'l'
-			elseif mKey() and controllerSet == 1 then getKeyboard = 'm'
-			elseif nKey() and controllerSet == 1 then getKeyboard = 'n'
-			elseif oKey() and controllerSet == 1 then getKeyboard = 'o'
-			elseif pKey() and controllerSet == 1 then getKeyboard = 'p'
-			elseif qKey() and controllerSet == 1 then getKeyboard = 'q'
-			elseif rKey() and controllerSet == 1 then getKeyboard = 'r'
-			elseif sKey() and controllerSet == 1 then getKeyboard = 's'
-			elseif tKey() and controllerSet == 1 then getKeyboard = 't'
-			elseif uKey() and controllerSet == 1 then getKeyboard = 'u'
-			elseif vKey() and controllerSet == 1 then getKeyboard = 'v'
-			elseif wKey() and controllerSet == 1 then getKeyboard = 'w'
-			elseif xKey() and controllerSet == 1 then getKeyboard = 'x'
-			elseif yKey() and controllerSet == 1 then getKeyboard = 'y'
-			elseif zKey() and controllerSet == 1 then getKeyboard = 'z'
-			elseif zeroKey() and controllerSet == 1 then getKeyboard = '_0'
-			elseif oneKey() and controllerSet == 1 then getKeyboard = '_1'
-			elseif twoKey() and controllerSet == 1 then getKeyboard = '_2'
-			elseif threeKey() and controllerSet == 1 then getKeyboard = '_3'
-			elseif fourKey() and controllerSet == 1 then getKeyboard = '_4'
-			elseif fiveKey() and controllerSet == 1 then getKeyboard = '_5'
-			elseif sixKey() and controllerSet == 1 then getKeyboard = '_6'
-			elseif sevenKey() and controllerSet == 1 then getKeyboard = '_7'
-			elseif eightKey() and controllerSet == 1 then getKeyboard = '_8'
-			elseif nineKey() and controllerSet == 1 then getKeyboard = '_9'
-			elseif lshiftKey() and controllerSet == 1 then getKeyboard = 'LSHIFT'
-			elseif rshiftKey() and controllerSet == 1 then getKeyboard = 'RSHIFT'
-			elseif tabKey() and controllerSet == 1 then getKeyboard = 'TAB'
-			elseif minusKey() and controllerSet == 1 then getKeyboard = 'MINUS'
-			elseif equalsKey() and controllerSet == 1 then getKeyboard = 'EQUALS'
-			elseif leftbracketKey() and controllerSet == 1 then getKeyboard = 'LEFTBRACKET'
-			elseif rightbracketKey() and controllerSet == 1 then getKeyboard = 'RIGHTBRACKET'
-			elseif backslashKey() and controllerSet == 1 then getKeyboard = 'BACKSLASH'
-			elseif semicolonKey() and controllerSet == 1 then getKeyboard = 'SEMICOLON'
-			elseif commaKey() and controllerSet == 1 then getKeyboard = 'COMMA'
-			elseif periodKey() and controllerSet == 1 then getKeyboard = 'PERIOD'
-			elseif slashKey() and controllerSet == 1 then getKeyboard = 'SLASH'
-			--elseif nonushashKey() and controllerSet == 1 then getKeyboard = 'NONUSHASH'
-			--elseif apostropheKey() and controllerSet == 1 then getKeyboard = 'APOSTROPHE'
-			--elseif graveKey() and controllerSet == 1 then getKeyboard = 'GRAVE'
-		--CONTROL
-			elseif insertKey() and controllerSet == 1 then getKeyboard = 'INSERT'
-			elseif homeKey() and controllerSet == 1 then getKeyboard = 'HOME'
-			elseif pageupKey() and controllerSet == 1 then getKeyboard = 'PAGEUP'
-			elseif deleteKey() and controllerSet == 1 then getKeyboard = 'DELETE'
-			elseif endKey() and controllerSet == 1 then getKeyboard = 'END'
-			elseif pagedownKey() and controllerSet == 1 then getKeyboard = 'PAGEDOWN'
-			elseif upKey() and controllerSet == 1 then getKeyboard = 'UP'
-			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
-			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
-			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
-		--NUMPAD
-			elseif kdivideKey() and controllerSet == 1 then getKeyboard = 'KP_DIVIDE'
-			elseif kmultiplyKey() and controllerSet == 1 then getKeyboard = 'KP_MULTIPLY'
-			elseif kminusKey() and controllerSet == 1 then getKeyboard = 'KP_MINUS'
-			elseif kplusKey() and controllerSet == 1 then getKeyboard = 'KP_PLUS'
-			elseif kenterKey() and controllerSet == 1 then getKeyboard = 'KP_ENTER'
-			elseif kperiodKey() and controllerSet == 1 then getKeyboard = 'KP_PERIOD'
-			elseif kzeroKey() and controllerSet == 1 then getKeyboard = 'KP_0'
-			elseif koneKey() and controllerSet == 1 then getKeyboard = 'KP_1'
-			elseif ktwoKey() and controllerSet == 1 then getKeyboard = 'KP_2'
-			elseif kthreeKey() and controllerSet == 1 then getKeyboard = 'KP_3'
-			elseif kfourKey() and controllerSet == 1 then getKeyboard = 'KP_4'
-			elseif kfiveKey() and controllerSet == 1 then getKeyboard = 'KP_5'
-			elseif ksixKey() and controllerSet == 1 then getKeyboard = 'KP_6'
-			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
-			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
-			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
+		--KEYBOARD
+			elseif controllerSet == 1 and getInputKeyboard() ~= 0 then --Exluding 0 which is the Keyboard iddle state
+				getKeyboard = tostring(getInputKeyboard()) --Get Keyboard Key ID
+				getKeyboard = f_inputConvert(getKeyboard, "text") --Convert ID to Display Text
 		--GAMEPAD
-			elseif getInputID(gamepadData) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(gamepadData)
+			elseif controllerSet == 2 and getInputID(gamepadData) ~= 101 then --Exluding 101 which is the Gamepad iddle state
+				getKeyboard = getInputID(gamepadData) --Get Gamepad Button ID
 			end
-		--When you press a key to assing
+		--When you press a key to assign
 			if getKeyboard ~= '' then
-			--Prevent assing same keys between player 1 and player 2 menu controls (with this logic all keys assigned for both players need to be diferents)
+			--Prevent assign same keys between player 1 and player 2 menu controls (with this logic all keys assigned for both players need to be diferents)
 				if p1waitingKey then
 				--UP [PLAYER 1] (t_keyMenuCfg[1].varText)
 					if keyCfg == 1 and getKeyboard ~= t_keyMenuCfg[2].varText and
@@ -9608,10 +9475,13 @@ f_inputMenuRead(1, -1) -- 1=P2
 f_inputBattleRead(0, -1) -- 0=P1, -1=Keyboard
 f_inputBattleRead(1, -1) -- 1=P2
 
-if data.debugLog then
-	f_printTable(t_keyBattleCfg, "save/debug/battleInputsP1.log")
-	f_printTable(t_keyBattleCfg2, "save/debug/battleInputsP2.log")
-	
-	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.log")
-	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.log")
+function f_exportDebugInputs()
+	if data.debugLog then
+		f_printTable(t_keyBattleCfg, "save/debug/battleInputsP1.log")
+		f_printTable(t_keyBattleCfg2, "save/debug/battleInputsP2.log")
+		
+		f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.log")
+		f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.log")
+	end
 end
+f_exportDebugInputs()

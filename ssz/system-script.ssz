@@ -862,7 +862,7 @@ void inputReset(&.lua.State L=, int re=)
   }
 }
 
-void getInputKey(&.lua.State L=, int re=)
+void getInputKeyboard(&.lua.State L=, int re=)
 {
   re = 1;
   branch{
@@ -2388,7 +2388,7 @@ public void init(&.lua.State L=)
   L.register("swapController", .swapController);
   L.register("swapGamepad", .swapGamepad);
   L.register("disableGamepad", .disableGamepad);
-  L.register("getInputKey", .getInputKey);
+  L.register("getInputKeyboard", .getInputKeyboard);
   L.register("getInputID", .getInputID);
   L.register("inputReset", .inputReset);
   L.register("setInputConfig", .setInputConfig);
