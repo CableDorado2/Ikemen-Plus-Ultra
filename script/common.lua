@@ -978,34 +978,34 @@ function getButton(cmd)
 	return ""
 end
 
---Keyboard conversion table
-t_inputConvert = {
-	{num = '4', text = 'A'},
-	{num = '5', text = 'B'},
-	{num = '6', text = 'C'},
-	{num = '7', text = 'D'},
-	{num = '8', text = 'E'},
-	{num = '9', text = 'F'},
-	{num = '10', text = 'G'},
-	{num = '11', text = 'H'},
-	{num = '12', text = 'I'},
-	{num = '13', text = 'J'},
-	{num = '14', text = 'K'},
-	{num = '15', text = 'L'},
-	{num = '16', text = 'M'},
-	{num = '17', text = 'N'},
-	{num = '18', text = 'O'},
-	{num = '19', text = 'P'},
-	{num = '20', text = 'Q'},
-	{num = '21', text = 'R'},
-	{num = '22', text = 'S'},
-	{num = '23', text = 'T'},
-	{num = '24', text = 'U'},
-	{num = '25', text = 'V'},
-	{num = '26', text = 'W'},
-	{num = '27', text = 'X'},
-	{num = '28', text = 'Y'},
-	{num = '29', text = 'Z'},
+--SDLKey Keyboard conversion table
+t_sdlInputConvert = {
+	{num = '4', text = 'a'},
+	{num = '5', text = 'b'},
+	{num = '6', text = 'c'},
+	{num = '7', text = 'd'},
+	{num = '8', text = 'e'},
+	{num = '9', text = 'f'},
+	{num = '10', text = 'g'},
+	{num = '11', text = 'h'},
+	{num = '12', text = 'i'},
+	{num = '13', text = 'j'},
+	{num = '14', text = 'k'},
+	{num = '15', text = 'l'},
+	{num = '16', text = 'm'},
+	{num = '17', text = 'n'},
+	{num = '18', text = 'o'},
+	{num = '19', text = 'p'},
+	{num = '20', text = 'q'},
+	{num = '21', text = 'r'},
+	{num = '22', text = 's'},
+	{num = '23', text = 't'},
+	{num = '24', text = 'u'},
+	{num = '25', text = 'v'},
+	{num = '26', text = 'w'},
+	{num = '27', text = 'x'},
+	{num = '28', text = 'y'},
+	{num = '29', text = 'z'},
 	{num = '30', text = '_1'},
 	{num = '31', text = '_2'},
 	{num = '32', text = '_3'},
@@ -1220,6 +1220,7 @@ t_inputConvert = {
 	{num = '282', text = 'SLEEP'},
 	{num = '283', text = 'APP1'},
 	{num = '284', text = 'APP2'},
+	{num = '0', text = 'NIL'}, --{num = '0', text = 'UNKNOWN'},
 }
 
 --Converts inputs between ID and text.
@@ -1228,13 +1229,13 @@ function f_inputConvert(input, swapTo)
 	if (swapTo == 'num' and tonumber(input) ~= nil) or (swapTo == 'text' and tonumber(input) == nil) then
 		output = input
 	else
-		for i=1, #t_inputConvert do
-			if swapTo == 'text' and input == t_inputConvert[i].num then --Number to text
-				output = t_inputConvert[i].text
-			elseif swapTo == 'num' and input == t_inputConvert[i].text then --Text to number
-				output = t_inputConvert[i].num
+		for i=1, #t_sdlInputConvert do
+			if swapTo == 'text' and input == t_sdlInputConvert[i].num then --Number to text
+				output = t_sdlInputConvert[i].text
+			elseif swapTo == 'num' and input == t_sdlInputConvert[i].text then --Text to number
+				output = t_sdlInputConvert[i].num
 			end
-			if output ~= nil then i = #t_inputConvert end
+			if output ~= nil then i = #t_sdlInputConvert end
 		end
 	end
 	return output
@@ -1278,6 +1279,301 @@ end
 --; LOAD SCREENPACK ASSETS
 --;===========================================================
 require("script.screenpack")
+
+--;===========================================================
+--; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
+--;===========================================================
+t_keyMenuCfg = {
+	{text = "UP",    				cmd = "u"}, --cmd is the same command registered for commandGetState(p1Cmd, 'cmd')
+	{text = "DOWN",  				cmd = "d"},
+	{text = "LEFT",  				cmd = "l"},
+	{text = "RIGHT", 				cmd = "r"},
+	{text = "A",     				cmd = "a"},
+	{text = "B",     				cmd = "b"},
+	{text = "C",     				cmd = "c"},
+	{text = "X",     				cmd = "x"},
+	{text = "Y",     				cmd = "y"},
+	{text = "Z",     				cmd = "z"},
+	{text = "FUNCTION 1",			cmd = "q"},
+	{text = "FUNCTION 2",			cmd = "w"},
+	{text = "RETURN",				cmd = "e"},
+	{text = "CONFIRM",	 			cmd = "s"}, --PAUSE BUTTON
+	{text = "Default Config (F1)"},
+	{text = "Confirm Config (ESC)"},
+}
+t_keyMenuCfg2 = {}
+for i=1, #t_keyMenuCfg do
+	t_keyMenuCfg[i]['varID'] = textImgNew()
+	t_keyMenuCfg[i]['varText'] = "" --below will replace this
+	t_keyMenuCfg[i]['keyboard'] = "" --To store keyboard inputs id
+	t_keyMenuCfg[i]['gamepad'] = "" --To store gamepad inputs id
+--Make a copy of all items from t_keyMenuCfg table to t_keyMenuCfg2 (Player 2 Inputs)
+	t_keyMenuCfg2[i] = {}
+	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
+	if i == 15 then
+		t_keyMenuCfg2[i]['text'] = "Default Config (F2)"
+	else
+		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
+	end
+	t_keyMenuCfg2[i]['varText'] = t_keyMenuCfg[i].varText --below will replace this
+	t_keyMenuCfg2[i]['keyboard'] = t_keyMenuCfg[i].keyboard
+	t_keyMenuCfg2[i]['gamepad'] = t_keyMenuCfg[i].gamepad
+	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
+end
+
+--;===========================================================
+--; BATTLE CONTROLS DEFINITION (Here because we gonna re-use t_keyBattleCfg for inputs hints)
+--;===========================================================
+t_keyBattleCfg = {
+	{text = "JUMP",   				cmd = "u"},
+	{text = "CROUCH", 				cmd = "d"},
+	{text = "BACK",  				cmd = "l"},
+	{text = "FORWARD",				cmd = "r"},
+	{text = "A",     				cmd = "a"},
+	{text = "B",     				cmd = "b"},
+	{text = "C",     				cmd = "c"},
+	{text = "X",     				cmd = "x"},
+	{text = "Y",     				cmd = "y"},
+	{text = "Z",     				cmd = "z"},
+	{text = "L", 					cmd = "q"},
+	{text = "R", 					cmd = "w"},
+	{text = "SELECT",				cmd = "e"},
+	{text = "START", 				cmd = "s"},
+	{text = "Default Config (F1)"},
+	{text = "Confirm Config (ESC)"},
+}
+t_keyBattleCfg2 = {}
+for i=1, #t_keyBattleCfg do
+	t_keyBattleCfg[i]['varID'] = textImgNew()
+	t_keyBattleCfg[i]['varText'] = "" --DELETE
+	t_keyBattleCfg[i]['keyboard'] = ""
+	t_keyBattleCfg[i]['gamepad'] = ""
+
+	t_keyBattleCfg2[i] = {}
+	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
+	if i == 15 then
+		t_keyBattleCfg2[i]['text'] = "Default Config (F2)"
+	else
+		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
+	end
+	t_keyBattleCfg2[i]['varText'] = t_keyBattleCfg[i].varText --DELETE
+	t_keyBattleCfg2[i]['keyboard'] = t_keyBattleCfg[i].keyboard
+	t_keyBattleCfg2[i]['gamepad'] = t_keyBattleCfg[i].gamepad
+	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
+end
+
+function f_searchCmd(input, btntype)
+	for i, v in ipairs(btntype) do --For each item in table
+		if v.cmd == input then --if table cmd item is equal to input entered
+			return i --Returns the position of the item in the table
+		end
+	end
+	return nil --Returns nil if the item is not found in the table
+end
+
+function f_searchButton(inputkey) --Based on previous function
+	for i, v in ipairs(t_sdlInputConvert) do
+		if v.text == inputkey then
+			return i
+		end
+	end
+	return #t_sdlInputConvert --return lastest table value that is an empty spr
+end
+
+inputHintsCnt = 0
+function drawInputHints(...) --(...) Manage unlimited arguments
+	local controller = 0 --To use as group var (0=Keyboard, 1=XBOX Gamepad, 2=PS3 Gamepad)
+	local t_control = nil
+	if onlinegame then
+		t_control = t_keyMenuCfg --Show only P1 Keys
+	else
+		if inputHintsCnt < 500 then
+			t_control = t_keyMenuCfg
+		else--if inputHintsCnt > 500 then
+			t_control = t_keyMenuCfg2
+		end
+		if inputHintsCnt > 1000 then inputHintsCnt = 0 end --Reset
+	end
+	local t_args = {...} --Store all arguments taken in a table
+	for i=1, #t_args, 2 do --For each argument stored in table
+		local cmd = t_args[i] --Set first argument (key name) to cmd var
+		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
+		local nameKey = f_searchCmd(cmd, t_control) --get table pos from button name configured based on cmd entry name
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_control[nameKey].varText) --Get button name configured
+			local keyID = tonumber(t_sdlInputConvert[btn].num) --Reuse t_sdlInputConvert keyboard IDs table
+			local key = controller..','..keyID..',0,0,-1' --Get button sprite
+			key = animNew(sprInputHints, key) --Create sprite anim
+			--local posKey = cmdPos --Get button "X,Y" positions
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+	if not onlinegame then
+		inputHintsCnt = inputHintsCnt + 1
+	end
+end
+
+function drawInputHintsP1(...)
+	local controller = 0
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyMenuCfg)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText)
+			local keyID = tonumber(t_sdlInputConvert[btn].num)
+			local key = controller..','..keyID..',0,0,-1'
+			key = animNew(sprInputHints, key)
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+function drawInputHintsP2(...)
+	local controller = 0
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyMenuCfg2)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyMenuCfg2[nameKey].varText)
+			local keyID = tonumber(t_sdlInputConvert[btn].num)
+			local key = controller..','..keyID..',0,0,-1'
+			key = animNew(sprInputHints, key)
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+function drawBattleInputHintsP1(...)
+	local controller = 0
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyBattleCfg)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyBattleCfg[nameKey].varText)
+			local keyID = tonumber(t_sdlInputConvert[btn].num)
+			local key = controller..','..keyID..',0,0,-1'
+			key = animNew(sprInputHints, key)
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+function drawBattleInputHintsP2(...)
+	local controller = 0
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_keyBattleCfg2)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyBattleCfg2[nameKey].varText)
+			local keyID = tonumber(t_sdlInputConvert[btn].num)
+			local key = controller..','..keyID..',0,0,-1'
+			key = animNew(sprInputHints, key)
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+end
+
+--;===========================================================
+--; BUTTON SECRET CODES DEFINITION
+--;===========================================================
+--"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
+t_secretCode = {"U","U","D","D","L","R","L","R","B","A","S"}
+t_secretEntry = {}
+
+txt_secretBox = [[
+
+KONAMI CODE DETECTED!
+
+]]
+
+function f_cmdCodeReset()
+	cmdCode = false
+	cmdReward = false
+	newcmdCode = false
+end
+
+function f_cmdCode()
+	local secretTxt = f_extractText(txt_secretBox)
+--Actions
+	if getButton(p1Cmd) ~= "" then
+		codeEntry = getButton(p1Cmd)
+		newcmdCode = true
+	elseif getButton(p2Cmd) ~= "" then
+		codeEntry = getButton(p2Cmd)
+		newcmdCode = true
+	end
+--Check Entries
+	if newcmdCode then
+		f_secretCode(codeEntry)
+		newcmdCode = false
+	end
+	--f_drawQuickText(txtCmd, font6, 0, 0, codeEntry, 159, 120)
+	if cmdReward then
+		for i=1, #secretTxt do
+			textImgDraw(f_updateTextImg(textImgNew(), jgFnt, 0, 0, secretTxt[i], 159, 110 + 15 * (i - 1)))
+		end
+	end
+end
+
+--User Entries
+function f_secretCode(key)
+	table.insert(t_secretEntry, key) --Insert key/entry received to t_secretEntry table
+--[[
+	if #t_secretEntry > #t_secretCode then --If entries exceed t_secretCode table limit
+		t_secretEntry = {} --Reset Table to try again.
+	end
+]]
+	for i = 1, #t_secretEntry do
+		if t_secretEntry[i] ~= t_secretCode[i] then --Check if the user key entry is equal to secret code position
+			t_secretEntry = {} --Reset Table to try again.
+		end
+	end
+--Compare User Entries Table with Secret Code Table
+	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
+		sndPlay(sndSys, 200, 2)
+		--stats.unlocks.chars.charname = true --Character Unlock
+		--f_saveStats()
+		cmdReward = true
+	else--If table are not equals
+		cmdReward = false
+	end
+	if data.debugLog then
+		f_printTable(t_secretEntry, "save/debug/t_secretEntry.log")
+		f_printTable(t_secretCode, "save/debug/t_secretCode.log")
+	end
+end
 
 --;===========================================================
 --; STORYBOARD DEFINITION
@@ -3578,393 +3874,6 @@ end
 		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
 		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)
 	]]
-	end
-end
-
---;===========================================================
---; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
---;===========================================================
-t_keyMenuCfg = {
-	{text = "UP",    				cmd = "u"}, --cmd is the same command registered for commandGetState(p1Cmd, 'cmd')
-	{text = "DOWN",  				cmd = "d"},
-	{text = "LEFT",  				cmd = "l"},
-	{text = "RIGHT", 				cmd = "r"},
-	{text = "A",     				cmd = "a"},
-	{text = "B",     				cmd = "b"},
-	{text = "C",     				cmd = "c"},
-	{text = "X",     				cmd = "x"},
-	{text = "Y",     				cmd = "y"},
-	{text = "Z",     				cmd = "z"},
-	{text = "FUNCTION 1",			cmd = "q"},
-	{text = "FUNCTION 2",			cmd = "w"},
-	{text = "RETURN",				cmd = "e"},
-	{text = "CONFIRM",	 			cmd = "s"}, --PAUSE BUTTON
-	{text = "Default Config (F1)"},
-	{text = "Confirm Config (ESC)"},
-}
-t_keyMenuCfg2 = {}
-for i=1, #t_keyMenuCfg do
-	t_keyMenuCfg[i]['varID'] = textImgNew()
-	t_keyMenuCfg[i]['varText'] = "" --below will replace this
-	t_keyMenuCfg[i]['keyboard'] = "" --To store keyboard inputs id
-	t_keyMenuCfg[i]['gamepad'] = "" --To store gamepad inputs id
---Make a copy of all items from t_keyMenuCfg table to t_keyMenuCfg2 (Player 2 Inputs)
-	t_keyMenuCfg2[i] = {}
-	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
-	if i == 15 then
-		t_keyMenuCfg2[i]['text'] = "Default Config (F2)"
-	else
-		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
-	end
-	t_keyMenuCfg2[i]['varText'] = t_keyMenuCfg[i].varText --below will replace this
-	t_keyMenuCfg2[i]['keyboard'] = t_keyMenuCfg[i].keyboard
-	t_keyMenuCfg2[i]['gamepad'] = t_keyMenuCfg[i].gamepad
-	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
-end
-
---;===========================================================
---; BATTLE CONTROLS DEFINITION (Here because we gonna re-use t_keyBattleCfg for inputs hints)
---;===========================================================
-t_keyBattleCfg = {
-	{text = "JUMP",   				cmd = "u"},
-	{text = "CROUCH", 				cmd = "d"},
-	{text = "BACK",  				cmd = "l"},
-	{text = "FORWARD",				cmd = "r"},
-	{text = "A",     				cmd = "a"},
-	{text = "B",     				cmd = "b"},
-	{text = "C",     				cmd = "c"},
-	{text = "X",     				cmd = "x"},
-	{text = "Y",     				cmd = "y"},
-	{text = "Z",     				cmd = "z"},
-	{text = "L", 					cmd = "q"},
-	{text = "R", 					cmd = "w"},
-	{text = "SELECT",				cmd = "e"},
-	{text = "START", 				cmd = "s"},
-	{text = "Default Config (F1)"},
-	{text = "Confirm Config (ESC)"},
-}
-t_keyBattleCfg2 = {}
-for i=1, #t_keyBattleCfg do
-	t_keyBattleCfg[i]['varID'] = textImgNew()
-	t_keyBattleCfg[i]['varText'] = "" --DELETE
-	t_keyBattleCfg[i]['keyboard'] = ""
-	t_keyBattleCfg[i]['gamepad'] = ""
-
-	t_keyBattleCfg2[i] = {}
-	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
-	if i == 15 then
-		t_keyBattleCfg2[i]['text'] = "Default Config (F2)"
-	else
-		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
-	end
-	t_keyBattleCfg2[i]['varText'] = t_keyBattleCfg[i].varText --DELETE
-	t_keyBattleCfg2[i]['keyboard'] = t_keyBattleCfg[i].keyboard
-	t_keyBattleCfg2[i]['gamepad'] = t_keyBattleCfg[i].gamepad
-	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
-end
-
---Associate Button Key to Button Sprites
-t_btnHint = {
-	{keyTxt = "_0",				keySpr = btn0},
-	{keyTxt = "_1", 			keySpr = btn1},
-	{keyTxt = "_2", 			keySpr = btn2},
-	{keyTxt = "_3", 			keySpr = btn3},
-	{keyTxt = "_4", 			keySpr = btn4},
-	{keyTxt = "_5", 			keySpr = btn5},
-	{keyTxt = "_6", 			keySpr = btn6},
-	{keyTxt = "_7", 			keySpr = btn7},
-	{keyTxt = "_8", 			keySpr = btn8},
-	{keyTxt = "_9", 			keySpr = btn9},
-	
-	{keyTxt = "a", 				keySpr = btnA},
-	{keyTxt = "b", 				keySpr = btnB},
-	{keyTxt = "c", 				keySpr = btnC},
-	{keyTxt = "d", 				keySpr = btnD},
-	{keyTxt = "e", 				keySpr = btnE},
-	{keyTxt = "f", 				keySpr = btnF},
-	{keyTxt = "g", 				keySpr = btnG},
-	{keyTxt = "h", 				keySpr = btnH},
-	{keyTxt = "i", 				keySpr = btnI},
-	{keyTxt = "j", 				keySpr = btnJ},
-	{keyTxt = "k", 				keySpr = btnK},
-	{keyTxt = "l",				keySpr = btnL},
-	{keyTxt = "m", 				keySpr = btnM},
-	{keyTxt = "n", 				keySpr = btnN},
-	{keyTxt = "o", 				keySpr = btnO},
-	{keyTxt = "p", 				keySpr = btnP},
-	{keyTxt = "q", 				keySpr = btnQ},
-	{keyTxt = "r", 				keySpr = btnR},
-	{keyTxt = "s", 				keySpr = btnS},
-	{keyTxt = "t", 				keySpr = btnT},
-	{keyTxt = "u", 				keySpr = btnU},
-	{keyTxt = "v", 				keySpr = btnV},
-	{keyTxt = "w", 				keySpr = btnW},
-	{keyTxt = "x", 				keySpr = btnX},
-	{keyTxt = "y", 				keySpr = btnY},
-	{keyTxt = "z", 				keySpr = btnZ},
-	
-	{keyTxt = "A", 				keySpr = btnA},
-	{keyTxt = "B", 				keySpr = btnB},
-	{keyTxt = "C", 				keySpr = btnC},
-	{keyTxt = "D", 				keySpr = btnD},
-	{keyTxt = "E", 				keySpr = btnE},
-	{keyTxt = "F", 				keySpr = btnF},
-	{keyTxt = "G", 				keySpr = btnG},
-	{keyTxt = "H", 				keySpr = btnH},
-	{keyTxt = "I", 				keySpr = btnI},
-	{keyTxt = "J", 				keySpr = btnJ},
-	{keyTxt = "K", 				keySpr = btnK},
-	{keyTxt = "L",				keySpr = btnL},
-	{keyTxt = "M", 				keySpr = btnM},
-	{keyTxt = "N", 				keySpr = btnN},
-	{keyTxt = "G", 				keySpr = btnO},
-	{keyTxt = "H", 				keySpr = btnP},
-	{keyTxt = "I", 				keySpr = btnQ},
-	{keyTxt = "J", 				keySpr = btnR},
-	{keyTxt = "K", 				keySpr = btnS},
-	{keyTxt = "T", 				keySpr = btnT},
-	{keyTxt = "U", 				keySpr = btnU},
-	{keyTxt = "V", 				keySpr = btnV},
-	{keyTxt = "W", 				keySpr = btnW},
-	{keyTxt = "X", 				keySpr = btnX},
-	{keyTxt = "Y", 				keySpr = btnY},
-	{keyTxt = "Z", 				keySpr = btnZ},
-	
-	{keyTxt = "PERIOD", 		keySpr = btnPERIOD},
-	{keyTxt = "COMMA", 			keySpr = btnCOMMA},
-	{keyTxt = "MINUS", 			keySpr = btnMINUS},
-	{keyTxt = "LEFTBRACKET", 	keySpr = btnLEFTBRACKET},
-	{keyTxt = "RIGHTBRACKET", 	keySpr = btnRIGHTBRACKET},
-	{keyTxt = "BACKSLASH", 		keySpr = btnBACKSLASH},
-	{keyTxt = "LSHIFT", 		keySpr = btnLSHIFT},
-	{keyTxt = "RSHIFT", 		keySpr = btnRSHIFT},
-	{keyTxt = "TAB", 			keySpr = btnTAB},
-	{keyTxt = "SPACE", 			keySpr = btnSPACE},
-	{keyTxt = "RETURN", 		keySpr = btnRETURN},
-	{keyTxt = "BACKSPACE", 		keySpr = btnBACKSPACE},
-	{keyTxt = "HOME", 			keySpr = btnHOME},
-	{keyTxt = "END", 			keySpr = btnEND},
-	{keyTxt = "PAGEUP", 		keySpr = btnPAGEUP},
-	{keyTxt = "PAGEDOWN", 		keySpr = btnPAGEDOWN},
-	{keyTxt = "UP", 			keySpr = btnUP},
-	{keyTxt = "DOWN", 			keySpr = btnDOWN},
-	{keyTxt = "LEFT", 			keySpr = btnLEFT},
-	{keyTxt = "RIGHT", 			keySpr = btnRIGHT},
-	
-	{keyTxt = "KP_0", 			keySpr = btnKP_0},
-	{keyTxt = "KP_1", 			keySpr = btnKP_1},
-	{keyTxt = "KP_2", 			keySpr = btnKP_2},
-	{keyTxt = "KP_3",			keySpr = btnKP_3},
-	{keyTxt = "KP_4", 			keySpr = btnKP_4},
-	{keyTxt = "KP_5", 			keySpr = btnKP_5},
-	{keyTxt = "KP_6", 			keySpr = btnKP_6},
-	{keyTxt = "KP_7", 			keySpr = btnKP_7},
-	{keyTxt = "KP_8", 			keySpr = btnKP_8},
-	{keyTxt = "KP_9", 			keySpr = btnKP_9},
-	{keyTxt = "KP_PERIOD", 		keySpr = btnKP_PERIOD},
-	{keyTxt = "KP_DIVIDE", 		keySpr = btnKP_DIVIDE},
-	{keyTxt = "KP_MULTIPLY", 	keySpr = btnKP_MULTIPLY},
-	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
-	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
-	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
-	{keyTxt = "NIL", 			keySpr = btnNIL},
-}
-
-function f_searchCmd(input, btntype)
-	for i, v in ipairs(btntype) do --For each item in table
-		if v.cmd == input then --if table cmd item is equal to input entered
-			return i --Returns the position of the item in the table
-		end
-	end
-	return nil --Returns nil if the item is not found in the table
-end
-
-function f_searchButton(inputkey) --Based on previous function
-	for i, v in ipairs(t_btnHint) do
-		if v.keyTxt == inputkey then
-			return i
-		end
-	end
-	return #t_btnHint --return lastest table value that is an empty spr
-end
-
-inputHintsCnt = 0
-function drawInputHints(...) --(...) Manage unlimited arguments
-	local t_control = nil
-	if onlinegame then
-		t_control = t_keyMenuCfg --Show only P1 Keys
-	else
-		if inputHintsCnt < 500 then
-			t_control = t_keyMenuCfg
-		else--if inputHintsCnt > 500 then
-			t_control = t_keyMenuCfg2
-		end
-		if inputHintsCnt > 1000 then inputHintsCnt = 0 end --Reset
-	end
-	local t_args = {...} --Store all arguments taken in a table
-	for i=1, #t_args, 2 do --For each argument stored in table
-		local cmd = t_args[i] --Set first argument (key name) to cmd var
-		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
-		local nameKey = f_searchCmd(cmd, t_control) --get table pos from button name configured based on cmd entry name
-		if nameKey ~= nil then
-			local btn = f_searchButton(t_control[nameKey].varText) --Get button name configured
-			local key = t_btnHint[btn].keySpr --Get button sprite
-			--local posKey = cmdPos --Get button "X,Y" positions
-			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
-			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, 0.7, 0.7)
-			animUpdate(key)
-			animDraw(key)
-		end
-	end
-	if not onlinegame then
-		inputHintsCnt = inputHintsCnt + 1
-	end
-end
-
-function drawInputHintsP1(...)
-	local t_args = {...}
-	for i=1, #t_args, 2 do
-		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
-		local nameKey = f_searchCmd(cmd, t_keyMenuCfg)
-		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText)
-			local key = t_btnHint[btn].keySpr
-			--local posKey = cmdPos
-			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
-			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, 0.7, 0.7)
-			animUpdate(key)
-			animDraw(key)
-		end
-	end
-end
-
-function drawInputHintsP2(...)
-	local t_args = {...}
-	for i=1, #t_args, 2 do
-		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
-		local nameKey = f_searchCmd(cmd, t_keyMenuCfg2)
-		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyMenuCfg2[nameKey].varText)
-			local key = t_btnHint[btn].keySpr
-			--local posKey = cmdPos
-			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
-			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, 0.7, 0.7)
-			animUpdate(key)
-			animDraw(key)
-		end
-	end
-end
-
-function drawBattleInputHintsP1(...)
-	local t_args = {...}
-	for i=1, #t_args, 2 do
-		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
-		local nameKey = f_searchCmd(cmd, t_keyBattleCfg)
-		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyBattleCfg[nameKey].varText)
-			local key = t_btnHint[btn].keySpr
-			--local posKey = cmdPos
-			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
-			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, 0.7, 0.7)
-			animUpdate(key)
-			animDraw(key)
-		end
-	end
-end
-
-function drawBattleInputHintsP2(...)
-	local t_args = {...}
-	for i=1, #t_args, 2 do
-		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
-		local nameKey = f_searchCmd(cmd, t_keyBattleCfg2)
-		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyBattleCfg2[nameKey].varText)
-			local key = t_btnHint[btn].keySpr
-			--local posKey = cmdPos
-			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
-			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, 0.7, 0.7)
-			animUpdate(key)
-			animDraw(key)
-		end
-	end
-end
-
---;===========================================================
---; BUTTON SECRET CODES DEFINITION
---;===========================================================
---"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
-t_secretCode = {"U","U","D","D","L","R","L","R","B","A","S"}
-t_secretEntry = {}
-
-txt_secretBox = [[
-
-KONAMI CODE DETECTED!
-
-]]
-
-function f_cmdCodeReset()
-	cmdCode = false
-	cmdReward = false
-	newcmdCode = false
-end
-
-function f_cmdCode()
-	local secretTxt = f_extractText(txt_secretBox)
---Actions
-	if getButton(p1Cmd) ~= "" then
-		codeEntry = getButton(p1Cmd)
-		newcmdCode = true
-	elseif getButton(p2Cmd) ~= "" then
-		codeEntry = getButton(p2Cmd)
-		newcmdCode = true
-	end
---Check Entries
-	if newcmdCode then
-		f_secretCode(codeEntry)
-		newcmdCode = false
-	end
-	--f_drawQuickText(txtCmd, font6, 0, 0, codeEntry, 159, 120)
-	if cmdReward then
-		for i=1, #secretTxt do
-			textImgDraw(f_updateTextImg(textImgNew(), jgFnt, 0, 0, secretTxt[i], 159, 110 + 15 * (i - 1)))
-		end
-	end
-end
-
---User Entries
-function f_secretCode(key)
-	table.insert(t_secretEntry, key) --Insert key/entry received to t_secretEntry table
---[[
-	if #t_secretEntry > #t_secretCode then --If entries exceed t_secretCode table limit
-		t_secretEntry = {} --Reset Table to try again.
-	end
-]]
-	for i = 1, #t_secretEntry do
-		if t_secretEntry[i] ~= t_secretCode[i] then --Check if the user key entry is equal to secret code position
-			t_secretEntry = {} --Reset Table to try again.
-		end
-	end
---Compare User Entries Table with Secret Code Table
-	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
-		sndPlay(sndSys, 200, 2)
-		--stats.unlocks.chars.charname = true --Character Unlock
-		--f_saveStats()
-		cmdReward = true
-	else--If table are not equals
-		cmdReward = false
-	end
-	if data.debugLog then
-		f_printTable(t_secretEntry, "save/debug/t_secretEntry.log")
-		f_printTable(t_secretCode, "save/debug/t_secretCode.log")
 	end
 end
 

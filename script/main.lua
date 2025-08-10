@@ -11356,7 +11356,7 @@ function f_arcadeTravel()
 	--When Attract Mode is Enabled
 		if data.attractMode then
 			drawAttractStatus(2, 318, 10, -1)
-			f_attractCredits(318, 210, -1)
+			--f_attractCredits(318, 210, -1)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

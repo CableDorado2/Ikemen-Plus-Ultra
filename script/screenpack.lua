@@ -7,10 +7,19 @@ sprLogos = sffNew("data/screenpack/logo.sff") --load logos sprites
 sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
-sprBtn = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tournament mode sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
+--[[Load input hints sprites data
+group is organized based on controller type (0=Keyboard, 1=XBOX Gamepad, 2=PS3 Gamepad)
+index is organized based on controller key/button id returned by SDL functions [getInputKeyboard(), getInputID()]
+]]
+sprInputHints = sffNew("data/screenpack/inputhints.sff")
+keyboardInputHintsScaleX = 0.7
+keyboardInputHintsScaleY = 0.7
+--
+gamepadInputHintsScaleX = 0.7
+gamepadInputHintsScaleY = 0.7
 
 --Sound Data (Sound effects [SFX] do not interrupt music/bgm)
 sndSys = sndNew("data/screenpack/system.snd")
@@ -184,91 +193,6 @@ t_glyphs = { --glyphs spr data
 	['_`'] = {135, 0}, --Small Dot
 }
 if data.debugLog then f_printTable(t_glyphs, "save/debug/t_glyphs.log") end
-
---;===========================================================
---; INPUT HINTS SCREENPACK DEFINITION
---;===========================================================
---Load Buttons Sprites
-btn0 = animNew(sprBtn, [[0,0, 0,0, -1]])
-btn1 = animNew(sprBtn, [[0,1, 0,0, -1]])
-btn2 = animNew(sprBtn, [[0,2, 0,0, -1]])
-btn3 = animNew(sprBtn, [[0,3, 0,0, -1]])
-btn4 = animNew(sprBtn, [[0,4, 0,0, -1]])
-btn5 = animNew(sprBtn, [[0,5, 0,0, -1]])
-btn6 = animNew(sprBtn, [[0,6, 0,0, -1]])
-btn7 = animNew(sprBtn, [[0,7, 0,0, -1]])
-btn8 = animNew(sprBtn, [[0,8, 0,0, -1]])
-btn9 = animNew(sprBtn, [[0,9, 0,0, -1]])
-btnA = animNew(sprBtn, [[0,10, 0,0, -1]])
-btnB = animNew(sprBtn, [[0,11, 0,0, -1]])
-btnC = animNew(sprBtn, [[0,12, 0,0, -1]])
-btnD = animNew(sprBtn, [[0,13, 0,0, -1]])
-btnE = animNew(sprBtn, [[0,14, 0,0, -1]])
-btnF = animNew(sprBtn, [[0,15, 0,0, -1]])
-btnG = animNew(sprBtn, [[0,16, 0,0, -1]])
-btnH = animNew(sprBtn, [[0,17, 0,0, -1]])
-btnI = animNew(sprBtn, [[0,18, 0,0, -1]])
-btnJ = animNew(sprBtn, [[0,19, 0,0, -1]])
-btnK = animNew(sprBtn, [[0,20, 0,0, -1]])
-btnL = animNew(sprBtn, [[0,21, 0,0, -1]])
-btnM = animNew(sprBtn, [[0,22, 0,0, -1]])
-btnN = animNew(sprBtn, [[0,23, 0,0, -1]])
-btnO = animNew(sprBtn, [[0,24, 0,0, -1]])
-btnP = animNew(sprBtn, [[0,25, 0,0, -1]])
-btnQ = animNew(sprBtn, [[0,26, 0,0, -1]])
-btnR = animNew(sprBtn, [[0,27, 0,0, -1]])
-btnS = animNew(sprBtn, [[0,28, 0,0, -1]])
-btnT = animNew(sprBtn, [[0,29, 0,0, -1]])
-btnU = animNew(sprBtn, [[0,30, 0,0, -1]])
-btnV = animNew(sprBtn, [[0,31, 0,0, -1]])
-btnW = animNew(sprBtn, [[0,32, 0,0, -1]])
-btnX = animNew(sprBtn, [[0,33, 0,0, -1]])
-btnY = animNew(sprBtn, [[0,34, 0,0, -1]])
-btnZ = animNew(sprBtn, [[0,35, 0,0, -1]])
-btnPERIOD = animNew(sprBtn, [[0,36, 0,0, -1]])
-btnCOMMA = animNew(sprBtn, [[0,37, 0,0, -1]])
---btnDOUBLEPERIOD = animNew(sprBtn, [[0,38, 0,0, -1]])
---btnPERIODANDCOMMA = animNew(sprBtn, [[0,39, 0,0, -1]])
-btnMINUS = animNew(sprBtn, [[0,40, 0,0, -1]])
-btnLEFTBRACKET = animNew(sprBtn, [[0,41, 0,0, -1]])
-btnRIGHTBRACKET = animNew(sprBtn, [[0,42, 0,0, -1]])
-btnSLASH = animNew(sprBtn, [[0,43, 0,0, -1]])
-btnBACKSLASH = animNew(sprBtn, [[0,44, 0,0, -1]])
-btnLSHIFT = animNew(sprBtn, [[0,45, 0,0, -1]])
-btnRSHIFT = animNew(sprBtn, [[0,46, 0,0, -1]])
---btnLALT = animNew(sprBtn, [[0,47, 0,0, -1]])
---btnRALT = animNew(sprBtn, [[0,48, 0,0, -1]])
---btnLCTRL = animNew(sprBtn, [[0,49, 0,0, -1]])
---btnRCTRL = animNew(sprBtn, [[0,50, 0,0, -1]])
-btnTAB = animNew(sprBtn, [[0,51, 0,0, -1]])
-btnSPACE = animNew(sprBtn, [[0,52, 0,0, -1]])
-btnRETURN = animNew(sprBtn, [[0,53, 0,0, -1]])
-btnBACKSPACE = animNew(sprBtn, [[0,54, 0,0, -1]])
-btnHOME = animNew(sprBtn, [[0,55, 0,0, -1]])
-btnEND = animNew(sprBtn, [[0,56, 0,0, -1]])
-btnPAGEUP = animNew(sprBtn, [[0,57, 0,0, -1]])
-btnPAGEDOWN = animNew(sprBtn, [[0,58, 0,0, -1]])
-btnUP = animNew(sprBtn, [[0,59, 0,0, -1]])
-btnDOWN = animNew(sprBtn, [[0,60, 0,0, -1]])
-btnLEFT = animNew(sprBtn, [[0,61, 0,0, -1]])
-btnRIGHT = animNew(sprBtn, [[0,62, 0,0, -1]])
-btnKP_0 = animNew(sprBtn, [[0,63, 0,0, -1]])
-btnKP_1 = animNew(sprBtn, [[0,64, 0,0, -1]])
-btnKP_2 = animNew(sprBtn, [[0,65, 0,0, -1]])
-btnKP_3 = animNew(sprBtn, [[0,66, 0,0, -1]])
-btnKP_4 = animNew(sprBtn, [[0,67, 0,0, -1]])
-btnKP_5 = animNew(sprBtn, [[0,68, 0,0, -1]])
-btnKP_6 = animNew(sprBtn, [[0,69, 0,0, -1]])
-btnKP_7 = animNew(sprBtn, [[0,70, 0,0, -1]])
-btnKP_8 = animNew(sprBtn, [[0,71, 0,0, -1]])
-btnKP_9 = animNew(sprBtn, [[0,72, 0,0, -1]])
-btnKP_PERIOD = animNew(sprBtn, [[0,73, 0,0, -1]])
-btnKP_DIVIDE = animNew(sprBtn, [[0,74, 0,0, -1]])
-btnKP_MULTIPLY = animNew(sprBtn, [[0,75, 0,0, -1]])
-btnKP_MINUS = animNew(sprBtn, [[0,76, 0,0, -1]])
-btnKP_PLUS = animNew(sprBtn, [[0,77, 0,0, -1]])
-btnKP_ENTER = animNew(sprBtn, [[0,78, 0,0, -1]])
-btnNIL = animNew(sprBtn, [[1,0, 0,0, -1]])
 
 --;===========================================================
 --; DRAW SPRITES REFERENCES
