@@ -8138,7 +8138,23 @@ function f_readBattleInput(oldkey)
 			if getKeyboard ~= '' then
 			--Prevent assign same keys between player 1 and player 2 battle controls (with this logic both players can have same keys in his own controls)
 				if p1waitingKey then
-				--JUMP [PLAYER 1] (t_keyBattleCfg[1].varText)
+					local t_sameKeys = {}
+					for i=1, #t_keyBattleCfg2 do
+						--if keyCfg ~= i then
+						--Enviar las teclas que coinciden a otra tabla
+							if getKeyboard == t_keyBattleCfg2[i].varText then
+								table.insert(t_sameKeys, 1, {varText = t_keyBattleCfg2[i].varText, tablepos=i})
+							end
+						--end
+					end
+					if data.debugMode then f_printTable(t_sameKeys, "save/t_sameKeys.log") end
+					if #t_sameKeys == 0 then
+						f_validKey()
+						break
+					else
+						f_invalidKey()
+					end
+				--[[JUMP [PLAYER 1] (t_keyBattleCfg[1].varText)
 					if keyCfg == 1 and getKeyboard ~= t_keyBattleCfg2[1].varText and getKeyboard ~= t_keyBattleCfg2[2].varText and
 					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and
 					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and
@@ -8302,6 +8318,7 @@ function f_readBattleInput(oldkey)
 							f_invalidKey()
 						end
 					end
+				]]
 				elseif p2waitingKey then
 				--JUMP [PLAYER 2] (t_keyBattleCfg2[1].varText)
 					if keyCfg2 == 1 and getKeyboard ~= t_keyBattleCfg[1].varText and getKeyboard ~= t_keyBattleCfg[2].varText and
