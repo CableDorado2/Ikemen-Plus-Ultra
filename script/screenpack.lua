@@ -527,7 +527,7 @@ function drawTitleInputHints()
 	local hintFont = font2
 	local hintFontYPos = 226
 	animPosDraw(inputHintsBG, -56, 212)
-	drawInputHints("s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
+	drawMenuInputHints("s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
 end
@@ -655,7 +655,7 @@ function drawInfoInputHints()
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Inputs
-	drawInputHints("s","137,"..inputHintYPos)
+	drawMenuInputHints("s","137,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Ok", 158, hintFontYPos)
 end
 
@@ -713,7 +713,7 @@ function drawConfirmInputHints()
 	local hintFont = font2
 	local hintFontYPos = 233
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
@@ -751,12 +751,12 @@ for i=1, #t_mainMenu do
 	t_mainMenu[i]['id'] = textImgNew()
 end
 
-function drawMenuInputHints()
+function drawMainMenuInputHints()
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
 	animPosDraw(inputHintsBG, -56, 212)
-	drawInputHints("u","20,"..inputHintYPos,"d","40,"..inputHintYPos,"s","100,"..inputHintYPos,"e","165,"..inputHintYPos,"q","227,"..inputHintYPos)
+	drawMenuInputHints("u","20,"..inputHintYPos,"d","40,"..inputHintYPos,"s","100,"..inputHintYPos,"e","165,"..inputHintYPos,"q","227,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 61, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 186, hintFontYPos)
@@ -768,7 +768,7 @@ function drawListInputHints()
 	local hintFont = font2
 	local hintFontYPos = 233
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
@@ -1016,7 +1016,7 @@ function drawVNInputHints()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(inputHintsBG, -56, 212)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"s","185,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"s","185,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1027,7 +1027,7 @@ function drawVNInputHints2()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(inputHintsBG, -56, 212)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1038,7 +1038,7 @@ function drawVNInputHints3()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(inputHintsBG, -56, 212)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
@@ -1125,7 +1125,7 @@ function drawReplayInputHints()
 	local hintFont = font2
 	local hintFontYPos = 233
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
@@ -1175,7 +1175,7 @@ function drawSoundTestInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Play", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1228,7 +1228,7 @@ function drawLicenseInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("l","45,"..inputHintYPos,"r","65,"..inputHintYPos,"u","127,"..inputHintYPos,"d","147,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("l","45,"..inputHintYPos,"r","65,"..inputHintYPos,"u","127,"..inputHintYPos,"d","147,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 86, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Scroll", 169, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
@@ -1325,7 +1325,7 @@ function drawCrudHostInputHints()
 	local hintFont = font2
 	local hintFontYPos = 226
 	animPosDraw(inputHintsBG, -56, 212)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1396,7 +1396,7 @@ function drawSideInputHints()
 	local hintFont = font2
 	local hintFontYPos = 226
 	animPosDraw(inputHintsBG, -56, 212)
-	drawInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
@@ -1638,7 +1638,7 @@ function drawSelectInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"w","265,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"w","265,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -1650,7 +1650,7 @@ function drawStageInputHints()
 	local hintFont = font2
 	local hintFontYPos = 35
 	animPosDraw(inputHintsBG, -56, 21)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"w","265,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos,"w","265,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -2195,7 +2195,7 @@ function drawOrderInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","80,"..inputHintYPos,"r","100,"..inputHintYPos,"s","179,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","80,"..inputHintYPos,"r","100,"..inputHintYPos,"s","179,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Order", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 199.5, hintFontYPos)
@@ -2411,7 +2411,7 @@ function drawRematchInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"s","172,"..inputHintYPos)
+	drawMenuInputHints("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"s","172,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 193, hintFontYPos)
 end
@@ -2460,7 +2460,7 @@ function drawServiceInputHints()
 	local hintFont = font2
 	local hintFontYPos = 233
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":No Service", 231, hintFontYPos)
@@ -2651,7 +2651,7 @@ animUpdate(contBG2)
 function drawContinueInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
-	drawInputHints("a","60,200","b","80,200","c","100,200","x","60,"..inputHintYPos,"y","80,"..inputHintYPos,"z","100,"..inputHintYPos,"s","180,211")
+	drawMenuInputHints("a","60,200","b","80,200","c","100,200","x","60,"..inputHintYPos,"y","80,"..inputHintYPos,"z","100,"..inputHintYPos,"s","180,211")
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Countdown", 121, 224)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 201, 224)
 end
@@ -3169,7 +3169,7 @@ function drawTowerInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
@@ -3231,7 +3231,7 @@ function drawTourneyInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	drawMenuInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
@@ -3391,7 +3391,7 @@ function drawTourneyInputHints2()
 	local hintFontYPosUp = 212
 	local hintFontYPosDown = 234
 	animPosDraw(tourneyInputsBG, -56, 198) --Draw Input Hints BG
-	drawInputHints(
+	drawMenuInputHints(
 		"w","25,"..inputHintYPosUp,"s","110,"..inputHintYPosUp,"e","185,"..inputHintYPosUp,"q","250,"..inputHintYPosUp,
 		"u","5,"..inputHintYPosDown,"d","25,"..inputHintYPosDown,"l","45,"..inputHintYPosDown,"r","65,"..inputHintYPosDown,"a","125,"..inputHintYPosDown,"b","145,"..inputHintYPosDown,"c","165,"..inputHintYPosDown,"x","185,"..inputHintYPosDown,"y","205,"..inputHintYPosDown,"z","225,"..inputHintYPosDown
 	)
@@ -3410,7 +3410,7 @@ function drawTourneyInputHints3()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(tourneyInputsBG, -56, 219) --Draw Input Hints BG
-	drawInputHints("s","40,"..inputHintYPos,"e","162,"..inputHintYPos,"q","223,"..inputHintYPos)
+	drawMenuInputHints("s","40,"..inputHintYPos,"e","162,"..inputHintYPos,"q","223,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Start Next Match", 61, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 183, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 244, hintFontYPos)
@@ -3609,7 +3609,7 @@ function drawAbyssSelInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
@@ -3695,7 +3695,7 @@ function drawAbyssDatInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"s","108,"..inputHintYPos,"e","171,"..inputHintYPos,"q","229,"..inputHintYPos)
+	drawMenuInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"s","108,"..inputHintYPos,"e","171,"..inputHintYPos,"q","229,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 71, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 129, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Cancel", 192, hintFontYPos)
@@ -4087,7 +4087,7 @@ function drawAbyssInputHints(shop, refund)
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","190,"..inputHintYPos,keyInfo,"244,"..inputHintYPos)
+	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","190,"..inputHintYPos,keyInfo,"244,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, btnInfo, 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exit", 211, hintFontYPos)
@@ -4144,7 +4144,7 @@ function drawAbyssMapInputHints(checkpoint)
 		exitPosX = "220"
 	end
 	animPosDraw(abyssMapInputWindowBG, 142, 219)
-	drawInputHints("s","148,"..inputHintYPos,"e",exitPosX..","..inputHintYPos)
+	drawMenuInputHints("s","148,"..inputHintYPos,"e",exitPosX..","..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Continue", 171, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, exitTxT, 243, hintFontYPos)
 end
@@ -4259,7 +4259,7 @@ function drawAbyssRewardInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"s","172,"..inputHintYPos)
+	drawMenuInputHints("u","80,"..inputHintYPos,"d","100,"..inputHintYPos,"s","172,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 193, hintFontYPos)
 end

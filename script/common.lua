@@ -1362,6 +1362,9 @@ for i=1, #t_keyBattleCfg do
 	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
 end
 
+--;===========================================================
+--; INPUT HINTS DEFINITION
+--;===========================================================
 function f_searchCmd(input, btntype)
 	for i, v in ipairs(btntype) do --For each item in table
 		if v.cmd == input then --if table cmd item is equal to input entered
@@ -1381,7 +1384,7 @@ function f_searchButton(inputkey) --Based on previous function
 end
 
 inputHintsCnt = 0
-function drawInputHints(...) --(...) Manage unlimited arguments
+function drawMenuInputHints(...) --(...) Manage unlimited arguments
 	local controller = 0 --To use as group var (0=Keyboard, 1=XBOX Gamepad, 2=PS3 Gamepad)
 	local t_control = nil
 	if onlinegame then
@@ -1417,7 +1420,43 @@ function drawInputHints(...) --(...) Manage unlimited arguments
 	end
 end
 
-function drawInputHintsP1(...)
+function drawBattleInputHints(...)
+	local controller = 0
+	local t_control = nil
+	if onlinegame then
+		t_control = t_keyBattleCfg
+	else
+		if inputHintsCnt < 500 then
+			t_control = t_keyBattleCfg
+		else
+			t_control = t_keyBattleCfg2
+		end
+		if inputHintsCnt > 1000 then inputHintsCnt = 0 end
+	end
+	local t_args = {...}
+	for i=1, #t_args, 2 do
+		local cmd = t_args[i]
+		local cmdPos = t_args[i+1]
+		local nameKey = f_searchCmd(cmd, t_control)
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_control[nameKey].varText)
+			local keyID = tonumber(t_sdlInputConvert[btn].num)
+			local key = controller..','..keyID..',0,0,-1'
+			key = animNew(sprInputHints, key)
+			--local posKey = cmdPos
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animUpdate(key)
+			animDraw(key)
+		end
+	end
+	if not onlinegame then
+		inputHintsCnt = inputHintsCnt + 1
+	end
+end
+
+function drawMenuInputHintsP1(...)
 	local controller = 0
 	local t_args = {...}
 	for i=1, #t_args, 2 do
@@ -1439,7 +1478,7 @@ function drawInputHintsP1(...)
 	end
 end
 
-function drawInputHintsP2(...)
+function drawMenuInputHintsP2(...)
 	local controller = 0
 	local t_args = {...}
 	for i=1, #t_args, 2 do

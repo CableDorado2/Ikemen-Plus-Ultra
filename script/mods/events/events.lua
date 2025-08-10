@@ -67,7 +67,7 @@ function drawEventInputHints()
 	local hintFont = font2
 	local hintFontYPos = 233
 	animPosDraw(inputHintsBG, -56, 219)
-	drawInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
@@ -82,7 +82,7 @@ function drawInfoEventInputHints()
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Inputs
-	drawInputHints("s","137,"..inputHintYPos)
+	drawMenuInputHints("s","137,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Accept", 158, hintFontYPos)
 end
 

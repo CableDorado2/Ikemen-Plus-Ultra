@@ -348,7 +348,7 @@ function f_mainMenu()
 		if infoScreen then
 			f_infoMenu()
 		else
-			drawMenuInputHints()
+			drawMainMenuInputHints()
 		end
 		if infoboxScreen then f_infoboxMenu() end
 		animDraw(data.fadeTitle)
@@ -463,7 +463,7 @@ function f_arcadeMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end --Show Side Select
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -569,7 +569,7 @@ function f_vsMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -674,7 +674,7 @@ function f_practiceMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -807,7 +807,7 @@ function f_challengeMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -917,7 +917,7 @@ function f_extrasMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -1022,7 +1022,7 @@ function f_watchMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if infoScreen then f_infoMenu() else drawMenuInputHints() end
+		if infoScreen then f_infoMenu() else drawMainMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -1500,7 +1500,7 @@ function f_survivalMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -1776,7 +1776,7 @@ function f_bossChars()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMenuInputHints() end
+		if sideScreen then f_sideSelect() else drawMainMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -1932,7 +1932,7 @@ function f_bonusMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMenuInputHints() end
+		if sideScreen then f_sideSelect() else drawMainMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2037,7 +2037,7 @@ function f_bonusExtras()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMenuInputHints() end
+		if sideScreen then f_sideSelect() else drawMainMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2253,7 +2253,7 @@ function f_scoreattackMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -2440,7 +2440,7 @@ function f_timeattackMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -3991,7 +3991,7 @@ function f_replayMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if infoScreen then f_infoMenu() else drawMenuInputHints() end
+		if infoScreen then f_infoMenu() else drawMainMenuInputHints() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -4380,7 +4380,7 @@ function f_mainNetplay()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		drawMenuInputHints()
+		drawMainMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') then
@@ -4746,7 +4746,7 @@ function f_hostRooms()
 				animUpdate(menuArrowDown)
 			end
 		end
-		if not crudHostScreen and not editHostScreen then drawMenuInputHints() end --Draw Input Hints Panel for Host Rooms
+		if not crudHostScreen and not editHostScreen then drawMainMenuInputHints() end --Draw Input Hints Panel for Host Rooms
 		textBar = textBar >= 60 and 0 or textBar + 1
 	--CRUD ACTIONS
 		hostRoomName = (t_hostList[hostList].text) --Host Name Selected
@@ -5763,7 +5763,7 @@ function f_exitMenu()
 		elseif infoScreen then
 			f_infoMenu() --Show Info Screen Message
 		else
-			drawMenuInputHints()
+			drawMainMenuInputHints()
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

@@ -104,7 +104,7 @@ function drawGalleryInputHints()
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 0) --For Up
 	animPosDraw(inputHintsBG, -56, 219) --For Down
-	drawInputHints(
+	drawMenuInputHints(
 		"q","12,1","w","290,1",
 		"u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos
 	)
@@ -178,7 +178,7 @@ function drawArtInputHints()
 	local hintFontYPosUp = 211
 	local hintFontYPosDown = 233
 	animPosDraw(gInputsBG, -56, 195) --Draw Input Hints BG
-	drawInputHints(
+	drawMenuInputHints(
 		"a","15,"..inputHintYPosUp,"s","75,"..inputHintYPosUp,"y","169,"..inputHintYPosUp,"z","242,"..inputHintYPosUp,
 		"u","0,"..inputHintYPosDown,"d","20,"..inputHintYPosDown,"l","40,"..inputHintYPosDown,"r","60,"..inputHintYPosDown,"e","108,"..inputHintYPosDown,"q","165,"..inputHintYPosDown,"w","229,"..inputHintYPosDown,"x","277,"..inputHintYPosDown
 	)
