@@ -1304,7 +1304,6 @@ t_keyMenuCfg = {
 t_keyMenuCfg2 = {}
 for i=1, #t_keyMenuCfg do
 	t_keyMenuCfg[i]['varID'] = textImgNew()
-	t_keyMenuCfg[i]['varText'] = "" --below will replace this
 	t_keyMenuCfg[i]['keyboard'] = "" --To store keyboard inputs id
 	t_keyMenuCfg[i]['gamepad'] = "" --To store gamepad inputs id
 --Make a copy of all items from t_keyMenuCfg table to t_keyMenuCfg2 (Player 2 Inputs)
@@ -1315,7 +1314,6 @@ for i=1, #t_keyMenuCfg do
 	else
 		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
 	end
-	t_keyMenuCfg2[i]['varText'] = t_keyMenuCfg[i].varText --below will replace this
 	t_keyMenuCfg2[i]['keyboard'] = t_keyMenuCfg[i].keyboard
 	t_keyMenuCfg2[i]['gamepad'] = t_keyMenuCfg[i].gamepad
 	t_keyMenuCfg2[i]['cmd'] = t_keyMenuCfg[i].cmd
@@ -1345,7 +1343,6 @@ t_keyBattleCfg = {
 t_keyBattleCfg2 = {}
 for i=1, #t_keyBattleCfg do
 	t_keyBattleCfg[i]['varID'] = textImgNew()
-	t_keyBattleCfg[i]['varText'] = "" --DELETE
 	t_keyBattleCfg[i]['keyboard'] = ""
 	t_keyBattleCfg[i]['gamepad'] = ""
 
@@ -1356,7 +1353,6 @@ for i=1, #t_keyBattleCfg do
 	else
 		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
 	end
-	t_keyBattleCfg2[i]['varText'] = t_keyBattleCfg[i].varText --DELETE
 	t_keyBattleCfg2[i]['keyboard'] = t_keyBattleCfg[i].keyboard
 	t_keyBattleCfg2[i]['gamepad'] = t_keyBattleCfg[i].gamepad
 	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
@@ -1403,7 +1399,7 @@ function drawMenuInputHints(...) --(...) Manage unlimited arguments
 		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
 		local nameKey = f_searchCmd(cmd, t_control) --get table pos from button name configured based on cmd entry name
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_control[nameKey].varText) --Get button name configured
+			local btn = f_searchButton(t_control[nameKey].keyboard) --Get button name configured
 			local keyID = tonumber(t_sdlInputConvert[btn].num) --Reuse t_sdlInputConvert keyboard IDs table
 			local key = controller..','..keyID..',0,0,-1' --Get button sprite
 			key = animNew(sprInputHints, key) --Create sprite anim
@@ -1439,7 +1435,7 @@ function drawBattleInputHints(...)
 		local cmdPos = t_args[i+1]
 		local nameKey = f_searchCmd(cmd, t_control)
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_control[nameKey].varText)
+			local btn = f_searchButton(t_control[nameKey].keyboard)
 			local keyID = tonumber(t_sdlInputConvert[btn].num)
 			local key = controller..','..keyID..',0,0,-1'
 			key = animNew(sprInputHints, key)
@@ -1464,7 +1460,7 @@ function drawMenuInputHintsP1(...)
 		local cmdPos = t_args[i+1]
 		local nameKey = f_searchCmd(cmd, t_keyMenuCfg)
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText)
+			local btn = f_searchButton(t_keyMenuCfg[nameKey].keyboard)
 			local keyID = tonumber(t_sdlInputConvert[btn].num)
 			local key = controller..','..keyID..',0,0,-1'
 			key = animNew(sprInputHints, key)
@@ -1486,7 +1482,7 @@ function drawMenuInputHintsP2(...)
 		local cmdPos = t_args[i+1]
 		local nameKey = f_searchCmd(cmd, t_keyMenuCfg2)
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyMenuCfg2[nameKey].varText)
+			local btn = f_searchButton(t_keyMenuCfg2[nameKey].keyboard)
 			local keyID = tonumber(t_sdlInputConvert[btn].num)
 			local key = controller..','..keyID..',0,0,-1'
 			key = animNew(sprInputHints, key)
@@ -1508,7 +1504,7 @@ function drawBattleInputHintsP1(...)
 		local cmdPos = t_args[i+1]
 		local nameKey = f_searchCmd(cmd, t_keyBattleCfg)
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyBattleCfg[nameKey].varText)
+			local btn = f_searchButton(t_keyBattleCfg[nameKey].keyboard)
 			local keyID = tonumber(t_sdlInputConvert[btn].num)
 			local key = controller..','..keyID..',0,0,-1'
 			key = animNew(sprInputHints, key)
@@ -1530,7 +1526,7 @@ function drawBattleInputHintsP2(...)
 		local cmdPos = t_args[i+1]
 		local nameKey = f_searchCmd(cmd, t_keyBattleCfg2)
 		if nameKey ~= nil then
-			local btn = f_searchButton(t_keyBattleCfg2[nameKey].varText)
+			local btn = f_searchButton(t_keyBattleCfg2[nameKey].keyboard)
 			local keyID = tonumber(t_sdlInputConvert[btn].num)
 			local key = controller..','..keyID..',0,0,-1'
 			key = animNew(sprInputHints, key)

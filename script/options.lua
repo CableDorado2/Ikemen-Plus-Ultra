@@ -781,161 +781,161 @@ end
 
 --Default P1 KEYBOARD BATTLE
 function f_p1keyboardBattleDefault()
-	t_keyBattleCfg[1].varText = 'UP'
-	t_keyBattleCfg[2].varText = 'DOWN'
-	t_keyBattleCfg[3].varText = 'LEFT'
-	t_keyBattleCfg[4].varText = 'RIGHT'
-	t_keyBattleCfg[5].varText = 'a'
-	t_keyBattleCfg[6].varText = 's'
-	t_keyBattleCfg[7].varText = 'd'
-	t_keyBattleCfg[8].varText = 'z'
-	t_keyBattleCfg[9].varText = 'x'
-	t_keyBattleCfg[10].varText = 'c'
-	t_keyBattleCfg[11].varText = 'q'
-	t_keyBattleCfg[12].varText = 'e'
-	t_keyBattleCfg[13].varText = 'v'
-	t_keyBattleCfg[14].varText = 'f'
-	setInputConfig(0, -1, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
+	t_keyBattleCfg[1].keyboard = 'UP'
+	t_keyBattleCfg[2].keyboard = 'DOWN'
+	t_keyBattleCfg[3].keyboard = 'LEFT'
+	t_keyBattleCfg[4].keyboard = 'RIGHT'
+	t_keyBattleCfg[5].keyboard = 'a'
+	t_keyBattleCfg[6].keyboard = 's'
+	t_keyBattleCfg[7].keyboard = 'd'
+	t_keyBattleCfg[8].keyboard = 'z'
+	t_keyBattleCfg[9].keyboard = 'x'
+	t_keyBattleCfg[10].keyboard = 'c'
+	t_keyBattleCfg[11].keyboard = 'q'
+	t_keyBattleCfg[12].keyboard = 'e'
+	t_keyBattleCfg[13].keyboard = 'v'
+	t_keyBattleCfg[14].keyboard = 'f'
+	setInputConfig(0, -1, t_keyBattleCfg[1].keyboard, t_keyBattleCfg[2].keyboard, t_keyBattleCfg[3].keyboard, t_keyBattleCfg[4].keyboard, t_keyBattleCfg[5].keyboard, t_keyBattleCfg[6].keyboard, t_keyBattleCfg[7].keyboard, t_keyBattleCfg[8].keyboard, t_keyBattleCfg[9].keyboard, t_keyBattleCfg[10].keyboard, t_keyBattleCfg[11].keyboard, t_keyBattleCfg[12].keyboard, t_keyBattleCfg[13].keyboard, t_keyBattleCfg[14].keyboard) --Apply and Load New Controls
 	f_keyBattleSave(0,-1)
 end
 
 --Default P2 KEYBOARD BATTLE
 function f_p2keyboardBattleDefault()
-	t_keyBattleCfg2[1].varText = 'KP_8'
-	t_keyBattleCfg2[2].varText = 'KP_2'
-	t_keyBattleCfg2[3].varText = 'KP_4'
-	t_keyBattleCfg2[4].varText = 'KP_6'
-	t_keyBattleCfg2[5].varText = 'u'
-	t_keyBattleCfg2[6].varText = 'i'
-	t_keyBattleCfg2[7].varText = 'o'
-	t_keyBattleCfg2[8].varText = 'j'
-	t_keyBattleCfg2[9].varText = 'k'
-	t_keyBattleCfg2[10].varText = 'l'
-	t_keyBattleCfg2[11].varText = 'KP_7'
-	t_keyBattleCfg2[12].varText = 'KP_9'
-	t_keyBattleCfg2[13].varText = 'KP_5'
-	t_keyBattleCfg2[14].varText = 'KP_0'
-	setInputConfig(1, -1, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText) --Apply and Load New Controls
+	t_keyBattleCfg2[1].keyboard = 'KP_8'
+	t_keyBattleCfg2[2].keyboard = 'KP_2'
+	t_keyBattleCfg2[3].keyboard = 'KP_4'
+	t_keyBattleCfg2[4].keyboard = 'KP_6'
+	t_keyBattleCfg2[5].keyboard = 'u'
+	t_keyBattleCfg2[6].keyboard = 'i'
+	t_keyBattleCfg2[7].keyboard = 'o'
+	t_keyBattleCfg2[8].keyboard = 'j'
+	t_keyBattleCfg2[9].keyboard = 'k'
+	t_keyBattleCfg2[10].keyboard = 'l'
+	t_keyBattleCfg2[11].keyboard = 'KP_7'
+	t_keyBattleCfg2[12].keyboard = 'KP_9'
+	t_keyBattleCfg2[13].keyboard = 'KP_5'
+	t_keyBattleCfg2[14].keyboard = 'KP_0'
+	setInputConfig(1, -1, t_keyBattleCfg2[1].keyboard, t_keyBattleCfg2[2].keyboard, t_keyBattleCfg2[3].keyboard, t_keyBattleCfg2[4].keyboard, t_keyBattleCfg2[5].keyboard, t_keyBattleCfg2[6].keyboard, t_keyBattleCfg2[7].keyboard, t_keyBattleCfg2[8].keyboard, t_keyBattleCfg2[9].keyboard, t_keyBattleCfg2[10].keyboard, t_keyBattleCfg2[11].keyboard, t_keyBattleCfg2[12].keyboard, t_keyBattleCfg2[13].keyboard, t_keyBattleCfg2[14].keyboard) --Apply and Load New Controls
 	f_keyBattleSave(1,-1)
 end
 
 --Default P1 GAMEPAD BATTLE
 function f_p1gamepadBattleDefault() --PS3 Gamepad Layout
-	t_keyBattleCfg[1].varText = '-3'
-	t_keyBattleCfg[2].varText = '-4'
-	t_keyBattleCfg[3].varText = '-1'
-	t_keyBattleCfg[4].varText = '-2'
-	t_keyBattleCfg[5].varText = '0'
-	t_keyBattleCfg[6].varText = '1'
-	t_keyBattleCfg[7].varText = '4'
-	t_keyBattleCfg[8].varText = '2'
-	t_keyBattleCfg[9].varText = '3'
-	t_keyBattleCfg[10].varText = '5'
-	t_keyBattleCfg[11].varText = '8'
-	t_keyBattleCfg[12].varText = '9'
-	t_keyBattleCfg[13].varText = '-10'
-	t_keyBattleCfg[14].varText = '6'
-	setInputConfig(2, 0, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
+	t_keyBattleCfg[1].gamepad = '-3'
+	t_keyBattleCfg[2].gamepad = '-4'
+	t_keyBattleCfg[3].gamepad = '-1'
+	t_keyBattleCfg[4].gamepad = '-2'
+	t_keyBattleCfg[5].gamepad = '0'
+	t_keyBattleCfg[6].gamepad = '1'
+	t_keyBattleCfg[7].gamepad = '4'
+	t_keyBattleCfg[8].gamepad = '2'
+	t_keyBattleCfg[9].gamepad = '3'
+	t_keyBattleCfg[10].gamepad = '5'
+	t_keyBattleCfg[11].gamepad = '8'
+	t_keyBattleCfg[12].gamepad = '9'
+	t_keyBattleCfg[13].gamepad = '-10'
+	t_keyBattleCfg[14].gamepad = '6'
+	setInputConfig(2, 0, t_keyBattleCfg[1].gamepad, t_keyBattleCfg[2].gamepad, t_keyBattleCfg[3].gamepad, t_keyBattleCfg[4].gamepad, t_keyBattleCfg[5].gamepad, t_keyBattleCfg[6].gamepad, t_keyBattleCfg[7].gamepad, t_keyBattleCfg[8].gamepad, t_keyBattleCfg[9].gamepad, t_keyBattleCfg[10].gamepad, t_keyBattleCfg[11].gamepad, t_keyBattleCfg[12].gamepad, t_keyBattleCfg[13].gamepad, t_keyBattleCfg[14].gamepad) --Apply and Load New Controls
 	f_keyBattleSave(2,0)
 end
 
 --Default P2 GAMEPAD BATTLE
 function f_p2gamepadBattleDefault()
-	t_keyBattleCfg2[1].varText = '-3'
-	t_keyBattleCfg2[2].varText = '-4'
-	t_keyBattleCfg2[3].varText = '-1'
-	t_keyBattleCfg2[4].varText = '-2'
-	t_keyBattleCfg2[5].varText = '0'
-	t_keyBattleCfg2[6].varText = '1'
-	t_keyBattleCfg2[7].varText = '4'
-	t_keyBattleCfg2[8].varText = '2'
-	t_keyBattleCfg2[9].varText = '3'
-	t_keyBattleCfg2[10].varText = '5'
-	t_keyBattleCfg2[11].varText = '8'
-	t_keyBattleCfg2[12].varText = '9'
-	t_keyBattleCfg2[13].varText = '-10'
-	t_keyBattleCfg2[14].varText = '6'
-	setInputConfig(3, 1, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText) --Apply and Load New Controls
+	t_keyBattleCfg2[1].gamepad = '-3'
+	t_keyBattleCfg2[2].gamepad = '-4'
+	t_keyBattleCfg2[3].gamepad = '-1'
+	t_keyBattleCfg2[4].gamepad = '-2'
+	t_keyBattleCfg2[5].gamepad = '0'
+	t_keyBattleCfg2[6].gamepad = '1'
+	t_keyBattleCfg2[7].gamepad = '4'
+	t_keyBattleCfg2[8].gamepad = '2'
+	t_keyBattleCfg2[9].gamepad = '3'
+	t_keyBattleCfg2[10].gamepad = '5'
+	t_keyBattleCfg2[11].gamepad = '8'
+	t_keyBattleCfg2[12].gamepad = '9'
+	t_keyBattleCfg2[13].gamepad = '-10'
+	t_keyBattleCfg2[14].gamepad = '6'
+	setInputConfig(3, 1, t_keyBattleCfg2[1].gamepad, t_keyBattleCfg2[2].gamepad, t_keyBattleCfg2[3].gamepad, t_keyBattleCfg2[4].gamepad, t_keyBattleCfg2[5].gamepad, t_keyBattleCfg2[6].gamepad, t_keyBattleCfg2[7].gamepad, t_keyBattleCfg2[8].gamepad, t_keyBattleCfg2[9].gamepad, t_keyBattleCfg2[10].gamepad, t_keyBattleCfg2[11].gamepad, t_keyBattleCfg2[12].gamepad, t_keyBattleCfg2[13].gamepad, t_keyBattleCfg2[14].gamepad) --Apply and Load New Controls
 	f_keyBattleSave(3,1)
 end
 
 --Default P1 KEYBOARD MENU
 function f_p1keyboardMenuDefault()
-	t_keyMenuCfg[1].varText = 'UP'
-	t_keyMenuCfg[2].varText = 'DOWN'
-	t_keyMenuCfg[3].varText = 'LEFT'
-	t_keyMenuCfg[4].varText = 'RIGHT'
-	t_keyMenuCfg[5].varText = 'a'
-	t_keyMenuCfg[6].varText = 's'
-	t_keyMenuCfg[7].varText = 'd'
-	t_keyMenuCfg[8].varText = 'z'
-	t_keyMenuCfg[9].varText = 'x'
-	t_keyMenuCfg[10].varText = 'c'
-	t_keyMenuCfg[11].varText = 'q'
-	t_keyMenuCfg[12].varText = 'e'
-	t_keyMenuCfg[13].varText = 'BACKSPACE'
-	t_keyMenuCfg[14].varText = 'RETURN'
-	setInputConfig(10, -1, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
+	t_keyMenuCfg[1].keyboard = 'UP'
+	t_keyMenuCfg[2].keyboard = 'DOWN'
+	t_keyMenuCfg[3].keyboard = 'LEFT'
+	t_keyMenuCfg[4].keyboard = 'RIGHT'
+	t_keyMenuCfg[5].keyboard = 'a'
+	t_keyMenuCfg[6].keyboard = 's'
+	t_keyMenuCfg[7].keyboard = 'd'
+	t_keyMenuCfg[8].keyboard = 'z'
+	t_keyMenuCfg[9].keyboard = 'x'
+	t_keyMenuCfg[10].keyboard = 'c'
+	t_keyMenuCfg[11].keyboard = 'q'
+	t_keyMenuCfg[12].keyboard = 'e'
+	t_keyMenuCfg[13].keyboard = 'BACKSPACE'
+	t_keyMenuCfg[14].keyboard = 'RETURN'
+	setInputConfig(10, -1, t_keyMenuCfg[1].keyboard, t_keyMenuCfg[2].keyboard, t_keyMenuCfg[3].keyboard, t_keyMenuCfg[4].keyboard, t_keyMenuCfg[5].keyboard, t_keyMenuCfg[6].keyboard, t_keyMenuCfg[7].keyboard, t_keyMenuCfg[8].keyboard, t_keyMenuCfg[9].keyboard, t_keyMenuCfg[10].keyboard, t_keyMenuCfg[11].keyboard, t_keyMenuCfg[12].keyboard, t_keyMenuCfg[13].keyboard, t_keyMenuCfg[14].keyboard) --Apply and Load New Controls
 	f_keyMenuSave(10,-1)
 end
 
 --Default P2 KEYBOARD MENU
 function f_p2keyboardMenuDefault()
-	t_keyMenuCfg2[1].varText = 'KP_8'
-	t_keyMenuCfg2[2].varText = 'KP_2'
-	t_keyMenuCfg2[3].varText = 'KP_4'
-	t_keyMenuCfg2[4].varText = 'KP_6'
-	t_keyMenuCfg2[5].varText = 'u'
-	t_keyMenuCfg2[6].varText = 'i'
-	t_keyMenuCfg2[7].varText = 'o'
-	t_keyMenuCfg2[8].varText = 'j'
-	t_keyMenuCfg2[9].varText = 'k'
-	t_keyMenuCfg2[10].varText = 'l'
-	t_keyMenuCfg2[11].varText = 'KP_7'
-	t_keyMenuCfg2[12].varText = 'KP_9'
-	t_keyMenuCfg2[13].varText = 'KP_PERIOD'
-	t_keyMenuCfg2[14].varText = 'KP_ENTER'
-	setInputConfig(11, -1, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText) --Apply and Load New Controls
+	t_keyMenuCfg2[1].keyboard = 'KP_8'
+	t_keyMenuCfg2[2].keyboard = 'KP_2'
+	t_keyMenuCfg2[3].keyboard = 'KP_4'
+	t_keyMenuCfg2[4].keyboard = 'KP_6'
+	t_keyMenuCfg2[5].keyboard = 'u'
+	t_keyMenuCfg2[6].keyboard = 'i'
+	t_keyMenuCfg2[7].keyboard = 'o'
+	t_keyMenuCfg2[8].keyboard = 'j'
+	t_keyMenuCfg2[9].keyboard = 'k'
+	t_keyMenuCfg2[10].keyboard = 'l'
+	t_keyMenuCfg2[11].keyboard = 'KP_7'
+	t_keyMenuCfg2[12].keyboard = 'KP_9'
+	t_keyMenuCfg2[13].keyboard = 'KP_PERIOD'
+	t_keyMenuCfg2[14].keyboard = 'KP_ENTER'
+	setInputConfig(11, -1, t_keyMenuCfg2[1].keyboard, t_keyMenuCfg2[2].keyboard, t_keyMenuCfg2[3].keyboard, t_keyMenuCfg2[4].keyboard, t_keyMenuCfg2[5].keyboard, t_keyMenuCfg2[6].keyboard, t_keyMenuCfg2[7].keyboard, t_keyMenuCfg2[8].keyboard, t_keyMenuCfg2[9].keyboard, t_keyMenuCfg2[10].keyboard, t_keyMenuCfg2[11].keyboard, t_keyMenuCfg2[12].keyboard, t_keyMenuCfg2[13].keyboard, t_keyMenuCfg2[14].keyboard) --Apply and Load New Controls
 	f_keyMenuSave(11,-1)
 end
 
 --Default P1 GAMEPAD MENU
 function f_p1gamepadMenuDefault() --PS3 Gamepad Layout
-	t_keyMenuCfg[1].varText = '-7'
-	t_keyMenuCfg[2].varText = '-8'
-	t_keyMenuCfg[3].varText = '-5'
-	t_keyMenuCfg[4].varText = '-6'
-	t_keyMenuCfg[5].varText = '2'
-	t_keyMenuCfg[6].varText = '3'
-	t_keyMenuCfg[7].varText = '4'
-	t_keyMenuCfg[8].varText = '5'
-	t_keyMenuCfg[9].varText = '8'
-	t_keyMenuCfg[10].varText = '9'
-	t_keyMenuCfg[11].varText = '6'
-	t_keyMenuCfg[12].varText = '0'
-	t_keyMenuCfg[13].varText = '1'
-	t_keyMenuCfg[14].varText = '7'
-	setInputConfig(12, 0, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
+	t_keyMenuCfg[1].gamepad = '-7'
+	t_keyMenuCfg[2].gamepad = '-8'
+	t_keyMenuCfg[3].gamepad = '-5'
+	t_keyMenuCfg[4].gamepad = '-6'
+	t_keyMenuCfg[5].gamepad = '2'
+	t_keyMenuCfg[6].gamepad = '3'
+	t_keyMenuCfg[7].gamepad = '4'
+	t_keyMenuCfg[8].gamepad = '5'
+	t_keyMenuCfg[9].gamepad = '8'
+	t_keyMenuCfg[10].gamepad = '9'
+	t_keyMenuCfg[11].gamepad = '6'
+	t_keyMenuCfg[12].gamepad = '0'
+	t_keyMenuCfg[13].gamepad = '1'
+	t_keyMenuCfg[14].gamepad = '7'
+	setInputConfig(12, 0, t_keyMenuCfg[1].gamepad, t_keyMenuCfg[2].gamepad, t_keyMenuCfg[3].gamepad, t_keyMenuCfg[4].gamepad, t_keyMenuCfg[5].gamepad, t_keyMenuCfg[6].gamepad, t_keyMenuCfg[7].gamepad, t_keyMenuCfg[8].gamepad, t_keyMenuCfg[9].gamepad, t_keyMenuCfg[10].gamepad, t_keyMenuCfg[11].gamepad, t_keyMenuCfg[12].gamepad, t_keyMenuCfg[13].gamepad, t_keyMenuCfg[14].gamepad) --Apply and Load New Controls
 	f_keyMenuSave(12,0)
 end
 
 --Default P2 GAMEPAD MENU
 function f_p2gamepadMenuDefault()
-	t_keyMenuCfg2[1].varText = '-7'
-	t_keyMenuCfg2[2].varText = '-8'
-	t_keyMenuCfg2[3].varText = '-5'
-	t_keyMenuCfg2[4].varText = '-6'
-	t_keyMenuCfg2[5].varText = '2'
-	t_keyMenuCfg2[6].varText = '3'
-	t_keyMenuCfg2[7].varText = '4'
-	t_keyMenuCfg2[8].varText = '5'
-	t_keyMenuCfg2[9].varText = '8'
-	t_keyMenuCfg2[10].varText = '9'
-	t_keyMenuCfg2[11].varText = '6'
-	t_keyMenuCfg2[12].varText = '0'
-	t_keyMenuCfg2[13].varText = '1'
-	t_keyMenuCfg2[14].varText = '7'
-	setInputConfig(13, 1, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText) --Apply and Load New Controls
+	t_keyMenuCfg2[1].gamepad = '-7'
+	t_keyMenuCfg2[2].gamepad = '-8'
+	t_keyMenuCfg2[3].gamepad = '-5'
+	t_keyMenuCfg2[4].gamepad = '-6'
+	t_keyMenuCfg2[5].gamepad = '2'
+	t_keyMenuCfg2[6].gamepad = '3'
+	t_keyMenuCfg2[7].gamepad = '4'
+	t_keyMenuCfg2[8].gamepad = '5'
+	t_keyMenuCfg2[9].gamepad = '8'
+	t_keyMenuCfg2[10].gamepad = '9'
+	t_keyMenuCfg2[11].gamepad = '6'
+	t_keyMenuCfg2[12].gamepad = '0'
+	t_keyMenuCfg2[13].gamepad = '1'
+	t_keyMenuCfg2[14].gamepad = '7'
+	setInputConfig(13, 1, t_keyMenuCfg2[1].gamepad, t_keyMenuCfg2[2].gamepad, t_keyMenuCfg2[3].gamepad, t_keyMenuCfg2[4].gamepad, t_keyMenuCfg2[5].gamepad, t_keyMenuCfg2[6].gamepad, t_keyMenuCfg2[7].gamepad, t_keyMenuCfg2[8].gamepad, t_keyMenuCfg2[9].gamepad, t_keyMenuCfg2[10].gamepad, t_keyMenuCfg2[11].gamepad, t_keyMenuCfg2[12].gamepad, t_keyMenuCfg2[13].gamepad, t_keyMenuCfg2[14].gamepad) --Apply and Load New Controls
 	f_keyMenuSave(13,1)
 end
 
@@ -7462,8 +7462,14 @@ function f_drawBattleKeyAssets()
 	for i=1, maxKeyCfg do
 		if i > keyCfg - inputCursorPosY then
 			if t_keyBattleCfg[i].varID ~= nil then
+				local varText = ""
+				if controllerSet == 1 then --Show Keyboard Inputs
+					varText = t_keyBattleCfg[i].keyboard
+				elseif controllerSet == 2 then --Show Gamepad Inputs
+					varText = t_keyBattleCfg[i].gamepad
+				end
 				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, 1, t_keyBattleCfg[i].text, 7, 30+i*15-inputMoveTxt))
-				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, t_keyBattleCfg[i].varText, 152, 30+i*15-inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, varText, 152, 30+i*15-inputMoveTxt))
 			end
 		end
 	end
@@ -7491,8 +7497,14 @@ function f_drawBattleKeyAssets()
 	for i=1, maxKeyCfg2 do
 		if i > keyCfg2 - inputCursorPosY2 then
 			if t_keyBattleCfg2[i].varID ~= nil then
+				local varText = ""
+				if controllerSet == 1 then --Show Keyboard Inputs
+					varText = t_keyBattleCfg2[i].keyboard
+				elseif controllerSet == 2 then --Show Gamepad Inputs
+					varText = t_keyBattleCfg2[i].gamepad
+				end
 				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, 1, t_keyBattleCfg2[i].text, 167, 30+i*15-inputMoveTxt2))
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, -1, t_keyBattleCfg2[i].varText, 314, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, -1, varText, 314, 30+i*15-inputMoveTxt2))
 			end
 		end
 	end
@@ -7590,8 +7602,15 @@ function f_keyBattleCfg(playerNo, controller)
 				else
 					controllerNum = 10
 				end
-				t_keyBattleCfg[keyCfg].varText = f_readBattleInput(t_keyBattleCfg[keyCfg].varText) --Get New Controls
-				setInputConfig(playerNo, controller, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
+			--SetUp Keyboard Inputs
+				if controllerSet == 1 then
+					t_keyBattleCfg[keyCfg].keyboard = f_readBattleInput(t_keyBattleCfg[keyCfg].keyboard) --Get New Controls
+					setInputConfig(playerNo, controller, t_keyBattleCfg[1].keyboard, t_keyBattleCfg[2].keyboard, t_keyBattleCfg[3].keyboard, t_keyBattleCfg[4].keyboard, t_keyBattleCfg[5].keyboard, t_keyBattleCfg[6].keyboard, t_keyBattleCfg[7].keyboard, t_keyBattleCfg[8].keyboard, t_keyBattleCfg[9].keyboard, t_keyBattleCfg[10].keyboard, t_keyBattleCfg[11].keyboard, t_keyBattleCfg[12].keyboard, t_keyBattleCfg[13].keyboard, t_keyBattleCfg[14].keyboard) --Apply and Load New Controls
+			--SetUp Gamepad Inputs
+				elseif controllerSet == 2 then
+					t_keyBattleCfg[keyCfg].gamepad = f_readBattleInput(t_keyBattleCfg[keyCfg].gamepad)
+					setInputConfig(playerNo, controller, t_keyBattleCfg[1].gamepad, t_keyBattleCfg[2].gamepad, t_keyBattleCfg[3].gamepad, t_keyBattleCfg[4].gamepad, t_keyBattleCfg[5].gamepad, t_keyBattleCfg[6].gamepad, t_keyBattleCfg[7].gamepad, t_keyBattleCfg[8].gamepad, t_keyBattleCfg[9].gamepad, t_keyBattleCfg[10].gamepad, t_keyBattleCfg[11].gamepad, t_keyBattleCfg[12].gamepad, t_keyBattleCfg[13].gamepad, t_keyBattleCfg[14].gamepad)
+				end
 		--Default Config
 			elseif keyCfg == 15 then
 				defaultP1 = true
@@ -7657,8 +7676,15 @@ function f_keyBattleCfg(playerNo, controller)
 				else
 					controllerNum = 10
 				end
-				t_keyBattleCfg2[keyCfg2].varText = f_readBattleInput(t_keyBattleCfg2[keyCfg2].varText)
-				setInputConfig(playerNo+1, controller, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText)
+			--SetUp Keyboard Inputs
+				if controllerSet == 1 then
+					t_keyBattleCfg2[keyCfg2].keyboard = f_readBattleInput(t_keyBattleCfg2[keyCfg2].keyboard)
+					setInputConfig(playerNo+1, controller, t_keyBattleCfg2[1].keyboard, t_keyBattleCfg2[2].keyboard, t_keyBattleCfg2[3].keyboard, t_keyBattleCfg2[4].keyboard, t_keyBattleCfg2[5].keyboard, t_keyBattleCfg2[6].keyboard, t_keyBattleCfg2[7].keyboard, t_keyBattleCfg2[8].keyboard, t_keyBattleCfg2[9].keyboard, t_keyBattleCfg2[10].keyboard, t_keyBattleCfg2[11].keyboard, t_keyBattleCfg2[12].keyboard, t_keyBattleCfg2[13].keyboard, t_keyBattleCfg2[14].keyboard)
+			--SetUp Gamepad Inputs
+				elseif controllerSet == 2 then
+					t_keyBattleCfg2[keyCfg2].gamepad = f_readBattleInput(t_keyBattleCfg2[keyCfg2].gamepad)
+					setInputConfig(playerNo+1, controller, t_keyBattleCfg2[1].gamepad, t_keyBattleCfg2[2].gamepad, t_keyBattleCfg2[3].gamepad, t_keyBattleCfg2[4].gamepad, t_keyBattleCfg2[5].gamepad, t_keyBattleCfg2[6].gamepad, t_keyBattleCfg2[7].gamepad, t_keyBattleCfg2[8].gamepad, t_keyBattleCfg2[9].gamepad, t_keyBattleCfg2[10].gamepad, t_keyBattleCfg2[11].gamepad, t_keyBattleCfg2[12].gamepad, t_keyBattleCfg2[13].gamepad, t_keyBattleCfg2[14].gamepad)
+				end
 		--Default Config
 			elseif keyCfg2 == 15 then
 				defaultP2 = true
@@ -7743,8 +7769,14 @@ function f_drawMenuKeyAssets()
 	for i=1, maxKeyCfg do
 		if i > keyCfg - inputCursorPosY then
 			if t_keyMenuCfg[i].varID ~= nil then
+				local varText = ""
+				if controllerSet == 1 then --Show Keyboard Inputs
+					varText = t_keyMenuCfg[i].keyboard
+				elseif controllerSet == 2 then --Show Gamepad Inputs
+					varText = t_keyMenuCfg[i].gamepad
+				end
 				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, 1, t_keyMenuCfg[i].text, 7, 30+i*15-inputMoveTxt))
-				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, t_keyMenuCfg[i].varText, 152, 30+i*15-inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, varText, 152, 30+i*15-inputMoveTxt))
 			end
 		end
 	end
@@ -7772,8 +7804,14 @@ function f_drawMenuKeyAssets()
 	for i=1, maxKeyCfg2 do
 		if i > keyCfg2 - inputCursorPosY2 then
 			if t_keyMenuCfg2[i].varID ~= nil then
+				local varText = ""
+				if controllerSet == 1 then --Show Keyboard Inputs
+					varText = t_keyMenuCfg2[i].keyboard
+				elseif controllerSet == 2 then --Show Gamepad Inputs
+					varText = t_keyMenuCfg2[i].gamepad
+				end
 				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, 1, t_keyMenuCfg2[i].text, 167, 30+i*15-inputMoveTxt2))
-				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, t_keyMenuCfg2[i].varText, 314, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, varText, 314, 30+i*15-inputMoveTxt2))
 			end
 		end
 	end
@@ -7863,8 +7901,15 @@ function f_keyMenuCfg(playerNo, controller)
 				else
 					controllerNum = 10
 				end
-				t_keyMenuCfg[keyCfg].varText = f_readMenuInput(t_keyMenuCfg[keyCfg].varText)
-				setInputConfig(playerNo+10, controller, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText)
+			--SetUp Keyboard Inputs
+				if controllerSet == 1 then
+					t_keyMenuCfg[keyCfg].keyboard = f_readMenuInput(t_keyMenuCfg[keyCfg].keyboard)
+					setInputConfig(playerNo+10, controller, t_keyMenuCfg[1].keyboard, t_keyMenuCfg[2].keyboard, t_keyMenuCfg[3].keyboard, t_keyMenuCfg[4].keyboard, t_keyMenuCfg[5].keyboard, t_keyMenuCfg[6].keyboard, t_keyMenuCfg[7].keyboard, t_keyMenuCfg[8].keyboard, t_keyMenuCfg[9].keyboard, t_keyMenuCfg[10].keyboard, t_keyMenuCfg[11].keyboard, t_keyMenuCfg[12].keyboard, t_keyMenuCfg[13].keyboard, t_keyMenuCfg[14].keyboard)
+			--SetUp Gamepad Inputs
+				elseif controllerSet == 2 then
+					t_keyMenuCfg[keyCfg].gamepad = f_readMenuInput(t_keyMenuCfg[keyCfg].gamepad)
+					setInputConfig(playerNo+10, controller, t_keyMenuCfg[1].gamepad, t_keyMenuCfg[2].gamepad, t_keyMenuCfg[3].gamepad, t_keyMenuCfg[4].gamepad, t_keyMenuCfg[5].gamepad, t_keyMenuCfg[6].gamepad, t_keyMenuCfg[7].gamepad, t_keyMenuCfg[8].gamepad, t_keyMenuCfg[9].gamepad, t_keyMenuCfg[10].gamepad, t_keyMenuCfg[11].gamepad, t_keyMenuCfg[12].gamepad, t_keyMenuCfg[13].gamepad, t_keyMenuCfg[14].gamepad)
+				end
 		--Default Config
 			elseif keyCfg == 15 then
 				defaultP1 = true
@@ -7930,8 +7975,15 @@ function f_keyMenuCfg(playerNo, controller)
 				else
 					controllerNum = 10
 				end
-				t_keyMenuCfg2[keyCfg2].varText = f_readMenuInput(t_keyMenuCfg2[keyCfg2].varText)
-				setInputConfig(playerNo+11, controller, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText)
+			--SetUp Keyboard Inputs
+				if controllerSet == 1 then
+					t_keyMenuCfg2[keyCfg2].keyboard = f_readMenuInput(t_keyMenuCfg2[keyCfg2].keyboard)
+					setInputConfig(playerNo+11, controller, t_keyMenuCfg2[1].keyboard, t_keyMenuCfg2[2].keyboard, t_keyMenuCfg2[3].keyboard, t_keyMenuCfg2[4].keyboard, t_keyMenuCfg2[5].keyboard, t_keyMenuCfg2[6].keyboard, t_keyMenuCfg2[7].keyboard, t_keyMenuCfg2[8].keyboard, t_keyMenuCfg2[9].keyboard, t_keyMenuCfg2[10].keyboard, t_keyMenuCfg2[11].keyboard, t_keyMenuCfg2[12].keyboard, t_keyMenuCfg2[13].keyboard, t_keyMenuCfg2[14].keyboard)
+			--SetUp Gamepad Inputs
+				elseif controllerSet == 2 then
+					t_keyMenuCfg2[keyCfg2].gamepad = f_readMenuInput(t_keyMenuCfg2[keyCfg2].gamepad)
+					setInputConfig(playerNo+11, controller, t_keyMenuCfg2[1].gamepad, t_keyMenuCfg2[2].gamepad, t_keyMenuCfg2[3].gamepad, t_keyMenuCfg2[4].gamepad, t_keyMenuCfg2[5].gamepad, t_keyMenuCfg2[6].gamepad, t_keyMenuCfg2[7].gamepad, t_keyMenuCfg2[8].gamepad, t_keyMenuCfg2[9].gamepad, t_keyMenuCfg2[10].gamepad, t_keyMenuCfg2[11].gamepad, t_keyMenuCfg2[12].gamepad, t_keyMenuCfg2[13].gamepad, t_keyMenuCfg2[14].gamepad)
+				end
 		--Default Config
 			elseif keyCfg2 == 15 then
 				defaultP2 = true
@@ -8018,15 +8070,15 @@ function f_inputBattleRead(playerNo, controller)
 	do
 		if controller == -1 then --Load Keyboard Controls
 			if playerNo == 0 then
-				t_keyBattleCfg[i].varText = c
+				t_keyBattleCfg[i].keyboard = c
 			else
-				t_keyBattleCfg2[i].varText = c
+				t_keyBattleCfg2[i].keyboard = c
 			end
 		else --Load Gamepad Controls
 			if playerNo == 2 then
-				t_keyBattleCfg[i].varText = c
+				t_keyBattleCfg[i].gamepad = c
 			else
-				t_keyBattleCfg2[i].varText = c
+				t_keyBattleCfg2[i].gamepad = c
 			end
 		end
 	end
@@ -8052,15 +8104,15 @@ function f_inputMenuRead(playerNo, controller)
 	do
 		if controller == -1 then --Load Keyboard Controls
 			if playerNo == 0 then
-				t_keyMenuCfg[i].varText = c
+				t_keyMenuCfg[i].keyboard = c
 			else
-				t_keyMenuCfg2[i].varText = c
+				t_keyMenuCfg2[i].keyboard = c
 			end
 		else --Load Gamepad Controls
 			if playerNo == 2 then
-				t_keyMenuCfg[i].varText = c
+				t_keyMenuCfg[i].gamepad = c
 			else
-				t_keyMenuCfg2[i].varText = c
+				t_keyMenuCfg2[i].gamepad = c
 			end
 		end
 	end
@@ -8152,8 +8204,14 @@ function f_readBattleInput(oldkey)
 					local t_sameKeys = {}
 					for i=1, #t_keyBattleCfg2 do
 					--Send keys that are equal to a new table
-						if getKeyboard == t_keyBattleCfg2[i].varText then
-							table.insert(t_sameKeys, 1, {varText = t_keyBattleCfg2[i].varText, tablepos=i})
+						if controllerSet == 1 then
+							if getKeyboard == t_keyBattleCfg2[i].keyboard then
+								table.insert(t_sameKeys, 1, {keyboard = t_keyBattleCfg2[i].keyboard, tablepos=i})
+							end
+						elseif controllerSet == 2 then
+							if getKeyboard == t_keyBattleCfg2[i].gamepad then
+								table.insert(t_sameKeys, 1, {gamepad = t_keyBattleCfg2[i].gamepad, tablepos=i})
+							end
 						end
 					end
 					if data.debugMode then f_printTable(t_sameKeys, "save/debug/t_sameKeys.log") end
@@ -8171,8 +8229,14 @@ function f_readBattleInput(oldkey)
 					local t_sameKeys = {}
 					for i=1, #t_keyBattleCfg do
 					--Send keys that are equal to a new table
-						if getKeyboard == t_keyBattleCfg[i].varText then
-							table.insert(t_sameKeys, 1, {varText = t_keyBattleCfg[i].varText, tablepos=i})
+						if controllerSet == 1 then
+							if getKeyboard == t_keyBattleCfg[i].keyboard then
+								table.insert(t_sameKeys, 1, {keyboard = t_keyBattleCfg[i].keyboard, tablepos=i})
+							end
+						elseif controllerSet == 2 then
+							if getKeyboard == t_keyBattleCfg[i].gamepad then
+								table.insert(t_sameKeys, 1, {gamepad = t_keyBattleCfg[i].gamepad, tablepos=i})
+							end
 						end
 					end
 					if data.debugMode then f_printTable(t_sameKeys, "save/debug/t_sameKeys.log") end
@@ -8267,8 +8331,14 @@ function f_readMenuInput(oldkey)
 					for i=1, #t_keyMenuCfg do
 						if keyCfg ~= i then --ignore key where cursor is
 						--Send keys that are equal to a new table
-							if getKeyboard == t_keyMenuCfg[i].varText then
-								table.insert(t_sameKeysP1, 1, {varText = t_keyMenuCfg[i].varText, tablepos=i})
+							if controllerSet == 1 then
+								if getKeyboard == t_keyMenuCfg[i].keyboard then
+									table.insert(t_sameKeysP1, 1, {keyboard = t_keyMenuCfg[i].keyboard, tablepos=i})
+								end
+							elseif controllerSet == 2 then
+								if getKeyboard == t_keyMenuCfg[i].gamepad then
+									table.insert(t_sameKeysP1, 1, {gamepad = t_keyMenuCfg[i].gamepad, tablepos=i})
+								end
 							end
 						end
 					end
@@ -8277,8 +8347,14 @@ function f_readMenuInput(oldkey)
 					local t_sameKeysP2 = {}
 					for i=1, #t_keyMenuCfg2 do
 					--Send keys that are equal to a new table
-						if getKeyboard == t_keyMenuCfg2[i].varText then
-							table.insert(t_sameKeysP2, 1, {varText = t_keyMenuCfg2[i].varText, tablepos=i})
+						if controllerSet == 1 then
+							if getKeyboard == t_keyMenuCfg2[i].keyboard then
+								table.insert(t_sameKeysP2, 1, {keyboard = t_keyMenuCfg2[i].keyboard, tablepos=i})
+							end
+						elseif controllerSet == 2 then
+							if getKeyboard == t_keyMenuCfg2[i].gamepad then
+								table.insert(t_sameKeysP2, 1, {gamepad = t_keyMenuCfg2[i].gamepad, tablepos=i})
+							end
 						end
 					end
 					if data.debugMode then f_printTable(t_sameKeysP2, "save/debug/t_sameKeysP2.log") end
@@ -8298,8 +8374,14 @@ function f_readMenuInput(oldkey)
 					for i=1, #t_keyMenuCfg2 do
 						if keyCfg2 ~= i then --ignore key where cursor is
 						--Send keys that are equal to a new table
-							if getKeyboard == t_keyMenuCfg2[i].varText then
-								table.insert(t_sameKeysP2, 1, {varText = t_keyMenuCfg2[i].varText, tablepos=i})
+							if controllerSet == 1 then
+								if getKeyboard == t_keyMenuCfg2[i].keyboard then
+									table.insert(t_sameKeysP2, 1, {keyboard = t_keyMenuCfg2[i].keyboard, tablepos=i})
+								end
+							elseif controllerSet == 2 then
+								if getKeyboard == t_keyMenuCfg2[i].gamepad then
+									table.insert(t_sameKeysP2, 1, {gamepad = t_keyMenuCfg2[i].gamepad, tablepos=i})
+								end
 							end
 						end
 					end
@@ -8308,8 +8390,14 @@ function f_readMenuInput(oldkey)
 					local t_sameKeysP1 = {}
 					for i=1, #t_keyMenuCfg do
 					--Send keys that are equal to a new table
-						if getKeyboard == t_keyMenuCfg[i].varText then
-							table.insert(t_sameKeysP1, 1, {varText = t_keyMenuCfg[i].varText, tablepos=i})
+						if controllerSet == 1 then
+							if getKeyboard == t_keyMenuCfg[i].keyboard then
+								table.insert(t_sameKeysP1, 1, {keyboard = t_keyMenuCfg[i].keyboard, tablepos=i})
+							end
+						elseif controllerSet == 2 then
+							if getKeyboard == t_keyMenuCfg[i].gamepad then
+								table.insert(t_sameKeysP1, 1, {gamepad = t_keyMenuCfg[i].gamepad, tablepos=i})
+							end
 						end
 					end
 					if data.debugMode then f_printTable(t_sameKeysP1, "save/debug/t_sameKeysP1.log") end
@@ -8336,16 +8424,16 @@ function f_keyBattleSave(playerNo, controller)
 	if playerNo == 0 or playerNo == 2 then --Save Player 1 Battle Controls
 	--Keyboard
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[14].varText .. ');')
+		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg[1].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[2].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[3].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[4].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[5].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[6].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[7].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[8].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[9].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[10].keyboard .. ',\n  (int)k_t::'.. t_keyBattleCfg[11].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[12].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[13].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg[14].keyboard .. ');')
 	--Gamepad
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg[1].varText .. ', ' .. t_keyBattleCfg[2].varText .. ', ' .. t_keyBattleCfg[3].varText .. ', ' .. t_keyBattleCfg[4].varText .. ', ' .. t_keyBattleCfg[5].varText .. ', ' .. t_keyBattleCfg[6].varText .. ', ' .. t_keyBattleCfg[7].varText .. ', ' .. t_keyBattleCfg[8].varText .. ', ' .. t_keyBattleCfg[9].varText .. ', ' .. t_keyBattleCfg[10].varText .. ', ' .. t_keyBattleCfg[11].varText .. ', ' .. t_keyBattleCfg[12].varText .. ', ' .. t_keyBattleCfg[13].varText .. ', ' .. t_keyBattleCfg[14].varText .. ');')
+		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg[1].gamepad .. ', ' .. t_keyBattleCfg[2].gamepad .. ', ' .. t_keyBattleCfg[3].gamepad .. ', ' .. t_keyBattleCfg[4].gamepad .. ', ' .. t_keyBattleCfg[5].gamepad .. ', ' .. t_keyBattleCfg[6].gamepad .. ', ' .. t_keyBattleCfg[7].gamepad .. ', ' .. t_keyBattleCfg[8].gamepad .. ', ' .. t_keyBattleCfg[9].gamepad .. ', ' .. t_keyBattleCfg[10].gamepad .. ', ' .. t_keyBattleCfg[11].gamepad .. ', ' .. t_keyBattleCfg[12].gamepad .. ', ' .. t_keyBattleCfg[13].gamepad .. ', ' .. t_keyBattleCfg[14].gamepad .. ');')
 	else --Save Player 2 Battle Controls
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg2[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg2[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[14].varText .. ');')
+		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg2[1].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[2].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[3].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[4].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[5].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[6].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[7].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[8].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[9].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[10].keyboard .. ',\n  (int)k_t::'.. t_keyBattleCfg2[11].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[12].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[13].keyboard .. ',\n  (int)k_t::' .. t_keyBattleCfg2[14].keyboard .. ');')
 		
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg2[1].varText .. ', ' .. t_keyBattleCfg2[2].varText .. ', ' .. t_keyBattleCfg2[3].varText .. ', ' .. t_keyBattleCfg2[4].varText .. ', ' .. t_keyBattleCfg2[5].varText .. ', ' .. t_keyBattleCfg2[6].varText .. ', ' .. t_keyBattleCfg2[7].varText .. ', ' .. t_keyBattleCfg2[8].varText .. ', ' .. t_keyBattleCfg2[9].varText .. ', ' .. t_keyBattleCfg2[10].varText .. ', ' .. t_keyBattleCfg2[11].varText .. ', ' .. t_keyBattleCfg2[12].varText .. ', ' .. t_keyBattleCfg2[13].varText .. ', ' .. t_keyBattleCfg2[14].varText .. ');')
+		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg2[1].gamepad .. ', ' .. t_keyBattleCfg2[2].gamepad .. ', ' .. t_keyBattleCfg2[3].gamepad .. ', ' .. t_keyBattleCfg2[4].gamepad .. ', ' .. t_keyBattleCfg2[5].gamepad .. ', ' .. t_keyBattleCfg2[6].gamepad .. ', ' .. t_keyBattleCfg2[7].gamepad .. ', ' .. t_keyBattleCfg2[8].gamepad .. ', ' .. t_keyBattleCfg2[9].gamepad .. ', ' .. t_keyBattleCfg2[10].gamepad .. ', ' .. t_keyBattleCfg2[11].gamepad .. ', ' .. t_keyBattleCfg2[12].gamepad .. ', ' .. t_keyBattleCfg2[13].gamepad .. ', ' .. t_keyBattleCfg2[14].gamepad .. ');')
 	end
 end
 
@@ -8353,16 +8441,16 @@ function f_keyMenuSave(playerNo, controller)
 	if playerNo == 0 or playerNo == 2 then --Save Player 1 Menu Controls
 	--Keyboard
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].varText .. ');')
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].keyboard .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].keyboard .. ');')
 	--Gamepad
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].varText .. ', ' .. t_keyMenuCfg[2].varText .. ', ' .. t_keyMenuCfg[3].varText .. ', ' .. t_keyMenuCfg[4].varText .. ', ' .. t_keyMenuCfg[5].varText .. ', ' .. t_keyMenuCfg[6].varText .. ', ' .. t_keyMenuCfg[7].varText .. ', ' .. t_keyMenuCfg[8].varText .. ', ' .. t_keyMenuCfg[9].varText .. ', ' .. t_keyMenuCfg[10].varText .. ', ' .. t_keyMenuCfg[11].varText .. ', ' .. t_keyMenuCfg[12].varText .. ', ' .. t_keyMenuCfg[13].varText .. ', ' .. t_keyMenuCfg[14].varText .. ');')
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].gamepad .. ', ' .. t_keyMenuCfg[2].gamepad .. ', ' .. t_keyMenuCfg[3].gamepad .. ', ' .. t_keyMenuCfg[4].gamepad .. ', ' .. t_keyMenuCfg[5].gamepad .. ', ' .. t_keyMenuCfg[6].gamepad .. ', ' .. t_keyMenuCfg[7].gamepad .. ', ' .. t_keyMenuCfg[8].gamepad .. ', ' .. t_keyMenuCfg[9].gamepad .. ', ' .. t_keyMenuCfg[10].gamepad .. ', ' .. t_keyMenuCfg[11].gamepad .. ', ' .. t_keyMenuCfg[12].gamepad .. ', ' .. t_keyMenuCfg[13].gamepad .. ', ' .. t_keyMenuCfg[14].gamepad .. ');')
 	else --Save Player 2 Menu Controls
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg2[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[4].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[5].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[6].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[7].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[8].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[9].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg2[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[14].varText .. ');')
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg2[1].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[2].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[3].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[4].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[5].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[6].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[7].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[8].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[9].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[10].keyboard .. ',\n  (int)k_t::'.. t_keyMenuCfg2[11].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[12].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[13].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[14].keyboard .. ');')
 		
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg2[1].varText .. ', ' .. t_keyMenuCfg2[2].varText .. ', ' .. t_keyMenuCfg2[3].varText .. ', ' .. t_keyMenuCfg2[4].varText .. ', ' .. t_keyMenuCfg2[5].varText .. ', ' .. t_keyMenuCfg2[6].varText .. ', ' .. t_keyMenuCfg2[7].varText .. ', ' .. t_keyMenuCfg2[8].varText .. ', ' .. t_keyMenuCfg2[9].varText .. ', ' .. t_keyMenuCfg2[10].varText .. ', ' .. t_keyMenuCfg2[11].varText .. ', ' .. t_keyMenuCfg2[12].varText .. ', ' .. t_keyMenuCfg2[13].varText .. ', ' .. t_keyMenuCfg2[14].varText .. ');')
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg2[1].gamepad .. ', ' .. t_keyMenuCfg2[2].gamepad .. ', ' .. t_keyMenuCfg2[3].gamepad .. ', ' .. t_keyMenuCfg2[4].gamepad .. ', ' .. t_keyMenuCfg2[5].gamepad .. ', ' .. t_keyMenuCfg2[6].gamepad .. ', ' .. t_keyMenuCfg2[7].gamepad .. ', ' .. t_keyMenuCfg2[8].gamepad .. ', ' .. t_keyMenuCfg2[9].gamepad .. ', ' .. t_keyMenuCfg2[10].gamepad .. ', ' .. t_keyMenuCfg2[11].gamepad .. ', ' .. t_keyMenuCfg2[12].gamepad .. ', ' .. t_keyMenuCfg2[13].gamepad .. ', ' .. t_keyMenuCfg2[14].gamepad .. ');')
 	end
 end
 
@@ -8695,12 +8783,16 @@ function f_defaultStats()
 	needReload = 1
 end
 
---Load Inputs for Inputs Hints Data
-f_inputMenuRead(0, -1) -- 0=P1, -1=Keyboard
-f_inputMenuRead(1, -1) -- 1=P2
+--Read Inputs for Inputs Hints Data
+f_inputMenuRead(0, -1) --0=P1, -1=Keyboard
+f_inputMenuRead(1, -1) --1=P2
+f_inputMenuRead(2, data.p1Gamepad) --2=P3
+f_inputMenuRead(3, data.p2Gamepad) --3=P4
 
-f_inputBattleRead(0, -1) -- 0=P1, -1=Keyboard
-f_inputBattleRead(1, -1) -- 1=P2
+f_inputBattleRead(0, -1)
+f_inputBattleRead(1, -1)
+f_inputBattleRead(2, data.p1Gamepad)
+f_inputBattleRead(3, data.p2Gamepad)
 
 function f_exportDebugInputs()
 	if data.debugLog then
