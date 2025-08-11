@@ -672,93 +672,6 @@ TUserFunc(void, SetDiscordInstance, int8_t Instance)
 	}
 }
 
-SDL_Surface *screenSurface = nullptr;
-SDL_Surface *PNGSurface = nullptr;
-
-/*
-static SDL_Surface* loadImage(std::string path) 
-{
-	//The final optimized image
-    SDL_Surface* optimizedSurface = NULL;
-
-	//Load image at specified path
-	SDL_Surface* loadedImage = IMG_Load(path.c_str());
-	if (loadedImage == NULL) 
-	{
-		//fprintf(stderr, "could not load image: %s\n", IMG_GetError());
-		//return NULL;
-	}
-	else
-	{
-		//Convert surface to screen format
-		optimizedSurface = SDL_ConvertSurface(loadedImage, screenSurface->format, 0);
-		if (optimizedSurface == NULL)
-		{
-			//fprintf(stderr, "could not optimize image: %s\n", SDL_GetError());
-		}
-		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedImage);
-	}
-	return optimizedSurface;
-}
-*/
-
-/*
-TUserFunc(bool, loadPNG, Reference dir)
-{
-	//Loading success flag
-	bool success = true;
-
-	//Load PNG surface
-	//PNGSurface = loadImage(pu->refToAstr(CP_THREAD_ACP, dir).c_str());
-	PNGSurface = loadImage("tools/test.png");
-	if(PNGSurface == NULL)
-	{
-		//printf( "Failed to load PNG image!\n" );
-		success = false;
-	}
-	return success;
-}
-*/
-
-//TUserFunc(bool, LoadPNG, Reference dir)
-bool LoadPNG()
-{
-	//The final optimized image
-    SDL_Surface* optimizedSurface = NULL;
-
-	//Load image at specified path
-	//SDL_Surface* loadedImage = IMG_Load(pu->refToAstr(CP_THREAD_ACP, dir).c_str());
-	SDL_Surface* loadedImage = IMG_Load("tools/test.png");
-	if (loadedImage == NULL) 
-	{
-		//fprintf(stderr, "could not load image: %s\n", IMG_GetError());
-		//return NULL;
-	}
-	else
-	{
-		//Convert surface to screen format
-		optimizedSurface = SDL_ConvertSurface(loadedImage, screenSurface->format, 0);
-		if (optimizedSurface == NULL)
-		{
-			//fprintf(stderr, "could not optimize image: %s\n", SDL_GetError());
-		}
-		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedImage);
-	}
-	return optimizedSurface;
-}
-
-//TUserFunc(void, RenderPNG)
-void RenderPNG()
-{
-	//Apply the PNG image
-	SDL_BlitSurface(PNGSurface, NULL, screenSurface, NULL);
-	//Update the surface
-	SDL_UpdateWindowSurface(g_window);
-}
-int imgFlags = IMG_INIT_PNG;
-
 //Software Render
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 {
@@ -772,7 +685,6 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		//UpdateDiscordPresence();
 		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0"); //VSYNC TEST
-		IMG_Init(imgFlags); //Initialize PNG loading https://wiki.libsdl.org/SDL2_image/IMG_Init
 		TTF_Init(); //Initialize TTF loading
 		g_scrflag = SDL_SWSURFACE; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
 		g_window = SDL_CreateWindow( //https://wiki.libsdl.org/SDL2/SDL_CreateWindow
@@ -791,7 +703,6 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		}
 		winProcInit();
 		g_mainTreadId = GetCurrentThreadId();
-		screenSurface = SDL_GetWindowSurface(g_window); //Get Window Surface for PNG Images
 		sndjoyinit();
 	}
 	g_w = w;
@@ -858,6 +769,7 @@ TUserFunc(void, End)
 	bgmclear(true);
 	SDL_PauseAudio(1);
 	SDL_CloseAudio();
+//Destroy Render
 	if(g_target){
 		unlockTarget();
 		SDL_DestroyTexture(g_target);
@@ -867,21 +779,13 @@ TUserFunc(void, End)
 		SDL_GL_DeleteContext(g_gl);
 		g_gl = nullptr;
 	}
-	//SDL_FreeSurface(screenSurface);
-	//screenSurface = nullptr;
-	SDL_FreeSurface(PNGSurface);
-	PNGSurface = nullptr;
-
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
-
-	//Destroy window
+//Destroy Window
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
-
-	//Quit SDL subsystems
+//Quit SDL subsystems
 	TTF_Quit();
-	IMG_Quit();
 	SDL_Quit();
 }
 
