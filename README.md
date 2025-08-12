@@ -66,13 +66,11 @@ This is a general view of what you can expect in next releases. This roadmap is 
 **v1.5 (Next Update)**
 ------------
 
-- Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
+- Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, bloquee la casilla como los unlocks, si está activada la opción.
 
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
 - Leer archivos movelist.dat dentro de los chars.
-
-- Los combates de intermisiones dejan de funcionar si se juega en team mode.
 
 - Arreglar preview de random chars que no coincide con el char al usar la visualización por sprites.
 
@@ -86,9 +84,7 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Durante el arcade, la forma en que está programada el here comes a new challenger hace uso de setCom(2, 0) en el menú de pausa causa que la IA se quede en nivel 0, pero es porque el jugador 2 recibe por unos instantes el control para poner pausa y que se vea la pantalla del challenger.
 
-- Hacer que los inputs de control del jugador 2 se puedan configurar como botones no utilizados o inputs "void", para no cambiar el control del jugador 1 cuando no responda debido a que el jugador 2 tiene o comparte mismos botones.
-
-- Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, etc)
+- Los combates de intermisiones dejan de funcionar si se juega en team mode.
 
 **v1.6**
 ------------
@@ -124,20 +120,18 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
-- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa). Probar añadirlo desde match.lua.
+- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa). Probar programarlo desde match.lua.
 
 - Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
 
 - Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
-- El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
+- El tiempo usado como condicional de desbloqueo en los ejemplos del modo eventos, debe sincronizarse con un servidor de internet usando LuaSocket.
 
 **v1.7**
 ------------
 
 - Probar mod de smash de forma global en match.cns: https://youtu.be/B4b4N16zigA?t=49
-
-- Incluir pregunta para guardar o no los replays online.
 
 - Co-Op para el Versus Mode.
 
@@ -170,13 +164,15 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Soporte para Fntv2 y True Type Font (TTF).
 
-- Soporte para imágenes RGB/32bits y Shaders.
-
 - Soporte para cargar archivos PNG o PCX externos en lugar de usar siempre el formato SFF usando la función IMG_Load del SDL2.
 
-- Soporte para modelos 3D integrando glTF?
+- Soporte para imágenes RGB/32bits y Shaders.
 
-- Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en ¿local replays?.
+- Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, agregar texto en la capa superior, etc)
+
+- Integrar una librería que permita capturar y guardar videos en formato .avi (como algunos emuladores), para ser reproducidos con el reproductor de video en Gallery Mode.
+
+- Soporte para modelos 3D integrando glTF?
 
 - Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
