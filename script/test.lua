@@ -1,4 +1,5 @@
 function f_mainTitle()
+	cmdInput()
 	while true do
 		--[[
 		drawBottomMenuSP()
