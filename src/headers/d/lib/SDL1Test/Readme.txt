@@ -1,1 +1,0 @@
-This test consist in compile and use this libraries that are the versions used in first ikemen to compile sdlplugin and see if Perfomance is better.
