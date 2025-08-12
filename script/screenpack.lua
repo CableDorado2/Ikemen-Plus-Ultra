@@ -780,7 +780,6 @@ end
 t_arcadeMenu = {
 	{text = "CLASSIC",	  gotomenu = "f_arcadeBoot()"},
 	{text = "TOWER", 	  gotomenu = "f_towerBoot()"},
-	{text = "BEAT EM UP", gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_arcadeMenu do
 	t_arcadeMenu[i]['id'] = textImgNew()
@@ -863,6 +862,8 @@ end
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
+	--{text = "BEAT EM UP", gotomenu = "f_comingSoon()"},
+	--{text = "PLATFORM", gotomenu = "f_comingSoon()"},
 	{text = "BONUS GAMES", 	gotomenu = "f_bonusMenu()"},
 	{text = "TOURNAMENT", 	gotomenu = "f_tourneyCfg()"},
 	{text = "ENDLESS", 		gotomenu = "f_endlessBoot()"},
