@@ -3,7 +3,7 @@
 </p>
 
 ---
-*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus). The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently in development by [***CD2***](https://www.youtube.com/@CableDorado2) + some features developed by [***Strong FS***](https://www.youtube.com/@StrongFS) and [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
+*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus) (an Open Source Fighting Game Engine that supports resources from the M.U.G.E.N Engine). This engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently in development by [***CD2***](https://www.youtube.com/@CableDorado2) + some features developed by [***Strong FS***](https://www.youtube.com/@StrongFS) and [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
 > [!NOTE]
 > - If you are looking for the official latest/current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
@@ -212,8 +212,8 @@ Here you can find content to build your projects or just for play on Ikemen.
 - [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
 
 ## Tools
-Here you can find some tools that help you in development of your projects (Some missed tools are included in the main Ikemen Plus Ultra folder called "tools").
-- [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull Mugen editor)
+Here you can find some tools that help you in development of your projects (Some missed tools are included in the main I.K.E.M.E.N. Plus Ultra folder called "tools").
+- [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull M.U.G.E.N editor)
 - [Notepad++](https://notepad-plus-plus.org/) (Script editor)
 - [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
 - [Mp3Tag](https://www.mp3tag.de/en/) (A music tag editor)
@@ -232,7 +232,7 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 **No**, this is a modified and in-development version of an older version of the original engine, specifically the I.K.E.M.E.N. Plus 0.3 version. The latest version is known as I.K.E.M.E.N. GO and is active by other developers (many of whom contributed to the plus version which this modification is based on).
 
 ## Why are you updating an older version?
-Because it doesn't required only OpenGL to run (when I searched for this engine, the only version that worked for me was the Plus version because it uses software rendering as an alternative to OpenGL), which is the same as using DirectX if you're coming from Mugen.
+Because it doesn't require only OpenGL to run (when I searched for this engine, the only version that worked for me was the Plus version because it uses software rendering as an alternative to OpenGL), which is the same as using DirectX if you're coming from Mugen.
 
 ## Where can I find system.def and mugen.cfg in I.K.E.M.E.N. Plus Ultra?
 The loading of assets and main functions is located in the script folder, in the files:
@@ -249,7 +249,7 @@ At the moment, there are no plans to include a system.def file that allows for s
 In fact, if you're attentive or familiar with how this engine works, this issue already occurs to some extent when using and porting functions to Lua instead of using ssz itself. Because the latter is where the base functions are actually created and has direct communication with the libraries used by the engine, using a syntax similar to C++.
 
 ## How can I port my M.U.G.E.N screenpack to I.K.E.M.E.N. Plus Ultra?
-First, consider trying Ikemen GO, which has system.def and greater compatibility with M.U.G.E.N resources.
+First, consider trying I.K.E.M.E.N. GO, which has system.def and greater compatibility with M.U.G.E.N resources.
 
 However, if it didn't work for you, or you still want to use this alternative, You'll need to adapt all assets from system.def and/or derived assets so that the engine can first read them (for now, they must be 8-bit indexed sprites or images, or the equivalent of saving the sprite.sff file in Fighter Factory in M.U.G.E.N. 1.0 format). Then, declare their location in Lua (preferably screenpack.lua) and then call them with a drawing function like animPosDraw so that the element finally appears in the function/screen/menu where you're programming.
 
@@ -257,7 +257,7 @@ Within all the scripts, there are many examples of ways you can import resources
 
 The only exception to this rule of using Lua to porting content from M.U.G.E.N is select.def (where characters and stages are added) and fight.def (where, like M.U.G.E.N, you can add health bars and other elements that are displayed during the fight).
 
-## Are there tutorials on how to create functions or edit the I.K.E.M.E.N. Plus Ultra screenpack?
+## Are there tutorials on how to create functions or edit the I.K.E.M.E.N. Plus Ultra Screenpack?
 There are tutorials about basic screenpack editing for the non-Ultra version, shared years ago by the user TheFclass97: https://www.youtube.com/playlist?list=PLUJEkERU43iJNxU59n0qELKSUrFTsb4zh
 
 They can be a good place to start understanding the engine. However, because the location of several functions has changed in this Plus Ultra version, it is recommended to wait until the engine is more consistent (expected to reach this state in v1.8) before offering documentation or a guide on how to use it.
