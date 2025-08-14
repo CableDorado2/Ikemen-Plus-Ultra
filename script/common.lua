@@ -31,11 +31,9 @@ package.path = "./?.lua;" ..
 				
 --Load LuaFileSystem library
 lfs = require("lfs")
---[[
 --Load LuaSocket libraries
 socket = require("socket")
 http = require("socket.http")
---]]
 ltn12 = require("ltn12")
 --Load JSON libraries
 dkjson = require("dkjson")
@@ -45,8 +43,8 @@ json = (loadfile "lib/lua/json.lua")() --One-time load of the json routines
 --[[
 --request home page via the socket library
 local homePage = http.request("https://github.com/CableDorado2/Ikemen-Plus-Ultra")
-print(homePage)
-]]
+f_printTable(homePage, "save/Test.log")
+--]]
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================

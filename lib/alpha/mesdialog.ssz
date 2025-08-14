@@ -1,11 +1,8 @@
-
 plugin bool YesNo(:^/char:) = "dll/mesdialog.dll";
 plugin bool GetClipboardStr(:^char=:) = "dll/mesdialog.dll";
-plugin void GetInifileString(:^/char, ^/char, ^/char, ^/char, ^char=:) =
-  "dll/mesdialog.dll";
+plugin void GetInifileString(:^/char, ^/char, ^/char, ^/char, ^char=:) = "dll/mesdialog.dll";
 plugin int GetInifileInt(:^/char, ^/char, ^/char, int:) = "dll/mesdialog.dll";
-plugin bool WriteInifileString(:^/char, ^/char, ^/char, ^/char:) =
-  "dll/mesdialog.dll";
+plugin bool WriteInifileString(:^/char, ^/char, ^/char, ^/char:) = "dll/mesdialog.dll";
 plugin void InputStr(:^/char, ^char=:) = "dll/mesdialog.dll";
 plugin bool UnCompress(:^ubyte=, ^/ubyte:) = "dll/mesdialog.dll";
 plugin void UbytesToStr(:|CodePage, ^char=, ^/ubyte:) = "dll/mesdialog.dll";
@@ -13,7 +10,6 @@ plugin void StrToUbytes(:|CodePage, ^ubyte=, ^/char:) = "dll/mesdialog.dll";
 plugin void AsciiToLocal(:^char=, ^/char:) = "dll/mesdialog.dll";
 plugin void SetSharedString(:^/char:) = "dll/mesdialog.dll";
 plugin void GetSharedString(:^char=:) = "dll/mesdialog.dll";
-
 
 |CodePage
 {
@@ -33,7 +29,6 @@ plugin void GetSharedString(:^char=:) = "dll/mesdialog.dll";
   UTF8       = 65001        // UTF-8 translation
 }
 
-
 lib al = <alert.ssz>;
 
 public void veryUnsafeCopy<dst_t, src_t>(dst_t d=, src_t s=)
@@ -42,7 +37,6 @@ public void veryUnsafeCopy<dst_t, src_t>(dst_t d=, src_t s=)
   plugin void VeryUnsafeCopy(:dst_t=, src_t=, index:) = "dll/mesdialog.dll";
   VeryUnsafeCopy(:d=, s=, math.min!index?(typesize(dst_t), typesize(src_t)):);
 }
-
 
 index thandle = 0;
 
