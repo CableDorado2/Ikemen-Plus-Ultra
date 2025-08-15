@@ -1,0 +1,950 @@
+﻿S-SIZE interpreter update history
+
+2016/8/21 v1.39
+Fixed that @ reference was not done properly.
+
+2015/12/31 v1.38
+Fixed to handle heap memory after 0x80000000 internally.
+
+2015/3/23 v1.37.5
+Fixed '*' being allowed in anonymous function arguments and return values.
+
+2015/3/23 v1.37.4
+Fixed handling of anonymous function execution on each element of nested arrays.
+
+2015/3/23 v1.37.3
+Fixed handling of unprotected references in anonymous function execution to each element of an array.
+
+2015/3/23 v1.37.2
+Fixed processing of function pointer system.
+
+2015/3/23 v1.37.1
+Fix handling of anonymous function execution for each element of member array variables of class type arguments.
+
+2015/3/23 v1.37
+Fixed some inconsistent protections for member reference type variables,
+Added '*' to specify unprotected references.
+
+2015/3/22 v1.36
+A local variable is defined like **&Class c; so that it can be treated in the same way as a member variable.
+This allows you to pass protected member variables within immutable member functions to the member functions of the defined variable.
+
+2015/3/18 v1.35
+Fixed immutability of return values of member functions like /^*int for local variables inside return value member functions like /^*int.
+
+2015/3/17 v1.34
+Fixed return value of member function of object of mutable reference defined like /^*int cannot be assigned to dynamic reference type.
+
+2014/4/11 v1.33
+Fixed a bug when a reference type return value was passed to an anonymous function argument.
+
+2014/2/22 v1.32
+Fixed access control bug for member functions of global variables.
+
+2013/11/23 v1.31
+Fixed out-of-range array indices pointing to random locations instead of the last element.
+
+2013/6/24 v1.30
+-2.0**f Fixed operator precedence not correct for variables on the right side only.
+
+2013/4/26 v1.29.2
+Fixed a crash when executing an anonymous function for each element of an array variable with a length of 0.
+
+2013/4/25 v1.29.1
+Fixed an error when passing a structure value in anonymous function execution to each element of an array variable.
+
+2013/4/25 v1.29
+^/int a = (int)[32, 33, 34, 35, 36];
+^char s = a:<-[char(i){ret(char)i;}];
+I wrote like so that an anonymous function can be executed for each element of the array.
+
+2013/3/2 v1.28.9
+Fixed stringification of floating point numbers.
+
+2013/3/1 v1.28.8
+Fixed stringification of floating point numbers.
+
+2013/3/1 v1.28.7
+Fixed incorrect use of "''" not causing an error.
+
+2013/3/1 v1.28.6
+Fixed stringification of floating point numbers.
+
+2013/3/1 v1.28.5
+Added prefix operator "''" to stringify numbers etc.
+
+2013/1/22 v1.28.4
+Fixed a crash when compiling anonymous functions that use '.' in reference type variables.
+Updated file.ssz. (Added copy, reversed order of arguments to move.)
+Updated socket.ssz. (getLocalIP removed.)
+
+2012/11/7 v1.28.3
+Fixed crash when break before case or default in switch.
+
+2012/11/2 v1.28.2
+Fixed bug with anonymous function arguments in nested scopes.
+
+2012/10/28 v1.28.1
+Fixed an error when passing a type not defined yet to a template.
+
+2012/8/25 v1.28
+Fixed ** to have higher precedence than prefix operators.
+
+2012/7/11 v1.27.11
+Fixed syntax error handling for array literals.
+
+2012/7/10 v1.27.10
+Improved speed of ref method calls.
+
+2012/7/9 v1.27.9
+Fixed incorrect type checking of member function pointers.
+
+2012/7/8 v1.27.8
+Fixed incorrect type checking of function pointers.
+
+2012/7/5 v1.27.7
+Fixed a crash when connecting arrays of length 0 arrays with +.
+
+2012/6/28 v1.27.6
+Fixed a judgment bug that prevents the use of uninitialized global variables.
+
+2012/6/19 v1.27.5
+Fixed type _t = $*public void();
+
+2012/6/19 v1.27.4
+Fixed bug in ref method call.
+
+2012/6/19 v1.27.3
+When defined with *public, it becomes public only within the same file.
+
+2012/6/17 v1.27.2
+Fixed a bug in processing abnormal termination.
+
+2012/6/13 v1.27.1
+Add &Compiler to <ssz.ssz>.
+
+2012/5/23 v1.27
+&C{^int a;/^*int f(){ret `a;}} changed the return type of f according to the situation.
+
+2012/5/21 v1.26.7
+Fixed that anonymous functions could not be used in functions defined with /.
+
+2012/4/24 v1.26.6
+Fixed not being able to get enum values with <consteval>.
+
+2012/3/26 v1.26.5
+Fixed a bug in the process of assigning a constant to a variable in the middle of an expression.
+
+2012/3/19 v1.26.4
+Fixed compile error file name etc.
+
+2012/3/19 v1.26.3
+Fixed const function pointer not error after ret in global.
+
+2012/3/16 v1.26.2
+Fixed processing for plugins.
+
+2012/3/9 v1.26.1.2
+Fixed string.ssz (fixed %g in float format).
+
+2012/3/9 v1.26.1.1
+string.ssz fix (float format fix).
+
+2012/3/8 v1.26.1
+Fix handling of reference arguments in nested anonymous functions.
+
+2012/3/8 v1.26.0.3
+Fixed string.ssz (rounded off in floating point number format).
+
+2012/3/7 v1.26.0.2
+Fixed string.ssz.
+
+2012/3/7 v1.26.0.1
+Fixed string.ssz.
+
+2012/3/7 v1.26
+Fixed 64bit shift operation. Fixed ternary operator. Removed # after function call.
+
+2012/2/12 v1.25.4
+Fixed i.[..(_=)_.self{ret _ = 0;}];
+
+2012/2/12 v1.25.3
+Fixed concealment not being perfect in type.
+
+2012/2/11 v1.25.2
+Avoid defining type after returning in a global
+Fixed to maintain concealment by type rather than by type.
+
+2012/2/11 v1.25.1
+Fixed not being able to define type after returning in global.
+
+2012/2/11 v1.25
+i.[void(_=){_ = 0;}];
+
+2012/2/2 v1.24.1
+For casts and array literals whose type is unknown at the beginning from the compiler's point of view,
+Changed so that * must be added inside parentheses.
+
+2012/2/2 v1.24
+Fixed an error when trying to assign %%int to ^^int.
+Obsolete const defined functions and classes.
+
+2011/12/30 v1.23.4
+Fixed not being able to call a global function pointer inside a member function defined with /.
+
+2011/12/18 v1.23.3.1
+Fixed string.ssz.
+
+2011/12/7 v1.23.3
+(|E)[E::a, E::b] enabled to write constant enumerated arrays.
+
+2011/11/26 v1.23.2
+Fixed crash when creating an array with one element of enumeration type with ?.
+Corrected max etc. of math.ssz to const definition.
+
+2011/10/25 v1.23.1
+No space is allowed between cond and branch tag.
+
+2011/10/24 v1.23.0.1
+Fixed macro.ssz.
+
+2011/10/24 v1.23
+Change consteval, idname, wait from reserved words to special tags. Write special tags by enclosing them in < >.
+
+2011/08/30 v1.22.9.2
+Fixed string.ssz.
+
+2011/08/30 v1.22.9.1
+Added <stack.ssz>.
+
+2011/08/12 v1.22.9
+Fixed incorrect comparison of 64bit signed integers.
+
+2011/08/09 v1.22.8
+Fixed void f<_t>(){} type _t = f!int?.signature;
+
+2011/08/06 v1.22.7
+Fixed classpath handling bug.
+
+2011/08/06 v1.22.6
+Fixed a bug in the process of connecting arrays with the + operator.
+
+2011/08/03 v1.22.5
+Fixed &A{&B{public &C{}} type _t=&B;} &A a; type _t=&a._t::C;
+
+2011/08/01 v1.22.4
+Fixed ref a; ^ref b = ?a; not working properly.
+
+2011/08/01 v1.22.3
+Fixed ^int a; ^^int b = ?a;
+
+2011/08/01 v1.22.2
+Fixed that variable could not be used when creating an array of one element with ?.
+
+2011/08/01 v1.22.1
+Fixed type handling of + operator between arrays.
+
+2011/08/01 v1.22
+Made it possible to create an array by connecting arrays with the + operator.
+?(int)0 to create an array of 0 ints.
+
+2011/07/30 v1.21.6
+Fixed a bug when writing an array literal inside an array literal ((char)["a"<>] etc.).
+
+2011/07/29 v1.21.5
+Fixed not being able to write like "str"[0] in constant expression.
+
+2011/07/29 v1.21.4
+Fixed not being able to write like "str"[0].
+
+2011/07/16 v1.21.3
+Fixed an error when trying to define a class in another file's scope.
+
+2011/07/16 v1.21.2
+Fixed to treat reference type global variables as / with const functions.
+
+2011/07/16 v1.21.1
+Fixed that reference type member of member variable was not marked with / in member function with /.
+
+2011/07/16 v1.21
+Changed to handle reference type member variables as with / in member functions with /.
+
+2011/07/12 v1.20.13
+Fixed @ processing bug.
+
+2011/07/10 v1.20.12
+Fixed not being able to use templates in constant expressions.
+
+2011/06/27 v1.20.11
+Fixed an issue where circular references including dynamic reference types were not released automatically.
+
+2011/06/25 v1.20.10
+Fixed missing type check in member function call over ref.
+
+2011/06/25 v1.20.9
+Made it possible to call member functions of core even through ref if core is first.
+
+2011/06/23 v1.20.8
+Fixed not getting an error when trying to call a core template function automatically.
+
+2011/06/23 v1.20.7
+Fixed a bug in the handling of function-like types.
+
+2011/06/23 v1.20.6
+Fixed bug in function pointer type handling.
+
+2011/06/22 v1.20.5
+#Fixed "abc" etc. to be an error.
+Enabled to get offset like a[1..2].diff.
+Enabled to directly pass ^int etc. to functions that take refs.
+
+2011/06/17 v1.20.4
+4.Fixed that 94066E-324 etc. could not be read normally.
+
+2011/01/26 v1.20.3
+Fixed a crash during compilation when calling a function without template arguments.
+
+2011/01/07 v1.20.2.4
+Added a function to move files to trash in <shell.ssz>.
+
+2011/01/02 v1.20.2.3
+Fixed randI in <math.ssz>.
+
+2011/01/01 v1.20.2.2
+Fixed random number generation in <math.ssz>.
+
+2010/12/18 v1.20.2.1
+Added functions related to directory operations to <file.ssz>.
+
+2010/11/12 v1.20.2
+Fixed an error when referring to an already defined value in an enum definition.
+
+2010/11/2 v1.20.1
+Fixed a crash when calling a ref member function with a reference type return value.
+
+2010/11/2 v1.20
+Changed to write sizeof(int) as typesize(int).
+Changed typeidof(int) to typeid(int).
+
+r.method!$int(int)?~f(10)=>n
+I made it possible to call the member function of the first object pointed by ref and list by writing like this.
+Returns false on failure. Get the return value with =>.
+
+2010/10/29 v1.19.20
+Fixed a crash when automatically releasing a dynamic reference type circular reference.
+
+2010/10/18 v1.19.19
+Fixed a crash when writing a function call whose return value is a reference type in the value of the conditional operator.
+
+2010/10/15 v1.19.18
+Changed to use STL.
+
+2010/10/3 v1.19.17
+Fixed command line parsing.
+
+2010/10/3 v1.19.16
+Fixed a crash when automatically freeing circular references.
+
+2010/10/1 v1.19.15
+Added support for .= for things like %^/char.
+
+2010/9/30 v1.19.14
+Added support for ^ref in ref.
+
+2010/9/29 v1.19.13
+Fixed the problem of automatically releasing circular references.
+
+2010/9/27 v1.19.12
+Fixed not being sure to automatically release circular references.
+
+2010/9/26 v1.19.11
+Fixed not being sure to automatically release circular references.
+
+2010/7/3 v1.19.10.2
+Updated socket.dll.
+
+2010/7/2 v1.19.10.1
+Updated socket.dll.
+
+2010/6/27 v1.19.10
+Fixed memory leak.
+
+2010/6/26 v1.19.9
+Fixed not knowing where it occurred when division by 0 occurred in long.
+
+2010/6/21 v1.19.8
+Made the run-time compile area non-run-time read/write.
+
+2010/6/19 v1.19.7
+Fixed an error if delegate defined by signature type has more than 2 arguments.
+
+2010/5/20 v1.19.6
+Fixed wrong undefined error.
+
+2010/5/16 v1.19.5
+Fixed not working properly when writing like 1 + r.new(0)$1.
+
+2010/5/14 v1.19.4
+Fixed an error when adding the unary operator + to a floating point number.
+
+2010/5/5 v1.19.3
+Fixed not being able to assign variables defined with / in the same class.
+
+2010/5/2 v1.19.2
+Fixed not checking the return value type.
+
+2010/3/2 v1.19.1
+Fixed a bug with function pointers with anonymous function arguments.
+
+2010/1/29 v1.19
+Fixed the return type of anonymous function not being written after.
+
+2010/1/16 v1.18
+Removed .. in function templates by adding .. to the return type.
+
+2010/1/13 v1.17.2
+Fixed not getting ret of signature type type.
+
+2010/1/3 v1.17.1
+Fixed an error when sizeof and typeidof are at the beginning of a statement.
+
+2010/1/1 v1.17
+The function pointer of the function whose return value is the reference type is also made to be the same type.
+Made it possible to get the return type in signature.ret.
+
+2009/11/29 v1.16.10
+Fixed bug when member has lib.
+
+2009/11/28 v1.16.9
+Fixed freeze during compilation when using @.
+
+2009/11/27 v1.16.8
+Fixed crashing during compilation with =>.
+
+2009/11/27 v1.16.7
+Fixed a bug that does not work properly when using @.
+
+2009/11/25 v1.16.6
+Fixed crashing during compilation with =>.
+
+2009/11/24 v1.16.5
+(a=f(b))$(a+1) can now be written as f()=>a#(a+1)<, b. => has the same priority as #.
+
+2009/11/23 v1.16.4
+Enabled f(a=, f(a=, b)$a)$a to be written as f(a=)#a<, f(a=, b)#a. # has the same priority as <,.
+
+2009/10/22 v1.16.3
+Fixed a function definition that uses the signature type that cannot be made public.
+
+2009/10/21 v1.16.2
+You can now define functions like type _t = $int(int, int); *_t f(a, b){ ret a+b; }.
+
+2009/10/18 v1.16.1
+Fixed unsafe automatic release of circular references.
+
+2009/10/6 v1.16
+Implement signature type (used together with func, method, etc.).
+Changed to write delegate as ~.
+type _t = $int(int, int); [_t(a, b){ ret a+b; }];
+
+2009/9/21 v1.15.2
+Fixed unsafe automatic release of circular references.
+
+2009/9/19 v1.15.1
+Fixed not releasing Mutex such as string literals.
+
+2009/9/18 v1.15
+Change ` to write &.
+Change ~ to write |.
+Changed mbr. to be written as `.
+Change <>. to ~.
+
+2009/9/18 v1.14
+Changed to write $ as /.
+Change # to write $.
+Changed len(r) to be written as #r.
+Added # operator (get absolute value, prefix).
+
+2009/9/15 v1.13.16
+Reduced memory usage during execution.
+
+2009/9/14 v1.13.15
+Fixed ** bugs.
+
+2009/9/8 v1.13.14
+Changed plugin call method (no compatibility with previous).
+
+2009/9/5 v1.13.13
+Fixed crash when opening critical section in plugin.
+
+2009/9/5 v1.13.12
+Fixed consteval not being thread safe.
+
+2009/9/2 v1.13.11
+A member function added from another file is ret in the middle
+Fixed access to possibly uninitialized global variables.
+
+2009/8/31 v1.13.10
+Fixed @ bug.
+
+2009/8/13 v1.13.9
+Changed to use critical section for exclusive control.
+
+2009/8/12 v1.13.8
+. . .= can now be used in addition to = when defining local variables.
+
+2009/7/25 v1.13.7
+Fixed erroneous error in conditional operator with constant condition.
+
+2009/7/12 v1.13.6
+Fixed not releasing Mutex such as string literals.
+
+2009/7/5 v1.13.5
+Fixed that the number of lines in the error "No ret" may be wrong.
+
+2009/6/13 v1.13.4
+Fixed a bug that the definition with * gives an error.
+
+2009/6/12 v1.13.3
+Fixed a bug that wrong in delegate and cannot return in break.
+
+2009/5/21 v1.13.2
+Fixed a bug that @ is incorrect and an error cannot be circularly referenced in the library.
+
+2009/5/20 v1.13.1
+You can now refer to global libraries in fill scope with @ instead of .
+
+2009/5/14 v1.13
+Changed to write $ as *.
+Changed see to be written as $.
+
+2009/5/8 v1.12
+Where the compiler does not know whether it is defined at the beginning,
+Changed to require $.
+
+2009/4/28 v1.11.2
+Fixed to use volatile where needed.
+
+2009/4/16 v1.11.1
+Fixed postfix !! bug.
+
+2009/4/15 v1.11
+Added !! operator (bool type toggle, prefix, postfix).
+
+2009/3/23 v1.10.3
+Fixed 64bit non-constant right shift not working properly.
+
+2009/1/1 v1.10.2
+Fixed that the automatic release of circular references might not work properly.
+
+2008/12/30 v1.10.1
+Fixed crash when passing 0 length string to consteval.
+
+2008/12/27 v1.10
+changed ~. to .
+Changed to write enum as ~.
+
+2008/12/20 v1.9.1
+Fixed an error when calling a member function of another instance of the same class.
+Fixed that automatic release of circular references including ref and list did not work properly.
+
+2008/12/7 v1.9
+Changed ref: to be written as ^.
+Changed list: to be written as %.
+Changed class to be written as `.
+Changed to write return as ret.
+Changed :-> to be written as :<-.
+
+2008/12/2 v1.8.31
+Fixed a bug when trying to call a regular function like a template function.
+
+2008/11/29 v1.8.30
+Added ** operator (exponentiation of floating point number).
+
+2008/11/17 v1.8.29
+Fixed not being able to specify a global function as the initial value of the method type in the class definition.
+Fixed idname being <: and :>.
+
+2008/10/9 v1.8.28
+Fixed a bug that no compile error occurred even if there was a possibility of using uninitialized global variables.
+Fixed a crash during compilation when trying to call a global function that is not defined.
+
+2008/8/31 v1.8.27
+Fixed a bug that caused a type error in an irrelevant place.
+
+2008/8/26 v1.8.26
+Fixed a memory leak when compiling.
+
+2008/8/12 v1.8.25
+Fixed that automatic release of circular references did not work properly.
+Fixed a crash bug when returning in a global child block.
+
+2008/8/11 v1.8.24
+Possibility to use uninitialized member variables
+Fixed a bug that caused an error that there is a possibility.
+
+2008/8/10 v1.8.23
+Fixed a bug that sometimes caused an error that case has a strange value.
+
+2008/8/9 v1.8.22
+Added an error icon to the error dialog.
+
+8/8/2008 v1.8.21
+Changed not to allocate memory when displaying the dialog for abnormal termination.
+
+2008/8/6 v1.8.20
+without any global variables
+Fixed a bug that the function uses a global variable that may not have been initialized.
+
+2008/8/5 v1.8.19
+Changed the return value of Run of ssz.dll to bool. Returns false when compilation fails.
+
+2008/7/26 v1.8.18
+Fixed not being able to access private members of the same class within a subblock.
+
+2008/7/20 v1.8.17
+Fixed a bug that caused an error that a member variable that had not been initialized could be used by mistake.
+
+2008/7/19 v1.8.16
+Fixed incorrect comparison of signed integers with overflow values.
+
+2008/7/7 v1.8.15
+Fixed a bug that crashes when using ref or list return value function in break:.
+
+2008/7/4 v1.8.14
+Fixed not compiling correctly when calling a function with a forward reference inside a template function.
+
+2008/6/25 v1.8.13
+Fixed a bug where a variable that might return before initialization could be accessed in a break label.
+
+2008/6/3 v1.8.12
+Display what kind of exception occurred when abnormal termination.
+
+2008/5/10 v1.8.11
+Fixed parentheses matching error when there is \" or \' in the template.
+
+2008/5/1 v1.8.10
+If the object before the delegate literal in the function argument is directly on the register
+Fixed a bug that called a function without pushing the previous object on the stack.
+
+2008/4/23 v1.8.9
+When I run the destructor automatically where the circular reference is automatically freed,
+Fixed not working properly when the destructor exits but still has a reference to itself.
+
+2008/4/22 v1.8.8
+If you do break, continue; etc. in a subblock before the first label in a loop etc.
+Fixed a crash during compilation.
+
+2008/4/13 v1.8.7
+Fixed crash during compilation when there is # after ++,--.
+
+2008/4/10 v1.8.6
+Fixed conditional commenting out in templates.
+
+2008/4/8 v1.8.5
+/?/* constant condition 1: ... /* constant condition 2: ... /*?*/
+It was made to do a conditional comment out when it is like this.
+Everything except after the first satisfied condition becomes a comment.
+
+2008/4/4 v1.8.4
+Fixed crash when wait(..) was followed by # instead of ;.
+
+2008/4/2 v1.8.3
+Fixed not getting an error even if there is no return in functions that return ref or list.
+Fixed return value of delegate being an error in functions that return ref or list.
+
+2008/3/29 v1.8.2
+Fixed erroneous library circular references when defining a library in a template.
+If there is else;, default; without else:, default:, an error will occur.
+
+2008/3/25 v1.8.1
+Fixed an error when calling a member function of another instance of the same class.
+
+2008/3/12 v1.8
+Changed <: to !
+Changed :> to ?.
+Changed to write property as see.
+Changed ref:const to ref:see.
+
+2008/3/7 v1.7.20
+Changed to display the file name and line number when the program terminates abnormally.
+
+2008/3/3 v1.7.19
+Fixed crashing when there is a function that returns ref in the conditional operator.
+
+2008/3/1 v1.7.18
+Improved compilation speed when many functions are defined.
+Fixed 8bit, 16bit increment and decrement breaking adjacent variables.
+Fixed a bug that crashes when writing a constant after # and performing an operation.
+
+2008/2/25 v1.7.17
+Fixed error with const and non-const public global functions.
+
+2008/2/24 v1.7.16
+Fixed that the child block could not access the variables of the parent block after break:.
+Fixed an error when method is defined continuously with ,.
+Fixed crash during compilation at conditional operator.
+
+2008/2/22 v1.7.15
+Fixed an error when there is \ at the beginning of the statement.
+
+2008/2/19 v1.7.14
+Fixed diff not having an else in the first branch when rebranching.
+Fixed a[b[i]..-1] etc. being an error.
+
+2008/2/18 v1.7.13
+Fixed a bug that an error occurs when a function is defined in another file and there is a child block.
+Fixed delegate with multiple arguments not working properly.
+
+2008/2/8 v1.7.12
+Fixed unsafe automatic release of circular references.
+
+2008/2/7 v1.7.11
+Fixed crashing when there is a function that returns ref in the conditional operator.
+
+2008/2/2 v1.7.10
+Fixed consteval not reading decimal numbers correctly.
+Fixed a crash when there is a function that returns a ref in an if that is not a block.
+
+2008/2/1 v1.7.9
+Fixed incorrect comparison of floating point numbers.
+
+2008/1/31 v1.7.8
+Fixed an error when trying to get a function pointer of a library function.
+Fixed a bug that crashes when returning in lock.
+
+2008/1/25 v1.7.7
+If you try to handle members of an object of the same class type within a member function
+Fixed an error.
+
+2008/1/20 v1.7.6
+Fixed unsafe automatic release of circular references.
+
+2008/1/17 v1.7.5
+Made it possible to write the last argument outside the brackets with <,.
+
+2008/1/8 v1.7.4
+Fixed lock not being secure.
+
+2007/12/29 v1.7.3
+Fixed delegate's arguments getting messed up.
+
+2007/12/26 v1.7.2
+Fixed the problem of automatically releasing circular references.
+
+2007/12/25 v1.7.1
+Fixed delegated function was of function pointer type.
+Stopped using recursion when automatically releasing circular references.
+
+2007/12/24 v1.7
+Fixed memory leak in idname.
+Enabled to specify ref and list for return value. But the type of the function pointer is
+A void function that adds a reference argument for the return value to the first argument.
+Changed to specify the type of ref and list with :. e.g. ref:char, list:ref:char
+A template argument can also be specified for the return value. like .._t foo<_t>()
+..
+
+2007/12/19 v1.6.12
+Fixed wrong right shift of unsigned 8/16bit.
+
+2007/12/18 v1.6.11
+Fixed an error judgment that uninitialized variables may be used.
+
+2007/12/16 v1.6.10
+Fixed that lib's property variable was rewritten from outside.
+Fixed ref type comparison not working.
+The main part was made into a dll.
+Fixed reference count increment not being atomic.
+
+2007/12/4 v1.6.9
+Fixed a bug in automatically releasing circular references.
+
+2007/12/3 v1.6.8
+Fixed a problem with the reference argument self.
+
+2007/11/26 v1.6.7
+Fixed not being able to assign delegate type variables in child blocks.
+
+2007/10/05 v1.6.6
+Fixed crash during compilation with r.new(1)#r.
+
+2007/08/28 v1.6.5
+Fixed a memory leak in automatically releasing circular references.
+
+2007/08/22 v1.6.4
+Fixed method variable in transparent function.
+
+2007/08/17 v1.6.3
+Fixed an error that the expression with # is strange.
+
+2007/08/16 v1.6.2
+Fixed not normal when returning in diff.
+Fixed crash during compilation with template function recursion.
+
+2007/08/15 v1.6.1
+Fixed incorrect forward references in templates.
+
+2007/08/13 v1.6
+Changed to write gbl as ~.
+
+2007/08/06 v1.5.7
+Fixed r[len(r)] not working properly.
+idname made it possible to know the name even in the template.
+
+2007/08/03
+Fixed wrong line number for errors in new().
+
+2007/8/02 v1.5.6
+Fixed crash when calling destructor with return value.
+
+2007/7/31
+Made it an error when there is no continue: and continue;
+
+2007/7/30 v1.5.5
+Fixed not being able to use string literals in new() and delete().
+Fixed that the function of the function pointer obtained by consteval was not compiled in some cases.
+Fixed branch{cond<label> condition: comm: diff<label>: } not working at all.
+Fixed not being able to call a template function before its definition.
+
+2007/7/28
+Fixed not being able to compare function pointers.
+
+2007/7/27
+The priority of "#" is higher than "*" and "/".
+
+2007/7/26 v1.5.4
+Prevented consteval from securing array literal area internally.
+Fixed consteval not working properly in blocks.
+
+2007/7/26 v1.5.3
+Implemented idname and consteval.
+
+2007/7/21 v1.5.2
+Fixed bug where delegation didn't work.
+Fixed the mistake of adding the class to the end of the list type.
+Fixed incorrect calculation of floating point numbers.
+
+2007/7/17 v1.5.1
+Fixed the wrong copy of class etc.
+
+2007/7/15 v1.5
+Faster with JIT compilation.
+Various other specification changes.
+
+2007/6/10 v1.2.5
+Cleaned up the internals of the VM.
+
+2007/6/5
+Fixed dynamically allocated threads not being released correctly.
+
+2007/6/4 v1.2.4
+Fixed VM and compiler.
+
+2007/6/2 v1.2.3
+Fixed the VM.
+
+2007/5/31 v1.2.2
+Fixed an issue where the correct error message was not displayed in some templates.
+Fixed a bug that returned value other than 4 bytes did not work properly when calling a function pointer with no arguments.
+Fixed incorrect handling of const in ref types.
+Don't crash on index overflow (on 4-byte integers).
+
+2007/5/30
+Fixed that delegate didn't work with more than 2 arguments.
+Fixed not working with non-negative numbers like a.new[0].
+
+2007/5/28 v1.2.1
+branch{cond<label> condition: comm: diff<
+Fixed label >: } not working as expected.
+
+2007/5/27
+The constant part of the expression is calculated in advance.
+As a result, the type checking between constants is not strict (matches the type of the left side).
+
+2007/5/9 v1.2
+Fixed that it did not work properly when specifying a class that has not been defined yet as an argument.
+
+2007/5/4
+Fixed switch not working properly.
+
+2007/5/1
+Made it possible to cast using the type type.
+
+2007/4/28
+When there is nothing to initialize or run globally,
+Fixed a bug that global objects (classes with only destructors) in that file were not destroyed.
+
+2007/4/24
+Now uses InterlockedDecrement when decrementing the reference count.
+Changed to use InterlockedExchange etc. for multithread related flags.
+
+2007/4/21
+Changed the size of ref and list without specifying type to be written as typesize.
+
+2007/3/29
+Implemented ref and list without specifying type.
+
+2007/3/28
+Fixed a bug where things like a[0]<> didn't work.
+Fixed a bug that does not work properly if the type has a destructor such as a.new[0].
+
+2007/03/25
+Fixed a bug that destroyed global variables immediately when returning in a global sub-block.
+
+2007/3/24
+A variable declared in a child block can no longer be assigned to a delegate type variable in the parent block.
+
+2007/3/2
+Fixed not working with quotes in templates.
+
+2007/3/1
+Enabled to specify gbl as lib.
+Fixed a bug that can not access lib in the library.
+
+2007/2/19
+(void) is now possible.
+
+2007/2/15 v1.1.2
+Fixed a bug where the destructor of a class of size 0 did not work.
+
+2007/2/14 v1.1.1
+Fixed a bug that destructor may not work.
+
+2007/2/14 v1.1
+Implemented delegate type.
+
+2007/2/9
+Detected and released circular reference leaks (but in another thread).
+
+2007/2/3
+Abolition of -> (weak reference) and => (strong reference) operators.
+Allow access to private members of core.
+
+2007/1/24
+Fixed a bug that enum constants could not be written as variable members in mbr and gbl enums.
+Fixed not connecting class and enum types with more than two layers of :: when specifying constants.
+
+2007/1/21
+Changed not to create an object with new(0).
+Fixed the destructor being at the end when returning in a global block.
+
+2007/1/19
+Empty literals such as (int)[] did not cause an error.
+
+2007/1/14
+Fixed jumping to else: not jumping to else.
+
+2007/1/2
+Fixed not being able to call threads from arrays.
+
+2006/12/31
+Fixed type checking for ternary operators.
+
+2006/12/9
+Fixed a bug that members etc. could not be specified when x.new[~].
+
+2006/11/29
+Fixed a bug where libraries could not be defined inside blocks.
+
+2006/11/3 v1.0
+Complete.

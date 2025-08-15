@@ -1,4 +1,9 @@
-﻿--;===========================================================
+﻿--[[=============================================================================
+This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
+		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
+=================================================================================]]
+
+--;===========================================================
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_practiceMenu,#t_practiceMenu,{text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()}) --Insert new item to t_practiceMenu table loaded by screenpack.lua

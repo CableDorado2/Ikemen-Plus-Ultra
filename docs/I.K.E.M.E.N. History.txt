@@ -1,0 +1,1529 @@
+﻿---------------------------------------------------------------------------------------------
+PLUS ULTRA CHANGELOG
+---------------------------------------------------------------------------------------------
+2025.1?.?? (v1.5.0)
+W.I.P
+
+2024.06.02 (v1.4.0)
+New Features:
+Full Engine Source Code Available!
+Story Mode Example.
+data.p1Pal and data.p2Pal variables to set static palettes for characters.
+data.bgm variable to set specific songs for custom fights.
+data.stage as an alternative way to insert specific stages for custom fights.
+Training Time for Player Data/Stats Menu.
+intro.movie and ending.movie as an alternative to intro.storyboard and ending.storyboard in characters def files.
+Author, location and time (stage info paramvalues) from stages.def files now can be displayed in Stage Select.
+Author character info paramvalue from characters.def files can be enabled or disabled from Character Select via options.
+Music from left and right sides character now is detected in BGM Select, if is added in select.def with "music=" paramvalue.
+Stage from left and right sides character now is detected in Stage Select, if is added in select.def with "stages/mybg.def" paramvalue.
+New Portraits for Characters: Winner (9000,2), Loser (9000,3), Order Select (9000,4), VS Screen (9000,5), Results (9000,6).
+New Portraits for Stages: Stage Select Icon (9000,0), Stage Select Portrait (9000,1), VS Screen (9000,2), Victory Screen (9000,3).
+Portrait Groups and Index can be edited via config.ssz.
+3 types of random selection for character/stage select are available:
+Simple shows a random card that covers the character/stage to be chosen and choosing it during this random selection reveals the chosen character/stage.
+Fixed will always hide the character/stage to be chosen and when choosing it, the name will remain hidden.
+Roulette quickly show all available characters/stages and when choosing, the content where "roulette" falls will be shown.
+Random select rematch "Fixed" for chars and stages the first choice made will be maintained and "Variable" random select will search for new content.
+Print/save debug logs now can be enabled or disabled via Engine Settings.
+Input Display for Training Mode.
+Music played in Character Select and Main Menus now can be customizable via System Settings.
+Example of file restoration in case dlc lua script content is uninstalled or deleted.
+Life, Power Gauges and auto guard now can be configured in Training Mode.
+FirstRun screen message.
+f_text Velocity function available to move texts just like f_animVelocity does.
+f_extractText function available to extract strings from .def files sections.
+sndStop() function available to cleaning all sfx that are playing by sndPlay().
+common.air and common.cmd availables to share global character data.
+roundtime paramvalue for chars in select.def, set the time (in seconds) in order to overwrite round time saved in settings for arcade mode.
+rounds paramvalue for chars in select.def, set number of rounds in order to overwrite the chosen in settings (Useful for Bonus Characters).
+Side Select (decide if you will play from the left or right side of the screen).
+"Here Comes a New Challenger" quick versus mode available for Arcade (not available for Co-Op or CPU vs CPU modes).
+Secret Code example using buttons sequences in specifics menu.
+Intermission Fights at the end of Arcade meeting certain conditions using intermission paramvalue for chars in select.def.
+Loading Screen after Versus Screen.
+Playback for Training Mode.
+Visual Novel Mode.
+Tower Mode.
+Unlock paramvalue for characters and stages in select.def, if it set as unlock=0 lock the selection. (Unlocks examples added in main.lua).
+Brightness Adjust.
+Match Number added in fight.def to be displayed in Arcade Mode.
+Demo Mode Text added in fight.def to be displayed in Demo Mode.
+New Section [Unlock] and new paramvalues: Condition, Storyboard, Movie for that section in characters.def files.
+New Section [Portraits] and new paramvalues Portrait.Spr, Portrait.Scale for characters.def files.
+Load video files in format WMV.
+Window customization options [No Borders, Resizable and bordered window without resizable (original)].
+Fullscreen customization options (Exclusive and Borderless type).
+16:9 Aspect Ratio setting that includes an Linear Filter if it is on.
+
+Improvements:
+Main Menus.
+Training Mode.
+Sound Test.
+Input Test.
+Victory and Result Screens recoded.
+Native Screenshot function.
+Stage Previews now can be loaded from his own sff file.
+All error messages has been translated from Japanese to English Language.
+When choosing a team mode the portraits of the other members are now shown.
+Animated sprites now appears in versus screen when character presentation is setting as "Sprite".
+Moved config.ssz and configNet.ssz files to "save" directory along with the other save files.
+Menu Controls Separate from In-Game Controls.
+Game Window and Executable path name now can be changed from config.ssz file where the settings are saved.
+Credits screen has been remade (now is a function that can be more customizable via lua).
+Quick Match/Random Mode has been remade using selectSimple function.
+Character Select Rows, Columns and Hidden Rows now can be configured in Options via Character Select Settings.
+Ranks for Survival in Results now are displayed according some Percentage Rates of roster size/amount of victories that can be obtained.
+data.versusScreen for f_selectSimple() game modes, now can be showed in Training, Missions and specifics fights.
+data.stageMenu for f_selectAdvance() game modes, now can be used in Arcade, Survival, Endless, Boss Rush, etc.
+All information and examples about select.def parameters has been separate into a new select.example.def file.
+Training Mode now recognize dummy via select.def with training paramvalue. If is empty, will allow select the dummy in character select.
+Game Mode and Service Triggers now recognized text via cns.
+Game Mode, Service Loaded, Round State, Match Number, Rounds to Win and more match data now is displayed in Debug (CTRL+D).
+File Description, File Version, Product Name, Language and Copyright details added in src to compile the executable with them.
+
+Fixes:
+Preferred Game Mode now works for Player Data/Stats Menu.
+Character select now works in Arcade Mode when you select random slots even in Co-Op modes and when you deselect characters.
+Order select now works when order time is infinite.
+Order select was disabled for co-op simul team mode.
+Demo Mode now can be loaded more that one time and you can use pause menu button or esc key to skip it.
+Player 2 Name and Portrait now is drawed in Co-Op mode.
+Character and Stage select timers now stops when the back question is activated to return to the main menu.
+Netplay port field now does not accept "." causing an error in previous versions.
+Nickname field now does not copy quotes " " from the clipboard, this will avoid errors when reading the saved text.
+Repeated key detection in control settings to prevent someone from assigning the same key to confirm and return for example (only for keyboard).
+
+2023.09.30 (v1.3.0)
+New Features:
+Automatic, random, mute or specific Music Assignment in Stage Select like Arc System games.
+Rematch Option after Win Screen in Versus Modes.
+Timer for Character Select, Stage Select, Order Select, Rematch Option and Service Screen, that can be adjusted via Options.
+CPU VS CPU mode available in: Arcade, Survival, Boss Rush, Time Attack, Sudden Death and Endless modes.
+The Vault Room inspired from Geometry Dash.
+Online versus FT behavior inspired in Fightcade.
+Control menu to Open/Watch or Delete the Replays Files.
+Default Values options for all Options Sub-Menus.
+AI Palette Default or Random option for No Versus Modes.
+Single paramvalue to Select.def (Set to 1 to force facing this character individually in arcade team modes, is ideal for final bosses).
+Information Message when Characters, Stages, Bosses or Bonus Games are not found in select.def to avoid crash and uncertainty.
+Online Join Type now can be changed via options as "Direct" that is default connection method or "Database" (method used in Ikemen Go).
+Quick Scrolling in all menus when holding down a directional key.
+Attract Mode (Inspired from Ikemen Go).
+Pause Menu.
+Palette number input method now can be changed via Options as: Classic (work as MUGEN) or Modern (Select in a list the palette number to use).
+
+Improvements:
+Main Menu.
+Statistics Menu.
+Player 1 in single mode now can choose which CPU member will fight first in Order Select, if CPU has more than 1 member on its team.
+Portrait/Animated sprite of the character that you are going to fight in Single Boss or Bonus Modes, will now be displayed in Char Select.
+Replays will now be saved only if they contain data.
+Online mode interface has been redesigned for host and client.
+Coins will now only function as Credits for Attract Mode and when it is disable, coins will have a collectible function with the intention of being used in a store menu or purchasable objects as occurs in commercial games. Then Arcade Mode will be Free Play, only when attract mode is disabled.
+
+Fixes:
+Random Select (Now paramvalue "exclude" works for Random Select).
+Player Name field spaces.
+Changed strSub function save strings method to avoid errors when use Apostrophe in: Username, Favorite Character and Stage fields.
+Issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+
+2023.02.09 (v1.2.0)
+New Features:
+Events Mode.
+Gallery Mode.
+New paramvalue "vsscreen" for select.def (Set the paramvalue to 0 to avoid displaying versus screen when facing this character).
+CPU Co-op Team Mode setting (P1&P2 Vs Single/Simul/Turns CPU).
+Restart Engine manually option.
+Player and Stage Select Announcer Voice Examples.
+Alternative Stage Page Up Example (only in code).
+Old Single Character Select Type Restored, now when playing in Single Player, you can choose in options for roster slots, between an exclusive (Variable Type) or same as multiplayer view (Fixed Type).
+
+Improvements:
+Main Menu.
+Better engine assets organization (Yes again).
+Better order and presentation of Lua scripts for end user.
+Training and Input Test.
+Start Button.
+Animated sprites extraction for character select now can be disabled when you choose "Portrait" in Char Presentation/Screenpack Options.
+Coin system redefined (Each time that you see the Winner screen you will earn 1 coin).
+Stage Preview method recoded.
+Missions separate in a module.
+Missions Preview method recoded.
+Sound Test now can play files mp3 and ogg at same time and support file extensions with capital letters (same for replays, storyboards and cutscenes menus).
+Quick Random Versus Songs Load method recoded.
+Survival, Time Attack and Sudden Death.
+When playing in team mode and the CPU has team mode as well, now you can choose on the CPU side, the fight order.
+In Co-Op Mode, now Player 2 can edit the order of cpu side while player 1 can edit his own team.
+Player Name and Online Port fields update (inputDialogPopup replaced by direct text insertion on screen. This prevents you that full screen disable, when you add the online port or username.) Even you can copy and paste content according to the field type.
+f_default function, now grouping options from screenpack settings such as victory screen, service screen, challenger screen to customize each game modes instead of setting them globally and then having to specify paths in select.lua depending on each game mode.
+Back to main menu question in character select.
+Statistics Menu.
+Joystick support (Currently you can setup only 1 Gamepad. Two Gamepads support will be added coming soon).
+
+Fixes:
+Missing services now work.
+Single Boss and Single Bonus table bug after playing rush mode.
+
+2022.09.26 (v1.1.0)
+New Features:
+Mission Mode concept.
+Stage Viewer Thanks to Yoshin222.
+Title Screen.
+Here comes a new challenger screen.
+Unlocks example.
+Hints in character select.
+Randoms hints in versus screen.
+Random Song examples.
+New screen resolutions.
+Test Controls in input options.
+Quick Match (Random VS) Mode.
+New Menu Songs.
+Save Player Username.
+Screenpack Settings.
+Engine Perfomance Settings.
+Enable or Disable debug functions.
+Bat Files open custom method.
+Demo Screen while you wait on Title Screen.
+Service screen.
+Change Game Resolution on live.
+Audio Panning option.
+Screenshot tool.
+
+Improvements:
+Better engine assets organization.
+Main Menu.
+Replays menu.
+Sound Test menu.
+Storyboards menu.
+Training Mode.
+Free order select time in order Select screen.
+Order Select and Versus Screen Select Separation.
+Debug keys (in match).
+Online settings.
+Sprites animations of all members of your team, now appears in continue/game over screen.
+Win, Cheese, LieDown and Dizzy sprites animations added to use in char select/order/versus/win screens.
+Some engine errors translate to English (There are many missing in statebuilder.ssz).
+
+Fixes:
+Win text for simul mode.
+Port change save config.
+
+2022.02.10 (v1.0.2)
+Main menu and Engine reworked:
+Sprites directories generated for character select and continue screen regroup
+Winmugen Lifebars Added
+Start button as Enter key added
+Pause button as Backspace key added
+Fades added to every game modes and screens
+Simul and Turns empty icons added
+Restart game mode cursor in character select added
+Wins and Match counter added to every versus mode
+Win Quotes added when you lose or win in versus mode
+Stages preview added
+Team Mode select added to Bonus Games
+
+New Game Modes Added:
+Training Multiplayer [1P vs 2P]
+Boss Rush Co-op
+Single Boss Fight
+Bonus Rush [Includes Co-op]
+Vs 100 Kumite Co-op
+Sudden Death [Includes Co-op]
+Time Attack [Includes Co-op]
+
+Options menu reworked:
+Max Draw Games added
+Versus win counter added
+All 4:3 resolutions added
+Screen change between window or fullscreen added
+Master, SFX and BGM control volume added
+Control mapping reworked (Gamepads support disabled temporally)
+
+Online menu reworked:
+Host and Join Menus added
+Online settings added in order to avoid desync
+Online replays menu reworked and better replay save system
+
+New Online Game Modes added:
+Training
+VS 100 Kumite Co-op
+Boss Rush Co-op
+Bonus Rush Co-op
+Sudden Death Co-op
+Time attack Co-op
+
+Extras Menu reworked:
+Storyboards player
+Sound Test
+Play credits
+4GB Patch Available
+---------------------------------------------------------------------------------------------
+PLUS CHANGELOG
+---------------------------------------------------------------------------------------------
+2017.12.17 (v0.3)
+recreated Github repository with whole Ikemen commit history imported from OSDN
+shinlucho's fixes for crashes in online mode and when you skip sff conversion
+merged new engine (ssz) fixes by Alceris (Fixed characters only taking damage from one out of multiple hits in one frame, Fixed characters turning when they shouldn't, Made AttackMulSet and DefenceMulSet actually work, Implemented stage p1facing and p2facing parameters). He has access to the repository to implement such fixes without pull requests in future
+default ikemen common.snd, common1.cns, fight.snd, fightfx.air, fightfx.sff kept in ssz folder (just in case it has some additional functionality when present there)
+menu / select / vs / victory screen music can be easily added via scripts/main.lua (--Music section)
+improved input remapping
+Save memory option added to video option screen (disabled by default since it negatively affected FPS - the game should be smoother now compared to previous version)
+more resolutions to choose from in options menu
+fade screen effect now works fullscreen for non 4:3 resolutions
+fixed 'Char change at continue' option (problem with exiting the match via Escape button)
+
+2017.12.15 (v0.2)
+automatic stage zoom adjustment based on stage DEF file data if present (zoomout, zoomin)
+fixed zoomMin, zoomMax, zoomSpeed parameters in select.def
+[Characters] section of select.def now accepts stages declarations even outside stages directory
+fixed randomselect feature
+looping music plugin added to the package
+fixed character's arcade intro and ending storyboards playback
+---------------------------------------------------------------------------------------------
+VANILLA CHANGELOG
+---------------------------------------------------------------------------------------------
+ver 2017.05
+bgctrlのSinX, SinYの開始角のところが機能しないのを修正
+postype=noneのexplodを修正
+
+ver 2017.03
+reversaldefのpriorityによってヒットしないのを修正
+angledrawでマイナスの表示スケールのとき回転が逆になるのを修正
+KOされるとctrlが強制的に0になるのを修正
+keyctrlのヘルパーのコマンド入力が独立していないのを修正
+superpauseのunhittableを修正
+画面端ぴったりでないとcornerpushが効かないのを修正
+bindtorootなどがヒットポーズ中無効になるのを修正
+
+ver 2017 Mugen互換性向上のための大量の修正など
+
+ver 2016.01.21 gethitvar(xoff), gethitvar(yoff) が累積しないのを修正。
+ver 2016.01.20 hitdefのsnapを修正。hitoverrideがおかしくなるのを修正。
+ver 2016.01.19 hitdefのsnapを修正。
+ver 2016.01.08 OpenGL 2.0 程度で動くようにした。
+ver 2015.12.31 hitdefのsnapやmaxdistなどを修正。
+ver 2015.05.10 reversaldefに連続ヒットするのを修正。
+ver 2015.05.05 statetype = L で state 140 に跳んでもフリーズしないようにした。
+ver 2015.05.04-2 hitoverrideに連続ヒットするのを修正。
+ver 2015.05.04 projectileのhitonceを修正。
+ver 2015.05.03-2 複数の相手に対するHitdefの処理を修正。
+ver 2015.05.03 ポーズをかけてると勝利デモに移行しないのを修正。
+ver 2015.04.14 AIのコマンドを修正。ポーズ中攻撃判定が無効になるのを修正。
+ver 2015.04.12-2 AIのコマンドを修正。
+ver 2015.04.12 コマンドで / が最後にある場合の処理を修正。
+ver 2015.04.11 コマンドの / の処理を修正。
+ver 2015.04.01 ポーズ中のProjectileの処理を修正。
+ver 2015.02.24 ガードの処理を修正。
+ver 2014.12.13 gethitvar(chainid)を修正。
+ver 2014.11.30 使用するlibpngを1.2に変更。(sdlplugin.dll)
+ver 2014.11.12 旧式トリガーの範囲指定を修正。
+ver 2014.11.11 TargetLifeaddが防御力無視するのを修正。
+ver 2014.10.12 HelperのScaleで判定が大きくならないように修正。
+ver 2014.10.08-2 projcanceltimeを修正。
+ver 2014.10.08 Projhitなどを修正。Projectileの判定のスケールを修正。
+ver 2014.08.14 commandの読み込みを修正。
+ver 2014.05.21 posfreezeを修正。
+ver 2014.04.20 facingトリガーが最初にあると8bitで計算されるのを修正。
+ver 2014.04.15 angledrawがすれるのを修正。
+ver 2014.04.14 ステージのyscaleでズームがすれるのを修正。
+ver 2014.03.21 parallaxのwidthの表示を修正。
+ver 2014.03.09 boundhighに正の数を指定されていたときの処理を修正。
+ver 2014.03.06 位置がリセットされるのがroundstate = 2になった瞬間じゃなかったのを修正。
+ver 2014.03.05 リプレイがまともに記録できてなかったのを修正。
+ver 2014.03.04 ステージのいろいろな不具合を修正。
+ver 2014.03.03 screenposがステージの揺れを考慮していなかったのを修正。
+ver 2014.01.19 ワイドステージなどのxscaleの処理を修正。(bg.ssz)
+ver 2014.01.17 nobgでallpalfxのときの処理を修正。(char.ssz)
+ver 2014.01.08 ハイレゾステージの縦スクロールを修正。(stage.ssz)
+ver 2014.01.06-2 ステージの画像のmaskが必ず有効になっていたのを修正。
+ver 2014.01.06 OpenGLのみPNG32の読み込みに対応。
+ver 2014.01.03 Explodがbackなどのときのバインドが解けたときの処理を修正。(char.ssz)
+ver 2014.01.01 PNG8の読み込みに対応。
+ver 2013.12.31 ステートコントローラーのzoomに対応。
+ver 2013.12.30 enemynearなどを修正。(char.ssz)
+ver 2013.12.04 ownpalのヘルパーのパレットがおかしいのを修正。(char.ssz)
+ver 2013.12.01 Simul時のpowermaxのバグを修正。
+ver 2013.08.01 AssertSpecialのnokoのとき、KOされて吹っ飛ばないのを修正。(char.ssz)
+ver 2013.07.22 mugenversion = 1.0のStateType = LのState 140を修正。
+ver 2013.07.20-2 ヘルパーのpalnoが常に1にならないのを修正。
+ver 2013.07.20 RoundState=4になると敵にバインドしたexplodが消えるのを修正。(char.ssz)
+ver 2013.07.14 State 140の処理を修正。(char.ssz)
+ver 2013.06.27 Simul更新対Simulのときなどのライフの量を修正。(fighting.ssz)
+ver 2013.06.07-2 airの読み込みを修正。(sff.ssz) libogg.dll更新。
+ver 2013.06.07 airの読み込みを修正。(sff.ssz)
+ver 2013.05.15 ダメージが適用されるタイミングを修正。
+ver 2013.04.30 敵のステートでのhelperを修正。(char.ssz)
+ver 2013.04.26 ssz.dll更新。
+ver 2013.04.25 ライフバーのfaceのpalfxを修正。
+ver 2013.03.28 最初のステート実行時DefenceMulが初期化されていないのを修正。(char.ssz)
+ver 2013.03.24-3 mugenversion = 1.0のdestroyselfを修正。(statebuilder.ssz)
+ver 2013.03.24-2 マイナスステートでのヒットポーズ中のchangestateを修正。
+ver 2013.03.24 ヒットポーズ中のchangestateを修正。
+ver 2013.03.23-3 ヒットポーズ中のchangestateを修正。
+ver 2013.03.23-2 projanim=-1を修正。(statebuilder.ssz)
+ver 2013.03.23 projhitを修正。(statebuilder.ssz)
+ver 2013.03.22 projhitを修正。
+ver 2013.03.19-2 roundstate=2になった瞬間alive=1に戻るのを修正。(char.ssz)
+ver 2013.03.19 p1statenoなどがあるとcornerpush.veloffの効果がなくなるを修正。(char.ssz)
+ver 2013.03.18-2 後ろ向きでガードしたときの処理を修正。(char.ssz)
+ver 2013.03.18 1PがSimulで2PがTurnsのとき1Pが負けた次のラウンドのバグを修正。(fighting.ssz)
+ver 2013.03.17-3 F4でリセットしたときの処理を修正。
+ver 2013.03.17-2 p1facing=-1のときのp1getp2facingを修正。(char.ssz)
+ver 2013.03.17 p2facingで元と同じ向きのときの処理を修正。(char.ssz)
+ver 2013.03.16 time=0でtargetfacingされたときのp2facingを修正。(char.ssz)
+ver 2013.03.15-2 enemyリダイレクトの処理を修正。(char.ssz)
+ver 2013.03.15 numenemyの処理を修正修正。
+ver 2013.03.05 マウスカーソルが消えないように修正。
+ver 2013.02.24 ヘルパーのAILevelを修正。(char.ssz,statebuilder.ssz)
+ver 2013.02.20-3 explodの表示順を修正。(char.ssz)
+ver 2013.02.20-2 振り向きの処理を修正。(char.ssz)
+ver 2013.02.20 振り向きの処理を修正。(char.ssz)
+ver 2013.02.19-2 p1facing,p2facing,p1getp2facingの処理を修正。
+ver 2013.02.19 p1facing,p2facing,p1getp2facingの処理を修正。(char.ssz)
+ver 2013.02.16 ワイドステージのズームを修正。(stage.ssz)
+ver 2013.02.15 ワイドステージのズームを修正。(stage.ssz)
+ver 2013.02.10-2 lnのSFalseの条件を修正。(char.ssz)
+ver 2013.02.10 logの引数の順番を修正。(char.ssz)
+ver 2013.02.03 state 52の振り向き修正。(char.ssz)
+ver 2013.01.31 BGCtrlのSin*を修正。
+ver 2013.01.27 ステートのWidthの読み込みを修正。
+ver 2013.01.26 gethitvar(type)を使うとエラーになるのを修正。
+ver 2013.01.25 gethitvar(groundtype)などを修正。
+ver 2013.01.23 ステージがゆれたときなどの処理を修正。
+ver 2013.01.22 ステージがゆれたときなどの処理を修正。
+ver 2013.01.19 projhitanimがprojanimと同じ場合の処理を修正。
+ver 2013.01.16-2 projhits=0のprojectileがnumprojでカウントされないのを修正。
+ver 2013.01.16 guard.hittimeの読み込みを修正。
+ver 2013.01.08 projectileにヒットしたときの処理を修正。(char.ssz)
+ver 2013.01.07-2 projpriorityの処理を修正。
+ver 2013.01.07 projpriorityの処理を修正。
+ver 2013.01.05 envshakeでステージのwindowが揺れないのを修正。
+ver 2013.01.03-3 ヒットポーズ中に着地するのを修正。(char.ssz)
+ver 2013.01.03-2 着地条件を満たしたままでもstate 52が無限ループしなかったのを修正。
+ver 2013.01.03 ステージなどのアニメの読み込みを修正。
+ver 2013.01.02 ステージのlocalcoordの読み込みを修正。
+ver 2012.12.26 存在しないステートにchangestateするとdestroyselfするのを修正。(char.ssz)
+ver 2012.12.25-4 windowdeltaを修正。(bg.ssz)
+ver 2012.12.25-3 reversaldefが相打ちになるのを修正。(char.ssz)
+ver 2012.12.25-2 projectileの相殺を修正。(char.ssz)
+ver 2012.12.25 statetype=Lのhitdefの処理を修正。(char.ssz)
+ver 2012.12.24 横長のときのステージを修正。
+ver 2012.12.23-2 movetype=I以外のときカードできるのを修正。(char.ssz)
+ver 2012.12.23 空中でmovetype=Aのときカードできるのを修正。(char.ssz)
+ver 2012.12.22-4 コマンドがポーズ解除後まで持続しないのを修正。(char.ssz)
+ver 2012.12.22-3 ポーズを中断したときののendcmdbuftimeの処理を修正。
+ver 2012.12.22-2 pauseのendcmdbuftimeを修正。
+ver 2012.12.22 projectileのafterimageに対応。
+ver 2012.12.21-2 ステートの読み込みを修正。(statebuilder.ssz)
+ver 2012.12.21 ステートの読み込みを修正。
+ver 2012.12.19 animelemなどの読み込みを修正。(statebuilder.ssz)
+ver 2012.12.18 animelemなどの読み込みを修正。(statebuilder.ssz)
+ver 2012.12.16-3 3pが攻撃を受けてもパワーが増えないのを修正。(char.ssz)
+ver 2012.12.16-2 parentvarsetのFvarの読み込みを修正。(statebuilder.ssz)
+ver 2012.12.16 +の符号が付いた数字を読み込めなかったのを修正。
+ver 2012.12.14-4 helperのlifesetなどを修正。(char.ssz)
+ver 2012.12.14-3 ヒットポーズ中のchangestateを修正。(char.ssz,statebuilder.ssz)
+ver 2012.12.14-2 ヒットの属性の読み込みを修正(statebuilder.ssz)。
+ver 2012.12.14 マイナスステートなどのchangestateを修正。
+ver 2012.12.12-4 time=1のpalfxが機能しないのを修正(common.ssz)。
+ver 2012.12.12-3 envshakeを修正。
+ver 2012.12.12-2 palfxの効果が出るのが1フレーム早かったのを修正。
+ver 2012.12.12 hitvel zを修正。
+ver 2012.12.11 コリジョンの座標データを32bit整数に修正。
+ver 2012.12.10 別のファイルに同じステート番号があるとエラーにならないのを修正(statebuilder.ssz)。
+ver 2012.12.09 cornerpush.veloffの処理を修正(char.ssz)。
+ver 2012.12.08 "Com vs. 1P(コントローラー)"追加。
+ver 2012.12.07 main.luaのselectColumns変数でセレクトのカラム数を変更できるようにした。
+ver 2012.12.05 varsetなどの読み込みを修正。
+ver 2012.12.04 helperのpalfxを修正。
+ver 2012.12.03 varsetなどの読み込みを修正(statebuilder.ssz)。
+ver 2012.12.01-3 ground.velocityがnだとエラーになるのを修正(statebuilder.ssz)。
+ver 2012.12.01-2 varsetなどの読み込みを修正(statebuilder.ssz)。
+ver 2012.12.01 varsetなどの読み込みを修正(statebuilder.ssz)。
+ver 2012.11.30 スロー中のポーズ中のbindしているときの表示を修正。
+ver 2012.11.28-3 リダイレクトcond内のリダイレクトトリガーの引数内の処理を修正(statebuilder.ssz)。
+ver 2012.11.28-2 condの処理を修正。
+ver 2012.11.28 ctrl+iでstate 0になるようにした。
+ver 2012.11.27-3 スロー中に押されたときの表示を修正(char.ssz)。
+ver 2012.11.27-2 explodのtransのaddalphaでalphaを省略したときの処理を修正。
+ver 2012.11.27 transのaddalphaでalphaを省略したときの処理を修正。
+ver 2012.11.25 リプレイのときポーズをかけるとずれるのを修正。
+ver 2012.11.24 フレームの時間の計算のミスを修正。
+ver 2012.11.23-2 リプレイのときボタンを押して早送りできるようにした。
+ver 2012.11.23 グループ番号とかがマイナスのスプライトを表示できないのを修正。
+ver 2012.11.20-2 varの添え字が定数の場合の処理を最適化。
+ver 2012.11.20 ボタンに対応するパレットがないときの処理を修正(char.ssz)。
+ver 2012.11.19-3 palnoを修正。
+ver 2012.11.19-2 パレットがおかしくなるのを修正。(loader.ssz)
+ver 2012.11.19 projhittimeを修正。(char.ssz)
+ver 2012.11.16 ガードのときバックジャンプできないのを修正。(char.ssz)
+ver 2012.11.15 サウンドが存在しない場合でもチャンネルを上書きしてしまうのを修正。(char.ssz)
+ver 2012.11.13 多段ヒットするとKOボイスが消えるのを修正。
+ver 2012.11.11 攻撃を受けたときchannel 0の音が消えなかったのを修正(char.ssz)。
+ver 2012.11.08 taginを使うとコンパイルに失敗するのを修正(char.ssz)。
+ver 2012.11.07-2 ground.typeとかがnoneのときの処理を修正(char.ssz)。
+ver 2012.11.07 reversaldefに当たってもhitdefが残ったままなのを修正(char.ssz)。
+ver 2012.11.06 projectileが消えるときhitpauseの影響が残るのを修正(char.ssz)。
+ver 2012.11.05 targetbindを修正。(char.ssz)
+ver 2012.11.04-4 roundstate=2になった瞬間描画を修正。(char.ssz)
+ver 2012.11.04-3 ヒットポーズ中にchagestateしたときprojectileに当たらないのを修正。(char.ssz)
+ver 2012.11.04-2 hitoverrideやp2statenoに関する処理の修正。(char.ssz)
+ver 2012.11.04 helperと同時に攻撃がヒットしたときの処理を修正。(char.ssz)
+ver 2012.11.03-3 イントロスキップするとctrl=1になるのを修正。(char.ssz)
+ver 2012.11.03-2 statetypeでなくmovetype=aのキャラのステートを先に実行するように修正。(char.ssz)
+ver 2012.11.03 statetype = aのキャラのステートを先に実行するように修正。(char.ssz)
+ver 2012.11.02 MatchOverの処理を修正。
+ver 2012.11.01-2 roundstate < 2でlifeが0になったときの処理を修正。
+ver 2012.11.01 projhitanimのすべてのスプライトの表示時間が0のときの処理修正(char.ssz)。
+ver 2012.10.31-2 hitoverrideのtime=0をのときを修正。
+ver 2012.10.31 pos xに誤差が出るのを修正(char.ssz)。
+ver 2012.10.30-2 最初のスプライトの表示時間が0のアニメの処理を修正。(sff.ssz)
+ver 2012.10.30 abs(1=[0,1])などと書くとエラーになるのを修正。(statebuilder.ssz)
+ver 2012.10.29-4 gethitvar(fall.envshake.freq)を使うとエラーになるのを修正。(statebuilder.ssz)
+ver 2012.10.29-3 stateで1 - -1がなどがあると落ちるのを修正(statebuilder.ssz)。
+ver 2012.10.29-2 .defを省略するとキャラクターを読み込まないのを修正。
+ver 2012.10.29 大文字があるとp2nameが失敗するのを修正。
+ver 2012.10.27-3 projhitanimがprojanimと同じ場合の処理を修正。(char.ssz)
+ver 2012.10.27-2 idを省略したRemoveExplodの処理を修正(statebuilder.ssz)。
+ver 2012.10.27 projhitanimがprojanimと同じ場合の処理を修正。explodのidの処理を修正。
+ver 2012.10.24 introスキップの処理を修正。(char.ssz)
+ver 2012.10.23 TurnsとTurns以外の最後のラウンドか引き分けのときの処理を修正(ikemen.ssz)。
+ver 2012.10.21-3 statetype = Lからジャンプしたり振り返ったりするのを修正。(char.ssz)
+ver 2012.10.21-2 空中で振り返るのを修正(char.ssz)。
+ver 2012.10.21 changestateで振り返らなかったのを修正(char.ssz)。
+ver 2012.10.20-2 ヒットポーズ中bindの時間が進まないのを修正(char.ssz)。
+ver 2012.10.20 ガードしたときもp1facingが有効になっていたのを修正(char.ssz)。
+ver 2012.10.19-3 ガードしたときのp2getp1stateの処理を修正(char.ssz)。
+ver 2012.10.19-2 hitoverrideを修正。
+ver 2012.10.19 p2getp1stateをの処理を修正。
+ver 2012.10.18-2 ワイド画面のズームを修正(char.ssz)。
+ver 2012.10.18 timeやlifeをスクリプトで設定するようにした。
+ver 2012.10.15-2 down.velocityの省略値を修正(char.ssz)。
+ver 2012.10.15 KO後helperが起き上がるのを修正(char.ssz)。
+ver 2012.10.14-3 airなどのオーバーフローの処理を修正。
+ver 2012.10.14-2 stageの読み込みで落ちるのを修正。
+ver 2012.10.14 stageの整数の読み込みを修正。
+ver 2012.10.10 helperがtargetbindしたままdestroyselfしたときの処理を修正(char.ssz)。
+ver 2012.10.08 5150から起き上がる処理を修正(char.ssz)。
+ver 2012.10.07-3 posfreeze中gravityが効かなかったのを修正(char.ssz)。
+ver 2012.10.07-2 stageの読み込みを修正(stage.ssz,bg.ssz)。
+ver 2012.10.07 pauseをかけるとmovetimeがあってもtargetbindの時間が進まないのを修正(char.ssz)。
+ver 2012.10.06 5150に振り向くのを修正(char.ssz)。
+ver 2012.10.02-3 振り向きの処理を修正(char.ssz)。
+ver 2012.10.02-2 立ち上がるときの動作などを修正(char.ssz)。
+ver 2012.10.02 振り向きの処理を修正(char.ssz)。
+ver 2012.09.24 同時にコンボカウンターが出ると2p側が1pと同じになるのを修正。
+ver 2012.09.23-3 projectileのヒットアニメが表示されないのを修正。
+ver 2012.09.23-2 ignorehitpause=0のexplodを修正。
+ver 2012.09.23 helperのexplodがhelperと一緒に消えるのを修正。
+ver 2012.09.22 helperがdestroyselfしたフレームは着地ステートが実行されないのを修正(char.ssz)。
+ver 2012.09.21-3 helperのownpalのバグを修正(char.ssz)。
+ver 2012.09.21-2 helperのヒットスパークがhelperと一緒に消えるのを修正(char.ssz)。
+ver 2012.09.21 着地の処理を修正(char.ssz)。
+ver 2012.09.20-7 p2statenoのステート移動の処理を修正(char.ssz)。
+ver 2012.09.20-6 p2statenoのステート移動の処理を修正(char.ssz)。
+ver 2012.09.20-5 Explod,Projectileのパレットを修正。
+ver 2012.09.20-4 Explod,Projectileのパレットを修正。
+ver 2012.09.20-3 Turnsで勝ったほうのパレットがおかしくなるのを修正(ikemen.ssz)。
+ver 2012.09.20-2 actのロードを修正(char.ssz)。
+ver 2012.09.20 actがないときのパレットを修正(char.ssz)。
+ver 2012.09.19 ライフバー赤いところが減る動きを修正。
+ver 2012.09.13-2 ライフが回復したときのライフバーをを修正(fight.ssz)。
+ver 2012.09.13 攻撃でライフが回復したときのライフバーをを修正(fight.ssz)。
+ver 2012.09.08 -2147483648 lifeaddすると回復するのを修正(char.ssz,statebuilder.ssz)。
+ver 2012.09.03 攻撃ヒット時のステート移動の処理を修正(char.ssz)。
+ver 2012.09.02 stateの読み込みを修正(statebuilder.ssz)。
+ver 2012.08.30 explodのpostype=backを修正(char.ssz)。
+ver 2012.08.27-2 explodのpostype=frontのfacing=-1を修正(char.ssz)。
+ver 2012.08.27 explodのpostype=frontを修正(char.ssz)。yをずらしてるアニメの影を修正(sff.ssz)。
+ver 2012.08.26 コリジョンの接触判定を修正。
+ver 2012.08.25-2 コリジョンの座標が最大値だと判定に失敗するのを修正。
+ver 2012.08.25 explodのbindtimeが1長くなるのを修正。
+ver 2012.08.17-2 影の表示がずれるのを修正。
+ver 2012.08.17 rootdist yやbindtorootを修正。
+ver 2012.08.09 helperにあたったときgivepowerが無効にならなかったのを修正。
+ver 2012.08.04 先に勝利ステートに移動していると回復しないのを修正。
+ver 2012.07.30 ReversalDefでhitidがセットされないのを修正(char.ssz)。
+ver 2012.07.26 ポーズ中にhitshaketimeが0だとターゲットにならないのを修正。チーム戦に関する修正。
+ver 2012.07.25-3 OpenGLでstageのparallaxのwidthの表示を修正。
+ver 2012.07.25-2 OpenGLでstageのparallaxのwidthの表示を修正。
+ver 2012.07.25 OpenGLでstageのparallaxのwidthの表示を修正。
+ver 2012.07.24-2 movetype=Hでもpause中はmovetimeをクリアしないように修正。
+ver 2012.07.24 pause中にヒットした場合hitshaketime分だけmovetimeを付加するように修正。
+ver 2012.07.23 offsetに関していろいろ修正。
+ver 2012.07.20 敵のステートにいるとターゲットのままになるのを修正(char.ssz)。
+ver 2012.07.14 stageのwindowを修正。
+ver 2012.07.12 parallaxのとき縦方向のtileを無視するように修正(bg.ssz)。
+ver 2012.07.01 .oggを再生できるようにした。
+ver 2012.06.30 いろいろ細かい修正(char.ssz,common1.cns,statebuilder.ssz)。
+ver 2012.06.29 OpenGLの描画を高速化。
+ver 2012.06.21 チームメイトの顔が表示されないのを修正。
+ver 2012.06.18 ラウンド2以降でリロードすると落ちるのを修正(ikemen.ssz)。
+ver 2012.06.17-4 OpenGL使用時のメモリーリークを修正。ポートレートが表示されないのを修正。
+ver 2012.06.17-3 OpenGL使用時のメモリーリークを修正。
+ver 2012.06.17-2 リロードで落ちるのを修正(ikemen.ssz,system-script.ssz)。
+ver 2012.06.17 キャラクター選択中にロードを開始するようにした。
+ver 2012.06.13 ステート用の一時ファイルを作らないようにした。
+ver 2012.06.04 attackmulsetを修正(char.ssz)。
+ver 2012.05.30-3 offsetを修正(char.ssz)。
+ver 2012.05.30-2 offsetを修正(char.ssz)。
+ver 2012.05.30 angledrawを修正。
+ver 2012.05.17 p2statenoを修正(char.ssz)。
+ver 2012.05.16 remappalのパラメータの処理順序を修正。
+ver 2012.05.12 1PのTeam Modeが選択できなかったのを修正。
+ver 2012.05.11 const(data.life),const(data.power)を修正。
+ver 2012.05.10-2 hitoverrideを修正(char.ssz)。
+ver 2012.05.10 allpalfxを修正(sff.ssz,common.ssz)。
+ver 2012.05.09 changestateの若干の高速化(char.ssz,statebuilder.ssz)。
+ver 2012.05.07-2 番号がマイナスのサウンドを再生しないように修正。
+ver 2012.05.07 番号がマイナスのスプライトを表示しないように修正(sff.ssz)。
+ver 2012.05.03 p1stateno,p2statenoを修正(char.ssz,statebuilder.ssz)。
+ver 2012.05.02 commandの処理を修正。
+ver 2012.04.27 p2distを修正(char.ssz)。
+ver 2012.04.24 bindの処理を修正。
+ver 2012.04.23 hitoverrideを修正。
+ver 2012.04.22 stageのyscalestartの処理を修正。
+ver 2012.04.20-3 減算合成のPalFXを修正。
+ver 2012.04.20-2 PalFXを修正。
+ver 2012.04.20 PalFXを修正(common.ssz)。
+ver 2012.04.19 PalFXを修正。
+ver 2012.04.09-2 win.textを修正(fight.ssz)。
+ver 2012.04.09 stageの処理を修正。
+ver 2012.04.08-2 ライフバーをスクリプト側で読み込むようにした。
+ver 2012.04.08 ファイルのロードを修正(common.ssz)。
+ver 2012.04.07 エラーダイアログを修正。
+ver 2012.03.30 nothitbyなどを修正(char.ssz)。
+ver 2012.03.27-2 ガード音のvolumeを修正(char.ssz)。
+ver 2012.03.27 volumeの処理を修正。
+ver 2012.03.21-2 nothitbyなどを修正(char.ssz)。
+ver 2012.03.21 nothitbyなどを修正。
+ver 2012.03.17-3 stateの読み込みを修正(statebuilder.ssz)。
+ver 2012.03.17-2 stateの読み込みを修正。
+ver 2012.03.17 air.juggleを修正。
+ver 2012.03.16-4 MugenVersionに1.0と書いてるキャラのnowalkが利かないのを修正。
+ver 2012.03.16-3 ステージを選べないのを修正。
+ver 2012.03.16-2 ズームやスクロールを修正(fighting.ssz)。
+ver 2012.03.16 スクリプトをLuaに変更。
+ver 2012.03.14 bindtotargetを修正。
+ver 2012.03.12 juggleを修正(char.ssz)。
+ver 2012.03.11 down.velocityを修正(char.ssz)。
+ver 2012.03.10-2 juggleを修正。down.velocityを修正。(char.ssz)
+ver 2012.03.10 juggleを修正(char.ssz,statebuilder.ssz)。
+ver 2012.03.09-2 air.juggleを修正(char.ssz)。
+ver 2012.03.09 clipboardのfloatの表示を修正。
+ver 2012.03.08-3 hitflagの+-を無視していたのを修正。
+ver 2012.03.08-2 clipboardのfloatを四捨五入するように修正。
+ver 2012.03.08 targetbindを修正(char.ssz)。
+ver 2012.03.07-3 changestateでbindtorootが外れるのを修正(char.ssz)。
+ver 2012.03.07-2 影を修正(char.ssz)。
+ver 2012.03.07 clipboard表示などを修正。
+ver 2012.03.05-5 影を修正(char.ssz,stage.ssz)。
+ver 2012.03.05-4 影を修正(char.ssz,stage.ssz)。
+ver 2012.03.05-3 影を修正(char.ssz,stage.ssz)。
+ver 2012.03.05-2 影を修正(char.ssz,stage.ssz)。
+ver 2012.03.05 ライフバーの表示を修正。
+ver 2012.03.04-3 ライフバーの表示を修正。
+ver 2012.03.04-2 bindtotargetを修正(char.ssz,statebuilder.ssz)。
+ver 2012.03.04 bindtotargetを修正(char.ssz)。
+ver 2012.03.03 Palette Keymapを修正(char.ssz)。
+ver 2012.03.02 time=-1のbindを修正(char.ssz)。
+ver 2012.03.01-2 helperのroundstateを修正(char.ssz)。
+ver 2012.03.01 screenbindを修正(statebuilder.ssz)。
+ver 2012.02.29-2 changestateでbindが外れるのを修正(char.ssz)。
+ver 2012.02.29 pause中に攻撃を受けたときの処理を修正(char.ssz)。
+ver 2012.02.28 helperのroundstateを修正(char.ssz)。
+ver 2012.02.26 nothitbyを修正(statebuilder.ssz)。
+ver 2012.02.25 ライフバーの表示を修正。
+ver 2012.02.24 スクロールを修正。
+ver 2012.02.23-3 スクロールを修正。
+ver 2012.02.23-2 スクロールを修正。
+ver 2012.02.23 スクロールを修正。
+ver 2012.02.22-4 スクロールを修正。
+ver 2012.02.22-3 widthを修正。
+ver 2012.02.22-2 SFFv2の読み込みを修正。
+ver 2012.02.22 bindやスクロールを修正(char.ssz)。
+ver 2012.02.21-3 bindを修正(char.ssz)。
+ver 2012.02.21-2 targetの座標更新のタイミングを修正(char.ssz)。
+ver 2012.02.21 gethitvar(fall.xvel)を修正。
+ver 2012.02.20 fall.xvelocityを修正。
+ver 2012.02.18-2 ウィンドウを横長にしたときの動作を修正(char.ssz,statebuilder.ssz)。
+ver 2012.02.18 mugenversion=1.0のキャラは整数の累乗を間違わないように修正。
+ver 2012.02.17 hires stageのズームアウトを修正(char.ssz,bg.ssz)。
+ver 2012.02.16 p2distを修正(char.ssz,statebuilder.ssz)。
+ver 2012.02.14 excludeidのないtargetdropを修正(char.ssz)。
+ver 2012.02.12 actファイルがないときのパレットを修正(char.ssz)。
+ver 2012.02.11 superpauseの暗転処理を修正。
+ver 2012.02.10-2 explodのbindを修正(char.ssz)。
+ver 2012.02.10 座標更新のタイミングなどを修正。
+ver 2012.02.09 allpalfxなどを修正。
+ver 2012.02.08 triggerの読み込みを修正。
+ver 2012.02.05-6 コマンドがhitpause後まで継続しないのを修正(char.ssz)。
+ver 2012.02.05-5 targetlifeaddでKOしたときの処理を修正(char.ssz)。
+ver 2012.02.05-4 stateの実行順を修正(char.ssz)。
+ver 2012.02.05-3 pausemovetimeやtransを修正。
+ver 2012.02.05-2 stageのtransを修正(bg.ssz)。
+ver 2012.02.05 stageのtransを修正(bg.ssz)。
+ver 2012.02.04-4 defファイルの読み込みを修正(common.ssz,statebuilder.ssz)。
+ver 2012.02.04-3 hires stageのスクロールを修正(bg.ssz)。
+ver 2012.02.04-2 hires stageのbgctrlを修正(bg.ssz,stage.ssz)。
+ver 2012.02.04 roundnotoverで勝利デモに移行しないのを修正(char.ssz)。
+ver 2012.02.03 roundstateを修正(char.ssz)。
+ver 2012.02.02 拡大時の表示を修正。
+ver 2012.02.01-2 roundstateを修正(char.ssz)。
+ver 2012.02.01 stateの読み込みを修正(statebuilder.ssz)。
+ver 2012.01.31-3 simulを修正(char.ssz)。
+ver 2012.01.31-2 sffの読み込みを修正。
+ver 2012.01.31 projectileヒットスパークの位置をを修正(char.ssz)。
+ver 2012.01.30 roundstate=4の処理を修正。
+ver 2012.01.29-4 敵ステート中に-2でヘルパーを出したときの処理を修正(char.ssz)。
+ver 2012.01.29-3 projectileの相殺処理を修正(char.ssz)。
+ver 2012.01.29-2 bgctrlの処理順を修正(bg.ssz,stage.ssz)。
+ver 2012.01.29 targetbindの処理を修正(char.ssz)。
+ver 2012.01.28-2 explodとprojectileのアニメがないときの処理を修正(char.ssz)。
+ver 2012.01.28 KO時のhitvelを修正。
+ver 2012.01.27-3 projremovetime=-2を修正(char.ssz)。
+ver 2012.01.27-2 targetのstateの実行タイミングを修正。
+ver 2012.01.27 stageのwindowを修正。
+ver 2012.01.26-2 defファイルの読み込みを修正。
+ver 2012.01.26 攻撃を当ててもbindtotargetが有効なままだったのを修正。
+ver 2012.01.25-3 ズームインの表示を修正(char.ssz)。
+ver 2012.01.25-2 screenposを修正。
+ver 2012.01.25 ztopscaleが1でないstageの表示を修正。
+ver 2012.01.24-2 pauseなどでのmovetimeが利かないのを修正。
+ver 2012.01.24 pausemovetimeの処理などを修正。
+ver 2012.01.23-2 stageの読み込みを修正。
+ver 2012.01.23 explodのremovetimeを修正(char.ssz)。SDL更新。
+ver 2012.01.22 hitdefのattrの読み込みを修正。screenboundを修正。
+ver 2012.01.21-2 edgedist系が整数でなかったのを修正(char.ssz)。
+ver 2012.01.21 スクロールを修正(char.ssz)。tilespacingを修正(bg.ssz)。
+ver 2012.01.19-2 fall.defence_upの処理を修正(char.ssz)。
+ver 2012.01.19 gethitvar(fall.time)かエラーになるのを修正。
+ver 2012.01.18 stageの読み込みを修正。
+ver 2012.01.16 ifelseを修正(char.ssz)。
+ver 2012.01.15-4 nowalkなどが効かなかったのを修正(char.ssz)。
+ver 2012.01.15-3 hitdefのattrの読み込みを修正(statebuilder.ssz)。
+ver 2012.01.15-2 stageのdefファイルの読み込みを修正。
+ver 2012.01.15 stageのdefファイルの読み込みを修正。
+ver 2012.01.14 explodなどのremovetimeを修正(char.ssz)。
+ver 2012.01.13 explodなどのremovetimeを修正(char.ssz)。
+ver 2012.01.12-3 p2bodydist xを修正(char.ssz)。
+ver 2012.01.12-2 *dist xを修正(char.ssz)。
+ver 2012.01.12 projectileヒットスパークの位置をを修正(char.ssz)。
+ver 2012.01.11-2 アニメのループを修正(sff.ssz)。
+ver 2012.01.11 snapの処理を修正(char.ssz)。
+ver 2012.01.10-5 bindの処理を修正(char.ssz)。
+ver 2012.01.10-4 bindの処理を修正(char.ssz)。
+ver 2012.01.10-3 bindtoparentの処理を修正(statebuilder.ssz)。
+ver 2012.01.10-2 bindの処理を修正(char.ssz,statebuilder.ssz)。
+ver 2012.01.10 targetstateの処理を修正(char.ssz)。
+ver 2012.01.09 bindの処理を修正(char.ssz)。
+ver 2012.01.08-2 airの読み込みを修正。
+ver 2012.01.08 攻撃がヒットしたときすぐにtargetでなくなるのを修正(char.ssz)。
+ver 2012.01.07-2 ヒットスパークの位置を修正(char.ssz)。
+ver 2012.01.07 ヒットスパークの位置を修正。
+ver 2012.01.05 整数の累乗を再現。
+ver 2012.01.04-3 ライフバーの読み込みを修正。
+ver 2012.01.04-2 defファイルの読み込みを修正。
+ver 2012.01.04 gethitvar(hittime)を修正。
+ver 2012.01.03-3 pause中にhelperを出したときの処理を修正(char.ssz)。
+ver 2012.01.03-2 ラウンド終了時sysvarをクリアしないのを修正(char.ssz)。
+ver 2012.01.03 animelemを修正(statebuilder.ssz)。
+ver 2012.01.02-4 airの読み込みを修正(action.ssz)。
+ver 2012.01.02-3 bind解除の処理を修正(char.ssz)。
+ver 2012.01.02-2 movehitを修正(char.ssz)。
+ver 2012.01.02 攻撃を受けたときのステート移行処理を修正(char.ssz)。
+ver 2012.01.01-3 heightを修正(char.ssz,common.ssz)。
+ver 2012.01.01-2 fall.recovertimeを修正(char.ssz)。
+ver 2012.01.01 const(data.floatpersistindex)を修正(statebuilder.ssz)。
+ver 2011.12.31 ジャンプなどのステート移行処理を修正。
+ver 2011.12.30-6 clsn判定を修正(char.ssz)。ssz.dll更新。
+ver 2011.12.30-5 試合終了後state -1を実行しないのを修正(statebuilder.ssz)。
+ver 2011.12.30-4 helper出現時のcommandを修正(char.ssz)。
+ver 2011.12.30-3 helper出現時のマイナスステートでctrl=1になっているのを修正(char.ssz)。
+ver 2011.12.30-2 hitoverrideを修正。
+ver 2011.12.30 pause中にhelperを出したときの処理を修正(char.ssz)。
+ver 2011.12.29-2 typeがnoneの攻撃でmovehitになるのを修正(char.ssz)。
+ver 2011.12.29 bindされてるときのスクロールを修正(char.ssz)。
+ver 2011.12.28-4 stateの読み込みを修正(statebuilder.ssz)。
+ver 2011.12.28-3 hitpause中の処理を修正(char.ssz,sff.ssz)。
+ver 2011.12.28-2 leftboundとrightboundの処理を修正(char.ssz)。
+ver 2011.12.28 stageのleftboundとrightboundに対応(char.ssz,stage.ssz)。
+ver 2011.12.27-4 nochainidを修正(char.ssz)。
+ver 2011.12.27-3 hitvelを修正(char.ssz)。
+ver 2011.12.27-2 hitoverrideを修正(char.ssz)。
+ver 2011.12.27 varsetの読み込みを修正。
+ver 2011.12.26-3 hitoverrideで同時ヒットしないのを修正(char.ssz)。
+ver 2011.12.26-2 attrの読み込みを修正。
+ver 2011.12.26 pause中の処理を修正(char.ssz)。
+ver 2011.12.25-4 introが効かないのを修正。
+ver 2011.12.25-3 pause中の処理を修正。
+ver 2011.12.25-2 hitpause中の処理を修正(char.ssz)。
+ver 2011.12.25 targetから抜けるときバインドされたexplodが消えないのを修正(char.ssz)。
+               p1facingを修正(char.ssz)。
+ver 2011.12.24-2 fall=1だと5020に飛ぶのを修正(char.ssz)。
+ver 2011.12.24 varrangesetを修正(char.ssz,statebuilder.ssz)。
+ver 2011.12.23-2 hitdefattrを修正(statebuilder.ssz)。
+ver 2011.12.23 旧式トリガーの読み込みを修正。
+ver 2011.12.22-4 hitoverrideを修正(char.ssz)。
+ver 2011.12.22-3 varsetを修正(statebuilder.ssz)。
+ver 2011.12.22-2 screenboundを修正(statebuilder.ssz)。
+ver 2011.12.22 screenboundなどを修正。
+ver 2011.12.21-2 hitbyなどを修正(char.ssz,statebuilder.ssz)。
+ver 2011.12.21 airの読み込みを修正(action.ssz,bg.ssz)。
+ver 2011.12.20-6 cpuのcommandを修正。
+ver 2011.12.20-5 stateの読み込みを修正。
+ver 2011.12.20-4 helperがstatetype=Lになると落ちるのを修正(char.ssz)。
+ver 2011.12.20-3 commandの処理を修正(char.ssz)。
+ver 2011.12.20-2 common1.cns修正。
+ver 2011.12.20 nokoの処理を修正(char.ssz)。
+ver 2011.12.19-5 sysvarの処理を修正(char.ssz,statebuilder.cns)。
+ver 2011.12.19-4 floatの処理を修正(char.ssz)。
+ver 2011.12.19-3 FallEnvShakeを修正。
+ver 2011.12.19-2 floatの処理を修正。
+ver 2011.12.19 トリガーの処理を修正。
+ver 2011.12.18-4 オーバーフローする数字の読み込みを修正(statebuilder.cns)。
+ver 2011.12.18-3 起き上がりの処理を修正(char.ssz,minus.cns)。
+ver 2011.12.18-2 nokoの処理を修正(char.ssz)。
+ver 2011.12.18 KO時の処理を修正(char.ssz,minus.cns)。
+ver 2011.12.17-2 vel zでエラーになるのを修正。
+ver 2011.12.17 ループしないアニメはprojremanimにならないように修正。
+ver 2011.12.16 state読み込みを修正。
+ver 2011.12.15-2 movecontactを修正。
+ver 2011.12.15 state読み込みを修正。
+ver 2011.12.14 state読み込みを修正(statebuilder.ssz)。
+ver 2011.12.13-11 state読み込み中に落ちるのを修正(statebuilder.ssz)。
+ver 2011.12.12-10 アニメの処理を修正(sff.ssz)。
+ver 2011.12.12-9 アニメの処理を修正(sff.ssz)。
+ver 2011.12.12-8 アニメの処理を修正(sff.ssz)。
+ver 2011.12.12-7 アニメの処理を修正(sff.ssz)。
+ver 2011.12.12-6 アニメの処理を修正。
+ver 2011.12.12-5 アニメの処理を修正。
+ver 2011.12.13-4 animelemnoを修正。
+ver 2011.12.13-3 targetdropで落ちるのを修正(char.ssz)。
+ver 2011.12.13-2 旧式トリガーの処理を修正(statebuilder.ssz)。
+ver 2011.12.13 旧式トリガーの処理を修正(statebuilder.ssz)。
+ver 2011.12.12-2 アニメの処理を修正。
+ver 2011.12.12 targetbindを修正(char.ssz)。
+ver 2011.12.11-4 スクロールを修正(char.ssz)。
+ver 2011.12.11-3 スクロールを修正(char.ssz)。
+ver 2011.12.11-2 スクロールを修正(char.ssz)。
+ver 2011.12.11 sparknoなどの読み込みを修正(statebuilder.ssz)。
+ver 2011.12.10-8 gravityの処理を修正。
+ver 2011.12.10-7 gravityの処理を修正(char.ssz)。
+ver 2011.12.10-6 varsetなどの読み込みを修正。
+ver 2011.12.10-5 helperがジャンプなどをしてしまうのを修正(char.ssz)。
+ver 2011.12.10-4 timemodの読み込みを修正(statebuilder.ssz)。
+ver 2011.12.10-3 projhitなどの読み込みを修正(statebuilder.ssz)。
+ver 2011.12.10-2 ignorehitpauseとpersistentの処理を修正。
+ver 2011.12.10 constの読み込みを修正(statebuilder.ssz)。
+ver 2011.12.09 cpuのコマンド入力などを修正。
+ver 2011.12.08-3 aliveの処理を修正。
+ver 2011.12.08-2 nokoの処理を修正(char.ssz)。
+ver 2011.12.08 projhitなどの処理を修正(statebuilder.ssz)。
+ver 2011.12.07-3 TargetDropで落ちるのを修正。
+ver 2011.12.07-2 keepone=0のTargetDropが機能しなかったのを修正(char.ssz,statebuilder.ssz)。
+ver 2011.12.07 無効なアニメのexplodはすぐに消えるように修正(char.ssz)。
+ver 2011.12.06-3 varsetのvar = 0などの記述をまだ無視できなかったのを修正(statebuilder.ssz)。
+ver 2011.12.06-2 varsetのvar = 0などの記述を無視できなかったのを修正(statebuilder.ssz)。
+ver 2011.12.06 旧式トリガーの処理を修正。
+ver 2011.12.04-2 nokoの処理を修正(ssz,minus.cns)。
+ver 2011.12.04 KO判定を修正(char.ssz,minus.cns)。
+ver 2011.12.03-4 projhit = 1 = 1がエラーになるのを修正(statebuilder.ssz)。
+ver 2011.12.03-3 ラウンドがなかなか終わらないのを修正(char.ssz)。
+ver 2011.12.03-2 statetype=Lのとき5050にならないように修正。
+ver 2011.12.03 movehitresetでhitpauseがリセットされるのを修正。
+ver 2011.12.02-2 p2statenoとhitoverrideの処理を修正(char.ssz)。
+ver 2011.12.02 RemoveExplodのid省略時の処理を修正。
+ver 2011.12.01 stateのパラメータの処理順序を修正。
+ver 2011.11.28-2 アニメの更新のタイミングを修正(char.ssz)。
+ver 2011.11.28 projremanim=-1と書くとprojremanim省略扱いになるのを修正(statebuilder.ssz)。
+ver 2011.11.27-2 (animelem=1,)を読み込めないのを修正(statebuilder.ssz)。
+ver 2011.11.27 スロー中explodとアニメがずれるのを修正(char.ssz)。
+ver 2011.11.26-3 ダウン時間を短縮できるように修正(char.ssz)。
+ver 2011.11.26-2 screenboundでvalueよりmovecameraを優先するように修正(statebuilder.ssz)。
+ver 2011.11.26 5050に何度もchangestateするのを修正。
+ver 2011.11.25 !aliveのときcanrecoverにならないのを修正。
+ver 2011.11.24 gethitvar(chainid)の処理を修正(char.ssz,statebuilder.ssz)。
+ver 2011.11.23 animexistのリダイレクトを修正。
+ver 2011.11.22-2 ontopのexplodの表示順位を修正。
+ver 2011.11.22 IgnoreMostErrors=trueのときcommand(,commamd="a"などが必ず1になるように修正。
+ver 2011.11.21 isboundの処理を修正(char.ssz)。
+ver 2011.11.20-2 projcontacttimeがステートが変わるまで維持されていなかったのを修正。
+ver 2011.11.20 終了後5050にchangestateし続けるのを修正(char.ssz,fight.ssz)。
+ver 2011.11.18 Ctrl+Sで速度変更できるようにした(char.ssz,common.ssz,fighting.ssz,sdlevent.ssz)。
+ver 2011.11.17 gethitvar(xvel)を修正(char.ssz,statebuilder.ssz)。
+ver 2011.11.16-2 round終了後lifesetできないのを修正(char.ssz)。
+ver 2011.11.16 animtime=0のときのanimelemnoを間違うのを修正(sff.ssz)。
+ver 2011.11.15-2 5150から5050にchangestateするのを修正(char.ssz)。
+ver 2011.11.15 171から5050にchangestateし続けるのを修正。
+ver 2011.11.14-3 hittimeが必ず1以上になるように修正(char.ssz)。
+ver 2011.11.14-2 p2statenoのあるProjectileをHitOverrideし続けるのを修正(char.ssz)。
+ver 2011.11.14 GameSpeedが60未満だと落ちるのを修正(char.ssz,fight.ssz,common.ssz)。
+ver 2011.11.13 targetbindで相手の速度が打ち消されるのを修正(char.ssz,statebuilder.ssz)。
+ver 2011.11.12-3 changestateでvel yが0になるのを修正(char.ssz,statebuilder.ssz)。
+ver 2011.11.12-2 bindtotargetしているときはsnapが無効になるように修正。
+ver 2011.11.12 pause中にhelperが出るとpause終了後time=0のままなのを修正(char.ssz)。
+ver 2011.11.11 stageのCameraのstartxが0以外だと開始位置がずれるのを修正(char.ssz,fighting.ssz)。
+ver 2011.11.09 なかなかroundstate=4にならない場合があるのを修正。
+               p1facing=-1のときの処理を修正。(char.ssz)
+ver 2011.11.07 ガードしたときsnapで浮くのを修正(char.ssz)。
+ver 2011.11.06 timeoverの表示が遅れるのを修正(fight.ssz)。
+ver 2011.11.05-3 timeover後にlifeset出来るように修正(char.ssz)。
+ver 2011.11.05-2 helperが消える時に出すexplodの位置がずれるのを修正(char.ssz)。
+ver 2011.11.05 widthの効果がすべてrootになってしまうのを修正(statebuilder.ssz)。
+ver 2011.11.04 rootのときparentリダイレクトが無効にならないのを修正(char.ssz,statebuilder.ssz)。
+ver 2011.11.03 modifyexplodでpostypeが無いとposを無視するのを修正(char.ssz)。
+ver 2011.11.02 stageのctrlidの処理を修正。BGMの音量を調整。
+ver 2011.10.28-3 airでloopstartが最後にあるとおかしくなるのを修正(action.ssz,bg.ssz)。
+ver 2011.10.28-2 開始時ctrl=1になるときstate 0になるように修正(char.ssz)。
+ver 2011.10.28 p2のexplodの座標がずれるのを修正。起き上がりを修正(char.ssz,minus.cns)。
+ver 2011.10.27 hitdefのsnapの3つ目以降を無視していたのを修正(char.ssz,statebuilder.ssz)。
+ver 2011.10.26 defファイルのauthornameを読み込めないのを修正。ssz.dll更新。
+ver 2011.10.24 1フレーム目のtimeが0だとanimtime=0でのanimelemtimeが不正になるのを修正
+               (action.ssz,bg.ssz)。
+ver 2011.10.21 pauseがらみの処理を修正(char.ssz,statebuilder.ssz)。
+ver 2011.10.20-2 possetしたときbindが外れるのを修正(char.ssz,statebuilder.ssz)。
+ver 2011.10.20 同じ位置にpossetしたときbindが外れるのを修正(char.ssz)。
+ver 2011.10.19-2 HitOverrideのslotが範囲外のとき0になるように修正(statebuilder.ssz)。
+ver 2011.10.19 roundstate=2になった瞬間state 0になるのを修正(char.ssz)。
+ver 2011.09.10 gethitvar(xvel)の処理を修正(char.ssz)。
+ver 2011.08.30 dll類更新。
+ver 2011.04.14 airの読み込みを修正(action.ssz)。
+ver 2011.04.13 airの読み込みを修正(action.ssz,bg.ssz)。
+ver 2011.04.05 ~30B,Fのようなコマンドが入らないのを修正(command.ssz)。
+ver 2011.03.28 OpenGLですごく小さい画像が正しく表示できないのを修正(sdlplugin.dll)。
+ver 2011.03.18 PlayerPushの処理を修正(char.ssz)。
+ver 2011.03.11 roundstate=4でtargetが無くならないのを修正(char.ssz)。
+ver 2011.03.01 envcolorを修正(sdlplugin.dll,sdlplugin.ssz,ikemen.ssz)。
+ver 2011.02.28 減算合成で透明色が効かないのを修正(sdlplugin.dll,action.ssz,fight.ssz,sff.ssz)。
+ver 2011.02.27 config.sszにOpenGL追加。
+               (sdlplugin.dll,sdlevent.ssz,sdlplugin.ssz,action.ssz,char.ssz,common.ssz,
+               fight.ssz,fighting.ssz,font.ssz,ikemen.ssz,sff.ssz,main.ssz更新)
+ver 2011.02.25 パラメータの値が無いとコンパイル中に落ちるのを修正(statebuilder.ssz)。
+ver 2011.02.17 相手より下にいるときのP2BodyDist Yが間違っていたのを修正。
+ver 2011.02.11 飛び越えたときのP2BodyDist Xが間違っていたのを修正。
+ver 2011.02.10 後ろに回りこんだときのP2BodyDist Xが間違っていたのを修正。
+ver 2011.02.04-3 ChangeAnim2がバグるようになっていたのを修正。
+ver 2011.02.04-2 スロー中のexploadの表示が遅れるのを修正。
+ver 2011.02.04 hitdefのmaxdistのyを読み込めなかったのを修正。
+ver 2011.01.28 lz5の読み込みを修正。
+ver 2011.01.27 SFFv2を読み込めるようにした。
+ver 2011.01.15 forcestandが機能していなかったのを修正。
+ver 2011.01.14 jugglecheckをはじめるタイミングを修正。
+ver 2011.01.10 expの引数がマイナスだとSFalseになるのを修正。
+ver 2010.12.31 targetstateで存在しないステートに移ったときの処理を修正。
+ver 2010.12.29 0,0のスプライトが無いキャラのパレットをロードできないのを修正。
+ver 2010.12.22 セクションの '[ ]' の内側に ';' があるときの処理を修正。
+ver 2010.12.18 varsetのvar(*)=形式で途中に空白があると読み込めないのを修正。
+ver 2010.12.12 なるべく"括弧が閉じていません"のエラーが出ないように修正。
+ver 2010.12.03 後ろに進むProjectileが反転しないのを修正。
+ver 2010.11.25 NetplayでAIが暴走するのを修正。
+ver 2010.11.23-2 timeが-1のbindの効果がすぐ切れるのを修正。
+ver 2010.11.23 const(movement.down.bounce.yaccel)がconst(movement.down.bounce.groundlevel)なのを修正。
+ver 2010.11.22 パレットの処理のバグを修正。
+ver 2010.11.20 roundstate=3でroundnotoverだとroundstate=4にならないのを修正。
+ver 2010.11.19 Projectileが自分に当たるのを修正。
+ver 2010.11.17 HitFallSetの処理を修正。
+ver 2010.11.15 stageのbgのpositionlinkでsinx,sinyの効果がないのを修正。
+ver 2010.11.14 stageのtilespacingの処理を修正。
+ver 2010.11.13 stageのpositionlinkの処理を修正。
+ver 2010.11.12 数値の読み取り全般を修正。
+ver 2010.11.09-2 Persistentがマイナスのときの処理を修正。
+ver 2010.11.09 パラメータの名前の空白以降を無視するように修正。
+ver 2010.11.08 AngleDrawでAIRの座標指定が無効になるのを修正。
+ver 2010.11.04 イントロをスキップしたときHelperやExplodが消えないのを修正。
+ver 2010.11.02 priorityの高い攻撃がReversalDefで取れないのを修正。
+ver 2010.10.30 イントロをスキップしたときAllPalFXなどが残るのを修正。
+ver 2010.09.04 不等号を修正。ぶつかり判定を修正。コマンドを修正。
+ver 2010.09.03 gethitvar(animtype)を修正。SuperPause中を修正。
+ver 2010.09.02 AfterImageを修正。GetHitVar(animtype)を修正。イントロを飛ばしたときを修正。
+ver 2010.08.31 KO後の処理を修正。
+ver 2010.08.30 Explodのignorehitpause=0を修正。TargetLifeAddを修正。再読み込みを修正。
+ver 2010.08.29-3 commandを修正。AngleDrawを修正。Statedefを修正。
+ver 2010.08.29-2 Dustの処理を修正。
+ver 2010.08.29 MakeDustに対応。SuperPauseを修正。Playsndを修正。Explodを修正。cnsの読み込みを修正。
+ver 2010.08.26 DefenceMulSetを修正。キャラ選択の背景を修正。
+ver 2010.08.25 ReversalDefを修正。
+ver 2010.08.24-2 pause中の判定を修正。ReversalDefを修正。panをなくした。
+                 F4で再試合するようにした。サウンドの処理を修正。
+ver 2010.08.24 サウンドの処理を修正。
+ver 2010.08.23 targetの処理を修正。PlaySndの処理を修正。
+ver 2010.08.21 ReversalDefを修正。
+ver 2010.08.20 ReversalDefを修正。hitDefAttrを修正。
+ver 2010.08.19 Gravityの処理を修正。
+ver 2010.08.18-2 ポーズ中の処理を修正。
+ver 2010.08.18 reversalDefのpausetimeを修正。一部のステートの始まりで、Time=0にならないのを修正。
+ver 2010.08.17-3 Explod表示を修正。
+ver 2010.08.17-2 食らいの処理を修正。
+ver 2010.08.17 reversalDefのpausetimeを修正。Explod表示を修正。
+               一部のステートの始まりで、Time=0にならないのを修正。
+ver 2010.08.16-2 食らいの処理を修正。ReversalDefの処理を修正。
+ver 2010.08.16 ガードとコンボの処理を修正。
+ver 2010.08.15-2 gethitvar(xvel)の処理を修正。コマンドの処理を修正。押し返しを修正。
+ver 2010.08.15 stageのtileを修正。
+ver 2010.08.14-6 sffの読み込みを修正。
+ver 2010.08.14-5 Gravityの処理を修正。ダウン時のヒットを修正。
+ver 2010.08.14-4 コマンドの処理を修正。
+ver 2010.08.14-3 sffの読み込みを修正。コマンドの処理を修正。
+ver 2010.08.14-2 コンボのライフバーを修正。
+ver 2010.08.14 コマンドの処理を修正。コンボのライフバーを修正。
+ver 2010.08.13-2 Gravityの処理を修正。
+ver 2010.08.13 コンボの処理を修正。コマンドの処理を修正。
+ver 2010.08.12-2 stageの読み込みを修正。コマンドの処理を修正。ヒット後の処理を修正。
+ver 2010.08.12 snapで移動するタイミングを修正。
+ver 2010.08.11 projectileの処理を修正。
+ver 2010.08.10-2 ダメージ量がおかしいのを修正。
+ver 2010.08.10 bindの処理を修正。コマンドの処理を修正。ChangeStateのignorehitpauseを修正。
+ver 2010.08.09-4 コマンドの処理を修正。
+ver 2010.08.09-3 コマンドの処理などを修正。
+ver 2010.08.09-2 コマンドの処理を修正。
+ver 2010.08.09 hitshaketimeが-1でhitshakeoverになるように修正。コマンドの処理を修正。
+ver 2010.08.08-5 sffの読み込みを修正。afterimagetimeを修正。コマンドの処理を修正。
+                 chainidの処理を修正。
+ver 2010.08.08-4 eversalDefのID指定が効かないのを修正。
+ver 2010.08.08-3 projectile以外ではair.juggleを無視するように修正。
+ver 2010.08.08-2 アニメのloopstartのtimeが0だったときの処理を修正。
+ver 2010.08.08 chainidの処理を修正。afterimagetimeを修正。GetHitVar(animtype)を修正。
+ver 2010.08.07 スプライトに判定がないときはキャラを押せないように修正。
+ver 2010.08.06-2 ReversalDefを修正。
+ver 2010.08.06 destroyselfでpalfxの効果が切れないのを修正。ReversalDefを修正。
+               HitCountを修正。ヘルパーのcommandを修正。終了後-1を実行しないように修正。
+ver 2010.08.05-3 ステージによって開始位置がずれるのを修正。
+ver 2010.08.05-2 不正なchangestateの処理を修正。SFalseの扱いを修正。chageanimを修正。
+                 キャラのぶつかる高さを修正。
+ver 2010.08.05 キャラの高さを修正。
+ver 2010.08.04-4 最後の時間が-1のanimtimeの処理を修正。
+ver 2010.08.04-3 sdlplugin.dll更新(yを反転するとずれるのを修正)。
+                 movehit=1にならないのを修正。movereversedを修正。
+                 ||演算子の処理を修正。
+ver 2010.08.04-2 bindの処理を修正。sprpriorityを指定しなかったとき0になるのを修正。
+ver 2010.08.04 リダイレクトの処理を修正。
+ver 2010.08.03-3 コマンドの処理を修正。
+ver 2010.08.03-2 animelemの処理を修正。
+ver 2010.08.03 chainidの処理を修正。ヘルパーにCPUコマンドを行わないように修正。
+               pause中-3を実行しないように修正。animelemの処理を修正。
+               ChangeStateの処理を修正。押しっぱなしの処理を修正。
+ver 2010.08.01-2 velocity.runjump.fwd.yをvelocity.runjump.yに修正。
+ver 2010.08.01 着地の処理を修正。
+ver 2010.07.31-3 airの読み込みを修正。
+ver 2010.07.31-2 angleがセットされてないときのangledrawの処理を修正。
+ver 2010.07.31 起き上がりの処理を修正。
+ver 2010.07.30 superpauseのanimの表示を修正。
+ver 2010.07.29 state 0などでtimeが増えないのを修正。state 105で着地しないように修正。
+ver 2010.07.28-3 movetimeがあってもsuperpause中-2が実行されないのを修正。
+ver 2010.07.28-2 targetのstateの実行順を修正。
+ver 2010.07.28 autoturnの処理を修正。
+ver 2010.07.27-3 helper初期化時にtargetをクリアしていなかったのを修正。
+                 cornerpush.veloffを修正。KO後にゲージが貯まるのを修正。
+                 PlayerPushを修正。hold系のコマンドはbuffer.timeが1になるように修正。
+                 コンボ表示が遅いのを修正。ctrl=1の処理を修正。
+ver 2010.07.27-2 hitpauseをキャンセルしたときの処理を修正。
+ver 2010.07.27 pausetimeゃshaketimeやtimeを修正。
+ver 2010.07.26-2 歩きなどにbuffer.timeが影響しないように修正。
+ver 2010.07.26 airjuggleの処理を修正。
+ver 2010.07.25-2 animelemの処理を修正。
+ver 2010.07.25 nojugglecheckでもジャグルポイントが減るのを修正。
+ver 2010.07.24 sffの読み込みを修正。
+ver 2010.07.23-2 destroyselfの処理を修正。
+ver 2010.07.23 TargetDropで敵ステートが実行されなくなるのを修正。
+ver 2010.07.22-5 targetveladdの処理を修正。
+ver 2010.07.22-4 veladdの処理を修正。
+ver 2010.07.22-3 コマンドの処理を修正。
+ver 2010.07.22-2 コマンドの処理を修正。
+ver 2010.07.22 TargetのStateのtimeがおかしくなるのを修正。
+ver 2010.07.21-2 TargetStateのignorehitpauseを修正。postype=frontの処理を修正。
+                 ヒットし終わったprojectileカウントしないようにを修正。
+                 コマンドの処理を修正。NoKOの処理を修正。
+ver 2010.07.21 ChangeStateのignorehitpauseを修正。コマンドの処理を修正。
+               HitDefのyaccelの処理を修正。
+ver 2010.07.20 CPUがstartを押す頻度を下げた。
+ver 2010.07.18-3 sffの読み込みを修正。
+ver 2010.07.18-2 angledrawのscaleが初期化されないのを修正。
+ver 2010.07.18 varsetでvar(0)>=1がエラーになるのを修正。
+ver 2010.07.17-6 bindの処理を修正。
+ver 2010.07.17-5 targetbindですぐに移動しないように修正。
+ver 2010.07.17-4 hitcountの処理を修正。
+ver 2010.07.17-3 最初のExplodにModifyExploが効かないのを修正。
+ver 2010.07.17-2 pause中に攻撃を受けたときの処理を修正。
+ver 2010.07.17 supermovetime, pausemovetimeの処理を修正。
+ver 2010.07.14-2 スロー中にpauseがかかったときの処理を修正。
+                 movetype=IでReversalDefきかないのを修正。
+ver 2010.07.14 physics=Sのときの処理を修正。
+ver 2010.07.13-3 angleがセットされてないときのangledrawの処理を修正。
+ver 2010.07.13-2 posaddのバグを修正。
+ver 2010.07.13 2hitが連続するとcombo数が表示されないのを修正。
+ver 2010.07.12-4 Netplayの初期化を修正。
+ver 2010.07.12-3 コマンドの処理を修正。watch modeを修正。
+ver 2010.07.12-2 bgのエフェクトが切れなくなるのを修正。
+ver 2010.07.12 スローの動作を修正。
+ver 2010.07.11-7 二回入力の処理を修正。
+ver 2010.07.11-6 hitshakeが1フレーム長いのを修正。二回入力の処理を修正。
+ver 2010.07.11-5 攻撃中に勝ちポーズに移るのを修正。
+ver 2010.07.11-4 スローの動作を修正。
+ver 2010.07.11-3 helperのAssertSpecialを修正。
+ver 2010.07.11-2 スローの動作を修正。
+ver 2010.07.11 posaddで強制スクロールされるのを修正。
+ver 2010.07.10 スローの動作を修正。-1から同じstateにchangestateできないのを修正。
+ver 2010.07.09 airjuggleやprojectileの処理を修正。
+ver 2010.07.08-6 physics=Nのときはvelsetした後も加速できるように修正。
+ver 2010.07.08-5 ReversalDefの処理を修正。
+ver 2010.07.08-4 ReversalDefの処理を修正。
+ver 2010.07.08-3 ReversalDefの処理を修正。
+ver 2010.07.08-2 ReversalDefの処理を修正。
+ver 2010.07.08 statedefのanimが存在しない番号だとhelperが消えるのを修正。
+ver 2010.07.07 velsetした後は加速しないように修正。
+ver 2010.07.06-2 state -1ではディフォルトでignorehitpause = 1になるように修正。
+ver 2010.07.06 BindToTargetの処理を修正。
+ver 2010.07.05-5 敵ステートにいる状態で敵がdestoyselfしたら5050に行くように修正。
+ver 2010.07.05-4 HitShakeOverの処理を修正。
+ver 2010.07.05-3 HitShakeOverの処理を修正。
+ver 2010.07.05-2 HitShakeOverの処理を修正。
+ver 2010.07.05 HitShakeOverの処理を修正。
+ver 2010.07.04 BindToParentですぐに移動しないように修正。
+ver 2010.07.03-3 スクロール、ズーム関係の処理を修正。
+ver 2010.07.03-2 width関係が正しく初期化されていなかったのを修正。
+ver 2010.07.03 位置を初期化する処理を修正。
+ver 2010.07.02-4 animelmの処理を修正。socket.dllを更新。
+ver 2010.07.02-3 TargetVelSetの処理を修正。
+ver 2010.07.02-2 velsetでbindが解除されないのを修正。
+ver 2010.07.02 idを省略したexplodが消せなくなるのを修正。
+ver 2010.07.01-8 bindtorootで速度が消えるのを修正。
+ver 2010.07.01-7 bindがらみの処理を修正。
+ver 2010.07.01-6 そのtargetの速度の加算でfacingを考慮していなかったのを修正。
+ver 2010.07.01-5 veladdでbindtotargetしているtargetの速度も加算するように修正。
+ver 2010.07.01-4 veladdでbindしているtargetの速度も加算するように修正。
+ver 2010.07.01-3 前回の修正が勘違いだったので修正。
+ver 2010.07.01-2 floatの>演算子が>=演算子と同じになるように修正。
+ver 2010.07.01 ライフバーのRoundのpos無視していたのを修正。
+ver 2010.06.30 ズームの拡大を速くした。
+ver 2010.06.29-3 fontのspacingがおかしいのを修正。
+ver 2010.06.29-2 TurnsのFaceがおかしくなるのを修正。
+ver 2010.06.29 roundstate = 4では勝手にスクロールしないように修正。
+ver 2010.06.28 KO後に相手がターゲットから外れるのを修正。
+ver 2010.06.27-3 ssz.dllを更新(メモリーリークを修正)。
+ver 2010.06.27-2 ssz.dllを更新。
+ver 2010.06.27 defファイル全般の読み込みを修正。
+ver 2010.06.26-2 removeexplodのidが-1だとすべてのexplodが消えるのを修正。
+ver 2010.06.26 ontopのときsprpriorityを無視するように修正。
+ver 2010.06.25-3 palfxの時間が半分になっていたのを修正。
+ver 2010.06.25-2 superpauseのtimeを省略すると発動したプレーヤーも暗くなるのを修正。
+ver 2010.06.25 空中で勝利ステートに行くのを修正。
+ver 2010.06.24-5 ダウンしているのに時間切れ負けのステートに行くことがあるのを修正。
+ver 2010.06.24-4 WinPerfectの処理を修正。
+ver 2010.06.24-3 Transの処理を修正。
+ver 2010.06.24-2 パラメータの名前に含まれている全角スペースを空白として扱うように修正。
+ver 2010.06.24 helperがProjContactTimeを使えなかったのを修正。
+ver 2010.06.23-3 Explodの表示順が違うのを多少改善。
+ver 2010.06.23-2 Projectileが異様にヒットするのを修正。
+ver 2010.06.23 numprojなどのhelperでの動作を修正。
+ver 2010.06.22-4 敵ステートでヒットすると敵ステートに飛ぶのを修正。
+ver 2010.06.22-3 敵ステートで作ったhelperが敵ステートにならないのを修正。
+ver 2010.06.22-2 numhelperの処理を修正。
+ver 2010.06.22 helperのstateの実行順を修正。
+ver 2010.06.21-3 IsHelperの処理を修正。
+ver 2010.06.21-2 Projremovetimeが残っているうちはProjectileが残るように修正。
+ver 2010.06.21 落ちるのを修正。ssz.dllを更新。
+ver 2010.06.20-8 gethitvar(damage)修整がすぐに0にならないのを修正。
+ver 2010.06.20-7 ModifyExplodのidが-1のときの処理を修正。
+ver 2010.06.20-6 parentリダイレクトですでに消えていた場合それらしきものを参照するように修正。
+ver 2010.06.20-5 posaddで強制スクロールされるのを修正。
+ver 2010.06.20-4 P2BodyDist xのバグを修正。
+ver 2010.06.20-3 制御できないExplodが発生する可能性があるのを修正。
+ver 2010.06.20-2 ModifyExplodの処理を修正。
+ver 2010.06.20 afterimageの処理を修正。
+ver 2010.06.19-6 removeexplodのid = 0のときの処理を修正。
+ver 2010.06.19-5 pauseでtimeが巨大だと無視されていたのを修正。
+ver 2010.06.19-4 コンパイルミスを修正。
+ver 2010.06.19-3 Explodの表示順が違うのを多少改善。
+ver 2010.06.19-2 vel xの処理を修正。
+ver 2010.06.19 stateのコンパイルを少し最適化。ssz.dllを更新。
+ver 2010.06.18-6 pauseでtime=0を無視していたのを修正。
+ver 2010.06.18-5 着地の処理を修正。
+ver 2010.06.18-4 表示するパレットが間違っていたのを修正。
+ver 2010.06.18-3 ファイルネームの扱いを修正。
+ver 2010.06.18-2 1枚目のtimeが-1のアニメのanimtimeが0になるのを修正。
+ver 2010.06.18 IgnoreMostErrorsのエラー無視を修正。
+ver 2010.06.17-3 statetype=A以外でもmovetype=Iでphysics=Nのとき押さなかったのを修正。
+ver 2010.06.17-2 statetype=Aでmovetype=Iでphysics=Nのとき押さなかったのを修正。
+ver 2010.06.17 parentリダイレクトの処理を修正。
+ver 2010.06.16-4 afterimageの読み込みを修正。
+ver 2010.06.16-3 ground.type/air.typeがnoneのときの処理を修正。
+ver 2010.06.16-2 Projectileのmisstimeが0のときの処理を修正。
+ver 2010.06.16 changestateを無視して着地するように修正。
+ver 2010.06.15-2 Helperが消えるタイミングを修正。
+ver 2010.06.15 invisible中、afterimageを記録していなかったのを修正。
+ver 2010.06.14-6 name系トリガーが大文字と小文字を区別していたのを修正。
+ver 2010.06.14-5 存在しないステートでstate 0に移ったときctrl=1にするように修正。
+ver 2010.06.14-4 state 170にchangestateし続けるのを修正。
+ver 2010.06.14-3 マイナスステートからstate 0にchangestateするときのみctrl=1にするように修正。
+ver 2010.06.14-2 state 0にchangestateするときctrl=1にするように修正。
+ver 2010.06.14 over.waittime以降も動けるのを修正。
+ver 2010.06.13-2 GetHitVar(yaccel)の処理を修正。
+                 勝利ポーズに移る条件を修正。
+ver 2010.06.13 しばらくの間勝利ポーズをとるのをを待つように修正。
+ver 2010.06.12-6 1フレーム前のスプライトを表示していたのを修正。
+ver 2010.06.12-5 changeanim2のバグを修正。
+ver 2010.06.12-4 anmtime更新のタイミングを修正。
+ver 2010.06.12-3 ヒット判定のタイミングを修正。
+ver 2010.06.12-2 Turnsで引き分けになるとおかしくなるのを修正。
+ver 2010.06.12 1枚目のtimeが-1のアニメのanimtimeが0にならないのを修正。
+ver 2010.06.10-2 敵ステートにいるときはjugglecheckをしないように修正。
+ver 2010.06.10 roundstate 2でstate 0に変わるのが1フレーム遅かったのを修正。
+ver 2010.06.09-8 KOの表示がスローになるのを修正。
+ver 2010.06.09-7 roundstateが2になった瞬間から何度もstate 0にchangestateするのを修正。
+ver 2010.06.09-6 roundstateが2になるタイミングを修正。
+ver 2010.06.09-5 selfstateでbindされてるexplodが消えなかったのを修正。
+ver 2010.06.09-4 着地の処理を修正。
+ver 2010.06.09-3 相打ちにならないことがあるのを修正。
+ver 2010.06.09-2 お互いに相手のステートに入ると止まるのを修正。
+ver 2010.06.09 ステートが2回実行されることがあるのを修正。
+ver 2010.06.08-6 SuperPauseのunhittableがmovetime中しか有効にならなかったのを修正。
+ver 2010.06.08-5 dataにcommon1.cnsが無いとおかしくなるのを修正。
+ver 2010.06.08-4 bind解除関連の処理を修正。
+ver 2010.06.08-3 存在しないステートを指定したときの処理を修正。
+ver 2010.06.08-2 敵ステートにいるときのステート実行のタイミングを修正。
+ver 2010.06.08 CPUは戦闘終了後なにも操作しないように修正。
+ver 2010.06.07-8 イントロをスキップしたときHelperが消えなかったのを修正。
+ver 2010.06.07-7 ボタンでイントロをスキップできるようにした。
+ver 2010.06.07-6 p2statenoが存在しないステートだったときp1statenoが無効になるのを修正。
+ver 2010.06.07-5 gethitvar(groundtype)とgethitvar(airtype)つねに0だったのを修正。
+ver 2010.06.07-4 hitoverrideが存在しないステートだったときの処理を修正。
+ver 2010.06.07-3 p2statenoが存在しないステートだったときの処理を修正。
+ver 2010.06.07-2 2500loopsの処理を修正。
+ver 2010.06.07 Projectileが消えるときに加速しないように修正。
+ver 2010.06.06-3 Helperが着地するのを修正。
+ver 2010.06.06-2 着地の処理を修正。
+ver 2010.06.06 name系トリガーのバグを修正。
+ver 2010.06.05-7 gametimeの更新のタイミングを修正。
+ver 2010.06.05-6 Projectileの移動方向によってヒットバックの向きが変わるように修正。
+ver 2010.06.05-5 gethitvar(isbound)の処理を修正。
+ver 2010.06.05-4 time = 0でbindできないのを修正。
+ver 2010.06.05-3 statedefのvelsetではなくmovetypeがH以外でbindが解除されるように修正。
+ver 2010.06.05-2 スロー中にAngleDrawが途切れるのを修正。
+ver 2010.06.05 Helperのanimtimeの更新のタイミングを修正。
+ver 2010.06.04-3 HitShakeOverの動作を修正。
+ver 2010.06.04-2 HitShakeOverの動作を修正。
+ver 2010.06.04 Statedefのmovetype = uを読み込めなかったのを修正。
+ver 2010.06.03-3 state 52 が ctrl = 1 だとおかしくなるのを修正。
+ver 2010.06.03-2 SSZ_CODE:できるのをssz以下に限定できていなかったのを修正。
+ver 2010.06.03 SSZ_CODE:できるのをssz以下に限定した。
+ver 2010.06.02 Windows Mugen Plusに上書きしなくても動作できるようにした。
+ver 2010.05.31 AssertSpecialのflag3を読み込まないのを修正。
+ver 2010.05.30-2 ctrl+dでクリップボードを表示できるようにした。
+ver 2010.05.30 cnsの[Size]でxscale = 0.5,と書かれていたら読み込めなかったのを修正。
+               着地できないことがあるのを修正。
+ver 2010.05.29 CPUは戦闘中以外ボタンを押さないように修正。
+ver 2010.05.28-2 Projectileが常にhitonceだったのを修正。
+ver 2010.05.28 HelperのwidthでHelperの幅を設定していたのを修正。
+ver 2010.05.27-3 HitPause中にAngleDrawが解除されるのを修正。
+ver 2010.05.27-2 statedefのvelsetでbindが解除されるように修正。
+ver 2010.05.27 ポーズ中にmovehitが増えないのを修正。
+ver 2010.05.26 NumExplod(0)がidが0のExplodの数だったのを修正。
+ver 2010.05.23-2 BGのvelocityにyの値がないと読み込まないのを修正。
+ver 2010.05.23 round.default.offsetの処理を修正。
+ver 2010.05.20 SDL.dllとssz.dllを更新。
+ver 2010.05.16 ssz.dll更新。
+ver 2010.05.08 スーパーポーズ中にmovehitが増えないのを修正。
+ver 2010.05.05 ssz.dll更新。
+ver 2010.05.02 ssz.dll更新。
+ver 2010.05.01 スローだと着地時に一瞬消えるのを修正。
+ver 2010.03.06 ライフバーの処理を修正。
+ver 2010.03.02-2 p2statenoでガード不能になるのを修正。
+ver 2010.03.02 ssz.dll更新。
+ver 2010.02.21 HitDefAttr = C,NA,SA,HA を HitDefAttr(C,NA,SA,HA) と書けるようにした。
+ver 2010.02.17 socket.dll更新。Netplayのサーバ側がIPv6になってしまうのを修正。
+ver 2010.01.29 ssz.dll更新。
+ver 2010.01.23 framegapのディフォルト値を6に修正。
+ver 2010.01.20 ステージ名などに%などがあると落ちるのを修正。
+ver 2010.01.17 sdlplugin.dll更新(ボリューム設定の追加)。
+ver 2010.01.16 ssz.dll更新。
+ver 2010.01.13 ssz.dll更新。
+ver 2010.01.03 ssz.dll更新。
+ver 2010.01.01 ssz.dll更新。
+ver 2009.12.24 ヘルパーのnameがヘルパーの名前だったのを修正。
+ver 2009.12.15 1.0より大きく拡大したときズームアウトしづらくなるのを修正。
+ver 2009.11.29 nobardisplayでcomboが表示されないのを修正。ssz.dll更新。
+ver 2009.11.28 ssz.dll更新。
+ver 2009.11.27 ssz.dll更新。
+ver 2009.11.25 ssz.dll更新。
+ver 2009.11.24 ssz.dll更新。
+ver 2009.11.23 ssz.dll更新。
+ver 2009.11.21 Turns相手にDKOしたときのバグを修正。
+ver 2009.11.17 NetplayでCpuが動かなかったのを修正。
+ver 2009.11.09 フレームスキップの連続回数にムラがある場合は固定にした方がいい
+               とは思わなかったのでフレームスキップの連続回数によりムラが出るように修正。
+ver 2009.11.07 changeanimのelemに範囲外を指定したときの処理を修正。
+               clsn1,clsn2両方ない場合押さないように修正。
+               CPUの行動を調整。
+ver 2009.11.05 コマンドの途中にタメがあるときの処理を修正。
+ver 2009.11.04 hitdeftでなくclsn1がない場合は押さないように修正。
+ver 2009.10.30 ポートレイトの読み込みを修正。
+ver 2009.10.29 loopstartは後の方を優先するように修正。
+               movetypeがAでもhitdeftがない場合は押さないように修正。
+ver 2009.10.28 フォントのパレットの処理を修正。
+ver 2009.10.22 ssz.dll更新。
+ver 2009.10.21 ssz.dll更新。
+ver 2009.10.20 affectteam = E 以外のProjectileがすぐに消えるのを修正。
+ver 2009.10.18 ssz.dll更新。
+ver 2009.10.16 walk.fwd     = 1.7, 0などをまともに読み込めなかったを修正。
+ver 2009.10.15 すぐにKOされるとFIGHT!が残るのを修正。
+ver 2009.10.14 hitsoundなどに何も指定されていないと落ちるのを修正。
+               fight.time,fight.sndtimeのバグを修正。
+               command! = "a"などの処理を修正。
+               animelemtimeでアニメ枚数より多い数を指定したときの処理を修正。
+ver 2009.10.06 ssz.dll更新。
+ver 2009.10.01 IgnoreMostErrors=trueのとき不正なステートファイルの指定を無視するように修正。
+ver 2009.09.28 同じキャラのままだとcpu操作の状態が違うモードでもそのままなのを修正。
+ver 2009.09.27 changeanimで無効な番号を指定したときanimが0にならなかったのを修正。
+               コマンドの$のバグを修正。
+ver 2009.09.26 1Pが2Pと同じキャラを選ぶと2Pがキャラを変えられないのを修正。
+ver 2009.09.21 ssz.dll更新。
+ver 2009.09.20 statetype=Lのときもjuggleポイントが働いていたのを修正。Comboの表示を修正。
+ver 2009.09.19 ssz.dll更新。
+ver 2009.09.18 ssz.dll更新。ヒットサウンドが鳴らなかったのを修正。p2nameなどの処理を修正。
+ver 2009.09.17 juggleポイントの処理を修正。
+ver 2009.09.15 ssz.dll更新。ステートを奪われているときはstatetypeがLでも押されないように修正。
+ver 2009.09.14 キャラが重なったときの押し戻し方を修正。
+               simulでpowerを共有するように修正。ssz.dll更新。
+ver 2009.09.13 判定が1ドット後ろにずれていたのを修正。
+ver 2009.09.12 ステージでtrans=noneのときだけmask=0にできるように修正。
+ver 2009.09.10 pcxの読み込みを修正。
+               lifebarなどのLifebarFontScaleが1.0でないときの表示位置を修正。
+ver 2009.09.08 pcxの読み込みを修正。exe,dllを更新。
+ver 2009.09.06 lifebarのsimulのfaceを1pが前になるように修正。
+ver 2009.09.05 ssz.dll更新。同じキャラを選ぶとパレットが変わらないのを修正。
+ver 2009.09.04 watchでランダムステージ以外のときはステージを固定するようにした。
+ver 2009.09.02 ssz.dll更新。
+ver 2009.08.31 ssz.dll更新。
+ver 2009.08.29 snap,maxdist,mindistのバグを修正。
+ver 2009.08.28 offset = 32,-12などのProjectileがすぐに消えるのを修正。
+ver 2009.08.27 const(data.power)に対応。NumHelper(2800)!などの処理を修正。
+ver 2009.08.26 整数の割り算の処理を修正。
+ver 2009.08.25 Comboの表示を修正。
+               SFalseの処理を修正。
+ver 2009.08.24 animtime更新のタイミングを修正。
+ver 2009.08.23 SFalseの処理を修正。
+ver 2009.08.22 "holdback"でガードできなかったのを修正。
+ver 2009.08.21 AssertSpecialのnokoに対応。
+ver 2009.08.17 changeanimのelemの処理を修正。
+               フォントの表示ががずれていたのを修正。
+ver 2009.08.16 Comboのcounter.offsetを無視するように修正。
+               projheightboundが1,1でも飛び道具がすく消えないように修正。
+               pause中にprojectileが動くのを修正。
+               explodが止まるのを修正。
+ver 2009.08.15 enemynearで落ちることがあるのを修正。
+               コリジョンの表示が1フレームずれていたのを修正。
+               changeanimのelemの処理を修正。
+ver 2009.08.14 キャラがすり抜けることがあるのを修正。
+ver 2009.08.13 ssz.dll更新。
+ver 2009.08.12 ssz.dll更新。
+ver 2009.08.10 コリジョンの読み込みのバグを修正。ctrl+cでコリジョンを表示できるようにした。
+ver 2009.08.02 メニューでBGM鳴らすようにした。
+ver 2009.08.01 最後のNetplayをリプレイできるようにした。
+ver 2009.07.31 キャラの顔のパレットがおかしくなるのを修正。
+ver 2009.07.28 netplayのラグを改善。
+ver 2009.07.27 ssz.dll更新。試験的netplay mode追加。
+ver 2009.07.22 watch以外でもautolevel.txtが作用していたのを修正。
+ver 2009.07.21 AutoDemoの設定を無くした。ゲームモードを選べるようにした。
+ver 2009.07.20 aoutlevel.txtだったのをautolevel.txtに修正。
+               AutoDemo=falseではautolevel.txtが作用しないように変更。
+               TurnsのRoundsExistedがおかしかったのを修正。
+ver 2009.07.19 AutoDemo=trueのときTurnsも出すようにした。
+ver 2009.07.18 同キャラはなるべく別のパレットで表示するようにした。
+ver 2009.07.17 ssz.dllが最新でなかったのを修正。
+ver 2009.07.13 ssz.dll更新。facep2の処理を修正。
+ver 2009.07.12 config.sszのキー設定の仕方を変更。
+ver 2009.07.11 スクロールの仕方を修正。
+ver 2009.07.10 スクロールの仕方を修正。
+ver 2009.07.08 MaxScaleを1.0より大きくしても少ししか拡大できなかったのを修正。
+ver 2009.07.05 ssz.dll更新。
+ver 2009.07.01 bind中速度が0になるのを修正。
+ver 2009.06.30 TargetBindよりPossetが優先されないことがあるのを修正。
+ver 2009.06.29 スロー時のcornerpushを修正。
+ver 2009.06.28 IntPersistIndex,FloatPersistIndex,VarRangeSetの処理を修正。
+               misstime=0のProjectileのダメージがないのを修正。
+ver 2009.06.27 AIでtime=0のコマンドが入らなかったのを修正。
+ver 2009.06.25 TargetLifeAddが逆だったのをを修正。projtime系の処理を修正。
+ver 2009.06.24 projtime系の処理を修正。
+ver 2009.06.23 gethitvar(damage)の処理を修正。
+ver 2009.06.22 edgedist系の処理を修正。
+ver 2009.06.21 RoundsExistedの処理を修正。
+ver 2009.06.20 ctrlが0のときにガードすることがあるのを修正。
+ver 2009.06.19 st0を読み込んでいなかったのを修正。
+ver 2009.06.18 helperの表示優先度を修正。
+ver 2009.06.17 hitdefのtripに対応。
+ver 2009.06.16 bindtotargetの処理を修正。
+ver 2009.06.15 stateの読み込みの処理を修正。
+ver 2009.06.14 attackdistの処理を修正。
+ver 2009.06.13 ssz.dll更新。inguarddistの処理を修正。
+ver 2009.06.12 hitdefのnoneの処理を修正。
+ver 2009.06.11 PalFXの処理を修正。
+ver 2009.06.10 ズームインの速度を変更。
+ver 2009.06.09 ガード中にしゃがむとガードにならないのを修正。
+ver 2009.06.08 hitdefのyaccelの省略値を修正。
+ver 2009.06.07 Explodのremovetimeの処理を修正。
+ver 2009.06.06 animelemの処理を修正。
+ver 2009.06.05 sndの読み込みを修正。
+ver 2009.06.04 Projectileのmisstimeの処理を修正。
+ver 2009.06.03 コンボカウンターを修正。
+ver 2009.06.02 存在しないステートを指定したときの処理を修正。
+ver 2009.06.01 lifeが0でfall状態になるように修正。
+ver 2009.05.31 hitoverrideのtimeが-1のときステートが変わると効果がなくなるのを修正。
+ver 2009.05.30 タッグで振り向きがおかしいのを修正。
+ver 2009.05.29 ポーズ中に動くのを修正。
+ver 2009.05.28 AfterImageの優先度を修正。
+ver 2009.05.27 p2系トリガーの処理を修正。
+ver 2009.05.26 StateTypeがSのときxの速度が絶対値1未満で0になっていたのを修正。
+ver 2009.05.25 LoopStartの処理を修正。
+ver 2009.05.24 ignorehitpause=0のExplodを出したヘルパーが先に消えると落ちるのを修正。
+ver 2009.05.23 PlayerPush関係を修正。
+ver 2009.05.22 HitOver後もターゲットから外れないように修正。
+ver 2009.05.21 StCommonがないと動かないのを修正。
+ver 2009.05.20 ステートを奪われているときは押さないように修正。
+ver 2009.05.19 roundstateが2になるタイミングを修正。
+ver 2009.05.18 拡大するとき画面端に引きずられるのを修正。
+ver 2009.05.17 HitShake中摩擦や重力がかかっていたのを修正。
+ver 2009.05.15 roundstateが4の時だけwinやloseになるように修正。
+ver 2009.05.14 ssz.dll更新。sdlplugin.dll更新。
+ver 2009.05.12 sdlplugin.dll更新(tilespacingの処理修正)。animtimeの処理を修正。
+ver 2009.05.11 sdlplugin.dll更新(sa???d255の画像が表示されなかったのを修正)。
+ver 2009.05.10 ヒット中でなくてもHitShakeOverになっていたのを修正。
+ver 2009.05.08 ssz.dll更新。
+ver 2009.05.03 sdlplugin.dll更新(Winampプラグインの処理修正)。
+ver 2009.04.30 intro,roundnotoverの効果がポーズ中切れなかったのを修正。
+ver 2009.04.28 ssz.dll更新。
+ver 2009.04.27 イントロ中は押さないように修正。hittime中juggleポイントを無視していたのを修正。
+ver 2009.04.24 ヒットポーズが1フレーム短かったのを修正。nojugglecheckのバグを修正。
+ver 2009.04.23 sdlplugin.dll更新。envshakeのfreqの処理修正。config.sszにP1JN追加。
+ver 2009.04.22 animelemのバグ修正。
+ver 2009.04.21 sdlplugin.dll更新。AS1D254が加算合成になってしまうのを修正。
+ver 2009.04.20 TargetBindでターゲットの速度が0になるように修正。
+ver 2009.04.19 hittime中mindist,maxdistがずっと有効だったのを修正。
+ver 2009.04.18 ヒットポーズがないとMoveContactがいきなり2になるのを修正。
+ver 2009.04.17 HitOverにならないとHitFallにならなかったのを修正。
+ver 2009.04.16 ssz.dll更新。
+ver 2009.04.15 :=演算子が壊滅的になっていたのを修正。
+ver 2009.04.14 整数の変数が壊滅的になっていたのを修正。
+ver 2009.04.13 VarSetでvar(1=1)=1がエラーになるのを修正。
+ver 2009.04.12 画面のズームアウトの速度をゲームスピードにあわせるようにした。
+ver 2009.04.02 helper(0),ishelper(0),numhelper(0)の処理を修正。
+ver 2009.03.31 SuperPauseのanimが前に表示されなかったのを修正。
+ver 2009.03.30 ヒットスパークの倍率がキャラに合わせて変化していたのを修正。
+ver 2009.03.23 ssz.dll更新。superpauseのdarkenを修正。
+ver 2009.01.14 sdlplugin.dll更新(ちょうど画面外ぐらいて表示がずれるバグを修正)。
+ver 2009.01.03 セレクト画面のフレームスキップを修正。
+ver 2009.01.01 ssz.dll更新(メモリーリーク修正)。
+ver 2008.12.31 セレクト画面などを変更。
+ver 2008.12.30 ssz.dll更新。
+ver 2008.12.29 Escでセレクトに戻るようにした。
+ver 2008.12.27 ssz.dll更新。
+ver 2008.12.23 Widthのedgeがstageの設定を無視していたのを修正。
+ver 2008.12.22 p1statenoで速度をリセットしていたのを修正。
+ver 2008.12.20 ssz.dll更新。
+ver 2008.12.19 Action 0の最初のスプライトではなく0,0のスプライトにパレットを設定するように修正。
+ver 2008.12.18 拡大するとき画面端に引きずられるのを修正。
+ver 2008.12.16 判定が1フレーム先のフレームになっていたのを修正。
+ver 2008.12.15 ラウンド開始時にPalFXが初期化されていなかったのを修正。
+ver 2008.12.14 animtimeを進めるタイミングが違っていたのを修正。
+ver 2008.12.13 Helperのステートの実行のタイミングが違っていたのを修正。
+ver 2008.12.11 hittime中に別の相手の攻撃を受けるとターゲットに残ったままだったのを修正。
+ver 2008.12.07 ssz.dll更新。
+ver 2008.12.04 Explodのignorehitpause = 0の処理を修正。
+ver 2008.12.03 ssz.dll更新。
+ver 2008.12.01 5110のtypeがLでないと起き上がらなかったのを修正。
+ver 2008.11.30 ssz.dll更新。
+ver 2008.11.29 ズームの処理を修正。
+ver 2008.11.28 Comboカウンターの位置を修正。
+ver 2008.11.27 camera tensionの処理を修正。
+ver 2008.11.26 マイナスステートのChangeStateが即座に適用されていたのを修正。
+ver 2008.11.25 ダウンしたらターゲットでなくなるように修正。
+ver 2008.11.24 ノーマルHelperのcornerpushのディフォルトを0に修正。
+ver 2008.11.23 消滅のアニメの無いProjectileが瞬時に消えなかったのを修正。
+ver 2008.11.22 Helperのkeyctrlがoffのとき常にctrlが0だったのを修正。
+ver 2008.11.21 プレイヤーHelperのマイナスステートが実行されていなかったのを修正。
+ver 2008.11.20 ループの直前でAnimElemTimeとAnimElemNoがかみ合っていなかったのを修正。
+ver 2008.11.19 AnimElem <=3などの処理が間違っていたのを修正。
+ver 2008.11.18 AnimTimeの値が1大きかったのを修正。
+ver 2008.11.17 左右反転したスプライトの表示が1ドットずれていたのを修正。
+ver 2008.11.16 Widthのedgeの指定が左向きで前後逆だったのを修正。
+ver 2008.11.15 TargetBindで同じTargetへのBindToTargetを解除するように修正。
+ver 2008.11.14 ロード中にウィンドウが固まる時間を短くした。
+ver 2008.11.13 IgnoreMostErrorsで"typeが指定されていません"を無視するように変更。
+ver 2008.11.12 sdlplugin.dll更新。
+ver 2008.11.11 physicsがNで、fall状態でなくStateTypeがAかMovetypeがIでPlayerPushをoffに修正。
+ver 2008.11.10 config.sszにLifebarFontScale追加。
+ver 2008.11.09 MoveContact等がヒットした瞬間0だったのを修正。
+ver 2008.11.08 physicsがNで、fall状態でなくStateTypeがAかMovetypeがA以外でPlayerPushをoffに修正。
+ver 2008.11.07 BGCtrlのEnableがoffのとき移動が止まっていたのを修正。
+ver 2008.11.06 sprpriorityが同じExplodの優先順位を修正。
+ver 2008.11.05 表示フレームが-1のProjectileが消えないバグを修正。
+ver 2008.11.04 sprpriorityが同じときの優先順位を修正。
+ver 2008.11.03 Hitdefのhitflagの処理を修正。
+ver 2008.11.02 Pause,SuperPauseのmovetimeの処理を修正。
+ver 2008.11.01 攻撃側のhitpauseが1tick長かったのを修正。
+ver 2008.10.31 physicsがAのときGravityの効果が無かったのを修正。
+ver 2008.10.30 hittime中もfall状態扱いだったのを修正。
+ver 2008.10.29 Pause,SuperPauseのmovetimeの処理が間違っていたのを修正。
+ver 2008.10.28 HitCountが正確でなかったのを修正。
+ver 2008.10.26 ownpalの効果がなかったのを修正。
+ver 2008.10.25 supermovetime,pausemovetimeで-1が無限でなかったのを修正。
+ver 2008.10.24 hitshake中にhittimeをカウントしていたのを修正。
+ver 2008.10.23 StateNo=140から戻らなかったのを修正。
+ver 2008.10.22 MovetypeがH以外になったらhitshakeが終わるように修正。config.sszにTime追加。
+ver 2008.10.21 phisycsがSとCのときGravityが効かなかったのを修正。
+ver 2008.10.20 Triggerでlnを使うとエラーが出るのを修正。
+ver 2008.10.19 Faceを実装。
+ver 2008.10.17 MovetypeがHのときはphysicsがNでもPlayerPushをoffにしないように修正。
+ver 2008.10.16 SuperPause中にPauseの影響を受けていたのを修正。
+ver 2008.10.15 ChangeState後のアニメが1tick遅れていたのを修正。
+ver 2008.10.14 Helperは!Aliveでも強制的にダウンしないように修正。
+ver 2008.10.13 Hitdefのguardflagのディフォルトをカード不能に修正。
+ver 2008.10.12 x座標の原点が画面の中央でなかったのを修正。
+ver 2008.10.11 ステートを奪われているうちはターゲットから外れないように修正。
+ver 2008.10.10 Statedefのmovetypeのディフォルト値をIに修正。
+ver 2008.10.09 ssz.dll更新。
+ver 2008.10.07 Statedefのtypeのディフォルト値をSに修正。
+ver 2008.10.06 ChangeState後のstateの実行が1tick遅れていたのを修正。
+ver 2008.10.05 VarRandomがまともに動かなくなっていたのを修正。
+ver 2008.10.04 VarRandomで0除算で落ちることがあったのを修正。
+ver 2008.10.02 PalFXのsinaddの周期が2のとき点滅しなかったのを修正。
+ver 2008.10.01 statedefより下にある関係ないセクションで読み込み時に落ちるバグを修正。
+ver 2008.09.30 Comboカウンターを実装。動いているときは勝利ポーズをとらないように修正。
+ver 2008.09.29 マイナスState以外ならChangeStateで同じStateに変更可能に修正。
+ver 2008.09.28 ノーマルHelperは、5000番台に、MovetypeがH以外でもHitOverに、ならないように修正。
+ver 2008.09.27 ChangeAnimで同じ番号に変更可能に修正。ChangeStateで同じStateに変更不可能に修正。
+ver 2008.09.25 まだフォントの読み込みがおかしかったのを修正。
+ver 2008.09.24 フォントの読み込みがおかしかったのを修正。
+ver 2008.09.23 Powerbarを実装。
+ver 2008.09.22 HitOverride,HitBy,NotHitByのtime=-1に対応していなかったのを修正。
+ver 2008.09.21 WinIconを実装。
+ver 2008.09.20 clsn2のないノーマルHelperにはReversalがヒットしないように変更。
+ver 2008.09.19 ノーマルHelperも5000番台になるように修正。ノーマルHelperはTargetにならないように変更。
+ver 2008.09.16 AttackMulSetとDefenceMulSetの効果がなかったのを修正。
+ver 2008.09.15 ライフバーのbg2に対応。
+ver 2008.09.13 キャラNameを表示。fontの表示位置がずれていたのを修正。
+ver 2008.09.11 Winメッセージを実装。
+ver 2008.09.10 KOコールを実装。
+ver 2008.09.09 config.sszにIgnoreMostErrors追加。
+ver 2008.09.08 ラウンドコールを実装。
+ver 2008.09.04 RoundsExistedを実装。
+ver 2008.09.03 simulモード以外ではstate2p.ssz,state3p.sszをダミーで上書きするようにした。
+ver 2008.09.02 sdlplugin.dll更新。PalFXのmulかがaddに影響していなかったのを修正。
+ver 2008.09.01 config.sszにAutoDemo追加(falseでキャラを操作できるようになった)。
+ver 2008.08.31 ssz.dll更新。
+ver 2008.08.30 ライフバーのlayerno=2に対応。
+ver 2008.08.29 CanRecover状態でもlifebarのmidが減るように変更。あまり急に拡大しないように変更。
+ver 2008.08.26 ssz.dll,sdlplugin.dll更新。stageのBGMの再生。
+ver 2008.08.23 sdlplugin.dll更新。MovetypeがH以外のダメージのlifebarのmid表示。
+ver 2008.08.22 sdlplugin.dll更新。フォントをハッシュテーブルで参照するように。lifebarのmid表示。
+ver 2008.08.21 sdlplugin.dll更新。
+ver 2008.08.20 sdlplugin.dll更新。ground.slidetimeが省略時0だったのを修正。
+ver 2008.08.19 sdlplugin.dll更新。GameMakeAnimを実装。
+ver 2008.08.18 sdlplugin.dll更新。画像をハッシュテーブルで参照するように変更。
+ver 2008.08.17 sdlplugin.dll更新。MovetypeがHでなくなったときすぐにHitOverになるように修正。
+ver 2008.08.16 sdlplugin.dll更新。1枚目の表示時間が-1の場合、AnimTimeが1しか返さなかったのを修正。
+ver 2008.08.15 sdlplugin.dll更新。MovetypeがAのときではなくphysicsがNのときPlayerPushをoffに。
+ver 2008.08.14 EnvShakeを実装。MovetypeがHのときではなくAのときPlayerPushをoffに。
+ver 2008.08.13 sdlplugin.dllを更新。MovetypeがHのときPlayerPushをoffに。
+ver 2008.08.12 Exist
