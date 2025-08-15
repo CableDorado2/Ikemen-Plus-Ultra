@@ -1,21 +1,4 @@
 --;===========================================================
---; LIBRARY DEFINITION (OLD STRUCTURE)
---;===========================================================
---[[
-lfs = require("lfs") --load lfs.dll
-
---load ltn12 lua library
-package.path = package.path..";./lib/ltn12.lua"
-ltn12 = require("ltn12")
-
---load dkjson lua library
-package.path = package.path..";./lib/dkjson.lua"
-dkjson = require("dkjson")
-
---One-time load of the json routines
-json = (loadfile "lib/json.lua")()
-]]
---;===========================================================
 --; LIBRARY DEFINITION
 --;===========================================================
 --Configure search paths for shared libraries (c-extensions)
@@ -647,12 +630,14 @@ function deldir(dir)
 		if file ~= "." and file ~= ".." then
 			local file_path = dir..'/'..file --Create the full path of the file or folder.
 			local mode = lfs.attributes(file_path, 'mode') --Gets the mode of the file (whether it is a file or a directory).
-		--If mode is 'file', the file is deleted.
-			if mode == 'file' then
-				os.remove(file_path)
-		--If mode is 'directory', deldir function is called recursively to remove its contents.
-			elseif mode == 'directory' then
-				deldir(file_path)
+			if mode ~= nil then
+			--If mode is 'file', the file is deleted.
+				if mode == 'file' then
+					os.remove(file_path)
+			--If mode is 'directory', deldir function is called recursively to remove its contents.
+				elseif mode == 'directory' then
+					deldir(file_path)
+				end
 			end
 		end
 	end
@@ -795,43 +780,6 @@ p2Dat = json.decode(f_fileRead(saveP2Path))
 
 --Data loading from abyss_sav.json
 abyssDat = json.decode(f_fileRead(saveAbyssPath))
-
---;===========================================================
---; DISCORD RICH PRESENCE DEFINITION
---;===========================================================
-discordGameID = "1200228516554346567" --Discord AppID
-discordGameState = "In Logos" --Game State
-discordGameDetails = "Create Advanced MUGENS or your own Fighting Game!" --Game State Details
-discordGameBigImg = "gameicon" --Discord App Game Icon
-discordGameAbout = "Game Name" --Game Description
-discordGameMiniIcon = "charactericon" --Discord App Mini Icon
-discordGameMiniTxt = "character name" --Mini Icon Description
-discordPublicRoomID = "party1234" --Public Room ID
-discordPrivateRoomID = "xyzzy" --Private Room ID
-discordPrivateJoin = "join" --
-discordPrivateWatch = "look" --
-discordRoomMax = 2 --Room Max Capacity
-discordRoomSize = 0 --Room Capacity. Add 1 when online mode with rich presence works
-discordGameInstance = 0 --???
-
---[[
-discordInit(discordGameID) --Start Discord Rich Presence
-discordUpdate() --Update Discord Rich Presence
-discordEnd() --End Discord Rich Presence
-setDiscordState(discordGameState)
-setDiscordDetails(discordGameDetails)
-setDiscordBigImg(discordGameBigImg)
-setDiscordBigTxt(discordGameAbout)
-setDiscordMiniImg(discordGameMiniIcon)
-setDiscordMiniTxt(discordGameMiniTxt)
-setDiscordPartyID(discordPublicRoomID)
-setDiscordSecretID(discordPrivateRoomID)
-setDiscordSecretJoin(discordPrivateJoin)
-setDiscordSecretWatch(discordPrivateWatch)
-setDiscordPartyMax(discordRoomMax)
-setDiscordPartySize(discordRoomSize)
-setDiscordInstance(discordGameInstance)
-]]
 
 --;===========================================================
 --; INPUT STUFF
@@ -3738,28 +3686,30 @@ function f_loadMusic(path)
 		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
 			local details = path.."/"..item --Get path and file name
 			local attribute = lfs.attributes(details) --Get atributes from items readed
-			assert(type(attribute) == "table")
-			f_loadMusic(details)
-			if attribute.mode == "file" then --If the item have "file" attribute
-				if item:match('^.*(%.)[Mm][Pp][3]$') then
-					row = #t_songFile+1
-					t_songFile[row] = {}
-					t_songFile[row]['id'] = ""
-					t_songFile[row]['folder'] = path
-					t_songFile[row]['path'] = details
-					t_songFile[row]['name'] = item:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
-				elseif item:match('^.*(%.)[Oo][Gg][Gg]$') then
-					row = #t_songFile+1
-					t_songFile[row] = {}
-					t_songFile[row]['id'] = ""
-					t_songFile[row]['folder'] = path
-					t_songFile[row]['path'] = details
-					t_songFile[row]['name'] = item:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+			if attribute ~= nil then
+				assert(type(attribute) == "table")
+				f_loadMusic(details)
+				if attribute.mode == "file" then --If the item have "file" attribute
+					if item:match('^.*(%.)[Mm][Pp][3]$') then
+						row = #t_songFile+1
+						t_songFile[row] = {}
+						t_songFile[row]['id'] = ""
+						t_songFile[row]['folder'] = path
+						t_songFile[row]['path'] = details
+						t_songFile[row]['name'] = item:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+					elseif item:match('^.*(%.)[Oo][Gg][Gg]$') then
+						row = #t_songFile+1
+						t_songFile[row] = {}
+						t_songFile[row]['id'] = ""
+						t_songFile[row]['folder'] = path
+						t_songFile[row]['path'] = details
+						t_songFile[row]['name'] = item:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+					end
+				elseif attribute.mode == "directory" then --If the item have "folder/dir" attribute
+					rowFolder = #t_songList+1
+					t_songList[rowFolder] = {}
+					t_songList[rowFolder]['folder'] = details
 				end
-			elseif attribute.mode == "directory" then --If the item have "folder/dir" attribute
-				rowFolder = #t_songList+1
-				t_songList[rowFolder] = {}
-				t_songList[rowFolder]['folder'] = details
 			end
 		end
 	end
@@ -4355,31 +4305,33 @@ function f_loadLuaMods(bool)
 			if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
 				local details = path.."/"..item --Get path and file name
 				local attribute = lfs.attributes(details) --Get atributes from items readed
-				assert(type(attribute) == "table")
-				f_loadExternalModules(details)
-				if attribute.mode == "file" then --If the item have "file" attribute
-					if item:match('^.*(%.)[Ll][Uu][Aa]$') then
-					--Check if the file contains a specific line if matchload bool is true
-						if matchload then
-							local file = io.open(details, "r")
-							excludeFile = false
-							if file then
-								for line in file:lines() do
-									if line:find("local excludeLuaMatch = true") then
-										excludeFile = true
-										break
+				if attribute ~= nil then
+					assert(type(attribute) == "table")
+					f_loadExternalModules(details)
+					if attribute.mode == "file" then --If the item have "file" attribute
+						if item:match('^.*(%.)[Ll][Uu][Aa]$') then
+						--Check if the file contains a specific line if matchload bool is true
+							if matchload then
+								local file = io.open(details, "r")
+								excludeFile = false
+								if file then
+									for line in file:lines() do
+										if line:find("local excludeLuaMatch = true") then
+											excludeFile = true
+											break
+										end
 									end
+									file:close()
 								end
-								file:close()
 							end
-						end
-					--Only add the module if it does not contain the "exclude" line
-						if not excludeFile then
-							row = #t_luaExternalMods+1
-							t_luaExternalMods[row] = {}
-							t_luaExternalMods[row]['folder'] = path
-							t_luaExternalMods[row]['path'] = details
-							t_luaExternalMods[row]['name'] = item:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
+						--Only add the module if it does not contain the "exclude" line
+							if not excludeFile then
+								row = #t_luaExternalMods+1
+								t_luaExternalMods[row] = {}
+								t_luaExternalMods[row]['folder'] = path
+								t_luaExternalMods[row]['path'] = details
+								t_luaExternalMods[row]['name'] = item:gsub('^(.*)[%.][Ll][Uu][Aa]$', '%1')
+							end
 						end
 					end
 				end
@@ -4397,5 +4349,4 @@ function f_loadLuaMods(bool)
 		assert(loadfile(v.path))()
 	end
 end
-
 require("script.options") --Load options script

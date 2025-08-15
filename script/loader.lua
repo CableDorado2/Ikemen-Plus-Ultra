@@ -1,26 +1,28 @@
 --;===========================================================
 --; LOAD CHARACTERS DATA
 --;===========================================================
-local function findOriginalPath(baseDir, targetPathLower)
-    for file in lfs.dir(baseDir) do
-        if file ~= "." and file ~= ".." then
-            local fullPath = baseDir .. "/" .. file
-            local attr = lfs.attributes(fullPath)
-            if attr.mode == "directory" then
-               --Recursivamente buscar en subdirectorios
-                local found = findOriginalPath(fullPath, targetPathLower)
-                if found then
-                    return found
-                end
-            else
-               --Comparar sin mayúsculas/minúsculas
-                if string.lower(fullPath) == targetPathLower then
-                    return fullPath:gsub('[^/]+%.def$', '') --remove .def from file
-                end
-            end
-        end
-    end
-    return nil
+local function f_getCharPath(baseDir, targetPathLower)
+	for file in lfs.dir(baseDir) do
+		if file ~= "." and file ~= ".." then
+			local fullPath = baseDir .. "/" .. file
+			local attr = lfs.attributes(fullPath)
+			if attr ~= nil then
+				if attr.mode == "directory" then
+				--Recursively search in subdirectories
+					local found = f_getCharPath(fullPath, targetPathLower)
+					if found then
+						return found
+					end
+				else
+				--Compare without uppercase
+					if string.lower(fullPath) == targetPathLower then
+						return fullPath:gsub('[^/]+%.def$', '') --remove .def from file
+					end
+				end
+			end
+		end
+	end
+	return nil
 end
 --parse character data
 function f_parseChar(t, cel)
@@ -32,7 +34,7 @@ function f_parseChar(t, cel)
 		t['displayname'] = displayname
 		t['def'] = def
 		t['dir'] = dir
-		t['ikanim'] = ""--findOriginalPath("chars", def).."charAnimIK/"
+		t['ikanim'] = f_getCharPath("chars", def).."charAnimIK/" --Because getCharFileName() return in lowercase
 		local sffPath = ''
 		local sndPath = ''
 		local airPath = ''
@@ -1285,13 +1287,6 @@ for file in lfs.dir(selMusicPath) do
 	end
 end
 
---Add Extra music
---[[
-t_selMusic[6].bgmfile = "sound/system/Opening.mp3"
-t_selMusic[6].bgmname = "Extra Song Name"
-t_selMusic[6].bgmchar = 999
-]]
-
 --Add extra items to Song Select table
 t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "MUTE", bgmchar = 0}
 t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "AUTO [LEFT SIDE]", bgmchar = 0}
@@ -1302,13 +1297,15 @@ function generateStageList(path)
 		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
 			local details = path.."/"..item --Get path and file name
 			local attribute = lfs.attributes(details) --Get atributes from items readed
-			assert(type(attribute) == "table")
-			generateStageList(details)
-			if attribute.mode == "file" then
-				if item:match('^.*(%.)[Dd][Ee][Ff]$') then --Get only .def files
-					t_extraStages[#t_extraStages+1] = details
+			if attribute ~= nil then
+				assert(type(attribute) == "table")
+				generateStageList(details)
+				if attribute.mode == "file" then
+					if item:match('^.*(%.)[Dd][Ee][Ff]$') then --Get only .def files
+						t_extraStages[#t_extraStages+1] = details
+					end
+					--f_printTable(t_extraStages, 'save/debug/StageListCreator.log')
 				end
-				--f_printTable(t_extraStages, 'save/debug/StageListCreator.log')
 			end
 		end
 	end
@@ -1327,20 +1324,22 @@ function generateCharsList(path)
 		if item ~= "." and item ~= ".." and item ~= ".keep" then
 			local details = path.."/"..item
 			local attribute = lfs.attributes(details)
-			assert(type(attribute) == "table") --To avoid isues here all files inside char folder need to be in not japan or special symbols names
-			generateCharsList(details)
-			if attribute.mode == "file" then
-				if item:match('^.*(%.)[Dd][Ee][Ff]$') then
-					local rPath = details
-					local startIndex = string.find(rPath, "chars/") --Finds "chars/" string
-					if startIndex then
-						local details = string.sub(rPath, startIndex+6) --Extracts the substring starting from the position after "chars/"
-						t_characters[#t_characters+1] = details
-					else --"String does not contain 'chars/'
-						
+			if attribute ~= nil then
+				assert(type(attribute) == "table") --To avoid isues here all files inside char folder need to be in not japan or special symbols names
+				generateCharsList(details)
+				if attribute.mode == "file" then
+					if item:match('^.*(%.)[Dd][Ee][Ff]$') then
+						local rPath = details
+						local startIndex = string.find(rPath, "chars/") --Finds "chars/" string
+						if startIndex then
+							local details = string.sub(rPath, startIndex+6) --Extracts the substring starting from the position after "chars/"
+							t_characters[#t_characters+1] = details
+						else --"String does not contain 'chars/'
+							
+						end
 					end
+					--f_printTable(t_characters, 'save/debug/CharsListCreator.log')
 				end
-				--f_printTable(t_characters, 'save/debug/CharsListCreator.log')
 			end
 		end
 	end

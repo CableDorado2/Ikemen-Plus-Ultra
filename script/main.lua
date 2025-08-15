@@ -17431,4 +17431,29 @@ end
 --;===========================================================
 f_loadLuaMods() --Load External Lua Modules
 if not data.attractMode then f_sdlWarning() end
+discordGameID = "1200228516554346567" --Discord AppID
+discordGameState = "In Logos" --Game State
+discordGameDetails = "Create your own Fighting Game!" --Game State Details
+discordGameBigImg = "gameicon" --Discord App Game Icon
+discordGameAbout = "Game Name" --Game Description
+discordGameMiniIcon = "charactericon" --Discord App Mini Icon
+discordGameMiniTxt = "character name" --Mini Icon Description
+discordPublicRoomID = "party1234" --Public Room ID
+discordPrivateRoomID = "xyzzy" --Private Room ID
+discordPrivateJoin = "join" --
+discordPrivateWatch = "look" --
+discordRoomMax = 2 --Room Max Capacity
+discordRoomSize = 0 --Room Capacity. Add 1 when online mode with rich presence works
+discordGameInstance = 0 --???
+--[[
+discordInit(discordGameID) --Start Discord Rich Presence
+discordUpdate() --Update Discord Rich Presence
+setDiscordState(discordGameState)
+setDiscordDetails(discordGameDetails)
+setDiscordBigImg(discordGameBigImg)
+setDiscordBigTxt(discordGameAbout)
+setDiscordMiniImg(discordGameMiniIcon)
+setDiscordMiniTxt(discordGameMiniTxt)
+--discordEnd() --Close Discord Rich Presence
+--]]
 f_mainStart() --Start Menu

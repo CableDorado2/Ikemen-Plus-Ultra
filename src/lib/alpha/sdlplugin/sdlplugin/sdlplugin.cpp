@@ -43,6 +43,10 @@
 #include <discord_rpc.h>
 #pragma comment(lib, "discord-rpc.lib")
 
+//To Save PNG in OpenGL Render
+#include "lodepng.h"
+#pragma comment(lib, "lodepng.lib")
+
 //SSZ Stuff
 void* (__stdcall *sszrefnewfunc)(intptr_t);
 void (__stdcall *sszrefdeletefunc)(void*);
@@ -304,7 +308,8 @@ void dummySetInfo(int bitrate, int srate, int stereo, int synched){}
 void sndcallback(void* unused, Uint8* stream, int len)
 {
 	int i;
-	for(i = 0; i < g_samples*2; i++){
+	for(i = 0; i < g_samples*2; i++)
+	{
 		((int16_t*)stream)[i] = g_snddata[i];
 	}
 	g_snddata = g_sndzero;
@@ -312,12 +317,14 @@ void sndcallback(void* unused, Uint8* stream, int len)
 
 void bgmclear(bool stop)
 {
-	if(in_mod != nullptr){
+	if (in_mod != nullptr)
+	{
 		if(stop) in_mod->Stop();
 		in_mod->Quit();
 		in_mod = nullptr;
 	}
-	if(g_omdll != nullptr){
+	if(g_omdll != nullptr)
+	{
 		FreeLibrary(g_omdll);
 		g_omdll = nullptr;
 	}
@@ -489,7 +496,8 @@ int SendPresence = 1;
 
 TUserFunc(void, DiscordUpdate)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		char buffer[256];
 		memset(&discordPresence, 0, sizeof(discordPresence));
 		discordPresence.state = "Starting Engine"; //Game State
@@ -510,7 +518,9 @@ TUserFunc(void, DiscordUpdate)
 		discordPresence.spectateSecret = "look";
 		discordPresence.instance = 0;
 		Discord_UpdatePresence(&discordPresence);
-	}else{
+	}
+	else
+	{
 		Discord_ClearPresence();
 	}
 }
@@ -518,7 +528,8 @@ TUserFunc(void, DiscordUpdate)
 /*
 static void UpdateDiscordPresence()
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		char buffer[256];
 		memset(&discordPresence, 0, sizeof(discordPresence));
 		discordPresence.state = "Starting Engine"; //Game State
@@ -539,7 +550,9 @@ static void UpdateDiscordPresence()
 		discordPresence.spectateSecret = "look";
 		discordPresence.instance = 0;
 		Discord_UpdatePresence(&discordPresence);
-	}else{
+	}
+	else
+	{
 		Discord_ClearPresence();
 	}
 }
@@ -552,7 +565,8 @@ TUserFunc(void, DiscordEnd)
 
 TUserFunc(void, SetDiscordState, Reference State)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.state = pu->refToAstr(CP_THREAD_ACP, State).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -560,7 +574,8 @@ TUserFunc(void, SetDiscordState, Reference State)
 
 TUserFunc(void, SetDiscordDetails, Reference Details)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.details = pu->refToAstr(CP_THREAD_ACP, Details).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -568,7 +583,8 @@ TUserFunc(void, SetDiscordDetails, Reference Details)
 
 TUserFunc(void, SetDiscordBigImg, Reference BigImg)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.largeImageKey = pu->refToAstr(CP_THREAD_ACP, BigImg).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -576,7 +592,8 @@ TUserFunc(void, SetDiscordBigImg, Reference BigImg)
 
 TUserFunc(void, SetDiscordBigTxt, Reference BigTxt)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.largeImageText = pu->refToAstr(CP_THREAD_ACP, BigTxt).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -584,7 +601,8 @@ TUserFunc(void, SetDiscordBigTxt, Reference BigTxt)
 
 TUserFunc(void, SetDiscordMiniImg, Reference MiniImg)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.smallImageKey = pu->refToAstr(CP_THREAD_ACP, MiniImg).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -592,7 +610,8 @@ TUserFunc(void, SetDiscordMiniImg, Reference MiniImg)
 
 TUserFunc(void, SetDiscordMiniTxt, Reference MiniTxt)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.smallImageText = pu->refToAstr(CP_THREAD_ACP, MiniTxt).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -600,7 +619,8 @@ TUserFunc(void, SetDiscordMiniTxt, Reference MiniTxt)
 
 TUserFunc(void, SetDiscordPartyID, Reference PartyID)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.partyId = pu->refToAstr(CP_THREAD_ACP, PartyID).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -608,7 +628,8 @@ TUserFunc(void, SetDiscordPartyID, Reference PartyID)
 
 TUserFunc(void, SetDiscordPartySize, int32_t PartySize)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.partySize = PartySize;
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -616,7 +637,8 @@ TUserFunc(void, SetDiscordPartySize, int32_t PartySize)
 
 TUserFunc(void, SetDiscordPartyMax, int32_t PartyMax)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.partyMax = PartyMax;
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -627,13 +649,16 @@ const char* discordRoomType;
 TUserFunc(void, SetDiscordPartyPrivacy, bool privateRoom)
 {
 	
-	if (privateRoom) {
+	if (privateRoom)
+	{
 		discordRoomType = DISCORD_PARTY_PRIVATE;
-	}else {
+	}
+	else
+	{
 		discordRoomType = DISCORD_PARTY_PUBLIC;
 	}
-	//
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.partyPrivacy = discordRoomType;
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -642,7 +667,8 @@ TUserFunc(void, SetDiscordPartyPrivacy, bool privateRoom)
 
 TUserFunc(void, SetDiscordSecretID, Reference SecretID)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.matchSecret = pu->refToAstr(CP_THREAD_ACP, SecretID).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -650,7 +676,8 @@ TUserFunc(void, SetDiscordSecretID, Reference SecretID)
 
 TUserFunc(void, SetDiscordSecretJoin, Reference SecretJoin)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.joinSecret = pu->refToAstr(CP_THREAD_ACP, SecretJoin).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -658,7 +685,8 @@ TUserFunc(void, SetDiscordSecretJoin, Reference SecretJoin)
 
 TUserFunc(void, SetDiscordSecretWatch, Reference SecretWatch)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.spectateSecret = pu->refToAstr(CP_THREAD_ACP, SecretWatch).c_str();
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -666,7 +694,8 @@ TUserFunc(void, SetDiscordSecretWatch, Reference SecretWatch)
 
 TUserFunc(void, SetDiscordInstance, int8_t Instance)
 {
-	if (SendPresence) {
+	if (SendPresence)
+	{
 		discordPresence.instance = Instance;
 		Discord_UpdatePresence(&discordPresence);
 	}
@@ -686,18 +715,13 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0"); //VSYNC TEST
 		TTF_Init(); //Initialize TTF loading
-		g_scrflag = SDL_SWSURFACE; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
-		g_window = SDL_CreateWindow( //https://wiki.libsdl.org/SDL2/SDL_CreateWindow
-			pu->refToAstr(CP_UTF8, cap).c_str(),
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			w, h, g_scrflag);
+		g_scrflag = SDL_SWSURFACE;
+		g_window = SDL_CreateWindow(pu->refToAstr(CP_UTF8, cap).c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, g_scrflag);
 		if(!g_window) return false;
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-		if(mugen){
-			g_target =
-				SDL_CreateTexture(
-					g_renderer, SDL_PIXELFORMAT_ARGB8888,
-					SDL_TEXTUREACCESS_STREAMING, w, h);
+		if(mugen)
+		{
+			g_target = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h);
 			SDL_SetTextureBlendMode(g_target, SDL_BLENDMODE_NONE);
 			lockTarget();
 		}
@@ -714,21 +738,18 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 int isOpenGL = 0;
 TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 {
-	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		return false;;
 	}
 	else
 	{
 		isOpenGL = 1;
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		TTF_Init();
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-		g_scrflag = SDL_WINDOW_OPENGL; //SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS
-		g_window = SDL_CreateWindow(
-			pu->refToAstr(CP_UTF8, cap).c_str(),
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, g_scrflag);
+		g_scrflag = SDL_WINDOW_OPENGL;
+		g_window = SDL_CreateWindow(pu->refToAstr(CP_UTF8, cap).c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, g_scrflag);
 		if(!g_window) return false;
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 		g_gl = SDL_GL_CreateContext(g_window);
@@ -770,12 +791,14 @@ TUserFunc(void, End)
 	SDL_PauseAudio(1);
 	SDL_CloseAudio();
 //Destroy Render
-	if(g_target){
+	if (g_target)
+	{
 		unlockTarget();
 		SDL_DestroyTexture(g_target);
 		g_target = nullptr;
 	}
-	if(g_gl){
+	if (g_gl)
+	{
 		SDL_GL_DeleteContext(g_gl);
 		g_gl = nullptr;
 	}
@@ -792,10 +815,13 @@ TUserFunc(void, End)
 int fsMode = 0;
 TUserFunc(void, FullScreenExclusive, bool fsr) //FullScreenExclusive need to be register in sdlplugin.def to work in lib/alpha/sdlplugin.ssz
 {
-	if(fsr == true){
+	if (fsr == true)
+	{
 		fsMode = SDL_WINDOW_FULLSCREEN;
 		//SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1");
-	}else{
+	}
+	else
+	{
 		fsMode = SDL_WINDOW_FULLSCREEN_DESKTOP;
 		SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0"); //Don't Minimize SDL_Window if it loses key focus when in fullscreen mode. Defaults to true.
 	}
@@ -806,16 +832,18 @@ bool fullscreenChecker = false;
 TUserFunc(bool, FullScreen, bool fs)
 {
 	//fullscreenChecker = !fullscreenChecker; //Change the value of fullscreen Checker to its opposite
-	if(fs == true){
+	if (fs == true)
+	{
 		fullscreenChecker = true;
-	}else{
+	}
+	else
+	{
 		fullscreenChecker = false;
 	}
 	return
 	SDL_SetWindowFullscreen(g_window, fs ? fsMode : 0) == 0; //flags may be SDL_WINDOW_FULLSCREEN, for "real" fullscreen with a videomode change; SDL_WINDOW_FULLSCREEN_DESKTOP for "fake" fullscreen that takes the size of the desktop; and 0 for windowed mode.
 }
 
-//TUserFunc(void, WindowDecoration, bool wd)
 void WindowDecoration(bool wd)
 {
 	SDL_SysWMinfo info;
@@ -902,11 +930,14 @@ TUserFunc(void, WindowSize, int width, int height)
 
 TUserFunc(void, AspectRatio, bool aspect)
 {
-	if(aspect == true){
+	if (aspect == true)
+	{
 		SDL_RenderSetLogicalSize(g_renderer, g_w, g_h);
 		//SDL_SetWindowSize(g_window, g_w, g_h); //Adjust window size
 		SDL_RenderClear(g_renderer); //To refresh the screen
-	}else{
+	}
+	else
+	{
 		//SDL_SetWindowSize(g_window, original_w, original_h); //Restore original window size
 		SDL_RenderSetLogicalSize(g_renderer, 0, 0); //Clear LogicalSize to restore the window
 	}
@@ -915,26 +946,79 @@ TUserFunc(void, AspectRatio, bool aspect)
 TUserFunc(void, SetOpacity, float wo)
 {
 	w_opacity = wo;
-	if(w_opacity < 0.0){
+	if (w_opacity < 0.0)
+	{
 		w_opacity = 0.0;
-	}else if(w_opacity > 1.0){
+	}
+	else if (w_opacity > 1.0)
+	{
 		w_opacity = 1.0;
 	}
 	SDL_SetWindowOpacity(g_window, w_opacity); //(0.0f - transparent, 1.0f - opaque)
 }
 
+bool winMaximized = false;
 TUserFunc(void, TakeScreenShot, Reference dir)
 {
-	if(fullscreenChecker == false){ //Window Mode
-		SDL_Surface *screenshot = SDL_CreateRGBSurface(0, g_w, g_h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-		SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
-		IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
-		SDL_FreeSurface(screenshot);
-	}else{ //Fullscreen Mode
-		SDL_Surface *screenshot = SDL_CreateRGBSurface(0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-		SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
-		IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
-		SDL_FreeSurface(screenshot);
+//Software Render
+	if (isOpenGL == 0)
+	{
+	//Window Mode
+		if (fullscreenChecker == false)
+		{
+		//Check Window State
+			Uint32 flags = SDL_GetWindowFlags(g_window);
+			if (flags & SDL_WINDOW_MAXIMIZED)
+			{
+				winMaximized = true; // Window Maximized
+			}
+			else
+			{
+				winMaximized = false;
+			}
+		//Window is not Maximized
+			if (winMaximized == false)
+			{
+				SDL_Surface *screenshot = SDL_CreateRGBSurface(0, g_w, g_h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+				SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
+				IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
+				SDL_FreeSurface(screenshot);
+			}
+		//Window is Maximized (Reuse Fullscreen screenshot logic to avoid crash)
+			else
+			{
+				SDL_Surface *screenshot = SDL_CreateRGBSurface(0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+				SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
+				IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
+				SDL_FreeSurface(screenshot);
+			}
+		}
+	//Fullscreen Mode or Maximized Screen
+		else
+		{
+			SDL_Surface *screenshot = SDL_CreateRGBSurface(0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+			SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
+			IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
+			SDL_FreeSurface(screenshot);
+		}
+	}
+//OpenGL Render
+	else
+	{
+	//Capture using glReadPixels
+		glReadBuffer(GL_FRONT); //buffer can be GL_FRONT o GL_BACK
+		unsigned char* pixels = new unsigned char[g_w * g_h * 4];
+		glReadPixels(0, 0, g_w, g_h, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		//Since OpenGL reads from the bottom, the image will be vertically inverted. Here we can fix that flipping
+		unsigned char* flippedPixels = new unsigned char[g_w * g_h * 4];
+		for (int y = 0; y < g_h; y++)
+		{
+			memcpy(flippedPixels + y * g_w * 4, pixels + (g_h - 1 - y) * g_w * 4, g_w * 4);
+		}
+	//Save using lodepng lib
+		unsigned error = lodepng_encode32_file(pu->refToAstr(CP_THREAD_ACP, dir).c_str(), flippedPixels, g_w, g_h);
+		delete[] pixels;
+		delete[] flippedPixels;
 	}
 }
 
@@ -1432,14 +1516,21 @@ TUserFunc(bool, PlayBGM, Reference fn, Reference pldir)
 
 TUserFunc(void, PauseBGM, bool pause)
 {
-	if(pause != om_paused){
-		if(in_mod != nullptr){
-			if(pause){
+	if (pause != om_paused)
+	{
+		if (in_mod != nullptr)
+		{
+			if (pause)
+			{
 				in_mod->Pause();
-			}else{
+			}
+			else
+			{
 				in_mod->UnPause();
 			}
-		}else{
+		}
+		else
+		{
 			om_paused = pause;
 		}
 	}
@@ -1469,19 +1560,31 @@ TUserFunc(void, SetVolume, float bv, float wv, float gv)
 	bgm_vol = bv;
 	wav_vol = wv;
 	g_vol = gv;
-	if(bgm_vol < 0){
+//BGM Volume
+	if (bgm_vol < 0)
+	{
 		bgm_vol = 0;
-	}else if(bgm_vol > 1.0){
+	}
+	else if (bgm_vol > 1.0)
+	{
 		bgm_vol = 1.0;
 	}
-	if(wav_vol < 0.0){
+//SFX Volume
+	if (wav_vol < 0.0)
+	{
 		wav_vol = 0.0;
-	}else if(wav_vol > 1.0){
+	}
+	else if (wav_vol > 1.0)
+	{
 		wav_vol = 1.0;
 	}
-	if(g_vol < 0.0){
+//Master Volume
+	if (g_vol < 0.0)
+	{
 		g_vol = 0.0;
-	}else if(g_vol > 1.0){
+	}
+	else if (g_vol > 1.0)
+	{
 		g_vol = 1.0;
 	}
 }
@@ -1491,7 +1594,8 @@ TUserFunc(void, FadeInBGM, int time)
 	float targetBGMvol = bgm_vol;
 	float currentBGMvol = 0; //bgm_vol = 0;
 	float incrementBGM = targetBGMvol / time;
-	for (float i = 0; i < time; i++) {
+	for (float i = 0; i < time; i++)
+	{
 		currentBGMvol += incrementBGM;
 	}
 	currentBGMvol = targetBGMvol;

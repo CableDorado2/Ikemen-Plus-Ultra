@@ -1,4 +1,5 @@
-﻿---------------------------------------------------------------------------------------------
+﻿I.K.E.M.E.N Engine update history
+---------------------------------------------------------------------------------------------
 PLUS ULTRA CHANGELOG
 ---------------------------------------------------------------------------------------------
 2025.1?.?? (v1.5.0)
@@ -222,6 +223,7 @@ Wins and Match counter added to every versus mode
 Win Quotes added when you lose or win in versus mode
 Stages preview added
 Team Mode select added to Bonus Games
+4GB Patch Available
 
 New Game Modes Added:
 Training Multiplayer [1P vs 2P]
@@ -257,7 +259,6 @@ Extras Menu reworked:
 Storyboards player
 Sound Test
 Play credits
-4GB Patch Available
 ---------------------------------------------------------------------------------------------
 PLUS CHANGELOG
 ---------------------------------------------------------------------------------------------
