@@ -10,6 +10,8 @@
 local base = _G
 local ltn12 = require("ltn12")
 local mime = require("mime.core")
+local io = require("io")
+local string = require("string")
 local _M = mime
 
 -- encode, decode and wrap algorithm tables
@@ -17,7 +19,7 @@ local encodet, decodet, wrapt = {},{},{}
 
 _M.encodet = encodet
 _M.decodet = decodet
-_M.wrapt   = wrapt
+_M.wrapt   = wrapt  
 
 -- creates a function that chooses a filter by name from a given table
 local function choose(table)
@@ -26,7 +28,7 @@ local function choose(table)
             name, opt1, opt2 = "default", name, opt1
         end
         local f = table[name or "nil"]
-        if not f then
+        if not f then 
             base.error("unknown key (" .. base.tostring(name) .. ")", 3)
         else return f(opt1, opt2) end
     end
@@ -49,6 +51,13 @@ end
 
 decodet['quoted-printable'] = function()
     return ltn12.filter.cycle(_M.unqp, "")
+end
+
+local function format(chunk)
+    if chunk then
+        if chunk == "" then return "''"
+        else return string.len(chunk) end
+    else return "nil" end
 end
 
 -- define the line-wrap filters

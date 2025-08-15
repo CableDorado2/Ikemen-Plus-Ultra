@@ -39,12 +39,6 @@ ltn12 = require("ltn12")
 dkjson = require("dkjson")
 json = (loadfile "lib/lua/json.lua")() --One-time load of the json routines
 --json = dofile("lib/lua/json.lua")
-
---[[
---request home page via the socket library
-local homePage = http.request("https://github.com/CableDorado2/Ikemen-Plus-Ultra")
-f_printTable(homePage, "save/Test.log")
---]]
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================
@@ -3806,27 +3800,6 @@ sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based
 --sysTime3 = tonumber(os.date("%m"))
 
 function f_sysTime()
-httest = ""
---[[
-local response_body = {}
-local url = "http://worldclockapi.com/api/json/utc/now"
---local url = "time.windows.com"
-local res, code, response_headers = http.request{
-    url = url,
-    sink = ltn12.sink.table(response_body)
-}
-
-if res == 1 and code == 200 then
-    local response_str = table.concat(response_body)
-    -- Si la respuesta es JSON, parsearla
-    local decoded = json.decode(response_str)
-    --print("Fecha y hora UTC: " .. decoded.currentDateTime)
-    httest = "Fecha y hora UTC: " .. decoded.currentDateTime
-else
-    --print("Error en la solicitud HTTP")
-    httest = "Error en la solicitud HTTP"
-end
-]]
 	local clockPosX = 0
 	local clockPosY = 8
 	local clockStandard = (os.date("%I:%M%p"))
@@ -3902,7 +3875,6 @@ end
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
-		f_drawQuickText(txt_testW, font6, 0, 0, httest, 109, 38)
 	--[[
 		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
 		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)
