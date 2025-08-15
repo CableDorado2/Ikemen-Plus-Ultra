@@ -124,9 +124,7 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
 
-- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
-
-- El tiempo usado como condicional de desbloqueo en los ejemplos del modo eventos, debe sincronizarse con un servidor de internet usando LuaSocket.
+- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html.
 
 **v1.7**
 ------------
