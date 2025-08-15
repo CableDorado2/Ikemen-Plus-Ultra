@@ -242,9 +242,11 @@ While the configuration definition is located in options.lua and the saved data 
 save/data_sav.lua
 save/config.ssz
 
-At the moment, there are no plans to include a system.def file that allows for simple and less risky modification of menu content. This is because the beauty of manipulating all the elements lies in the Lua programing language, and trying to literally transfer a copy of these would, in a sense, limit the user's ability to implement quick new engine features and with less dependency. In this case, they would have to implement their implementations in both Lua and the hypothetical copy of "system.def".
+I am working on a way to generate a Lua script called screenpack.lua that contains a conversion of all the necessary variables used in a system.def file, combining them with those of a base Lua script that will contain the "screenpack vars" of new features. This way, the resulting Lua file contains the exact positions and assets as loaded in M.U.G.E.N, but can also serve as a new space for customizing the screenpack in I.K.E.M.EN. and this file would only be generated the first time the engine is opened and the system.def is detected.
 
-In fact, if you're attentive or familiar with how this engine works, this issue already occurs to some extent when using and porting functions to Lua instead of using ssz itself. Because the latter is where the base functions are actually created and has direct communication with the libraries used by the engine, using a syntax similar to C++.
+This is because the beauty of manipulating all the elements lies in the Lua programing language, and trying to literally transfer a copy of these would, in a sense, limit the user's ability to implement quick new engine features and with less dependency. In this case, users would have to implement their new features in both Lua and the hypothetical copy of "system.def", like I.K.E.M.E.N. GO does.
+
+In fact, if you're attentive or familiar with how this engine works, this job already happen when using and porting functions to Lua instead of using core ssz language itself. Because the latter is where the base functions are actually created and has direct communication with the libraries used by the engine, using a syntax similar to C++.
 
 ## How can I port my M.U.G.E.N screenpack to I.K.E.M.E.N. Plus Ultra?
 First, consider trying I.K.E.M.E.N. GO, which has system.def and greater compatibility with M.U.G.E.N resources.
