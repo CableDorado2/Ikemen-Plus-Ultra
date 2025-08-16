@@ -8996,11 +8996,11 @@ function f_p1SelectPal()
 		bufPall = 0
 	end
 --Draw Assets
+	--animSetPal(t_selChars[p1Cell+1]['p1AnimStand'], p1PalSel) --Only works if the .sff file have pals added
 	animPosDraw(palSelBG, palSelBGP1posX, palSelBGP1posY) --Draw Palette Select BG
 	textImgDraw(txt_p1Pal)
 	textImgSetText(txt_p1PalNo, p1PalSel.."/12")
 	textImgDraw(txt_p1PalNo)
-	animSetPal(t_selChars[p1Cell+1]['p1AnimStand'], 0, p1PalSel-1) --Only works if the .sff file have pals added
 	if p1PalSel > 1 then
 		animPosDraw(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY)
 	end

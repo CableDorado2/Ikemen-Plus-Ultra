@@ -306,10 +306,10 @@ public &Anim
   {
     `ani~mask = ck;
   }
-  public void setPal(int source, int dest)
+  public void setPal(int dest)
   {
-    `ani~spal = source;
-    `ani~dpal = dest;
+    `ani~spal = 0;
+    `ani~dpal = dest-1; //Pals start from 0
   }
   public void setAlpha(short sa, short da)
   {
@@ -392,9 +392,8 @@ void animSetPal(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
-  int source = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   int dest = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  anim~setPal(source, dest);
+  anim~setPal(dest);
 }
 
 void animSetAlpha(&.lua.State L=, int re=)
