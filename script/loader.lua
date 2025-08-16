@@ -940,9 +940,8 @@ if t_selChars ~= nil then
 				generate = true
 		--otherwise load SFF file generated
 			else
-				--t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
-				t_selChars[i]['sffData'] = sffAnim('data/charAnim/' .. displayname .. '.sff')
-				--t_selChars[i]['sffData'] = sffAnim(t_selChars[i].sff) --Load from original character.sff (Not recommended because will increase RAM Usage)
+				t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
+				--t_selChars[i]['sffData'] = sffNew(t_selChars[i].sff) --Load data from original character.sff (Not recommended because will increase RAM Usage)
 				if t_selChars[i].stand ~= nil then
 					t_selChars[i]['p1AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
 					t_selChars[i]['p2AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
