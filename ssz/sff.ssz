@@ -657,6 +657,7 @@ public &Sff
       `palList.palTable.set(0d1<<0d16 | (uint)i, ?foo);
     while i < .NumCharPalletes:}
   }
+  
   public ^/char loadFile(^/char filename, bool chr)
   {
     ^/char error;
@@ -708,8 +709,10 @@ public &Sff
     while i < (index)`head.numberOfPalettes:
     }
     uint shofs = `head.firstSpriteHeaderOffset, size;
+	//uint shofs = `head.firstSpriteHeaderOffset, misc, size; //Based on loadFromSff() function to setPal during reading
     loop{
       index i = 0;
+	  //%uint newSubHeaderOffset .= shofs; //Based on loadFromSff() function to setPal during reading
       uint misc;
       ^&.Sprite spriteList;
       spriteList.new((index)`head.numberOfSprites);
@@ -717,7 +720,8 @@ public &Sff
       index prev = -1;
       while;
     do:
-      f.seek((long)shofs, .file.Seek::SET);
+      //newSubHeaderOffset .= shofs; //Based on loadFromSff() function to setPal during reading
+	  f.seek((long)shofs, .file.Seek::SET);
       switch(`head.ver0){
       case 0d1:
         if(!f.read!uint?(misc=)) ret .com.FileReadError;
@@ -760,25 +764,25 @@ public &Sff
         | (ushort)spriteList[i].imageNumber,
         [void(^&.Sprite s=){if(#s == 0) s = spriteList[i..i+1];}]);
       shofs = `head.ver0 == 0d1 ? misc : shofs + 0d28;
-      i++;
+      //if(spriteList[i].imageGroup == 100) ret error; //PalSel Test
+	  i++;
     while i < (index)`head.numberOfSprites:}
     ret "";
   }
   
-  
   public ^/char loadFileAnim(^/char filename, bool chr)
   {
     ^/char error;
-    &.file.File f; 
+    &.file.File f;
     if(!f.open(filename, "rb")) ret .com.FileOpenError;
     `clear();
     uint lofs, tofs;
-    if(#`head.read(f=, lofs=, tofs=)=>error > 0) ret error; 
+    if(#`head.read(f=, lofs=, tofs=)=>error > 0) ret error;
     if(`head.ver0 != 0d1) loop{
        index i = 0;
        index palsource = 0; 
        ^uint pal;
-       ushort group, item, link, dummy; 
+       ushort group, item, link, dummy;
        uint ofs, siz;
        ^index idx;
        `palList.clear();
@@ -817,19 +821,19 @@ public &Sff
       i++;
     while i < (index)`head.numberOfPalettes:
     }
-    uint shofs = `head.firstSpriteHeaderOffset, misc, size; 
+    uint shofs = `head.firstSpriteHeaderOffset, misc, size;
     loop{
       index i = 0;
 	  
       %uint newSubHeaderOffset .= shofs;
 	  
       uint misc;
-      ^&.Sprite spriteList; 
-      spriteList.new((index)`head.numberOfSprites);  // <- numberOfSprites max amount of sprites that can be loaded by a character
+      ^&.Sprite spriteList;
+      spriteList.new((index)`head.numberOfSprites);
       ushort indexOfPrevious;
       index prev = -1;
       while;
-    do: 
+    do:
       newSubHeaderOffset .= shofs;
       f.seek((long)shofs, .file.Seek::SET);
       switch(`head.ver0){
@@ -838,17 +842,16 @@ public &Sff
         if(!f.read!uint?(size=)) ret .com.FileReadError;
         if(!spriteList[i].readHeader(f=)) ret .com.FileReadError;
         if(!f.read!ushort?(indexOfPrevious=)) ret .com.FileReadError;
-      case 0d2: 
+      case 0d2:
 		if(
 			!spriteList[i].readHeaderV2(
 			f=, misc=, size=, lofs, tofs, indexOfPrevious=))
 			{
-		//if(spriteList[i].imageGroup == 100) break;
 		ret .com.FileReadError;
-		} 
+		}
       }
-      branch{ 
-		cond size != 0d0: 
+      branch{
+		cond size != 0d0:
 			switch(`head.ver0){
 			case 0d1:
 			if(
@@ -861,7 +864,7 @@ public &Sff
 					&& spriteList[i].imageNumber == 0)
 					|| prev < 0))=>error
 				> 0) ret error;
-			case 0d2: 
+			case 0d2:
 			if(#spriteList[i].readV2(f=, (long)misc, size)=>error > 0){
 				ret error;
 			}
@@ -869,15 +872,15 @@ public &Sff
         prev = i;
       else:
         spriteList[i].shareCopy(spriteList[(index)indexOfPrevious]=);
-      } 
+      }
       `spriteTable.operate(
         (uint)spriteList[i].imageGroup<<0d16
         | (ushort)spriteList[i].imageNumber,
         [void(^&.Sprite s=){if(#s == 0) s = spriteList[i..i+1];}]);
       shofs = `head.ver0 == 0d1 ? misc : shofs + 0d28;
-	  if(spriteList[i].imageGroup == 100) ret error;
+	  //if(spriteList[i].imageGroup == 100) ret error;
       i++;
-    while i < (index) `head.numberOfSprites:}
+    while i < (index)`head.numberOfSprites:}
     ret "";
   }
   

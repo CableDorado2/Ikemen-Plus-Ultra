@@ -300,10 +300,10 @@ public &Anim
     `ani~salpha = sa;
     `ani~dalpha = da;
   }
-  public void setPalette(int rpg, int rpi)
+  public void setPalette(int g, int i)
   {
-    `ani~sremap = rpg;
-    `ani~iremap = rpi;
+    `ani~sremap = g;
+    `ani~iremap = i;
   }
   public void setWindow(float x, float y, float w, float h)
   {
@@ -390,9 +390,9 @@ void animSetPalette(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
-  int s = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int g = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  anim~setPalette(s, i);
+  anim~setPalette(g, i);
 }
 
 void animSetScale(&.lua.State L=, int re=)

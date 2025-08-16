@@ -9000,6 +9000,7 @@ function f_p1SelectPal()
 	textImgDraw(txt_p1Pal)
 	textImgSetText(txt_p1PalNo, p1PalSel.."/12")
 	textImgDraw(txt_p1PalNo)
+	animSetPalette(t_selChars[p1Cell+1]['p1AnimStand'], 0, p1PalSel-1) --Currently Only works if Char Preview has been loaded via sffAnim() and the .sff file have pals added
 	if p1PalSel > 1 then
 		animPosDraw(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY)
 	end

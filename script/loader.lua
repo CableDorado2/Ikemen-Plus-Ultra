@@ -34,7 +34,7 @@ function f_parseChar(t, cel)
 		t['displayname'] = displayname
 		t['def'] = def
 		t['dir'] = dir
-		t['ikanim'] = f_getCharPath("chars", def).."charAnimIK/" --Because getCharFileName() return in lowercase
+		t['ikanim'] = f_getCharPath("chars", def) --Because getCharFileName() return in lowercase
 		local sffPath = ''
 		local sndPath = ''
 		local airPath = ''
@@ -928,23 +928,21 @@ if t_selChars ~= nil then
 		--create variable with character's name, whitespace replaced with underscore
 			displayname = t_selChars[i].name:gsub('%s+', '_')
 		--if data/charAnim/displayname.def doesn't exist
-			local charAnimPath = t_selChars[i].dir --chars/charName/
-			local charAnimPathWin = t_selChars[i].dir:gsub('/', '\\') --this convert chars/charName/ to chars\\charName\\
+			local charAnimPath = t_selChars[i].ikanim --chars/charName/
+			local charAnimPathWin = t_selChars[i].ikanim:gsub('/', '\\') --this convert chars/charName/ to chars\\charName\\
 			if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
-			--if io.open(charAnimPath.. 'charAnim/' .. displayname .. '.def','r') == nil then
 			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
 				batch = 'mkdir data\\charAnim\nmkdir debug'
-				--batch = 'mkdir '.. charAnimPathWin.. 'charAnim\nmkdir debug'
 				batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
 			--store character's reference that needs conversion into table to save time later on
 				t_gen[#t_gen+1] = i
 			--enable sprite generation later on
 				generate = true
-		--otherwise load SFF file
+		--otherwise load SFF file generated
 			else
-				t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
-				--t_selChars[i]['sffData'] = sffNew(charAnimPath.. 'charAnim/' .. displayname .. '.sff')
-				--t_selChars[i]['intermissionData'] = sffAnim(t_selChars[i].sff)
+				--t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
+				t_selChars[i]['sffData'] = sffAnim('data/charAnim/' .. displayname .. '.sff')
+				--t_selChars[i]['sffData'] = sffAnim(t_selChars[i].sff) --Load from original character.sff (Not recommended because will increase RAM Usage)
 				if t_selChars[i].stand ~= nil then
 					t_selChars[i]['p1AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
 					t_selChars[i]['p2AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
@@ -1207,8 +1205,8 @@ if generate and data.sffConversion then
 	--open each line in data/charTrash/charName/s-sff.def to compare
 		for i=1, #t_gen do
 			local append = ''
-			local charAnimPath = t_selChars[t_gen[i]].dir
-			local charAnimPathWin = t_selChars[t_gen[i]].dir:gsub('/', '\\')
+			local charAnimPath = t_selChars[t_gen[i]].ikanim
+			local charAnimPathWin = t_selChars[t_gen[i]].ikanim:gsub('/', '\\')
 			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
 			--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
@@ -1218,20 +1216,17 @@ if generate and data.sffConversion then
 			append = f_uniq(append .. '\n', '[^\n]+\n', '^%s*[0-9-]-%s*,%s*[0-9-]-%s*,')
 		--print variable for both debugging and sprite generation purpose
 			f_printVar(sff2png .. append, 'data/charAnim/' .. displayname .. '.def')
-			--f_printVar(sff2png .. append, charAnimPath.. 'charAnim/' .. displayname .. '.def')
 		--create a batch variable used to generate sff files all at once
 			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "data\\charAnim\\' .. displayname .. '.sff" "data\\charAnim\\' .. displayname .. '.def" >> save\\debug\\sprmake2.log'
-			--batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "' .. charAnimPathWin .. 'charAnim\\' .. displayname .. '.sff" "' .. charAnimPathWin .. 'charAnim\\' .. displayname .. '.def" >> save\\debug\\sprmake2.log'
 		end
 		batch = batch .. '\n' .. 'del batch.bat'
 		f_printVar(batch, 'batch.bat')
 		--batOpen("", "batch.bat")
 		os.execute('batch.bat')
 		for i=1, #t_gen do
-			local charAnimPath = t_selChars[t_gen[i]].dir
+			local charAnimPath = t_selChars[t_gen[i]].ikanim
 			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			t_selChars[t_gen[i]]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
-			--t_selChars[t_gen[i]]['sffData'] = sffNew(charAnimPath.. 'charAnim/' .. displayname .. '.sff')
 			if t_selChars[t_gen[i]].stand ~= nil then
 				t_selChars[t_gen[i]]['p1AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
 				t_selChars[t_gen[i]]['p2AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
