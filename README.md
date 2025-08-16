@@ -94,6 +94,8 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Preset team o Path Select para el arcade a lo kof 2002, Street Fighter 3 Third Strike o Arcana Heart 3 (definir en el select.def los equipos que aparecerán en el modo arcade cuando juegues contra la cpu turns o simul y que antes del order select te permita escoger contra cuál team luchar, lo mismo para el single basado en SF3).
 
+- Crear un archivo para definir los nombres de los teams para el arcade, de modo que este nombre reemplace al del team leader en la vs screen si están definidos.
+
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
 - Implementar los parametros: ordersurvival, hidden, slot en select.def
@@ -144,8 +146,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - Integrar la función de bgm.loops.
 
 - Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
-
-- Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
 
 - Al configurar el Gamepad/Joystick del jugador 2 garantizar que no pierda el control después de asignar un botón.
 
