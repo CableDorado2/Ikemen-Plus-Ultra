@@ -12931,13 +12931,15 @@ function f_service()
 	local maxItems = 12
 	local noserviceText = ""
 	local noService = false
+	local actionTime = 0
+	local buttonOK = false
 	serviceBack = false
 	f_resetListArrowsPos()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmService)
 	while true do
 	--Service Cursor List Interaction Type
-		if data.serviceType == "Cursor" then
+		if data.serviceType == "Cursor" and actionTime == 0 then
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
 				serviceMenu = serviceMenu - 1
@@ -12949,12 +12951,17 @@ function f_service()
 			end
 		end
 	--Service Selected
-		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) and actionTime == 0 then
 			if data.serviceType == "Button" then --Service Button Interaction Type
-				
-				if getButton(p1Cmd) or getButton(p2Cmd) == t_service[var].button then
-					serviceMenu = t_service[var].button
+				for i=1, #t_service do
+					if t_service[i].button == (getButton(p1Cmd) or getButton(p2Cmd)) then
+						serviceMenu = i --assign item
+						buttonOK = true
+						break --exits the cycle once it finds a match
+					end
 				end
+			else
+				buttonOK = true
 			end
 		--CHANGE PLAYER TEAM MODE
 			if t_service[serviceMenu].service == "team change" then
@@ -12967,27 +12974,32 @@ function f_service()
 				end
 			end
 		--Load Service From t_service table
-			if noService then
-				sndPlay(sndSys, 100, 5)
-			else
-				sndPlay(sndSys, 100, 1)
-				setService(t_service[serviceMenu].service)
-				serviceBack = true
+			if buttonOK then
+				if noService then
+					sndPlay(sndSys, 100, 5)
+				else
+					sndPlay(sndSys, 100, 1)
+					setService(t_service[serviceMenu].service)
+					serviceBack = true
+				end
 			end
 		end
 	--Based in KOF games, set no service when time over or pressing an specific key...
 		if serviceTimer == 0 or (data.serviceType == "Cursor" and (commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e'))) then
-			commandBufReset(p1Cmd)
-			commandBufReset(p2Cmd)
-			sndPlay(sndSys, 100, 1)
-			setService("")
-			serviceBack = true
+			if actionTime == 0 then
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				sndPlay(sndSys, 100, 1)
+				setService("")
+				serviceBack = true
+			end
 		end
 	--Exit
 		if serviceBack then
-			break
+			actionTime = actionTime + 1 --Wait some seconds before exit from screen
+			if actionTime > 100 then break end
 		end
-		if data.serviceType == "Cursor" then
+		if data.serviceType == "Cursor" and actionTime == 0 then
 		--Cursor position calculation
 			if serviceMenu < 1 then
 				serviceMenu = #t_service
@@ -13063,14 +13075,24 @@ function f_service()
 			end
 			drawServiceInputHints() --Draw Input Hints Panel
 		elseif data.serviceType == "Button" then
-			
+		--Draw Buttons and Text from Table
+			for i=1, #t_service do	
+				animPosDraw(t_service[i].spr, 50, -10+i*35)
+				t_service[i].id = createTextImg(font20, 4, 1, t_service[i].text, 80, 5+i*35)
+				if actionTime > 0 then
+					textImgSetBank(t_service[serviceMenu].id, 0)
+				end
+				textImgDraw(t_service[i].id)
+			end
 		end
 	--Service Option Timer
 		serviceTimeNumber = serviceTimer/gameTick
 		nodecimalServiceTime = string.format("%.0f",serviceTimeNumber)
 		textImgSetText(txt_serviceTime, nodecimalServiceTime)
 		if serviceTimer > 0 then
-			serviceTimer = serviceTimer - 0.5 --Activate Service Timer
+			if actionTime == 0 then
+				serviceTimer = serviceTimer - 0.5 --Activate Service Timer
+			end
 			textImgDraw(txt_serviceTime)
 		else --when serviceTimer <= 0
 			
