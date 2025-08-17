@@ -3,8 +3,8 @@ data.userName = "PLAYER"
 data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
-data.menuSong = "Random"
-data.menuSongFolder = 3
+data.menuSong = "sound/System/menu/Menu 2.mp3"
+data.menuSongFolder = 4
 data.selectSong = "sound/system/select/Select 1.mp3"
 data.selectSongFolder = 4
 data.challengerSong = "sound/system/select/Select Challenger.mp3"
@@ -17,6 +17,7 @@ data.date = "Type A"
 data.attractMode = false
 data.vsDisplayWin = true
 data.winscreen = "Classic"
+data.serviceType = "Button"
 data.charPresentation = "Mixed"
 data.sffConversion = true
 --Game Data
@@ -76,17 +77,13 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = -1
+data.selectTime = 31
 data.stageTime = 21
-data.orderTime = -1
+data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
-data.attractTime = 11
-data.destinyTime = -1
---Video Data
-data.windowType = "Original"
-data.fullscreenType = "Borderless"
-data.sdl = "New"
+data.attractTime = 21
+data.destinyTime = 21
 --Input Data
 data.disablePadP1 = false
 data.disablePadP2 = false

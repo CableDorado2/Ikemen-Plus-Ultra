@@ -324,6 +324,7 @@ function f_saveCfg()
 		['data.attractMode'] = data.attractMode,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.winscreen'] = data.winscreen,
+		['data.serviceType'] = data.serviceType,
 		['data.charPresentation'] = data.charPresentation,
 		['data.sffConversion'] = data.sffConversion,
 	--Game Data
@@ -622,6 +623,7 @@ function f_systemDefault()
 	data.attractMode = false
 	data.vsDisplayWin = true
 	data.winscreen = "Classic"
+	data.serviceType = "Button"
 	data.charPresentation = "Portrait"
 	data.sffConversion = true
 end
@@ -2988,6 +2990,7 @@ t_UICfg = {
 	{text = "Character Presentation",    varText = data.charPresentation},
 	{text = "Versus Win Counter",  	     varText = ""},
 	{text = "Win Screen",	    		 varText = data.winscreen},
+	{text = "Service Interaction",		 varText = data.serviceType},
 	{text = "Character Select Settings", varText = ""},
 	{text = "Stage Select Settings",     varText = ""},
 	{text = "Timers Settings",  	  	 varText = ""},
@@ -3174,11 +3177,10 @@ function f_UICfg()
 					sndPlay(sndSys, 100, 0)
 					if data.vsDisplayWin then
 						data.vsDisplayWin = false
-						modified = 1
 					else
 						data.vsDisplayWin = true
-						modified = 1
 					end
+					modified = 1
 				end
 		--Win Screen Display Type
 			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
@@ -3199,20 +3201,29 @@ function f_UICfg()
 					data.winscreen = "Classic"
 					modified = 1
 				end
+		--Service Interaction Type
+			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if data.serviceType == "Button" then
+					data.serviceType = "Cursor"
+				elseif data.serviceType == "Cursor" then
+					data.serviceType = "Button"
+				end
+				modified = 1
 		--Character Select Settings
-			elseif UICfg == 8 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 9 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
 		--Stage Select Settings
-			elseif UICfg == 9 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 10 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
 		--Timers Settings
-			elseif UICfg == 10 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
 		--System Songs Settings
-			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3279,6 +3290,7 @@ function f_UICfg()
 		t_UICfg[5].varText = data.charPresentation
 		if data.vsDisplayWin then t_UICfg[6].varText = "Yes" else t_UICfg[6].varText = "No" end
 		t_UICfg[7].varText = data.winscreen
+		t_UICfg[8].varText = data.serviceType
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
 				if t_UICfg[i].varID ~= nil then

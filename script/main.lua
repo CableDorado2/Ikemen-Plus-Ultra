@@ -12936,17 +12936,26 @@ function f_service()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmService)
 	while true do
-		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			serviceMenu = serviceMenu - 1
-			noService = false
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			serviceMenu = serviceMenu + 1
-			noService = false
+	--Service Cursor List Interaction Type
+		if data.serviceType == "Cursor" then
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				serviceMenu = serviceMenu - 1
+				noService = false
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				serviceMenu = serviceMenu + 1
+				noService = false
+			end
 		end
 	--Service Selected
 		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+			if data.serviceType == "Button" then --Service Button Interaction Type
+				
+				if getButton(p1Cmd) or getButton(p2Cmd) == t_service[var].button then
+					serviceMenu = t_service[var].button
+				end
+			end
 		--CHANGE PLAYER TEAM MODE
 			if t_service[serviceMenu].service == "team change" then
 				if data.coop or data.quickCont then
@@ -12967,7 +12976,7 @@ function f_service()
 			end
 		end
 	--Based in KOF games, set no service when time over or pressing an specific key...
-		if serviceTimer == 0 or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if serviceTimer == 0 or (data.serviceType == "Cursor" and (commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e'))) then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			sndPlay(sndSys, 100, 1)
@@ -12978,34 +12987,36 @@ function f_service()
 		if serviceBack then
 			break
 		end
-	--Cursor position calculation
-		if serviceMenu < 1 then
-			serviceMenu = #t_service
-			if #t_service > maxItems then
-				cursorPosY = maxItems
-			else
-				cursorPosY = #t_service
+		if data.serviceType == "Cursor" then
+		--Cursor position calculation
+			if serviceMenu < 1 then
+				serviceMenu = #t_service
+				if #t_service > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_service
+				end
+			elseif serviceMenu > #t_service then
+				serviceMenu = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
 			end
-		elseif serviceMenu > #t_service then
-			serviceMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-			cursorPosY = cursorPosY + 1
+			if cursorPosY == maxItems then
+				moveTxt = (serviceMenu - maxItems) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (serviceMenu - 1) * 15
+			end
+			if #t_service <= maxItems then
+				maxService = #t_service
+			elseif serviceMenu - cursorPosY > 0 then
+				maxService = serviceMenu + maxItems - cursorPosY
+			else
+				maxService = maxItems
+			end
 		end
-		if cursorPosY == maxItems then
-			moveTxt = (serviceMenu - maxItems) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (serviceMenu - 1) * 15
-		end	
-		if #t_service <= maxItems then
-			maxService = #t_service
-		elseif serviceMenu - cursorPosY > 0 then
-			maxService = serviceMenu + maxItems - cursorPosY
-		else
-			maxService = maxItems
-		end		
 	--Draw Character Select Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -13022,22 +13033,37 @@ function f_service()
 				animDraw(f_animVelocity(commonBG0, -1, -1))
 			end
 		end
-	--Draw Transparent Table BG		
-		animSetScale(commonTBG, 240, maxService*15)
-		animSetWindow(commonTBG, 80,20, 160,180)
-		animDraw(commonTBG)
 	--Draw Title Menu
 		textImgDraw(txt_service)
-	--Draw Cursor
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Draw Text for Table
-		for i=1, maxService do	
-			if i > serviceMenu - cursorPosY then
-				t_service[i].id = createTextImg(font2, 0, 0, t_service[i].text, 158.5, 15+i*15-moveTxt)
-				textImgDraw(t_service[i].id)
+		if data.serviceType == "Cursor" then
+		--Draw Transparent Table BG		
+			animSetScale(commonTBG, 240, maxService*15)
+			animSetWindow(commonTBG, 80,20, 160,180)
+			animDraw(commonTBG)
+		--Draw Cursor
+			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Text for Table
+			for i=1, maxService do	
+				if i > serviceMenu - cursorPosY then
+					t_service[i].id = createTextImg(font2, 0, 0, t_service[i].text, 158.5, 15+i*15-moveTxt)
+					textImgDraw(t_service[i].id)
+				end
 			end
+		--Draw Up Animated Cursor
+			if maxService > maxItems then
+				animDraw(menuArrowUp)
+				animUpdate(menuArrowUp)
+			end
+		--Draw Down Animated Cursor
+			if #t_service > maxItems and maxService < #t_service then
+				animDraw(menuArrowDown)
+				animUpdate(menuArrowDown)
+			end
+			drawServiceInputHints() --Draw Input Hints Panel
+		elseif data.serviceType == "Button" then
+			
 		end
 	--Service Option Timer
 		serviceTimeNumber = serviceTimer/gameTick
@@ -13049,17 +13075,6 @@ function f_service()
 		else --when serviceTimer <= 0
 			
 		end
-	--Draw Up Animated Cursor
-		if maxService > maxItems then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-	--Draw Down Animated Cursor
-		if #t_service > maxItems and maxService < #t_service then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		drawServiceInputHints() --Draw Input Hints Panel
 	--Draw Service Info
 		if noService then
 			if data.coop then
