@@ -2444,16 +2444,89 @@ txt_noServiceCoop = "This service is Unavailable in Co-Op Mode."
 txt_noServiceQuickCont = "You have Disabled Change Characters by Quick Continue."
 
 t_service = {
-	{text = "DIFFICULTY LEVEL DOWN",	service = "aileveldown"},
-	{text = "POWER WILL START AT MAX",	service = "max power"},
-	{text = "ENEMY LIFE AT 1/3",		service = "low cpu life"},
-	{text = "CHANGE TEAM MODE",			service = "team change"},
-	{text = "DOUBLE DEFENCE",			service = "defence x2"},
-	{text = "NO SERVICE",				service = ""},
+	{text = "DIFFICULTY LEVEL DOWN",	button = "A", service = "aileveldown"},
+	{text = "POWER WILL START AT MAX",	button = "B", service = "max power"},
+	{text = "ENEMY LIFE AT 1/3",		button = "C", service = "low cpu life"},
+	{text = "CHANGE TEAM MODE",			button = "X", service = "team change"},
+	{text = "DOUBLE DEFENCE",			button = "Y", service = "defence x2"},
+	{text = "NO SERVICE",				button = "Z", service = ""},
 }
 for i=1, #t_service do
 	t_service[i]['id'] = ''
 end
+
+--Service Button Interaction Type Sprites
+--A Button
+serviceBtnA = animNew(sprGlyphs, [[
+1,0, 0,0, -1
+]])
+animSetPos(serviceBtnA, 40, 50)
+animSetScale(serviceBtnA, 0.35, 0.35)
+animUpdate(serviceBtnA)
+
+--B Button
+serviceBtnB = animNew(sprGlyphs, [[
+2,0, 0,0, -1
+]])
+animSetPos(serviceBtnB, 40, 70)
+animSetScale(serviceBtnB, 0.35, 0.35)
+animUpdate(serviceBtnB)
+
+--C Button
+serviceBtnC = animNew(sprGlyphs, [[
+3,0, 0,0, -1
+]])
+animSetPos(serviceBtnC, 40, 90)
+animSetScale(serviceBtnC, 0.35, 0.35)
+animUpdate(serviceBtnC)
+
+--X Button
+serviceBtnX = animNew(sprGlyphs, [[
+24,0, 0,0, -1
+]])
+animSetPos(serviceBtnX, 40, 110)
+animSetScale(serviceBtnX, 0.35, 0.35)
+animUpdate(serviceBtnX)
+
+--Y Button
+serviceBtnY = animNew(sprGlyphs, [[
+25,0, 0,0, -1
+]])
+animSetPos(serviceBtnY, 40, 130)
+animSetScale(serviceBtnY, 0.35, 0.35)
+animUpdate(serviceBtnY)
+
+--Z Button
+serviceBtnZ = animNew(sprGlyphs, [[
+26,0, 0,0, -1
+]])
+animSetPos(serviceBtnZ, 40, 150)
+animSetScale(serviceBtnZ, 0.35, 0.35)
+animUpdate(serviceBtnZ)
+
+--L Button
+serviceBtnL = animNew(sprGlyphs, [[
+27,0, 0,0, -1
+]])
+animSetPos(serviceBtnL, 40, 2)
+animSetScale(serviceBtnL, 0.35, 0.35)
+animUpdate(serviceBtnL)
+
+--R Button
+serviceBtnR = animNew(sprGlyphs, [[
+28,0, 0,0, -1
+]])
+animSetPos(serviceBtnR, 40, 2)
+animSetScale(serviceBtnR, 0.35, 0.35)
+animUpdate(serviceBtnR)
+
+--Start Button
+serviceBtnS = animNew(sprGlyphs, [[
+51,0, 0,0, -1
+]])
+animSetPos(serviceBtnS, 40, 2)
+animSetScale(serviceBtnS, 0.35, 0.35)
+animUpdate(serviceBtnS)
 
 --Service Input Hints Panel
 function drawServiceInputHints()
