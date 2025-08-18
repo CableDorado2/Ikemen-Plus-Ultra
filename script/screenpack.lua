@@ -2191,6 +2191,27 @@ p2OrderCursor = animNew(sprIkemen, [[
 animSetScale(p2OrderCursor, 0.10, 0.10)
 animUpdate(p2OrderCursor)
 
+--P1 Order Done Icon
+p1OrderDone = animNew(sprIkemen, [[
+810,0, 0,0, -1
+]])
+--animSetScale(p1OrderDone, 0.10, 0.10)
+--animUpdate(p1OrderDone)
+
+--P1 Order Waiting Icon
+p1OrderWaiting = animNew(sprIkemen, [[
+810,1, 0,0, -1
+]])
+--animSetScale(p1OrderWaiting, 0.10, 0.10)
+--animUpdate(p1OrderWaiting)
+
+t_orderButtons = {
+	{button = "A", spr = orderBtnA},
+	{button = "B", spr = orderBtnB},
+	{button = "C", spr = orderBtnC},
+	{button = "X", spr = orderBtnD},
+}
+
 function drawOrderInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
@@ -2201,14 +2222,6 @@ function drawOrderInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Edit Order", 121, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 199.5, hintFontYPos)
 end
-
-t_orderHints = {
-	{text = "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER"},
-	{text = "PRESS UP OR DOWN TO CHOOSE A CHARACTER"},
-	{text = "RESS ENTER TO CONFIRM THE ORDER SELECTED"},
-	{text = "ADD YOUR HINTS HERE"},
-	{text = "ADD YOUR HINTS HERE"},
-}
 
 --;===========================================================
 --; VERSUS SCREENPACK DEFINITION

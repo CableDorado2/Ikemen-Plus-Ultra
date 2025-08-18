@@ -11427,7 +11427,6 @@ function f_orderSelectCursor()
 	local xPortScaleR, yPortScaleR = nil
 	textImgSetBank(txt_p1State, 0) --Reset Text Color
 	textImgSetBank(txt_p2State, 0)
-	--f_getOrderHint() --Load First Hint
 	f_resetVersusLogo()
 --Set order time
 	if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
@@ -11816,14 +11815,6 @@ function f_orderSelectCursor()
 	--Draw Assets
 		animUpdate(vsLogo)
 		animDraw(vsLogo)
-	--[[
-		animDraw(footerBG)
-		if hintTime > 150 then --Time to load a new random hint
-			f_getOrderHint() --Update Hint
-			hintTime = 0 --Restart timer for a new random hint
-		end
-		textImgDraw(txt_hints) --Draw Hints
-	]]
 		drawOrderInputHints()
 	--When Attract Mode is Enabled
 		if data.attractMode then
@@ -11885,18 +11876,22 @@ function f_orderSelectButton()
 	local p1Pos1 = false
 	local p1Pos2 = false
 	local p1Pos3 = false
+	local p1Pos4 = false
 	
 	local p2Pos1 = false
 	local p2Pos2 = false
 	local p2Pos3 = false
+	local p2Pos4 = false
 --To check what button is available to press
 	local p1BtnA = true
 	local p1BtnB = true
 	local p1BtnC = true
+	local p1BtnD = true
 	
 	local p2BtnA = true
 	local p2BtnB = true
 	local p2BtnC = true
+	local p2BtnD = true
 	
 	local sndNumber = -1
 	local sndTime = 0
@@ -11913,7 +11908,6 @@ function f_orderSelectButton()
 	local xPortScaleR, yPortScaleR = nil
 	textImgSetBank(txt_p1State, 0) --Reset Text Color
 	textImgSetBank(txt_p2State, 0)
-	--f_getOrderHint() --Load First Hint
 	f_resetVersusLogo()
 --Set order time
 	if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
@@ -11989,9 +11983,8 @@ function f_orderSelectButton()
 	--Both Sides are Ready
 		if p1Confirmed == true and p2Confirmed == true then
 			orderTime = 0
-			animSetWindow(cursorBox, 20, 9, 120, 16)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
+			data.t_p1selected = t_p1Temp
+			data.t_p2selected = t_p2Temp
 		end
 		i = i + 1
 		if sndTime > 0 then
@@ -12008,7 +12001,8 @@ function f_orderSelectButton()
 		end
 	--if Player 1 has not confirmed the order yet
 		if not p1Confirmed and data.p1In ~= 2 then
-			if btnPalNo(p1Cmd, true) > 0 then
+		--Set Random Order Select
+			if not p1Pos1 and not p1Pos2 and not p1Pos3 and not p1Pos4 and commandGetState(p1Cmd, 's') then
 				if not p1Confirmed then
 					sndNumber = 1
 					p1Confirmed = true
@@ -12019,57 +12013,111 @@ function f_orderSelectButton()
 						p2Confirmed = true
 					end
 				end
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
-				if #data.t_p1selected > 1 then
-					sndNumber = 0
-					p1Row = p1Row - 1
-					if p1Row == 0 then p1Row = #data.t_p1selected end
+			end
+		--Set Pos 1
+			if not p1Pos1 then
+				if commandGetState(p1Cmd, 'a') then
+					sndNumber = 1
+					t_p1Temp[1] = data.t_p1selected[1]
+					p1BtnA = false
+					p1Pos1 = true
+				elseif commandGetState(p1Cmd, 'b') then
+					sndNumber = 1
+					t_p1Temp[1] = data.t_p1selected[2]
+					p1BtnB = false
+					p1Pos1 = true
+				elseif commandGetState(p1Cmd, 'c') then
+					sndNumber = 1
+					t_p1Temp[1] = data.t_p1selected[3]
+					p1BtnC = false
+					p1Pos1 = true
+				elseif commandGetState(p1Cmd, 'x') then
+					sndNumber = 1
+					t_p1Temp[1] = data.t_p1selected[4]
+					p1BtnD = false
+					p1Pos1 = true
 				end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
-				if #data.t_p1selected > 1 then
-					sndNumber = 0
-					p1Row = p1Row + 1
-					if p1Row > #data.t_p1selected then p1Row = 1 end
-				end
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-				if p1Row-1 > 0 then
-					sndNumber = 0
-					p1Row = p1Row - 1
-					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row+1]
-					for i=1, #data.t_p1selected do
-						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row+1 then
-								t_tmp[j] = data.t_p1selected[i]
-								break
+			else
+			--Set Pos 2
+				if not p1Pos2 then
+					if commandGetState(p1Cmd, 'a') and p1BtnA then
+						sndNumber = 1
+						t_p1Temp[2] = data.t_p1selected[1]
+						p1BtnA = false
+						p1Pos2 = true
+					elseif commandGetState(p1Cmd, 'b') and p1BtnB then
+						sndNumber = 1
+						t_p1Temp[2] = data.t_p1selected[2]
+						p1BtnB = false
+						p1Pos2 = true
+					elseif commandGetState(p1Cmd, 'c') and p1BtnC then
+						sndNumber = 1
+						t_p1Temp[2] = data.t_p1selected[3]
+						p1BtnC = false
+						p1Pos2 = true
+					elseif commandGetState(p1Cmd, 'x') and p1BtnD then
+						sndNumber = 1
+						t_p1Temp[2] = data.t_p1selected[4]
+						p1BtnD = false
+						p1Pos2 = true
+					end
+				else
+				--Set Pos 3
+					if not p1Pos3 then
+						if commandGetState(p1Cmd, 'a') and p1BtnA then
+							sndNumber = 1
+							t_p1Temp[3] = data.t_p1selected[1]
+							p1BtnA = false
+							p1Pos3 = true
+						elseif commandGetState(p1Cmd, 'b') and p1BtnB then
+							sndNumber = 1
+							t_p1Temp[3] = data.t_p1selected[2]
+							p1BtnB = false
+							p1Pos3 = true
+						elseif commandGetState(p1Cmd, 'c') and p1BtnC then
+							sndNumber = 1
+							t_p1Temp[3] = data.t_p1selected[3]
+							p1BtnC = false
+							p1Pos3 = true
+						elseif commandGetState(p1Cmd, 'x') and p1BtnD then
+							sndNumber = 1
+							t_p1Temp[3] = data.t_p1selected[4]
+							p1BtnD = false
+							p1Pos3 = true
+						end
+					else
+					--Set Pos 4 (Auto assigned)
+						if not p1Pos4 then
+							if p1BtnA then
+								sndNumber = 1
+								t_p1Temp[4] = data.t_p1selected[1]
+								p1BtnA = false
+								p1Pos4 = true
+							elseif p1BtnB then
+								sndNumber = 1
+								t_p1Temp[4] = data.t_p1selected[2]
+								p1BtnB = false
+								p1Pos4 = true
+							elseif p1BtnC then
+								sndNumber = 1
+								t_p1Temp[4] = data.t_p1selected[3]
+								p1BtnC = false
+								p1Pos4 = true
+							elseif p1BtnD then
+								sndNumber = 1
+								t_p1Temp[4] = data.t_p1selected[4]
+								p1BtnD = false
+								p1Pos4 = true
 							end
+							if data.debugLog then f_printTable(t_p1Temp, "save/debug/OrderSelectP1Temp.log") end
 						end
 					end
-					data.t_p1selected = t_tmp
-				end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-				if p1Row+1 <= #data.t_p1selected then
-					sndNumber = 0
-					p1Row = p1Row + 1
-					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row-1]
-					for i=1, #data.t_p1selected do
-						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row-1 then
-								t_tmp[j] = data.t_p1selected[i]
-								break
-							end
-						end
-					end
-					data.t_p1selected = t_tmp
 				end
 			end
-			animSetWindow(cursorBox, 0,152+p1Row*14, 140,14.5)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--if Player 1 has not confirmed the order yet and IS controlled by IA (CPU VS P1)
 		if not p1Confirmed and data.p1In == 2 and p2Confirmed == true then
+		--TODO: Make Random Select Order for CPU
 			if btnPalNo(p1Cmd, true) > 0 then
 				if not p1Confirmed then
 					sndNumber = 1
@@ -12081,110 +12129,29 @@ function f_orderSelectButton()
 						p2Confirmed = true
 					end
 				end
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
-				if #data.t_p1selected > 1 then
-					sndNumber = 0
-					p1Row = p1Row - 1
-					if p1Row == 0 then p1Row = #data.t_p1selected end
-				end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
-				if #data.t_p1selected > 1 then
-					sndNumber = 0
-					p1Row = p1Row + 1
-					if p1Row > #data.t_p1selected then p1Row = 1 end
-				end
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-				if p1Row-1 > 0 then
-					sndNumber = 0
-					p1Row = p1Row - 1
-					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row+1]
-					for i=1, #data.t_p1selected do
-						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row+1 then
-								t_tmp[j] = data.t_p1selected[i]
-								break
-							end
-						end
-					end
-					data.t_p1selected = t_tmp
-				end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-				if p1Row+1 <= #data.t_p1selected then
-					sndNumber = 0
-					p1Row = p1Row + 1
-					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row-1]
-					for i=1, #data.t_p1selected do
-						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row-1 then
-								t_tmp[j] = data.t_p1selected[i]
-								break
-							end
-						end
-					end
-					data.t_p1selected = t_tmp
-				end
 			end
-			animSetWindow(cursorBox, 0,152+p1Row*14, 140,14.5)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--if Player2 has not confirmed the order yet and IS controlled by IA (P1 VS CPU)
 		if not p2Confirmed and data.p2In == 1 and p1Confirmed == true then
-			if btnPalNo(p1Cmd, true) > 0 then
-				if not p2Confirmed then
-					sndNumber = 1
-					p2Confirmed = true
+		--Set Automatic Order
+			if not p2Confirmed then
+				sndNumber = 1
+				p2Pos1 = true
+				p2Pos2 = true
+				p2Pos3 = true
+				p2Pos4 = true
+				local t_available = {}
+				for i=1, #data.t_p2selected do --Make a copy of original table to delete items
+					t_available[i] = data.t_p2selected[i]
 				end
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
-				if #data.t_p2selected > 1 then
-					sndNumber = 0
-					p2Row = p2Row - 1
-					if p2Row == 0 then p2Row = #data.t_p2selected end
+				for i=1, 4 do
+					local randomIndex = math.random(1, #t_available) --Choose a random Index from available items
+					t_p2Temp[i] = t_available[randomIndex] --Save item choosen into t_p2Temp
+					table.remove(t_available, randomIndex) --Delete choosen item from t_available table, to avoid be reselected
 				end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
-				if #data.t_p2selected > 1 then
-					sndNumber = 0
-					p2Row = p2Row + 1
-					if p2Row > #data.t_p2selected then p2Row = 1 end
-				end
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-				if p2Row+1 <= #data.t_p2selected then
-					sndNumber = 0
-					p2Row = p2Row + 1
-					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row-1]
-					for i=1, #data.t_p2selected do
-						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row-1 then
-								t_tmp[j] = data.t_p2selected[i]
-								break
-							end
-						end
-					end
-					data.t_p2selected = t_tmp
-				end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-				if p2Row-1 > 0 then
-					sndNumber = 0
-					p2Row = p2Row - 1
-					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row+1]
-					for i=1, #data.t_p2selected do
-						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row+1 then
-								t_tmp[j] = data.t_p2selected[i]
-								break
-							end
-						end
-					end
-					data.t_p2selected = t_tmp
-				end
+				if data.debugLog then f_printTable(t_p2Temp, "save/debug/OrderSelectP2Temp.txt") end
+				p2Confirmed = true
 			end
-			animSetWindow(cursorBox, 180,152+p2Row*14, 140,14.5)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--if Player2 has not confirmed the order yet and is not controlled by Player 1 (P1 VS P2)
 		if not p2Confirmed and data.p2In ~= 1 then
@@ -12242,6 +12209,9 @@ function f_orderSelectButton()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
+	--Check Orders
+		if p1Pos1 and p1Pos2 and p1Pos3 and p1Pos4 then p1Confirmed = true end
+		if p2Pos1 and p2Pos2 and p2Pos3 and p2Pos4 then p2Confirmed = true end
 	--sndPlay separated to not play more than 1 sound at once
 		if sndNumber ~= -1 then
 			sndPlay(sndSys, 100, sndNumber)
@@ -12281,36 +12251,37 @@ function f_orderSelectButton()
 				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], p2Anim, 180 + (2*j-1) * 18, 163, data.t_p2selected[j].up)
 			end
 		end
-	--Draw Names
-		f_drawNameList(txt_p1NameOrder, 5, data.t_p1selected, 78, 175, 0, 14, p1Row, 0)
-		f_drawNameList(txt_p2NameOrder, 5, data.t_p2selected, 241, 175, 0, 14, p2Row, 0)
 	--Draw Order Number Assets
-		--Left Side
+	--Left Side
 		for n=#data.t_p1selected, 1, -1 do
+			f_drawNameList(txt_p1NameOrder, 5, data.t_p1selected, 78, 175, 0, 14, n, 0) --Draw Names
 			animPosDraw(p1OrderCursor, 1, 153+14*n) --Draw Order Icon
 			textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
 			textImgPosDraw(txt_p1OrderNo, 9, 161+14*n) --Draw Order Number Text
 		end
-		--Right Side
+	--Right Side
 		for n=#data.t_p2selected, 1, -1 do
+			f_drawNameList(txt_p2NameOrder, 5, data.t_p2selected, 241, 175, 0, 14, n, 0)
 			animPosDraw(p2OrderCursor, 305, 153+14*n)
 			textImgSetText(txt_p2OrderNo, n)
 			textImgPosDraw(txt_p2OrderNo, 310, 161+14*n)
 		end
+	--Draw Order Status Icon
+	--Player 1
+		if p1Pos1 then animPosDraw(p1OrderDone, 1, 212) else animPosDraw(p1OrderWaiting, 1, 212) end --Pos 1 State
+		if p1Pos2 then animPosDraw(p1OrderDone, 1+48, 212) else animPosDraw(p1OrderWaiting, 1+48, 212) end --Pos 2 State
+		if p1Pos3 then animPosDraw(p1OrderDone, 1+98, 212) else animPosDraw(p1OrderWaiting, 1+98, 212) end --Pos 3 State
+		if p1Pos4 then animPosDraw(p1OrderDone, 1+148, 212) else animPosDraw(p1OrderWaiting, 1+148, 212) end --Pos 4 State
+	--Player 2
+		if p2Pos1 then animPosDraw(p2OrderDone, 319-49, 212) else animPosDraw(p2OrderWaiting, 319-49, 212) end
+		if p2Pos2 then animPosDraw(p2OrderDone, 319-98, 212) else animPosDraw(p2OrderWaiting, 319-98, 212) end
+		if p2Pos3 then animPosDraw(p2OrderDone, 319-146, 212) else animPosDraw(p2OrderWaiting, 319-146, 212) end
+		if p2Pos4 then animPosDraw(p2OrderDone, 319-194, 212) else animPosDraw(p2OrderWaiting, 319-194, 212) end
 	--Draw Title
 		textImgDraw(txt_orderSelect)
 	--Draw Assets
 		animUpdate(vsLogo)
 		animDraw(vsLogo)
-	--[[
-		animDraw(footerBG)
-		if hintTime > 150 then --Time to load a new random hint
-			f_getOrderHint() --Update Hint
-			hintTime = 0 --Restart timer for a new random hint
-		end
-		textImgDraw(txt_hints) --Draw Hints
-	]]
-		drawOrderInputHints()
 	--When Attract Mode is Enabled
 		if data.attractMode then
 			drawAttractStatus(2, 318, 10, -1)
@@ -12319,47 +12290,9 @@ function f_orderSelectButton()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		hintTime = hintTime + 1 --Start timer for randoms hints
-		if commandGetState(p1Cmd, 'holdu') then
-			bufOrderd = 0
-			bufOrderu = bufOrderu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufOrderu = 0
-			bufOrderd = bufOrderd + 1
-		elseif commandGetState(p1Cmd, 'holdr') then
-			bufOrderl = 0
-			bufOrderr = bufOrderr + 1
-		elseif commandGetState(p1Cmd, 'holdl') then
-			bufOrderr = 0
-			bufOrderl = bufOrderl + 1
-		elseif commandGetState(p2Cmd, 'holdu') then
-			bufOrder2d = 0
-			bufOrder2u = bufOrder2u + 1
-		elseif commandGetState(p2Cmd, 'holdd') then
-			bufOrder2u = 0
-			bufOrder2d = bufOrder2d + 1
-		elseif commandGetState(p2Cmd, 'holdr') then
-			bufOrder2l = 0
-			bufOrder2r = bufOrder2r + 1
-		elseif commandGetState(p2Cmd, 'holdl') then
-			bufOrder2r = 0
-			bufOrder2l = bufOrder2l + 1
-		else
-			bufOrderu = 0
-			bufOrderd = 0
-			bufOrderr = 0
-			bufOrderl = 0
-			bufOrder2u = 0
-			bufOrder2d = 0
-			bufOrder2r = 0
-			bufOrder2l = 0
-		end
 		cmdInput()
 		refresh()
 	end
-end
-
-function f_getOrderHint()
-	textImgSetText(txt_hints, t_orderHints[math.random(1, #t_orderHints)].text) 
 end
 
 --Transfer data.t_p1selected and data.t_p2selected to p1Dat and p2Dat (global access tables) in order to access in pause menu or match.lua scripts
