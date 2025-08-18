@@ -18,7 +18,8 @@ data.attractMode = false
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.serviceType = "Button"
-data.charPresentation = "Mixed"
+data.orderSelType = "Button"
+data.portraitDisplay = "Mixed"
 data.sffConversion = true
 --Game Data
 data.difficulty = 8
@@ -35,6 +36,7 @@ data.team1VS2Life = 120
 data.turnsRecoveryRate = 300
 data.teamLifeShare = false
 data.teamPowerShare = true
+data.teamDuplicates = true
 data.numTurns = 4
 data.numSimul = 4
 data.simulType = "Assist"
@@ -81,7 +83,7 @@ data.selectTime = 31
 data.stageTime = 21
 data.orderTime = 16
 data.rematchTime = 16
-data.serviceTime = 16
+data.serviceTime = 21
 data.attractTime = 21
 data.destinyTime = 21
 --Input Data

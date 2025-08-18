@@ -325,7 +325,8 @@ function f_saveCfg()
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.winscreen'] = data.winscreen,
 		['data.serviceType'] = data.serviceType,
-		['data.charPresentation'] = data.charPresentation,
+		['data.orderSelType'] = data.orderSelType,
+		['data.portraitDisplay'] = data.portraitDisplay,
 		['data.sffConversion'] = data.sffConversion,
 	--Game Data
 		['data.difficulty'] = data.difficulty,
@@ -342,6 +343,7 @@ function f_saveCfg()
 		['data.turnsRecoveryRate'] = data.turnsRecoveryRate,
 		['data.teamLifeShare'] = data.teamLifeShare,
 		['data.teamPowerShare'] = data.teamPowerShare,
+		['data.teamDuplicates'] = data.teamDuplicates,
 		['data.numTurns'] = data.numTurns,
 		['data.numSimul'] = data.numSimul,
 		['data.simulType'] = data.simulType,
@@ -496,6 +498,7 @@ function f_netsaveCfg()
 		['data.turnsRecoveryRate'] = data.turnsRecoveryRate,
 		['data.teamLifeShare'] = data.teamLifeShare,
 		['data.teamPowerShare'] = data.teamPowerShare,
+		['data.teamDuplicates'] = data.teamDuplicates,
 		['data.zoomActive'] = data.zoomActive,
 		['data.zoomMin'] = data.zoomMin,
 		['data.zoomMax'] = data.zoomMax,
@@ -517,7 +520,7 @@ function f_netsaveCfg()
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
 		['data.ftcontrol'] = data.ftcontrol,
-		['data.charPresentation'] = data.charPresentation,
+		['data.portraitDisplay'] = data.portraitDisplay,
 		['data.coopenemy'] = data.coopenemy
 	}
 --Save Data to data_netsav.lua
@@ -599,6 +602,7 @@ function f_teamDefault()
 	data.turnsRecoveryRate = 300
 	data.teamLifeShare = false
 	data.teamPowerShare = true
+	data.teamDuplicates = true
 	data.numTurns = 4
 	data.numSimul = 4
 	data.simulType = "Assist"
@@ -624,8 +628,8 @@ function f_systemDefault()
 	data.vsDisplayWin = true
 	data.winscreen = "Classic"
 	data.serviceType = "Button"
-	data.charPresentation = "Portrait"
-	data.sffConversion = true
+	data.orderSelType = "Cursor"
+	data.portraitDisplay = "Mixed"
 end
 
 --Default Character Select Global Values
@@ -1365,6 +1369,12 @@ function f_mainCfg()
 		if not defaultScreen then --Stay in Options screen (For Pop-Ups messages)
 		--Save and Back
 			if esc() or exitSaveCfg or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
+					data.sffConversion = true
+					--needReload = 1
+				else
+					data.sffConversion = false
+				end
 				if data.erase then --reset stats files
 					init_generalStats()
 					init_unlocksStats()
@@ -2311,27 +2321,26 @@ function f_gameCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.quickCont then
 					data.quickCont = false
-					modified = 1
 				else
 					data.quickCont = true
-					modified = 1
 				end
+				modified = 1
 		--AI Palette
 			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aipal == "Default" then data.aipal = "Random"
 				elseif data.aipal == "Random" then data.aipal = "Default"
 				end
+				modified = 1
 		--AI Ramping
 			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aiRamping then
 					data.aiRamping = false
-					modified = 1
 				else
 					data.aiRamping = true
-					modified = 1
 				end
+				modified = 1
 		--VS Kumite Amount
 			elseif gameCfg == 10 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
@@ -2482,7 +2491,7 @@ t_teamCfg = {
 	{text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
 	{text = "Life Share", 				varText = ""},
 	{text = "Power Share", 				varText = ""},
-	--{text = "Team Duplicates",			varText = data.teamDuplicates},
+	{text = "Team Duplicates",			varText = ""},
 	{text = "Turns Players Limit",     	varText = data.numTurns},
 	{text = "Simul Players Limit",     	varText = data.numSimul},
 	{text = "Simul Type",              	varText = data.simulType},
@@ -2575,23 +2584,30 @@ function f_teamCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.teamLifeShare then
 					data.teamLifeShare = false
-					modified = 1
 				else
 					data.teamLifeShare = true
-					modified = 1
 				end
+				modified = 1
 		--Team Power Share
 			elseif teamCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.teamPowerShare then
 					data.teamPowerShare = false
-					modified = 1
 				else
 					data.teamPowerShare = true
-					modified = 1
 				end
+				modified = 1
+		--Team Duplicates
+			elseif teamCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if data.teamDuplicates then
+					data.teamDuplicates = false
+				else
+					data.teamDuplicates = true
+				end
+				modified = 1
 		--Turns Limit (by default also requires editing 'if(!.m.inRange!int?(1, 4, nt)){' in ssz/system-script.ssz)
-			elseif teamCfg == 5 then
+			elseif teamCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.numTurns < 4 then sndPlay(sndSys, 100, 0) end
 					if data.numTurns < 4 then
@@ -2616,7 +2632,7 @@ function f_teamCfg()
 					bufl = 0
 				end
 		--Simul Limit (by default also requires editing 'const int maxSimul = 4;' in ssz/common.ssz)
-			elseif teamCfg == 6 then
+			elseif teamCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if commandGetState(p1Cmd, 'r') and data.numSimul < 4 then sndPlay(sndSys, 100, 0) end
 					if data.numSimul < 4 then
@@ -2641,17 +2657,16 @@ function f_teamCfg()
 					bufl = 0
 				end
 		--Simul Type (Fixed by Strong FS)
-			elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif teamCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.simulType == "Tag" then
 					data.simulType = "Assist"
-					modified = 1
 				else
 					data.simulType = "Tag"
-					modified = 1
 				end
+				modified = 1
 		--Co-Op CPU Team Mode
-			elseif teamCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif teamCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.coopenemy == "Single" then
 					sndPlay(sndSys, 100, 0)
 					data.coopenemy = "Simul"
@@ -2721,10 +2736,11 @@ function f_teamCfg()
 		t_teamCfg[2].varText = data.turnsRecoveryRate.."%"
 		if data.teamLifeShare then t_teamCfg[3].varText = "Yes" else t_teamCfg[3].varText = "No" end
 		if data.teamPowerShare then t_teamCfg[4].varText = "Yes" else t_teamCfg[4].varText = "No" end
-		t_teamCfg[5].varText = data.numTurns
-		t_teamCfg[6].varText = data.numSimul
-		t_teamCfg[7].varText = data.simulType
-		t_teamCfg[8].varText = data.coopenemy
+		if data.teamDuplicates then t_teamCfg[5].varText = "Yes" else t_teamCfg[5].varText = "No" end
+		t_teamCfg[6].varText = data.numTurns
+		t_teamCfg[7].varText = data.numSimul
+		t_teamCfg[8].varText = data.simulType
+		t_teamCfg[9].varText = data.coopenemy
 		for i=1, maxTeamCfg do
 			if i > teamCfg - cursorPosY then
 				if t_teamCfg[i].varID ~= nil then
@@ -2809,11 +2825,10 @@ function f_zoomCfg()
 				sndPlay(sndSys, 100, 0)
 				if data.zoomActive then
 					data.zoomActive = false
-					modified = 1
 				else
 					data.zoomActive = true
-					modified = 1
 				end
+				modified = 1
 		--Max Zoom Out
 			elseif zoomCfg == 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
@@ -2987,10 +3002,11 @@ t_UICfg = {
 	{text = "Clock Format",              varText = data.clock},
 	{text = "Date Format",               varText = data.date},
 	{text = "Attract Mode",  	      	 varText = ""},
-	{text = "Character Presentation",    varText = data.charPresentation},
+	{text = "Portrait Display",		     varText = data.portraitDisplay},
 	{text = "Versus Win Counter",  	     varText = ""},
 	{text = "Win Screen",	    		 varText = data.winscreen},
 	{text = "Service Interaction",		 varText = data.serviceType},
+	{text = "Order Select Type",		 varText = data.orderSelType},
 	{text = "Character Select Settings", varText = ""},
 	{text = "Stage Select Settings",     varText = ""},
 	{text = "Timers Settings",  	  	 varText = ""},
@@ -3138,35 +3154,29 @@ function f_UICfg()
 					sndPlay(sndSys, 100, 0)
 					if data.attractMode then
 						data.attractMode = false
-						modified = 1
-						needReload = 1
 					else
 						data.attractMode = true
-						modified = 1
-						needReload = 1
 					end
+					modified = 1
+					needReload = 1
 				end
-		--Character Presentation Display Type
+		--Character Portrait Display Type
 			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if commandGetState(p1Cmd, 'r') and data.charPresentation == "Portrait" then
+				if commandGetState(p1Cmd, 'r') and data.portraitDisplay == "Portrait" then
 					sndPlay(sndSys, 100, 0)
-					data.charPresentation = "Sprite"
-					data.sffConversion = true
+					data.portraitDisplay = "Sprite"
 					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.charPresentation == "Sprite" then
+				elseif commandGetState(p1Cmd, 'r') and data.portraitDisplay == "Sprite" then
 					sndPlay(sndSys, 100, 0)
-					data.charPresentation = "Mixed"
-					data.sffConversion = true
+					data.portraitDisplay = "Mixed"
 					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.charPresentation == "Sprite" then
+				elseif commandGetState(p1Cmd, 'l') and data.portraitDisplay == "Sprite" then
 					sndPlay(sndSys, 100, 0)
-					data.charPresentation = "Portrait"
-					data.sffConversion = false
+					data.portraitDisplay = "Portrait"
 					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.charPresentation == "Mixed" then
+				elseif commandGetState(p1Cmd, 'l') and data.portraitDisplay == "Mixed" then
 					sndPlay(sndSys, 100, 0)
-					data.charPresentation = "Sprite"
-					data.sffConversion = true
+					data.portraitDisplay = "Sprite"
 					modified = 1	
 				end
 		--Display Versus Win Counter
@@ -3210,20 +3220,29 @@ function f_UICfg()
 					data.serviceType = "Button"
 				end
 				modified = 1
+		--Order Select Interaction Type
+			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if data.orderSelType == "Button" then
+					data.orderSelType = "Cursor"
+				elseif data.orderSelType == "Cursor" then
+					data.orderSelType = "Button"
+				end
+				modified = 1
 		--Character Select Settings
-			elseif UICfg == 9 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 10 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
 		--Stage Select Settings
-			elseif UICfg == 10 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
 		--Timers Settings
-			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
 		--System Songs Settings
-			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3287,10 +3306,11 @@ function f_UICfg()
 		t_UICfg[2].varText = data.clock
 		t_UICfg[3].varText = data.date
 		if data.attractMode then t_UICfg[4].varText = "Enabled" else t_UICfg[4].varText = "Disabled" end
-		t_UICfg[5].varText = data.charPresentation
+		t_UICfg[5].varText = data.portraitDisplay
 		if data.vsDisplayWin then t_UICfg[6].varText = "Yes" else t_UICfg[6].varText = "No" end
 		t_UICfg[7].varText = data.winscreen
 		t_UICfg[8].varText = data.serviceType
+		t_UICfg[9].varText = data.orderSelType
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
 				if t_UICfg[i].varID ~= nil then
@@ -5296,9 +5316,10 @@ function f_songCfg()
 				songsSettings = true
 				f_songMenu()
 		--Display BGM Name
-			elseif songCfg == 4 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then 
+			elseif songCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then 
 				sndPlay(sndSys, 100, 1)
 				if data.bgmDisplay then data.bgmDisplay = false else data.bgmDisplay = true end
+				modified = true
 		--Default Values
 			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
@@ -5770,11 +5791,10 @@ function f_engineCfg()
 					sndPlay(sndSys, 100, 0)
 					if data.debugMode then
 						data.debugMode = false
-						modified = 1
 					else
 						data.debugMode = true
-						modified = 1
 					end
+					modified = 1
 				end
 		--Print Debug Logs
 			elseif engineCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
@@ -5784,11 +5804,10 @@ function f_engineCfg()
 					sndPlay(sndSys, 100, 0)
 					if data.debugLog then
 						data.debugLog = false
-						modified = 1
 					else
 						data.debugLog = true
-						modified = 1
 					end
+					modified = 1
 				end
 		--Generate Characters List
 			elseif engineCfg == 3 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
@@ -5808,13 +5827,11 @@ function f_engineCfg()
 					sndPlay(sndSys, 100, 0)
 					if data.engineMode == "VN" then
 						data.engineMode = "FG"
-						modified = 1
-						needReload = 1
 					elseif data.engineMode == "FG" then
 						data.engineMode = "VN"
-						modified = 1
-						needReload = 1
 					end
+					modified = 1
+					needReload = 1
 				end
 		--HelperMax
 			elseif engineCfg == 6 then
@@ -6151,14 +6168,12 @@ function f_videoCfg()
 				sndPlay(sndSys, 100, 0)
 				if not b_openGL then
 					b_openGL = true
-					f_glWarning()
-					modified = 1
-					needReload = 1				
+					f_glWarning()			
 				else
 					b_openGL = false
-					modified = 1
-					needReload = 1
 				end
+				modified = 1
+				needReload = 1
 				updateVars = true
 		--Resolution
 			elseif videoCfg == 2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
@@ -6291,15 +6306,12 @@ function f_videoCfg()
 					b_saveMemory = true
 					s_saveMemory = "Yes"
 					f_memWarning()
-					modified = 1
-					needReload = 1
 				else
 					b_saveMemory = false
 					s_saveMemory = "No"
-					f_memWarning()
-					modified = 1
-					needReload = 1
 				end
+				modified = 1
+				needReload = 1
 				updateVars = true
 		--Default Values
 			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
