@@ -11893,6 +11893,7 @@ function f_orderSelectButton()
 	local p2BtnC = true
 	local p2BtnD = true
 	
+	local orderStateIconPosY = 165
 	local sndNumber = -1
 	local sndTime = 0
 	local hintTime = 0
@@ -12144,70 +12145,124 @@ function f_orderSelectButton()
 				for i=1, #data.t_p2selected do --Make a copy of original table to delete items
 					t_available[i] = data.t_p2selected[i]
 				end
-				for i=1, 4 do
+				for i=1, #data.t_p2selected do
 					local randomIndex = math.random(1, #t_available) --Choose a random Index from available items
 					t_p2Temp[i] = t_available[randomIndex] --Save item choosen into t_p2Temp
 					table.remove(t_available, randomIndex) --Delete choosen item from t_available table, to avoid be reselected
 				end
-				if data.debugLog then f_printTable(t_p2Temp, "save/debug/OrderSelectP2Temp.txt") end
+				if data.debugLog then f_printTable(t_p2Temp, "save/debug/OrderSelectP2Temp.log") end
 				p2Confirmed = true
 			end
 		end
 	--if Player2 has not confirmed the order yet and is not controlled by Player 1 (P1 VS P2)
 		if not p2Confirmed and data.p2In ~= 1 then
-			if btnPalNo(p2Cmd, true) > 0 then
+			if not p2Pos1 and not p2Pos2 and not p2Pos3 and not p2Pos4 and commandGetState(p2Cmd, 's') then
 				if not p2Confirmed then
 					sndNumber = 1
-					p2Confirmed = true
-				end
-			elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufOrder2u >= 30) then
-				if #data.t_p2selected > 1 then
-					sndNumber = 0
-					p2Row = p2Row - 1
-					if p2Row == 0 then p2Row = #data.t_p2selected end
-				end
-			elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufOrder2d >= 30) then
-				if #data.t_p2selected > 1 then
-					sndNumber = 0
-					p2Row = p2Row + 1
-					if p2Row > #data.t_p2selected then p2Row = 1 end
-				end
-			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufOrder2l >= 30) then
-				if p2Row+1 <= #data.t_p2selected then
-					sndNumber = 0
-					p2Row = p2Row + 1
-					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row-1]
-					for i=1, #data.t_p2selected do
-						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row-1 then
-								t_tmp[j] = data.t_p2selected[i]
-								break
-							end
-						end
-					end
-					data.t_p2selected = t_tmp
-				end
-			elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufOrder2r >= 30) then
-				if p2Row-1 > 0 then
-					sndNumber = 0
-					p2Row = p2Row - 1
-					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row+1]
-					for i=1, #data.t_p2selected do
-						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row+1 then
-								t_tmp[j] = data.t_p2selected[i]
-								break
-							end
-						end
-					end
-					data.t_p2selected = t_tmp
+					--p2Confirmed = true
+					commandBufReset(p2Cmd)
 				end
 			end
-			animSetWindow(cursorBox, 180,152+p2Row*14, 140,14.5)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Set Pos 1
+			if not p2Pos1 then
+				if commandGetState(p2Cmd, 'a') then
+					sndNumber = 1
+					t_p2Temp[1] = data.t_p2selected[1]
+					p2BtnA = false
+					p2Pos1 = true
+				elseif commandGetState(p2Cmd, 'b') then
+					sndNumber = 1
+					t_p2Temp[1] = data.t_p2selected[2]
+					p2BtnB = false
+					p2Pos1 = true
+				elseif commandGetState(p2Cmd, 'c') then
+					sndNumber = 1
+					t_p2Temp[1] = data.t_p2selected[3]
+					p2BtnC = false
+					p2Pos1 = true
+				elseif commandGetState(p2Cmd, 'x') then
+					sndNumber = 1
+					t_p2Temp[1] = data.t_p2selected[4]
+					p2BtnD = false
+					p2Pos1 = true
+				end
+			else
+			--Set Pos 2
+				if not p2Pos2 then
+					if commandGetState(p2Cmd, 'a') and p2BtnA then
+						sndNumber = 1
+						t_p2Temp[2] = data.t_p2selected[1]
+						p2BtnA = false
+						p2Pos2 = true
+					elseif commandGetState(p2Cmd, 'b') and p2BtnB then
+						sndNumber = 1
+						t_p2Temp[2] = data.t_p2selected[2]
+						p2BtnB = false
+						p2Pos2 = true
+					elseif commandGetState(p2Cmd, 'c') and p2BtnC then
+						sndNumber = 1
+						t_p2Temp[2] = data.t_p2selected[3]
+						p2BtnC = false
+						p2Pos2 = true
+					elseif commandGetState(p2Cmd, 'x') and p2BtnD then
+						sndNumber = 1
+						t_p2Temp[2] = data.t_p2selected[4]
+						p2BtnD = false
+						p2Pos2 = true
+					end
+				else
+				--Set Pos 3
+					if not p2Pos3 then
+						if commandGetState(p2Cmd, 'a') and p2BtnA then
+							sndNumber = 1
+							t_p2Temp[3] = data.t_p2selected[1]
+							p2BtnA = false
+							p2Pos3 = true
+						elseif commandGetState(p2Cmd, 'b') and p2BtnB then
+							sndNumber = 1
+							t_p2Temp[3] = data.t_p2selected[2]
+							p2BtnB = false
+							p2Pos3 = true
+						elseif commandGetState(p2Cmd, 'c') and p2BtnC then
+							sndNumber = 1
+							t_p2Temp[3] = data.t_p2selected[3]
+							p2BtnC = false
+							p2Pos3 = true
+						elseif commandGetState(p2Cmd, 'x') and p2BtnD then
+							sndNumber = 1
+							t_p2Temp[3] = data.t_p2selected[4]
+							p2BtnD = false
+							p2Pos3 = true
+						end
+					else
+					--Set Pos 4 (Auto assigned)
+						if not p2Pos4 then
+							if p2BtnA then
+								sndNumber = 1
+								t_p2Temp[4] = data.t_p2selected[1]
+								p2BtnA = false
+								p2Pos4 = true
+							elseif p2BtnB then
+								sndNumber = 1
+								t_p2Temp[4] = data.t_p2selected[2]
+								p2BtnB = false
+								p2Pos4 = true
+							elseif p2BtnC then
+								sndNumber = 1
+								t_p2Temp[4] = data.t_p2selected[3]
+								p2BtnC = false
+								p2Pos4 = true
+							elseif p2BtnD then
+								sndNumber = 1
+								t_p2Temp[4] = data.t_p2selected[4]
+								p2BtnD = false
+								p2Pos4 = true
+							end
+							if data.debugLog then f_printTable(t_p2Temp, "save/debug/OrderSelectP2Temp.log") end
+						end
+					end
+				end
+			end
 		end
 	--Check Orders
 		if p1Pos1 and p1Pos2 and p1Pos3 and p1Pos4 then p1Confirmed = true end
@@ -12254,29 +12309,39 @@ function f_orderSelectButton()
 	--Draw Order Number Assets
 	--Left Side
 		for n=#data.t_p1selected, 1, -1 do
-			f_drawNameList(txt_p1NameOrder, 5, data.t_p1selected, 78, 175, 0, 14, n, 0) --Draw Names
-			animPosDraw(p1OrderCursor, 1, 153+14*n) --Draw Order Icon
+			f_drawNameList(txt_p1NameOrder, 5, t_p1Temp, 78, 190, 0, 14, n, 0) --Draw Names of players already order
+			animPosDraw(p1OrderCursor, 1, 168+14*n) --Draw Order Icon
 			textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
-			textImgPosDraw(txt_p1OrderNo, 9, 161+14*n) --Draw Order Number Text
+			textImgPosDraw(txt_p1OrderNo, 9, 176+14*n) --Draw Order Number Text
+		--Draw Order State Icon
+			if p1Pos1 then animPosDraw(p1OrderDone, 105, orderStateIconPosY) else animPosDraw(p1OrderWaiting1st, 105, orderStateIconPosY) end --Pos 1 State
+			if #data.t_p1selected >= 2 then
+				if p1Pos2 then animPosDraw(p1OrderDone, 70, orderStateIconPosY) else animPosDraw(p1OrderWaiting2nd, 70, orderStateIconPosY) end --Pos 2 State
+			end
+			if #data.t_p1selected >= 3 then
+				if p1Pos3 then animPosDraw(p1OrderDone, 35, orderStateIconPosY) else animPosDraw(p1OrderWaiting3rd, 35, orderStateIconPosY) end --Pos 3 State
+			end
+			if #data.t_p1selected >= 4 then
+				if p1Pos4 then animPosDraw(p1OrderDone, 0, orderStateIconPosY) else animPosDraw(p1OrderWaiting4th, 0, orderStateIconPosY) end --Pos 4 State
+			end
 		end
 	--Right Side
 		for n=#data.t_p2selected, 1, -1 do
-			f_drawNameList(txt_p2NameOrder, 5, data.t_p2selected, 241, 175, 0, 14, n, 0)
-			animPosDraw(p2OrderCursor, 305, 153+14*n)
+			f_drawNameList(txt_p2NameOrder, 5, t_p2Temp, 241, 190, 0, 14, n, 0)
+			animPosDraw(p2OrderCursor, 305, 168+14*n)
 			textImgSetText(txt_p2OrderNo, n)
-			textImgPosDraw(txt_p2OrderNo, 310, 161+14*n)
+			textImgPosDraw(txt_p2OrderNo, 310, 176+14*n)
+			if p2Pos1 then animPosDraw(p2OrderDone, 173, orderStateIconPosY) else animPosDraw(p2OrderWaiting1st, 173, orderStateIconPosY) end
+			if #data.t_p2selected >= 2 then
+				if p2Pos2 then animPosDraw(p2OrderDone, 208, orderStateIconPosY) else animPosDraw(p2OrderWaiting2nd, 208, orderStateIconPosY) end
+			end
+			if #data.t_p2selected >= 3 then
+				if p2Pos3 then animPosDraw(p2OrderDone, 243, orderStateIconPosY) else animPosDraw(p2OrderWaiting3rd, 243, orderStateIconPosY) end
+			end
+			if #data.t_p2selected >= 4 then
+				if p2Pos4 then animPosDraw(p2OrderDone, 278, orderStateIconPosY) else animPosDraw(p2OrderWaiting4th, 278, orderStateIconPosY) end
+			end
 		end
-	--Draw Order Status Icon
-	--Player 1
-		if p1Pos1 then animPosDraw(p1OrderDone, 1, 212) else animPosDraw(p1OrderWaiting, 1, 212) end --Pos 1 State
-		if p1Pos2 then animPosDraw(p1OrderDone, 1+48, 212) else animPosDraw(p1OrderWaiting, 1+48, 212) end --Pos 2 State
-		if p1Pos3 then animPosDraw(p1OrderDone, 1+98, 212) else animPosDraw(p1OrderWaiting, 1+98, 212) end --Pos 3 State
-		if p1Pos4 then animPosDraw(p1OrderDone, 1+148, 212) else animPosDraw(p1OrderWaiting, 1+148, 212) end --Pos 4 State
-	--Player 2
-		if p2Pos1 then animPosDraw(p2OrderDone, 319-49, 212) else animPosDraw(p2OrderWaiting, 319-49, 212) end
-		if p2Pos2 then animPosDraw(p2OrderDone, 319-98, 212) else animPosDraw(p2OrderWaiting, 319-98, 212) end
-		if p2Pos3 then animPosDraw(p2OrderDone, 319-146, 212) else animPosDraw(p2OrderWaiting, 319-146, 212) end
-		if p2Pos4 then animPosDraw(p2OrderDone, 319-194, 212) else animPosDraw(p2OrderWaiting, 319-194, 212) end
 	--Draw Title
 		textImgDraw(txt_orderSelect)
 	--Draw Assets

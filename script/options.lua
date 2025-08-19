@@ -629,7 +629,7 @@ function f_systemDefault()
 	data.winscreen = "Classic"
 	data.serviceType = "Button"
 	data.orderSelType = "Cursor"
-	data.portraitDisplay = "Mixed"
+	data.portraitDisplay = "Portrait"
 end
 
 --Default Character Select Global Values

@@ -2191,19 +2191,139 @@ p2OrderCursor = animNew(sprIkemen, [[
 animSetScale(p2OrderCursor, 0.10, 0.10)
 animUpdate(p2OrderCursor)
 
+--P1 Order Waiting 1st Member Icon
+p1OrderWaiting1st = animNew(sprIkemen, [[
+810,1, 0,0, -1
+]])
+animSetScale(p1OrderWaiting1st, 0.3, 0.3)
+animUpdate(p1OrderWaiting1st)
+
+--P1 Order Waiting 2nd Member Icon
+p1OrderWaiting2nd = animNew(sprIkemen, [[
+810,2, 0,0, -1
+]])
+animSetScale(p1OrderWaiting2nd, 0.3, 0.3)
+animUpdate(p1OrderWaiting2nd)
+
+--P1 Order Waiting 3rd Member Icon
+p1OrderWaiting3rd = animNew(sprIkemen, [[
+810,3, 0,0, -1
+]])
+animSetScale(p1OrderWaiting3rd, 0.3, 0.3)
+animUpdate(p1OrderWaiting3rd)
+
+--P1 Order Waiting 4th Member Icon
+p1OrderWaiting4th = animNew(sprIkemen, [[
+810,4, 0,0, -1
+]])
+animSetScale(p1OrderWaiting4th, 0.3, 0.3)
+animUpdate(p1OrderWaiting4th)
+
+--P2 Order Waiting 1st Member Icon
+p2OrderWaiting1st = animNew(sprIkemen, [[
+810,6, 0,0, -1
+]])
+animSetScale(p2OrderWaiting1st, 0.3, 0.3)
+animUpdate(p2OrderWaiting1st)
+
+--P2 Order Waiting 2nd Member Icon
+p2OrderWaiting2nd = animNew(sprIkemen, [[
+810,7, 0,0, -1
+]])
+animSetScale(p2OrderWaiting2nd, 0.3, 0.3)
+animUpdate(p2OrderWaiting2nd)
+
+--P2 Order Waiting 3rd Member Icon
+p2OrderWaiting3rd = animNew(sprIkemen, [[
+810,8, 0,0, -1
+]])
+animSetScale(p2OrderWaiting3rd, 0.3, 0.3)
+animUpdate(p2OrderWaiting3rd)
+
+--P2 Order Waiting 4th Member Icon
+p2OrderWaiting4th = animNew(sprIkemen, [[
+810,9, 0,0, -1
+]])
+animSetScale(p2OrderWaiting4th, 0.3, 0.3)
+animUpdate(p2OrderWaiting4th)
+
 --P1 Order Done Icon
 p1OrderDone = animNew(sprIkemen, [[
 810,0, 0,0, -1
 ]])
---animSetScale(p1OrderDone, 0.10, 0.10)
---animUpdate(p1OrderDone)
+animSetScale(p1OrderDone, 0.25, 0.25)
+animUpdate(p1OrderDone)
 
---P1 Order Waiting Icon
-p1OrderWaiting = animNew(sprIkemen, [[
-810,1, 0,0, -1
+--P2 Order Done Icon
+p2OrderDone = animNew(sprIkemen, [[
+810,5, 0,0, -1
 ]])
---animSetScale(p1OrderWaiting, 0.10, 0.10)
---animUpdate(p1OrderWaiting)
+animSetScale(p2OrderDone, 0.25, 0.25)
+animUpdate(p2OrderDone)
+
+--Order Button Interaction Type Sprites
+--A Button
+orderBtnA = animNew(sprGlyphs, [[
+1,0, 0,0, -1
+]])
+animSetScale(orderBtnA, 0.35, 0.35)
+animUpdate(orderBtnA)
+
+--B Button
+orderBtnB = animNew(sprGlyphs, [[
+2,0, 0,0, -1
+]])
+animSetScale(orderBtnB, 0.35, 0.35)
+animUpdate(orderBtnB)
+
+--C Button
+orderBtnC = animNew(sprGlyphs, [[
+3,0, 0,0, -1
+]])
+animSetScale(orderBtnC, 0.35, 0.35)
+animUpdate(orderBtnC)
+
+--X Button
+orderBtnX = animNew(sprGlyphs, [[
+24,0, 0,0, -1
+]])
+animSetScale(orderBtnX, 0.35, 0.35)
+animUpdate(orderBtnX)
+
+--Y Button
+orderBtnY = animNew(sprGlyphs, [[
+25,0, 0,0, -1
+]])
+animSetScale(orderBtnY, 0.35, 0.35)
+animUpdate(orderBtnY)
+
+--Z Button
+orderBtnZ = animNew(sprGlyphs, [[
+26,0, 0,0, -1
+]])
+animSetScale(orderBtnZ, 0.35, 0.35)
+animUpdate(orderBtnZ)
+
+--L Button
+orderBtnL = animNew(sprGlyphs, [[
+27,0, 0,0, -1
+]])
+animSetScale(orderBtnL, 0.35, 0.35)
+animUpdate(orderBtnL)
+
+--R Button
+orderBtnR = animNew(sprGlyphs, [[
+28,0, 0,0, -1
+]])
+animSetScale(orderBtnR, 0.35, 0.35)
+animUpdate(orderBtnR)
+
+--Start Button
+orderBtnS = animNew(sprGlyphs, [[
+51,0, 0,0, -1
+]])
+animSetScale(orderBtnS, 0.35, 0.35)
+animUpdate(orderBtnS)
 
 t_orderButtons = {
 	{button = "A", spr = orderBtnA},
