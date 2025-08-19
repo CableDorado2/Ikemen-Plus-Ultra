@@ -2326,10 +2326,10 @@ animSetScale(orderBtnS, 0.35, 0.35)
 animUpdate(orderBtnS)
 
 t_orderButtons = {
-	{button = "A", spr = orderBtnA},
-	{button = "B", spr = orderBtnB},
-	{button = "C", spr = orderBtnC},
-	{button = "X", spr = orderBtnD},
+	{spr = orderBtnA}, --1st
+	{spr = orderBtnB}, --2nd
+	{spr = orderBtnC}, --3rd
+	{spr = orderBtnX}, --4th
 }
 
 function drawOrderInputHints()

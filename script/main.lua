@@ -12313,16 +12313,17 @@ function f_orderSelectButton()
 			animPosDraw(p1OrderCursor, 1, 168+14*n) --Draw Order Icon
 			textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
 			textImgPosDraw(txt_p1OrderNo, 9, 176+14*n) --Draw Order Number Text
+			animPosDraw(t_orderButtons[n].spr, 145-n*35, 140)
 		--Draw Order State Icon
-			if p1Pos1 then animPosDraw(p1OrderDone, 105, orderStateIconPosY) else animPosDraw(p1OrderWaiting1st, 105, orderStateIconPosY) end --Pos 1 State
+			if not p1BtnA then animPosDraw(p1OrderDone, 105, orderStateIconPosY) else animPosDraw(p1OrderWaiting1st, 105, orderStateIconPosY) end --Pos 1 State
 			if #data.t_p1selected >= 2 then
-				if p1Pos2 then animPosDraw(p1OrderDone, 70, orderStateIconPosY) else animPosDraw(p1OrderWaiting2nd, 70, orderStateIconPosY) end --Pos 2 State
+				if not p1BtnB then animPosDraw(p1OrderDone, 70, orderStateIconPosY) else animPosDraw(p1OrderWaiting2nd, 70, orderStateIconPosY) end --Pos 2 State
 			end
 			if #data.t_p1selected >= 3 then
-				if p1Pos3 then animPosDraw(p1OrderDone, 35, orderStateIconPosY) else animPosDraw(p1OrderWaiting3rd, 35, orderStateIconPosY) end --Pos 3 State
+				if not p1BtnC then animPosDraw(p1OrderDone, 35, orderStateIconPosY) else animPosDraw(p1OrderWaiting3rd, 35, orderStateIconPosY) end --Pos 3 State
 			end
 			if #data.t_p1selected >= 4 then
-				if p1Pos4 then animPosDraw(p1OrderDone, 0, orderStateIconPosY) else animPosDraw(p1OrderWaiting4th, 0, orderStateIconPosY) end --Pos 4 State
+				if not p1BtnD then animPosDraw(p1OrderDone, 0, orderStateIconPosY) else animPosDraw(p1OrderWaiting4th, 0, orderStateIconPosY) end --Pos 4 State
 			end
 		end
 	--Right Side
@@ -12331,15 +12332,16 @@ function f_orderSelectButton()
 			animPosDraw(p2OrderCursor, 305, 168+14*n)
 			textImgSetText(txt_p2OrderNo, n)
 			textImgPosDraw(txt_p2OrderNo, 310, 176+14*n)
-			if p2Pos1 then animPosDraw(p2OrderDone, 173, orderStateIconPosY) else animPosDraw(p2OrderWaiting1st, 173, orderStateIconPosY) end
+			animPosDraw(t_orderButtons[n].spr, 150+n*35, 140)
+			if not p2BtnA then animPosDraw(p2OrderDone, 173, orderStateIconPosY) else animPosDraw(p2OrderWaiting1st, 173, orderStateIconPosY) end
 			if #data.t_p2selected >= 2 then
-				if p2Pos2 then animPosDraw(p2OrderDone, 208, orderStateIconPosY) else animPosDraw(p2OrderWaiting2nd, 208, orderStateIconPosY) end
+				if not p2BtnB then animPosDraw(p2OrderDone, 208, orderStateIconPosY) else animPosDraw(p2OrderWaiting2nd, 208, orderStateIconPosY) end
 			end
 			if #data.t_p2selected >= 3 then
-				if p2Pos3 then animPosDraw(p2OrderDone, 243, orderStateIconPosY) else animPosDraw(p2OrderWaiting3rd, 243, orderStateIconPosY) end
+				if not p2BtnC then animPosDraw(p2OrderDone, 243, orderStateIconPosY) else animPosDraw(p2OrderWaiting3rd, 243, orderStateIconPosY) end
 			end
 			if #data.t_p2selected >= 4 then
-				if p2Pos4 then animPosDraw(p2OrderDone, 278, orderStateIconPosY) else animPosDraw(p2OrderWaiting4th, 278, orderStateIconPosY) end
+				if not p2BtnD then animPosDraw(p2OrderDone, 278, orderStateIconPosY) else animPosDraw(p2OrderWaiting4th, 278, orderStateIconPosY) end
 			end
 		end
 	--Draw Title
