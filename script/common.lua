@@ -10,10 +10,12 @@ package.cpath = "./lib/lua/?.dll;" ..
 --Configure search paths for Lua libraries
 package.path = "./?.lua;" ..
 				"./lib/lua/?.lua;" ..
+				"./lib/lua/htmlparser/?.lua;" ..
 				"./lib/lua/luasocket/?.lua;"
 				
 --Load LuaFileSystem library
 lfs = require("lfs")
+htmlparser = require("htmlparser") --Load htmlparser library
 --Load LuaSocket libraries
 socket = require("socket")
 http = require("socket.http")

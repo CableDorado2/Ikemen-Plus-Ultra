@@ -2149,6 +2149,7 @@ animUpdate(footerBG)
 --; ORDER SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_orderSelect = createTextImg(font14, 0, 0, "ORDER SELECT", 160, 10)
+txt_orderRandom = createTextImg(jgFnt, 0, 0, "RANDOM", 160, 238)
 txt_orderTime = createTextImg(jgFnt, 0, 0, "", 160, 65)
 txt_p1State = createTextImg(jgFnt, 0, 0, "", 78, 22)
 txt_p2State = createTextImg(jgFnt, 0, 0, "", 241, 22)

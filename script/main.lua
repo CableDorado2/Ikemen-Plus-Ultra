@@ -6991,6 +6991,22 @@ function f_selectChar(player, t)
 	end
 end
 
+function f_checkTeamDuplicates(t, cell)
+	if not data.teamDuplicates or t == nil then
+		local t_team = t
+		local pass = true
+		for i=1, #t_team do
+			if cell == t_team[i].cel then
+				pass = false
+				break --exits the cycle once it finds a match
+			end
+		end
+		return pass
+	else
+		return true
+	end
+end
+
 function f_findCelYAdd(selY, faceOffset, offsetRow)
 	selY = selY + 1
 	if selY >= selectRows+offsetRows then
@@ -7483,11 +7499,14 @@ function f_selectScreen()
 			for j=0, selectRows-1 do
 				animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
 				animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
-				--[[Draw Locked Icon
-				if t_unlockLua.chars[t_selChars[(p1SelX+selectColumns*p1SelY)+1].char] ~= nil and not onlinegame then
-					animPosDraw(cellLock, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw Lock Icon if the character is locked
+			--[[Draw Locked Icon
+				local items = (i + selectColumns * j) + 1
+				if items <= #t_selChars then
+					if t_unlockLua.chars[t_selChars[items].char] ~= nil and not onlinegame then
+						animPosDraw(cellLock, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw Lock Icon if the character is locked
+					end
 				end
-				]]
+			--]]
 			end
 		end
 		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
@@ -8873,9 +8892,9 @@ function f_p1SelectMenu()
 				end
 			end
 			if btnPalNo(p1Cmd, true) > 0 then
-				if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil or onlinegame then --This character is unlocked
+				if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil or f_checkTeamDuplicates(data.t_p1selected, p1Cell+1) or onlinegame then --This character is unlocked
 					f_p1Selection()
-				elseif t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not onlinegame then --Character locked if unlock=0 paramvalue is in Character section of select.def
+				elseif t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil or not f_checkTeamDuplicates(data.t_p1selected, p1Cell+1) and not onlinegame then --Character locked if unlock=0 paramvalue is in Character section of select.def
 					sndPlay(sndSys, 100, 5)
 				end
 			elseif selectTimer == 0 then
@@ -12346,6 +12365,9 @@ function f_orderSelectButton()
 		end
 	--Draw Title
 		textImgDraw(txt_orderSelect)
+	--Draw Random Order Stuff
+		animPosDraw(orderBtnS, 150, 205)
+		textImgDraw(txt_orderRandom)
 	--Draw Assets
 		animUpdate(vsLogo)
 		animDraw(vsLogo)
