@@ -66,8 +66,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 **v1.5 (Next Update)**
 ------------
 
-- Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, bloquee la casilla como los unlocks, si está activada la opción.
-
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
 - Leer archivos movelist.dat dentro de los chars.
