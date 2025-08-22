@@ -8892,15 +8892,27 @@ function f_p1SelectMenu()
 				end
 			end
 			if btnPalNo(p1Cmd, true) > 0 then
-				if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil or f_checkTeamDuplicates(data.t_p1selected, p1Cell+1) or onlinegame then --This character is unlocked
+				if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p1selected, p1Cell) or onlinegame then --This character is unlocked
 					f_p1Selection()
-				elseif t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil or not f_checkTeamDuplicates(data.t_p1selected, p1Cell+1) and not onlinegame then --Character locked if unlock=0 paramvalue is in Character section of select.def
+				else--if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p1selected, p1Cell) and not onlinegame then --Character locked
 					sndPlay(sndSys, 100, 5)
 				end
 			elseif selectTimer == 0 then
-				if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not onlinegame then --Select random character to prevent issues when time to select is over
-					p1Cell = t_randomChars[math.random(#t_randomChars)]
+				local getRandomCell = nil
+			--Select random character to prevent issues when time to select is over
+				if not data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil then
+					for i=1, #data.t_p1selected do
+						for available=1, #t_randomChars do
+							if t_randomChars[available] ~= data.t_p1selected[i].cel then
+								getRandomCell = t_randomChars[available]
+								break --exits the cycle once it finds a match
+							end
+						end
+					end
+				else--if data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil then
+					getRandomCell = t_randomChars[math.random(#t_randomChars)]
 				end
+				p1Cell = getRandomCell
 				f_p1Selection()
 			end
 		--When all selections are finished for 1 character
@@ -10376,13 +10388,13 @@ function f_p2SelectMenu()
 				end
 			end
 			if btnPalNo(p2Cmd, true) > 0 then
-				if t_unlockLua.chars[t_selChars[p2Cell+1].char] == nil or onlinegame then
+				if t_unlockLua.chars[t_selChars[p2Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p2selected, p2Cell) or onlinegame then
 					f_p2Selection()
-				elseif t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not onlinegame then
+				else--if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) and not onlinegame then
 					sndPlay(sndSys, 100, 5)
 				end
 			elseif selectTimer == 0 then
-				if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not onlinegame then
+				if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) then
 					p2Cell = t_randomChars[math.random(#t_randomChars)]
 				end
 				f_p2Selection()
