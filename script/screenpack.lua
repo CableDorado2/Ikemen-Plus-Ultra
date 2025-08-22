@@ -2571,7 +2571,7 @@ animUpdate(rankWindowBG)
 --; SERVICE SCREENPACK
 --;===========================================================
 txt_service = createTextImg(jgFnt, 0, 0, "CONTINUE SERVICE", 159, 13)
-txt_serviceTime = createTextImg(jgFnt, 0, 0, "", 160, 122)
+txt_serviceTime = createTextImg(jgFnt, 0, 0, "", 160, 235)
 txt_noService = createTextImg(font2, 0, 0, "", 159.5, 210)
 
 txt_noServiceCoop = "This service is Unavailable in Co-Op Mode."

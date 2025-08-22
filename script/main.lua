@@ -13636,8 +13636,14 @@ function f_service()
 		end
 	--When Attract Mode is Enabled
 		if data.attractMode then
+			local creditsY = nil
 			drawAttractStatus(2, 318, 10, -1)
-			f_attractCredits(318, 218, -1)
+			if data.serviceType == "Button" then
+				creditsY = 238
+			elseif data.serviceType == "Cursor" then
+				creditsY = 218
+			end
+			f_attractCredits(318, creditsY, -1)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
