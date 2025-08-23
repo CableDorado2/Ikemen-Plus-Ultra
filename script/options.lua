@@ -320,7 +320,7 @@ function f_saveCfg()
 	--System Data
 		['data.language'] = data.language,
 		['data.clock'] = data.clock,
-		['data.date'] = data.date,
+		['data.dateFormat'] = data.dateFormat,
 		['data.attractMode'] = data.attractMode,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.winscreen'] = data.winscreen,
@@ -621,8 +621,8 @@ end
 function f_systemDefault()
 	if not onlinegame then
 		data.language = "ENGLISH"
-		data.clock = "Standard"
-		data.date = "Type A"
+		data.clock = 1
+		data.dateFormat = 1
 	end
 	data.attractMode = false
 	data.vsDisplayWin = true
@@ -2999,8 +2999,8 @@ txt_UICfg = createTextImg(jgFnt, 0, 0, "SYSTEM SETTINGS", 159, 13)
 
 t_UICfg = {
 	{text = "Language", 		         varText = data.language},
-	{text = "Clock Format",              varText = data.clock},
-	{text = "Date Format",               varText = data.date},
+	{text = "Clock Format",              varText = ""},
+	{text = "Date Format",               varText = ""},
 	{text = "Attract Mode",  	      	 varText = ""},
 	{text = "Portrait Display",		     varText = data.portraitDisplay},
 	{text = "Versus Win Counter",  	     varText = ""},
@@ -3076,74 +3076,62 @@ function f_UICfg()
 					end
 				]]
 				end
-		--Clock Display
+		--Clock Format Display
 			elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
 				else
-					if commandGetState(p1Cmd, 'r') and data.clock == "Standard" then
-						sndPlay(sndSys, 100, 0)
-						data.clock = "Full Standard"
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if commandGetState(p1Cmd, 'r') and data.clock < #t_clockFormats then sndPlay(sndSys, 100, 0) end
+						if data.clock < #t_clockFormats then
+							data.clock = data.clock + 1
+						end
 						modified = 1
-					elseif commandGetState(p1Cmd, 'r') and data.clock == "Full Standard" then
-						sndPlay(sndSys, 100, 0)
-						data.clock = "Military"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'r') and data.clock == "Military" then
-						sndPlay(sndSys, 100, 0)
-						data.clock = "Full Military"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Standard" then
-						sndPlay(sndSys, 100, 0)
-						data.clock = "Standard"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.clock == "Military" then
-						sndPlay(sndSys, 100, 0)
-						data.clock = "Full Standard"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Military" then
-						sndPlay(sndSys, 100, 0)
-						data.clock = "Military"
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if commandGetState(p1Cmd, 'l') and data.clock > 1 then sndPlay(sndSys, 100, 0) end
+						if data.clock > 1 then
+							data.clock = data.clock - 1
+						end
 						modified = 1
 					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
 				end
-		--Date Display
+		--Date Format Display
 			elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
 				else
-					if commandGetState(p1Cmd, 'r') and data.date == "Type A" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type B"
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if commandGetState(p1Cmd, 'r') and data.dateFormat < #t_dateFormats then sndPlay(sndSys, 100, 0) end
+						if data.dateFormat < #t_dateFormats then
+							data.dateFormat = data.dateFormat + 1
+						end
 						modified = 1
-					elseif commandGetState(p1Cmd, 'r') and data.date == "Type B" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type C"
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if commandGetState(p1Cmd, 'l') and data.dateFormat > 1 then sndPlay(sndSys, 100, 0) end
+						if data.dateFormat > 1 then
+							data.dateFormat = data.dateFormat - 1
+						end
 						modified = 1
-					elseif commandGetState(p1Cmd, 'r') and data.date == "Type C" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type D"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'r') and data.date == "Type D" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type E"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.date == "Type B" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type A"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.date == "Type C" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type B"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.date == "Type D" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type C"
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.date == "Type E" then
-						sndPlay(sndSys, 100, 0)
-						data.date = "Type D"
-						modified = 1
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
 					end
 				end
 		--Attract Mode
@@ -3303,8 +3291,8 @@ function f_UICfg()
 			end
 		end	
 		t_UICfg[1].varText = data.language
-		t_UICfg[2].varText = data.clock
-		t_UICfg[3].varText = data.date
+		t_UICfg[2].varText = os.date(t_clockFormats[data.clock].locale)
+		t_UICfg[3].varText = os.date(t_dateFormats[data.dateFormat])
 		if data.attractMode then t_UICfg[4].varText = "Enabled" else t_UICfg[4].varText = "Disabled" end
 		t_UICfg[5].varText = data.portraitDisplay
 		if data.vsDisplayWin then t_UICfg[6].varText = "Yes" else t_UICfg[6].varText = "No" end
@@ -8485,8 +8473,8 @@ txt_gameVNcfg = createTextImg(jgFnt, 0, 0, "GAME SETTINGS", 159, 13)
 
 t_gameVNcfg = {
 	{text = "Language", 		        varText = data.language},
-	{text = "Clock Format",             varText = data.clock},
-	{text = "Date Format",              varText = data.date},
+	{text = "Clock Format",             varText = ""},
+	{text = "Date Format",              varText = ""},
 	{text = "Text Speed", 			 	varText = ""},
 	{text = "Text BG Transparency", 	varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
 	{text = "Auto Skip Text", 		 	varText = ""},
@@ -8551,67 +8539,55 @@ function f_gameVNcfg()
 					needReload = 1
 				end
 			]]
-		--Clock Display
+		--Clock Format Display
 			elseif gameVNcfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if commandGetState(p1Cmd, 'r') and data.clock == "Standard" then
-					sndPlay(sndSys, 100, 0)
-					data.clock = "Full Standard"
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.clock < #t_clockFormats then sndPlay(sndSys, 100, 0) end
+					if data.clock < #t_clockFormats then
+						data.clock = data.clock + 1
+					end
 					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.clock == "Full Standard" then
-					sndPlay(sndSys, 100, 0)
-					data.clock = "Military"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.clock == "Military" then
-					sndPlay(sndSys, 100, 0)
-					data.clock = "Full Military"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Standard" then
-					sndPlay(sndSys, 100, 0)
-					data.clock = "Standard"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.clock == "Military" then
-					sndPlay(sndSys, 100, 0)
-					data.clock = "Full Standard"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.clock == "Full Military" then
-					sndPlay(sndSys, 100, 0)
-					data.clock = "Military"
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.clock > 1 then sndPlay(sndSys, 100, 0) end
+					if data.clock > 1 then
+						data.clock = data.clock - 1
+					end
 					modified = 1
 				end
-		--Date Display
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+		--Date Format Display
 			elseif gameVNcfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if commandGetState(p1Cmd, 'r') and data.date == "Type A" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type B"
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.dateFormat < #t_dateFormats then sndPlay(sndSys, 100, 0) end
+					if data.dateFormat < #t_dateFormats then
+						data.dateFormat = data.dateFormat + 1
+					end
 					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.date == "Type B" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type C"
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.dateFormat > 1 then sndPlay(sndSys, 100, 0) end
+					if data.dateFormat > 1 then
+						data.dateFormat = data.dateFormat - 1
+					end
 					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.date == "Type C" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type D"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.date == "Type D" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type E"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.date == "Type B" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type A"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.date == "Type C" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type B"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.date == "Type D" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type C"
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.date == "Type E" then
-					sndPlay(sndSys, 100, 0)
-					data.date = "Type D"
-					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
 				end
 		--Text Speed
 			elseif gameVNcfg == 4 then
@@ -8709,8 +8685,8 @@ function f_gameVNcfg()
 			end
 		end	
 		t_gameVNcfg[1].varText = data.language
-		t_gameVNcfg[2].varText = data.clock
-		t_gameVNcfg[3].varText = data.date
+		t_gameVNcfg[2].varText = os.date(t_clockFormats[data.clock].locale)
+		t_gameVNcfg[3].varText = os.date(t_dateFormats[data.dateFormat])
 		if data.VNdelay == 3 then t_gameVNcfg[4].varText = "Slow"
 		elseif data.VNdelay == 2 then t_gameVNcfg[4].varText = "Normal"
 		elseif data.VNdelay == 1 then t_gameVNcfg[4].varText = "Fast"

@@ -3751,79 +3751,77 @@ sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))
 
+t_dateFormats = {
+	"%Y-%m-%d", --ISO
+	"%d.%m.%Y", --European
+	"%m-%d-%Y", --US
+	"%A, %d %B %Y", --Full
+	"%a %d %b %Y", --Abbreviated
+	"%m-%d-%y", --ShortMonth-Day-Year
+	"%A", --FullDayName
+	"%B %Y", --FullMonthYear
+}
+t_clockFormats = {
+--Standard
+	{
+		locale = "%I:%M%p",
+		utc = "!%I:%M%p",
+	},
+--Full Standard
+	{
+		locale = "%I:%M:%S%p",
+		utc = "!%I:%M:%S%p",
+	},
+--Military
+	{
+		locale = "%H:%M",
+		utc = "!%H:%M",
+	},
+--Full Military
+	{
+		locale = "%X",
+		utc = "!%X",
+	},
+}
+
 function f_sysTime()
-	local clockPosX = 0
-	local clockPosY = 8
-	local clockStandard = (os.date("%I:%M%p"))
-	local clockFullStandard = (os.date("%I:%M%p:%S"))
-	local clockMilitary = (os.date("%H:%M"))
-	local clockFullMilitary = (os.date("%X"))
-	--
 	local datePosX = 0
 	local datePosY = 8
-	local dateTypeA = (os.date("%m-%d-%y"))
-	local dateTypeB = (os.date("%d-%m-%Y"))
-	local dateTypeC = (os.date("%a %d.%b.%Y"))
-	local dateTypeD = (os.date("%A"))
-	local dateTypeE = (os.date("%B.%Y"))
+	local clockPosX = 0
+	local clockPosY = 8
 --4:3 Resolution
 	if (resolutionHeight / 3 * 4) == resolutionWidth then
-		clockPosX = 314
-		--clockPosY = 8
 		datePosX = 8
 		--datePosY = 8
+		clockPosX = 314
+		--clockPosY = 8
 --16:10 Resolution
 	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
-		clockPosX = 345
-		--clockPosY = 8
 		datePosX = -25
 		--datePosY = 8
+		clockPosX = 345
+		--clockPosY = 8
 --16:9 Resolution
 	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
-		clockPosX = 365
-		--clockPosY = 8
 		datePosX = -45
 		--datePosY = 8
+		clockPosX = 365
+		--clockPosY = 8
 --Extra Resolution
 	else
-		clockPosX = 345
-		--clockPosY = 8
 		datePosX = -25
 		--datePosY = 8
-	end
---Set Clock
-	if data.clock == "Standard" then
-		textImgSetText(txt_titleClock, clockStandard)
-		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
-	elseif data.clock == "Full Standard" then
-		textImgSetText(txt_titleClock, clockFullStandard)
-		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
-	elseif data.clock == "Military" then
-		textImgSetText(txt_titleClock, clockMilitary)
-		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
-	elseif data.clock == "Full Military" then
-		textImgSetText(txt_titleClock, clockFullMilitary)
-		textImgSetPos(txt_titleClock, clockPosX, clockPosY)
+		clockPosX = 345
+		--clockPosY = 8
 	end
 --Set Date
-	if data.date == "Type A" then
-		textImgSetText(txt_titleDate, dateTypeA)
-		textImgSetPos(txt_titleDate, datePosX, datePosY)
-	elseif data.date == "Type B" then
-		textImgSetText(txt_titleDate, dateTypeB)
-		textImgSetPos(txt_titleDate, datePosX, datePosY)
-	elseif data.date == "Type C" then
-		textImgSetText(txt_titleDate, dateTypeC)
-		textImgSetPos(txt_titleDate, datePosX, datePosY)
-	elseif data.date == "Type D" then
-		textImgSetText(txt_titleDate, dateTypeD)
-		textImgSetPos(txt_titleDate, datePosX, datePosY)
-	elseif data.date == "Type E" then
-		textImgSetText(txt_titleDate, dateTypeE)
-		textImgSetPos(txt_titleDate, datePosX, datePosY)
-	end
-	textImgDraw(txt_titleClock) --Draw Clock
+	textImgSetText(txt_titleDate, os.date(t_dateFormats[data.dateFormat]))
+	textImgSetPos(txt_titleDate, datePosX, datePosY)
 	textImgDraw(txt_titleDate) --Draw Date
+--Set Clock
+	textImgSetText(txt_titleClock, os.date(t_clockFormats[data.clock].locale))
+	textImgSetPos(txt_titleClock, clockPosX, clockPosY)
+	textImgDraw(txt_titleClock) --Draw Clock
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
