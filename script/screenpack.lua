@@ -1250,6 +1250,8 @@ txt_hostTitle = createTextImg(jgFnt, 5, 0, "ONLINE ROOM CREATED", 159, 13)
 txt_netPort = createTextImg(jgFnt, 0, 0, "", 159, 72, 0.9, 0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, "", 159, 228)
 txt_cancel = createTextImg(jgFnt, 1, 0, "CANCEL(ESC)", 161, 165)
+txt_noInternet = "UNABLE TO CONNECT TO INTERNET"
+txt_connectingNet = "CONNECTING TO NETWORK..."
 
 --IP Window BG
 textWindowBG = animNew(sprIkemen, [[

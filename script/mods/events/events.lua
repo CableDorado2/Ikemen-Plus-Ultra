@@ -12,6 +12,7 @@ txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
 txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
 txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
 txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
+txt_eventCancel = "EVENT TIME UNAVAILABLE"
 
 txt_eventIncomplete = "INCOMPLETE"
 txt_eventClear = "COMPLETED"
@@ -94,30 +95,6 @@ function f_eventTime()
 	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 	--sysTime3 = tonumber(os.date("%m"))
-	--Clock
-	if data.clock == "Standard" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
-	elseif data.clock == "Full Standard" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
-	elseif data.clock == "Military" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
-	elseif data.clock == "Full Military" then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
-	end
-	--Date
-	if data.date == "Type A" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
-	elseif data.date == "Type B" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
-	elseif data.date == "Type C" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
-	elseif data.date == "Type D" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
-	elseif data.date == "Type E" then
-		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
-	end
-	textImgDraw(txt_titleClock) --Draw Clock
-	textImgDraw(txt_titleDate) --Draw Date
 end
 --;===========================================================
 --; EVENTS MENU (complete customizable tasks at certain hours, days, weeks, months or years)
@@ -148,13 +125,16 @@ function f_eventMenu()
 	f_resetEventArrowsPos()
 	f_unlock(false)
 	f_updateUnlocks()
+	f_netTimeInfoReset()
+	f_resetNetTimeVars()
+	netTimeInfoScreen = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 	--Event Progress Logic
 		stats.modes.event.clearall = (stats.modes.event.clear1 + stats.modes.event.clear2 + stats.modes.event.clear3)
 		eventsData = (math.floor((stats.modes.event.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
 		textImgSetText(txt_eventProgress,"["..eventsData.."%]")
-		if not eventLocked then
+		if not eventLocked and not netTimeInfoScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				f_saveStats()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -169,7 +149,7 @@ function f_eventMenu()
 			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
 			--EVENT AVAILABLE
-				if t_unlockLua.modes[t_events[eventMenu].id] == nil then --If the event is unlocked
+				if t_unlockLua.modes[t_events[eventMenu].id] == nil and netTime ~= nil then --If the event is unlocked
 					f_default()
 					data.rosterMode = "event"
 					setGameMode('event')
@@ -259,7 +239,7 @@ function f_eventMenu()
 				else previewScaleY = eventCommonScaleY
 				end
 				--
-				if t_unlockLua.modes[t_events[i].id] == nil then --If the event is unlocked
+				if t_unlockLua.modes[t_events[i].id] == nil and netTime ~= nil then --If the event is unlocked
 					previewTransS = nil
 					previewTransD = nil
 				else
@@ -270,22 +250,28 @@ function f_eventMenu()
 			--Draw Event Slot Icon
 				f_drawQuickSpr(eventSlot, eventSlotPosX+i*105-moveTxt, eventSlotPosY, eventSlotScaleX, eventSlotScaleY, previewTransS, previewTransD)
 			--Draw Padlock Icon
-				if t_unlockLua.modes[t_events[i].id] ~= nil then
+				if t_unlockLua.modes[t_events[i].id] ~= nil or netTime == nil then
 					animPosDraw(padlock, padlockEventPosX+i*105-moveTxt, padlockEventPosY)
 				end
 			end
 		end
 	--Draw Event Cursor
-		if not eventLocked then
+		if not eventLocked and not netTimeInfoScreen then
 			animSetWindow(cursorBox, -100+cursorPosX*104.5,51, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--Draw Event Info
-		if t_unlockLua.modes[t_events[eventMenu].id] == nil then
+		if t_unlockLua.modes[t_events[eventMenu].id] == nil and netTime ~= nil then
 			previewInfotxt = t_events[eventMenu].infounlock
 		else
-			previewInfotxt = t_events[eventMenu].infolock
+		--Unable to connect to internet time. Close event
+			if netTime == nil then
+				if netTimeInfoScreen then previewInfotxt = "" else previewInfotxt = txt_eventCancel end
+		--It's Not the time yet
+			else
+				previewInfotxt = t_events[eventMenu].infolock
+			end
 		end
 		textImgDraw(f_updateTextImg(t_events[eventMenu].txtID, font11, 0, 0, previewInfotxt, 160, 34))
 		f_eventTime() --Draw Date and Time
@@ -299,7 +285,10 @@ function f_eventMenu()
 			animDraw(menuArrowRight)
 			animUpdate(menuArrowRight)
 		end
-		if eventLocked then f_eventLocked() else drawEventInputHints() end --Show Locked Event Info Message
+		if eventLocked then f_eventLocked() --Show Locked Event Info Message
+		elseif netTimeInfoScreen then f_netTimeInfo()
+		else drawEventInputHints()
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
@@ -333,7 +322,6 @@ function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY, alphaS, al
 	--return anim
 end
 
---[[
 function countdown(t) --TODO make a Countdown for the sysTime Event
 	local d = math.floor(t / 86400)
 	local h = math.floor((t % 86400) / 3600)
@@ -341,7 +329,48 @@ function countdown(t) --TODO make a Countdown for the sysTime Event
 	local s = math.floor((t % 60))
 	return string.format("%d:%02d:%02d:%02d", d, h, m, s)
 end
-]]
+
+function f_netTimeInfo()
+	cmdInput()
+	local txt = ""
+	local posX = 160
+	local posY = 105
+	local limit = 70
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(infoWindowBG)
+--Draw Info Title Text
+	textImgDraw(txt_infoTitle)
+--Connect to Internet Time
+	if netTimeCount > 30 then
+		if netTimeCount < 32 then loadNetTime() end
+	--Unable to Connect
+		if netTime == nil then
+			txt = txt_noInternet.."\n"..netLog
+		--Draw Input Hints Panel
+			drawInfoInputHints()
+		--Accept Button
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				sndPlay(sndSys, 100, 2)
+				f_netTimeInfoReset()
+			end
+		else
+			f_netTimeInfoReset()
+		end
+--Waiting to Connect
+	else
+		txt = txt_connectingNet
+		netTimeCount = netTimeCount + 1
+	end
+--Draw Info Text
+	f_textRender(txt_info, txt, 0, posX, posY, 10, 0, limit)
+end
+
+function f_netTimeInfoReset()
+	netTimeInfoScreen = false
+	netTimeCount = 0
+end
 
 function f_eventLocked()
 	cmdInput()

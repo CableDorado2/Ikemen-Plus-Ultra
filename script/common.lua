@@ -3783,6 +3783,70 @@ t_clockFormats = {
 		utc = "!%X",
 	},
 }
+netLastUpdate = 0
+netUpdateInterval = 60 --Seconds between each net API request
+function f_resetNetTimeVars()
+netTime = nil
+netDate = nil
+netLog = ""
+end
+f_resetNetTimeVars()
+function loadNetTime()
+	local response_body = {}
+	local reques, code, response_headers = http.request{
+		url = "http://worldclockapi.com/api/json/utc/now",
+		sink = ltn12.sink.table(response_body)
+	}
+	if reques == 1 and code == 200 then
+		local response_str = table.concat(response_body)
+		local decoded = json.decode(response_str)
+		if decoded and decoded.currentDateTime then
+		--Get Date and Time
+			local datetime_str = decoded.currentDateTime --Example: "2025-10-09T14:23Z"
+		--Separate Date and Time
+			local date_part, time_part = datetime_str:match("^(%d+-%d+-%d+)T(%d+:%d+)")
+			--netTime = "Hour: " .. time_part
+			netDate = "Date: " .. date_part
+		--Convert time_part to hour in UTC format
+			local h, m, s = time_part:match("^(%d+):(%d+):?(%d*)")
+			s = s ~= "" and tonumber(s) or 0
+			h = tonumber(h)
+			m = tonumber(m)
+		--Create timestamp in UTC
+			local utc_timestamp = os.time{
+				year = tonumber(date_part:sub(1,4)),
+				month = tonumber(date_part:sub(6,7)),
+				day = tonumber(date_part:sub(9,10)),
+				hour = h,
+				min = m,
+				sec = s
+			}
+		--To keep UTC format use "!" at the beginning: os.date("!%I:%M%p", utc_timestamp)
+			netTime = os.date(t_clockFormats[data.clock].locale, utc_timestamp)
+			return true
+		else
+			netTime = nil
+			netDate = netTime
+			netLog = 'JSON does not contains "currentDateTime"'
+			return false --Unable to connect
+		end
+	else
+		netTime = nil
+		netDate = netTime
+		netLog = "Error requesting HTTP: Code " .. tostring(code)
+		return false --Unable to connect
+	end
+end
+
+function updateNetTime() --To use inside loops
+	local netCurrentTime = os.time()
+--Update every netUpdateInterval seconds
+	if netCurrentTime - netLastUpdate >= netUpdateInterval then
+		if loadNetTime() then
+			netLastUpdate = netCurrentTime
+		end
+	end
+end
 
 function f_sysTime()
 	local datePosX = 0
