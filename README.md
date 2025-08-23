@@ -98,6 +98,9 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Implementar los parametros: ordersurvival, hidden, slot en select.def
 
+- Añadir al menú de perfil, una entrada para crear o editar equipos predefinidos que puedas elegir en el Character Select al jugar en Simul o Turns, como "Reserve Unit" de Ultimate Marvel vs Capcom 3:
+![20250822233724_1](https://github.com/user-attachments/assets/a9241ef6-f0dc-4de4-9c54-93bcd7161974)
+
 - En tournament cuando 2 jugadores humanos tienen el mismo control ejemplo p1 y p1, podría incluir un side select para que uno de los 2 se convierta en p2 y así evitar que se controlen como espejo al tener el mismo player asignado.
 
 - Añadir una entrada de nombre para cada char escogido para que sea reconocido en el torneo (en caso de que se repita) y ese name que aparezca en lifebar durante el match.
