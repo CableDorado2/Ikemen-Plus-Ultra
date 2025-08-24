@@ -10,16 +10,6 @@ It's meant to be a reference for adding parameters to your own events.def file.
 Load event assets.
 Event items added are displayed in: Extras - Events submenu.
 
-- preview.file = path.sff
-Set the name of the sprites file to use for event items.
-
-- preview.common.pos(unused)= posX, posY
-Set posX and posY to all sprite previews defined in preview.spr paramvalue.
-
-- preview.common.scale(unused)= scaleX, scaleY
-Set scaleX and scaleY to all sprite previews defined in preview.spr paramvalue.
-
-
 Setup following parameters below "[Event <0...>]" section:
 
 - id = text
@@ -29,20 +19,17 @@ assigned before any other parameter used by the same event.
 All events should have unique id names.
 
 - info = text
-Set the info text that should be displayed for a event unlocked.
+Set the info text that should be displayed for an event unlocked.
 
-- info.locked = text
-Set the info text that should be displayed for a event locked.
-
-- preview.spr = <groupNo,indexNo>
+- previewspr = <groupNo,indexNo>
 Set groupNo and indexNo to read from sprite file defined in
-preview.file paramvalue to show sprite preview for item.
+"eventSpr" events.lua file, to show sprite preview for item.
 
-- preview.pos = <posX,posY>
-Set posX and posY to sprite preview defined in preview.spr paramvalue.
+- previewpos = <posX,posY>
+Set posX and posY to sprite preview defined in "eventSpr" events.lua file.
 
-- preview.scale = <scaleX,scaleY>
-Set scaleX and scaleY to sprite preview defined in preview.spr paramvalue.
+- previewscale = <scaleX,scaleY>
+Set scaleX and scaleY to sprite preview defined in "eventSpr" events.lua file.
 
 - path = path.lua
 Path to file with lua extension (relative to game directory)
@@ -57,22 +44,18 @@ Default: true.
 ;---------------------------------------------------------------------------------
 Some Examples:
 
-preview.file = data/events/events.sff
-
 [Event 1]
 id = event1
 info = Trouble Dude
-info.locked = WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00
-preview.spr = 0,1
+previewspr = 0,1
 path = data/events/event1.lua
 unlock = sysTime >= 13 and sysTime <= 23 ;Event Available at this Time!
 
 [Event 2]
 id = event2
 info = All-Star Match 1
-info.locked = COMPLETE EVENT 1
-preview.spr = 0,2
-preview.pos = 20,60
-preview.scale = 0.5,0.8
+previewspr = 0,2
+previewpos = 20,60
+previewscale = 0.5,0.8
 path = data/events/event2.lua
 unlock = stats.modes.event1.score > 0

@@ -3745,11 +3745,15 @@ function f_soundtrack()
 end
 
 --;===========================================================
---; CLOCK AND DATE PANEL
+--; DATE AND CLOCK DATA
 --;===========================================================
-sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
---sysTime3 = tonumber(os.date("%m"))
+--Assigns Date components to a variable based on the system clock
+sysYear = tonumber(os.date("%Y")) --Current Year
+sysMonth = os.date("%b") --Current Month
+sysDay = tonumber(os.date("%d")) --Current Day
+sysHour = tonumber(os.date("%H")) --Current Hour (Useful for day/night features).
+sysMinutes = tonumber(os.date("%M")) --Current Minute
+sysSeconds = tonumber(os.date("%S")) --Current Second
 
 t_dateFormats = {
 	"%Y-%m-%d", --ISO
@@ -3761,6 +3765,7 @@ t_dateFormats = {
 	"%A", --FullDayName
 	"%B %Y", --FullMonthYear
 }
+
 t_clockFormats = {
 --Standard
 	{
@@ -3783,6 +3788,7 @@ t_clockFormats = {
 		utc = "!%X",
 	},
 }
+
 netLastUpdate = 0
 netUpdateInterval = 60 --Seconds between each net API request
 function f_resetNetTimeVars()
@@ -3791,7 +3797,8 @@ netDate = nil
 netLog = ""
 end
 f_resetNetTimeVars()
-function loadNetTime()
+
+function loadNetTime() --One-time Load
 	local response_body = {}
 	local reques, code, response_headers = http.request{
 		url = "http://worldclockapi.com/api/json/utc/now",
@@ -3896,6 +3903,133 @@ function f_sysTime()
 	end
 end
 
+function f_timeCountdown(args)
+--args is a table that can have keys: year, month, day, hour, min, sec
+--Example: f_timeCountdown({year=2025}, {month="Sep"}, {day=15},).
+    local now = os.time() --Get the current date and time
+--Convert date inputs into a table to create the target timestamp
+	local targetDate = {
+		year = tonumber(args.year),
+		month = nil,
+		day = nil,
+		hour = tonumber(args.hour) or 0,
+		min = tonumber(args.min) or 0,
+		sec = tonumber(args.sec) or 0
+	}
+--Convert month to number if it is string
+	local monthNames = {
+		Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6,
+		Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12
+	}
+	if type(args.month) == "string" then
+		targetDate.month = monthNames[args.month]
+	elseif args.month then
+		targetDate.month = tonumber(targetMonth)
+	end
+--If the day is missing, day 1 is assumed
+	targetDate.day = tonumber(args.day) or 1
+--Create the destination timestamp
+    local targetTimestamp = os.time(targetDate)
+--Calculate difference in seconds
+	local diffSeconds = targetTimestamp - now
+	if diffSeconds < 0 then
+		diffSeconds = 0 --The date has already passed
+	end
+--Component calculation
+	local seconds_in_minute = 60
+	local seconds_in_hour = 3600
+	local seconds_in_day = 86400
+	local seconds_in_week = 7 * seconds_in_day
+	local seconds_in_month = 30 * seconds_in_day --approximate
+	local seconds_in_year = 365 * seconds_in_day --approximate
+	
+	local years = math.floor(diffSeconds / seconds_in_year)
+	diffSeconds = diffSeconds % seconds_in_year
+	
+	local months = math.floor(diffSeconds / seconds_in_month)
+	diffSeconds = diffSeconds % seconds_in_month
+	
+	local weeks = math.floor(diffSeconds / seconds_in_week)
+	diffSeconds = diffSeconds % seconds_in_week
+	
+	local days = math.floor(diffSeconds / seconds_in_day)
+	diffSeconds = diffSeconds % seconds_in_day
+	
+	local hours = math.floor(diffSeconds / seconds_in_hour)
+	diffSeconds = diffSeconds % seconds_in_hour
+	
+	local minutes = math.floor(diffSeconds / seconds_in_minute)
+	local seconds = diffSeconds % seconds_in_minute
+--Build the string according arguments added, omitting any 0 values
+	local parts = {}
+--Count how many arguments were added
+	local present_args = 0
+	for k,v in pairs(args) do
+		present_args = present_args + 1
+	end
+--Function to add only if that argument was passed
+	local function addPart(name, value)
+		if args[name] ~= nil then
+			table.insert(parts, value)
+		end
+	end
+--Only if there is a single argument, return only that value
+	if present_args == 1 then
+		for k,v in pairs(args) do
+			if k == "year" then
+				addPart(k, years .. " years")
+			elseif k == "month" then
+				addPart(k, months .. " months")
+			elseif k == "day" then
+				addPart(k, days .. " days")
+			elseif k == "hour" then
+				addPart(k, hours .. "h")
+			elseif k == "min" then
+				addPart(k, minutes .. "m")
+			elseif k == "sec" then
+				addPart(k, seconds .. "s")
+			end
+		end
+	--If for some reason it does not match, return "0" or similar
+		if #parts == 0 then
+			return "0"
+		else
+			return parts[1]
+		end
+	else
+	--If there are several values or none, show all that apply
+		if args.year ~= nil and years > 0 then
+			table.insert(parts, years .. " years")
+		end
+		if args.month ~= nil and months > 0 then
+			table.insert(parts, months .. " months")
+		end
+		if args.day ~= nil and days > 0 then
+			table.insert(parts, days .. " days")
+		end
+		if args.hour ~= nil and hours > 0 then
+			table.insert(parts, hours .. "h")
+		end
+		if args.min ~= nil and minutes > 0 then
+			table.insert(parts, minutes .. "m")
+		end
+		if args.sec ~= nil then
+			table.insert(parts, seconds .. "s")
+		end
+	--If none pass, show all
+		if #parts == 0 then
+		--Show Full Countdown
+			if years > 0 then table.insert(parts, years .. " years") end
+			if months > 0 then table.insert(parts, months .. " months") end
+			if weeks > 0 then table.insert(parts, weeks .. " weeks") end
+			if days > 0 then table.insert(parts, days .. " days") end
+			if hours > 0 then table.insert(parts, hours .. "h") end
+			if minutes > 0 then table.insert(parts, minutes .. "m") end
+			if seconds > 0 or #parts == 0 then table.insert(parts, seconds .. "s") end
+		end
+		return table.concat(parts, ", ") --Return the damn countdown
+	end
+end
 --;===========================================================
 --; UNLOCKS CHECKING
 --;===========================================================

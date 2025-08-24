@@ -4,6 +4,7 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 =================================================================================]]
 local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 eventDef = "script/mods/events/events.def" --Events Data (Events definition filename)
+eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --;===========================================================
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -91,13 +92,8 @@ function drawInfoEventInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Accept", 158, hintFontYPos)
 end
 
-function f_eventTime()
-	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
-	--sysTime3 = tonumber(os.date("%m"))
-end
 --;===========================================================
---; EVENTS MENU (complete customizable tasks at certain hours, days, weeks, months or years)
+--; EVENTS MENU (complete customizable tasks at certain times)
 --;===========================================================
 function f_eventMenu()
 	if data.debugMode then f_loadEvents() end
@@ -115,10 +111,6 @@ function f_eventMenu()
 	local bufr = 0
 	local bufl = 0
 	local previewInfotxt = nil
-	local previewPosX = nil
-	local previewPosY = nil
-	local previewScaleX = nil
-	local previewScaleY = nil
 	local previewTransS = nil
 	local previewTransD = nil
 	f_eventLockedReset()
@@ -226,19 +218,6 @@ function f_eventMenu()
 					textImgDraw(f_updateTextImg(t_events[i].txtID, jgFnt, bank, 0, t_events[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
-				if t_events[i].sprPosX ~= nil then previewPosX = t_events[i].sprPosX --Use position stored in events.def file
-				else previewPosX = eventCommonPosX --Use common position loaded in screenpack.lua
-				end
-				if t_events[i].sprPosY ~= nil then previewPosY = t_events[i].sprPosY
-				else previewPosY = eventCommonPosY
-				end
-				if t_events[i].sprScaleX ~= nil then previewScaleX = t_events[i].sprScaleX --Use scale stored in events.def file
-				else previewScaleX = eventCommonScaleX --Use common scale loaded in screenpack.lua
-				end
-				if t_events[i].sprScaleY ~= nil then previewScaleY = t_events[i].sprScaleY
-				else previewScaleY = eventCommonScaleY
-				end
-				--
 				if t_unlockLua.modes[t_events[i].id] == nil and netTime ~= nil then --If the event is unlocked
 					previewTransS = nil
 					previewTransD = nil
@@ -246,7 +225,12 @@ function f_eventMenu()
 					previewTransS = 150 --Apply Transparent
 					previewTransD = 0
 				end
-				f_drawEventPreview(t_events[i].sprGroup, t_events[i].sprIndex, previewPosX+i*105-moveTxt, previewPosY, previewScaleX, previewScaleY, previewTransS, previewTransD)
+				f_drawEventPreview(
+					t_events[i].previewspr[1], t_events[i].previewspr[2],
+					t_events[i].previewpos[1]+i*105-moveTxt, t_events[i].previewpos[2],
+					t_events[i].previewscale[1], t_events[i].previewscale[2],
+					previewTransS, previewTransD
+				)
 			--Draw Event Slot Icon
 				f_drawQuickSpr(eventSlot, eventSlotPosX+i*105-moveTxt, eventSlotPosY, eventSlotScaleX, eventSlotScaleY, previewTransS, previewTransD)
 			--Draw Padlock Icon
@@ -263,18 +247,25 @@ function f_eventMenu()
 		end
 	--Draw Event Info
 		if t_unlockLua.modes[t_events[eventMenu].id] == nil and netTime ~= nil then
-			previewInfotxt = t_events[eventMenu].infounlock
+			previewInfotxt = t_events[eventMenu].info
 		else
 		--Unable to connect to internet time. Close event
 			if netTime == nil then
 				if netTimeInfoScreen then previewInfotxt = "" else previewInfotxt = txt_eventCancel end
-		--It's Not the time yet
+		--It's Not the time yet (Show countdown)
 			else
-				previewInfotxt = t_events[eventMenu].infolock
+				local t_test = {
+					year = t_events[eventMenu].yearstart,
+					month = t_events[eventMenu].monthstart,
+					day = t_events[eventMenu].daystart,
+					hour = t_events[eventMenu].hourstart,
+					min = t_events[eventMenu].minutestart,
+					sec = t_events[eventMenu].secondstart,
+				}
+				previewInfotxt = f_timeCountdown(t_test)
 			end
 		end
 		textImgDraw(f_updateTextImg(t_events[eventMenu].txtID, font11, 0, 0, previewInfotxt, 160, 34))
-		f_eventTime() --Draw Date and Time
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
 			animDraw(menuArrowLeft)
@@ -313,21 +304,13 @@ function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY, alphaS, al
 	local alphaS = alphaS or 255
 	local alphaD = alphaD or 0
 	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(t_events.sffData, anim)
+	anim = animNew(eventSpr, anim)
 	animSetAlpha(anim, alphaS, alphaD)
 	animSetScale(anim, scaleX, scaleY)
 	animSetPos(anim, posX, posY)
 	animUpdate(anim)
 	animDraw(anim)
 	--return anim
-end
-
-function countdown(t) --TODO make a Countdown for the sysTime Event
-	local d = math.floor(t / 86400)
-	local h = math.floor((t % 86400) / 3600)
-	local m = math.floor((t % 3600) / 60)
-	local s = math.floor((t % 60))
-	return string.format("%d:%02d:%02d:%02d", d, h, m, s)
 end
 
 function f_netTimeInfo()
@@ -394,7 +377,6 @@ end
 function f_eventLockedReset()
 	eventLocked = false
 end
-
 --;===========================================================
 --; EVENT SAVE DATA
 --;===========================================================
@@ -411,112 +393,69 @@ end
 --;===========================================================
 function f_loadEvents()
 t_events = {}
-local file = io.open(eventDef,"r")
+local file = io.open(eventDef, "r")
 	if file ~= nil then
 		local section = 0
+		local row = 0
 		local content = file:read("*all")
 		file:close()
 		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 		content = content:gsub('\n%s*\n', '\n')
 		for line in content:gmatch('[^\r\n]+') do
-		--preview.file = filename (string)
-			if line:match('^%s*preview.file%s*=') then
-				local data = line:gsub('%s*;.*$', '')
-				if not data:match('=%s*$') then
-					t_events['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')) --Store sff data to be used in mission previews
-				end
-		--preview.common.pos = posX, posY (int, int)
-			elseif line:match('^%s*preview.common.pos%s*=') then
-				local data = line:gsub('%s*;.*$', '')
-				if not data:match('=%s*$') then
-					local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
-					t_events['commonSprPosX'], t_events['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
-				end
-		--preview.common.scale = scaleX, scaleY (int, int)
-			elseif line:match('^%s*preview.common.scale%s*=') then
-				local data = line:gsub('%s*;.*$', '')
-				if not data:match('=%s*$') then
-					local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					t_events['commonSprScaleX'], t_events['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
-				end
-			elseif line:match('^%s*%[%s*[Ee][Vv][Ee][Nn][Tt]%s+[0-9]+$*%]') then
-				section = 1
-				row = #t_events+1
-				t_events[row] = {}
+			local lineLower = line:lower()
 		--[Event No]
+			if lineLower:match('^%s*%[%s*event%s+%d+%s*%]') then
+				section = 1
+				row = #t_events + 1
+			--Set Default Values
+				t_events[row] = {
+					previewspr = {0, 0},
+					previewpos = {eventCommonPosX, eventCommonPosY},
+					previewscale = {eventCommonScaleX, eventCommonScaleY},
+					status = txt_eventIncomplete,
+					txtID = textImgNew(),
+					yearstart = sysYear,
+					yeardeadline = sysYear,
+					monthstart = sysMonth,
+					monthdeadline = sysMonth,
+					daystart = sysDay,
+					daydeadline = sysDay,
+					hourstart = "01", --sysHour,
+					hourdeadline = "24", --sysHour,
+					minutestart = "00", --sysMinutes,
+					minutedeadline = "59", --sysMinutes,
+					secondstart = "0", --sysSeconds,
+					seconddeadline = "59", --sysSeconds,
+					unlock = "true"
+				}
+		--Extra section
+			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
+				section = -1
 			elseif section == 1 then
-			--id = string
-				if line:match('^%s*id%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_events[row]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_events[row]['status'] = txt_eventIncomplete
-						t_events[row]['txtID'] = textImgNew()
-						t_events[row]['unlock'] = "true"
-						t_events[row]['infounlock'] = ""
-					end
-				end
-			--info = string
-				if line:match('^%s*info%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_events[row]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-				end
-			--info.locked = string
-				if line:match('^%s*info.locked%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_events[row]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-				end
-			--preview.spr = groupNo, indexNo (int, int)
-				if line:match('^%s*preview.spr%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_events[row]['sprGroup'], t_events[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
-					end
-				end
-			--preview.pos = posX, posY (int, int)
-				if line:match('^%s*preview.pos%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_events[row]['sprPosX'], t_events[row]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
-					end
-				end
-			--preview.scale = scaleX, scaleY (int, int)
-				if line:match('^%s*preview.scale%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_events[row]['sprScaleX'], t_events[row]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
-					end
-				end
-			--path = string
-				if line:match('^%s*path%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_events[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-				end
-			--unlock = lua condition
-				if line:match('^%s*unlock%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_events[row]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--Detect paramvalues
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:lower()
+				--If the value is a comma-separated list, convert to table
+					if value:match(',') then
+						local tbl = {}
+						for num in value:gmatch('([^,]+)') do
+							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+						end
+						t_events[row][param] = tbl
+					else
+						t_events[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
 					end
 				end
 			end
 		end
-		for k, v in ipairs(t_events) do --Send Events Unlock Condition to t_unlockLua table
+		for _, v in ipairs(t_events) do --Send Events Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[v.id] = v.unlock
 		end
+		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
+		textImgSetText(txt_loading, "LOADING EVENTS...")
+		textImgDraw(txt_loading)
+		refresh()
 	end
-	if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
-	textImgSetText(txt_loading, "LOADING EVENTS...")
-	textImgDraw(txt_loading)
-	refresh()
 end
 f_loadEvents()
