@@ -3795,6 +3795,13 @@ function f_resetNetTimeVars()
 netTime = nil
 netDate = nil
 netLog = ""
+currentNetTime = nil
+netYear = nil
+netMonth = nil
+netDay = nil
+netHour = nil
+netMinutes = nil
+netSeconds = nil
 end
 f_resetNetTimeVars()
 
@@ -3828,16 +3835,25 @@ function loadNetTime() --One-time Load
 				min = m,
 				sec = s
 			}
-		--To keep UTC format use "!" at the beginning: os.date("!%I:%M%p", utc_timestamp)
-			netTime = os.date(t_clockFormats[data.clock].locale, utc_timestamp)
+			currentNetTime = utc_timestamp
+		--To keep UTC format use "!" at the beginning: os.date("!%I:%M%p", currentNetTime)
+			netYear = tonumber(os.date("%Y", currentNetTime))
+			netMonth = os.date("%b", currentNetTime)
+			netDay = tonumber(os.date("%d", currentNetTime))
+			netHour = tonumber(os.date("%H", currentNetTime))
+			netMinutes = tonumber(os.date("%M", currentNetTime))
+			netSeconds = tonumber(os.date("%S", currentNetTime))
+			netTime = os.date(t_clockFormats[data.clock].locale, currentNetTime)
 			return true
 		else
+			currentNetTime = nil
 			netTime = nil
 			netDate = netTime
 			netLog = 'JSON does not contains "currentDateTime"'
 			return false --Unable to connect
 		end
 	else
+		currentNetTime = nil
 		netTime = nil
 		netDate = netTime
 		netLog = "Error requesting HTTP: Code " .. tostring(code)
@@ -3906,7 +3922,14 @@ end
 function f_timeCountdown(args)
 --args is a table that can have keys: year, month, day, hour, min, sec
 --Example: f_timeCountdown({year=2025}, {month="Sep"}, {day=15},).
-    local now = os.time() --Get the current date and time
+--Get the current date and time
+	local now = nil
+	if args.time == "net" then
+		now = currentNetTime
+	elseif args.time == "local" then
+		now = os.time()
+	end
+	if now == nil then return false end
 --Convert date inputs into a table to create the target timestamp
 	local targetDate = {
 		year = tonumber(args.year),
@@ -4008,12 +4031,12 @@ function f_timeCountdown(args)
 			table.insert(parts, days .. " days")
 		end
 		if args.hour ~= nil and hours > 0 then
-			table.insert(parts, hours .. "h")
+			table.insert(parts, hours .. "hours")
 		end
 		if args.min ~= nil and minutes > 0 then
-			table.insert(parts, minutes .. "m")
+			table.insert(parts, minutes .. "min")
 		end
-		if args.sec ~= nil then
+		if args.sec ~= nil and seconds > 0 then
 			table.insert(parts, seconds .. "s")
 		end
 	--If none pass, show all

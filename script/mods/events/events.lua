@@ -254,7 +254,8 @@ function f_eventMenu()
 				if netTimeInfoScreen then previewInfotxt = "" else previewInfotxt = txt_eventCancel end
 		--It's Not the time yet (Show countdown)
 			else
-				local t_test = {
+				local t_timeDat = {
+					time = t_events[eventMenu].time,
 					year = t_events[eventMenu].yearstart,
 					month = t_events[eventMenu].monthstart,
 					day = t_events[eventMenu].daystart,
@@ -262,7 +263,7 @@ function f_eventMenu()
 					min = t_events[eventMenu].minutestart,
 					sec = t_events[eventMenu].secondstart,
 				}
-				previewInfotxt = f_timeCountdown(t_test)
+				previewInfotxt = f_timeCountdown(t_timeDat)
 			end
 		end
 		textImgDraw(f_updateTextImg(t_events[eventMenu].txtID, font11, 0, 0, previewInfotxt, 160, 34))
@@ -414,6 +415,7 @@ local file = io.open(eventDef, "r")
 					previewscale = {eventCommonScaleX, eventCommonScaleY},
 					status = txt_eventIncomplete,
 					txtID = textImgNew(),
+					time = "local", --use local time if is not defined
 					yearstart = sysYear,
 					yeardeadline = sysYear,
 					monthstart = sysMonth,
