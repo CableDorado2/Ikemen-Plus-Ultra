@@ -3,9 +3,9 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
 local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
-sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
-bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
-bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
+local sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
+local bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
+local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --Insert new item to t_mainMenu table loaded by screenpack.lua
 table.insert(t_mainMenu,#t_mainMenu-2,{text = "SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
 --;===========================================================
@@ -35,7 +35,7 @@ local t_tempChars = {
 	{id = "Terry", 			price = 2000, class = 4},
 	{id = "Ciel", 			price = 4200, class = 4},
 }
-t_shopChars = {} --Create Real Table
+local t_shopChars = {} --Create Real Table
 for i=1, #t_tempChars do
 	local pathID = t_tempChars[i].id:lower()
 	if t_charDef[pathID] ~= nil then --If this char has been registered, add items
@@ -64,7 +64,7 @@ local t_tempStages = {
 	{id = "stages/Mountainside Temple/Clone Laboratory.def", 	  	  price = 2000},
 	{id = "stages/Mountainside Temple/Clone Laboratory 2.def", 	  	  price = 2000},
 }
-t_shopStages = {}
+local t_shopStages = {}
 for i=1, #t_tempStages do
 	local pathID = t_tempStages[i].id:lower()
 	local dayStr = ""
@@ -82,24 +82,24 @@ for i=1, #t_tempStages do
 end
 if data.debugLog then f_printTable(t_shopStages, "save/debug/t_shopStages.log") end
 
-t_shopBGM = {
+local t_shopBGM = {
 	
 }
 
-t_shopColors = {
+local t_shopColors = {
 	
 }
 
-t_shopTitles = {
+local t_shopTitles = {
 	
 }
 
-t_shopCards = {
+local t_shopCards = {
 	
 }
 
 if stats.shopstock == nil then stats.shopstock = {} end --Create space to sell shop items
-function f_setShopStock(t)
+local function f_setShopStock(t)
 	for item=1, #t do
 	--Add Category to shop stock
 		local category = t[item].category
@@ -110,7 +110,7 @@ function f_setShopStock(t)
 	end
 end
 
-t_shopMenu = {
+local t_shopMenu = {
 	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!", spr = {2,0}},
 	{text = "Costumes",   		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!", spr = {2,1}},
 	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!", spr = {2,2}},
@@ -164,20 +164,20 @@ animSetScale(shopVaultAccessArt, 0.255, 0.198)
 animUpdate(shopVaultAccessArt)
 
 --Confirm Purchase Window BG
-confirmShopBG = animNew(sprIkemen, [[
+local confirmShopBG = animNew(sprIkemen, [[
 62,0, 0,0, -1
 ]])
 animSetPos(confirmShopBG, 0, 20)
 animSetScale(confirmShopBG, 2.13, 1)
 animUpdate(confirmShopBG)
 
-t_confirmShop = {
+local t_confirmShop = {
 	{id = textImgNew(), text = "YES"}, --{id = textImgNew(), text = "Purchase with Orbs"},
 										--{id = textImgNew(), text = "Purchase with Diamons"},
 	{id = textImgNew(), text = "NO"}, --{id = textImgNew(), text = "Cancel Order"},
 }
 
-function drawShopInputHints(vault)
+local function drawShopInputHints(vault)
 	local vault = vault
 	local vaultKeyPos = "99999,99999"
 	if vault then
@@ -197,8 +197,370 @@ function drawShopInputHints(vault)
 end
 
 --;===========================================================
+--; THE VAULT SCREENPACK DEFINITION
+--;===========================================================
+local txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
+local txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
+local txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
+local txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.9, 0.9)
+
+local t_vaultMenu = {
+	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
+}
+for i=1, #t_vaultMenu do
+	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
+end
+
+local function f_getVaultWords()
+t_vaultMsg = nil --Reset Table
+t_vaultMsg = {
+"Don't touch!",
+"Just, stop.",
+"No one seems to be home.",
+"zzzZZZ...",
+"Go away!",
+"No!",
+"It's a secret...",
+"Stop it!",
+"Not allowed!",
+"Nothing to see here...",
+'"CD3" is a joke alias of evil CD2.',
+"Ready to leave yet?",
+"Whenever you're ready...",
+"Fine, I can wait.",
+"So... what's up?",
+"Are you always like this?",
+"I mean, what's the point?",
+"Let me guess, you're gonna push the button?",
+"What a surprise...",
+"Don't push the button!",
+"I'm gonna stop talking",
+"...",
+"......",
+"GAH!",
+"I have heard about you "..data.userName..".",
+"Do you know what name of this Ikemen Plus was going to be?",
+"It was actually going to be called Ikemen Plus ???",
+"Zen is the search for enlightenment",
+"SSZ is a programming language written by Suehiro",
+"OpenGL? what's that?",
+"Who would thought that Ikemen GO had a Plus Version",
+"Go beyond, PLUS ULTRA!",
+"PlasmoidThunder? he is a misterious cool guy",
+"If I could have access to an internet database...",
+"CD2 likes Geometry Dash so much that it occurred to him to imitate this screen",
+"I am a Legend?", "This is not supposed to be here but yes in the USX Project..",
+"I debuted in v1.3 of Ikemen Plus Ultra",
+"Is CD2 really planning to make all those changes from the Roadmap?",
+"Did you know that this guy who programmed me started learning this in 2021?",
+"Let's play hangman S- _ _ _ E",
+"Let's play hangman U _ _ R _",
+"Let's play hangman _ _ N",
+"Press Start To Select an Option",
+"You can Write below",
+"Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio",
+"Strong FS? is the guy that inspired CD2",
+"Greetings! "..data.userName,
+data.userName.." Add your messages here."
+}
+end
+
+local function f_getVaultPrize()
+t_vaultPrizeMsg = nil --Reset Table
+t_vaultPrizeMsg = {
+"YES! YOU DID IT. If you go back to Main Menu you might find a surprise 0_0",
+"Well, this is a little Minigame to show you what the LUA is capable of",
+data.userName.." Add your prize message here!"
+}
+end
+
+--Background
+local vaultBG0 = animNew(sprShop, [[
+20,0, 0,0, -1
+]])
+animSetPos(vaultBG0, 160, 119)
+animSetScale(vaultBG0, 0.30, 0.305)
+animUpdate(vaultBG0)
+
+--Text Window BG
+local vaultWindowBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(vaultWindowBG, 80, 100)
+animSetScale(vaultWindowBG, 160, 30)
+animSetAlpha(vaultWindowBG, 20, 100)
+animUpdate(vaultWindowBG)
+
+local function f_randomWords()
+	textImgSetBank(txt_vaultWords,0) --Reset Color after prize word
+	f_getVaultWords()
+	if data.userName == "Strong FS" or data.userName == "strong fs" or data.userName == "StrongFS" or data.userName == "strongfs" or data.userName == "Strong Fs" or data.userName == "STRONG FS" or data.userName == "STRONGFS" then
+		table.insert(t_vaultMsg,1, "Hey Strong! CD2 te manda Saludoss")
+		table.insert(t_vaultMsg,2, "Hmmm Strong XD")
+	end
+	txtRandom = (t_vaultMsg[math.random(1, #t_vaultMsg)])
+end
+
+local function f_prizeWords()
+	textImgSetBank(txt_vaultWords,5) --Set new color when you get the prize
+	f_getVaultPrize()
+	txtRandom = (t_vaultPrizeMsg[math.random(1, #t_vaultPrizeMsg)])
+end
+
+--;===========================================================
+--; THE VAULT MENU (Insert secret codes to unlock things)
+--;===========================================================
+local function f_theVault()
+	cmdInput()
+	local word = ""
+	local vaultMenu = 2
+	local i = 0
+	local t = 0
+	local prize = false
+	f_randomWords() --Get Random Words
+	vaultExit = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmVault)
+	while true do
+	--EXIT LOGIC
+		if vaultExit == true then
+			clearInputText()
+			f_unlock(false)
+			f_updateUnlocks()
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			break
+		end
+	--MAIN SCREEN
+		if esc() then
+			vaultExit = true
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then
+			sndPlay(sndSys, 100, 0)
+			vaultMenu = vaultMenu + 1
+		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') then
+			sndPlay(sndSys, 100, 0)
+			vaultMenu = vaultMenu - 1
+		end
+		if vaultMenu < 1 then vaultMenu = 2 elseif vaultMenu > 2 then vaultMenu = 1 end
+		word = inputText('',true)
+		if clipboardPaste() then
+			if string.match(getClipboardText(),'^(.*)') then
+				setInputText(getClipboardText())
+			else
+				sndPlay(sndSys, 100, 5)
+			end
+		end
+		if word:len() > 5 then
+			word = word:sub(1,18)
+			setInputText(word)
+		end
+		if word ~= '' and word ~= nil then
+			if word:match('^0(%d+)$') then
+				word = word:gsub('^0(%d+)$','%1')
+				setInputText(word)
+			end
+		end
+	--BUTTON SELECT
+		if returnKey() then --If you are using a keyboard, use enter key to accept
+		--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+		--BACK
+			if vaultMenu == 1 then
+				vaultExit = true
+		--ENTER
+			elseif vaultMenu == 2 then
+				t = 0 --Reset Vault Words Delay Time
+				if word ~= '' and word ~= nil then
+					vaultKey = (tostring(word))
+					if vaultKey == "ultra" or vaultKey == "Ultra" or vaultKey == "ULTRA" then
+						sndPlay(sndSys, 100, 1)
+						stats.vault = "Ultra"
+						f_saveStats()
+						prize = true
+					elseif vaultKey == "zen" or vaultKey == "Zen" or vaultKey == "ZEN" then
+						sndPlay(sndSys, 100, 1)
+						stats.vault = "Zen"
+						f_saveStats()
+						prize = true
+					elseif vaultKey == "ssz" or vaultKey == "Ssz" or vaultKey == "SSZ" then
+						sndPlay(sndSys, 100, 1)
+						stats.vault = "SSZ"
+						f_saveStats()
+						prize = true
+					else
+						prize = false
+					end
+					clearInputText()
+				else
+					clearInputText()
+					prize = false
+				end
+				if not prize then f_randomWords() else f_prizeWords() end
+			end
+		end
+	--Draw BG
+		animDraw(vaultBG0)
+	--Draw Menu Title
+		textImgDraw(txt_vaultTitle)
+	--Draw Text Window BG
+		animDraw(vaultWindowBG)
+	--Draw Valt Words
+		f_textRender(txt_vaultWords, txtRandom, t, 160, 78, 15, 2.5, 45)
+	--Draw Text
+		textImgSetText(txt_vaultText,word)
+		textImgDraw(txt_vaultText)
+		if i%60 < 30 then
+			textImgPosDraw(txt_vaultBar, 160 +(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)> 0 and 2 or 0), 120)
+		end
+	--Draw Button Option Text
+		for i=1, #t_vaultMenu do
+			if i == vaultMenu then
+				textImgSetBank(t_vaultMenu[i].id, 5)
+			else
+				textImgSetBank(t_vaultMenu[i].id, 0)
+			end
+			textImgDraw(t_vaultMenu[i].id)
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		i = i >= 60 and 0 or i + 1
+		t = t + 1
+		cmdInput()
+		refresh()
+	end
+	clearInputText()
+end
+
+--;===========================================================
 --; SHOP MENU (Buy/Unlock features using in-game currency.)
 --;===========================================================
+local function f_drawShopItemArtwork(index)
+local img = t_shopMenu[index].spr[1] ..','.. t_shopMenu[index].spr[2].. ', 0,0, -1'
+	img = animNew(sprShop, img)
+	animSetScale(img, 0.21, 0.21)
+	animSetPos(img, 173, 25)
+	animUpdate(img)
+	animDraw(img)
+end
+
+local function f_drawShopItemPreview(category, id, itemNo, menu)
+	local category = category or nil
+	local id = id or nil
+	local itemNo = itemNo or nil
+	local purchaseMenu = menu or false
+	local alphaS = nil
+	local alphaD = nil
+--Character Preview
+	if category == "chars" then
+	--During Item Select
+		if not purchaseMenu then
+			for i=1, 5 do
+				if i > t_shopMenu[itemNo].class then
+					alphaS = 100
+					aphaD = 20
+				end
+				f_drawQuickSpr(shopCharClass, 142+i*30, 25, 0.07, 0.07, alphaS, alphaD)
+			end
+			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 242, 160, true)
+	--During Purchase Confirm
+		else
+			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 70, 144, false, 0.75, 0.75)
+		end
+--Stage Preview
+	elseif category == "stages" then
+		if not purchaseMenu then
+			drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
+		else
+			drawStagePortrait(t_stageDef[id]-1, 10, 60, 0.113, 0.113)
+		end
+	end
+end
+
+local function f_confirmShopReset()
+	confirmPurchase = false
+	moveTxTConfirmShop = 0
+--Cursor pos in NO
+	cursorYConfirmShop = 1
+	confirmShop = 2
+end
+
+local function f_confirmPurchase()
+	cmdInput()
+--Cursor Position
+	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
+		sndPlay(sndSys, 100, 0)
+		confirmShop = confirmShop - 1
+	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
+		sndPlay(sndSys, 100, 0)
+		confirmShop = confirmShop + 1
+	end
+	if confirmShop < 1 then
+		confirmShop = #t_confirmShop
+		if #t_confirmShop > 4 then
+			cursorYConfirmShop = 4
+		else
+			cursorYConfirmShop = #t_confirmShop-1
+		end
+	elseif confirmShop > #t_confirmShop then
+		confirmShop = 1
+		cursorYConfirmShop = 0
+	elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) and cursorYConfirmShop > 0 then
+		cursorYConfirmShop = cursorYConfirmShop - 1
+	elseif (commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) and cursorYConfirmShop < 4 then
+		cursorYConfirmShop = cursorYConfirmShop + 1
+	end
+	if cursorYConfirmShop == 4 then
+		moveTxTConfirmShop = (confirmShop - 5) * 13
+	elseif cursorYConfirmShop == 0 then
+		moveTxTConfirmShop = (confirmShop - 1) * 13
+	end
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(confirmShopBG)
+--Draw Title
+	textImgDraw(txt_shopQuestion)
+--Draw Table Text
+	for i=1, #t_confirmShop do
+		if i == confirmShop then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_confirmShop[i].id, jgFnt, bank, 0, t_confirmShop[i].text, 239, 80+i*13-moveTxTConfirmShop))
+	end
+--Draw Cursor
+	animSetWindow(cursorBox, 167,83+cursorYConfirmShop*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+--Draw Content
+	f_drawQuickText(txt_shpName, jgFnt, 5, 0, t_shopMenu[shopMenu].text, 160, 50)
+	f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu, true)
+--Draw Accounting
+	f_drawQuickText(txt_shp1, font2, 0, -1, "Price "..t_shopMenu[shopMenu].price.." IKC", 110, 154)
+	f_drawQuickText(txt_shp2, font2, 0, -1, "Balance "..stats.money.." IKC", 310, 154)
+	f_drawQuickText(txt_shp3, font2, 0, -1, "Balance after Purchase "..stats.money-t_shopMenu[shopMenu].price.." IKC", 310, 173)
+--Draw Input Hints Panel
+	drawConfirmInputHints()
+--Actions
+	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		sndPlay(sndSys, 100, 2)
+		f_confirmShopReset()
+	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+	--YES
+		if confirmShop == 1 then
+		--Item Purchased (Save Data)
+			sndPlay(sndSys, 200, 3)
+			stats.money = stats.money - t_shopMenu[shopMenu].price
+			stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
+			f_saveStats()
+	--NO
+		else
+			sndPlay(sndSys, 100, 2)
+		end
+		f_confirmShopReset()
+	end
+end
+
 function f_shopMenu()
 	if not startEn then return end
 	cmdInput()
@@ -383,366 +745,4 @@ function f_shopMenu()
 		cmdInput()
 		refresh()
 	end
-end
-
-function f_drawShopItemArtwork(index)
-local img = t_shopMenu[index].spr[1] ..','.. t_shopMenu[index].spr[2].. ', 0,0, -1'
-	img = animNew(sprShop, img)
-	animSetScale(img, 0.21, 0.21)
-	animSetPos(img, 173, 25)
-	animUpdate(img)
-	animDraw(img)
-end
-
-function f_drawShopItemPreview(category, id, itemNo, menu)
-	local category = category or nil
-	local id = id or nil
-	local itemNo = itemNo or nil
-	local purchaseMenu = menu or false
-	local alphaS = nil
-	local alphaD = nil
---Character Preview
-	if category == "chars" then
-	--During Item Select
-		if not purchaseMenu then
-			for i=1, 5 do
-				if i > t_shopMenu[itemNo].class then
-					alphaS = 100
-					aphaD = 20
-				end
-				f_drawQuickSpr(shopCharClass, 142+i*30, 25, 0.07, 0.07, alphaS, alphaD)
-			end
-			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 242, 160, true)
-	--During Purchase Confirm
-		else
-			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 70, 144, false, 0.75, 0.75)
-		end
---Stage Preview
-	elseif category == "stages" then
-		if not purchaseMenu then
-			drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
-		else
-			drawStagePortrait(t_stageDef[id]-1, 10, 60, 0.113, 0.113)
-		end
-	end
-end
-
-function f_confirmPurchase()
-	cmdInput()
---Cursor Position
-	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
-		sndPlay(sndSys, 100, 0)
-		confirmShop = confirmShop - 1
-	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
-		sndPlay(sndSys, 100, 0)
-		confirmShop = confirmShop + 1
-	end
-	if confirmShop < 1 then
-		confirmShop = #t_confirmShop
-		if #t_confirmShop > 4 then
-			cursorYConfirmShop = 4
-		else
-			cursorYConfirmShop = #t_confirmShop-1
-		end
-	elseif confirmShop > #t_confirmShop then
-		confirmShop = 1
-		cursorYConfirmShop = 0
-	elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) and cursorYConfirmShop > 0 then
-		cursorYConfirmShop = cursorYConfirmShop - 1
-	elseif (commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) and cursorYConfirmShop < 4 then
-		cursorYConfirmShop = cursorYConfirmShop + 1
-	end
-	if cursorYConfirmShop == 4 then
-		moveTxTConfirmShop = (confirmShop - 5) * 13
-	elseif cursorYConfirmShop == 0 then
-		moveTxTConfirmShop = (confirmShop - 1) * 13
-	end
---Draw Fade BG
-	animDraw(fadeWindowBG)
---Draw Menu BG
-	animDraw(confirmShopBG)
---Draw Title
-	textImgDraw(txt_shopQuestion)
---Draw Table Text
-	for i=1, #t_confirmShop do
-		if i == confirmShop then
-			bank = 5
-		else
-			bank = 0
-		end
-		textImgDraw(f_updateTextImg(t_confirmShop[i].id, jgFnt, bank, 0, t_confirmShop[i].text, 239, 80+i*13-moveTxTConfirmShop))
-	end
---Draw Cursor
-	animSetWindow(cursorBox, 167,83+cursorYConfirmShop*13, 144,13)
-	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))
---Draw Content
-	f_drawQuickText(txt_shpName, jgFnt, 5, 0, t_shopMenu[shopMenu].text, 160, 50)
-	f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu, true)
---Draw Accounting
-	f_drawQuickText(txt_shp1, font2, 0, -1, "Price "..t_shopMenu[shopMenu].price.." IKC", 110, 154)
-	f_drawQuickText(txt_shp2, font2, 0, -1, "Balance "..stats.money.." IKC", 310, 154)
-	f_drawQuickText(txt_shp3, font2, 0, -1, "Balance after Purchase "..stats.money-t_shopMenu[shopMenu].price.." IKC", 310, 173)
---Draw Input Hints Panel
-	drawConfirmInputHints()
---Actions
-	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-		sndPlay(sndSys, 100, 2)
-		f_confirmShopReset()
-	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-	--YES
-		if confirmShop == 1 then
-		--Item Purchased (Save Data)
-			sndPlay(sndSys, 200, 3)
-			stats.money = stats.money - t_shopMenu[shopMenu].price
-			stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
-			f_saveStats()
-	--NO
-		else
-			sndPlay(sndSys, 100, 2)
-		end
-		f_confirmShopReset()
-	end
-end
-
-function f_confirmShopReset()
-	confirmPurchase = false
-	moveTxTConfirmShop = 0
---Cursor pos in NO
-	cursorYConfirmShop = 1
-	confirmShop = 2
-end
-
---;===========================================================
---; THE VAULT SCREENPACK DEFINITION
---;===========================================================
-local txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
-local txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
-local txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
-local txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.9, 0.9)
-
-t_vaultMenu = {
-	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
-}
-for i=1, #t_vaultMenu do
-	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
-end
-
-function f_getVaultWords()
-t_vaultMsg = nil --Reset Table
-t_vaultMsg = {
-"Don't touch!",
-"Just, stop.",
-"No one seems to be home.",
-"zzzZZZ...",
-"Go away!",
-"No!",
-"It's a secret...",
-"Stop it!",
-"Not allowed!",
-"Nothing to see here...",
-'"CD3" is a joke alias of evil CD2.',
-"Ready to leave yet?",
-"Whenever you're ready...",
-"Fine, I can wait.",
-"So... what's up?",
-"Are you always like this?",
-"I mean, what's the point?",
-"Let me guess, you're gonna push the button?",
-"What a surprise...",
-"Don't push the button!",
-"I'm gonna stop talking",
-"...",
-"......",
-"GAH!",
-"I have heard about you "..data.userName..".",
-"Do you know what name of this Ikemen Plus was going to be?",
-"It was actually going to be called Ikemen Plus ???",
-"Zen is the search for enlightenment",
-"SSZ is a programming language written by Suehiro",
-"OpenGL? what's that?",
-"Who would thought that Ikemen GO had a Plus Version",
-"Go beyond, PLUS ULTRA!",
-"PlasmoidThunder? he is a misterious cool guy",
-"If I could have access to an internet database...",
-"CD2 likes Geometry Dash so much that it occurred to him to imitate this screen",
-"I am a Legend?", "This is not supposed to be here but yes in the USX Project..",
-"I debuted in v1.3 of Ikemen Plus Ultra",
-"Is CD2 really planning to make all those changes from the Roadmap?",
-"Did you know that this guy who programmed me started learning this in 2021?",
-"Let's play hangman S- _ _ _ E",
-"Let's play hangman U _ _ R _",
-"Let's play hangman _ _ N",
-"Press Start To Select an Option",
-"You can Write below",
-"Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio",
-"Strong FS? is the guy that inspired CD2",
-"Greetings! "..data.userName,
-data.userName.." Add your messages here."
-}
-end
-
-function f_getVaultPrize()
-t_vaultPrizeMsg = nil --Reset Table
-t_vaultPrizeMsg = {
-"YES! YOU DID IT. If you go back to Main Menu you might find a surprise 0_0",
-"Well, this is a little Minigame to show you what the LUA is capable of",
-data.userName.." Add your prize message here!"
-}
-end
-
---Background
-local vaultBG0 = animNew(sprShop, [[
-20,0, 0,0, -1
-]])
-animSetPos(vaultBG0, 160, 119)
-animSetScale(vaultBG0, 0.30, 0.305)
-animUpdate(vaultBG0)
-
---Text Window BG
-local vaultWindowBG = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetPos(vaultWindowBG, 80, 100)
-animSetScale(vaultWindowBG, 160, 30)
-animSetAlpha(vaultWindowBG, 20, 100)
-animUpdate(vaultWindowBG)
-
---;===========================================================
---; THE VAULT MENU (Insert secret codes to unlock things)
---;===========================================================
-function f_theVault()
-	cmdInput()
-	local word = ""
-	local vaultMenu = 2
-	local i = 0
-	local t = 0
-	local prize = false
-	f_randomWords() --Get Random Words
-	vaultExit = false
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	playBGM(bgmVault)
-	while true do
-	--EXIT LOGIC
-		if vaultExit == true then
-			clearInputText()
-			f_unlock(false)
-			f_updateUnlocks()
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 2)
-			break
-		end
-	--MAIN SCREEN
-		if esc() then
-			vaultExit = true
-		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then
-			sndPlay(sndSys, 100, 0)
-			vaultMenu = vaultMenu + 1
-		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') then
-			sndPlay(sndSys, 100, 0)
-			vaultMenu = vaultMenu - 1
-		end
-		if vaultMenu < 1 then vaultMenu = 2 elseif vaultMenu > 2 then vaultMenu = 1 end
-		word = inputText('',true)
-		if clipboardPaste() then
-			if string.match(getClipboardText(),'^(.*)') then
-				setInputText(getClipboardText())
-			else
-				sndPlay(sndSys, 100, 5)
-			end
-		end
-		if word:len() > 5 then
-			word = word:sub(1,18)
-			setInputText(word)
-		end
-		if word ~= '' and word ~= nil then
-			if word:match('^0(%d+)$') then
-				word = word:gsub('^0(%d+)$','%1')
-				setInputText(word)
-			end
-		end
-	--BUTTON SELECT
-		if returnKey() then --If you are using a keyboard, use enter key to accept
-		--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-		--BACK
-			if vaultMenu == 1 then
-				vaultExit = true
-		--ENTER
-			elseif vaultMenu == 2 then
-				t = 0 --Reset Vault Words Delay Time
-				if word ~= '' and word ~= nil then
-					vaultKey = (tostring(word))
-					if vaultKey == "ultra" or vaultKey == "Ultra" or vaultKey == "ULTRA" then
-						sndPlay(sndSys, 100, 1)
-						stats.vault = "Ultra"
-						f_saveStats()
-						prize = true
-					elseif vaultKey == "zen" or vaultKey == "Zen" or vaultKey == "ZEN" then
-						sndPlay(sndSys, 100, 1)
-						stats.vault = "Zen"
-						f_saveStats()
-						prize = true
-					elseif vaultKey == "ssz" or vaultKey == "Ssz" or vaultKey == "SSZ" then
-						sndPlay(sndSys, 100, 1)
-						stats.vault = "SSZ"
-						f_saveStats()
-						prize = true
-					else
-						prize = false
-					end
-					clearInputText()
-				else
-					clearInputText()
-					prize = false
-				end
-				if not prize then f_randomWords() else f_prizeWords() end
-			end
-		end
-	--Draw BG
-		animDraw(vaultBG0)
-	--Draw Menu Title
-		textImgDraw(txt_vaultTitle)
-	--Draw Text Window BG
-		animDraw(vaultWindowBG)
-	--Draw Valt Words
-		f_textRender(txt_vaultWords, txtRandom, t, 160, 78, 15, 2.5, 45)
-	--Draw Text
-		textImgSetText(txt_vaultText,word)
-		textImgDraw(txt_vaultText)
-		if i%60 < 30 then
-			textImgPosDraw(txt_vaultBar, 160 +(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)> 0 and 2 or 0), 120)
-		end
-	--Draw Button Option Text
-		for i=1, #t_vaultMenu do
-			if i == vaultMenu then
-				textImgSetBank(t_vaultMenu[i].id, 5)
-			else
-				textImgSetBank(t_vaultMenu[i].id, 0)
-			end
-			textImgDraw(t_vaultMenu[i].id)
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		i = i >= 60 and 0 or i + 1
-		t = t + 1
-		cmdInput()
-		refresh()
-	end
-	clearInputText()
-end
-
-function f_randomWords()
-	textImgSetBank(txt_vaultWords,0) --Reset Color after prize word
-	f_getVaultWords()
-	if data.userName == "Strong FS" or data.userName == "strong fs" or data.userName == "StrongFS" or data.userName == "strongfs" or data.userName == "Strong Fs" or data.userName == "STRONG FS" or data.userName == "STRONGFS" then
-		table.insert(t_vaultMsg,1, "Hey Strong! CD2 te manda Saludoss")
-		table.insert(t_vaultMsg,2, "Hmmm Strong XD")
-	end
-	txtRandom = (t_vaultMsg[math.random(1, #t_vaultMsg)])
-end
-
-function f_prizeWords()
-	textImgSetBank(txt_vaultWords,5) --Set new color when you get the prize
-	f_getVaultPrize()
-	txtRandom = (t_vaultPrizeMsg[math.random(1, #t_vaultPrizeMsg)])
 end

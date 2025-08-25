@@ -4,91 +4,91 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 =================================================================================]]
 local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 --Load SFF Data
-sprArtworks = sffNew("script/mods/gallery/artworks.sff") --Gallery Artwork Previews
-sprStoryboards = sffNew("script/mods/gallery/storyboards.sff") --Gallery Storyboard Previews
-sprMovies = sffNew("script/mods/gallery/movies.sff") --Gallery Movie Previews
+local sprArtworks = sffNew("script/mods/gallery/artworks.sff") --Gallery Artwork Previews
+local sprStoryboards = sffNew("script/mods/gallery/storyboards.sff") --Gallery Storyboard Previews
+local sprMovies = sffNew("script/mods/gallery/movies.sff") --Gallery Movie Previews
 --Load Definition Data
-galleryArtworksDef = "script/mods/gallery/artworks.def" --Gallery Artworks
-galleryStoryboardsDef = "script/mods/gallery/storyboards.def" --Gallery Storyboards
-galleryMoviesDef = "script/mods/gallery/movies.def" --Gallery Videos
+local galleryArtworksDef = "script/mods/gallery/artworks.def" --Gallery Artworks
+local galleryStoryboardsDef = "script/mods/gallery/storyboards.def" --Gallery Storyboards
+local galleryMoviesDef = "script/mods/gallery/movies.def" --Gallery Videos
 --;===========================================================
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_watchMenu,4,{text = "GALLERY", gotomenu = "f_galleryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
-txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 15)
-txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
-txt_galleryNoData = "NO SPRITE DATA FOUND."
-txt_galleryUnknown = "???"
+local txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 15)
+local txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
+local txt_galleryNoData = "NO SPRITE DATA FOUND."
+local txt_galleryUnknown = "???"
 
 --Gallery Size Definition
-galleryColumns = 3
-galleryHiddenColumns = 0
-galleryRows = 2
-galleryHiddenRows = 3
+local galleryColumns = 3
+local galleryHiddenColumns = 0
+local galleryRows = 2
+local galleryHiddenRows = 3
 
 --Gallery Window
-galleryWindowX1 = 0
-galleryWindowY1 = 40
-galleryWindowX2 = 320
-galleryWindowY2 = 178
+local galleryWindowX1 = 0
+local galleryWindowY1 = 40
+local galleryWindowX2 = 320
+local galleryWindowY2 = 178
 
 --Gallery Art Common Values
-galleryPreviewArtPosX = 940
-galleryPreviewArtPosY = 1270
+local galleryPreviewArtPosX = 940
+local galleryPreviewArtPosY = 1270
 
-galleryPreviewArtSpacingX = 950
-galleryPreviewArtSpacingY = 218
+local galleryPreviewArtSpacingX = 950
+local galleryPreviewArtSpacingY = 218
 
-galleryPreviewArtScaleX = 0.0558
-galleryPreviewArtScaleY = 0.0558
+local galleryPreviewArtScaleX = 0.0558
+local galleryPreviewArtScaleY = 0.0558
 
 --Preview Slot Item
-galleryPreviewSlot = animNew(sprIkemen, [[
+local galleryPreviewSlot = animNew(sprIkemen, [[
 20,0, 0,0, -1
 ]])
 animSetScale(galleryPreviewSlot, 1.0, 1.0)
 
-galleryPreviewSlotPosX = 5
-galleryPreviewSlotPosY = 43
+local galleryPreviewSlotPosX = 5
+local galleryPreviewSlotPosY = 43
 
-galleryPreviewSlotSizeX = 96
-galleryPreviewSlotSizeY = 56
+local galleryPreviewSlotSizeX = 96
+local galleryPreviewSlotSizeY = 56
 
-galleryPreviewSlotSpacingX = 6
-galleryPreviewSlotSpacingY = 6
+local galleryPreviewSlotSpacingX = 6
+local galleryPreviewSlotSpacingY = 6
 
 --Preview Cursor
-galleryPreviewCursor = animNew(sprIkemen, [[
+local galleryPreviewCursor = animNew(sprIkemen, [[
 22,0, 0,0, -1
 ]])
 animSetScale(galleryPreviewCursor, 1.0, 1.0)
 
-galleryPreviewCursorPosX = 5
-galleryPreviewCursorPosY = 43
+local galleryPreviewCursorPosX = 5
+local galleryPreviewCursorPosY = 43
 
-galleryPreviewCursorSizeX = 96
-galleryPreviewCursorSizeY = 56
+local galleryPreviewCursorSizeX = 96
+local galleryPreviewCursorSizeY = 56
 
-galleryPreviewCursorSpacingX = 6
-galleryPreviewCursorSpacingY = 6
+local galleryPreviewCursorSpacingX = 6
+local galleryPreviewCursorSpacingY = 6
 
 --Preview Unknown
-galleryPreviewUnknown = animNew(sprIkemen, [[
+local galleryPreviewUnknown = animNew(sprIkemen, [[
 23,0, 0,0, -1
 ]])
 animSetScale(galleryPreviewUnknown, 1.0, 1.0)
 
-galleryPreviewUnknownPosX = 6.9
-galleryPreviewUnknownPosY = 44.9
+local galleryPreviewUnknownPosX = 6.9
+local galleryPreviewUnknownPosY = 44.9
 
-galleryPreviewUnknownSizeX = 90
-galleryPreviewUnknownSizeY = 50
+local galleryPreviewUnknownSizeX = 90
+local galleryPreviewUnknownSizeY = 50
 
-galleryPreviewUnknownSpacingX = 12
-galleryPreviewUnknownSpacingY = 12
+local galleryPreviewUnknownSpacingX = 12
+local galleryPreviewUnknownSpacingY = 12
 
 --Info BG
-galleryInfoBG = animNew(sprIkemen, [[
+local galleryInfoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(galleryInfoBG, -54, 199)
@@ -97,12 +97,12 @@ animSetAlpha(galleryInfoBG, 0, 50)
 animUpdate(galleryInfoBG)
 
 --Menu Arrows
-function f_resetGalleryArrowsPos()
+local function f_resetGalleryArrowsPos()
 animSetPos(menuArrowLeft, 0, 190)
 animSetPos(menuArrowRight, 310, 190)
 end
 
-function drawGalleryInputHints()
+local function drawGalleryInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
 	local hintFontYPos = 234
@@ -119,41 +119,40 @@ function drawGalleryInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
-
 --;===========================================================
 --; ARTWORK DISPLAY SCREENPACK DEFINITION
 --;===========================================================
-txt_artInfo = createTextImg(font5, 0, 0, "", 159, 180) --font2
+local txt_artInfo = createTextImg(font5, 0, 0, "", 159, 180) --font2
 
-galleryArtPosX = 160
-galleryArtPosY = 120
+local galleryArtPosX = 160
+local galleryArtPosY = 120
 
-galleryArtSizeX = 894
-galleryArtSizeY = 894
+local galleryArtSizeX = 894
+local galleryArtSizeY = 894
 
-galleryArtScaleX = 0.27
-galleryArtScaleY = 0.27
+local galleryArtScaleX = 0.27
+local galleryArtScaleY = 0.27
 
-galleryArtMoveSpeed = 10
-galleryArtZoomSpeed = 0.01
+local galleryArtMoveSpeed = 10
+local galleryArtZoomSpeed = 0.01
 
-galleryArtZoomLimitX = 0.05
-galleryArtZoomLimitY = 1.99
+local galleryArtZoomLimitX = 0.05
+local galleryArtZoomLimitY = 1.99
 
-galleryArtMoveLimitX1 = -320
-galleryArtMoveLimitY1 = -300
-galleryArtMoveLimitX2 = 420
-galleryArtMoveLimitY2 = 640
+local galleryArtMoveLimitX1 = -320
+local galleryArtMoveLimitY1 = -300
+local galleryArtMoveLimitX2 = 420
+local galleryArtMoveLimitY2 = 640
 
 --Background
-artworkBG = animNew(sprFade, [[
+local artworkBG = animNew(sprFade, [[
 0,1, 0,0, -1
 ]])
 animAddPos(artworkBG, 0, 0)
 animUpdate(artworkBG)
 
 --Info BG
-artworkInfoBG = animNew(sprIkemen, [[
+local artworkInfoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(artworkInfoBG, -54, 166)
@@ -162,20 +161,20 @@ animSetAlpha(artworkInfoBG, 20, 50)
 animUpdate(artworkInfoBG)
 
 --Input Hints BG
-gInputsBG = animNew(sprIkemen, [[
+local gInputsBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
 animSetScale(gInputsBG, 2.9, 0.75)
 animSetAlpha(gInputsBG, 155, 22)
 
 --Menu Arrows
-function f_resetArtworkArrowsPos()
+local function f_resetArtworkArrowsPos()
 animSetPos(menuArrowLeft, 2, 120)
 animSetPos(menuArrowRight, 310, 120)
 end
 
 --Artwork Input Hints Panel
-function drawArtInputHints()
+local function drawArtInputHints()
 	local inputHintYPosUp = 197
 	local inputHintYPosDown = 219
 	local hintFont = font2
@@ -197,11 +196,367 @@ function drawArtInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Next", 250, hintFontYPosDown)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide", 298, hintFontYPosDown)
 end
+--;===========================================================
+--; LOAD GALLERY.DEF DATA
+--;===========================================================
+local function f_loadGallery(path, reset) --Load def file which contains artworks data
+	local reset = reset or false --To reset table
+	if reset then t_gallery = {} end
+	local file = path
+	local section = 0
+	local content = f_fileRead(file)
+	content = content:gsub('([^\r\n;]*)%s*;[^\r\n]*', '%1')
+	content = content:gsub('\n%s*\n', '\n')
+	for line in content:gmatch('[^\r\n]+') do
+		local lineCase = line:lower()
+		if lineCase:match('^%s*%[%s*galleryartworks%s*%]') then
+			section = 1
+			t_gallery[section] = {}
+			t_gallery[section]['displayname'] = "ARTWORKS"
+			t_gallery[section]['txtID'] = textImgNew()
+		elseif lineCase:match('^%s*%[%s*gallerystoryboards%s*%]') then
+			section = 2
+			t_gallery[section] = {}
+			t_gallery[section]['displayname'] = "STORYBOARDS"
+			t_gallery[section]['txtID'] = textImgNew()
+		elseif lineCase:match('^%s*%[%s*gallerymovies%s*%]') then
+			section = 3
+			t_gallery[section] = {}
+			t_gallery[section]['displayname'] = "CUTSCENES"
+			t_gallery[section]['txtID'] = textImgNew()
+		elseif lineCase:match('^%s*%[%w+%]$') then
+			section = -1
+	--[GalleryArtworks]
+		elseif section == 1 then
+			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
+			--Generate Table to manage each item with default values
+				if param:match('^id$') then
+					--local newItem = {
+					table.insert(t_gallery[section],
+						{
+							id = value,
+							spr = {},
+							info = txt_galleryUnknown,
+							size = {galleryArtSizeX, galleryArtSizeY},
+							pos = {galleryArtPosX, galleryArtPosY},
+							scale = {galleryArtScaleX, galleryArtScaleY},
+							zoomlimit = {galleryArtZoomLimitX, galleryArtZoomLimitY},
+							movelimit = {galleryArtMoveLimitX1, galleryArtMoveLimitY1, galleryArtMoveLimitX2, galleryArtMoveLimitY2},
+							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
+							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
+							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
+							unlock = 'true'
+						}
+					)
+					--table.insert(t_gallery[section], newItem)
+			--Store comma separated number values to table
+				elseif param:match('^spr$') or param:match('^size$') or param:match('^pos$') or param:match('^scale$') or param:match('^zoomlimit$') or param:match('^movelimit$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
+					local tbl = {}
+					for num in value:gmatch('([^,]+)') do
+						table.insert(tbl, tonumber(num))
+					end
+					if t_gallery[section][#t_gallery[section]] then
+						t_gallery[section][#t_gallery[section]][param] = tbl
+					end
+			--Store extra values
+				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
+					t_gallery[section][#t_gallery[section]][param] = value
+				end
+			end
+	--[GalleryStoryboards] / [GalleryMovies]
+		elseif section == 2 or section == 3 then
+			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
+			--Generate Table to manage each item with default values
+				if param:match('^id$') then
+					table.insert(t_gallery[section],
+						{
+							id = value,
+							spr = {},
+							file = {},
+							size = {galleryArtSizeX, galleryArtSizeY},
+							info = txt_galleryUnknown,
+							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
+							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
+							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
+							unlock = 'true'
+						}
+					)
+			--Store comma separated number values to table
+				elseif param:match('^spr$') or param:match('^size$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
+					local tbl = {}
+					for num in value:gmatch('([^,]+)') do
+						table.insert(tbl, tonumber(num))
+					end
+					if t_gallery[section][#t_gallery[section]] then
+						t_gallery[section][#t_gallery[section]][param] = tbl
+					end
+			--Store extra values
+				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
+					t_gallery[section][#t_gallery[section]][param] = value
+				end
+			end
+		end
+	end
+	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.log") end
+--[[
+	textImgSetText(txt_loading, "LOADING GALLERY...")
+	textImgDraw(txt_loading)
+	refresh()
+]]
+end
+local function f_loadGalleryDat()
+	f_loadGallery(galleryArtworksDef, true)
+	f_loadGallery(galleryStoryboardsDef, false)
+	f_loadGallery(galleryMoviesDef, false)
+end
+f_loadGalleryDat()
+--[[
+for k, v in ipairs(t_gallery) do --Set Unlock Conditions
+	if main.t_unlockLua.gallery == nil then main.t_unlockLua['gallery'] = {} end
+	main.t_unlockLua.gallery[v.id] = v.unlock
+end
+]]
+--[[
+for i=1, #t_gallery do
+	local section = nil
+	if i == 1 then section = "artworks"
+	elseif i == 2 then section = "storyboards"
+	elseif i == 3 then section = "videos"
+	end
+	for k, v in ipairs(t_gallery[i]) do --Send Gallery Unlocks Condition to t_unlockLua table
+		t_unlockLua[section][v.id] = v.unlock
+	end
+end
+]]
+--;===========================================================================================
+--; ARTWORK VIEWER MENU
+--;===========================================================================================
+local function f_drawArtwork()
+local artPic = t_gallery[galleryMenu][galleryCursor].spr[1] ..','.. t_gallery[galleryMenu][galleryCursor].spr[2].. ', 0,0, -1'
+artPic = animNew(sprArtworks, artPic)
+animSetScale(artPic, artScaleX, artScaleY)
+animSetPos(artPic, artPosX, artPosY)
+animUpdate(artPic)
+animDraw(artPic)
+end
 
+local function f_resetArtPos()
+artPosX = t_gallery[galleryMenu][galleryCursor].pos[1]
+artPosY = t_gallery[galleryMenu][galleryCursor].pos[2]
+artScaleX = t_gallery[galleryMenu][galleryCursor].scale[1]
+artScaleY = t_gallery[galleryMenu][galleryCursor].scale[2]
+end
+
+local function f_nextArt(limit)
+	local limit = limit
+	galleryCursor = galleryCursor + 1
+	if galleryCursor > limit then --Go to first art
+		galleryCursor = 1
+	end
+end
+
+local function f_previousArt(limit)
+	local limit = limit
+	galleryCursor = galleryCursor - 1
+	if galleryCursor < 1 then --Go to last art
+		galleryCursor = limit
+	end
+end
+
+local function f_getNewCursorPos() --Get new gallery cursor position when exit from artwork viewer (Unfinished)
+	galleryCursorX = (galleryCursor - 1) - galleryColumns*galleryCursorY
+	galleryCursorY = (galleryCursor - 1 - galleryCursorX) / galleryColumns
+end
+
+local function f_artMenu(artLimit)
+	cmdInput()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local bufw = 0
+	local bufq = 0
+	local bufz = 0
+	local bufy = 0
+	local bufx = 0	
+	local maxArt = artLimit
+	local artZero = ""
+	local artLimitZero = ""
+	if maxArt < 10 then artLimitZero = "0" end
+	local hideMenu = false
+	local textData = nil
+	artPosX = nil
+	artPosY = nil
+	artScaleX = nil
+	artScaleY = nil
+	f_resetArtPos()
+	f_resetArtworkArrowsPos()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	while true do
+	--RETURN TO GALLERY MENU
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 2)
+			break
+	--NEXT ART PAGE
+		elseif ((commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) or 
+		((commandGetState(p1Cmd, 'holdw') or commandGetState(p2Cmd, 'holdw')) and bufw >= 30)) then
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 3)
+			f_nextArt(maxArt)
+		--If current item is not unlocked
+			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
+				f_nextArt(maxArt) --Go to an unlocked art
+			end
+			f_resetArtPos()
+	--PREVIOUS ART PAGE
+		elseif ((commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q')) or 
+		((commandGetState(p1Cmd, 'holdq') or commandGetState(p2Cmd, 'holdq')) and bufq >= 30)) then
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+			sndPlay(sndSys, 100, 3)
+			f_previousArt(maxArt)
+		--If current item is not unlocked
+			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
+				f_previousArt(maxArt) --Go to an unlocked art
+			end
+			f_resetArtPos()
+	--RESET ART POSITION
+		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+			f_resetArtPos()
+	--HIDE MENU
+		elseif commandGetState(p1Cmd, 'x') or commandGetState(p2Cmd, 'x') then
+			if not hideMenu then hideMenu = true else hideMenu = false end
+		end
+	--MOVE UP ART
+		if ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or 
+		((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
+			if artPosY > t_gallery[galleryMenu][galleryCursor].movelimit[2] then
+				artPosY = artPosY - galleryArtMoveSpeed
+			end
+	--MOVE DOWN ART
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or 
+		((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
+			if artPosY < t_gallery[galleryMenu][galleryCursor].movelimit[4] then
+				artPosY = artPosY + galleryArtMoveSpeed
+			end
+		end
+	--MOVE LEFT ART
+		if ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or 
+		((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 5)) then
+			if artPosX > t_gallery[galleryMenu][galleryCursor].movelimit[1] then
+				artPosX = artPosX - galleryArtMoveSpeed
+			end
+	--MOVE RIGHT ART
+		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or 
+		((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 5)) then
+			if artPosX < t_gallery[galleryMenu][galleryCursor].movelimit[3] then
+				artPosX = artPosX + galleryArtMoveSpeed
+			end
+		end
+	--ZOOM IN ART
+		if ((commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z')) or 
+		((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 10)) then
+			if artScaleX < t_gallery[galleryMenu][galleryCursor].zoomlimit[2] and artScaleY < t_gallery[galleryMenu][galleryCursor].zoomlimit[2] then
+				artScaleX = artScaleX + galleryArtZoomSpeed
+				artScaleY = artScaleY + galleryArtZoomSpeed
+			end
+	--ZOOM OUT ART
+		elseif ((commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y')) or 
+		((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 10)) then
+			if artScaleX > t_gallery[galleryMenu][galleryCursor].zoomlimit[1] and artScaleY > t_gallery[galleryMenu][galleryCursor].zoomlimit[1] then
+				artScaleX = artScaleX - galleryArtZoomSpeed
+				artScaleY = artScaleY - galleryArtZoomSpeed
+			end
+		end
+		animDraw(artworkBG) --Draw BG
+	--Draw Artwork (only if has Spr Data defined)
+		if t_gallery[galleryMenu][galleryCursor].spr[1] and t_gallery[galleryMenu][galleryCursor].spr[2] ~= nil then
+			f_drawArtwork()
+			textData = t_gallery[galleryMenu][galleryCursor].info
+		else
+			textData = txt_noData
+		end
+	--Draw HUD Assets
+		if not hideMenu then
+		--Draw Artwork Info
+			animDraw(artworkInfoBG) --Draw Info Text BG
+			textImgSetText(txt_artInfo, textData)
+			textImgDraw(txt_artInfo)
+		--Draw Page Info
+			if galleryCursor < 10 then artZero = "0" else artZero = "" end
+			f_drawQuickText(txt_galleryPageInfo, font14, 0, -1, "PAGE "..artZero..galleryCursor.."/"..artLimitZero..maxArt, 312, 15) --draw pictures page numbers text
+			--if galleryCursor > 1 then
+				animDraw(menuArrowLeft)
+				animUpdate(menuArrowLeft)
+			--end
+			--if galleryCursor < maxArt then
+				animDraw(menuArrowRight)
+				animUpdate(menuArrowRight)
+			--end
+		end
+	--DEBUG STUFF
+	--[
+		f_drawQuickText(txt_debugGalleryZoom, jgFnt, 0, 1, "ZOOM: "..artScaleX, 10, 15)
+		f_drawQuickText(txt_debugGalleryArtPosX, jgFnt, 0, 1, "POS X: "..artPosX, 10, 30)
+		f_drawQuickText(txt_debugGalleryArtPosY, jgFnt, 0, 1, "POS Y: "..artPosY, 10, 45)
+	--]]
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if not hideMenu then drawArtInputHints() end --Draw Input Hints Panel
+	--ART PAGE BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdw') or commandGetState(p2Cmd, 'holdw') then
+			bufq = 0
+			bufw = bufw + 1
+		elseif commandGetState(p1Cmd, 'holdq') or commandGetState(p2Cmd, 'holdq') then
+			bufw = 0
+			bufq = bufq + 1
+		else
+			bufq = 0
+			bufw = 0
+		end
+	--VERTICAL BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0			
+		end
+	--LATERAL BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufr = 0
+			bufl = 0
+		end
+	--ZOOM BUF KEY CONTROL
+		if commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz') then
+			bufy = 0
+			bufz = bufz + 1
+		elseif commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy') then
+			bufz = 0
+			bufy = bufy + 1
+		else
+			bufz = 0
+			bufy = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
 --;===========================================================
 --; GALLERY MENU (view pictures, storyboards and video cutscenes)
 --;===========================================================
-function f_drawGalleryPreview(sffData, group, index, x, y, scaleX, scaleY, x1, y1, x2, y2, alphaS, alphaD)
+local function f_drawGalleryPreview(sffData, group, index, x, y, scaleX, scaleY, x1, y1, x2, y2, alphaS, alphaD)
 	local x = x or 0
 	local y = y or 0
 	local scaleX = scaleX or 1
@@ -217,11 +572,11 @@ function f_drawGalleryPreview(sffData, group, index, x, y, scaleX, scaleY, x1, y
 	animDraw(anim)
 end
 
-function f_setGalleryCursorPos() --Used to calculate gallery cursor pos in gallery menu
+local function f_setGalleryCursorPos() --Used to calculate gallery cursor pos in gallery menu
 	galleryCursor = (galleryCursorX+(galleryColumns+galleryHiddenColumns)*galleryCursorY) + 1
 end
 
-function f_drawGallery(t, columns, rows) --Draw Gallery Content
+local function f_drawGallery(t, columns, rows) --Draw Gallery Content
 	local unlockSection = nil
 	local sprData = nil
 	if galleryMenu == 1 then
@@ -270,7 +625,7 @@ function f_drawGallery(t, columns, rows) --Draw Gallery Content
 	end
 end
 
-function f_updateGallery() --When move through gallery sections, update gallery content
+local function f_updateGallery() --When move through gallery sections, update gallery content
 	galleryCursorX = 0
 	galleryCursorY = 0
 	galleryMoveX = 0
@@ -582,361 +937,3 @@ function f_galleryMenu()
 		refresh()
 	end
 end
---;===========================================================================================
---; ARTWORK VIEWER MENU
---;===========================================================================================
-function f_drawArtwork()
-local artPic = t_gallery[galleryMenu][galleryCursor].spr[1] ..','.. t_gallery[galleryMenu][galleryCursor].spr[2].. ', 0,0, -1'
-artPic = animNew(sprArtworks, artPic)
-animSetScale(artPic, artScaleX, artScaleY)
-animSetPos(artPic, artPosX, artPosY)
-animUpdate(artPic)
-animDraw(artPic)
-end
-
-function f_resetArtPos()
-artPosX = t_gallery[galleryMenu][galleryCursor].pos[1]
-artPosY = t_gallery[galleryMenu][galleryCursor].pos[2]
-artScaleX = t_gallery[galleryMenu][galleryCursor].scale[1]
-artScaleY = t_gallery[galleryMenu][galleryCursor].scale[2]
-end
-
-function f_nextArt(limit)
-	local limit = limit
-	galleryCursor = galleryCursor + 1
-	if galleryCursor > limit then --Go to first art
-		galleryCursor = 1
-	end
-end
-
-function f_previousArt(limit)
-	local limit = limit
-	galleryCursor = galleryCursor - 1
-	if galleryCursor < 1 then --Go to last art
-		galleryCursor = limit
-	end
-end
-
-function f_getNewCursorPos() --Get new gallery cursor position when exit from artwork viewer (Unfinished)
-	galleryCursorX = (galleryCursor - 1) - galleryColumns*galleryCursorY
-	galleryCursorY = (galleryCursor - 1 - galleryCursorX) / galleryColumns
-end
-
-function f_artMenu(artLimit)
-	cmdInput()
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local bufw = 0
-	local bufq = 0
-	local bufz = 0
-	local bufy = 0
-	local bufx = 0	
-	local maxArt = artLimit
-	local artZero = ""
-	local artLimitZero = ""
-	if maxArt < 10 then artLimitZero = "0" end
-	local hideMenu = false
-	local textData = nil
-	artPosX = nil
-	artPosY = nil
-	artScaleX = nil
-	artScaleY = nil
-	f_resetArtPos()
-	f_resetArtworkArrowsPos()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	while true do
-	--RETURN TO GALLERY MENU
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 2)
-			break
-	--NEXT ART PAGE
-		elseif ((commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) or 
-		((commandGetState(p1Cmd, 'holdw') or commandGetState(p2Cmd, 'holdw')) and bufw >= 30)) then
-			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 3)
-			f_nextArt(maxArt)
-		--If current item is not unlocked
-			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
-				f_nextArt(maxArt) --Go to an unlocked art
-			end
-			f_resetArtPos()
-	--PREVIOUS ART PAGE
-		elseif ((commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q')) or 
-		((commandGetState(p1Cmd, 'holdq') or commandGetState(p2Cmd, 'holdq')) and bufq >= 30)) then
-			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 3)
-			f_previousArt(maxArt)
-		--If current item is not unlocked
-			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
-				f_previousArt(maxArt) --Go to an unlocked art
-			end
-			f_resetArtPos()
-	--RESET ART POSITION
-		elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-			f_resetArtPos()
-	--HIDE MENU
-		elseif commandGetState(p1Cmd, 'x') or commandGetState(p2Cmd, 'x') then
-			if not hideMenu then hideMenu = true else hideMenu = false end
-		end
-	--MOVE UP ART
-		if ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or 
-		((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
-			if artPosY > t_gallery[galleryMenu][galleryCursor].movelimit[2] then
-				artPosY = artPosY - galleryArtMoveSpeed
-			end
-	--MOVE DOWN ART
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or 
-		((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
-			if artPosY < t_gallery[galleryMenu][galleryCursor].movelimit[4] then
-				artPosY = artPosY + galleryArtMoveSpeed
-			end
-		end
-	--MOVE LEFT ART
-		if ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or 
-		((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 5)) then
-			if artPosX > t_gallery[galleryMenu][galleryCursor].movelimit[1] then
-				artPosX = artPosX - galleryArtMoveSpeed
-			end
-	--MOVE RIGHT ART
-		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or 
-		((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 5)) then
-			if artPosX < t_gallery[galleryMenu][galleryCursor].movelimit[3] then
-				artPosX = artPosX + galleryArtMoveSpeed
-			end
-		end
-	--ZOOM IN ART
-		if ((commandGetState(p1Cmd, 'z') or commandGetState(p2Cmd, 'z')) or 
-		((commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz')) and bufz >= 10)) then
-			if artScaleX < t_gallery[galleryMenu][galleryCursor].zoomlimit[2] and artScaleY < t_gallery[galleryMenu][galleryCursor].zoomlimit[2] then
-				artScaleX = artScaleX + galleryArtZoomSpeed
-				artScaleY = artScaleY + galleryArtZoomSpeed
-			end
-	--ZOOM OUT ART
-		elseif ((commandGetState(p1Cmd, 'y') or commandGetState(p2Cmd, 'y')) or 
-		((commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy')) and bufy >= 10)) then
-			if artScaleX > t_gallery[galleryMenu][galleryCursor].zoomlimit[1] and artScaleY > t_gallery[galleryMenu][galleryCursor].zoomlimit[1] then
-				artScaleX = artScaleX - galleryArtZoomSpeed
-				artScaleY = artScaleY - galleryArtZoomSpeed
-			end
-		end
-		animDraw(artworkBG) --Draw BG
-	--Draw Artwork (only if has Spr Data defined)
-		if t_gallery[galleryMenu][galleryCursor].spr[1] and t_gallery[galleryMenu][galleryCursor].spr[2] ~= nil then
-			f_drawArtwork()
-			textData = t_gallery[galleryMenu][galleryCursor].info
-		else
-			textData = txt_noData
-		end
-	--Draw HUD Assets
-		if not hideMenu then
-		--Draw Artwork Info
-			animDraw(artworkInfoBG) --Draw Info Text BG
-			textImgSetText(txt_artInfo, textData)
-			textImgDraw(txt_artInfo)
-		--Draw Page Info
-			if galleryCursor < 10 then artZero = "0" else artZero = "" end
-			f_drawQuickText(txt_galleryPageInfo, font14, 0, -1, "PAGE "..artZero..galleryCursor.."/"..artLimitZero..maxArt, 312, 15) --draw pictures page numbers text
-			--if galleryCursor > 1 then
-				animDraw(menuArrowLeft)
-				animUpdate(menuArrowLeft)
-			--end
-			--if galleryCursor < maxArt then
-				animDraw(menuArrowRight)
-				animUpdate(menuArrowRight)
-			--end
-		end
-	--DEBUG STUFF
-	--[
-		f_drawQuickText(txt_debugGalleryZoom, jgFnt, 0, 1, "ZOOM: "..artScaleX, 10, 15)
-		f_drawQuickText(txt_debugGalleryArtPosX, jgFnt, 0, 1, "POS X: "..artPosX, 10, 30)
-		f_drawQuickText(txt_debugGalleryArtPosY, jgFnt, 0, 1, "POS Y: "..artPosY, 10, 45)
-	--]]
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if not hideMenu then drawArtInputHints() end --Draw Input Hints Panel
-	--ART PAGE BUF KEY CONTROL
-		if commandGetState(p1Cmd, 'holdw') or commandGetState(p2Cmd, 'holdw') then
-			bufq = 0
-			bufw = bufw + 1
-		elseif commandGetState(p1Cmd, 'holdq') or commandGetState(p2Cmd, 'holdq') then
-			bufw = 0
-			bufq = bufq + 1
-		else
-			bufq = 0
-			bufw = 0
-		end
-	--VERTICAL BUF KEY CONTROL
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0			
-		end
-	--LATERAL BUF KEY CONTROL
-		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
-			bufl = 0
-			bufr = bufr + 1
-		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
-			bufr = 0
-			bufl = bufl + 1
-		else
-			bufr = 0
-			bufl = 0
-		end
-	--ZOOM BUF KEY CONTROL
-		if commandGetState(p1Cmd, 'holdz') or commandGetState(p2Cmd, 'holdz') then
-			bufy = 0
-			bufz = bufz + 1
-		elseif commandGetState(p1Cmd, 'holdy') or commandGetState(p2Cmd, 'holdy') then
-			bufz = 0
-			bufy = bufy + 1
-		else
-			bufz = 0
-			bufy = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; LOAD GALLERY.DEF DATA
---;===========================================================
-function f_loadGallery(path, reset) --Load def file which contains artworks data
-	local reset = reset or false --To reset table
-	if reset then t_gallery = {} end
-	local file = path
-	local section = 0
-	local content = f_fileRead(file)
-	content = content:gsub('([^\r\n;]*)%s*;[^\r\n]*', '%1')
-	content = content:gsub('\n%s*\n', '\n')
-	for line in content:gmatch('[^\r\n]+') do
-		local lineCase = line:lower()
-		if lineCase:match('^%s*%[%s*galleryartworks%s*%]') then
-			section = 1
-			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "ARTWORKS"
-			t_gallery[section]['txtID'] = textImgNew()
-		elseif lineCase:match('^%s*%[%s*gallerystoryboards%s*%]') then
-			section = 2
-			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "STORYBOARDS"
-			t_gallery[section]['txtID'] = textImgNew()
-		elseif lineCase:match('^%s*%[%s*gallerymovies%s*%]') then
-			section = 3
-			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "CUTSCENES"
-			t_gallery[section]['txtID'] = textImgNew()
-		elseif lineCase:match('^%s*%[%w+%]$') then
-			section = -1
-	--[GalleryArtworks]
-		elseif section == 1 then
-			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			--Generate Table to manage each item with default values
-				if param:match('^id$') then
-					--local newItem = {
-					table.insert(t_gallery[section],
-						{
-							id = value,
-							spr = {},
-							info = txt_galleryUnknown,
-							size = {galleryArtSizeX, galleryArtSizeY},
-							pos = {galleryArtPosX, galleryArtPosY},
-							scale = {galleryArtScaleX, galleryArtScaleY},
-							zoomlimit = {galleryArtZoomLimitX, galleryArtZoomLimitY},
-							movelimit = {galleryArtMoveLimitX1, galleryArtMoveLimitY1, galleryArtMoveLimitX2, galleryArtMoveLimitY2},
-							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
-							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
-							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
-							unlock = 'true'
-						}
-					)
-					--table.insert(t_gallery[section], newItem)
-			--Store comma separated number values to table
-				elseif param:match('^spr$') or param:match('^size$') or param:match('^pos$') or param:match('^scale$') or param:match('^zoomlimit$') or param:match('^movelimit$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
-					local tbl = {}
-					for num in value:gmatch('([^,]+)') do
-						table.insert(tbl, tonumber(num))
-					end
-					if t_gallery[section][#t_gallery[section]] then
-						t_gallery[section][#t_gallery[section]][param] = tbl
-					end
-			--Store extra values
-				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
-					t_gallery[section][#t_gallery[section]][param] = value
-				end
-			end
-	--[GalleryStoryboards] / [GalleryMovies]
-		elseif section == 2 or section == 3 then
-			local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-			if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			--Generate Table to manage each item with default values
-				if param:match('^id$') then
-					table.insert(t_gallery[section],
-						{
-							id = value,
-							spr = {},
-							file = {},
-							size = {galleryArtSizeX, galleryArtSizeY},
-							info = txt_galleryUnknown,
-							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
-							previewspacing = {galleryPreviewArtSpacingX, galleryPreviewArtSpacingY},
-							previewscale = {galleryPreviewArtScaleX, galleryPreviewArtScaleY},
-							unlock = 'true'
-						}
-					)
-			--Store comma separated number values to table
-				elseif param:match('^spr$') or param:match('^size$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
-					local tbl = {}
-					for num in value:gmatch('([^,]+)') do
-						table.insert(tbl, tonumber(num))
-					end
-					if t_gallery[section][#t_gallery[section]] then
-						t_gallery[section][#t_gallery[section]][param] = tbl
-					end
-			--Store extra values
-				elseif t_gallery[section][#t_gallery[section]] and t_gallery[section][#t_gallery[section]][param] ~= nil then
-					t_gallery[section][#t_gallery[section]][param] = value
-				end
-			end
-		end
-	end
-	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.log") end
---[[
-	textImgSetText(txt_loading, "LOADING GALLERY...")
-	textImgDraw(txt_loading)
-	refresh()
-]]
-end
-function f_loadGalleryDat()
-	f_loadGallery(galleryArtworksDef, true)
-	f_loadGallery(galleryStoryboardsDef, false)
-	f_loadGallery(galleryMoviesDef, false)
-end
-f_loadGalleryDat()
---[[
-for k, v in ipairs(t_gallery) do --Set Unlock Conditions
-	if main.t_unlockLua.gallery == nil then main.t_unlockLua['gallery'] = {} end
-	main.t_unlockLua.gallery[v.id] = v.unlock
-end
-]]
---[[
-for i=1, #t_gallery do
-	local section = nil
-	if i == 1 then section = "artworks"
-	elseif i == 2 then section = "storyboards"
-	elseif i == 3 then section = "videos"
-	end
-	for k, v in ipairs(t_gallery[i]) do --Send Gallery Unlocks Condition to t_unlockLua table
-		t_unlockLua[section][v.id] = v.unlock
-	end
-end
-]]

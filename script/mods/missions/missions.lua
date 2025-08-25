@@ -3,28 +3,28 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
 local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
-missionDef = "script/mods/missions/missions.def" --Missions Data (Missions definition filename)
-missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sprites
+local missionDef = "script/mods/missions/missions.def" --Missions Data (Missions definition filename)
+local missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sprites
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_challengeMenu,1,{text = "MISSIONS", gotomenu = "f_missionMenu()", id = textImgNew()}) --Insert new item to t_challengeMenu table loaded by screenpack.lua
-txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
-txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
-txt_missionIncomplete = "INCOMPLETE"
-txt_missionClear = "COMPLETED"
+local txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
+local txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
+local txt_missionIncomplete = "INCOMPLETE"
+local txt_missionClear = "COMPLETED"
 
-padlockMissionPosX = 125 --Padlock Position for Missions Menu
-padlockMissionPosY = 25
+local padlockMissionPosX = 125 --Padlock Position for Missions Menu
+local padlockMissionPosY = 25
 
-missionCommonPosX = 50 --Allow set common pos for all previews
-missionCommonPosY = 21
+local missionCommonPosX = 50 --Allow set common pos for all previews
+local missionCommonPosY = 21
 
-missionCommonScaleX = 0.168 --Allow set common scale for all previews
-missionCommonScaleY = 0.125
+local missionCommonScaleX = 0.168 --Allow set common scale for all previews
+local missionCommonScaleY = 0.125
 
 --Above Transparent background
-missionBG1 = animNew(sprIkemen, [[
+local missionBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(missionBG1, 48, 19)
@@ -32,7 +32,7 @@ animSetAlpha(missionBG1, 20, 100)
 animUpdate(missionBG1)
 
 --Below Transparent background
-missionBG2 = animNew(sprIkemen, [[
+local missionBG2 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(missionBG2, 40, 130)
@@ -40,7 +40,7 @@ animSetAlpha(missionBG2, 20, 100)
 animUpdate(missionBG2)
 
 --Missions Input Hints Panel
-function drawMissionInputHints()
+local function drawMissionInputHints()
 	local inputHintYPos = 219
 	local hintFont = font2
 	local hintFontYPos = 233
@@ -51,6 +51,91 @@ function drawMissionInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
+--Draw Missions Preview
+local function f_drawMissionPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
+	local scaleX = scaleX or 1
+	local scaleY = scaleY or 1
+	local alphaS = alphaS or 255
+	local alphaD = alphaD or 0
+	local anim = group..','..index..', 0,0, 0'
+	anim = animNew(missionSpr, anim)
+	animSetAlpha(anim, alphaS, alphaD)
+	animSetScale(anim, scaleX, scaleY)
+	animSetPos(anim, posX, posY)
+	animUpdate(anim)
+	animDraw(anim)
+	--return anim
+end
+--;===========================================================
+--; LOAD MISSIONS.DEF DATA
+--;===========================================================
+local function f_loadMissions()
+t_missions = {}
+local file = io.open(missionDef, "r")
+	if file ~= nil then
+		local section = 0
+		local row = 0
+		local content = file:read("*all")
+		file:close()
+		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+		content = content:gsub('\n%s*\n', '\n')
+		for line in content:gmatch('[^\r\n]+') do
+			local lineLower = line:lower()
+		--[Mission No]
+			if lineLower:match('^%s*%[%s*mission%s+%d+%s*%]') then
+				section = 1
+				row = #t_missions + 1
+			--Set Default Values
+				t_missions[row] = {
+					previewspr = {0, 0},
+					previewpos = {missionCommonPosX, missionCommonPosY},
+					previewscale = {missionCommonScaleX, missionCommonScaleY},
+					status = txt_missionIncomplete,
+					txtID = textImgNew(),
+					name = "???",
+					info = "",
+					unlock = "true"
+				}
+		--Extra section
+			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
+				section = -1
+			elseif section == 1 then
+			--Detect paramvalues
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:lower()
+				--If the value is a comma-separated list, convert to table
+					if value:match(',') then
+						local tbl = {}
+						for num in value:gmatch('([^,]+)') do
+							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+						end
+						t_missions[row][param] = tbl
+					else
+						t_missions[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
+					end
+				end
+			end
+		end
+		for _, v in ipairs(t_missions) do --Send Missions Unlock Condition to t_unlockLua table
+			t_unlockLua.modes[v.id] = v.unlock
+		end
+		if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.log") end
+		textImgSetText(txt_loading, "LOADING MISSIONS...")
+		textImgDraw(txt_loading)
+		refresh()
+	end
+end
+--;===========================================================
+--; MISSION SAVE DATA
+--;===========================================================
+local function f_missionStatus()
+	if data.missionNo == 1 then stats.modes.mission.clear1 = 1
+	elseif data.missionNo == 2 then stats.modes.mission.clear2 = 1
+	elseif data.missionNo == 3 then stats.modes.mission.clear3 = 1
+	end
+	f_saveStats()
+end
 --;===========================================================
 --; MISSIONS MENU (complete customizable tasks)
 --;===========================================================
@@ -229,92 +314,4 @@ function f_missionMenu()
 		refresh()
 	end
 end
-
---Get Missions Preview
-function f_drawMissionPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
-	local scaleX = scaleX or 1
-	local scaleY = scaleY or 1
-	local alphaS = alphaS or 255
-	local alphaD = alphaD or 0
-	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(missionSpr, anim)
-	animSetAlpha(anim, alphaS, alphaD)
-	animSetScale(anim, scaleX, scaleY)
-	animSetPos(anim, posX, posY)
-	animUpdate(anim)
-	animDraw(anim)
-	--return anim
-end
-
---;===========================================================
---; MISSION SAVE DATA
---;===========================================================
-function f_missionStatus()
-	if data.missionNo == 1 then stats.modes.mission.clear1 = 1
-	elseif data.missionNo == 2 then stats.modes.mission.clear2 = 1
-	elseif data.missionNo == 3 then stats.modes.mission.clear3 = 1
-	end
-	f_saveStats()
-end
-
---;===========================================================
---; LOAD MISSIONS.DEF DATA
---;===========================================================
-function f_loadMissions()
-t_missions = {}
-local file = io.open(missionDef, "r")
-	if file ~= nil then
-		local section = 0
-		local row = 0
-		local content = file:read("*all")
-		file:close()
-		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
-		content = content:gsub('\n%s*\n', '\n')
-		for line in content:gmatch('[^\r\n]+') do
-			local lineLower = line:lower()
-		--[Mission No]
-			if lineLower:match('^%s*%[%s*mission%s+%d+%s*%]') then
-				section = 1
-				row = #t_missions + 1
-			--Set Default Values
-				t_missions[row] = {
-					previewspr = {0, 0},
-					previewpos = {missionCommonPosX, missionCommonPosY},
-					previewscale = {missionCommonScaleX, missionCommonScaleY},
-					status = txt_missionIncomplete,
-					txtID = textImgNew(),
-					name = "???",
-					info = "",
-					unlock = "true"
-				}
-		--Extra section
-			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
-				section = -1
-			elseif section == 1 then
-			--Detect paramvalues
-				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-				if param ~= nil and value ~= nil then
-					param = param:lower()
-				--If the value is a comma-separated list, convert to table
-					if value:match(',') then
-						local tbl = {}
-						for num in value:gmatch('([^,]+)') do
-							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
-						end
-						t_missions[row][param] = tbl
-					else
-						t_missions[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
-					end
-				end
-			end
-		end
-		for _, v in ipairs(t_missions) do --Send Missions Unlock Condition to t_unlockLua table
-			t_unlockLua.modes[v.id] = v.unlock
-		end
-		if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.log") end
-		textImgSetText(txt_loading, "LOADING MISSIONS...")
-		textImgDraw(txt_loading)
-		refresh()
-	end
-end
-f_loadMissions()
+f_loadMissions() --To load when engine starts

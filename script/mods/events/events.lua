@@ -3,32 +3,32 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
 local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
-eventDef = "script/mods/events/events.def" --Events Data (Events definition filename)
-eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
+local eventDef = "script/mods/events/events.def" --Events Data (Events definition filename)
+local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --;===========================================================
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_extrasMenu,5,{text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
-txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
-txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
-txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
-txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
-txt_eventCancel = "EVENT TIME UNAVAILABLE"
+local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
+local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
+local txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
+local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
+local txt_eventCancel = "EVENT TIME UNAVAILABLE"
 
-txt_eventIncomplete = "INCOMPLETE"
-txt_eventClear = "COMPLETED"
+local txt_eventIncomplete = "INCOMPLETE"
+local txt_eventClear = "COMPLETED"
 
-padlockEventPosX = -83 --Padlock Position for Events Menu
-padlockEventPosY = 86
+local padlockEventPosX = -83 --Padlock Position for Events Menu
+local padlockEventPosY = 86
 
-eventCommonPosX = -95 --Allow set common pos for all previews
-eventCommonPosY = 61
+local eventCommonPosX = -95 --Allow set common pos for all previews
+local eventCommonPosY = 61
 
-eventCommonScaleX = 1.1 --Allow set common scale for all previews
-eventCommonScaleY = 1.1
+local eventCommonScaleX = 1.1 --Allow set common scale for all previews
+local eventCommonScaleY = 1.1
 
 --Above Transparent background
-eventBG1 = animNew(sprIkemen, [[
+local eventBG1 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(eventBG1, 0, 18)
@@ -36,7 +36,7 @@ animSetAlpha(eventBG1, 20, 100)
 animUpdate(eventBG1)
 
 --Below Transparent background
-eventBG2 = animNew(sprIkemen, [[
+local eventBG2 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
 animSetPos(eventBG2, 3, 49)
@@ -44,7 +44,7 @@ animSetAlpha(eventBG2, 20, 100)
 animUpdate(eventBG2)
 
 --Event Slot
-eventSlot = animNew(sprIkemen, [[
+local eventSlot = animNew(sprIkemen, [[
 30,0, 0,0, -1
 ]])
 eventSlotPosX = -100
@@ -54,7 +54,7 @@ eventSlotScaleX = 1
 eventSlotScaleY = 1
 
 --Info Window BG
-infoEventWindowBG = animNew(sprIkemen, [[
+local infoEventWindowBG = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
 animSetPos(infoEventWindowBG, 83.5, 97)
@@ -62,13 +62,13 @@ animSetScale(infoEventWindowBG, 1, 1)
 animUpdate(infoEventWindowBG)
 
 --Menu Arrows
-function f_resetEventArrowsPos()
+local function f_resetEventArrowsPos()
 animSetPos(menuArrowLeft, 0, 123)
 animSetPos(menuArrowRight, 312, 123)
 end
 
 --Events Input Hints Panel
-function drawEventInputHints()
+local function drawEventInputHints()
 	local inputHintYPos = 219
 	local hintFont = font2
 	local hintFontYPos = 233
@@ -79,7 +79,7 @@ function drawEventInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
-function drawInfoEventInputHints()
+local function drawInfoEventInputHints()
 	local inputHintYPos = 134
 	local hintFont = font2
 	local hintFontYPos = 148
@@ -92,6 +92,230 @@ function drawInfoEventInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Accept", 158, hintFontYPos)
 end
 
+--Get Events Preview
+local function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
+	local scaleX = scaleX or 1
+	local scaleY = scaleY or 1
+	local alphaS = alphaS or 255
+	local alphaD = alphaD or 0
+	local anim = group..','..index..', 0,0, 0'
+	anim = animNew(eventSpr, anim)
+	animSetAlpha(anim, alphaS, alphaD)
+	animSetScale(anim, scaleX, scaleY)
+	animSetPos(anim, posX, posY)
+	animUpdate(anim)
+	animDraw(anim)
+	--return anim
+end
+--;===========================================================
+--; EVENT INFO SCREEN
+--;===========================================================
+local function f_eventLockedReset()
+	eventLocked = false
+end
+local function f_eventLocked()
+	cmdInput()
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(infoEventWindowBG)
+--Draw Title
+	textImgDraw(txt_lockedInfo)
+--Draw Info Title Text
+	textImgDraw(txt_lockedinfoTitle)
+--Draw Input Hints Panel
+	drawInfoEventInputHints()
+--Actions
+	if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+		sndPlay(sndSys, 100, 2)
+		f_eventLockedReset()
+	end
+end
+--;===========================================================
+--; EVENT TIME CHECKS FUNCTIONS
+--;===========================================================
+--Connecting to Internet Time Screen
+local function f_netTimeInfoReset()
+	netTimeInfoScreen = false
+	netTimeCount = 0
+end
+local function f_netTimeInfo()
+	cmdInput()
+	local txt = ""
+	local posX = 160
+	local posY = 105
+	local limit = 70
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(infoWindowBG)
+--Draw Info Title Text
+	textImgDraw(txt_infoTitle)
+--Connect to Internet Time
+	if netTimeCount > 30 then
+		if netTimeCount < 32 then loadNetTime() end
+	--Unable to Connect
+		if netTime == nil then
+			txt = txt_noInternet.."\n"..netLog
+		--Draw Input Hints Panel
+			drawInfoInputHints()
+		--Accept Button
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				sndPlay(sndSys, 100, 2)
+				f_netTimeInfoReset()
+			end
+		else
+			f_netTimeInfoReset()
+		end
+--Waiting to Connect
+	else
+		txt = txt_connectingNet
+		netTimeCount = netTimeCount + 1
+	end
+--Draw Info Text
+	f_textRender(txt_info, txt, 0, posX, posY, 10, 0, limit)
+end
+
+--Función para comprobar si la fecha actual está en el rango y dar acceso al evento
+local function f_checkEvent(timeType, t_timeStart, t_timeDeadline)
+--Convertir los datos de inicio y deadline a timestamps
+	local startTime = os.time({
+		year = t_timeStart.year,
+		month = f_monthToNumber(t_timeStart.month),
+		day = t_timeStart.day,
+		hour = t_timeStart.hour,
+		min = t_timeStart.min,
+		sec = t_timeStart.sec
+	})
+	local deadlineTime = os.time({
+		year = t_timeDeadline.year,
+		month = f_monthToNumber(t_timeDeadline.month),
+		day = t_timeDeadline.day,
+		hour = t_timeDeadline.hour,
+		min = t_timeDeadline.min,
+		sec = t_timeDeadline.sec
+	})
+--Obtener la hora actual en timestamps
+	local now = nil
+	if timeType == "net" then
+		now = currentNetTime
+	elseif timeType == "local" then
+		now = os.time()
+	end
+	if now == nil then return false end
+--Comprobar si la hora actual está dentro del rango
+	if now >= startTime and now <= deadlineTime then
+		return true
+	else
+		return false
+	end
+end
+
+local function f_getTimeDat(moment, id)
+	local t = {}
+	if moment == "start" then
+		t = {
+			year = t_events[id].yearstart,
+			month = t_events[id].monthstart,
+			day = t_events[id].daystart,
+			hour = t_events[id].hourstart,
+			min = t_events[id].minutestart,
+			sec = t_events[id].secondstart,
+		}
+	elseif moment == "deadline" then
+		t = {
+			year = t_events[id].yeardeadline,
+			month = t_events[id].monthdeadline,
+			day = t_events[id].daydeadline,
+			hour = t_events[id].hourdeadline,
+			min = t_events[id].minutedeadline,
+			sec = t_events[id].seconddeadline,
+		}
+	end
+	return t
+end
+--;===========================================================
+--; LOAD EVENTS.DEF DATA
+--;===========================================================
+local function f_loadEvents()
+t_events = {}
+local file = io.open(eventDef, "r")
+	if file ~= nil then
+		local section = 0
+		local row = 0
+		local content = file:read("*all")
+		file:close()
+		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+		content = content:gsub('\n%s*\n', '\n')
+		for line in content:gmatch('[^\r\n]+') do
+			local lineLower = line:lower()
+		--[Event No]
+			if lineLower:match('^%s*%[%s*event%s+%d+%s*%]') then
+				section = 1
+				row = #t_events + 1
+			--Set Default Values
+				t_events[row] = {
+					previewspr = {0, 0},
+					previewpos = {eventCommonPosX, eventCommonPosY},
+					previewscale = {eventCommonScaleX, eventCommonScaleY},
+					status = txt_eventIncomplete,
+					txtID = textImgNew(),
+					info = "???",
+					time = "local", --use local time if is not defined
+					yearstart = sysYear,
+					yeardeadline = sysYear,
+					monthstart = sysMonth,
+					monthdeadline = sysMonth,
+					daystart = sysDay,
+					daydeadline = sysDay,
+					hourstart = "01", --sysHour,
+					hourdeadline = "24", --sysHour,
+					minutestart = "00", --sysMinutes,
+					minutedeadline = "59", --sysMinutes,
+					secondstart = "0", --sysSeconds,
+					seconddeadline = "59", --sysSeconds,
+					unlock = "true"
+				}
+		--Extra section
+			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
+				section = -1
+			elseif section == 1 then
+			--Detect paramvalues
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:lower()
+				--If the value is a comma-separated list, convert to table
+					if value:match(',') then
+						local tbl = {}
+						for num in value:gmatch('([^,]+)') do
+							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+						end
+						t_events[row][param] = tbl
+					else
+						t_events[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
+					end
+				end
+			end
+		end
+		for _, v in ipairs(t_events) do --Send Events Unlock Condition to t_unlockLua table
+			t_unlockLua.modes[v.id] = v.unlock
+		end
+		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
+		textImgSetText(txt_loading, "LOADING EVENTS...")
+		textImgDraw(txt_loading)
+		refresh()
+	end
+end
+--;===========================================================
+--; EVENT SAVE DATA
+--;===========================================================
+local function f_eventStatus()
+	if data.eventNo == 1 then stats.modes.event.clear1 = 1
+	elseif data.eventNo == 2 then stats.modes.event.clear2 = 1
+	elseif data.eventNo == 3 then stats.modes.event.clear3 = 1
+	end
+	f_saveStats()
+end
 --;===========================================================
 --; EVENTS MENU (complete customizable tasks at certain times)
 --;===========================================================
@@ -140,6 +364,7 @@ function f_eventMenu()
 				eventMenu = eventMenu + 1
 			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
+				--f_checkEvent(t_events[eventMenu].time, f_getTimeDat("start", eventMenu), f_getTimeDat("deadline", eventMenu))
 			--EVENT AVAILABLE
 				if t_unlockLua.modes[t_events[eventMenu].id] == nil and netTime ~= nil then --If the event is unlocked
 					f_default()
@@ -297,238 +522,4 @@ function f_eventMenu()
 		refresh()
 	end
 end
-
---Get Events Preview
-function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
-	local scaleX = scaleX or 1
-	local scaleY = scaleY or 1
-	local alphaS = alphaS or 255
-	local alphaD = alphaD or 0
-	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(eventSpr, anim)
-	animSetAlpha(anim, alphaS, alphaD)
-	animSetScale(anim, scaleX, scaleY)
-	animSetPos(anim, posX, posY)
-	animUpdate(anim)
-	animDraw(anim)
-	--return anim
-end
-
-function f_netTimeInfo()
-	cmdInput()
-	local txt = ""
-	local posX = 160
-	local posY = 105
-	local limit = 70
---Draw Fade BG
-	animDraw(fadeWindowBG)
---Draw Menu BG
-	animDraw(infoWindowBG)
---Draw Info Title Text
-	textImgDraw(txt_infoTitle)
---Connect to Internet Time
-	if netTimeCount > 30 then
-		if netTimeCount < 32 then loadNetTime() end
-	--Unable to Connect
-		if netTime == nil then
-			txt = txt_noInternet.."\n"..netLog
-		--Draw Input Hints Panel
-			drawInfoInputHints()
-		--Accept Button
-			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				sndPlay(sndSys, 100, 2)
-				f_netTimeInfoReset()
-			end
-		else
-			f_netTimeInfoReset()
-		end
---Waiting to Connect
-	else
-		txt = txt_connectingNet
-		netTimeCount = netTimeCount + 1
-	end
---Draw Info Text
-	f_textRender(txt_info, txt, 0, posX, posY, 10, 0, limit)
-end
-
-function f_netTimeInfoReset()
-	netTimeInfoScreen = false
-	netTimeCount = 0
-end
-
-function f_eventLocked()
-	cmdInput()
---Draw Fade BG
-	animDraw(fadeWindowBG)
---Draw Menu BG
-	animDraw(infoEventWindowBG)
---Draw Title
-	textImgDraw(txt_lockedInfo)
---Draw Info Title Text
-	textImgDraw(txt_lockedinfoTitle)
---Draw Input Hints Panel
-	drawInfoEventInputHints()
---Actions
-	if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-		sndPlay(sndSys, 100, 2)
-		f_eventLockedReset()
-	end
-end
-
-function f_eventLockedReset()
-	eventLocked = false
-end
-
--- Función auxiliar para convertir mes en número
-local monthMap = {
-    Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6,
-    Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12
-}
-
-local function monthToNumber(m)
-    return monthMap[m] or 0
-end
-
--- Función para comprobar si la fecha actual está en el rango y dar acceso al evento
-function f_checkEvent(timeType, t_timeStart, t_timeDeadline)	
-	-- Convertir los datos de inicio y deadline a timestamps
-    local startTime = os.time({
-        year = t_timeStart.year,
-        month = monthToNumber(t_timeStart.month),
-        day = t_timeStart.day,
-        hour = t_timeStart.hour,
-        min = t_timeStart.min,
-        sec = t_timeStart.sec
-    })
-
-    local deadlineTime = os.time({
-        year = t_timeDeadline.year,
-        month = monthToNumber(t_timeDeadline.month),
-        day = t_timeDeadline.day,
-        hour = t_timeDeadline.hour,
-        min = t_timeDeadline.min,
-        sec = t_timeDeadline.sec
-    })
-
-    -- Obtener la hora actual en timestamps
-    local now = nil
-	if timeType == "net" then
-		now = currentNetTime
-	elseif timeType == "local" then
-		now = os.time()
-	end
-	if now == nil then return false end
-    -- Comprobar si la hora actual está dentro del rango
-    if now >= startTime and now <= deadlineTime then
-        return true
-    else
-        return false
-    end
-end
-
-local t_timeDatStart = {
-					year = t_events[eventMenu].yearstart,
-					month = t_events[eventMenu].monthstart,
-					day = t_events[eventMenu].daystart,
-					hour = t_events[eventMenu].hourstart,
-					min = t_events[eventMenu].minutestart,
-					sec = t_events[eventMenu].secondstart,
-				}
-				
-local t_timeDatDeadline = {
-					year = t_events[eventMenu].yeardeadline,
-					month = t_events[eventMenu].monthdeadline,
-					day = t_events[eventMenu].daydeadline,
-					hour = t_events[eventMenu].hourdeadline,
-					min = t_events[eventMenu].minutedeadline,
-					sec = t_events[eventMenu].seconddeadline,
-				}				
-				
-f_checkEvent(t_events[eventMenu].time, t_timeDatStart, t_timeDatDeadline)
---Otra opción sería crear una variable dentro del countdown cuando está disponible o no, para usarla en lugar de hacer el chequeo repitiendo los datos
-
-
---;===========================================================
---; EVENT SAVE DATA
---;===========================================================
-function f_eventStatus()
-	if data.eventNo == 1 then stats.modes.event.clear1 = 1
-	elseif data.eventNo == 2 then stats.modes.event.clear2 = 1
-	elseif data.eventNo == 3 then stats.modes.event.clear3 = 1
-	end
-	f_saveStats()
-end
-
---;===========================================================
---; LOAD EVENTS.DEF DATA
---;===========================================================
-function f_loadEvents()
-t_events = {}
-local file = io.open(eventDef, "r")
-	if file ~= nil then
-		local section = 0
-		local row = 0
-		local content = file:read("*all")
-		file:close()
-		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
-		content = content:gsub('\n%s*\n', '\n')
-		for line in content:gmatch('[^\r\n]+') do
-			local lineLower = line:lower()
-		--[Event No]
-			if lineLower:match('^%s*%[%s*event%s+%d+%s*%]') then
-				section = 1
-				row = #t_events + 1
-			--Set Default Values
-				t_events[row] = {
-					previewspr = {0, 0},
-					previewpos = {eventCommonPosX, eventCommonPosY},
-					previewscale = {eventCommonScaleX, eventCommonScaleY},
-					status = txt_eventIncomplete,
-					txtID = textImgNew(),
-					info = "???",
-					time = "local", --use local time if is not defined
-					yearstart = sysYear,
-					yeardeadline = sysYear,
-					monthstart = sysMonth,
-					monthdeadline = sysMonth,
-					daystart = sysDay,
-					daydeadline = sysDay,
-					hourstart = "01", --sysHour,
-					hourdeadline = "24", --sysHour,
-					minutestart = "00", --sysMinutes,
-					minutedeadline = "59", --sysMinutes,
-					secondstart = "0", --sysSeconds,
-					seconddeadline = "59", --sysSeconds,
-					unlock = "true"
-				}
-		--Extra section
-			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
-				section = -1
-			elseif section == 1 then
-			--Detect paramvalues
-				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-				if param ~= nil and value ~= nil then
-					param = param:lower()
-				--If the value is a comma-separated list, convert to table
-					if value:match(',') then
-						local tbl = {}
-						for num in value:gmatch('([^,]+)') do
-							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
-						end
-						t_events[row][param] = tbl
-					else
-						t_events[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
-					end
-				end
-			end
-		end
-		for _, v in ipairs(t_events) do --Send Events Unlock Condition to t_unlockLua table
-			t_unlockLua.modes[v.id] = v.unlock
-		end
-		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
-		textImgSetText(txt_loading, "LOADING EVENTS...")
-		textImgDraw(txt_loading)
-		refresh()
-	end
-end
-f_loadEvents()
+f_loadEvents() --To load when engine starts

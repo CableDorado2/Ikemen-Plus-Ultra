@@ -3755,6 +3755,12 @@ sysHour = tonumber(os.date("%H")) --Current Hour (Useful for day/night features)
 sysMinutes = tonumber(os.date("%M")) --Current Minute
 sysSeconds = tonumber(os.date("%S")) --Current Second
 
+--Convert Month abbreviation to Number
+t_monthMap = {Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6, Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12}
+function f_monthToNumber(m)
+	return t_monthMap[m] or 0
+end
+
 t_dateFormats = {
 	"%Y-%m-%d", --ISO
 	"%d.%m.%Y", --European
@@ -3920,8 +3926,11 @@ function f_sysTime()
 end
 
 function f_timeCountdown(args)
---args is a table that can have keys: year, month, day, hour, min, sec
---Example: f_timeCountdown({year=2025}, {month="Sep"}, {day=15},).
+--[["args" argument is a table that can have keys: year, month, day, hour, min, sec
+Example:
+t_deadline = {year="2025", month="Dec", day="31", hour = "23", min = "59", sec = "59"}
+f_timeCountdown(t_deadline)
+]]
 --Get the current date and time
 	local now = nil
 	if args.time == "net" then
@@ -3940,14 +3949,10 @@ function f_timeCountdown(args)
 		sec = tonumber(args.sec) or 0
 	}
 --Convert month to number if it is string
-	local monthNames = {
-		Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6,
-		Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12
-	}
 	if type(args.month) == "string" then
-		targetDate.month = monthNames[args.month]
+		targetDate.month = f_monthToNumber(args.month) --targetMonth[]
 	elseif args.month then
-		targetDate.month = tonumber(targetMonth)
+		targetDate.month = tonumber(args.month)
 	end
 --If the day is missing, day 1 is assumed
 	targetDate.day = tonumber(args.day) or 1

@@ -3,12 +3,12 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
 local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
-bgmAdventure = "sound/System/Adventure.mp3" --load bgm
+local bgmAdventure = "sound/System/Adventure.mp3" --load bgm
 --;===========================================================
 --; ADVENTURE MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_extrasMenu,1,{text = "ADVENTURE", gotomenu = "f_comingSoon()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
-t_adventureMenu = {
+local t_adventureMenu = {
 	{text = "START", gotomenu = ""},
 	{text = "SAVE",  gotomenu = ""},
 	--{text = "LOAD",  gotomenu = ""},

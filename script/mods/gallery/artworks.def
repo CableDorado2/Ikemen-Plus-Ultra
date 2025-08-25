@@ -62,7 +62,7 @@ previewscale = 0.063, 0.063
 
 id = Art 9
 spr = 0,8
-info = Winmugen
+info = WinMUGEN
 size = 640,480
 scale = 0.50, 0.50
 zoomlimit = 0.26,1.30
@@ -73,7 +73,7 @@ previewscale = 0.1405, 0.105
 
 id = Art 10
 spr = 0,9
-info = Mugen 1.0
+info = M.U.G.E.N 1.0
 size = 640,480
 scale = 0.50, 0.50
 zoomlimit = 0.26,1.30
@@ -84,7 +84,7 @@ previewscale = 0.1405, 0.105
 
 id = Art 11
 spr = 0,10
-info = Ikemen S-SIZE
+info = I.K.E.M.E.N. S-SIZE
 size = 640,480
 scale = 0.50, 0.50
 zoomlimit = 0.26,1.30
@@ -95,7 +95,7 @@ previewscale = 0.1405, 0.105
 
 id = Art 12
 spr = 0,11
-info = Ikemen Plus
+info = I.K.E.M.E.N. Plus
 size = 640,480
 scale = 0.50, 0.50
 zoomlimit = 0.26,1.30
@@ -106,7 +106,7 @@ previewscale = 0.1405, 0.105
 
 id = Art 13
 spr = 0,12
-info = Ikemen Plus Ultra
+info = I.K.E.M.E.N. Plus Ultra
 size = 640,480
 scale = 0.50, 0.50
 zoomlimit = 0.26,1.30
@@ -117,7 +117,7 @@ previewscale = 0.1405, 0.105
 
 id = Art 14
 spr = 0,13
-info = Ikemen GO
+info = I.K.E.M.E.N. GO
 size = 640,480
 scale = 0.50, 0.50
 zoomlimit = 0.26,1.30
