@@ -9,8 +9,9 @@ local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_extrasMenu,5,{text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
-local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
-local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 10)
+local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 115, 10)
+local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 122, 10)
+local txt_internetTime = createTextImg(jgFnt, 0, -1, "", 318, 10)
 local txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
 local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
 local txt_eventCancel = "EVENT TIME UNAVAILABLE"
@@ -364,9 +365,8 @@ function f_eventMenu()
 				eventMenu = eventMenu + 1
 			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
-				--f_checkEvent(t_events[eventMenu].time, f_getTimeDat("start", eventMenu), f_getTimeDat("deadline", eventMenu))
 			--EVENT AVAILABLE
-				if t_unlockLua.modes[t_events[eventMenu].id] == nil and netTime ~= nil then --If the event is unlocked
+				if f_checkEvent(t_events[eventMenu].time, f_getTimeDat("start", eventMenu), f_getTimeDat("deadline", eventMenu)) and t_unlockLua.modes[t_events[eventMenu].id] == nil then --If the event is unlocked
 					f_default()
 					data.rosterMode = "event"
 					setGameMode('event')
@@ -422,6 +422,10 @@ function f_eventMenu()
 	--Draw Title Menu
 		textImgDraw(txt_eventMenu)
 		textImgDraw(txt_eventProgress)
+		if currentNetTime ~= nil then
+			textImgSetText(txt_internetTime, netTime)
+			textImgDraw(txt_internetTime)
+		end
 	--Draw Content Transparent BG
 		animSetScale(eventBG2, 318, 154)
 		animSetWindow(eventBG2, 3,49, 314,154)
@@ -443,7 +447,7 @@ function f_eventMenu()
 					textImgDraw(f_updateTextImg(t_events[i].txtID, jgFnt, bank, 0, t_events[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
-				if t_unlockLua.modes[t_events[i].id] == nil and netTime ~= nil then --If the event is unlocked
+				if f_checkEvent(t_events[i].time, f_getTimeDat("start", i), f_getTimeDat("deadline", i)) and t_unlockLua.modes[t_events[i].id] == nil then --If the event is unlocked
 					previewTransS = nil
 					previewTransD = nil
 				else
@@ -459,7 +463,7 @@ function f_eventMenu()
 			--Draw Event Slot Icon
 				f_drawQuickSpr(eventSlot, eventSlotPosX+i*105-moveTxt, eventSlotPosY, eventSlotScaleX, eventSlotScaleY, previewTransS, previewTransD)
 			--Draw Padlock Icon
-				if t_unlockLua.modes[t_events[i].id] ~= nil or netTime == nil then
+				if not f_checkEvent(t_events[i].time, f_getTimeDat("start", i), f_getTimeDat("deadline", i)) or t_unlockLua.modes[t_events[i].id] ~= nil then
 					animPosDraw(padlock, padlockEventPosX+i*105-moveTxt, padlockEventPosY)
 				end
 			end
@@ -471,15 +475,16 @@ function f_eventMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	--Draw Event Info
-		if t_unlockLua.modes[t_events[eventMenu].id] == nil and netTime ~= nil then
-			previewInfotxt = t_events[eventMenu].info
+		if f_checkEvent(t_events[eventMenu].time, f_getTimeDat("start", eventMenu), f_getTimeDat("deadline", eventMenu)) and t_unlockLua.modes[t_events[eventMenu].id] == nil then
+			previewInfotxt = t_events[eventMenu].info --Event Available
 		else
-		--Unable to connect to internet time. Close event
-			if netTime == nil then
-				if netTimeInfoScreen then previewInfotxt = "" else previewInfotxt = txt_eventCancel end
-		--It's Not the time yet (Show countdown)
+		--An Unlock Condition is required to play the event
+			if t_unlockLua.modes[t_events[eventMenu].id] ~= nil then
+				previewInfotxt = "AN UNLOCK CONDITION IS REQUIRED TO PLAY THIS EVENT"
+		--It's Not the Start Time yet
 			else
-				local t_timeDat = {
+			--Show Start Time Countdown
+				local t_startTime = {
 					time = t_events[eventMenu].time,
 					year = t_events[eventMenu].yearstart,
 					month = t_events[eventMenu].monthstart,
@@ -488,9 +493,14 @@ function f_eventMenu()
 					min = t_events[eventMenu].minutestart,
 					sec = t_events[eventMenu].secondstart,
 				}
-				previewInfotxt = f_timeCountdown(t_timeDat)
+				previewInfotxt = f_timeCountdown(t_startTime)
+			--Unable to check internet time, close event
+				if t_events[eventMenu].time == "net" and netTime == nil then
+					previewInfotxt = txt_eventCancel
+				end
 			end
 		end
+		if netTimeInfoScreen then previewInfotxt = "" end
 		textImgDraw(f_updateTextImg(t_events[eventMenu].txtID, font11, 0, 0, previewInfotxt, 160, 34))
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
@@ -503,7 +513,7 @@ function f_eventMenu()
 			animUpdate(menuArrowRight)
 		end
 		if eventLocked then f_eventLocked() --Show Locked Event Info Message
-		elseif netTimeInfoScreen then f_netTimeInfo()
+		elseif netTimeInfoScreen then f_netTimeInfo() --Show Connecting to Internet Time Info Message
 		else drawEventInputHints()
 		end
 		animDraw(data.fadeTitle)

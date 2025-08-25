@@ -41,6 +41,44 @@ and after complete one. If it evaluates to boolean 'true' the event
 will be selectable from events mode submenu, or locked on 'false'.
 Default: true.
 
+- time = local/net
+Set time that will be considered to check the event available time.
+Only local or net(internet) time are available.
+
+- yearstart = 20XX
+Sets the year in which the event will be Available.
+
+- yeardeadline = 20XX
+Sets the year in which the event will be Unavailable.
+
+- monthstart = Jan/Feb/Mar/Apr/May/Jun/Jul/Aug/Sep/Oct/Nov/Dec
+Sets the month in which the event will be Available.
+Month's name must be abbreviated to be recognized.
+
+- monthdeadline = Jan/Feb/Mar/Apr/May/Jun/Jul/Aug/Sep/Oct/Nov/Dec
+Sets the month in which the event will be Unavailable.
+Month's name must be abbreviated to be recognized.
+
+- daystart = 1/31
+Sets the day in which the event will be Available.
+
+- daydeadline = 1/31
+Sets the day in which the event will be Unavailable.
+
+- hourstart = 01/24
+Sets the hour in which the event will be Available.
+Only military format is supported.
+
+- hourdeadline = 01/24
+Sets the hour in which the event will be Unavailable.
+Only military format is supported.
+
+- minutestart = 01/59
+Sets the minute in which the event will be Available.
+
+- minutedeadline = 01/59
+Sets the minute in which the event will be Unavailable.
+
 ;---------------------------------------------------------------------------------
 Some Examples:
 
@@ -49,7 +87,11 @@ id = event1
 info = Trouble Dude
 previewspr = 0,1
 path = data/events/event1.lua
-unlock = sysTime >= 13 and sysTime <= 23 ;Event Available at this Time!
+time = local
+hourstart = 13 ;Event Start Available at this Time!
+hourdeadline = 23 ;Event Deadline at this Time!
+monthstart = Oct
+monthdeadline = Nov
 
 [Event 2]
 id = event2
@@ -59,3 +101,6 @@ previewpos = 20,60
 previewscale = 0.5,0.8
 path = data/events/event2.lua
 unlock = stats.modes.event1.score > 0
+time = net
+monthstart = Jun
+monthdeadline = Sep
