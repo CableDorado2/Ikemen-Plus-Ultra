@@ -10,16 +10,6 @@ It's meant to be a reference for adding parameters to your own missions.def file
 Load mission assets.
 Mission items added are displayed in: Challenges - Missions submenu.
 
-- preview.file = path.sff
-Set the name of the sprites file to use for mission previews.
-
-- preview.common.pos(unused)= posX, posY
-Set posX and posY to all sprite previews defined in preview.spr paramvalue.
-
-- preview.common.scale(unused)= scaleX, scaleY
-Set scaleX and scaleY to all sprite previews defined in preview.spr paramvalue.
-
-
 Setup following parameters below "[Mission <0...>]" section:
 
 - id = text
@@ -31,17 +21,17 @@ All missions should have unique id names.
 - info = text
 Set the info text that should be displayed for a mission unlocked.
 
-- info.locked = text
+- infolock = text
 Set the info text that should be displayed for a mission locked.
 
-- preview.spr = <groupNo,indexNo>
+- previewspr = <groupNo,indexNo>
 Set groupNo and indexNo to read from sprite file defined in
 preview.file paramvalue to show sprite preview for item.
 
-- preview.pos = <posX,posY>
+- previewpos = <posX,posY>
 Set posX and posY to sprite preview defined in preview.spr paramvalue.
 
-- preview.scale = <scaleX,scaleY>
+- previewscale = <scaleX,scaleY>
 Set scaleX and scaleY to sprite preview defined in preview.spr paramvalue.
 
 - path = path.lua
@@ -57,20 +47,18 @@ Default: true.
 ;---------------------------------------------------------------------------------
 Some Examples:
 
-preview.file = data/missions/missions.sff
-
 [Mission 1]
 id = mission1
 info = Mission 1 Description
-preview.spr = 0,1
+previewspr = 0,1
 path = data/missions/mission1.lua
 
 [Mission 2]
 id = mission2
 info = Mission 2 Description
-info.locked = COMPLETE MISSION 1
-preview.spr = 0,2
-preview.pos = 20,60
-preview.scale = 0.5,0.8
+infolock = COMPLETE MISSION 1
+previewspr = 0,2
+previewpos = 20,60
+previewscale = 0.5,0.8
 path = data/missions/mission2.lua
 unlock = stats.modes.mission1.score > 0

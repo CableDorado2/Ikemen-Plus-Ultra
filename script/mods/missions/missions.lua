@@ -4,6 +4,7 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 =================================================================================]]
 local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 missionDef = "script/mods/missions/missions.def" --Missions Data (Missions definition filename)
+missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sprites
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -70,10 +71,6 @@ function f_missionMenu()
 	local bufl = 0
 	local previewInfotxt = nil
 	local missionNametxt = nil
-	local previewPosX = nil
-	local previewPosY = nil
-	local previewScaleX = nil
-	local previewScaleY = nil
 	local previewTransS = nil
 	local previewTransD = nil
 	animSetPos(menuArrowUp, 280, 130)
@@ -165,19 +162,6 @@ function f_missionMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Mission Image Preview
-		if t_missions[missionMenu].sprPosX ~= nil then previewPosX = t_missions[missionMenu].sprPosX --Use position stored in events.def file
-		else previewPosX = missionCommonPosX --Use common position loaded in screenpack.lua
-		end
-		if t_missions[missionMenu].sprPosY ~= nil then previewPosY = t_missions[missionMenu].sprPosY
-		else previewPosY = missionCommonPosY
-		end
-		if t_missions[missionMenu].sprScaleX ~= nil then previewScaleX = t_missions[missionMenu].sprScaleX --Use scale stored in events.def file
-		else previewScaleX = missionCommonScaleX --Use common scale loaded in screenpack.lua
-		end
-		if t_missions[missionMenu].sprScaleY ~= nil then previewScaleY = t_missions[missionMenu].sprScaleY
-		else previewScaleY = missionCommonScaleY
-		end
-		--
 		if t_unlockLua.modes[t_missions[missionMenu].id] == nil then --If the mission is unlocked
 			previewTransS = nil
 			previewTransD = nil
@@ -185,10 +169,15 @@ function f_missionMenu()
 			previewTransS = 150 --Apply Transparent
 			previewTransD = 0
 		end
-		f_drawMissionPreview(t_missions[missionMenu].sprGroup, t_missions[missionMenu].sprIndex, previewPosX, previewPosY, previewScaleX, previewScaleY, previewTransS, previewTransD)
+		f_drawMissionPreview(
+			t_missions[missionMenu].previewspr[1], t_missions[missionMenu].previewspr[2],
+			t_missions[missionMenu].previewpos[1], t_missions[missionMenu].previewpos[2],
+			t_missions[missionMenu].previewscale[1], t_missions[missionMenu].previewscale[2],
+			previewTransS, previewTransD
+		)
 	--Draw Mission Info
 		if t_unlockLua.modes[t_missions[missionMenu].id] == nil then
-			previewInfotxt = t_missions[missionMenu].infounlock
+			previewInfotxt = t_missions[missionMenu].info
 		else
 			animPosDraw(padlock, padlockMissionPosX, padlockMissionPosY) --Draw Padlock Icon
 			previewInfotxt = t_missions[missionMenu].infolock
@@ -248,7 +237,7 @@ function f_drawMissionPreview(group, index, posX, posY, scaleX, scaleY, alphaS, 
 	local alphaS = alphaS or 255
 	local alphaD = alphaD or 0
 	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(t_missions.sffData, anim)
+	anim = animNew(missionSpr, anim)
 	animSetAlpha(anim, alphaS, alphaD)
 	animSetScale(anim, scaleX, scaleY)
 	animSetPos(anim, posX, posY)
@@ -273,120 +262,59 @@ end
 --;===========================================================
 function f_loadMissions()
 t_missions = {}
-local file = io.open(missionDef,"r")
+local file = io.open(missionDef, "r")
 	if file ~= nil then
 		local section = 0
+		local row = 0
 		local content = file:read("*all")
 		file:close()
 		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 		content = content:gsub('\n%s*\n', '\n')
 		for line in content:gmatch('[^\r\n]+') do
-		--preview.file = filename (string)
-			if line:match('^%s*preview.file%s*=') then
-				local data = line:gsub('%s*;.*$', '')
-				if not data:match('=%s*$') then
-					t_missions['sffData'] = sffNew(data:gsub('^%s*preview.file%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')) --Store sff data to be used in mission previews
-				end
-		--preview.common.pos = posX, posY (int, int)
-			elseif line:match('^%s*preview.common.pos%s*=') then
-				local data = line:gsub('%s*;.*$', '')
-				if not data:match('=%s*$') then
-					local sprData = data:gsub('^%s*preview.common.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') --Prepare data to separate numbers below
-					t_missions['commonSprPosX'], t_missions['commonSprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
-				end
-		--preview.common.scale = scaleX, scaleY (int, int)
-			elseif line:match('^%s*preview.common.scale%s*=') then
-				local data = line:gsub('%s*;.*$', '')
-				if not data:match('=%s*$') then
-					local sprData = data:gsub('^%s*preview.common.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					t_missions['commonSprScaleX'], t_missions['commonSprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
-				end
-			elseif line:match('^%s*%[%s*[Mm][Ii][Ss][Ss][Ii][Oo][Nn]%s+[0-9]+$*%]') then
-				section = 1
-				row = #t_missions+1
-				t_missions[row] = {}
+			local lineLower = line:lower()
 		--[Mission No]
+			if lineLower:match('^%s*%[%s*mission%s+%d+%s*%]') then
+				section = 1
+				row = #t_missions + 1
+			--Set Default Values
+				t_missions[row] = {
+					previewspr = {0, 0},
+					previewpos = {missionCommonPosX, missionCommonPosY},
+					previewscale = {missionCommonScaleX, missionCommonScaleY},
+					status = txt_missionIncomplete,
+					txtID = textImgNew(),
+					name = "???",
+					info = "",
+					unlock = "true"
+				}
+		--Extra section
+			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
+				section = -1
 			elseif section == 1 then
-			--id = string
-				if line:match('^%s*id%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_missions[row]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_missions[row]['status'] = txt_missionIncomplete
-						t_missions[row]['txtID'] = textImgNew()
-						t_missions[row]['unlock'] = "true"
-						t_missions[row]['name'] = ""
-						t_missions[row]['infounlock'] = ""
-					end
-				end
-			--displayname = string
-				if line:match('^%s*name%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_missions[row]['name'] = data:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-				end
-			--info = string
-				if line:match('^%s*info%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_missions[row]['infounlock'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-				end
-			--info.locked = string
-				if line:match('^%s*info.locked%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_missions[row]['infolock'] = data:gsub('^%s*info.locked%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-				end
-			--preview.spr = groupNo, indexNo (int, int)
-				if line:match('^%s*preview.spr%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						local sprData = data:gsub('^%s*preview.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_missions[row]['sprGroup'], t_missions[row]['sprIndex'] = sprData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
-					end
-				end
-			--preview.pos = posX, posY (int, int)
-				if line:match('^%s*preview.pos%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						local sprData = data:gsub('^%s*preview.pos%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_missions[row]['sprPosX'], t_missions[row]['sprPosY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
-					end
-				end
-			--preview.scale = scaleX, scaleY (int, int)
-				if line:match('^%s*preview.scale%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						local sprData = data:gsub('^%s*preview.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-						t_missions[row]['sprScaleX'], t_missions[row]['sprScaleY'] = sprData:match('^([^,]-)%s*,%s*(.-)$')
-					end
-				end
-			--path = string
-				if line:match('^%s*path%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_missions[row]['path'] = data:gsub('^%s*path%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-				end
-			--unlock = lua condition
-				if line:match('^%s*unlock%s*=') then
-					local data = line:gsub('%s*;.*$', '')
-					if not data:match('=%s*$') then
-						t_missions[row]['unlock'] = data:gsub('^%s*unlock%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--Detect paramvalues
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:lower()
+				--If the value is a comma-separated list, convert to table
+					if value:match(',') then
+						local tbl = {}
+						for num in value:gmatch('([^,]+)') do
+							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+						end
+						t_missions[row][param] = tbl
+					else
+						t_missions[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
 					end
 				end
 			end
 		end
-		for k, v in ipairs(t_missions) do --Send Missions Unlock Condition to t_unlockLua table
+		for _, v in ipairs(t_missions) do --Send Missions Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[v.id] = v.unlock
 		end
+		if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.log") end
+		textImgSetText(txt_loading, "LOADING MISSIONS...")
+		textImgDraw(txt_loading)
+		refresh()
 	end
-	if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.log") end
-	textImgSetText(txt_loading, "LOADING MISSIONS...")
-	textImgDraw(txt_loading)
-	refresh()
 end
 f_loadMissions()

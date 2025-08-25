@@ -378,6 +378,76 @@ end
 function f_eventLockedReset()
 	eventLocked = false
 end
+
+-- Función auxiliar para convertir mes en número
+local monthMap = {
+    Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6,
+    Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12
+}
+
+local function monthToNumber(m)
+    return monthMap[m] or 0
+end
+
+-- Función para comprobar si la fecha actual está en el rango y dar acceso al evento
+function f_checkEvent(timeType, t_timeStart, t_timeDeadline)	
+	-- Convertir los datos de inicio y deadline a timestamps
+    local startTime = os.time({
+        year = t_timeStart.year,
+        month = monthToNumber(t_timeStart.month),
+        day = t_timeStart.day,
+        hour = t_timeStart.hour,
+        min = t_timeStart.min,
+        sec = t_timeStart.sec
+    })
+
+    local deadlineTime = os.time({
+        year = t_timeDeadline.year,
+        month = monthToNumber(t_timeDeadline.month),
+        day = t_timeDeadline.day,
+        hour = t_timeDeadline.hour,
+        min = t_timeDeadline.min,
+        sec = t_timeDeadline.sec
+    })
+
+    -- Obtener la hora actual en timestamps
+    local now = nil
+	if timeType == "net" then
+		now = currentNetTime
+	elseif timeType == "local" then
+		now = os.time()
+	end
+	if now == nil then return false end
+    -- Comprobar si la hora actual está dentro del rango
+    if now >= startTime and now <= deadlineTime then
+        return true
+    else
+        return false
+    end
+end
+
+local t_timeDatStart = {
+					year = t_events[eventMenu].yearstart,
+					month = t_events[eventMenu].monthstart,
+					day = t_events[eventMenu].daystart,
+					hour = t_events[eventMenu].hourstart,
+					min = t_events[eventMenu].minutestart,
+					sec = t_events[eventMenu].secondstart,
+				}
+				
+local t_timeDatDeadline = {
+					year = t_events[eventMenu].yeardeadline,
+					month = t_events[eventMenu].monthdeadline,
+					day = t_events[eventMenu].daydeadline,
+					hour = t_events[eventMenu].hourdeadline,
+					min = t_events[eventMenu].minutedeadline,
+					sec = t_events[eventMenu].seconddeadline,
+				}				
+				
+f_checkEvent(t_events[eventMenu].time, t_timeDatStart, t_timeDatDeadline)
+--Otra opción sería crear una variable dentro del countdown cuando está disponible o no, para usarla en lugar de hacer el chequeo repitiendo los datos
+
+
 --;===========================================================
 --; EVENT SAVE DATA
 --;===========================================================
@@ -415,6 +485,7 @@ local file = io.open(eventDef, "r")
 					previewscale = {eventCommonScaleX, eventCommonScaleY},
 					status = txt_eventIncomplete,
 					txtID = textImgNew(),
+					info = "???",
 					time = "local", --use local time if is not defined
 					yearstart = sysYear,
 					yeardeadline = sysYear,
