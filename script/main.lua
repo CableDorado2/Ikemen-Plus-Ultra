@@ -3023,7 +3023,7 @@ function f_achievementsMenu()
 	local itemSel = 1
 	local cursorPosY = 1
 	local moveSlot = 0
-	local maxItems = 10
+	local maxItems = 3
 	local t_data = t_achievements
 	claimRewardScreen = false
 	f_resetAchievementsArrowsPos()
@@ -3071,9 +3071,9 @@ function f_achievementsMenu()
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == maxItems then
-				moveSlot = (itemSel - maxItems) * 105
+				moveSlot = (itemSel - maxItems) * achievementSpacing
 			elseif cursorPosY == 1 then
-				moveSlot = (itemSel - 1) * 105
+				moveSlot = (itemSel - 1) * achievementSpacing
 			end	
 			if #t_data <= maxItems then
 				maxitemSel = #t_data
@@ -3088,11 +3088,12 @@ function f_achievementsMenu()
 	--Draw Title
 		textImgDraw(txt_achievementsTitle)
 		textImgSetText(txt_achievementsProgress, "[".. 28 .."%]")
+		textImgDraw(txt_achievementsProgress)
 		for i=1, maxitemSel do
 			if i > itemSel - cursorPosY then
-				f_achievementSlot(0, -120+i*105-moveSlot, i)
+				f_achievementSlot(0, -120+i*achievementSpacing-moveSlot, i)
 			end
-			if i == itemSel then animPosDraw(achievementSlotCursor, 0, 40+(-120+i*105-moveSlot)) end --Draw Cursor
+			if i == itemSel then animPosDraw(achievementSlotCursor, 0, 70+(-120+i*achievementSpacing-moveSlot)) end --Draw Cursor
 		end
 		if claimRewardScreen then f_claimReward(itemSel) else drawAchievementInputHints() end
 		if maxitemSel > maxItems then

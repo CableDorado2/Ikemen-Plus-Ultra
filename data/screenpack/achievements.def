@@ -1,6 +1,6 @@
 [Achievement 1]
 id = Achievement1
-name = Test 1
+name = My Achievement
 info = Defeat Original Kung Fu Man!
 previewspr = 0,1
 reward = 100
@@ -11,3 +11,27 @@ name = Test 2
 info = Use the full power of Kung Fu Man!
 previewspr = 0,2
 reward = 228
+
+[Achievement 3]
+id = Achievement3
+
+[Achievement 4]
+id = Achievement4
+
+[Achievement 5]
+id = Achievement5
+
+[Achievement 6]
+id = Achievement6
+
+[Achievement 7]
+id = Achievement7
+
+[Achievement 8]
+id = Achievement8
+
+[Achievement 9]
+id = Achievement9
+
+[Achievement 10]
+id = Achievement10

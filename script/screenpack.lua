@@ -1165,8 +1165,8 @@ end
 --;===========================================================
 --; ACHIEVEMENTS SCREENPACK DEFINITION
 --;===========================================================
-txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENTS PROGRESS:", 188, 11)
-txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
+txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENTS PROGRESS:", 218, 11)
+txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
 
 achievementCommonPosX = 50 --Allow set common pos for all previews
 achievementCommonPosY = 21
@@ -1174,23 +1174,21 @@ achievementCommonPosY = 21
 achievementCommonScaleX = 0.168 --Allow set common scale for all previews
 achievementCommonScaleY = 0.125
 
+achievementSpacing = 70
+
 --Achievement Slot
 achievementSlot = animNew(sprIkemen, [[
 240,0, 0,0, -1
 ]])
---[[
-animSetScale(achievementSlot, 2.12, 1.40)
+animSetScale(achievementSlot, 0.5, 0.5)
 animUpdate(achievementSlot)
-]]
 
 --Achievement Slot Cursor
 achievementSlotCursor = animNew(sprIkemen, [[
 241,0, 0,0, -1
 ]])
---[[
-animSetScale(achievementSlotCursor, 2.12, 1.40)
+animSetScale(achievementSlotCursor, 0.5, 0.5)
 animUpdate(achievementSlotCursor)
-]]
 
 --Achievement Locked Icon
 achievementLocked = animNew(sprIkemen, [[
@@ -1205,17 +1203,19 @@ function f_achievementSlot(posX, posY, itemNo)
 	local itemNo = itemNo
 	local sprGroup = 0
 	local sprIndex = 0
-	animPosDraw(achievementSlot, 0+NewPosX, 40+NewPosY)
+	animSetScale(commonTBG, 280, 38)
+	animPosDraw(commonTBG, 40+NewPosX, 76+NewPosY)
+	animPosDraw(achievementSlot, 0+NewPosX, 70+NewPosY)
 	--if t_unlockLua.modes[t_achievements[itemNo].id] == nil then --If the achievement is unlocked
 		sprGroup = t_achievements[itemNo].previewspr[1]
 		sprIndex = t_achievements[itemNo].previewspr[2]
-		f_drawSprPreview(achievementsSpr, sprGroup, sprIndex, 0+NewPosX, 40+NewPosY)--, t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2])
+		f_drawSprPreview(achievementsSpr, sprGroup, sprIndex, 0+NewPosX, 70+NewPosY)--, t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2])
 	--else
 		--animPosDraw(achievementLocked, 0+NewPosX, 40+NewPosY)
 	--end
-	f_drawQuickText(txt_achievementName, jgFnt, 0, 1, t_achievements[itemNo].name, 10+NewPosX, 37+NewPosY)
-	f_drawQuickText(txt_achievementInfo, font2, 0, 1, t_achievements[itemNo].info, 10+NewPosX, 77+NewPosY)
-	--f_drawQuickText(txt_achievementInfo, font2, 0, 1, t_achievements[itemNo].reward, 10+NewPosX, 77+NewPosY)
+	f_drawQuickText(txt_achievementName, jgFnt, 0, 1, t_achievements[itemNo].name, 50+NewPosX, 85+NewPosY)
+	f_drawQuickText(txt_achievementInfo, font2, 0, 1, t_achievements[itemNo].info, 50+NewPosX, 100+NewPosY)
+	f_drawQuickText(txt_achievementInfo, jgFnt, 0, 1, t_achievements[itemNo].reward.." IKC", 1+NewPosX, 128+NewPosY)
 end
 
 --Menu Arrows
