@@ -3027,6 +3027,8 @@ function f_achievementsMenu()
 	local t_data = t_achievements
 	claimRewardScreen = false
 	f_resetAchievementsArrowsPos()
+	f_unlock(false)
+	f_updateUnlocks()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if not claimRewardScreen then
@@ -3045,15 +3047,17 @@ function f_achievementsMenu()
 				itemSel = itemSel + 1
 		--Slot Select
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-			--[[NO REWARD TO CLAIM
-				if ??? then
+			--NO REWARD TO CLAIM
+				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or stats.rewards[t_achievements[itemSel].id].rewardclaimed then
 					sndPlay(sndSys, 100, 5)
-			--DATA AVAILABLE TO SAVE/LOAD
+			--REWARD TO CLAIM
 				else
-					sndPlay(sndSys, 100, 1)
-					claimRewardScreen = true
+					sndPlay(sndSys, 201, 2)
+					stats.rewards[t_achievements[itemSel].id].rewardclaimed = true
+					stats.money = stats.money + t_achievements[itemSel].reward
+					f_saveStats()
+					--claimRewardScreen = true
 				end
-			]]
 			end
 			if itemSel < 1 then
 				itemSel = #t_data
@@ -3090,10 +3094,23 @@ function f_achievementsMenu()
 		textImgSetText(txt_achievementsProgress, "[".. 28 .."%]")
 		textImgDraw(txt_achievementsProgress)
 		for i=1, maxitemSel do
+			local nameColor = 0
+			local drawCursor = false
+		--Draw Slot Content
 			if i > itemSel - cursorPosY then
 				f_achievementSlot(0, -120+i*achievementSpacing-moveSlot, i)
 			end
-			if i == itemSel then animPosDraw(achievementSlotCursor, 0, 70+(-120+i*achievementSpacing-moveSlot)) end --Draw Cursor
+		--Draw Cursor Logic
+			if i == itemSel then
+				nameColor = 5
+				drawCursor = true
+			end
+			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 85+(-120+i*achievementSpacing-moveSlot))
+			if drawCursor then
+				animSetWindow(cursorBox, 48,76+(-120+i*achievementSpacing-moveSlot), 272,38)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
 		end
 		if claimRewardScreen then f_claimReward(itemSel) else drawAchievementInputHints() end
 		if maxitemSel > maxItems then

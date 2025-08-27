@@ -1137,7 +1137,7 @@ local file = io.open(achievementDef, "r")
 					txtID = textImgNew(),
 					name = "???",
 					info = "",
-					unlock = "true"
+					unlock = "false"
 				}
 		--Extra section
 			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
@@ -1160,14 +1160,17 @@ local file = io.open(achievementDef, "r")
 				end
 			end
 		end
-		--for _, v in ipairs(t_achievements) do --Send Achievements Unlock Condition to t_unlockLua table
-		--	t_unlockLua.modes[v.id] = v.unlock
-		--end
+		for _, v in ipairs(t_achievements) do --Send Achievements Unlock Condition to t_unlockLua table
+			t_unlockLua.achievements[v.id] = v.unlock
+		end
 		if data.debugLog then f_printTable(t_achievements, "save/debug/t_achievements.log") end
-		--textImgSetText(txt_loading, "LOADING ACHIEVEMENTS...")
-		--textImgDraw(txt_loading)
-		--refresh()
+	--[[
+		textImgSetText(txt_loading, "LOADING ACHIEVEMENTS...")
+		textImgDraw(txt_loading)
+		refresh()
+	]]
 	end
+	f_setAchievementReward()
 end
 f_loadAchievements()
 

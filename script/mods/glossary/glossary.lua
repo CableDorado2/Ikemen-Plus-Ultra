@@ -144,8 +144,11 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	end
-	--textImgDraw(txt_loading)
-	--refresh()
+--[[
+	textImgSetText(txt_loading, "LOADING GLOSSARY...")
+	textImgDraw(txt_loading)
+	refresh()
+	]]
 end
 if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.log") end
 end

@@ -4084,9 +4084,9 @@ end
 t_unlockLua = { --Create table to manage unlock conditions in real-time
 chars = {}, stages = {}, modes = {},
 artworks = {}, storyboards = {}, videos = {},
-palettes = {}, shop = {}, abyss = {}
+palettes = {}, shop = {}, abyss = {},
+achievements = {}
 }
-
 --asserts content unlock conditions
 function f_unlock(permanent)
 	for group, t in pairs(t_unlockLua) do
@@ -4104,7 +4104,8 @@ function f_unlock(permanent)
 				if bool and (permanent or 
 				group == 'chars' or group == 'stages' or group == 'modes' or 
 				group == 'artworks' or group == 'storyboards' or group == 'videos' or
-				group == 'palettes' or group == 'abyss' or group == 'shop') then
+				group == 'palettes' or group == 'abyss' or group == 'shop' or
+				group == 'achievements') then
 					table.insert(t_del, k)
 				end
 			else
@@ -4117,7 +4118,6 @@ function f_unlock(permanent)
 		end
 	end
 end
-
 --;===========================================================
 --; SAVE DATA DEFINITION
 --;===========================================================
@@ -4432,6 +4432,22 @@ abyssDat.nosave = t_abyssDefaultSave
 			abyssDat.save[slot] = t_abyssDefaultSave
 		end
 	end
+end
+
+--Set Achievement Rewards
+function f_setAchievementReward()
+local modified = false
+	if stats.rewards == nil then stats.rewards = {} end --Create space to achievements reward
+	for i=1, #t_achievements do
+		if stats.rewards[t_achievements[i].id] == nil then
+			stats.rewards[t_achievements[i].id] = {}
+		end
+		if stats.rewards[t_achievements[i].id].rewardclaimed == nil then
+			stats.rewards[t_achievements[i].id].rewardclaimed = false
+			--modified = true
+		end
+	end
+	f_saveStats()
 end
 
 --Unlocks Section

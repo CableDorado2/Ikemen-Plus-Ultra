@@ -1168,11 +1168,11 @@ end
 txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENTS PROGRESS:", 218, 11)
 txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
 
-achievementCommonPosX = 50 --Allow set common pos for all previews
-achievementCommonPosY = 21
+achievementCommonPosX = 1.5 --Allow set common pos for all previews
+achievementCommonPosY = 72.5
 
-achievementCommonScaleX = 0.168 --Allow set common scale for all previews
-achievementCommonScaleY = 0.125
+achievementCommonScaleX = 0.47 --Allow set common scale for all previews
+achievementCommonScaleY = 0.45
 
 achievementSpacing = 70
 
@@ -1183,19 +1183,27 @@ achievementSlot = animNew(sprIkemen, [[
 animSetScale(achievementSlot, 0.5, 0.5)
 animUpdate(achievementSlot)
 
---Achievement Slot Cursor
-achievementSlotCursor = animNew(sprIkemen, [[
+--Achievement Complete Slot Icon
+achievementSlotDone = animNew(sprIkemen, [[
 241,0, 0,0, -1
 ]])
-animSetScale(achievementSlotCursor, 0.5, 0.5)
-animUpdate(achievementSlotCursor)
+animSetScale(achievementSlotDone, 0.5, 0.5)
+animUpdate(achievementSlotDone)
 
 --Achievement Locked Icon
 achievementLocked = animNew(sprIkemen, [[
 108,0, 0,0, -1
 ]])
-animSetScale(achievementLocked, 2.12, 1.40)
+animSetScale(achievementLocked, 0.08, 0.08)
 animUpdate(achievementLocked)
+
+--Achievement Transparent 
+achievementTBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(achievementTBG, 0, 20)
+animSetAlpha(achievementTBG, 20, 100)
+animUpdate(achievementTBG)
 
 function f_achievementSlot(posX, posY, itemNo)
 	local NewPosX = posX or 0
@@ -1203,19 +1211,35 @@ function f_achievementSlot(posX, posY, itemNo)
 	local itemNo = itemNo
 	local sprGroup = 0
 	local sprIndex = 0
-	animSetScale(commonTBG, 280, 38)
-	animPosDraw(commonTBG, 40+NewPosX, 76+NewPosY)
+	local unlocked = false
+	local txtRewardColor = 0
+	if stats.rewards[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
+--Draw Achievement Slot
+	animSetScale(achievementTBG, 280, 38)
+	animPosDraw(achievementTBG, 40+NewPosX, 76+NewPosY)
 	animPosDraw(achievementSlot, 0+NewPosX, 70+NewPosY)
-	--if t_unlockLua.modes[t_achievements[itemNo].id] == nil then --If the achievement is unlocked
-		sprGroup = t_achievements[itemNo].previewspr[1]
+--If the achievement is unlocked
+	if t_unlockLua.achievements[t_achievements[itemNo].id] == nil then
+		unlocked = true
+		sprGroup = t_achievements[itemNo].previewspr[1] --Get Sprites
 		sprIndex = t_achievements[itemNo].previewspr[2]
-		f_drawSprPreview(achievementsSpr, sprGroup, sprIndex, 0+NewPosX, 70+NewPosY)--, t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2])
-	--else
-		--animPosDraw(achievementLocked, 0+NewPosX, 40+NewPosY)
-	--end
-	f_drawQuickText(txt_achievementName, jgFnt, 0, 1, t_achievements[itemNo].name, 50+NewPosX, 85+NewPosY)
+	end
+--Draw Achievement Icon
+	f_drawSprPreview(sprAchievements,
+		sprGroup, sprIndex,
+		t_achievements[itemNo].previewpos[1]+NewPosX, t_achievements[itemNo].previewpos[2]+NewPosY,
+		t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2]
+	)
+--Draw Done Achievement Icon
+	if unlocked then
+		animPosDraw(achievementSlotDone, 0+NewPosX, 70+NewPosY)
+--Draw Locked Icon
+	else
+		--animPosDraw(achievementLocked, 11+NewPosX, 78+NewPosY)
+	end
+--Draw Info Text
 	f_drawQuickText(txt_achievementInfo, font2, 0, 1, t_achievements[itemNo].info, 50+NewPosX, 100+NewPosY)
-	f_drawQuickText(txt_achievementInfo, jgFnt, 0, 1, t_achievements[itemNo].reward.." IKC", 1+NewPosX, 128+NewPosY)
+	f_drawQuickText(txt_achievementReward, jgFnt, txtRewardColor, 1, t_achievements[itemNo].reward.." IKC", 1+NewPosX, 128+NewPosY)
 end
 
 --Menu Arrows

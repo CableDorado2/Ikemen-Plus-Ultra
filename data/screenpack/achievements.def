@@ -4,6 +4,7 @@ name = My Achievement
 info = Defeat Original Kung Fu Man!
 previewspr = 0,1
 reward = 100
+unlock = stats.modes.mission.clear1 > 0
 
 [Achievement 2]
 id = Achievement2
@@ -11,6 +12,7 @@ name = Test 2
 info = Use the full power of Kung Fu Man!
 previewspr = 0,2
 reward = 228
+unlock = stats.modes.mission.clear2 > 0
 
 [Achievement 3]
 id = Achievement3

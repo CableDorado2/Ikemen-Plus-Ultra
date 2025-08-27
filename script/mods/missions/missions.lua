@@ -78,6 +78,7 @@ local file = io.open(missionDef, "r")
 					txtID = textImgNew(),
 					name = "???",
 					info = "",
+					infolock = "???",
 					unlock = "true"
 				}
 		--Extra section
