@@ -92,22 +92,6 @@ local function drawInfoEventInputHints()
 	drawMenuInputHints("s","137,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Accept", 158, hintFontYPos)
 end
-
---Get Events Preview
-local function f_drawEventPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
-	local scaleX = scaleX or 1
-	local scaleY = scaleY or 1
-	local alphaS = alphaS or 255
-	local alphaD = alphaD or 0
-	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(eventSpr, anim)
-	animSetAlpha(anim, alphaS, alphaD)
-	animSetScale(anim, scaleX, scaleY)
-	animSetPos(anim, posX, posY)
-	animUpdate(anim)
-	animDraw(anim)
-	--return anim
-end
 --;===========================================================
 --; EVENT INFO SCREEN
 --;===========================================================
@@ -454,7 +438,7 @@ function f_eventMenu()
 					previewTransS = 150 --Apply Transparent
 					previewTransD = 0
 				end
-				f_drawEventPreview(
+				f_drawSprPreview(eventSpr,
 					t_events[i].previewspr[1], t_events[i].previewspr[2],
 					t_events[i].previewpos[1]+i*105-moveTxt, t_events[i].previewpos[2],
 					t_events[i].previewscale[1], t_events[i].previewscale[2],
@@ -483,7 +467,7 @@ function f_eventMenu()
 				previewInfotxt = "AN UNLOCK CONDITION IS REQUIRED TO PLAY THIS EVENT"
 		--It's Not the Start Time yet
 			else
-			--Show Start Time Countdown
+			--Show Start Time Countdown --Falta hacer lo mismo con la Deadline date
 				local t_startTime = {
 					time = t_events[eventMenu].time,
 					year = t_events[eventMenu].yearstart,

@@ -1108,6 +1108,69 @@ for k, v in ipairs(t_abyssShop) do --Send Abyss Unlock Items Condition to t_unlo
 	t_unlockLua.abyss[v.text] = v.unlock
 end
 
+--;===========================================================
+--; LOAD ACHIEVEMENTS.DEF DATA
+--;===========================================================
+function f_loadAchievements()
+t_achievements = {}
+local file = io.open(achievementDef, "r")
+	if file ~= nil then
+		local section = 0
+		local row = 0
+		local content = file:read("*all")
+		file:close()
+		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+		content = content:gsub('\n%s*\n', '\n')
+		for line in content:gmatch('[^\r\n]+') do
+			local lineLower = line:lower()
+		--[Achievement No]
+			if lineLower:match('^%s*%[%s*achievement%s+%d+%s*%]') then
+				section = 1
+				row = #t_achievements + 1
+			--Set Default Values
+				t_achievements[row] = {
+					previewspr = {0, 0},
+					previewpos = {achievementCommonPosX, achievementCommonPosY},
+					previewscale = {achievementCommonScaleX, achievementCommonScaleY},
+					subcount = "1/1",
+					reward = 0,
+					txtID = textImgNew(),
+					name = "???",
+					info = "",
+					unlock = "true"
+				}
+		--Extra section
+			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
+				section = -1
+			elseif section == 1 then
+			--Detect paramvalues
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:lower()
+				--If the value is a comma-separated list, convert to table
+					if value:match(',') then
+						local tbl = {}
+						for num in value:gmatch('([^,]+)') do
+							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+						end
+						t_achievements[row][param] = tbl
+					else
+						t_achievements[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
+					end
+				end
+			end
+		end
+		--for _, v in ipairs(t_achievements) do --Send Achievements Unlock Condition to t_unlockLua table
+		--	t_unlockLua.modes[v.id] = v.unlock
+		--end
+		if data.debugLog then f_printTable(t_achievements, "save/debug/t_achievements.log") end
+		--textImgSetText(txt_loading, "LOADING ACHIEVEMENTS...")
+		--textImgDraw(txt_loading)
+		--refresh()
+	end
+end
+f_loadAchievements()
+
 function f_loadLicenses()
 local file = f_fileRead("License.txt")
 f_fileWrite(licensesPath.."/I.K.E.M.E.N..txt", file)

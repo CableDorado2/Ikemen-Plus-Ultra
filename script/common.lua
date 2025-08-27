@@ -279,6 +279,26 @@ function f_quickAlpha(animName, alphaS, alphaD)
 	return false
 end
 
+--shortcut for draw sprites preview in menus
+function f_drawSprPreview(sffDat, group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
+	if sffDat ~= nil then
+		local scaleX = scaleX or 1
+		local scaleY = scaleY or 1
+		local alphaS = alphaS or 255
+		local alphaD = alphaD or 0
+		local anim = group..','..index..', 0,0, 0'
+		anim = animNew(sffDat, anim)
+		animSetAlpha(anim, alphaS, alphaD)
+		animSetScale(anim, scaleX, scaleY)
+		animSetPos(anim, posX, posY)
+		animUpdate(anim)
+		animDraw(anim)
+		return true
+	else
+		return false
+	end
+end
+
 --shortcut for draw character animations
 function f_drawCharAnim(t, data, x, y, update, scaleX, scaleY, alphaS, alphaD)
 	if t ~= nil and t[data] ~= nil then

@@ -7,6 +7,7 @@ sprLogos = sffNew("data/screenpack/logo.sff") --load logos sprites
 sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
+sprAchievements = sffNew("data/screenpack/achievements.sff") --load achievements sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tournament mode sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
@@ -100,6 +101,7 @@ videoHowToPlay = "data/videos/How To Play.wmv"
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
 fightDef = "data/screenpack/fight.def" --Lifebar/Fight
+achievementDef = "data/screenpack/achievements.def" --Achievements list
 vnDef = "data/visualnovel/vnselect.def" --Visual Novels
 
 --Paths Data
@@ -892,6 +894,7 @@ t_watchMenu = {
 	{text = "STAGE VIEWER",  gotomenu = "f_stageViewer()"},
 	{text = "SOUND TEST", 	 gotomenu = "soundTest = true f_songMenu()"},
 	{text = "PROFILE", 		 gotomenu = "f_statsMenu()"},
+	{text = "ACHIEVEMENTS",  gotomenu = "f_achievementsMenu()"},
 	{text = "LICENSES", 	 gotomenu = "f_licenseMenu()"},
 	{text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
@@ -1157,6 +1160,80 @@ t_statsMenu = {
 for i=1, #t_statsMenu do
 	t_statsMenu[i]['varID'] = textImgNew()
 	t_statsMenu[i]['varText'] = ""
+end
+
+--;===========================================================
+--; ACHIEVEMENTS SCREENPACK DEFINITION
+--;===========================================================
+txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENTS PROGRESS:", 188, 11)
+txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
+
+achievementCommonPosX = 50 --Allow set common pos for all previews
+achievementCommonPosY = 21
+
+achievementCommonScaleX = 0.168 --Allow set common scale for all previews
+achievementCommonScaleY = 0.125
+
+--Achievement Slot
+achievementSlot = animNew(sprIkemen, [[
+240,0, 0,0, -1
+]])
+--[[
+animSetScale(achievementSlot, 2.12, 1.40)
+animUpdate(achievementSlot)
+]]
+
+--Achievement Slot Cursor
+achievementSlotCursor = animNew(sprIkemen, [[
+241,0, 0,0, -1
+]])
+--[[
+animSetScale(achievementSlotCursor, 2.12, 1.40)
+animUpdate(achievementSlotCursor)
+]]
+
+--Achievement Locked Icon
+achievementLocked = animNew(sprIkemen, [[
+108,0, 0,0, -1
+]])
+animSetScale(achievementLocked, 2.12, 1.40)
+animUpdate(achievementLocked)
+
+function f_achievementSlot(posX, posY, itemNo)
+	local NewPosX = posX or 0
+	local NewPosY = posY or 0
+	local itemNo = itemNo
+	local sprGroup = 0
+	local sprIndex = 0
+	animPosDraw(achievementSlot, 0+NewPosX, 40+NewPosY)
+	--if t_unlockLua.modes[t_achievements[itemNo].id] == nil then --If the achievement is unlocked
+		sprGroup = t_achievements[itemNo].previewspr[1]
+		sprIndex = t_achievements[itemNo].previewspr[2]
+		f_drawSprPreview(achievementsSpr, sprGroup, sprIndex, 0+NewPosX, 40+NewPosY)--, t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2])
+	--else
+		--animPosDraw(achievementLocked, 0+NewPosX, 40+NewPosY)
+	--end
+	f_drawQuickText(txt_achievementName, jgFnt, 0, 1, t_achievements[itemNo].name, 10+NewPosX, 37+NewPosY)
+	f_drawQuickText(txt_achievementInfo, font2, 0, 1, t_achievements[itemNo].info, 10+NewPosX, 77+NewPosY)
+	--f_drawQuickText(txt_achievementInfo, font2, 0, 1, t_achievements[itemNo].reward, 10+NewPosX, 77+NewPosY)
+end
+
+--Menu Arrows
+function f_resetAchievementsArrowsPos()
+animSetPos(menuArrowUp, 305, 14)
+animSetPos(menuArrowDown, 305, 220)
+end
+
+--Achievements Input Hints Panel
+function drawAchievementInputHints()
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Claim Reward", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
 --;===========================================================

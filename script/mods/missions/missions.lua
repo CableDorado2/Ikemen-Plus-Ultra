@@ -50,22 +50,6 @@ local function drawMissionInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
-
---Draw Missions Preview
-local function f_drawMissionPreview(group, index, posX, posY, scaleX, scaleY, alphaS, alphaD)
-	local scaleX = scaleX or 1
-	local scaleY = scaleY or 1
-	local alphaS = alphaS or 255
-	local alphaD = alphaD or 0
-	local anim = group..','..index..', 0,0, 0'
-	anim = animNew(missionSpr, anim)
-	animSetAlpha(anim, alphaS, alphaD)
-	animSetScale(anim, scaleX, scaleY)
-	animSetPos(anim, posX, posY)
-	animUpdate(anim)
-	animDraw(anim)
-	--return anim
-end
 --;===========================================================
 --; LOAD MISSIONS.DEF DATA
 --;===========================================================
@@ -254,7 +238,7 @@ function f_missionMenu()
 			previewTransS = 150 --Apply Transparent
 			previewTransD = 0
 		end
-		f_drawMissionPreview(
+		f_drawSprPreview(missionSpr,
 			t_missions[missionMenu].previewspr[1], t_missions[missionMenu].previewspr[2],
 			t_missions[missionMenu].previewpos[1], t_missions[missionMenu].previewpos[2],
 			t_missions[missionMenu].previewscale[1], t_missions[missionMenu].previewscale[2],

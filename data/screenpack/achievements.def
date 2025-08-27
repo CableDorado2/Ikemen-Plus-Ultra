@@ -1,0 +1,13 @@
+[Achievement 1]
+id = Achievement1
+name = Test 1
+info = Defeat Original Kung Fu Man!
+previewspr = 0,1
+reward = 100
+
+[Achievement 2]
+id = Achievement2
+name = Test 2
+info = Use the full power of Kung Fu Man!
+previewspr = 0,2
+reward = 228

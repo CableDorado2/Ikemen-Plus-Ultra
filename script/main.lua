@@ -3006,6 +3006,126 @@ function f_statsMenu()
 end
 
 --;===========================================================
+--; ACHIEVEMENTS MENU (Menu Description)
+--;===========================================================
+function f_achievementsMenu()
+	if data.debugMode then f_loadAchievements() end --Load in real-time only if dev/debug mode is enabled
+	if #t_achievements == 0 then
+		achievementInfo = true
+		infoScreen = true
+		return
+	end
+	cmdInput()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local itemSel = 1
+	local cursorPosY = 1
+	local moveSlot = 0
+	local maxItems = 10
+	local t_data = t_achievements
+	claimRewardScreen = false
+	f_resetAchievementsArrowsPos()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	while true do
+		if not claimRewardScreen then
+		--Close Menu
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				break
+			end
+		--Scroll Logic
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				itemSel = itemSel - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				itemSel = itemSel + 1
+		--Slot Select
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			--[[NO REWARD TO CLAIM
+				if ??? then
+					sndPlay(sndSys, 100, 5)
+			--DATA AVAILABLE TO SAVE/LOAD
+				else
+					sndPlay(sndSys, 100, 1)
+					claimRewardScreen = true
+				end
+			]]
+			end
+			if itemSel < 1 then
+				itemSel = #t_data
+				if #t_data > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_data
+				end
+			elseif itemSel > #t_data then
+				itemSel = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveSlot = (itemSel - maxItems) * 105
+			elseif cursorPosY == 1 then
+				moveSlot = (itemSel - 1) * 105
+			end	
+			if #t_data <= maxItems then
+				maxitemSel = #t_data
+			elseif itemSel - cursorPosY > 0 then
+				maxitemSel = itemSel + maxItems - cursorPosY
+			else
+				maxitemSel = maxItems
+			end
+		end
+	--Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+	--Draw Title
+		textImgDraw(txt_achievementsTitle)
+		textImgSetText(txt_achievementsProgress, "[".. 28 .."%]")
+		for i=1, maxitemSel do
+			if i > itemSel - cursorPosY then
+				f_achievementSlot(0, -120+i*105-moveSlot, i)
+			end
+			if i == itemSel then animPosDraw(achievementSlotCursor, 0, 40+(-120+i*105-moveSlot)) end --Draw Cursor
+		end
+		if claimRewardScreen then f_claimReward(itemSel) else drawAchievementInputHints() end
+		if maxitemSel > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_data > maxItems and maxitemSel < #t_data then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--Achievement Reward Screen
+function f_claimReward()
+	
+end
+
+--;===========================================================
 --; PLAYER SAVE DATA
 --;===========================================================
 function f_victories()
