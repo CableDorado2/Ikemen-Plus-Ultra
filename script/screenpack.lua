@@ -1167,6 +1167,7 @@ end
 --;===========================================================
 txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENTS PROGRESS:", 218, 11)
 txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
+txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
 
 achievementCommonPosX = 1.5 --Allow set common pos for all previews
 achievementCommonPosY = 72.5
@@ -1213,6 +1214,8 @@ function f_achievementSlot(posX, posY, itemNo)
 	local sprIndex = 0
 	local unlocked = false
 	local txtRewardColor = 0
+	local infoSpacing = 10
+	local infoLimit = 55
 	if stats.rewards[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
 --Draw Achievement Slot
 	animSetScale(achievementTBG, 280, 38)
@@ -1238,8 +1241,8 @@ function f_achievementSlot(posX, posY, itemNo)
 		--animPosDraw(achievementLocked, 11+NewPosX, 78+NewPosY)
 	end
 --Draw Info Text
-	f_drawQuickText(txt_achievementInfo, font2, 0, 1, t_achievements[itemNo].info, 50+NewPosX, 100+NewPosY)
-	f_drawQuickText(txt_achievementReward, jgFnt, txtRewardColor, 1, t_achievements[itemNo].reward.." IKC", 1+NewPosX, 128+NewPosY)
+	f_textRender(txt_achievementInfo, t_achievements[itemNo].info, 0, 50+NewPosX, 87+NewPosY, infoSpacing, 0, infoLimit)
+	f_drawQuickText(txt_achievementReward, jgFnt, txtRewardColor, 1, t_achievements[itemNo].reward.." IKC", 1+NewPosX, 126+NewPosY)
 end
 
 --Menu Arrows
@@ -1254,10 +1257,10 @@ function drawAchievementInputHints()
 	local hintFont = font2
 	local hintFontYPos = 233
 	animPosDraw(inputHintsBG, -56, 219)
-	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","127,"..inputHintYPos,"e","225,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Claim Reward", 153, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Claim Reward", 148, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 246, hintFontYPos)
 end
 
 --;===========================================================

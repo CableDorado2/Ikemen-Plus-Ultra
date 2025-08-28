@@ -3098,16 +3098,16 @@ function f_achievementsMenu()
 			local drawCursor = false
 		--Draw Slot Content
 			if i > itemSel - cursorPosY then
-				f_achievementSlot(0, -120+i*achievementSpacing-moveSlot, i)
+				f_achievementSlot(0, -118+i*achievementSpacing-moveSlot, i)
 			end
 		--Draw Cursor Logic
 			if i == itemSel then
 				nameColor = 5
 				drawCursor = true
 			end
-			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 85+(-120+i*achievementSpacing-moveSlot))
+			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 75+(-118+i*achievementSpacing-moveSlot))
 			if drawCursor then
-				animSetWindow(cursorBox, 48,76+(-120+i*achievementSpacing-moveSlot), 272,38)
+				animSetWindow(cursorBox, 48,76+(-118+i*achievementSpacing-moveSlot), 272,38)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end

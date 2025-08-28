@@ -1,17 +1,17 @@
 [Achievement 1]
-id = Achievement1
-name = My Achievement
-info = Defeat Original Kung Fu Man!
+id = achievement1
+name = Achievement 1
+info = God Rugal [Ratio 2]: Perform a 5500 damage combo using Custom Combo ending with a Super Combo (no Infinite Gauge Damage 2).
 previewspr = 0,1
 reward = 100
 unlock = stats.modes.mission.clear1 > 0
 
 [Achievement 2]
-id = Achievement2
-name = Test 2
+id = achievement2
+name = Achievement 2
 info = Use the full power of Kung Fu Man!
 previewspr = 0,2
-reward = 228
+reward = 250
 unlock = stats.modes.mission.clear2 > 0
 
 [Achievement 3]
