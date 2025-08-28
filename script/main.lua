@@ -3006,7 +3006,7 @@ function f_statsMenu()
 end
 
 --;===========================================================
---; ACHIEVEMENTS MENU (Menu Description)
+--; ACHIEVEMENTS MENU (Collect a customizable list of milestones to claim rewards)
 --;===========================================================
 function f_achievementsMenu()
 	if data.debugMode then f_loadAchievements() end --Load in real-time only if dev/debug mode is enabled
@@ -3200,12 +3200,12 @@ function f_modeplayTime()
 end
 
 function f_favoriteChar()
-	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic with json
+	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic with stats.json
 	f_saveStats()
 end
 
 function f_favoriteStage()
-	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with json
+	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with stats.json
 	f_saveStats()
 end
 
@@ -3220,7 +3220,45 @@ The number (11) is the sumation of true amount of all gameProgress values:
 ]]
 end
 
-function f_getStats()
+function f_getPreferredMode()
+	local modes = {
+		{name = "Story", playtime = stats.modes.story.playtime},
+		{name = "Arcade", playtime = stats.modes.arcade.playtime},
+		{name = "Versus", playtime = stats.modes.versus.playtime},
+		{name = "CPU Match", playtime = stats.modes.watch.playtime},
+		{name = "Survival", playtime = stats.modes.survival.playtime},
+		{name = "Boss Fight", playtime = stats.modes.boss.playtime},
+		{name = "Bonus Games", playtime = stats.modes.bonus.playtime},
+		{name = "Time Attack", playtime = stats.modes.timeattack.playtime},
+		{name = "Time Rush", playtime = stats.modes.timerush.playtime},
+		{name = "Score Attack", playtime = stats.modes.scoreattack.playtime},
+		{name = "Endless", playtime = stats.modes.endless.playtime},
+		{name = "Sudden Death", playtime = stats.modes.suddendeath.playtime},
+		{name = "VSKumite", playtime = stats.modes.vskumite.playtime, getData = function() return getKumiteData() end},
+		{name = "Missions", playtime = stats.modes.mission.playtime},
+		{name = "Events", playtime = stats.modes.event.playtime},
+		{name = "Tower", playtime = stats.modes.tower.playtime},
+		{name = "Tourney", playtime = stats.modes.tourney.playtime},
+		{name = "Adventure", playtime = stats.modes.adventure.playtime}
+	}
+	local maxTime = -1
+	local modeName = nil
+	local modeDat = nil
+	for _, mode in ipairs(modes) do
+		if mode.playtime > maxTime then
+			maxTime = mode.playtime
+			modeName = mode.name
+			modeDat = mode
+		end
+	end
+	if modeName then
+		t_statsMenu[7].varText = modeDat.getData and modeDat.getData() or modeName
+	else
+		t_statsMenu[7].varText = "None"
+	end
+end
+
+function f_getStats(callback)
 --Progress Logic
 	f_gameState()
 	textImgSetText(txt_statsMenu,"" .. data.userName .. " PROGRESS:")
@@ -3238,350 +3276,7 @@ function f_getStats()
 	t_statsMenu[4].varText = stats.losses
 	t_statsMenu[5].varText = "WIP"--data.favoriteChar
 	t_statsMenu[6].varText = "WIP"--data.favoriteStage
-	t_statsMenu[7].varText = "None" --If all Preferred Mode are equal
-	--Preferred Mode Logic
-	if (stats.modes.story.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.story.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.story.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.story.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.story.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.story.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.story.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.story.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.story.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.story.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.story.playtime > stats.modes.event.playtime) and
-	   (stats.modes.story.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.story.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.story.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.story.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.story.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.story.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Story"
-	end
-	if (stats.modes.arcade.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.event.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.story.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.arcade.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Arcade"
-	end
-	if (stats.modes.versus.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.event.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.story.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.versus.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Versus"
-	end
-	if (stats.modes.watch.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.event.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.story.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.watch.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "CPU Match"
-	end
-	if (stats.modes.survival.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.event.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.story.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.survival.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Survival"
-	end
-	if (stats.modes.boss.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.event.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.story.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.boss.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Boss Fight"
-	end
-	if (stats.modes.bonus.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.event.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.story.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.bonus.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Bonus Games"
-	end
-	if (stats.modes.timeattack.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.event.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.story.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.timeattack.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Time Attack"
-	end
-	if (stats.modes.timerush.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.event.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.story.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.timerush.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Time Rush"
-	end
-	if (stats.modes.scoreattack.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.event.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.story.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.scoreattack.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Score Attack"
-	end
-	if (stats.modes.endless.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.event.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.story.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.endless.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Endless"
-	end
-	if (stats.modes.suddendeath.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.event.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.story.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.suddendeath.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Sudden Death"
-	end
-	if (stats.modes.vskumite.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.event.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.story.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.vskumite.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = getKumiteData()
-	end
-	if (stats.modes.mission.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.event.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.story.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.mission.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Missions"
-	end
-	if (stats.modes.event.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.event.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.event.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.event.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.event.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.event.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.event.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.event.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.event.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.event.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.event.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.event.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.event.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.event.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.event.playtime > stats.modes.story.playtime) and
-	   (stats.modes.event.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.event.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Events"
-	end
-	if (stats.modes.tower.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.event.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.story.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.tourney.playtime) and
-	   (stats.modes.tower.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Tower"
-	end
-	if (stats.modes.tourney.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.event.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.story.playtime) and
-	   (stats.modes.tourney.playtime > stats.modes.adventure.playtime) then
-		t_statsMenu[7].varText = "Tourney"
-	end
-	if (stats.modes.adventure.playtime > stats.modes.arcade.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.versus.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.survival.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.boss.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.bonus.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.timeattack.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.timerush.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.vskumite.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.suddendeath.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.watch.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.event.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.mission.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.endless.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.scoreattack.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.tower.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.story.playtime) and
-	   (stats.modes.adventure.playtime > stats.modes.tourney.playtime) then
-		t_statsMenu[7].varText = "Adventure"
-	end
+	f_getPreferredMode()
 	ts = math.floor((stats.modes.training.playtime%60))
 	tm = math.floor((stats.modes.training.playtime%3600)/60)
 	th = math.floor((stats.modes.training.playtime%86400)/3600)
@@ -3589,10 +3284,8 @@ function f_getStats()
 	--practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", td, th, tm, ts)
 	practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes", td, th, tm)
 	t_statsMenu[8].varText = practiceTime
-	t_statsMenu[9].varText = stats.money
-	t_statsMenu[10].varText = math.floor(data.storiesProgress/100).."/3"
-	t_statsMenu[11].varText = stats.modes.mission.clearall.."/3"
-	t_statsMenu[12].varText = stats.modes.event.clearall.."/3"
+	t_statsMenu[9].varText = stats.money.." IKC"
+	if callback then callback() end --To call functions from External Modules
 end
 
 --;===========================================================

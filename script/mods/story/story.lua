@@ -14,6 +14,7 @@ local videoIntro = "data/videos/Opening.wmv"
 local txt_storyMenu = createTextImg(jgFnt, 0, -1, "STORY SELECT:", 188, 11)
 local txt_storyProgress = createTextImg(jgFnt, 2, 1, "", 193.5, 11)
 local txt_storyText = createTextImg(font6, 0, 1, "", 0, 0)
+local txt_storyStatsData = "Story Arcs Completed"
 
 --Below Wood background
 local woodBG1 = animNew(sprIkemen, [[
@@ -173,6 +174,22 @@ local t_storySelect = {
 }
 for i=1, #t_storySelect do
 	t_storySelect[i]['ID'] = textImgNew()
+end
+
+function f_getStoryStats()
+	if #t_storySelect == 0 then
+		return ""
+	else
+		return math.floor(data.storiesProgress/100).."/"..#t_storySelect
+	end
+end
+table.insert(t_statsMenu,#t_statsMenu-1,{text = txt_storyStatsData, varText = f_getStoryStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+function f_refreshStoryStats()
+	for i=1, #t_statsMenu do
+		if t_statsMenu[i].text == txt_storyStatsData then
+			t_statsMenu[i].varText = f_getStoryStats()
+		end
+	end
 end
 --;===========================================================
 --; ARC 1 CHAPTER SELECT
@@ -756,6 +773,7 @@ function f_storyMenu()
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveStats()
+			f_getStats(f_refreshStoryStats()) --To refresh stats
 			f_resetMenuArrowsPos()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)

@@ -15,6 +15,7 @@ local txt_internetTime = createTextImg(jgFnt, 0, -1, "", 318, 10)
 local txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
 local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
 local txt_eventCancel = "EVENT TIME UNAVAILABLE"
+local txt_eventStatsData = "Events Completed"
 
 local txt_eventIncomplete = "INCOMPLETE"
 local txt_eventClear = "COMPLETED"
@@ -291,6 +292,7 @@ local file = io.open(eventDef, "r")
 		refresh()
 	end
 end
+f_loadEvents() --Loads when engine starts
 --;===========================================================
 --; EVENT SAVE DATA
 --;===========================================================
@@ -300,6 +302,21 @@ local function f_eventStatus()
 	elseif data.eventNo == 3 then stats.modes.event.clear3 = 1
 	end
 	f_saveStats()
+end
+function f_getEventStats()
+	if #t_events == 0 then
+		return ""
+	else
+		return stats.modes.event.clearall.."/"..#t_events
+	end
+end
+table.insert(t_statsMenu,#t_statsMenu-1,{text = txt_eventStatsData, varText = f_getEventStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+function f_refreshEventStats()
+	for i=1, #t_statsMenu do
+		if t_statsMenu[i].text == txt_eventStatsData then
+			t_statsMenu[i].varText = f_getEventStats()
+		end
+	end
 end
 --;===========================================================
 --; EVENTS MENU (complete customizable tasks at certain times)
@@ -338,6 +355,7 @@ function f_eventMenu()
 		if not eventLocked and not netTimeInfoScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				f_saveStats()
+				f_getStats(f_refreshEventStats()) --To refresh stats
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 2)
 				break
@@ -516,4 +534,3 @@ function f_eventMenu()
 		refresh()
 	end
 end
-f_loadEvents() --To load when engine starts

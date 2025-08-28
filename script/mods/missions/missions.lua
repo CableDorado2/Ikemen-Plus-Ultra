@@ -13,6 +13,7 @@ local txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 local txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
 local txt_missionIncomplete = "INCOMPLETE"
 local txt_missionClear = "COMPLETED"
+local txt_missionStatsData = "Missions Completed"
 
 local padlockMissionPosX = 125 --Padlock Position for Missions Menu
 local padlockMissionPosY = 25
@@ -111,6 +112,7 @@ local file = io.open(missionDef, "r")
 		refresh()
 	end
 end
+f_loadMissions() --Loads when engine starts
 --;===========================================================
 --; MISSION SAVE DATA
 --;===========================================================
@@ -120,6 +122,21 @@ local function f_missionStatus()
 	elseif data.missionNo == 3 then stats.modes.mission.clear3 = 1
 	end
 	f_saveStats()
+end
+function f_getMissionStats()
+	if #t_missions == 0 then
+		return ""
+	else
+		return stats.modes.mission.clearall.."/"..#t_missions
+	end
+end
+table.insert(t_statsMenu,#t_statsMenu-1,{text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+function f_refreshMissionStats()
+	for i=1, #t_statsMenu do
+		if t_statsMenu[i].text == txt_missionStatsData then
+			t_statsMenu[i].varText = f_getMissionStats()
+		end
+	end
 end
 --;===========================================================
 --; MISSIONS MENU (complete customizable tasks)
@@ -155,6 +172,7 @@ function f_missionMenu()
 		textImgSetText(txt_missionProgress,"["..missionsData.."%]")
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveStats()
+			f_getStats(f_refreshMissionStats()) --To refresh stats
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			f_resetMenuArrowsPos()
@@ -299,4 +317,3 @@ function f_missionMenu()
 		refresh()
 	end
 end
-f_loadMissions() --To load when engine starts

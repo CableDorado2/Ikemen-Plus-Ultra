@@ -1150,10 +1150,7 @@ t_statsMenu = {
 	{text = "Favorite Stage"},
 	{text = "Preferred Game Mode"},
 	{text = "Training Time"},
-	{text = "Collected Coins"},
-	{text = "Stories Completed"},
-	{text = "Missions Completed"},
-	{text = "Events Completed"},
+	{text = "In-Game Currency"},
 	{text = "Leaderboards"},
 	{text = "                   BACK"},
 }
@@ -1165,7 +1162,7 @@ end
 --;===========================================================
 --; ACHIEVEMENTS SCREENPACK DEFINITION
 --;===========================================================
-txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENTS PROGRESS:", 218, 11)
+txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENT PROGRESS:", 218, 11)
 txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
 txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
 
