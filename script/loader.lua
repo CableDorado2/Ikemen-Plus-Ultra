@@ -1170,7 +1170,7 @@ local file = io.open(achievementDef, "r")
 		refresh()
 	]]
 	end
-	f_setAchievementReward()
+	f_setAchievement()
 end
 f_loadAchievements()
 

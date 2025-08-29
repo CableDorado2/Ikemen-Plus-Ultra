@@ -100,7 +100,7 @@ videoHowToPlay = "data/videos/How To Play.wmv"
 
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
-fightDef = "data/screenpack/fight.def" --Lifebar/Fight
+fightDef = data.lifebar --Lifebar/Fight stored in data_sav.lua
 achievementDef = "data/screenpack/achievements.def" --Achievements list
 vnDef = "data/visualnovel/vnselect.def" --Visual Novels
 
@@ -1229,7 +1229,7 @@ function f_achievementSlot(posX, posY, itemNo)
 	local txtRewardColor = 0
 	local infoSpacing = 10
 	local infoLimit = 55
-	if stats.rewards[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
+	if stats.trophies[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
 --Draw Achievement Slot
 	animSetScale(achievementTBG, 280, 38)
 	animPosDraw(achievementTBG, 40+NewPosX, 76+NewPosY)
@@ -4637,25 +4637,6 @@ achievementInfoBG = animNew(sprIkemen, [[
 animSetScale(achievementInfoBG, 170, 55)
 animSetAlpha(achievementInfoBG, 0, 50)
 animUpdate(achievementInfoBG)
-
-function achievementDisplay(id)
-	local id = id
-	local infoSpacing = 10
-	local infoLimit = 35
-	local PosX = 0
-	local PosY = 0
-	animPosDraw(achievementInfoBG, -2+PosX, 180+PosY)
---Draw Achievement Icon
-	f_drawSprPreview(sprAchievements,
-		t_achievements[id].previewspr[1], t_achievements[id].previewspr[2],
-		0+PosX, 194+PosY,
-		0.51, 0.475
-	)
---Draw Info Text
-	f_drawQuickText(txt_TrophyFight, jgFnt, 0, 1, "ACHIEVEMENT UNLOCKED!", 2+PosX, 190+PosY)
-	f_drawQuickText(txt_TrophyTitleFight, font2, 5, 1, t_achievements[id].name, 35+PosX, 201+PosY)
-	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, 35+PosX, 212+PosY, infoSpacing, 0, infoLimit, 3)
-end
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION

@@ -4137,6 +4137,15 @@ function f_unlock(permanent)
 				group == 'palettes' or group == 'abyss' or group == 'shop' or
 				group == 'achievements') then
 					table.insert(t_del, k)
+					if group == 'achievements' then
+						for i=1, #t_achievements do
+						--Send achievement ID first time that is unlocked to t_pendingTrophy to display them
+							if t_achievements[i].id == k and not stats.trophies[k].displayed then
+								table.insert(t_pendingTrophy, 1, {trophyID = i})
+							end
+						end
+						if data.debugLog then f_printTable(t_pendingTrophy, "save/debug/t_pendingTrophy.log") end
+					end
 				end
 			else
 				--Error: Lua code does not return boolean value
@@ -4464,16 +4473,24 @@ abyssDat.nosave = t_abyssDefaultSave
 	end
 end
 
---Set Achievement Rewards
-function f_setAchievementReward()
+--Set Achievement State
+function f_setAchievement()
 local modified = false
-	if stats.rewards == nil then stats.rewards = {} end --Create space to achievements reward
+	if stats.trophies == nil then stats.trophies = {} end --Create space to achievements reward
 	for i=1, #t_achievements do
-		if stats.rewards[t_achievements[i].id] == nil then
-			stats.rewards[t_achievements[i].id] = {}
+		if stats.trophies[t_achievements[i].id] == nil then
+			stats.trophies[t_achievements[i].id] = {}
 		end
-		if stats.rewards[t_achievements[i].id].rewardclaimed == nil then
-			stats.rewards[t_achievements[i].id].rewardclaimed = false
+		if stats.trophies[t_achievements[i].id].rewardclaimed == nil then
+			stats.trophies[t_achievements[i].id].rewardclaimed = false
+			--modified = true
+		end
+		if stats.trophies[t_achievements[i].id].clear == nil then
+			stats.trophies[t_achievements[i].id].clear = false
+			--modified = true
+		end
+		if stats.trophies[t_achievements[i].id].displayed == nil then
+			stats.trophies[t_achievements[i].id].displayed = false
 			--modified = true
 		end
 	end
@@ -4643,3 +4660,85 @@ function f_loadLuaMods(bool)
 end
 require("script.options") --Load options script
 assert(loadfile("script/achievements.lua"))() --Load achievements script
+t_pendingTrophy = {}
+function achievementDisplayReset()
+trophyPosX = 0
+trophyPosY = 0
+trophyTime = 0
+currentTrophyID = nil
+trophyReady = false
+table.remove(t_pendingTrophy, #t_pendingTrophy)
+if data.debugLog then f_printTable(t_pendingTrophy, "save/t_pendingTrophy.log") end
+end
+achievementDisplayReset()
+
+function achievementDisplay(id)
+	local id = id
+	local infoSpacing = 10
+	local infoLimit = 35
+--Default Pos
+	local trophyBGX = -2
+	local trophyBGY = 280
+	
+	local trophyTitleX = 2
+	local trophyTitleY = 290
+	
+	local trophyNameX = 35
+	local trophyNameY = 301
+	
+	local trophyInfoX = 35
+	local trophyInfoY = 312
+	
+	local trophyIconX = 0
+	local trophyIconY = 294
+--New Pos Target
+	local trophyTargetPosX = 0
+	local trophyTargetPosY = -100
+--Scroll Logic to Show
+	if trophyPosY > trophyTargetPosY and trophyTime < 100 then
+		trophyPosY = trophyPosY - 5
+	end
+--Wait before Hide again
+	if trophyTime < 150 and trophyPosY <= trophyTargetPosY then
+		--if trophyPosY > trophyTargetPosY then trophyPosY = trophyTargetPosY end --fix pos
+		trophyTime = trophyTime + 1
+	end
+--Scroll Logic to Hide
+	if trophyTime >= 150 and trophyPosY < 0 then
+		trophyPosY = trophyPosY + 2
+		if trophyPosY > 0 then trophyPosY = 0 end --fix pos
+	end
+	if data.debugMode then
+		f_drawQuickText(txt_debug1, jgFnt, 0, 1, "TrophyPosY:"..trophyPosY, 150, 50)
+		f_drawQuickText(txt_debug2, jgFnt, 0, 1, "TrophyTimer:"..trophyTime, 150, 70)
+	end
+--Draw Achievement Icon
+	animPosDraw(achievementInfoBG, trophyBGX+trophyPosX, trophyBGY+trophyPosY)
+	f_drawSprPreview(sprAchievements,
+		t_achievements[id].previewspr[1], t_achievements[id].previewspr[2],
+		trophyIconX+trophyPosX, trophyIconY+trophyPosY,
+		0.51, 0.475
+	)
+--Draw Info Text
+	f_drawQuickText(txt_TrophyTitleFight, jgFnt, 0, 1, "ACHIEVEMENT UNLOCKED!", trophyTitleX+trophyPosX, trophyTitleY+trophyPosY)
+	f_drawQuickText(txt_TrophyNameFight, font2, 5, 1, t_achievements[id].name, trophyNameX+trophyPosX, trophyNameY+trophyPosY)
+	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, trophyInfoX+trophyPosX, trophyInfoY+trophyPosY, infoSpacing, 0, infoLimit, 3)
+--Allow Display Next Achievement
+	if trophyPosY == 0 then
+		stats.trophies[t_achievements[id].id].displayed = true
+		f_saveStats()
+		achievementDisplayReset()
+	end
+end
+
+function achievements()
+	if trophyReady and currentTrophyID then
+		achievementDisplay(currentTrophyID)
+	end
+	if #t_pendingTrophy ~= 0 then
+		if currentTrophyID == nil then
+			currentTrophyID = t_pendingTrophy[#t_pendingTrophy].trophyID
+			trophyReady = true
+		end
+	end
+end

@@ -3303,12 +3303,12 @@ function f_achievementsMenu()
 		--Slot Select
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			--NO REWARD TO CLAIM
-				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or stats.rewards[t_achievements[itemSel].id].rewardclaimed then
+				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or stats.trophies[t_achievements[itemSel].id].rewardclaimed then
 					sndPlay(sndSys, 100, 5)
 			--REWARD TO CLAIM
 				else
 					sndPlay(sndSys, 201, 2)
-					stats.rewards[t_achievements[itemSel].id].rewardclaimed = true
+					stats.trophies[t_achievements[itemSel].id].rewardclaimed = true
 					stats.money = stats.money + t_achievements[itemSel].reward
 					f_saveStats()
 					--claimRewardScreen = true
