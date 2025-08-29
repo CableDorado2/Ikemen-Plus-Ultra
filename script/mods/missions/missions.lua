@@ -130,7 +130,7 @@ function f_getMissionStats()
 		return stats.modes.mission.clearall.."/"..#t_missions
 	end
 end
-table.insert(t_statsMenu,#t_statsMenu-1,{text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsMenu,#t_statsMenu,{text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
 function f_refreshMissionStats()
 	for i=1, #t_statsMenu do
 		if t_statsMenu[i].text == txt_missionStatsData then

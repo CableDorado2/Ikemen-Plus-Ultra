@@ -938,7 +938,7 @@ function f_extrasMenu()
 end
 
 --;===========================================================
---; WATCH MENU (watch replays, rankings, player data and more)
+--; WATCH MENU (watch replays, player profile, licenses and more)
 --;===========================================================
 function f_watchMenu()
 	cmdInput()
@@ -1023,6 +1023,109 @@ function f_watchMenu()
 			animUpdate(menuArrowDown)
 		end
 		if infoScreen then f_infoMenu() else drawMainMenuInputHints() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; PROFILE MENU (display overall player data [PLAYER RECORDS, LEADERBOARDS, ACHIEVEMENTS])
+--;===========================================================
+function f_profileMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local profileMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_infoReset()
+	while true do
+		if not infoScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				profileMenu = profileMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				profileMenu = profileMenu + 1
+			end
+			if profileMenu < 1 then
+				profileMenu = #t_profileMenu
+				if #t_profileMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_profileMenu-1
+				end
+			elseif profileMenu > #t_profileMenu then
+				profileMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (profileMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (profileMenu - 1) * 13
+			end
+			if #t_profileMenu <= 5 then
+				maxprofileMenu = #t_profileMenu
+			elseif profileMenu - cursorPosY > 0 then
+				maxprofileMenu = profileMenu + 5 - cursorPosY
+			else
+				maxprofileMenu = 5
+			end
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				sndPlay(sndSys, 100, 1)
+				f_gotoFunction(t_profileMenu[profileMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_profileMenu do
+			if i == profileMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_profileMenu[i].id, jgFnt, bank, 0, t_profileMenu[i].text, 159, 122+i*13-moveTxt))
+		end
+		if not infoScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "PROFILE")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxprofileMenu > 6 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_profileMenu > 6 and maxprofileMenu < #t_profileMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen then drawMainMenuInputHints() end
+		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2894,7 +2997,7 @@ function f_stageViewer()
 end
 
 --;===========================================================
---; PROFILE MENU (display overall player data [PLAYER RECORDS, RANKINGS, ACHIEVEMENTS])
+--; PLAYER RECORDS MENU (display player records data)
 --;===========================================================
 function f_statsMenu()
 	cmdInput()
@@ -3003,144 +3106,6 @@ function f_statsMenu()
 		cmdInput()
 		refresh()
 	end
-end
-
---;===========================================================
---; ACHIEVEMENTS MENU (Collect a customizable list of milestones to claim rewards)
---;===========================================================
-function f_achievementsMenu()
-	if data.debugMode then f_loadAchievements() end --Load in real-time only if dev/debug mode is enabled
-	if #t_achievements == 0 then
-		achievementInfo = true
-		infoScreen = true
-		return
-	end
-	cmdInput()
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local itemSel = 1
-	local cursorPosY = 1
-	local moveSlot = 0
-	local maxItems = 3
-	local t_data = t_achievements
-	claimRewardScreen = false
-	f_resetAchievementsArrowsPos()
-	f_unlock(false)
-	f_updateUnlocks()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	while true do
-		if not claimRewardScreen then
-		--Close Menu
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				break
-			end
-		--Scroll Logic
-			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				itemSel = itemSel - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				itemSel = itemSel + 1
-		--Slot Select
-			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-			--NO REWARD TO CLAIM
-				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or stats.rewards[t_achievements[itemSel].id].rewardclaimed then
-					sndPlay(sndSys, 100, 5)
-			--REWARD TO CLAIM
-				else
-					sndPlay(sndSys, 201, 2)
-					stats.rewards[t_achievements[itemSel].id].rewardclaimed = true
-					stats.money = stats.money + t_achievements[itemSel].reward
-					f_saveStats()
-					--claimRewardScreen = true
-				end
-			end
-			if itemSel < 1 then
-				itemSel = #t_data
-				if #t_data > maxItems then
-					cursorPosY = maxItems
-				else
-					cursorPosY = #t_data
-				end
-			elseif itemSel > #t_data then
-				itemSel = 1
-				cursorPosY = 1
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == maxItems then
-				moveSlot = (itemSel - maxItems) * achievementSpacing
-			elseif cursorPosY == 1 then
-				moveSlot = (itemSel - 1) * achievementSpacing
-			end	
-			if #t_data <= maxItems then
-				maxitemSel = #t_data
-			elseif itemSel - cursorPosY > 0 then
-				maxitemSel = itemSel + maxItems - cursorPosY
-			else
-				maxitemSel = maxItems
-			end
-		end
-	--Draw BG
-		animDraw(f_animVelocity(commonBG0, -1, -1))
-	--Draw Title
-		textImgDraw(txt_achievementsTitle)
-		textImgSetText(txt_achievementsProgress, "[".. 28 .."%]")
-		textImgDraw(txt_achievementsProgress)
-		for i=1, maxitemSel do
-			local nameColor = 0
-			local drawCursor = false
-		--Draw Slot Content
-			if i > itemSel - cursorPosY then
-				f_achievementSlot(0, -118+i*achievementSpacing-moveSlot, i)
-			end
-		--Draw Cursor Logic
-			if i == itemSel then
-				nameColor = 5
-				drawCursor = true
-			end
-			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 75+(-118+i*achievementSpacing-moveSlot))
-			if drawCursor then
-				animSetWindow(cursorBox, 48,76+(-118+i*achievementSpacing-moveSlot), 272,38)
-				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-				animDraw(f_animVelocity(cursorBox, -1, -1))
-			end
-		end
-		if claimRewardScreen then f_claimReward(itemSel) else drawAchievementInputHints() end
-		if maxitemSel > maxItems then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_data > maxItems and maxitemSel < #t_data then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---Achievement Reward Screen
-function f_claimReward()
-	
 end
 
 --;===========================================================
@@ -3293,6 +3258,144 @@ end
 --;===========================================================
 function f_rankings()
 	--TODO
+end
+
+--;===========================================================
+--; ACHIEVEMENTS MENU (collect a customizable list of milestones to claim rewards)
+--;===========================================================
+function f_achievementsMenu()
+	if data.debugMode then f_loadAchievements() end --Load in real-time only if dev/debug mode is enabled
+	if #t_achievements == 0 then
+		achievementInfo = true
+		infoScreen = true
+		return
+	end
+	cmdInput()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local itemSel = 1
+	local cursorPosY = 1
+	local moveSlot = 0
+	local maxItems = 3
+	local t_data = t_achievements
+	claimRewardScreen = false
+	f_resetAchievementsArrowsPos()
+	f_unlock(false)
+	f_updateUnlocks()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	while true do
+		if not claimRewardScreen then
+		--Close Menu
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				break
+			end
+		--Scroll Logic
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				itemSel = itemSel - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				itemSel = itemSel + 1
+		--Slot Select
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			--NO REWARD TO CLAIM
+				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or stats.rewards[t_achievements[itemSel].id].rewardclaimed then
+					sndPlay(sndSys, 100, 5)
+			--REWARD TO CLAIM
+				else
+					sndPlay(sndSys, 201, 2)
+					stats.rewards[t_achievements[itemSel].id].rewardclaimed = true
+					stats.money = stats.money + t_achievements[itemSel].reward
+					f_saveStats()
+					--claimRewardScreen = true
+				end
+			end
+			if itemSel < 1 then
+				itemSel = #t_data
+				if #t_data > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_data
+				end
+			elseif itemSel > #t_data then
+				itemSel = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveSlot = (itemSel - maxItems) * achievementSpacing
+			elseif cursorPosY == 1 then
+				moveSlot = (itemSel - 1) * achievementSpacing
+			end	
+			if #t_data <= maxItems then
+				maxitemSel = #t_data
+			elseif itemSel - cursorPosY > 0 then
+				maxitemSel = itemSel + maxItems - cursorPosY
+			else
+				maxitemSel = maxItems
+			end
+		end
+	--Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+	--Draw Title
+		textImgDraw(txt_achievementsTitle)
+		textImgSetText(txt_achievementsProgress, "[".. 28 .."%]")
+		textImgDraw(txt_achievementsProgress)
+		for i=1, maxitemSel do
+			local nameColor = 0
+			local drawCursor = false
+		--Draw Slot Content
+			if i > itemSel - cursorPosY then
+				f_achievementSlot(0, -118+i*achievementSpacing-moveSlot, i)
+			end
+		--Draw Cursor Logic
+			if i == itemSel then
+				nameColor = 5
+				drawCursor = true
+			end
+			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 75+(-118+i*achievementSpacing-moveSlot))
+			if drawCursor then
+				animSetWindow(cursorBox, 48,76+(-118+i*achievementSpacing-moveSlot), 272,38)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
+		end
+		if claimRewardScreen then f_claimReward(itemSel) else drawAchievementInputHints() end
+		if maxitemSel > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_data > maxItems and maxitemSel < #t_data then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--Achievement Reward Screen
+function f_claimReward()
+	
 end
 
 --;===========================================================

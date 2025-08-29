@@ -893,13 +893,24 @@ t_watchMenu = {
 	{text = "REPLAYS", 		 gotomenu = "f_replayMenu()"},
 	{text = "STAGE VIEWER",  gotomenu = "f_stageViewer()"},
 	{text = "SOUND TEST", 	 gotomenu = "soundTest = true f_songMenu()"},
-	{text = "PROFILE", 		 gotomenu = "f_statsMenu()"},
-	{text = "ACHIEVEMENTS",  gotomenu = "f_achievementsMenu()"},
+	{text = "PROFILE", 		 gotomenu = "f_profileMenu()"},
 	{text = "LICENSES", 	 gotomenu = "f_licenseMenu()"},
 	{text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
 for i=1, #t_watchMenu do
 	t_watchMenu[i]['id'] = textImgNew()
+end
+
+--;===========================================================
+--; PROFILE MENU SCREENPACK DEFINITION
+--;===========================================================
+t_profileMenu = {
+	{text = "PLAYER RECORDS", gotomenu = "f_statsMenu()"},
+	{text = "LEADERBOARDS",	  gotomenu = "f_rankings()"},
+	{text = "ACHIEVEMENTS",   gotomenu = "f_achievementsMenu()"},
+}
+for i=1, #t_profileMenu do
+	t_profileMenu[i]['id'] = textImgNew()
 end
 
 --;===========================================================
@@ -1136,7 +1147,7 @@ function drawReplayInputHints()
 end
 
 --;===========================================================
---; STATISTICS MENU SCREENPACK DEFINITION
+--; PLAYER RECORDS SCREENPACK DEFINITION
 --;===========================================================
 txt_statsMenu = createTextImg(jgFnt, 0, -1, "", 202, 13)
 txt_statsProgress = createTextImg(jgFnt, 2, 1, "", 208, 13)
@@ -1151,13 +1162,18 @@ t_statsMenu = {
 	{text = "Preferred Game Mode"},
 	{text = "Training Time"},
 	{text = "In-Game Currency"},
-	{text = "Leaderboards"},
 	{text = "                   BACK"},
 }
 for i=1, #t_statsMenu do
 	t_statsMenu[i]['varID'] = textImgNew()
 	t_statsMenu[i]['varText'] = ""
 end
+
+--;===========================================================
+--; LEADERBOARDS SCREENPACK DEFINITION
+--;===========================================================
+txt_rankingMenu = createTextImg(jgFnt, 0, -1, "LEADERBOARDS", 202, 13)
+
 
 --;===========================================================
 --; ACHIEVEMENTS SCREENPACK DEFINITION

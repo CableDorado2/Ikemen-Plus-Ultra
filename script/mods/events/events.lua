@@ -310,7 +310,7 @@ function f_getEventStats()
 		return stats.modes.event.clearall.."/"..#t_events
 	end
 end
-table.insert(t_statsMenu,#t_statsMenu-1,{text = txt_eventStatsData, varText = f_getEventStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsMenu,#t_statsMenu,{text = txt_eventStatsData, varText = f_getEventStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
 function f_refreshEventStats()
 	for i=1, #t_statsMenu do
 		if t_statsMenu[i].text == txt_eventStatsData then
