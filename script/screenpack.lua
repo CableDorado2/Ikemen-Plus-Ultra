@@ -4603,6 +4603,8 @@ txt_WinCountFight = "WINS "
 txt_AiLevelFight = "CPU-"
 txt_TourneyFTFight = "FT"
 
+txt_TrophyInfoFight = createTextImg(font2, 0, 1, "", 0, 0, 0.75, 0.75)
+
 --Demo Logo
 demoLogo = animNew(sprLogos, [[
 0,3, 0,0, -1
@@ -4627,6 +4629,33 @@ animSetPos(abyssSaveInfoBG, 258, 215)
 animSetScale(abyssSaveInfoBG, 65, 24)
 animSetAlpha(abyssSaveInfoBG, 0, 50)
 animUpdate(abyssSaveInfoBG)
+
+--Achievement Info BG
+achievementInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetScale(achievementInfoBG, 170, 55)
+animSetAlpha(achievementInfoBG, 0, 50)
+animUpdate(achievementInfoBG)
+
+function achievementDisplay(id)
+	local id = id
+	local infoSpacing = 10
+	local infoLimit = 35
+	local PosX = 0
+	local PosY = 0
+	animPosDraw(achievementInfoBG, -2+PosX, 180+PosY)
+--Draw Achievement Icon
+	f_drawSprPreview(sprAchievements,
+		t_achievements[id].previewspr[1], t_achievements[id].previewspr[2],
+		0+PosX, 194+PosY,
+		0.51, 0.475
+	)
+--Draw Info Text
+	f_drawQuickText(txt_TrophyFight, jgFnt, 0, 1, "ACHIEVEMENT UNLOCKED!", 2+PosX, 190+PosY)
+	f_drawQuickText(txt_TrophyTitleFight, font2, 5, 1, t_achievements[id].name, 35+PosX, 201+PosY)
+	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, 35+PosX, 212+PosY, infoSpacing, 0, infoLimit, 3)
+end
 
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION

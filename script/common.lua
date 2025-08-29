@@ -151,10 +151,13 @@ end
 -- @spacing: spacing between lines (rendering Y position increasement for each line)
 -- @delay (optional): ticks (frames) delay between each letter is rendered, defaults to 0 (all text rendered immediately)
 -- @limit (optional): maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
-function f_textRender(textName, str, counter, x, y, spacing, delay, limit)
+-- @maxLimit (optional): maximum number of lines allowed before truncating
+function f_textRender(textName, str, counter, x, y, spacing, delay, limit, maxlimit)
 	local delay = delay or 0
 	local limit = limit or -1
+	local maxLimit = maxlimit or 0 --0= No Max Limits
 	str = tostring(str)
+--Process line breaks and wrapping if necessary
 	if limit == -1 then
 		str = str:gsub('\\n', '\n')
 	else
@@ -163,29 +166,56 @@ function f_textRender(textName, str, counter, x, y, spacing, delay, limit)
 			str = f_wrap(str, limit, indent, indent1)
 		end
 	end
+--Determine how much text to display
 	local subEnd = math.floor(#str - (#str - counter/delay))
 	local t = {}
 	for line in str:gmatch('([^\r\n]*)[\r\n]?') do
 		t[#t+1] = line
 	end
 	t[#t] = nil --get rid of the last blank line
-	local lengthCnt = 0
-	for i=1, #t do
-		if subEnd < #str then
-			local length = #t[i]
-			if i > 1 and i <= #t then
-				length = length + 1
+--If maxLimit > 0 and we have exceeded that limit, replace the last line with "..."
+	if maxLimit > 0 and #t > maxLimit then
+		for i=1, maxLimit - 1 do
+		--draw the first lines normally
+			local line = t[i]
+			if subEnd < #str then
+				local length = #line
+				local totalLength = 0
+				for j=1, i-1 do
+					totalLength = totalLength + #t[j] + 1
+				end
+				if subEnd < totalLength + length then
+					line = line:sub(1, subEnd - totalLength)
+				end
 			end
-			lengthCnt = lengthCnt + length
-			if subEnd < lengthCnt then
-				t[i] = t[i]:sub(0, subEnd - lengthCnt)
-			end
+			textImgSetText(textName, line)
+			textImgSetPos(textName, x, y + spacing * (i - 1))
+			textImgDraw(textName)
 		end
-		textImgSetText(textName, t[i])
-		textImgSetPos(textName, x, y + spacing * (i - 1))
+	--replace the last allowed line with "..."
+		textImgSetText(textName, "...")
+		textImgSetPos(textName, x, y + spacing * (maxLimit - 1))
 		textImgDraw(textName)
+		--return lengthCnt
+	else
+		local lengthCnt = 0
+		for i=1, #t do
+			if subEnd < #str then
+				local length = #t[i]
+				if i > 1 and i <= #t then
+					length = length + 1
+				end
+				lengthCnt = lengthCnt + length
+				if subEnd < lengthCnt then
+					t[i] = t[i]:sub(0, subEnd - lengthCnt)
+				end
+			end
+			textImgSetText(textName, t[i])
+			textImgSetPos(textName, x, y + spacing * (i - 1))
+			textImgDraw(textName)
+		end
+		return lengthCnt --We gonna use this in Visual Novel Features
 	end
-	return lengthCnt --We gonna use this in Visual Novel Features
 end
 
 --shortcut for draw text for character select
@@ -4612,3 +4642,4 @@ function f_loadLuaMods(bool)
 	end
 end
 require("script.options") --Load options script
+assert(loadfile("script/achievements.lua"))() --Load achievements script

@@ -2054,7 +2054,7 @@ function f_bonusMenu()
 end
 
 --;===========================================================
---; SINGLE BONUS GAMES MODE (clear the bonus game selected)
+--; BONUS GAME SELECT (clear the bonus game selected)
 --;===========================================================
 function f_bonusExtras()
 	cmdInput()
@@ -2200,7 +2200,7 @@ function bonusCPUvsHuman()
 end
 
 --;===========================================================
---; BONUS RUSH MODE (clear all bonus games in a row)
+--; BONUS MARATHON MODE (clear all bonus games in a row)
 --;===========================================================
 function f_bonusrushBoot()
 	menuSelect = "bonus rush"
@@ -2227,7 +2227,7 @@ function bonusrushHumanvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	textImgSetText(txt_mainSelect, "BONUS RUSH")
+	textImgSetText(txt_mainSelect, "BONUS MARATHON")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -2243,7 +2243,7 @@ function bonusrushCPUvsHuman()
 	data.p2In = 2
 	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	textImgSetText(txt_mainSelect, "BONUS RUSH")
+	textImgSetText(txt_mainSelect, "BONUS MARATHON")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -2253,7 +2253,7 @@ function bonusrushP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
+	textImgSetText(txt_mainSelect, "BONUS MARATHON COOPERATIVE")
 	f_selectAdvance()
 end
 
@@ -2266,7 +2266,7 @@ function bonusrushCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
+	textImgSetText(txt_mainSelect, "BONUS MARATHON COOPERATIVE")
 	f_selectAdvance()
 	]]
 end
@@ -5244,14 +5244,14 @@ function f_mainLobby()
 					textImgSetText(txt_mainSelect, "ONLINE BOSS RUSH COOPERATIVE")
 					f_selectAdvance()
 				end
-		--ONLINE BONUS RUSH
+		--ONLINE BONUS MARATHON
 			elseif mainLobby == 8 then
 				if #t_bonusChars ~= 0 then
 					setRoundsToWin(1)
 					data.versusScreen = false
 					data.gameMode = "bonusrush"
 					data.rosterMode = "bonus"
-					textImgSetText(txt_mainSelect, "ONLINE BONUS RUSH COOPERATIVE")
+					textImgSetText(txt_mainSelect, "ONLINE BONUS MARATHON COOPERATIVE")
 					f_selectAdvance()
 				end
 		--ONLINE TIME RUSH
