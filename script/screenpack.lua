@@ -1185,8 +1185,8 @@ txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
 achievementCommonPosX = 1.5 --Allow set common pos for all previews
 achievementCommonPosY = 72.5
 
-achievementCommonScaleX = 0.47 --Allow set common scale for all previews
-achievementCommonScaleY = 0.45
+achievementCommonScaleX = 0.71 --Allow set common scale for all previews
+achievementCommonScaleY = 0.675
 
 achievementSpacing = 70
 
