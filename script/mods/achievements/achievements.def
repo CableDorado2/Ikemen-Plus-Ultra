@@ -1,0 +1,49 @@
+[Achievement 1]
+id = achievement1
+name = Hello There
+info = Perform a taunt (P1)
+previewspr = 0,1
+reward = 100
+unlock = stats.trophies.achievement1.clear == true
+
+[Achievement 2] ;https://retroachievements.org/achievement/78403
+id = achievement2
+name = Go for Broke!
+info = Win a round with a Perfect [no time out] (2-Normal difficulty - Normal damage).
+previewspr = 0,2
+reward = 200
+unlock = stats.trophies.achievement2.clear == true
+
+[Achievement 3] ;https://retroachievements.org/achievement/217587
+id = achievement3
+name = Shun Goku Satsu
+info = Win a round with a Shun Goku Satsu (Arcade Mode).
+previewspr = 0,3
+reward = 300
+unlock = stats.trophies.achievement3.clear == true
+
+[Achievement 4] ;https://retroachievements.org/achievement/115667
+id = achievement4
+name = 2002 Combo - Kyo
+info = Perform a 6-hit combo as Kyo using Ura 108 Shiki.
+previewspr = 0,4
+reward = 210
+unlock = stats.trophies.achievement4.clear == true
+
+[Achievement 5]
+id = achievement5
+
+[Achievement 6]
+id = achievement6
+
+[Achievement 7]
+id = achievement7
+
+[Achievement 8]
+id = achievement8
+
+[Achievement 9]
+id = achievement9
+
+[Achievement 10]
+id = achievement10

@@ -7,7 +7,6 @@ sprLogos = sffNew("data/screenpack/logo.sff") --load logos sprites
 sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
 sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
-sprAchievements = sffNew("data/screenpack/achievements.sff") --load achievements sprites
 sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
 sprTourney = sffNew("data/screenpack/tournament.sff") --load tournament mode sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
@@ -101,7 +100,6 @@ videoHowToPlay = "data/videos/How To Play.wmv"
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
 fightDef = data.lifebar --Lifebar/Fight stored in data_sav.lua
-achievementDef = "data/screenpack/achievements.def" --Achievements list
 vnDef = "data/visualnovel/vnselect.def" --Visual Novels
 
 --Paths Data
@@ -907,7 +905,6 @@ end
 t_profileMenu = {
 	{text = "PLAYER RECORDS", gotomenu = "f_statsMenu()"},
 	{text = "LEADERBOARDS",	  gotomenu = "f_rankings()"},
-	{text = "ACHIEVEMENTS",   gotomenu = "f_achievementsMenu()"},
 }
 for i=1, #t_profileMenu do
 	t_profileMenu[i]['id'] = textImgNew()
@@ -1173,108 +1170,6 @@ end
 --; LEADERBOARDS SCREENPACK DEFINITION
 --;===========================================================
 txt_rankingMenu = createTextImg(jgFnt, 0, -1, "LEADERBOARDS", 202, 13)
-
-
---;===========================================================
---; ACHIEVEMENTS SCREENPACK DEFINITION
---;===========================================================
-txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENT PROGRESS:", 218, 11)
-txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
-txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
-
-achievementCommonPosX = 1.5 --Allow set common pos for all previews
-achievementCommonPosY = 72.5
-
-achievementCommonScaleX = 0.71 --Allow set common scale for all previews
-achievementCommonScaleY = 0.675
-
-achievementSpacing = 70
-
---Achievement Slot
-achievementSlot = animNew(sprIkemen, [[
-240,0, 0,0, -1
-]])
-animSetScale(achievementSlot, 0.5, 0.5)
-animUpdate(achievementSlot)
-
---Achievement Complete Slot Icon
-achievementSlotDone = animNew(sprIkemen, [[
-241,0, 0,0, -1
-]])
-animSetScale(achievementSlotDone, 0.5, 0.5)
-animUpdate(achievementSlotDone)
-
---Achievement Locked Icon
-achievementLocked = animNew(sprIkemen, [[
-108,0, 0,0, -1
-]])
-animSetScale(achievementLocked, 0.08, 0.08)
-animUpdate(achievementLocked)
-
---Achievement Transparent 
-achievementTBG = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetPos(achievementTBG, 0, 20)
-animSetAlpha(achievementTBG, 20, 100)
-animUpdate(achievementTBG)
-
-function f_achievementSlot(posX, posY, itemNo)
-	local NewPosX = posX or 0
-	local NewPosY = posY or 0
-	local itemNo = itemNo
-	local sprGroup = 0
-	local sprIndex = 0
-	local unlocked = false
-	local txtRewardColor = 0
-	local infoSpacing = 10
-	local infoLimit = 55
-	if stats.trophies[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
---Draw Achievement Slot
-	animSetScale(achievementTBG, 280, 38)
-	animPosDraw(achievementTBG, 40+NewPosX, 76+NewPosY)
-	animPosDraw(achievementSlot, 0+NewPosX, 70+NewPosY)
---If the achievement is unlocked
-	if t_unlockLua.achievements[t_achievements[itemNo].id] == nil then
-		unlocked = true
-		sprGroup = t_achievements[itemNo].previewspr[1] --Get Sprites
-		sprIndex = t_achievements[itemNo].previewspr[2]
-	end
---Draw Achievement Icon
-	f_drawSprPreview(sprAchievements,
-		sprGroup, sprIndex,
-		t_achievements[itemNo].previewpos[1]+NewPosX, t_achievements[itemNo].previewpos[2]+NewPosY,
-		t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2]
-	)
---Draw Done Achievement Icon
-	if unlocked then
-		animPosDraw(achievementSlotDone, 0+NewPosX, 70+NewPosY)
---Draw Locked Icon
-	else
-		--animPosDraw(achievementLocked, 11+NewPosX, 78+NewPosY)
-	end
---Draw Info Text
-	f_textRender(txt_achievementInfo, t_achievements[itemNo].info, 0, 50+NewPosX, 87+NewPosY, infoSpacing, 0, infoLimit)
-	f_drawQuickText(txt_achievementReward, jgFnt, txtRewardColor, 1, t_achievements[itemNo].reward.." IKC", 1+NewPosX, 126+NewPosY)
-end
-
---Menu Arrows
-function f_resetAchievementsArrowsPos()
-animSetPos(menuArrowUp, 305, 14)
-animSetPos(menuArrowDown, 305, 220)
-end
-
---Achievements Input Hints Panel
-function drawAchievementInputHints()
-	local inputHintYPos = 219
-	local hintFont = font2
-	local hintFontYPos = 233
-	animPosDraw(inputHintsBG, -56, 219)
-	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","127,"..inputHintYPos,"e","225,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Claim Reward", 148, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 246, hintFontYPos)
-end
 
 --;===========================================================
 --; SOUND TEST MENU SCREENPACK DEFINITION
@@ -4630,14 +4525,6 @@ animSetScale(abyssSaveInfoBG, 65, 24)
 animSetAlpha(abyssSaveInfoBG, 0, 50)
 animUpdate(abyssSaveInfoBG)
 
---Achievement Info BG
-achievementInfoBG = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetScale(achievementInfoBG, 170, 55)
-animSetAlpha(achievementInfoBG, 0, 50)
-animUpdate(achievementInfoBG)
-
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION
 --;===========================================================
@@ -4797,13 +4684,13 @@ PLASMOIDTHUNDER
 ACDGAMES
 2DEE4EVER
 PIXEL SLAYER
+KADES
+RORONIGGA ZORO
 ABRAHAMXDA
 RAYZENINFERNO
 SWEET CREATURES
 OLDGAMER
 LASOMBRA DEMON
-RORONIGGA ZORO
-KADES
 LIAM KUROSHI
 LEVEN2IS2LIJDEN
 BRUCELEE-WT7HK
@@ -4823,7 +4710,6 @@ GUAN FOO WAH
 PETER WANG AND BRENNAN UNDERWOOD
 EARLE F. PHILHOWER III
 DAVID CORNISH
-THE ENHANCED SPECIAL TESTING PEOPLE
 
 
 AND YOU

@@ -286,6 +286,7 @@ local file = io.open(eventDef, "r")
 		for _, v in ipairs(t_events) do --Send Events Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[v.id] = v.unlock
 		end
+		f_updateUnlocks()
 		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
 		textImgSetText(txt_loading, "LOADING EVENTS...")
 		textImgDraw(txt_loading)

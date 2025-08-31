@@ -4111,12 +4111,36 @@ end
 --;===========================================================
 --; UNLOCKS CHECKING
 --;===========================================================
+function f_updateUnlocks() --To refresh unlocks data
+if data.debugLog then f_printTable(t_unlockLua, "save/debug/t_unlockLua.log") end
+end
+
 t_unlockLua = { --Create table to manage unlock conditions in real-time
 chars = {}, stages = {}, modes = {},
 artworks = {}, storyboards = {}, videos = {},
 palettes = {}, shop = {}, abyss = {},
 achievements = {}
 }
+
+function f_generateUnlocks()
+--Send Characters Unlock Condition to t_unlockLua table
+	for k, v in ipairs(t_selChars) do
+		t_unlockLua.chars[v.char] = v.unlock
+	end
+--Send Stages Unlock Condition to t_unlockLua table
+	for k, v in ipairs(t_selStages) do
+		t_unlockLua.stages[v.stage] = v.unlock
+	end
+--Send Visual Novel Story Unlock Condition to t_unlockLua table
+	for k, v in ipairs(t_selVN) do
+		t_unlockLua.modes[v.id] = v.unlock
+	end
+--Send Abyss Unlock Items Condition to t_unlockLua table
+	for k, v in ipairs(t_abyssShop) do
+		t_unlockLua.abyss[v.text] = v.unlock
+	end
+	f_updateUnlocks()
+end
 --asserts content unlock conditions
 function f_unlock(permanent)
 	for group, t in pairs(t_unlockLua) do
@@ -4659,86 +4683,3 @@ function f_loadLuaMods(bool)
 	end
 end
 require("script.options") --Load options script
-assert(loadfile("script/achievements.lua"))() --Load achievements script
-t_pendingTrophy = {}
-function achievementDisplayReset()
-trophyPosX = 0
-trophyPosY = 0
-trophyTime = 0
-currentTrophyID = nil
-trophyReady = false
-table.remove(t_pendingTrophy, #t_pendingTrophy)
-if data.debugLog then f_printTable(t_pendingTrophy, "save/t_pendingTrophy.log") end
-end
-achievementDisplayReset()
-
-function achievementDisplay(id)
-	local id = id
-	local infoSpacing = 10
-	local infoLimit = 35
---Default Pos
-	local trophyBGX = -2
-	local trophyBGY = 280
-	
-	local trophyTitleX = 2
-	local trophyTitleY = 290
-	
-	local trophyNameX = 35
-	local trophyNameY = 301
-	
-	local trophyInfoX = 35
-	local trophyInfoY = 312
-	
-	local trophyIconX = 0
-	local trophyIconY = 294
---New Pos Target
-	local trophyTargetPosX = 0
-	local trophyTargetPosY = -100
---Scroll Logic to Show
-	if trophyPosY > trophyTargetPosY and trophyTime < 100 then
-		trophyPosY = trophyPosY - 5
-	end
---Wait before Hide again
-	if trophyTime < 150 and trophyPosY <= trophyTargetPosY then
-		--if trophyPosY > trophyTargetPosY then trophyPosY = trophyTargetPosY end --fix pos
-		trophyTime = trophyTime + 1
-	end
---Scroll Logic to Hide
-	if trophyTime >= 150 and trophyPosY < 0 then
-		trophyPosY = trophyPosY + 2
-		if trophyPosY > 0 then trophyPosY = 0 end --fix pos
-	end
-	if data.debugMode then
-		f_drawQuickText(txt_debug1, jgFnt, 0, 1, "TrophyPosY:"..trophyPosY, 150, 50)
-		f_drawQuickText(txt_debug2, jgFnt, 0, 1, "TrophyTimer:"..trophyTime, 150, 70)
-	end
---Draw Achievement Icon
-	animPosDraw(achievementInfoBG, trophyBGX+trophyPosX, trophyBGY+trophyPosY)
-	f_drawSprPreview(sprAchievements,
-		t_achievements[id].previewspr[1], t_achievements[id].previewspr[2],
-		trophyIconX+trophyPosX, trophyIconY+trophyPosY,
-		0.51, 0.475
-	)
---Draw Info Text
-	f_drawQuickText(txt_TrophyTitleFight, jgFnt, 0, 1, "ACHIEVEMENT UNLOCKED!", trophyTitleX+trophyPosX, trophyTitleY+trophyPosY)
-	f_drawQuickText(txt_TrophyNameFight, font2, 5, 1, t_achievements[id].name, trophyNameX+trophyPosX, trophyNameY+trophyPosY)
-	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, trophyInfoX+trophyPosX, trophyInfoY+trophyPosY, infoSpacing, 0, infoLimit, 3)
---Allow Display Next Achievement
-	if trophyPosY == 0 then
-		stats.trophies[t_achievements[id].id].displayed = true
-		f_saveStats()
-		achievementDisplayReset()
-	end
-end
-
-function achievements()
-	if trophyReady and currentTrophyID then
-		achievementDisplay(currentTrophyID)
-	end
-	if #t_pendingTrophy ~= 0 then
-		if currentTrophyID == nil then
-			currentTrophyID = t_pendingTrophy[#t_pendingTrophy].trophyID
-			trophyReady = true
-		end
-	end
-end
