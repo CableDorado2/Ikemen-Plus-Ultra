@@ -1094,6 +1094,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 		f_attractCredits(318, 238, -1)
 	end
+	f_checkAchievements()
 end
 
 function f_nextTutoText()
