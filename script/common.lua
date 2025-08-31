@@ -44,6 +44,7 @@ saveNetCfgPath = "save/data_netsav.lua"
 saveHostRoomPath = "save/host_rooms.json"
 saveTempPath = "save/temp_sav.lua"
 saveTrainingPath = "save/training_sav.lua"
+saveAchievementsPath = "save/achievements_sav.lua"
 saveStatsPath = "save/stats_sav.json"
 saveP1Path = "save/p1_sav.json"
 saveP2Path = "save/p2_sav.json"
@@ -650,6 +651,32 @@ function f_strSub(str, t)
 		txt = txt .. row .. ' = ' .. val .. '\n'
 	end
 	return str, txt
+end
+
+--Convert table to Lua string
+function tableToString(tbl, indent)
+	indent = indent or ""
+	local s = "{\n"
+	local indent2 = indent .. "  "
+	for k, v in pairs(tbl) do
+		local keyStr
+		if type(k) == "string" then
+			keyStr = "[" .. string.format("%q", k) .. "]"
+		else
+			keyStr = "[" .. k .. "]"
+		end
+		local valueStr
+		if type(v) == "table" then
+			valueStr = tableToString(v, indent2)
+		elseif type(v) == "string" then
+			valueStr = string.format("%q", v)
+		else
+			valueStr = tostring(v)
+		end
+		s = s .. indent2 .. keyStr .. " = " .. valueStr .. ",\n"
+	end
+	s = s .. indent .. "}"
+	return s
 end
 
 --return file content
@@ -4164,7 +4191,7 @@ function f_unlock(permanent)
 					if group == 'achievements' then
 						for i=1, #t_achievements do
 						--Send achievement ID first time that is unlocked to t_pendingTrophy to display them
-							if t_achievements[i].id == k and not stats.trophies[k].displayed then
+							if t_achievements[i].id == k and not data.trophies[k].displayed then
 								table.insert(t_pendingTrophy, 1, {trophyID = i})
 							end
 						end
@@ -4495,30 +4522,6 @@ abyssDat.nosave = t_abyssDefaultSave
 			abyssDat.save[slot] = t_abyssDefaultSave
 		end
 	end
-end
-
---Set Achievement State
-function f_setAchievement()
-local modified = false
-	if stats.trophies == nil then stats.trophies = {} end --Create space to achievements reward
-	for i=1, #t_achievements do
-		if stats.trophies[t_achievements[i].id] == nil then
-			stats.trophies[t_achievements[i].id] = {}
-		end
-		if stats.trophies[t_achievements[i].id].rewardclaimed == nil then
-			stats.trophies[t_achievements[i].id].rewardclaimed = false
-			--modified = true
-		end
-		if stats.trophies[t_achievements[i].id].clear == nil then
-			stats.trophies[t_achievements[i].id].clear = false
-			--modified = true
-		end
-		if stats.trophies[t_achievements[i].id].displayed == nil then
-			stats.trophies[t_achievements[i].id].displayed = false
-			--modified = true
-		end
-	end
-	f_saveStats()
 end
 
 --Unlocks Section

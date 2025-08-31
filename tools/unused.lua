@@ -1220,3 +1220,26 @@ local file = io.open(eventDef,"r")
 	textImgDraw(txt_loading)
 	refresh()
 end
+
+function f_setAchievement()
+local modified = false
+	if stats.trophies == nil then stats.trophies = {} end --Create space to achievements reward
+	for i=1, #t_achievements do
+		if stats.trophies[t_achievements[i].id] == nil then
+			stats.trophies[t_achievements[i].id] = {}
+		end
+		if stats.trophies[t_achievements[i].id].rewardclaimed == nil then
+			stats.trophies[t_achievements[i].id].rewardclaimed = false
+			--modified = true
+		end
+		if stats.trophies[t_achievements[i].id].clear == nil then
+			stats.trophies[t_achievements[i].id].clear = false
+			--modified = true
+		end
+		if stats.trophies[t_achievements[i].id].displayed == nil then
+			stats.trophies[t_achievements[i].id].displayed = false
+			--modified = true
+		end
+	end
+	f_saveStats()
+end

@@ -4,13 +4,7 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 =================================================================================]]
 sprAchievements = sffNew("script/mods/achievements/achievements.sff") --load achievements sprites
 achievementDef = "script/mods/achievements/achievements.def" --Achievements list
---;===========================================================
---; ACHIEVEMENTS SCREENPACK DEFINITION
---;===========================================================
-table.insert(t_profileMenu,#t_profileMenu,{text = "ACHIEVEMENTS", gotomenu = "f_achievementsMenu()", id = textImgNew()}) --Insert new item to t_profileMenu table loaded by screenpack.lua
-txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENT PROGRESS:", 218, 11)
-txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
-txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
+sndAchievement = sndNew("script/mods/achievements/achievement.snd")
 
 achievementCommonPosX = 1.5 --Allow set common pos for all previews
 achievementCommonPosY = 72.5
@@ -19,6 +13,133 @@ achievementCommonScaleX = 0.71 --Allow set common scale for all previews
 achievementCommonScaleY = 0.675
 
 achievementSpacing = 70
+--;===========================================================
+--; LOAD ACHIEVEMENTS DATA
+--;===========================================================
+function f_reloadAchievementsFile()
+achievementsDat = assert(loadfile(saveAchievementsPath))() --achievements data
+end
+f_reloadAchievementsFile()
+--Load achievements_sav.lua data
+local file = io.open(saveAchievementsPath,"r")
+s_trofyLUA = file:read("*all")
+file:close()
+
+--Generate or Save Data to achievements_sav.lua
+function f_saveAchievements() --This is an adaptation of f_setAchievement() unused lua function
+	local dataToSave = { trophies = {} }
+	for i=1, #t_achievements do
+		local id = t_achievements[i].id --example: "achievement1"
+	--Create or update entry
+		dataToSave.trophies[id] = {
+			clear = false,
+			displayed = false,
+			rewardclaimed = false
+		}
+	--If already exists in data table, update
+		if data.trophies and data.trophies[id] then
+			dataToSave.trophies[id].clear = data.trophies[id].clear or false
+			dataToSave.trophies[id].displayed = data.trophies[id].displayed or false
+			dataToSave.trophies[id].rewardclaimed = data.trophies[id].rewardclaimed or false
+		end
+	end
+	local s_trofyLUA = "return " .. tableToString(dataToSave)
+	local file = io.open(saveAchievementsPath,"w+") --io.open(saveAchievementsPath,"w")
+	file:write(s_trofyLUA)
+	file:close()
+	modified = false
+end
+
+function f_loadAchievements()
+t_achievements = {}
+local file = io.open(achievementDef, "r")
+	if file ~= nil then
+		local section = 0
+		local row = 0
+		local content = file:read("*all")
+		file:close()
+		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+		content = content:gsub('\n%s*\n', '\n')
+		for line in content:gmatch('[^\r\n]+') do
+			local lineLower = line:lower()
+		--[Achievement No]
+			if lineLower:match('^%s*%[%s*achievement%s+%d+%s*%]') then
+				section = 1
+				row = #t_achievements + 1
+			--Set Default Values
+				t_achievements[row] = {
+					previewspr = {0, 0},
+					previewpos = {achievementCommonPosX, achievementCommonPosY},
+					previewscale = {achievementCommonScaleX, achievementCommonScaleY},
+					subcount = "1/1",
+					reward = 0,
+					txtID = textImgNew(),
+					name = "???",
+					info = "",
+					unlock = "false"
+				}
+		--Extra section
+			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
+				section = -1
+			elseif section == 1 then
+			--Detect paramvalues
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:lower()
+				--If the value is a comma-separated list, convert to table
+					if value:match(',') then
+						local tbl = {}
+						for num in value:gmatch('([^,]+)') do
+							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+						end
+						t_achievements[row][param] = tbl
+					else
+						t_achievements[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
+					end
+				end
+			end
+		end
+		if data.debugLog then f_printTable(t_achievements, "save/debug/t_achievements.log") end
+	--[[
+		textImgSetText(txt_loading, "LOADING ACHIEVEMENTS...")
+		textImgDraw(txt_loading)
+		refresh()
+	]]
+	end
+	f_saveAchievements()
+	f_reloadAchievementsFile()
+--Send Achievements Unlock Condition to t_unlockLua table
+	for _, v in ipairs(t_achievements) do
+		t_unlockLua.achievements[v.id] = v.unlock
+	end
+	f_updateUnlocks()
+end
+f_loadAchievements()
+--[[
+Falta evitar que los logros se reseteen al volver a cargar este script.
+Eso pasa cada vez que se abre el engine o cuando se entra al match.
+]]
+--Add achievements to data table
+function f_addAchievementsToDat()
+	for k, v in pairs(achievementsDat) do
+		if type(data[k]) == "table" and type(v) == "table" then
+			for k2, v2 in pairs(v) do
+				data[k][k2] = v2
+			end
+		else
+			data[k] = v
+		end
+	end
+	if data.debugLog then f_printTable(data, "save/debug/data.log") end
+end
+f_addAchievementsToDat()
+--;===========================================================
+--; ACHIEVEMENTS SCREENPACK DEFINITION
+--;===========================================================
+table.insert(t_profileMenu,#t_profileMenu,{text = "ACHIEVEMENTS", gotomenu = "f_achievementsMenu()", id = textImgNew()}) --Insert new item to t_profileMenu table loaded by screenpack.lua
+txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENT PROGRESS:", 218, 11)
+txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
+txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
 
 --Achievement Slot
 achievementSlot = animNew(sprIkemen, [[
@@ -59,7 +180,7 @@ function f_achievementSlot(posX, posY, itemNo)
 	local txtRewardColor = 0
 	local infoSpacing = 10
 	local infoLimit = 55
-	if stats.trophies[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
+	if data.trophies[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
 --Draw Achievement Slot
 	animSetScale(achievementTBG, 280, 38)
 	animPosDraw(achievementTBG, 40+NewPosX, 76+NewPosY)
@@ -150,6 +271,7 @@ function achievementDisplay(id)
 	local trophyTargetPosY = -100
 --Scroll Logic to Show
 	if trophyPosY > trophyTargetPosY and trophyTime < 100 then
+		if trophyPosY == 0 then sndPlay(sndAchievement, 0, 0) end --Play SFX
 		trophyPosY = trophyPosY - 5
 	end
 --Wait before Hide again
@@ -179,8 +301,8 @@ function achievementDisplay(id)
 	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, trophyInfoX+trophyPosX, trophyInfoY+trophyPosY, infoSpacing, 0, infoLimit, 3)
 --Allow Display Next Achievement
 	if trophyPosY == 0 then
-		stats.trophies[t_achievements[id].id].displayed = true
-		f_saveStats()
+		data.trophies[t_achievements[id].id].displayed = true
+		f_saveAchievements()
 		achievementDisplayReset()
 	end
 end
@@ -197,77 +319,12 @@ function achievements()
 	end
 end
 --;===========================================================
---; LOAD ACHIEVEMENTS.DEF DATA
---;===========================================================
-function f_loadAchievements()
-t_achievements = {}
-local file = io.open(achievementDef, "r")
-	if file ~= nil then
-		local section = 0
-		local row = 0
-		local content = file:read("*all")
-		file:close()
-		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
-		content = content:gsub('\n%s*\n', '\n')
-		for line in content:gmatch('[^\r\n]+') do
-			local lineLower = line:lower()
-		--[Achievement No]
-			if lineLower:match('^%s*%[%s*achievement%s+%d+%s*%]') then
-				section = 1
-				row = #t_achievements + 1
-			--Set Default Values
-				t_achievements[row] = {
-					previewspr = {0, 0},
-					previewpos = {achievementCommonPosX, achievementCommonPosY},
-					previewscale = {achievementCommonScaleX, achievementCommonScaleY},
-					subcount = "1/1",
-					reward = 0,
-					txtID = textImgNew(),
-					name = "???",
-					info = "",
-					unlock = "false"
-				}
-		--Extra section
-			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
-				section = -1
-			elseif section == 1 then
-			--Detect paramvalues
-				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-				if param ~= nil and value ~= nil then
-					param = param:lower()
-				--If the value is a comma-separated list, convert to table
-					if value:match(',') then
-						local tbl = {}
-						for num in value:gmatch('([^,]+)') do
-							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
-						end
-						t_achievements[row][param] = tbl
-					else
-						t_achievements[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
-					end
-				end
-			end
-		end
-	--Send Achievements Unlock Condition to t_unlockLua table
-		for _, v in ipairs(t_achievements) do
-			t_unlockLua.achievements[v.id] = v.unlock
-		end
-		f_updateUnlocks()
-		if data.debugLog then f_printTable(t_achievements, "save/debug/t_achievements.log") end
-	--[[
-		textImgSetText(txt_loading, "LOADING ACHIEVEMENTS...")
-		textImgDraw(txt_loading)
-		refresh()
-	]]
-	end
-	f_setAchievement()
-end
-f_loadAchievements()
---;===========================================================
 --; ACHIEVEMENTS MENU (collect a customizable list of milestones to claim rewards)
 --;===========================================================
 function f_achievementsMenu()
-	if data.debugMode then f_loadAchievements() end --Load in real-time only if dev/debug mode is enabled
+	--if data.debugMode then f_loadAchievements() end --Load in real-time only if dev/debug mode is enabled (warning this reset achievements)
+	f_reloadAchievementsFile()
+	f_addAchievementsToDat()
 	if #t_achievements == 0 then
 		achievementInfo = true
 		infoScreen = true
@@ -306,12 +363,13 @@ function f_achievementsMenu()
 		--Slot Select
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			--NO REWARD TO CLAIM
-				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or stats.trophies[t_achievements[itemSel].id].rewardclaimed then
+				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or data.trophies[t_achievements[itemSel].id].rewardclaimed then
 					sndPlay(sndSys, 100, 5)
 			--REWARD TO CLAIM
 				else
 					sndPlay(sndSys, 201, 2)
-					stats.trophies[t_achievements[itemSel].id].rewardclaimed = true
+					data.trophies[t_achievements[itemSel].id].rewardclaimed = true
+					f_saveAchievements()
 					stats.money = stats.money + t_achievements[itemSel].reward
 					f_saveStats()
 					--claimRewardScreen = true
