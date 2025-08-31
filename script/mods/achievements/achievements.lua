@@ -20,6 +20,22 @@ function f_reloadAchievementsFile()
 achievementsDat = assert(loadfile(saveAchievementsPath))() --achievements data
 end
 f_reloadAchievementsFile()
+
+--Add achievements to data table
+function f_addAchievementsToDat()
+	for k, v in pairs(achievementsDat) do
+		if type(data[k]) == "table" and type(v) == "table" then
+			for k2, v2 in pairs(v) do
+				data[k][k2] = v2
+			end
+		else
+			data[k] = v
+		end
+	end
+	if data.debugLog then f_printTable(data, "save/debug/data.log") end
+end
+f_addAchievementsToDat()
+
 --Load achievements_sav.lua data
 local file = io.open(saveAchievementsPath,"r")
 s_trofyLUA = file:read("*all")
@@ -113,26 +129,9 @@ local file = io.open(achievementDef, "r")
 		t_unlockLua.achievements[v.id] = v.unlock
 	end
 	f_updateUnlocks()
+	f_addAchievementsToDat()
 end
 f_loadAchievements()
---[[
-Falta evitar que los logros se reseteen al volver a cargar este script.
-Eso pasa cada vez que se abre el engine o cuando se entra al match.
-]]
---Add achievements to data table
-function f_addAchievementsToDat()
-	for k, v in pairs(achievementsDat) do
-		if type(data[k]) == "table" and type(v) == "table" then
-			for k2, v2 in pairs(v) do
-				data[k][k2] = v2
-			end
-		else
-			data[k] = v
-		end
-	end
-	if data.debugLog then f_printTable(data, "save/debug/data.log") end
-end
-f_addAchievementsToDat()
 --;===========================================================
 --; ACHIEVEMENTS SCREENPACK DEFINITION
 --;===========================================================
