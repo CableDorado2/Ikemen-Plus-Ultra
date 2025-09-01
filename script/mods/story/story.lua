@@ -176,6 +176,46 @@ for i=1, #t_storySelect do
 	t_storySelect[i]['ID'] = textImgNew()
 end
 
+if stats.modes.story == nil then
+stats.modes.story = {}
+stats.modes.story.playtime = 0
+f_saveStats()
+end
+
+--Story Mode Data
+data.storiesProgress = 300
+--Arc 1 Data
+data.story1_0Status = 1
+data.story1_1Status = 1
+data.story1_2Status = 1
+data.story1_3AStatus = 1
+data.story1_3BStatus = 1
+data.story1_4AStatus = 1
+data.story1_4BStatus = 1
+data.story1_4CStatus = 1
+data.story1_4DStatus = 1
+--Arc 2 Data
+data.story2_0Status = 1
+data.story2_1Status = 1
+data.story2_2Status = 1
+--Arc 3 Data
+data.story3_0Status = 1
+data.story3_1Status = 1
+--Story Mode - Arc 1 Chapters Unlocks
+data.story1_1Unlock = true
+data.story1_2Unlock = true
+data.story1_3AUnlock = true
+data.story1_3BUnlock = true
+data.story1_4AUnlock = true
+data.story1_4BUnlock = true
+data.story1_4CUnlock = true
+data.story1_4DUnlock = true
+--Story Mode - Arc 2 Chapters Unlocks
+data.story2_1Unlock = true
+data.story2_2Unlock = true
+--Story Mode - Arc 3 Chapters Unlocks
+data.story3_1Unlock = true
+
 function f_getStoryStats()
 	if #t_storySelect == 0 then
 		return ""
@@ -184,6 +224,8 @@ function f_getStoryStats()
 	end
 end
 table.insert(t_statsMenu,#t_statsMenu,{text = txt_storyStatsData, varText = f_getStoryStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsGameModes,1,{name = "Story", playtime = function() return stats.modes.story.playtime end}) --Insert new item to t_statsGameModes table loaded by main.lua
+
 function f_refreshStoryStats()
 	for i=1, #t_statsMenu do
 		if t_statsMenu[i].text == txt_storyStatsData then

@@ -223,6 +223,27 @@ end
 --;===========================================================
 --; LOAD EVENTS.DEF DATA
 --;===========================================================
+local function f_createEventDat()
+	if stats.modes.event == nil then
+		stats.modes.event = {}
+		stats.modes.event.playtime = 0
+		--stats.modes.event.clearall = 0
+		modified = true
+	end
+	for i=1, #t_events do
+		local modified = false
+		if stats.modes.event[t_events[i].id] == nil then
+			stats.modes.event[t_events[i].id] = {}
+			modified = true
+		end
+		if stats.modes.event[t_events[i].id].clear == nil then
+			stats.modes.event[t_events[i].id].clear = false
+			modified = true
+		end
+	end
+	if modified then f_saveStats() end
+end
+
 local function f_loadEvents()
 t_events = {}
 local file = io.open(eventDef, "r")
@@ -283,6 +304,7 @@ local file = io.open(eventDef, "r")
 				end
 			end
 		end
+		f_createEventDat()
 		for _, v in ipairs(t_events) do --Send Events Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[v.id] = v.unlock
 		end
@@ -298,20 +320,19 @@ f_loadEvents() --Loads when engine starts
 --; EVENT SAVE DATA
 --;===========================================================
 local function f_eventStatus()
-	if data.eventNo == 1 then stats.modes.event.clear1 = 1
-	elseif data.eventNo == 2 then stats.modes.event.clear2 = 1
-	elseif data.eventNo == 3 then stats.modes.event.clear3 = 1
-	end
+	stats.modes.event[t_events[data.eventNo].id].clear = true
 	f_saveStats()
 end
 function f_getEventStats()
 	if #t_events == 0 then
 		return ""
 	else
-		return stats.modes.event.clearall.."/"..#t_events
+		return f_getProgress(stats.modes.event, t_events, "clearcount").."/"..#t_events
 	end
 end
 table.insert(t_statsMenu,#t_statsMenu,{text = txt_eventStatsData, varText = f_getEventStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsGameModes,1,{name = "Events", playtime = function() return stats.modes.event.playtime end}) --Insert new item to t_statsGameModes table loaded by main.lua
+
 function f_refreshEventStats()
 	for i=1, #t_statsMenu do
 		if t_statsMenu[i].text == txt_eventStatsData then
@@ -349,10 +370,6 @@ function f_eventMenu()
 	netTimeInfoScreen = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-	--Event Progress Logic
-		stats.modes.event.clearall = (stats.modes.event.clear1 + stats.modes.event.clear2 + stats.modes.event.clear3)
-		eventsData = (math.floor((stats.modes.event.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
-		textImgSetText(txt_eventProgress,"["..eventsData.."%]")
 		if not eventLocked and not netTimeInfoScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				f_saveStats()
@@ -424,6 +441,7 @@ function f_eventMenu()
 		animDraw(eventBG1)
 	--Draw Title Menu
 		textImgDraw(txt_eventMenu)
+		textImgSetText(txt_eventProgress,"["..f_getProgress(stats.modes.event, t_events, "percentage").."%]")
 		textImgDraw(txt_eventProgress)
 		if currentNetTime ~= nil then
 			textImgSetText(txt_internetTime, netTime)
@@ -433,12 +451,12 @@ function f_eventMenu()
 		animSetScale(eventBG2, 318, 154)
 		animSetWindow(eventBG2, 3,49, 314,154)
 		animDraw(eventBG2)
-	--Set Event Progress
-		if stats.modes.event.clear1 == 1 then t_events[1].status = txt_eventClear end
-		if stats.modes.event.clear2 == 1 then t_events[2].status = txt_eventClear end
-		if stats.modes.event.clear3 == 1 then t_events[3].status = txt_eventClear end
 	--Set Scroll Logic
 		for i=1, maxEvents do
+		--Set Event Progress
+			if stats.modes.event[t_events[i].id].clear then
+				t_events[i].status = txt_eventClear
+			end
 			if i > eventMenu - cursorPosX then
 				if i == eventMenu then
 					bank = 5

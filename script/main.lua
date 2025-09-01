@@ -3176,43 +3176,43 @@ function f_favoriteStage()
 end
 
 function f_gameState()
+--[[
 if stats.modes.arcade.clear >= 1 then arcadeProgress = 1 else arcadeProgress = 0 end
 if stats.modes.survival.clear >= 1 then survivalProgress = 1 else survivalProgress = 0 end
 gameProgress = (arcadeProgress + survivalProgress + stats.modes.mission.clearall + stats.modes.event.clearall + (data.storiesProgress/100))
 gameData = (math.floor((gameProgress * 100 / 11) + 0.5))
---[[
+
 The number (11) is the sumation of true amount of all gameProgress values:
 (arcadeProgress = 1 + survivalProgress = 1 + stats.modes.mission.clearall = 3 + stats.modes.event.clearall = 3 + data.storiesProgress = 3)
 ]]
+gameData = "WIP"
 end
 
+t_statsGameModes = {
+	{name = "Arcade", 		playtime = function() return stats.modes.arcade.playtime end},
+	{name = "Tower", 		playtime = function() return stats.modes.tower.playtime end},
+	{name = "Versus", 		playtime = function() return stats.modes.versus.playtime end},
+	{name = "CPU Match", 	playtime = function() return stats.modes.watch.playtime end},
+	{name = "Tourney", 		playtime = function() return stats.modes.tourney.playtime end},
+	{name = "Survival", 	playtime = function() return stats.modes.survival.playtime end},
+	{name = "Endless", 		playtime = function() return stats.modes.endless.playtime end},
+	{name = "Score Attack", playtime = function() return stats.modes.scoreattack.playtime end},
+	{name = "Time Attack", 	playtime = function() return stats.modes.timeattack.playtime end},
+	{name = "Time Rush", 	playtime = function() return stats.modes.timerush.playtime end},
+	{name = "Sudden Death", playtime = function() return stats.modes.suddendeath.playtime end},
+	{name = "VSKumite", 	playtime = function() return stats.modes.vskumite.playtime end, getData = function() return getKumiteData() end},
+	{name = "Boss Fight", 	playtime = function() return stats.modes.boss.playtime end},
+	{name = "Bonus Games", 	playtime = function() return stats.modes.bonus.playtime end},
+}
+
 function f_getPreferredMode()
-	local modes = {
-		{name = "Story", playtime = stats.modes.story.playtime},
-		{name = "Arcade", playtime = stats.modes.arcade.playtime},
-		{name = "Versus", playtime = stats.modes.versus.playtime},
-		{name = "CPU Match", playtime = stats.modes.watch.playtime},
-		{name = "Survival", playtime = stats.modes.survival.playtime},
-		{name = "Boss Fight", playtime = stats.modes.boss.playtime},
-		{name = "Bonus Games", playtime = stats.modes.bonus.playtime},
-		{name = "Time Attack", playtime = stats.modes.timeattack.playtime},
-		{name = "Time Rush", playtime = stats.modes.timerush.playtime},
-		{name = "Score Attack", playtime = stats.modes.scoreattack.playtime},
-		{name = "Endless", playtime = stats.modes.endless.playtime},
-		{name = "Sudden Death", playtime = stats.modes.suddendeath.playtime},
-		{name = "VSKumite", playtime = stats.modes.vskumite.playtime, getData = function() return getKumiteData() end},
-		{name = "Missions", playtime = stats.modes.mission.playtime},
-		{name = "Events", playtime = stats.modes.event.playtime},
-		{name = "Tower", playtime = stats.modes.tower.playtime},
-		{name = "Tourney", playtime = stats.modes.tourney.playtime},
-		{name = "Adventure", playtime = stats.modes.adventure.playtime}
-	}
+	if data.debugLog then f_printTable(t_statsGameModes, "save/debug/t_statsGameModes.log") end
 	local maxTime = -1
 	local modeName = nil
 	local modeDat = nil
-	for _, mode in ipairs(modes) do
-		if mode.playtime > maxTime then
-			maxTime = mode.playtime
+	for _, mode in ipairs(t_statsGameModes) do
+		if mode.playtime() > maxTime then
+			maxTime = mode.playtime() --() Because playtime index uses a function to keep update the values
 			modeName = mode.name
 			modeDat = mode
 		end

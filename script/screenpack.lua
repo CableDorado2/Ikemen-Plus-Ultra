@@ -903,8 +903,8 @@ end
 --; PROFILE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_profileMenu = {
-	{text = "PLAYER RECORDS", gotomenu = "f_statsMenu()"},
-	{text = "LEADERBOARDS",	  gotomenu = "f_rankings()"},
+	{text = "RECORDS", 		gotomenu = "f_statsMenu()"},
+	{text = "LEADERBOARDS", gotomenu = "f_rankings()"},
 }
 for i=1, #t_profileMenu do
 	t_profileMenu[i]['id'] = textImgNew()

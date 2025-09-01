@@ -3891,15 +3891,15 @@ f_resetNetTimeVars()
 function loadNetTime() --One-time Load
 	local response_body = {}
 	local reques, code, response_headers = http.request{
-		url = "http://worldclockapi.com/api/json/utc/now",
+		url = "http://worldtimeapi.org/api/timezone/Etc/UTC", --url = "http://worldclockapi.com/api/json/utc/now",
 		sink = ltn12.sink.table(response_body)
 	}
 	if reques == 1 and code == 200 then
 		local response_str = table.concat(response_body)
 		local decoded = json.decode(response_str)
-		if decoded and decoded.currentDateTime then
+		if decoded and decoded.datetime then --decoded.CurrentDateTime for worldclockapi
 		--Get Date and Time
-			local datetime_str = decoded.currentDateTime --Example: "2025-10-09T14:23Z"
+			local datetime_str = decoded.datetime --decoded.CurrentDateTime for worldclockapi --Example: "2025-10-09T14:23Z"
 		--Separate Date and Time
 			local date_part, time_part = datetime_str:match("^(%d+-%d+-%d+)T(%d+:%d+)")
 			--netTime = "Hour: " .. time_part
@@ -3932,7 +3932,7 @@ function loadNetTime() --One-time Load
 			currentNetTime = nil
 			netTime = nil
 			netDate = netTime
-			netLog = 'JSON does not contains "currentDateTime"'
+			netLog = 'JSON does not contains "datetime"' --'JSON does not contains "currentDateTime"'
 			return false --Unable to connect
 		end
 	else
@@ -4323,6 +4323,8 @@ if stats.money == nil or data.erase then stats.money = 0 end
 if stats.continueCount == nil or data.erase then stats.continueCount = 0 end
 if stats.wins == nil or data.erase then stats.wins = 0 end
 if stats.losses == nil or data.erase then stats.losses = 0 end
+if stats.characters == nil or data.erase then stats.characters = {} end --To store times used for favorite chars stats
+if stats.stages == nil or data.erase then stats.stages = {} end --To store times used for favorite stages stats
 if stats.modes == nil or data.erase then
 	stats.modes = {}
 	
@@ -4335,12 +4337,12 @@ if stats.modes == nil or data.erase then
 	stats.modes.tower.playtime = 0
 	stats.modes.tower.clear = 0
 	stats.modes.tower.ranking = {}
-	
+--[[
 	stats.modes.beatemup = {}
 	stats.modes.beatemup.playtime = 0
 	stats.modes.beatemup.clear = 0
 	stats.modes.beatemup.ranking = {}
-	
+]]	
 	stats.modes.survival = {}
 	stats.modes.survival.playtime = 0
 	stats.modes.survival.clear = 0
@@ -4413,65 +4415,9 @@ if stats.modes == nil or data.erase then
 	
 	stats.modes.legion = {}
 	stats.modes.legion.playtime = 0
-	
-	stats.modes.story = {}
-	stats.modes.story.playtime = 0
-	
-	stats.modes.adventure = {}
-	stats.modes.adventure.playtime = 0
-	
-	stats.modes.mission = {}
-	stats.modes.mission.playtime = 0
-	stats.modes.mission.clearall = 0
-	stats.modes.mission.clear1 = 0
-	stats.modes.mission.clear2 = 0
-	stats.modes.mission.clear3 = 0
-	
-	stats.modes.event = {}
-	stats.modes.event.playtime = 0
-	stats.modes.event.clearall = 0
-	stats.modes.event.clear1 = 0
-	stats.modes.event.clear2 = 0
-	stats.modes.event.clear3 = 0
 end
-if stats.characters == nil or data.erase then stats.characters = {} end --To store times used for favorite chars stats
-if stats.stages == nil or data.erase then stats.stages = {} end --To store times used for favorite stages stats
-if stats.vault == nil then stats.vault = "Ultra" end
+if stats.vault == nil or data.erase then stats.vault = "Ultra" end
 end
-
---Story Mode Data
-data.storiesProgress = 300
---Arc 1 Data
-data.story1_0Status = 1
-data.story1_1Status = 1
-data.story1_2Status = 1
-data.story1_3AStatus = 1
-data.story1_3BStatus = 1
-data.story1_4AStatus = 1
-data.story1_4BStatus = 1
-data.story1_4CStatus = 1
-data.story1_4DStatus = 1
---Arc 2 Data
-data.story2_0Status = 1
-data.story2_1Status = 1
-data.story2_2Status = 1
---Arc 3 Data
-data.story3_0Status = 1
-data.story3_1Status = 1
---Story Mode - Arc 1 Chapters Unlocks
-data.story1_1Unlock = true
-data.story1_2Unlock = true
-data.story1_3AUnlock = true
-data.story1_3BUnlock = true
-data.story1_4AUnlock = true
-data.story1_4BUnlock = true
-data.story1_4CUnlock = true
-data.story1_4DUnlock = true
---Story Mode - Arc 2 Chapters Unlocks
-data.story2_1Unlock = true
-data.story2_2Unlock = true
---Story Mode - Arc 3 Chapters Unlocks
-data.story3_1Unlock = true
 
 abyssDat.default = { --For some reason cannot re-use t_abyssDefaultSave table because nosave data is copy to abyssDat.default when delete data...
 	life = 0,
@@ -4547,9 +4493,35 @@ if stats.unlocks.modes.story == nil or data.erase then stats.unlocks.modes.story
 if stats.unlocks.modes.story.arc2 == nil or data.erase then stats.unlocks.modes.story.arc2 = false end
 --if stats.unlocks.modes.story.arcname == nil or data.erase then stats.unlocks.modes.story.arcname = false end
 end
-init_generalStats() --Create general stats data (first run)
-init_unlocksStats()
+init_generalStats() --Create general stats data
+init_unlocksStats() --Create Unlocks data
 f_saveStats()
+
+function f_getProgress(dat, items, class)
+	local t_data = dat
+	local t_items = items
+	local class = class
+	--local total = 0
+	local clearCount = 0
+	local percentage = 0
+	for key, value in pairs(t_data) do
+		--total = total + 1
+		if type(value) == "boolean" then
+			--if value.clearall then clearCount = clearCount + 1 end
+		elseif type(value) == "table" then
+			if value.clear then clearCount = clearCount + 1 end
+		end
+	end
+	percentage = math.floor((clearCount * 100 / #t_items) + 0.5)
+	--if total > 0 then
+		--percentage = math.floor((clearCount * 100 / total) + 0.5)
+	--end
+	if class == "percentage" then
+		return percentage
+	elseif class == "clearcount" then
+		return clearCount
+	end
+end
 
 --[[stats data
 function f_storeStats()

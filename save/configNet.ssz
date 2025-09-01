@@ -2,9 +2,9 @@
 const bool OpenGL = false;
 const bool AspectRatio = false;
 const bool FullScreen = false;
-const bool FullScreenExclusive = false;
-const int WindowType = 1;
-const int Width = 960;
+const bool FullScreenExclusive = false; //False: Borderless FullScreen, True: Exclusive FullScreen
+const int WindowType = 1; //1: Resizable, 2: Bordered A, 3: Bordered B, 4: No Decoration
+const int Width = 1280;
 const int Height = 720;
 const int Brightness = 256;
 const float Opacity = 1;
@@ -85,19 +85,19 @@ in.new[0].set(
 //P2 KEYBOARD - BATTLE
 in.new[1].set(
   -1,
-  (int)k_t::KP_5,
+  (int)k_t::KP_8,
   (int)k_t::KP_2,
-  (int)k_t::KP_1,
-  (int)k_t::KP_3,
+  (int)k_t::KP_4,
+  (int)k_t::KP_6,
   (int)k_t::u,
   (int)k_t::i,
   (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::KP_4,
-  (int)k_t::KP_6,
-  (int)k_t::KP_PERIOD,
+  (int)k_t::KP_7,
+  (int)k_t::KP_9,
+  (int)k_t::KP_5,
   (int)k_t::KP_0);
 
 //P1 GAMEPAD - BATTLE
@@ -129,7 +129,7 @@ in.new[10].set(
 //P2 KEYBOARD - MENU
 in.new[11].set(
   -1,
-  (int)k_t::KP_5,
+  (int)k_t::KP_8,
   (int)k_t::KP_2,
   (int)k_t::KP_4,
   (int)k_t::KP_6,

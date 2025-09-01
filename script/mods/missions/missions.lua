@@ -54,6 +54,27 @@ end
 --;===========================================================
 --; LOAD MISSIONS.DEF DATA
 --;===========================================================
+local function f_createMissionDat()
+	if stats.modes.mission == nil then
+		stats.modes.mission = {}
+		stats.modes.mission.playtime = 0
+		--stats.modes.mission.clearall = 0
+		modified = true
+	end
+	for i=1, #t_missions do
+		local modified = false
+		if stats.modes.mission[t_missions[i].id] == nil then
+			stats.modes.mission[t_missions[i].id] = {}
+			modified = true
+		end
+		if stats.modes.mission[t_missions[i].id].clear == nil then
+			stats.modes.mission[t_missions[i].id].clear = false
+			modified = true
+		end
+	end
+	if modified then f_saveStats() end
+end
+
 local function f_loadMissions()
 t_missions = {}
 local file = io.open(missionDef, "r")
@@ -103,6 +124,7 @@ local file = io.open(missionDef, "r")
 				end
 			end
 		end
+		f_createMissionDat()
 		for _, v in ipairs(t_missions) do --Send Missions Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[v.id] = v.unlock
 		end
@@ -118,20 +140,19 @@ f_loadMissions() --Loads when engine starts
 --; MISSION SAVE DATA
 --;===========================================================
 local function f_missionStatus()
-	if data.missionNo == 1 then stats.modes.mission.clear1 = 1
-	elseif data.missionNo == 2 then stats.modes.mission.clear2 = 1
-	elseif data.missionNo == 3 then stats.modes.mission.clear3 = 1
-	end
+	stats.modes.mission[t_missions[data.missionNo].id].clear = true
 	f_saveStats()
 end
 function f_getMissionStats()
 	if #t_missions == 0 then
 		return ""
 	else
-		return stats.modes.mission.clearall.."/"..#t_missions
+		return f_getProgress(stats.modes.mission, t_missions, "clearcount").."/"..#t_missions
 	end
 end
 table.insert(t_statsMenu,#t_statsMenu,{text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsGameModes,1,{name = "Missions", playtime = function() return stats.modes.mission.playtime end}) --Insert new item to t_statsGameModes table loaded by main.lua
+
 function f_refreshMissionStats()
 	for i=1, #t_statsMenu do
 		if t_statsMenu[i].text == txt_missionStatsData then
@@ -167,13 +188,11 @@ function f_missionMenu()
 	f_updateUnlocks()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-	--Missions Progress Logic
-		stats.modes.mission.clearall = stats.modes.mission.clear1 + stats.modes.mission.clear2 + stats.modes.mission.clear3
-		missionsData = (math.floor((stats.modes.mission.clearall * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
-		textImgSetText(txt_missionProgress,"["..missionsData.."%]")
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveStats()
-			f_getStats(f_refreshMissionStats()) --To refresh stats
+		--To refresh stats
+			
+			f_getStats(f_refreshMissionStats())
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			f_resetMenuArrowsPos()
@@ -241,6 +260,7 @@ function f_missionMenu()
 		animDraw(missionBG1)
 	--Draw Title Menu
 		textImgDraw(txt_missionMenu)
+		textImgSetText(txt_missionProgress,"["..f_getProgress(stats.modes.mission, t_missions, "percentage").."%]")
 		textImgDraw(txt_missionProgress)
 	--Draw Below Transparent Table BG
 		animSetScale(missionBG2, 240, maxMissions*15)
@@ -272,12 +292,12 @@ function f_missionMenu()
 			previewInfotxt = t_missions[missionMenu].infolock
 		end
 		textImgDraw(f_updateTextImg(t_missions[missionMenu].txtID, font11, 0, 0, previewInfotxt, 157, 13.5))
-	--Set mission status
-		if stats.modes.mission.clear1 == 1 then t_missions[1].status = txt_missionClear end
-		if stats.modes.mission.clear2 == 1 then t_missions[2].status = txt_missionClear end
-		if stats.modes.mission.clear3 == 1 then t_missions[3].status = txt_missionClear end
 	--Draw Text for Below Table
 		for i=1, maxMissions do
+		--Set mission status
+			if stats.modes.mission[t_missions[i].id].clear then
+				t_missions[i].status = txt_missionClear
+			end
 			if t_unlockLua.modes[t_missions[i].id] == nil then
 				missionNametxt = t_missions[i].name
 			else

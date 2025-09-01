@@ -19,4 +19,4 @@ info = Defeat everyone!
 infolock = Complete Mission 2
 previewspr = 0,3
 path = data/missions/mission3.lua
-unlock = stats.modes.mission.clear2 > 0
+unlock = stats.modes.mission.mission2.clear == true

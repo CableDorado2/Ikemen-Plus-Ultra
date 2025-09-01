@@ -1,7 +1,7 @@
 [Achievement 1]
 id = achievement1
 name = Hello There
-info = Perform a taunt (P1)
+info = Perform a Taunt.
 previewspr = 0,1
 reward = 100
 unlock = data.trophies.achievement1.clear == true

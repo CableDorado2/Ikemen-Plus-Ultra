@@ -407,7 +407,7 @@ function f_achievementsMenu()
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Title
 		textImgDraw(txt_achievementsTitle)
-		textImgSetText(txt_achievementsProgress, "[".. 28 .."%]")
+		textImgSetText(txt_achievementsProgress, "["..f_getProgress(data.trophies, t_achievements, "percentage").."%]")
 		textImgDraw(txt_achievementsProgress)
 		for i=1, maxitemSel do
 			local nameColor = 0
