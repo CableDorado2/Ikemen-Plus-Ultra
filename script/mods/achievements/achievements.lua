@@ -350,6 +350,7 @@ function f_achievementsMenu()
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				f_resetMenuArrowsPos()
 				break
 			end
 		--Scroll Logic

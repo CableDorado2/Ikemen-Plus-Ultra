@@ -1042,7 +1042,7 @@ function f_watchMenu()
 end
 
 --;===========================================================
---; PROFILE MENU (display overall player data [PLAYER RECORDS, LEADERBOARDS, ACHIEVEMENTS])
+--; PROFILE MENU (display overall player data [RECORDS, LEADERBOARDS, ACHIEVEMENTS])
 --;===========================================================
 function f_profileMenu()
 	cmdInput()
@@ -1114,7 +1114,7 @@ function f_profileMenu()
 		end
 		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "PROFILE")
+		textImgSetText(txt_gameFt, "PLAYER PROFILE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxprofileMenu > 6 then
