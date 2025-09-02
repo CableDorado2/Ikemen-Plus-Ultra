@@ -6,44 +6,74 @@ previewspr = 0,1
 reward = 100
 unlock = data.trophies.achievement1.clear == true
 
-[Achievement 2] ;https://retroachievements.org/achievement/78403
+[Achievement 2]
 id = achievement2
-name = Go for Broke!
-info = Win a round with a Perfect [no time out] (2-Normal difficulty - Normal damage).
+name = ???
+info = ???
 previewspr = 0,2
-reward = 200
+reward = 1200
 unlock = data.trophies.achievement2.clear == true
 
-[Achievement 3] ;https://retroachievements.org/achievement/217587
+[Achievement 3]
 id = achievement3
-name = Shun Goku Satsu
-info = Win a round with a Shun Goku Satsu (Arcade Mode).
+name = ???
+info = ???
 previewspr = 0,3
-reward = 300
+reward = 1500
 unlock = data.trophies.achievement3.clear == true
 
-[Achievement 4] ;https://retroachievements.org/achievement/115667
+[Achievement 4]
 id = achievement4
-name = 2002 Combo - Kyo
-info = Perform a 6-hit combo as Kyo using Ura 108 Shiki.
+name = ???
+info = ???
 previewspr = 0,4
-reward = 210
+reward = 2000
 unlock = data.trophies.achievement4.clear == true
 
 [Achievement 5]
 id = achievement5
+name = ???
+info = ???
+reward = 4800
+previewspr = 0,5
+unlock = data.trophies.achievement5.clear == true
 
 [Achievement 6]
 id = achievement6
+name = ???
+info = ???
+reward = 7300
+previewspr = 0,6
+unlock = data.trophies.achievement6.clear == true
 
 [Achievement 7]
 id = achievement7
+name = ???
+info = ???
+reward = 5000
+previewspr = 0,7
+unlock = data.trophies.achievement7.clear == true
 
 [Achievement 8]
 id = achievement8
+name = ???
+info = ???
+reward = 8000
+previewspr = 0,8
+unlock = data.trophies.achievement8.clear == true
 
 [Achievement 9]
 id = achievement9
+name = ???
+info = ???
+reward = 3500
+previewspr = 0,9
+unlock = data.trophies.achievement9.clear == true
 
 [Achievement 10]
 id = achievement10
+name = ???
+info = ???
+reward = 10000
+previewspr = 0,10
+unlock = data.trophies.achievement10.clear == true

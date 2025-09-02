@@ -270,7 +270,11 @@ function achievementDisplay(id)
 	local trophyTargetPosY = -100
 --Scroll Logic to Show
 	if trophyPosY > trophyTargetPosY and trophyTime < 100 then
-		if trophyPosY == 0 then sndPlay(sndAchievement, 0, 0) end --Play SFX
+		if trophyPosY == 0 then
+			sndPlay(sndAchievement, 0, 0) --Play SFX
+			data.trophies[t_achievements[id].id].displayed = true
+			f_saveAchievements()
+		end
 		trophyPosY = trophyPosY - 5
 	end
 --Wait before Hide again
@@ -300,8 +304,6 @@ function achievementDisplay(id)
 	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, trophyInfoX+trophyPosX, trophyInfoY+trophyPosY, infoSpacing, 0, infoLimit, 3)
 --Allow Display Next Achievement
 	if trophyPosY == 0 then
-		data.trophies[t_achievements[id].id].displayed = true
-		f_saveAchievements()
 		achievementDisplayReset()
 	end
 end
