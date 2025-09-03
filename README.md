@@ -58,7 +58,7 @@
     - Without Source Code: 1 GiB required
 
 > [!WARNING]
-> **THE ENGINE MAY NOT WORK IN WINDOWS 11.**
+> **THE ENGINE MAY NOT WORK IN WINDOWS 11. Runs on Version 24H2**
 
 ## Roadmap
 This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future. If you want to offer help, it will be great for progressing with this engine!
