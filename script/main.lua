@@ -369,6 +369,105 @@ function f_mainMenu()
 	end
 end
 
+--This main menu type does not have scroll limits to items amount
+function f_mainMenu2()
+	cmdInput()
+	local cursorPosY = 3 --To mark central item
+	local mainMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	closeText = 1
+	f_menuMusic()
+	f_infoReset()
+	f_infoboxReset()
+	--f_resetFadeBGM()
+	f_resetMenuArrowsPos()
+	while true do
+		if not infoScreen and not infoboxScreen then
+		--First Run Msg
+			if stats.firstRun then
+				infoScreen = true
+			end
+			if f1Key() then infoboxScreen = true end --Show Classic Mugen Info Screen
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				playBGM(bgmTitle)
+				return
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				mainMenu = mainMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				mainMenu = mainMenu + 1
+			end
+		--mode titles/cursor position calculation
+			if mainMenu < 1 then
+				mainMenu = #t_mainMenu
+			elseif mainMenu > #t_mainMenu then
+				mainMenu = 1
+			end
+		--Enter Actions
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				sndPlay(sndSys, 100, 1)
+				f_gotoFunction(t_mainMenu[mainMenu]) --Functions are called from t_mainMenu table
+			end
+		end
+		drawBottomMenuSP()
+		if not infoboxScreen then
+		--Draw Up to 6 items with unlimited scroll
+			local font = jgFnt
+			local bank = 0
+			local align = 0
+			drawMenuItem(t_mainMenu, mainMenu, -3, font, bank, align, 159, 136)
+			drawMenuItem(t_mainMenu, mainMenu, -2, font, bank, align, 159, 149)
+			drawMenuItem(t_mainMenu, mainMenu, -1, font, bank, align, 159, 161)
+			drawMenuItem(t_mainMenu, mainMenu, 0, font, 5, align, 159, 174) --Central Item (cursor)
+			--textImgDraw(f_updateTextImg(t_mainMenu[mainMenu].id, font, 5, align, t_mainMenu[mainMenu].text, 159, 174)) --Central Item (cursor)
+			drawMenuItem(t_mainMenu, mainMenu, 1, font, bank, align, 159, 187)
+			drawMenuItem(t_mainMenu, mainMenu, 2, font, bank, align, 159, 201)
+		end
+		if not infoScreen and not infoboxScreen then
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13) --Position and Size of the selection cursor
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
+		end
+		drawMiddleMenuSP()
+		f_sysTime()
+		if not infoboxScreen then
+			textImgDraw(txt_gameFt)
+			textImgSetText(txt_gameFt, "MAIN MENU")
+			textImgDraw(txt_version)
+			textImgDraw(txt_f1)
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if infoScreen then
+			f_infoMenu()
+		else
+			drawMainMenuInputHints()
+		end
+		if infoboxScreen then f_infoboxMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
 --;===========================================================
 --; OPTIONS MENU (adjust game settings)
 --;===========================================================

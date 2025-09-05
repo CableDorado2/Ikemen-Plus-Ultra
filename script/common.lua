@@ -258,6 +258,27 @@ function f_drawNameList(textName, bank, t, x, y, spacingX, spacingY, rowUnique, 
 	return x, y
 end
 
+--Get the correct index in the circular list
+function getItemIndex(t, itemNo, offset)
+	local index = itemNo + offset
+	local total = #t
+	if index < 1 then
+		index = total + index
+	elseif index > total then
+		index = index - total
+	end
+	return index
+end
+
+--Draw an item based on its offset from itemNo of table
+function drawMenuItem(t, itemNo, offset, font, bank, align, x, y)
+	local index = getItemIndex(t, itemNo, offset)
+	local item = t[index]
+	local xOffset = x
+	local yOffset = y
+	textImgDraw(f_updateTextImg(item.id, font, bank, align, item.text, xOffset, yOffset))
+end
+
 --animDraw at specified coordinates
 function animPosDraw(animName, x, y)
 	animSetPos(animName, x, y)
