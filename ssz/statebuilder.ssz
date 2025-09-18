@@ -59,6 +59,7 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   RemapPal,
   Zoom,
   AbyssDepthAdd, AbyssRewardAdd,
+  ScoreAdd,
   ExitMatch,
   PlayBGM,
   ForceCommand,
@@ -1290,6 +1291,18 @@ public &StateBuilder
       typ = 2;
 	cond .s.equ("coins", token):
       out .= "trCoins()";
+      typ = 2;
+	cond .s.equ("score", token):
+      out .= "`trScore()";
+      typ = 2;
+	cond .s.equ("scoretotal", token):
+      out .= "`trScoreTotal()";
+      typ = 2;
+	cond .s.equ("p1score", token):
+      out .= "`trP1Score()";
+      typ = 2;
+	cond .s.equ("p2score", token):
+      out .= "`trP2Score()";
       typ = 2;
 	cond .s.equ("abyssdepth", token):
       out .= "`trAbyssDepth()";
@@ -3405,6 +3418,8 @@ public &StateBuilder
         if(!`zoom(am=)) ret false;
 	  case .CtrlTy::AbyssDepthAdd:
         if(!`abyssDepthAdd(am=)) ret false;
+	  case .CtrlTy::ScoreAdd:
+        if(!`scoreAdd(am=)) ret false;
 	  case .CtrlTy::ExitMatch:
         if(!`exitMatch(am=)) ret false;
 	  case .CtrlTy::PlayBGM:
@@ -6066,7 +6081,26 @@ public &StateBuilder
       }
       ret true;
     }]);
-  }  
+  }
+  bool scoreAdd(&.tbl.NameTable!^/char? param=)
+  {
+    ret `stateSec(param=,[bool(){
+      bool value = false;
+      if(!`stateParam(param=, "value", [`paraF_t(data=){
+        value = true;
+        if(
+          !`fullExpression(
+            `state.ctrlList[-1].task=, data=,
+            "`ScoreAdd(", ");", 2)) ret false;
+        ret true;
+      }])) ret false;
+      if(!value){
+        `lasterror = "value not specified";
+        ret false;
+      }
+      ret true;
+    }]);
+  }
   bool abyssDepthAdd(&.tbl.NameTable!^/char? param=)
   {
     ret `stateSec(param=,[bool(){
@@ -8245,6 +8279,8 @@ public &StateBuilder
           `state.ctrlList[-1].typ = .CtrlTy::Zoom;
 		cond .s.equ(s, "abyssdepthadd"):
           `state.ctrlList[-1].typ = .CtrlTy::AbyssDepthAdd;
+		cond .s.equ(s, "scoreadd"):
+          `state.ctrlList[-1].typ = .CtrlTy::ScoreAdd;
 		cond .s.equ(s, "exitmatch"):
           `state.ctrlList[-1].typ = .CtrlTy::ExitMatch;
 		cond .s.equ(s, "playbgm"):

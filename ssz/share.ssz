@@ -18,6 +18,7 @@ public &Share
   public ^int tm, nt, re;
   public int chr_home, chr_match, chr_round, lastMatch, matchsToWin, p1matchWins, p2matchWins;
   public int chr_p1mw, chr_p2mw, chr_p1w, chr_p2w, chr_drw;
+  public int score, scoreTotal, p1score, p2score;
   public int stt;
   public ^int com;
   public ^int taglevel;
@@ -95,6 +96,10 @@ public &Share
     `chr_p1w = .com.p1wins;
     `chr_p2w = .com.p2wins;
     `chr_drw = .com.draws;
+    `p1score = .com.p1score;
+    `p2score = .com.p2score;
+    `score = .com.score;
+    `scoreTotal = .com.scoreTotal;
     `com = .com.com;
 	`taglevel = .com.taglevel;
     `autoguard = .com.autoguard;
@@ -192,6 +197,10 @@ public &Share
     .com.home = `chr_home;
     .com.match = `chr_match;
     .com.round = `chr_round;
+    .com.p1score = `p1score;
+    .com.p2score = `p2score;
+    .com.score = `score;
+    .com.scoreTotal = `scoreTotal;
     .com.p1mw = `chr_p1mw;
     .com.p2mw = `chr_p2mw;
     .com.p1wins = `chr_p1w;

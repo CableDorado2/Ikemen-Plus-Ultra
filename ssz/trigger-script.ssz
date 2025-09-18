@@ -1415,6 +1415,18 @@ void scoretotal(&.lua.State L=, int re=)
   L.pushNumber((double).com.scoreTotal);
 }
 
+void p1score(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.p1score);
+}
+
+void p2score(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.p2score);
+}
+
 void suavemode(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1569,6 +1581,8 @@ public void registerFunction(&.lua.State L=)
   L.register("firstattack", .firstattack);
   L.register("score", .score);
   L.register("scoretotal", .scoretotal);
+  L.register("p1score", .p1score);
+  L.register("p2score", .p2score);
   L.register("record", .record);
   L.register("playback", .playback);
   L.register("gametype", .gametype);

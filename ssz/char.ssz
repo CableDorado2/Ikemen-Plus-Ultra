@@ -3817,6 +3817,10 @@ public &Char
   {
     .com.abyssDepth = n + .com.abyssDepth;
   }
+  public void ScoreAdd(int n)
+  {
+    .com.p1score = n + .com.p1score;
+  }
   public void cmdUpdate(int f)
   {
     bool act =
@@ -5530,6 +5534,22 @@ public &Char
   public int trCoins()
   {
     ret .com.coins;
+  }
+  public int trScore()
+  {
+    ret .com.score;
+  }
+  public int trScoreTotal()
+  {
+    ret .com.scoreTotal;
+  }
+  public int trP1Score()
+  {
+    ret .com.p1score;
+  }
+  public int trP2Score()
+  {
+    ret .com.p2score;
   }
   public int trAbyssDepth()
   {
