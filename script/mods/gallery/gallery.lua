@@ -59,7 +59,7 @@ local galleryPreviewSlotSpacingY = 6
 
 --Preview Cursor
 local galleryPreviewCursor = animNew(sprIkemen, [[
-22,0, 0,0, -1
+21,0, 0,0, -1
 ]])
 animSetScale(galleryPreviewCursor, 1.0, 1.0)
 
@@ -71,6 +71,21 @@ local galleryPreviewCursorSizeY = 56
 
 local galleryPreviewCursorSpacingX = 6
 local galleryPreviewCursorSpacingY = 6
+
+--Preview Locked
+local galleryPreviewLocked = animNew(sprIkemen, [[
+22,0, 0,0, -1
+]])
+animSetScale(galleryPreviewLocked, 1.0, 1.0)
+
+local galleryPreviewLockedPosX = 6.9
+local galleryPreviewLockedPosY = 44.9
+
+local galleryPreviewLockedSizeX = 90
+local galleryPreviewLockedSizeY = 50
+
+local galleryPreviewLockedSpacingX = 12
+local galleryPreviewLockedSpacingY = 12
 
 --Preview Unknown
 local galleryPreviewUnknown = animNew(sprIkemen, [[
@@ -600,9 +615,10 @@ local function f_drawGallery(t, columns, rows) --Draw Gallery Content
 					galleryPreviewSlotPosY + j * (galleryPreviewSlotSizeY + galleryPreviewSlotSpacingY) - (galleryMoveY * (galleryPreviewSlotSizeY + galleryPreviewSlotSpacingY))
 				)
 				animSetWindow(galleryPreviewSlot, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
-			--Draw Preview (only if has Spr Data defined)
-				if t[index].spr[1] and t[index].spr[2] ~= nil then
-					if t_unlockLua[unlockSection][t[index].id] == nil then --If the artwork is Unlocked
+			--Draw Unlocked Item Preview
+				if t_unlockLua[unlockSection][t[index].id] == nil then --If the item is Unlocked
+				--If Spr Data is defined
+					if t[index].spr[1] and t[index].spr[2] ~= nil then
 						f_drawGalleryPreview(
 							sprData,
 							t[index].spr[1], t[index].spr[2],
@@ -611,7 +627,8 @@ local function f_drawGallery(t, columns, rows) --Draw Gallery Content
 							t[index].previewscale[1], t[index].previewscale[2],
 							galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2
 						)
-					else --If the artwork is Locked
+				--If Spr Data is NOT defined
+					else
 						animPosDraw(
 							galleryPreviewUnknown,
 							galleryPreviewUnknownPosX + i * (galleryPreviewUnknownSizeX + galleryPreviewUnknownSpacingX) - (galleryMoveX * (galleryPreviewUnknownSizeX + galleryPreviewUnknownSpacingX)),
@@ -619,6 +636,14 @@ local function f_drawGallery(t, columns, rows) --Draw Gallery Content
 						)
 						animSetWindow(galleryPreviewUnknown, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
 					end
+			--Draw Locked Item Preview
+				else
+					animPosDraw(
+						galleryPreviewLocked,
+						galleryPreviewLockedPosX + i * (galleryPreviewLockedSizeX + galleryPreviewLockedSpacingX) - (galleryMoveX * (galleryPreviewLockedSizeX + galleryPreviewLockedSpacingX)),
+						galleryPreviewLockedPosY + j * (galleryPreviewLockedSizeY + galleryPreviewLockedSpacingY) - (galleryMoveY * (galleryPreviewLockedSizeY + galleryPreviewLockedSpacingY))
+					)
+					animSetWindow(galleryPreviewLocked, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
 				end
 			end
 		end
