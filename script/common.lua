@@ -889,48 +889,64 @@ data.p1In = 1
 data.p2In = 2 --Activate Player 2 Control in Menus
 
 function setCommand(c)
-	commandAdd(c, 'u', '$U')
-	commandAdd(c, 'd', '$D')
-	commandAdd(c, 'l', '$B')
-	commandAdd(c, 'r', '$F')
-	commandAdd(c, 'a', 'a')
-	commandAdd(c, 'b', 'b')
-	commandAdd(c, 'c', 'c')
-	commandAdd(c, 'x', 'x')
-	commandAdd(c, 'y', 'y')
-	commandAdd(c, 'z', 'z')
+--Neutral/One Touch
+	commandAdd(c, 'u', '$U') --UP
+	commandAdd(c, 'd', '$D') --DOWN
+	commandAdd(c, 'l', '$B') --LEFT
+	commandAdd(c, 'r', '$F') --RIGHT
+	commandAdd(c, 'a', 'a') --A
+	commandAdd(c, 'b', 'b') --B
+	commandAdd(c, 'c', 'c') --C
+	commandAdd(c, 'x', 'x') --X
+	commandAdd(c, 'y', 'y') --Y
+	commandAdd(c, 'z', 'z') --Z
 	commandAdd(c, 'q', 'q') --LT/FUNCTION 1
 	commandAdd(c, 'w', 'w') --RT/FUNCTION 2
 	commandAdd(c, 'e', 'e') --SELECT/RETURN
 	commandAdd(c, 's', 's') --START/CONFIRM
-	commandAdd(c, 'holdu', '/U') --bufu
-	commandAdd(c, 'holdd', '/D') --bufd
-	commandAdd(c, 'holdl', '/B') --bufl
-	commandAdd(c, 'holdr', '/F') --bufr
-	commandAdd(c, 'holda', '/a') --bufa
-	commandAdd(c, 'holdb', '/b') --bufb
-	commandAdd(c, 'holdc', '/c') --bufc
-	commandAdd(c, 'holdx', '/x') --bufx
-	commandAdd(c, 'holdy', '/y') --bufy
-	commandAdd(c, 'holdz', '/z') --bufz
-	commandAdd(c, 'holdq', '/q') --bufq
-	commandAdd(c, 'holdw', '/w') --bufw
-	commandAdd(c, 'holde', '/e') --bufe
-	commandAdd(c, 'holds', '/s') --bufs
-	commandAdd(c, 'relu', '~U')
-	commandAdd(c, 'reld', '~D')
-	commandAdd(c, 'rell', '~B')
-	commandAdd(c, 'relr', '~F')
-	commandAdd(c, 'rela', '~a')
-	commandAdd(c, 'relb', '~b')
-	commandAdd(c, 'relc', '~c')
-	commandAdd(c, 'relx', '~x')
-	commandAdd(c, 'rely', '~y')
-	commandAdd(c, 'relz', '~z')
-	commandAdd(c, 'relq', '~q')
-	commandAdd(c, 'relw', '~w')
-	commandAdd(c, 'rele', '~e')
-	commandAdd(c, 'rels', '~s')
+	commandAdd(c, 'ul', '$UB') --UP+LEFT
+	commandAdd(c, 'ur', '$UF') --UP+RIGHT
+	commandAdd(c, 'dl', '$DB') --DOWN+LEFT
+	commandAdd(c, 'dr', '$DF') --DOWN+RIGHT
+--Holds
+	commandAdd(c, 'holdu', '/U') --Hold UP
+	commandAdd(c, 'holdd', '/D') --Hold DOWN
+	commandAdd(c, 'holdl', '/B') --Hold LEFT
+	commandAdd(c, 'holdr', '/F') --Hold RIGHT
+	commandAdd(c, 'holda', '/a') --Hold A
+	commandAdd(c, 'holdb', '/b') --Hold B
+	commandAdd(c, 'holdc', '/c') --Hold C
+	commandAdd(c, 'holdx', '/x') --Hold X
+	commandAdd(c, 'holdy', '/y') --Hold Y
+	commandAdd(c, 'holdz', '/z') --Hold Z
+	commandAdd(c, 'holdq', '/q') --Hold LT
+	commandAdd(c, 'holdw', '/w') --Hold RT
+	commandAdd(c, 'holde', '/e') --Hold SELECT
+	commandAdd(c, 'holds', '/s') --Hold START
+	commandAdd(c, 'holdul', '/UB') --Hold UP+LEFT
+	commandAdd(c, 'holdur', '/UF') --Hold UP+RIGHT
+	commandAdd(c, 'holddl', '/DB') --Hold DOWN+LEFT
+	commandAdd(c, 'holddr', '/DF') --Hold DOWN+RIGHT
+--Releases
+	commandAdd(c, 'relu', '~U') --Release UP
+	commandAdd(c, 'reld', '~D') --Release DOWN
+	commandAdd(c, 'rell', '~B') --Release LEFT
+	commandAdd(c, 'relr', '~F') --Release RIGHT
+	commandAdd(c, 'rela', '~a') --Release A
+	commandAdd(c, 'relb', '~b') --Release B
+	commandAdd(c, 'relc', '~c') --Release C
+	commandAdd(c, 'relx', '~x') --Release X
+	commandAdd(c, 'rely', '~y') --Release Y
+	commandAdd(c, 'relz', '~z') --Release Z
+	commandAdd(c, 'relq', '~q') --Release LT
+	commandAdd(c, 'relw', '~w') --Release RT
+	commandAdd(c, 'rele', '~e') --Release SELECT
+	commandAdd(c, 'rels', '~s') --Release START
+	commandAdd(c, 'relul', '~UB') --Release UP+LEFT
+	commandAdd(c, 'relur', '~UF') --Release UP+RIGHT
+	commandAdd(c, 'reldl', '~DB') --Release DOWN+LEFT
+	commandAdd(c, 'reldr', '~DF') --Release DOWN+RIGHT
+--Mixs
 	commandAdd(c, 'su', '/s, U')
 	commandAdd(c, 'sd', '/s, D')
 end

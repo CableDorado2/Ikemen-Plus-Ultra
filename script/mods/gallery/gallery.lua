@@ -446,26 +446,34 @@ local function f_artMenu(artLimit)
 		end
 	--MOVE UP ART
 		if ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or 
-		((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 5)) then
+		((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) or
+		(commandGetState(p1Cmd, 'holdul') or commandGetState(p2Cmd, 'holdul')) or
+		(commandGetState(p1Cmd, 'holdur') or commandGetState(p2Cmd, 'holdur')) and bufu >= 5)) then
 			if artPosY > t_gallery[galleryMenu][galleryCursor].movelimit[2] then
 				artPosY = artPosY - galleryArtMoveSpeed
 			end
 	--MOVE DOWN ART
 		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or 
-		((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 5)) then
+		((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) or
+		(commandGetState(p1Cmd, 'holddl') or commandGetState(p2Cmd, 'holddl')) or
+		(commandGetState(p1Cmd, 'holddr') or commandGetState(p2Cmd, 'holddr')) and bufd >= 5)) then
 			if artPosY < t_gallery[galleryMenu][galleryCursor].movelimit[4] then
 				artPosY = artPosY + galleryArtMoveSpeed
 			end
 		end
 	--MOVE LEFT ART
 		if ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or 
-		((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 5)) then
+		((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) or
+		(commandGetState(p1Cmd, 'holdul') or commandGetState(p2Cmd, 'holdul')) or
+		(commandGetState(p1Cmd, 'holddl') or commandGetState(p2Cmd, 'holddl')) and bufl >= 5)) then
 			if artPosX > t_gallery[galleryMenu][galleryCursor].movelimit[1] then
 				artPosX = artPosX - galleryArtMoveSpeed
 			end
 	--MOVE RIGHT ART
 		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or 
-		((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 5)) then
+		((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) or
+		(commandGetState(p1Cmd, 'holdur') or commandGetState(p2Cmd, 'holdur')) or
+		(commandGetState(p1Cmd, 'holddr') or commandGetState(p2Cmd, 'holddr')) and bufr >= 5)) then
 			if artPosX < t_gallery[galleryMenu][galleryCursor].movelimit[3] then
 				artPosX = artPosX + galleryArtMoveSpeed
 			end
@@ -532,10 +540,14 @@ local function f_artMenu(artLimit)
 			bufw = 0
 		end
 	--VERTICAL BUF KEY CONTROL
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') or
+			commandGetState(p1Cmd, 'holdur') or commandGetState(p2Cmd, 'holdur') or
+			commandGetState(p1Cmd, 'holdul') or commandGetState(p2Cmd, 'holdul') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') or
+			commandGetState(p1Cmd, 'holddr') or commandGetState(p2Cmd, 'holddr') or
+			commandGetState(p1Cmd, 'holddl') or commandGetState(p2Cmd, 'holddl') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -543,10 +555,14 @@ local function f_artMenu(artLimit)
 			bufd = 0			
 		end
 	--LATERAL BUF KEY CONTROL
-		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') or
+			commandGetState(p1Cmd, 'holdur') or
+			commandGetState(p1Cmd, 'holddr') then
 			bufl = 0
 			bufr = bufr + 1
-		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') or
+			commandGetState(p1Cmd, 'holdul') or commandGetState(p2Cmd, 'holdul') or
+			commandGetState(p1Cmd, 'holddl') or commandGetState(p2Cmd, 'holddl') then
 			bufr = 0
 			bufl = bufl + 1
 		else
