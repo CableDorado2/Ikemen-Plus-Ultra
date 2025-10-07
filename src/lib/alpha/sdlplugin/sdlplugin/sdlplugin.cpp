@@ -701,9 +701,71 @@ TUserFunc(void, SetDiscordInstance, int8_t Instance)
 	}
 }
 
+void TestWindow()
+{
+//Init SDL and SDL_ttf
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		printf("Error SDL_Init: %s\n", SDL_GetError());
+		return;
+	}
+	if (TTF_Init() == -1)
+	{
+		printf("Error TTF_Init: %s\n", TTF_GetError());
+		SDL_Quit();
+		return;
+	}
+//Font Path
+	const char* fontPath = "C:\\Windows\\Fonts\\Arial.ttf";
+	int fontSize = 24;
+//Load Font
+	TTF_Font* font = TTF_OpenFont(fontPath, fontSize);
+	if (!font)
+	{
+		printf("Error loading TTF Font: %s\n", TTF_GetError());
+		TTF_Quit();
+		SDL_Quit();
+		return;
+	}
+//Render Text
+	SDL_Color color = {255, 255, 255, 255}; //Text Color
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Hello World!", color);
+	if (!textSurface)
+	{
+		printf("Error rendering Text: %s\n", TTF_GetError());
+		TTF_CloseFont(font);
+		TTF_Quit();
+		SDL_Quit();
+		return;
+	}
+//Create a window and renderer to show stuff
+	SDL_Window* window = SDL_CreateWindow("CD Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+//Create surface texture
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+//Clean Screen
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+//Draw texture
+	SDL_Rect dstRect = {50, 50, textSurface->w, textSurface->h};
+	SDL_RenderCopy(renderer, texture, NULL, &dstRect);
+	SDL_RenderPresent(renderer);
+//Time to display Test Window
+	SDL_Delay(3000);
+//Close
+	SDL_DestroyTexture(texture);
+	SDL_FreeSurface(textSurface);
+	TTF_CloseFont(font);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	TTF_Quit();
+	SDL_Quit();
+}
+
 //Software Render
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 {
+	TestWindow(); //To test SDL Stuff
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		return false;
