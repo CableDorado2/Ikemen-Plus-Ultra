@@ -501,7 +501,6 @@ TUserFunc(void, DiscordUpdate)
 		char buffer[256];
 		memset(&discordPresence, 0, sizeof(discordPresence));
 		discordPresence.state = "Starting Engine"; //Game State
-		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
 		discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
 		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
 		//discordPresence.endTimestamp = time(0) + 5 * 60;
@@ -533,7 +532,6 @@ static void UpdateDiscordPresence()
 		char buffer[256];
 		memset(&discordPresence, 0, sizeof(discordPresence));
 		discordPresence.state = "Starting Engine"; //Game State
-		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
 		discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
 		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
 		//discordPresence.endTimestamp = time(0) + 5 * 60;
@@ -701,28 +699,26 @@ TUserFunc(void, SetDiscordInstance, int8_t Instance)
 	}
 }
 
-void TestWindow()
+void TestTTF()
 {
 //Init SDL and SDL_ttf
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		printf("Error SDL_Init: %s\n", SDL_GetError());
-		return;
+		return; //Error SDL_Init
 	}
 	if (TTF_Init() == -1)
 	{
-		printf("Error TTF_Init: %s\n", TTF_GetError());
-		SDL_Quit();
+		SDL_Quit(); //Error TTF_Init
 		return;
 	}
 //Font Path
-	const char* fontPath = "C:\\Windows\\Fonts\\Arial.ttf";
+	const char* fontPath = "font/TTF/shanghai.ttf";
 	int fontSize = 24;
 //Load Font
 	TTF_Font* font = TTF_OpenFont(fontPath, fontSize);
 	if (!font)
 	{
-		printf("Error loading TTF Font: %s\n", TTF_GetError());
+	//Error loading TTF Font
 		TTF_Quit();
 		SDL_Quit();
 		return;
@@ -732,14 +728,14 @@ void TestWindow()
 	SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Hello World!", color);
 	if (!textSurface)
 	{
-		printf("Error rendering Text: %s\n", TTF_GetError());
+	//Error rendering Text
 		TTF_CloseFont(font);
 		TTF_Quit();
 		SDL_Quit();
 		return;
 	}
 //Create a window and renderer to show stuff
-	SDL_Window* window = SDL_CreateWindow("CD Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
+	SDL_Window* window = SDL_CreateWindow("TTF Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 //Create surface texture
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -762,10 +758,90 @@ void TestWindow()
 	SDL_Quit();
 }
 
+void TestIMG()
+{
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		return; //SDL_Init Error
+	}
+	if (IMG_Init(IMG_INIT_PNG) == 0)
+	{
+	//IMG_Init Error
+		SDL_Quit();
+		return;
+	}
+//Create a window and renderer to show stuff
+	SDL_Window* window = SDL_CreateWindow("IMG Load Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
+	if (!window)
+	{
+	//SDL_CreateWindow Error
+		IMG_Quit();
+		SDL_Quit();
+		return;
+	}
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if (!renderer)
+	{
+	//SDL_CreateRenderer Error
+		SDL_DestroyWindow(window);
+		IMG_Quit();
+		SDL_Quit();
+		return;
+	}
+//Load IMG
+	const char* imagePath = "tools/test.jpg"; //For some reason PNG loading is not working
+	SDL_Surface* imageSurface = IMG_Load(imagePath);
+	if (!imageSurface)
+	{
+	//IMG_Load Error
+		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(window);
+		IMG_Quit();
+		SDL_Quit();
+		return;
+	}
+//Create surface texture
+	SDL_Texture* imageTexture = SDL_CreateTextureFromSurface(renderer, imageSurface);
+	SDL_FreeSurface(imageSurface);
+	if (!imageTexture)
+	{
+	//SDL_CreateTextureFromSurface Error
+		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(window);
+		IMG_Quit();
+		SDL_Quit();
+		return;
+	}
+//Get Texture Size
+	int texW = 0, texH = 0;
+	SDL_QueryTexture(imageTexture, NULL, NULL, &texW, &texH);
+//Clean Screen
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+//Draw texture in middle
+	SDL_Rect dstRect = { (640 - texW) / 2, (480 - texH) / 2, texW, texH };
+	SDL_RenderCopy(renderer, imageTexture, NULL, &dstRect);
+	SDL_RenderPresent(renderer);
+//Time to display Test Window
+	SDL_Delay(3000);
+//Close
+	SDL_DestroyTexture(imageTexture);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	IMG_Quit();
+	SDL_Quit();
+}
+
+void TestRoom()
+{
+	//TestTTF();
+	//TestIMG();
+}
+
 //Software Render
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 {
-	TestWindow(); //To test SDL Stuff
+	TestRoom(); //To test SDL Stuff
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		return false;
