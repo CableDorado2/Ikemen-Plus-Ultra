@@ -937,6 +937,31 @@ local function f_setMatchTexts()
 end
 f_setMatchTexts() --Load when match start
 
+local function f_setWinScore()
+	if life() ~= lifemax() then
+		setScore(getScore() + life()*10) --Life remains add score
+	else
+		setScore(getScore() + 30000)
+	end
+	--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000)
+	--if firstattack() then setScore(getScore() + 1500) end
+	if winperfect() then setScore(getScore() + 15000)
+	--elseif winhyper() then setScore(getScore() + 10000)
+	--elseif winspecial() then setScore(getScore() + 3000)
+	end
+end
+
+local function f_drawScore()
+	local pts = 0
+	if player(2) and time() == 0 then
+		pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
+	end
+	setScore(getScore() + pts)
+	textImgSetText(txt_ScoreP1FightCfg, getScore())
+	textImgDraw(txt_ScoreP1FightCfg)
+end
+setScore(0)
+
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
 --During Demo Mode
@@ -947,9 +972,12 @@ function loop() --The code for this function should be thought of as if it were 
 --During Arcade Mode
 	elseif getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu" then
 		if roundstate() == 2 then
+			f_drawScore()
 			textImgDraw(txt_AiLevelFightCfg)
 			textImgDraw(txt_MatchFightCfg)
 		end
+	elseif getGameMode() == "practice" then
+		f_drawScore()
 --During VS Mode
 	elseif getGameMode() == "vs" then
 		if roundstate() == 2 then

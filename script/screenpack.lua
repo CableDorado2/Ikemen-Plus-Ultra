@@ -4484,6 +4484,9 @@ txt_DemoFightCfg = createTextImg(font15, 0, -1, "DEMO MODE", 305, 10)
 txt_AiLevelFightCfg = createTextImg(font5, 0, 0, "", 160, 239)
 txt_MatchFightCfg = createTextImg(font5, 0, 0, "", 160, 40)
 
+txt_ScoreP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
+txt_ScoreP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
+
 txt_WinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
 txt_WinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
 
