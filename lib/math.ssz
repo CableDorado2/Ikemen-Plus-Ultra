@@ -101,7 +101,6 @@ public bool isnan(double x)
 }
 
 const int RANDMAX = .consts.int_t::MAX;
-
 int randseed = (time.unixTime() ^ (long)time.tickCount()<<16) & RANDMAX;
 
 public int random()

@@ -1,4 +1,3 @@
-
 public &Arcfour
 {
   uint x, y;

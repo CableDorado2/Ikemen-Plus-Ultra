@@ -1,4 +1,3 @@
-
 const uint T_MASK = !0;
 const uint T1  = /* 0xd76aa478 */ (T_MASK ^ 0x28955b87);
 const uint T2  = /* 0xe8c7b756 */ (T_MASK ^ 0x173848a9);

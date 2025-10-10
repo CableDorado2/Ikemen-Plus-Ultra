@@ -1,4 +1,3 @@
-
 public &Stack<_t>
 {
   &Node<_t>

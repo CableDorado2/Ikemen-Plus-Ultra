@@ -2,44 +2,29 @@ lib f = <file.ssz>;
 
 plugin void End(::)                         = "dll/sdlplugin.dll";
 plugin bool PollEvent(:&Event=:)            = "dll/sdlplugin.dll";
+
 public void flip()
 {
   plugin void Flip(::) = "dll/sdlplugin.dll";
   Flip(::);
 }
+
 public void fill(&.Rect r=, uint c)
 {
   plugin void Fill(:&.Rect=, uint:) = "dll/sdlplugin.dll";
   Fill(:r=, c:);
 }
-public bool renderMugenZoom(
-  &.Rect dr=, float rcx, float rcy,
-  ^ubyte pxl, ^uint pal, short ckey,
-  &.Rect sr=, float cx, float ty, &.Rect tile=,
-  float xtopscl, float xbotscl, float yscl,
-  float rasterxadd, uint roto, int alpha, int rle, %byte pluginbuf=)
+
+public bool renderMugenZoom(&.Rect dr=, float rcx, float rcy, ^ubyte pxl, ^uint pal, short ckey, &.Rect sr=, float cx, float ty, &.Rect tile=, float xtopscl, float xbotscl, float yscl, float rasterxadd, uint roto, int alpha, int rle, %byte pluginbuf=)
 {
-  plugin bool RenderMugenZoom(:
-    ^/ubyte, uint=, short, &.Rect=, float, float, &.Rect=,
-    float, float, float, float, uint, int, &.Rect=,
-    float, float, int, %byte=:) = "dll/sdlplugin.dll";
-  ret
-    RenderMugenZoom(:
-      pxl, pal<>=, ckey, sr=, cx, ty, tile=, xtopscl, xbotscl,
-      yscl, rasterxadd, roto, alpha, dr=, rcx, rcy, rle, pluginbuf=:);
+  plugin bool RenderMugenZoom(:^/ubyte, uint=, short, &.Rect=, float, float, &.Rect=, float, float, float, float, uint, int, &.Rect=, float, float, int, %byte=:) = "dll/sdlplugin.dll";
+  ret RenderMugenZoom(:pxl, pal<>=, ckey, sr=, cx, ty, tile=, xtopscl, xbotscl, yscl, rasterxadd, roto, alpha, dr=, rcx, rcy, rle, pluginbuf=:);
 }
-public bool renderMugenShadow(
-  &.Rect dr=, float rcx, float rcy, ^ubyte pxl, uint color,
-  &.Rect sr=, float cx, float ty, float xscl, float yscl, float vscl,
-  uint roto, int alpha, int rle, %byte pluginbuf=)
+
+public bool renderMugenShadow(&.Rect dr=, float rcx, float rcy, ^ubyte pxl, uint color, &.Rect sr=, float cx, float ty, float xscl, float yscl, float vscl, uint roto, int alpha, int rle, %byte pluginbuf=)
 {
-  plugin bool RenderMugenShadow(:
-    ^/ubyte, uint, &.Rect=, float, float, float, float, float, uint, int,
-    &.Rect=, float, float, int, %byte=:) = "dll/sdlplugin.dll";
-  ret
-    RenderMugenShadow(:
-      pxl, color, sr=, cx, ty, xscl, yscl, vscl, roto, alpha,
-      dr=, rcx, rcy, rle, pluginbuf=:);
+  plugin bool RenderMugenShadow(:^/ubyte, uint, &.Rect=, float, float, float, float, float, uint, int, &.Rect=, float, float, int, %byte=:) = "dll/sdlplugin.dll";
+  ret RenderMugenShadow(:pxl, color, sr=, cx, ty, xscl, yscl, vscl, roto, alpha, dr=, rcx, rcy, rle, pluginbuf=:);
 }
 
 public char getLastChar()
@@ -50,8 +35,7 @@ public char getLastChar()
 
 public ^ubyte decodePNG8(int w=, int h=, &.f.File file=)
 {
-  plugin void DecodePNG8(:
-    ^ubyte=, int=, int=, &.f.File:) = "dll/sdlplugin.dll";
+  plugin void DecodePNG8(:^ubyte=, int=, int=, &.f.File:) = "dll/sdlplugin.dll";
   ^ubyte img;
   DecodePNG8(:img=, w=, h=, file:);
   ret img;
@@ -126,9 +110,14 @@ public void setVolume(float gvol, float wvol, float bvol)
   SetVolume(:gvol, wvol, bvol:);
 }
 
+public void setOpacity(float wo)
+{
+  plugin void SetOpacity(:float:) = "dll/sdlplugin.dll";
+  SetOpacity(:wo:);
+}
+
 const ubyte RELEASED = 0;
 const ubyte PRESSED = 1;
-
 const ubyte BUTTON_LEFT = 1;
 const ubyte BUTTON_MIDDLE = 2;
 const ubyte BUTTON_RIGHT = 3;
@@ -447,7 +436,6 @@ const ubyte BUTTON_WHEELDOWN = 5;
     NUM_SCANCODES = 512
 }
 
-
 const int K_SCANCODE_MASK = (1<<30);
 
 |K
@@ -604,8 +592,7 @@ const int K_SCANCODE_MASK = (1<<30);
     VOLUMEUP = .K_SCANCODE_MASK|.SDLKey::VOLUMEUP,
     VOLUMEDOWN = .K_SCANCODE_MASK|.SDLKey::VOLUMEDOWN,
     KP_COMMA = .K_SCANCODE_MASK|.SDLKey::KP_COMMA,
-    KP_EQUALSAS400 =
-        .K_SCANCODE_MASK|.SDLKey::KP_EQUALSAS400,
+    KP_EQUALSAS400 = .K_SCANCODE_MASK|.SDLKey::KP_EQUALSAS400,
 
     ALTERASE = .K_SCANCODE_MASK|.SDLKey::ALTERASE,
     SYSREQ = .K_SCANCODE_MASK|.SDLKey::SYSREQ,
@@ -622,13 +609,10 @@ const int K_SCANCODE_MASK = (1<<30);
 
     KP_00 = .K_SCANCODE_MASK|.SDLKey::KP_00,
     KP_000 = .K_SCANCODE_MASK|.SDLKey::KP_000,
-    THOUSANDSSEPARATOR =
-        .K_SCANCODE_MASK|.SDLKey::THOUSANDSSEPARATOR,
-    DECIMALSEPARATOR =
-        .K_SCANCODE_MASK|.SDLKey::DECIMALSEPARATOR,
+    THOUSANDSSEPARATOR = .K_SCANCODE_MASK|.SDLKey::THOUSANDSSEPARATOR,
+    DECIMALSEPARATOR = .K_SCANCODE_MASK|.SDLKey::DECIMALSEPARATOR,
     CURRENCYUNIT = .K_SCANCODE_MASK|.SDLKey::CURRENCYUNIT,
-    CURRENCYSUBUNIT =
-        .K_SCANCODE_MASK|.SDLKey::CURRENCYSUBUNIT,
+    CURRENCYSUBUNIT = .K_SCANCODE_MASK|.SDLKey::CURRENCYSUBUNIT,
     KP_LEFTPAREN = .K_SCANCODE_MASK|.SDLKey::KP_LEFTPAREN,
     KP_RIGHTPAREN = .K_SCANCODE_MASK|.SDLKey::KP_RIGHTPAREN,
     KP_LEFTBRACE = .K_SCANCODE_MASK|.SDLKey::KP_LEFTBRACE,
@@ -647,12 +631,9 @@ const int K_SCANCODE_MASK = (1<<30);
     KP_LESS = .K_SCANCODE_MASK|.SDLKey::KP_LESS,
     KP_GREATER = .K_SCANCODE_MASK|.SDLKey::KP_GREATER,
     KP_AMPERSAND = .K_SCANCODE_MASK|.SDLKey::KP_AMPERSAND,
-    KP_DBLAMPERSAND =
-        .K_SCANCODE_MASK|.SDLKey::KP_DBLAMPERSAND,
-    KP_VERTICALBAR =
-        .K_SCANCODE_MASK|.SDLKey::KP_VERTICALBAR,
-    KP_DBLVERTICALBAR =
-        .K_SCANCODE_MASK|.SDLKey::KP_DBLVERTICALBAR,
+    KP_DBLAMPERSAND = .K_SCANCODE_MASK|.SDLKey::KP_DBLAMPERSAND,
+    KP_VERTICALBAR = .K_SCANCODE_MASK|.SDLKey::KP_VERTICALBAR,
+    KP_DBLVERTICALBAR = .K_SCANCODE_MASK|.SDLKey::KP_DBLVERTICALBAR,
     KP_COLON = .K_SCANCODE_MASK|.SDLKey::KP_COLON,
     KP_HASH = .K_SCANCODE_MASK|.SDLKey::KP_HASH,
     KP_SPACE = .K_SCANCODE_MASK|.SDLKey::KP_SPACE,
@@ -662,10 +643,8 @@ const int K_SCANCODE_MASK = (1<<30);
     KP_MEMRECALL = .K_SCANCODE_MASK|.SDLKey::KP_MEMRECALL,
     KP_MEMCLEAR = .K_SCANCODE_MASK|.SDLKey::KP_MEMCLEAR,
     KP_MEMADD = .K_SCANCODE_MASK|.SDLKey::KP_MEMADD,
-    KP_MEMSUBTRACT =
-        .K_SCANCODE_MASK|.SDLKey::KP_MEMSUBTRACT,
-    KP_MEMMULTIPLY =
-        .K_SCANCODE_MASK|.SDLKey::KP_MEMMULTIPLY,
+    KP_MEMSUBTRACT = .K_SCANCODE_MASK|.SDLKey::KP_MEMSUBTRACT,
+    KP_MEMMULTIPLY = .K_SCANCODE_MASK|.SDLKey::KP_MEMMULTIPLY,
     KP_MEMDIVIDE = .K_SCANCODE_MASK|.SDLKey::KP_MEMDIVIDE,
     KP_PLUSMINUS = .K_SCANCODE_MASK|.SDLKey::KP_PLUSMINUS,
     KP_CLEAR = .K_SCANCODE_MASK|.SDLKey::KP_CLEAR,
@@ -673,8 +652,7 @@ const int K_SCANCODE_MASK = (1<<30);
     KP_BINARY = .K_SCANCODE_MASK|.SDLKey::KP_BINARY,
     KP_OCTAL = .K_SCANCODE_MASK|.SDLKey::KP_OCTAL,
     KP_DECIMAL = .K_SCANCODE_MASK|.SDLKey::KP_DECIMAL,
-    KP_HEXADECIMAL =
-        .K_SCANCODE_MASK|.SDLKey::KP_HEXADECIMAL,
+    KP_HEXADECIMAL = .K_SCANCODE_MASK|.SDLKey::KP_HEXADECIMAL,
 
     LCTRL = .K_SCANCODE_MASK|.SDLKey::LCTRL,
     LSHIFT = .K_SCANCODE_MASK|.SDLKey::LSHIFT,
@@ -705,12 +683,10 @@ const int K_SCANCODE_MASK = (1<<30);
     AC_REFRESH = .K_SCANCODE_MASK|.SDLKey::AC_REFRESH,
     AC_BOOKMARKS = .K_SCANCODE_MASK|.SDLKey::AC_BOOKMARKS,
 
-    BRIGHTNESSDOWN =
-        .K_SCANCODE_MASK|.SDLKey::BRIGHTNESSDOWN,
+    BRIGHTNESSDOWN = .K_SCANCODE_MASK|.SDLKey::BRIGHTNESSDOWN,
     BRIGHTNESSUP = .K_SCANCODE_MASK|.SDLKey::BRIGHTNESSUP,
     DISPLAYSWITCH = .K_SCANCODE_MASK|.SDLKey::DISPLAYSWITCH,
-    KBDILLUMTOGGLE =
-        .K_SCANCODE_MASK|.SDLKey::KBDILLUMTOGGLE,
+    KBDILLUMTOGGLE = .K_SCANCODE_MASK|.SDLKey::KBDILLUMTOGGLE,
     KBDILLUMDOWN = .K_SCANCODE_MASK|.SDLKey::KBDILLUMDOWN,
     KBDILLUMUP = .K_SCANCODE_MASK|.SDLKey::KBDILLUMUP,
     EJECT = .K_SCANCODE_MASK|.SDLKey::EJECT,
@@ -735,8 +711,6 @@ const ushort KMOD_SHIFT = (KMOD_LSHIFT|KMOD_RSHIFT);
 const ushort KMOD_ALT = (KMOD_LALT|KMOD_RALT);
 const ushort KMOD_GUI = (KMOD_LGUI|KMOD_RGUI);
 
-
-
 public &keysym
 {
   public |.SDLKey scancode;
@@ -745,6 +719,7 @@ public &keysym
   public ushort padding;
   public uint unused;
 }
+
 public &KeyboardEvent
 {
   public uint windowID;
@@ -754,7 +729,6 @@ public &KeyboardEvent
   public &.keysym keysym;
 }
 
-
 public &MouseMotionEvent
 {
   public uint windowID;
@@ -763,7 +737,6 @@ public &MouseMotionEvent
   public int x, y;
   public int xrel, yrel;
 }
-
 
 public &MouseButtonEvent
 {
@@ -775,7 +748,6 @@ public &MouseButtonEvent
   public int x, y;
 }
 
-
 public &Event
 {
   public |.EventType etype = .EventType::NOEVENT;
@@ -784,7 +756,6 @@ public &Event
   public &.MouseMotionEvent motion;
   public &.MouseButtonEvent button;
 }
-
 
 public &Rect
 {
@@ -835,8 +806,7 @@ public &Surface
   }
   public void createPaletteSurface(^ubyte img, ^uint pal, int w, int h)
   {
-    plugin index CreatePaletteSurface(:ubyte=, uint=, int, int:) =
-      "dll/sdlplugin.dll";
+    plugin index CreatePaletteSurface(:ubyte=, uint=, int, int:) = "dll/sdlplugin.dll";
     `sur = CreatePaletteSurface(:img<>=, pal<>=, w, h:);
   }
   public void setColorKey(int key)
@@ -878,31 +848,31 @@ public bool init(^/char t, int w, int h, bool gl, bool mugen)
   plugin bool GlInit(:^/char, int, int:) = "dll/sdlplugin.dll";
   plugin bool Init(:^/char, int, int, bool:) = "dll/sdlplugin.dll";
   if(gl) ret GlInit(:t, w, h:); //Start OpenGL Render
-  ret Init(:t, w, h, mugen:); //Start DirectX Render
+  ret Init(:t, w, h, mugen:); //Start Software Render
 }
 
-//public int getWidth()
-//{
-  //plugin int GetWidth(::) = "dll/sdlplugin.dll";
-  //ret GetWidth(::);
-//}
+public int getWidth()
+{
+  plugin int GetWidth(::) = "dll/sdlplugin.dll";
+  ret GetWidth(::);
+}
 
-//public int getHeight()
-//{
-  //plugin int GetHeight(::) = "dll/sdlplugin.dll";
-  //ret GetHeight(::);
-//}
+public int getHeight()
+{
+  plugin int GetHeight(::) = "dll/sdlplugin.dll";
+  ret GetHeight(::);
+}
 
-//public void windowSize(int w, int h)
-//{
-  //plugin void WindowSize(:int, int:) = "dll/sdlplugin.dll";
-  //WindowSize(:w, h:);
-//}
+public void windowSize(int w, int h)
+{
+  plugin void WindowSize(:int, int:) = "dll/sdlplugin.dll";
+  WindowSize(:w, h:);
+}
 
 public void fullScreenMode(bool fullReal)
 {
-  plugin void FullScreenReal(:bool:) = "dll/sdlplugin.dll";
-  FullScreenReal(:fullReal:);
+  plugin void FullScreenExclusive(:bool:) = "dll/sdlplugin.dll";
+  FullScreenExclusive(:fullReal:);
 }
 
 public bool fullScreen(bool full)
@@ -911,16 +881,10 @@ public bool fullScreen(bool full)
   ret FullScreen(:full:);
 }
 
-public void windowBorders(bool borders)
+public void setWindowType(int state)
 {
-  plugin void WindowBordered(:bool:) = "dll/sdlplugin.dll";
-  WindowBordered(:borders:);
-}
-
-public void windowResizable(bool resizable)
-{
-  plugin void WindowResizable(:bool:) = "dll/sdlplugin.dll";
-  WindowResizable(:resizable:);
+  plugin void WindowType(:int:) = "dll/sdlplugin.dll";
+  WindowType(:state:);
 }
 
 public void keepAspectRatio(bool aspect)
@@ -973,16 +937,9 @@ public &GlTexture
 
 plugin void MugenFillGl(:&Rect, uint, int:) = "dll/sdlplugin.dll";
 plugin bool InitMugenGl(::) = "dll/sdlplugin.dll";
-plugin bool RenderMugenGl(:
-  &GlTexture, uint=, int, &Rect=, float, float, &Rect=, float, float, float,
-  float, float, float, int, &Rect=, float, float:) = "dll/sdlplugin.dll";
-plugin bool RenderMugenGlFc(:
-  &GlTexture, &Rect=, float, float, &Rect=, float, float, float,
-  float, float, float, int, &Rect=, float, float, bool, float,
-  float, float, float, float, float, float:) = "dll/sdlplugin.dll";
-plugin bool RenderMugenGlFcS(:
-  &GlTexture, &Rect=, float, float, &Rect=, float, float, float,
-  float, float, float, int, &Rect=, float, float, uint:) = "dll/sdlplugin.dll";
+plugin bool RenderMugenGl(:&GlTexture, uint=, int, &Rect=, float, float, &Rect=, float, float, float, float, float, float, int, &Rect=, float, float:) = "dll/sdlplugin.dll";
+plugin bool RenderMugenGlFc(:&GlTexture, &Rect=, float, float, &Rect=, float, float, float, float, float, float, int, &Rect=, float, float, bool, float, float, float, float, float, float, float:) = "dll/sdlplugin.dll";
+plugin bool RenderMugenGlFcS(:&GlTexture, &Rect=, float, float, &Rect=, float, float, float, float, float, float, int, &Rect=, float, float, uint:) = "dll/sdlplugin.dll";
 plugin void GlSwapBuffers(::) = "dll/sdlplugin.dll";
 
 public bool bindGlContext()

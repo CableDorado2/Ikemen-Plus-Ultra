@@ -1,4 +1,3 @@
-
 const int Freq = 48000;
 const int Channels = 2;
 const int BufferSamples = 2048;

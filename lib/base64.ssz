@@ -1,4 +1,4 @@
-lib mat = <math.ssz>;
+lib m = <math.ssz>;
 
 public char uintToB64Char(uint n)
 {
@@ -20,11 +20,11 @@ public char uintToB64Char(uint n)
 public uint b64CharToUint(char c)
 {
   branch{
-  cond .mat.inRange!char?('A', 'Z', c):
+  cond .m.inRange!char?('A', 'Z', c):
     ret (uint)(c - 'A');
-  cond .mat.inRange!char?('a', 'z', c):
+  cond .m.inRange!char?('a', 'z', c):
     ret (uint)(c - 'a') + 0d26;
-  cond .mat.inRange!char?('0', '9', c):
+  cond .m.inRange!char?('0', '9', c):
     ret (uint)(c - '0') + 0d52;
   cond c == '+':
     ret 0d62;

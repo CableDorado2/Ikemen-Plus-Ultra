@@ -1,4 +1,3 @@
-
 public &Regex
 {
   index re = 0;

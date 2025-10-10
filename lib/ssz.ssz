@@ -1,4 +1,3 @@
-
 public bool run(^/char file)
 {
   plugin bool Run(:^/char:) = <dll/ssz.dll>;

@@ -23,12 +23,14 @@ char hex(uint u)
   if(h < 0d10) ret '0' + (char)h;
   ret 'a' + (char)(h - 0d10);
 }
+
 char heX(uint u)
 {
   uint h = u & 0xf;
   if(h < 0d10) ret '0' + (char)h;
   ret 'A' + (char)(h - 0d10);
 }
+
 ^char uToSxX<hex_t>(ulong uinte)
 {
   uint shift = 0d60;
@@ -48,6 +50,7 @@ public ^char uToSx(ulong uinte)
 {
   ret .uToSxX!.hex?(uinte);
 }
+
 public ^char uToSX(ulong uinte)
 {
   ret .uToSxX!.heX?(uinte);

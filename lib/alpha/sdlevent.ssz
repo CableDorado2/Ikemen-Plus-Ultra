@@ -5,25 +5,22 @@ lib sh = <shell.ssz>;
 uint nexttime = 0x0, lastdraw = 0x0;
 float nexttimeFractionalPart = 0.0;
 public &sdl.Event sdle;
-public bool end = false, fskip = false, full = false, fullReal = false, aspect = false, 
-esc = false, paste = false, 
-upKey = false, downKey = false, leftKey = false, rightKey = false, 
-aKey = false, bKey = false, cKey = false, dKey = false, eKey = false, fKey = false, gKey = false, hKey = false, iKey = false, 
-jKey = false, kKey = false, lKey = false, mKey = false, nKey = false, oKey = false, pKey = false, qKey = false, rKey = false, 
-sKey = false, tKey = false, uKey = false, vKey = false, wKey = false, xKey = false, yKey = false, zKey = false, 
-kzeroKey = false, koneKey = false, ktwoKey = false, kthreeKey = false, kfourKey = false, 
-kfiveKey = false, ksixKey = false, ksevenKey = false, keightKey = false, knineKey = false, 
-zeroKey = false, oneKey = false, twoKey = false, threeKey = false, fourKey = false, 
-fiveKey = false, sixKey = false, sevenKey = false, eightKey = false, nineKey = false,
-returnKey = false, backspaceKey = false, spaceKey = false, lshiftKey = false, rshiftKey = false, tabKey = false, 
-kdivideKey = false, kmultiplyKey = false, kminusKey = false, kplusKey = false, kenterKey = false, kperiodKey = false, 
-minusKey = false, equalsKey = false, leftbracketKey = false, rightbracketKey = false, backslashKey = false, 
-semicolonKey = false, commaKey = false, periodKey = false, slashKey = false, 
-f1Key = false, f2Key = false, f3Key = false, f4Key = false, f5Key = false, 
-f9Key = false, f10Key = false, f11Key = false, f12Key = false, printscreenKey = false, 
-insertKey = false, homeKey = false, pageupKey = false, deleteKey = false, endKey = false, pagedownKey = false, 
-nonushashKey = false, apostropheKey = false, graveKey = false, 
+
+public bool end = false, fskip = false, full = false, fullReal = false, aspect = false,
+esc = false, paste = false, printscreenKey = false, nonushashKey = false, apostropheKey = false, graveKey = false,
+upKey = false, downKey = false, leftKey = false, rightKey = false, leftbracketKey = false, rightbracketKey = false, backslashKey = false,
+aKey = false, bKey = false, cKey = false, dKey = false, eKey = false, fKey = false, gKey = false, hKey = false,
+iKey = false, jKey = false, kKey = false, lKey = false, mKey = false, nKey = false, oKey = false, pKey = false,
+qKey = false, rKey = false, sKey = false, tKey = false, uKey = false, vKey = false, wKey = false, xKey = false, yKey = false, zKey = false,
+kzeroKey = false, koneKey = false, ktwoKey = false, kthreeKey = false, kfourKey = false, kfiveKey = false, ksixKey = false, ksevenKey = false, keightKey = false, knineKey = false,
+zeroKey = false, oneKey = false, twoKey = false, threeKey = false, fourKey = false, fiveKey = false, sixKey = false, sevenKey = false, eightKey = false, nineKey = false,
+returnKey = false, backspaceKey = false, spaceKey = false, lshiftKey = false, rshiftKey = false, tabKey = false,
+kdivideKey = false, kmultiplyKey = false, kminusKey = false, kplusKey = false, kenterKey = false, kperiodKey = false,
+minusKey = false, equalsKey = false, semicolonKey = false, commaKey = false, periodKey = false, slashKey = false,
+f1Key = false, f2Key = false, f3Key = false, f4Key = false, f5Key = false, f9Key = false, f10Key = false, f11Key = false, f12Key = false,
+insertKey = false, homeKey = false, pageupKey = false, deleteKey = false, endKey = false, pagedownKey = false,
 getGamepadKeyA = false, getGamepadKeyB = false, getGamepadKeyC = false;
+
 public &Key
 {
   public |.sdl.K key = .sdl.K::UNKNOWN;

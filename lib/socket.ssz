@@ -1,4 +1,3 @@
-
 const index INVALID_SOCKET = !0;
 
 public &Socket
