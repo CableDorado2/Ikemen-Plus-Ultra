@@ -1,13 +1,21 @@
-lib stage = "stage.ssz";
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+
+
+//Load "lib/alpha/" Scripts
+lib lua = <alpha/lua.ssz>;
+lib se = <alpha/sdlevent.ssz>;
+
+//Load "script/ssz/" Scripts
 lib chr = "char.ssz";
 lib cmd = "command.ssz";
-lib fnt = "font.ssz";
 lib com = "common.ssz";
-lib se = <alpha/sdlevent.ssz>;
-lib lua = <alpha/lua.ssz>;
+lib fnt = "font.ssz";
+lib stage = "stage.ssz";
 lib snd = "sound.ssz";
-lib cfg = "../save/config.ssz";
 lib sc = "system-script.ssz";
+
 
 public &Share
 {

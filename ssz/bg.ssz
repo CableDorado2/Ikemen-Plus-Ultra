@@ -1,8 +1,16 @@
-lib s = <string.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
 lib m = <math.ssz>;
-lib sff = "sff.ssz";
+lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
 lib com = "common.ssz";
+lib sff = "sff.ssz";
+
 
 public ^^/char splitParams(^/char paramStr)
 {

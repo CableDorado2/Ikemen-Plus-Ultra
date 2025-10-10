@@ -1,16 +1,23 @@
-lib s = <string.ssz>;
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
 lib m = <math.ssz>;
+lib s = <string.ssz>;
+lib th = <thread.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib lua = <alpha/lua.ssz>;
 lib se = <alpha/sdlevent.ssz>;
-lib stb = "statebuilder.ssz";
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
 lib chr = "char.ssz";
 lib com = "common.ssz";
-lib stg = "stage.ssz";
 lib sff = "sff.ssz";
+lib stg = "stage.ssz";
+lib stb = "statebuilder.ssz";
 lib sc = "system-script.ssz";
-lib lua = <alpha/lua.ssz>;
-lib th = <thread.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
-lib cfg = "../save/config.ssz";
+
 
 /^^/char code.new(#.chr.chars);
 /^/char errorMes;

@@ -1,8 +1,15 @@
-lib s = <string.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
-lib sff = "sff.ssz";
-lib com = "common.ssz";
 lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
+lib com = "common.ssz";
+lib sff = "sff.ssz";
+
 
 public &Rect
 {

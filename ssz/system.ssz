@@ -1,12 +1,20 @@
-lib file = <file.ssz>;
-lib s = <string.ssz>;
-lib m = <math.ssz>;
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
 lib al = <alert.ssz>;
+lib file = <file.ssz>;
+lib m = <math.ssz>;
+lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
+
+
+//Load "script/ssz/" Scripts
+lib act = "action.ssz";
 lib com = "common.ssz";
 lib fgt = "fight.ssz";
 lib sff = "sff.ssz";
-lib cfg = "../save/config.ssz";
-lib act = "action.ssz";
+
 
 public &Select
 {

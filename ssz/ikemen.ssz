@@ -1,18 +1,25 @@
-lib mes = <alpha/mesdialog.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+lib al = <alert.ssz>;
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib lua = <alpha/lua.ssz>;
+lib mes = <alpha/mesdialog.ssz>;
 lib se = <alpha/sdlevent.ssz>;
-lib cfg = "../save/config.ssz";
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
 lib chr = "char.ssz";
+lib cmd = "command.ssz";
 lib com = "common.ssz";
+lib fnt = "font.ssz";
+lib ld = "loader.ssz";
 lib sha = "share.ssz";
 lib sc = "system-script.ssz";
-lib cmd = "command.ssz";
-lib fnt = "font.ssz";
-lib lua = <alpha/lua.ssz>;
-lib al = <alert.ssz>;
-lib ld = "loader.ssz";
+
 
 ^^/char code.new(#.chr.chars);
 
@@ -75,6 +82,7 @@ int match()
   loop{do: retval = .game(); while retval == -2:}
   ret retval;
 }
+
 int game()
 {
   int winp = 0;

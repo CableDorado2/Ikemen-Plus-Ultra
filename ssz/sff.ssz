@@ -1,11 +1,18 @@
-﻿lib file = <file.ssz>;
-lib s = <string.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
+﻿lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
 lib consts = <consts.ssz>;
+lib file = <file.ssz>;
 lib m = <math.ssz>;
+lib s = <string.ssz>;
 lib tbl = <table.ssz>;
-lib cfg = "../save/config.ssz";
+
+//Load "lib/alpha/" Scripts
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
 lib com = "common.ssz";
+
 
 const int NumCharPalletes = 12;
 

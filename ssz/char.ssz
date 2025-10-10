@@ -1,21 +1,28 @@
-lib file = <file.ssz>;
-lib s = <string.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
-lib consts = <consts.ssz>;
-lib m = <math.ssz>;
-lib sff = "sff.ssz";
-lib cmd = "command.ssz";
-lib stage = "stage.ssz";
-lib com = "common.ssz";
 lib cfg = "../save/config.ssz";
-lib snd = "sound.ssz";
-lib fgt = "fight.ssz";
-lib act = "action.ssz";
-lib mes = <alpha/mesdialog.ssz>;
-lib fnt = "font.ssz";
+
+//Load "lib/" Scripts
 lib al = <alert.ssz>;
+lib consts = <consts.ssz>;
+lib file = <file.ssz>;
+lib m = <math.ssz>;
+lib s = <string.ssz>;
 lib tbl = <table.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib mes = <alpha/mesdialog.ssz>;
 lib se = <alpha/sdlevent.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
+lib act = "action.ssz";
+lib cmd = "command.ssz";
+lib com = "common.ssz";
+lib fgt = "fight.ssz";
+lib fnt = "font.ssz";
+lib sff = "sff.ssz";
+lib snd = "sound.ssz";
+lib stage = "stage.ssz";
+
 
 int changeStateNest = 0;
 int waitdown = 0, shuttertime = 0;

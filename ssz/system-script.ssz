@@ -1,25 +1,31 @@
-lib s = <string.ssz>;
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
 lib consts = <consts.ssz>;
+lib m = <math.ssz>;
+lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib lua = <alpha/lua.ssz>;
 lib se = <alpha/sdlevent.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
-lib m = <math.ssz>;
-lib sff = "sff.ssz";
+
+//Load "script/ssz/" Scripts
 lib bg = "bg.ssz";
-lib cmd = "command.ssz";
-lib fnt = "font.ssz";
-lib com = "common.ssz";
-lib cfg = "../save/config.ssz";
-lib snd = "sound.ssz";
 lib chr = "char.ssz";
-lib lua = <alpha/lua.ssz>;
-lib sys = "system.ssz";
+lib cmd = "command.ssz";
+lib com = "common.ssz";
+lib fnt = "font.ssz";
 lib sc = "script.ssz";
+lib sff = "sff.ssz";
+lib snd = "sound.ssz";
+lib sys = "system.ssz";
 lib vid = "video.ssz";
+
 
 ^/char listenPort = .cfg.listenPort;
 ^/char UserName = .cfg.UserName;
 .com.brightness = .cfg.Brightness;
-
 .sdl.setVolume(.cfg.GlVol, .cfg.SEVol, .cfg.BGMVol);
 
 public bool keyReset = false, p1PadReset = false, p2PadReset = false;

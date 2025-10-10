@@ -1,16 +1,23 @@
-lib str = <string.ssz>;
-lib consts = <consts.ssz>;
-lib mes = <alpha/mesdialog.ssz>;
-lib m = <math.ssz>;
-lib tbl = <table.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
-lib soc = <socket.ssz>;
-lib th = <thread.ssz>;
-lib se = <alpha/sdlevent.ssz>;
-lib file = <file.ssz>;
 lib cfg = "../save/config.ssz";
-lib com = "common.ssz";
+
+//Load "lib/" Scripts
 lib al = <alert.ssz>;
+lib consts = <consts.ssz>;
+lib file = <file.ssz>;
+lib m = <math.ssz>;
+lib soc = <socket.ssz>;
+lib str = <string.ssz>;
+lib tbl = <table.ssz>;
+lib th = <thread.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib mes = <alpha/mesdialog.ssz>;
+lib se = <alpha/sdlevent.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
+lib com = "common.ssz";
+
 
 public int max(int x, int y)
 {

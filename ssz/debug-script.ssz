@@ -1,16 +1,23 @@
-lib lua = <alpha/lua.ssz>;
-lib sc = "script.ssz";
-lib chr = "char.ssz";
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
 lib al = <alert.ssz>;
-lib tscri = "trigger-script.ssz";
-lib sscri = "system-script.ssz";
+lib m = <math.ssz>;
+lib sh = <shell.ssz>;
+lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib lua = <alpha/lua.ssz>;
+
+//Load "script/ssz/" Scripts
+lib chr = "char.ssz";
 lib cmd = "command.ssz";
 lib com = "common.ssz";
-lib m = <math.ssz>;
-lib s = <string.ssz>;
+lib sc = "script.ssz";
 lib snd = "sound.ssz";
-lib cfg = "../save/config.ssz";
-lib sh = <shell.ssz>;
+lib sscri = "system-script.ssz";
+lib tscri = "trigger-script.ssz";
+
 
 public bool roundResetFlg = false, reloadFlg = false;
 

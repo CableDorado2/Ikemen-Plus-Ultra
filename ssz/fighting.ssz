@@ -1,21 +1,28 @@
-lib mes = <alpha/mesdialog.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
-lib s = <string.ssz>;
-lib m = <math.ssz>;
-lib se = <alpha/sdlevent.ssz>;
-lib al = <alert.ssz>;
-lib sff = "sff.ssz";
-lib chr = "char.ssz";
 lib cfg = "../save/config.ssz";
-lib com = "common.ssz";
-lib fnt = "font.ssz";
-lib sha = "share.ssz";
-lib tbl = <table.ssz>;
+
+//Load "lib/" Scripts
+lib al = <alert.ssz>;
 lib file = <file.ssz>;
+lib m = <math.ssz>;
+lib s = <string.ssz>;
+lib tbl = <table.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib mes = <alpha/mesdialog.ssz>;
+lib se = <alpha/sdlevent.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
+lib chr = "char.ssz";
 lib cmd = "command.ssz";
+lib com = "common.ssz";
 lib dscri = "debug-script.ssz";
-lib tscri = "trigger-script.ssz";
+lib fnt = "font.ssz";
+lib sff = "sff.ssz";
+lib sha = "share.ssz";
 lib snd = "sound.ssz";
+lib tscri = "trigger-script.ssz";
+
 
 const double lvmul = 2.0**(1.0/12.0);
 

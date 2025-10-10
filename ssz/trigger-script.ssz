@@ -1,11 +1,18 @@
-lib cmd = "command.ssz";
-lib s = <string.ssz>;
-lib m = <math.ssz>;
-lib lua = <alpha/lua.ssz>;
-lib sc = "script.ssz";
-lib chr = "char.ssz";
-lib com = "common.ssz";
 lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+lib m = <math.ssz>;
+lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib lua = <alpha/lua.ssz>;
+
+//Load "script/ssz/" Scripts
+lib chr = "char.ssz";
+lib cmd = "command.ssz";
+lib com = "common.ssz";
+lib sc = "script.ssz";
+
 
 public ^&chr.Char cwc;
 

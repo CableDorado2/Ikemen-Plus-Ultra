@@ -1,3 +1,4 @@
+//COMMON1.CNS S-SIZE LANGUAGE EXAMPLE
 
 [Statedef 0]
 SSZ_CODE:
@@ -36,7 +37,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 10]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -64,7 +64,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 11]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -89,7 +88,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 12]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -112,7 +110,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 20]
 SSZ_CODE:
@@ -153,7 +150,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 40]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -190,7 +186,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 45]
 SSZ_CODE:
@@ -231,7 +226,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 50]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -265,7 +259,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 51]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -281,7 +274,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 52]
 SSZ_CODE:
@@ -317,7 +309,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 100]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -343,7 +334,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 105]
 SSZ_CODE:
@@ -376,7 +366,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 106]
 SSZ_CODE:
@@ -419,7 +408,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 110]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -449,7 +437,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 115]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -478,7 +465,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 120]
 SSZ_CODE:
@@ -530,7 +516,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 130]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -558,7 +543,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 131]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -585,7 +569,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 132]
 SSZ_CODE:
@@ -621,7 +604,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 140]
 SSZ_CODE:
@@ -664,7 +646,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 150]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -704,7 +685,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 151]
 SSZ_CODE:
@@ -746,7 +726,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 152]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -786,7 +765,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 153]
 SSZ_CODE:
@@ -828,7 +806,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 154]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -856,7 +833,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 155]
 SSZ_CODE:
@@ -894,7 +870,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 170]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -918,7 +893,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 175]
 SSZ_CODE:
@@ -950,7 +924,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 190]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -977,7 +950,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 191]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1000,7 +972,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5000]
 SSZ_CODE:
@@ -1072,7 +1043,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5001]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1102,7 +1072,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5010]
 SSZ_CODE:
@@ -1173,7 +1142,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5011]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1200,7 +1168,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5020]
 SSZ_CODE:
@@ -1264,7 +1231,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5030]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1312,7 +1278,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5035]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1353,7 +1318,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5040]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1390,7 +1354,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5050]
 SSZ_CODE:
@@ -1452,7 +1415,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5070]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1480,7 +1442,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5071]
 SSZ_CODE:
@@ -1511,7 +1472,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5080]
 SSZ_CODE:
@@ -1555,7 +1515,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5081]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1582,7 +1541,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5100]
 SSZ_CODE:
@@ -1674,7 +1632,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5101]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1715,7 +1672,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5110]
 SSZ_CODE:
@@ -1834,7 +1790,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5120]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1875,7 +1830,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5150]
 SSZ_CODE:
@@ -1937,7 +1891,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5200]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -1964,7 +1917,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5201]
 SSZ_CODE:
@@ -2024,7 +1976,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5210]
 SSZ_CODE:
@@ -2099,7 +2050,6 @@ void c.Char::s##_@@PInit()
   `stVal.juggle = 0;
 }
 
-
 [Statedef 5500]
 SSZ_CODE:
 void c.Char::s##_@@P()
@@ -2122,7 +2072,6 @@ void c.Char::s##_@@PInit()
   `clearMoveHit();
   `stVal.juggle = 0;
 }
-
 
 [Statedef 5900]
 SSZ_CODE:

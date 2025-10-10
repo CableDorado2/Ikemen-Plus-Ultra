@@ -1,14 +1,21 @@
-lib file = <file.ssz>;
-lib s = <string.ssz>;
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+lib al = <alert.ssz>;
 lib consts = <consts.ssz>;
-lib mes = <alpha/mesdialog.ssz>;
-lib tbl = <table.ssz>;
+lib file = <file.ssz>;
 lib m = <math.ssz>;
+lib s = <string.ssz>;
+lib tbl = <table.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib mes = <alpha/mesdialog.ssz>;
+
+//Load "script/ssz/" Scripts
 lib chr = "char.ssz";
 lib cmd = chr.cmd;
 lib com = "common.ssz";
-lib cfg = "../save/config.ssz";
-lib al = <alert.ssz>;
+
 
 const ^/char enzansiMoji = "=<>|&+*/%^";
 const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;

@@ -1,17 +1,24 @@
-lib file = <file.ssz>;
-lib s = <string.ssz>;
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+lib al = <alert.ssz>;
 lib consts = <consts.ssz>;
+lib file = <file.ssz>;
 lib m = <math.ssz>;
+lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
 lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
+lib act = "action.ssz";
+lib bg = "bg.ssz";
+lib cmd = "command.ssz";
+lib com = "common.ssz";
+lib fnt = "font.ssz";
 lib sff = "sff.ssz";
 lib snd = "sound.ssz";
-lib com = "common.ssz";
-lib act = "action.ssz";
-lib fnt = "font.ssz";
-lib bg = "bg.ssz";
-lib cfg = "../save/config.ssz";
-lib cmd = "command.ssz";
-lib al = <alert.ssz>;
+
 
 public &LifePower
 {

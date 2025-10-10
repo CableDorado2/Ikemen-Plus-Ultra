@@ -1,19 +1,27 @@
+lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+lib consts = <consts.ssz>;
+lib file = <file.ssz>;
+lib m = <math.ssz>;
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
-lib consts = <consts.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib lua = <alpha/lua.ssz>;
+lib mes = <alpha/mesdialog.ssz>;
 lib se = <alpha/sdlevent.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
-lib mes = <alpha/mesdialog.ssz>;
-lib m = <math.ssz>;
-lib sff = "sff.ssz";
-lib cmd = "command.ssz";
-lib fnt = "font.ssz";
-lib snd = "sound.ssz";
-lib lua = <alpha/lua.ssz>;
-lib com = "common.ssz";
-lib vid = "video.ssz";
-lib file = <file.ssz>;
+
+//Load "script/ssz/" Scripts
 lib chr = "char.ssz";
+lib cmd = "command.ssz";
+lib com = "common.ssz";
+lib fnt = "font.ssz";
+lib sff = "sff.ssz";
+lib snd = "sound.ssz";
+lib vid = "video.ssz";
+
 
 public double numArg(&.lua.State L=, int re=, int argc=, int nresults)
 {

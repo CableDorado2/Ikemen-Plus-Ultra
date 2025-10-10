@@ -1,14 +1,21 @@
-lib file = <file.ssz>;
-lib s = <string.ssz>;
-lib m = <math.ssz>;
-lib consts = <consts.ssz>;
-lib tbl = <table.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
 lib cfg = "../save/config.ssz";
-lib sff = "sff.ssz";
-lib com = "common.ssz";
-lib re = <regex.ssz>;
+
+//Load "lib/" Scripts
 lib al = <alert.ssz>;
+lib consts = <consts.ssz>;
+lib file = <file.ssz>;
+lib m = <math.ssz>;
+lib re = <regex.ssz>;
+lib s = <string.ssz>;
+lib tbl = <table.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib sdl = <alpha/sdlplugin.ssz>;
+
+//Load "script/ssz/" Scripts
+lib com = "common.ssz";
+lib sff = "sff.ssz";
+
 
 public &Font
 {

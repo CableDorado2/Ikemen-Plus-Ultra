@@ -1,12 +1,20 @@
-lib file = <file.ssz>;
-lib s = <string.ssz>;
-lib m = <math.ssz>;
-lib consts = <consts.ssz>;
-lib sff = "sff.ssz";
-lib com = "common.ssz";
-lib bg = "bg.ssz";
 lib cfg = "../save/config.ssz";
+
+//Load "lib/" Scripts
+lib consts = <consts.ssz>;
+lib file = <file.ssz>;
+lib m = <math.ssz>;
+lib s = <string.ssz>;
 lib tbl = <table.ssz>;
+
+//Load "lib/alpha/" Scripts
+
+
+//Load "script/ssz/" Scripts
+lib bg = "bg.ssz";
+lib com = "common.ssz";
+lib sff = "sff.ssz";
+
 
 public ^&com.PalFX bgPalFX;
 bgPalFX.new(1);
