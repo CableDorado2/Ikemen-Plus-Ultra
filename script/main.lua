@@ -11354,7 +11354,7 @@ function f_orderSelectCursor()
 	local xPortScaleR, yPortScaleR = nil
 	textImgSetBank(txt_p1State, 0) --Reset Text Color
 	textImgSetBank(txt_p2State, 0)
-	f_resetVersusLogo()
+	animReset(vsLogo)
 --Set order time
 	if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
 		--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
@@ -11836,7 +11836,7 @@ function f_orderSelectButton()
 	local xPortScaleR, yPortScaleR = nil
 	textImgSetBank(txt_p1State, 0) --Reset Text Color
 	textImgSetBank(txt_p2State, 0)
-	f_resetVersusLogo()
+	animReset(vsLogo)
 --Set order time
 	if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
 		--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
@@ -12347,7 +12347,7 @@ function f_selectVersus()
 		local hintTime = 0
 		local timeLimit = 150
 		f_getVSHint() --Load First Hint
-		f_resetVersusLogo()
+		animReset(vsLogo) --Since the animation stays at -1, this helps it repeat without reload the anim via animNew().
 	--Portraits Scale Logic
 		local charDataL = t_selChars[data.t_p1selected[1].cel+1]
 		local charDataR = t_selChars[data.t_p2selected[1].cel+1]
@@ -13727,7 +13727,7 @@ end
 --; CONTINUE SCREEN
 --;===========================================================
 function f_continueReset()
-	f_contTimerReset()
+	animReset(contTimer)
 	sndPlay(sndCont, 1, 1)
 end
 
@@ -13786,7 +13786,7 @@ function f_continue()
 	end
 	attractContinueTimer = 0
 	if attractContinueTimer == 0 then f_continueReset() end
-	f_gameOverReset()
+	animReset(gameOver)
 	textImgSetText(txt_contTimesCfg, txt_contTimes..stats.continueCount)
 	setService("")
 	serviceTeam = false
@@ -14084,7 +14084,7 @@ function f_gameOver()
 			anim4, animLength4 = f_animFromTable(tablePos4['lieDown'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 		end
 	end
-	f_gameOverReset()
+	animReset(gameOver)
 	sndPlay(sndCont, 1, 0)
 	playBGM(bgmGameOver)
 	while true do
