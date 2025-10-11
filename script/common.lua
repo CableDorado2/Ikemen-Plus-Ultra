@@ -1670,7 +1670,6 @@ end
 --; STORYBOARD DEFINITION
 --;===========================================================
 t_data = {} --stores all SFF, SND, FNT data structures
-
 function f_storyboard(path)
 	local file = io.open(path, 'r')
 	local all = file:read("*all")
@@ -1752,6 +1751,7 @@ function f_storyboard(path)
 	file:close()
 	if data.debugLog then f_printTable(t, 'save/debug/storyboard/t_'..fileName..'.log') end
 	f_storyboardPlay(t)
+	sndStop()
 	return
 end
 
@@ -4655,21 +4655,19 @@ function f_loadLuaMods(bool)
 					f_loadExternalModules(details)
 					if attribute.mode == "file" then --If the item have "file" attribute
 						if item:match('^.*(%.)[Ll][Uu][Aa]$') then
-						--Check if the file contains a specific line if matchload bool is true
-							if matchload then
-								local file = io.open(details, "r")
-								excludeFile = false
-								if file then
-									for line in file:lines() do
-										if line:find("local excludeLuaMatch = true") then
-											excludeFile = true
-											break
-										end
+						--Check if the file contains a specific line to load a module
+							local file = io.open(details, "r")
+							excludeFile = true
+							if file then
+								for line in file:lines() do
+									if (matchload and line:find("local includeLuaMatch = true")) or (not matchload and line:find("local loadLuaModule = true")) then
+										excludeFile = false
+										break
 									end
-									file:close()
 								end
+								file:close()
 							end
-						--Only add the module if it does not contain the "exclude" line
+						--Only add the module if contains "loadlua" line and if contain the "include" line when enter in a match
 							if not excludeFile then
 								row = #t_luaExternalMods+1
 								t_luaExternalMods[row] = {}

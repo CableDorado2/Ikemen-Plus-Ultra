@@ -4,16 +4,16 @@
 ;
 ;----------------------------------------------------------------
 [Files]
-sff = data/gms_lifebar/fight.sff
+sff = fight.sff
 snd = fight.snd
-font1 = data/gms_lifebar/font2.fnt
-font2 = data/gms_lifebar/timer.fnt
-font3 = data/gms_lifebar/round.fnt
-font4 = data/gms_lifebar/combo.fnt
-font5 = data/gms_lifebar/wincount.fnt
-fightfx.sff = fightfx.sff
-fightfx.air = fightfx.air
-common.snd = common.snd
+font1 = font2.fnt
+font2 = timer.fnt
+font3 = round.fnt
+font4 = combo.fnt
+font5 = wincount.fnt
+fightfx.sff = data/fightfx.sff
+fightfx.air = data/fightfx.air
+common.snd = data/common.snd
 
 ;-----------------------------------------------------------
 [Lifebar]

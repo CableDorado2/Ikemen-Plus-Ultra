@@ -1,5 +1,5 @@
-lib time = <time.ssz>;
 lib consts = <consts.ssz>;
+lib time = <time.ssz>;
 
 const double PI = 3.141592653589793238462643383279502884197;
 const double E  = 2.718281828459045235360287471352662497757;

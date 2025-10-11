@@ -1,8 +1,8 @@
+local loadLuaModule = true
 --[[=============================================================================
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 local missionDef = "script/mods/missions/missions.def" --Missions Data (Missions definition filename)
 local missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sprites
 --;===========================================================

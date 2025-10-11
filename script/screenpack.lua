@@ -2,19 +2,18 @@
 --; SCREENPACK ASSETS DEFINITION
 --;===========================================================
 --Sprite Data
-sprFade = sffNew("data/screenpack/fade.sff") --load fade sprites
-sprLogos = sffNew("data/screenpack/logo.sff") --load logos sprites
-sprSys = sffNew("data/screenpack/system.sff") --load screenpack/menu MUGEN sprites
-sprIkemen = sffNew("data/screenpack/ikemen.sff") --load screenpack/menu IKEMEN sprites
-sprGlyphs = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
-sprCont = sffNew("data/screenpack/continue.sff") --load continue sprites
-sprTourney = sffNew("data/screenpack/tournament.sff") --load tournament mode sprites
+sprFade = sffNew("data/fade.sff") --load fade sprites
+sprLogos = sffNew("data/logo.sff") --load logos sprites
+sprSys = sffNew("data/system.sff") --load screenpack/menu MUGEN sprites
+sprIkemen = sffNew("data/ikemen.sff") --load screenpack/menu IKEMEN sprites
+sprGlyphs = sffNew("data/glyphs.sff") --load movelist sprites
+sprCont = sffNew("data/continue.sff") --load continue sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
 --[[Load input hints sprites data
 group is organized based on controller type (0=Keyboard, 1=XBOX Gamepad, 2=PS3 Gamepad)
 index is organized based on controller key/button id returned by SDL functions [getInputKeyboard(), getInputID()]
 ]]
-sprInputHints = sffNew("data/screenpack/inputhints.sff")
+sprInputHints = sffNew("data/inputhints.sff")
 keyboardInputHintsScaleX = 0.7
 keyboardInputHintsScaleY = 0.7
 --
@@ -22,36 +21,37 @@ gamepadInputHintsScaleX = 0.7
 gamepadInputHintsScaleY = 0.7
 
 --Sound Data (Sound effects [SFX] do not interrupt music/bgm)
-sndSys = sndNew("data/screenpack/system.snd")
-sndAnncr = sndNew("data/screenpack/announcer.snd")
-sndCont = sndNew("data/screenpack/continue.snd")
+sndSys = sndNew("data/system.snd")
+sndIkemen = sndNew("data/ikemen.snd")
+sndAnncr = sndNew("data/announcer.snd")
+sndCont = sndNew("data/continue.snd")
 
 --Music Data (ONLY MP3 and OGG formats are Supported)
 bgmNothing = " .mp3"
-bgmIntro = "sound/System/Opening.mp3"
-bgmIntroJP = "sound/System/Opening Lyrics.mp3"
-bgmTitle = "sound/System/Title.mp3"
-bgmSelectBoss = "sound/System/select/Select Boss.mp3"
-bgmSelectOrder = "sound/System/Order Select.mp3"
-bgmSelectOrderFinal = "sound/System/Order Select Final.mp3"
-bgmNextStage = "sound/System/Next Stage.mp3"
+bgmIntro = "sound/system/Opening.mp3"
+bgmIntroJP = "sound/system/Opening Lyrics.mp3"
+bgmTitle = "sound/system/Title.mp3"
+bgmSelectBoss = "sound/system/select/Select Boss.mp3"
+bgmSelectOrder = "sound/system/Order Select.mp3"
+bgmSelectOrderFinal = "sound/system/Order Select Final.mp3"
+bgmNextStage = "sound/system/Next Stage.mp3"
 bgmIntermission = "sound/system/Intermission.mp3"
-bgmVS = "sound/System/VS.mp3"
-bgmVSFinal = "sound/System/VS Final.mp3"
+bgmVS = "sound/system/VS.mp3"
+bgmVSFinal = "sound/system/VS Final.mp3"
 bgmVSSpecial = "sound/system/VS Special.mp3"
-bgmVictory = "sound/System/Results.mp3"
-bgmResults = "sound/System/Results.mp3"
-bgmService = "sound/System/Service.mp3"
-bgmContinue = "sound/System/Continue.mp3"
-bgmGameOver = "sound/System/Game Over.mp3"
+bgmVictory = "sound/system/Results.mp3"
+bgmResults = "sound/system/Results.mp3"
+bgmService = "sound/system/Service.mp3"
+bgmContinue = "sound/system/Continue.mp3"
+bgmGameOver = "sound/system/Game Over.mp3"
 bgmCredits = "sound/system/credits.mp3"
-bgmTower = "sound/System/Tower.mp3"
-bgmTourney = "sound/System/Tourney.mp3"
-bgmTourneyChampion = "sound/System/Champion.mp3"
-bgmAbyss = "sound/System/Abyss.mp3"
-bgmLegion = "sound/System/Legion.mp3"
-bgmAlliance = "sound/System/Alliance.mp3"
-bgmVNIntro = "sound/System/Ranking.mp3"
+bgmTower = "sound/system/Tower.mp3"
+bgmTourney = "sound/system/Tourney.mp3"
+bgmTourneyChampion = "sound/system/Champion.mp3"
+bgmAbyss = "sound/system/Abyss.mp3"
+bgmLegion = "sound/system/Legion.mp3"
+bgmAlliance = "sound/system/Alliance.mp3"
+bgmVNIntro = "sound/system/Ranking.mp3"
 
 --Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -90,9 +90,9 @@ font24 = fontNew("font/extra/ssf2x_vL.fnt")
 font30 = fontNew("font/extra/F-.fnt")
 
 --Storyboard Data (Optional)
-storyboardLogo = "data/screenpack/logo.def"
-storyboardIntro = "data/screenpack/intro.def"
-storyboardGameOver = "data/screenpack/gameover.def"
+storyboardLogo = "data/logo.def"
+storyboardIntro = "data/intro.def"
+storyboardGameOver = "data/gameover.def"
 
 --Video Data (Recommended for large cutscenes instead storyboards)
 videoHowToPlay = "data/videos/How To Play.wmv"
@@ -104,7 +104,7 @@ vnDef = "data/visualnovel/vnselect.def" --Visual Novels
 
 --Paths Data
 licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
-replaysPath = "replays" --Replays Path
+replaysPath = "save/replays" --Replays Path
 screenshotPath = "screenshots" --Screenshots Path
 musicPath = "sound" --Main Soundtrack Path
 luaModules = { --Lua External Modules Folder Paths
@@ -3451,18 +3451,18 @@ function drawTourneyInputHints()
 end
 
 --4 Players Grid
-tourney4 = animNew(sprTourney, [[
-1,4, 0,0, -1
+tourney4 = animNew(sprIkemen, [[
+50,1, 0,0, -1
 ]])
 
 --8 Players Grid
-tourney8 = animNew(sprTourney, [[
-1,8, 0,0, -1
+tourney8 = animNew(sprIkemen, [[
+50,2, 0,0, -1
 ]])
 
 --16 Players Grid
-tourney16 = animNew(sprTourney, [[
-1,16, 0,0, -1
+tourney16 = animNew(sprIkemen, [[
+50,3, 0,0, -1
 ]])
 
 --;===========================================================
@@ -3525,68 +3525,68 @@ function f_addTourneySlots()
 end
 
 --P1 active cursor
-tourneyP1Cursor = animNew(sprTourney, [[
-2,1, 0,0, -1
+tourneyP1Cursor = animNew(sprIkemen, [[
+51,1, 0,0, -1
 ]])
 
 --P2 active cursor
-tourneyP2Cursor = animNew(sprTourney, [[
-2,3, 0,0, -1
+tourneyP2Cursor = animNew(sprIkemen, [[
+52,1, 0,0, -1
 ]])
 
 --Player 1 Control
-tourneyP1 = animNew(sprTourney, [[
-4,1, 0,0, -1
+tourneyP1 = animNew(sprIkemen, [[
+53,1, 0,0, -1
 ]])
 
 --Player 2 Control
-tourneyP2 = animNew(sprTourney, [[
-4,2, 0,0, -1
+tourneyP2 = animNew(sprIkemen, [[
+53,2, 0,0, -1
 ]])
 
 --CPU Level 1
-tourneyAI1 = animNew(sprTourney, [[
-3,1, 0,0, -1
+tourneyAI1 = animNew(sprIkemen, [[
+54,1, 0,0, -1
 ]])
 
 --CPU Level 2
-tourneyAI2 = animNew(sprTourney, [[
-3,2, 0,0, -1
+tourneyAI2 = animNew(sprIkemen, [[
+54,2, 0,0, -1
 ]])
 
 --CPU Level 3
-tourneyAI3 = animNew(sprTourney, [[
-3,3, 0,0, -1
+tourneyAI3 = animNew(sprIkemen, [[
+54,3, 0,0, -1
 ]])
 
 --CPU Level 4
-tourneyAI4 = animNew(sprTourney, [[
-3,4, 0,0, -1
+tourneyAI4 = animNew(sprIkemen, [[
+54,4, 0,0, -1
 ]])
 
 --CPU Level 5
-tourneyAI5 = animNew(sprTourney, [[
-3,5, 0,0, -1
+tourneyAI5 = animNew(sprIkemen, [[
+54,5, 0,0, -1
 ]])
 
 --CPU Level 6
-tourneyAI6 = animNew(sprTourney, [[
-3,6, 0,0, -1
+tourneyAI6 = animNew(sprIkemen, [[
+54,6, 0,0, -1
 ]])
 
 --CPU Level 7
-tourneyAI7 = animNew(sprTourney, [[
-3,7, 0,0, -1
+tourneyAI7 = animNew(sprIkemen, [[
+54,7, 0,0, -1
 ]])
 
 --CPU Level 8
-tourneyAI8 = animNew(sprTourney, [[
-3,8, 0,0, -1
+tourneyAI8 = animNew(sprIkemen, [[
+54,8, 0,0, -1
 ]])
 
 --Random Icon
-tourneyRandomIcon = animNew(sprTourney, [[
-2,0, 0,0, -1
+tourneyRandomIcon = animNew(sprIkemen, [[
+55,0, 0,0, -1
 ]])
 
 --Input Hints BG
@@ -3637,19 +3637,12 @@ txt_tourneyPlace1 = createTextImg(font13, 0, 0, "", 163, 157, 0.65, 0.65)
 txt_tourneyPlace2 = createTextImg(font13, 0, 0, "", 62, 182, 0.65, 0.65)
 txt_tourneyPlace3 = createTextImg(font13, 0, 0, "", 261, 201, 0.65, 0.65)
 
---Awards Assets (Single Elimination) Unused
-tourneyAwards1 = animNew(sprTourney, [[
-5,1, 0,0, -1
+--Awards Assets
+tourneyAwards = animNew(sprIkemen, [[
+56,0, 0,0, -1
 ]])
-animAddPos(tourneyAwards1, 0, 100)
-animUpdate(tourneyAwards1)
-
---Awards Assets (Double Elimination)
-tourneyAwards2 = animNew(sprTourney, [[
-5,2, 0,0, -1
-]])
-animAddPos(tourneyAwards2, 0, 0)
-animUpdate(tourneyAwards2)
+animAddPos(tourneyAwards, 0, 0)
+animUpdate(tourneyAwards)
 
 --;===========================================================
 --; ABYSS SELECT MENU SCREENPACK DEFINITION

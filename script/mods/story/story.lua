@@ -1,8 +1,8 @@
+local loadLuaModule = true
 --[[=============================================================================
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 --local storyDef = "script/mods/story/story.def" --Story Data (Story definition filename)
 local sprStory = sffNew("script/mods/story/story.sff") --load story sprites
 local bgmStory = "script/mods/story/Story.mp3" --load story main bgm

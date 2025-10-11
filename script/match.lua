@@ -5,10 +5,12 @@ assert(loadfile("script/common.lua"))() --For load options data, screenshot sfx,
 require("script.pause")
 f_loadLuaMods(true) --Load External Lua Modules
 --[[
-Becareful with load big sff files from external modules.
-Is better load them in screenpack.lua or use:
-local excludeLuaMatch = true
-as first line in the module, to avoid load it inside match (if is not necessary).
+If you need to load a module during a match, use:
+
+local includeLuaMatch = true --This module will be loaded during a match.
+
+As first line in the module, to allow load it inside a match.
+(This verification is required due optimization purposes).
 ]]
 --;===========================================================
 --; DEBUG HOTKEYS DEFINITION

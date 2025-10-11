@@ -29,14 +29,13 @@ localcoord = 1280,720 ;Local coordinate space width and height
 [Files]
 sff = fight.sff
 snd = fight.snd
-font1 = enter48.def
-font2 = num48.def
-font3 = name14.def
-font4 = num1.def
-fightfx.sff = fightfx.sff
-fightfx.air = fightfx.air
+font1 = font/enter48.def
+font2 = font/num48.def
+font3 = font/name14.def
+font4 = font/num1.def
+fightfx.sff = data/fightfx.sff
+fightfx.air = data/fightfx.air
 common.snd = common.snd
-fx1 = gofx1280.def; new ikemen fx
 ;-----------------------------------------------------------
 [FightFx]
 scale = 4

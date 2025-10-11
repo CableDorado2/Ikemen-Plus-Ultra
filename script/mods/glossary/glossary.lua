@@ -1,8 +1,8 @@
+local loadLuaModule = true
 --[[=============================================================================
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-local excludeLuaMatch = true --This module will not load during a match (for optimization purposes)
 local glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossary definition filename)
 --local sprGlossary = sffNew("script/mods/glossary/glossary.sff") --Load glossary sprites
 --;===========================================================

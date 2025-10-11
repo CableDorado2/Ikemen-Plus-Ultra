@@ -23,10 +23,8 @@ font3 = font/name1.fnt ;Name Text
 font4 = font/extra/sfz2a_system.fnt ;Rounds Text
 font5 = font/extra/mvc_name.fnt ;Winner Text
 font6 = font/extra/kof2002um_score.fnt ;Draw Text
-fightfx.sff = fightfx.sff
-fightfx.air = fightfx.air
-;commonfx.sff = commonfx.sff ;WIP
-;commonfx.air = commonfx.air ;WIP
+fightfx.sff = data/fightfx.sff
+fightfx.air = data/fightfx.air
 common.snd = data/common.snd
 
 ;-----------------------------------------------------------
@@ -397,7 +395,7 @@ displaytime = 90    ;Time to show text
 
 ;-----------------------------------------------------------
 [Round]
-match.wins = 1              ;Rounds needed to win a match (Ikemen feature: deprecated, this setting can be configured in in-game options)
+match.wins = 2              ;Rounds needed to win a match (Ikemen feature: deprecated, this setting can be configured in in-game options)
 match.maxdrawgames = 2      ;Max number of drawgames allowed (-1 for infinite) *2001.11.01 NEW*
 start.waittime = 30         ;Time to wait before starting intro
 
@@ -601,48 +599,48 @@ p2.perfect.scale = 0.5,0.5
 ; Use icons up until this number of wins
 useiconupto = 4
 
-[WinCountP1]
-p1.pos = 141,8
+;[WinCountP1]
+;p1.pos = 141,8
 ;p1.bg.spr = 
-p1.text.font = 3,0, -1
+;p1.text.font = 3,0, -1
 ;p1.text.text = WINS %s ;TODO
 
-[WinCountP2]
-p2.pos = 178,8
+;[WinCountP2]
+;p2.pos = 178,8
 ;p2.bg.spr = 
-p2.text.font = 3,0, 1
+;p2.text.font = 3,0, 1
 ;p2.text.text = WINS %s ;TODO
 
 ;-----------------------------------------------------------
-[Match]
-pos = 187,233
+;[Match]
+;pos = 187,233
 ;bg.spr = 
-text.font = 6,0, -1
+;text.font = 6,0, -1
 ;text.text = STAGE %s ;TODO
 
 ;-----------------------------------------------------------
-[Demo]
-pos = 305,10
+;[Demo]
+;pos = 305,10
 ;bg.spr = 
-text.font = 3,0, -1
+;text.font = 3,0, -1
 ;text.text = DEMO MODE ;TODO
 
 ;-----------------------------------------------------------
-[TourneyState]
-pos = 160,239
+;[TourneyState]
+;pos = 160,239
 ;bg.spr = 
-text.font = 6,0, 0
+;text.font = 6,0, 0
 
 ;-----------------------------------------------------------
-[FT]
-pos = 159,7
+;[FT]
+;pos = 159,7
 ;bg.spr = 
-text.font = 1,5, 0
-text.scale = 0.7,0.7
+;text.font = 1,5, 0
+;text.scale = 0.7,0.7
 ;text.text = FT %s ;TODO
 
 ;-----------------------------------------------------------
-[Reward]
+;[Reward]
 pos = 141,38
 ;bg.spr = 
 text.font = 1,0, -1
@@ -650,7 +648,7 @@ text.scale = 0.8, 0.8
 ;text.text = REWARD %s ;TODO
 
 ;-----------------------------------------------------------
-[Depth]
+;[Depth]
 pos = 178,38
 ;bg.spr = 
 text.font = 1,5, 1

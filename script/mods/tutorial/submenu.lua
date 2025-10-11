@@ -1,4 +1,6 @@
-﻿--[[=============================================================================
+﻿local loadLuaModule = true
+local includeLuaMatch = true --This module will be loaded during a match.
+--[[=============================================================================
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]

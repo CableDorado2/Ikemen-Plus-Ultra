@@ -1,21 +1,23 @@
-; Shin Gouki Unlock Storyboard
+;Shin Gouki Unlock Storyboard
 [Info]
 localcoord = 800,800
 
 [SceneDef]
-spr = unlock.sff
-
+spr = unlock.sff ;Filename for sprites
+snd = unlock.snd ;Filename for sfx
+;-----------------------------------------------------------------------
 [Scene 0]
-fadein.time = 120
-fadeout.time = 30
-bg.name = BG0
-layerall.pos = 0,0
-layer0.offset = 0,0
-layer0.anim = 1
-bgm = sound/system/Unlock.mp3
-end.time = 380
+fadein.time = 120 ;30 ticks (2 seconds) for fade-in
+fadeout.time = 30 ;30 ticks for fade-out
 
-[BG0Def]
+layerall.pos = 0,0 ;Spr Position
+layer0.anim = 1 ;Read from Begin Action 1
 
-[Begin Action 1]
+sound0.value = 0,0 ;sfx(snd) Group and Index
+sound0.starttime = 1 ;Starts playing the sound 1 tick after the start of the scene
+
+bgm = sound/.mp3 ;Filename for bgmusic
+end.time = 380 ;Unlock Screen Duration
+;-----------------------------------------------------------------------
+[Begin Action 1] ;BG
 0,1, 0,0, -1

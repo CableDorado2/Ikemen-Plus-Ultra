@@ -16902,7 +16902,7 @@ function f_tourneyChampion()
 			]]
 			end
 		end
-		animDraw(tourneyAwards2)
+		animDraw(tourneyAwards)
 	--Draw Titles
 		textImgDraw(txt_tourneyChampionTitle)
 		textImgDraw(txt_tourneyPlace1)

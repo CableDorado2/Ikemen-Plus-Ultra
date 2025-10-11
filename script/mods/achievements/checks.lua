@@ -1,3 +1,5 @@
+local loadLuaModule = true
+local includeLuaMatch = true --This module will be loaded during a match.
 --Checks functions uses the CNS triggers
 local function trophyTaunt()
 	if player(1) and ailevel() == 0 and roundstate() == 2 and anim() == 195 then

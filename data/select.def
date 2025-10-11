@@ -71,7 +71,7 @@ survival.AIramp.start = 0, -3
 survival.AIramp.end   = 16, 4
 ;---------------------------------------------------------------------------------
 [TowerMode]
-snd = data/screenpack/tower.snd
+snd = data/tower.snd
 sfx.announcer = 0,0
 
 [Tower 1]
