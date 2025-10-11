@@ -1,7 +1,7 @@
 [GalleryMovies]
 id = Video 1
 spr = 0,1
-file = data/videos/Opening.wmv
+file = videos/Opening.wmv
 info = I.K.E.M.E.N PLUS ULTRA [OPENING]
 size = 1280,720
 previewpos = 752,1020
@@ -10,7 +10,7 @@ previewscale = 0.0705, 0.0695
 
 id = Video 2
 spr = 0,2
-file = data/videos/KFM-Prologue.wmv
+file = videos/KFM-Prologue.wmv
 info = Kung Fu Man's Story - Prologue
 size = 1280,720
 previewpos = 752,1020
@@ -19,7 +19,7 @@ previewscale = 0.0705, 0.0695
 
 id = Video 3
 spr = 0,3
-file = data/videos/KFM-Fall.wmv
+file = videos/KFM-Fall.wmv
 info = Kung Fu Man's Story - The Fall of A Legend
 size = 1280,720
 previewpos = 752,1020
@@ -28,7 +28,7 @@ previewscale = 0.0705, 0.0695
 
 id = Video 4
 spr = 0,4
-file = data/videos/The Lost Chapter.wmv
+file = videos/The Lost Chapter.wmv
 info = The Lost Chapter
 info.locked = Complete Mission 1
 size = 1280,720

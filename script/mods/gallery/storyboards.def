@@ -45,3 +45,21 @@ size = 320,233
 previewpos = 189,331
 previewspacing = 43,57
 previewscale = 0.281, 0.214
+
+id = Storyboard 6
+;spr = 0,6
+file = data/intro.def
+info = Kung Fu Man Motif Introduction
+size = 853,480
+previewpos = 560,760
+previewspacing = 225,180
+previewscale = 0.095, 0.095
+
+id = Storyboard 7
+;spr = 0,7
+file = data/gameover.def
+info = Game Over Screen
+size = 853,480
+previewpos = 560,760
+previewspacing = 225,180
+previewscale = 0.095, 0.095

@@ -4406,7 +4406,7 @@ function f_directConnect()
 				elseif string.match(getClipboardText(),'^localhost$') then
 					setInputText(getClipboardText())
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 			if ip:match('^%.') then
@@ -4437,7 +4437,7 @@ function f_directConnect()
 					elseif ip:match('^localhost$') then
 						doneIP = true
 					else
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 					end
 				end
 			end
@@ -4844,7 +4844,7 @@ function f_editHost()
 			if string.match(getClipboardText(),'^(.*)') then
 				setInputText(getClipboardText())
 			else
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 			end
 		end
 		if editHostName:len() > 5 then
@@ -4875,7 +4875,7 @@ function f_editHost()
 					hostName = (tostring(editHostName))
 					doneName = true
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 		end
@@ -4924,7 +4924,7 @@ function f_editHost()
 			elseif string.match(getClipboardText(),'^localhost$') then
 				setInputText(getClipboardText())
 			else
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 			end
 		end
 		if hostAddress:match('^%.') then
@@ -4960,7 +4960,7 @@ function f_editHost()
 				elseif hostAddress:match('^localhost$') then
 					doneAddress = true
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 		end
@@ -5864,7 +5864,7 @@ function f_sideSelect()
 			if menuSelect ~= "bonus rush" and menuSelect ~= "bonus" then
 				sideSelected = true
 			else--if you are in bonus rush mode then
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
 			end
 		end
@@ -5962,7 +5962,7 @@ function f_sideSelect()
 			if menuSelect == "quick match" or menuSelect == "free battle" then
 				sideSelected = true
 			else--if you are not in free versus or quick match modes then
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
 			end
 		end
@@ -5975,7 +5975,7 @@ function f_sideSelect()
 			if menuSelect == "quick match" or menuSelect == "free battle" then
 				sideSelected = true
 			else--if you are not in free versus or quick match modes then
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 				P2overP1 = false
 				sideWarning = true
 			end
@@ -6000,7 +6000,7 @@ function f_sideSelect()
 			if menuSelect ~= "quick match" and menuSelect ~= "free battle" and menuSelect ~= "bonus" and menuSelect ~= "boss" then
 				sideSelected = true
 			else
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
 			end
 		end
@@ -6024,7 +6024,7 @@ function f_sideSelect()
 			if menuSelect ~= "quick match" and menuSelect ~= "free battle" and menuSelect ~= "bonus" and menuSelect ~= "boss" then
 				sideSelected = true
 			else
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
 			end
 		end
@@ -7001,7 +7001,7 @@ function f_winMoney()
 --Increase In-Game Currency Money
 	if not onlinegame and currencySystem then	
 		stats.money = stats.money + 5
-		--sndPlay(sndSys, 200, 0)
+		--sndPlay(sndIkemen, 400, 0)
 		f_saveStats()
 	end
 end
@@ -8791,7 +8791,7 @@ function f_p1SelectMenu()
 				if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p1selected, p1Cell) or onlinegame then --This character is unlocked
 					f_p1Selection()
 				else--if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p1selected, p1Cell) and not onlinegame then --Character locked
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			elseif selectTimer == 0 then
 				local getRandomCell = nil
@@ -10287,7 +10287,7 @@ function f_p2SelectMenu()
 				if t_unlockLua.chars[t_selChars[p2Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p2selected, p2Cell) or onlinegame then
 					f_p2Selection()
 				else--if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) and not onlinegame then
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			elseif selectTimer == 0 then
 				if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) then
@@ -10945,7 +10945,7 @@ function f_selectStage()
 						stageChosen = true
 					else
 						stageChosen = false
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 					end
 				end
 			end
@@ -13266,7 +13266,7 @@ function f_selectChallenger()
 	end
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 200, 1) --Here comes a new Challenger!
+	sndPlay(sndIkemen, 500, 0) --Here comes a new Challenger!
 	playBGM(bgmNothing)
 	while true do
 		if i == 150 then
@@ -13399,7 +13399,7 @@ function f_service()
 		--Load Service From t_service table
 			if buttonOK then
 				if noService then
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				else
 					sndPlay(sndSys, 100, 1)
 					setService(t_service[serviceMenu].service)
@@ -13728,7 +13728,7 @@ end
 --;===========================================================
 function f_continueReset()
 	animReset(contTimer)
-	sndPlay(sndCont, 1, 1)
+	sndPlay(sndIkemen, 900, 11)
 end
 
 function f_continue()
@@ -13886,25 +13886,25 @@ function f_continue()
 				animUpdate(contTimer)
 			end
 			if attractContinueTimer == 135 then
-				sndPlay(sndCont, 0, 9)
+				sndPlay(sndIkemen, 900, 9)
 			elseif attractContinueTimer == 262 then
-				sndPlay(sndCont, 0, 8)
+				sndPlay(sndIkemen, 900, 8)
 			elseif attractContinueTimer == 389 then
-				sndPlay(sndCont, 0, 7)
+				sndPlay(sndIkemen, 900, 7)
 			elseif attractContinueTimer == 516 then
-				sndPlay(sndCont, 0, 6)
+				sndPlay(sndIkemen, 900, 6)
 			elseif attractContinueTimer == 643 then
-				sndPlay(sndCont, 0, 5)
+				sndPlay(sndIkemen, 900, 5)
 			elseif attractContinueTimer == 770 then
-				sndPlay(sndCont, 0, 4)
+				sndPlay(sndIkemen, 900, 4)
 			elseif attractContinueTimer == 897 then
-				sndPlay(sndCont, 0, 3)
+				sndPlay(sndIkemen, 900, 3)
 			elseif attractContinueTimer == 1024 then
-				sndPlay(sndCont, 0, 2)
+				sndPlay(sndIkemen, 900, 2)
 			elseif attractContinueTimer == 1151 then
-				sndPlay(sndCont, 0, 1)
+				sndPlay(sndIkemen, 900, 1)
 			elseif attractContinueTimer == 1278 then
-				sndPlay(sndCont, 0, 0)
+				sndPlay(sndIkemen, 900, 0)
 			end
 			drawContinueInputHints()
 		elseif data.continue == 1 then --Continue = YES
@@ -14085,7 +14085,7 @@ function f_gameOver()
 		end
 	end
 	animReset(gameOver)
-	sndPlay(sndCont, 1, 0)
+	sndPlay(sndIkemen, 900, 10)
 	playBGM(bgmGameOver)
 	while true do
 		animDraw(contBG0)
@@ -17268,7 +17268,7 @@ function f_abyssMenu()
 							else
 							--Special Items Slots are Full
 								if abyssDat.nosave.itemslot[#abyssDat.nosave.itemslot] ~= "" then
-									sndPlay(sndSys, 100, 5)
+									sndPlay(sndIkemen, 200, 0)
 							--At least there is 1 Special Items Slot free
 								else
 									for slot=1, #abyssDat.nosave.itemslot do
@@ -17281,7 +17281,7 @@ function f_abyssMenu()
 								end
 							end
 							if buyDone then
-								sndPlay(sndSys, 200, 3)
+								sndPlay(sndIkemen, 700, 0)
 								stats.money = stats.money - t_abyssMenu[abyssMenu].price
 							--Save Data
 								f_saveStats()
@@ -17290,11 +17290,11 @@ function f_abyssMenu()
 							end
 					--Shop Item is sold out
 						else
-							sndPlay(sndSys, 100, 5)
+							sndPlay(sndIkemen, 200, 0)
 						end
 				--Shop Item is locked/has not been discovered/is sold out or player NOT have enough currency to buy it
 					else
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 					end
 				end
 		--Refund
@@ -17600,7 +17600,7 @@ function f_abyssData(mode)
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			--NO DATA TO LOAD
 				if not abyssDat.save[dataSel].player and menuMode == "load" then
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 			--DATA AVAILABLE TO SAVE/LOAD
 				else
 					sndPlay(sndSys, 100, 1)
@@ -17610,7 +17610,7 @@ function f_abyssData(mode)
 			elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then	
 			--NO DATA TO DELETE
 				if not abyssDat.save[dataSel].player then
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 			--DATA AVAILABLE TO DELETE
 				else
 					sndPlay(sndSys, 100, 1)

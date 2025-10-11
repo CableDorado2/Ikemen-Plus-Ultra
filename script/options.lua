@@ -1334,7 +1334,7 @@ txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 
 t_mainCfg = {
 	{text = "Game Settings",	  			 gotomenu = "if data.engineMode == 'FG' then script.options.f_gameCfg() elseif data.engineMode == 'VN' then script.options.f_gameVNcfg() end"},
-	{text = "System Settings",  			 gotomenu = "if data.engineMode == 'FG' then script.options.f_UICfg() else sndPlay(sndSys, 100, 5) end"},
+	{text = "System Settings",  			 gotomenu = "if data.engineMode == 'FG' then script.options.f_UICfg() else sndPlay(sndIkemen, 200, 0) end"},
 	{text = "Video Settings",  				 gotomenu = "script.options.f_videoCfg()"},
 	{text = "Audio Settings",  				 gotomenu = "script.options.f_audioCfg()"},
 	{text = "Input Settings",  				 gotomenu = "script.options.f_inputCfg()"},
@@ -1673,7 +1673,7 @@ function f_netplayCfg()
 				if string.match(getClipboardText(), '^([^"]*)$') then
 					setInputText(getClipboardText())
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 			if playerName:len() > 5 then
@@ -1705,7 +1705,7 @@ function f_netplayCfg()
 					nameEdit = false
 					editDone = true
 				else 
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 			if not editDone and nameEdit then
@@ -1726,7 +1726,7 @@ function f_netplayCfg()
 				if string.match(getClipboardText(),'^%d+$') then 
 					setInputText(getClipboardText())
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 			if onlinePort:len() > 5 then
@@ -1756,7 +1756,7 @@ function f_netplayCfg()
 					portEdit = false
 					editDone = true
 				else 
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 			if not editDone and portEdit then
@@ -4495,7 +4495,7 @@ function f_rosterCfg()
 				if string.match(getClipboardText(),'^%d+$') then 
 					setInputText(getClipboardText())
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 			if newValue:len() > 7 then
@@ -4539,7 +4539,7 @@ function f_rosterCfg()
 					modified = 1
 					editDone = true
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 			end
 			t_rosterCfg[rosterCfg].varText = newValue
@@ -6820,7 +6820,7 @@ function f_inputCfg()
 						sndPlay(sndSys, 100, 1)
 						f_testMenu()
 					else
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 					end
 			--Default Values
 				elseif inputCfg == #t_inputCfg-1 then
@@ -7163,7 +7163,7 @@ function f_keyMenu()
 					f_inputBattleRead(1, -1) --Player 2 Controls
 					f_keyBattleCfg(0, -1)
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 		--[KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 2 then
@@ -7329,7 +7329,7 @@ function f_joyMenu()
 					f_keyBattleCfg(2, data.p1Gamepad)
 					--f_keyBattleCfg(3, data.p2Gamepad)
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 		--[GAMEPAD] MENU CONTROLS
 			elseif joyMenu == 2 then
@@ -8141,7 +8141,7 @@ function f_validKey()
 end
 
 function f_invalidKey()
-	sndPlay(sndSys, 100, 5)
+	sndPlay(sndIkemen, 200, 0)
 	getKeyboard = ''
 	sameKey = true
 end

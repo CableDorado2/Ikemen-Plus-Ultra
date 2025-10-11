@@ -6,8 +6,8 @@ sprFade = sffNew("data/fade.sff") --load fade sprites
 sprLogos = sffNew("data/logo.sff") --load logos sprites
 sprSys = sffNew("data/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/ikemen.sff") --load screenpack/menu IKEMEN sprites
-sprGlyphs = sffNew("data/glyphs.sff") --load movelist sprites
 sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
+sprGlyphs = sffNew("data/glyphs.sff") --load movelist sprites
 --[[Load input hints sprites data
 group is organized based on controller type (0=Keyboard, 1=XBOX Gamepad, 2=PS3 Gamepad)
 index is organized based on controller key/button id returned by SDL functions [getInputKeyboard(), getInputID()]
@@ -23,7 +23,6 @@ gamepadInputHintsScaleY = 0.7
 sndSys = sndNew("data/system.snd")
 sndIkemen = sndNew("data/ikemen.snd")
 sndAnncr = sndNew("data/announcer.snd")
-sndCont = sndNew("data/continue.snd")
 
 --Music Data (ONLY MP3 and OGG formats are Supported)
 bgmNothing = " .mp3"

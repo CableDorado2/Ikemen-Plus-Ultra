@@ -824,12 +824,12 @@ function f_storyMenu()
 	--Arc Selection
 		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 			t = 0 --Reset Story Info Delay Time
-			sndPlay(sndSys, 100, 3)
+			sndPlay(sndIkemen, 200, 1)
 			storyMenu = storyMenu - 1
 			f_resetChaptSel()
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			t = 0
-			sndPlay(sndSys, 100, 3)
+			sndPlay(sndIkemen, 200, 1)
 			storyMenu = storyMenu + 1
 			f_resetChaptSel()
 	--Chapter Selection
@@ -873,7 +873,7 @@ function f_storyMenu()
 			elseif storyMenu == 1 and chapterMenu == 10 then f_storyRosterTest()
 		--EMPTY SLOT OR LOCKED CHAPTER
 			else
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 			end
 		end
 	--Arc Cursor position calculation

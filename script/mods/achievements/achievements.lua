@@ -368,10 +368,10 @@ function f_achievementsMenu()
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			--NO REWARD TO CLAIM
 				if t_unlockLua.achievements[t_achievements[itemSel].id] ~= nil or data.trophies[t_achievements[itemSel].id].rewardclaimed then
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 			--REWARD TO CLAIM
 				else
-					sndPlay(sndSys, 201, 2)
+					sndPlay(sndIkemen, 600, 0)
 					data.trophies[t_achievements[itemSel].id].rewardclaimed = true
 					f_saveAchievements()
 					stats.money = stats.money + t_achievements[itemSel].reward

@@ -71,7 +71,7 @@ function f_TrainingVars()
 	if data.dummyMode == 1 then
 		setCom(2, data.AIlevel)
 	elseif data.dummyMode == 2 then
-		playDummyRecord(sndSys)
+		playDummyRecord(sndIkemen)
 	elseif data.dummyMode == 3 then
 		setCom(2, 0)
 		remapInput(2, 1)
@@ -360,7 +360,7 @@ end
 
 --MOVELIST
 function f_movelistPause()
-	sndPlay(sndSys, 100, 5)
+	sndPlay(sndIkemen, 200, 0)
 end
 
 --SETTINGS
@@ -372,7 +372,7 @@ end
 --BACK TO CHARACTER SELECT
 function f_exitPause()
 	if getGameMode() == "story" then
-		sndPlay(sndSys, 100, 5)
+		sndPlay(sndIkemen, 200, 0)
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
 		sndPlay(sndSys, 100, 1)
 	--[[
@@ -511,7 +511,7 @@ function f_pauseMain(p, st, esc)
 --Here Comes a New Challenger!
 	if challengerActive == true and screenTime < 200 then
 		if screenTime == 0 then
-			sndPlay(sndSys, 200, 1)
+			sndPlay(sndIkemen, 500, 0)
 			playBGM(bgmNothing) --Stop Stage Song
 		end
 		screenTime = screenTime + 1
@@ -532,7 +532,7 @@ function f_pauseMain(p, st, esc)
 	end
 --Stop playback recording when you open pause menu
 	if (escape or start) and pbrecActive then
-		endDummyPlayback(sndSys)
+		endDummyPlayback(sndIkemen)
 		pbrecActive = false
 		pauseMenuActive = false
 	end
@@ -613,7 +613,7 @@ function f_pauseMain(p, st, esc)
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 					--MOVELIST
 						if pauseMenu == 2 then
-							sndPlay(sndSys, 100, 5)
+							sndPlay(sndIkemen, 200, 0)
 					--SETTINGS
 						elseif pauseMenu == 3 then
 							sndPlay(sndSys, 100, 1)
@@ -621,7 +621,7 @@ function f_pauseMain(p, st, esc)
 					--BACK TO CHARACTER SELECT
 						elseif pauseMenu == 5 then
 							if getGameMode() == "story" then
-								sndPlay(sndSys, 100, 5)
+								sndPlay(sndIkemen, 200, 0)
 							elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
 								sndPlay(sndSys, 100, 1)
 							
@@ -1004,7 +1004,7 @@ function f_pauseSettings()
 					delayMenu = -2
 			--Input Settings
 				elseif gameCfg == 2 then
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 			--Open Screenshots Folder
 				elseif gameCfg == 4 then
 					sndPlay(sndSys, 100, 1)
@@ -1714,10 +1714,10 @@ function f_pauseTraining()
 			--Start Dummy Recording
 				elseif trainingCfg == 14 then
 					if data.dummyMode == 3 or data.dummyMode == 2 or data.dummyMode == 1 then
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 						recWarning = true
 					else
-						startDummyRecord(sndSys)
+						startDummyRecord(sndIkemen)
 						pbrecActive = true
 						pauseMenuActive = false
 						bufl = 0
@@ -1774,7 +1774,7 @@ function f_pauseTraining()
 					hasChanged = true
 				]]
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				--[[
 					if data.damageDisplay < 1 then
 						sndPlay(sndSys, 100, 1)
@@ -1999,7 +1999,7 @@ function f_pauseTraining()
 					elseif data.dummyMode == 0 then
 						sndPlay(sndSys, 100, 1)
 						data.dummyMode = 2
-						--playDummyRecord(sndSys)
+						--playDummyRecord(sndIkemen)
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
@@ -2007,7 +2007,7 @@ function f_pauseTraining()
 					if data.dummyMode == 2 then
 						--sndPlay(sndSys, 100, 1)
 						data.dummyMode = 0
-						endDummyPlayback(sndSys)
+						endDummyPlayback(sndIkemen)
 				--Set CPU Controls
 					elseif data.dummyMode == 0 then
 						sndPlay(sndSys, 100, 1)
@@ -2179,7 +2179,7 @@ pbWarning = false
 function checkPBSlots() --Check that at least 1 slot is included
 	if not data.pbkSlot1 and not data.pbkSlot2 and not data.pbkSlot3 and not data.pbkSlot4 and not data.pbkSlot5 then
 		pbWarning = true
-		sndPlay(sndSys, 100, 5)
+		sndPlay(sndIkemen, 200, 0)
 	else
 		pbWarning = false
 	end

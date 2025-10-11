@@ -347,7 +347,7 @@ local function f_theVault()
 			if string.match(getClipboardText(),'^(.*)') then
 				setInputText(getClipboardText())
 			else
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 			end
 		end
 		if word:len() > 5 then
@@ -549,7 +549,7 @@ local function f_confirmPurchase()
 	--YES
 		if confirmShop == 1 then
 		--Item Purchased (Save Data)
-			sndPlay(sndSys, 200, 3)
+			sndPlay(sndIkemen, 700, 0)
 			stats.money = stats.money - t_shopMenu[shopMenu].price
 			stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
 			f_saveStats()
@@ -624,7 +624,7 @@ function f_shopMenu()
 						inCategory = true
 				--No Items Available
 					else
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 					end
 			--Category Shop
 				else
@@ -634,7 +634,7 @@ function f_shopMenu()
 						confirmPurchase = true --Show Confirm Purchase
 				--Item Sold Out or No enough Money
 					else
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 					end
 				end
 		--???

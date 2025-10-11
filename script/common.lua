@@ -1653,7 +1653,7 @@ function f_secretCode(key)
 	end
 --Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
-		sndPlay(sndSys, 200, 2)
+		sndPlay(sndIkemen, 800, 0)
 		--stats.unlocks.chars.charname = true --Character Unlock
 		--f_saveStats()
 		cmdReward = true
@@ -2675,7 +2675,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				if not VNendActive then
 					vnPauseScreen = true
-					sndPlay(sndSys, 100, 3)
+					sndPlay(sndIkemen, 200, 1)
 				end
 			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then 
 				VNdelay = VNnodelay
@@ -2909,7 +2909,7 @@ function f_vnPauseMenu()
 						f_vnProgress()
 						VNsaveData = true
 					else
-						sndPlay(sndSys, 100, 5)
+						sndPlay(sndIkemen, 200, 0)
 					end
 			--Back to Main Menu
 				elseif vnPauseMenu == 9 then
@@ -3406,7 +3406,7 @@ end
 function f_vnLoadGame()
 	assert(loadfile(saveVNPath))()
 	if data.VNarc == "" and data.VNchapter == 0 and data.VNdialogue == 0 then
-		sndPlay(sndSys, 100, 5) --No Data
+		sndPlay(sndIkemen, 200, 0) --No Data
 		vnDataInfo = true
 		infoScreen = true
 	else --Load Data
@@ -3636,7 +3636,7 @@ end
 
 --Take Screenshots
 function f_screenShot()
-	sndPlay(sndSys, 22, 0) --sndPlay(sndSys, 22, 1)
+	sndPlay(sndIkemen, 300, 0)
 	takeScreenShot(screenshotPath.."/ ".. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
 end
 
@@ -3646,7 +3646,7 @@ attractContinueTimer = 0
 attractSeconds = data.attractTime
 attractTimer = attractSeconds*gameTick --Set time for Attract Title Screen
 function f_addCoin()
-	sndPlay(sndSys, 200, 0)
+	sndPlay(sndIkemen, 400, 0)
 	attractDemoTimer = 0
 	attractContinueTimer = 0
 	attractTimer = attractSeconds*gameTick --Reset Attract Title Timer

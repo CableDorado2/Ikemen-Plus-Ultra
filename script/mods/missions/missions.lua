@@ -222,7 +222,7 @@ function f_missionMenu()
 				f_updateUnlocks()
 		--MISSION UNAVAILABLE
 			else
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 			end
 		end
 	--Cursor position calculation

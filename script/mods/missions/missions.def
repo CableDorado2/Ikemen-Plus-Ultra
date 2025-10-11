@@ -3,14 +3,14 @@ id = mission1
 name = Target Confirmed
 info = Defeat Original Kung Fu Man!
 previewspr = 0,1
-path = data/missions/mission1.lua
+path = script/mods/missions/mission1.lua
 
 [Mission 2]
 id = mission2
 name = True Kung Fu Spirit
 info = Use the full power of Kung Fu Man!
 previewspr = 0,2
-path = data/missions/mission2.lua
+path = script/mods/missions/mission2.lua
 
 [Mission 3]
 id = mission3
@@ -18,5 +18,5 @@ name = Unlimited Power
 info = Defeat everyone!
 infolock = Complete Mission 2
 previewspr = 0,3
-path = data/missions/mission3.lua
+path = script/mods/missions/mission3.lua
 unlock = stats.modes.mission.mission2.clear == true

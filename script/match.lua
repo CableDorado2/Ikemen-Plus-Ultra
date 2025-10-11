@@ -60,9 +60,9 @@ addHotkey('l', true, false, false, 'toggleStatusDraw()') --CTRL+L: Toggles displ
 addHotkey('c', true, false, false, 'toggleClsnDraw()') --CTRL+C: Toggles display of collision boxes, target data (including remaining juggle points) and NotHitBy attributes
 addHotkey('d', true, false, false, 'toggleDebugDraw()') --CTRL+D: Toggles debug information display
 --Quick Playback Actions
-addHotkey('r', true, false, false, 'toggleRecord(sndSys)') --CTRL+R: Record Dummy Actions for Playback
-addHotkey('e', true, false, false, 'toggleRecordEnd(sndSys)') --CTRL+E: Stop Recording Dummy Actions for Playback
-addHotkey('p', true, false, false, 'togglePlayback(sndSys)') --CTRL+P: Playback Dummy Actions
+addHotkey('r', true, false, false, 'toggleRecord(sndIkemen)') --CTRL+R: Record Dummy Actions for Playback
+addHotkey('e', true, false, false, 'toggleRecordEnd(sndIkemen)') --CTRL+E: Stop Recording Dummy Actions for Playback
+addHotkey('p', true, false, false, 'togglePlayback(sndIkemen)') --CTRL+P: Playback Dummy Actions
 --Ctrl-# (where # is from 1-8) Toggles AI for the #th player OR Ctrl-Alt-# (where # is from 1-8) Enables/Disables the player
 addHotkey('1', true, false, false, 'toggleAI(1)')
 addHotkey('2', true, false, false, 'toggleAI(2)')
@@ -750,7 +750,7 @@ local function f_abyssBossReward()
 		else
 		--Special Items Slots are Full
 			if abyssDat.nosave.itemslot[#abyssDat.nosave.itemslot] ~= "" then
-				sndPlay(sndSys, 100, 5)
+				sndPlay(sndIkemen, 200, 0)
 		--At least there is 1 Special Items Slot free
 			else
 				for slot=1, #abyssDat.nosave.itemslot do
@@ -1016,7 +1016,7 @@ function loop() --The code for this function should be thought of as if it were 
 	]]
 		if abyssHitCnt == abyssHitTarget and time() == 0 then
 			setAbyssDepth(abyssdepth() + 1)
-			sndPlay(sndSys, 201, 0)
+			sndPlay(sndIkemen, 610, 0)
 			abyssHitCnt = 0 --Reset Hit Cnt
 		end
 		if data.debugMode then

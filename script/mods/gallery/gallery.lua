@@ -19,6 +19,9 @@ local txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 15)
 local txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
 local txt_galleryNoData = "NO SPRITE DATA FOUND."
 local txt_galleryUnknown = "???"
+local txt_galleryArtworks = "ARTWORKS"
+local txt_galleryStoryboards = "STORYBOARDS"
+local txt_galleryMovies = "MOVIES"
 
 --Gallery Size Definition
 local galleryColumns = 3
@@ -227,17 +230,17 @@ local function f_loadGallery(path, reset) --Load def file which contains artwork
 		if lineCase:match('^%s*%[%s*galleryartworks%s*%]') then
 			section = 1
 			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "ARTWORKS"
+			t_gallery[section]['displayname'] = txt_galleryArtworks
 			t_gallery[section]['txtID'] = textImgNew()
 		elseif lineCase:match('^%s*%[%s*gallerystoryboards%s*%]') then
 			section = 2
 			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "STORYBOARDS"
+			t_gallery[section]['displayname'] = txt_galleryStoryboards
 			t_gallery[section]['txtID'] = textImgNew()
 		elseif lineCase:match('^%s*%[%s*gallerymovies%s*%]') then
 			section = 3
 			t_gallery[section] = {}
-			t_gallery[section]['displayname'] = "CUTSCENES"
+			t_gallery[section]['displayname'] = txt_galleryMovies
 			t_gallery[section]['txtID'] = textImgNew()
 		elseif lineCase:match('^%s*%[%w+%]$') then
 			section = -1
@@ -419,7 +422,7 @@ local function f_artMenu(artLimit)
 		elseif ((commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) or 
 		((commandGetState(p1Cmd, 'holdw') or commandGetState(p2Cmd, 'holdw')) and bufw >= 30)) then
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 3)
+			sndPlay(sndIkemen, 200, 1)
 			f_nextArt(maxArt)
 		--If current item is not unlocked
 			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
@@ -430,7 +433,7 @@ local function f_artMenu(artLimit)
 		elseif ((commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q')) or 
 		((commandGetState(p1Cmd, 'holdq') or commandGetState(p2Cmd, 'holdq')) and bufq >= 30)) then
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-			sndPlay(sndSys, 100, 3)
+			sndPlay(sndIkemen, 200, 1)
 			f_previousArt(maxArt)
 		--If current item is not unlocked
 			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
@@ -499,7 +502,7 @@ local function f_artMenu(artLimit)
 			f_drawArtwork()
 			textData = t_gallery[galleryMenu][galleryCursor].info
 		else
-			textData = txt_noData
+			textData = txt_galleryNoData
 		end
 	--Draw HUD Assets
 		if not hideMenu then
@@ -822,7 +825,7 @@ function f_galleryMenu()
 					f_artMenu(galleryArtMax)
 					f_setGalleryCursorPos() --Replace with a logic that calculates the new position of the cursor after having moved in artwork viewer...
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 		--STORYBOARDS (watch storyboards)
 			elseif galleryMenu == 2 and t_gallery[galleryMenu][galleryCursor].file ~= nil then
@@ -835,7 +838,7 @@ function f_galleryMenu()
 					data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 					f_menuMusic()
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 		--CUTSCENES (watch video cutscenes)
 			elseif galleryMenu == 3 and t_gallery[galleryMenu][galleryCursor].file ~= nil then
@@ -846,7 +849,7 @@ function f_galleryMenu()
 					data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 					f_menuMusic()
 				else
-					sndPlay(sndSys, 100, 5)
+					sndPlay(sndIkemen, 200, 0)
 				end
 		--SCREENSHOTS (view your screenshots collection)
 			--elseif galleryMenu == 4 then
@@ -920,17 +923,13 @@ function f_galleryMenu()
 		)
 		animSetWindow(galleryPreviewCursor, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
 	--Draw Gallery Info
-		if t_gallery[galleryMenu][galleryCursor].spr[1] and t_gallery[galleryMenu][galleryCursor].spr[2] ~= nil then
-			if (galleryMenu == 1 and t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] == nil) or
-				(galleryMenu == 2 and t_unlockLua.storyboards[t_gallery[galleryMenu][galleryCursor].id] == nil) or
-				(galleryMenu == 3 and t_unlockLua.videos[t_gallery[galleryMenu][galleryCursor].id] == nil) then
-				textData = t_gallery[galleryMenu][galleryCursor].info
-			else
-				--textData = t_gallery[galleryMenu][galleryCursor].infolock
-				textData = txt_galleryUnknown
-			end
+		if (galleryMenu == 1 and t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] == nil) or
+			(galleryMenu == 2 and t_unlockLua.storyboards[t_gallery[galleryMenu][galleryCursor].id] == nil) or
+			(galleryMenu == 3 and t_unlockLua.videos[t_gallery[galleryMenu][galleryCursor].id] == nil) then
+			textData = t_gallery[galleryMenu][galleryCursor].info
 		else
-			textData = txt_noData
+			--textData = t_gallery[galleryMenu][galleryCursor].infolock
+			textData = txt_galleryUnknown
 		end
 		animDraw(galleryInfoBG) --Draw Info Text BG
 		f_textRender(txt_galleryInfo, textData, 0, 159, 208, 10, 0, 55)

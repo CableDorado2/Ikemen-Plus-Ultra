@@ -2109,7 +2109,7 @@ void startDummyRecord(&.lua.State L=, int re=)
     .cmd.pbState = .cmd.PlaybackState::CtrlP2;
     .cmd.pbState = .cmd.PlaybackState::Record;
   }
-  snd~play(23, 2);
+  snd~play(320, 2);
 }
 
 void endDummyPlayback(&.lua.State L=, int re=)
@@ -2117,7 +2117,7 @@ void endDummyPlayback(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^&.sc.Snd snd = .sc.refArg!&.sc.Snd?(L=, re=, argc=, nret); if(re < 0) ret;
   .cmd.pbState = .cmd.PlaybackState::None;
-  snd~play(23, 0);
+  snd~play(320, 0);
 }
 
 void playDummyRecord(&.lua.State L=, int re=)
@@ -2125,7 +2125,7 @@ void playDummyRecord(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^&.sc.Snd snd = .sc.refArg!&.sc.Snd?(L=, re=, argc=, nret); if(re < 0) ret;
   .cmd.pbState = .cmd.PlaybackState::Play;
-  snd~play(23, 10);
+  snd~play(320, 3);
 }
 
 void setPlaybackCfg(&.lua.State L=, int re=)
