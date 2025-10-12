@@ -962,7 +962,6 @@ local function f_drawScore()
 	textImgSetText(txt_ScoreP1FightCfg, getScore())
 	textImgDraw(txt_ScoreP1FightCfg)
 end
-setScore(0)
 
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a while true do
@@ -979,7 +978,7 @@ function loop() --The code for this function should be thought of as if it were 
 			textImgDraw(txt_MatchFightCfg)
 		end
 	elseif getGameMode() == "practice" then
-		f_drawScore()
+		--
 --During VS Mode
 	elseif getGameMode() == "vs" then
 		if roundstate() == 2 then

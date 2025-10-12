@@ -3236,34 +3236,6 @@ function f_records()
 	]]
 end
 
-function f_modeplayTime()
-	if data.rosterMode == "story" then stats.modes.story.playtime = stats.modes.story.playtime + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
-	elseif data.rosterMode == "arcade" then stats.modes.arcade.playtime = stats.modes.arcade.playtime + clearTime
-	elseif data.rosterMode == "versus" then stats.modes.versus.playtime = stats.modes.versus.playtime + clearTime
-	elseif data.rosterMode == "training" then stats.modes.training.playtime = stats.modes.training.playtime + clearTime
-	elseif data.rosterMode == "trials" then stats.modes.trials.playtime = stats.modes.trials.playtime + clearTime
-	elseif data.rosterMode == "cpu" then stats.modes.watch.playtime = stats.modes.watch.playtime + clearTime
-	elseif data.rosterMode == "survival" then stats.modes.survival.playtime = stats.modes.survival.playtime + clearTime
-	elseif data.rosterMode == "boss" then stats.modes.boss.playtime = stats.modes.boss.playtime + clearTime
-	elseif data.rosterMode == "bonus" then stats.modes.bonus.playtime = stats.modes.bonus.playtime + clearTime
-	elseif data.rosterMode == "scoreattack" then stats.modes.scoreattack.playtime = stats.modes.scoreattack.playtime + clearTime
-	elseif data.rosterMode == "timeattack" then stats.modes.timeattack.playtime = stats.modes.timeattack.playtime + clearTime
-	elseif data.rosterMode == "timerush" then stats.modes.timerush.playtime = stats.modes.timerush.playtime + clearTime
-	elseif data.rosterMode == "endless" then stats.modes.endless.playtime = stats.modes.endless.playtime + clearTime
-	elseif data.rosterMode == "suddendeath" then stats.modes.suddendeath.playtime = stats.modes.suddendeath.playtime + clearTime
-	elseif data.rosterMode == "vskumite" then stats.modes.vskumite.playtime = stats.modes.vskumite.playtime + clearTime
-	elseif data.rosterMode == "mission" then stats.modes.mission.playtime = stats.modes.mission.playtime + clearTime
-	elseif data.rosterMode == "event" then stats.modes.event.playtime = stats.modes.event.playtime + clearTime
-	elseif data.rosterMode == "tower" then stats.modes.tower.playtime = stats.modes.tower.playtime + clearTime
-	elseif data.rosterMode == "tourney" then stats.modes.tourney.playtime = stats.modes.tourney.playtime + clearTime
-	elseif data.rosterMode == "abyss" then stats.modes.abyss.playtime = stats.modes.abyss.playtime + clearTime
-	elseif data.rosterMode == "legion" then stats.modes.legion.playtime = stats.modes.legion.playtime + clearTime
-	elseif data.rosterMode == "beatemup" then stats.modes.beatemup.playtime = stats.modes.beatemup.playtime + clearTime
-	elseif data.rosterMode == "adventure" then stats.modes.adventure.playtime = stats.modes.adventure.playtime + clearTime
-	end
-	f_saveStats()
-end
-
 function f_favoriteChar()
 	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic with stats.json
 	f_saveStats()
@@ -3288,21 +3260,134 @@ gameData = "WIP"
 end
 
 t_statsGameModes = {
-	{name = "Arcade", 		playtime = function() return stats.modes.arcade.playtime end},
-	{name = "Tower", 		playtime = function() return stats.modes.tower.playtime end},
-	{name = "Versus", 		playtime = function() return stats.modes.versus.playtime end},
-	{name = "CPU Match", 	playtime = function() return stats.modes.watch.playtime end},
-	{name = "Tourney", 		playtime = function() return stats.modes.tourney.playtime end},
-	{name = "Survival", 	playtime = function() return stats.modes.survival.playtime end},
-	{name = "Endless", 		playtime = function() return stats.modes.endless.playtime end},
-	{name = "Score Attack", playtime = function() return stats.modes.scoreattack.playtime end},
-	{name = "Time Attack", 	playtime = function() return stats.modes.timeattack.playtime end},
-	{name = "Time Rush", 	playtime = function() return stats.modes.timerush.playtime end},
-	{name = "Sudden Death", playtime = function() return stats.modes.suddendeath.playtime end},
-	{name = "VSKumite", 	playtime = function() return stats.modes.vskumite.playtime end, getData = function() return getKumiteData() end},
-	{name = "Boss Fight", 	playtime = function() return stats.modes.boss.playtime end},
-	{name = "Bonus Games", 	playtime = function() return stats.modes.bonus.playtime end},
+	{
+		displayname = "CPU Match", --Text to Display in Stats Menu
+		id = "cpu", --id to compare with data.rosterMode var
+		playtime = function() return stats.modes.watch.playtime end,
+		setplaytime = function(newtime) stats.modes.watch.playtime = newtime end
+	},
+	{
+		displayname = "Versus",
+		id = "versus",
+		playtime = function() return stats.modes.versus.playtime end,
+		setplaytime = function(newtime) stats.modes.versus.playtime = newtime end
+	},
+	{
+		displayname = "Training",
+		id = "training",
+		playtime = function() return stats.modes.training.playtime end,
+		setplaytime = function(newtime) stats.modes.training.playtime = newtime end
+	},
+	{
+		displayname = "Trials",
+		id = "trials",
+		playtime = function() return stats.modes.trials.playtime end,
+		setplaytime = function(newtime) stats.modes.trials.playtime = newtime end
+	},
+	{
+		displayname = "Tutorial",
+		id = "tutorial",
+		playtime = function() return stats.modes.tutorial.playtime end,
+		setplaytime = function(newtime) stats.modes.tutorial.playtime = newtime end
+	},
+	{
+		displayname = "Arcade",
+		id = "arcade",
+		playtime = function() return stats.modes.arcade.playtime end,
+		setplaytime = function(newtime) stats.modes.arcade.playtime = newtime end
+	},
+	{
+		displayname = "Tourney",
+		id = "tourney",
+		playtime = function() return stats.modes.tourney.playtime end,
+		setplaytime = function(newtime) stats.modes.tourney.playtime = newtime end
+	},
+	{
+		displayname = "Tower",
+		id = "tower",
+		playtime = function() return stats.modes.tower.playtime end,
+		setplaytime = function(newtime) stats.modes.tower.playtime = newtime end
+	},
+	{
+		displayname = "Survival",
+		id = "survival",
+		playtime = function() return stats.modes.survival.playtime end,
+		setplaytime = function(newtime) stats.modes.survival.playtime = newtime end
+	},
+	{
+		displayname = "Abyss",
+		id = "abyss",
+		playtime = function() return stats.modes.abyss.playtime end,
+		setplaytime = function(newtime) stats.modes.abyss.playtime = newtime end
+	},
+	{
+		displayname = "Legion",
+		id = "legion",
+		playtime = function() return stats.modes.legion.playtime end,
+		setplaytime = function(newtime) stats.modes.legion.playtime = newtime end
+	},
+	{
+		displayname = "Boss Fight",
+		id = "boss",
+		playtime = function() return stats.modes.boss.playtime end,
+		setplaytime = function(newtime) stats.modes.boss.playtime = newtime end
+	},
+	{
+		displayname = "Bonus Games",
+		id = "bonus",
+		playtime = function() return stats.modes.bonus.playtime end,
+		setplaytime = function(newtime) stats.modes.bonus.playtime = newtime end
+	},
+	{
+		displayname = "Score Attack",
+		id = "scoreattack",
+		playtime = function() return stats.modes.scoreattack.playtime end,
+		setplaytime = function(newtime) stats.modes.scoreattack.playtime = newtime end
+	},
+	{
+		displayname = "Time Attack",
+		id = "timeattack",
+		playtime = function() return stats.modes.timeattack.playtime end,
+		setplaytime = function(newtime) stats.modes.timeattack.playtime = newtime end
+	},
+	{
+		displayname = "Time Rush",
+		id = "timerush",
+		playtime = function() return stats.modes.timerush.playtime end,
+		setplaytime = function(newtime) stats.modes.timerush.playtime = newtime end
+	},
+	{
+		displayname = "Sudden Death",
+		id = "suddendeath",
+		playtime = function() return stats.modes.suddendeath.playtime end,
+		setplaytime = function(newtime) stats.modes.suddendeath.playtime = newtime end
+	},
+	{
+		displayname = "VSKumite",
+		id = "vskumite",
+		playtime = function() return stats.modes.vskumite.playtime end,
+		setplaytime = function(newtime) stats.modes.vskumite.playtime = newtime end,
+		getData = function() return getKumiteData() end
+	},
+	{
+		displayname = "Endless",
+		id = "endless",
+		playtime = function() return stats.modes.endless.playtime end,
+		setplaytime = function(newtime) stats.modes.endless.playtime = newtime end
+	},
 }
+
+function f_modePlaytime()
+	for _, mode in ipairs(t_statsGameModes) do
+		if mode.id == data.rosterMode then --Check Current Game Mode
+			if type(mode.playtime()) == "number" then
+				mode.setplaytime(mode.playtime() + clearTime) --Update Playtime
+			end
+			break --To exit from loop when find a coincidence
+		end
+	end
+	f_saveStats()
+end
 
 function f_getPreferredMode()
 	if data.debugLog then f_printTable(t_statsGameModes, "save/debug/t_statsGameModes.log") end
@@ -3312,7 +3397,7 @@ function f_getPreferredMode()
 	for _, mode in ipairs(t_statsGameModes) do
 		if mode.playtime() > maxTime then
 			maxTime = mode.playtime() --() Because playtime index uses a function to keep update the values
-			modeName = mode.name
+			modeName = mode.displayname
 			modeDat = mode
 		end
 	end
@@ -11139,13 +11224,6 @@ function f_musicPreview()
 	end
 end
 
-function f_stageAnnouncer()
-	if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Training Room" then sndPlay(sndAnncr, 0,0) --Stage Announcer Voice Example
-	elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Training Room 2" then sndPlay(sndAnncr, 0,0)
-	--elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Your Stage Name" then sndPlay(sndAnncr, 0,1)
-	end
-end
-
 function f_loadStage()
 	if stageList == 0 then
 		if p1autoSlot == true then stageNo = p1charStage --Auto - Left Side Player Stage
@@ -12622,7 +12700,7 @@ function f_selectWin()
 	p1Ready = false
 	p2Ready = false
 	f_resetHandicaps()
-	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
+	f_modePlaytime() --Store Favorite Game Mode (Addressed to Simple Character Select)
 --Winner Logic
 	if winner == 1 then
 		p1Wins = p1Wins + 1
@@ -14313,7 +14391,7 @@ if validCells() then
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
-		if data.rosterMode == "training" then f_modeplayTime() end --Store Training Time
+		f_modePlaytime()
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_favoriteStage() --Store Favorite Stage (WIP)
 		f_unlock(false)
@@ -15225,7 +15303,7 @@ if validCells() then
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
 		destinyTimer = destinySeconds*gameTick
-		f_modeplayTime() --Store Favorite Game Mode
+		f_modePlaytime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_records() --save record progress
 		f_unlock(false)

@@ -2076,6 +2076,13 @@ animSetPos(stageMLockWindowBG, 64, 74)
 animSetScale(stageMLockWindowBG, 192, 108)
 animUpdate(stageMLockWindowBG)
 
+function f_stageAnnouncer()
+	if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Training Room" then sndPlay(sndAnncr, 0,0) --Stage Announcer Voice Example
+	elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Training Room 2" then sndPlay(sndAnncr, 0,0)
+	--elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Your Stage Name" then sndPlay(sndAnncr, 0,1)
+	end
+end
+
 --;===========================================================
 --; ARCADE TRAVEL SCREENPACK DEFINITION
 --;===========================================================

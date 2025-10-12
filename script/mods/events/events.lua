@@ -162,9 +162,9 @@ local function f_netTimeInfo()
 	f_textRender(txt_info, txt, 0, posX, posY, 10, 0, limit)
 end
 
---Función para comprobar si la fecha actual está en el rango y dar acceso al evento
+--Function to check if the current date is in range and give access to the event
 local function f_checkEvent(timeType, t_timeStart, t_timeDeadline)
---Convertir los datos de inicio y deadline a timestamps
+--Convert start and deadline data to timestamps
 	local startTime = os.time({
 		year = t_timeStart.year,
 		month = f_monthToNumber(t_timeStart.month),
@@ -181,7 +181,7 @@ local function f_checkEvent(timeType, t_timeStart, t_timeDeadline)
 		min = t_timeDeadline.min,
 		sec = t_timeDeadline.sec
 	})
---Obtener la hora actual en timestamps
+--Get current hour in timestamps
 	local now = nil
 	if timeType == "net" then
 		now = currentNetTime
@@ -189,7 +189,7 @@ local function f_checkEvent(timeType, t_timeStart, t_timeDeadline)
 		now = os.time()
 	end
 	if now == nil then return false end
---Comprobar si la hora actual está dentro del rango
+--Check if the current time is within range
 	if now >= startTime and now <= deadlineTime then
 		return true
 	else
@@ -331,7 +331,15 @@ function f_getEventStats()
 	end
 end
 table.insert(t_statsMenu,#t_statsMenu,{text = txt_eventStatsData, varText = f_getEventStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
-table.insert(t_statsGameModes,1,{name = "Events", playtime = function() return stats.modes.event.playtime end}) --Insert new item to t_statsGameModes table loaded by main.lua
+--Insert new item to t_statsGameModes table loaded by main.lua
+table.insert(t_statsGameModes,1,
+	{
+		displayname = "Events",
+		id = "event",
+		playtime = function() return stats.modes.event.playtime end,
+		setplaytime = function(newtime) stats.modes.event.playtime = newtime end
+	}
+)
 
 function f_refreshEventStats()
 	for i=1, #t_statsMenu do

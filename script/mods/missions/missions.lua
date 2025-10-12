@@ -151,7 +151,15 @@ function f_getMissionStats()
 	end
 end
 table.insert(t_statsMenu,#t_statsMenu,{text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
-table.insert(t_statsGameModes,1,{name = "Missions", playtime = function() return stats.modes.mission.playtime end}) --Insert new item to t_statsGameModes table loaded by main.lua
+--Insert new item to t_statsGameModes table loaded by main.lua
+table.insert(t_statsGameModes,1,
+	{
+		displayname = "Missions",
+		id = "mission",
+		playtime = function() return stats.modes.mission.playtime end,
+		setplaytime = function(newtime) stats.modes.mission.playtime = newtime end
+	}
+)
 
 function f_refreshMissionStats()
 	for i=1, #t_statsMenu do

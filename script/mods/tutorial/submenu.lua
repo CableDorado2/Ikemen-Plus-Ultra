@@ -4,15 +4,7 @@ local includeLuaMatch = true --This module will be loaded during a match.
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-
---;===========================================================
---; TUTORIAL MENU SCREENPACK DEFINITION
---;===========================================================
-table.insert(t_practiceMenu,#t_practiceMenu,{text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
-sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
-sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
-bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
---[[
+--[[select.def reference:
 - tutorial
 Set the paramvalue to 1 to predefined this character as a tutorial char.
 If more than 1 character have setting tutorial parameter
@@ -21,6 +13,13 @@ the tutorial character will be randomly chosen.
 ;SPECIFIC TUTORIAL DUMMY CHARACTER EXAMPLE:
 kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 ]]
+--;===========================================================
+--; TUTORIAL MENU SCREENPACK DEFINITION
+--;===========================================================
+table.insert(t_practiceMenu,#t_practiceMenu,{text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
+sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
+sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
+bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
 --;===========================================================
 --; TUTORIAL MODE (Learn Game Rules and Battle Tactics)
 --;===========================================================
@@ -49,6 +48,7 @@ function f_tutorial()
 	end
 	textImgSetText(txt_mainSelect, "TUTORIAL MODE")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	data.rosterMode = "tutorial" --To save playtime
 	f_selectSimple()
 end
 --;===========================================================

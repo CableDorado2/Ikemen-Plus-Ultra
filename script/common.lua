@@ -3595,6 +3595,7 @@ function f_default() --Reset Game Modes Configuration
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2
 	setLastMatch(-1) --Set Last Match Stage
+	setScore(0) --Reset Player Score
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
@@ -3928,15 +3929,18 @@ f_resetNetTimeVars()
 function loadNetTime() --One-time Load
 	local response_body = {}
 	local reques, code, response_headers = http.request{
-		url = "http://worldtimeapi.org/api/timezone/Etc/UTC", --url = "http://worldclockapi.com/api/json/utc/now",
+		url = "http://worldclockapi.com/api/json/utc/now",
+		--url = "http://worldtimeapi.org/api/timezone/Etc/UTC", --Alternative
 		sink = ltn12.sink.table(response_body)
 	}
 	if reques == 1 and code == 200 then
 		local response_str = table.concat(response_body)
 		local decoded = json.decode(response_str)
-		if decoded and decoded.datetime then --decoded.CurrentDateTime for worldclockapi
+		if decoded and decoded.currentDateTime then
+		--if decoded and decoded.datetime then --Alternative
 		--Get Date and Time
-			local datetime_str = decoded.datetime --decoded.CurrentDateTime for worldclockapi --Example: "2025-10-09T14:23Z"
+			local datetime_str = decoded.currentDateTime --Example: "2025-10-09T14:23Z"
+			--local datetime_str = decoded.datetime --Alternative
 		--Separate Date and Time
 			local date_part, time_part = datetime_str:match("^(%d+-%d+-%d+)T(%d+:%d+)")
 			--netTime = "Hour: " .. time_part
@@ -3969,7 +3973,8 @@ function loadNetTime() --One-time Load
 			currentNetTime = nil
 			netTime = nil
 			netDate = netTime
-			netLog = 'JSON does not contains "datetime"' --'JSON does not contains "currentDateTime"'
+			netLog = 'JSON does not contains "currentDateTime"'
+			--netLog = 'JSON does not contains "datetime"' --Alternative
 			return false --Unable to connect
 		end
 	else
@@ -4374,16 +4379,22 @@ if stats.modes == nil or data.erase then
 	stats.modes.tower.playtime = 0
 	stats.modes.tower.clear = 0
 	stats.modes.tower.ranking = {}
---[[
-	stats.modes.beatemup = {}
-	stats.modes.beatemup.playtime = 0
-	stats.modes.beatemup.clear = 0
-	stats.modes.beatemup.ranking = {}
-]]	
+
 	stats.modes.survival = {}
 	stats.modes.survival.playtime = 0
 	stats.modes.survival.clear = 0
 	stats.modes.survival.ranking = {}
+	
+	stats.modes.abyss = {}
+	stats.modes.abyss.playtime = 0
+	stats.modes.abyss.clear = 0
+	stats.modes.abyss.maxdepth = 0
+	stats.modes.abyss.ranking = {}
+	
+	stats.modes.legion = {}
+	stats.modes.legion.playtime = 0
+	stats.modes.legion.clear = 0
+	stats.modes.legion.ranking = {}
 	
 	stats.modes.bossrush = {}
 	stats.modes.bossrush.playtime = 0
@@ -4395,15 +4406,20 @@ if stats.modes == nil or data.erase then
 	stats.modes.bonusrush.clear = 0
 	stats.modes.bonusrush.ranking = {}
 	
+	stats.modes.scoreattack = {}
+	stats.modes.scoreattack.playtime = 0
+	stats.modes.scoreattack.clear = 0
+	stats.modes.scoreattack.ranking = {}
+	
 	stats.modes.timeattack = {}
 	stats.modes.timeattack.playtime = 0
 	stats.modes.timeattack.clear = 0
 	stats.modes.timeattack.ranking = {}
 	
-	stats.modes.scoreattack = {}
-	stats.modes.scoreattack.playtime = 0
-	stats.modes.scoreattack.clear = 0
-	stats.modes.scoreattack.ranking = {}
+	stats.modes.timerush = {}
+	stats.modes.timerush.playtime = 0
+	stats.modes.timerush.clear = 0
+	stats.modes.timerush.ranking = {}
 	
 	stats.modes.vskumite = {}
 	stats.modes.vskumite.playtime = 0
@@ -4425,33 +4441,30 @@ if stats.modes == nil or data.erase then
 	stats.modes.tourney.clear = 0
 	stats.modes.tourney.ranking = {}
 	
-	stats.modes.training = {}
-	stats.modes.training.playtime = 0
-	
 	stats.modes.trials = {}
 	stats.modes.trials.playtime = 0
+	stats.modes.trials.clear = 0
+	
+	stats.modes.tutorial = {}
+	stats.modes.tutorial.playtime = 0
+	stats.modes.tutorial.clear = 0
+	
+	stats.modes.boss = {}
+	stats.modes.boss.playtime = 0
+	stats.modes.boss.clear = 0
+	
+	stats.modes.bonus = {}
+	stats.modes.bonus.playtime = 0
+	stats.modes.bonus.clear = 0
+	
+	stats.modes.training = {}
+	stats.modes.training.playtime = 0
 	
 	stats.modes.versus = {}
 	stats.modes.versus.playtime = 0
 	
 	stats.modes.watch = {}
 	stats.modes.watch.playtime = 0
-	
-	stats.modes.boss = {}
-	stats.modes.boss.playtime = 0
-	
-	stats.modes.bonus = {}
-	stats.modes.bonus.playtime = 0
-	
-	stats.modes.timerush = {}
-	stats.modes.timerush.playtime = 0
-	
-	stats.modes.abyss = {}
-	stats.modes.abyss.playtime = 0
-	stats.modes.abyss.maxdepth = 0
-	
-	stats.modes.legion = {}
-	stats.modes.legion.playtime = 0
 end
 if stats.vault == nil or data.erase then stats.vault = "Ultra" end
 end

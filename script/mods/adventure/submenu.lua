@@ -16,15 +16,21 @@ local t_adventureMenu = {
 for i=1, #t_adventureMenu do
 	t_adventureMenu[i]['id'] = textImgNew()
 end
-
 --[[
 if stats.modes.adventure == nil then
 	stats.modes.adventure = {}
 	stats.modes.adventure.playtime = 0
 	f_saveStats()
 end
-
-table.insert(t_statsGameModes,1,{name = "Adventure", playtime = function() return stats.modes.adventure.playtime end}) --Insert new item to t_statsGameModes table loaded by main.lua
+--Insert new item to t_statsGameModes table loaded by main.lua
+table.insert(t_statsGameModes,1,
+	{
+		displayname = "Adventure",
+		id = "adventure",
+		playtime = function() return stats.modes.adventure.playtime end,
+		setplaytime = function(newtime) stats.modes.adventure.playtime = newtime end
+	}
+)
 ]]
 --;===========================================================
 --; ADVENTURE MENU (Description)

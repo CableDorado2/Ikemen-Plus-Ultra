@@ -224,7 +224,15 @@ function f_getStoryStats()
 	end
 end
 table.insert(t_statsMenu,#t_statsMenu,{text = txt_storyStatsData, varText = f_getStoryStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
-table.insert(t_statsGameModes,1,{name = "Story", playtime = function() return stats.modes.story.playtime end}) --Insert new item to t_statsGameModes table loaded by main.lua
+--Insert new item to t_statsGameModes table loaded by main.lua
+table.insert(t_statsGameModes,1,
+	{
+		name = "Story",
+		id = "story",
+		playtime = function() return stats.modes.story.playtime end,
+		setplaytime = function(newtime) stats.modes.story.playtime = newtime end
+	}
+)
 
 function f_refreshStoryStats()
 	for i=1, #t_statsMenu do
