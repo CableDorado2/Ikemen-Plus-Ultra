@@ -1,0 +1,20 @@
+Sndmaker is used to generate sound (.snd) files. The way Sndmaker
+works is almost exactly like sprmaker.  Again, it's best to redirect
+its input from a text file.
+
+The format is the same as sprmaker minus the palette options and such.
+Also, you don't need an X and Y axis.  
+
+  chars/test/test.snd
+  work/test/mysound.wav
+  0 
+  0
+  work/test/mysound2.wav
+  0
+  1
+
+
+If this file was saved as work/test/sound.txt, then you would type this
+at the command line:
+
+sndmaker < work\test\sound.txt
