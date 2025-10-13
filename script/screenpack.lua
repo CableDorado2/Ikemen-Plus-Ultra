@@ -22,6 +22,7 @@ gamepadInputHintsScaleY = 0.7
 --Sound Data (Sound effects [SFX] do not interrupt music/bgm)
 sndSys = sndNew("data/system.snd")
 sndIkemen = sndNew("data/ikemen.snd")
+sndTower = sndNew("data/tower.snd")
 sndAnncr = sndNew("data/announcer.snd")
 
 --Music Data (ONLY MP3 and OGG formats are Supported)

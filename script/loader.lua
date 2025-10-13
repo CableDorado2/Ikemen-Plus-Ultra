@@ -992,14 +992,8 @@ content = content:gsub('\n%s*\n', '\n')
 			section = 1
 	--[TowerMode]
 		elseif section == 1 then
-			if line:match('^%s*snd%s*=') then
-				t_selTower['data'] = {}t_selTower['data'] = {}
-				local data = line:gsub('%s*;.*$', '')
-				if not data:match('=%s*$') then
-					t_selTower['data']['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				end
-			end
 			if line:match('^%s*sfx.announcer%s*=') then
+				t_selTower['data'] = {}
 				local data = line:gsub('%s*;.*$', '')
 				if not data:match('=%s*$') then
 					t_selTower['data']['sfxannouncer'] = data:gsub('^%s*sfx.announcer%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
@@ -1008,8 +1002,6 @@ content = content:gsub('\n%s*\n', '\n')
 			if line:match('^%s*%[%s*[Tt][Oo][Ww][Ee][Rr]%s+[0-9]+$*%]') then
 				row = #t_selTower+1
 				t_selTower[row] = {}
-				--t_selTower[row]['ID'] = textImgNew()
-				--t_selTower[row]['displayname'] = ""
 				t_selTower[row]['kombats'] = {}
 			end
 			if line:match('^%s*displayname%s*=') then

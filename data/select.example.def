@@ -320,11 +320,8 @@ Assign arcade routes in format of Towers.
 Towers added can be played in Tower Arcade Mode.
 Setup following parameters below "[TowerMode]" section:
 
-- snd
-Set the name of the Sound Effects file to use for the tower announcer.
-
 - sfx.announcer
-Set groupNo and indexNo to read from snd file defined in "snd = " line
+Set groupNo and indexNo to read from snd file defined in screenpack.lua "sndTower" var
 to play Sound Effects for announcer.
 
 [Tower <0...>]
@@ -335,7 +332,7 @@ assigned before any other parameter used by the same tower.
 Set name that should be displayed in Tower Mode menu.
 
 - sfx
-Set groupNo and indexNo to read from snd file defined in "snd = " line
+Set groupNo and indexNo to read from snd file defined in screenpack.lua "sndTower" var
 to play Sound Effects for the tower selected.
 
 - <matchNo>
@@ -348,7 +345,6 @@ TO-DO:
 Some Examples:
 
 [TowerMode]
-snd = data/screenpack/tower.snd
 sfx.announcer = 0,0
 
 [Tower 1]

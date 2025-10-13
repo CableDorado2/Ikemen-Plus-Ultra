@@ -15352,14 +15352,8 @@ function f_selectDestiny()
 	f_resetTowerArrowsPos()
 	f_backReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	if t_selTower.data.snd ~= nil then --Choose your Destiny SFX
-		twSfx = sndNew(t_selTower.data.snd) --Load snd File
-		if t_selTower.data.sfxannouncer ~= nil then
-			local data = t_selTower.data.sfxannouncer
-			local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
-			sndPlay(twSfx, sfxGroup, sfxIndex)
-		end
-	end
+--Play Choose your destiny SFX
+	f_towerAnnouncer(t_selTower.data.sfxannouncer)
 	if data.arcadeIntro then playBGM(bgmTower) end
 	while true do
 	--Actions
@@ -15378,7 +15372,7 @@ function f_selectDestiny()
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndStop()
 				sndPlay(sndSys, 100, 1)
-				if t_selTower.data.snd ~= nil then f_playTWsfx() end
+				f_towerAnnouncer(t_selTower[destinySelect].sfxplay)
 				startCount = true
 			end
 			--Cursor position calculation
@@ -15491,11 +15485,11 @@ function f_selectDestiny()
 	end
 end
 
-function f_playTWsfx()
-	if t_selTower[destinySelect].sfxplay ~= nil then
-		local data = t_selTower[destinySelect].sfxplay
+function f_towerAnnouncer(data)
+	local data = data or nil
+	if data ~= nil then
 		local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
-		sndPlay(twSfx, sfxGroup, sfxIndex)
+		sndPlay(sndTower, sfxGroup, sfxIndex)
 	end
 end
 
@@ -15558,7 +15552,7 @@ function f_battlePlan()
 					if loopSfx > 45 then --reset sfx loop (time is in ticks)
 						loopSfx = 0
 					end
-					if loopSfx == 0 then sndPlay(twSfx, 1, 0) end --Play Scroll Down Sfx
+					if loopSfx == 0 then sndPlay(sndIkemen, 220, 1) end --Play Scroll Down Sfx
 					loopSfx = loopSfx + 1
 				--Scroll Logic
 					CPUslotPosY = CPUslotPosY - 2
@@ -15577,7 +15571,7 @@ function f_battlePlan()
 				towerPlanTimer = towerPlanTimer + 1
 			else
 				if scrollUp < CPUslotSpacingY then --when introTime is over. Start Up Scroll
-					if scroll == 0 then sndPlay(twSfx, 1, 1) end --Play Scroll Up Sfx
+					if scroll == 0 then sndPlay(sndIkemen, 220, 2) end --Play Scroll Up Sfx
 					scrollUp = scrollUp + 0.8
 					if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then --Skip Battle Plan Preview
 						sndStop()
@@ -15716,7 +15710,7 @@ function f_battlePlan()
 end
 
 function f_battlePreview()
-	if battlePreviewTimer == 0 then sndPlay(twSfx, 1, 2) end --Play Stop Sfx
+	if battlePreviewTimer == 0 then sndPlay(sndIkemen, 220, 3) end --Play Stop Sfx
 	battlePreviewTimer = battlePreviewTimer + 1 --Time to show VS preview
 	if battlePreviewTimer == 250 or (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 		commandBufReset(p1Cmd)
