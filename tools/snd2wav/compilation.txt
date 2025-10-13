@@ -1,0 +1,8 @@
+python and py2exe need to be installed on system, to execute via cmd the following command to compile snd2wav.exe:
+>python setup.py py2exe
+
+to use with snd2wav.exe:
+snd2wav.exe "..\..\chars\Kung Fu Man\kfm.snd" "..\..\data\charSnd\Kung_Fu_Man"
+
+to use with sndmaker.exe:
+sndmaker.exe < "..\data\charSnd\Kung_Fu_Man\kfm.txt"

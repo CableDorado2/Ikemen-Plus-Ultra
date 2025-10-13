@@ -19,17 +19,25 @@ assert HeaderSize == 512
 #==============================================================================
 
 def main():
-    if len(sys.argv[1:]) == 1:
-        sndfile = sys.argv[1]
-        name = os.path.splitext(os.path.basename(sndfile))[0]
+    args = sys.argv[1:]
+    if len(args) == 1:
+        sndfile = args[0]
+        output_dir = os.getcwd()  # por defecto, en el directorio actual
+    elif len(args) >= 2:
+        sndfile = args[0]
+        output_dir = args[1]
     else:
-        sndfile, name = sys.argv[1:]
-        
-    os.chdir(os.path.dirname(sndfile))
-    
-    if not os.path.isdir(name):
-        os.mkdir(name)
-    
+        print("Uso: snd2wav archivo.snd [directorio_de_salida]")
+        sys.exit(1)
+
+    # Crear el directorio de salida si no existe
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Sacar solo el nombre base del archivo .snd
+    name = os.path.splitext(os.path.basename(sndfile))[0]
+
+    # Leer el archivo
     filedata = open(sndfile, "rb").read()
     filesize = len(filedata)
     f = StringIO(filedata)
@@ -48,25 +56,30 @@ def main():
             break
         
         next, wavSize, group, index = struct.unpack(SubHeaderFormat, data)
-        
         wavData = f.read(wavSize)
-        wavPath = "%s/%s_%d_%d.wav"%(name, name, group, index)
-        
+
+        # Generar solo el nombre del archivo
+        wav_filename = "%s_%d_%d.wav" % (name, group, index)
+        # Ruta completa en el directorio de salida
+        wavPath = os.path.join(output_dir, wav_filename)
         
         with open(wavPath, "wb") as wavOut:
             wavOut.write(wavData)
-            wavOut.close()
-        print group, index
         
-        wavfiles[group, index] = wavPath
+        # Guardar solo el nombre en el diccionario para el .txt
+        wavfiles[(group, index)] = wav_filename
     
-    with open("%s.txt"%(name,), "w") as fp:
-        print>>fp, "%s.snd"%(name,)
-        for group, index in sorted(wavfiles.iterkeys()):
-            print >> fp, wavfiles[group, index]
+    # Crear el archivo de texto
+    txt_path = os.path.join(output_dir, "%s.txt" % (name,))
+    with open(txt_path, "w") as fp:
+        print>>fp, "%s.snd" % (name,)
+        for group, index in sorted(wavfiles.keys()):
+            print >> fp, wavfiles[(group, index)]
             print >> fp, group
             print >> fp, index
-    print "èoóÕ=%s"%(os.path.abspath(fp.name))
+
+    print("Output directory:", os.path.abspath(output_dir))
+    print("Archivo de salida:", os.path.abspath(txt_path))
     
 #==============================================================================
 
