@@ -321,7 +321,7 @@ This I.K.E.M.E.N. Software is an expansion of his original SSZ code.
 >- I.K.E.M.E.N. GO Plus Source Code:
 >https://github.com/K4thos/Ikemen-GO-Plus
 >
->- Lastest I.K.E.M.E.N. Engine (I.K.E.M.E.N. GO) Source Code:
+>- Latest I.K.E.M.E.N. Engine (I.K.E.M.E.N. GO) Source Code:
 >https://github.com/ikemen-engine/Ikemen-GO
 
 ## License
