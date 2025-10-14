@@ -107,6 +107,8 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Opción para jugar el Modo Torneo en formato Eliminación Doble.
 
+- Al jugar en team mode o coop el abyss, cada ranura de custom item se va a aplicar a cada jugador incrementando el nivel de estrategia sobre qué personaje usará X item.
+
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
 - Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
