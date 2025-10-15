@@ -11,7 +11,8 @@ local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 table.insert(t_extrasMenu,5,{text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 115, 10)
 local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 122, 10)
-local txt_internetTime = createTextImg(jgFnt, 0, -1, "", 318, 10)
+local txt_localTime = createTextImg(jgFnt, 0, -1, "", 318, 10)
+local txt_internetTime = createTextImg(jgFnt, 0, -1, "", 318, 20)
 local txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
 local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
 local txt_eventCancel = "EVENT TIME UNAVAILABLE"
@@ -451,8 +452,10 @@ function f_eventMenu()
 		textImgDraw(txt_eventMenu)
 		textImgSetText(txt_eventProgress,"["..f_getProgress(stats.modes.event, t_events, "percentage").."%]")
 		textImgDraw(txt_eventProgress)
+		textImgSetText(txt_localTime, "LOCAL:"..os.date(t_clockFormats[data.clock].locale))
+		textImgDraw(txt_localTime)
 		if currentNetTime ~= nil then
-			textImgSetText(txt_internetTime, netTime)
+			textImgSetText(txt_internetTime, "INTERNET:"..netTime)
 			textImgDraw(txt_internetTime)
 		end
 	--Draw Content Transparent BG

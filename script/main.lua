@@ -17180,6 +17180,7 @@ function abyssHumanvsCPU()
 	else
 		setPlayerSide('p1left')
 	end
+	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -17199,6 +17200,7 @@ function abyssCPUvsHuman()
 		setPlayerSide('p2right')
 	end
 	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
@@ -17238,6 +17240,7 @@ end
 --CPU MODE (watch CPU fight in abyss)
 function abyssCPUvsCPU()
 	abyssDat.nosave.sideselect = "abyssCPUvsCPU"
+	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -17938,8 +17941,7 @@ animSetScale(sdlImg2, 0.35, 0.35)
 animUpdate(sdlImg2)
 t_sdlWarning = {
 	{text = "For this I.K.E.M.E.N. ENGINE"},
-	{text = "ONLY SFF sprites Version 1.0.1.0 or Version 2.0.0.0"},
-	{text = "are supported."},
+	{text = "ONLY 8-Bit/Indexed sprites are currently supported."},
 }
 for i=1, #t_sdlWarning do
 	t_sdlWarning[i]['id'] = createTextImg(font2, 0, 0, t_sdlWarning[i].text, 159, 65+i*15)

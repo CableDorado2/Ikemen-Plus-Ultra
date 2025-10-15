@@ -22,28 +22,28 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-   0, 0, data\charTrash\suave_dude\s002.png,  21,107
-   0, 1, data\charTrash\suave_dude\s003.png,  21,107
-   0, 2, data\charTrash\suave_dude\s004.png,  21,107
-   0, 3, data\charTrash\suave_dude\s005.png,  22,107
- 181, 0, data\charTrash\suave_dude\s052.png,  17,109
- 181, 1, data\charTrash\suave_dude\s053.png,  20,111
- 181, 2, data\charTrash\suave_dude\s054.png,  20,111
- 181, 3, data\charTrash\suave_dude\s055.png,  20,112
- 181, 4, data\charTrash\suave_dude\s056.png,  20,113
- 181, 5, data\charTrash\suave_dude\s057.png,  20,113
- 181, 6, data\charTrash\suave_dude\s058.png,  20,111
- 181, 7, data\charTrash\suave_dude\s059.png,  20,110
- 181, 8, data\charTrash\suave_dude\s060.png,  20,109
-5040, 0, data\charTrash\suave_dude\s115.png,  51, 51
-5040,10, data\charTrash\suave_dude\s118.png,  50, 21
-5040,20, data\charTrash\suave_dude\s122.png,  50, 49
-5300, 0, data\charTrash\suave_dude\s140.png,  23, 84
-5300, 1, data\charTrash\suave_dude\s141.png,  23, 84
-5300, 2, data\charTrash\suave_dude\s142.png,  23, 84
-5300, 3, data\charTrash\suave_dude\s143.png,  23, 84
-5300, 4, data\charTrash\suave_dude\s144.png,  23, 84
-5300, 5, data\charTrash\suave_dude\s145.png,  23, 84
-5300, 6, data\charTrash\suave_dude\s146.png,  23, 84
-5300, 7, data\charTrash\suave_dude\s147.png,  23, 84
- 200, 0, data\charTrash\suave_dude\s148.png,  21,107
+   0, 0, data\charTrash\suave_dude\s006.png,  21,107
+   0, 1, data\charTrash\suave_dude\s007.png,  21,107
+   0, 2, data\charTrash\suave_dude\s008.png,  21,107
+   0, 3, data\charTrash\suave_dude\s009.png,  22,107
+ 181, 0, data\charTrash\suave_dude\s056.png,  17,109
+ 181, 1, data\charTrash\suave_dude\s057.png,  20,111
+ 181, 2, data\charTrash\suave_dude\s058.png,  20,111
+ 181, 3, data\charTrash\suave_dude\s059.png,  20,112
+ 181, 4, data\charTrash\suave_dude\s060.png,  20,113
+ 181, 5, data\charTrash\suave_dude\s061.png,  20,113
+ 181, 6, data\charTrash\suave_dude\s062.png,  20,111
+ 181, 7, data\charTrash\suave_dude\s063.png,  20,110
+ 181, 8, data\charTrash\suave_dude\s064.png,  20,109
+5040, 0, data\charTrash\suave_dude\s119.png,  51, 51
+5040,10, data\charTrash\suave_dude\s122.png,  50, 21
+5040,20, data\charTrash\suave_dude\s126.png,  50, 49
+5300, 0, data\charTrash\suave_dude\s144.png,  23, 84
+5300, 1, data\charTrash\suave_dude\s145.png,  23, 84
+5300, 2, data\charTrash\suave_dude\s146.png,  23, 84
+5300, 3, data\charTrash\suave_dude\s147.png,  23, 84
+5300, 4, data\charTrash\suave_dude\s148.png,  23, 84
+5300, 5, data\charTrash\suave_dude\s149.png,  23, 84
+5300, 6, data\charTrash\suave_dude\s150.png,  23, 84
+5300, 7, data\charTrash\suave_dude\s151.png,  23, 84
+ 200, 0, data\charTrash\suave_dude\s152.png,  21,107

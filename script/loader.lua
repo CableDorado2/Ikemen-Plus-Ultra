@@ -34,7 +34,7 @@ function f_parseChar(t, cel)
 		t['displayname'] = displayname
 		t['def'] = def
 		t['dir'] = dir
-		t['ikanim'] = f_getCharPath("chars", def) --Because getCharFileName() return in lowercase
+		--t['ikanim'] = f_getCharPath("chars", def) --Because getCharFileName() return in lowercase
 		local sffPath = ''
 		local sndPath = ''
 		local airPath = ''
@@ -757,7 +757,7 @@ local sff2png = [[
 [Option]
 input.dir =
 sprite.compress.5 = lz5 ;none/lz5/rle5
-sprite.compress.8 = rle8 ;none/rle8/png8
+sprite.compress.8 = png8 ;none/rle8/png8
 sprite.compress.24 = png24 ;none/png24
 sprite.compress.32 = png32 ;none/png32
 sprite.decompressonload = 0 ;0/1
@@ -777,7 +777,7 @@ sprite.usepal = -1 ;Set this to the right pal
 ]]
 local generate = false
 local name = ''
-local batch = ''
+local batch = 'mkdir data\\charAnim\nmkdir debug'
 local t_gen = {}
 t_trainingChar = {}
 t_tutorialChar = {}
@@ -928,11 +928,10 @@ if t_selChars ~= nil then
 		--create variable with character's name, whitespace replaced with underscore
 			displayname = t_selChars[i].name:gsub('%s+', '_')
 		--if data/charAnim/displayname.def doesn't exist
-			local charAnimPath = t_selChars[i].ikanim --chars/charName/
-			local charAnimPathWin = t_selChars[i].ikanim:gsub('/', '\\') --this convert chars/charName/ to chars\\charName\\
+			--local charAnimPath = t_selChars[i].ikanim --chars/charName/
+			--local charAnimPathWin = t_selChars[i].ikanim:gsub('/', '\\') --this convert chars/charName/ to chars\\charName\\
 			if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
 			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
-				batch = 'mkdir data\\charAnim\nmkdir debug'
 				batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
 			--store character's reference that needs conversion into table to save time later on
 				t_gen[#t_gen+1] = i
@@ -1181,8 +1180,8 @@ if generate and data.sffConversion then
 	--open each line in data/charTrash/charName/s-sff.def to compare
 		for i=1, #t_gen do
 			local append = ''
-			local charAnimPath = t_selChars[t_gen[i]].ikanim
-			local charAnimPathWin = t_selChars[t_gen[i]].ikanim:gsub('/', '\\')
+			--local charAnimPath = t_selChars[t_gen[i]].ikanim
+			--local charAnimPathWin = t_selChars[t_gen[i]].ikanim:gsub('/', '\\')
 			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
 			--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
@@ -1200,7 +1199,7 @@ if generate and data.sffConversion then
 		--batOpen("", "batch.bat")
 		os.execute('batch.bat')
 		for i=1, #t_gen do
-			local charAnimPath = t_selChars[t_gen[i]].ikanim
+			--local charAnimPath = t_selChars[t_gen[i]].ikanim
 			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			t_selChars[t_gen[i]]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
 			if t_selChars[t_gen[i]].stand ~= nil then

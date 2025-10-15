@@ -22,31 +22,31 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-   0, 0, data\charTrash\vnfight_1\s002.png,  23, 97
-   0, 1, data\charTrash\vnfight_1\s003.png,  23, 96
-   0, 2, data\charTrash\vnfight_1\s004.png,  24, 95
-   0, 3, data\charTrash\vnfight_1\s005.png,  24, 94
-   0, 4, data\charTrash\vnfight_1\s006.png,  23, 97
- 181, 0, data\charTrash\vnfight_1\s074.png,  21, 95
- 181, 1, data\charTrash\vnfight_1\s075.png,  23, 95
- 181, 2, data\charTrash\vnfight_1\s076.png,  25, 95
- 181, 3, data\charTrash\vnfight_1\s077.png,  25, 95
- 181, 4, data\charTrash\vnfight_1\s078.png,  25, 95
- 181, 5, data\charTrash\vnfight_1\s079.png,  25, 95
- 181, 6, data\charTrash\vnfight_1\s080.png,  25, 95
- 181, 7, data\charTrash\vnfight_1\s081.png,  25, 95
- 181, 8, data\charTrash\vnfight_1\s082.png,  25, 95
- 181, 9, data\charTrash\vnfight_1\s083.png,  25, 95
- 181,10, data\charTrash\vnfight_1\s084.png,  25, 95
- 181,11, data\charTrash\vnfight_1\s085.png,  25, 95
- 181,12, data\charTrash\vnfight_1\s086.png,  25, 95
- 181,13, data\charTrash\vnfight_1\s087.png,  25, 95
- 181,14, data\charTrash\vnfight_1\s088.png,  25, 95
- 193, 0, data\charTrash\vnfight_1\s095.png,  21, 95
-5000, 0, data\charTrash\vnfight_1\s272.png,  23, 96
-5000,10, data\charTrash\vnfight_1\s273.png,  29, 93
-5000,11, data\charTrash\vnfight_1\s274.png,  29, 93
-5010, 0, data\charTrash\vnfight_1\s283.png,  30, 85
-5040, 0, data\charTrash\vnfight_1\s315.png,  45, 39
-5040,10, data\charTrash\vnfight_1\s317.png,  47, 23
-5040,20, data\charTrash\vnfight_1\s319.png,  42, 53
+   0, 0, data\charTrash\vnfight_1\s007.png,  23, 97
+   0, 1, data\charTrash\vnfight_1\s008.png,  23, 96
+   0, 2, data\charTrash\vnfight_1\s009.png,  24, 95
+   0, 3, data\charTrash\vnfight_1\s010.png,  24, 94
+   0, 4, data\charTrash\vnfight_1\s011.png,  23, 97
+ 181, 0, data\charTrash\vnfight_1\s079.png,  21, 95
+ 181, 1, data\charTrash\vnfight_1\s080.png,  23, 95
+ 181, 2, data\charTrash\vnfight_1\s081.png,  25, 95
+ 181, 3, data\charTrash\vnfight_1\s082.png,  25, 95
+ 181, 4, data\charTrash\vnfight_1\s083.png,  25, 95
+ 181, 5, data\charTrash\vnfight_1\s084.png,  25, 95
+ 181, 6, data\charTrash\vnfight_1\s085.png,  25, 95
+ 181, 7, data\charTrash\vnfight_1\s086.png,  25, 95
+ 181, 8, data\charTrash\vnfight_1\s087.png,  25, 95
+ 181, 9, data\charTrash\vnfight_1\s088.png,  25, 95
+ 181,10, data\charTrash\vnfight_1\s089.png,  25, 95
+ 181,11, data\charTrash\vnfight_1\s090.png,  25, 95
+ 181,12, data\charTrash\vnfight_1\s091.png,  25, 95
+ 181,13, data\charTrash\vnfight_1\s092.png,  25, 95
+ 181,14, data\charTrash\vnfight_1\s093.png,  25, 95
+ 193, 0, data\charTrash\vnfight_1\s100.png,  21, 95
+5000, 0, data\charTrash\vnfight_1\s277.png,  23, 96
+5000,10, data\charTrash\vnfight_1\s278.png,  29, 93
+5000,11, data\charTrash\vnfight_1\s279.png,  29, 93
+5010, 0, data\charTrash\vnfight_1\s288.png,  30, 85
+5040, 0, data\charTrash\vnfight_1\s320.png,  45, 39
+5040,10, data\charTrash\vnfight_1\s322.png,  47, 23
+5040,20, data\charTrash\vnfight_1\s324.png,  42, 53

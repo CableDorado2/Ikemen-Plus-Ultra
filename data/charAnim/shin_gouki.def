@@ -22,30 +22,30 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-5040, 0, data\charTrash\shin_gouki\s043.png,  56, 42
-5040,10, data\charTrash\shin_gouki\s048.png,  53, 37
-5040,11, data\charTrash\shin_gouki\s051.png,  54, 37
-5040,20, data\charTrash\shin_gouki\s052.png,  48, 54
-5300, 0, data\charTrash\shin_gouki\s080.png,  31,106
-5300, 1, data\charTrash\shin_gouki\s081.png,  32,105
-5300, 2, data\charTrash\shin_gouki\s082.png,  31,107
-5300, 3, data\charTrash\shin_gouki\s083.png,  31,106
-5300, 4, data\charTrash\shin_gouki\s084.png,  31,106
-5300, 5, data\charTrash\shin_gouki\s085.png,  32,108
- 170, 0, data\charTrash\shin_gouki\s098.png,  33,101
- 170, 1, data\charTrash\shin_gouki\s099.png,  28, 78
-5130, 0, data\charTrash\shin_gouki\s106.png,  28, 80
-5130, 1, data\charTrash\shin_gouki\s107.png,  33, 74
-5130, 2, data\charTrash\shin_gouki\s108.png,  43, 64
-   0, 0, data\charTrash\shin_gouki\s122.png,  27,110
-   0, 1, data\charTrash\shin_gouki\s123.png,  27,109
-   0, 2, data\charTrash\shin_gouki\s124.png,  27,110
-   0, 3, data\charTrash\shin_gouki\s125.png,  27,114
-   0, 4, data\charTrash\shin_gouki\s126.png,  27,115
-   0, 5, data\charTrash\shin_gouki\s127.png,  27,114
-   0, 6, data\charTrash\shin_gouki\s128.png,  27,111
- 181, 0, data\charTrash\shin_gouki\s190.png,   2,110
- 181, 1, data\charTrash\shin_gouki\s191.png,  13,112
- 181, 2, data\charTrash\shin_gouki\s192.png,  16,112
- 207,11, data\charTrash\shin_gouki\s241.png,  25,110
-9000, 9, data\charTrash\shin_gouki\s1128.png,   0,  0
+9000, 9, data\charTrash\shin_gouki\s007.png,   0,  0
+   0, 0, data\charTrash\shin_gouki\s008.png,  27,110
+   0, 1, data\charTrash\shin_gouki\s009.png,  27,109
+   0, 2, data\charTrash\shin_gouki\s010.png,  27,110
+   0, 3, data\charTrash\shin_gouki\s011.png,  27,114
+   0, 4, data\charTrash\shin_gouki\s012.png,  27,115
+   0, 5, data\charTrash\shin_gouki\s013.png,  27,114
+   0, 6, data\charTrash\shin_gouki\s014.png,  27,111
+ 170, 0, data\charTrash\shin_gouki\s076.png,  33,101
+ 170, 1, data\charTrash\shin_gouki\s077.png,  28, 78
+ 181, 0, data\charTrash\shin_gouki\s084.png,   2,110
+ 181, 1, data\charTrash\shin_gouki\s085.png,  13,112
+ 181, 2, data\charTrash\shin_gouki\s086.png,  16,112
+ 207,11, data\charTrash\shin_gouki\s135.png,  25,110
+5040, 0, data\charTrash\shin_gouki\s656.png,  56, 42
+5040,10, data\charTrash\shin_gouki\s659.png,  53, 37
+5040,11, data\charTrash\shin_gouki\s660.png,  54, 37
+5040,20, data\charTrash\shin_gouki\s661.png,  48, 54
+5130, 0, data\charTrash\shin_gouki\s693.png,  28, 80
+5130, 1, data\charTrash\shin_gouki\s694.png,  33, 74
+5130, 2, data\charTrash\shin_gouki\s695.png,  43, 64
+5300, 0, data\charTrash\shin_gouki\s696.png,  31,106
+5300, 1, data\charTrash\shin_gouki\s697.png,  32,105
+5300, 2, data\charTrash\shin_gouki\s698.png,  31,107
+5300, 3, data\charTrash\shin_gouki\s699.png,  31,106
+5300, 4, data\charTrash\shin_gouki\s700.png,  31,106
+5300, 5, data\charTrash\shin_gouki\s701.png,  32,108
