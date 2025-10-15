@@ -1,5 +1,5 @@
 The source code to this library used with SDL_ttf can be found here:
-https://hg.libsdl.org/SDL_ttf/file/default/external
+http://www.libsdl.org/projects/SDL_ttf/libs/
 ---
 
                     The FreeType Project LICENSE
@@ -52,7 +52,7 @@ Introduction
   encourage you to use the following text:
 
    """
-    Portions of this software are copyright Â© <year> The FreeType
+    Portions of this software are copyright © <year> The FreeType
     Project (www.freetype.org).  All rights reserved.
    """
 
@@ -167,7 +167,7 @@ Legal Terms
 
   Our home page can be found at
 
-    https://www.freetype.org
+    http://www.freetype.org
 
 
 --- end of FTL.TXT ---
