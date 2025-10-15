@@ -14,7 +14,7 @@
 
 #include <png.h>
 #pragma comment(lib, "libpng.lib")
-#pragma comment(lib, "zlib1.lib")
+#pragma comment(lib, "zlib.lib")
 
 #include <SDL.h>
 #pragma comment(lib, "SDL2.lib")

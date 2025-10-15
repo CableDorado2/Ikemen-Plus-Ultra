@@ -1,2 +1,2 @@
 CD2 says:
-zlib1.lib is a copy from the compiled on "libpng\projects\visualc71\Win32_LIB_Release" it is compiled as "zlib.lib", just rename it adding 1 number and will be ready to work.
+this zlib.lib is a copy from the compiled on "lpng1235\projects\visualc71\Win32_LIB_Release\ZLib" since for some reason, it can't be compiled from "zlib123\projects\visualc6"
