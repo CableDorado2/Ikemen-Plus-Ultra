@@ -1374,16 +1374,40 @@ void wintime(&.lua.State L=, int re=)
   L.pushBoolean(#.cwc > 0 && .cwc~trWinTime());
 }
 
+void winthrow(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinThrow());
+}
+
+void winperfectthrow(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinPerfectThrow());
+}
+
 void winspecial(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushBoolean(#.cwc > 0 && .cwc~trWinSpecial());
 }
 
+void winperfectspecial(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinPerfectSpecial());
+}
+
 void winhyper(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushBoolean(#.cwc > 0 && .cwc~trWinHyper());
+}
+
+void winperfecthyper(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinPerfectHyper());
 }
 
 void winperfect(&.lua.State L=, int re=)
@@ -1582,8 +1606,12 @@ public void registerFunction(&.lua.State L=)
   L.register("win", .win);
   L.register("winko", .winko);
   L.register("wintime", .wintime);
+  L.register("winthrow", .winthrow);
+  L.register("winperfectthrow", .winperfectthrow);
   L.register("winspecial", .winspecial);
+  L.register("winperfectspecial", .winperfectspecial);
   L.register("winhyper", .winhyper);
+  L.register("winperfecthyper", .winperfecthyper);
   L.register("winperfect", .winperfect);
   L.register("firstattack", .firstattack);
   L.register("score", .score);

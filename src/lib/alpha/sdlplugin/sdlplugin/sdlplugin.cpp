@@ -832,6 +832,76 @@ void TestIMG()
 	SDL_Quit();
 }
 
+TUserFunc(int, PlayVideo, Reference fn, Reference vldir)
+{
+	//std::wstring videoRenderer = pu->refToWstr(fn);
+	return 0;
+}
+
+/*/VLC VIDEO PLAYER TEST
+#include <vlc/vlc.h>
+#pragma comment(lib, "libvlc.lib")
+
+libvlc_instance_t *vlcInstance = nullptr;
+libvlc_media_t *media = nullptr;
+libvlc_media_player_t *mediaPlayer = nullptr;
+
+//std::wstring videoPath = L"path/to/video.mp4";
+TUserFunc(void, PlayVideo, Reference vp, Reference fn)
+{
+	SDL_SysWMinfo info;
+	SDL_VERSION(&info.version);
+	if (SDL_GetWindowWMInfo(g_window, &info))
+	{
+		HWND hwnd = info.info.win.window;
+		std::wstring videoPath = pu->refToWstr(vp);
+	//Crear una instancia de libVLC
+		if (!vlcInstance) {
+			const char* args[] = {
+				"--no-xlib" //Para evitar problemas en algunos entornos
+			};
+			vlcInstance = libvlc_new(sizeof(args) / sizeof(args[0]), args);
+			if (!vlcInstance) {
+				std::cerr << "Error creando la instancia de libVLC" << std::endl;
+				return;
+			}
+		}
+	//Crear media
+		media = libvlc_media_new_path(vlcInstance, "tools/Opening.wmv");
+		//media = libvlc_media_new_path(vlcInstance, videoPath.c_str());
+		if (!media) {
+			std::cerr << "Error cargando el media" << std::endl;
+			return;
+		}
+	//Crear el media player
+		mediaPlayer = libvlc_media_player_new_from_media(media);
+		if (!mediaPlayer) {
+			std::cerr << "Error creando el media player" << std::endl;
+			libvlc_media_release(media);
+			return;
+		}
+		libvlc_media_player_set_hwnd(mediaPlayer, hwnd); //Ventana en la que se mostrará el video
+		libvlc_media_player_play(mediaPlayer); //Reproducir
+	}
+}
+
+void stopVideo() {
+    if (mediaPlayer) {
+        libvlc_media_player_stop(mediaPlayer);
+        libvlc_media_player_release(mediaPlayer);
+        mediaPlayer = nullptr;
+    }
+    if (media) {
+        libvlc_media_release(media);
+        media = nullptr;
+    }
+    if (vlcInstance) {
+        libvlc_release(vlcInstance);
+        vlcInstance = nullptr;
+    }
+}
+*/
+
 void TestRoom()
 {
 	//TestTTF();
@@ -4077,73 +4147,3 @@ TUserFunc(bool, UnbindGlContext)
 {
 	return wglMakeCurrent(nullptr, nullptr) != 0;
 }
-
-TUserFunc(int, PlayVideo, Reference fn, Reference vldir)
-{
-	//std::wstring videoRenderer = pu->refToWstr(fn);
-	return 0;
-}
-
-/*/VLC VIDEO PLAYER TEST
-#include <vlc/vlc.h>
-#pragma comment(lib, "libvlc.lib")
-
-libvlc_instance_t *vlcInstance = nullptr;
-libvlc_media_t *media = nullptr;
-libvlc_media_player_t *mediaPlayer = nullptr;
-
-//std::wstring videoPath = L"path/to/video.mp4";
-TUserFunc(void, PlayVideo, Reference vp, Reference fn)
-{
-	SDL_SysWMinfo info;
-	SDL_VERSION(&info.version);
-	if (SDL_GetWindowWMInfo(g_window, &info))
-	{
-		HWND hwnd = info.info.win.window;
-		std::wstring videoPath = pu->refToWstr(vp);
-	//Crear una instancia de libVLC
-		if (!vlcInstance) {
-			const char* args[] = {
-				"--no-xlib" //Para evitar problemas en algunos entornos
-			};
-			vlcInstance = libvlc_new(sizeof(args) / sizeof(args[0]), args);
-			if (!vlcInstance) {
-				std::cerr << "Error creando la instancia de libVLC" << std::endl;
-				return;
-			}
-		}
-	//Crear media
-		media = libvlc_media_new_path(vlcInstance, "tools/Opening.wmv");
-		//media = libvlc_media_new_path(vlcInstance, videoPath.c_str());
-		if (!media) {
-			std::cerr << "Error cargando el media" << std::endl;
-			return;
-		}
-	//Crear el media player
-		mediaPlayer = libvlc_media_player_new_from_media(media);
-		if (!mediaPlayer) {
-			std::cerr << "Error creando el media player" << std::endl;
-			libvlc_media_release(media);
-			return;
-		}
-		libvlc_media_player_set_hwnd(mediaPlayer, hwnd); //Ventana en la que se mostrará el video
-		libvlc_media_player_play(mediaPlayer); //Reproducir
-	}
-}
-
-void stopVideo() {
-    if (mediaPlayer) {
-        libvlc_media_player_stop(mediaPlayer);
-        libvlc_media_player_release(mediaPlayer);
-        mediaPlayer = nullptr;
-    }
-    if (media) {
-        libvlc_media_release(media);
-        media = nullptr;
-    }
-    if (vlcInstance) {
-        libvlc_release(vlcInstance);
-        vlcInstance = nullptr;
-    }
-}
-*/

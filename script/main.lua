@@ -8955,6 +8955,7 @@ end
 
 --Actions when you select a Character
 function f_p1Selection()
+	animReset(t_selChars[p1Cell+1].p1AnimWin)
 	sndPlay(sndSys, 100, 1)
 --Classic Palette Select
 	if data.palType == "Classic" then
@@ -10445,6 +10446,7 @@ function f_p2SelectMenu()
 end
 
 function f_p2Selection()
+	animReset(t_selChars[p2Cell+1].p2AnimWin)
 	sndPlay(sndSys, 100, 1)
 	if data.palType == "Classic" then
 		p2PalSel = btnPalNo(p2Cmd, true)

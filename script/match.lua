@@ -939,24 +939,32 @@ local function f_setMatchTexts()
 end
 f_setMatchTexts() --Load when match start
 
+local scoreActive = false
 local function f_setWinScore()
-	if life() ~= lifemax() then
-		setScore(getScore() + life()*10) --Life remains add score
-	else
-		setScore(getScore() + 30000)
-	end
-	--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000)
-	--if firstattack() then setScore(getScore() + 1500) end
-	if winperfect() then setScore(getScore() + 15000)
-	--elseif winhyper() then setScore(getScore() + 10000)
-	--elseif winspecial() then setScore(getScore() + 3000)
+	if scoreActive and roundstate() == 4 and player(1) and time() == 0 then
+		if life() ~= lifemax() then
+			setScore(getScore() + life()*10) --Life remains add score
+		else
+			setScore(getScore() + 30000)
+		end
+		--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000)
+		--if firstattack() then setScore(getScore() + 1500) end
+		if winperfecthyper() then setScore(getScore() + 25000)
+		elseif winperfectthrow() then setScore(getScore() + 20000)
+		elseif winperfectspecial() then setScore(getScore() + 15000)
+		elseif winperfect() then setScore(getScore() + 10000)
+		elseif winhyper() then setScore(getScore() + 8000)
+		elseif winthrow() then setScore(getScore() + 3000)
+		elseif winspecial() then setScore(getScore() + 1000)
+		end
 	end
 end
 
 local function f_drawScore()
+	scoreActive = true
 	local pts = 0
 	if player(2) and time() == 0 then
-		pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
+		--pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
 	end
 	setScore(getScore() + pts)
 	textImgSetText(txt_ScoreP1FightCfg, getScore())
@@ -1114,6 +1122,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	end
 	f_setStageMusic()
+	f_setWinScore()
 --When Attract Mode is Enabled
 	if data.attractMode then
 		if getGameMode() == "demo" then

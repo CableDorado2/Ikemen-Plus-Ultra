@@ -5641,13 +5641,29 @@ public &Char
   {
     ret false; //TODO
   }
+  public bool trWinThrow()
+  {
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::Throw;
+  }
+  public bool trWinPerfectThrow()
+  {
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PThrow;
+  }
   public bool trWinSpecial()
   {
-    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::S; //TODO
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::S;
+  }
+  public bool trWinPerfectSpecial()
+  {
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PS;
   }
   public bool trWinHyper()
   {
-    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::H; //TODO
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::H;
+  }
+  public bool trWinPerfectHyper()
+  {
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PH;
   }
   public bool trWinPerfect()
   {
