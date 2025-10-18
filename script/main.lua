@@ -14413,7 +14413,6 @@ end
 --; COMMON SIDE ACTIONS
 --;===================================================================
 function f_arcadeEnd()
-	f_missionStatus() --Because for some reason, mission 2 not save data in his script..
 	if data.rosterMode == "arcade" then
 		stats.modes.arcade.clear = stats.modes.arcade.clear + 1 --Progress
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side
