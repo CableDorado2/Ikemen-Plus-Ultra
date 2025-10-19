@@ -4739,3 +4739,22 @@ function f_loadLuaMods(bool)
 	end
 end
 require("script.options") --Load options script
+--[[ 
+local easy = curl.easy()
+local url_Test = "http://example.com"
+easy:setopt(curl.OPT_URL, url_Test)
+easy:setopt(curl.OPT_CONNECTTIMEOUT, 10) 
+local res = easy:perform()
+if res then
+	local http_code = easy:getinfo(curl.INFO_RESPONSE_CODE)
+	print("Success.")
+	print("URL: " .. url_Test)
+	print("Code HTTP: " .. tostring(http_code))
+else
+	local err_code = easy:getinfo(curl.EASY_RESULT) or -1 
+	print("Failed.")
+	print("Error Code: " .. tostring(err_code))
+	print("Error Msg: " .. curl.strerror(err_code))
+end
+easy:close()
+]]
