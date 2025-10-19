@@ -13,3 +13,4 @@ lib/alpha/dll/sdlplugin.lib
 save/00_ExtraStagesList.txt
 save/00_CharactersList.txt
 script/dlc.lua
+/src/lib/alpha/sdlplugin/sdlplugin/Release
