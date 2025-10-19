@@ -1,3 +1,32 @@
+os_type = nil
+--Check Linux/MacOS version
+local handle_uname = io.popen("uname -a")
+local uname_output = handle_uname:read("*a")
+handle_uname:close()
+if uname_output ~= "" then
+	if uname_output:match("Darwin") then
+		os_type = "macos"
+	else
+		os_type = "linux"
+	end
+--Check Windows Version
+else
+	local handle_ver = io.popen("ver")
+	local ver_output = handle_ver:read("*a")
+	handle_ver:close()
+	if ver_output ~= "" then
+		if ver_output:match("5%.1") then
+			os_type = "windowsXP"
+		else
+			os_type = "windows"
+		end
+	else
+		os_type = "Unknown"
+	end
+end
+local file = io.open('save/debug/osVer.log',"w+")
+file:write(os_type)
+file:close()
 --;===========================================================
 --; LIBRARY DEFINITION
 --;===========================================================
@@ -10,15 +39,19 @@ package.cpath = "./lib/lua/?.dll;" ..
 --Configure search paths for Lua libraries
 package.path = "./?.lua;" ..
 				"./lib/lua/?.lua;" ..
+				"./lib/lua/cURL/?.lua;" ..
 				"./lib/lua/htmlparser/?.lua;" ..
 				"./lib/lua/luasocket/?.lua;"
 				
 --Load LuaFileSystem library
 lfs = require("lfs")
+curl = require("cURL") --Load Lua-cURL library
 htmlparser = require("htmlparser") --Load htmlparser library
 --Load LuaSocket libraries
+if os_type ~= "windowsXP" then
 socket = require("socket")
 http = require("socket.http")
+end
 ltn12 = require("ltn12")
 --Load JSON libraries
 dkjson = require("dkjson")
