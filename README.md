@@ -175,7 +175,7 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Soporte para modelos 3D integrando glTF?
 
-- Mejorar Rendimiento del engine, actualizando el SDL2.dll.
+- Mejorar Rendimiento del engine, actualizando el sdlplugin.
 
 **v1.9**
 ------------
