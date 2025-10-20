@@ -45,10 +45,10 @@ package.path = "./?.lua;" ..
 				
 --Load LuaFileSystem library
 lfs = require("lfs")
-curl = require("cURL") --Load Lua-cURL library
 htmlparser = require("htmlparser") --Load htmlparser library
+curl = require("cURL") --Load Lua-cURL library (https requests are not supported yet in Windows XP)
 --Load LuaSocket libraries
-if os_type ~= "windowsXP" then
+if os_type ~= "windowsXP" then --Not supported in Windows XP
 socket = require("socket")
 http = require("socket.http")
 end
@@ -3959,16 +3959,18 @@ netSeconds = nil
 end
 f_resetNetTimeVars()
 
-function loadNetTime() --One-time Load
+function f_loadNetTimeLuaSocket()
 	local response_body = {}
 	local reques, code, response_headers = http.request{
 		url = "http://worldclockapi.com/api/json/utc/now",
 		--url = "http://worldtimeapi.org/api/timezone/Etc/UTC", --Alternative
 		sink = ltn12.sink.table(response_body)
 	}
+--Success HTTP Request
 	if reques == 1 and code == 200 then
 		local response_str = table.concat(response_body)
 		local decoded = json.decode(response_str)
+	--Decode JSON
 		if decoded and decoded.currentDateTime then
 		--if decoded and decoded.datetime then --Alternative
 		--Get Date and Time
@@ -4002,6 +4004,7 @@ function loadNetTime() --One-time Load
 			netSeconds = tonumber(os.date("%S", currentNetTime))
 			netTime = os.date(t_clockFormats[data.clock].locale, currentNetTime)
 			return true
+	--Can't decode JSON
 		else
 			currentNetTime = nil
 			netTime = nil
@@ -4010,12 +4013,122 @@ function loadNetTime() --One-time Load
 			--netLog = 'JSON does not contains "datetime"' --Alternative
 			return false --Unable to connect
 		end
+--Failed HTTP Request
 	else
 		currentNetTime = nil
 		netTime = nil
 		netDate = netTime
 		netLog = "Error requesting HTTP: Code " .. tostring(code)
 		return false --Unable to connect
+	end
+end
+
+--[[
+local easy = curl.easy()
+local url_Test = "http://example.com"
+easy:setopt(curl.OPT_URL, url_Test)
+easy:setopt(curl.OPT_CONNECTTIMEOUT, 10) 
+local res = easy:perform()
+if res then
+	local http_code = easy:getinfo(curl.INFO_RESPONSE_CODE)
+	--print("Success.")
+	--print("URL: " .. url_Test)
+	--print("Code HTTP: " .. tostring(http_code))
+else
+	local err_code = easy:getinfo(curl.EASY_RESULT) or -1 
+	--print("Failed.")
+	--print("Error Code: " .. tostring(err_code))
+	--print("Error Msg: " .. curl.strerror(err_code))
+end
+easy:close()
+--]]
+
+function f_loadNetTimeLuaCurl()
+	local response_body = {}
+	local url_api = "http://worldclockapi.com/api/json/utc/now"
+	local easy = curl.easy()
+	easy:setopt(curl.OPT_URL, url_api)
+	easy:setopt(curl.OPT_CONNECTTIMEOUT, 10) --Set wait time for connection
+	local ok, err_code, err_msg = easy:perform({
+		writefunction = function(str)
+			table.insert(response_body, str)
+			return #str
+		end,
+	--We can add headerfunction to see headers if need
+	--headerfunction = function(str) print("HEADER:", str) end
+	})
+--Success HTTP Request
+	if ok then
+		local http_code = easy:getinfo(curl.INFO_RESPONSE_CODE)
+		if http_code == 200 then
+			local response_str = table.concat(response_body)
+			local decoded = json.decode(response_str)
+		--Decode JSON
+			if decoded and decoded.currentDateTime then
+			--Get Date and Time
+				local datetime_str = decoded.currentDateTime --Example: "2025-10-09T14:23Z"
+			--Separate Date and Time
+				local date_part, time_part = datetime_str:match("^(%d+-%d+-%d+)T(%d+:%d+)")
+				netDate = "Date: " .. date_part
+			--Convert time_part to hour in UTC format
+				local h, m, s = time_part:match("^(%d+):(%d+):?(%d*)")
+				s = s ~= "" and tonumber(s) or 0
+				h = tonumber(h)
+				m = tonumber(m)
+			--Create timestamp in UTC
+				local utc_timestamp = os.time{
+					year = tonumber(date_part:sub(1,4)),
+					month = tonumber(date_part:sub(6,7)),
+					day = tonumber(date_part:sub(9,10)),
+					hour = h,
+					min = m,
+					sec = s
+				}
+				currentNetTime = utc_timestamp
+			--To keep UTC format use "!" at the beginning: os.date("!%I:%M%p", currentNetTime)
+				netYear = tonumber(os.date("%Y", currentNetTime))
+				netMonth = os.date("%b", currentNetTime)
+				netDay = tonumber(os.date("%d", currentNetTime))
+				netHour = tonumber(os.date("%H", currentNetTime))
+				netMinutes = tonumber(os.date("%M", currentNetTime))
+				netSeconds = tonumber(os.date("%S", currentNetTime))
+				netTime = os.date(t_clockFormats[data.clock].locale, currentNetTime)
+				easy:close()
+				return true
+		--Can't Decode JSON
+			else
+				currentNetTime = nil
+				netTime = nil
+				netDate = netTime
+				netLog = 'JSON does not contains "currentDateTime"'
+				easy:close()
+				return false --Unable to connect
+			end
+	--HTTP Error (404, 500)
+		else
+			currentNetTime = nil
+			netTime = nil
+			netDate = netTime
+			netLog = "Error requesting HTTP: Code " .. tostring(http_code)
+			easy:close()
+			return false
+		end
+--cURL Failed (timeout, error DNS, etc.)
+	else
+		currentNetTime = nil
+		netTime = nil
+		netDate = netTime
+		netLog = "cURL Error: " .. tostring(err_msg) .. " (" .. tostring(err_code) .. ")"
+		easy:close()
+		return false --Unable to connect
+	end
+end
+
+function loadNetTime() --One-time Load
+	if os_type ~= "windowsXP" then --LuaSocket used is not supported in Windows XP
+		f_loadNetTimeLuaSocket()
+	else --Use Lua-cURL which is supported in Windows XP
+		f_loadNetTimeLuaCurl()
 	end
 end
 
@@ -4739,22 +4852,3 @@ function f_loadLuaMods(bool)
 	end
 end
 require("script.options") --Load options script
---[[ 
-local easy = curl.easy()
-local url_Test = "http://example.com"
-easy:setopt(curl.OPT_URL, url_Test)
-easy:setopt(curl.OPT_CONNECTTIMEOUT, 10) 
-local res = easy:perform()
-if res then
-	local http_code = easy:getinfo(curl.INFO_RESPONSE_CODE)
-	print("Success.")
-	print("URL: " .. url_Test)
-	print("Code HTTP: " .. tostring(http_code))
-else
-	local err_code = easy:getinfo(curl.EASY_RESULT) or -1 
-	print("Failed.")
-	print("Error Code: " .. tostring(err_code))
-	print("Error Msg: " .. curl.strerror(err_code))
-end
-easy:close()
-]]
