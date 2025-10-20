@@ -1,11 +1,11 @@
 ﻿
 #pragma comment(lib,"winmm.lib")
-#pragma comment(lib,"zlib1.lib")
+#pragma comment(lib,"zlib.lib")
 
 #include <windows.h>
 #include <process.h>
 #include <stdint.h>
-#include "zlib-1.2.8/zlib.h"
+#include <zlib.h>
 static const unsigned char ASCII_FLAG  = 0x01; /* bit 0 set: file probably ascii text */
 static const unsigned char HEAD_CRC    = 0x02; /* bit 1 set: header CRC present */
 static const unsigned char EXTRA_FIELD = 0x04; /* bit 2 set: extra field present */
