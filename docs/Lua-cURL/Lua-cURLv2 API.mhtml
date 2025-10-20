@@ -1,0 +1,821 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://lua-curl.github.io/
+Subject: Lua-cURL by msva
+Date: Mon, 20 Oct 2025 14:01:44 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG----"
+
+
+------MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG----
+Content-Type: text/html
+Content-ID: <frame-529016DDDA0C8097564FD407E18FF1C2@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/
+
+<!DOCTYPE html><html><head><meta http-equiv=3D"Content-Type" content=3D"tex=
+t/html; charset=3DUTF-8">
+   =20
+    <meta http-equiv=3D"X-UA-Compatible" content=3D"chrome=3D1">
+
+    <link rel=3D"stylesheet" type=3D"text/css" href=3D"https://lua-curl.git=
+hub.io/stylesheets/stylesheet.css" media=3D"screen">
+    <link rel=3D"stylesheet" type=3D"text/css" href=3D"https://lua-curl.git=
+hub.io/stylesheets/pygment_trac.css" media=3D"screen">
+    <link rel=3D"stylesheet" type=3D"text/css" href=3D"https://lua-curl.git=
+hub.io/stylesheets/print.css" media=3D"print">
+
+    <title>Lua-cURL by msva</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class=3D"container">
+        <h1>Lua-cURL</h1>
+        <h2>Lua-cURL is aiming for a full-fledged libcurl binding (easy/mul=
+ti/share interface) to the functionality of Lua</h2>
+
+        <section id=3D"downloads">
+          <a href=3D"https://github.com/lua-curl/lua-curlv2/zipball/master"=
+ class=3D"btn">Download as .zip</a>
+          <a href=3D"https://github.com/lua-curl/lua-curlv2/tarball/master"=
+ class=3D"btn">Download as .tar.gz</a>
+          <a href=3D"https://github.com/lua-curl/lua-curlv2" class=3D"btn b=
+tn-github"><span class=3D"icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class=3D"container">
+      <section id=3D"main_content">
+        <table frame=3D"void" rules=3D"none">
+<tbody><tr>
+<th>Original Author (before of 4Q-2011):</th>
+<td>J=C3=BCrgen H=C3=B6tzel</td>
+</tr>
+<tr>
+<th>Current Lead Developer:</th>
+<td>Vadim A. Misbakh-Soloviov</td>
+</tr>
+<tr>
+<th>Contact:</th>
+<td><a href=3D"http://mva.name/">http://mva.name/</a></td>
+</tr>
+</tbody></table>
+<p><a name=3D"contents">Contents</a></p>
+<ul>
+<li><a href=3D"https://lua-curl.github.io/#introduction" name=3D"id1">Intro=
+duction</a></li>
+<li><a href=3D"https://lua-curl.github.io/#installation" name=3D"id2">Insta=
+llation</a></li>
+<li>
+<a href=3D"https://lua-curl.github.io/#easy-interface" name=3D"id3">Easy in=
+terface</a><ul>
+<li><a href=3D"https://lua-curl.github.io/#example-1-fetch-the-example-com-=
+homepage" name=3D"id4">Example 1: Fetch the example.com homepage</a></li>
+<li><a href=3D"https://lua-curl.github.io/#example-2-on-the-fly-file-upload=
+" name=3D"id5">Example 2: "On-The-Fly" file upload</a></li>
+<li><a href=3D"https://lua-curl.github.io/#example-3-posting-data" name=3D"=
+id6">Example 3: "Posting" data</a></li>
+</ul>
+</li>
+<li>
+<a href=3D"https://lua-curl.github.io/#multi-interface" name=3D"id7">Multi =
+interface</a><ul>
+<li><a href=3D"https://lua-curl.github.io/#example-1-on-the-fly-xml-parsing=
+" name=3D"id8">Example 1: "On-The-Fly" XML parsing</a></li>
+</ul>
+</li>
+<li>
+<a href=3D"https://lua-curl.github.io/#share-interface" name=3D"id9">Share =
+interface</a><ul>
+<li><a href=3D"https://lua-curl.github.io/#example-1-share-cookie-date-acro=
+ss-easy-handles" name=3D"id10">Example 1: Share Cookie date across easy han=
+dles</a></li>
+</ul>
+</li>
+<li>
+<a href=3D"https://lua-curl.github.io/#appendix" name=3D"id11">Appendix</a>=
+<ul>
+<li><a href=3D"https://lua-curl.github.io/#using-ssl" name=3D"id12">Using S=
+SL</a></li>
+</ul>
+</li>
+</ul>
+
+
+<h1><a href=3D"https://lua-curl.github.io/#id1" name=3D"introduction">Intro=
+duction</a></h1>
+<p>This project is <strong>not</strong> a fork of <a href=3D"http://luaforg=
+e.net/projects/luacurl/">LuaCURL</a>, which is a direct mapping of parts of=
+ the <a href=3D"http://curl.haxx.se/libcurl/c/libcurl-easy.html">libcurl-ea=
+sy</a> interface.</p>
+<p>The intent of Lua-cURL is to adapt the</p>
+<ul>
+<li>Easy Interface</li>
+<li>Multi Interface</li>
+<li>Shared Interface</li>
+</ul><p>of <a href=3D"http://curl.haxx.se/libcurl/c/">libcurl</a> to the fu=
+nctionality of Lua (for example by using iterators instead of callbacks whe=
+n possible).</p>
+
+
+
+<h1><a href=3D"https://lua-curl.github.io/#id2" name=3D"installation">Insta=
+llation</a></h1>
+<p>We now using <a href=3D"http://cmake.org/">CMake</a> to configure, build=
+ and install. Just run:</p>
+<pre>cmake ${CMAKE_ARGUMENTS} . &amp;&amp; make ${MAKE_ARGUMENTS} install
+</pre>
+<p>Where <code>CMAKE_ARGUMENTS</code> may contain one or all of the followi=
+ng (in one space-delimited string or bash's array, without comments):</p>
+<pre>-DCMAKE_C_FLAGS=3D"-flto"
+# to use LTO (Link-Time Optimisations). Requires GCC&gt;=3D4.6
+
+-DUSE_LUAJIT=3DON
+# to use LuaJIT includes instead of 'C' Lua library. Requires LuaJIT&gt;=3D=
+2.0
+
+-DCMAKE_LINKER=3D"/usr/bin/ld.gold"
+# To use 'gold' linker. Requires newer binutils.
+
+-DUSE_LUA52=3DON
+# to install for Lua 5.2. Requires Lua&gt;=3D5.2
+</pre>
+<p>And <code>MAKE_ARGUMENTS</code> may also contain one or all of the follo=
+wing (in one space-delimited string or bash's array, without comments):</p>
+<pre>-jN
+# Where N =3D Number of processor cores * Number of processors + 1,
+# to build in N threads, to speedup compilation (by default, -j1)
+
+DESTDIR=3D"<path>"
+# Where <path> can be either absolute or relative prefix-path to the place,
+# where you want to install Lua-cURL (by default, DESTDIR=3D/)
+</path></path></pre>
+<p>On some systems, CMake may fail to include the right lua header files.
+This error can be identified at runtime, after requiring the cURL module, b=
+y the
+error message "undefined symbol". In that case the module must be recompile=
+d
+specifying the include path for lua header files. This can be done with the
+LUA_DIR environment variable. E.g. in a posix-compliant shell:</p>
+<pre>LUA_DIR=3D"/usr/include/lua5.1" cmake ${CMAKE_ARGUMENTS}
+</pre>
+
+
+
+<h1><a href=3D"https://lua-curl.github.io/#id3" name=3D"easy-interface">Eas=
+y interface</a></h1>
+<dl>
+<dt><strong>cURL.easy_init()</strong></dt>
+<dd>returns a new easy handle.</dd>
+<dt><strong>cURL.version_info()</strong></dt>
+<dd>returns a table containing version info and features/protocols sub tabl=
+e</dd>
+<dt><strong>easy:escape(string)</strong></dt>
+<dd>return URL encoded string</dd>
+<dt><strong>easy:unescape(string)</strong></dt>
+<dd>return URL decoded string</dd>
+<dt><strong>easy:setopt*(value)</strong></dt>
+<dd><dl>
+<dt>libcurl properties an options are mapped to individual functions:</dt>
+<dd><ul>
+<li><strong>easy:setopt_url(string)</strong></li>
+<li><strong>easy:setopt_verbose(number)</strong></li>
+<li><strong>easy:setopt_proxytype(string)</strong></li>
+<li>
+<strong>easy:setopt_share(share)</strong>  (See: <a href=3D"https://lua-cur=
+l.github.io/#share">share</a>)</li>
+<li>...</li>
+</ul></dd>
+</dl></dd>
+<dt><strong>easy:perform(table)</strong></dt>
+<dd><dl>
+<dt>Perform the transfer as described in the options, using an optional cal=
+lback table.The callback table indices are named after the equivalent cURL =
+callbacks:</dt>
+<dd><ul>
+<li><strong>writefunction =3D function(str)</strong></li>
+<li><strong>readfunction =3D function()</strong></li>
+<li><strong>headerfunction =3D function(str)</strong></li>
+</ul></dd>
+</dl></dd>
+<dt><strong>easy:post(table)</strong></dt>
+<dd>
+<p>Prepare a multipart/formdata post. The table indices are named after the=
+ form fields and should map to string values:</p>
+<pre>{field1 =3D value1,
+ field2 =3D value1}
+</pre>
+<p>or more generic descriptions in tables:</p>
+<pre>{field1 =3D {file=3D"/tmp/test.txt",
+           type=3D"text/plain"},
+{field2 =3D {file=3D"dummy.html",
+           data=3D"&lt;html&gt;&lt;bold&gt;bold&lt;/bold&gt;&lt;/html&gt;,
+           type=3D"text/html"}}
+</pre>
+</dd>
+</dl>
+<h2><a href=3D"https://lua-curl.github.io/#id4" name=3D"example-1-fetch-the=
+-example-com-homepage">Example 1: Fetch the example.com homepage</a></h2>
+<pre>require("cURL")
+
+-- open output file
+f =3D io.open("example_homepage", "w")
+
+c =3D cURL.easy_init()
+-- setup url
+c:setopt_url("<a href=3D"http://www.example.com/%22">http://www.example.com=
+/"</a>)
+-- perform, invokes callbacks
+c:perform({writefunction =3D function(str)
+                f:write(str)
+                 end})
+
+-- close output file
+f:close()
+print("Done")
+</pre>
+
+
+
+<h2><a href=3D"https://lua-curl.github.io/#id5" name=3D"example-2-on-the-fl=
+y-file-upload">Example 2: "On-The-Fly" file upload</a></h2>
+<pre>-- simple "On the fly" fileupload
+
+require("cURL")
+
+c=3DcURL.easy_init()
+c:setopt_url("ftp://ftptest:secret0815@targethost/file.dat")
+c:setopt_upload(1)
+count=3D0
+c:perform({readfunction=3Dfunction(n)
+               count =3D count + 1
+               if (count &lt; 10)  then
+                  return "Line " .. count .. "\n"
+               end
+               return nil
+            end})
+print("Fileupload done")
+</pre>
+
+
+
+<h2><a href=3D"https://lua-curl.github.io/#id6" name=3D"example-3-posting-d=
+ata">Example 3: "Posting" data</a></h2>
+<pre>require("cURL")
+
+c =3D cURL.easy_init()
+
+c:setopt_url("http://localhost")
+postdata =3D {
+   -- post file from filesystem
+   name =3D {file=3D"post.lua",
+       type=3D"text/plain"},
+   -- post file from data variable
+   name2 =3D {file=3D"dummy.html",
+        data=3D"&lt;html&gt;&lt;bold&gt;bold&lt;/bold&gt;&lt;/html&gt;",
+        type=3D"text/html"}}
+c:post(postdata)
+c:perform()
+
+print("Done")
+</pre>
+
+
+<p></p>
+
+
+<h1><a href=3D"https://lua-curl.github.io/#id7" name=3D"multi-interface">Mu=
+lti interface</a></h1>
+<dl>
+<dt><strong>cURL.multi_init()</strong></dt>
+<dd>returns a new multi handle</dd>
+<dt><strong>multi:add_handle(easy)</strong></dt>
+<dd>add an easy handle to a multi session</dd>
+<dt><strong>multi:perform()</strong></dt>
+<dd>
+<p>returns an iterator function that, each time it is called, returns the n=
+ext data, type and corresponding easy handle:</p>
+<blockquote>
+<dl>
+<dt>
+<strong>data</strong>:</dt>
+<dd>data returned by the cURL library</dd>
+<dt><strong>type</strong></dt>
+<dd>type of data returned ("header" or "data")</dd>
+<dt><strong>easy</strong></dt>
+<dd>corresponding easy handle of the data returned</dd>
+</dl>
+</blockquote>
+</dd>
+</dl>
+<h2><a href=3D"https://lua-curl.github.io/#id8" name=3D"example-1-on-the-fl=
+y-xml-parsing">Example 1: "On-The-Fly" XML parsing</a></h2>
+<pre>-- use LuaExpat and Lua-CuRL together for On-The-Fly XML parsing
+require("lxp")
+require("cURL")
+
+tags =3D {}
+items =3D {}
+
+callback =3D {}
+
+function callback.StartElement(parser, tagname)
+   tags[#tags + 1] =3D tagname
+   if (tagname =3D=3D "item") then
+      items[#items + 1] =3D {}
+   end
+end
+
+function callback.CharacterData(parser, str)
+   if (tags[#tags -1] =3D=3D "item") then
+      --we are parsing a item, get rid of trailing whitespace
+      items[#items][tags[#tags]] =3D string.gsub(str, "%s*$", "")
+   end
+end
+function callback.EndElement(parser, tagname)
+   --assuming well formed xml
+   tags[#tags] =3D nil
+end
+
+p =3D lxp.new(callback)
+
+-- create and setup easy handle
+c =3D cURL.easy_init()
+c:setopt_url("<a href=3D"http://www.lua.org/news.rss%22">http://www.lua.org=
+/news.rss"</a>)
+
+m =3D cURL.multi_init()
+m:add_handle(c)
+
+for data,type in m:perform() do
+   -- ign "header"
+   if (type =3D=3D "data") then
+      assert(p:parse(data))
+   end
+end
+
+--finish document
+assert(p:parse())
+p:close()
+
+for i, item in ipairs(items) do
+   for k, v in pairs(item) do
+      print(k,v)
+   end
+   print()
+end
+</pre>
+
+
+<p></p>
+
+
+<h1><a href=3D"https://lua-curl.github.io/#id9" name=3D"share-interface">Sh=
+are interface</a></h1>
+<dl>
+<dt><strong>cURL.share_init()</strong></dt>
+<dd>returns a new share handle</dd>
+<dt><strong>share:setopt_share(string)</strong></dt>
+<dd>specifies the type of data that should be shared ("DNS" or "COOKIE")</d=
+d>
+</dl><p>Since Lua is single-threaded, there is no mapping for the lock opti=
+ons.</p>
+
+<h2><a href=3D"https://lua-curl.github.io/#id10" name=3D"example-1-share-co=
+okie-date-across-easy-handles">Example 1: Share Cookie date across easy han=
+dles</a></h2>
+<pre>-- Cookie data will be shared across the easy handles to do an authori=
+zed download
+require("cURL")
+
+-- create share handle (share COOKIE and DNS Cache)
+s =3D cURL.share_init()
+s:setopt_share("COOKIE")
+s:setopt_share("DNS")
+
+-- create first easy handle to do the login
+c =3D cURL.easy_init()
+c:setopt_share(s)
+c:setopt_url("http://targethost/login.php?username=3Dfoo&amp;password=3Dbar=
+")
+
+-- create second easy handle to do the download
+c2 =3D cURL.easy_init()
+c2:setopt_share(s)
+c2:setopt_url("http://targethost/download.php?id=3Dtest")
+
+--login
+c:perform()
+
+--download
+c2:perform()
+</pre>
+
+
+
+<h1><a href=3D"https://lua-curl.github.io/#id11" name=3D"appendix">Appendix=
+</a></h1>
+
+<h2><a href=3D"https://lua-curl.github.io/#id12" name=3D"using-ssl">Using S=
+SL</a></h2>
+<p>The cert bundle distributed with cURL may be out of date and cannot vali=
+date many certificates. You can supply a different
+PEM cert bundle by using <strong>easy:setopt_cainfo(string)</strong>.
+Also, it is a shell script, writen by original author (J=C3=BCrgen), that c=
+an be used for converting the cacert keystore distributed with the Java Run=
+time Environment to PEM. This script currently distributed in =C2=ABexample=
+s=C2=BB folder in repository</p>
+
+
+<p></p>
+
+      </section>
+    </div>
+
+
+ =20
+
+</body></html>
+------MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/stylesheets/print.css
+
+@charset "utf-8";
+=0A
+------MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/stylesheets/pygment_trac.css
+
+@charset "utf-8";
+
+.highlight .c { color: rgb(153, 153, 136); font-style: italic; }
+
+.highlight .err { color: rgb(166, 23, 23); background-color: rgb(227, 210, =
+210); }
+
+.highlight .k { font-weight: bold; }
+
+.highlight .o { font-weight: bold; }
+
+.highlight .cm { color: rgb(153, 153, 136); font-style: italic; }
+
+.highlight .cp { color: rgb(153, 153, 153); font-weight: bold; }
+
+.highlight .c1 { color: rgb(153, 153, 136); font-style: italic; }
+
+.highlight .cs { color: rgb(153, 153, 153); font-weight: bold; font-style: =
+italic; }
+
+.highlight .gd { color: rgb(0, 0, 0); background-color: rgb(255, 221, 221);=
+ }
+
+.highlight .gd .x { color: rgb(0, 0, 0); background-color: rgb(255, 170, 17=
+0); }
+
+.highlight .ge { font-style: italic; }
+
+.highlight .gr { color: rgb(170, 0, 0); }
+
+.highlight .gh { color: rgb(153, 153, 153); }
+
+.highlight .gi { color: rgb(0, 0, 0); background-color: rgb(221, 255, 221);=
+ }
+
+.highlight .gi .x { color: rgb(0, 0, 0); background-color: rgb(170, 255, 17=
+0); }
+
+.highlight .go { color: rgb(136, 136, 136); }
+
+.highlight .gp { color: rgb(85, 85, 85); }
+
+.highlight .gs { font-weight: bold; }
+
+.highlight .gu { color: rgb(128, 0, 128); font-weight: bold; }
+
+.highlight .gt { color: rgb(170, 0, 0); }
+
+.highlight .kc { font-weight: bold; }
+
+.highlight .kd { font-weight: bold; }
+
+.highlight .kn { font-weight: bold; }
+
+.highlight .kp { font-weight: bold; }
+
+.highlight .kr { font-weight: bold; }
+
+.highlight .kt { color: rgb(68, 85, 136); font-weight: bold; }
+
+.highlight .m { color: rgb(0, 153, 153); }
+
+.highlight .s { color: rgb(221, 17, 68); }
+
+.highlight .na { color: rgb(0, 128, 128); }
+
+.highlight .nb { color: rgb(0, 134, 179); }
+
+.highlight .nc { color: rgb(68, 85, 136); font-weight: bold; }
+
+.highlight .no { color: rgb(0, 128, 128); }
+
+.highlight .ni { color: rgb(128, 0, 128); }
+
+.highlight .ne { color: rgb(153, 0, 0); font-weight: bold; }
+
+.highlight .nf { color: rgb(153, 0, 0); font-weight: bold; }
+
+.highlight .nn { color: rgb(85, 85, 85); }
+
+.highlight .nt { color: rgb(203, 223, 255); }
+
+.highlight .nv { color: rgb(0, 128, 128); }
+
+.highlight .ow { font-weight: bold; }
+
+.highlight .w { color: rgb(187, 187, 187); }
+
+.highlight .mf { color: rgb(0, 153, 153); }
+
+.highlight .mh { color: rgb(0, 153, 153); }
+
+.highlight .mi { color: rgb(0, 153, 153); }
+
+.highlight .mo { color: rgb(0, 153, 153); }
+
+.highlight .sb { color: rgb(221, 17, 68); }
+
+.highlight .sc { color: rgb(221, 17, 68); }
+
+.highlight .sd { color: rgb(221, 17, 68); }
+
+.highlight .s2 { color: rgb(221, 17, 68); }
+
+.highlight .se { color: rgb(221, 17, 68); }
+
+.highlight .sh { color: rgb(221, 17, 68); }
+
+.highlight .si { color: rgb(221, 17, 68); }
+
+.highlight .sx { color: rgb(221, 17, 68); }
+
+.highlight .sr { color: rgb(0, 153, 38); }
+
+.highlight .s1 { color: rgb(221, 17, 68); }
+
+.highlight .ss { color: rgb(153, 0, 115); }
+
+.highlight .bp { color: rgb(153, 153, 153); }
+
+.highlight .vc { color: rgb(0, 128, 128); }
+
+.highlight .vg { color: rgb(0, 128, 128); }
+
+.highlight .vi { color: rgb(0, 128, 128); }
+
+.highlight .il { color: rgb(0, 153, 153); }
+
+.type-csharp .highlight .k { color: rgb(0, 0, 255); }
+
+.type-csharp .highlight .kt { color: rgb(0, 0, 255); }
+
+.type-csharp .highlight .nf { color: rgb(0, 0, 0); font-weight: normal; }
+
+.type-csharp .highlight .nc { color: rgb(43, 145, 175); }
+
+.type-csharp .highlight .nn { color: rgb(0, 0, 0); }
+
+.type-csharp .highlight .s { color: rgb(163, 21, 21); }
+
+.type-csharp .highlight .sc { color: rgb(163, 21, 21); }
+------MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://lua-curl.github.io/images/blacktocat.png
+
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
+bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
+eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEz
+NDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo
+dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw
+dGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEu
+MC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVz
+b3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1N
+Ok9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMzgwMTE3NDA3MjA2ODExODcxRkY2RENBOEE5
+MkIzMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpENjJCRTM0NzYwNTQxMUUxOTc2QkQ0MDVD
+QjJFNEY4RSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpENjJCRTM0NjYwNTQxMUUxOTc2QkQ0
+MDVDQjJFNEY4RSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9z
+aCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA1ODAxMTc0
+MDcyMDY4MTE4NzFGRjZEQ0E4QTkyQjMyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjAzODAx
+MTc0MDcyMDY4MTE4NzFGRjZEQ0E4QTkyQjMyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpS
+REY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+nfwrsAAAASJJREFUeNqkkzFuwkAQ
+Re0VVeQeH4ADuMdNOkokDpBtaLhDqlSpcoUgpaSjoUE0pt/0HAB6U5sZ9NYaWSaxxEhf1s78/9ez
+O5s2TZN0YiaYCspOvhIcBTubTI1BJvgQFIIzgiu1MYbKCYJ3QX2vqIEgE2wFB4En1wcPZ4umNfii
+UBiTnLViYsSRo5pkRM/622t+T+MN9EWAq/WZ48C0n29BnvwfJVzVTB2JiuJigMHC3ErpWFz4TpLh
+cdc4c01FezV/RwZ3bA3izr8DDM7w82hQsQi4fwpOD4RrhmiDSTViPPUgPaSVYE87hTFYmhY9mx0d
+sx24VyW8COZG/Npps4Srml08gzjb+hZ+EIWeNjycGs3Dx1SbXN8kto8pffY53wQYAGo0r/Ylko+X
+AAAAAElFTkSuQmCC
+
+------MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://lua-curl.github.io/images/bkg.png
+
+iVBORw0KGgoAAAANSUhEUgAAAhQAAAIUCAIAAADNGCKyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
+bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
+eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEz
+NDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo
+dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw
+dGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv
+IiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RS
+ZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpD
+cmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNl
+SUQ9InhtcC5paWQ6NzZBQzU3NzM2MDAzMTFFMTk3NkJENDA1Q0IyRTRGOEUiIHhtcE1NOkRvY3Vt
+ZW50SUQ9InhtcC5kaWQ6NzZBQzU3NzQ2MDAzMTFFMTk3NkJENDA1Q0IyRTRGOEUiPiA8eG1wTU06
+RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo3NkFDNTc3MTYwMDMxMUUxOTc2
+QkQ0MDVDQjJFNEY4RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3NkFDNTc3MjYwMDMxMUUx
+OTc2QkQ0MDVDQjJFNEY4RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1w
+bWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pu396+4AAA0ZSURBVHja7N1Rcqs6EEXR8CqjgPmP8754
+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
+
+------MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/stylesheets/stylesheet.css
+
+@charset "utf-8";
+
+body { margin: 0px; padding: 0px; background: url("../images/bkg.png") 0px =
+0px rgb(21, 21, 21); color: rgb(234, 234, 234); line-height: 1.5; font-fami=
+ly: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospa=
+ce; }
+
+.container { width: 90%; max-width: 600px; margin: 0px auto; }
+
+section { display: block; margin: 0px 0px 20px; }
+
+h1, h2, h3, h4, h5, h6 { margin: 0px 0px 20px; }
+
+li { line-height: 1.4; }
+
+header { background: rgba(0, 0, 0, 0.1); width: 100%; border-bottom: 1px da=
+shed rgb(181, 232, 83); padding: 20px 0px; margin: 0px 0px 40px; }
+
+header h1 { font-size: 30px; line-height: 1.5; margin: 0px 0px 0px -40px; f=
+ont-weight: bold; font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida =
+Console", Terminal, monospace; color: rgb(181, 232, 83); text-shadow: rgba(=
+0, 0, 0, 0.1) 0px 1px 1px, rgba(181, 232, 83, 0.1) 0px 0px 5px, rgba(181, 2=
+32, 83, 0.1) 0px 0px 10px; letter-spacing: -1px; -webkit-font-smoothing: an=
+tialiased; }
+
+header h1::before { content: "./ "; font-size: 24px; }
+
+header h2 { font-size: 18px; font-weight: 300; color: rgb(102, 102, 102); }
+
+#downloads .btn { display: inline-block; text-align: center; margin: 0px; }
+
+#main_content { width: 100%; -webkit-font-smoothing: antialiased; }
+
+section img { max-width: 100%; }
+
+h1, h2, h3, h4, h5, h6 { font-weight: normal; font-family: Monaco, "Bitstre=
+am Vera Sans Mono", "Lucida Console", Terminal, monospace; color: rgb(181, =
+232, 83); letter-spacing: -0.03em; text-shadow: rgba(0, 0, 0, 0.1) 0px 1px =
+1px, rgba(181, 232, 83, 0.1) 0px 0px 5px, rgba(181, 232, 83, 0.1) 0px 0px 1=
+0px; }
+
+#main_content h1 { font-size: 30px; }
+
+#main_content h2 { font-size: 24px; }
+
+#main_content h3 { font-size: 18px; }
+
+#main_content h4 { font-size: 14px; }
+
+#main_content h5 { font-size: 12px; text-transform: uppercase; margin: 0px =
+0px 5px; }
+
+#main_content h6 { font-size: 12px; text-transform: uppercase; color: rgb(1=
+53, 153, 153); margin: 0px 0px 5px; }
+
+dt { font-style: italic; font-weight: bold; }
+
+ul li { list-style: none; }
+
+ul li::before { content: ">>"; font-family: Monaco, "Bitstream Vera Sans Mo=
+no", "Lucida Console", Terminal, monospace; font-size: 13px; color: rgb(181=
+, 232, 83); margin-left: -37px; margin-right: 21px; line-height: 16px; }
+
+blockquote { color: rgb(170, 170, 170); padding-left: 10px; border-left: 1p=
+x dotted rgb(102, 102, 102); }
+
+pre { background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(255, 255, 255,=
+ 0.15); padding: 10px; font-size: 14px; color: rgb(181, 232, 83); border-ra=
+dius: 2px; overflow: auto hidden; }
+
+table { width: 100%; margin: 0px 0px 20px; }
+
+th { text-align: left; border-bottom: 1px dashed rgb(181, 232, 83); padding=
+: 5px 10px; }
+
+td { padding: 5px 10px; }
+
+hr { height: 0px; border-width: 0px 0px 1px; border-top-style: initial; bor=
+der-right-style: initial; border-left-style: initial; border-top-color: ini=
+tial; border-right-color: initial; border-left-color: initial; border-image=
+: initial; border-bottom-style: dashed; border-bottom-color: rgb(181, 232, =
+83); color: rgb(181, 232, 83); }
+
+.btn { display: inline-block; background: -webkit-linear-gradient(top, rgba=
+(40, 40, 40, 0.3), rgba(35, 35, 35, 0.3) 50%, rgba(10, 10, 10, 0.3) 50%, rg=
+ba(0, 0, 0, 0.3)); padding: 8px 18px; border-radius: 50px; border-width: 2p=
+x; border-style: solid; border-color: rgb(0, 0, 0) rgba(0, 0, 0, 0.7) rgba(=
+0, 0, 0, 0.7); border-image: initial; color: rgba(255, 255, 255, 0.8); font=
+-family: Helvetica, Arial, sans-serif; font-weight: bold; font-size: 13px; =
+text-decoration: none; text-shadow: rgba(0, 0, 0, 0.75) 0px -1px 0px; box-s=
+hadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset; }
+
+.btn:hover { background: -webkit-linear-gradient(top, rgba(40, 40, 40, 0.6)=
+, rgba(35, 35, 35, 0.6) 50%, rgba(10, 10, 10, 0.8) 50%, rgba(0, 0, 0, 0.8))=
+; }
+
+.btn .icon { display: inline-block; width: 16px; height: 16px; margin: 1px =
+8px 0px 0px; float: left; }
+
+.btn-github .icon { opacity: 0.6; background: url("../images/blacktocat.png=
+") 0px 0px no-repeat; }
+
+a { color: rgb(99, 192, 245); text-shadow: rgba(104, 182, 255, 0.5) 0px 0px=
+ 5px; }
+
+.cf::before, .cf::after { content: ""; display: table; }
+
+.cf::after { clear: both; }
+
+.cf { zoom: 1; }
+------MultipartBoundary--HpvN4aokIT6h27EJ8QSxHUQuktUsudyUZtbBiRZVQG------

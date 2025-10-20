@@ -1,0 +1,2266 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://lua-curl.github.io/lcurl/modules/lcurl.html
+Subject: Reference
+Date: Mon, 20 Oct 2025 14:00:23 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--h4vM6tpzdLemUWXbuOAN5Yzv1bm6vNXpFsNI4k3NKx----"
+
+
+------MultipartBoundary--h4vM6tpzdLemUWXbuOAN5Yzv1bm6vNXpFsNI4k3NKx----
+Content-Type: text/html
+Content-ID: <frame-102483F4850B2E5143CE5C5C7F1F7FC7@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/lcurl/modules/lcurl.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd"><html><head><meta http-equiv=3D"Content-T=
+ype" content=3D"text/html; charset=3DUTF-8">
+
+    <title>Reference</title>
+    <link rel=3D"stylesheet" href=3D"https://lua-curl.github.io/lcurl/ldoc.=
+css" type=3D"text/css">
+</head>
+<body>
+
+<div id=3D"container">
+
+<div id=3D"product">
+	<div id=3D"product_logo"></div>
+	<div id=3D"product_name"><big><b></b></big></div>
+	<div id=3D"product_description"></div>
+</div> <!-- id=3D"product" -->
+
+
+<div id=3D"main">
+
+
+<!-- Menu -->
+
+<div id=3D"navigation">
+<br>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href=3D"https://lua-curl.github.io/lcurl/index.html">Index</a></li=
+>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Function=
+s">Functions</a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_ht=
+tpform">Class httpform </a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_ea=
+sy">Class easy </a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_mu=
+lti">Class multi </a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_er=
+ror">Class error </a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_sh=
+are">Class share </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class=3D"$(kind=3D=3D'Topics' and '' or 'nowrap'">
+  <li><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html">cURL</=
+a></li>
+  <li><strong>lcurl</strong></li>
+</ul>
+
+</div>
+
+<div id=3D"content">
+
+<h1>Module <code>lcurl</code></h1>
+<p></p>
+<p></p>
+
+
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Function=
+s">Functions</a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#form">form ()</a></td>
+	<td class=3D"summary">Create HTTP multipart/formdata object.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy">easy ([options])</a></td>
+	<td class=3D"summary">Create Easy object</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi">multi ([options])</a></td>
+	<td class=3D"summary">Create Multi object</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#share">share ([options])</a></td>
+	<td class=3D"summary">Create Share object</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#version">version ()</a></td>
+	<td class=3D"summary">Returns libcurl version as human readable string</td=
+>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#version_info">version_info ([param])</a></td>
+	<td class=3D"summary">Returns libcurl version as table</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_ht=
+tpform">Class httpform </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:add_content">httpform:add_content (name, conte=
+nt[, type[, headers]])</a></td>
+	<td class=3D"summary">Add new part to form.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:add_buffer">httpform:add_buffer (name, filenam=
+e, content[, type[, headers]])</a></td>
+	<td class=3D"summary">Add new part to form.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:add_file">httpform:add_file (name, path[, type=
+[, filename[, headers]]])</a></td>
+	<td class=3D"summary">Add new part to form.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:add_stream">httpform:add_stream (name[, filena=
+me][, type][, headers], size, reader[, context])</a></td>
+	<td class=3D"summary">Add new part to form.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:get">httpform:get ()</a></td>
+	<td class=3D"summary">Serialize multipart/formdata HTTP POST chain.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:get">httpform:get (writer[, context])</a></td>
+	<td class=3D"summary">Serialize multipart/formdata HTTP POST chain.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:get">httpform:get (writer)</a></td>
+	<td class=3D"summary">Serialize multipart/formdata HTTP POST chain.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#httpform:free">httpform:free ()</a></td>
+	<td class=3D"summary">Free multipart/formdata.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_ea=
+sy">Class easy </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:perfom">easy:perfom ()</a></td>
+	<td class=3D"summary">Perform a file transfer</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:escape">easy:escape (url)</a></td>
+	<td class=3D"summary">URL encodes the given string</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:unescape">easy:unescape (url)</a></td>
+	<td class=3D"summary">URL decodes the given string</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:reset">easy:reset ()</a></td>
+	<td class=3D"summary">Re-initializes all options previously set.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:pause">easy:pause (mask)</a></td>
+	<td class=3D"summary">Pause and unpause a connection.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:close">easy:close ()</a></td>
+	<td class=3D"summary">End easy session</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt">easy:setopt (opt, ...)</a></td>
+	<td class=3D"summary">Set options.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:unsetopt">easy:unsetopt (opt)</a></td>
+	<td class=3D"summary">Reset option to default value.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:getinfo">easy:getinfo (info)</a></td>
+	<td class=3D"summary">Get information.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_writefunction">easy:setopt_writefunction (w=
+riter[, context])</a></td>
+	<td class=3D"summary">Set writer function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_writefunction">easy:setopt_writefunction (w=
+riter)</a></td>
+	<td class=3D"summary">Set writer function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_headerfunction">easy:setopt_headerfunction =
+(writer[, context])</a></td>
+	<td class=3D"summary">Set header function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_headerfunction">easy:setopt_headerfunction =
+(writer)</a></td>
+	<td class=3D"summary">Set header function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_readfunction">easy:setopt_readfunction (rea=
+der[, context])</a></td>
+	<td class=3D"summary">Set reader function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_readfunction">easy:setopt_readfunction (rea=
+der)</a></td>
+	<td class=3D"summary">Set reader function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_progressfunction">easy:setopt_progressfunct=
+ion (progress[, context])</a></td>
+	<td class=3D"summary">Set progress function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_progressfunction">easy:setopt_progressfunct=
+ion (progress)</a></td>
+	<td class=3D"summary">Set progress function.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_httppost">easy:setopt_httppost (data)</a></=
+td>
+	<td class=3D"summary">Set HTTP multipart/formdata.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_postfields">easy:setopt_postfields (data[, =
+length=3D#data])</a></td>
+	<td class=3D"summary">Set HTTP multipart/formdata.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#easy:setopt_share">easy:setopt_share (data)</a></td>
+	<td class=3D"summary">Set curl share object.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_mu=
+lti">Class multi </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:add_handle">multi:add_handle (handle)</a></td>
+	<td class=3D"summary">Add Easy object.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:remove_handle">multi:remove_handle (handle)</a></=
+td>
+	<td class=3D"summary">Remove Easy object.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:perfom">multi:perfom ()</a></td>
+	<td class=3D"summary">reads/writes available data from each easy handle.</=
+td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:info_read">multi:info_read ([remove])</a></td>
+	<td class=3D"summary">Read multi stack informationals.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:setopt">multi:setopt (opt, ...)</a></td>
+	<td class=3D"summary">Set options.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:socket_action">multi:socket_action ([socket=3Dcur=
+l.SOCKET_TIMEOUT[, mask=3D0]])</a></td>
+	<td class=3D"summary">Perform socket action.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:setopt_timerfunction">multi:setopt_timerfunction =
+(timer[, context])</a></td>
+	<td class=3D"summary">Set timer callback.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:setopt_timerfunction">multi:setopt_timerfunction =
+(timer)</a></td>
+	<td class=3D"summary">Set timer callback.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:wait">multi:wait ([timeout])</a></td>
+	<td class=3D"summary">Polls on all easy objects in a multi object.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:timeout">multi:timeout ()</a></td>
+	<td class=3D"summary">How long to wait for action before proceeding.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#multi:close">multi:close ()</a></td>
+	<td class=3D"summary">End multi session.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_er=
+ror">Class error </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#error:category">error:category ()</a></td>
+	<td class=3D"summary">Get the error category.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#error:no">error:no ()</a></td>
+	<td class=3D"summary">Get the number value of error.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#error:name">error:name ()</a></td>
+	<td class=3D"summary">Get the error name.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#error:msg">error:msg ()</a></td>
+	<td class=3D"summary">Get the error description.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#error:__tostring">error:__tostring ()</a></td>
+	<td class=3D"summary">Get the full error description.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#Class_sh=
+are">Class share </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#share:setopt">share:setopt (opt, ...)</a></td>
+	<td class=3D"summary">Set options.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/lcurl.html#share:close">share:close ()</a></td>
+	<td class=3D"summary">End share session.</td>
+	</tr>
+</tbody></table>
+
+<br>
+<br>
+
+
+    <h2><a name=3D"Functions"></a>Functions</h2>
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"form"></a>
+    <strong>form ()</strong>
+    </dt>
+    <dd>
+    Create HTTP multipart/formdata object.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_httpform">httpform</a></span>
+        new curl HTTP Post object context
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy"></a>
+    <strong>easy ([options])</strong>
+    </dt>
+    <dd>
+    Create Easy object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">options</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+        new curl easy object
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> c =3D curl.easy{
+   url =3D <span class=3D"string">'http://example.com'</span>,
+   [curl.OPT_VERBOSE] =3D <span class=3D"keyword">true</span>,
+ }</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"multi"></a>
+    <strong>multi ([options])</strong>
+    </dt>
+    <dd>
+    Create Multi object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">options</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_multi">multi</a></span>
+        new curl multi object
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> m =3D curl.multi{
+   socketfunction =3D handle_socket;
+   timerfunction  =3D start_timeout;
+ }</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"share"></a>
+    <strong>share ([options])</strong>
+    </dt>
+    <dd>
+    Create Share object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">options</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_share">share</a></span>
+        new curl share object
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"version"></a>
+    <strong>version ()</strong>
+    </dt>
+    <dd>
+    Returns libcurl version as human readable string
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"version_info"></a>
+    <strong>version_info ([param])</strong>
+    </dt>
+    <dd>
+    Returns libcurl version as table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">param</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         specific version info
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.o=
+rg/manual/5.1/manual.html#5.5">table</a></span>
+        full version into if `param` was not specify
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        specific info parameter
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> proto =3D curl.version_info(<span class=3D"=
+string">'protocols'</span>)
+ <span class=3D"keyword">if</span> proto.HTTP <span class=3D"keyword">then<=
+/span> ... -- libcurl support http protocol</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_httpform"></a>Class httpform </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"httpform:add_content"></a>
+    <strong>httpform:add_content (name, content[, type[, headers]])</strong=
+>
+    </dt>
+    <dd>
+    Add new part to form.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provide the name of this part
+        </li>
+        <li><span class=3D"parameter">content</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         actual data to send
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provides the content-type for this part
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         specifies extra headers for the form POST section
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"httpform:add_buffer"></a>
+    <strong>httpform:add_buffer (name, filename, content[, type[, headers]]=
+)</strong>
+    </dt>
+    <dd>
+    Add new part to form.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provide the name of this part
+        </li>
+        <li><span class=3D"parameter">filename</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provides the filename field in the content header
+        </li>
+        <li><span class=3D"parameter">content</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         actual data to send
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provides the content-type for this part
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         specifies extra headers for the form POST section
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"httpform:add_file"></a>
+    <strong>httpform:add_file (name, path[, type[, filename[, headers]]])</=
+strong>
+    </dt>
+    <dd>
+    Add new part to form.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provide the name of this part
+        </li>
+        <li><span class=3D"parameter">path</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         path to file that contain actual data to send
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provides the content-type for this part
+        </li>
+        <li><span class=3D"parameter">filename</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provides the filename field in the content header.
+   By default it is basename of path.
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         specifies extra headers for the form POST section
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"httpform:add_stream"></a>
+    <strong>httpform:add_stream (name[, filename][, type][, headers], size,=
+ reader[, context])</strong>
+    </dt>
+    <dd>
+    Add new part to form.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provide the name of this part
+        </li>
+        <li><span class=3D"parameter">filename</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provides the filename field in the content header.
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         provides the content-type for this part
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         specifies extra headers for the form POST section
+        </li>
+        <li><span class=3D"parameter">size</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+         stream size in bytes
+        </li>
+        <li><span class=3D"parameter">reader</span>
+            <span class=3D"types"><span class=3D"type">function/object</spa=
+n></span>
+
+        </li>
+        <li><span class=3D"parameter">context</span>
+         reader context
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html#eas=
+y:setopt_readfunction">easy:setopt_readfunction</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name=3D"httpform:get"></a>
+    <strong>httpform:get ()</strong>
+    </dt>
+    <dd>
+    Serialize multipart/formdata HTTP POST chain.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        string serialized data
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"><span class=3D"global">print</span>(post:get=
+())</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"httpform:get"></a>
+    <strong>httpform:get (writer[, context])</strong>
+    </dt>
+    <dd>
+    Serialize multipart/formdata HTTP POST chain.
+<p> Writer function can return true or number of written bytes.
+ Also if function does not return anything is considered as success.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">writer</span>
+            <span class=3D"types"><span class=3D"type">function</span></spa=
+n>
+
+        </li>
+        <li><span class=3D"parameter">context</span>
+         writer context
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> t =3D {}
+ post:get(<span class=3D"global">table</span>.insert, t)
+ <span class=3D"global">print</span>(<span class=3D"global">table</span>.co=
+ncat(t))</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"httpform:get"></a>
+    <strong>httpform:get (writer)</strong>
+    </dt>
+    <dd>
+    Serialize multipart/formdata HTTP POST chain.
+<p> This call same as httpform:get(writer.write, writer)
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">writer</span>
+            <span class=3D"types"><span class=3D"type">object</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> f =3D <span class=3D"global">io</span>.open=
+(...)
+ post:get(f)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"httpform:free"></a>
+    <strong>httpform:free ()</strong>
+    </dt>
+    <dd>
+    Free multipart/formdata.
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_easy"></a>Class easy </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"easy:perfom"></a>
+    <strong>easy:perfom ()</strong>
+    </dt>
+    <dd>
+    Perform a file transfer
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:escape"></a>
+    <strong>easy:escape (url)</strong>
+    </dt>
+    <dd>
+    URL encodes the given string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">url</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        encoded url
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:unescape"></a>
+    <strong>easy:unescape (url)</strong>
+    </dt>
+    <dd>
+    URL decodes the given string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">url</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        decoded url
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:reset"></a>
+    <strong>easy:reset ()</strong>
+    </dt>
+    <dd>
+    Re-initializes all options previously set.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:pause"></a>
+    <strong>easy:pause (mask)</strong>
+    </dt>
+    <dd>
+    Pause and unpause a connection.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">mask</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+         set of bits that sets the new state of the connection (one of PAUS=
+E_XXX constant)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:close"></a>
+    <strong>easy:close ()</strong>
+    </dt>
+    <dd>
+    End easy session
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt"></a>
+    <strong>easy:setopt (opt, ...)</strong>
+    </dt>
+    <dd>
+    Set options.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">opt</span>
+            <span class=3D"types"><span class=3D"type">number</span> or <a =
+class=3D"type" href=3D"http://www.lua.org/manual/5.1/manual.html#5.5">table=
+</a></span>
+         one of `curl.OPT_XXX` constant or options table
+        </li>
+        <li><span class=3D"parameter">...</span>
+         value
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> c:setopt(curl.OPT_URL, <span class=3D"strin=
+g">"http://example.com"</span>)
+ c:setopt(curl.OPT_READFUNCTION,
+    <span class=3D"keyword">function</span>(t, n) <span class=3D"keyword">r=
+eturn</span> <span class=3D"global">table</span>.remove(t) <span class=3D"k=
+eyword">end</span>,
+    {<span class=3D"string">"1111"</span>, <span class=3D"string">"2222"</s=
+pan>}
+ )
+c:setopt{
+   url =3D <span class=3D"string">'http://example.com'</span>,
+   [curl.OPT_VERBOSE] =3D <span class=3D"keyword">true</span>,
+ }</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"easy:unsetopt"></a>
+    <strong>easy:unsetopt (opt)</strong>
+    </dt>
+    <dd>
+    Reset option to default value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">opt</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+         one of `curl.OPT_XXX` constant or options table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> c:unsetopt(curl.OPT_URL)
+ c:unsetopt(curl.OPT_READFUNCTION)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"easy:getinfo"></a>
+    <strong>easy:getinfo (info)</strong>
+    </dt>
+    <dd>
+    Get information.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">info</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+         one of `curl.INFO_XXX` constant
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        value
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> <span class=3D"global">print</span>(c:getin=
+fo(curl.INFO_EFFECTIVE_URL))
+ <span class=3D"global">print</span>(c:getinfo(curl.INFO_TOTAL_TIME))
+ <span class=3D"global">print</span>(c:getinfo(curl.INFO_RESPONSE_CODE))</p=
+re>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_writefunction"></a>
+    <strong>easy:setopt_writefunction (writer[, context])</strong>
+    </dt>
+    <dd>
+    Set writer function.
+<p> A callback accepting one or two parameters.
+ The first is the writer context if any, and the second is a string with th=
+e data to be written.
+ Function must return `true` (any non number true value) or full data lengt=
+h or nothing to continue operation.
+ Otherwise the transfer will be aborted with an error.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">writer</span>
+            <span class=3D"types"><span class=3D"type">function</span></spa=
+n>
+
+        </li>
+        <li><span class=3D"parameter">context</span>
+         writer context
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_writefunction"></a>
+    <strong>easy:setopt_writefunction (writer)</strong>
+    </dt>
+    <dd>
+    Set writer function.
+<p> This call same as easy:setopt_writefunction(writer.write, writer)
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">writer</span>
+            <span class=3D"types"><span class=3D"type">object</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_headerfunction"></a>
+    <strong>easy:setopt_headerfunction (writer[, context])</strong>
+    </dt>
+    <dd>
+    Set header function.
+<p> A callback accepting one or two parameters.
+ The first is the writer context if any, and the second is a string with th=
+e data to be written.
+ Function must return `true` (any non number true value) or full data lengt=
+h or nothing to continue operation.
+ Otherwise the transfer will be aborted with an error.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">writer</span>
+            <span class=3D"types"><span class=3D"type">function</span></spa=
+n>
+
+        </li>
+        <li><span class=3D"parameter">context</span>
+         writer context
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_headerfunction"></a>
+    <strong>easy:setopt_headerfunction (writer)</strong>
+    </dt>
+    <dd>
+    Set header function.
+<p> This call same as easy:setopt_headerfunction(writer.header, writer)
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">writer</span>
+            <span class=3D"types"><span class=3D"type">object</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_readfunction"></a>
+    <strong>easy:setopt_readfunction (reader[, context])</strong>
+    </dt>
+    <dd>
+    Set reader function.
+<p> A callback accepting one or two parameters.
+ The first is the reader context if any, and the second is the maximum amou=
+nt of data to be read.
+ You can ignore second argument and pass as mach data as you need. lcurl ca=
+n split data.
+ Function must return data to continue operation. To stop operation it must=
+ return empty string or nil or nothing.
+ Otherwise the transfer will be aborted with an error.
+
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">reader</span>
+            <span class=3D"types"><span class=3D"type">function</span></spa=
+n>
+
+        </li>
+        <li><span class=3D"parameter">context</span>
+         reader context
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> <span class=3D"keyword">local</span> counte=
+r =3D <span class=3D"number">10</span>
+ c:setopt_readfunction(<span class=3D"keyword">function</span>()
+   <span class=3D"keyword">if</span> counter &gt; <span class=3D"number">0<=
+/span> <span class=3D"keyword">then</span>
+     counter =3D counter - <span class=3D"number">1</span>
+     <span class=3D"keyword">return</span> <span class=3D"string">'a'</span=
+>
+   <span class=3D"keyword">end</span>
+ <span class=3D"keyword">end</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_readfunction"></a>
+    <strong>easy:setopt_readfunction (reader)</strong>
+    </dt>
+    <dd>
+    Set reader function.
+<p> This call same as easy:setopt_readfunction(reader.read, reader)
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">reader</span>
+            <span class=3D"types"><span class=3D"type">object</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_progressfunction"></a>
+    <strong>easy:setopt_progressfunction (progress[, context])</strong>
+    </dt>
+    <dd>
+    Set progress function.
+<p> A callback accepting four or five parameters.
+ The first is the reader context if any, the second is the total number
+ of bytes expected to be downloaded in this transfer,
+ the third is the number of bytes downloaded so far,
+ the fourth is the total number of bytes expected to be uploaded
+ in this transfer, and the fifth is the number of bytes uploaded so far.
+ Function must return `true` or `1` or nothing to continue operation.
+ Otherwise the transfer will be aborted with an error `ABORTED_BY_CALLBACK`=
+.<br>
+</p><p> !!! NOTE !!! This is differents form libcurl API. In libcurl return=
+ing a non-zero
+ value from this callback will cause libcurl to abort the transfer and retu=
+rn.
+ This done to be consisted with writefunction that should return `true` to =
+continue.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">progress</span>
+            <span class=3D"types"><span class=3D"type">function</span></spa=
+n>
+
+        </li>
+        <li><span class=3D"parameter">context</span>
+         progress context
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_progressfunction"></a>
+    <strong>easy:setopt_progressfunction (progress)</strong>
+    </dt>
+    <dd>
+    Set progress function.
+<p> This call same as easy:setopt_progressfunction(progress.progress, progr=
+ess)
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">progress</span>
+            <span class=3D"types"><span class=3D"type">object</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_httppost"></a>
+    <strong>easy:setopt_httppost (data)</strong>
+    </dt>
+    <dd>
+    Set HTTP multipart/formdata.
+<p> Caller does not have to save data.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">data</span>
+            <span class=3D"types"><a class=3D"type" href=3D"https://lua-cur=
+l.github.io/lcurl/modules/lcurl.html#Class_httpform">httpform</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_postfields"></a>
+    <strong>easy:setopt_postfields (data[, length=3D#data])</strong>
+    </dt>
+    <dd>
+    Set HTTP multipart/formdata.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">data</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class=3D"parameter">length</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+
+         (<em>default</em> #data)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"easy:setopt_share"></a>
+    <strong>easy:setopt_share (data)</strong>
+    </dt>
+    <dd>
+    Set curl share object.
+<p> Caller does not have to save data.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">data</span>
+            <span class=3D"types"><a class=3D"type" href=3D"https://lua-cur=
+l.github.io/lcurl/modules/lcurl.html#Class_share">share</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_multi"></a>Class multi </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"multi:add_handle"></a>
+    <strong>multi:add_handle (handle)</strong>
+    </dt>
+    <dd>
+    Add Easy object.
+<p> Caller must ensure that easy object is alive until end of operation.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">handle</span>
+            <span class=3D"types"><a class=3D"type" href=3D"https://lua-cur=
+l.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_multi">multi</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:remove_handle"></a>
+    <strong>multi:remove_handle (handle)</strong>
+    </dt>
+    <dd>
+    Remove Easy object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">handle</span>
+            <span class=3D"types"><a class=3D"type" href=3D"https://lua-cur=
+l.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_multi">multi</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:perfom"></a>
+    <strong>multi:perfom ()</strong>
+    </dt>
+    <dd>
+    reads/writes available data from each easy handle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">number</span></span>
+        handles number of active easy handles
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:info_read"></a>
+    <strong>multi:info_read ([remove])</strong>
+    </dt>
+    <dd>
+    Read multi stack informationals.
+<p> Note. If curl_multi_remove_handle fail then there no error occure but h=
+andle jast stay in multi handle.
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">remove</span>
+            <span class=3D"types"><span class=3D"type">remove</span></span>
+         easy handle if it done.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">number</span></span>
+        0 there no informationals
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+        handle</li>
+        <li>
+           <span class=3D"types"><span class=3D"type">boolean</span></span>
+        true</li>
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_easy">easy</a></span>
+        handle</li>
+        <li>
+           <span class=3D"types"><span class=3D"type">nil</span></span>
+        </li>
+        <li>
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_error">error</a></span>
+        error code</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:setopt"></a>
+    <strong>multi:setopt (opt, ...)</strong>
+    </dt>
+    <dd>
+    Set options.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">opt</span>
+            <span class=3D"types"><span class=3D"type">number</span> or <a =
+class=3D"type" href=3D"http://www.lua.org/manual/5.1/manual.html#5.5">table=
+</a></span>
+         one of `curl.OPT_MULTI_XXX` constant
+        </li>
+        <li><span class=3D"parameter">...</span>
+         value
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_multi">multi</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> c:setopt(curl.OPT_MULTI_MAXCONNECTS, <span =
+class=3D"number">10</span>)
+ c:setopt{maxconnects =3D <span class=3D"number">10</span>}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"multi:socket_action"></a>
+    <strong>multi:socket_action ([socket=3Dcurl.SOCKET_TIMEOUT[, mask=3D0]]=
+)</strong>
+    </dt>
+    <dd>
+    Perform socket action.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">socket</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+
+         (<em>default</em> curl.SOCKET_TIMEOUT)
+        </li>
+        <li><span class=3D"parameter">mask</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+
+         (<em>default</em> 0)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_multi">multi</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> c:socket_action()
+ c:socket_action(sock_fd, curl.CSELECT_IN)
+ c:socket_action(sock_fd, curl.CSELECT_OUT)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"multi:setopt_timerfunction"></a>
+    <strong>multi:setopt_timerfunction (timer[, context])</strong>
+    </dt>
+    <dd>
+    Set timer callback.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">timer</span>
+            <span class=3D"types"><span class=3D"type">function</span></spa=
+n>
+         timer callback
+        </li>
+        <li><span class=3D"parameter">context</span>
+         timer context
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_multi">multi</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:setopt_timerfunction"></a>
+    <strong>multi:setopt_timerfunction (timer)</strong>
+    </dt>
+    <dd>
+    Set timer callback.
+<p> This call same as easy:setopt_writefunction(timer.timer, timer)
+
+
+
+    </p><h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">timer</span>
+            <span class=3D"types"><span class=3D"type">userdata</span> or <=
+a class=3D"type" href=3D"http://www.lua.org/manual/5.1/manual.html#5.5">tab=
+le</a></span>
+         timer object
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_multi">multi</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:wait"></a>
+    <strong>multi:wait ([timeout])</strong>
+    </dt>
+    <dd>
+    Polls on all easy objects in a multi object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">timeout</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+         milliseconds timeout. By default it is `multi:timeout()`.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">number</span></span>
+        number of affected objects
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:timeout"></a>
+    <strong>multi:timeout ()</strong>
+    </dt>
+    <dd>
+    How long to wait for action before proceeding.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">number</span></span>
+        timeout milliseconds timeout
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"multi:close"></a>
+    <strong>multi:close ()</strong>
+    </dt>
+    <dd>
+    End multi session.
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_error"></a>Class error </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"error:category"></a>
+    <strong>error:category ()</strong>
+    </dt>
+    <dd>
+    Get the error category.
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">number</span></span>
+        number of error category (curl.ERROR_XXX constants)
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> <span class=3D"keyword">if</span> err:categ=
+ory() =3D=3D curl.ERROR_EASY <span class=3D"keyword">then</span>
+ <span class=3D"comment">-- proceed easy error
+</span> <span class=3D"keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"error:no"></a>
+    <strong>error:no ()</strong>
+    </dt>
+    <dd>
+    Get the number value of error.
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">number</span></span>
+        number of error (curl.E_XXX constants)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"error:name"></a>
+    <strong>error:name ()</strong>
+    </dt>
+    <dd>
+    Get the error name.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.o=
+rg/manual/5.1/manual.html#5.4">string</a></span>
+        error name (e.g. "UNSUPPORTED_PROTOCOL", "BAD_OPTION")
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"error:msg"></a>
+    <strong>error:msg ()</strong>
+    </dt>
+    <dd>
+    Get the error description.
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.o=
+rg/manual/5.1/manual.html#5.4">string</a></span>
+        error description (e.g. "Login denied")
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"error:__tostring"></a>
+    <strong>error:__tostring ()</strong>
+    </dt>
+    <dd>
+    Get the full error description.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.o=
+rg/manual/5.1/manual.html#5.4">string</a></span>
+        string that contain name, message and number of error
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_share"></a>Class share </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"share:setopt"></a>
+    <strong>share:setopt (opt, ...)</strong>
+    </dt>
+    <dd>
+    Set options.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">opt</span>
+            <span class=3D"types"><span class=3D"type">number</span> or <a =
+class=3D"type" href=3D"http://www.lua.org/manual/5.1/manual.html#5.5">table=
+</a></span>
+         one of `curl.OPT_SHARE_XXX` constant
+        </li>
+        <li><span class=3D"parameter">...</span>
+         value
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/lcurl.html#Class_share">share</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> c:setopt(curl.OPT_SHARE_SHARE, curl.LOCK_DA=
+TA_COOKIE)
+ c:setopt{share =3D  curl.LOCK_DATA_COOKIE}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"share:close"></a>
+    <strong>share:close ()</strong>
+    </dt>
+    <dd>
+    End share session.
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id=3D"content" -->
+</div> <!-- id=3D"main" -->
+<div id=3D"about">
+<i>generated by <a href=3D"http://github.com/stevedonovan/LDoc">LDoc 1.4.0<=
+/a></i>
+</div> <!-- id=3D"about" -->
+</div> <!-- id=3D"container" -->
+
+
+</body></html>
+------MultipartBoundary--h4vM6tpzdLemUWXbuOAN5Yzv1bm6vNXpFsNI4k3NKx----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/lcurl/ldoc.css
+
+@charset "utf-8";
+
+html { color: rgb(0, 0, 0); background: rgb(255, 255, 255); }
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,=
+ fieldset, legend, input, button, textarea, p, blockquote, th, td { margin:=
+ 0px; padding: 0px; }
+
+table { border-collapse: collapse; border-spacing: 0px; }
+
+fieldset, img { border: 0px; }
+
+address, caption, cite, code, dfn, em, strong, th, var, optgroup { font-sty=
+le: inherit; font-weight: inherit; }
+
+del, ins { text-decoration: none; }
+
+li { list-style: disc; margin-left: 20px; }
+
+caption, th { text-align: left; }
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: bold; }
+
+q::before, q::after { content: ""; }
+
+abbr, acronym { border: 0px; font-variant: normal; }
+
+sup { vertical-align: baseline; }
+
+sub { vertical-align: baseline; }
+
+legend { color: rgb(0, 0, 0); }
+
+input, button, textarea, select, optgroup, option { font-family: inherit; f=
+ont-size: inherit; font-style: inherit; font-weight: inherit; }
+
+input, button, textarea, select { }
+
+body { font-family: arial, helvetica, geneva, sans-serif; background-color:=
+ rgb(255, 255, 255); margin: 0px; }
+
+code, tt { font-family: monospace; }
+
+span.parameter { font-family: monospace; }
+
+span.parameter::after { content: ":"; }
+
+span.types::before { content: "("; }
+
+span.types::after { content: ")"; }
+
+.type { font-weight: bold; font-style: italic; }
+
+body, p, td, th { font-size: 0.95em; line-height: 1.2em; }
+
+p, ul { margin: 10px 0px 0px; }
+
+strong { font-weight: bold; }
+
+em { font-style: italic; }
+
+h1 { font-size: 1.5em; margin: 0px 0px 20px; }
+
+h2, h3, h4 { margin: 15px 0px 10px; }
+
+h2 { font-size: 1.25em; }
+
+h3 { font-size: 1.15em; }
+
+h4 { font-size: 1.06em; }
+
+a:link { font-weight: bold; color: rgb(0, 64, 128); text-decoration: none; =
+}
+
+a:visited { font-weight: bold; color: rgb(0, 102, 153); text-decoration: no=
+ne; }
+
+a:link:hover { text-decoration: underline; }
+
+hr { color: rgb(204, 204, 204); background: rgb(0, 0, 127); height: 1px; }
+
+blockquote { margin-left: 3em; }
+
+ul { list-style-type: disc; }
+
+p.name { font-family: "Andale Mono", monospace; padding-top: 1em; }
+
+pre.example { background-color: rgb(245, 245, 245); border: 1px solid silve=
+r; padding: 10px; margin: 10px 0px; font-family: "Andale Mono", monospace; =
+font-size: 0.85em; }
+
+pre { background-color: rgb(245, 245, 245); border: 1px solid silver; paddi=
+ng: 10px; margin: 10px 0px; overflow: auto; font-family: "Andale Mono", mon=
+ospace; }
+
+table.index { border: 1px rgb(0, 0, 127); }
+
+table.index td { text-align: left; vertical-align: top; }
+
+#container { margin-left: 1em; margin-right: 1em; background-color: rgb(240=
+, 240, 240); }
+
+#product { text-align: center; border-bottom: 1px solid rgb(204, 204, 204);=
+ background-color: rgb(255, 255, 255); }
+
+#product big { font-size: 2em; }
+
+#main { background-color: rgb(240, 240, 240); border-left: 2px solid rgb(20=
+4, 204, 204); }
+
+#navigation { float: left; width: 18em; vertical-align: top; background-col=
+or: rgb(240, 240, 240); overflow: visible; }
+
+#navigation h2 { background-color: rgb(231, 231, 231); font-size: 1.1em; co=
+lor: rgb(0, 0, 0); text-align: left; padding: 0.2em; border-top: 1px solid =
+rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221); }
+
+#navigation ul { font-size: 1em; list-style-type: none; margin: 1px 1px 10p=
+x; }
+
+#navigation li { text-indent: -1em; display: block; margin: 3px 0px 0px 22p=
+x; }
+
+#navigation li li a { margin: 0px 3px 0px -1em; }
+
+#content { margin-left: 18em; padding: 1em; width: 700px; border-left: 2px =
+solid rgb(204, 204, 204); border-right: 2px solid rgb(204, 204, 204); backg=
+round-color: rgb(255, 255, 255); }
+
+#about { clear: both; padding: 5px; border-top: 2px solid rgb(204, 204, 204=
+); background-color: rgb(255, 255, 255); }
+
+@media print {
+  body { font: 12pt "Times New Roman", TimeNR, Times, serif; }
+  a { font-weight: bold; color: rgb(0, 64, 128); text-decoration: underline=
+; }
+  #main { background-color: rgb(255, 255, 255); border-left: 0px; }
+  #container { margin-left: 2%; margin-right: 2%; background-color: rgb(255=
+, 255, 255); }
+  #content { padding: 1em; background-color: rgb(255, 255, 255); }
+  #navigation { display: none; }
+  pre.example { font-family: "Andale Mono", monospace; font-size: 10pt; bre=
+ak-inside: avoid; }
+}
+
+table.module_list { border-width: 1px; border-style: solid; border-color: r=
+gb(204, 204, 204); border-collapse: collapse; }
+
+table.module_list td { border-width: 1px; padding: 3px; border-style: solid=
+; border-color: rgb(204, 204, 204); }
+
+table.module_list td.name { background-color: rgb(240, 240, 240); min-width=
+: 200px; }
+
+table.module_list td.summary { width: 100%; }
+
+table.function_list { border-width: 1px; border-style: solid; border-color:=
+ rgb(204, 204, 204); border-collapse: collapse; }
+
+table.function_list td { border-width: 1px; padding: 3px; border-style: sol=
+id; border-color: rgb(204, 204, 204); }
+
+table.function_list td.name { background-color: rgb(240, 240, 240); min-wid=
+th: 200px; }
+
+table.function_list td.summary { width: 100%; }
+
+ul.nowrap { overflow: auto; white-space: nowrap; }
+
+dl.table dt, dl.function dt { border-top: 1px solid rgb(204, 204, 204); pad=
+ding-top: 1em; }
+
+dl.table dd, dl.function dd { padding-bottom: 1em; margin: 10px 0px 0px 20p=
+x; }
+
+dl.table h3, dl.function h3 { font-size: 0.95em; }
+
+ul ul { margin-top: 0px; }
+
+ol ul { margin-top: 0px; }
+
+ol ol { margin-top: 0px; }
+
+ul ol { margin-top: 0px; }
+
+pre .comment { color: rgb(85, 136, 23); }
+
+pre .constant { color: rgb(168, 102, 13); }
+
+pre .escape { color: rgb(132, 70, 49); }
+
+pre .keyword { color: rgb(34, 57, 168); font-weight: bold; }
+
+pre .library { color: rgb(14, 124, 107); }
+
+pre .marker { color: rgb(81, 43, 30); background: rgb(254, 220, 86); font-w=
+eight: bold; }
+
+pre .string { color: rgb(168, 102, 13); }
+
+pre .number { color: rgb(248, 102, 13); }
+
+pre .operator { color: rgb(34, 57, 168); font-weight: bold; }
+
+pre .preprocessor, pre .prepro { color: rgb(163, 50, 67); }
+
+pre .global { color: rgb(128, 0, 128); }
+
+pre .prompt { color: rgb(85, 136, 23); }
+
+pre .url { color: rgb(39, 47, 194); text-decoration: underline; }
+------MultipartBoundary--h4vM6tpzdLemUWXbuOAN5Yzv1bm6vNXpFsNI4k3NKx------

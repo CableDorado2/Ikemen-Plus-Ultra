@@ -1,0 +1,833 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://lua-curl.github.io/lcurl/modules/cURL.html
+Subject: Reference
+Date: Mon, 20 Oct 2025 14:02:05 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--507ddQDThUXO7jSBAkr4VuTctdE7qD2FQ7F7rEgXmz----"
+
+
+------MultipartBoundary--507ddQDThUXO7jSBAkr4VuTctdE7qD2FQ7F7rEgXmz----
+Content-Type: text/html
+Content-ID: <frame-F1D71E66CBF16BFDF0CCDA51E363B918@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/lcurl/modules/cURL.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd"><html><head><meta http-equiv=3D"Content-T=
+ype" content=3D"text/html; charset=3DUTF-8">
+
+    <title>Reference</title>
+    <link rel=3D"stylesheet" href=3D"https://lua-curl.github.io/lcurl/ldoc.=
+css" type=3D"text/css">
+</head>
+<body>
+
+<div id=3D"container">
+
+<div id=3D"product">
+	<div id=3D"product_logo"></div>
+	<div id=3D"product_name"><big><b></b></big></div>
+	<div id=3D"product_description"></div>
+</div> <!-- id=3D"product" -->
+
+
+<div id=3D"main">
+
+
+<!-- Menu -->
+
+<div id=3D"navigation">
+<br>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href=3D"https://lua-curl.github.io/lcurl/index.html">Index</a></li=
+>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Functions=
+">Functions</a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Tables">T=
+ables</a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Class_htt=
+pform">Class httpform </a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Class_eas=
+y">Class easy </a></li>
+<li><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Class_mul=
+ti">Class multi </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class=3D"$(kind=3D=3D'Topics' and '' or 'nowrap'">
+  <li><strong>cURL</strong></li>
+  <li><a href=3D"https://lua-curl.github.io/lcurl/modules/lcurl.html">lcurl=
+</a></li>
+</ul>
+
+</div>
+
+<div id=3D"content">
+
+<h1>Module <code>cURL</code></h1>
+<p>Provide same functions as `lcurl` module with some additions.</p>
+<p>
+ Here are the only functions that have been added or changed.
+</p>
+
+
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Functions=
+">Functions</a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#form">form (form)</a></td>
+	<td class=3D"summary">Create HTTP multipart/formdata object.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Tables">T=
+ables</a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#FORM_DESCRIPTION">FORM_DESCRIPTION</a></td>
+	<td class=3D"summary">Form description table.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#form_stream">form_stream</a></td>
+	<td class=3D"summary">Table describe stream part in form.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#form_file">form_file</a></td>
+	<td class=3D"summary">Table describe file part in form.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#form_buffer">form_buffer</a></td>
+	<td class=3D"summary">Table describe buffer part in form.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#form_content">form_content</a></td>
+	<td class=3D"summary">Table describe content part in form.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Class_htt=
+pform">Class httpform </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#httpform:add">httpform:add (form)</a></td>
+	<td class=3D"summary">Add new part to form.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Class_eas=
+y">Class easy </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#easy:perfom">easy:perfom ([options])</a></td>
+	<td class=3D"summary">Perform a file transfer</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#easy.data">easy.data</a></td>
+	<td class=3D"summary">User data.</td>
+	</tr>
+</tbody></table>
+<h2><a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#Class_mul=
+ti">Class multi </a></h2>
+<table class=3D"function_list">
+	<tbody><tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#multi:iperform">multi:iperform ()</a></td>
+	<td class=3D"summary">Iterator that returns the next data, type and corres=
+ponding easy handle.</td>
+	</tr>
+	<tr>
+	<td class=3D"name" nowrap=3D""><a href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#multi.data">multi.data</a></td>
+	<td class=3D"summary">User data.</td>
+	</tr>
+</tbody></table>
+
+<br>
+<br>
+
+
+    <h2><a name=3D"Functions"></a>Functions</h2>
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"form"></a>
+    <strong>form (form)</strong>
+    </dt>
+    <dd>
+    Create HTTP multipart/formdata object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">form</span>
+            <span class=3D"types"><span class=3D"type">FORM_DESCRIPTION</sp=
+an></span>
+         description
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">Form</span></span>
+        new curl HTTP Post object context
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#FORM=
+_DESCRIPTION">FORM_DESCRIPTION</a>
+    </ul>
+
+
+</dd>
+</dl>
+    <h2><a name=3D"Tables"></a>Tables</h2>
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"FORM_DESCRIPTION"></a>
+    <strong>FORM_DESCRIPTION</strong>
+    </dt>
+    <dd>
+    Form description table.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class=3D"parameter">content_name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a>, <a class=3D"type" href=3D"https=
+://lua-curl.github.io/lcurl/modules/cURL.html#form">form_stream</a>, <a cla=
+ss=3D"type" href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#form=
+">form_file</a>, <a class=3D"type" href=3D"https://lua-curl.github.io/lcurl=
+/modules/cURL.html#form">form_buffer</a> or <a class=3D"type" href=3D"https=
+://lua-curl.github.io/lcurl/modules/cURL.html#form">form_content</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> post_form =3D cURL.form{
+
+   <span class=3D"comment">-- file form filesystem
+</span>   name01 =3D {
+     file =3D <span class=3D"string">"post_form.lua"</span>,
+     <span class=3D"global">type</span> =3D <span class=3D"string">"text/pl=
+ain"</span>,
+     name =3D <span class=3D"string">"post.lua"</span>,
+   },
+
+   <span class=3D"comment">-- file form string
+</span>   name02 =3D {
+     data =3D <span class=3D"string">"&lt;html&gt;&lt;bold&gt;bold&lt;/bold=
+&gt;&lt;/html&gt;"</span>,
+     name =3D <span class=3D"string">"dummy.html"</span>,
+     <span class=3D"global">type</span> =3D <span class=3D"string">"text/ht=
+ml"</span>,
+   },
+
+   <span class=3D"comment">-- file form stream object
+</span>   name03 =3D {
+     stream  =3D Stream:new(<span class=3D"string">'8'</span>, <span class=
+=3D"number">25</span>),
+     name    =3D <span class=3D"string">"stream1.txt"</span>,
+     <span class=3D"global">type</span>    =3D <span class=3D"string">"text=
+/plain"</span>,
+     headers =3D {
+       <span class=3D"string">"X-Test-Char : 8"</span>,
+       <span class=3D"string">"X-Test-length : 25"</span>,
+     }
+   },
+
+   <span class=3D"comment">-- file form stream function
+</span>   name04 =3D {
+     stream  =3D stream,
+     length  =3D length,
+     name    =3D <span class=3D"string">"stream2.txt"</span>,
+     <span class=3D"global">type</span>    =3D <span class=3D"string">"text=
+/plain"</span>,
+   },
+
+   <span class=3D"comment">-- content form string
+</span>   name05 =3D <span class=3D"string">'value05'</span>,
+
+   <span class=3D"comment">-- content form string
+</span>   name06 =3D { <span class=3D"string">'value06'</span>, <span class=
+=3D"comment">-- or content =3D 'value05'
+</span>     <span class=3D"global">type</span>    =3D <span class=3D"string=
+">"text/plain"</span>,
+   },
+
+ }</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"form_stream"></a>
+    <strong>form_stream</strong>
+    </dt>
+    <dd>
+    Table describe stream part in form.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class=3D"parameter">stream</span>
+            <span class=3D"types"><span class=3D"type">function</span>, <a =
+class=3D"type" href=3D"http://www.lua.org/manual/5.1/manual.html#5.5">table=
+</a> or <span class=3D"type">userdata</span></span>
+         stream function is same as in readfunction.
+        Also stream object may provide `length` method.
+        </li>
+        <li><span class=3D"parameter">length</span>
+            <span class=3D"types"><span class=3D"type">number</span></span>
+
+         (<em>default</em> stream:length())
+        </li>
+        <li><span class=3D"parameter">name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         file name
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         mime type (e.g. 'text/plain')
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         array of headers
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"form_file"></a>
+    <strong>form_file</strong>
+    </dt>
+    <dd>
+    Table describe file part in form.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class=3D"parameter">file</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         path to file in local FS (e.g. 'path/to/some/file.txt')
+        </li>
+        <li><span class=3D"parameter">name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         file name
+         (<em>default</em> basename(file))
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         mime type (e.g. 'text/plain')
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         array of headers
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"form_buffer"></a>
+    <strong>form_buffer</strong>
+    </dt>
+    <dd>
+    Table describe buffer part in form.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class=3D"parameter">data</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         file content
+        </li>
+        <li><span class=3D"parameter">name</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         file name
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         mime type (e.g. 'text/plain')
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         array of headers
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name=3D"form_content"></a>
+    <strong>form_content</strong>
+    </dt>
+    <dd>
+    Table describe content part in form.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class=3D"parameter">content</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         value (or first field in table)
+        </li>
+        <li><span class=3D"parameter">type</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.4">string</a></span>
+         mime type (e.g. 'text/plain')
+        </li>
+        <li><span class=3D"parameter">headers</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+         array of headers
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_httpform"></a>Class httpform </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"httpform:add"></a>
+    <strong>httpform:add (form)</strong>
+    </dt>
+    <dd>
+    Add new part to form.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">form</span>
+            <span class=3D"types"><span class=3D"type">FORM_DESCRIPTION</sp=
+an></span>
+         description
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/cURL.html#Class_httpform">httpform</a></span>
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href=3D"https://lua-curl.github.io/lcurl/modules/cURL.html#FORM=
+_DESCRIPTION">FORM_DESCRIPTION</a>
+    </ul>
+
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_easy"></a>Class easy </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"easy:perfom"></a>
+    <strong>easy:perfom ([options])</strong>
+    </dt>
+    <dd>
+    Perform a file transfer
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class=3D"parameter">options</span>
+            <span class=3D"types"><a class=3D"type" href=3D"http://www.lua.=
+org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><a class=3D"type" href=3D"https://lua-curl=
+.github.io/lcurl/modules/cURL.html#Class_easy">easy</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example">e:perfom{writefunction =3D <span class=3D"gl=
+obal">assert</span>(<span class=3D"global">io</span>.open(<span class=3D"st=
+ring">"fname.txt"</span>, <span class=3D"string">"w+b"</span>))}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"easy.data"></a>
+    <strong>easy.data</strong>
+    </dt>
+    <dd>
+    User data.
+<p> Please use this field to associate any data with curl handle.
+
+
+
+    </p><ul>
+        <li><span class=3D"parameter">data</span>
+
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"> f =3D <span class=3D"global">io</span>.open=
+(<span class=3D"string">"lua.org.download"</span>, <span class=3D"string">"=
+w+"</span>)
+ e =3D curl.easy{url =3D <span class=3D"string">"http://lua.org"</span>, wr=
+itefunction =3D f}
+ e.data =3D f</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2><a name=3D"Class_multi"></a>Class multi </h2>
+
+    <dl class=3D"function">
+    <dt>
+    <a name=3D"multi:iperform"></a>
+    <strong>multi:iperform ()</strong>
+    </dt>
+    <dd>
+    Iterator that returns the next data, type and corresponding easy handle=
+.
+
+ <br>Returned data types: `response`, `header`, `data`, `error`, `done`.
+ <br>Note. response data may appeare several times (e.g. if you proceed htt=
+p request
+  with digest auth you should get 401 and 200 responses).
+ <br> Easy handle is removed at the end of the operation (when get `done` o=
+r `error` row).
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class=3D"types"><span class=3D"type">Iterator</span></span=
+>
+        iterator for generic for
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class=3D"example"><span class=3D"keyword">for</span> data, <sp=
+an class=3D"global">type</span>, easy <span class=3D"keyword">in</span> m:i=
+perform() <span class=3D"keyword">do</span> ... <span class=3D"keyword">end=
+</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name=3D"multi.data"></a>
+    <strong>multi.data</strong>
+    </dt>
+    <dd>
+    User data.
+<p> Please use this field to associate any data with curl handle.
+
+
+
+    </p><ul>
+        <li><span class=3D"parameter">data</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id=3D"content" -->
+</div> <!-- id=3D"main" -->
+<div id=3D"about">
+<i>generated by <a href=3D"http://github.com/stevedonovan/LDoc">LDoc 1.4.0<=
+/a></i>
+</div> <!-- id=3D"about" -->
+</div> <!-- id=3D"container" -->
+
+
+</body></html>
+------MultipartBoundary--507ddQDThUXO7jSBAkr4VuTctdE7qD2FQ7F7rEgXmz----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lua-curl.github.io/lcurl/ldoc.css
+
+@charset "utf-8";
+
+html { color: rgb(0, 0, 0); background: rgb(255, 255, 255); }
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,=
+ fieldset, legend, input, button, textarea, p, blockquote, th, td { margin:=
+ 0px; padding: 0px; }
+
+table { border-collapse: collapse; border-spacing: 0px; }
+
+fieldset, img { border: 0px; }
+
+address, caption, cite, code, dfn, em, strong, th, var, optgroup { font-sty=
+le: inherit; font-weight: inherit; }
+
+del, ins { text-decoration: none; }
+
+li { list-style: disc; margin-left: 20px; }
+
+caption, th { text-align: left; }
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: bold; }
+
+q::before, q::after { content: ""; }
+
+abbr, acronym { border: 0px; font-variant: normal; }
+
+sup { vertical-align: baseline; }
+
+sub { vertical-align: baseline; }
+
+legend { color: rgb(0, 0, 0); }
+
+input, button, textarea, select, optgroup, option { font-family: inherit; f=
+ont-size: inherit; font-style: inherit; font-weight: inherit; }
+
+input, button, textarea, select { }
+
+body { font-family: arial, helvetica, geneva, sans-serif; background-color:=
+ rgb(255, 255, 255); margin: 0px; }
+
+code, tt { font-family: monospace; }
+
+span.parameter { font-family: monospace; }
+
+span.parameter::after { content: ":"; }
+
+span.types::before { content: "("; }
+
+span.types::after { content: ")"; }
+
+.type { font-weight: bold; font-style: italic; }
+
+body, p, td, th { font-size: 0.95em; line-height: 1.2em; }
+
+p, ul { margin: 10px 0px 0px; }
+
+strong { font-weight: bold; }
+
+em { font-style: italic; }
+
+h1 { font-size: 1.5em; margin: 0px 0px 20px; }
+
+h2, h3, h4 { margin: 15px 0px 10px; }
+
+h2 { font-size: 1.25em; }
+
+h3 { font-size: 1.15em; }
+
+h4 { font-size: 1.06em; }
+
+a:link { font-weight: bold; color: rgb(0, 64, 128); text-decoration: none; =
+}
+
+a:visited { font-weight: bold; color: rgb(0, 102, 153); text-decoration: no=
+ne; }
+
+a:link:hover { text-decoration: underline; }
+
+hr { color: rgb(204, 204, 204); background: rgb(0, 0, 127); height: 1px; }
+
+blockquote { margin-left: 3em; }
+
+ul { list-style-type: disc; }
+
+p.name { font-family: "Andale Mono", monospace; padding-top: 1em; }
+
+pre.example { background-color: rgb(245, 245, 245); border: 1px solid silve=
+r; padding: 10px; margin: 10px 0px; font-family: "Andale Mono", monospace; =
+font-size: 0.85em; }
+
+pre { background-color: rgb(245, 245, 245); border: 1px solid silver; paddi=
+ng: 10px; margin: 10px 0px; overflow: auto; font-family: "Andale Mono", mon=
+ospace; }
+
+table.index { border: 1px rgb(0, 0, 127); }
+
+table.index td { text-align: left; vertical-align: top; }
+
+#container { margin-left: 1em; margin-right: 1em; background-color: rgb(240=
+, 240, 240); }
+
+#product { text-align: center; border-bottom: 1px solid rgb(204, 204, 204);=
+ background-color: rgb(255, 255, 255); }
+
+#product big { font-size: 2em; }
+
+#main { background-color: rgb(240, 240, 240); border-left: 2px solid rgb(20=
+4, 204, 204); }
+
+#navigation { float: left; width: 18em; vertical-align: top; background-col=
+or: rgb(240, 240, 240); overflow: visible; }
+
+#navigation h2 { background-color: rgb(231, 231, 231); font-size: 1.1em; co=
+lor: rgb(0, 0, 0); text-align: left; padding: 0.2em; border-top: 1px solid =
+rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221); }
+
+#navigation ul { font-size: 1em; list-style-type: none; margin: 1px 1px 10p=
+x; }
+
+#navigation li { text-indent: -1em; display: block; margin: 3px 0px 0px 22p=
+x; }
+
+#navigation li li a { margin: 0px 3px 0px -1em; }
+
+#content { margin-left: 18em; padding: 1em; width: 700px; border-left: 2px =
+solid rgb(204, 204, 204); border-right: 2px solid rgb(204, 204, 204); backg=
+round-color: rgb(255, 255, 255); }
+
+#about { clear: both; padding: 5px; border-top: 2px solid rgb(204, 204, 204=
+); background-color: rgb(255, 255, 255); }
+
+@media print {
+  body { font: 12pt "Times New Roman", TimeNR, Times, serif; }
+  a { font-weight: bold; color: rgb(0, 64, 128); text-decoration: underline=
+; }
+  #main { background-color: rgb(255, 255, 255); border-left: 0px; }
+  #container { margin-left: 2%; margin-right: 2%; background-color: rgb(255=
+, 255, 255); }
+  #content { padding: 1em; background-color: rgb(255, 255, 255); }
+  #navigation { display: none; }
+  pre.example { font-family: "Andale Mono", monospace; font-size: 10pt; bre=
+ak-inside: avoid; }
+}
+
+table.module_list { border-width: 1px; border-style: solid; border-color: r=
+gb(204, 204, 204); border-collapse: collapse; }
+
+table.module_list td { border-width: 1px; padding: 3px; border-style: solid=
+; border-color: rgb(204, 204, 204); }
+
+table.module_list td.name { background-color: rgb(240, 240, 240); min-width=
+: 200px; }
+
+table.module_list td.summary { width: 100%; }
+
+table.function_list { border-width: 1px; border-style: solid; border-color:=
+ rgb(204, 204, 204); border-collapse: collapse; }
+
+table.function_list td { border-width: 1px; padding: 3px; border-style: sol=
+id; border-color: rgb(204, 204, 204); }
+
+table.function_list td.name { background-color: rgb(240, 240, 240); min-wid=
+th: 200px; }
+
+table.function_list td.summary { width: 100%; }
+
+ul.nowrap { overflow: auto; white-space: nowrap; }
+
+dl.table dt, dl.function dt { border-top: 1px solid rgb(204, 204, 204); pad=
+ding-top: 1em; }
+
+dl.table dd, dl.function dd { padding-bottom: 1em; margin: 10px 0px 0px 20p=
+x; }
+
+dl.table h3, dl.function h3 { font-size: 0.95em; }
+
+ul ul { margin-top: 0px; }
+
+ol ul { margin-top: 0px; }
+
+ol ol { margin-top: 0px; }
+
+ul ol { margin-top: 0px; }
+
+pre .comment { color: rgb(85, 136, 23); }
+
+pre .constant { color: rgb(168, 102, 13); }
+
+pre .escape { color: rgb(132, 70, 49); }
+
+pre .keyword { color: rgb(34, 57, 168); font-weight: bold; }
+
+pre .library { color: rgb(14, 124, 107); }
+
+pre .marker { color: rgb(81, 43, 30); background: rgb(254, 220, 86); font-w=
+eight: bold; }
+
+pre .string { color: rgb(168, 102, 13); }
+
+pre .number { color: rgb(248, 102, 13); }
+
+pre .operator { color: rgb(34, 57, 168); font-weight: bold; }
+
+pre .preprocessor, pre .prepro { color: rgb(163, 50, 67); }
+
+pre .global { color: rgb(128, 0, 128); }
+
+pre .prompt { color: rgb(85, 136, 23); }
+
+pre .url { color: rgb(39, 47, 194); text-decoration: underline; }
+------MultipartBoundary--507ddQDThUXO7jSBAkr4VuTctdE7qD2FQ7F7rEgXmz------

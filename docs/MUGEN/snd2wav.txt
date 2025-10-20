@@ -1,0 +1,12 @@
+=============================================================================
+snd2wav Ver. 2008/01/04 Author: doloop | Modified by Cable Dorado 2 (CD2)
+=============================================================================
+This software extracts wav files from MUGEN's snd.
+
+- How to Use:
+Drag and drop the snd file into snd2wav.
+
+When using from the command prompt:
+> snd2wav kfm.snd outputdir
+This will create a wav file in the outputdir folder, and a list of the files will be written to the kfm.txt file.
+kfm.txt can be used with sndmaker tool.
