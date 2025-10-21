@@ -61,7 +61,7 @@ void Discord_UpdateHandlers(DiscordEventHandlers* handlers);
 local discordRPC = {} -- module table
 
 -- proxy to detect garbage collection of the module
-discordRPC.gcDummy = newproxy(true)
+--discordRPC.gcDummy = newproxy(true) --Not Supported in Lua 5.2
 
 local function unpackDiscordUser(request)
     return ffi.string(request.userId), ffi.string(request.username),
@@ -124,6 +124,7 @@ local function checkStrArg(arg, maxLen, argName, func, maybeNil)
     end
 end
 
+--[[
 local function checkIntArg(arg, maxBits, argName, func, maybeNil)
     maxBits = math.min(maxBits or 32, 52) -- lua number (double) can only store integers < 2^53
     local maxVal = 2^(maxBits-1) -- assuming signed integers, which, for now, are the only ones in use
@@ -132,6 +133,20 @@ local function checkIntArg(arg, maxBits, argName, func, maybeNil)
         or (maybeNil and arg == nil),
         string.format("Argument \"%s\" of function \"%s\" has to be a whole number <= %d",
             argName, func, maxVal))
+end
+]]
+
+local function checkIntArg(arg, maxBits, argName, func, maybeNil)
+    local currentMaxBits = math.min(maxBits or 32, 52) -- lua number (double) can only store integers < 2^53
+    local maxVal = 2251799813685248 --this is 2^51
+	if currentMaxBits < 52 then
+        maxVal = 2^(currentMaxBits-1) --Use original logic only for minor values (32 or 8 bits)
+    end
+    assert(type(arg) == "number" and math.floor(arg) == arg
+        and arg < maxVal and arg >= -maxVal
+        or (maybeNil and arg == nil),
+        string.format("Argument \"%s\" of function \"%s\" has to be a whole number <= %s",
+            argName, func, tostring(maxVal)))
 end
 
 -- function wrappers
@@ -157,6 +172,13 @@ end
 
 function discordRPC.shutdown()
     discordRPClib.Discord_Shutdown()
+--Next ones are to be compatible with Lua 5.2
+	ready_proxy:free()
+    disconnected_proxy:free()
+    errored_proxy:free()
+    joinGame_proxy:free()
+    spectateGame_proxy:free()
+    joinRequest_proxy:free()
 end
 
 function discordRPC.runCallbacks()
@@ -170,6 +192,7 @@ end
 -- solution:
 -- "Then you'll need to manually turn off JIT-compilation with jit.off() for
 -- the surrounding Lua function that invokes such a message polling function."
+
 --jit.off(discordRPC.runCallbacks) --Not Supported in Lua 5.2
 
 function discordRPC.updatePresence(presence)
@@ -235,7 +258,8 @@ function discordRPC.respond(userId, reply)
     discordRPClib.Discord_Respond(userId, replyMap[reply])
 end
 
--- garbage collection callback
+-- garbage collection callback (Not Supported in Lua 5.2)
+--[[
 getmetatable(discordRPC.gcDummy).__gc = function()
     discordRPC.shutdown()
     ready_proxy:free()
@@ -245,5 +269,5 @@ getmetatable(discordRPC.gcDummy).__gc = function()
     spectateGame_proxy:free()
     joinRequest_proxy:free()
 end
-
+]]
 return discordRPC

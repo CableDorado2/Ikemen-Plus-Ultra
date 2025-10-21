@@ -46,6 +46,7 @@ package.path = "./?.lua;" ..
 --Load LuaFileSystem library
 lfs = require("lfs")
 ffi = require("ffi") --Load FFI (Foreign Function Interface) Library
+discordRPC = require("discordRPC") --Load LUA FFI Wrapper for the Discord Rich Presence API (https://github.com/pfirsich/lua-discordRPC)
 htmlparser = require("htmlparser") --Load htmlparser library
 curl = require("cURL") --Load Lua-cURL library (https requests are not supported yet in Windows XP)
 --Load LuaSocket libraries
@@ -4853,3 +4854,67 @@ function f_loadLuaMods(bool)
 	end
 end
 require("script.options") --Load options script
+--;===========================================================
+--; DISCORD RICH PRESENCE INITIALIZATION
+--;===========================================================
+discordGameID = "1200228516554346567" --Discord AppID
+
+function f_discordInit() --Start Discord Rich Presence
+	discordRPC.initialize(discordGameID, true)
+	local now = os.time(os.date("*t"))
+	discord = {
+		state = "Starting Engine", --Game State
+		details = "Making the 2D Fighting Game of my Dreams!", --Game State Details
+		startTimestamp = now,
+		endTimestamp = now + 60,
+		largeImageKey = "gameicon", --Discord App Game Icon
+		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine", --Game Description
+		smallImageKey = "charactericon", --Discord App Mini Icon
+		smallImageText = "character name", --Mini Icon Description
+		partyId = "ikemen1234", --Public Room ID
+		partySize = 0, --Room Capacity (Set 1 as default, when netplay with this feature works)
+		partyMax = 2, --Room Max Capacity
+		matchSecret = "xyzzy", --Private Room ID
+		joinSecret = "join",
+		spectateSecret = "look",
+	}
+	nextDiscordUpdate = 0
+end
+
+function f_discordUpdate() --Update Discord Rich Presence
+	if nextDiscordUpdate < ikemen.timer.getTime() then
+		discordRPC.updatePresence(discord)
+		nextDiscordUpdate = ikemen.timer.getTime() + 2.0
+	end
+	discordRPC.runCallbacks()
+end
+
+f_discordInit()
+discordRPC.updatePresence(discord)
+discordRPC.runCallbacks()
+--discordRPC.shutdown() --Close Discord Rich Presence
+
+function discordRPC.ready(userId, username, discriminator, avatar)
+	print(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
+end
+
+function discordRPC.disconnected(errorCode, message)
+	print(string.format("Discord: disconnected (%d: %s)", errorCode, message))
+end
+
+function discordRPC.errored(errorCode, message)
+	print(string.format("Discord: error (%d: %s)", errorCode, message))
+end
+
+function discordRPC.joinGame(joinSecret)
+	print(string.format("Discord: join (%s)", joinSecret))
+end
+
+function discordRPC.spectateGame(spectateSecret)
+	print(string.format("Discord: spectate (%s)", spectateSecret))
+end
+
+function discordRPC.joinRequest(userId, username, discriminator, avatar)
+	print(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator, avatar))
+	discordRPC.respond(userId, "yes")
+end

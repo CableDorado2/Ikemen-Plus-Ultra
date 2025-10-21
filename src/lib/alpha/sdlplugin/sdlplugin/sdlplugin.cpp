@@ -462,7 +462,7 @@ void sndjoyinit()
 
 DiscordRichPresence discordPresence;
 
-TUserFunc(void, DiscordInit, Reference discordAppID)
+TUserFunc(void, DiscordInit, Reference discordAppID) //static void DiscordInit()
 {
 	DiscordEventHandlers handlers;
 	memset(&handlers, 0, sizeof(handlers));
@@ -475,44 +475,29 @@ TUserFunc(void, DiscordInit, Reference discordAppID)
 	Discord_Initialize(pu->refToAstr(CP_THREAD_ACP, discordAppID).c_str(), &handlers, 1, NULL);
 }
 
-/*
-static void DiscordInit()
-{
-	DiscordEventHandlers handlers;
-	memset(&handlers, 0, sizeof(handlers));
-	//handlers.ready = handleDiscordReady;
-	//handlers.disconnected = handleDiscordDisconnected;
-	//handlers.errored = handleDiscordError;
-	//handlers.joinGame = handleDiscordJoin;
-	//handlers.spectateGame = handleDiscordSpectate;
-	//handlers.joinRequest = handleDiscordJoinRequest;
-	Discord_Initialize("1200228516554346567", &handlers, 1, NULL);
-}
-*/
-
 int FrustrationLevel = 0;
 int32_t StartTime;
 int SendPresence = 1;
 
-TUserFunc(void, DiscordUpdate)
+TUserFunc(void, DiscordUpdate) //static void UpdateDiscordPresence()
 {
 	if (SendPresence)
 	{
 		char buffer[256];
 		memset(&discordPresence, 0, sizeof(discordPresence));
 		discordPresence.state = "Starting Engine"; //Game State
-		discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
+		discordPresence.details = "Making the 2D Fighting Game of my Dreams!"; //Game State Details
 		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
 		//discordPresence.endTimestamp = time(0) + 5 * 60;
-		discordPresence.largeImageKey = "gameicon"; //Game Icon
-		discordPresence.largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine"; //Game About
-		discordPresence.smallImageKey = "charactericon"; //Powered Icon
-		discordPresence.smallImageText = "character name"; //Powered About
-		discordPresence.partyId = "party1234";
-		discordPresence.partySize = 0; //Add 1 when online mode with rich presence works
-		discordPresence.partyMax = 2;
+		discordPresence.largeImageKey = "gameicon"; //Discord App Game Icon
+		discordPresence.largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine"; //Game Description
+		discordPresence.smallImageKey = "charactericon"; //Discord App Mini Icon
+		discordPresence.smallImageText = "character name"; //Mini Icon Description
+		discordPresence.partyId = "party1234"; //Public Room ID
+		discordPresence.partySize = 0; //Room Capacity (Add 1 when online mode with rich presence works)
+		discordPresence.partyMax = 2; //Room Max Capacity
 		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-		discordPresence.matchSecret = "xyzzy";
+		discordPresence.matchSecret = "xyzzy"; //Private Room ID
 		discordPresence.joinSecret = "join";
 		discordPresence.spectateSecret = "look";
 		discordPresence.instance = 0;
@@ -523,38 +508,6 @@ TUserFunc(void, DiscordUpdate)
 		Discord_ClearPresence();
 	}
 }
-
-/*
-static void UpdateDiscordPresence()
-{
-	if (SendPresence)
-	{
-		char buffer[256];
-		memset(&discordPresence, 0, sizeof(discordPresence));
-		discordPresence.state = "Starting Engine"; //Game State
-		discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
-		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
-		//discordPresence.endTimestamp = time(0) + 5 * 60;
-		discordPresence.largeImageKey = "gameicon"; //Game Icon
-		discordPresence.largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine"; //Game About
-		discordPresence.smallImageKey = "charactericon"; //Powered Icon
-		discordPresence.smallImageText = "character name"; //Powered About
-		discordPresence.partyId = "party1234";
-		discordPresence.partySize = 0; //Add 1 when online mode with rich presence works
-		discordPresence.partyMax = 2;
-		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-		discordPresence.matchSecret = "xyzzy";
-		discordPresence.joinSecret = "join";
-		discordPresence.spectateSecret = "look";
-		discordPresence.instance = 0;
-		Discord_UpdatePresence(&discordPresence);
-	}
-	else
-	{
-		Discord_ClearPresence();
-	}
-}
-*/
 
 TUserFunc(void, DiscordEnd)
 {
@@ -911,7 +864,7 @@ void TestRoom()
 //Software Render
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 {
-	TestRoom(); //To test SDL Stuff
+	//TestRoom(); //To test SDL Stuff
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		return false;
