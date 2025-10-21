@@ -45,6 +45,7 @@ package.path = "./?.lua;" ..
 				
 --Load LuaFileSystem library
 lfs = require("lfs")
+ffi = require("ffi") --Load FFI Library
 htmlparser = require("htmlparser") --Load htmlparser library
 curl = require("cURL") --Load Lua-cURL library (https requests are not supported yet in Windows XP)
 --Load LuaSocket libraries

@@ -1,2 +1,0 @@
-https://github.com/zhaojh329/lua-ffi
-https://github.com/libffi/libffi
