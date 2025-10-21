@@ -1,4 +1,4 @@
-local ffi = require "ffi"
+local ffi = require("ffi")
 local discordRPClib = ffi.load("discord-rpc")
 
 ffi.cdef[[
@@ -170,7 +170,7 @@ end
 -- solution:
 -- "Then you'll need to manually turn off JIT-compilation with jit.off() for
 -- the surrounding Lua function that invokes such a message polling function."
-jit.off(discordRPC.runCallbacks)
+--jit.off(discordRPC.runCallbacks) --Not Supported in Lua 5.2
 
 function discordRPC.updatePresence(presence)
     local func = "discordRPC.updatePresence"

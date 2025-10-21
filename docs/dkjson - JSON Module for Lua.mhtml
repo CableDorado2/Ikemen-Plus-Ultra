@@ -1,0 +1,455 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://dkolf.de/dkjson-lua/documentation
+Subject: Documentation - dkjson - JSON Module for Lua
+Date: Tue, 21 Oct 2025 12:19:34 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--DdwGEjyTp9elVQ17XIFDgv1Gy4HlcZUlNc0jOAlYpK----"
+
+
+------MultipartBoundary--DdwGEjyTp9elVQ17XIFDgv1Gy4HlcZUlNc0jOAlYpK----
+Content-Type: text/html
+Content-ID: <frame-0FE17FC8C326D0FB088625C607C15F1D@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://dkolf.de/dkjson-lua/documentation
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/htm=
+l4/strict.dtd"><html lang=3D"en"><head><meta http-equiv=3D"Content-Type" co=
+ntent=3D"text/html; charset=3DUTF-8">
+		<title>Documentation - dkjson - JSON Module for Lua</title>
+		<link rel=3D"stylesheet" type=3D"text/css" href=3D"https://dkolf.de/style=
+.css?v=3D250429">
+		<meta name=3D"description" content=3D"Documentation for dkjson, a free JS=
+ON module written in pure Lua.">
+	=09
+		<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1">
+	</head>
+
+	<body>
+
+<h1>Documentation =E2=80=93 dkjson
+<a href=3D"https://dkolf.de/" class=3D"homelink">(dkolf.de)</a></h1>
+
+<div class=3D"textcolumn">
+
+<h2>Introduction</h2>
+
+<p>This is the documentation for <a href=3D"https://dkolf.de/dkjson-lua/">d=
+kjson</a>, a JSON module written in Lua (5.1 to 5.4).</p>
+
+<hr>
+
+<p><em>Version 2.8</em></p>
+
+<p>In the default configuration this module writes no global values, not ev=
+en
+the module table. Import it using</p>
+
+<pre><code>json =3D require ("dkjson")
+</code></pre>
+
+<p>In environments where <code>require</code> or a similiar function are no=
+t available
+and you cannot receive the return value of the module, you can set the
+option <code>register_global_module_table</code> to <code>true</code>.  The=
+ module table will
+then be saved in the global variable with the name given by the option
+<code>global_module_name</code>.</p>
+
+<p>Exported functions and values:</p>
+
+<h2><code>json.encode (object [, state])</code></h2>
+<p>Create a string representing the object. <code>Object</code> can be a ta=
+ble,
+a string, a number, a boolean, <code>nil</code>, <code>json.null</code> or =
+any object with
+a function <code>__tojson</code> in its metatable. A table can only use str=
+ings
+and numbers as keys and its values have to be valid objects as
+well. It raises an error for any invalid data types or reference
+cycles.</p>
+
+<p><code>state</code> is an optional table with the following fields:</p>
+
+<ul>
+<li><code>indent</code> <br>
+When <code>indent</code> (a boolean) is set, the created string will contai=
+n
+newlines and indentations. Otherwise it will be one long line.</li>
+<li><code>keyorder</code> <br>
+<code>keyorder</code> is an array to specify the ordering of keys in the
+encoded output. If an object has keys which are not in this array
+they are written after the sorted keys.</li>
+<li><code>level</code> <br>
+This is the initial level of indentation used when <code>indent</code> is
+set. For each level two spaces are added. When absent it is set
+to 0.</li>
+<li><code>buffer</code> <br>
+<code>buffer</code> is an array to store the strings for the result so they
+can be concatenated at once. When it isn't given, the encode
+function will create it temporary and will return the
+concatenated result.</li>
+<li><code>bufferlen</code> <br>
+When <code>bufferlen</code> is set, it has to be the index of the last
+element of <code>buffer</code>.</li>
+<li><code>tables</code> <br>
+<code>tables</code> is a set to detect reference cycles. It is created
+temporary when absent. Every table that is currently processed
+is used as key, the value is <code>true</code>.</li>
+<li><code>exception</code> <br>
+When <code>exception</code> is given, it will be called whenever the encode=
+r
+cannot encode a given value. <br>
+The parameters are <code>reason</code>, <code>value</code>, <code>state</co=
+de> and <code>defaultmessage</code>.
+<code>reason</code> is either <code>"reference cycle"</code>, <code>"custom=
+ encoder failed"</code> or
+<code>"unsupported type"</code>. <code>value</code> is the original value t=
+hat caused the
+exception, <code>state</code> is this state table, <code>defaultmessage</co=
+de> is the message
+of the error that would usually be raised. <br>
+You can either return <code>true</code> and add directly to the buffer or y=
+ou can
+return the string directly. To keep raising an error return <code>nil</code=
+> and
+the desired error message. <br>
+An example implementation for an exception function is given in
+<code>json.encodeexception</code>.</li>
+</ul>
+
+<p>When <code>state.buffer</code> was set, the return value will be <code>t=
+rue</code> on
+success. Without <code>state.buffer</code> the return value will be a strin=
+g.</p>
+
+<h2><code>json.decode (string [, position [, null]])</code></h2>
+<p>Decode <code>string</code> starting at <code>position</code> or at 1 if =
+<code>position</code> was
+omitted.</p>
+
+<p><code>null</code> is an optional value to be returned for null values. T=
+he
+default is <code>nil</code>, but you could set it to <code>json.null</code>=
+ or any other
+value.</p>
+
+<p>The return values are the object or <code>nil</code>, the position of th=
+e next
+character that doesn't belong to the object, and in case of errors
+an error message.</p>
+
+<p>Two metatables are created. Every array or object that is decoded gets
+a metatable with the <code>__jsontype</code> field set to either <code>arra=
+y</code> or
+<code>object</code>. If you want to provide your own metatables use the syn=
+tax</p>
+
+<pre><code>json.decode (string, position, null, objectmeta, arraymeta)
+</code></pre>
+
+<p>To prevent the assigning of metatables pass <code>nil</code>:</p>
+
+<pre><code>json.decode (string, position, null, nil)
+</code></pre>
+
+<h2><code>&lt;metatable&gt;.__jsonorder</code></h2>
+<p><code>__jsonorder</code> can overwrite the <code>keyorder</code> for a s=
+pecific table.</p>
+
+<h2><code>&lt;metatable&gt;.__jsontype</code></h2>
+<p><code>__jsontype</code> can be either <code>"array"</code> or <code>"obj=
+ect"</code>. This value is only
+checked for empty tables. (The default for empty tables is <code>"array"</c=
+ode>).</p>
+
+<h2><code>&lt;metatable&gt;.__tojson (self, state)</code></h2>
+<p>You can provide your own <code>__tojson</code> function in a metatable. =
+In this
+function you can either add directly to the buffer and return true,
+or you can return a string. On errors nil and a message should be
+returned.</p>
+
+<h2><code>json.null</code></h2>
+<p>You can use this value for setting explicit <code>null</code> values.</p=
+>
+
+<h2><code>json.version</code></h2>
+<p>Set to <code>"dkjson 2.8"</code>.</p>
+
+<h2><code>json.quotestring (string)</code></h2>
+<p>Quote a UTF-8 string and escape critical characters using JSON
+escape sequences. This function is only necessary when you build
+your own <code>__tojson</code> functions.</p>
+
+<h2><code>json.addnewline (state)</code></h2>
+<p>When <code>state.indent</code> is set, add a newline to <code>state.buff=
+er</code> and spaces
+according to <code>state.level</code>.</p>
+
+<h2><code>json.encodeexception (reason, value, state, defaultmessage)</code=
+></h2>
+<p>This function can be used as value to the <code>exception</code> option.=
+ Instead of
+raising an error this function encodes the error message as a string. This
+can help to debug malformed input data.</p>
+
+<pre><code>x =3D json.encode(value, { exception =3D json.encodeexception })
+</code></pre>
+
+<h2>LPeg support</h2>
+<p>When the local configuration variable <code>always_use_lpeg</code> is se=
+t,
+this module tries to load LPeg to replace the <code>decode</code> function.=
+ The
+speed increase is significant. You can get the LPeg module at
+  <a href=3D"http://www.inf.puc-rio.br/~roberto/lpeg/">http://www.inf.puc-r=
+io.br/~roberto/lpeg/</a>.</p>
+
+<p>Without changing the module configuration you can get LPeg support by
+calling the function <code>use_lpeg</code>:</p>
+
+<h3><code>json.use_lpeg ()</code></h3>
+<p>Require the LPeg module and return a copy of the module table where the
+<code>decode</code> function was replaced by a version that uses LPeg:</p>
+
+<pre><code>json =3D require "dkjson".use_lpeg()
+</code></pre>
+
+<p>Without the configuration to always use LPEG the original module table i=
+s
+unchanged and still available by calls to</p>
+
+<pre><code>json =3D require "dkjson"
+</code></pre>
+
+<h3><code>json.using_lpeg</code></h3>
+<p>This variable is set to <code>true</code> in the copy of the module tabl=
+e that uses
+LPeg support.</p>
+
+<hr>
+
+<h2>Contact</h2>
+<p>You can contact the author by sending an e-mail to 'david' at the
+domain 'dkolf.de'.</p>
+
+<hr>
+
+<p><em>Copyright (C) 2010-2024 David Heiko Kolf</em></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+
+</div>
+
+		<div class=3D"navbottom">
+			<div class=3D"textcolumn" lang=3D"en">
+				<p>
+				<a href=3D"https://dkolf.de/">dkolf.de</a>
+				<a href=3D"https://dkolf.de/contact">contact</a>
+			</p></div>
+		</div>
+
+=09
+
+</body></html>
+------MultipartBoundary--DdwGEjyTp9elVQ17XIFDgv1Gy4HlcZUlNc0jOAlYpK----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://dkolf.de/pubimg/extlink.png
+
+iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAMAAACecocUAAAAB3RJTUUH1QQHDjA5bK0qtAAAAAlw
+SFlzAAALEgAACxIB0t1+/AAAAwBQTFRF///////M//+Z//9m//8z//8A/8z//8zM/8yZ/8xm/8wz
+/8wA/5n//5nM/5mZ/5lm/5kz/5kA/2b//2bM/2aZ/2Zm/2Yz/2YA/zP//zPM/zOZ/zNm/zMz/zMA
+/wD//wDM/wCZ/wBm/wAz/wAAzP//zP/MzP+ZzP9mzP8zzP8AzMz/zMzMzMyZzMxmzMwzzMwAzJn/
+zJnMzJmZzJlmzJkzzJkAzGb/zGbMzGaZzGZmzGYzzGYAzDP/zDPMzDOZzDNmzDMzzDMAzAD/zADM
+zACZzABmzAAzzAAAmf//mf/Mmf+Zmf9mmf8zmf8Amcz/mczMmcyZmcxmmcwzmcwAmZn/mZnMmZmZ
+mZlmmZkzmZkAmWb/mWbMmWaZmWZmmWYzmWYAmTP/mTPMmTOZmTNmmTMzmTMAmQD/mQDMmQCZmQBm
+mQAzmQAAZv//Zv/MZv+ZZv9mZv8zZv8AZsz/ZszMZsyZZsxmZswzZswAZpn/ZpnMZpmZZplmZpkz
+ZpkAZmb/ZmbMZmaZZmZmZmYzZmYAZjP/ZjPMZjOZZjNmZjMzZjMAZgD/ZgDMZgCZZgBmZgAzZgAA
+M///M//MM/+ZM/9mM/8zM/8AM8z/M8zMM8yZM8xmM8wzM8wAM5n/M5nMM5mZM5lmM5kzM5kAM2b/
+M2bMM2aZM2ZmM2YzM2YAMzP/MzPMMzOZMzNmMzMzMzMAMwD/MwDMMwCZMwBmMwAzMwAAAP//AP/M
+AP+ZAP9mAP8zAP8AAMz/AMzMAMyZAMxmAMwzAMwAAJn/AJnMAJmZAJlmAJkzAJkAAGb/AGbMAGaZ
+AGZmAGYzAGYAADP/ADPMADOZADNmADMzADMAAAD/AADMAACZAABmAAAzAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGZ6atAAA
+AAF0Uk5TAEDm2GYAAAAqSURBVHjaY2CAgP9AwIAA/5FY/8GS/8GC/6EySOR/hI7/mEK42VAAZAIA
+WZsi3tutxx0AAAAASUVORK5CYII=
+
+------MultipartBoundary--DdwGEjyTp9elVQ17XIFDgv1Gy4HlcZUlNc0jOAlYpK----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://dkolf.de/style.css?v=250429
+
+@charset "utf-8";
+
+html { margin: 0px; padding: 0px; }
+
+body { margin: 0px auto; padding: 0px 10pt; background-color: rgb(238, 255,=
+ 238); color: rgb(0, 0, 0); font-size: 100%; font-family: serif; line-heigh=
+t: 1.4; }
+
+a { background: transparent; color: rgb(0, 0, 255); }
+
+a:visited { color: rgb(119, 0, 119); }
+
+a.extlink { padding-right: 13px; background-image: url("pubimg/extlink.png"=
+); background-repeat: no-repeat; background-position: right center; }
+
+a.mail { padding-right: 13px; background-image: url("pubimg/mail.png"); bac=
+kground-repeat: no-repeat; background-position: right center; }
+
+a.file { padding-right: 13px; background-image: url("img/file.png"); backgr=
+ound-repeat: no-repeat; background-position: right center; }
+
+h1 { font-family: sans-serif; font-size: 200%; margin: 0px -10pt; padding: =
+0.5ex 10pt; background-color: rgb(221, 238, 255); border-bottom: 2px solid =
+rgb(170, 187, 204); clear: left; text-align: center; }
+
+h2 { font-size: 150%; font-family: sans-serif; color: rgb(68, 68, 136); bor=
+der-bottom: 1px solid rgb(0, 0, 85); margin: 2ex 0px 1ex; clear: left; }
+
+h3 { font-size: 120%; font-family: sans-serif; margin: 2ex 0px 0.5ex; }
+
+p { margin: 1ex 0px; }
+
+dd { margin-bottom: 0.7ex; }
+
+.homelink { font-size: 70%; }
+
+.ornament { overflow: auto; }
+
+.textcolumn { margin: 0px auto; padding: 0.5rem; max-width: 50rem; backgrou=
+nd-color: rgb(255, 255, 255); }
+
+div.navbottom { clear: both; border-top: 2px solid rgb(170, 187, 204); marg=
+in: 0px -10pt; padding: 1ex 10pt; background-color: rgb(221, 238, 255); }
+
+div.navbottom .textcolumn { background-color: rgb(221, 238, 255); }
+
+div.navbottom p { text-align: right; margin: 0px; }
+
+p.navbottom { clear: both; border-top: 2px solid rgb(170, 187, 204); margin=
+: 1ex -10pt 0px; padding: 1ex 10pt; background-color: rgb(221, 238, 255); t=
+ext-align: right; }
+
+p.portraet { float: left; margin: 1em; padding: 0px; }
+
+p.illustration { clear: left; float: left; margin-right: 1em; font-size: sm=
+aller; font-weight: bold; }
+
+table.thumblist { margin: 0px auto; width: 810px; border-spacing: 0px; bord=
+er-collapse: collapse; background-color: rgb(255, 255, 255); }
+
+table.imgview { margin: 1ex 0px; width: 810px; border-spacing: 0px; border-=
+collapse: collapse; }
+
+.clickable { cursor: pointer; }
+
+.tlthump { width: 130px; height: 100px; text-align: center; }
+
+.tlhover:hover { background-color: rgb(221, 238, 255); }
+
+.tlactive { background-color: rgb(204, 221, 238); }
+
+.thumbbar { background-color: rgb(204, 221, 238); text-align: center; borde=
+r-top: 2px solid rgb(170, 187, 204); border-left: 2px solid rgb(170, 187, 2=
+04); border-right: 2px solid rgb(170, 187, 204); }
+
+.tbthumb { border-top: 2px solid rgb(170, 187, 204); border-bottom: 2px sol=
+id rgb(0, 0, 85); width: 130px; height: 100px; text-align: center; }
+
+.tbscroll { width: 1em; }
+
+.tbhover:hover { background-color: rgb(221, 238, 255); }
+
+.tbactivethumb { background-color: rgb(255, 255, 255); border-width: 2px; b=
+order-style: solid; border-color: rgb(0, 0, 85) rgb(0, 0, 85) rgb(255, 255,=
+ 255); }
+
+tr.fullview { text-align: center; }
+
+tr.embeddedview { background-color: rgb(204, 221, 238); text-align: center;=
+ }
+
+tr.embeddedview img { margin-top: 5px; margin-bottom: 5px; }
+
+tr.imgtext { border-top: 2px solid rgb(170, 187, 204); }
+
+tr.embeddedhead { background-color: rgb(204, 221, 238); }
+
+tr.embeddedhead th { font-family: sans-serif; font-size: 16pt; padding: 5px=
+; }
+
+tr.embeddedimgtext { background-color: rgb(204, 221, 238); }
+
+tr.embeddedimgtext td { padding: 5px; }
+
+.tlthump img, .tbthumb img { border: 0px; }
+
+span.luacomment { color: rgb(0, 160, 0); }
+
+span.luastring { color: rgb(0, 0, 192); }
+
+span.luakeyword { color: rgb(160, 0, 0); font-weight: bold; }
+
+span.lualibrary { color: rgb(160, 0, 160); }
+
+pre.source { margin-left: 5em; }
+
+table.rnd_demo_table { border-collapse: collapse; }
+
+.rnd_demo_table { font-size: 130%; }
+
+.rnd_demo_table th { border-bottom: thin solid; padding: 0px 1ex; }
+
+.rnd_demo_table td { padding: 0.5ex 1ex; text-align: right; }
+
+.rnd_demo_table button { font-size: 100%; }
+
+@media (prefers-color-scheme: dark) {
+  body { background-color: rgb(17, 34, 34); color: rgb(204, 204, 204); }
+  a { color: rgb(136, 153, 255); }
+  a.extlink { background-image: url("pubimg/extlink2.png"); }
+  a.mail { background-image: url("pubimg/mail2.png"); }
+  a:visited { color: rgb(221, 136, 221); }
+  h1 { background-color: rgb(34, 51, 68); border-color: rgb(17, 17, 34); }
+  h2 { color: rgb(153, 187, 255); border-color: rgb(34, 34, 85); }
+  .textcolumn { background-color: rgb(0, 0, 0); }
+  div.navbottom { background-color: rgb(34, 51, 68); border-color: rgb(17, =
+17, 34); }
+  div.navbottom .textcolumn { background-color: rgb(34, 51, 68); }
+  p.navbottom { background-color: rgb(34, 51, 68); border-color: rgb(17, 17=
+, 34); }
+  table.thumblist { background-color: rgb(0, 0, 0); }
+  .tlhover:hover { background-color: rgb(51, 68, 85); }
+  .tlactive { background-color: rgb(34, 51, 68); }
+  tr.embeddedview { background-color: rgb(34, 51, 68); }
+  tr.embeddedhead { background-color: rgb(34, 51, 68); }
+  tr.embeddedimgtext { background-color: rgb(34, 51, 68); }
+  span.luacomment { color: rgb(48, 144, 48); }
+  span.luastring { color: rgb(96, 96, 192); }
+  span.luakeyword { color: rgb(160, 64, 64); }
+  span.lualibrary { color: rgb(160, 64, 160); }
+}
+------MultipartBoundary--DdwGEjyTp9elVQ17XIFDgv1Gy4HlcZUlNc0jOAlYpK------
