@@ -16,24 +16,25 @@ loadLifebar(fightDef) --Assign Lifebar Screenpack
 discordGameID = "1200228516554346567" --Discord App ID
 discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Presence API
 
-function f_discordInit() --Start Discord Rich Presence
-	discordRPC.initialize(discordGameID, true)
+function f_discordInit()
+	discordRPC.initialize(discordGameID, true) --Initialize Discord Rich Presence Using App ID
 	discordStartTime = os.time(os.date("*t"))
 	discord = {
-		state = "Starting Engine", --Game State
-		details = "Making the 2D Fighting Game of my Dreams!", --Game State Details
-		--startTimestamp = discordStartTime,
-		--endTimestamp = discordStartTime + 60,
-		largeImageKey = "gameicon", --Discord App Big Icon
+		largeImageKey = "gameicon", --Big Icon
 		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine", --Big Icon Description
-		smallImageKey = "charactericon", --Discord App Mini Icon
+		details = "Making the 2D Fighting Game of my Dreams!", --Current Game Details
+		--startTimestamp = discordStartTime, --Current Match Started Time
+		--endTimestamp = 99, --Current Match Left Time to End
+		state = "Starting Engine", --Current Game State
+		partySize = 0, --Current Players in Room (Set 1 as default, when netplay with this feature works)
+		partyMax = 2, --Room Max Capacity
+		smallImageKey = "charactericon", --Mini Icon
 		smallImageText = "character name", --Mini Icon Description
 		partyId = "ikemen1234", --Public Room ID
-		partySize = 0, --Room Capacity (Set 1 as default, when netplay with this feature works)
-		partyMax = 2, --Room Max Capacity
 		matchSecret = "xyzzy", --Private Room ID
-		joinSecret = "join",
-		spectateSecret = "look",
+		joinSecret = "join", --Join Button
+		spectateSecret = "spectate", --Spectate Button
+		--instance = 0, --Notify Button
 	}
 	nextDiscordUpdate = 0
 	discordRPC.updatePresence(discord)
@@ -60,36 +61,12 @@ function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 secon
 	discordRPC.runCallbacks()
 end
 
-function discordRPC.ready(userId, username, discriminator, avatar)
-	print(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
-end
-
-function discordRPC.disconnected(errorCode, message)
-	print(string.format("Discord: disconnected (%d: %s)", errorCode, message))
-end
-
-function discordRPC.errored(errorCode, message)
-	print(string.format("Discord: error (%d: %s)", errorCode, message))
-end
-
-function discordRPC.joinGame(joinSecret)
-	print(string.format("Discord: join (%s)", joinSecret))
-end
-
-function discordRPC.spectateGame(spectateSecret)
-	print(string.format("Discord: spectate (%s)", spectateSecret))
-end
-
-function discordRPC.joinRequest(userId, username, discriminator, avatar)
-	print(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator, avatar))
-	discordRPC.respond(userId, "yes")
-end
-
 function f_discordMainMenu()
 f_discordUpdate({state = "In Main Menu"})
 end
 
 f_discordInit() --Send Discord Rich Presence
+--discordRPC.clearPresence() --Clear Discord Rich Presence
 --discordRPC.shutdown() --End Discord Rich Presence
 --;===========================================================
 --; GLOBAL VARIABLES DEFINITION
