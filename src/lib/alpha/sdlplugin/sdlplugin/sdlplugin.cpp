@@ -38,11 +38,6 @@
 #pragma comment(lib, "strmiids")
 #pragma comment (lib, "Quartz")            \
 
-//Discord Rich Presence Stuff
-#include <discord_register.h>
-#include <discord_rpc.h>
-#pragma comment(lib, "discord-rpc.lib")
-
 //To Save PNG in OpenGL Render
 #include "lodepng.h"
 #pragma comment(lib, "lodepng.lib")
@@ -460,198 +455,6 @@ void sndjoyinit()
 	g_js.init();
 }
 
-DiscordRichPresence discordPresence;
-
-TUserFunc(void, DiscordInit, Reference discordAppID) //static void DiscordInit()
-{
-	DiscordEventHandlers handlers;
-	memset(&handlers, 0, sizeof(handlers));
-	//handlers.ready = handleDiscordReady;
-	//handlers.disconnected = handleDiscordDisconnected;
-	//handlers.errored = handleDiscordError;
-	//handlers.joinGame = handleDiscordJoin;
-	//handlers.spectateGame = handleDiscordSpectate;
-	//handlers.joinRequest = handleDiscordJoinRequest;
-	Discord_Initialize(pu->refToAstr(CP_THREAD_ACP, discordAppID).c_str(), &handlers, 1, NULL);
-}
-
-int FrustrationLevel = 0;
-int32_t StartTime;
-int SendPresence = 1;
-
-TUserFunc(void, DiscordUpdate) //static void UpdateDiscordPresence()
-{
-	if (SendPresence)
-	{
-		char buffer[256];
-		memset(&discordPresence, 0, sizeof(discordPresence));
-		discordPresence.state = "Starting Engine"; //Game State
-		discordPresence.details = "Making the 2D Fighting Game of my Dreams!"; //Game State Details
-		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
-		//discordPresence.endTimestamp = time(0) + 5 * 60;
-		discordPresence.largeImageKey = "gameicon"; //Discord App Game Icon
-		discordPresence.largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine"; //Game Description
-		discordPresence.smallImageKey = "charactericon"; //Discord App Mini Icon
-		discordPresence.smallImageText = "character name"; //Mini Icon Description
-		discordPresence.partyId = "party1234"; //Public Room ID
-		discordPresence.partySize = 0; //Room Capacity (Add 1 when online mode with rich presence works)
-		discordPresence.partyMax = 2; //Room Max Capacity
-		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-		discordPresence.matchSecret = "xyzzy"; //Private Room ID
-		discordPresence.joinSecret = "join";
-		discordPresence.spectateSecret = "look";
-		discordPresence.instance = 0;
-		Discord_UpdatePresence(&discordPresence);
-	}
-	else
-	{
-		Discord_ClearPresence();
-	}
-}
-
-TUserFunc(void, DiscordEnd)
-{
-	Discord_Shutdown();
-}
-
-TUserFunc(void, SetDiscordState, Reference State)
-{
-	if (SendPresence)
-	{
-		discordPresence.state = pu->refToAstr(CP_THREAD_ACP, State).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordDetails, Reference Details)
-{
-	if (SendPresence)
-	{
-		discordPresence.details = pu->refToAstr(CP_THREAD_ACP, Details).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordBigImg, Reference BigImg)
-{
-	if (SendPresence)
-	{
-		discordPresence.largeImageKey = pu->refToAstr(CP_THREAD_ACP, BigImg).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordBigTxt, Reference BigTxt)
-{
-	if (SendPresence)
-	{
-		discordPresence.largeImageText = pu->refToAstr(CP_THREAD_ACP, BigTxt).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordMiniImg, Reference MiniImg)
-{
-	if (SendPresence)
-	{
-		discordPresence.smallImageKey = pu->refToAstr(CP_THREAD_ACP, MiniImg).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordMiniTxt, Reference MiniTxt)
-{
-	if (SendPresence)
-	{
-		discordPresence.smallImageText = pu->refToAstr(CP_THREAD_ACP, MiniTxt).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordPartyID, Reference PartyID)
-{
-	if (SendPresence)
-	{
-		discordPresence.partyId = pu->refToAstr(CP_THREAD_ACP, PartyID).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordPartySize, int32_t PartySize)
-{
-	if (SendPresence)
-	{
-		discordPresence.partySize = PartySize;
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordPartyMax, int32_t PartyMax)
-{
-	if (SendPresence)
-	{
-		discordPresence.partyMax = PartyMax;
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-/*
-const char* discordRoomType;
-TUserFunc(void, SetDiscordPartyPrivacy, bool privateRoom)
-{
-	
-	if (privateRoom)
-	{
-		discordRoomType = DISCORD_PARTY_PRIVATE;
-	}
-	else
-	{
-		discordRoomType = DISCORD_PARTY_PUBLIC;
-	}
-	if (SendPresence)
-	{
-		discordPresence.partyPrivacy = discordRoomType;
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-*/
-
-TUserFunc(void, SetDiscordSecretID, Reference SecretID)
-{
-	if (SendPresence)
-	{
-		discordPresence.matchSecret = pu->refToAstr(CP_THREAD_ACP, SecretID).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordSecretJoin, Reference SecretJoin)
-{
-	if (SendPresence)
-	{
-		discordPresence.joinSecret = pu->refToAstr(CP_THREAD_ACP, SecretJoin).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordSecretWatch, Reference SecretWatch)
-{
-	if (SendPresence)
-	{
-		discordPresence.spectateSecret = pu->refToAstr(CP_THREAD_ACP, SecretWatch).c_str();
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
-TUserFunc(void, SetDiscordInstance, int8_t Instance)
-{
-	if (SendPresence)
-	{
-		discordPresence.instance = Instance;
-		Discord_UpdatePresence(&discordPresence);
-	}
-}
-
 void TestTTF()
 {
 //Init SDL and SDL_ttf
@@ -871,8 +674,6 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 	}
 	else
 	{
-		//DiscordInit();
-		//UpdateDiscordPresence();
 		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0"); //VSYNC TEST
 		TTF_Init(); //Initialize TTF loading
@@ -945,7 +746,6 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 
 TUserFunc(void, End)
 {
-	Discord_Shutdown();
 	wglDeleteContext(g_hglrc2);
 	g_js.close();
 	bgmclear(true);

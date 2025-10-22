@@ -1003,6 +1003,7 @@ end
 
 inConfig = false
 function cmdInput()
+	--f_discordRealTimeUpdate()
 	commandInput(p1Cmd, data.p1In)
 	commandInput(p2Cmd, data.p2In)
 --Refresh/Reload Screenpack file in Real Time
@@ -4797,7 +4798,6 @@ function f_storeStats()
 	return cleared, place
 end
 ]]
-
 --;===========================================================
 --; EXTERNAL LUA CODE
 --;===========================================================
@@ -4855,18 +4855,17 @@ function f_loadLuaMods(bool)
 end
 require("script.options") --Load options script
 --;===========================================================
---; DISCORD RICH PRESENCE INITIALIZATION
+--; DISCORD RICH PRESENCE FUNCTIONS
 --;===========================================================
 discordGameID = "1200228516554346567" --Discord AppID
-
+discordStartTime = os.time(os.date("*t"))
 function f_discordInit() --Start Discord Rich Presence
 	discordRPC.initialize(discordGameID, true)
-	local now = os.time(os.date("*t"))
 	discord = {
 		state = "Starting Engine", --Game State
 		details = "Making the 2D Fighting Game of my Dreams!", --Game State Details
-		startTimestamp = now,
-		endTimestamp = now + 60,
+		startTimestamp = discordStartTime,
+		endTimestamp = discordStartTime + 60,
 		largeImageKey = "gameicon", --Discord App Game Icon
 		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine", --Game Description
 		smallImageKey = "charactericon", --Discord App Mini Icon
@@ -4881,18 +4880,25 @@ function f_discordInit() --Start Discord Rich Presence
 	nextDiscordUpdate = 0
 end
 
-function f_discordUpdate() --Update Discord Rich Presence
-	if nextDiscordUpdate < ikemen.timer.getTime() then
+function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 seconds
+	if os.clock() > nextDiscordUpdate then
 		discordRPC.updatePresence(discord)
-		nextDiscordUpdate = ikemen.timer.getTime() + 2.0
+		nextDiscordUpdate = os.clock() + 2.0
 	end
 	discordRPC.runCallbacks()
 end
 
-f_discordInit()
-discordRPC.updatePresence(discord)
-discordRPC.runCallbacks()
---discordRPC.shutdown() --Close Discord Rich Presence
+function f_discordUpdate(t_changes)
+--Check that argument is a table
+	if type(t_changes) ~= "table" then return end
+	for key, value in pairs(t_changes) do --Each argument need to match with original discord table values to update
+		discord[key] = value --Overwrite discord table
+	end
+	if data.debugLog then f_printTable(discord, 'save/debug/t_discordRichPresence.log') end
+	discordRPC.updatePresence(discord)
+	discordRPC.runCallbacks()
+	--nextDiscordUpdate = os.clock() + 2.0 --Reset real-time update
+end
 
 function discordRPC.ready(userId, username, discriminator, avatar)
 	print(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))

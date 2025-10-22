@@ -6,6 +6,10 @@ math.randomseed(os.time())
 --Load Common stuff (shared with pause.lua)
 require("script.common")
 
+f_discordInit()
+discordRPC.updatePresence(discord)
+discordRPC.runCallbacks()
+
 --Debug/Match Stuff
 loadDebugFont(fontDebug)
 setDebugScript("script/match.lua")
@@ -113,6 +117,7 @@ end
 --; LOGOS SCREEN
 --;===========================================================
 function f_mainLogos()
+	f_discordUpdate({state = "In Logos"})
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_storyboard(storyboardLogo)
 	f_mainOpening()
@@ -128,6 +133,7 @@ end
 --; TITLE SCREEN
 --;===========================================================
 function f_mainTitle()
+	f_discordUpdate({state = "In Title Screen"})
 	cmdInput()
 	local i = 0
 	local t = 0
@@ -168,6 +174,7 @@ end
 
 --Load Common Settings for Demo Mode
 function demoModeCfg()
+	f_discordUpdate({state = "In Demo Screen"})
 	f_default()
 	setGameMode('demo')
 	data.gameMode = "demo"
@@ -188,6 +195,7 @@ end
 --; ATTRACT MENU
 --;===========================================================
 function f_mainAttract()
+	f_discordUpdate({state = "In Attract Mode"})
 	cmdInput()
 	playBGM(bgmTitle)
 	while true do
@@ -248,6 +256,7 @@ end
 --; MAIN MENU
 --;===========================================================
 function f_mainMenu()
+	f_discordUpdate({state = "In Main Menu"})
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
@@ -472,6 +481,7 @@ end
 --; OPTIONS MENU (adjust game settings)
 --;===========================================================
 function f_optionsMenu()
+	f_discordUpdate({state = "In Options"})
 	onlinegame = false --only for identify purposes
 	assert(loadfile(saveCfgPath))()
 	script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
@@ -798,6 +808,7 @@ end
 --; TRAINING MODE (practice special attacks and combos with training dummy character(s) of your choice)
 --;===========================================================
 function f_training()
+	f_discordUpdate({state = "Training"})
 	f_default()
 	setGameMode('practice')
 	data.gameMode = "training"
@@ -1253,6 +1264,7 @@ end
 
 --Load Common Settings for Classic Arcade Modes
 function arcadeCfg()
+	f_discordUpdate({state = "In Arcade Mode"})
 	f_resetArcadeStuff()
 	f_default() --Load f_default function defined in common.lua
 	setGameMode('arcade')
@@ -1356,6 +1368,7 @@ end
 
 --Load Common Settings for Tower Modes
 function towerCfg()
+	f_discordUpdate({state = "In Tower Mode"})
 	f_resetArcadeStuff()
 	f_default()
 	setGameMode('tower')
@@ -1450,6 +1463,7 @@ end
 
 --Load Common Settings for Quick Match Modes
 function randomModeCfg()
+	f_discordUpdate({state = "In Quick Match"})
 	f_default()
 	setGameMode('random')
 	data.gameMode = "quick match"
@@ -1529,6 +1543,7 @@ end
 
 --Load Common Settings for Free Battle Modes
 function freeModeCfg()
+	f_discordUpdate({state = "In Free Battle"})
 	f_default()
 	setGameMode('vs')
 	data.gameMode = "versus"
@@ -1733,6 +1748,7 @@ end
 
 --Load Common Settings for Survival Modes
 function survivalCfg()
+	f_discordUpdate({state = "In Survival"})
 	f_default()
 	data.gameMode = "survival"
 	data.rosterMode = "survival"
@@ -1818,6 +1834,7 @@ end
 
 --Load Common Settings for Boss Rush Modes
 function bossrushCfg()
+	f_discordUpdate({state = "In Boss Rush"})
 	f_default()
 	data.gameMode = "bossrush"
 	data.rosterMode = "boss"
@@ -1999,6 +2016,7 @@ end
 
 --Load Common Settings for Single Boss Fight Modes
 function bossCfg()
+	f_discordUpdate({state = "In Boss Fight"})
 	f_default()
 	data.gameMode = "singleboss"
 	data.rosterMode = "boss"
@@ -2260,6 +2278,7 @@ end
 
 --Load Common Settings for Bonus Games Modes
 function bonusCfg()
+	f_discordUpdate({state = "In Bonus Games"})
 	f_default()
 	data.gameMode = "singlebonus"
 	data.rosterMode = "bonus"
@@ -2309,6 +2328,7 @@ end
 
 --Load Common Settings for Bonus Rush Modes
 function bonusrushCfg()
+	f_discordUpdate({state = "In Bonus Marathon"})
 	f_default()
 	data.gameMode = "bonusrush"
 	data.rosterMode = "bonus"
@@ -2489,6 +2509,7 @@ end
 
 --Load Common Settings for Score Attack Modes
 function scoreattackCfg()
+	f_discordUpdate({state = "In Score Attack"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "scoreattack"
@@ -2676,6 +2697,7 @@ end
 
 --Load Common Settings for Time Attack Modes
 function timeattackCfg()
+	f_discordUpdate({state = "In Time Attack"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "timeattack"
@@ -2841,6 +2863,7 @@ end
 
 --Load Common Settings for VS X Kumite Modes
 function kumiteCfg()
+	f_discordUpdate({state = "In "..getKumiteData()})
 	f_default()
 	data.gameMode = "vskumite"
 	data.rosterMode = "vskumite"
@@ -17973,29 +17996,4 @@ end
 --;===========================================================
 f_loadLuaMods() --Load External Lua Modules
 if not data.attractMode then f_sdlWarning() end
-discordGameID = "1200228516554346567" --Discord AppID
-discordGameState = "In Logos" --Game State
-discordGameDetails = "Create your own Fighting Game!" --Game State Details
-discordGameBigImg = "gameicon" --Discord App Game Icon
-discordGameAbout = "Game Name" --Game Description
-discordGameMiniIcon = "charactericon" --Discord App Mini Icon
-discordGameMiniTxt = "character name" --Mini Icon Description
-discordPublicRoomID = "party1234" --Public Room ID
-discordPrivateRoomID = "xyzzy" --Private Room ID
-discordPrivateJoin = "join" --
-discordPrivateWatch = "look" --
-discordRoomMax = 2 --Room Max Capacity
-discordRoomSize = 0 --Room Capacity. Add 1 when online mode with rich presence works
-discordGameInstance = 0 --???
---[[
-discordInit(discordGameID) --Start Discord Rich Presence
-discordUpdate() --Update Discord Rich Presence
-setDiscordState(discordGameState)
-setDiscordDetails(discordGameDetails)
-setDiscordBigImg(discordGameBigImg)
-setDiscordBigTxt(discordGameAbout)
-setDiscordMiniImg(discordGameMiniIcon)
-setDiscordMiniTxt(discordGameMiniTxt)
---discordEnd() --Close Discord Rich Presence
---]]
 f_mainStart() --Start Menu
