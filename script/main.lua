@@ -6,14 +6,91 @@ math.randomseed(os.time())
 --Load Common stuff (shared with pause.lua)
 require("script.common")
 
-f_discordInit()
-discordRPC.updatePresence(discord)
-discordRPC.runCallbacks()
-
 --Debug/Match Stuff
 loadDebugFont(fontDebug)
 setDebugScript("script/match.lua")
 loadLifebar(fightDef) --Assign Lifebar Screenpack
+--;===========================================================
+--; DISCORD RICH PRESENCE API
+--;===========================================================
+discordGameID = "1200228516554346567" --Discord App ID
+discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Presence API
+
+function f_discordInit() --Start Discord Rich Presence
+	discordRPC.initialize(discordGameID, true)
+	discordStartTime = os.time(os.date("*t"))
+	discord = {
+		state = "Starting Engine", --Game State
+		details = "Making the 2D Fighting Game of my Dreams!", --Game State Details
+		--startTimestamp = discordStartTime,
+		--endTimestamp = discordStartTime + 60,
+		largeImageKey = "gameicon", --Discord App Big Icon
+		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine", --Big Icon Description
+		smallImageKey = "charactericon", --Discord App Mini Icon
+		smallImageText = "character name", --Mini Icon Description
+		partyId = "ikemen1234", --Public Room ID
+		partySize = 0, --Room Capacity (Set 1 as default, when netplay with this feature works)
+		partyMax = 2, --Room Max Capacity
+		matchSecret = "xyzzy", --Private Room ID
+		joinSecret = "join",
+		spectateSecret = "look",
+	}
+	nextDiscordUpdate = 0
+	discordRPC.updatePresence(discord)
+	discordRPC.runCallbacks()
+end
+
+function f_discordUpdate(t_changes)
+--Check that argument is a table
+	if type(t_changes) ~= "table" then return end
+	for key, value in pairs(t_changes) do --Each argument need to match with original discord table values to update
+		discord[key] = value --Overwrite discord table
+	end
+	if data.debugLog then f_printTable(discord, 'save/debug/t_discordRichPresence.log') end
+	discordRPC.updatePresence(discord)
+	discordRPC.runCallbacks()
+	--nextDiscordUpdate = os.clock() + 2.0 --Reset real-time update
+end
+
+function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 seconds
+	if os.clock() > nextDiscordUpdate then
+		discordRPC.updatePresence(discord)
+		nextDiscordUpdate = os.clock() + 2.0
+	end
+	discordRPC.runCallbacks()
+end
+
+function discordRPC.ready(userId, username, discriminator, avatar)
+	print(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
+end
+
+function discordRPC.disconnected(errorCode, message)
+	print(string.format("Discord: disconnected (%d: %s)", errorCode, message))
+end
+
+function discordRPC.errored(errorCode, message)
+	print(string.format("Discord: error (%d: %s)", errorCode, message))
+end
+
+function discordRPC.joinGame(joinSecret)
+	print(string.format("Discord: join (%s)", joinSecret))
+end
+
+function discordRPC.spectateGame(spectateSecret)
+	print(string.format("Discord: spectate (%s)", spectateSecret))
+end
+
+function discordRPC.joinRequest(userId, username, discriminator, avatar)
+	print(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator, avatar))
+	discordRPC.respond(userId, "yes")
+end
+
+function f_discordMainMenu()
+f_discordUpdate({state = "In Main Menu"})
+end
+
+f_discordInit() --Send Discord Rich Presence
+--discordRPC.shutdown() --End Discord Rich Presence
 --;===========================================================
 --; GLOBAL VARIABLES DEFINITION
 --;===========================================================
@@ -51,7 +128,6 @@ end
 --;===========================================================
 assert(loadfile("script/loader.lua"))()
 assert(loadfile("data/visualnovel/VNresources.lua"))()
-
 --;===========================================================
 --; GAME START
 --;===========================================================
@@ -117,7 +193,7 @@ end
 --; LOGOS SCREEN
 --;===========================================================
 function f_mainLogos()
-	f_discordUpdate({state = "In Logos"})
+	f_discordMainMenu()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_storyboard(storyboardLogo)
 	f_mainOpening()
@@ -133,7 +209,6 @@ end
 --; TITLE SCREEN
 --;===========================================================
 function f_mainTitle()
-	f_discordUpdate({state = "In Title Screen"})
 	cmdInput()
 	local i = 0
 	local t = 0
@@ -189,13 +264,13 @@ function demoModeCfg()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_selectSimple()
 	f_resetTemp()
+	f_discordMainMenu()
 end
 
 --;===========================================================
 --; ATTRACT MENU
 --;===========================================================
 function f_mainAttract()
-	f_discordUpdate({state = "In Attract Mode"})
 	cmdInput()
 	playBGM(bgmTitle)
 	while true do
@@ -256,7 +331,6 @@ end
 --; MAIN MENU
 --;===========================================================
 function f_mainMenu()
-	f_discordUpdate({state = "In Main Menu"})
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
@@ -481,10 +555,11 @@ end
 --; OPTIONS MENU (adjust game settings)
 --;===========================================================
 function f_optionsMenu()
-	f_discordUpdate({state = "In Options"})
+	--f_discordUpdate({state = "In Options"})
 	onlinegame = false --only for identify purposes
 	assert(loadfile(saveCfgPath))()
 	script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
+	--f_discordMainMenu()
 end
 
 --;===========================================================
@@ -808,7 +883,7 @@ end
 --; TRAINING MODE (practice special attacks and combos with training dummy character(s) of your choice)
 --;===========================================================
 function f_training()
-	f_discordUpdate({state = "Training"})
+	f_discordUpdate({state = "Playing Training Mode"})
 	f_default()
 	setGameMode('practice')
 	data.gameMode = "training"
@@ -830,6 +905,7 @@ function f_training()
 	end
 	textImgSetText(txt_mainSelect, "TRAINING MODE")
 	f_selectSimple()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -1264,7 +1340,7 @@ end
 
 --Load Common Settings for Classic Arcade Modes
 function arcadeCfg()
-	f_discordUpdate({state = "In Arcade Mode"})
+	f_discordUpdate({state = "Playing Arcade Mode"})
 	f_resetArcadeStuff()
 	f_default() --Load f_default function defined in common.lua
 	setGameMode('arcade')
@@ -1293,6 +1369,7 @@ function arcadeHumanvsCPU()
 	textImgSetText(txt_mainSelect, modeName) --message displayed on top of select screen
 	f_selectAdvance() --start f_selectAdvance() function
 	P2overP1 = false --Reset Player 2 Control Swap Detection
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (fight against CPU controlled opponents in a customizable arcade ladder from right side)
@@ -1312,6 +1389,7 @@ function arcadeCPUvsHuman()
 	textImgSetText(txt_mainSelect, modeName)
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents in a customizable arcade ladder)
@@ -1323,6 +1401,7 @@ function arcadeP1P2vsCPU()
 	setGameMode('arcadecoop') --to avoid challenger screen
 	textImgSetText(txt_mainSelect, "ARCADE COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents in a customizable arcade ladder)
@@ -1350,6 +1429,7 @@ function arcadeCPUvsCPU()
 	data.rosterMode = "cpu" --to avoid record stats
 	textImgSetText(txt_mainSelect, "WATCH ARCADE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -1368,7 +1448,7 @@ end
 
 --Load Common Settings for Tower Modes
 function towerCfg()
-	f_discordUpdate({state = "In Tower Mode"})
+	f_discordUpdate({state = "Playing Tower Mode"})
 	f_resetArcadeStuff()
 	f_default()
 	setGameMode('tower')
@@ -1394,6 +1474,7 @@ function towerHumanvsCPU()
 	textImgSetText(txt_mainSelect, "TOWER MODE")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (fight against CPU controlled opponents in customizable tower ladders from right side)
@@ -1412,6 +1493,7 @@ function towerCPUvsHuman()
 	textImgSetText(txt_mainSelect, "TOWER MODE")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents in customizable tower ladders)
@@ -1423,6 +1505,7 @@ function towerP1P2vsCPU()
 	setGameMode('towercoop')
 	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents in customizable tower ladders)
@@ -1451,6 +1534,7 @@ function towerCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TOWER")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -1463,7 +1547,7 @@ end
 
 --Load Common Settings for Quick Match Modes
 function randomModeCfg()
-	f_discordUpdate({state = "In Quick Match"})
+	f_discordUpdate({state = "Playing Quick Match"})
 	f_default()
 	setGameMode('random')
 	data.gameMode = "quick match"
@@ -1484,6 +1568,7 @@ function randomHumanvsCPU()
 	data.p2In = 1
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (defeat from right side a random CPU controlled opponent of your choice)
@@ -1497,6 +1582,7 @@ function randomCPUvsHuman()
 	data.p2In = 2
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --HUMAN VS HUMAN (fight from left side to defeat a random human opponent)
@@ -1512,6 +1598,7 @@ function randomHumanvsHuman()
 	data.p2In = 2
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU MATCH (watch random CPU controlled match)
@@ -1519,6 +1606,7 @@ function randomCPUvsCPU()
 	data.aiFight = true
 	data.rosterMode = "cpu"
 	f_selectSimple()
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU (team up with another player from left side to defeat random CPU controlled opponents)
@@ -1543,7 +1631,7 @@ end
 
 --Load Common Settings for Free Battle Modes
 function freeModeCfg()
-	f_discordUpdate({state = "In Free Battle"})
+	f_discordUpdate({state = "Playing Free Versus"})
 	f_default()
 	setGameMode('vs')
 	data.gameMode = "versus"
@@ -1563,6 +1651,7 @@ function freeHumanvsCPU()
 	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
@@ -1577,6 +1666,7 @@ function freeCPUvsHuman()
 	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --HUMAN VS HUMAN (choose a fighter from left side to defeat a human opponent)
@@ -1593,6 +1683,7 @@ function freeHumanvsHuman()
 	textImgSetText(txt_mainSelect, "VERSUS MODE")
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU MATCH (watch CPU controlled match of your choice)
@@ -1602,6 +1693,7 @@ function freeCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH VERSUS")
 	f_selectSimple()
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU (team up with another player from left side to defeat CPU controlled opponents of your choice)
@@ -1748,7 +1840,7 @@ end
 
 --Load Common Settings for Survival Modes
 function survivalCfg()
-	f_discordUpdate({state = "In Survival"})
+	f_discordUpdate({state = "Playing Survival Mode"})
 	f_default()
 	data.gameMode = "survival"
 	data.rosterMode = "survival"
@@ -1768,6 +1860,7 @@ function survivalHumanvsCPU()
 	textImgSetText(txt_mainSelect, "SURVIVAL")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (defeat as many opponents as you can with a single Health Meter from right side)
@@ -1783,6 +1876,7 @@ function survivalCPUvsHuman()
 	textImgSetText(txt_mainSelect, "SURVIVAL")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat as many opponents as you can with a single Health Meter)
@@ -1792,6 +1886,7 @@ function survivalP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat as many opponents as you can with a single Health Meter)
@@ -1816,6 +1911,7 @@ function survivalCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SURVIVAL")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -1834,7 +1930,7 @@ end
 
 --Load Common Settings for Boss Rush Modes
 function bossrushCfg()
-	f_discordUpdate({state = "In Boss Rush"})
+	f_discordUpdate({state = "Playing Boss Rush Mode"})
 	f_default()
 	data.gameMode = "bossrush"
 	data.rosterMode = "boss"
@@ -1854,6 +1950,7 @@ function bossrushHumanvsCPU()
 	textImgSetText(txt_mainSelect, "BOSS RUSH")					
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (defeat all bosses in a row from right side)
@@ -1869,6 +1966,7 @@ function bossrushCPUvsHuman()
 	textImgSetText(txt_mainSelect, "BOSS RUSH")					
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all bosses in a row)
@@ -1878,6 +1976,7 @@ function bossrushP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all bosses in a row)
@@ -1902,6 +2001,7 @@ function bossrushCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH BOSS RUSH")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -2016,7 +2116,7 @@ end
 
 --Load Common Settings for Single Boss Fight Modes
 function bossCfg()
-	f_discordUpdate({state = "In Boss Fight"})
+	f_discordUpdate({state = "Playing Boss Fight Mode"})
 	f_default()
 	data.gameMode = "singleboss"
 	data.rosterMode = "boss"
@@ -2036,6 +2136,7 @@ function bossHumanvsCPU()
 	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (defeat selected boss character from right side)
@@ -2052,6 +2153,7 @@ function bossCPUvsHuman()
 	data.p1Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU MODE (watch CPU defeat selected boss character)
@@ -2062,6 +2164,7 @@ function bossCPUvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -2278,7 +2381,7 @@ end
 
 --Load Common Settings for Bonus Games Modes
 function bonusCfg()
-	f_discordUpdate({state = "In Bonus Games"})
+	f_discordUpdate({state = "Playing Bonus Games"})
 	f_default()
 	data.gameMode = "singlebonus"
 	data.rosterMode = "bonus"
@@ -2300,6 +2403,7 @@ function bonusHumanvsCPU()
 	data.p2Char = {t_selChars[t_bonusChars[bonusExtras]+1].char}
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (clear the bonus game selected from right side)
@@ -2316,6 +2420,7 @@ function bonusCPUvsHuman()
 	data.p1Char = {t_selChars[t_bonusChars[bonusExtras]+1].char}
 	f_selectSimple()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -2328,7 +2433,7 @@ end
 
 --Load Common Settings for Bonus Rush Modes
 function bonusrushCfg()
-	f_discordUpdate({state = "In Bonus Marathon"})
+	f_discordUpdate({state = "Playing Bonus Games Marathon"})
 	f_default()
 	data.gameMode = "bonusrush"
 	data.rosterMode = "bonus"
@@ -2350,6 +2455,7 @@ function bonusrushHumanvsCPU()
 	textImgSetText(txt_mainSelect, "BONUS MARATHON")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (clear all bonus games in a row from right side)
@@ -2366,6 +2472,7 @@ function bonusrushCPUvsHuman()
 	textImgSetText(txt_mainSelect, "BONUS MARATHON")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to clear all bonus games in a row)
@@ -2375,6 +2482,7 @@ function bonusrushP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "BONUS MARATHON COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to clear all bonus games in a row)
@@ -2509,7 +2617,7 @@ end
 
 --Load Common Settings for Score Attack Modes
 function scoreattackCfg()
-	f_discordUpdate({state = "In Score Attack"})
+	f_discordUpdate({state = "Playing Score Attack Mode"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "scoreattack"
@@ -2529,6 +2637,7 @@ function scoreattackHumanvsCPU()
 	textImgSetText(txt_mainSelect, "SCORE ATTACK")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (defeat all character roster as quickly as possible, beating previous score records from right side)
@@ -2544,6 +2653,7 @@ function scoreattackCPUvsHuman()
 	textImgSetText(txt_mainSelect, "SCORE ATTACK")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster as quickly as possible, beating previous score records)
@@ -2553,6 +2663,7 @@ function scoreattackP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster as quickly as possible, beating previous score records)
@@ -2577,6 +2688,7 @@ function scoreattackCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -2697,7 +2809,7 @@ end
 
 --Load Common Settings for Time Attack Modes
 function timeattackCfg()
-	f_discordUpdate({state = "In Time Attack"})
+	f_discordUpdate({state = "Playing Time Attack Mode"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "timeattack"
@@ -2718,6 +2830,7 @@ function timeattackHumanvsCPU()
 	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (defeat all character roster as quickly as possible, beating previous time records from right side)
@@ -2733,6 +2846,7 @@ function timeattackCPUvsHuman()
 	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster as quickly as possible, beating previous time records)
@@ -2742,6 +2856,7 @@ function timeattackP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster as quickly as possible, beating previous time records)
@@ -2766,6 +2881,7 @@ function timeattackCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TIME ATTACK")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -2778,6 +2894,7 @@ end
 
 --Load Common Settings for Time Rush Modes
 function timerushCfg()
+	f_discordUpdate({state = "Playing ??? Mode"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "timerush"
@@ -2798,6 +2915,7 @@ function timerushHumanvsCPU()
 	textImgSetText(txt_mainSelect, "TIME RUSH")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (rush to defeat opponents before time runs out, beating previous time records from right side)
@@ -2813,6 +2931,7 @@ function timerushCPUvsHuman()
 	textImgSetText(txt_mainSelect, "TIME RUSH")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to rush to defeat opponents before time runs out, beating previous time records)
@@ -2822,6 +2941,7 @@ function timerushP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "TIME RUSH COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to rush to defeat opponents before time runs out, beating previous time records)
@@ -2846,6 +2966,7 @@ function timerushCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TIME RUSH")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -2863,7 +2984,7 @@ end
 
 --Load Common Settings for VS X Kumite Modes
 function kumiteCfg()
-	f_discordUpdate({state = "In "..getKumiteData()})
+	f_discordUpdate({state = "Playing VS"..data.kumite.." Kumite Mode"})
 	f_default()
 	data.gameMode = "vskumite"
 	data.rosterMode = "vskumite"
@@ -2883,6 +3004,7 @@ function kumiteHumanvsCPU()
 	textImgSetText(txt_mainSelect, getKumiteData())
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from right side)
@@ -2898,6 +3020,7 @@ function kumiteCPUvsHuman()
 	textImgSetText(txt_mainSelect, getKumiteData())
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down in 1 Hit)
@@ -2907,6 +3030,7 @@ function kumiteP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, getKumiteData().." COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of all roster you can take down in 1 Hit)
@@ -2931,6 +3055,7 @@ function kumiteCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH "..getKumiteData())
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -2943,6 +3068,7 @@ end
 
 --Load Common Settings for Sudden Death Modes
 function suddenCfg()
+	f_discordUpdate({state = "Playing Sudden Death Mode"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "suddendeath"
@@ -2964,6 +3090,7 @@ function suddenHumanvsCPU()
 	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from right side)
@@ -2979,6 +3106,7 @@ function suddenCPUvsHuman()
 	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down in 1 Hit)
@@ -2988,6 +3116,7 @@ function suddenP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of all roster you can take down in 1 Hit)
@@ -3012,6 +3141,7 @@ function suddenCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SUDDEN DEATH")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -3024,6 +3154,7 @@ end
 
 --Load Common Settings for Endless Modes
 function endlessCfg()
+	f_discordUpdate({state = "Playing Endless Mode"})
 	f_default()
 	data.gameMode = "endless"
 	data.rosterMode = "endless"
@@ -3043,6 +3174,7 @@ function endlessHumanvsCPU()
 	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (choose a fighter to defeat endless CPU controlled opponents from right side)
@@ -3058,6 +3190,7 @@ function endlessCPUvsHuman()
 	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	f_selectAdvance()
 	P2overP1 = false
+	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat endless CPU controlled opponents)
@@ -3067,6 +3200,7 @@ function endlessP1P2vsCPU()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "ENDLESS COOPERATIVE")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat endless CPU controlled opponents)
@@ -3091,6 +3225,7 @@ function endlessCPUvsCPU()
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH ENDLESS")
 	f_selectAdvance()
+	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -3098,6 +3233,7 @@ end
 --;===========================================================
 function f_stageViewer()
 	if data.stageviewer then
+		f_discordUpdate({state = "In Stage Viewer"})
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		setRoundTime(-1)
@@ -3113,6 +3249,7 @@ function f_stageViewer()
 		setGameMode('stageviewer')
 		textImgSetText(txt_mainSelect, "STAGE VIEWER")
 		f_selectSimple()
+		f_discordMainMenu()
 	else
 		stviewerInfo = true
 		infoScreen = true
@@ -3472,6 +3609,7 @@ end
 --; SOUND TEST MENU (listen music)
 --;===========================================================
 function f_songMenu()
+	f_discordUpdate({state = "In Sound Test"})
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	cmdInput()
 	f_confirmSongReset()
@@ -3492,6 +3630,7 @@ function f_songMenu()
 	f_resetSoundTestArrowsPos()
 	while true do
 		if backSongConfirm == true then
+			f_discordMainMenu()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			script.options.f_setCfgSong() --SAVE AND BACK SONG FOR OPTIONS MENU
 			f_menuMusic()
@@ -4034,6 +4173,7 @@ function f_mainReplay()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if exitReplayMenu then
+			f_discordMainMenu()
 			onlinegame = false --only for identify purposes
 			replaygame = false
 			currencySystem = true
@@ -4319,6 +4459,7 @@ function f_mainNetplay()
 			sndPlay(sndSys, 100, 1)
 		--HOST (create online room)
 			if mainNetplay == 1 then
+				f_discordUpdate({state = "Waiting Opponents"})
 				onlinegame = true --only for identify purposes
 				script.options.f_onlineDefault()
 				script.options.f_netsaveCfg()
@@ -4334,9 +4475,11 @@ function f_mainNetplay()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				f_saveReplay()
+				f_discordMainMenu()
 		--CLIENT/JOIN (join an existing room)
 			elseif mainNetplay == 2 then
-				--Default Connection Method
+				f_discordUpdate({state = "Searching Opponents"})
+			--Default Connection Method
 				if data.connectMode == "Direct" then
 					onlinegame = true
 					script.options.f_onlineDefault()
@@ -4357,6 +4500,7 @@ function f_mainNetplay()
 				elseif data.connectMode == "Database" then
 					f_hostRooms()
 				end
+				f_discordMainMenu()
 			end	
 		end
 		drawBottomMenuSP()
@@ -5190,6 +5334,7 @@ end
 --; LOBBY MENU
 --;===========================================================
 function f_mainLobby()
+	if not replaygame then f_discordUpdate({state = "In Netplay Lobby"}) end
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
@@ -5205,6 +5350,7 @@ function f_mainLobby()
 			sndPlay(sndSys, 100, 2)
 			data.replayDone = false
 			f_saveTemp()
+			f_discordMainMenu()
 			break
 		end
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -5244,7 +5390,12 @@ function f_mainLobby()
 	--Enter Actions
 		if btnPalNo(p1Cmd, true) > 0 then
 			f_default()
-			if replaygame == true then setGameMode('replay') end
+			if replaygame then
+				f_discordUpdate({state = "Watching Online Replay"})
+				setGameMode('replay')
+			else
+				f_discordUpdate({state = "Playing Online"})
+			end
 			data.p2In = 2
 			data.p2Faces = true
 			data.coop = true
@@ -5365,8 +5516,10 @@ function f_mainLobby()
 				f_selectAdvance()
 		--ONLINE SETTINGS
 			elseif mainLobby == #t_mainLobby then
+				f_discordUpdate({state = "In Netplay Lobby"})
 				script.options.f_onlineCfg()
 			end
+			f_discordUpdate({state = "In Netplay Lobby"})
 		end
 		drawBottomMenuSP()
 		for i=1, #t_mainLobby do
@@ -15748,6 +15901,7 @@ end
 --; TOURNAMENT SETTINGS MENU
 --;===========================================================
 function f_tourneyCfg()
+	f_discordUpdate({state = "Playing Tournament Mode"})
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -15765,6 +15919,7 @@ function f_tourneyCfg()
 	playBGM(bgmTourney)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitTourney then
+			f_discordMainMenu()
 			sndPlay(sndSys, 100, 2)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			f_menuMusic()
@@ -17015,6 +17170,7 @@ end
 --; ABYSS SELECT MENU (Defeat way of enemies, strengthening your character along the way)
 --;===========================================================
 function f_abyssSelect()
+	f_discordUpdate({state = "Playing Abyss Mode"})
 	cmdInput()
 	local cursorPosX = 1
 	local moveTxt = 0
@@ -17044,6 +17200,7 @@ function f_abyssSelect()
 		if not sideScreen then
 		--Return Logic
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAbyss then
+				f_discordMainMenu()
 				sndPlay(sndSys, 100, 2)
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				f_menuMusic()
@@ -17949,20 +18106,8 @@ function f_playCredits()
 	f_default()
 end
 --;===========================================================
---; SDL VIDEO WARNING
+--; HD SPRITES SUPPORT WARNING
 --;===========================================================
-sdlImg1 = animNew(sprIkemen, [[
-3000,0, 0,0,
-]])
-animSetPos(sdlImg1, 76, 170)
-animSetScale(sdlImg1, 0.35, 0.35)
-animUpdate(sdlImg1)
-sdlImg2 = animNew(sprIkemen, [[
-3000,1, 0,0,
-]])
-animSetPos(sdlImg2, 243, 170)
-animSetScale(sdlImg2, 0.35, 0.35)
-animUpdate(sdlImg2)
 t_sdlWarning = {
 	{text = "For this I.K.E.M.E.N. ENGINE"},
 	{text = "ONLY 8-Bit/Indexed sprites are currently supported."},
@@ -17984,8 +18129,6 @@ function f_sdlWarning()
 		animSetWindow(script.options.infoBG, 0,70, 296,#t_sdlWarning*15)
 		animDraw(script.options.infoBG)
 		for i=1, #t_sdlWarning do textImgDraw(t_sdlWarning[i].id) end
-		animDraw(sdlImg1)
-		animDraw(sdlImg2)
 		script.options.drawInfoCfgInputHints()
 		cmdInput()
 		refresh()

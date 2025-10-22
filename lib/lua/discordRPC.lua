@@ -1,6 +1,4 @@
-local ffi = require("ffi")
 local discordRPClib = ffi.load("discord-rpc")
-
 ffi.cdef[[
 typedef struct DiscordRichPresence {
     const char* state;   /* max 128 bytes */
@@ -184,15 +182,16 @@ end
 function discordRPC.runCallbacks()
     discordRPClib.Discord_RunCallbacks()
 end
--- http://luajit.org/ext_ffi_semantics.html#callback :
--- It is not allowed, to let an FFI call into a C function (runCallbacks)
--- get JIT-compiled, which in turn calls a callback, calling into Lua again (e.g. discordRPC.ready).
--- Usually this attempt is caught by the interpreter first and the C function
--- is blacklisted for compilation.
--- solution:
--- "Then you'll need to manually turn off JIT-compilation with jit.off() for
--- the surrounding Lua function that invokes such a message polling function."
-
+--[[
+http://luajit.org/ext_ffi_semantics.html#callback :
+It is not allowed, to let an FFI call into a C function (runCallbacks)
+get JIT-compiled, which in turn calls a callback, calling into Lua again (e.g. discordRPC.ready).
+Usually this attempt is caught by the interpreter first and the C function
+is blacklisted for compilation.
+solution:
+"Then you'll need to manually turn off JIT-compilation with jit.off() for
+the surrounding Lua function that invokes such a message polling function."
+]]
 --jit.off(discordRPC.runCallbacks) --Not Supported in Lua 5.2
 
 function discordRPC.updatePresence(presence)

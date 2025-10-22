@@ -43,18 +43,16 @@ package.path = "./?.lua;" ..
 				"./lib/lua/htmlparser/?.lua;" ..
 				"./lib/lua/luasocket/?.lua;"
 				
---Load LuaFileSystem library
-lfs = require("lfs")
-ffi = require("ffi") --Load FFI (Foreign Function Interface) Library
-discordRPC = require("discordRPC") --Load LUA FFI Wrapper for the Discord Rich Presence API (https://github.com/pfirsich/lua-discordRPC)
-htmlparser = require("htmlparser") --Load htmlparser library
-curl = require("cURL") --Load Lua-cURL library (https requests are not supported yet in Windows XP)
 --Load LuaSocket libraries
 if os_type ~= "windowsXP" then --Not supported in Windows XP
 socket = require("socket")
 http = require("socket.http")
 end
 ltn12 = require("ltn12")
+htmlparser = require("htmlparser") --Load htmlparser library
+curl = require("cURL") --Load Lua-cURL library (https requests are not supported yet in Windows XP)
+lfs = require("lfs") --Load LuaFileSystem library
+ffi = require("ffi") --Load Foreign Function Interface library
 --Load JSON libraries
 dkjson = require("dkjson")
 json = (loadfile "lib/lua/json.lua")() --One-time load of the json routines
@@ -4854,73 +4852,3 @@ function f_loadLuaMods(bool)
 	end
 end
 require("script.options") --Load options script
---;===========================================================
---; DISCORD RICH PRESENCE FUNCTIONS
---;===========================================================
-discordGameID = "1200228516554346567" --Discord AppID
-discordStartTime = os.time(os.date("*t"))
-function f_discordInit() --Start Discord Rich Presence
-	discordRPC.initialize(discordGameID, true)
-	discord = {
-		state = "Starting Engine", --Game State
-		details = "Making the 2D Fighting Game of my Dreams!", --Game State Details
-		startTimestamp = discordStartTime,
-		endTimestamp = discordStartTime + 60,
-		largeImageKey = "gameicon", --Discord App Game Icon
-		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine", --Game Description
-		smallImageKey = "charactericon", --Discord App Mini Icon
-		smallImageText = "character name", --Mini Icon Description
-		partyId = "ikemen1234", --Public Room ID
-		partySize = 0, --Room Capacity (Set 1 as default, when netplay with this feature works)
-		partyMax = 2, --Room Max Capacity
-		matchSecret = "xyzzy", --Private Room ID
-		joinSecret = "join",
-		spectateSecret = "look",
-	}
-	nextDiscordUpdate = 0
-end
-
-function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 seconds
-	if os.clock() > nextDiscordUpdate then
-		discordRPC.updatePresence(discord)
-		nextDiscordUpdate = os.clock() + 2.0
-	end
-	discordRPC.runCallbacks()
-end
-
-function f_discordUpdate(t_changes)
---Check that argument is a table
-	if type(t_changes) ~= "table" then return end
-	for key, value in pairs(t_changes) do --Each argument need to match with original discord table values to update
-		discord[key] = value --Overwrite discord table
-	end
-	if data.debugLog then f_printTable(discord, 'save/debug/t_discordRichPresence.log') end
-	discordRPC.updatePresence(discord)
-	discordRPC.runCallbacks()
-	--nextDiscordUpdate = os.clock() + 2.0 --Reset real-time update
-end
-
-function discordRPC.ready(userId, username, discriminator, avatar)
-	print(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
-end
-
-function discordRPC.disconnected(errorCode, message)
-	print(string.format("Discord: disconnected (%d: %s)", errorCode, message))
-end
-
-function discordRPC.errored(errorCode, message)
-	print(string.format("Discord: error (%d: %s)", errorCode, message))
-end
-
-function discordRPC.joinGame(joinSecret)
-	print(string.format("Discord: join (%s)", joinSecret))
-end
-
-function discordRPC.spectateGame(spectateSecret)
-	print(string.format("Discord: spectate (%s)", spectateSecret))
-end
-
-function discordRPC.joinRequest(userId, username, discriminator, avatar)
-	print(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator, avatar))
-	discordRPC.respond(userId, "yes")
-end
