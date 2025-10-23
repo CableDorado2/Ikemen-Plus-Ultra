@@ -1,1 +1,1 @@
-Libraries for SDLPlugin.
+External Libraries for SDLPlugin.
