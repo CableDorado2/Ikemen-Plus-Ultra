@@ -18,23 +18,51 @@ discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Pr
 
 function f_discordInit()
 	discordRPC.initialize(discordGameID, true) --Initialize Discord Rich Presence Using App ID
-	discordStartTime = os.time(os.date("*t"))
 	discord = {
-		largeImageKey = "gameicon", --Big Icon
-		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine", --Big Icon Description
-		details = "Making the 2D Fighting Game of my Dreams!", --Current Game Details
-		--startTimestamp = discordStartTime, --Current Match Started Time
-		--endTimestamp = 99, --Current Match Left Time to End
-		state = "Starting Engine", --Current Game State
-		partySize = 0, --Current Players in Room (Set 1 as default, when netplay with this feature works)
-		partyMax = 2, --Room Max Capacity
-		smallImageKey = "charactericon", --Mini Icon
-		smallImageText = "character name", --Mini Icon Description
-		partyId = "ikemen1234", --Public Room ID
-		matchSecret = "xyzzy", --Private Room ID
-		joinSecret = "join", --Join Button
-		spectateSecret = "spectate", --Spectate Button
-		--instance = 0, --Notify Button
+	--Name of the uploaded image for the big profile artwork (max text length: 31)
+		largeImageKey = "gameicon",
+		
+	--Tooltip for largeImageKey (max text length: 127)
+		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine",
+		
+	--Name of the uploaded image for the mini profile artwork (max text length: 31)
+		--smallImageKey = "charname",
+		
+	--Tooltip for smallImageKey (max text length: 127)
+		--smallImageText = "Character: charname",
+		
+	--What the player is currently doing (max text length: 127)
+		details = "Making the 2D Fighting Game of my Dreams!",
+		
+	--Current Match Elapsed Time from Start
+		--startTimestamp = os.time(os.date("*t")),
+		
+	--Current Match Remaining Time to End
+		--endTimestamp = 99,
+		
+	--Current Netplay Status (max text length: 127)
+		state = "Single Player",
+		
+	--Current Players in Netplay Lobby
+		partySize = 1,
+		
+	--Lobby Max Capacity
+		partyMax = 0,
+		
+	--Public Lobby ID (max text length: 127)
+		--partyId = "ikemen1234",
+		
+	--Private Lobby ID (max text length: 127)
+		--matchSecret = "xyzzy",
+		
+	--Unique hashed string for chat invitations and Ask to Join Button (max text length: 127)
+		--joinSecret = "join",
+		
+	--Spectate Button (max text length: 127)
+		--spectateSecret = "spectate",
+		
+	--Notify Button
+		--instance = 0,
 	}
 	nextDiscordUpdate = 0
 	discordRPC.updatePresence(discord)
@@ -62,7 +90,7 @@ function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 secon
 end
 
 function f_discordMainMenu()
-f_discordUpdate({state = "In Main Menu"})
+f_discordUpdate({details = "Main Menu"})
 end
 
 f_discordInit() --Send Discord Rich Presence
@@ -226,7 +254,7 @@ end
 
 --Load Common Settings for Demo Mode
 function demoModeCfg()
-	f_discordUpdate({state = "In Demo Screen"})
+	f_discordUpdate({details = "Demo Screen"})
 	f_default()
 	setGameMode('demo')
 	data.gameMode = "demo"
@@ -532,11 +560,9 @@ end
 --; OPTIONS MENU (adjust game settings)
 --;===========================================================
 function f_optionsMenu()
-	--f_discordUpdate({state = "In Options"})
 	onlinegame = false --only for identify purposes
 	assert(loadfile(saveCfgPath))()
 	script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
-	--f_discordMainMenu()
 end
 
 --;===========================================================
@@ -860,7 +886,7 @@ end
 --; TRAINING MODE (practice special attacks and combos with training dummy character(s) of your choice)
 --;===========================================================
 function f_training()
-	f_discordUpdate({state = "Playing Training Mode"})
+	f_discordUpdate({details = "Training"})
 	f_default()
 	setGameMode('practice')
 	data.gameMode = "training"
@@ -1317,7 +1343,7 @@ end
 
 --Load Common Settings for Classic Arcade Modes
 function arcadeCfg()
-	f_discordUpdate({state = "Playing Arcade Mode"})
+	f_discordUpdate({details = "Arcade"})
 	f_resetArcadeStuff()
 	f_default() --Load f_default function defined in common.lua
 	setGameMode('arcade')
@@ -1425,7 +1451,7 @@ end
 
 --Load Common Settings for Tower Modes
 function towerCfg()
-	f_discordUpdate({state = "Playing Tower Mode"})
+	f_discordUpdate({details = "Tower Arcade"})
 	f_resetArcadeStuff()
 	f_default()
 	setGameMode('tower')
@@ -1524,7 +1550,7 @@ end
 
 --Load Common Settings for Quick Match Modes
 function randomModeCfg()
-	f_discordUpdate({state = "Playing Quick Match"})
+	f_discordUpdate({details = "Quick Match"})
 	f_default()
 	setGameMode('random')
 	data.gameMode = "quick match"
@@ -1608,7 +1634,7 @@ end
 
 --Load Common Settings for Free Battle Modes
 function freeModeCfg()
-	f_discordUpdate({state = "Playing Free Versus"})
+	f_discordUpdate({details = "Free Versus"})
 	f_default()
 	setGameMode('vs')
 	data.gameMode = "versus"
@@ -1817,7 +1843,7 @@ end
 
 --Load Common Settings for Survival Modes
 function survivalCfg()
-	f_discordUpdate({state = "Playing Survival Mode"})
+	f_discordUpdate({details = "Survival"})
 	f_default()
 	data.gameMode = "survival"
 	data.rosterMode = "survival"
@@ -1907,7 +1933,7 @@ end
 
 --Load Common Settings for Boss Rush Modes
 function bossrushCfg()
-	f_discordUpdate({state = "Playing Boss Rush Mode"})
+	f_discordUpdate({details = "Boss Rush"})
 	f_default()
 	data.gameMode = "bossrush"
 	data.rosterMode = "boss"
@@ -2093,7 +2119,7 @@ end
 
 --Load Common Settings for Single Boss Fight Modes
 function bossCfg()
-	f_discordUpdate({state = "Playing Boss Fight Mode"})
+	f_discordUpdate({details = "Boss Assault"})
 	f_default()
 	data.gameMode = "singleboss"
 	data.rosterMode = "boss"
@@ -2358,7 +2384,7 @@ end
 
 --Load Common Settings for Bonus Games Modes
 function bonusCfg()
-	f_discordUpdate({state = "Playing Bonus Games"})
+	f_discordUpdate({details = "Bonus Game"})
 	f_default()
 	data.gameMode = "singlebonus"
 	data.rosterMode = "bonus"
@@ -2410,7 +2436,7 @@ end
 
 --Load Common Settings for Bonus Rush Modes
 function bonusrushCfg()
-	f_discordUpdate({state = "Playing Bonus Games Marathon"})
+	f_discordUpdate({details = "Bonus Game Marathon"})
 	f_default()
 	data.gameMode = "bonusrush"
 	data.rosterMode = "bonus"
@@ -2594,7 +2620,7 @@ end
 
 --Load Common Settings for Score Attack Modes
 function scoreattackCfg()
-	f_discordUpdate({state = "Playing Score Attack Mode"})
+	f_discordUpdate({details = "Score Attack"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "scoreattack"
@@ -2786,7 +2812,7 @@ end
 
 --Load Common Settings for Time Attack Modes
 function timeattackCfg()
-	f_discordUpdate({state = "Playing Time Attack Mode"})
+	f_discordUpdate({details = "Time Attack"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "timeattack"
@@ -2871,7 +2897,7 @@ end
 
 --Load Common Settings for Time Rush Modes
 function timerushCfg()
-	f_discordUpdate({state = "Playing ??? Mode"})
+	f_discordUpdate({details = "???"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "timerush"
@@ -2961,7 +2987,7 @@ end
 
 --Load Common Settings for VS X Kumite Modes
 function kumiteCfg()
-	f_discordUpdate({state = "Playing VS"..data.kumite.." Kumite Mode"})
+	f_discordUpdate({details = "VS"..data.kumite.." Kumite"})
 	f_default()
 	data.gameMode = "vskumite"
 	data.rosterMode = "vskumite"
@@ -3045,7 +3071,7 @@ end
 
 --Load Common Settings for Sudden Death Modes
 function suddenCfg()
-	f_discordUpdate({state = "Playing Sudden Death Mode"})
+	f_discordUpdate({details = "Sudden Death"})
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "suddendeath"
@@ -3131,7 +3157,7 @@ end
 
 --Load Common Settings for Endless Modes
 function endlessCfg()
-	f_discordUpdate({state = "Playing Endless Mode"})
+	f_discordUpdate({details = "Endless"})
 	f_default()
 	data.gameMode = "endless"
 	data.rosterMode = "endless"
@@ -3210,7 +3236,7 @@ end
 --;===========================================================
 function f_stageViewer()
 	if data.stageviewer then
-		f_discordUpdate({state = "In Stage Viewer"})
+		f_discordUpdate({details = "Stage Viewer"})
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		setRoundTime(-1)
@@ -3586,7 +3612,7 @@ end
 --; SOUND TEST MENU (listen music)
 --;===========================================================
 function f_songMenu()
-	f_discordUpdate({state = "In Sound Test"})
+	f_discordUpdate({details = "Sound Test"})
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	cmdInput()
 	f_confirmSongReset()
@@ -4436,7 +4462,7 @@ function f_mainNetplay()
 			sndPlay(sndSys, 100, 1)
 		--HOST (create online room)
 			if mainNetplay == 1 then
-				f_discordUpdate({state = "Waiting Opponents"})
+				f_discordUpdate({details = "Waiting Opponents"})
 				onlinegame = true --only for identify purposes
 				script.options.f_onlineDefault()
 				script.options.f_netsaveCfg()
@@ -4455,7 +4481,7 @@ function f_mainNetplay()
 				f_discordMainMenu()
 		--CLIENT/JOIN (join an existing room)
 			elseif mainNetplay == 2 then
-				f_discordUpdate({state = "Searching Opponents"})
+				f_discordUpdate({details = "Searching Opponents"})
 			--Default Connection Method
 				if data.connectMode == "Direct" then
 					onlinegame = true
@@ -5311,7 +5337,7 @@ end
 --; LOBBY MENU
 --;===========================================================
 function f_mainLobby()
-	if not replaygame then f_discordUpdate({state = "In Netplay Lobby"}) end
+	if not replaygame then f_discordUpdate({details = "Netplay Lobby"}) end
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
@@ -5368,10 +5394,10 @@ function f_mainLobby()
 		if btnPalNo(p1Cmd, true) > 0 then
 			f_default()
 			if replaygame then
-				f_discordUpdate({state = "Watching Online Replay"})
+				f_discordUpdate({details = "Watching Online Replay"})
 				setGameMode('replay')
 			else
-				f_discordUpdate({state = "Playing Online"})
+				f_discordUpdate({details = "Playing Online"})
 			end
 			data.p2In = 2
 			data.p2Faces = true
@@ -5493,10 +5519,10 @@ function f_mainLobby()
 				f_selectAdvance()
 		--ONLINE SETTINGS
 			elseif mainLobby == #t_mainLobby then
-				f_discordUpdate({state = "In Netplay Lobby"})
+				f_discordUpdate({details = "Netplay Lobby"})
 				script.options.f_onlineCfg()
 			end
-			f_discordUpdate({state = "In Netplay Lobby"})
+			f_discordUpdate({details = "Netplay Lobby"})
 		end
 		drawBottomMenuSP()
 		for i=1, #t_mainLobby do
@@ -15878,7 +15904,7 @@ end
 --; TOURNAMENT SETTINGS MENU
 --;===========================================================
 function f_tourneyCfg()
-	f_discordUpdate({state = "Playing Tournament Mode"})
+	f_discordUpdate({details = "Tournament"})
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -17147,7 +17173,7 @@ end
 --; ABYSS SELECT MENU (Defeat way of enemies, strengthening your character along the way)
 --;===========================================================
 function f_abyssSelect()
-	f_discordUpdate({state = "Playing Abyss Mode"})
+	f_discordUpdate({details = "Abyss"})
 	cmdInput()
 	local cursorPosX = 1
 	local moveTxt = 0
