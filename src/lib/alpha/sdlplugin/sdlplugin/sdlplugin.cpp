@@ -6,6 +6,7 @@
 #include <shlobj.h>
 #include <math.h>
 #include <float.h>
+#include <iostream> //Required to use std::cerr for errors popup
 
 #include <GL/glew.h>
 #pragma comment(lib, "glew32.Lib")
@@ -32,6 +33,8 @@
 
 #include "IN2.H"
 #define IN_VER_UNICODE 0x0F000100
+
+#include <vlc/vlc.h>
 
 #include <DShow.h>
 #include "playback.h"
@@ -588,86 +591,210 @@ void TestIMG()
 	SDL_Quit();
 }
 
+//VIDEO PLAYER TEST
+typedef libvlc_instance_t *(*PFN_libvlc_new)(int argc, const char *const *argv);
+typedef void (*PFN_libvlc_release)(libvlc_instance_t *p_instance);
+typedef libvlc_media_t *(*PFN_libvlc_media_new_path)(libvlc_instance_t *p_instance, const char *path);
+typedef void (*PFN_libvlc_media_release)(libvlc_media_t *p_md);
+typedef libvlc_media_player_t *(*PFN_libvlc_media_player_new_from_media)(libvlc_media_t *p_md);
+typedef void (*PFN_libvlc_media_player_release)(libvlc_media_player_t *p_mi);
+typedef void (*PFN_libvlc_media_player_set_hwnd)(libvlc_media_player_t *p_mi, void *drawable);
+typedef void (*PFN_libvlc_media_player_play)(libvlc_media_player_t *p_mi);
+typedef void (*PFN_libvlc_media_player_stop)(libvlc_media_player_t *p_mi);
+typedef libvlc_state_t (*PFN_libvlc_media_player_get_state)(libvlc_media_player_t *p_mi);
+
+//Structure to store the DLL handle and all pointers
+struct VLCLoader
+{
+//Using the constructor for initialization
+	VLCLoader() : hVlcDll(NULL), 
+		libvlc_new(nullptr), 
+		libvlc_release(nullptr), 
+		libvlc_media_new_path(nullptr),
+		libvlc_media_release(nullptr),
+		libvlc_media_player_new_from_media(nullptr),
+		libvlc_media_player_release(nullptr),
+		libvlc_media_player_set_hwnd(nullptr),
+		libvlc_media_player_play(nullptr),
+		libvlc_media_player_stop(nullptr),
+		libvlc_media_player_get_state(nullptr) {}
+	HINSTANCE hVlcDll; //Declaration only, no initialization here
+	PFN_libvlc_new libvlc_new;
+	PFN_libvlc_release libvlc_release;
+	PFN_libvlc_media_new_path libvlc_media_new_path;
+	PFN_libvlc_media_release libvlc_media_release;
+	PFN_libvlc_media_player_new_from_media libvlc_media_player_new_from_media;
+	PFN_libvlc_media_player_release libvlc_media_player_release;
+	PFN_libvlc_media_player_set_hwnd libvlc_media_player_set_hwnd;
+	PFN_libvlc_media_player_play libvlc_media_player_play;
+	PFN_libvlc_media_player_stop libvlc_media_player_stop;
+	PFN_libvlc_media_player_get_state libvlc_media_player_get_state;
+};
+
+VLCLoader g_vlc; //Global instance to be used by TestVideo()
+
+//Help macro for resolving pointers
+#define LOAD_VLC_FUNC(name) \
+	g_vlc.name = (PFN_##name)GetProcAddress(g_vlc.hVlcDll, #name); \
+	if (!g_vlc.name) { \
+		/* Error handling if a function does not resolve */ \
+		FreeLibrary(g_vlc.hVlcDll); \
+		g_vlc.hVlcDll = NULL; \
+		return false; \
+	}
+
+bool LoadVLCFunctions()
+{
+	if (g_vlc.hVlcDll) return true; //Already Loaded
+//Load DLL (libvlc.dll)
+	g_vlc.hVlcDll = LoadLibraryA("libvlc.dll");
+	if (g_vlc.hVlcDll == NULL)
+	{
+		//Failed to load libvlc.dll (may not be in the executable path)
+		return false;
+	}
+//Resolve all function pointers
+	LOAD_VLC_FUNC(libvlc_new);
+	LOAD_VLC_FUNC(libvlc_release);
+	LOAD_VLC_FUNC(libvlc_media_new_path);
+	LOAD_VLC_FUNC(libvlc_media_release);
+	LOAD_VLC_FUNC(libvlc_media_player_new_from_media);
+	LOAD_VLC_FUNC(libvlc_media_player_release);
+	LOAD_VLC_FUNC(libvlc_media_player_set_hwnd);
+	LOAD_VLC_FUNC(libvlc_media_player_play);
+	LOAD_VLC_FUNC(libvlc_media_player_stop);
+	LOAD_VLC_FUNC(libvlc_media_player_get_state);
+	return true; //Success
+}
+
+void UnloadVLCFunctions()
+{
+	if (g_vlc.hVlcDll)
+	{
+		FreeLibrary(g_vlc.hVlcDll);
+		g_vlc.hVlcDll = NULL;
+	}
+}
+
+void TestVideo()
+{
+//Load DLL and VLC Functions
+	if (!LoadVLCFunctions())
+	{
+		std::cerr << "Error: Cannot load libvlc.dll or his functions." << std::endl;
+		return;
+	}
+//SDL Init
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		std::cerr << "Error SDL_Init: " << SDL_GetError() << std::endl;
+		UnloadVLCFunctions(); //VLC DLL is loaded, unload it if an error occurs here.
+		return;
+	}
+//Create a window and renderer to show stuff
+	SDL_Window* window = SDL_CreateWindow("VLC Video Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
+	if (!window)
+	{
+		std::cerr << "Error SDL_CreateWindow: " << SDL_GetError() << std::endl;
+		SDL_Quit();
+		return;
+	}
+//Get the window HWND (Windows handle) for VLC Player
+	SDL_SysWMinfo info;
+	SDL_VERSION(&info.version);
+	if (!SDL_GetWindowWMInfo(window, &info))
+	{
+		std::cerr << "Error SDL_GetWindowWMInfo: " << SDL_GetError() << std::endl;
+		SDL_DestroyWindow(window);
+		SDL_Quit();
+		return;
+	}
+	HWND hwnd = info.info.win.window;
+//Initializing and Loading libVLC (Dynamic Loading)
+	const char *const vlc_args[] = {
+		"--plugin-path=./plugins"
+	};
+	int arg_count = sizeof(vlc_args) / sizeof(vlc_args[0]);
+	libvlc_instance_t *vlcInstance = g_vlc.libvlc_new(arg_count, vlc_args);
+	if (!vlcInstance)
+	{
+		SDL_Quit();
+		UnloadVLCFunctions(); 
+		return;
+	}
+//Video Load
+	const char* videoPath = "videos/test.mp4";
+	libvlc_media_t *media = g_vlc.libvlc_media_new_path(vlcInstance, videoPath);
+	if (!media)
+	{
+		std::cerr << "Error loading media: " << videoPath << std::endl;
+		g_vlc.libvlc_release(vlcInstance);
+		SDL_DestroyWindow(window);
+		SDL_Quit();
+		UnloadVLCFunctions(); 
+		return;
+	}
+//Create and configure the video player
+	libvlc_media_player_t *mediaPlayer = g_vlc.libvlc_media_player_new_from_media(media);
+	g_vlc.libvlc_media_release(media);
+	if (!mediaPlayer)
+	{
+		std::cerr << "Error creating video player" << std::endl;
+		g_vlc.libvlc_release(vlcInstance);
+		SDL_DestroyWindow(window);
+		SDL_Quit();
+		UnloadVLCFunctions(); 
+		return;
+	}
+//Link video output to window handle
+	g_vlc.libvlc_media_player_set_hwnd(mediaPlayer, hwnd);
+//Play Video
+	g_vlc.libvlc_media_player_play(mediaPlayer);
+	SDL_Event event;
+	bool quit = false;
+//Events Process (This keep the window active)
+	while (!quit)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_QUIT || event.type == SDL_KEYDOWN)
+			{
+				quit = true; //To end video if user close the sdl window or press any key
+			}
+		}
+	//Check if video ended
+		if (g_vlc.libvlc_media_player_get_state(mediaPlayer) == libvlc_Ended)
+		{
+			quit = true;
+		}
+		SDL_Delay(10);
+	}
+//Close
+	g_vlc.libvlc_media_player_stop(mediaPlayer);
+	g_vlc.libvlc_media_player_release(mediaPlayer);
+	g_vlc.libvlc_release(vlcInstance);
+	SDL_DestroyWindow(window);
+	SDL_Quit();
+	UnloadVLCFunctions(); 
+}
+
 TUserFunc(int, PlayVideo, Reference fn, Reference vldir)
 {
 	//std::wstring videoRenderer = pu->refToWstr(fn);
 	return 0;
 }
 
-/*/VLC VIDEO PLAYER TEST
-#include <vlc/vlc.h>
-#pragma comment(lib, "libvlc.lib")
-
-libvlc_instance_t *vlcInstance = nullptr;
-libvlc_media_t *media = nullptr;
-libvlc_media_player_t *mediaPlayer = nullptr;
-
-//std::wstring videoPath = L"path/to/video.mp4";
-TUserFunc(void, PlayVideo, Reference vp, Reference fn)
-{
-	SDL_SysWMinfo info;
-	SDL_VERSION(&info.version);
-	if (SDL_GetWindowWMInfo(g_window, &info))
-	{
-		HWND hwnd = info.info.win.window;
-		std::wstring videoPath = pu->refToWstr(vp);
-	//Crear una instancia de libVLC
-		if (!vlcInstance) {
-			const char* args[] = {
-				"--no-xlib" //Para evitar problemas en algunos entornos
-			};
-			vlcInstance = libvlc_new(sizeof(args) / sizeof(args[0]), args);
-			if (!vlcInstance) {
-				std::cerr << "Error creando la instancia de libVLC" << std::endl;
-				return;
-			}
-		}
-	//Crear media
-		media = libvlc_media_new_path(vlcInstance, "tools/Opening.wmv");
-		//media = libvlc_media_new_path(vlcInstance, videoPath.c_str());
-		if (!media) {
-			std::cerr << "Error cargando el media" << std::endl;
-			return;
-		}
-	//Crear el media player
-		mediaPlayer = libvlc_media_player_new_from_media(media);
-		if (!mediaPlayer) {
-			std::cerr << "Error creando el media player" << std::endl;
-			libvlc_media_release(media);
-			return;
-		}
-		libvlc_media_player_set_hwnd(mediaPlayer, hwnd); //Ventana en la que se mostrará el video
-		libvlc_media_player_play(mediaPlayer); //Reproducir
-	}
-}
-
-void stopVideo() {
-    if (mediaPlayer) {
-        libvlc_media_player_stop(mediaPlayer);
-        libvlc_media_player_release(mediaPlayer);
-        mediaPlayer = nullptr;
-    }
-    if (media) {
-        libvlc_media_release(media);
-        media = nullptr;
-    }
-    if (vlcInstance) {
-        libvlc_release(vlcInstance);
-        vlcInstance = nullptr;
-    }
-}
-*/
-
 void TestRoom()
 {
 	//TestTTF();
 	//TestIMG();
+	TestVideo();
 }
 
 //Software Render
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 {
-	//TestRoom(); //To test SDL Stuff
+	TestRoom(); //To test SDL Stuff
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		return false;
