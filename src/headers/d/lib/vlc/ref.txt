@@ -1,8 +1,5 @@
-https://get.videolan.org/vlc/last/
+https://download.videolan.org/pub/videolan/vlc/
 https://www.videolan.org/vlc/libvlc.html
 https://wiki.videolan.org/LibVLC
 https://wiki.videolan.org/LibVLC_SampleCode_SDL/
-https://code.google.com/archive/p/vc-libvlc/downloads
-https://www.nuget.org/packages/VideoLAN.LibVLC.Windows/3.0.21
-
 https://code.videolan.org/videolan/libvlcpp
