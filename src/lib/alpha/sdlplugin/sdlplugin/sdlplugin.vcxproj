@@ -89,7 +89,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>C:\d\lib\glew\lib\Release\Win32;C:\d\lib\SDL2\lib\x86;C:\d\lib\SDL2\SDL2_image\lib\x86;C:\d\lib\SDL2\SDL2_ttf\lib\x86;C:\d\lib\libpng\projects\visualc71\Win32_LIB_Release;C:\d\lib\zlib\projects\visualc6\Win32_DLL_Release;C:\d\lib\lodepng\lib;C:\d\lib\Discord\win32-dynamic\lib;C:\d\lib\vlc\sdk\lib;C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib;C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Strmiids.lib;Quartz.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

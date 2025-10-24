@@ -15,7 +15,8 @@ lib sdl = <alpha/sdlplugin.ssz>;
 lib com = "common.ssz";
 
 
-public bool videoChecker = false;
+public bool videoActive = false;
+const int videoVol = 50;
 
 public void error<_t>(^/char m)
 {
@@ -41,9 +42,8 @@ public &Video
 		if(f.open(videofile, "rb"))
 		{
 			`fileName = videofile;
-			//.error!.self?(`fileName); // For Test
-			.videoChecker = true; // For Test
-			.sdl.playVideo("plugins", `fileName);
+			.videoActive = true;
+			.sdl.playVideo(.videoVol, `fileName);
 		}
 	}
 }

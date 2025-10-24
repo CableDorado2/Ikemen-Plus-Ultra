@@ -1085,7 +1085,7 @@ for line in content:gmatch('[^\r\n]+') do
 end
 
 function f_loadLicenses()
-local file = f_fileRead("License.txt")
+local file = f_fileRead("LICENSE.txt")
 f_fileWrite(licensesPath.."/I.K.E.M.E.N..txt", file)
 t_licenseList = {}
 	for file in lfs.dir(licensesPath) do
