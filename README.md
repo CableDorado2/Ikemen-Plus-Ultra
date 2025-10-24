@@ -169,8 +169,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Soporte para imágenes RGB/32bits y Shaders.
 
-- Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, agregar texto en la capa superior, etc)
-
 - Integrar una librería que permita capturar y guardar videos en formato .avi (como algunos emuladores), para ser reproducidos con el reproductor de video en Gallery Mode.
 
 - Soporte para modelos 3D integrando glTF?
