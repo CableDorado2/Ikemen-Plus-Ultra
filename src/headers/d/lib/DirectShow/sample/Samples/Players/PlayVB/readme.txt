@@ -1,1 +1,0 @@
-A *very* simple video file player in vb.  It loads a file into a graph, plays it, and waits for it to finish.
