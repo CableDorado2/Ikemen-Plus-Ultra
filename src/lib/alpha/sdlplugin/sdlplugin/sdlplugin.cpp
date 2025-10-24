@@ -6,7 +6,7 @@
 #include <shlobj.h>
 #include <math.h>
 #include <float.h>
-#include <iostream> //Required to use std::cerr for errors popup
+#include <iostream>
 
 #include <GL/glew.h>
 #pragma comment(lib, "glew32.Lib")
@@ -602,6 +602,7 @@ typedef void (*PFN_libvlc_media_player_set_hwnd)(libvlc_media_player_t *p_mi, vo
 typedef void (*PFN_libvlc_media_player_play)(libvlc_media_player_t *p_mi);
 typedef void (*PFN_libvlc_media_player_stop)(libvlc_media_player_t *p_mi);
 typedef libvlc_state_t (*PFN_libvlc_media_player_get_state)(libvlc_media_player_t *p_mi);
+typedef int (*PFN_libvlc_audio_set_volume)(libvlc_media_player_t *p_mi, int volume);
 
 //Structure to store the DLL handle and all pointers
 struct VLCLoader
@@ -617,7 +618,8 @@ struct VLCLoader
 		libvlc_media_player_set_hwnd(nullptr),
 		libvlc_media_player_play(nullptr),
 		libvlc_media_player_stop(nullptr),
-		libvlc_media_player_get_state(nullptr) {}
+		libvlc_media_player_get_state(nullptr),
+		libvlc_audio_set_volume(nullptr) {}
 	HINSTANCE hVlcDll; //Declaration only, no initialization here
 	PFN_libvlc_new libvlc_new;
 	PFN_libvlc_release libvlc_release;
@@ -629,6 +631,7 @@ struct VLCLoader
 	PFN_libvlc_media_player_play libvlc_media_player_play;
 	PFN_libvlc_media_player_stop libvlc_media_player_stop;
 	PFN_libvlc_media_player_get_state libvlc_media_player_get_state;
+	PFN_libvlc_audio_set_volume libvlc_audio_set_volume;
 };
 
 VLCLoader g_vlc; //Global instance to be used by TestVideo()
@@ -664,6 +667,7 @@ bool LoadVLCFunctions()
 	LOAD_VLC_FUNC(libvlc_media_player_play);
 	LOAD_VLC_FUNC(libvlc_media_player_stop);
 	LOAD_VLC_FUNC(libvlc_media_player_get_state);
+	LOAD_VLC_FUNC(libvlc_audio_set_volume);
 	return true; //Success
 }
 
@@ -681,13 +685,13 @@ void TestVideo()
 //Load DLL and VLC Functions
 	if (!LoadVLCFunctions())
 	{
-		std::cerr << "Error: Cannot load libvlc.dll or his functions." << std::endl;
+		//std::cerr << "Error: Cannot load libvlc.dll or his functions." << std::endl;
 		return;
 	}
 //SDL Init
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		std::cerr << "Error SDL_Init: " << SDL_GetError() << std::endl;
+		//std::cerr << "Error SDL_Init: " << SDL_GetError() << std::endl;
 		UnloadVLCFunctions(); //VLC DLL is loaded, unload it if an error occurs here.
 		return;
 	}
@@ -695,7 +699,7 @@ void TestVideo()
 	SDL_Window* window = SDL_CreateWindow("VLC Video Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
 	if (!window)
 	{
-		std::cerr << "Error SDL_CreateWindow: " << SDL_GetError() << std::endl;
+		//std::cerr << "Error SDL_CreateWindow: " << SDL_GetError() << std::endl;
 		SDL_Quit();
 		return;
 	}
@@ -704,7 +708,7 @@ void TestVideo()
 	SDL_VERSION(&info.version);
 	if (!SDL_GetWindowWMInfo(window, &info))
 	{
-		std::cerr << "Error SDL_GetWindowWMInfo: " << SDL_GetError() << std::endl;
+		//std::cerr << "Error SDL_GetWindowWMInfo: " << SDL_GetError() << std::endl;
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 		return;
@@ -727,7 +731,7 @@ void TestVideo()
 	libvlc_media_t *media = g_vlc.libvlc_media_new_path(vlcInstance, videoPath);
 	if (!media)
 	{
-		std::cerr << "Error loading media: " << videoPath << std::endl;
+		//std::cerr << "Error loading media: " << videoPath << std::endl;
 		g_vlc.libvlc_release(vlcInstance);
 		SDL_DestroyWindow(window);
 		SDL_Quit();
@@ -739,12 +743,18 @@ void TestVideo()
 	g_vlc.libvlc_media_release(media);
 	if (!mediaPlayer)
 	{
-		std::cerr << "Error creating video player" << std::endl;
+		//std::cerr << "Error creating video player" << std::endl;
 		g_vlc.libvlc_release(vlcInstance);
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 		UnloadVLCFunctions(); 
 		return;
+	}
+//Volume Control
+	int videoVolume = 100; //Range: 0-200
+	if (g_vlc.libvlc_audio_set_volume)
+	{
+		g_vlc.libvlc_audio_set_volume(mediaPlayer, videoVolume);
 	}
 //Link video output to window handle
 	g_vlc.libvlc_media_player_set_hwnd(mediaPlayer, hwnd);
