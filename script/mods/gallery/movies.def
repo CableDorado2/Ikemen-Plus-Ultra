@@ -1,7 +1,7 @@
 [GalleryMovies]
 id = Video 1
 spr = 0,1
-file = videos/Opening.wmv
+file = videos/Opening.webm
 info = I.K.E.M.E.N PLUS ULTRA [OPENING]
 size = 1280,720
 previewpos = 752,1020
@@ -10,7 +10,7 @@ previewscale = 0.0705, 0.0695
 
 id = Video 2
 spr = 0,2
-file = videos/KFM-Prologue.wmv
+file = videos/KFM-Prologue.webm
 info = Kung Fu Man's Story - Prologue
 size = 1280,720
 previewpos = 752,1020
@@ -19,7 +19,7 @@ previewscale = 0.0705, 0.0695
 
 id = Video 3
 spr = 0,3
-file = videos/KFM-Fall.wmv
+file = videos/KFM-Fall.webm
 info = Kung Fu Man's Story - The Fall of A Legend
 size = 1280,720
 previewpos = 752,1020
@@ -28,7 +28,7 @@ previewscale = 0.0705, 0.0695
 
 id = Video 4
 spr = 0,4
-file = videos/The Lost Chapter.wmv
+file = videos/The Lost Chapter.webm
 info = The Lost Chapter
 info.locked = Complete Mission 1
 size = 1280,720
@@ -39,7 +39,7 @@ unlock = stats.modes.mission.clear1 > 0
 
 id = Video 5
 spr = 0,5
-file = chars/Shin Gouki/Intro.wmv
+file = chars/Shin Gouki/Intro.webm
 info = Shin Gouki: Arcade Intro
 info.locked = Complete Gouki Arcade
 size = 1280,720
@@ -50,7 +50,7 @@ unlock = stats.unlocks.chars.gouki == true
 
 id = Video 6
 spr = 0,6
-file = chars/Shin Gouki/Ending.wmv
+file = chars/Shin Gouki/Ending.webm
 info = Shin Gouki: Arcade Ending
 info.locked = Complete Gouki Arcade
 size = 1280,720

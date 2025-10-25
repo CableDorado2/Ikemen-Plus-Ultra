@@ -31,5 +31,5 @@ st2=CHOKINONDATONE.st
 st3=config.txt
 
 [Arcade]
-intro.video = ../../data/videos/The Lost Chapter.wmv
-;ending.video = ../../data/videos/The Lost Chapter 2.wmv
+intro.video = ../../videos/The Lost Chapter.webm
+;ending.video = ../../videos/The Lost Chapter 2.webm
