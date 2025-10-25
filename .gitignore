@@ -15,3 +15,6 @@ save/00_CharactersList.txt
 script/dlc.lua
 /src/lib/alpha/sdlplugin/sdlplugin/Release
 plugins/plugins.dat
+src/lib/alpha/ogg/ogg/Release/vc100.pdb
+src/lib/alpha/ogg/ogg/Release/ogg.unsuccessfulbuild
+src/lib/alpha/ogg/ogg/Release/ogg.obj
