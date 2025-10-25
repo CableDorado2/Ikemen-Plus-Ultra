@@ -59,7 +59,7 @@ local function make_plat(plat)
          defines = defines[plat],
          incdir = "src"
       },
-      ["mime.core"] = { 
+      ["mime.core"] = {
          sources = { "src/mime.c" },
          defines = defines[plat],
          incdir = "src"
@@ -77,7 +77,7 @@ local function make_plat(plat)
    if plat == "unix" or plat == "macosx" then
       modules["socket.core"].sources[#modules["socket.core"].sources+1] = "src/usocket.c"
       modules["socket.unix"] = {
-         sources = { "src/buffer.c", "src/auxiliar.c", "src/options.c", "src/timeout.c", "src/io.c", 
+         sources = { "src/buffer.c", "src/auxiliar.c", "src/options.c", "src/timeout.c", "src/io.c",
                      "src/usocket.c", "src/unix.c" },
          defines = defines[plat],
          incdir = "/src"
