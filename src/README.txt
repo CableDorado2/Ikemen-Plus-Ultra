@@ -7,11 +7,11 @@ This has been tested on:
 
 Now, after install Visual C++ 2010 Express, follow the next steps to configure properly your compiler:
 
-0- DON'T MOVE or DELETE ANY FILE inside "d/lib" folder, because they are carefully ordered.
+1- DON'T MOVE or DELETE ANY FILE inside "d/lib" folder (unless you know what you're doing), because they are carefully ordered to be automatically recognized by the visual c++ project files.
 
-1- Copy and Paste "d" folder in your C:/ directory.
+2- Copy and Paste "d" folder in your C:/ directory.
 
-2- Now you can compile in Visual Studio.
+3- Now you can compile in Visual Studio.
 
 ---------------------------------
 How to compile a library (dll) that this project uses:
