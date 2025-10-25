@@ -1,7 +1,7 @@
 
-#include "portaudio/compilation/portaudio.h"
+#include <portaudio.h>
 #ifdef _WIN32
-#pragma comment(lib , "portaudio_x86.lib")
+#pragma comment(lib, "portaudio_x86.lib")
 #endif
 
 #include "../../ssz/ssz/sszdef.h"
