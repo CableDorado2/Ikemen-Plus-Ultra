@@ -1,5 +1,0 @@
-OmniTable 4
-CustomerID DBTYPE_STR 0 10
-CustomerName DBTYPE_STR 0 40
-ItemName DBTYPE_STR 0 40
-Sale DBTYPE_I4 10 0

@@ -1,2 +1,0 @@
-regedit Install.reg
-netsh firewall add allowedprogram "C:\Program Files\Microsoft SDKs\Windows\v6.0\Samples\FunctionDiscoveryProvider\Debug\FDProviderHostSample.exe" "FDProviderHostSample" ENABLE SUBNET

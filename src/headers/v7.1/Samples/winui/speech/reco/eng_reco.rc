@@ -1,8 +1,0 @@
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// SRGRAMMAR
-//
-
-IDR_SOL_CFG             SRGRAMMAR DISCARDABLE   "eng_sol.cfg"

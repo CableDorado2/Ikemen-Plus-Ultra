@@ -1,5 +1,0 @@
-LIBRARY	"RegisterServer"
-EXPORTS
-	DllRegisterServer private
-	DllUnregisterServer private
-    DllGetClassObject private

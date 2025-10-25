@@ -1,7 +1,0 @@
-# Microsoft Developer Studio Generated Dependency File, included by httpauth.mak
-
-.\httpauth.cpp : \
-	"..\..\..\..\include\basetsd.h"\
-	"..\..\..\..\include\propidl.h"\
-	"..\..\..\..\include\winefs.h"\
-	

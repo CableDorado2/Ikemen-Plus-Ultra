@@ -1,1 +1,0 @@
-This sample shows you how to ChooseFont... Visual Studio 2008 and Windows 7 SDK required.
