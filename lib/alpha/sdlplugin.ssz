@@ -56,10 +56,10 @@ public bool setSndBuf(^int buf)
   ret SetSndBuf(:buf<>=:);
 }
 
-public void playVideo(int volume, ^/char fn)
+public void playVideo(int audiotrack, int volume, ^/char fn)
 {
-  plugin void PlayVideo(:int, ^/char:) = "dll/sdlplugin.dll";
-  PlayVideo(:volume, fn:);
+  plugin void PlayVideo(:int, int, ^/char:) = "dll/sdlplugin.dll";
+  PlayVideo(:audiotrack, volume, fn:);
 }
 
 public bool playBGM(^/char pldir, ^/char fn)

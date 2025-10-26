@@ -1130,7 +1130,7 @@ int PlayVLCVideo(const std::string& videoPath, int volume, int audioTrack)//, in
 		{
 			quit = true;
 		}
-		SDL_Delay(10);
+		//SDL_Delay(10);
 	}
 //Close
 	g_vlc.libvlc_media_player_stop(mediaPlayer);

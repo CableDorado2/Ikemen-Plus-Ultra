@@ -15,15 +15,12 @@ lib sdl = <alpha/sdlplugin.ssz>;
 lib com = "common.ssz";
 
 
-public bool videoActive = false;
-const int vidVolume = 100;
-const int vidAudioTrack = 1;
-const int vidSubtitleTrack = 0;
-
 public void error<_t>(^/char m)
 {
 	.al.alert!_t?(m);
 }
+
+public bool videoActive = false;
 
 public &Video
 {
@@ -40,7 +37,7 @@ public &Video
 		int subtitletrack = 0;
 	}
 	/^/char fileName;
-	public void play(^/char file)
+	public void play(^/char file, int volume, int audiotrack)
 	{
 		^/char error;
 		&.file.File f;
@@ -49,7 +46,7 @@ public &Video
 		{
 			`fileName = file;
 			.videoActive = true;
-			.sdl.playVideo(.vidAudioTrack, .vidVolume, `fileName);
+			.sdl.playVideo(audiotrack, volume, `fileName);
 		}
 	}
 }
