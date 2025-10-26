@@ -73,7 +73,7 @@ To be detected, it is necessary that the text be written below "text:" parameter
 Like this description.
 
 ;---------------------------------------------------------------------------------
-- video = Path.wmv
+- video = Path
 Set the name of the video file to play in any moment of the chapter.
 
 - cut = <Number>
@@ -116,7 +116,7 @@ character = Strong FS
 text:
 Hey guys, do you want watch a movie?
 
-video = data/movie/MUGENGERS 4 - The Orochi's Origin.wmv
+video = video/MUGENGERS 4 - The Orochi's Origin.mp4
 
 [Chapter 1]
 id = 2A

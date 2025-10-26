@@ -6,8 +6,8 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 --local storyDef = "script/mods/story/story.def" --Story Data (Story definition filename)
 local sprStory = sffNew("script/mods/story/story.sff") --load story sprites
 local bgmStory = "script/mods/story/Story.mp3" --load story main bgm
-local videoIntro = "data/videos/Opening.wmv"
---function f_mainOpening() playVideo(videoIntro) end --Replace Storyboard intro with a Video file
+local videoIntro = "data/videos/Opening.webm"
+function f_mainOpening() playVideo(videoIntro) end --Replace Storyboard intro with a Video file
 --;===========================================================
 --; STORY SCREENPACK
 --;===========================================================
@@ -715,7 +715,7 @@ end
 
 --PROLOGUE
 local function f_arc1_prologue()
-	playVideo("data/videos/KFM-Prologue.wmv") --Play video cutscene
+	playVideo("data/videos/KFM-Prologue.webm") --Play video cutscene
 	data.storyNo = "1-0"
 	data.story1_1Unlock = true --Unlock next chapter
 	f_storyStatus() --Save progress
@@ -747,7 +747,7 @@ end
 --;===========================================================
 --CHAPTER 2
 local function f_arc2_chapter2()
-	--playVideo("data/videos/???.wmv")
+	--playVideo("data/videos/???.mp4")
 	data.storyNo = "2-2"
 	f_storyStatus()
 	--f_playCredits()
@@ -755,7 +755,7 @@ end
 
 --CHAPTER 1
 local function f_arc2_chapter1()
-	--playVideo("data/videos/???.wmv")
+	--playVideo("data/videos/???.mp4")
 	data.storyNo = "2-1"
 	data.story2_2Unlock = true
 	f_storyStatus()
@@ -764,7 +764,7 @@ end
 
 --PROLOGUE
 local function f_arc2_prologue()
-	--playVideo("data/videos/???.wmv")
+	--playVideo("data/videos/???.mp4")
 	data.storyNo = "2-0"
 	data.story2_1Unlock = true
 	f_storyStatus()
@@ -775,7 +775,7 @@ end
 --;===========================================================
 --CHAPTER 1
 local function f_arc3_chapter1()
-	--playVideo("data/videos/???.wmv")
+	--playVideo("data/videos/???.mp4")
 	data.storyNo = "3-1"
 	f_storyStatus()
 	--f_playCredits()
@@ -783,7 +783,7 @@ end
 
 --PROLOGUE
 local function f_arc3_prologue()
-	--playVideo("data/videos/???.wmv")
+	--playVideo("data/videos/???.mp4")
 	data.storyNo = "3-0"
 	data.story3_1Unlock = true
 	f_storyStatus()
