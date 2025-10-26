@@ -416,8 +416,11 @@ void getClipboardText(&.lua.State L=, int re=)
 void playVideo(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  ^/char videofile = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .vid.video~play(videofile);
+  ^/char file = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int volume = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int audiotrack = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int subtitletrack = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .vid.video~play(file);
 }
 
 void playBGM(&.lua.State L=, int re=)

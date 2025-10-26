@@ -16,7 +16,9 @@ lib com = "common.ssz";
 
 
 public bool videoActive = false;
-const int videoVol = 50;
+const int vidVolume = 100;
+const int vidAudioTrack = 1;
+const int vidSubtitleTrack = 0;
 
 public void error<_t>(^/char m)
 {
@@ -31,19 +33,23 @@ public &Video
 	}
 	public void clear()
 	{
-		^/char videofile = "";
+	//Default Values
+		^/char file = "";
+		int volume = 100;
+		int audiotrack = 1;
+		int subtitletrack = 0;
 	}
 	/^/char fileName;
-	public void play(^/char videofile)
+	public void play(^/char file)
 	{
 		^/char error;
 		&.file.File f;
-		f.open(videofile, "rb");
-		if(f.open(videofile, "rb"))
+		f.open(file, "rb");
+		if(f.open(file, "rb"))
 		{
-			`fileName = videofile;
+			`fileName = file;
 			.videoActive = true;
-			.sdl.playVideo(.videoVol, `fileName);
+			.sdl.playVideo(.vidAudioTrack, .vidVolume, `fileName);
 		}
 	}
 }

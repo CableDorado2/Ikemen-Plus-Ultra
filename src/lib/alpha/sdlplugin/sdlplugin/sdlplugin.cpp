@@ -922,7 +922,15 @@ typedef void (*PFN_libvlc_media_player_set_hwnd)(libvlc_media_player_t *p_mi, vo
 typedef void (*PFN_libvlc_media_player_play)(libvlc_media_player_t *p_mi);
 typedef void (*PFN_libvlc_media_player_stop)(libvlc_media_player_t *p_mi);
 typedef libvlc_state_t (*PFN_libvlc_media_player_get_state)(libvlc_media_player_t *p_mi);
+typedef void (*PFN_libvlc_video_set_aspect_ratio)(libvlc_media_player_t *p_mi, const char *psz_aspect);
+typedef void (*PFN_libvlc_video_set_scale)(libvlc_media_player_t *p_mi, float f_zoom);
 typedef int (*PFN_libvlc_audio_set_volume)(libvlc_media_player_t *p_mi, int volume);
+//Audio Track
+typedef int (*PFN_libvlc_audio_get_track_count)(libvlc_media_player_t *p_mi);
+typedef int (*PFN_libvlc_audio_set_track)(libvlc_media_player_t *p_mi, int i_track);
+//Subtitles
+typedef int (*PFN_libvlc_spu_get_track_count)(libvlc_media_player_t *p_mi);
+typedef int (*PFN_libvlc_spu_set_track)(libvlc_media_player_t *p_mi, int i_track);
 
 //Structure to store the DLL handle and all pointers
 struct VLCLoader
@@ -939,7 +947,13 @@ struct VLCLoader
 		libvlc_media_player_play(nullptr),
 		libvlc_media_player_stop(nullptr),
 		libvlc_media_player_get_state(nullptr),
-		libvlc_audio_set_volume(nullptr) {}
+		libvlc_video_set_aspect_ratio(nullptr),
+		libvlc_video_set_scale(nullptr),
+		libvlc_audio_set_volume(nullptr),
+		libvlc_audio_get_track_count(nullptr),
+		libvlc_audio_set_track(nullptr),
+		libvlc_spu_get_track_count(nullptr),
+		libvlc_spu_set_track(nullptr) {}
 	HINSTANCE hVlcDll; //Declaration only, no initialization here
 	PFN_libvlc_new libvlc_new;
 	PFN_libvlc_release libvlc_release;
@@ -951,7 +965,13 @@ struct VLCLoader
 	PFN_libvlc_media_player_play libvlc_media_player_play;
 	PFN_libvlc_media_player_stop libvlc_media_player_stop;
 	PFN_libvlc_media_player_get_state libvlc_media_player_get_state;
+	PFN_libvlc_video_set_aspect_ratio libvlc_video_set_aspect_ratio;
+	PFN_libvlc_video_set_scale libvlc_video_set_scale;
 	PFN_libvlc_audio_set_volume libvlc_audio_set_volume;
+	PFN_libvlc_audio_get_track_count libvlc_audio_get_track_count;
+	PFN_libvlc_audio_set_track libvlc_audio_set_track;
+	PFN_libvlc_spu_get_track_count libvlc_spu_get_track_count;
+	PFN_libvlc_spu_set_track libvlc_spu_set_track;
 };
 
 VLCLoader g_vlc; //Global instance to be used by PlayVLCVideo()
@@ -987,7 +1007,15 @@ bool LoadVLCFunctions()
 	LOAD_VLC_FUNC(libvlc_media_player_play);
 	LOAD_VLC_FUNC(libvlc_media_player_stop);
 	LOAD_VLC_FUNC(libvlc_media_player_get_state);
+	LOAD_VLC_FUNC(libvlc_video_set_aspect_ratio);
+	LOAD_VLC_FUNC(libvlc_video_set_scale);
 	LOAD_VLC_FUNC(libvlc_audio_set_volume);
+	LOAD_VLC_FUNC(libvlc_audio_get_track_count);
+	LOAD_VLC_FUNC(libvlc_audio_set_track);
+/*
+	LOAD_VLC_FUNC(libvlc_spu_get_track_count);
+	LOAD_VLC_FUNC(libvlc_spu_set_track);
+*/
 	return true; //Success
 }
 
@@ -1000,7 +1028,9 @@ void UnloadVLCFunctions()
 	}
 }
 
-int PlayVLCVideo(const std::string& videoPath, int volume)
+#include <sstream>
+
+int PlayVLCVideo(const std::string& videoPath, int volume, int audioTrack)//, int subtitleTrack)
 {
 //Load DLL and VLC Functions
 	if (!LoadVLCFunctions())
@@ -1018,9 +1048,24 @@ int PlayVLCVideo(const std::string& videoPath, int volume)
 		return -1;
 	}
 	HWND hwnd = info.info.win.window;
-//Initializing and Loading libVLC (Dynamic Loading)
+//Since for some reason the track is offset by 1, fix manually:
+	int audioTrackFix = audioTrack;
+	if (audioTrack > 0)
+	{
+		audioTrackFix = audioTrack - 1;
+	}
+	else if (audioTrack == 0)
+	{
+		//audioTrackFix = 1;
+	}
+//Write Audio Track prefix and value to the stream
+	std::stringstream ss;
+	ss << "--audio-track=" << audioTrackFix;
+	std::string audioTrackArg = ss.str(); //Get Final String
+//Initializing and Loading libVLC (Dynamic Loading)	
 	const char *const vlc_args[] = {
-		"--plugin-path=./plugins"
+		"--plugin-path=./plugins", //Plugins Path
+		audioTrackArg.c_str() //Audio Track argument
 	};
 	int arg_count = sizeof(vlc_args) / sizeof(vlc_args[0]);
 	libvlc_instance_t *vlcInstance = g_vlc.libvlc_new(arg_count, vlc_args);
@@ -1106,11 +1151,12 @@ std::string WstrToStr(const std::wstring& wstr)
 	return strTo;
 }
 
-TUserFunc(int, PlayVideo, Reference fn, int volume)
+TUserFunc(int, PlayVideo, Reference fn, int volume, int audioTrack)//, int subtitleTrack)
 {
 	std::wstring wVideoPath = pu->refToWstr(fn); //Get video path as wide string
 	std::string videoPath = WstrToStr(wVideoPath); //Convert the path to narrow string (std::string) for libvlc_media_new_path
-	return PlayVLCVideo(videoPath, volume);
+	int subtitleT = 0;
+	return PlayVLCVideo(videoPath, volume, audioTrack);//, subtitleTrack;
 }
 
 TUserFunc(bool, PollEvent, int8_t* pb)
