@@ -94,7 +94,7 @@ storyboardIntro = "data/intro.def"
 storyboardGameOver = "data/gameover.def"
 
 --Video Data (Recommended for large cutscenes instead storyboards)
-videoHowToPlay = "data/videos/How To Play.webm"
+videoHowToPlay = "videos/How To Play.webm"
 
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
