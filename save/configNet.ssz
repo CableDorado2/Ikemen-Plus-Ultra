@@ -14,6 +14,7 @@ const float GlVol = 0.8;
 const float SEVol = 0.8;
 const float BGMVol = 0;
 const float PanStr = 0.8;
+const int VideoVol = 100;
 
 //Perfomance Settings
 const bool SaveMemory = false;
@@ -23,7 +24,7 @@ const int ExplodMax = 256;
 const int AfterImageMax = 8;
 
 //Game Settings
-const int GameSpeed = 60;//frames/second
+const int GameSpeed = 60; //frames/second
 const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 const float Super_TargetDefenceMul = 1.5;

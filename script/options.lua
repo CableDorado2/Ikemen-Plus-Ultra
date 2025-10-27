@@ -176,6 +176,7 @@ function f_loadCfg()
 	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
 	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
 	pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
+	vid_vol = tonumber(s_configSSZ:match('const int VideoVol%s*=%s*(%d+)'))
 --Perfomance Settings
 	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
 	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
@@ -440,6 +441,7 @@ function f_saveCfg()
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
+	s_configSSZ = s_configSSZ:gsub('const int VideoVol%s*=%s*%d+', 'const int VideoVol = ' .. vid_vol)
 --Perfomance Settings
 	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
@@ -728,6 +730,8 @@ function f_audioDefault()
 	se_vol = 80
 	bgm_vol = 50
 	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+	vid_vol = 100
+	setVideoVolume(vid_vol)
 	pan_str = 80
 	setPanStr(pan_str / 100)
 	freq = 48000
@@ -1404,6 +1408,7 @@ function f_mainCfg()
 				setBrightness(brightnessAdjust)
 				setOpacity(opacityAdjust / 100)
 				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+				setVideoVolume(vid_vol)
 				setPanStr(pan_str / 100)
 				needReload = 0
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -5409,6 +5414,7 @@ t_audioCfg = {
 	{text = "Master Volume",	varText = gl_vol.."%"},
 	{text = "BGM Volume",		varText = bgm_vol.."%"},
 	{text = "SFX Volume",		varText = se_vol.."%"},
+	{text = "Movie Volume",		varText = vid_vol.."%"},
 	{text = "Panning Range",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
 	{text = "Sample Rate",     	varText = freq},
 	{text = "Channels",        	varText = s_channels},
@@ -5533,8 +5539,38 @@ function f_audioCfg()
 					bufr = 0
 					bufl = 0
 				end
-		--Audio Panning Range
+		--Movie Volume
 			elseif audioCfg == 4 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if vid_vol < 200 then
+						vid_vol = vid_vol + 1
+					else
+						vid_vol = 0
+					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if vid_vol > 0 then
+						vid_vol = vid_vol - 1
+					else
+						vid_vol = 200
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+					modified = 1
+				end
+				setVideoVolume(vid_vol)
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+		--Audio Panning Range
+			elseif audioCfg == 5 then
 				if commandGetState(p1Cmd, 'r') and pan_str < 160 then
 					sndPlay(sndSys, 100, 0)
 					pan_str = pan_str + 40
@@ -5546,7 +5582,7 @@ function f_audioCfg()
 				end
 				setPanStr(pan_str / 100)
 		--Sample Rate
-			elseif audioCfg == 5 then
+			elseif audioCfg == 6 then
 				if commandGetState(p1Cmd, 'r') and freq < 96000 then
 					sndPlay(sndSys, 100, 0)
 					if freq < 22050 then
@@ -5583,7 +5619,7 @@ function f_audioCfg()
 					needReload = 1
 				end
 		--Channels
-			elseif audioCfg == 6 then
+			elseif audioCfg == 7 then
 				if commandGetState(p1Cmd, 'r') and  channels < 6 then
 					sndPlay(sndSys, 100, 0)
 					if channels < 2 then
@@ -5614,7 +5650,7 @@ function f_audioCfg()
 					needReload = 1
 				end
 		--Buffer Samples
-			elseif audioCfg == 7 then
+			elseif audioCfg == 8 then
 				if commandGetState(p1Cmd, 'r') and buffer < 8192 then
 					sndPlay(sndSys, 100, 0)
 					buffer = buffer * 2
@@ -5677,10 +5713,11 @@ function f_audioCfg()
 		t_audioCfg[1].varText = gl_vol.."%"
 		t_audioCfg[2].varText = bgm_vol.."%"
 		t_audioCfg[3].varText = se_vol.."%"
-		t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
-		t_audioCfg[5].varText = freq
-		t_audioCfg[6].varText = s_channels
-		t_audioCfg[7].varText = buffer
+		t_audioCfg[4].varText = vid_vol.."%"
+		t_audioCfg[5].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
+		t_audioCfg[6].varText = freq
+		t_audioCfg[7].varText = s_channels
+		t_audioCfg[8].varText = buffer
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 		setPanStr(pan_str / 100)
 		for i=1, maxAudioCfg do

@@ -25,6 +25,7 @@ lib vid = "video.ssz";
 
 ^/char listenPort = .cfg.listenPort;
 ^/char UserName = .cfg.UserName;
+int videoVol = .cfg.VideoVol;
 .com.brightness = .cfg.Brightness;
 .sdl.setVolume(.cfg.GlVol, .cfg.SEVol, .cfg.BGMVol);
 
@@ -733,6 +734,19 @@ void setVolume(&.lua.State L=, int re=)
   float s = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float b = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   .sdl.setVolume(g, s, b);
+}
+
+void setVideoVolume(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int vol = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .videoVol = vol;
+}
+
+void getVideoVolume(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).cfg.VideoVol);
 }
 
 void setPanStr(&.lua.State L=, int re=)
@@ -2231,6 +2245,8 @@ public void init(&.lua.State L=)
   L.register("getBrightness", .getBrightness);
   L.register("setOpacity", .setOpacity);
   L.register("setVolume", .setVolume);
+  L.register("setVideoVolume", .setVideoVolume);
+  L.register("getVideoVolume", .getVideoVolume);
   L.register("setPanStr", .setPanStr);
   L.register("getWidth", .getWidth);
   L.register("getHeight", .getHeight);
