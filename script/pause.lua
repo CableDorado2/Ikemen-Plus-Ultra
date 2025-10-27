@@ -1,4 +1,9 @@
 module(..., package.seeall)
+--[[
+module(..., package.seeall) causes that the only way to access to function and vars defined in this script
+is using script.pause.varname if don't use: module(..., package.seeall) everything will be accessible globally
+without use script.pause.varname
+]]
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================
@@ -396,7 +401,7 @@ end
 txt_pause = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_pauseMain = {
-	{text = "Continue", gotomenu = "f_resumePause()"},
+	{text = "Continue", gotomenu = "f_resumePause()"}, --maybe gotomenu is not working like in other scripts, due the use of: module(..., package.seeall)
 	{text = "Movelist", gotomenu = "f_movelistPause()"},
 	{text = "Settings", gotomenu = "f_settingsPause()"},
 	{text = "Hide Menu", gotomenu = "f_hidePause()"},
@@ -429,11 +434,11 @@ end
 if getGameMode() == "replay" or getGameMode() == "randomtest" then
 t_pauseMain = nil
 t_pauseMain = {
-	{text = "Continue", gotomenu = "script.pause.f_resumePause()"},
-	{text = "Settings", gotomenu = "script.pause.f_settingsPause()"},
-	{text = "Hide Menu", gotomenu = "script.pause.f_hidePause()"},
-	{text = "Battle Info", gotomenu = "script.pause.f_infoPause()"},
-	{text = "Exit", gotomenu = "script.pause.f_mainmenuPause()"}
+	{text = "Continue", gotomenu = "f_resumePause()"},
+	{text = "Settings", gotomenu = "f_settingsPause()"},
+	{text = "Hide Menu", gotomenu = "f_hidePause()"},
+	{text = "Battle Info", gotomenu = "f_infoPause()"},
+	{text = "Exit", gotomenu = "f_mainmenuPause()"}
 }
 end
 

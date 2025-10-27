@@ -1062,12 +1062,12 @@ txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
 
 t_audioCfg = {
-	{text = "Master Volume",	varText = gl_vol.."%"},
-	{text = "BGM Volume",		varText = bgm_vol.."%"},
-	{text = "SFX Volume",		varText = se_vol.."%"},
-	{text = "Panning Range",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{text = "Default Values",	varText = ""},
-	{text = "          BACK",  	varText = ""},
+	{text = "Master Volume",	}, --varText = gl_vol.."%"},
+	{text = "BGM Volume",		}, --varText = bgm_vol.."%"},
+	{text = "SFX Volume",		}, --varText = se_vol.."%"},
+	{text = "Panning Range",   	}, --varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "Default Values",	}, --varText = ""},
+	{text = "          BACK",  	}, --varText = ""},
 }
 for i=1, #t_audioCfg do
 	t_audioCfg[i]['varID'] = textImgNew()

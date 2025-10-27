@@ -1,4 +1,4 @@
-local loadLuaModule = true
+local loadLuaModule = false
 function f_mainTitle()
 	cmdInput()
 	while true do

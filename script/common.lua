@@ -1,3 +1,18 @@
+--[[
+This script allow share vars, functions and data between main menu and match.
+
+If there is something that ONLY will be used during match or main menu, don't add it here.
+Add stuff that will be used in both places in order to avoid write it again.
+
+NOTE: Currently, maybe due the use of assert(loadfile("script/common.lua"))() in match.lua script
+Every time that a match start, all lua data is reseted, so this script is loaded there
+like first time that you start the engine.
+
+The only data that will not be reset is that stored using json or lua file writing method (save folder).
+However, if a data table/file is created here, keep in mind that it will be regenerated with the default values.
+Therefore, it is recommended to "encapsulate" that you only want to create when engine start in a function,
+to call and write in them outside of the match, and then only read them inside the match.
+]]
 os_type = nil
 --Check Linux/MacOS version
 local handle_uname = io.popen("uname -a")
@@ -62,12 +77,6 @@ json = (loadfile "lib/lua/json.lua")() --One-time load of the json routines
 --;===========================================================
 data = require("save.data") --Create global space variable (accessing variables between modules)
 vn = require("save.vn") --Create global space variable (accessing variables between visual novel modules)
-
---[[Require function, allows use the content inside in the script said.
-The begin of the script called need to have this:
-
-module(..., package.seeall)
-]]
 
 --Set Save Path Variables
 saveCoreCfgPath = "save/config.ssz"
@@ -1330,146 +1339,6 @@ function f_inputConvert(input, swapTo)
 	end
 	return output
 end
-
---;===========================================================
---; OPTIONS VARS
---;===========================================================
-function f_loadCfg(all)
-local all = all or false
---;===========================================================
---; DATA_SAV.LUA
---;===========================================================
-	if all then
-	--Data loading from data_sav.lua
-		local file = io.open(saveCfgPath,"r")
-		s_dataLUA = file:read("*all")
-		file:close()
-	--Apply settings from data_sav.lua
-		disableGamepad(data.disablePadP1,data.disablePadP2)
-	end
---;===========================================================
---; CONFIG.SSZ
---;===========================================================
---Data loading from config.ssz
-	local file = io.open(saveCoreCfgPath,"r")
-	s_configSSZ = file:read("*all")
-	file:close()
---Apply settings from config.ssz
---Video Settings
-	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-	b_fullscreenMode = s_configSSZ:match('const bool FullScreenExclusive%s*=%s*([^;%s]+)')
-	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)')
-	b_aspectMode = s_configSSZ:match('const bool AspectRatio%s*=%s*([^;%s]+)')
-	if all then b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)') end
-	windowType = tonumber(s_configSSZ:match('const int WindowType%s*=%s*(%d+)'))
-	brightnessAdjust = tonumber(s_configSSZ:match('const int Brightness%s*=%s*(%d+)'))
-	opacityAdjust = math.floor(tonumber(s_configSSZ:match('const float Opacity%s*=%s*(%d%.*%d*)') * 100))
---Audio Settings
-	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
-	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
-	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
-	pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
-	vid_vol = tonumber(s_configSSZ:match('const int VideoVol%s*=%s*(%d+)'))
---Perfomance Settings
-	if all then
-		HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
-		PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
-		ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
-		AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
-		b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
-	end
---Game Settings
-	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
---Input Settings
-	data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
-	data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
-	
---Before was on f_loadEXCfg():
-
---Data loading from sound.ssz
-	local file = io.open("lib/sound.ssz","r")
-	s_soundSSZ = file:read("*all")
-	file:close()
---Apply settings from sound.ssz
-	freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
-	channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
-	buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
-	
-	gl_vol = f_minMax(gl_vol,0,100)
-	se_vol = f_minMax(se_vol,0,100)
-	bgm_vol = f_minMax(bgm_vol,0,100)
-	
-	if pan_str < 20 then
-		pan_str = 0
-	elseif pan_str >= 20 and pan_str < 60 then
-		pan_str = 40
-	elseif pan_str >= 60 and pan_str < 100 then
-		pan_str = 80
-	elseif pan_str >= 100 and pan_str < 140 then
-		pan_str = 120
-	elseif pan_str >= 140 then
-		pan_str = 160
-	end
-	t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
-
-	if channels == 6 then
-		s_channels = "5.1"
-	elseif channels == 4 then
-		s_channels = "Quad"
-	elseif channels == 2 then
-		s_channels = "Stereo"
-	elseif channels == 1 then
-		s_channels = "Mono"
-	end
---Convert Bool String loaded from SSZ to lua bool
-	if all then
-		if b_openGL == "true" then
-			b_openGL = true
-		elseif b_openGL == "false" then
-			b_openGL = false
-		end
-	end
-	
-	if b_screenMode == "true" then
-		b_screenMode = true
-		s_screenMode = "Fullscreen"
-	elseif b_screenMode == "false" then
-		b_screenMode = false
-		s_screenMode = "Windowed"
-	end
-	
-	if b_fullscreenMode == "true" then
-		b_fullscreenMode = true
-	elseif b_fullscreenMode == "false" then
-		b_fullscreenMode = false
-	end
-	
-	if b_aspectMode == "true" then
-		b_aspectMode = true
-	elseif b_aspectMode == "false" then
-		b_aspectMode = false
-	end
-	
-	opacityAdjust = f_minMax(opacityAdjust,0,100)
-	
-	if all then
-		if b_saveMemory == "true" then
-			b_saveMemory = true
-			s_saveMemory = "Yes"
-		elseif b_saveMemory == "false" then
-			b_saveMemory = false
-			s_saveMemory = "No"
-		end
-		s_disablePadP1 = data.disablePadP1 and "Disabled" or "Enabled"
-		s_disablePadP2 = data.disablePadP2 and "Disabled" or "Enabled"
-	end
-end
-f_loadCfg(true)
---;===========================================================
---; LOAD SCREENPACK ASSETS
---;===========================================================
-require("script.screenpack")
 
 --;===========================================================
 --; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
@@ -3200,7 +3069,7 @@ if data.VNautoSkip then t_vnPauseMenu[3].varText = "Yes" else t_vnPauseMenu[3].v
 if data.VNdisplayName then t_vnPauseMenu[4].varText = "Yes" else t_vnPauseMenu[4].varText = "No" end
 end
 
-f_vnCfgdisplayTxt() --Load Display Text
+--f_vnCfgdisplayTxt() --Load Display Text
 
 --;===========================================================
 --; VISUAL NOVEL AUDIO SETTINGS
@@ -3802,7 +3671,7 @@ function f_attractCfgMenu()
 	--onlinegame = false
 	assert(loadfile(saveCfgPath))()
 	playBGM(bgmNothing)
-	script.options.f_mainCfg()
+	f_mainCfg()
 	f_resetEngine()
 end
 
@@ -4960,5 +4829,6 @@ function f_loadLuaMods(bool)
 		assert(loadfile(v.path))()
 	end
 end
+require("script.screenpack") --Load screenpack assets
 require("script.options") --Load options script
 --playVideo("videos/mk004.bik", 1)

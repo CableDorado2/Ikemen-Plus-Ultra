@@ -1,7 +1,13 @@
 --;===========================================================
 --; GLOBAL MATCH ACCESS FUNCTIONS
 --;===========================================================
-assert(loadfile("script/common.lua"))() --For load options data, screenshot sfx, data_sav, screenpack assets, etc.
+--[[
+- assert(loadfile)) will cause that overwrites global variables every time it is called.
+- require() Injects global variables only the first time it runs
+
+Should replace below assert(loadfile()) with require()?
+]]
+assert(loadfile("script/common.lua"))() --Load stuff shared with main menu (options data, screenpack assets, functions, etc.)
 require("script.pause")
 f_loadLuaMods(true) --Load External Lua Modules
 --[[
@@ -11,6 +17,8 @@ local includeLuaMatch = true --This module will be loaded during a match.
 
 As first line in the module, to allow load it inside a match.
 (This verification is required due optimization purposes).
+
+NOTE: Any data loaded OUTSIDE of scripts loaded at the beginning of this file, will not be available (main.lua for example).
 ]]
 --;===========================================================
 --; DEBUG HOTKEYS DEFINITION
@@ -947,6 +955,7 @@ local function f_setWinScore()
 		else
 			setScore(getScore() + 30000)
 		end
+		--bonif time
 		--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000)
 		--if firstattack() then setScore(getScore() + 1500) end
 		if winperfecthyper() then setScore(getScore() + 25000)
@@ -964,7 +973,7 @@ local function f_drawScore()
 	scoreActive = true
 	local pts = 0
 	if player(2) and time() == 0 then
-		--pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
+		pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
 	end
 	setScore(getScore() + pts)
 	textImgSetText(txt_ScoreP1FightCfg, getScore())

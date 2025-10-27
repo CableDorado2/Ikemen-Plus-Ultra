@@ -1,5 +1,4 @@
-﻿module(..., package.seeall)
---;===========================================================
+﻿--;===========================================================
 --; OPTIONS SCREENPACK DEFINITION
 --;===========================================================
 --Scrolling background
@@ -136,12 +135,145 @@ function drawCfgInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
 
---;===========================================================
---; ON EXIT
---;===========================================================
-modified = 0
-needReload = 0
+local modified = 0
+local needReload = 0
 local updateVars = false
+
+--;===========================================================
+--; OPTIONS VARS
+--;===========================================================
+function f_loadCfg(all)
+local all = all or false
+--;===========================================================
+--; DATA_SAV.LUA
+--;===========================================================
+	if all then
+	--Data loading from data_sav.lua
+		local file = io.open(saveCfgPath,"r")
+		s_dataLUA = file:read("*all")
+		file:close()
+	--Apply settings from data_sav.lua
+		disableGamepad(data.disablePadP1,data.disablePadP2)
+	end
+--;===========================================================
+--; CONFIG.SSZ
+--;===========================================================
+--Data loading from config.ssz
+	local file = io.open(saveCoreCfgPath,"r")
+	s_configSSZ = file:read("*all")
+	file:close()
+--Apply settings from config.ssz
+--Video Settings
+	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+	b_fullscreenMode = s_configSSZ:match('const bool FullScreenExclusive%s*=%s*([^;%s]+)')
+	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)')
+	b_aspectMode = s_configSSZ:match('const bool AspectRatio%s*=%s*([^;%s]+)')
+	if all then b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)') end
+	windowType = tonumber(s_configSSZ:match('const int WindowType%s*=%s*(%d+)'))
+	brightnessAdjust = tonumber(s_configSSZ:match('const int Brightness%s*=%s*(%d+)'))
+	opacityAdjust = math.floor(tonumber(s_configSSZ:match('const float Opacity%s*=%s*(%d%.*%d*)') * 100))
+--Audio Settings
+	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
+	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
+	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
+	pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
+	vid_vol = tonumber(s_configSSZ:match('const int VideoVol%s*=%s*(%d+)'))
+--Perfomance Settings
+	if all then
+		HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
+		PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
+		ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
+		AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
+		b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
+	end
+--Game Settings
+	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
+--Input Settings
+	data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
+	data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
+	
+--Before was on f_loadEXCfg():
+
+--Data loading from sound.ssz
+	local file = io.open("lib/sound.ssz","r")
+	s_soundSSZ = file:read("*all")
+	file:close()
+--Apply settings from sound.ssz
+	freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
+	channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
+	buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
+	
+	gl_vol = f_minMax(gl_vol,0,100)
+	se_vol = f_minMax(se_vol,0,100)
+	bgm_vol = f_minMax(bgm_vol,0,100)
+	
+	if pan_str < 20 then
+		pan_str = 0
+	elseif pan_str >= 20 and pan_str < 60 then
+		pan_str = 40
+	elseif pan_str >= 60 and pan_str < 100 then
+		pan_str = 80
+	elseif pan_str >= 100 and pan_str < 140 then
+		pan_str = 120
+	elseif pan_str >= 140 then
+		pan_str = 160
+	end
+	t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
+
+	if channels == 6 then
+		s_channels = "5.1"
+	elseif channels == 4 then
+		s_channels = "Quad"
+	elseif channels == 2 then
+		s_channels = "Stereo"
+	elseif channels == 1 then
+		s_channels = "Mono"
+	end
+--Convert Bool String loaded from SSZ to lua bool
+	if all then
+		if b_openGL == "true" then
+			b_openGL = true
+		elseif b_openGL == "false" then
+			b_openGL = false
+		end
+	end
+	
+	if b_screenMode == "true" then
+		b_screenMode = true
+		s_screenMode = "Fullscreen"
+	elseif b_screenMode == "false" then
+		b_screenMode = false
+		s_screenMode = "Windowed"
+	end
+	
+	if b_fullscreenMode == "true" then
+		b_fullscreenMode = true
+	elseif b_fullscreenMode == "false" then
+		b_fullscreenMode = false
+	end
+	
+	if b_aspectMode == "true" then
+		b_aspectMode = true
+	elseif b_aspectMode == "false" then
+		b_aspectMode = false
+	end
+	
+	opacityAdjust = f_minMax(opacityAdjust,0,100)
+	
+	if all then
+		if b_saveMemory == "true" then
+			b_saveMemory = true
+			s_saveMemory = "Yes"
+		elseif b_saveMemory == "false" then
+			b_saveMemory = false
+			s_saveMemory = "No"
+		end
+		s_disablePadP1 = data.disablePadP1 and "Disabled" or "Enabled"
+		s_disablePadP2 = data.disablePadP2 and "Disabled" or "Enabled"
+	end
+end
+f_loadCfg(true)
 
 function f_loadEXCfg()
 --Data loading from data.lifebar
@@ -1213,22 +1345,22 @@ end
 txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 
 t_mainCfg = {
-	{text = "Game Settings",	  			 gotomenu = "if data.engineMode == 'FG' then script.options.f_gameCfg() elseif data.engineMode == 'VN' then script.options.f_gameVNcfg() end"},
-	{text = "System Settings",  			 gotomenu = "if data.engineMode == 'FG' then script.options.f_UICfg() else sndPlay(sndIkemen, 200, 0) end"},
-	{text = "Video Settings",  				 gotomenu = "script.options.f_videoCfg()"},
-	{text = "Audio Settings",  				 gotomenu = "script.options.f_audioCfg()"},
-	{text = "Input Settings",  				 gotomenu = "script.options.f_inputCfg()"},
-	{text = "Netplay Settings",  			 gotomenu = "script.options.f_netplayCfg()"},
-	{text = "Engine Settings",  			 gotomenu = "script.options.f_engineCfg()"},
-	{text = "All Default Values",			 gotomenu = "sndPlay(sndSys, 100, 1) script.options.defaultAll = true script.options.defaultScreen = true"},
-	{text = "              Save and Back",   gotomenu = "script.options.exitSaveCfg = true"},
-	{text = "          Back Without Saving", gotomenu = "script.options.exitNoSaveCfg = true"},
+	{text = "Game Settings",	  			 gotomenu = "if data.engineMode == 'FG' then f_gameCfg() elseif data.engineMode == 'VN' then f_gameVNcfg() end"},
+	{text = "System Settings",  			 gotomenu = "if data.engineMode == 'FG' then f_UICfg() else sndPlay(sndIkemen, 200, 0) end"},
+	{text = "Video Settings",  				 gotomenu = "f_videoCfg()"},
+	{text = "Audio Settings",  				 gotomenu = "f_audioCfg()"},
+	{text = "Input Settings",  				 gotomenu = "f_inputCfg()"},
+	{text = "Netplay Settings",  			 gotomenu = "f_netplayCfg()"},
+	{text = "Engine Settings",  			 gotomenu = "f_engineCfg()"},
+	{text = "All Default Values",			 gotomenu = "sndPlay(sndSys, 100, 1) defaultAll = true defaultScreen = true"},
+	{text = "              Save and Back",   gotomenu = "exitSaveCfg = true"},
+	{text = "          Back Without Saving", gotomenu = "exitNoSaveCfg = true"},
 }
 for i=1, #t_mainCfg do
 	t_mainCfg[i]['varID'] = textImgNew()
 end
 --Access to Online Settings from Offline Mode (Only for Dev Purposes, Delete when test are finished)
-table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "script.options.f_onlineCfg()", varID = textImgNew()})
+table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "f_onlineCfg()", varID = textImgNew()})
 
 function f_mainCfg()
 	cmdInput()

@@ -562,7 +562,7 @@ end
 function f_optionsMenu()
 	onlinegame = false --only for identify purposes
 	assert(loadfile(saveCfgPath))()
-	script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
+	f_mainCfg() --start f_mainCfg() function from script/options.lua
 end
 
 --;===========================================================
@@ -3635,7 +3635,7 @@ function f_songMenu()
 		if backSongConfirm == true then
 			f_discordMainMenu()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			script.options.f_setCfgSong() --SAVE AND BACK SONG FOR OPTIONS MENU
+			f_setCfgSong() --SAVE AND BACK SONG FOR OPTIONS MENU
 			f_menuMusic()
 			sndPlay(sndSys, 100, 2)
 			backSongConfirm = false
@@ -4238,12 +4238,12 @@ function f_mainReplay()
 							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 							sndPlay(sndSys, 100, 1)
 						--Set Default values to prevent desync.
-							script.options.f_onlineDefault()
-							script.options.f_netsaveCfg()
+							f_onlineDefault()
+							f_netsaveCfg()
 							enterReplay(t_replayList[mainReplay].path)
 							synchronize()
 							math.randomseed(sszRandom())
-							script.options.f_onlineCfg()
+							f_onlineCfg()
 							exitNetPlay()
 							exitReplay()
 							commandBufReset(p1Cmd)
@@ -4464,14 +4464,14 @@ function f_mainNetplay()
 			if mainNetplay == 1 then
 				f_discordUpdate({details = "Waiting Opponents"})
 				onlinegame = true --only for identify purposes
-				script.options.f_onlineDefault()
-				script.options.f_netsaveCfg()
+				f_onlineDefault()
+				f_netsaveCfg()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				cancel = f_create()
 				if not cancel then
 					synchronize()
 					math.randomseed(sszRandom())
-					script.options.f_onlineCfg()
+					f_onlineCfg()
 				end
 				exitNetPlay()
 				exitReplay()
@@ -4485,14 +4485,14 @@ function f_mainNetplay()
 			--Default Connection Method
 				if data.connectMode == "Direct" then
 					onlinegame = true
-					script.options.f_onlineDefault()
-					script.options.f_netsaveCfg()
+					f_onlineDefault()
+					f_netsaveCfg()
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					cancel = f_directConnect()
 					if not cancel then
 						synchronize()
 						math.randomseed(sszRandom())
-						script.options.f_onlineCfg()
+						f_onlineCfg()
 					end
 					exitNetPlay()
 					exitReplay()
@@ -4908,14 +4908,14 @@ function f_hostRooms()
 		if crudHostOption == 2 then
 			f_crudHostReset()
 			onlinegame = true
-			script.options.f_onlineDefault()
-			script.options.f_netsaveCfg()
+			f_onlineDefault()
+			f_netsaveCfg()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			cancel = f_databaseConnect()
 			if not cancel then
 				synchronize()
 				math.randomseed(sszRandom())
-				script.options.f_onlineCfg()
+				f_onlineCfg()
 			end
 			exitNetPlay()
 			exitReplay()
@@ -5520,7 +5520,7 @@ function f_mainLobby()
 		--ONLINE SETTINGS
 			elseif mainLobby == #t_mainLobby then
 				f_discordUpdate({details = "Netplay Lobby"})
-				script.options.f_onlineCfg()
+				f_onlineCfg()
 			end
 			f_discordUpdate({details = "Netplay Lobby"})
 		end
@@ -18127,12 +18127,12 @@ function f_sdlWarning()
 			break
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
-		textImgDraw(script.options.txt_Warning)
-		animSetScale(script.options.infoBG, 300, 111)
-		animSetWindow(script.options.infoBG, 0,70, 296,#t_sdlWarning*15)
-		animDraw(script.options.infoBG)
+		textImgDraw(txt_Warning)
+		animSetScale(infoBG, 300, 111)
+		animSetWindow(infoBG, 0,70, 296,#t_sdlWarning*15)
+		animDraw(infoBG)
 		for i=1, #t_sdlWarning do textImgDraw(t_sdlWarning[i].id) end
-		script.options.drawInfoCfgInputHints()
+		drawInfoCfgInputHints()
 		cmdInput()
 		refresh()
 	end
