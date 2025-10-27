@@ -4,7 +4,7 @@
 #include <process.h>
 #include <stdint.h>
 
-#include "libvorbis/include/vorbis/vorbisfile.h"
+#include "vorbis/vorbisfile.h"
 #pragma comment(lib , "libvorbisfile.lib")
 
 

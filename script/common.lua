@@ -1673,7 +1673,7 @@ end
 --;===========================================================
 --; STORYBOARD DEFINITION
 --;===========================================================
-t_data = {} --stores all SFF, SND, FNT data structures
+t_storyboardData = {} --stores all SFF, SND, FNT data structures
 function f_storyboard(path)
 	local file = io.open(path, 'r')
 	local all = file:read("*all")
@@ -1779,8 +1779,8 @@ function f_storyboardPlay(tIn)
 		else
 			tOut['sff'] = tIn.fileDir .. tIn.scenedef.spr
 		end
-		if t_data[tOut.sff] == nil then
-			t_data[tOut.sff] = sffNew(tOut.sff)
+		if t_storyboardData[tOut.sff] == nil then
+			t_storyboardData[tOut.sff] = sffNew(tOut.sff)
 		end
 	end
 --SceneDef Optional Parameters:
@@ -1791,8 +1791,8 @@ function f_storyboardPlay(tIn)
 		else
 			tOut['snd'] = tIn.fileDir .. tIn.scenedef.snd
 		end
-		if t_data[tOut.snd] == nil then
-			t_data[tOut.snd] = sndNew(tOut.snd)
+		if t_storyboardData[tOut.snd] == nil then
+			t_storyboardData[tOut.snd] = sndNew(tOut.snd)
 		end
 	end
 --fontX = filename (string)
@@ -1806,8 +1806,8 @@ function f_storyboardPlay(tIn)
 				tOut['fnt'][i_s] = tIn.fileDir .. tIn.scenedef['font' .. i]
 				--tOut['fnt'][i_s] = 'font/' .. tIn.scenedef['font' .. i]
 			end
-			if t_data[tOut.fnt[i_s]] == nil then
-				t_data[tOut.fnt[i_s]] = fontNew(tOut.fnt[i_s])
+			if t_storyboardData[tOut.fnt[i_s]] == nil then
+				t_storyboardData[tOut.fnt[i_s]] = fontNew(tOut.fnt[i_s])
 			end
 		end
 	end
@@ -1922,7 +1922,7 @@ function f_storyboardPlay(tIn)
 				anim = anim:gsub('add1', 'a1')
 				anim = anim:gsub('add', 'a')
 				anim = anim:gsub('sub', 's')
-				posOut['animData'] = animNew(t_data[tOut.sff], anim)
+				posOut['animData'] = animNew(t_storyboardData[tOut.sff], anim)
 				animAddPos(posOut['animData'], tOut.scenes[i].layerallPosX+posOut.offsetX, tOut.scenes[i].layerallPosY+posOut.offsetY)
 				animSetScale(posOut['animData'], tOut.xScale, tOut.yScale)
 				animSetWindow(posOut['animData'], tOut.scenes[i]['windowX1'], tOut.scenes[i]['windowY1'], tOut.scenes[i]['windowX2'], tOut.scenes[i]['windowY2'])
@@ -1973,7 +1973,7 @@ function f_storyboardPlay(tIn)
 				if scaleY == '' then
 					scaleY = 1
 				end
-				textImgSetFont(posOut['fontData'], t_data[tOut.fnt[font]])
+				textImgSetFont(posOut['fontData'], t_storyboardData[tOut.fnt[font]])
 				textImgSetBank(posOut['fontData'], bank)
 				textImgSetAlign(posOut['fontData'], aline)
 				--textImgSetPos(posOut['fontData'], tOut.scenes[i].layerallPosX+posOut.offsetX, tOut.scenes[i].layerallPosY+posOut.offsetY)
@@ -2151,7 +2151,7 @@ function f_storyboardPlay(tIn)
 					anim = anim .. ', , ' .. posOut['trans']
 				end
 				posOut['anim'] = anim --for debugging only
-				posOut['bgData'] = animNew(t_data[tOut.sff], anim)
+				posOut['bgData'] = animNew(t_storyboardData[tOut.sff], anim)
 				animAddPos(posOut['bgData'], 160, 0) --background objects are rendered at center in mugen
 				animSetWindow(posOut['bgData'], posOut['windowX1'], posOut['windowY1'], posOut['windowX2'], posOut['windowY2'])
 				animSetTile(posOut['bgData'], posOut['tileX'], posOut['tileY'])
@@ -2226,7 +2226,7 @@ function f_storyboardPlay(tIn)
 			end
 			for k=1, #tOut.scenes[i].sounds do
 				if j == tOut.scenes[i].sounds[k].starttime then
-					sndPlay(t_data[tOut.snd], tOut.scenes[i].sounds[k].group, tOut.scenes[i].sounds[k].sound)
+					sndPlay(t_storyboardData[tOut.snd], tOut.scenes[i].sounds[k].group, tOut.scenes[i].sounds[k].sound)
 				end
 			end
 			animDraw(tOut.scenes[i].clearcolorData)
