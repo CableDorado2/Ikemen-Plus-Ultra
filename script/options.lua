@@ -143,51 +143,22 @@ modified = 0
 needReload = 0
 local updateVars = false
 
-function f_loadCfg()
---;===========================================================
---; DATA_SAV.LUA
---;===========================================================
---Data loading from data_sav.lua
-	local file = io.open(saveCfgPath,"r")
-	s_dataLUA = file:read("*all")
+function f_loadEXCfg()
+--Data loading from data.lifebar
+	local file = io.open(data.lifebar,"r")
+	s_lifebarDEF = file:read("*all")
 	file:close()
---Apply settings from data_sav.lua
-	disableGamepad(data.disablePadP1,data.disablePadP2)
---;===========================================================
---; CONFIG.SSZ
---;===========================================================
---Data loading from config.ssz
-	local file = io.open(saveCoreCfgPath,"r")
-	s_configSSZ = file:read("*all")
-	file:close()
---Apply settings from config.ssz
---Video Settings
-	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-	b_fullscreenMode = s_configSSZ:match('const bool FullScreenExclusive%s*=%s*([^;%s]+)')
-	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)')
-	b_aspectMode = s_configSSZ:match('const bool AspectRatio%s*=%s*([^;%s]+)')
-	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
-	windowType = tonumber(s_configSSZ:match('const int WindowType%s*=%s*(%d+)'))
-	brightnessAdjust = tonumber(s_configSSZ:match('const int Brightness%s*=%s*(%d+)'))
-	opacityAdjust = math.floor(tonumber(s_configSSZ:match('const float Opacity%s*=%s*(%d%.*%d*)') * 100))
---Audio Settings
-	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
-	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
-	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
-	pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
-	vid_vol = tonumber(s_configSSZ:match('const int VideoVol%s*=%s*(%d+)'))
---Perfomance Settings
-	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
-	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
-	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
-	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
-	b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
---Game Settings
-	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
---Input Settings
-	data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
-	data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
+--Apply settings from data.lifebar
+	data.roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
+	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
+--Variable setting based on loaded data
+	if gameSpeed == 48 then
+		s_gameSpeed = "Slow"
+	elseif gameSpeed == 60 then
+		s_gameSpeed = "Normal"
+	elseif gameSpeed == 72 then
+		s_gameSpeed = "Turbo"
+	end
 end
 
 function f_loadNETCfg()
@@ -205,100 +176,6 @@ function f_loadNETCfg()
 	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
 	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
-end
-
-function f_loadEXCfg()
---Data loading from sound.ssz
-	local file = io.open("lib/sound.ssz","r")
-	s_soundSSZ = file:read("*all")
-	file:close()
---Apply settings from sound.ssz
-	freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
-	channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
-	buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
---Data loading from data.lifebar
-	local file = io.open(data.lifebar,"r")
-	s_lifebarDEF = file:read("*all")
-	file:close()
---Apply settings from data.lifebar
-	data.roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
-	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
---Variable setting based on loaded data
-	if gameSpeed == 48 then
-		s_gameSpeed = "Slow"
-	elseif gameSpeed == 60 then
-		s_gameSpeed = "Normal"
-	elseif gameSpeed == 72 then
-		s_gameSpeed = "Turbo"
-	end
-	
-	if pan_str < 20 then
-		pan_str = 0
-	elseif pan_str >= 20 and pan_str < 60 then
-		pan_str = 40
-	elseif pan_str >= 60 and pan_str < 100 then
-		pan_str = 80
-	elseif pan_str >= 100 and pan_str < 140 then
-		pan_str = 120
-	elseif pan_str >= 140 then
-		pan_str = 160
-	end
-	t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
-
-	if channels == 6 then
-		s_channels = "5.1"
-	elseif channels == 4 then
-		s_channels = "Quad"
-	elseif channels == 2 then
-		s_channels = "Stereo"
-	elseif channels == 1 then
-		s_channels = "Mono"
-	end
---Convert Bool String loaded from SSZ to lua bool
-	if b_openGL == "true" then
-		b_openGL = true
-	elseif b_openGL == "false" then
-		b_openGL = false
-	end
-	
-	if b_screenMode == "true" then
-		b_screenMode = true
-		s_screenMode = "Fullscreen"
-	elseif b_screenMode == "false" then
-		b_screenMode = false
-		s_screenMode = "Windowed"
-	end
-	
-	if b_fullscreenMode == "true" then
-		b_fullscreenMode = true
-	elseif b_fullscreenMode == "false" then
-		b_fullscreenMode = false
-	end
-	
-	if b_aspectMode == "true" then
-		b_aspectMode = true
-	elseif b_aspectMode == "false" then
-		b_aspectMode = false
-	end
-	
-	if b_saveMemory == "true" then
-		b_saveMemory = true
-		s_saveMemory = "Yes"
-	elseif b_saveMemory == "false" then
-		b_saveMemory = false
-		s_saveMemory = "No"
-	end
-	s_disablePadP1 = data.disablePadP1 and "Disabled" or "Enabled"
-	s_disablePadP2 = data.disablePadP2 and "Disabled" or "Enabled"
-end
-
---Load Data Functions
-if onlinegame then
-	f_loadNETCfg()
-	f_loadEXCfg()
-else
-	f_loadCfg()
-	f_loadEXCfg()
 end
 
 function f_saveCfg()
@@ -485,7 +362,6 @@ function f_saveCfg()
 --;===========================================================
 --Reload game if needed
 	if needReload == 1 then
-		--os.execute ("TASKKILL /IM ProcessName.exe /F")
 		f_resetEngine()
 	end
 end
@@ -1356,6 +1232,8 @@ table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "sc
 
 function f_mainCfg()
 	cmdInput()
+	f_loadCfg()
+	f_loadEXCfg()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local mainCfg = 1
@@ -1547,6 +1425,8 @@ end
 
 function f_netplayCfg()
 	cmdInput()
+	f_loadNETCfg()
+	f_loadEXCfg()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local netplayCfg = 1
