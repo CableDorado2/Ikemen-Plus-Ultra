@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B74D8420-D90E-4490-9469-C3445B7A527C}</ProjectGuid>
-    <RootNamespace>sdlplugin</RootNamespace>
+    <RootNamespace>mesdialog</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -52,16 +52,14 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\d\lib\glew\include;C:\d\lib\SDL2\include;C:\d\lib\SDL2\SDL2_image\include;C:\d\lib\SDL2\SDL2_ttf\include;C:\d\lib\lpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <ModuleDefinitionFile>sdlplugin.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>mesdialog.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\d\lib\glew\lib\Release\Win32;C:\d\lib\SDL2\lib\x86;C:\d\lib\SDL2\SDL2_image\lib\x86;C:\d\lib\SDL2\SDL2_ttf\lib\x86;C:\d\lib\lpng\projects\visualc71\Win32_LIB_Release;C:\d\lib\zlib\projects\visualc6\Win32_DLL_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -69,21 +67,24 @@
       <Optimization>Full</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>C:\d\lib\glew\include;C:\d\lib\SDL2\include;C:\d\lib\SDL2\SDL2_image\include;C:\d\lib\SDL2\SDL2_ttf\include;C:\d\lib\libpng;C:\d\lib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\d\lib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <ModuleDefinitionFile>sdlplugin.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>mesdialog.def</ModuleDefinitionFile>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\d\lib\glew\lib\Release\Win32;C:\d\lib\SDL2\lib\x86;C:\d\lib\SDL2\SDL2_image\lib\x86;C:\d\lib\SDL2\SDL2_ttf\lib\x86;C:\d\lib\libpng\projects\visualc71\Win32_LIB_Release;C:\d\lib\zlib\projects\visualc6\Win32_DLL_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\d\lib\zlib\projects\visualc6\Win32_DLL_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="sdlplugin.cpp" />
+    <ClCompile Include="mesdialog.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rz.h" />
+    <ClInclude Include="MYDLL.H" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MYDLL.RC" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
