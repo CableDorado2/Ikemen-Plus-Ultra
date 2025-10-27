@@ -74,7 +74,7 @@
       <Optimization>Full</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>C:\d\lib\glew\include;C:\d\lib\SDL2\include;C:\d\lib\SDL2\SDL2_image\include;C:\d\lib\SDL2\SDL2_ttf\include;C:\d\lib\lpng;C:\d\lib\zlib;C:\d\lib\lodepng;C:\d\lib\vlc\sdk\include;C:\d\lib\discord-rpc\win32-dynamic\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\d\lib\glew\include;C:\d\lib\SDL2\include;C:\d\lib\SDL2\SDL2_image\include;C:\d\lib\SDL2\SDL2_ttf\include;C:\d\lib\lpng;C:\d\lib\zlib;C:\d\lib\lodepng\include;C:\d\lib\vlc\sdk\include;C:\d\lib\discord-rpc\win32-dynamic\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
