@@ -32,12 +32,13 @@ public &Video
 	{
 	//Default Values
 		^/char file = "";
+		^/char capturepath = "";
 		int volume = 100;
 		int audiotrack = 1;
 		int subtitletrack = 0;
 	}
 	/^/char fileName;
-	public void play(^/char file, int volume, int audiotrack)
+	public void play(^/char file, ^/char capturepath, int volume, int audiotrack)
 	{
 		^/char error;
 		&.file.File f;
@@ -46,7 +47,7 @@ public &Video
 		{
 			`fileName = file;
 			.videoActive = true;
-			.sdl.playVideo(audiotrack, volume, `fileName);
+			.sdl.playVideo(audiotrack, volume, capturepath, `fileName);
 		}
 	}
 }

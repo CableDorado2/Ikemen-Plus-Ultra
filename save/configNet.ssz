@@ -51,16 +51,16 @@ const int StageExtraPortraitIndex = 4;
 //System Settings
 const ^/char Executable = "Ikemen Plus Ultra.exe";
 const ^/char WindowTitle = "I.K.E.M.E.N. PLUS ULTRA";
+const ^/char ScreenshotFolder = "screenshots"; //Path to directory where Screenshots will be saves (UNUSED).
 const ^/char listenPort = "7500";
 const ^/char UserName = "Nickname";
-//const ^/char ScreenshotFolder = "screenshots/Test.png"; //Path to directory where Screenshots will be saves.
 const ^/char GlobalAnims = "data/common.air"; //Common Animations using character's local sprites
 const ^/char GlobalCommands = "data/common.cmd"; //Common Commands
 const ^/char GlobalMatch = "data/match.cns"; //Common States (CNS)
 const ^/char system = "script/main.lua"; //Lua script file initializing game mode logic loop.
 
 //Input Settings
-//const ^/char GamepadMappings = "lib/gamecontrollerdb.txt"; //Path to a database of game controller mappings (currently not functional).
+const ^/char GamepadMappings = "lib/external/gamecontrollerdb.txt"; //Path to database of game controller mappings (currently not implemented).
 lib sdl = <alpha/sdlplugin.ssz>;
 type k_t = |sdl.SDLKey;
 /%&Keys in;

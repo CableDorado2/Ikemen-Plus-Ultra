@@ -104,7 +104,7 @@ vnDef = "data/visualnovel/vnselect.def" --Visual Novels
 --Paths Data
 licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
 replaysPath = "save/replays" --Replays Path
-screenshotPath = "screenshots" --Screenshots Path
+screenshotPath = "screenshots" --getScreenshotsPath()
 musicPath = "sound" --Main Soundtrack Path
 luaModules = { --Lua External Modules Folder Paths
 "script/mods",

@@ -101,6 +101,13 @@ saveVNPath = "save/vn_sav.lua"
 gameTick = 20
 gameTime = (os.clock()/1000)
 
+function playVideo(file, audiotrack, volume)
+	local file = file or ""
+	local audiotrack = audiotrack or 1
+	local volume = volume or getVideoVolume()
+	loadVideo(file, screenshotPath, volume, audiotrack)
+end
+
 --shortcut for creating new text with minimal parameters (for width calculation)
 function createTextImgLite(font, text, scaleX, scaleY)
 	local textName = textImgNew()
@@ -3642,7 +3649,7 @@ end
 --Take Screenshots
 function f_screenShot()
 	sndPlay(sndIkemen, 300, 0)
-	takeScreenShot(screenshotPath.."/ ".. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
+	takeScreenShot(screenshotPath.."/"..os.date(getWindowTitle().." %Y-%m-%d %I-%M%p-%S")..".png")
 end
 
 --Insert Coins During Attract Mode
@@ -3861,13 +3868,6 @@ function f_soundtrack()
 		t_songList[folder][row+1] = {id = '', name = '          BACK', path = ''}
 	end
 	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.log') end
-end
-
-function playVideo(file, audiotrack, volume)
-	local file = file or ""
-	local audiotrack = audiotrack or 1
-	local volume = volume or getVideoVolume()
-	loadVideo(file, volume, audiotrack)
 end
 
 --;===========================================================

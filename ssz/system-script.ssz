@@ -756,6 +756,18 @@ void setPanStr(&.lua.State L=, int re=)
   .snd.panstr = p;
 }
 
+void getScreenshotsPath(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.cfg.ScreenshotFolder);
+}
+
+void getWindowTitle(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.cfg.WindowTitle);
+}
+
 public bool cfgMod = false, trnMod = false;
 void configModified(&.lua.State L=, int re=)
 {
@@ -2260,6 +2272,8 @@ public void init(&.lua.State L=)
   L.register("getWindowType", .getWindowType);
   L.register("setWindowType", .setWindowType);
   L.register("takeScreenShot", .takeScreenShot);
+  L.register("getScreenshotsPath", .getScreenshotsPath);
+  L.register("getWindowTitle", .getWindowTitle);
   L.register("configModified", .configModified);
   L.register("connected", .connected);
   L.register("synchronize", .synchronize);

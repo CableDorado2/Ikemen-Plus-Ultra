@@ -7,6 +7,8 @@
 #include <math.h>
 #include <float.h>
 #include <iostream>
+#include <sstream>
+#include <ctime> //To save time in screenshots
 
 #include <GL/glew.h>
 #pragma comment(lib, "glew32.Lib")
@@ -29,18 +31,16 @@
 #include <SDL_ttf.h>
 #pragma comment(lib, "SDL2_ttf.lib")
 
+#include "lodepng.h"
+#pragma comment(lib, "lodepng.lib")
+
+#include <vlc/vlc.h>
+
 #include "../../../dll/ssz/ssz/locksingler.hpp"
 
 #include "IN2.H"
 #define IN_VER_UNICODE 0x0F000100
 
-#include <vlc/vlc.h>
-
-//To Save PNG in OpenGL Render
-#include "lodepng.h"
-#pragma comment(lib, "lodepng.lib")
-
-//SSZ Stuff
 void* (__stdcall *sszrefnewfunc)(intptr_t);
 void (__stdcall *sszrefdeletefunc)(void*);
 
@@ -1044,9 +1044,7 @@ void UnloadVLCFunctions()
 	}
 }
 
-#include <sstream>
-
-int PlayVLCVideo(const std::string& videoPath, int volume, int audioTrack)//, int subtitleTrack)
+int PlayVLCVideo(const std::string& videoPath, const std::string& capturePath, int volume, int audioTrack)//, int subtitleTrack)
 {
 //Load DLL and VLC Functions
 	if (!LoadVLCFunctions())
@@ -1127,6 +1125,9 @@ int PlayVLCVideo(const std::string& videoPath, int volume, int audioTrack)//, in
 		std::string aspectRatioStr = ssAR.str();
 		g_vlc.libvlc_video_set_aspect_ratio(mediaPlayer, aspectRatioStr.c_str());
 	}
+//Get Window Name for Screenshot
+	const char* titleCStr = SDL_GetWindowTitle(g_window);
+	std::string sdlWindowTitle = (titleCStr != nullptr) ? std::string(titleCStr) : "IKEMEN VIDEO"; //Set a default name in case that nil
 //Events Process (This keep the video active)
 	SDL_Event event;
 	bool quit = false;
@@ -1147,11 +1148,31 @@ int PlayVLCVideo(const std::string& videoPath, int volume, int audioTrack)//, in
 				{
 					quit = true;
 				}
-			//Screenshot logic
+			//Screenshots logic
 				if (key == SDLK_PRINTSCREEN && g_vlc.libvlc_video_take_snapshot)
 				{
-					const char* snapshot_path = "vlc.png";
-					int result = g_vlc.libvlc_video_take_snapshot(mediaPlayer, 0, snapshot_path, 0, 0);
+				//Get Current Time
+					std::time_t now = std::time(nullptr);
+					std::tm localTime;
+					if (localtime_s(&localTime, &now) != 0)
+					{
+						//Error getting time..
+						return -1;
+					}
+				//Set format: %Y=Year, %m=Month, %d=Day, %I=Hour (12h), %M=Minute, %p=AM/PM, %S=Second.
+					char timeBuffer[80];
+					std::strftime(timeBuffer, sizeof(timeBuffer), " %Y-%m-%d %I-%M%p-%S", &localTime);
+				//Set Path ("capturePath/WINDOW TITLE 2025-10-27 11-00PM-33.png")
+					std::stringstream ssPath;
+					ssPath << capturePath; //Add folder separator "/" if it doesn't exist at the end of capturePath
+					if (capturePath.back() != '/' && capturePath.back() != '\\')
+					{
+						ssPath << "/";
+					}
+					ssPath << sdlWindowTitle << timeBuffer << ".png";
+					std::string finalScreenshotPath = ssPath.str();
+				//Take screenshot
+					int result = g_vlc.libvlc_video_take_snapshot(mediaPlayer, 0, finalScreenshotPath.c_str(), 0, 0);
 					if (result == 0)
 					{
 						//std::cout << "Screenshot saved in: " << snapshot_path << std::endl;
@@ -1188,12 +1209,14 @@ std::string WstrToStr(const std::wstring& wstr)
 	return strTo;
 }
 
-TUserFunc(int, PlayVideo, Reference fn, int volume, int audioTrack)//, int subtitleTrack)
+TUserFunc(int, PlayVideo, Reference fn, Reference screenshotPath, int volume, int audioTrack)//, int subtitleTrack)
 {
 	std::wstring wVideoPath = pu->refToWstr(fn); //Get video path as wide string
 	std::string videoPath = WstrToStr(wVideoPath); //Convert the path to narrow string (std::string) for libvlc_media_new_path
-	int subtitleT = 0;
-	return PlayVLCVideo(videoPath, volume, audioTrack);//, subtitleTrack;
+//Same for screenshots path
+	std::wstring wShotPath = pu->refToWstr(screenshotPath);
+	std::string capturePath = WstrToStr(wShotPath);
+	return PlayVLCVideo(videoPath, capturePath, volume, audioTrack);//, subtitleTrack;
 }
 
 TUserFunc(bool, PollEvent, int8_t* pb)
