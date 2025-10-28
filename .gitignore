@@ -20,3 +20,5 @@ src/lib/alpha/ogg/ogg/Release/ogg.unsuccessfulbuild
 src/lib/alpha/ogg/ogg/Release/ogg.obj
 src/lib/dll/sound/sound/Release/vc100.pdb
 src/lib/dll/sound/sound/Release/sound.obj
+src/ssize (executable)/ssize/Release/vc100.pdb
+/src/ssize (executable)/ssize/Release

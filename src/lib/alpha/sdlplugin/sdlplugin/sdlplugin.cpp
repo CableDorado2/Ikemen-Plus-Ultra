@@ -810,23 +810,26 @@ TUserFunc(int, GetHeight)
 	return GetSystemMetrics(SM_CYSCREEN);
 }
 
-TUserFunc(void, WindowSize, int width, int height)
+TUserFunc(void, WindowSize, int height, int width)
 {
 	//g_w = width;
 	//g_h = height;
-	SDL_SetWindowSize(g_window, height, width);
+	SDL_SetWindowSize(g_window, width, height);
 }
 
+bool isAspectRatio = false;
 TUserFunc(void, AspectRatio, bool aspect)
 {
 	if (aspect == true)
 	{
+		isAspectRatio = true;
 		SDL_RenderSetLogicalSize(g_renderer, g_w, g_h);
 		//SDL_SetWindowSize(g_window, g_w, g_h); //Adjust window size
 		SDL_RenderClear(g_renderer); //To refresh the screen
 	}
 	else
 	{
+		isAspectRatio = false;
 		//SDL_SetWindowSize(g_window, original_w, original_h); //Restore original window size
 		SDL_RenderSetLogicalSize(g_renderer, 0, 0); //Clear LogicalSize to restore the window
 	}
@@ -919,18 +922,22 @@ typedef void (*PFN_libvlc_media_release)(libvlc_media_t *p_md);
 typedef libvlc_media_player_t *(*PFN_libvlc_media_player_new_from_media)(libvlc_media_t *p_md);
 typedef void (*PFN_libvlc_media_player_release)(libvlc_media_player_t *p_mi);
 typedef void (*PFN_libvlc_media_player_set_hwnd)(libvlc_media_player_t *p_mi, void *drawable);
+
 typedef void (*PFN_libvlc_media_player_play)(libvlc_media_player_t *p_mi);
 typedef void (*PFN_libvlc_media_player_stop)(libvlc_media_player_t *p_mi);
 typedef libvlc_state_t (*PFN_libvlc_media_player_get_state)(libvlc_media_player_t *p_mi);
+
 typedef void (*PFN_libvlc_video_set_aspect_ratio)(libvlc_media_player_t *p_mi, const char *psz_aspect);
 typedef void (*PFN_libvlc_video_set_scale)(libvlc_media_player_t *p_mi, float f_zoom);
+
 typedef int (*PFN_libvlc_audio_set_volume)(libvlc_media_player_t *p_mi, int volume);
-//Audio Track
 typedef int (*PFN_libvlc_audio_get_track_count)(libvlc_media_player_t *p_mi);
 typedef int (*PFN_libvlc_audio_set_track)(libvlc_media_player_t *p_mi, int i_track);
-//Subtitles
+
 typedef int (*PFN_libvlc_spu_get_track_count)(libvlc_media_player_t *p_mi);
 typedef int (*PFN_libvlc_spu_set_track)(libvlc_media_player_t *p_mi, int i_track);
+
+typedef int (*libvlc_video_take_snapshot_t)(libvlc_media_player_t *p_mi, unsigned int i_num, const char *psz_filepath, unsigned int i_width, unsigned int i_height);
 
 //Structure to store the DLL handle and all pointers
 struct VLCLoader
@@ -953,8 +960,10 @@ struct VLCLoader
 		libvlc_audio_get_track_count(nullptr),
 		libvlc_audio_set_track(nullptr),
 		libvlc_spu_get_track_count(nullptr),
-		libvlc_spu_set_track(nullptr) {}
+		libvlc_spu_set_track(nullptr),
+		libvlc_video_take_snapshot(nullptr) {}
 	HINSTANCE hVlcDll; //Declaration only, no initialization here
+	libvlc_video_take_snapshot_t libvlc_video_take_snapshot;
 	PFN_libvlc_new libvlc_new;
 	PFN_libvlc_release libvlc_release;
 	PFN_libvlc_media_new_path libvlc_media_new_path;
@@ -995,6 +1004,13 @@ bool LoadVLCFunctions()
 	{
 		//Failed to load libvlc.dll (may not be in the executable path)
 		return false;
+	}
+//Load libvlc_video_take_snapshot
+	g_vlc.libvlc_video_take_snapshot = (libvlc_video_take_snapshot_t)GetProcAddress(g_vlc.hVlcDll, "libvlc_video_take_snapshot");
+//Check if load correctly
+	if (!g_vlc.libvlc_video_take_snapshot)
+	{
+		//return false;
 	}
 //Resolve all function pointers
 	LOAD_VLC_FUNC(libvlc_new);
@@ -1103,19 +1119,27 @@ int PlayVLCVideo(const std::string& videoPath, int volume, int audioTrack)//, in
 	g_vlc.libvlc_media_player_set_hwnd(mediaPlayer, hwnd);
 //Play Video
 	g_vlc.libvlc_media_player_play(mediaPlayer);
+//Apply Aspect Ratio (if enabled)
+	if (isAspectRatio)
+	{
+		std::stringstream ssAR;
+		ssAR << g_w << ":" << g_h;
+		std::string aspectRatioStr = ssAR.str();
+		g_vlc.libvlc_video_set_aspect_ratio(mediaPlayer, aspectRatioStr.c_str());
+	}
+//Events Process (This keep the video active)
 	SDL_Event event;
 	bool quit = false;
-//Events Process (This keep the window active)
 	while (!quit)
 	{
 		while (SDL_PollEvent(&event))
 		{
-		//Skip/End video logic
+		//End via window close or ALT+F4
 			if (event.type == SDL_QUIT)
 			{
-				quit = true;
+				//quit = true;
 			}
-		//Check which key is pressed
+		//Check which key is pressed to Skip/End video
 			if (event.type == SDL_KEYDOWN)
 			{
 				SDL_Keycode key = event.key.keysym.sym;
@@ -1123,14 +1147,27 @@ int PlayVLCVideo(const std::string& videoPath, int volume, int audioTrack)//, in
 				{
 					quit = true;
 				}
+			//Screenshot logic
+				if (key == SDLK_PRINTSCREEN && g_vlc.libvlc_video_take_snapshot)
+				{
+					const char* snapshot_path = "vlc.png";
+					int result = g_vlc.libvlc_video_take_snapshot(mediaPlayer, 0, snapshot_path, 0, 0);
+					if (result == 0)
+					{
+						//std::cout << "Screenshot saved in: " << snapshot_path << std::endl;
+					}
+					else
+					{
+						//std::cerr << "Error taking screenshot from VLC." << std::endl;
+					}
+				}
 			}
 		}
 	//Check if video ended
-		if (g_vlc.libvlc_media_player_get_state(mediaPlayer) == libvlc_Ended)
+		if (!quit && g_vlc.libvlc_media_player_get_state(mediaPlayer) == libvlc_Ended)
 		{
 			quit = true;
 		}
-		//SDL_Delay(10);
 	}
 //Close
 	g_vlc.libvlc_media_player_stop(mediaPlayer);
