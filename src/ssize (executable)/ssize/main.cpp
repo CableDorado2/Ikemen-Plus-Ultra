@@ -60,6 +60,7 @@ main(int argc, char *argv[])
 	CommandLineString<WCHR> cmdline;
 #ifdef _WIN32
 	cmdline.set(GetCommandLine());
+	SetDllDirectory(L"lib/external"); //Change dir where external dlls are loaded.
 #else
 	std::vector<std::WSTR> arg;
 	while(argc--) arg.push_back(pu.aToW(*argv++));
