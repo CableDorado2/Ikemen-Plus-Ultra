@@ -382,7 +382,7 @@ public &Bgm
     cond .s.equ(.s.toLower(file[#file-4 .. -1]), ".ogg"):
       if(`vor.open(file)) `fileName = file;
     else:
-      if(.sdl.playBGM("plugins", file)) `fileName = file;
+      if(.sdl.playBGM("lib/external/plugins", file)) `fileName = file;
     }
   }
   public void write()
