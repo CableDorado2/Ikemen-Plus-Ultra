@@ -22,3 +22,4 @@ src/lib/dll/sound/sound/Release/vc100.pdb
 src/lib/dll/sound/sound/Release/sound.obj
 src/ssize (executable)/ssize/Release/vc100.pdb
 /src/ssize (executable)/ssize/Release
+lib/external/plugins/plugins.dat
