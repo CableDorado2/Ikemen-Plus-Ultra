@@ -13,32 +13,21 @@ However, if a data table/file is created here, keep in mind that it will be rege
 Therefore, it is recommended to "encapsulate" that you only want to create when engine start in a function,
 to call and write in them outside of the match, and then only read them inside the match.
 ]]
-os_type = nil
---Check Linux/MacOS version
-local handle_uname = io.popen("uname -a")
-local uname_output = handle_uname:read("*a")
-handle_uname:close()
-if uname_output ~= "" then
-	if uname_output:match("Darwin") then
-		os_type = "macos"
+os_type = ""
+batOpen("tools", "os_version.bat")
+local os_handle = io.open("tools/os_info.txt", "r")
+if os_handle then
+	local file_content = os_handle:read("*a")
+	os_handle:close()
+	if file_content then
+		os_type = file_content:gsub("^%s*(.-)%s*$", "%1") 
 	else
-		os_type = "linux"
+		os_type = "Error Reading OS Content"
 	end
---Check Windows Version
 else
-	local handle_ver = io.popen("ver")
-	local ver_output = handle_ver:read("*a")
-	handle_ver:close()
-	if ver_output ~= "" then
-		if ver_output:match("5%.1") then
-			os_type = "windowsXP"
-		else
-			os_type = "windows"
-		end
-	else
-		os_type = "Unknown"
-	end
+	os_type = "Error: Check OS File Not Found"
 end
+os.remove("tools/os_info.txt")
 local file = io.open('save/debug/osVer.log',"w+")
 file:write(os_type)
 file:close()
@@ -106,6 +95,8 @@ function playVideo(file, audiotrack, volume)
 	local audiotrack = audiotrack or 1
 	local volume = volume or getVideoVolume()
 	loadVideo(file, screenshotPath, volume, audiotrack)
+	commandBufReset(p1Cmd)
+	commandBufReset(p2Cmd)
 end
 
 --shortcut for creating new text with minimal parameters (for width calculation)

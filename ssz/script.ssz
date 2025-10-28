@@ -465,7 +465,7 @@ void batOpen(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^/char filename = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
   ^/char dirname = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .sh.open(dirname, "", filename, false, false);
+  .sh.open(dirname, "", filename, true, false);
 }
 
 void webOpen(&.lua.State L=, int re=)
