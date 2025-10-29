@@ -93,7 +93,7 @@ cut = 1
 character = ???
 side = 2
 sfx = 0,3
-bgm = sound/vn/Kung Fu Dojo.mp3
+bgm = script/mods/visualnovel/kfm/Kung Fu Dojo.mp3
 fadein = 1
 text:
 What's wrong with you? I saw you on TV
@@ -192,7 +192,7 @@ Hmm, there's nobody here...
 character = Mako Mayama
 side = 2
 sfx = 0,7
-bgm = sound/vn/Nostalgic Garden.mp3
+bgm = script/mods/visualnovel/kfm/Nostalgic Garden.mp3
 text:
 Over there!
 
@@ -246,7 +246,7 @@ What!? wait Noo, I found she recently in-
 character = 
 sfx.clean = 1
 sfx = 0,3
-bgm = sound/vn/Tension.mp3
+bgm = script/mods/visualnovel/kfm/Tension.mp3
 text:
 At that moment..
 _
@@ -397,7 +397,7 @@ and remembers the last happened..
 character = Kung Fu Man
 sfx.clean = 1
 sfx = 0,3
-bgm = sound/vn/Guilty.mp3
+bgm = script/mods/visualnovel/kfm/Guilty.mp3
 fadein = 1
 text:
 Damn, that guy didn't just kidnaped my girlfriend.
@@ -584,7 +584,7 @@ drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = 
 sfx = 1,8
-bgm = sound/vn/Access.mp3
+bgm = script/mods/visualnovel/kfm/Access.mp3
 text:
 After awaken new skills and defeat his robotic copy.
 Kung Fu Man goes in search of Suave Dude
@@ -666,7 +666,7 @@ snd = script/mods/visualnovel/kfm/kfmVN.snd
 drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = 
-bgm = sound/vn/Tension.mp3
+bgm = script/mods/visualnovel/kfm/Tension.mp3
 text:
 Kung Fu Man is defeated by Evil Kung Fu Man and
 is taken to the Mountainside Temple's Roof
@@ -1128,7 +1128,7 @@ video = videos/KFM-Fall.webm
 
 character = Suave Dude
 sfx = 0,15
-bgm = sound/vn/The Fall.mp3
+bgm = script/mods/visualnovel/kfm/The Fall.mp3
 text:
 Oh, well I guess they'll have to create someone
 stronger than Kung Fu Man who can face us huh?
