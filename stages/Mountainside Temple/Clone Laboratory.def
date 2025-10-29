@@ -55,7 +55,7 @@ fade.range = -400,-100
 
 ;--------------------------------------------------------
 [Music]
-bgmusic = sound/vn/Access.mp3
+bgmusic = sound/Death Corridor.mp3
 
 ;-------------------------------------
 [BGdef]
