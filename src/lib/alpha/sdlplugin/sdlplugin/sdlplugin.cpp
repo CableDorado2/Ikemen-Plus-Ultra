@@ -1131,6 +1131,7 @@ int PlayVLCVideo(const std::string& videoPath, const std::string& capturePath, i
 //Events Process (This keep the video active)
 	SDL_Event event;
 	bool quit = false;
+	bool fullExit = false;
 	while (!quit)
 	{
 		while (SDL_PollEvent(&event))
@@ -1139,6 +1140,7 @@ int PlayVLCVideo(const std::string& videoPath, const std::string& capturePath, i
 			if (event.type == SDL_QUIT)
 			{
 				//quit = true;
+				fullExit = true;
 			}
 		//Check which key is pressed to Skip/End video
 			if (event.type == SDL_KEYDOWN)
@@ -1189,13 +1191,18 @@ int PlayVLCVideo(const std::string& videoPath, const std::string& capturePath, i
 		{
 			quit = true;
 		}
+		SDL_Delay(10); //To avoid CPU use increase and close video player properly
 	}
 //Close
 	g_vlc.libvlc_media_player_stop(mediaPlayer);
 	g_vlc.libvlc_media_player_release(mediaPlayer);
 	g_vlc.libvlc_release(vlcInstance);
 	UnloadVLCFunctions();
-	return 0; //Success
+	if (fullExit)
+	{
+		return 0; //Send to ssz
+	}
+	return 1; //Success
 }
 
 //Helper for string conversion

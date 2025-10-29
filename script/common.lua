@@ -82,7 +82,6 @@ saveP2Path = "save/p2_sav.json"
 saveAbyssPath = "save/abyss_sav.json"
 saveTourneyPath = "save/tourney_sav.lua"
 saveVNPath = "save/vn_sav.lua"
-
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION
 --;===========================================================
@@ -868,7 +867,6 @@ function f_gotoFunction(func)
 	if f then
 		f() --Call the function
 	else
-		print("Error loading function: " .. (err or "Unknown error"))
 		return --Error when loading function
 	end
 end

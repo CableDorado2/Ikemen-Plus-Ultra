@@ -14,7 +14,6 @@ lib sdl = <alpha/sdlplugin.ssz>;
 //Load "script/ssz/" Scripts
 lib com = "common.ssz";
 
-
 public void error<_t>(^/char m)
 {
 	.al.alert!_t?(m);
@@ -47,7 +46,11 @@ public &Video
 		{
 			`fileName = file;
 			.videoActive = true;
-			.sdl.playVideo(audiotrack, volume, capturepath, `fileName);
+			int result = .sdl.playVideo(audiotrack, volume, capturepath, `fileName);
+			if (result == 0) //ALT+F4 or Close Window Event
+			{
+				//.sdl.End(::); //After end video, also close the engine
+			}
 		}
 	}
 }
