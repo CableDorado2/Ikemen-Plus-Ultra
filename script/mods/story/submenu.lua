@@ -8,7 +8,7 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 --; CHRONICLES MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_extrasMenu,1,{text = "CHRONICLES", gotomenu = "f_chroniclesMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
-local t_chroniclesMenu = {
+t_chroniclesMenu = {
 	{text = "STORY",	 	gotomenu = "f_storyMenu()"},
 	{text = "QUIZ", 		gotomenu = "f_comingSoon()"},
 }

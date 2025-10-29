@@ -6016,10 +6016,10 @@ function f_engineCfg()
 		end
 		if data.debugMode then t_engineCfg[1].varText = "Enabled" else t_engineCfg[1].varText = "Disabled" end
 		if data.debugLog then t_engineCfg[2].varText = "Enabled" else t_engineCfg[2].varText = "Disabled" end
-		t_engineCfg[6].varText = HelperMaxEngine
-		t_engineCfg[7].varText = PlayerProjectileMaxEngine
-		t_engineCfg[8].varText = ExplodMaxEngine
-		t_engineCfg[9].varText = AfterImageMaxEngine
+		t_engineCfg[5].varText = HelperMaxEngine
+		t_engineCfg[6].varText = PlayerProjectileMaxEngine
+		t_engineCfg[7].varText = ExplodMaxEngine
+		t_engineCfg[8].varText = AfterImageMaxEngine
 		for i=1, maxEngineCfg do
 			if i > engineCfg - cursorPosY then
 				if t_engineCfg[i].varID ~= nil then
