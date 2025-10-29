@@ -3,12 +3,14 @@ local loadLuaModule = true
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-sprVN = sffNew("script/mods/visualnovel/visualnovel.sff") --load visual novel mode sprites
-vnDef = "script/mods/visualnovel/vnselect.def" --Visual Novels
+sprVN = sffNew("script/mods/visualnovel/visualnovel.sff") --Load Visual Novel Sprites
+assert(loadfile("script/mods/visualnovel/assets.lua"))() --Load Visual Novel Assets Definition
+vnDef = "script/mods/visualnovel/vnselect.def" --Load Visual Novels
 bgmVNIntro = "sound/system/Ranking.mp3"
-assert(loadfile("script/mods/visualnovel/assets.lua"))() --Load Visual Novel Assets
 table.insert(t_chroniclesMenu,2,{text = "VISUAL NOVEL", gotomenu = "f_vnMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
-
+--;===========================================================
+--; DATA DEFINITION
+--;===========================================================
 vn = require("save.vn") --Create global space variable (accessing variables between visual novel modules)
 saveVNPath = "save/vn_sav.lua"
 assert(loadfile(saveVNPath))() --visual novel data
@@ -38,6 +40,18 @@ function f_saveVN()
 	vnFile:close()
 end
 
+--Data saving to config.ssz
+function f_saveSettingsVN()
+	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
+	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
+	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
+	s_configSSZ = s_configSSZ:gsub('const int VideoVol%s*=%s*%d+', 'const int VideoVol = ' .. vid_vol)
+	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
+	local file = io.open(saveCoreCfgPath,"w+")
+	file:write(s_configSSZ)
+	file:close()
+	modifiedVN = false
+end
 --;===========================================================
 --; LOAD VNSELECT.DEF DATA
 --;===========================================================
@@ -66,21 +80,30 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	end
+--Send Visual Novel Story Unlock Condition to t_unlockLua table
+	for k, v in ipairs(t_selVN) do
+		t_unlockLua.modes[v.id] = v.unlock
+	end
 	if data.debugLog then f_printTable(t_selVN, "save/debug/t_selVN.log") end
 	textImgDraw(txt_loading)
 	refresh()
 end
-
---[[Send Visual Novel Story Unlock Condition to t_unlockLua table
-	for k, v in ipairs(t_selVN) do
-		t_unlockLua.modes[v.id] = v.unlock
-	end
-]]
 --;===========================================================
 --; VISUAL NOVEL MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
 
+--Input Hints Panel
+function drawVNInputHints()
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+end
 --;===========================================================
 --; VISUAL NOVEL INTRO SCREENPACK DEFINITION
 --;===========================================================
@@ -185,59 +208,60 @@ for i=1, #t_vnPauseMenu do
 	t_vnPauseMenu[i]['varID'] = textImgNew()
 end
 
+--Logic to Display Text instead Int/Boolean Values
+function f_vnCfgdisplayTxt()
+if data.VNdelay == 3 then t_vnPauseMenu[1].varText = "Slow"
+elseif data.VNdelay == 2 then t_vnPauseMenu[1].varText = "Normal"
+elseif data.VNdelay == 1 then t_vnPauseMenu[1].varText = "Fast"
+elseif data.VNdelay == 0 then t_vnPauseMenu[1].varText = "Instant"
+end
+
+if data.VNautoSkip then t_vnPauseMenu[3].varText = "Yes" else t_vnPauseMenu[3].varText = "No" end
+if data.VNdisplayName then t_vnPauseMenu[4].varText = "Yes" else t_vnPauseMenu[4].varText = "No" end
+end
+f_vnCfgdisplayTxt() --Load Display Text
+
 --Pause background
 vnPauseBG = animNew(sprVN, [[100,1, 0,0, -1]])
 
 --Input Hints Panel
-function drawVNInputHints()
-	local inputHintYPos = 218
+function drawVNInputHints2() --For Pause Menu
+	local inputHintYPos = 220
 	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"s","185,"..inputHintYPos)
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
+end
+
+function drawVNInputHints3() --For Default Settings Message
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
-
-function drawVNInputHints2()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-end
-
-function drawVNInputHints3()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
-end
-
 --;===========================================================
 --; VISUAL NOVEL AUDIO SETTINGS SCREENPACK DEFINITION
 --;===========================================================
-txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
-t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
+txt_vnAudioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
-t_audioCfg = {
-	{text = "Master Volume",	}, --varText = gl_vol.."%"},
-	{text = "BGM Volume",		}, --varText = bgm_vol.."%"},
-	{text = "SFX Volume",		}, --varText = se_vol.."%"},
-	{text = "Panning Range",   	}, --varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{text = "Default Values",	}, --varText = ""},
-	{text = "          BACK",  	}, --varText = ""},
+t_vnAudioCfg = {
+	{text = "Master Volume",	varText = gl_vol.."%"},
+	{text = "BGM Volume",		varText = bgm_vol.."%"},
+	{text = "SFX Volume",		varText = se_vol.."%"},
+	{text = "Movie Volume",		varText = vid_vol.."%"},
+	{text = "Panning Range",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "Default Values",	varText = ""},
+	{text = "          BACK",  	varText = ""},
 }
-for i=1, #t_audioCfg do
-	t_audioCfg[i]['varID'] = textImgNew()
+for i=1, #t_vnAudioCfg do
+	t_vnAudioCfg[i]['varID'] = textImgNew()
 end
 
 --;===============================================================
@@ -595,6 +619,15 @@ f_saveVN()
 assert(loadfile(saveVNPath))()
 end
 
+function f_drawVN() --Assets Draw Logic
+	vn.vnChapter = vnChapter --to recognize chapter number in below lua module
+	vn.VNtxt = VNtxt --to recognize dialogue number in below lua module
+	vn.vnFadeIn = vnFadeIn
+	if t_vnBoxText[vnChapter].data.drawPath ~= nil then --Detects if lua file is defined
+		assert(loadfile(t_vnBoxText[vnChapter].data.drawPath))()
+	end
+end
+
 --;===========================================================
 --; VISUAL NOVEL IN-GAME SCREEN
 --;===========================================================
@@ -760,19 +793,6 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 		refresh()
 	end
 end
-
---;===========================================================
---; VISUAL NOVEL ASSETS DRAW LOGIC
---;===========================================================	
-function f_drawVN()
-	vn.vnChapter = vnChapter --to recognize chapter number in below lua module
-	vn.VNtxt = VNtxt --to recognize dialogue number in below lua module
-	vn.vnFadeIn = vnFadeIn
-	if t_vnBoxText[vnChapter].data.drawPath ~= nil then --Detects if lua file is defined
-		assert(loadfile(t_vnBoxText[vnChapter].data.drawPath))()
-	end
-end
-
 --;===========================================================
 --; VISUAL NOVEL ENDING SCREEN
 --;===========================================================
@@ -783,7 +803,6 @@ function f_drawVNEnding()
 	end
 	vn.credits = true
 end
-
 --;===========================================================
 --; VISUAL NOVEL PAUSE MENU
 --;===========================================================
@@ -953,7 +972,7 @@ function f_vnPauseMenu()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if questionScreenVN then f_questionMenuVN() else drawVNInputHints() end
+		if questionScreenVN then f_questionMenuVN() else drawVNInputHints2() end
 		if VNsaveData then textImgDraw(txt_vnPSaved) end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufdVNP = 0
@@ -1001,20 +1020,6 @@ function f_restoreVNcfg()
 	data.VNdisplayName = true
 	data.VNautoSkip = false
 end
-
---Logic to Display Text instead Int/Boolean Values
-function f_vnCfgdisplayTxt()
-if data.VNdelay == 3 then t_vnPauseMenu[1].varText = "Slow"
-elseif data.VNdelay == 2 then t_vnPauseMenu[1].varText = "Normal"
-elseif data.VNdelay == 1 then t_vnPauseMenu[1].varText = "Fast"
-elseif data.VNdelay == 0 then t_vnPauseMenu[1].varText = "Instant"
-end
-
-if data.VNautoSkip then t_vnPauseMenu[3].varText = "Yes" else t_vnPauseMenu[3].varText = "No" end
-if data.VNdisplayName then t_vnPauseMenu[4].varText = "Yes" else t_vnPauseMenu[4].varText = "No" end
-end
-
---f_vnCfgdisplayTxt() --Load Display Text
 
 --;===========================================================
 --; VISUAL NOVEL AUDIO SETTINGS
@@ -1123,8 +1128,37 @@ function f_audioCfgVN()
 				bufr = 0
 				bufl = 0
 			end
-	--Audio Panning
+	--Video Cutscene Volume
 		elseif audioCfgVN == 4 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if vid_vol < 200 then
+					vid_vol = vid_vol + 1
+				else
+					vid_vol = 0
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+				modifiedVN = true
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if vid_vol > 0 then
+					vid_vol = vid_vol - 1
+				else
+					vid_vol = 200
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+				modifiedVN = true
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+	--Audio Panning
+		elseif audioCfgVN == 5 then
 			if commandGetState(p1Cmd, 'r') and pan_str < 160 then
 				sndPlay(sndSys, 100, 0)
 				pan_str = pan_str + 40
@@ -1136,23 +1170,23 @@ function f_audioCfgVN()
 			end
 			setPanStr(pan_str / 100)
 	--Default Values
-		elseif audioCfgVN == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif audioCfgVN == #t_vnAudioCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sndSys, 100, 1)
 			questionScreenVN = true
 			defaultAudioVN = true
 	--BACK
-		elseif audioCfgVN == #t_audioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif audioCfgVN == #t_vnAudioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			audioCfgVNActive = false
 			sndPlay(sndSys, 100, 2)
 		end
 		if audioCfgVN < 1 then
-			audioCfgVN = #t_audioCfg
-			if #t_audioCfg > 14 then
+			audioCfgVN = #t_vnAudioCfg
+			if #t_vnAudioCfg > 14 then
 				cursorPosYAVN = 14
 			else
-				cursorPosYAVN = #t_audioCfg
+				cursorPosYAVN = #t_vnAudioCfg
 			end
-		elseif audioCfgVN > #t_audioCfg then
+		elseif audioCfgVN > #t_vnAudioCfg then
 			audioCfgVN = 1
 			cursorPosYAVN = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosYAVN > 1 then
@@ -1165,8 +1199,8 @@ function f_audioCfgVN()
 		elseif cursorPosYAVN == 1 then
 			moveTxtAVN = (audioCfgVN - 1) * 15
 		end
-		if #t_audioCfg <= 14 then
-			maxAudioCfgVN = #t_audioCfg
+		if #t_vnAudioCfg <= 14 then
+			maxAudioCfgVN = #t_vnAudioCfg
 		elseif audioCfgVN - cursorPosYAVN > 0 then
 			maxAudioCfgVN = audioCfgVN + 14 - cursorPosYAVN
 		else
@@ -1177,23 +1211,25 @@ function f_audioCfgVN()
 	animSetWindow(vnPauseBG, 63,20, 200, 150)
 	animSetAlpha(vnPauseBG, 255, 22)
 	animPosDraw(vnPauseBG, 63, 20)
-	textImgDraw(txt_audioCfg)
+	textImgDraw(txt_vnAudioCfg)
 	if not questionScreenVN then
 		animSetWindow(cursorBox, 64,5+cursorPosYAVN*15, 192,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end	
-	t_audioCfg[1].varText = gl_vol.."%"
-	t_audioCfg[2].varText = se_vol.."%"
-	t_audioCfg[3].varText = bgm_vol.."%"
-	t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
-	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
+	t_vnAudioCfg[1].varText = gl_vol.."%"
+	t_vnAudioCfg[2].varText = bgm_vol.."%"
+	t_vnAudioCfg[3].varText = se_vol.."%"
+	t_vnAudioCfg[4].varText = vid_vol.."%"
+	t_vnAudioCfg[5].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
+	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+	setVideoVolume(vid_vol)
 	setPanStr(pan_str / 100)
 	for i=1, maxAudioCfgVN do
 		if i > audioCfgVN - cursorPosYAVN then
-			if t_audioCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, 1, t_audioCfg[i].text, 85, 15+i*15-moveTxtAVN))
-				textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, -1, t_audioCfg[i].varText, 235, 15+i*15-moveTxtAVN))
+			if t_vnAudioCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, 1, t_vnAudioCfg[i].text, 85, 15+i*15-moveTxtAVN))
+				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, -1, t_vnAudioCfg[i].varText, 235, 15+i*15-moveTxtAVN))
 			end
 		end
 	end
@@ -1208,18 +1244,6 @@ function f_audioCfgVN()
 		bufu = 0
 		bufd = 0
 	end
-end
-
---Data saving to config.ssz
-function f_saveSettingsVN()
-	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
-	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
-	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
-	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
-	local file = io.open(saveCoreCfgPath,"w+")
-	file:write(s_configSSZ)
-	file:close()
-	modifiedVN = false
 end
 
 --;===============================================================
@@ -1300,12 +1324,7 @@ function f_questionMenuVN()
 				--modifiedVN = true
 		--Reset Sound Settings
 			elseif defaultAudioVN == true then
-				gl_vol = 80
-				se_vol = 80
-				bgm_vol = 50
-				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
-				pan_str = 80
-				setPanStr(pan_str / 100)
+				f_audioDefault() --From Options Script
 				modifiedVN = true
 		--Exit from Visual Novel
 			elseif exitVN == true then
@@ -1459,7 +1478,7 @@ function f_vnMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		drawListInputHints()
+		drawVNInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then

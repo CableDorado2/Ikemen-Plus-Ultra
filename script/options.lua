@@ -446,8 +446,8 @@ function f_saveCfg()
 	s_configSSZ = s_configSSZ:gsub('const float Opacity%s*=%s*%d%.*%d*', 'const float Opacity = ' .. opacityAdjust / 100)
 --Audio Settings
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
-	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
+	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
 	s_configSSZ = s_configSSZ:gsub('const int VideoVol%s*=%s*%d+', 'const int VideoVol = ' .. vid_vol)
 --Perfomance Settings
@@ -8229,7 +8229,7 @@ function f_readBattleInput(oldkey)
 							end
 						end
 					end
-					if data.debugMode then f_printTable(t_sameKeys, "save/debug/t_sameKeys.log") end
+					if data.debugLog then f_printTable(t_sameKeys, "save/debug/t_sameKeys.log") end
 				--Assign Key
 					if #t_sameKeys == 0 or controllerSet == 2 then --Allow same P2 key FOR GAMEPAD control, because it will not affect the control
 						f_validKey()
@@ -8254,7 +8254,7 @@ function f_readBattleInput(oldkey)
 							end
 						end
 					end
-					if data.debugMode then f_printTable(t_sameKeys, "save/debug/t_sameKeys.log") end
+					if data.debugLog then f_printTable(t_sameKeys, "save/debug/t_sameKeys.log") end
 				--Assign Key
 					if #t_sameKeys == 0 or controllerSet == 2 then --Allow same P1 key FOR GAMEPAD control because it will not affect the control
 						f_validKey()
@@ -8357,7 +8357,7 @@ function f_readMenuInput(oldkey)
 							end
 						end
 					end
-					if data.debugMode then f_printTable(t_sameKeysP1, "save/debug/t_sameKeysP1.log") end
+					if data.debugLog then f_printTable(t_sameKeysP1, "save/debug/t_sameKeysP1.log") end
 				--Check Player 2 Buttons
 					local t_sameKeysP2 = {}
 					for i=1, #t_keyMenuCfg2 do
@@ -8372,7 +8372,7 @@ function f_readMenuInput(oldkey)
 							end
 						end
 					end
-					if data.debugMode then f_printTable(t_sameKeysP2, "save/debug/t_sameKeysP2.log") end
+					if data.debugLog then f_printTable(t_sameKeysP2, "save/debug/t_sameKeysP2.log") end
 				--Assign Key
 					if (#t_sameKeysP1 == 0 and #t_sameKeysP2 == 0) or (controllerSet == 2 and #t_sameKeysP1 == 0) then
 						f_validKey()
@@ -8400,7 +8400,7 @@ function f_readMenuInput(oldkey)
 							end
 						end
 					end
-					if data.debugMode then f_printTable(t_sameKeysP2, "save/debug/t_sameKeysP2.log") end
+					if data.debugLog then f_printTable(t_sameKeysP2, "save/debug/t_sameKeysP2.log") end
 				--Check Player 1 Buttons
 					local t_sameKeysP1 = {}
 					for i=1, #t_keyMenuCfg do
@@ -8415,7 +8415,7 @@ function f_readMenuInput(oldkey)
 							end
 						end
 					end
-					if data.debugMode then f_printTable(t_sameKeysP1, "save/debug/t_sameKeysP1.log") end
+					if data.debugLog then f_printTable(t_sameKeysP1, "save/debug/t_sameKeysP1.log") end
 				--Assign Key
 					if (#t_sameKeysP1 == 0 and #t_sameKeysP2 == 0) or (controllerSet == 2 and #t_sameKeysP2 == 0) then
 						f_validKey()
