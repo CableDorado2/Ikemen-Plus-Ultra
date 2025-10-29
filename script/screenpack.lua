@@ -6,7 +6,6 @@ sprFade = sffNew("data/fade.sff") --load fade sprites
 sprLogos = sffNew("data/logo.sff") --load logos sprites
 sprSys = sffNew("data/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/ikemen.sff") --load screenpack/menu IKEMEN sprites
-sprVN = sffNew("data/visualnovel/visualnovel.sff") --load visual novel mode sprites
 sprGlyphs = sffNew("data/glyphs.sff") --load movelist sprites
 --[[Load input hints sprites data
 group is organized based on controller type (0=Keyboard, 1=XBOX Gamepad, 2=PS3 Gamepad)
@@ -50,7 +49,6 @@ bgmTourneyChampion = "sound/system/Champion.mp3"
 bgmAbyss = "sound/system/Abyss.mp3"
 bgmLegion = "sound/system/Legion.mp3"
 bgmAlliance = "sound/system/Alliance.mp3"
-bgmVNIntro = "sound/system/Ranking.mp3"
 
 --Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -99,7 +97,6 @@ videoHowToPlay = "videos/How To Play.webm"
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
 fightDef = data.lifebar --Lifebar/Fight stored in data_sav.lua
-vnDef = "data/visualnovel/vnselect.def" --Visual Novels
 
 --Paths Data
 licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
@@ -724,7 +721,6 @@ end
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
 MainFadeInTime = 30
 
-if data.engineMode == "FG" then --Menu Items for Fighting Engine Mode
 t_mainMenu = {
 	{text = "ARCADE", 		gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
 	{text = "VERSUS", 		gotomenu = "f_vsMenu()"},
@@ -736,15 +732,6 @@ t_mainMenu = {
 	{text = "OPTIONS", 		gotomenu = "f_optionsMenu()"},
 	{text = "EXIT", 		gotomenu = "f_exitMenu()"},
 }
-elseif data.engineMode == "VN" then --Menu Items for Visual Novel Engine Mode
-t_mainMenu = {
-	{text = "NEW GAME",  gotomenu = "f_vnNewGame()"},
-	{text = "LOAD GAME", gotomenu = "f_vnLoadGame()"},
-	{text = "CONFIG", 	 gotomenu = "f_optionsMenu()"},
-	{text = "GALLERY", 	 gotomenu = "f_galleryMenu()"}, --Gallery Mod Required
-	{text = "EXIT", 	 gotomenu = "f_exitMenu()"},
-}
-end
 --Set ID to all final items
 for i=1, #t_mainMenu do
 	t_mainMenu[i]['id'] = textImgNew()
@@ -908,188 +895,6 @@ t_profileMenu = {
 for i=1, #t_profileMenu do
 	t_profileMenu[i]['id'] = textImgNew()
 end
-
---;===========================================================
---; VISUAL NOVEL MENU SCREENPACK DEFINITION
---;===========================================================
-txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
-
---;===========================================================
---; VISUAL NOVEL INTRO SCREENPACK DEFINITION
---;===========================================================
-txt_VNarc = createTextImg(font20, 1, 0, "", 159, 20) --font6
-txt_VNchapter = createTextImg(font20, 2, 0, "", 159, 110)
-txt_VNchapterName = createTextImg(font20, 2, 0, "", 159, 130)
-txt_VNchapterInfo = createTextImg(font7, 0, 0, "", 159, 150)
-txt_VNchapterAuthor = createTextImg(font7, 0, 0, "", 159, 220)
-txt_VNchapterDate = createTextImg(font9, 0, 0, "", 159, 231, 0.50, 0.50)
-
---;===========================================================
---; VISUAL NOVEL IN-GAME HUD SCREENPACK DEFINITION
---;===========================================================
-txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
-txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
-
---Text background
-vnTxtBG = animNew(sprVN, [[
-100,0, 0,0, -1
-]])
-animAddPos(vnTxtBG, -8, 177.5)
-animSetScale(vnTxtBG, 2.21, 1)
-animUpdate(vnTxtBG)
-
---Next Text Arrow (Right)
-vnNextR = animNew(sprVN, [[
-101,0, 0,0, 10
-101,1, 0,0, 10
-101,2, 0,0, 10
-101,3, 0,0, 10
-101,3, 0,0, 10
-101,2, 0,0, 10
-101,1, 0,0, 10
-101,0, 0,0, 10
-]])
-animAddPos(vnNextR, 308, 222)
-animSetScale(vnNextR, 0.5, 0.5)
-animUpdate(vnNextR)
-
---Next Text Arrow (Down)
-vnNext = animNew(sprVN, [[
-102,0, 0,0, 10
-102,1, 0,0, 10
-102,2, 0,0, 10
-102,3, 0,0, 10
-102,3, 0,0, 10
-102,2, 0,0, 10
-102,1, 0,0, 10
-102,0, 0,0, 10
-]])
-animAddPos(vnNext, 306, 224)
-animSetScale(vnNext, 0.5, 0.5)
-animUpdate(vnNext)
-
---;===========================================================
---; VISUAL NOVEL ENDING SCREENPACK DEFINITION
---;===========================================================
---Ending 1
-vnEnd1 = animNew(sprVN, [[
-200,1, 0,0, -1
-]])
-animAddPos(vnEnd1, -54, 0)
-animSetScale(vnEnd1, 0.34, 0.34)
-animUpdate(vnEnd1)
-
---Ending 2
-vnEnd2 = animNew(sprVN, [[
-200,2, 0,0, -1
-]])
-animAddPos(vnEnd2, -54, 0)
-animSetScale(vnEnd2, 0.34, 0.34)
-animUpdate(vnEnd2)
-
---Ending 3
-vnEnd3 = animNew(sprVN, [[
-200,3, 0,0, -1
-]])
-animAddPos(vnEnd3, -54, 0)
-animSetScale(vnEnd3, 0.34, 0.34)
-animUpdate(vnEnd3)
-
---;===========================================================
---; VISUAL NOVEL PAUSE MENU SCREENPACK DEFINITION
---;===========================================================
-txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
-txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED!", 159, 235)
-
-t_vnPauseMenu = {
-	{text = "Text Speed", 			  varText = ""},
-	{text = "Text BG Transparency",   varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
-	{text = "Auto Skip Text", 		  varText = ""},
-	{text = "Text Skip",	  		  varText = ""}, --All Text/Previously Read Text
-	{text = "Display Character Name", varText = ""},
-	{text = "Sound Settings", 		  varText = ""},
-	--{text = "Control Guide", 		  varText = ""},
-	{text = "Restore Settings", 	  varText = ""},
-	{text = "Save Progress",		  varText = ""},
-	{text = "Back to Main Menu",	  varText = ""},
-	{text = "           Continue", 	  varText = ""},
-}
-for i=1, #t_vnPauseMenu do
-	t_vnPauseMenu[i]['varID'] = textImgNew()
-end
-
---Pause background
-vnPauseBG = animNew(sprVN, [[100,1, 0,0, -1]])
-
---Input Hints Panel
-function drawVNInputHints()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"s","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-end
-
-function drawVNInputHints2()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"s","120,"..inputHintYPos,"e","185,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-end
-
-function drawVNInputHints3()
-	local inputHintYPos = 218
-	local hintFont = font2
-	local hintFontYPos = 232
-	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","100,"..inputHintYPos,"e","170,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
-end
-
---;===========================================================
---; VISUAL NOVEL AUDIO SETTINGS SCREENPACK DEFINITION
---;===========================================================
-txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
-t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
-
-t_audioCfg = {
-	{text = "Master Volume",	}, --varText = gl_vol.."%"},
-	{text = "BGM Volume",		}, --varText = bgm_vol.."%"},
-	{text = "SFX Volume",		}, --varText = se_vol.."%"},
-	{text = "Panning Range",   	}, --varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{text = "Default Values",	}, --varText = ""},
-	{text = "          BACK",  	}, --varText = ""},
-}
-for i=1, #t_audioCfg do
-	t_audioCfg[i]['varID'] = textImgNew()
-end
-
---;===============================================================
---; VISUAL NOVEL EXIT/DEFAULT VALUES MESSAGE SCREENPACK DEFINITION
---;===============================================================
-txt_questionVN = createTextImg(jgFnt, 1, 0, "", 160, 110,0.8,0.8)
-
-t_questionMenuVN = {
-	{id = textImgNew(), text = ""},
-	{id = textImgNew(), text = ""},
-}
-
---Default Window BG
-questionWindowBGVN = animNew(sprIkemen, [[
-230,1, 0,0, -1
-]])
-animSetPos(questionWindowBGVN, 61, 97)
-animSetScale(questionWindowBGVN, 1.3, 1)
-animUpdate(questionWindowBGVN)
 
 --;===========================================================
 --; REPLAY MENU SCREENPACK DEFINITION

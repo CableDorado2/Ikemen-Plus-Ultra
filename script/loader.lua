@@ -1052,37 +1052,6 @@ content = content:gsub('\n%s*\n', '\n')
 	end
 end
 f_loadTowers(true)
---;===========================================================
---; LOADING SCREEN 3 (LOAD VNSELECT.DEF DATA)
---;===========================================================
-t_selVN = {}
-local t_vnList = {}
-local section = 0
-local file = io.open(vnDef,"r")
-local content = file:read("*all")
-file:close()
-content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
-content = content:gsub('\n%s*\n', '\n')
-for line in content:gmatch('[^\r\n]+') do
-	line = line:lower()
-	if line:match('^%s*%[%s*visualnovel%s*%]') then
-		section = 1
---[VisualNovel]
-	elseif section == 1 then
-		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
-		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			if param:match('^id$') then
-				table.insert(t_selVN, {id = value, displayname = '', path = '', unlock = 'true'})
-				t_vnList[value] = true
-			elseif t_selVN[#t_selVN][param] ~= nil then
-				t_selVN[#t_selVN][param] = value
-			end
-		end
-	end
-	textImgDraw(txt_loading)
-	refresh()
-end
 
 function f_loadLicenses()
 local file = f_fileRead("LICENSE.txt")
@@ -1328,7 +1297,6 @@ if data.debugLog then
 	f_printTable(t_selStages, "save/debug/t_selStages.log")
 	f_printTable(t_selMusic, "save/debug/t_selMusic.log")
 	f_printTable(t_selOptions, "save/debug/t_selOptions.log")
-	f_printTable(t_selVN, "save/debug/t_selVN.log")
 	f_printTable(t_charDef, "save/debug/t_charDef.log")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.log")
 	f_printTable(t_orderChars, "save/debug/t_orderChars.log")

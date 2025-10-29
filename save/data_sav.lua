@@ -92,4 +92,3 @@ data.disablePadP2 = false
 --Engine Data
 data.debugMode = true
 data.debugLog = true
-data.engineMode = "FG"

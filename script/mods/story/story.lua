@@ -458,7 +458,7 @@ end
 --;===========================================================
 --; ARC 1 FIGHTS (Improve this logic to load from Lua scripts like missions or events)
 --;===========================================================
-local kfmVN = "data/visualnovel/kfm/kfmVN.def"
+local kfmVN = "script/mods/visualnovel/kfm/kfmVN.def"
 local kfmVNtxtStart = 1
 --Chapters order is reversed to be recognized when they are loaded as local function
 

@@ -33,9 +33,9 @@ Some Examples:
 [VisualNovel]
 id = arc1
 displayname = Kung Fu Story Part I
-path = data/visualnovel/arc1.def
+path = script/mods/visualnovel/arc1.def
 
 id = arc2
 displayname = Kung Fu Story Part II
-path = data/visualnovel/arc2.def
+path = script/mods/visualnovel/arc2.def
 unlock = stats.modes.arc1.clear > 0

@@ -4,8 +4,8 @@ storyname = Kung Fu Man's
 name = KIDNAPPING
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/vn1_1.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/vn1_1.lua
 
 character = 
 bgm = sound/Kung Fu Spirit.mp3
@@ -527,8 +527,8 @@ Mountainside Temple's Hidden Path...
 name = KILLER MIRROR
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/vn1_2.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/vn1_2.lua
 
 character = Kung Fu Man
 sfx = 1,5
@@ -580,8 +580,8 @@ Until...
 name = THE ROOF OF TRUTH
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/vn1_3.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/vn1_3.lua
 
 character = 
 sfx = 1,8
@@ -661,8 +661,8 @@ Let the ultimate show BEGIN!
 name = FINAL DESTINATION
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/vn1_4.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/vn1_4.lua
 
 character = Master Kung Fu Man
 sfx = 1,12

@@ -96,8 +96,8 @@ author = CD2
 date = 4/17/2024
 info = Visual Novel Mode
 
-snd = data/visualnovel/test.snd
-drawpath = data/visualnovel/test.lua
+snd = script/mods/visualnovel/test.snd
+drawpath = script/mods/visualnovel/test.lua
 
 character = CD3
 sfx = 0,3
@@ -121,8 +121,8 @@ video = video/MUGENGERS 4 - The Orochi's Origin.mp4
 [Chapter 1]
 id = 2A
 name = Fate Battle
-snd = data/visualnovel/chapt1.snd
-drawpath = data/visualnovel/chapt1.lua
+snd = script/mods/visualnovel/chapt1.snd
+drawpath = script/mods/visualnovel/chapt1.lua
 
 character = Kyo
 sfx = 1,0

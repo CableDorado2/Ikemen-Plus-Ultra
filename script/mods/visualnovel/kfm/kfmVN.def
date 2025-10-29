@@ -4,8 +4,8 @@ storyname = Kung Fu Man's
 name = KIDNAPPING
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = 
 bgm = sound/Kung Fu Spirit.mp3
@@ -525,8 +525,8 @@ Mountainside Temple's Hidden Path...
 name = KILLER MIRROR
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = Kung Fu Man
 sfx = 1,5
@@ -579,8 +579,8 @@ id = 3-A
 name = THE ROOF OF TRUTH
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = 
 sfx = 1,8
@@ -662,8 +662,8 @@ id = 3-B
 name = BROKEN SPIRIT
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = 
 bgm = sound/vn/Tension.mp3
@@ -799,8 +799,8 @@ id = 4-A
 name = FINAL DESTINATION
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = Master Kung Fu Man
 sfx = 1,12
@@ -976,8 +976,8 @@ id = 4-B
 name = FAKE WORLD
 author = CD2
 date = 05/19/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character =
 sfx = 0,15
@@ -1081,8 +1081,8 @@ id = 4-C
 name = ZERO HOUR
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 character = Suave Dude
 side = 2
@@ -1121,8 +1121,8 @@ id = 4-D
 name = THE FALL OF A LEGEND
 author = CD2
 date = 05/31/2024
-snd = data/visualnovel/kfm/kfmVN.snd
-drawpath = data/visualnovel/kfm/kfmVN.lua
+snd = script/mods/visualnovel/kfm/kfmVN.snd
+drawpath = script/mods/visualnovel/kfm/kfmVN.lua
 
 video = videos/KFM-Fall.webm
 
