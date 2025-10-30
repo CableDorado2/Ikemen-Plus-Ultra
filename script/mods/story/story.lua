@@ -472,6 +472,7 @@ local function f_arc1_chapter4_4()
 		f_storyStatus()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_playCredits()
+		playBGM(bgmStory)
 	else
 		f_backStorySel()
 	end
@@ -487,6 +488,7 @@ local function f_arc1_chapter4_3()
 		f_storyStatus()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_playCredits()
+		playBGM(bgmStory)
 	else
 		f_backStorySel()
 	end
@@ -502,6 +504,7 @@ local function f_arc1_chapter4_2()
 		f_storyStatus()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_playCredits()
+		playBGM(bgmStory)
 	else
 		f_backStorySel()
 	end
@@ -532,6 +535,7 @@ local function f_arc1_chapter4_1()
 	]]
 		f_storyStatus()
 		f_playCredits() --Go to credits screen
+		playBGM(bgmStory)
 	else
 		f_backStorySel()
 	end

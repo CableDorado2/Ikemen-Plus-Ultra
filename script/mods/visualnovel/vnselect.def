@@ -1,9 +1,9 @@
 [VisualNovel]
-id = arc1
+id = vn1
 displayname = Kung Fu Man
 path = script/mods/visualnovel/kfm/kfmVN.def
 
-id = arc2
+id = vn2
 displayname = The Test
 path = script/mods/visualnovel/test.def
 unlock = stats.modes.story.playtime > 0

@@ -3,7 +3,6 @@
 --;===========================================================
 --Sprite Data
 sprFade = sffNew("data/fade.sff") --load fade sprites
-sprLogos = sffNew("data/logo.sff") --load logos sprites
 sprSys = sffNew("data/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/ikemen.sff") --load screenpack/menu IKEMEN sprites
 sprGlyphs = sffNew("data/glyphs.sff") --load movelist sprites
@@ -22,7 +21,7 @@ gamepadInputHintsScaleY = 0.7
 sndSys = sndNew("data/system.snd")
 sndIkemen = sndNew("data/ikemen.snd")
 sndTower = sndNew("data/tower.snd")
-sndAnncr = sndNew("data/announcer.snd")
+sndAnncr = sndNew("data/charSnd/announcer.snd")
 
 --Music Data (ONLY MP3 and OGG formats are Supported)
 bgmNothing = " .mp3"
@@ -87,9 +86,9 @@ font24 = fontNew("font/extra/ssf2x_vL.fnt")
 font30 = fontNew("font/extra/F-.fnt")
 
 --Storyboard Data (Optional)
-storyboardLogo = "data/logo.def"
-storyboardIntro = "data/intro.def"
-storyboardGameOver = "data/gameover.def"
+storyboardLogo = "storyboards/logo.def"
+storyboardIntro = "storyboards/intro.def"
+storyboardGameOver = "storyboards/gameover.def"
 
 --Video Data (Recommended for large cutscenes instead storyboards)
 videoHowToPlay = "videos/How To Play.webm"
@@ -4305,8 +4304,8 @@ txt_TourneyFTFight = "FT"
 txt_TrophyInfoFight = createTextImg(font2, 0, 1, "", 0, 0, 0.75, 0.75)
 
 --Demo Logo
-demoLogo = animNew(sprLogos, [[
-0,3, 0,0, -1
+demoLogo = animNew(sprIkemen, [[
+1,0, 0,0, -1
 ]])
 animAddPos(demoLogo, 159, 25)
 animSetScale(demoLogo, 0.25, 0.25)

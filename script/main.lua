@@ -18074,10 +18074,8 @@ function f_playCredits()
 	end
 --When End
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-	if data.attractMode == true then
+	if data.attractMode then
 		playBGM(bgmTitle)
-	elseif data.rosterMode == "story" then
-		playBGM(bgmStory)
 	elseif data.rosterMode == "arcade" or data.rosterMode == "tower" then
 		--Nothing because game over screen comes...
 	else
@@ -18097,7 +18095,7 @@ end
 --; HD SPRITES SUPPORT WARNING
 --;===========================================================
 t_sdlWarning = {
-	{text = "For this I.K.E.M.E.N. ENGINE"},
+	{text = "In this version of I.K.E.M.E.N. ENGINE"},
 	{text = "ONLY 8-Bit/Indexed sprites are currently supported."},
 }
 for i=1, #t_sdlWarning do
