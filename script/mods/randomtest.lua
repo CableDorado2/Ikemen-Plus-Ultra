@@ -3,7 +3,7 @@ local loadLuaModule = true
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-table.insert(t_extrasMenu,#t_extrasMenu+1,{text = "RANDOMTEST", gotomenu = "randomTest()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu,#t_extrasMenu+1,{text = "RANDOM TEST", gotomenu = "randomTest()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 --;===========================================================
 --; RANDOMTEST MODE (watch CPU play to generate AI rank data)
 --;===========================================================
@@ -240,6 +240,7 @@ local function initRandom()
 end
 
 function randomTest()
+	f_discordUpdate({details = "Random Test"})
 	cmdInput()
 	f_default() --Load f_default function defined in common.lua
 	setGameMode('randomtest')
@@ -256,6 +257,7 @@ function randomTest()
 		local oldwinner = winner
 		winner = game() --Enter in Match
 		if winner < 0 then --Exit from randomtest
+			f_discordMainMenu()
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

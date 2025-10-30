@@ -15,7 +15,6 @@ loadLifebar(fightDef) --Assign Lifebar Screenpack
 --;===========================================================
 discordGameID = "1200228516554346567" --Discord App ID
 discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Presence API
-
 function f_discordInit()
 	discordRPC.initialize(discordGameID, true) --Initialize Discord Rich Presence Using App ID
 	discord = {
@@ -168,6 +167,7 @@ function f_mainStart()
 		f_generateUnlocks()
 		f_unlock(false) --Check For Unlocked Content
 		f_updateUnlocks() --Print Unlock Data (when Save Debug Logs is Enabled)
+		if data.attractMode then f_discordUpdate({details = "Attract Mode"}) end
 		f_mainLogos(data.attractMode)
 		f_resetArcadeStuff()
 		if data.attractMode then
@@ -183,7 +183,7 @@ end
 --; LOGOS SCREEN
 --;===========================================================
 function f_mainLogos()
-	f_discordMainMenu()
+	if not data.attractMode then f_discordUpdate({details = "Title Screen"}) end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_storyboard(storyboardLogo)
 	f_mainOpening()
@@ -239,7 +239,7 @@ end
 
 --Load Common Settings for Demo Mode
 function demoModeCfg()
-	f_discordUpdate({details = "Demo Screen"})
+	if not data.attractMode then f_discordUpdate({details = "Demo"}) end
 	f_default()
 	setGameMode('demo')
 	data.gameMode = "demo"
@@ -254,7 +254,6 @@ function demoModeCfg()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_selectSimple()
 	f_resetTemp()
-	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -278,6 +277,7 @@ function f_mainAttract()
 			if commandGetState(p1Cmd, 's') or attractTimer == 0 then arcadeHumanvsCPU() --Start P1 from Left Side
 			elseif commandGetState(p2Cmd, 's') then P2overP1 = true arcadeCPUvsHuman() --Start P2 from Right Side
 			end
+			f_discordUpdate({details = "Attract Mode"})
 			attractTimer = attractSeconds*gameTick
 	--START DEMO MODE
 		elseif attractDemoTimer == 350 then
@@ -321,6 +321,7 @@ end
 --; MAIN MENU
 --;===========================================================
 function f_mainMenu()
+	f_discordMainMenu()
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
@@ -343,6 +344,7 @@ function f_mainMenu()
 			end
 			if f1Key() then infoboxScreen = true end --Show Classic Mugen Info Screen
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				f_discordUpdate({details = "Title Screen"})
 				sndPlay(sndSys, 100, 2)
 				playBGM(bgmTitle)
 				return
@@ -444,6 +446,7 @@ end
 
 --This main menu type does not have scroll limits to items amount
 function f_mainMenu2()
+	f_discordMainMenu()
 	cmdInput()
 	local cursorPosY = 3 --To mark central item
 	local mainMenu = 1
@@ -2104,12 +2107,13 @@ end
 
 --Load Common Settings for Single Boss Fight Modes
 function bossCfg()
-	f_discordUpdate({details = "Boss Assault"})
+	local bossDat = t_selChars[t_bossChars[bossChars]+1].displayname
+	f_discordUpdate({details = "Boss Assault: "..bossDat})
 	f_default()
 	data.gameMode = "singleboss"
 	data.rosterMode = "boss"
 	--data.stageMenu = true
-	textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
+	textImgSetText(txt_mainSelect, bossDat)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -2369,14 +2373,15 @@ end
 
 --Load Common Settings for Bonus Games Modes
 function bonusCfg()
-	f_discordUpdate({details = "Bonus Game"})
+	local bonusDat = t_selChars[t_bonusChars[bonusExtras]+1].displayname
+	f_discordUpdate({details = "Bonus Game: "..bonusDat})
 	f_default()
 	data.gameMode = "singlebonus"
 	data.rosterMode = "bonus"
 	--data.stageMenu = true
 	data.versusScreen = false
 	setRoundsToWin(1)
-	textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)
+	textImgSetText(txt_mainSelect, bonusDat)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -2972,7 +2977,7 @@ end
 
 --Load Common Settings for VS X Kumite Modes
 function kumiteCfg()
-	f_discordUpdate({details = "VS"..data.kumite.." Kumite"})
+	f_discordUpdate({details = "VS "..data.kumite.." Kumite"})
 	f_default()
 	data.gameMode = "vskumite"
 	data.rosterMode = "vskumite"
@@ -3597,7 +3602,7 @@ end
 --; SOUND TEST MENU (listen music)
 --;===========================================================
 function f_songMenu()
-	f_discordUpdate({details = "Sound Test"})
+	f_discordUpdate({details = "Sound Test: Idle"})
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	cmdInput()
 	f_confirmSongReset()
@@ -3656,6 +3661,7 @@ function f_songMenu()
 		--Mute Button
 			elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
 				playBGM(bgmNothing)
+				f_discordUpdate({details = "Sound Test: Idle"})
 		--Confirm Button
 			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				if songMenu == #t_songList[songFolder] then --BACK
@@ -3671,7 +3677,7 @@ function f_songMenu()
 						selectedSong = t_songList[songFolder][songMenu].path
 						selectedSongName = t_songList[songFolder][songMenu].name
 						folderRefer = songFolder
-						--Back Copy
+					--Back Copy
 						if soundTest == true or songChanged == false then --Same esc logic
 							backSongConfirm = true
 						else
@@ -3685,6 +3691,7 @@ function f_songMenu()
 							selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
 							selectedSongName = t_songList[songFolder][randomSongSel].name
 							playBGM(selectedSong) --Play Random Song from Folder Selected
+							f_discordUpdate({details = "Sound Test: "..t_songList[songFolder][songMenu].fullname})
 						else --If There's no songs loaded
 							playBGM(bgmNothing)
 						end
@@ -3697,15 +3704,16 @@ function f_songMenu()
 					selectedSong = t_songList[songFolder][songMenu].path
 					selectedSongName = t_songList[songFolder][songMenu].name
 					playBGM(selectedSong)
+					f_discordUpdate({details = "Sound Test: "..t_songList[songFolder][songMenu].fullname})
 				end
 			end
-			--Folder Select Logic
+		--Folder Select Logic
 			if songFolder < 1 then
 				songFolder = #t_songList
 			elseif songFolder > #t_songList then
 				songFolder = 1
 			end
-			--Cursor position calculation
+		--Cursor position calculation
 			if songMenu < 1 then
 				songMenu = #t_songList[songFolder]
 				if #t_songList[songFolder] > maxItems then
@@ -3734,22 +3742,22 @@ function f_songMenu()
 				maxSongs = maxItems
 			end
 		end
-		--Draw Menu BG
+	--Draw Menu BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
-		--Draw Transparent Table BG
+	--Draw Transparent Table BG
 		animSetScale(commonTBG, 240, maxSongs*15)
 		animSetWindow(commonTBG, 80,20, 160,180)
 		animDraw(commonTBG)
-		--Draw Title Menu
+	--Draw Title Menu
 		textImgSetText(txt_song, "[".. t_songList[songFolder].folder:upper().."]")
 		textImgDraw(txt_song)
 		if not confirmSong then
-			--Draw Table Cursor
+		--Draw Table Cursor
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		--Draw Text for Table
+	--Draw Text for Table
 		for i=1, maxSongs do
 			if t_songList[songFolder][i].name:len() > 28 then --If name is too long, shortcut with ...
 				songText = string.sub(t_songList[songFolder][i].name, 1, 24)
@@ -3762,22 +3770,22 @@ function f_songMenu()
 				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
-		--Draw Up Animated Cursor
+	--Draw Up Animated Cursor
 		if maxSongs > maxItems then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		--Draw Down Animated Cursor
+	--Draw Down Animated Cursor
 		if #t_songList[songFolder] > maxItems and maxSongs < #t_songList[songFolder] then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		--Draw Left Animated Cursor
+	--Draw Left Animated Cursor
 		if songFolder > 1 then
 			animDraw(menuArrowLeft)
 			animUpdate(menuArrowLeft)
 		end
-		--Draw Right Animated Cursor
+	--Draw Right Animated Cursor
 		if songFolder < #t_songList then
 			animDraw(menuArrowRight)
 			animUpdate(menuArrowRight)

@@ -7,7 +7,13 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 local sprStory = sffNew("script/mods/story/story.sff") --load story sprites
 local bgmStory = "script/mods/story/Story.mp3" --load story main bgm
 local videoIntro = "videos/Opening.webm"
-function f_mainOpening() playVideo(videoIntro) end --Replace Storyboard intro with a Video file
+if not data.attractMode then
+	local introTrack = 1
+	function f_mainOpening()
+		playVideo(videoIntro, introTrack) --Replace Storyboard intro with a Video file
+		if introTrack == 1 then introTrack = 2 else introTrack = 1 end --Alternate Audio Track
+	end
+end
 --;===========================================================
 --; STORY SCREENPACK
 --;===========================================================
@@ -797,6 +803,7 @@ end
 --; STORY MENU (follow customizable story arcs)
 --;===========================================================
 function f_storyMenu()
+	f_discordUpdate({details = "Story"})
 	cmdInput()
 	local cursorPosX = 1
 	local moveArc = 0
@@ -826,6 +833,7 @@ function f_storyMenu()
 		textImgSetText(txt_storyProgress, "["..storyData.."%]")
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			f_discordMainMenu()
 			f_saveStats()
 			f_getStats(f_refreshStoryStats()) --To refresh stats
 			f_resetMenuArrowsPos()

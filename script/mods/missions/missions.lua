@@ -178,6 +178,7 @@ function f_missionMenu()
 		infoScreen = true
 		return
 	end
+	f_discordUpdate({details = "Missions"})
 	cmdInput()
 	local missionMenu = 1
 	local cursorPosY = 1
@@ -197,9 +198,9 @@ function f_missionMenu()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			f_discordMainMenu()
 			f_saveStats()
 		--To refresh stats
-			
 			f_getStats(f_refreshMissionStats())
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)

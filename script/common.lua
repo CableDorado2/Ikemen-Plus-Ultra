@@ -2586,6 +2586,7 @@ function f_loadMusic(path)
 						t_songFile[row]['folder'] = path
 						t_songFile[row]['path'] = details
 						t_songFile[row]['name'] = item:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+						t_songFile[row]['fullname'] = item
 					elseif item:match('^.*(%.)[Oo][Gg][Gg]$') then
 						row = #t_songFile+1
 						t_songFile[row] = {}
@@ -2593,6 +2594,7 @@ function f_loadMusic(path)
 						t_songFile[row]['folder'] = path
 						t_songFile[row]['path'] = details
 						t_songFile[row]['name'] = item:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+						t_songFile[row]['fullname'] = item
 					end
 				elseif attribute.mode == "directory" then --If the item have "folder/dir" attribute
 					rowFolder = #t_songList+1
@@ -2922,7 +2924,7 @@ function f_sysTime()
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
-		f_drawQuickText(txt_testW, font6, 0, 0, "BGM: "..bgm_vol, 109, 38)
+		--f_drawQuickText(txt_testW, font6, 0, 0, "BGM: "..bgm_vol, 109, 38)
 	--[[
 		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
 		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)

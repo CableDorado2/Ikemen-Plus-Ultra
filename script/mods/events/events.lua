@@ -359,6 +359,7 @@ function f_eventMenu()
 		infoScreen = true
 		return
 	end
+	f_discordUpdate({details = "Events"})
 	cmdInput()
 	local eventMenu = 1
 	local cursorPosX = 1
@@ -381,6 +382,7 @@ function f_eventMenu()
 	while true do
 		if not eventLocked and not netTimeInfoScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				f_discordMainMenu()
 				f_saveStats()
 				f_getStats(f_refreshEventStats()) --To refresh stats
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

@@ -1358,6 +1358,7 @@ end
 --;===========================================================
 vnNoSel = true
 function f_vnNewGame() --start a new customizable narrative and interactive storytelling
+	f_discordUpdate({details = "Visual Novel"})
 --Check Content
 	if #t_selVN == 1 and vnNoSel then --1 story detected in select.def so don't show select menu
 		f_vnMain(t_selVN[1].path) --Start Unique Visual Novel
@@ -1368,19 +1369,24 @@ function f_vnNewGame() --start a new customizable narrative and interactive stor
 		vnNoSel = false --More than 1 stories detected in select.def
 		f_vnMenu() --Start Visual Novel Select
 	end
+	f_discordMainMenu()
 end
 
 function f_vnLoadGame() --continue the story from where you left off
 	assert(loadfile(saveVNPath))()
+--No Data
 	if data.VNarc == "" and data.VNchapter == 0 and data.VNdialogue == 0 then
-		sndPlay(sndIkemen, 200, 0) --No Data
+		sndPlay(sndIkemen, 200, 0)
 		vnDataInfo = true
 		infoScreen = true
-	else --Load Data
+--Load Data
+	else
+		f_discordUpdate({details = "Visual Novel"})
 		playBGM("")
 		f_vnMain(data.VNarc, data.VNchapter, data.VNdialogue)
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_menuMusic()
+		f_discordMainMenu()
 	end
 end
 

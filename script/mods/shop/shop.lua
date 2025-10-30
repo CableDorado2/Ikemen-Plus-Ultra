@@ -311,6 +311,7 @@ end
 --; THE VAULT MENU (Insert secret codes to unlock things)
 --;===========================================================
 local function f_theVault()
+	f_discordUpdate({details = "Secret Room"})
 	cmdInput()
 	local word = ""
 	local vaultMenu = 2
@@ -563,6 +564,7 @@ end
 
 function f_shopMenu()
 	if not startEn then return end
+	f_discordUpdate({details = "Shop"})
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -599,6 +601,7 @@ function f_shopMenu()
 					inCategory = false
 			--Exit
 				else
+					f_discordMainMenu()
 					f_resetMenuArrowsPos()
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					sndPlay(sndSys, 100, 2)
@@ -640,6 +643,7 @@ function f_shopMenu()
 		--???
 			elseif vaultAccess and (commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q')) then
 				f_theVault()
+				f_discordUpdate({details = "Shop"})
 				playBGM(bgmShop)
 			end
 		--Cursor position calculation

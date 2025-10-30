@@ -687,6 +687,7 @@ end
 
 function f_galleryMenu()
 	if data.debugMode then f_loadGalleryDat() end --Load in real-time only if dev/debug mode is enabled
+	f_discordUpdate({details = "Gallery"})
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
@@ -707,6 +708,7 @@ function f_galleryMenu()
 	while true do
 	--BACK BUTTON
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			f_discordMainMenu()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
 			break

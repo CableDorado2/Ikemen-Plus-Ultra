@@ -24,6 +24,7 @@ bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
 --; TUTORIAL MODE (Learn Game Rules and Battle Tactics)
 --;===========================================================
 function f_tutorial()
+	f_discordUpdate({details = "Tutorial"})
 	f_default()
 	setGameMode('tutorial')
 	setPauseVar('nogiveup') --To avoid write exit conditionals in pause menu
@@ -50,6 +51,7 @@ function f_tutorial()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	data.rosterMode = "tutorial" --To save playtime
 	f_selectSimple()
+	f_discordMainMenu()
 end
 --;===========================================================
 --; TUTORIAL SCREENPACK DEFINITION
