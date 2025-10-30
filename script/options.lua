@@ -142,6 +142,24 @@ local updateVars = false
 --;===========================================================
 --; OPTIONS VARS
 --;===========================================================
+function f_loadEXCfg()
+--Data loading from data.lifebar
+	local file = io.open(data.lifebar,"r")
+	s_lifebarDEF = file:read("*all")
+	file:close()
+--Apply settings from data.lifebar
+	data.roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
+	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
+--Variable setting based on loaded data
+	if gameSpeed == 48 then
+		s_gameSpeed = "Slow"
+	elseif gameSpeed == 60 then
+		s_gameSpeed = "Normal"
+	elseif gameSpeed == 72 then
+		s_gameSpeed = "Turbo"
+	end
+end
+
 function f_loadCfg(all)
 local all = all or false
 --;===========================================================
@@ -193,6 +211,7 @@ local all = all or false
 	data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
 	data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
 	
+	if all then f_loadEXCfg() end
 --Before was on f_loadEXCfg():
 
 --Data loading from sound.ssz
@@ -273,25 +292,6 @@ local all = all or false
 		s_disablePadP2 = data.disablePadP2 and "Disabled" or "Enabled"
 	end
 end
-f_loadCfg(true)
-
-function f_loadEXCfg()
---Data loading from data.lifebar
-	local file = io.open(data.lifebar,"r")
-	s_lifebarDEF = file:read("*all")
-	file:close()
---Apply settings from data.lifebar
-	data.roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
-	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
---Variable setting based on loaded data
-	if gameSpeed == 48 then
-		s_gameSpeed = "Slow"
-	elseif gameSpeed == 60 then
-		s_gameSpeed = "Normal"
-	elseif gameSpeed == 72 then
-		s_gameSpeed = "Turbo"
-	end
-end
 
 function f_loadNETCfg()
 --Data loading from data_netsav.lua
@@ -308,6 +308,15 @@ function f_loadNETCfg()
 	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
 	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
+	f_loadEXCfg()
+end
+
+if not inMatch then
+	f_loadCfg(true) --Load all config
+else
+	if not onlinegame then
+		f_loadCfg() --Load only necessary config for offline match
+	end
 end
 
 function f_saveCfg()
@@ -1349,8 +1358,7 @@ table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "f_
 
 function f_mainCfg()
 	cmdInput()
-	f_loadCfg()
-	f_loadEXCfg()
+	f_loadCfg(true)
 	local cursorPosY = 1
 	local moveTxt = 0
 	local mainCfg = 1
@@ -1390,8 +1398,7 @@ function f_mainCfg()
 		--Back Without Save
 			elseif exitNoSaveCfg then
 				assert(loadfile(saveCfgPath))() --Load old data no saved
-				f_loadCfg()
-				f_loadEXCfg()
+				f_loadCfg(true)
 				setFullScreenMode(b_fullscreenMode)
 				setScreenMode(b_screenMode)
 				setAspectRatio(b_aspectMode)
@@ -1539,8 +1546,6 @@ end
 
 function f_netplayCfg()
 	cmdInput()
-	f_loadNETCfg()
-	f_loadEXCfg()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local netplayCfg = 1
@@ -1821,6 +1826,7 @@ for i=1, #t_onlineCfg do
 end
 
 function f_onlineCfg()
+	f_discordUpdate({details = "Setting Lobby", partySize = 2})
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0

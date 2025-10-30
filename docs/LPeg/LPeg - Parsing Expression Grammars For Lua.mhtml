@@ -1,0 +1,1740 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/
+Subject: LPeg - Parsing Expression Grammars For Lua
+Date: Thu, 30 Oct 2025 18:19:19 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--UpYUNLTFq9GvaRMdk4O1sBaZfImzpuenwU7Ye68KcA----"
+
+
+------MultipartBoundary--UpYUNLTFq9GvaRMdk4O1sBaZfImzpuenwU7Ye68KcA----
+Content-Type: text/html
+Content-ID: <frame-60AA10E661EBEAA2B598B87B79B54FAC@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "//www.w3.org/TR/x=
+html1/DTD/xhtml1-strict.dtd"><html xmlns=3D"//www.w3.org/1999/xhtml" xml:la=
+ng=3D"en" lang=3D"en"><head><meta http-equiv=3D"Content-Type" content=3D"te=
+xt/html; charset=3DUTF-8">
+    <title>LPeg - Parsing Expression Grammars For Lua</title>
+    <link rel=3D"stylesheet" href=3D"https://www.inf.puc-rio.br/~roberto/lp=
+eg/doc.css" type=3D"text/css">
+=09
+</head>
+<body>
+
+
+<div id=3D"container">
+=09
+<div id=3D"product">
+  <div id=3D"product_logo">
+    <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/">
+    <img alt=3D"LPeg logo" src=3D"https://www.inf.puc-rio.br/~roberto/lpeg/=
+lpeg-128.gif"></a>
+   =20
+  </div>
+  <div id=3D"product_name"><big><strong>LPeg</strong></big></div>
+  <div id=3D"product_description">
+     Parsing Expression Grammars For Lua, version 1.1
+  </div>
+</div> <!-- id=3D"product" -->
+
+<div id=3D"main">
+=09
+<div id=3D"navigation">
+<h1>LPeg</h1>
+
+<ul>
+  <li><strong>Home</strong>
+  <ul>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#intro">Introdu=
+ction</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#func">Function=
+s</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#basic">Basic C=
+onstructions</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#grammar">Gramm=
+ars</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#captures">Capt=
+ures</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#ex">Some Examp=
+les</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/re.html">The <c=
+ode>re</code> Module</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#download">Down=
+load</a></li>
+    <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#license">Licen=
+se</a></li>
+  </ul>
+  </li>
+</ul>
+</div> <!-- id=3D"navigation" -->
+
+<div id=3D"content">
+
+
+<h2><a name=3D"intro">Introduction</a></h2>
+
+<p>
+<em>LPeg</em> is a pattern-matching library for Lua,
+based on
+<a href=3D"https://bford.info/packrat/">
+Parsing Expression Grammars</a> (PEGs).
+This text is a reference manual for the library.
+For those starting with LPeg,
+<a href=3D"https://www.inf.puc-rio.br/~roberto/docs/lpeg-primer.pdf">
+Mastering LPeg</a> presents a good tutorial.
+For a more formal treatment of LPeg,
+as well as some discussion about its implementation,
+see
+<a href=3D"https://www.inf.puc-rio.br/~roberto/docs/peg.pdf">
+A Text Pattern-Matching Tool based on Parsing Expression Grammars</a>.
+You may also be interested in my
+<a href=3D"https://vimeo.com/1485123">talk about LPeg</a>
+given at the III Lua Workshop.
+</p>
+
+<p>
+Following the Snobol tradition,
+LPeg defines patterns as first-class objects.
+That is, patterns are regular Lua values
+(represented by userdata).
+The library offers several functions to create
+and compose patterns.
+With the use of metamethods,
+several of these functions are provided as infix or prefix
+operators.
+On the one hand,
+the result is usually much more verbose than the typical
+encoding of patterns using the so called
+<em>regular expressions</em>
+(which typically are not regular expressions in the formal sense).
+On the other hand,
+first-class patterns allow much better documentation
+(as it is easy to comment the code,
+to break complex definitions in smaller parts, etc.)
+and are extensible,
+as we can define new functions to create and compose patterns.
+</p>
+
+<p>
+For a quick glance of the library,
+the following table summarizes its basic operations
+for creating patterns:
+</p>
+<table border=3D"1">
+<tbody><tr><td><b>Operator</b></td><td><b>Description</b></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-p"><code>lp=
+eg.P(string)</code></a></td>
+  <td>Matches <code>string</code> literally</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-p"><code>lp=
+eg.P(n)</code></a></td>
+  <td>Matches exactly <code>n</code> characters</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-s"><code>lp=
+eg.S(string)</code></a></td>
+  <td>Matches any character in <code>string</code> (Set)</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-r"><code>lp=
+eg.R("<em>xy</em>")</code></a></td>
+  <td>Matches any character between <em>x</em> and <em>y</em> (Range)</td><=
+/tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-utfR"><code=
+>lpeg.utfR(cp1, cp2)</code></a></td>
+  <td>Matches an UTF-8 code point between <code>cp1</code> and
+  <code>cp2</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-pow"><code>=
+patt^n</code></a></td>
+  <td>Matches at least <code>n</code> repetitions of <code>patt</code></td>=
+</tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-pow"><code>=
+patt^-n</code></a></td>
+  <td>Matches at most <code>n</code> repetitions of <code>patt</code></td><=
+/tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-mul"><code>=
+patt1 * patt2</code></a></td>
+  <td>Matches <code>patt1</code> followed by <code>patt2</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-add"><code>=
+patt1 + patt2</code></a></td>
+  <td>Matches <code>patt1</code> or <code>patt2</code>
+      (ordered choice)</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-sub"><code>=
+patt1 - patt2</code></a></td>
+  <td>Matches <code>patt1</code> if <code>patt2</code> does not match</td><=
+/tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-unm"><code>=
+-patt</code></a></td>
+  <td>Equivalent to <code>("" - patt)</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-len"><code>=
+#patt</code></a></td>
+  <td>Matches <code>patt</code> but consumes no input</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-behind"><co=
+de>lpeg.B(patt)</code></a></td>
+  <td>Matches <code>patt</code> behind the current position,
+      consuming no input</td></tr>
+</tbody></table>
+
+<p>As a very simple example,
+<code>lpeg.R("09")^1</code> creates a pattern that
+matches a non-empty sequence of digits.
+As a not so simple example,
+<code>-lpeg.P(1)</code>
+(which can be written as <code>lpeg.P(-1)</code>,
+or simply <code>-1</code> for operations expecting a pattern)
+matches an empty string only if it cannot match a single character;
+so, it succeeds only at the end of the subject.
+</p>
+
+<p>
+LPeg also offers the <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/re=
+.html"><code>re</code> module</a>,
+which implements patterns following a regular-expression style
+(e.g., <code>[09]+</code>).
+(This module is 270 lines of Lua code,
+and of course it uses LPeg to parse regular expressions and
+translate them to regular LPeg patterns.)
+</p>
+
+
+<h2><a name=3D"func">Functions</a></h2>
+
+
+<h3><a name=3D"f-match"></a><code>lpeg.match (pattern, subject [, init])</c=
+ode></h3>
+<p>
+The matching function.
+It attempts to match the given pattern against the subject string.
+If the match succeeds,
+returns the index in the subject of the first character after the match,
+or the <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#captures">captu=
+red values</a>
+(if the pattern captured any value).
+</p>
+
+<p>
+An optional numeric argument <code>init</code> makes the match
+start at that position in the subject string.
+As in the Lua standard libraries,
+a negative value counts from the end.
+</p>
+
+<p>
+Unlike typical pattern-matching functions,
+<code>match</code> works only in <em>anchored</em> mode;
+that is, it tries to match the pattern with a prefix of
+the given subject string (at position <code>init</code>),
+not with an arbitrary substring of the subject.
+So, if we want to find a pattern anywhere in a string,
+we must either write a loop in Lua or write a pattern that
+matches anywhere.
+This second approach is easy and quite efficient;
+see <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#ex">examples</a>.
+</p>
+
+<h3><a name=3D"f-type"></a><code>lpeg.type (value)</code></h3>
+<p>
+If the given value is a pattern,
+returns the string <code>"pattern"</code>.
+Otherwise returns nil.
+</p>
+
+<h3><a name=3D"f-version"></a><code>lpeg.version</code></h3>
+<p>
+A string (not a function) with the running version of LPeg.
+</p>
+
+<h3><a name=3D"f-setstack"></a><code>lpeg.setmaxstack (max)</code></h3>
+<p>
+Sets a limit for the size of the backtrack stack used by LPeg to
+track calls and choices.
+(The default limit is 400.)
+Most well-written patterns need little backtrack levels and
+therefore you seldom need to change this limit;
+before changing it you should try to rewrite your
+pattern to avoid the need for extra space.
+Nevertheless, a few useful patterns may overflow.
+Also, with recursive grammars,
+subjects with deep recursion may also need larger limits.
+</p>
+
+
+<h2><a name=3D"basic">Basic Constructions</a></h2>
+
+<p>
+The following operations build patterns.
+All operations that expect a pattern as an argument
+may receive also strings, tables, numbers, booleans, or functions,
+which are translated to patterns according to
+the rules of function <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#=
+op-p"><code>lpeg.P</code></a>.
+</p>
+
+
+
+<h3><a name=3D"op-p"></a><code>lpeg.P (value)</code></h3>
+<p>
+Converts the given value into a proper pattern,
+according to the following rules:
+</p>
+<ul>
+
+<li><p>
+If the argument is a pattern,
+it is returned unmodified.
+</p></li>
+
+<li><p>
+If the argument is a string,
+it is translated to a pattern that matches the string literally.
+</p></li>
+
+<li><p>
+If the argument is a non-negative number <em>n</em>,
+the result is a pattern that matches exactly <em>n</em> characters.
+</p></li>
+
+<li><p>
+If the argument is a negative number <em>-n</em>,
+the result is a pattern that
+succeeds only if the input string has less than <em>n</em> characters left:
+<code>lpeg.P(-n)</code>
+is equivalent to <code>-lpeg.P(n)</code>
+(see the  <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-unm">unar=
+y minus operation</a>).
+</p></li>
+
+<li><p>
+If the argument is a boolean,
+the result is a pattern that always succeeds or always fails
+(according to the boolean value),
+without consuming any input.
+</p></li>
+
+<li><p>
+If the argument is a table,
+it is interpreted as a grammar
+(see <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#grammar">Grammars=
+</a>).
+</p></li>
+
+<li><p>
+If the argument is a function,
+returns a pattern equivalent to a
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#matchtime">match-time =
+capture</a> over the empty string.
+</p></li>
+
+</ul>
+
+
+<h3><a name=3D"op-behind"></a><code>lpeg.B(patt)</code></h3>
+<p>
+Returns a pattern that
+matches only if the input string at the current position
+is preceded by <code>patt</code>.
+Pattern <code>patt</code> must match only strings
+with some fixed length,
+and it cannot contain captures.
+</p>
+
+<p>
+Like the <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#op-len">and p=
+redicate</a>,
+this pattern never consumes any input,
+independently of success or failure.
+</p>
+
+
+<h3><a name=3D"op-r"></a><code>lpeg.R ({range})</code></h3>
+<p>
+Returns a pattern that matches any single character
+belonging to one of the given <em>ranges</em>.
+Each <code>range</code> is a string <em>xy</em> of length 2,
+representing all characters with code
+between the codes of <em>x</em> and <em>y</em>
+(both inclusive).
+</p>
+
+<p>
+As an example, the pattern
+<code>lpeg.R("09")</code> matches any digit,
+and <code>lpeg.R("az", "AZ")</code> matches any ASCII letter.
+</p>
+
+
+<h3><a name=3D"op-s"></a><code>lpeg.S (string)</code></h3>
+<p>
+Returns a pattern that matches any single character that
+appears in the given string.
+(The <code>S</code> stands for <em>Set</em>.)
+</p>
+
+<p>
+As an example, the pattern
+<code>lpeg.S("+-*/")</code> matches any arithmetic operator.
+</p>
+
+<p>
+Note that, if <code>s</code> is a character
+(that is, a string of length 1),
+then <code>lpeg.P(s)</code> is equivalent to <code>lpeg.S(s)</code>
+which is equivalent to <code>lpeg.R(s..s)</code>.
+Note also that both <code>lpeg.S("")</code> and <code>lpeg.R()</code>
+are patterns that always fail.
+</p>
+
+
+<h3><a name=3D"op-utfR"></a><code>lpeg.utfR (cp1, cp2)</code></h3>
+<p>
+Returns a pattern that matches a valid UTF-8 byte sequence
+representing a code point in the range <code>[cp1, cp2]</code>.
+The range is limited by the natural Unicode limit of 0x10FFFF,
+but may include surrogates.
+</p>
+
+
+<h3><a name=3D"op-v"></a><code>lpeg.V (v)</code></h3>
+<p>
+This operation creates a non-terminal (a <em>variable</em>)
+for a grammar.
+The created non-terminal refers to the rule indexed by <code>v</code>
+in the enclosing grammar.
+(See <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#grammar">Grammars=
+</a> for details.)
+</p>
+
+
+<h3><a name=3D"op-locale"></a><code>lpeg.locale ([table])</code></h3>
+<p>
+Returns a table with patterns for matching some character classes
+according to the current locale.
+The table has fields named
+<code>alnum</code>,
+<code>alpha</code>,
+<code>cntrl</code>,
+<code>digit</code>,
+<code>graph</code>,
+<code>lower</code>,
+<code>print</code>,
+<code>punct</code>,
+<code>space</code>,
+<code>upper</code>, and
+<code>xdigit</code>,
+each one containing a correspondent pattern.
+Each pattern matches any single character that belongs to its class.
+</p>
+
+<p>
+If called with an argument <code>table</code>,
+then it creates those fields inside the given table and
+returns that table.=20
+</p>
+
+
+<h3><a name=3D"op-len"></a><code>#patt</code></h3>
+<p>
+Returns a pattern that
+matches only if the input string matches <code>patt</code>,
+but without consuming any input,
+independently of success or failure.
+(This pattern is called an <em>and predicate</em>
+and it is equivalent to
+<em>&amp;patt</em> in the original PEG notation.)
+</p>
+
+
+<p>
+This pattern never produces any capture.
+</p>
+
+
+<h3><a name=3D"op-unm"></a><code>-patt</code></h3>
+<p>
+Returns a pattern that
+matches only if the input string does not match <code>patt</code>.
+It does not consume any input,
+independently of success or failure.
+(This pattern is equivalent to
+<em>!patt</em> in the original PEG notation.)
+</p>
+
+<p>
+As an example, the pattern
+<code>-lpeg.P(1)</code> matches only the end of string.
+</p>
+
+<p>
+This pattern never produces any captures,
+because either <code>patt</code> fails
+or <code>-patt</code> fails.
+(A failing pattern never produces captures.)
+</p>
+
+
+<h3><a name=3D"op-add"></a><code>patt1 + patt2</code></h3>
+<p>
+Returns a pattern equivalent to an <em>ordered choice</em>
+of <code>patt1</code> and <code>patt2</code>.
+(This is denoted by <em>patt1 / patt2</em> in the original PEG notation,
+not to be confused with the <code>/</code> operation in LPeg.)
+It matches either <code>patt1</code> or <code>patt2</code>,
+with no backtracking once one of them succeeds.
+The identity element for this operation is the pattern
+<code>lpeg.P(false)</code>,
+which always fails.
+</p>
+
+<p>
+If both <code>patt1</code> and <code>patt2</code> are
+character sets,
+this operation is equivalent to set union.
+</p>
+<pre class=3D"example">lower =3D lpeg.R("az")
+upper =3D lpeg.R("AZ")
+letter =3D lower + upper
+</pre>
+
+
+<h3><a name=3D"op-sub"></a><code>patt1 - patt2</code></h3>
+<p>
+Returns a pattern equivalent to <em>!patt2 patt1</em>
+in the origial PEG notation.
+This pattern asserts that the input does not match
+<code>patt2</code> and then matches <code>patt1</code>.
+</p>
+
+<p>
+When successful,
+this pattern produces all captures from <code>patt1</code>.
+It never produces any capture from <code>patt2</code>
+(as either <code>patt2</code> fails or
+<code>patt1 - patt2</code> fails).
+</p>
+
+<p>
+If both <code>patt1</code> and <code>patt2</code> are
+character sets,
+this operation is equivalent to set difference.
+Note that <code>-patt</code> is equivalent to <code>"" - patt</code>
+(or <code>0 - patt</code>).
+If <code>patt</code> is a character set,
+<code>1 - patt</code> is its complement.
+</p>
+
+
+<h3><a name=3D"op-mul"></a><code>patt1 * patt2</code></h3>
+<p>
+Returns a pattern that matches <code>patt1</code>
+and then matches <code>patt2</code>,
+starting where <code>patt1</code> finished.
+The identity element for this operation is the
+pattern <code>lpeg.P(true)</code>,
+which always succeeds.
+</p>
+
+<p>
+(LPeg uses the <code>*</code> operator
+[instead of the more obvious <code>..</code>]
+both because it has
+the right priority and because in formal languages it is
+common to use a dot for denoting concatenation.)
+</p>
+
+
+<h3><a name=3D"op-pow"></a><code>patt^n</code></h3>
+<p>
+If <code>n</code> is nonnegative,
+this pattern is
+equivalent to <em>patt<sup>n</sup> patt*</em>:
+It matches <code>n</code> or more occurrences of <code>patt</code>.
+</p>
+
+<p>
+Otherwise, when <code>n</code> is negative,
+this pattern is equivalent to <em>(patt?)<sup>-n</sup></em>:
+It matches at most <code>|n|</code>
+occurrences of <code>patt</code>.
+</p>
+
+<p>
+In particular, <code>patt^0</code> is equivalent to <em>patt*</em>,
+<code>patt^1</code> is equivalent to <em>patt+</em>,
+and <code>patt^-1</code> is equivalent to <em>patt?</em>
+in the original PEG notation.
+</p>
+
+<p>
+In all cases,
+the resulting pattern is greedy with no backtracking
+(also called a <em>possessive</em> repetition).
+That is, it matches only the longest possible sequence
+of matches for <code>patt</code>.
+</p>
+
+
+
+<h2><a name=3D"grammar">Grammars</a></h2>
+
+<p>
+With the use of Lua variables,
+it is possible to define patterns incrementally,
+with each new pattern using previously defined ones.
+However, this technique does not allow the definition of
+recursive patterns.
+For recursive patterns,
+we need real grammars.
+</p>
+
+<p>
+LPeg represents grammars with tables,
+where each entry is a rule.
+</p>
+
+<p>
+The call <code>lpeg.V(v)</code>
+creates a pattern that represents the nonterminal
+(or <em>variable</em>) with index <code>v</code> in a grammar.
+Because the grammar still does not exist when
+this function is evaluated,
+the result is an <em>open reference</em> to the respective rule.
+</p>
+
+<p>
+A table is <em>fixed</em> when it is converted to a pattern
+(either by calling <code>lpeg.P</code> or by using it wherein a
+pattern is expected).
+Then every open reference created by <code>lpeg.V(v)</code>
+is corrected to refer to the rule indexed by <code>v</code> in the table.
+</p>
+
+<p>
+When a table is fixed,
+the result is a pattern that matches its <em>initial rule</em>.
+The entry with index 1 in the table defines its initial rule.
+If that entry is a string,
+it is assumed to be the name of the initial rule.
+Otherwise, LPeg assumes that the entry 1 itself is the initial rule.
+</p>
+
+<p>
+As an example,
+the following grammar matches strings of a's and b's that
+have the same number of a's and b's:
+</p>
+<pre class=3D"example">equalcount =3D lpeg.P{
+  "S";   -- initial rule name
+  S =3D "a" * lpeg.V"B" + "b" * lpeg.V"A" + "",
+  A =3D "a" * lpeg.V"S" + "b" * lpeg.V"A" * lpeg.V"A",
+  B =3D "b" * lpeg.V"S" + "a" * lpeg.V"B" * lpeg.V"B",
+} * -1
+</pre>
+<p>
+It is equivalent to the following grammar in standard PEG notation:
+</p>
+<pre class=3D"example">  S &lt;- 'a' B / 'b' A / ''
+  A &lt;- 'a' S / 'b' A A
+  B &lt;- 'b' S / 'a' B B
+</pre>
+
+
+<h2><a name=3D"captures">Captures</a></h2>
+
+<p>
+A <em>capture</em> is a pattern that produces values
+(the so called <em>semantic information</em>)
+according to what it matches.
+LPeg offers several kinds of captures,
+which produces values based on matches and combine these values to
+produce new values.
+Each capture may produce zero or more values.
+</p>
+
+<p>
+The following table summarizes the basic captures:
+</p>
+<table border=3D"1">
+<tbody><tr><td><b>Operation</b></td><td><b>What it Produces</b></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-c"><code>l=
+peg.C(patt)</code></a></td>
+  <td>the match for <code>patt</code> plus all captures
+      made by <code>patt</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-arg"><code=
+>lpeg.Carg(n)</code></a></td>
+    <td>the value of the n<sup>th</sup> extra argument to
+        <code>lpeg.match</code> (matches the empty string)</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-b"><code>l=
+peg.Cb(key)</code></a></td>
+    <td>the values produced by the previous
+        group capture named <code>key</code>
+        (matches the empty string)</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-cc"><code>=
+lpeg.Cc(values)</code></a></td>
+    <td>the given values (matches the empty string)</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-f"><code>l=
+peg.Cf(patt, func)</code></a></td>
+  <td>folding capture (<em>deprecated</em>)</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-g"><code>l=
+peg.Cg(patt [, key])</code></a></td>
+    <td>the values produced by <code>patt</code>,
+        optionally tagged with <code>key</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-p"><code>l=
+peg.Cp()</code></a></td>
+    <td>the current position (matches the empty string)</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-s"><code>l=
+peg.Cs(patt)</code></a></td>
+  <td>the match for <code>patt</code>
+      with the values from nested captures replacing their matches</td></tr=
+>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-t"><code>l=
+peg.Ct(patt)</code></a></td>
+  <td>a table with all captures from <code>patt</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-string"><c=
+ode>patt / string</code></a></td>
+  <td><code>string</code>, with some marks replaced by captures
+      of <code>patt</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-num"><code=
+>patt / number</code></a></td>
+  <td>the n-th value captured by <code>patt</code>,
+or no value when <code>number</code> is zero.</td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-query"><co=
+de>patt / table</code></a></td>
+  <td><code>table[c]</code>, where <code>c</code> is the (first)
+      capture of <code>patt</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-func"><cod=
+e>patt / function</code></a></td>
+  <td>the returns of <code>function</code> applied to the captures
+      of <code>patt</code></td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-acc"><code=
+>patt % function</code></a></td>
+  <td>produces no value;
+      it <em>accummulates</em> the captures from <code>patt</code>
+      into the previous capture through <code>function</code>
+      </td></tr>
+<tr><td><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#matchtime"><co=
+de>lpeg.Cmt(patt, function)</code></a></td>
+  <td>the returns of <code>function</code> applied to the captures
+      of <code>patt</code>; the application is done at match time</td></tr>
+</tbody></table>
+
+<p>
+A capture pattern produces its values only when it succeeds.
+For instance,
+the pattern <code>lpeg.C(lpeg.P"a"^-1)</code>
+produces the empty string when there is no <code>"a"</code>
+(because the pattern <code>"a"?</code> succeeds),
+while the pattern <code>lpeg.C("a")^-1</code>
+does not produce any value when there is no <code>"a"</code>
+(because the pattern <code>"a"</code> fails).
+A pattern inside a loop or inside a recursive structure
+produces values for each match.
+</p>
+
+<p>
+Usually,
+LPeg does not specify when, if, or how many times it evaluates its captures=
+.
+Therefore, captures should avoid side effects.
+As an example,
+LPeg may or may not call <code>func</code> in the pattern
+<code>lpeg.P"a" / func / 0</code>,
+given that the <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-num=
+">"division" by 0</a>
+instructs LPeg to throw away the
+results from the pattern.
+Similarly, a capture nested inside a <a href=3D"https://www.inf.puc-rio.br/=
+~roberto/lpeg/#cap-g">named group</a>
+may be evaluated only when that group is referred in a
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-b">back capture</a=
+>;
+if there are multiple back captures,
+the group may be evaluated multiple times.
+</p>
+
+<p>
+Moreover,
+captures cannot affect the way a pattern matches a subject.
+The only exception to this rule is the
+so-called <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#matchtime"><=
+em>match-time capture</em></a>.
+When a match-time capture matches,
+it forces the immediate evaluation of all its nested captures
+and then calls its corresponding function,
+which defines whether the match succeeds and also
+what values are produced.
+</p>
+
+<h3><a name=3D"cap-c"></a><code>lpeg.C (patt)</code></h3>
+<p>
+Creates a <em>simple capture</em>,
+which captures the substring of the subject that matches <code>patt</code>.
+The captured value is a string.
+If <code>patt</code> has other captures,
+their values are returned after this one.
+</p>
+
+
+<h3><a name=3D"cap-arg"></a><code>lpeg.Carg (n)</code></h3>
+<p>
+Creates an <em>argument capture</em>.
+This pattern matches the empty string and
+produces the value given as the n<sup>th</sup> extra
+argument given in the call to <code>lpeg.match</code>.
+</p>
+
+
+<h3><a name=3D"cap-b"></a><code>lpeg.Cb (key)</code></h3>
+<p>
+Creates a <em>back capture</em>.
+This pattern matches the empty string and
+produces the values produced by the <em>most recent</em>
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-g">group capture</=
+a> named <code>key</code>
+(where <code>key</code> can be any Lua value).
+</p>
+
+<p>
+<em>Most recent</em> means the last
+<em>complete</em>
+<em>outermost</em>
+group capture with the given key.
+A <em>Complete</em> capture means that the entire pattern
+corresponding to the capture has matched;
+in other words, the back capture is not nested inside the group.
+An <em>Outermost</em> capture means that the capture is not inside
+another complete capture that does not contain the back capture itself.
+</p>
+
+<p>
+In the same way that LPeg does not specify when it evaluates captures,
+it does not specify whether it reuses
+values previously produced by the group
+or re-evaluates them.
+</p>
+
+<h3><a name=3D"cap-cc"></a><code>lpeg.Cc ([value, ...])</code></h3>
+<p>
+Creates a <em>constant capture</em>.
+This pattern matches the empty string and
+produces all given values as its captured values.
+</p>
+
+
+<h3><a name=3D"cap-f"></a><code>lpeg.Cf (patt, func)</code></h3>
+<p>
+Creates a <em>fold capture</em>.
+This construction is deprecated;
+use an <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-acc">accumu=
+lator pattern</a> instead.
+In general, a fold like
+<code>lpeg.Cf(p1 * p2^0, func)</code>
+can be translated to
+<code>(p1 * (p2 % func)^0)</code>.
+
+
+</p><h3><a name=3D"cap-g"></a><code>lpeg.Cg (patt [, key])</code></h3>
+<p>
+Creates a <em>group capture</em>.
+It groups all values returned by <code>patt</code>
+into a single capture.
+The group may be anonymous (if no key is given)
+or named with the given key
+(which can be any non-nil Lua value).
+</p>
+
+<p>
+An anonymous group serves to join values from several captures into
+a single capture.
+A named group has a different behavior.
+In most situations, a named group returns no values at all.
+Its values are only relevant for a following
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-b">back capture</a=
+> or when used
+inside a <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-t">table =
+capture</a>.
+</p>
+
+
+<h3><a name=3D"cap-p"></a><code>lpeg.Cp ()</code></h3>
+<p>
+Creates a <em>position capture</em>.
+It matches the empty string and
+captures the position in the subject where the match occurs.
+The captured value is a number.
+</p>
+
+
+<h3><a name=3D"cap-s"></a><code>lpeg.Cs (patt)</code></h3>
+<p>
+Creates a <em>substitution capture</em>,
+which captures the substring of the subject that matches <code>patt</code>,
+with <em>substitutions</em>.
+For any capture inside <code>patt</code> with a value,
+the substring that matched the capture is replaced by the capture value
+(which should be a string).
+The final captured value is the string resulting from
+all replacements.
+</p>
+
+
+<h3><a name=3D"cap-t"></a><code>lpeg.Ct (patt)</code></h3>
+<p>
+Creates a <em>table capture</em>.
+This capture returns a table with all values from all anonymous captures
+made by <code>patt</code> inside this table in successive integer keys,
+starting at 1.
+Moreover,
+for each named capture group created by <code>patt</code>,
+the first value of the group is put into the table
+with the group key as its key.
+The captured value is only the table.
+</p>
+
+
+<h3><a name=3D"cap-string"></a><code>patt / string</code></h3>
+<p>
+Creates a <em>string capture</em>.
+It creates a capture string based on <code>string</code>.
+The captured value is a copy of <code>string</code>,
+except that the character <code>%</code> works as an escape character:
+any sequence in <code>string</code> of the form <code>%<em>n</em></code>,
+with <em>n</em> between 1 and 9,
+stands for the match of the <em>n</em>-th capture in <code>patt</code>.
+The sequence <code>%0</code> stands for the whole match.
+The sequence <code>%%</code> stands for a single&nbsp;<code>%</code>.
+</p>
+
+
+<h3><a name=3D"cap-num"></a><code>patt / number</code></h3>
+<p>
+Creates a <em>numbered capture</em>.
+For a non-zero number,
+the captured value is the n-th value
+captured by <code>patt</code>.=20
+When <code>number</code> is zero,
+there are no captured values.
+</p>
+
+
+<h3><a name=3D"cap-query"></a><code>patt / table</code></h3>
+<p>
+Creates a <em>query capture</em>.
+It indexes the given table using as key the first value captured by
+<code>patt</code>,
+or the whole match if <code>patt</code> produced no value.
+The value at that index is the final value of the capture.
+If the table does not have that key,
+there is no captured value.
+</p>
+
+
+<h3><a name=3D"cap-func"></a><code>patt / function</code></h3>
+<p>
+Creates a <em>function capture</em>.
+It calls the given function passing all captures made by
+<code>patt</code> as arguments,
+or the whole match if <code>patt</code> made no capture.
+The values returned by the function
+are the final values of the capture.
+In particular,
+if <code>function</code> returns no value,
+there is no captured value.
+</p>
+
+
+<h3><a name=3D"cap-acc"></a><code>patt % function</code></h3>
+<p>
+Creates an <em>accumulator capture</em>.
+This pattern behaves similarly to a
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-func">function cap=
+ture</a>,
+with the following differences:
+The last captured value before <code>patt</code>
+is added as a first argument to the call;
+the return of the function is adjusted to one single value;
+that value replaces the last captured value.
+Note that the capture itself produces no values;
+it only changes the value of its previous capture.
+</p>
+
+<p>
+As an example,
+let us consider the problem of adding a list of numbers.
+</p>
+<pre class=3D"example">-- matches a numeral and captures its numerical valu=
+e
+number =3D lpeg.R"09"^1 / tonumber
+
+-- auxiliary function to add two numbers
+function add (acc, newvalue) return acc + newvalue end
+
+-- matches a list of numbers, adding their values
+sum =3D number * ("," * number % add)^0
+
+-- example of use
+print(sum:match("10,30,43"))   --&gt; 83
+</pre>
+<p>
+First, the initial <code>number</code> captures a number;
+that first capture will play the role of an accumulator.
+Then, each time the sequence <code>comma-number</code>
+matches inside the loop there is an accumulator capture:
+It calls <code>add</code> with the current value of the
+accumulator=E2=80=94which is the last captured value, created by the
+first <code>number</code>=E2=80=94 and the value of the new number,
+and the result of the call (the sum of the two numbers)
+replaces the value of the accumulator.
+At the end of the match,
+the accumulator with all sums is the final value.
+</p>
+
+<p>
+As another example,
+consider the following code fragment:
+</p>
+<pre class=3D"example">local name =3D lpeg.C(lpeg.R("az")^1)
+local p =3D name * (lpeg.P("^") % string.upper)^-1
+print(p:match("count"))    --&gt; count
+print(p:match("count^"))   --&gt; COUNT
+</pre>
+<p>
+In the match against <code>"count"</code>,
+as there is no <code>"^"</code>,
+the optional accumulator capture does not match;
+so, the match results in its sole capture, a name.
+In the match against <code>"count^"</code>,
+the accumulator capture matches,
+so the function <code>string.upper</code>
+is called with the previous captured value (created by <code>name</code>)
+plus the string <code>"^"</code>;
+the function ignores its second argument and returns the first argument
+changed to upper case;
+that value then becomes the first and only
+capture value created by the match.
+</p>
+
+<p>
+Due to the nature of this capture,
+you should avoid using it in places where it is not clear
+what is the "previous" capture,
+such as directly nested in a <a href=3D"https://www.inf.puc-rio.br/~roberto=
+/lpeg/#cap-string">string capture</a>
+or a <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-num">numbered=
+ capture</a>.
+(Note that these captures may not need to evaluate
+all their subcaptures to compute their results.)
+Moreover, due to implementation details,
+you should not use this capture directly nested in a
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-s">substitution ca=
+pture</a>.
+You should also avoid a direct nesting of this capture inside
+a <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-f">folding captu=
+re</a> (deprecated),
+as the folding will try to fold each individual accumulator capture.
+A simple and effective way to avoid all these issues is
+to enclose the whole accumulation composition
+(including the capture that generates the initial value)
+into an anonymous <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/#cap-=
+g">group capture</a>.
+</p>
+
+
+<h3><a name=3D"matchtime"></a><code>lpeg.Cmt(patt, function)</code></h3>
+<p>
+Creates a <em>match-time capture</em>.
+Unlike all other captures,
+this one is evaluated immediately when a match occurs
+(even if it is part of a larger pattern that fails later).
+It forces the immediate evaluation of all its nested captures
+and then calls <code>function</code>.
+</p>
+
+<p>
+The given function gets as arguments the entire subject,
+the current position (after the match of <code>patt</code>),
+plus any capture values produced by <code>patt</code>.
+</p>
+
+<p>
+The first value returned by <code>function</code>
+defines how the match happens.
+If the call returns a number,
+the match succeeds
+and the returned number becomes the new current position.
+(Assuming a subject <em>s</em> and current position <em>i</em>,
+the returned number must be in the range <em>[i, len(s) + 1]</em>.)
+If the call returns <b>true</b>,
+the match succeeds without consuming any input.
+(So, to return <b>true</b> is equivalent to return <em>i</em>.)
+If the call returns <b>false</b>, <b>nil</b>, or no value,
+the match fails.
+</p>
+
+<p>
+Any extra values returned by the function become the
+values produced by the capture.
+</p>
+
+
+
+
+<h2><a name=3D"ex">Some Examples</a></h2>
+
+<h3>Using a Pattern</h3>
+<p>
+This example shows a very simple but complete program
+that builds and uses a pattern:
+</p>
+<pre class=3D"example">local lpeg =3D require "lpeg"
+
+-- matches a word followed by end-of-string
+p =3D lpeg.R"az"^1 * -1
+
+print(p:match("hello"))        --&gt; 6
+print(lpeg.match(p, "hello"))  --&gt; 6
+print(p:match("1 hello"))      --&gt; nil
+</pre>
+<p>
+The pattern is simply a sequence of one or more lower-case letters
+followed by the end of string (-1).
+The program calls <code>match</code> both as a method
+and as a function.
+In both sucessful cases,
+the match returns=20
+the index of the first character after the match,
+which is the string length plus one.
+</p>
+
+
+<h3>Name-value lists</h3>
+<p>
+This example parses a list of name-value pairs and returns a table
+with those pairs:
+</p>
+<pre class=3D"example">lpeg.locale(lpeg)   -- adds locale entries into 'lpe=
+g' table
+
+local space =3D lpeg.space^0
+local name =3D lpeg.C(lpeg.alpha^1) * space
+local sep =3D lpeg.S(",;") * space
+local pair =3D name * "=3D" * space * name * sep^-1
+local list =3D lpeg.Ct("") * (pair % rawset)^0
+t =3D list:match("a=3Db, c =3D hi; next =3D pi")
+        --&gt; { a =3D "b", c =3D "hi", next =3D "pi" }
+</pre>
+<p>
+Each pair has the format <code>name =3D name</code> followed by
+an optional separator (a comma or a semicolon).
+The <code>list</code> pattern then <em>folds</em> these captures.
+It starts with an empty table,
+created by a table capture matching an empty string;
+then for each a pair of names it applies <code>rawset</code>
+over the accumulator (the table) and the capture values (the pair of names)=
+.
+<code>rawset</code> returns the table itself,
+so the accumulator is always the table.
+</p>
+
+<h3>Splitting a string</h3>
+<p>
+The following code builds a pattern that
+splits a string using a given pattern
+<code>sep</code> as a separator:
+</p>
+<pre class=3D"example">function split (s, sep)
+  sep =3D lpeg.P(sep)
+  local elem =3D lpeg.C((1 - sep)^0)
+  local p =3D elem * (sep * elem)^0
+  return lpeg.match(p, s)
+end
+</pre>
+<p>
+First the function ensures that <code>sep</code> is a proper pattern.
+The pattern <code>elem</code> is a repetition of zero of more
+arbitrary characters as long as there is not a match against
+the separator.
+It also captures its match.
+The pattern <code>p</code> matches a list of elements separated
+by <code>sep</code>.
+</p>
+
+<p>
+If the split results in too many values,
+it may overflow the maximum number of values
+that can be returned by a Lua function.
+To avoid this problem,
+we can collect these values in a table:
+</p>
+<pre class=3D"example">function split (s, sep)
+  sep =3D lpeg.P(sep)
+  local elem =3D lpeg.C((1 - sep)^0)
+  local p =3D lpeg.Ct(elem * (sep * elem)^0)   -- make a table capture
+  return lpeg.match(p, s)
+end
+</pre>
+
+
+<h3>Searching for a pattern</h3>
+<p>
+The primitive <code>match</code> works only in anchored mode.
+If we want to find a pattern anywhere in a string,
+we must write a pattern that matches anywhere.
+</p>
+
+<p>
+Because patterns are composable,
+we can write a function that,
+given any arbitrary pattern <code>p</code>,
+returns a new pattern that searches for <code>p</code>
+anywhere in a string.
+There are several ways to do the search.
+One way is like this:
+</p>
+<pre class=3D"example">function anywhere (p)
+  return lpeg.P{ p + 1 * lpeg.V(1) }
+end
+</pre>
+<p>
+This grammar has a straight reading:
+its sole rule matches <code>p</code> or skips one character and tries again=
+.
+</p>
+
+<p>
+If we want to know where the pattern is in the string
+(instead of knowing only that it is there somewhere),
+we can add position captures to the pattern:
+</p>
+<pre class=3D"example">local Cp =3D lpeg.Cp()
+function anywhere (p)
+  return lpeg.P{ Cp * p * Cp + 1 * lpeg.V(1) }
+end
+
+print(anywhere("world"):match("hello world!"))   --&gt; 7   12
+</pre>
+
+<p>
+Another option for the search is like this:
+</p>
+<pre class=3D"example">local Cp =3D lpeg.Cp()
+function anywhere (p)
+  return (1 - lpeg.P(p))^0 * Cp * p * Cp
+end
+</pre>
+<p>
+Again the pattern has a straight reading:
+it skips as many characters as possible while not matching <code>p</code>,
+and then matches <code>p</code> plus appropriate captures.
+</p>
+
+<p>
+If we want to look for a pattern only at word boundaries,
+we can use the following transformer:
+</p>
+
+<pre class=3D"example">local t =3D lpeg.locale()
+
+function atwordboundary (p)
+  return lpeg.P{
+    [1] =3D p + t.alpha^0 * (1 - t.alpha)^1 * lpeg.V(1)
+  }
+end
+</pre>
+
+
+<h3><a name=3D"balanced"></a>Balanced parentheses</h3>
+<p>
+The following pattern matches only strings with balanced parentheses:
+</p>
+<pre class=3D"example">b =3D lpeg.P{ "(" * ((1 - lpeg.S"()") + lpeg.V(1))^0=
+ * ")" }
+</pre>
+<p>
+Reading the first (and only) rule of the given grammar,
+we have that a balanced string is
+an open parenthesis,
+followed by zero or more repetitions of either
+a non-parenthesis character or
+a balanced string (<code>lpeg.V(1)</code>),
+followed by a closing parenthesis.
+</p>
+
+
+<h3>Global substitution</h3>
+<p>
+The next example does a job somewhat similar to <code>string.gsub</code>.
+It receives a pattern and a replacement value,
+and substitutes the replacement value for all occurrences of the pattern
+in a given string:
+</p>
+<pre class=3D"example">function gsub (s, patt, repl)
+  patt =3D lpeg.P(patt)
+  patt =3D lpeg.Cs((patt / repl + 1)^0)
+  return lpeg.match(patt, s)
+end
+</pre>
+<p>
+As in <code>string.gsub</code>,
+the replacement value can be a string,
+a function, or a table.
+</p>
+
+
+<h3><a name=3D"CSV"></a>Comma-Separated Values (CSV)</h3>
+<p>
+This example breaks a string into comma-separated values,
+returning all fields:
+</p>
+<pre class=3D"example">local field =3D '"' * lpeg.Cs(((lpeg.P(1) - '"') + l=
+peg.P'""' / '"')^0) * '"' +
+                    lpeg.C((1 - lpeg.S',\n"')^0)
+
+local record =3D field * (',' * field)^0 * (lpeg.P'\n' + -1)
+
+function csv (s)
+  return lpeg.match(record, s)
+end
+</pre>
+<p>
+A field is either a quoted field
+(which may contain any character except an individual quote,
+which may be written as two quotes that are replaced by one)
+or an unquoted field
+(which cannot contain commas, newlines, or quotes).
+A record is a list of fields separated by commas,
+ending with a newline or the string end (-1).
+</p>
+
+<p>
+As it is,
+the previous pattern returns each field as a separated result.
+If we add a table capture in the definition of <code>record</code>,
+the pattern will return instead a single table
+containing all fields:
+</p>
+<pre>local record =3D lpeg.Ct(field * (',' * field)^0) * (lpeg.P'\n' + -1)
+</pre>
+
+
+<h3>Lua's long strings</h3>
+<p>
+A long string in Lua starts with the pattern <code>[=3D*[</code>
+and ends at the first occurrence of <code>]=3D*]</code> with
+exactly the same number of equal signs.
+If the opening brackets are followed by a newline,
+this newline is discarded
+(that is, it is not part of the string).
+</p>
+
+<p>
+To match a long string in Lua,
+the pattern must capture the first repetition of equal signs and then,
+whenever it finds a candidate for closing the string,
+check whether it has the same number of equal signs.
+</p>
+
+<pre class=3D"example">equals =3D lpeg.P"=3D"^0
+open =3D "[" * lpeg.Cg(equals, "init") * "[" * lpeg.P"\n"^-1
+close =3D "]" * lpeg.C(equals) * "]"
+closeeq =3D lpeg.Cmt(close * lpeg.Cb("init"), function (s, i, a, b) return =
+a =3D=3D b end)
+string =3D open * lpeg.C((lpeg.P(1) - closeeq)^0) * close / 1
+</pre>
+
+<p>
+The <code>open</code> pattern matches <code>[=3D*[</code>,
+capturing the repetitions of equal signs in a group named <code>init</code>=
+;
+it also discharges an optional newline, if present.
+The <code>close</code> pattern matches <code>]=3D*]</code>,
+also capturing the repetitions of equal signs.
+The <code>closeeq</code> pattern first matches <code>close</code>;
+then it uses a back capture to recover the capture made
+by the previous <code>open</code>,
+which is named <code>init</code>;
+finally it uses a match-time capture to check
+whether both captures are equal.
+The <code>string</code> pattern starts with an <code>open</code>,
+then it goes as far as possible until matching <code>closeeq</code>,
+and then matches the final <code>close</code>.
+The final numbered capture simply discards
+the capture made by <code>close</code>.
+</p>
+
+
+<h3>Arithmetic expressions</h3>
+<p>
+This example is a complete parser and evaluator for simple
+arithmetic expressions.
+We write it in two styles.
+The first approach first builds a syntax tree and then
+traverses this tree to compute the expression value:
+</p>
+<pre class=3D"example">-- Lexical Elements
+local Space =3D lpeg.S(" \n\t")^0
+local Number =3D lpeg.C(lpeg.P"-"^-1 * lpeg.R("09")^1) * Space
+local TermOp =3D lpeg.C(lpeg.S("+-")) * Space
+local FactorOp =3D lpeg.C(lpeg.S("*/")) * Space
+local Open =3D "(" * Space
+local Close =3D ")" * Space
+
+-- Grammar
+local Exp, Term, Factor =3D lpeg.V"Exp", lpeg.V"Term", lpeg.V"Factor"
+G =3D lpeg.P{ Exp,
+  Exp =3D lpeg.Ct(Term * (TermOp * Term)^0);
+  Term =3D lpeg.Ct(Factor * (FactorOp * Factor)^0);
+  Factor =3D Number + Open * Exp * Close;
+}
+
+G =3D Space * G * -1
+
+-- Evaluator
+function eval (x)
+  if type(x) =3D=3D "string" then
+    return tonumber(x)
+  else
+    local op1 =3D eval(x[1])
+    for i =3D 2, #x, 2 do
+      local op =3D x[i]
+      local op2 =3D eval(x[i + 1])
+      if (op =3D=3D "+") then op1 =3D op1 + op2
+      elseif (op =3D=3D "-") then op1 =3D op1 - op2
+      elseif (op =3D=3D "*") then op1 =3D op1 * op2
+      elseif (op =3D=3D "/") then op1 =3D op1 / op2
+      end
+    end
+    return op1
+  end
+end
+
+-- Parser/Evaluator
+function evalExp (s)
+  local t =3D lpeg.match(G, s)
+  if not t then error("syntax error", 2) end
+  return eval(t)
+end
+
+-- small example
+print(evalExp"3 + 5*9 / (1+1) - 12")   --&gt; 13.5
+</pre>
+
+<p>
+The second style computes the expression value on the fly,
+without building the syntax tree.
+The following grammar takes this approach.
+(It assumes the same lexical elements as before.)
+</p>
+<pre class=3D"example">-- Auxiliary function
+function eval (v1, op, v2)
+  if (op =3D=3D "+") then return v1 + v2
+  elseif (op =3D=3D "-") then return v1 - v2
+  elseif (op =3D=3D "*") then return v1 * v2
+  elseif (op =3D=3D "/") then return v1 / v2
+  end
+end
+
+-- Grammar
+local V =3D lpeg.V
+G =3D lpeg.P{ "Exp",
+  Exp =3D V"Term" * (TermOp * V"Term" % eval)^0;
+  Term =3D V"Factor" * (FactorOp * V"Factor" % eval)^0;
+  Factor =3D Number / tonumber + Open * V"Exp" * Close;
+}
+
+-- small example
+print(lpeg.match(G, "3 + 5*9 / (1+1) - 12"))   --&gt; 13.5
+</pre>
+<p>
+Note the use of the accumulator capture.
+To compute the value of an expression,
+the accumulator starts with the value of the first term,
+and then applies <code>eval</code> over
+the accumulator, the operator,
+and the new term for each repetition.
+</p>
+
+
+
+<h2><a name=3D"download"></a>Download</h2>
+
+<p>LPeg=20
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/lpeg-1.1.0.tar.gz">sour=
+ce code</a>.</p>
+
+<p>
+Probably, the easiest way to install LPeg is with
+<a href=3D"https://luarocks.org/">LuaRocks</a>.
+If you have LuaRocks installed,
+the following command is all you need to install LPeg:
+</p><pre>$ luarocks install lpeg</pre>
+
+
+<h2><a name=3D"license">License</a></h2>
+
+<p>
+Copyright =C2=A9 2007-2023 Lua.org, PUC-Rio.
+</p>
+<p>
+Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and
+associated documentation files (the "Software"),
+to deal in the Software without restriction,
+including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software,
+and to permit persons to whom the Software is
+furnished to do so,
+subject to the following conditions:
+</p>
+
+<p>
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions of the Software.
+</p>
+
+<p>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</p>
+
+</div> <!-- id=3D"content" -->
+
+</div> <!-- id=3D"main" -->
+
+</div> <!-- id=3D"container" -->
+
+
+=20
+</body></html>
+------MultipartBoundary--UpYUNLTFq9GvaRMdk4O1sBaZfImzpuenwU7Ye68KcA----
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/lpeg-128.gif
+
+R0lGODlhgACAAOf/AAAAggAAgwEAhAAGgwAHhAAIhQAJhgsFgA4GgRAHghMIgxgLhg4TiBAUiRMV
+ixUWjBgXjQ0dkBsZjxQgkyUfjighkR8mkiEmkyMnlCQolScqlzIqkywulTQrlC4vljAwmDIymi03
+nTQ0mzY0nTg4mTs6mz07nT89n0E+oTtCozxDpEZEoUpHpEtIpUxJpkdNqU9OpVJQp1NRqFBXrVhY
+qVlZqlpaq1tbrF1crl9esGBfsWFgsmNitGRlsWVmsmZns2dotGhptWtruGxtuXNutXRvt29yuHJ2
+u36AfXp4un+BfoCCf3x6u4GDgH17vIKEgX58vYOFgoSGg4B+v4WHhIF/wIaIhYKAwn2DwoiKh36E
+xImLiIqMiYSFv4WGwYaHwo2PjI6QjYiJxI+RjpGTkIuMx5KUkY2NyZSWk5KOxJWXlJaYlZSQxpeZ
+lpWRyJial5aSyZGVypKWy5qcmZyem5WZzZ2fnJ6gnZqayZ+hnp2czKGjoJ6ezqOlop+fz6Smo6Wn
+pKGh0aaopaOj06Wk1KmrqKqsqaql0Kutqqyn0q2vrK2o06ir1Kms1a+xrquu17GzsLO1sq2x2rS2
+s7W3tLa4tbSz17e5trW02Lm7uLe327q8ubm43by+u72/vL7Bvby84MDCv7694cLEwcO/3cPFwsTA
+3r/D38TGw8HF4sbIxcLG48fKxsTH5MnLyMXI5cbJ5svNycfK58rK4c3Py8zM487QzM3N5c/RztDS
+z9DP59HT0NHQ6NLU0dPV0tLS6dTW09XX1NTU69bY1dXV7Nja1trX6dnb19zY6tvd2t3Z693f3N/b
+7d7g3d/h3uHd79zg8ODi393h8uHk4OPl4eDk9OTm4+Hl9eTl7+bo5ebn8efp5ufo8ujq5+jp8+nr
+6Ors6err9evu6uzs9+3v6+3t+O7w7e7v+fLv9PDy7/Px9fHz8PL08fXz9/P18vb0+PX39Pj1+vn2
++/f59vr3/Pj69/v4/fn7+Pz6/vr8+ff9//v9+vj+//n///z/+/7//CH+FUNyZWF0ZWQgd2l0aCBU
+aGUgR0lNUAAsAAAAAIAAgAAACP4A/wkcSLCgwYMIEypcyLChw4cQI0qcSLGixYsYM2rcyLGjx48g
+Q4ocSbKkyZMoU6pcybKlS4GV+thpo+bewHWVRu3KVs9jO2S1eHHj97LiNlyOxuAaiO8TpEudUOEb
+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
+PMiEXMiGfMiInMiKvMiMHL0BAQA7
+
+------MultipartBoundary--UpYUNLTFq9GvaRMdk4O1sBaZfImzpuenwU7Ye68KcA----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/doc.css
+
+@charset "utf-8";
+
+body { font-family: arial, helvetica, geneva, sans-serif; background-color:=
+ rgb(255, 255, 255); margin: 0px; }
+
+code { font-family: "Andale Mono", monospace; }
+
+tt { font-family: "Andale Mono", monospace; }
+
+body, td, th { font-size: 11pt; }
+
+h1, h2, h3, h4 { margin-left: 0em; }
+
+textarea, pre, tt { font-size: 10pt; }
+
+body, td, th { color: rgb(0, 0, 0); }
+
+small { font-size: 0.85em; }
+
+h1 { font-size: 1.5em; }
+
+h2 { font-size: 1.25em; }
+
+h3 { font-size: 1.15em; }
+
+h4 { font-size: 1.06em; }
+
+a:link { font-weight: bold; color: rgb(0, 64, 128); text-decoration: none; =
+}
+
+a:visited { font-weight: bold; color: rgb(0, 102, 153); text-decoration: no=
+ne; }
+
+a:link:hover { text-decoration: underline; }
+
+hr { color: rgb(204, 204, 204); }
+
+img { border-width: 0px; }
+
+h3 { padding-top: 1em; }
+
+p { margin-left: 1em; }
+
+p.name { font-family: "Andale Mono", monospace; padding-top: 1em; margin-le=
+ft: 0em; }
+
+blockquote { margin-left: 3em; }
+
+.example { background-color: rgb(245, 245, 245); border-width: 1px; border-=
+style: solid; border-color: silver; padding: 1em; margin-left: 1em; margin-=
+right: 1em; font-family: "Andale Mono", monospace; font-size: smaller; }
+
+hr { margin-left: 0em; background: rgb(0, 0, 127); border: 0px; height: 1px=
+; }
+
+ul { list-style-type: disc; }
+
+table.index { border: 1px rgb(0, 0, 127); }
+
+table.index td { text-align: left; vertical-align: top; }
+
+table.index ul { padding-top: 0em; margin-top: 0em; }
+
+table { border: 1px solid black; border-collapse: collapse; margin-left: au=
+to; margin-right: auto; }
+
+th { border: 1px solid black; padding: 0.5em; }
+
+td { border: 1px solid black; padding: 0.5em; }
+
+div.header, div.footer { margin-left: 0em; }
+
+#container { margin-left: 1em; margin-right: 1em; background-color: rgb(240=
+, 240, 240); }
+
+#product { text-align: center; border-bottom: 1px solid rgb(204, 204, 204);=
+ background-color: rgb(255, 255, 255); }
+
+#product big { font-size: 2em; }
+
+#product_logo { }
+
+#product_name { }
+
+#product_description { }
+
+#main { background-color: rgb(240, 240, 240); border-left: 2px solid rgb(20=
+4, 204, 204); }
+
+#navigation { float: left; width: 12em; margin: 0px; vertical-align: top; b=
+ackground-color: rgb(240, 240, 240); overflow: visible; }
+
+#navigation h1 { background-color: rgb(231, 231, 231); font-size: 1.1em; co=
+lor: rgb(0, 0, 0); text-align: left; margin: 0px; padding: 0.2em; border-to=
+p: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221=
+); }
+
+#navigation ul { font-size: 1em; list-style-type: none; padding: 0px; margi=
+n: 1px; }
+
+#navigation li { text-indent: -1em; margin: 0em 0em 0em 0.5em; display: blo=
+ck; padding: 3px 0px 0px 12px; }
+
+#navigation li li a { }
+
+#content { margin-left: 12em; padding: 1em; border-left: 2px solid rgb(204,=
+ 204, 204); border-right: 2px solid rgb(204, 204, 204); background-color: r=
+gb(255, 255, 255); }
+
+#about { clear: both; margin: 0px; padding: 5px; border-top: 2px solid rgb(=
+204, 204, 204); background-color: rgb(255, 255, 255); }
+
+@media print {
+  body { font: 10pt "Times New Roman", TimeNR, Times, serif; }
+  a { font-weight: bold; color: rgb(0, 64, 128); text-decoration: underline=
+; }
+  #main { background-color: rgb(255, 255, 255); border-left: 0px; }
+  #container { margin-left: 2%; margin-right: 2%; background-color: rgb(255=
+, 255, 255); }
+  #content { margin-left: 0px; padding: 1em; border-left: 0px; border-right=
+: 0px; background-color: rgb(255, 255, 255); }
+  #navigation { display: none; }
+  #product_logo { display: none; }
+  #about img { display: none; }
+  .example { font-family: "Andale Mono", monospace; font-size: 8pt; break-i=
+nside: avoid; }
+}
+------MultipartBoundary--UpYUNLTFq9GvaRMdk4O1sBaZfImzpuenwU7Ye68KcA------

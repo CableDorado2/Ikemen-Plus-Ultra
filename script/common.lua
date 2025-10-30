@@ -57,10 +57,10 @@ htmlparser = require("htmlparser") --Load htmlparser library
 curl = require("cURL") --Load Lua-cURL library (https requests are not supported yet in Windows XP)
 lfs = require("lfs") --Load LuaFileSystem library
 ffi = require("ffi") --Load Foreign Function Interface library
---Load JSON libraries
-dkjson = require("dkjson")
-json = (loadfile "lib/lua/json.lua")() --One-time load of the json routines
---json = dofile("lib/lua/json.lua")
+--Load JSON library
+lpeg = require("lpeg")
+json = require("dkjson")
+if lpeg then json = json.use_lpeg() end --Change json to optimized mode using lpeg
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================
@@ -878,11 +878,6 @@ assert(loadfile(saveTrainingPath))() --training data
 assert(loadfile(saveTourneyPath))() --tournament data
 assert(loadfile(saveTempPath))() --temp data
 
---Data loading from host_rooms.json
-local file = io.open(saveHostRoomPath,"r")
-host_rooms = json.decode(file:read("*all"))
-file:close()
-
 --Data loading from temp_sav.lua
 local tempFile = io.open(saveTempPath,"r")
 s_tempdataLUA = tempFile:read("*all")
@@ -900,6 +895,9 @@ file:close()
 
 --Data loading from config.json
 --config = json.decode(f_fileRead(saveCfgPath))
+
+--Data loading from host_rooms.json
+host_rooms = json.decode(f_fileRead(saveHostRoomPath))
 
 --Data loading from stats_sav.json
 stats = json.decode(f_fileRead(saveStatsPath))
@@ -1327,7 +1325,6 @@ function f_inputConvert(input, swapTo)
 	end
 	return output
 end
-
 --;===========================================================
 --; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
 --;===========================================================
@@ -3209,6 +3206,12 @@ function f_saveStats()
 	f_fileWrite(saveStatsPath, json.encode(stats, {indent = 2}))
 end
 
+--Data saving to host_rooms.json
+function f_saveOnlineRooms()
+	--if data.debugLog then f_printTable(host_rooms, 'save/debug/t_hostRooms.log') end
+	f_fileWrite(saveHostRoomPath, json.encode(host_rooms, {indent = 2}))
+end
+
 --Data saving to abyss_save.json
 function f_saveAbyss()
 	--if data.debugLog then f_printTable(abyssDat, 'save/debug/t_abyssSave.log') end
@@ -3410,6 +3413,14 @@ end
 init_generalStats() --Create general stats data
 init_unlocksStats() --Create Unlocks data
 f_saveStats()
+
+if host_rooms.IP == nil then
+	host_rooms["IP"] = {
+		["HELLO WORLD"] = "01000011.01000100.00110010.00100000.01110111.01100001.01110011.00100000.01101000.01100101.01110010.01100101",
+		["LOCAL HOST"] = "localhost"
+	}
+	f_saveOnlineRooms()
+end
 
 function f_getProgress(dat, items, class)
 	local t_data = dat

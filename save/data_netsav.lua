@@ -3,29 +3,29 @@ data.userName = "PLAYER"
 data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
-data.menuSong = "sound/System/menu/Menu 2.mp3"
+data.menuSong = "sound/system/menu/Menu 3.mp3"
 data.menuSongFolder = 4
 data.selectSong = "sound/system/select/Select 1.mp3"
 data.selectSongFolder = 4
 data.challengerSong = "sound/system/select/Select Challenger.mp3"
 data.challengerSongFolder = 4
-data.bgmDisplay = true
+data.bgmDisplay = false
 --System Data
 data.language = "ENGLISH"
-data.clock = 2
-data.dateFormat = 3
+data.clock = 3
+data.dateFormat = 6
 data.attractMode = false
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.serviceType = "Button"
 data.orderSelType = "Cursor"
 data.portraitDisplay = "Portrait"
-data.sffConversion = false
+data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
 data.roundsNum = 2
-data.lifebar = "data/screenpack/fight.def"
+data.lifebar = "data/lifebars/winmugen/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"
 data.aiRamping = true

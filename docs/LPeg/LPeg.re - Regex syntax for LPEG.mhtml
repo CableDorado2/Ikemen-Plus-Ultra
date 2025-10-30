@@ -1,0 +1,713 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/re.html
+Subject: LPeg.re - Regex syntax for LPEG
+Date: Thu, 30 Oct 2025 18:19:39 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--pSJmbfucxV1diHXR3LNxFVMHFt8nTxXSOFhjlHmWuG----"
+
+
+------MultipartBoundary--pSJmbfucxV1diHXR3LNxFVMHFt8nTxXSOFhjlHmWuG----
+Content-Type: text/html
+Content-ID: <frame-60AA10E661EBEAA2B598B87B79B54FAC@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/re.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "//www.w3.org/TR/x=
+html1/DTD/xhtml1-strict.dtd"><html><head><meta http-equiv=3D"Content-Type" =
+content=3D"text/html; charset=3DUTF-8">
+    <title>LPeg.re - Regex syntax for LPEG</title>
+    <link rel=3D"stylesheet" href=3D"https://www.inf.puc-rio.br/~roberto/lp=
+eg/doc.css" type=3D"text/css">
+=09
+</head>
+<body>
+
+
+<div id=3D"container">
+=09
+<div id=3D"product">
+  <div id=3D"product_logo">
+    <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/">
+    <img alt=3D"LPeg logo" src=3D"https://www.inf.puc-rio.br/~roberto/lpeg/=
+lpeg-128.gif">
+    </a>
+  </div>
+  <div id=3D"product_name"><big><strong>LPeg.re</strong></big></div>
+  <div id=3D"product_description">
+     Regex syntax for LPEG
+  </div>
+</div> <!-- id=3D"product" -->
+
+<div id=3D"main">
+=09
+<div id=3D"navigation">
+<h1>re</h1>
+
+<ul>
+  <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/re.html#basic">Ba=
+sic Constructions</a></li>
+  <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/re.html#func">Fun=
+ctions</a></li>
+  <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/re.html#ex">Some =
+Examples</a></li>
+  <li><a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/re.html#license">=
+License</a></li>
+  </ul>
+ =20
+
+</div> <!-- id=3D"navigation" -->
+
+<div id=3D"content">
+
+<h2><a name=3D"basic"></a>The <code>re</code> Module</h2>
+
+<p>
+The <code>re</code> module
+(provided by file <code>re.lua</code> in the distribution)
+supports a somewhat conventional regex syntax
+for pattern usage within <a href=3D"https://www.inf.puc-rio.br/~roberto/lpe=
+g/lpeg.html">LPeg</a>.
+</p>
+
+<p>
+The next table summarizes <code>re</code>'s syntax.
+A <code>p</code> represents an arbitrary pattern;
+<code>num</code> represents a number (<code>[0-9]+</code>);
+<code>name</code> represents an identifier
+(<code>[a-zA-Z][a-zA-Z0-9_]*</code>).
+Constructions are listed in order of decreasing precedence.
+</p><table border=3D"1">
+<tbody><tr><td><b>Syntax</b></td><td><b>Description</b></td></tr>
+<tr><td><code>( p )</code></td> <td>grouping</td></tr>
+<tr><td><code>&amp; p</code></td> <td>and predicate</td></tr>
+<tr><td><code>! p</code></td> <td>not predicate</td></tr>
+<tr><td><code>p1 p2</code></td> <td>concatenation</td></tr>
+<tr><td><code>p1 / p2</code></td> <td>ordered choice</td></tr>
+<tr><td><code>p ?</code></td> <td>optional match</td></tr>
+<tr><td><code>p *</code></td> <td>zero or more repetitions</td></tr>
+<tr><td><code>p +</code></td> <td>one or more repetitions</td></tr>
+<tr><td><code>p^num</code></td>
+      <td>exactly <code>num</code> repetitions</td></tr>
+<tr><td><code>p^+num</code></td>
+      <td>at least <code>num</code> repetitions</td></tr>
+<tr><td><code>p^-num</code></td>
+      <td>at most <code>num</code> repetitions</td></tr>
+<tr><td>(<code>name &lt;- p</code>)<sup>+</sup></td> <td>grammar</td></tr>
+<tr><td><code>'string'</code></td> <td>literal string</td></tr>
+<tr><td><code>"string"</code></td> <td>literal string</td></tr>
+<tr><td><code>[class]</code></td> <td>character class</td></tr>
+<tr><td><code>.</code></td> <td>any character</td></tr>
+<tr><td><code>%name</code></td>
+  <td>pattern <code>defs[name]</code> or a pre-defined pattern</td></tr>
+<tr><td><code>name</code></td><td>non terminal</td></tr>
+<tr><td><code>&lt;name&gt;</code></td><td>non terminal</td></tr>
+
+<tr><td><code>{}</code></td> <td>position capture</td></tr>
+<tr><td><code>{ p }</code></td> <td>simple capture</td></tr>
+<tr><td><code>{: p :}</code></td> <td>anonymous group capture</td></tr>
+<tr><td><code>{:name: p :}</code></td> <td>named group capture</td></tr>
+<tr><td><code>{~ p ~}</code></td> <td>substitution capture</td></tr>
+<tr><td><code>{| p |}</code></td> <td>table capture</td></tr>
+<tr><td><code>=3Dname</code></td> <td>back reference</td></tr>
+
+<tr><td><code>p -&gt; 'string'</code></td> <td>string capture</td></tr>
+<tr><td><code>p -&gt; "string"</code></td> <td>string capture</td></tr>
+<tr><td><code>p -&gt; num</code></td> <td>numbered capture</td></tr>
+<tr><td><code>p -&gt; name</code></td> <td>function/query/string capture
+equivalent to <code>p / defs[name]</code></td></tr>
+<tr><td><code>p =3D&gt; name</code></td> <td>match-time capture
+equivalent to <code>lpeg.Cmt(p, defs[name])</code></td></tr>
+<tr><td><code>p ~&gt; name</code></td> <td>fold capture
+(deprecated)</td></tr>
+<tr><td><code>p &gt;&gt; name</code></td> <td>accumulator capture
+equivalent to <code>(p % defs[name])</code></td></tr>
+</tbody></table>
+<p>
+Any space appearing in a syntax description can be
+replaced by zero or more space characters and Lua-style short comments
+(<code>--</code> until end of line).
+</p>
+
+<p>
+Character classes define sets of characters.
+An initial <code>^</code> complements the resulting set.
+A range <em>x</em><code>-</code><em>y</em> includes in the set
+all characters with codes between the codes of <em>x</em> and <em>y</em>.
+A pre-defined class <code>%</code><em>name</em> includes all
+characters of that class.
+A simple character includes itself in the set.
+The only special characters inside a class are <code>^</code>
+(special only if it is the first character);
+<code>]</code>
+(can be included in the set as the first character,
+after the optional <code>^</code>);
+<code>%</code> (special only if followed by a letter);
+and <code>-</code>
+(can be included in the set as the first or the last character).
+</p>
+
+<p>
+Currently the pre-defined classes are similar to those from the
+Lua's string library
+(<code>%a</code> for letters,
+<code>%A</code> for non letters, etc.).
+There is also a class <code>%nl</code>
+containing only the newline character,
+which is particularly handy for grammars written inside long strings,
+as long strings do not interpret escape sequences like <code>\n</code>.
+</p>
+
+
+<h2><a name=3D"func">Functions</a></h2>
+
+<h3><code>re.compile (string, [, defs])</code></h3>
+<p>
+Compiles the given string and
+returns an equivalent LPeg pattern.
+The given string may define either an expression or a grammar.
+The optional <code>defs</code> table provides extra Lua values
+to be used by the pattern.
+</p>
+
+<h3><code>re.find (subject, pattern [, init])</code></h3>
+<p>
+Searches the given pattern in the given subject.
+If it finds a match,
+returns the index where this occurrence starts and
+the index where it ends.
+Otherwise, returns nil.
+</p>
+
+<p>
+An optional numeric argument <code>init</code> makes the search
+starts at that position in the subject string.
+As usual in Lua libraries,
+a negative value counts from the end.
+</p>
+
+<h3><code>re.gsub (subject, pattern, replacement)</code></h3>
+<p>
+Does a <em>global substitution</em>,
+replacing all occurrences of <code>pattern</code>
+in the given <code>subject</code> by <code>replacement</code>.
+
+</p><h3><code>re.match (subject, pattern)</code></h3>
+<p>
+Matches the given pattern against the given subject,
+returning all captures.
+</p>
+
+<h3><code>re.updatelocale ()</code></h3>
+<p>
+Updates the pre-defined character classes to the current locale.
+</p>
+
+
+<h2><a name=3D"ex">Some Examples</a></h2>
+
+<h3>A complete simple program</h3>
+<p>
+The next code shows a simple complete Lua program using
+the <code>re</code> module:
+</p>
+<pre class=3D"example">local re =3D require"re"
+
+-- find the position of the first numeral in a string
+print(re.find("the number 423 is odd", "[0-9]+"))  --&gt; 12    14
+
+-- returns all words in a string
+print(re.match("the number 423 is odd", "({%a+} / .)*"))
+--&gt; the    number    is    odd
+
+-- returns the first numeral in a string
+print(re.match("the number 423 is odd", "s &lt;- {%d+} / . s"))
+--&gt; 423
+
+-- substitutes a dot for each vowel in a string
+print(re.gsub("hello World", "[aeiou]", "."))
+--&gt; h.ll. W.rld
+</pre>
+
+
+<h3>Balanced parentheses</h3>
+<p>
+The following call will produce the same pattern produced by the
+Lua expression in the
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html#balanced">bal=
+anced parentheses</a> example:
+</p>
+<pre class=3D"example">b =3D re.compile[[  balanced &lt;- "(" ([^()] / bala=
+nced)* ")"  ]]
+</pre>
+
+<h3>String reversal</h3>
+<p>
+The next example reverses a string:
+</p>
+<pre class=3D"example">rev =3D re.compile[[ R &lt;- (!.) -&gt; '' / ({.} R)=
+ -&gt; '%2%1']]
+print(rev:match"0123456789")   --&gt; 9876543210
+</pre>
+
+<h3>CSV decoder</h3>
+<p>
+The next example replicates the <a href=3D"https://www.inf.puc-rio.br/~robe=
+rto/lpeg/lpeg.html#CSV">CSV decoder</a>:
+</p>
+<pre class=3D"example">record =3D re.compile[[
+  record &lt;- {| field (',' field)* |} (%nl / !.)
+  field &lt;- escaped / nonescaped
+  nonescaped &lt;- { [^,"%nl]* }
+  escaped &lt;- '"' {~ ([^"] / '""' -&gt; '"')* ~} '"'
+]]
+</pre>
+
+<h3>Lua's long strings</h3>
+<p>
+The next example matches Lua long strings:
+</p>
+<pre class=3D"example">c =3D re.compile([[
+  longstring &lt;- ('[' {:eq: '=3D'* :} '[' close)
+  close &lt;- ']' =3Deq ']' / . close
+]])
+
+print(c:match'[=3D=3D[]]=3D=3D=3D]]]]=3D=3D]=3D=3D=3D[]')   --&gt; 17
+</pre>
+
+<h3>Abstract Syntax Trees</h3>
+<p>
+This example shows a simple way to build an
+abstract syntax tree (AST) for a given grammar.
+To keep our example simple,
+let us consider the following grammar
+for lists of names:
+</p>
+<pre class=3D"example">p =3D re.compile[[
+      listname &lt;- (name s)*
+      name &lt;- [a-z][a-z]*
+      s &lt;- %s*
+]]
+</pre>
+<p>
+Now, we will add captures to build a corresponding AST.
+As a first step, the pattern will build a table to
+represent each non terminal;
+terminals will be represented by their corresponding strings:
+</p>
+<pre class=3D"example">c =3D re.compile[[
+      listname &lt;- {| (name s)* |}
+      name &lt;- {| {[a-z][a-z]*} |}
+      s &lt;- %s*
+]]
+</pre>
+<p>
+Now, a match against <code>"hi hello bye"</code>
+results in the table
+<code>{{"hi"}, {"hello"}, {"bye"}}</code>.
+</p>
+<p>
+For such a simple grammar,
+this AST is more than enough;
+actually, the tables around each single name
+are already overkilling.
+More complex grammars,
+however, may need some more structure.
+Specifically,
+it would be useful if each table had
+a <code>tag</code> field telling what non terminal
+that table represents.
+We can add such a tag using
+<a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html#cap-g">named =
+group captures</a>:
+</p>
+<pre class=3D"example">x =3D re.compile[[
+      listname &lt;- {| {:tag: '' -&gt; 'list':} (name s)* |}
+      name &lt;- {| {:tag: '' -&gt; 'id':} {[a-z][a-z]*} |}
+      s &lt;- ' '*
+]]
+</pre>
+<p>
+With these group captures,
+a match against <code>"hi hello bye"</code>
+results in the following table:
+</p>
+<pre class=3D"example">{tag=3D"list",
+  {tag=3D"id", "hi"},
+  {tag=3D"id", "hello"},
+  {tag=3D"id", "bye"}
+}
+</pre>
+
+
+<h3>Indented blocks</h3>
+<p>
+This example breaks indented blocks into tables,
+respecting the indentation:
+</p>
+<pre class=3D"example">p =3D re.compile[[
+  block &lt;- {| {:ident:' '*:} line
+           ((=3Dident !' ' line) / &amp;(=3Dident ' ') block)* |}
+  line &lt;- {[^%nl]*} %nl
+]]
+</pre>
+<p>
+As an example,
+consider the following text:
+</p>
+<pre class=3D"example">t =3D p:match[[
+first line
+  subline 1
+  subline 2
+second line
+third line
+  subline 3.1
+    subline 3.1.1
+  subline 3.2
+]]
+</pre>
+<p>
+The resulting table <code>t</code> will be like this:
+</p>
+<pre class=3D"example">   {'first line'; {'subline 1'; 'subline 2'; ident =
+=3D '  '};
+    'second line';
+    'third line'; { 'subline 3.1'; {'subline 3.1.1'; ident =3D '    '};
+                    'subline 3.2'; ident =3D '  '};
+    ident =3D ''}
+</pre>
+
+<h3>Macro expander</h3>
+<p>
+This example implements a simple macro expander.
+Macros must be defined as part of the pattern,
+following some simple rules:
+</p>
+<pre class=3D"example">p =3D re.compile[[
+      text &lt;- {~ item* ~}
+      item &lt;- macro / [^()] / '(' item* ')'
+      arg &lt;- ' '* {~ (!',' item)* ~}
+      args &lt;- '(' arg (',' arg)* ')'
+      -- now we define some macros
+      macro &lt;- ('apply' args) -&gt; '%1(%2)'
+             / ('add' args) -&gt; '%1 + %2'
+             / ('mul' args) -&gt; '%1 * %2'
+]]
+
+print(p:match"add(mul(a,b), apply(f,x))")   --&gt; a * b + f(x)
+</pre>
+<p>
+A <code>text</code> is a sequence of items,
+wherein we apply a substitution capture to expand any macros.
+An <code>item</code> is either a macro,
+any character different from parentheses,
+or a parenthesized expression.
+A macro argument (<code>arg</code>) is a sequence
+of items different from a comma.
+(Note that a comma may appear inside an item,
+e.g., inside a parenthesized expression.)
+Again we do a substitution capture to expand any macro
+in the argument before expanding the outer macro.
+<code>args</code> is a list of arguments separated by commas.
+Finally we define the macros.
+Each macro is a string substitution;
+it replaces the macro name and its arguments by its corresponding string,
+with each <code>%</code><em>n</em> replaced by the <em>n</em>-th argument.
+</p>
+
+<h3>Patterns</h3>
+<p>
+This example shows the complete syntax
+of patterns accepted by <code>re</code>.
+</p>
+<pre class=3D"example">p =3D [=3D[
+
+pattern         &lt;- exp !.
+exp             &lt;- S (grammar / alternative)
+
+alternative     &lt;- seq ('/' S seq)*
+seq             &lt;- prefix*
+prefix          &lt;- '&amp;' S prefix / '!' S prefix / suffix
+suffix          &lt;- primary S (([+*?]
+                            / '^' [+-]? num
+                            / '-&gt;' S (string / '{}' / name)
+                            / '&gt;&gt;' S name
+                            / '=3D&gt;' S name) S)*
+
+primary         &lt;- '(' exp ')' / string / class / defined
+                 / '{:' (name ':')? exp ':}'
+                 / '=3D' name
+                 / '{}'
+                 / '{~' exp '~}'
+                 / '{|' exp '|}'
+                 / '{' exp '}'
+                 / '.'
+                 / name S !arrow
+                 / '&lt;' name '&gt;'          -- old-style non terminals
+
+grammar         &lt;- definition+
+definition      &lt;- name S arrow exp
+
+class           &lt;- '[' '^'? item (!']' item)* ']'
+item            &lt;- defined / range / .
+range           &lt;- . '-' [^]]
+
+S               &lt;- (%s / '--' [^%nl]*)*   -- spaces and comments
+name            &lt;- [A-Za-z_][A-Za-z0-9_]*
+arrow           &lt;- '&lt;-'
+num             &lt;- [0-9]+
+string          &lt;- '"' [^"]* '"' / "'" [^']* "'"
+defined         &lt;- '%' name
+
+]=3D]
+
+print(re.match(p, p))   -- a self description must match itself
+</pre>
+
+
+
+<h2><a name=3D"license">License</a></h2>
+
+<p>
+This module is part of the <a href=3D"https://www.inf.puc-rio.br/~roberto/l=
+peg/lpeg.html">LPeg</a> package and shares
+its <a href=3D"https://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html#license">=
+license</a>.
+
+
+</p></div> <!-- id=3D"content" -->
+
+</div> <!-- id=3D"main" -->
+
+</div> <!-- id=3D"container" -->
+
+
+=20
+</body></html>
+------MultipartBoundary--pSJmbfucxV1diHXR3LNxFVMHFt8nTxXSOFhjlHmWuG----
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/lpeg-128.gif
+
+R0lGODlhgACAAOf/AAAAggAAgwEAhAAGgwAHhAAIhQAJhgsFgA4GgRAHghMIgxgLhg4TiBAUiRMV
+ixUWjBgXjQ0dkBsZjxQgkyUfjighkR8mkiEmkyMnlCQolScqlzIqkywulTQrlC4vljAwmDIymi03
+nTQ0mzY0nTg4mTs6mz07nT89n0E+oTtCozxDpEZEoUpHpEtIpUxJpkdNqU9OpVJQp1NRqFBXrVhY
+qVlZqlpaq1tbrF1crl9esGBfsWFgsmNitGRlsWVmsmZns2dotGhptWtruGxtuXNutXRvt29yuHJ2
+u36AfXp4un+BfoCCf3x6u4GDgH17vIKEgX58vYOFgoSGg4B+v4WHhIF/wIaIhYKAwn2DwoiKh36E
+xImLiIqMiYSFv4WGwYaHwo2PjI6QjYiJxI+RjpGTkIuMx5KUkY2NyZSWk5KOxJWXlJaYlZSQxpeZ
+lpWRyJial5aSyZGVypKWy5qcmZyem5WZzZ2fnJ6gnZqayZ+hnp2czKGjoJ6ezqOlop+fz6Smo6Wn
+pKGh0aaopaOj06Wk1KmrqKqsqaql0Kutqqyn0q2vrK2o06ir1Kms1a+xrquu17GzsLO1sq2x2rS2
+s7W3tLa4tbSz17e5trW02Lm7uLe327q8ubm43by+u72/vL7Bvby84MDCv7694cLEwcO/3cPFwsTA
+3r/D38TGw8HF4sbIxcLG48fKxsTH5MnLyMXI5cbJ5svNycfK58rK4c3Py8zM487QzM3N5c/RztDS
+z9DP59HT0NHQ6NLU0dPV0tLS6dTW09XX1NTU69bY1dXV7Nja1trX6dnb19zY6tvd2t3Z693f3N/b
+7d7g3d/h3uHd79zg8ODi393h8uHk4OPl4eDk9OTm4+Hl9eTl7+bo5ebn8efp5ufo8ujq5+jp8+nr
+6Ors6err9evu6uzs9+3v6+3t+O7w7e7v+fLv9PDy7/Px9fHz8PL08fXz9/P18vb0+PX39Pj1+vn2
++/f59vr3/Pj69/v4/fn7+Pz6/vr8+ff9//v9+vj+//n///z/+/7//CH+FUNyZWF0ZWQgd2l0aCBU
+aGUgR0lNUAAsAAAAAIAAgAAACP4A/wkcSLCgwYMIEypcyLChw4cQI0qcSLGixYsYM2rcyLGjx48g
+Q4ocSbKkyZMoU6pcybKlS4GV+thpo+bewHWVRu3KVs9jO2S1eHHj97LiNlyOxuAaiO8TpEudUOEb
+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
+PMiEXMiGfMiInMiKvMiMHL0BAQA7
+
+------MultipartBoundary--pSJmbfucxV1diHXR3LNxFVMHFt8nTxXSOFhjlHmWuG----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://www.inf.puc-rio.br/~roberto/lpeg/doc.css
+
+@charset "utf-8";
+
+body { font-family: arial, helvetica, geneva, sans-serif; background-color:=
+ rgb(255, 255, 255); margin: 0px; }
+
+code { font-family: "Andale Mono", monospace; }
+
+tt { font-family: "Andale Mono", monospace; }
+
+body, td, th { font-size: 11pt; }
+
+h1, h2, h3, h4 { margin-left: 0em; }
+
+textarea, pre, tt { font-size: 10pt; }
+
+body, td, th { color: rgb(0, 0, 0); }
+
+small { font-size: 0.85em; }
+
+h1 { font-size: 1.5em; }
+
+h2 { font-size: 1.25em; }
+
+h3 { font-size: 1.15em; }
+
+h4 { font-size: 1.06em; }
+
+a:link { font-weight: bold; color: rgb(0, 64, 128); text-decoration: none; =
+}
+
+a:visited { font-weight: bold; color: rgb(0, 102, 153); text-decoration: no=
+ne; }
+
+a:link:hover { text-decoration: underline; }
+
+hr { color: rgb(204, 204, 204); }
+
+img { border-width: 0px; }
+
+h3 { padding-top: 1em; }
+
+p { margin-left: 1em; }
+
+p.name { font-family: "Andale Mono", monospace; padding-top: 1em; margin-le=
+ft: 0em; }
+
+blockquote { margin-left: 3em; }
+
+.example { background-color: rgb(245, 245, 245); border-width: 1px; border-=
+style: solid; border-color: silver; padding: 1em; margin-left: 1em; margin-=
+right: 1em; font-family: "Andale Mono", monospace; font-size: smaller; }
+
+hr { margin-left: 0em; background: rgb(0, 0, 127); border: 0px; height: 1px=
+; }
+
+ul { list-style-type: disc; }
+
+table.index { border: 1px rgb(0, 0, 127); }
+
+table.index td { text-align: left; vertical-align: top; }
+
+table.index ul { padding-top: 0em; margin-top: 0em; }
+
+table { border: 1px solid black; border-collapse: collapse; margin-left: au=
+to; margin-right: auto; }
+
+th { border: 1px solid black; padding: 0.5em; }
+
+td { border: 1px solid black; padding: 0.5em; }
+
+div.header, div.footer { margin-left: 0em; }
+
+#container { margin-left: 1em; margin-right: 1em; background-color: rgb(240=
+, 240, 240); }
+
+#product { text-align: center; border-bottom: 1px solid rgb(204, 204, 204);=
+ background-color: rgb(255, 255, 255); }
+
+#product big { font-size: 2em; }
+
+#product_logo { }
+
+#product_name { }
+
+#product_description { }
+
+#main { background-color: rgb(240, 240, 240); border-left: 2px solid rgb(20=
+4, 204, 204); }
+
+#navigation { float: left; width: 12em; margin: 0px; vertical-align: top; b=
+ackground-color: rgb(240, 240, 240); overflow: visible; }
+
+#navigation h1 { background-color: rgb(231, 231, 231); font-size: 1.1em; co=
+lor: rgb(0, 0, 0); text-align: left; margin: 0px; padding: 0.2em; border-to=
+p: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221=
+); }
+
+#navigation ul { font-size: 1em; list-style-type: none; padding: 0px; margi=
+n: 1px; }
+
+#navigation li { text-indent: -1em; margin: 0em 0em 0em 0.5em; display: blo=
+ck; padding: 3px 0px 0px 12px; }
+
+#navigation li li a { }
+
+#content { margin-left: 12em; padding: 1em; border-left: 2px solid rgb(204,=
+ 204, 204); border-right: 2px solid rgb(204, 204, 204); background-color: r=
+gb(255, 255, 255); }
+
+#about { clear: both; margin: 0px; padding: 5px; border-top: 2px solid rgb(=
+204, 204, 204); background-color: rgb(255, 255, 255); }
+
+@media print {
+  body { font: 10pt "Times New Roman", TimeNR, Times, serif; }
+  a { font-weight: bold; color: rgb(0, 64, 128); text-decoration: underline=
+; }
+  #main { background-color: rgb(255, 255, 255); border-left: 0px; }
+  #container { margin-left: 2%; margin-right: 2%; background-color: rgb(255=
+, 255, 255); }
+  #content { margin-left: 0px; padding: 1em; border-left: 0px; border-right=
+: 0px; background-color: rgb(255, 255, 255); }
+  #navigation { display: none; }
+  #product_logo { display: none; }
+  #about img { display: none; }
+  .example { font-family: "Andale Mono", monospace; font-size: 8pt; break-i=
+nside: avoid; }
+}
+------MultipartBoundary--pSJmbfucxV1diHXR3LNxFVMHFt8nTxXSOFhjlHmWuG------

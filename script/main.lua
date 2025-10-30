@@ -14,21 +14,29 @@ loadLifebar(fightDef) --Assign Lifebar Screenpack
 --; DISCORD RICH PRESENCE API
 --;===========================================================
 discordGameID = "1200228516554346567" --Discord App ID
+discordLargeImageReset = "gameicon"
+discordLargeImageTextReset = "Powered by I.K.E.M.E.N. Plus Ultra Engine"
+discordSmallImageReset = "" --nil
+discordSmallImageTextReset = "" --nil
+discordDetailsReset = ""
+discordStateReset = "Single Player"
+discordPartySizeReset = 1
+discordPartyMaxReset = 0
 discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Presence API
 function f_discordInit()
 	discordRPC.initialize(discordGameID, true) --Initialize Discord Rich Presence Using App ID
 	discord = {
 	--Name of the uploaded image for the big profile artwork (max text length: 31)
-		largeImageKey = "gameicon",
+		largeImageKey = discordLargeImageReset,
 		
 	--Tooltip for largeImageKey (max text length: 127)
-		largeImageText = "Powered by I.K.E.M.E.N. Plus Ultra Engine",
+		largeImageText = discordLargeImageTextReset,
 		
 	--Name of the uploaded image for the mini profile artwork (max text length: 31)
-		--smallImageKey = "charname",
+		--smallImageKey = discordSmallImageReset,
 		
 	--Tooltip for smallImageKey (max text length: 127)
-		--smallImageText = "Character: charname",
+		--smallImageText = discordSmallImageTextReset,
 		
 	--What the player is currently doing (max text length: 127)
 		details = "Making the 2D Fighting Game of my Dreams!",
@@ -40,13 +48,13 @@ function f_discordInit()
 		--endTimestamp = 99,
 		
 	--Current Netplay Status (max text length: 127)
-		state = "Single Player",
+		state = discordStateReset,
 		
 	--Current Players in Netplay Lobby
-		partySize = 1,
+		partySize = discordPartySizeReset,
 		
 	--Lobby Max Capacity
-		partyMax = 0,
+		partyMax = discordPartyMaxReset,
 		
 	--Public Lobby ID (max text length: 127)
 		--partyId = "ikemen1234",
@@ -89,7 +97,12 @@ function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 secon
 end
 
 function f_discordMainMenu()
-f_discordUpdate({details = "Main Menu"})
+f_discordUpdate({
+		details = "Main Menu", state = discordStateReset,
+		largeImageKey = discordLargeImageReset, largeImageText = discordLargeImageTextReset,
+		smallImageKey = discordSmallImageReset, smallImageText = discordSmallImageTextReset,
+		partySize = discordPartySizeReset, partyMax = discordPartyMaxReset
+	})
 end
 
 f_discordInit() --Send Discord Rich Presence
@@ -4231,6 +4244,7 @@ function f_mainReplay()
 							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 							sndPlay(sndSys, 100, 1)
 						--Set Default values to prevent desync.
+							f_loadNETCfg()
 							f_onlineDefault()
 							f_netsaveCfg()
 							enterReplay(t_replayList[mainReplay].path)
@@ -4451,12 +4465,14 @@ function f_mainNetplay()
 			maxMainNetplay = 5
 		end
 		if btnPalNo(p1Cmd, true) > 0 then
+			f_discordUpdate({state = "Online Multiplayer", partyMax = 2})
 			f_default()
 			sndPlay(sndSys, 100, 1)
 		--HOST (create online room)
 			if mainNetplay == 1 then
 				f_discordUpdate({details = "Waiting Opponents"})
 				onlinegame = true --only for identify purposes
+				f_loadNETCfg()
 				f_onlineDefault()
 				f_netsaveCfg()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4478,6 +4494,7 @@ function f_mainNetplay()
 			--Default Connection Method
 				if data.connectMode == "Direct" then
 					onlinegame = true
+					f_loadNETCfg()
 					f_onlineDefault()
 					f_netsaveCfg()
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4773,9 +4790,7 @@ end
 --; HOST ROOMS MENU
 --;===========================================================
 function f_hostTable()
-	local file = io.open(saveHostRoomPath,"r")
-	host_rooms = json.decode(file:read("*all"))
-	file:close()
+	--host_rooms = json.decode(f_fileRead(saveHostRoomPath)) --Refresh
 	t_hostList = {{id = textImgNew(), text = "ADD NEW ROOM"},}
 	for k, v in pairs(host_rooms.IP) do
 		t_hostList[#t_hostList + 1] = {id = textImgNew(), text = k, address = v} --Insert Room Names from Local Database
@@ -4901,6 +4916,7 @@ function f_hostRooms()
 		if crudHostOption == 2 then
 			f_crudHostReset()
 			onlinegame = true
+			f_loadNETCfg()
 			f_onlineDefault()
 			f_netsaveCfg()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -5257,9 +5273,7 @@ function f_editHost()
 			end
 		end
 		t_hostList = t_tmp
-		local file = io.open(saveHostRoomPath,"w+")
-		file:write(json.encode(host_rooms, {indent = true}))
-		file:close()
+		f_saveOnlineRooms()
 		f_hostTable() --Refresh
 		f_editHostReset()
 	end
@@ -5773,9 +5787,7 @@ function f_confirmMenu(txt, font, bank, x, y, scaleX, scaleY, spacing, limit)
 					end
 				end
 				t_hostList = t_tmp
-				local file = io.open(saveHostRoomPath,"w+")
-				file:write(json.encode(host_rooms, {indent = true}))
-				file:close()
+				f_saveOnlineRooms()
 				f_hostTable() --Refresh
 		--OTHERS
 			else
@@ -6123,6 +6135,7 @@ function f_sideSelect()
 			else--if you are in bonus rush mode then
 				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
+				f_discordMainMenu()
 			end
 		end
 	--P1 VS CPU
@@ -6221,6 +6234,7 @@ function f_sideSelect()
 			else--if you are not in free versus or quick match modes then
 				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
+				f_discordMainMenu()
 			end
 		end
 	--P2 VS P1
@@ -6235,6 +6249,7 @@ function f_sideSelect()
 				sndPlay(sndIkemen, 200, 0)
 				P2overP1 = false
 				sideWarning = true
+				f_discordMainMenu()
 			end
 		end
 	--P1&P2 VS CPU [CO-OP MODE]
@@ -6259,6 +6274,7 @@ function f_sideSelect()
 			else
 				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
+				f_discordMainMenu()
 			end
 		end
 	--CPU VS P1&P2 [CO-OP MODE] (Not available yet)
@@ -6283,6 +6299,7 @@ function f_sideSelect()
 			else
 				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
+				f_discordMainMenu()
 			end
 		end
 		if sideSelected then f_sideReset() end
