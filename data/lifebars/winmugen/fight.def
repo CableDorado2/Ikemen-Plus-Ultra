@@ -640,7 +640,7 @@ useiconupto = 4
 ;text.text = FT %s ;TODO
 
 ;-----------------------------------------------------------
-;[Reward]
+[Reward]
 pos = 141,38
 ;bg.spr = 
 text.font = 1,0, -1
@@ -648,7 +648,7 @@ text.scale = 0.8, 0.8
 ;text.text = REWARD %s ;TODO
 
 ;-----------------------------------------------------------
-;[Depth]
+[Depth]
 pos = 178,38
 ;bg.spr = 
 text.font = 1,5, 1
