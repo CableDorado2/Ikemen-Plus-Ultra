@@ -10,100 +10,6 @@ require("script.common")
 loadDebugFont(fontDebug)
 setDebugScript("script/match.lua")
 loadLifebar(fightDef) --Assign Lifebar Screenpack
---;===========================================================
---; DISCORD RICH PRESENCE API
---;===========================================================
-discordGameID = "1200228516554346567" --Discord App ID
-discordLargeImageReset = "gameicon"
-discordLargeImageTextReset = "Powered by I.K.E.M.E.N. Plus Ultra Engine"
-discordSmallImageReset = "" --nil
-discordSmallImageTextReset = "" --nil
-discordDetailsReset = ""
-discordStateReset = "Single Player"
-discordPartySizeReset = 1
-discordPartyMaxReset = 0
-discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Presence API
-function f_discordInit()
-	discordRPC.initialize(discordGameID, true) --Initialize Discord Rich Presence Using App ID
-	discord = {
-	--Name of the uploaded image for the big profile artwork (max text length: 31)
-		largeImageKey = discordLargeImageReset,
-		
-	--Tooltip for largeImageKey (max text length: 127)
-		largeImageText = discordLargeImageTextReset,
-		
-	--Name of the uploaded image for the mini profile artwork (max text length: 31)
-		--smallImageKey = discordSmallImageReset,
-		
-	--Tooltip for smallImageKey (max text length: 127)
-		--smallImageText = discordSmallImageTextReset,
-		
-	--What the player is currently doing (max text length: 127)
-		details = "Making the 2D Fighting Game of my Dreams!",
-		
-	--Current Match Elapsed Time from Start
-		--startTimestamp = os.time(os.date("*t")),
-		
-	--Current Match Remaining Time to End
-		--endTimestamp = 99,
-		
-	--Current Netplay Status (max text length: 127)
-		state = discordStateReset,
-		
-	--Current Players in Netplay Lobby
-		partySize = discordPartySizeReset,
-		
-	--Lobby Max Capacity
-		partyMax = discordPartyMaxReset,
-		
-	--Public Lobby ID (max text length: 127)
-		--partyId = "ikemen1234",
-		
-	--Private Lobby ID (max text length: 127)
-		--matchSecret = "xyzzy",
-		
-	--Unique hashed string for chat invitations and Ask to Join Button (max text length: 127)
-		--joinSecret = "join",
-		
-	--Spectate Button (max text length: 127)
-		--spectateSecret = "spectate",
-		
-	--Notify Button
-		--instance = 0,
-	}
-	nextDiscordUpdate = 0
-	discordRPC.updatePresence(discord)
-	discordRPC.runCallbacks()
-end
-
-function f_discordUpdate(t_changes)
---Check that argument is a table
-	if type(t_changes) ~= "table" then return end
-	for key, value in pairs(t_changes) do --Each argument need to match with original discord table values to update
-		discord[key] = value --Overwrite discord table
-	end
-	if data.debugLog then f_printTable(discord, 'save/debug/t_discordRichPresence.log') end
-	discordRPC.updatePresence(discord)
-	discordRPC.runCallbacks()
-	--nextDiscordUpdate = os.clock() + 2.0 --Reset real-time update
-end
-
-function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 seconds
-	if os.clock() > nextDiscordUpdate then
-		discordRPC.updatePresence(discord)
-		nextDiscordUpdate = os.clock() + 2.0
-	end
-	discordRPC.runCallbacks()
-end
-
-function f_discordMainMenu()
-f_discordUpdate({
-		details = "Main Menu", state = discordStateReset,
-		largeImageKey = discordLargeImageReset, largeImageText = discordLargeImageTextReset,
-		smallImageKey = discordSmallImageReset, smallImageText = discordSmallImageTextReset,
-		partySize = discordPartySizeReset, partyMax = discordPartyMaxReset
-	})
-end
 
 f_discordInit() --Send Discord Rich Presence
 --discordRPC.clearPresence() --Clear Discord Rich Presence
@@ -8019,6 +7925,7 @@ function f_p1SelectMenu()
 			t_p1CharID[item] = t_charDef[t_p1CharID[item]] --Convert each element to character ID
 		end
 		local t = {}
+		local palp1 = nil
 		for i=1, #t_p1CharID do
 			local updateAnim = false
 			if t[t_p1CharID[i]] == nil then
@@ -8026,10 +7933,12 @@ function f_p1SelectMenu()
 				t[t_p1CharID[i]] = ''
 			end
 			if data.p1Pal ~= nil then --Set Manual Palette
-				data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = data.p1Pal, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author}
+				--data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = data.p1Pal, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author, ['discordkey'] = t_selChars[t_p1CharID[i]+1].discordkey}
+				palp1 = data.p1Pal
 			else
-				data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = math.random(1,12), ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author}
+				palp1 = math.random(1,12)
 			end
+			data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = palp1, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author, ['discordkey'] = t_selChars[t_p1CharID[i]+1].discordkey}
 			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
 		end
 		p1Portrait = t_p1CharID[1]
@@ -9113,10 +9022,10 @@ function f_p1SelectMenu()
 					end
 				end
 				if data.coop then
-					data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
 					p1SelEnd = true
 				else
-					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
 				--When characters selected are equal to team mode amount selected
 					if #data.t_p1selected == p1numChars then
 						if data.p2In == 1 and matchNo == 0 then
@@ -9505,6 +9414,7 @@ function f_p2SelectMenu()
 			t_p2CharID[item] = t_charDef[t_p2CharID[item]]
 		end
 		local t = {}
+		local palp2 = nil
 		for i=1, #t_p2CharID do
 			local updateAnim = false
 			if t[t_p2CharID[i]] == nil then
@@ -9512,10 +9422,12 @@ function f_p2SelectMenu()
 				t[t_p2CharID[i]] = ''
 			end
 			if data.p2Pal ~= nil then
-				data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = data.p2Pal, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author}
+				--data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = data.p2Pal, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author, ['discordkey'] = t_selChars[t_p2CharID[i]+1].discordkey}
+				palp2 = data.p2Pal
 			else
-				data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = math.random(1,12), ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author}
+				palp2 = math.random(1,12)
 			end
+			data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = palp2, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author, ['discordkey'] = t_selChars[t_p2CharID[i]+1].discordkey}
 			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log") end
 		end
 		p2Portrait = t_p2CharID[1]
@@ -10596,7 +10508,7 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
-					data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
 					p2coopReady = true
 					p2SelEnd = true
 				else
@@ -10605,7 +10517,7 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
-					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
 					if #data.t_p2selected == p2numChars then
 						--
 						if data.p1In == 2 and matchNo == 0 then
@@ -11295,7 +11207,16 @@ function f_selectStage()
 		else --if data.stage ~= nil then Assign Custom Stage Loaded in select.def via lua script, with data.stage
 			data.stage = data.stage:lower() --Convert to lower case to avoid issues
 			local stageID = t_stageDef[data.stage] --Get stage number from table t_stageDef
-			t_stageSelected = {['cel'] = stageID, ['name'] = t_selStages[stageID].name, ['path'] = t_selStages[stageID].stage, ['author'] = t_selStages[stageID].author, ['location'] = t_selStages[stageID].location, ['daytime'] = t_selStages[stageID].daytime} --get stage info
+		--Get stage info
+			t_stageSelected = {
+				['cel'] = stageID,
+				['name'] = t_selStages[stageID].name,
+				['discordkey'] = t_selStages[stageID].discordkey,
+				['path'] = t_selStages[stageID].stage,
+				['author'] = t_selStages[stageID].author,
+				['location'] = t_selStages[stageID].location,
+				['daytime'] = t_selStages[stageID].daytime
+			}
 			if data.debugLog then f_printTable(t_stageSelected, "save/debug/t_stageSelected.log") end
 			--stagePortrait = t_stageSelected.cel
 			stageNo = t_stageSelected.cel
@@ -12846,6 +12767,10 @@ function f_loading()
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
 		f_selectChar(1, data.t_p1selected)
 		f_selectChar(2, data.t_p2selected)
+		f_discordUpdate({
+			--largeImageKey = t_selStages[stageNo].discordkey, largeImageText = t_selStages[stageNo].name,
+			smallImageKey = data.t_p1selected[1].discordkey, smallImageText = "Character: "..data.t_p1selected[1].displayname
+		})
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
