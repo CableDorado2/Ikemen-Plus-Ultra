@@ -7,7 +7,7 @@
 [Info]
 name = "Training Stage Z"           ; Internal name of the stage.
 displayName = "Training Stage Z"    ; Name to display on the select screen.
-discordkey = "trainingz"		 	; Name of stage "largeImageKey" Rich Presence Art Asset uploaded to Discord Developer Portal
+discordkey = "stagez"			 	; Name of stage "largeImageKey" Rich Presence Art Asset uploaded to Discord Developer Portal
 versionDate = 2025.03.07            ; Version / Date of stage.
 ikemenVersion = 1.0                 ; Version of Ikemen GO the stage is made for
 author = "Phantom.of.the.Server"    ; Stage author name.
