@@ -1,6 +1,7 @@
 [Info]
 name = "Kung Fu Mako"
 displayname = "Mako Mayama"
+discordkey 	= "mako"
 versiondate = 04,14,2001
 mugenversion = 04,14,2001
 author = "taruse"

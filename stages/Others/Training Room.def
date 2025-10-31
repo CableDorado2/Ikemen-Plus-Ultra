@@ -1,5 +1,6 @@
 [Info]
 name = "Training Room"
+discordkey = "training1"
 author = "Ryon"
 
 [Camera]

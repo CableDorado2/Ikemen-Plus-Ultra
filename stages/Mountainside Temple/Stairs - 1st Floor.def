@@ -1,6 +1,7 @@
 [Info]
 name = "Stairs - 1st Floor"
 displayname = "Stairs - 1st Floor" 
+discordkey = "mts1f"
 versiondate = 06,19,2016 
 mugenversion = 1.1          
 author = "HekuttaSaint"

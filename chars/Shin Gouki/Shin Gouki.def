@@ -5,6 +5,7 @@
 [Info]
 name        = "Shin Gouki"
 displayname = "Shin Gouki"
+discordkey 	= "gouki"
 versiondate = 2022
 mugenversion= 1.0
 author      = "Phantom.of.the.Server"

@@ -1,6 +1,7 @@
 [Info]
 name = "Winter"
 location = "Mountainside Temple"
+discordkey = "mtw"
 author = "HekuttaSaint"
 daytime = "Morning"
 unlockcondition = "Complete Event 1"

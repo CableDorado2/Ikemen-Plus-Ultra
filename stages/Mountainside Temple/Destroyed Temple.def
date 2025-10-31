@@ -1,6 +1,7 @@
 [Info]
 name = "Destroyed Temple"
 displayname = "Destroyed Temple"
+discordkey = "mtdt"
 versiondate = 09,30,2009 
 mugenversion = 1.1
 author = "HekuttaSaint"

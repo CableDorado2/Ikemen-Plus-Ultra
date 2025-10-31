@@ -1,6 +1,7 @@
 [Info]
 name = "Clone Laboratory"
 displayname = "Clone Laboratory"
+discordkey = "mtcl1"
 versiondate = 06,16,2016 
 mugenversion = 1.1
 author = "HekuttaSaint"

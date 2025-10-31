@@ -2,6 +2,7 @@
 [Info]
 name        = "Master Kung Fu Man"
 displayname = "Master Kung Fu Man"
+discordkey 	= "mkfm"
 versiondate = 10,30,2022
 mugenversion= 1.0
 author      = "Sennou-Room"

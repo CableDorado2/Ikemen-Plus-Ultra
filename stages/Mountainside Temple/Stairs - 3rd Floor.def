@@ -1,6 +1,7 @@
 [Info]
 name = "Stairs - 3rd Floor"
-displayname = "Stairs - 3rd Floor" 
+displayname = "Stairs - 3rd Floor"
+discordkey = "mts3f"
 versiondate = 06,25,2014
 mugenversion = 1.1
 author = "HekuttaSaint"

@@ -5,6 +5,7 @@
 ;-------------------------------------------------------------------------------
 [info]
 name = "Sunday"
+discordkey = "sunday"
 author= "NexT One & Airolg1990"
 daytime = "Afternoon"
 ;foram utilizados sprites do stage -> Riviera

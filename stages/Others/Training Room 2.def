@@ -2,6 +2,7 @@
 
 name			= "Training Room 2"
 displayname		= "Training Room 2"
+discordkey 		= "training2"
 versiondate		= 29,06,2021
 mugenversion	= 1.0
 author			= "applest0re"

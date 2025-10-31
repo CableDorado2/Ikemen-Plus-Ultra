@@ -4,14 +4,14 @@
 
 ;--------------------------------------------------------
 [Info]
- ;Name of the stage.
-name = "Lobby"
-displayname = "Lobby" ;Name to display
+name = "Lobby"					 ;Name of the stage
+displayname = "Lobby" 			 ;Name to display
+discordkey = "mountainside"		 ;Name of stage "largeImageKey" Rich Presence Art Asset uploaded to Discord Developer Portal
 location = "Mountainside Temple" ;Stage location name
-versiondate = 09,30,2009    ;Version date of stage (MM,DD,YYYY or X.XX)
-mugenversion = 1.1          ;Version of M.U.G.E.N stage works on (X.XX)
-author = "Elecbyte"         ;Stage author name
-daytime = "Day" 			;Stage time info
+versiondate = 09,30,2009    	 ;Version date of stage (MM,DD,YYYY or X.XX)
+mugenversion = 1.1          	 ;Version of M.U.G.E.N stage works on (X.XX)
+author = "Elecbyte"         	 ;Stage author name
+daytime = "Day" 				 ;Stage time info
 
 ;--------------------------------------------------------
 [Camera]

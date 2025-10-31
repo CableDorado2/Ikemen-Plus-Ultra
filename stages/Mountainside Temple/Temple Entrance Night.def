@@ -1,6 +1,7 @@
 [Info]
 name = "Temple Entrance"
-displayname = "Temple Entrance" 
+displayname = "Temple Entrance"
+discordkey = "mtten"
 versiondate = 08,10,2021   
 mugenversion = 1.1         
 author = "HekuttaSaint"

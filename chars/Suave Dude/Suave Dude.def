@@ -1,6 +1,7 @@
 [Info]
 Name         = "Suave Dude"
 DisplayName  = "Suave Dude"
+DiscordKey 	= "sd"
 VersionDate  = 10,07,2010
 MugenVersion = 04,14,2002
 Author       = "Masukenpu-kun"

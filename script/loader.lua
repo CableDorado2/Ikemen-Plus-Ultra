@@ -79,6 +79,12 @@ function f_parseChar(t, cel)
 						t['author'] = line:gsub('^%s*author%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
+				if line:match('^%s*discordkey%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['discordkey'] = line:gsub('^%s*discordkey%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+				end
 				if line:match('^%s*glossaryname%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -97,6 +103,12 @@ function f_parseChar(t, cel)
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						t['displaynamejp'] = line:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+				end
+				if line:match('^%s*discordkey%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['discordkeyjp'] = line:gsub('^%s*discordkey%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 				end
 				if line:match('^%s*author%s*=') then
@@ -653,6 +665,17 @@ for line in content:gmatch('[^\r\n]+') do
 					--daytime = ''
 					--t_selStages[row]['daytime'] = daytime
 				end
+			--discordkey = string
+				local discordkey = tmp:match('\n%s*discordkey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Discordkey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*discordKey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DiscordKey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISCORDKEY%s*=%s*([^;\n]+)%s*;?.*\n')
+				if discordkey ~= nil then
+					discordkey = discordkey:gsub('^["%s]*(.-)["%s]*$', '%1')
+					if discordkey ~= '' then
+						t_selStages[row]['discordkey'] = discordkey
+					end
+				--else --Writte Blank discordkey to avoid issues
+					--discordkey = ''
+					--t_selStages[row]['discordkey'] = discordkey
+				end
 			--unlock.info = string
 				local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
 				if unlockcondition ~= nil then
@@ -858,6 +881,16 @@ if t_selChars ~= nil then
 					--else --Writte Blank daytime to avoid issues
 						--daytime = ''
 						--t_selStages[row]['daytime'] = daytime
+					end
+					local discordkey = tmp:match('\n%s*discordkey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Discordkey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*discordKey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DiscordKey%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISCORDKEY%s*=%s*([^;\n]+)%s*;?.*\n')
+					if discordkey ~= nil then
+						discordkey = discordkey:gsub('^["%s]*(.-)["%s]*$', '%1')
+						if discordkey ~= '' then
+							t_selStages[row]['discordkey'] = discordkey
+						end
+					--else --Writte Blank discordkey to avoid issues
+						--discordkey = ''
+						--t_selStages[row]['discordkey'] = discordkey
 					end
 					local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
 					if unlockcondition ~= nil then

@@ -6,7 +6,7 @@
 [Info]
  ;Name of the stage.
 name = "The Red Dragon's Lair"
-
+discordkey = "trdl"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

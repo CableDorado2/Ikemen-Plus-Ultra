@@ -6,6 +6,7 @@
 [Info]
 name = "Training Stage"        ; Internal name of the stage.
 displayName = "Training Stage" ; Name to display on the select screen.
+discordkey = "stage1"		   ; Name of stage "largeImageKey" Rich Presence Art Asset uploaded to Discord Developer Portal
 versionDate = 1.0              ; Version / Date of stage.
 mugenVersion = 1.1             ; Version of MUGEN the stage made for, use the (1.0 / 1.1) format
 ;ikemenVersion = 1.0           ; Not yet implemented

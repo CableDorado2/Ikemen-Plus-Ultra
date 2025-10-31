@@ -4,6 +4,7 @@
 [Info]
 name = "Mountain Valley"
 displayname="Mountain Valley"
+discordkey = "mv"
 author= "Shiyo Kakuge"
 daytime = "Day"
 

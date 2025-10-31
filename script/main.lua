@@ -4790,7 +4790,6 @@ end
 --; HOST ROOMS MENU
 --;===========================================================
 function f_hostTable()
-	--host_rooms = json.decode(f_fileRead(saveHostRoomPath)) --Refresh
 	t_hostList = {{id = textImgNew(), text = "ADD NEW ROOM"},}
 	for k, v in pairs(host_rooms.IP) do
 		t_hostList[#t_hostList + 1] = {id = textImgNew(), text = k, address = v} --Insert Room Names from Local Database

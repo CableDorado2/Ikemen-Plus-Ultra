@@ -1,6 +1,7 @@
 --;===========================================================
 --; GLOBAL MATCH ACCESS FUNCTIONS
 --;===========================================================
+inMatch = true
 --[[
 - assert(loadfile)) will cause that overwrites global variables every time it is called.
 - require() Injects global variables only the first time it runs
@@ -241,7 +242,6 @@ end
 --;===========================================================
 --; MATCH LOOP
 --;===========================================================
-inMatch = true
 local function f_handicapSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
 	for side=1, 2 do
 		local pDat = nil
