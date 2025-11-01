@@ -12,8 +12,6 @@ setDebugScript("script/match.lua")
 loadLifebar(fightDef) --Assign Lifebar Screenpack
 
 f_discordInit() --Send Discord Rich Presence
---discordRPC.clearPresence() --Clear Discord Rich Presence
---discordRPC.shutdown() --End Discord Rich Presence
 --;===========================================================
 --; GLOBAL VARIABLES DEFINITION
 --;===========================================================
@@ -12765,13 +12763,19 @@ end
 function f_loading()
 	local t = 0
 	local teamChar = nil
+	local playerSide = nil
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
 		f_selectChar(1, data.t_p1selected)
 		f_selectChar(2, data.t_p2selected)
 		if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			playerSide = data.t_p2selected
+		else
+			playerSide = data.t_p1selected
+		end
 		f_discordUpdate({
 			largeImageKey = t_selStages[stageNo].discordkey, largeImageText = "Stage: "..t_selStages[stageNo].name,
-			smallImageKey = data.t_p1selected[1].discordkey, smallImageText = teamChar..data.t_p1selected[1].displayname
+			smallImageKey = playerSide[1].discordkey, smallImageText = teamChar..playerSide[1].displayname
 		})
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

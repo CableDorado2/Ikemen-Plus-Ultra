@@ -14,6 +14,7 @@ data.bgmDisplay = false
 data.language = "ENGLISH"
 data.clock = 3
 data.dateFormat = 6
+data.discordPresence = true
 data.attractMode = false
 data.vsDisplayWin = true
 data.winscreen = "Classic"

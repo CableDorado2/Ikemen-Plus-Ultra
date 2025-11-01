@@ -340,6 +340,7 @@ function f_saveCfg()
 		['data.language'] = data.language,
 		['data.clock'] = data.clock,
 		['data.dateFormat'] = data.dateFormat,
+		['data.discordPresence'] = data.discordPresence,
 		['data.attractMode'] = data.attractMode,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.winscreen'] = data.winscreen,
@@ -640,6 +641,7 @@ function f_systemDefault()
 		data.language = "ENGLISH"
 		data.clock = 1
 		data.dateFormat = 1
+		data.discordPresence = true
 	end
 	data.attractMode = false
 	data.vsDisplayWin = true
@@ -1390,6 +1392,8 @@ function f_mainCfg()
 				end
 				if needReload == 1 then
 					f_exitInfo()
+				else
+					f_discordMainMenu()
 				end
 				f_saveCfg()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -1410,6 +1414,8 @@ function f_mainCfg()
 				setVideoVolume(vid_vol)
 				setPanStr(pan_str / 100)
 				needReload = 0
+				if not data.discordPresence then discordRPC.clearPresence() end
+				f_discordMainMenu()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 2)
 				break
@@ -3006,6 +3012,7 @@ t_UICfg = {
 	{text = "Language", 		         varText = data.language},
 	{text = "Clock Format",              varText = ""},
 	{text = "Date Format",               varText = ""},
+	{text = "Discord Rich Presence",   	 varText = ""},
 	{text = "Attract Mode",  	      	 varText = ""},
 	{text = "Portrait Display",		     varText = data.portraitDisplay},
 	{text = "Versus Win Counter",  	     varText = ""},
@@ -3139,8 +3146,23 @@ function f_UICfg()
 						bufl = 0
 					end
 				end
-		--Attract Mode
+		--Discord Rich Presence
 			elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				if onlinegame then
+					lockSetting = true
+				else
+					sndPlay(sndSys, 100, 0)
+					if data.discordPresence then
+						data.discordPresence = false
+						discordRPC.clearPresence()
+					else
+						data.discordPresence = true
+						f_discordMainMenu()
+					end
+					modified = 1
+				end
+		--Attract Mode
+			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3154,7 +3176,7 @@ function f_UICfg()
 					needReload = 1
 				end
 		--Character Portrait Display Type
-			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.portraitDisplay == "Portrait" then
 					sndPlay(sndSys, 100, 0)
 					data.portraitDisplay = "Sprite"
@@ -3173,7 +3195,7 @@ function f_UICfg()
 					modified = 1	
 				end
 		--Display Versus Win Counter
-			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3186,7 +3208,7 @@ function f_UICfg()
 					modified = 1
 				end
 		--Win Screen Display Type
-			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.winscreen == "Classic" then
 					sndPlay(sndSys, 100, 0)
 					data.winscreen = "Modern"
@@ -3205,7 +3227,7 @@ function f_UICfg()
 					modified = 1
 				end
 		--Service Interaction Type
-			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.serviceType == "Button" then
 					data.serviceType = "Cursor"
@@ -3214,7 +3236,7 @@ function f_UICfg()
 				end
 				modified = 1
 		--Order Select Interaction Type
-			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.orderSelType == "Button" then
 					data.orderSelType = "Cursor"
@@ -3223,19 +3245,19 @@ function f_UICfg()
 				end
 				modified = 1
 		--Character Select Settings
-			elseif UICfg == 10 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
 		--Stage Select Settings
-			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
 		--Timers Settings
-			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
 		--System Songs Settings
-			elseif UICfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 14 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3298,12 +3320,13 @@ function f_UICfg()
 		t_UICfg[1].varText = data.language
 		t_UICfg[2].varText = os.date(t_clockFormats[data.clock].locale)
 		t_UICfg[3].varText = os.date(t_dateFormats[data.dateFormat])
-		if data.attractMode then t_UICfg[4].varText = "Enabled" else t_UICfg[4].varText = "Disabled" end
-		t_UICfg[5].varText = data.portraitDisplay
-		if data.vsDisplayWin then t_UICfg[6].varText = "Yes" else t_UICfg[6].varText = "No" end
-		t_UICfg[7].varText = data.winscreen
-		t_UICfg[8].varText = data.serviceType
-		t_UICfg[9].varText = data.orderSelType
+		if data.discordPresence then t_UICfg[4].varText = "Enabled" else t_UICfg[4].varText = "Disabled" end
+		if data.attractMode then t_UICfg[5].varText = "Enabled" else t_UICfg[5].varText = "Disabled" end
+		t_UICfg[6].varText = data.portraitDisplay
+		if data.vsDisplayWin then t_UICfg[7].varText = "Yes" else t_UICfg[7].varText = "No" end
+		t_UICfg[8].varText = data.winscreen
+		t_UICfg[9].varText = data.serviceType
+		t_UICfg[10].varText = data.orderSelType
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
 				if t_UICfg[i].varID ~= nil then

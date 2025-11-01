@@ -150,6 +150,20 @@ function discordRPC.initialize(applicationId, autoRegister, optionalSteamId)
 	discordRPClib.Discord_Initialize(applicationId, eventHandlers, autoRegister and 1 or 0, optionalSteamId)
 end
 
+--[[
+End Discord Rich Presence WITHOUT disconnecting from Discord App.
+It allows update the presence in any moment after call "discordRPC.clearPresence()"
+without call "discordRPC.initialize()".
+]]
+function discordRPC.clearPresence()
+	discordRPClib.Discord_ClearPresence()
+end
+
+--[[
+End Discord Rich Presence disconnecting from Discord App.
+It does not allow update the presence in any moment after call "discordRPC.shutdown()"
+because need to call "discordRPC.initialize()" to reconect.
+]]
 function discordRPC.shutdown()
 	discordRPClib.Discord_Shutdown()
 --Next ones are to be compatible with Lua 5.2
@@ -218,10 +232,6 @@ function discordRPC.updatePresence(presence)
 	cpresence.spectateSecret = presence.spectateSecret
 	cpresence.instance = presence.instance or 0
 	discordRPClib.Discord_UpdatePresence(cpresence)
-end
-
-function discordRPC.clearPresence()
-	discordRPClib.Discord_ClearPresence()
 end
 
 local replyMap = {

@@ -3,7 +3,7 @@ data.userName = "PLAYER"
 data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
-data.menuSong = "sound/system/menu/Menu 2.mp3"
+data.menuSong = "sound/system/menu/Menu 3.mp3"
 data.menuSongFolder = 4
 data.selectSong = "sound/system/select/Select 1.mp3"
 data.selectSongFolder = 4
@@ -14,6 +14,7 @@ data.bgmDisplay = false
 data.language = "ENGLISH"
 data.clock = 3
 data.dateFormat = 6
+data.discordPresence = true
 data.attractMode = false
 data.vsDisplayWin = true
 data.winscreen = "Classic"

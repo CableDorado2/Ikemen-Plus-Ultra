@@ -3585,72 +3585,73 @@ require("script.options") --Load options script
 --;===========================================================
 --; DISCORD RICH PRESENCE API
 --;===========================================================
+discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Presence API
 discordGameID = "1200228516554346567" --Discord App ID
 discordLargeImageReset = "gameicon"
-discordLargeImageTextReset = "Powered by I.K.E.M.E.N. Plus Ultra Engine"
+discordLargeImageTextReset = "Suehiro's IKEMEN S-SIZE Engine"
 discordSmallImageReset = "" --nil
 discordSmallImageTextReset = "" --nil
 discordDetailsReset = ""
 discordStateReset = "Single Player"
 discordPartySizeReset = 1
 discordPartyMaxReset = 0
-discordRPC = require("discordRPC") --Load LUA Wrapper Module for Discord Rich Presence API
+discord = {
+--Name of the uploaded image for the big profile artwork (max text length: 31)
+	largeImageKey = discordLargeImageReset,
+		
+--Tooltip for largeImageKey (max text length: 127)
+	largeImageText = discordLargeImageTextReset,
+		
+--Name of the uploaded image for the mini profile artwork (max text length: 31)
+	--smallImageKey = discordSmallImageReset,
+		
+--Tooltip for smallImageKey (max text length: 127)
+	--smallImageText = discordSmallImageTextReset,
+		
+--What the player is currently doing (max text length: 127)
+	details = "Making the 2D Fighting Game of my Dreams!",
+		
+--Current Match Elapsed Time from Start
+	--startTimestamp = os.time(os.date("*t")),
+		
+--Current Match Remaining Time to End
+	--endTimestamp = 99,
+		
+--Current Netplay Status (max text length: 127)
+	state = discordStateReset,
+		
+--Current Players in Netplay Lobby
+	partySize = discordPartySizeReset,
+		
+--Lobby Max Capacity
+	partyMax = discordPartyMaxReset,
+		
+--Public Lobby ID (max text length: 127)
+	--partyId = "ikemen1234",
+		
+--Private Lobby ID (max text length: 127)
+	--matchSecret = "xyzzy",
+		
+--Unique hashed string for chat invitations and Ask to Join Button (max text length: 127)
+	--joinSecret = "join",
+		
+--Spectate Button (max text length: 127)
+	--spectateSecret = "spectate",
+		
+--Notify Button
+	--instance = 0,
+}
 function f_discordInit()
 	discordRPC.initialize(discordGameID, true) --Initialize Discord Rich Presence Using App ID
-	discord = {
-	--Name of the uploaded image for the big profile artwork (max text length: 31)
-		largeImageKey = discordLargeImageReset,
-		
-	--Tooltip for largeImageKey (max text length: 127)
-		largeImageText = discordLargeImageTextReset,
-		
-	--Name of the uploaded image for the mini profile artwork (max text length: 31)
-		--smallImageKey = discordSmallImageReset,
-		
-	--Tooltip for smallImageKey (max text length: 127)
-		--smallImageText = discordSmallImageTextReset,
-		
-	--What the player is currently doing (max text length: 127)
-		details = "Making the 2D Fighting Game of my Dreams!",
-		
-	--Current Match Elapsed Time from Start
-		--startTimestamp = os.time(os.date("*t")),
-		
-	--Current Match Remaining Time to End
-		--endTimestamp = 99,
-		
-	--Current Netplay Status (max text length: 127)
-		state = discordStateReset,
-		
-	--Current Players in Netplay Lobby
-		partySize = discordPartySizeReset,
-		
-	--Lobby Max Capacity
-		partyMax = discordPartyMaxReset,
-		
-	--Public Lobby ID (max text length: 127)
-		--partyId = "ikemen1234",
-		
-	--Private Lobby ID (max text length: 127)
-		--matchSecret = "xyzzy",
-		
-	--Unique hashed string for chat invitations and Ask to Join Button (max text length: 127)
-		--joinSecret = "join",
-		
-	--Spectate Button (max text length: 127)
-		--spectateSecret = "spectate",
-		
-	--Notify Button
-		--instance = 0,
-	}
 	nextDiscordUpdate = 0
 	discordRPC.updatePresence(discord)
 	discordRPC.runCallbacks()
+	if not data.discordPresence then discordRPC.clearPresence() end
 end
 
 function f_discordUpdate(t_changes)
 --Check that argument is a table
-	if type(t_changes) ~= "table" then return end
+	if type(t_changes) ~= "table" or not data.discordPresence then return end
 	for key, value in pairs(t_changes) do --Each argument need to match with original discord table values to update
 		discord[key] = value --Overwrite discord table
 	end
@@ -3661,11 +3662,13 @@ function f_discordUpdate(t_changes)
 end
 
 function f_discordRealTimeUpdate() --Update Discord Rich Presence each 2.0 seconds
-	if os.clock() > nextDiscordUpdate then
-		discordRPC.updatePresence(discord)
-		nextDiscordUpdate = os.clock() + 2.0
+	if data.discordPresence then
+		if os.clock() > nextDiscordUpdate then
+			discordRPC.updatePresence(discord)
+			nextDiscordUpdate = os.clock() + 2.0
+		end
+		discordRPC.runCallbacks()
 	end
-	discordRPC.runCallbacks()
 end
 
 function f_discordMainMenu()
