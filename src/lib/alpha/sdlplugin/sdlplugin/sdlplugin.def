@@ -15,6 +15,7 @@ EXPORTS
     OpenFont
     CloseFont
     RenderFont
+	DrawTTF
     AllocSurface
     FullScreen
 	FullScreenExclusive

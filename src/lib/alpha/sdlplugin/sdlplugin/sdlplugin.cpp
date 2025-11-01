@@ -8,7 +8,7 @@
 #include <float.h>
 #include <iostream>
 #include <sstream>
-#include <ctime> //To save time in screenshots
+#include <ctime>
 
 #include <GL/glew.h>
 #pragma comment(lib, "glew32.Lib")
@@ -453,6 +453,16 @@ void sndjoyinit()
 	g_js.init();
 }
 
+//String conversion
+std::string WstrToStr(const std::wstring& wstr)
+{
+	if (wstr.empty()) return std::string();
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+	std::string strTo(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+	return strTo;
+}
+
 void TestTTF()
 {
 //Init SDL and SDL_ttf
@@ -584,6 +594,78 @@ void TestIMG()
 	SDL_DestroyWindow(window);
 	IMG_Quit();
 	SDL_Quit();
+}
+
+const int defaultTTFSize = 32;
+TUserFunc(void, DrawTTF, int32_t alpha, int32_t b, int32_t g, int32_t r, float scaleY, float scaleX, int32_t y, int32_t x, Reference text, int32_t align, Reference fontPath)
+{
+	if (!g_renderer)
+	{
+	//Render is not available, can't draw.
+		return;
+	}
+//Strings extraction
+	std::wstring wFontPath = pu->refToWstr(fontPath);
+	std::string sFontPath = WstrToStr(wFontPath);
+	std::wstring wText = pu->refToWstr(text);
+	std::string sText = WstrToStr(wText);
+//Load Font
+	TTF_Font* font = TTF_OpenFont(sFontPath.c_str(), defaultTTFSize);
+	if (!font)
+	{
+	//Error Loading Font
+		return;
+	}
+//Text Render
+	SDL_Color ttfColor = {
+		(uint8_t)r,
+		(uint8_t)g,
+		(uint8_t)b,
+		(uint8_t)alpha //Opacity
+	};
+	//SDL_Surface* textSurface = TTF_RenderText_Solid(font, sText.c_str(), ttfColor);
+	SDL_Surface* textSurface = TTF_RenderText_Blended(font, sText.c_str(), ttfColor); //Compatible when alpha is < 255
+	if (!textSurface)
+	{
+	//Error rendering font
+		TTF_CloseFont(font);
+		return;
+	}
+//Texture creation
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(g_renderer, textSurface);
+	SDL_FreeSurface(textSurface); //Release surface after create Texture
+	if (!texture)
+	{
+		TTF_CloseFont(font);
+		return;
+	}
+//Draw Pos Coords
+	int originalWidth, originalHeight;
+	SDL_QueryTexture(texture, NULL, NULL, &originalWidth, &originalHeight); //Get base size
+	SDL_Rect dstRect = {0, 0, 0, 0};
+//Set Scale
+	dstRect.w = (int)(originalWidth * scaleX);
+	dstRect.h = (int)(originalHeight * scaleY);
+//Set Align (Editing X Pos)
+	if (align == 1) //Left
+	{
+		dstRect.x = x - (dstRect.w / 2);
+	}
+	else if (align == -1) //Right
+	{
+		dstRect.x = x - dstRect.w;
+	}
+	else //Default: Center (align == 0)
+	{
+		dstRect.x = x;
+	}
+	dstRect.y = y; //Set Y Pos
+//Draw Texture
+	SDL_RenderCopy(g_renderer, texture, NULL, &dstRect);
+	SDL_RenderPresent(g_renderer);
+//Clear to avoid Memory Leak
+	SDL_DestroyTexture(texture);
+	TTF_CloseFont(font);
 }
 
 void TestRoom()
@@ -740,23 +822,23 @@ void WindowDecoration(bool wd)
 	if (SDL_GetWindowWMInfo(g_window, &info))
 	{
 		HWND hwnd = info.info.win.window;
-		// Get current window style
+	//Get current window style
 		LONG style = GetWindowLong(hwnd, GWL_STYLE);
+	//Restore Buttons
 		if (wd)
 		{
-			// Restore Buttons
 			//style |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME;
 			//style |= WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 			style |= WS_MINIMIZEBOX;
 		}
+	//Remove minimize/maximize buttons
 		else
 		{
-			// Remove minimize/maximize buttons
 			//style &= ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME);
 			style &= ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
 		}
 		SetWindowLong(hwnd, GWL_STYLE, style);
-		// Apply Changes
+	//Apply Changes
 		SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 	}
 }
@@ -862,7 +944,7 @@ TUserFunc(void, TakeScreenShot, Reference dir)
 			Uint32 flags = SDL_GetWindowFlags(g_window);
 			if (flags & SDL_WINDOW_MAXIMIZED)
 			{
-				winMaximized = true; // Window Maximized
+				winMaximized = true; //Window Maximized
 			}
 			else
 			{
@@ -901,7 +983,7 @@ TUserFunc(void, TakeScreenShot, Reference dir)
 		glReadBuffer(GL_FRONT); //buffer can be GL_FRONT o GL_BACK
 		unsigned char* pixels = new unsigned char[g_w * g_h * 4];
 		glReadPixels(0, 0, g_w, g_h, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-		//Since OpenGL reads from the bottom, the image will be vertically inverted. Here we can fix that flipping
+	//Since OpenGL reads from the bottom, the image will be vertically inverted. Here we can fix that flipping
 		unsigned char* flippedPixels = new unsigned char[g_w * g_h * 4];
 		for (int y = 0; y < g_h; y++)
 		{
@@ -1203,17 +1285,6 @@ int PlayVLCVideo(const std::string& videoPath, const std::string& capturePath, i
 		return 0; //Send to ssz
 	}
 	return 1; //Success
-}
-
-//Helper for string conversion
-std::string WstrToStr(const std::wstring& wstr)
-//Need to do this conversion due (libvlc_media_new_path) uses const char* and engine (pu->refToWstr) generate wstring
-{
-	if (wstr.empty()) return std::string();
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
-	std::string strTo(size_needed, 0);
-	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
-	return strTo;
 }
 
 TUserFunc(int, PlayVideo, Reference fn, Reference screenshotPath, int volume, int audioTrack)//, int subtitleTrack)

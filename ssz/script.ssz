@@ -413,6 +413,23 @@ void getClipboardText(&.lua.State L=, int re=)
   L.pushString(str);
 }
 
+void drawTTF(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char file = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int align = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  ^/char text = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int x = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int y = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float scaleX = .numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float scaleY = .numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int r = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int g = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int b = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int alpha = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.drawTTF(file, align, text, x, y, scaleX, scaleY, r, g, b, alpha);
+}
+
 void loadVideo(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1512,6 +1529,7 @@ public void init(&.lua.State L=)
   L.register("fadeInBGM", .fadeInBGM);
   L.register("fadeOutBGM", .fadeOutBGM);
   L.register("loadVideo", .loadVideo);
+  L.register("drawTTF", .drawTTF);
   L.register("sszOpen", .sszOpen);
   L.register("batOpen", .batOpen);
   L.register("webOpen", .webOpen);
