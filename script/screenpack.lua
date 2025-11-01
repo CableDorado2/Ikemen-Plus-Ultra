@@ -1554,22 +1554,22 @@ p1portraitLock = animNew(sprIkemen, [[108,0, 0,0,]])
 --P1 Big Portrait Locked Fade Window
 p1portraitLockWindowBG = animNew(sprIkemen, [[3,0, 0,0, -1, 0]])
 
-function f_p1charAnnouncer()
-	if f_getName(p1Cell) == "Kung Fu Man" then
+function f_p1charAnnouncer(p1Cursor)
+	if f_getName(p1Cursor) == "Kung Fu Man" then
 		sndPlay(sndAnncr, 1, 0)
-	elseif f_getName(p1Cell) == "Kung Fu Girl" then
+	elseif f_getName(p1Cursor) == "Kung Fu Girl" then
 		sndPlay(sndAnncr, 1, 1)
-	elseif f_getName(p1Cell) == "Suave Dude" then
+	elseif f_getName(p1Cursor) == "Suave Dude" then
 		sndPlay(sndAnncr, 1, 2)
-	elseif f_getName(p1Cell) == "Mako Mayama" then
+	elseif f_getName(p1Cursor) == "Mako Mayama" then
 		sndPlay(sndAnncr, 1, 3)
-	elseif f_getName(p1Cell) == "Reika Murasame" then
+	elseif f_getName(p1Cursor) == "Reika Murasame" then
 		sndPlay(sndAnncr, 1, 4)
-	elseif f_getName(p1Cell) == "Evil Kung Fu Man" then
+	elseif f_getName(p1Cursor) == "Evil Kung Fu Man" then
 		sndPlay(sndAnncr, 1, 5)
-	elseif f_getName(p1Cell) == "Shin Gouki" then
+	elseif f_getName(p1Cursor) == "Shin Gouki" then
 		sndPlay(sndAnncr, 1, 6)
-	--elseif f_getName(p1Cell) == "Your Character Name" then
+	--elseif f_getName(p1Cursor) == "Your Character Name" then
 		--sndPlay(sndAnncr, 1, 1)
 	end
 end
@@ -1592,22 +1592,22 @@ p2portraitLock = animNew(sprIkemen, [[108,0, -320,0,]])
 --P2 Big Portrait Locked Fade Window
 p2portraitLockWindowBG = animNew(sprIkemen, [[3,0, -1, 0,]])
 
-function f_p2charAnnouncer()
-	if f_getName(p2Cell) == "Kung Fu Man" then
+function f_p2charAnnouncer(p2Cursor)
+	if f_getName(p2Cursor) == "Kung Fu Man" then
 		sndPlay(sndAnncr, 2, 0)
-	elseif f_getName(p2Cell) == "Kung Fu Girl" then
+	elseif f_getName(p2Cursor) == "Kung Fu Girl" then
 		sndPlay(sndAnncr, 2, 1)
-	elseif f_getName(p2Cell) == "Suave Dude" then
+	elseif f_getName(p2Cursor) == "Suave Dude" then
 		sndPlay(sndAnncr, 2, 2)
-	elseif f_getName(p2Cell) == "Mako Mayama" then
+	elseif f_getName(p2Cursor) == "Mako Mayama" then
 		sndPlay(sndAnncr, 2, 3)
-	elseif f_getName(p2Cell) == "Reika Murasame" then
+	elseif f_getName(p2Cursor) == "Reika Murasame" then
 		sndPlay(sndAnncr, 2, 4)
-	elseif f_getName(p2Cell) == "Evil Kung Fu Man" then
+	elseif f_getName(p2Cursor) == "Evil Kung Fu Man" then
 		sndPlay(sndAnncr, 2, 5)
-	elseif f_getName(p2Cell) == "Shin Gouki" then
+	elseif f_getName(p2Cursor) == "Shin Gouki" then
 		sndPlay(sndAnncr, 2, 6)
-	--elseif f_getName(p2Cell) == "Your Character Name" then
+	--elseif f_getName(p2Cursor) == "Your Character Name" then
 		--sndPlay(sndAnncr, 2, 1)
 	end
 end
@@ -4346,12 +4346,10 @@ NEAT UNSOU
 GACEL/WINDBLADE
 DAN
 KIDCY
-CYLIA MARGATROID/CRYSTALIZED SUN
 WINTERMOURN
 SHIYO KAKUGE
 KAMEKAZE
 TWO4TEEZEE
-SUPERFROMND
 THEFCLASS97
 RODKNEE
 ROS

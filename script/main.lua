@@ -9001,9 +9001,9 @@ function f_p1SelectMenu()
 					if p1memberPreview == 2 then p1member2Random = true	end
 					if p1memberPreview == 3 then p1member3Random = true	end
 					if p1memberPreview == 4 then p1member4Random = true	end
-				else
-					f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
 				end
+				f_p1charAnnouncer(cel) --Character Voice when is selected Example for Player 1 Side
+				animReset(t_selChars[cel+1].p1AnimWin)
 			--Change p1memberPreview on each char selection
 				if p1numChars > 1 and not data.coop then --For Team Modes
 					if p1memberPreview == 1 then p1memberPreview = 2
@@ -9050,7 +9050,6 @@ end
 
 --Actions when you select a Character
 function f_p1Selection()
-	animReset(t_selChars[p1Cell+1].p1AnimWin)
 	sndPlay(sndSys, 100, 1)
 --Classic Palette Select
 	if data.palType == "Classic" then
@@ -10489,9 +10488,9 @@ function f_p2SelectMenu()
 					if p2memberPreview == 2 then p2member2Random = true	end
 					if p2memberPreview == 3 then p2member3Random = true	end
 					if p2memberPreview == 4 then p2member4Random = true	end
-				else
-					f_p2charAnnouncer()
 				end
+				f_p2charAnnouncer(cel)
+				animReset(t_selChars[cel+1].p2AnimWin)
 				if p2numChars > 1 and not data.coop then
 					if p2memberPreview == 1 then p2memberPreview = 2
 					elseif p2memberPreview == 2 then p2memberPreview = 3
@@ -10544,7 +10543,6 @@ function f_p2SelectMenu()
 end
 
 function f_p2Selection()
-	animReset(t_selChars[p2Cell+1].p2AnimWin)
 	sndPlay(sndSys, 100, 1)
 	if data.palType == "Classic" then
 		p2PalSel = btnPalNo(p2Cmd, true)
@@ -12764,9 +12762,11 @@ function f_loading()
 	local t = 0
 	local teamChar = nil
 	local playerSide = nil
+	local coop = nil
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
 		f_selectChar(1, data.t_p1selected)
 		f_selectChar(2, data.t_p2selected)
+		if data.coop then coop = "Local Multiplayer" end
 		if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			playerSide = data.t_p2selected
@@ -12775,7 +12775,8 @@ function f_loading()
 		end
 		f_discordUpdate({
 			largeImageKey = t_selStages[stageNo].discordkey, largeImageText = "Stage: "..t_selStages[stageNo].name,
-			smallImageKey = playerSide[1].discordkey, smallImageText = teamChar..playerSide[1].displayname
+			smallImageKey = playerSide[1].discordkey, smallImageText = teamChar..playerSide[1].displayname,
+			state = coop
 		})
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
