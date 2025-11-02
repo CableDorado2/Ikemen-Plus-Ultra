@@ -17,7 +17,6 @@ Copyright (c) 2020 Wintermourn
 Copyright (c) 2020 Shiyo Kakuge
 Copyright (c) 2021 Kamekaze
 Copyright (c) 2021 two4teezee
-Copyright (c) 2021 Super
 Copyright (c) 2021 TheFclass97
 Copyright (c) 2021 Rodknee
 Copyright (c) 2021 Ros

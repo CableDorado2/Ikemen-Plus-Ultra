@@ -342,6 +342,7 @@ function f_saveCfg()
 		['data.dateFormat'] = data.dateFormat,
 		['data.discordPresence'] = data.discordPresence,
 		['data.attractMode'] = data.attractMode,
+		['data.pauseMenuTime'] = data.pauseMenuTime,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.winscreen'] = data.winscreen,
 		['data.serviceType'] = data.serviceType,
@@ -413,6 +414,10 @@ function f_saveCfg()
 		['data.serviceTime'] = data.serviceTime,
 		['data.attractTime'] = data.attractTime,
 		['data.destinyTime'] = data.destinyTime,
+	--Replays Data
+		['data.replayLocal'] = data.replayLocal,
+		['data.replayOnline'] = data.replayOnline,
+		['data.replayRanked'] = data.replayRanked,
 	--Input Data
 		['data.disablePadP1'] = data.disablePadP1,
 		['data.disablePadP2'] = data.disablePadP2,
@@ -596,6 +601,7 @@ function f_offlineDefault()
 	f_songDefault()
 	f_inputDefault()
 	f_netplayDefault()
+	f_replayDefault()
 end
 
 --Default Game Values
@@ -642,6 +648,7 @@ function f_systemDefault()
 		data.clock = 1
 		data.dateFormat = 1
 		data.discordPresence = true
+		data.pauseMenuTime = 0
 	end
 	data.attractMode = false
 	data.vsDisplayWin = true
@@ -705,6 +712,13 @@ function f_timeDefault()
 	data.serviceTime = 16
 	data.attractTime = 11
 	data.destinyTime = 31
+end
+
+--Default Replay Values
+function f_replayDefault()
+	data.replayLocal = false
+	data.replayOnline = true
+	data.replayRanked = true
 end
 
 --Default Songs Values
@@ -1284,6 +1298,8 @@ function f_defaultMenu()
 				f_stageDefault()
 			elseif defaultTime then
 				f_timeDefault()
+			elseif defaultReplay then
+				f_replayDefault()
 			elseif defaultAudio then
 				f_audioDefault()
 				needReload = 1
@@ -1326,6 +1342,7 @@ function f_defaultReset()
 	defaultRoster = false
 	defaultStage = false
 	defaultTime = false
+	defaultReplay = false
 	defaultVideo = false
 	defaultAudio = false
 	defaultSong = false
@@ -1341,16 +1358,16 @@ end
 txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 
 t_mainCfg = {
-	{text = "Game Settings",	  			 gotomenu = "f_gameCfg()"},
-	{text = "System Settings",  			 gotomenu = "f_UICfg()"},
-	{text = "Video Settings",  				 gotomenu = "f_videoCfg()"},
-	{text = "Audio Settings",  				 gotomenu = "f_audioCfg()"},
-	{text = "Input Settings",  				 gotomenu = "f_inputCfg()"},
-	{text = "Netplay Settings",  			 gotomenu = "f_netplayCfg()"},
-	{text = "Engine Settings",  			 gotomenu = "f_engineCfg()"},
-	{text = "All Default Values",			 gotomenu = "sndPlay(sndSys, 100, 1) defaultAll = true defaultScreen = true"},
-	{text = "              Save and Back",   gotomenu = "exitSaveCfg = true"},
-	{text = "          Back Without Saving", gotomenu = "exitNoSaveCfg = true"},
+	{text = "Game Settings",	  	gotomenu = "f_gameCfg()"},
+	{text = "System Settings",  	gotomenu = "f_UICfg()"},
+	{text = "Video Settings",  		gotomenu = "f_videoCfg()"},
+	{text = "Audio Settings",  		gotomenu = "f_audioCfg()"},
+	{text = "Input Settings",  		gotomenu = "f_inputCfg()"},
+	{text = "Netplay Settings",  	gotomenu = "f_netplayCfg()"},
+	{text = "Engine Settings",  	gotomenu = "f_engineCfg()"},
+	{text = "All Default Values",	gotomenu = "sndPlay(sndSys, 100, 1) defaultAll = true defaultScreen = true"},
+	{text = "Save and Back",   		gotomenu = "exitSaveCfg = true"},
+	{text = "Back Without Saving", 	gotomenu = "exitNoSaveCfg = true"},
 }
 for i=1, #t_mainCfg do
 	t_mainCfg[i]['varID'] = textImgNew()
@@ -3014,6 +3031,7 @@ t_UICfg = {
 	{text = "Date Format",               varText = ""},
 	{text = "Discord Rich Presence",   	 varText = ""},
 	{text = "Attract Mode",  	      	 varText = ""},
+	{text = "Pause Menu",	  	      	 varText = ""},
 	{text = "Portrait Display",		     varText = data.portraitDisplay},
 	{text = "Versus Win Counter",  	     varText = ""},
 	{text = "Win Screen",	    		 varText = data.winscreen},
@@ -3022,6 +3040,7 @@ t_UICfg = {
 	{text = "Character Select Settings", varText = ""},
 	{text = "Stage Select Settings",     varText = ""},
 	{text = "Timers Settings",  	  	 varText = ""},
+	{text = "Replay Settings",  	  	 varText = ""},
 	{text = "Songs Settings",	 		 varText = ""},
 	{text = "Default Settings",  	  	 varText = ""},
 	{text = "          BACK",  		     varText = ""},
@@ -3175,8 +3194,41 @@ function f_UICfg()
 					modified = 1
 					needReload = 1
 				end
+		--Pause Menu Time
+			elseif UICfg == 6 then
+				if onlinegame then
+					lockSetting = true
+				else
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.pauseMenuTime < 10 then
+							data.pauseMenuTime = data.pauseMenuTime + 1
+						--else
+							--data.pauseMenuTime = 10
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.pauseMenuTime > 0 then
+							data.pauseMenuTime = data.pauseMenuTime - 1
+						--else
+							--data.pauseMenuTime = 10
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+						modified = 1
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
+				end
 		--Character Portrait Display Type
-			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.portraitDisplay == "Portrait" then
 					sndPlay(sndSys, 100, 0)
 					data.portraitDisplay = "Sprite"
@@ -3195,7 +3247,7 @@ function f_UICfg()
 					modified = 1	
 				end
 		--Display Versus Win Counter
-			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3208,7 +3260,7 @@ function f_UICfg()
 					modified = 1
 				end
 		--Win Screen Display Type
-			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.winscreen == "Classic" then
 					sndPlay(sndSys, 100, 0)
 					data.winscreen = "Modern"
@@ -3227,7 +3279,7 @@ function f_UICfg()
 					modified = 1
 				end
 		--Service Interaction Type
-			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.serviceType == "Button" then
 					data.serviceType = "Cursor"
@@ -3236,7 +3288,7 @@ function f_UICfg()
 				end
 				modified = 1
 		--Order Select Interaction Type
-			elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif UICfg == 11 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.orderSelType == "Button" then
 					data.orderSelType = "Cursor"
@@ -3245,19 +3297,23 @@ function f_UICfg()
 				end
 				modified = 1
 		--Character Select Settings
-			elseif UICfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
 		--Stage Select Settings
-			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
 		--Timers Settings
-			elseif UICfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 14 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
+		--Replay Settings
+			elseif UICfg == 15 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				f_replayCfg()
 		--System Songs Settings
-			elseif UICfg == 14 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif UICfg == 16 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3316,17 +3372,18 @@ function f_UICfg()
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
 			end
-		end	
+		end
 		t_UICfg[1].varText = data.language
 		t_UICfg[2].varText = os.date(t_clockFormats[data.clock].locale)
 		t_UICfg[3].varText = os.date(t_dateFormats[data.dateFormat])
 		if data.discordPresence then t_UICfg[4].varText = "Enabled" else t_UICfg[4].varText = "Disabled" end
 		if data.attractMode then t_UICfg[5].varText = "Enabled" else t_UICfg[5].varText = "Disabled" end
-		t_UICfg[6].varText = data.portraitDisplay
-		if data.vsDisplayWin then t_UICfg[7].varText = "Yes" else t_UICfg[7].varText = "No" end
-		t_UICfg[8].varText = data.winscreen
-		t_UICfg[9].varText = data.serviceType
-		t_UICfg[10].varText = data.orderSelType
+		if data.pauseMenuTime == 0 then t_UICfg[6].varText = "Instant" else t_UICfg[6].varText = "Long Press "..data.pauseMenuTime.."Sec" end
+		t_UICfg[7].varText = data.portraitDisplay
+		if data.vsDisplayWin then t_UICfg[8].varText = "Yes" else t_UICfg[8].varText = "No" end
+		t_UICfg[9].varText = data.winscreen
+		t_UICfg[10].varText = data.serviceType
+		t_UICfg[11].varText = data.orderSelType
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
 				if t_UICfg[i].varID ~= nil then
@@ -3375,6 +3432,7 @@ t_selectCfg = {
 	{text = "Information",    			varText = data.charInfo},
 	{text = "Random Portrait",	     	varText = data.randomPortrait},
 	{text = "Random Select Rematch",	varText = data.randomCharRematch},
+	{text = "Generate Characters List", varText = ""},
 	{text = "Default Values",  	 		varText = ""},
 	{text = "          BACK", 			varText = ""},
 }
@@ -3495,6 +3553,11 @@ function f_selectCfg()
 				elseif data.randomCharRematch == "Fixed" then data.randomCharRematch = "Variable"
 				end
 				modified = 1
+		--Generate Characters List
+			elseif selectCfg == 7 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				generateCharsList("chars")
+				sszOpen("save", "00_CharactersList.txt")
 		--Default Values
 			elseif selectCfg == #t_selectCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
@@ -4702,6 +4765,7 @@ t_stageCfg = {
 	{text = "Random Portrait",   	 varText = data.randomStagePortrait},
 	{text = "Information",      	 varText = data.stageInfo},
 	{text = "Random Select Rematch", varText = data.randomStageRematch},
+	{text = "Generate Stages List",  varText = ""},
 	{text = "Default Values",  	 	 varText = ""},
 	{text = "          BACK", 		 varText = ""},
 }
@@ -4815,6 +4879,11 @@ function f_stageCfg()
 				elseif data.randomStageRematch == "Fixed" then data.randomStageRematch = "Variable"
 				end
 				modified = 1
+		--Generate Stages List
+			elseif stageCfg == 5 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				generateStageList("stages")
+				sszOpen("save", "00_ExtraStagesList.txt")
 		--Default Values
 			elseif stageCfg == #t_stageCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
@@ -5220,6 +5289,150 @@ function f_timeCfg()
 			animUpdate(optionsUpArrow)
 		end
 		if #t_timeCfg > maxItems and maxtimeCfg < #t_timeCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+		if defaultScreen then
+			f_defaultMenu()
+		else
+			drawCfgInputHints()
+		end
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; REPLAY SETTINGS
+--;===========================================================
+txt_replayCfg = createTextImg(jgFnt, 0, 0, "REPLAY SETTINGS", 159, 13)
+
+t_replayCfg = {
+	{text = "Autosave in Local",  varText = ""},
+	{text = "Autosave in Online", varText = ""},
+	{text = "Autosave in Ranked", varText = ""},
+	{text = "Default Values",  	  varText = ""},
+	{text = "          BACK", 	 varText = ""},
+}
+for i=1, #t_replayCfg do
+	t_replayCfg[i]['varID'] = textImgNew()
+end
+
+function f_replayCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local replayCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 12
+	--sndPlay(sndSys, 100, 1)
+	while true do
+		if not defaultScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				replayCfg = replayCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				replayCfg = replayCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+		--Autosave Replays in Local Modes
+			elseif replayCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if data.replayLocal then data.replayLocal = false else data.replayLocal = true end
+				modified = 1
+		--Autosave Replays in Online Modes
+			elseif replayCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if data.replayOnline then data.replayOnline = false else data.replayOnline = true end
+				modified = 1
+		--Autosave Replays in Online Ranked Mode
+			elseif replayCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 0)
+				if data.replayRanked then data.replayRanked = false else data.replayRanked = true end
+				modified = 1
+		--Default Values
+			elseif replayCfg == #t_replayCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				defaultReplay = true
+				defaultScreen = true
+		--BACK
+			elseif replayCfg == #t_replayCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 2)
+				break
+			end
+			if replayCfg < 1 then
+				replayCfg = #t_replayCfg
+				if #t_replayCfg > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_replayCfg
+				end
+			elseif replayCfg > #t_replayCfg then
+				replayCfg = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (replayCfg - maxItems) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (replayCfg - 1) * 15
+			end	
+			if #t_replayCfg <= maxItems then
+				maxreplayCfg = #t_replayCfg
+			elseif replayCfg - cursorPosY > 0 then
+				maxreplayCfg = replayCfg + maxItems - cursorPosY
+			else
+				maxreplayCfg = maxItems
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxreplayCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,180)
+		animDraw(optionsBG1)
+		textImgDraw(txt_replayCfg)
+		if not defaultScreen then
+			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		if data.replayLocal then t_replayCfg[1].varText = "Enabled" else t_replayCfg[1].varText = "Disabled" end
+		if data.replayOnline then t_replayCfg[2].varText = "Enabled" else t_replayCfg[2].varText = "Disabled" end
+		if data.replayRanked then t_replayCfg[3].varText = "Enabled" else t_replayCfg[3].varText = "Disabled" end
+		for i=1, maxreplayCfg do
+			if i > replayCfg - cursorPosY then
+				if t_replayCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, 1, t_replayCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, -1, t_replayCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxreplayCfg > maxItems then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_replayCfg > maxItems and maxreplayCfg < #t_replayCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
@@ -5787,8 +6000,6 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 t_engineCfg = {
 	{text = "Debug Mode",  	      		varText = ""},
 	{text = "Save Debug Logs",        	varText = ""},
-	{text = "Generate Characters List", varText = ""},
-	{text = "Generate Stages List", 	varText = ""},
 	{text = "HelperMax",              	varText = HelperMaxEngine},
 	{text = "PlayerProjectileMax",		varText = PlayerProjectileMaxEngine},
 	{text = "ExplodMax",              	varText = ExplodMaxEngine},
@@ -5856,18 +6067,8 @@ function f_engineCfg()
 					end
 					modified = 1
 				end
-		--Generate Characters List
-			elseif engineCfg == 3 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 1)
-				generateCharsList("chars")
-				sszOpen("save", "00_CharactersList.txt")
-		--Generate Stages List
-			elseif engineCfg == 4 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 1)
-				generateStageList("stages")
-				sszOpen("save", "00_ExtraStagesList.txt")
 		--HelperMax
-			elseif engineCfg == 5 then
+			elseif engineCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if HelperMaxEngine < 1000 then --You can increase this limit
 						HelperMaxEngine = HelperMaxEngine + 1
@@ -5896,7 +6097,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 		--PlayerProjectileMax
-			elseif engineCfg == 6 then
+			elseif engineCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
 						PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
@@ -5925,7 +6126,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 		--ExplodMax
-			elseif engineCfg == 7 then
+			elseif engineCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if ExplodMaxEngine < 1000 then --You can increase this limit
 						ExplodMaxEngine = ExplodMaxEngine + 1
@@ -5954,7 +6155,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 		--AfterImageMax
-			elseif engineCfg == 8 then
+			elseif engineCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if AfterImageMaxEngine < 1000 then --You can increase this limit
 						AfterImageMaxEngine = AfterImageMaxEngine + 1
@@ -5983,7 +6184,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 		--Erase/Reset Statistics
-			elseif engineCfg == 9 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
+			elseif engineCfg == 7 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
 				if onlinegame then
 					lockSetting = true
 				else
@@ -6045,10 +6246,10 @@ function f_engineCfg()
 		end
 		if data.debugMode then t_engineCfg[1].varText = "Enabled" else t_engineCfg[1].varText = "Disabled" end
 		if data.debugLog then t_engineCfg[2].varText = "Enabled" else t_engineCfg[2].varText = "Disabled" end
-		t_engineCfg[5].varText = HelperMaxEngine
-		t_engineCfg[6].varText = PlayerProjectileMaxEngine
-		t_engineCfg[7].varText = ExplodMaxEngine
-		t_engineCfg[8].varText = AfterImageMaxEngine
+		t_engineCfg[3].varText = HelperMaxEngine
+		t_engineCfg[4].varText = PlayerProjectileMaxEngine
+		t_engineCfg[5].varText = ExplodMaxEngine
+		t_engineCfg[6].varText = AfterImageMaxEngine
 		for i=1, maxEngineCfg do
 			if i > engineCfg - cursorPosY then
 				if t_engineCfg[i].varID ~= nil then
@@ -6129,7 +6330,7 @@ local function f_setVideoVars()
 	if b_aspectMode then txt_aspectRatio = "Yes" else txt_aspectRatio = "No" end
 --Render Mode
 	txt_renderMode = ""
-	if b_openGL then txt_renderMode = "OpenGL 2.0" else txt_renderMode = "Software" end
+	if b_openGL then txt_renderMode = "OpenGL 2.0 (W.I.P)" else txt_renderMode = "Software" end
 end
 
 function f_videoCfg()
@@ -6446,7 +6647,7 @@ end
 --;===========================================================
 --; RESOLUTIONS SETTINGS
 --;===========================================================
-txt_resCfg = createTextImg(jgFnt, 0, 0, "ASPECT RATIO SETTINGS", 159, 13)
+txt_resCfg = createTextImg(jgFnt, 0, 0, "RESOLUTION SETTINGS", 159, 13)
 txt_resCfgSet = createTextImg(jgFnt, 0, 0, "", 159, 13)
 
 --4:3 RESOLUTIONS
