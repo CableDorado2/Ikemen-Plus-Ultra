@@ -18066,8 +18066,8 @@ function f_sdlWarning()
 			break
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
+		--drawTextTTF("font/TTF/Open_Sans/OpenSans-SemiBoldItalic.ttf", 0, "Hello World from TTF", 160, 300)
 		textImgDraw(txt_Warning)
-		--drawTextTTF("font/TTF/shanghai.ttf", 0, "Hello World TTF", 160, 50)
 		animSetScale(infoBG, 300, 111)
 		animSetWindow(infoBG, 0,70, 296,#t_sdlWarning*15)
 		animDraw(infoBG)

@@ -56,12 +56,6 @@ public bool setSndBuf(^int buf)
   ret SetSndBuf(:buf<>=:);
 }
 
-public void drawTTF(^/char path, int align, ^/char text, int x, int y, float scaleX, float scaleY, int r, int g, int b, int alpha)
-{
-  plugin void DrawTTF(:^/char, int, ^/char, int, int, float, float, int, int, int, int:) = "dll/sdlplugin.dll";
-  DrawTTF(:path, align, text, x, y, scaleX, scaleY, r, g, b, alpha:);
-}
-
 public int playVideo(int audiotrack, int volume, ^/char captures, ^/char fn)
 {
   plugin int PlayVideo(:int, int, ^/char, ^/char:) = "dll/sdlplugin.dll";
@@ -847,6 +841,12 @@ public &Font
       index, uint, int, int, ^/char:) = "dll/sdlplugin.dll";
     RenderFont(:`font, color, x, y, str:);
   }
+}
+
+public void drawTTF(^/char path, int align, ^/char text, int x, int y, float scaleX, float scaleY, int r, int g, int b, int alpha)
+{
+  plugin void DrawTTF(:^/char, int, ^/char, int, int, float, float, int, int, int, int:) = "dll/sdlplugin.dll";
+  DrawTTF(:path, align, text, x, y, scaleX, scaleY, r, g, b, alpha:);
 }
 
 public bool init(^/char t, int w, int h, bool gl, bool mugen)

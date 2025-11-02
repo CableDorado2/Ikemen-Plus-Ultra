@@ -87,7 +87,7 @@ saveTourneyPath = "save/tourney_sav.lua"
 gameTick = 20
 gameTime = (os.clock()/1000)
 
---shortcut for render new video file with several parameters
+--shortcut to play a video file with several parameters
 function playVideo(file, audiotrack, volume)
 	local file = file or ""
 	local audiotrack = audiotrack or 1
@@ -97,7 +97,7 @@ function playVideo(file, audiotrack, volume)
 	commandBufReset(p2Cmd)
 end
 
---shortcut for render new TTF text with several parameters
+--shortcut for render new TTF text with several parameters (WIP)
 function drawTextTTF(font, align, text, x, y, scaleX, scaleY, R, G, B, alpha)
 	scaleX = scaleX or 1.0
 	scaleY = scaleY or 1.0

@@ -66,7 +66,6 @@ DWORD g_mainTreadId;
 
 WNDPROC g_orgProc;
 char16_t g_lastChar = '\0', g_newChar = '\0';
-int test = 0;
 
 void lockTarget()
 {
