@@ -377,7 +377,7 @@ function f_mainmenuPause()
 	f_confirmReset()
 	mainGoTo = "Confirm"
 	mainMenuBack = true
-	if getGameMode() == "replay" then
+	if replay() then
 		data.replayDone = true
 	end
 	delayMenu = -2
@@ -431,7 +431,7 @@ elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode()
 end
 
 --Pause Menu for Replays
-if getGameMode() == "replay" or getGameMode() == "randomtest" then
+if replay() or getGameMode() == "randomtest" then
 t_pauseMain = nil
 t_pauseMain = {
 	{text = "Continue", gotomenu = "f_resumePause()"},
@@ -519,7 +519,7 @@ function f_pauseMain(p, st, esc)
 			end
 			textImgSetText(txt_pause, "PAUSE [P"..pn.."]")
 		--HIDE MENU
-			if getGameMode() == "replay" or getGameMode() == "randomtest" then
+			if replay() or getGameMode() == "randomtest" then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
 			else
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
@@ -561,7 +561,7 @@ function f_pauseMain(p, st, esc)
 				end
 		]]
 			--Actions in Randomtest or Replay Modes
-				if getGameMode() == "replay" or getGameMode() == "randomtest" then
+				if replay() or getGameMode() == "randomtest" then
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 					--SETTINGS
 						if pauseMenu == 2 then
@@ -576,7 +576,7 @@ function f_pauseMain(p, st, esc)
 							sndPlay(sndSys, 100, 1)
 							f_confirmReset()
 							mainGoTo = "Confirm"
-							if getGameMode() == "replay" then
+							if replay() then
 								mainMenuBack = true
 								data.replayDone = true
 							end
@@ -756,24 +756,28 @@ function f_pauseConfirm()
 	end
 --MESSAGES FOR BACK TO A MAIN MENU
 	if mainMenuBack == true then
-		if getGameMode() == "mission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel)
-			if getPauseVar() == "nogiveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel) end
-		elseif getGameMode() == "event" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backEventSel)
-		elseif getGameMode() == "replay" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
-		elseif getGameMode() == "intermission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
-		elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
-			if getPauseVar() == "giveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
-			else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStorySel)
+		if replay() then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
+		else
+			if getGameMode() == "mission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel)
+				if getPauseVar() == "nogiveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel) end
+			elseif getGameMode() == "event" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backEventSel)
+			elseif getGameMode() == "intermission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
+			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
+				if getPauseVar() == "giveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
+				else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStorySel)
+				end
+			else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
 			end
-		else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
 		end
 --MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
-		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backCharSel)
-		elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStgSel)
-		elseif getGameMode() == "replay" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
-		elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
-		else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
+		if replay() then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
+		else
+			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backCharSel)
+			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStgSel)
+			elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
+			else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
+			end
 		end
 	end
 	if pauseMode == "Confirm" or okGoTo ~= "" then
@@ -907,14 +911,12 @@ for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
 	t_gameCfg[i]['varText'] = ""
 end
-
-if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg,5) end
+if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg,5) end
 
 --Logic to Display Text instead Boolean Values
 function f_gameCfgdisplayTxt()
 if data.hudDisplay then t_gameCfg[3].varText = "Yes" else t_gameCfg[3].varText = "No" end
 end
-
 f_gameCfgdisplayTxt() --Load Display Text
 
 function f_pauseSettings()
@@ -1516,7 +1518,7 @@ for i=1, #t_trainingCfg do
 end
 
 --Battle Info for Replays
-if getGameMode() ~= "practice" then --if getGameMode() == "replay" or getGameMode() == "randomtest" then
+if getGameMode() ~= "practice" then --if replay() or getGameMode() == "randomtest" then
 	table.remove(t_trainingCfg,15)
 	table.remove(t_trainingCfg,14)
 	table.remove(t_trainingCfg,13)

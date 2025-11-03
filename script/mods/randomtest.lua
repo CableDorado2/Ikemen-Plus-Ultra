@@ -236,7 +236,7 @@ local function initRandom()
 		bgm = math.random(1,#t_selStages[stage].music)
 		bgm = t_selStages[stage].music[bgm].bgmusic
 	end
-	f_loading()
+	f_loading(true)
 end
 
 function randomTest()

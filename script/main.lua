@@ -12772,26 +12772,29 @@ end
 --;===========================================================
 --; LOADING MATCH SCREEN
 --;===========================================================
-function f_loading()
+function f_loading(quickLoad)
 	local t = 0
+	local quickLoad = quickLoad or false
 	local teamChar = nil
 	local playerSide = nil
 	local coop = nil
-	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
-		f_selectChar(1, data.t_p1selected)
-		f_selectChar(2, data.t_p2selected)
-		if data.coop then coop = "Local Multiplayer" end
-		if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			playerSide = data.t_p2selected
-		else
-			playerSide = data.t_p1selected
+	if not quickLoad then
+		if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
+			f_selectChar(1, data.t_p1selected)
+			f_selectChar(2, data.t_p2selected)
+			if data.coop then coop = "Local Multiplayer" end
+			if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				playerSide = data.t_p2selected
+			else
+				playerSide = data.t_p1selected
+			end
+			f_discordUpdate({
+				largeImageKey = t_selStages[stageNo].discordkey, largeImageText = "Stage: "..t_selStages[stageNo].name,
+				smallImageKey = playerSide[1].discordkey, smallImageText = teamChar..playerSide[1].displayname,
+				state = coop
+			})
 		end
-		f_discordUpdate({
-			largeImageKey = t_selStages[stageNo].discordkey, largeImageText = "Stage: "..t_selStages[stageNo].name,
-			smallImageKey = playerSide[1].discordkey, smallImageText = teamChar..playerSide[1].displayname,
-			state = coop
-		})
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do

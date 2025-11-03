@@ -243,7 +243,7 @@ end
 --;===========================================================
 --; MATCH LOOP
 --;===========================================================
-local function f_handicapSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+local function f_handicapSet()
 	for side=1, 2 do
 		local pDat = nil
 		if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
@@ -281,7 +281,7 @@ local function f_handicapSet() --Maybe not gonna work in online or replays becau
 end
 
 local abyssStatsReady = false
-local function f_abyssStatsSet() --Maybe not gonna work in online or replays because debug-script.ssz functions have conditions
+local function f_abyssStatsSet()
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then

@@ -504,6 +504,54 @@ void exitReplay(&.lua.State L=, int re=)
   .cmd.replay.new(0);
 }
 
+void replay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cmd.replay > 0);
+}
+
+void netplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cmd.net > 0 && .cmd.net~isConnected());
+}
+
+void setListenPort(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char port = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#port > 0) .listenPort = port;
+}
+
+void getListenPort(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.listenPort);
+}
+
+void setUserName(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char name = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .UserName = name;
+}
+
+void getUserName(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.UserName);
+}
+
+void synchronize(&.lua.State L=, int re=)
+{
+  re = 0;
+  if(!.cmd.synchronize()){
+    L.pushString("Synchronization error.");
+    re = -1;
+    ret;
+  }
+}
+
 void setCom(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -556,7 +604,7 @@ void setGameMode(&.lua.State L=, int re=)
 void getGameMode(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushString(#.cmd.replay > 0 ? "replay" : .com.gameMode);
+  L.pushString(.com.gameMode);
 }
 
 void setService(&.lua.State L=, int re=)
@@ -675,38 +723,6 @@ void setCounterHit(&.lua.State L=, int re=)
   .com.counterHit = cht;
 }
 
-void getListenPort(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushString(.listenPort);
-}
-
-void netplay(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushBoolean(#.cmd.net > 0 && .cmd.net~isConnected());
-}
-
-void setListenPort(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  ^/char port = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  if(#port > 0) .listenPort = port;
-}
-
-void getUserName(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushString(.UserName);
-}
-
-void setUserName(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  ^/char name = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .UserName = name;
-}
-
 void setBrightness(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -768,28 +784,6 @@ void getWindowTitle(&.lua.State L=, int re=)
   L.pushString(.cfg.WindowTitle);
 }
 
-public bool cfgMod = false, trnMod = false;
-void configModified(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 1;
-  ^/char mod = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  branch{
-  cond .s.equ(mod,"true"): .cfgMod = true;
-  cond .s.equ(mod,"false"): .cfgMod = false;
-  }
-  L.pushBoolean(.cfgMod);
-}
-
-void synchronize(&.lua.State L=, int re=)
-{
-  re = 0;
-  if(!.cmd.synchronize()){
-    L.pushString("Synchronization error.");
-    re = -1;
-    ret;
-  }
-}
-
 void getWidth(&.lua.State L=, int re=)
 {
   re = 1;
@@ -824,12 +818,6 @@ void getWindowType(&.lua.State L=, int re=)
   L.pushNumber((double).cfg.WindowType);
 }
 
-void getFullScreenMode(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushBoolean(.se.fullReal);
-}
-
 void setFullScreenMode(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -838,10 +826,10 @@ void setFullScreenMode(&.lua.State L=, int re=)
   .se.fullReal = fs;
 }
 
-void getScreenMode(&.lua.State L=, int re=)
+void getFullScreenMode(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushBoolean(.se.full);
+  L.pushBoolean(.se.fullReal);
 }
 
 void setScreenMode(&.lua.State L=, int re=)
@@ -852,10 +840,10 @@ void setScreenMode(&.lua.State L=, int re=)
   .se.full = f;
 }
 
-void getAspectRatio(&.lua.State L=, int re=)
+void getScreenMode(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushBoolean(.se.aspect);
+  L.pushBoolean(.se.full);
 }
 
 void setAspectRatio(&.lua.State L=, int re=)
@@ -864,6 +852,12 @@ void setAspectRatio(&.lua.State L=, int re=)
   bool kar = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
   .sdl.keepAspectRatio(kar);
   .se.aspect = kar;
+}
+
+void getAspectRatio(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.aspect);
 }
 
 void takeScreenShot(&.lua.State L=, int re=)
@@ -2084,48 +2078,6 @@ void setHUD(&.lua.State L=, int re=)//Search setHUD in main.lua
   .com.statusDraw = b;
 }
 
-void setConfigTVars(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int dst = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int ag = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int ch = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int ge = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int rec = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int recdir = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int dis = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int inp = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  //int ru = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  //int vc = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  //int lb = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  if(#.chr.chars > 1){
-    .chr.chars[1]<>~tivar[1] = st;
-    .chr.chars[1]<>~tivar[2] = dst;
-    .chr.chars[1]<>~tivar[3] = ag;
-    .chr.chars[0]<>~tivar[12] = ch;
-    .chr.chars[1]<>~tivar[4] = ge;
-    .chr.chars[1]<>~tivar[5] = rec;
-    .chr.chars[1]<>~tivar[10] = recdir;
-    .chr.chars[1]<>~tivar[6] = dis;
-    .chr.chars[0]<>~tivar[11] = inp;
-    //.chr.chars[1]<>~tivar[7] = ru;
-    //.chr.chars[1]<>~tivar[8] = vc;
-    //.chr.chars[1]<>~tivar[9] = lb;
-  }
-}
-
-void getConfigTVars(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 1;
-  int v = 0;
-  int tvar = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  if(#.chr.chars > 1){
-    v = .chr.chars[1-(int)(tvar==12||tvar==11)]<>~tivar[tvar];
-  }
-  L.pushNumber((double)v);
-}
-
 void startDummyRecord(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2198,6 +2150,60 @@ void getPlaybackCfg(&.lua.State L=, int re=)
   }
 }
 
+public bool cfgMod = false, trnMod = false;
+void configModified(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char mod = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  branch{
+  cond .s.equ(mod,"true"): .cfgMod = true;
+  cond .s.equ(mod,"false"): .cfgMod = false;
+  }
+  L.pushBoolean(.cfgMod);
+}
+
+void setConfigTVars(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int dst = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int ag = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int ch = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int ge = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int rec = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int recdir = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int dis = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int inp = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int ru = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int vc = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int lb = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.chr.chars > 1){
+    .chr.chars[1]<>~tivar[1] = st;
+    .chr.chars[1]<>~tivar[2] = dst;
+    .chr.chars[1]<>~tivar[3] = ag;
+    .chr.chars[0]<>~tivar[12] = ch;
+    .chr.chars[1]<>~tivar[4] = ge;
+    .chr.chars[1]<>~tivar[5] = rec;
+    .chr.chars[1]<>~tivar[10] = recdir;
+    .chr.chars[1]<>~tivar[6] = dis;
+    .chr.chars[0]<>~tivar[11] = inp;
+    //.chr.chars[1]<>~tivar[7] = ru;
+    //.chr.chars[1]<>~tivar[8] = vc;
+    //.chr.chars[1]<>~tivar[9] = lb;
+  }
+}
+
+void getConfigTVars(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int v = 0;
+  int tvar = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.chr.chars > 1){
+    v = .chr.chars[1-(int)(tvar==12||tvar==11)]<>~tivar[tvar];
+  }
+  L.pushNumber((double)v);
+}
+
 void setSuaveMode(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2234,9 +2240,12 @@ public void init(&.lua.State L=)
   L.register("animReset", .animReset);
   L.register("animDraw", .animDraw);
   L.register("enterNetPlay", .enterNetPlay);
-  L.register("exitNetPlay", .exitNetPlay);
   L.register("enterReplay", .enterReplay);
+  L.register("exitNetPlay", .exitNetPlay);
   L.register("exitReplay", .exitReplay);
+  L.register("netplay", .netplay);
+  L.register("replay", .replay);
+  L.register("synchronize", .synchronize);
   L.register("setCom", .setCom);
   L.register("setTag", .setTag);
   L.register("setAutoLevel", .setAutoLevel);
@@ -2249,10 +2258,10 @@ public void init(&.lua.State L=)
   L.register("getPlayerSide", .getPlayerSide);
   L.register("setPauseVar", .setPauseVar);
   L.register("getPauseVar", .getPauseVar);
-  L.register("getListenPort", .getListenPort);
   L.register("setListenPort", .setListenPort);
-  L.register("getUserName", .getUserName);
+  L.register("getListenPort", .getListenPort);
   L.register("setUserName", .setUserName);
+  L.register("getUserName", .getUserName);
   L.register("setBrightness", .setBrightness);
   L.register("getBrightness", .getBrightness);
   L.register("setOpacity", .setOpacity);
@@ -2263,20 +2272,17 @@ public void init(&.lua.State L=)
   L.register("getWidth", .getWidth);
   L.register("getHeight", .getHeight);
   L.register("setGameRes", .setGameRes);
-  L.register("getFullScreenMode", .getFullScreenMode);
   L.register("setFullScreenMode", .setFullScreenMode);
-  L.register("getScreenMode", .getScreenMode);
+  L.register("getFullScreenMode", .getFullScreenMode);
   L.register("setScreenMode", .setScreenMode);
-  L.register("getAspectRatio", .getAspectRatio);
+  L.register("getScreenMode", .getScreenMode);
   L.register("setAspectRatio", .setAspectRatio);
-  L.register("getWindowType", .getWindowType);
+  L.register("getAspectRatio", .getAspectRatio);
   L.register("setWindowType", .setWindowType);
+  L.register("getWindowType", .getWindowType);
   L.register("takeScreenShot", .takeScreenShot);
   L.register("getScreenshotsPath", .getScreenshotsPath);
   L.register("getWindowTitle", .getWindowTitle);
-  L.register("configModified", .configModified);
-  L.register("netplay", .netplay);
-  L.register("synchronize", .synchronize);
   L.register("addChar", .addChar);
   L.register("addStage", .addStage);
   L.register("setRandomSpr", .setRandomSpr);
@@ -2346,12 +2352,13 @@ public void init(&.lua.State L=)
   L.register("setDummyGuard", .setDummyGuard);
   L.register("setDummyRecovery", .setDummyRecovery);
   L.register("setCounterHit", .setCounterHit);
-  L.register("setConfigTVars", .setConfigTVars);
-  L.register("getConfigTVars", .getConfigTVars);
   L.register("setPlaybackCfg", .setPlaybackCfg);
   L.register("getPlaybackCfg", .getPlaybackCfg);
   L.register("startDummyRecord", .startDummyRecord);
   L.register("endDummyPlayback", .endDummyPlayback);
   L.register("playDummyRecord", .playDummyRecord);
+  L.register("configModified", .configModified);
+  L.register("setConfigTVars", .setConfigTVars);
+  L.register("getConfigTVars", .getConfigTVars);
   L.register("setSuaveMode", .setSuaveMode);
 }

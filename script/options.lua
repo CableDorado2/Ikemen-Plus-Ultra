@@ -5319,16 +5319,16 @@ function f_timeCfg()
 end
 
 --;===========================================================
---; REPLAY SETTINGS
+--; AUTOSAVE REPLAY SETTINGS
 --;===========================================================
-txt_replayCfg = createTextImg(jgFnt, 0, 0, "REPLAY SETTINGS", 159, 13)
+txt_replayCfg = createTextImg(jgFnt, 0, 0, "AUTOSAVE REPLAY SETTINGS", 159, 13)
 
 t_replayCfg = {
-	{text = "Autosave Local Matchs",  	varText = ""},
-	{text = "Autosave Online Unranked", varText = ""},
-	{text = "Autosave Online Ranked", 	varText = ""},
-	{text = "Default Values",  	  	 	varText = ""},
-	{text = "          BACK", 	 	 	varText = ""},
+	{text = "Local Matchs",  	varText = ""},
+	{text = "Online Unranked", 	varText = ""},
+	{text = "Online Ranked", 	varText = ""},
+	{text = "Default Values",  	varText = ""},
+	{text = "          BACK", 	varText = ""},
 }
 for i=1, #t_replayCfg do
 	t_replayCfg[i]['varID'] = textImgNew()
