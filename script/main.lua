@@ -4470,17 +4470,19 @@ end
 --;===========================================================
 function f_saveReplay()
 --Create Replay File
-	local netplayFile = io.open("save/data.replay","rb") --Read origin file
-	if netplayFile ~= nil then
-		if not createExit or not joinExit then
-			if lfs.attributes("save/data.replay", "size") > 0 then --Save replay if have content
-				ltn12.pump.all(
-				ltn12.source.file(assert(io.open("save/data.replay", "rb"))), --Use this file to make a copy
-				ltn12.sink.file(assert(io.open(replaysPath.."/".. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb"))) --Save replay with a new name
-				)
+	if (data.replayOnline and data.ftcontrol == -1) or (data.replayRanked and data.ftcontrol > 0) then
+		local netplayFile = io.open("save/data.replay","rb") --Read origin file
+		if netplayFile ~= nil then
+			if not createExit or not joinExit then
+				if lfs.attributes("save/data.replay", "size") > 0 then --Save replay if have content
+					ltn12.pump.all(
+					ltn12.source.file(assert(io.open("save/data.replay", "rb"))), --Use this file to make a copy
+					ltn12.sink.file(assert(io.open(replaysPath.."/".. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb"))) --Save replay with a new name
+					)
+				end
+				netplayFile:close()
+				netplayFile = nil
 			end
-			netplayFile:close()
-			netplayFile = nil
 		end
 	end
 end
@@ -4500,7 +4502,7 @@ function f_create()
 		f_training() --Try to Wait client in Training Mode
 	end
 ]]
-	while not connected() do
+	while not netplay() do
 		if esc() or commandGetState(p1Cmd, 'e') then --commandGetState() does not work when engine is waiting a connection, only esc, that's why still we can't program an Training Waiting Room
 		    data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 2)
@@ -4650,7 +4652,7 @@ function f_directConnect()
 	enterNetPlay(ip) --Connect to entered IP address
 	netPlayer = "Client"
 	textImgSetText(txt_connecting, "Now connecting to ["..ip.."]")
-	while not connected() do
+	while not netplay() do
 	--CANCEL CONNECTION
 		if esc() or commandGetState(p1Cmd, 'e') then
 			clearInputText()
@@ -5206,7 +5208,7 @@ function f_databaseConnect()
 	netPlayer = "Client"
 	textImgSetText(txt_clientTitle, hostRoomName.."'s ROOM")
 	textImgSetText(txt_connecting, "Now connecting to ["..hostIP.."]")
-	while not connected() do
+	while not netplay() do
 	--CANCEL CONNECTION
 		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -5259,7 +5261,7 @@ function f_mainLobby()
 	local cancel = false
 	while true do
 		--assert(loadfile(saveTempPath))()
-		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone == true then
+		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone then
 			sndPlay(sndSys, 100, 2)
 			data.replayDone = false
 			f_saveTemp()
@@ -5301,7 +5303,7 @@ function f_mainLobby()
 			maxmainLobby = 5
 		end
 	--Enter Actions
-		if btnPalNo(p1Cmd, true) > 0 then
+		if btnPalNo(p1Cmd, true) > 0 or data.ftcontrol > 0 then
 			f_default()
 			if replaygame then
 				f_discordUpdate({details = "Watching Online Replay"})
@@ -5315,7 +5317,7 @@ function f_mainLobby()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			sndPlay(sndSys, 100, 1)
 		--ONLINE VERSUS
-			if mainLobby == 1 then
+			if data.ftcontrol > 0 or mainLobby == 1 then
 				data.coop = false
 				data.stageMenu = true
 				setHomeTeam(1)

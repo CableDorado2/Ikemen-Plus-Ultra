@@ -681,7 +681,7 @@ void getListenPort(&.lua.State L=, int re=)
   L.pushString(.listenPort);
 }
 
-void connected(&.lua.State L=, int re=)
+void netplay(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushBoolean(#.cmd.net > 0 && .cmd.net~isConnected());
@@ -2275,7 +2275,7 @@ public void init(&.lua.State L=)
   L.register("getScreenshotsPath", .getScreenshotsPath);
   L.register("getWindowTitle", .getWindowTitle);
   L.register("configModified", .configModified);
-  L.register("connected", .connected);
+  L.register("netplay", .netplay);
   L.register("synchronize", .synchronize);
   L.register("addChar", .addChar);
   L.register("addStage", .addStage);

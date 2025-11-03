@@ -1024,7 +1024,7 @@ function cmdInput()
 		commandBufReset(p1Cmd)
 		commandBufReset(p2Cmd)
 	end
-	if data.attractMode and not inMatch and not onlinegame then --In-Match Keys are managed via match.lua hotkeys
+	if data.attractMode and not inMatch and not netplay() then --In-Match Keys are managed via match.lua hotkeys
 	--ATTRACT TEST MENU/CONFIGURATION
 		if nineKey() and not inConfig then
 			f_attractCfgMenu()

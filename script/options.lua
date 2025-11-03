@@ -314,7 +314,7 @@ end
 if not inMatch then
 	f_loadCfg(true) --Load all config
 else
-	if not onlinegame then
+	if not netplay() then
 		f_loadCfg() --Load only necessary config for offline match
 	end
 end
@@ -1373,7 +1373,7 @@ for i=1, #t_mainCfg do
 	t_mainCfg[i]['varID'] = textImgNew()
 end
 --Access to Online Settings from Offline Mode (Only for Dev Purposes, Delete when test are finished)
-table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "f_onlineCfg()", varID = textImgNew()})
+--table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "f_onlineCfg()", varID = textImgNew()})
 
 function f_mainCfg()
 	cmdInput()
@@ -1498,8 +1498,15 @@ function f_mainCfg()
 	--Draw Text for Table
 		for i=1, maxMainCfg do	
 			if i > mainCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_mainCfg or i == #t_mainCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_mainCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, align, t_mainCfg[i].text, posX, 15+i*15-moveTxt))
 					--textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, -1, t_mainCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -1972,12 +1979,11 @@ end
 txt_lobbyCfg = createTextImg(jgFnt, 0, 0, "NETPLAY ROOM SETTINGS", 159, 13)
 
 t_lobbyCfg = {
-	{text = "VS Match",			varText = data.ftcontrol},
-	{text = "Room Name",		varText = ""},
-	{text = "Pause Menu",		varText = "No"},
-	{text = "Looby Size",		varText = "2"},
-	{text = "Spectate",			varText = "No"},
+	{text = "Match Type",		varText = data.ftcontrol},
+	{text = "Room Name",		varText = "My Online Room"},
 	{text = "Private Game",		varText = "Yes"},
+	{text = "Lobby Size",		varText = "2"},
+	{text = "Spectate",			varText = "No"},
 	{text = "Show Names",		varText = "No"},
 	{text = "Show Input Delay",	varText = "No"},
 	{text = "          BACK",  	varText = ""},
@@ -2043,10 +2049,10 @@ function f_lobbyCfg()
 				data.ftcontrol = -1
 			end
 	--WIP
-		elseif (lobbyCfg == 2 or lobbyCfg == 3 or lobbyCfg == 4 or lobbyCfg == 5 or lobbyCfg == 6 or lobbyCfg == 7 or lobbyCfg == 8) and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif (lobbyCfg == 2 or lobbyCfg == 3 or lobbyCfg == 4 or lobbyCfg == 5 or lobbyCfg == 6 or lobbyCfg == 7) and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			lockSetting = true
 	--BACK
-		elseif lobbyCfg == 9 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+		elseif lobbyCfg == #t_lobbyCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			sndPlay(sndSys, 100, 2)
 			break
 		end
@@ -5318,11 +5324,11 @@ end
 txt_replayCfg = createTextImg(jgFnt, 0, 0, "REPLAY SETTINGS", 159, 13)
 
 t_replayCfg = {
-	{text = "Autosave in Local",  varText = ""},
-	{text = "Autosave in Online", varText = ""},
-	{text = "Autosave in Ranked", varText = ""},
-	{text = "Default Values",  	  varText = ""},
-	{text = "          BACK", 	 varText = ""},
+	{text = "Autosave Local Matchs",  	varText = ""},
+	{text = "Autosave Online Unranked", varText = ""},
+	{text = "Autosave Online Ranked", 	varText = ""},
+	{text = "Default Values",  	  	 	varText = ""},
+	{text = "          BACK", 	 	 	varText = ""},
 }
 for i=1, #t_replayCfg do
 	t_replayCfg[i]['varID'] = textImgNew()
@@ -5647,14 +5653,14 @@ end
 txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
 t_audioCfg = {
-	{text = "Master Volume",	varText = gl_vol.."%"},
-	{text = "BGM Volume",		varText = bgm_vol.."%"},
-	{text = "SFX Volume",		varText = se_vol.."%"},
-	{text = "Movie Volume",		varText = vid_vol.."%"},
-	{text = "Panning Range",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{text = "Sample Rate",     	varText = freq},
-	{text = "Channels",        	varText = s_channels},
-	{text = "Buffer Samples",  	varText = buffer},
+	{text = "Master Volume",	varText = ""}, --gl_vol.."%"}, --not working online
+	{text = "BGM Volume",		varText = ""}, --bgm_vol.."%"}, --not working online
+	{text = "SFX Volume",		varText = ""}, --se_vol.."%"}, --not working online
+	{text = "Movie Volume",		varText = ""}, --vid_vol.."%"}, --not working online
+	{text = "Panning Range",   	varText = ""}, --t_panStr[math.ceil((pan_str + 1) * 0.025)]}, --not working online
+	{text = "Sample Rate",     	varText = ""}, --freq}, --not working online
+	{text = "Channels",        	varText = ""}, --s_channels}, --not working online
+	{text = "Buffer Samples",  	varText = ""}, --buffer}, --not working online
 	{text = "Default Values",	varText = ""},
 	{text = "          BACK",  	varText = ""},
 }
@@ -6000,10 +6006,10 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 t_engineCfg = {
 	{text = "Debug Mode",  	      		varText = ""},
 	{text = "Save Debug Logs",        	varText = ""},
-	{text = "HelperMax",              	varText = HelperMaxEngine},
-	{text = "PlayerProjectileMax",		varText = PlayerProjectileMaxEngine},
-	{text = "ExplodMax",              	varText = ExplodMaxEngine},
-	{text = "AfterImageMax",          	varText = AfterImageMaxEngine},
+	{text = "HelperMax",              	varText = ""},--HelperMaxEngine}, --not working online
+	{text = "PlayerProjectileMax",		varText = ""},--PlayerProjectileMaxEngine}, --not working online
+	{text = "ExplodMax",              	varText = ""},--ExplodMaxEngine}, --not working online
+	{text = "AfterImageMax",          	varText = ""},--AfterImageMaxEngine}, --not working online
 	{text = "Erase/Reset Statistics", 	varText = ""},
 	{text = "Default Settings",  	  	varText = ""},
 	{text = "          BACK",  	  		varText = ""},
@@ -8737,6 +8743,7 @@ function f_defaultStats()
 end
 
 --Read Inputs for Inputs Hints Data
+if not netplay() then --becase the functions are not working online
 f_inputMenuRead(0, -1) --0=P1, -1=Keyboard
 f_inputMenuRead(1, -1) --1=P2
 f_inputMenuRead(2, data.p1Gamepad) --2=P3
@@ -8746,6 +8753,7 @@ f_inputBattleRead(0, -1)
 f_inputBattleRead(1, -1)
 f_inputBattleRead(2, data.p1Gamepad)
 f_inputBattleRead(3, data.p2Gamepad)
+end
 
 function f_exportDebugInputs()
 	if data.debugLog then

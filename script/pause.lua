@@ -1114,10 +1114,10 @@ end
 txt_PaudioCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_audioCfg = {
-	{text = "Master Volume",   		varText = gl_vol},
-	{text = "SFX Volume",       	varText = se_vol},
-	{text = "BGM Volume",      		varText = bgm_vol},
-	{text = "Audio Panning",   		varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "Master Volume",   		varText = ""}, --gl_vol}, not working online
+	{text = "SFX Volume",       	varText = ""}, --se_vol}, not working online
+	{text = "BGM Volume",      		varText = ""}, --bgm_vol}, not working online
+	{text = "Audio Panning",   		varText = ""}, --t_panStr[math.ceil((pan_str + 1) * 0.025)]}, not working online
 	{text = "              BACK",  	varText = ""},
 }
 for i=1, #t_audioCfg do
