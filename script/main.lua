@@ -5307,7 +5307,6 @@ function f_mainLobby()
 			f_default()
 			if replaygame then
 				f_discordUpdate({details = "Watching Online Replay"})
-				setGameMode('replay')
 			else
 				f_discordUpdate({details = "Playing Online"})
 			end
@@ -5328,6 +5327,7 @@ function f_mainLobby()
 				else
 					textImgSetText(txt_mainSelect, "ONLINE VERSUS")
 				end
+				setGameMode("vs") --setGameMode("netplayvs")
 				f_selectSimple()
 		--ONLINE TRAINING
 			elseif mainLobby == 2 then
@@ -5340,6 +5340,7 @@ function f_mainLobby()
 				data.gameMode = "training"
 				data.rosterMode = "training"
 				textImgSetText(txt_mainSelect, "ONLINE TRAINING")
+				setGameMode("netplaytraining")
 				f_selectSimple()
 		--ONLINE ARCADE	
 			elseif mainLobby == 3 then
@@ -5347,7 +5348,8 @@ function f_mainLobby()
 				data.gameMode = "arcade"
 				data.rosterMode = "arcade"
 				textImgSetText(txt_mainSelect, "ONLINE ARCADE COOPERATIVE")
-                f_selectAdvance()
+                setGameMode("arcadecoop") --setGameMode("netplayarcade")
+				f_selectAdvance()
 		--ONLINE TOWER
 			elseif mainLobby == 4 then
 				--if data.debugMode then f_loadTowers() end
@@ -5356,6 +5358,7 @@ function f_mainLobby()
 					data.rosterMode = "tower"
 					--data.arcadeIntro = true
 					data.arcadeEnding = true
+					setGameMode("towercoop") --setGameMode("netplaytower")
 					textImgSetText(txt_mainSelect, "ONLINE TOWER COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -5364,12 +5367,14 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "survival"
 				data.rosterMode = "survival"
+				--setGameMode("netplaysurvival")
 				textImgSetText(txt_mainSelect, "ONLINE SURVIVAL COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE ENDLESS
 			elseif mainLobby == 6 then
 				data.gameMode = "endless"
 				data.rosterMode = "endless"
+				--setGameMode("netplayendless")
 				textImgSetText(txt_mainSelect, "ONLINE ENDLESS COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE BOSS RUSH
@@ -5377,6 +5382,7 @@ function f_mainLobby()
 				if #t_bossChars ~= 0 then
 					data.gameMode = "bossrush"
 					data.rosterMode = "boss"
+					--setGameMode("netplaybossrush")
 					textImgSetText(txt_mainSelect, "ONLINE BOSS RUSH COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -5387,6 +5393,7 @@ function f_mainLobby()
 					data.versusScreen = false
 					data.gameMode = "bonusrush"
 					data.rosterMode = "bonus"
+					--setGameMode("netplaybonus")
 					textImgSetText(txt_mainSelect, "ONLINE BONUS MARATHON COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -5396,6 +5403,7 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
 				data.rosterMode = "timerush"
+				--setGameMode("netplaytimerush")
 				textImgSetText(txt_mainSelect, "ONLINE TIME RUSH COOPERATIVE")
 				f_selectAdvance()
 		--[[
@@ -5404,12 +5412,14 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
 				data.rosterMode = "timeattack"
+				setGameMode("netplaytimeattack")
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SCORE ATTACK
 			elseif mainLobby == 11 then
 				data.gameMode = "allroster"
 				data.rosterMode = "scoreattack"
+				setGameMode("netplayscoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
 		]]
@@ -5418,6 +5428,7 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "vskumite"
 				data.rosterMode = "vskumite"
+				--setGameMode("netplayvskumite")
 				textImgSetText(txt_mainSelect, "ONLINE "..getKumiteData().." COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SUDDEN DEATH
@@ -5427,6 +5438,7 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
 				data.rosterMode = "suddendeath"
+				--setGameMode("netplaysuddendeath")
 				textImgSetText(txt_mainSelect, "ONLINE SUDDEN DEATH COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SETTINGS

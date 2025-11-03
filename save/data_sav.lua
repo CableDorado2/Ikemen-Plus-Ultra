@@ -1,10 +1,10 @@
 --Online Data
 data.userName = "PLAYER"
-data.connectMode = "Direct"
+data.connectMode = "Database"
 data.ftcontrol = -1
 --Music Data
-data.menuSong = "sound/system/menu/Menu 3.mp3"
-data.menuSongFolder = 4
+data.menuSong = "Random"
+data.menuSongFolder = 3
 data.selectSong = "sound/system/select/Select 1.mp3"
 data.selectSongFolder = 4
 data.challengerSong = "sound/system/select/Select Challenger.mp3"
@@ -16,6 +16,7 @@ data.clock = 3
 data.dateFormat = 6
 data.discordPresence = true
 data.attractMode = false
+data.pauseMenuTime = 0
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.serviceType = "Button"
@@ -87,6 +88,10 @@ data.rematchTime = 16
 data.serviceTime = 21
 data.attractTime = 21
 data.destinyTime = 21
+--Replay Data
+data.replayLocal = false
+data.replayOnline = true
+data.replayRanked = true
 --Input Data
 data.disablePadP1 = false
 data.disablePadP2 = false

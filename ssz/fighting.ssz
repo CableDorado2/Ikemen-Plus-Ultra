@@ -334,7 +334,8 @@ void game()
     sdr.copyToRef!&.sha.Share?(share=);
     share~push();
     ^/char err;
-    if(#.com.debugScript > 0 && #.cmd.net == 0){
+    //if(#.com.debugScript > 0 && #.cmd.net == 0){ //Don't load match.lua script during online
+    if(#.com.debugScript > 0){ //Load match.lua script during online
       err = .dscri.loadFile(.com.debugScript);
       if(#err > 0) .al.alert!.self?(err);
     }

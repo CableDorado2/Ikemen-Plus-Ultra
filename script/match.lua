@@ -25,7 +25,7 @@ NOTE: Any data loaded OUTSIDE of scripts loaded at the beginning of this file, w
 --; DEBUG HOTKEYS DEFINITION
 --;===========================================================
 --Debug Hotkeys Structure: ('Key', CTRL, ALT, SHIFT, 'Function()')
-if data.debugMode then
+if data.debugMode and not netplay() then
 --Match Actions
 addHotkey('F1', false, false, false, 'kill(1); kill(2); kill(3); kill(4); kill(5); kill(6); kill(7); kill(8)') --F1: Sets Double KO
 addHotkey('F1', true, false, false, 'kill(1); kill(3); kill(5); kill(7)') --CTRL+F1: Sets Player 1's life to zero
@@ -94,6 +94,7 @@ if getGameMode() ~= "demo" then
 	--addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
 	addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way
 end
+addHotkey('PRINTSCREEN', false, false, false, 'f_screenShot()') --Takes a screenshot and saves it to "screenshots" folder (during netplay only works for the player that press the button)
 --;===========================================================
 --; DEBUG HOTKEYS FUNCTIONS
 --;===========================================================

@@ -5653,14 +5653,14 @@ end
 txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
 t_audioCfg = {
-	{text = "Master Volume",	varText = ""}, --gl_vol.."%"}, --not working online
-	{text = "BGM Volume",		varText = ""}, --bgm_vol.."%"}, --not working online
-	{text = "SFX Volume",		varText = ""}, --se_vol.."%"}, --not working online
-	{text = "Movie Volume",		varText = ""}, --vid_vol.."%"}, --not working online
-	{text = "Panning Range",   	varText = ""}, --t_panStr[math.ceil((pan_str + 1) * 0.025)]}, --not working online
-	{text = "Sample Rate",     	varText = ""}, --freq}, --not working online
-	{text = "Channels",        	varText = ""}, --s_channels}, --not working online
-	{text = "Buffer Samples",  	varText = ""}, --buffer}, --not working online
+	{text = "Master Volume",	varText = ""},
+	{text = "BGM Volume",		varText = ""},
+	{text = "SFX Volume",		varText = ""},
+	{text = "Movie Volume",		varText = ""},
+	{text = "Panning Range",   	varText = ""},
+	{text = "Sample Rate",     	varText = ""},
+	{text = "Channels",        	varText = ""},
+	{text = "Buffer Samples",  	varText = ""},
 	{text = "Default Values",	varText = ""},
 	{text = "          BACK",  	varText = ""},
 }
@@ -6006,10 +6006,10 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 t_engineCfg = {
 	{text = "Debug Mode",  	      		varText = ""},
 	{text = "Save Debug Logs",        	varText = ""},
-	{text = "HelperMax",              	varText = ""},--HelperMaxEngine}, --not working online
-	{text = "PlayerProjectileMax",		varText = ""},--PlayerProjectileMaxEngine}, --not working online
-	{text = "ExplodMax",              	varText = ""},--ExplodMaxEngine}, --not working online
-	{text = "AfterImageMax",          	varText = ""},--AfterImageMaxEngine}, --not working online
+	{text = "HelperMax",              	varText = ""},
+	{text = "PlayerProjectileMax",		varText = ""},
+	{text = "ExplodMax",              	varText = ""},
+	{text = "AfterImageMax",          	varText = ""},
 	{text = "Erase/Reset Statistics", 	varText = ""},
 	{text = "Default Settings",  	  	varText = ""},
 	{text = "          BACK",  	  		varText = ""},
@@ -8743,7 +8743,7 @@ function f_defaultStats()
 end
 
 --Read Inputs for Inputs Hints Data
-if not netplay() then --becase the functions are not working online
+if not netplay() then --becase the functions are not working online due don't use f_loadCfg()
 f_inputMenuRead(0, -1) --0=P1, -1=Keyboard
 f_inputMenuRead(1, -1) --1=P2
 f_inputMenuRead(2, data.p1Gamepad) --2=P3

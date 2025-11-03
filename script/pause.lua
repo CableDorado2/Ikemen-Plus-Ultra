@@ -1114,10 +1114,10 @@ end
 txt_PaudioCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_audioCfg = {
-	{text = "Master Volume",   		varText = ""}, --gl_vol}, not working online
-	{text = "SFX Volume",       	varText = ""}, --se_vol}, not working online
-	{text = "BGM Volume",      		varText = ""}, --bgm_vol}, not working online
-	{text = "Audio Panning",   		varText = ""}, --t_panStr[math.ceil((pan_str + 1) * 0.025)]}, not working online
+	{text = "Master Volume",   		varText = ""},
+	{text = "SFX Volume",       	varText = ""},
+	{text = "BGM Volume",      		varText = ""},
+	{text = "Audio Panning",   		varText = ""},
 	{text = "              BACK",  	varText = ""},
 }
 for i=1, #t_audioCfg do
@@ -1255,12 +1255,12 @@ function f_pauseAudio()
 				bufl = 0
 			end
 		end
+		t_audioCfg[1].varText = gl_vol
+		t_audioCfg[2].varText = se_vol    
+		t_audioCfg[3].varText = bgm_vol
+		t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
 		if hasChanged then
 			if not modified then modified = true end
-			t_audioCfg[1].varText = gl_vol
-			t_audioCfg[2].varText = se_vol    
-			t_audioCfg[3].varText = bgm_vol
-			t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
 			setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 			setPanStr(pan_str / 100)
 			hasChanged = false

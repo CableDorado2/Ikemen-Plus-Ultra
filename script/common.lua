@@ -1019,7 +1019,7 @@ function cmdInput()
 		commandBufReset(p2Cmd)
 	end
 --Take Screenshot in any menu (if you have control)
-	if printscreenKey() then
+	if printscreenKey() and not inMatch then
 		f_screenShot()
 		commandBufReset(p1Cmd)
 		commandBufReset(p2Cmd)
@@ -2381,8 +2381,6 @@ function f_default() --Reset Game Modes Configuration
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
 	setPauseVar("") --set pause menu extra variable to adjust internal settings.
-	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
-	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 --Tournament Stuff
 	setFTNo(1) --Set Matchs To Wins/FT (To show in lifebar of Tournament Mode)
 	setTourneyState("") --set tournament state to show in tourney mode lifebar.
