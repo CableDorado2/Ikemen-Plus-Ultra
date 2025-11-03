@@ -56,6 +56,7 @@ public &Share
   public ^int numSimul;
   public ^index wakewakaLength;
   public &.com.Camera::Stage camstg;
+  public ^/char operatingSystem;
   public ^/char gameMode;
   public ^/char gameService;
   public ^/char playerSide;
@@ -145,6 +146,7 @@ public &Share
     `numSimul = .com.numSimul;
     `wakewakaLength = .chr.wakewakaLength;
     `camstg = .com.cam.stg;
+	`operatingSystem = .com.operatingSystem;
 	`gameMode = .com.gameMode;
 	`gameService = .com.gameService;
 	`playerSide = .com.playerSide;
@@ -251,6 +253,7 @@ public &Share
     .com.numSimul = `numSimul;
     .chr.wakewakaLength = `wakewakaLength;
     .com.cam.stg = `camstg;
+	.com.operatingSystem = `operatingSystem;
 	.com.gameMode = `gameMode;
 	.com.gameService = `gameService;
 	.com.playerSide = `playerSide;

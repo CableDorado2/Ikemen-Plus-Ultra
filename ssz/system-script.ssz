@@ -2204,6 +2204,19 @@ void getConfigTVars(&.lua.State L=, int re=)
   L.pushNumber((double)v);
 }
 
+void setOS(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char os = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.operatingSystem = os;
+}
+
+void getOS(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.operatingSystem);
+}
+
 void setSuaveMode(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2360,5 +2373,7 @@ public void init(&.lua.State L=)
   L.register("configModified", .configModified);
   L.register("setConfigTVars", .setConfigTVars);
   L.register("getConfigTVars", .getConfigTVars);
+  L.register("setOS", .setOS);
+  L.register("getOS", .getOS);
   L.register("setSuaveMode", .setSuaveMode);
 }

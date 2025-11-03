@@ -936,7 +936,7 @@ if t_selChars ~= nil then
 			end
 		--detects stage viewer character
 			if t_selChars[i].name == "stage viewer" then
-				data.stageviewer = true
+				stageviewer = true
 			end
 		--generate table for boss rush mode
 			if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then

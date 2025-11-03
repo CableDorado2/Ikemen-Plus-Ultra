@@ -13,24 +13,29 @@ However, if a data table/file is created here, keep in mind that it will be rege
 Therefore, it is recommended to "encapsulate" that you only want to create when engine start in a function,
 to call and write in them outside of the match, and then only read them inside the match.
 ]]
-os_type = ""
-batOpen("tools", "os_version.bat")
-local os_handle = io.open("tools/os_info.txt", "r")
-if os_handle then
-	local file_content = os_handle:read("*a")
-	os_handle:close()
-	if file_content then
-		os_type = file_content:gsub("^%s*(.-)%s*$", "%1") 
-	else
-		os_type = "Error Reading OS Content"
+--return file content
+function f_fileRead(path, mode)
+	local file = io.open(path, mode or 'r')
+	if file == nil then --File doesn't exist
+		return
 	end
-else
-	os_type = "Error: Check OS File Not Found"
+	local str = file:read("*all")
+	file:close()
+	return str
 end
-os.remove("tools/os_info.txt")
-local file = io.open('save/debug/osVer.log',"w+")
-file:write(os_type)
-file:close()
+
+--write to file
+function f_fileWrite(path, str, mode)
+	if str == nil then
+		return
+	end
+	local file = io.open(path, mode or 'w+')
+	if file == nil then --File doesn't exist
+		return
+	end
+	file:write(str)
+	file:close()
+end
 --;===========================================================
 --; LIBRARY DEFINITION
 --;===========================================================
@@ -48,7 +53,7 @@ package.path = "./?.lua;" ..
 				"./lib/lua/luasocket/?.lua;"
 				
 --Load LuaSocket libraries
-if os_type ~= "windowsXP" then --Not supported in Windows XP
+if getOS() ~= "windowsXP" then --Not supported in Windows XP
 socket = require("socket")
 http = require("socket.http")
 end
@@ -80,6 +85,45 @@ saveP1Path = "save/p1_sav.json"
 saveP2Path = "save/p2_sav.json"
 saveAbyssPath = "save/abyss_sav.json"
 saveTourneyPath = "save/tourney_sav.lua"
+--;===========================================================
+--; DATA LOADING
+--;===========================================================
+--Load saved variables
+assert(loadfile(saveCfgPath))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
+assert(loadfile(saveTrainingPath))() --training data
+assert(loadfile(saveTourneyPath))() --tournament data
+assert(loadfile(saveTempPath))() --temp data
+
+--Data loading from temp_sav.lua
+local tempFile = io.open(saveTempPath,"r")
+s_tempdataLUA = tempFile:read("*all")
+tempFile:close()
+
+--Data loading from tourney_sav.lua
+local tourneyFile = io.open(saveTourneyPath,"r")
+s_tourneydataLUA = tourneyFile:read("*all")
+tourneyFile:close()
+
+--Data loading from config.ssz
+local file = io.open(saveCoreCfgPath,"r")
+s_configSSZ = file:read("*all")
+file:close()
+
+--Data loading from config.json
+--config = json.decode(f_fileRead(saveCfgPath))
+
+--Data loading from host_rooms.json
+host_rooms = json.decode(f_fileRead(saveHostRoomPath))
+
+--Data loading from stats_sav.json
+stats = json.decode(f_fileRead(saveStatsPath))
+
+--Data loading from p1_sav.json and p2_sav.json
+p1Dat = json.decode(f_fileRead(saveP1Path))
+p2Dat = json.decode(f_fileRead(saveP2Path))
+
+--Data loading from abyss_sav.json
+abyssDat = json.decode(f_fileRead(saveAbyssPath))
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION
 --;===========================================================
@@ -749,30 +793,6 @@ function tableToString(tbl, indent)
 	return s
 end
 
---return file content
-function f_fileRead(path, mode)
-	local file = io.open(path, mode or 'r')
-	if file == nil then --File doesn't exist
-		return
-	end
-	local str = file:read("*all")
-	file:close()
-	return str
-end
-
---write to file
-function f_fileWrite(path, str, mode)
-	if str == nil then
-		return
-	end
-	local file = io.open(path, mode or 'w+')
-	if file == nil then --File doesn't exist
-		return
-	end
-	file:write(str)
-	file:close()
-end
-
 --delete a directory
 function deldir(dir)
 	for file in lfs.dir(dir) do
@@ -880,46 +900,6 @@ function f_gotoFunction(func)
 		return --Error when loading function
 	end
 end
-
---;===========================================================
---; DATA LOADING
---;===========================================================
---Load saved variables
-assert(loadfile(saveCfgPath))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile(saveTrainingPath))() --training data
-assert(loadfile(saveTourneyPath))() --tournament data
-assert(loadfile(saveTempPath))() --temp data
-
---Data loading from temp_sav.lua
-local tempFile = io.open(saveTempPath,"r")
-s_tempdataLUA = tempFile:read("*all")
-tempFile:close()
-
---Data loading from tourney_sav.lua
-local tourneyFile = io.open(saveTourneyPath,"r")
-s_tourneydataLUA = tourneyFile:read("*all")
-tourneyFile:close()
-
---Data loading from config.ssz
-local file = io.open(saveCoreCfgPath,"r")
-s_configSSZ = file:read("*all")
-file:close()
-
---Data loading from config.json
---config = json.decode(f_fileRead(saveCfgPath))
-
---Data loading from host_rooms.json
-host_rooms = json.decode(f_fileRead(saveHostRoomPath))
-
---Data loading from stats_sav.json
-stats = json.decode(f_fileRead(saveStatsPath))
-
---Data loading from p1_sav.json and p2_sav.json
-p1Dat = json.decode(f_fileRead(saveP1Path))
-p2Dat = json.decode(f_fileRead(saveP2Path))
-
---Data loading from abyss_sav.json
-abyssDat = json.decode(f_fileRead(saveAbyssPath))
 
 --;===========================================================
 --; INPUT STUFF
@@ -2873,7 +2853,7 @@ function f_loadNetTimeLuaCurl()
 end
 
 function loadNetTime() --One-time Load
-	if os_type ~= "windowsXP" then --LuaSocket used is not supported in Windows XP
+	if getOS() ~= "windowsXP" then --LuaSocket used is not supported in Windows XP
 		f_loadNetTimeLuaSocket()
 	else --Use Lua-cURL which is supported in Windows XP
 		f_loadNetTimeLuaCurl()
@@ -2931,7 +2911,7 @@ function f_sysTime()
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
-		--f_drawQuickText(txt_testW, font6, 0, 0, "BGM: "..bgm_vol, 109, 38)
+		f_drawQuickText(txt_testW, font6, 0, 0, "BGM: "..bgm_vol, 109, 38)
 	--[[
 		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
 		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)
@@ -3591,7 +3571,6 @@ function f_loadLuaMods(bool)
 end
 require("script.screenpack") --Load screenpack assets
 require("script.options") --Load options script
---playVideo("videos/mk004.bik", 1)
 --;===========================================================
 --; DISCORD RICH PRESENCE API
 --;===========================================================

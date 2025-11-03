@@ -1,10 +1,31 @@
+math.randomseed(os.time())
 --;===========================================================
 --; INITIAL ACTIONS
 --;===========================================================
-math.randomseed(os.time())
+--Detect Operating System to configure/load specific vars and libraries
+batOpen("tools", "os_version.bat")
+local osDetect = io.open("tools/os_info.txt", "r")
+local osType = ""
+if osDetect then
+	local file_content = osDetect:read("*a")
+	osDetect:close()
+	if file_content then
+		osType = file_content:gsub("^%s*(.-)%s*$", "%1")
+	else
+		osType = "Error Reading OS Content"
+	end
+else
+	osType = "Error: Check OS File Not Found"
+end
+setOS(osType)
+os.remove("tools/os_info.txt")
+local file = io.open('save/debug/osVer.log',"w+")
+file:write(osType)
+file:close()
 
 --Load Common stuff (shared with pause.lua)
 require("script.common")
+--playVideo("videos/mk004.bik", 1)
 
 --Debug/Match Stuff
 loadDebugFont(fontDebug)
@@ -17,13 +38,9 @@ f_discordInit() --Send Discord Rich Presence
 --;===========================================================
 --Default System Vars
 onlinegame = false
-replaygame = false
-currencySystem = true
-songsSettings = false
 soundTest = false
 altBGM = false
 data.tagmode = 1
-data.stageviewer = false
 menuSelect = ""
 P2overP1 = false
 secretTarget = ""
@@ -88,7 +105,6 @@ function f_mainStart()
 		f_mainLogos(data.attractMode)
 		f_resetArcadeStuff()
 		if data.attractMode then
-			currencySystem = false --Disable In-Game Currency System During Attract Mode
 			f_mainAttract()
 		else
 			f_mainTitle()
@@ -3142,7 +3158,7 @@ end
 --; STAGE VIEWER MODE (watch a selected stage without fight)
 --;===========================================================
 function f_stageViewer()
-	if data.stageviewer then
+	if stageviewer then
 		f_discordUpdate({details = "Stage Viewer"})
 		f_default()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4080,7 +4096,6 @@ function f_mainReplay()
 	local exitReplayMenu = false
 	local maxItems = 12
 	netPlayer = "Host"
-	currencySystem = false --Disable In-Game Currency System During Replay Mode
 	f_replayTable() --Load table
 	f_resetListArrowsPos()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4088,8 +4103,6 @@ function f_mainReplay()
 		if exitReplayMenu then
 			f_discordMainMenu()
 			onlinegame = false --only for identify purposes
-			replaygame = false
-			currencySystem = true
 			--netPlayer = "" Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
 			assert(loadfile(saveCfgPath))()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4144,7 +4157,6 @@ function f_mainReplay()
 					--WATCH SELECTED REPLAY
 						elseif replayOption == 2 then
 							onlinegame = true --only for identify purposes
-							replaygame = true
 							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 							sndPlay(sndSys, 100, 1)
 						--Set Default values to prevent desync.
@@ -5249,7 +5261,7 @@ end
 --; LOBBY MENU
 --;===========================================================
 function f_mainLobby()
-	if not replaygame then f_discordUpdate({details = "Netplay Lobby"}) end
+	if not replay() then f_discordUpdate({details = "Netplay Lobby"}) end
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
@@ -5305,7 +5317,7 @@ function f_mainLobby()
 	--Enter Actions
 		if btnPalNo(p1Cmd, true) > 0 or data.ftcontrol > 0 then
 			f_default()
-			if replaygame then
+			if replay() then
 				f_discordUpdate({details = "Watching Online Replay"})
 			else
 				f_discordUpdate({details = "Playing Online"})
@@ -7190,7 +7202,7 @@ end
 
 function f_winMoney()
 --Increase In-Game Currency Money
-	if not onlinegame and currencySystem then	
+	if not replay() then	
 		stats.money = stats.money + 5
 		--sndPlay(sndIkemen, 400, 0)
 		f_saveStats()
@@ -7199,11 +7211,9 @@ end
 
 function f_loseMoney()
 --Lose In-Game Currency Money
-	if currencySystem then
-		if stats.money >= 1 then
-			stats.money = stats.money - 1
-			f_saveStats()
-		end
+	if stats.money >= 1 then
+		stats.money = stats.money - 1
+		f_saveStats()
 	end
 end
 
@@ -7738,9 +7748,9 @@ function f_selectScreen()
 	end
 --Show Back Menu
 	if backScreen then
-		if onlinegame == false then
+		if not onlinegame then
 			f_backMenu()
-		elseif onlinegame == true then
+		else
 			f_exitOnline()
 		end
 	else
@@ -12894,7 +12904,7 @@ function f_selectWin()
 		playBGM(bgmVictory)
 	end
 --Online Ranked Match Control
-	if onlinegame == true and data.gameMode == "versus" then
+	if onlinegame and data.gameMode == "versus" then
 		f_ftcontrol()
 	end
 	while true do
@@ -13418,7 +13428,7 @@ function f_rematch()
 		end
 	end
 	if p1Ready and p2Ready then rematchEnd = true end
-	if onlinegame == true then
+	if onlinegame then
 		if esc() then
 			battleOption = 4
 			rematchEnd = true
@@ -14437,7 +14447,7 @@ if validCells() then
 					--backScreen = false
 					--back = false
 					while not selScreenEnd do
-						if onlinegame == true then
+						if onlinegame then
 							if esc() then f_exitOnline() end
 						end
 						f_selectScreen()

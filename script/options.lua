@@ -5480,8 +5480,10 @@ for i=1, #t_songCfg do
 	t_songCfg[i]['varText'] = ""
 end
 
+songsSettings = false
+
 function f_setCfgSong()
-	if songsSettings == true then --Only save if you come from this option script
+	if songsSettings then --Only save if you come from this option script
 		if selectedSong == nil then --Get previous data
 			if songCfg == 1 then
 				data.menuSong = data.menuSong
