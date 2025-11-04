@@ -198,7 +198,7 @@ pauseLeftArrow = animNew(sprIkemen, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(pauseLeftArrow, 69, 112)
+animAddPos(pauseLeftArrow, 69, 72)
 animSetScale(pauseLeftArrow, 0.5, 0.5)
 animUpdate(pauseLeftArrow)
 
@@ -213,7 +213,7 @@ pauseRightArrow = animNew(sprIkemen, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(pauseRightArrow, 242, 112)
+animAddPos(pauseRightArrow, 242, 72)
 animSetScale(pauseRightArrow, 0.5, 0.5)
 animUpdate(pauseRightArrow)
 
@@ -2082,7 +2082,7 @@ function f_pauseTraining()
 				textImgDraw(txt_playbackInfo)
 			end
 			animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
-			f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			for i=1, maxtrainingCfg do
 				if i > trainingCfg - cursorPosY then
@@ -2353,7 +2353,7 @@ function f_pausePlayback()
 			textImgDraw(txt_playbackInfo)
 		end
 		animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
-		f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if hasChanged then
 			if not modified then modified = true end
@@ -2582,7 +2582,7 @@ function f_pauseCharCfg()
 		animDraw(pauseBG1)
 		textImgDraw(txt_charCfg)
 		animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
-		f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if hasChanged then
 			if not modified then modified = true end

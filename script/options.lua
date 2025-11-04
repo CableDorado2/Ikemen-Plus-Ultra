@@ -2161,27 +2161,26 @@ end
 txt_gameCfg = createTextImg(jgFnt, 0, 0, "GAME SETTINGS", 159, 13)
 
 t_gameCfg = {
-	{text = "Difficulty Level",      varText = data.difficulty},
-	{text = "Time Limit",         	 varText = data.roundTime},
-	{text = "Rounds to Win",      	 varText = data.roundsNum},
-	{text = "Max Draw Games",      	 varText = drawNum},
-	{text = "Life",               	 varText = data.lifeMul.."%"},
-	{text = "Game Speed",  	         varText = s_gameSpeed},
-	{text = "Quick Arcade Continue", varText = ""},
---[[
-	{text = "Dizzy", 				 varText = data.stun},
-	{text = "Guard Break", 			 varText = data.guardBreak},
-]]
-	{text = "AI Palette",  	    	 varText = data.aipal},
-	{text = "AI Ramping",            varText = ""},
-	{text = "VS Kumite Amount",  	 varText = data.kumite},
-	{text = "Team Settings",  		 varText = ""},
-	{text = "Zoom Settings",  		 varText = ""},
-	{text = "Default Values",		 varText = ""},
-	{text = "BACK",			  		 varText = ""},
+	{text = "Difficulty Level"},
+	{text = "Time Limit"},
+	{text = "Rounds to Win"},
+	{text = "Max Draw Games"},
+	{text = "Life"},
+	{text = "Game Speed"},
+	{text = "Quick Arcade Continue"},
+	--{text = "Dizzy"},
+	--{text = "Guard Break"},
+	{text = "AI Palette"},
+	{text = "AI Ramping"},
+	{text = "VS Kumite Amount"},
+	{text = "Team Settings"},
+	{text = "Zoom Settings"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
+	t_gameCfg[i]['varText'] = ""
 end
 
 function f_gameCfg()
@@ -2498,6 +2497,8 @@ function f_gameCfg()
 		t_gameCfg[5].varText = data.lifeMul.."%"
 		t_gameCfg[6].varText = s_gameSpeed
 		if data.quickCont then t_gameCfg[7].varText = "Yes" else t_gameCfg[7].varText = "No" end
+		--if data.stun then t_gameCfg[8].varText = "Yes" else t_gameCfg[8].varText = "No" end
+		--if data.guardBreak then t_gameCfg[9].varText = "Yes" else t_gameCfg[9].varText = "No" end
 		t_gameCfg[8].varText = data.aipal
 		if data.aiRamping then t_gameCfg[9].varText = "Yes" else t_gameCfg[9].varText = "No" end
 		t_gameCfg[10].varText = data.kumite
@@ -2550,20 +2551,21 @@ end
 txt_teamCfg = createTextImg(jgFnt, 0, 0, "TEAM SETTINGS", 159, 13)
 
 t_teamCfg = {
-	{text = "Single VS Team Life",     	varText = data.team1VS2Life.."%"},
-	{text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
-	{text = "Life Share", 				varText = ""},
-	{text = "Power Share", 				varText = ""},
-	{text = "Team Duplicates",			varText = ""},
-	{text = "Turns Players Limit",     	varText = data.numTurns},
-	{text = "Simul Players Limit",     	varText = data.numSimul},
-	{text = "Simul Type",              	varText = data.simulType},
-	{text = "Co-Op CPU Team",          	varText = data.coopenemy},
-	{text = "Default Values",  	  		varText = ""},
-	{text = "BACK",			  			varText = ""},
+	{text = "Single VS Team Life"},
+	{text = "Turns HP Recovery"},
+	{text = "Life Share"},
+	{text = "Power Share"},
+	{text = "Team Duplicates"},
+	{text = "Turns Players Limit"},
+	{text = "Simul Players Limit"},
+	{text = "Simul Type"},
+	{text = "Co-Op CPU Team"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_teamCfg do
 	t_teamCfg[i]['varID'] = textImgNew()
+	t_teamCfg[i]['varText'] = ""
 end
 
 function f_teamCfg()
@@ -2853,15 +2855,16 @@ end
 txt_zoomCfg = createTextImg(jgFnt, 0, 0, "ZOOM SETTINGS", 159, 13)
 
 t_zoomCfg = {
-	{text = "Zoom Active",    			varText = ""},
-	{text = "Max Zoom Out",   			varText = data.zoomMin},
-	{text = "Max Zoom In",    			varText = data.zoomMax},
-	{text = "Zoom Speed",     			varText = data.zoomSpeed},
-	{text = "Default Values",  	 		varText = ""},
-	{text = "BACK",			 			varText = ""},
+	{text = "Zoom Active"},
+	{text = "Max Zoom Out"},
+	{text = "Max Zoom In"},
+	{text = "Zoom Speed"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_zoomCfg do
 	t_zoomCfg[i]['varID'] = textImgNew()
+	t_zoomCfg[i]['varText'] = ""
 end
 
 function f_zoomCfg()
@@ -3075,27 +3078,28 @@ end
 txt_UICfg = createTextImg(jgFnt, 0, 0, "SYSTEM SETTINGS", 159, 13)
 
 t_UICfg = {
-	{text = "Language", 		         varText = data.language},
-	{text = "Clock Format",              varText = ""},
-	{text = "Date Format",               varText = ""},
-	{text = "Discord Rich Presence",   	 varText = ""},
-	{text = "Attract Mode",  	      	 varText = ""},
-	{text = "Pause Menu",	  	      	 varText = ""},
-	{text = "Portrait Display",		     varText = data.portraitDisplay},
-	{text = "Versus Win Counter",  	     varText = ""},
-	{text = "Win Screen",	    		 varText = data.winscreen},
-	{text = "Service Interaction",		 varText = data.serviceType},
-	{text = "Order Select Type",		 varText = data.orderSelType},
-	{text = "Character Select Settings", varText = ""},
-	{text = "Stage Select Settings",     varText = ""},
-	{text = "Timers Settings",  	  	 varText = ""},
-	{text = "Replay Settings",  	  	 varText = ""},
-	{text = "Songs Settings",	 		 varText = ""},
-	{text = "Default Settings",  	  	 varText = ""},
-	{text = "BACK", 		 		     varText = ""},
+	{text = "Language"},
+	{text = "Clock Format"},
+	{text = "Date Format"},
+	{text = "Discord Rich Presence"},
+	{text = "Attract Mode"},
+	{text = "Pause Menu"},
+	{text = "Portrait Display"},
+	{text = "Versus Win Counter"},
+	{text = "Win Screen"},
+	{text = "Service Interaction"},
+	{text = "Order Select Type"},
+	{text = "Character Select Settings"},
+	{text = "Stage Select Settings"},
+	{text = "Timers Settings"},
+	{text = "Replay Settings"},
+	{text = "Songs Settings"},
+	{text = "Default Settings"},
+	{text = "BACK"},
 }
 for i=1, #t_UICfg do
 	t_UICfg[i]['varID'] = textImgNew()
+	t_UICfg[i]['varText'] = ""
 end
 
 function f_UICfg()
@@ -3482,18 +3486,19 @@ end
 txt_selectCfg = createTextImg(jgFnt, 0, 0, "CHARACTER SELECT SETTINGS", 159, 13)
 
 t_selectCfg = {
-	{text = "Edit Roster",	   	     	varText = ""},
-	{text = "Roster Type",	   	     	varText = data.selectType},
-	{text = "Palette Select",	    	varText = data.palType},
-	{text = "Information",    			varText = data.charInfo},
-	{text = "Random Portrait",	     	varText = data.randomPortrait},
-	{text = "Random Select Rematch",	varText = data.randomCharRematch},
-	{text = "Generate Characters List", varText = ""},
-	{text = "Default Values",  	 		varText = ""},
-	{text = "BACK",			 			varText = ""},
+	{text = "Edit Roster"},
+	{text = "Roster Type"},
+	{text = "Palette Select"},
+	{text = "Information"},
+	{text = "Random Portrait"},
+	{text = "Random Select Rematch",},
+	{text = "Generate Characters List"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_selectCfg do
 	t_selectCfg[i]['varID'] = textImgNew()
+	t_selectCfg[i]['varText'] = ""
 end
 
 function f_selectCfg()
@@ -4831,16 +4836,17 @@ end
 txt_stageCfg = createTextImg(jgFnt, 0, 0, "STAGE SELECT SETTINGS", 159, 13)
 
 t_stageCfg = {
-	{text = "Presentation",	         varText = data.stageType},
-	{text = "Random Portrait",   	 varText = data.randomStagePortrait},
-	{text = "Information",      	 varText = data.stageInfo},
-	{text = "Random Select Rematch", varText = data.randomStageRematch},
-	{text = "Generate Stages List",  varText = ""},
-	{text = "Default Values",  	 	 varText = ""},
-	{text = "BACK", 				 varText = ""},
+	{text = "Presentation"},
+	{text = "Random Portrait"},
+	{text = "Information"},
+	{text = "Random Select Rematch"},
+	{text = "Generate Stages List"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_stageCfg do
 	t_stageCfg[i]['varID'] = textImgNew()
+	t_stageCfg[i]['varText'] = ""
 end
 
 function f_stageCfg()
@@ -6410,20 +6416,21 @@ end
 txt_videoCfg = createTextImg(jgFnt, 0, 0, "VIDEO SETTINGS", 159, 13)
 
 t_videoCfg = {
-	{text = "Renderer", 	 	 varText = ""},
-	{text = "Resolution",  		 varText = ""},
-	{text = "Screen Mode",  	 varText = ""},
-	{text = "Window Type", 		 varText = ""},
-	{text = "Fullscreen Type",	 varText = ""},
-	{text = "Keep Aspect Ratio", varText = ""},
-	{text = "Window Opacity",	 varText = ""},
-	{text = "Brightness",		 varText = ""},
-	{text = "Save Memory", 	 	 varText = ""},
-	{text = "Default Graphics",	 varText = ""},
-	{text = "BACK",			  	 varText = ""},
+	{text = "Renderer"},
+	{text = "Resolution"},
+	{text = "Screen Mode"},
+	{text = "Window Type"},
+	{text = "Fullscreen Type"},
+	{text = "Keep Aspect Ratio"},
+	{text = "Window Opacity"},
+	{text = "Brightness"},
+	{text = "Save Memory"},
+	{text = "Default Graphics"},
+	{text = "BACK"},
 }
 for i=1, #t_videoCfg do
 	t_videoCfg[i]['varID'] = textImgNew()
+	t_videoCfg[i]['varText'] = ""
 end
 
 local function f_setVideoVars()
@@ -7104,17 +7111,18 @@ end
 txt_inputCfg = createTextImg(jgFnt, 0, 0, "INPUT SETTINGS", 159, 13)
 
 t_inputCfg = {
-	{text = "Keyboard Config",  		 varText = ""},
-	{text = "Gamepad Config",	  		 varText = ""},
-	--{text = "Player 1 Gamepad Status", varText = s_disablePadP1},
-	--{text = "Player 2 Gamepad Status", varText = s_disablePadP2},
-	{text = "Swap Gamepads", 			 varText = ""},
-	{text = "Test Controls",  		 	 varText = ""},
-	{text = "Default Controls",  		 varText = ""},
-	{text = "BACK",				  	 	 varText = ""},
+	{text = "Keyboard Config"},
+	{text = "Gamepad Config"},
+	--{text = "Player 1 Gamepad Status"},
+	--{text = "Player 2 Gamepad Status"},
+	{text = "Swap Gamepads"},
+	{text = "Test Controls"},
+	{text = "Default Controls"},
+	{text = "BACK"},
 }
 for i=1, #t_inputCfg do
 	t_inputCfg[i]['varID'] = textImgNew()
+	t_inputCfg[i]['varText'] = ""
 end
 
 function f_inputCfg()

@@ -1,4 +1,4 @@
-[Event 1] ;WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00
+[Event 1]
 id = event1
 info = Survive 40 Rounds in The Call of Zombies!
 previewspr = 0,1
@@ -6,11 +6,11 @@ path = script/mods/events/event1.lua
 hourstart = 13
 hourdeadline = 23
 
-[Event 2] ;WILL BE AVAILABLE FROM 6PM/18:00 TO 8PM/20:00
+[Event 2]
 id = event2
 info = Challenge a formidable Ancient Dragon!
 previewspr = 0,2
 path = script/mods/events/event2.lua
 time = net
 hourstart = 18
-hourdeadline = 20
+hourdeadline = 22

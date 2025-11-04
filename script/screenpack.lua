@@ -1615,11 +1615,11 @@ end
 --;===========================================================
 --; PALETTE SELECT SCREENPACK DEFINITION
 --;===========================================================
-txt_palText = "PALETTE:"
+txt_palText = "COLOR SELECT"
 txt_p1Pal = createTextImg(jgFnt, 5, 1, txt_palText, 5, 183)
-txt_p2Pal = createTextImg(jgFnt, 5, -1, txt_palText, 258, 183)
-txt_p1PalNo = createTextImg(font14, 0, 0, "", 100, 183) --draw palette limit numbers text
-txt_p2PalNo = createTextImg(font14, 0, -1, "", 305, 183)
+txt_p2Pal = createTextImg(jgFnt, 5, -1, txt_palText, 280, 183)
+txt_p1PalNo = createTextImg(font14, 0, 1, "", 117, 183)
+txt_p2PalNo = createTextImg(font14, 0, -1, "", 310, 183)
 --txt_p1PalTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 --txt_p2PalTime = createTextImg(jgFnt, 0, 0, "", 160, 55)
 
@@ -1636,10 +1636,10 @@ palSelArrowLeft = animNew(sprIkemen, [[
 ]])
 animSetScale(palSelArrowLeft, 0.45, 0.45)
 
-palSelArrowLP1posX = 72 --Player 1 X-Axis
+palSelArrowLP1posX = 105 --Player 1 X-Axis
 palSelArrowLP1posY = 174.5 --Player 1 Y-Axis
 
-palSelArrowLP2posX = 259 --Player 2 X-Axis
+palSelArrowLP2posX = 285 --Player 2 X-Axis
 palSelArrowLP2posY = 174.5 --Player 2 Y-Axis
 
 --Palette Select Right Arrow
@@ -1655,10 +1655,10 @@ palSelArrowRight = animNew(sprIkemen, [[
 ]])
 animSetScale(palSelArrowRight, 0.45, 0.45)
 
-palSelArrowRP1posX = 120 --Player 1 X-Axis
+palSelArrowRP1posX = 135 --Player 1 X-Axis
 palSelArrowRP1posY = 174.5 --Player 1 Y-Axis
 
-palSelArrowRP2posX = 307 --Player 2 X-Axis
+palSelArrowRP2posX = 312 --Player 2 X-Axis
 palSelArrowRP2posY = 174.5 --Player 2 Y-Axis
 
 --Palette Select BG

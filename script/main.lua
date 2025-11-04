@@ -8690,124 +8690,6 @@ function f_p1SelectMenu()
 						f_drawSelectName(txt_p1Name, data.t_p1selected[1], 0, 148)
 					end
 				end
-			--DRAW AUTHOR INFO TEXT
-				if data.charInfo == "Author" then
-					if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == "Random" then
-						if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-						--SINGLE MODE
-							if p1numChars == 1 then
-								if data.randomPortrait == "Fixed" and p1member1Random == true then
-									--Keep random author as: ???
-								else
-									textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author) --Reveal Random Author
-								end
-								textImgDraw(txt_p1Author)
-						--TEAM MODE WITH 2 MEMBERS
-							elseif p1numChars == 2 then
-								--Draw P1 Member 2 SELECTED Author
-									if j == 2 then
-										if data.randomPortrait == "Fixed" and p1member2Random == true then
-										--
-										else
-											textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[2].author)
-											
-										end
-										textImgScalePosDraw(txt_p1Author, 0, 165, 0.65, 0.65)
-									end
-								--Draw P1 Member 1 SELECTED Author
-									if j == 1 then
-										if data.randomPortrait == "Fixed" and p1member1Random == true then
-										--
-										else
-											textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author)
-											
-										end
-										textImgScalePosDraw(txt_p1Author, 0, 20, 0.65, 0.65)
-									end
-						--TEAM MODE WITH 3 MEMBERS
-							elseif p1numChars == 3 then
-							--Draw P1 Member 3 SELECTED Author
-								if j == 3 then
-									if data.randomPortrait == "Fixed" and p1member3Random == true then
-									--
-									else
-										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[3].author)
-										
-									end
-									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
-								end
-							--Draw P1 Member 2 SELECTED Author
-								if j == 2 then
-									if data.randomPortrait == "Fixed" and p1member2Random == true then
-									--
-									else
-										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[2].author)
-										
-									end
-									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
-								end
-							--Draw P1 Member 1 SELECTED Author
-								if j == 1 then
-									if data.randomPortrait == "Fixed" and p1member1Random == true then
-									--
-									else
-										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author)
-									end
-									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
-								end
-						--TEAM MODE WITH 4 MEMBERS
-							elseif p1numChars == 4 then
-							--Draw P1 Member 4 SELECTED Author
-								if j == 4 then
-									if data.randomPortrait == "Fixed" and p1member4Random == true then
-									--
-									else
-										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[4].author)
-										
-									end
-									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
-								end
-							--Draw P1 Member 3 SELECTED Author
-								if j == 3 then
-									if data.randomPortrait == "Fixed" and p1member3Random == true then
-									--
-									else
-										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[3].author)
-										
-									end
-									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
-								end
-							--Draw P1 Member 2 SELECTED Author
-								if j == 2 then
-									if data.randomPortrait == "Fixed" and p1member2Random == true then
-									--
-									else
-										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[2].author)
-										
-									end
-									textImgScalePosDraw(txt_p1Author, 60, 89, 0.5, 0.5)
-								end
-							--Draw P1 Member 1 SELECTED Author
-								if j == 1 then
-									if data.randomPortrait == "Fixed" and p1member1Random == true then
-									--
-									else
-										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author)
-										
-									end
-									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
-								end
-							end
-						elseif data.portraitDisplay == "Sprite" then
-							if data.randomPortrait == "Fixed" and p1member1Random == true then
-							--
-							else
-								textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[j].author)
-							end
-							textImgPosDraw(txt_p1Author, 0, 20+10*(j-1), 0.65, 0.65)
-						end
-					end
-				end
 			end
 		end
 		--Scroll Logic
@@ -10124,114 +10006,11 @@ function f_p2SelectMenu()
 						f_drawSelectName(txt_p2Name, t_selected[1], 320, 148)
 					end
 				end
-				if data.charInfo == "Author" then
-					if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == "Random" then
-						if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-							if p2numChars == 1 then
-								if data.randomPortrait == "Fixed" and p2member1Random == true then
-									--Keep random author as: ???
-								else
-									textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
-								end
-								textImgDraw(txt_p2Author)
-							elseif p2numChars == 2 then
-								if j == 2 then
-									if data.randomPortrait == "Fixed" and p2member2Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[2].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 320, 165, 0.65, 0.65)
-								end
-								if j == 1 then
-									if data.randomPortrait == "Fixed" and p2member1Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 320, 20, 0.65, 0.65)
-								end
-							elseif p2numChars == 3 then
-								if j == 3 then
-									if data.randomPortrait == "Fixed" and p2member3Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[3].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
-								end
-								if j == 2 then
-									if data.randomPortrait == "Fixed" and p2member2Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[2].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
-								end
-								if j == 1 then
-									if data.randomPortrait == "Fixed" and p2member1Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
-									end
-									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
-								end
-							elseif p2numChars == 4 then
-								if j == 4 then
-									if data.randomPortrait == "Fixed" and p2member4Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[4].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
-								end
-								if j == 3 then
-									if data.randomPortrait == "Fixed" and p2member3Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[3].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
-								end
-								if j == 2 then
-									if data.randomPortrait == "Fixed" and p2member2Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[2].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 260, 89, 0.5, 0.5)
-								end
-								if j == 1 then
-									if data.randomPortrait == "Fixed" and p2member1Random == true then
-									--
-									else
-										textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
-										
-									end
-									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
-								end
-							end
-						elseif data.portraitDisplay == "Sprite" then
-							if data.randomPortrait == "Fixed" and p2member1Random == true then
-							--
-							else
-								textImgSetText(txt_p2Author, txt_authorText..t_selected[j].author)
-							end
-							textImgPosDraw(txt_p2Author, 320, 20+10*(j-1), 0.65, 0.65)
-						end
-					end
-				end
 			end
 		end
-		if p2coopReady then --Draw Player 2 Selected Assets for Co-Op Mode
-			--Portrait
+	--Draw Player 2 Selected Assets for Co-Op Mode
+		if p2coopReady then
+		--Portrait
 			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 				if data.randomPortrait == "Fixed" and p2coopRandom == true then
 					if data.portraitDisplay == "Portrait" then
@@ -10247,7 +10026,7 @@ function f_p2SelectMenu()
 					end
 				end
 			end
-			--Animated Sprite
+		--Animated Sprite
 			if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 				if data.portraitDisplay == "Sprite" then
 					if data.randomPortrait == "Fixed" and p2coopRandom == true then
@@ -10263,7 +10042,7 @@ function f_p2SelectMenu()
 					end
 				end
 			end
-			--Name
+		--Name
 			if data.portraitDisplay == "Portrait" then
 				if data.randomPortrait == "Fixed" and p2coopRandom == true then
 					f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, "RANDOM SELECT 2", 116, 100, 0.8, 0.8)
@@ -10276,22 +10055,6 @@ function f_p2SelectMenu()
 				else
 					f_drawSelectName(txt_p2Name, data.t_p1selected[2], 66, 100, 0.5, 0.5)
 				end
-			end
-			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-				--Author
-				if data.randomPortrait == "Fixed" and p2coopRandom == true then
-				--
-				else
-					textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[2].author)
-				end
-				textImgScalePosDraw(txt_p1Author, 0, 165, 0.65, 0.65)
-			elseif data.portraitDisplay == "Sprite" then
-				if data.randomPortrait == "Fixed" and p2coopRandom == true then
-					--
-				else
-					textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[j].author)
-				end
-				textImgScalePosDraw(txt_p1Author, 0, 30, 0.65, 0.65)
 			end
 		end
 		if not p2SelEnd then
