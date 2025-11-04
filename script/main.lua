@@ -9116,10 +9116,10 @@ end
 --;===========================================================
 function f_p1SelectPal()
 --Cursor
-	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1PalSel <= 11 then --p1PalSel <= Number of your Palette List Limit
+	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1PalSel <= 11 then --p1PalSel <= Number of your Palette List Limit
 		sndPlay(sndSys, 100, 0)
 		p1PalSel = p1PalSel + 1
-	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1PalSel > 1 then --Keep in palette 1 when press left until finish
+	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1PalSel > 1 then --Keep in palette 1 when press left until finish
 		sndPlay(sndSys, 100, 0)
 		p1PalSel = p1PalSel - 1
 	end
@@ -9145,7 +9145,7 @@ function f_p1SelectPal()
 	--animSetPal(t_selChars[p1Cell+1]['p1AnimStand'], p1PalSel) --Only works if the .sff file have pals added
 	animPosDraw(palSelBG, palSelBGP1posX, palSelBGP1posY) --Draw Palette Select BG
 	textImgDraw(txt_p1Pal)
-	textImgSetText(txt_p1PalNo, p1PalSel.."/12")
+	textImgSetText(txt_p1PalNo, p1PalSel)
 	textImgDraw(txt_p1PalNo)
 	if p1PalSel > 1 then
 		animPosDraw(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY)
@@ -10605,10 +10605,10 @@ end
 --; PLAYER 2 PALETTE SELECT
 --;===========================================================
 function f_p2SelectPal()
-	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2PalSel <= 11 then
+	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2PalSel <= 11 then
 		sndPlay(sndSys, 100, 0)
 		p2PalSel = p2PalSel + 1
-	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2PalSel > 1 then
+	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2PalSel > 1 then
 		sndPlay(sndSys, 100, 0)
 		p2PalSel = p2PalSel - 1
 	end
@@ -10632,7 +10632,7 @@ function f_p2SelectPal()
 	end
 	animPosDraw(palSelBG, palSelBGP2posX, palSelBGP2posY)
 	textImgDraw(txt_p2Pal)
-	textImgSetText(txt_p2PalNo, p2PalSel.."/12")
+	textImgSetText(txt_p2PalNo, p2PalSel)
 	textImgDraw(txt_p2PalNo)
 	if p2PalSel > 1 then
 		animPosDraw(palSelArrowLeft, palSelArrowLP2posX, palSelArrowLP2posY)

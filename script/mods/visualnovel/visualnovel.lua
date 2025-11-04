@@ -202,7 +202,7 @@ t_vnPauseMenu = {
 	{text = "Restore Settings", 	  varText = ""},
 	{text = "Save Progress",		  varText = ""},
 	{text = "Back to Main Menu",	  varText = ""},
-	{text = "           Continue", 	  varText = ""},
+	{text = "Continue",			 	  varText = ""},
 }
 for i=1, #t_vnPauseMenu do
 	t_vnPauseMenu[i]['varID'] = textImgNew()
@@ -258,7 +258,7 @@ t_vnAudioCfg = {
 	{text = "Movie Volume",		varText = vid_vol.."%"},
 	{text = "Panning Range",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
 	{text = "Default Values",	varText = ""},
-	{text = "          BACK",  	varText = ""},
+	{text = "BACK",			  	varText = ""},
 }
 for i=1, #t_vnAudioCfg do
 	t_vnAudioCfg[i]['varID'] = textImgNew()
@@ -960,8 +960,15 @@ function f_vnPauseMenu()
 	--Draw Table Text
 		for i=1, maxVNP do
 			if i > vnPauseMenu - cursorPosYVNP then
+				local align = 1
+				local posX = 68
+			--Custom Pos for Last items
+				if i == #t_vnPauseMenu then
+					align = 0
+					posX = 160
+				end
 				if t_vnPauseMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, 1, t_vnPauseMenu[i].text, 68, 15+i*15-moveTxtVNP))
+					textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, align, t_vnPauseMenu[i].text, posX, 15+i*15-moveTxtVNP))
 					textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, -1, t_vnPauseMenu[i].varText, 252, 15+i*15-moveTxtVNP))
 				end
 			end
@@ -1227,8 +1234,15 @@ function f_audioCfgVN()
 	setPanStr(pan_str / 100)
 	for i=1, maxAudioCfgVN do
 		if i > audioCfgVN - cursorPosYAVN then
+			local align = 1
+			local posX = 85
+		--Custom Pos for Last items
+			if i == #t_vnAudioCfg or i == #t_vnAudioCfg-1 then
+				align = 0
+				posX = 160
+			end
 			if t_vnAudioCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, 1, t_vnAudioCfg[i].text, 85, 15+i*15-moveTxtAVN))
+				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, align, t_vnAudioCfg[i].text, posX, 15+i*15-moveTxtAVN))
 				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, -1, t_vnAudioCfg[i].varText, 235, 15+i*15-moveTxtAVN))
 			end
 		end

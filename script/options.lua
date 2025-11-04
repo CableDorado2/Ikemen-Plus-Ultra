@@ -1853,13 +1853,14 @@ end
 txt_onlineCfg = createTextImg(jgFnt, 0, 0, "ONLINE SETTINGS", 159, 13)
 
 t_onlineCfg = {
-	{text = "Game Settings",		varText = ""},
-	{text = "Engine Settings",		varText = ""},
-	{text = "Lobby Settings",		varText = ""},
-	{text = "SAVE AND PLAY",		varText = ""},
+	{text = "Game Settings"},
+	{text = "Engine Settings"},
+	{text = "Lobby Settings"},
+	{text = "SAVE AND PLAY"},
 }
 for i=1, #t_onlineCfg do
 	t_onlineCfg[i]['varID'] = textImgNew()
+	t_onlineCfg[i]['varText'] = ""
 end
 
 function f_onlineCfg()
@@ -1948,8 +1949,15 @@ function f_onlineCfg()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxOnlineCfg do	
 			if i > onlineCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_onlineCfg then
+					align = 0
+					posX = 160
+				end
 				if t_onlineCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, 1, t_onlineCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, align, t_onlineCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, -1, t_onlineCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -1993,7 +2001,7 @@ t_lobbyCfg = {
 	{text = "Spectate",			varText = "No"},
 	{text = "Show Names",		varText = "No"},
 	{text = "Show Input Delay",	varText = "No"},
-	{text = "          BACK",  	varText = ""},
+	{text = "BACK",			  	varText = ""},
 }
 for i=1, #t_lobbyCfg do
 	t_lobbyCfg[i]['varID'] = textImgNew()
@@ -2110,8 +2118,15 @@ function f_lobbyCfg()
 		end		
 		for i=1, maxlobbyCfg do	
 			if i > lobbyCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_lobbyCfg then
+					align = 0
+					posX = 160
+				end
 				if t_lobbyCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, 1, t_lobbyCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, align, t_lobbyCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, -1, t_lobbyCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -2163,7 +2178,7 @@ t_gameCfg = {
 	{text = "Team Settings",  		 varText = ""},
 	{text = "Zoom Settings",  		 varText = ""},
 	{text = "Default Values",		 varText = ""},
-	{text = "          BACK",  		 varText = ""},
+	{text = "BACK",			  		 varText = ""},
 }
 for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
@@ -2488,8 +2503,15 @@ function f_gameCfg()
 		t_gameCfg[10].varText = data.kumite
 		for i=1, maxGameCfg do	
 			if i > gameCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_gameCfg or i == #t_gameCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_gameCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, 1, t_gameCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, align, t_gameCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, -1, t_gameCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -2538,7 +2560,7 @@ t_teamCfg = {
 	{text = "Simul Type",              	varText = data.simulType},
 	{text = "Co-Op CPU Team",          	varText = data.coopenemy},
 	{text = "Default Values",  	  		varText = ""},
-	{text = "          BACK",  			varText = ""},
+	{text = "BACK",			  			varText = ""},
 }
 for i=1, #t_teamCfg do
 	t_teamCfg[i]['varID'] = textImgNew()
@@ -2784,8 +2806,15 @@ function f_teamCfg()
 		t_teamCfg[9].varText = data.coopenemy
 		for i=1, maxTeamCfg do
 			if i > teamCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_teamCfg or i == #t_teamCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_teamCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, 1, t_teamCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, align, t_teamCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, -1, t_teamCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -2829,7 +2858,7 @@ t_zoomCfg = {
 	{text = "Max Zoom In",    			varText = data.zoomMax},
 	{text = "Zoom Speed",     			varText = data.zoomSpeed},
 	{text = "Default Values",  	 		varText = ""},
-	{text = "          BACK", 			varText = ""},
+	{text = "BACK",			 			varText = ""},
 }
 for i=1, #t_zoomCfg do
 	t_zoomCfg[i]['varID'] = textImgNew()
@@ -2999,8 +3028,15 @@ function f_zoomCfg()
 		t_zoomCfg[4].varText = data.zoomSpeed
 		for i=1, maxZoomCfg do
 			if i > zoomCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_zoomCfg or i == #t_zoomCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_zoomCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, 1, t_zoomCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, align, t_zoomCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, -1, t_zoomCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -3056,7 +3092,7 @@ t_UICfg = {
 	{text = "Replay Settings",  	  	 varText = ""},
 	{text = "Songs Settings",	 		 varText = ""},
 	{text = "Default Settings",  	  	 varText = ""},
-	{text = "          BACK",  		     varText = ""},
+	{text = "BACK", 		 		     varText = ""},
 }
 for i=1, #t_UICfg do
 	t_UICfg[i]['varID'] = textImgNew()
@@ -3399,8 +3435,15 @@ function f_UICfg()
 		t_UICfg[11].varText = data.orderSelType
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_UICfg or i == #t_UICfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_UICfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, 1, t_UICfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, align, t_UICfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, -1, t_UICfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -3447,7 +3490,7 @@ t_selectCfg = {
 	{text = "Random Select Rematch",	varText = data.randomCharRematch},
 	{text = "Generate Characters List", varText = ""},
 	{text = "Default Values",  	 		varText = ""},
-	{text = "          BACK", 			varText = ""},
+	{text = "BACK",			 			varText = ""},
 }
 for i=1, #t_selectCfg do
 	t_selectCfg[i]['varID'] = textImgNew()
@@ -3626,8 +3669,15 @@ function f_selectCfg()
 		t_selectCfg[6].varText = data.randomCharRematch
 		for i=1, maxselectCfg do
 			if i > selectCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_selectCfg or i == #t_selectCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_selectCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_selectCfg[i].varID, font2, 0, 1, t_selectCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_selectCfg[i].varID, font2, 0, align, t_selectCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_selectCfg[i].varID, font2, 0, -1, t_selectCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -3685,7 +3735,7 @@ t_rosterCfg1 = {
 	{text = "P2 Cursor Start Cell Y",   varText = data.p2SelY},
 	{text = "Default Values",  	 		varText = ""},
 	--{text = "Reload Select.def", 	 	varText = ""},
-	{text = "          BACK", 			varText = ""},
+	{text = "BACK",			 			varText = ""},
 }
 for i=1, #t_rosterCfg1 do
 	t_rosterCfg1[i]['varID'] = textImgNew()
@@ -3715,7 +3765,7 @@ t_rosterCfg2 = {
 	{text = "P2 Cursor Start Cell Y",   varText = data.p2SelY},
 	{text = "Default Values",  	 		varText = ""},
 	--{text = "Reload Select.def", 	 	varText = ""},
-	{text = "          BACK", 			varText = ""},
+	{text = "BACK",			 			varText = ""},
 }
 for i=1, #t_rosterCfg2 do
 	t_rosterCfg2[i]['varID'] = textImgNew()
@@ -4734,8 +4784,15 @@ function f_rosterCfg()
 		t_rosterCfg[#t_rosterCfg-2].varText = data.p2SelY
 		for i=1, maxrosterCfg do
 			if i > rosterCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_rosterCfg or i == #t_rosterCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_rosterCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_rosterCfg[i].varID, font2, 0, 1, t_rosterCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_rosterCfg[i].varID, font2, 0, align, t_rosterCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_rosterCfg[i].varID, font2, 0, -1, t_rosterCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -4780,7 +4837,7 @@ t_stageCfg = {
 	{text = "Random Select Rematch", varText = data.randomStageRematch},
 	{text = "Generate Stages List",  varText = ""},
 	{text = "Default Values",  	 	 varText = ""},
-	{text = "          BACK", 		 varText = ""},
+	{text = "BACK", 				 varText = ""},
 }
 for i=1, #t_stageCfg do
 	t_stageCfg[i]['varID'] = textImgNew()
@@ -4951,8 +5008,15 @@ function f_stageCfg()
 		t_stageCfg[4].varText = data.randomStageRematch
 		for i=1, maxstageCfg do
 			if i > stageCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_stageCfg or i == #t_stageCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_stageCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_stageCfg[i].varID, font2, 0, 1, t_stageCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_stageCfg[i].varID, font2, 0, align, t_stageCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_stageCfg[i].varID, font2, 0, -1, t_stageCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -4991,18 +5055,19 @@ end
 txt_timeCfg = createTextImg(jgFnt, 0, 0, "TIMERS SETTINGS", 159, 13)
 
 t_timeCfg = {
-	{text = "Character Select", varText = data.selectTime .." Seconds"},
-	{text = "Stage Select",   	varText = data.stageTime .." Seconds"},
-	{text = "Order Select",     varText = data.orderTime .." Seconds"},
-	{text = "Rematch Option",	varText = data.rematchTime .." Seconds"},
-	{text = "Service Screen", 	varText = data.serviceTime .." Seconds"},
-	{text = "Attract Title", 	varText = data.attractTime .." Seconds"},
-	{text = "Tower Select", 	varText = data.destinyTime .." Seconds"},
-	{text = "Default Values",  	varText = ""},
-	{text = "          BACK", 	varText = ""},
+	{text = "Character Select"},
+	{text = "Stage Select"},
+	{text = "Order Select"},
+	{text = "Rematch Option"},
+	{text = "Service Screen"},
+	{text = "Attract Title"},
+	{text = "Tower Select"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_timeCfg do
 	t_timeCfg[i]['varID'] = textImgNew()
+	t_timeCfg[i]['varText'] = ""
 end
 
 function f_timeCfg()
@@ -5291,8 +5356,15 @@ function f_timeCfg()
 		if data.destinyTime ~= -1 then t_timeCfg[7].varText = data.destinyTime .." Seconds" else t_timeCfg[7].varText = "Infinite" end
 		for i=1, maxtimeCfg do
 			if i > timeCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_timeCfg or i == #t_timeCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_timeCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, 1, t_timeCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, align, t_timeCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, -1, t_timeCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -5331,14 +5403,15 @@ end
 txt_replayCfg = createTextImg(jgFnt, 0, 0, "AUTOSAVE REPLAY SETTINGS", 159, 13)
 
 t_replayCfg = {
-	{text = "Local Matchs",  	varText = ""},
-	{text = "Online Unranked", 	varText = ""},
-	{text = "Online Ranked", 	varText = ""},
-	{text = "Default Values",  	varText = ""},
-	{text = "          BACK", 	varText = ""},
+	{text = "Local Matchs"},
+	{text = "Online Unranked"},
+	{text = "Online Ranked"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_replayCfg do
 	t_replayCfg[i]['varID'] = textImgNew()
+	t_replayCfg[i]['varText'] = ""
 end
 
 function f_replayCfg()
@@ -5435,8 +5508,15 @@ function f_replayCfg()
 		if data.replayRanked then t_replayCfg[3].varText = "Enabled" else t_replayCfg[3].varText = "Disabled" end
 		for i=1, maxreplayCfg do
 			if i > replayCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_replayCfg or i == #t_replayCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_replayCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, 1, t_replayCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, align, t_replayCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, -1, t_replayCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -5475,12 +5555,12 @@ end
 txt_songCfg = createTextImg(jgFnt, 0, 0, "SYSTEM SONG SETTINGS", 159, 13)
 
 t_songCfg = {
-	{text = "Main Menu"					 },
-	{text = "Character Select"			 },
-	{text = "Challenger"				 },
-	{text = "Display BGM Name In-Match"	 },
-	{text = "Default Values"			 },
-	{text = "                       BACK"},
+	{text = "Main Menu"},
+	{text = "Character Select"},
+	{text = "Challenger"},
+	{text = "Display BGM Name In-Match"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_songCfg do
 	t_songCfg[i]['varID'] = textImgNew()
@@ -5620,8 +5700,15 @@ function f_songCfg()
 		if data.bgmDisplay then t_songCfg[4].varText = "Enabled" else t_songCfg[4].varText = "Disabled" end
 		for i=1, maxsongCfg do
 			if i > songCfg - cursorPosY then
+				local align = 1
+				local posX = 6
+			--Custom Pos for Last items
+				if i == #t_songCfg or i == #t_songCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_songCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, 1, t_songCfg[i].text, 6, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, align, t_songCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, -1, t_songCfg[i].varText, 315, 15+i*15-moveTxt))
 				end
 			end
@@ -5662,19 +5749,20 @@ end
 txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
 t_audioCfg = {
-	{text = "Master Volume",	varText = ""},
-	{text = "BGM Volume",		varText = ""},
-	{text = "SFX Volume",		varText = ""},
-	{text = "Movie Volume",		varText = ""},
-	{text = "Panning Range",   	varText = ""},
-	{text = "Sample Rate",     	varText = ""},
-	{text = "Channels",        	varText = ""},
-	{text = "Buffer Samples",  	varText = ""},
-	{text = "Default Values",	varText = ""},
-	{text = "          BACK",  	varText = ""},
+	{text = "Master Volume"},
+	{text = "BGM Volume"},
+	{text = "SFX Volume"},
+	{text = "Movie Volume"},
+	{text = "Panning Range"},
+	{text = "Sample Rate"},
+	{text = "Channels"},
+	{text = "Buffer Samples"},
+	{text = "Default Values"},
+	{text = "BACK"},
 }
 for i=1, #t_audioCfg do
 	t_audioCfg[i]['varID'] = textImgNew()
+	t_audioCfg[i]['varText'] = ""
 end
 
 function f_audioCfg()
@@ -5973,8 +6061,15 @@ function f_audioCfg()
 		setPanStr(pan_str / 100)
 		for i=1, maxAudioCfg do
 			if i > audioCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_audioCfg or i == #t_audioCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_audioCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, 1, t_audioCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, align, t_audioCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, -1, t_audioCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -6013,18 +6108,19 @@ end
 txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 
 t_engineCfg = {
-	{text = "Debug Mode",  	      		varText = ""},
-	{text = "Save Debug Logs",        	varText = ""},
-	{text = "HelperMax",              	varText = ""},
-	{text = "PlayerProjectileMax",		varText = ""},
-	{text = "ExplodMax",              	varText = ""},
-	{text = "AfterImageMax",          	varText = ""},
-	{text = "Erase/Reset Statistics", 	varText = ""},
-	{text = "Default Settings",  	  	varText = ""},
-	{text = "          BACK",  	  		varText = ""},
+	{text = "Debug Mode"},
+	{text = "Save Debug Logs"},
+	{text = "HelperMax"},
+	{text = "PlayerProjectileMax"},
+	{text = "ExplodMax"},
+	{text = "AfterImageMax"},
+	{text = "Erase/Reset Statistics"},
+	{text = "Default Settings"},
+	{text = "BACK"},
 }
 for i=1, #t_engineCfg do
 	t_engineCfg[i]['varID'] = textImgNew()
+	t_engineCfg[i]['varText'] = ""
 end
 
 function f_engineCfg()
@@ -6267,8 +6363,15 @@ function f_engineCfg()
 		t_engineCfg[6].varText = AfterImageMaxEngine
 		for i=1, maxEngineCfg do
 			if i > engineCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_engineCfg or i == #t_engineCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_engineCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, 1, t_engineCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, align, t_engineCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, -1, t_engineCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -6317,7 +6420,7 @@ t_videoCfg = {
 	{text = "Brightness",		 varText = ""},
 	{text = "Save Memory", 	 	 varText = ""},
 	{text = "Default Graphics",	 varText = ""},
-	{text = "          BACK",  	 varText = ""},
+	{text = "BACK",			  	 varText = ""},
 }
 for i=1, #t_videoCfg do
 	t_videoCfg[i]['varID'] = textImgNew()
@@ -6626,8 +6729,15 @@ function f_videoCfg()
 		end
 		for i=1, maxVideoCfg do
 			if i > videoCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_videoCfg or i == #t_videoCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_videoCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, 1, t_videoCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, align, t_videoCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, -1, t_videoCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -6682,7 +6792,7 @@ t_resCfg4_3 = {
 	{x = 2048, y = 1536, text = "2048x1536           (QXGA)"},
 	{x = 3200, y = 2400, text = "3200x2400          (QUXGA)"},
 	{x = 6400, y = 4800, text = "6400x4800          (HUXGA)"},
-	{text = "          BACK "},
+	{text = "BACK "},
 }
 for i=1, #t_resCfg4_3 do
 	t_resCfg4_3[i]['id'] = ''
@@ -6699,7 +6809,7 @@ t_resCfg16_9 = {
 	{x = 2048, y = 1152, text = "2048x1152          (QWXGA)"},
 	{x = 2560, y = 1440, text = "2560x1440            (QHD)"},
 	{x = 3840, y = 2160, text = "3840x2160        (4K UHDV)"},
-	{text = "          BACK"},
+	{text = "BACK"},
 }
 for i=1, #t_resCfg16_9 do
 	t_resCfg16_9[i]['id'] = ''
@@ -6716,7 +6826,7 @@ t_resCfg16_10 = {
 	{x = 2880, y = 1800, text = "2880x1800  (RETINA DISPLAY)"},
 	{x = 3840, y = 2400, text = "3840x2400         (WQUXGA)"},
 	{x = 7680, y = 4800, text = "7680x4800         (WHUXGA)"},
-	{text = "          BACK"},
+	{text = "BACK"},
 }
 for i=1, #t_resCfg16_10 do
 	t_resCfg16_10[i]['id'] = ''
@@ -6743,19 +6853,19 @@ t_EXresCfg = {
 	{x = 5120, y = 4096, text = "5120x4096      (HSXGA 5:4)"},
 	{x = 6400, y = 4096, text = "6400x4096   (WHSXGA 25:16)"},
 	{x = 7680, y = 4320, text = "7680x4320         (8K UHD)"},
-	{text = "          BACK"},
+	{text = "BACK"},
 }
 for i=1, #t_EXresCfg do
 	t_EXresCfg[i]['id'] = ''
 end
 
---Aspect Ratio Menu Items
+--Resolution Menu Items
 t_resCfg = {
 	{text = "4:3 Resolutions",   aspectRatio = t_resCfg4_3,   title = "(4:3)"},
 	{text = "16:9 Resolutions",  aspectRatio = t_resCfg16_9,  title = "(16:9)"},
 	{text = "16:10 Resolutions", aspectRatio = t_resCfg16_10, title = "(16:10)"},
 	{text = "Extra Resolutions", aspectRatio = t_EXresCfg, 	  title = ""},
-	{text = "          BACK"},
+	{text = "BACK"},
 }
 for i=1, #t_resCfg do
 	t_resCfg[i]['id'] = ''
@@ -6833,8 +6943,15 @@ function f_resCfg()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxResCfg do
+			local align = 1
+			local posX = 85
+		--Custom Pos for Last items
+			if i == #t_resCfg then
+				align = 0
+				posX = 160
+			end
 			if i > resCfg - cursorPosY then
-				t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15-moveTxt)
+				t_resCfg[i].id = createTextImg(font2, 0, align, t_resCfg[i].text, posX, 15+i*15-moveTxt)
 				textImgDraw(t_resCfg[i].id)
 			end
 		end
@@ -6945,8 +7062,15 @@ function f_resCfgSet(t, title)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxresCfgSet do
+			local align = 1
+			local posX = 85
+		--Custom Pos for Last items
+			if i == #t_aspectRatio then
+				align = 0
+				posX = 160
+			end
 			if i > resCfgSet - cursorPosY then
-				t_aspectRatio[i].id = createTextImg(font2, 0, 1, t_aspectRatio[i].text, 85, 15+i*15-moveTxt)
+				t_aspectRatio[i].id = createTextImg(font2, 0, align, t_aspectRatio[i].text, posX, 15+i*15-moveTxt)
 				textImgDraw(t_aspectRatio[i].id)
 			end
 		end
@@ -6987,7 +7111,7 @@ t_inputCfg = {
 	{text = "Swap Gamepads", 			 varText = ""},
 	{text = "Test Controls",  		 	 varText = ""},
 	{text = "Default Controls",  		 varText = ""},
-	{text = "             BACK",  	 	 varText = ""},
+	{text = "BACK",				  	 	 varText = ""},
 }
 for i=1, #t_inputCfg do
 	t_inputCfg[i]['varID'] = textImgNew()
@@ -7141,8 +7265,15 @@ function f_inputCfg()
 		t_inputCfg[3].varText = "P1: "..data.p1Gamepad+1 .." | P2: "..data.p2Gamepad+1
 		for i=1, maxInputCfg do
 			if i > inputCfg - cursorPosY then
+				local align = 1
+				local posX = 73
+			--Custom Pos for Last items
+				if i == #t_inputCfg or i == #t_inputCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_inputCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, 1, t_inputCfg[i].text, 73, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, align, t_inputCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, -1, t_inputCfg[i].varText, 248, 15+i*15-moveTxt))
 				end
 			end
@@ -7378,7 +7509,7 @@ txt_keyMenu = createTextImg(jgFnt, 0, 0, "KEYBOARD SETTINGS", 159, 13)
 t_keyMenu = {
 	{text = "Battle Controls"},
 	{text = "Menu Controls"},
-	{text = "          BACK"},
+	{text = "BACK"},
 }
 for i=1, #t_keyMenu do
 	t_keyMenu[i]['id'] = ''
@@ -7464,8 +7595,15 @@ function f_keyMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxKeyMenu do
+			local align = 1
+			local posX = 85
+		--Custom Pos for Last items
+			if i == #t_keyMenu then
+				align = 0
+				posX = 160
+			end
 			if i > keyMenu - cursorPosY then
-				t_keyMenu[i].id = createTextImg(font2, 0, 1, t_keyMenu[i].text, 85, 15+i*15-moveTxt)
+				t_keyMenu[i].id = createTextImg(font2, 0, align, t_keyMenu[i].text, posX, 15+i*15-moveTxt)
 				textImgDraw(t_keyMenu[i].id)
 			end
 		end
@@ -7539,7 +7677,7 @@ txt_joyMenu = createTextImg(jgFnt, 0, 0, "GAMEPAD SETTINGS", 159, 13)
 t_joyMenu = {
 	{text = "Battle Controls"},
 	{text = "Menu Controls"},
-	{text = "          BACK"},
+	{text = "BACK"},
 }
 for i=1, #t_joyMenu do
 	t_joyMenu[i]['id'] = ''
@@ -7627,8 +7765,15 @@ function f_joyMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxJoyMenu do
+			local align = 1
+			local posX = 85
+		--Custom Pos for Last items
+			if i == #t_joyMenu then
+				align = 0
+				posX = 160
+			end
 			if i > joyMenu - cursorPosY then
-				t_joyMenu[i].id = createTextImg(font2, 0, 1, t_joyMenu[i].text, 85, 15+i*15-moveTxt)
+				t_joyMenu[i].id = createTextImg(font2, 0, align, t_joyMenu[i].text, posX, 15+i*15-moveTxt)
 				textImgDraw(t_joyMenu[i].id)
 			end
 		end
@@ -7721,6 +7866,13 @@ function f_drawBattleKeyAssets()
 --Draw Player 1 Controls Text
 	for i=1, maxKeyCfg do
 		if i > keyCfg - inputCursorPosY then
+			local align = 1
+			local posX = 7
+		--Custom Pos for Last items
+			if i == #t_keyBattleCfg or i == #t_keyBattleCfg-1 then
+				align = 0
+				posX = 80
+			end
 			if t_keyBattleCfg[i].varID ~= nil then
 				local varText = ""
 				if controllerSet == 1 then --Show Keyboard Inputs
@@ -7728,7 +7880,7 @@ function f_drawBattleKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyBattleCfg[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, 1, t_keyBattleCfg[i].text, 7, 30+i*15-inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, align, t_keyBattleCfg[i].text, posX, 30+i*15-inputMoveTxt))
 				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, varText, 152, 30+i*15-inputMoveTxt))
 			end
 		end
@@ -7756,6 +7908,13 @@ function f_drawBattleKeyAssets()
 --Draw Player 2 Controls Text
 	for i=1, maxKeyCfg2 do
 		if i > keyCfg2 - inputCursorPosY2 then
+			local align = 1
+			local posX = 167
+		--Custom Pos for Last items
+			if i == #t_keyBattleCfg2 or i == #t_keyBattleCfg2-1 then
+				align = 0
+				posX = 240
+			end
 			if t_keyBattleCfg2[i].varID ~= nil then
 				local varText = ""
 				if controllerSet == 1 then --Show Keyboard Inputs
@@ -7763,7 +7922,7 @@ function f_drawBattleKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyBattleCfg2[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, 1, t_keyBattleCfg2[i].text, 167, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, align, t_keyBattleCfg2[i].text, posX, 30+i*15-inputMoveTxt2))
 				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, -1, varText, 314, 30+i*15-inputMoveTxt2))
 			end
 		end
@@ -8028,6 +8187,13 @@ function f_drawMenuKeyAssets()
 --Draw Player 1 Controls Text
 	for i=1, maxKeyCfg do
 		if i > keyCfg - inputCursorPosY then
+			local align = 1
+			local posX = 7
+		--Custom Pos for Last items
+			if i == #t_keyMenuCfg or i == #t_keyMenuCfg-1 then
+				align = 0
+				posX = 80
+			end
 			if t_keyMenuCfg[i].varID ~= nil then
 				local varText = ""
 				if controllerSet == 1 then --Show Keyboard Inputs
@@ -8035,7 +8201,7 @@ function f_drawMenuKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyMenuCfg[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, 1, t_keyMenuCfg[i].text, 7, 30+i*15-inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, align, t_keyMenuCfg[i].text, posX, 30+i*15-inputMoveTxt))
 				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, varText, 152, 30+i*15-inputMoveTxt))
 			end
 		end
@@ -8063,6 +8229,13 @@ function f_drawMenuKeyAssets()
 --Draw Player 2 Controls Text
 	for i=1, maxKeyCfg2 do
 		if i > keyCfg2 - inputCursorPosY2 then
+			local align = 1
+			local posX = 167
+		--Custom Pos for Last items
+			if i == #t_keyMenuCfg2 or i == #t_keyMenuCfg2-1 then
+				align = 0
+				posX = 240
+			end
 			if t_keyMenuCfg2[i].varID ~= nil then
 				local varText = ""
 				if controllerSet == 1 then --Show Keyboard Inputs
@@ -8070,7 +8243,7 @@ function f_drawMenuKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyMenuCfg2[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, 1, t_keyMenuCfg2[i].text, 167, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, align, t_keyMenuCfg2[i].text, posX, 30+i*15-inputMoveTxt2))
 				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, varText, 314, 30+i*15-inputMoveTxt2))
 			end
 		end
