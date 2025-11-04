@@ -5524,7 +5524,7 @@ function f_songCfg()
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
-				if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
+				--if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -5565,7 +5565,7 @@ function f_songCfg()
 		--BACK
 			elseif songCfg == #t_songCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
-				if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
+				--if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			end
 		--Setting Menu Logic

@@ -3554,6 +3554,7 @@ function f_songMenu()
 	f_soundtrack() --Reload from common.lua
 	f_resetListArrowsPos()
 	f_resetSoundTestArrowsPos()
+	f_resetFadeBGM()
 	while true do
 		if backSongConfirm == true then
 			f_discordMainMenu()
@@ -3563,7 +3564,7 @@ function f_songMenu()
 			sndPlay(sndSys, 100, 2)
 			backSongConfirm = false
 			soundTest = false
-			--f_resetFadeBGM()
+			f_resetFadeBGM()
 			f_resetMenuArrowsPos()
 			break
 		end
@@ -3744,7 +3745,7 @@ function f_songMenu()
 			bufr = 0
 			bufl = 0
 		end
-		--if selectedSong == nil then f_fadeOutBGM(1) else f_resetFadeBGM() end
+		if selectedSong == nil then f_fadeOutBGM(1) else f_resetFadeBGM() end
 		cmdInput()
 		refresh()
 	end
