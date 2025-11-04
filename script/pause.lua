@@ -401,11 +401,11 @@ end
 txt_pause = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_pauseMain = {
-	{text = "Continue", gotomenu = "f_resumePause()"}, --maybe gotomenu is not working like in other scripts, due the use of: module(..., package.seeall)
-	{text = "Movelist", gotomenu = "f_movelistPause()"},
-	{text = "Settings", gotomenu = "f_settingsPause()"},
+	{text = "Continue",  gotomenu = "f_resumePause()"}, --maybe gotomenu is not working like in other scripts, due the use of: module(..., package.seeall)
+	{text = "Movelist",  gotomenu = "f_movelistPause()"},
+	{text = "Settings",  gotomenu = "f_settingsPause()"},
 	{text = "Hide Menu", gotomenu = "f_hidePause()"},
-	{text = "Give Up", gotomenu = "f_exitPause()"},
+	{text = "Give Up", 	 gotomenu = "f_exitPause()"},
 	{text = "Main Menu", gotomenu = "f_mainmenuPause()"}
 }
 if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
@@ -434,11 +434,11 @@ end
 if replay() or getGameMode() == "randomtest" then
 t_pauseMain = nil
 t_pauseMain = {
-	{text = "Continue", gotomenu = "f_resumePause()"},
-	{text = "Settings", gotomenu = "f_settingsPause()"},
-	{text = "Hide Menu", gotomenu = "f_hidePause()"},
+	{text = "Continue",    gotomenu = "f_resumePause()"},
+	{text = "Settings",    gotomenu = "f_settingsPause()"},
+	{text = "Hide Menu",   gotomenu = "f_hidePause()"},
 	{text = "Battle Info", gotomenu = "f_infoPause()"},
-	{text = "Exit", gotomenu = "f_mainmenuPause()"}
+	{text = "Exit", 	   gotomenu = "f_mainmenuPause()"}
 }
 end
 
@@ -900,12 +900,12 @@ end
 txt_PgameCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_gameCfg = {
-	{text = "Audio Settings"	},
-	{text = "Input Settings"	},
-	{text = "HUD Display"		},
-	{text = "Open Screenshots"	},
-	{text = "Change Stage BGM"	},
-	{text = "              BACK"},
+	{text = "Audio Settings"},
+	{text = "Input Settings"},
+	{text = "HUD Display"},
+	{text = "Open Screenshots"},
+	{text = "Change Stage BGM"},
+	{text = "BACK"},
 }
 for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
@@ -1070,8 +1070,15 @@ function f_pauseSettings()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			for i=1, maxgameCfg do
 				if i > gameCfg - cursorPosY then
+					local align = 1
+					local posX = 85
+				--Custom Pos for Last items
+					if i == #t_gameCfg then
+						align = 0
+						posX = 160
+					end
 					if t_gameCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, 1, t_gameCfg[i].text:upper(), 85, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, align, t_gameCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
 						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, -1, t_gameCfg[i].varText:upper(), 235, 65+i*15-moveTxt,0.85,0.85))
 					end
 				end
@@ -1116,11 +1123,11 @@ end
 txt_PaudioCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_audioCfg = {
-	{text = "Master Volume",   		varText = ""},
-	{text = "SFX Volume",       	varText = ""},
-	{text = "BGM Volume",      		varText = ""},
-	{text = "Audio Panning",   		varText = ""},
-	{text = "              BACK",  	varText = ""},
+	{text = "Master Volume",  varText = ""},
+	{text = "BGM Volume",     varText = ""},
+	{text = "SFX Volume",     varText = ""},
+	{text = "Audio Panning",  varText = ""},
+	{text = "BACK",  		  varText = ""},
 }
 for i=1, #t_audioCfg do
 	t_audioCfg[i]['varID'] = textImgNew()
@@ -1180,25 +1187,25 @@ function f_pauseAudio()
 				if (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) then sndPlay(sndSys, 100, 0) end
 				hasChanged = true
 			end
-	--SFX volume
-		elseif audioCfg == 2 then
-			if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr'))) and bufr >= 20 and se_vol < 100) then
-				if se_vol < 100 then se_vol = se_vol + 1 else se_vol = 0 end
-				if (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then sndPlay(sndSys, 100, 0) end
-				hasChanged = true
-			elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdl')) or (pn == 2 and commandGetState(p2Cmd, 'holdl'))) and bufl >= 20 and se_vol > 0) then
-				if se_vol > 0 then se_vol = se_vol - 1 else se_vol = 100 end
-				if (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) then sndPlay(sndSys, 100, 0) end
-				hasChanged = true
-			end
 	--BGM volume
-		elseif audioCfg == 3 then
+		elseif audioCfg == 2 then
 			if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr'))) and bufr >= 20 and bgm_vol < 100) then
 				if bgm_vol < 100 then bgm_vol = bgm_vol + 1 else bgm_vol = 0 end
 				if (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then sndPlay(sndSys, 100, 0) end
 				hasChanged = true
 			elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdl')) or (pn == 2 and commandGetState(p2Cmd, 'holdl'))) and bufl >= 20 and bgm_vol > 0) then
 				if bgm_vol > 0 then bgm_vol = bgm_vol - 1 else bgm_vol = 100 end
+				if (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) then sndPlay(sndSys, 100, 0) end
+				hasChanged = true
+			end
+	--SFX volume
+		elseif audioCfg == 3 then
+			if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr'))) and bufr >= 20 and se_vol < 100) then
+				if se_vol < 100 then se_vol = se_vol + 1 else se_vol = 0 end
+				if (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then sndPlay(sndSys, 100, 0) end
+				hasChanged = true
+			elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) or (((pn == 1 and commandGetState(p1Cmd, 'holdl')) or (pn == 2 and commandGetState(p2Cmd, 'holdl'))) and bufl >= 20 and se_vol > 0) then
+				if se_vol > 0 then se_vol = se_vol - 1 else se_vol = 100 end
 				if (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) then sndPlay(sndSys, 100, 0) end
 				hasChanged = true
 			end
@@ -1258,8 +1265,8 @@ function f_pauseAudio()
 			end
 		end
 		t_audioCfg[1].varText = gl_vol
-		t_audioCfg[2].varText = se_vol    
-		t_audioCfg[3].varText = bgm_vol
+		t_audioCfg[2].varText = bgm_vol
+		t_audioCfg[3].varText = se_vol
 		t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
 		if hasChanged then
 			if not modified then modified = true end
@@ -1277,8 +1284,15 @@ function f_pauseAudio()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxAudioCfg do
 			if i > audioCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_audioCfg then
+					align = 0
+					posX = 160
+				end
 				if t_audioCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, 1, t_audioCfg[i].text:upper(), 85, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, align, t_audioCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
 					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, -1, t_audioCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
@@ -1445,7 +1459,14 @@ function f_pauseSongs()
 				songText = t_songList[songFolder][i].name
 			end
 			if i > songMenu - cursorPosY then
-				t_songList[songFolder][i].id = createTextImg(jgFnt, 0, 1, songText:upper(), 85, 65+i*15-moveTxt,0.85,0.85)
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_songList[songFolder] or i == #t_songList[songFolder]-1 then
+					align = 0
+					posX = 160
+				end
+				t_songList[songFolder][i].id = createTextImg(jgFnt, 0, align, songText:upper(), posX, 65+i*15-moveTxt,0.85,0.85)
 				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
@@ -1492,25 +1513,25 @@ end
 txt_PtrainingCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_trainingCfg = {
-	{text = "Damage Display"		 },
-	{text = "Input Display"			 },
-	{text = "Hitbox Display"		 },
-	{text = "Debug Info"			 },
-	{text = "Lifebar P1"			 },
-	{text = "Lifebar P2"			 },
-	{text = "Power Gauge P1"		 },
-	{text = "Power Gauge P2"		 },
-	{text = "Auto Guard P1"			 },
-	{text = "Auto Guard P2"			 },
-	--{text = "Distance"			 },
-	--{text = "Tech Recovery"		 },
-	--{text = "Counter Hit"			 },
-	{text = "AI Level"				 },
-	{text = "Character Settings"	 },
-	{text = "Playback Settings"		 },
-	{text = "Dummy Recording Start"	 },
-	{text = "Dummy Control"			 },
-	{text = "                   BACK"},
+	{text = "Damage Display"},
+	{text = "Input Display"},
+	{text = "Hitbox Display"},
+	{text = "Debug Info"},
+	{text = "Lifebar P1"},
+	{text = "Lifebar P2"},
+	{text = "Power Gauge P1"},
+	{text = "Power Gauge P2"},
+	{text = "Auto Guard P1"},
+	{text = "Auto Guard P2"},
+	--{text = "Distance"},
+	--{text = "Tech Recovery"},
+	--{text = "Counter Hit"},
+	{text = "AI Level"},
+	{text = "Character Settings"},
+	{text = "Playback Settings"},
+	{text = "Dummy Recording Start"},
+	{text = "Dummy Control"},
+	{text = "BACK"},
 }
 for i=1, #t_trainingCfg do
 	t_trainingCfg[i]['varID'] = textImgNew()
@@ -2065,8 +2086,15 @@ function f_pauseTraining()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			for i=1, maxtrainingCfg do
 				if i > trainingCfg - cursorPosY then
+					local align = 1
+					local posX = 60
+				--Custom Pos for Last items
+					if i == #t_trainingCfg then
+						align = 0
+						posX = 160
+					end
 					if t_trainingCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, 1, t_trainingCfg[i].text:upper(), 60, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, align, t_trainingCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
 						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, -1, t_trainingCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 					end
 				end
@@ -2119,15 +2147,15 @@ txt_pbIncludeSlot = "Include"
 txt_pbExcludeSlot = "Exclude"
 
 t_playbackCfg = {
-	{text = "Recording Slot",   	   varText = data.pbkRecSlot},
-	{text = "Playback Slot",      	   varText = ""},
-	--{text = "Playback Type",         varText = ""},
-	{text = "Slot 1",   			   varText = ""},
-	{text = "Slot 2",   			   varText = ""},
-	{text = "Slot 3",   			   varText = ""},
-	{text = "Slot 4",   			   varText = ""},
-	{text = "Slot 5",   			   varText = ""},
-	{text = "                   BACK", varText = ""},
+	{text = "Recording Slot",   varText = data.pbkRecSlot},
+	{text = "Playback Slot",    varText = ""},
+	--{text = "Playback Type",  varText = ""},
+	{text = "Slot 1",   		varText = ""},
+	{text = "Slot 2",   		varText = ""},
+	{text = "Slot 3",   		varText = ""},
+	{text = "Slot 4",   		varText = ""},
+	{text = "Slot 5",   		varText = ""},
+	{text = "BACK", 			varText = ""},
 }
 for i=1, #t_playbackCfg do
 	t_playbackCfg[i]['varID'] = textImgNew()
@@ -2335,8 +2363,15 @@ function f_pausePlayback()
 		end
 		for i=1, maxPlaybackCfg do
 			if i > playbackCfg - cursorPosY then
+				local align = 1
+				local posX = 60
+			--Custom Pos for Last items
+				if i == #t_playbackCfg then
+					align = 0
+					posX = 160
+				end
 				if t_playbackCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, 1, t_playbackCfg[i].text:upper(), 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, align, t_playbackCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
 					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, -1, t_playbackCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
@@ -2433,8 +2468,8 @@ end
 txt_charCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_charCfg = {
-	{text = "Suave Dude Mode"		 },
-	{text = "                   BACK"},
+	{text = "Suave Dude Mode"},
+	{text = "BACK"},
 }
 for i=1, #t_charCfg do
 	t_charCfg[i]['varID'] = textImgNew()
@@ -2556,8 +2591,15 @@ function f_pauseCharCfg()
 		end
 		for i=1, maxcharCfg do
 			if i > charCfg - cursorPosY then
+				local align = 1
+				local posX = 60
+			--Custom Pos for Last items
+				if i == #t_charCfg then
+					align = 0
+					posX = 160
+				end
 				if t_charCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, 1, t_charCfg[i].text:upper(), 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, align, t_charCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
 					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, -1, t_charCfg[i].varText:upper(), 257, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end

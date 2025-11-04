@@ -3260,8 +3260,15 @@ function f_statsMenu()
 	--Draw Stats Text for Table
 		for i=1, maxStats do
 			if i > statsMenu - cursorPosY then
+				local align = 1
+				local posX = 35
+			--Custom Pos for Last items
+				if i == #t_statsMenu then
+					align = 0
+					posX = 160
+				end
 				if t_statsMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_statsMenu[i].varID, font2, 0, 1, t_statsMenu[i].text, 35, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_statsMenu[i].varID, font2, 0, align, t_statsMenu[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_statsMenu[i].varID, font2, 0, -1, t_statsMenu[i].varText, 286, 15+i*15-moveTxt))
 				end
 			end
@@ -3699,8 +3706,15 @@ function f_songMenu()
 			else
 				songText = t_songList[songFolder][i].name
 			end
+			local align = 1
+			local posX = 85
+		--Custom Pos for Last items
+			if i == #t_songList[songFolder] or i == #t_songList[songFolder]-1 then
+				align = 0
+				posX = 160
+			end
 			if i > songMenu - cursorPosY then
-				t_songList[songFolder][i].id = createTextImg(font2, 0, 1, songText, 85, 15+i*15-moveTxt)
+				t_songList[songFolder][i].id = createTextImg(font2, 0, align, songText, posX, 15+i*15-moveTxt)
 				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
@@ -16144,8 +16158,15 @@ function f_tourneyCfg()
 	--Draw Settings Text
 		for i=1, maxtourneyCfg do
 			if i > tourneyCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_tourneyCfg then
+					align = 0
+					posX = 160
+				end
 				if t_tourneyCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, 1, t_tourneyCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, align, t_tourneyCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, -1, t_tourneyCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end

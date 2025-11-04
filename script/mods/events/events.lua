@@ -146,7 +146,6 @@ local function f_netTimeInfo()
 	--Unable to Connect
 		if netTime == nil then
 			textImgDraw(txt_eventNoInternet)
-			--textImgSetBank(txt_info, 5)
 			txt = netLog
 			posY = posY + 10
 		--Draw Input Hints Panel

@@ -2615,7 +2615,7 @@ function f_soundtrack()
 	for folder=1, #t_songList do
 		local row = #t_songList[folder]+1
 		t_songList[folder][row] = {id = '', name = 'RANDOM SELECT', path = 'Random'}
-		t_songList[folder][row+1] = {id = '', name = '          BACK', path = ''}
+		t_songList[folder][row+1] = {id = '', name = 'BACK', path = ''}
 	end
 	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.log') end
 end

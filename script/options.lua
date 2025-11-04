@@ -1501,7 +1501,7 @@ function f_mainCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_mainCfg or i == #t_mainCfg-1 then
+				if i == #t_mainCfg or i == #t_mainCfg-1 or i == #t_mainCfg-2 then
 					align = 0
 					posX = 160
 				end
@@ -1568,7 +1568,7 @@ t_netplayCfg = {
 	{text = "Show Username",	 	 varText = Yes/No},
 ]]
 	{text = "Default Values",  	 	 varText = ""},
-	{text = "          BACK", 		 varText = ""},
+	{text = "BACK",			 		 varText = ""},
 }
 for i=1, #t_netplayCfg do
 	t_netplayCfg[i]['varID'] = textImgNew()
@@ -1806,8 +1806,15 @@ function f_netplayCfg()
 		end
 		for i=1, maxnetplayCfg do
 			if i > netplayCfg - cursorPosY then
+				local align = 1
+				local posX = 85
+			--Custom Pos for Last items
+				if i == #t_netplayCfg or i == #t_netplayCfg-1 then
+					align = 0
+					posX = 160
+				end
 				if t_netplayCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, 1, t_netplayCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, align, t_netplayCfg[i].text, posX, 15+i*15-moveTxt))
 					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
@@ -1849,7 +1856,7 @@ t_onlineCfg = {
 	{text = "Game Settings",		varText = ""},
 	{text = "Engine Settings",		varText = ""},
 	{text = "Lobby Settings",		varText = ""},
-	{text = "      SAVE AND PLAY",	varText = ""},
+	{text = "SAVE AND PLAY",		varText = ""},
 }
 for i=1, #t_onlineCfg do
 	t_onlineCfg[i]['varID'] = textImgNew()

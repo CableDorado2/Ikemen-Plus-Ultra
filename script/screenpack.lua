@@ -962,7 +962,7 @@ t_statsMenu = {
 	{text = "Preferred Game Mode"},
 	{text = "Training Time"},
 	{text = "In-Game Currency"},
-	{text = "                   BACK"},
+	{text = "BACK"},
 }
 for i=1, #t_statsMenu do
 	t_statsMenu[i]['varID'] = textImgNew()
@@ -3239,7 +3239,7 @@ t_tourneyCfg = {
 	{text = "Rounds to Win",      	 varText = data.tourneyRoundsNum},
 	{text = "Matchs to Win",         varText = data.tourneyMatchsNum},
 	--{text = "3rd Place Match",     varText = data.tourney3rdPlace},
-	{text = "    CREATE TOURNAMENT", varText = ""},
+	{text = "CREATE TOURNAMENT", 	 varText = ""},
 }
 for i=1, #t_tourneyCfg do
 	t_tourneyCfg[i]['varID'] = textImgNew()
