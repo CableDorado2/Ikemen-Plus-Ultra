@@ -1,4 +1,4 @@
-playVideo("movie/The Lost Chapter.wmv")
+playVideo("videos/The Lost Chapter.webm")
 data.p1TeamMenu = {mode = 0, chars = 1}
 data.p2TeamMenu = {mode = 0, chars = 1}
 data.p1Char = {"Kung Fu Man/Evil/Evil Kung Fu Man.def"}

@@ -154,8 +154,8 @@ table.insert(t_statsMenu,#t_statsMenu,{text = txt_missionStatsData, varText = f_
 --Insert new item to t_statsGameModes table loaded by main.lua
 table.insert(t_statsGameModes,1,
 	{
-		displayname = "Missions",
-		id = "mission",
+		displayname = "Missions", --Text to Display in Stats Menu
+		id = "mission", --id to compare with data.rosterMode var
 		playtime = function() return stats.modes.mission.playtime end,
 		setplaytime = function(newtime) stats.modes.mission.playtime = newtime end
 	}

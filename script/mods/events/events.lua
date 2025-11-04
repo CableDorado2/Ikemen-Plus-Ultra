@@ -13,8 +13,9 @@ local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 115, 10)
 local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 122, 10)
 local txt_localTime = createTextImg(jgFnt, 0, -1, "", 318, 10)
 local txt_internetTime = createTextImg(jgFnt, 0, -1, "", 318, 20)
+local txt_eventNoInternet = createTextImg(jgFnt, 5, 0, txt_noInternet, 160, 105, 0.7, 0.7)
 local txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
-local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 159, 120, 0.6,0.6)
+local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "", 159, 117, 0.6,0.6)
 local txt_eventCancel = "EVENT TIME UNAVAILABLE"
 local txt_eventStatsData = "Events Completed"
 
@@ -107,9 +108,10 @@ local function f_eventLocked()
 --Draw Menu BG
 	animDraw(infoEventWindowBG)
 --Draw Title
-	textImgDraw(txt_lockedInfo)
---Draw Info Title Text
 	textImgDraw(txt_lockedinfoTitle)
+--Draw Info
+	--textImgDraw(txt_lockedInfo)
+	f_textRender(txt_lockedInfo, "EVENT NOT AVAILABLE\nTRY LATER", 0, 159, 117, 10, 0, 50)
 --Draw Input Hints Panel
 	drawInfoEventInputHints()
 --Actions
@@ -130,8 +132,8 @@ local function f_netTimeInfo()
 	cmdInput()
 	local txt = ""
 	local posX = 160
-	local posY = 105
-	local limit = 70
+	local posY = 108
+	local limit = 40
 --Draw Fade BG
 	animDraw(fadeWindowBG)
 --Draw Menu BG
@@ -143,7 +145,10 @@ local function f_netTimeInfo()
 		if netTimeCount < 32 then loadNetTime() end
 	--Unable to Connect
 		if netTime == nil then
-			txt = txt_noInternet.."\n"..netLog
+			textImgDraw(txt_eventNoInternet)
+			--textImgSetBank(txt_info, 5)
+			txt = netLog
+			posY = posY + 10
 		--Draw Input Hints Panel
 			drawInfoInputHints()
 		--Accept Button
@@ -335,8 +340,8 @@ table.insert(t_statsMenu,#t_statsMenu,{text = txt_eventStatsData, varText = f_ge
 --Insert new item to t_statsGameModes table loaded by main.lua
 table.insert(t_statsGameModes,1,
 	{
-		displayname = "Events",
-		id = "event",
+		displayname = "Events", --Text to Display in Stats Menu
+		id = "event", --id to compare with data.rosterMode var
 		playtime = function() return stats.modes.event.playtime end,
 		setplaytime = function(newtime) stats.modes.event.playtime = newtime end
 	}

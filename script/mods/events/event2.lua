@@ -3,7 +3,6 @@
 --; 		(Challenge a formidable Giant Boss Character)
 --;=====================================================================
 data.gameMode = "singleboss"
-data.rosterMode = "boss"
 data.versusScreen = false
 data.victoryscreen = false
 setRoundTime(-1)

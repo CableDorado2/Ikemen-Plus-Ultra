@@ -233,8 +233,8 @@ table.insert(t_statsMenu,#t_statsMenu,{text = txt_storyStatsData, varText = f_ge
 --Insert new item to t_statsGameModes table loaded by main.lua
 table.insert(t_statsGameModes,1,
 	{
-		name = "Story",
-		id = "story",
+		name = "Story", --Text to Display in Stats Menu
+		id = "story", --id to compare with data.rosterMode var
 		playtime = function() return stats.modes.story.playtime end,
 		setplaytime = function(newtime) stats.modes.story.playtime = newtime end
 	}

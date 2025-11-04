@@ -2737,8 +2737,8 @@ function f_loadNetTimeLuaSocket()
 			currentNetTime = nil
 			netTime = nil
 			netDate = netTime
-			netLog = 'JSON does not contains "currentDateTime"'
-			--netLog = 'JSON does not contains "datetime"' --Alternative
+			netLog = 'JSON does not contains "currentDateTime".'
+			--netLog = 'JSON does not contains "datetime".' --Alternative
 			return false --Unable to connect
 		end
 --Failed HTTP Request
@@ -2746,7 +2746,7 @@ function f_loadNetTimeLuaSocket()
 		currentNetTime = nil
 		netTime = nil
 		netDate = netTime
-		netLog = "Error requesting HTTP: Code " .. tostring(code)
+		netLog = "Error requesting HTTP: Code "..tostring(code).."."
 		return false --Unable to connect
 	end
 end
@@ -2828,7 +2828,7 @@ function f_loadNetTimeLuaCurl()
 				currentNetTime = nil
 				netTime = nil
 				netDate = netTime
-				netLog = 'JSON does not contains "currentDateTime"'
+				netLog = 'JSON does not contains "currentDateTime".'
 				easy:close()
 				return false --Unable to connect
 			end
@@ -2837,7 +2837,7 @@ function f_loadNetTimeLuaCurl()
 			currentNetTime = nil
 			netTime = nil
 			netDate = netTime
-			netLog = "Error requesting HTTP: Code " .. tostring(http_code)
+			netLog = "Error requesting HTTP: Code "..tostring(http_code).."."
 			easy:close()
 			return false
 		end
@@ -2846,7 +2846,7 @@ function f_loadNetTimeLuaCurl()
 		currentNetTime = nil
 		netTime = nil
 		netDate = netTime
-		netLog = "cURL Error: " .. tostring(err_msg) .. " (" .. tostring(err_code) .. ")"
+		netLog = "cURL Error: "..tostring(err_msg).." ("..tostring(err_code)..")"
 		easy:close()
 		return false --Unable to connect
 	end
@@ -2911,7 +2911,7 @@ function f_sysTime()
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
-		f_drawQuickText(txt_testW, font6, 0, 0, "BGM: "..bgm_vol, 109, 38)
+		--f_drawQuickText(txt_testW, font6, 0, 0, "BGM: "..bgm_vol, 109, 38)
 	--[[
 		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
 		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)

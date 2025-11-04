@@ -9028,7 +9028,7 @@ function f_p1SelectMenu()
 					if p1memberPreview == 4 then p1member4Random = true	end
 				end
 				f_p1charAnnouncer(cel) --Character Voice when is selected Example for Player 1 Side
-				animReset(t_selChars[cel+1].p1AnimWin)
+				if t_selChars[cel+1].p1AnimWin then animReset(t_selChars[cel+1].p1AnimWin) end
 			--Change p1memberPreview on each char selection
 				if p1numChars > 1 and not data.coop then --For Team Modes
 					if p1memberPreview == 1 then p1memberPreview = 2
@@ -10515,7 +10515,7 @@ function f_p2SelectMenu()
 					if p2memberPreview == 4 then p2member4Random = true	end
 				end
 				f_p2charAnnouncer(cel)
-				animReset(t_selChars[cel+1].p2AnimWin)
+				if t_selChars[cel+1].p2AnimWin then animReset(t_selChars[cel+1].p2AnimWin) end
 				if p2numChars > 1 and not data.coop then
 					if p2memberPreview == 1 then p2memberPreview = 2
 					elseif p2memberPreview == 2 then p2memberPreview = 3

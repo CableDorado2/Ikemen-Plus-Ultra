@@ -1460,7 +1460,7 @@ function drawSelectInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Slot", 286, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Switch", 286, hintFontYPos)
 end
 
 function drawStageInputHints()
@@ -1472,7 +1472,7 @@ function drawStageInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Slot", 286, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Switch", 286, hintFontYPos)
 end
 
 --;===========================================================
