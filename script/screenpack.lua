@@ -1,6 +1,17 @@
 ﻿--;===========================================================
 --; SCREENPACK ASSETS DEFINITION
 --;===========================================================
+--Paths Data
+licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
+replaysPath = "save/replays" --Replays Path
+screenshotPath = "screenshots"
+--screenshotPath = getScreenshotsPath() --to use config.ssz ScreenshotFolder path
+musicPath = "sound" --Main Soundtrack Path
+luaModulesPath = { --Lua External Modules Folder Paths
+"script/mods",
+"data/lua"
+}
+
 --Sprite Data
 sprFade = sffNew("data/fade.sff") --load fade sprites
 sprSys = sffNew("data/system.sff") --load screenpack/menu MUGEN sprites
@@ -96,16 +107,6 @@ videoHowToPlay = "videos/How To Play.webm"
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
 fightDef = data.lifebar --Lifebar/Fight stored in data_sav.lua
-
---Paths Data
-licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
-replaysPath = "save/replays" --Replays Path
-screenshotPath = "screenshots" --getScreenshotsPath()
-musicPath = "sound" --Main Soundtrack Path
-luaModules = { --Lua External Modules Folder Paths
-"script/mods",
-"data/lua"
-}
 
 --;===========================================================
 --; MOVELIST SCREENPACK DEFINITION

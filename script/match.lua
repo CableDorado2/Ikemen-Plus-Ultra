@@ -1,26 +1,23 @@
---;===========================================================
---; GLOBAL MATCH ACCESS FUNCTIONS
---;===========================================================
+--This file is loaded when a match starts. Here, all CNS triggers defined in trigger-script.ssz will be usable.
 inMatch = true
+assert(loadfile("script/common.lua"))() --Load stuff shared with main menu (options data, screenpack assets, functions, etc..)
+require("script.pause")
 --[[
 - assert(loadfile)) will cause that overwrites global variables every time it is called.
 - require() Injects global variables only the first time it runs
 
-Should replace below assert(loadfile()) with require()?
+Should replace above assert(loadfile()) with require()?
 ]]
-assert(loadfile("script/common.lua"))() --Load stuff shared with main menu (options data, screenpack assets, functions, etc.)
-require("script.pause")
-f_loadLuaMods(true) --Load External Lua Modules
---[[
-If you need to load a module during a match, use:
 
+--[[Load External Lua Modules FOR MATCH
+To load a lua file as an external module during match:
+1- Need to be in any of the paths defined in "luaModulesPath" screnpack.lua table
+2- Due optimization purposes, need contains at the beginning the following text:
 local includeLuaMatch = true --This module will be loaded during a match.
 
-As first line in the module, to allow load it inside a match.
-(This verification is required due optimization purposes).
-
-NOTE: Any data loaded OUTSIDE of scripts loaded at the beginning of this file, will not be available (main.lua for example).
+NOTE: Any data loaded OUTSIDE of scripts loaded at the beginning of this file, will not be available (main.lua and loader.lua for example).
 ]]
+f_loadLuaMods(inMatch)
 --;===========================================================
 --; DEBUG HOTKEYS DEFINITION
 --;===========================================================
@@ -241,7 +238,7 @@ puts(string.format(
 end
 ]]
 --;===========================================================
---; MATCH LOOP
+--; MATCH LOOP FUNCTIONS
 --;===========================================================
 local function f_handicapSet()
 	for side=1, 2 do

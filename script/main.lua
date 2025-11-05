@@ -17892,6 +17892,12 @@ end
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
-f_loadLuaMods() --Load External Lua Modules
 if not data.attractMode then f_sdlWarning() end
-f_mainStart() --Start Menu
+--[[Load External Lua Modules
+To load a lua file as an external module:
+1- Need to be in any of the paths defined in "luaModulesPath" screnpack.lua table
+2- Need contains at the beginning the following text:
+local loadLuaModule = true
+]]
+f_loadLuaMods()
+f_mainStart() --Start Main Menu

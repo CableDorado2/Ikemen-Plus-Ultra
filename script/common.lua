@@ -3559,9 +3559,9 @@ function f_loadLuaMods(bool)
 		end
 		if data.debugLog then f_printTable(t_luaExternalMods, 'save/debug/t_luaExternalMods.log') end
 	end
---Loads modules from the paths specified in luaModules
-	for mods=1, #luaModules do
-		f_loadExternalModules(luaModules[mods])
+--Loads modules from the paths specified in luaModulesPath screenpack.lua
+	for mods=1, #luaModulesPath do
+		f_loadExternalModules(luaModulesPath[mods])
 	end
 --Run the modules that were loaded
 	for _, v in ipairs(t_luaExternalMods) do

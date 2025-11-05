@@ -254,9 +254,9 @@ public &.lua.State L;
 
 public ^/char loadFile(^/char file)
 {
-  .sc.init(.L=);
-  .tscri.registerFunction(.L=);
-  .sscri.init(.L=);
+  .sc.init(.L=);//Load all functions registered in script.ssz
+  .tscri.registerFunction(.L=); //Load all functions registered in trigger-script.ssz
+  .sscri.init(.L=); //Load all functions registered in system-script.ssz
   .L.register("puts", .puts);
   .L.register("setLife", .setLife);
   .L.register("setLifeMax", .setLifeMax);

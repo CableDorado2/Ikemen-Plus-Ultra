@@ -2226,7 +2226,7 @@ void setSuaveMode(&.lua.State L=, int re=)
 
 public void init(&.lua.State L=)
 {
-  .sc.init(L=);
+  .sc.init(L=); //Load all function registered in script.ssz
   L.register("textImgNew", .textImgNew);
   L.register("textImgGetWidth", .textImgGetWidth);
   L.register("textImgSetFont", .textImgSetFont);
