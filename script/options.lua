@@ -6117,7 +6117,7 @@ t_engineCfg = {
 	{text = "Debug Mode"},
 	{text = "Save Debug Logs"},
 	{text = "HelperMax"},
-	{text = "PlayerProjectileMax"},
+	{text = "ProjectileMax"},
 	{text = "ExplodMax"},
 	{text = "AfterImageMax"},
 	{text = "Erase/Reset Statistics"},
@@ -6184,7 +6184,7 @@ function f_engineCfg()
 					end
 					modified = 1
 				end
-		--HelperMax
+		--Helper Max
 			elseif engineCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if HelperMaxEngine < 1000 then --You can increase this limit
@@ -6213,7 +6213,7 @@ function f_engineCfg()
 					bufr = 0
 					bufl = 0
 				end
-		--PlayerProjectileMax
+		--Projectile Max
 			elseif engineCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
@@ -6242,7 +6242,7 @@ function f_engineCfg()
 					bufr = 0
 					bufl = 0
 				end
-		--ExplodMax
+		--Explod Max
 			elseif engineCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if ExplodMaxEngine < 1000 then --You can increase this limit
@@ -6271,7 +6271,7 @@ function f_engineCfg()
 					bufr = 0
 					bufl = 0
 				end
-		--AfterImageMax
+		--After Image Max
 			elseif engineCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if AfterImageMaxEngine < 1000 then --You can increase this limit
