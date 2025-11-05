@@ -77,6 +77,15 @@ void unlockTarget()
 	if(g_target) SDL_UnlockTexture(g_target);
 }
 
+std::string WstrToStr(const std::wstring& wstr)
+{
+	if (wstr.empty()) return std::string();
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+	std::string strTo(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+	return strTo;
+}
+
 LRESULT CALLBACK wrapProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MSG m;
@@ -452,75 +461,6 @@ void sndjoyinit()
 	g_js.init();
 }
 
-//String conversion
-std::string WstrToStr(const std::wstring& wstr)
-{
-	if (wstr.empty()) return std::string();
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
-	std::string strTo(size_needed, 0);
-	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
-	return strTo;
-}
-
-void TestTTF()
-{
-//Init SDL and SDL_ttf
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		return; //Error SDL_Init
-	}
-	if (TTF_Init() == -1)
-	{
-		SDL_Quit(); //Error TTF_Init
-		return;
-	}
-//Font Path
-	const char* fontPath = "font/TTF/shanghai.ttf";
-	int fontSize = 24;
-//Load Font
-	TTF_Font* font = TTF_OpenFont(fontPath, fontSize);
-	if (!font)
-	{
-	//Error loading TTF Font
-		TTF_Quit();
-		SDL_Quit();
-		return;
-	}
-//Render Text
-	SDL_Color color = {255, 255, 255, 255}; //Text Color
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Hello World!", color);
-	if (!textSurface)
-	{
-	//Error rendering Text
-		TTF_CloseFont(font);
-		TTF_Quit();
-		SDL_Quit();
-		return;
-	}
-//Create a window and renderer to show stuff
-	SDL_Window* window = SDL_CreateWindow("TTF Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-//Create surface texture
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
-//Clean Screen
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderClear(renderer);
-//Draw texture
-	SDL_Rect dstRect = {50, 50, textSurface->w, textSurface->h};
-	SDL_RenderCopy(renderer, texture, NULL, &dstRect);
-	SDL_RenderPresent(renderer);
-//Time to display Test Window
-	SDL_Delay(3000);
-//Close
-	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(textSurface);
-	TTF_CloseFont(font);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	TTF_Quit();
-	SDL_Quit();
-}
-
 void TestIMG()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -592,6 +532,65 @@ void TestIMG()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	IMG_Quit();
+	SDL_Quit();
+}
+
+void TestTTF()
+{
+//Init SDL and SDL_ttf
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		return; //Error SDL_Init
+	}
+	if (TTF_Init() == -1)
+	{
+		SDL_Quit(); //Error TTF_Init
+		return;
+	}
+//Font Path
+	const char* fontPath = "font/TTF/shanghai.ttf";
+	int fontSize = 24;
+//Load Font
+	TTF_Font* font = TTF_OpenFont(fontPath, fontSize);
+	if (!font)
+	{
+	//Error loading TTF Font
+		TTF_Quit();
+		SDL_Quit();
+		return;
+	}
+//Render Text
+	SDL_Color color = {255, 255, 255, 255}; //Text Color
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Hello World!", color);
+	if (!textSurface)
+	{
+	//Error rendering Text
+		TTF_CloseFont(font);
+		TTF_Quit();
+		SDL_Quit();
+		return;
+	}
+//Create a window and renderer to show stuff
+	SDL_Window* window = SDL_CreateWindow("TTF Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+//Create surface texture
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+//Clean Screen
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+//Draw texture
+	SDL_Rect dstRect = {50, 50, textSurface->w, textSurface->h};
+	SDL_RenderCopy(renderer, texture, NULL, &dstRect);
+	SDL_RenderPresent(renderer);
+//Time to display Test Window
+	SDL_Delay(3000);
+//Close
+	SDL_DestroyTexture(texture);
+	SDL_FreeSurface(textSurface);
+	TTF_CloseFont(font);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	TTF_Quit();
 	SDL_Quit();
 }
 
@@ -1445,7 +1444,8 @@ TUserFunc(void, SetColorKey, uint32_t key, SDL_Surface* psur)
 
 TUserFunc(void, Flip)
 {
-	if(g_target){
+	if(g_target)
+	{
 		unlockTarget();
 		SDL_RenderCopy(g_renderer, g_target, nullptr, nullptr);
 		lockTarget();
@@ -4019,7 +4019,6 @@ TUserFunc(
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
 	glScissor(dstr->x, g_h - (dstr->y+dstr->h), dstr->w, dstr->h);
-	//
 	glActiveTexture(GL_TEXTURE1);
 	if (ppal) {
 		if(g_paltex) glDeleteTextures(1, &g_paltex);
@@ -4039,7 +4038,6 @@ TUserFunc(
 	renderMugenGl(
 		rcy, rcx, alpha, angle, rasterxadd, vscl, yscl, xbotscl, xtopscl,
 		tl, y, x, r, g_mugenshader);
-	//
 	glDisable(GL_SCISSOR_TEST);
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_TEXTURE_1D);
@@ -4087,11 +4085,9 @@ TUserFunc(
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
 	glScissor(dstr->x, g_h - (dstr->y+dstr->h), dstr->w, dstr->h);
-	//
 	renderMugenGl(
 		rcy, rcx, alpha, angle, rasterxadd, vscl, yscl, xbotscl, xtopscl,
 		tl, y, x, r, g_mugenshaderFc);
-	//
 	glDisable(GL_SCISSOR_TEST);
 	glDisable(GL_TEXTURE_2D);
 	glUseProgramObjectARB(0);
@@ -4136,11 +4132,9 @@ TUserFunc(
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_SCISSOR_TEST);
 	glScissor(dstr->x, g_h - (dstr->y+dstr->h), dstr->w, dstr->h);
-	//
 	renderMugenGl(
 		rcy, rcx, alpha, angle, rasterxadd, vscl, yscl, xbotscl, xtopscl,
 		tl, y, x, r, g_mugenshaderFcS);
-	//
 	glDisable(GL_SCISSOR_TEST);
 	glDisable(GL_TEXTURE_2D);
 	glUseProgramObjectARB(0);
@@ -4173,7 +4167,6 @@ TUserFunc(void, MugenFillGl, int32_t alpha, uint32_t color, SDL_Rect rect)
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glTranslated(0, g_h, 0);
-	//
 	if(alpha == -1){
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		rectFillGl(r, g, b, 1.0f, rect);
@@ -4195,7 +4188,6 @@ TUserFunc(void, MugenFillGl, int32_t alpha, uint32_t color, SDL_Rect rect)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		rectFillGl(r, g, b, (GLfloat)src / 255.0f, rect);
 	}
-	//
 	glPopMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

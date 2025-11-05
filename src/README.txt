@@ -29,4 +29,4 @@ How to compile a library (dll) that this project uses:
 - If you get the Error:
 " 'LINK : fatal error LNK1123: failure during conversion to COFF: file invalid or corrupt' "
 
-while you are trying to compile the ssize executable or mesdialog dll (It probably has to do with they uses a .RC file.), you need to rename the file "cvtres.exe" to anything. For example "cvtres-old.exe". This file is located in Microsoft Visual Studio folder (C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin). More information about that in: https://stackoverflow.com/questions/10888391/error-link-fatal-error-lnk1123-failure-during-conversion-to-coff-file-inval
+while you are trying to compile the ssize executable or mesdialog dll (It probably has to do with it uses a .RC file.), you need to rename the file "cvtres.exe" to anything. For example "cvtres-old.exe". This file is located in Microsoft Visual Studio folder (C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin). More information about that in: https://stackoverflow.com/questions/10888391/error-link-fatal-error-lnk1123-failure-during-conversion-to-coff-file-inval
