@@ -14311,6 +14311,9 @@ if validCells() then
 		matchTime = os.clock()
 		f_assignMusic()
 		winner = game() --Get into the fight
+		if not netplay() then
+			f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
+		end
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
@@ -15220,6 +15223,9 @@ if validCells() then
 		matchTime = os.clock()
 		f_assignMusic()
 		winner = game() --Get into the fight
+		if not netplay() then
+			f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
+		end
 		if data.gameMode == "abyss" then data.bgm = nil end --To avoid play special boss music for the next normal depth match
 		playBGM("")
 		matchTime = os.clock() - matchTime
@@ -16781,6 +16787,9 @@ if validCells() then
 			setP1matchWins(p1Wins)
 			setP2matchWins(p2Wins)
 			winner = game() --Get into the fight
+			if not netplay() then
+				f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
+			end
 			playBGM("")
 			matchTime = os.clock() - matchTime
 			clearTime = clearTime + matchTime

@@ -1,4 +1,5 @@
-﻿--;===========================================================
+﻿--Warning: This script is loaded during match due common.lua. So keep in mind to avoid load some stuff for netplay matchs.
+--;===========================================================
 --; OPTIONS SCREENPACK DEFINITION
 --;===========================================================
 --Scrolling background

@@ -416,6 +416,9 @@ if validCells() then
 		matchTime = os.clock()
 		if data.songSelect then f_assignMusic() end
 		winner = game() --Get into the fight
+		if not netplay() then
+			f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
+		end
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
