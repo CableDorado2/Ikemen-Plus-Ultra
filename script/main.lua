@@ -8924,7 +8924,9 @@ function f_p1SelectMenu()
 					if p1memberPreview == 4 then p1member4Random = true	end
 				end
 				f_p1charAnnouncer(cel) --Character Voice when is selected Example for Player 1 Side
-				if t_selChars[cel+1].p1AnimWin then animReset(t_selChars[cel+1].p1AnimWin) end
+				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
+					if t_selChars[cel+1].p1AnimWin then animReset(t_selChars[cel+1].p1AnimWin) end
+				end
 			--Change p1memberPreview on each char selection
 				if p1numChars > 1 and not data.coop then --For Team Modes
 					if p1memberPreview == 1 then p1memberPreview = 2
@@ -10292,7 +10294,9 @@ function f_p2SelectMenu()
 					if p2memberPreview == 4 then p2member4Random = true	end
 				end
 				f_p2charAnnouncer(cel)
-				if t_selChars[cel+1].p2AnimWin then animReset(t_selChars[cel+1].p2AnimWin) end
+				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
+					if t_selChars[cel+1].p2AnimWin then animReset(t_selChars[cel+1].p2AnimWin) end
+				end
 				if p2numChars > 1 and not data.coop then
 					if p2memberPreview == 1 then p2memberPreview = 2
 					elseif p2memberPreview == 2 then p2memberPreview = 3
@@ -10604,14 +10608,16 @@ function f_selectStage()
 		end
 		--if stageAnnouncer == false then
 			if backScreen == false and stageAnnouncer == false then
-				if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-					if stageSelect == true then
-						--sndPlay(sndSys, 100, 0)
-						--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
+				if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				--Cursor in Stage Select
+					if stageSelect then
+						
 					end
-					if songSelect == true then --Song Preview
+				--Cursor in Song Preview
+					if songSelect then
 						if stageList == 0 then
-						--Do Nothing because Song Preview for Random Stage will get an Error because it can't detect which Stage will be Selected (can be resolved by adding a Song selection Menu Apart from the stage selection, it will work when a Stage was selected)
+					--[[Nothing because Song Preview for Random Stage can't detect which Stage will be Selected
+						(can be resolved by adding a Song selection Menu Apart from the stage selection)]]
 						else 
 							f_musicPreview()
 						end
@@ -10917,8 +10923,8 @@ function f_selectStage()
 				
 			end
 		end
-		--When you select the stage
-		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 or stageTimer == 0) and stageAnnouncer == false then
+	--When you select the stage
+		if (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') or stageTimer == 0) and stageAnnouncer == false then
 			if stageList == 0 then --For random or character sides stages
 				stageChosen = true
 			else --For visible stages
@@ -12566,6 +12572,7 @@ function f_loading(quickLoad)
 	local teamChar = nil
 	local playerSide = nil
 	local coop = nil
+	f_resetFadeBGM()
 	if not quickLoad then
 		if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
 			f_selectChar(1, data.t_p1selected)
@@ -12586,10 +12593,12 @@ function f_loading(quickLoad)
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-		if t == 30 then
+		if t == 100 then
 			cmdInput()
+			--f_resetFadeBGM()
 			break
 		end
+		f_fadeOutBGM(1)
 		t = t + 1
 		textImgSetText(txt_loading, "LOADING MATCH...")
 		textImgDraw(txt_loading)

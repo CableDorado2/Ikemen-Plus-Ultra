@@ -1360,7 +1360,7 @@ txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 
 t_mainCfg = {
 	{text = "Game Settings",	  	gotomenu = "f_gameCfg()"},
-	{text = "System Settings",  	gotomenu = "f_UICfg()"},
+	{text = "System Settings",  	gotomenu = "f_systemCfg()"},
 	{text = "Video Settings",  		gotomenu = "f_videoCfg()"},
 	{text = "Audio Settings",  		gotomenu = "f_audioCfg()"},
 	{text = "Input Settings",  		gotomenu = "f_inputCfg()"},
@@ -3076,9 +3076,9 @@ end
 --;===========================================================
 --; SYSTEM SETTINGS
 --;===========================================================
-txt_UICfg = createTextImg(jgFnt, 0, 0, "SYSTEM SETTINGS", 159, 13)
+txt_systemCfg = createTextImg(jgFnt, 0, 0, "SYSTEM SETTINGS", 159, 13)
 
-t_UICfg = {
+t_systemCfg = {
 	{text = "Language"},
 	{text = "Clock Format"},
 	{text = "Date Format"},
@@ -3098,16 +3098,16 @@ t_UICfg = {
 	{text = "Default Settings"},
 	{text = "BACK"},
 }
-for i=1, #t_UICfg do
-	t_UICfg[i]['varID'] = textImgNew()
-	t_UICfg[i]['varText'] = ""
+for i=1, #t_systemCfg do
+	t_systemCfg[i]['varID'] = textImgNew()
+	t_systemCfg[i]['varText'] = ""
 end
 
-function f_UICfg()
+function f_systemCfg()
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
-	local UICfg = 1
+	local systemCfg = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -3123,17 +3123,17 @@ function f_UICfg()
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				lockSetting = false
 				sndPlay(sndSys, 100, 0)
-				UICfg = UICfg - 1
+				systemCfg = systemCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				lockSetting = false
 				sndPlay(sndSys, 100, 0)
-				UICfg = UICfg + 1
+				systemCfg = systemCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 		--Language Settings
-			elseif UICfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3162,7 +3162,7 @@ function f_UICfg()
 				]]
 				end
 		--Clock Format Display
-			elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3191,7 +3191,7 @@ function f_UICfg()
 					end
 				end
 		--Date Format Display
-			elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3220,7 +3220,7 @@ function f_UICfg()
 					end
 				end
 		--Discord Rich Presence
-			elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif systemCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3235,7 +3235,7 @@ function f_UICfg()
 					modified = 1
 				end
 		--Attract Mode
-			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif systemCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3249,7 +3249,7 @@ function f_UICfg()
 					needReload = 1
 				end
 		--Pause Menu Time
-			elseif UICfg == 6 then
+			elseif systemCfg == 6 then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3282,7 +3282,7 @@ function f_UICfg()
 					end
 				end
 		--Character Portrait Display Type
-			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.portraitDisplay == "Portrait" then
 					sndPlay(sndSys, 100, 0)
 					data.portraitDisplay = "Sprite"
@@ -3301,7 +3301,7 @@ function f_UICfg()
 					modified = 1	
 				end
 		--Display Versus Win Counter
-			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif systemCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3314,7 +3314,7 @@ function f_UICfg()
 					modified = 1
 				end
 		--Win Screen Display Type
-			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.winscreen == "Classic" then
 					sndPlay(sndSys, 100, 0)
 					data.winscreen = "Modern"
@@ -3333,7 +3333,7 @@ function f_UICfg()
 					modified = 1
 				end
 		--Service Interaction Type
-			elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif systemCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.serviceType == "Button" then
 					data.serviceType = "Cursor"
@@ -3342,7 +3342,7 @@ function f_UICfg()
 				end
 				modified = 1
 		--Order Select Interaction Type
-			elseif UICfg == 11 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif systemCfg == 11 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.orderSelType == "Button" then
 					data.orderSelType = "Cursor"
@@ -3351,23 +3351,23 @@ function f_UICfg()
 				end
 				modified = 1
 		--Character Select Settings
-			elseif UICfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_selectCfg()
 		--Stage Select Settings
-			elseif UICfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_stageCfg()
 		--Timers Settings
-			elseif UICfg == 14 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == 14 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_timeCfg()
 		--Replay Settings
-			elseif UICfg == 15 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == 15 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				f_replayCfg()
 		--System Songs Settings
-			elseif UICfg == 16 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == 16 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3375,24 +3375,24 @@ function f_UICfg()
 					f_songCfg()
 				end
 		--Default Values
-			elseif UICfg == #t_UICfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == #t_systemCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
 		--BACK
-			elseif UICfg == #t_UICfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == #t_systemCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 2)
 				break
 			end
-			if UICfg < 1 then
-				UICfg = #t_UICfg
-				if #t_UICfg > maxItems then
+			if systemCfg < 1 then
+				systemCfg = #t_systemCfg
+				if #t_systemCfg > maxItems then
 					cursorPosY = maxItems
 				else
-					cursorPosY = #t_UICfg
+					cursorPosY = #t_systemCfg
 				end
-			elseif UICfg > #t_UICfg then
-				UICfg = 1
+			elseif systemCfg > #t_systemCfg then
+				systemCfg = 1
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
@@ -3400,23 +3400,23 @@ function f_UICfg()
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == maxItems then
-				moveTxt = (UICfg - maxItems) * 15
+				moveTxt = (systemCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
-				moveTxt = (UICfg - 1) * 15
+				moveTxt = (systemCfg - 1) * 15
 			end	
-			if #t_UICfg <= maxItems then
-				maxUICfg = #t_UICfg
-			elseif UICfg - cursorPosY > 0 then
-				maxUICfg = UICfg + maxItems - cursorPosY
+			if #t_systemCfg <= maxItems then
+				maxsystemCfg = #t_systemCfg
+			elseif systemCfg - cursorPosY > 0 then
+				maxsystemCfg = systemCfg + maxItems - cursorPosY
 			else
-				maxUICfg = maxItems
+				maxsystemCfg = maxItems
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxUICfg*15)
+		animSetScale(optionsBG1, 220, maxsystemCfg*15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
-		textImgDraw(txt_UICfg)
+		textImgDraw(txt_systemCfg)
 		if not defaultScreen then
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -3427,37 +3427,37 @@ function f_UICfg()
 				textImgDraw(t_locked[i].id)
 			end
 		end
-		t_UICfg[1].varText = data.language
-		t_UICfg[2].varText = os.date(t_clockFormats[data.clock].locale)
-		t_UICfg[3].varText = os.date(t_dateFormats[data.dateFormat])
-		if data.discordPresence then t_UICfg[4].varText = "Enabled" else t_UICfg[4].varText = "Disabled" end
-		if data.attractMode then t_UICfg[5].varText = "Enabled" else t_UICfg[5].varText = "Disabled" end
-		if data.pauseMenuTime == 0 then t_UICfg[6].varText = "Instant" else t_UICfg[6].varText = "Long Press "..data.pauseMenuTime.."Sec" end
-		t_UICfg[7].varText = data.portraitDisplay
-		if data.vsDisplayWin then t_UICfg[8].varText = "Yes" else t_UICfg[8].varText = "No" end
-		t_UICfg[9].varText = data.winscreen
-		t_UICfg[10].varText = data.serviceType
-		t_UICfg[11].varText = data.orderSelType
-		for i=1, maxUICfg do
-			if i > UICfg - cursorPosY then
+		t_systemCfg[1].varText = data.language
+		t_systemCfg[2].varText = os.date(t_clockFormats[data.clock].locale)
+		t_systemCfg[3].varText = os.date(t_dateFormats[data.dateFormat])
+		if data.discordPresence then t_systemCfg[4].varText = "Enabled" else t_systemCfg[4].varText = "Disabled" end
+		if data.attractMode then t_systemCfg[5].varText = "Enabled" else t_systemCfg[5].varText = "Disabled" end
+		if data.pauseMenuTime == 0 then t_systemCfg[6].varText = "Instant" else t_systemCfg[6].varText = "Long Press "..data.pauseMenuTime.."Sec" end
+		t_systemCfg[7].varText = data.portraitDisplay
+		if data.vsDisplayWin then t_systemCfg[8].varText = "Yes" else t_systemCfg[8].varText = "No" end
+		t_systemCfg[9].varText = data.winscreen
+		t_systemCfg[10].varText = data.serviceType
+		t_systemCfg[11].varText = data.orderSelType
+		for i=1, maxsystemCfg do
+			if i > systemCfg - cursorPosY then
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_UICfg or i == #t_UICfg-1 then
+				if i == #t_systemCfg or i == #t_systemCfg-1 then
 					align = 0
 					posX = 160
 				end
-				if t_UICfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, align, t_UICfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, -1, t_UICfg[i].varText, 235, 15+i*15-moveTxt))
+				if t_systemCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, align, t_systemCfg[i].text, posX, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, -1, t_systemCfg[i].varText, 235, 15+i*15-moveTxt))
 				end
 			end
 		end
-		if maxUICfg > maxItems then
+		if maxsystemCfg > maxItems then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
-		if #t_UICfg > maxItems and maxUICfg < #t_UICfg then
+		if #t_systemCfg > maxItems and maxsystemCfg < #t_systemCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
