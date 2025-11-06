@@ -3366,23 +3366,19 @@ t_statsGameModes = {
 		setplaytime = function(newtime) stats.modes.versus.playtime = newtime end
 	},
 	{
-		displayname = "Training",
-		id = "training",
-		playtime = function() return stats.modes.training.playtime end,
-		setplaytime = function(newtime) stats.modes.training.playtime = newtime end
-	},
-	{
 		displayname = "Trials",
 		id = "trials",
 		playtime = function() return stats.modes.trials.playtime end,
 		setplaytime = function(newtime) stats.modes.trials.playtime = newtime end
 	},
+--[[
 	{
 		displayname = "Tutorial",
 		id = "tutorial",
 		playtime = function() return stats.modes.tutorial.playtime end,
 		setplaytime = function(newtime) stats.modes.tutorial.playtime = newtime end
 	},
+--]]
 	{
 		displayname = "Arcade",
 		id = "arcade",
@@ -3495,9 +3491,9 @@ function f_getPreferredMode()
 		end
 	end
 	if modeName then
-		t_statsMenu[7].varText = modeDat.getData and modeDat.getData() or modeName
+		t_statsMenu[9].varText = modeDat.getData and modeDat.getData() or modeName
 	else
-		t_statsMenu[7].varText = "None"
+		t_statsMenu[9].varText = "None"
 	end
 end
 
@@ -3507,27 +3503,27 @@ function f_getStats(callback)
 	textImgSetText(txt_statsMenu,"" .. data.userName .. " PROGRESS:")
 	textImgSetText(txt_statsProgress,"["..gameData.."%]")
 --Get Stats Info
+	f_getPreferredMode()
 	s = math.floor((stats.playtime%60))
 	m = math.floor((stats.playtime%3600)/60)
 	h = math.floor((stats.playtime%86400)/3600)
 	d = math.floor(stats.playtime/86400)
 	--timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", d, h, m, s)
 	timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes", d, h, m)
-	t_statsMenu[1].varText = timePlayed
-	t_statsMenu[2].varText = (stats.wins+stats.losses)
-	t_statsMenu[3].varText = stats.wins
-	t_statsMenu[4].varText = stats.losses
-	t_statsMenu[5].varText = "WIP"--data.favoriteChar
-	t_statsMenu[6].varText = "WIP"--data.favoriteStage
-	f_getPreferredMode()
 	ts = math.floor((stats.modes.training.playtime%60))
 	tm = math.floor((stats.modes.training.playtime%3600)/60)
 	th = math.floor((stats.modes.training.playtime%86400)/3600)
 	td = math.floor(stats.modes.training.playtime/86400)
 	--practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", td, th, tm, ts)
 	practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes", td, th, tm)
-	t_statsMenu[8].varText = practiceTime
-	t_statsMenu[9].varText = stats.money.." IKC"
+	t_statsMenu[1].varText = timePlayed
+	t_statsMenu[2].varText = practiceTime
+	t_statsMenu[3].varText = stats.money.." IKC"
+	t_statsMenu[4].varText = (stats.wins+stats.losses)
+	t_statsMenu[5].varText = stats.wins
+	t_statsMenu[6].varText = stats.losses
+	t_statsMenu[7].varText = "WIP"--data.favoriteChar
+	t_statsMenu[8].varText = "WIP"--data.favoriteStage
 	if callback then callback() end --To call functions from External Modules
 end
 

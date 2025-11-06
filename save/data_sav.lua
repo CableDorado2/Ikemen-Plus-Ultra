@@ -5,15 +5,15 @@ data.ftcontrol = -1
 --Music Data
 data.menuSong = "Random"
 data.menuSongFolder = 3
-data.selectSong = "sound/system/select/Select 1.mp3"
+data.selectSong = "Random"
 data.selectSongFolder = 4
-data.challengerSong = "sound/system/select/Select Challenger.mp3"
+data.challengerSong = "sound/system/Select Challenger.mp3"
 data.challengerSongFolder = 4
-data.bgmDisplay = false
+data.bgmDisplay = true
 --System Data
-data.language = "ENGLISH"
-data.clock = 3
-data.dateFormat = 6
+data.language = 1
+data.clock = 2
+data.dateFormat = 4
 data.discordPresence = true
 data.attractMode = false
 data.pauseMenuTime = 0
@@ -24,9 +24,9 @@ data.orderSelType = "Cursor"
 data.portraitDisplay = "Mixed"
 data.sffConversion = true
 --Game Data
-data.difficulty = 3
+data.difficulty = 8
 data.roundTime = 99
-data.roundsNum = 2
+data.roundsNum = 1
 data.lifebar = "data/lifebars/winmugen/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"

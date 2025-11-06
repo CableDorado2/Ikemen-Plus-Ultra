@@ -11,11 +11,12 @@ data.challengerSong = "sound/system/select/Select Challenger.mp3"
 data.challengerSongFolder = 4
 data.bgmDisplay = false
 --System Data
-data.language = "ENGLISH"
+data.language = 1
 data.clock = 3
 data.dateFormat = 6
 data.discordPresence = true
 data.attractMode = false
+data.pauseMenuTime = 0
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.serviceType = "Button"
@@ -87,6 +88,10 @@ data.rematchTime = 16
 data.serviceTime = 21
 data.attractTime = 21
 data.destinyTime = 21
+--Replay Data
+data.replayLocal = false
+data.replayOnline = true
+data.replayRanked = true
 --Input Data
 data.disablePadP1 = false
 data.disablePadP2 = false

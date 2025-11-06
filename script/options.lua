@@ -64,6 +64,11 @@ animAddPos(optionsDownArrow, 242, 190)
 animSetScale(optionsDownArrow, 0.5, 0.5)
 animUpdate(optionsDownArrow)
 
+function f_resetOptionArrowsPos()
+animSetPos(optionsUpArrow, 242, 23)
+animSetPos(optionsDownArrow, 242, 190)
+end
+
 --Up Arrow for Player 1 Controls Cfg
 optionsUpArrowP1 = animNew(sprIkemen, [[
 225,0, 0,0, 10
@@ -645,7 +650,7 @@ end
 --Default System Values
 function f_systemDefault()
 	if not onlinegame then
-		data.language = "ENGLISH"
+		data.language = 1
 		data.clock = 1
 		data.dateFormat = 1
 		data.discordPresence = true
@@ -3103,6 +3108,12 @@ for i=1, #t_systemCfg do
 	t_systemCfg[i]['varText'] = ""
 end
 
+local t_languages = { --Not implemented yet
+	"ENGLISH",
+	--"SPANISH",
+	--"JAPANESE",
+}
+
 function f_systemCfg()
 	cmdInput()
 	local cursorPosY = 1
@@ -3114,11 +3125,14 @@ function f_systemCfg()
 	local bufl = 0
 	local maxItems = 12
 	sndPlay(sndSys, 100, 1)
+	animSetPos(optionsUpArrow, 278, 11)
+	animSetPos(optionsDownArrow, 278, 201.5)
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
 				sndPlay(sndSys, 100, 2)
+				f_resetOptionArrowsPos()
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				lockSetting = false
@@ -3133,36 +3147,36 @@ function f_systemCfg()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 		--Language Settings
-			elseif systemCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 1 then
 				if onlinegame then
 					lockSetting = true
 				else
-				--[[
-					if commandGetState(p1Cmd, 'r') and data.language == "ENGLISH" then
-						sndPlay(sndSys, 100, 0)
-						data.language = "SPANISH"
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if commandGetState(p1Cmd, 'r') and data.language < #t_languages then sndPlay(sndSys, 100, 0) end
+						if data.language < #t_languages then
+							data.language = data.language + 1
+						end
 						modified = 1
-						needReload = 1
-					elseif commandGetState(p1Cmd, 'r') and data.language == "SPANISH" then
-						sndPlay(sndSys, 100, 0)
-						data.language = "JAPANESE"
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if commandGetState(p1Cmd, 'l') and data.language > 1 then sndPlay(sndSys, 100, 0) end
+						if data.language > 1 then
+							data.language = data.language - 1
+						end
 						modified = 1
-						needReload = 1
-					elseif commandGetState(p1Cmd, 'l') and data.language == "SPANISH" then
-						sndPlay(sndSys, 100, 0)
-						data.language = "ENGLISH"
-						modified = 1
-						needReload = 1
-					elseif commandGetState(p1Cmd, 'l') and data.language == "JAPANESE" then
-						sndPlay(sndSys, 100, 0)
-						data.language = "SPANISH"
-						modified = 1
-						needReload = 1
 					end
-				]]
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
 				end
 		--Clock Format Display
-			elseif systemCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 2 then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3191,7 +3205,7 @@ function f_systemCfg()
 					end
 				end
 		--Date Format Display
-			elseif systemCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif systemCfg == 3 then
 				if onlinegame then
 					lockSetting = true
 				else
@@ -3413,12 +3427,12 @@ function f_systemCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxsystemCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,180)
+		animSetScale(optionsBG1, 290, maxsystemCfg*15)
+		animSetWindow(optionsBG1, 30,20, 260,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_systemCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3427,7 +3441,7 @@ function f_systemCfg()
 				textImgDraw(t_locked[i].id)
 			end
 		end
-		t_systemCfg[1].varText = data.language
+		t_systemCfg[1].varText = t_languages[data.language]
 		t_systemCfg[2].varText = os.date(t_clockFormats[data.clock].locale)
 		t_systemCfg[3].varText = os.date(t_dateFormats[data.dateFormat])
 		if data.discordPresence then t_systemCfg[4].varText = "Enabled" else t_systemCfg[4].varText = "Disabled" end
@@ -3441,7 +3455,7 @@ function f_systemCfg()
 		for i=1, maxsystemCfg do
 			if i > systemCfg - cursorPosY then
 				local align = 1
-				local posX = 85
+				local posX = 35
 			--Custom Pos for Last items
 				if i == #t_systemCfg or i == #t_systemCfg-1 then
 					align = 0
@@ -3449,7 +3463,7 @@ function f_systemCfg()
 				end
 				if t_systemCfg[i].varID ~= nil then
 					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, align, t_systemCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, -1, t_systemCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, -1, t_systemCfg[i].varText, 286, 15+i*15-moveTxt))
 				end
 			end
 		end

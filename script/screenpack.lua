@@ -955,14 +955,14 @@ txt_statsProgress = createTextImg(jgFnt, 2, 1, "", 208, 13)
 
 t_statsMenu = {
 	{text = "Play Time"},
+	{text = "Training Time"},
+	{text = "In-Game Currency"},
 	{text = "Matchs Played"},
 	{text = "Wins"},
 	{text = "Losses"},
 	{text = "Favorite Character"},
 	{text = "Favorite Stage"},
-	{text = "Preferred Game Mode"},
-	{text = "Training Time"},
-	{text = "In-Game Currency"},
+	{text = "Favorite Game Mode"},
 	{text = "BACK"},
 }
 for i=1, #t_statsMenu do
