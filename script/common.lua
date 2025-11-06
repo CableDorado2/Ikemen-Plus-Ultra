@@ -3568,10 +3568,11 @@ function f_loadLuaMods(bool)
 	end
 --Run the modules that were loaded
 	for _, v in ipairs(t_luaExternalMods) do
-		--require(v.path:gsub('[/\\]+', '.'))
+		--require(v.path:gsub('^%.?/[/\\]+', ''):gsub('[/\\]+', '.'):gsub('%.lua$', '')) --test if is better use this way
 		assert(loadfile(v.path))()
 	end
 end
+if data.debugLog then f_printTable(_VERSION, 'save/debug/LuaVersion.log') end
 require("script.screenpack") --Load screenpack assets
 require("script.options") --Load options script
 --;===========================================================
