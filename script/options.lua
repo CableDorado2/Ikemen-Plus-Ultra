@@ -45,7 +45,7 @@ optionsUpArrow = animNew(sprIkemen, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(optionsUpArrow, 242, 23)
+animAddPos(optionsUpArrow, 228, 11)
 animSetScale(optionsUpArrow, 0.5, 0.5)
 animUpdate(optionsUpArrow)
 
@@ -60,13 +60,18 @@ optionsDownArrow = animNew(sprIkemen, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(optionsDownArrow, 242, 190)
+animAddPos(optionsDownArrow, 228, 201.5)
 animSetScale(optionsDownArrow, 0.5, 0.5)
 animUpdate(optionsDownArrow)
 
 function f_resetOptionArrowsPos()
-animSetPos(optionsUpArrow, 242, 23)
-animSetPos(optionsDownArrow, 242, 190)
+animSetPos(optionsUpArrow, 228, 11)
+animSetPos(optionsDownArrow, 228, 201.5)
+end
+
+function f_resetOptionSysArrowPos()
+animSetPos(optionsUpArrow, 278, 11)
+animSetPos(optionsDownArrow, 278, 201.5)
 end
 
 --Up Arrow for Player 1 Controls Cfg
@@ -1478,7 +1483,7 @@ function f_mainCfg()
 				moveTxt = (mainCfg - maxItems) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (mainCfg - 1) * 15
-			end	
+			end
 			if #t_mainCfg <= maxItems then
 				maxMainCfg = #t_mainCfg
 			elseif mainCfg - cursorPosY > 0 then
@@ -1590,6 +1595,7 @@ function f_netplayCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--
 	local onlinePort = ""
 	local portEdit = false
@@ -1599,7 +1605,7 @@ function f_netplayCfg()
 	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen and editDone then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -1654,8 +1660,7 @@ function f_netplayCfg()
 				defaultScreen = true
 		--BACK
 			elseif netplayCfg == #t_netplayCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if netplayCfg < 1 then
 				netplayCfg = #t_netplayCfg
@@ -2023,9 +2028,10 @@ function f_lobbyCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--sndPlay(sndSys, 100, 1)
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 			sndPlay(sndSys, 100, 2)
 			lockSetting = false
 			break
@@ -2074,8 +2080,7 @@ function f_lobbyCfg()
 			lockSetting = true
 	--BACK
 		elseif lobbyCfg == #t_lobbyCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-			sndPlay(sndSys, 100, 2)
-			break
+			back = true
 		end
 		if lobbyCfg < 1 then
 			lobbyCfg = #t_lobbyCfg
@@ -2199,10 +2204,11 @@ function f_gameCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 				sndPlay(sndSys, 100, 2)
 				break
@@ -2446,8 +2452,7 @@ function f_gameCfg()
 				defaultScreen = true
 		--BACK
 			elseif gameCfg == #t_gameCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if gameCfg < 1 then
 				gameCfg = #t_gameCfg
@@ -2584,10 +2589,11 @@ function f_teamCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -2762,8 +2768,7 @@ function f_teamCfg()
 				defaultScreen = true
 		--BACK
 			elseif teamCfg == #t_teamCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if teamCfg < 1 then
 				teamCfg = #t_teamCfg
@@ -2883,10 +2888,11 @@ function f_zoomCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -2990,8 +2996,7 @@ function f_zoomCfg()
 				defaultScreen = true
 		--BACK
 			elseif zoomCfg == #t_zoomCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if zoomCfg < 1 then
 				zoomCfg = #t_zoomCfg
@@ -3124,12 +3129,12 @@ function f_systemCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	sndPlay(sndSys, 100, 1)
-	animSetPos(optionsUpArrow, 278, 11)
-	animSetPos(optionsDownArrow, 278, 201.5)
+	f_resetOptionSysArrowPos()
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				lockSetting = false
 				sndPlay(sndSys, 100, 2)
 				f_resetOptionArrowsPos()
@@ -3367,19 +3372,31 @@ function f_systemCfg()
 		--Character Select Settings
 			elseif systemCfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
+				f_resetOptionArrowsPos()
 				f_selectCfg()
+				f_resetOptionSysArrowPos()
 		--Stage Select Settings
 			elseif systemCfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
+				f_resetOptionArrowsPos()
 				f_stageCfg()
+				f_resetOptionSysArrowPos()
 		--Timers Settings
 			elseif systemCfg == 14 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
+				f_resetOptionArrowsPos()
 				f_timeCfg()
+				f_resetOptionSysArrowPos()
 		--Replay Settings
 			elseif systemCfg == 15 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 1)
-				f_replayCfg()
+				if onlinegame then
+					lockSetting = true
+				else
+					sndPlay(sndSys, 100, 1)
+					f_resetOptionArrowsPos()
+					f_replayCfg()
+					f_resetOptionSysArrowPos()
+				end
 		--System Songs Settings
 			elseif systemCfg == 16 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				if onlinegame then
@@ -3387,6 +3404,7 @@ function f_systemCfg()
 				else
 					sndPlay(sndSys, 100, 1)
 					f_songCfg()
+					f_resetOptionSysArrowPos()
 				end
 		--Default Values
 			elseif systemCfg == #t_systemCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
@@ -3395,8 +3413,7 @@ function f_systemCfg()
 				defaultScreen = true
 		--BACK
 			elseif systemCfg == #t_systemCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if systemCfg < 1 then
 				systemCfg = #t_systemCfg
@@ -3526,10 +3543,11 @@ function f_selectCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -3641,8 +3659,7 @@ function f_selectCfg()
 				defaultScreen = true
 		--BACK
 			elseif selectCfg == #t_selectCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if selectCfg < 1 then
 				selectCfg = #t_selectCfg
@@ -3802,7 +3819,7 @@ rosterCfgUpArrow = animNew(sprIkemen, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(rosterCfgUpArrow, 242, 23)
+animAddPos(rosterCfgUpArrow, 228, 10)
 animSetScale(rosterCfgUpArrow, 0.5, 0.5)
 animUpdate(rosterCfgUpArrow)
 
@@ -3817,7 +3834,7 @@ rosterCfgDownArrow = animNew(sprIkemen, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(rosterCfgDownArrow, 242, 40)
+animAddPos(rosterCfgDownArrow, 228, 52)
 animSetScale(rosterCfgDownArrow, 0.5, 0.5)
 animUpdate(rosterCfgDownArrow)
 
@@ -3828,6 +3845,7 @@ function f_rosterCfg()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local rosterCfg = 1
+	local back = false
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -3836,7 +3854,7 @@ function f_rosterCfg()
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if defaultScreen == false and editDone then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -4627,8 +4645,7 @@ function f_rosterCfg()
 		]]
 		--BACK
 			elseif rosterCfg == #t_rosterCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if rosterCfg < 1 then
 				rosterCfg = #t_rosterCfg
@@ -4874,10 +4891,11 @@ function f_stageCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -4982,8 +5000,7 @@ function f_stageCfg()
 				defaultScreen = true
 		--BACK
 			elseif stageCfg == #t_stageCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if stageCfg < 1 then
 				stageCfg = #t_stageCfg
@@ -5101,10 +5118,11 @@ function f_timeCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -5327,8 +5345,7 @@ function f_timeCfg()
 				defaultScreen = true
 		--BACK
 			elseif timeCfg == #t_timeCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if timeCfg < 1 then
 				timeCfg = #t_timeCfg
@@ -5445,10 +5462,11 @@ function f_replayCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -5483,8 +5501,7 @@ function f_replayCfg()
 				defaultScreen = true
 		--BACK
 			elseif replayCfg == #t_replayCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if replayCfg < 1 then
 				replayCfg = #t_replayCfg
@@ -5626,13 +5643,15 @@ function f_songCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	songCfg = 1 --To recognize f_setCfgSong()
 	--sndPlay(sndSys, 100, 1)
+	animSetPos(optionsUpArrow, 307, 11)
+	animSetPos(optionsDownArrow, 307, 201.5)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
-				--if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -5672,9 +5691,7 @@ function f_songCfg()
 				defaultScreen = true
 		--BACK
 			elseif songCfg == #t_songCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				--if data.attractMode then playBGM(bgmTitle) else	f_menuMusic() end
-				break
+				back = true
 			end
 		--Setting Menu Logic
 			if songCfg < 1 then
@@ -5707,7 +5724,7 @@ function f_songCfg()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG2, 320, maxsongCfg*15)
-		animSetWindow(optionsBG2, 2,20, 316.5,210)
+		animSetWindow(optionsBG2, 2,20, 316.5,180)
 		animDraw(optionsBG2)
 		textImgDraw(txt_songCfg)
 		if not defaultScreen then
@@ -5796,10 +5813,11 @@ function f_audioCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -6029,8 +6047,7 @@ function f_audioCfg()
 				defaultScreen = true
 		--BACK
 			elseif audioCfg == #t_audioCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if audioCfg < 1 then
 				audioCfg = #t_audioCfg
@@ -6154,10 +6171,11 @@ function f_engineCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	sndPlay(sndSys, 100, 1)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				lockSetting = false
 				sndPlay(sndSys, 100, 2)
 				break
@@ -6330,8 +6348,7 @@ function f_engineCfg()
 				defaultScreen = true
 		--BACK
 			elseif engineCfg == #t_engineCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if engineCfg < 1 then
 				engineCfg = #t_engineCfg
@@ -6483,6 +6500,7 @@ function f_videoCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	updateVars = true
 	f_setVideoVars()
 	sndPlay(sndSys, 100, 1)
@@ -6520,7 +6538,7 @@ function f_videoCfg()
 		end
 	]]
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				sndPlay(sndSys, 100, 2)
 				lockSetting = false
 				break
@@ -6693,8 +6711,7 @@ function f_videoCfg()
 				defaultScreen = true
 		--BACK
 			elseif videoCfg == #t_videoCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 			if videoCfg < 1 then
 				videoCfg = #t_videoCfg
@@ -6903,8 +6920,9 @@ function f_resCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 			sndPlay(sndSys, 100, 2)
 			break
 		end
@@ -6921,8 +6939,7 @@ function f_resCfg()
 		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 		--BACK
 			if resCfg == #t_resCfg then
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 		--Resolutions Menu
 			else
 				sndPlay(sndSys, 100, 1)
@@ -7011,6 +7028,7 @@ function f_resCfgSet(t, title)
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	local t_aspectRatio = t
 	local title = title
 	for i=1, #t_aspectRatio do
@@ -7020,7 +7038,7 @@ function f_resCfgSet(t, title)
 		end
 	end
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 			sndPlay(sndSys, 100, 2)
 			return false
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -7059,8 +7077,7 @@ function f_resCfgSet(t, title)
 		end
 		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			if resCfgSet == #t_aspectRatio then
-				sndPlay(sndSys, 100, 2)
-				return false
+				back = true
 			else
 				sndPlay(sndSys, 100, 1)
 				resolutionWidth = t_aspectRatio[resCfgSet].x
@@ -7150,13 +7167,17 @@ function f_inputCfg()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	f_defaultReset()
 	padTester = 0
 	padTesterActive = false
 	sndPlay(sndSys, 100, 1)
+	animSetPos(optionsUpArrow, 240, 11)
+	animSetPos(optionsDownArrow, 240, 201.5)
 	while true do
 		if not defaultScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
+				f_resetOptionArrowsPos()
 				sndPlay(sndSys, 100, 2)
 				break
 			end
@@ -7174,6 +7195,7 @@ function f_inputCfg()
 			--Keyboard Config
 				if inputCfg == 1 then
 					sndPlay(sndSys, 100, 1)
+					f_resetOptionArrowsPos()
 					f_keyMenu()
 			--Gamepad Config
 				elseif inputCfg == 2 then
@@ -7232,13 +7254,13 @@ function f_inputCfg()
 					defaultScreen = true
 			--BACK
 				else
-					sndPlay(sndSys, 100, 2)
-					break
+					back = true
 				end
 				--if inputCfg == 3 or inputCfg == 4 then disableGamepad(data.disablePadP1,data.disablePadP2) end
 			end
 			if padTester > 20 then
 				if getInputID(data.p1Gamepad) == 101 and getInputID(data.p2Gamepad) == 101 then
+					f_resetOptionArrowsPos()
 					f_joyMenu()
 				else
 					f_tempWarning()
@@ -7548,8 +7570,9 @@ function f_keyMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 			sndPlay(sndSys, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -7578,8 +7601,7 @@ function f_keyMenu()
 				f_keyMenuCfg(0, -1)
 		--BACK
 			else
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 		end
 		if keyMenu < 1 then
@@ -7716,8 +7738,9 @@ function f_joyMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local back = false
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 			sndPlay(sndSys, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -7748,8 +7771,7 @@ function f_joyMenu()
 				--f_keyMenuCfg(3, data.p2Gamepad)
 		--BACK
 			else
-				sndPlay(sndSys, 100, 2)
-				break
+				back = true
 			end
 		end
 		if joyMenu < 1 then
