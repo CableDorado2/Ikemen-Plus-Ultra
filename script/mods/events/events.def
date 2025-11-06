@@ -14,3 +14,10 @@ path = script/mods/events/event2.lua
 time = net
 hourstart = 18
 hourdeadline = 22
+
+[Event 3]
+id = event3
+
+[Event 4]
+id = event4
+unlock = false

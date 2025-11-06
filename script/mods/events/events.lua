@@ -9,8 +9,8 @@ local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_extrasMenu,5,{text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
-local txt_localTime = createTextImg(jgFnt, 0, -1, "", 318, 9)
-local txt_internetTime = createTextImg(jgFnt, 0, -1, "", 318, 20)
+local txt_localTime = createTextImg(font15, 0, 1, "", 1, 8)
+local txt_internetTime = createTextImg(font15, 0, 1, "", 1, 20)
 
 local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 51)
 local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 51)
@@ -500,10 +500,10 @@ function f_eventMenu()
 		textImgDraw(txt_eventMenu)
 		textImgSetText(txt_eventProgress,"["..f_getProgress(stats.modes.event, t_events, "percentage").."%]")
 		textImgDraw(txt_eventProgress)
-		textImgSetText(txt_localTime, "LOCAL TIME: "..os.date(t_dateFormats[data.dateFormat]).."/"..os.date(t_clockFormats[data.clock].locale))
+		textImgSetText(txt_localTime, "LOCAL TIME: "..os.date(t_dateFormats[data.dateFormat]).." | "..os.date(t_clockFormats[data.clock].locale))
 		textImgDraw(txt_localTime)
 		if currentNetTime ~= nil then
-			netInfoTimeTxt = netDate.."/"..netTime
+			netInfoTimeTxt = netDate.." | "..netTime
 		else
 			netInfoTimeTxt = "UNAVAILABLE"
 		end
@@ -563,7 +563,7 @@ function f_eventMenu()
 		else
 		--An Unlock Condition is required to play the event
 			if t_unlockLua.modes[t_events[eventMenu].id] ~= nil then
-				previewInfotxt = "AN UNLOCK CONDITION IS REQUIRED TO PLAY THIS EVENT"
+				previewInfotxt = "UNLOCK CONDITION IS REQUIRED TO PLAY THIS EVENT"
 		--It's Not the Start Time yet
 			else
 			--Show Start Time Countdown --Falta hacer lo mismo con la Deadline date
