@@ -9,13 +9,16 @@ local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
 table.insert(t_extrasMenu,5,{text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
-local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 115, 10)
-local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 122, 10)
-local txt_localTime = createTextImg(jgFnt, 0, -1, "", 318, 10)
+local txt_localTime = createTextImg(jgFnt, 0, -1, "", 318, 9)
 local txt_internetTime = createTextImg(jgFnt, 0, -1, "", 318, 20)
-local txt_eventNoInternet = createTextImg(jgFnt, 5, 0, txt_noInternet, 160, 105, 0.7, 0.7)
+
+local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 51)
+local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 51)
+
 local txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
 local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "", 159, 117, 0.6,0.6)
+local txt_eventNoInternet = createTextImg(jgFnt, 5, 0, txt_noInternet, 160, 105, 0.7, 0.7)
+
 local txt_eventCancel = "EVENT TIME UNAVAILABLE"
 local txt_eventStatsData = "Events Completed"
 
@@ -23,10 +26,10 @@ local txt_eventIncomplete = "INCOMPLETE"
 local txt_eventClear = "COMPLETED"
 
 local padlockEventPosX = -83 --Padlock Position for Events Menu
-local padlockEventPosY = 86
+local padlockEventPosY = 90
 
 local eventCommonPosX = -95 --Allow set common pos for all previews
-local eventCommonPosY = 61
+local eventCommonPosY = 64
 
 local eventCommonScaleX = 1.1 --Allow set common scale for all previews
 local eventCommonScaleY = 1.1
@@ -43,7 +46,7 @@ animUpdate(eventBG1)
 local eventBG2 = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
-animSetPos(eventBG2, 3, 49)
+animSetPos(eventBG2, 3, 53)
 animSetAlpha(eventBG2, 20, 100)
 animUpdate(eventBG2)
 
@@ -52,7 +55,7 @@ local eventSlot = animNew(sprIkemen, [[
 30,0, 0,0, -1
 ]])
 eventSlotPosX = -100
-eventSlotPosY = 51
+eventSlotPosY = 54
 
 eventSlotScaleX = 1
 eventSlotScaleY = 1
@@ -110,7 +113,6 @@ local function f_eventLocked()
 --Draw Title
 	textImgDraw(txt_lockedinfoTitle)
 --Draw Info
-	--textImgDraw(txt_lockedInfo)
 	f_textRender(txt_lockedInfo, "EVENT NOT AVAILABLE\nTRY LATER", 0, 159, 117, 10, 0, 50)
 --Draw Input Hints Panel
 	drawInfoEventInputHints()
@@ -414,6 +416,7 @@ function f_eventMenu()
 	local previewInfotxt = nil
 	local previewTransS = nil
 	local previewTransD = nil
+	local netInfoTimeTxt = nil
 	f_eventLockedReset()
 	f_resetEventArrowsPos()
 	f_unlock(false)
@@ -491,21 +494,24 @@ function f_eventMenu()
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Event Title Transparent BG
 		animSetScale(eventBG1, 319.5, 94)
-		animSetWindow(eventBG1, 0,21, 320,22)
+		animSetWindow(eventBG1, 0,22, 320,20)
 		animDraw(eventBG1)
 	--Draw Title Menu
 		textImgDraw(txt_eventMenu)
 		textImgSetText(txt_eventProgress,"["..f_getProgress(stats.modes.event, t_events, "percentage").."%]")
 		textImgDraw(txt_eventProgress)
-		textImgSetText(txt_localTime, "LOCAL:"..os.date(t_clockFormats[data.clock].locale))
+		textImgSetText(txt_localTime, "LOCAL TIME: "..os.date(t_dateFormats[data.dateFormat]).."/"..os.date(t_clockFormats[data.clock].locale))
 		textImgDraw(txt_localTime)
 		if currentNetTime ~= nil then
-			textImgSetText(txt_internetTime, "INTERNET:"..netTime)
-			textImgDraw(txt_internetTime)
+			netInfoTimeTxt = netDate.."/"..netTime
+		else
+			netInfoTimeTxt = "UNAVAILABLE"
 		end
+		textImgSetText(txt_internetTime, "SERVER TIME: "..netInfoTimeTxt)
+		textImgDraw(txt_internetTime)
 	--Draw Content Transparent BG
 		animSetScale(eventBG2, 318, 154)
-		animSetWindow(eventBG2, 3,49, 314,154)
+		animSetWindow(eventBG2, 3,51, 314,154)
 		animDraw(eventBG2)
 	--Set Scroll Logic
 		for i=1, maxEvents do
@@ -521,7 +527,7 @@ function f_eventMenu()
 				end
 			--Draw Text for Event Status
 				if t_events[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_events[i].txtID, jgFnt, bank, 0, t_events[i].status, -50.5+i*105-moveTxt, 213)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+					textImgDraw(f_updateTextImg(t_events[i].txtID, jgFnt, bank, 0, t_events[i].status, -50.5+i*105-moveTxt, 215)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
 				if f_checkEvent(t_events[i].time, f_getTimeDat("start", i), f_getTimeDat("deadline", i)) and t_unlockLua.modes[t_events[i].id] == nil then --If the event is unlocked
@@ -547,7 +553,7 @@ function f_eventMenu()
 		end
 	--Draw Event Cursor
 		if not eventLocked and not netTimeInfoScreen then
-			animSetWindow(cursorBox, -100+cursorPosX*104.5,51, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+			animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end

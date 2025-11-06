@@ -2706,8 +2706,8 @@ function f_loadNetTimeLuaSocket()
 			--local datetime_str = decoded.datetime --Alternative
 		--Separate Date and Time
 			local date_part, time_part = datetime_str:match("^(%d+-%d+-%d+)T(%d+:%d+)")
-			--netTime = "Hour: " .. time_part
-			netDate = "Date: " .. date_part
+			--netTime = time_part
+			--netDate = date_part
 		--Convert time_part to hour in UTC format
 			local h, m, s = time_part:match("^(%d+):(%d+):?(%d*)")
 			s = s ~= "" and tonumber(s) or 0
@@ -2731,6 +2731,7 @@ function f_loadNetTimeLuaSocket()
 			netMinutes = tonumber(os.date("%M", currentNetTime))
 			netSeconds = tonumber(os.date("%S", currentNetTime))
 			netTime = os.date(t_clockFormats[data.clock].locale, currentNetTime)
+			netDate = os.date(t_dateFormats[data.dateFormat], currentNetTime)
 			return true
 	--Can't decode JSON
 		else
@@ -2797,7 +2798,8 @@ function f_loadNetTimeLuaCurl()
 				local datetime_str = decoded.currentDateTime --Example: "2025-10-09T14:23Z"
 			--Separate Date and Time
 				local date_part, time_part = datetime_str:match("^(%d+-%d+-%d+)T(%d+:%d+)")
-				netDate = "Date: " .. date_part
+				--netTime = time_part
+				--netDate = date_part
 			--Convert time_part to hour in UTC format
 				local h, m, s = time_part:match("^(%d+):(%d+):?(%d*)")
 				s = s ~= "" and tonumber(s) or 0
@@ -2821,6 +2823,7 @@ function f_loadNetTimeLuaCurl()
 				netMinutes = tonumber(os.date("%M", currentNetTime))
 				netSeconds = tonumber(os.date("%S", currentNetTime))
 				netTime = os.date(t_clockFormats[data.clock].locale, currentNetTime)
+				netDate = os.date(t_dateFormats[data.dateFormat], currentNetTime)
 				easy:close()
 				return true
 		--Can't Decode JSON
