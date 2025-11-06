@@ -250,8 +250,13 @@ local function f_createEventDat()
 end
 
 local function f_loadEvents()
-t_events = {}
-local file = io.open(eventDef, "r")
+textImgSetText(txt_loading, "LOADING EVENTS...")
+textImgDraw(txt_loading)
+refresh()
+f_resetNetTimeVars()
+loadNetTime() --Required to set netYear, netMonth and netDay vars
+	t_events = {}
+	local file = io.open(eventDef, "r")
 	if file ~= nil then
 		local section = 0
 		local row = 0
@@ -274,18 +279,6 @@ local file = io.open(eventDef, "r")
 					txtID = textImgNew(),
 					info = "???",
 					time = "local", --use local time if is not defined
-					yearstart = sysYear,
-					yeardeadline = sysYear,
-					monthstart = sysMonth,
-					monthdeadline = sysMonth,
-					daystart = sysDay,
-					daydeadline = sysDay,
-					hourstart = "01", --sysHour,
-					hourdeadline = "24", --sysHour,
-					minutestart = "00", --sysMinutes,
-					minutedeadline = "59", --sysMinutes,
-					secondstart = "0", --sysSeconds,
-					seconddeadline = "59", --sysSeconds,
 					unlock = "true"
 				}
 		--Extra section
@@ -309,15 +302,61 @@ local file = io.open(eventDef, "r")
 				end
 			end
 		end
-		f_createEventDat()
-		for _, v in ipairs(t_events) do --Send Events Unlock Condition to t_unlockLua table
-			t_unlockLua.modes[v.id] = v.unlock
+	--Set Date/Clock values
+		for _, event in ipairs(t_events) do
+		--Use local time by default
+			local yearIni = sysYear
+			local yearEnd = sysYear --sysYear+1
+			local monthIni = sysMonth
+			local monthEnd = sysMonth --Dec
+			local dayIni = sysDay
+			local dayEnd = sysDay --30
+			local hourIni = "01" --sysHour
+			local hourEnd = "24"
+			local minuteIni = "00" --sysMinutes
+			local minuteEnd = "59"
+			local secondIni = "0" --sysSeconds
+			local secondEnd = "59"
+		--Update all previous var using internet time ONLY if event "time" is set as "net"
+			if event.time:lower() == "net" then
+			--If can't connect to internet then use local "sys" values to avoid issues with f_checkEvent() function
+				yearIni = netYear or sysYear
+				yearEnd = netYear or sysYear
+				monthIni = netMonth or sysMonth
+				monthEnd = netMonth or sysMonth
+				dayIni = netDay or sysDay
+				dayEnd = netDay or sysDay
+				hourIni = "01"
+				hourEnd = "24"
+				minuteIni = "00"
+				minuteEnd = "59"
+				secondIni = "0"
+				secondEnd = "59"
+			end
+		--Update fields that was not found in events.def file
+			event.yearstart = event.yearstart or yearIni
+			event.yeardeadline = event.yeardeadline or yearEnd
+			
+			event.monthstart = event.monthstart or monthIni
+			event.monthdeadline = event.monthdeadline or monthEnd
+			
+			event.daystart = event.daystart or dayIni
+			event.daydeadline = event.daydeadline or dayEnd
+			
+			event.hourstart = event.hourstart or hourIni
+			event.hourdeadline = event.hourdeadline or hourEnd
+			
+			event.minutestart = event.minutestart or minuteIni
+			event.minutedeadline = event.minutedeadline or minuteEnd
+			
+			event.secondstart = event.secondstart or secondIni
+			event.seconddeadline = event.seconddeadline or secondEnd
+		--Send Events Unlock Condition to t_unlockLua table
+			t_unlockLua.modes[event.id] = event.unlock
 		end
+		f_createEventDat()
 		f_updateUnlocks()
 		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
-		textImgSetText(txt_loading, "LOADING EVENTS...")
-		textImgDraw(txt_loading)
-		refresh()
 	end
 end
 f_loadEvents() --Loads when engine starts

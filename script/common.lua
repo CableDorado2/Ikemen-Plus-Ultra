@@ -2753,15 +2753,15 @@ end
 
 --[[
 local easy = curl.easy()
-local url_Test = "http://example.com"
-easy:setopt(curl.OPT_URL, url_Test)
+local url = "http://example.com"
+easy:setopt(curl.OPT_URL, url)
 easy:setopt(curl.OPT_CONNECTTIMEOUT, 10) 
 local res = easy:perform()
 if res then
-	local http_code = easy:getinfo(curl.INFO_RESPONSE_CODE)
+	local httpCode = easy:getinfo(curl.INFO_RESPONSE_CODE)
 	--print("Success.")
-	--print("URL: " .. url_Test)
-	--print("Code HTTP: " .. tostring(http_code))
+	--print("URL: " .. url)
+	--print("Code HTTP: " .. tostring(httpCode))
 else
 	local err_code = easy:getinfo(curl.EASY_RESULT) or -1 
 	--print("Failed.")
@@ -2773,9 +2773,9 @@ easy:close()
 
 function f_loadNetTimeLuaCurl()
 	local response_body = {}
-	local url_api = "http://worldclockapi.com/api/json/utc/now"
+	local url = "http://worldclockapi.com/api/json/utc/now"
 	local easy = curl.easy()
-	easy:setopt(curl.OPT_URL, url_api)
+	easy:setopt(curl.OPT_URL, url)
 	easy:setopt(curl.OPT_CONNECTTIMEOUT, 10) --Set wait time for connection
 	local ok, err_code, err_msg = easy:perform({
 		writefunction = function(str)
