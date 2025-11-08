@@ -3218,15 +3218,16 @@ end
 
 --General Sections
 function init_generalStats()
-if stats.firstRun == nil or data.erase then stats.firstRun = true end
-if stats.playtime == nil or data.erase then stats.playtime = 0 end
-if stats.money == nil or data.erase then stats.money = 0 end
-if stats.continueCount == nil or data.erase then stats.continueCount = 0 end
-if stats.wins == nil or data.erase then stats.wins = 0 end
-if stats.losses == nil or data.erase then stats.losses = 0 end
-if stats.characters == nil or data.erase then stats.characters = {} end --To store times used for favorite chars stats
-if stats.stages == nil or data.erase then stats.stages = {} end --To store times used for favorite stages stats
-if stats.modes == nil or data.erase then
+if data.erase then stats = {} end --Reset Data
+if stats.firstRun == nil then stats.firstRun = true end
+if stats.playtime == nil then stats.playtime = 0 end
+if stats.money == nil then stats.money = 0 end
+if stats.continueCount == nil then stats.continueCount = 0 end
+if stats.wins == nil then stats.wins = 0 end
+if stats.losses == nil then stats.losses = 0 end
+if stats.characters == nil then stats.characters = {} end --To store times used for favorite chars stats
+if stats.stages == nil then stats.stages = {} end --To store times used for favorite stages stats
+if stats.modes == nil then
 	stats.modes = {}
 	
 	stats.modes.arcade = {}
@@ -3325,7 +3326,7 @@ if stats.modes == nil or data.erase then
 	stats.modes.watch = {}
 	stats.modes.watch.playtime = 0
 end
-if stats.vault == nil or data.erase then stats.vault = "Ultra" end
+
 end
 
 abyssDat.default = { --For some reason cannot re-use t_abyssDefaultSave table because nosave data is copy to abyssDat.default when delete data...
@@ -3390,11 +3391,11 @@ if stats.unlocks == nil or data.erase then --If unlocks section does not exists
 	stats.unlocks.abyss = {} --Create space for abyss shop items
 end
 --If Character Unlock Data does not exists, create it:
-if stats.unlocks.chars.gouki == nil or data.erase then stats.unlocks.chars.gouki = false end
+if stats.unlocks.chars.gouki == nil then stats.unlocks.chars.gouki = false end
 --if stats.unlocks.chars.charname == nil then stats.unlocks.chars.charname = false end
 
 --If Stage Unlock Data does not exists, create it:
---if stats.unlocks.stages.stagename == nil or data.erase then stats.unlocks.stages.stagename = false end
+--if stats.unlocks.stages.stagename == nil then stats.unlocks.stages.stagename = false end
 end
 
 t_hooks = {}
