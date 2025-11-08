@@ -1477,7 +1477,10 @@ function f_vnMenu()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 12
+	local visualnovelSelText = nil
 	f_resetListArrowsPos()
+	f_unlock(false)
+	f_updateUnlocks()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 	--Select Menu Actions
@@ -1494,11 +1497,20 @@ function f_vnMenu()
 			vnMenu = vnMenu + 1
 	--Start Visual Novel Selected
 		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-			data.vnNo = vnMenu
-			f_vnMain(t_selVN[vnMenu].path)
-		--When Ends
-			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-			f_menuMusic()
+		--STORY AVAILABLE
+			if t_unlockLua.modes[t_selVN[vnMenu].id] == nil then --If the story is unlocked
+				data.vnNo = vnMenu
+				f_vnMain(t_selVN[vnMenu].path)
+			--When Ends
+				f_visualnovelStatus()
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
+				f_menuMusic()
+				f_unlock(false)
+				f_updateUnlocks()
+		--STORY LOCKED
+			else
+				sndPlay(sndIkemen, 200, 0)
+			end
 		end
 	--Menu Scroll Logic
 		if vnMenu < 1 then
@@ -1544,9 +1556,15 @@ function f_vnMenu()
 			else
 				visualnovelSelText = t_selVN[i].displayname
 			end
+			if t_unlockLua.modes[t_selVN[i].id] == nil then
+				visualnovelSelText = t_selVN[i].displayname
+			else
+				visualnovelSelText = "???"
+			end
 			if i > vnMenu - cursorPosY then
-				t_selVN[i].id = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
-				textImgDraw(t_selVN[i].id)
+				if t_selVN[i].txtID ~= nil then
+					textImgDraw(f_updateTextImg(t_selVN[i].txtID, font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt))
+				end
 			end
 		end
 		if maxVN > maxItems then
