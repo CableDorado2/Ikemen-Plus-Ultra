@@ -3329,14 +3329,52 @@ function f_records()
 	]]
 end
 
-function f_favoriteChar()
-	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic with stats.json
+function f_favoriteContent(t_playerChars, stageNo)
+--Store Characters Times Used
+	--if data.p1SelectMenu then --Save only in game modes where character select menu is enabled
+	for i=1, #t_playerChars do
+		if stats.characters[t_playerChars[i].path] == nil then
+			stats.characters[t_playerChars[i].path] = {used = 0}
+		end
+		stats.characters[t_playerChars[i].path].used = stats.characters[t_playerChars[i].path].used + 1
+	end
+--Store Stage Times Used
+	if data.stageMenu then --Save only in game modes where stage select menu is enabled
+		if stats.stages[t_selStages[stageNo].stage] == nil then
+			stats.stages[t_selStages[stageNo].stage] = {used = 0}
+		end
+		stats.stages[t_selStages[stageNo].stage].used = stats.stages[t_selStages[stageNo].stage].used + 1
+	end
 	f_saveStats()
 end
 
-function f_favoriteStage()
-	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with stats.json
-	f_saveStats()
+function f_getFavoriteContent(section)
+	local t = nil
+	local statsItem = nil --To set t_statsMenu item
+	local contentName = nil --Most used content name
+	local maxUsed = -1 --Most high "used" value
+	if section == "chars" then
+		t = stats.characters
+		statsItem = 7
+	elseif section == "stages" then
+		t = stats.stages
+		statsItem = 8
+	end
+	for name, v in pairs(t) do
+		if v and v.used and v.used > maxUsed then
+			maxUsed = v.used
+			if section == "chars" then
+				contentName = t_selChars[t_charDef[name]+1].displayname
+			elseif section == "stages" then
+				contentName = t_selStages[t_stageDef[name]].name
+			end
+		end
+	end
+	if contentName and maxUsed > 0 then
+		t_statsMenu[statsItem].varText = contentName
+	else
+		t_statsMenu[statsItem].varText = "None"
+	end
 end
 
 function f_gameState()
@@ -3503,7 +3541,6 @@ function f_getStats(callback)
 	textImgSetText(txt_statsMenu,"" .. data.userName .. " PROGRESS:")
 	textImgSetText(txt_statsProgress,"["..gameData.."%]")
 --Get Stats Info
-	f_getPreferredMode()
 	s = math.floor((stats.playtime%60))
 	m = math.floor((stats.playtime%3600)/60)
 	h = math.floor((stats.playtime%86400)/3600)
@@ -3522,8 +3559,9 @@ function f_getStats(callback)
 	t_statsMenu[4].varText = (stats.wins+stats.losses)
 	t_statsMenu[5].varText = stats.wins
 	t_statsMenu[6].varText = stats.losses
-	t_statsMenu[7].varText = "WIP"--data.favoriteChar
-	t_statsMenu[8].varText = "WIP"--data.favoriteStage
+	f_getFavoriteContent("chars")
+	f_getFavoriteContent("stages")
+	f_getPreferredMode()
 	if callback then callback() end --To call functions from External Modules
 end
 
@@ -12574,12 +12612,14 @@ function f_loading(quickLoad)
 			f_selectChar(1, data.t_p1selected)
 			f_selectChar(2, data.t_p2selected)
 			if data.coop then coop = "Local Multiplayer" end
-			if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				playerSide = data.t_p2selected
+				if p2teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 			else
 				playerSide = data.t_p1selected
+				if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 			end
+			f_favoriteContent(playerSide, stageNo)
 			f_discordUpdate({
 				largeImageKey = t_selStages[stageNo].discordkey, largeImageText = "Stage: "..t_selStages[stageNo].name,
 				smallImageKey = playerSide[1].discordkey, smallImageText = teamChar..playerSide[1].displayname,
@@ -14209,8 +14249,6 @@ if validCells() then
 			if data.gameMode == "versus" then
 			--BACK TO MAIN MENU
 				if battleOption == 4 or battleOption2 == 4 then
-					f_favoriteChar() --Store Favorite Character (WIP)
-					f_favoriteStage() --Store Favorite Stage (WIP)
 					f_resetMenuArrowsPos()
 					f_resetMenuInputs()
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -14327,8 +14365,6 @@ if validCells() then
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
 		f_modePlaytime()
-		f_favoriteChar() --Store Favorite Character (WIP)
-		f_favoriteStage() --Store Favorite Stage (WIP)
 		f_unlock(false)
 		f_updateUnlocks()
 		f_resetP2CoopInput()
@@ -15241,7 +15277,6 @@ if validCells() then
 		serviceTimer = serviceSeconds*gameTick
 		destinyTimer = destinySeconds*gameTick
 		f_modePlaytime() --Store Favorite Game Mode
-		f_favoriteChar() --Store Favorite Character (WIP)
 		f_records() --save record progress
 		f_unlock(false)
 		f_updateUnlocks()
@@ -16802,8 +16837,6 @@ if validCells() then
 			stageTimer = stageSeconds*gameTick
 			rematchTimer = rematchSeconds*gameTick
 			serviceTimer = serviceSeconds*gameTick
-			--f_favoriteChar() --Store Favorite Character (WIP)
-			--f_favoriteStage() --Store Favorite Stage (WIP)
 			f_unlock(false)
 			f_updateUnlocks()
 		--Victory Screen

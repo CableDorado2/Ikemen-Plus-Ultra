@@ -426,8 +426,7 @@ if validCells() then
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
-		--f_favoriteChar() --Store Favorite Character (WIP)
-		--f_favoriteStage() --Store Favorite Stage (WIP)
+		f_modePlaytime() --Store Favorite Game Mode
 		f_unlock(false)
 		f_updateUnlocks()
 		f_resetP2CoopInput()
