@@ -9,7 +9,7 @@ It's meant to be a reference for adding parameters to your own vnselect.def file
 
 Load chapters with all data (text, sounds, etc..) for Visual Novel Game Mode.
 Visual Novels added can be played in: Extras - Visual Novel submenu.
-Setup following parameters below "[VisualNovel]" section:
+Setup following parameters below "[VisualNovel <0..>]" section:
 
 - id
 Initiates new visual novel declaration, so it has to be
@@ -30,12 +30,13 @@ from visual mode select menu, or locked on 'false'. Default: true.
 
 Some Examples:
 
-[VisualNovel]
+[VisualNovel 1]
 id = arc1
 displayname = Kung Fu Story Part I
 path = script/mods/visualnovel/arc1.def
 
+[VisualNovel 2]
 id = arc2
 displayname = Kung Fu Story Part II
 path = script/mods/visualnovel/arc2.def
-unlock = stats.modes.arc1.clear > 0
+unlock = stats.modes ~= nil and stats.modes.visualnovel ~= nil and stats.modes.visualnovel.arc1 ~= nil and stats.modes.visualnovel.arc1.clear == true

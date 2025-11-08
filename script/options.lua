@@ -1413,9 +1413,7 @@ function f_mainCfg()
 					data.sffConversion = false
 				end
 				if data.erase then --reset stats files
-					init_generalStats()
-					init_unlocksStats()
-					f_saveStats()
+					f_resetPlayerStats() --From common.lua
 					data.erase = false
 				end
 				if needReload == 1 then
@@ -2186,6 +2184,7 @@ t_gameCfg = {
 	{text = "VS Kumite Amount"},
 	{text = "Team Settings"},
 	{text = "Zoom Settings"},
+	{text = "Reset Player Records"},
 	{text = "Default Values"},
 	{text = "BACK"},
 }
@@ -2445,6 +2444,14 @@ function f_gameCfg()
 			elseif gameCfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
 				sndPlay(sndSys, 100, 1)
 				f_zoomCfg()
+		--Erase/Reset Player Records
+			elseif gameCfg == #t_gameCfg-2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
+				if onlinegame then
+					lockSetting = true
+				else
+					sndPlay(sndSys, 100, 1)
+					f_unlocksWarning()
+				end
 		--Default Values
 			elseif gameCfg == #t_gameCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
@@ -2518,7 +2525,7 @@ function f_gameCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_gameCfg or i == #t_gameCfg-1 then
+				if i == #t_gameCfg or i == #t_gameCfg-1 or i == #t_gameCfg-2 then
 					align = 0
 					posX = 160
 				end
@@ -6152,7 +6159,6 @@ t_engineCfg = {
 	{text = "ProjectileMax"},
 	{text = "ExplodMax"},
 	{text = "AfterImageMax"},
-	{text = "Erase/Reset Statistics"},
 	{text = "Default Settings"},
 	{text = "BACK"},
 }
@@ -6332,14 +6338,6 @@ function f_engineCfg()
 				else
 					bufr = 0
 					bufl = 0
-				end
-		--Erase/Reset Statistics
-			elseif engineCfg == 7 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
-				if onlinegame then
-					lockSetting = true
-				else
-					sndPlay(sndSys, 100, 1)
-					f_unlocksWarning()
 				end
 		--Default Values
 			elseif engineCfg == #t_engineCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
@@ -8932,13 +8930,13 @@ function f_keyMenuSave(playerNo, controller)
 	end
 end
 --;===========================================================
---; ERASE/RESET STATISTICS DATA WARNING
+--; ERASE/RESET PLAYER RECORDS DATA WARNING
 --;===========================================================
 t_unlocksWarning = {
-	{text = "   All unlocked data or progress will be delete."},
+	{text = "All unlocked data or progress will be deleted."},
 }
 for i=1, #t_unlocksWarning do
-	t_unlocksWarning[i]['id'] = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 65+i*15)
+	t_unlocksWarning[i]['id'] = createTextImg(font2, 0, 0, t_unlocksWarning[i].text, 159, 65+i*15)
 end
 
 function f_unlocksWarning()

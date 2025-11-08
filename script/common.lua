@@ -79,7 +79,6 @@ saveNetCfgPath = "save/data_netsav.lua"
 saveHostRoomPath = "save/host_rooms.json"
 saveTempPath = "save/temp_sav.lua"
 saveTrainingPath = "save/training_sav.lua"
-saveAchievementsPath = "save/achievements_sav.lua"
 saveStatsPath = "save/stats_sav.json"
 saveP1Path = "save/p1_sav.json"
 saveP2Path = "save/p2_sav.json"
@@ -3395,17 +3394,24 @@ if stats.unlocks.chars.gouki == nil or data.erase then stats.unlocks.chars.gouki
 --if stats.unlocks.chars.charname == nil then stats.unlocks.chars.charname = false end
 
 --If Stage Unlock Data does not exists, create it:
-if stats.unlocks.stages.trainingroom2 == nil or data.erase then stats.unlocks.stages.trainingroom2 = false end
 --if stats.unlocks.stages.stagename == nil or data.erase then stats.unlocks.stages.stagename = false end
-
---If Story Chapter Unlock Data does not exists, create it:
-if stats.unlocks.modes.story == nil or data.erase then stats.unlocks.modes.story = {} end --Create space for story chapters
-if stats.unlocks.modes.story.arc2 == nil or data.erase then stats.unlocks.modes.story.arc2 = false end
---if stats.unlocks.modes.story.arcname == nil or data.erase then stats.unlocks.modes.story.arcname = false end
 end
-init_generalStats() --Create general stats data
-init_unlocksStats() --Create Unlocks data
-f_saveStats()
+
+t_hooks = {}
+function f_hookAdd(func) --To add data from external modules
+	table.insert(t_hooks, func)
+	if data.debugLog then f_printTable(t_hooks, 'save/debug/t_hooks.log') end
+end
+
+function f_resetPlayerStats()
+	init_generalStats() --Create general stats data
+	init_unlocksStats() --Create Unlocks data
+	for i, func in ipairs(t_hooks) do
+		func() --Load reset data from external modules using t_hooks table
+	end
+	f_saveStats()
+end
+f_resetPlayerStats()
 
 if host_rooms.IP == nil then
 	host_rooms["IP"] = {

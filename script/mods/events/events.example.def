@@ -100,7 +100,7 @@ previewspr = 0,2
 previewpos = 20,60
 previewscale = 0.5,0.8
 path = data/events/event2.lua
-unlock = stats.modes.event.event1.clear == true
+unlock = stats.modes ~= nil and stats.modes.event ~= nil and stats.modes.event.event1 ~= nil and stats.modes.event.event1.clear == true
 time = net
 monthstart = Jun
 monthdeadline = Sep

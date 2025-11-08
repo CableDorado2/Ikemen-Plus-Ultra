@@ -1,9 +1,10 @@
-[VisualNovel]
+[VisualNovel 1]
 id = vn1
 displayname = Kung Fu Man
 path = script/mods/visualnovel/kfm/kfmVN.def
 
+[VisualNovel 2]
 id = vn2
 displayname = The Test
 path = script/mods/visualnovel/test.def
-unlock = stats.modes.story.playtime > 0
+unlock = stats.modes ~= nil and stats.modes.visualnovel ~= nil and stats.modes.visualnovel.vn1 ~= nil and stats.modes.visualnovel.vn1.clear == true

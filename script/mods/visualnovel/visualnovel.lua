@@ -55,38 +55,95 @@ end
 --;===========================================================
 --; LOAD VNSELECT.DEF DATA
 --;===========================================================
-t_selVN = {}
-local t_vnList = {}
-local section = 0
-local file = io.open(vnDef,"r")
-local content = file:read("*all")
-file:close()
-content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
-content = content:gsub('\n%s*\n', '\n')
-for line in content:gmatch('[^\r\n]+') do
-	line = line:lower()
-	if line:match('^%s*%[%s*visualnovel%s*%]') then
-		section = 1
---[VisualNovel]
-	elseif section == 1 then
-		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
-		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			if param:match('^id$') then
-				table.insert(t_selVN, {id = value, displayname = '', path = '', unlock = 'true'})
-				t_vnList[value] = true
-			elseif t_selVN[#t_selVN][param] ~= nil then
-				t_selVN[#t_selVN][param] = value
-			end
+local function f_createVNDat()
+	if stats.modes.visualnovel == nil then
+		stats.modes.visualnovel = {}
+		stats.modes.visualnovel.playtime = 0
+		--stats.modes.visualnovel.clearall = 0
+		modified = true
+	end
+	for i=1, #t_selVN do
+		local modified = false
+		if stats.modes.visualnovel[t_selVN[i].id] == nil then
+			stats.modes.visualnovel[t_selVN[i].id] = {}
+			modified = true
+		end
+		if stats.modes.visualnovel[t_selVN[i].id].clear == nil then
+			stats.modes.visualnovel[t_selVN[i].id].clear = false
+			modified = true
 		end
 	end
---Send Visual Novel Story Unlock Condition to t_unlockLua table
-	for k, v in ipairs(t_selVN) do
-		t_unlockLua.modes[v.id] = v.unlock
+	if modified then f_saveStats() end
+end
+
+local function f_loadVisualNovels()
+t_selVN = {}
+local file = io.open(vnDef, "r")
+	if file ~= nil then
+		local section = 0
+		local row = 0
+		local content = file:read("*all")
+		file:close()
+		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+		content = content:gsub('\n%s*\n', '\n')
+		for line in content:gmatch('[^\r\n]+') do
+			local lineLower = line:lower()
+		--[VisualNovel No]
+			if lineLower:match('^%s*%[%s*visualnovel%s+%d+%s*%]') then
+				section = 1
+				row = #t_selVN + 1
+			--Set Default Values
+				t_selVN[row] = {
+				--[[
+					previewspr = {0, 0},
+					previewpos = {vnSelCommonPosX, vnSelCommonPosY},
+					previewscale = {vnSelCommonScaleX, vnSelCommonScaleY},
+				]]
+					status = txt_missionIncomplete,
+					txtID = textImgNew(),
+					displayname = "???",
+					path = nil,
+					info = "",
+					infolock = "???",
+					unlock = "true"
+				}
+		--Extra section
+			elseif lineLower:match('^%s*%[%s*%w+%s*%]') then
+				section = -1
+			elseif section == 1 then
+			--Detect paramvalues
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:lower()
+				--If the value is a comma-separated list, convert to table
+					if value:match(',') then
+						local tbl = {}
+						for num in value:gmatch('([^,]+)') do
+							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+						end
+						t_selVN[row][param] = tbl
+					else
+						t_selVN[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
+					end
+				end
+			end
+		end
+		f_createVNDat()
+		for _, v in ipairs(t_selVN) do --Send Visual Novel Story Unlock Condition to t_unlockLua table
+			t_unlockLua.modes[v.id] = v.unlock
+		end
+		f_updateUnlocks()
+		if data.debugLog then f_printTable(t_selVN, "save/debug/t_selVN.log") end
+		textImgSetText(txt_loading, "LOADING VISUAL NOVELS...")
+		textImgDraw(txt_loading)
+		refresh()
 	end
-	if data.debugLog then f_printTable(t_selVN, "save/debug/t_selVN.log") end
-	textImgDraw(txt_loading)
-	refresh()
+end
+f_loadVisualNovels() --Loads when engine starts
+
+local function f_visualnovelStatus()
+	stats.modes.visualnovel[t_selVN[data.vnNo].id].clear = true
+	f_saveStats()
 end
 --;===========================================================
 --; VISUAL NOVEL MENU SCREENPACK DEFINITION
@@ -1374,13 +1431,13 @@ vnNoSel = true
 function f_vnNewGame() --start a new customizable narrative and interactive storytelling
 	f_discordUpdate({details = "Visual Novel"})
 --Check Content
-	if #t_selVN == 1 and vnNoSel then --1 story detected in select.def so don't show select menu
+	if #t_selVN == 1 and vnNoSel then --1 story detected in vnselect.def so don't show select menu
 		f_vnMain(t_selVN[1].path) --Start Unique Visual Novel
 	--When End
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_menuMusic()
 	else
-		vnNoSel = false --More than 1 stories detected in select.def
+		vnNoSel = false --More than 1 stories detected in vnselect.def
 		f_vnMenu() --Start Visual Novel Select
 	end
 	f_discordMainMenu()
@@ -1405,6 +1462,7 @@ function f_vnLoadGame() --continue the story from where you left off
 end
 
 function f_vnMenu()
+	if data.debugMode then f_loadVisualNovels() end --Load in real-time only if dev/debug mode is enabled
 	if #t_selVN == 0 then
 		vnInfo = true
 		infoScreen = true
@@ -1436,6 +1494,7 @@ function f_vnMenu()
 			vnMenu = vnMenu + 1
 	--Start Visual Novel Selected
 		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+			data.vnNo = vnMenu
 			f_vnMain(t_selVN[vnMenu].path)
 		--When Ends
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)

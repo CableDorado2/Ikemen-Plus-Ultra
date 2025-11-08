@@ -35,7 +35,7 @@ size = 1280,720
 previewpos = 752,1020
 previewspacing = 167,172
 previewscale = 0.0705, 0.0695
-unlock = stats.modes.mission.clear1 > 0
+unlock = stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission1 ~= nil and stats.modes.mission.mission1.clear == true
 
 id = Video 5
 spr = 0,5
@@ -46,7 +46,7 @@ size = 1280,720
 previewpos = 752,1020
 previewspacing = 167,172
 previewscale = 0.0705, 0.0695
-unlock = stats.unlocks.chars.gouki == true
+unlock = stats.unlocks ~= nil and stats.unlocks.chars ~= nil and stats.unlocks.chars.gouki == true
 
 id = Video 6
 spr = 0,6
@@ -57,4 +57,4 @@ size = 1280,720
 previewpos = 752,1020
 previewspacing = 167,172
 previewscale = 0.0705, 0.0695
-unlock = stats.unlocks.chars.gouki == true
+unlock = stats.unlocks ~= nil and stats.unlocks.chars ~= nil and stats.unlocks.chars.gouki == true

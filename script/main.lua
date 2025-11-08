@@ -3315,7 +3315,7 @@ function f_defeats()
 end
 
 function f_records()
-	--[[
+--[[
 	if data.rosterMode == "suddendeath" then
 		if winCnt > data.suddenrecord then
 			data.suddenrecord = winCnt
@@ -3326,7 +3326,7 @@ function f_records()
 		end
 	end
 	f_saveStats()
-	]]
+]]
 end
 
 function f_favoriteContent(t_playerChars, stageNo)
@@ -4556,7 +4556,7 @@ function f_create()
 	createExit = false
 	textImgSetText(txt_hosting, "Waiting for Player 2...")
 	enterNetPlay(inputDialogGetStr(inputdia))
-	netPlayer = "Host" --For Replay Identify
+	netPlayer = "Host" --For tracking purposes
 --[[
 	if waitingRoom == "Training" then
 		data.p1In = 1
@@ -12612,12 +12612,24 @@ function f_loading(quickLoad)
 			f_selectChar(1, data.t_p1selected)
 			f_selectChar(2, data.t_p2selected)
 			if data.coop then coop = "Local Multiplayer" end
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				playerSide = data.t_p2selected
-				if p2teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+		--For Online Modes
+			if netplay() or replay() then
+				if netPlayer == "Host" then
+					if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+					playerSide = data.t_p1selected
+				elseif netPlayer == "Client" then
+					if p2teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+					playerSide = data.t_p2selected
+				end
+		--For Offline Modes
 			else
-				playerSide = data.t_p1selected
-				if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+					if p2teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+					playerSide = data.t_p2selected
+				else
+					if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
+					playerSide = data.t_p1selected
+				end
 			end
 			f_favoriteContent(playerSide, stageNo)
 			f_discordUpdate({
@@ -12672,7 +12684,6 @@ function f_selectWin()
 	p1Ready = false
 	p2Ready = false
 	f_resetHandicaps()
-	f_modePlaytime() --Store Favorite Game Mode (Addressed to Simple Character Select)
 --Winner Logic
 	if winner == 1 then
 		p1Wins = p1Wins + 1

@@ -26,7 +26,7 @@ size = 800,800
 previewpos = 470,1138
 previewspacing = 102,190
 previewscale = 0.113, 0.0625
-unlock = stats.unlocks.chars.gouki == true
+unlock = stats.unlocks ~= nil and stats.unlocks.chars ~= nil and stats.unlocks.chars.gouki == true
 
 id = Storyboard 4
 spr = 0,2
