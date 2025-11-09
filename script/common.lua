@@ -2953,9 +2953,10 @@ f_timeCountdown(t_deadline)
 --If the day is missing, day 1 is assumed
 	targetDate.day = tonumber(args.day) or 1
 --Create the destination timestamp
-    local targetTimestamp = os.time(targetDate)
+	local targetTimestamp = os.time(targetDate)
 --Calculate difference in seconds
 	local diffSeconds = targetTimestamp - now
+	local initialDiffSeconds = diffSeconds
 	if diffSeconds < 0 then
 		diffSeconds = 0 --The date has already passed
 	end
@@ -2967,23 +2968,22 @@ f_timeCountdown(t_deadline)
 	local seconds_in_month = 30 * seconds_in_day --approximate
 	local seconds_in_year = 365 * seconds_in_day --approximate
 	
-	local years = math.floor(diffSeconds / seconds_in_year)
-	diffSeconds = diffSeconds % seconds_in_year
+	local years = math.floor(initialDiffSeconds / seconds_in_year)
+	local remaining_after_years = initialDiffSeconds % seconds_in_year
 	
-	local months = math.floor(diffSeconds / seconds_in_month)
-	diffSeconds = diffSeconds % seconds_in_month
+	local months = math.floor(remaining_after_years / seconds_in_month)
+	local remaining_after_months = remaining_after_years % seconds_in_month
 	
-	local weeks = math.floor(diffSeconds / seconds_in_week)
-	diffSeconds = diffSeconds % seconds_in_week
+	local weeks = math.floor(remaining_after_months / seconds_in_week)
+	local remaining_after_weeks = remaining_after_months % seconds_in_week
 	
-	local days = math.floor(diffSeconds / seconds_in_day)
-	diffSeconds = diffSeconds % seconds_in_day
-	
-	local hours = math.floor(diffSeconds / seconds_in_hour)
-	diffSeconds = diffSeconds % seconds_in_hour
-	
-	local minutes = math.floor(diffSeconds / seconds_in_minute)
-	local seconds = diffSeconds % seconds_in_minute
+	local days = math.floor(remaining_after_weeks / seconds_in_day)
+	local totalDays = math.floor(initialDiffSeconds / seconds_in_day) --Total days (group: years, months, weeks)
+--Recalculate the remaining H/M/S based on the total number of days
+	local secondsRemain = initialDiffSeconds % seconds_in_day
+	local hours = math.floor(secondsRemain / seconds_in_hour)
+	local minutes = math.floor((secondsRemain % seconds_in_hour) / seconds_in_minute)
+	local seconds = secondsRemain % seconds_in_minute
 --Build the string according arguments added, omitting any 0 values
 	local parts = {}
 --Count how many arguments were added
@@ -3005,7 +3005,7 @@ f_timeCountdown(t_deadline)
 			elseif k == "month" then
 				addPart(k, months .. " months")
 			elseif k == "day" then
-				addPart(k, days .. " days")
+				addPart(k, totalDays .. " days")
 			elseif k == "hour" then
 				addPart(k, hours .. "h")
 			elseif k == "min" then
@@ -3014,44 +3014,38 @@ f_timeCountdown(t_deadline)
 				addPart(k, seconds .. "s")
 			end
 		end
-	--If for some reason it does not match, return "0" or similar
+	--If for some reason it does not match, return "0s" or similar
 		if #parts == 0 then
-			return "0"
+			return "0s"
 		else
 			return parts[1]
 		end
+--If there are several values or none, show all that apply
 	else
-	--If there are several values or none, show all that apply
-		if args.year ~= nil and years > 0 then
-			table.insert(parts, years .. " years")
-		end
-		if args.month ~= nil and months > 0 then
-			table.insert(parts, months .. " months")
-		end
-		if args.day ~= nil and days > 0 then
-			table.insert(parts, days .. " days")
-		end
-		if args.hour ~= nil and hours > 0 then
-			table.insert(parts, hours .. "hours")
-		end
-		if args.min ~= nil and minutes > 0 then
-			table.insert(parts, minutes .. "min")
-		end
-		if args.sec ~= nil and seconds > 0 then
-			table.insert(parts, seconds .. "s")
-		end
-	--If none pass, show all
-		if #parts == 0 then
-		--Show Full Countdown
-			if years > 0 then table.insert(parts, years .. " years") end
-			if months > 0 then table.insert(parts, months .. " months") end
-			if weeks > 0 then table.insert(parts, weeks .. " weeks") end
-			if days > 0 then table.insert(parts, days .. " days") end
+	--More than 1 day remaining
+		if totalDays > 0 then
+			table.insert(parts, totalDays .. " days")
+		--The remnants of H/M/S are less than 24 hours
 			if hours > 0 then table.insert(parts, hours .. "h") end
 			if minutes > 0 then table.insert(parts, minutes .. "m") end
-			if seconds > 0 or #parts == 0 then table.insert(parts, seconds .. "s") end
+		--Seconds are always displayed if the time is > 0, or if there are only days and the rest is 0.
+			if initialDiffSeconds > 0 and (seconds > 0 or #parts == 1) then
+				table.insert(parts, seconds .. "s")
+			end
+	--Less than 1 day remaining (hours, minutes, seconds)
+		else
+			if hours > 0 then table.insert(parts, hours .. "h") end
+			if minutes > 0 then table.insert(parts, minutes .. "m") end
+		--Displays seconds if there is time remaining or if nothing else has been added.
+			if initialDiffSeconds > 0 or #parts == 0 then
+				table.insert(parts, seconds .. "s")
+			end
 		end
-		return table.concat(parts, ", ") --Return the damn countdown
+		if initialDiffSeconds <= 0 then
+			return "DEADLINE REACHED"
+		else
+			return table.concat(parts, ", ") --Return the damn countdown
+		end
 	end
 end
 --;===========================================================

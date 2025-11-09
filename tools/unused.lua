@@ -1110,6 +1110,163 @@ local function f_countdown(targetTimeStr)
     return string.format("%d days, %02d:%02d:%02d", d, h, m, s)
 end
 
+function f_timeCountdown(args)
+--[["args" argument is a table that can have keys: year, month, day, hour, min, sec
+Example:
+t_deadline = {year="2025", month="Dec", day="31", hour = "23", min = "59", sec = "59"}
+f_timeCountdown(t_deadline)
+]]
+--Get the current date and time
+	local now = nil
+	if args.time == "net" then
+		now = currentNetTime
+	elseif args.time == "local" then
+		now = os.time()
+	end
+	if now == nil then return false end
+--Convert date inputs into a table to create the target timestamp
+	local targetDate = {
+		year = tonumber(args.year),
+		month = nil,
+		day = nil,
+		hour = tonumber(args.hour) or 0,
+		min = tonumber(args.min) or 0,
+		sec = tonumber(args.sec) or 0
+	}
+--Convert month to number if it is string
+	if type(args.month) == "string" then
+		targetDate.month = f_monthToNumber(args.month) --targetMonth[]
+	elseif args.month then
+		targetDate.month = tonumber(args.month)
+	end
+--If the day is missing, day 1 is assumed
+	targetDate.day = tonumber(args.day) or 1
+--Create the destination timestamp
+    local targetTimestamp = os.time(targetDate)
+--Calculate difference in seconds
+	local diffSeconds = targetTimestamp - now
+	if diffSeconds < 0 then
+		diffSeconds = 0 --The date has already passed
+	end
+--Component calculation
+	local seconds_in_minute = 60
+	local seconds_in_hour = 3600
+	local seconds_in_day = 86400
+	local seconds_in_week = 7 * seconds_in_day
+	local seconds_in_month = 30 * seconds_in_day --approximate
+	local seconds_in_year = 365 * seconds_in_day --approximate
+	
+	local years = math.floor(diffSeconds / seconds_in_year)
+	diffSeconds = diffSeconds % seconds_in_year
+	
+	local months = math.floor(diffSeconds / seconds_in_month)
+	diffSeconds = diffSeconds % seconds_in_month
+	
+	local weeks = math.floor(diffSeconds / seconds_in_week)
+	diffSeconds = diffSeconds % seconds_in_week
+	
+	local days = math.floor(diffSeconds / seconds_in_day)
+	diffSeconds = diffSeconds % seconds_in_day
+	
+	local hours = math.floor(diffSeconds / seconds_in_hour)
+	diffSeconds = diffSeconds % seconds_in_hour
+	
+	local minutes = math.floor(diffSeconds / seconds_in_minute)
+	local seconds = diffSeconds % seconds_in_minute
+--Build the string according arguments added, omitting any 0 values
+	local parts = {}
+--Count how many arguments were added
+	local present_args = 0
+	for k,v in pairs(args) do
+		present_args = present_args + 1
+	end
+--Function to add only if that argument was passed
+	local function addPart(name, value)
+		if args[name] ~= nil then
+			table.insert(parts, value)
+		end
+	end
+--Only if there is a single argument, return only that value
+	if present_args == 1 then
+		for k,v in pairs(args) do
+			if k == "year" then
+				addPart(k, years .. " years")
+			elseif k == "month" then
+				addPart(k, months .. " months")
+			elseif k == "day" then
+				addPart(k, days .. " days")
+			elseif k == "hour" then
+				addPart(k, hours .. "h")
+			elseif k == "min" then
+				addPart(k, minutes .. "m")
+			elseif k == "sec" then
+				addPart(k, seconds .. "s")
+			end
+		end
+	--If for some reason it does not match, return "0" or similar
+		if #parts == 0 then
+			return "0"
+		else
+			return parts[1]
+		end
+	else
+--[[OLD below logic
+	--If there are several values or none, show all that apply
+		if args.year ~= nil and years > 0 then
+			table.insert(parts, years .. " years")
+		end
+		if args.month ~= nil and months > 0 then
+			table.insert(parts, months .. " months")
+		end
+		if args.day ~= nil and days > 0 then
+			table.insert(parts, days .. " days")
+		end
+		if args.hour ~= nil and hours > 0 then
+			table.insert(parts, hours .. "hours")
+		end
+		if args.min ~= nil and minutes > 0 then
+			table.insert(parts, minutes .. "min")
+		end
+		if args.sec ~= nil and seconds > 0 then
+			table.insert(parts, seconds .. "s")
+		end
+	--If none pass, show all
+		if #parts == 0 then
+		--Show Full Countdown
+			if years > 0 then table.insert(parts, years .. " years") end
+			if months > 0 then table.insert(parts, months .. " months") end
+			if weeks > 0 then table.insert(parts, weeks .. " weeks") end
+			if days > 0 then table.insert(parts, days .. " days") end
+			if hours > 0 then table.insert(parts, hours .. "h") end
+			if minutes > 0 then table.insert(parts, minutes .. "m") end
+			if seconds > 0 or #parts == 0 then table.insert(parts, seconds .. "s") end
+		end
+		return table.concat(parts, ", ") --Return the damn countdown
+]]
+		local has_large_unit = years > 0 or months > 0 or weeks > 0 or days > 0
+	--More than 1 day left
+		if has_large_unit then
+			if years > 0 then table.insert(parts, years .. " years") end
+			if months > 0 then table.insert(parts, months .. " months") end
+			if weeks > 0 then table.insert(parts, weeks .. " weeks") end
+			if days > 0 then table.insert(parts, days .. " days") end
+			if hours > 0 then table.insert(parts, hours .. "h") end
+			if minutes > 0 then table.insert(parts, minutes .. "m") end
+			if diffSeconds > 0 or #parts == 0 then table.insert(parts, seconds .. "s") end
+	--Less than 1 day left
+		else
+			if hours > 0 then table.insert(parts, hours .. "h") end
+			if minutes > 0 then table.insert(parts, minutes .. "m") end
+			if diffSeconds > 0 or #parts == 0 then table.insert(parts, seconds .. "s") end
+		end
+		if #parts == 0 then
+			return "DEADLINE REACHED"
+		else
+			return table.concat(parts, ", ") --Return the damn countdown
+		end
+	end
+end
+
 function f_loadEvents2()
 t_events = {}
 local file = io.open(eventDef,"r")
