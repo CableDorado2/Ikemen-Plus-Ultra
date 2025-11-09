@@ -81,8 +81,8 @@ local galleryPreviewLocked = animNew(sprIkemen, [[
 ]])
 animSetScale(galleryPreviewLocked, 1.0, 1.0)
 
-local galleryPreviewLockedPosX = 6.9
-local galleryPreviewLockedPosY = 44.9
+local galleryPreviewLockedPosX = 8
+local galleryPreviewLockedPosY = 46
 
 local galleryPreviewLockedSizeX = 90
 local galleryPreviewLockedSizeY = 50
@@ -96,8 +96,8 @@ local galleryPreviewUnknown = animNew(sprIkemen, [[
 ]])
 animSetScale(galleryPreviewUnknown, 1.0, 1.0)
 
-local galleryPreviewUnknownPosX = 6.9
-local galleryPreviewUnknownPosY = 44.9
+local galleryPreviewUnknownPosX = 8
+local galleryPreviewUnknownPosY = 46
 
 local galleryPreviewUnknownSizeX = 90
 local galleryPreviewUnknownSizeY = 50
@@ -292,7 +292,7 @@ local function f_loadGallery(path, reset) --Load def file which contains artwork
 						{
 							id = value,
 							spr = {},
-							file = {},
+							file = "",
 							size = {galleryArtSizeX, galleryArtSizeY},
 							info = txt_galleryUnknown,
 							previewpos = {galleryPreviewArtPosX, galleryPreviewArtPosY},
@@ -416,7 +416,7 @@ local function f_artMenu(artLimit)
 			sndPlay(sndIkemen, 200, 1)
 			f_nextArt(maxArt)
 		--If current item is not unlocked
-			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
+			while t_unlockLua.gallery[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
 				f_nextArt(maxArt) --Go to an unlocked art
 			end
 			f_resetArtPos()
@@ -427,7 +427,7 @@ local function f_artMenu(artLimit)
 			sndPlay(sndIkemen, 200, 1)
 			f_previousArt(maxArt)
 		--If current item is not unlocked
-			while t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
+			while t_unlockLua.gallery[t_gallery[galleryMenu][galleryCursor].id] ~= nil do
 				f_previousArt(maxArt) --Go to an unlocked art
 			end
 			f_resetArtPos()
@@ -809,7 +809,7 @@ function f_galleryMenu()
 		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 		--ARTWORK (watch pictures)
 			if galleryMenu == 1 then
-				if t_unlockLua.artworks[galleryCursor] == nil then --If the artwork is unlocked
+				if t_unlockLua.gallery[t_gallery[galleryMenu][galleryCursor].id] == nil then --If the artwork is unlocked
 					sndPlay(sndSys, 100, 1)
 					f_artMenu(galleryArtMax)
 					f_setGalleryCursorPos() --Replace with a logic that calculates the new position of the cursor after having moved in artwork viewer...
@@ -817,8 +817,8 @@ function f_galleryMenu()
 					sndPlay(sndIkemen, 200, 0)
 				end
 		--STORYBOARDS (watch storyboards)
-			elseif galleryMenu == 2 and t_gallery[galleryMenu][galleryCursor].file ~= nil then
-				if t_unlockLua.storyboards[galleryCursor] == nil then --If the storyboard is unlocked
+			elseif galleryMenu == 2 and t_gallery[galleryMenu][galleryCursor].file ~= "" then
+				if t_unlockLua.gallery[t_gallery[galleryMenu][galleryCursor].id] == nil then --If the storyboard is unlocked
 					sndPlay(sndSys, 100, 1)
 				--Play Storyboard
 					cmdInput()
@@ -830,8 +830,8 @@ function f_galleryMenu()
 					sndPlay(sndIkemen, 200, 0)
 				end
 		--CUTSCENES (watch video cutscenes)
-			elseif galleryMenu == 3 and t_gallery[galleryMenu][galleryCursor].file ~= nil then
-				if t_unlockLua.videos[galleryCursor] == nil then --If the video is unlocked
+			elseif galleryMenu == 3 and t_gallery[galleryMenu][galleryCursor].file ~= "" then
+				if t_unlockLua.gallery[t_gallery[galleryMenu][galleryCursor].id] == nil then --If the video is unlocked
 					sndPlay(sndSys, 100, 1)
 					playVideo(t_gallery[galleryMenu][galleryCursor].file)
 				--When Video Ends:
@@ -912,13 +912,10 @@ function f_galleryMenu()
 		)
 		animSetWindow(galleryPreviewCursor, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
 	--Draw Gallery Info
-		if (galleryMenu == 1 and t_unlockLua.artworks[t_gallery[galleryMenu][galleryCursor].id] == nil) or
-			(galleryMenu == 2 and t_unlockLua.storyboards[t_gallery[galleryMenu][galleryCursor].id] == nil) or
-			(galleryMenu == 3 and t_unlockLua.videos[t_gallery[galleryMenu][galleryCursor].id] == nil) then
+		if t_unlockLua.gallery[t_gallery[galleryMenu][galleryCursor].id] == nil then
 			textData = t_gallery[galleryMenu][galleryCursor].info
 		else
-			--textData = t_gallery[galleryMenu][galleryCursor].infolock
-			textData = txt_galleryUnknown
+			textData = txt_galleryUnknown --t_gallery[galleryMenu][galleryCursor].infolock
 		end
 		animDraw(galleryInfoBG) --Draw Info Text BG
 		f_textRender(txt_galleryInfo, textData, 0, 159, 208, 10, 0, 55)
