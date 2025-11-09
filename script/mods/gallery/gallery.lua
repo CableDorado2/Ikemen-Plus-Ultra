@@ -318,11 +318,20 @@ local function f_loadGallery(path, reset) --Load def file which contains artwork
 		end
 	end
 	if data.debugLog then f_printTable(t_gallery, "save/debug/t_gallery.log") end
---[[
+--Set Unlock Conditions
+	for i=1, #t_gallery do
+		for k, v in ipairs(t_gallery[i]) do
+			if t_unlockLua.gallery == nil then
+				t_unlockLua['gallery'] = {}
+				t_unlockGroups['gallery'] = true
+			end
+			t_unlockLua.gallery[v.id] = v.unlock
+		end
+	end
+	f_updateUnlocks()
 	textImgSetText(txt_loading, "LOADING GALLERY...")
 	textImgDraw(txt_loading)
 	refresh()
-]]
 end
 local function f_loadGalleryDat()
 	f_loadGallery(galleryArtworksDef, true)
@@ -330,24 +339,6 @@ local function f_loadGalleryDat()
 	f_loadGallery(galleryMoviesDef, false)
 end
 f_loadGalleryDat()
---[[
-for k, v in ipairs(t_gallery) do --Set Unlock Conditions
-	if main.t_unlockLua.gallery == nil then main.t_unlockLua['gallery'] = {} end
-	main.t_unlockLua.gallery[v.id] = v.unlock
-end
-]]
---[[
-for i=1, #t_gallery do
-	local section = nil
-	if i == 1 then section = "artworks"
-	elseif i == 2 then section = "storyboards"
-	elseif i == 3 then section = "videos"
-	end
-	for k, v in ipairs(t_gallery[i]) do --Send Gallery Unlocks Condition to t_unlockLua table
-		t_unlockLua[section][v.id] = v.unlock
-	end
-end
-]]
 --;===========================================================================================
 --; ARTWORK VIEWER MENU
 --;===========================================================================================
@@ -611,17 +602,13 @@ local function f_setGalleryCursorPos() --Used to calculate gallery cursor pos in
 end
 
 local function f_drawGallery(t, columns, rows) --Draw Gallery Content
-	local unlockSection = nil
 	local sprData = nil
 	if galleryMenu == 1 then
 		sprData = sprArtworks
-		unlockSection = 'artworks'
 	elseif galleryMenu == 2 then
 		sprData = sprStoryboards
-		unlockSection = 'storyboards'
 	elseif galleryMenu == 3 then
 		sprData = sprMovies
-		unlockSection = 'videos'
 	end
 	for i=0, columns-1 do
 		for j=0, rows-1 do
@@ -635,7 +622,7 @@ local function f_drawGallery(t, columns, rows) --Draw Gallery Content
 				)
 				animSetWindow(galleryPreviewSlot, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
 			--Draw Unlocked Item Preview
-				if t_unlockLua[unlockSection][t[index].id] == nil then --If the item is Unlocked
+				if t_unlockLua.gallery[t[index].id] == nil then --If the item is Unlocked
 				--If Spr Data is defined
 					if t[index].spr[1] and t[index].spr[2] ~= nil then
 						f_drawGalleryPreview(

@@ -124,12 +124,12 @@ local file = io.open(missionDef, "r")
 				end
 			end
 		end
+		if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.log") end
 		f_createMissionDat()
 		for _, v in ipairs(t_missions) do --Send Missions Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[v.id] = v.unlock
 		end
 		f_updateUnlocks()
-		if data.debugLog then f_printTable(t_missions, "save/debug/t_missions.log") end
 		textImgSetText(txt_loading, "LOADING MISSIONS...")
 		textImgDraw(txt_loading)
 		refresh()

@@ -128,12 +128,12 @@ local file = io.open(vnDef, "r")
 				end
 			end
 		end
+		if data.debugLog then f_printTable(t_selVN, "save/debug/t_selVN.log") end
 		f_createVNDat()
 		for _, v in ipairs(t_selVN) do --Send Visual Novel Story Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[v.id] = v.unlock
 		end
 		f_updateUnlocks()
-		if data.debugLog then f_printTable(t_selVN, "save/debug/t_selVN.log") end
 		textImgSetText(txt_loading, "LOADING VISUAL NOVELS...")
 		textImgDraw(txt_loading)
 		refresh()

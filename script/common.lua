@@ -3063,9 +3063,12 @@ end
 
 t_unlockLua = { --Create table to manage unlock conditions in real-time
 chars = {}, stages = {}, modes = {},
-artworks = {}, storyboards = {}, videos = {},
-palettes = {}, shop = {}, abyss = {},
-achievements = {}
+palettes = {}, abyss = {}, achievements = {}
+}
+
+t_unlockGroups = {
+['chars'] = true, ['stages'] = true, ['modes'] = true,
+['palettes'] = true, ['abyss'] = true, ['achievements'] = true,
 }
 
 function f_generateUnlocks()
@@ -3083,6 +3086,7 @@ function f_generateUnlocks()
 	end
 	f_updateUnlocks()
 end
+
 --asserts content unlock conditions
 function f_unlock(permanent)
 	for group, t in pairs(t_unlockLua) do
@@ -3097,11 +3101,7 @@ function f_unlock(permanent)
 					f_unlockStage(k, bool)
 				end
 			]]
-				if bool and (permanent or 
-				group == 'chars' or group == 'stages' or group == 'modes' or 
-				group == 'artworks' or group == 'storyboards' or group == 'videos' or
-				group == 'palettes' or group == 'abyss' or group == 'shop' or
-				group == 'achievements') then
+				if bool and (permanent or t_unlockGroups[group]) then
 					table.insert(t_del, k)
 					if group == 'achievements' then
 						for i=1, #t_achievements do

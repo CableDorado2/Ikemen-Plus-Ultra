@@ -1,4 +1,4 @@
-local loadLuaModule = true
+local loadLuaModule = false
 --[[=============================================================================
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
@@ -304,6 +304,8 @@ loadNetTime() --Required to set netYear, netMonth and netDay vars
 				end
 			end
 		end
+		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
+		f_createEventDat()
 	--Set Date/Clock values
 		for _, event in ipairs(t_events) do
 		--Use local time by default
@@ -356,9 +358,7 @@ loadNetTime() --Required to set netYear, netMonth and netDay vars
 		--Send Events Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[event.id] = event.unlock
 		end
-		f_createEventDat()
 		f_updateUnlocks()
-		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
 	end
 end
 f_loadEvents() --Loads when engine starts
