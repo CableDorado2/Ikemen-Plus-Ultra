@@ -2939,19 +2939,17 @@ f_timeCountdown(t_deadline)
 	local targetDate = {
 		year = tonumber(args.year),
 		month = nil,
-		day = nil,
+		day = tonumber(args.day) or 1, --If the day is missing, day 1 is assumed
 		hour = tonumber(args.hour) or 0,
 		min = tonumber(args.min) or 0,
 		sec = tonumber(args.sec) or 0
 	}
 --Convert month to number if it is string
 	if type(args.month) == "string" then
-		targetDate.month = f_monthToNumber(args.month) --targetMonth[]
+		targetDate.month = f_monthToNumber(args.month)
 	elseif args.month then
 		targetDate.month = tonumber(args.month)
 	end
---If the day is missing, day 1 is assumed
-	targetDate.day = tonumber(args.day) or 1
 --Create the destination timestamp
 	local targetTimestamp = os.time(targetDate)
 --Calculate difference in seconds
@@ -2961,90 +2959,86 @@ f_timeCountdown(t_deadline)
 		diffSeconds = 0 --The date has already passed
 	end
 --Component calculation
-	local seconds_in_minute = 60
-	local seconds_in_hour = 3600
-	local seconds_in_day = 86400
-	local seconds_in_week = 7 * seconds_in_day
-	local seconds_in_month = 30 * seconds_in_day --approximate
-	local seconds_in_year = 365 * seconds_in_day --approximate
+	local minuteSeconds = 60
+	local hourSeconds = 3600
+	local daySeconds = 86400
+	local weekSeconds = 7 * daySeconds
+	local monthSeconds = 30 * daySeconds --approximate because could be less days in a month
+	local yearSeconds = 365 * daySeconds --approximate because could be less days in a year
 	
-	local years = math.floor(initialDiffSeconds / seconds_in_year)
-	local remaining_after_years = initialDiffSeconds % seconds_in_year
+	local years = math.floor(initialDiffSeconds / yearSeconds)
+	local remaining_after_years = initialDiffSeconds % yearSeconds
 	
-	local months = math.floor(remaining_after_years / seconds_in_month)
-	local remaining_after_months = remaining_after_years % seconds_in_month
+	local months = math.floor(remaining_after_years / monthSeconds)
+	local remaining_after_months = remaining_after_years % monthSeconds
 	
-	local weeks = math.floor(remaining_after_months / seconds_in_week)
-	local remaining_after_weeks = remaining_after_months % seconds_in_week
+	local weeks = math.floor(remaining_after_months / weekSeconds)
+	local remaining_after_weeks = remaining_after_months % weekSeconds
 	
-	local days = math.floor(remaining_after_weeks / seconds_in_day)
-	local totalDays = math.floor(initialDiffSeconds / seconds_in_day) --Total days (group: years, months, weeks)
+	local days = math.floor(remaining_after_weeks / daySeconds)
+	local totalDays = math.floor(initialDiffSeconds / daySeconds) --Total days (group: years, months, weeks)
 --Recalculate the remaining H/M/S based on the total number of days
-	local secondsRemain = initialDiffSeconds % seconds_in_day
-	local hours = math.floor(secondsRemain / seconds_in_hour)
-	local minutes = math.floor((secondsRemain % seconds_in_hour) / seconds_in_minute)
-	local seconds = secondsRemain % seconds_in_minute
+	local secondsRemain = initialDiffSeconds % daySeconds
+	local hours = math.floor(secondsRemain / hourSeconds)
+	local minutes = math.floor((secondsRemain % hourSeconds) / minuteSeconds)
+	local seconds = secondsRemain % minuteSeconds
 --Build the string according arguments added, omitting any 0 values
-	local parts = {}
---Count how many arguments were added
-	local present_args = 0
-	for k,v in pairs(args) do
-		present_args = present_args + 1
+	local t_parts = {}
+--Count how many arguments were added in "args" table
+	local argsCount = 0
+	for k, v in pairs(args) do
+		argsCount = argsCount + 1
 	end
 --Function to add only if that argument was passed
-	local function addPart(name, value)
+	local function f_addPart(name, value)
 		if args[name] ~= nil then
-			table.insert(parts, value)
+			table.insert(t_parts, value)
 		end
 	end
---Only if there is a single argument, return only that value
-	if present_args == 1 then
-		for k,v in pairs(args) do
+--If there is 1 argument, return only that value
+	if argsCount == 1 then
+		for k, v in pairs(args) do
 			if k == "year" then
-				addPart(k, years .. " years")
+				f_addPart(k, years .. " years")
 			elseif k == "month" then
-				addPart(k, months .. " months")
+				f_addPart(k, months .. " months")
 			elseif k == "day" then
-				addPart(k, totalDays .. " days")
+				f_addPart(k, totalDays .. " days")
 			elseif k == "hour" then
-				addPart(k, hours .. "h")
+				f_addPart(k, hours .. "h")
 			elseif k == "min" then
-				addPart(k, minutes .. "m")
+				f_addPart(k, minutes .. "m")
 			elseif k == "sec" then
-				addPart(k, seconds .. "s")
+				f_addPart(k, seconds .. "s")
 			end
 		end
 	--If for some reason it does not match, return "0s" or similar
-		if #parts == 0 then
+		if #t_parts == 0 then
 			return "0s"
 		else
-			return parts[1]
+			return t_parts[1]
 		end
---If there are several values or none, show all that apply
+--If there are several arguments or none, show all that apply
 	else
 	--More than 1 day remaining
 		if totalDays > 0 then
-			table.insert(parts, totalDays .. " days")
+			table.insert(t_parts, totalDays .. " days")
 		--The remnants of H/M/S are less than 24 hours
-			if hours > 0 then table.insert(parts, hours .. "h") end
-			if minutes > 0 then table.insert(parts, minutes .. "m") end
+			if hours > 0 then table.insert(t_parts, hours .. "h") end
+			if minutes > 0 then table.insert(t_parts, minutes .. "m") end
 		--Seconds are always displayed if the time is > 0, or if there are only days and the rest is 0.
-			if initialDiffSeconds > 0 and (seconds > 0 or #parts == 1) then
-				table.insert(parts, seconds .. "s")
-			end
+			if initialDiffSeconds > 0 and (seconds > 0 or #t_parts == 1) then table.insert(t_parts, seconds .. "s") end
 	--Less than 1 day remaining (hours, minutes, seconds)
 		else
-			if hours > 0 then table.insert(parts, hours .. "h") end
-			if minutes > 0 then table.insert(parts, minutes .. "m") end
+			if hours > 0 then table.insert(t_parts, hours .. "h") end
+			if minutes > 0 then table.insert(t_parts, minutes .. "m") end
 		--Displays seconds if there is time remaining or if nothing else has been added.
-			if initialDiffSeconds > 0 or #parts == 0 then
-				table.insert(parts, seconds .. "s")
-			end
+			if initialDiffSeconds > 0 or #t_parts == 0 then table.insert(t_parts, seconds .. "s") end
 		end
 		if initialDiffSeconds <= 0 then
-			return "DEADLINE REACHED"
+			return "ENDED"
 		else
-			return table.concat(parts, ", ") --Return the damn countdown
+			return table.concat(t_parts, ", ") --Return the damn countdown
 		end
 	end
 end

@@ -59,25 +59,31 @@ Month's name must be abbreviated to be recognized.
 Sets the month in which the event will be Unavailable.
 Month's name must be abbreviated to be recognized.
 
-- daystart = 1/31
+- daystart = 1/30
 Sets the day in which the event will be Available.
 
-- daydeadline = 1/31
+- daydeadline = 1/30
 Sets the day in which the event will be Unavailable.
 
-- hourstart = 01/24
+- hourstart = 00/23
 Sets the hour in which the event will be Available.
 Only military format is supported.
 
-- hourdeadline = 01/24
+- hourdeadline = 00/23
 Sets the hour in which the event will be Unavailable.
 Only military format is supported.
 
-- minutestart = 01/59
+- minutestart = 00/59
 Sets the minute in which the event will be Available.
 
-- minutedeadline = 01/59
+- minutedeadline = 00/59
 Sets the minute in which the event will be Unavailable.
+
+- secondstart = 00/59
+Sets the second in which the event will be Available.
+
+- seconddeadline = 00/59
+Sets the second in which the event will be Unavailable.
 
 ;---------------------------------------------------------------------------------
 Some Examples:
@@ -88,10 +94,12 @@ info = Trouble Dude
 previewspr = 0,1
 path = data/events/event1.lua
 time = local
-hourstart = 13 ;Event Start Available at this Time!
-hourdeadline = 23 ;Event Deadline at this Time!
+;Event Start Available at this Time!
 monthstart = Oct
+hourstart = 13
+;Event Deadline at this Time!
 monthdeadline = Nov
+hourdeadline = 23
 
 [Event 2]
 id = event2

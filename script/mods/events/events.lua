@@ -304,7 +304,6 @@ loadNetTime() --Required to set netYear, netMonth and netDay vars
 				end
 			end
 		end
-		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
 		f_createEventDat()
 	--Set Date/Clock values
 		for _, event in ipairs(t_events) do
@@ -315,11 +314,11 @@ loadNetTime() --Required to set netYear, netMonth and netDay vars
 			local monthEnd = sysMonth --Dec
 			local dayIni = sysDay
 			local dayEnd = sysDay --30
-			local hourIni = "01" --sysHour
-			local hourEnd = "24"
+			local hourIni = "00" --sysHour
+			local hourEnd = "23"
 			local minuteIni = "00" --sysMinutes
 			local minuteEnd = "59"
-			local secondIni = "0" --sysSeconds
+			local secondIni = "00" --sysSeconds
 			local secondEnd = "59"
 		--Update all previous var using internet time ONLY if event "time" is set as "net"
 			if event.time:lower() == "net" then
@@ -330,11 +329,11 @@ loadNetTime() --Required to set netYear, netMonth and netDay vars
 				monthEnd = netMonth or sysMonth
 				dayIni = netDay or sysDay
 				dayEnd = netDay or sysDay
-				hourIni = "01"
-				hourEnd = "24"
+				hourIni = "00"
+				hourEnd = "23"
 				minuteIni = "00"
 				minuteEnd = "59"
-				secondIni = "0"
+				secondIni = "00"
 				secondEnd = "59"
 			end
 		--Update fields that was not found in events.def file
@@ -358,6 +357,7 @@ loadNetTime() --Required to set netYear, netMonth and netDay vars
 		--Send Events Unlock Condition to t_unlockLua table
 			t_unlockLua.modes[event.id] = event.unlock
 		end
+		if data.debugLog then f_printTable(t_events, "save/debug/t_events.log") end
 		f_updateUnlocks()
 	end
 end
@@ -417,6 +417,7 @@ function f_eventMenu()
 	local previewTransS = nil
 	local previewTransD = nil
 	local netInfoTimeTxt = nil
+	local infoText = nil
 	f_eventLockedReset()
 	f_resetEventArrowsPos()
 	f_unlock(false)
@@ -563,7 +564,7 @@ function f_eventMenu()
 		else
 		--An Unlock Condition is required to play the event
 			if t_unlockLua.modes[t_events[eventMenu].id] ~= nil then
-				previewInfotxt = "UNLOCK CONDITION IS REQUIRED TO PLAY THIS EVENT"
+				previewInfotxt = "UNLOCK CONDITION IS REQUIRED"
 		--It's Not the Start Time yet
 			else
 			--Show Start Time Countdown --Falta hacer lo mismo con la Deadline date
