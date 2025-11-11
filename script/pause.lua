@@ -421,7 +421,6 @@ if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "sto
 	end
 elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "Stage Select"
 elseif getGameMode() == "mission" then t_pauseMain[6].text = "Mission Select"
-	if getPauseVar() == "nogiveup" then table.remove(t_pauseMain,5) end
 elseif getGameMode() == "event" then t_pauseMain[6].text = "Event Select"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "tutorial" then table.remove(t_pauseMain,5)
@@ -429,6 +428,7 @@ elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "Skip Match"
 elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "Characters Stats"
 end
+if getPauseVar() == "nogiveup" then table.remove(t_pauseMain,5) end
 
 --Pause Menu for Replays
 if replay() or getGameMode() == "randomtest" then
@@ -759,7 +759,6 @@ function f_pauseConfirm()
 		if replay() then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
 		else
 			if getGameMode() == "mission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel)
-				if getPauseVar() == "nogiveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel) end
 			elseif getGameMode() == "event" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backEventSel)
 			elseif getGameMode() == "intermission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
 			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then

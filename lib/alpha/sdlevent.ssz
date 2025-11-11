@@ -56,9 +56,14 @@ public bool eventUpdate()
     while;
   do:
     switch(.sdle.etype){
-    case .sdl.EventType::QUIT://When the window's x button is pressed, etc.
+//Detects When the window's x button is pressed.
+    case .sdl.EventType::QUIT:
       .end = true;
       ret false;
+//Detects Windows Events (Resize, maximize, etc)
+	case .sdl.EventType::WINDOWEVENT:
+	  //.sdl.UpdateGLViewport(:.sdle=:);
+//Detects Key Pressed  
     case .sdl.EventType::KEYDOWN:
       loop{index i = 0; while; do:
         .eventKeys[i].checkDown(.sdle.key.keysym.sym, .sdle.key.keysym.mod);

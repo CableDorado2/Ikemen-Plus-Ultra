@@ -13,5 +13,7 @@ textImgSetText(txt_mainSelect, "TITAN ATTACK")
 data.p2In = 1
 data.p2TeamMenu = {mode = 0, chars = 1}
 data.p2Char = {"Red Dragon"}
---data.p2Pal = 1
+data.p2Pal = 1
+setHUD(false)
+setPauseVar("nogiveup") --Set special pause variable config to remove give up option
 f_selectSimple()

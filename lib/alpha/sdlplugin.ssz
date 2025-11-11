@@ -2,6 +2,7 @@ lib f = <file.ssz>;
 
 plugin void End(::)                         = "dll/sdlplugin.dll";
 plugin bool PollEvent(:&Event=:)            = "dll/sdlplugin.dll";
+plugin bool UpdateGLViewport(:&Event=:) 	= "dll/sdlplugin.dll";
 
 public void flip()
 {

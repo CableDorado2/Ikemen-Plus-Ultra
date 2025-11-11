@@ -19,7 +19,7 @@ Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.de
 Kung Fu Man/X/Kung Fu Man X.def, stages/Others/Space Rainbow.def, exclude=1, intermission=1, ai=8, order=-1
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, exclude=1, intermission=1, ai=8, order=-1, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl
 Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Others/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, exclude=1, intermission=1, ai=8, order=-1, single=1
-Red Dragon, chars/Red Dragon/stage/The Red Dragon's Lair.def, zoom=0, includestage=0, exclude=1, order=-1, excludetourney=1
+Red Dragon, chars/Red Dragon/stage/The Red Dragon's Lair.def, victoryscreen=0, zoom=0, includestage=0, exclude=1, order=-1, excludetourney=1
 Break The Car, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
 Strength Training, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=-1

@@ -715,9 +715,10 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 	else
 	{
 		isOpenGL = 1;
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		TTF_Init();
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1); //3
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1); //1
 		g_scrflag = SDL_WINDOW_OPENGL;
 		g_window = SDL_CreateWindow(pu->refToAstr(CP_UTF8, cap).c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, g_scrflag);
 		if(!g_window) return false;
@@ -809,8 +810,7 @@ TUserFunc(bool, FullScreen, bool fs)
 	{
 		fullscreenChecker = false;
 	}
-	return
-	SDL_SetWindowFullscreen(g_window, fs ? fsMode : 0) == 0; //flags may be SDL_WINDOW_FULLSCREEN, for "real" fullscreen with a videomode change; SDL_WINDOW_FULLSCREEN_DESKTOP for "fake" fullscreen that takes the size of the desktop; and 0 for windowed mode.
+	return SDL_SetWindowFullscreen(g_window, fs ? fsMode : 0) == 0; //flags may be SDL_WINDOW_FULLSCREEN, for "real" fullscreen with a videomode change; SDL_WINDOW_FULLSCREEN_DESKTOP for "fake" fullscreen that takes the size of the desktop; and 0 for windowed mode.
 }
 
 void WindowDecoration(bool wd)
@@ -992,6 +992,26 @@ TUserFunc(void, TakeScreenShot, Reference dir)
 		delete[] pixels;
 		delete[] flippedPixels;
 	}
+}
+
+//To update window resize in OpenGL context
+TUserFunc(bool, UpdateGLViewport, const SDL_Event& event)
+{
+	if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_MAXIMIZED)
+	{
+		int32_t new_w = event.window.data1;
+		int32_t new_h = event.window.data2;
+		if (new_h == 0) new_h = 1;
+		glViewport(0, 0, new_w, new_h);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluPerspective(45.0, (double)new_w / (double)new_h, 0.1, 1000.0);
+		glMatrixMode(GL_MODELVIEW);
+		g_w = new_w;
+		g_h = new_h;
+		return true; //Resize ok
+	}
+	return false; //Is not a resize event
 }
 
 //Video Player Definition
