@@ -17,8 +17,8 @@ starty = -15
  ;You may want to fiddle a bit with these values to make sure the
  ;background doesn't move too far or too little
  ;***
-boundleft = -144
-boundright = 144
+boundleft = -120
+boundright = 120
 
  ;High and low bound of camera
  ;High is a negative number. Make is more negative if you want to
@@ -97,7 +97,7 @@ screenright = 15   ;Right edge
 zoffset = 190
 
  ;Leave this at 1. It makes the players face each other
-autoturn = 1
+autoturn = 0
 
  ;Set the following to 1 to have the background be reset between
  ;rounds.
