@@ -6480,17 +6480,26 @@ function f_rosterReset()
 		if data.selectType == "Simple" then
 			p1FaceX = data.p1FaceX
 			p1FaceY = data.p1FaceY
+		--Player in Right Side
+			if not data.p1SelectMenu then
+				p2FaceX = data.p1FaceX
+				p2FaceY = data.p1FaceY
+			end
 		--Disable Hidden Rows and Hidden Columns when Roster Type is Simple
 			offsetRows = 0
 			offsetColumns = 0
-		elseif data.selectType == "Advanced" then --Custom Positions for Single Play in Advanced Roster Type (TODO: Configurate this via options)
-			p1FaceX = 90
-			p1FaceY = data.p1FaceY
+	--Custom Positions for Single Play in Advanced Roster Type
+		elseif data.selectType == "Advanced" then
+			data.singleFaceX = 90 --Custom PosX when playing in Single Play in Advanced Roster Type
+			data.singleFaceY = 168 --Custom PosY when playing in Single Play in Advanced Roster Type
+			p1FaceX = data.singleFaceX
+			p1FaceY = data.singleFaceY
+		--Player in Right Side
+			if not data.p1SelectMenu then
+				p2FaceX = data.singleFaceX
+				p2FaceY = data.singleFaceY
+			end
 		end
-		--if not data.p1SelectMenu then
-			p2FaceX = data.p1FaceX
-			p2FaceY = data.p1FaceY
-		--end
 	end
 --Empty Cells
 	showemptyboxes = true --TODO
@@ -7642,19 +7651,21 @@ function f_selectScreen()
 		textImgDraw(txt_mainSelect)
 	end
 	if not stageMenuActive then
-		drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
-		for i=0, selectColumns-1 do
-			for j=0, selectRows-1 do
-				animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
-				animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
-			--[[Draw Locked Icon
-				local items = (i + selectColumns * j) + 1
-				if items <= #t_selChars then
-					if t_unlockLua.chars[t_selChars[items].char] ~= nil and not onlinegame then
-						animPosDraw(cellLock, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw Lock Icon if the character is locked
+		if data.p1SelectMenu then
+			drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
+			for i=0, selectColumns-1 do
+				for j=0, selectRows-1 do
+					animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
+				--[[Draw Locked Icon
+					local items = (i + selectColumns * j) + 1
+					if items <= #t_selChars then
+						if t_unlockLua.chars[t_selChars[items].char] ~= nil and not onlinegame then
+							animPosDraw(cellLock, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw Lock Icon if the character is locked
+						end
 					end
+				--]]
 				end
-			--]]
 			end
 		end
 		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
@@ -7666,7 +7677,7 @@ function f_selectScreen()
 				end
 			end
 		end
-		--Draw Active Cursors
+	--Draw Active Cursors
 		if p1TeamEnd and not p1SelEnd then
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(cellSizeX+cellSpacingX), p1FaceY+(p1SelY-p1OffsetRow)*(cellSizeY+cellSpacingY))
 			animSetScale(p1ActiveCursor, data.cellScaleX, data.cellScaleY)
