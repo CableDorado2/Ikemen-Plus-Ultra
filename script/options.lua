@@ -4875,7 +4875,7 @@ end
 txt_stageCfg = createTextImg(jgFnt, 0, 0, "STAGE SELECT SETTINGS", 159, 13)
 
 t_stageCfg = {
-	{text = "Presentation"},
+	{text = "Portrait Display"},
 	{text = "Random Portrait"},
 	{text = "Information"},
 	{text = "Random Select Rematch"},

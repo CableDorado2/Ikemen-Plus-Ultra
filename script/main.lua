@@ -6464,20 +6464,26 @@ function f_rosterReset()
 	offsetRows = data.offsetRows --Get Number of Character Select Hidden Rows Slots
 	offsetColumns = data.offsetColumns --Get Number of Character Select Hidden Columns Slots (TODO)
 	setSelColRow(selectColumns, selectRows)
-	--let cursor wrap around
+--let cursor wrap around
 	wrappingX = data.wrappingX --System.def: wrapping for X (true = 1, false = 0)
 	wrappingY = data.wrappingY --System.def: wrapping for Y (true = 1, false = 0)
-	--Position to draw to
-	if data.p2Faces and data.selectType == "Advanced" then --When you play in Multiplayer and Roster Type is like BlazBlue Cross Tag Battle the roster will be divided into 2 and the 2nd player can choose without the screen being cut
+--Position to draw to
+	if data.p2Faces and data.selectType == "Advanced" then
+		--[[When play in Multiplayer and Roster Type is Advanced (like BlazBlue Cross Tag Battle)
+		2 rosters grid will be drawn for each player. With this, player 2 can choose
+		without main grid being updated, when player 1 go to hidden rows or columns]]
 		p1FaceX = data.p1FaceX --System.def: pos for X (Left Side)
 		p1FaceY = data.p1FaceY --System.def: pos for Y (Left Side)
 		p2FaceX = data.p2FaceX --System.def: pos for X (Right Side)
 		p2FaceY = data.p2FaceY --System.def: pos for Y (Right Side)
-	else --When you play in Single Player or Roster Type is Simple Type
+	else --When play in Single Player or Roster Type is Simple
 		if data.selectType == "Simple" then
 			p1FaceX = data.p1FaceX
 			p1FaceY = data.p1FaceY
-		elseif data.selectType == "Advanced" then --Custom Positions for Single Play in Advanced Roster Type (TODO: Also configurate this via options)
+		--Disable Hidden Rows and Hidden Columns when Roster Type is Simple
+			offsetRows = 0
+			offsetColumns = 0
+		elseif data.selectType == "Advanced" then --Custom Positions for Single Play in Advanced Roster Type (TODO: Configurate this via options)
 			p1FaceX = 90
 			p1FaceY = data.p1FaceY
 		end
@@ -6485,18 +6491,14 @@ function f_rosterReset()
 			p2FaceX = data.p1FaceX
 			p2FaceY = data.p1FaceY
 		--end
-		if data.selectType == "Simple" then
-			offsetRows = 0
-			offsetColumns = 0
-		end
 	end
-	--Empty Cells
+--Empty Cells
 	showemptyboxes = true --TODO
 	moveoveremptyboxes = false --allow cursor to move over empty boxes (TODO)
-	--Size of each cell (in pixels)
+--Size of each cell (in pixels)
 	cellSizeX = data.cellSizeX --System.def: cell.size for X
 	cellSizeY = data.cellSizeY --System.def: cell.size for Y
-	--Space between each cell
+--Space between each cell
 	cellSpacingX = data.cellSpacingX --System.def: cell.spacing for X
 	cellSpacingY = data.cellSpacingY --System.def: cell.spacing for Y
 	setSelCellSize(cellSizeX+cellSpacingX, cellSizeY+cellSpacingY) --Slot Size
@@ -9420,7 +9422,7 @@ function f_p2SelectMenu()
 					end
 				end
 				if getCharName(p2Cell) == "Random" then
-					if getCharName(p1Cell) ~= "Random" then --Play Random Cursor SFX only when p1 it is not on the same cell type to overlap the sfx
+					if p1Cell and getCharName(p1Cell) ~= "Random" then --Play Random Cursor SFX only when p1 it is not on the same cell type to overlap the sfx
 						--sndPlay(sndSys, 100, 0)
 					end
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
