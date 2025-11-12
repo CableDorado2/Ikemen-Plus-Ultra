@@ -402,6 +402,8 @@ function f_saveCfg()
 		['data.p1FaceY'] = data.p1FaceY,
 		['data.p2FaceX'] = data.p2FaceX,
 		['data.p2FaceY'] = data.p2FaceY,
+		['data.singleFaceX'] = data.singleFaceX,
+		['data.singleFaceY'] = data.singleFaceY,
 		['data.cellSizeX'] = data.cellSizeX,
 		['data.cellSizeY'] = data.cellSizeY,
 		['data.cellSpacingX'] = data.cellSpacingX,
@@ -694,6 +696,8 @@ function f_selectDefault()
 	data.p1FaceY = 168
 	data.p2FaceX = 176
 	data.p2FaceY = 168
+	data.singleFaceX = 90
+	data.singleFaceY = 168
 	data.cellSizeX = 27
 	data.cellSizeY = 24.5
 	data.cellSpacingX = 2
@@ -3797,6 +3801,8 @@ t_rosterCfg2 = {
 	{text = "P1 Cells Pos Y",	   		varText = data.p1FaceY},
 	{text = "P2 Cells Pos X",	    	varText = data.p2FaceX},
 	{text = "P2 Cells Pos Y",	   		varText = data.p2FaceY},
+	{text = "Single Play Cells Pos X",	varText = data.singleFaceX},
+	{text = "Single Play Cells Pos Y",	varText = data.singleFaceY},
 	{text = "Cells Size X",	    		varText = data.cellSizeX},
 	{text = "Cells Size Y",    			varText = data.cellSizeY},
 	{text = "Cells Spacing X",     		varText = data.cellSpacingX},
@@ -3857,7 +3863,15 @@ function f_rosterCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	if data.selectType == "Simple" then	t_rosterCfg = t_rosterCfg1 elseif data.selectType == "Advanced" then t_rosterCfg = t_rosterCfg2 end --Load different table settings values for specific roster type
+	local singlePlayRoster = false
+	local faceX = nil
+	local faceY = nil
+--Load different table settings values for specific roster type
+	if data.selectType == "Simple" then
+		t_rosterCfg = t_rosterCfg1
+	elseif data.selectType == "Advanced" then
+		t_rosterCfg = t_rosterCfg2
+	end
 	--sndPlay(sndSys, 100, 1)
 	while true do
 		if defaultScreen == false and editDone then
@@ -3867,11 +3881,13 @@ function f_rosterCfg()
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
 				rosterCfg = rosterCfg - 1
+				singlePlayRoster = false
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sndSys, 100, 0)
 				rosterCfg = rosterCfg + 1
+				singlePlayRoster = false
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			end
@@ -3957,12 +3973,12 @@ function f_rosterCfg()
 						if data.p1FaceX < 320 then
 							data.p1FaceX = data.p1FaceX + 0.1
 						else
-							data.p1FaceX = -50
+							data.p1FaceX = 0
 						end
 						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-						if data.p1FaceX > -50 then
+						if data.p1FaceX > 0 then
 							data.p1FaceX = data.p1FaceX - 0.1
 						else
 							data.p1FaceX = 320
@@ -4166,12 +4182,12 @@ function f_rosterCfg()
 						if data.p1FaceX < 320 then
 							data.p1FaceX = data.p1FaceX + 0.1
 						else
-							data.p1FaceX = -50
+							data.p1FaceX = 0
 						end
 						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-						if data.p1FaceX > -50 then
+						if data.p1FaceX > 0 then
 							data.p1FaceX = data.p1FaceX - 0.1
 						else
 							data.p1FaceX = 320
@@ -4238,12 +4254,12 @@ function f_rosterCfg()
 						if data.p2FaceX < 320 then
 							data.p2FaceX = data.p2FaceX + 0.1
 						else
-							data.p2FaceX = -50
+							data.p2FaceX = 0
 						end
 						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-						if data.p2FaceX > -50 then
+						if data.p2FaceX > 0 then
 							data.p2FaceX = data.p2FaceX - 0.1
 						else
 							data.p2FaceX = 320
@@ -4283,6 +4299,80 @@ function f_rosterCfg()
 							data.p2FaceY = data.p2FaceY - 0.1
 						else
 							data.p2FaceY = 240
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+						modified = 1
+				--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd, true) > 0 then
+						sndPlay(sndSys, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
+			--Character Select Draw [SINGLE PLAY MODES] Cells Position (X Axis)
+				elseif rosterCfg == 11 then
+					singlePlayRoster = true
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.singleFaceX < 320 then
+							data.singleFaceX = data.singleFaceX + 0.1
+						else
+							data.singleFaceX = 0
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.singleFaceX > 0 then
+							data.singleFaceX = data.singleFaceX - 0.1
+						else
+							data.singleFaceX = 320
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
+						modified = 1
+				--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd, true) > 0 then
+						sndPlay(sndSys, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
+			--Character Select Draw [SINGLE PLAY MODES] Cells Position (Y Axis)
+				elseif rosterCfg == 12 then
+					singlePlayRoster = true
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.singleFaceY < 240 then
+							data.singleFaceY = data.singleFaceY + 0.1
+						else
+							data.singleFaceY = 0
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.singleFaceY > 0 then
+							data.singleFaceY = data.singleFaceY - 0.1
+						else
+							data.singleFaceY = 240
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4725,6 +4815,8 @@ function f_rosterCfg()
 						elseif rosterCfg == 8 then data.p1FaceY = tonumber(newValue)
 						elseif rosterCfg == 9 then data.p2FaceX = tonumber(newValue)
 						elseif rosterCfg == 10 then data.p2FaceY = tonumber(newValue)
+						elseif rosterCfg == 11 then data.singleFaceX = tonumber(newValue)
+						elseif rosterCfg == 12 then data.singleFaceY = tonumber(newValue)
 						end
 					end
 					if rosterCfg == #t_rosterCfg-11 then data.cellSizeX = tonumber(newValue)
@@ -4748,19 +4840,26 @@ function f_rosterCfg()
 		setSelColRow(data.selectColumns, data.selectRows)
 		setSelCellSize(data.cellSizeX+data.cellSpacingX, data.cellSizeY+data.cellSpacingY)
 		setSelCellScale(data.cellScaleX, data.cellScaleY)
-		drawFace(data.p1FaceX, data.p1FaceY, 0) --Draw Character Face Portrait
 		f_randomSlot() --Draw Random Slots
+		if not singlePlayRoster then
+			faceX = data.p1FaceX
+			faceY = data.p1FaceY
+		else
+			faceX = data.singleFaceX
+			faceY = data.singleFaceY
+		end
+		drawFace(faceX, faceY, 0) --Draw Character Face Portrait
 		for i=0, data.selectColumns-1 do
 			for j=0, data.selectRows-1 do
 				--local p1charSlot = data.p1SelX+i+data.selectColumns*(data.p1SelY+j)
 				--if getCharName(p1charSlot) ~= '' then
-					animPosDraw(selectCell, data.p1FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+j*(data.cellSizeY+data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+					animPosDraw(selectCell, faceX+i*(data.cellSizeX+data.cellSpacingX), faceY+j*(data.cellSizeY+data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
 					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				--end
 			end
 		end
 	--Roster 2
-		if data.selectType == "Advanced" then
+		if data.selectType == "Advanced" and not singlePlayRoster then
 			drawFace(data.p2FaceX, data.p2FaceY, 0)
 			for i=0, data.selectColumns-1 do
 				for j=0, data.selectRows-1 do
@@ -4769,10 +4868,10 @@ function f_rosterCfg()
 				end
 			end
 		end
-		animPosDraw(p1ActiveCursor, data.p1FaceX+data.p1SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p1SelY-0)*(data.cellSizeY+data.cellSpacingY))
+		animPosDraw(p1ActiveCursor, faceX+data.p1SelX*(data.cellSizeX+data.cellSpacingX), faceY+(data.p1SelY-0)*(data.cellSizeY+data.cellSpacingY))
 		animSetScale(p1ActiveCursor, data.cellScaleX, data.cellScaleY)
-		if data.selectType == "Simple" then animPosDraw(p2ActiveCursor, data.p1FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY))
-		elseif data.selectType == "Advanced" then animPosDraw(p2ActiveCursor, data.p2FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY)) --For roster 2
+		if data.selectType == "Simple" or singlePlayRoster then animPosDraw(p2ActiveCursor, faceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), faceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY))
+		elseif data.selectType == "Advanced" and not singlePlayRoster then animPosDraw(p2ActiveCursor, data.p2FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY)) --For roster 2
 		end
 		animSetScale(p2ActiveCursor, data.cellScaleX, data.cellScaleY)
 	--
@@ -4814,6 +4913,8 @@ function f_rosterCfg()
 				t_rosterCfg[8].varText = data.p1FaceY
 				t_rosterCfg[9].varText = data.p2FaceX
 				t_rosterCfg[10].varText = data.p2FaceY
+				t_rosterCfg[11].varText = data.singleFaceX
+				t_rosterCfg[12].varText = data.singleFaceY
 			end
 			t_rosterCfg[#t_rosterCfg-11].varText = data.cellSizeX
 			t_rosterCfg[#t_rosterCfg-10].varText = data.cellSizeY
