@@ -6478,29 +6478,19 @@ function f_rosterReset()
 		p2FaceY = data.p2FaceY --System.def: pos for Y (Right Side)
 	else --When play in Single Player or Roster Type is Simple
 		if data.selectType == "Simple" then
-		--Player in Right Side
-			if not data.p1SelectMenu then
-				p2FaceX = data.p1FaceX
-				p2FaceY = data.p1FaceY
-		--Player in Left Side
-			else
-				p1FaceX = data.p1FaceX
-				p1FaceY = data.p1FaceY
-			end
+			p1FaceX = data.p1FaceX
+			p1FaceY = data.p1FaceY
+			p2FaceX = data.p1FaceX
+			p2FaceY = data.p1FaceY
 		--Disable Hidden Rows and Hidden Columns when Roster Type is Simple
 			offsetRows = 0
 			offsetColumns = 0
 	--Custom Positions for Single Play in Advanced Roster Type
 		elseif data.selectType == "Advanced" then
-		--Player in Right Side
-			if not data.p1SelectMenu then
-				p2FaceX = data.singleFaceX
-				p2FaceY = data.singleFaceY
-		--Player in Left Side
-			else
-				p1FaceX = data.singleFaceX
-				p1FaceY = data.singleFaceY
-			end
+			p1FaceX = data.singleFaceX
+			p1FaceY = data.singleFaceY
+			p2FaceX = data.singleFaceX
+			p2FaceY = data.singleFaceY
 		end
 	end
 --Empty Cells
@@ -7685,7 +7675,7 @@ function f_selectScreen()
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(cellSizeX+cellSpacingX), p1FaceY+(p1SelY-p1OffsetRow)*(cellSizeY+cellSpacingY))
 			animSetScale(p1ActiveCursor, data.cellScaleX, data.cellScaleY)
 		end
-		if p2TeamEnd and not p2SelEnd and ((data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu) then
+		if p2TeamEnd and not p2SelEnd and (data.p2Faces or not data.p1SelectMenu) then
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(cellSizeX+cellSpacingX), p2FaceY+(p2SelY-p2OffsetRow)*(cellSizeY+cellSpacingY))
 			animSetScale(p2ActiveCursor, data.cellScaleX, data.cellScaleY)
 		end
