@@ -81,7 +81,7 @@ data.p2SelY = 0
 data.stageType = "Modern"
 data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
-data.randomStageRematch = "Fixed"
+data.randomStageRematch = "Variable"
 --Timers Data
 data.selectTime = 31
 data.stageTime = 21

@@ -514,11 +514,11 @@ local function f_artMenu(artLimit)
 			--end
 		end
 	--DEBUG STUFF
-	--[
-		f_drawQuickText(txt_debugGalleryZoom, jgFnt, 0, 1, "ZOOM: "..artScaleX, 10, 15)
-		f_drawQuickText(txt_debugGalleryArtPosX, jgFnt, 0, 1, "POS X: "..artPosX, 10, 30)
-		f_drawQuickText(txt_debugGalleryArtPosY, jgFnt, 0, 1, "POS Y: "..artPosY, 10, 45)
-	--]]
+		if data.debugMode then
+			f_drawQuickText(txt_debugGalleryZoom, jgFnt, 0, 1, "ZOOM: "..artScaleX, 10, 15)
+			f_drawQuickText(txt_debugGalleryArtPosX, jgFnt, 0, 1, "POS X: "..artPosX, 10, 30)
+			f_drawQuickText(txt_debugGalleryArtPosY, jgFnt, 0, 1, "POS Y: "..artPosY, 10, 45)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if not hideMenu then drawArtInputHints() end --Draw Input Hints Panel
@@ -920,13 +920,13 @@ function f_galleryMenu()
 		animDraw(galleryInfoBG) --Draw Info Text BG
 		f_textRender(txt_galleryInfo, textData, 0, 159, 208, 10, 0, 55)
 	--DEBUG STUFF
-	--[[
-		f_drawQuickText(txt_debugGalleryCursor, jgFnt, 0, 1, "ITEM: "..galleryCursor, 10, 100+15)
-		f_drawQuickText(txt_debugGalleryCursorX, jgFnt, 0, 1, "CURSOR X: "..galleryCursorX, 10, 100+30)
-		f_drawQuickText(txt_debugGalleryCursorY, jgFnt, 0, 1, "CURSOR Y: "..galleryCursorY, 10, 100+45)
-		f_drawQuickText(txt_debugGalleryMoveX, jgFnt, 0, 1, "MOVE X: "..galleryMoveX, 10, 100+60)
-		f_drawQuickText(txt_debugGalleryMoveY, jgFnt, 0, 1, "MOVE Y: "..galleryMoveY, 10, 100+75)
-	--]]
+		if data.debugMode then
+			f_drawQuickText(txt_debugGalleryCursor, jgFnt, 0, 1, "ITEM: "..galleryCursor, 10, 100+15)
+			f_drawQuickText(txt_debugGalleryCursorX, jgFnt, 0, 1, "CURSOR X: "..galleryCursorX, 10, 100+30)
+			f_drawQuickText(txt_debugGalleryCursorY, jgFnt, 0, 1, "CURSOR Y: "..galleryCursorY, 10, 100+45)
+			f_drawQuickText(txt_debugGalleryMoveX, jgFnt, 0, 1, "MOVE X: "..galleryMoveX, 10, 100+60)
+			f_drawQuickText(txt_debugGalleryMoveY, jgFnt, 0, 1, "MOVE Y: "..galleryMoveY, 10, 100+75)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 	--GALLERY MENU BUF KEY CONTROL

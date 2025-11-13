@@ -1741,7 +1741,6 @@ function f_netplayCfg()
 				end
 			end
 			if returnKey() then --If you are using a keyboard, use enter key to accept
-			--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				if playerName ~= '' and playerName ~= nil then
@@ -1792,7 +1791,6 @@ function f_netplayCfg()
 				end
 			end
 			if returnKey() then --If you are using a keyboard, use enter key to accept
-			--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				if onlinePort ~= '' and onlinePort ~= nil and tonumber(onlinePort) ~= nil then --Port is a valid Number
@@ -3970,18 +3968,18 @@ function f_rosterCfg()
 			--Character Select Draw Cells Position (X Axis)
 				elseif rosterCfg == 5 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.p1FaceX < 320 then
+						if data.p1FaceX < 360 then
 							data.p1FaceX = data.p1FaceX + 0.1
 						else
-							data.p1FaceX = 0
+							data.p1FaceX = -60
 						end
 						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-						if data.p1FaceX > 0 then
+						if data.p1FaceX > -60 then
 							data.p1FaceX = data.p1FaceX - 0.1
 						else
-							data.p1FaceX = 320
+							data.p1FaceX = 360
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4006,7 +4004,7 @@ function f_rosterCfg()
 			--Character Select Draw Cells Position (Y Axis)
 				elseif rosterCfg == 6 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.p1FaceY < 240 then
+						if data.p1FaceY < 230 then
 							data.p1FaceY = data.p1FaceY + 0.1
 						else
 							data.p1FaceY = 0
@@ -4017,7 +4015,7 @@ function f_rosterCfg()
 						if data.p1FaceY > 0 then
 							data.p1FaceY = data.p1FaceY - 0.1
 						else
-							data.p1FaceY = 240
+							data.p1FaceY = 230
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4179,18 +4177,18 @@ function f_rosterCfg()
 			--Character Select Draw [PLAYER 1] Cells Position (X Axis)
 				elseif rosterCfg == 7 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.p1FaceX < 320 then
+						if data.p1FaceX < 360 then
 							data.p1FaceX = data.p1FaceX + 0.1
 						else
-							data.p1FaceX = 0
+							data.p1FaceX = -60
 						end
 						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-						if data.p1FaceX > 0 then
+						if data.p1FaceX > -60 then
 							data.p1FaceX = data.p1FaceX - 0.1
 						else
-							data.p1FaceX = 320
+							data.p1FaceX = 360
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4215,7 +4213,7 @@ function f_rosterCfg()
 			--Character Select Draw [PLAYER 1] Cells Position (Y Axis)
 				elseif rosterCfg == 8 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.p1FaceY < 240 then
+						if data.p1FaceY < 230 then
 							data.p1FaceY = data.p1FaceY + 0.1
 						else
 							data.p1FaceY = 0
@@ -4226,7 +4224,7 @@ function f_rosterCfg()
 						if data.p1FaceY > 0 then
 							data.p1FaceY = data.p1FaceY - 0.1
 						else
-							data.p1FaceY = 240
+							data.p1FaceY = 230
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4251,18 +4249,18 @@ function f_rosterCfg()
 			--Character Select Draw [PLAYER 2] Cells Position (X Axis)
 				elseif rosterCfg == 9 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.p2FaceX < 320 then
+						if data.p2FaceX < 360 then
 							data.p2FaceX = data.p2FaceX + 0.1
 						else
-							data.p2FaceX = 0
+							data.p2FaceX = -60
 						end
 						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-						if data.p2FaceX > 0 then
+						if data.p2FaceX > -60 then
 							data.p2FaceX = data.p2FaceX - 0.1
 						else
-							data.p2FaceX = 320
+							data.p2FaceX = 360
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4287,7 +4285,7 @@ function f_rosterCfg()
 			--Character Select Draw [PLAYER 2] Cells Position (Y Axis)
 				elseif rosterCfg == 10 then
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.p2FaceY < 240 then
+						if data.p2FaceY < 230 then
 							data.p2FaceY = data.p2FaceY + 0.1
 						else
 							data.p2FaceY = 0
@@ -4298,7 +4296,7 @@ function f_rosterCfg()
 						if data.p2FaceY > 0 then
 							data.p2FaceY = data.p2FaceY - 0.1
 						else
-							data.p2FaceY = 240
+							data.p2FaceY = 230
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4324,18 +4322,18 @@ function f_rosterCfg()
 				elseif rosterCfg == 11 then
 					singlePlayRoster = true
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.singleFaceX < 320 then
+						if data.singleFaceX < 360 then
 							data.singleFaceX = data.singleFaceX + 0.1
 						else
-							data.singleFaceX = 0
+							data.singleFaceX = -60
 						end
 						if commandGetState(p1Cmd, 'r') then sndPlay(sndSys, 100, 0) end
 						modified = 1
 					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-						if data.singleFaceX > 0 then
+						if data.singleFaceX > -60 then
 							data.singleFaceX = data.singleFaceX - 0.1
 						else
-							data.singleFaceX = 320
+							data.singleFaceX = 360
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4361,7 +4359,7 @@ function f_rosterCfg()
 				elseif rosterCfg == 12 then
 					singlePlayRoster = true
 					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-						if data.singleFaceY < 240 then
+						if data.singleFaceY < 230 then
 							data.singleFaceY = data.singleFaceY + 0.1
 						else
 							data.singleFaceY = 0
@@ -4372,7 +4370,7 @@ function f_rosterCfg()
 						if data.singleFaceY > 0 then
 							data.singleFaceY = data.singleFaceY - 0.1
 						else
-							data.singleFaceY = 240
+							data.singleFaceY = 230
 						end
 						if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 						modified = 1
@@ -4802,7 +4800,8 @@ function f_rosterCfg()
 				end
 			end
 			if returnKey() then --If you are using a keyboard, use enter key to accept
-			--if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
 				if newValue ~= '' and newValue ~= nil and tonumber(newValue) ~= nil then --Value entered is a valid Number
 					clearInputText()
 					sndPlay(sndSys, 100, 1)
@@ -4891,8 +4890,11 @@ function f_rosterCfg()
 			end
 			i = i >= 60 and 0 or i + 1
 		end
-		if data.debugMode then f_drawQuickText(txt_characterNomber, font1, 1, 0, "SELECT.DEF LOADED SLOTS: "..#t_selChars, 160, 60) end
-		if data.debugMode then f_drawQuickText(txt_emptyCellTest, font1, 1, 0, getCharName(data.p1SelX+data.selectColumns*data.p1SelY), 160, 70) end
+		if data.debugMode then
+			f_drawQuickText(txt_characterNomber, font1, 1, 0, "SELECT.DEF LOADED SLOTS: "..#t_selChars, 160, 60)
+			f_drawQuickText(txt_p1StartCursor, font1, 1, 0, "P1 START ON "..getCharName(data.p1SelX+data.selectColumns*data.p1SelY), 160, 70)
+			f_drawQuickText(txt_p2StartCursor, font1, 1, 0, "P2 START ON "..getCharName(data.p2SelX+data.selectColumns*data.p2SelY), 160, 80)
+		end
 		t_rosterCfg[1].varText = data.selectRows
 		t_rosterCfg[2].varText = data.selectColumns
 		if data.selectType == "Simple" then
