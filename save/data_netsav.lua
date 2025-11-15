@@ -32,6 +32,7 @@ data.lifeMul = 100
 data.aipal = "Default"
 data.aiRamping = true
 data.quickCont = true
+data.scoreResetType = 1
 data.kumite = 100
 --Team Data
 data.team1VS2Life = 120

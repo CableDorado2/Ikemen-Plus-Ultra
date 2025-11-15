@@ -370,6 +370,7 @@ function f_saveCfg()
 		['data.aiRamping'] = data.aiRamping,
 		['data.kumite'] = data.kumite,
 		['data.quickCont'] = data.quickCont,
+		['data.scoreResetType'] = data.scoreResetType,
 	--Team Data
 		['data.team1VS2Life'] = data.team1VS2Life,
 		['data.turnsRecoveryRate'] = data.turnsRecoveryRate,
@@ -547,6 +548,7 @@ function f_netsaveCfg()
 		['data.simulType'] = data.simulType,
 		['data.difficulty'] = data.difficulty,
 		['data.quickCont'] = data.quickCont,
+		['data.scoreResetType'] = data.scoreResetType,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.aipal'] = data.aipal,
 		['data.kumite'] = data.kumite,
@@ -631,6 +633,7 @@ function f_gameDefault()
 	gameSpeed = 60
 	s_gameSpeed = "Normal"
 	data.quickCont = true
+	data.scoreResetType = 1
 end
 
 --Default Team Values
@@ -2179,6 +2182,7 @@ t_gameCfg = {
 	{text = "Life"},
 	{text = "Game Speed"},
 	{text = "Quick Arcade Continue"},
+	{text = "Score Arcade Continue"},
 	--{text = "Dizzy"},
 	--{text = "Guard Break"},
 	{text = "AI Palette"},
@@ -2195,6 +2199,14 @@ for i=1, #t_gameCfg do
 	t_gameCfg[i]['varText'] = ""
 end
 
+t_scoreResetType = {
+	"Reset",
+	"Reset+Add Continues Count",
+	"Reduce to Half",
+	"No Reset",
+	"No Reset+Add Continues Count"
+}
+
 function f_gameCfg()
 	cmdInput()
 	local cursorPosY = 1
@@ -2207,10 +2219,12 @@ function f_gameCfg()
 	local maxItems = 12
 	local back = false
 	sndPlay(sndSys, 100, 1)
+	f_resetOptionSysArrowPos()
 	while true do
 		if not defaultScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or back then
 				lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
+				f_resetOptionArrowsPos()
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -2393,15 +2407,40 @@ function f_gameCfg()
 					data.quickCont = true
 				end
 				modified = 1
+		--Score Behavior when Continue in Arcade
+			elseif gameCfg == 8 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.scoreResetType < #t_scoreResetType then sndPlay(sndSys, 100, 0) end
+					if data.scoreResetType < #t_scoreResetType then
+						data.scoreResetType = data.scoreResetType + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.scoreResetType > 1 then sndPlay(sndSys, 100, 0) end
+					if data.scoreResetType > 1 then
+						data.scoreResetType = data.scoreResetType - 1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
 		--AI Palette
-			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aipal == "Default" then data.aipal = "Random"
 				elseif data.aipal == "Random" then data.aipal = "Default"
 				end
 				modified = 1
 		--AI Ramping
-			elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
+			elseif gameCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 0)
 				if data.aiRamping then
 					data.aiRamping = false
@@ -2410,7 +2449,7 @@ function f_gameCfg()
 				end
 				modified = 1
 		--VS Kumite Amount
-			elseif gameCfg == 10 then
+			elseif gameCfg == 11 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.kumite < 1000 then
 						data.kumite = data.kumite + 1
@@ -2439,13 +2478,17 @@ function f_gameCfg()
 					bufl = 0
 				end
 		--Team Settings
-			elseif gameCfg == 11 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif gameCfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
+				f_resetOptionArrowsPos()
 				f_teamCfg()
+				f_resetOptionSysArrowPos()
 		--Zoom Settings
-			elseif gameCfg == 12 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
+			elseif gameCfg == 13 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
 				sndPlay(sndSys, 100, 1)
+				f_resetOptionArrowsPos()
 				f_zoomCfg()
+				f_resetOptionSysArrowPos()
 		--Erase/Reset Player Records
 			elseif gameCfg == #t_gameCfg-2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
 				if onlinegame then
@@ -2492,12 +2535,12 @@ function f_gameCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxGameCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,180)
+		animSetScale(optionsBG1, 290, maxGameCfg*15)
+		animSetWindow(optionsBG1, 30,20, 260,180)
 		animDraw(optionsBG1)
-		textImgDraw(txt_gameCfg)
+		textImgDraw(txt_systemCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2517,15 +2560,16 @@ function f_gameCfg()
 		t_gameCfg[5].varText = data.lifeMul.."%"
 		t_gameCfg[6].varText = s_gameSpeed
 		if data.quickCont then t_gameCfg[7].varText = "Yes" else t_gameCfg[7].varText = "No" end
+		t_gameCfg[8].varText = t_scoreResetType[data.scoreResetType]
 		--if data.stun then t_gameCfg[8].varText = "Yes" else t_gameCfg[8].varText = "No" end
 		--if data.guardBreak then t_gameCfg[9].varText = "Yes" else t_gameCfg[9].varText = "No" end
-		t_gameCfg[8].varText = data.aipal
-		if data.aiRamping then t_gameCfg[9].varText = "Yes" else t_gameCfg[9].varText = "No" end
-		t_gameCfg[10].varText = data.kumite
-		for i=1, maxGameCfg do	
+		t_gameCfg[9].varText = data.aipal
+		if data.aiRamping then t_gameCfg[10].varText = "Yes" else t_gameCfg[10].varText = "No" end
+		t_gameCfg[11].varText = data.kumite
+		for i=1, maxGameCfg do
 			if i > gameCfg - cursorPosY then
 				local align = 1
-				local posX = 85
+				local posX = 35
 			--Custom Pos for Last items
 				if i == #t_gameCfg or i == #t_gameCfg-1 or i == #t_gameCfg-2 then
 					align = 0
@@ -2533,7 +2577,7 @@ function f_gameCfg()
 				end
 				if t_gameCfg[i].varID ~= nil then
 					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, align, t_gameCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, -1, t_gameCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, -1, t_gameCfg[i].varText, 286, 15+i*15-moveTxt))
 				end
 			end
 		end
@@ -3122,7 +3166,7 @@ for i=1, #t_systemCfg do
 	t_systemCfg[i]['varText'] = ""
 end
 
-local t_languages = { --Not implemented yet
+t_languages = { --Not implemented yet
 	"ENGLISH",
 	--"SPANISH",
 	--"JAPANESE",
