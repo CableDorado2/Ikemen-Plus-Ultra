@@ -798,11 +798,11 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	--{text = "ALLIANCE", 	gotomenu = "f_allianceCfg()"},
+	{text = "ALLIANCE", 	gotomenu = "f_allianceCfg()"},
 	--{text = "LEGION", 		gotomenu = "f_legionCfg()"},
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
-	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
 	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
+	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
 	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
 for i=1, #t_challengeMenu do
@@ -822,6 +822,18 @@ for i=1, #t_survivalMenu do
 end
 
 --;===========================================================
+--; TIME ATTACK MENU SCREENPACK DEFINITION
+--;===========================================================
+t_timeattackMenu = {
+	{text = "CLASSIC", 		gotomenu = "f_timeattackBoot()"},
+	{text = "SPEED STAR", 	gotomenu = "f_speedstarBoot()"},
+	{text = "???", 			gotomenu = "f_comingSoon()"},
+}
+for i=1, #t_timeattackMenu do
+	t_timeattackMenu[i]['id'] = textImgNew()
+end
+
+--;===========================================================
 --; SCORE ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_scoreattackMenu = {
@@ -830,18 +842,6 @@ t_scoreattackMenu = {
 }
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
-end
-
---;===========================================================
---; TIME ATTACK MENU SCREENPACK DEFINITION
---;===========================================================
-t_timeattackMenu = {
-	{text = "CLASSIC", 		gotomenu = "f_timeattackBoot()"},
-	{text = "SPEED STAR", 	gotomenu = "f_timerushBoot()"},
-	{text = "???", 			gotomenu = "f_comingSoon()"},
-}
-for i=1, #t_timeattackMenu do
-	t_timeattackMenu[i]['id'] = textImgNew()
 end
 
 --;===========================================================
@@ -1162,9 +1162,13 @@ t_mainLobby = {
 	{text = "ENDLESS"},
 	{text = "BOSS RUSH"},
 	{text = "BONUS RUSH"},
-	--{text = "SCORE ATTACK"},
-	--{text = "TIME ATTACK"},
+--[[
 	{text = "TIME RUSH"},
+	{text = "SCORE RUSH"},
+]]
+	{text = "SPEED STAR"},
+	{text = "TIME ATTACK"},
+	{text = "SCORE ATTACK"},
 	{text = ""}, --VS X KUMITE
 	{text = "SUDDEN DEATH"},
 	{text = "ONLINE SETTINGS"},

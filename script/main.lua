@@ -2730,14 +2730,11 @@ function f_timeattackMenu()
 end
 
 --;===========================================================
---; CLASSIC TIME ATTACK MODE (defeat opponents as quickly as possible)
+--; CLASSIC TIME ATTACK MODE (defeat opponents to get best time as possible)
 --;===========================================================
 function f_timeattackBoot()
-	f_comingSoon()
---[[
 	menuSelect = "time attack"
 	sideScreen = true
-]]
 end
 
 --Load Common Settings for Time Attack Modes
@@ -2748,13 +2745,13 @@ function timeattackCfg()
 	data.rosterMode = "timeattack"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(-1)
+	--setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (defeat all character roster as quickly as possible, beating previous time records from left side)
+--HUMAN VS CPU (defeat all character roster with best time possible, beating previous time records from left side)
 function timeattackHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -2767,7 +2764,7 @@ function timeattackHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (defeat all character roster as quickly as possible, beating previous time records from right side)
+--CPU VS HUMAN (defeat all character roster with best time possible, beating previous time records from right side)
 function timeattackCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -2783,7 +2780,7 @@ function timeattackCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster as quickly as possible, beating previous time records)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster with best time possible, beating previous time records)
 function timeattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -2793,7 +2790,7 @@ function timeattackP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster as quickly as possible, beating previous time records)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster with best time possible, beating previous time records)
 function timeattackCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -2807,7 +2804,7 @@ function timeattackCPUvsP1P2()
 	]]
 end
 
---CPU MODE (watch CPU defeat all character roster as quickly as possible, beating previous time records)
+--CPU MODE (watch CPU defeat all character roster with best time possible, beating previous time records)
 function timeattackCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -2819,42 +2816,42 @@ function timeattackCPUvsCPU()
 end
 
 --;===========================================================
---; TIME RUSH MODE (defeat opponents before time runs out)
+--; SPEED STAR MODE (defeat opponents before time runs out)
 --;===========================================================
-function f_timerushBoot()
-	menuSelect = "time rush"
-	sideScreen = true	
+function f_speedstarBoot()
+	menuSelect = "speed star"
+	sideScreen = true
 end
 
---Load Common Settings for Time Rush Modes
-function timerushCfg()
-	f_discordUpdate({details = "???"})
+--Load Common Settings for Speed Star Modes
+function speedstarCfg()
+	f_discordUpdate({details = "Speed Star"})
 	f_default()
 	data.gameMode = "allroster"
-	data.rosterMode = "timerush"
+	data.rosterMode = "speedstar"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(3600)
+	setRoundTime(99*60)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
 
 --HUMAN VS CPU (rush to defeat opponents before time runs out, beating previous time records from left side)
-function timerushHumanvsCPU()
+function speedstarHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
 	end
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "TIME RUSH")
+	textImgSetText(txt_mainSelect, "SPEED STAR")
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
 end
 
 --CPU VS HUMAN (rush to defeat opponents before time runs out, beating previous time records from right side)
-function timerushCPUvsHuman()
+function speedstarCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
@@ -2863,24 +2860,24 @@ function timerushCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "TIME RUSH")
+	textImgSetText(txt_mainSelect, "SPEED STAR")
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to rush to defeat opponents before time runs out, beating previous time records)
-function timerushP1P2vsCPU()
+function speedstarP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, "TIME RUSH COOPERATIVE")
+	textImgSetText(txt_mainSelect, "SPEED STAR COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to rush to defeat opponents before time runs out, beating previous time records)
-function timerushCPUvsP1P2()
+function speedstarCPUvsP1P2()
 	f_comingSoon()
 	--[[
 	setPlayerSide('p1right')
@@ -2888,18 +2885,18 @@ function timerushCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, "TIME RUSH COOPERATIVE")
+	textImgSetText(txt_mainSelect, "SPEED STAR COOPERATIVE")
 	f_selectAdvance()
 	]]
 end
 
 --CPU MODE (watch CPU rush to defeat opponents before time runs out, beating previous time records)
-function timerushCPUvsCPU()
+function speedstarCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
 	data.rosterMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH TIME RUSH")
+	textImgSetText(txt_mainSelect, "WATCH SPEED STAR")
 	f_selectAdvance()
 	f_discordMainMenu()
 end
@@ -3434,7 +3431,7 @@ t_statsGameModes = {
 		setplaytime = function(newtime) stats.modes.arcade.playtime = newtime end
 	},
 	{
-		displayname = "Tourney",
+		displayname = "Tournament",
 		id = "tourney",
 		playtime = function() return stats.modes.tourney.playtime end,
 		setplaytime = function(newtime) stats.modes.tourney.playtime = newtime end
@@ -3446,10 +3443,10 @@ t_statsGameModes = {
 		setplaytime = function(newtime) stats.modes.tower.playtime = newtime end
 	},
 	{
-		displayname = "Survival",
-		id = "survival",
-		playtime = function() return stats.modes.survival.playtime end,
-		setplaytime = function(newtime) stats.modes.survival.playtime = newtime end
+		displayname = "Legion",
+		id = "legion",
+		playtime = function() return stats.modes.legion.playtime end,
+		setplaytime = function(newtime) stats.modes.legion.playtime = newtime end
 	},
 	{
 		displayname = "Abyss",
@@ -3458,10 +3455,16 @@ t_statsGameModes = {
 		setplaytime = function(newtime) stats.modes.abyss.playtime = newtime end
 	},
 	{
-		displayname = "Legion",
-		id = "legion",
-		playtime = function() return stats.modes.legion.playtime end,
-		setplaytime = function(newtime) stats.modes.legion.playtime = newtime end
+		displayname = "Alliance",
+		id = "alliance",
+		playtime = function() return stats.modes.alliance.playtime end,
+		setplaytime = function(newtime) stats.modes.alliance.playtime = newtime end
+	},
+	{
+		displayname = "Survival",
+		id = "survival",
+		playtime = function() return stats.modes.survival.playtime end,
+		setplaytime = function(newtime) stats.modes.survival.playtime = newtime end
 	},
 	{
 		displayname = "Boss Fight",
@@ -3476,10 +3479,22 @@ t_statsGameModes = {
 		setplaytime = function(newtime) stats.modes.bonus.playtime = newtime end
 	},
 	{
-		displayname = "Score Attack",
-		id = "scoreattack",
-		playtime = function() return stats.modes.scoreattack.playtime end,
-		setplaytime = function(newtime) stats.modes.scoreattack.playtime = newtime end
+		displayname = "Time Rush",
+		id = "timerush",
+		playtime = function() return stats.modes.timerush.playtime end,
+		setplaytime = function(newtime) stats.modes.timerush.playtime = newtime end
+	},
+	{
+		displayname = "Score Rush",
+		id = "scorerush",
+		playtime = function() return stats.modes.scorerush.playtime end,
+		setplaytime = function(newtime) stats.modes.scorerush.playtime = newtime end
+	},
+	{
+		displayname = "Speed Star",
+		id = "speedstar",
+		playtime = function() return stats.modes.speedstar.playtime end,
+		setplaytime = function(newtime) stats.modes.speedstar.playtime = newtime end
 	},
 	{
 		displayname = "Time Attack",
@@ -3488,10 +3503,10 @@ t_statsGameModes = {
 		setplaytime = function(newtime) stats.modes.timeattack.playtime = newtime end
 	},
 	{
-		displayname = "Time Rush",
-		id = "timerush",
-		playtime = function() return stats.modes.timerush.playtime end,
-		setplaytime = function(newtime) stats.modes.timerush.playtime = newtime end
+		displayname = "Score Attack",
+		id = "scoreattack",
+		playtime = function() return stats.modes.scoreattack.playtime end,
+		setplaytime = function(newtime) stats.modes.scoreattack.playtime = newtime end
 	},
 	{
 		displayname = "Sudden Death",
@@ -5468,16 +5483,14 @@ function f_mainLobby()
 					textImgSetText(txt_mainSelect, "ONLINE BONUS MARATHON COOPERATIVE")
 					f_selectAdvance()
 				end
-		--ONLINE TIME RUSH
+		--ONLINE SPEED STAR
 			elseif mainLobby == 9 then
-				setRoundTime(3600)
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
-				data.rosterMode = "timerush"
-				--setGameMode("netplaytimerush")
-				textImgSetText(txt_mainSelect, "ONLINE TIME RUSH COOPERATIVE")
+				data.rosterMode = "speedstar"
+				setGameMode("netplayspeedstar")
+				textImgSetText(txt_mainSelect, "ONLINE SPEED STAR COOPERATIVE")
 				f_selectAdvance()
-		--[[
 		--ONLINE TIME ATTACK
 			elseif mainLobby == 10 then
 				setRoundsToWin(1)
@@ -5493,9 +5506,8 @@ function f_mainLobby()
 				setGameMode("netplayscoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
-		]]
 		--ONLINE VS X KUMITE
-			elseif mainLobby == 10 then
+			elseif mainLobby == 12 then
 				setRoundsToWin(1)
 				data.gameMode = "vskumite"
 				data.rosterMode = "vskumite"
@@ -5503,7 +5515,7 @@ function f_mainLobby()
 				textImgSetText(txt_mainSelect, "ONLINE "..getKumiteData().." COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SUDDEN DEATH
-			elseif mainLobby == 11 then
+			elseif mainLobby == 13 then
 				setRoundTime(1000)
 				setLifeMul(0)
 				setRoundsToWin(1)
@@ -6088,12 +6100,16 @@ function f_sideSelect()
 		elseif menuSelect == "arcade" then arcadeCfg()
 		elseif menuSelect == "tower" then towerCfg()
 		elseif menuSelect == "survival" then survivalCfg()
+		elseif menuSelect == "legion" then legionCfg()
 		elseif menuSelect == "abyss" then abyssCfg()
+		elseif menuSelect == "alliance" then allianceCfg()
 		elseif menuSelect == "boss" then bossCfg()
 		elseif menuSelect == "boss rush" then bossrushCfg()
 		elseif menuSelect == "bonus" then bonusCfg()
 		elseif menuSelect == "bonus rush" then bonusrushCfg()
+		elseif menuSelect == "score rush" then scorerushCfg()
 		elseif menuSelect == "time rush" then timerushCfg()
+		elseif menuSelect == "speed star" then speedstarCfg()
 		elseif menuSelect == "time attack" then timeattackCfg()
 		elseif menuSelect == "score attack" then scoreattackCfg()
 		elseif menuSelect == "kumite" then kumiteCfg()
@@ -6108,10 +6124,14 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsCPU()
 			elseif menuSelect == "tower" then towerCPUvsCPU()
 			elseif menuSelect == "survival" then survivalCPUvsCPU()
+			elseif menuSelect == "legion" then legionCPUvsCPU()
 			elseif menuSelect == "abyss" then abyssCPUvsCPU()
+			elseif menuSelect == "alliance" then allianceCPUvsCPU()
 			elseif menuSelect == "boss" then bossCPUvsCPU()
 			elseif menuSelect == "boss rush" then bossrushCPUvsCPU()
+			elseif menuSelect == "score rush" then scorerushCPUvsCPU()
 			elseif menuSelect == "time rush" then timerushCPUvsCPU()
+			elseif menuSelect == "speed star" then speedstarCPUvsCPU()
 			elseif menuSelect == "time attack" then timeattackCPUvsCPU()
 			elseif menuSelect == "score attack" then scoreattackCPUvsCPU()
 			elseif menuSelect == "kumite" then kumiteCPUvsCPU()
@@ -6133,12 +6153,16 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
 			elseif menuSelect == "tower" then towerHumanvsCPU()
 			elseif menuSelect == "survival" then survivalHumanvsCPU()
+			elseif menuSelect == "legion" then legionHumanvsCPU()
 			elseif menuSelect == "abyss" then abyssHumanvsCPU()
+			elseif menuSelect == "alliance" then allianceHumanvsCPU()
 			elseif menuSelect == "boss" then bossHumanvsCPU()
 			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
 			elseif menuSelect == "bonus" then bonusHumanvsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
+			elseif menuSelect == "score rush" then scorerushHumanvsCPU()
 			elseif menuSelect == "time rush" then timerushHumanvsCPU()
+			elseif menuSelect == "speed star" then speedstarHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
 			elseif menuSelect == "kumite" then kumiteHumanvsCPU()
@@ -6155,12 +6179,16 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
 			elseif menuSelect == "tower" then towerHumanvsCPU()
 			elseif menuSelect == "survival" then survivalHumanvsCPU()
+			elseif menuSelect == "legion" then legionHumanvsCPU()
 			elseif menuSelect == "abyss" then abyssHumanvsCPU()
+			elseif menuSelect == "alliance" then allianceHumanvsCPU()
 			elseif menuSelect == "boss" then bossHumanvsCPU()
 			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
 			elseif menuSelect == "bonus" then bonusHumanvsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
+			elseif menuSelect == "score rush" then scorerushHumanvsCPU()
 			elseif menuSelect == "time rush" then timerushHumanvsCPU()
+			elseif menuSelect == "speed star" then speedstarHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
 			elseif menuSelect == "kumite" then kumiteHumanvsCPU()
@@ -6176,12 +6204,16 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
 			elseif menuSelect == "tower" then towerCPUvsHuman()
 			elseif menuSelect == "survival" then survivalCPUvsHuman()
+			elseif menuSelect == "legion" then legionCPUvsHuman()
 			elseif menuSelect == "abyss" then abyssCPUvsHuman()
+			elseif menuSelect == "alliance" then allianceCPUvsHuman()
 			elseif menuSelect == "boss" then bossCPUvsHuman()
 			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
 			elseif menuSelect == "bonus" then bonusCPUvsHuman()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
+			elseif menuSelect == "score rush" then scorerushCPUvsHuman()
 			elseif menuSelect == "time rush" then timerushCPUvsHuman()
+			elseif menuSelect == "speed star" then speedstarCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
 			elseif menuSelect == "kumite" then kumiteCPUvsHuman()
@@ -6198,12 +6230,16 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
 			elseif menuSelect == "tower" then towerCPUvsHuman()
 			elseif menuSelect == "survival" then survivalCPUvsHuman()
+			elseif menuSelect == "legion" then legionCPUvsHuman()
 			elseif menuSelect == "abyss" then abyssCPUvsHuman()
+			elseif menuSelect == "alliance" then allianceCPUvsHuman()
 			elseif menuSelect == "boss" then bossCPUvsHuman()
 			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
 			elseif menuSelect == "bonus" then bonusCPUvsHuman()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
+			elseif menuSelect == "score rush" then scorerushCPUvsHuman()
 			elseif menuSelect == "time rush" then timerushCPUvsHuman()
+			elseif menuSelect == "speed star" then speedstarCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
 			elseif menuSelect == "kumite" then kumiteCPUvsHuman()
@@ -6247,10 +6283,14 @@ function f_sideSelect()
 			if menuSelect == "arcade" then arcadeP1P2vsCPU()
 			elseif menuSelect == "tower" then towerP1P2vsCPU()
 			elseif menuSelect == "survival" then survivalP1P2vsCPU()
+			elseif menuSelect == "legion" then legionP1P2vsCPU()
 			elseif menuSelect == "abyss" then abyssP1P2vsCPU()
+			elseif menuSelect == "alliance" then allianceP1P2vsCPU()
 			elseif menuSelect == "boss rush" then bossrushP1P2vsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushP1P2vsCPU()
+			elseif menuSelect == "score rush" then scorerushP1P2vsCPU()
 			elseif menuSelect == "time rush" then timerushP1P2vsCPU()
+			elseif menuSelect == "speed star" then speedstarP1P2vsCPU()
 			elseif menuSelect == "time attack" then timeattackP1P2vsCPU()
 			elseif menuSelect == "score attack" then scoreattackP1P2vsCPU()
 			elseif menuSelect == "kumite" then kumiteP1P2vsCPU()
@@ -6272,10 +6312,14 @@ function f_sideSelect()
 			if menuSelect == "arcade" then arcadeCPUvsP1P2()
 			elseif menuSelect == "tower" then towerCPUvsP1P2()
 			elseif menuSelect == "survival" then survivalCPUvsP1P2()
+			elseif menuSelect == "legion" then legionCPUvsP1P2()
 			elseif menuSelect == "abyss" then abyssCPUvsP1P2()
+			elseif menuSelect == "alliance" then allianceCPUvsP1P2()
 			elseif menuSelect == "boss rush" then bossrushCPUvsP1P2()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsP1P2()
+			elseif menuSelect == "score rush" then scorerushCPUvsP1P2()
 			elseif menuSelect == "time rush" then timerushCPUvsP1P2()
+			elseif menuSelect == "speed star" then speedstarCPUvsP1P2()
 			elseif menuSelect == "time attack" then timeattackCPUvsP1P2()
 			elseif menuSelect == "score attack" then scoreattackCPUvsP1P2()
 			elseif menuSelect == "kumite" then kumiteCPUvsP1P2()
@@ -13701,10 +13745,12 @@ function f_result(state)
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
 			elseif data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS")
+			elseif data.rosterMode == "vskumite" then textImgSetText(txt_resultTitle, "VS "..getKumiteData().." RESULTS")
+			elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
+			elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
+			elseif data.rosterMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR RESULTS")
 			elseif data.rosterMode == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
-			elseif data.rosterMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData().." RESULTS")
-			--elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
-			--elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
+			elseif data.rosterMode == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH RESULTS")
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end

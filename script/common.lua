@@ -3244,6 +3244,11 @@ if stats.modes == nil then
 	stats.modes.legion.clear = 0
 	stats.modes.legion.ranking = {}
 	
+	stats.modes.alliance = {}
+	stats.modes.alliance.playtime = 0
+	stats.modes.alliance.clear = 0
+	stats.modes.alliance.ranking = {}
+	
 	stats.modes.bossrush = {}
 	stats.modes.bossrush.playtime = 0
 	stats.modes.bossrush.clear = 0
@@ -3264,10 +3269,20 @@ if stats.modes == nil then
 	stats.modes.timeattack.clear = 0
 	stats.modes.timeattack.ranking = {}
 	
+	stats.modes.speedstar = {}
+	stats.modes.speedstar.playtime = 0
+	stats.modes.speedstar.clear = 0
+	stats.modes.speedstar.ranking = {}
+	
 	stats.modes.timerush = {}
 	stats.modes.timerush.playtime = 0
 	stats.modes.timerush.clear = 0
 	stats.modes.timerush.ranking = {}
+	
+	stats.modes.scorerush = {}
+	stats.modes.scorerush.playtime = 0
+	stats.modes.scorerush.clear = 0
+	stats.modes.scorerush.ranking = {}
 	
 	stats.modes.vskumite = {}
 	stats.modes.vskumite.playtime = 0
