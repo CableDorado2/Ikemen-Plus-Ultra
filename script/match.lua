@@ -946,20 +946,21 @@ end
 f_setMatchTexts() --Load when match start
 
 local scoreActive = false
-local function f_setWinScore()
+local function f_addBonusScore()
 	local leftSide = true
 	if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
 		leftSide = false
 	end
+--Add Bonus Score when player wins
 	if scoreActive and roundstate() == 4 and (leftSide and player(1) or not leftSide and player(2)) and time() == 0 then
 		if life() ~= lifemax() then
 			setScore(getScore() + life()*10) --Life remains add score
 		else
 			setScore(getScore() + 30000)
 		end
-		setScore(getScore() + (getRoundTime()/60)*100) --Time remains add score
-		if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000)
-		if firstattack() then setScore(getScore() + 1500) end
+		if getRoundTime() ~= -1 then setScore(getScore() + (getRoundTime()/60)*100) end --Time remains add score
+		--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000) end
+		--if firstattack() then setScore(getScore() + 1500) end
 		if winperfecthyper() then setScore(getScore() + 25000)
 		elseif winperfectthrow() then setScore(getScore() + 20000)
 		elseif winperfectspecial() then setScore(getScore() + 15000)
@@ -1142,7 +1143,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	end
 	f_setStageMusic()
-	f_setWinScore()
+	f_addBonusScore()
 --When Attract Mode is Enabled
 	if data.attractMode then
 		if getGameMode() == "demo" then

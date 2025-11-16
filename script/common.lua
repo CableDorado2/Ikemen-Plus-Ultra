@@ -2295,12 +2295,12 @@ end
 function f_default() --Reset Game Modes Configuration
 	resetRemapInput()
 --settings adjustable via options
-	setRoundTime(data.roundTime * 60)
+	setRoundTime(data.roundTime*60)
 	setRoundsToWin(data.roundsNum)
-	setLifeMul(data.lifeMul / 100)
+	setLifeMul(data.lifeMul/100)
 	setPowerMul(0)
-	setTeam1VS2Life(data.team1VS2Life / 100)
-	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
+	setTeam1VS2Life(data.team1VS2Life/100)
+	setTurnsRecoveryRate(1.0/data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
 	setPowerShare(1, data.teamPowerShare) --Team Power Share for Left Side
 	setPowerShare(2, data.teamPowerShare) --Team Power Share for Right Side
@@ -2335,7 +2335,7 @@ function f_default() --Reset Game Modes Configuration
 	data.songSelect = true --enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
 	data.arcadeIntro = false --character arcade intro disabled
 	data.arcadeEnding = false --character arcade ending disabled
-	data.arcadeTravel = false --arcade travel (next match screen disabled)
+	data.nextStage = false --next stage screen disabled
 	data.orderSelect = true --order select screen enabled
 	data.versusScreen = true --versus screen enabled
 	data.victoryscreen = true --victory screen enabled

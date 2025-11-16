@@ -1271,7 +1271,7 @@ function arcadeCfg()
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.rosterMode = "arcade" --to record statistics
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
-	data.arcadeTravel = true --Enable Arcade Travel Screen before order select
+	data.nextStage = true --Enable Next Stage Screen before order select
 	data.arcadeIntro = true --Enable characters arcade intro before versus screen
 	data.arcadeEnding = true --Enable characters arcade ending before credits screen
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -1755,7 +1755,7 @@ function f_survivalMenu()
 end
 
 --;===========================================================
---; SURVIVAL MODE (defeat opponents with a single health meter)
+--; CLASSIC SURVIVAL MODE (defeat opponents with a single health meter)
 --;===========================================================
 function f_survivalBoot()
 	menuSelect = "survival"
@@ -1770,6 +1770,7 @@ function survivalCfg()
 	data.rosterMode = "survival"
 	data.stageMenu = true
 	setRoundsToWin(1)
+	setRoundTime(99*60)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -1859,6 +1860,8 @@ function bossrushCfg()
 	data.gameMode = "bossrush"
 	data.rosterMode = "boss"
 	--data.stageMenu = true
+	--data.nextStage = true
+	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -2365,6 +2368,7 @@ function bonusrushCfg()
 	data.rosterMode = "bonus"
 	setRoundsToWin(1)
 	--data.stageMenu = true
+	--data.nextStage = true
 	data.versusScreen = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)			
 	sndPlay(sndSys, 100, 1)
@@ -2531,29 +2535,29 @@ function f_scoreattackMenu()
 end
 
 --;===========================================================
---; SCORE ATTACK MODE (defeat opponents getting high score as possible)
+--; CLASSIC SCORE ATTACK MODE (defeat opponents getting high score as possible)
 --;===========================================================
 function f_scoreattackBoot()
-	f_comingSoon()
---[[
 	menuSelect = "score attack"
 	sideScreen = true
-]]
 end
 
 --Load Common Settings for Score Attack Modes
 function scoreattackCfg()
 	f_discordUpdate({details = "Score Attack"})
 	f_default()
+	setGameMode('scoreattack')
 	data.gameMode = "allroster"
 	data.rosterMode = "scoreattack"
 	--data.stageMenu = true
-	setRoundTime(-1)
+	--data.nextStage = true
+	setRoundTime(99*60)
+	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (defeat all character roster as quickly as possible, beating previous score records from left side)
+--HUMAN VS CPU (defeat all character roster with best score possible, beating previous score records from left side)
 function scoreattackHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -2566,7 +2570,7 @@ function scoreattackHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (defeat all character roster as quickly as possible, beating previous score records from right side)
+--CPU VS HUMAN (defeat all character roster with best score possible, beating previous score records from right side)
 function scoreattackCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -2582,17 +2586,18 @@ function scoreattackCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster as quickly as possible, beating previous score records)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster with best score possible, beating previous score records)
 function scoreattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
+	--setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster as quickly as possible, beating previous score records)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster with best score possible, beating previous score records)
 function scoreattackCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -2601,17 +2606,19 @@ function scoreattackCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
+	setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
 	f_selectAdvance()
 	]]
 end
 
---CPU MODE (watch CPU defeat all character roster as quickly as possible, beating previous score records)
+--CPU MODE (watch CPU defeat all character roster with best score possible, beating previous score records)
 function scoreattackCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
 	data.rosterMode = "cpu"
+	--setGameMode('scoreattackcpu')
 	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2723,7 +2730,7 @@ function f_timeattackMenu()
 end
 
 --;===========================================================
---; TIME ATTACK MODE (defeat opponents as quickly as possible)
+--; CLASSIC TIME ATTACK MODE (defeat opponents as quickly as possible)
 --;===========================================================
 function f_timeattackBoot()
 	f_comingSoon()
@@ -2740,6 +2747,7 @@ function timeattackCfg()
 	data.gameMode = "allroster"
 	data.rosterMode = "timeattack"
 	--data.stageMenu = true
+	--data.nextStage = true
 	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -2811,7 +2819,7 @@ function timeattackCPUvsCPU()
 end
 
 --;===========================================================
---; TIME RUSH MODE (rush to defeat opponents before time runs out)
+--; TIME RUSH MODE (defeat opponents before time runs out)
 --;===========================================================
 function f_timerushBoot()
 	menuSelect = "time rush"
@@ -2825,6 +2833,7 @@ function timerushCfg()
 	data.gameMode = "allroster"
 	data.rosterMode = "timerush"
 	--data.stageMenu = true
+	--data.nextStage = true
 	setRoundTime(3600)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -2985,7 +2994,7 @@ function kumiteCPUvsCPU()
 end
 
 --;===========================================================
---; SUDDEN DEATH MODE (defeat opponents in 1 hit)
+--; SUDDEN DEATH MODE (defeat opponents with 1 hit)
 --;===========================================================
 function f_suddendeathBoot()
 	menuSelect = "sudden death"
@@ -2999,6 +3008,7 @@ function suddenCfg()
 	data.gameMode = "allroster"
 	data.rosterMode = "suddendeath"
 	--data.stageMenu = true
+	--data.nextStage = true
 	setRoundTime(1000)
 	setRoundsToWin(1)
 	setLifeMul(0) --overwrite players life
@@ -11198,7 +11208,7 @@ function f_loadStage()
 end
 
 --;===========================================================
---; ARCADE TRAVEL SCREEN
+--; ARCADE TRAVEL (NEXT STAGE SCREEN)
 --;===========================================================
 function f_arcadeTravel()
 	cmdInput()
@@ -15277,7 +15287,7 @@ if validCells() then
 			f_exitToMainMenu() --f_resetMenuInputs()
 			return
 		end
-		if data.arcadeTravel then f_arcadeTravel() end
+		if data.nextStage then f_arcadeTravel() end
 		f_orderSelect()
 		f_selectVersus()
 		if data.gameMode == "arcade" or data.gameMode == "tower" then
