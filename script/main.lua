@@ -13909,10 +13909,29 @@ function f_continue()
 					--Free Arcade Play
 				end
 				stats.continueCount = stats.continueCount + 1 --Times Continue
-				--f_saveStats()
 				textImgSetText(txt_contTimesCfg, txt_contTimes..stats.continueCount) --Update Count
+			--Set Player Score according type selected
+			--Reset Score to 0
+				if data.scoreResetType == 1 then
+					setScore(0)
+			--Reset Score and Adds Times Continue as Initial Score Value
+				elseif data.scoreResetType == 2 then
+					setScore(0 + stats.continueCount)
+			--Set half of current score as Initial score
+				elseif data.scoreResetType == 3 then
+					local currentScore = math.floor(getScore()/2 + 0.5)
+					if currentScore < 0 then currentScore = 0 end
+					setScore(currentScore)
+			--No Reset Score
+				elseif data.scoreResetType == 4 then
+					
+			--No Reset Score and Add Times Continue to Current Score
+				elseif data.scoreResetType == 5 then
+					setScore(getScore() + 1)
+				end
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', sprFade)
 				data.continue = 1
+				
 			end
 			if attractContinueTimer > 1366 then --Continue = NO
 				data.continue = 2

@@ -633,7 +633,7 @@ function f_gameDefault()
 	gameSpeed = 60
 	s_gameSpeed = "Normal"
 	data.quickCont = true
-	data.scoreResetType = 1
+	data.scoreResetType = 2
 end
 
 --Default Team Values

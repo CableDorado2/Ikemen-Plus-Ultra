@@ -947,15 +947,19 @@ f_setMatchTexts() --Load when match start
 
 local scoreActive = false
 local function f_setWinScore()
-	if scoreActive and roundstate() == 4 and player(1) and time() == 0 then
+	local leftSide = true
+	if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+		leftSide = false
+	end
+	if scoreActive and roundstate() == 4 and (leftSide and player(1) or not leftSide and player(2)) and time() == 0 then
 		if life() ~= lifemax() then
 			setScore(getScore() + life()*10) --Life remains add score
 		else
 			setScore(getScore() + 30000)
 		end
-		--bonif time
-		--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000)
-		--if firstattack() then setScore(getScore() + 1500) end
+		setScore(getScore() + (getRoundTime()/60)*100) --Time remains add score
+		if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000)
+		if firstattack() then setScore(getScore() + 1500) end
 		if winperfecthyper() then setScore(getScore() + 25000)
 		elseif winperfectthrow() then setScore(getScore() + 20000)
 		elseif winperfectspecial() then setScore(getScore() + 15000)
@@ -970,12 +974,21 @@ end
 local function f_drawScore()
 	scoreActive = true
 	local pts = 0
-	if player(2) and time() == 0 then
+	local leftSide = true
+	if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+		leftSide = false
+	end
+	if (leftSide and player(2) or not leftSide and player(1)) and time() == 0 then
 		pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
 	end
 	setScore(getScore() + pts)
-	textImgSetText(txt_ScoreP1FightCfg, getScore())
-	textImgDraw(txt_ScoreP1FightCfg)
+	if leftSide then
+		textImgSetText(txt_ScoreP1FightCfg, getScore())
+		textImgDraw(txt_ScoreP1FightCfg)
+	else
+		textImgSetText(txt_ScoreP2FightCfg, getScore())
+		textImgDraw(txt_ScoreP2FightCfg)
+	end
 end
 
 --Function called during match
