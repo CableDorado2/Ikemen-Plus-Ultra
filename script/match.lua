@@ -240,6 +240,11 @@ end
 --;===========================================================
 --; MATCH LOOP FUNCTIONS
 --;===========================================================
+playerLeftSide = true
+if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+	playerLeftSide = false --Player is on Right Side
+end
+	
 local function f_handicapSet()
 	for side=1, 2 do
 		local pDat = nil
@@ -930,7 +935,7 @@ local function f_setMatchTexts()
 	textImgSetText(txt_MatchFightCfg, stg)
 	
 	--local ailv = nil
-	if (player(2) and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (player(1) and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then --To get always the cpu level
+	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then --To get always the cpu level
 		textImgSetText(txt_AiLevelFightCfg, txt_AiLevelFight..ailevel())
 	end
 	
@@ -947,12 +952,8 @@ f_setMatchTexts() --Load when match start
 
 local scoreActive = false
 local function f_addBonusScore()
-	local leftSide = true
-	if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
-		leftSide = false
-	end
 --Add Bonus Score when player wins
-	if scoreActive and roundstate() == 4 and (leftSide and player(1) or not leftSide and player(2)) and time() == 0 then
+	if scoreActive and roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 		if life() ~= lifemax() then
 			setScore(getScore() + life()*10) --Life remains add score
 		else
@@ -973,22 +974,20 @@ local function f_addBonusScore()
 end
 
 local function f_drawScore()
-	scoreActive = true
-	local pts = 0
-	local leftSide = true
-	if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
-		leftSide = false
-	end
-	if (leftSide and player(2) or not leftSide and player(1)) and time() == 0 then
-		pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
-	end
-	setScore(getScore() + pts)
-	if leftSide then
-		textImgSetText(txt_ScoreP1FightCfg, getScore())
-		textImgDraw(txt_ScoreP1FightCfg)
-	else
-		textImgSetText(txt_ScoreP2FightCfg, getScore())
-		textImgDraw(txt_ScoreP2FightCfg)
+	if roundstate() == 2 and getScore() >= 0 then
+		scoreActive = true
+		local pts = 0
+		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
+			pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
+		end
+		setScore(getScore() + pts)
+		if playerLeftSide then
+			textImgSetText(txt_ScoreP1FightCfg, getScore())
+			textImgDraw(txt_ScoreP1FightCfg)
+		else
+			textImgSetText(txt_ScoreP2FightCfg, getScore())
+			textImgDraw(txt_ScoreP2FightCfg)
+		end
 	end
 end
 
@@ -1002,7 +1001,6 @@ function loop() --The code for this function should be thought of as if it were 
 --During Arcade Mode
 	elseif getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu" then
 		if roundstate() == 2 then
-			f_drawScore()
 			textImgDraw(txt_AiLevelFightCfg)
 			textImgDraw(txt_MatchFightCfg)
 		end
@@ -1030,7 +1028,7 @@ function loop() --The code for this function should be thought of as if it were 
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Increase Abyss Depth Counter
 		if abyssbossfight() == 0 and roundstate() == 2 then
-			if gethitvar("hitcount") >= 1 and time() == 0 and (teamside() == 2 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (teamside() == 1 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and gethitvar("hitcount") >= 1 and time() == 0 then
 				abyssHitCnt = abyssHitCnt + 1
 			end
 		end
@@ -1064,14 +1062,14 @@ function loop() --The code for this function should be thought of as if it were 
 		f_abyssItemsSetCPU()
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
-			if player(1) then setLifePersistence(life()) end --Get Current P1 Life
+			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then setLifePersistence(life()) end --Get Current Player Life
 			data.challengerAbyss = true
 			f_saveTemp()
 			exitMatch()
 		end
 	--Save Progress
 		if (abyssbossfight() == 1 and abyssRewardDone) or (abyssbossfight() == 0 and roundstate() == 4) then
-			if (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+			if (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 				if abyssSaveButton then
 					if not abyssPause then
 						togglePause(1)
@@ -1087,7 +1085,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	--Boss Rewards
 		if abyssbossfight() == 1 and roundstate() == 4 and not abyssRewardDone then
-			if (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
+			if (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 				if not abyssPause then
 					togglePause(1)
 					setSysCtrl(10) --Swap to Menu Controls
@@ -1100,8 +1098,8 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 	--Store Player Life when Match is finished
-		if (abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone)) and roundstate() == 4 and (winnerteam() == 1 and (getPlayerSide() == "p1left" or getPlayerSide() == "p2left")) or (winnerteam() == 2 and (getPlayerSide() == "p1right" or getPlayerSide() == "p2right")) then
-			if player(1) then
+		if (abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone)) and roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
+			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
 				setLifePersistence(life())
 				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150) end
 			end
@@ -1143,6 +1141,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	end
 	f_setStageMusic()
+	f_drawScore()
 	f_addBonusScore()
 --When Attract Mode is Enabled
 	if data.attractMode then

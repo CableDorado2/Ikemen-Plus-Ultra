@@ -798,7 +798,7 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	{text = "ALLIANCE", 	gotomenu = "f_allianceCfg()"},
+	--{text = "ALLIANCE", 	gotomenu = "f_allianceCfg()"},
 	--{text = "LEGION", 		gotomenu = "f_legionCfg()"},
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
 	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
