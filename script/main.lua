@@ -2618,7 +2618,6 @@ function scoreattackCPUvsCPU()
 	data.p2SelectMenu = false
 	data.aiFight = true
 	data.rosterMode = "cpu"
-	--setGameMode('scoreattackcpu')
 	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2743,6 +2742,7 @@ function timeattackCfg()
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "timeattack"
+	setGameMode('timeattack')
 	--data.stageMenu = true
 	--data.nextStage = true
 	--setRoundTime(-1)
@@ -2785,6 +2785,7 @@ function timeattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
+	--setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2799,6 +2800,7 @@ function timeattackCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
+	--setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
 	f_selectAdvance()
 	]]
@@ -5496,14 +5498,14 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
 				data.rosterMode = "timeattack"
-				setGameMode("netplaytimeattack")
+				setGameMode("timeattackcoop") --setGameMode("netplaytimeattack")
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SCORE ATTACK
 			elseif mainLobby == 11 then
 				data.gameMode = "allroster"
 				data.rosterMode = "scoreattack"
-				setGameMode("netplayscoreattack")
+				setGameMode("scoreattackcoop") --setGameMode("netplayscoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE VS X KUMITE
