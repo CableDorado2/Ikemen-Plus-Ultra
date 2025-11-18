@@ -2798,7 +2798,7 @@ public &Fight
 		`ft.bgDraw(layerno);
 		`ft.draw(layerno, .com.matchsToWin, `fnt);
 	  }
-	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop") || .s.equ(.com.gameMode, "abysscpu")) {
+	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop")) {
 		`reward.bgDraw(layerno);
 		`reward.draw(layerno, .com.abyssReward, `fnt);
 		

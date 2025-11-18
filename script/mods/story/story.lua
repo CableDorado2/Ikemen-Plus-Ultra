@@ -537,7 +537,7 @@ local function f_arc1_chapter4_1()
 		data.versusScreen = false
 		data.victoryscreen = false
 		data.stage = "stages/Others/Sakura.def"
-		setGameMode('story')
+		setGameMode("story")
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory()
 	]]
@@ -570,7 +570,7 @@ local function f_arc1_chapter3_2()
 		data.bgm = "sound/Death Corridor.mp3"
 		data.rosterMode = "story"
 		data.storyNo = "1-3B"
-		setGameMode('story')
+		setGameMode("story")
 		setService("balance")
 		setAutoguard(1, true)
 		setAutoguard(2, false)
@@ -610,7 +610,7 @@ local function f_arc1_chapter3_1()
 		data.songSelect = false
 		data.rosterMode = "story"
 		data.storyNo = "1-3A"
-		setGameMode('story')
+		setGameMode("story")
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory()
 		if winner == 1 then
@@ -647,7 +647,7 @@ local function f_arc1_chapter2()
 		data.songSelect = false
 		data.rosterMode = "story"
 		data.storyNo = "1-2"
-		setGameMode('story')
+		setGameMode("story")
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory()
 		if winner == 1 then
@@ -683,7 +683,7 @@ local function f_arc1_chapter1()
 		data.stage = "stages/Others/Mountain Valley.def"
 		data.songSelect = false --Star fight using music played in visual novel mode
 		data.rosterMode = "story"
-		setGameMode('story')
+		setGameMode("story")
 		setPlayerSide('p1left')
 		setPauseVar("giveup")
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -707,7 +707,7 @@ local function f_arc1_chapter1()
 			data.bgm = "sound/Pearl In The Sky.mp3" --Set Custom Stage Song
 			data.rosterMode = "story"
 			data.storyNo = "1-1"
-			setGameMode('story')
+			setGameMode("story")
 			setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
 			setPlayerSide('p1left')
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -748,7 +748,7 @@ local function f_storyRosterTest()
 	data.victoryscreen = false
 	data.stageMenu = true
 	data.rosterMode = "story"
-	setGameMode('storyRoster')
+	setGameMode("storyRoster")
 	textImgSetText(txt_mainSelect, "STORY MODE")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)

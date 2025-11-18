@@ -447,7 +447,7 @@ function f_eventMenu()
 				if f_checkEvent(t_events[eventMenu].time, f_getTimeDat("start", eventMenu), f_getTimeDat("deadline", eventMenu)) and t_unlockLua.modes[t_events[eventMenu].id] == nil then --If the event is unlocked
 					f_default()
 					data.rosterMode = "event"
-					setGameMode('event')
+					setGameMode("event")
 					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					if t_events[eventMenu].path ~= nil then --Detects if lua file is defined

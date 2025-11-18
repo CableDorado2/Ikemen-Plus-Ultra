@@ -219,7 +219,7 @@ function f_missionMenu()
 				f_default()
 				data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
 				data.rosterMode = "mission"
-				setGameMode('mission')
+				setGameMode("mission")
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missions[data.missionNo].status .. "]")
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 1)

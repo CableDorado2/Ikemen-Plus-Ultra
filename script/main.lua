@@ -174,7 +174,7 @@ end
 function demoModeCfg()
 	if not data.attractMode then f_discordUpdate({details = "Demo"}) end
 	f_default()
-	setGameMode('demo')
+	setGameMode("demo")
 	data.gameMode = "demo"
 	data.rosterMode = "cpu"
 	data.aiFight = true
@@ -809,7 +809,7 @@ end
 function f_training()
 	f_discordUpdate({details = "Training"})
 	f_default()
-	setGameMode('practice')
+	setGameMode("practice")
 	data.gameMode = "training"
 	data.rosterMode = "training"
 	setRoundTime(-1) --round time disabled
@@ -1268,7 +1268,7 @@ function arcadeCfg()
 	f_resetArcadeStuff()
 	f_default() --Load f_default function defined in common.lua
 	setScore(0) --Player Score Enabled
-	setGameMode('arcade')
+	setGameMode("arcade")
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.rosterMode = "arcade" --to record statistics
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
@@ -1323,7 +1323,7 @@ function arcadeP1P2vsCPU()
 	data.p2Faces = true
 	data.coop = true --P2 fighting on P1 side enabled
 	setPlayerSide('p1left')
-	setGameMode('arcadecoop') --to avoid challenger screen
+	setGameMode("arcadecoop") --to avoid challenger screen
 	textImgSetText(txt_mainSelect, "ARCADE COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -1338,7 +1338,7 @@ function arcadeCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	setGameMode('arcadecoop')
+	setGameMode("arcadecoop")
 	textImgSetText(txt_mainSelect, "ARCADE COOPERATIVE")
 	f_selectAdvance()
 	]]
@@ -1350,7 +1350,7 @@ function arcadeCPUvsCPU()
 	data.p2SelectMenu = false
 	data.aiFight = true --AI = data.difficulty for all characters enabled
 	setPlayerSide('p1left')
-	setGameMode('arcadecpu') --to avoid challenger screen
+	setGameMode("arcadecpu") --to avoid challenger screen
 	data.rosterMode = "cpu" --to avoid record stats
 	textImgSetText(txt_mainSelect, "WATCH ARCADE")
 	f_selectAdvance()
@@ -1376,7 +1376,7 @@ function towerCfg()
 	f_discordUpdate({details = "Tower Arcade"})
 	f_resetArcadeStuff()
 	f_default()
-	setGameMode('tower')
+	setGameMode("tower")
 	data.gameMode = "tower"
 	data.rosterMode = "tower"
 	--data.arcadeIntro = true --Enable characters arcade intro before tower select
@@ -1427,7 +1427,7 @@ function towerP1P2vsCPU()
 	data.p2Faces = true
 	data.coop = true
 	setPlayerSide('p1left')
-	setGameMode('towercoop')
+	setGameMode("towercoop")
 	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -1442,7 +1442,7 @@ function towerCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	setGameMode('towercoop')
+	setGameMode("towercoop")
 	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
 	f_selectAdvance()
 	]]
@@ -1455,7 +1455,7 @@ function towerCPUvsCPU()
 	data.p2SelectMenu = false
 	data.aiFight = true
 	setPlayerSide('p1left')
-	setGameMode('towercpu')
+	setGameMode("towercpu")
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TOWER")
 	f_selectAdvance()
@@ -1474,7 +1474,7 @@ end
 function randomModeCfg()
 	f_discordUpdate({details = "Quick Match"})
 	f_default()
-	setGameMode('random')
+	setGameMode("random")
 	data.gameMode = "quick match"
 	data.rosterMode = "versus"
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -1558,7 +1558,7 @@ end
 function freeModeCfg()
 	f_discordUpdate({details = "Free Versus"})
 	f_default()
-	setGameMode('vs')
+	setGameMode("vs")
 	data.gameMode = "versus"
 	data.rosterMode = "versus"
 	data.stageMenu = true --stage selection enabled
@@ -1767,7 +1767,7 @@ end
 function survivalCfg()
 	f_discordUpdate({details = "Survival"})
 	f_default()
-	setGameMode('survival')
+	setGameMode("survival")
 	data.gameMode = "survival"
 	data.rosterMode = "survival"
 	data.stageMenu = true
@@ -1811,7 +1811,6 @@ function survivalP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	setGameMode('survivalcoop')
 	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -1826,7 +1825,6 @@ function survivalCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	setGameMode('survivalcoop')
 	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
 	f_selectAdvance()
 	]]
@@ -2551,7 +2549,7 @@ function scoreattackCfg()
 	f_discordUpdate({details = "Score Attack"})
 	f_default()
 	setScore(0)
-	setGameMode('scoreattack')
+	setGameMode("scoreattack")
 	data.gameMode = "allroster"
 	data.rosterMode = "scoreattack"
 	--data.stageMenu = true
@@ -2596,7 +2594,6 @@ function scoreattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	--setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2611,7 +2608,6 @@ function scoreattackCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
 	f_selectAdvance()
 	]]
@@ -2747,7 +2743,7 @@ function timeattackCfg()
 	f_default()
 	data.gameMode = "allroster"
 	data.rosterMode = "timeattack"
-	setGameMode('timeattack')
+	setGameMode("timeattack")
 	--data.stageMenu = true
 	--data.nextStage = true
 	--setRoundTime(-1)
@@ -2790,7 +2786,6 @@ function timeattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	--setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2805,7 +2800,6 @@ function timeattackCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	--setGameMode('scoreattackcoop')
 	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
 	f_selectAdvance()
 	]]
@@ -3009,11 +3003,12 @@ end
 function suddenCfg()
 	f_discordUpdate({details = "Sudden Death"})
 	f_default()
+	setGameMode("suddendeath")
 	data.gameMode = "allroster"
 	data.rosterMode = "suddendeath"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(1000)
+	setRoundTime(15*60)
 	setRoundsToWin(1)
 	setLifeMul(0) --overwrite players life
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3186,7 +3181,7 @@ function f_stageViewer()
 		data.p1Char = {"Stage Viewer"}
 		data.p2Char = {"Stage Viewer"}
 		data.gameMode = "stage viewer"
-		setGameMode('stageviewer')
+		setGameMode("stageviewer")
 		textImgSetText(txt_mainSelect, "STAGE VIEWER")
 		f_selectSimple()
 		f_discordMainMenu()
@@ -5523,7 +5518,7 @@ function f_mainLobby()
 				f_selectAdvance()
 		--ONLINE SUDDEN DEATH
 			elseif mainLobby == 13 then
-				setRoundTime(1000)
+				setRoundTime(15*60)
 				setLifeMul(0)
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
@@ -6446,7 +6441,7 @@ function f_secretFight()
 	f_default()
 	data.rosterMode = "versus"
 	data.gameMode = "intermission"
-	setGameMode('intermission')
+	setGameMode("intermission")
 	setRoundTime(-1)
 	data.victoryscreen = false
 	--ARCADE PLAYER IS IN LEFT SIDE - SECRET CHALLENGER COMES FROM RIGHT SIDE
@@ -7755,8 +7750,8 @@ function f_selectScreen()
 	end
 --Win Count
 	if (data.gameMode == "versus" or data.gameMode == "tourney") and data.vsDisplayWin then
-		textImgSetText(txt_p1Wins, "WINS: " .. p1Wins)
-		textImgSetText(txt_p2Wins, "WINS: " .. p2Wins)
+		textImgSetText(txt_p1Wins, "WINS:"..p1Wins.."/"..gameNo)
+		textImgSetText(txt_p2Wins, "WINS:"..p2Wins.."/"..gameNo)
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
@@ -13431,7 +13426,7 @@ end
 --VS CHALLENGER (use your character selected for arcade mode to defeat a human challenger the winner keep playing the arcade)
 function f_challengerVS()
 	f_default()
-	setGameMode('vs')
+	setGameMode("vs")
 	data.gameMode = "challenger"
 	data.rosterMode = "versus"
 	data.stageMenu = true
@@ -17253,7 +17248,7 @@ function abyssCfg()
 	f_default()
 	setRoundsToWin(1)
 	setRoundTime(99*60)
-	setGameMode('abyss')
+	setGameMode("abyss")
 	data.gameMode = "abyss"
 	data.rosterMode = "abyss"
 	data.victoryscreen = false
@@ -17307,7 +17302,7 @@ function abyssP1P2vsCPU()
 	data.p2Faces = true
 	data.coop = true
 	setPlayerSide('p1left')
-	setGameMode('abysscoop')
+	setGameMode("abysscoop")
 	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 end
@@ -17322,7 +17317,7 @@ function abyssCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	setGameMode('abysscoop')
+	setGameMode("abysscoop")
 	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 ]]
@@ -17337,7 +17332,6 @@ function abyssCPUvsCPU()
 	data.p2SelectMenu = false
 	data.aiFight = true
 	setPlayerSide('p1left')
-	setGameMode('abysscpu')
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()

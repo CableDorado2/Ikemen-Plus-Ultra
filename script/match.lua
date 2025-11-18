@@ -270,9 +270,9 @@ local function f_handicapSet()
 					else
 						setPower(t_handicapSelect[pDat[i].handicap].val)
 					end
-			--Armor Handicaps (Based in Guilty Gear Xrd Rev 2)
-				elseif t_handicapSelect[pDat[i].handicap].service == "armor" and roundno() == 1 and gametime() == 1 then
-				--Armor/Defence at 75%, 50%, 25%...
+			--Defence Handicaps (Based in Guilty Gear Xrd Rev 2 Armor)
+				elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 and gametime() == 1 then
+				--Defence at 75%, 50%, 25%...
 					if t_handicapSelect[pDat[i].handicap].val ~= nil then
 						setDefence(math.floor(defence() / t_handicapSelect[pDat[i].handicap].val))
 					end
@@ -980,7 +980,7 @@ local function f_addBonusScore()
 end
 
 local scoreattackfactor = 1
-if getGameMode() == "scoreattack" or getGameMode() == "scoreattackcoop" then scoreattackfactor = 10 end
+if getGameMode() == "scoreattack" then scoreattackfactor = 10 end
 local function f_drawScore()
 	if roundstate() == 2 and getScore() >= 0 then
 		scoreActive = true
@@ -1033,12 +1033,12 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_TourneyFTFightCfg)
 		textImgDraw(txt_TourneyStateFightCfg)
 --During Score Attack Mode
-	elseif getGameMode() == "scoreattack" or getGameMode() == "scoreattackcoop" then
+	elseif getGameMode() == "scoreattack" then
 		if roundstate() == 2 then
 			textImgDraw(txt_MatchFightCfg)
 		end
 --During Survival Mode
-	elseif getGameMode() == "survival" or getGameMode() == "survivalcoop" then
+	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
 		if roundstate() == 2 then
 			textImgDraw(txt_SurvivalCountP1FightCfg)
 			textImgDraw(txt_SurvivalCountP2FightCfg)
@@ -1050,7 +1050,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 --During Abyss Mode
-	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
+	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 	--Increase Abyss Depth Counter
 		if abyssbossfight() == 0 and roundstate() == 2 then
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and gethitvar("hitcount") >= 1 and time() == 0 then

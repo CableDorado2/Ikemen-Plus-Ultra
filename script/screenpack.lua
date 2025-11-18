@@ -1697,9 +1697,9 @@ t_handicapSelect = {
 	{text = "POW-LV1", 	 service = "power", val = 1000}, --setPower(1000)
 	{text = "POW-LV2", 	 service = "power", val = 2000}, --setPower(2000)
 	{text = "POW-MAX", 	 service = "power", val = nil}, --setPower(powermax())
-	{text = "ARMOR-75%", service = "armor", val = 1.333}, --setDefence(defence()/1.333)
-	{text = "ARMOR-50%", service = "armor", val = 2}, --setDefence(defence()/2)
-	{text = "ARMOR-25%", service = "armor", val = 4}, --setDefence(defence()/4)
+	{text = "DEFENCE-75%", service = "defence", val = 1.333}, --setDefence(defence()/1.333)
+	{text = "DEFENCE-50%", service = "defence", val = 2}, --setDefence(defence()/2)
+	{text = "DEFENCE-25%", service = "defence", val = 4}, --setDefence(defence()/4)
 }
 for i=1, #t_handicapSelect do
 	--t_handicapSelect[i] = {}

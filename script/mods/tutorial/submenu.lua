@@ -26,7 +26,7 @@ bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
 function f_tutorial()
 	f_discordUpdate({details = "Tutorial"})
 	f_default()
-	setGameMode('tutorial')
+	setGameMode("tutorial")
 	setPauseVar('nogiveup') --To avoid write exit conditionals in pause menu
 	setRoundsToWin(1) --rounds to win
 	setRoundTime(-1) --round time disabled

@@ -243,7 +243,7 @@ function randomTest()
 	f_discordUpdate({details = "Random Test"})
 	cmdInput()
 	f_default() --Load f_default function defined in common.lua
-	setGameMode('randomtest')
+	setGameMode("randomtest")
 	initRandom()
 	while true do
 		randSel(1, winner)
