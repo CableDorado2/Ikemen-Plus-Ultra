@@ -2746,7 +2746,7 @@ function timeattackCfg()
 	setGameMode("timeattack")
 	--data.stageMenu = true
 	--data.nextStage = true
-	--setRoundTime(-1)
+	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -3004,7 +3004,7 @@ function suddenCfg()
 	f_discordUpdate({details = "Sudden Death"})
 	f_default()
 	setGameMode("suddendeath")
-	data.gameMode = "allroster"
+	data.gameMode = "survival"
 	data.rosterMode = "suddendeath"
 	--data.stageMenu = true
 	--data.nextStage = true
@@ -5521,7 +5521,7 @@ function f_mainLobby()
 				setRoundTime(15*60)
 				setLifeMul(0)
 				setRoundsToWin(1)
-				data.gameMode = "allroster"
+				data.gameMode = "survival"
 				data.rosterMode = "suddendeath"
 				--setGameMode("netplaysuddendeath")
 				textImgSetText(txt_mainSelect, "ONLINE SUDDEN DEATH COOPERATIVE")
@@ -7759,12 +7759,10 @@ function f_selectScreen()
 	if data.palType == "Modern" then
 		--Player1
 		if p1CharEnd and not p1PalEnd then
-			cmdInput() --Remove to allow player 2 move his cursor during player 1 pal select
 			f_p1SelectPal()
 		end
 		--Player2
 		if p2CharEnd and not p2PalEnd then
-			cmdInput() --Remove to allow player 1 move his cursor during player 2 pal select
 			f_p2SelectPal()
 		end
 	end
@@ -7772,12 +7770,10 @@ function f_selectScreen()
 	if data.gameMode == "versus" or data.ftcontrol == -1 then
 		--Player1
 		if p1PalEnd and not p1HandicapEnd then
-			cmdInput()
 			f_p1SelectHandicap()
 		end
 		--Player2
 		if p2PalEnd and not p2HandicapEnd then
-			cmdInput()
 			f_p2SelectHandicap()
 		end
 	end
@@ -8788,11 +8784,12 @@ function f_p1SelectMenu()
 				end
 			end
 		end
-		--Scroll Logic
+	--Scroll Logic
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY
 			if backScreen == false and not p1CharEnd then
+			--MOVE CURSOR TO UP
 				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30) then
 					local foundCel = false
 					while true do
@@ -8828,6 +8825,7 @@ function f_p1SelectMenu()
 					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
 					end
+			--MOVE CURSOR TO DOWN
 				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30) then
 					local foundCel = false
 					while true do
@@ -8863,6 +8861,7 @@ function f_p1SelectMenu()
 					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
 					end
+			--MOVE CURSOR TO LEFT
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30) then
 					while true do
 						p1SelX = f_findCelXSub(p1SelX, wrappingX)
@@ -8871,6 +8870,7 @@ function f_p1SelectMenu()
 					if tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
 					end
+			--MOVE CURSOR TO RIGHT
 				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30) then
 					while true do
 						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
@@ -8879,6 +8879,31 @@ function f_p1SelectMenu()
 					if tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
 					end
+			--CURSOR SELECTION
+				elseif btnPalNo(p1Cmd, true) > 0 then
+					if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p1selected, p1Cell) or onlinegame then --This character is unlocked
+						f_p1Selection()
+					else--if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p1selected, p1Cell) and not onlinegame then --Character locked
+						sndPlay(sndIkemen, 200, 0)
+					end
+			--TIME OVER SELECTION
+				elseif selectTimer == 0 then
+					local getRandomCell = nil
+				--Select random character to prevent issues when time to select is over
+					if not data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil then
+						for i=1, #data.t_p1selected do
+							for available=1, #t_randomChars do
+								if t_randomChars[available] ~= data.t_p1selected[i].cel then
+									getRandomCell = t_randomChars[available]
+									break --exits the cycle once it finds a match
+								end
+							end
+						end
+					else--if data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil then
+						getRandomCell = t_randomChars[math.random(#t_randomChars)]
+					end
+					p1Cell = getRandomCell
+					f_p1Selection()
 				end
 				if commandGetState(p1Cmd, 'holdu') then
 					bufSeld = 0
@@ -8984,30 +9009,6 @@ function f_p1SelectMenu()
 					end
 				end
 			end
-			if btnPalNo(p1Cmd, true) > 0 then
-				if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p1selected, p1Cell) or onlinegame then --This character is unlocked
-					f_p1Selection()
-				else--if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p1selected, p1Cell) and not onlinegame then --Character locked
-					sndPlay(sndIkemen, 200, 0)
-				end
-			elseif selectTimer == 0 then
-				local getRandomCell = nil
-			--Select random character to prevent issues when time to select is over
-				if not data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil then
-					for i=1, #data.t_p1selected do
-						for available=1, #t_randomChars do
-							if t_randomChars[available] ~= data.t_p1selected[i].cel then
-								getRandomCell = t_randomChars[available]
-								break --exits the cycle once it finds a match
-							end
-						end
-					end
-				else--if data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil then
-					getRandomCell = t_randomChars[math.random(#t_randomChars)]
-				end
-				p1Cell = getRandomCell
-				f_p1Selection()
-			end
 		--When all selections are finished for 1 character
 			if p1HandicapEnd and p1PalEnd and p1CharEnd then
 				local cel = p1Cell
@@ -9075,12 +9076,6 @@ function f_p1Selection()
 		p1PalSel = btnPalNo(p1Cmd, true)
 		if selectTimer == 0 then p1PalSel = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
 		p1PalEnd = true
---Modern Palette Select Random Select Case
-	else
-		if getCharName(p1Cell) == "Random" then
-			p1PalSel = math.random(1,12) --Set Random Palette for random select
-			p1PalEnd = true
-		end
 	end
 --No Handicap Allowed
 	if data.gameMode ~= "versus" or data.ftcontrol > 0 then
@@ -9095,11 +9090,12 @@ end
 --; PLAYER 1 PALETTE SELECT
 --;===========================================================
 function f_p1SelectPal()
+	local p1PalName = ""
 --Cursor
-	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1PalSel <= 11 then --p1PalSel <= Number of your Palette List Limit
+	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1PalSel <= 11 then
 		sndPlay(sndSys, 100, 0)
 		p1PalSel = p1PalSel + 1
-	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1PalSel > 1 then --Keep in palette 1 when press left until finish
+	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1PalSel > 0 then --Keep in Random Palette when press left until finish
 		sndPlay(sndSys, 100, 0)
 		p1PalSel = p1PalSel - 1
 	end
@@ -9125,9 +9121,10 @@ function f_p1SelectPal()
 	--animSetPal(t_selChars[p1Cell+1]['p1AnimStand'], p1PalSel) --Only works if the .sff file have pals added
 	animPosDraw(palSelBG, palSelBGP1posX, palSelBGP1posY) --Draw Palette Select BG
 	textImgDraw(txt_p1Pal)
-	textImgSetText(txt_p1PalNo, p1PalSel)
+	if p1PalSel == 0 then p1PalName = "?" else p1PalName = p1PalSel end
+	textImgSetText(txt_p1PalNo, p1PalName)
 	textImgDraw(txt_p1PalNo)
-	if p1PalSel > 1 then
+	if p1PalSel > 0 then
 		animPosDraw(palSelArrowLeft, palSelArrowLP1posX, palSelArrowLP1posY)
 	end
 	if p1PalSel <= 11 then
@@ -9136,6 +9133,7 @@ function f_p1SelectPal()
 --Confirm Palette
 	if btnPalNo(p1Cmd, true) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
+		if p1PalSel == 0 then p1PalSel = math.random(1,12) end --Set Random Palette for random select
 		p1PalEnd = true
 		cmdInput()
 --Back to Character Selection
@@ -10245,6 +10243,17 @@ function f_p2SelectMenu()
 					if tmpCelX ~= p2SelX then
 						sndPlay(sndSys, 100, 0)
 					end
+				elseif btnPalNo(p2Cmd, true) > 0 then
+					if t_unlockLua.chars[t_selChars[p2Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p2selected, p2Cell) or onlinegame then
+						f_p2Selection()
+					else--if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) and not onlinegame then
+						sndPlay(sndIkemen, 200, 0)
+					end
+				elseif selectTimer == 0 then
+					if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) then
+						p2Cell = t_randomChars[math.random(#t_randomChars)]
+					end
+					f_p2Selection()
 				end
 				if commandGetState(p2Cmd, 'holdu') then
 					bufSel2d = 0
@@ -10366,18 +10375,6 @@ function f_p2SelectMenu()
 					f_p2sideReset()
 				end
 			end
-			if btnPalNo(p2Cmd, true) > 0 then
-				if t_unlockLua.chars[t_selChars[p2Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p2selected, p2Cell) or onlinegame then
-					f_p2Selection()
-				else--if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) and not onlinegame then
-					sndPlay(sndIkemen, 200, 0)
-				end
-			elseif selectTimer == 0 then
-				if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) then
-					p2Cell = t_randomChars[math.random(#t_randomChars)]
-				end
-				f_p2Selection()
-			end
 			if p2HandicapEnd and p2PalEnd and p2CharEnd then
 				local cel = p2Cell
 				if getCharName(cel) == "Random" then
@@ -10450,11 +10447,6 @@ function f_p2Selection()
 		p2PalSel = btnPalNo(p2Cmd, true)
 		if selectTimer == 0 then p2PalSel = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
 		p2PalEnd = true
-	else
-		if getCharName(p2Cell) == "Random" then
-			p2PalSel = math.random(1,12) --Set Random Palette for random select
-			p2PalEnd = true
-		end
 	end
 	if data.gameMode ~= "versus" or data.ftcontrol > 0 then
 		p2HandicapSel = 1 --Set Normal Handicap as Default
@@ -10468,10 +10460,11 @@ end
 --; PLAYER 2 PALETTE SELECT
 --;===========================================================
 function f_p2SelectPal()
+	local p2PalName = ""
 	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2PalSel <= 11 then
 		sndPlay(sndSys, 100, 0)
 		p2PalSel = p2PalSel + 1
-	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2PalSel > 1 then
+	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufPal2d >= 30) or (commandGetState(p2Cmd, 'holdl') and bufPal2l >= 30)) and p2PalSel > 0 then
 		sndPlay(sndSys, 100, 0)
 		p2PalSel = p2PalSel - 1
 	end
@@ -10495,9 +10488,10 @@ function f_p2SelectPal()
 	end
 	animPosDraw(palSelBG, palSelBGP2posX, palSelBGP2posY)
 	textImgDraw(txt_p2Pal)
-	textImgSetText(txt_p2PalNo, p2PalSel)
+	if p2PalSel == 0 then p2PalName = "?" else p2PalName = p2PalSel end
+	textImgSetText(txt_p2PalNo, p2PalName)
 	textImgDraw(txt_p2PalNo)
-	if p2PalSel > 1 then
+	if p2PalSel > 0 then
 		animPosDraw(palSelArrowLeft, palSelArrowLP2posX, palSelArrowLP2posY)
 	end
 	if p2PalSel <= 11 then
@@ -10505,6 +10499,7 @@ function f_p2SelectPal()
 	end
 	if btnPalNo(p2Cmd, true) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
+		if p2PalSel == 0 then p2PalSel = math.random(1,12) end
 		p2PalEnd = true
 		cmdInput()
 	elseif commandGetState(p2Cmd, 'e') then
@@ -13732,6 +13727,7 @@ function f_result(state)
 			textImgSetPos(txt_resultName, 318, 60)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
+			if data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS") end
 		elseif data.gameMode == "allroster" then
 			textImgSetAlign(txt_resultTeam, -1)
 			textImgSetPos(txt_resultTeam, 318, 48)
@@ -13743,7 +13739,6 @@ function f_result(state)
 			elseif data.rosterMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR RESULTS")
 			elseif data.rosterMode == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
 			elseif data.rosterMode == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH RESULTS")
-			elseif data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS")
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		elseif data.gameMode == "abyss" then
