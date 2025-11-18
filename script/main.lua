@@ -1767,6 +1767,7 @@ end
 function survivalCfg()
 	f_discordUpdate({details = "Survival"})
 	f_default()
+	setGameMode('survival')
 	data.gameMode = "survival"
 	data.rosterMode = "survival"
 	data.stageMenu = true
@@ -1810,6 +1811,7 @@ function survivalP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
+	setGameMode('survivalcoop')
 	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -1824,6 +1826,7 @@ function survivalCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
+	setGameMode('survivalcoop')
 	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
 	f_selectAdvance()
 	]]

@@ -931,17 +931,24 @@ end
 
 local function f_setMatchTexts()
 	local stg = ""
+--Set Stage
 	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
 	textImgSetText(txt_MatchFightCfg, stg)
-	
-	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then --To get always the cpu level
+--Set CPU Level
+	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
 		textImgSetText(txt_AiLevelFightCfg, txt_AiLevelFight..ailevel())
 	end
-	
+--Set Survival Wins
+	if playerLeftSide then
+		textImgSetText(txt_SurvivalCountP1FightCfg, matchno()-1 ..txt_SurvivalCountFight)
+	else
+		textImgSetText(txt_SurvivalCountP2FightCfg, matchno()-1 ..txt_SurvivalCountFight)
+	end
+--Set VS Wins	
 	local matchsFinished = getP1matchWins() + getP2matchWins()
 	textImgSetText(txt_WinCountP1FightCfg, txt_WinCountFight.."("..getP1matchWins().."/"..matchsFinished..")")
 	textImgSetText(txt_WinCountP2FightCfg, txt_WinCountFight.."("..getP2matchWins().."/"..matchsFinished..")")
-	
+--Set Tournament Wins	
 	textImgSetText(txt_TourneyWinCountP1FightCfg, getP1matchWins())
 	textImgSetText(txt_TourneyWinCountP2FightCfg, getP2matchWins())
 	textImgSetText(txt_TourneyFTFightCfg, txt_TourneyFTFight..getFTNo())
@@ -956,7 +963,7 @@ local function f_addBonusScore()
 		if life() ~= lifemax() then
 			setScore(getScore() + life()*10) --Life remains add score
 		else
-			setScore(getScore() + 30000)
+			setScore(getScore() + 30000) --Full Life Bonus
 		end
 		if getRoundTime() ~= -1 then setScore(getScore() + (getRoundTime()/60)*100) end --Time remains add score
 		--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000) end
@@ -1029,6 +1036,18 @@ function loop() --The code for this function should be thought of as if it were 
 	elseif getGameMode() == "scoreattack" or getGameMode() == "scoreattackcoop" then
 		if roundstate() == 2 then
 			textImgDraw(txt_MatchFightCfg)
+		end
+--During Survival Mode
+	elseif getGameMode() == "survival" or getGameMode() == "survivalcoop" then
+		if roundstate() == 2 then
+			textImgDraw(txt_SurvivalCountP1FightCfg)
+			textImgDraw(txt_SurvivalCountP2FightCfg)
+		end
+		if roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
+			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
+				setLifePersistence(life())
+				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150) end
+			end
 		end
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then

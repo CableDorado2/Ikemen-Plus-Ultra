@@ -4292,6 +4292,9 @@ txt_MatchFightCfg = createTextImg(font5, 0, 0, "", 160, 40)
 txt_ScoreP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
 txt_ScoreP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
 
+txt_SurvivalCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
+txt_SurvivalCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
+
 txt_WinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
 txt_WinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
 
@@ -4302,6 +4305,7 @@ txt_TourneyFTFightCfg = createTextImg(jgFnt, 5, 0, "", 159, 8, 0.7, 0.7)
 
 txt_MatchFight = "STAGE "
 txt_MatchFinalFight = "FINAL STAGE"
+txt_SurvivalCountFight = " WINS"
 txt_WinCountFight = "WINS "
 txt_AiLevelFight = "CPU-"
 txt_TourneyFTFight = "FT"
