@@ -799,11 +799,9 @@ end
 --;===========================================================
 t_challengeMenu = {
 	--{text = "ALLIANCE", 	gotomenu = "f_allianceCfg()"},
-	--{text = "LEGION", 		gotomenu = "f_legionCfg()"},
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
 	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
-	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
 for i=1, #t_challengeMenu do
 	t_challengeMenu[i]['id'] = textImgNew()
@@ -813,9 +811,10 @@ end
 --; SURVIVAL MENU SCREENPACK DEFINITION
 --;===========================================================
 t_survivalMenu = {
-	{text = "CLASSIC", 	 gotomenu = "f_survivalBoot()"},
-	{text = "ABYSS", 	 gotomenu = "f_abyssSelect()"},
-	{text = "BOSS RUSH", gotomenu = "f_bossrushBoot()"},
+	{text = "CLASSIC", 	 	gotomenu = "f_survivalBoot()"},
+	{text = "ABYSS", 	 	gotomenu = "f_abyssSelect()"},
+	{text = "BOSS RUSH", 	gotomenu = "f_bossrushBoot()"},
+	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
 for i=1, #t_survivalMenu do
 	t_survivalMenu[i]['id'] = textImgNew()
@@ -850,6 +849,7 @@ end
 t_extrasMenu = {
 	--{text = "BEAT EM UP", gotomenu = "f_comingSoon()"},
 	--{text = "PLATFORM", gotomenu = "f_comingSoon()"},
+	--{text = "LEGION", 		gotomenu = "f_legionCfg()"},
 	{text = "BONUS GAMES", 	gotomenu = "f_bonusMenu()"},
 	{text = "TOURNAMENT", 	gotomenu = "f_tourneyCfg()"},
 	{text = "ENDLESS", 		gotomenu = "f_endlessBoot()"},
@@ -2221,12 +2221,12 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	bonusNo = bonusNo+1
 --Set Match Info Texts
 	if data.gameMode == "arcade" and matchNo == arcadeRivalMatchNo then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
-	elseif data.gameMode == "arcade" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
+	elseif (data.gameMode == "arcade" or data.gameMode == "allroster") and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
 	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
 	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR "..matchNo-1) --Set Tower Match Text
 	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH "..getAbyssDepth()) --Set Abyss Depth Match Text
 	end
-	if data.gameMode == "survival" or data.gameMode == "allroster" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
+	if data.gameMode == "survival" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
 	elseif data.gameMode == "vskumite" then textImgSetText(txt_gameNo, gameNo.."/"..data.kumite) --Set VS X Kumite Match Text
 	elseif data.gameMode == "bossrush" then textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
 	elseif data.gameMode == "bonusrush" then textImgSetText(txt_bonusNo, "BONUS "..bonusNo) --Set Bonus Rush Match Text
@@ -2234,10 +2234,10 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	else textImgSetText(txt_gameNo, "MATCH "..gameNo) --Set Versus Match Text
 	end
 --Set Final Matchs Text
-	if data.gameMode == "arcade" and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
+	if (data.gameMode == "arcade" or data.gameMode == "allroster") and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
 	elseif data.gameMode == "tower" and matchNo == lastMatch then textImgSetText(txt_matchNo, "LAST FLOOR") --Set Tower Final Match Text
 	end
-	if (data.gameMode == "survival" or data.gameMode == "allroster") and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
+	if data.gameMode == "survival" and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
 	elseif data.gameMode == "bossrush" and (lastMatch - bossNo == 0) then textImgSetText(txt_bossNo, "FINAL BOSS") --Set Boss Rush Final Match Text
 	elseif data.gameMode == "bonusrush" and (lastMatch - bonusNo == 0) then textImgSetText(txt_bonusNo, "LAST GAME") --Set Bonus Rush Final Match Text
 	end

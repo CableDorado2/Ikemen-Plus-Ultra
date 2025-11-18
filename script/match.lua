@@ -934,7 +934,6 @@ local function f_setMatchTexts()
 	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
 	textImgSetText(txt_MatchFightCfg, stg)
 	
-	--local ailv = nil
 	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then --To get always the cpu level
 		textImgSetText(txt_AiLevelFightCfg, txt_AiLevelFight..ailevel())
 	end
@@ -973,6 +972,8 @@ local function f_addBonusScore()
 	end
 end
 
+local scoreattackfactor = 1
+if getGameMode() == "scoreattack" or getGameMode() == "scoreattackcoop" then scoreattackfactor = 10 end
 local function f_drawScore()
 	if roundstate() == 2 and getScore() >= 0 then
 		scoreActive = true
@@ -980,7 +981,7 @@ local function f_drawScore()
 		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 			pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
 		end
-		setScore(getScore() + pts)
+		setScore(getScore() + pts*scoreattackfactor)
 		if playerLeftSide then
 			textImgSetText(txt_ScoreP1FightCfg, getScore())
 			textImgDraw(txt_ScoreP1FightCfg)
@@ -1024,6 +1025,11 @@ function loop() --The code for this function should be thought of as if it were 
 		
 		textImgDraw(txt_TourneyFTFightCfg)
 		textImgDraw(txt_TourneyStateFightCfg)
+--During Score Attack Mode
+	elseif getGameMode() == "scoreattack" or getGameMode() == "scoreattackcoop" then
+		if roundstate() == 2 then
+			textImgDraw(txt_MatchFightCfg)
+		end
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then
 	--Increase Abyss Depth Counter

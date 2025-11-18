@@ -6984,7 +6984,7 @@ function f_aiRamp()
 				end_diff = t_selOptions.teamend.offset
 			end
 		end
-	elseif data.gameMode == "survival" then
+	elseif data.gameMode == "survival" or data.gameMode == "allroster" then
 		start_match = t_selOptions.survivalstart.wins
 		start_diff = t_selOptions.survivalstart.offset
 		end_match =  t_selOptions.survivalend.wins
@@ -7072,7 +7072,7 @@ function f_aiLevel()
 			setTag(4, f_tagMode(4, tagset))
 		end
 	]]
-	if data.aiRamping and data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "survival" then
+	if data.aiRamping and data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "survival" or data.gameMode == "allroster" then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
 	--Coop
@@ -12505,9 +12505,9 @@ function f_selectVersus()
 				end
 			end
 		--Draw Match Info
-			if data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
+			if data.gameMode == "arcade" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
 				textImgDraw(txt_matchNo)
-			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "vskumite" or data.gameMode == "allroster" or data.gameMode == "intermission" then
+			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "vskumite" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
 			elseif data.gameMode == "bossrush" then
 				textImgDraw(txt_bossNo)
@@ -13734,13 +13734,27 @@ function f_result(state)
 			textImgSetPos(txt_resultName, 318, 60)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
+		elseif data.gameMode == "allroster" then
+			textImgSetAlign(txt_resultTeam, -1)
+			textImgSetPos(txt_resultTeam, 318, 48)
+			textImgSetAlign(txt_resultName, -1)
+			textImgSetPos(txt_resultName, 318, 60)
+			textImgSetText(txt_resultNo, winCnt.." WINS")
+			if data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
+			elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
+			elseif data.rosterMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR RESULTS")
+			elseif data.rosterMode == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
+			elseif data.rosterMode == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH RESULTS")
+			elseif data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS")
+			else textImgSetText(txt_resultTitle, "RESULTS")
+			end
 		elseif data.gameMode == "abyss" then
 			textImgSetAlign(txt_resultTeam, 1)
 			textImgSetPos(txt_resultTeam, 2, 50)
 			textImgSetAlign(txt_resultName, 1)
 			textImgSetPos(txt_resultName, 2, 65)
 			textImgSetText(txt_resultTitle, "ABYSS RESULTS")
-		else--if data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
+		else--if data.gameMode == "endless" or data.gameMode == "vskumite" then
 			textImgSetAlign(txt_resultTeam, 1)
 			textImgSetPos(txt_resultTeam, 2, 50)
 			textImgSetAlign(txt_resultName, 1)
@@ -13748,13 +13762,7 @@ function f_result(state)
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
-			elseif data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS")
-			elseif data.rosterMode == "vskumite" then textImgSetText(txt_resultTitle, "VS "..getKumiteData().." RESULTS")
-			elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
-			elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
-			elseif data.rosterMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR RESULTS")
-			elseif data.rosterMode == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
-			elseif data.rosterMode == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH RESULTS")
+			elseif data.rosterMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData().." RESULTS")
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
@@ -14682,8 +14690,8 @@ if validCells() then
 			matchNo = 1
 			setLastMatch(lastMatch)
 			if data.gameMode ~= "endless" then f_aiRamp() end --generate AI ramping table
-	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
-		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite") then
+	--Player exit the match via ESC in Endless or VS X KUMITE (BOTH SIDES)
+		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "vskumite") then
 			if data.gameMode ~= "endless" then looseCnt = looseCnt + 1 end --because in endless a give up not counts as a loose
 			assert(loadfile(saveTempPath))()
 			if data.tempBack == true then
@@ -14696,8 +14704,8 @@ if validCells() then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade) --reset title screen fading
 			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			return
-	--Endless or All Roster modes (BOTH SIDES)
-		elseif data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
+	--Endless or VS X KUMITE (BOTH SIDES)
+		elseif data.gameMode == "endless" or data.gameMode == "vskumite" then
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if winner == 2 then
 					winCnt = winCnt + 1
@@ -14728,7 +14736,7 @@ if validCells() then
 			--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
+				if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
 					looseCnt = looseCnt + 1
 				--Victory screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -14866,7 +14874,7 @@ if validCells() then
 		--Player 1 (IN LEFT SIDE):
 			else
 			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
+				if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
 					looseCnt = looseCnt + 1
 				--Victory Screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -14932,7 +14940,7 @@ if validCells() then
 				return
 			end
 		--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
-			if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
+			if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
 				looseCnt = looseCnt + 1
 				if data.gameMode == "arcade" or data.gameMode == "tower" then --Attract Arcade
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
