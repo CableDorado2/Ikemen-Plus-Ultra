@@ -98,8 +98,13 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Implementar los parametros: ordersurvival, hidden, slot en select.def
 
-- Añadir al menú de perfil, una entrada para crear o editar equipos predefinidos que puedas elegir en el Character Select al jugar en Simul o Turns, como "Reserve Unit" de Ultimate Marvel vs Capcom 3:
+- Añadir al menú de perfil, una entrada para crear o editar equipos predefinidos que puedas elegir en el Character Select al jugar en Simul o Turns como la opción Customize Team en KOF XIII.
+"Reserve Unit" de Ultimate Marvel vs Capcom 3:
 ![20250822233724_1](https://github.com/user-attachments/assets/a9241ef6-f0dc-4de4-9c54-93bcd7161974)
+Saved Team en Dragon Ball Fighterz:
+![20251118211345_1](https://github.com/user-attachments/assets/b042b089-8be3-4282-bff9-b903bc0082b7)
+![20251118211534_1](https://github.com/user-attachments/assets/d741b360-2073-41f2-813f-a25696912f5c)
+
 
 - En tournament cuando 2 jugadores humanos tienen el mismo control ejemplo p1 y p1, podría incluir un side select para que uno de los 2 se convierta en p2 y así evitar que se controlen como espejo al tener el mismo player asignado.
 
@@ -108,12 +113,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - Opción para jugar el Modo Torneo en formato Eliminación Doble.
 
 - Al jugar en team mode o coop el abyss, cada ranura de custom item se va a aplicar a cada jugador incrementando el nivel de estrategia sobre qué personaje usará X item.
-
-- Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
-
-- Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
-
-- Crear un trigger para activar o desactivar las transiciones por cada round. Al desactivarlas, el inicio de cada nuevo round sería como X-Men COTA o Mortal Kombat.
 
 - Integrar un sistema de diálogo en los matches siguiendo la lógica usada para la selección de reward del abyss mode.
 
@@ -146,7 +145,13 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
-- Integrar la función de bgm.loops.
+- Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
+- Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
+
+- Crear un trigger para activar o desactivar las transiciones por cada round. Al desactivarlas, el inicio de cada nuevo round sería como X-Men COTA o Mortal Kombat.
+
+- Añadir función para crear loops en la función playBGM().
 
 - Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
 
