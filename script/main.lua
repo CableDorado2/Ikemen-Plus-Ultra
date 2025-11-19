@@ -827,7 +827,7 @@ function f_training()
 		data.p2In = 1
 		data.p2Faces = true
 	end
-	textImgSetText(txt_mainSelect, "TRAINING MODE")
+	textImgSetText(txt_mainSelect, "TRAINING")
 	f_selectSimple()
 	f_discordMainMenu()
 end
@@ -1396,7 +1396,7 @@ function towerHumanvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "TOWER MODE")
+	textImgSetText(txt_mainSelect, "TOWER")
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -1415,7 +1415,7 @@ function towerCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "TOWER MODE")
+	textImgSetText(txt_mainSelect, "TOWER")
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -3106,7 +3106,7 @@ function endlessHumanvsCPU()
 	end
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ENDLESS MODE")
+	textImgSetText(txt_mainSelect, "ENDLESS")
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -3122,7 +3122,7 @@ function endlessCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ENDLESS MODE")
+	textImgSetText(txt_mainSelect, "ENDLESS")
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -17290,7 +17290,7 @@ function abyssHumanvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ABYSS MODE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
+	textImgSetText(txt_mainSelect, "ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -17310,7 +17310,7 @@ function abyssCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ABYSS MODE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
+	textImgSetText(txt_mainSelect, "ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 	P2overP1 = false
 end

@@ -449,6 +449,8 @@ function f_eventMenu()
 					data.rosterMode = "event"
 					setGameMode("event")
 					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
+					--textImgSetText(txt_mainSelect, "EVENT "..data.eventNo.." [" .. t_events[data.eventNo].status .. "]")
+					textImgSetText(txt_mainSelect, "EVENT MATCH")
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 					if t_events[eventMenu].path ~= nil then --Detects if lua file is defined
 						assert(loadfile(t_events[eventMenu].path))()

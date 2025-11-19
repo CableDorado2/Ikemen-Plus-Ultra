@@ -749,7 +749,7 @@ local function f_storyRosterTest()
 	data.stageMenu = true
 	data.rosterMode = "story"
 	setGameMode("storyRoster")
-	textImgSetText(txt_mainSelect, "STORY MODE")
+	textImgSetText(txt_mainSelect, "STORY MATCH")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 	f_selectStory()
