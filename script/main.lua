@@ -9022,7 +9022,11 @@ function f_p1SelectMenu()
 					if p1memberPreview == 3 then p1member3Random = true	end
 					if p1memberPreview == 4 then p1member4Random = true	end
 				end
-				f_p1charAnnouncer(cel) --Character Voice when is selected Example for Player 1 Side
+				if data.randomPortrait == "Fixed" and getCharName(p1Cell) == "Random" then
+					--Don't play voices for this random portrait type
+				else
+					f_p1charAnnouncer(cel) --Character Voice when is selected
+				end
 				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 					if t_selChars[cel+1].p1AnimWin then animReset(t_selChars[cel+1].p1AnimWin) end
 				end
@@ -9081,7 +9085,7 @@ function f_p1Selection()
 --Modern Palette Select (Random Portrait Fixed Style Case)
 	else
 		if data.randomPortrait == "Fixed" and getCharName(p1Cell) == "Random" then
-			p1PalSel = math.random(1,12) --Set Random Palette for fixed random select
+			p1PalSel = math.random(1,12)
 			p1PalEnd = true
 		end
 	end
@@ -10396,7 +10400,11 @@ function f_p2SelectMenu()
 					if p2memberPreview == 3 then p2member3Random = true	end
 					if p2memberPreview == 4 then p2member4Random = true	end
 				end
-				f_p2charAnnouncer(cel)
+				if data.randomPortrait == "Fixed" and getCharName(p2Cell) == "Random" then
+					--Don't play voices for this random portrait type
+				else
+					f_p2charAnnouncer(cel)
+				end
 				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 					if t_selChars[cel+1].p2AnimWin then animReset(t_selChars[cel+1].p2AnimWin) end
 				end

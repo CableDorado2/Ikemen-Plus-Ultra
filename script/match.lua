@@ -1043,7 +1043,7 @@ function loop() --The code for this function should be thought of as if it were 
 			textImgDraw(txt_SurvivalCountP1FightCfg)
 			textImgDraw(txt_SurvivalCountP2FightCfg)
 		end
-		if roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
+		if getGameMode() == "survival" and roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
 				setLifePersistence(life())
 				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150) end
