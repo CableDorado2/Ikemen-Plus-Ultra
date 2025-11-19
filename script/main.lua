@@ -8991,21 +8991,23 @@ function f_p1SelectMenu()
 				end
 			end
 		--Back to Team Menu Logic
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if commandGetState(p2Cmd, 'e') and p1SelBack == true and not data.coop then
-					sndPlay(sndSys, 100, 2)
-					f_p1sideReset()
-				end
-			else
-				if commandGetState(p1Cmd, 'e') then
-					if serviceBack == true then
-						f_p1sideReset()
-						p1TeamEnd = true
-						p1BG = true
-						p1memberPreview = 1
-					elseif p1SelBack == true then
+			if not p1CharEnd then
+				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+					if commandGetState(p2Cmd, 'e') and p1SelBack and not data.coop then
 						sndPlay(sndSys, 100, 2)
 						f_p1sideReset()
+					end
+				else
+					if commandGetState(p1Cmd, 'e') then
+						if serviceBack then
+							f_p1sideReset()
+							p1TeamEnd = true
+							p1BG = true
+							p1memberPreview = 1
+						elseif p1SelBack then
+							sndPlay(sndSys, 100, 2)
+							f_p1sideReset()
+						end
 					end
 				end
 			end
@@ -9076,6 +9078,12 @@ function f_p1Selection()
 		p1PalSel = btnPalNo(p1Cmd, true)
 		if selectTimer == 0 then p1PalSel = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
 		p1PalEnd = true
+--Modern Palette Select (Random Portrait Fixed Style Case)
+	else
+		if data.randomPortrait == "Fixed" and getCharName(p1Cell) == "Random" then
+			p1PalSel = math.random(1,12) --Set Random Palette for fixed random select
+			p1PalEnd = true
+		end
 	end
 --No Handicap Allowed
 	if data.gameMode ~= "versus" or data.ftcontrol > 0 then
@@ -10357,22 +10365,24 @@ function f_p2SelectMenu()
 				end
 			end
 		--Back to Team Menu Logic
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if commandGetState(p2Cmd, 'e') then
-					if serviceBack == true then
-						f_p2sideReset()
-						p2TeamEnd = true
-						p2BG = true
-						p2memberPreview = 1
-					elseif p2SelBack == true then
+			if not p2CharEnd then
+				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+					if commandGetState(p2Cmd, 'e') then
+						if serviceBack == true then
+							f_p2sideReset()
+							p2TeamEnd = true
+							p2BG = true
+							p2memberPreview = 1
+						elseif p2SelBack == true then
+							sndPlay(sndSys, 100, 2)
+							f_p2sideReset()
+						end
+					end
+				else
+					if commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
 						sndPlay(sndSys, 100, 2)
 						f_p2sideReset()
 					end
-				end
-			else
-				if commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
-					sndPlay(sndSys, 100, 2)
-					f_p2sideReset()
 				end
 			end
 			if p2HandicapEnd and p2PalEnd and p2CharEnd then
@@ -10443,10 +10453,17 @@ end
 
 function f_p2Selection()
 	sndPlay(sndSys, 100, 1)
+--Classic Palette Select
 	if data.palType == "Classic" then
 		p2PalSel = btnPalNo(p2Cmd, true)
 		if selectTimer == 0 then p2PalSel = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
 		p2PalEnd = true
+--Modern Palette Select (Random Portrait Fixed Style Case)
+	else
+		if data.randomPortrait == "Fixed" and getCharName(p2Cell) == "Random" then
+			p2PalSel = math.random(1,12)
+			p2PalEnd = true
+		end
 	end
 	if data.gameMode ~= "versus" or data.ftcontrol > 0 then
 		p2HandicapSel = 1 --Set Normal Handicap as Default
