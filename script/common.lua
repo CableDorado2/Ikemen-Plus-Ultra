@@ -2357,6 +2357,8 @@ function f_default() --Reset Game Modes Configuration
 	setLastMatch(-1) --Set Last Match Stage
 	setScoreDisplay(false) --Enable or Disable Score Display
 	setScore(0) --Reset Player Score
+	setTimerDisplay(false) --Enable or Disable Timer Display
+	setTimer(0) --Reset Player Timer
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)

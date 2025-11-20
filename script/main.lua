@@ -13707,45 +13707,13 @@ end
 --;===========================================================
 function f_result(state)
 	cmdInput()
-	--if state == "win" then
-	--elseif state == "lost" then
-	--end
-	if data.gameMode == "tower" then rosterSize = #t_selTower[destinySelect].kombats
-	elseif data.gameMode == "abyss" then
-		rosterSize = t_abyssSel[abyssSel].depth
-	--Save Max Abyss Depth
-		if getAbyssDepth() > stats.modes.abyss.maxdepth then
-			stats.modes.abyss.maxdepth = getAbyssDepth()
-			f_saveStats()
-		end
-	elseif data.gameMode == "endless" then rosterSize = 1
-	else rosterSize = #t_roster
+--[[
+	if state == "win" then
+	elseif state == "lost" then
 	end
-	local victoriesPercent = (winCnt/rosterSize)*100
-	local charPortr = nil
-	local charTable = nil
-	local scaleData = nil
+]]
+--Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
-	--Common Data
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			textImgSetText(txt_resultName, f_getName(data.t_p2selected[1].cel))
-			charPortr = data.t_p2selected[1].cel
-			charTable = data.t_p2selected
-			if p2teamMode > 0 then
-				textImgSetText(txt_resultTeam, "TEAM")
-			elseif p1teamMode == 0 then
-				textImgSetText(txt_resultTeam, "")
-			end
-		else
-			textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
-			charPortr = data.t_p1selected[1].cel
-			charTable = data.t_p1selected
-			if p1teamMode > 0 then
-				textImgSetText(txt_resultTeam, "TEAM")
-			elseif p1teamMode == 0 then
-				textImgSetText(txt_resultTeam, "")
-			end
-		end
 		if data.gameMode == "survival" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
@@ -13761,6 +13729,11 @@ function f_result(state)
 			end
 		elseif data.gameMode == "abyss" then
 			textImgSetText(txt_resultTitle, "ABYSS RESULTS")
+		--Save Max Abyss Depth
+			if getAbyssDepth() > stats.modes.abyss.maxdepth then
+				stats.modes.abyss.maxdepth = getAbyssDepth()
+				f_saveStats()
+			end
 		else--if data.gameMode == "endless" or data.gameMode == "vskumite" then
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
@@ -13769,10 +13742,33 @@ function f_result(state)
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
-	else --Boss/Bonus Rush Exit
+--Skip Results Screen for: Boss Rush
+	else
 		return
 	end
 --Portraits Scale Logic
+	local charPortr = nil
+	local charTable = nil
+	local scaleData = nil
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		textImgSetText(txt_resultName, f_getName(data.t_p2selected[1].cel))
+		charPortr = data.t_p2selected[1].cel
+		charTable = data.t_p2selected
+		if p2teamMode > 0 then
+			textImgSetText(txt_resultTeam, "TEAM")
+		elseif p1teamMode == 0 then
+			textImgSetText(txt_resultTeam, "")
+		end
+	else
+		textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
+		charPortr = data.t_p1selected[1].cel
+		charTable = data.t_p1selected
+		if p1teamMode > 0 then
+			textImgSetText(txt_resultTeam, "TEAM")
+		elseif p1teamMode == 0 then
+			textImgSetText(txt_resultTeam, "")
+		end
+	end
 	local charData = t_selChars[charPortr+1]
 	if charData.resultSprScale ~= nil then
 		scaleData = charData.resultSprScale
@@ -13804,14 +13800,19 @@ function f_result(state)
 			if data.rosterMode == "vskumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
+			elseif data.rosterMode == "scoreattack" then
+				f_drawRank(getScore(), #t_roster*9000)
+			elseif data.rosterMode == "timeattack" then
+				--f_drawRank(getClearTime(), #t_roster*10Seconds)
 			else
 				textImgDraw(txt_resultNo)
+				if data.rosterMode ~= "endless" then f_drawRank(winCnt, #t_roster) end
 			end
-			if data.rosterMode ~= "endless" then f_drawRank(victoriesPercent) end
 			textImgDraw(txt_resultTime)
 			textImgDraw(txt_resultScore)
 		elseif data.rosterMode == "abyss" then
 			f_drawAbyssResults()
+			f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
 		end
 		textImgDraw(txt_resultTitle)
 		textImgDraw(txt_resultName)
@@ -13823,36 +13824,38 @@ function f_result(state)
 	end
 end
 
-function f_drawRank(victoriesPercent)
---Show Ranks According Some Percentage Rates
+function f_drawRank(performanceValue, maxValue)
+	local percentage = (performanceValue/maxValue)*100
+	if percentage > 100 then percentage = 100 end
+--Show Ranks According Percentage Rates
 	textImgDraw(txt_resultRank)
-	if victoriesPercent < 35 then --0% -- 34%
+	if percentage < 35 then --0% -- 34%
 		animDraw(rankF)
-	elseif victoriesPercent >= 35 and victoriesPercent < 40 then --35% -- 39%
+	elseif percentage >= 35 and percentage < 40 then --35% - 39%
 		animDraw(rankDM)
-	elseif victoriesPercent >= 40 and victoriesPercent < 45 then --40% -- 44%
+	elseif percentage >= 40 and percentage < 45 then --40% - 44%
 		animDraw(rankD)
-	elseif victoriesPercent >= 45 and victoriesPercent < 50 then --45% -- 49%
+	elseif percentage >= 45 and percentage < 50 then --45% - 49%
 		animDraw(rankDP)
-	elseif victoriesPercent >= 50 and victoriesPercent < 55 then --50% -- 54%
+	elseif percentage >= 50 and percentage < 55 then --50% - 54%
 		animDraw(rankC)
-	elseif victoriesPercent >= 55 and victoriesPercent < 60 then --55% -- 59%
+	elseif percentage >= 55 and percentage < 60 then --55% - 59%
 		animDraw(rankCP)
-	elseif victoriesPercent >= 60 and victoriesPercent < 65 then --60% -- 64%
+	elseif percentage >= 60 and percentage < 65 then --60% -64%
 		animDraw(rankB)
-	elseif victoriesPercent >= 65 and victoriesPercent < 70 then --65% -- 69%
+	elseif percentage >= 65 and percentage < 70 then --65% -69%
 		animDraw(rankBP)
-	elseif victoriesPercent >= 70 and victoriesPercent < 75 then --70% -- 74%
+	elseif percentage >= 70 and percentage < 75 then --70% -74%
 		animDraw(rankA)
-	elseif victoriesPercent >= 75 and victoriesPercent < 80 then --75% -- 79
+	elseif percentage >= 75 and percentage < 80 then --75% - 79
 		animDraw(rankAP)
-	elseif victoriesPercent >= 80 and victoriesPercent < 85 then --80% -- 84%
+	elseif percentage >= 80 and percentage < 85 then --80% - 84%
 		animDraw(rankS)
-	elseif victoriesPercent >= 85 and victoriesPercent < 90 then --85% -- 89%
+	elseif percentage >= 85 and percentage < 90 then --85% - 89%
 		animDraw(rankSP)
-	elseif victoriesPercent >= 90 and victoriesPercent < 95 then --90% -- 94%
+	elseif percentage >= 90 and percentage < 95 then --90% - 94%
 		animDraw(rankXS)
-	elseif victoriesPercent >= 95 then --95% -- 100%
+	elseif percentage >= 95 then --95% - 100%
 		animDraw(rankGDLK)
 	end
 end
