@@ -2355,7 +2355,8 @@ function f_default() --Reset Game Modes Configuration
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2
 	setLastMatch(-1) --Set Last Match Stage
-	setScore(-1) --Reset Player Score (-1:Disable 0:Enable)
+	setScoreDisplay(false) --Enable or Disable Score Display
+	setScore(0) --Reset Player Score
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)

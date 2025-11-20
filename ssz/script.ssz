@@ -1230,6 +1230,19 @@ void getTourneyState(&.lua.State L=, int re=)
   L.pushString(.com.tourneyState);
 }
 
+void setScoreDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool sd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.scoreDisplay = sd;
+}
+
+void scoreDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.scoreDisplay);
+}
+
 void setScore(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1657,6 +1670,9 @@ public void init(&.lua.State L=)
   L.register("getP1matchWins", .getP1matchWins);
   L.register("setP2matchWins", .setP2matchWins);
   L.register("getP2matchWins", .getP2matchWins);
+  
+  L.register("setScoreDisplay", .setScoreDisplay);
+  L.register("scoreDisplay", .scoreDisplay);
   
   L.register("setScore", .setScore);
   L.register("getScore", .getScore);

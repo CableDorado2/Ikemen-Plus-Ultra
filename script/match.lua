@@ -956,48 +956,48 @@ local function f_setMatchTexts()
 end
 f_setMatchTexts() --Load when match start
 
-local scoreActive = false
-local maxCombo = 0
-local function f_addBonusScore()
---Add Bonus Score when player wins
-	if scoreActive and roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
-		if life() ~= lifemax() then
-			setScore(getScore() + life()*10) --Life remains add score
-		else
-			setScore(getScore() + 30000) --Full Life Bonus
+local maxComboCnt = 0
+local scoreattackfactor = 1
+if getGameMode() == "scoreattack" then scoreattackfactor = 10 end
+local function f_drawScore()
+	if roundstate() == 2 then
+		local pts = 0
+		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
+			pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
+			if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
 		end
-		if getRoundTime() ~= -1 then setScore(getScore() + (getRoundTime()/60)*100) end --Time remains add score
-		setScore(getScore() + maxCombo*1000)
-		
-		--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000) end
-		--if firstattack() then setScore(getScore() + 1500) end
-		if winperfecthyper() then setScore(getScore() + 25000)
-		elseif winperfectthrow() then setScore(getScore() + 20000)
-		elseif winperfectspecial() then setScore(getScore() + 15000)
-		elseif winperfect() then setScore(getScore() + 10000)
-		elseif winhyper() then setScore(getScore() + 8000)
-		elseif winthrow() then setScore(getScore() + 3000)
-		elseif winspecial() then setScore(getScore() + 1000)
+		if data.debugMode then f_drawQuickText(txt_MatchComboCnt, font14, 0, 1, "Max Combo: "..maxComboCnt, 95, 50) end
+		setScore(getScore() + pts*scoreattackfactor)
+		if playerLeftSide then
+			textImgSetText(txt_ScoreP1FightCfg, getScore())
+			if scoreDisplay() then textImgDraw(txt_ScoreP1FightCfg) end
+		else
+			textImgSetText(txt_ScoreP2FightCfg, getScore())
+			if scoreDisplay() then textImgDraw(txt_ScoreP2FightCfg) end
 		end
 	end
 end
 
-local scoreattackfactor = 1
-if getGameMode() == "scoreattack" then scoreattackfactor = 10 end
-local function f_drawScore()
-	if roundstate() == 2 and getScore() >= 0 then
-		scoreActive = true
-		local pts = 0
-		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-			pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
-		end
-		setScore(getScore() + pts*scoreattackfactor)
-		if playerLeftSide then
-			textImgSetText(txt_ScoreP1FightCfg, getScore())
-			textImgDraw(txt_ScoreP1FightCfg)
+local function f_addBonusScore()
+--Add Bonus Score when player wins
+	if roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
+		if life() ~= lifemax() then
+			setScore(getScore() + (life()*10)*scoreattackfactor) --Life remains add score
 		else
-			textImgSetText(txt_ScoreP2FightCfg, getScore())
-			textImgDraw(txt_ScoreP2FightCfg)
+			setScore(getScore() + 30000*scoreattackfactor) --Full Life Bonus
+		end
+		if getRoundTime() ~= -1 then setScore(getScore() + ((getRoundTime()/60)*100)*scoreattackfactor) end --Time remains add score
+		setScore(getScore() + (maxComboCnt*1000)*scoreattackfactor)
+		
+		--if consecutivewins() > 1 then setScore(getScore() + (consecutivewins()*1000)*scoreattackfactor) end
+		--if firstattack() then setScore(getScore() + 1500*scoreattackfactor) end
+		if winperfecthyper() then setScore(getScore() + 25000*scoreattackfactor)
+		elseif winperfectthrow() then setScore(getScore() + 20000*scoreattackfactor)
+		elseif winperfectspecial() then setScore(getScore() + 15000*scoreattackfactor)
+		elseif winperfect() then setScore(getScore() + 10000*scoreattackfactor)
+		elseif winhyper() then setScore(getScore() + 8000*scoreattackfactor)
+		elseif winthrow() then setScore(getScore() + 3000*scoreattackfactor)
+		elseif winspecial() then setScore(getScore() + 1000*scoreattackfactor)
 		end
 	end
 end

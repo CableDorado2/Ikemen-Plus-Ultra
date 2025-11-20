@@ -2071,7 +2071,7 @@ void setSharedLife(&.lua.State L=, int re=)
   .com.sharedLife = b;
 }
 
-void setHUD(&.lua.State L=, int re=)//Search setHUD in main.lua
+void setHUD(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   bool b = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;

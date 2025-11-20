@@ -27,6 +27,7 @@ public &Share
   public int chr_home, chr_match, chr_round, lastMatch, matchsToWin, p1matchWins, p2matchWins;
   public int chr_p1mw, chr_p2mw, chr_p1w, chr_p2w, chr_drw;
   public int score, scoreTotal, p1score, p2score;
+  public bool scoreDisplay;
   public int stt;
   public ^int com;
   public ^int taglevel;
@@ -107,6 +108,7 @@ public &Share
     `chr_drw = .com.draws;
     `p1score = .com.p1score;
     `p2score = .com.p2score;
+    `scoreDisplay = .com.scoreDisplay;
     `score = .com.score;
     `scoreTotal = .com.scoreTotal;
     `com = .com.com;
@@ -209,6 +211,7 @@ public &Share
     .com.round = `chr_round;
     .com.p1score = `p1score;
     .com.p2score = `p2score;
+    .com.scoreDisplay = `scoreDisplay;
     .com.score = `score;
     .com.scoreTotal = `scoreTotal;
     .com.p1mw = `chr_p1mw;

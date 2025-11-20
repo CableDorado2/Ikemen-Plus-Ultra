@@ -1267,7 +1267,7 @@ function arcadeCfg()
 	f_discordUpdate({details = "Arcade"})
 	f_resetArcadeStuff()
 	f_default() --Load f_default function defined in common.lua
-	setScore(0) --Player Score Enabled
+	setScoreDisplay(true) --Player Score Enabled
 	setGameMode("arcade")
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.rosterMode = "arcade" --to record statistics
@@ -2548,7 +2548,7 @@ end
 function scoreattackCfg()
 	f_discordUpdate({details = "Score Attack"})
 	f_default()
-	setScore(0)
+	setScoreDisplay(true)
 	setGameMode("scoreattack")
 	data.gameMode = "allroster"
 	data.rosterMode = "scoreattack"
