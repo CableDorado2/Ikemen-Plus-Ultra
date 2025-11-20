@@ -321,40 +321,39 @@ function f_confirmReset()
 end
 
 --;===========================================================
---; PAUSE MENU ITEMS FUNCTIONS
+--; PAUSE MENU ITEMS FUNCTIONS (NOT IMPLEMENTED YET)
 --;===========================================================
---HIDE MENU
-function f_hidePause()
-	hide = true
-end
-
+--[[
 --RESUME GAME
-function f_resumePause()
+local function f_resumePause()
 	
 end
 
 --MOVELIST
-function f_movelistPause()
+local function f_movelistPause()
 	sndPlay(sndIkemen, 200, 0)
 end
 
 --SETTINGS
-function f_settingsPause()
+local function f_settingsPause()
 	sndPlay(sndSys, 100, 1)
 	f_gameCfgMenuReset()
 end
 
+--HIDE MENU
+local function f_hidePause()
+	hide = true
+end
+
 --BACK TO CHARACTER SELECT
-function f_exitPause()
+local function f_exitPause()
 	if getGameMode() == "story" then
 		sndPlay(sndIkemen, 200, 0)
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
 		sndPlay(sndSys, 100, 1)
-	--[[
-		abyssStats = 1
-		cursorPosY = 1
-		moveTxt = 0
-	]]
+		--abyssStats = 1
+		--cursorPosY = 1
+		--moveTxt = 0
 		mainGoTo = "AbyssStats"
 		delayMenu = -2
 	elseif getGameMode() == "random" or getGameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
@@ -372,7 +371,7 @@ function f_exitPause()
 end
 
 --EXIT TO MAIN MENU
-function f_mainmenuPause()	
+local function f_mainmenuPause()	
 	sndPlay(sndSys, 100, 1)
 	f_confirmReset()
 	mainGoTo = "Confirm"
@@ -384,17 +383,17 @@ function f_mainmenuPause()
 end
 
 --TRAINING SETTINGS
-function f_practicePause()
+local function f_practicePause()
 	sndPlay(sndSys, 100, 1)
 	f_trainingCfgMenuReset()
 end
 
 --BATTLE INFO
-function f_infoPause()
+local function f_infoPause()
 	sndPlay(sndSys, 100, 1)
 	f_trainingCfgMenuReset()
 end
-
+]]
 --;===========================================================
 --; PAUSE MENU
 --;===========================================================

@@ -957,6 +957,7 @@ end
 f_setMatchTexts() --Load when match start
 
 local scoreActive = false
+local maxCombo = 0
 local function f_addBonusScore()
 --Add Bonus Score when player wins
 	if scoreActive and roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
@@ -966,6 +967,8 @@ local function f_addBonusScore()
 			setScore(getScore() + 30000) --Full Life Bonus
 		end
 		if getRoundTime() ~= -1 then setScore(getScore() + (getRoundTime()/60)*100) end --Time remains add score
+		setScore(getScore() + maxCombo*1000)
+		
 		--if consecutivewins() > 1 then setScore(getScore() + consecutivewins() * 1000) end
 		--if firstattack() then setScore(getScore() + 1500) end
 		if winperfecthyper() then setScore(getScore() + 25000)

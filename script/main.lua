@@ -3327,12 +3327,12 @@ end
 function f_records()
 --[[
 	if data.rosterMode == "suddendeath" then
-		if winCnt > data.suddenrecord then
-			data.suddenrecord = winCnt
+		if winCnt > stats.modes.suddendeath.record then
+			stats.modes.suddendeath.record = winCnt
 		end
 	elseif data.rosterMode == "endless" then
-		if winCnt > data.endlessrecord then
-			data.endlessrecord = winCnt
+		if winCnt > stats.modes.endless.record then
+			stats.modes.endless.record = winCnt
 		end
 	end
 	f_saveStats()
@@ -13798,17 +13798,20 @@ function f_result(state)
 			end
 		end
 		animDraw(resultBG) --Draw BG
-		if data.gameMode == "survival" then
-			textImgDraw(txt_resultNo)
-			f_drawRank(victoriesPercent)
-		elseif data.gameMode == "abyss" then
+		if data.rosterMode == "survival" or data.rosterMode == "scoreattack" or
+			data.rosterMode == "endless" or data.rosterMode == "timeattack" or
+			data.rosterMode == "vskumite" or data.rosterMode == "speedstar" then
+			if data.rosterMode == "vskumite" then
+				textImgDraw(txt_resultWins)
+				textImgDraw(txt_resultLoses)
+			else
+				textImgDraw(txt_resultNo)
+			end
+			if data.rosterMode ~= "endless" then f_drawRank(victoriesPercent) end
+			textImgDraw(txt_resultTime)
+			textImgDraw(txt_resultScore)
+		elseif data.rosterMode == "abyss" then
 			f_drawAbyssResults()
-		elseif data.rosterMode == "score attack" then
-			--textImgDraw(txt_resultTime)
-			--textImgDraw(txt_resultScore)
-		else
-			textImgDraw(txt_resultWins)
-			textImgDraw(txt_resultLoses)
 		end
 		textImgDraw(txt_resultTitle)
 		textImgDraw(txt_resultName)
