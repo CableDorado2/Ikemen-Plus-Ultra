@@ -3212,7 +3212,7 @@ if stats.playtime == nil then stats.playtime = 0 end
 if stats.money == nil then stats.money = 0 end
 if stats.continueCount == nil then stats.continueCount = 0 end
 if stats.wins == nil then stats.wins = 0 end
-if stats.losses == nil then stats.losses = 0 end
+if stats.loses == nil then stats.loses = 0 end
 if stats.characters == nil then stats.characters = {} end --To store times used for favorite chars stats
 if stats.stages == nil then stats.stages = {} end --To store times used for favorite stages stats
 if stats.modes == nil then

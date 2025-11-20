@@ -959,7 +959,7 @@ t_statsMenu = {
 	{text = "In-Game Currency"},
 	{text = "Matchs Played"},
 	{text = "Wins"},
-	{text = "Losses"},
+	{text = "Loses"},
 	{text = "Favorite Character"},
 	{text = "Favorite Stage"},
 	{text = "Favorite Game Mode"},
@@ -2515,15 +2515,15 @@ end
 --;===========================================================
 --; RESULTS SCREENPACK
 --;===========================================================
-txt_resultTitle = createTextImg(font14, 0, 0, "", 159, 20)
-txt_resultNo = createTextImg(survNumFnt, 0, 1, "", 2, 150)
-txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 110)
-txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 200)
-txt_resultTime = createTextImg(jgFnt, 0, 1, "TIME: 9'99''999", 32, 220)
-txt_resultScore = createTextImg(jgFnt, 0, 1, "SCORE: 999.999.999 PTS", 32, 234)
+txt_resultTitle = createTextImg(font14, 0, 0, "", 203, 20)
+txt_resultNo = createTextImg(survNumFnt, 0, -1, "", 320, 150)
+txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 100)
+txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 190)
+txt_resultTime = createTextImg(jgFnt, 0, -1, "TIME: 9'99''999", 32, 220)
+txt_resultScore = createTextImg(jgFnt, 0, -1, "SCORE: 999.999.999 PTS", 32, 234)
 txt_resultRank = createTextImg(jgFnt, 0, 1, "RANK", 262, 205)
-txt_resultName = createTextImg(font6, 0, 1, "", 2, 50)
-txt_resultTeam = createTextImg(font6, 0, 1, "", 2, 65)
+txt_resultTeam = createTextImg(font6, 0, 1, "", 2, 220)
+txt_resultName = createTextImg(font6, 0, 1, "", 2, 232)
 
 function f_drawAbyssResults()
 	local PosX = 225

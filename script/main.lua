@@ -3320,7 +3320,7 @@ function f_victories()
 end
 
 function f_defeats()
-	stats.losses = stats.losses + 1
+	stats.loses = stats.loses + 1
 	f_saveStats()
 end
 
@@ -3584,9 +3584,9 @@ function f_getStats(callback)
 	t_statsMenu[1].varText = timePlayed
 	t_statsMenu[2].varText = practiceTime
 	t_statsMenu[3].varText = stats.money.." IKC"
-	t_statsMenu[4].varText = (stats.wins+stats.losses)
+	t_statsMenu[4].varText = (stats.wins+stats.loses)
 	t_statsMenu[5].varText = stats.wins
-	t_statsMenu[6].varText = stats.losses
+	t_statsMenu[6].varText = stats.loses
 	f_getFavoriteContent("chars")
 	f_getFavoriteContent("stages")
 	f_getPreferredMode()
@@ -12774,7 +12774,7 @@ function f_selectWin()
 		winnerSide = data.t_p1selected
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			--Player 1 is not in this side so..:
-			f_defeats() --Store Player Losses
+			f_defeats() --Store Player Loses
 			--f_loseMoney()
 		else
 			f_winMoney() --Add Coins Rewards by win
