@@ -123,43 +123,69 @@ end
 --; INPUT DISPLAY GUIDE
 --;===========================================================
 --UP Button
-local TbuttonUp = animNew(sprGlyphs, [[48,0, 0,0, -1]])
+local TbuttonUp = animNew(sprGlyphs, [[
+48,0, 0,0, -1
+]])
 
 --DOWN Button
-local TbuttonDown = animNew(sprGlyphs, [[42,0, 0,0, -1]])
+local TbuttonDown = animNew(sprGlyphs, [[
+42,0, 0,0, -1
+]])
 
 --LEFT Button
-local TbuttonLeft = animNew(sprGlyphs, [[44,0, 0,0, -1]])
+local TbuttonLeft = animNew(sprGlyphs, [[
+44,0, 0,0, -1
+]])
 
 --RIGHT Button
-local TbuttonRight = animNew(sprGlyphs, [[46,0, 0,0, -1]])
+local TbuttonRight = animNew(sprGlyphs, [[
+46,0, 0,0, -1
+]])
 
 --A Button
-local TbuttonA = animNew(sprGlyphs, [[1,0, 0,0, -1]])
+local TbuttonA = animNew(sprGlyphs, [[
+1,0, 0,0, -1
+]])
 
 --B Button
-local TbuttonB = animNew(sprGlyphs, [[2,0, 0,0, -1]])
+local TbuttonB = animNew(sprGlyphs, [[
+2,0, 0,0, -1
+]])
 
 --C Button
-local TbuttonC = animNew(sprGlyphs, [[3,0, 0,0, -1]])
+local TbuttonC = animNew(sprGlyphs, [[
+3,0, 0,0, -1
+]])
 
 --R Button
-local TbuttonR = animNew(sprGlyphs, [[28,0, 0,0, -1]])
+local TbuttonR = animNew(sprGlyphs, [[
+28,0, 0,0, -1
+]])
 
 --X Button
-local TbuttonX = animNew(sprGlyphs, [[24,0, 0,0, -1]])
+local TbuttonX = animNew(sprGlyphs, [[
+24,0, 0,0, -1
+]])
 
 --Y Button
-local TbuttonY = animNew(sprGlyphs, [[25,0, 0,0, -1]])
+local TbuttonY = animNew(sprGlyphs, [[
+25,0, 0,0, -1
+]])
 
 --Z Button
-local TbuttonZ = animNew(sprGlyphs, [[26,0, 0,0, -1]])
+local TbuttonZ = animNew(sprGlyphs, [[
+26,0, 0,0, -1
+]])
 
 --L Button
-local TbuttonL = animNew(sprGlyphs, [[27,0, 0,0, -1]])
+local TbuttonL = animNew(sprGlyphs, [[
+27,0, 0,0, -1
+]])
 
 --Start Button
-local TbuttonS = animNew(sprGlyphs, [[51,0, 0,0, -1]])
+local TbuttonS = animNew(sprGlyphs, [[
+51,0, 0,0, -1
+]])
 
 local currentItem = 1
 local currentInputTick = 0

@@ -2921,6 +2921,7 @@ function kumiteCfg()
 	f_default()
 	data.gameMode = "vskumite"
 	data.rosterMode = "vskumite"
+	setGameMode("vskumite")
 	--data.stageMenu = true
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -13746,18 +13747,10 @@ function f_result(state)
 			end
 		end
 		if data.gameMode == "survival" then
-			textImgSetAlign(txt_resultTeam, -1)
-			textImgSetPos(txt_resultTeam, 318, 48)
-			textImgSetAlign(txt_resultName, -1)
-			textImgSetPos(txt_resultName, 318, 60)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
 			if data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS") end
 		elseif data.gameMode == "allroster" then
-			textImgSetAlign(txt_resultTeam, -1)
-			textImgSetPos(txt_resultTeam, 318, 48)
-			textImgSetAlign(txt_resultName, -1)
-			textImgSetPos(txt_resultName, 318, 60)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			if data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
 			elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
@@ -13767,16 +13760,8 @@ function f_result(state)
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		elseif data.gameMode == "abyss" then
-			textImgSetAlign(txt_resultTeam, 1)
-			textImgSetPos(txt_resultTeam, 2, 50)
-			textImgSetAlign(txt_resultName, 1)
-			textImgSetPos(txt_resultName, 2, 65)
 			textImgSetText(txt_resultTitle, "ABYSS RESULTS")
 		else--if data.gameMode == "endless" or data.gameMode == "vskumite" then
-			textImgSetAlign(txt_resultTeam, 1)
-			textImgSetPos(txt_resultTeam, 2, 50)
-			textImgSetAlign(txt_resultName, 1)
-			textImgSetPos(txt_resultName, 2, 65)
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
@@ -13802,70 +13787,29 @@ function f_result(state)
 			cmdInput()
 			break
 		end
+	--Draw Character Portrait
+		if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
+			drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
+			animDraw(fadeWindowBG)
+	--Draw Character Sprite Animations
+		elseif data.portraitDisplay == "Sprite" then
+			for j=#charTable, 1, -1 do
+				f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 206.5, charTable[j].up)
+			end
+		end
+		animDraw(resultBG) --Draw BG
 		if data.gameMode == "survival" then
-		--Draw Character Portrait
-			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-				drawResultPortrait(charPortr, 320, 80, -xPortScale, yPortScale)
-				animDraw(fadeWindowBG)
-		--Draw Character Sprite Animations
-			elseif data.portraitDisplay == "Sprite" then
-				for j=#charTable, 1, -1 do
-					f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 206.5, charTable[j].up)
-				end
-			end
-			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultNo)
-			textImgDraw(txt_resultRank)
-		--Show Ranks According Some Percentage Rates
-			if victoriesPercent < 35 then --0% -- 34%
-				animDraw(rankF)
-			elseif victoriesPercent >= 35 and victoriesPercent < 40 then --35% -- 39%
-				animDraw(rankDM)
-			elseif victoriesPercent >= 40 and victoriesPercent < 45 then --40% -- 44%
-				animDraw(rankD)
-			elseif victoriesPercent >= 45 and victoriesPercent < 50 then --45% -- 49%
-				animDraw(rankDP)
-			elseif victoriesPercent >= 50 and victoriesPercent < 55 then --50% -- 54%
-				animDraw(rankC)
-			elseif victoriesPercent >= 55 and victoriesPercent < 60 then --55% -- 59%
-				animDraw(rankCP)
-			elseif victoriesPercent >= 60 and victoriesPercent < 65 then --60% -- 64%
-				animDraw(rankB)
-			elseif victoriesPercent >= 65 and victoriesPercent < 70 then --65% -- 69%
-				animDraw(rankBP)
-			elseif victoriesPercent >= 70 and victoriesPercent < 75 then --70% -- 74%
-				animDraw(rankA)
-			elseif victoriesPercent >= 75 and victoriesPercent < 80 then --75% -- 79
-				animDraw(rankAP)
-			elseif victoriesPercent >= 80 and victoriesPercent < 85 then --80% -- 84%
-				animDraw(rankS)
-			elseif victoriesPercent >= 85 and victoriesPercent < 90 then --85% -- 89%
-				animDraw(rankSP)
-			elseif victoriesPercent >= 90 and victoriesPercent < 95 then --90% -- 94%
-				animDraw(rankXS)
-			elseif victoriesPercent >= 95 then --95% -- 100%
-				animDraw(rankGDLK)
-			end
+			f_drawRank(victoriesPercent)
+		elseif data.gameMode == "abyss" then
+			f_drawAbyssResults()
+		elseif data.rosterMode == "score attack" then
+			--textImgDraw(txt_resultTime)
+			--textImgDraw(txt_resultScore)
 		else
-		--Draw Character Portrait
-			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-				drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
-				animDraw(fadeWindowBG)
-		--Draw Character Sprite Animations
-			elseif data.portraitDisplay == "Sprite" then
-				for j=#charTable, 1, -1 do
-					f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 206.5, charTable[j].up)
-				end
-			end
-			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultWins)
 			textImgDraw(txt_resultLoses)
 		end
-		if data.gameMode == "abyss" then
-			f_drawAbyssResults()
-		end
-		--textImgDraw(txt_resultTime)
-		--textImgDraw(txt_resultScore)
 		textImgDraw(txt_resultTitle)
 		textImgDraw(txt_resultName)
 		textImgDraw(txt_resultTeam)
@@ -13873,6 +13817,40 @@ function f_result(state)
 		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
+	end
+end
+
+function f_drawRank(victoriesPercent)
+--Show Ranks According Some Percentage Rates
+	textImgDraw(txt_resultRank)
+	if victoriesPercent < 35 then --0% -- 34%
+		animDraw(rankF)
+	elseif victoriesPercent >= 35 and victoriesPercent < 40 then --35% -- 39%
+		animDraw(rankDM)
+	elseif victoriesPercent >= 40 and victoriesPercent < 45 then --40% -- 44%
+		animDraw(rankD)
+	elseif victoriesPercent >= 45 and victoriesPercent < 50 then --45% -- 49%
+		animDraw(rankDP)
+	elseif victoriesPercent >= 50 and victoriesPercent < 55 then --50% -- 54%
+		animDraw(rankC)
+	elseif victoriesPercent >= 55 and victoriesPercent < 60 then --55% -- 59%
+		animDraw(rankCP)
+	elseif victoriesPercent >= 60 and victoriesPercent < 65 then --60% -- 64%
+		animDraw(rankB)
+	elseif victoriesPercent >= 65 and victoriesPercent < 70 then --65% -- 69%
+		animDraw(rankBP)
+	elseif victoriesPercent >= 70 and victoriesPercent < 75 then --70% -- 74%
+		animDraw(rankA)
+	elseif victoriesPercent >= 75 and victoriesPercent < 80 then --75% -- 79
+		animDraw(rankAP)
+	elseif victoriesPercent >= 80 and victoriesPercent < 85 then --80% -- 84%
+		animDraw(rankS)
+	elseif victoriesPercent >= 85 and victoriesPercent < 90 then --85% -- 89%
+		animDraw(rankSP)
+	elseif victoriesPercent >= 90 and victoriesPercent < 95 then --90% -- 94%
+		animDraw(rankXS)
+	elseif victoriesPercent >= 95 then --95% -- 100%
+		animDraw(rankGDLK)
 	end
 end
 

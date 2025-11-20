@@ -195,7 +195,7 @@ if data.debugLog then f_printTable(t_glyphs, "save/debug/t_glyphs.log") end
 --;===========================================================
 ---
 -- animName = animNew(sprSys, [[ 
--- grpNo, indexNo, x, y, time, facing, trans
+-- grpNo,indexNo, x,y, time, facing, trans
 -- ]])
 
 --[[
@@ -929,7 +929,7 @@ animUpdate(replayMenuBG)
 
 --Replay Option background
 replayMenuBG2 = animNew(sprIkemen, [[
-250,0, 0,0,
+250,0, 0,0, -1
 ]])
 animSetPos(replayMenuBG2, -13, 77)
 animSetScale(replayMenuBG2, 0.9, 0.9)
@@ -1184,10 +1184,14 @@ txt_sideTitle = createTextImg(font14, 0, 0, "SIDE SELECT", 157, 8, 0.9, 0.9)
 txt_sideWarning = createTextImg(font6, 0, 0, "THE SIDE SELECTED IS NOT ALLOWED FOR THIS GAME MODE", 157, 70, 0.75, 0.75)
 
 --Gamepad Icon
-gamepadIcon = animNew(sprIkemen, [[15,0, 0,0,]])
+gamepadIcon = animNew(sprIkemen, [[
+15,0, 0,0, -1
+]])
 
 --Lifebars Image
-lifebarsImg = animNew(sprIkemen, [[16,0, 0,0,]])
+lifebarsImg = animNew(sprIkemen, [[
+16,0, 0,0, -1
+]])
 
 --Left Arrows
 sideSelArrowLeft = animNew(sprIkemen, [[
@@ -1443,7 +1447,7 @@ animSetWindow(charBG3, 200, 20, 120, 140)
 
 --Cell Lock
 cellLock = animNew(sprIkemen, [[
-108,0, 0,0,
+108,0, 0,0, -1
 ]])
 animSetScale(cellLock, 0.07, 0.07)
 animUpdate(cellLock)
@@ -1548,16 +1552,24 @@ txt_p1Author = createTextImg(jgFnt, 0, 1, "", 0, 20, 0.65, 0.65)
 txt_authorText = "AUTHOR: "
 
 --P1 Random Portrait
-p1randomPortrait = animNew(sprIkemen, [[152,0, 0,0,]])
+p1randomPortrait = animNew(sprIkemen, [[
+152,0, 0,0, -1
+]])
 
 --P1 Random Sprite
-p1randomSprite = animNew(sprIkemen, [[153,0, 0,0,]])
+p1randomSprite = animNew(sprIkemen, [[
+153,0, 0,0, -1
+]])
 
 --P1 Big Portrait Lock
-p1portraitLock = animNew(sprIkemen, [[108,0, 0,0,]])
+p1portraitLock = animNew(sprIkemen, [[
+108,0, 0,0, -1
+]])
 
 --P1 Big Portrait Locked Fade Window
-p1portraitLockWindowBG = animNew(sprIkemen, [[3,0, 0,0, -1, 0]])
+p1portraitLockWindowBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
 
 function f_p1charAnnouncer(p1Cursor)
 	if f_getName(p1Cursor) == "Kung Fu Man" then
@@ -1586,16 +1598,24 @@ txt_p2Name = createTextImg(jgFnt, 1, -1, "", 0, 0, 0.8, 0.8)
 txt_p2Author = createTextImg(jgFnt, 0, -1, "", 320, 20, 0.65, 0.65)
 
 --P2 Random Portrait
-p2randomPortrait = animNew(sprIkemen, [[152,0, -120,0,]])
+p2randomPortrait = animNew(sprIkemen, [[
+152,0, -120,0, -1
+]])
 
 --P2 Random Sprite
-p2randomSprite = animNew(sprIkemen, [[153,0, 0,0,]])
+p2randomSprite = animNew(sprIkemen, [[
+153,0, 0,0, -1
+]])
 
 --P2 Big Portrait Lock
-p2portraitLock = animNew(sprIkemen, [[108,0, -320,0,]])
+p2portraitLock = animNew(sprIkemen, [[
+108,0, -320,0, -1
+]])
 
 --P2 Big Portrait Locked Fade Window
-p2portraitLockWindowBG = animNew(sprIkemen, [[3,0, -1, 0,]])
+p2portraitLockWindowBG = animNew(sprIkemen, [[
+3,0, -1,0, -1
+]])
 
 function f_p2charAnnouncer(p2Cursor)
 	if f_getName(p2Cursor) == "Kung Fu Man" then
@@ -2499,13 +2519,11 @@ txt_resultTitle = createTextImg(font14, 0, 0, "", 159, 20)
 txt_resultNo = createTextImg(survNumFnt, 0, 1, "", 2, 150)
 txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 110)
 txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 200)
-
-txt_resultTime = createTextImg(jgFnt, 0, 1, "TIME: 9'99''999", 32, 220) --WIP
-txt_resultScore = createTextImg(jgFnt, 0, 1, "SCORE: 999.999.999", 32, 234) --WIP
-
+txt_resultTime = createTextImg(jgFnt, 0, 1, "TIME: 9'99''999", 32, 220)
+txt_resultScore = createTextImg(jgFnt, 0, 1, "SCORE: 999.999.999 PTS", 32, 234)
 txt_resultRank = createTextImg(jgFnt, 0, 1, "RANK", 262, 205)
-txt_resultName = createTextImg(font6, 0, 0, "", 0, 0)
-txt_resultTeam = createTextImg(font6, 0, 0, "", 0, 0)
+txt_resultName = createTextImg(font6, 0, 1, "", 2, 50)
+txt_resultTeam = createTextImg(font6, 0, 1, "", 2, 65)
 
 function f_drawAbyssResults()
 	local PosX = 225
@@ -2524,13 +2542,15 @@ function f_drawAbyssResults()
 end
 
 --Result BG
-resultBG = animNew(sprIkemen, [[280,0, 0,0, -1]])
+resultBG = animNew(sprIkemen, [[
+280,0, 0,0, -1
+]])
 animAddPos(resultBG, 0, 0)
 animUpdate(resultBG)
 
 --Rank F
 rankF = animNew(sprIkemen, [[
-210,0, 0,0,
+210,0, 0,0, -1
 ]])
 animAddPos(rankF, 236, 205)
 animSetScale(rankF, 0.5, 0.5)
@@ -2538,7 +2558,7 @@ animUpdate(rankF)
 
 --Rank D-
 rankDM = animNew(sprIkemen, [[
-210,1, 0,0,
+210,1, 0,0, -1
 ]])
 animAddPos(rankDM, 236, 205)
 animSetScale(rankDM, 0.5, 0.5)
@@ -2546,7 +2566,7 @@ animUpdate(rankDM)
 
 --Rank D
 rankD = animNew(sprIkemen, [[
-210,2, 0,0,
+210,2, 0,0, -1
 ]])
 animAddPos(rankD, 236, 205)
 animSetScale(rankD, 0.5, 0.5)
@@ -2554,7 +2574,7 @@ animUpdate(rankD)
 
 --Rank D+
 rankDP = animNew(sprIkemen, [[
-210,3, 0,0,
+210,3, 0,0, -1
 ]])
 animAddPos(rankDP, 236, 205)
 animSetScale(rankDP, 0.5, 0.5)
@@ -2562,7 +2582,7 @@ animUpdate(rankDP)
 
 --Rank C
 rankC = animNew(sprIkemen, [[
-210,4, 0,0,
+210,4, 0,0, -1
 ]])
 animAddPos(rankC, 236, 205)
 animSetScale(rankC, 0.5, 0.5)
@@ -2570,7 +2590,7 @@ animUpdate(rankC)
 
 --Rank C+
 rankCP = animNew(sprIkemen, [[
-210,5, 0,0,
+210,5, 0,0, -1
 ]])
 animAddPos(rankCP, 236, 205)
 animSetScale(rankCP, 0.5, 0.5)
@@ -2578,7 +2598,7 @@ animUpdate(rankCP)
 
 --Rank B
 rankB = animNew(sprIkemen, [[
-210,6, 0,0,
+210,6, 0,0, -1
 ]])
 animAddPos(rankB, 236, 205)
 animSetScale(rankB, 0.5, 0.5)
@@ -2586,7 +2606,7 @@ animUpdate(rankB)
 
 --Rank B+
 rankBP = animNew(sprIkemen, [[
-210,7, 0,0,
+210,7, 0,0, -1
 ]])
 animAddPos(rankBP, 236, 205)
 animSetScale(rankBP, 0.5, 0.5)
@@ -2594,7 +2614,7 @@ animUpdate(rankBP)
 
 --Rank A
 rankA = animNew(sprIkemen, [[
-210,8, 0,0,
+210,8, 0,0, -1
 ]])
 animAddPos(rankA, 236, 205)
 animSetScale(rankA, 0.5, 0.5)
@@ -2602,7 +2622,7 @@ animUpdate(rankA)
 
 --Rank A+
 rankAP = animNew(sprIkemen, [[
-210,9, 0,0,
+210,9, 0,0, -1
 ]])
 animAddPos(rankAP, 236, 205)
 animSetScale(rankAP, 0.5, 0.5)
@@ -2610,7 +2630,7 @@ animUpdate(rankAP)
 
 --Rank S
 rankS = animNew(sprIkemen, [[
-210,10, 0,0,
+210,10, 0,0, -1
 ]])
 animAddPos(rankS, 236, 205)
 animSetScale(rankS, 0.5, 0.5)
@@ -2618,7 +2638,7 @@ animUpdate(rankS)
 
 --Rank S+
 rankSP = animNew(sprIkemen, [[
-210,11, 0,0,
+210,11, 0,0, -1
 ]])
 animAddPos(rankSP, 236, 205)
 animSetScale(rankSP, 0.5, 0.5)
@@ -2626,7 +2646,7 @@ animUpdate(rankSP)
 
 --Rank XS
 rankXS = animNew(sprIkemen, [[
-210,12, 0,0,
+210,12, 0,0, -1
 ]])
 animAddPos(rankXS, 232, 205)
 animSetScale(rankXS, 0.5, 0.5)
@@ -2634,7 +2654,7 @@ animUpdate(rankXS)
 
 --Rank GDLK
 rankGDLK = animNew(sprIkemen, [[
-210,13, 0,0,
+210,13, 0,0, -1
 ]])
 animAddPos(rankGDLK, 240, 205)
 animSetScale(rankGDLK, 0.5, 0.5)
@@ -3171,7 +3191,9 @@ animSetAlpha(destinyCursor, 188, 0)
 animUpdate(destinyCursor)
 
 --Tower Slot
-towerSlot = animNew(sprIkemen, [[43,0, 0,0,]])
+towerSlot = animNew(sprIkemen, [[
+43,0, 0,0, -1
+]])
 animSetScale(towerSlot, 0.5, 0.5)
 animUpdate(towerSlot)
 
@@ -3212,12 +3234,16 @@ animSetScale(destinyFinalBG, 1.1, 1)
 animUpdate(destinyFinalBG)
 
 --Tower Slot
-battleSlot = animNew(sprIkemen, [[43,1, 0,0,]])
+battleSlot = animNew(sprIkemen, [[
+43,1, 0,0, -1
+]])
 animSetScale(battleSlot, 1.3, 1.3)
 animUpdate(battleSlot)
 
 --VS Preview
-vsPreview = animNew(sprIkemen, [[44,1, 0,0,]])
+vsPreview = animNew(sprIkemen, [[
+44,1, 0,0, -1
+]])
 animAddPos(vsPreview, 138, 113)
 animSetScale(vsPreview, 0.75, 0.75)
 animUpdate(vsPreview)

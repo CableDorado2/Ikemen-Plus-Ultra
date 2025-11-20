@@ -279,7 +279,9 @@ end
 f_vnCfgdisplayTxt() --Load Display Text
 
 --Pause background
-vnPauseBG = animNew(sprVN, [[100,1, 0,0, -1]])
+vnPauseBG = animNew(sprVN, [[
+100,1, 0,0, -1
+]])
 
 --Input Hints Panel
 function drawVNInputHints2() --For Pause Menu

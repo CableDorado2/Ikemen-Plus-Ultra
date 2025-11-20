@@ -120,25 +120,39 @@ animSetScale(storyDownArrow, 0.5, 0.5)
 animUpdate(storyDownArrow)
 
 --Arc Folder Empty Icon
-local arcFolderEmpty = animNew(sprStory, [[0,2, 0,0, -1]])
+local arcFolderEmpty = animNew(sprStory, [[
+0,2, 0,0, -1
+]])
 animSetAlpha(arcFolderEmpty, 20, 100) --Transparent Color
 
 --Arc Folder Complete Icon
-local arcFolderComplete = animNew(sprStory, [[0,2, 0,0, -1]])
+local arcFolderComplete = animNew(sprStory, [[
+0,2, 0,0, -1
+]])
 
 --Unknown Arc Icon
-local arcUnknown = animNew(sprStory, [[0,0, 0,0,]])
+local arcUnknown = animNew(sprStory, [[
+0,0, 0,0, -1
+]])
 
 --Arc Selected
-local arcSel = animNew(sprStory, [[0,1, 0,0,]])
+local arcSel = animNew(sprStory, [[
+0,1, 0,0, -1
+]])
 
 --Chapter Complete Icon
-local checkIco = animNew(sprIkemen, [[104,0, 0,0,]])
+local checkIco = animNew(sprIkemen, [[
+104,0, 0,0, -1
+]])
 
-local checkNA = animNew(sprIkemen, [[9999,9999, 0,0,]])
+local checkNA = animNew(sprIkemen, [[
+9999,9999, 0,0, -1
+]])
 
 --Unknown Chapter Preview
-local chaptUnknown = animNew(sprStory, [[100,0, 0,0,]])
+local chaptUnknown = animNew(sprStory, [[
+100,0, 0,0, -1
+]])
 
 --Unknown Chapter Arc
 local t_arcNull = {
@@ -161,13 +175,19 @@ end
 --; ARC SELECT
 --;===========================================================
 --Arc 1 Icon
-local arc1 = animNew(sprStory, [[0,4, 0,0,]])
+local arc1 = animNew(sprStory, [[
+0,4, 0,0, -1
+]])
 
 --Arc 2 Icon
-local arc2 = animNew(sprStory, [[0,5, 0,0,]])
+local arc2 = animNew(sprStory, [[
+0,5, 0,0, -1
+]])
 
 --Arc 3 Icon
-local arc3 = animNew(sprStory, [[0,6, 0,0,]])
+local arc3 = animNew(sprStory, [[
+0,6, 0,0, -1
+]])
 
 local t_storySelect = {
 	{Name = "KUNG FU MAN", 	 Icon = arc1, 	    Sel = arcSel, File = arcFolderEmpty, Status = ""}, --Add Arc Slot
@@ -251,31 +271,49 @@ end
 --; ARC 1 CHAPTER SELECT
 --;===========================================================
 --Arc 1 - Prologue Preview
-local st1_0 = animNew(sprStory, [[1,0, 0,0,]])
+local st1_0 = animNew(sprStory, [[
+1,0, 0,0, -1
+]])
 
 --Arc 1 - Chapter 1 Preview
-local st1_1 = animNew(sprStory, [[1,10, 0,0,]])
+local st1_1 = animNew(sprStory, [[
+1,10, 0,0, -1
+]])
 
 --Arc 1 - Chapter 2 Preview
-local st1_2 = animNew(sprStory, [[1,20, 0,0,]])
+local st1_2 = animNew(sprStory, [[
+1,20, 0,0, -1
+]])
 
 --Arc 1 - Chapter 3A Preview
-local st1_3A = animNew(sprStory, [[1,30, 0,0,]])
+local st1_3A = animNew(sprStory, [[
+1,30, 0,0, -1
+]])
 
 --Arc 1 - Chapter 3B Preview
-local st1_3B = animNew(sprStory, [[1,31, 0,0,]])
+local st1_3B = animNew(sprStory, [[
+1,31, 0,0, -1
+]])
 
 --Arc 1 - Chapter 4A Preview
-local st1_4A = animNew(sprStory, [[1,40, 0,0, 40]])
+local st1_4A = animNew(sprStory, [[
+1,40, 0,0, -1
+]])
 
 --Arc 1 - Chapter 4B Preview
-local st1_4B = animNew(sprStory, [[1,41, 0,0,]])
+local st1_4B = animNew(sprStory, [[
+1,41, 0,0, -1
+]])
 
 --Arc 1 - Chapter 4C Preview
-local st1_4C = animNew(sprStory, [[1,42, 0,0,]])
+local st1_4C = animNew(sprStory, [[
+1,42, 0,0, -1
+]])
 
 --Arc 1 - Chapter 4D Preview
-local st1_4D = animNew(sprStory, [[1,43, 0,0,]])
+local st1_4D = animNew(sprStory, [[
+1,43, 0,0, -1
+]])
 
 local t_arc1 = {
 	{Name = "PROLOGUE", 		 Preview = st1_0, 	   	 Info = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES."}, --Add Chapter Slot for Arc 1
@@ -297,13 +335,19 @@ end
 --; ARC 2 CHAPTER SELECT
 --;===========================================================
 --Arc 2 - Prologue Preview
-local st2_0 = animNew(sprStory, [[2,0, 0,0,]])
+local st2_0 = animNew(sprStory, [[
+2,0, 0,0, -1
+]])
 
 --Arc 2 - Chapter 1 Preview
-local st2_1 = animNew(sprStory, [[2,10, 0,0,]])
+local st2_1 = animNew(sprStory, [[
+2,10, 0,0, -1
+]])
 
 --Arc 2 - Chapter 2 Preview
-local st2_2 = animNew(sprStory, [[2,20, 0,0,]])
+local st2_2 = animNew(sprStory, [[
+2,20, 0,0, -1
+]])
 
 local t_arc2 = {
 	{Name = "YOUR CHAPTER HERE", Preview = chaptUnknown, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
@@ -318,10 +362,14 @@ end
 --; ARC 3 CHAPTER SELECT
 --;===========================================================
 --Arc 3 - Prologue Preview
-local st3_0 = animNew(sprStory, [[3,0, 0,0,]])
+local st3_0 = animNew(sprStory, [[
+3,0, 0,0, -1
+]])
 
 --Arc 3 - Chapter 1 Preview
-local st3_1 = animNew(sprStory, [[3,10, 0,0,]])
+local st3_1 = animNew(sprStory, [[
+3,10, 0,0, -1
+]])
 
 local t_arc3 = {
 	{Name = "YOUR CHAPTER HERE", Preview = chaptUnknown, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3

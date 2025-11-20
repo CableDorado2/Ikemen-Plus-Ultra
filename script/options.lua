@@ -1220,7 +1220,7 @@ t_defaultMenu = {
 
 --Default Window BG
 defaultWindowBG = animNew(sprIkemen, [[
-230,1, 0,0,
+230,1, 0,0, -1
 ]])
 animSetPos(defaultWindowBG, 83.5, 97)
 animSetScale(defaultWindowBG, 1, 1)
@@ -7522,43 +7522,69 @@ end
 txt_inputTest = createTextImg(jgFnt, 0, 0, "BATTLE INPUT TEST", 159, 13)
 
 --UP Button
-TbuttonUp = animNew(sprGlyphs, [[48,0, 0,0, -1]])
+TbuttonUp = animNew(sprGlyphs, [[
+48,0, 0,0, -1
+]])
 
 --DOWN Button
-TbuttonDown = animNew(sprGlyphs, [[42,0, 0,0, -1]])
+TbuttonDown = animNew(sprGlyphs, [[
+42,0, 0,0, -1
+]])
 
 --LEFT Button
-TbuttonLeft = animNew(sprGlyphs, [[44,0, 0,0, -1]])
+TbuttonLeft = animNew(sprGlyphs, [[
+44,0, 0,0, -1
+]])
 
 --RIGHT Button
-TbuttonRight = animNew(sprGlyphs, [[46,0, 0,0, -1]])
+TbuttonRight = animNew(sprGlyphs, [[
+46,0, 0,0, -1
+]])
 
 --A Button
-TbuttonA = animNew(sprGlyphs, [[1,0, 0,0, -1]])
+TbuttonA = animNew(sprGlyphs, [[
+1,0, 0,0, -1
+]])
 
 --B Button
-TbuttonB = animNew(sprGlyphs, [[2,0, 0,0, -1]])
+TbuttonB = animNew(sprGlyphs, [[
+2,0, 0,0, -1
+]])
 
 --C Button
-TbuttonC = animNew(sprGlyphs, [[3,0, 0,0, -1]])
+TbuttonC = animNew(sprGlyphs, [[
+3,0, 0,0, -1
+]])
 
 --R Button
-TbuttonR = animNew(sprGlyphs, [[28,0, 0,0, -1]])
+TbuttonR = animNew(sprGlyphs, [[
+28,0, 0,0, -1
+]])
 
 --X Button
-TbuttonX = animNew(sprGlyphs, [[24,0, 0,0, -1]])
+TbuttonX = animNew(sprGlyphs, [[
+24,0, 0,0, -1
+]])
 
 --Y Button
-TbuttonY = animNew(sprGlyphs, [[25,0, 0,0, -1]])
+TbuttonY = animNew(sprGlyphs, [[
+25,0, 0,0, -1
+]])
 
 --Z Button
-TbuttonZ = animNew(sprGlyphs, [[26,0, 0,0, -1]])
+TbuttonZ = animNew(sprGlyphs, [[
+26,0, 0,0, -1
+]])
 
 --L Button
-TbuttonL = animNew(sprGlyphs, [[27,0, 0,0, -1]])
+TbuttonL = animNew(sprGlyphs, [[
+27,0, 0,0, -1
+]])
 
 --Start Button
-TbuttonS = animNew(sprGlyphs, [[51,0, 0,0, -1]])
+TbuttonS = animNew(sprGlyphs, [[
+51,0, 0,0, -1
+]])
 
 --Input Hints Panel
 function drawTestCfgInputHints()
