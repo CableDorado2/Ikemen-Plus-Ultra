@@ -13715,6 +13715,7 @@ function f_result(state)
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
 		if data.gameMode == "survival" then
+			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
 			if data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS") end
@@ -13796,19 +13797,23 @@ function f_result(state)
 		animDraw(resultBG) --Draw BG
 		if data.rosterMode == "survival" or data.rosterMode == "scoreattack" or
 			data.rosterMode == "endless" or data.rosterMode == "timeattack" or
-			data.rosterMode == "vskumite" or data.rosterMode == "speedstar" then
+			data.rosterMode == "vskumite" or data.rosterMode == "speedstar" or
+			data.rosterMode == "suddendeath" then
 			if data.rosterMode == "vskumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
+				f_drawRank(winCnt, #t_roster)
 			elseif data.rosterMode == "scoreattack" then
-				f_drawRank(getScore(), #t_roster*9000)
+				f_drawRank(getScore(), #t_roster*2000000)
 			elseif data.rosterMode == "timeattack" then
 				--f_drawRank(getClearTime(), #t_roster*10Seconds)
 			else
 				textImgDraw(txt_resultNo)
 				if data.rosterMode ~= "endless" then f_drawRank(winCnt, #t_roster) end
 			end
+			textImgSetText(txt_resultTime, "TIME "..f_setTimeFormat(clearTime))
 			textImgDraw(txt_resultTime)
+			textImgSetText(txt_resultScore, "SCORE "..f_setThousandsFormat(getScore()))
 			textImgDraw(txt_resultScore)
 		elseif data.rosterMode == "abyss" then
 			f_drawAbyssResults()

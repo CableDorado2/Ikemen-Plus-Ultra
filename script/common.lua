@@ -859,6 +859,26 @@ function f_minMax(v,mn,mx)
 	return math.max(mn,math.min(mx,v))
 end
 
+function f_setThousandsFormat(num)
+	local txt = tostring(num)
+	txt = txt:reverse():gsub("(...)", "%1."):reverse()
+	if txt:sub(1, 1) == "." then
+		txt = txt:sub(2)
+	end
+	return txt
+end
+
+function f_setTimeFormat(seconds)
+	local num = tonumber(seconds) or 0
+	local secondsTotal = math.floor(num) --Entire part of the seconds
+	local th = math.floor(secondsTotal/3600) --Hour
+	local tm = math.floor((secondsTotal%3600)/60) --Minute
+	local ts = secondsTotal%60 --Second
+	local tms = math.floor((num-secondsTotal)*1000)%1000 --Milisecond
+	return string.format("%02d:%02d:%03d", tm, ts, tms)
+	--return string.format("%02d:%02d:%02d:%03d", th, tm, ts, tms)
+end
+
 --Function to copy a table recursively
 function f_deepcopy(orig)
 	local orig_type = type(orig)

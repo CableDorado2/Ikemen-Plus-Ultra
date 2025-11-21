@@ -2519,11 +2519,11 @@ txt_resultTitle = createTextImg(font14, 0, 0, "", 203, 20)
 txt_resultNo = createTextImg(survNumFnt, 0, -1, "", 320, 150)
 txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 100)
 txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 190)
-txt_resultTime = createTextImg(jgFnt, 0, -1, "TIME: 9'99''999", 262, 220)
-txt_resultScore = createTextImg(jgFnt, 0, -1, "SCORE: 999.999.999 PTS", 262, 234)
-txt_resultRank = createTextImg(jgFnt, 0, 1, "RANK", 262, 205)
-txt_resultTeam = createTextImg(font6, 0, 1, "", 2, 220)
-txt_resultName = createTextImg(font6, 0, 1, "", 2, 232)
+txt_resultTime = createTextImg(jgFnt, 0, -1, "", 266, 220)
+txt_resultScore = createTextImg(jgFnt, 0, -1, "", 266, 234)
+txt_resultRank = createTextImg(jgFnt, 0, -1, "RANK", 318, 205)
+txt_resultTeam = createTextImg(font6, 0, 1, "", 1, 206)
+txt_resultName = createTextImg(font6, 0, 1, "", 1, 221)
 
 function f_drawAbyssResults()
 	local PosX = 225
@@ -2552,7 +2552,7 @@ animUpdate(resultBG)
 rankF = animNew(sprIkemen, [[
 210,0, 0,0, -1
 ]])
-animAddPos(rankF, 236, 205)
+animAddPos(rankF, 256, 205)
 animSetScale(rankF, 0.5, 0.5)
 animUpdate(rankF)
 
@@ -2560,7 +2560,7 @@ animUpdate(rankF)
 rankDM = animNew(sprIkemen, [[
 210,1, 0,0, -1
 ]])
-animAddPos(rankDM, 236, 205)
+animAddPos(rankDM, 256, 205)
 animSetScale(rankDM, 0.5, 0.5)
 animUpdate(rankDM)
 
@@ -2568,7 +2568,7 @@ animUpdate(rankDM)
 rankD = animNew(sprIkemen, [[
 210,2, 0,0, -1
 ]])
-animAddPos(rankD, 236, 205)
+animAddPos(rankD, 256, 205)
 animSetScale(rankD, 0.5, 0.5)
 animUpdate(rankD)
 
@@ -2576,7 +2576,7 @@ animUpdate(rankD)
 rankDP = animNew(sprIkemen, [[
 210,3, 0,0, -1
 ]])
-animAddPos(rankDP, 236, 205)
+animAddPos(rankDP, 254, 205)
 animSetScale(rankDP, 0.5, 0.5)
 animUpdate(rankDP)
 
@@ -2584,7 +2584,7 @@ animUpdate(rankDP)
 rankC = animNew(sprIkemen, [[
 210,4, 0,0, -1
 ]])
-animAddPos(rankC, 236, 205)
+animAddPos(rankC, 256, 205)
 animSetScale(rankC, 0.5, 0.5)
 animUpdate(rankC)
 
@@ -2592,7 +2592,7 @@ animUpdate(rankC)
 rankCP = animNew(sprIkemen, [[
 210,5, 0,0, -1
 ]])
-animAddPos(rankCP, 236, 205)
+animAddPos(rankCP, 253, 205)
 animSetScale(rankCP, 0.5, 0.5)
 animUpdate(rankCP)
 
@@ -2600,7 +2600,7 @@ animUpdate(rankCP)
 rankB = animNew(sprIkemen, [[
 210,6, 0,0, -1
 ]])
-animAddPos(rankB, 236, 205)
+animAddPos(rankB, 256, 205)
 animSetScale(rankB, 0.5, 0.5)
 animUpdate(rankB)
 
@@ -2608,7 +2608,7 @@ animUpdate(rankB)
 rankBP = animNew(sprIkemen, [[
 210,7, 0,0, -1
 ]])
-animAddPos(rankBP, 236, 205)
+animAddPos(rankBP, 255, 205)
 animSetScale(rankBP, 0.5, 0.5)
 animUpdate(rankBP)
 
@@ -2616,7 +2616,7 @@ animUpdate(rankBP)
 rankA = animNew(sprIkemen, [[
 210,8, 0,0, -1
 ]])
-animAddPos(rankA, 236, 205)
+animAddPos(rankA, 256, 205)
 animSetScale(rankA, 0.5, 0.5)
 animUpdate(rankA)
 
@@ -2624,7 +2624,7 @@ animUpdate(rankA)
 rankAP = animNew(sprIkemen, [[
 210,9, 0,0, -1
 ]])
-animAddPos(rankAP, 236, 205)
+animAddPos(rankAP, 253, 205)
 animSetScale(rankAP, 0.5, 0.5)
 animUpdate(rankAP)
 
@@ -2632,7 +2632,7 @@ animUpdate(rankAP)
 rankS = animNew(sprIkemen, [[
 210,10, 0,0, -1
 ]])
-animAddPos(rankS, 236, 205)
+animAddPos(rankS, 256, 205)
 animSetScale(rankS, 0.5, 0.5)
 animUpdate(rankS)
 
@@ -2640,7 +2640,7 @@ animUpdate(rankS)
 rankSP = animNew(sprIkemen, [[
 210,11, 0,0, -1
 ]])
-animAddPos(rankSP, 236, 205)
+animAddPos(rankSP, 255, 205)
 animSetScale(rankSP, 0.5, 0.5)
 animUpdate(rankSP)
 
@@ -2648,7 +2648,7 @@ animUpdate(rankSP)
 rankXS = animNew(sprIkemen, [[
 210,12, 0,0, -1
 ]])
-animAddPos(rankXS, 232, 205)
+animAddPos(rankXS, 252, 205)
 animSetScale(rankXS, 0.5, 0.5)
 animUpdate(rankXS)
 
@@ -2656,8 +2656,8 @@ animUpdate(rankXS)
 rankGDLK = animNew(sprIkemen, [[
 210,13, 0,0, -1
 ]])
-animAddPos(rankGDLK, 240, 205)
-animSetScale(rankGDLK, 0.5, 0.5)
+animAddPos(rankGDLK, 265, 211)
+animSetScale(rankGDLK, 0.35, 0.35)
 animUpdate(rankGDLK)
 
 --;===========================================================
