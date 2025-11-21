@@ -13804,7 +13804,7 @@ function f_result(state)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
 			elseif data.rosterMode == "scoreattack" then
-				f_drawRank(getScore(), #t_roster*2000000)
+				f_drawRank(getScore(), #t_roster*1000000)
 			elseif data.rosterMode == "timeattack" then
 				--f_drawRank(getClearTime(), #t_roster*10Seconds)
 			else

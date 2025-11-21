@@ -282,6 +282,29 @@ local function f_handicapSet()
 	end
 end
 
+local survivalStatsReady = false
+local survivalLifeRecover = false
+local function f_survivalStatsSet()
+	if playerLeftSide then
+	--For each Left Side Player Selected
+		for i=1, #p1Dat do
+			if player(p1Dat[i].pn) then
+				local residualLife = lifemax() - getLifePersistence()
+				if matchno() > 1 then setLife(lifemax() - residualLife) end
+			end
+		end
+	else
+	--For each Right Side Player Selected
+		for i=1, #p2Dat do
+			if player(p2Dat[i].pn) then
+				local residualLife = lifemax() - getLifePersistence()
+				if matchno() > 1 then setLife(lifemax() - residualLife) end
+			end
+		end
+	end
+	survivalStatsReady = true
+end
+
 local abyssStatsReady = false
 local function f_abyssStatsSet()
 --For each Left Side Player Selected
@@ -1003,7 +1026,7 @@ local function f_addBonusScore()
 end
 
 --Function called during match
-function loop() --The code for this function should be thought of as if it were always inside a while true do
+function loop() --The code for this function should be thought of as if it were always inside a "while true do"
 --During Demo Mode
 	if getGameMode() == "demo" then
 		textImgDraw(txt_DemoFightCfg)
@@ -1047,12 +1070,19 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if roundstate() == 2 then
+		if roundstate() < 2 then --roundstate() == 0 and gametime() == 1 then
+			if getGameMode() == "survival" and not survivalStatsReady then f_survivalStatsSet() end
+		elseif roundstate() == 2 then
 			textImgDraw(txt_SurvivalCountP1FightCfg)
 			textImgDraw(txt_SurvivalCountP2FightCfg)
 		end
 		if getGameMode() == "survival" and roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
+				if not survivalLifeRecover then
+				--Recover a little of Life
+					setLife(life() + lifemax() / 3)
+					survivalLifeRecover = true
+				end
 				setLifePersistence(life())
 				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150) end
 			end
