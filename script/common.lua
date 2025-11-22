@@ -2375,6 +2375,16 @@ function f_default() --Reset Game Modes Configuration
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2
 	setLastMatch(-1) --Set Last Match Stage
+	setFirstAttackCount(0) --Reset First Attack Count
+	setConsecutiveWins(0) --Reset Consecutive Wins Count
+	setWinTimeCount(0) --Reset Time Over Wins Count
+	setWinPerfectCount(0) --Reset Perfect Wins Count
+	setWinSpecialCount(0) --Reset Special Wins Count
+	setWinPerfectSpecialCount(0) --Reset Perfect Special Wins Count
+	setWinHyperCount(0) --Reset Hyper Wins Count
+	setWinPerfectHyperCount(0) --Reset Perfect Hyper Wins Count
+	setWinThrowCount(0) --Reset Thrown Wins Count
+	setWinPerfectThrowCount(0) --Reset Perfect Thrown Wins Count
 	setScoreDisplay(false) --Enable or Disable Score Display
 	setScore(0) --Reset Player Score
 	setTimerDisplay(false) --Enable or Disable Timer Display
@@ -2391,7 +2401,6 @@ function f_default() --Reset Game Modes Configuration
 	setAbyssPower(0) --set power points to show during abyss mode profile and which be apply to the player.
 	setAbyssAttack(0) --set attack points to show during abyss mode profile and which be apply to the player.
 	setAbyssDefence(0) --set defence points to show during abyss mode profile and which be apply to the player.
-	
 	setAbyssReward(0) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
 	setAbyssFinalDepth(0) --set last abyss depth match.

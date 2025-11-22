@@ -3826,7 +3826,7 @@ public &Char
   }
   public void ScoreAdd(int n)
   {
-    .com.p1score = n + .com.p1score;
+    .com.score = n + .com.score;
   }
   public void cmdUpdate(int f)
   {

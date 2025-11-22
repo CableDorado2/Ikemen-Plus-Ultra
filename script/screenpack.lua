@@ -57,8 +57,6 @@ bgmTower = "sound/system/Tower.mp3"
 bgmTourney = "sound/system/Tourney.mp3"
 bgmTourneyChampion = "sound/system/Champion.mp3"
 bgmAbyss = "sound/system/Abyss.mp3"
-bgmLegion = "sound/system/Legion.mp3"
-bgmAlliance = "sound/system/Alliance.mp3"
 
 --Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -798,7 +796,6 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	--{text = "ALLIANCE", 	gotomenu = "f_allianceCfg()"},
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
 	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
@@ -849,7 +846,6 @@ end
 t_extrasMenu = {
 	--{text = "BEAT EM UP", gotomenu = "f_comingSoon()"},
 	--{text = "PLATFORM", gotomenu = "f_comingSoon()"},
-	--{text = "LEGION", 		gotomenu = "f_legionCfg()"},
 	{text = "BONUS GAMES", 	gotomenu = "f_bonusMenu()"},
 	{text = "TOURNAMENT", 	gotomenu = "f_tourneyCfg()"},
 	{text = "ENDLESS", 		gotomenu = "f_endlessBoot()"},

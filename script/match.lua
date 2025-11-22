@@ -990,12 +990,12 @@ local function f_drawScore()
 			if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
 		end
 		if data.debugMode then f_drawQuickText(txt_MatchComboCnt, font14, 0, 1, "Max Combo: "..maxComboCnt, 95, 50) end
-		setScore(getScore() + pts*scoreattackfactor)
+		setScore(score() + pts*scoreattackfactor)
 		if playerLeftSide then
-			textImgSetText(txt_ScoreP1FightCfg, getScore())
+			textImgSetText(txt_ScoreP1FightCfg, score())
 			if scoreDisplay() then textImgDraw(txt_ScoreP1FightCfg) end
 		else
-			textImgSetText(txt_ScoreP2FightCfg, getScore())
+			textImgSetText(txt_ScoreP2FightCfg, score())
 			if scoreDisplay() then textImgDraw(txt_ScoreP2FightCfg) end
 		end
 	end
@@ -1005,22 +1005,21 @@ local function f_addBonusScore()
 --Add Bonus Score when player wins
 	if roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 		if life() ~= lifemax() then
-			setScore(getScore() + (life()*10)*scoreattackfactor) --Life remains add score
+			setScore(score() + (life()*10)*scoreattackfactor) --Life remains add score
 		else
-			setScore(getScore() + 30000*scoreattackfactor) --Full Life Bonus
+			setScore(score() + 30000*scoreattackfactor) --Full Life Bonus
 		end
-		if getRoundTime() ~= -1 then setScore(getScore() + ((getRoundTime()/60)*100)*scoreattackfactor) end --Time remains add score
-		setScore(getScore() + (maxComboCnt*1000)*scoreattackfactor)
-		
-		--if consecutivewins() > 1 then setScore(getScore() + (consecutivewins()*1000)*scoreattackfactor) end
-		--if firstattack() then setScore(getScore() + 1500*scoreattackfactor) end
-		if winperfecthyper() then setScore(getScore() + 25000*scoreattackfactor)
-		elseif winperfectthrow() then setScore(getScore() + 20000*scoreattackfactor)
-		elseif winperfectspecial() then setScore(getScore() + 15000*scoreattackfactor)
-		elseif winperfect() then setScore(getScore() + 10000*scoreattackfactor)
-		elseif winhyper() then setScore(getScore() + 8000*scoreattackfactor)
-		elseif winthrow() then setScore(getScore() + 3000*scoreattackfactor)
-		elseif winspecial() then setScore(getScore() + 1000*scoreattackfactor)
+		if getRoundTime() ~= -1 then setScore(score() + ((getRoundTime()/60)*100)*scoreattackfactor) end --Time remains add score
+		setScore(score() + (maxComboCnt*1000)*scoreattackfactor)
+		--if consecutiveWins() > 1 then setScore(score() + (consecutiveWins()*1000)*scoreattackfactor) end
+		--if firstattack() then setScore(score() + 1500*scoreattackfactor) end
+		if winperfecthyper() then setScore(score() + 25000*scoreattackfactor)
+		elseif winperfectthrow() then setScore(score() + 20000*scoreattackfactor)
+		elseif winperfectspecial() then setScore(score() + 15000*scoreattackfactor)
+		elseif winperfect() then setScore(score() + 10000*scoreattackfactor)
+		elseif winhyper() then setScore(score() + 8000*scoreattackfactor)
+		elseif winthrow() then setScore(score() + 3000*scoreattackfactor)
+		elseif winspecial() then setScore(score() + 1000*scoreattackfactor)
 		end
 	end
 end

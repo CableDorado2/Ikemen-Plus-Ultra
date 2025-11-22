@@ -1250,7 +1250,7 @@ void setTimer(&.lua.State L=, int re=)
   .com.timer = st;
 }
 
-void getTimer(&.lua.State L=, int re=)
+void timerTotal(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.timer);
@@ -1276,7 +1276,7 @@ void setScore(&.lua.State L=, int re=)
   .com.score = sa;
 }
 
-void getScore(&.lua.State L=, int re=)
+void score(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.score);
@@ -1289,7 +1289,7 @@ void setScoreTotal(&.lua.State L=, int re=)
   .com.scoreTotal = st;
 }
 
-void getScoreTotal(&.lua.State L=, int re=)
+void scoreTotal(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.scoreTotal);
@@ -1302,7 +1302,7 @@ void setP1Score(&.lua.State L=, int re=)
   .com.p1score = sa;
 }
 
-void getP1Score(&.lua.State L=, int re=)
+void p1score(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.p1score);
@@ -1315,10 +1315,153 @@ void setP2Score(&.lua.State L=, int re=)
   .com.p2score = sa;
 }
 
-void getP2Score(&.lua.State L=, int re=)
+void p2score(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.p2score);
+}
+
+void setFirstAttackCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int fac = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.firstAttackCount = fac;
+}
+
+void firstAttackCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.firstAttackCount);
+}
+
+void setConsecutiveWins(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int cw = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.consecutiveWins = cw;
+}
+
+void consecutiveWins(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.consecutiveWins);
+}
+
+void setWinTimeCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int wtc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winTimeCount = wtc;
+}
+
+void winTimeCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winTimeCount);
+}
+
+void setWinPerfectCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int wpc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winPerfectCount = wpc;
+}
+
+void winPerfectCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winPerfectCount);
+}
+
+void setWinSpecialCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int wsc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winSpecialCount = wsc;
+}
+
+void winSpecialCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winSpecialCount);
+}
+
+void setWinPerfectSpecialCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int wpsc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winPerfectSpecialCount = wpsc;
+}
+
+void winPerfectSpecialCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winPerfectSpecialCount);
+}
+
+void setWinHyperCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int whc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winHyperCount = whc;
+}
+
+void winHyperCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winHyperCount);
+}
+
+void setWinPerfectHyperCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int wphc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winPerfectHyperCount = wphc;
+}
+
+void winPerfectHyperCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winPerfectHyperCount);
+}
+
+void setWinThrowCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int wtc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winThrowCount = wtc;
+}
+
+void winThrowCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winThrowCount);
+}
+
+void setWinPerfectThrowCount(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int wptc = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.winPerfectThrowCount = wptc;
+}
+
+void winPerfectThrowCount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.winPerfectThrowCount);
+}
+
+void setLifePersistence(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lp = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifePersistence = lp;
+}
+
+void getLifePersistence(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.lifePersistence);
 }
 
 void setAbyssDepth(&.lua.State L=, int re=)
@@ -1410,19 +1553,6 @@ void getAbyssLife(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.abyssLife);
-}
-
-void setLifePersistence(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int lp = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.lifePersistence = lp;
-}
-
-void getLifePersistence(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushNumber((double).com.lifePersistence);
 }
 
 void setAbyssPower(&.lua.State L=, int re=)
@@ -1701,21 +1831,51 @@ public void init(&.lua.State L=)
   L.register("timerDisplay", .timerDisplay);
   
   L.register("setTimer", .setTimer);
-  L.register("getTimer", .getTimer);
+  L.register("timerTotal", .timerTotal);
   
   L.register("setScoreDisplay", .setScoreDisplay);
   L.register("scoreDisplay", .scoreDisplay);
   
   L.register("setScore", .setScore);
-  L.register("getScore", .getScore);
+  L.register("score", .score);
   
   L.register("setScoreTotal", .setScoreTotal);
-  L.register("getScoreTotal", .getScoreTotal);
+  L.register("scoreTotal", .scoreTotal);
   
   L.register("setP1Score", .setP1Score);
-  L.register("getP1Score", .getP1Score);
   L.register("setP2Score", .setP2Score);
-  L.register("getP2Score", .getP2Score);
+  L.register("p1score", .p1score);
+  L.register("p2score", .p2score);
+  
+  L.register("setFirstAttackCount", .setFirstAttackCount);
+  L.register("firstAttackCount", .firstAttackCount);
+  
+  L.register("setConsecutiveWins", .setConsecutiveWins);
+  L.register("consecutiveWins", .consecutiveWins);
+  
+  L.register("setWinTimeCount", .setWinTimeCount);
+  L.register("winTimeCount", .winTimeCount);
+  
+  L.register("setWinPerfectCount", .setWinPerfectCount);
+  L.register("winPerfectCount", .winPerfectCount);
+  
+  L.register("setWinSpecialCount", .setWinSpecialCount);
+  L.register("winSpecialCount", .winSpecialCount);
+  
+  L.register("setWinPerfectSpecialCount", .setWinPerfectSpecialCount);
+  L.register("winPerfectSpecialCount", .winPerfectSpecialCount);
+  
+  L.register("setWinHyperCount", .setWinHyperCount);
+  L.register("winHyperCount", .winHyperCount);
+  
+  L.register("setWinPerfectHyperCount", .setWinPerfectHyperCount);
+  L.register("winPerfectHyperCount", .winPerfectHyperCount);
+  
+  L.register("setWinThrowCount", .setWinThrowCount);
+  L.register("winThrowCount", .winThrowCount);
+  
+  L.register("setWinPerfectThrowCount", .setWinPerfectThrowCount);
+  L.register("winPerfectThrowCount", .winPerfectThrowCount);
   
   L.register("setTourneyState", .setTourneyState);
   L.register("getTourneyState", .getTourneyState);

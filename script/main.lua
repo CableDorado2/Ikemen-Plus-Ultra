@@ -13804,16 +13804,16 @@ function f_result(state)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
 			elseif data.rosterMode == "scoreattack" then
-				f_drawRank(getScore(), #t_roster*1000000)
+				f_drawRank(score(), #t_roster*1000000)
 			elseif data.rosterMode == "timeattack" then
-				--f_drawRank(getClearTime(), #t_roster*10Seconds)
+				--f_drawRank(timerTotal(), #t_roster*10Seconds)
 			else
 				textImgDraw(txt_resultNo)
 				if data.rosterMode ~= "endless" then f_drawRank(winCnt, #t_roster) end
 			end
 			textImgSetText(txt_resultTime, "TIME "..f_setTimeFormat(clearTime))
 			textImgDraw(txt_resultTime)
-			textImgSetText(txt_resultScore, "SCORE "..f_setThousandsFormat(getScore()))
+			textImgSetText(txt_resultScore, "SCORE "..f_setThousandsFormat(score()))
 			textImgDraw(txt_resultScore)
 		elseif data.rosterMode == "abyss" then
 			f_drawAbyssResults()
@@ -13994,7 +13994,7 @@ function f_continue()
 					setScore(0 + stats.continueCount)
 			--Set half of current score as Initial score
 				elseif data.scoreResetType == 3 then
-					local currentScore = math.floor(getScore()/2 + 0.5)
+					local currentScore = math.floor(score()/2 + 0.5)
 					if currentScore < 0 then currentScore = 0 end
 					setScore(currentScore)
 			--No Reset Score
@@ -14002,7 +14002,7 @@ function f_continue()
 					
 			--No Reset Score and Add Times Continue to Current Score
 				elseif data.scoreResetType == 5 then
-					setScore(getScore() + 1)
+					setScore(score() + 1)
 				end
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', sprFade)
 				data.continue = 1
@@ -18009,9 +18009,11 @@ function f_playCredits()
 	if data.intermission then
 		f_getIntermission() --Load t_secretChallenger
 	--Conditions to enter in secret fight
-		if #t_secretChallenger ~= 0 and stats.continueCount == 0 and data.difficulty >= 4 then
-			f_intermission()
-			f_secretFight()
+		if #t_secretChallenger ~= 0 then
+			if stats.continueCount == 0 and data.difficulty >= 4 and score()>=#t_roster*(25000*getRoundsToWin()) then
+				f_intermission()
+				f_secretFight()
+			end
 		end
 	end
 	f_default()
