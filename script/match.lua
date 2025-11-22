@@ -1011,15 +1011,16 @@ local function f_addBonusScore()
 		end
 		if getRoundTime() ~= -1 then setScore(score() + ((getRoundTime()/60)*100)*scoreattackfactor) end --Time remains add score
 		setScore(score() + (maxComboCnt*1000)*scoreattackfactor)
-		--if consecutiveWins() > 1 then setScore(score() + (consecutiveWins()*1000)*scoreattackfactor) end
+		setScore(score() + (consecutiveWins()*1000)*scoreattackfactor)
 		--if firstattack() then setScore(score() + 1500*scoreattackfactor) end
-		if winperfecthyper() then setScore(score() + 25000*scoreattackfactor)
-		elseif winperfectthrow() then setScore(score() + 20000*scoreattackfactor)
-		elseif winperfectspecial() then setScore(score() + 15000*scoreattackfactor)
-		elseif winperfect() then setScore(score() + 10000*scoreattackfactor)
-		elseif winhyper() then setScore(score() + 8000*scoreattackfactor)
-		elseif winthrow() then setScore(score() + 3000*scoreattackfactor)
-		elseif winspecial() then setScore(score() + 1000*scoreattackfactor)
+		if winperfecthyper() then setScore(score() + 25000*scoreattackfactor) setWinPerfectHyperCount(winPerfectHyperCount()+1)
+		elseif winperfectthrow() then setScore(score() + 20000*scoreattackfactor) setWinPerfectThrowCount(winPerfectThrowCount()+1)
+		elseif winperfectspecial() then setScore(score() + 15000*scoreattackfactor) setWinPerfectSpecialCount(winPerfectSpecialCount()+1)
+		elseif winperfect() then setScore(score() + 10000*scoreattackfactor) setWinPerfectCount(winPerfectCount()+1)
+		elseif winhyper() then setScore(score() + 8000*scoreattackfactor) setWinHyperCount(winHyperCount()+1)
+		elseif winthrow() then setScore(score() + 3000*scoreattackfactor) setWinThrowCount(winThrowCount()+1)
+		elseif winspecial() then setScore(score() + 1000*scoreattackfactor) setWinSpecialCount(winSpecialCount()+1)
+		elseif wintime() then setWinTimeCount(winTimeCount()+1)
 		end
 	end
 end
