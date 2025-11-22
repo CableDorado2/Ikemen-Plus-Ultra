@@ -1770,7 +1770,7 @@ function survivalCfg()
 	setGameMode("survival")
 	data.gameMode = "survival"
 	data.rosterMode = "survival"
-	data.stageMenu = true
+	--data.stageMenu = true
 	setRoundsToWin(1)
 	setRoundTime(99*60)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -6433,19 +6433,22 @@ if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChall
 end
 
 function f_secretFight()
-	--Load Side Player Data
+--Load Side Player Data
 	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
 		keepLSide = true
 	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
 		keepRSide = true
 	end
+	local scoreBackup = score()
 	f_default()
 	data.rosterMode = "versus"
 	data.gameMode = "intermission"
 	setGameMode("intermission")
+	setScoreDisplay(true)
+	setScore(scoreBackup)
 	setRoundTime(-1)
 	data.victoryscreen = false
-	--ARCADE PLAYER IS IN LEFT SIDE - SECRET CHALLENGER COMES FROM RIGHT SIDE
+--ARCADE PLAYER IS IN LEFT SIDE - SECRET CHALLENGER COMES FROM RIGHT SIDE
 	if keepLSide then
 		data.p1TeamMenu = {mode = 0, chars = 1} --{mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
 		data.p2TeamMenu = {mode = 0, chars = 1}
@@ -18010,7 +18013,7 @@ function f_playCredits()
 		f_getIntermission() --Load t_secretChallenger
 	--Conditions to enter in secret fight
 		if #t_secretChallenger ~= 0 then
-			if stats.continueCount == 0 and data.difficulty >= 4 and score()>=#t_roster*(25000*getRoundsToWin()) then
+			if stats.continueCount == 0 and data.difficulty >= 4 and score()>=#t_roster*(30000*getRoundsToWin()) then
 				f_intermission()
 				f_secretFight()
 			end
