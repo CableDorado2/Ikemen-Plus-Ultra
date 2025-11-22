@@ -989,7 +989,6 @@ local function f_drawScore()
 			pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
 			if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
 		end
-		if data.debugMode then f_drawQuickText(txt_MatchComboCnt, font14, 0, 1, "Max Combo: "..maxComboCnt, 95, 50) end
 		setScore(score() + pts*scoreattackfactor)
 		if playerLeftSide then
 			textImgSetText(txt_ScoreP1FightCfg, score())
@@ -1013,15 +1012,82 @@ local function f_addBonusScore()
 		setScore(score() + (maxComboCnt*1000)*scoreattackfactor)
 		setScore(score() + (consecutiveWins()*1000)*scoreattackfactor)
 		--if firstattack() then setScore(score() + 1500*scoreattackfactor) end
-		if winperfecthyper() then setScore(score() + 25000*scoreattackfactor) setWinPerfectHyperCount(winPerfectHyperCount()+1)
-		elseif winperfectthrow() then setScore(score() + 20000*scoreattackfactor) setWinPerfectThrowCount(winPerfectThrowCount()+1)
-		elseif winperfectspecial() then setScore(score() + 15000*scoreattackfactor) setWinPerfectSpecialCount(winPerfectSpecialCount()+1)
-		elseif winperfect() then setScore(score() + 10000*scoreattackfactor) setWinPerfectCount(winPerfectCount()+1)
-		elseif winhyper() then setScore(score() + 8000*scoreattackfactor) setWinHyperCount(winHyperCount()+1)
-		elseif winthrow() then setScore(score() + 3000*scoreattackfactor) setWinThrowCount(winThrowCount()+1)
-		elseif winspecial() then setScore(score() + 1000*scoreattackfactor) setWinSpecialCount(winSpecialCount()+1)
-		elseif wintime() then setWinTimeCount(winTimeCount()+1)
+		if winperfecthyper() then
+			setScore(score() + 25000*scoreattackfactor)
+			setWinPerfectHyperCount(winPerfectHyperCount()+1)
+			setWinPerfectCount(winPerfectCount()+1)
+		elseif winperfectthrow() then
+			setScore(score() + 20000*scoreattackfactor)
+			setWinPerfectThrowCount(winPerfectThrowCount()+1)
+			setWinPerfectCount(winPerfectCount()+1)
+		elseif winperfectspecial() then
+			setScore(score() + 15000*scoreattackfactor)
+			setWinPerfectSpecialCount(winPerfectSpecialCount()+1)
+			setWinPerfectCount(winPerfectCount()+1)
+		elseif winperfect() then
+			setScore(score() + 10000*scoreattackfactor)
+			setWinPerfectCount(winPerfectCount()+1)
+		elseif winhyper() then
+			setScore(score() + 8000*scoreattackfactor)
+			setWinHyperCount(winHyperCount()+1)
+		elseif winthrow() then
+			setScore(score() + 3000*scoreattackfactor)
+			setWinThrowCount(winThrowCount()+1)
+		elseif winspecial() then
+			setScore(score() + 1000*scoreattackfactor)
+			setWinSpecialCount(winSpecialCount()+1)
+		elseif wintime() then
+			setWinTimeCount(winTimeCount()+1)
 		end
+	end
+end
+
+local function f_streakWins()
+	if roundstate() == 4 and time() == 0 then
+	--Left Side Consecutive Wins
+		if playerLeftSide then
+		--Left Side Player Wons All Rounds
+			if p1RoundsWon() == getRoundsToWin() and p2RoundsWon() == 0 then
+				setConsecutiveWins(consecutiveWins()+1)
+		--If not Won All Rounds, Reset Consecutive Wins Count
+			elseif p2RoundsWon() > 0 then
+				setConsecutiveWins(0)
+			end
+	--Right Side Consecutive Wins
+		else
+		--Right Side Player Wons All Rounds
+			if p2RoundsWon() == getRoundsToWin() and p1RoundsWon() == 0 then
+				setConsecutiveWins(consecutiveWins()+1)
+		--If not Won All Rounds, Reset Consecutive Wins Count
+			elseif p1RoundsWon() > 0 then
+				setConsecutiveWins(0)
+			end
+		end
+	end
+end
+
+local function f_drawDebugVars()
+	local posX = 2
+	local posY = 80
+	local font = font15
+	f_drawQuickText(txt_debugText, font, 0, 1, "Max Combo: "..maxComboCnt, posX, 55)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Consecutive Wins: "..consecutiveWins(), posX, 65)
+--Win Counts
+	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Super Wins: "..winPerfectHyperCount(), posX, posY)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Special Wins: "..winPerfectSpecialCount(), posX, posY+10)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Throw Wins: "..winPerfectThrowCount(), posX, posY+20)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Wins: "..winPerfectCount(), posX, posY+30)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Super Wins: "..winHyperCount(), posX, posY+40)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Special Wins: "..winSpecialCount(), posX, posY+50)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY+60)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY+70)
+--Abyss Mode
+	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, posX, posY+100)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Regeneration Time: "..regenItemTime, posX, posY+110)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Poison Time: "..poisonItemTime, posX, posY+120)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Regeneration Time: "..regenItemTimeCPU, posX, posY+130)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Poison Time: "..poisonItemTimeCPU, posX, posY+140)
 	end
 end
 
@@ -1107,14 +1173,6 @@ function loop() --The code for this function should be thought of as if it were 
 			setAbyssDepth(abyssdepth() + 1)
 			sndPlay(sndIkemen, 610, 0)
 			abyssHitCnt = 0 --Reset Hit Cnt
-		end
-		if data.debugMode then
-			f_drawQuickText(txt_abycnt, font14, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, 95, 50)
-			f_drawQuickText(txt_abyreget, font14, 0, 1, "Regeneration Time: "..regenItemTime, 95, 170, 0.7, 0.7)
-			f_drawQuickText(txt_abypoison, font14, 0, 1, "Poison Time: "..poisonItemTime, 95, 190, 0.7, 0.7)
-			
-			f_drawQuickText(txt_abyregetCPU, font14, 0, 1, "CPU Regeneration Time: "..regenItemTimeCPU, 95, 200, 0.7, 0.7)
-			f_drawQuickText(txt_abypoisonCPU, font14, 0, 1, "CPU Poison Time: "..poisonItemTimeCPU, 95, 220, 0.7, 0.7)
 		end
 	--Set Abyss Stats
 		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2 --roundstate() == 0 and gametime() == 1 then
@@ -1204,6 +1262,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	end
 	f_setStageMusic()
+	f_streakWins()
 	f_drawScore()
 	f_addBonusScore()
 --When Attract Mode is Enabled
@@ -1215,6 +1274,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 		f_attractCredits(318, 238, -1)
 	end
+	if data.debugMode then f_drawDebugVars() end
 	f_checkAchievements()
 end
 

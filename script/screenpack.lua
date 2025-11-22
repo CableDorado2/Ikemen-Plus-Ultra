@@ -2530,7 +2530,6 @@ function f_drawAbyssResults()
 	local abyssResultsTime = string.format("%02d:%02d:%02d", th, tm, ts)	
 	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, 0, "DEPTH", PosX, PosY-20)
 	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, 0, getAbyssDepth(), PosX, PosY-40, 0.82, 0.82)
-	
 	f_drawQuickText(txt_levelTitle, font2, 0, 0, "Abyss: "..abyssSel, PosX, PosY)
 	f_drawQuickText(txt_timeTitle, font2, 0, 0, "Time: "..abyssResultsTime, PosX, PosY+20)
 	f_drawQuickText(txt_winsTitle, font2, 0, 0, "Wins: "..winCnt, PosX, PosY+40)
