@@ -2513,14 +2513,14 @@ end
 --;===========================================================
 txt_resultTitle = createTextImg(font14, 0, 0, "", 203, 20)
 txt_resultNo = createTextImg(survNumFnt, 0, -1, "", 320, 150)
-txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 100)
-txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 190)
+txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 120)
+txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 192)
 txt_resultTime = createTextImg(jgFnt, 0, -1, "", 266, 220)
 txt_resultScore = createTextImg(jgFnt, 0, -1, "", 266, 234)
 txt_resultRank = createTextImg(jgFnt, 5, -1, "RANK", 318, 205)
 txt_resultTeam = createTextImg(font6, 0, 1, "", 1, 206)
 txt_resultName = createTextImg(font6, 0, 1, "", 1, 221)
-txt_resultStatus = createTextImg(survNumFnt, 0, -1, "", 318, 60)
+txt_resultStatus = createTextImg(survNumFnt, 0, -1, "", 318, 54)
 
 function f_drawScoreAttackResults()
 	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()), 320, 130, 0.5, 0.5)
@@ -2530,7 +2530,7 @@ end
 
 function f_drawTimeAttackResults()
 	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setTimeFormat(clearTime), 320, 150, 0.5, 0.5)
-	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setTimeFormat(clearTime), 266, 234)
+	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setTimeFormat(clearTime), 266, 220)
 end
 
 function f_drawAbyssResults()
