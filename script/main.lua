@@ -176,7 +176,7 @@ function demoModeCfg()
 	f_default()
 	setGameMode("demo")
 	data.gameMode = "demo"
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	data.aiFight = true
 	data.versusScreen = false
 	data.victoryscreen = false
@@ -811,7 +811,7 @@ function f_training()
 	f_default()
 	setGameMode("practice")
 	data.gameMode = "training"
-	data.rosterMode = "training"
+	data.recordMode = "training"
 	setRoundTime(-1) --round time disabled
 	data.versusScreen = false --versus screen disabled
 	data.victoryscreen = false --victory screen disabled
@@ -1270,7 +1270,7 @@ function arcadeCfg()
 	setScoreDisplay(true) --Player Score Enabled
 	setGameMode("arcade")
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
-	data.rosterMode = "arcade" --to record statistics
+	data.recordMode = "arcade" --to record statistics
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
 	data.nextStage = true --Enable Next Stage Screen before order select
 	data.arcadeIntro = true --Enable characters arcade intro before versus screen
@@ -1351,7 +1351,7 @@ function arcadeCPUvsCPU()
 	data.aiFight = true --AI = data.difficulty for all characters enabled
 	setPlayerSide('p1left')
 	setGameMode("arcadecpu") --to avoid challenger screen
-	data.rosterMode = "cpu" --to avoid record stats
+	data.recordMode = "cpu" --to avoid record stats
 	textImgSetText(txt_mainSelect, "WATCH ARCADE")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -1378,7 +1378,7 @@ function towerCfg()
 	f_default()
 	setGameMode("tower")
 	data.gameMode = "tower"
-	data.rosterMode = "tower"
+	data.recordMode = "tower"
 	--data.arcadeIntro = true --Enable characters arcade intro before tower select
 	data.arcadeEnding = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -1456,7 +1456,7 @@ function towerCPUvsCPU()
 	data.aiFight = true
 	setPlayerSide('p1left')
 	setGameMode("towercpu")
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TOWER")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -1476,7 +1476,7 @@ function randomModeCfg()
 	f_default()
 	setGameMode("random")
 	data.gameMode = "quick match"
-	data.rosterMode = "versus"
+	data.recordMode = "versus"
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
@@ -1529,7 +1529,7 @@ end
 --CPU MATCH (watch random CPU controlled match)
 function randomCPUvsCPU()
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	f_selectSimple()
 	f_discordMainMenu()
 end
@@ -1560,7 +1560,7 @@ function freeModeCfg()
 	f_default()
 	setGameMode("vs")
 	data.gameMode = "versus"
-	data.rosterMode = "versus"
+	data.recordMode = "versus"
 	data.stageMenu = true --stage selection enabled
 	data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -1615,7 +1615,7 @@ end
 function freeCPUvsCPU()
 	data.p2In = 1
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH VERSUS")
 	f_selectSimple()
 	f_discordMainMenu()
@@ -1769,7 +1769,7 @@ function survivalCfg()
 	f_default()
 	setGameMode("survival")
 	data.gameMode = "survival"
-	data.rosterMode = "survival"
+	data.recordMode = "survival"
 	--data.stageMenu = true
 	setRoundsToWin(1)
 	setRoundTime(99*60)
@@ -1835,7 +1835,7 @@ function survivalCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SURVIVAL")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -1860,7 +1860,7 @@ function bossrushCfg()
 	f_discordUpdate({details = "Boss Rush"})
 	f_default()
 	data.gameMode = "bossrush"
-	data.rosterMode = "boss"
+	data.recordMode = "boss"
 	--data.stageMenu = true
 	--data.nextStage = true
 	setRoundTime(-1)
@@ -1927,7 +1927,7 @@ function bossrushCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH BOSS RUSH")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2049,7 +2049,7 @@ function bossCfg()
 	f_discordUpdate({details = "Boss Assault: "..bossDat})
 	f_default()
 	data.gameMode = "singleboss"
-	data.rosterMode = "boss"
+	data.recordMode = "boss"
 	--data.stageMenu = true
 	textImgSetText(txt_mainSelect, bossDat)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -2090,7 +2090,7 @@ end
 function bossCPUvsCPU()
 	--data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
 	f_selectSimple()
@@ -2315,7 +2315,7 @@ function bonusCfg()
 	f_discordUpdate({details = "Bonus Game: "..bonusDat})
 	f_default()
 	data.gameMode = "singlebonus"
-	data.rosterMode = "bonus"
+	data.recordMode = "bonus"
 	--data.stageMenu = true
 	data.versusScreen = false
 	setRoundsToWin(1)
@@ -2367,7 +2367,7 @@ function bonusrushCfg()
 	f_discordUpdate({details = "Bonus Game Marathon"})
 	f_default()
 	data.gameMode = "bonusrush"
-	data.rosterMode = "bonus"
+	data.recordMode = "bonus"
 	setRoundsToWin(1)
 	--data.stageMenu = true
 	--data.nextStage = true
@@ -2551,7 +2551,7 @@ function scoreattackCfg()
 	setScoreDisplay(true)
 	setGameMode("scoreattack")
 	data.gameMode = "allroster"
-	data.rosterMode = "scoreattack"
+	data.recordMode = "scoreattack"
 	--data.stageMenu = true
 	--data.nextStage = true
 	setRoundTime(99*60)
@@ -2618,7 +2618,7 @@ function scoreattackCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2742,7 +2742,7 @@ function timeattackCfg()
 	f_discordUpdate({details = "Time Attack"})
 	f_default()
 	data.gameMode = "allroster"
-	data.rosterMode = "timeattack"
+	data.recordMode = "timeattack"
 	setGameMode("timeattack")
 	--data.stageMenu = true
 	--data.nextStage = true
@@ -2810,7 +2810,7 @@ function timeattackCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TIME ATTACK")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2829,7 +2829,7 @@ function speedstarCfg()
 	f_discordUpdate({details = "Speed Star"})
 	f_default()
 	data.gameMode = "allroster"
-	data.rosterMode = "speedstar"
+	data.recordMode = "speedstar"
 	--data.stageMenu = true
 	--data.nextStage = true
 	setRoundTime(99*60)
@@ -2896,7 +2896,7 @@ function speedstarCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SPEED STAR")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -2920,7 +2920,7 @@ function kumiteCfg()
 	f_discordUpdate({details = "VS "..data.kumite.." Kumite"})
 	f_default()
 	data.gameMode = "vskumite"
-	data.rosterMode = "vskumite"
+	data.recordMode = "vskumite"
 	setGameMode("vskumite")
 	--data.stageMenu = true
 	setRoundsToWin(1)
@@ -2986,7 +2986,7 @@ function kumiteCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH "..getKumiteData())
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -3006,7 +3006,7 @@ function suddenCfg()
 	f_default()
 	setGameMode("suddendeath")
 	data.gameMode = "survival"
-	data.rosterMode = "suddendeath"
+	data.recordMode = "suddendeath"
 	--data.stageMenu = true
 	--data.nextStage = true
 	setRoundTime(15*60)
@@ -3074,7 +3074,7 @@ function suddenCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH SUDDEN DEATH")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -3093,7 +3093,7 @@ function endlessCfg()
 	f_discordUpdate({details = "Endless"})
 	f_default()
 	data.gameMode = "endless"
-	data.rosterMode = "endless"
+	data.recordMode = "endless"
 	data.stageMenu = true
 	data.versusScreen = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3158,7 +3158,7 @@ function endlessCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH ENDLESS")
 	f_selectAdvance()
 	f_discordMainMenu()
@@ -3326,11 +3326,11 @@ end
 
 function f_records()
 --[[
-	if data.rosterMode == "suddendeath" then
+	if getGameMode() == "suddendeath" then
 		if winCnt > stats.modes.suddendeath.record then
 			stats.modes.suddendeath.record = winCnt
 		end
-	elseif data.rosterMode == "endless" then
+	elseif getGameMode() == "endless" then
 		if winCnt > stats.modes.endless.record then
 			stats.modes.endless.record = winCnt
 		end
@@ -3403,7 +3403,7 @@ end
 t_statsGameModes = {
 	{
 		displayname = "CPU Match", --Text to Display in Stats Menu
-		id = "cpu", --id to compare with data.rosterMode var
+		id = "cpu", --id to compare with data.recordMode var
 		playtime = function() return stats.modes.watch.playtime end,
 		setplaytime = function(newtime) stats.modes.watch.playtime = newtime end
 	},
@@ -3534,7 +3534,7 @@ t_statsGameModes = {
 
 function f_modePlaytime()
 	for _, mode in ipairs(t_statsGameModes) do
-		if mode.id == data.rosterMode then --Check Current Game Mode
+		if mode.id == data.recordMode then --Check Current Game Mode
 			if type(mode.playtime()) == "number" then
 				mode.setplaytime(mode.playtime() + clearTime) --Update Playtime
 			end
@@ -5410,7 +5410,7 @@ function f_mainLobby()
 				data.stageMenu = true
 				setHomeTeam(1)
 				data.gameMode = "versus"
-				data.rosterMode = "versus"
+				data.recordMode = "versus"
 				if data.ftcontrol > 0 then
 					textImgSetText(txt_mainSelect, "ONLINE RANKED VERSUS")
 				else
@@ -5427,7 +5427,7 @@ function f_mainLobby()
 				data.stageMenu = true
 				data.versusScreen = false
 				data.gameMode = "training"
-				data.rosterMode = "training"
+				data.recordMode = "training"
 				textImgSetText(txt_mainSelect, "ONLINE TRAINING")
 				setGameMode("netplaytraining")
 				f_selectSimple()
@@ -5435,7 +5435,7 @@ function f_mainLobby()
 			elseif mainLobby == 3 then
 				data.serviceScreen = true
 				data.gameMode = "arcade"
-				data.rosterMode = "arcade"
+				data.recordMode = "arcade"
 				textImgSetText(txt_mainSelect, "ONLINE ARCADE COOPERATIVE")
                 setGameMode("arcadecoop") --setGameMode("netplayarcade")
 				f_selectAdvance()
@@ -5444,7 +5444,7 @@ function f_mainLobby()
 				--if data.debugMode then f_loadTowers() end
 				if #t_selTower ~= 0 then
 					data.gameMode = "tower"
-					data.rosterMode = "tower"
+					data.recordMode = "tower"
 					--data.arcadeIntro = true
 					data.arcadeEnding = true
 					setGameMode("towercoop") --setGameMode("netplaytower")
@@ -5455,14 +5455,14 @@ function f_mainLobby()
 			elseif mainLobby == 5 then
 				setRoundsToWin(1)
 				data.gameMode = "survival"
-				data.rosterMode = "survival"
+				data.recordMode = "survival"
 				--setGameMode("netplaysurvival")
 				textImgSetText(txt_mainSelect, "ONLINE SURVIVAL COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE ENDLESS
 			elseif mainLobby == 6 then
 				data.gameMode = "endless"
-				data.rosterMode = "endless"
+				data.recordMode = "endless"
 				--setGameMode("netplayendless")
 				textImgSetText(txt_mainSelect, "ONLINE ENDLESS COOPERATIVE")
 				f_selectAdvance()
@@ -5470,7 +5470,7 @@ function f_mainLobby()
 			elseif mainLobby == 7 then
 				if #t_bossChars ~= 0 then
 					data.gameMode = "bossrush"
-					data.rosterMode = "boss"
+					data.recordMode = "boss"
 					--setGameMode("netplaybossrush")
 					textImgSetText(txt_mainSelect, "ONLINE BOSS RUSH COOPERATIVE")
 					f_selectAdvance()
@@ -5481,7 +5481,7 @@ function f_mainLobby()
 					setRoundsToWin(1)
 					data.versusScreen = false
 					data.gameMode = "bonusrush"
-					data.rosterMode = "bonus"
+					data.recordMode = "bonus"
 					--setGameMode("netplaybonus")
 					textImgSetText(txt_mainSelect, "ONLINE BONUS MARATHON COOPERATIVE")
 					f_selectAdvance()
@@ -5490,7 +5490,7 @@ function f_mainLobby()
 			elseif mainLobby == 9 then
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
-				data.rosterMode = "speedstar"
+				data.recordMode = "speedstar"
 				setGameMode("netplayspeedstar")
 				textImgSetText(txt_mainSelect, "ONLINE SPEED STAR COOPERATIVE")
 				f_selectAdvance()
@@ -5498,14 +5498,14 @@ function f_mainLobby()
 			elseif mainLobby == 10 then
 				setRoundsToWin(1)
 				data.gameMode = "allroster"
-				data.rosterMode = "timeattack"
+				data.recordMode = "timeattack"
 				setGameMode("timeattackcoop") --setGameMode("netplaytimeattack")
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SCORE ATTACK
 			elseif mainLobby == 11 then
 				data.gameMode = "allroster"
-				data.rosterMode = "scoreattack"
+				data.recordMode = "scoreattack"
 				setGameMode("scoreattackcoop") --setGameMode("netplayscoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
@@ -5513,7 +5513,7 @@ function f_mainLobby()
 			elseif mainLobby == 12 then
 				setRoundsToWin(1)
 				data.gameMode = "vskumite"
-				data.rosterMode = "vskumite"
+				data.recordMode = "vskumite"
 				--setGameMode("netplayvskumite")
 				textImgSetText(txt_mainSelect, "ONLINE "..getKumiteData().." COOPERATIVE")
 				f_selectAdvance()
@@ -5523,7 +5523,7 @@ function f_mainLobby()
 				setLifeMul(0)
 				setRoundsToWin(1)
 				data.gameMode = "survival"
-				data.rosterMode = "suddendeath"
+				data.recordMode = "suddendeath"
 				--setGameMode("netplaysuddendeath")
 				textImgSetText(txt_mainSelect, "ONLINE SUDDEN DEATH COOPERATIVE")
 				f_selectAdvance()
@@ -6441,7 +6441,7 @@ function f_secretFight()
 	end
 	local scoreBackup = score()
 	f_default()
-	data.rosterMode = "versus"
+	data.recordMode = "versus"
 	data.gameMode = "intermission"
 	setGameMode("intermission")
 	setScoreDisplay(true)
@@ -7583,7 +7583,7 @@ function f_selectScreen()
 		if data.gameMode == "tower" or data.gameMode == "abyss" then
 			animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 		else
@@ -7995,7 +7995,7 @@ function f_p1TeamMenu()
 		end
 		if data.p1In == 2 then
 			textImgDraw(IASelTmTxt)
-		elseif data.rosterMode == "cpu" then
+		elseif data.recordMode == "cpu" then
 			textImgDraw(IASelTmTxt)
 		else
 			textImgDraw(p1SelTmTxt)
@@ -9383,7 +9383,7 @@ function f_p2TeamMenu()
 		end
 		if data.p2In == 2 then
 			textImgDraw(p2SelTmTxt)
-		elseif data.rosterMode == "cpu" then
+		elseif data.recordMode == "cpu" then
 			textImgDraw(IASelTmTxt2)
 		else
 			textImgDraw(IASelTmTxt2)
@@ -11323,7 +11323,7 @@ function f_arcadeTravel()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 			else
@@ -11509,7 +11509,7 @@ function f_orderSelectCursor()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 			--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else
@@ -11991,7 +11991,7 @@ function f_orderSelectButton()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 			--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else
@@ -12477,7 +12477,7 @@ function f_selectVersus()
 		local xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
 		local xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	--Set Versus Screen Music
-		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
+		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or getGameMode() == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
 			playBGM(bgmVSFinal)
 		elseif data.gameMode == "intermission" then
 			timeLimit = 350
@@ -12501,7 +12501,7 @@ function f_selectVersus()
 				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
@@ -12838,7 +12838,7 @@ function f_selectWin()
 				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
@@ -13409,7 +13409,7 @@ function f_selectChallenger()
 	local i = 0
 	if data.gameMode ~= "abyss" then
 		if data.quickCont == true and data.rosterAdvanced == true then return end
-		data.rosterMode = "challenger"
+		data.recordMode = "challenger"
 	end
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -13429,7 +13429,7 @@ function f_selectChallenger()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 			else
@@ -13452,7 +13452,7 @@ function f_challengerVS()
 	f_default()
 	setGameMode("vs")
 	data.gameMode = "challenger"
-	data.rosterMode = "versus"
+	data.recordMode = "versus"
 	data.stageMenu = true
 	--data.p2Faces = true
 	textImgSetText(txt_mainSelect, "CHALLENGER MODE")
@@ -13608,7 +13608,7 @@ function f_service()
 			if data.gameMode == "tower" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 			else
@@ -13716,19 +13716,19 @@ function f_result(state)
 	end
 ]]
 --Setup Vars according Game Modes
-	if data.gameMode == "survival" or data.gameMode == "abyss" or data.gameMode == "endless" or data.gameMode == "allroster" or data.gameMode == "vskumite" then
+	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "vskumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
 			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
-			if data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS") end
+			if getGameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS") end
 		elseif data.gameMode == "allroster" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			if data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
-			elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
-			elseif data.rosterMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR RESULTS")
-			elseif data.rosterMode == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
-			elseif data.rosterMode == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH RESULTS")
+			if getGameMode() == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
+			elseif getGameMode() == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
+			elseif getGameMode() == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR RESULTS")
+			elseif getGameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
+			elseif getGameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH RESULTS")
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		elseif data.gameMode == "abyss" then
@@ -13738,11 +13738,11 @@ function f_result(state)
 				stats.modes.abyss.maxdepth = getAbyssDepth()
 				f_saveStats()
 			end
-		else--if data.gameMode == "endless" or data.gameMode == "vskumite" then
+		else
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
-			elseif data.rosterMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData().." RESULTS")
+			elseif data.gameMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData().." RESULTS")
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
@@ -13798,27 +13798,26 @@ function f_result(state)
 			end
 		end
 		animDraw(resultBG) --Draw BG
-		if data.rosterMode == "survival" or data.rosterMode == "scoreattack" or
-			data.rosterMode == "endless" or data.rosterMode == "timeattack" or
-			data.rosterMode == "vskumite" or data.rosterMode == "speedstar" or
-			data.rosterMode == "suddendeath" then
-			if data.rosterMode == "vskumite" then
+		if data.gameMode == "survival" or data.gameMode == "allroster" or
+			data.gameMode == "endless" or data.gameMode == "vskumite" or
+			data.gameMode == "speedstar" then
+			if getGameMode() == "vskumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
-			elseif data.rosterMode == "scoreattack" then
+			elseif getGameMode() == "scoreattack" then
 				f_drawRank(score(), #t_roster*1000000)
-			elseif data.rosterMode == "timeattack" then
+			elseif getGameMode() == "timeattack" then
 				--f_drawRank(timerTotal(), #t_roster*10Seconds)
 			else
 				textImgDraw(txt_resultNo)
-				if data.rosterMode ~= "endless" then f_drawRank(winCnt, #t_roster) end
+				if data.gameMode ~= "endless" then f_drawRank(winCnt, #t_roster) end
 			end
 			textImgSetText(txt_resultTime, "TIME "..f_setTimeFormat(clearTime))
 			textImgDraw(txt_resultTime)
 			textImgSetText(txt_resultScore, "SCORE "..f_setThousandsFormat(score()))
 			textImgDraw(txt_resultScore)
-		elseif data.rosterMode == "abyss" then
+		elseif data.gameMode == "abyss" then
 			f_drawAbyssResults()
 			f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
 		end
@@ -14320,12 +14319,12 @@ if validCells() then
 	f_selectInit()
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-		if data.rosterMode == "challenger" then f_challengerMusic()
+		if data.recordMode == "challenger" then f_challengerMusic()
 		elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
-		elseif data.rosterMode == "event" then --playBGM("")
 		elseif data.gameMode == "quick match" then --playBGM("")
 		elseif data.gameMode == "intermission" then --playBGM("")
 		elseif data.gameMode == "demo" then --playBGM("")
+		elseif data.recordMode == "event" then --playBGM("")
 		else f_selectMusic()
 		end
 		if winner < 1 then
@@ -14425,7 +14424,7 @@ if validCells() then
 			elseif data.gameMode == "challenger" then
 				return
 		--For Missions, Events, Quick Match, intermission or special quick match Modes
-			elseif getPauseVar() == "nogiveup" or data.gameMode == "demo" or data.gameMode == "quick match" or data.gameMode == "intermission" or data.rosterMode == "mission" or data.rosterMode == "event" then
+			elseif getPauseVar() == "nogiveup" or data.gameMode == "demo" or data.gameMode == "quick match" or data.gameMode == "intermission" or data.recordMode == "mission" or data.recordMode == "event" then
 				f_resetMenuInputs()
 				if data.gameMode == "demo" then
 					--Don't playBGM
@@ -14496,7 +14495,7 @@ end
 --; COMMON SIDE ACTIONS
 --;===================================================================
 function f_arcadeEnd()
-	if data.rosterMode == "arcade" then
+	if getGameMode() == "arcade" then
 		stats.modes.arcade.clear = stats.modes.arcade.clear + 1 --Progress
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side
 			unlockTarget = data.t_p2selected
@@ -14506,12 +14505,12 @@ function f_arcadeEnd()
 		--if unlockTarget[1].displayname == "Suave Dude" then	stats.unlocks.chars.charname = true end --Character Unlock
 		f_saveStats()
 		unlockTarget = "" --Reset Var
-	elseif data.rosterMode == "tower" then
+	elseif getGameMode() == "tower" then
 		stats.modes.tower.clear = stats.modes.tower.clear + 1
 		f_saveStats()
 	end
 	--Intermissions Access
-	if data.rosterMode == "arcade" and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
+	if getGameMode() == "arcade" and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
 		data.intermission = true
 	end
 	f_playCredits()
@@ -14531,9 +14530,9 @@ function f_noContinue()
 end
 
 function f_advancedEnd()
-	if data.rosterMode == "survival" then
+	if getGameMode() == "survival" then
 		stats.modes.survival.clear = stats.modes.survival.clear + 1
-	elseif data.rosterMode == "boss" then
+	elseif getGameMode() == "boss" then
 		stats.modes.bossrush.clear = stats.modes.bossrush.clear + 1
 	end
 	if data.gameMode == "abyss" then
@@ -14623,10 +14622,10 @@ if validCells() then
 	if not data.stageMenu then stageEnd = true end
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-		if data.gameMode == "bossrush" or data.rosterMode == "suddendeath" then playBGM(bgmSelectBoss)
-		elseif data.rosterMode == "challenger" then f_challengerMusic()
+		if data.gameMode == "bossrush" or getGameMode() == "suddendeath" then playBGM(bgmSelectBoss)
 		elseif data.gameMode == "tower" then playBGM(bgmTower)
 		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
+		elseif data.recordMode == "challenger" then f_challengerMusic()
 		else f_selectMusic()
 		end
 		if loadAbyssDat then --To skip char select during abyss mode load data
@@ -16601,7 +16600,7 @@ end
 function f_tourneySelCfg()
 	f_default()
 	data.gameMode = "tourney"
-	data.rosterMode = "tourney"
+	data.recordMode = "tourney"
 	data.stageMenu = true
 	setRoundTime(data.tourneyRoundTime * 60)
 	setRoundsToWin(data.tourneyRoundsNum)
@@ -16959,7 +16958,7 @@ if validCells() then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			if winner == 1 or winner == 2 then
 				f_selectWin()
-				if data.rosterMode == "tourney" then
+				if data.recordMode == "tourney" then
 					playBGM(bgmTourney)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -16992,7 +16991,7 @@ if validCells() then
 					data.AIskip = false
 					f_saveTemp()
 					f_selectWin()
-					if data.rosterMode == "tourney" then
+					if data.recordMode == "tourney" then
 						playBGM(bgmTourney)
 					else
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -17262,7 +17261,7 @@ function abyssCfg()
 	setRoundTime(99*60)
 	setGameMode("abyss")
 	data.gameMode = "abyss"
-	data.rosterMode = "abyss"
+	data.recordMode = "abyss"
 	data.victoryscreen = false
 	data.stage = "stages/Mountainside Temple/Dark Corridor.def" --Abyss Initial Stage
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -17344,7 +17343,7 @@ function abyssCPUvsCPU()
 	data.p2SelectMenu = false
 	data.aiFight = true
 	setPlayerSide('p1left')
-	data.rosterMode = "cpu"
+	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
 	f_selectAdvance()
 end
@@ -17973,7 +17972,7 @@ function f_playCredits()
 	local txtAlphaD = 0
 	local creditsTable = f_extractText(txt_creditsBox) --This returns a table with all text in the same written order
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
-	if data.rosterMode ~= "story" then playBGM(bgmCredits) end
+	if data.recordMode ~= "story" then playBGM(bgmCredits) end
 	while true do
 		if scroll > 2600 or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then break end --Credits Duration
 	--Actions
@@ -18004,7 +18003,7 @@ function f_playCredits()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 	if data.attractMode then
 		playBGM(bgmTitle)
-	elseif data.rosterMode == "arcade" or data.rosterMode == "tower" then
+	elseif getGameMode() == "arcade" or getGameMode() == "tower" then
 		--Nothing because game over screen comes...
 	else
 		f_menuMusic()

@@ -49,7 +49,7 @@ function f_tutorial()
 	end
 	textImgSetText(txt_mainSelect, "TUTORIAL MODE")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	data.rosterMode = "tutorial" --To save playtime
+	data.recordMode = "tutorial" --To save playtime
 	f_selectSimple()
 	f_discordMainMenu()
 end

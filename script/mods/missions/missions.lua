@@ -155,7 +155,7 @@ table.insert(t_statsMenu,#t_statsMenu,{text = txt_missionStatsData, varText = f_
 table.insert(t_statsGameModes,1,
 	{
 		displayname = "Missions", --Text to Display in Stats Menu
-		id = "mission", --id to compare with data.rosterMode var
+		id = "mission", --id to compare with data.recordMode var
 		playtime = function() return stats.modes.mission.playtime end,
 		setplaytime = function(newtime) stats.modes.mission.playtime = newtime end
 	}
@@ -218,7 +218,7 @@ function f_missionMenu()
 			if t_unlockLua.modes[t_missions[missionMenu].id] == nil then --If the mission is unlocked
 				f_default()
 				data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
-				data.rosterMode = "mission"
+				data.recordMode = "mission"
 				setGameMode("mission")
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missions[data.missionNo].status .. "]")
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

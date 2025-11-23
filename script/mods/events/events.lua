@@ -381,7 +381,7 @@ table.insert(t_statsMenu,#t_statsMenu,{text = txt_eventStatsData, varText = f_ge
 table.insert(t_statsGameModes,1,
 	{
 		displayname = "Events", --Text to Display in Stats Menu
-		id = "event", --id to compare with data.rosterMode var
+		id = "event", --id to compare with data.recordMode var
 		playtime = function() return stats.modes.event.playtime end,
 		setplaytime = function(newtime) stats.modes.event.playtime = newtime end
 	}
@@ -446,7 +446,7 @@ function f_eventMenu()
 			--EVENT AVAILABLE
 				if f_checkEvent(t_events[eventMenu].time, f_getTimeDat("start", eventMenu), f_getTimeDat("deadline", eventMenu)) and t_unlockLua.modes[t_events[eventMenu].id] == nil then --If the event is unlocked
 					f_default()
-					data.rosterMode = "event"
+					data.recordMode = "event"
 					setGameMode("event")
 					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
 					--textImgSetText(txt_mainSelect, "EVENT "..data.eventNo.." [" .. t_events[data.eventNo].status .. "]")

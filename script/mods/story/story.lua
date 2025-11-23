@@ -254,7 +254,7 @@ table.insert(t_statsMenu,#t_statsMenu,{text = txt_storyStatsData, varText = f_ge
 table.insert(t_statsGameModes,1,
 	{
 		name = "Story", --Text to Display in Stats Menu
-		id = "story", --id to compare with data.rosterMode var
+		id = "story", --id to compare with data.recordMode var
 		playtime = function() return stats.modes.story.playtime end,
 		setplaytime = function(newtime) stats.modes.story.playtime = newtime end
 	}
@@ -425,7 +425,7 @@ if validCells() then
 				data.tempBack = false
 				f_saveTemp()
 				f_resetMenuInputs()
-				if data.rosterMode == "story" then
+				if data.recordMode == "story" then
 					playBGM(bgmStory)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -447,7 +447,7 @@ if validCells() then
 				end
 			end
 			f_resetMenuInputs()
-			if data.rosterMode == "story" then
+			if data.recordMode == "story" then
 				playBGM(bgmStory)
 			else
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -523,7 +523,7 @@ local function f_arc1_chapter4_4()
 	f_vnScene(kfmVN,8,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		data.storyNo = "1-4D"
 		f_storyStatus()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -539,7 +539,7 @@ local function f_arc1_chapter4_3()
 	f_vnScene(kfmVN,7,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		data.storyNo = "1-4C"
 		f_storyStatus()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -555,7 +555,7 @@ local function f_arc1_chapter4_2()
 	f_vnScene(kfmVN,6,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		data.storyNo = "1-4B"
 		f_storyStatus()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -571,7 +571,7 @@ local function f_arc1_chapter4_1()
 	f_vnScene(kfmVN,5,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		data.storyNo = "1-4A"
 	--[[
 		data.p1TeamMenu = {mode = 0, chars = 1}
@@ -616,7 +616,7 @@ local function f_arc1_chapter3_2()
 		data.victoryscreen = false
 		data.stage = "stages/Mountainside Temple/Roof Night.def"
 		data.bgm = "sound/Death Corridor.mp3"
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		data.storyNo = "1-3B"
 		setGameMode("story")
 		setService("balance")
@@ -656,7 +656,7 @@ local function f_arc1_chapter3_1()
 		data.victoryscreen = false
 		data.stage = "stages/Mountainside Temple/Suave's Corridor.def"
 		data.songSelect = false
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		data.storyNo = "1-3A"
 		setGameMode("story")
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -693,7 +693,7 @@ local function f_arc1_chapter2()
 		data.victoryscreen = false
 		--data.stage no needed because this chapter will use the auto stage of evil kfm
 		data.songSelect = false
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		data.storyNo = "1-2"
 		setGameMode("story")
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -730,7 +730,7 @@ local function f_arc1_chapter1()
 		data.victoryscreen = false
 		data.stage = "stages/Others/Mountain Valley.def"
 		data.songSelect = false --Star fight using music played in visual novel mode
-		data.rosterMode = "story"
+		data.recordMode = "story"
 		setGameMode("story")
 		setPlayerSide('p1left')
 		setPauseVar("giveup")
@@ -753,7 +753,7 @@ local function f_arc1_chapter1()
 			data.victoryscreen = false
 			data.stage = "stages/Mountainside Temple/Hidden Path.def" --Set stage (needs to be loaded in select.def)
 			data.bgm = "sound/Pearl In The Sky.mp3" --Set Custom Stage Song
-			data.rosterMode = "story"
+			data.recordMode = "story"
 			data.storyNo = "1-1"
 			setGameMode("story")
 			setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
@@ -795,7 +795,7 @@ local function f_storyRosterTest()
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stageMenu = true
-	data.rosterMode = "story"
+	data.recordMode = "story"
 	setGameMode("storyRoster")
 	textImgSetText(txt_mainSelect, "STORY MATCH")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

@@ -2363,7 +2363,7 @@ function f_default() --Reset Game Modes Configuration
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
 	data.intermission = false --Manage access to secret battles
 	data.gameMode = "" --additional variable used to distinguish modes in select screen
-	data.rosterMode = "" --additional variable used to identify game modes in select screen to record stats and setup special stuff
+	data.recordMode = "" --additional variable used to record stats and setup special stuff
 	data.rosterAdvanced = false --additional variable used to identify advanced roster (like arcade, survival or tower) in select screen
 	data.missionNo = nil --additional variable used to identify missions in select screen
 	data.eventNo = nil --additional variable used to identify events in select screen
