@@ -13811,7 +13811,12 @@ function f_result(state)
 				--f_drawRank(timerTotal(), #t_roster*10Seconds)
 			else
 				textImgDraw(txt_resultNo)
-				if data.gameMode ~= "endless" then f_drawRank(winCnt, #t_roster) end
+				if data.gameMode ~= "endless" then
+					f_drawRank(winCnt, #t_roster)
+				else
+					textImgDraw(txt_resultWins)
+					textImgDraw(txt_resultLoses)
+				end
 			end
 			textImgSetText(txt_resultTime, "TIME "..f_setTimeFormat(clearTime))
 			textImgDraw(txt_resultTime)
@@ -14495,7 +14500,7 @@ end
 --; COMMON SIDE ACTIONS
 --;===================================================================
 function f_arcadeEnd()
-	if getGameMode() == "arcade" then
+	if getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu" then
 		stats.modes.arcade.clear = stats.modes.arcade.clear + 1 --Progress
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side
 			unlockTarget = data.t_p2selected
@@ -14509,8 +14514,8 @@ function f_arcadeEnd()
 		stats.modes.tower.clear = stats.modes.tower.clear + 1
 		f_saveStats()
 	end
-	--Intermissions Access
-	if getGameMode() == "arcade" and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
+--Intermissions Access
+	if (getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu") and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
 		data.intermission = true
 	end
 	f_playCredits()
@@ -14697,8 +14702,10 @@ if validCells() then
 				end
 			end
 			matchNo = 1
-			setLastMatch(lastMatch)
-			if data.gameMode ~= "endless" then f_aiRamp() end --generate AI ramping table
+			if data.gameMode ~= "endless" then
+				setLastMatch(lastMatch)
+				f_aiRamp() --generate AI ramping table
+			end
 	--Player exit the match via ESC in Endless or VS X KUMITE (BOTH SIDES)
 		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "vskumite") then
 			if data.gameMode ~= "endless" then looseCnt = looseCnt + 1 end --because in endless a give up not counts as a loose
@@ -18003,7 +18010,7 @@ function f_playCredits()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', sprFade)
 	if data.attractMode then
 		playBGM(bgmTitle)
-	elseif getGameMode() == "arcade" or getGameMode() == "tower" then
+	elseif data.gameMode == "arcade" or data.gameMode == "tower" then
 		--Nothing because game over screen comes...
 	else
 		f_menuMusic()
