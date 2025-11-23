@@ -13720,15 +13720,15 @@ function f_result(state)
 		if data.gameMode == "survival" then
 			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
-			if getGameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS") end
+			textImgSetText(txt_resultTitle, "SURVIVAL")
+			if getGameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH") end
 		elseif data.gameMode == "allroster" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			if getGameMode() == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
-			elseif getGameMode() == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
-			elseif getGameMode() == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR RESULTS")
-			elseif getGameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH RESULTS")
-			elseif getGameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH RESULTS")
+			if getGameMode() == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
+			elseif getGameMode() == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
+			elseif getGameMode() == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
+			elseif getGameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH")
+			elseif getGameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH")
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		elseif data.gameMode == "abyss" then
@@ -13741,8 +13741,8 @@ function f_result(state)
 		else
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
-			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
-			elseif data.gameMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData().." RESULTS")
+			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS")
+			elseif data.gameMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData())
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
@@ -13801,7 +13801,7 @@ function f_result(state)
 		if data.gameMode ~= "endless" and state == "win" then
 			textImgSetText(txt_resultStatus, "ALL CLEAR!")
 		else
-			textImgSetText(txt_resultStatus, "PLAY RESULT")
+			textImgSetText(txt_resultStatus, "PLAY RESULTS")
 		end
 		textImgDraw(txt_resultStatus)
 		if data.gameMode == "survival" or data.gameMode == "allroster" or

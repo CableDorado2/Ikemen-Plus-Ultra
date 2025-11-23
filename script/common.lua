@@ -880,7 +880,7 @@ function f_setTimeFormat(seconds)
 	local tm = math.floor((secondsTotal%3600)/60) --Minute
 	local ts = secondsTotal%60 --Second
 	local tms = math.floor((num-secondsTotal)*1000)%1000 --Milisecond
-	return string.format("%02d:%02d:%03d", tm, ts, tms)
+	return string.format("%02d'%02d''%03d", tm, ts, tms)
 	--return string.format("%02d:%02d:%02d:%03d", th, tm, ts, tms)
 end
 
