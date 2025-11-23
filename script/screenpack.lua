@@ -2517,23 +2517,30 @@ txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 100)
 txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 190)
 txt_resultTime = createTextImg(jgFnt, 0, -1, "", 266, 220)
 txt_resultScore = createTextImg(jgFnt, 0, -1, "", 266, 234)
-txt_resultRank = createTextImg(jgFnt, 0, -1, "RANK", 318, 205)
+txt_resultRank = createTextImg(jgFnt, 5, -1, "RANK", 318, 205)
 txt_resultTeam = createTextImg(font6, 0, 1, "", 1, 206)
 txt_resultName = createTextImg(font6, 0, 1, "", 1, 221)
+txt_resultStatus = createTextImg(survNumFnt, 0, -1, "", 318, 60)
+
+function f_drawScoreAttackResults()
+	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()), 320, 130, 0.5, 0.5)
+	f_drawQuickText(txt_scorePts, survNumFnt, 0, -1, "PTS", 320, 150, 0.8, 0.8)
+	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setThousandsFormat(score()).."PTS", 266, 234)
+end
+
+function f_drawTimeAttackResults()
+	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setTimeFormat(clearTime), 320, 150, 0.5, 0.5)
+	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setTimeFormat(clearTime), 266, 234)
+end
 
 function f_drawAbyssResults()
-	local PosX = 225
+	local PosX = 318
 	local PosY = 130
-	local ts = math.floor((clearTime%60))
-	local tm = math.floor((clearTime%3600)/60)
-	local th = math.floor((clearTime%86400)/3600)
-	local abyssResultsTime = string.format("%02d:%02d:%02d", th, tm, ts)	
-	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, 0, "DEPTH", PosX, PosY-20)
-	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, 0, getAbyssDepth(), PosX, PosY-40, 0.82, 0.82)
-	f_drawQuickText(txt_levelTitle, font2, 0, 0, "Abyss: "..abyssSel, PosX, PosY)
-	f_drawQuickText(txt_timeTitle, font2, 0, 0, "Time: "..abyssResultsTime, PosX, PosY+20)
-	f_drawQuickText(txt_winsTitle, font2, 0, 0, "Wins: "..winCnt, PosX, PosY+40)
-	f_drawQuickText(txt_expenseTitle, font2, 0, 0, "Shop Expense: "..abyssDat.nosave.expense.." IKC", PosX, PosY+60)
+	local font = jgFnt
+	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, -1, getAbyssDepth(), PosX-10, PosY, 0.82, 0.82)
+	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, -1, "DEPTH", PosX, PosY+20)
+	f_drawQuickText(txt_winsTitle, font, 0, -1, winCnt.." WINS", PosX, PosY+40)
+	f_drawQuickText(txt_expenseTitle, font, 0, -1, abyssDat.nosave.expense.." IKC SPENT", PosX, PosY+52)
 end
 
 --Result BG

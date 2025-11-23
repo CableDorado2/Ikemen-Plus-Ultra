@@ -871,6 +871,11 @@ end
 function f_setTimeFormat(seconds)
 	local num = tonumber(seconds) or 0
 	local secondsTotal = math.floor(num) --Entire part of the seconds
+--[[
+	local th = math.floor((clearTime%86400)/3600)
+	local tm = math.floor((clearTime%3600)/60)
+	local ts = math.floor((clearTime%60))
+]]
 	local th = math.floor(secondsTotal/3600) --Hour
 	local tm = math.floor((secondsTotal%3600)/60) --Minute
 	local ts = secondsTotal%60 --Second

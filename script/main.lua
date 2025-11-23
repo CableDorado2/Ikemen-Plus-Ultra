@@ -13710,11 +13710,11 @@ end
 --;===========================================================
 function f_result(state)
 	cmdInput()
---[[
 	if state == "win" then
+		
 	elseif state == "lost" then
+		
 	end
-]]
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "vskumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
@@ -13732,7 +13732,7 @@ function f_result(state)
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		elseif data.gameMode == "abyss" then
-			textImgSetText(txt_resultTitle, "ABYSS RESULTS")
+			textImgSetText(txt_resultTitle, "ABYSS (LEVEL "..abyssSel..")")
 		--Save Max Abyss Depth
 			if getAbyssDepth() > stats.modes.abyss.maxdepth then
 				stats.modes.abyss.maxdepth = getAbyssDepth()
@@ -13798,17 +13798,28 @@ function f_result(state)
 			end
 		end
 		animDraw(resultBG) --Draw BG
+		if data.gameMode ~= "endless" and state == "win" then
+			textImgSetText(txt_resultStatus, "ALL CLEAR!")
+		else
+			textImgSetText(txt_resultStatus, "PLAY RESULT")
+		end
+		textImgDraw(txt_resultStatus)
 		if data.gameMode == "survival" or data.gameMode == "allroster" or
 			data.gameMode == "endless" or data.gameMode == "vskumite" or
-			data.gameMode == "speedstar" then
+			data.gameMode == "abyss" or data.gameMode == "speedstar" then
 			if getGameMode() == "vskumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
 			elseif getGameMode() == "scoreattack" then
+				f_drawScoreAttackResults()
 				f_drawRank(score(), #t_roster*1000000)
 			elseif getGameMode() == "timeattack" then
+				f_drawTimeAttackResults()
 				--f_drawRank(timerTotal(), #t_roster*10Seconds)
+			elseif data.gameMode == "abyss" then
+				f_drawAbyssResults()
+				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
 			else
 				textImgDraw(txt_resultNo)
 				if data.gameMode ~= "endless" then
@@ -13818,13 +13829,14 @@ function f_result(state)
 					textImgDraw(txt_resultLoses)
 				end
 			end
-			textImgSetText(txt_resultTime, "TIME "..f_setTimeFormat(clearTime))
-			textImgDraw(txt_resultTime)
-			textImgSetText(txt_resultScore, "SCORE "..f_setThousandsFormat(score()))
-			textImgDraw(txt_resultScore)
-		elseif data.gameMode == "abyss" then
-			f_drawAbyssResults()
-			f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
+			if getGameMode() ~= "timeattack" then
+				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(clearTime))
+				textImgDraw(txt_resultTime)
+			end
+			if getGameMode() ~= "scoreattack" then
+				textImgSetText(txt_resultScore, "SCORE: "..f_setThousandsFormat(score()).."PTS")
+				textImgDraw(txt_resultScore)
+			end
 		end
 		textImgDraw(txt_resultTitle)
 		textImgDraw(txt_resultName)
