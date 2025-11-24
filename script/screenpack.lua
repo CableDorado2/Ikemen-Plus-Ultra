@@ -4320,6 +4320,9 @@ txt_MatchFightCfg = createTextImg(font5, 0, 0, "", 160, 40)
 txt_ScoreP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
 txt_ScoreP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
 
+txt_TimerP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
+txt_TimerP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
+
 txt_SurvivalCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
 txt_SurvivalCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
 

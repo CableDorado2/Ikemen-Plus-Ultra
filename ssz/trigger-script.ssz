@@ -1298,11 +1298,11 @@ void timeremaining(&.lua.State L=, int re=)
 //Returns the amount of clock ticks until time over (-1 if time is disabled).
 //Value returned by this trigger corresponds to lifebar timer (only ticks during RoundState = 2)
 
-//void timetotal(&.lua.State L=, int re=)
-//{
-  //re = 1;
-  //L.pushNumber((double).com.timeTotal); //TODO
-//}
+void timertotal(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.timer);
+}
 //Returns the total number of clock ticks that have elapsed so far.
 //Takes into account previous rounds and matches since the start of this game mode.
 
@@ -1595,7 +1595,7 @@ public void registerFunction(&.lua.State L=)
   L.register("time", .time);
   //L.register("timeelapsed", .timeelapsed);
   L.register("timeremaining", .timeremaining);
-  //L.register("timetotal", .timetotal);
+  L.register("timertotal", .timertotal);
   L.register("topedge", .topedge);
   L.register("tvar", .tvar);
   L.register("uniqhitcount", .uniqhitcount);

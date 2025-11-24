@@ -979,6 +979,19 @@ local function f_setMatchTexts()
 end
 f_setMatchTexts() --Load when match start
 
+local function f_drawTimer()
+	if roundstate() == 2 and not script.pause.pauseMenuActive then
+		setTimer(timerTotal() + 1)
+		if playerLeftSide then
+			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
+			if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
+		else
+			textImgSetText(txt_TimerP2FightCfg, timerTotal())
+			if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
+		end
+	end
+end
+
 local maxComboCnt = 0
 local scoreattackfactor = 1
 if getGameMode() == "scoreattack" then scoreattackfactor = 10 end
@@ -1263,6 +1276,7 @@ function loop() --The code for this function should be thought of as if it were 
 	end
 	f_setStageMusic()
 	f_streakWins()
+	f_drawTimer()
 	f_drawScore()
 	f_addBonusScore()
 --When Attract Mode is Enabled

@@ -2741,6 +2741,7 @@ end
 function timeattackCfg()
 	f_discordUpdate({details = "Time Attack"})
 	f_default()
+	setTimerDisplay(true)
 	data.gameMode = "allroster"
 	data.recordMode = "timeattack"
 	setGameMode("timeattack")
@@ -13816,7 +13817,7 @@ function f_result(state)
 				f_drawRank(score(), #t_roster*1000000)
 			elseif getGameMode() == "timeattack" then
 				f_drawTimeAttackResults()
-				--f_drawRank(timerTotal(), #t_roster*10Seconds)
+				--f_drawRank(timerTotal(), #t_roster*)
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults()
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
