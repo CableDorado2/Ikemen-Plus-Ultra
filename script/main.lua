@@ -13819,7 +13819,7 @@ function f_result(state)
 				f_drawRank(score(), #t_roster*1000000)
 			elseif getGameMode() == "timeattack" then
 				f_drawTimeAttackResults()
-				--f_drawRank(timerTotal(), #t_roster*)
+				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster*500)
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults()
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
@@ -13851,9 +13851,35 @@ function f_result(state)
 	end
 end
 
-function f_drawRank(performanceValue, maxValue)
-	local percentage = (performanceValue/maxValue)*100
-	if percentage > 100 then percentage = 100 end
+function getTimePerfomance(performanceValue, maxValue, timeValue, targetTime)
+	local performancePercentage = performanceValue / maxValue
+	local timePercentage = 1.0
+	local performanceWeight = 0.7
+	local timeWeight = 0.3
+--To Avoid Exceed  100%
+	if performancePercentage > 1.0 then performancePercentage = 1.0 end
+--Apply a penalty for exceeding the time limit
+	if timeValue > targetTime then
+		timePercentage = 1.0 - ((timeValue - targetTime) / targetTime) * 0.5 
+	end
+--Avoid Negative values
+	if timePercentage < 0.0 then timePercentage = 0.0 end
+	local combinedResult = (performancePercentage * performanceWeight + timePercentage * timeWeight) * 100
+--To Avoid Exceed  100%
+	if combinedResult > 100 then combinedResult = 100 end
+	return combinedResult
+end
+
+function f_drawRank(performanceValue, maxValue, timePerfomance, targetTime)
+	local percentage = nil
+--To Rank Wins + Time or Score + Time
+	if timePerfomance ~= nil and targetTime ~= nil then
+		percentage = getTimePerfomance(performanceValue, maxValue, timePerfomance, targetTime)
+--To Rank Wins or Score
+	else
+		percentage = (performanceValue/maxValue)*100
+		if percentage > 100 then percentage = 100 end --To Avoid Exceed  100%
+	end
 --Show Ranks According Percentage Rates
 	textImgDraw(txt_resultRank)
 	if percentage < 35 then --0% -- 34%

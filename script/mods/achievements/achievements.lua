@@ -202,8 +202,8 @@ function f_achievementSlot(posX, posY, itemNo)
 	if data.trophies[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
 --Draw Achievement Slot
 	animSetScale(achievementTBG, 280, 38)
-	animPosDraw(achievementTBG, 40+NewPosX, 76+NewPosY)
-	animPosDraw(achievementSlot, 0+NewPosX, 70+NewPosY)
+	animPosDraw(achievementTBG, 40 + NewPosX, 76 + NewPosY)
+	animPosDraw(achievementSlot, 0 + NewPosX, 70 + NewPosY)
 --If the achievement is unlocked
 	if t_unlockLua.achievements[t_achievements[itemNo].id] == nil then
 		unlocked = true
@@ -213,19 +213,19 @@ function f_achievementSlot(posX, posY, itemNo)
 --Draw Achievement Icon
 	f_drawSprPreview(sprAchievements,
 		sprGroup, sprIndex,
-		t_achievements[itemNo].previewpos[1]+NewPosX, t_achievements[itemNo].previewpos[2]+NewPosY,
+		t_achievements[itemNo].previewpos[1] + NewPosX, t_achievements[itemNo].previewpos[2] + NewPosY,
 		t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2]
 	)
 --Draw Done Achievement Icon
 	if unlocked then
-		animPosDraw(achievementSlotDone, 0+NewPosX, 70+NewPosY)
+		animPosDraw(achievementSlotDone, 0 + NewPosX, 70 + NewPosY)
 --Draw Locked Icon
 	else
-		--animPosDraw(achievementLocked, 11+NewPosX, 78+NewPosY)
+		--animPosDraw(achievementLocked, 11 + NewPosX, 78 + NewPosY)
 	end
 --Draw Info Text
-	f_textRender(txt_achievementInfo, t_achievements[itemNo].info, 0, 50+NewPosX, 87+NewPosY, infoSpacing, 0, infoLimit)
-	f_drawQuickText(txt_achievementReward, jgFnt, txtRewardColor, 1, t_achievements[itemNo].reward.." IKC", 1+NewPosX, 126+NewPosY)
+	f_textRender(txt_achievementInfo, t_achievements[itemNo].info, 0, 50 + NewPosX, 87 + NewPosY, infoSpacing, 0, infoLimit)
+	f_drawQuickText(txt_achievementReward, jgFnt, txtRewardColor, 1, t_achievements[itemNo].reward.." IKC", 1 + NewPosX, 126 + NewPosY)
 end
 
 --Menu Arrows
@@ -312,16 +312,16 @@ function achievementDisplay(id)
 		f_drawQuickText(txt_debug2, jgFnt, 0, 1, "TrophyTimer:"..trophyTime, 150, 70)
 	end
 --Draw Achievement Icon
-	animPosDraw(achievementInfoBG, trophyBGX+trophyPosX, trophyBGY+trophyPosY)
+	animPosDraw(achievementInfoBG, trophyBGX + trophyPosX, trophyBGY + trophyPosY)
 	f_drawSprPreview(sprAchievements,
 		t_achievements[id].previewspr[1], t_achievements[id].previewspr[2],
-		trophyIconX+trophyPosX, trophyIconY+trophyPosY,
+		trophyIconX + trophyPosX, trophyIconY + trophyPosY,
 		0.51, 0.475
 	)
 --Draw Info Text
-	f_drawQuickText(txt_TrophyTitleFight, jgFnt, 0, 1, "ACHIEVEMENT UNLOCKED!", trophyTitleX+trophyPosX, trophyTitleY+trophyPosY)
-	f_drawQuickText(txt_TrophyNameFight, font2, 5, 1, t_achievements[id].name, trophyNameX+trophyPosX, trophyNameY+trophyPosY)
-	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, trophyInfoX+trophyPosX, trophyInfoY+trophyPosY, infoSpacing, 0, infoLimit, 3)
+	f_drawQuickText(txt_TrophyTitleFight, jgFnt, 0, 1, "ACHIEVEMENT UNLOCKED!", trophyTitleX + trophyPosX, trophyTitleY + trophyPosY)
+	f_drawQuickText(txt_TrophyNameFight, font2, 5, 1, t_achievements[id].name, trophyNameX + trophyPosX, trophyNameY + trophyPosY)
+	f_textRender(txt_TrophyInfoFight, t_achievements[id].info, 0, trophyInfoX + trophyPosX, trophyInfoY + trophyPosY, infoSpacing, 0, infoLimit, 3)
 --Allow Display Next Achievement
 	if trophyPosY == 0 then
 		achievementDisplayReset()
@@ -436,16 +436,16 @@ function f_achievementsMenu()
 			local drawCursor = false
 		--Draw Slot Content
 			if i > itemSel - cursorPosY then
-				f_achievementSlot(0, -118+i*achievementSpacing-moveSlot, i)
+				f_achievementSlot(0, -118 + i * achievementSpacing - moveSlot, i)
 			end
 		--Draw Cursor Logic
 			if i == itemSel then
 				nameColor = 5
 				drawCursor = true
 			end
-			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 75+(-118+i*achievementSpacing-moveSlot))
+			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 75 + (-118 + i * achievementSpacing - moveSlot))
 			if drawCursor then
-				animSetWindow(cursorBox, 48,76+(-118+i*achievementSpacing-moveSlot), 272,38)
+				animSetWindow(cursorBox, 48,76 + (-118 + i * achievementSpacing - moveSlot), 272,38)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
