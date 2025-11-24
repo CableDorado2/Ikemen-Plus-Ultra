@@ -59,6 +59,6 @@ info = Mission 2 Description
 infolock = COMPLETE MISSION 1
 previewspr = 0,2
 previewpos = 20,60
-previewscale = 0.5,0.8
+previewscale = 0.5, 0.8
 path = data/missions/mission2.lua
 unlock = stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission1 ~= nil and stats.modes.mission.mission1.clear == true

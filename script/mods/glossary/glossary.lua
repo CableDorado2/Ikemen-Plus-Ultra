@@ -8,7 +8,7 @@ local glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossar
 --;===========================================================
 --; GLOSSARY MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_watchMenu,5,{text = "GLOSSARY", gotomenu = "f_glossaryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
+table.insert(t_watchMenu, 5, {text = "GLOSSARY", gotomenu = "f_glossaryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
 local txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "GLOSSARY", 159, 13)
 local txt_glossarySection = createTextImg(font2, 0, 0, "", 10, 30)
 local txt_glossaryTitleText = createTextImg(font2, 0, 1, "", -50, 210)
@@ -101,11 +101,10 @@ local function f_glossaryLoad()
 	file:close()
 	content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 	content = content:gsub('\n%s*\n', '\n')
-
 	for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*%[%s*[Ss][Ee][Cc][Tt][Ii][Oo][Nn]%s+[0-9]+$*%]') then
 			section = 1
-			row = #t_glossary+1
+			row = #t_glossary + 1
 			t_glossary[row] = {}
 	--[Section No]
 		elseif section == 1 then
@@ -122,7 +121,7 @@ local function f_glossaryLoad()
 		--displayname = string
 			if line:match('^%s*displayname%s*=') then
 				local data = line:gsub('%s*;.*$', '')
-				t_glossary[row][#t_glossary[row]+1] = {}
+				t_glossary[row][#t_glossary[row] + 1] = {}
 				t_glossary[row][#t_glossary[row]]['name'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		--id = item ID (string) UNUSED
@@ -285,7 +284,7 @@ function f_glossaryMenu()
 		textImgSetText(txt_glossaryTitleText, t_glossary[glossaryMenu][glossaryText].name)
 		textImgDraw(txt_glossaryTitleText)
 	--Draw Content Preview
-		--f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30, 158, true, 1, 1)
+		--f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 30, 158, true, 1, 1)
 	--Draw Content Text
 		f_textRender(txt_glossaryText, t_glossary[glossaryMenu][glossaryText].content, 0, txtPosX, txtPosY, txtSpacing, 0, -1) --Draw Text
 		animPosDraw(glossaryTitleBG, -56, 0) --Draw Title BG

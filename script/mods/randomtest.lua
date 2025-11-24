@@ -3,7 +3,7 @@ local loadLuaModule = true
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-table.insert(t_extrasMenu,#t_extrasMenu+1,{text = "RANDOM TEST", gotomenu = "randomTest()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu, #t_extrasMenu + 1, {text = "RANDOM TEST", gotomenu = "randomTest()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 --;===========================================================
 --; RANDOMTEST MODE (watch CPU play to generate AI rank data)
 --;===========================================================
@@ -23,7 +23,7 @@ local bgm = ""
 
 local function addMoudeta(rank)
 	moudeta[#moudeta + 1] = rank
-	local max = math.floor(numChars / (math.min(numChars / (juuni*10) + 3, juuni)*juuni))
+	local max = math.floor(numChars / (math.min(numChars / (juuni * 10) + 3, juuni) * juuni))
 	while #moudeta > max do
 		table.remove(moudeta, 1)
 	end
@@ -35,7 +35,7 @@ local function randRank()
 		r = math.random(1, tuyoiBorder + juuni - 2);
 		local notbroken = true
 		for i = 1, #moudeta do
-			if math.abs(moudeta[i] - r) <= math.floor(juuni/3) then
+			if math.abs(moudeta[i] - r) <= math.floor(juuni / 3) then
 				notbroken = false
 				break
 			end
@@ -49,7 +49,7 @@ end
 
 local function eachAllChars(f)
 	for cel = 1, #t_randomChars do
-		f(cel-1)
+		f(cel - 1)
 	end
 end
 
@@ -79,7 +79,7 @@ local function rakuBenry()
 	eachAllChars(function(cel)
 		numChars = numChars + 1
 	end)
-	local tuyoninzu = math.floor(numChars / (juuni*10))
+	local tuyoninzu = math.floor(numChars / (juuni * 10))
 	if tuyoninzu < juuni - 1 then
 		tuyoiBorder =  math.floor(numChars / (tuyoninzu + 1))
 		tuyoninzu = juuni - 1
@@ -95,8 +95,8 @@ local function rakuBenry()
 	local tuyocnt = 0
 	local ran = randRank()
 	eachAllChars(function(cel)
-		if #veljnz < cel*12 then
-			for i = #veljnz + 1, cel*12 do
+		if #veljnz < cel * 12 then
+			for i = #veljnz + 1, cel * 12 do
 				veljnz[i] = 0
 			end
 		end
@@ -105,16 +105,16 @@ local function rakuBenry()
 		for j = 1, 12 do
 			if wins and j <= #wins then
 				total = total + wins[j]
-				veljnz[cel*12 + j] = wins[j]
+				veljnz[cel * 12 + j] = wins[j]
 				tmp = tmp + wins[j]
 			else
-				veljnz[cel*12 + j] = 0
+				veljnz[cel * 12 + j] = 0
 			end
 		end
 		if tmp >= tuyoiBorder then tuyocnt = tuyocnt + 1 end
 		if tmp >= tuyoiBorder - juuni then table.insert(tsuyoshi, cel) end
 		if tmp >= 1 and tmp <= juuni then table.insert(bimyou, cel) end
-		if tmp > ran-juuni and tmp <= ran then table.insert(rand, cel) end
+		if tmp > ran - juuni and tmp <= ran then table.insert(rand, cel) end
 		if tmp == 0 then table.insert(zero, cel) end
 		if tmp < 0 then table.insert(kai, cel) end
 	end)
@@ -135,7 +135,7 @@ local function rakuBenry()
 		charAdd(zero, numZero)
 		charAdd(kai, tuyoninzu - numZero)
 		rank = 0
-	elseif #bimyou >= math.max(tuyoninzu*20, math.floor((numChars*3)/20)) then
+	elseif #bimyou >= math.max(tuyoninzu * 20, math.floor((numChars * 3) / 20)) then
 		charAdd(bimyou, #bimyou)
 		rank = juuni
 	else
@@ -146,9 +146,9 @@ local function rakuBenry()
 			eachAllChars(function(cel)
 				local tmp = 0
 				for j = 1, 12 do
-					tmp = tmp + veljnz[cel*12 + j]
+					tmp = tmp + veljnz[cel * 12 + j]
 				end
-				if tmp > ran-juuni and tmp <= ran then table.insert(rand, cel) end
+				if tmp > ran - juuni and tmp <= ran then table.insert(rand, cel) end
 			end)
 		end
 		debugText = ran .. ' ' .. #rand
@@ -158,9 +158,9 @@ local function rakuBenry()
 			addMoudeta(rank)
 		elseif tuyocnt >= tuyoninzu then
 			charAdd(tsuyoshi, #tsuyoshi)
-			rank = tuyoiBorder+juuni-1
+			rank = tuyoiBorder + juuni - 1
 		else
-			addMoudeta(tuyoiBorder + (juuni-2) - math.floor(juuni/3))
+			addMoudeta(tuyoiBorder + (juuni - 2) - math.floor(juuni / 3))
 			charAdd(kai, #kai)
 			rank = -1
 		end
@@ -180,7 +180,7 @@ local function rakuBenry()
 	eachAllChars(function(cel)
 		buf = buf .. getCharFileName(cel) .. ','
 		for j = 1, 12 do
-			buf = buf .. ' ' .. veljnz[cel*12 + j]
+			buf = buf .. ' ' .. veljnz[cel * 12 + j]
 		end
 		buf = buf .. '\r\n'
 	end)
@@ -197,7 +197,7 @@ local function randSel(pno, winner)
 	elseif rank < 0 then
 		team = math.random(0, 2)
 	else
-		team = math.random(0, 1)*2
+		team = math.random(0, 1) * 2
 	end
 	setTeamMode(pno, team, math.random(1, 4))
 	local tmp = 0
@@ -230,10 +230,10 @@ local function initRandom()
 	wins = 0
 	rosterTxt()
 	nextChar = 1
-	saikyou = rank == tuyoiBorder+juuni-1
+	saikyou = rank == tuyoiBorder + juuni - 1
 	stage = math.random(1, data.includestage) --Load a New Random Stage
 	if t_selStages[stage].music ~= nil then
-		bgm = math.random(1,#t_selStages[stage].music)
+		bgm = math.random(1, #t_selStages[stage].music)
 		bgm = t_selStages[stage].music[bgm].bgmusic
 	end
 	f_loading(true)

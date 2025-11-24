@@ -14,7 +14,7 @@ local galleryMoviesDef = "script/mods/gallery/movies.def" --Gallery Videos
 --;===========================================================
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_watchMenu,4,{text = "GALLERY", gotomenu = "f_galleryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
+table.insert(t_watchMenu, 4, {text = "GALLERY", gotomenu = "f_galleryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
 local txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 15)
 local txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
 local txt_galleryNoData = "NO SPRITE DATA FOUND."
@@ -375,7 +375,7 @@ local function f_previousArt(limit)
 end
 
 local function f_getNewCursorPos() --Get new gallery cursor position when exit from artwork viewer (Unfinished)
-	galleryCursorX = (galleryCursor - 1) - galleryColumns*galleryCursorY
+	galleryCursorX = (galleryCursor - 1) - galleryColumns * galleryCursorY
 	galleryCursorY = (galleryCursor - 1 - galleryCursorX) / galleryColumns
 end
 
@@ -598,7 +598,7 @@ local function f_drawGalleryPreview(sffData, group, index, x, y, scaleX, scaleY,
 end
 
 local function f_setGalleryCursorPos() --Used to calculate gallery cursor pos in gallery menu
-	galleryCursor = (galleryCursorX+(galleryColumns+galleryHiddenColumns)*galleryCursorY) + 1
+	galleryCursor = (galleryCursorX + (galleryColumns + galleryHiddenColumns) * galleryCursorY) + 1
 end
 
 local function f_drawGallery(t, columns, rows) --Draw Gallery Content
@@ -663,7 +663,7 @@ local function f_updateGallery() --When move through gallery sections, update ga
 	galleryMoveY = 0
 	f_setGalleryCursorPos()
 	
-	gallerySlotMax = (galleryColumns + galleryHiddenColumns)*(galleryRows + galleryHiddenRows)
+	gallerySlotMax = (galleryColumns + galleryHiddenColumns) * (galleryRows + galleryHiddenRows)
 	galleryArtMax = nil
 	if gallerySlotMax > #t_gallery[galleryMenu] then
 		galleryArtMax = #t_gallery[galleryMenu] --Set artworks loaded in t_gallery as gallerySlotMax amount to prevent issues
@@ -723,7 +723,7 @@ function f_galleryMenu()
 					galleryMoveY = galleryMoveY - 1
 				end
 			else --Wrap
-				galleryCursorY = galleryRows-1 + galleryHiddenRows
+				galleryCursorY = galleryRows - 1 + galleryHiddenRows
 				--if galleryHiddenRows > 0 then
 					galleryMoveY = galleryHiddenRows
 				--end
@@ -742,10 +742,10 @@ function f_galleryMenu()
 	--SCROLL DOWN (Cursor Y - Next Row)
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
-			if galleryCursorY < galleryRows-1 + galleryHiddenRows then
+			if galleryCursorY < galleryRows - 1 + galleryHiddenRows then
 				galleryCursorY = galleryCursorY + 1
 			--Hidden Rows Logic
-				if galleryCursorY > galleryRows-1 then
+				if galleryCursorY > galleryRows - 1 then
 					galleryMoveY = galleryMoveY + 1
 				end
 			else --Wrap
@@ -769,7 +769,7 @@ function f_galleryMenu()
 					galleryMoveX = galleryMoveX - 1
 				end
 			else --Wrap
-				galleryCursorX = galleryColumns-1 + galleryHiddenColumns
+				galleryCursorX = galleryColumns - 1 + galleryHiddenColumns
 				--if galleryHiddenColumns > 0 then
 					galleryMoveX = galleryHiddenColumns
 				--end
@@ -788,10 +788,10 @@ function f_galleryMenu()
 	--SCROLL RIGHT (Cursor X - Next Column)
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			sndPlay(sndSys, 100, 0)
-			if galleryCursorX < galleryColumns-1 + galleryHiddenColumns then
+			if galleryCursorX < galleryColumns - 1 + galleryHiddenColumns then
 				galleryCursorX = galleryCursorX + 1
 			--Hidden Columns Logic
-				if galleryCursorX > galleryColumns-1 then
+				if galleryCursorX > galleryColumns - 1 then
 					galleryMoveX = galleryMoveX + 1
 				end
 			else --Wrap
@@ -842,7 +842,7 @@ function f_galleryMenu()
 				end
 		--SCREENSHOTS (view your screenshots collection)
 			--elseif galleryMenu == 4 then
-				--Do it when we can load png using IMGLoad c++ function
+				--Will happen when we can load png using IMGLoad c++ function
 			end
 		end
 	--Section Cursor position calculation
@@ -888,7 +888,7 @@ function f_galleryMenu()
 					bank = 0
 				end
 				if t_gallery[i].displayname ~= nil then
-					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70+i*115-moveSectionTxt, 36))
+					textImgDraw(f_updateTextImg(t_gallery[i].txtID, jgFnt, bank, 0, t_gallery[i].displayname, -70 + i * 115 - moveSectionTxt, 36))
 				end
 			end
 		end
@@ -903,12 +903,12 @@ function f_galleryMenu()
 			animUpdate(menuArrowRight)
 		end
 	--Draw Gallery Content
-		f_drawGallery(t_gallery[galleryMenu], galleryColumns+galleryHiddenColumns, galleryRows+galleryHiddenRows)
+		f_drawGallery(t_gallery[galleryMenu], galleryColumns + galleryHiddenColumns, galleryRows + galleryHiddenRows)
 	--Draw Gallery Cursor
 		animPosDraw(
 			galleryPreviewCursor,
-			galleryPreviewCursorPosX + (galleryCursorX-galleryMoveX) * (galleryPreviewCursorSizeX + galleryPreviewCursorSpacingX),
-			galleryPreviewCursorPosY + (galleryCursorY-galleryMoveY) * (galleryPreviewCursorSizeY + galleryPreviewCursorSpacingY)
+			galleryPreviewCursorPosX + (galleryCursorX - galleryMoveX) * (galleryPreviewCursorSizeX + galleryPreviewCursorSpacingX),
+			galleryPreviewCursorPosY + (galleryCursorY - galleryMoveY) * (galleryPreviewCursorSizeY + galleryPreviewCursorSpacingY)
 		)
 		animSetWindow(galleryPreviewCursor, galleryWindowX1, galleryWindowY1, galleryWindowX2, galleryWindowY2)
 	--Draw Gallery Info
@@ -921,11 +921,11 @@ function f_galleryMenu()
 		f_textRender(txt_galleryInfo, textData, 0, 159, 208, 10, 0, 55)
 	--DEBUG STUFF
 		if data.debugMode then
-			f_drawQuickText(txt_debugGalleryCursor, jgFnt, 0, 1, "ITEM: "..galleryCursor, 10, 100+15)
-			f_drawQuickText(txt_debugGalleryCursorX, jgFnt, 0, 1, "CURSOR X: "..galleryCursorX, 10, 100+30)
-			f_drawQuickText(txt_debugGalleryCursorY, jgFnt, 0, 1, "CURSOR Y: "..galleryCursorY, 10, 100+45)
-			f_drawQuickText(txt_debugGalleryMoveX, jgFnt, 0, 1, "MOVE X: "..galleryMoveX, 10, 100+60)
-			f_drawQuickText(txt_debugGalleryMoveY, jgFnt, 0, 1, "MOVE Y: "..galleryMoveY, 10, 100+75)
+			f_drawQuickText(txt_debugGalleryCursor, jgFnt, 0, 1, "ITEM: "..galleryCursor, 10, 100 + 15)
+			f_drawQuickText(txt_debugGalleryCursorX, jgFnt, 0, 1, "CURSOR X: "..galleryCursorX, 10, 100 + 30)
+			f_drawQuickText(txt_debugGalleryCursorY, jgFnt, 0, 1, "CURSOR Y: "..galleryCursorY, 10, 100 + 45)
+			f_drawQuickText(txt_debugGalleryMoveX, jgFnt, 0, 1, "MOVE X: "..galleryMoveX, 10, 100 + 60)
+			f_drawQuickText(txt_debugGalleryMoveY, jgFnt, 0, 1, "MOVE Y: "..galleryMoveY, 10, 100 + 75)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

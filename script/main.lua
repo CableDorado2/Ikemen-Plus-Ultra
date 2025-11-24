@@ -13860,7 +13860,7 @@ function getTimePerfomance(performanceValue, maxValue, timeValue, targetTime)
 	if performancePercentage > 1.0 then performancePercentage = 1.0 end
 --Apply a penalty for exceeding the time limit
 	if timeValue > targetTime then
-		timePercentage = 1.0 - ((timeValue - targetTime) / targetTime) * 0.5 
+		timePercentage = 1.0 - ((timeValue - targetTime) / targetTime) * 0.5
 	end
 --Avoid Negative values
 	if timePercentage < 0.0 then timePercentage = 0.0 end

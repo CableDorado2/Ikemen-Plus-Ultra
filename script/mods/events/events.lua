@@ -8,7 +8,7 @@ local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --;===========================================================
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_extrasMenu,5,{text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu, 5, {text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 local txt_localTime = createTextImg(font15, 0, 1, "", 1, 8)
 local txt_internetTime = createTextImg(font15, 0, 1, "", 1, 20)
 
@@ -376,9 +376,9 @@ function f_getEventStats()
 		return f_getProgress(stats.modes.event, t_events, "clearcount").."/"..#t_events
 	end
 end
-table.insert(t_statsMenu,#t_statsMenu,{text = txt_eventStatsData, varText = f_getEventStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsMenu, #t_statsMenu, {text = txt_eventStatsData, varText = f_getEventStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
 --Insert new item to t_statsGameModes table loaded by main.lua
-table.insert(t_statsGameModes,1,
+table.insert(t_statsGameModes, 1,
 	{
 		displayname = "Events", --Text to Display in Stats Menu
 		id = "event", --id to compare with data.recordMode var
@@ -530,7 +530,7 @@ function f_eventMenu()
 				end
 			--Draw Text for Event Status
 				if t_events[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_events[i].txtID, jgFnt, bank, 0, t_events[i].status, -50.5+i*105-moveTxt, 215)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+					textImgDraw(f_updateTextImg(t_events[i].txtID, jgFnt, bank, 0, t_events[i].status, -50.5 + i * 105 - moveTxt, 215)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
 				if f_checkEvent(t_events[i].time, f_getTimeDat("start", i), f_getTimeDat("deadline", i)) and t_unlockLua.modes[t_events[i].id] == nil then --If the event is unlocked
@@ -542,21 +542,21 @@ function f_eventMenu()
 				end
 				f_drawSprPreview(eventSpr,
 					t_events[i].previewspr[1], t_events[i].previewspr[2],
-					t_events[i].previewpos[1]+i*105-moveTxt, t_events[i].previewpos[2],
+					t_events[i].previewpos[1] + i * 105 - moveTxt, t_events[i].previewpos[2],
 					t_events[i].previewscale[1], t_events[i].previewscale[2],
 					previewTransS, previewTransD
 				)
 			--Draw Event Slot Icon
-				f_drawQuickSpr(eventSlot, eventSlotPosX+i*105-moveTxt, eventSlotPosY, eventSlotScaleX, eventSlotScaleY, previewTransS, previewTransD)
+				f_drawQuickSpr(eventSlot, eventSlotPosX + i * 105 - moveTxt, eventSlotPosY, eventSlotScaleX, eventSlotScaleY, previewTransS, previewTransD)
 			--Draw Padlock Icon
 				if not f_checkEvent(t_events[i].time, f_getTimeDat("start", i), f_getTimeDat("deadline", i)) or t_unlockLua.modes[t_events[i].id] ~= nil then
-					animPosDraw(padlock, padlockEventPosX+i*105-moveTxt, padlockEventPosY)
+					animPosDraw(padlock, padlockEventPosX + i * 105 - moveTxt, padlockEventPosY)
 				end
 			end
 		end
 	--Draw Event Cursor
 		if not eventLocked and not netTimeInfoScreen then
-			animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+			animSetWindow(cursorBox, -100 + cursorPosX * 104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100 + cursorPosX * 104.5, 60)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end

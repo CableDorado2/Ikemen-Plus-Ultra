@@ -8,7 +8,7 @@ local missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sp
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_challengeMenu,1,{text = "MISSIONS", gotomenu = "f_missionMenu()", id = textImgNew()}) --Insert new item to t_challengeMenu table loaded by screenpack.lua
+table.insert(t_challengeMenu, 1, {text = "MISSIONS", gotomenu = "f_missionMenu()", id = textImgNew()}) --Insert new item to t_challengeMenu table loaded by screenpack.lua
 local txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 local txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
 local txt_missionIncomplete = "INCOMPLETE"
@@ -150,9 +150,9 @@ function f_getMissionStats()
 		return f_getProgress(stats.modes.mission, t_missions, "clearcount").."/"..#t_missions
 	end
 end
-table.insert(t_statsMenu,#t_statsMenu,{text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsMenu, #t_statsMenu, {text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
 --Insert new item to t_statsGameModes table loaded by main.lua
-table.insert(t_statsGameModes,1,
+table.insert(t_statsGameModes, 1,
 	{
 		displayname = "Missions", --Text to Display in Stats Menu
 		id = "mission", --id to compare with data.recordMode var
@@ -272,11 +272,11 @@ function f_missionMenu()
 		textImgSetText(txt_missionProgress,"["..f_getProgress(stats.modes.mission, t_missions, "percentage").."%]")
 		textImgDraw(txt_missionProgress)
 	--Draw Below Transparent Table BG
-		animSetScale(missionBG2, 240, maxMissions*15)
+		animSetScale(missionBG2, 240, maxMissions * 15)
 		animSetWindow(missionBG2, 10,10, 269,195)
 		animDraw(missionBG2)
 	--Draw Below Table Cursor
-		animSetWindow(cursorBox, 40,115+cursorPosY*15, 239,15)
+		animSetWindow(cursorBox, 40,115 + cursorPosY * 15, 239,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Mission Image Preview
@@ -314,8 +314,8 @@ function f_missionMenu()
 			end
 			if i > missionMenu - cursorPosY then
 				if t_missions[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_missions[i].txtID, font2, 0, 1, missionNametxt, 45, 125+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_missions[i].txtID, font2, 0, -1, t_missions[i].status, 275, 125+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missions[i].txtID, font2, 0, 1, missionNametxt, 45, 125 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_missions[i].txtID, font2, 0, -1, t_missions[i].status, 275, 125 + i * 15 - moveTxt))
 				end
 			end
 		end
