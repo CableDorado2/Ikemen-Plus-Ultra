@@ -66,23 +66,18 @@ This is a general view of what you can expect in next releases. This roadmap is 
 **v1.5 (Next Update)**
 ------------
 
-- Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
-
-- Leer archivos movelist.dat dentro de los chars.
-
-- Arreglar preview de random chars que no coincide con el char al usar la visualización por sprites.
-
-- Sistema de puntos.
-
-- Ranking al completar o perder en Modos Arcade, Survival, etc.
-
+- Ranking al completar o perder en Modos Arcade, Survival, etc:
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
-
-- Añadir sistema de decisiones al Modo Visual Novel.
 
 - Durante el arcade, la forma en que está programada el here comes a new challenger hace uso de setCom(2, 0) en el menú de pausa causa que la IA se quede en nivel 0, pero es porque el jugador 2 recibe por unos instantes el control para poner pausa y que se vea la pantalla del challenger.
 
 - Los combates de intermisiones dejan de funcionar si se juega en team mode.
+
+- Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
+
+- Leer archivos movelist.dat dentro de los chars.
+
+- Añadir sistema de decisiones al Modo Visual Novel.
 
 **v1.6**
 ------------
