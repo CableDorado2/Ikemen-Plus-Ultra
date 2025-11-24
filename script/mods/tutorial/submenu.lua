@@ -16,7 +16,7 @@ kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 --;===========================================================
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_practiceMenu,#t_practiceMenu,{text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
+table.insert(t_practiceMenu, #t_practiceMenu, {text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
 sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
 sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
 bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
@@ -42,7 +42,7 @@ function f_tutorial()
 	if #t_tutorialChar ~= 0 then --If a tutorial char is detected in select.def with tutorial=1 paramvalue
 		data.p2In = 2
 		data.p2Pal = 1
-		data.p2Char = {t_selChars[t_tutorialChar[math.random(#t_tutorialChar)]+1].char} --pick a random tutorial char from the table
+		data.p2Char = {t_selChars[t_tutorialChar[math.random(#t_tutorialChar)] + 1].char} --pick a random tutorial char from the table
 	else --Tutorial Char will be selected in char select if there is not tutorial chars detected in select.def with tutorial=1 paramvalue
 		data.p2In = 1
 		data.p2Faces = true
@@ -280,19 +280,19 @@ function f_tutoInputDisplay(t)
 	f_drawQuickSpr(TbuttonR, posXr, posYr, scaleX, scaleY, alphaS, alphaD)
 	f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaS, alphaD)
 --Player 2/Hints
-	f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaS, alphaD)
-	f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonUp, posXup + posXP2, posYup + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonDown, posXdo + posXP2, posYdo + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonLeft, posXle + posXP2, posYle + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonRight, posXri + posXP2, posYri + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonA, posXa + posXP2, posYa + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonB, posXb + posXP2, posYb + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonC, posXc + posXP2, posYc + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonX, posXx + posXP2, posYx + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonY, posXy + posXP2, posYy + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonZ, posXz + posXP2, posYz + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonL, posXl + posXP2, posYl + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonR, posXr + posXP2, posYr + posYP2, scaleX, scaleY, alphaS, alphaD)
+	f_drawQuickSpr(TbuttonS, posXs + posXP2, posYs + posYP2, scaleX, scaleY, alphaS, alphaD)
 --SHOW BUTTONS FOR PLAYER 1 CONTROL
 	if commandGetState(p1Cmd, 'holdu') then f_drawQuickSpr(TbuttonUp, posXup, posYup, scaleX, scaleY, alphaSB, alphaDB) end
 	if commandGetState(p1Cmd, 'holdd') then f_drawQuickSpr(TbuttonDown, posXdo, posYdo, scaleX, scaleY, alphaSB, alphaDB) end
@@ -309,18 +309,18 @@ function f_tutoInputDisplay(t)
 	if commandGetState(p1Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaSB, alphaDB) end
 --SHOW BUTTONS FOR PLAYER 2/HINTS
 	for _, button in ipairs(spritesToDraw) do
-		if button == "_U" then f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "_D" then f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "_B" then f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "_F" then f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^A" then f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^B" then f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^C" then f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^X" then f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^Y" then f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^Z" then f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^L" then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^R" then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if button == "^S" then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "_U" then f_drawQuickSpr(TbuttonUp, posXup + posXP2, posYup + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "_D" then f_drawQuickSpr(TbuttonDown, posXdo + posXP2, posYdo + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "_B" then f_drawQuickSpr(TbuttonLeft, posXle + posXP2, posYle + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "_F" then f_drawQuickSpr(TbuttonRight, posXri + posXP2, posYri + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^A" then f_drawQuickSpr(TbuttonA, posXa + posXP2, posYa + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^B" then f_drawQuickSpr(TbuttonB, posXb + posXP2, posYb + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^C" then f_drawQuickSpr(TbuttonC, posXc + posXP2, posYc + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^X" then f_drawQuickSpr(TbuttonX, posXx + posXP2, posYx + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^Y" then f_drawQuickSpr(TbuttonY, posXy + posXP2, posYy + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^Z" then f_drawQuickSpr(TbuttonZ, posXz + posXP2, posYz + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^L" then f_drawQuickSpr(TbuttonL, posXl + posXP2, posYl + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^R" then f_drawQuickSpr(TbuttonR, posXr + posXP2, posYr + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if button == "^S" then f_drawQuickSpr(TbuttonS, posXs + posXP2, posYs + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
 	end
 end

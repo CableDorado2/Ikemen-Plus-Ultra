@@ -7,7 +7,7 @@ local sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
 local bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
 local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --Insert new item to t_mainMenu table loaded by screenpack.lua
-table.insert(t_mainMenu,#t_mainMenu-2,{text = "SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
+table.insert(t_mainMenu, #t_mainMenu - 2, {text = "SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;=========================================================== 
@@ -43,10 +43,10 @@ for i=1, #t_tempChars do
 		t_shopChars[i]['txtID'] = textImgNew()
 		t_shopChars[i]['category'] = "chars"
 		t_shopChars[i]['class'] = t_tempChars[i].class
-		t_shopChars[i]['info'] = txt_shopUnlock..t_selChars[t_charDef[pathID]+1].displayname
+		t_shopChars[i]['info'] = txt_shopUnlock..t_selChars[t_charDef[pathID] + 1].displayname
 		t_shopChars[i]['id'] = t_tempChars[i].id:lower()
 		t_shopChars[i]['price'] = t_tempChars[i].price
-		t_shopChars[i]['text'] = t_selChars[t_charDef[pathID]+1].displayname
+		t_shopChars[i]['text'] = t_selChars[t_charDef[pathID] + 1].displayname
 	else --Ignore items that are not recognized
 		
 	end
@@ -208,7 +208,7 @@ local t_vaultMenu = {
 	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
 }
 for i=1, #t_vaultMenu do
-	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
+	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56 + i * 70, 230)
 end
 
 local function f_getVaultWords()
@@ -295,8 +295,8 @@ local function f_randomWords()
 	textImgSetBank(txt_vaultWords,0) --Reset Color after prize word
 	f_getVaultWords()
 	if data.userName == "Strong FS" or data.userName == "strong fs" or data.userName == "StrongFS" or data.userName == "strongfs" or data.userName == "Strong Fs" or data.userName == "STRONG FS" or data.userName == "STRONGFS" then
-		table.insert(t_vaultMsg,1, "Hey Strong! CD2 te manda Saludoss")
-		table.insert(t_vaultMsg,2, "Hmmm Strong XD")
+		table.insert(t_vaultMsg, 1, "Hey Strong! CD2 te manda Saludoss")
+		table.insert(t_vaultMsg, 2, "Hmmm Strong XD")
 	end
 	txtRandom = (t_vaultMsg[math.random(1, #t_vaultMsg)])
 end
@@ -412,7 +412,7 @@ local function f_theVault()
 		textImgSetText(txt_vaultText,word)
 		textImgDraw(txt_vaultText)
 		if i%60 < 30 then
-			textImgPosDraw(txt_vaultBar, 160 +(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)> 0 and 2 or 0), 120)
+			textImgPosDraw(txt_vaultBar, 160 + (textImgGetWidth(txt_vaultText) * 0.5) + (textImgGetWidth(txt_vaultText) > 0 and 2 or 0), 120)
 		end
 	--Draw Button Option Text
 		for i=1, #t_vaultMenu do
@@ -461,19 +461,19 @@ local function f_drawShopItemPreview(category, id, itemNo, menu)
 					alphaS = 100
 					aphaD = 20
 				end
-				f_drawQuickSpr(shopCharClass, 142+i*30, 25, 0.07, 0.07, alphaS, alphaD)
+				f_drawQuickSpr(shopCharClass, 142 + i * 30, 25, 0.07, 0.07, alphaS, alphaD)
 			end
-			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 242, 160, true)
+			f_drawCharAnim(t_selChars[t_charDef[id] + 1], 'p1AnimStand', 242, 160, true)
 	--During Purchase Confirm
 		else
-			f_drawCharAnim(t_selChars[t_charDef[id]+1], 'p1AnimStand', 70, 144, false, 0.75, 0.75)
+			f_drawCharAnim(t_selChars[t_charDef[id] + 1], 'p1AnimStand', 70, 144, false, 0.75, 0.75)
 		end
 --Stage Preview
 	elseif category == "stages" then
 		if not purchaseMenu then
-			drawStagePortrait(t_stageDef[id]-1, 172.2, 60, 0.113, 0.113)
+			drawStagePortrait(t_stageDef[id] - 1, 172.2, 60, 0.113, 0.113)
 		else
-			drawStagePortrait(t_stageDef[id]-1, 10, 60, 0.113, 0.113)
+			drawStagePortrait(t_stageDef[id] - 1, 10, 60, 0.113, 0.113)
 		end
 	end
 end
@@ -501,7 +501,7 @@ local function f_confirmPurchase()
 		if #t_confirmShop > 4 then
 			cursorYConfirmShop = 4
 		else
-			cursorYConfirmShop = #t_confirmShop-1
+			cursorYConfirmShop = #t_confirmShop - 1
 		end
 	elseif confirmShop > #t_confirmShop then
 		confirmShop = 1
@@ -529,10 +529,10 @@ local function f_confirmPurchase()
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_confirmShop[i].id, jgFnt, bank, 0, t_confirmShop[i].text, 239, 80+i*13-moveTxTConfirmShop))
+		textImgDraw(f_updateTextImg(t_confirmShop[i].id, jgFnt, bank, 0, t_confirmShop[i].text, 239, 80 + i * 13 - moveTxTConfirmShop))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 167,83+cursorYConfirmShop*13, 144,13)
+	animSetWindow(cursorBox, 167,83 + cursorYConfirmShop * 13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Content
@@ -541,7 +541,7 @@ local function f_confirmPurchase()
 --Draw Accounting
 	f_drawQuickText(txt_shp1, font2, 0, -1, "Price "..t_shopMenu[shopMenu].price.." IKC", 110, 154)
 	f_drawQuickText(txt_shp2, font2, 0, -1, "Balance "..stats.money.." IKC", 310, 154)
-	f_drawQuickText(txt_shp3, font2, 0, -1, "Balance after Purchase "..stats.money-t_shopMenu[shopMenu].price.." IKC", 310, 173)
+	f_drawQuickText(txt_shp3, font2, 0, -1, "Balance after Purchase "..stats.money - t_shopMenu[shopMenu].price.." IKC", 310, 173)
 --Draw Input Hints Panel
 	drawConfirmInputHints()
 --Actions
@@ -679,7 +679,7 @@ function f_shopMenu()
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Transparent Table BG
-		animSetScale(commonTBG, 290, maxShop*15)
+		animSetScale(commonTBG, 290, maxShop * 15)
 		animSetWindow(commonTBG, 0,20, 165,150)
 		animDraw(commonTBG)
 	--Draw Title Menu
@@ -688,7 +688,7 @@ function f_shopMenu()
 			textImgSetText(txt_shopCurrency, stats.money.." IKC")
 			textImgDraw(txt_shopCurrency)
 		--Draw Table Cursor
-			animSetWindow(cursorBox, 0,5+cursorPosY*15, 165,15)
+			animSetWindow(cursorBox, 0,5 + cursorPosY * 15, 165,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -696,7 +696,7 @@ function f_shopMenu()
 		for i=1, maxShop do
 			if i > shopMenu - cursorPosY then
 				if t_shopMenu[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_shopMenu[i].txtID, font2, 0, 1, t_shopMenu[i].text, 5, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_shopMenu[i].txtID, font2, 0, 1, t_shopMenu[i].text, 5, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
