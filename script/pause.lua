@@ -26,9 +26,9 @@ s_trainLUA = file:read("*all")
 file:close()
 
 --Variable setting based on loaded data
-data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
-data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
-if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
+data.pbkRecSlot = f_minMax(data.pbkRecSlot, 1, 5)
+data.pbkPlaySlot = f_minMax(data.pbkPlaySlot, 1, 8)
+if (f_boolToNum(data.pbkSlot1) + f_boolToNum(data.pbkSlot2) + f_boolToNum(data.pbkSlot3) + f_boolToNum(data.pbkSlot4) + f_boolToNum(data.pbkSlot5)) == 0 then
 	data.pbkSlot1 = true
 end
 
@@ -410,7 +410,7 @@ t_pauseMain = {
 if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
 	t_pauseMain[5].text = "Character Select"
 	if getGameMode() == "practice" then
-		table.insert(t_pauseMain,7,{text = "Training Menu", gotomenu = "f_practicePause()"})
+		table.insert(t_pauseMain, 7, {text = "Training Menu", gotomenu = "f_practicePause()"})
 	elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
 		if getPauseVar() == "giveup" then
 			t_pauseMain[6].text = "Give Up"
@@ -664,20 +664,20 @@ function f_pauseMain(p, st, esc)
 					maxPause = 7
 				end
 			--Draw Transparent Table BG
-				animSetScale(pauseBG1, 220, maxPause*15)
+				animSetScale(pauseBG1, 220, maxPause * 15)
 				animSetWindow(pauseBG1, 80,70, 160,105)
 				animUpdate(pauseBG1)
 				animDraw(pauseBG1)
 			--Draw Title Menu
 				textImgDraw(txt_pause)
 			--Draw Cursor
-				animSetWindow(cursorBox, 80,55+PcursorPosY*15, 160,15)
+				animSetWindow(cursorBox, 80,55 + PcursorPosY * 15, 160,15)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			--Draw Text for Table
 				for i=1, maxPause do	
 					if i > pauseMenu - PcursorPosY then
-						t_pauseMain[i].id = createTextImg(jgFnt, 0, 0, t_pauseMain[i].text:upper(), 158.5, 65+i*15-PmoveTxt,0.85,0.85)
+						t_pauseMain[i].id = createTextImg(jgFnt, 0, 0, t_pauseMain[i].text:upper(), 158.5, 65 + i * 15 - PmoveTxt, 0.85, 0.85)
 						textImgDraw(t_pauseMain[i].id)
 					end
 				end
@@ -824,7 +824,7 @@ function f_pauseConfirm()
 				if #t_confirmPause > 4 then
 					cursorPosYConfirm = 4
 				else
-					cursorPosYConfirm = #t_confirmPause-1
+					cursorPosYConfirm = #t_confirmPause - 1
 				end
 			elseif confirmPause > #t_confirmPause then
 				confirmPause = 1
@@ -848,9 +848,9 @@ function f_pauseConfirm()
 				else
 					bank = 0
 				end
-				textImgDraw(f_updateTextImg(t_confirmPause[i].id, jgFnt, bank, 0, t_confirmPause[i].text:upper(), 159, 100+i*13-moveTxtConfirm))
+				textImgDraw(f_updateTextImg(t_confirmPause[i].id, jgFnt, bank, 0, t_confirmPause[i].text:upper(), 159, 100 + i * 13 - moveTxtConfirm))
 			end
-			animSetWindow(cursorBox, 87,103+cursorPosYConfirm*13, 144,13)
+			animSetWindow(cursorBox, 87,103 + cursorPosYConfirm * 13, 144,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			f_sysTime()
@@ -1058,12 +1058,12 @@ function f_pauseSettings()
 				f_gameCfgdisplayTxt()
 				hasChanged = false
 			end
-			animSetScale(pauseBG1, 220, maxgameCfg*15)
+			animSetScale(pauseBG1, 220, maxgameCfg * 15)
 			animSetWindow(pauseBG1, 80,70, 160,105)
 			animUpdate(pauseBG1)
 			animDraw(pauseBG1)
 			textImgDraw(txt_PgameCfg)
-			animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,55 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			for i=1, maxgameCfg do
@@ -1076,8 +1076,8 @@ function f_pauseSettings()
 						posX = 160
 					end
 					if t_gameCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, align, t_gameCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
-						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, -1, t_gameCfg[i].varText:upper(), 235, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, align, t_gameCfg[i].text:upper(), posX, 65 + i * 15 - moveTxt, 0.85, 0.85))
+						textImgDraw(f_updateTextImg(t_gameCfg[i].varID, jgFnt, 0, -1, t_gameCfg[i].varText:upper(), 235, 65 + i * 15 - moveTxt, 0.85, 0.85))
 					end
 				end
 			end
@@ -1272,12 +1272,12 @@ function f_pauseAudio()
 			setPanStr(pan_str / 100)
 			hasChanged = false
 		end
-		animSetScale(pauseBG1, 220, maxAudioCfg*15)
+		animSetScale(pauseBG1, 220, maxAudioCfg * 15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
 		textImgDraw(txt_PaudioCfg)
-		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,55 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxAudioCfg do
@@ -1290,8 +1290,8 @@ function f_pauseAudio()
 					posX = 160
 				end
 				if t_audioCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, align, t_audioCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, -1, t_audioCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, align, t_audioCfg[i].text:upper(), posX, 65 + i * 15 - moveTxt, 0.85, 0.85))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, jgFnt, 0, -1, t_audioCfg[i].varText, 235, 65 + i * 15 - moveTxt, 0.85, 0.85))
 				end
 			end
 		end
@@ -1383,8 +1383,8 @@ function f_pauseSongs()
 			cursorPosY = 1
 		end
 		if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-			if songMenu == #t_songList[songFolder]-1 then --Play Random Song from Folder Selected
-				randomSongSel = math.random(1, #t_songList[songFolder]-2) --Get random song (-2 excludes back and random select items)
+			if songMenu == #t_songList[songFolder] - 1 then --Play Random Song from Folder Selected
+				randomSongSel = math.random(1, #t_songList[songFolder] - 2) --Get random song (-2 excludes back and random select items)
 				selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
 				--selectedSongName = t_songList[songFolder][randomSongSel].name
 				playBGM(selectedSong)
@@ -1440,13 +1440,13 @@ function f_pauseSongs()
 				bufl = 0
 			end
 		end
-		animSetScale(pauseBG1, 220, maxSongs*15)
+		animSetScale(pauseBG1, 220, maxSongs * 15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
 		textImgDraw(txt_PsongMenu)
 		textImgDraw(txt_Psong)
-		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,55 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxSongs do
@@ -1460,11 +1460,11 @@ function f_pauseSongs()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_songList[songFolder] or i == #t_songList[songFolder]-1 then
+				if i == #t_songList[songFolder] or i == #t_songList[songFolder] - 1 then
 					align = 0
 					posX = 160
 				end
-				t_songList[songFolder][i].id = createTextImg(jgFnt, 0, align, songText:upper(), posX, 65+i*15-moveTxt,0.85,0.85)
+				t_songList[songFolder][i].id = createTextImg(jgFnt, 0, align, songText:upper(), posX, 65 + i * 15 - moveTxt, 0.85, 0.85)
 				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
@@ -2070,7 +2070,7 @@ function f_pauseTraining()
 				setInputDisplay(data.inputDisplay)
 				hasChanged = false
 			end
-			animSetScale(pauseBG1, 240, maxtrainingCfg*15)
+			animSetScale(pauseBG1, 240, maxtrainingCfg * 15)
 			animSetWindow(pauseBG1, 55,70, 240,105)
 			animUpdate(pauseBG1)
 			animDraw(pauseBG1)
@@ -2079,7 +2079,7 @@ function f_pauseTraining()
 				textImgSetText(txt_playbackInfo, 'Set Dummy Control as "Manual" to Record Actions.')
 				textImgDraw(txt_playbackInfo)
 			end
-			animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
+			animSetWindow(cursorBox, 55,55 + cursorPosY * 15, 205,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			for i=1, maxtrainingCfg do
@@ -2092,8 +2092,8 @@ function f_pauseTraining()
 						posX = 160
 					end
 					if t_trainingCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, align, t_trainingCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, -1, t_trainingCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, align, t_trainingCfg[i].text:upper(), posX, 65 + i * 15 - moveTxt, 0.85, 0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, jgFnt, 0, -1, t_trainingCfg[i].varText, 257, 65 + i * 15 - moveTxt, 0.85, 0.85))
 					end
 				end
 			end
@@ -2333,7 +2333,7 @@ function f_pausePlayback()
 		else
 			maxPlaybackCfg = 7
 		end
-		animSetScale(pauseBG1, 240, maxPlaybackCfg*15)
+		animSetScale(pauseBG1, 240, maxPlaybackCfg * 15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
 		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
@@ -2350,7 +2350,7 @@ function f_pausePlayback()
 			end
 			textImgDraw(txt_playbackInfo)
 		end
-		animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
+		animSetWindow(cursorBox, 55,55 + cursorPosY * 15, 205,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if hasChanged then
@@ -2369,8 +2369,8 @@ function f_pausePlayback()
 					posX = 160
 				end
 				if t_playbackCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, align, t_playbackCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, -1, t_playbackCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, align, t_playbackCfg[i].text:upper(), posX, 65 + i * 15 - moveTxt, 0.85, 0.85))
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, jgFnt, 0, -1, t_playbackCfg[i].varText, 257, 65 + i * 15 - moveTxt, 0.85, 0.85))
 				end
 			end
 		end
@@ -2574,12 +2574,12 @@ function f_pauseCharCfg()
 		else
 			maxcharCfg = 7
 		end
-		animSetScale(pauseBG1, 240, maxcharCfg*15)
+		animSetScale(pauseBG1, 240, maxcharCfg * 15)
 		animSetWindow(pauseBG1, 55,70, 240,105)
 		animUpdate(pauseBG1)
 		animDraw(pauseBG1)
 		textImgDraw(txt_charCfg)
-		animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
+		animSetWindow(cursorBox, 55,55 + cursorPosY * 15, 205,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if hasChanged then
@@ -2597,8 +2597,8 @@ function f_pauseCharCfg()
 					posX = 160
 				end
 				if t_charCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, align, t_charCfg[i].text:upper(), posX, 65+i*15-moveTxt,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, -1, t_charCfg[i].varText:upper(), 257, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, align, t_charCfg[i].text:upper(), posX, 65 + i * 15 - moveTxt, 0.85, 0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, jgFnt, 0, -1, t_charCfg[i].varText:upper(), 257, 65 + i * 15 - moveTxt, 0.85, 0.85))
 				end
 			end
 		end

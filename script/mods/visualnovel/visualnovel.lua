@@ -7,7 +7,7 @@ sprVN = sffNew("script/mods/visualnovel/visualnovel.sff") --Load Visual Novel Sp
 assert(loadfile("script/mods/visualnovel/assets.lua"))() --Load Visual Novel Assets Definition
 vnDef = "script/mods/visualnovel/vnselect.def" --Load Visual Novels
 bgmVNIntro = "sound/system/Ranking.mp3"
-table.insert(t_chroniclesMenu,2,{text = "VISUAL NOVEL", gotomenu = "f_vnMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_chroniclesMenu, 2, {text = "VISUAL NOVEL", gotomenu = "f_vnMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================
@@ -356,7 +356,7 @@ content = content:gsub('\n%s*\n', '\n')
 
 --[[
 function f_newVNBox()
-chapt = #t_vnBoxText+1 --Add chapter to the table
+chapt = #t_vnBoxText + 1 --Add chapter to the table
 t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
 end
 ]]
@@ -371,7 +371,7 @@ for line in content:gmatch('[^\r\n]+') do
 		end
 	elseif line:match('^%s*%[%s*[Cc][Hh][Aa][Pp][Tt][Ee][Rr]%s+[0-9]+$*%]') then
 		section = 2
-		chapt = #t_vnBoxText+1 --Add chapter to the table
+		chapt = #t_vnBoxText + 1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
 		t_vnBoxText[chapt]["data"] = {}
 	elseif section == 2 then --[Chapter No]
@@ -428,14 +428,14 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('^%s*character%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {} --Add content filtered to the end of the "chapter" sub-table
+				t_vnBoxText[chapt][#t_vnBoxText[chapt] + 1] = {} --Add content filtered to the end of the "chapter" sub-table
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['character'] = data:gsub('^%s*character%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 	--video = filename (string)
 		elseif line:match('^%s*video%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
+				t_vnBoxText[chapt][#t_vnBoxText[chapt] + 1] = {}
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['video'] = data:gsub('^%s*video%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 	--cut = number
@@ -443,7 +443,7 @@ for line in content:gmatch('[^\r\n]+') do
 			--local data = line:gsub('%s*;.*$', '')
 			local num = line:match('%s([0-9]+)$')
 			--if not data:match('=%s*$') then
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
+				t_vnBoxText[chapt][#t_vnBoxText[chapt] + 1] = {}
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['cut'] = tonumber(num) --data:gsub('^%s*cut%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		--end = number
@@ -451,7 +451,7 @@ for line in content:gmatch('[^\r\n]+') do
 			--local data = line:gsub('%s*;.*$', '')
 			local num = line:match('%s([0-9]+)$')
 			--if not data:match('=%s*$') then
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
+				t_vnBoxText[chapt][#t_vnBoxText[chapt] + 1] = {}
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ending'] = tonumber(num) --data:gsub('^%s*end%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
@@ -728,7 +728,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNhide = false
 			end
 		--Auto Skip Text
-			if data.VNautoSkip and VNtxtActive == 0 and VNautoTxt == VNautoSkipTime*60 then
+			if data.VNautoSkip and VNtxtActive == 0 and VNautoTxt == VNautoSkipTime * 60 then
 				VNtxtReady = true
 			end
 		end
@@ -817,7 +817,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 			if data.debugMode then
 				f_drawQuickText(txt_activeVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-				f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f",(VNautoTxt/60)), 163.5, 148) --For Debug Purposes
+				f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f",(VNautoTxt / 60)), 163.5, 148) --For Debug Purposes
 			end
 		end
 		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
@@ -1003,7 +1003,7 @@ function f_vnPauseMenu()
 			end
 		end
 	--Draw Pause Menu BG
-		animSetScale(vnPauseBG, 1.28, maxVNP*0.25)
+		animSetScale(vnPauseBG, 1.28, maxVNP * 0.25)
 		animSetWindow(vnPauseBG, 63,20, 200, 150)
 		animSetAlpha(vnPauseBG, 255, 22)
 		animPosDraw(vnPauseBG, 63, 20)
@@ -1027,14 +1027,14 @@ function f_vnPauseMenu()
 					posX = 160
 				end
 				if t_vnPauseMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, align, t_vnPauseMenu[i].text, posX, 15+i*15-moveTxtVNP))
-					textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, -1, t_vnPauseMenu[i].varText, 252, 15+i*15-moveTxtVNP))
+					textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, align, t_vnPauseMenu[i].text, posX, 15 + i * 15 - moveTxtVNP))
+					textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, -1, t_vnPauseMenu[i].varText, 252, 15 + i * 15 - moveTxtVNP))
 				end
 			end
 		end
 	--Draw Cursor
 		if not questionScreenVN then
-			animSetWindow(cursorBox, 64,5+cursorPosYVNP*15, 192,15)
+			animSetWindow(cursorBox, 64,5 + cursorPosYVNP * 15, 192,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1236,7 +1236,7 @@ function f_audioCfgVN()
 			end
 			setPanStr(pan_str / 100)
 	--Default Values
-		elseif audioCfgVN == #t_vnAudioCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif audioCfgVN == #t_vnAudioCfg - 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sndSys, 100, 1)
 			questionScreenVN = true
 			defaultAudioVN = true
@@ -1273,13 +1273,13 @@ function f_audioCfgVN()
 			maxAudioCfgVN = 14
 		end
 	end
-	animSetScale(vnPauseBG, 1.28, maxAudioCfgVN*0.25)
+	animSetScale(vnPauseBG, 1.28, maxAudioCfgVN * 0.25)
 	animSetWindow(vnPauseBG, 63,20, 200, 150)
 	animSetAlpha(vnPauseBG, 255, 22)
 	animPosDraw(vnPauseBG, 63, 20)
 	textImgDraw(txt_vnAudioCfg)
 	if not questionScreenVN then
-		animSetWindow(cursorBox, 64,5+cursorPosYAVN*15, 192,15)
+		animSetWindow(cursorBox, 64,5 + cursorPosYAVN * 15, 192,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end	
@@ -1296,13 +1296,13 @@ function f_audioCfgVN()
 			local align = 1
 			local posX = 85
 		--Custom Pos for Last items
-			if i == #t_vnAudioCfg or i == #t_vnAudioCfg-1 then
+			if i == #t_vnAudioCfg or i == #t_vnAudioCfg - 1 then
 				align = 0
 				posX = 160
 			end
 			if t_vnAudioCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, align, t_vnAudioCfg[i].text, posX, 15+i*15-moveTxtAVN))
-				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, -1, t_vnAudioCfg[i].varText, 235, 15+i*15-moveTxtAVN))
+				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, align, t_vnAudioCfg[i].text, posX, 15 + i * 15 - moveTxtAVN))
+				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, -1, t_vnAudioCfg[i].varText, 235, 15 + i * 15 - moveTxtAVN))
 			end
 		end
 	end
@@ -1337,7 +1337,7 @@ function f_questionMenuVN()
 		if #t_questionMenuVN > 4 then
 			cursorPosYQuestionVN = 4
 		else
-			cursorPosYQuestionVN = #t_questionMenuVN-1
+			cursorPosYQuestionVN = #t_questionMenuVN - 1
 		end
 	elseif questionMenuVN > #t_questionMenuVN then
 		questionMenuVN = 1
@@ -1374,10 +1374,10 @@ function f_questionMenuVN()
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_questionMenuVN[i].id, jgFnt, bank, 0, t_questionMenuVN[i].text, 159, 120+i*13-moveTxtQuestionVN))
+		textImgDraw(f_updateTextImg(t_questionMenuVN[i].id, jgFnt, bank, 0, t_questionMenuVN[i].text, 159, 120 + i * 13 - moveTxtQuestionVN))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 87,123+cursorPosYQuestionVN*13, 144,13)
+	animSetWindow(cursorBox, 87,123 + cursorPosYQuestionVN * 13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Input Hints Panel
@@ -1544,11 +1544,11 @@ function f_vnMenu()
 		end
 	--Draw Menu Assets
 		animDraw(f_animVelocity(commonBG0, -1, -1))
-		animSetScale(commonTBG, 240, maxVN*15)
+		animSetScale(commonTBG, 240, maxVN * 15)
 		animSetWindow(commonTBG, 80,20, 160,180)
 		animDraw(commonTBG)
 		textImgDraw(txt_vnSelect)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))		
 		for i=1, maxVN do
@@ -1565,7 +1565,7 @@ function f_vnMenu()
 			end
 			if i > vnMenu - cursorPosY then
 				if t_selVN[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_selVN[i].txtID, font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_selVN[i].txtID, font2, 0, 1, visualnovelSelText, 85, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
