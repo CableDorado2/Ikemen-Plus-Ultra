@@ -246,12 +246,12 @@ function f_getStoryStats()
 	if #t_storySelect == 0 then
 		return ""
 	else
-		return math.floor(data.storiesProgress/100).."/"..#t_storySelect
+		return math.floor(data.storiesProgress / 100).."/"..#t_storySelect
 	end
 end
-table.insert(t_statsMenu,#t_statsMenu,{text = txt_storyStatsData, varText = f_getStoryStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsMenu, #t_statsMenu, {text = txt_storyStatsData, varText = f_getStoryStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
 --Insert new item to t_statsGameModes table loaded by main.lua
-table.insert(t_statsGameModes,1,
+table.insert(t_statsGameModes, 1,
 	{
 		name = "Story", --Text to Display in Stats Menu
 		id = "story", --id to compare with data.recordMode var
@@ -438,11 +438,11 @@ if validCells() then
 		if winner > 0 then
 		--Victory Screen
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
+				if t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1 then
 					f_selectWin()
 				end
 			else
-				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
+				if t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1 then
 					f_selectWin()
 				end
 			end
@@ -470,10 +470,10 @@ if validCells() then
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds*gameTick
-		stageTimer = stageSeconds*gameTick
-		rematchTimer = rematchSeconds*gameTick
-		serviceTimer = serviceSeconds*gameTick
+		selectTimer = selectSeconds * gameTick
+		stageTimer = stageSeconds * gameTick
+		rematchTimer = rematchSeconds * gameTick
+		serviceTimer = serviceSeconds * gameTick
 		f_modePlaytime() --Store Favorite Game Mode
 		f_unlock(false)
 		f_updateUnlocks()
@@ -520,7 +520,7 @@ local kfmVNtxtStart = 1
 
 --THE FALL OF A LEGEND
 local function f_arc1_chapter4_4()
-	f_vnScene(kfmVN,8,kfmVNtxtStart)
+	f_vnScene(kfmVN, 8, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.recordMode = "story"
@@ -536,7 +536,7 @@ end
 
 --ZERO HOUR
 local function f_arc1_chapter4_3()
-	f_vnScene(kfmVN,7,kfmVNtxtStart)
+	f_vnScene(kfmVN, 7, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.recordMode = "story"
@@ -552,7 +552,7 @@ end
 
 --FAKE WORLD
 local function f_arc1_chapter4_2()
-	f_vnScene(kfmVN,6,kfmVNtxtStart)
+	f_vnScene(kfmVN, 6, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.recordMode = "story"
@@ -568,7 +568,7 @@ end
 
 --FINAL DESTINATION
 local function f_arc1_chapter4_1()
-	f_vnScene(kfmVN,5,kfmVNtxtStart)
+	f_vnScene(kfmVN, 5, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.recordMode = "story"
@@ -599,7 +599,7 @@ end
 
 --BROKEN SPIRIT
 local function f_arc1_chapter3_2()
-	f_vnScene(kfmVN,4,kfmVNtxtStart)
+	f_vnScene(kfmVN, 4, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.p1Pal = 1
@@ -640,7 +640,7 @@ end
 
 --THE ROOF OF TRUTH
 local function f_arc1_chapter3_1()
-	f_vnScene(kfmVN,3,kfmVNtxtStart)
+	f_vnScene(kfmVN, 3, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.p1TeamMenu = {mode = 0, chars = 1}
@@ -649,7 +649,7 @@ local function f_arc1_chapter3_1()
 		data.p2TeamMenu = {mode = 0, chars = 1}
 		data.p2Char = {"Suave Dude"}
 		data.p2Pal = 1
-		setRoundTime(123*60)
+		setRoundTime(123 * 60)
 		setRoundsToWin(1)
 		setLifeMul(1)
 		data.versusScreen = false
@@ -677,7 +677,7 @@ end
 
 --KILLER MIRROR
 local function f_arc1_chapter2()
-	f_vnScene(kfmVN,2,kfmVNtxtStart)
+	f_vnScene(kfmVN, 2, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
 		data.p1TeamMenu = {mode = 0, chars = 1}
@@ -715,7 +715,7 @@ end
 --KIDNAPPING
 local function f_arc1_chapter1()
 --Part 1
-	f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in common.lua f_vnScene function
+	f_vnScene(kfmVN, 1, kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in common.lua f_vnScene function
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
 		data.p1TeamMenu = {mode = 0, chars = 1}
@@ -737,7 +737,7 @@ local function f_arc1_chapter1()
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		f_selectStory() --Start Fight with previous settings
 	--Part 2
-		f_vnScene(kfmVN,1,16)
+		f_vnScene(kfmVN, 1, 16)
 		if not data.VNbreak then
 			f_default() --Reset settings for the custom fight
 			data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
@@ -1059,7 +1059,7 @@ function f_storyMenu()
 			animSetWindow(bambooBG1, 0, 0, 166, 240)
 			animDraw(bambooBG1)
 		--Draw Chapter Table Cursor
-			animSetWindow(cursorBox, 0,72+cursorPosY*20, 165,15)
+			animSetWindow(cursorBox, 0,72 + cursorPosY * 20, 165,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		else --Locked Story Assets
@@ -1099,18 +1099,18 @@ function f_storyMenu()
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
 			--Draw Arc Folder BG
-				animSetPos(t_storySelect[i].File, -95+i*105-moveArc, 15)
+				animSetPos(t_storySelect[i].File, -95 + i * 105 - moveArc, 15)
 				animSetScale(t_storySelect[i].File, 0.05, 0.05)
 				animUpdate(t_storySelect[i].File)
 				animDraw(t_storySelect[i].File)
 			--Draw Arc Preview Image
-				animSetPos(t_storySelect[i].Icon, -62+i*105-moveArc, 26.5)
+				animSetPos(t_storySelect[i].Icon, -62 + i * 105 - moveArc, 26.5)
 				animUpdate(t_storySelect[i].Icon)
 				animDraw(t_storySelect[i].Icon)
 				if i == storyMenu then
 					bank = 1
 				--Draw Arc Sel Cursor
-					animSetPos(t_storySelect[i].Sel, -64+i*105-moveArc, 24.5)
+					animSetPos(t_storySelect[i].Sel, -64 + i * 105 - moveArc, 24.5)
 					animUpdate(t_storySelect[i].Sel)
 					animDraw(t_storySelect[i].Sel)
 				else
@@ -1118,8 +1118,8 @@ function f_storyMenu()
 				end
 			--Draw Text for Arcs Table
 				if t_storySelect[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51+i*105-moveArc, 63,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -49.2+i*105-moveArc, 75,0.95,0.95))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51 + i * 105 - moveArc, 63,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -49.2 + i * 105 - moveArc, 75,0.95,0.95))
 				end
 			end
 		end
@@ -1238,7 +1238,7 @@ function f_storyMenu()
 					end
 				--Draw Chapter Name
 					if t_arcSelect[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_arcSelect[i].ID, jgFnt, bank, 1, t_arcSelect[i].Name, 2, 82.5+i*20-moveChapter))
+						textImgDraw(f_updateTextImg(t_arcSelect[i].ID, jgFnt, bank, 1, t_arcSelect[i].Name, 2, 82.5 + i * 20 - moveChapter))
 					end
 				end
 			end

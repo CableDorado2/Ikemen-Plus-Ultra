@@ -7,7 +7,7 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 --;===========================================================
 --; CHRONICLES MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_extrasMenu,1,{text = "CHRONICLES", gotomenu = "f_chroniclesMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu, 1, {text = "CHRONICLES", gotomenu = "f_chroniclesMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 t_chroniclesMenu = {
 	{text = "STORY",	 	gotomenu = "f_storyMenu()"},
 	{text = "QUIZ", 		gotomenu = "f_comingSoon()"},
@@ -46,7 +46,7 @@ function f_chroniclesMenu()
 				if #t_chroniclesMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_chroniclesMenu-1
+					cursorPosY = #t_chroniclesMenu - 1
 				end
 			elseif chroniclesMenu > #t_chroniclesMenu then
 				chroniclesMenu = 1
@@ -81,10 +81,10 @@ function f_chroniclesMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 0, t_chroniclesMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 0, t_chroniclesMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
