@@ -128,7 +128,28 @@ abyssDat = json.decode(f_fileRead(saveAbyssPath))
 --;===========================================================
 --Constants/Standards
 gameTick = 20
-gameTime = (os.clock()/1000)
+tickTime = 1/gameTick
+gameTime = os.clock()/1000
+nextRefresh = os.clock()+tickTime
+
+function getSleep()
+--On Windows, Sleep is defined in milliseconds
+	if ffi.os == "Windows" then
+		ffi.cdef("void Sleep(int milliseconds);")
+		return function(seconds)
+	--Convert seconds to miliseconds
+			ffi.C.Sleep(math.floor(seconds * 1000))
+		end
+--On Linux/Unix/macOS, usleep is defined in microseconds
+	else
+		ffi.cdef("int usleep(int microseconds);")
+		return function(seconds)
+		--Convert seconds to microseconds
+			ffi.C.usleep(math.floor(seconds * 1000000))
+		end
+	end
+end
+sleep = getSleep()
 
 --shortcut to play a video file with several parameters
 function playVideo(file, audiotrack, volume)
@@ -868,8 +889,8 @@ function f_setThousandsFormat(num)
 	return txt
 end
 
-function f_setTimeFormat(seconds)
-	local num = tonumber(seconds) or 0
+function f_setTimeFormat(ticks)
+	local num = tonumber(ticks)/gameTick
 	local secondsTotal = math.floor(num) --Entire part of the seconds
 --[[
 	local th = math.floor((clearTime%86400)/3600)
@@ -2950,7 +2971,6 @@ function f_sysTime()
 	if data.debugMode then
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
-		--f_drawQuickText(txt_testW, font6, 0, 0, "BGM: "..bgm_vol, 109, 38)
 	--[[
 		f_drawQuickText(txt_testW, font6, 0, 0, "MONITOR WIDTH: "..getWidth(), 109, 38)
 		f_drawQuickText(txt_testH, font6, 0, 0, "MONITOR HEIGHT: "..getHeight(), 199, 38)

@@ -2529,8 +2529,8 @@ function f_drawScoreAttackResults()
 end
 
 function f_drawTimeAttackResults()
-	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setTimeFormat(clearTime), 320, 150, 0.5, 0.5)
-	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setTimeFormat(clearTime), 266, 220)
+	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 150, 0.5, 0.5)
+	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setTimeFormat(timerTotal()), 266, 220)
 end
 
 function f_drawAbyssResults()

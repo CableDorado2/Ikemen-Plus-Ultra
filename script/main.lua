@@ -13831,7 +13831,7 @@ function f_result(state)
 				end
 			end
 			if getGameMode() ~= "timeattack" then
-				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(clearTime))
+				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(timerTotal()))
 				textImgDraw(txt_resultTime)
 			end
 			if getGameMode() ~= "scoreattack" then

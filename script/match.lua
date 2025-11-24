@@ -981,14 +981,18 @@ f_setMatchTexts() --Load when match start
 
 local function f_drawTimer()
 	if roundstate() == 2 and not script.pause.pauseMenuActive then
-		setTimer(timerTotal() + 1)
 		if playerLeftSide then
 			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
 			if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
 		else
-			textImgSetText(txt_TimerP2FightCfg, timerTotal())
+			textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(timerTotal()))
 			if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
 		end
+		if os.clock() >= nextRefresh then
+			nextRefresh = nextRefresh + tickTime
+			setTimer(timerTotal() + 1)
+		end
+		sleep(0.001)
 	end
 end
 
@@ -1094,6 +1098,7 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Special Wins: "..winSpecialCount(), posX, posY+50)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY+60)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY+70)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Timer Test: "..timerTotal(), posX, posY+85)
 --Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, posX, posY+100)
