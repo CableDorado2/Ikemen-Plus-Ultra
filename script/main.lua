@@ -8107,16 +8107,17 @@ function f_p1SelectMenu()
 				end
 			--Cursor in Random Select Slot
 				if getCharName(p1Cell) == "Random" then
+					local randomNo = t_randomChars[math.random(#t_randomChars)]
 					--sndPlay(sndSys, 100, 0) --Play Cursor SFX...
 				--DRAW RANDOM PORTRAITS
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-						--drawPortrait(t_randomChars[math.random(#t_randomChars)], 0+60*(#data.t_p1selected-1), 20, 1, 1) --Draw P1 RANDOM PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
+						--drawPortrait(randomNo, 0+60*(#data.t_p1selected-1), 20, 1, 1) --Draw P1 RANDOM PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
 					--SINGLE MODE
 						if p1numChars == 1 then
 							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p1randomPortrait, 0, 20)
 							elseif data.randomPortrait == "Roulette" then --Draw P1 RANDOM PREVIEW Portrait (showing all characters loaded)
-								drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 1)
+								drawPortrait(randomNo, 0, 20, 1, 1)
 							end
 					--TEAM MODE WITH 2 MEMBERS
 						elseif p1numChars == 2 then
@@ -8130,9 +8131,9 @@ function f_p1SelectMenu()
 									end
 								elseif data.randomPortrait == "Roulette" then
 									if data.portraitDisplay == "Portrait" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 0.5)
+										drawPortrait(randomNo, 0, 20, 1, 0.5)
 									elseif data.portraitDisplay == "Mixed" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 0.5, 0.5)
+										drawPortrait(randomNo, 0, 20, 0.5, 0.5)
 									end
 								end
 							end
@@ -8146,9 +8147,9 @@ function f_p1SelectMenu()
 									end
 								elseif data.randomPortrait == "Roulette" then
 									if data.portraitDisplay == "Portrait" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 1, 0.5)
+										drawPortrait(randomNo, 0, 90, 1, 0.5)
 									elseif data.portraitDisplay == "Mixed" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
+										drawPortrait(randomNo, 0, 90, 0.5, 0.5)
 									end
 								end
 							end
@@ -8164,9 +8165,9 @@ function f_p1SelectMenu()
 									end
 								elseif data.randomPortrait == "Roulette" then
 									if data.portraitDisplay == "Portrait" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 0.5)
+										drawPortrait(randomNo, 0, 20, 1, 0.5)
 									elseif data.portraitDisplay == "Mixed" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 30, 20, 0.5, 0.5)
+										drawPortrait(randomNo, 30, 20, 0.5, 0.5)
 									end
 								end
 							end
@@ -8175,7 +8176,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
+									drawPortrait(randomNo, 0, 90, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 3 RANDOM PREVIEW Portrait
@@ -8183,7 +8184,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 60, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 60, 90, 0.5, 0.5)
+									drawPortrait(randomNo, 60, 90, 0.5, 0.5)
 								end
 							end
 					--TEAM MODE WITH 4 MEMBERS
@@ -8193,7 +8194,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 0, 20, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 0.5, 0.5)
+									drawPortrait(randomNo, 0, 20, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 2 RANDOM PREVIEW Portrait
@@ -8201,7 +8202,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 60, 20, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 60, 20, 0.5, 0.5)
+									drawPortrait(randomNo, 60, 20, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 3 RANDOM PREVIEW Portrait
@@ -8209,7 +8210,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
+									drawPortrait(randomNo, 0, 90, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 4 RANDOM PREVIEW Portrait
@@ -8217,7 +8218,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 60, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 60, 90, 0.5, 0.5)
+									drawPortrait(randomNo, 60, 90, 0.5, 0.5)
 								end
 							end
 					--TEAM MODE WITH MORE THAN 4 MEMBERS (UNUSED)
@@ -8226,7 +8227,7 @@ function f_p1SelectMenu()
 							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p1randomPortrait, 125, 16, 0.5, 0.5)
 							elseif data.randomPortrait == "Roulette" then
-								drawPortrait(t_randomChars[math.random(#t_randomChars)], 125, 16, 0.5, 0.5) --Draw RANDOM portrait preview out of BG Position
+								drawPortrait(randomNo, 125, 16, 0.5, 0.5) --Draw RANDOM portrait preview out of BG Position
 							end
 						]]
 						end
@@ -8238,39 +8239,39 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomSprite, 20, 75)
 								elseif data.randomPortrait == "Roulette" then
-									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 40, 164, true)
+									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 40, 164, true)
 								end
 							else
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomSprite, 20 + 28*#data.t_p1selected, 75)
 								elseif data.randomPortrait == "Roulette" then
 									--Draw P1 RANDOM PREVIEW stand animation with automatic X position for all members (instead of use p1numChars logic)
-									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 40 + 28*#data.t_p1selected, 164, true)
+									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 40 + 28*#data.t_p1selected, 164, true)
 								end
 							end
 						elseif data.portraitDisplay == "Mixed" then
 							if data.randomPortrait == "Roulette" then
 							--SINGLE MODE
 								if p1numChars == 1 then
-									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 30, 158, true) --Draw P1 RANDOM PREVIEW stand anim (true means that always will be in a loop updateAnim)
+									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 30, 158, true) --Draw P1 RANDOM PREVIEW stand anim (true means that always will be in a loop updateAnim)
 							--TEAM MODE WITH 2 MEMBERS
 								elseif p1numChars == 2 then
-									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --0.5,0.5 is the animation scale
-									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 90, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --0.5,0.5 is the animation scale
+									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH 3 MEMBERS
 								elseif p1numChars == 3 then
-									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 40, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 40, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH 4 MEMBERS
 								elseif p1numChars == 4 then
-									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 10, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 70, 89, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 4 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 4 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 10, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 70, 89, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 4 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH MORE THAN 4 MEMBERS (UNUSED)
 								--else
-									--f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw RANDOM Stand Animation preview out of BG Position
+									--f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw RANDOM Stand Animation preview out of BG Position
 								end
 							end
 						end
@@ -9021,7 +9022,7 @@ function f_p1SelectMenu()
 				local cel = p1Cell
 				if getCharName(cel) == "Random" then
 					randomP1Rematch = true
-					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
+					cel = t_randomChars[math.random(#t_randomChars)]
 					if p1memberPreview == 1 then p1member1Random = true	end
 					if p1memberPreview == 2 then p1member2Random = true	end
 					if p1memberPreview == 3 then p1member3Random = true	end
@@ -9497,16 +9498,17 @@ function f_p2SelectMenu()
 					end
 				end
 				if getCharName(p2Cell) == "Random" then
+					local randomNo = t_randomChars[math.random(#t_randomChars)]
 					if p1Cell and getCharName(p1Cell) ~= "Random" then --Play Random Cursor SFX only when p1 it is not on the same cell type to overlap the sfx
 						--sndPlay(sndSys, 100, 0)
 					end
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-						--drawPortrait(t_randomChars[math.random(#t_randomChars)], 320 - 60*(#t_selected-1), 20, -1, 1)
+						--drawPortrait(randomNo, 320 - 60*(#t_selected-1), 20, -1, 1)
 						if p2numChars == 1 then
 							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p2randomPortrait, 320, 20)
 							elseif data.randomPortrait == "Roulette" then
-								drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 1)
+								drawPortrait(randomNo, 320, 20, -1, 1)
 							end
 						elseif p2numChars == 2 then
 							if data.coop then
@@ -9518,9 +9520,9 @@ function f_p2SelectMenu()
 									end
 								elseif data.randomPortrait == "Roulette" then
 									if data.portraitDisplay == "Portrait" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 1, 0.5)
+										drawPortrait(randomNo, 0, 90, 1, 0.5)
 									elseif data.portraitDisplay == "Mixed" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
+										drawPortrait(randomNo, 0, 90, 0.5, 0.5)
 									end
 								end
 							else
@@ -9533,9 +9535,9 @@ function f_p2SelectMenu()
 										end
 									elseif data.randomPortrait == "Roulette" then
 										if data.portraitDisplay == "Portrait" then
-											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5)
+											drawPortrait(randomNo, 320, 20, -1, 0.5)
 										elseif data.portraitDisplay == "Mixed" then
-											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5)
+											drawPortrait(randomNo, 320, 20, -0.5, 0.5)
 										end
 									end
 								end
@@ -9548,9 +9550,9 @@ function f_p2SelectMenu()
 										end
 									elseif data.randomPortrait == "Roulette" then
 										if data.portraitDisplay == "Portrait" then
-											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -1, 0.5)
+											drawPortrait(randomNo, 320, 90, -1, 0.5)
 										elseif data.portraitDisplay == "Mixed" then
-											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
+											drawPortrait(randomNo, 320, 90, -0.5, 0.5)
 										end
 									end
 								end
@@ -9565,9 +9567,9 @@ function f_p2SelectMenu()
 									end
 								elseif data.randomPortrait == "Roulette" then
 									if data.portraitDisplay == "Portrait" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5)
+										drawPortrait(randomNo, 320, 20, -1, 0.5)
 									elseif data.portraitDisplay == "Mixed" then
-										drawPortrait(t_randomChars[math.random(#t_randomChars)], 290, 20, -0.5, 0.5)
+										drawPortrait(randomNo, 290, 20, -0.5, 0.5)
 									end
 								end
 							end
@@ -9575,14 +9577,14 @@ function f_p2SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
+									drawPortrait(randomNo, 320, 90, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 3 then
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5)
+									drawPortrait(randomNo, 260, 90, -0.5, 0.5)
 								end
 							end
 						elseif p2numChars == 4 then
@@ -9590,28 +9592,28 @@ function f_p2SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5)
+									drawPortrait(randomNo, 320, 20, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 2 then
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 260, 20, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 20, -0.5, 0.5)
+									drawPortrait(randomNo, 260, 20, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 3 then
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
+									drawPortrait(randomNo, 320, 90, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 4 then
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
 								elseif data.randomPortrait == "Roulette" then
-									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5)
+									drawPortrait(randomNo, 260, 90, -0.5, 0.5)
 								end
 							end
 						--[[
@@ -9619,7 +9621,7 @@ function f_p2SelectMenu()
 							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p2randomPortrait, 195, 36, 0.5, 0.5)
 							elseif data.randomPortrait == "Roulette" then
-								drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
+								drawPortrait(randomNo, 195, 36, -0.5, 0.5)
 							end
 						]]
 						end
@@ -9630,37 +9632,37 @@ function f_p2SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomSprite, 110, 75)
 								elseif data.randomPortrait == "Roulette" then
-									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 114, 164, true) --p1AnimStand because sprite animation will see to right
+									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 114, 164, true) --p1AnimStand because sprite animation will see to right
 								end
 							else
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomSprite, 260 - 28*#t_selected, 75)
 								elseif data.randomPortrait == "Roulette" then
-									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
+									f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
 								end
 							end
 						elseif data.portraitDisplay == "Mixed" then
 							if data.randomPortrait == "Roulette" then
 								if p2numChars == 1 then
-									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 290, 158, true)
+									f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 290, 158, true)
 								elseif p2numChars == 2 then
 									if data.coop then
-										f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
+										f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
 									else
-										if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
-										if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
+										if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
+										if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
 									end
 								elseif p2numChars == 3 then
-									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
-									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 								elseif p2numChars == 4 then
-									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
-									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
-									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-									if p2memberPreview == 4 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 								--else
-									--f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
+									--f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 								end
 							end
 						end
