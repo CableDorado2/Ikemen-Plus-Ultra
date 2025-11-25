@@ -155,7 +155,7 @@ function f_parseChar(t, cel)
 							t['st'] = {}
 						end
 						stPath = dir .. line:gsub('^%s*st[0-9]*%s*=%s*(.-)%s*$', '%1')
-						t.st[#t.st+1] = stPath
+						t.st[#t.st + 1] = stPath
 					end
 				end
 		--[ja.Files]
@@ -196,7 +196,7 @@ function f_parseChar(t, cel)
 							t['stjp'] = {}
 						end
 						stPath = dir .. line:gsub('^%s*st[0-9]*%s*=%s*(.-)%s*$', '%1')
-						t.stjp[#t.stjp+1] = stPath
+						t.stjp[#t.stjp + 1] = stPath
 					end
 				end
 		--[Palette Keymap]
@@ -412,7 +412,7 @@ function f_parseChar(t, cel)
 						line = line:gsub('%s*;.*$', '')
 						if line:match('^%s*type%s*=%s*victoryquote') then
 							trigger = true
-							t.trigger[#t.trigger+1] = {}
+							t.trigger[#t.trigger + 1] = {}
 							tPos = t.trigger[#t.trigger]
 							tPos['value'] = 0
 							oldTrigger = ''
@@ -433,7 +433,7 @@ function f_parseChar(t, cel)
 									tPos['all'] = line:gsub('triggerall%s*=%s*', '')
 								else
 									oldTrigger = newTrigger
-									tPos[#tPos+1] = line:gsub('trigger[0-9]*%s*=%s*', '')
+									tPos[#tPos + 1] = line:gsub('trigger[0-9]*%s*=%s*', '')
 								end
 							elseif line:match('^value%s*=') then
 								tPos['value'] = line:match('=%s*(.-)%s*$')
@@ -523,7 +523,7 @@ for line in content:gmatch('[^\r\n]+') do
 --[Characters]
 	elseif section == 1 then
 		textImgSetText(txt_loading, "LOADING CHARACTERS...")
-		row = #t_selChars+1
+		row = #t_selChars + 1
 		t_selChars[row] = {}
 		for i, c in ipairs(strsplit(',', line)) do
 			c = c:gsub('^%s*(.-)%s*$', '%1')
@@ -554,7 +554,7 @@ for line in content:gmatch('[^\r\n]+') do
 				if t_selChars[row]['music'] == nil then
 					t_selChars[row]['music'] = {}
 				end
-				t_selChars[row].music[#t_selChars[row].music+1] = {}
+				t_selChars[row].music[#t_selChars[row].music + 1] = {}
 				t_selChars[row].music[#t_selChars[row].music]['bgmusic'] = bgmusic
 				t_selChars[row].music[#t_selChars[row].music]['bgmvolume'] = bgmvolume
 		--1, 2, (...)/Arcade Route = charname
@@ -567,7 +567,7 @@ for line in content:gmatch('[^\r\n]+') do
 				if t_selChars[row]['stage'] == nil then
 					t_selChars[row]['stage'] = {}
 				end
-				t_selChars[row].stage[#t_selChars[row].stage+1] = c
+				t_selChars[row].stage[#t_selChars[row].stage + 1] = c
 		--Extra Paramvalues
 			else
 				local param, value = c:match('^(.-)%s*=%s*(.-)$')
@@ -575,10 +575,10 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	--parse char data
-		f_parseChar(t_selChars[row], row-1)
+		f_parseChar(t_selChars[row], row - 1)
 	--force order entry
-		local tmp = getCharName(row-1)
-		if tmp ~= '' and tmp ~= '"Training"' and getCharFileName(row-1) ~= 'randomselect' then
+		local tmp = getCharName(row - 1)
+		if tmp ~= '' and tmp ~= '"Training"' and getCharFileName(row - 1) ~= 'randomselect' then
 		--Arcade Order
 			if t_selChars[row].order == nil then
 				t_selChars[row]['order'] = 1 --Add order 1 is order paramvalue is not detected
@@ -586,12 +586,12 @@ for line in content:gmatch('[^\r\n]+') do
 			if t_orderChars[t_selChars[row].order] == nil then
 				t_orderChars[t_selChars[row].order] = {}
 			end
-			t_orderChars[t_selChars[row].order][#t_orderChars[t_selChars[row].order]+1] = row-1
+			t_orderChars[t_selChars[row].order][#t_orderChars[t_selChars[row].order] + 1] = row - 1
 		end
 --[ExtraStages]
 	elseif section == 2 then
 		textImgSetText(txt_loading, "LOADING STAGES...")
-		row = #t_selStages+1
+		row = #t_selStages + 1
 		for i, c in ipairs(strsplit(',', line)) do
 			c = c:gsub('^%s*(.-)%s*$', '%1')
 			local exists = false
@@ -724,7 +724,7 @@ for line in content:gmatch('[^\r\n]+') do
 				if t_selStages[row]['music'] == nil then
 					t_selStages[row]['music'] = {}
 				end
-				t_selStages[row].music[#t_selStages[row].music+1] = {}
+				t_selStages[row].music[#t_selStages[row].music + 1] = {}
 				t_selStages[row].music[#t_selStages[row].music]['bgmusic'] = bgmusic
 				t_selStages[row].music[#t_selStages[row].music]['bgmvolume'] = bgmvolume
 		--Extra Paramvalues
@@ -820,7 +820,7 @@ if t_selChars ~= nil then
 						break
 					end
 				--Data loaded from select.def character section
-					row = #t_selStages+1
+					row = #t_selStages + 1
 					t_selStages[row] = {}
 					local tmp = file:read("*all")
 					file:close()
@@ -928,11 +928,11 @@ if t_selChars ~= nil then
 			local charCel = i - 1
 		--generate table for fixed training character
 			if t_selChars[i].training ~= nil and t_selChars[i].training == 1 then
-				t_trainingChar[#t_trainingChar+1] = charCel
+				t_trainingChar[#t_trainingChar + 1] = charCel
 			end
 		--generate table for fixed tutorial character
 			if t_selChars[i].tutorial ~= nil and t_selChars[i].tutorial == 1 then
-				t_tutorialChar[#t_tutorialChar+1] = charCel
+				t_tutorialChar[#t_tutorialChar + 1] = charCel
 			end
 		--detects stage viewer character
 			if t_selChars[i].name == "stage viewer" then
@@ -940,23 +940,23 @@ if t_selChars ~= nil then
 			end
 		--generate table for boss rush mode
 			if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then
-				t_bossChars[#t_bossChars+1] = charCel
+				t_bossChars[#t_bossChars + 1] = charCel
 			end
 		--generate table for bonus games mode
 			if t_selChars[i].bonus ~= nil and t_selChars[i].bonus == 1 then
-				t_bonusChars[#t_bonusChars+1] = charCel
+				t_bonusChars[#t_bonusChars + 1] = charCel
 			end
 		--generate table with characters allowed to be random selected
 			if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
-				t_randomChars[#t_randomChars+1] = charCel
+				t_randomChars[#t_randomChars + 1] = charCel
 			end
 		--generate table with characters allowed to be random selected in tournament mode
 			if t_selChars[i].excludetourney == nil or t_selChars[i].excludetourney == 0 then
-				t_randomTourneyChars[#t_randomTourneyChars+1] = charCel
+				t_randomTourneyChars[#t_randomTourneyChars + 1] = charCel
 			end
 		--generate table for intermissions
 			if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
-				t_intermissionChars[#t_intermissionChars+1] = {['cel'] = charCel, ['name'] = t_selChars[i].name, ['displayname'] = t_selChars[i].displayname, ['author'] = t_selChars[i].author, ['path'] = t_selChars[i].char}
+				t_intermissionChars[#t_intermissionChars + 1] = {['cel'] = charCel, ['name'] = t_selChars[i].name, ['displayname'] = t_selChars[i].displayname, ['author'] = t_selChars[i].author, ['path'] = t_selChars[i].char}
 			end
 		--create variable with character's name, whitespace replaced with underscore
 			displayname = t_selChars[i].name:gsub('%s+', '_')
@@ -967,7 +967,7 @@ if t_selChars ~= nil then
 			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
 				batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
 			--store character's reference that needs conversion into table to save time later on
-				t_gen[#t_gen+1] = i
+				t_gen[#t_gen + 1] = i
 			--enable sprite generation later on
 				generate = true
 		--otherwise load SFF file generated
@@ -1032,7 +1032,7 @@ content = content:gsub('\n%s*\n', '\n')
 				end
 			end
 			if line:match('^%s*%[%s*[Tt][Oo][Ww][Ee][Rr]%s+[0-9]+$*%]') then
-				row = #t_selTower+1
+				row = #t_selTower + 1
 				t_selTower[row] = {}
 				t_selTower[row]['kombats'] = {}
 			end
@@ -1092,7 +1092,7 @@ f_fileWrite(licensesPath.."/I.K.E.M.E.N..txt", file)
 t_licenseList = {}
 	for file in lfs.dir(licensesPath) do
 		if file:match('^.*(%.)[Tt][Xx][Tt]$') then
-			row = #t_licenseList+1
+			row = #t_licenseList + 1
 			t_licenseList[row] = {}
 			t_licenseList[row]['id'] = ''
 			t_licenseList[row]['name'] = file:gsub('^(.*)[%.][Tt][Xx][Tt]$', '%1')
@@ -1119,7 +1119,7 @@ t_parserText = {
 	{text = "Would you like to start the conversion?"},
 }
 for i=1, #t_parserText do
-	t_parserText[i]['id'] = createTextImg(font2, 0, 1, t_parserText[i].text, 25, 15+i*15)
+	t_parserText[i]['id'] = createTextImg(font2, 0, 1, t_parserText[i].text, 25, 15 + i * 15)
 end
 t_parserOptions = {
 	{text = "Yes, do it now."},
@@ -1127,7 +1127,7 @@ t_parserOptions = {
 	--{text = "No, disable SFF building permanently."},
 }
 for i=1, #t_parserOptions do
-	t_parserOptions[i]['id'] = createTextImg(font2, 0, 1, t_parserOptions[i].text, 25, 165+i*15)
+	t_parserOptions[i]['id'] = createTextImg(font2, 0, 1, t_parserOptions[i].text, 25, 165 + i * 15)
 end
 
 --if sprite generation is needed and conversion has not been permanently disabled
@@ -1245,13 +1245,13 @@ t_selMusic = {
 selMusicPath = musicPath --loaded from screnpack.lua
 for file in lfs.dir(selMusicPath) do
 	if file:match('^.*(%.)[Mm][Pp][3]$') then
-		row = #t_selMusic+1
+		row = #t_selMusic + 1
 		t_selMusic[row] = {}
 		t_selMusic[row]['bgmfile'] = selMusicPath.."/"..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
 	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
-		row = #t_selMusic+1
+		row = #t_selMusic + 1
 		t_selMusic[row] = {}
 		t_selMusic[row]['bgmfile'] = selMusicPath.."/"..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
@@ -1260,8 +1260,8 @@ for file in lfs.dir(selMusicPath) do
 end
 
 --Add extra items to Song Select table
-t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "MUTE", bgmchar = 0}
-t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "AUTO [LEFT SIDE]", bgmchar = 0}
+t_selMusic[#t_selMusic + 1] = {bgmfile = "", bgmname = "MUTE", bgmchar = 0}
+t_selMusic[#t_selMusic + 1] = {bgmfile = "", bgmname = "AUTO [LEFT SIDE]", bgmchar = 0}
 
 t_extraStages = {}
 function generateStageList(path)
@@ -1274,7 +1274,7 @@ function generateStageList(path)
 				generateStageList(details)
 				if attribute.mode == "file" then
 					if item:match('^.*(%.)[Dd][Ee][Ff]$') then --Get only .def files
-						t_extraStages[#t_extraStages+1] = details
+						t_extraStages[#t_extraStages + 1] = details
 					end
 					--f_printTable(t_extraStages, 'save/debug/StageListCreator.log')
 				end
@@ -1304,8 +1304,8 @@ function generateCharsList(path)
 						local rPath = details
 						local startIndex = string.find(rPath, "chars/") --Finds "chars/" string
 						if startIndex then
-							local details = string.sub(rPath, startIndex+6) --Extracts the substring starting from the position after "chars/"
-							t_characters[#t_characters+1] = details
+							local details = string.sub(rPath, startIndex + 6) --Extracts the substring starting from the position after "chars/"
+							t_characters[#t_characters + 1] = details
 						else --"String does not contain 'chars/'
 							
 						end
@@ -1345,22 +1345,22 @@ end
 
 function f_rushTables()
 	t_bossSingle = {} --This is the table of the boss chars menu to fight against them individually, it must be loaded after this parser script or it will give an error
-	local endFor = #t_bossChars+1
+	local endFor = #t_bossChars + 1
 	for i=1, endFor do
 		if i < endFor then
-			t_bossSingle[#t_bossSingle+1] = {}
+			t_bossSingle[#t_bossSingle + 1] = {}
 			t_bossSingle[i]['id'] = textImgNew()
-			t_bossSingle[i]['text'] = t_selChars[t_bossChars[i]+1].displayname:upper()
+			t_bossSingle[i]['text'] = t_selChars[t_bossChars[i] + 1].displayname:upper()
 		end
 	end
 
 	t_bonusExtras = {} --This is the bonus chars menu table, it must be loaded after this parser script or it will give an error
-	local endFor = #t_bonusChars+1
+	local endFor = #t_bonusChars + 1
 	for i=1, endFor do
 		if i < endFor then
-			t_bonusExtras[#t_bonusExtras+1] = {}
+			t_bonusExtras[#t_bonusExtras + 1] = {}
 			t_bonusExtras[i]['id'] = textImgNew()
-			t_bonusExtras[i]['text'] = t_selChars[t_bonusChars[i]+1].displayname:upper()
+			t_bonusExtras[i]['text'] = t_selChars[t_bonusChars[i] + 1].displayname:upper()
 		end
 	end
 end
