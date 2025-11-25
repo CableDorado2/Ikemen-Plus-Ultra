@@ -912,7 +912,7 @@ t_replayOption = {
 	{id = '', text = "DELETE"}, {id = '', text = "WATCH"}, {id = '', text = "RETURN"},
 }
 for i=1, #t_replayOption do
-	t_replayOption[i].id = createTextImg(jgFnt, 0, 0, t_replayOption[i].text, -80+i*120, 172)
+	t_replayOption[i].id = createTextImg(jgFnt, 0, 0, t_replayOption[i].text, -80 + i * 120, 172)
 end
 
 --Replay Title Transparent background
@@ -1109,7 +1109,7 @@ t_directJoinMenu = {
 	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "JOIN"},
 }
 for i=1, #t_directJoinMenu do
-	t_directJoinMenu[i].id = createTextImg(jgFnt, 0, 0, t_directJoinMenu[i].text, 12+i*95, 151)
+	t_directJoinMenu[i].id = createTextImg(jgFnt, 0, 0, t_directJoinMenu[i].text, 12 + i * 95, 151)
 end
 
 --;===========================================================
@@ -1124,7 +1124,7 @@ t_editOption = {
 	{id = textImgNew(), text = " CANCEL"}, {id = textImgNew(), text = "  ENTER"},
 }
 for i=1, #t_editOption do
-	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12+i*95, 151)
+	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12 + i * 95, 151)
 end
 
 --CRUD Window BG
@@ -1492,7 +1492,7 @@ t_p1selTeam = {
 	{text = "TURNS"},
 }
 for i=1, #t_p1selTeam do
-	t_p1selTeam[i]['id'] = createTextImg(jgFnt, 0, 1, t_p1selTeam[i].text, 20, 35+i*15)
+	t_p1selTeam[i]['id'] = createTextImg(jgFnt, 0, 1, t_p1selTeam[i].text, 20, 35 + i * 15)
 end
 
 --P1 Team cursor
@@ -1522,7 +1522,7 @@ t_p2selTeam = {
 	{text = t_p1selTeam[3].text},
 }
 for i=1, #t_p2selTeam do
-	t_p2selTeam[i]['id'] = createTextImg(jgFnt, 0, -1, t_p2selTeam[i].text, 300, 35+i*15)
+	t_p2selTeam[i]['id'] = createTextImg(jgFnt, 0, -1, t_p2selTeam[i].text, 300, 35 + i * 15)
 end
 
 --P2 Team cursor
@@ -1706,16 +1706,16 @@ txt_handicapP2 = createTextImg(font6, 0, 0, txt_handicapTitle, 248, 168)
 
 t_handicapSelect = {
 	{text = "NORMAL", 	 service = "", 	    val = nil}, --NO HANDICAP
-	{text = "HP-75%", 	 service = "life",  val = 1.333}, --setLife(lifemax()/1.333)
-	{text = "HP-50%", 	 service = "life",  val = 2}, --setLife(lifemax()/2)
-	{text = "HP-25%", 	 service = "life",  val = 4}, --setLife(lifemax()/4)
-	{text = "INSTAKILL", service = "life",  val = nil}, --setLife(lifemax()/lifemax())
+	{text = "HP-75%", 	 service = "life",  val = 1.333}, --setLife(lifemax() / 1.333)
+	{text = "HP-50%", 	 service = "life",  val = 2}, --setLife(lifemax() / 2)
+	{text = "HP-25%", 	 service = "life",  val = 4}, --setLife(lifemax() / 4)
+	{text = "INSTAKILL", service = "life",  val = nil}, --setLife(lifemax() / lifemax())
 	{text = "POW-LV1", 	 service = "power", val = 1000}, --setPower(1000)
 	{text = "POW-LV2", 	 service = "power", val = 2000}, --setPower(2000)
 	{text = "POW-MAX", 	 service = "power", val = nil}, --setPower(powermax())
-	{text = "DEFENCE-75%", service = "defence", val = 1.333}, --setDefence(defence()/1.333)
-	{text = "DEFENCE-50%", service = "defence", val = 2}, --setDefence(defence()/2)
-	{text = "DEFENCE-25%", service = "defence", val = 4}, --setDefence(defence()/4)
+	{text = "DEFENCE-75%", service = "defence", val = 1.333}, --setDefence(defence() / 1.333)
+	{text = "DEFENCE-50%", service = "defence", val = 2}, --setDefence(defence() / 2)
+	{text = "DEFENCE-25%", service = "defence", val = 4}, --setDefence(defence() / 4)
 }
 for i=1, #t_handicapSelect do
 	--t_handicapSelect[i] = {}
@@ -2214,7 +2214,7 @@ t_vsHints = {
 	{text = "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON"},
 	{text = "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH"},
 	{text = "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT"},
-	{text = "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE"},
+	{text = "PRESS (RIGHT OR LEFT) + Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE"},
 	{text = "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE"},
 ]]
 	{text = "ADD YOUR HINTS HERE"},
@@ -2232,9 +2232,9 @@ arcadeRivalMatchNo = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade 
 
 function f_matchInfo() --Not draws! only prepare the info for use in versus screen
 --Match Info Vars
-	gameNo = gameNo+1
-	bossNo = bossNo+1
-	bonusNo = bonusNo+1
+	gameNo = gameNo + 1
+	bossNo = bossNo + 1
+	bonusNo = bonusNo + 1
 --Set Match Info Texts
 	if data.gameMode == "arcade" and matchNo == arcadeRivalMatchNo then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
 	elseif (data.gameMode == "arcade" or data.gameMode == "allroster") and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
@@ -2271,11 +2271,11 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 				end
 			elseif tourneyGroupNo == 2 then --Display for Right Side
 				local previousMatches = #t_tourneyMenu.Group[1].Round[tourneyRoundNo]
-				local currentMatch = previousMatches/2
-				if tourneyFightNo+currentMatch == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
-				elseif tourneyFightNo+currentMatch == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
-				elseif tourneyFightNo+currentMatch == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
-				elseif tourneyFightNo+currentMatch >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo+currentMatch.."TH MATCH")
+				local currentMatch = previousMatches / 2
+				if tourneyFightNo + currentMatch == 1 then textImgSetText(txt_matchNo, tourneyState.." - 1ST MATCH")
+				elseif tourneyFightNo + currentMatch == 2 then textImgSetText(txt_matchNo, tourneyState.." - 2ND MATCH")
+				elseif tourneyFightNo + currentMatch == 3 then textImgSetText(txt_matchNo, tourneyState.." - 3RD MATCH")
+				elseif tourneyFightNo + currentMatch >= 4 then textImgSetText(txt_matchNo, tourneyState.." - "..tourneyFightNo + currentMatch.."TH MATCH")
 				end
 			end
 		end
@@ -2537,10 +2537,10 @@ function f_drawAbyssResults()
 	local PosX = 318
 	local PosY = 130
 	local font = jgFnt
-	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, -1, getAbyssDepth(), PosX-10, PosY, 0.82, 0.82)
-	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, -1, "DEPTH", PosX, PosY+20)
-	f_drawQuickText(txt_winsTitle, font, 0, -1, winCnt.." WINS", PosX, PosY+40)
-	f_drawQuickText(txt_expenseTitle, font, 0, -1, abyssDat.nosave.expense.." IKC SPENT", PosX, PosY+52)
+	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, -1, getAbyssDepth(), PosX - 10, PosY, 0.82, 0.82)
+	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, -1, "DEPTH", PosX, PosY + 20)
+	f_drawQuickText(txt_winsTitle, font, 0, -1, winCnt.." WINS", PosX, PosY + 40)
+	f_drawQuickText(txt_expenseTitle, font, 0, -1, abyssDat.nosave.expense.." IKC SPENT", PosX, PosY + 52)
 end
 
 --Result BG
@@ -3693,40 +3693,40 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 	local NewPosY = posY or 0
 	local itemNo = itemNo
 	local saveDat = data or false
-	animPosDraw(abyssDatSlot, 0+NewPosX, 40+NewPosY)
-	f_drawQuickText(txt_abyssDatNo, font11, 0, 1, "DATA "..itemNo, 10+NewPosX, 37+NewPosY, 1.2, 1.2)
+	animPosDraw(abyssDatSlot, 0 + NewPosX, 40 + NewPosY)
+	f_drawQuickText(txt_abyssDatNo, font11, 0, 1, "DATA "..itemNo, 10 + NewPosX, 37 + NewPosY, 1.2, 1.2)
 	if not saveDat.player then --No Data Saved
-		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159+NewPosX, 90+NewPosY, 1.2, 1.2)
+		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159 + NewPosX, 90 + NewPosY, 1.2, 1.2)
 	else --Show Data Saved
-		--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life)/4) --Just an Average
-		drawPortrait(saveDat.player[1].cel, 6+NewPosX, 47+NewPosY, 0.515, 0.517)
-		animPosDraw(abyssProfileAtributes, 207+NewPosX, 47+NewPosY)
+		--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life) / 4) --Just an Average
+		drawPortrait(saveDat.player[1].cel, 6 + NewPosX, 47 + NewPosY, 0.515, 0.517)
+		animPosDraw(abyssProfileAtributes, 207 + NewPosX, 47 + NewPosY)
 	--Stats
 		local stsFont = font2
-		local stsFontXPos = 70+NewPosX
-		local stsFontYPos = 56+NewPosY
+		local stsFontXPos = 70 + NewPosX
+		local stsFontYPos = 56 + NewPosY
 		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, saveDat.player[1].displayname, stsFontXPos, stsFontYPos)
-		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..saveDat.depth, stsFontXPos, stsFontYPos+20)
-		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..t_abyssSel[saveDat.abysslv].depth, stsFontXPos, stsFontYPos+40)
-		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "REWARD: "..saveDat.reward.." IKC", stsFontXPos, stsFontYPos+60)
+		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..saveDat.depth, stsFontXPos, stsFontYPos + 20)
+		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..t_abyssSel[saveDat.abysslv].depth, stsFontXPos, stsFontYPos + 40)
+		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "REWARD: "..saveDat.reward.." IKC", stsFontXPos, stsFontYPos + 60)
 	--Attributes
 		local attrFont = font2
-		local attrFontXPos = 225+NewPosX
-		local attrFontYPos = 58+NewPosY
+		local attrFontXPos = 225 + NewPosX
+		local attrFontYPos = 58 + NewPosY
 		local attrSymb = "+"
 		local attrMax = "MAX"
 		f_drawQuickText(txt_abyssDatAttack, attrFont, 0, 1, attrSymb..saveDat.attack, attrFontXPos, attrFontYPos)
-		f_drawQuickText(txt_abyssDatPower, attrFont, 0, 1, attrSymb..saveDat.power, attrFontXPos, attrFontYPos+18)
-		f_drawQuickText(txt_abyssDatDefence, attrFont, 0, 1, attrSymb..saveDat.defence, attrFontXPos+62, attrFontYPos)
-		f_drawQuickText(txt_abyssDatLife, attrFont, 0, 1, attrSymb..saveDat.life, attrFontXPos+62, attrFontYPos+18)
+		f_drawQuickText(txt_abyssDatPower, attrFont, 0, 1, attrSymb..saveDat.power, attrFontXPos, attrFontYPos + 18)
+		f_drawQuickText(txt_abyssDatDefence, attrFont, 0, 1, attrSymb..saveDat.defence, attrFontXPos + 62, attrFontYPos)
+		f_drawQuickText(txt_abyssDatLife, attrFont, 0, 1, attrSymb..saveDat.life, attrFontXPos + 62, attrFontYPos + 18)
 	--Special Items
 		local spFont = font2
-		local spFontXPos = 310+NewPosX
-		local spFontYPos = 88+NewPosY
+		local spFontXPos = 310 + NewPosX
+		local spFontYPos = 88 + NewPosY
 		f_drawQuickText(txt_abyssDatSP1, spFont, 0, -1, saveDat.itemslot[1], spFontXPos, spFontYPos)
-		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, saveDat.itemslot[2], spFontXPos, spFontYPos+10)
-		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, saveDat.itemslot[3], spFontXPos, spFontYPos+20)
-		f_drawQuickText(txt_abyssDatSP4, spFont, 0, -1, saveDat.itemslot[4], spFontXPos, spFontYPos+30)
+		f_drawQuickText(txt_abyssDatSP2, spFont, 0, -1, saveDat.itemslot[2], spFontXPos, spFontYPos + 10)
+		f_drawQuickText(txt_abyssDatSP3, spFont, 0, -1, saveDat.itemslot[3], spFontXPos, spFontYPos + 20)
+		f_drawQuickText(txt_abyssDatSP4, spFont, 0, -1, saveDat.itemslot[4], spFontXPos, spFontYPos + 30)
 	end
 end
 
@@ -3779,9 +3779,9 @@ txt_abyssShopMirror = "Glass Mirror"
 
 --Common Item Prices
 txt_abyssShopItemPrice1 = 250
-txt_abyssShopItemPrice2 = txt_abyssShopItemPrice1*2
-txt_abyssShopItemPrice3 = txt_abyssShopItemPrice1*3
-txt_abyssShopItemPriceMax = txt_abyssShopItemPrice1*4
+txt_abyssShopItemPrice2 = txt_abyssShopItemPrice1 * 2
+txt_abyssShopItemPrice3 = txt_abyssShopItemPrice1 * 3
+txt_abyssShopItemPriceMax = txt_abyssShopItemPrice1 * 4
 
 t_abyssMenu = {
  {id = textImgNew(), text = "Item Shop", 		info = "Purchase items"},
@@ -4035,79 +4035,79 @@ function f_abyssProfile(PauseMenu, VSscreen, NewPosX, NewPosY)
 	local VSscreen = VSscreen or false
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
-	local pLevel = math.floor((getAbyssAttack() + getAbyssPower() + getAbyssDefence() + getAbyssLife())/4) --Just an Average
+	local pLevel = math.floor((getAbyssAttack() + getAbyssPower() + getAbyssDefence() + getAbyssLife()) / 4) --Just an Average
 	if not VSscreen then
-		animPosDraw(abyssProfileBG, 165+NewPosX, 10+NewPosY)
+		animPosDraw(abyssProfileBG, 165 + NewPosX, 10 + NewPosY)
 	else
-		--animPosDraw(abyssProfileVSBG, 165+NewPosX, 20+NewPosY)
+		--animPosDraw(abyssProfileVSBG, 165 + NewPosX, 20 + NewPosY)
 	end
-	animPosDraw(abyssProfileAtributes, 190+NewPosX, 64+NewPosY)
+	animPosDraw(abyssProfileAtributes, 190 + NewPosX, 64 + NewPosY)
 --Character Stuff
 	if not VSscreen then
-		if not PauseMenu then drawPortrait(abyssDat.nosave.player[1].cel, 223+NewPosX, 15+NewPosY, 0.32, 0.32) end
+		if not PauseMenu then drawPortrait(abyssDat.nosave.player[1].cel, 223 + NewPosX, 15 + NewPosY, 0.32, 0.32) end
 		for slot=1, 4 do
-			animPosDraw(abyssSpecialItem, 169+NewPosX, 82.5+slot*(22.6)+NewPosY)
+			animPosDraw(abyssSpecialItem, 169 + NewPosX, 82.5 + slot * (22.6) + NewPosY)
 		end
-		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel+1, 310+NewPosX, 25+NewPosY, 1, 1)
-		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.player[1].displayname, 241+NewPosX, 58+NewPosY, 1, 1)
+		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel + 1, 310 + NewPosX, 25 + NewPosY, 1, 1)
+		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.player[1].displayname, 241 + NewPosX, 58 + NewPosY, 1, 1)
 	end
 --Attributes
 	local attrFont = font2
-	local attrFontXPos = 208+NewPosX
-	local attrFontYPos = 75+NewPosY
+	local attrFontXPos = 208 + NewPosX
+	local attrFontYPos = 75 + NewPosY
 	local attrSymb = "+"
 	local attrMax = "MAX"
 	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..getAbyssAttack(), attrFontXPos, attrFontYPos)
-	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..getAbyssPower(), attrFontXPos, attrFontYPos+18)
-	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..getAbyssDefence(), attrFontXPos+62, attrFontYPos)
-	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos+62, attrFontYPos+18)
+	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..getAbyssPower(), attrFontXPos, attrFontYPos + 18)
+	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..getAbyssDefence(), attrFontXPos + 62, attrFontYPos)
+	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos + 62, attrFontYPos + 18)
 --Special Items
 	local spFont = font2
-	local spFontXPos = 188+NewPosX
-	local spFontYPos = 118+NewPosY
+	local spFontXPos = 188 + NewPosX
+	local spFontYPos = 118 + NewPosY
 	f_drawQuickText(txt_abyssSP1, spFont, 0, 1, abyssDat.nosave.itemslot[1], spFontXPos, spFontYPos)
-	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos+23)
-	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos+45)
-	f_drawQuickText(txt_abyssSP4, spFont, 0, 1, abyssDat.nosave.itemslot[4], spFontXPos, spFontYPos+68)
+	f_drawQuickText(txt_abyssSP2, spFont, 0, 1, abyssDat.nosave.itemslot[2], spFontXPos, spFontYPos + 23)
+	f_drawQuickText(txt_abyssSP3, spFont, 0, 1, abyssDat.nosave.itemslot[3], spFontXPos, spFontYPos + 45)
+	f_drawQuickText(txt_abyssSP4, spFont, 0, 1, abyssDat.nosave.itemslot[4], spFontXPos, spFontYPos + 68)
 end
 
 function f_abyssProfileCPU(VSscreen, NewPosX, NewPosY)
 	local VSscreen = VSscreen or false
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
-	local pLevel = math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life)/4) --Just an Average with rounding up
+	local pLevel = math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life) / 4) --Just an Average with rounding up
 	if not VSscreen then
 		animPosDraw(abyssProfileBG, 169, 34)
 		for slot=1, 4 do
-			animPosDraw(abyssSpecialItem, 172, 107+slot*(22.6))
+			animPosDraw(abyssSpecialItem, 172, 107 + slot * (22.6))
 		end
 	end
-	animPosDraw(abyssProfileAtributes, 194+NewPosX, 88+NewPosY)
+	animPosDraw(abyssProfileAtributes, 194 + NewPosX, 88 + NewPosY)
 --Character Stuff
 	if not VSscreen then
 		--drawPortrait(p2Dat[1].cel, 223, 39, 0.32, 0.32)
-		f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel+1, 314, 49, 1, 1)
+		f_drawQuickText(txt_abyssCharLvCPU, font11, 0, -1, "LV "..pLevel + 1, 314, 49, 1, 1)
 		f_drawQuickText(txt_abyssCharNameCPU, font14, 0, 0, p2Dat[1].displayname, 245, 82, 1, 1)
 	end
 --Attributes
 	local attrFont = font2
-	local attrFontXPos = 212+NewPosX
-	local attrFontYPos = 99+NewPosY
+	local attrFontXPos = 212 + NewPosX
+	local attrFontYPos = 99 + NewPosY
 	local attrSymb = "+"
 	local attrMax = "MAX"
 	f_drawQuickText(txt_abyssAttackCPU, attrFont, 0, 1, attrSymb..p2Dat[1].attack, attrFontXPos, attrFontYPos)
-	f_drawQuickText(txt_abyssPowerCPU, attrFont, 0, 1, attrSymb..p2Dat[1].power, attrFontXPos, attrFontYPos+18)
-	f_drawQuickText(txt_abyssDefenceCPU, attrFont, 0, 1, attrSymb..p2Dat[1].defence, attrFontXPos+62, attrFontYPos)
-	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos+62, attrFontYPos+18)
+	f_drawQuickText(txt_abyssPowerCPU, attrFont, 0, 1, attrSymb..p2Dat[1].power, attrFontXPos, attrFontYPos + 18)
+	f_drawQuickText(txt_abyssDefenceCPU, attrFont, 0, 1, attrSymb..p2Dat[1].defence, attrFontXPos + 62, attrFontYPos)
+	f_drawQuickText(txt_abyssLifeCPU, attrFont, 0, 1, attrSymb..p2Dat[1].life, attrFontXPos + 62, attrFontYPos + 18)
 --Special Items
 	local spFont = font2
-	local spFontXPos = 191+NewPosX
-	local spFontYPos = 142+NewPosY
+	local spFontXPos = 191 + NewPosX
+	local spFontYPos = 142 + NewPosY
 	if p2Dat[1].itemslot ~= nil then
 		if p2Dat[1].itemslot[1] ~= nil then f_drawQuickText(txt_abyssSP1CPU, spFont, 0, 1, p2Dat[1].itemslot[1], spFontXPos, spFontYPos) end
-		if p2Dat[1].itemslot[2] ~= nil then f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].itemslot[2], spFontXPos, spFontYPos+23) end
-		if p2Dat[1].itemslot[3] ~= nil then f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].itemslot[3], spFontXPos, spFontYPos+45) end
-		if p2Dat[1].itemslot[4] ~= nil then f_drawQuickText(txt_abyssSP4CPU, spFont, 0, 1, p2Dat[1].itemslot[4], spFontXPos, spFontYPos+68) end
+		if p2Dat[1].itemslot[2] ~= nil then f_drawQuickText(txt_abyssSP2CPU, spFont, 0, 1, p2Dat[1].itemslot[2], spFontXPos, spFontYPos + 23) end
+		if p2Dat[1].itemslot[3] ~= nil then f_drawQuickText(txt_abyssSP3CPU, spFont, 0, 1, p2Dat[1].itemslot[3], spFontXPos, spFontYPos + 45) end
+		if p2Dat[1].itemslot[4] ~= nil then f_drawQuickText(txt_abyssSP4CPU, spFont, 0, 1, p2Dat[1].itemslot[4], spFontXPos, spFontYPos + 68) end
 	end
 end
 

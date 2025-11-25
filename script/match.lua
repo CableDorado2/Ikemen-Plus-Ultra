@@ -150,7 +150,7 @@ end
 function barAdd(p)
 local oldid = id()
 	if player(p) then
-		setPower(power()+1000)
+		setPower(power() + 1000)
 		playerid(oldid)
 	end
 end
@@ -204,7 +204,7 @@ local oldid = id()
 	if not player(p) then return false end
 	local ret = string.format(
 		'StateNo:%d>%d(P%d) Type:%s MoveType:%s Physics:%s Time:%d', 
-		prevstateno(), stateno(), stateOwner(), statetype(), movetype(), physics(), time()-1
+		prevstateno(), stateno(), stateOwner(), statetype(), movetype(), physics(), time() - 1
 	)
 	playerid(oldid)
 	return ret
@@ -233,7 +233,7 @@ puts(string.format(
 --State Info
 puts(string.format(
 	'%s %d StateNo:%d>%d %s MoveType:%s Physics:%s Time:%d', 
-	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time()-1)
+	name(), id(), prevstateno(), stateno(), statetype(), movetype(), physics(), time() - 1)
 )
 end
 ]]
@@ -689,10 +689,10 @@ local function f_abyssSave()
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, t_confirmMenu[i].text, 159, 120+i*13))
+		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, t_confirmMenu[i].text, 159, 120 + i * 13))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 66.35,123+(abyssSaveMenu-1)*13, 188,13)
+	animSetWindow(cursorBox, 66.35,123 + (abyssSaveMenu - 1) * 13, 188,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Input Hints Panel
@@ -838,18 +838,18 @@ local function f_abyssBossReward()
 	animPosDraw(abyssRewardTitleBG, -56, 0)
 	textImgDraw(txt_abyssRewardMain)
 --Draw Menu Items BG
-	animSetScale(abyssRewardTBG, 240, maxrewardMenu*15)
+	animSetScale(abyssRewardTBG, 240, maxrewardMenu * 15)
 	animSetWindow(abyssRewardTBG, 2,20, 165,155)
 	animDraw(abyssRewardTBG)
 --Draw Cursor
-	animSetWindow(cursorBox, 2,10+cursorPosY*15, 165,15)
+	animSetWindow(cursorBox, 2,10 + cursorPosY * 15, 165,15)
 	f_dynamicAlpha(cursorBox, 20,200,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Menu Items Text
 	for i=1, maxrewardMenu do
 		if i > rewardMenu - cursorPosY then
 			if t_abyssBossRewards[i].id ~= nil then
-				textImgDraw(f_updateTextImg(t_abyssBossRewards[i].id, font2, 0, 1, t_abyssBossRewards[i].text, 5, 20+i*15-moveTxt))
+				textImgDraw(f_updateTextImg(t_abyssBossRewards[i].id, font2, 0, 1, t_abyssBossRewards[i].text, 5, 20 + i * 15 - moveTxt))
 			end
 		end
 	end
@@ -963,9 +963,9 @@ local function f_setMatchTexts()
 	end
 --Set Survival Wins
 	if playerLeftSide then
-		textImgSetText(txt_SurvivalCountP1FightCfg, matchno()-1 ..txt_SurvivalCountFight)
+		textImgSetText(txt_SurvivalCountP1FightCfg, matchno() - 1 ..txt_SurvivalCountFight)
 	else
-		textImgSetText(txt_SurvivalCountP2FightCfg, matchno()-1 ..txt_SurvivalCountFight)
+		textImgSetText(txt_SurvivalCountP2FightCfg, matchno() - 1 ..txt_SurvivalCountFight)
 	end
 --Set VS Wins	
 	local matchsFinished = getP1matchWins() + getP2matchWins()
@@ -1003,10 +1003,10 @@ local function f_drawScore()
 	if roundstate() == 2 then
 		local pts = 0
 		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-			pts = gethitvar("hitcount") * 100 --(gethitvar("damage")*10) + (gethitvar("hitcount") * 100)
+			pts = gethitvar("hitcount") * 100 --(gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
 			if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
 		end
-		setScore(score() + pts*scoreattackfactor)
+		setScore(score() + pts * scoreattackfactor)
 		if playerLeftSide then
 			textImgSetText(txt_ScoreP1FightCfg, score())
 			if scoreDisplay() then textImgDraw(txt_ScoreP1FightCfg) end
@@ -1021,40 +1021,40 @@ local function f_addBonusScore()
 --Add Bonus Score when player wins
 	if roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 		if life() ~= lifemax() then
-			setScore(score() + (life()*10)*scoreattackfactor) --Life remains add score
+			setScore(score() + (life() * 10) * scoreattackfactor) --Life remains add score
 		else
-			setScore(score() + 30000*scoreattackfactor) --Full Life Bonus
+			setScore(score() + 30000 * scoreattackfactor) --Full Life Bonus
 		end
-		if getRoundTime() ~= -1 then setScore(score() + ((getRoundTime()/60)*100)*scoreattackfactor) end --Time remains add score
-		setScore(score() + (maxComboCnt*1000)*scoreattackfactor)
-		setScore(score() + (consecutiveWins()*1000)*scoreattackfactor)
-		--if firstattack() then setScore(score() + 1500*scoreattackfactor) end
+		if getRoundTime() ~= -1 then setScore(score() + ((getRoundTime() / 60) * 100) * scoreattackfactor) end --Time remains add score
+		setScore(score() + (maxComboCnt * 1000) * scoreattackfactor)
+		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
+		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
 		if winperfecthyper() then
-			setScore(score() + 25000*scoreattackfactor)
-			setWinPerfectHyperCount(winPerfectHyperCount()+1)
-			setWinPerfectCount(winPerfectCount()+1)
+			setScore(score() + 25000 * scoreattackfactor)
+			setWinPerfectHyperCount(winPerfectHyperCount() + 1)
+			setWinPerfectCount(winPerfectCount() + 1)
 		elseif winperfectthrow() then
-			setScore(score() + 20000*scoreattackfactor)
-			setWinPerfectThrowCount(winPerfectThrowCount()+1)
-			setWinPerfectCount(winPerfectCount()+1)
+			setScore(score() + 20000 * scoreattackfactor)
+			setWinPerfectThrowCount(winPerfectThrowCount() + 1)
+			setWinPerfectCount(winPerfectCount() + 1)
 		elseif winperfectspecial() then
-			setScore(score() + 15000*scoreattackfactor)
-			setWinPerfectSpecialCount(winPerfectSpecialCount()+1)
-			setWinPerfectCount(winPerfectCount()+1)
+			setScore(score() + 15000 * scoreattackfactor)
+			setWinPerfectSpecialCount(winPerfectSpecialCount() + 1)
+			setWinPerfectCount(winPerfectCount() + 1)
 		elseif winperfect() then
-			setScore(score() + 10000*scoreattackfactor)
-			setWinPerfectCount(winPerfectCount()+1)
+			setScore(score() + 10000 * scoreattackfactor)
+			setWinPerfectCount(winPerfectCount() + 1)
 		elseif winhyper() then
-			setScore(score() + 8000*scoreattackfactor)
-			setWinHyperCount(winHyperCount()+1)
+			setScore(score() + 8000 * scoreattackfactor)
+			setWinHyperCount(winHyperCount() + 1)
 		elseif winthrow() then
-			setScore(score() + 3000*scoreattackfactor)
-			setWinThrowCount(winThrowCount()+1)
+			setScore(score() + 3000 * scoreattackfactor)
+			setWinThrowCount(winThrowCount() + 1)
 		elseif winspecial() then
-			setScore(score() + 1000*scoreattackfactor)
-			setWinSpecialCount(winSpecialCount()+1)
+			setScore(score() + 1000 * scoreattackfactor)
+			setWinSpecialCount(winSpecialCount() + 1)
 		elseif wintime() then
-			setWinTimeCount(winTimeCount()+1)
+			setWinTimeCount(winTimeCount() + 1)
 		end
 	end
 end
@@ -1065,7 +1065,7 @@ local function f_streakWins()
 		if playerLeftSide then
 		--Left Side Player Wons All Rounds
 			if p1RoundsWon() == getRoundsToWin() and p2RoundsWon() == 0 then
-				setConsecutiveWins(consecutiveWins()+1)
+				setConsecutiveWins(consecutiveWins() + 1)
 		--If not Won All Rounds, Reset Consecutive Wins Count
 			elseif p2RoundsWon() > 0 then
 				setConsecutiveWins(0)
@@ -1074,7 +1074,7 @@ local function f_streakWins()
 		else
 		--Right Side Player Wons All Rounds
 			if p2RoundsWon() == getRoundsToWin() and p1RoundsWon() == 0 then
-				setConsecutiveWins(consecutiveWins()+1)
+				setConsecutiveWins(consecutiveWins() + 1)
 		--If not Won All Rounds, Reset Consecutive Wins Count
 			elseif p1RoundsWon() > 0 then
 				setConsecutiveWins(0)
@@ -1091,21 +1091,21 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Consecutive Wins: "..consecutiveWins(), posX, 65)
 --Win Counts
 	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Super Wins: "..winPerfectHyperCount(), posX, posY)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Special Wins: "..winPerfectSpecialCount(), posX, posY+10)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Throw Wins: "..winPerfectThrowCount(), posX, posY+20)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Wins: "..winPerfectCount(), posX, posY+30)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Super Wins: "..winHyperCount(), posX, posY+40)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Special Wins: "..winSpecialCount(), posX, posY+50)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY+60)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY+70)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Timer Test: "..timerTotal(), posX, posY+85)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Special Wins: "..winPerfectSpecialCount(), posX, posY + 10)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Throw Wins: "..winPerfectThrowCount(), posX, posY + 20)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Wins: "..winPerfectCount(), posX, posY + 30)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Super Wins: "..winHyperCount(), posX, posY + 40)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Special Wins: "..winSpecialCount(), posX, posY + 50)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY + 60)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY + 70)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Timer Test: "..timerTotal(), posX, posY + 85)
 --Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, posX, posY+100)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Regeneration Time: "..regenItemTime, posX, posY+110)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Poison Time: "..poisonItemTime, posX, posY+120)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Regeneration Time: "..regenItemTimeCPU, posX, posY+130)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Poison Time: "..poisonItemTimeCPU, posX, posY+140)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, posX, posY + 100)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Regeneration Time: "..regenItemTime, posX, posY + 110)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Poison Time: "..poisonItemTime, posX, posY + 120)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Regeneration Time: "..regenItemTimeCPU, posX, posY + 130)
+		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Poison Time: "..poisonItemTimeCPU, posX, posY + 140)
 	end
 end
 
