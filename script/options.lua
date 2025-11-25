@@ -7452,7 +7452,7 @@ function f_inputCfg()
 		end
 		--t_inputCfg[3].varText = s_disablePadP1
 		--t_inputCfg[4].varText = s_disablePadP2
-		t_inputCfg[3].varText = "P1: "..data.p1Gamepad+1 .." | P2: "..data.p2Gamepad+1
+		t_inputCfg[3].varText = "P1: ".. data.p1Gamepad + 1 .." | P2: ".. data.p2Gamepad + 1
 		for i=1, maxInputCfg do
 			if i > inputCfg - cursorPosY then
 				local align = 1
@@ -7661,19 +7661,19 @@ function f_testMenu()
 		f_drawQuickSpr(TbuttonR, posXr, posYr, scaleX, scaleY, alphaS, alphaD)
 		f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaS, alphaD)
 	--Player 2
-		f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaS, alphaD)
-		f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonUp, posXup + posXP2, posYup + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonDown, posXdo + posXP2, posYdo + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonLeft, posXle + posXP2, posYle + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonRight, posXri + posXP2, posYri + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonA, posXa + posXP2, posYa + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonB, posXb + posXP2, posYb + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonC, posXc + posXP2, posYc + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonX, posXx + posXP2, posYx + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonY, posXy + posXP2, posYy + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonZ, posXz + posXP2, posYz + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonL, posXl + posXP2, posYl + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonR, posXr + posXP2, posYr + posYP2, scaleX, scaleY, alphaS, alphaD)
+		f_drawQuickSpr(TbuttonS, posXs + posXP2, posYs + posYP2, scaleX, scaleY, alphaS, alphaD)
 	--SHOW BUTTONS FOR PLAYER 1 CONTROL
 		if commandGetState(p1Cmd, 'holdu') then
 			cmdCode = true
@@ -7692,19 +7692,19 @@ function f_testMenu()
 		if commandGetState(p1Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr, posYr, scaleX, scaleY, alphaSB, alphaDB) end
 		if commandGetState(p1Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs, posYs, scaleX, scaleY, alphaSB, alphaDB) end
 	--SHOW BUTTONS FOR PLAYER 2 CONTROL
-		if commandGetState(p2Cmd, 'holdu') then f_drawQuickSpr(TbuttonUp, posXup+posXP2, posYup+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdd') then f_drawQuickSpr(TbuttonDown, posXdo+posXP2, posYdo+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdl') then f_drawQuickSpr(TbuttonLeft, posXle+posXP2, posYle+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdr') then f_drawQuickSpr(TbuttonRight, posXri+posXP2, posYri+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holda') then f_drawQuickSpr(TbuttonA, posXa+posXP2, posYa+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdb') then f_drawQuickSpr(TbuttonB, posXb+posXP2, posYb+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdc') then f_drawQuickSpr(TbuttonC, posXc+posXP2, posYc+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdx') then f_drawQuickSpr(TbuttonX, posXx+posXP2, posYx+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdy') then f_drawQuickSpr(TbuttonY, posXy+posXP2, posYy+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdz') then f_drawQuickSpr(TbuttonZ, posXz+posXP2, posYz+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdq') then f_drawQuickSpr(TbuttonL, posXl+posXP2, posYl+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr+posXP2, posYr+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
-		if commandGetState(p2Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs+posXP2, posYs+posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdu') then f_drawQuickSpr(TbuttonUp, posXup + posXP2, posYup + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdd') then f_drawQuickSpr(TbuttonDown, posXdo + posXP2, posYdo + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdl') then f_drawQuickSpr(TbuttonLeft, posXle + posXP2, posYle + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdr') then f_drawQuickSpr(TbuttonRight, posXri + posXP2, posYri + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holda') then f_drawQuickSpr(TbuttonA, posXa + posXP2, posYa + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdb') then f_drawQuickSpr(TbuttonB, posXb + posXP2, posYb + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdc') then f_drawQuickSpr(TbuttonC, posXc + posXP2, posYc + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdx') then f_drawQuickSpr(TbuttonX, posXx + posXP2, posYx + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdy') then f_drawQuickSpr(TbuttonY, posXy + posXP2, posYy + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdz') then f_drawQuickSpr(TbuttonZ, posXz + posXP2, posYz + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdq') then f_drawQuickSpr(TbuttonL, posXl + posXP2, posYl + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holdw') then f_drawQuickSpr(TbuttonR, posXr + posXP2, posYr + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
+		if commandGetState(p2Cmd, 'holds') then f_drawQuickSpr(TbuttonS, posXs + posXP2, posYs + posYP2, scaleX, scaleY, alphaSB, alphaDB) end
 		if cmdCode then f_cmdCode() end
 		if data.debugMode then
 			f_drawQuickText(txt_testW, font6, 0, 0, getInputKeyboard(), 160, 128) --Keyboard
@@ -8191,7 +8191,7 @@ function f_keyBattleCfg(playerNo, controller)
 		if esc() or configEnd then
 			sndPlay(sndSys, 100, 2)
 			f_keyBattleSave(playerNo, controller) --Save Player 1 Controls
-			f_keyBattleSave(playerNo+1, controller) --Save Player 2 Controls
+			f_keyBattleSave(playerNo + 1, controller) --Save Player 2 Controls
 			f_exportDebugInputs()
 			break
 		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
@@ -8314,11 +8314,11 @@ function f_keyBattleCfg(playerNo, controller)
 			--SetUp Keyboard Inputs
 				if controllerSet == 1 then
 					t_keyBattleCfg2[keyCfg2].keyboard = f_readBattleInput(t_keyBattleCfg2[keyCfg2].keyboard)
-					setInputConfig(playerNo+1, controller, t_keyBattleCfg2[1].keyboard, t_keyBattleCfg2[2].keyboard, t_keyBattleCfg2[3].keyboard, t_keyBattleCfg2[4].keyboard, t_keyBattleCfg2[5].keyboard, t_keyBattleCfg2[6].keyboard, t_keyBattleCfg2[7].keyboard, t_keyBattleCfg2[8].keyboard, t_keyBattleCfg2[9].keyboard, t_keyBattleCfg2[10].keyboard, t_keyBattleCfg2[11].keyboard, t_keyBattleCfg2[12].keyboard, t_keyBattleCfg2[13].keyboard, t_keyBattleCfg2[14].keyboard)
+					setInputConfig(playerNo + 1, controller, t_keyBattleCfg2[1].keyboard, t_keyBattleCfg2[2].keyboard, t_keyBattleCfg2[3].keyboard, t_keyBattleCfg2[4].keyboard, t_keyBattleCfg2[5].keyboard, t_keyBattleCfg2[6].keyboard, t_keyBattleCfg2[7].keyboard, t_keyBattleCfg2[8].keyboard, t_keyBattleCfg2[9].keyboard, t_keyBattleCfg2[10].keyboard, t_keyBattleCfg2[11].keyboard, t_keyBattleCfg2[12].keyboard, t_keyBattleCfg2[13].keyboard, t_keyBattleCfg2[14].keyboard)
 			--SetUp Gamepad Inputs
 				elseif controllerSet == 2 then
 					t_keyBattleCfg2[keyCfg2].gamepad = f_readBattleInput(t_keyBattleCfg2[keyCfg2].gamepad)
-					setInputConfig(playerNo+1, controller, t_keyBattleCfg2[1].gamepad, t_keyBattleCfg2[2].gamepad, t_keyBattleCfg2[3].gamepad, t_keyBattleCfg2[4].gamepad, t_keyBattleCfg2[5].gamepad, t_keyBattleCfg2[6].gamepad, t_keyBattleCfg2[7].gamepad, t_keyBattleCfg2[8].gamepad, t_keyBattleCfg2[9].gamepad, t_keyBattleCfg2[10].gamepad, t_keyBattleCfg2[11].gamepad, t_keyBattleCfg2[12].gamepad, t_keyBattleCfg2[13].gamepad, t_keyBattleCfg2[14].gamepad)
+					setInputConfig(playerNo + 1, controller, t_keyBattleCfg2[1].gamepad, t_keyBattleCfg2[2].gamepad, t_keyBattleCfg2[3].gamepad, t_keyBattleCfg2[4].gamepad, t_keyBattleCfg2[5].gamepad, t_keyBattleCfg2[6].gamepad, t_keyBattleCfg2[7].gamepad, t_keyBattleCfg2[8].gamepad, t_keyBattleCfg2[9].gamepad, t_keyBattleCfg2[10].gamepad, t_keyBattleCfg2[11].gamepad, t_keyBattleCfg2[12].gamepad, t_keyBattleCfg2[13].gamepad, t_keyBattleCfg2[14].gamepad)
 				end
 		--Default Config
 			elseif keyCfg2 == 15 then
@@ -8510,7 +8510,7 @@ function f_keyMenuCfg(playerNo, controller)
 		if esc() or configEnd then
 			sndPlay(sndSys, 100, 2)
 			f_keyMenuSave(playerNo, controller == -1 and controller or data.p1Gamepad) --Save Player 1 Controls
-			f_keyMenuSave(playerNo+1, controller == -1 and controller or data.p2Gamepad) --Save Player 2 Controls
+			f_keyMenuSave(playerNo + 1, controller == -1 and controller or data.p2Gamepad) --Save Player 2 Controls
 			f_exportDebugInputs()
 			break
 		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
@@ -8553,11 +8553,11 @@ function f_keyMenuCfg(playerNo, controller)
 			--SetUp Keyboard Inputs
 				if controllerSet == 1 then
 					t_keyMenuCfg[keyCfg].keyboard = f_readMenuInput(t_keyMenuCfg[keyCfg].keyboard)
-					setInputConfig(playerNo+10, controller, t_keyMenuCfg[1].keyboard, t_keyMenuCfg[2].keyboard, t_keyMenuCfg[3].keyboard, t_keyMenuCfg[4].keyboard, t_keyMenuCfg[5].keyboard, t_keyMenuCfg[6].keyboard, t_keyMenuCfg[7].keyboard, t_keyMenuCfg[8].keyboard, t_keyMenuCfg[9].keyboard, t_keyMenuCfg[10].keyboard, t_keyMenuCfg[11].keyboard, t_keyMenuCfg[12].keyboard, t_keyMenuCfg[13].keyboard, t_keyMenuCfg[14].keyboard)
+					setInputConfig(playerNo + 10, controller, t_keyMenuCfg[1].keyboard, t_keyMenuCfg[2].keyboard, t_keyMenuCfg[3].keyboard, t_keyMenuCfg[4].keyboard, t_keyMenuCfg[5].keyboard, t_keyMenuCfg[6].keyboard, t_keyMenuCfg[7].keyboard, t_keyMenuCfg[8].keyboard, t_keyMenuCfg[9].keyboard, t_keyMenuCfg[10].keyboard, t_keyMenuCfg[11].keyboard, t_keyMenuCfg[12].keyboard, t_keyMenuCfg[13].keyboard, t_keyMenuCfg[14].keyboard)
 			--SetUp Gamepad Inputs
 				elseif controllerSet == 2 then
 					t_keyMenuCfg[keyCfg].gamepad = f_readMenuInput(t_keyMenuCfg[keyCfg].gamepad)
-					setInputConfig(playerNo+10, controller, t_keyMenuCfg[1].gamepad, t_keyMenuCfg[2].gamepad, t_keyMenuCfg[3].gamepad, t_keyMenuCfg[4].gamepad, t_keyMenuCfg[5].gamepad, t_keyMenuCfg[6].gamepad, t_keyMenuCfg[7].gamepad, t_keyMenuCfg[8].gamepad, t_keyMenuCfg[9].gamepad, t_keyMenuCfg[10].gamepad, t_keyMenuCfg[11].gamepad, t_keyMenuCfg[12].gamepad, t_keyMenuCfg[13].gamepad, t_keyMenuCfg[14].gamepad)
+					setInputConfig(playerNo + 10, controller, t_keyMenuCfg[1].gamepad, t_keyMenuCfg[2].gamepad, t_keyMenuCfg[3].gamepad, t_keyMenuCfg[4].gamepad, t_keyMenuCfg[5].gamepad, t_keyMenuCfg[6].gamepad, t_keyMenuCfg[7].gamepad, t_keyMenuCfg[8].gamepad, t_keyMenuCfg[9].gamepad, t_keyMenuCfg[10].gamepad, t_keyMenuCfg[11].gamepad, t_keyMenuCfg[12].gamepad, t_keyMenuCfg[13].gamepad, t_keyMenuCfg[14].gamepad)
 				end
 		--Default Config
 			elseif keyCfg == 15 then
@@ -8627,11 +8627,11 @@ function f_keyMenuCfg(playerNo, controller)
 			--SetUp Keyboard Inputs
 				if controllerSet == 1 then
 					t_keyMenuCfg2[keyCfg2].keyboard = f_readMenuInput(t_keyMenuCfg2[keyCfg2].keyboard)
-					setInputConfig(playerNo+11, controller, t_keyMenuCfg2[1].keyboard, t_keyMenuCfg2[2].keyboard, t_keyMenuCfg2[3].keyboard, t_keyMenuCfg2[4].keyboard, t_keyMenuCfg2[5].keyboard, t_keyMenuCfg2[6].keyboard, t_keyMenuCfg2[7].keyboard, t_keyMenuCfg2[8].keyboard, t_keyMenuCfg2[9].keyboard, t_keyMenuCfg2[10].keyboard, t_keyMenuCfg2[11].keyboard, t_keyMenuCfg2[12].keyboard, t_keyMenuCfg2[13].keyboard, t_keyMenuCfg2[14].keyboard)
+					setInputConfig(playerNo + 11, controller, t_keyMenuCfg2[1].keyboard, t_keyMenuCfg2[2].keyboard, t_keyMenuCfg2[3].keyboard, t_keyMenuCfg2[4].keyboard, t_keyMenuCfg2[5].keyboard, t_keyMenuCfg2[6].keyboard, t_keyMenuCfg2[7].keyboard, t_keyMenuCfg2[8].keyboard, t_keyMenuCfg2[9].keyboard, t_keyMenuCfg2[10].keyboard, t_keyMenuCfg2[11].keyboard, t_keyMenuCfg2[12].keyboard, t_keyMenuCfg2[13].keyboard, t_keyMenuCfg2[14].keyboard)
 			--SetUp Gamepad Inputs
 				elseif controllerSet == 2 then
 					t_keyMenuCfg2[keyCfg2].gamepad = f_readMenuInput(t_keyMenuCfg2[keyCfg2].gamepad)
-					setInputConfig(playerNo+11, controller, t_keyMenuCfg2[1].gamepad, t_keyMenuCfg2[2].gamepad, t_keyMenuCfg2[3].gamepad, t_keyMenuCfg2[4].gamepad, t_keyMenuCfg2[5].gamepad, t_keyMenuCfg2[6].gamepad, t_keyMenuCfg2[7].gamepad, t_keyMenuCfg2[8].gamepad, t_keyMenuCfg2[9].gamepad, t_keyMenuCfg2[10].gamepad, t_keyMenuCfg2[11].gamepad, t_keyMenuCfg2[12].gamepad, t_keyMenuCfg2[13].gamepad, t_keyMenuCfg2[14].gamepad)
+					setInputConfig(playerNo + 11, controller, t_keyMenuCfg2[1].gamepad, t_keyMenuCfg2[2].gamepad, t_keyMenuCfg2[3].gamepad, t_keyMenuCfg2[4].gamepad, t_keyMenuCfg2[5].gamepad, t_keyMenuCfg2[6].gamepad, t_keyMenuCfg2[7].gamepad, t_keyMenuCfg2[8].gamepad, t_keyMenuCfg2[9].gamepad, t_keyMenuCfg2[10].gamepad, t_keyMenuCfg2[11].gamepad, t_keyMenuCfg2[12].gamepad, t_keyMenuCfg2[13].gamepad, t_keyMenuCfg2[14].gamepad)
 				end
 		--Default Config
 			elseif keyCfg2 == 15 then
@@ -8735,16 +8735,16 @@ end
 
 function f_inputMenuRead(playerNo, controller)
 	local tmp = nil
-	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
+	tmp = s_configSSZ:match('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
 --Keyboard Read
 	if tmp ~= nil and tmp ~= '' then
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = tmp:gsub('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
 --Gamepad Read
 	else
-		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = s_configSSZ:match('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
+		tmp = tmp:gsub('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
 	end
@@ -9089,17 +9089,17 @@ end
 function f_keyMenuSave(playerNo, controller)
 	if playerNo == 0 or playerNo == 2 then --Save Player 1 Menu Controls
 	--Keyboard
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].keyboard .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].keyboard .. ');')
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
+		'in.new[' .. playerNo + 10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].keyboard .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].keyboard .. ');')
 	--Gamepad
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].gamepad .. ', ' .. t_keyMenuCfg[2].gamepad .. ', ' .. t_keyMenuCfg[3].gamepad .. ', ' .. t_keyMenuCfg[4].gamepad .. ', ' .. t_keyMenuCfg[5].gamepad .. ', ' .. t_keyMenuCfg[6].gamepad .. ', ' .. t_keyMenuCfg[7].gamepad .. ', ' .. t_keyMenuCfg[8].gamepad .. ', ' .. t_keyMenuCfg[9].gamepad .. ', ' .. t_keyMenuCfg[10].gamepad .. ', ' .. t_keyMenuCfg[11].gamepad .. ', ' .. t_keyMenuCfg[12].gamepad .. ', ' .. t_keyMenuCfg[13].gamepad .. ', ' .. t_keyMenuCfg[14].gamepad .. ');')
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
+		'in.new[' .. playerNo + 10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].gamepad .. ', ' .. t_keyMenuCfg[2].gamepad .. ', ' .. t_keyMenuCfg[3].gamepad .. ', ' .. t_keyMenuCfg[4].gamepad .. ', ' .. t_keyMenuCfg[5].gamepad .. ', ' .. t_keyMenuCfg[6].gamepad .. ', ' .. t_keyMenuCfg[7].gamepad .. ', ' .. t_keyMenuCfg[8].gamepad .. ', ' .. t_keyMenuCfg[9].gamepad .. ', ' .. t_keyMenuCfg[10].gamepad .. ', ' .. t_keyMenuCfg[11].gamepad .. ', ' .. t_keyMenuCfg[12].gamepad .. ', ' .. t_keyMenuCfg[13].gamepad .. ', ' .. t_keyMenuCfg[14].gamepad .. ');')
 	else --Save Player 2 Menu Controls
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg2[1].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[2].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[3].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[4].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[5].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[6].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[7].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[8].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[9].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[10].keyboard .. ',\n  (int)k_t::'.. t_keyMenuCfg2[11].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[12].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[13].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[14].keyboard .. ');')
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
+		'in.new[' .. playerNo + 10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg2[1].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[2].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[3].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[4].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[5].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[6].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[7].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[8].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[9].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[10].keyboard .. ',\n  (int)k_t::'.. t_keyMenuCfg2[11].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[12].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[13].keyboard .. ',\n  (int)k_t::' .. t_keyMenuCfg2[14].keyboard .. ');')
 		
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg2[1].gamepad .. ', ' .. t_keyMenuCfg2[2].gamepad .. ', ' .. t_keyMenuCfg2[3].gamepad .. ', ' .. t_keyMenuCfg2[4].gamepad .. ', ' .. t_keyMenuCfg2[5].gamepad .. ', ' .. t_keyMenuCfg2[6].gamepad .. ', ' .. t_keyMenuCfg2[7].gamepad .. ', ' .. t_keyMenuCfg2[8].gamepad .. ', ' .. t_keyMenuCfg2[9].gamepad .. ', ' .. t_keyMenuCfg2[10].gamepad .. ', ' .. t_keyMenuCfg2[11].gamepad .. ', ' .. t_keyMenuCfg2[12].gamepad .. ', ' .. t_keyMenuCfg2[13].gamepad .. ', ' .. t_keyMenuCfg2[14].gamepad .. ');')
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo + 10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
+		'in.new[' .. playerNo + 10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg2[1].gamepad .. ', ' .. t_keyMenuCfg2[2].gamepad .. ', ' .. t_keyMenuCfg2[3].gamepad .. ', ' .. t_keyMenuCfg2[4].gamepad .. ', ' .. t_keyMenuCfg2[5].gamepad .. ', ' .. t_keyMenuCfg2[6].gamepad .. ', ' .. t_keyMenuCfg2[7].gamepad .. ', ' .. t_keyMenuCfg2[8].gamepad .. ', ' .. t_keyMenuCfg2[9].gamepad .. ', ' .. t_keyMenuCfg2[10].gamepad .. ', ' .. t_keyMenuCfg2[11].gamepad .. ', ' .. t_keyMenuCfg2[12].gamepad .. ', ' .. t_keyMenuCfg2[13].gamepad .. ', ' .. t_keyMenuCfg2[14].gamepad .. ');')
 	end
 end
 --;===========================================================

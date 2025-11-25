@@ -2045,7 +2045,7 @@ end
 
 --Load Common Settings for Single Boss Fight Modes
 function bossCfg()
-	local bossDat = t_selChars[t_bossChars[bossChars]+1].displayname
+	local bossDat = t_selChars[t_bossChars[bossChars] + 1].displayname
 	f_discordUpdate({details = "Boss Assault: "..bossDat})
 	f_default()
 	data.gameMode = "singleboss"
@@ -2063,7 +2063,7 @@ function bossHumanvsCPU()
 	end
 	data.p2In = 1
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
+	data.p2Char = {t_selChars[t_bossChars[bossChars] + 1].char}
 	f_selectSimple()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -2080,7 +2080,7 @@ function bossCPUvsHuman()
 	data.p2In = 2
 	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_selChars[t_bossChars[bossChars]+1].char}
+	data.p1Char = {t_selChars[t_bossChars[bossChars] + 1].char}
 	f_selectSimple()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -2092,7 +2092,7 @@ function bossCPUvsCPU()
 	data.aiFight = true
 	data.recordMode = "cpu"
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_selChars[t_bossChars[bossChars]+1].char}
+	data.p2Char = {t_selChars[t_bossChars[bossChars] + 1].char}
 	f_selectSimple()
 	f_discordMainMenu()
 end
@@ -2311,7 +2311,7 @@ end
 
 --Load Common Settings for Bonus Games Modes
 function bonusCfg()
-	local bonusDat = t_selChars[t_bonusChars[bonusExtras]+1].displayname
+	local bonusDat = t_selChars[t_bonusChars[bonusExtras] + 1].displayname
 	f_discordUpdate({details = "Bonus Game: "..bonusDat})
 	f_default()
 	data.gameMode = "singlebonus"
@@ -2331,7 +2331,7 @@ function bonusHumanvsCPU()
 	end
 	data.p2In = 1
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_selChars[t_bonusChars[bonusExtras]+1].char}
+	data.p2Char = {t_selChars[t_bonusChars[bonusExtras] + 1].char}
 	f_selectSimple()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -2348,7 +2348,7 @@ function bonusCPUvsHuman()
 	data.p2In = 2
 	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_selChars[t_bonusChars[bonusExtras]+1].char}
+	data.p1Char = {t_selChars[t_bonusChars[bonusExtras] + 1].char}
 	f_selectSimple()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -3375,7 +3375,7 @@ function f_getFavoriteContent(section)
 		if v and v.used and v.used > maxUsed then
 			maxUsed = v.used
 			if section == "chars" then
-				contentName = t_selChars[t_charDef[name]+1].displayname
+				contentName = t_selChars[t_charDef[name] + 1].displayname
 			elseif section == "stages" then
 				contentName = t_selStages[t_stageDef[name]].name
 			end
@@ -3585,7 +3585,7 @@ function f_getStats(callback)
 	t_statsMenu[1].varText = timePlayed
 	t_statsMenu[2].varText = practiceTime
 	t_statsMenu[3].varText = stats.money.." IKC"
-	t_statsMenu[4].varText = (stats.wins+stats.loses)
+	t_statsMenu[4].varText = (stats.wins + stats.loses)
 	t_statsMenu[5].varText = stats.wins
 	t_statsMenu[6].varText = stats.loses
 	f_getFavoriteContent("chars")
@@ -4374,14 +4374,14 @@ function f_replayTable()
 	t_replayList = {}
 	for file in lfs.dir(replaysPath) do
 		if file:match('^.*(%.)[Rr][Ee][Pp][Ll][Aa][Yy]$') and not file:match('^data.replay$') then
-			row = #t_replayList+1
+			row = #t_replayList + 1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
 			t_replayList[row]['name'] = file:gsub('^(.*)[%.][Rr][Ee][Pp][Ll][Aa][Yy]$', '%1')
 			t_replayList[row]['path'] = replaysPath.."/"..file
 		end
 	end
-	t_replayList[#t_replayList+1] = {id = '', name = "          BACK"}
+	t_replayList[#t_replayList + 1] = {id = '', name = "          BACK"}
 	if data.debugLog then f_printTable(t_replayList, "save/debug/t_replayList.log") end
 end
 
@@ -4790,7 +4790,7 @@ function f_hostTable()
 	for k, v in pairs(host_rooms.IP) do
 		t_hostList[#t_hostList + 1] = {id = textImgNew(), text = k, address = v} --Insert Room Names from Local Database
 	end
-	t_hostList[#t_hostList+1] = {id = textImgNew(), text = "BACK"}
+	t_hostList[#t_hostList + 1] = {id = textImgNew(), text = "BACK"}
 end
 
 function f_hostRooms()
@@ -6430,9 +6430,10 @@ for i, c in ipairs(t_intermissionChars) do --Read all table items and save each 
 		table.insert(t_secretChallenger,
 			{
 				['cel'] = t_charDef[intermissionChar],
-				['name'] = t_selChars[t_charDef[intermissionChar]+1].name,
-				['displayname'] = t_selChars[t_charDef[intermissionChar]+1].displayname,
-				['path'] = intermissionChar, ['author'] = t_selChars[t_charDef[intermissionChar]+1].author
+				['name'] = t_selChars[t_charDef[intermissionChar] + 1].name,
+				['displayname'] = t_selChars[t_charDef[intermissionChar] + 1].displayname,
+				['path'] = intermissionChar,
+				['author'] = t_selChars[t_charDef[intermissionChar] + 1].author
 			}
 		)
 	end
@@ -6501,7 +6502,7 @@ end
 
 function f_secretProgress()
 local goukiName = "Shin Gouki"
-local unlockScreen = t_selChars[secretTarget[1].cel+1]
+local unlockScreen = t_selChars[secretTarget[1].cel + 1]
 --Show Unlock Screen if is available
 if unlockScreen.UnlockStoryboard ~= nil and io.open(unlockScreen.UnlockStoryboard or '','r') ~= nil then
 	f_storyboard(unlockScreen.UnlockStoryboard)
@@ -6570,7 +6571,7 @@ function f_rosterReset()
 --Space between each cell
 	cellSpacingX = data.cellSpacingX --System.def: cell.spacing for X
 	cellSpacingY = data.cellSpacingY --System.def: cell.spacing for Y
-	setSelCellSize(cellSizeX+cellSpacingX, cellSizeY+cellSpacingY) --Slot Size
+	setSelCellSize(cellSizeX + cellSpacingX, cellSizeY + cellSpacingY) --Slot Size
 	setSelCellScale(data.cellScaleX, data.cellScaleY) --Slot Scale (System.def: cell.bg.scale)
 	f_randomSlot()
 end
@@ -6786,12 +6787,12 @@ function f_setRounds()
 	local roundsToWin = data.roundsNum --Use default rounds saved in settings
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 	--Set New Rounds To Win from select.def chars section
-		if t_selChars[data.t_p1selected[1].cel+1].rounds ~= nil then
-			roundsToWin = t_selChars[data.t_p1selected[1].cel+1].rounds
+		if t_selChars[data.t_p1selected[1].cel + 1].rounds ~= nil then
+			roundsToWin = t_selChars[data.t_p1selected[1].cel + 1].rounds
 		end
 	else
-		if t_selChars[data.t_p2selected[1].cel+1].rounds ~= nil then
-			roundsToWin = t_selChars[data.t_p2selected[1].cel+1].rounds
+		if t_selChars[data.t_p2selected[1].cel + 1].rounds ~= nil then
+			roundsToWin = t_selChars[data.t_p2selected[1].cel + 1].rounds
 		end
 	end
 	setRoundsToWin(roundsToWin)
@@ -6807,12 +6808,12 @@ function f_setRoundTime()
 ]]
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 	--Set New Time from select.def chars section
-		if t_selChars[data.t_p1selected[1].cel+1].roundtime ~= nil then
-			roundTime = t_selChars[data.t_p1selected[1].cel+1].roundtime
+		if t_selChars[data.t_p1selected[1].cel + 1].roundtime ~= nil then
+			roundTime = t_selChars[data.t_p1selected[1].cel + 1].roundtime
 		end
 	else
-		if t_selChars[data.t_p2selected[1].cel+1].roundtime ~= nil then
-			roundTime = t_selChars[data.t_p2selected[1].cel+1].roundtime
+		if t_selChars[data.t_p2selected[1].cel + 1].roundtime ~= nil then
+			roundTime = t_selChars[data.t_p2selected[1].cel + 1].roundtime
 		end
 	end
 	setRoundTime(roundTime * 60)
@@ -6821,8 +6822,8 @@ end
 function f_setZoom()
 	local zoom = data.zoomStage.zoom --data.zoomActive
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		if t_selChars[data.t_p1selected[1].cel+1].zoom ~= nil then
-			if t_selChars[data.t_p1selected[1].cel+1].zoom == 1 then
+		if t_selChars[data.t_p1selected[1].cel + 1].zoom ~= nil then
+			if t_selChars[data.t_p1selected[1].cel + 1].zoom == 1 then
 				zoom = true
 			else
 				zoom = false
@@ -6835,8 +6836,8 @@ function f_setZoom()
 			end
 		end
 	else
-		if t_selChars[data.t_p2selected[1].cel+1].zoom ~= nil then
-			if t_selChars[data.t_p2selected[1].cel+1].zoom == 1 then
+		if t_selChars[data.t_p2selected[1].cel + 1].zoom ~= nil then
+			if t_selChars[data.t_p2selected[1].cel + 1].zoom == 1 then
 				zoom = true
 			else
 				zoom = false
@@ -6896,7 +6897,7 @@ function f_makeRoster()
 				while cnt > 0 do --do the following until amount of matches for particular order is reached
 					f_shuffleTable(t_orderChars[i]) --randomize characters table
 					for j=1, #t_orderChars[i] do --loop through chars associated with that particular order
-						t_roster[#t_roster+1] = t_orderChars[i][j] --and add such character into new table
+						t_roster[#t_roster + 1] = t_orderChars[i][j] --and add such character into new table
 						cnt = cnt - 1
 						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
 							break
@@ -6950,7 +6951,7 @@ function f_makeRoster()
 		while cnt > 0 do
 			f_shuffleTable(t)
 			for i=1, #t do
-				t_roster[#t_roster+1] = t[i]
+				t_roster[#t_roster + 1] = t[i]
 				cnt = cnt - 1
 				if cnt == 0 then
 					break
@@ -7029,10 +7030,10 @@ function f_difficulty(player, offset)
 	local t = {}
 	if player % 2 ~= 0 then --odd value
 		pos = math.floor(player / 2 + 0.5)
-		t = t_selChars[data.t_p1selected[pos].cel+1]
+		t = t_selChars[data.t_p1selected[pos].cel + 1]
 	else --even value
 		pos = math.floor(player / 2)
-		t = t_selChars[data.t_p2selected[pos].cel+1]
+		t = t_selChars[data.t_p2selected[pos].cel + 1]
 	end
 --Set Difficulty Level Down Service
 	if getService() == "aileveldown" then
@@ -7057,10 +7058,10 @@ function f_tagMode(player, tagset)
 	local t = {}
 	if player % 2 ~= 0 then --odd value
 		pos = math.floor(player / 2 + 0.5)
-		t = t_selChars[data.t_p1selected[pos].cel+1]
+		t = t_selChars[data.t_p1selected[pos].cel + 1]
 	else --even value
 		pos = math.floor(player / 2)
-		t = t_selChars[data.t_p2selected[pos].cel+1]
+		t = t_selChars[data.t_p2selected[pos].cel + 1]
 	end
 	if t.tag ~= nil then
 		return t.tag
@@ -7228,7 +7229,7 @@ end
 
 function f_findCelYAdd(selY, faceOffset, offsetRow)
 	selY = selY + 1
-	if selY >= selectRows+offsetRows then
+	if selY >= selectRows + offsetRows then
 		if wrappingY then
 			faceOffset = 0
 			offsetRow = 0
@@ -7236,7 +7237,7 @@ function f_findCelYAdd(selY, faceOffset, offsetRow)
 		else
 			selY = selY - 1
 		end
-	elseif selY >= selectRows+offsetRow then
+	elseif selY >= selectRows + offsetRow then
 		faceOffset = faceOffset + selectColumns
 		offsetRow = offsetRow + 1
 	end
@@ -7287,7 +7288,7 @@ end
 --[[ Unfinished Hidden Columns Functions
 function f_findCelXAdd(selX, faceOffset, offsetColumn)
 	selX = selX + 1
-	if selX >= selectColumns+offsetColumns then
+	if selX >= selectColumns + offsetColumns then
 		if wrappingX then
 			faceOffset = 0
 			offsetColumn = 0
@@ -7295,7 +7296,7 @@ function f_findCelXAdd(selX, faceOffset, offsetColumn)
 		else
 			selX = selX - 1
 		end
-	elseif selX >= selectColumns+offsetColumn then
+	elseif selX >= selectColumns + offsetColumn then
 		faceOffset = faceOffset + selectRows
 		offsetColumn = offsetColumn + 1
 	end
@@ -7463,7 +7464,7 @@ end
 
 function f_resetP2CoopInput()
 	if onlinegame and data.coop then
-		for i=1, p1numChars+p2numChars do
+		for i=1, p1numChars + p2numChars do
 			setCom(i, 0) --Fix player 2 control lose when exit from online mode, reconnects and re-enter in Co-Op Mode
 		end
 	end
@@ -7612,14 +7613,14 @@ function f_selectScreen()
 				end
 				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 					for j=#data.t_p1selected, 1, -1 do
-						--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 100, 158, data.t_p1selected[j].up) --Stand Animation
-						f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 100, 158, data.t_p1selected[j].up) --Selected/Win Animation
+						--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimStand', 100, 158, data.t_p1selected[j].up) --Stand Animation
+						f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 100, 158, data.t_p1selected[j].up) --Selected/Win Animation
 					end
 				end
 				--Draw Author Info Text
 				if data.charInfo == "Author" then
-					if t_selChars[data.t_p1selected[1].cel+1].author ~= nil then
-						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel+1].author)
+					if t_selChars[data.t_p1selected[1].cel + 1].author ~= nil then
+						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel + 1].author)
 						textImgDraw(txt_p1Author)
 					end
 				end
@@ -7632,8 +7633,8 @@ function f_selectScreen()
 				end
 				--Draw Author Info Text
 				if data.charInfo == "Author" then
-					if t_selChars[data.t_p1selected[1].cel+1].author ~= nil then
-						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel+1].author)
+					if t_selChars[data.t_p1selected[1].cel + 1].author ~= nil then
+						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel + 1].author)
 						textImgDraw(txt_p1Author)
 					end
 				end
@@ -7661,14 +7662,14 @@ function f_selectScreen()
 					end
 					if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 						for j=#data.t_p2selected, 1, -1 do
-							--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
-							f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
+							--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
+							f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
 						end
 					end
 					--Draw Author Info Text
 					if data.charInfo == "Author" then
-						if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
+						if t_selChars[data.t_p2selected[1].cel + 1].author ~= nil then
+							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel + 1].author)
 							textImgDraw(txt_p2Author)
 						end
 					end
@@ -7681,8 +7682,8 @@ function f_selectScreen()
 					end
 					--Draw Author Info Text
 					if data.charInfo == "Author" then
-						if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
+						if t_selChars[data.t_p2selected[1].cel + 1].author ~= nil then
+							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel + 1].author)
 							textImgDraw(txt_p2Author)
 						end
 					end
@@ -8074,12 +8075,33 @@ function f_p1SelectMenu()
 				t[t_p1CharID[i]] = ''
 			end
 			if data.p1Pal ~= nil then --Set Manual Palette
-				--data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = data.p1Pal, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author, ['discordkey'] = t_selChars[t_p1CharID[i]+1].discordkey}
+			--[[
+				data.t_p1selected[i] = {
+					['cel'] = t_p1CharID[i],
+					['pal'] = data.p1Pal, ['handicap'] = p1HandicapSel,
+					['up'] = updateAnim,
+					['name'] = t_selChars[t_p1CharID[i] + 1].name,
+					['displayname'] = t_selChars[t_p1CharID[i] + 1].displayname,
+					['path'] = t_selChars[t_p1CharID[i] + 1].char,
+					['author'] = t_selChars[t_p1CharID[i] + 1].author,
+					['discordkey'] = t_selChars[t_p1CharID[i] + 1].discordkey
+				}
+			]]
 				palp1 = data.p1Pal
 			else
 				palp1 = math.random(1, 12)
 			end
-			data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = palp1, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author, ['discordkey'] = t_selChars[t_p1CharID[i]+1].discordkey}
+			data.t_p1selected[i] = {
+				['cel'] = t_p1CharID[i],
+				['pal'] = palp1,
+				['handicap'] = p1HandicapSel,
+				['up'] = updateAnim,
+				['name'] = t_selChars[t_p1CharID[i] + 1].name,
+				['displayname'] = t_selChars[t_p1CharID[i] + 1].displayname,
+				['path'] = t_selChars[t_p1CharID[i] + 1].char,
+				['author'] = t_selChars[t_p1CharID[i] + 1].author,
+				['discordkey'] = t_selChars[t_p1CharID[i] + 1].discordkey
+			}
 			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
 		end
 		p1Portrait = t_p1CharID[1]
@@ -8278,7 +8300,7 @@ function f_p1SelectMenu()
 									if p1memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 4 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH MORE THAN 4 MEMBERS (UNUSED)
 								--else
-									--f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw RANDOM Stand Animation preview out of BG Position
+									--f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw RANDOM Stand Animation preview out of BG Position
 								end
 							end
 						end
@@ -8896,7 +8918,7 @@ function f_p1SelectMenu()
 				elseif btnPalNo(p1Cmd, true) > 0 then
 					if t_unlockLua.chars[t_selChars[p1Cell + 1].char] == nil and f_checkTeamDuplicates(data.t_p1selected, p1Cell) or onlinegame then --This character is unlocked
 						f_p1Selection()
-					else--if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p1selected, p1Cell) and not onlinegame then --Character locked
+					else--if t_unlockLua.chars[t_selChars[p1Cell + 1].char] ~= nil and not f_checkTeamDuplicates(data.t_p1selected, p1Cell) and not onlinegame then --Character locked
 						sndPlay(sndIkemen, 200, 0)
 					end
 			--TIME OVER SELECTION
@@ -9041,7 +9063,7 @@ function f_p1SelectMenu()
 					f_p1charAnnouncer(cel) --Character Voice when is selected
 				end
 				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
-					if t_selChars[cel+1].p1AnimWin then animReset(t_selChars[cel+1].p1AnimWin) end
+					if t_selChars[cel + 1].p1AnimWin then animReset(t_selChars[cel + 1].p1AnimWin) end
 				end
 			--Change p1memberPreview on each char selection
 				if p1numChars > 1 and not data.coop then --For Team Modes
@@ -9059,10 +9081,30 @@ function f_p1SelectMenu()
 					end
 				end
 				if data.coop then
-					data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
+					data.t_p1selected[1] = {
+						['cel'] = cel,
+						['name'] = t_selChars[cel + 1].name,
+						['displayname'] = t_selChars[cel + 1].displayname,
+						['path'] = t_selChars[cel + 1].char,
+						['pal'] = p1PalSel,
+						['handicap'] = p1HandicapSel,
+						['up'] = updateAnim,
+						['author'] = t_selChars[cel + 1].author,
+						['discordkey'] = t_selChars[cel + 1].discordkey
+					}
 					p1SelEnd = true
 				else
-					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1PalSel, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
+					data.t_p1selected[#data.t_p1selected + 1] = {
+						['cel'] = cel,
+						['name'] = t_selChars[cel + 1].name,
+						['displayname'] = t_selChars[cel + 1].displayname,
+						['path'] = t_selChars[cel + 1].char,
+						['pal'] = p1PalSel,
+						['handicap'] = p1HandicapSel,
+						['up'] = updateAnim,
+						['author'] = t_selChars[cel + 1].author,
+						['discordkey'] = t_selChars[cel + 1].discordkey
+					}
 				--When characters selected are equal to team mode amount selected
 					if #data.t_p1selected == p1numChars then
 						if data.p2In == 1 and matchNo == 0 then
@@ -9143,7 +9185,7 @@ function f_p1SelectPal()
 		bufPall = 0
 	end
 --Draw Assets
-	--animSetPal(t_selChars[p1Cell+1]['p1AnimStand'], p1PalSel) --Only works if the .sff file have pals added
+	--animSetPal(t_selChars[p1Cell + 1]['p1AnimStand'], p1PalSel) --Only works if the .sff file have pals added
 	animPosDraw(palSelBG, palSelBGP1posX, palSelBGP1posY) --Draw Palette Select BG
 	textImgDraw(txt_p1Pal)
 	if p1PalSel == 0 then p1PalName = "?" else p1PalName = p1PalSel end
@@ -9461,12 +9503,34 @@ function f_p2SelectMenu()
 				t[t_p2CharID[i]] = ''
 			end
 			if data.p2Pal ~= nil then
-				--data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = data.p2Pal, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author, ['discordkey'] = t_selChars[t_p2CharID[i]+1].discordkey}
+			--[[
+				data.t_p2selected[i] = {
+					['cel'] = t_p2CharID[i],
+					['pal'] = data.p2Pal,
+					['handicap'] = p2HandicapSel,
+					['up'] = updateAnim,
+					['name'] = t_selChars[t_p2CharID[i] + 1].name,
+					['displayname'] = t_selChars[t_p2CharID[i] + 1].displayname,
+					['path'] = t_selChars[t_p2CharID[i] + 1].char,
+					['author'] = t_selChars[t_p2CharID[i] + 1].author,
+					['discordkey'] = t_selChars[t_p2CharID[i] + 1].discordkey
+				}
+			]]
 				palp2 = data.p2Pal
 			else
 				palp2 = math.random(1, 12)
 			end
-			data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = palp2, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author, ['discordkey'] = t_selChars[t_p2CharID[i]+1].discordkey}
+			data.t_p2selected[i] = {
+				['cel'] = t_p2CharID[i],
+				['pal'] = palp2,
+				['handicap'] = p2HandicapSel,
+				['up'] = updateAnim,
+				['name'] = t_selChars[t_p2CharID[i] + 1].name,
+				['displayname'] = t_selChars[t_p2CharID[i] + 1].displayname,
+				['path'] = t_selChars[t_p2CharID[i] + 1].char,
+				['author'] = t_selChars[t_p2CharID[i] + 1].author,
+				['discordkey'] = t_selChars[t_p2CharID[i] + 1].discordkey
+			}
 			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log") end
 		end
 		p2Portrait = t_p2CharID[1]
@@ -9669,7 +9733,7 @@ function f_p2SelectMenu()
 									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
 									if p2memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 								--else
-									--f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
+									--f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 								end
 							end
 						end
@@ -10420,7 +10484,7 @@ function f_p2SelectMenu()
 					f_p2charAnnouncer(cel)
 				end
 				if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
-					if t_selChars[cel+1].p2AnimWin then animReset(t_selChars[cel+1].p2AnimWin) end
+					if t_selChars[cel + 1].p2AnimWin then animReset(t_selChars[cel + 1].p2AnimWin) end
 				end
 				if p2numChars > 1 and not data.coop then
 					if p2memberPreview == 1 then p2memberPreview = 2
@@ -10436,7 +10500,17 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
-					data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
+					data.t_p1selected[2] = {
+						['cel'] = cel,
+						['name'] = t_selChars[cel + 1].name,
+						['displayname'] = t_selChars[cel + 1].displayname,
+						['path'] = t_selChars[cel + 1].char,
+						['pal'] = p2PalSel,
+						['handicap'] = p2HandicapSel,
+						['up'] = updateAnim,
+						['author'] = t_selChars[cel + 1].author,
+						['discordkey'] = t_selChars[cel + 1].discordkey
+					}
 					p2coopReady = true
 					p2SelEnd = true
 				else
@@ -10445,7 +10519,17 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
-					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2PalSel, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author, ['discordkey'] = t_selChars[cel+1].discordkey}
+					data.t_p2selected[#data.t_p2selected + 1] = {
+						['cel'] = cel,
+						['name'] = t_selChars[cel + 1].name,
+						['displayname'] = t_selChars[cel + 1].displayname,
+						['path'] = t_selChars[cel + 1].char,
+						['pal'] = p2PalSel,
+						['handicap'] = p2HandicapSel,
+						['up'] = updateAnim,
+						['author'] = t_selChars[cel + 1].author,
+						['discordkey'] = t_selChars[cel + 1].discordkey
+					}
 					if #data.t_p2selected == p2numChars then
 						--
 						if data.p1In == 2 and matchNo == 0 then
@@ -10811,9 +10895,9 @@ function f_selectStage()
 					end
 					if songSelect == true then
 						musicList = musicList + 1
-						if musicList == #t_selMusic-1 and not p1song then musicList = musicList + 1 end --Skip Player 1 Song if is not assigned
+						if musicList == #t_selMusic - 1 and not p1song then musicList = musicList + 1 end --Skip Player 1 Song if is not assigned
 						if musicList == 1 and not p2song then musicList = musicList + 1 end --Skip Player 2 Song if is not assigned
-						if musicList > #t_selMusic-1 then musicList = 0 end
+						if musicList > #t_selMusic - 1 then musicList = 0 end
 					end
 				elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufStagel >= 30) then
 					sndPlay(sndSys, 100, 0)
@@ -10950,7 +11034,7 @@ function f_selectStage()
 			musicNo = " " .. musicList-2 .. ""
 		end
 	--Set BGM Name
-		textImgSetText(txt_selectMusic, "BGM" .. musicNo .. ": " .. t_selMusic[musicList+1].bgmname)
+		textImgSetText(txt_selectMusic, "BGM" .. musicNo .. ": " .. t_selMusic[musicList + 1].bgmname)
 	--Draw Info Text
 		if stageSelect == true then --Draw Stage Cursor Text
 			textImgSetBank(txt_selStage, 5)
@@ -11307,7 +11391,7 @@ function f_arcadeTravel()
 	end
 --Portraits Scale Logic
 	for i=#enemySide, 1, -1 do
-		enemyData = t_selChars[enemySide[i].cel+1]
+		enemyData = t_selChars[enemySide[i].cel + 1]
 		if enemyData.vsSprScale ~= nil then
 			scaleData = enemyData.vsSprScale
 		else
@@ -11489,7 +11573,7 @@ function f_orderSelectCursor()
 	end
 --Portraits Scale Logic
 	for j=#data.t_p1selected, 1, -1 do
-		charDataL = t_selChars[data.t_p1selected[j].cel+1]
+		charDataL = t_selChars[data.t_p1selected[j].cel + 1]
 		if charDataL.orderSprScale ~= nil then
 			scaleDataL = charDataL.orderSprScale
 		else
@@ -11498,7 +11582,7 @@ function f_orderSelectCursor()
 		xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	for j=#data.t_p2selected, 1, -1 do
-		charDataR = t_selChars[data.t_p2selected[j].cel+1]
+		charDataR = t_selChars[data.t_p2selected[j].cel + 1]
 		if charDataR.orderSprScale ~= nil then
 			scaleDataR = charDataR.orderSprScale
 		else
@@ -11595,14 +11679,14 @@ function f_orderSelectCursor()
 					if p1Row > #data.t_p1selected then p1Row = 1 end
 				end
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-				if p1Row-1 > 0 then
+				if p1Row - 1 > 0 then
 					sndNumber = 0
 					p1Row = p1Row - 1
 					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row+1]
+					t_tmp[p1Row] = data.t_p1selected[p1Row + 1]
 					for i=1, #data.t_p1selected do
 						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row+1 then
+							if t_tmp[j] == nil and i ~= p1Row + 1 then
 								t_tmp[j] = data.t_p1selected[i]
 								break
 							end
@@ -11611,14 +11695,14 @@ function f_orderSelectCursor()
 					data.t_p1selected = t_tmp
 				end
 			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-				if p1Row+1 <= #data.t_p1selected then
+				if p1Row + 1 <= #data.t_p1selected then
 					sndNumber = 0
 					p1Row = p1Row + 1
 					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row-1]
+					t_tmp[p1Row] = data.t_p1selected[p1Row - 1]
 					for i=1, #data.t_p1selected do
 						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row-1 then
+							if t_tmp[j] == nil and i ~= p1Row - 1 then
 								t_tmp[j] = data.t_p1selected[i]
 								break
 							end
@@ -11657,14 +11741,14 @@ function f_orderSelectCursor()
 					if p1Row > #data.t_p1selected then p1Row = 1 end
 				end
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-				if p1Row-1 > 0 then
+				if p1Row - 1 > 0 then
 					sndNumber = 0
 					p1Row = p1Row - 1
 					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row+1]
+					t_tmp[p1Row] = data.t_p1selected[p1Row + 1]
 					for i=1, #data.t_p1selected do
 						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row+1 then
+							if t_tmp[j] == nil and i ~= p1Row + 1 then
 								t_tmp[j] = data.t_p1selected[i]
 								break
 							end
@@ -11673,14 +11757,14 @@ function f_orderSelectCursor()
 					data.t_p1selected = t_tmp
 				end
 			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-				if p1Row+1 <= #data.t_p1selected then
+				if p1Row + 1 <= #data.t_p1selected then
 					sndNumber = 0
 					p1Row = p1Row + 1
 					t_tmp = {}
-					t_tmp[p1Row] = data.t_p1selected[p1Row-1]
+					t_tmp[p1Row] = data.t_p1selected[p1Row - 1]
 					for i=1, #data.t_p1selected do
 						for j=1, #data.t_p1selected do
-							if t_tmp[j] == nil and i ~= p1Row-1 then
+							if t_tmp[j] == nil and i ~= p1Row - 1 then
 								t_tmp[j] = data.t_p1selected[i]
 								break
 							end
@@ -11713,14 +11797,14 @@ function f_orderSelectCursor()
 					if p2Row > #data.t_p2selected then p2Row = 1 end
 				end
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-				if p2Row+1 <= #data.t_p2selected then
+				if p2Row + 1 <= #data.t_p2selected then
 					sndNumber = 0
 					p2Row = p2Row + 1
 					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row-1]
+					t_tmp[p2Row] = data.t_p2selected[p2Row - 1]
 					for i=1, #data.t_p2selected do
 						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row-1 then
+							if t_tmp[j] == nil and i ~= p2Row - 1 then
 								t_tmp[j] = data.t_p2selected[i]
 								break
 							end
@@ -11729,14 +11813,14 @@ function f_orderSelectCursor()
 					data.t_p2selected = t_tmp
 				end
 			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-				if p2Row-1 > 0 then
+				if p2Row - 1 > 0 then
 					sndNumber = 0
 					p2Row = p2Row - 1
 					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row+1]
+					t_tmp[p2Row] = data.t_p2selected[p2Row + 1]
 					for i=1, #data.t_p2selected do
 						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row+1 then
+							if t_tmp[j] == nil and i ~= p2Row + 1 then
 								t_tmp[j] = data.t_p2selected[i]
 								break
 							end
@@ -11769,14 +11853,14 @@ function f_orderSelectCursor()
 					if p2Row > #data.t_p2selected then p2Row = 1 end
 				end
 			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufOrder2l >= 30) then
-				if p2Row+1 <= #data.t_p2selected then
+				if p2Row + 1 <= #data.t_p2selected then
 					sndNumber = 0
 					p2Row = p2Row + 1
 					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row-1]
+					t_tmp[p2Row] = data.t_p2selected[p2Row - 1]
 					for i=1, #data.t_p2selected do
 						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row-1 then
+							if t_tmp[j] == nil and i ~= p2Row - 1 then
 								t_tmp[j] = data.t_p2selected[i]
 								break
 							end
@@ -11785,14 +11869,14 @@ function f_orderSelectCursor()
 					data.t_p2selected = t_tmp
 				end
 			elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufOrder2r >= 30) then
-				if p2Row-1 > 0 then
+				if p2Row - 1 > 0 then
 					sndNumber = 0
 					p2Row = p2Row - 1
 					t_tmp = {}
-					t_tmp[p2Row] = data.t_p2selected[p2Row+1]
+					t_tmp[p2Row] = data.t_p2selected[p2Row + 1]
 					for i=1, #data.t_p2selected do
 						for j=1, #data.t_p2selected do
-							if t_tmp[j] == nil and i ~= p2Row+1 then
+							if t_tmp[j] == nil and i ~= p2Row + 1 then
 								t_tmp[j] = data.t_p2selected[i]
 								break
 							end
@@ -11971,7 +12055,7 @@ function f_orderSelectButton()
 	end
 --Portraits Scale Logic
 	for j=#data.t_p1selected, 1, -1 do
-		charDataL = t_selChars[data.t_p1selected[j].cel+1]
+		charDataL = t_selChars[data.t_p1selected[j].cel + 1]
 		if charDataL.orderSprScale ~= nil then
 			scaleDataL = charDataL.orderSprScale
 		else
@@ -11980,7 +12064,7 @@ function f_orderSelectButton()
 		xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	for j=#data.t_p2selected, 1, -1 do
-		charDataR = t_selChars[data.t_p2selected[j].cel+1]
+		charDataR = t_selChars[data.t_p2selected[j].cel + 1]
 		if charDataR.orderSprScale ~= nil then
 			scaleDataR = charDataR.orderSprScale
 		else
@@ -12454,11 +12538,11 @@ function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 --Manage Access to the screen
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
+		if t_selChars[data.t_p1selected[1].cel + 1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].vsscreen == 1 then
 			vsScreen = true
 		end
 	else
-		if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+		if t_selChars[data.t_p2selected[1].cel + 1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].vsscreen == 1 then
 			vsScreen = true
 		end
 	end
@@ -12599,24 +12683,24 @@ function f_setAbyssStats()
 	local difficulty = nil
 	setAbyssBossFight(0)
 --Prepare Normal Boss Battle
-	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch+abyssBossMatchNo end
+	if matchNo > abyssBossMatch then abyssBossMatch = abyssBossMatch + abyssBossMatchNo end
 --[[Each time that this screen start, abyssBossMatch will increase abyssBossMatchNo ONLY if matchNo(depth) > abyssBossMatch
 	
 	Examples:
 		abyssBossMatchNo = 20 --loaded from screenpack.lua
 		
 		matchNo = 19
-		abyssBossMatch = 0+20
+		abyssBossMatch = 0 + 20
 		
 		matchNo = 21
-		abyssBossMatch = 20+20 = 40
+		abyssBossMatch = 20 + 20 = 40
 		
 		matchNo = 41
-		abyssBossMatch = 40+20 = 60
+		abyssBossMatch = 40 + 20 = 60
 	]]
 	if matchNo == abyssBossMatch then
 		statsPlus = abyssBossStatsIncrease --When enter in a normal boss match set specific cpu stats (loaded from screenpack.lua)
-		abyssBossMatch = abyssBossMatch+abyssBossMatchNo --Also increase abyssBossMatch counter to the next boss to avoid boss challenger loop when enter in the match
+		abyssBossMatch = abyssBossMatch + abyssBossMatchNo --Also increase abyssBossMatch counter to the next boss to avoid boss challenger loop when enter in the match
 		setAbyssBossFight(1) --This match is an Abyss Boss Fight
 	end
 	setAbyssDepthBoss(abyssBossMatch) --Save NORMAL boss depthNo in ssz to manage as ".com.abyssDepthBoss" via fighting.ssz, match.cns, etc
@@ -12653,10 +12737,10 @@ function f_setAbyssStats()
 		end
 	--CPU
 		for p=1, #data.t_p2selected do
-			data.t_p2selected[p]['life'] = t_abyssSel[abyssSel].cpustats+statsPlus
-			data.t_p2selected[p]['power'] = t_abyssSel[abyssSel].cpustats+statsPlus
-			data.t_p2selected[p]['attack'] = t_abyssSel[abyssSel].cpustats+statsPlus
-			data.t_p2selected[p]['defence'] = t_abyssSel[abyssSel].cpustats+statsPlus
+			data.t_p2selected[p]['life'] = t_abyssSel[abyssSel].cpustats + statsPlus
+			data.t_p2selected[p]['power'] = t_abyssSel[abyssSel].cpustats + statsPlus
+			data.t_p2selected[p]['attack'] = t_abyssSel[abyssSel].cpustats + statsPlus
+			data.t_p2selected[p]['defence'] = t_abyssSel[abyssSel].cpustats + statsPlus
 			if cpuItems ~= nil then
 				data.t_p2selected[p]['itemslot'] = cpuItems
 			else
@@ -12796,7 +12880,7 @@ function f_selectWin()
 		if data.winscreen == "Fixed" or not data.victoryscreen then --Permanent Victory Quotes when Left Side Wins
 			txt = "READY FOR THE NEXT BATTLE?"
 		else --Victory Quotes from Left Side char
-			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected)
+			txt = f_winParse(t_selChars[data.t_p1selected[1].cel + 1], t_selChars[data.t_p2selected[1].cel + 1], data.t_p2selected[1].pal, #data.t_p2selected)
 		end
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
@@ -12813,13 +12897,13 @@ function f_selectWin()
 		if data.winscreen == "Fixed" or not data.victoryscreen then --Permanent Victory Quotes when Right Side Wins
 			txt = "READY FOR THE NEXT BATTLE?"
 		else --Victory Quotes from Right Side char
-			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected)
+			txt = f_winParse(t_selChars[data.t_p2selected[1].cel + 1], t_selChars[data.t_p1selected[1].cel + 1], data.t_p1selected[1].pal, #data.t_p1selected)
 		end
 	end
 	if txt == "" or txt == nil then txt = "I am the winner!" end --In case that f_winParse returns "nothing"
 --Portraits Scale Logic
 	for j=#winnerSide, 1, -1 do
-		charData = t_selChars[winnerSide[j].cel+1]
+		charData = t_selChars[winnerSide[j].cel + 1]
 		if charData.winSprScale ~= nil then
 			scaleData = charData.winSprScale
 		else
@@ -13783,7 +13867,7 @@ function f_result(state)
 			textImgSetText(txt_resultTeam, "")
 		end
 	end
-	local charData = t_selChars[charPortr+1]
+	local charData = t_selChars[charPortr + 1]
 	if charData.resultSprScale ~= nil then
 		scaleData = charData.resultSprScale
 	else
@@ -13944,29 +14028,29 @@ function f_continue()
 	local animLength4 = 0
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
-			tablePos = t_selChars[data.t_p2selected[1].cel+1] --Your 1st char appear in continue screen
+			tablePos = t_selChars[data.t_p2selected[1].cel + 1] --Your 1st char appear in continue screen
 		end
 		if p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
-			tablePos2 = t_selChars[data.t_p2selected[2].cel+1] --Your 2nd char appears in continue screen
+			tablePos2 = t_selChars[data.t_p2selected[2].cel + 1] --Your 2nd char appears in continue screen
 		end
 		if p2numChars == 3 or p2numChars == 4 then
-			tablePos3 = t_selChars[data.t_p2selected[3].cel+1] --Your 3rd char appears in continue screen
+			tablePos3 = t_selChars[data.t_p2selected[3].cel + 1] --Your 3rd char appears in continue screen
 		end
 		if p2numChars == 4 then
-			tablePos4 = t_selChars[data.t_p2selected[4].cel+1] --Your 4th char appears in continue screen
+			tablePos4 = t_selChars[data.t_p2selected[4].cel + 1] --Your 4th char appears in continue screen
 		end
 	else
 		if p1numChars == 1 or p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
+			tablePos = t_selChars[data.t_p1selected[1].cel + 1]
 		end
 		if p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
-			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+			tablePos2 = t_selChars[data.t_p1selected[2].cel + 1]
 		end
 		if p1numChars == 3 or p1numChars == 4 then
-			tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+			tablePos3 = t_selChars[data.t_p1selected[3].cel + 1]
 		end
 		if p1numChars == 4 then
-			tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
+			tablePos4 = t_selChars[data.t_p1selected[4].cel + 1]	
 		end
 	end
 	if tablePos.sffData ~= nil and tablePos.dizzy ~= nil then
@@ -14124,7 +14208,7 @@ function f_continue()
 			end
 			drawContinueInputHints()
 		elseif data.continue == 1 then --Continue = YES
-			if animLength4+30 > 0 then
+			if animLength4 + 30 > 0 then
 					animLength4 = animLength4 - 1
 					if anim4 then
 						animDraw(anim4)
@@ -14136,7 +14220,7 @@ function f_continue()
 					--animDraw(fadeContinue)
 					--animUpdate(fadeContinue)
 				--end
-				if animLength3+30 > 0 then
+				if animLength3 + 30 > 0 then
 					animLength3 = animLength3 - 1
 					if anim3 then
 						animDraw(anim3)
@@ -14149,7 +14233,7 @@ function f_continue()
 					--animDraw(fadeContinue)
 					--animUpdate(fadeContinue)
 				--end
-				if animLength2+30 > 0 then
+				if animLength2 + 30 > 0 then
 					animLength2 = animLength2 - 1
 					if anim2 then
 						animDraw(anim2)
@@ -14162,7 +14246,7 @@ function f_continue()
 					--animDraw(fadeContinue)
 					--animUpdate(fadeContinue)
 				--end
-				if animLength+30 > 0 then
+				if animLength + 30 > 0 then
 					animLength = animLength - 1
 					if anim then
 						animDraw(anim)
@@ -14247,29 +14331,29 @@ function f_gameOver()
 	local i = 0
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
+			tablePos = t_selChars[data.t_p2selected[1].cel + 1]
 		end
 		if p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
-			tablePos2 = t_selChars[data.t_p2selected[2].cel+1]
+			tablePos2 = t_selChars[data.t_p2selected[2].cel + 1]
 		end
 		if p2numChars == 3 or p2numChars == 4 then
-			tablePos3 = t_selChars[data.t_p2selected[3].cel+1]
+			tablePos3 = t_selChars[data.t_p2selected[3].cel + 1]
 		end
 		if p2numChars == 4 then
-			tablePos4 = t_selChars[data.t_p2selected[4].cel+1]	
+			tablePos4 = t_selChars[data.t_p2selected[4].cel + 1]	
 		end
 	else
 		if p1numChars == 1 or p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
+			tablePos = t_selChars[data.t_p1selected[1].cel + 1]
 		end
 		if p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
-			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+			tablePos2 = t_selChars[data.t_p1selected[2].cel + 1]
 		end
 		if p1numChars == 3 or p1numChars == 4 then
-			tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+			tablePos3 = t_selChars[data.t_p1selected[3].cel + 1]
 		end
 		if p1numChars == 4 then
-			tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
+			tablePos4 = t_selChars[data.t_p1selected[4].cel + 1]	
 		end
 	end
 	if tablePos.sffData ~= nil then
@@ -14340,7 +14424,7 @@ function f_gameOver()
 				animDraw(contBG1)
 				animDraw(contBG2)
 			end
-			if i <= 226+60 then
+			if i <= 226 + 60 then
 				animDraw(gameOver)
 				animUpdate(gameOver)
 				if i == 190 then --music is shorter than animation and we don't want looping here
@@ -14404,11 +14488,11 @@ if validCells() then
 		if winner > 0 then
 		--Victory Screen
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
+				if t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1 then
 					f_selectWin()
 				end
 			else
-				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
+				if t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1 then
 					f_selectWin()
 				end
 			end
@@ -14710,9 +14794,9 @@ if validCells() then
 		--Arcade Intro
 			if data.arcadeIntro == true then
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-					storyBoardSide = t_selChars[data.t_p2selected[1].cel+1]
+					storyBoardSide = t_selChars[data.t_p2selected[1].cel + 1]
 				else
-					storyBoardSide = t_selChars[data.t_p1selected[1].cel+1]
+					storyBoardSide = t_selChars[data.t_p1selected[1].cel + 1]
 				end
 				local tPos = storyBoardSide
 				if tPos.intro ~= nil and io.open(tPos.intro or '','r') ~= nil then
@@ -14804,7 +14888,7 @@ if validCells() then
 					looseCnt = looseCnt + 1
 				--Victory screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
-						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
+						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
@@ -14825,7 +14909,7 @@ if validCells() then
 					end
 					f_records()
 				--Victory Screen
-					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
+					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
 						f_selectWin()
 					end
 				--Continue Screen
@@ -14867,7 +14951,7 @@ if validCells() then
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
-					if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
+					if t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1 then
 						f_selectWin()
 					end
 				end
@@ -14875,7 +14959,7 @@ if validCells() then
 				if matchNo >= lastMatch then
 				--Arcade Ending
 					if data.arcadeEnding == true then
-						local tPos = t_selChars[data.t_p1selected[1].cel+1]
+						local tPos = t_selChars[data.t_p1selected[1].cel + 1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
 							f_storyboard(tPos.ending)
 						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '','r') ~= nil then
@@ -14908,7 +14992,7 @@ if validCells() then
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
-					if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
+					if t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1 then
 						f_selectWin()
 					end
 				end
@@ -14916,7 +15000,7 @@ if validCells() then
 				if matchNo >= lastMatch then
 				--Arcade Ending
 					if data.arcadeEnding == true then
-						local tPos = t_selChars[data.t_p2selected[1].cel+1]
+						local tPos = t_selChars[data.t_p2selected[1].cel + 1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
 							f_storyboard(tPos.ending)
 						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '','r') ~= nil then
@@ -14942,7 +15026,7 @@ if validCells() then
 					looseCnt = looseCnt + 1
 				--Victory Screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
-						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
+						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
@@ -14963,7 +15047,7 @@ if validCells() then
 					end
 					f_records() --Save Stats
 				--Victory Screen
-					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
+					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
 						f_selectWin()
 					end
 				--Continue Screen
@@ -15008,11 +15092,11 @@ if validCells() then
 				looseCnt = looseCnt + 1
 				if data.gameMode == "arcade" or data.gameMode == "tower" then --Attract Arcade
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
+						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					else
-						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
+						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
@@ -15133,11 +15217,11 @@ if validCells() then
 					end
 					f_records()
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
+						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					else
-						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
+						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
@@ -15186,8 +15270,8 @@ if validCells() then
 			data.t_p1selected = {}
 			shuffle = true --was local function
 			for i=1, p1numChars do
-				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then --Force Arcade Path Fight according to match number: 1, 2, (...)
-					p1Cell = t_charDef[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
+				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel + 1][matchNo] ~= nil then --Force Arcade Path Fight according to match number: 1, 2, (...)
+					p1Cell = t_charDef[t_selChars[data.t_p2selected[1].cel + 1][matchNo]]
 					shuffle = false
 				else
 					if data.gameMode == "tower" then
@@ -15254,7 +15338,15 @@ if validCells() then
 						updateAnim = false
 					end
 				end
-				data.t_p1selected[#data.t_p1selected + 1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell + 1].name, ['displayname'] = t_selChars[p1Cell + 1].displayname, ['path'] = t_selChars[p1Cell + 1].char, ['pal'] = p1Pal, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['rand'] = false}
+				data.t_p1selected[#data.t_p1selected + 1] = {
+					['cel'] = p1Cell,
+					['name'] = t_selChars[p1Cell + 1].name,
+					['displayname'] = t_selChars[p1Cell + 1].displayname,
+					['path'] = t_selChars[p1Cell + 1].char,
+					['pal'] = p1Pal,
+					['handicap'] = p1HandicapSel,
+					['up'] = updateAnim, ['rand'] = false
+				}
 				if shuffle then
 					f_shuffleTable(data.t_p1selected)
 				end
@@ -15265,13 +15357,22 @@ if validCells() then
 			numChars = p1numChars --was local function
 			if p1numChars > 1 then
 				for i=1, #data.t_p1selected do
-					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or (t_selChars[data.t_p1selected[i].cel+1].single ~= nil and t_selChars[data.t_p1selected[i].cel+1].single == 1) or (t_selChars[data.t_p1selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel+1].bonus == 1) then
+					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or (t_selChars[data.t_p1selected[i].cel + 1].single ~= nil and t_selChars[data.t_p1selected[i].cel + 1].single == 1) or (t_selChars[data.t_p1selected[i].cel + 1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel + 1].bonus == 1) then
 						p1teamMode = 0
 						p1numChars = 1
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
-						p1Cell = t_charDef[t_selChars[data.t_p1selected[i].cel+1].char]
+						p1Cell = t_charDef[t_selChars[data.t_p1selected[i].cel + 1].char]
 						data.t_p1selected = {}
-						data.t_p1selected[1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = p1Pal, ['handicap'] = p1HandicapSel, ['up'] = true, ['rand'] = false}
+						data.t_p1selected[1] = {
+							['cel'] = p1Cell,
+							['name'] = t_selChars[p1Cell + 1].name,
+							['displayname'] = t_selChars[p1Cell + 1].displayname,
+							['path'] = t_selChars[p1Cell + 1].char,
+							['pal'] = p1Pal,
+							['handicap'] = p1HandicapSel,
+							['up'] = true,
+							['rand'] = false
+						}
 						restoreTeam = true
 						break
 					end
