@@ -572,7 +572,7 @@ function drawAttractStatus(state, x, y, align, scaleX, scaleY)
 	textImgSetPos(txt_attractState, x, y)
 	textImgSetScale(txt_attractState, scaleX, scaleY)
 	textImgSetAlign(txt_attractState, align)
-	if attractCnt%60 < 30 then
+	if attractCnt % 60 < 30 then
 	--Title Screen
 		if state == 1 then
 			if getCredits() > 0 then

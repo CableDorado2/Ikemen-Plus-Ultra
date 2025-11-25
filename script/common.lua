@@ -128,9 +128,9 @@ abyssDat = json.decode(f_fileRead(saveAbyssPath))
 --;===========================================================
 --Constants/Standards
 gameTick = 20
-tickTime = 1/gameTick
-gameTime = os.clock()/1000
-nextRefresh = os.clock()+tickTime
+tickTime = 1 / gameTick
+gameTime = os.clock() / 1000
+nextRefresh = os.clock() + tickTime
 
 function getSleep()
 --On Windows, Sleep is defined in milliseconds
@@ -281,7 +281,7 @@ function f_textRender(textName, str, counter, x, y, spacing, delay, limit, maxli
 		end
 	end
 --Determine how much text to display
-	local subEnd = math.floor(#str - (#str - counter/delay))
+	local subEnd = math.floor(#str - (#str - counter / delay))
 	local t = {}
 	for line in str:gmatch('([^\r\n]*)[\r\n]?') do
 		t[#t+1] = line
@@ -468,9 +468,9 @@ end
 function f_drawCharAnim(t, data, x, y, update, scaleX, scaleY, alphaS, alphaD)
 	if t ~= nil and t[data] ~= nil then
 		scaleX = scaleX or 1
-		scaleX = t.xscale*scaleX --Because some characters have different scales
+		scaleX = t.xscale * scaleX --Because some characters have different scales
 		scaleY = scaleY or 1
-		scaleY = t.yscale*scaleY
+		scaleY = t.yscale * scaleY
 		alphaS = alphaS or 255
 		alphaD = alphaD or 0
 		animSetScale(t[data], scaleX, scaleY)
@@ -519,24 +519,24 @@ function f_fadeAnim(ticks, fadeType, color, sff)
 	if color == 'white' then
 		if fadeType == 'fadeout' then
 			for i=1, ticks do
-				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256/ticks*i) .. 'D256\n'
+				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256 / ticks * i) .. 'D256\n'
 			end
 			anim = anim .. '0,1, 0,0, -1, 0, AS256D256'
 		else --fadein
 			for i=ticks, 1, -1 do
-				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256/ticks*i) .. 'D256\n'
+				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256 / ticks * i) .. 'D256\n'
 			end
 			anim = anim .. '0,1, 0,0, -1, 0, AS0D256'
 		end
 	else --black
 		if fadeType == 'fadeout' then
 			for i=ticks, 1, -1 do
-				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256/ticks*i) .. '\n'
+				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256 / ticks * i) .. '\n'
 			end
 			anim = anim .. '0,0, 0,0, -1, 0, AS256D0'
 		else --fadein
 			for i=1, ticks do
-				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256/ticks*i) .. '\n'
+				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256 / ticks * i) .. '\n'
 			end
 			anim = anim .. '0,0, 0,0, -1, 0, AS256D256'
 		end
@@ -890,17 +890,17 @@ function f_setThousandsFormat(num)
 end
 
 function f_setTimeFormat(ticks)
-	local num = tonumber(ticks)/gameTick
+	local num = tonumber(ticks) / gameTick
 	local secondsTotal = math.floor(num) --Entire part of the seconds
 --[[
-	local th = math.floor((clearTime%86400)/3600)
-	local tm = math.floor((clearTime%3600)/60)
-	local ts = math.floor((clearTime%60))
+	local th = math.floor((clearTime % 86400) / 3600)
+	local tm = math.floor((clearTime % 3600) / 60)
+	local ts = math.floor((clearTime % 60))
 ]]
-	local th = math.floor(secondsTotal/3600) --Hour
-	local tm = math.floor((secondsTotal%3600)/60) --Minute
-	local ts = secondsTotal%60 --Second
-	local tms = math.floor((num-secondsTotal)*1000)%1000 --Milisecond
+	local th = math.floor(secondsTotal / 3600) --Hour
+	local tm = math.floor((secondsTotal % 3600) / 60) --Minute
+	local ts = secondsTotal % 60 --Second
+	local tms = math.floor((num - secondsTotal) * 1000) % 1000 --Milisecond
 	return string.format("%02d'%02d''%03d", tm, ts, tms)
 	--return string.format("%02d:%02d:%02d:%03d", th, tm, ts, tms)
 end
@@ -1879,10 +1879,10 @@ function f_storyboardPlay(tIn)
 		end
 	--fadeout (anim data)
 		tOut.scenes[i]['fadeoutData'] = f_fadeAnim(tOut.scenes[i].fadeoutTime, 'fadeout', tOut.scenes[i].fadeoutCol, sprFade)
-	--clearcolor = r, g, b (int, int, int) --currently only black when average of RGB <= 128 and white if >128, can't generate a color not from sprite
+	--clearcolor = r, g, b (int, int, int) --currently only black when average of RGB <= 128 and white if > 128, can't generate a color not from sprite
 		if tIn.scenes[i]['clearcolor'] ~= nil then
 			local tmp1, tmp2, tmp3 = tIn.scenes[i]['clearcolor']:match('([0-9]+)%s*,%s*([0-9]+)%s*,%s*([0-9]+)')
-			if (tmp1+tmp2+tmp3)/3 > 128 then
+			if (tmp1 + tmp2 + tmp3) / 3 > 128 then
 				tOut.scenes[i]['clearcolor'] = 'white' --for debugging only
 				tOut.scenes[i]['clearcolorData'] = animNew(sprFade, '0,1, 0,0, -1')
 				animUpdate(tOut.scenes[i]['clearcolorData'])
@@ -2341,12 +2341,12 @@ end
 function f_default() --Reset Game Modes Configuration
 	resetRemapInput()
 --settings adjustable via options
-	setRoundTime(data.roundTime*60)
+	setRoundTime(data.roundTime * 60)
 	setRoundsToWin(data.roundsNum)
-	setLifeMul(data.lifeMul/100)
+	setLifeMul(data.lifeMul / 100)
 	setPowerMul(0)
-	setTeam1VS2Life(data.team1VS2Life/100)
-	setTurnsRecoveryRate(1.0/data.turnsRecoveryRate)
+	setTeam1VS2Life(data.team1VS2Life / 100)
+	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
 	setPowerShare(1, data.teamPowerShare) --Team Power Share for Left Side
 	setPowerShare(2, data.teamPowerShare) --Team Power Share for Right Side

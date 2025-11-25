@@ -411,7 +411,7 @@ local function f_theVault()
 	--Draw Text
 		textImgSetText(txt_vaultText,word)
 		textImgDraw(txt_vaultText)
-		if i%60 < 30 then
+		if i % 60 < 30 then
 			textImgPosDraw(txt_vaultBar, 160 + (textImgGetWidth(txt_vaultText) * 0.5) + (textImgGetWidth(txt_vaultText) > 0 and 2 or 0), 120)
 		end
 	--Draw Button Option Text

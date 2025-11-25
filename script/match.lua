@@ -335,7 +335,7 @@ local function f_applyToSide(side, atrib, val)
 	local atrib = atrib or ""
 	local val = val or nil
 	for p=1,8 do
-		if p%2 == 0 then --Is an Even Player Number (Right Side)
+		if p % 2 == 0 then --Is an Even Player Number (Right Side)
 			if side == "right" then
 				if player(p) then
 					if atrib == "-life" then
@@ -456,7 +456,7 @@ local function f_abyssItemsSet()
 					if p1Dat[i].itemslot[slot] == txt_abyssShopCurse.."1" then damageReceived = damageReceived / 2 end --Reduce to half
 					--f_applyToSide("right", "-life", damageReceived)
 					for p=1, 8 do
-						if p%2 == 0 then
+						if p % 2 == 0 then
 							if player(p) then setLife(life() - damageReceived) end
 						end
 					end
@@ -465,7 +465,7 @@ local function f_abyssItemsSet()
 				if p1Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
 					--f_applyToSide("right", "powerset", 0)
 					for p=1, 8 do
-						if p%2 == 0 then
+						if p % 2 == 0 then
 							if player(p) then setPower(0) end
 						end
 					end
@@ -491,7 +491,7 @@ local function f_abyssItemsSet()
 			poisonItemTime = poisonItemTime + 1
 			--f_applyToSide("right", "-life", 1) --Replace below with this
 			for p=1, 8 do
-				if p%2 == 0 then --Is an Even Player Number
+				if p % 2 == 0 then --Is an Even Player Number
 					if player(p) then setLife(life() - 1) end
 				end
 			end
@@ -584,7 +584,7 @@ local function f_abyssItemsSetCPU()
 					if p2Dat[i].itemslot[slot] == txt_abyssShopCurse.."1" then damageReceivedCPU = damageReceivedCPU / 2 end --Reduce to half
 					--f_applyToSide("left", "-life", damageReceivedCPU)
 					for p=1, 8 do
-						if p%2 == 0 then
+						if p % 2 == 0 then
 							
 						else
 							if player(p) then setLife(life() - damageReceivedCPU) end
@@ -595,7 +595,7 @@ local function f_abyssItemsSetCPU()
 				if p2Dat[i].itemslot[slot] == txt_abyssShopNoPowerCPU then
 					--f_applyToSide("left", "powerset", 0)
 					for p=1, 8 do
-						if p%2 == 0 then
+						if p % 2 == 0 then
 						
 						else
 							if player(p) then setPower(0) end
@@ -613,7 +613,7 @@ local function f_abyssItemsSetCPU()
 			poisonItemTimeCPU = poisonItemTimeCPU + 1
 			--f_applyToSide("left", "-life", 1) --Replace below with this
 			for p=1, 8 do
-				if p%2 == 0 then --Is an Even Player Number
+				if p % 2 == 0 then --Is an Even Player Number
 					
 				else
 					if player(p) then setLife(life() - 1) end
