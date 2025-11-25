@@ -2239,7 +2239,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	if data.gameMode == "arcade" and matchNo == arcadeRivalMatchNo then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
 	elseif (data.gameMode == "arcade" or data.gameMode == "allroster") and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
 	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
-	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR "..matchNo-1) --Set Tower Match Text
+	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR "..matchNo - 1) --Set Tower Match Text
 	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH "..getAbyssDepth()) --Set Abyss Depth Match Text
 	end
 	if data.gameMode == "survival" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
@@ -3818,7 +3818,7 @@ for i=1, #t_regenHPItems do
 	t_regenHPItems[i].text = txt_abyssShopLifeRegeneration..lv
 	t_regenHPItems[i].info = "Gradually regenerates Life over time."..t_regenHPItems[i].lvinfo
 end
---;---------------------------------------------------------------------------------------------------
+--====================================================================================================
 local t_poisonItems = {
  {showfromdepth = 0, price = 2000, lvinfo = "short", unlock = "true"},
  {showfromdepth = 0, price = 5000, lvinfo = "medium", unlock = "true"},
@@ -3831,7 +3831,7 @@ for i=1, #t_poisonItems do
 	t_poisonItems[i].text = txt_abyssShopPoison..lv
 	t_poisonItems[i].info = "Landing an attack on the opponent will poison him for a "..t_poisonItems[i].lvinfo.." time."
 end
---;---------------------------------------------------------------------------------------------------
+--====================================================================================================
 local t_restoreHPItems = {
  {showfromdepth = 0, price = 1500, lvinfo = "small", unlock = "true"},
  {showfromdepth = 0, price = 4500, lvinfo = "medium", unlock = "true"},
@@ -3844,7 +3844,7 @@ for i=1, #t_restoreHPItems do
 	t_restoreHPItems[i].text = txt_abyssShopLifeRestore..lv
 	t_restoreHPItems[i].info = "Regenerates a "..t_restoreHPItems[i].lvinfo.." amount of Life after the match has been won."
 end
---;---------------------------------------------------------------------------------------------------
+--====================================================================================================
 local t_curseItems = {
  {showfromdepth = 0, price = 6660, lvinfo = "Half", unlock = "true"},
  {showfromdepth = 0, price = 9990, lvinfo = "All", unlock = "true"},
@@ -3856,7 +3856,7 @@ for i=1, #t_curseItems do
 	t_curseItems[i].text = txt_abyssShopCurse..lv
 	t_curseItems[i].info = t_curseItems[i].lvinfo.." of the damage you take, your opponent will take."
 end
---;---------------------------------------------------------------------------------------------------
+--====================================================================================================
 local t_regenPowItems = {
  {showfromdepth = 0, price = 1000, lvinfo = "", unlock = "true"},
  {showfromdepth = 0, price = 4000, lvinfo = " (Quicker than Lv.1)", unlock = "true"},
@@ -3869,7 +3869,7 @@ for i=1, #t_regenPowItems do
 	t_regenPowItems[i].text = txt_abyssShopPowerRegeneration..lv
 	t_regenPowItems[i].info = "Gradually regenerates Power over time."..t_regenPowItems[i].lvinfo
 end
---;---------------------------------------------------------------------------------------------------
+--====================================================================================================
 t_abyssSpecialItems = {"delete"} --Create All Special Items Table
 local function f_addAbyssSPItems(t)
 	for i=1, #t do --Send all Items from "t" table to t_abyssSpecialItems
@@ -3886,19 +3886,19 @@ f_addAbyssSPItems(t_nolvItems)
 --When all items are ready:
 table.remove(t_abyssSpecialItems, t_abyssSpecialItems.delete) --Remove first item ("delete") generate as placeholder to use f_addAbyssSPItems
 if data.debugLog then f_printTable(t_abyssSpecialItems, "save/debug/t_abyssSpecialItems.log") end
---;---------------------------------------------------------------------------------------------------
+--====================================================================================================
 --Life Items
 t_abyssLife = {
- {val = 1,  showfromdepth = 0, 	 price = txt_abyssShopItemPrice1-50,   unlock = "true"},
- {val = 2,  showfromdepth = 100, price = txt_abyssShopItemPrice1-50,   unlock = "true"},
- {val = 3,  showfromdepth = 200, price = txt_abyssShopItemPrice1-50,   unlock = "true"},
- {val = 4,  showfromdepth = 300, price = txt_abyssShopItemPrice2-50,   unlock = "true"},
- {val = 5,  showfromdepth = 400, price = txt_abyssShopItemPrice2-50,   unlock = "true"},
- {val = 6,  showfromdepth = 500, price = txt_abyssShopItemPrice2-50,   unlock = "true"},
- {val = 7,  showfromdepth = 600, price = txt_abyssShopItemPrice3-50,   unlock = "true"},
- {val = 8,  showfromdepth = 700, price = txt_abyssShopItemPrice3-50,   unlock = "true"},
- {val = 9,  showfromdepth = 800, price = txt_abyssShopItemPrice3-50,   unlock = "true"},
- {val = 10, showfromdepth = 900, price = txt_abyssShopItemPriceMax-50, unlock = "true"},
+ {val = 1,  showfromdepth = 0, 	 price = txt_abyssShopItemPrice1 - 50,   unlock = "true"},
+ {val = 2,  showfromdepth = 100, price = txt_abyssShopItemPrice1 - 50,   unlock = "true"},
+ {val = 3,  showfromdepth = 200, price = txt_abyssShopItemPrice1 - 50,   unlock = "true"},
+ {val = 4,  showfromdepth = 300, price = txt_abyssShopItemPrice2 - 50,   unlock = "true"},
+ {val = 5,  showfromdepth = 400, price = txt_abyssShopItemPrice2 - 50,   unlock = "true"},
+ {val = 6,  showfromdepth = 500, price = txt_abyssShopItemPrice2 - 50,   unlock = "true"},
+ {val = 7,  showfromdepth = 600, price = txt_abyssShopItemPrice3 - 50,   unlock = "true"},
+ {val = 8,  showfromdepth = 700, price = txt_abyssShopItemPrice3 - 50,   unlock = "true"},
+ {val = 9,  showfromdepth = 800, price = txt_abyssShopItemPrice3 - 50,   unlock = "true"},
+ {val = 10, showfromdepth = 900, price = txt_abyssShopItemPriceMax - 50, unlock = "true"},
 }
 for i=1, #t_abyssLife do --Set common values to all table items
 	t_abyssLife[i].life = true --Make this item recognizable as a life increase item
