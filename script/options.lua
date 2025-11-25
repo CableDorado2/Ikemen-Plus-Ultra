@@ -3497,12 +3497,12 @@ function f_systemCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 290, maxsystemCfg*15)
+		animSetScale(optionsBG1, 290, maxsystemCfg * 15)
 		animSetWindow(optionsBG1, 30,20, 260,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_systemCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
+			animSetWindow(cursorBox, 30,5 + cursorPosY * 15, 260,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3532,8 +3532,8 @@ function f_systemCfg()
 					posX = 160
 				end
 				if t_systemCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, align, t_systemCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, -1, t_systemCfg[i].varText, 286, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, align, t_systemCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_systemCfg[i].varID, font2, 0, -1, t_systemCfg[i].varText, 286, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -3743,12 +3743,12 @@ function f_selectCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxselectCfg*15)
+		animSetScale(optionsBG1, 220, maxselectCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_selectCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3767,8 +3767,8 @@ function f_selectCfg()
 					posX = 160
 				end
 				if t_selectCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_selectCfg[i].varID, font2, 0, align, t_selectCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_selectCfg[i].varID, font2, 0, -1, t_selectCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_selectCfg[i].varID, font2, 0, align, t_selectCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_selectCfg[i].varID, font2, 0, -1, t_selectCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -4881,7 +4881,7 @@ function f_rosterCfg()
 	--REAL TIME Test
 	--Roster 1
 		setSelColRow(data.selectColumns, data.selectRows)
-		setSelCellSize(data.cellSizeX+data.cellSpacingX, data.cellSizeY+data.cellSpacingY)
+		setSelCellSize(data.cellSizeX + data.cellSpacingX, data.cellSizeY + data.cellSpacingY)
 		setSelCellScale(data.cellScaleX, data.cellScaleY)
 		f_randomSlot() --Draw Random Slots
 		if not singlePlayRoster then
@@ -4894,9 +4894,9 @@ function f_rosterCfg()
 		drawFace(faceX, faceY, 0) --Draw Character Face Portrait
 		for i=0, data.selectColumns-1 do
 			for j=0, data.selectRows-1 do
-				--local p1charSlot = data.p1SelX+i+data.selectColumns*(data.p1SelY+j)
+				--local p1charSlot = data.p1SelX + i + data.selectColumns * (data.p1SelY + j)
 				--if getCharName(p1charSlot) ~= '' then
-					animPosDraw(selectCell, faceX+i*(data.cellSizeX+data.cellSpacingX), faceY+j*(data.cellSizeY+data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+					animPosDraw(selectCell, faceX + i * (data.cellSizeX + data.cellSpacingX), faceY + j * (data.cellSizeY + data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
 					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				--end
 			end
@@ -4906,24 +4906,24 @@ function f_rosterCfg()
 			drawFace(data.p2FaceX, data.p2FaceY, 0)
 			for i=0, data.selectColumns-1 do
 				for j=0, data.selectRows-1 do
-					animPosDraw(selectCell, data.p2FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+j*(data.cellSizeY+data.cellSpacingY))
+					animPosDraw(selectCell, data.p2FaceX + i * (data.cellSizeX + data.cellSpacingX), data.p2FaceY + j * (data.cellSizeY + data.cellSpacingY))
 					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				end
 			end
 		end
-		animPosDraw(p1ActiveCursor, faceX+data.p1SelX*(data.cellSizeX+data.cellSpacingX), faceY+(data.p1SelY-0)*(data.cellSizeY+data.cellSpacingY))
+		animPosDraw(p1ActiveCursor, faceX + data.p1SelX * (data.cellSizeX + data.cellSpacingX), faceY + (data.p1SelY - 0) * (data.cellSizeY + data.cellSpacingY))
 		animSetScale(p1ActiveCursor, data.cellScaleX, data.cellScaleY)
-		if data.selectType == "Simple" or singlePlayRoster then animPosDraw(p2ActiveCursor, faceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), faceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY))
-		elseif data.selectType == "Advanced" and not singlePlayRoster then animPosDraw(p2ActiveCursor, data.p2FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY)) --For roster 2
+		if data.selectType == "Simple" or singlePlayRoster then animPosDraw(p2ActiveCursor, faceX + data.p2SelX * (data.cellSizeX + data.cellSpacingX), faceY + (data.p2SelY - 0) * (data.cellSizeY + data.cellSpacingY))
+		elseif data.selectType == "Advanced" and not singlePlayRoster then animPosDraw(p2ActiveCursor, data.p2FaceX + data.p2SelX * (data.cellSizeX + data.cellSpacingX), data.p2FaceY + (data.p2SelY - 0) * (data.cellSizeY + data.cellSpacingY)) --For roster 2
 		end
 		animSetScale(p2ActiveCursor, data.cellScaleX, data.cellScaleY)
 	--
-		animSetScale(optionsBG1, 220, maxrosterCfg*15)
+		animSetScale(optionsBG1, 220, maxrosterCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,30)
 		animDraw(optionsBG1)
 		textImgDraw(txt_rosterCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -4936,8 +4936,8 @@ function f_rosterCfg()
 		end
 		if data.debugMode then
 			f_drawQuickText(txt_characterNomber, font1, 1, 0, "SELECT.DEF LOADED SLOTS: "..#t_selChars, 160, 60)
-			f_drawQuickText(txt_p1StartCursor, font1, 1, 0, "P1 START ON "..getCharName(data.p1SelX+data.selectColumns*data.p1SelY), 160, 70)
-			f_drawQuickText(txt_p2StartCursor, font1, 1, 0, "P2 START ON "..getCharName(data.p2SelX+data.selectColumns*data.p2SelY), 160, 80)
+			f_drawQuickText(txt_p1StartCursor, font1, 1, 0, "P1 START ON "..getCharName(data.p1SelX + data.selectColumns * data.p1SelY), 160, 70)
+			f_drawQuickText(txt_p2StartCursor, font1, 1, 0, "P2 START ON "..getCharName(data.p2SelX + data.selectColumns * data.p2SelY), 160, 80)
 		end
 		t_rosterCfg[1].varText = data.selectRows
 		t_rosterCfg[2].varText = data.selectColumns
@@ -4983,8 +4983,8 @@ function f_rosterCfg()
 					posX = 160
 				end
 				if t_rosterCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_rosterCfg[i].varID, font2, 0, align, t_rosterCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_rosterCfg[i].varID, font2, 0, -1, t_rosterCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_rosterCfg[i].varID, font2, 0, align, t_rosterCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_rosterCfg[i].varID, font2, 0, -1, t_rosterCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -5185,12 +5185,12 @@ function f_stageCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxstageCfg*15)
+		animSetScale(optionsBG1, 220, maxstageCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_stageCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5208,8 +5208,8 @@ function f_stageCfg()
 					posX = 160
 				end
 				if t_stageCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_stageCfg[i].varID, font2, 0, align, t_stageCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_stageCfg[i].varID, font2, 0, -1, t_stageCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_stageCfg[i].varID, font2, 0, align, t_stageCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_stageCfg[i].varID, font2, 0, -1, t_stageCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -5530,12 +5530,12 @@ function f_timeCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxtimeCfg*15)
+		animSetScale(optionsBG1, 220, maxtimeCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_timeCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5556,8 +5556,8 @@ function f_timeCfg()
 					posX = 160
 				end
 				if t_timeCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, align, t_timeCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, -1, t_timeCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, align, t_timeCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, -1, t_timeCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -5686,12 +5686,12 @@ function f_replayCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxreplayCfg*15)
+		animSetScale(optionsBG1, 220, maxreplayCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_replayCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5708,8 +5708,8 @@ function f_replayCfg()
 					posX = 160
 				end
 				if t_replayCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, align, t_replayCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, -1, t_replayCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, align, t_replayCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_replayCfg[i].varID, font2, 0, -1, t_replayCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -5877,12 +5877,12 @@ function f_songCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG2, 320, maxsongCfg*15)
+		animSetScale(optionsBG2, 320, maxsongCfg * 15)
 		animSetWindow(optionsBG2, 2,20, 316.5,180)
 		animDraw(optionsBG2)
 		textImgDraw(txt_songCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 2,5+cursorPosY*15, 316.5,15)
+			animSetWindow(cursorBox, 2,5 + cursorPosY * 15, 316.5,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5900,8 +5900,8 @@ function f_songCfg()
 					posX = 160
 				end
 				if t_songCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, align, t_songCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, -1, t_songCfg[i].varText, 315, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, align, t_songCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, -1, t_songCfg[i].varText, 315, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -6232,12 +6232,12 @@ function f_audioCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxAudioCfg*15)
+		animSetScale(optionsBG1, 220, maxAudioCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_audioCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -6261,8 +6261,8 @@ function f_audioCfg()
 					posX = 160
 				end
 				if t_audioCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, align, t_audioCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, -1, t_audioCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, align, t_audioCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, -1, t_audioCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -6524,12 +6524,12 @@ function f_engineCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxEngineCfg*15)
+		animSetScale(optionsBG1, 220, maxEngineCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_engineCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -6554,8 +6554,8 @@ function f_engineCfg()
 					posX = 160
 				end
 				if t_engineCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, align, t_engineCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, -1, t_engineCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, align, t_engineCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, -1, t_engineCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -6887,12 +6887,12 @@ function f_videoCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxVideoCfg*15)
+		animSetScale(optionsBG1, 220, maxVideoCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_videoCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -6921,8 +6921,8 @@ function f_videoCfg()
 					posX = 160
 				end
 				if t_videoCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, align, t_videoCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, -1, t_videoCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, align, t_videoCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, -1, t_videoCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -7119,11 +7119,11 @@ function f_resCfg()
 			maxResCfg = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxResCfg*15)
+		animSetScale(optionsBG1, 220, maxResCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxResCfg do
@@ -7135,7 +7135,7 @@ function f_resCfg()
 				posX = 160
 			end
 			if i > resCfg - cursorPosY then
-				t_resCfg[i].id = createTextImg(font2, 0, align, t_resCfg[i].text, posX, 15+i*15-moveTxt)
+				t_resCfg[i].id = createTextImg(font2, 0, align, t_resCfg[i].text, posX, 15 + i * 15 - moveTxt)
 				textImgDraw(t_resCfg[i].id)
 			end
 		end
@@ -7237,12 +7237,12 @@ function f_resCfgSet(t, title)
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxresCfgSet*15)
+		animSetScale(optionsBG1, 220, maxresCfgSet * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgSetText(txt_resCfgSet, "RESOLUTION SELECT "..title)
 		textImgDraw(txt_resCfgSet)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxresCfgSet do
@@ -7254,7 +7254,7 @@ function f_resCfgSet(t, title)
 				posX = 160
 			end
 			if i > resCfgSet - cursorPosY then
-				t_aspectRatio[i].id = createTextImg(font2, 0, align, t_aspectRatio[i].text, posX, 15+i*15-moveTxt)
+				t_aspectRatio[i].id = createTextImg(font2, 0, align, t_aspectRatio[i].text, posX, 15 + i * 15 - moveTxt)
 				textImgDraw(t_aspectRatio[i].id)
 			end
 		end
@@ -7441,12 +7441,12 @@ function f_inputCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 222, maxInputCfg*15)
+		animSetScale(optionsBG1, 222, maxInputCfg * 15)
 		animSetWindow(optionsBG1, 68,20, 184,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_inputCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 68,5+cursorPosY*15, 184,15)
+			animSetWindow(cursorBox, 68,5 + cursorPosY * 15, 184,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -7463,8 +7463,8 @@ function f_inputCfg()
 					posX = 160
 				end
 				if t_inputCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, align, t_inputCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, -1, t_inputCfg[i].varText, 248, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, align, t_inputCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, -1, t_inputCfg[i].varText, 248, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -7803,11 +7803,11 @@ function f_keyMenu()
 			maxKeyMenu = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxKeyMenu*15)
+		animSetScale(optionsBG1, 220, maxKeyMenu * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_keyMenu)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxKeyMenu do
@@ -7819,7 +7819,7 @@ function f_keyMenu()
 				posX = 160
 			end
 			if i > keyMenu - cursorPosY then
-				t_keyMenu[i].id = createTextImg(font2, 0, align, t_keyMenu[i].text, posX, 15+i*15-moveTxt)
+				t_keyMenu[i].id = createTextImg(font2, 0, align, t_keyMenu[i].text, posX, 15 + i * 15 - moveTxt)
 				textImgDraw(t_keyMenu[i].id)
 			end
 		end
@@ -7857,7 +7857,7 @@ t_tempWarning = {
 	{text = ""},
 }
 for i=1, #t_tempWarning do
-	t_tempWarning[i]['id'] = createTextImg(font2, 0, 1, t_tempWarning[i].text, 25, 65+i*15)
+	t_tempWarning[i]['id'] = createTextImg(font2, 0, 1, t_tempWarning[i].text, 25, 65 + i * 15)
 end
 
 function f_tempWarning()
@@ -7870,7 +7870,7 @@ function f_tempWarning()
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
 		animSetScale(infoBG, 300, 111)
-		animSetWindow(infoBG, 0,70, 297,#t_tempWarning*15)
+		animSetWindow(infoBG, 0,70, 297,#t_tempWarning * 15)
 		animDraw(infoBG)
 		for i=1, #t_tempWarning do
 			textImgDraw(t_tempWarning[i].id)
@@ -7973,11 +7973,11 @@ function f_joyMenu()
 			maxJoyMenu = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxJoyMenu*15)
+		animSetScale(optionsBG1, 220, maxJoyMenu * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_joyMenu)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxJoyMenu do
@@ -7989,7 +7989,7 @@ function f_joyMenu()
 				posX = 160
 			end
 			if i > joyMenu - cursorPosY then
-				t_joyMenu[i].id = createTextImg(font2, 0, align, t_joyMenu[i].text, posX, 15+i*15-moveTxt)
+				t_joyMenu[i].id = createTextImg(font2, 0, align, t_joyMenu[i].text, posX, 15 + i * 15 - moveTxt)
 				textImgDraw(t_joyMenu[i].id)
 			end
 		end
@@ -8069,13 +8069,13 @@ function f_drawBattleKeyAssets()
 	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
 	textImgDraw(txt_battleCfg) --Title Text
 --Player 1 Controls Window BG
-	animSetScale(optionsBG2, 220, 15+maxKeyCfg*15)
+	animSetScale(optionsBG2, 220, 15 + maxKeyCfg * 15)
 	animSetWindow(optionsBG2, 2,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p1inputInfo) --Player Title Text
 --Player 1 Controls Cursor
 	if not p2waitingKey then
-		animSetWindow(cursorBox, 2,20+inputCursorPosY*15, 155,15)
+		animSetWindow(cursorBox, 2,20 + inputCursorPosY * 15, 155,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -8096,8 +8096,8 @@ function f_drawBattleKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyBattleCfg[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, align, t_keyBattleCfg[i].text, posX, 30+i*15-inputMoveTxt))
-				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, varText, 152, 30+i*15-inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, align, t_keyBattleCfg[i].text, posX, 30 + i * 15 - inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, varText, 152, 30 + i * 15 - inputMoveTxt))
 			end
 		end
 	end
@@ -8111,13 +8111,13 @@ function f_drawBattleKeyAssets()
 		animUpdate(optionsDownArrowP1)
 	end
 --Player 2 Controls Window BG
-	animSetScale(optionsBG2, 318, 15+maxKeyCfg2*15)
+	animSetScale(optionsBG2, 318, 15 + maxKeyCfg2 * 15)
 	animSetWindow(optionsBG2, 163,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
 	if not p1waitingKey then
-		animSetWindow(cursorBox, 163,20+inputCursorPosY2*15, 155,15)
+		animSetWindow(cursorBox, 163,20 + inputCursorPosY2 * 15, 155,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -8138,8 +8138,8 @@ function f_drawBattleKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyBattleCfg2[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, align, t_keyBattleCfg2[i].text, posX, 30+i*15-inputMoveTxt2))
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, -1, varText, 314, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, align, t_keyBattleCfg2[i].text, posX, 30 + i * 15 - inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, -1, varText, 314, 30 + i * 15 - inputMoveTxt2))
 			end
 		end
 	end
@@ -8390,13 +8390,13 @@ function f_drawMenuKeyAssets()
 	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
 	textImgDraw(txt_menuKeyCfg) --Title Text
 --Player 1 Controls Window BG
-	animSetScale(optionsBG2, 220, 15+maxKeyCfg*15)
+	animSetScale(optionsBG2, 220, 15 + maxKeyCfg * 15)
 	animSetWindow(optionsBG2, 2,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p1inputInfo) --Player Title Text
 --Player 1 Controls Cursor
 	if not p2waitingKey then
-		animSetWindow(cursorBox, 2,20+inputCursorPosY*15, 155,15)
+		animSetWindow(cursorBox, 2,20 + inputCursorPosY * 15, 155,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -8417,8 +8417,8 @@ function f_drawMenuKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyMenuCfg[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, align, t_keyMenuCfg[i].text, posX, 30+i*15-inputMoveTxt))
-				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, varText, 152, 30+i*15-inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, align, t_keyMenuCfg[i].text, posX, 30 + i * 15 - inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, varText, 152, 30 + i * 15 - inputMoveTxt))
 			end
 		end
 	end
@@ -8432,13 +8432,13 @@ function f_drawMenuKeyAssets()
 		animUpdate(optionsDownArrowP1)
 	end
 --Player 2 Controls Window BG
-	animSetScale(optionsBG2, 318, 15+maxKeyCfg2*15)
+	animSetScale(optionsBG2, 318, 15 + maxKeyCfg2 * 15)
 	animSetWindow(optionsBG2, 163,20, 155,165)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
 	if not p1waitingKey then
-		animSetWindow(cursorBox, 163,20+inputCursorPosY2*15, 155,15)
+		animSetWindow(cursorBox, 163,20 + inputCursorPosY2 * 15, 155,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -8459,8 +8459,8 @@ function f_drawMenuKeyAssets()
 				elseif controllerSet == 2 then --Show Gamepad Inputs
 					varText = t_keyMenuCfg2[i].gamepad
 				end
-				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, align, t_keyMenuCfg2[i].text, posX, 30+i*15-inputMoveTxt2))
-				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, varText, 314, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, align, t_keyMenuCfg2[i].text, posX, 30 + i * 15 - inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, varText, 314, 30 + i * 15 - inputMoveTxt2))
 			end
 		end
 	end
@@ -9109,7 +9109,7 @@ t_unlocksWarning = {
 	{text = "All unlocked data or progress will be deleted."},
 }
 for i=1, #t_unlocksWarning do
-	t_unlocksWarning[i]['id'] = createTextImg(font2, 0, 0, t_unlocksWarning[i].text, 159, 65+i*15)
+	t_unlocksWarning[i]['id'] = createTextImg(font2, 0, 0, t_unlocksWarning[i].text, 159, 65 + i * 15)
 end
 
 function f_unlocksWarning()
@@ -9120,7 +9120,7 @@ function f_unlocksWarning()
 	while true do
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(infoBG, 300, 94)
-		animSetWindow(infoBG, 0,70, 297,#t_unlocksWarning*15)
+		animSetWindow(infoBG, 0,70, 297,#t_unlocksWarning * 15)
 		animDraw(infoBG)
 		textImgDraw(txt_Warning)
 		for i=1, #t_unlocksWarning do
