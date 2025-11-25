@@ -234,9 +234,9 @@ local all = all or false
 	channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
 	buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
 	
-	gl_vol = f_minMax(gl_vol,0,100)
-	se_vol = f_minMax(se_vol,0,100)
-	bgm_vol = f_minMax(bgm_vol,0,100)
+	gl_vol = f_minMax(gl_vol, 0, 100)
+	se_vol = f_minMax(se_vol, 0, 100)
+	bgm_vol = f_minMax(bgm_vol, 0, 100)
 	
 	if pan_str < 20 then
 		pan_str = 0
@@ -289,7 +289,7 @@ local all = all or false
 		b_aspectMode = false
 	end
 	
-	opacityAdjust = f_minMax(opacityAdjust,0,100)
+	opacityAdjust = f_minMax(opacityAdjust, 0, 100)
 	
 	if all then
 		if b_saveMemory == "true" then
@@ -1023,7 +1023,7 @@ t_exitInfo = {
 	{text = ""},
 }
 for i=1, #t_exitInfo do
-	t_exitInfo[i]['id'] = createTextImg(font2, 0, 1, t_exitInfo[i].text, 25, 65+i*15)
+	t_exitInfo[i]['id'] = createTextImg(font2, 0, 1, t_exitInfo[i].text, 25, 65 + i * 15)
 end
 
 function f_exitInfo()
@@ -1040,7 +1040,7 @@ function f_exitInfo()
 		textImgDraw(txt_exitInfo)
 	--Draw Above Window BG
 		animSetScale(infoBG, 300, 111)
-		animSetWindow(infoBG, 0,70, 295.5,#t_exitInfo*15)
+		animSetWindow(infoBG, 0,70, 295.5,#t_exitInfo * 15)
 		animDraw(infoBG)
 	--Draw Above Info Text
 		for i=1, #t_exitInfo do
@@ -1070,7 +1070,7 @@ t_resWarning = {
 	{text = ""},
 }
 for i=1, #t_resWarning do
-	t_resWarning[i]['id'] = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 65+i*15)
+	t_resWarning[i]['id'] = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 65 + i * 15)
 end
 
 function f_resWarning()
@@ -1083,7 +1083,7 @@ function f_resWarning()
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
 		animSetScale(infoBG, 300, 111)
-		animSetWindow(infoBG, 0,70, 297,#t_resWarning*15)
+		animSetWindow(infoBG, 0,70, 297,#t_resWarning * 15)
 		animDraw(infoBG)
 		for i=1, #t_resWarning do
 			textImgDraw(t_resWarning[i].id)
@@ -1109,7 +1109,7 @@ t_glWarning = {
 	{text = ""},
 }
 for i=1, #t_glWarning do
-	t_glWarning[i]['id'] = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 65+i*15)
+	t_glWarning[i]['id'] = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 65 + i * 15)
 end
 
 function f_glWarning()
@@ -1122,7 +1122,7 @@ function f_glWarning()
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
 		animSetScale(infoBG, 300, 111)
-		animSetWindow(infoBG, 0,70, 296,#t_glWarning*15)
+		animSetWindow(infoBG, 0,70, 296,#t_glWarning * 15)
 		animDraw(infoBG)
 		for i=1, #t_glWarning do
 			textImgDraw(t_glWarning[i].id)
@@ -1148,7 +1148,7 @@ t_memWarning = {
 	{text = ""},
 }
 for i=1, #t_memWarning do
-	t_memWarning[i]['id'] = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 65+i*15)
+	t_memWarning[i]['id'] = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 65 + i * 15)
 end
 
 function f_memWarning()
@@ -1161,7 +1161,7 @@ function f_memWarning()
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
 		animSetScale(infoBG, 300, 111)
-		animSetWindow(infoBG, 0,70, 297,#t_memWarning*15)
+		animSetWindow(infoBG, 0,70, 297,#t_memWarning * 15)
 		animDraw(infoBG)
 		for i=1, #t_memWarning do
 			textImgDraw(t_memWarning[i].id)
@@ -1184,7 +1184,7 @@ t_wip = {
 	{text = "This option is still Under Development."},
 }
 for i=1, #t_wip do
-	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 160, 197+i*15)
+	t_wip[i]['id'] = createTextImg(font2, 0, 0, t_wip[i].text, 160, 197 + i * 15)
 end
 
 --;===========================================================
@@ -1194,7 +1194,7 @@ t_locked = {
 	{text = "This option is Unavailable in Online Mode."},
 }
 for i=1, #t_locked do
-	t_locked[i]['id'] = createTextImg(font2, 0, 0, t_locked[i].text, 160, 197+i*15)
+	t_locked[i]['id'] = createTextImg(font2, 0, 0, t_locked[i].text, 160, 197 + i * 15)
 end
 
 --;===========================================================
@@ -1205,7 +1205,7 @@ t_restart = {
 	{text = "require Save and Back."},
 }
 for i=1, #t_restart do
-	t_restart[i]['id'] = createTextImg(font2, 0, 0, t_restart[i].text, 160, 182+i*15)
+	t_restart[i]['id'] = createTextImg(font2, 0, 0, t_restart[i].text, 160, 182 + i * 15)
 end
 
 --;===========================================================
@@ -1278,10 +1278,10 @@ function f_defaultMenu()
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_defaultMenu[i].id, jgFnt, bank, 0, t_defaultMenu[i].text, 159, 120+i*13-moveTxtDefault))
+		textImgDraw(f_updateTextImg(t_defaultMenu[i].id, jgFnt, bank, 0, t_defaultMenu[i].text, 159, 120 + i * 13 - moveTxtDefault))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 87,123+cursorPosYDefault*13, 144,13)
+	animSetWindow(cursorBox, 87,123 + cursorPosYDefault * 13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Input Hints Panel
@@ -1391,7 +1391,7 @@ for i=1, #t_mainCfg do
 	t_mainCfg[i]['varID'] = textImgNew()
 end
 --Access to Online Settings from Offline Mode (Only for Dev Purposes, Delete when test are finished)
---table.insert(t_mainCfg,#t_mainCfg+1,{text = "Online Test Config", gotomenu = "f_onlineCfg()", varID = textImgNew()})
+--table.insert(t_mainCfg, #t_mainCfg + 1, {text = "Online Test Config", gotomenu = "f_onlineCfg()", varID = textImgNew()})
 
 function f_mainCfg()
 	cmdInput()
@@ -1500,14 +1500,14 @@ function f_mainCfg()
 	--Draw Menu BG
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 	--Draw Transparent Table BG
-		animSetScale(optionsBG1, 220, maxMainCfg*15)
+		animSetScale(optionsBG1, 220, maxMainCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 	--Draw Title Menu
 		textImgDraw(txt_mainCfg)
 		if not defaultScreen then
 		--Draw Table Cursor
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1522,8 +1522,8 @@ function f_mainCfg()
 					posX = 160
 				end
 				if t_mainCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, align, t_mainCfg[i].text, posX, 15+i*15-moveTxt))
-					--textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, -1, t_mainCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, align, t_mainCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					--textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, -1, t_mainCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -1540,7 +1540,7 @@ function f_mainCfg()
 	--Draw Info
 		if needReload == 1 then
 			for i=1, #t_restart do
-				if t%60 < 40 then
+				if t % 60 < 40 then
 					textImgDraw(t_restart[i].id)
 				end
 				t = t >= 60 and 0 or t + 1
@@ -1572,7 +1572,7 @@ end
 --; NETPLAY SETTINGS
 --;===========================================================
 txt_netplayCfg = createTextImg(jgFnt, 0, 0, "NETPLAY SETTINGS", 159, 13)
-txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5+5*15, .5, .5)
+txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5 + 5 * 15, 0.5, 0.5)
 
 t_netplayCfg = {
 	{text = "Username",        		 varText = data.userName},
@@ -1700,12 +1700,12 @@ function f_netplayCfg()
 			t_netplayCfg[3].varText = data.connectMode
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxnetplayCfg*15)
+		animSetScale(optionsBG1, 220, maxnetplayCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_netplayCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1727,7 +1727,7 @@ function f_netplayCfg()
 				end
 			end
 			if playerName:len() > 5 then
-				playerName = playerName:sub(1,16)
+				playerName = playerName:sub(1, 16)
 				setInputText(playerName)
 			end
 			if playerName ~= '' and playerName ~= nil then
@@ -1779,7 +1779,7 @@ function f_netplayCfg()
 				end
 			end
 			if onlinePort:len() > 5 then
-				onlinePort = onlinePort:sub(1,5)
+				onlinePort = onlinePort:sub(1, 5)
 				setInputText(onlinePort)
 			end
 			if onlinePort ~= '' and onlinePort ~= nil then
@@ -1813,8 +1813,8 @@ function f_netplayCfg()
 		end
 	--Draw Blinking Cursor for Username and Online Port Fields
 		if not editDone then
-			if i%60 < 30 then
-				textImgPosDraw(txt_bar,235+1.5,17.5+cursorPosY*15)
+			if i % 60 < 30 then
+				textImgPosDraw(txt_bar, 235 + 1.5, 17.5 + cursorPosY * 15)
 			end
 			i = i >= 60 and 0 or i + 1
 		end
@@ -1828,8 +1828,8 @@ function f_netplayCfg()
 					posX = 160
 				end
 				if t_netplayCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, align, t_netplayCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, align, t_netplayCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -1954,11 +1954,11 @@ function f_onlineCfg()
 			maxOnlineCfg = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxOnlineCfg*15)
+		animSetScale(optionsBG1, 220, maxOnlineCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_onlineCfg)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxOnlineCfg do	
@@ -1971,8 +1971,8 @@ function f_onlineCfg()
 					posX = 160
 				end
 				if t_onlineCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, align, t_onlineCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, -1, t_onlineCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, align, t_onlineCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, -1, t_onlineCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -2113,11 +2113,11 @@ function f_lobbyCfg()
 			maxlobbyCfg = maxItems
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxlobbyCfg*15)
+		animSetScale(optionsBG1, 220, maxlobbyCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_lobbyCfg)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if lockSetting then
@@ -2140,8 +2140,8 @@ function f_lobbyCfg()
 					posX = 160
 				end
 				if t_lobbyCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, align, t_lobbyCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, -1, t_lobbyCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, align, t_lobbyCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_lobbyCfg[i].varID, font2, 0, -1, t_lobbyCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -2535,12 +2535,12 @@ function f_gameCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 290, maxGameCfg*15)
+		animSetScale(optionsBG1, 290, maxGameCfg * 15)
 		animSetWindow(optionsBG1, 30,20, 260,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_systemCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
+			animSetWindow(cursorBox, 30,5 + cursorPosY * 15, 260,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2576,8 +2576,8 @@ function f_gameCfg()
 					posX = 160
 				end
 				if t_gameCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, align, t_gameCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, -1, t_gameCfg[i].varText, 286, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, align, t_gameCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, -1, t_gameCfg[i].varText, 286, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -2852,12 +2852,12 @@ function f_teamCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxTeamCfg*15)
+		animSetScale(optionsBG1, 220, maxTeamCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_teamCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2880,8 +2880,8 @@ function f_teamCfg()
 					posX = 160
 				end
 				if t_teamCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, align, t_teamCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, -1, t_teamCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, align, t_teamCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, -1, t_teamCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -3080,12 +3080,12 @@ function f_zoomCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxZoomCfg*15)
+		animSetScale(optionsBG1, 220, maxZoomCfg * 15)
 		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		textImgDraw(txt_zoomCfg)
 		if not defaultScreen then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3103,8 +3103,8 @@ function f_zoomCfg()
 					posX = 160
 				end
 				if t_zoomCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, align, t_zoomCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, -1, t_zoomCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, align, t_zoomCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, -1, t_zoomCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -4829,7 +4829,7 @@ function f_rosterCfg()
 				end
 			end
 			if newValue:len() > 7 then
-				newValue = newValue:sub(1,7)
+				newValue = newValue:sub(1, 7)
 				setInputText(newValue)
 			end
 			if newValue ~= '' and newValue ~= nil then
@@ -4929,8 +4929,8 @@ function f_rosterCfg()
 		end
 	--Draw Blinking Cursor for Manual Keyboard Entry Field
 		if not editDone then
-			if i%60 < 30 then
-				textImgPosDraw(txt_bar,235+1.5,17.5+cursorPosY*15)
+			if i % 60 < 30 then
+				textImgPosDraw(txt_bar, 235 + 1.5, 17.5 + cursorPosY * 15)
 			end
 			i = i >= 60 and 0 or i + 1
 		end

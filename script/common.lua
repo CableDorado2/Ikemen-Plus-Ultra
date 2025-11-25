@@ -284,7 +284,7 @@ function f_textRender(textName, str, counter, x, y, spacing, delay, limit, maxli
 	local subEnd = math.floor(#str - (#str - counter / delay))
 	local t = {}
 	for line in str:gmatch('([^\r\n]*)[\r\n]?') do
-		t[#t+1] = line
+		t[#t + 1] = line
 	end
 	t[#t] = nil --get rid of the last blank line
 --If maxLimit > 0 and we have exceeded that limit, replace the last line with "..."
@@ -612,8 +612,8 @@ function f_printTable(t, toFile)
 				for pos, val in pairs(t) do
 					if type(val) == 'table' then
 						txt = txt .. indent .. '[' .. pos .. '] => ' .. tostring(t) .. ' {' .. '\n'
-						sub_print_t(val, indent .. string.rep(' ', string.len(pos)+8))
-						txt = txt .. indent .. string.rep(' ', string.len(pos)+6) .. '}' .. '\n'
+						sub_print_t(val, indent .. string.rep(' ', string.len(pos) + 8))
+						txt = txt .. indent .. string.rep(' ', string.len(pos) + 6) .. '}' .. '\n'
 					elseif type(val) == 'string' then
 						txt = txt .. indent .. '[' .. pos .. '] => "' .. val .. '"' .. '\n'
 					else
@@ -651,7 +651,7 @@ function f_uniq(str, pattern, subpattern)
 	local out = {}
 	for s in str:gmatch(pattern) do
 		local s2 = s:match(subpattern)
-		if not f_contains(out, s2) then out[#out+1] = s end
+		if not f_contains(out, s2) then out[#out + 1] = s end
 	end
 	return table.concat(out)
 end
@@ -850,7 +850,7 @@ function strsplit(delimiter, text)
 			local first, last = string.find(text, delimiter, pos)
 			if first then
 				table.insert(list, string.sub(text, pos, first-1))
-				pos = last+1
+				pos = last + 1
 			else
 				table.insert(list, string.sub(text, pos))
 				break
@@ -876,8 +876,8 @@ function f_boolToNum(value)
 	return value and 1 or 0
 end
 
-function f_minMax(v,mn,mx)
-	return math.max(mn,math.min(mx,v))
+function f_minMax(v, mn, mx)
+	return math.max(mn, math.min(mx, v))
 end
 
 function f_setThousandsFormat(num)
@@ -1478,7 +1478,7 @@ function drawMenuInputHints(...) --(...) Manage unlimited arguments
 	local t_args = {...} --Store all arguments taken in a table
 	for i=1, #t_args, 2 do --For each argument stored in table
 		local cmd = t_args[i] --Set first argument (key name) to cmd var
-		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
+		local cmdPos = t_args[i + 1] --Set second argument (keyX,keyY) to cmdPos var
 		local nameKey = f_searchCmd(cmd, t_control) --get table pos from button name configured based on cmd entry name
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_control[nameKey].keyboard) --Get button name configured
@@ -1514,7 +1514,7 @@ function drawBattleInputHints(...)
 	local t_args = {...}
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
+		local cmdPos = t_args[i + 1]
 		local nameKey = f_searchCmd(cmd, t_control)
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_control[nameKey].keyboard)
@@ -1539,7 +1539,7 @@ function drawMenuInputHintsP1(...)
 	local t_args = {...}
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
+		local cmdPos = t_args[i + 1]
 		local nameKey = f_searchCmd(cmd, t_keyMenuCfg)
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_keyMenuCfg[nameKey].keyboard)
@@ -1561,7 +1561,7 @@ function drawMenuInputHintsP2(...)
 	local t_args = {...}
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
+		local cmdPos = t_args[i + 1]
 		local nameKey = f_searchCmd(cmd, t_keyMenuCfg2)
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_keyMenuCfg2[nameKey].keyboard)
@@ -1583,7 +1583,7 @@ function drawBattleInputHintsP1(...)
 	local t_args = {...}
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
+		local cmdPos = t_args[i + 1]
 		local nameKey = f_searchCmd(cmd, t_keyBattleCfg)
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_keyBattleCfg[nameKey].keyboard)
@@ -1605,7 +1605,7 @@ function drawBattleInputHintsP2(...)
 	local t_args = {...}
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
-		local cmdPos = t_args[i+1]
+		local cmdPos = t_args[i + 1]
 		local nameKey = f_searchCmd(cmd, t_keyBattleCfg2)
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_keyBattleCfg2[nameKey].keyboard)
@@ -1729,12 +1729,12 @@ function f_storyboard(path)
 				pos = t.anim[row]
 			elseif row:match('[^%s]ctrldef') then
 				ctrl = row:match('^(.-ctrl)def')
-				row = #t.ctrldef+1
+				row = #t.ctrldef + 1
 				t.ctrldef[row] = {}
 				t.ctrldef[row]['ctrl'] = {}
 				pos = t.ctrldef[row]
 			elseif ctrl ~= '' and row:match('^' .. ctrl) then
-				row = #t.ctrldef[#t.ctrldef]['ctrl']+1
+				row = #t.ctrldef[#t.ctrldef]['ctrl'] + 1
 				t.ctrldef[#t.ctrldef]['ctrl'][row] = {}
 				pos = t.ctrldef[#t.ctrldef]['ctrl'][row]
 			elseif row:match('[^%s]def') and all:match('%s*bg%.name%s*=%s*' .. row:match('^(.-)def$')) then
@@ -1769,7 +1769,7 @@ function f_storyboard(path)
 			else
 				local value = line:match('^%s*([0-9%-]+%s*,%s*[0-9%-]+%s*,%s*[0-9%-]+%s*,%s*[0-9%-]+%s*,%s*[0-9%-]+.-)[,%s]*$') or line:match('^%s*loopstart')
 				if value ~= nil then
-					pos[#pos+1] = value
+					pos[#pos + 1] = value
 				end
 			end
 		end
@@ -1923,8 +1923,8 @@ function f_storyboardPlay(tIn)
 	--layerX
 		tOut.scenes[i]['layers'] = {}
 		for j=0, 9 do
-			tOut.scenes[i].layers[j+1] = {}
-			local posOut = tOut.scenes[i].layers[j+1]
+			tOut.scenes[i].layers[j + 1] = {}
+			local posOut = tOut.scenes[i].layers[j + 1]
 			local layerX = 'layer' .. j
 		--layerX.offset = offx, offy (int, int)
 			if tIn.scenes[i][layerX .. '.offset'] ~= nil then
@@ -1935,17 +1935,17 @@ function f_storyboardPlay(tIn)
 			end
 		--layerX.anim = actionno (int)
 			if tIn.scenes[i][layerX .. '.anim'] ~= nil then
-				posOut['anim'] = tIn.anim[tIn.scenes[i][layerX .. '.anim']+1] --for debugging only
+				posOut['anim'] = tIn.anim[tIn.scenes[i][layerX .. '.anim'] + 1] --for debugging only
 				posOut['animNumber'] = tIn.scenes[i][layerX .. '.anim'] --for debugging only
 				local anim = ''
-				for k=1, #tIn.anim[tIn.scenes[i][layerX .. '.anim']+1] do
-					anim = anim .. tIn.anim[tIn.scenes[i][layerX .. '.anim']+1][k] .. '\n'
+				for k=1, #tIn.anim[tIn.scenes[i][layerX .. '.anim'] + 1] do
+					anim = anim .. tIn.anim[tIn.scenes[i][layerX .. '.anim'] + 1][k] .. '\n'
 				end
 				anim = anim:gsub('add1', 'a1')
 				anim = anim:gsub('add', 'a')
 				anim = anim:gsub('sub', 's')
 				posOut['animData'] = animNew(t_storyboardData[tOut.sff], anim)
-				animAddPos(posOut['animData'], tOut.scenes[i].layerallPosX+posOut.offsetX, tOut.scenes[i].layerallPosY+posOut.offsetY)
+				animAddPos(posOut['animData'], tOut.scenes[i].layerallPosX + posOut.offsetX, tOut.scenes[i].layerallPosY + posOut.offsetY)
 				animSetScale(posOut['animData'], tOut.xScale, tOut.yScale)
 				animSetWindow(posOut['animData'], tOut.scenes[i]['windowX1'], tOut.scenes[i]['windowY1'], tOut.scenes[i]['windowX2'], tOut.scenes[i]['windowY2'])
 				animUpdate(posOut['animData'])
@@ -1998,7 +1998,7 @@ function f_storyboardPlay(tIn)
 				textImgSetFont(posOut['fontData'], t_storyboardData[tOut.fnt[font]])
 				textImgSetBank(posOut['fontData'], bank)
 				textImgSetAlign(posOut['fontData'], aline)
-				--textImgSetPos(posOut['fontData'], tOut.scenes[i].layerallPosX+posOut.offsetX, tOut.scenes[i].layerallPosY+posOut.offsetY)
+				--textImgSetPos(posOut['fontData'], tOut.scenes[i].layerallPosX + posOut.offsetX, tOut.scenes[i].layerallPosY + posOut.offsetY)
 				textImgSetScale(posOut['fontData'], scaleX, scaleY)
 				textImgSetText(posOut['fontData'], '')
 				posOut['spacing'] = spacing
@@ -2029,7 +2029,7 @@ function f_storyboardPlay(tIn)
 		for j=0, 99 do
 			local soundX = 'sound' .. j
 			if tIn.scenes[i][soundX .. '.value'] ~= nil then
-				tOut.scenes[i].sounds[#tOut.scenes[i].sounds+1] = {}
+				tOut.scenes[i].sounds[#tOut.scenes[i].sounds + 1] = {}
 				local posOut = tOut.scenes[i].sounds[#tOut.scenes[i].sounds]
 			--soundX.value = group_no, sound_no (int, int)
 				posOut['group'], posOut['sound'] = tIn.scenes[i][soundX .. '.value']:match('^([^,]-)%s*,%s*(.-)$')
@@ -2257,7 +2257,7 @@ function f_storyboardPlay(tIn)
 					if tOut.scenes[i].backgrounds[k].layer == 0 and tOut.scenes[i].backgrounds[k].id ~= nil then
 						velX, velY = f_ctrlCheck(tOut.scenes[i].backgrounds[k].id, tOut.ctrldef, j)
 						animDraw(tOut.scenes[i].backgrounds[k].bgData)
-						animAddPos(tOut.scenes[i].backgrounds[k].bgData, tOut.scenes[i].backgrounds[k].velocityX+velX, tOut.scenes[i].backgrounds[k].velocityY+velY)
+						animAddPos(tOut.scenes[i].backgrounds[k].bgData, tOut.scenes[i].backgrounds[k].velocityX + velX, tOut.scenes[i].backgrounds[k].velocityY + velY)
 						animUpdate(tOut.scenes[i].backgrounds[k].bgData)
 					end
 				end
@@ -2271,7 +2271,7 @@ function f_storyboardPlay(tIn)
 					end
 					if tPos.fontData ~= nil then
 						tPos.counter = tPos.counter + 1
-						f_textRender(tPos.fontData, tPos.text, tPos.counter, tOut.scenes[i].layerallPosX+tPos.offsetX, tOut.scenes[i].layerallPosY+tPos.offsetY, tPos.spacing, tPos.textdelay, tPos.limit)
+						f_textRender(tPos.fontData, tPos.text, tPos.counter, tOut.scenes[i].layerallPosX + tPos.offsetX, tOut.scenes[i].layerallPosY + tPos.offsetY, tPos.spacing, tPos.textdelay, tPos.limit)
 					end
 				end
 			end
@@ -2280,7 +2280,7 @@ function f_storyboardPlay(tIn)
 					if tOut.scenes[i].backgrounds[k].layer > 0 and tOut.scenes[i].backgrounds[k].id ~= nil then
 						velX, velY = f_ctrlCheck(tOut.scenes[i].backgrounds[k].id, tOut.ctrldef, j)
 						animDraw(tOut.scenes[i].backgrounds[k].bgData)
-						animAddPos(tOut.scenes[i].backgrounds[k].bgData, tOut.scenes[i].backgrounds[k].velocityX+velX, tOut.scenes[i].backgrounds[k].velocityY+velY)
+						animAddPos(tOut.scenes[i].backgrounds[k].bgData, tOut.scenes[i].backgrounds[k].velocityX + velX, tOut.scenes[i].backgrounds[k].velocityY + velY)
 						animUpdate(tOut.scenes[i].backgrounds[k].bgData)
 					end
 				end
@@ -2596,13 +2596,13 @@ function f_bgmrandomVS()
 	t_randomsongList = {}
 	for file in lfs.dir(randomBGMPath) do
 		if file:match('^.*(%.)[Mm][Pp][3]$') then
-			row = #t_randomsongList+1
+			row = #t_randomsongList + 1
 			t_randomsongList[row] = {}
 			t_randomsongList[row]['id'] = ''
 			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
 			t_randomsongList[row]['path'] = randomBGMPath.."/"..file
 		elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
-			row = #t_randomsongList+1
+			row = #t_randomsongList + 1
 			t_randomsongList[row] = {}
 			t_randomsongList[row]['id'] = ''
 			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
@@ -2624,7 +2624,7 @@ function f_loadMusic(path)
 				f_loadMusic(details)
 				if attribute.mode == "file" then --If the item have "file" attribute
 					if item:match('^.*(%.)[Mm][Pp][3]$') then
-						row = #t_songFile+1
+						row = #t_songFile + 1
 						t_songFile[row] = {}
 						t_songFile[row]['id'] = ""
 						t_songFile[row]['folder'] = path
@@ -2632,7 +2632,7 @@ function f_loadMusic(path)
 						t_songFile[row]['name'] = item:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
 						t_songFile[row]['fullname'] = item
 					elseif item:match('^.*(%.)[Oo][Gg][Gg]$') then
-						row = #t_songFile+1
+						row = #t_songFile + 1
 						t_songFile[row] = {}
 						t_songFile[row]['id'] = ""
 						t_songFile[row]['folder'] = path
@@ -2641,7 +2641,7 @@ function f_loadMusic(path)
 						t_songFile[row]['fullname'] = item
 					end
 				elseif attribute.mode == "directory" then --If the item have "folder/dir" attribute
-					rowFolder = #t_songList+1
+					rowFolder = #t_songList + 1
 					t_songList[rowFolder] = {}
 					t_songList[rowFolder]['folder'] = details
 				end
@@ -2670,9 +2670,9 @@ function f_soundtrack()
 	end
 --Add extra items to the end of "Folder" sub-row Created
 	for folder=1, #t_songList do
-		local row = #t_songList[folder]+1
+		local row = #t_songList[folder] + 1
 		t_songList[folder][row] = {id = '', name = 'RANDOM SELECT', path = 'Random'}
-		t_songList[folder][row+1] = {id = '', name = 'BACK', path = ''}
+		t_songList[folder][row + 1] = {id = '', name = 'BACK', path = ''}
 	end
 	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.log') end
 end
@@ -2772,9 +2772,9 @@ function f_loadNetTimeLuaSocket()
 			m = tonumber(m)
 		--Create timestamp in UTC
 			local utc_timestamp = os.time{
-				year = tonumber(date_part:sub(1,4)),
-				month = tonumber(date_part:sub(6,7)),
-				day = tonumber(date_part:sub(9,10)),
+				year = tonumber(date_part:sub(1, 4)),
+				month = tonumber(date_part:sub(6, 7)),
+				day = tonumber(date_part:sub(9, 10)),
 				hour = h,
 				min = m,
 				sec = s
@@ -2864,9 +2864,9 @@ function f_loadNetTimeLuaCurl()
 				m = tonumber(m)
 			--Create timestamp in UTC
 				local utc_timestamp = os.time{
-					year = tonumber(date_part:sub(1,4)),
-					month = tonumber(date_part:sub(6,7)),
-					day = tonumber(date_part:sub(9,10)),
+					year = tonumber(date_part:sub(1, 4)),
+					month = tonumber(date_part:sub(6, 7)),
+					day = tonumber(date_part:sub(9, 10)),
 					hour = h,
 					min = m,
 					sec = s
@@ -3616,7 +3616,7 @@ function f_loadLuaMods(bool)
 							end
 						--Only add the module if contains "loadlua" line and if contain the "include" line when enter in a match
 							if not excludeFile then
-								row = #t_luaExternalMods+1
+								row = #t_luaExternalMods + 1
 								t_luaExternalMods[row] = {}
 								t_luaExternalMods[row]['folder'] = path
 								t_luaExternalMods[row]['path'] = details

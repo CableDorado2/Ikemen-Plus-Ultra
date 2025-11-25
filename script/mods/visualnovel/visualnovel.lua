@@ -817,7 +817,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 			if data.debugMode then
 				f_drawQuickText(txt_activeVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-				f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f",(VNautoTxt / 60)), 163.5, 148) --For Debug Purposes
+				f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f", (VNautoTxt / 60)), 163.5, 148) --For Debug Purposes
 			end
 		end
 		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then

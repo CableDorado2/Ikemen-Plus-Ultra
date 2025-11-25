@@ -158,7 +158,7 @@ function f_mainTitle()
 		textImgSetText(txt_titleFt, "WELCOME TO SUEHIRO I.K.E.M.E.N. ENGINE")
 		f_sysTime()
 		drawTitleInputHints()
-		if t%60 < 30 then
+		if t % 60 < 30 then
 			textImgDraw(txt_mainTitle)
 		end
 		t = t >= 60 and 0 or t + 1
@@ -233,8 +233,8 @@ function f_mainAttract()
 		f_titleText()
 		f_sysTime()
 		f_attractCredits()
-		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
-		nodecimalAttractTime = string.format("%.0f",attractTimeNumber) --Delete Decimals
+		attractTimeNumber = attractTimer / gameTick --Convert Ticks to Seconds
+		nodecimalAttractTime = string.format("%.0f", attractTimeNumber) --Delete Decimals
 		textImgSetText(txt_attractTimer, "TIME "..nodecimalAttractTime)
 		if attractTimer > 0 and getCredits() > 0 then
 			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
@@ -3392,7 +3392,7 @@ function f_gameState()
 --[[
 if stats.modes.arcade.clear >= 1 then arcadeProgress = 1 else arcadeProgress = 0 end
 if stats.modes.survival.clear >= 1 then survivalProgress = 1 else survivalProgress = 0 end
-gameProgress = (arcadeProgress + survivalProgress + stats.modes.mission.clearall + stats.modes.event.clearall + (data.storiesProgress/100))
+gameProgress = (arcadeProgress + survivalProgress + stats.modes.mission.clearall + stats.modes.event.clearall + (data.storiesProgress / 100))
 gameData = (math.floor((gameProgress * 100 / 11) + 0.5))
 
 The number (11) is the sumation of true amount of all gameProgress values:
@@ -3570,16 +3570,16 @@ function f_getStats(callback)
 	textImgSetText(txt_statsMenu,"" .. data.userName .. " PROGRESS:")
 	textImgSetText(txt_statsProgress,"["..gameData.."%]")
 --Get Stats Info
-	s = math.floor((stats.playtime%60))
-	m = math.floor((stats.playtime%3600)/60)
-	h = math.floor((stats.playtime%86400)/3600)
-	d = math.floor(stats.playtime/86400)
+	s = math.floor((stats.playtime % 60))
+	m = math.floor((stats.playtime % 3600) / 60)
+	h = math.floor((stats.playtime % 86400) / 3600)
+	d = math.floor(stats.playtime / 86400)
 	--timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", d, h, m, s)
 	timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes", d, h, m)
-	ts = math.floor((stats.modes.training.playtime%60))
-	tm = math.floor((stats.modes.training.playtime%3600)/60)
-	th = math.floor((stats.modes.training.playtime%86400)/3600)
-	td = math.floor(stats.modes.training.playtime/86400)
+	ts = math.floor((stats.modes.training.playtime % 60))
+	tm = math.floor((stats.modes.training.playtime % 3600) / 60)
+	th = math.floor((stats.modes.training.playtime % 86400) / 3600)
+	td = math.floor(stats.modes.training.playtime / 86400)
 	--practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", td, th, tm, ts)
 	practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes", td, th, tm)
 	t_statsMenu[1].varText = timePlayed
@@ -4204,10 +4204,10 @@ function f_mainReplay()
 				textImgSetText(txt_replayName, t_replayList[mainReplay].name)--Show Replay Selected Name
 				local fileSize = lfs.attributes(t_replayList[mainReplay].path).size --Size Logic
 				if fileSize > 1048576 then
-					local replaySize = (math.floor(((fileSize/1048576)+0.50)))--Conversion from Bytes to Megabytes
+					local replaySize = (math.floor(((fileSize / 1048576) + 0.50)))--Conversion from Bytes to Megabytes
 					textImgSetText(txt_replaySize, replaySize.."MB")
 				else
-					local replaySize = (math.floor(((fileSize/1024)+0.50)))--Conversion from Bytes to Kilobytes
+					local replaySize = (math.floor(((fileSize / 1024) + 0.50)))--Conversion from Bytes to Kilobytes
 					textImgSetText(txt_replaySize, replaySize.."KB")
 				end
 				local replayOption = 2
@@ -4674,7 +4674,7 @@ function f_directConnect()
 				ip = ""
 				setInputText(ip)
 			elseif ip:len() > 15 then
-				ip = ip:sub(1,15)
+				ip = ip:sub(1, 15)
 				setInputText(ip)
 			elseif ip:match('%.%.+') then
 				ip = ip:gsub('%.%.+','.')
@@ -4713,8 +4713,8 @@ function f_directConnect()
 		--Draw IP Text
 			textImgSetText(txt_ip,ip)
 			textImgDraw(txt_ip)
-			if i%60 < 30 then
-				textImgPosDraw(txt_bar, 160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0), 134)
+			if i % 60 < 30 then
+				textImgPosDraw(txt_bar, 160 + (textImgGetWidth(txt_ip) * 0.5) + (textImgGetWidth(txt_ip) > 0 and 2 or 0), 134)
 			end
 		--Draw Button Option Text
 			for i=1, #t_directJoinMenu do
@@ -4726,7 +4726,7 @@ function f_directConnect()
 				textImgDraw(t_directJoinMenu[i].id)
 			end
 		--Draw Cursor
-			animSetWindow(cursorBox, -9+directJoinMenu*96,141, 48.5,13)
+			animSetWindow(cursorBox, -9 + directJoinMenu * 96,141, 48.5,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5107,7 +5107,7 @@ function f_editHost()
 			end
 		end
 		if editHostName:len() > 5 then
-			editHostName = editHostName:sub(1,16)
+			editHostName = editHostName:sub(1, 16)
 			setInputText(editHostName)
 		end
 		if editHostName ~= '' and editHostName ~= nil then
@@ -5147,8 +5147,8 @@ function f_editHost()
 	--Draw Name Text
 		textImgSetText(txt_ip,editHostName)
 		textImgDraw(txt_ip)
-		if textBar%60 < 30 then
-			textImgPosDraw(txt_bar, 160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0), 134)
+		if textBar % 60 < 30 then
+			textImgPosDraw(txt_bar, 160 + (textImgGetWidth(txt_ip) * 0.5) + (textImgGetWidth(txt_ip) > 0 and 2 or 0), 134)
 		end
 	--Draw Button Option Text
 		for i=1, #t_editOption do
@@ -5160,7 +5160,7 @@ function f_editHost()
 			textImgDraw(t_editOption[i].id)
 		end
 	--Draw Cursor
-		animSetWindow(cursorBox, -9+editHostMenu*96,141, 48.5,13)
+		animSetWindow(cursorBox, -9 + editHostMenu * 96,141, 48.5,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Hint Info
@@ -5190,7 +5190,7 @@ function f_editHost()
 			hostAddress = ''
 			setInputText(hostAddress)
 		elseif hostAddress:len() > 15 then
-			hostAddress = hostAddress:sub(1,15)
+			hostAddress = hostAddress:sub(1, 15)
 			setInputText(hostAddress)
 		elseif hostAddress:match('%.%.+') then
 			hostAddress = hostAddress:gsub('%.%.+','.')
@@ -5233,8 +5233,8 @@ function f_editHost()
 	--Draw IP Text
 		textImgSetText(txt_ip,hostAddress)
 		textImgDraw(txt_ip)
-		if textBar%60 < 30 then
-			textImgPosDraw(txt_bar, 160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0), 134)
+		if textBar % 60 < 30 then
+			textImgPosDraw(txt_bar, 160 + (textImgGetWidth(txt_ip) * 0.5) + (textImgGetWidth(txt_ip) > 0 and 2 or 0), 134)
 		end
 	--Draw Button Option Text
 		for i=1, #t_editOption do
@@ -5246,7 +5246,7 @@ function f_editHost()
 			textImgDraw(t_editOption[i].id)
 		end
 	--Draw Cursor
-		animSetWindow(cursorBox, -9+editHostMenu*96,141, 48.5,13)
+		animSetWindow(cursorBox, -9 + editHostMenu * 96,141, 48.5,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Hint Info
@@ -6427,7 +6427,14 @@ for i, c in ipairs(t_intermissionChars) do --Read all table items and save each 
 	end
 	if intermissionChar ~= selectaChar then --Compare both names stored in previous vars and if the names are differents:
 	--Add only different intermission chars from the one you are using in this table
-		table.insert(t_secretChallenger, {['cel'] = t_charDef[intermissionChar], ['name'] = t_selChars[t_charDef[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charDef[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charDef[intermissionChar]+1].author})
+		table.insert(t_secretChallenger,
+			{
+				['cel'] = t_charDef[intermissionChar],
+				['name'] = t_selChars[t_charDef[intermissionChar]+1].name,
+				['displayname'] = t_selChars[t_charDef[intermissionChar]+1].displayname,
+				['path'] = intermissionChar, ['author'] = t_selChars[t_charDef[intermissionChar]+1].author
+			}
+		)
 	end
 end
 if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.log") end
@@ -7743,8 +7750,8 @@ function f_selectScreen()
 	end
 --Character Select Timer
 	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
-		charTimeNumber = selectTimer/gameTick --Convert Ticks to Seconds
-		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
+		charTimeNumber = selectTimer / gameTick --Convert Ticks to Seconds
+		nodecimalCharTime = string.format("%.0f", charTimeNumber) --Delete Decimals
 		textImgSetText(txt_charTime, nodecimalCharTime)
 		if selectTimer > 0 then
 			if not backScreen then selectTimer = selectTimer - 0.5 end --Activate Character Select Timer
@@ -10645,7 +10652,7 @@ function f_selectStage()
 		--Logic For Auto Characters Song
 			p1charSong = ""
 			if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
-				p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music) --if there are more than 1 song assigned for that character, pick 1 of them via randomizer
+				p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].music) --if there are more than 1 song assigned for that character, pick 1 of them via randomizer
 				p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic --data.t_p1selected[1] means that data (music) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
 				p1song = true
 			else --If there no music assigned for left side character
@@ -10653,7 +10660,7 @@ function f_selectStage()
 			end
 			p2charSong = ""
 			if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-				p2charSong = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
+				p2charSong = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].music)
 				p2charSong = t_selChars[data.t_p2selected[1].cel+1].music[p2charSong].bgmusic
 				p2song = true
 			else --If there no music assigned for right side character
@@ -10661,14 +10668,14 @@ function f_selectStage()
 			end
 		--Logic For Auto Characters Stage
 			if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
-				p1charStage = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+				p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
 				p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage] --data.t_p1selected[1] means that data (stage) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
 				p1stage = true
 			else --If there no stage assigned for left side character
 				p1stage = false
 			end
 			if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
-				p2charStage = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].stage)
+				p2charStage = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].stage)
 				p2charStage = t_selChars[data.t_p2selected[1].cel+1].stage[p2charStage]
 				p2stage = true
 			else
@@ -11036,8 +11043,8 @@ function f_selectStage()
 			if data.stageType == "Classic" then textImgSetPos(txt_stageTime, 160, 70)
 			elseif data.stageType == "Modern" then textImgSetPos(txt_stageTime, 160, 105)
 			end
-			stageTimeNumber = stageTimer/gameTick
-			nodecimalStageTime = string.format("%.0f",stageTimeNumber)
+			stageTimeNumber = stageTimer / gameTick
+			nodecimalStageTime = string.format("%.0f", stageTimeNumber)
 			textImgSetText(txt_stageTime, nodecimalStageTime)
 			if stageTimer > 0 then
 				if not backScreen then stageTimer = stageTimer - 0.5 end--Activate Stage Select Timer
@@ -11118,14 +11125,14 @@ function f_selectStage()
 		if data.stage == nil then --Assign Auto Stage via Select.def
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
-					stageNo = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage)
+					stageNo = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].stage)
 					stageNo = t_selChars[data.t_p1selected[1].cel+1].stage[stageNo]
 				else
 					stageNo = math.random(1, data.includestage)
 				end
 			else
 				if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
-					stageNo = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].stage)
+					stageNo = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].stage)
 					stageNo = t_selChars[data.t_p2selected[1].cel+1].stage[stageNo]
 				else
 					stageNo = math.random(1, data.includestage)
@@ -11160,7 +11167,7 @@ function f_loadCharResources()
 		p1song = false
 		p2charSong = ""
 		if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-			p2charSong = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
+			p2charSong = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].music)
 			p2charSong = t_selChars[data.t_p2selected[1].cel+1].music[p2charSong].bgmusic
 			p2song = true
 		else --If there no music assigned for right side character
@@ -11169,7 +11176,7 @@ function f_loadCharResources()
 	--Logic For Characters Stages
 		p1stage = false
 		if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
-			p2charStage = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].stage)
+			p2charStage = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].stage)
 			p2charStage = t_selChars[data.t_p2selected[1].cel+1].stage[p2charStage]
 			p2stage = true
 		else
@@ -11180,7 +11187,7 @@ function f_loadCharResources()
 		p2song = false
 		p1charSong = ""
 		if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
-			p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music)
+			p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].music)
 			p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic
 			p1song = true
 		else --If there no music assigned for left side character
@@ -11188,7 +11195,7 @@ function f_loadCharResources()
 		end
 		p2stage = false
 		if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
-			p1charStage = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage)
+			p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].stage)
 			p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage]
 			p1stage = true
 		else --If there no stage assigned for left side character
@@ -11202,24 +11209,24 @@ function f_assignMusic()
 		track = ""
 		if data.stageMenu then
 			if t_selStages[stageNo].music ~= nil then
-				track = math.random(1,#t_selStages[stageNo].music)
+				track = math.random(1, #t_selStages[stageNo].music)
 				track = t_selStages[stageNo].music[track].bgmusic
 			end
 		else
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
-					track = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music)
+					track = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].music)
 					track = t_selChars[data.t_p1selected[1].cel+1].music[track].bgmusic
 				elseif t_selStages[stageNo].music ~= nil then
-					track = math.random(1,#t_selStages[stageNo].music)
+					track = math.random(1, #t_selStages[stageNo].music)
 					track = t_selStages[stageNo].music[track].bgmusic
 				end
 			else
 				if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-					track = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
+					track = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].music)
 					track = t_selChars[data.t_p2selected[1].cel+1].music[track].bgmusic
 				elseif t_selStages[stageNo].music ~= nil then
-					track = math.random(1,#t_selStages[stageNo].music)
+					track = math.random(1, #t_selStages[stageNo].music)
 					track = t_selStages[stageNo].music[track].bgmusic
 				end
 			end
@@ -11249,7 +11256,7 @@ end
 function f_musicPreview()
 	song = ""
 	if t_selStages[stageList].music ~= nil then
-		song = math.random(1,#t_selStages[stageList].music)
+		song = math.random(1, #t_selStages[stageList].music)
 		song = t_selStages[stageList].music[song].bgmusic
 	end
 	if musicList == #t_selMusic-2 then --playBGM(bgmNothing)
@@ -11500,8 +11507,8 @@ function f_orderSelectCursor()
 		xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	while true do
-		orderTimeNumber = orderTime/gameTick
-		nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
+		orderTimeNumber = orderTime / gameTick
+		nodecimalOrderTime = string.format("%.0f", orderTimeNumber)
 		textImgSetText(txt_orderTime, nodecimalOrderTime)
 	--Draw Order Select Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch then
@@ -11982,8 +11989,8 @@ function f_orderSelectButton()
 		xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	while true do
-		orderTimeNumber = orderTime/gameTick
-		nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
+		orderTimeNumber = orderTime / gameTick
+		nodecimalOrderTime = string.format("%.0f", orderTimeNumber)
 		textImgSetText(txt_orderTime, nodecimalOrderTime)
 	--Draw Order Select Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch then
@@ -13265,8 +13272,8 @@ function f_rematch()
 	end
 --Rematch Option Timer
 	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
-		rematchTimeNumber = rematchTimer/gameTick
-		nodecimalRematchTime = string.format("%.0f",rematchTimeNumber)
+		rematchTimeNumber = rematchTimer / gameTick
+		nodecimalRematchTime = string.format("%.0f", rematchTimeNumber)
 		textImgSetText(txt_rematchTime, nodecimalRematchTime)
 		if rematchTimer > 0 then
 			rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
@@ -13659,8 +13666,8 @@ function f_service()
 			end
 		end
 	--Service Option Timer
-		serviceTimeNumber = serviceTimer/gameTick
-		nodecimalServiceTime = string.format("%.0f",serviceTimeNumber)
+		serviceTimeNumber = serviceTimer / gameTick
+		nodecimalServiceTime = string.format("%.0f", serviceTimeNumber)
 		textImgSetText(txt_serviceTime, nodecimalServiceTime)
 		if serviceTimer > 0 then
 			if actionTime == 0 then
@@ -13877,7 +13884,7 @@ function f_drawRank(performanceValue, maxValue, timePerfomance, targetTime)
 		percentage = getTimePerfomance(performanceValue, maxValue, timePerfomance, targetTime)
 --To Rank Wins or Score
 	else
-		percentage = (performanceValue/maxValue)*100
+		percentage = (performanceValue / maxValue) * 100
 		if percentage > 100 then percentage = 100 end --To Avoid Exceed  100%
 	end
 --Show Ranks According Percentage Rates
@@ -14042,7 +14049,7 @@ function f_continue()
 					setScore(0 + stats.continueCount)
 			--Set half of current score as Initial score
 				elseif data.scoreResetType == 3 then
-					local currentScore = math.floor(score()/2 + 0.5)
+					local currentScore = math.floor(score() / 2 + 0.5)
 					if currentScore < 0 then currentScore = 0 end
 					setScore(currentScore)
 			--No Reset Score
@@ -15555,7 +15562,7 @@ function f_selectDestiny()
 					animPosDraw(towerSlot, -87+i*105-moveTower, 220-32*length) --Draw Towers BG According to his size via kombats sub-table
 				--Draw Stage Portraits
 					if t_selChars[t_selTower[i].kombats[length]+1].stage ~= nil then
-						towerStage = math.random(1,#t_selChars[t_selTower[i].kombats[length]+1].stage)
+						towerStage = math.random(1, #t_selChars[t_selTower[i].kombats[length]+1].stage)
 						towerStage = t_selChars[t_selTower[i].kombats[length]+1].stage[1]-1 -- -1 to get the correct stage
 						drawStagePortrait(towerStage, -85+i*105-moveTower, 223-32*length, 0.056, 0.035)
 					else
@@ -15590,8 +15597,8 @@ function f_selectDestiny()
 			animUpdate(menuArrowRight)
 		end
 	--Destiny Select Timer
-		destinyTimeNumber = destinyTimer/gameTick
-		nodecimalDestinyTime = string.format("%.0f",destinyTimeNumber)
+		destinyTimeNumber = destinyTimer / gameTick
+		nodecimalDestinyTime = string.format("%.0f", destinyTimeNumber)
 		textImgSetText(txt_destinyTime, nodecimalDestinyTime)
 		if destinyTimer > 0 then
 			if not backScreen and not startCount then destinyTimer = destinyTimer - 0.5 end--Activate Tower Select Timer
@@ -15629,7 +15636,7 @@ end
 function f_setTowerStage() --Unfinished
 	if not data.stageMenu then
 		if t_selChars[t_selTower[i].kombats[length]+1].stage ~= nil then
-			data.stage = math.random(1,#t_selChars[t_selTower[i].kombats[length]+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+			data.stage = math.random(1, #t_selChars[t_selTower[i].kombats[length]+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
 			data.stage = t_selChars[t_selTower[i].kombats[length]+1].stage[data.stage]
 		end
 	end
@@ -15725,7 +15732,7 @@ function f_battlePlan()
 			animPosDraw(battleSlot, CPUslotPosX, CPUslotPosY-CPUslotSpacingY*length+scroll)
 		--Draw Stage Portraits
 			if t_selChars[t_selTower[destinySelect].kombats[length]+1].stage ~= nil then
-				battleStage = math.random(1,#t_selChars[t_selTower[destinySelect].kombats[length]+1].stage)
+				battleStage = math.random(1, #t_selChars[t_selTower[destinySelect].kombats[length]+1].stage)
 				battleStage = t_selChars[t_selTower[destinySelect].kombats[length]+1].stage[1]-1 -- -1 to get the correct stage
 				drawStagePortrait(battleStage, CPUslotPosX+3.8, CPUslotPosY+7-CPUslotSpacingY*length+scroll, 0.1077, 0.093)
 			else
@@ -15902,7 +15909,7 @@ function f_tourneyCfg()
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 				if commandGetState(p1Cmd, 'l') and data.tourneySize > 4 then sndPlay(sndSys, 100, 0) end
 				if data.tourneySize > 4 then
-					data.tourneySize = data.tourneySize - (data.tourneySize/2)
+					data.tourneySize = data.tourneySize - (data.tourneySize / 2)
 				end
 				modified = 1
 			end
@@ -18076,7 +18083,7 @@ t_sdlWarning = {
 	{text = "ONLY 8-Bit/Indexed sprites are currently supported."},
 }
 for i=1, #t_sdlWarning do
-	t_sdlWarning[i]['id'] = createTextImg(font2, 0, 0, t_sdlWarning[i].text, 159, 65+i*15)
+	t_sdlWarning[i]['id'] = createTextImg(font2, 0, 0, t_sdlWarning[i].text, 159, 65 + i * 15)
 end
 function f_sdlWarning()
 	cmdInput()
@@ -18090,7 +18097,7 @@ function f_sdlWarning()
 		--drawTextTTF("font/TTF/Open_Sans/OpenSans-SemiBoldItalic.ttf", 0, "Hello World from TTF", 160, 300)
 		textImgDraw(txt_Warning)
 		animSetScale(infoBG, 300, 111)
-		animSetWindow(infoBG, 0,70, 296,#t_sdlWarning*15)
+		animSetWindow(infoBG, 0,70, 296,#t_sdlWarning * 15)
 		animDraw(infoBG)
 		for i=1, #t_sdlWarning do textImgDraw(t_sdlWarning[i].id) end
 		drawInfoCfgInputHints()

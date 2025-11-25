@@ -354,7 +354,7 @@ local function f_theVault()
 			end
 		end
 		if word:len() > 5 then
-			word = word:sub(1,18)
+			word = word:sub(1, 18)
 			setInputText(word)
 		end
 		if word ~= '' and word ~= nil then
