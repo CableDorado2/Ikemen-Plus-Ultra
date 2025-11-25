@@ -421,13 +421,13 @@ if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "sto
 elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "Stage Select"
 elseif getGameMode() == "mission" then t_pauseMain[6].text = "Mission Select"
 elseif getGameMode() == "event" then t_pauseMain[6].text = "Event Select"
-elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
-elseif getGameMode() == "tutorial" then table.remove(t_pauseMain,5)
-elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
+elseif getGameMode() == "random" then table.remove(t_pauseMain, 6)
+elseif getGameMode() == "tutorial" then table.remove(t_pauseMain, 5)
+elseif getGameMode() == "intermission" then table.remove(t_pauseMain, 6)
 elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "Skip Match"
 elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "Characters Stats"
 end
-if getPauseVar() == "nogiveup" then table.remove(t_pauseMain,5) end
+if getPauseVar() == "nogiveup" then table.remove(t_pauseMain, 5) end
 
 --Pause Menu for Replays
 if replay() or getGameMode() == "randomtest" then
@@ -909,7 +909,7 @@ for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
 	t_gameCfg[i]['varText'] = ""
 end
-if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg,5) end
+if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg, 5) end
 
 --Logic to Display Text instead Boolean Values
 function f_gameCfgdisplayTxt()
@@ -1538,17 +1538,17 @@ end
 
 --Battle Info for Replays
 if getGameMode() ~= "practice" then --if replay() or getGameMode() == "randomtest" then
-	table.remove(t_trainingCfg,15)
-	table.remove(t_trainingCfg,14)
-	table.remove(t_trainingCfg,13)
-	table.remove(t_trainingCfg,12)
-	table.remove(t_trainingCfg,11)
-	table.remove(t_trainingCfg,10)
-	table.remove(t_trainingCfg,9)
-	table.remove(t_trainingCfg,8)
-	table.remove(t_trainingCfg,7)
-	table.remove(t_trainingCfg,6)
-	table.remove(t_trainingCfg,5)
+	table.remove(t_trainingCfg, 15)
+	table.remove(t_trainingCfg, 14)
+	table.remove(t_trainingCfg, 13)
+	table.remove(t_trainingCfg, 12)
+	table.remove(t_trainingCfg, 11)
+	table.remove(t_trainingCfg, 10)
+	table.remove(t_trainingCfg, 9)
+	table.remove(t_trainingCfg, 8)
+	table.remove(t_trainingCfg, 7)
+	table.remove(t_trainingCfg, 6)
+	table.remove(t_trainingCfg, 5)
 end
 
 --Logic to Display Text instead Boolean Values

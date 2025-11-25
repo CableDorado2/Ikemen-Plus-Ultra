@@ -211,13 +211,13 @@ function f_mainAttract()
 			elseif commandGetState(p2Cmd, 's') then P2overP1 = true arcadeCPUvsHuman() --Start P2 from Right Side
 			end
 			f_discordUpdate({details = "Attract Mode"})
-			attractTimer = attractSeconds*gameTick
+			attractTimer = attractSeconds * gameTick
 	--START DEMO MODE
 		elseif attractDemoTimer == 350 then
 			demoModeCfg()
 			f_mainLogos()
 			attractDemoTimer = 0
-			attractTimer = attractSeconds*gameTick
+			attractTimer = attractSeconds * gameTick
 			playBGM(bgmTitle)
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -330,11 +330,11 @@ function f_mainMenu()
 				bank = 0
 			end
 			if not infoboxScreen then
-				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 122+i*13-moveTxt)) --Text Position
+				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 122 + i * 13 - moveTxt)) --Text Position
 			end
 		end
 		if not infoScreen and not infoboxScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13) --Position and Size of the selection cursor
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
@@ -438,7 +438,7 @@ function f_mainMenu2()
 			drawMenuItem(t_mainMenu, mainMenu, 2, font, bank, align, 159, 201)
 		end
 		if not infoScreen and not infoboxScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13) --Position and Size of the selection cursor
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
@@ -552,10 +552,10 @@ function f_arcadeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -658,10 +658,10 @@ function f_vsMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -763,10 +763,10 @@ function f_practiceMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, t_practiceMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, t_practiceMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -898,10 +898,10 @@ function f_challengeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1008,10 +1008,10 @@ function f_extrasMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1113,10 +1113,10 @@ function f_watchMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1215,10 +1215,10 @@ function f_profileMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_profileMenu[i].id, jgFnt, bank, 0, t_profileMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_profileMenu[i].id, jgFnt, bank, 0, t_profileMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1715,10 +1715,10 @@ function f_survivalMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1772,7 +1772,7 @@ function survivalCfg()
 	data.recordMode = "survival"
 	--data.stageMenu = true
 	setRoundsToWin(1)
-	setRoundTime(99*60)
+	setRoundTime(99 * 60)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -2005,10 +2005,10 @@ function f_bossChars()
 				bank = 0
 			end
 			--Draw Boss Name
-			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2166,10 +2166,10 @@ function f_bonusMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2271,10 +2271,10 @@ function f_bonusExtras()
 				bank = 0
 			end
 			--Draw Bonus Name
-			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2496,10 +2496,10 @@ function f_scoreattackMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 0, t_scoreattackMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 0, t_scoreattackMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2554,7 +2554,7 @@ function scoreattackCfg()
 	data.recordMode = "scoreattack"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(99*60)
+	setRoundTime(99 * 60)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -2689,10 +2689,10 @@ function f_timeattackMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 0, t_timeattackMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 0, t_timeattackMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2833,7 +2833,7 @@ function speedstarCfg()
 	data.recordMode = "speedstar"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(99*60)
+	setRoundTime(99 * 60)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -3010,7 +3010,7 @@ function suddenCfg()
 	data.recordMode = "suddendeath"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(15*60)
+	setRoundTime(15 * 60)
 	setRoundsToWin(1)
 	setLifeMul(0) --overwrite players life
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3258,14 +3258,14 @@ function f_statsMenu()
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Transparent Table BG
-		animSetScale(commonTBG, 290, maxStats*15)
+		animSetScale(commonTBG, 290, maxStats * 15)
 		animSetWindow(commonTBG, 30,20, 260,180)
 		animDraw(commonTBG)
 	--Draw Title Menu
 		textImgDraw(txt_statsMenu)
 		textImgDraw(txt_statsProgress)
 	--Draw Stats Table Cursor
-		animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
+		animSetWindow(cursorBox, 30,5 + cursorPosY * 15, 260,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Stats Text for Table
@@ -3279,8 +3279,8 @@ function f_statsMenu()
 					posX = 160
 				end
 				if t_statsMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_statsMenu[i].varID, font2, 0, align, t_statsMenu[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_statsMenu[i].varID, font2, 0, -1, t_statsMenu[i].varText, 286, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_statsMenu[i].varID, font2, 0, align, t_statsMenu[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_statsMenu[i].varID, font2, 0, -1, t_statsMenu[i].varText, 286, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -3749,7 +3749,7 @@ function f_songMenu()
 	--Draw Menu BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Transparent Table BG
-		animSetScale(commonTBG, 240, maxSongs*15)
+		animSetScale(commonTBG, 240, maxSongs * 15)
 		animSetWindow(commonTBG, 80,20, 160,180)
 		animDraw(commonTBG)
 	--Draw Title Menu
@@ -3757,7 +3757,7 @@ function f_songMenu()
 		textImgDraw(txt_song)
 		if not confirmSong then
 		--Draw Table Cursor
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3777,7 +3777,7 @@ function f_songMenu()
 				posX = 160
 			end
 			if i > songMenu - cursorPosY then
-				t_songList[songFolder][i].id = createTextImg(font2, 0, align, songText, posX, 15+i*15-moveTxt)
+				t_songList[songFolder][i].id = createTextImg(font2, 0, align, songText, posX, 15 + i * 15 - moveTxt)
 				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
@@ -3873,10 +3873,10 @@ function f_confirmSongMenu()
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_confirmSongMenu[i].id, jgFnt, bank, 0, t_confirmSongMenu[i].text, 159, 120+i*13-moveTxtSongConfirm))
+		textImgDraw(f_updateTextImg(t_confirmSongMenu[i].id, jgFnt, bank, 0, t_confirmSongMenu[i].text, 159, 120 + i * 13 - moveTxtSongConfirm))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 87,123+cursorPosYSongConfirm*13, 144,13)
+	animSetWindow(cursorBox, 87,123 + cursorPosYSongConfirm * 13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Input Hints Panel
@@ -4121,10 +4121,10 @@ function f_replayMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -4276,7 +4276,7 @@ function f_mainReplay()
 					end
 					if not confirmScreen then
 						--Draw Cursor
-						animSetWindow(cursorBox, -108+replayOption*120,161, 56,15)
+						animSetWindow(cursorBox, -108 + replayOption * 120,161, 56,15)
 						f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 						animDraw(f_animVelocity(cursorBox, -1, -1))
 					end
@@ -4324,12 +4324,12 @@ function f_mainReplay()
 			maxReplays = maxItems
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1))
-		animSetScale(commonTBG, 240, maxReplays*15)
+		animSetScale(commonTBG, 240, maxReplays * 15)
 		animSetWindow(commonTBG, 80,20, 160,180)
 		animDraw(commonTBG)
 		textImgDraw(txt_replay)
-		--animSetScale(cursorBox, 160,maxReplays*15) --For Optimized Cursor Box
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		--animSetScale(cursorBox, 160, maxReplays * 15) --For Optimized Cursor Box
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxReplays do
@@ -4340,7 +4340,7 @@ function f_mainReplay()
 				replayText = t_replayList[i].name
 			end
 			if i > mainReplay - cursorPosY then
-				t_replayList[i].id = createTextImg(font2, 0, 1, replayText, 85, 15+i*15-moveTxt)
+				t_replayList[i].id = createTextImg(font2, 0, 1, replayText, 85, 15 + i * 15 - moveTxt)
 				textImgDraw(t_replayList[i].id)
 			end
 		end
@@ -4517,9 +4517,9 @@ function f_mainNetplay()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 122 + i * 13 - moveTxt))
 		end
-		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		drawMiddleMenuSP()
@@ -4876,10 +4876,10 @@ function f_hostRooms()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if editHostScreen == false and crudHostScreen == false then
-			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5048,7 +5048,7 @@ function f_crudHostScreen()
 		else
 			bank = 0
 		end
-		t_crudHostOptionU[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionU[i].text, 12+i*100, 170)
+		t_crudHostOptionU[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionU[i].text, 12 + i * 100, 170)
 		textImgDraw(t_crudHostOptionU[i].id)
 	end
 	for i=1, #t_crudHostOptionD do
@@ -5057,17 +5057,17 @@ function f_crudHostScreen()
 		else
 			bank = 0
 		end
-		t_crudHostOptionD[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionD[i].text, 12+i*100, 190)
+		t_crudHostOptionD[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionD[i].text, 12 + i * 100, 190)
 		textImgDraw(t_crudHostOptionD[i].id)
 	end
 	if crudHostOption ~= 1 then
 		--Draw Cursors
 		if crudHostRow == 1 then
-			animSetWindow(cursorBox, -16+crudHostCursorU*100,158, 55,16)
+			animSetWindow(cursorBox, -16 + crudHostCursorU * 100,158, 55,16)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		elseif crudHostRow == 2 then
-			animSetWindow(cursorBox, -16+crudHostCursorD*100,178, 55,16)
+			animSetWindow(cursorBox, -16 + crudHostCursorD * 100,178, 55,16)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5520,7 +5520,7 @@ function f_mainLobby()
 				f_selectAdvance()
 		--ONLINE SUDDEN DEATH
 			elseif mainLobby == 13 then
-				setRoundTime(15*60)
+				setRoundTime(15 * 60)
 				setLifeMul(0)
 				setRoundsToWin(1)
 				data.gameMode = "survival"
@@ -5542,9 +5542,9 @@ function f_mainLobby()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 122+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 122 + i * 13 - moveTxt))
 		end
-		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		drawMiddleMenuSP()
@@ -5757,10 +5757,10 @@ function f_confirmMenu(txt, font, bank, x, y, scaleX, scaleY, spacing, limit)
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, t_confirmMenu[i].text, 159, 124+i*13))
+		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, t_confirmMenu[i].text, 159, 124 + i * 13))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 44,114+confirmMenu*13, 231,13)
+	animSetWindow(cursorBox, 44,114 + confirmMenu * 13, 231,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Input Hints Panel
@@ -5912,13 +5912,13 @@ function f_exitMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 145+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 145 + i * 13 - moveTxt))
 		end
 		if infoScreen then
-			table.remove(t_exitMenu,3) --Remove Option 3 in table if characters or stages are not detected
+			table.remove(t_exitMenu, 3) --Remove Option 3 in table if characters or stages are not detected
 		end
 		if not confirmScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,148+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,148 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -6758,11 +6758,11 @@ function f_selectInit()
 	rematchSeconds = data.rematchTime
 	serviceSeconds = data.serviceTime
 	destinySeconds = data.destinyTime
-	selectTimer = selectSeconds*gameTick --Set time for Character Select
-	stageTimer = stageSeconds*gameTick --Set time for Stage Select
-	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
-	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
-	destinyTimer = destinySeconds*gameTick --Set time for Tower/Destiny Select
+	selectTimer = selectSeconds * gameTick --Set time for Character Select
+	stageTimer = stageSeconds * gameTick --Set time for Stage Select
+	rematchTimer = rematchSeconds * gameTick --Set time for Rematch Option
+	serviceTimer = serviceSeconds * gameTick --Set time for Service Option
+	destinyTimer = destinySeconds * gameTick --Set time for Tower/Destiny Select
 	if data.rosterAdvanced == true and data.stageMenu == false then
 		--For Advanced Modes without Stage Select
 	else
@@ -7013,13 +7013,13 @@ function f_aiRamp()
 		endAI = 1
 	end
 	for i=1, lastMatch do
-		if i-1 <= start_match then
-			t_aiRamp[#t_aiRamp+1] = startAI
-		elseif i-1 <= end_match then
+		if i - 1 <= start_match then
+			t_aiRamp[#t_aiRamp + 1] = startAI
+		elseif i - 1 <= end_match then
 			local curMatch = i - (start_match + 1)
-			t_aiRamp[#t_aiRamp+1] = math.floor(curMatch * (endAI - startAI) / (end_match - start_match) + startAI)
+			t_aiRamp[#t_aiRamp + 1] = math.floor(curMatch * (endAI - startAI) / (end_match - start_match) + startAI)
 		else
-			t_aiRamp[#t_aiRamp+1] = endAI
+			t_aiRamp[#t_aiRamp + 1] = endAI
 		end
 	end
 	if data.debugLog then f_printTable(t_aiRamp, "save/debug/t_aiRamp.log") end
@@ -7109,7 +7109,7 @@ function f_aiLevel()
 			end
 		elseif p1teamMode == 1 then --Simul
 			if data.simulType == "Tag" then
-				for i=1, p1numChars*2 do
+				for i=1, p1numChars * 2 do
 					if i % 2 ~= 0 then --odd value
 						if data.p1In == 1 and data.aiFight == false and data.tagmode == 1 then
 							setCom(i, 0)
@@ -7130,7 +7130,7 @@ function f_aiLevel()
 					setCom(1, f_difficulty(1, offset))
 					setTag(1, f_tagMode(1, tagset))
 				end
-				for i=3, p1numChars*2 do
+				for i=3, p1numChars * 2 do
 					if i % 2 ~= 0 then
 						setCom(i, f_difficulty(i, offset))
 						setTag(i, f_tagMode(i, tagset))
@@ -7138,7 +7138,7 @@ function f_aiLevel()
 				end
 			end
 		elseif p1teamMode == 2 then --Turns
-			for i=1, p1numChars*2 do
+			for i=1, p1numChars * 2 do
 				if i % 2 ~= 0 then
 					if data.p1In == 1 and not data.aiFight then
 						setCom(i, 0)
@@ -7161,7 +7161,7 @@ function f_aiLevel()
 			end
 		elseif p2teamMode == 1 then --Simul
 			if data.simulType == "Tag" then
-				for i=2, p2numChars*2 do
+				for i=2, p2numChars * 2 do
 					if i % 2 == 0 then --even value
 						if data.p2In == 2 and not data.aiFight and data.tagmode == 1 then
 							setCom(i, 0)
@@ -7181,7 +7181,7 @@ function f_aiLevel()
 					setCom(2, f_difficulty(2, offset))
 					setTag(2, f_tagMode(2, tagset))
 				end
-				for i=4, p2numChars*2 do
+				for i=4, p2numChars * 2 do
 					if i % 2 == 0 then
 						setCom(i, f_difficulty(i, offset))
 						setTag(i, f_tagMode(i, tagset))
@@ -7189,7 +7189,7 @@ function f_aiLevel()
 				end
 			end
 		elseif p2teamMode == 2 then --Turns
-			for i=2, p2numChars*2 do
+			for i=2, p2numChars * 2 do
 				if i % 2 == 0 then
 					if data.p2In == 2 and not data.aiFight then
 						setCom(i, 0)
@@ -7378,10 +7378,10 @@ function f_backMenu()
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 120+i*13))
+		textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 120 + i * 13))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 87,110+backMenu*13, 144,13)
+	animSetWindow(cursorBox, 87,110 + backMenu * 13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Input Hints Panel
@@ -7535,7 +7535,7 @@ function validCells()
 If added columns and rows are more than inserted characters. Don't start char select because while you are scrolling
 at some point you will have a error message related with this and well, we can notify to the user about it with an informative message..
 ]]
-	if (data.selectColumns+data.offsetColumns)*(data.selectRows+data.offsetRows) > #t_selChars then
+	if (data.selectColumns + data.offsetColumns) * (data.selectRows + data.offsetRows) > #t_selChars then
 		return false --Config Not Valid
 	else
 		return true  --Config Valid
@@ -7714,15 +7714,15 @@ function f_selectScreen()
 	--Draw Select Grids
 		if data.p1SelectMenu then
 			drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
-			for i=0, selectColumns-1 do
-				for j=0, selectRows-1 do
-					animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+			for i=0, selectColumns - 1 do
+				for j=0, selectRows - 1 do
+					animPosDraw(selectCell, p1FaceX + i * (cellSizeX + cellSpacingX), p1FaceY + j * (cellSizeY + cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
 					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				--[[Draw Locked Icon
 					local items = (i + selectColumns * j) + 1
 					if items <= #t_selChars then
 						if t_unlockLua.chars[t_selChars[items].char] ~= nil and not onlinegame then
-							animPosDraw(cellLock, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw Lock Icon if the character is locked
+							animPosDraw(cellLock, p1FaceX + i * (cellSizeX + cellSpacingX), p1FaceY + j * (cellSizeY + cellSpacingY)) --Draw Lock Icon if the character is locked
 						end
 					end
 				--]]
@@ -7731,20 +7731,20 @@ function f_selectScreen()
 		end
 		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
 			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
-			for i=0, selectColumns-1 do
-				for j=0, selectRows-1 do
-					animPosDraw(selectCell, p2FaceX+i*(cellSizeX+cellSpacingX), p2FaceY+j*(cellSizeY+cellSpacingY))
+			for i=0, selectColumns - 1 do
+				for j=0, selectRows - 1 do
+					animPosDraw(selectCell, p2FaceX + i * (cellSizeX + cellSpacingX), p2FaceY + j * (cellSizeY + cellSpacingY))
 					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				end
 			end
 		end
 	--Draw Active Cursors
 		if p1TeamEnd and not p1SelEnd and data.p1SelectMenu then
-			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(cellSizeX+cellSpacingX), p1FaceY+(p1SelY-p1OffsetRow)*(cellSizeY+cellSpacingY))
+			animPosDraw(p1ActiveCursor, p1FaceX + p1SelX * (cellSizeX + cellSpacingX), p1FaceY + (p1SelY - p1OffsetRow) * (cellSizeY + cellSpacingY))
 			animSetScale(p1ActiveCursor, data.cellScaleX, data.cellScaleY)
 		end
 		if p2TeamEnd and not p2SelEnd and (data.p2Faces or not data.p1SelectMenu) then
-			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(cellSizeX+cellSpacingX), p2FaceY+(p2SelY-p2OffsetRow)*(cellSizeY+cellSpacingY))
+			animPosDraw(p2ActiveCursor, p2FaceX + p2SelX * (cellSizeX + cellSpacingX), p2FaceY + (p2SelY - p2OffsetRow) * (cellSizeY + cellSpacingY))
 			animSetScale(p2ActiveCursor, data.cellScaleX, data.cellScaleY)
 		end
 	end
@@ -8019,19 +8019,19 @@ function f_p1TeamMenu()
 	--Only appears until you select a team mode
 	--Simul Icons
 		for i=1, data.numSimul do
-			animPosDraw(p1TmEmpty, 74 + i*6, 66)
+			animPosDraw(p1TmEmpty, 74 + i * 6, 66)
 		end
 		for i=1, p1numSimul do
-			animPosDraw(p1TmIcon, 74 + i*6, 66)
+			animPosDraw(p1TmIcon, 74 + i * 6, 66)
 		end
 	--Turns Icons
 		for i=1, data.numTurns do
-			animPosDraw(p1TmEmpty, 74 + i*6, 81)
+			animPosDraw(p1TmEmpty, 74 + i * 6, 81)
 		end
 		for i=1, p1numTurns do
-			animPosDraw(p1TmIcon, 74 + i*6, 81)
+			animPosDraw(p1TmIcon, 74 + i * 6, 81)
 		end
-		animPosDraw(p1TmCursor, 10, 50 + p1teamMode*15)
+		animPosDraw(p1TmCursor, 10, 50 + p1teamMode * 15)
 		if btnPalNo(p1Cmd, true) > 0 or selectTimer == 0 then
 			sndPlay(sndSys, 100, 1)
 			if p1teamMode == 0 then --Single
@@ -8118,7 +8118,7 @@ function f_p1SelectMenu()
 					--sndPlay(sndSys, 100, 0) --Play Cursor SFX...
 				--DRAW RANDOM PORTRAITS
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-						--drawPortrait(randomNo, 0+60*(#data.t_p1selected-1), 20, 1, 1) --Draw P1 RANDOM PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
+						--drawPortrait(randomNo, 0 + 60 * (#data.t_p1selected - 1), 20, 1, 1) --Draw P1 RANDOM PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
 					--SINGLE MODE
 						if p1numChars == 1 then
 							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
@@ -8246,36 +8246,36 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomSprite, 20, 75)
 								elseif data.randomPortrait == "Roulette" then
-									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 40, 164, true)
+									f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 40, 164, true)
 								end
 							else
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
-									f_drawQuickSpr(p1randomSprite, 20 + 28*#data.t_p1selected, 75)
+									f_drawQuickSpr(p1randomSprite, 20 + 28 * #data.t_p1selected, 75)
 								elseif data.randomPortrait == "Roulette" then
 									--Draw P1 RANDOM PREVIEW stand animation with automatic X position for all members (instead of use p1numChars logic)
-									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 40 + 28*#data.t_p1selected, 164, true)
+									f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 40 + 28 * #data.t_p1selected, 164, true)
 								end
 							end
 						elseif data.portraitDisplay == "Mixed" then
 							if data.randomPortrait == "Roulette" then
 							--SINGLE MODE
 								if p1numChars == 1 then
-									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 30, 158, true) --Draw P1 RANDOM PREVIEW stand anim (true means that always will be in a loop updateAnim)
+									f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 30, 158, true) --Draw P1 RANDOM PREVIEW stand anim (true means that always will be in a loop updateAnim)
 							--TEAM MODE WITH 2 MEMBERS
 								elseif p1numChars == 2 then
-									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --0.5,0.5 is the animation scale
-									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --0.5,0.5 is the animation scale
+									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 90, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH 3 MEMBERS
 								elseif p1numChars == 3 then
-									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 40, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 40, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH 4 MEMBERS
 								elseif p1numChars == 4 then
-									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 10, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 70, 89, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
-									if p1memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 4 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 10, 89, true, 0.5, 0.5) end --Draw P1 Member 1 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 70, 89, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 3 RANDOM PREVIEW Stand Anim
+									if p1memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 4 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH MORE THAN 4 MEMBERS (UNUSED)
 								--else
 									--f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw RANDOM Stand Animation preview out of BG Position
@@ -8288,7 +8288,7 @@ function f_p1SelectMenu()
 				--DRAW PORTRAITS
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 						if p1Portrait then --To avoid issues when draw Portrait after continue/service screen
-							--drawPortrait(p1Portrait, 0+60*(#data.t_p1selected-1), 20, 1, 1) --Draw P1 PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
+							--drawPortrait(p1Portrait, 0 + 60 * (#data.t_p1selected - 1), 20, 1, 1) --Draw P1 PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
 						--SINGLE MODE
 							if p1numChars == 1 then
 								drawPortrait(p1Portrait, 0, 20, 1, 1) --Draw P1 Member 1 PREVIEW Portrait
@@ -8338,38 +8338,38 @@ function f_p1SelectMenu()
 					if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 						if data.portraitDisplay == "Sprite" then
 							if data.coop then
-								f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 40, 164, true)
+								f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 40, 164, true)
 							else
 								--Draw P1 Member 1 PREVIEW Stand Animation with automatic X position for all members (instead of use p1numChars logic)
-								f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 40 + 28*#data.t_p1selected, 164, true)
+								f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 40 + 28 * #data.t_p1selected, 164, true)
 							end
 						elseif data.portraitDisplay == "Mixed" then
 						--SINGLE MODE
 							if p1numChars == 1 then
-								f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30, 158, true, 1, 1) --Draw P1 Member 1 PREVIEW Stand Anim
+								f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 30, 158, true, 1, 1) --Draw P1 Member 1 PREVIEW Stand Anim
 						--TEAM MODE WITH 2 MEMBERS
 							elseif p1numChars == 2 then
-								if p1memberPreview == 1 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --Draw P1 Member 1 PREVIEW Stand Anim
-								if p1memberPreview == 2 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5) end --Draw P1 Member 2 PREVIEW Stand Anim
+								if p1memberPreview == 1 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --Draw P1 Member 1 PREVIEW Stand Anim
+								if p1memberPreview == 2 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 90, 158, true, 0.5, 0.5) end --Draw P1 Member 2 PREVIEW Stand Anim
 						--TEAM MODE WITH 3 MEMBERS
 							elseif p1numChars == 3 then
-								if p1memberPreview == 1 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 40, 89, true, 0.5, 0.5) end --Draw P1 Member 1 PREVIEW Stand Anim
-								if p1memberPreview == 2 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 2 PREVIEW Stand Anim
-								if p1memberPreview == 3 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 3 PREVIEW Stand Anim
+								if p1memberPreview == 1 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 40, 89, true, 0.5, 0.5) end --Draw P1 Member 1 PREVIEW Stand Anim
+								if p1memberPreview == 2 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 2 PREVIEW Stand Anim
+								if p1memberPreview == 3 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 3 PREVIEW Stand Anim
 						--TEAM MODE WITH 4 MEMBERS
 							elseif p1numChars == 4 then
-								if p1memberPreview == 1 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 10, 89, true, 0.5, 0.5) end --Draw P1 Member 1 PREVIEW Stand Anim
-								if p1memberPreview == 2 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 70, 89, true, 0.5, 0.5) end --Draw P1 Member 2 PREVIEW Stand Anim
-								if p1memberPreview == 3 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 3 PREVIEW Stand Anim
-								if p1memberPreview == 4 then f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 4 PREVIEW Stand Anim
+								if p1memberPreview == 1 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 10, 89, true, 0.5, 0.5) end --Draw P1 Member 1 PREVIEW Stand Anim
+								if p1memberPreview == 2 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 70, 89, true, 0.5, 0.5) end --Draw P1 Member 2 PREVIEW Stand Anim
+								if p1memberPreview == 3 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 10, 158, true, 0.5, 0.5) end --Draw P1 Member 3 PREVIEW Stand Anim
+								if p1memberPreview == 4 then f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 70, 158, true, 0.5, 0.5) end --Draw P1 Member 4 PREVIEW Stand Anim
 						--TEAM MODE WITH MORE THAN 4 MEMBERS (UNUSED)
 							--else
-								--f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw Stand Animation preview out of BG Position
+								--f_drawCharAnim(t_selChars[p1Cell + 1], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw Stand Animation preview out of BG Position
 							end
 						end
 					end
 				--DRAW LOCKED CHAR STUFF
-					if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not onlinegame then --If the character is locked draw special stuff
+					if t_unlockLua.chars[t_selChars[p1Cell + 1].char] ~= nil and not onlinegame then --If the character is locked draw special stuff
 						if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 						--SINGLE MODE
 							if p1numChars == 1 then
@@ -8413,7 +8413,7 @@ function f_p1SelectMenu()
 								end
 							end
 						elseif data.portraitDisplay == "Sprite" then
-							f_drawQuickSpr(p1portraitLock, 20 + 28*#data.t_p1selected, 75, 0.15, 0.15)
+							f_drawQuickSpr(p1portraitLock, 20 + 28 * #data.t_p1selected, 75, 0.15, 0.15)
 						end
 					end
 				end
@@ -8423,7 +8423,7 @@ function f_p1SelectMenu()
 			--DRAW PORTRAITS
 				if not exclusiveStageMenu then
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-						--drawPortrait(data.t_p1selected[j].cel, 0+60*(j-1), 20, 1, 1) --Draw P1 SELECTED Portrait with automatic X position for all members (instead of use p1numChars logic)
+						--drawPortrait(data.t_p1selected[j].cel, 0 + 60 * (j - 1), 20, 1, 1) --Draw P1 SELECTED Portrait with automatic X position for all members (instead of use p1numChars logic)
 					--SINGLE MODE
 						if p1numChars == 1 then
 							if data.randomPortrait == "Fixed" and p1member1Random == true then
@@ -8534,14 +8534,14 @@ function f_p1SelectMenu()
 					if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 						if data.portraitDisplay == "Sprite" then
 							if data.coop then
-								f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, alphaS) --200 is the alphas value
+								f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, alphaS) --200 is the alphas value
 							else
 							--Draw P1 Member 4 SELECTED Animation
 								if j == 4 then
 									if data.randomPortrait == "Fixed" and p1member4Random == true then
 										f_drawQuickSpr(p1randomSprite, 104, 75)
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 124, 164, data.t_p1selected[4].up, 1, 1, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel + 1], 'p1AnimWin', 124, 164, data.t_p1selected[4].up, 1, 1, alphaS)
 									end
 								end
 							--Draw P1 Member 3 SELECTED Animation
@@ -8549,7 +8549,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										f_drawQuickSpr(p1randomSprite, 76, 75)
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 96, 164, data.t_p1selected[3].up, 1, 1, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel + 1], 'p1AnimWin', 96, 164, data.t_p1selected[3].up, 1, 1, alphaS)
 									end
 								end
 							--Draw P1 Member 2 SELECTED Animation
@@ -8557,17 +8557,17 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										f_drawQuickSpr(p1randomSprite, 48, 75)
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel + 1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									f_drawQuickSpr(p1randomSprite, 20, 75)
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, alphaS)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, alphaS)
 								end
 								--Draw P1 SELECTED/Win Animation with automatic X position for all members (instead of use p1numChars logic)
-								--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 40 + 28*(j-1), 164, data.t_p1selected[j].up, 1, 1, alphaS)
+								--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 40 + 28 * (j - 1), 164, data.t_p1selected[j].up, 1, 1, alphaS)
 							end
 						elseif data.portraitDisplay == "Mixed" then
 						--SINGLE MODE
@@ -8575,7 +8575,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--You can put your own sprite for random select but as also we are using the portrait logic is not necessary
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 30, 158, data.t_p1selected[1].up, 1, 1, alphaS)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 30, 158, data.t_p1selected[1].up, 1, 1, alphaS)
 								end
 						--TEAM MODE WITH 2 MEMBERS
 							elseif p1numChars == 2 then
@@ -8584,14 +8584,14 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel + 1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 90, 90, data.t_p1selected[1].up, 0.5, 0.5, alphaS) --The lastest f_drawCharAnim have draw priority on screen
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 90, 90, data.t_p1selected[1].up, 0.5, 0.5, alphaS) --The lastest f_drawCharAnim have draw priority on screen
 								end
 						--TEAM MODE WITH 3 MEMBERS
 							elseif p1numChars == 3 then
@@ -8600,7 +8600,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[3].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel + 1], 'p1AnimWin', 70, 158, data.t_p1selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 2 SELECTED Animation
@@ -8608,14 +8608,14 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel + 1], 'p1AnimWin', 10, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 89, data.t_p1selected[1].up, 0.5, 0.5, alphaS)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 40, 89, data.t_p1selected[1].up, 0.5, 0.5, alphaS)
 								end
 						--TEAM MODE WITH 4 MEMBERS
 							elseif p1numChars == 4 then
@@ -8624,7 +8624,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member4Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[4].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel + 1], 'p1AnimWin', 70, 158, data.t_p1selected[4].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 3 SELECTED Animation
@@ -8632,7 +8632,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[3].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel + 1], 'p1AnimWin', 10, 158, data.t_p1selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 2 SELECTED Animation
@@ -8640,14 +8640,14 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 70, 89, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel + 1], 'p1AnimWin', 70, 89, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 10, 89, data.t_p1selected[1].up, 0.5, 0.5, alphaS)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 10, 89, data.t_p1selected[1].up, 0.5, 0.5, alphaS)
 								end
 							end
 						end
@@ -8810,21 +8810,21 @@ function f_p1SelectMenu()
 							break
 						end
 						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYSub(p1SelY, p1FaceOffset, p1OffsetRow)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+						if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then
 							foundCel = true
 						else
 							for i=0, tmpCelX do
 								p1SelX = f_findCelXSub(p1SelX, false)
-								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+								if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then
 									foundCel = true
 									break
 								end
 							end
 							if not foundCel then
 								p1SelX = tmpCelX
-								for i=1, selectColumns-tmpCelX do
+								for i=1, selectColumns - tmpCelX do
 									p1SelX = f_findCelXAdd(p1SelX, false)
-									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+									if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then
 										foundCel = true
 										break
 									end
@@ -8846,12 +8846,12 @@ function f_p1SelectMenu()
 							break
 						end
 						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYAdd(p1SelY, p1FaceOffset, p1OffsetRow)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+						if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then
 							foundCel = true
 						else
-							for i=1, selectColumns-tmpCelX do
+							for i=1, selectColumns - tmpCelX do
 								p1SelX = f_findCelXAdd(p1SelX, false)
-								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+								if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then
 									foundCel = true
 									break
 								end
@@ -8860,7 +8860,7 @@ function f_p1SelectMenu()
 								p1SelX = tmpCelX
 								for i=0, tmpCelX do
 									p1SelX = f_findCelXSub(p1SelX, false)
-									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+									if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then
 										foundCel = true
 										break
 									end
@@ -8878,7 +8878,7 @@ function f_p1SelectMenu()
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30) then
 					while true do
 						p1SelX = f_findCelXSub(p1SelX, wrappingX)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
+						if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then break end
 					end
 					if tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
@@ -8887,14 +8887,14 @@ function f_p1SelectMenu()
 				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30) then
 					while true do
 						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
+						if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then break end
 					end
 					if tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
 					end
 			--CURSOR SELECTION
 				elseif btnPalNo(p1Cmd, true) > 0 then
-					if t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p1selected, p1Cell) or onlinegame then --This character is unlocked
+					if t_unlockLua.chars[t_selChars[p1Cell + 1].char] == nil and f_checkTeamDuplicates(data.t_p1selected, p1Cell) or onlinegame then --This character is unlocked
 						f_p1Selection()
 					else--if t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p1selected, p1Cell) and not onlinegame then --Character locked
 						sndPlay(sndIkemen, 200, 0)
@@ -8903,7 +8903,7 @@ function f_p1SelectMenu()
 				elseif selectTimer == 0 then
 					local getRandomCell = nil
 				--Select random character to prevent issues when time to select is over
-					if not data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] ~= nil then
+					if not data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell + 1].char] ~= nil then
 						for i=1, #data.t_p1selected do
 							for available=1, #t_randomChars do
 								if t_randomChars[available] ~= data.t_p1selected[i].cel then
@@ -8912,7 +8912,7 @@ function f_p1SelectMenu()
 								end
 							end
 						end
-					else--if data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell+1].char] == nil then
+					else--if data.teamDuplicates or t_unlockLua.chars[t_selChars[p1Cell + 1].char] == nil then
 						getRandomCell = t_randomChars[math.random(#t_randomChars)]
 					end
 					p1Cell = getRandomCell
@@ -8937,13 +8937,13 @@ function f_p1SelectMenu()
 					bufSell = 0
 				end
 			end
-			p1Cell = p1SelX + selectColumns*p1SelY
+			p1Cell = p1SelX + selectColumns * p1SelY
 			p1Portrait = p1Cell
 		--Draw Author Info Text Preview
 			if data.charInfo == "Author" then
-				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == "Random" then
-					if t_selChars[p1Cell+1].author ~= nil then
-						textImgSetText(txt_p1Author, txt_authorText..t_selChars[p1Cell+1].author)
+				if t_selChars[p1Cell + 1].author ~= nil or getCharName(p1Cell) == "Random" then
+					if t_selChars[p1Cell + 1].author ~= nil then
+						textImgSetText(txt_p1Author, txt_authorText..t_selChars[p1Cell + 1].author)
 					else --Set Text for Random Select
 						textImgSetText(txt_p1Author, txt_authorText.."???")
 					end
@@ -9240,12 +9240,12 @@ function f_p1SelectHandicap()
 			end
 		--Draw Handicaps Names
 			if t_handicapSelect[i].id ~= nil then
-				textImgDraw(f_updateTextImg(t_handicapSelect[i].id, jgFnt, p1Handbank, 0, t_handicapSelect[i].text, 76, 168+i*13-p1HandicapMoveTxt, 0.95, 0.95))
+				textImgDraw(f_updateTextImg(t_handicapSelect[i].id, jgFnt, p1Handbank, 0, t_handicapSelect[i].text, 76, 168 + i * 13 - p1HandicapMoveTxt, 0.95, 0.95))
 			end
 		end
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 4, 158+p1HandicapCursorPosY*13, 145, 13)
+	animSetWindow(cursorBox, 4, 158 + p1HandicapCursorPosY * 13, 145, 13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Arrows
@@ -9407,19 +9407,19 @@ function f_p2TeamMenu()
 		end
 	--Simul Icons
 		for i=1, data.numSimul do
-			animPosDraw(p2TmEmpty, 246 - i*6, 66)
+			animPosDraw(p2TmEmpty, 246 - i * 6, 66)
 		end
 		for i=1, p2numSimul do
-			animPosDraw(p2TmIcon, 246 - i*6, 66)
+			animPosDraw(p2TmIcon, 246 - i * 6, 66)
 		end
 	--Turns Icons
 		for i=1, data.numTurns do
-			animPosDraw(p2TmEmpty, 246 - i*6, 81)
+			animPosDraw(p2TmEmpty, 246 - i * 6, 81)
 		end
 		for i=1, p2numTurns do
-			animPosDraw(p2TmIcon, 246 - i*6, 81)
+			animPosDraw(p2TmIcon, 246 - i * 6, 81)
 		end
-		animPosDraw(p2TmCursor, 310, 50 + p2teamMode*15)
+		animPosDraw(p2TmCursor, 310, 50 + p2teamMode * 15)
 		if btnPalNo(p2Cmd, true) > 0 or selectTimer == 0 then
 			sndPlay(sndSys, 100, 1)
 			if p2teamMode == 0 then --Single
@@ -9510,7 +9510,7 @@ function f_p2SelectMenu()
 						--sndPlay(sndSys, 100, 0)
 					end
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-						--drawPortrait(randomNo, 320 - 60*(#t_selected-1), 20, -1, 1)
+						--drawPortrait(randomNo, 320 - 60 * (#t_selected - 1), 20, -1, 1)
 						if p2numChars == 1 then
 							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p2randomPortrait, 320, 20)
@@ -9639,35 +9639,35 @@ function f_p2SelectMenu()
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomSprite, 110, 75)
 								elseif data.randomPortrait == "Roulette" then
-									f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 114, 164, true) --p1AnimStand because sprite animation will see to right
+									f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 114, 164, true) --p1AnimStand because sprite animation will see to right
 								end
 							else
 								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
-									f_drawQuickSpr(p2randomSprite, 260 - 28*#t_selected, 75)
+									f_drawQuickSpr(p2randomSprite, 260 - 28 * #t_selected, 75)
 								elseif data.randomPortrait == "Roulette" then
-									f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
+									f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 280 - 28 * #t_selected, 164, true)
 								end
 							end
 						elseif data.portraitDisplay == "Mixed" then
 							if data.randomPortrait == "Roulette" then
 								if p2numChars == 1 then
-									f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 290, 158, true)
+									f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 290, 158, true)
 								elseif p2numChars == 2 then
 									if data.coop then
-										f_drawCharAnim(t_selChars[randomNo+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
+										f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
 									else
-										if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
-										if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
+										if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
+										if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
 									end
 								elseif p2numChars == 3 then
-									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
-									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 								elseif p2numChars == 4 then
-									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
-									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
-									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-									if p2memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 4 then f_drawCharAnim(t_selChars[randomNo + 1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 								--else
 									--f_drawCharAnim(t_selChars[randomNo+1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 								end
@@ -9677,7 +9677,7 @@ function f_p2SelectMenu()
 				else
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 						if p2Portrait then --To avoid issues when draw Portrait after continue/service screen
-							--drawPortrait(p2Portrait, 320 - 60*(#t_selected-1), 20, -1, 1)
+							--drawPortrait(p2Portrait, 320 - 60 * (#t_selected - 1), 20, -1, 1)
 							if p2numChars == 1 then
 								drawPortrait(p2Portrait, 320, 20, -1, 1)
 							elseif p2numChars == 2 then
@@ -9726,35 +9726,35 @@ function f_p2SelectMenu()
 					if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 						if data.portraitDisplay == "Sprite" then
 							if data.coop then
-								f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 114, 164, true)
+								f_drawCharAnim(t_selChars[p2Cell + 1], 'p1AnimStand', 114, 164, true)
 							else
-								f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
+								f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 280 - 28 * #t_selected, 164, true)
 							end
 						elseif data.portraitDisplay == "Mixed" then
 							if p2numChars == 1 then
-								f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290, 158, true, 1, 1)
+								f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 290, 158, true, 1, 1)
 							elseif p2numChars == 2 then
 								if data.coop then
-									f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
+									f_drawCharAnim(t_selChars[p2Cell + 1], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
 								else
-									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
-									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
 								end
 							elseif p2numChars == 3 then
-								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
-								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-								if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
+								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+								if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 							elseif p2numChars == 4 then
-								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
-								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
-								if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-								if p2memberPreview == 4 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
+								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
+								if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+								if p2memberPreview == 4 then f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 							--else
-								--f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
+								--f_drawCharAnim(t_selChars[p2Cell + 1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 							end
 						end
 					end
-					if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not onlinegame then
+					if t_unlockLua.chars[t_selChars[p2Cell + 1].char] ~= nil and not onlinegame then
 						if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 							if p2numChars == 1 then
 								f_drawQuickSpr(p2portraitLockWindowBG, 320, 20, 120, 140, 256, 102)
@@ -9802,7 +9802,7 @@ function f_p2SelectMenu()
 							if data.coop then
 								f_drawQuickSpr(p1portraitLock, 110, 75, 0.15, 0.15)
 							else
-								f_drawQuickSpr(p2portraitLock, 300 - 28*#t_selected, 75, 0.15, 0.15)
+								f_drawQuickSpr(p2portraitLock, 300 - 28 * #t_selected, 75, 0.15, 0.15)
 							end
 						end
 					end
@@ -9811,7 +9811,7 @@ function f_p2SelectMenu()
 			for j=#t_selected, 1, -1 do
 				if not exclusiveStageMenu then
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-						--drawPortrait(t_selected[j].cel, 320 - 60*(j-1), 20, -1, 1)
+						--drawPortrait(t_selected[j].cel, 320 - 60 * (j - 1), 20, -1, 1)
 						if p2numChars == 1 then
 							if data.randomPortrait == "Fixed" and p2member1Random == true then
 								f_drawQuickSpr(p2randomPortrait, 320, 20)
@@ -9910,95 +9910,95 @@ function f_p2SelectMenu()
 								if data.randomPortrait == "Fixed" and p2member4Random == true then
 									f_drawQuickSpr(p2randomSprite, 176, 75)
 								else
-									f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 196, 164, t_selected[4].up, 1, 1, alphaS)
+									f_drawCharAnim(t_selChars[t_selected[4].cel + 1], 'p2AnimWin', 196, 164, t_selected[4].up, 1, 1, alphaS)
 								end
 							end
 							if j == 3 then
 								if data.randomPortrait == "Fixed" and p2member3Random == true then
 									f_drawQuickSpr(p2randomSprite, 204, 75)
 								else
-									f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 224, 164, t_selected[3].up, 1, 1, alphaS)
+									f_drawCharAnim(t_selChars[t_selected[3].cel + 1], 'p2AnimWin', 224, 164, t_selected[3].up, 1, 1, alphaS)
 								end
 							end
 							if j == 2 then
 								if data.randomPortrait == "Fixed" and p2member2Random == true then
 									f_drawQuickSpr(p2randomSprite, 232, 75)
 								else
-									f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 252, 164, t_selected[2].up, 1, 1, alphaS)
+									f_drawCharAnim(t_selChars[t_selected[2].cel + 1], 'p2AnimWin', 252, 164, t_selected[2].up, 1, 1, alphaS)
 								end
 							end
 							if data.randomPortrait == "Fixed" and p2member1Random == true then
 								f_drawQuickSpr(p2randomSprite, 260, 75)
 							else
-								f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 164, t_selected[1].up, 1, 1, alphaS)
+								f_drawCharAnim(t_selChars[t_selected[1].cel + 1], 'p2AnimWin', 280, 164, t_selected[1].up, 1, 1, alphaS)
 							end
-							--f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 280 - 28*(j-1), 164, t_selected[j].up, 1, 1, alphaS)
+							--f_drawCharAnim(t_selChars[t_selected[j].cel + 1], 'p2AnimWin', 280 - 28 * (j - 1), 164, t_selected[j].up, 1, 1, alphaS)
 						elseif data.portraitDisplay == "Mixed" then
 							if p2numChars == 1 then
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--You can put your own sprite for random select but as also we are using the portrait logic is not necessary
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 290, 158, t_selected[1].up, 1, 1, alphaS)
+									f_drawCharAnim(t_selChars[t_selected[1].cel + 1], 'p2AnimWin', 290, 158, t_selected[1].up, 1, 1, alphaS)
 								end
 							elseif p2numChars == 2 then
 								if j == 2 then
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 230, 158, t_selected[2].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[t_selected[2].cel + 1], 'p2AnimWin', 230, 158, t_selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 230, 90, t_selected[1].up, 0.5, 0.5, alphaS)
+									f_drawCharAnim(t_selChars[t_selected[1].cel + 1], 'p2AnimWin', 230, 90, t_selected[1].up, 0.5, 0.5, alphaS)
 								end
 							elseif p2numChars == 3 then
 								if j == 3 then
 									if data.randomPortrait == "Fixed" and p2member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 250, 158, t_selected[3].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[t_selected[3].cel + 1], 'p2AnimWin', 250, 158, t_selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if j == 2 then
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 310, 158, t_selected[2].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[t_selected[2].cel + 1], 'p2AnimWin', 310, 158, t_selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 89, t_selected[1].up, 0.5, 0.5, alphaS)
+									f_drawCharAnim(t_selChars[t_selected[1].cel + 1], 'p2AnimWin', 280, 89, t_selected[1].up, 0.5, 0.5, alphaS)
 								end
 							elseif p2numChars == 4 then
 								if j == 4 then
 									if data.randomPortrait == "Fixed" and p2member4Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 250, 158, t_selected[4].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[t_selected[4].cel + 1], 'p2AnimWin', 250, 158, t_selected[4].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if j == 3 then
 									if data.randomPortrait == "Fixed" and p2member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 310, 158, t_selected[3].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[t_selected[3].cel + 1], 'p2AnimWin', 310, 158, t_selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if j == 2 then
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 250, 89, t_selected[2].up, 0.5, 0.5, alphaS)
+										f_drawCharAnim(t_selChars[t_selected[2].cel + 1], 'p2AnimWin', 250, 89, t_selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 310, 89, t_selected[1].up, 0.5, 0.5, alphaS)
+									f_drawCharAnim(t_selChars[t_selected[1].cel + 1], 'p2AnimWin', 310, 89, t_selected[1].up, 0.5, 0.5, alphaS)
 								end
 							end
 						end
@@ -10154,13 +10154,13 @@ function f_p2SelectMenu()
 					if data.randomPortrait == "Fixed" and p2coopRandom == true then
 						f_drawQuickSpr(p1randomSprite, 48, 75)
 					else
-						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, alphaS)
+						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel + 1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, alphaS)
 					end
 				elseif data.portraitDisplay == "Mixed" then
 					if data.randomPortrait == "Fixed" and p2coopRandom == true then
 						--
 					else
-						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
+						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel + 1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 					end
 				end
 			end
@@ -10190,21 +10190,21 @@ function f_p2SelectMenu()
 							break
 						end
 						p2SelY, p2FaceOffset, p2OffsetRow = f_findCelYSub(p2SelY, p2FaceOffset, p2OffsetRow)
-						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+						if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then
 							foundCel = true
 						else
 							for i=0, tmpCelX do
 								p2SelX = f_findCelXSub(p2SelX, false)
-								if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+								if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then
 									foundCel = true
 									break
 								end
 							end
 							if not foundCel then
 								p2SelX = tmpCelX
-								for i=1, selectColumns-tmpCelX do
+								for i=1, selectColumns - tmpCelX do
 									p2SelX = f_findCelXAdd(p2SelX, false)
-									if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+									if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then
 										foundCel = true
 										break
 									end
@@ -10225,12 +10225,12 @@ function f_p2SelectMenu()
 							break
 						end
 						p2SelY, p2FaceOffset, p2OffsetRow = f_findCelYAdd(p2SelY, p2FaceOffset, p2OffsetRow)
-						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+						if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then
 							foundCel = true
 						else
-							for i=1, selectColumns-tmpCelX do
+							for i=1, selectColumns - tmpCelX do
 								p2SelX = f_findCelXAdd(p2SelX, false)
-								if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+								if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then
 									foundCel = true
 									break
 								end
@@ -10239,7 +10239,7 @@ function f_p2SelectMenu()
 								p2SelX = tmpCelX
 								for i=0, tmpCelX do
 									p2SelX = f_findCelXSub(p2SelX, false)
-									if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+									if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then
 										foundCel = true
 										break
 									end
@@ -10256,7 +10256,7 @@ function f_p2SelectMenu()
 				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30) then
 					while true do
 						p2SelX = f_findCelXSub(p2SelX, wrappingX)
-						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
+						if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then break end
 					end
 					if tmpCelX ~= p2SelX then
 						sndPlay(sndSys, 100, 0)
@@ -10264,19 +10264,19 @@ function f_p2SelectMenu()
 				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30) then
 					while true do
 						p2SelX = f_findCelXAdd(p2SelX, wrappingX)
-						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
+						if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then break end
 					end
 					if tmpCelX ~= p2SelX then
 						sndPlay(sndSys, 100, 0)
 					end
 				elseif btnPalNo(p2Cmd, true) > 0 then
-					if t_unlockLua.chars[t_selChars[p2Cell+1].char] == nil and f_checkTeamDuplicates(data.t_p2selected, p2Cell) or onlinegame then
+					if t_unlockLua.chars[t_selChars[p2Cell + 1].char] == nil and f_checkTeamDuplicates(data.t_p2selected, p2Cell) or onlinegame then
 						f_p2Selection()
-					else--if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) and not onlinegame then
+					else--if t_unlockLua.chars[t_selChars[p2Cell + 1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) and not onlinegame then
 						sndPlay(sndIkemen, 200, 0)
 					end
 				elseif selectTimer == 0 then
-					if t_unlockLua.chars[t_selChars[p2Cell+1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) then
+					if t_unlockLua.chars[t_selChars[p2Cell + 1].char] ~= nil and not f_checkTeamDuplicates(data.t_p2selected, p2Cell) then
 						p2Cell = t_randomChars[math.random(#t_randomChars)]
 					end
 					f_p2Selection()
@@ -10300,12 +10300,12 @@ function f_p2SelectMenu()
 					bufSel2l = 0
 				end
 			end
-			p2Cell = p2SelX + selectColumns*p2SelY
+			p2Cell = p2SelX + selectColumns * p2SelY
 			p2Portrait = p2Cell
 			if data.charInfo == "Author" then
-				if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == "Random" then
-					if t_selChars[p2Cell+1].author ~= nil then
-						textImgSetText(txt_p2Author, txt_authorText..t_selChars[p2Cell+1].author)
+				if t_selChars[p2Cell + 1].author ~= nil or getCharName(p2Cell) == "Random" then
+					if t_selChars[p2Cell + 1].author ~= nil then
+						textImgSetText(txt_p2Author, txt_authorText..t_selChars[p2Cell + 1].author)
 					else
 						textImgSetText(txt_p2Author, txt_authorText.."???")
 					end
@@ -10615,11 +10615,11 @@ function f_p2SelectHandicap()
 				p2Handbank = 0
 			end
 			if t_handicapSelect2[i].id ~= nil then
-				textImgDraw(f_updateTextImg(t_handicapSelect2[i].id, jgFnt, p2Handbank, 0, t_handicapSelect2[i].text, 244, 168+i*13-p2HandicapMoveTxt, 0.95, 0.95))
+				textImgDraw(f_updateTextImg(t_handicapSelect2[i].id, jgFnt, p2Handbank, 0, t_handicapSelect2[i].text, 244, 168 + i * 13 - p2HandicapMoveTxt, 0.95, 0.95))
 			end
 		end
 	end
-	animSetWindow(cursorBox, 172, 158+p2HandicapCursorPosY*13, 145, 13)
+	animSetWindow(cursorBox, 172, 158 + p2HandicapCursorPosY * 13, 145, 13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	if maxP2Handicap > maxItems then
@@ -11364,22 +11364,22 @@ function f_arcadeTravel()
 		elseif data.portraitDisplay == "Sprite" then
 			if #enemySide == 1 then
 				f_drawQuickSpr(travelCharPlatform, 108, 178, 0.3, 0.3)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 160, 185, enemySide[1].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel + 1], 'p1AnimStand', 160, 185, enemySide[1].up)
 			elseif #enemySide == 2 then
 				f_drawQuickSpr(travelCharPlatform, 67, 173, 0.5, 0.5)
-				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 190, 185, enemySide[2].up)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 120, 185, enemySide[1].up)
+				f_drawCharAnim(t_selChars[enemySide[2].cel + 1], 'p1AnimStand', 190, 185, enemySide[2].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel + 1], 'p1AnimStand', 120, 185, enemySide[1].up)
 			elseif #enemySide == 3 then
 				f_drawQuickSpr(travelCharPlatform, 47, 163, 0.65, 0.65)
-				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimStand', 100, 172, enemySide[3].up)
-				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 220, 172, enemySide[2].up)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 160, 184, enemySide[1].up)
+				f_drawCharAnim(t_selChars[enemySide[3].cel + 1], 'p1AnimStand', 100, 172, enemySide[3].up)
+				f_drawCharAnim(t_selChars[enemySide[2].cel + 1], 'p1AnimStand', 220, 172, enemySide[2].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel + 1], 'p1AnimStand', 160, 184, enemySide[1].up)
 			elseif #enemySide == 4 then
 				f_drawQuickSpr(travelCharPlatform, 47, 163, 0.65, 0.65)
-				f_drawCharAnim(t_selChars[enemySide[4].cel+1], 'p1AnimStand', 220, 170, enemySide[4].up)
-				f_drawCharAnim(t_selChars[enemySide[3].cel+1], 'p1AnimStand', 100, 170, enemySide[3].up)
-				f_drawCharAnim(t_selChars[enemySide[2].cel+1], 'p1AnimStand', 200, 185, enemySide[2].up)
-				f_drawCharAnim(t_selChars[enemySide[1].cel+1], 'p1AnimStand', 125, 185, enemySide[1].up)
+				f_drawCharAnim(t_selChars[enemySide[4].cel + 1], 'p1AnimStand', 220, 170, enemySide[4].up)
+				f_drawCharAnim(t_selChars[enemySide[3].cel + 1], 'p1AnimStand', 100, 170, enemySide[3].up)
+				f_drawCharAnim(t_selChars[enemySide[2].cel + 1], 'p1AnimStand', 200, 185, enemySide[2].up)
+				f_drawCharAnim(t_selChars[enemySide[1].cel + 1], 'p1AnimStand', 125, 185, enemySide[1].up)
 			end
 		end
 	--Draw Info
@@ -11389,7 +11389,7 @@ function f_arcadeTravel()
 		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
 		textImgDraw(txt_nextEnemyName)
 	--Draw Travel Stuff
-		animPosDraw(travelArrow, 30*matchNo - 22, 204)
+		animPosDraw(travelArrow, 30 * matchNo - 22, 204)
 		for enemyRoster=1, lastMatch do
 			local enemyPortrait = nil
 			if enemyRoster == matchNo then
@@ -11397,11 +11397,11 @@ function f_arcadeTravel()
 			elseif enemyRoster < matchNo then
 				enemyPortrait = t_roster[enemyRoster]
 			end
-			animPosDraw(travelSlotIcon, 30*enemyRoster - 30, 213)
+			animPosDraw(travelSlotIcon, 30 * enemyRoster - 30, 213)
 			if enemyRoster <= matchNo then
-				drawFacePortrait(enemyPortrait, 30*enemyRoster - 29, 214) --Enemy Portrait
+				drawFacePortrait(enemyPortrait, 30 * enemyRoster - 29, 214) --Enemy Portrait
 			else
-				animPosDraw(travelRandomIcon, 30*enemyRoster - 29, 214) --Random Icon
+				animPosDraw(travelRandomIcon, 30 * enemyRoster - 29, 214) --Random Icon
 			end
 		end
 	--When Attract Mode is Enabled
@@ -11466,7 +11466,7 @@ function f_orderSelectCursor()
 	local sndTime = 0
 	local hintTime = 0
 	local seconds = data.orderTime
-	local orderTime = seconds*gameTick --Set time for Order Select
+	local orderTime = seconds * gameTick --Set time for Order Select
 	local p1Anim = "p1AnimStand"
 	local p2Anim = "p2AnimStand"
 	local charDataL = nil
@@ -11627,7 +11627,7 @@ function f_orderSelectCursor()
 					data.t_p1selected = t_tmp
 				end
 			end
-			animSetWindow(cursorBox, 0,152+p1Row*14, 140,14.5)
+			animSetWindow(cursorBox, 0,152 + p1Row * 14, 140,14.5)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -11689,7 +11689,7 @@ function f_orderSelectCursor()
 					data.t_p1selected = t_tmp
 				end
 			end
-			animSetWindow(cursorBox, 0,152+p1Row*14, 140,14.5)
+			animSetWindow(cursorBox, 0,152 + p1Row * 14, 140,14.5)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -11745,7 +11745,7 @@ function f_orderSelectCursor()
 					data.t_p2selected = t_tmp
 				end
 			end
-			animSetWindow(cursorBox, 180,152+p2Row*14, 140,14.5)
+			animSetWindow(cursorBox, 180,152 + p2Row * 14, 140,14.5)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -11801,7 +11801,7 @@ function f_orderSelectCursor()
 					data.t_p2selected = t_tmp
 				end
 			end
-			animSetWindow(cursorBox, 180,152+p2Row*14, 140,14.5)
+			animSetWindow(cursorBox, 180,152 + p2Row * 14, 140,14.5)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -11827,21 +11827,21 @@ function f_orderSelectCursor()
 	--Draw Character Portraits
 		if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 			for j=#data.t_p1selected, 1, -1 do
-				drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 25, xPortScaleL, yPortScaleL)
+				drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2 * j - 1) * 17.9, 25, xPortScaleL, yPortScaleL)
 			end
 			for j=#data.t_p2selected, 1, -1 do
-				drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 25, -xPortScaleR, yPortScaleR)
+				drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2 * j - 1) * 17.9, 25, -xPortScaleR, yPortScaleR)
 			end
 		end
 	--Draw Character Sprite Animations
 		if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 		--Left Side
 			for j=#data.t_p1selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], p1Anim, 139 - (2*j-1) * 18, 163, data.t_p1selected[j].up)
+				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], p1Anim, 139 - (2 * j - 1) * 18, 163, data.t_p1selected[j].up)
 			end
 		--Right Side
 			for j=#data.t_p2selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], p2Anim, 180 + (2*j-1) * 18, 163, data.t_p2selected[j].up)
+				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], p2Anim, 180 + (2 * j - 1) * 18, 163, data.t_p2selected[j].up)
 			end
 		end
 	--Draw Names
@@ -11850,15 +11850,15 @@ function f_orderSelectCursor()
 	--Draw Order Number Assets
 		--Left Side
 		for n=#data.t_p1selected, 1, -1 do
-			animPosDraw(p1OrderCursor, 1, 153+14*n) --Draw Order Icon
+			animPosDraw(p1OrderCursor, 1, 153 + 14 * n) --Draw Order Icon
 			textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
-			textImgPosDraw(txt_p1OrderNo, 9, 161+14*n) --Draw Order Number Text
+			textImgPosDraw(txt_p1OrderNo, 9, 161 + 14 * n) --Draw Order Number Text
 		end
 		--Right Side
 		for n=#data.t_p2selected, 1, -1 do
-			animPosDraw(p2OrderCursor, 305, 153+14*n)
+			animPosDraw(p2OrderCursor, 305, 153 + 14 * n)
 			textImgSetText(txt_p2OrderNo, n)
-			textImgPosDraw(txt_p2OrderNo, 310, 161+14*n)
+			textImgPosDraw(txt_p2OrderNo, 310, 161 + 14 * n)
 		end
 	--Draw Title
 		textImgDraw(txt_orderSelect)
@@ -11948,7 +11948,7 @@ function f_orderSelectButton()
 	local sndTime = 0
 	local hintTime = 0
 	local seconds = data.orderTime
-	local orderTime = seconds*gameTick --Set time for Order Select
+	local orderTime = seconds * gameTick --Set time for Order Select
 	local p1Anim = "p1AnimStand"
 	local p2Anim = "p2AnimStand"
 	local charDataL = nil
@@ -12339,31 +12339,31 @@ function f_orderSelectButton()
 	--Draw Character Portraits
 		if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 			for j=#data.t_p1selected, 1, -1 do
-				drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 25, xPortScaleL, yPortScaleL)
+				drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2 * j - 1) * 17.9, 25, xPortScaleL, yPortScaleL)
 			end
 			for j=#data.t_p2selected, 1, -1 do
-				drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 25, -xPortScaleR, yPortScaleR)
+				drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2 * j - 1) * 17.9, 25, -xPortScaleR, yPortScaleR)
 			end
 		end
 	--Draw Character Sprite Animations
 		if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 		--Left Side
 			for j=#data.t_p1selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], p1Anim, 139 - (2*j-1) * 18, 163, data.t_p1selected[j].up)
+				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], p1Anim, 139 - (2 * j - 1) * 18, 163, data.t_p1selected[j].up)
 			end
 		--Right Side
 			for j=#data.t_p2selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], p2Anim, 180 + (2*j-1) * 18, 163, data.t_p2selected[j].up)
+				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], p2Anim, 180 + (2 * j - 1) * 18, 163, data.t_p2selected[j].up)
 			end
 		end
 	--Draw Order Number Assets
 	--Left Side
 		for n=#data.t_p1selected, 1, -1 do
 			f_drawNameList(txt_p1NameOrder, 5, t_p1Temp, 78, 190, 0, 14, n, 0) --Draw Names of players already order
-			animPosDraw(p1OrderCursor, 1, 168+14*n) --Draw Order Icon
+			animPosDraw(p1OrderCursor, 1, 168 + 14 * n) --Draw Order Icon
 			textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
-			textImgPosDraw(txt_p1OrderNo, 9, 176+14*n) --Draw Order Number Text
-			animPosDraw(t_orderButtons[n].spr, 145-n*35, 140)
+			textImgPosDraw(txt_p1OrderNo, 9, 176 + 14 * n) --Draw Order Number Text
+			animPosDraw(t_orderButtons[n].spr, 145 - n * 35, 140)
 		--Draw Order State Icon
 			if p1Pos1 then animPosDraw(p1OrderDone, 105, orderStateIconPosY) else animPosDraw(p1OrderWaiting1st, 105, orderStateIconPosY) end --Pos 1 State
 			if #data.t_p1selected >= 2 then
@@ -12379,10 +12379,10 @@ function f_orderSelectButton()
 	--Right Side
 		for n=#data.t_p2selected, 1, -1 do
 			f_drawNameList(txt_p2NameOrder, 5, t_p2Temp, 241, 190, 0, 14, n, 0)
-			animPosDraw(p2OrderCursor, 305, 168+14*n)
+			animPosDraw(p2OrderCursor, 305, 168 + 14 * n)
 			textImgSetText(txt_p2OrderNo, n)
-			textImgPosDraw(txt_p2OrderNo, 310, 176+14*n)
-			animPosDraw(t_orderButtons[n].spr, 150+n*35, 140)
+			textImgPosDraw(txt_p2OrderNo, 310, 176 + 14 * n)
+			animPosDraw(t_orderButtons[n].spr, 150 + n * 35, 140)
 			if p2Pos1 then animPosDraw(p2OrderDone, 173, orderStateIconPosY) else animPosDraw(p2OrderWaiting1st, 173, orderStateIconPosY) end
 			if #data.t_p2selected >= 2 then
 				if p2Pos2 then animPosDraw(p2OrderDone, 208, orderStateIconPosY) else animPosDraw(p2OrderWaiting2nd, 208, orderStateIconPosY) end
@@ -12472,8 +12472,8 @@ function f_selectVersus()
 		f_getVSHint() --Load First Hint
 		animReset(vsLogo) --Since the animation stays at -1, this helps it repeat without reload the anim via animNew().
 	--Portraits Scale Logic
-		local charDataL = t_selChars[data.t_p1selected[1].cel+1]
-		local charDataR = t_selChars[data.t_p2selected[1].cel+1]
+		local charDataL = t_selChars[data.t_p1selected[1].cel + 1]
+		local charDataR = t_selChars[data.t_p2selected[1].cel + 1]
 		if charDataL.vsSprScale ~= nil then
 			scaleDataL = charDataL.vsSprScale
 		else
@@ -12530,10 +12530,10 @@ function f_selectVersus()
 		--Draw Character Sprite Animations
 			if data.portraitDisplay == "Sprite" then
 				for j=#data.t_p1selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 139 - (2 * j - 1) * 18, 168, data.t_p1selected[j].up)
 				end
 				for j=#data.t_p2selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimWin', 180 + (2 * j - 1) * 18, 168, data.t_p2selected[j].up)
 				end
 			end
 		--Draw Match Info
@@ -12881,7 +12881,7 @@ function f_selectWin()
 					--Draw Char Animations
 					elseif data.portraitDisplay == "Sprite" then
 						for j=#data.t_p1selected, 1, -1 do
-							f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 178 - (2*j-1) * 18, 137.5, data.t_p1selected[j].up)
+							f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 178 - (2 * j - 1) * 18, 137.5, data.t_p1selected[j].up)
 						end
 					end
 				elseif data.winscreen == "Classic" then
@@ -12892,7 +12892,7 @@ function f_selectWin()
 						--Draw Char Animations
 						elseif data.portraitDisplay == "Sprite" then
 							for j=#data.t_p1selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimDizzy', 139 - (2*j-1) * 18, 143, data.t_p1selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimDizzy', 139 - (2 * j - 1) * 18, 143, data.t_p1selected[j].up)
 							end
 						end
 					end
@@ -12903,10 +12903,10 @@ function f_selectWin()
 							drawLoserPortrait(data.t_p2selected[1].cel, 289, 5, -1, 1)
 						elseif data.portraitDisplay == "Sprite" then
 							for j=#data.t_p1selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 149 - (2*j-1) * 18, 143, data.t_p1selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 149 - (2 * j - 1) * 18, 143, data.t_p1selected[j].up)
 							end
 							for j=#data.t_p2selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimDizzy', 180 + (2*j-1) * 18, 143, data.t_p2selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimDizzy', 180 + (2 * j - 1) * 18, 143, data.t_p2selected[j].up)
 							end
 						end
 					end
@@ -12916,7 +12916,7 @@ function f_selectWin()
 							drawWinPortrait(data.t_p2selected[1].cel, 289, 5, -1, 1)
 						elseif data.portraitDisplay == "Sprite" then
 							for j=#data.t_p2selected, 1, -1 do
-								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 170 + (2*j-1) * 18, 143, data.t_p2selected[j].up)
+								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimWin', 170 + (2 * j - 1) * 18, 143, data.t_p2selected[j].up)
 							end
 						end
 					end
@@ -13216,9 +13216,9 @@ function f_rematch()
 --Set Color and Text Position
 	for i=1, #t_battleOption do
 		if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
-			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 89.5+i*13,0.95,0.95)
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 89.5 + i * 13, 0.95, 0.95)
 		else
-			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 89.5+i*13,0.95,0.95)
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 89.5 + i * 13, 0.95, 0.95)
 		end
 		if i == p1Cursor + 0 then
 			textImgSetBank(t_battleOption[i].id, 5)
@@ -13230,9 +13230,9 @@ function f_rematch()
 	if not p1Ready then
 	--Draw Cursor
 		if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
-			animSetWindow(cursorBox, 87.1, 79.5+p1Cursor*13, 145, 13)
+			animSetWindow(cursorBox, 87.1, 79.5 + p1Cursor * 13, 145, 13)
 		else
-			animSetWindow(cursorBox, 4, 79.5+p1Cursor*13, 145, 13)
+			animSetWindow(cursorBox, 4, 79.5 + p1Cursor * 13, 145, 13)
 		end
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -13256,7 +13256,7 @@ function f_rematch()
 		animDraw(rematch2WindowBG)
 		textImgDraw(txt_rematch2)
 		for i=1, #t_battleOption2 do
-			t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 89.5+i*13,0.9,0.9)
+			t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 89.5 + i * 13, 0.9, 0.9)
 			if i == p2Cursor + 0 then
 				textImgSetBank(t_battleOption2[i].id, 5)
 			else
@@ -13265,7 +13265,7 @@ function f_rematch()
 			textImgDraw(t_battleOption2[i].id)
 		end
 		if not p2Ready then
-			animSetWindow(cursorBox, 172, 79.5+p2Cursor*13, 145, 13)
+			animSetWindow(cursorBox, 172, 79.5 + p2Cursor * 13, 145, 13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -13629,17 +13629,17 @@ function f_service()
 		textImgDraw(txt_service)
 		if data.serviceType == "Cursor" then
 		--Draw Transparent Table BG		
-			animSetScale(commonTBG, 240, maxService*15)
+			animSetScale(commonTBG, 240, maxService * 15)
 			animSetWindow(commonTBG, 80,20, 160,180)
 			animDraw(commonTBG)
 		--Draw Cursor
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Text for Table
 			for i=1, maxService do	
 				if i > serviceMenu - cursorPosY then
-					t_service[i].id = createTextImg(font2, 0, 0, t_service[i].text, 158.5, 15+i*15-moveTxt)
+					t_service[i].id = createTextImg(font2, 0, 0, t_service[i].text, 158.5, 15 + i * 15 - moveTxt)
 					textImgDraw(t_service[i].id)
 				end
 			end
@@ -13657,8 +13657,8 @@ function f_service()
 		elseif data.serviceType == "Button" then
 		--Draw Buttons and Text from Table
 			for i=1, #t_service do	
-				animPosDraw(t_service[i].spr, 50, -10+i*35)
-				t_service[i].id = createTextImg(font20, 4, 1, t_service[i].text, 80, 5+i*35)
+				animPosDraw(t_service[i].spr, 50, -10 + i * 35)
+				t_service[i].id = createTextImg(font20, 4, 1, t_service[i].text, 80, 5 + i * 35)
 				if actionTime > 0 then
 					textImgSetBank(t_service[serviceMenu].id, 0)
 				end
@@ -13804,7 +13804,7 @@ function f_result(state)
 	--Draw Character Sprite Animations
 		elseif data.portraitDisplay == "Sprite" then
 			for j=#charTable, 1, -1 do
-				f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 206.5, charTable[j].up)
+				f_drawCharAnim(t_selChars[charTable[j].cel + 1], 'p1AnimWin', 139 - (2 * j - 1) * 18, 206.5, charTable[j].up)
 			end
 		end
 		animDraw(resultBG) --Draw BG
@@ -13823,10 +13823,10 @@ function f_result(state)
 				f_drawRank(winCnt, #t_roster)
 			elseif getGameMode() == "scoreattack" then
 				f_drawScoreAttackResults()
-				f_drawRank(score(), #t_roster*1000000)
+				f_drawRank(score(), #t_roster * 1000000)
 			elseif getGameMode() == "timeattack" then
 				f_drawTimeAttackResults()
-				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster*500)
+				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults()
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
@@ -14526,10 +14526,10 @@ if validCells() then
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds*gameTick
-		stageTimer = stageSeconds*gameTick
-		rematchTimer = rematchSeconds*gameTick
-		serviceTimer = serviceSeconds*gameTick
+		selectTimer = selectSeconds * gameTick
+		stageTimer = stageSeconds * gameTick
+		rematchTimer = rematchSeconds * gameTick
+		serviceTimer = serviceSeconds * gameTick
 		f_modePlaytime()
 		f_unlock(false)
 		f_updateUnlocks()
@@ -15223,7 +15223,7 @@ if validCells() then
 							end
 						end
 					else
-						p1Cell = t_roster[matchNo*p1numChars-i+1]
+						p1Cell = t_roster[matchNo * p1numChars - i + 1]
 					end
 				end
 			--Set AI Palette
@@ -15231,7 +15231,7 @@ if validCells() then
 					if matchNo == abyssBossMatch then
 						p1Pal = 1 --Normal Boss Specific Palette
 					else
-						p1Pal = math.random(2,12) --Normal Enemy Random Palette
+						p1Pal = math.random(2, 12) --Normal Enemy Random Palette
 					end
 				--Special Boss character predefined Palette
 					if t_abyssSel[abyssSel].specialboss ~= nil then
@@ -15322,7 +15322,7 @@ if validCells() then
 							end
 						end
 					else
-						p2Cell = t_roster[matchNo*p2numChars-i+1]
+						p2Cell = t_roster[matchNo * p2numChars - i + 1]
 					end
 				end
 			--Set AI Palette
@@ -15330,7 +15330,7 @@ if validCells() then
 					if matchNo == abyssBossMatch then
 						p2Pal = 1 --Normal Boss Specific Palette
 					else
-						p2Pal = math.random(2,12) --Normal Enemy Random Palette
+						p2Pal = math.random(2, 12) --Normal Enemy Random Palette
 					end
 				--Special Boss character predefined Palette
 					if t_abyssSel[abyssSel].specialboss ~= nil then
@@ -15387,7 +15387,7 @@ if validCells() then
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
-			if not loadAbyssDat then setAbyssReward(getAbyssReward()+(getAbyssDepth()-1)*5) end
+			if not loadAbyssDat then setAbyssReward(getAbyssReward() + (getAbyssDepth() - 1) * 5) end
 			if getAbyssDepth() == 1 or loadAbyssDat or (getAbyssDepth() >= abyssNextCheckPoint) and not data.challengerAbyss and not data.saveAbyss then f_abyssMap() end
 		--Stop Exploring Option
 			if exitAbyss then
@@ -15439,11 +15439,11 @@ if validCells() then
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds*gameTick
-		stageTimer = stageSeconds*gameTick
-		rematchTimer = rematchSeconds*gameTick
-		serviceTimer = serviceSeconds*gameTick
-		destinyTimer = destinySeconds*gameTick
+		selectTimer = selectSeconds * gameTick
+		stageTimer = stageSeconds * gameTick
+		rematchTimer = rematchSeconds * gameTick
+		serviceTimer = serviceSeconds * gameTick
+		destinyTimer = destinySeconds * gameTick
 		f_modePlaytime() --Store Favorite Game Mode
 		f_records() --save record progress
 		f_unlock(false)
@@ -15559,24 +15559,24 @@ function f_selectDestiny()
 			if i > destinySelect - cursorPosX then
 			--Draw Towers Assets
 				for length=#t_selTower[i].kombats, 1, -1 do
-					animPosDraw(towerSlot, -87+i*105-moveTower, 220-32*length) --Draw Towers BG According to his size via kombats sub-table
+					animPosDraw(towerSlot, -87 + i * 105 - moveTower, 220 - 32 * length) --Draw Towers BG According to his size via kombats sub-table
 				--Draw Stage Portraits
-					if t_selChars[t_selTower[i].kombats[length]+1].stage ~= nil then
-						towerStage = math.random(1, #t_selChars[t_selTower[i].kombats[length]+1].stage)
-						towerStage = t_selChars[t_selTower[i].kombats[length]+1].stage[1]-1 -- -1 to get the correct stage
-						drawStagePortrait(towerStage, -85+i*105-moveTower, 223-32*length, 0.056, 0.035)
+					if t_selChars[t_selTower[i].kombats[length] + 1].stage ~= nil then
+						towerStage = math.random(1, #t_selChars[t_selTower[i].kombats[length] + 1].stage)
+						towerStage = t_selChars[t_selTower[i].kombats[length] + 1].stage[1] - 1 -- -1 to get the correct stage
+						drawStagePortrait(towerStage, -85 + i * 105 - moveTower, 223 - 32 * length, 0.056, 0.035)
 					else
-						animPosDraw(towerStgPreview, -85+i*105-moveTower, 223-32*length)
+						animPosDraw(towerStgPreview, -85 + i * 105 - moveTower, 223 - 32 * length)
 					end
 				--Draw Chars Preview Portraits
-					drawPortrait(t_selTower[i].kombats[length], -85+i*105-moveTower, 223-32*length, 0.18, 0.18)
+					drawPortrait(t_selTower[i].kombats[length], -85 + i * 105 - moveTower, 223 - 32 * length, 0.18, 0.18)
 				end
 				if i == destinySelect then
 				--Draw Cursor Icon
-					animPosDraw(destinyCursor, -70+i*105-moveTower, 180)
+					animPosDraw(destinyCursor, -70 + i * 105 - moveTower, 180)
 				--Draw Difficulty Text for Tower Table
 					if t_selTower[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_selTower[i].ID, fontMK, 0, 0, t_selTower[i].displayname:upper(), -50+i*105-moveTower, 205, 0.85,0.85))
+						textImgDraw(f_updateTextImg(t_selTower[i].ID, fontMK, 0, 0, t_selTower[i].displayname:upper(), -50 + i * 105 - moveTower, 205, 0.85,0.85))
 					end
 				end
 			end
@@ -15673,9 +15673,9 @@ function f_battlePlan()
 	local CPUslotSpacingY = 85
 	local CPUslotPosYInit = CPUslotPosY --Get initial first battle pos
 	if matchNo == 1 then
-		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*#t_selTower[destinySelect].kombats)-CPUslotSpacingY --Portraits Y pos starts in the top of the tower
+		CPUslotPosY = CPUslotPosY + (CPUslotSpacingY * #t_selTower[destinySelect].kombats) - CPUslotSpacingY --Portraits Y pos starts in the top of the tower
 	else
-		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*matchNo)-CPUslotSpacingY*2 --Portraits Y pos starts in the lastest battle
+		CPUslotPosY = CPUslotPosY + (CPUslotSpacingY * matchNo) - CPUslotSpacingY * 2 --Portraits Y pos starts in the lastest battle
 		playBGM(bgmTower)
 	end
 	while true do
@@ -15729,14 +15729,14 @@ function f_battlePlan()
 	--Draw Towers Assets
 		for length=#t_selTower[destinySelect].kombats, 1, -1 do
 		--Draw Tower Slots According to his size
-			animPosDraw(battleSlot, CPUslotPosX, CPUslotPosY-CPUslotSpacingY*length+scroll)
+			animPosDraw(battleSlot, CPUslotPosX, CPUslotPosY - CPUslotSpacingY * length + scroll)
 		--Draw Stage Portraits
-			if t_selChars[t_selTower[destinySelect].kombats[length]+1].stage ~= nil then
-				battleStage = math.random(1, #t_selChars[t_selTower[destinySelect].kombats[length]+1].stage)
-				battleStage = t_selChars[t_selTower[destinySelect].kombats[length]+1].stage[1]-1 -- -1 to get the correct stage
-				drawStagePortrait(battleStage, CPUslotPosX+3.8, CPUslotPosY+7-CPUslotSpacingY*length+scroll, 0.1077, 0.093)
+			if t_selChars[t_selTower[destinySelect].kombats[length] + 1].stage ~= nil then
+				battleStage = math.random(1, #t_selChars[t_selTower[destinySelect].kombats[length] + 1].stage)
+				battleStage = t_selChars[t_selTower[destinySelect].kombats[length] + 1].stage[1] - 1
+				drawStagePortrait(battleStage, CPUslotPosX + 3.8, CPUslotPosY + 7 - CPUslotSpacingY * length + scroll, 0.1077, 0.093)
 			else
-				animPosDraw(battleStgPreview, CPUslotPosX+3.8, CPUslotPosY+6.97-CPUslotSpacingY*length+scroll)
+				animPosDraw(battleStgPreview, CPUslotPosX + 3.8, CPUslotPosY + 6.97 - CPUslotSpacingY * length + scroll)
 			end
 		--Draw CPU Portraits
 			local PortraitXpos = 61.5
@@ -15746,7 +15746,7 @@ function f_battlePlan()
 				PortraitXscale = 0.48
 			end
 			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-				drawPortrait(t_selTower[destinySelect].kombats[length], CPUslotPosX+PortraitXpos, CPUslotPosY+7-CPUslotSpacingY*length+scroll, PortraitXscale, 0.48)
+				drawPortrait(t_selTower[destinySelect].kombats[length], CPUslotPosX + PortraitXpos, CPUslotPosY + 7 - CPUslotSpacingY * length + scroll, PortraitXscale, 0.48)
 			end
 		--Draw CPU Animations
 			if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
@@ -15759,13 +15759,13 @@ function f_battlePlan()
 				if data.portraitDisplay == "Mixed" then
 					if not sideSwitch then animPos = 90 end
 				end
-				f_drawCharAnim(t_selChars[t_selTower[destinySelect].kombats[length]+1], cpuAnimType, CPUslotPosX+animPos, CPUslotPosY+73-CPUslotSpacingY*length+scroll, true, 0.60, 0.60)
+				f_drawCharAnim(t_selChars[t_selTower[destinySelect].kombats[length] + 1], cpuAnimType, CPUslotPosX + animPos, CPUslotPosY + 73 - CPUslotSpacingY * length + scroll, true, 0.60, 0.60)
 			end
 		--Draw CPU Names
 			if sideSwitch then
-				f_drawQuickText(cpuNamebtp, font14, 0, -1, t_selChars[t_selTower[destinySelect].kombats[length]+1].displayname, CPUslotPosX+141, CPUslotPosY+73-CPUslotSpacingY*length+scroll, 0.75, 0.75)
+				f_drawQuickText(cpuNamebtp, font14, 0, -1, t_selChars[t_selTower[destinySelect].kombats[length] + 1].displayname, CPUslotPosX + 141, CPUslotPosY + 73 - CPUslotSpacingY * length + scroll, 0.75, 0.75)
 			else
-				f_drawQuickText(cpuNamebtp, font14, 0, 1, t_selChars[t_selTower[destinySelect].kombats[length]+1].displayname, CPUslotPosX+4, CPUslotPosY+73-CPUslotSpacingY*length+scroll, 0.75, 0.75)
+				f_drawQuickText(cpuNamebtp, font14, 0, 1, t_selChars[t_selTower[destinySelect].kombats[length] + 1].displayname, CPUslotPosX + 4, CPUslotPosY + 73 - CPUslotSpacingY * length + scroll, 0.75, 0.75)
 			end
 		end
 	--Draw Player Portrait
@@ -15784,7 +15784,7 @@ function f_battlePlan()
 					charPSpacingPosX = 17
 				end
 				for j=#data.t_p2selected, 1, -1 do
-					drawPortrait(data.t_p2selected[j].cel, HumanslotPosX+charPaddPosX+(2*j-1)*charPSpacingPosX, CPUslotPosYInit-CPUslotSpacingY+7, -charPScaleX, 0.48)
+					drawPortrait(data.t_p2selected[j].cel, HumanslotPosX+charPaddPosX + (2 * j - 1) * charPSpacingPosX, CPUslotPosYInit - CPUslotSpacingY + 7, -charPScaleX, 0.48)
 				end
 			else --Left Side
 				if p1numChars == 4 then --Modify Some Portrait Params
@@ -15793,7 +15793,7 @@ function f_battlePlan()
 					charPSpacingPosX = 17
 				end
 				for j=#data.t_p1selected, 1, -1 do
-					drawPortrait(data.t_p1selected[j].cel, HumanslotPosX+charPaddPosX-(2*j-1)*charPSpacingPosX, CPUslotPosYInit-CPUslotSpacingY+7, charPScaleX, 0.48)
+					drawPortrait(data.t_p1selected[j].cel, HumanslotPosX + charPaddPosX - (2 * j - 1) * charPSpacingPosX, CPUslotPosYInit - CPUslotSpacingY + 7, charPScaleX, 0.48)
 				end
 			end
 		end
@@ -15809,14 +15809,14 @@ function f_battlePlan()
 					charAnimPosX = 182
 				end
 				for j=#data.t_p2selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', charAnimPosX+(2*j-1)*18, 158, data.t_p2selected[j].up, charAnimScaleX, charAnimScaleY)
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimStand', charAnimPosX + (2 * j - 1) * 18, 158, data.t_p2selected[j].up, charAnimScaleX, charAnimScaleY)
 				end
 			else --Left Side
 				if data.portraitDisplay == "Mixed" and p1numChars == 1 then
 					charAnimPosX = 85
 				end
 				for j=#data.t_p1selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', charAnimPosX-(2*j-1)*18, 158, data.t_p1selected[j].up, charAnimScaleX, charAnimScaleY)
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimStand', charAnimPosX - (2 * j - 1) * 18, 158, data.t_p1selected[j].up, charAnimScaleX, charAnimScaleY)
 				end
 			end
 		end
@@ -15824,21 +15824,21 @@ function f_battlePlan()
 		local pNameScaleX = 0.75
 		local pNameScaleY = 0.75
 		if sideSwitch then
-			f_drawQuickText(playerNamebtp, font14, 0, 1, data.t_p2selected[1].displayname, HumanslotPosX-57, CPUslotPosYInit-CPUslotSpacingY+73, pNameScaleX, pNameScaleY)
-			if p2numChars > 1 then f_drawQuickText(teamNamebtp, font14, 0, 1, "TEAM", HumanslotPosX-57, CPUslotPosYInit-CPUslotSpacingY+63, pNameScaleX, pNameScaleY) end
+			f_drawQuickText(playerNamebtp, font14, 0, 1, data.t_p2selected[1].displayname, HumanslotPosX - 57, CPUslotPosYInit - CPUslotSpacingY + 73, pNameScaleX, pNameScaleY)
+			if p2numChars > 1 then f_drawQuickText(teamNamebtp, font14, 0, 1, "TEAM", HumanslotPosX - 57, CPUslotPosYInit - CPUslotSpacingY + 63, pNameScaleX, pNameScaleY) end
 		else
-			f_drawQuickText(playerNamebtp, font14, 0, -1, data.t_p1selected[1].displayname, HumanslotPosX+57, CPUslotPosYInit-CPUslotSpacingY+73, pNameScaleX, pNameScaleY)
-			if p1numChars > 1 then f_drawQuickText(teamNamebtp, font14, 0, -1, "TEAM", HumanslotPosX+57, CPUslotPosYInit-CPUslotSpacingY+63, pNameScaleX, pNameScaleY) end
+			f_drawQuickText(playerNamebtp, font14, 0, -1, data.t_p1selected[1].displayname, HumanslotPosX + 57, CPUslotPosYInit - CPUslotSpacingY + 73, pNameScaleX, pNameScaleY)
+			if p1numChars > 1 then f_drawQuickText(teamNamebtp, font14, 0, -1, "TEAM", HumanslotPosX + 57, CPUslotPosYInit - CPUslotSpacingY + 63, pNameScaleX, pNameScaleY) end
 		end
 		animDraw(vsPreview)
 	--Draw Screen Info
-		f_drawQuickText(txt_towerPlan, jgFnt, 0, 0, "BATTLE PLAN", 159, CPUslotPosY-65-CPUslotSpacingY*#t_selTower[destinySelect].kombats+scroll)
+		f_drawQuickText(txt_towerPlan, jgFnt, 0, 0, "BATTLE PLAN", 159, CPUslotPosY - 65 - CPUslotSpacingY * #t_selTower[destinySelect].kombats + scroll)
 		if sideSwitch then
 			f_drawQuickText(txt_towerDifficult, jgFnt, 0, -1, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper(), 315, 82, 0.7, 0.7)
 		else
 			f_drawQuickText(txt_towerDifficult, jgFnt, 0, 1, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper(), 5, 82, 0.7, 0.7)
 		end
-		f_drawQuickText(txt_towerMode, jgFnt, 0, 0, "TOWER MODE", 159, CPUslotPosY+150-CPUslotSpacingY*1+scroll)
+		f_drawQuickText(txt_towerMode, jgFnt, 0, 0, "TOWER MODE", 159, CPUslotPosY + 150 - CPUslotSpacingY * 1 + scroll)
 		if data.debugMode then
 			f_drawQuickText(towerTest, font14, 0, 1, CPUslotPosY, 50, 50) --Test Y Pos
 		end
@@ -16107,13 +16107,13 @@ function f_tourneyCfg()
 			animPosDraw(tourney16, 100, 130)
 		end
 	--Draw Settings BG
-		animSetScale(commonTBG, 240, maxtourneyCfg*15)
+		animSetScale(commonTBG, 240, maxtourneyCfg * 15)
 		animSetWindow(commonTBG, 80,20, 160,105)
 		animDraw(commonTBG)
 	--Draw Title
 		textImgDraw(txt_tourneyCfg)
 	--Draw Cursor
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5 + cursorPosY * 15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Set Settings Text
@@ -16143,8 +16143,8 @@ function f_tourneyCfg()
 					posX = 160
 				end
 				if t_tourneyCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, align, t_tourneyCfg[i].text, posX, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, -1, t_tourneyCfg[i].varText, 235, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, align, t_tourneyCfg[i].text, posX, 15 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_tourneyCfg[i].varID, font2, 0, -1, t_tourneyCfg[i].varText, 235, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -16235,20 +16235,20 @@ function f_tourneyMenu()
 		ctrlSpacingY = ctrlSpacingY + updateSpacingY
 --Positions for 4 Participants
 	elseif data.tourneySize == 4 then
-		slotStartPosX = slotStartPosX + (updateStartPosX*changeX)
-		slotSpacingX = slotSpacingX - (updateSpacingX*changeX)
-		slotStartPosY = slotStartPosY + (updateStartPosY*changeY)
-		slotSpacingY = slotSpacingY + (updateSpacingY*changeY)
+		slotStartPosX = slotStartPosX + (updateStartPosX * changeX)
+		slotSpacingX = slotSpacingX - (updateSpacingX * changeX)
+		slotStartPosY = slotStartPosY + (updateStartPosY * changeY)
+		slotSpacingY = slotSpacingY + (updateSpacingY * changeY)
 		--
-		iconStartPosX = iconStartPosX + (updateStartPosX*changeX)
-		iconSpacingX = iconSpacingX - (updateSpacingX*changeX)
-		iconStartPosY = iconStartPosY + (updateStartPosY*changeY)
-		iconSpacingY = iconSpacingY + (updateSpacingY*changeY)
+		iconStartPosX = iconStartPosX + (updateStartPosX * changeX)
+		iconSpacingX = iconSpacingX - (updateSpacingX * changeX)
+		iconStartPosY = iconStartPosY + (updateStartPosY * changeY)
+		iconSpacingY = iconSpacingY + (updateSpacingY * changeY)
 		--
-		ctrlStartPosX = ctrlStartPosX + (updateStartPosX*changeX)
-		ctrlSpacingX = ctrlSpacingX - (updateSpacingX*changeX)
-		ctrlStartPosY = ctrlStartPosY + (updateStartPosY*changeY)
-		ctrlSpacingY = ctrlSpacingY + (updateSpacingY*changeY)
+		ctrlStartPosX = ctrlStartPosX + (updateStartPosX * changeX)
+		ctrlSpacingX = ctrlSpacingX - (updateSpacingX * changeX)
+		ctrlStartPosY = ctrlStartPosY + (updateStartPosY * changeY)
+		ctrlSpacingY = ctrlSpacingY + (updateSpacingY * changeY)
 	end
 	--
 	local hideMenu = false
@@ -16444,8 +16444,12 @@ function f_tourneyMenu()
 				local newChangeY = 0
 				local character = t_tourneyMenu.Group[1].Round[c][d].CharID
 				if character == "randomselect" then
-					--animSetScale(tourneyRandomIcon, 1.025,1.025)
-					animPosDraw(tourneyRandomIcon, iconStartPosX+(1-1)*(iconWidth+iconSpacingX), iconStartPosY+(d-1)*(iconHeight+iconSpacingY))
+					--animSetScale(tourneyRandomIcon, 1.025, 1.025)
+					animPosDraw(
+						tourneyRandomIcon,
+						iconStartPosX + (1 - 1) * (iconWidth + iconSpacingX),
+						iconStartPosY + (d - 1) * (iconHeight + iconSpacingY)
+					)
 				else --If a character is stored
 					if data.tourneySize == 16 then --To draw assets for next rounds
 						if c == 2 then --Quarterfinals
@@ -16497,10 +16501,18 @@ function f_tourneyMenu()
 						end
 					end
 				--Draw Face
-					drawTourneyPortrait(character-1, (iconStartPosX+(newStartPosX*newChangeX))+(1-1)*(iconWidth+(iconSpacingX-(newSpacingX*newChangeX))), (iconStartPosY+(newStartPosY*newChangeY))+(d-1)*(iconHeight+(iconSpacingY+(newSpacingY*newChangeY))))
+					drawTourneyPortrait(
+						character - 1,
+						(iconStartPosX + (newStartPosX * newChangeX)) + (1 - 1) * (iconWidth + (iconSpacingX - (newSpacingX * newChangeX))),
+						(iconStartPosY + (newStartPosY * newChangeY)) + (d - 1) * (iconHeight + (iconSpacingY + (newSpacingY * newChangeY)))
+					)
 				end
 			--Draw Control Icon
-				animPosDraw(ctrlIcon, (ctrlStartPosX+(newStartPosX*newChangeX))+(1-1)*(ctrlWidth+(ctrlSpacingX-(newSpacingX*newChangeX))), (ctrlStartPosY+(newStartPosY*newChangeY))+(d-1)*(ctrlHeight+(ctrlSpacingY+(newSpacingY*newChangeY))))
+				animPosDraw(
+					ctrlIcon,
+					(ctrlStartPosX + (newStartPosX * newChangeX)) + (1 - 1) * (ctrlWidth + (ctrlSpacingX - (newSpacingX * newChangeX))),
+					(ctrlStartPosY + (newStartPosY * newChangeY)) + (d - 1) * (ctrlHeight + (ctrlSpacingY + (newSpacingY * newChangeY)))
+				)
 			end
 		end
 	--Draw Group B Assets
@@ -16531,7 +16543,11 @@ function f_tourneyMenu()
 				local newChangeY = 0
 				local character = t_tourneyMenu.Group[2].Round[c][d].CharID
 				if character == "randomselect" then
-					animPosDraw(tourneyRandomIcon, iconStartPosX+(2-1)*(iconWidth+iconSpacingX), iconStartPosY+(d-1)*(iconHeight+iconSpacingY))
+					animPosDraw(
+						tourneyRandomIcon,
+						iconStartPosX + (2 - 1) * (iconWidth + iconSpacingX),
+						iconStartPosY + (d - 1) * (iconHeight + iconSpacingY)
+					)
 				else --If a character is stored
 					if data.tourneySize == 16 then --To draw assets for next rounds
 						if c == 2 then --Quarterfinals
@@ -16583,15 +16599,27 @@ function f_tourneyMenu()
 						end
 					end
 				--Draw Face
-					drawTourneyPortrait(character-1, (iconStartPosX+(newStartPosX*newChangeX))+(2-1)*(iconWidth+(iconSpacingX-(newSpacingX*newChangeX))), (iconStartPosY+(newStartPosY*newChangeY))+(d-1)*(iconHeight+(iconSpacingY+(newSpacingY*newChangeY))))
+					drawTourneyPortrait(
+						character - 1,
+						(iconStartPosX + (newStartPosX * newChangeX)) + (2 - 1) * (iconWidth + (iconSpacingX - (newSpacingX * newChangeX))),
+						(iconStartPosY + (newStartPosY * newChangeY)) + (d - 1) * (iconHeight + (iconSpacingY + (newSpacingY * newChangeY)))
+					)
 				end
 			--Draw Control Icon
-				animPosDraw(ctrlIcon, (ctrlStartPosX+(newStartPosX*newChangeX))+(2-1)*(ctrlWidth+(ctrlSpacingX-(newSpacingX*newChangeX))), (ctrlStartPosY+(newStartPosY*newChangeY))+(d-1)*(ctrlHeight+(ctrlSpacingY+(newSpacingY*newChangeY))))
+				animPosDraw(
+					ctrlIcon,
+					(ctrlStartPosX + (newStartPosX * newChangeX)) + (2 - 1) * (ctrlWidth + (ctrlSpacingX - (newSpacingX * newChangeX))),
+					(ctrlStartPosY + (newStartPosY * newChangeY)) + (d - 1) * (ctrlHeight + (ctrlSpacingY + (newSpacingY * newChangeY)))
+				)
 			end
 		end
 	--Draw Slot Cursor
 		if not startTourney then
-			animPosDraw(tourneyP1Cursor, slotStartPosX+(tourneyGroup-1)*(slotWidth+slotSpacingX), slotStartPosY+(tourneyRow-1)*(slotHeight+slotSpacingY))
+			animPosDraw(
+				tourneyP1Cursor,
+				slotStartPosX + (tourneyGroup - 1) * (slotWidth + slotSpacingX),
+				slotStartPosY + (tourneyRow - 1) * (slotHeight + slotSpacingY)
+			)
 			if not hideMenu then drawTourneyInputHints2() end --Draw Input Hints
 		else
 			if confirmScreen then
@@ -16733,11 +16761,11 @@ function f_tourneySelectReset()
 	rematchSeconds = data.rematchTime
 	serviceSeconds = data.serviceTime
 	destinySeconds = data.destinyTime
-	selectTimer = selectSeconds*gameTick --Set time for Character Select
-	stageTimer = stageSeconds*gameTick --Set time for Stage Select
-	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
-	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
-	destinyTimer = destinySeconds*gameTick --Set time for Tower/Destiny Select
+	selectTimer = selectSeconds * gameTick --Set time for Character Select
+	stageTimer = stageSeconds * gameTick --Set time for Stage Select
+	rematchTimer = rematchSeconds * gameTick --Set time for Rematch Option
+	serviceTimer = serviceSeconds * gameTick --Set time for Service Option
+	destinyTimer = destinySeconds * gameTick --Set time for Tower/Destiny Select
 	stageList = 0
 	musicList = 0
 	gameNo = 0
@@ -17001,10 +17029,10 @@ if validCells() then
 			playBGM("")
 			matchTime = os.clock() - matchTime
 			clearTime = clearTime + matchTime
-			selectTimer = selectSeconds*gameTick
-			stageTimer = stageSeconds*gameTick
-			rematchTimer = rematchSeconds*gameTick
-			serviceTimer = serviceSeconds*gameTick
+			selectTimer = selectSeconds * gameTick
+			stageTimer = stageSeconds * gameTick
+			rematchTimer = rematchSeconds * gameTick
+			serviceTimer = serviceSeconds * gameTick
 			f_unlock(false)
 			f_updateUnlocks()
 		--Victory Screen
@@ -17109,17 +17137,17 @@ function f_tourneyChampion()
 		if data.portraitDisplay == "Sprite" or data.portraitDisplay == "Mixed" then
 		--First Place
 			for j=#winner1, 1, -1 do
-				f_drawCharAnim(t_selChars[winner1[j].cel+1], 'p1AnimWin', 179 - (2*j-1) * 18, 157, winner1[j].up)
+				f_drawCharAnim(t_selChars[winner1[j].cel + 1], 'p1AnimWin', 179 - (2 * j - 1) * 18, 157, winner1[j].up)
 			end
 		--Second Place
 			for j=#winner2, 1, -1 do
-				f_drawCharAnim(t_selChars[winner2[j].cel+1], 'p1AnimWin', 78 - (2*j-1) * 18, 182, winner2[j].up)
+				f_drawCharAnim(t_selChars[winner2[j].cel + 1], 'p1AnimWin', 78 - (2 * j - 1) * 18, 182, winner2[j].up)
 			end
 		--Third Place
 			if data.tourney3rdPlace then
 			--[[
 				for j=#???, 1, -1 do
-					f_drawCharAnim(1, 'p1AnimWin', 279 - (2*j-1) * 18, 201, true)
+					f_drawCharAnim(1, 'p1AnimWin', 279 - (2 * j - 1) * 18, 201, true)
 				end
 			]]
 			end
@@ -17252,12 +17280,12 @@ function f_abyssSelect()
 				local txtDepth = ""
 				if t_abyssSel[i].depth == -1 then txtDepth = "INFINITE" else txtDepth = t_abyssSel[i].depth end
 				if t_abyssSel[i].id ~= nil then
-					animPosDraw(abyssSelWindowBG, -94+i*104-moveTxt,50)
-					textImgDraw(f_updateTextImg(t_abyssSel[i].id, font20, 4, 0, txtDepth, -50+i*104-moveTxt, 120))
-					textImgSetPos(txt_abyssLv, -50+i*104-moveTxt, 75)
+					animPosDraw(abyssSelWindowBG, -94 + i * 104 - moveTxt,50)
+					textImgDraw(f_updateTextImg(t_abyssSel[i].id, font20, 4, 0, txtDepth, -50 + i * 104 - moveTxt, 120))
+					textImgSetPos(txt_abyssLv, -50 + i * 104 - moveTxt, 75)
 					textImgSetText(txt_abyssLv, "LEVEL "..i)
 					textImgDraw(txt_abyssLv)
-					textImgSetPos(txt_abyssDepth, -50+i*104-moveTxt, 105)
+					textImgSetPos(txt_abyssDepth, -50 + i * 104 - moveTxt, 105)
 					textImgDraw(txt_abyssDepth)
 				end
 			end
@@ -17274,7 +17302,7 @@ function f_abyssSelect()
 		end
 	--Draw Cursor
 		if not continueCursor then
-			animSetWindow(cursorBox, -94+cursorPosX*104,54, 89.5,78)
+			animSetWindow(cursorBox, -94 + cursorPosX * 104,54, 89.5,78)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -17313,7 +17341,7 @@ end
 function abyssCfg()
 	f_default()
 	setRoundsToWin(1)
-	setRoundTime(99*60)
+	setRoundTime(99 * 60)
 	setGameMode("abyss")
 	data.gameMode = "abyss"
 	data.recordMode = "abyss"
@@ -17596,12 +17624,12 @@ function f_abyssMenu()
 		end
 		textImgDraw(txt_abyssMain)
 	--Draw Menu Options BG
-		animSetScale(abyssTBG, 240, maxabyssMenu*15)
+		animSetScale(abyssTBG, 240, maxabyssMenu * 15)
 		animSetWindow(abyssTBG, 2,20, 165,155)
 		animDraw(abyssTBG)
 	--Draw Cursor
 		if not confirmScreen then
-			animSetWindow(cursorBox, 2,10+cursorPosY*15, 165,15)
+			animSetWindow(cursorBox, 2,10 + cursorPosY * 15, 165,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
