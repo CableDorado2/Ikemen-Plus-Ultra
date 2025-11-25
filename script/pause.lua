@@ -725,7 +725,7 @@ end
 --;===========================================================
 --; PAUSE CONFIRM MESSAGE
 --;===========================================================
-txt_pauseInfo = createTextImg(jgFnt, 0, 0, "", 160, 70,0.7,0.7)
+txt_pauseInfo = createTextImg(jgFnt, 0, 0, "", 160, 70, 0.7, 0.7)
 txt_pauseConfirm = createTextImg(jgFnt, 0, 0, "ARE YOU SURE?", 160, 90)
 txt_playerID = "[PLAYER "
 txt_backStorySel = "] WILL BACK TO STORY SELECT"

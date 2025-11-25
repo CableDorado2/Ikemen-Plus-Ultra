@@ -16,7 +16,7 @@ local txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 51)
 local txt_eventProgress = createTextImg(jgFnt, 2, 1, "", 202, 51)
 
 local txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 103)
-local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "", 159, 117, 0.6,0.6)
+local txt_lockedInfo = createTextImg(jgFnt, 0, 0, "", 159, 117, 0.6, 0.6)
 local txt_eventNoInternet = createTextImg(jgFnt, 5, 0, txt_noInternet, 160, 105, 0.7, 0.7)
 
 local txt_eventCancel = "EVENT TIME UNAVAILABLE"

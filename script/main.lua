@@ -182,8 +182,8 @@ function demoModeCfg()
 	data.victoryscreen = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
-	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
+	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
+	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	f_selectSimple()
 	f_resetTemp()
@@ -822,7 +822,7 @@ function f_training()
 	--sndPlay(sndSys, 100, 1)
 	if #t_trainingChar ~= 0 then --If a training char is detected in select.def with training=1 paramvalue
 		data.p2In = 2
-		data.p2Char = {t_selChars[t_trainingChar[math.random(#t_trainingChar)]+1].char} --pick a random training char from the table
+		data.p2Char = {t_selChars[t_trainingChar[math.random(#t_trainingChar)] + 1].char} --pick a random training char from the table
 	else --Training Char will be selected in char select if there is not training chars detected in select.def with training=1 paramvalue
 		data.p2In = 1
 		data.p2Faces = true
@@ -1479,8 +1479,8 @@ function randomModeCfg()
 	data.recordMode = "versus"
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
-	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)]+1].char} --Pick Random Char
+	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
+	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3688,10 +3688,10 @@ function f_songMenu()
 							confirmSong = true
 						end
 					else --If you are in sound test
-						if #t_songList[data.menuSongFolder]-2 ~= 0 then --If there's songs loaded
+						if #t_songList[data.menuSongFolder] - 2 ~= 0 then --If there's songs loaded
 							--randomSongFolder = math.random(1, #t_songList) --Get random folder song
-							--randomSongSel = math.random(1, #t_songList[randomSongFolder]-2)
-							randomSongSel = math.random(1, #t_songList[songFolder]-2) --Get random song (-2 excludes back and random select items)
+							--randomSongSel = math.random(1, #t_songList[randomSongFolder] - 2)
+							randomSongSel = math.random(1, #t_songList[songFolder] - 2) --Get random song (-2 excludes back and random select items)
 							selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
 							selectedSongName = t_songList[songFolder][randomSongSel].name
 							playBGM(selectedSong) --Play Random Song from Folder Selected
@@ -6361,7 +6361,7 @@ function f_intermission() --Secret Fight Intro
 	local charPortrait = false
 	local charAnim = false
 	secretSel = t_secretChallenger[math.random(#t_secretChallenger)].cel --pick a random intermission char
-	secretChar = t_selChars[secretSel+1] --use previous selection to get table position
+	secretChar = t_selChars[secretSel + 1] --use previous selection to get table position
 	local scaleData = nil
 	if secretChar.intermissionSprScale ~= nil then
 		scaleData = secretChar.intermissionSprScale
@@ -8077,7 +8077,7 @@ function f_p1SelectMenu()
 				--data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = data.p1Pal, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author, ['discordkey'] = t_selChars[t_p1CharID[i]+1].discordkey}
 				palp1 = data.p1Pal
 			else
-				palp1 = math.random(1,12)
+				palp1 = math.random(1, 12)
 			end
 			data.t_p1selected[i] = {['cel'] = t_p1CharID[i], ['pal'] = palp1, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p1CharID[i]+1].name, ['displayname'] = t_selChars[t_p1CharID[i]+1].displayname, ['path'] = t_selChars[t_p1CharID[i]+1].char, ['author'] = t_selChars[t_p1CharID[i]+1].author, ['discordkey'] = t_selChars[t_p1CharID[i]+1].discordkey}
 			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
@@ -8263,7 +8263,7 @@ function f_p1SelectMenu()
 									f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 30, 158, true) --Draw P1 RANDOM PREVIEW stand anim (true means that always will be in a loop updateAnim)
 							--TEAM MODE WITH 2 MEMBERS
 								elseif p1numChars == 2 then
-									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --0.5,0.5 is the animation scale
+									if p1memberPreview == 1 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 90, 90, true, 0.5, 0.5) end --0.5, 0.5 is the animation scale
 									if p1memberPreview == 2 then f_drawCharAnim(t_selChars[randomNo + 1], 'p1AnimStand', 90, 158, true, 0.5, 0.5) end --Draw P1 Member 2 RANDOM PREVIEW Stand Anim
 							--TEAM MODE WITH 3 MEMBERS
 								elseif p1numChars == 3 then
@@ -9098,7 +9098,7 @@ function f_p1Selection()
 --Modern Palette Select (Random Portrait Fixed Style Case)
 	else
 		if data.randomPortrait == "Fixed" and getCharName(p1Cell) == "Random" then
-			p1PalSel = math.random(1,12)
+			p1PalSel = math.random(1, 12)
 			p1PalEnd = true
 		end
 	end
@@ -9158,7 +9158,7 @@ function f_p1SelectPal()
 --Confirm Palette
 	if btnPalNo(p1Cmd, true) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
-		if p1PalSel == 0 then p1PalSel = math.random(1,12) end --Set Random Palette for random select
+		if p1PalSel == 0 then p1PalSel = math.random(1, 12) end --Set Random Palette for random select
 		p1PalEnd = true
 		cmdInput()
 --Back to Character Selection
@@ -9464,7 +9464,7 @@ function f_p2SelectMenu()
 				--data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = data.p2Pal, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author, ['discordkey'] = t_selChars[t_p2CharID[i]+1].discordkey}
 				palp2 = data.p2Pal
 			else
-				palp2 = math.random(1,12)
+				palp2 = math.random(1, 12)
 			end
 			data.t_p2selected[i] = {['cel'] = t_p2CharID[i], ['pal'] = palp2, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['name'] = t_selChars[t_p2CharID[i]+1].name, ['displayname'] = t_selChars[t_p2CharID[i]+1].displayname, ['path'] = t_selChars[t_p2CharID[i]+1].char, ['author'] = t_selChars[t_p2CharID[i]+1].author, ['discordkey'] = t_selChars[t_p2CharID[i]+1].discordkey}
 			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log") end
@@ -10483,7 +10483,7 @@ function f_p2Selection()
 --Modern Palette Select (Random Portrait Fixed Style Case)
 	else
 		if data.randomPortrait == "Fixed" and getCharName(p2Cell) == "Random" then
-			p2PalSel = math.random(1,12)
+			p2PalSel = math.random(1, 12)
 			p2PalEnd = true
 		end
 	end
@@ -10538,7 +10538,7 @@ function f_p2SelectPal()
 	end
 	if btnPalNo(p2Cmd, true) > 0 or selectTimer == 0 then
 		sndPlay(sndSys, 100, 1)
-		if p2PalSel == 0 then p2PalSel = math.random(1,12) end
+		if p2PalSel == 0 then p2PalSel = math.random(1, 12) end
 		p2PalEnd = true
 		cmdInput()
 	elseif commandGetState(p2Cmd, 'e') then
@@ -10651,32 +10651,32 @@ function f_selectStage()
 		else --selectSimple game modes
 		--Logic For Auto Characters Song
 			p1charSong = ""
-			if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
-				p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].music) --if there are more than 1 song assigned for that character, pick 1 of them via randomizer
-				p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic --data.t_p1selected[1] means that data (music) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
+			if t_selChars[data.t_p1selected[1].cel + 1].music ~= nil then
+				p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].music) --if there are more than 1 song assigned for that character, pick 1 of them via randomizer
+				p1charSong = t_selChars[data.t_p1selected[1].cel + 1].music[p1charSong].bgmusic --data.t_p1selected[1] means that data (music) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
 				p1song = true
 			else --If there no music assigned for left side character
 				p1song = false
 			end
 			p2charSong = ""
-			if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-				p2charSong = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].music)
-				p2charSong = t_selChars[data.t_p2selected[1].cel+1].music[p2charSong].bgmusic
+			if t_selChars[data.t_p2selected[1].cel + 1].music ~= nil then
+				p2charSong = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].music)
+				p2charSong = t_selChars[data.t_p2selected[1].cel + 1].music[p2charSong].bgmusic
 				p2song = true
 			else --If there no music assigned for right side character
 				p2song = false
 			end
 		--Logic For Auto Characters Stage
-			if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
-				p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
-				p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage] --data.t_p1selected[1] means that data (stage) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
+			if t_selChars[data.t_p1selected[1].cel + 1].stage ~= nil then
+				p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+				p1charStage = t_selChars[data.t_p1selected[1].cel + 1].stage[p1charStage] --data.t_p1selected[1] means that data (stage) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
 				p1stage = true
 			else --If there no stage assigned for left side character
 				p1stage = false
 			end
-			if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
-				p2charStage = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].stage)
-				p2charStage = t_selChars[data.t_p2selected[1].cel+1].stage[p2charStage]
+			if t_selChars[data.t_p2selected[1].cel + 1].stage ~= nil then
+				p2charStage = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].stage)
+				p2charStage = t_selChars[data.t_p2selected[1].cel + 1].stage[p2charStage]
 				p2stage = true
 			else
 				--If there no stage assigned for right side character
@@ -11124,16 +11124,16 @@ function f_selectStage()
 	else --If Stage Select is Disabled
 		if data.stage == nil then --Assign Auto Stage via Select.def
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
-					stageNo = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].stage)
-					stageNo = t_selChars[data.t_p1selected[1].cel+1].stage[stageNo]
+				if t_selChars[data.t_p1selected[1].cel + 1].stage ~= nil then
+					stageNo = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].stage)
+					stageNo = t_selChars[data.t_p1selected[1].cel + 1].stage[stageNo]
 				else
 					stageNo = math.random(1, data.includestage)
 				end
 			else
-				if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
-					stageNo = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].stage)
-					stageNo = t_selChars[data.t_p2selected[1].cel+1].stage[stageNo]
+				if t_selChars[data.t_p2selected[1].cel + 1].stage ~= nil then
+					stageNo = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].stage)
+					stageNo = t_selChars[data.t_p2selected[1].cel + 1].stage[stageNo]
 				else
 					stageNo = math.random(1, data.includestage)
 				end
@@ -11166,18 +11166,18 @@ function f_loadCharResources()
 	--Logic For Characters Song
 		p1song = false
 		p2charSong = ""
-		if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-			p2charSong = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].music)
-			p2charSong = t_selChars[data.t_p2selected[1].cel+1].music[p2charSong].bgmusic
+		if t_selChars[data.t_p2selected[1].cel + 1].music ~= nil then
+			p2charSong = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].music)
+			p2charSong = t_selChars[data.t_p2selected[1].cel + 1].music[p2charSong].bgmusic
 			p2song = true
 		else --If there no music assigned for right side character
 			p2song = false
 		end
 	--Logic For Characters Stages
 		p1stage = false
-		if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
-			p2charStage = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].stage)
-			p2charStage = t_selChars[data.t_p2selected[1].cel+1].stage[p2charStage]
+		if t_selChars[data.t_p2selected[1].cel + 1].stage ~= nil then
+			p2charStage = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].stage)
+			p2charStage = t_selChars[data.t_p2selected[1].cel + 1].stage[p2charStage]
 			p2stage = true
 		else
 			--If there no stage assigned for right side character
@@ -11186,17 +11186,17 @@ function f_loadCharResources()
 	else
 		p2song = false
 		p1charSong = ""
-		if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
-			p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].music)
-			p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic
+		if t_selChars[data.t_p1selected[1].cel + 1].music ~= nil then
+			p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].music)
+			p1charSong = t_selChars[data.t_p1selected[1].cel + 1].music[p1charSong].bgmusic
 			p1song = true
 		else --If there no music assigned for left side character
 			p1song = false
 		end
 		p2stage = false
-		if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
-			p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].stage)
-			p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage]
+		if t_selChars[data.t_p1selected[1].cel + 1].stage ~= nil then
+			p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].stage)
+			p1charStage = t_selChars[data.t_p1selected[1].cel + 1].stage[p1charStage]
 			p1stage = true
 		else --If there no stage assigned for left side character
 			p1stage = false
@@ -11214,17 +11214,17 @@ function f_assignMusic()
 			end
 		else
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
-					track = math.random(1, #t_selChars[data.t_p1selected[1].cel+1].music)
-					track = t_selChars[data.t_p1selected[1].cel+1].music[track].bgmusic
+				if t_selChars[data.t_p1selected[1].cel + 1].music ~= nil then
+					track = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].music)
+					track = t_selChars[data.t_p1selected[1].cel + 1].music[track].bgmusic
 				elseif t_selStages[stageNo].music ~= nil then
 					track = math.random(1, #t_selStages[stageNo].music)
 					track = t_selStages[stageNo].music[track].bgmusic
 				end
 			else
-				if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-					track = math.random(1, #t_selChars[data.t_p2selected[1].cel+1].music)
-					track = t_selChars[data.t_p2selected[1].cel+1].music[track].bgmusic
+				if t_selChars[data.t_p2selected[1].cel + 1].music ~= nil then
+					track = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].music)
+					track = t_selChars[data.t_p2selected[1].cel + 1].music[track].bgmusic
 				elseif t_selStages[stageNo].music ~= nil then
 					track = math.random(1, #t_selStages[stageNo].music)
 					track = t_selStages[stageNo].music[track].bgmusic
@@ -11236,9 +11236,9 @@ function f_assignMusic()
 		track = data.bgm
 		stageEnd = true
 	end
-	if musicList == #t_selMusic-2 then --Mute Song
+	if musicList == #t_selMusic - 2 then --Mute Song
 		playBGM(bgmNothing)
-	elseif musicList == #t_selMusic-1 then --Player 1 Song
+	elseif musicList == #t_selMusic - 1 then --Player 1 Song
 		playBGM(p1charSong)
 	elseif musicList == 0 then --Auto Stage Song
 		playBGM(track)
@@ -11248,7 +11248,7 @@ function f_assignMusic()
 		local randomBGM = t_selMusic[math.random(3, #t_selMusic)].bgmfile
 		playBGM(randomBGM)
 	else --Sound Folder Song
-		playBGM(t_selMusic[musicList+1].bgmfile)
+		playBGM(t_selMusic[musicList + 1].bgmfile)
 	end
 	f_setStgBGM(getBGM())
 end
@@ -11259,13 +11259,13 @@ function f_musicPreview()
 		song = math.random(1, #t_selStages[stageList].music)
 		song = t_selStages[stageList].music[song].bgmusic
 	end
-	if musicList == #t_selMusic-2 then --playBGM(bgmNothing)
-	elseif musicList == #t_selMusic-1 and p1song then playBGM(p1charSong)
+	if musicList == #t_selMusic - 2 then --playBGM(bgmNothing)
+	elseif musicList == #t_selMusic - 1 and p1song then playBGM(p1charSong)
 	elseif musicList == 0 then playBGM(song)
 	elseif musicList == 1 and p2song then playBGM(p2charSong)
 	elseif musicList == 2 then --None because Random Preview Will be different of selected
 	else
-		playBGM(t_selMusic[musicList+1].bgmfile)
+		playBGM(t_selMusic[musicList + 1].bgmfile)
 	end
 end
 
@@ -12668,7 +12668,7 @@ function f_setAbyssStats()
 			if t_abyssSel[abyssSel].ailevel ~= nil then
 				difficulty = t_abyssSel[abyssSel].ailevel
 			else
-				difficulty = math.random(1,8)
+				difficulty = math.random(1, 8)
 			end
 		end
 		setCom(2, difficulty) --Set CPU Level
@@ -13008,7 +13008,7 @@ function f_winParse(winner, looser, pal)
 			end
 			if i ~= 0 then
 				logVar = logVar .. 'quote = random value from all ' .. i .. ' available quotes\n'
-				quote = math.random(1,i)
+				quote = math.random(1, i)
 				i = 0
 				for k,v in pairs(winner.quotes) do
 					i = i + 1
@@ -13373,41 +13373,41 @@ function f_randomRematch()
 	--Your 1st char will be randomized for your rematch
 		if p1numChars == 1 or p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
 			data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p1selected[1].pal = math.random(1,12)
+			data.t_p1selected[1].pal = math.random(1, 12)
 		end
 	--Your 2nd char will be randomized for your rematch
 		if p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
 			data.t_p1selected[2].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p1selected[2].pal = math.random(1,12)
+			data.t_p1selected[2].pal = math.random(1, 12)
 		end
 	--Your 3rd char will be randomized for your rematch
 		if p1numChars == 3 or p1numChars == 4 then
 			data.t_p1selected[3].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p1selected[3].pal = math.random(1,12)
+			data.t_p1selected[3].pal = math.random(1, 12)
 		end
 	--Your 4th char will be randomized for your rematch
 		if p1numChars == 4 then
 			data.t_p1selected[4].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p1selected[4].pal = math.random(1,12)
+			data.t_p1selected[4].pal = math.random(1, 12)
 		end
 	end
 --Get new random chars for player 2 side
 	if randomP2Rematch == true and data.randomCharRematch == "Variable" then
 		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
 			data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p2selected[1].pal = math.random(1,12)
+			data.t_p2selected[1].pal = math.random(1, 12)
 		end
 		if p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
 			data.t_p2selected[2].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p2selected[2].pal = math.random(1,12)
+			data.t_p2selected[2].pal = math.random(1, 12)
 		end
 		if p2numChars == 3 or p2numChars == 4 then
 			data.t_p2selected[3].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p2selected[3].pal = math.random(1,12)
+			data.t_p2selected[3].pal = math.random(1, 12)
 		end
 		if p2numChars == 4 then
 			data.t_p2selected[4].cel = t_randomChars[math.random(#t_randomChars)]
-			data.t_p2selected[4].pal = math.random(1,12)
+			data.t_p2selected[4].pal = math.random(1, 12)
 		end
 	end
 end
@@ -15208,7 +15208,7 @@ if validCells() then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
 								--Pick Random Char
 									else
-										bossChar = t_selChars[t_roster[math.random(#t_roster)]+1].char:lower()
+										bossChar = t_selChars[t_roster[math.random(#t_roster)] + 1].char:lower()
 									end
 									p1Cell = t_charDef[bossChar]
 								--Set Custom Stage
@@ -15245,7 +15245,7 @@ if validCells() then
 					if data.aipal == "Default" then
 						p1Pal = 1
 					elseif data.aipal == "Random" then
-						p1Pal = math.random(1,12)
+						p1Pal = math.random(1, 12)
 					end
 				end
 				local updateAnim = true
@@ -15254,7 +15254,7 @@ if validCells() then
 						updateAnim = false
 					end
 				end
-				data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = p1Pal, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['rand'] = false}
+				data.t_p1selected[#data.t_p1selected + 1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell + 1].name, ['displayname'] = t_selChars[p1Cell + 1].displayname, ['path'] = t_selChars[p1Cell + 1].char, ['pal'] = p1Pal, ['handicap'] = p1HandicapSel, ['up'] = updateAnim, ['rand'] = false}
 				if shuffle then
 					f_shuffleTable(data.t_p1selected)
 				end
@@ -15344,7 +15344,7 @@ if validCells() then
 					if data.aipal == "Default" then
 						p2Pal = 1
 					elseif data.aipal == "Random" then
-						p2Pal = math.random(1,12)
+						p2Pal = math.random(1, 12)
 					end
 				end
 				local updateAnim = true
@@ -15353,7 +15353,7 @@ if validCells() then
 						updateAnim = false
 					end
 				end
-				data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = p2Pal, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['rand'] = false}
+				data.t_p2selected[#data.t_p2selected + 1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell + 1].name, ['displayname'] = t_selChars[p2Cell + 1].displayname, ['path'] = t_selChars[p2Cell + 1].char, ['pal'] = p2Pal, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['rand'] = false}
 				if shuffle then
 					f_shuffleTable(data.t_p2selected)
 				end
@@ -15576,7 +15576,7 @@ function f_selectDestiny()
 					animPosDraw(destinyCursor, -70 + i * 105 - moveTower, 180)
 				--Draw Difficulty Text for Tower Table
 					if t_selTower[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_selTower[i].ID, fontMK, 0, 0, t_selTower[i].displayname:upper(), -50 + i * 105 - moveTower, 205, 0.85,0.85))
+						textImgDraw(f_updateTextImg(t_selTower[i].ID, fontMK, 0, 0, t_selTower[i].displayname:upper(), -50 + i * 105 - moveTower, 205, 0.85, 0.85))
 					end
 				end
 			end
@@ -15635,9 +15635,9 @@ end
 
 function f_setTowerStage() --Unfinished
 	if not data.stageMenu then
-		if t_selChars[t_selTower[i].kombats[length]+1].stage ~= nil then
-			data.stage = math.random(1, #t_selChars[t_selTower[i].kombats[length]+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
-			data.stage = t_selChars[t_selTower[i].kombats[length]+1].stage[data.stage]
+		if t_selChars[t_selTower[i].kombats[length] + 1].stage ~= nil then
+			data.stage = math.random(1, #t_selChars[t_selTower[i].kombats[length] + 1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+			data.stage = t_selChars[t_selTower[i].kombats[length] + 1].stage[data.stage]
 		end
 	end
 end
@@ -16662,8 +16662,8 @@ function f_tourneySelRandomPlayer()
 	for i=1, #t_tourneyMenu.Group[1].Round[1] do
 		local character = t_tourneyMenu.Group[1].Round[1][i].CharID
 		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
-			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
-			t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1,12)
+			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)] + 1
+			t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1, 12)
 			confirmRandomSel = true
 		end
 	end
@@ -16671,8 +16671,8 @@ function f_tourneySelRandomPlayer()
 	for i=1, #t_tourneyMenu.Group[2].Round[1] do
 		local character = t_tourneyMenu.Group[2].Round[1][i].CharID
 		if character == "randomselect" then
-			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)]+1
-			t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1,12)
+			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)] + 1
+			t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1, 12)
 			confirmRandomSel = true
 		end
 	end
@@ -17067,7 +17067,7 @@ if validCells() then
 						winner = 1
 				--CPU VS CPU Random Winner
 					elseif data.AIskip then
-						winner = math.random(1,2)
+						winner = math.random(1, 2)
 					end
 					data.p1Lose = false
 					data.p2Lose = false
@@ -17650,11 +17650,11 @@ function f_abyssMenu()
 							itemName = txt_abyssShopItemLock
 							itemPrice = ""
 						end
-						textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, -1, itemPrice, 163, 20+i*15-moveTxt))
+						textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, -1, itemPrice, 163, 20 + i * 15 - moveTxt))
 					else --NORMAL MENU
 						itemName = t_abyssMenu[i].text
 					end
-					textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, 1, itemName, 5, 20+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_abyssMenu[i].id, font2, 0, 1, itemName, 5, 20 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -17756,10 +17756,10 @@ function f_abyssDatMessage(mode, slot)
 			option = i
 			lastTxt = t_confirmMenu[i].text
 		end
-		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, lastTxt, 159, 120+option*13))
+		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, lastTxt, 159, 120 + option * 13))
 	end
 --Draw Cursor
-	animSetWindow(cursorBox, 66.35,123+(abyssDatConfirm-1)*13, 188,13)
+	animSetWindow(cursorBox, 66.35,123 + (abyssDatConfirm - 1) * 13, 188,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Input Hints Panel
@@ -17912,9 +17912,9 @@ function f_abyssData(mode)
 		textImgDraw(txt_abyssDatTitle)
 		for slot=1, maxdataSel do
 			if slot > dataSel - cursorPosY then
-				f_abyssDatProfile(0, -120+slot*105-moveSlot, slot, abyssDat.save[slot])
+				f_abyssDatProfile(0, -120 + slot * 105 - moveSlot, slot, abyssDat.save[slot])
 			end
-			if slot == dataSel then animPosDraw(abyssDatSlotCursor, 0, 40+(-120+slot*105-moveSlot)) end --Draw Cursor
+			if slot == dataSel then animPosDraw(abyssDatSlotCursor, 0, 40 + (-120 + slot * 105 - moveSlot)) end --Draw Cursor
 		end
 		if abyssDatConfirmScreen then f_abyssDatMessage(menuMode, dataSel) else drawAbyssDatInputHints() end
 		if maxdataSel > maxItems then
@@ -18008,10 +18008,10 @@ function f_abyssMap()
 		textImgDraw(txt_abyssMapDepth)
 	--Draw Depth Levels
 		for i=1, 10 do
-			local depthLv = nextMultipleOf10 + (i-1)*10
+			local depthLv = nextMultipleOf10 + (i - 1) * 10
 			if depthLv <= t_abyssSel[abyssSel].depth and (currentDepth < depthLv or currentDepth > depthLv) then
 				textImgSetText(txt_abyssMapDepthLv, depthLv)
-				textImgSetPos(txt_abyssMapDepthLv, 42, 30+i*22)
+				textImgSetPos(txt_abyssMapDepthLv, 42, 30 + i * 22)
 				textImgDraw(txt_abyssMapDepthLv)
 			end
 		end
@@ -18095,7 +18095,7 @@ function f_playCredits()
 		f_getIntermission() --Load t_secretChallenger
 	--Conditions to enter in secret fight
 		if #t_secretChallenger ~= 0 then
-			if stats.continueCount == 0 and data.difficulty >= 4 and score()>=#t_roster*(30000*getRoundsToWin()) then
+			if stats.continueCount == 0 and data.difficulty >= 4 and score() >= #t_roster * (30000 * getRoundsToWin()) then
 				f_intermission()
 				f_secretFight()
 			end

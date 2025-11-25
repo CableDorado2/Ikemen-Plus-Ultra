@@ -326,7 +326,7 @@ end
 --;===============================================================
 --; VISUAL NOVEL EXIT/DEFAULT VALUES MESSAGE SCREENPACK DEFINITION
 --;===============================================================
-txt_questionVN = createTextImg(jgFnt, 1, 0, "", 160, 110,0.8,0.8)
+txt_questionVN = createTextImg(jgFnt, 1, 0, "", 160, 110, 0.8, 0.8)
 
 t_questionMenuVN = {
 	{id = textImgNew(), text = ""},

@@ -1118,8 +1118,8 @@ function f_storyMenu()
 				end
 			--Draw Text for Arcs Table
 				if t_storySelect[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51 + i * 105 - moveArc, 63,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -49.2 + i * 105 - moveArc, 75,0.95,0.95))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51 + i * 105 - moveArc, 63, 0.85, 0.85))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -49.2 + i * 105 - moveArc, 75, 0.95, 0.95))
 				end
 			end
 		end

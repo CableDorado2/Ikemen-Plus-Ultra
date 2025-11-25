@@ -1309,7 +1309,7 @@ txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black 
 --;===========================================================
 txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
 txt_charTime = createTextImg(jgFnt, 0, 0, "", 160, 70)
-txt_backquestion = createTextImg(jgFnt, 0, 0, "BACK TO MAIN MENU?", 160.5, 110,0.9,0.9)
+txt_backquestion = createTextImg(jgFnt, 0, 0, "BACK TO MAIN MENU?", 160.5, 110, 0.9, 0.9)
 txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)
 
@@ -2399,7 +2399,7 @@ end
 --;===========================================================
 txt_rankInfo = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
 txt_rankESC = createTextImg(jgFnt, 5, 0, "PRESS ESC TO EXIT", 159, 151)
-txt_rankText = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
+txt_rankText = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.56, 0.56)
 txt_rankMsg = "ONLINE RANKED MATCH HAS FINISHED"
 
 --Ranked Info Window BG

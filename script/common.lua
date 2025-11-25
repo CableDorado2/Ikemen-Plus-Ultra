@@ -2533,7 +2533,7 @@ end
 --Select Main Menu Song
 function f_menuMusic()
 	if data.menuSong == "Random" then
-		if #t_songList[data.menuSongFolder]-2 ~= 0 then --If there's songs loaded
+		if #t_songList[data.menuSongFolder] - 2 ~= 0 then --If there's songs loaded
 			f_bgmrandomMenu()
 		else --If There's no songs loaded
 			playBGM(bgmNothing)
@@ -2545,7 +2545,7 @@ end
 
 --Random Select for Main Menu Song
 function f_bgmrandomMenu()
-	local randomTrack = math.random(1, #t_songList[data.menuSongFolder]-2) --Get random song using folder reference saved (-2 excludes back and random select items)
+	local randomTrack = math.random(1, #t_songList[data.menuSongFolder] - 2) --Get random song using folder reference saved (-2 excludes back and random select items)
 	local randomSong = t_songList[data.menuSongFolder][randomTrack].path --Use random song obtained to get his path
 	playBGM(randomSong)
 end
@@ -2553,7 +2553,7 @@ end
 --Select Character Select Song
 function f_selectMusic()
 	if data.selectSong == "Random" then
-		if #t_songList[data.selectSongFolder]-2 ~= 0 then --If there's songs loaded
+		if #t_songList[data.selectSongFolder] - 2 ~= 0 then --If there's songs loaded
 			f_bgmrandomSelect()
 		else --If There's no songs loaded
 			playBGM(bgmNothing)
@@ -2565,7 +2565,7 @@ end
 
 --Random Select for Character Select Song
 function f_bgmrandomSelect()
-	local randomTrack = math.random(1, #t_songList[data.selectSongFolder]-2)
+	local randomTrack = math.random(1, #t_songList[data.selectSongFolder] - 2)
 	local randomSong = t_songList[data.selectSongFolder][randomTrack].path
 	playBGM(randomSong)
 end
@@ -2573,7 +2573,7 @@ end
 --Select Character Select (New Challenger Mode) Song
 function f_challengerMusic()
 	if data.challengerSong == "Random" then
-		if #t_songList[data.challengerSongFolder]-2 ~= 0 then --If there's songs loaded
+		if #t_songList[data.challengerSongFolder] - 2 ~= 0 then --If there's songs loaded
 			f_bgmrandomChallenger()
 		else --If There's no songs loaded
 			playBGM(bgmNothing)
@@ -2585,7 +2585,7 @@ end
 
 --Random Select for Character Select Song
 function f_bgmrandomChallenger()
-	local randomTrack = math.random(1, #t_songList[data.challengerSongFolder]-2)
+	local randomTrack = math.random(1, #t_songList[data.challengerSongFolder] - 2)
 	local randomSong = t_songList[data.challengerSongFolder][randomTrack].path
 	playBGM(randomSong)
 end
