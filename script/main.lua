@@ -5849,7 +5849,7 @@ function f_exitMenu()
 				if #t_exitMenu > 4 then
 					cursorPosY = 4
 				else
-					cursorPosY = #t_exitMenu-1
+					cursorPosY = #t_exitMenu - 1
 				end
 			elseif exitMenu > #t_exitMenu then
 				exitMenu = 1
@@ -6968,7 +6968,7 @@ function f_aiRamp()
 	local end_match = 0
 	local end_diff = 0
 	t_aiRamp = {}
-	--Arcade
+--Arcade
 	if data.gameMode == "arcade" or data.gameMode == "tower" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if p1teamMode == 0 then --Single
@@ -7114,7 +7114,7 @@ function f_aiLevel()
 					if i % 2 ~= 0 then --odd value
 						if data.p1In == 1 and data.aiFight == false and data.tagmode == 1 then
 							setCom(i, 0)
-							remapInput(i,1)
+							remapInput(i, 1)
 							setTag(i, f_tagMode(i, tagset))
 						else
 							setCom(1, f_difficulty(i, offset))
@@ -7166,7 +7166,7 @@ function f_aiLevel()
 					if i % 2 == 0 then --even value
 						if data.p2In == 2 and not data.aiFight and data.tagmode == 1 then
 							setCom(i, 0)
-							remapInput(i,2)
+							remapInput(i, 2)
 							setTag(i, f_tagMode(i, tagset))
 						else
 							setCom(i, f_difficulty(i, offset))
@@ -7588,13 +7588,13 @@ function f_selectScreen()
 		animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 --Draw Character Select Normal Matchs Backgrounds
 	else
-		--Draw Black BG only for Tower/Abyss Mode
+	--Draw Black BG only for Tower/Abyss Mode
 		if data.gameMode == "tower" or data.gameMode == "abyss" then
 			animDraw(f_animVelocity(selectTowerBG0, -1, -1))
-		--Draw Red BG for Special Modes
+	--Draw Red BG for Special Modes
 		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1))
-		--Draw Blue BG for Normal Modes
+	--Draw Blue BG for Normal Modes
 		else
 			animDraw(f_animVelocity(commonBG0, -1, -1))
 		end
@@ -7605,7 +7605,7 @@ function f_selectScreen()
 	elseif data.p1In > 0 or data.p1Char ~= nil then
 		f_p1SelectMenu() --Character Select
 		if (data.p1In == 2 and data.p2In == 2) then
-			--Draw VS Single Bosses Portraits if you are playing in Right Side
+		--Draw VS Single Bosses Portraits if you are playing in Right Side
 			if data.gameMode == "singleboss" then
 				if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 					animDraw(f_animVelocity(charBG2, 2, 0))
@@ -7617,7 +7617,7 @@ function f_selectScreen()
 						f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 100, 158, data.t_p1selected[j].up) --Selected/Win Animation
 					end
 				end
-				--Draw Author Info Text
+			--Draw Author Info Text
 				if data.charInfo == "Author" then
 					if t_selChars[data.t_p1selected[1].cel + 1].author ~= nil then
 						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel + 1].author)
@@ -7625,13 +7625,13 @@ function f_selectScreen()
 					end
 				end
 			end
-			--Draw VS Single Bonus Portraits
+		--Draw VS Single Bonus Portraits
 			if data.gameMode == "singlebonus" then
 				if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 					animDraw(f_animVelocity(charBG2, 2, 0))
 					drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1)
 				end
-				--Draw Author Info Text
+			--Draw Author Info Text
 				if data.charInfo == "Author" then
 					if t_selChars[data.t_p1selected[1].cel + 1].author ~= nil then
 						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel + 1].author)
@@ -7654,7 +7654,7 @@ function f_selectScreen()
 		else
 			f_p2SelectMenu()
 			if (data.p1In ~= 2 and data.p2In ~= 2) then
-				--Draw VS Single Bosses Portraits if you are playing in Left Side
+			--Draw VS Single Bosses Portraits if you are playing in Left Side
 				if data.gameMode == "singleboss" then
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 						animDraw(f_animVelocity(charBG3, 2, 0))
@@ -7666,7 +7666,7 @@ function f_selectScreen()
 							f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
 						end
 					end
-					--Draw Author Info Text
+				--Draw Author Info Text
 					if data.charInfo == "Author" then
 						if t_selChars[data.t_p2selected[1].cel + 1].author ~= nil then
 							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel + 1].author)
@@ -7674,13 +7674,13 @@ function f_selectScreen()
 						end
 					end
 				end
-				--Draw VS Single Bonus Portraits
+			--Draw VS Single Bonus Portraits
 				if data.gameMode == "singlebonus" then
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 						animDraw(f_animVelocity(charBG3, 2, 0))
 						drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 					end
-					--Draw Author Info Text
+				--Draw Author Info Text
 					if data.charInfo == "Author" then
 						if t_selChars[data.t_p2selected[1].cel + 1].author ~= nil then
 							textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel + 1].author)
@@ -7715,8 +7715,8 @@ function f_selectScreen()
 	--Draw Select Grids
 		if data.p1SelectMenu then
 			drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
-			for i=0, selectColumns - 1 do
-				for j=0, selectRows - 1 do
+			for i=0, selectColumns-1 do
+				for j=0, selectRows-1 do
 					animPosDraw(selectCell, p1FaceX + i * (cellSizeX + cellSpacingX), p1FaceY + j * (cellSizeY + cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
 					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				--[[Draw Locked Icon
@@ -7732,8 +7732,8 @@ function f_selectScreen()
 		end
 		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
 			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
-			for i=0, selectColumns - 1 do
-				for j=0, selectRows - 1 do
+			for i=0, selectColumns-1 do
+				for j=0, selectRows-1 do
 					animPosDraw(selectCell, p2FaceX + i * (cellSizeX + cellSpacingX), p2FaceY + j * (cellSizeY + cellSpacingY))
 					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				end
@@ -7770,22 +7770,22 @@ function f_selectScreen()
 	end
 --Palette Select
 	if data.palType == "Modern" then
-		--Player1
+	--Player 1
 		if p1CharEnd and not p1PalEnd then
 			f_p1SelectPal()
 		end
-		--Player2
+	--Player 2
 		if p2CharEnd and not p2PalEnd then
 			f_p2SelectPal()
 		end
 	end
 --Handicap Select
 	if data.gameMode == "versus" or data.ftcontrol == -1 then
-		--Player1
+	--Player 1
 		if p1PalEnd and not p1HandicapEnd then
 			f_p1SelectHandicap()
 		end
-		--Player2
+	--Player 2
 		if p2PalEnd and not p2HandicapEnd then
 			f_p2SelectHandicap()
 		end
@@ -7912,7 +7912,7 @@ function f_p1TeamMenu()
 		p1BG = true
 		p1memberPreview = 1
 	else
-		--Back logic when you are selecting CPU Team Mode in CPU Vs Human
+	--Back logic when you are selecting CPU Team Mode in CPU Vs Human
 		if commandGetState(p2Cmd, 'e') and (data.p1In == 2 and data.p2In == 2) then --p2Cmd because human is in right side
 			if p1TeamBack == true then
 				if (data.p1In == 2 and data.p2In == 2) then
@@ -7933,13 +7933,13 @@ function f_p1TeamMenu()
 			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufTmu >= 30) then
 				sndPlay(sndSys, 100, 0)
 				p1teamMode = p1teamMode - 1
-				if p1teamMode < 0 then p1teamMode = #t_p1selTeam-1 end
+				if p1teamMode < 0 then p1teamMode = #t_p1selTeam - 1 end
 				if bufTml then bufTml = 0 end
 				if bufTmr then bufTmr = 0 end
 			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufTmd >= 30) then
 				sndPlay(sndSys, 100, 0)
 				p1teamMode = p1teamMode + 1
-				if p1teamMode > #t_p1selTeam-1 then p1teamMode = 0 end
+				if p1teamMode > #t_p1selTeam - 1 then p1teamMode = 0 end
 				if bufTml then bufTml = 0 end
 				if bufTmr then bufTmr = 0 end
 			elseif p1teamMode == 1 then --Simul
@@ -9364,13 +9364,13 @@ function f_p2TeamMenu()
 			if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufTm2u >= 30) then
 				sndPlay(sndSys, 100, 0)
 				p2teamMode = p2teamMode - 1
-				if p2teamMode < 0 then p2teamMode = #t_p2selTeam-1 end
+				if p2teamMode < 0 then p2teamMode = #t_p2selTeam - 1 end
 				if bufTm2l then bufTm2l = 0 end
 				if bufTm2r then bufTm2r = 0 end
 			elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufTm2d >= 30) then
 				sndPlay(sndSys, 100, 0)
 				p2teamMode = p2teamMode + 1
-				if p2teamMode > #t_p2selTeam-1 then p2teamMode = 0 end
+				if p2teamMode > #t_p2selTeam - 1 then p2teamMode = 0 end
 				if bufTm2l then bufTm2l = 0 end
 				if bufTm2r then bufTm2r = 0 end
 			elseif p2teamMode == 1 then --Simul
@@ -10940,8 +10940,8 @@ function f_selectStage()
 					end
 					if songSelect == true then
 						musicList = musicList - 1
-						if musicList < 0 then musicList = #t_selMusic-1 end
-						if musicList == #t_selMusic-1 and not p1song then musicList = musicList - 1 end
+						if musicList < 0 then musicList = #t_selMusic - 1 end
+						if musicList == #t_selMusic - 1 and not p1song then musicList = musicList - 1 end
 						if musicList == 1 and not p2song then musicList = musicList - 1 end
 					end
 				end
@@ -11011,13 +11011,13 @@ function f_selectStage()
 		else --Stages Added in select.def
 		--Draw Stage Preview (Resolution Recommended for images: 1280x720)
 			if data.stageType == "Classic" then
-				drawStagePortrait(stageList-1, 114.5, 172, 0.0705, 0.0699)
+				drawStagePortrait(stageList - 1, 114.5, 172, 0.0705, 0.0699)
 				if t_unlockLua.stages[t_selStages[stageList].stage] ~= nil and not onlinegame then --Draw Lock stuff
 					animDraw(stageLockWindowBG)
 					animDraw(stageLock)
 				end
 			elseif data.stageType == "Modern" then
-				drawStagePortrait(stageList-1, 64.600, 74.8, 0.149, 0.148)
+				drawStagePortrait(stageList - 1, 64.600, 74.8, 0.149, 0.148)
 				if t_unlockLua.stages[t_selStages[stageList].stage] ~= nil and not onlinegame then
 					animDraw(stageMLockWindowBG)
 					animDraw(stageMLock)
@@ -11027,9 +11027,9 @@ function f_selectStage()
 			textImgSetText(txt_selStage, "STAGE " .. stageList .. ": " .. t_selStages[stageList].name)
 		end
 	--BGM Data
-		if musicList == #t_selMusic-2 then --Mute
+		if musicList == #t_selMusic - 2 then --Mute
 			musicNo = ""
-		elseif musicList == #t_selMusic-1 then --Auto Left Side
+		elseif musicList == #t_selMusic - 1 then --Auto Left Side
 			musicNo = ""
 		elseif musicList == 0 then --Auto Stage
 			musicNo = ""
@@ -11038,7 +11038,7 @@ function f_selectStage()
 		elseif musicList == 2 then --Random
 			musicNo = ""
 		else --Loaded Folder Songs
-			musicNo = " " .. musicList-2 .. ""
+			musicNo = " " .. musicList - 2 .. ""
 		end
 	--Set BGM Name
 		textImgSetText(txt_selectMusic, "BGM" .. musicNo .. ": " .. t_selMusic[musicList + 1].bgmname)
@@ -11129,7 +11129,7 @@ function f_selectStage()
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageDayTime) end
 		end
-		--Stage Select Timer
+	--Stage Select Timer
 		if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
 			if data.stageType == "Classic" then textImgSetPos(txt_stageTime, 160, 70)
 			elseif data.stageType == "Modern" then textImgSetPos(txt_stageTime, 160, 105)
@@ -11138,7 +11138,7 @@ function f_selectStage()
 			nodecimalStageTime = string.format("%.0f", stageTimeNumber)
 			textImgSetText(txt_stageTime, nodecimalStageTime)
 			if stageTimer > 0 then
-				if not backScreen then stageTimer = stageTimer - 0.5 end--Activate Stage Select Timer
+				if not backScreen then stageTimer = stageTimer - 0.5 end --Activate Stage Select Timer
 				textImgDraw(txt_stageTime)
 			else --when stageTimer <= 0
 				
@@ -11171,9 +11171,9 @@ function f_selectStage()
 				f_loadStage()
 			end
 		end
-		--create a timer to hear full announcer voice
+	--Create a timer to hear full announcer voice
 		if announcerTimer > 55 then
-			if data.coop == true then --To avoid issues in Stage Select with Arcade Co-Op
+			if data.coop then --To avoid issues in Stage Select with Arcade Co-Op
 				p2Cell = nil
 				p2Portrait = nil
 				data.t_p2selected = {}
@@ -11210,9 +11210,9 @@ function f_selectStage()
 					end
 				--Load Selected Stage Portrait
 					if data.stageType == "Classic" then
-						drawStagePortrait(stageNo-1, 114.5, 172, 0.0705, 0.0699)
+						drawStagePortrait(stageNo - 1, 114.5, 172, 0.0705, 0.0699)
 					elseif data.stageType == "Modern" then
-						drawStagePortrait(stageNo-1, 64.600, 74.8, 0.149, 0.148)
+						drawStagePortrait(stageNo - 1, 64.600, 74.8, 0.149, 0.148)
 					end
 				end
 			end
@@ -11443,7 +11443,7 @@ function f_arcadeTravel()
 			end
 		end
 	--Draw BG Stuff
-		drawStagePortrait(stageNo-1, -53, 0, 0.34, 0.34)
+		drawStagePortrait(stageNo - 1, -53, 0, 0.34, 0.34)
 		animDraw(fadeWindowBG)
 		animDraw(travelBarUp)
 	--Draw Character Portraits
@@ -12966,7 +12966,7 @@ function f_selectWin()
 			else --Classic/Modern Victory Screen
 				if data.winscreen == "Modern" then
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
-					--Draw Portraits
+				--Draw Portraits
 					if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 						if winnerTeam == 1 then
 							drawWinPortrait(winnerSide[1].cel, 99, 0, xPortScale, yPortScale) --Your char portrait appears in modern win screen
@@ -12983,7 +12983,7 @@ function f_selectWin()
 							drawWinPortrait(winnerSide[2].cel, 150, 0, xPortScale, yPortScale)
 							drawWinPortrait(winnerSide[1].cel, 45, 0, xPortScale, yPortScale)
 						end
-					--Draw Char Animations
+				--Draw Char Animations
 					elseif data.portraitDisplay == "Sprite" then
 						for j=#data.t_p1selected, 1, -1 do
 							f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 178 - (2 * j - 1) * 18, 137.5, data.t_p1selected[j].up)
@@ -12991,10 +12991,10 @@ function f_selectWin()
 					end
 				elseif data.winscreen == "Classic" then
 					if winner == 2 then
-						--Draw Portraits
+					--Draw Portraits
 						if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 							drawLoserPortrait(data.t_p1selected[1].cel, 32, 5, 1, 1)
-						--Draw Char Animations
+					--Draw Char Animations
 						elseif data.portraitDisplay == "Sprite" then
 							for j=#data.t_p1selected, 1, -1 do
 								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimDizzy', 139 - (2 * j - 1) * 18, 143, data.t_p1selected[j].up)
@@ -14152,7 +14152,7 @@ function f_continue()
 			--Reset Score and Adds Times Continue as Initial Score Value
 				elseif data.scoreResetType == 2 then
 					setScore(0 + stats.continueCount)
-			--Set half of current score as Initial score
+			--Set Half of current score as Initial score
 				elseif data.scoreResetType == 3 then
 					local currentScore = math.floor(score() / 2 + 0.5)
 					if currentScore < 0 then currentScore = 0 end
@@ -14902,7 +14902,7 @@ if validCells() then
 			end
 	--LEFT SIDE ACTIONS
 		elseif winner == 1 then
-			--Player 1 (IN RIGHT SIDE):
+		--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
 				if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
@@ -14920,7 +14920,7 @@ if validCells() then
 					end
 					f_loseAdvanced()
 					return
-				--Lose BUT can Continue (Arcade)
+			--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
 					assert(loadfile(saveTempPath))()
@@ -15564,7 +15564,7 @@ if validCells() then
 			f_setRoundTime() --Set Round Time for specific characters
 			f_setRounds() --Set Rounds to Win for specific characters
 		elseif data.gameMode == "abyss" or data.gameMode == "endless" then
-			--Remove the last char loaded for the CPU side from t_roster and make a check so that when t_roster is empty, use f_makeRoster() again
+		--Remove the last char loaded for the CPU side from t_roster and make a check so that when t_roster is empty, use f_makeRoster() again
 			table.remove(t_roster, #t_roster)
 			if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
 			if #t_roster == 0 or t_roster == nil then f_makeRoster() end
@@ -15572,8 +15572,8 @@ if validCells() then
 		f_setZoom()
 	--inputs
 		if data.coop then
-			remapInput(3,2) --P2 controls assigned to P3 character
-			--remapInput(2,3) --P3 controls assigned to P2 character
+			remapInput(3, 2) --P2 controls assigned to P3 character
+			--remapInput(2, 3) --P3 controls assigned to P2 character
 		end
 		sndStop()
 		f_loading()
@@ -15663,7 +15663,7 @@ function f_selectDestiny()
 				f_towerAnnouncer(t_selTower[destinySelect].sfxplay)
 				startCount = true
 			end
-			--Cursor position calculation
+		--Cursor position calculation
 			if destinySelect < 1 then
 				destinySelect = #t_selTower
 				if #t_selTower > 3 then
@@ -15749,7 +15749,7 @@ function f_selectDestiny()
 		nodecimalDestinyTime = string.format("%.0f", destinyTimeNumber)
 		textImgSetText(txt_destinyTime, nodecimalDestinyTime)
 		if destinyTimer > 0 then
-			if not backScreen and not startCount then destinyTimer = destinyTimer - 0.5 end--Activate Tower Select Timer
+			if not backScreen and not startCount then destinyTimer = destinyTimer - 0.5 end --Activate Tower Select Timer
 			textImgDraw(txt_destinyTime)
 		else --when destinyTimer <= 0
 			
@@ -15846,7 +15846,7 @@ function f_battlePlan()
 					CPUslotPosY = CPUslotPosY - 2
 					if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then --Skip Battle Plan Preview
 						sndStop()
-						CPUslotPosY = CPUslotPosYInit + 1 -- +1 because position correct below logic
+						CPUslotPosY = CPUslotPosYInit + 1 -- + 1 because position correct below logic
 					end
 				else --when down scroll finish
 					if battlePreviewTimer == 0 then CPUslotPosY = CPUslotPosY + 1 end --Position Correct
@@ -15863,10 +15863,10 @@ function f_battlePlan()
 					scrollUp = scrollUp + 0.8
 					if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then --Skip Battle Plan Preview
 						sndStop()
-						scrollUp = CPUslotSpacingY-1 -- -1 because position correct below logic
+						scrollUp = CPUslotSpacingY - 1 -- -1 because position correct below logic
 					end
 				else
-					if battlePreviewTimer == 0 then scrollUp = scrollUp-1 end --Position Correct
+					if battlePreviewTimer == 0 then scrollUp = scrollUp - 1 end --Position Correct
 					f_battlePreview()
 				end
 			end
@@ -15919,7 +15919,7 @@ function f_battlePlan()
 	--Draw Player Portrait
 		local battleSlotPosX = 3
 		if sideSwitch then battleSlotPosX = 170 end
-		animPosDraw(battleSlot, battleSlotPosX, CPUslotPosYInit-CPUslotSpacingY) --Slot BG
+		animPosDraw(battleSlot, battleSlotPosX, CPUslotPosYInit - CPUslotSpacingY) --Slot BG
 		if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
 			local charPScaleX = 0.48
 			local charPaddPosX = 22
@@ -17178,8 +17178,8 @@ if validCells() then
 			f_setZoom()
 			--inputs
 			if data.coop then
-				remapInput(3,2) --P2 controls assigned to P3 character
-				--remapInput(2,3) --P3 controls assigned to P2 character
+				remapInput(3, 2) --P2 controls assigned to P3 character
+				--remapInput(2, 3) --P3 controls assigned to P2 character
 			end
 			matchTime = os.clock()
 			if data.songSelect then f_assignMusic() end
@@ -18209,7 +18209,7 @@ function f_playCredits()
 	local speed1 = 0.5
 	local speed2 = 2.2
 	local skip = false
-	local txtFont = font7--font14
+	local txtFont = font7 --font14
 	local txtBank = 0
 	local txtAline = 0 --[1]= Align text left | [0]= Center Text | [-1]= Align text right
 	local txtSpacing = 12 --spacing between lines (rendering Y position increasement for each line)
