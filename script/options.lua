@@ -182,7 +182,7 @@ local all = all or false
 		s_dataLUA = file:read("*all")
 		file:close()
 	--Apply settings from data_sav.lua
-		disableGamepad(data.disablePadP1,data.disablePadP2)
+		disableGamepad(data.disablePadP1, data.disablePadP2)
 	end
 --;===========================================================
 --; CONFIG.SSZ
@@ -845,7 +845,7 @@ function f_p1keyboardBattleDefault()
 	t_keyBattleCfg[13].keyboard = 'v'
 	t_keyBattleCfg[14].keyboard = 'f'
 	setInputConfig(0, -1, t_keyBattleCfg[1].keyboard, t_keyBattleCfg[2].keyboard, t_keyBattleCfg[3].keyboard, t_keyBattleCfg[4].keyboard, t_keyBattleCfg[5].keyboard, t_keyBattleCfg[6].keyboard, t_keyBattleCfg[7].keyboard, t_keyBattleCfg[8].keyboard, t_keyBattleCfg[9].keyboard, t_keyBattleCfg[10].keyboard, t_keyBattleCfg[11].keyboard, t_keyBattleCfg[12].keyboard, t_keyBattleCfg[13].keyboard, t_keyBattleCfg[14].keyboard) --Apply and Load New Controls
-	f_keyBattleSave(0,-1)
+	f_keyBattleSave(0, -1)
 end
 
 --Default P2 KEYBOARD BATTLE
@@ -865,7 +865,7 @@ function f_p2keyboardBattleDefault()
 	t_keyBattleCfg2[13].keyboard = 'KP_5'
 	t_keyBattleCfg2[14].keyboard = 'KP_0'
 	setInputConfig(1, -1, t_keyBattleCfg2[1].keyboard, t_keyBattleCfg2[2].keyboard, t_keyBattleCfg2[3].keyboard, t_keyBattleCfg2[4].keyboard, t_keyBattleCfg2[5].keyboard, t_keyBattleCfg2[6].keyboard, t_keyBattleCfg2[7].keyboard, t_keyBattleCfg2[8].keyboard, t_keyBattleCfg2[9].keyboard, t_keyBattleCfg2[10].keyboard, t_keyBattleCfg2[11].keyboard, t_keyBattleCfg2[12].keyboard, t_keyBattleCfg2[13].keyboard, t_keyBattleCfg2[14].keyboard) --Apply and Load New Controls
-	f_keyBattleSave(1,-1)
+	f_keyBattleSave(1, -1)
 end
 
 --Default P1 GAMEPAD BATTLE
@@ -885,7 +885,7 @@ function f_p1gamepadBattleDefault() --PS3 Gamepad Layout
 	t_keyBattleCfg[13].gamepad = '-10'
 	t_keyBattleCfg[14].gamepad = '6'
 	setInputConfig(2, 0, t_keyBattleCfg[1].gamepad, t_keyBattleCfg[2].gamepad, t_keyBattleCfg[3].gamepad, t_keyBattleCfg[4].gamepad, t_keyBattleCfg[5].gamepad, t_keyBattleCfg[6].gamepad, t_keyBattleCfg[7].gamepad, t_keyBattleCfg[8].gamepad, t_keyBattleCfg[9].gamepad, t_keyBattleCfg[10].gamepad, t_keyBattleCfg[11].gamepad, t_keyBattleCfg[12].gamepad, t_keyBattleCfg[13].gamepad, t_keyBattleCfg[14].gamepad) --Apply and Load New Controls
-	f_keyBattleSave(2,0)
+	f_keyBattleSave(2, 0)
 end
 
 --Default P2 GAMEPAD BATTLE
@@ -905,7 +905,7 @@ function f_p2gamepadBattleDefault()
 	t_keyBattleCfg2[13].gamepad = '-10'
 	t_keyBattleCfg2[14].gamepad = '6'
 	setInputConfig(3, 1, t_keyBattleCfg2[1].gamepad, t_keyBattleCfg2[2].gamepad, t_keyBattleCfg2[3].gamepad, t_keyBattleCfg2[4].gamepad, t_keyBattleCfg2[5].gamepad, t_keyBattleCfg2[6].gamepad, t_keyBattleCfg2[7].gamepad, t_keyBattleCfg2[8].gamepad, t_keyBattleCfg2[9].gamepad, t_keyBattleCfg2[10].gamepad, t_keyBattleCfg2[11].gamepad, t_keyBattleCfg2[12].gamepad, t_keyBattleCfg2[13].gamepad, t_keyBattleCfg2[14].gamepad) --Apply and Load New Controls
-	f_keyBattleSave(3,1)
+	f_keyBattleSave(3, 1)
 end
 
 --Default P1 KEYBOARD MENU
@@ -925,7 +925,7 @@ function f_p1keyboardMenuDefault()
 	t_keyMenuCfg[13].keyboard = 'BACKSPACE'
 	t_keyMenuCfg[14].keyboard = 'RETURN'
 	setInputConfig(10, -1, t_keyMenuCfg[1].keyboard, t_keyMenuCfg[2].keyboard, t_keyMenuCfg[3].keyboard, t_keyMenuCfg[4].keyboard, t_keyMenuCfg[5].keyboard, t_keyMenuCfg[6].keyboard, t_keyMenuCfg[7].keyboard, t_keyMenuCfg[8].keyboard, t_keyMenuCfg[9].keyboard, t_keyMenuCfg[10].keyboard, t_keyMenuCfg[11].keyboard, t_keyMenuCfg[12].keyboard, t_keyMenuCfg[13].keyboard, t_keyMenuCfg[14].keyboard) --Apply and Load New Controls
-	f_keyMenuSave(10,-1)
+	f_keyMenuSave(10, -1)
 end
 
 --Default P2 KEYBOARD MENU
@@ -945,7 +945,7 @@ function f_p2keyboardMenuDefault()
 	t_keyMenuCfg2[13].keyboard = 'KP_PERIOD'
 	t_keyMenuCfg2[14].keyboard = 'KP_ENTER'
 	setInputConfig(11, -1, t_keyMenuCfg2[1].keyboard, t_keyMenuCfg2[2].keyboard, t_keyMenuCfg2[3].keyboard, t_keyMenuCfg2[4].keyboard, t_keyMenuCfg2[5].keyboard, t_keyMenuCfg2[6].keyboard, t_keyMenuCfg2[7].keyboard, t_keyMenuCfg2[8].keyboard, t_keyMenuCfg2[9].keyboard, t_keyMenuCfg2[10].keyboard, t_keyMenuCfg2[11].keyboard, t_keyMenuCfg2[12].keyboard, t_keyMenuCfg2[13].keyboard, t_keyMenuCfg2[14].keyboard) --Apply and Load New Controls
-	f_keyMenuSave(11,-1)
+	f_keyMenuSave(11, -1)
 end
 
 --Default P1 GAMEPAD MENU
@@ -965,7 +965,7 @@ function f_p1gamepadMenuDefault() --PS3 Gamepad Layout
 	t_keyMenuCfg[13].gamepad = '1'
 	t_keyMenuCfg[14].gamepad = '7'
 	setInputConfig(12, 0, t_keyMenuCfg[1].gamepad, t_keyMenuCfg[2].gamepad, t_keyMenuCfg[3].gamepad, t_keyMenuCfg[4].gamepad, t_keyMenuCfg[5].gamepad, t_keyMenuCfg[6].gamepad, t_keyMenuCfg[7].gamepad, t_keyMenuCfg[8].gamepad, t_keyMenuCfg[9].gamepad, t_keyMenuCfg[10].gamepad, t_keyMenuCfg[11].gamepad, t_keyMenuCfg[12].gamepad, t_keyMenuCfg[13].gamepad, t_keyMenuCfg[14].gamepad) --Apply and Load New Controls
-	f_keyMenuSave(12,0)
+	f_keyMenuSave(12, 0)
 end
 
 --Default P2 GAMEPAD MENU
@@ -985,7 +985,7 @@ function f_p2gamepadMenuDefault()
 	t_keyMenuCfg2[13].gamepad = '1'
 	t_keyMenuCfg2[14].gamepad = '7'
 	setInputConfig(13, 1, t_keyMenuCfg2[1].gamepad, t_keyMenuCfg2[2].gamepad, t_keyMenuCfg2[3].gamepad, t_keyMenuCfg2[4].gamepad, t_keyMenuCfg2[5].gamepad, t_keyMenuCfg2[6].gamepad, t_keyMenuCfg2[7].gamepad, t_keyMenuCfg2[8].gamepad, t_keyMenuCfg2[9].gamepad, t_keyMenuCfg2[10].gamepad, t_keyMenuCfg2[11].gamepad, t_keyMenuCfg2[12].gamepad, t_keyMenuCfg2[13].gamepad, t_keyMenuCfg2[14].gamepad) --Apply and Load New Controls
-	f_keyMenuSave(13,1)
+	f_keyMenuSave(13, 1)
 end
 
 --;===========================================================
@@ -1241,7 +1241,7 @@ function f_defaultMenu()
 		if #t_defaultMenu > 4 then
 			cursorPosYDefault = 4
 		else
-			cursorPosYDefault = #t_defaultMenu-1
+			cursorPosYDefault = #t_defaultMenu - 1
 		end
 	elseif defaultMenu > #t_defaultMenu then
 		defaultMenu = 1
@@ -1517,7 +1517,7 @@ function f_mainCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_mainCfg or i == #t_mainCfg-1 or i == #t_mainCfg-2 then
+				if i == #t_mainCfg or i == #t_mainCfg - 1 or i == #t_mainCfg - 2 then
 					align = 0
 					posX = 160
 				end
@@ -1659,7 +1659,7 @@ function f_netplayCfg()
 					modified = 1
 				end
 		--Default Values
-			elseif netplayCfg == #t_netplayCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif netplayCfg == #t_netplayCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultNetplay = true
 				defaultScreen = true
@@ -1714,7 +1714,7 @@ function f_netplayCfg()
 			if esc() then
 				clearInputText()
 				sndPlay(sndSys, 100, 2)
-				t_netplayCfg[1].varText = data.userName--getUserName()
+				t_netplayCfg[1].varText = data.userName --getUserName()
 				nameEdit = false
 				editDone = true
 			end
@@ -1823,7 +1823,7 @@ function f_netplayCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_netplayCfg or i == #t_netplayCfg-1 then
+				if i == #t_netplayCfg or i == #t_netplayCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -2490,7 +2490,7 @@ function f_gameCfg()
 				f_zoomCfg()
 				f_resetOptionSysArrowPos()
 		--Erase/Reset Player Records
-			elseif gameCfg == #t_gameCfg-2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
+			elseif gameCfg == #t_gameCfg - 2 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then	
 				if onlinegame then
 					lockSetting = true
 				else
@@ -2498,7 +2498,7 @@ function f_gameCfg()
 					f_unlocksWarning()
 				end
 		--Default Values
-			elseif gameCfg == #t_gameCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif gameCfg == #t_gameCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultGame = true
 				defaultScreen = true
@@ -2571,7 +2571,7 @@ function f_gameCfg()
 				local align = 1
 				local posX = 35
 			--Custom Pos for Last items
-				if i == #t_gameCfg or i == #t_gameCfg-1 or i == #t_gameCfg-2 then
+				if i == #t_gameCfg or i == #t_gameCfg - 1 or i == #t_gameCfg - 2 then
 					align = 0
 					posX = 160
 				end
@@ -2815,7 +2815,7 @@ function f_teamCfg()
 					modified = 1
 				end
 		--Default Values
-			elseif teamCfg == #t_teamCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif teamCfg == #t_teamCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultTeam = true
 				defaultScreen = true
@@ -2875,7 +2875,7 @@ function f_teamCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_teamCfg or i == #t_teamCfg-1 then
+				if i == #t_teamCfg or i == #t_teamCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -3043,7 +3043,7 @@ function f_zoomCfg()
 					bufl = 0
 				end
 		--Default Values
-			elseif zoomCfg == #t_zoomCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif zoomCfg == #t_zoomCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultZoom = true
 				defaultScreen = true
@@ -3098,7 +3098,7 @@ function f_zoomCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_zoomCfg or i == #t_zoomCfg-1 then
+				if i == #t_zoomCfg or i == #t_zoomCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -3460,7 +3460,7 @@ function f_systemCfg()
 					f_resetOptionSysArrowPos()
 				end
 		--Default Values
-			elseif systemCfg == #t_systemCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif systemCfg == #t_systemCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
@@ -3527,7 +3527,7 @@ function f_systemCfg()
 				local align = 1
 				local posX = 35
 			--Custom Pos for Last items
-				if i == #t_systemCfg or i == #t_systemCfg-1 then
+				if i == #t_systemCfg or i == #t_systemCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -3706,7 +3706,7 @@ function f_selectCfg()
 				generateCharsList("chars")
 				sszOpen("save", "00_CharactersList.txt")
 		--Default Values
-			elseif selectCfg == #t_selectCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif selectCfg == #t_selectCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSelect = true
 				defaultScreen = true
@@ -3762,7 +3762,7 @@ function f_selectCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_selectCfg or i == #t_selectCfg-1 then
+				if i == #t_selectCfg or i == #t_selectCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -4440,7 +4440,7 @@ function f_rosterCfg()
 			end
 		--Common Rosters Settings
 		--Character Select Cells Size (X Axis)
-			if rosterCfg == #t_rosterCfg-11 then
+			if rosterCfg == #t_rosterCfg - 11 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSizeX < 500 then
 						data.cellSizeX = data.cellSizeX + 0.1
@@ -4476,7 +4476,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select Cells Size (Y Axis)
-			elseif rosterCfg == #t_rosterCfg-10 then
+			elseif rosterCfg == #t_rosterCfg - 10 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSizeY < 500 then
 						data.cellSizeY = data.cellSizeY + 0.1
@@ -4512,7 +4512,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select Cells Spacing (X Axis)
-			elseif rosterCfg == #t_rosterCfg-9 then
+			elseif rosterCfg == #t_rosterCfg - 9 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSpacingX < 500 then
 						data.cellSpacingX = data.cellSpacingX + 0.1
@@ -4548,7 +4548,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select Cells Spacing (Y Axis)
-			elseif rosterCfg == #t_rosterCfg-8 then
+			elseif rosterCfg == #t_rosterCfg - 8 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSpacingY < 500 then
 						data.cellSpacingY = data.cellSpacingY + 0.1
@@ -4584,7 +4584,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select Cells Scale (X Axis)
-			elseif rosterCfg == #t_rosterCfg-7 then
+			elseif rosterCfg == #t_rosterCfg - 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellScaleX < 10 then
 						data.cellScaleX = data.cellScaleX + 0.1
@@ -4620,7 +4620,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select Cells Scale (Y Axis)
-			elseif rosterCfg == #t_rosterCfg-6 then
+			elseif rosterCfg == #t_rosterCfg - 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellScaleY < 10 then
 						data.cellScaleY = data.cellScaleY + 0.1
@@ -4656,9 +4656,9 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select [PLAYER 1] Cursor Start (X Axis)
-			elseif rosterCfg == #t_rosterCfg-5 then
+			elseif rosterCfg == #t_rosterCfg - 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.p1SelX < data.selectColumns-1 then
+					if data.p1SelX < data.selectColumns - 1 then
 						data.p1SelX = data.p1SelX + 1
 					else
 						data.p1SelX = 0
@@ -4669,7 +4669,7 @@ function f_rosterCfg()
 					if data.p1SelX > 0 then
 						data.p1SelX = data.p1SelX - 1
 					else
-						data.p1SelX = data.selectColumns-1
+						data.p1SelX = data.selectColumns - 1
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
@@ -4685,9 +4685,9 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select [PLAYER 1] Cursor Start (Y Axis)
-			elseif rosterCfg == #t_rosterCfg-4 then
+			elseif rosterCfg == #t_rosterCfg - 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.p1SelY < data.selectRows-1 then
+					if data.p1SelY < data.selectRows - 1 then
 						data.p1SelY = data.p1SelY + 1
 					else
 						data.p1SelY = 0
@@ -4698,7 +4698,7 @@ function f_rosterCfg()
 					if data.p1SelY > 0 then
 						data.p1SelY = data.p1SelY - 1
 					else
-						data.p1SelY = data.selectRows-1
+						data.p1SelY = data.selectRows - 1
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
@@ -4714,9 +4714,9 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select [PLAYER 2] Cursor Start (X Axis)
-			elseif rosterCfg == #t_rosterCfg-3 then
+			elseif rosterCfg == #t_rosterCfg - 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.p2SelX < data.selectColumns-1 then
+					if data.p2SelX < data.selectColumns - 1 then
 						data.p2SelX = data.p2SelX + 1
 					else
 						data.p2SelX = 0
@@ -4727,7 +4727,7 @@ function f_rosterCfg()
 					if data.p2SelX > 0 then
 						data.p2SelX = data.p2SelX - 1
 					else
-						data.p2SelX = data.selectColumns-1
+						data.p2SelX = data.selectColumns - 1
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
@@ -4743,9 +4743,9 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Character Select [PLAYER 2] Cursor Start (Y Axis)
-			elseif rosterCfg == #t_rosterCfg-2 then
+			elseif rosterCfg == #t_rosterCfg - 2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.p2SelY < data.selectRows-1 then
+					if data.p2SelY < data.selectRows - 1 then
 						data.p2SelY = data.p2SelY + 1
 					else
 						data.p2SelY = 0
@@ -4756,7 +4756,7 @@ function f_rosterCfg()
 					if data.p2SelY > 0 then
 						data.p2SelY = data.p2SelY - 1
 					else
-						data.p2SelY = data.selectRows-1
+						data.p2SelY = data.selectRows - 1
 					end
 					if commandGetState(p1Cmd, 'l') then sndPlay(sndSys, 100, 0) end
 					modified = 1
@@ -4772,13 +4772,13 @@ function f_rosterCfg()
 					bufl = 0
 				end
 		--Default Values
-			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif rosterCfg == #t_rosterCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultRoster = true
 				defaultScreen = true
 		--Reload Select.def
 		--[[
-			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif rosterCfg == #t_rosterCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				assert(loadfile("script/loader.lua"))()
 		]]
@@ -4862,12 +4862,12 @@ function f_rosterCfg()
 						elseif rosterCfg == 12 then data.singleFaceY = tonumber(newValue)
 						end
 					end
-					if rosterCfg == #t_rosterCfg-11 then data.cellSizeX = tonumber(newValue)
-					elseif rosterCfg == #t_rosterCfg-10 then data.cellSizeY = tonumber(newValue)
-					elseif rosterCfg == #t_rosterCfg-9 then data.cellSpacingX = tonumber(newValue)
-					elseif rosterCfg == #t_rosterCfg-8 then data.cellSpacingY = tonumber(newValue)
-					elseif rosterCfg == #t_rosterCfg-7 then data.cellScaleX = tonumber(newValue)
-					elseif rosterCfg == #t_rosterCfg-6 then data.cellScaleY = tonumber(newValue)
+					if rosterCfg == #t_rosterCfg - 11 then data.cellSizeX = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg - 10 then data.cellSizeY = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg - 9 then data.cellSpacingX = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg - 8 then data.cellSpacingY = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg - 7 then data.cellScaleX = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg - 6 then data.cellScaleY = tonumber(newValue)
 					end
 					modified = 1
 					editDone = true
@@ -4962,23 +4962,23 @@ function f_rosterCfg()
 				t_rosterCfg[11].varText = data.singleFaceX
 				t_rosterCfg[12].varText = data.singleFaceY
 			end
-			t_rosterCfg[#t_rosterCfg-11].varText = data.cellSizeX
-			t_rosterCfg[#t_rosterCfg-10].varText = data.cellSizeY
-			t_rosterCfg[#t_rosterCfg-9].varText = data.cellSpacingX
-			t_rosterCfg[#t_rosterCfg-8].varText = data.cellSpacingY
-			t_rosterCfg[#t_rosterCfg-7].varText = data.cellScaleX
-			t_rosterCfg[#t_rosterCfg-6].varText = data.cellScaleY
+			t_rosterCfg[#t_rosterCfg - 11].varText = data.cellSizeX
+			t_rosterCfg[#t_rosterCfg - 10].varText = data.cellSizeY
+			t_rosterCfg[#t_rosterCfg - 9].varText = data.cellSpacingX
+			t_rosterCfg[#t_rosterCfg - 8].varText = data.cellSpacingY
+			t_rosterCfg[#t_rosterCfg - 7].varText = data.cellScaleX
+			t_rosterCfg[#t_rosterCfg - 6].varText = data.cellScaleY
 		end
-		t_rosterCfg[#t_rosterCfg-5].varText = data.p1SelX
-		t_rosterCfg[#t_rosterCfg-4].varText = data.p1SelY
-		t_rosterCfg[#t_rosterCfg-3].varText = data.p2SelX
-		t_rosterCfg[#t_rosterCfg-2].varText = data.p2SelY
+		t_rosterCfg[#t_rosterCfg - 5].varText = data.p1SelX
+		t_rosterCfg[#t_rosterCfg - 4].varText = data.p1SelY
+		t_rosterCfg[#t_rosterCfg - 3].varText = data.p2SelX
+		t_rosterCfg[#t_rosterCfg - 2].varText = data.p2SelY
 		for i=1, maxrosterCfg do
 			if i > rosterCfg - cursorPosY then
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_rosterCfg or i == #t_rosterCfg-1 then
+				if i == #t_rosterCfg or i == #t_rosterCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -5070,11 +5070,11 @@ function f_stageCfg()
 					modified = 1
 				elseif commandGetState(p1Cmd, 'r') and data.stageType == "Modern" then
 					sndPlay(sndSys, 100, 0)
-					data.stageType = "Classic"--data.stageType = "Chart"(SF X TK)
+					data.stageType = "Classic" --data.stageType = "Chart"(SF X TK)
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageType == "Classic" then
 					sndPlay(sndSys, 100, 0)
-					data.stageType = "Modern"--data.stageType = "Chart"
+					data.stageType = "Modern" --data.stageType = "Chart"
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') and data.stageType == "Modern" then
 					sndPlay(sndSys, 100, 0)
@@ -5148,7 +5148,7 @@ function f_stageCfg()
 				generateStageList("stages")
 				sszOpen("save", "00_ExtraStagesList.txt")
 		--Default Values
-			elseif stageCfg == #t_stageCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif stageCfg == #t_stageCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultStage = true
 				defaultScreen = true
@@ -5203,7 +5203,7 @@ function f_stageCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_stageCfg or i == #t_stageCfg-1 then
+				if i == #t_stageCfg or i == #t_stageCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -5493,7 +5493,7 @@ function f_timeCfg()
 					bufl = 0
 				end
 		--Default Values
-			elseif timeCfg == #t_timeCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif timeCfg == #t_timeCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultTime = true
 				defaultScreen = true
@@ -5551,7 +5551,7 @@ function f_timeCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_timeCfg or i == #t_timeCfg-1 then
+				if i == #t_timeCfg or i == #t_timeCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -5649,7 +5649,7 @@ function f_replayCfg()
 				if data.replayRanked then data.replayRanked = false else data.replayRanked = true end
 				modified = 1
 		--Default Values
-			elseif replayCfg == #t_replayCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif replayCfg == #t_replayCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultReplay = true
 				defaultScreen = true
@@ -5703,7 +5703,7 @@ function f_replayCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_replayCfg or i == #t_replayCfg-1 then
+				if i == #t_replayCfg or i == #t_replayCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -5839,7 +5839,7 @@ function f_songCfg()
 				if data.bgmDisplay then data.bgmDisplay = false else data.bgmDisplay = true end
 				modified = true
 		--Default Values
-			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif songCfg == #t_songCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultSong = true
 				defaultScreen = true
@@ -5895,7 +5895,7 @@ function f_songCfg()
 				local align = 1
 				local posX = 6
 			--Custom Pos for Last items
-				if i == #t_songCfg or i == #t_songCfg-1 then
+				if i == #t_songCfg or i == #t_songCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -6195,7 +6195,7 @@ function f_audioCfg()
 					needReload = 1
 				end
 		--Default Values
-			elseif audioCfg == #t_audioCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif audioCfg == #t_audioCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
@@ -6256,7 +6256,7 @@ function f_audioCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_audioCfg or i == #t_audioCfg-1 then
+				if i == #t_audioCfg or i == #t_audioCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -6487,7 +6487,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 		--Default Values
-			elseif engineCfg == #t_engineCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif engineCfg == #t_engineCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
@@ -6549,7 +6549,7 @@ function f_engineCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_engineCfg or i == #t_engineCfg-1 then
+				if i == #t_engineCfg or i == #t_engineCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -6850,7 +6850,7 @@ function f_videoCfg()
 				needReload = 1
 				updateVars = true
 		--Default Values
-			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif videoCfg == #t_videoCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
@@ -6916,7 +6916,7 @@ function f_videoCfg()
 				local align = 1
 				local posX = 85
 			--Custom Pos for Last items
-				if i == #t_videoCfg or i == #t_videoCfg-1 then
+				if i == #t_videoCfg or i == #t_videoCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -6953,6 +6953,7 @@ function f_videoCfg()
 		refresh()
 	end
 end
+
 --;===========================================================
 --; RESOLUTIONS SETTINGS
 --;===========================================================
@@ -7393,7 +7394,7 @@ function f_inputCfg()
 					sndPlay(sndSys, 100, 1)
 					f_testMenu()
 			--Default Values
-				elseif inputCfg == #t_inputCfg-1 then
+				elseif inputCfg == #t_inputCfg - 1 then
 					sndPlay(sndSys, 100, 1)
 					defaultInput = true
 					defaultScreen = true
@@ -7401,7 +7402,7 @@ function f_inputCfg()
 				else
 					back = true
 				end
-				--if inputCfg == 3 or inputCfg == 4 then disableGamepad(data.disablePadP1,data.disablePadP2) end
+				--if inputCfg == 3 or inputCfg == 4 then disableGamepad(data.disablePadP1, data.disablePadP2) end
 			end
 			if padTester > 20 then
 				if getInputID(data.p1Gamepad) == 101 and getInputID(data.p2Gamepad) == 101 then
@@ -7458,7 +7459,7 @@ function f_inputCfg()
 				local align = 1
 				local posX = 73
 			--Custom Pos for Last items
-				if i == #t_inputCfg or i == #t_inputCfg-1 then
+				if i == #t_inputCfg or i == #t_inputCfg - 1 then
 					align = 0
 					posX = 160
 				end
@@ -8085,7 +8086,7 @@ function f_drawBattleKeyAssets()
 			local align = 1
 			local posX = 7
 		--Custom Pos for Last items
-			if i == #t_keyBattleCfg or i == #t_keyBattleCfg-1 then
+			if i == #t_keyBattleCfg or i == #t_keyBattleCfg - 1 then
 				align = 0
 				posX = 80
 			end
@@ -8127,7 +8128,7 @@ function f_drawBattleKeyAssets()
 			local align = 1
 			local posX = 167
 		--Custom Pos for Last items
-			if i == #t_keyBattleCfg2 or i == #t_keyBattleCfg2-1 then
+			if i == #t_keyBattleCfg2 or i == #t_keyBattleCfg2 - 1 then
 				align = 0
 				posX = 240
 			end
@@ -8229,7 +8230,7 @@ function f_keyBattleCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Battle Controls
-			if keyCfg < #t_keyBattleCfg-1 then
+			if keyCfg < #t_keyBattleCfg - 1 then
 				sndPlay(sndSys, 100, 1)
 				p1waitingKey = true
 				if controller == -1 then
@@ -8303,7 +8304,7 @@ function f_keyBattleCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Battle Controls
-			if keyCfg2 < #t_keyBattleCfg2-1 then
+			if keyCfg2 < #t_keyBattleCfg2 - 1 then
 				sndPlay(sndSys, 100, 1)
 				p2waitingKey = true
 				if controller == -1 then
@@ -8406,7 +8407,7 @@ function f_drawMenuKeyAssets()
 			local align = 1
 			local posX = 7
 		--Custom Pos for Last items
-			if i == #t_keyMenuCfg or i == #t_keyMenuCfg-1 then
+			if i == #t_keyMenuCfg or i == #t_keyMenuCfg - 1 then
 				align = 0
 				posX = 80
 			end
@@ -8448,7 +8449,7 @@ function f_drawMenuKeyAssets()
 			local align = 1
 			local posX = 167
 		--Custom Pos for Last items
-			if i == #t_keyMenuCfg2 or i == #t_keyMenuCfg2-1 then
+			if i == #t_keyMenuCfg2 or i == #t_keyMenuCfg2 - 1 then
 				align = 0
 				posX = 240
 			end
@@ -8542,7 +8543,7 @@ function f_keyMenuCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Menu Controls
-			if keyCfg < #t_keyMenuCfg-1 then
+			if keyCfg < #t_keyMenuCfg - 1 then
 				sndPlay(sndSys, 100, 1)
 				p1waitingKey = true
 				if controller == -1 then
@@ -8616,7 +8617,7 @@ function f_keyMenuCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 		--Modify Menu Controls
-			if keyCfg2 < #t_keyMenuCfg2-1 then
+			if keyCfg2 < #t_keyMenuCfg2 - 1 then
 				sndPlay(sndSys, 100, 1)
 				p2waitingKey = true
 				if controller == -1 then
