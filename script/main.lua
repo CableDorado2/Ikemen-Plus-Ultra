@@ -517,7 +517,7 @@ function f_arcadeMenu()
 				if #t_arcadeMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_arcadeMenu-1
+					cursorPosY = #t_arcadeMenu - 1
 				end
 			elseif arcadeMenu > #t_arcadeMenu then
 				arcadeMenu = 1
@@ -623,7 +623,7 @@ function f_vsMenu()
 				if #t_vsMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_vsMenu-1
+					cursorPosY = #t_vsMenu - 1
 				end
 			elseif vsMenu > #t_vsMenu then
 				vsMenu = 1
@@ -729,7 +729,7 @@ function f_practiceMenu()
 				if #t_practiceMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_practiceMenu-1
+					cursorPosY = #t_practiceMenu - 1
 				end
 			elseif practiceMenu > #t_practiceMenu then
 				practiceMenu = 1
@@ -863,7 +863,7 @@ function f_challengeMenu()
 				if #t_challengeMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_challengeMenu-1
+					cursorPosY = #t_challengeMenu - 1
 				end
 			elseif challengeMenu > #t_challengeMenu then
 				challengeMenu = 1
@@ -973,7 +973,7 @@ function f_extrasMenu()
 				if #t_extrasMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_extrasMenu-1
+					cursorPosY = #t_extrasMenu - 1
 				end
 			elseif extrasMenu > #t_extrasMenu then
 				extrasMenu = 1
@@ -1078,7 +1078,7 @@ function f_watchMenu()
 				if #t_watchMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_watchMenu-1
+					cursorPosY = #t_watchMenu - 1
 				end
 			elseif watchMenu > #t_watchMenu then
 				watchMenu = 1
@@ -1181,7 +1181,7 @@ function f_profileMenu()
 				if #t_profileMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_profileMenu-1
+					cursorPosY = #t_profileMenu - 1
 				end
 			elseif profileMenu > #t_profileMenu then
 				profileMenu = 1
@@ -1681,7 +1681,7 @@ function f_survivalMenu()
 				if #t_survivalMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_survivalMenu-1
+					cursorPosY = #t_survivalMenu - 1
 				end
 			elseif survivalMenu > #t_survivalMenu then
 				survivalMenu = 1
@@ -1969,7 +1969,7 @@ function f_bossChars()
 				if #t_bossSingle > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_bossSingle-1
+					cursorPosY = #t_bossSingle - 1
 				end
 			elseif bossChars > #t_bossSingle then
 				bossChars = 1
@@ -2132,7 +2132,7 @@ function f_bonusMenu()
 				if #t_bonusMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_bonusMenu-1
+					cursorPosY = #t_bonusMenu - 1
 				end
 			elseif bonusMenu > #t_bonusMenu then
 				bonusMenu = 1
@@ -2235,7 +2235,7 @@ function f_bonusExtras()
 				if #t_bonusExtras > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_bonusExtras-1
+					cursorPosY = #t_bonusExtras - 1
 				end
 			elseif bonusExtras > #t_bonusExtras then
 				bonusExtras = 1
@@ -2462,7 +2462,7 @@ function f_scoreattackMenu()
 				if #t_scoreattackMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_scoreattackMenu-1
+					cursorPosY = #t_scoreattackMenu - 1
 				end
 			elseif scoreattackMenu > #t_scoreattackMenu then
 				scoreattackMenu = 1
@@ -2655,7 +2655,7 @@ function f_timeattackMenu()
 				if #t_timeattackMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_timeattackMenu-1
+					cursorPosY = #t_timeattackMenu - 1
 				end
 			elseif timeattackMenu > #t_timeattackMenu then
 				timeattackMenu = 1
@@ -3674,7 +3674,7 @@ function f_songMenu()
 					else
 						confirmSong = true
 					end
-				elseif songMenu == #t_songList[songFolder]-1 then --RANDOM SELECT
+				elseif songMenu == #t_songList[songFolder] - 1 then --RANDOM SELECT
 					if not soundTest then --If you are setting system songs in options
 						sndPlay(sndSys, 100, 1)
 						songChanged = true
@@ -3691,7 +3691,7 @@ function f_songMenu()
 						if #t_songList[data.menuSongFolder] - 2 ~= 0 then --If there's songs loaded
 							--randomSongFolder = math.random(1, #t_songList) --Get random folder song
 							--randomSongSel = math.random(1, #t_songList[randomSongFolder] - 2)
-							randomSongSel = math.random(1, #t_songList[songFolder] - 2) --Get random song (-2 excludes back and random select items)
+							randomSongSel = math.random(1, #t_songList[songFolder] - 2) --Get random song (- 2 excludes back and random select items)
 							selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
 							selectedSongName = t_songList[songFolder][randomSongSel].name
 							playBGM(selectedSong) --Play Random Song from Folder Selected
@@ -3772,7 +3772,7 @@ function f_songMenu()
 			local align = 1
 			local posX = 85
 		--Custom Pos for Last items
-			if i == #t_songList[songFolder] or i == #t_songList[songFolder]-1 then
+			if i == #t_songList[songFolder] or i == #t_songList[songFolder] - 1 then
 				align = 0
 				posX = 160
 			end
@@ -3843,7 +3843,7 @@ function f_confirmSongMenu()
 		if #t_confirmSongMenu > 4 then
 			cursorPosYSongConfirm = 4
 		else
-			cursorPosYSongConfirm = #t_confirmSongMenu-1
+			cursorPosYSongConfirm = #t_confirmSongMenu - 1
 		end
 	elseif confirmSongMenu > #t_confirmSongMenu then
 		confirmSongMenu = 1
@@ -4073,7 +4073,7 @@ function f_replayMenu()
 				if #t_replayMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_replayMenu-1
+					cursorPosY = #t_replayMenu - 1
 				end
 			elseif replayMenu > #t_replayMenu then
 				replayMenu = 1
@@ -4108,7 +4108,7 @@ function f_replayMenu()
 						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 						f_mainReplay()
 					end
-				--LOCAL REPLAYS (watch saved replays of your local matches)
+			--LOCAL REPLAYS (watch saved replays of your local matches)
 				elseif replayMenu == 2 then
 					f_comingSoon()
 				end
@@ -4201,13 +4201,13 @@ function f_mainReplay()
 		--OPEN REPLAY CONTROL MENU
 			else
 				sndPlay(sndSys, 100, 1)
-				textImgSetText(txt_replayName, t_replayList[mainReplay].name)--Show Replay Selected Name
+				textImgSetText(txt_replayName, t_replayList[mainReplay].name) --Show Replay Selected Name
 				local fileSize = lfs.attributes(t_replayList[mainReplay].path).size --Size Logic
 				if fileSize > 1048576 then
-					local replaySize = (math.floor(((fileSize / 1048576) + 0.50)))--Conversion from Bytes to Megabytes
+					local replaySize = (math.floor(((fileSize / 1048576) + 0.50))) --Conversion from Bytes to Megabytes
 					textImgSetText(txt_replaySize, replaySize.."MB")
 				else
-					local replaySize = (math.floor(((fileSize / 1024) + 0.50)))--Conversion from Bytes to Kilobytes
+					local replaySize = (math.floor(((fileSize / 1024) + 0.50))) --Conversion from Bytes to Kilobytes
 					textImgSetText(txt_replaySize, replaySize.."KB")
 				end
 				local replayOption = 2
@@ -4275,13 +4275,13 @@ function f_mainReplay()
 						textImgDraw(t_replayOption[i].id)
 					end
 					if not confirmScreen then
-						--Draw Cursor
+					--Draw Cursor
 						animSetWindow(cursorBox, -108 + replayOption * 120,161, 56,15)
 						f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 						animDraw(f_animVelocity(cursorBox, -1, -1))
 					end
 					if confirmScreen then f_confirmMenu() else drawReplayInputHints() end
-					--DELETE SELECTED REPLAY
+				--DELETE SELECTED REPLAY
 					if deleteReplay then
 						os.remove(t_replayList[mainReplay].path)
 						t_replayList = nil --Delete the Table
@@ -4436,7 +4436,7 @@ function f_mainNetplay()
 			if #t_mainNetplay > 5 then
 				cursorPosY = 5
 			else
-				cursorPosY = #t_mainNetplay-1
+				cursorPosY = #t_mainNetplay - 1
 			end
 		elseif mainNetplay > #t_mainNetplay then
 			mainNetplay = 1
@@ -4828,7 +4828,7 @@ function f_hostRooms()
 				if #t_hostList > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_hostList-1
+					cursorPosY = #t_hostList - 1
 				end
 			elseif hostList > #t_hostList then
 				hostList = 1
@@ -5061,7 +5061,7 @@ function f_crudHostScreen()
 		textImgDraw(t_crudHostOptionD[i].id)
 	end
 	if crudHostOption ~= 1 then
-		--Draw Cursors
+	--Draw Cursors
 		if crudHostRow == 1 then
 			animSetWindow(cursorBox, -16 + crudHostCursorU * 100,158, 55,16)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -5370,7 +5370,7 @@ function f_mainLobby()
 			if #t_mainLobby > 5 then
 				cursorPosY = 5
 			else
-				cursorPosY = #t_mainLobby-1
+				cursorPosY = #t_mainLobby - 1
 			end
 		elseif mainLobby > #t_mainLobby then
 			mainLobby = 1
