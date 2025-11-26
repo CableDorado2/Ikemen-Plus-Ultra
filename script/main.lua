@@ -15357,7 +15357,9 @@ if validCells() then
 			numChars = p1numChars --was local function
 			if p1numChars > 1 then
 				for i=1, #data.t_p1selected do
-					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or (t_selChars[data.t_p1selected[i].cel + 1].single ~= nil and t_selChars[data.t_p1selected[i].cel + 1].single == 1) or (t_selChars[data.t_p1selected[i].cel + 1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel + 1].bonus == 1) then
+					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or
+						(t_selChars[data.t_p1selected[i].cel + 1].single ~= nil and t_selChars[data.t_p1selected[i].cel + 1].single == 1) or
+						(t_selChars[data.t_p1selected[i].cel + 1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel + 1].bonus == 1) then
 						p1teamMode = 0
 						p1numChars = 1
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
@@ -15386,8 +15388,8 @@ if validCells() then
 			data.t_p2selected = {}
 			shuffle = true --was local function
 			for i=1, p2numChars do
-				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
-					p2Cell = t_charDef[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
+				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p1selected[1].cel + 1][matchNo] ~= nil then
+					p2Cell = t_charDef[t_selChars[data.t_p1selected[1].cel + 1][matchNo]]
 					shuffle = false
 				else
 					if data.gameMode == "tower" then
@@ -15408,7 +15410,7 @@ if validCells() then
 										bossChar = t_abyssSel[abyssSel].specialboss[i].char:lower()
 								--Pick Random Char
 									else
-										bossChar = t_selChars[t_roster[#t_roster]+1].char:lower()
+										bossChar = t_selChars[t_roster[#t_roster] + 1].char:lower()
 									end
 									p2Cell = t_charDef[bossChar]
 								--Set Custom Stage
@@ -15454,7 +15456,16 @@ if validCells() then
 						updateAnim = false
 					end
 				end
-				data.t_p2selected[#data.t_p2selected + 1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell + 1].name, ['displayname'] = t_selChars[p2Cell + 1].displayname, ['path'] = t_selChars[p2Cell + 1].char, ['pal'] = p2Pal, ['handicap'] = p2HandicapSel, ['up'] = updateAnim, ['rand'] = false}
+				data.t_p2selected[#data.t_p2selected + 1] = {
+					['cel'] = p2Cell,
+					['name'] = t_selChars[p2Cell + 1].name,
+					['displayname'] = t_selChars[p2Cell + 1].displayname,
+					['path'] = t_selChars[p2Cell + 1].char,
+					['pal'] = p2Pal,
+					['handicap'] = p2HandicapSel,
+					['up'] = updateAnim,
+					['rand'] = false
+				}
 				if shuffle then
 					f_shuffleTable(data.t_p2selected)
 				end
@@ -15465,13 +15476,24 @@ if validCells() then
 			numChars = p2numChars --was local function
 			if p2numChars > 1 then
 				for i=1, #data.t_p2selected do
-					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or (t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1) or (t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1) then
+					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or
+						(t_selChars[data.t_p2selected[i].cel + 1].single ~= nil and t_selChars[data.t_p2selected[i].cel + 1].single == 1) or
+						(t_selChars[data.t_p2selected[i].cel + 1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel + 1].bonus == 1) then
 						p2teamMode = 0
 						p2numChars = 1
 						setTeamMode(2, 0, 1)
-						p2Cell = t_charDef[t_selChars[data.t_p2selected[i].cel+1].char]
+						p2Cell = t_charDef[t_selChars[data.t_p2selected[i].cel + 1].char]
 						data.t_p2selected = {}
-						data.t_p2selected[1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = p2Pal, ['handicap'] = p2HandicapSel, ['up'] = true, ['rand'] = false}
+						data.t_p2selected[1] = {
+							['cel'] = p2Cell,
+							['name'] = t_selChars[p2Cell + 1].name,
+							['displayname'] = t_selChars[p2Cell + 1].displayname,
+							['path'] = t_selChars[p2Cell + 1].char,
+							['pal'] = p2Pal,
+							['handicap'] = p2HandicapSel,
+							['up'] = true,
+							['rand'] = false
+						}
 						restoreTeam = true
 						break
 					end
@@ -15799,10 +15821,10 @@ function f_battlePlan()
 					CPUslotPosY = CPUslotPosY - 2
 					if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then --Skip Battle Plan Preview
 						sndStop()
-						CPUslotPosY = CPUslotPosYInit+1 -- +1 because position correct below logic
+						CPUslotPosY = CPUslotPosYInit + 1 -- +1 because position correct below logic
 					end
 				else --when down scroll finish
-					if battlePreviewTimer == 0 then CPUslotPosY = CPUslotPosY+1 end --Position Correct
+					if battlePreviewTimer == 0 then CPUslotPosY = CPUslotPosY + 1 end --Position Correct
 					f_battlePreview()
 				end
 			end
@@ -15885,7 +15907,7 @@ function f_battlePlan()
 					charPSpacingPosX = 17
 				end
 				for j=#data.t_p2selected, 1, -1 do
-					drawPortrait(data.t_p2selected[j].cel, HumanslotPosX+charPaddPosX + (2 * j - 1) * charPSpacingPosX, CPUslotPosYInit - CPUslotSpacingY + 7, -charPScaleX, 0.48)
+					drawPortrait(data.t_p2selected[j].cel, HumanslotPosX + charPaddPosX + (2 * j - 1) * charPSpacingPosX, CPUslotPosYInit - CPUslotSpacingY + 7, -charPScaleX, 0.48)
 				end
 			else --Left Side
 				if p1numChars == 4 then --Modify Some Portrait Params
@@ -16423,7 +16445,7 @@ function f_tourneyMenu()
 				local slotLevel = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel
 				local slotHuman = t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player
 				if slotControl == "CPU" then
-					if slotLevel < 8 then t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = slotLevel+1
+					if slotLevel < 8 then t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = slotLevel + 1
 					elseif slotLevel == 8 then
 						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].Player = 1
 						t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].AIlevel = 0
@@ -16926,7 +16948,7 @@ if validCells() then
 	f_backReset()
 	f_selectInit()
 	if tourneyNextRound then
-		t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1] = {} --To Add New Round Table Row
+		t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1] = {} --To Add New Round Table Row
 		tourneyNextRound = false
 	end
 	while true do
@@ -16951,7 +16973,7 @@ if validCells() then
 				if back == true then return end
 			end
 		--Save Character Selected Data (Single Team Mode)
-			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharID = data.t_p1selected[1].cel+1
+			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].CharID = data.t_p1selected[1].cel + 1
 			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].up = data.t_p1selected[1].up
 			t_tourneyMenu.Group[tourneyGroup].Round[1][tourneyRow].pal = data.t_p1selected[1].pal
 			break --Back to Tournament Menu
@@ -16959,33 +16981,33 @@ if validCells() then
 			matchNo = matchNo + 1 --Go to Next FT
 			if p1Wins == data.tourneyMatchsNum or p2Wins == data.tourneyMatchsNum then --If one of participants have reached the FT rule setting
 				if not endTourney then
-					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo] = {} --To Add New Fighter Table Row
-					local p1Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1]
-					local p2Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2]
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo] = {} --To Add New Fighter Table Row
+					local p1Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 1]
+					local p2Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 2]
 				--Save Left Side Winner Data
 					if p1Wins == data.tourneyMatchsNum then
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharID'] = p1Data.CharID
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['up'] = p1Data.up
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['pal'] = p1Data.pal
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharControl'] = p1Data.CharControl
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['AIlevel'] = p1Data.AIlevel
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Player'] = p1Data.Player
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Loser'] = p1Data.Loser
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Active'] = p1Data.Active
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['CharID'] = p1Data.CharID
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['up'] = p1Data.up
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['pal'] = p1Data.pal
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['CharControl'] = p1Data.CharControl
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['AIlevel'] = p1Data.AIlevel
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['Player'] = p1Data.Player
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['Loser'] = p1Data.Loser
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['Active'] = p1Data.Active
 						p2Data.Loser = true
 						if data.tourneyType == "Single Elimination" then p2Data.Active = false --The loser of each match will be immediately eliminated from the tournament
 						--elseif data.tourneyType == "Double Elimination" then --A participant gets eliminated upon having lost two games or matches.
 						end
 				--Save Right Side Winner Data
 					elseif p2Wins == data.tourneyMatchsNum then
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharID'] = p2Data.CharID
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['up'] = p2Data.up
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['pal'] = p2Data.pal
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['CharControl'] = p2Data.CharControl
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['AIlevel'] = p2Data.AIlevel
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Player'] = p2Data.Player
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Loser'] = p2Data.Loser
-						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo+1][tourneyFightNo]['Active'] = p2Data.Active
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['CharID'] = p2Data.CharID
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['up'] = p2Data.up
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['pal'] = p2Data.pal
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['CharControl'] = p2Data.CharControl
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['AIlevel'] = p2Data.AIlevel
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['Player'] = p2Data.Player
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['Loser'] = p2Data.Loser
+						t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo + 1][tourneyFightNo]['Active'] = p2Data.Active
 						p1Data.Loser = true
 						if data.tourneyType == "Single Elimination" then p1Data.Active = false end
 					end
@@ -17018,8 +17040,8 @@ if validCells() then
 					tourneyCharSel = true
 					data.p2Faces = true
 					data.p2SelectMenu = true
-					local p1Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1]
-					local p2Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2]
+					local p1Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 1]
+					local p2Data = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 2]
 					if endTourney then --Rewritte data to avoid issue with p2Data 
 						p1Data = t_tourneyMenu.Group[1].Round[tourneyRoundNo][1] --Pick the only character left in Group A
 						p2Data = t_tourneyMenu.Group[2].Round[tourneyRoundNo][1] --Pick the only character left in Group B
@@ -17068,18 +17090,18 @@ if validCells() then
 						break
 					end
 				--Save Character Selected Data (Single Team Mode)
-					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].CharID = data.t_p1selected[1].cel+1
-					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].up = data.t_p1selected[1].up
-					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].pal = data.t_p1selected[1].pal
-					--t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1].handicap = data.t_p1selected[1].handicap
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 1].CharID = data.t_p1selected[1].cel + 1
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 1].up = data.t_p1selected[1].up
+					t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 1].pal = data.t_p1selected[1].pal
+					--t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 1].handicap = data.t_p1selected[1].handicap
 				--Player 2 Data
-					local player2Data = tourneyParticipantNo+2
+					local player2Data = tourneyParticipantNo + 2
 					local player2Group = tourneyGroupNo
 					if endTourney then --Rewritte data to avoid issue with p2Data (Picking the only character left in Group B)
 						player2Data = 1
 						player2Group = 2
 					end
-					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].CharID = data.t_p2selected[1].cel+1
+					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].CharID = data.t_p2selected[1].cel + 1
 					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].up = data.t_p2selected[1].up
 					t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].pal = data.t_p2selected[1].pal
 					--t_tourneyMenu.Group[player2Group].Round[tourneyRoundNo][player2Data].handicap = data.t_p2selected[1].handicap
@@ -17090,14 +17112,30 @@ if validCells() then
 			data.t_p1selected = {}
 			data.t_p2selected = {}
 			if not endTourney then
-				p1Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+1]
-				p2Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo+2]
+				p1Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 1]
+				p2Cell = t_tourneyMenu.Group[tourneyGroupNo].Round[tourneyRoundNo][tourneyParticipantNo + 2]
 			else
 				p1Cell = t_tourneyMenu.Group[1].Round[tourneyRoundNo][1] --Pick the only character left in Group A
 				p2Cell = t_tourneyMenu.Group[2].Round[tourneyRoundNo][1] --Pick the only character left in Group B
 			end
-			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell.CharID-1, ['name'] = t_selChars[p1Cell.CharID].name, ['displayname'] = t_selChars[p1Cell.CharID].displayname, ['path'] = t_selChars[p1Cell.CharID].char, ['pal'] = p1Cell.pal, ['up'] = p1Cell.up, ['rand'] = false}
-			data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell.CharID-1, ['name'] = t_selChars[p2Cell.CharID].name, ['displayname'] = t_selChars[p2Cell.CharID].displayname, ['path'] = t_selChars[p2Cell.CharID].char, ['pal'] = p2Cell.pal, ['up'] = p2Cell.up, ['rand'] = false}
+			data.t_p1selected[#data.t_p1selected + 1] = {
+				['cel'] = p1Cell.CharID - 1,
+				['name'] = t_selChars[p1Cell.CharID].name,
+				['displayname'] = t_selChars[p1Cell.CharID].displayname,
+				['path'] = t_selChars[p1Cell.CharID].char,
+				['pal'] = p1Cell.pal,
+				['up'] = p1Cell.up,
+				['rand'] = false
+			}
+			data.t_p2selected[#data.t_p2selected + 1] = {
+				['cel'] = p2Cell.CharID - 1,
+				['name'] = t_selChars[p2Cell.CharID].name,
+				['displayname'] = t_selChars[p2Cell.CharID].displayname,
+				['path'] = t_selChars[p2Cell.CharID].char,
+				['pal'] = p2Cell.pal,
+				['up'] = p2Cell.up,
+				['rand'] = false
+			}
 			setMatchNo(matchNo)
 			f_tourneyControls()
 			if data.tourneyStgSel or matchNo == 1 then --Show Stage Select every FT 1
@@ -18101,7 +18139,7 @@ function f_abyssMap()
 			break
 		end
 	--Draw BG
-		animPosDraw(abyssMapBG, -118, -currentDepth+16)
+		animPosDraw(abyssMapBG, -118, -currentDepth + 16)
 		animDraw(f_animVelocity(abyssFog, -1, -1))
 	--Draw Depth Stuff
 		animDraw(abyssMapDepthBG)

@@ -249,7 +249,9 @@ function f_getStoryStats()
 		return math.floor(data.storiesProgress / 100).."/"..#t_storySelect
 	end
 end
-table.insert(t_statsMenu, #t_statsMenu, {text = txt_storyStatsData, varText = f_getStoryStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+--Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsMenu, #t_statsMenu, {text = txt_storyStatsData, varText = f_getStoryStats(), varID = textImgNew()})
+
 --Insert new item to t_statsGameModes table loaded by main.lua
 table.insert(t_statsGameModes, 1,
 	{

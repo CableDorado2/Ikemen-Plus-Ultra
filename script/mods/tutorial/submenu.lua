@@ -16,7 +16,8 @@ kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 --;===========================================================
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_practiceMenu, #t_practiceMenu, {text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()}) --Insert new item to t_practiceMenu table loaded by screenpack.lua
+--Insert new item to t_practiceMenu table loaded by screenpack.lua
+table.insert(t_practiceMenu, #t_practiceMenu, {text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()})
 sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
 sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
 bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM

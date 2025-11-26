@@ -6,11 +6,12 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 local sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
 local bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
 local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
---Insert new item to t_mainMenu table loaded by screenpack.lua
-table.insert(t_mainMenu, #t_mainMenu - 2, {text = "SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
---;=========================================================== 
+--;===========================================================
+--Insert new item to t_mainMenu table loaded by screenpack.lua
+table.insert(t_mainMenu, #t_mainMenu - 2, {text = "SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
+
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
 local txt_shopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
@@ -294,7 +295,8 @@ animUpdate(vaultWindowBG)
 local function f_randomWords()
 	textImgSetBank(txt_vaultWords,0) --Reset Color after prize word
 	f_getVaultWords()
-	if data.userName == "Strong FS" or data.userName == "strong fs" or data.userName == "StrongFS" or data.userName == "strongfs" or data.userName == "Strong Fs" or data.userName == "STRONG FS" or data.userName == "STRONGFS" then
+	local lowerName = data.userName:lower()
+	if lowerName == "strong fs" or lowerName == "strongfs" then
 		table.insert(t_vaultMsg, 1, "Hey Strong! CD2 te manda Saludoss")
 		table.insert(t_vaultMsg, 2, "Hmmm Strong XD")
 	end

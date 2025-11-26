@@ -3,7 +3,8 @@ local loadLuaModule = true
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
-table.insert(t_extrasMenu, #t_extrasMenu + 1, {text = "RANDOM TEST", gotomenu = "randomTest()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
+--Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_extrasMenu, #t_extrasMenu + 1, {text = "RANDOM TEST", gotomenu = "randomTest()", id = textImgNew()})
 --;===========================================================
 --; RANDOMTEST MODE (watch CPU play to generate AI rank data)
 --;===========================================================

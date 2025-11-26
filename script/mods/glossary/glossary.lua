@@ -8,7 +8,9 @@ local glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossar
 --;===========================================================
 --; GLOSSARY MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_watchMenu, 5, {text = "GLOSSARY", gotomenu = "f_glossaryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
+--Insert new item to t_watchMenu table loaded by screenpack.lua
+table.insert(t_watchMenu, 5, {text = "GLOSSARY", gotomenu = "f_glossaryMenu()", id = textImgNew()})
+
 local txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "GLOSSARY", 159, 13)
 local txt_glossarySection = createTextImg(font2, 0, 0, "", 10, 30)
 local txt_glossaryTitleText = createTextImg(font2, 0, 1, "", -50, 210)
@@ -73,7 +75,10 @@ local function drawGlossaryInputHints()
 	local hintFont = font2
 	local hintFontYPos = 232
 	animPosDraw(gsInputsBG, -56, 217) --Draw Input Hints BG
-	drawMenuInputHints("u","10,"..inputHintYPos,"d","30,"..inputHintYPos,"l","50,"..inputHintYPos,"r","70,"..inputHintYPos,"q","130,"..inputHintYPos,"s","195,"..inputHintYPos,"e","250,"..inputHintYPos)
+	drawMenuInputHints(
+		"u","10,"..inputHintYPos,"d","30,"..inputHintYPos,"l","50,"..inputHintYPos,"r","70,"..inputHintYPos,
+		"q","130,"..inputHintYPos,"s","195,"..inputHintYPos,"e","250,"..inputHintYPos
+	)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 91, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Search", 151, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Read", 216, hintFontYPos)

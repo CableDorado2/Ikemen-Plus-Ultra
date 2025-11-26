@@ -14,7 +14,9 @@ local galleryMoviesDef = "script/mods/gallery/movies.def" --Gallery Videos
 --;===========================================================
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_watchMenu, 4, {text = "GALLERY", gotomenu = "f_galleryMenu()", id = textImgNew()}) --Insert new item to t_watchMenu table loaded by screenpack.lua
+--Insert new item to t_watchMenu table loaded by screenpack.lua
+table.insert(t_watchMenu, 4, {text = "GALLERY", gotomenu = "f_galleryMenu()", id = textImgNew()})
+
 local txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 15)
 local txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
 local txt_galleryNoData = "NO SPRITE DATA FOUND."
@@ -201,7 +203,8 @@ local function drawArtInputHints()
 	animPosDraw(gInputsBG, -56, 195) --Draw Input Hints BG
 	drawMenuInputHints(
 		"a","15,"..inputHintYPosUp,"s","75,"..inputHintYPosUp,"y","169,"..inputHintYPosUp,"z","242,"..inputHintYPosUp,
-		"u","0,"..inputHintYPosDown,"d","20,"..inputHintYPosDown,"l","40,"..inputHintYPosDown,"r","60,"..inputHintYPosDown,"e","108,"..inputHintYPosDown,"q","165,"..inputHintYPosDown,"w","229,"..inputHintYPosDown,"x","277,"..inputHintYPosDown
+		"u","0,"..inputHintYPosDown,"d","20,"..inputHintYPosDown,"l","40,"..inputHintYPosDown,"r","60,"..inputHintYPosDown,
+		"e","108,"..inputHintYPosDown,"q","165,"..inputHintYPosDown,"w","229,"..inputHintYPosDown,"x","277,"..inputHintYPosDown
 	)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Switch", 36, hintFontYPosUp)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Reset Position", 96, hintFontYPosUp)
@@ -269,7 +272,9 @@ local function f_loadGallery(path, reset) --Load def file which contains artwork
 					)
 					--table.insert(t_gallery[section], newItem)
 			--Store comma separated number values to table
-				elseif param:match('^spr$') or param:match('^size$') or param:match('^pos$') or param:match('^scale$') or param:match('^zoomlimit$') or param:match('^movelimit$') or param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
+				elseif param:match('^spr$') or param:match('^size$') or param:match('^pos$') or
+						param:match('^scale$') or param:match('^zoomlimit$') or param:match('^movelimit$') or 
+						param:match('^previewpos$') or param:match('^previewspacing$') or param:match('^previewscale$') then
 					local tbl = {}
 					for num in value:gmatch('([^,]+)') do
 						table.insert(tbl, tonumber(num))

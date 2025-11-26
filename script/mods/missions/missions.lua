@@ -8,7 +8,9 @@ local missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sp
 --;===========================================================
 --; MISSIONS MENU SCREENPACK DEFINITION
 --;===========================================================
-table.insert(t_challengeMenu, 1, {text = "MISSIONS", gotomenu = "f_missionMenu()", id = textImgNew()}) --Insert new item to t_challengeMenu table loaded by screenpack.lua
+--Insert new item to t_challengeMenu table loaded by screenpack.lua
+table.insert(t_challengeMenu, 1, {text = "MISSIONS", gotomenu = "f_missionMenu()", id = textImgNew()})
+
 local txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 local txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
 local txt_missionIncomplete = "INCOMPLETE"
@@ -150,7 +152,9 @@ function f_getMissionStats()
 		return f_getProgress(stats.modes.mission, t_missions, "clearcount").."/"..#t_missions
 	end
 end
-table.insert(t_statsMenu, #t_statsMenu, {text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()}) --Insert new item to t_statsMenu table loaded by screenpack.lua
+--Insert new item to t_statsMenu table loaded by screenpack.lua
+table.insert(t_statsMenu, #t_statsMenu, {text = txt_missionStatsData, varText = f_getMissionStats(), varID = textImgNew()})
+
 --Insert new item to t_statsGameModes table loaded by main.lua
 table.insert(t_statsGameModes, 1,
 	{

@@ -3,11 +3,12 @@ local loadLuaModule = true
 This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engine.
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
+--Insert new item to t_extrasMenu table loaded by screenpack.lua
+table.insert(t_chroniclesMenu, 2, {text = "VISUAL NOVEL", gotomenu = "f_vnMenu()", id = textImgNew()})
 sprVN = sffNew("script/mods/visualnovel/visualnovel.sff") --Load Visual Novel Sprites
 assert(loadfile("script/mods/visualnovel/assets.lua"))() --Load Visual Novel Assets Definition
 vnDef = "script/mods/visualnovel/vnselect.def" --Load Visual Novels
 bgmVNIntro = "sound/system/Ranking.mp3"
-table.insert(t_chroniclesMenu, 2, {text = "VISUAL NOVEL", gotomenu = "f_vnMenu()", id = textImgNew()}) --Insert new item to t_extrasMenu table loaded by screenpack.lua
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================
