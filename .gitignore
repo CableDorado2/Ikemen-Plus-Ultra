@@ -23,3 +23,9 @@ src/lib/dll/sound/sound/Release/sound.obj
 src/ssize (executable)/ssize/Release/vc100.pdb
 /src/ssize (executable)/ssize/Release
 lib/external/plugins/plugins.dat
+save/abyss_sav.json
+save/achievements_sav.lua
+save/host_rooms.json
+save/p1_sav.json
+save/p2_sav.json
+save/stats_sav.json
