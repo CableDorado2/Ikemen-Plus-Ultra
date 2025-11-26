@@ -256,16 +256,17 @@ function f_drawQuickText(textName, font, bank, aline, text, x, y, scaleX, scaleY
 	return textName
 end
 
---- Draw string letter by letter + wrap lines.
--- @textName: text data
--- @str: string (text you want to draw)
--- @counter: external counter (values should be increased each frame by 1 starting from 1)
--- @x: first line X position
--- @y: first line Y position
--- @spacing: spacing between lines (rendering Y position increasement for each line)
--- @delay (optional): ticks (frames) delay between each letter is rendered, defaults to 0 (all text rendered immediately)
--- @limit (optional): maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
--- @maxLimit (optional): maximum number of lines allowed before truncating
+--[[Draw string letter by letter + wrap lines:
+textName: text data
+str: string (text you want to draw)
+counter: external counter (values should be increased each frame by 1 starting from 1)
+x: first line X position
+y: first line Y position
+spacing: spacing between lines (rendering Y position increasement for each line)
+delay (optional): ticks (frames) delay between each letter is rendered, defaults to 0 (all text rendered immediately)
+limit (optional): maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
+maxLimit (optional): maximum number of lines allowed before truncating
+]]
 function f_textRender(textName, str, counter, x, y, spacing, delay, limit, maxlimit)
 	local delay = delay or 0
 	local limit = limit or -1
@@ -697,17 +698,17 @@ function f_indexOf(t, item)
 	return nil
 end
 
---- Wrap a long string.
--- source: http://lua-users.org/wiki/StringRecipes
--- @str: string to wrap
--- @limit: maximum line length
--- @indent: regular indentation
--- @indent1: indentation of first line
+--[[Wrap a long string. Source: http://lua-users.org/wiki/StringRecipes
+str: string to wrap
+limit: maximum line length
+indent: regular indentation
+indent1: indentation of first line
+]]
 function f_wrap(str, limit, indent, indent1)
 	indent = indent or ''
 	indent1 = indent1 or indent
 	limit = limit or 72
-	local here = 1-#indent1
+	local here = 1 - #indent1
 	return indent1 .. str:gsub("(%s+)()(%S+)()",
 	function(sp, st, word, fi)
 		if fi - here > limit then
@@ -849,7 +850,7 @@ function strsplit(delimiter, text)
 		while true do
 			local first, last = string.find(text, delimiter, pos)
 			if first then
-				table.insert(list, string.sub(text, pos, first-1))
+				table.insert(list, string.sub(text, pos, first - 1))
 				pos = last + 1
 			else
 				table.insert(list, string.sub(text, pos))
@@ -922,8 +923,9 @@ function f_deepcopy(orig)
 	return copy
 end
 
---Function that receives an input table and copies it to another table
---Use this function to copy data without shared references between Source File and Target File (This is to avoid that when updates the target data, source data also get that update)
+--[[Function that receives an input table and copies it to another table.
+Use this function to copy data without shared references between Source File and Target File.
+This is to avoid that when updates the target data, source data also get that update]]
 function f_transferData(sourceTable, targetTable)
 --Clean the destination table if necessary
 	for k in pairs(targetTable) do
@@ -1478,7 +1480,7 @@ function drawMenuInputHints(...) --(...) Manage unlimited arguments
 	local t_args = {...} --Store all arguments taken in a table
 	for i=1, #t_args, 2 do --For each argument stored in table
 		local cmd = t_args[i] --Set first argument (key name) to cmd var
-		local cmdPos = t_args[i + 1] --Set second argument (keyX,keyY) to cmdPos var
+		local cmdPos = t_args[i + 1] --Set second argument (keyX, keyY) to cmdPos var
 		local nameKey = f_searchCmd(cmd, t_control) --get table pos from button name configured based on cmd entry name
 		if nameKey ~= nil then
 			local btn = f_searchButton(t_control[nameKey].keyboard) --Get button name configured
@@ -1892,8 +1894,8 @@ function f_storyboardPlay(tIn)
 				animUpdate(tOut.scenes[i]['clearcolorData'])
 			end
 		elseif i > 1 then
-			tOut.scenes[i]['clearcolor'] = tOut.scenes[i-1].clearcolor --for debugging only
-			tOut.scenes[i]['clearcolorData'] = tOut.scenes[i-1].clearcolorData
+			tOut.scenes[i]['clearcolor'] = tOut.scenes[i - 1].clearcolor --for debugging only
+			tOut.scenes[i]['clearcolorData'] = tOut.scenes[i - 1].clearcolorData
 		else
 			tOut.scenes[i]['clearcolor'] = 'black' --for debugging only
 			tOut.scenes[i]['clearcolorData'] = animNew(sprFade, '0,0, 0,0, -1')
@@ -1903,8 +1905,8 @@ function f_storyboardPlay(tIn)
 		if tIn.scenes[i]['layerall.pos'] ~= nil then
 			tOut.scenes[i]['layerallPosX'], tOut.scenes[i]['layerallPosY'] = tIn.scenes[i]['layerall.pos']:match('^([^,]-)%s*,%s*(.-)$')
 		elseif i > 1 then
-			tOut.scenes[i]['layerallPosX'] = tOut.scenes[i-1].layerallPosX
-			tOut.scenes[i]['layerallPosY'] = tOut.scenes[i-1].layerallPosY
+			tOut.scenes[i]['layerallPosX'] = tOut.scenes[i - 1].layerallPosX
+			tOut.scenes[i]['layerallPosY'] = tOut.scenes[i - 1].layerallPosY
 		else
 			tOut.scenes[i]['layerallPosX'] = 0
 			tOut.scenes[i]['layerallPosY'] = 0
@@ -2376,7 +2378,8 @@ function f_default() --Reset Game Modes Configuration
 	data.aiFight = false --AI = data.difficulty for all characters disabled
 	data.stageMenu = false --stage selection disabled
 	data.stage = nil --no predefined custom stage
-	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = data.zoomMax, zoomSpeed = data.zoomSpeed} --predefined custom Zoom Stage values (assigned via table: {zoom = false, zoomOut = 0.5, zoomIn = 1, zoomSpeed = 1} )
+	--predefined custom Zoom Stage values (assigned via table: {zoom = false, zoomOut = 0.5, zoomIn = 1, zoomSpeed = 1} )
+	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = data.zoomMax, zoomSpeed = data.zoomSpeed}
 	data.bgm = nil --no predefined custom song route
 	data.songSelect = true --enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
 	data.arcadeIntro = false --character arcade intro disabled
@@ -2461,12 +2464,12 @@ end
 attractDemoTimer = 0
 attractContinueTimer = 0
 attractSeconds = data.attractTime
-attractTimer = attractSeconds*gameTick --Set time for Attract Title Screen
+attractTimer = attractSeconds * gameTick --Set time for Attract Title Screen
 function f_addCoin()
 	sndPlay(sndIkemen, 400, 0)
 	attractDemoTimer = 0
 	attractContinueTimer = 0
-	attractTimer = attractSeconds*gameTick --Reset Attract Title Timer
+	attractTimer = attractSeconds * gameTick --Reset Attract Title Timer
 	setCredits(getCredits() + 1)
 end
 

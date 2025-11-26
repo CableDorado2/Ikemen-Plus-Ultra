@@ -7416,7 +7416,7 @@ function f_backMenu()
 		if waitingTowerSel then
 			
 		else
-			if data.gameMode == "arcade" or data.gameMode == "tower" then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+			if data.gameMode == "arcade" or data.gameMode == "tower" then
 				--f_rosterReset() --Delete?
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					p2Cell = nil
@@ -8613,7 +8613,8 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 90, 90, data.t_p1selected[1].up, 0.5, 0.5, alphaS) --The lastest f_drawCharAnim have draw priority on screen
+								--The lastest f_drawCharAnim have draw priority on screen
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel + 1], 'p1AnimWin', 90, 90, data.t_p1selected[1].up, 0.5, 0.5, alphaS)
 								end
 						--TEAM MODE WITH 3 MEMBERS
 							elseif p1numChars == 3 then
@@ -9162,7 +9163,7 @@ function f_p1SelectPal()
 	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1PalSel <= 11 then
 		sndPlay(sndSys, 100, 0)
 		p1PalSel = p1PalSel + 1
-	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1PalSel > 0 then --Keep in Random Palette when press left until finish
+	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1PalSel > 0 then
 		sndPlay(sndSys, 100, 0)
 		p1PalSel = p1PalSel - 1
 	end
@@ -10736,8 +10737,11 @@ function f_selectStage()
 		--Logic For Auto Characters Song
 			p1charSong = ""
 			if t_selChars[data.t_p1selected[1].cel + 1].music ~= nil then
-				p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].music) --if there are more than 1 song assigned for that character, pick 1 of them via randomizer
-				p1charSong = t_selChars[data.t_p1selected[1].cel + 1].music[p1charSong].bgmusic --data.t_p1selected[1] means that data (music) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
+			--if there are more than 1 song assigned for that character, pick 1 of them via randomizer
+				p1charSong = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].music)
+			--[[data.t_p1selected[1] means that data (music) will taken from 1st char member selected in any team mode,
+				but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.]]
+				p1charSong = t_selChars[data.t_p1selected[1].cel + 1].music[p1charSong].bgmusic
 				p1song = true
 			else --If there no music assigned for left side character
 				p1song = false
@@ -10752,8 +10756,11 @@ function f_selectStage()
 			end
 		--Logic For Auto Characters Stage
 			if t_selChars[data.t_p1selected[1].cel + 1].stage ~= nil then
-				p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
-				p1charStage = t_selChars[data.t_p1selected[1].cel + 1].stage[p1charStage] --data.t_p1selected[1] means that data (stage) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
+			--if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+				p1charStage = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].stage)
+				--[[data.t_p1selected[1] means that data (stage) will taken from 1st char member selected in any team mode,
+				but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.]]
+				p1charStage = t_selChars[data.t_p1selected[1].cel + 1].stage[p1charStage]
 				p1stage = true
 			else --If there no stage assigned for left side character
 				p1stage = false
@@ -11187,12 +11194,23 @@ function f_selectStage()
 			textImgSetBank(txt_stageDayTime, 2)
 			if stageList == 0 then --For random select
 				if data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Roulette" then
-					textImgSetText(txt_selStage, "STAGE " .. stageNo .. ": " .. t_selStages[stageNo].name) --Load Selected Stage Name
-					if t_selStages[stageNo].author ~= nil and t_selStages[stageNo].author ~= "" then textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[stageNo].author) end --Load Selected Stage Author IF is assigned
-					if t_selStages[stageNo].location ~= nil and t_selStages[stageNo].location ~= "" then textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[stageNo].location) end --Load Selected Stage Location IF is assigned
-					if t_selStages[stageNo].daytime ~= nil and t_selStages[stageNo].daytime ~= "" then textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[stageNo].daytime) end --Load Selected Stage Day Time IF is assigned
+				--Load Selected Stage Name
+					textImgSetText(txt_selStage, "STAGE " .. stageNo .. ": " .. t_selStages[stageNo].name)
+				--Load Selected Stage Author IF is assigned
+					if t_selStages[stageNo].author ~= nil and t_selStages[stageNo].author ~= "" then
+						textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[stageNo].author)
+					end
+				--Load Selected Stage Location IF is assigned
+					if t_selStages[stageNo].location ~= nil and t_selStages[stageNo].location ~= "" then
+						textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[stageNo].location)
+					end
+				--Load Selected Stage Day Time IF is assigned
+					if t_selStages[stageNo].daytime ~= nil and t_selStages[stageNo].daytime ~= "" then
+						textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[stageNo].daytime)
+					end
+				--Load Selected Stage Portrait
 					if data.stageType == "Classic" then
-						drawStagePortrait(stageNo-1, 114.5, 172, 0.0705, 0.0699) --Load Selected Stage Portrait
+						drawStagePortrait(stageNo-1, 114.5, 172, 0.0705, 0.0699)
 					elseif data.stageType == "Modern" then
 						drawStagePortrait(stageNo-1, 64.600, 74.8, 0.149, 0.148)
 					end
@@ -12768,7 +12786,10 @@ function f_setAbyssStats()
 	abyssDat.nosave.specialbosscnt = abyssSpecialBossCnt
 	abyssDat.nosave.winsCnt = winCnt
 	abyssDat.nosave.stage = data.stage
-	if getAbyssDepth() >= abyssNextCheckPoint and not data.challengerAbyss then abyssNextCheckPoint = abyssNextCheckPoint + abyssCheckpointNo end -- Adds +abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
+--Adds +abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
+	if getAbyssDepth() >= abyssNextCheckPoint and not data.challengerAbyss then
+		abyssNextCheckPoint = abyssNextCheckPoint + abyssCheckpointNo
+	end
 	abyssDat.nosave.nextcheckpoint = abyssNextCheckPoint
 	if data.challengerAbyss then
 		data.challengerAbyss = false
@@ -15277,7 +15298,9 @@ if validCells() then
 					if data.gameMode == "tower" then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
-						p1Cell = t_roster[#t_roster] --Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew. This logic will ensure that chars are not repeated until the entire roster is defeated.
+				--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
+					This logic will ensure that chars are not repeated until the entire roster is defeated.]]
+						p1Cell = t_roster[#t_roster]
 					--Fight against boss character predefined at some depth/MatchNo
 						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
@@ -15395,7 +15418,9 @@ if validCells() then
 					if data.gameMode == "tower" then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
-						p2Cell = t_roster[#t_roster] --Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew. This logic will ensure that chars are not repeated until the entire roster is defeated.
+						--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
+						This logic will ensure that chars are not repeated until the entire roster is defeated.]]
+						p2Cell = t_roster[#t_roster]
 					--Fight against boss character predefined at some depth/MatchNo
 						if data.gameMode == "abyss" and t_abyssSel[abyssSel].specialboss ~= nil then
 							for i=1, #t_abyssSel[abyssSel].specialboss do
@@ -18210,7 +18235,19 @@ function f_playCredits()
 		end
 	--Draw Text
 		for i = 1, #creditsTable do
-			textImgDraw(f_updateTextImg(textImgNew(), txtFont, txtBank, txtAline, creditsTable[i], 155, 260 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
+			textImgDraw(f_updateTextImg(
+				textImgNew(),
+				txtFont,
+				txtBank,
+				txtAline,
+				creditsTable[i],
+				155,
+				260 + txtSpacing * (i - 1) - scroll,
+				txtScaleX,
+				txtScaleY,
+				txtAlphaS,
+				txtAlphaD
+			))
 		end
 		if data.debugMode then
 			f_drawQuickText(speedTest, font14, 0, 1, scroll, 50, 100) --Test Timer

@@ -1187,7 +1187,7 @@ if generate and data.sffConversion then
 			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
 			--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
-				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line)  .. f_charAnim(t_selChars[t_gen[i]].intermissionSpr, line)
+				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line) .. f_charAnim(t_selChars[t_gen[i]].intermissionSpr, line)
 			end
 		--remove duplicated sprites from string via f_uniq function
 			append = f_uniq(append .. '\n', '[^\n]+\n', '^%s*[0-9-]-%s*,%s*[0-9-]-%s*,')
