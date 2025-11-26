@@ -294,7 +294,7 @@ function f_mainMenu()
 				if #t_mainMenu > 5 then
 					cursorPosY = 5
 				else
-					cursorPosY = #t_mainMenu-1
+					cursorPosY = #t_mainMenu - 1
 				end
 			elseif mainMenu > #t_mainMenu then
 				mainMenu = 1
