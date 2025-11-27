@@ -1098,7 +1098,7 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Special Wins: "..winSpecialCount(), posX, posY + 50)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY + 60)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY + 70)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Timer Test: "..timerTotal(), posX, posY + 85)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, posY + 85)
 --Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, posX, posY + 100)
@@ -1144,6 +1144,11 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_TourneyStateFightCfg)
 --During Score Attack Mode
 	elseif getGameMode() == "scoreattack" then
+		if roundstate() == 2 then
+			textImgDraw(txt_MatchFightCfg)
+		end
+--During Time Attack Mode
+	elseif getGameMode() == "timeattack" then
 		if roundstate() == 2 then
 			textImgDraw(txt_MatchFightCfg)
 		end

@@ -13828,7 +13828,7 @@ function f_result(state)
 	if state == "win" then
 		
 	elseif state == "lost" then
-		
+		if getGameMode() == "timeattack" then return end --Skip results if lose in time attack mode
 	end
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "vskumite" or data.gameMode == "endless" then
