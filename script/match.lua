@@ -979,8 +979,12 @@ local function f_setMatchTexts()
 end
 f_setMatchTexts() --Load when match start
 
+local timerStart = 0
 local function f_drawTimer()
-	if roundstate() == 2 and not script.pause.pauseMenuActive then
+	if roundstate() == 0 then
+		timerStart = 40 --Countdown to activate timer
+	elseif roundstate() == 2 and not script.pause.pauseMenuActive then
+		if timerStart > 0 then timerStart = timerStart - 1 end
 		if playerLeftSide then
 			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
 			if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
@@ -988,7 +992,7 @@ local function f_drawTimer()
 			textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(timerTotal()))
 			if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
 		end
-		if os.clock() >= nextRefresh then
+		if timerStart == 0 and os.clock() >= nextRefresh then
 			nextRefresh = nextRefresh + tickTime
 			setTimer(timerTotal() + 1)
 		end

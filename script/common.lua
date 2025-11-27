@@ -137,7 +137,7 @@ function getSleep()
 	if ffi.os == "Windows" then
 		ffi.cdef("void Sleep(int milliseconds);")
 		return function(seconds)
-	--Convert seconds to miliseconds
+	--Convert seconds to milliseconds
 			ffi.C.Sleep(math.floor(seconds * 1000))
 		end
 --On Linux/Unix/macOS, usleep is defined in microseconds
@@ -901,9 +901,9 @@ function f_setTimeFormat(ticks)
 	local th = math.floor(secondsTotal / 3600) --Hour
 	local tm = math.floor((secondsTotal % 3600) / 60) --Minute
 	local ts = secondsTotal % 60 --Second
-	local tms = math.floor((num - secondsTotal) * 1000) % 1000 --Milisecond
-	return string.format("%02d'%02d''%03d", tm, ts, tms)
-	--return string.format("%02d:%02d:%02d:%03d", th, tm, ts, tms)
+	local tms = math.floor((num - secondsTotal) * 1000) % 1000 --Millisecond
+	return string.format("%02d:%02d.%03d", tm, ts, tms)
+	--return string.format("%02d:%02d:%02d.%03d", th, tm, ts, tms)
 end
 
 --Function to copy a table recursively

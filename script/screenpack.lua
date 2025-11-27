@@ -797,8 +797,8 @@ end
 --;===========================================================
 t_challengeMenu = {
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
-	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
-	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
+	{text = "TIME ATTACK", 	gotomenu = "f_timeattackBoot()"}, --"f_timeattackMenu()"},
+	{text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"}, --"f_scoreattackMenu()"},
 }
 for i=1, #t_challengeMenu do
 	t_challengeMenu[i]['id'] = textImgNew()
@@ -2527,19 +2527,29 @@ txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 192)
 txt_resultTime = createTextImg(jgFnt, 0, -1, "", 266, 220)
 txt_resultScore = createTextImg(jgFnt, 0, -1, "", 266, 234)
 txt_resultRank = createTextImg(jgFnt, 5, -1, "RANK", 318, 205)
+txt_resultRecord = createTextImg(jgFnt, 5, 1, "NEW RECORD!", 2, 26, 0.75, 0.75)
 txt_resultTeam = createTextImg(font6, 0, 1, "", 1, 206)
 txt_resultName = createTextImg(font6, 0, 1, "", 1, 221)
 txt_resultStatus = createTextImg(survNumFnt, 0, -1, "", 318, 54)
 
 function f_drawScoreAttackResults()
-	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()), 320, 130, 0.5, 0.5)
-	f_drawQuickText(txt_scorePts, survNumFnt, 0, -1, "PTS", 320, 150, 0.8, 0.8)
-	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setThousandsFormat(score()).."PTS", 266, 234)
+	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()).."PTS", 320, 110, 0.45, 0.45)
+	f_drawQuickText(txt_scoreTotal, survNumFnt, 0, -1, "TOTAL SCORE", 320, 125, 0.8, 0.8)
+	
+	f_drawQuickText(txt_scoreRecord, survNumFnt, 0, -1, f_setThousandsFormat(score()).."PTS", 320, 165, 0.3, 0.3)
+	f_drawQuickText(txt_scoreBest, survNumFnt, 0, -1, "BEST SCORE", 320, 178, 0.7, 0.7)
+	
+	f_drawQuickText(txt_scoreWins, jgFnt, 0, -1, "WINS: "..winCnt, 266, 234)
 end
 
 function f_drawTimeAttackResults()
-	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 150, 0.5, 0.5)
-	f_drawQuickText(txt_scoreRecord, jgFnt, 5, -1, "BEST: "..f_setTimeFormat(timerTotal()), 266, 220)
+	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 110, 0.45, 0.45)
+	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL TIME", 320, 125, 0.8, 0.8)
+	
+	f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 165, 0.3, 0.3)
+	f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)
+	
+	f_drawQuickText(txt_timeWins, jgFnt, 0, -1, "WINS: "..winCnt, 266, 220)
 end
 
 function f_drawAbyssResults()
