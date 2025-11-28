@@ -797,8 +797,8 @@ end
 --;===========================================================
 t_challengeMenu = {
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
-	{text = "TIME ATTACK", 	gotomenu = "f_timeattackBoot()"}, --"f_timeattackMenu()"},
-	{text = "SCORE ATTACK", gotomenu = "f_scoreattackBoot()"}, --"f_scoreattackMenu()"},
+	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
+	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
 }
 for i=1, #t_challengeMenu do
 	t_challengeMenu[i]['id'] = textImgNew()
@@ -833,8 +833,10 @@ end
 --; SCORE ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_scoreattackMenu = {
-	{text = "CLASSIC", 	gotomenu = "f_scoreattackBoot()"},
-	{text = "???", 		gotomenu = "f_comingSoon()"},
+	{text = "CLASSIC", 	 gotomenu = "f_scoreattackBoot()"},
+	{text = "CARAVAN", 	 gotomenu = "f_caravanBoot()"},
+	{text = "GOLD RUSH", gotomenu = "f_goldrushBoot()"},
+	{text = "???", 		 gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
@@ -844,12 +846,10 @@ end
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	--{text = "BEAT EM UP", gotomenu = "f_comingSoon()"},
-	--{text = "PLATFORM", gotomenu = "f_comingSoon()"},
 	{text = "BONUS GAMES", 	gotomenu = "f_bonusMenu()"},
 	{text = "TOURNAMENT", 	gotomenu = "f_tourneyCfg()"},
 	{text = "ENDLESS", 		gotomenu = "f_endlessBoot()"},
-	{text = "VS X KUMITE", 	gotomenu = "f_kumiteBoot()"},
+	{text = "KUMITE", 		gotomenu = "f_kumiteBoot()"},
 }
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()
@@ -1168,7 +1168,7 @@ t_mainLobby = {
 	{text = "SPEED STAR"},
 	{text = "TIME ATTACK"},
 	{text = "SCORE ATTACK"},
-	{text = ""}, --VS X KUMITE
+	{text = ""}, --KUMITE
 	{text = "SUDDEN DEATH"},
 	{text = "ONLINE SETTINGS"},
 }
@@ -2252,7 +2252,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH "..getAbyssDepth()) --Set Abyss Depth Match Text
 	end
 	if data.gameMode == "survival" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
-	elseif data.gameMode == "vskumite" then textImgSetText(txt_gameNo, gameNo.."/"..data.kumite) --Set VS X Kumite Match Text
+	elseif data.gameMode == "kumite" then textImgSetText(txt_gameNo, gameNo.."/"..data.kumite) --Set Kumite Match Text
 	elseif data.gameMode == "bossrush" then textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
 	elseif data.gameMode == "bonusrush" then textImgSetText(txt_bonusNo, "BONUS "..bonusNo) --Set Bonus Rush Match Text
 	elseif data.gameMode == "intermission" then textImgSetText(txt_gameNo, "EXTRA STAGE") --Set Intermission Match Text

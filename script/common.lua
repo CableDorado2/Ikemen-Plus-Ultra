@@ -3344,10 +3344,10 @@ if stats.modes == nil then
 	stats.modes.scorerush.clear = 0
 	stats.modes.scorerush.ranking = {}
 	
-	stats.modes.vskumite = {}
-	stats.modes.vskumite.playtime = 0
-	stats.modes.vskumite.clear = 0
-	stats.modes.vskumite.ranking = {}
+	stats.modes.kumite = {}
+	stats.modes.kumite.playtime = 0
+	stats.modes.kumite.clear = 0
+	stats.modes.kumite.ranking = {}
 	
 	stats.modes.suddendeath = {}
 	stats.modes.suddendeath.playtime = 0

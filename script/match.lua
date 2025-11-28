@@ -1156,8 +1156,8 @@ function loop() --The code for this function should be thought of as if it were 
 		if roundstate() == 2 then
 			textImgDraw(txt_MatchFightCfg)
 		end
---During VS Kumite Mode
-	elseif getGameMode() == "vskumite" then
+--During Kumite Mode
+	elseif getGameMode() == "kumite" then
 		if roundstate() == 2 then
 			textImgDraw(txt_MatchFightCfg)
 		end

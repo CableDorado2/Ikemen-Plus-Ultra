@@ -2625,6 +2625,95 @@ function scoreattackCPUvsCPU()
 end
 
 --;===========================================================
+--; CARAVAN MODE (defeat opponents getting the highest score within a strict time limit)
+--;===========================================================
+function f_caravanBoot()
+	menuSelect = "caravan"
+	sideScreen = true
+end
+
+--Load Common Settings for Caravan Modes
+function caravanCfg()
+	f_discordUpdate({details = "Caravan"})
+	f_default()
+	setScoreDisplay(true)
+	setTimerDisplay(true)
+	data.gameMode = "allroster"
+	data.recordMode = "caravan"
+	setGameMode("caravan")
+	--data.stageMenu = true
+	--data.nextStage = true
+	setRoundTime(99)
+	setRoundsToWin(2)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (defeat opponents within a strict time limit, beating previous hi-score records from left side)
+function caravanHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "CARAVAN")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (defeat opponents within a strict time limit, beating previous hi-score records from right side)
+function caravanCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "CARAVAN")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat opponents within a strict time limit, beating previous hi-score records)
+function caravanP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "CARAVAN COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat opponents within a strict time limit, beating previous hi-score records)
+function caravanCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "CARAVAN COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch CPU defeat opponents within a strict time limit, beating previous hi-score records)
+function caravanCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH CARAVAN")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
 --; TIME ATTACK MENU (fight in a series of matches with time conditions)
 --;===========================================================
 function f_timeattackMenu()
@@ -2904,7 +2993,7 @@ function speedstarCPUvsCPU()
 end
 
 --;===========================================================
---; VS X KUMITE MODE (defeat as many opponents as you can in predefined "data.kumite" successive matches)
+--; KUMITE MODE (defeat as many opponents as you can in predefined "data.kumite" successive matches)
 --;===========================================================
 function f_kumiteBoot()
 	menuSelect = "kumite"
@@ -2916,13 +3005,13 @@ function getKumiteData()
 	return kumiteDataText
 end
 
---Load Common Settings for VS X Kumite Modes
+--Load Common Settings for Kumite Modes
 function kumiteCfg()
 	f_discordUpdate({details = "VS "..data.kumite.." Kumite"})
 	f_default()
-	data.gameMode = "vskumite"
-	data.recordMode = "vskumite"
-	setGameMode("vskumite")
+	data.gameMode = "kumite"
+	data.recordMode = "kumite"
+	setGameMode("kumite")
 	--data.stageMenu = true
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3519,10 +3608,10 @@ t_statsGameModes = {
 		setplaytime = function(newtime) stats.modes.suddendeath.playtime = newtime end
 	},
 	{
-		displayname = "VSKumite",
-		id = "vskumite",
-		playtime = function() return stats.modes.vskumite.playtime end,
-		setplaytime = function(newtime) stats.modes.vskumite.playtime = newtime end,
+		displayname = "Kumite",
+		id = "kumite",
+		playtime = function() return stats.modes.kumite.playtime end,
+		setplaytime = function(newtime) stats.modes.kumite.playtime = newtime end,
 		getData = function() return getKumiteData() end
 	},
 	{
@@ -5510,12 +5599,12 @@ function f_mainLobby()
 				setGameMode("scoreattackcoop") --setGameMode("netplayscoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
-		--ONLINE VS X KUMITE
+		--ONLINE KUMITE
 			elseif mainLobby == 12 then
 				setRoundsToWin(1)
-				data.gameMode = "vskumite"
-				data.recordMode = "vskumite"
-				--setGameMode("netplayvskumite")
+				data.gameMode = "kumite"
+				data.recordMode = "kumite"
+				--setGameMode("netplaykumite")
 				textImgSetText(txt_mainSelect, "ONLINE "..getKumiteData().." COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SUDDEN DEATH
@@ -6940,7 +7029,7 @@ function f_makeRoster()
 					cnt = #t + i
 				end
 			end
-		elseif data.gameMode == 'vskumite' then
+		elseif data.gameMode == 'kumite' then
 			t = t_randomChars
 			if (data.p1In == 2 and data.p2In == 2) then
 				cnt = data.kumite * p1numChars
@@ -12641,7 +12730,7 @@ function f_selectVersus()
 		--Draw Match Info
 			if data.gameMode == "arcade" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
 				textImgDraw(txt_matchNo)
-			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "vskumite" or data.gameMode == "intermission" then
+			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
 			elseif data.gameMode == "bossrush" then
 				textImgDraw(txt_bossNo)
@@ -13831,7 +13920,7 @@ function f_result(state)
 		if getGameMode() == "timeattack" then return end --Skip results if lose in time attack mode
 	end
 --Setup Vars according Game Modes
-	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "vskumite" or data.gameMode == "endless" then
+	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
 			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
@@ -13857,7 +13946,7 @@ function f_result(state)
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS")
-			elseif data.gameMode == "vskumite" then textImgSetText(txt_resultTitle, getKumiteData())
+			elseif data.gameMode == "kumite" then textImgSetText(txt_resultTitle, getKumiteData())
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
@@ -13920,9 +14009,9 @@ function f_result(state)
 		end
 		textImgDraw(txt_resultStatus)
 		if data.gameMode == "survival" or data.gameMode == "allroster" or
-			data.gameMode == "endless" or data.gameMode == "vskumite" or
+			data.gameMode == "endless" or data.gameMode == "kumite" or
 			data.gameMode == "abyss" or data.gameMode == "speedstar" then
-			if getGameMode() == "vskumite" then
+			if getGameMode() == "kumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
@@ -14766,7 +14855,7 @@ function f_nextMatch()
 end
 
 --;===========================================================================================================================
---; ADVANCED MODES (ARCADE, TOWER, SURVIVAL/ABYSS, BOSS/BONUS/TIME RUSH, SUDDEN DEATH, TIME/SCORE ATTACK, VS X KUMITE, ENDLESS)
+--; ADVANCED MODES (ARCADE, TOWER, SURVIVAL/ABYSS, BONUS/BOSS RUSH, SUDDEN DEATH, TIME/SCORE ATTACK, KUMITE, ENDLESS)
 --;===========================================================================================================================
 function f_selectAdvance()
 cmdInput()
@@ -14859,8 +14948,8 @@ if validCells() then
 				setLastMatch(lastMatch)
 				f_aiRamp() --generate AI ramping table
 			end
-	--Player exit the match via ESC in Endless or VS X KUMITE (BOTH SIDES)
-		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "vskumite") then
+	--Player exit the match via ESC in Endless or KUMITE (BOTH SIDES)
+		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "kumite") then
 			if data.gameMode ~= "endless" then looseCnt = looseCnt + 1 end --because in endless a give up not counts as a loose
 			assert(loadfile(saveTempPath))()
 			if data.tempBack == true then
@@ -14873,8 +14962,8 @@ if validCells() then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade) --reset title screen fading
 			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			return
-	--Endless or VS X KUMITE (BOTH SIDES)
-		elseif data.gameMode == "endless" or data.gameMode == "vskumite" then
+	--Endless or KUMITE (BOTH SIDES)
+		elseif data.gameMode == "endless" or data.gameMode == "kumite" then
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if winner == 2 then
 					winCnt = winCnt + 1
