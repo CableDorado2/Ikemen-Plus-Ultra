@@ -797,6 +797,7 @@ end
 --;===========================================================
 t_challengeMenu = {
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
+	{text = "BOSS RUSH", 	gotomenu = "f_bossrushBoot()"},
 	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
 }
@@ -810,7 +811,6 @@ end
 t_survivalMenu = {
 	{text = "CLASSIC", 	 	gotomenu = "f_survivalBoot()"},
 	{text = "ABYSS", 	 	gotomenu = "f_abyssSelect()"},
-	{text = "BOSS RUSH", 	gotomenu = "f_bossrushBoot()"},
 	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
 }
 for i=1, #t_survivalMenu do
@@ -835,7 +835,6 @@ end
 t_scoreattackMenu = {
 	{text = "CLASSIC", 	 gotomenu = "f_scoreattackBoot()"},
 	{text = "CARAVAN", 	 gotomenu = "f_caravanBoot()"},
-	{text = "GOLD RUSH", gotomenu = "f_goldrushBoot()"},
 	{text = "???", 		 gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_scoreattackMenu do
@@ -846,10 +845,11 @@ end
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	{text = "BONUS GAMES", 	gotomenu = "f_bonusMenu()"},
-	{text = "TOURNAMENT", 	gotomenu = "f_tourneyCfg()"},
-	{text = "ENDLESS", 		gotomenu = "f_endlessBoot()"},
-	{text = "KUMITE", 		gotomenu = "f_kumiteBoot()"},
+	{text = "BONUS GAMES",	gotomenu = "f_bonusMenu()"},
+	{text = "TOURNAMENT",	gotomenu = "f_tourneyCfg()"},
+	{text = "GOLD RUSH",	gotomenu = "f_goldrushBoot()"},
+	{text = "ENDLESS",		gotomenu = "f_endlessBoot()"},
+	{text = "KUMITE",		gotomenu = "f_kumiteBoot()"},
 }
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()

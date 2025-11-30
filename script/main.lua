@@ -1861,10 +1861,10 @@ function bossrushCfg()
 	f_default()
 	data.gameMode = "bossrush"
 	data.recordMode = "boss"
+	--data.victoryscreen = true
 	--data.stageMenu = true
 	--data.nextStage = true
 	setRoundTime(-1)
-	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
