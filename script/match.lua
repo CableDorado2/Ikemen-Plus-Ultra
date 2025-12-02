@@ -1146,6 +1146,42 @@ function loop() --The code for this function should be thought of as if it were 
 		
 		textImgDraw(txt_TourneyFTFightCfg)
 		textImgDraw(txt_TourneyStateFightCfg)
+--During Gold Rush Mode
+	elseif getGameMode() == "goldrush" then
+		if not matchover() then --roundstate() == 2 then
+			local money = 0
+		--Player Deal Damage over CPU
+			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
+				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
+				setPlayerReward(getPlayerReward() + money)
+		--CPU Deal Damage over Player
+			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
+				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
+				if getPlayerReward() > 0 then setPlayerReward(getPlayerReward() - money) end
+				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
+			end
+			if playerLeftSide then
+				textImgSetText(txt_RewardP1FightCfg, txt_RewardFight..getPlayerReward().." IKC")
+				textImgDraw(txt_RewardP1FightCfg)
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						if player(i) then setLife(lifemax() - 10) end
+					else --Is an Odd Player Number (Left Side)
+						if player(i) then setLife(lifemax() + 10) end
+					end
+				end
+			else
+				textImgSetText(txt_RewardP2FightCfg, txt_RewardFight..getPlayerReward().." IKC")
+				textImgDraw(txt_RewardP2FightCfg)
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						if player(i) then setLife(lifemax() + 10) end
+					else --Is an Odd Player Number (Left Side)
+						if player(i) then setLife(lifemax() - 10) end
+					end
+				end
+			end
+		end
 --During Score Attack Mode
 	elseif getGameMode() == "scoreattack" then
 		if roundstate() == 2 then
