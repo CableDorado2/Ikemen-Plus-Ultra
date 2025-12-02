@@ -5558,13 +5558,13 @@ public &Char
   {
     ret .com.p2score;
   }
+  public int trPlayerReward()
+  {
+    ret .com.playerReward;
+  }
   public int trAbyssDepth()
   {
     ret .com.abyssDepth;
-  }
-  public int trAbyssReward()
-  {
-    ret .com.abyssReward;
   }
   public int trAbyssDepthBoss()
   {

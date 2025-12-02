@@ -2418,6 +2418,7 @@ function f_default() --Reset Game Modes Configuration
 	setScore(0) --Reset Player Score
 	setTimerDisplay(false) --Enable or Disable Timer Display
 	setTimer(0) --Reset Player Timer
+	setPlayerReward(0) --reset player reward to assign during special modes.
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
@@ -2425,12 +2426,12 @@ function f_default() --Reset Game Modes Configuration
 --Tournament Stuff
 	setFTNo(1) --Set Matchs To Wins/FT (To show in lifebar of Tournament Mode)
 	setTourneyState("") --set tournament state to show in tourney mode lifebar.
+--RPG Stuff
+	setPlayerLife(0) --set life points to show during rpg mode profile and which be apply to the player.
+	setPlayerPower(0) --set power points to show during rpg mode profile and which be apply to the player.
+	setPlayerAttack(0) --set attack points to show during rpg mode profile and which be apply to the player.
+	setPlayerDefence(0) --set defence points to show during rpg mode profile and which be apply to the player.
 --Abyss Stuff
-	setAbyssLife(0) --set life points to show during abyss mode profile and which be apply to the player.
-	setAbyssPower(0) --set power points to show during abyss mode profile and which be apply to the player.
-	setAbyssAttack(0) --set attack points to show during abyss mode profile and which be apply to the player.
-	setAbyssDefence(0) --set defence points to show during abyss mode profile and which be apply to the player.
-	setAbyssReward(0) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
 	setAbyssFinalDepth(0) --set last abyss depth match.
 	setAbyssDepthBoss(0) --set next abyss NORMAL boss depth.
@@ -3338,6 +3339,11 @@ if stats.modes == nil then
 	stats.modes.timerush.playtime = 0
 	stats.modes.timerush.clear = 0
 	stats.modes.timerush.ranking = {}
+	
+	stats.modes.caravan = {}
+	stats.modes.caravan.playtime = 0
+	stats.modes.caravan.clear = 0
+	stats.modes.caravan.ranking = {}
 	
 	stats.modes.scorerush = {}
 	stats.modes.scorerush.playtime = 0

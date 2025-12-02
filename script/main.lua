@@ -2993,6 +2993,93 @@ function speedstarCPUvsCPU()
 end
 
 --;===========================================================
+--; GOLD RUSH MODE (deal damage to the opponents to earn money)
+--;===========================================================
+function f_goldrushBoot()
+	menuSelect = "gold rush"
+	sideScreen = true
+end
+
+--Load Common Settings for Gold Rush Modes
+function goldrushCfg()
+	f_discordUpdate({details = "Gold Rush"})
+	f_default()
+	data.gameMode = "allroster"
+	data.recordMode = "goldrush"
+	setGameMode("goldrush")
+	data.stage = "stages/Others/The Red Dragon's Lair.def"
+	data.bgm = "sound/Gold Rush.mp3"
+	setRoundTime(30*60)
+	setRoundsToWin(1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (deal damage to the opponents to earn money from left side)
+function goldrushHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "GOLD RUSH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (deal damage to the opponents to earn money from right side)
+function goldrushCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "GOLD RUSH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to deal damage to the opponents to earn money)
+function goldrushP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "GOLD RUSH COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to deal damage to the opponents to earn money)
+function goldrushCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "GOLD RUSH COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch CPU deal damage to the opponents to earn money)
+function goldrushCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH GOLD RUSH")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
 --; KUMITE MODE (defeat as many opponents as you can in predefined "data.kumite" successive matches)
 --;===========================================================
 function f_kumiteBoot()
@@ -3588,6 +3675,12 @@ t_statsGameModes = {
 		id = "speedstar",
 		playtime = function() return stats.modes.speedstar.playtime end,
 		setplaytime = function(newtime) stats.modes.speedstar.playtime = newtime end
+	},
+	{
+		displayname = "Caravan",
+		id = "caravan",
+		playtime = function() return stats.modes.caravan.playtime end,
+		setplaytime = function(newtime) stats.modes.caravan.playtime = newtime end
 	},
 	{
 		displayname = "Time Attack",
@@ -6203,6 +6296,8 @@ function f_sideSelect()
 		elseif menuSelect == "score rush" then scorerushCfg()
 		elseif menuSelect == "time rush" then timerushCfg()
 		elseif menuSelect == "speed star" then speedstarCfg()
+		elseif menuSelect == "caravan" then caravanCfg()
+		elseif menuSelect == "gold rush" then goldrushCfg()
 		elseif menuSelect == "time attack" then timeattackCfg()
 		elseif menuSelect == "score attack" then scoreattackCfg()
 		elseif menuSelect == "kumite" then kumiteCfg()
@@ -6225,6 +6320,8 @@ function f_sideSelect()
 			elseif menuSelect == "score rush" then scorerushCPUvsCPU()
 			elseif menuSelect == "time rush" then timerushCPUvsCPU()
 			elseif menuSelect == "speed star" then speedstarCPUvsCPU()
+			elseif menuSelect == "caravan" then caravanCPUvsCPU()
+			elseif menuSelect == "gold rush" then goldrushCPUvsCPU()
 			elseif menuSelect == "time attack" then timeattackCPUvsCPU()
 			elseif menuSelect == "score attack" then scoreattackCPUvsCPU()
 			elseif menuSelect == "kumite" then kumiteCPUvsCPU()
@@ -6256,6 +6353,8 @@ function f_sideSelect()
 			elseif menuSelect == "score rush" then scorerushHumanvsCPU()
 			elseif menuSelect == "time rush" then timerushHumanvsCPU()
 			elseif menuSelect == "speed star" then speedstarHumanvsCPU()
+			elseif menuSelect == "caravan" then caravanHumanvsCPU()
+			elseif menuSelect == "gold rush" then goldrushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
 			elseif menuSelect == "kumite" then kumiteHumanvsCPU()
@@ -6282,6 +6381,8 @@ function f_sideSelect()
 			elseif menuSelect == "score rush" then scorerushHumanvsCPU()
 			elseif menuSelect == "time rush" then timerushHumanvsCPU()
 			elseif menuSelect == "speed star" then speedstarHumanvsCPU()
+			elseif menuSelect == "caravan" then caravanHumanvsCPU()
+			elseif menuSelect == "gold rush" then goldrushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
 			elseif menuSelect == "kumite" then kumiteHumanvsCPU()
@@ -6307,6 +6408,8 @@ function f_sideSelect()
 			elseif menuSelect == "score rush" then scorerushCPUvsHuman()
 			elseif menuSelect == "time rush" then timerushCPUvsHuman()
 			elseif menuSelect == "speed star" then speedstarCPUvsHuman()
+			elseif menuSelect == "caravan" then caravanCPUvsHuman()
+			elseif menuSelect == "gold rush" then goldrushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
 			elseif menuSelect == "kumite" then kumiteCPUvsHuman()
@@ -6333,6 +6436,8 @@ function f_sideSelect()
 			elseif menuSelect == "score rush" then scorerushCPUvsHuman()
 			elseif menuSelect == "time rush" then timerushCPUvsHuman()
 			elseif menuSelect == "speed star" then speedstarCPUvsHuman()
+			elseif menuSelect == "caravan" then caravanCPUvsHuman()
+			elseif menuSelect == "gold rush" then goldrushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
 			elseif menuSelect == "kumite" then kumiteCPUvsHuman()
@@ -6384,6 +6489,8 @@ function f_sideSelect()
 			elseif menuSelect == "score rush" then scorerushP1P2vsCPU()
 			elseif menuSelect == "time rush" then timerushP1P2vsCPU()
 			elseif menuSelect == "speed star" then speedstarP1P2vsCPU()
+			elseif menuSelect == "caravan" then caravanP1P2vsCPU()
+			elseif menuSelect == "gold rush" then goldrushP1P2vsCPU()
 			elseif menuSelect == "time attack" then timeattackP1P2vsCPU()
 			elseif menuSelect == "score attack" then scoreattackP1P2vsCPU()
 			elseif menuSelect == "kumite" then kumiteP1P2vsCPU()
@@ -6413,6 +6520,8 @@ function f_sideSelect()
 			elseif menuSelect == "score rush" then scorerushCPUvsP1P2()
 			elseif menuSelect == "time rush" then timerushCPUvsP1P2()
 			elseif menuSelect == "speed star" then speedstarCPUvsP1P2()
+			elseif menuSelect == "caravan" then caravanCPUvsP1P2()
+			elseif menuSelect == "gold rush" then goldrushCPUvsP1P2()
 			elseif menuSelect == "time attack" then timeattackCPUvsP1P2()
 			elseif menuSelect == "score attack" then scoreattackCPUvsP1P2()
 			elseif menuSelect == "kumite" then kumiteCPUvsP1P2()
@@ -12836,10 +12945,10 @@ function f_setAbyssStats()
 	else
 	--PLAYER
 		for p=1, #data.t_p1selected do
-			data.t_p1selected[p]['life'] = getAbyssLife()
-			data.t_p1selected[p]['power'] = getAbyssPower()
-			data.t_p1selected[p]['attack'] = getAbyssAttack()
-			data.t_p1selected[p]['defence'] = getAbyssDefence()
+			data.t_p1selected[p]['life'] = getPlayerLife()
+			data.t_p1selected[p]['power'] = getPlayerPower()
+			data.t_p1selected[p]['attack'] = getPlayerAttack()
+			data.t_p1selected[p]['defence'] = getPlayerDefence()
 			data.t_p1selected[p]['itemslot'] = abyssDat.nosave.itemslot --Special Items
 		end
 	--CPU
@@ -12865,11 +12974,11 @@ function f_setAbyssStats()
 		setCom(2, difficulty) --Set CPU Level
 	end
 	if matchNo == lastMatch then setAbyssFinalDepth(1) end --To avoid display the save button after win the last fight
-	abyssDat.nosave.life = getAbyssLife()
-	abyssDat.nosave.power = getAbyssPower()
-	abyssDat.nosave.attack = getAbyssAttack()
-	abyssDat.nosave.defence = getAbyssDefence()
-	abyssDat.nosave.reward = getAbyssReward()
+	abyssDat.nosave.life = getPlayerLife()
+	abyssDat.nosave.power = getPlayerPower()
+	abyssDat.nosave.attack = getPlayerAttack()
+	abyssDat.nosave.defence = getPlayerDefence()
+	abyssDat.nosave.reward = getPlayerReward()
 	abyssDat.nosave.depth = getAbyssDepth()
 	abyssDat.nosave.lifebarstate = getLifePersistence()
 	abyssDat.nosave.specialbosscnt = abyssSpecialBossCnt
@@ -13931,6 +14040,8 @@ function f_result(state)
 			if getGameMode() == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
 			elseif getGameMode() == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
 			elseif getGameMode() == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
+			elseif getGameMode() == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
+			elseif getGameMode() == "goldrush" then textImgSetText(txt_resultTitle, "GOLD RUSH")
 			elseif getGameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH")
 			elseif getGameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH")
 			else textImgSetText(txt_resultTitle, "RESULTS")
@@ -14783,7 +14894,7 @@ function f_advancedEnd()
 		stats.modes.bossrush.clear = stats.modes.bossrush.clear + 1
 	end
 	if data.gameMode == "abyss" then
-		stats.money = stats.money + getAbyssReward() --Get abyss reward when end it
+		stats.money = stats.money + getPlayerReward() --Get abyss reward when end it
 		exitAbyss = true
 	end
 	f_saveStats()
@@ -15624,11 +15735,11 @@ if validCells() then
 		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		if data.gameMode == "abyss" then
 			setMatchNo(getAbyssDepth())
-			if not loadAbyssDat then setAbyssReward(getAbyssReward() + (getAbyssDepth() - 1) * 5) end
+			if not loadAbyssDat then setPlayerReward(getPlayerReward() + (getAbyssDepth() - 1) * 5) end
 			if getAbyssDepth() == 1 or loadAbyssDat or (getAbyssDepth() >= abyssNextCheckPoint) and not data.challengerAbyss and not data.saveAbyss then f_abyssMap() end
 		--Stop Exploring Option
 			if exitAbyss then
-				stats.money = stats.money + getAbyssReward() --Get abyss reward
+				stats.money = stats.money + getPlayerReward() --Get abyss reward
 				f_saveStats()
 				f_storyboard(storyboardGameOver)
 				f_winAdvanced()
@@ -17758,16 +17869,16 @@ function f_abyssMenu()
 						--Attribute Assign
 							if t_abyssMenu[abyssMenu].attack then
 								buyDone = true
-								setAbyssAttack(getAbyssAttack() + t_abyssMenu[abyssMenu].val)
+								setPlayerAttack(getPlayerAttack() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].defence then
 								buyDone = true
-								setAbyssDefence(getAbyssDefence() + t_abyssMenu[abyssMenu].val)
+								setPlayerDefence(getPlayerDefence() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].power then
 								buyDone = true
-								setAbyssPower(getAbyssPower() + t_abyssMenu[abyssMenu].val)
+								setPlayerPower(getPlayerPower() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].life then
 								buyDone = true
-								setAbyssLife(getAbyssLife() + t_abyssMenu[abyssMenu].val)
+								setPlayerLife(getPlayerLife() + t_abyssMenu[abyssMenu].val)
 							elseif t_abyssMenu[abyssMenu].depth then
 								buyDone = true
 								setAbyssDepth(getAbyssDepth() + t_abyssMenu[abyssMenu].val)
@@ -17811,13 +17922,13 @@ function f_abyssMenu()
 					stats.money = stats.money + t_abyssMenu[abyssMenu].price
 				--Attribute Refund
 					if t_abyssMenu[abyssMenu].attack then
-						setAbyssAttack(getAbyssAttack() - t_abyssMenu[abyssMenu].val)
+						setPlayerAttack(getPlayerAttack() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].defence then
-						setAbyssDefence(getAbyssDefence() - t_abyssMenu[abyssMenu].val)
+						setPlayerDefence(getPlayerDefence() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].power then
-						setAbyssPower(getAbyssPower() - t_abyssMenu[abyssMenu].val)
+						setPlayerPower(getPlayerPower() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].life then
-						setAbyssLife(getAbyssLife() - t_abyssMenu[abyssMenu].val)
+						setPlayerLife(getPlayerLife() - t_abyssMenu[abyssMenu].val)
 					elseif t_abyssMenu[abyssMenu].depth then
 						setAbyssDepth(getAbyssDepth() - t_abyssMenu[abyssMenu].val)
 				--Special Items Refund
@@ -18196,12 +18307,12 @@ function f_abyssData(mode)
 end
 
 function f_loadAbyssStats()
-	setAbyssLife(abyssDat.nosave.life) --set life points to show during abyss mode profile and which be apply to the player.
-	setAbyssPower(abyssDat.nosave.power) --set power points to show during abyss mode profile and which be apply to the player.
-	setAbyssAttack(abyssDat.nosave.attack) --set attack points to show during abyss mode profile and which be apply to the player.
-	setAbyssDefence(abyssDat.nosave.defence) --set defence points to show during abyss mode profile and which be apply to the player.
+	setPlayerLife(abyssDat.nosave.life) --set life points to show during abyss mode profile and which be apply to the player.
+	setPlayerPower(abyssDat.nosave.power) --set power points to show during abyss mode profile and which be apply to the player.
+	setPlayerAttack(abyssDat.nosave.attack) --set attack points to show during abyss mode profile and which be apply to the player.
+	setPlayerDefence(abyssDat.nosave.defence) --set defence points to show during abyss mode profile and which be apply to the player.
 	f_setAbyssItems()
-	setAbyssReward(abyssDat.nosave.reward) --set reward to show during abyss mode match lifebar.
+	setPlayerReward(abyssDat.nosave.reward) --set reward to show during abyss mode match lifebar.
 	setAbyssDepth(abyssDat.nosave.depth) --set depth level to show during abyss mode match lifebar.
 	setAbyssDepthBoss(abyssDat.nosave.nextboss) --set next abyss NORMAL boss depth.
 	setAbyssDepthBossSpecial(abyssDat.nosave.nextspecialboss) --set next abyss SPECIAL boss depth.
@@ -18270,7 +18381,7 @@ function f_abyssMap()
 		end
 	--Draw Reward Text Stuff
 		animDraw(abyssMapRewardBG)
-		textImgSetText(txt_abyssMapReward, "REWARD "..getAbyssReward().." IKC")
+		textImgSetText(txt_abyssMapReward, "REWARD "..getPlayerReward().." IKC")
 		textImgDraw(txt_abyssMapReward)
 		f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.money.." IKC", 315, 30, 1.2, 1.2)
 	--Draw Char Profile Box

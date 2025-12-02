@@ -65,8 +65,9 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   VictoryQuote,
   RemapPal,
   Zoom,
-  AbyssDepthAdd, AbyssRewardAdd,
+  PlayerRewardAdd,
   ScoreAdd,
+  AbyssDepthAdd,
   ExitMatch,
   PlayBGM,
   ForceCommand,
@@ -1326,8 +1327,8 @@ public &StateBuilder
 	cond .s.equ("abyssfinaldepth", token):
       out .= "`trAbyssFinalDepth()";
       typ = 2;
-	cond .s.equ("abyssreward", token):
-      out .= "`trAbyssReward()";
+	cond .s.equ("playerreward", token):
+      out .= "`trPlayerReward()";
       typ = 2;
     cond .s.equ("tickspersecond", token):
       out .= ".cfg.GameSpeed";

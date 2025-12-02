@@ -742,27 +742,27 @@ local function f_abyssBossReward()
 	--Attack +
 		if t_abyssBossRewards[rewardMenu].attack then
 			itemDone = true
-			setAbyssAttack(getAbyssAttack() + t_abyssBossRewards[rewardMenu].val)
+			setPlayerAttack(getPlayerAttack() + t_abyssBossRewards[rewardMenu].val)
 	--Defence +
 		elseif t_abyssBossRewards[rewardMenu].defence then
 			itemDone = true
-			setAbyssDefence(getAbyssDefence() + t_abyssBossRewards[rewardMenu].val)
+			setPlayerDefence(getPlayerDefence() + t_abyssBossRewards[rewardMenu].val)
 	--Power +
 		elseif t_abyssBossRewards[rewardMenu].power then
 			itemDone = true
-			setAbyssPower(getAbyssPower() + t_abyssBossRewards[rewardMenu].val)
+			setPlayerPower(getPlayerPower() + t_abyssBossRewards[rewardMenu].val)
 	--Life +
 		elseif t_abyssBossRewards[rewardMenu].life then
 			itemDone = true
-			setAbyssLife(getAbyssLife() + t_abyssBossRewards[rewardMenu].val)
+			setPlayerLife(getPlayerLife() + t_abyssBossRewards[rewardMenu].val)
 	--All +
 		elseif t_abyssBossRewards[rewardMenu].allstats then
 			itemDone = true
 			local rewardValue = t_abyssBossRewards[rewardMenu].val
-			setAbyssLife(getAbyssLife() + rewardValue)
-			setAbyssPower(getAbyssPower() + rewardValue)
-			setAbyssAttack(getAbyssAttack() + rewardValue)
-			setAbyssDefence(getAbyssDefence() + rewardValue)
+			setPlayerLife(getPlayerLife() + rewardValue)
+			setPlayerPower(getPlayerPower() + rewardValue)
+			setPlayerAttack(getPlayerAttack() + rewardValue)
+			setPlayerDefence(getPlayerDefence() + rewardValue)
 	--Depth +
 		elseif t_abyssBossRewards[rewardMenu].depth then
 			itemDone = true
@@ -770,7 +770,7 @@ local function f_abyssBossReward()
 	--Reward +
 		elseif t_abyssBossRewards[rewardMenu].reward then
 			itemDone = true
-			setAbyssReward(getAbyssReward() + t_abyssBossRewards[rewardMenu].val)
+			setPlayerReward(getPlayerReward() + t_abyssBossRewards[rewardMenu].val)
 	--Exclusive Boss Reward Item
 		elseif t_abyssBossRewards[rewardMenu].exclusiveitem then
 			if player(1) then

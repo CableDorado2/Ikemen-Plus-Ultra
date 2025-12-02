@@ -1541,69 +1541,69 @@ void getAbyssFinalDepth(&.lua.State L=, int re=)
   L.pushNumber((double).com.abyssFinalDepth);
 }
 
-void setAbyssReward(&.lua.State L=, int re=)
+void setPlayerReward(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int ar = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.abyssReward = ar;
+  int pr = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.playerReward = pr;
 }
 
-void getAbyssReward(&.lua.State L=, int re=)
+void getPlayerReward(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssReward);
+  L.pushNumber((double).com.playerReward);
 }
 
-void setAbyssLife(&.lua.State L=, int re=)
+void setPlayerLife(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int abl = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.abyssLife = abl;
+  int pl = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.playerLife = pl;
 }
 
-void getAbyssLife(&.lua.State L=, int re=)
+void getPlayerLife(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssLife);
+  L.pushNumber((double).com.playerLife);
 }
 
-void setAbyssPower(&.lua.State L=, int re=)
+void setPlayerPower(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int abp = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.abyssPower = abp;
+  int pp = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.playerPower = pp;
 }
 
-void getAbyssPower(&.lua.State L=, int re=)
+void getPlayerPower(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssPower);
+  L.pushNumber((double).com.playerPower);
 }
 
-void setAbyssAttack(&.lua.State L=, int re=)
+void setPlayerAttack(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int aba = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.abyssAttack = aba;
+  int pa = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.playerAttack = pa;
 }
 
-void getAbyssAttack(&.lua.State L=, int re=)
+void getPlayerAttack(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssAttack);
+  L.pushNumber((double).com.playerAttack);
 }
 
-void setAbyssDefence(&.lua.State L=, int re=)
+void setPlayerDefence(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int abd = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.abyssDefence = abd;
+  int pd = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.playerDefence = pd;
 }
 
-void getAbyssDefence(&.lua.State L=, int re=)
+void getPlayerDefence(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssDefence);
+  L.pushNumber((double).com.playerDefence);
 }
 
 void setAbyssSP1(&.lua.State L=, int re=)
@@ -1898,20 +1898,20 @@ public void init(&.lua.State L=)
   L.register("setLifePersistence", .setLifePersistence);
   L.register("getLifePersistence", .getLifePersistence);
   
-  L.register("setAbyssLife", .setAbyssLife);
-  L.register("getAbyssLife", .getAbyssLife);
+  L.register("setPlayerLife", .setPlayerLife);
+  L.register("getPlayerLife", .getPlayerLife);
   
-  L.register("setAbyssPower", .setAbyssPower);
-  L.register("getAbyssPower", .getAbyssPower);
+  L.register("setPlayerPower", .setPlayerPower);
+  L.register("getPlayerPower", .getPlayerPower);
   
-  L.register("setAbyssAttack", .setAbyssAttack);
-  L.register("getAbyssAttack", .getAbyssAttack);
+  L.register("setPlayerAttack", .setPlayerAttack);
+  L.register("getPlayerAttack", .getPlayerAttack);
   
-  L.register("setAbyssDefence", .setAbyssDefence);
-  L.register("getAbyssDefence", .getAbyssDefence);
+  L.register("setPlayerDefence", .setPlayerDefence);
+  L.register("getPlayerDefence", .getPlayerDefence);
   
-  L.register("setAbyssReward", .setAbyssReward);
-  L.register("getAbyssReward", .getAbyssReward);
+  L.register("setPlayerReward", .setPlayerReward);
+  L.register("getPlayerReward", .getPlayerReward);
   
   L.register("setAbyssDepth", .setAbyssDepth);
   L.register("getAbyssDepth", .getAbyssDepth);

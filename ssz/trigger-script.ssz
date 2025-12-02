@@ -175,34 +175,34 @@ void coins(&.lua.State L=, int re=)
   L.pushNumber((double).com.coins);
 }
 
-void abysslife(&.lua.State L=, int re=)
+void playerlife(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssLife);
+  L.pushNumber((double).com.playerLife);
 }
 
-void abysspower(&.lua.State L=, int re=)
+void playerpower(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssPower);
+  L.pushNumber((double).com.playerPower);
 }
 
-void abyssattack(&.lua.State L=, int re=)
+void playerattack(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssAttack);
+  L.pushNumber((double).com.playerAttack);
 }
 
-void abyssdefence(&.lua.State L=, int re=)
+void playerdefence(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssDefence);
+  L.pushNumber((double).com.playerDefence);
 }
 
-void abyssreward(&.lua.State L=, int re=)
+void playerreward(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double).com.abyssReward);
+  L.pushNumber((double).com.playerReward);
 }
 
 void abyssdepth(&.lua.State L=, int re=)
@@ -1478,11 +1478,11 @@ public void registerFunction(&.lua.State L=)
   L.register("playerid", .playerid);
   L.register("credits", .credits);
   L.register("coins", .coins);
-  L.register("abysslife", .abysslife);
-  L.register("abysspower", .abysspower);
-  L.register("abyssattack", .abyssattack);
-  L.register("abyssdefence", .abyssdefence);
-  L.register("abyssreward", .abyssreward);
+  L.register("playerlife", .playerlife);
+  L.register("playerpower", .playerpower);
+  L.register("playerattack", .playerattack);
+  L.register("playerdefence", .playerdefence);
+  L.register("playerreward", .playerreward);
   L.register("abyssdepth", .abyssdepth);
   L.register("abyssdepthboss", .abyssdepthboss);
   L.register("abyssdepthbossspecial", .abyssdepthbossspecial);

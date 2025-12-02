@@ -4066,7 +4066,7 @@ function f_abyssProfile(PauseMenu, VSscreen, NewPosX, NewPosY)
 	local VSscreen = VSscreen or false
 	local NewPosX = NewPosX or 0
 	local NewPosY = NewPosY or 0
-	local pLevel = math.floor((getAbyssAttack() + getAbyssPower() + getAbyssDefence() + getAbyssLife()) / 4) --Just an Average
+	local pLevel = math.floor((getPlayerAttack() + getPlayerPower() + getPlayerDefence() + getPlayerLife()) / 4) --Just an Average
 	if not VSscreen then
 		animPosDraw(abyssProfileBG, 165 + NewPosX, 10 + NewPosY)
 	else
@@ -4088,10 +4088,10 @@ function f_abyssProfile(PauseMenu, VSscreen, NewPosX, NewPosY)
 	local attrFontYPos = 75 + NewPosY
 	local attrSymb = "+"
 	local attrMax = "MAX"
-	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..getAbyssAttack(), attrFontXPos, attrFontYPos)
-	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..getAbyssPower(), attrFontXPos, attrFontYPos + 18)
-	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..getAbyssDefence(), attrFontXPos + 62, attrFontYPos)
-	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getAbyssLife(), attrFontXPos + 62, attrFontYPos + 18)
+	f_drawQuickText(txt_abyssAttack, attrFont, 0, 1, attrSymb..getPlayerAttack(), attrFontXPos, attrFontYPos)
+	f_drawQuickText(txt_abyssPower, attrFont, 0, 1, attrSymb..getPlayerPower(), attrFontXPos, attrFontYPos + 18)
+	f_drawQuickText(txt_abyssDefence, attrFont, 0, 1, attrSymb..getPlayerDefence(), attrFontXPos + 62, attrFontYPos)
+	f_drawQuickText(txt_abyssLife, attrFont, 0, 1, attrSymb..getPlayerLife(), attrFontXPos + 62, attrFontYPos + 18)
 --Special Items
 	local spFont = font2
 	local spFontXPos = 188 + NewPosX
@@ -4560,6 +4560,7 @@ PLASMOIDTHUNDER
 ACDGAMES
 2DEE4EVER
 PIXEL SLAYER
+CRISTOPELES LEE
 KADES
 RORONIGGA ZORO
 ABRAHAMXDA
