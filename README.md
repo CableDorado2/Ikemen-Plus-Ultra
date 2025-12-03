@@ -43,7 +43,7 @@
 
 ## Minimum System Requirements
 - **Operating System:**
-    - Windows XP (Service Pack 3) [32 Bits]
+    - Windows XP (Service Pack 3) 32 Bits
     - Linux: [Wine](https://wiki.winehq.org/Main_Page) is recommended
     - Android: [Winlator](https://github.com/brunodev85/winlator) is recommended.
 - **CPU:**
@@ -54,8 +54,7 @@
 - **Memory:**
     - 1GB RAM
 - **Storage:**
-    - With Source Code: 5 GiB required
-    - Without Source Code: 1 GiB required
+    - 2 GiB required
 
 > [!WARNING]
 > **THE ENGINE MAY NOT WORK IN WINDOWS 11. Runs on Version 24H2**
@@ -76,8 +75,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
 - Leer archivos movelist.dat dentro de los chars.
-
-- Añadir sistema de decisiones al Modo Visual Novel.
 
 **v1.6**
 ------------
@@ -117,9 +114,9 @@ Saved Team en Dragon Ball Fighterz:
 
 - Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
 
-- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
+- Añadir sistema de decisiones al Modo Visual Novel.
 
-- Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa). Probar programarlo desde match.lua.
+- Incluir en training la opción de Damage Display (verificar que su inclusión no afecta al bonus de caltwalk). Probar programarlo desde match.lua.
 
 - Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
 
@@ -141,6 +138,8 @@ Saved Team en Dragon Ball Fighterz:
 - Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
+- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
 - Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
 
