@@ -201,7 +201,7 @@ v2.0 (Final Release)
 - *Coming Soon!*
 
 ## Resources
-Here you can find content to build your projects or just for play on Ikemen.
+Here you can find content to install and play on Ikemen.
 - [Mugen Free For All](https://mugenfreeforall.com)
 - [Mugen Fighters Guild](https://mugenguild.com/forum/)
 - [Infinity Mugen Team](https://www.infinitymugenteam.com)
@@ -214,10 +214,11 @@ Here you can find some recommended tools that will help you in development of yo
 - [Fighter Factory](http://fighterfactory.virtualltek.com/) (A general purpose M.U.G.E.N content/asset Editor)
 - [Radmin VPN](https://www.radmin-vpn.com/) (For Netplay)
 - Visual C++ 2010 Express (IDE to edit and compile engine Source Code)
-- [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
+- [4GB Patch](https://ntcore.com/4gb-patch/) (To avoid Runtime Error when load heavy sff files)
 - [SDL2 Gamepad Tool](https://generalarcade.com/gamepadtool/) (A simple GUI tool to create/modify gamepad mappings)
 - [ReShade](https://reshade.me/) (Post-processing injector for games)
 - [Notepad++](https://notepad-plus-plus.org/) (Script Editor)
+- [GIMP](https://www.gimp.org/) (Image Editor)
 - [Audacity](https://www.audacityteam.org/) (Audio Editor)
 - [Mp3Tag](https://www.mp3tag.de/en/) (A music tag editor)
 
