@@ -2643,7 +2643,7 @@ function caravanCfg()
 	setGameMode("caravan")
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(99)
+	setRoundTime(99*60)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -14099,6 +14099,10 @@ function f_result(state)
 	playBGM(bgmResults)
 	while true do
 		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+			if getGameMode() == "goldrush" then
+				stats.money = stats.money + getPlayerReward()
+				f_saveStats()
+			end
 			cmdInput()
 			break
 		end
@@ -14132,23 +14136,25 @@ function f_result(state)
 			elseif getGameMode() == "timeattack" then
 				f_drawTimeAttackResults()
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
+			elseif getGameMode() == "goldrush" then
+				f_drawGoldRushResults()
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults()
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
 			else
-				textImgDraw(txt_resultNo)
 				if data.gameMode ~= "endless" then
+					textImgDraw(txt_resultNo)
 					f_drawRank(winCnt, #t_roster)
 				else
 					textImgDraw(txt_resultWins)
 					textImgDraw(txt_resultLoses)
 				end
 			end
-			if getGameMode() ~= "timeattack" then
+			if getGameMode() ~= "timeattack" and getGameMode() ~= "goldrush" then
 				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(timerTotal()))
 				textImgDraw(txt_resultTime)
 			end
-			if getGameMode() ~= "scoreattack" then
+			if getGameMode() ~= "scoreattack" and getGameMode() ~= "goldrush" then
 				textImgSetText(txt_resultScore, "SCORE: "..f_setThousandsFormat(score()).."PTS")
 				textImgDraw(txt_resultScore)
 			end

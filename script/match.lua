@@ -1154,11 +1154,13 @@ function loop() --The code for this function should be thought of as if it were 
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
 				setPlayerReward(getPlayerReward() + money)
+				sndPlay(sndIkemen, 610, 1) --Win Money
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
 				if getPlayerReward() > 0 then setPlayerReward(getPlayerReward() - money) end
 				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
+				--sndPlay(sndIkemen, 600, 1) --Lose Money
 			end
 			if playerLeftSide then
 				textImgSetText(txt_RewardP1FightCfg, txt_RewardFight..getPlayerReward().." IKC")

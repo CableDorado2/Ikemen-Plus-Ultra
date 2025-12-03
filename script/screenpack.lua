@@ -2552,6 +2552,16 @@ function f_drawTimeAttackResults()
 	f_drawQuickText(txt_timeWins, jgFnt, 0, -1, "WINS: "..winCnt, 266, 220)
 end
 
+function f_drawGoldRushResults()
+	f_drawQuickText(txt_rewardResult, survNumFnt, 0, -1, f_setThousandsFormat(getPlayerReward()).." IKC", 320, 110, 0.45, 0.45)
+	f_drawQuickText(txt_rewardTotal, survNumFnt, 0, -1, "TOTAL REWARD", 320, 125, 0.8, 0.8)
+	
+	f_drawQuickText(txt_rewardRecord, survNumFnt, 0, -1, f_setThousandsFormat(getPlayerReward()).." IKC", 320, 165, 0.3, 0.3)
+	f_drawQuickText(txt_rewardBest, survNumFnt, 0, -1, "BEST REWARD", 320, 178, 0.7, 0.7)
+	
+	f_drawQuickText(txt_rewardWins, jgFnt, 0, -1, "WINS: "..winCnt, 266, 234)
+end
+
 function f_drawAbyssResults()
 	local PosX = 318
 	local PosY = 130
