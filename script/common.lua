@@ -2418,6 +2418,7 @@ function f_default() --Reset Game Modes Configuration
 	setScore(0) --Reset Player Score
 	setTimerDisplay(false) --Enable or Disable Timer Display
 	setTimer(0) --Reset Player Timer
+	setCountdown(-1) --Reset Caravan Countdown Timer
 	setPlayerReward(0) --Reset player reward to assign during special modes.
 	setPlayerSide("") --Set player side variable to adjust internal settings.
 	setGameMode("") --Set local GameMode variable (it can be recognized in cns and lua).

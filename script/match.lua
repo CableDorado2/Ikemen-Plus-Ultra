@@ -986,15 +986,29 @@ local function f_drawTimer()
 	elseif roundstate() == 2 and not script.pause.pauseMenuActive then
 		if timerStart > 0 then timerStart = timerStart - 1 end
 		if playerLeftSide then
-			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
-			if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
+			if getGameMode() == "caravan" then
+				textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(countdown()))
+				textImgDraw(txt_TimerP2FightCfg)
+			else
+				textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
+				if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
+			end
 		else
-			textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(timerTotal()))
-			if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
+			if getGameMode() == "caravan" then
+				textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(countdown()))
+				textImgDraw(txt_TimerP1FightCfg)
+			else
+				textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(timerTotal()))
+				if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
+			end
 		end
 		if timerStart == 0 and os.clock() >= nextRefresh then
 			nextRefresh = nextRefresh + tickTime
 			setTimer(timerTotal() + 1)
+			if getGameMode() == "caravan" then
+				setCountdown(countdown() - 1)
+				if countdown == 0 then exitMatch() end
+			end
 		end
 		sleep(0.001)
 	end
@@ -1148,13 +1162,13 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_TourneyStateFightCfg)
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
-		if not matchover() then --roundstate() == 2 then
+		if not matchover() then
 			local money = 0
 		--Player Deal Damage over CPU
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
 				setPlayerReward(getPlayerReward() + money)
-				sndPlay(sndIkemen, 610, 1) --Win Money
+				if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 1) end --Win Money
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
@@ -1162,9 +1176,11 @@ function loop() --The code for this function should be thought of as if it were 
 				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
 				--sndPlay(sndIkemen, 600, 1) --Lose Money
 			end
+			if roundstate() == 2 then
+				textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")
+				textImgDraw(txt_RewardFightCfg)
+			end
 			if playerLeftSide then
-				textImgSetText(txt_RewardP1FightCfg, txt_RewardFight..getPlayerReward().." IKC")
-				textImgDraw(txt_RewardP1FightCfg)
 				for i=1, 8 do
 					if i % 2 == 0 then --Is an Even Player Number (Right Side)
 						if player(i) then setLife(lifemax() - 10) end
@@ -1173,8 +1189,6 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			else
-				textImgSetText(txt_RewardP2FightCfg, txt_RewardFight..getPlayerReward().." IKC")
-				textImgDraw(txt_RewardP2FightCfg)
 				for i=1, 8 do
 					if i % 2 == 0 then --Is an Even Player Number (Right Side)
 						if player(i) then setLife(lifemax() + 10) end

@@ -30,7 +30,7 @@ public &Share
   public int winTimeCount, winSpecialCount, winHyperCount, winThrowCount;
   public int winPerfectCount, winPerfectSpecialCount, winPerfectHyperCount, winPerfectThrowCount;
   public int score, scoreTotal, p1score, p2score;
-  public int timer;
+  public int timer, countdownTimer;
   public bool scoreDisplay;
   public bool timerDisplay;
   public int lifePersistence;
@@ -124,6 +124,7 @@ public &Share
     `firstAttackCount = .com.firstAttackCount;
 	`timerDisplay = .com.timerDisplay;
 	`timer = .com.timer;
+	`countdownTimer = .com.countdownTimer;
     `scoreDisplay = .com.scoreDisplay;
     `score = .com.score;
     `scoreTotal = .com.scoreTotal;
@@ -229,6 +230,7 @@ public &Share
     .com.round = `chr_round;
     .com.timerDisplay = `timerDisplay;
     .com.timer = `timer;
+    .com.countdownTimer = `countdownTimer;
     .com.scoreDisplay = `scoreDisplay;
     .com.score = `score;
     .com.scoreTotal = `scoreTotal;

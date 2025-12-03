@@ -1268,6 +1268,19 @@ void timerTotal(&.lua.State L=, int re=)
   L.pushNumber((double).com.timer);
 }
 
+void setCountdown(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ct = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.countdownTimer = ct;
+}
+
+void countdown(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.countdownTimer);
+}
+
 void setScoreDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1847,6 +1860,9 @@ public void init(&.lua.State L=)
   
   L.register("setTimer", .setTimer);
   L.register("timerTotal", .timerTotal);
+
+  L.register("setCountdown", .setCountdown);
+  L.register("countdown", .countdown);
   
   L.register("setScoreDisplay", .setScoreDisplay);
   L.register("scoreDisplay", .scoreDisplay);

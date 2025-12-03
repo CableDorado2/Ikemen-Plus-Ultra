@@ -2637,12 +2637,11 @@ function caravanCfg()
 	f_discordUpdate({details = "Caravan"})
 	f_default()
 	setScoreDisplay(true)
-	setTimerDisplay(true)
 	data.gameMode = "allroster"
 	data.recordMode = "caravan"
 	setGameMode("caravan")
-	--data.stageMenu = true
 	--data.nextStage = true
+	setCountdown(6000) --5 Minutes
 	setRoundTime(99)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -14130,7 +14129,7 @@ function f_result(state)
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
-			elseif getGameMode() == "scoreattack" then
+			elseif getGameMode() == "scoreattack" or getGameMode() == "caravan" then
 				f_drawScoreAttackResults()
 				f_drawRank(score(), #t_roster * 1000000)
 			elseif getGameMode() == "timeattack" then
@@ -14154,7 +14153,7 @@ function f_result(state)
 				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(timerTotal()))
 				textImgDraw(txt_resultTime)
 			end
-			if getGameMode() ~= "scoreattack" and getGameMode() ~= "goldrush" then
+			if getGameMode() ~= "scoreattack" and getGameMode() ~= "caravan" and getGameMode() ~= "goldrush" then
 				textImgSetText(txt_resultScore, "SCORE: "..f_setThousandsFormat(score()).."PTS")
 				textImgDraw(txt_resultScore)
 			end
