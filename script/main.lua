@@ -1772,7 +1772,7 @@ function survivalCfg()
 	data.recordMode = "survival"
 	--data.stageMenu = true
 	setRoundsToWin(1)
-	setRoundTime(99 * 60)
+	setRoundTime(99)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -2554,7 +2554,7 @@ function scoreattackCfg()
 	data.recordMode = "scoreattack"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(99 * 60)
+	setRoundTime(99)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -2643,7 +2643,7 @@ function caravanCfg()
 	setGameMode("caravan")
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(99*60)
+	setRoundTime(99)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -2922,7 +2922,7 @@ function speedstarCfg()
 	data.recordMode = "speedstar"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(99 * 60)
+	setRoundTime(99)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -3009,7 +3009,7 @@ function goldrushCfg()
 	setGameMode("goldrush")
 	data.stage = "stages/Others/The Red Dragon's Lair.def"
 	data.bgm = "sound/Gold Rush.mp3"
-	setRoundTime(30*60)
+	setRoundTime(30)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -3186,7 +3186,7 @@ function suddenCfg()
 	data.recordMode = "suddendeath"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(15 * 60)
+	setRoundTime(15)
 	setRoundsToWin(1)
 	setLifeMul(0) --overwrite players life
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -5702,7 +5702,7 @@ function f_mainLobby()
 				f_selectAdvance()
 		--ONLINE SUDDEN DEATH
 			elseif mainLobby == 13 then
-				setRoundTime(15 * 60)
+				setRoundTime(15)
 				setLifeMul(0)
 				setRoundsToWin(1)
 				data.gameMode = "survival"
@@ -7014,7 +7014,7 @@ function f_setRoundTime()
 			roundTime = t_selChars[data.t_p2selected[1].cel + 1].roundtime
 		end
 	end
-	setRoundTime(roundTime * 60)
+	setRoundTime(roundTime)
 end
 
 function f_setZoom()
@@ -17039,7 +17039,7 @@ function f_tourneySelCfg()
 	data.gameMode = "tourney"
 	data.recordMode = "tourney"
 	data.stageMenu = true
-	setRoundTime(data.tourneyRoundTime * 60)
+	setRoundTime(data.tourneyRoundTime)
 	setRoundsToWin(data.tourneyRoundsNum)
 	setFTNo(data.tourneyMatchsNum) --Set Matchs To Wins/FT
 	textImgSetText(txt_mainSelect, tourneyState)
@@ -17711,7 +17711,7 @@ end
 function abyssCfg()
 	f_default()
 	setRoundsToWin(1)
-	setRoundTime(99 * 60)
+	setRoundTime(99)
 	setGameMode("abyss")
 	data.gameMode = "abyss"
 	data.recordMode = "abyss"

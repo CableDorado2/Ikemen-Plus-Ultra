@@ -1118,7 +1118,7 @@ void setRoundTime(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   int rt = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.roundTime = rt;
+  .com.roundTime = rt * 60;
 }
 
 void getRoundTime(&.lua.State L=, int re=)

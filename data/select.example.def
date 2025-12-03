@@ -59,7 +59,7 @@ Set the paramvalue to the number of rounds in order to
 overwrite rounds number saved in settings.
 
 - roundtime
-Set the paramvalue to the time (in seconds) in order to
+Set the paramvalue to the match round time (in seconds) in order to
 overwrite round time saved in settings.
 
 - single

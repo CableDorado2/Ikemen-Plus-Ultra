@@ -3,7 +3,7 @@
 --;===========================================================
 --Paths Data
 licensesPath = "docs/Licenses" --Licenses Path (Please always distribute license files for use this program)
-replaysPath = "save/replays" --Replays Path
+replaysPath = "replays" --Replays Path
 screenshotPath = "screenshots"
 --screenshotPath = getScreenshotsPath() --to use config.ssz ScreenshotFolder path
 musicPath = "sound" --Main Soundtrack Path

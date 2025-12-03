@@ -2342,14 +2342,14 @@ end
 --;===========================================================
 function f_default() --Reset Game Modes Configuration
 	resetRemapInput()
---settings adjustable via options
-	setRoundTime(data.roundTime * 60)
-	setRoundsToWin(data.roundsNum)
-	setLifeMul(data.lifeMul / 100)
-	setPowerMul(0)
-	setTeam1VS2Life(data.team1VS2Life / 100)
-	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
-	setSharedLife(data.teamLifeShare)
+--Settings adjustable via options
+	setRoundTime(data.roundTime) --Set the match round time (in seconds)
+	setRoundsToWin(data.roundsNum) --Set the num of rounds to win a match
+	setLifeMul(data.lifeMul / 100) --Set life multiplier
+	setPowerMul(0) --Set power multiplier
+	setTeam1VS2Life(data.team1VS2Life / 100) --Set single vs team life
+	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate) --Set life recovery rate in turns mode
+	setSharedLife(data.teamLifeShare) --Enabled or disabled life share in team modes
 	setPowerShare(1, data.teamPowerShare) --Team Power Share for Left Side
 	setPowerShare(2, data.teamPowerShare) --Team Power Share for Right Side
 --Auto-Guard for Left Side
@@ -2362,44 +2362,44 @@ function f_default() --Reset Game Modes Configuration
 	setAutoguard(4, false)
 	setAutoguard(6, false)
 	setAutoguard(8, false)
---values adjustable via lua scripts
-	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
-	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
-	data.p1Pal = nil --no predefined P1 character palette
-	data.p2Pal = nil --no predefined P2 character palette
-	data.p1TeamMenu = nil --no predefined P1 team mode (assigned via table: {mode = X, chars = Y} )
-	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y} )
+--Values adjustable via lua scripts
+	data.p1Char = nil --No predefined P1 character (assigned via table: {X, Y, (...)})
+	data.p2Char = nil --No predefined P2 character (assigned via table: {X, Y, (...)})
+	data.p1Pal = nil --No predefined P1 character palette
+	data.p2Pal = nil --No predefined P2 character palette
+	data.p1TeamMenu = nil --No predefined P1 team mode (assigned via table: {mode = X, chars = Y} )
+	data.p2TeamMenu = nil --No predefined P2 team mode (assigned via table: {mode = X, chars = Y} )
 	data.p1In = 1 --P1 controls P1 side of the select screen
 	data.p2In = 0 --P2 controls in the select screen disabled
 	data.coop = false --P2 fighting on P1 side disabled
-	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
+	data.p2Faces = false --Additional window with P2 select screen small portraits (faces) disabled
 	data.p1SelectMenu = true --P1 character selection enabled
 	data.p2SelectMenu = true --P2 character selection enabled
 	data.aiFight = false --AI = data.difficulty for all characters disabled
-	data.stageMenu = false --stage selection disabled
-	data.stage = nil --no predefined custom stage
-	--predefined custom Zoom Stage values (assigned via table: {zoom = false, zoomOut = 0.5, zoomIn = 1, zoomSpeed = 1} )
+	data.bgm = nil --No predefined custom song route
+	data.songSelect = true --Enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
+	data.stageMenu = false --Stage selection disabled
+	data.stage = nil --No predefined custom stage
+	--Predefined custom Zoom Stage values (assigned via table: {zoom = false, zoomOut = 0.5, zoomIn = 1, zoomSpeed = 1} )
 	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = data.zoomMax, zoomSpeed = data.zoomSpeed}
-	data.bgm = nil --no predefined custom song route
-	data.songSelect = true --enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
-	data.arcadeIntro = false --character arcade intro disabled
-	data.arcadeEnding = false --character arcade ending disabled
-	data.nextStage = false --next stage screen disabled
-	data.orderSelect = true --order select screen enabled
-	data.versusScreen = true --versus screen enabled
-	data.victoryscreen = true --victory screen enabled
-	data.serviceScreen = false --service screen disabled
+	data.arcadeIntro = false --Characters arcade intro disabled
+	data.arcadeEnding = false --Characters arcade ending disabled
+	data.nextStage = false --Next stage screen disabled
+	data.orderSelect = true --Order select screen enabled
+	data.versusScreen = true --Versus screen enabled
+	data.victoryscreen = true --Victory screen enabled
+	data.serviceScreen = false --Service screen disabled
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
 	data.intermission = false --Manage access to secret battles
-	data.gameMode = "" --additional variable used to distinguish modes in select screen
-	data.recordMode = "" --additional variable used to record stats and setup special stuff
-	data.rosterAdvanced = false --additional variable used to identify advanced roster (like arcade, survival or tower) in select screen
-	data.missionNo = nil --additional variable used to identify missions in select screen
-	data.eventNo = nil --additional variable used to identify events in select screen
-	data.storyNo = nil --additional variable used to identify stories in select screen
+	data.gameMode = "" --Additional variable used to distinguish modes in select screen
+	data.recordMode = "" --Additional variable used to record stats and setup special stuff
+	data.rosterAdvanced = false --Additional variable used to identify advanced roster (like arcade, survival or tower) in select screen
+	data.missionNo = nil --Additional variable used to identify missions in select screen
+	data.eventNo = nil --Additional variable used to identify events in select screen
+	data.storyNo = nil --Additional variable used to identify stories in select screen
 --Match Settings
-	setAutoLevel(false) --generate autolevel.log in debug dir
-	setHUD(true) --just enable or disable hud elements in game
+	setAutoLevel(false) --Generate autolevel.log in debug dir
+	setHUD(true) --Enable or disable hud elements in game
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2
@@ -2418,24 +2418,24 @@ function f_default() --Reset Game Modes Configuration
 	setScore(0) --Reset Player Score
 	setTimerDisplay(false) --Enable or Disable Timer Display
 	setTimer(0) --Reset Player Timer
-	setPlayerReward(0) --reset player reward to assign during special modes.
-	setPlayerSide("") --set player side variable to adjust internal settings.
-	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
-	setService("") --set different fight services for players (service examples are available in match.cns)
-	setPauseVar("") --set pause menu extra variable to adjust internal settings.
+	setPlayerReward(0) --Reset player reward to assign during special modes.
+	setPlayerSide("") --Set player side variable to adjust internal settings.
+	setGameMode("") --Set local GameMode variable (it can be recognized in cns and lua).
+	setService("") --Set different fight services for players (service examples are available in match.cns)
+	setPauseVar("") --Set pause menu extra variable to adjust internal settings.
 --Tournament Stuff
 	setFTNo(1) --Set Matchs To Wins/FT (To show in lifebar of Tournament Mode)
-	setTourneyState("") --set tournament state to show in tourney mode lifebar.
+	setTourneyState("") --Set tournament state to show in tourney mode lifebar.
 --RPG Stuff
-	setPlayerLife(0) --set life points to show during rpg mode profile and which be apply to the player.
-	setPlayerPower(0) --set power points to show during rpg mode profile and which be apply to the player.
-	setPlayerAttack(0) --set attack points to show during rpg mode profile and which be apply to the player.
-	setPlayerDefence(0) --set defence points to show during rpg mode profile and which be apply to the player.
+	setPlayerLife(0) --Set life points to show during rpg mode profile and which be apply to the player.
+	setPlayerPower(0) --Set power points to show during rpg mode profile and which be apply to the player.
+	setPlayerAttack(0) --Set attack points to show during rpg mode profile and which be apply to the player.
+	setPlayerDefence(0) --Set defence points to show during rpg mode profile and which be apply to the player.
 --Abyss Stuff
-	setAbyssDepth(1) --set depth level to show during abyss mode match lifebar.
-	setAbyssFinalDepth(0) --set last abyss depth match.
-	setAbyssDepthBoss(0) --set next abyss NORMAL boss depth.
-	setAbyssDepthBossSpecial(0) --set next abyss SPECIAL boss depth.
+	setAbyssDepth(1) --Set depth level to show during abyss mode match lifebar.
+	setAbyssFinalDepth(0) --Set last abyss depth match.
+	setAbyssDepthBoss(0) --Set next abyss NORMAL boss depth.
+	setAbyssDepthBossSpecial(0) --Set next abyss SPECIAL boss depth.
 	abyssBossMatch = getAbyssDepthBoss()
 	abyssSpecialBossCnt = 1 --Start count for Abyss Special Boss Matchs
 	abyssNextCheckPoint = abyssCheckpointNo --Start count for Abyss Map Checkpoints
