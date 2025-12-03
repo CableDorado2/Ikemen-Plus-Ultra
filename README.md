@@ -210,13 +210,16 @@ Here you can find content to build your projects or just for play on Ikemen.
 - [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
 
 ## Tools
-Here you can find some tools that help you in development of your projects (Some missed tools are included in the main I.K.E.M.E.N. Plus Ultra folder called "tools").
-- [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull M.U.G.E.N editor)
-- [Notepad++](https://notepad-plus-plus.org/) (Script editor)
+Here you can find some recommended tools that will help you in development of your projects using this engine.
+- [Fighter Factory](http://fighterfactory.virtualltek.com/) (A general purpose M.U.G.E.N content/asset Editor)
+- [Radmin VPN](https://www.radmin-vpn.com/) (For Netplay)
+- Visual C++ 2010 Express (IDE to edit and compile engine Source Code)
 - [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
+- [SDL2 Gamepad Tool](https://generalarcade.com/gamepadtool/) (A simple GUI tool to create/modify gamepad mappings)
+- [ReShade](https://reshade.me/) (Post-processing injector for games)
+- [Notepad++](https://notepad-plus-plus.org/) (Script Editor)
+- [Audacity](https://www.audacityteam.org/) (Audio Editor)
 - [Mp3Tag](https://www.mp3tag.de/en/) (A music tag editor)
-- [Radmin VPN](https://www.radmin-vpn.com/) (For Online Netplay)
-- Visual C++ 2010 Express (IDE to edit and compile Source Code)
 
 ## Engine Manual
 S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
