@@ -954,13 +954,15 @@ end
 
 local function f_setMatchTexts()
 	local stg = ""
---Set Stage
+--Set Stage Number
 	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
 	textImgSetText(txt_MatchFightCfg, stg)
---Set CPU Level
+--Set CPU Level Number
 	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
 		textImgSetText(txt_AiLevelFightCfg, txt_AiLevelFight..ailevel())
 	end
+--Set Game Mode Name
+	textImgSetText(txt_GameModeFightCfg, getGameMode())
 --Set Survival Wins
 	if playerLeftSide then
 		textImgSetText(txt_SurvivalCountP1FightCfg, matchno() - 1 ..txt_SurvivalCountFight)
@@ -1007,7 +1009,7 @@ local function f_drawTimer()
 			setTimer(timerTotal() + 1)
 			if getGameMode() == "caravan" then
 				setCountdown(countdown() - 1)
-				if countdown == 0 then exitMatch() end
+				if countdown() == 0 then exitMatch() end
 			end
 		end
 		sleep(0.001)
@@ -1016,12 +1018,15 @@ end
 
 local maxComboCnt = 0
 local scoreattackfactor = 1
-if getGameMode() == "scoreattack" then scoreattackfactor = 10 end
+if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
 local function f_drawScore()
 	if roundstate() == 2 then
 		local pts = 0
 		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-			pts = gethitvar("hitcount") * 100 --(gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
+			pts = gethitvar("hitcount") * 100
+			if getGameMode() == "scoreattack" or getGameMode() == "caravan" then
+				pts = pts + (gethitvar("damage") * 10)
+			end
 			if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
 		end
 		setScore(score() + pts * scoreattackfactor)
@@ -1134,14 +1139,6 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_DemoFightCfg)
 		animDraw(demoLogo)
 		f_demoSkip()
---During Arcade Mode
-	elseif getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu" then
-		if roundstate() == 2 then
-			textImgDraw(txt_AiLevelFightCfg)
-			textImgDraw(txt_MatchFightCfg)
-		end
-	elseif getGameMode() == "practice" then
-		--
 --During VS Mode
 	elseif getGameMode() == "vs" then
 		if roundstate() == 2 then
@@ -1160,6 +1157,9 @@ function loop() --The code for this function should be thought of as if it were 
 		
 		textImgDraw(txt_TourneyFTFightCfg)
 		textImgDraw(txt_TourneyStateFightCfg)
+--During Speed Star Mode
+	elseif getGameMode() == "speedstar" then
+		
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
 		if not matchover() then
@@ -1197,21 +1197,6 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			end
-		end
---During Score Attack Mode
-	elseif getGameMode() == "scoreattack" then
-		if roundstate() == 2 then
-			textImgDraw(txt_MatchFightCfg)
-		end
---During Time Attack Mode
-	elseif getGameMode() == "timeattack" then
-		if roundstate() == 2 then
-			textImgDraw(txt_MatchFightCfg)
-		end
---During Kumite Mode
-	elseif getGameMode() == "kumite" then
-		if roundstate() == 2 then
-			textImgDraw(txt_MatchFightCfg)
 		end
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
@@ -1342,6 +1327,11 @@ function loop() --The code for this function should be thought of as if it were 
 	end
 	f_setStageMusic()
 	f_streakWins()
+	if roundstate() == 2 then
+		if ailevelDisplay() then textImgDraw(txt_AiLevelFightCfg) end
+		if matchnoDisplay() then textImgDraw(txt_MatchFightCfg) end
+		if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
+	end
 	f_drawTimer()
 	f_drawScore()
 	f_addBonusScore()

@@ -160,6 +160,7 @@ table.insert(t_profileMenu, #t_profileMenu, {text = "ACHIEVEMENTS", gotomenu = "
 txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENT PROGRESS:", 218, 11)
 txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
 txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
+txt_TrophyInfoFight = createTextImg(font2, 0, 1, "", 0, 0, 0.75, 0.75)
 
 --Achievement Slot
 achievementSlot = animNew(sprIkemen, [[

@@ -1267,7 +1267,9 @@ function arcadeCfg()
 	f_discordUpdate({details = "Arcade"})
 	f_resetArcadeStuff()
 	f_default() --Load f_default function defined in common.lua
-	setScoreDisplay(true) --Player Score Enabled
+	setScoreDisplay(true) --Display Player Score
+	setMatchnoDisplay(true) --Display Stage Number
+	setAilevelDisplay(true) --Display CPU Difficulty Level
 	setGameMode("arcade")
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.recordMode = "arcade" --to record statistics
@@ -2549,6 +2551,7 @@ function scoreattackCfg()
 	f_discordUpdate({details = "Score Attack"})
 	f_default()
 	setScoreDisplay(true)
+	setMatchnoDisplay(true)
 	setGameMode("scoreattack")
 	data.gameMode = "allroster"
 	data.recordMode = "scoreattack"
@@ -2637,6 +2640,7 @@ function caravanCfg()
 	f_discordUpdate({details = "Caravan"})
 	f_default()
 	setScoreDisplay(true)
+	setMatchnoDisplay(true)
 	data.gameMode = "allroster"
 	data.recordMode = "caravan"
 	setGameMode("caravan")
@@ -2830,6 +2834,7 @@ function timeattackCfg()
 	f_discordUpdate({details = "Time Attack"})
 	f_default()
 	setTimerDisplay(true)
+	setMatchnoDisplay(true)
 	data.gameMode = "allroster"
 	data.recordMode = "timeattack"
 	setGameMode("timeattack")
@@ -2917,6 +2922,7 @@ end
 function speedstarCfg()
 	f_discordUpdate({details = "Speed Star"})
 	f_default()
+	setMatchnoDisplay(true)
 	data.gameMode = "allroster"
 	data.recordMode = "speedstar"
 	--data.stageMenu = true
@@ -3098,6 +3104,7 @@ function kumiteCfg()
 	data.gameMode = "kumite"
 	data.recordMode = "kumite"
 	setGameMode("kumite")
+	setMatchnoDisplay(true)
 	--data.stageMenu = true
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

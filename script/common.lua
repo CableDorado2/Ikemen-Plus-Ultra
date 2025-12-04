@@ -2391,6 +2391,7 @@ function f_default() --Reset Game Modes Configuration
 	data.serviceScreen = false --Service screen disabled
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
 	data.intermission = false --Manage access to secret battles
+	data.rankingScreen = false --Ranking Screen Disabled
 	data.gameMode = "" --Additional variable used to distinguish modes in select screen
 	data.recordMode = "" --Additional variable used to record stats and setup special stuff
 	data.rosterAdvanced = false --Additional variable used to identify advanced roster (like arcade, survival or tower) in select screen
@@ -2414,6 +2415,9 @@ function f_default() --Reset Game Modes Configuration
 	setWinPerfectHyperCount(0) --Reset Perfect Hyper Wins Count
 	setWinThrowCount(0) --Reset Thrown Wins Count
 	setWinPerfectThrowCount(0) --Reset Perfect Thrown Wins Count
+	setMatchnoDisplay(false) --Enable or Disable Match/Stage Number Display
+	setAilevelDisplay(false) --Enable or Disable CPU Difficulty Level Display
+	setGameModeDisplay(false) --Enable or Disable Game Mode Name Display
 	setScoreDisplay(false) --Enable or Disable Score Display
 	setScore(0) --Reset Player Score
 	setTimerDisplay(false) --Enable or Disable Timer Display

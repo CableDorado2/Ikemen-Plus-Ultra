@@ -31,8 +31,7 @@ public &Share
   public int winPerfectCount, winPerfectSpecialCount, winPerfectHyperCount, winPerfectThrowCount;
   public int score, scoreTotal, p1score, p2score;
   public int timer, countdownTimer;
-  public bool scoreDisplay;
-  public bool timerDisplay;
+  public bool scoreDisplay, timerDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
   public int lifePersistence;
   public int stt;
   public ^int com;
@@ -122,6 +121,9 @@ public &Share
     `winThrowCount = .com.winThrowCount;
     `winPerfectThrowCount = .com.winPerfectThrowCount;
     `firstAttackCount = .com.firstAttackCount;
+	`matchnoDisplay = .com.matchnoDisplay;
+	`ailevelDisplay = .com.ailevelDisplay;
+	`gamemodeDisplay = .com.gamemodeDisplay;
 	`timerDisplay = .com.timerDisplay;
 	`timer = .com.timer;
 	`countdownTimer = .com.countdownTimer;
@@ -228,6 +230,9 @@ public &Share
     .com.home = `chr_home;
     .com.match = `chr_match;
     .com.round = `chr_round;
+    .com.matchnoDisplay = `matchnoDisplay;
+    .com.ailevelDisplay = `ailevelDisplay;
+    .com.gamemodeDisplay = `gamemodeDisplay;
     .com.timerDisplay = `timerDisplay;
     .com.timer = `timer;
     .com.countdownTimer = `countdownTimer;

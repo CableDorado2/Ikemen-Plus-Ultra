@@ -4358,8 +4358,9 @@ end
 --; MATCH EXTRA ASSETS SCREENPACK DEFINITION
 --;===========================================================
 txt_DemoFightCfg = createTextImg(font15, 0, -1, "DEMO MODE", 305, 10)
+txt_GameModeFightCfg = createTextImg(font15, 0, -1, "", 305, 10)
 txt_AiLevelFightCfg = createTextImg(font5, 0, 0, "", 160, 239)
-txt_MatchFightCfg = createTextImg(font5, 0, 0, "", 160, 40)
+txt_MatchFightCfg = createTextImg(font5, 0, 0, "", 160, 42)
 txt_RewardFightCfg = createTextImg(jgFnt, 5, 0, "", 160, 38)
 
 txt_ScoreP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
@@ -4386,8 +4387,6 @@ txt_WinCountFight = "WINS "
 txt_AiLevelFight = "CPU-"
 txt_TourneyFTFight = "FT"
 txt_RewardFight = "REWARD: "
-
-txt_TrophyInfoFight = createTextImg(font2, 0, 1, "", 0, 0, 0.75, 0.75)
 
 --Demo Logo
 demoLogo = animNew(sprIkemen, [[
