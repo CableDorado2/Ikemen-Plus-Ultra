@@ -3,13 +3,13 @@ data.userName = "PLAYER"
 data.connectMode = "Database"
 data.ftcontrol = -1
 --Music Data
-data.menuSong = "sound/system/menu/Menu 3.mp3"
+data.menuSong = "Random"
 data.menuSongFolder = 3
 data.selectSong = "Random"
 data.selectSongFolder = 4
 data.challengerSong = "sound/system/Select Challenger.mp3"
 data.challengerSongFolder = 4
-data.bgmDisplay = false
+data.bgmDisplay = true
 --System Data
 data.language = 1
 data.clock = 4
@@ -26,7 +26,7 @@ data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
-data.roundsNum = 1
+data.roundsNum = 2
 data.lifebar = "data/lifebars/winmugen/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"

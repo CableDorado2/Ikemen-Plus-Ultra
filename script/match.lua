@@ -1166,7 +1166,7 @@ function loop() --The code for this function should be thought of as if it were 
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				addTime = gethitvar("damage") + gethitvar("hitcount")
 				setTime(timeremaining() + addTime)
-				if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 1) end --Bonus Time
+				--if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 1) end --Bonus Time
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				addTime = gethitvar("damage") + gethitvar("hitcount")
