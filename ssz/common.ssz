@@ -128,7 +128,7 @@ public int GameHeight;
 public float WidthScale;
 public float HeightScale;
 
-const bool CharLocalCoord320 = true;
+const bool CharLocalCoord320 = false;
 
 public float CharGameWidth;
 public float CharGameLeft;
