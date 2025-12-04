@@ -1048,7 +1048,7 @@ local function f_addBonusScore()
 		else
 			setScore(score() + 30000 * scoreattackfactor) --Full Life Bonus
 		end
-		if getRoundTime() ~= -1 then setScore(score() + ((getRoundTime() / 60) * 100) * scoreattackfactor) end --Time remains add score
+		if getRoundTime() > 0 then setScore(score() + ((timeremaining() / 60) * 100) * scoreattackfactor) end --Time remains add score
 		setScore(score() + (maxComboCnt * 1000) * scoreattackfactor)
 		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
 		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
@@ -1121,7 +1121,8 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Special Wins: "..winSpecialCount(), posX, posY + 50)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY + 60)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY + 70)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, posY + 85)
+	--f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, posY + 85)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Round Time Remaining: "..timeremaining(), posX, posY + 85)
 --Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, posX, posY + 100)
@@ -1159,7 +1160,46 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_TourneyStateFightCfg)
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
-		
+		if not matchover() then
+			local addTime = 0
+		--Player Deal Damage over CPU
+			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
+				addTime = gethitvar("damage") + gethitvar("hitcount")
+				setTime(timeremaining() + addTime)
+				if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 1) end --Bonus Time
+		--CPU Deal Damage over Player
+			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
+				addTime = gethitvar("damage") + gethitvar("hitcount")
+				if timeremaining() > 0 then setTime(timeremaining() - addTime) end
+				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
+				--sndPlay(sndIkemen, 600, 1) --Lose Time
+			end
+			if playerLeftSide then
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						
+					else --Is an Odd Player Number (Left Side)
+						if timeremaining() == 0 then
+							if player(i) then setLife(0) end
+						else
+							if player(i) then setLife(lifemax()) end
+						end
+					end
+				end
+			else
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						if timeremaining() == 0 then
+							if player(i) then setLife(0) end
+						else
+							if player(i) then setLife(lifemax()) end
+						end
+					else --Is an Odd Player Number (Left Side)
+						
+					end
+				end
+			end
+		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
 		if not matchover() then

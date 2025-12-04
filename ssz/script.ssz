@@ -1528,6 +1528,19 @@ void getLifePersistence(&.lua.State L=, int re=)
   L.pushNumber((double).com.lifePersistence);
 }
 
+void setTimePersistence(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int tp = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.timePersistence = tp;
+}
+
+void getTimePersistence(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.timePersistence);
+}
+
 void setAbyssDepth(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1961,6 +1974,9 @@ public void init(&.lua.State L=)
   
   L.register("setLifePersistence", .setLifePersistence);
   L.register("getLifePersistence", .getLifePersistence);
+  
+  L.register("setTimePersistence", .setTimePersistence);
+  L.register("getTimePersistence", .getTimePersistence);
   
   L.register("setPlayerLife", .setPlayerLife);
   L.register("getPlayerLife", .getPlayerLife);

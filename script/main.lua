@@ -2920,14 +2920,21 @@ end
 
 --Load Common Settings for Speed Star Modes
 function speedstarCfg()
+	local rTime = nil
 	f_discordUpdate({details = "Speed Star"})
 	f_default()
 	setMatchnoDisplay(true)
 	data.gameMode = "allroster"
 	data.recordMode = "speedstar"
+	setGameMode("speedstar")
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(99)
+	if data.difficulty > 4 then
+		rTime = 90
+	else
+		rTime = 180
+	end
+	setRoundTime(rTime)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)

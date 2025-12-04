@@ -32,7 +32,7 @@ public &Share
   public int score, scoreTotal, p1score, p2score;
   public int timer, countdownTimer;
   public bool scoreDisplay, timerDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
-  public int lifePersistence;
+  public int lifePersistence, timePersistence;
   public int stt;
   public ^int com;
   public ^int taglevel;
@@ -177,6 +177,7 @@ public &Share
 	`tourneyState = .com.tourneyState;
 	`gameType = .com.gameType;
 	`lifePersistence = .com.lifePersistence;
+	`timePersistence = .com.timePersistence;
 	`credits = .com.credits;
 	`coins = .com.coins;
 	`playerReward = .com.playerReward;
@@ -301,6 +302,7 @@ public &Share
 	.com.tourneyState = `tourneyState;
 	.com.gameType = `gameType;
 	.com.lifePersistence = `lifePersistence;
+	.com.timePersistence = `timePersistence;
 	.com.credits = `credits;
 	.com.coins = `coins;
 	.com.abyssDepth = `abyssDepth;

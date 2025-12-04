@@ -2423,6 +2423,8 @@ function f_default() --Reset Game Modes Configuration
 	setTimerDisplay(false) --Enable or Disable Timer Display
 	setTimer(0) --Reset Player Timer
 	setCountdown(-1) --Reset Caravan Countdown Timer
+	setTimePersistence(0) --To store last round time value when time is maintained after match
+	setLifePersistence(0) --To store last life bar value when life is maintained after match
 	setPlayerReward(0) --Reset player reward to assign during special modes.
 	setPlayerSide("") --Set player side variable to adjust internal settings.
 	setGameMode("") --Set local GameMode variable (it can be recognized in cns and lua).
@@ -2445,7 +2447,6 @@ function f_default() --Reset Game Modes Configuration
 	abyssSpecialBossCnt = 1 --Start count for Abyss Special Boss Matchs
 	abyssNextCheckPoint = abyssCheckpointNo --Start count for Abyss Map Checkpoints
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
-	setLifePersistence(0) --To store last life bar value when life is maintained after match
 --To save Special Items during Abyss Boss Reward Menu
 	setAbyssSP1("")
 	setAbyssSP2("")

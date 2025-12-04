@@ -1,18 +1,27 @@
-lib s = <string.ssz>;
-lib consts = <consts.ssz>;
-lib m = <math.ssz>;
-lib sdl = <alpha/sdlplugin.ssz>;
 lib cfg = "../save/config.ssz";
-lib mes = <alpha/mesdialog.ssz>;
-lib tbl = <table.ssz>;
+
+//Load "lib/" Scripts
+lib consts = <consts.ssz>;
 lib file = <file.ssz>;
+lib m = <math.ssz>;
+lib s = <string.ssz>;
+lib tbl = <table.ssz>;
+
+//Load "lib/alpha/" Scripts
+lib mes = <alpha/mesdialog.ssz>;
 lib se = <alpha/sdlevent.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+
+public ^/char operatingSystem;
+public int coins = 0;
+public int credits = 0;
 
 public int gameType = 0;
 public ^/char gameMode;
 public ^/char gameService;
 public ^/char playerSide;
 public ^/char pauseVar;
+public ^/char bgmName;
 
 public float life = 1.0; //Used by setLifeMul()
 public int power = 0; //Used by setPowerMul()
@@ -20,6 +29,51 @@ public float attack = 1.0;
 public float defence = 1.0;
 public float team1VS2Life = 1.0;
 public float turnsRecoveryRate = 1.0 / 300.0;
+
+public bool scoreDisplay = false;
+public int score = 0;
+public int scoreTotal = 0;
+public int p1score = 0;
+public int p2score = 0;
+
+public bool timerDisplay = false;
+public int timer = 0;
+public int countdownTimer = -1;
+
+public int roundTime = 999 * 6;
+public int roundsToWin = 2;
+public int matchsToWin = 0; //FT
+
+public int p1matchWins = 0; //To display wins count
+public int p2matchWins = 0;
+public int p1consecutiveWins = 0; //To display consecutive wins
+public int p2consecutiveWins = 0;
+
+public int lifePersistence = 0;
+public int timePersistence = 0;
+public int firstAttackCount = 0;
+public int consecutiveWins = 0; //The counter increases for the winning team at the same time MatchOver trigger starts returning 1
+public int winTimeCount = 0;
+public int winPerfectCount = 0;
+public int winSpecialCount = 0;
+public int winPerfectSpecialCount = 0;
+public int winHyperCount = 0;
+public int winPerfectHyperCount = 0;
+public int winThrowCount = 0;
+public int winPerfectThrowCount = 0;
+
+public bool firstAttack = false;
+public bool postMatchFlg = false; //Post Match Flag
+public bool matchnoDisplay = false;
+public bool ailevelDisplay = false;
+public bool gamemodeDisplay = false;
+public ^/char tourneyState;
+
+public int abyssDepth = 1; //To display at what abyss depth level player is
+public int abyssDepthBoss = 0; //To display at what depth of the abyss a NORMAL boss appears
+public int abyssDepthBossSpecial = 0; //To display at what depth of the abyss a SPECIAL boss appears
+public int abyssBossFight = 0; //To detect if player is in an abyss boss fight
+public int abyssFinalDepth = 0; //To detect if player is in last abyss fight
 
 public bool sharedLife = true;
 public int sysControls = 0; //0 = Fight, 10 = Menu
@@ -41,34 +95,17 @@ public int counterHit = 0;
 public int recordState = 0; //To display Debug Record Playback State
 public int playbackState = 0; //To display Debug Record Playback State
 
-public int score = 0;
-public int scoreTotal = 0;
-public int p1score = 0;
-public int p2score = 0;
-
-public int roundTime = 999 * 6;
-public int roundsToWin = 2;
-public int p1consecutiveWins = 0; //To display consecutive wins
-public int p2consecutiveWins = 0;
-public int p1matchWins = 0; //To display wins count
-public int p2matchWins = 0;
-public int matchsToWin = 0; //FT
-public bool postMatchFlg = false; //Post Match Flag
-
-public ^/char tourneyState;
-
-public int lifePersistence = 0;
-
-public int abyssDepth = 1; //To display at what abyss depth level player is
-public int abyssDepthBoss = 0; //To display at what depth of the abyss a NORMAL boss appears
-public int abyssDepthBossSpecial = 0; //To display at what depth of the abyss a SPECIAL boss appears
-public int abyssBossFight = 0; //To detect if player is in an abyss boss fight
-public int abyssReward = 0; //To display abyss reward
-//Unlike above paramvalues this is exclusive to manage abyss player stats
-public int abyssLife = 0; //To save abyss life
-public int abyssPower = 0; //To save abyss Power
-public int abyssAttack = 0; //To save abyss Attack
-public int abyssDefence = 0; //To save abyss Defence
+//To manage player stats
+public int playerLife = 0;
+public int playerPower = 0;
+public int playerAttack = 0;
+public int playerDefence = 0;
+public int playerReward = 0;
+//To save Special Items during Abyss Boss Reward Menu
+public ^/char abyssSP1;
+public ^/char abyssSP2;
+public ^/char abyssSP3;
+public ^/char abyssSP4;
 
 public int suaveMode = 0;
 
@@ -220,6 +257,7 @@ public int intro = 20;
 public int home = 0;
 
 public int match = 1;
+public int lastMatch = -1;
 public int p1mw = 2, p2mw = 2;
 
 //ROUND No.
