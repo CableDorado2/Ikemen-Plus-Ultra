@@ -1166,13 +1166,13 @@ function loop() --The code for this function should be thought of as if it were 
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				addTime = gethitvar("damage") + gethitvar("hitcount")
 				setTime(timeremaining() + addTime)
-				--if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 1) end --Bonus Time
+				if roundstate() ~= 1 then sndPlay(sndIkemen, 620, 0) end --Bonus Time
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				addTime = gethitvar("damage") + gethitvar("hitcount")
 				if timeremaining() > 0 then setTime(timeremaining() - addTime) end
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
-				--sndPlay(sndIkemen, 600, 1) --Lose Time
+				sndPlay(sndIkemen, 620, 1) --Lose Time
 			end
 			if playerLeftSide then
 				for i=1, 8 do
@@ -1208,13 +1208,13 @@ function loop() --The code for this function should be thought of as if it were 
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
 				setPlayerReward(getPlayerReward() + money)
-				if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 1) end --Win Money
+				if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 2) end --Win Money
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
 				if getPlayerReward() > 0 then setPlayerReward(getPlayerReward() - money) end
 				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
-				--sndPlay(sndIkemen, 600, 1) --Lose Money
+				sndPlay(sndIkemen, 620, 1) --Lose Money
 			end
 			if roundstate() == 2 then
 				textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")
