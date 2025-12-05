@@ -982,6 +982,7 @@ end
 f_setMatchTexts() --Load when match start
 
 local timerStart = 0
+local noDamageTimer = 0
 local function f_drawTimer()
 	if roundstate() == 0 then
 		timerStart = 40 --Countdown to activate timer
@@ -1161,18 +1162,51 @@ function loop() --The code for this function should be thought of as if it were 
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
 		if not matchover() then
-			local addTime = 0
+			local bonusTime = 0
+		--No Damage Time Bonus
+		--5 Seconds
+			if noDamageTimer == 100 then
+				setTime(timeremaining() + 1)
+				sndPlay(sndIkemen, 620, 0)
+		--10 Seconds
+			elseif noDamageTimer == 200 then
+				setTime(timeremaining() + 2)
+				sndPlay(sndIkemen, 620, 0)
+		--20 Seconds
+			elseif noDamageTimer == 400 then
+				setTime(timeremaining() + 5)
+				sndPlay(sndIkemen, 620, 0)
+		--30 Seconds
+			elseif noDamageTimer == 600 then
+				setTime(timeremaining() + 7)
+				sndPlay(sndIkemen, 620, 0)
+			end
+			--Normal K.O = +1, Super KO = +3
+			--Taunt= +1, 5Taunt= +2.5, 10Taunt= +5
+			--Throw = +1, 3Throws= +2, 5Throws= +3
+			--When enemy is already defeated (corpse kick)
 		--Player Deal Damage over CPU
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-				addTime = gethitvar("damage") + gethitvar("hitcount")
-				setTime(timeremaining() + addTime)
-				if roundstate() ~= 1 then sndPlay(sndIkemen, 620, 0) end --Bonus Time
+				local damageDat = gethitvar("damage")
+				bonusTime = gethitvar("hitcount")
+			--Over 200 Damage
+				if damageDat > 200 and damageDat < 300 then
+					bonusTime = bonusTime + 1
+			--Over 300 Damage
+				elseif damageDat > 300 and damageDat < 400 then
+					bonusTime = bonusTime + 1.5
+				end
+				setTime(timeremaining() + bonusTime) --Bonus Time
+				if roundstate() ~= 1 and bonusTime ~= 0 then sndPlay(sndIkemen, 620, 0) end
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
-				addTime = gethitvar("damage") + gethitvar("hitcount")
-				if timeremaining() > 0 then setTime(timeremaining() - addTime) end
+				bonusTime = gethitvar("damage") + gethitvar("hitcount")
+				noDamageTimer = 0 --Reset No Damage Timer
+				if timeremaining() > 0 then
+					setTime(timeremaining() - bonusTime) --Lose Time
+					sndPlay(sndIkemen, 620, 1)
+				end
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
-				sndPlay(sndIkemen, 620, 1) --Lose Time
 			end
 			if playerLeftSide then
 				for i=1, 8 do
@@ -1199,6 +1233,7 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			end
+			if roundstate() == 2 then noDamageTimer = noDamageTimer + 1 end
 		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
@@ -1208,13 +1243,15 @@ function loop() --The code for this function should be thought of as if it were 
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
 				setPlayerReward(getPlayerReward() + money)
-				if roundstate() ~= 1 then sndPlay(sndIkemen, 610, 2) end --Win Money
+				if roundstate() ~= 1 and money ~= 0 then sndPlay(sndIkemen, 610, 2) end --Win Money
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
-				if getPlayerReward() > 0 then setPlayerReward(getPlayerReward() - money) end
+				if getPlayerReward() > 0 then
+					setPlayerReward(getPlayerReward() - money) --Lose Money
+					sndPlay(sndIkemen, 620, 1)
+				end
 				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
-				sndPlay(sndIkemen, 620, 1) --Lose Money
 			end
 			if roundstate() == 2 then
 				textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")

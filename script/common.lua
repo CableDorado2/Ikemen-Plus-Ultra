@@ -2515,10 +2515,10 @@ function f_fadeInBGM(fadeSeconds)
 		end
 	end
 	if data.debugMode then
-		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, originalVol, 109, 28)
-		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, fadeInBGMstart, 109, 48)
-		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, fadeStep, 109, 68)
-		f_drawQuickText(txt_testfadeinBGM, font6, 0, 0, fadeSeconds, 109, 88)
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 1, "original vol: "..originalVol, 2, 28)
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 1, "fadein start: "..fadeInBGMstart, 2, 48)
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 1, "fadestep: "..fadeStep, 2, 68)
+		f_drawQuickText(txt_testfadeinBGM, font6, 0, 1, "fadeseconds: "..fadeSeconds, 2, 88)
 	end
 end
 
@@ -2534,9 +2534,9 @@ function f_fadeOutBGM(fadeSeconds)
 		end
 	end
 	if data.debugMode then
-		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, "fadeostart:"..fadeOutBGMstart, 109, 48)
-		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, "fadestep:"..fadeStep, 109, 68)
-		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 0, "fadeseconds:"..fadeSeconds, 109, 88)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 1, "fadeout start: "..fadeOutBGMstart, 2, 48)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 1, "fadestep: "..fadeStep, 2, 68)
+		f_drawQuickText(txt_testfadeOutBGM, font6, 0, 1, "fadeseconds: "..fadeSeconds, 2, 88)
 	end
 end
 

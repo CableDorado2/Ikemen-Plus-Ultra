@@ -14039,7 +14039,7 @@ function f_result(state)
 	if state == "win" then
 		
 	elseif state == "lost" then
-		if getGameMode() == "timeattack" then return end --Skip results if lose in time attack mode
+		if getGameMode() == "timeattack" or getGameMode() == "speedstar" then return end --Skip results if lose in time attack mode
 	end
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
@@ -14146,7 +14146,7 @@ function f_result(state)
 			elseif getGameMode() == "scoreattack" or getGameMode() == "caravan" then
 				f_drawScoreAttackResults()
 				f_drawRank(score(), #t_roster * 1000000)
-			elseif getGameMode() == "timeattack" then
+			elseif getGameMode() == "timeattack" or "speedstar" then
 				f_drawTimeAttackResults()
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
 			elseif getGameMode() == "goldrush" then
@@ -14163,7 +14163,7 @@ function f_result(state)
 					textImgDraw(txt_resultLoses)
 				end
 			end
-			if getGameMode() ~= "timeattack" and getGameMode() ~= "goldrush" then
+			if getGameMode() ~= "timeattack" and getGameMode() ~= "speedstar" then
 				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(timerTotal()))
 				textImgDraw(txt_resultTime)
 			end
