@@ -1011,6 +1011,8 @@ local function f_drawTimer()
 			if getGameMode() == "caravan" then
 				setCountdown(countdown() - 1)
 				if countdown() == 0 then exitMatch() end
+			elseif getGameMode() == "speedstar" then
+				noDamageTimer = noDamageTimer + 1
 			end
 		end
 		sleep(0.001)
@@ -1071,6 +1073,7 @@ local function f_addBonusScore()
 		elseif winhyper() then
 			setScore(score() + 8000 * scoreattackfactor)
 			setWinHyperCount(winHyperCount() + 1)
+			if getGameMode == "speedstar" then setTime(timeremaining() + (3 * matchTimeFix)) end --Super K.O Bonus Time
 		elseif winthrow() then
 			setScore(score() + 3000 * scoreattackfactor)
 			setWinThrowCount(winThrowCount() + 1)
@@ -1079,6 +1082,9 @@ local function f_addBonusScore()
 			setWinSpecialCount(winSpecialCount() + 1)
 		elseif wintime() then
 			setWinTimeCount(winTimeCount() + 1)
+		end
+		if getGameMode == "speedstar" and winko() then
+			setTime(timeremaining() + (1 * matchTimeFix)) end --Normal K.O Bonus Time
 		end
 	end
 end
@@ -1104,6 +1110,14 @@ local function f_streakWins()
 				setConsecutiveWins(0)
 			end
 		end
+	end
+end
+
+local tauntCnt = 0
+local function f_tauntCheck()
+--Taunt Bonus
+	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) and anim() == 195 and time() < 2 then
+		tauntCnt = tauntCnt + 1
 	end
 end
 
@@ -1166,23 +1180,40 @@ function loop() --The code for this function should be thought of as if it were 
 		--No Damage Time Bonus
 		--5 Seconds
 			if noDamageTimer == 100 then
-				setTime(timeremaining() + 1)
+				setTime(timeremaining() + (1 * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
+				noDamageTimer = noDamageTimer + 1
 		--10 Seconds
 			elseif noDamageTimer == 200 then
-				setTime(timeremaining() + 2)
+				setTime(timeremaining() + (2 * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
+				noDamageTimer = noDamageTimer + 1
 		--20 Seconds
 			elseif noDamageTimer == 400 then
-				setTime(timeremaining() + 5)
+				setTime(timeremaining() + (5 * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
+				noDamageTimer = noDamageTimer + 1
 		--30 Seconds
 			elseif noDamageTimer == 600 then
-				setTime(timeremaining() + 7)
+				setTime(timeremaining() + (7 * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
+				noDamageTimer = noDamageTimer + 1
 			end
-			--Normal K.O = +1, Super KO = +3
-			--Taunt= +1, 5Taunt= +2.5, 10Taunt= +5
+		--Taunt Bonus
+			f_tauntCheck()
+		--1 Taunt
+			if tauntCnt == 1 then
+				bonusTime = bonusTime + 1
+				tauntCnt = tauntCnt + 1 --To Avoid receive bonus each time that is checked
+		--5 Taunts
+			elseif tauntCnt == 6 then
+				bonusTime = bonusTime + 2.5
+				tauntCnt = tauntCnt + 1
+		--10 Taunts
+			elseif tauntCnt == 11 then
+				bonusTime = bonusTime + 5
+				tauntCnt = tauntCnt + 1
+			end
 			--Throw = +1, 3Throws= +2, 5Throws= +3
 			--When enemy is already defeated (corpse kick)
 		--Player Deal Damage over CPU
@@ -1196,7 +1227,7 @@ function loop() --The code for this function should be thought of as if it were 
 				elseif damageDat > 300 and damageDat < 400 then
 					bonusTime = bonusTime + 1.5
 				end
-				setTime(timeremaining() + bonusTime) --Bonus Time
+				setTime(timeremaining() + (bonusTime * matchTimeFix)) --Bonus Time
 				if roundstate() ~= 1 and bonusTime ~= 0 then sndPlay(sndIkemen, 620, 0) end
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
@@ -1233,7 +1264,12 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			end
-			if roundstate() == 2 then noDamageTimer = noDamageTimer + 1 end
+		--[[
+			if data.debugMode then
+				f_drawQuickText(txt_spedyT, font14, 0, 1, "No Damage Time: "..noDamageTimer/20, 95, 150)
+				f_drawQuickText(txt_spedyT, font14, 0, 1, "Taunt Cnt: "..tauntCnt, 95, 170)
+			end
+		--]]
 		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then

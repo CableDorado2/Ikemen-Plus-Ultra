@@ -3199,7 +3199,7 @@ function suddenCfg()
 	data.recordMode = "suddendeath"
 	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(15)
+	setRoundTime(10)
 	setRoundsToWin(1)
 	setLifeMul(0) --overwrite players life
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -14146,7 +14146,7 @@ function f_result(state)
 			elseif getGameMode() == "scoreattack" or getGameMode() == "caravan" then
 				f_drawScoreAttackResults()
 				f_drawRank(score(), #t_roster * 1000000)
-			elseif getGameMode() == "timeattack" or "speedstar" then
+			elseif getGameMode() == "timeattack" or getGameMode() == "speedstar" then
 				f_drawTimeAttackResults()
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
 			elseif getGameMode() == "goldrush" then

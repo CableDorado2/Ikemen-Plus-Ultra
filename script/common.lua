@@ -128,6 +128,7 @@ abyssDat = json.decode(f_fileRead(saveAbyssPath))
 --;===========================================================
 --Constants/Standards
 gameTick = 20
+matchTimeFix = 60
 tickTime = 1 / gameTick
 gameTime = os.clock() / 1000
 nextRefresh = os.clock() + tickTime
