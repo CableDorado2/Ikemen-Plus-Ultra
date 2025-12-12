@@ -289,20 +289,39 @@ local function f_survivalStatsSet()
 	--For each Left Side Player Selected
 		for i=1, #p1Dat do
 			if player(p1Dat[i].pn) then
-				local residualLife = lifemax() - getLifePersistence()
-				if matchno() > 1 then setLife(lifemax() - residualLife) end
+				setLife(getLifePersistence())
 			end
 		end
 	else
 	--For each Right Side Player Selected
 		for i=1, #p2Dat do
 			if player(p2Dat[i].pn) then
-				local residualLife = lifemax() - getLifePersistence()
-				if matchno() > 1 then setLife(lifemax() - residualLife) end
+				setLife(getLifePersistence())
 			end
 		end
 	end
 	survivalStatsReady = true
+end
+
+local speedstarStatsReady = false
+local function f_speedstarStatsSet()
+	if playerLeftSide then
+	--For each Left Side Player Selected
+		for i=1, #p1Dat do
+			if player(p1Dat[i].pn) then
+				setPower(getPowerPersistence())
+			end
+		end
+	else
+	--For each Right Side Player Selected
+		for i=1, #p2Dat do
+			if player(p2Dat[i].pn) then
+				setPower(getPowerPersistence())
+			end
+		end
+	end
+	setTime(getTimePersistence())
+	speedstarStatsReady = true
 end
 
 local abyssStatsReady = false
@@ -310,12 +329,15 @@ local function f_abyssStatsSet()
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then
-			local residualLife = lifemax() - getLifePersistence()
 			setLifeMax(lifemax() + (p1Dat[i].life * 10))
-			if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
 			setPower(p1Dat[i].power * 10)
 			setAttack(attack() + (p1Dat[i].attack * 10))
 			setDefence(defence() + (p1Dat[i].defence * 10))
+			if playerLeftSide then --Only Player
+			--Since Max life can be another value, use it to calculate current residual life
+				local residualLife = lifemax() - getLifePersistence()
+				if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
+			end
 		end
 	end
 --For each Right Side Player Selected
@@ -325,6 +347,10 @@ local function f_abyssStatsSet()
 			setPower(p2Dat[i].power * 10)
 			setAttack(attack() + (p2Dat[i].attack * 10))
 			setDefence(defence() + (p2Dat[i].defence * 10))
+			if not playerLeftSide then
+				local residualLife = lifemax() - getLifePersistence()
+				if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
+			end
 		end
 	end
 	abyssStatsReady = true
@@ -1199,6 +1225,15 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_TourneyStateFightCfg)
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
+		if roundstate() < 2 then --roundstate() == 0 and gametime() == 1 then
+			if matchno() > 1 and not speedstarStatsReady then f_speedstarStatsSet() end
+		elseif roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
+			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
+				setPowerPersistence(power())
+				setTimePersistence(timeremaining())
+				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), 95, 150) end
+			end
+		end
 		if not matchover() then
 			local bonusTime = 0
 		--No Damage Time Bonus
@@ -1330,7 +1365,7 @@ function loop() --The code for this function should be thought of as if it were 
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
 		if roundstate() < 2 then --roundstate() == 0 and gametime() == 1 then
-			if getGameMode() == "survival" and not survivalStatsReady then f_survivalStatsSet() end
+			if getGameMode() == "survival" and matchno() > 1 and not survivalStatsReady then f_survivalStatsSet() end
 		elseif roundstate() == 2 then
 			textImgDraw(txt_SurvivalCountP1FightCfg)
 			textImgDraw(txt_SurvivalCountP2FightCfg)

@@ -2426,6 +2426,7 @@ function f_default() --Reset Game Modes Configuration
 	setCountdown(-1) --Reset Caravan Countdown Timer
 	setTimePersistence(0) --To store last round time value when time is maintained after match
 	setLifePersistence(0) --To store last life bar value when life is maintained after match
+	setPowerPersistence(0) --To store last power bar value when power is maintained after match
 	setPlayerReward(0) --Reset player reward to assign during special modes.
 	setPlayerSide("") --Set player side variable to adjust internal settings.
 	setGameMode("") --Set local GameMode variable (it can be recognized in cns and lua).
