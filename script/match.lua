@@ -1019,6 +1019,27 @@ local function f_drawTimer()
 	end
 end
 
+local tauntCnt = 0
+local ukemiCnt = 0
+local throwCnt = 0
+local specialCnt = 0
+local superCnt = 0
+local function f_actionsCheck()
+	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
+	--Taunt Count
+		if anim() == 195 and time() < 2 then tauntCnt = tauntCnt + 1
+	--Ukemi Count
+		elseif stateno() == 5120 and time() < 2 then ukemiCnt = ukemiCnt + 1
+	--Throw Count
+		elseif movetype() == "T" and time() < 2 then throwCnt = throwCnt + 1
+	--Special Moves Count
+		elseif movetype() == "S" and time() < 2 then specialCnt = specialCnt + 1
+	--Super Moves Count
+		elseif movetype() == "H" and time() < 2 then superCnt = superCnt + 1
+		end
+	end
+end
+
 local maxComboCnt = 0
 local scoreattackfactor = 1
 if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
@@ -1070,6 +1091,7 @@ local function f_addBonusScore()
 		elseif winperfect() then
 			setScore(score() + 10000 * scoreattackfactor)
 			setWinPerfectCount(winPerfectCount() + 1)
+			if getGameMode == "speedstar" then setTime(timeremaining() + (15 * matchTimeFix)) end --Perfect Bonus Time
 		elseif winhyper() then
 			setScore(score() + 8000 * scoreattackfactor)
 			setWinHyperCount(winHyperCount() + 1)
@@ -1084,7 +1106,8 @@ local function f_addBonusScore()
 			setWinTimeCount(winTimeCount() + 1)
 		end
 		if getGameMode == "speedstar" and winko() then
-			setTime(timeremaining() + (1 * matchTimeFix)) end --Normal K.O Bonus Time
+			setTime(timeremaining() + (1 * matchTimeFix)) --Normal K.O Bonus Time
+			setTime(timeremaining() + (20 * matchTimeFix)) --Stage Clear Bonus Time
 		end
 	end
 end
@@ -1113,21 +1136,14 @@ local function f_streakWins()
 	end
 end
 
-local tauntCnt = 0
-local function f_tauntCheck()
---Taunt Bonus
-	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) and anim() == 195 and time() < 2 then
-		tauntCnt = tauntCnt + 1
-	end
-end
-
 local function f_drawDebugVars()
+	local antiPosX = 318
 	local posX = 2
 	local posY = 80
 	local font = font15
 	f_drawQuickText(txt_debugText, font, 0, 1, "Max Combo: "..maxComboCnt, posX, 55)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Consecutive Wins: "..consecutiveWins(), posX, 65)
---Win Counts
+--Win Types Count
 	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Super Wins: "..winPerfectHyperCount(), posX, posY)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Special Wins: "..winPerfectSpecialCount(), posX, posY + 10)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Throw Wins: "..winPerfectThrowCount(), posX, posY + 20)
@@ -1136,20 +1152,28 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Special Wins: "..winSpecialCount(), posX, posY + 50)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY + 60)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY + 70)
-	--f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, posY + 85)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Round Time Remaining: "..timeremaining(), posX, posY + 85)
+--Actions Count
+	f_drawQuickText(txt_debugText, font, 0, 1, "Ukemi Cnt: "..ukemiCnt, posX, posY + 85)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Taunt Cnt: "..tauntCnt, posX, posY + 95)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Cnt: "..throwCnt, posX, posY + 105)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Special Cnt: "..specialCnt, posX, posY + 115)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Super Cnt: "..superCnt, posX, posY + 125)
+--Time Vars
+	f_drawQuickText(txt_debugText, font, 0, 1, "Round Time Remaining: "..timeremaining(), posX, posY + 140)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, posY + 150)
 --Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Hit Cnt: "..abyssHitCnt, posX, posY + 100)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Regeneration Time: "..regenItemTime, posX, posY + 110)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss Poison Time: "..poisonItemTime, posX, posY + 120)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Regeneration Time: "..regenItemTimeCPU, posX, posY + 130)
-		f_drawQuickText(txt_debugText, font, 0, 1, "Abyss CPU Poison Time: "..poisonItemTimeCPU, posX, posY + 140)
+		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss Hit Cnt: "..abyssHitCnt, antiPosX, posY + 100)
+		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss Regeneration Time: "..regenItemTime, antiPosX, posY + 110)
+		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss Poison Time: "..poisonItemTime, antiPosX, posY + 120)
+		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss CPU Regeneration Time: "..regenItemTimeCPU, antiPosX, posY + 130)
+		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss CPU Poison Time: "..poisonItemTimeCPU, antiPosX, posY + 140)
 	end
 end
 
 --Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a "while true do"
+	f_actionsCheck()
 --During Demo Mode
 	if getGameMode() == "demo" then
 		textImgDraw(txt_DemoFightCfg)
@@ -1199,8 +1223,6 @@ function loop() --The code for this function should be thought of as if it were 
 				sndPlay(sndIkemen, 620, 0)
 				noDamageTimer = noDamageTimer + 1
 			end
-		--Taunt Bonus
-			f_tauntCheck()
 		--1 Taunt
 			if tauntCnt == 1 then
 				bonusTime = bonusTime + 1
@@ -1264,12 +1286,6 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			end
-		--[[
-			if data.debugMode then
-				f_drawQuickText(txt_spedyT, font14, 0, 1, "No Damage Time: "..noDamageTimer/20, 95, 150)
-				f_drawQuickText(txt_spedyT, font14, 0, 1, "Taunt Cnt: "..tauntCnt, 95, 170)
-			end
-		--]]
 		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
