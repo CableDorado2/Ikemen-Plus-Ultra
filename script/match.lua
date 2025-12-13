@@ -1046,7 +1046,6 @@ local function f_drawTimer()
 end
 
 local tauntCnt = 0
-local ukemiCnt = 0
 local throwCnt = 0
 local specialCnt = 0
 local superCnt = 0
@@ -1054,16 +1053,18 @@ local function f_actionsCheck()
 	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
 	--Taunt Count
 		if anim() == 195 and time() < 2 then tauntCnt = tauntCnt + 1
-	--Ukemi Count
-		elseif stateno() == 5120 and time() < 2 then ukemiCnt = ukemiCnt + 1
 	--Throw Count
-		elseif movetype() == "T" and time() < 2 then throwCnt = throwCnt + 1
+		--elseif anim() == 810 and time() < 2 then throwCnt = throwCnt + 1
+		elseif (hitdefattr() == "SCA, NT" or hitdefattr() == "SCA, ST" or hitdefattr() == "SCA, HT") and time() < 2 then throwCnt = throwCnt + 1
 	--Special Moves Count
-		elseif movetype() == "S" and time() < 2 then specialCnt = specialCnt + 1
+		--elseif anim() >= 1000 and anim() <= 2999 and time() < 2 then specialCnt = specialCnt + 1
+		elseif (hitdefattr() == "S, SA" or hitdefattr() == "SCA, ST") and time() < 2 then specialCnt = specialCnt + 1
 	--Super Moves Count
-		elseif movetype() == "H" and time() < 2 then superCnt = superCnt + 1
+		--elseif anim() >= 3000 and anim() <= 4999 and time() < 2 then superCnt = superCnt + 1
+		elseif (hitdefattr() == "SCA, HA" or hitdefattr() == "SCA, HT") and time() < 2 then superCnt = superCnt + 1
 		end
 	end
+	--f_drawQuickText(txt_debugText, font14, 0, 1, "HitDefAttr: "..projhit(), 111, 77)
 end
 
 local maxComboCnt = 0
@@ -1179,11 +1180,10 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Wins: "..winThrowCount(), posX, posY + 60)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Time Over Wins: "..winTimeCount(), posX, posY + 70)
 --Actions Count
-	f_drawQuickText(txt_debugText, font, 0, 1, "Ukemi Cnt: "..ukemiCnt, posX, posY + 85)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Taunt Cnt: "..tauntCnt, posX, posY + 95)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Cnt: "..throwCnt, posX, posY + 105)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Special Cnt: "..specialCnt, posX, posY + 115)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Super Cnt: "..superCnt, posX, posY + 125)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Taunt Cnt: "..tauntCnt, posX, posY + 85)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Cnt: "..throwCnt, posX, posY + 95)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Special Cnt: "..specialCnt, posX, posY + 105)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Super Cnt: "..superCnt, posX, posY + 115)
 --Time Vars
 	f_drawQuickText(txt_debugText, font, 0, 1, "Round Time Remaining: "..timeremaining(), posX, posY + 140)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, posY + 150)
