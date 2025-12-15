@@ -978,6 +978,7 @@ local function f_demoSkip()
 	end
 end
 
+cpuLevel = 0
 local function f_setMatchTexts()
 	local stg = ""
 --Set Stage Number
@@ -986,6 +987,7 @@ local function f_setMatchTexts()
 --Set CPU Level Number
 	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
 		textImgSetText(txt_AiLevelFightCfg, txt_AiLevelFight..ailevel())
+		cpuLevel = ailevel()
 	end
 --Set Game Mode Name
 	textImgSetText(txt_GameModeFightCfg, getGameMode())
@@ -1009,6 +1011,8 @@ f_setMatchTexts() --Load when match start
 
 local timerStart = 0
 local noDamageTimer = 0
+local timeBossFactor = 1
+if cpuLevel >= 6 and getGameMode() == "speedstar" then timeBossFactor = 2 end
 local function f_drawTimer()
 	if roundstate() == 0 then
 		timerStart = 40 --Countdown to activate timer
@@ -1054,17 +1058,28 @@ local function f_actionsCheck()
 	--Taunt Count
 		if anim() == 195 and time() < 2 then tauntCnt = tauntCnt + 1
 	--Throw Count
-		--elseif anim() == 810 and time() < 2 then throwCnt = throwCnt + 1
-		elseif (hitdefattr() == "SCA, NT" or hitdefattr() == "SCA, ST" or hitdefattr() == "SCA, HT") and time() < 2 then throwCnt = throwCnt + 1
+		elseif (
+				hitdefattr() == "S, NT" or --Stand
+				hitdefattr() == "C, NT" or --Crouch
+				hitdefattr() == "A, NT" --Air
+			) and time() < 2 then throwCnt = throwCnt + 1
 	--Special Moves Count
 		--elseif anim() >= 1000 and anim() <= 2999 and time() < 2 then specialCnt = specialCnt + 1
-		elseif (hitdefattr() == "S, SA" or hitdefattr() == "SCA, ST") and time() < 2 then specialCnt = specialCnt + 1
+		elseif (
+				hitdefattr() == "S, SA" or hitdefattr() == "S, ST" or
+				hitdefattr() == "C, SA" or hitdefattr() == "C, ST" or
+				hitdefattr() == "A, SA" or hitdefattr() == "A, ST"
+			) and time() < 2 then specialCnt = specialCnt + 1
 	--Super Moves Count
 		--elseif anim() >= 3000 and anim() <= 4999 and time() < 2 then superCnt = superCnt + 1
-		elseif (hitdefattr() == "SCA, HA" or hitdefattr() == "SCA, HT") and time() < 2 then superCnt = superCnt + 1
+		elseif (
+				hitdefattr() == "S, HA" or hitdefattr() == "S, HT" or
+				hitdefattr() == "C, HA" or hitdefattr() == "C, HT" or
+				hitdefattr() == "A, HA" or hitdefattr() == "A, HT"
+			) and time() < 2 then superCnt = superCnt + 1
 		end
 	end
-	--f_drawQuickText(txt_debugText, font14, 0, 1, "HitDefAttr: "..projhit(), 111, 77)
+	f_drawQuickText(txt_debugText, font14, 0, 1, "HitDefAttr: "..hitdefattr(), 111, 77)
 end
 
 local maxComboCnt = 0
@@ -1118,11 +1133,11 @@ local function f_addBonusScore()
 		elseif winperfect() then
 			setScore(score() + 10000 * scoreattackfactor)
 			setWinPerfectCount(winPerfectCount() + 1)
-			if getGameMode == "speedstar" then setTime(timeremaining() + (15 * matchTimeFix)) end --Perfect Bonus Time
+			if getGameMode == "speedstar" then setTime(timeremaining() + ((15 * timeBossFactor) * matchTimeFix)) end --Perfect Bonus Time
 		elseif winhyper() then
 			setScore(score() + 8000 * scoreattackfactor)
 			setWinHyperCount(winHyperCount() + 1)
-			if getGameMode == "speedstar" then setTime(timeremaining() + (3 * matchTimeFix)) end --Super K.O Bonus Time
+			if getGameMode == "speedstar" then setTime(timeremaining() + ((3 * timeBossFactor) * matchTimeFix)) end --Super K.O Bonus Time
 		elseif winthrow() then
 			setScore(score() + 3000 * scoreattackfactor)
 			setWinThrowCount(winThrowCount() + 1)
@@ -1133,7 +1148,7 @@ local function f_addBonusScore()
 			setWinTimeCount(winTimeCount() + 1)
 		end
 		if getGameMode == "speedstar" and winko() then
-			setTime(timeremaining() + (1 * matchTimeFix)) --Normal K.O Bonus Time
+			setTime(timeremaining() + ((1 * timeBossFactor) * matchTimeFix)) --Normal K.O Bonus Time
 			setTime(timeremaining() + (20 * matchTimeFix)) --Stage Clear Bonus Time
 		end
 	end
@@ -1239,22 +1254,22 @@ function loop() --The code for this function should be thought of as if it were 
 		--No Damage Time Bonus
 		--5 Seconds
 			if noDamageTimer == 100 then
-				setTime(timeremaining() + (1 * matchTimeFix))
+				setTime(timeremaining() + ((1 * timeBossFactor) * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
 				noDamageTimer = noDamageTimer + 1
 		--10 Seconds
 			elseif noDamageTimer == 200 then
-				setTime(timeremaining() + (2 * matchTimeFix))
+				setTime(timeremaining() + ((2 * timeBossFactor) * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
 				noDamageTimer = noDamageTimer + 1
 		--20 Seconds
 			elseif noDamageTimer == 400 then
-				setTime(timeremaining() + (5 * matchTimeFix))
+				setTime(timeremaining() + ((5 * timeBossFactor) * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
 				noDamageTimer = noDamageTimer + 1
 		--30 Seconds
 			elseif noDamageTimer == 600 then
-				setTime(timeremaining() + (7 * matchTimeFix))
+				setTime(timeremaining() + ((7 * timeBossFactor) * matchTimeFix))
 				sndPlay(sndIkemen, 620, 0)
 				noDamageTimer = noDamageTimer + 1
 			end
@@ -1273,10 +1288,10 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 			--Throw = +1, 3Throws= +2, 5Throws= +3
 			--When enemy is already defeated (corpse kick)
+			--bossnormal = -1, bossspecial = -1.5, bosssuper = -3
 		--Player Deal Damage over CPU
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				local damageDat = gethitvar("damage")
-				bonusTime = gethitvar("hitcount")
 			--Over 200 Damage
 				if damageDat > 200 and damageDat < 300 then
 					bonusTime = bonusTime + 1
@@ -1284,13 +1299,17 @@ function loop() --The code for this function should be thought of as if it were 
 				elseif damageDat > 300 and damageDat < 400 then
 					bonusTime = bonusTime + 1.5
 				end
-				setTime(timeremaining() + (bonusTime * matchTimeFix)) --Bonus Time
+				setTime(timeremaining() + ((bonusTime * timeBossFactor) * matchTimeFix)) --Bonus Time
 				if roundstate() ~= 1 and bonusTime ~= 0 then sndPlay(sndIkemen, 620, 0) end
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
-				bonusTime = gethitvar("damage") + gethitvar("hitcount")
-				noDamageTimer = 0 --Reset No Damage Timer
+				local damageDat = gethitvar("damage")
+				if damageDat then
+					if cpuLevel >= 6 then bonusTime = gethitvar("damage") end
+					noDamageTimer = 0 --Reset No Damage Timer
+				end
 				if timeremaining() > 0 then
+					--setTime(timeremaining() - (bonusTime * matchTimeFix)) --Lose Time
 					setTime(timeremaining() - bonusTime) --Lose Time
 					sndPlay(sndIkemen, 620, 1)
 				end
