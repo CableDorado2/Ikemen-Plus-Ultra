@@ -1053,8 +1053,10 @@ local tauntCnt = 0
 local throwCnt = 0
 local specialCnt = 0
 local superCnt = 0
+local colddownCnt = false
 local function f_actionsCheck()
 	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
+		if time() == 1 then colddownCnt = false end
 	--Taunt Count
 		if anim() == 195 and time() < 2 then tauntCnt = tauntCnt + 1
 	--Throw Count
@@ -1062,24 +1064,33 @@ local function f_actionsCheck()
 				hitdefattr() == "S, NT" or --Stand
 				hitdefattr() == "C, NT" or --Crouch
 				hitdefattr() == "A, NT" --Air
-			) and time() < 2 then throwCnt = throwCnt + 1
+			) and movecontact() == 1 and numtarget() == 1 then throwCnt = throwCnt + 1
 	--Special Moves Count
 		--elseif anim() >= 1000 and anim() <= 2999 and time() < 2 then specialCnt = specialCnt + 1
 		elseif (
 				hitdefattr() == "S, SA" or hitdefattr() == "S, ST" or
 				hitdefattr() == "C, SA" or hitdefattr() == "C, ST" or
 				hitdefattr() == "A, SA" or hitdefattr() == "A, ST"
-			) and time() < 2 then specialCnt = specialCnt + 1
+			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
+				if not colddownCnt then
+					specialCnt = specialCnt + 1
+					colddownCnt = true
+				end
 	--Super Moves Count
 		--elseif anim() >= 3000 and anim() <= 4999 and time() < 2 then superCnt = superCnt + 1
 		elseif (
 				hitdefattr() == "S, HA" or hitdefattr() == "S, HT" or
 				hitdefattr() == "C, HA" or hitdefattr() == "C, HT" or
 				hitdefattr() == "A, HA" or hitdefattr() == "A, HT"
-			) and time() < 2 then superCnt = superCnt + 1
+			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
+				if not colddownCnt then
+					superCnt = superCnt + 1
+					colddownCnt = true
+				end
 		end
 	end
 	f_drawQuickText(txt_debugText, font14, 0, 1, "HitDefAttr: "..hitdefattr(), 111, 77)
+	f_drawQuickText(txt_debugText, font14, 0, 1, "NumTarget: "..numtarget(), 111, 97)
 end
 
 local maxComboCnt = 0
