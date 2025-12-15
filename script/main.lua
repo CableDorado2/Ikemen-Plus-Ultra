@@ -3564,9 +3564,13 @@ function f_getFavoriteContent(section)
 		if v and v.used and v.used > maxUsed then
 			maxUsed = v.used
 			if section == "chars" then
-				contentName = t_selChars[t_charDef[name] + 1].displayname
+				if t_charDef[name] ~= nil then --If character name stored in stats is currently loaded
+					contentName = t_selChars[t_charDef[name] + 1].displayname
+				end
 			elseif section == "stages" then
-				contentName = t_selStages[t_stageDef[name]].name
+				if t_stageDef[name] ~= nil then --If stage name stored in stats is currently loaded
+					contentName = t_selStages[t_stageDef[name]].name
+				end
 			end
 		end
 	end
@@ -3729,12 +3733,18 @@ t_statsGameModes = {
 }
 
 function f_modePlaytime()
-	for _, mode in ipairs(t_statsGameModes) do
-		if mode.id == data.recordMode then --Check Current Game Mode
-			if type(mode.playtime()) == "number" then
-				mode.setplaytime(mode.playtime() + clearTime) --Update Playtime
+--Save Training Playtime aside from other game modes automated logic
+	if data.recordMode == "training" then
+		stats.modes.training.playtime = stats.modes.training.playtime + clearTime
+--Automated logic to Save Playtime for other game modes
+	else
+		for _, mode in ipairs(t_statsGameModes) do
+			if mode.id == data.recordMode then --Check Current Game Mode
+				if type(mode.playtime()) == "number" then
+					mode.setplaytime(mode.playtime() + clearTime) --Update Playtime
+				end
+				break --To exit from loop when find a coincidence
 			end
-			break --To exit from loop when find a coincidence
 		end
 	end
 	f_saveStats()
