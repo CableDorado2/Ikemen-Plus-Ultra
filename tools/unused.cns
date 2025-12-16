@@ -48,6 +48,44 @@ trigger1 = TeamSide = 1
 value = 2.0 ;All damage the player gives is scaled by this amount.
 
 FOR DAMAGE INFO DISPLAY STUFF
+
+var(0) Tremor parameter position
+var(1) Tremor parameter default setting (none, back, forward)
+var(2) Wake-up time default setting
+var(3) Wake-up type default setting
+var(4) Ruler default setting (none, back, forward)
+var(5) Point type
+var(6) Defensive default setting (on, off)
+var(7) Defensive start time
+var(8) Auto-guard after 1 hit
+var(9) Total damage switch
+var(10) Damage
+var(11) Total damage
+var(12) Life memory
+var(13) Maximum damage
+var(14) Combo count
+var(15) Maximum combo count
+var(16) Defensive (on, off)
+var(17) Tremor parameter setting (none, back, forward)
+var(18) Advantageous frame
+var(19) Unfavorable frame
+var(20) Advantage/Disadvantage Frame Settings (None, Back, Forward)
+var(21) Ruler Settings (None, Back, Forward)
+var(22) Defensive Charge Time
+var(23) Defensive Charge Count
+var(24) State Type on Standby
+var(25) Standby Distance
+var(26) Whether the Standby Distance is Met
+var(27) Whether to Auto-Guard
+var(28) Point Type
+var(29) Get-Up Time Setting
+var(30) Get-Up Time
+var(31) Attack Frame Detection Switch
+var(32) Attack Frame
+var(33) Defense Frame Detection Switch
+var(34) Defense Frame
+var(35) Get-Up Type Setting
+var(36) Down Evasion Switch
 ;===================================================
 ; GET DAMAGE VALUES
 ;===================================================
