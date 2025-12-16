@@ -4429,26 +4429,31 @@ end
 --;===========================================================
 --; DAMAGE DISPLAY
 --;===========================================================
-txt_damageHitCfg = createTextImg(font14, 0, 1, "", 150, 60)
-txt_damageComboCfg = createTextImg(font14, 0, 1, "", 150, 70)
-txt_damageMaxCfg = createTextImg(font14, 0, 1, "", 150, 80)
-txt_comboMaxCfg = createTextImg(font14, 0, 1, "", 150, 90)
-
-txt_damageHit = "Damage: "
-txt_damageCombo = "Combo Damage: "
-txt_damageMax = "Max Combo Damage: "
-txt_comboMax = "Max Combo: "
+txt_damageHit = createTextImg(font14, 0, 1, "Damage", 180, 60, 0.75, 0.75)
+txt_damageCombo = createTextImg(font14, 0, 1, "Combo Damage", 180, 70, 0.75, 0.75)
+txt_damageMax = createTextImg(font14, 0, 1, "Max Combo Damage", 180, 80, 0.75, 0.75)
+txt_comboMax = createTextImg(font14, 0, 1, "Max Combo", 180, 90, 0.75, 0.75)
+txt_advanceFrame = createTextImg(font14, 0, 1, "Adv. Frame", 180, 100, 0.75, 0.75)
+txt_enemyCtrl = createTextImg(font14, 0, 1, "Enemy Ctrl", 180, 110, 0.75, 0.75)
+txt_damageHitVal = createTextImg(font14, 0, -1, "", 318, 60, 0.75, 0.75)
+txt_damageComboVal = createTextImg(font14, 0, -1, "", 318, 70, 0.75, 0.75)
+txt_damageMaxVal = createTextImg(font14, 0, -1, "", 318, 80, 0.75, 0.75)
+txt_comboMaxVal = createTextImg(font14, 0, -1, "", 318, 90, 0.75, 0.75)
 
 function f_damageDisplay() --For match.lua
 	if data.debugMode and getGameMode() ~= "practice" or data.damageDisplay == 1 and getGameMode() == "practice" then
-		textImgSetText(txt_damageHitCfg, txt_damageHit..damageHit)
-		textImgSetText(txt_damageComboCfg, txt_damageCombo..damageCombo)
-		textImgSetText(txt_damageMaxCfg, txt_damageMax..damageMax)
-		textImgSetText(txt_comboMaxCfg, txt_comboMax..maxComboCnt)
-		textImgDraw(txt_damageHitCfg)
-		textImgDraw(txt_damageComboCfg)
-		textImgDraw(txt_damageMaxCfg)
-		textImgDraw(txt_comboMaxCfg)
+		textImgDraw(txt_damageHit)
+		textImgDraw(txt_damageCombo)
+		textImgDraw(txt_damageMax)
+		textImgDraw(txt_comboMax)
+		textImgSetText(txt_damageHitVal, damageHit)
+		textImgSetText(txt_damageComboVal, damageCombo)
+		textImgSetText(txt_damageMaxVal, damageMax)
+		textImgSetText(txt_comboMaxVal, maxComboCnt)
+		textImgDraw(txt_damageHitVal)
+		textImgDraw(txt_damageComboVal)
+		textImgDraw(txt_damageMaxVal)
+		textImgDraw(txt_comboMaxVal)
 	end
 end
 

@@ -431,11 +431,6 @@ trigger1 = InputDisplay = 1 && var(51)<1 && (var(7)&128) ;system switch
 trigger1 = (root,movetype!=h)||(root,stateno=[120,159])||(root,stateno=[5000,5199])||(root,stateno=[190190,190196])
 var(8) = var(8)|33554432
 
-;==========================
-; DAMAGE INFO DISPLAY
-;==========================
-;WIP
-
 [Statedef -1]
 
 [Statedef -11]
@@ -479,11 +474,6 @@ triggerall = Active
 trigger1 = StateNo = 5110
 trigger1 = sysvar(54) > 0;RECOVERTIME
 sysvar(54) = -1;RECOVERTIME
-
-;===========================================================================
-; DAMAGE INFO DISPLAY
-;===========================================================================
-;WIP
 
 ;===========================================================================
 ; INPUT DISPLAY/ADD004
