@@ -137,7 +137,7 @@ Saved Team en Dragon Ball Fighterz:
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
+- Probar cargar un commonfx en fight.def para almacenar los sprites del input display sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
 - Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
 
