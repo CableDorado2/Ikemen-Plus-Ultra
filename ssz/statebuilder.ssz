@@ -2421,9 +2421,6 @@ public &StateBuilder
 	cond .s.equ("inputdisplay", token):
       out .= obj .= "trInputDisplay()";
       typ = 2;
-	cond .s.equ("damagedisplay", token):
-      out .= obj .= "trDamageDisplay()";
-      typ = 2;
 	cond .s.equ("powerstatep1", token):
       out .= obj .= "trPowerStateP1()";
       typ = 2;

@@ -653,11 +653,11 @@ void setInputDisplay(&.lua.State L=, int re=)
   .com.inputDisplay = ipd;
 }
 
-void setDamageDisplay(&.lua.State L=, int re=)
+void setAttackDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   int dmd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.damageDisplay = dmd;
+  .com.attackDisplay = dmd;
 }
 
 void setPowerStateP1(&.lua.State L=, int re=)
@@ -2355,7 +2355,7 @@ public void init(&.lua.State L=)
   L.register("setSharedLife", .setSharedLife);
   L.register("setHUD", .setHUD);
   L.register("setInputDisplay", .setInputDisplay);
-  L.register("setDamageDisplay", .setDamageDisplay);
+  L.register("setAttackDisplay", .setAttackDisplay);
   L.register("setPowerStateP1", .setPowerStateP1);
   L.register("setPowerStateP2", .setPowerStateP2);
   L.register("setLifeStateP1", .setLifeStateP1);

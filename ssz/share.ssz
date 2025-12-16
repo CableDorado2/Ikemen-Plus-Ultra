@@ -74,7 +74,7 @@ public &Share
   public ^/char abyssSP1, abyssSP2, abyssSP3, abyssSP4;
   public int abyssDepth, abyssDepthBoss, abyssDepthBossSpecial, abyssBossFight, abyssFinalDepth;
   public int inputDisplay;
-  public int damageDisplay;
+  public int attackDisplay;
   public int powerStateP1;
   public int powerStateP2;
   public int lifeStateP1;
@@ -196,7 +196,7 @@ public &Share
 	`abyssSP3 = .com.abyssSP3;
 	`abyssSP4 = .com.abyssSP4;
 	`inputDisplay = .com.inputDisplay;
-	`damageDisplay = .com.damageDisplay;
+	`attackDisplay = .com.attackDisplay;
 	`powerStateP1 = .com.powerStateP1;
 	`powerStateP2 = .com.powerStateP2;
 	`lifeStateP1 = .com.lifeStateP1;
@@ -322,7 +322,7 @@ public &Share
 	.com.abyssSP3 = `abyssSP3;
 	.com.abyssSP4 = `abyssSP4;
 	.com.inputDisplay = `inputDisplay;
-	.com.damageDisplay = `damageDisplay;
+	.com.attackDisplay = `attackDisplay;
 	.com.powerStateP1 = `powerStateP1;
 	.com.powerStateP2 = `powerStateP2;
 	.com.lifeStateP1 = `lifeStateP1;

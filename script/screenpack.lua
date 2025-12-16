@@ -4427,33 +4427,86 @@ for i=1, #t_speedstarBonus do
 end
 
 --;===========================================================
---; DAMAGE DISPLAY
+--; ATTACK DISPLAY
 --;===========================================================
-txt_damageHit = createTextImg(font14, 0, 1, "Damage", 180, 60, 0.75, 0.75)
-txt_damageCombo = createTextImg(font14, 0, 1, "Combo Damage", 180, 70, 0.75, 0.75)
-txt_damageMax = createTextImg(font14, 0, 1, "Max Combo Damage", 180, 80, 0.75, 0.75)
-txt_comboMax = createTextImg(font14, 0, 1, "Max Combo", 180, 90, 0.75, 0.75)
-txt_advanceFrame = createTextImg(font14, 0, 1, "Adv. Frame", 180, 100, 0.75, 0.75)
-txt_enemyCtrl = createTextImg(font14, 0, 1, "Enemy Ctrl", 180, 110, 0.75, 0.75)
-txt_damageHitVal = createTextImg(font14, 0, -1, "", 318, 60, 0.75, 0.75)
-txt_damageComboVal = createTextImg(font14, 0, -1, "", 318, 70, 0.75, 0.75)
-txt_damageMaxVal = createTextImg(font14, 0, -1, "", 318, 80, 0.75, 0.75)
-txt_comboMaxVal = createTextImg(font14, 0, -1, "", 318, 90, 0.75, 0.75)
+txt_damageHitP1 = createTextImg(font14, 0, 1, "Damage", 2, 60, 0.75, 0.75)
+txt_damageComboP1 = createTextImg(font14, 0, 1, "Combo Damage", 2, 70, 0.75, 0.75)
+txt_damageMaxP1 = createTextImg(font14, 0, 1, "Max Combo Damage", 2, 80, 0.75, 0.75)
+txt_comboMaxP1 = createTextImg(font14, 0, 1, "Max Combo", 2, 90, 0.75, 0.75)
+txt_advanceFrameP1 = createTextImg(font14, 0, 1, "Adv. Frame", 2, 100, 0.75, 0.75) --TODO
+txt_enemyCtrlP1 = createTextImg(font14, 0, 1, "Enemy Ctrl", 2, 110, 0.75, 0.75) --TODO
 
-function f_damageDisplay() --For match.lua
-	if data.debugMode and getGameMode() ~= "practice" or data.damageDisplay == 1 and getGameMode() == "practice" then
-		textImgDraw(txt_damageHit)
-		textImgDraw(txt_damageCombo)
-		textImgDraw(txt_damageMax)
-		textImgDraw(txt_comboMax)
-		textImgSetText(txt_damageHitVal, damageHit)
-		textImgSetText(txt_damageComboVal, damageCombo)
-		textImgSetText(txt_damageMaxVal, damageMax)
-		textImgSetText(txt_comboMaxVal, maxComboCnt)
-		textImgDraw(txt_damageHitVal)
-		textImgDraw(txt_damageComboVal)
-		textImgDraw(txt_damageMaxVal)
-		textImgDraw(txt_comboMaxVal)
+txt_damageHitValP1 = createTextImg(font14, 0, -1, "", 140, 60, 0.75, 0.75)
+txt_damageComboValP1 = createTextImg(font14, 0, -1, "", 140, 70, 0.75, 0.75)
+txt_damageMaxValP1 = createTextImg(font14, 0, -1, "", 140, 80, 0.75, 0.75)
+txt_comboMaxValP1 = createTextImg(font14, 0, -1, "", 140, 90, 0.75, 0.75)
+
+txt_damageHitP2 = createTextImg(font14, 0, 1, "Damage", 180, 60, 0.75, 0.75)
+txt_damageComboP2 = createTextImg(font14, 0, 1, "Combo Damage", 180, 70, 0.75, 0.75)
+txt_damageMaxP2 = createTextImg(font14, 0, 1, "Max Combo Damage", 180, 80, 0.75, 0.75)
+txt_comboMaxP2 = createTextImg(font14, 0, 1, "Max Combo", 180, 90, 0.75, 0.75)
+txt_advanceFrameP2 = createTextImg(font14, 0, 1, "Adv. Frame", 180, 100, 0.75, 0.75) --TODO
+txt_enemyCtrlP2 = createTextImg(font14, 0, 1, "Enemy Ctrl", 180, 110, 0.75, 0.75) --TODO
+
+txt_damageHitValP2 = createTextImg(font14, 0, -1, "", 318, 60, 0.75, 0.75)
+txt_damageComboValP2 = createTextImg(font14, 0, -1, "", 318, 70, 0.75, 0.75)
+txt_damageMaxValP2 = createTextImg(font14, 0, -1, "", 318, 80, 0.75, 0.75)
+txt_comboMaxValP2 = createTextImg(font14, 0, -1, "", 318, 90, 0.75, 0.75)
+
+--Attack Info P1 BG
+attackInfoP1BG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(attackInfoP1BG, 0, 52)
+animSetScale(attackInfoP1BG, 143, 45)
+animSetAlpha(attackInfoP1BG, 0, 145)
+animUpdate(attackInfoP1BG)
+
+--Attack Info P2 BG
+attackInfoP2BG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(attackInfoP2BG, 177, 52)
+animSetScale(attackInfoP2BG, 143, 45)
+animSetAlpha(attackInfoP2BG, 0, 145)
+animUpdate(attackInfoP2BG)
+
+function f_attackDisplay() --For match.lua
+	--if data.debugMode then
+	if getGameMode() == "practice" then
+		textImgSetText(txt_damageHitValP1, damageHitP1)
+		textImgSetText(txt_damageComboValP1, damageComboP1)
+		textImgSetText(txt_damageMaxValP1, damageMaxP1)
+		textImgSetText(txt_comboMaxValP1, maxComboCntP1)
+		
+		textImgSetText(txt_damageHitValP2, damageHitP2)
+		textImgSetText(txt_damageComboValP2, damageComboP2)
+		textImgSetText(txt_damageMaxValP2, damageMaxP2)
+		textImgSetText(txt_comboMaxValP2, maxComboCntP2)
+		if data.attackDisplay == 1 or data.attackDisplay == 3 then
+			animDraw(attackInfoP1BG)
+			textImgDraw(txt_damageHitP1)
+			textImgDraw(txt_damageComboP1)
+			textImgDraw(txt_damageMaxP1)
+			textImgDraw(txt_comboMaxP1)
+			
+			textImgDraw(txt_damageHitValP1)
+			textImgDraw(txt_damageComboValP1)
+			textImgDraw(txt_damageMaxValP1)
+			textImgDraw(txt_comboMaxValP1)
+		end
+		if data.attackDisplay == 2 or data.attackDisplay == 3 then
+			animDraw(attackInfoP2BG)
+			textImgDraw(txt_damageHitP2)
+			textImgDraw(txt_damageComboP2)
+			textImgDraw(txt_damageMaxP2)
+			textImgDraw(txt_comboMaxP2)
+			
+			textImgDraw(txt_damageHitValP2)
+			textImgDraw(txt_damageComboValP2)
+			textImgDraw(txt_damageMaxValP2)
+			textImgDraw(txt_comboMaxValP2)
+		end
 	end
 end
 

@@ -244,10 +244,15 @@ playerLeftSide = true
 if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
 	playerLeftSide = false --Player is on Right Side
 end
-damageHit = 0
-damageCombo = 0
-damageMax = 0
-maxComboCnt = 0
+damageHitP1 = 0
+damageComboP1 = 0
+damageMaxP1 = 0
+maxComboCntP1 = 0
+
+damageHitP2 = 0
+damageComboP2 = 0
+damageMaxP2 = 0
+maxComboCntP2 = 0
 	
 local function f_handicapSet()
 	for side=1, 2 do
@@ -1059,20 +1064,29 @@ local specialCnt = 0
 local superCnt = 0
 local colddownCnt = false
 local function f_actionsCheck()
---Check Enemy Side
-	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
+--Check Attack Data in both sides
+	if player(2) then
 	--Get Hit Damage
-		if gethitvar("damage") > 0 then damageHit = gethitvar("damage") end
+		if gethitvar("damage") > 0 then damageHitP1 = gethitvar("damage") end
 	--Get Damage Combo
 		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
-			if gethitvar("hitcount") == 1 then damageCombo = 0 end --Reset Combo Damage
-			damageCombo = damageCombo + gethitvar("damage")
-			if damageCombo > damageMax then damageMax = damageCombo end --Get Max Combo Damage
+			if gethitvar("hitcount") == 1 then damageComboP1 = 0 end --Reset Combo Damage
+			damageComboP1 = damageComboP1 + gethitvar("damage")
+			if damageComboP1 > damageMaxP1 then damageMaxP1 = damageComboP1 end --Get Max Combo Damage
 		end
 	--Get Max Combo Count
-		if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
+		if gethitvar("hitcount") > maxComboCntP1 then maxComboCntP1 = gethitvar("hitcount") end
 	end
---Check Player Side
+	if player(1) then
+		if gethitvar("damage") > 0 then damageHitP2 = gethitvar("damage") end
+		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
+			if gethitvar("hitcount") == 1 then damageComboP2 = 0 end
+			damageComboP2 = damageComboP2 + gethitvar("damage")
+			if damageComboP2 > damageMaxP2 then damageMaxP2 = damageComboP2 end
+		end
+		if gethitvar("hitcount") > maxComboCntP2 then maxComboCntP2 = gethitvar("hitcount") end
+	end
+--Check Only Player Side
 	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
 		if time() == 5 then colddownCnt = false end
 	--Taunt Count
@@ -1146,7 +1160,8 @@ local function f_addBonusScore()
 			setScore(score() + 30000 * scoreattackfactor) --Full Life Bonus
 		end
 		if getRoundTime() > 0 then setScore(score() + ((timeremaining() / 60) * 100) * scoreattackfactor) end --Time remains add score
-		setScore(score() + (maxComboCnt * 1000) * scoreattackfactor)
+		if playerLeftSide then maxComboPlayer = maxComboCntP1 else maxComboPlayer = maxComboCntP2 end
+		setScore(score() + (maxComboPlayer * 1000) * scoreattackfactor)
 		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
 		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
 		if winperfecthyper() then
@@ -1564,9 +1579,9 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 		f_attractCredits(318, 238, -1)
 	end
-	if data.debugMode then f_drawDebugVars() end
+	--if data.debugMode then f_drawDebugVars() end
 	f_checkAchievements()
-	f_damageDisplay()
+	f_attackDisplay()
 end
 
 function f_nextTutoText()

@@ -5717,9 +5717,9 @@ public &Char
   {
     ret .com.gameType;
   }
-  public int trDamageDisplay()
+  public int trAttackDisplay()
   {
-    ret .com.damageDisplay;
+    ret .com.attackDisplay;
   }
   public int trInputDisplay()
   {

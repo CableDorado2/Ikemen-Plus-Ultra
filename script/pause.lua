@@ -69,7 +69,7 @@ end
 --Load Training Settings Saved from training_sav.lua
 if getGameMode() == "practice" then
 --Screen Info
-	setDamageDisplay(data.damageDisplay)
+	setAttackDisplay(data.attackDisplay)
 	setInputDisplay(data.inputDisplay)
 	if data.hitbox then toggleClsnDraw() end
 	if data.debugInfo then toggleDebugDraw() end
@@ -80,7 +80,7 @@ function f_resetTrainingCfg() --Reset when you exit from Training Mode or Replay
 	if not data.hudDisplay then setHUD(true) end
 	if data.hitbox then toggleClsnDraw() end
 	if data.debugInfo then toggleDebugDraw() end
-	setDamageDisplay(0)
+	setAttackDisplay(0)
 	setInputDisplay(0)
 --[[	
 	setLifeStateP1(-1)
@@ -95,7 +95,7 @@ function f_saveTrgCfg()
 	f_TrainingVars()
 	local t_training = {
 	--Practice Settings
-		['data.damageDisplay'] = data.damageDisplay,
+		['data.attackDisplay'] = data.attackDisplay,
 		['data.inputDisplay'] = data.inputDisplay,
 		['data.hitbox'] = data.hitbox,
 		['data.debugInfo'] = data.debugInfo,
@@ -909,7 +909,7 @@ for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
 	t_gameCfg[i]['varText'] = ""
 end
-if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg, 5) end
+--if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg, 5) end
 
 --Logic to Display Text instead Boolean Values
 function f_gameCfgdisplayTxt()
@@ -1511,7 +1511,7 @@ end
 txt_PtrainingCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
 
 t_trainingCfg = {
-	{text = "Damage Display"},
+	{text = "Attack Info"},
 	{text = "Input Display"},
 	{text = "Hitbox Display"},
 	{text = "Debug Info"},
@@ -1524,7 +1524,7 @@ t_trainingCfg = {
 	--{text = "Distance"},
 	--{text = "Tech Recovery"},
 	--{text = "Counter Hit"},
-	{text = "AI Level"},
+	{text = "CPU Level"},
 	{text = "Character Settings"},
 	{text = "Playback Settings"},
 	{text = "Dummy Recording Start"},
@@ -1554,8 +1554,10 @@ end
 --Logic to Display Text instead Boolean Values
 function f_trainingCfgdisplayTxt()
 
-if data.damageDisplay == 0 then t_trainingCfg[1].varText = "No"
-elseif data.damageDisplay == 1 then t_trainingCfg[1].varText = "Yes"
+if data.attackDisplay == 0 then t_trainingCfg[1].varText = "No"
+elseif data.attackDisplay == 1 then t_trainingCfg[1].varText = "Player 1"
+elseif data.attackDisplay == 2 then t_trainingCfg[1].varText = "Player 2"
+elseif data.attackDisplay == 3 then t_trainingCfg[1].varText = "All Players"
 end
 
 if data.inputDisplay == 0 then t_trainingCfg[2].varText = "No"
@@ -1759,18 +1761,18 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-		--Damage Display
+		--Attack Display
 			elseif trainingCfg == 1 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.damageDisplay > 0 then
+					if data.attackDisplay > 0 then
 						sndPlay(sndSys, 100, 1)
-						data.damageDisplay = data.damageDisplay - 1
+						data.attackDisplay = data.attackDisplay - 1
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.damageDisplay < 1 then
+					if data.attackDisplay < 3 then
 						sndPlay(sndSys, 100, 1)
-						data.damageDisplay = data.damageDisplay + 1
+						data.attackDisplay = data.attackDisplay + 1
 					end
 					hasChanged = true
 				end
@@ -2061,7 +2063,7 @@ function f_pauseTraining()
 			if hasChanged then
 				if not modified then modified = true end
 				f_trainingCfgdisplayTxt()
-				setDamageDisplay(data.damageDisplay)
+				setAttackDisplay(data.attackDisplay)
 				setInputDisplay(data.inputDisplay)
 				hasChanged = false
 			end
