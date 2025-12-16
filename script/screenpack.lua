@@ -4413,6 +4413,45 @@ animSetScale(abyssSaveInfoBG, 65, 24)
 animSetAlpha(abyssSaveInfoBG, 0, 50)
 animUpdate(abyssSaveInfoBG)
 
+t_speedstarBonus = {
+	{item = "tauntCnt", cnt = 1,  timebonus = 1}, --1 Taunt Bonus
+	{item = "tauntCnt", cnt = 5,  timebonus = 2.5}, --5 Taunt Bonus
+	{item = "tauntCnt", cnt = 10, timebonus = 5}, --10 Taunt Bonus
+	
+	{item = "throwCnt", cnt = 1,  timebonus = 1}, --1 Throw Bonus
+	{item = "throwCnt", cnt = 3,  timebonus = 2}, --3 Throws Bonus
+	{item = "throwCnt", cnt = 5,  timebonus = 3} --5 Throws Bonus
+}
+for i=1, #t_speedstarBonus do
+	t_speedstarBonus[i].active = true
+end
+
+--;===========================================================
+--; DAMAGE DISPLAY
+--;===========================================================
+txt_damageHitCfg = createTextImg(font14, 0, 1, "", 150, 60)
+txt_damageComboCfg = createTextImg(font14, 0, 1, "", 150, 70)
+txt_damageMaxCfg = createTextImg(font14, 0, 1, "", 150, 80)
+txt_comboMaxCfg = createTextImg(font14, 0, 1, "", 150, 90)
+
+txt_damageHit = "Damage: "
+txt_damageCombo = "Combo Damage: "
+txt_damageMax = "Max Combo Damage: "
+txt_comboMax = "Max Combo: "
+
+function f_damageDisplay() --For match.lua
+	if data.debugMode and getGameMode() ~= "practice" or data.damageDisplay == 1 and getGameMode() == "practice" then
+		textImgSetText(txt_damageHitCfg, txt_damageHit..damageHit)
+		textImgSetText(txt_damageComboCfg, txt_damageCombo..damageCombo)
+		textImgSetText(txt_damageMaxCfg, txt_damageMax..damageMax)
+		textImgSetText(txt_comboMaxCfg, txt_comboMax..maxComboCnt)
+		textImgDraw(txt_damageHitCfg)
+		textImgDraw(txt_damageComboCfg)
+		textImgDraw(txt_damageMaxCfg)
+		textImgDraw(txt_comboMaxCfg)
+	end
+end
+
 --;===========================================================
 --; CREDITS SCREEN SCREENPACK DEFINITION
 --;===========================================================

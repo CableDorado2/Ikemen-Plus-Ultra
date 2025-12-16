@@ -244,6 +244,10 @@ playerLeftSide = true
 if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
 	playerLeftSide = false --Player is on Right Side
 end
+damageHit = 0
+damageCombo = 0
+damageMax = 0
+maxComboCnt = 0
 	
 local function f_handicapSet()
 	for side=1, 2 do
@@ -1055,8 +1059,22 @@ local specialCnt = 0
 local superCnt = 0
 local colddownCnt = false
 local function f_actionsCheck()
+--Check Enemy Side
+	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
+	--Get Hit Damage
+		if gethitvar("damage") > 0 then damageHit = gethitvar("damage") end
+	--Get Damage Combo
+		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
+			if gethitvar("hitcount") == 1 then damageCombo = 0 end --Reset Combo Damage
+			damageCombo = damageCombo + gethitvar("damage")
+			if damageCombo > damageMax then damageMax = damageCombo end --Get Max Combo Damage
+		end
+	--Get Max Combo Count
+		if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
+	end
+--Check Player Side
 	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
-		if time() == 1 then colddownCnt = false end
+		if time() == 5 then colddownCnt = false end
 	--Taunt Count
 		if anim() == 195 and time() < 2 then tauntCnt = tauntCnt + 1
 	--Throw Count
@@ -1064,24 +1082,26 @@ local function f_actionsCheck()
 				hitdefattr() == "S, NT" or --Stand
 				hitdefattr() == "C, NT" or --Crouch
 				hitdefattr() == "A, NT" --Air
-			) and movecontact() == 1 and numtarget() == 1 then throwCnt = throwCnt + 1
+			) then throwCnt = throwCnt + 1
 	--Special Moves Count
-		--elseif anim() >= 1000 and anim() <= 2999 and time() < 2 then specialCnt = specialCnt + 1
+		elseif hitdefattr() == "S, ST" or hitdefattr() == "C, ST" or hitdefattr() == "A, ST" and movecontact() == 1 then
+			specialCnt = specialCnt + 1 --Special Throw
 		elseif (
-				hitdefattr() == "S, SA" or hitdefattr() == "S, ST" or
-				hitdefattr() == "C, SA" or hitdefattr() == "C, ST" or
-				hitdefattr() == "A, SA" or hitdefattr() == "A, ST"
+				hitdefattr() == "S, SA" or
+				hitdefattr() == "C, SA" or
+				hitdefattr() == "A, SA"
 			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
 				if not colddownCnt then
 					specialCnt = specialCnt + 1
 					colddownCnt = true
 				end
 	--Super Moves Count
-		--elseif anim() >= 3000 and anim() <= 4999 and time() < 2 then superCnt = superCnt + 1
+		elseif hitdefattr() == "S, HT" or hitdefattr() == "C, HT" or hitdefattr() == "A, HT" and movecontact() == 1 then
+			superCnt = superCnt + 1 --Super Throw
 		elseif (
-				hitdefattr() == "S, HA" or hitdefattr() == "S, HT" or
-				hitdefattr() == "C, HA" or hitdefattr() == "C, HT" or
-				hitdefattr() == "A, HA" or hitdefattr() == "A, HT"
+				hitdefattr() == "S, HA" or
+				hitdefattr() == "C, HA" or
+				hitdefattr() == "A, HA"
 			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
 				if not colddownCnt then
 					superCnt = superCnt + 1
@@ -1089,11 +1109,12 @@ local function f_actionsCheck()
 				end
 		end
 	end
-	f_drawQuickText(txt_debugText, font14, 0, 1, "HitDefAttr: "..hitdefattr(), 111, 77)
+--[[
+	f_drawQuickText(txt_debugText, font14, 0, 1, "Text: "..var(), 111, 77)
 	f_drawQuickText(txt_debugText, font14, 0, 1, "NumTarget: "..numtarget(), 111, 97)
+]]
 end
 
-local maxComboCnt = 0
 local scoreattackfactor = 1
 if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
 local function f_drawScore()
@@ -1104,7 +1125,6 @@ local function f_drawScore()
 			if getGameMode() == "scoreattack" or getGameMode() == "caravan" then
 				pts = pts + (gethitvar("damage") * 10)
 			end
-			if gethitvar("hitcount") > maxComboCnt then maxComboCnt = gethitvar("hitcount") end
 		end
 		setScore(score() + pts * scoreattackfactor)
 		if playerLeftSide then
@@ -1192,10 +1212,11 @@ end
 local function f_drawDebugVars()
 	local antiPosX = 318
 	local posX = 2
-	local posY = 80
+	local posY = 90
 	local font = font15
-	f_drawQuickText(txt_debugText, font, 0, 1, "Max Combo: "..maxComboCnt, posX, 55)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Consecutive Wins: "..consecutiveWins(), posX, 65)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Round Time Remaining: "..timeremaining(), posX, 55)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, 65)
+	f_drawQuickText(txt_debugText, font, 0, 1, "Consecutive Wins: "..consecutiveWins(), posX, 75)
 --Win Types Count
 	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Super Wins: "..winPerfectHyperCount(), posX, posY)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Perfects Special Wins: "..winPerfectSpecialCount(), posX, posY + 10)
@@ -1210,9 +1231,6 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Throw Cnt: "..throwCnt, posX, posY + 95)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Special Cnt: "..specialCnt, posX, posY + 105)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Super Cnt: "..superCnt, posX, posY + 115)
---Time Vars
-	f_drawQuickText(txt_debugText, font, 0, 1, "Round Time Remaining: "..timeremaining(), posX, posY + 140)
-	f_drawQuickText(txt_debugText, font, 0, 1, "Timer: "..timerTotal(), posX, posY + 150)
 --Abyss Mode
 	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss Hit Cnt: "..abyssHitCnt, antiPosX, posY + 100)
@@ -1262,66 +1280,74 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 		if not matchover() then
 			local bonusTime = 0
+			local negativeTime = 0
 		--No Damage Time Bonus
 		--5 Seconds
 			if noDamageTimer == 100 then
-				setTime(timeremaining() + ((1 * timeBossFactor) * matchTimeFix))
-				sndPlay(sndIkemen, 620, 0)
+				--setTime(timeremaining() + (1 * timeBossFactor) * matchTimeFix)
+				bonusTime = bonusTime + (1 * timeBossFactor) * matchTimeFix
 				noDamageTimer = noDamageTimer + 1
 		--10 Seconds
 			elseif noDamageTimer == 200 then
-				setTime(timeremaining() + ((2 * timeBossFactor) * matchTimeFix))
-				sndPlay(sndIkemen, 620, 0)
+				--setTime(timeremaining() + (2 * timeBossFactor) * matchTimeFix)
+				bonusTime = bonusTime + (2 * timeBossFactor) * matchTimeFix
 				noDamageTimer = noDamageTimer + 1
 		--20 Seconds
 			elseif noDamageTimer == 400 then
-				setTime(timeremaining() + ((5 * timeBossFactor) * matchTimeFix))
-				sndPlay(sndIkemen, 620, 0)
+				--setTime(timeremaining() + (5 * timeBossFactor) * matchTimeFix)
+				bonusTime = bonusTime + (5 * timeBossFactor) * matchTimeFix
 				noDamageTimer = noDamageTimer + 1
 		--30 Seconds
 			elseif noDamageTimer == 600 then
-				setTime(timeremaining() + ((7 * timeBossFactor) * matchTimeFix))
-				sndPlay(sndIkemen, 620, 0)
+				--setTime(timeremaining() + (7 * timeBossFactor) * matchTimeFix)
+				bonusTime = bonusTime + (7 * timeBossFactor) * matchTimeFix
 				noDamageTimer = noDamageTimer + 1
 			end
-		--1 Taunt
-			if tauntCnt == 1 then
-				bonusTime = bonusTime + 1
-				tauntCnt = tauntCnt + 1 --To Avoid receive bonus each time that is checked
-		--5 Taunts
-			elseif tauntCnt == 6 then
-				bonusTime = bonusTime + 2.5
-				tauntCnt = tauntCnt + 1
-		--10 Taunts
-			elseif tauntCnt == 11 then
-				bonusTime = bonusTime + 5
-				tauntCnt = tauntCnt + 1
+		--Check Bonus Actions
+			for i=1, #t_speedstarBonus do
+				if t_speedstarBonus[i].item == "tauntCnt" then
+					if t_speedstarBonus[i].cnt == tauntCnt and t_speedstarBonus[i].active then
+						bonusTime = bonusTime + (t_speedstarBonus[i].timebonus * timeBossFactor) * matchTimeFix
+						t_speedstarBonus[i].active = false
+					end
+				elseif t_speedstarBonus[i].item == "throwCnt" then
+					if t_speedstarBonus[i].cnt == throwCnt and t_speedstarBonus[i].active then
+						bonusTime = bonusTime + (t_speedstarBonus[i].timebonus * timeBossFactor) * matchTimeFix
+						t_speedstarBonus[i].active = false
+					end
+				end
 			end
-			--Throw = +1, 3Throws= +2, 5Throws= +3
-			--When enemy is already defeated (corpse kick)
+			--TODO: When enemy is already defeated (corpse kick bonus)
 			--bossnormal = -1, bossspecial = -1.5, bosssuper = -3
 		--Player Deal Damage over CPU
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 				local damageDat = gethitvar("damage")
 			--Over 200 Damage
 				if damageDat > 200 and damageDat < 300 then
-					bonusTime = bonusTime + 1
+					bonusTime = bonusTime + (1 * timeBossFactor) * matchTimeFix
 			--Over 300 Damage
 				elseif damageDat > 300 and damageDat < 400 then
-					bonusTime = bonusTime + 1.5
+					bonusTime = bonusTime + (1.5 * timeBossFactor) * matchTimeFix
 				end
-				setTime(timeremaining() + ((bonusTime * timeBossFactor) * matchTimeFix)) --Bonus Time
-				if roundstate() ~= 1 and bonusTime ~= 0 then sndPlay(sndIkemen, 620, 0) end
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				local damageDat = gethitvar("damage")
 				if damageDat then
-					if cpuLevel >= 6 then bonusTime = gethitvar("damage") end
+					if cpuLevel >= 6 then negativeTime = gethitvar("damage") end
 					noDamageTimer = 0 --Reset No Damage Timer
 				end
+			end
+		--Modify Time
+			f_drawQuickText(txt_debugText, font14, 0, 1, "Bonus Time: "..bonusTime, 111, 77)
+			if roundstate() ~= 1 and bonusTime ~= 0 then
+				--setTime(timeremaining() + ((bonusTime * timeBossFactor) * matchTimeFix)) --Bonus Time
+				setTime(timeremaining() + bonusTime) --Bonus Time
+				sndPlay(sndIkemen, 620, 0)
+			end
+			if negativeTime ~= 0 then
 				if timeremaining() > 0 then
-					--setTime(timeremaining() - (bonusTime * matchTimeFix)) --Lose Time
-					setTime(timeremaining() - bonusTime) --Lose Time
+					--setTime(timeremaining() - (negativeTime * matchTimeFix)) --Lose Time
+					setTime(timeremaining() - negativeTime) --Lose Time
 					sndPlay(sndIkemen, 620, 1)
 				end
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
@@ -1540,6 +1566,7 @@ function loop() --The code for this function should be thought of as if it were 
 	end
 	if data.debugMode then f_drawDebugVars() end
 	f_checkAchievements()
+	f_damageDisplay()
 end
 
 function f_nextTutoText()

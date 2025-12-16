@@ -1759,25 +1759,20 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-		--Info Display
+		--Damage Display
 			elseif trainingCfg == 1 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-				--[[
 					if data.damageDisplay > 0 then
 						sndPlay(sndSys, 100, 1)
 						data.damageDisplay = data.damageDisplay - 1
 					end
 					hasChanged = true
-				]]
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					sndPlay(sndIkemen, 200, 0)
-				--[[
 					if data.damageDisplay < 1 then
 						sndPlay(sndSys, 100, 1)
 						data.damageDisplay = data.damageDisplay + 1
 					end
 					hasChanged = true
-				]]
 				end
 		--Input Display
 			elseif trainingCfg == 2 then
