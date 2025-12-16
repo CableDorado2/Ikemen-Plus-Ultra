@@ -116,8 +116,6 @@ Saved Team en Dragon Ball Fighterz:
 
 - Añadir sistema de decisiones al Modo Visual Novel.
 
-- Incluir en training la opción de Damage Display (verificar que su inclusión no afecta al bonus de caltwalk). Probar programarlo desde match.lua.
-
 - Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
 
 - Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html.
