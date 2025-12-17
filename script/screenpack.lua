@@ -4414,13 +4414,18 @@ animSetAlpha(abyssSaveInfoBG, 0, 50)
 animUpdate(abyssSaveInfoBG)
 
 t_speedstarBonus = {
-	{item = "tauntCnt", cnt = 1,  timebonus = 1}, --1 Taunt Bonus
-	{item = "tauntCnt", cnt = 5,  timebonus = 2.5}, --5 Taunt Bonus
-	{item = "tauntCnt", cnt = 10, timebonus = 5}, --10 Taunt Bonus
+	{item = "tauntCnt",		 target = 1,  reward = 1}, --1 Taunt Bonus
+	{item = "tauntCnt", 	 target = 5,  reward = 2.5}, --5 Taunt Bonus
+	{item = "tauntCnt", 	 target = 10, reward = 5}, --10 Taunt Bonus
 	
-	{item = "throwCnt", cnt = 1,  timebonus = 1}, --1 Throw Bonus
-	{item = "throwCnt", cnt = 3,  timebonus = 2}, --3 Throws Bonus
-	{item = "throwCnt", cnt = 5,  timebonus = 3} --5 Throws Bonus
+	{item = "throwCnt", 	 target = 1,  reward = 1}, --1 Throw Bonus
+	{item = "throwCnt", 	 target = 3,  reward = 2}, --3 Throws Bonus
+	{item = "throwCnt", 	 target = 5,  reward = 3}, --5 Throws Bonus
+	
+	{item = "noDamageTimer", target = 5,  reward = 1}, --No Damage During 5 Seconds Bonus
+	{item = "noDamageTimer", target = 10, reward = 2}, --No Damage During 10 Seconds Bonus
+	{item = "noDamageTimer", target = 20, reward = 5}, --No Damage During 20 Seconds Bonus
+	{item = "noDamageTimer", target = 30, reward = 7}, --No Damage During 30 Seconds Bonus
 }
 for i=1, #t_speedstarBonus do
 	t_speedstarBonus[i].active = true
@@ -4471,8 +4476,8 @@ animSetAlpha(attackInfoBG, 0, 145)
 animUpdate(attackInfoBG)
 
 function f_attackDisplay() --For match.lua
-	--if data.debugMode then
-	if getGameMode() == "practice" then
+	if data.debugMode then
+	--if getGameMode() == "practice" then
 		textImgSetText(txt_damageHitValP1, damageHitP1)
 		textImgSetText(txt_damageComboValP1, damageComboP1)
 		textImgSetText(txt_damageMaxValP1, damageMaxP1)
@@ -4482,6 +4487,7 @@ function f_attackDisplay() --For match.lua
 		textImgSetText(txt_damageComboValP2, damageComboP2)
 		textImgSetText(txt_damageMaxValP2, damageMaxP2)
 		textImgSetText(txt_comboMaxValP2, maxComboCntP2)
+	--Player 1 Attack Data
 		if data.attackDisplay == 1 or data.attackDisplay == 3 then
 			animPosDraw(attackInfoBG, p1AttackPosX-2, attackPosY-7)
 			textImgDraw(txt_damageHitP1)
@@ -4494,6 +4500,7 @@ function f_attackDisplay() --For match.lua
 			textImgDraw(txt_damageMaxValP1)
 			textImgDraw(txt_comboMaxValP1)
 		end
+	--Player 2 Attack Data
 		if data.attackDisplay == 2 or data.attackDisplay == 3 then
 			animPosDraw(attackInfoBG, p2AttackPosX-2, attackPosY-7)
 			textImgDraw(txt_damageHitP2)

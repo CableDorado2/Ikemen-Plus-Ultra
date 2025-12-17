@@ -329,7 +329,7 @@ local function f_speedstarStatsSet()
 			end
 		end
 	end
-	setTime(getTimePersistence())
+	setTime(getTimePersistence()) --Restore Round Time
 	speedstarStatsReady = true
 end
 
@@ -1151,9 +1151,13 @@ local function f_drawScore()
 	end
 end
 
+local maxComboPlayer = 0
+local damageComboPlayer = 0
+local bonusScoreDone = false
+local timeReward = 0
 local function f_addBonusScore()
 --Add Bonus Score when player wins
-	if roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
+	if roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and not bonusScoreDone then
 		if life() ~= lifemax() then
 			setScore(score() + (life() * 10) * scoreattackfactor) --Life remains add score
 		else
@@ -1179,11 +1183,9 @@ local function f_addBonusScore()
 		elseif winperfect() then
 			setScore(score() + 10000 * scoreattackfactor)
 			setWinPerfectCount(winPerfectCount() + 1)
-			if getGameMode == "speedstar" then setTime(timeremaining() + ((15 * timeBossFactor) * matchTimeFix)) end --Perfect Bonus Time
 		elseif winhyper() then
 			setScore(score() + 8000 * scoreattackfactor)
 			setWinHyperCount(winHyperCount() + 1)
-			if getGameMode == "speedstar" then setTime(timeremaining() + ((3 * timeBossFactor) * matchTimeFix)) end --Super K.O Bonus Time
 		elseif winthrow() then
 			setScore(score() + 3000 * scoreattackfactor)
 			setWinThrowCount(winThrowCount() + 1)
@@ -1193,10 +1195,24 @@ local function f_addBonusScore()
 		elseif wintime() then
 			setWinTimeCount(winTimeCount() + 1)
 		end
-		if getGameMode == "speedstar" and winko() then
-			setTime(timeremaining() + ((1 * timeBossFactor) * matchTimeFix)) --Normal K.O Bonus Time
-			setTime(timeremaining() + (20 * matchTimeFix)) --Stage Clear Bonus Time
+		if getGameMode() == "speedstar" then
+		--Perfect Time Bonus (Only have sense if lifebar is not infinite)
+			--if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then timeReward = timeReward + (15 * timeBossFactor) * matchTimeFix
+		--Super K.O Time Bonus
+			if winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
+		--Normal K.O Time Bonus
+			elseif winko() then timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
+			end
+			timeReward = timeReward + (20 * matchTimeFix) --Stage Clear Time Bonus
+			setTime(timeremaining() + timeReward) --Add Time Bonus
+			sndPlay(sndIkemen, 620, 0)
+			setTimePersistence(timeremaining()) --Save Current Round Time Remaining for Next Match
 		end
+		bonusScoreDone = true
+	end
+	if data.debugMode and roundstate() == 4 then
+		f_drawQuickText(txt_timeR, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, 95, 160)
+		f_drawQuickText(txt_timeR, font14, 0, 1, "Time Reward: "..timeReward / 60, 95, 170)
 	end
 end
 
@@ -1288,81 +1304,73 @@ function loop() --The code for this function should be thought of as if it were 
 			if matchno() > 1 and not speedstarStatsReady then f_speedstarStatsSet() end
 		elseif roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
-				setPowerPersistence(power())
-				setTimePersistence(timeremaining())
+				setPowerPersistence(power()) --Save Current Power Bar for Next Match
 				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), 95, 150) end
 			end
 		end
 		if not matchover() then
-			local bonusTime = 0
-			local negativeTime = 0
-		--No Damage Time Bonus
-		--5 Seconds
-			if noDamageTimer == 100 then
-				--setTime(timeremaining() + (1 * timeBossFactor) * matchTimeFix)
-				bonusTime = bonusTime + (1 * timeBossFactor) * matchTimeFix
-				noDamageTimer = noDamageTimer + 1
-		--10 Seconds
-			elseif noDamageTimer == 200 then
-				--setTime(timeremaining() + (2 * timeBossFactor) * matchTimeFix)
-				bonusTime = bonusTime + (2 * timeBossFactor) * matchTimeFix
-				noDamageTimer = noDamageTimer + 1
-		--20 Seconds
-			elseif noDamageTimer == 400 then
-				--setTime(timeremaining() + (5 * timeBossFactor) * matchTimeFix)
-				bonusTime = bonusTime + (5 * timeBossFactor) * matchTimeFix
-				noDamageTimer = noDamageTimer + 1
-		--30 Seconds
-			elseif noDamageTimer == 600 then
-				--setTime(timeremaining() + (7 * timeBossFactor) * matchTimeFix)
-				bonusTime = bonusTime + (7 * timeBossFactor) * matchTimeFix
-				noDamageTimer = noDamageTimer + 1
-			end
+			local timeBonus = 0
+			local timePenalty = 0
 		--Check Bonus Actions
 			for i=1, #t_speedstarBonus do
+			--Taunt Time Bonus
 				if t_speedstarBonus[i].item == "tauntCnt" then
-					if t_speedstarBonus[i].cnt == tauntCnt and t_speedstarBonus[i].active then
-						bonusTime = bonusTime + (t_speedstarBonus[i].timebonus * timeBossFactor) * matchTimeFix
+					if tauntCnt == t_speedstarBonus[i].target and t_speedstarBonus[i].active then
+						timeBonus = timeBonus + (t_speedstarBonus[i].reward * timeBossFactor) * matchTimeFix
 						t_speedstarBonus[i].active = false
 					end
+			--Throw Time Bonus
 				elseif t_speedstarBonus[i].item == "throwCnt" then
-					if t_speedstarBonus[i].cnt == throwCnt and t_speedstarBonus[i].active then
-						bonusTime = bonusTime + (t_speedstarBonus[i].timebonus * timeBossFactor) * matchTimeFix
+					if throwCnt == t_speedstarBonus[i].target and t_speedstarBonus[i].active then
+						timeBonus = timeBonus + (t_speedstarBonus[i].reward * timeBossFactor) * matchTimeFix
 						t_speedstarBonus[i].active = false
+					end
+			--No Damage Time Bonus
+				elseif t_speedstarBonus[i].item == "noDamageTimer" then
+					if noDamageTimer == t_speedstarBonus[i].target * gameTick then
+						timeBonus = timeBonus + (t_speedstarBonus[i].reward * timeBossFactor) * matchTimeFix
+						noDamageTimer = noDamageTimer + 1
 					end
 				end
 			end
-			--TODO: When enemy is already defeated (corpse kick bonus)
-			--bossnormal = -1, bossspecial = -1.5, bosssuper = -3
+			if playerLeftSide then
+				damageComboPlayer = damageComboP1
+				damageComboCPU = damageComboP2
+			else
+				damageComboPlayer = damageComboP2
+				damageComboCPU = damageComboP1
+			end
 		--Player Deal Damage over CPU
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-				local damageDat = gethitvar("damage")
 			--Over 200 Damage
-				if damageDat > 200 and damageDat < 300 then
-					bonusTime = bonusTime + (1 * timeBossFactor) * matchTimeFix
+				if damageComboPlayer > 200 and damageComboPlayer < 300 then
+					timeBonus = timeBonus + (1 * timeBossFactor) * matchTimeFix
 			--Over 300 Damage
-				elseif damageDat > 300 and damageDat < 400 then
-					bonusTime = bonusTime + (1.5 * timeBossFactor) * matchTimeFix
+				elseif damageComboPlayer > 300 and damageComboPlayer < 400 then
+					timeBonus = timeBonus + (1.5 * timeBossFactor) * matchTimeFix
 				end
+				--TODO: When enemy is already defeated (corpse kick bonus)
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
-				local damageDat = gethitvar("damage")
-				if damageDat then
-					if cpuLevel >= 6 then negativeTime = gethitvar("damage") end
+				if gethitvar("damage") > 0 then
 					noDamageTimer = 0 --Reset No Damage Timer
+					if cpuLevel >= 6 then
+					--Enemy Normal Attacks
+						timePenalty = 1 * matchTimeFix
+					--TODO: enemyspecial = -1.5, enemysuper = -3
+					end
 				end
+				--TODO: Player received more than ??? Damage (Time Bonus)
 			end
-		--Modify Time
-			f_drawQuickText(txt_debugText, font14, 0, 1, "Bonus Time: "..bonusTime, 111, 77)
-			if roundstate() ~= 1 and bonusTime ~= 0 then
-				--setTime(timeremaining() + ((bonusTime * timeBossFactor) * matchTimeFix)) --Bonus Time
-				setTime(timeremaining() + bonusTime) --Bonus Time
+		--Round Time Updates
+			--f_drawQuickText(txt_debugText, font14, 0, 1, "Time Bonus: "..timeBonus / 60, 111, 77)
+			if roundstate() ~= 1 and timeBonus ~= 0 then
+				setTime(timeremaining() + timeBonus) --Time Bonus
 				sndPlay(sndIkemen, 620, 0)
 			end
-			if negativeTime ~= 0 then
+			if timePenalty ~= 0 then
 				if timeremaining() > 0 then
-					--setTime(timeremaining() - (negativeTime * matchTimeFix)) --Lose Time
-					setTime(timeremaining() - negativeTime) --Lose Time
+					setTime(timeremaining() - timePenalty) --Lose Time
 					sndPlay(sndIkemen, 620, 1)
 				end
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count

@@ -909,7 +909,7 @@ for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
 	t_gameCfg[i]['varText'] = ""
 end
---if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg, 5) end
+if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg, 5) end
 
 --Logic to Display Text instead Boolean Values
 function f_gameCfgdisplayTxt()
