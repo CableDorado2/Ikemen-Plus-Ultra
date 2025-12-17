@@ -292,7 +292,6 @@ local function f_handicapSet()
 end
 
 local survivalStatsReady = false
-local survivalLifeRecover = false
 local function f_survivalStatsSet()
 	if playerLeftSide then
 	--For each Left Side Player Selected
@@ -318,14 +317,14 @@ local function f_speedstarStatsSet()
 	--For each Left Side Player Selected
 		for i=1, #p1Dat do
 			if player(p1Dat[i].pn) then
-				setPower(getPowerPersistence())
+				setPower(getPowerPersistence()) --Restore Power Bar
 			end
 		end
 	else
 	--For each Right Side Player Selected
 		for i=1, #p2Dat do
 			if player(p2Dat[i].pn) then
-				setPower(getPowerPersistence())
+				setPower(getPowerPersistence()) --Restore Power Bar
 			end
 		end
 	end
@@ -1018,6 +1017,30 @@ local function f_setMatchTexts()
 end
 f_setMatchTexts() --Load when match start
 
+local function f_streakWins()
+	if roundstate() == 4 and time() == 0 then
+	--Left Side Consecutive Wins
+		if playerLeftSide then
+		--Left Side Player Wons All Rounds
+			if p1RoundsWon() == getRoundsToWin() and p2RoundsWon() == 0 then
+				setConsecutiveWins(consecutiveWins() + 1)
+		--If not Won All Rounds, Reset Consecutive Wins Count
+			elseif p2RoundsWon() > 0 then
+				setConsecutiveWins(0)
+			end
+	--Right Side Consecutive Wins
+		else
+		--Right Side Player Wons All Rounds
+			if p2RoundsWon() == getRoundsToWin() and p1RoundsWon() == 0 then
+				setConsecutiveWins(consecutiveWins() + 1)
+		--If not Won All Rounds, Reset Consecutive Wins Count
+			elseif p1RoundsWon() > 0 then
+				setConsecutiveWins(0)
+			end
+		end
+	end
+end
+
 local timerStart = 0
 local noDamageTimer = 0
 local timeBossFactor = 1
@@ -1157,7 +1180,7 @@ local bonusScoreDone = false
 local timeReward = 0
 local function f_addBonusScore()
 --Add Bonus Score when player wins
-	if roundstate() == 4 and (playerLeftSide and player(1) or not playerLeftSide and player(2)) and not bonusScoreDone then
+	if (playerLeftSide and player(1)) or (not playerLeftSide and player(2)) then
 		if life() ~= lifemax() then
 			setScore(score() + (life() * 10) * scoreattackfactor) --Life remains add score
 		else
@@ -1168,38 +1191,45 @@ local function f_addBonusScore()
 		setScore(score() + (maxComboPlayer * 1000) * scoreattackfactor)
 		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
 		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
-		if winperfecthyper() then
-			setScore(score() + 25000 * scoreattackfactor)
-			setWinPerfectHyperCount(winPerfectHyperCount() + 1)
-			setWinPerfectCount(winPerfectCount() + 1)
-		elseif winperfectthrow() then
-			setScore(score() + 20000 * scoreattackfactor)
-			setWinPerfectThrowCount(winPerfectThrowCount() + 1)
-			setWinPerfectCount(winPerfectCount() + 1)
-		elseif winperfectspecial() then
-			setScore(score() + 15000 * scoreattackfactor)
-			setWinPerfectSpecialCount(winPerfectSpecialCount() + 1)
-			setWinPerfectCount(winPerfectCount() + 1)
-		elseif winperfect() then
-			setScore(score() + 10000 * scoreattackfactor)
-			setWinPerfectCount(winPerfectCount() + 1)
-		elseif winhyper() then
-			setScore(score() + 8000 * scoreattackfactor)
-			setWinHyperCount(winHyperCount() + 1)
-		elseif winthrow() then
-			setScore(score() + 3000 * scoreattackfactor)
-			setWinThrowCount(winThrowCount() + 1)
-		elseif winspecial() then
-			setScore(score() + 1000 * scoreattackfactor)
-			setWinSpecialCount(winSpecialCount() + 1)
+		if winperfect() then
+			if winperfecthyper() then
+				setScore(score() + 25000 * scoreattackfactor)
+				setWinPerfectHyperCount(winPerfectHyperCount() + 1)
+				setWinPerfectCount(winPerfectCount() + 1)
+			elseif winperfectthrow() then
+				setScore(score() + 20000 * scoreattackfactor)
+				setWinPerfectThrowCount(winPerfectThrowCount() + 1)
+				setWinPerfectCount(winPerfectCount() + 1)
+			elseif winperfectspecial() then
+				setScore(score() + 15000 * scoreattackfactor)
+				setWinPerfectSpecialCount(winPerfectSpecialCount() + 1)
+				setWinPerfectCount(winPerfectCount() + 1)
+			else
+				setScore(score() + 10000 * scoreattackfactor)
+				setWinPerfectCount(winPerfectCount() + 1)
+			end
 		elseif wintime() then
 			setWinTimeCount(winTimeCount() + 1)
+		elseif winko() then
+			if winthrow() then
+				setScore(score() + 3000 * scoreattackfactor)
+				setWinThrowCount(winThrowCount() + 1)
+			elseif winspecial() then
+				setScore(score() + 1000 * scoreattackfactor)
+				setWinSpecialCount(winSpecialCount() + 1)
+			elseif winhyper() then
+				setScore(score() + 8000 * scoreattackfactor)
+				setWinHyperCount(winHyperCount() + 1)
+			end
 		end
-		if getGameMode() == "speedstar" then
-		--Perfect Time Bonus (Only have sense if lifebar is not infinite)
-			--if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then timeReward = timeReward + (15 * timeBossFactor) * matchTimeFix
+		if getGameMode() == "survival" then
+			setLife(life() + lifemax() / 3) --Recover Life
+			setLifePersistence(life()) --Save Current Player Life for Next Match
+		elseif getGameMode() == "speedstar" then
+		--Perfect Time Bonus
+			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then timeReward = timeReward + (15 * timeBossFactor) * matchTimeFix
 		--Super K.O Time Bonus
-			if winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
+			elseif winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
 		--Normal K.O Time Bonus
 			elseif winko() then timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
 			end
@@ -1207,36 +1237,9 @@ local function f_addBonusScore()
 			setTime(timeremaining() + timeReward) --Add Time Bonus
 			sndPlay(sndIkemen, 620, 0)
 			setTimePersistence(timeremaining()) --Save Current Round Time Remaining for Next Match
+			setPowerPersistence(power()) --Save Current Player Power Bar for Next Match
 		end
 		bonusScoreDone = true
-	end
-	if data.debugMode and roundstate() == 4 then
-		f_drawQuickText(txt_timeR, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, 95, 160)
-		f_drawQuickText(txt_timeR, font14, 0, 1, "Time Reward: "..timeReward / 60, 95, 170)
-	end
-end
-
-local function f_streakWins()
-	if roundstate() == 4 and time() == 0 then
-	--Left Side Consecutive Wins
-		if playerLeftSide then
-		--Left Side Player Wons All Rounds
-			if p1RoundsWon() == getRoundsToWin() and p2RoundsWon() == 0 then
-				setConsecutiveWins(consecutiveWins() + 1)
-		--If not Won All Rounds, Reset Consecutive Wins Count
-			elseif p2RoundsWon() > 0 then
-				setConsecutiveWins(0)
-			end
-	--Right Side Consecutive Wins
-		else
-		--Right Side Player Wons All Rounds
-			if p2RoundsWon() == getRoundsToWin() and p1RoundsWon() == 0 then
-				setConsecutiveWins(consecutiveWins() + 1)
-		--If not Won All Rounds, Reset Consecutive Wins Count
-			elseif p1RoundsWon() > 0 then
-				setConsecutiveWins(0)
-			end
-		end
 	end
 end
 
@@ -1302,11 +1305,6 @@ function loop() --The code for this function should be thought of as if it were 
 	elseif getGameMode() == "speedstar" then
 		if roundstate() < 2 then --roundstate() == 0 and gametime() == 1 then
 			if matchno() > 1 and not speedstarStatsReady then f_speedstarStatsSet() end
-		elseif roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
-			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
-				setPowerPersistence(power()) --Save Current Power Bar for Next Match
-				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), 95, 150) end
-			end
 		end
 		if not matchover() then
 			local timeBonus = 0
@@ -1360,7 +1358,6 @@ function loop() --The code for this function should be thought of as if it were 
 					--TODO: enemyspecial = -1.5, enemysuper = -3
 					end
 				end
-				--TODO: Player received more than ??? Damage (Time Bonus)
 			end
 		--Round Time Updates
 			--f_drawQuickText(txt_debugText, font14, 0, 1, "Time Bonus: "..timeBonus / 60, 111, 77)
@@ -1375,6 +1372,7 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
 			end
+		--[[Infinite Life
 			if playerLeftSide then
 				for i=1, 8 do
 					if i % 2 == 0 then --Is an Even Player Number (Right Side)
@@ -1400,6 +1398,7 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			end
+		--]]
 		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
@@ -1448,17 +1447,6 @@ function loop() --The code for this function should be thought of as if it were 
 		elseif roundstate() == 2 then
 			textImgDraw(txt_SurvivalCountP1FightCfg)
 			textImgDraw(txt_SurvivalCountP2FightCfg)
-		end
-		if getGameMode() == "survival" and roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
-			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
-				if not survivalLifeRecover then
-				--Recover a little of Life
-					setLife(life() + lifemax() / 3)
-					survivalLifeRecover = true
-				end
-				setLifePersistence(life())
-				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150) end
-			end
 		end
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
@@ -1570,14 +1558,26 @@ function loop() --The code for this function should be thought of as if it were 
 	end
 	f_setStageMusic()
 	f_streakWins()
+	f_drawTimer()
+	f_drawScore()
 	if roundstate() == 2 then
 		if ailevelDisplay() then textImgDraw(txt_AiLevelFightCfg) end
 		if matchnoDisplay() then textImgDraw(txt_MatchFightCfg) end
 		if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
+	elseif roundstate() == 4 then
+		if not bonusScoreDone then f_addBonusScore() end
+		if data.debugMode and (playerLeftSide and winnerteam() == 1) or (not playerLeftSide and winnerteam() == 2) then
+			if getGameMode() == "survival" then
+				f_drawQuickText(txt_fightDat, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150)
+			else
+				f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), 95, 150)
+				f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, 95, 160)
+				f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Reward: "..timeReward / 60, 95, 170)
+			end
+		end
 	end
-	f_drawTimer()
-	f_drawScore()
-	f_addBonusScore()
+	if data.debugMode then f_drawDebugVars() end
+	f_attackDisplay()
 --When Attract Mode is Enabled
 	if data.attractMode then
 		if getGameMode() == "demo" then
@@ -1587,9 +1587,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 		f_attractCredits(318, 238, -1)
 	end
-	--if data.debugMode then f_drawDebugVars() end
 	f_checkAchievements()
-	f_attackDisplay()
 end
 
 function f_nextTutoText()
