@@ -297,7 +297,8 @@ local function f_survivalStatsSet()
 	--For each Left Side Player Selected
 		for i=1, #p1Dat do
 			if player(p1Dat[i].pn) then
-				setLife(getLifePersistence())
+				setLife(getLifePersistence()) --Restore Life Bar
+				setPower(getPowerPersistence()) --Restore Power Bar
 			end
 		end
 	else
@@ -305,6 +306,7 @@ local function f_survivalStatsSet()
 		for i=1, #p2Dat do
 			if player(p2Dat[i].pn) then
 				setLife(getLifePersistence())
+				setPower(getPowerPersistence())
 			end
 		end
 	end
@@ -317,14 +319,14 @@ local function f_speedstarStatsSet()
 	--For each Left Side Player Selected
 		for i=1, #p1Dat do
 			if player(p1Dat[i].pn) then
-				setPower(getPowerPersistence()) --Restore Power Bar
+				setPower(getPowerPersistence())
 			end
 		end
 	else
 	--For each Right Side Player Selected
 		for i=1, #p2Dat do
 			if player(p2Dat[i].pn) then
-				setPower(getPowerPersistence()) --Restore Power Bar
+				setPower(getPowerPersistence())
 			end
 		end
 	end
@@ -1222,6 +1224,11 @@ local function f_addBonusScore()
 		if getGameMode() == "survival" then
 			setLife(life() + lifemax() / 3) --Recover Life
 			setLifePersistence(life()) --Save Current Player Life for Next Match
+			setPowerPersistence(power()) --Save Current Player Power Bar for Next Match
+		elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
+			if abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone) then
+				setLifePersistence(life())
+			end
 		elseif getGameMode() == "speedstar" then
 		--Perfect Time Bonus
 			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
@@ -1239,7 +1246,7 @@ local function f_addBonusScore()
 			setTime(timeremaining() + timeReward) --Add Time Bonus
 			sndPlay(sndIkemen, 620, 0)
 			setTimePersistence(timeremaining()) --Save Current Round Time Remaining for Next Match
-			setPowerPersistence(power()) --Save Current Player Power Bar for Next Match
+			setPowerPersistence(power())
 		end
 		bonusScoreDone = true
 	end
@@ -1305,7 +1312,7 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_TourneyStateFightCfg)
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
-		if roundstate() < 2 then --roundstate() == 0 and gametime() == 1 then
+		if roundstate() < 2 then
 			if matchno() > 1 and not speedstarStatsReady then f_speedstarStatsSet() end
 		end
 		if not matchover() then
@@ -1374,7 +1381,7 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
 			end
-		--[[Infinite Life
+		--[[Infinite Life Logic
 			if playerLeftSide then
 				for i=1, 8 do
 					if i % 2 == 0 then --Is an Even Player Number (Right Side)
@@ -1444,7 +1451,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if roundstate() < 2 then --roundstate() == 0 and gametime() == 1 then
+		if roundstate() < 2 then
 			if getGameMode() == "survival" and matchno() > 1 and not survivalStatsReady then f_survivalStatsSet() end
 		elseif roundstate() == 2 then
 			textImgDraw(txt_SurvivalCountP1FightCfg)
@@ -1472,7 +1479,7 @@ function loop() --The code for this function should be thought of as if it were 
 			abyssHitCnt = 0 --Reset Hit Cnt
 		end
 	--Set Abyss Stats
-		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2 --roundstate() == 0 and gametime() == 1 then
+		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2
 			if not abyssStatsReady then f_abyssStatsSet() end
 		end
 	--Set Abyss Special Items
@@ -1513,13 +1520,6 @@ function loop() --The code for this function should be thought of as if it were 
 				else
 					f_abyssBossReward()
 				end
-			end
-		end
-	--Store Player Life when Match is finished
-		if (abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone)) and roundstate() == 4 and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
-			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
-				setLifePersistence(life())
-				if data.debugMode then f_drawQuickText(txt_lifp, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150) end
 			end
 		end
 --During Tutorial Mode
@@ -1569,13 +1569,10 @@ function loop() --The code for this function should be thought of as if it were 
 	elseif roundstate() == 4 then
 		if not bonusScoreDone then f_addBonusScore() end
 		if data.debugMode and (playerLeftSide and winnerteam() == 1) or (not playerLeftSide and winnerteam() == 2) then
-			if getGameMode() == "survival" then
-				f_drawQuickText(txt_fightDat, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 150)
-			else
-				f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), 95, 150)
-				f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, 95, 160)
-				f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Reward: "..timeReward / 60, 95, 170)
-			end
+			if getLifePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 120) end
+			if getPowerPersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), 95, 130) end
+			if getTimePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, 95, 140) end
+			if timeReward ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Reward: "..timeReward / 60, 95, 150) end
 		end
 	end
 	if data.debugMode then f_drawDebugVars() end
