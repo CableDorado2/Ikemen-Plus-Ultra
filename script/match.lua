@@ -1180,7 +1180,7 @@ local bonusScoreDone = false
 local timeReward = 0
 local function f_addBonusScore()
 --Add Bonus Score when player wins
-	if (playerLeftSide and player(1)) or (not playerLeftSide and player(2)) then
+	if (playerLeftSide and player(1) and win()) or (not playerLeftSide and player(2) and win()) then
 		if life() ~= lifemax() then
 			setScore(score() + (life() * 10) * scoreattackfactor) --Life remains add score
 		else
@@ -1191,35 +1191,32 @@ local function f_addBonusScore()
 		setScore(score() + (maxComboPlayer * 1000) * scoreattackfactor)
 		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
 		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
-		if winperfect() then
-			if winperfecthyper() then
-				setScore(score() + 25000 * scoreattackfactor)
-				setWinPerfectHyperCount(winPerfectHyperCount() + 1)
-				setWinPerfectCount(winPerfectCount() + 1)
-			elseif winperfectthrow() then
+		if wintime() then
+			setWinTimeCount(winTimeCount() + 1)
+		elseif winperfect() then
+			if winperfectthrow() then
 				setScore(score() + 20000 * scoreattackfactor)
 				setWinPerfectThrowCount(winPerfectThrowCount() + 1)
-				setWinPerfectCount(winPerfectCount() + 1)
+			elseif winperfecthyper() then
+				setScore(score() + 25000 * scoreattackfactor)
+				setWinPerfectHyperCount(winPerfectHyperCount() + 1)
 			elseif winperfectspecial() then
 				setScore(score() + 15000 * scoreattackfactor)
 				setWinPerfectSpecialCount(winPerfectSpecialCount() + 1)
-				setWinPerfectCount(winPerfectCount() + 1)
 			else
 				setScore(score() + 10000 * scoreattackfactor)
-				setWinPerfectCount(winPerfectCount() + 1)
 			end
-		elseif wintime() then
-			setWinTimeCount(winTimeCount() + 1)
+			setWinPerfectCount(winPerfectCount() + 1)
 		elseif winko() then
 			if winthrow() then
 				setScore(score() + 3000 * scoreattackfactor)
 				setWinThrowCount(winThrowCount() + 1)
-			elseif winspecial() then
-				setScore(score() + 1000 * scoreattackfactor)
-				setWinSpecialCount(winSpecialCount() + 1)
 			elseif winhyper() then
 				setScore(score() + 8000 * scoreattackfactor)
 				setWinHyperCount(winHyperCount() + 1)
+			elseif winspecial() then
+				setScore(score() + 1000 * scoreattackfactor)
+				setWinSpecialCount(winSpecialCount() + 1)
 			end
 		end
 		if getGameMode() == "survival" then
@@ -1227,11 +1224,16 @@ local function f_addBonusScore()
 			setLifePersistence(life()) --Save Current Player Life for Next Match
 		elseif getGameMode() == "speedstar" then
 		--Perfect Time Bonus
-			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then timeReward = timeReward + (15 * timeBossFactor) * matchTimeFix
-		--Super K.O Time Bonus
-			elseif winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
-		--Normal K.O Time Bonus
-			elseif winko() then timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
+			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
+				timeReward = timeReward + (15 * timeBossFactor) * matchTimeFix
+			elseif winko() then
+			--Super K.O Time Bonus
+				if winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
+			--Special K.O Time Bonus
+				elseif winspecial() then timeReward = timeReward + (2 * timeBossFactor) * matchTimeFix
+			--Normal K.O Time Bonus
+				else timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
+				end
 			end
 			timeReward = timeReward + (20 * matchTimeFix) --Stage Clear Time Bonus
 			setTime(timeremaining() + timeReward) --Add Time Bonus
