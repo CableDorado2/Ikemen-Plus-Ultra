@@ -896,8 +896,8 @@ end
 --; REPLAY MENU SCREENPACK DEFINITION
 --;===========================================================
 t_replayMenu = {
-	{id = textImgNew(), text = "ONLINE REPLAYS"},
-	{id = textImgNew(), text = "LOCAL REPLAYS"},
+	{id = textImgNew(), text = "NETPLAY"},
+	{id = textImgNew(), text = "LOCAL"},
 }
 
 --;===========================================================

@@ -38,6 +38,14 @@ f_discordInit() --Send Discord Rich Presence
 --;===========================================================
 --Default System Vars
 onlinegame = false
+t_aspectPref = {
+	{ratio = "4:3", calc = function() return (resolutionHeight / 3 * 4) end}, --1
+	{ratio = "16:9", calc = function() return (math.floor((resolutionHeight / 9 * 16) + 0.5)) end}, --2
+	{ratio = "16:10", calc = function() return (resolutionHeight / 10 * 16) end}, --3
+}
+--[[To play online or watch a replay, the player will need to
+set a Resolution of developer's Aspect Ratio preference to avoid desync.]]
+aspectRatioPreference = 1
 soundTest = false
 altBGM = false
 data.tagmode = 1
@@ -4298,9 +4306,8 @@ function f_replayMenu()
 				sndPlay(sndSys, 100, 1)
 			--ONLINE REPLAYS (watch saved replays of your online matches)
 				if replayMenu == 1 then
-					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
-					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
-					if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To watch an online replay you need to set a 16:9 Resolution to avoid desync
+				--Display Aspect Ratio Desync Warning
+					if t_aspectPref[aspectRatioPreference].calc() ~= resolutionWidth then
 						resolutionInfo = true
 						infoScreen = true
 					else
@@ -4587,10 +4594,9 @@ end
 --;===========================================================
 --; ONLINE MENU (play online)
 --;===========================================================
-function checkNetplayAccess()
-	--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
-	--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
-	if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution to avoid desync
+function checkNetplayAccess() --Unused
+--Display Aspect Ratio Desync Warning
+	if t_aspectPref[aspectRatioPreference].calc() ~= resolutionWidth then
 		resolutionInfo = true
 		infoScreen = true
 	else
@@ -4599,9 +4605,8 @@ function checkNetplayAccess()
 end
 
 function f_mainNetplay()
-	--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
-	--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
-	if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution to avoid desync
+--Display Aspect Ratio Desync Warning
+	if t_aspectPref[aspectRatioPreference].calc() ~= resolutionWidth then
 		resolutionInfo = true
 		infoScreen = true
 		return
@@ -5865,7 +5870,7 @@ function f_infoMenu()
 	textImgDraw(txt_infoTitle)
 --Draw Info Text
 	if stats.firstRun then txt = "WELCOME TO IKEMEN PLUS ULTRA ENGINE!"
-	elseif resolutionInfo then txt = "SET A 16:9 RESOLUTION TO AVOID DESYNC"
+	elseif resolutionInfo then txt = "SET A "..t_aspectPref[aspectRatioPreference].ratio.." RESOLUTION TO AVOID DESYNC"
 	elseif licenseInfo then	txt = "NO LICENSES FOUND IN SCREENPACK.LUA"
 	elseif vnInfo then txt = "NO VISUAL NOVELS FOUND IN SELECT.DEF"
 	elseif vnDataInfo then txt = "NO SAVED GAMES FOUND."
