@@ -253,7 +253,8 @@ damageHitP2 = 0
 damageComboP2 = 0
 damageMaxP2 = 0
 maxComboCntP2 = 0
-	
+
+local handicapsReady = false
 local function f_handicapSet()
 	for side=1, 2 do
 		local pDat = nil
@@ -271,7 +272,7 @@ local function f_handicapSet()
 						setLife(lifemax() / t_handicapSelect[pDat[i].handicap].val)
 					end
 			--Power Handicaps (Based in KOF XIII)
-				elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 and gametime() == 1 then
+				elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 then
 				--Power at MAX
 					if t_handicapSelect[pDat[i].handicap].val == nil then
 						setPower(powermax())
@@ -280,7 +281,7 @@ local function f_handicapSet()
 						setPower(t_handicapSelect[pDat[i].handicap].val)
 					end
 			--Defence Handicaps (Based in Guilty Gear Xrd Rev 2 Armor)
-				elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 and gametime() == 1 then
+				elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 then
 				--Defence at 75%, 50%, 25%...
 					if t_handicapSelect[pDat[i].handicap].val ~= nil then
 						setDefence(math.floor(defence() / t_handicapSelect[pDat[i].handicap].val))
@@ -289,6 +290,7 @@ local function f_handicapSet()
 			end
 		end
 	end
+	handicapsReady = true
 end
 
 local survivalStatsReady = false
@@ -988,7 +990,7 @@ local function f_demoSkip()
 	end
 end
 
-cpuLevel = 0
+local cpuLevel = 0
 local function f_setMatchTexts()
 	local stg = ""
 --Set Stage Number
@@ -1046,7 +1048,7 @@ end
 local timerStart = 0
 local noDamageTimer = 0
 local timeBossFactor = 1
-if cpuLevel >= 6 and getGameMode() == "speedstar" then timeBossFactor = 2 end
+if cpuLevel == 8 and getGameMode() == "speedstar" then timeBossFactor = 2 end
 local function f_drawTimer()
 	if roundstate() == 0 then
 		timerStart = 40 --Countdown to activate timer
@@ -1294,13 +1296,14 @@ function loop() --The code for this function should be thought of as if it were 
 		f_demoSkip()
 --During VS Mode
 	elseif getGameMode() == "vs" then
-		if roundstate() == 2 then
+		if roundstate() == 0 then
+			if roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
+		elseif roundstate() == 2 then
+			if not handicapsReady then f_handicapSet() end --Load with roundstate 2 for better compatibility with most chars
 			textImgDraw(txt_WinCountP1FightCfg)
 			textImgDraw(txt_WinCountP2FightCfg)
-		end
-		if roundno() == 2 and roundstate() == 0 then bgmState = 1 end
-		if roundstate() < 2 then
-			f_handicapSet()
+		elseif roundstate() == 4 then
+			handicapsReady = false --Reset Handicap Assignment for Next Round
 		end
 --During Tournament Mode
 	elseif getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
@@ -1312,7 +1315,7 @@ function loop() --The code for this function should be thought of as if it were 
 		textImgDraw(txt_TourneyStateFightCfg)
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
-		if roundstate() < 2 then
+		if roundstate() == 2 then
 			if matchno() > 1 and not speedstarStatsReady then f_speedstarStatsSet() end
 		end
 		if not matchover() then
@@ -1361,11 +1364,11 @@ function loop() --The code for this function should be thought of as if it were 
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				if gethitvar("damage") > 0 then
 					noDamageTimer = 0 --Reset No Damage Timer
-					if cpuLevel >= 6 then
+					--if cpuLevel == 8 then
 					--Enemy Normal Attacks
 						timePenalty = 1 * matchTimeFix
 					--TODO: enemyspecial = -1.5, enemysuper = -3
-					end
+					--end
 				end
 			end
 		--Round Time Updates
@@ -1451,9 +1454,8 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if roundstate() < 2 then
+		if roundstate() == 2 then
 			if getGameMode() == "survival" and matchno() > 1 and not survivalStatsReady then f_survivalStatsSet() end
-		elseif roundstate() == 2 then
 			textImgDraw(txt_SurvivalCountP1FightCfg)
 			textImgDraw(txt_SurvivalCountP2FightCfg)
 		end
@@ -1479,7 +1481,7 @@ function loop() --The code for this function should be thought of as if it were 
 			abyssHitCnt = 0 --Reset Hit Cnt
 		end
 	--Set Abyss Stats
-		if roundno() == 1 and roundstate() == 2 then --Because some OHMSY chars don't apply Power Stat at roundstate() < 2
+		if roundno() == 1 and roundstate() == 2 then
 			if not abyssStatsReady then f_abyssStatsSet() end
 		end
 	--Set Abyss Special Items
