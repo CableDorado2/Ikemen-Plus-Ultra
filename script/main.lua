@@ -11462,7 +11462,12 @@ function f_selectStage()
 			end
 		else --if data.stage ~= nil then Assign Custom Stage Loaded in select.def via lua script, with data.stage
 			data.stage = data.stage:lower() --Convert to lower case to avoid issues
-			local stageID = t_stageDef[data.stage] --Get stage number from table t_stageDef
+			local stageID = nil
+			if t_stageDef[data.stage] == nil then
+				stageID = t_stageDef[t_selStages[math.random(1, #t_selStages)].stage] --Get random stage number from table t_stageDef
+			else
+				stageID = t_stageDef[data.stage] --Get stage number from table t_stageDef
+			end
 		--Get stage info
 			t_stageSelected = {
 				['cel'] = stageID,

@@ -2761,6 +2761,7 @@ function f_loadNetTimeLuaSocket()
 	local reques, code, response_headers = http.request{
 		url = "http://worldclockapi.com/api/json/utc/now",
 		--url = "http://worldtimeapi.org/api/timezone/Etc/UTC", --Alternative
+		--https://www.timeanddate.com/worldclock/timezone/utc --TODO
 		sink = ltn12.sink.table(response_body)
 	}
 --Success HTTP Request

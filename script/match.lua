@@ -1229,6 +1229,7 @@ local function f_addBonusScore()
 			setPowerPersistence(power()) --Save Current Player Power Bar for Next Match
 		elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 			if abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone) then
+				--setLife(life() + lifemax() / 3) --Recover Life
 				setLifePersistence(life())
 			end
 		elseif getGameMode() == "speedstar" then
@@ -1489,7 +1490,10 @@ function loop() --The code for this function should be thought of as if it were 
 		f_abyssItemsSetCPU()
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
-			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then setLifePersistence(life()) end --Get Current Player Life
+			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
+				--setLife(life() + lifemax() / 3) --Recover Life
+				setLifePersistence(life()) --Get Current Player Life
+			end
 			data.challengerAbyss = true
 			f_saveTemp()
 			exitMatch()
