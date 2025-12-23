@@ -4413,6 +4413,9 @@ animSetScale(abyssSaveInfoBG, 65, 24)
 animSetAlpha(abyssSaveInfoBG, 0, 50)
 animUpdate(abyssSaveInfoBG)
 
+--;===========================================================
+--; SPEED STAR STUFF
+--;===========================================================
 t_speedstarBonus = {
 	{item = "tauntCnt",		 target = 1,  reward = 1}, --1 Taunt Bonus
 	{item = "tauntCnt", 	 target = 5,  reward = 2.5}, --5 Taunt Bonus
@@ -4429,6 +4432,47 @@ t_speedstarBonus = {
 }
 for i=1, #t_speedstarBonus do
 	t_speedstarBonus[i].active = true
+end
+
+--Match End Info BG
+speedstarInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetScale(speedstarInfoBG, 182, 32)
+animSetAlpha(speedstarInfoBG, 0, 125)
+animUpdate(speedstarInfoBG)
+
+speedstarClearBonus = 20
+speedstarSuperBonus = 5
+speedstarPerfectBonus = 15
+
+function f_speedStarInfo(super, perfect)
+	local totalBonus = 0
+	local infoFont = jgFnt
+	local infoX = 3
+	local infoY = 150
+	animPosDraw(speedstarInfoBG, -2, 141)
+	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "Stage Clear", infoX, infoY)
+	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "+"..speedstarClearBonus.."sec", infoX+125, infoY)
+	local colorSuper = 0
+	local rewardSuper = 0
+	if super > 0 then
+		colorSuper = 5
+		rewardSuper = speedstarSuperBonus
+	end
+	f_drawQuickText(txt_speedTInfo, infoFont, colorSuper, 1, "Super Bonus", infoX, infoY+10)
+	f_drawQuickText(txt_speedTInfo, infoFont, colorSuper, 1, "+"..rewardSuper.."sec", infoX+125, infoY+10)
+	local colorPerfect = 0
+	local rewardPerfect = 0
+	if perfect then
+		colorPerfect = 5
+		rewardPerfect = speedstarPerfectBonus
+	end
+	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Perfect Bonus", infoX, infoY+20)
+	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..rewardPerfect.."sec", infoX+125, infoY+20)
+	totalBonus = speedstarClearBonus + rewardSuper + rewardPerfect
+	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Total Bonus", infoX, infoY+32)
+	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..totalBonus.."sec", infoX+125, infoY+32)
 end
 
 --;===========================================================

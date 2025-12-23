@@ -1234,8 +1234,10 @@ local function f_addBonusScore()
 			end
 		elseif getGameMode() == "speedstar" then
 		--Perfect Time Bonus
+			local perfectBonus = false
 			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
-				timeReward = timeReward + (15 * timeBossFactor) * matchTimeFix
+				timeReward = timeReward + (speedstarPerfectBonus * timeBossFactor) * matchTimeFix
+				perfectBonus = true
 			elseif winko() then
 			--Super K.O Time Bonus
 				if winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
@@ -1245,7 +1247,10 @@ local function f_addBonusScore()
 				else timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
 				end
 			end
-			timeReward = timeReward + (20 * matchTimeFix) --Stage Clear Time Bonus
+			f_speedStarInfo(superCnt, perfectBonus)
+			--f_speedStarInfo(1, true)
+			if superCnt > 0 then timeReward = timeReward + (speedstarSuperBonus * matchTimeFix) end --Super Combo Time Bonus
+			timeReward = timeReward + (speedstarClearBonus * matchTimeFix) --Stage Clear Time Bonus
 			setTime(timeremaining() + timeReward) --Add Time Bonus
 			sndPlay(sndIkemen, 620, 0)
 			setTimePersistence(timeremaining()) --Save Current Round Time Remaining for Next Match
