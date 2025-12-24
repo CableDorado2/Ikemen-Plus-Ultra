@@ -2401,7 +2401,7 @@ function f_default() --Reset Game Modes Configuration
 	data.storyNo = nil --Additional variable used to identify stories in select screen
 --Match Settings
 	setAutoLevel(false) --Generate autolevel.log in debug dir
-	setHUD(true) --Enable or disable hud elements in game
+	setLifebarDisplay(true) --Enable or disable Lifebar HUD elements during match
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2

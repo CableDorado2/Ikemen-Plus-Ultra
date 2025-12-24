@@ -631,6 +631,12 @@ void pausevar(&.lua.State L=, int re=)
   L.pushString(.com.pauseVar);
 }
 
+void lifebardisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.lifebarDisplay);
+}
+
 void powerstatep1(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1608,6 +1614,7 @@ public void registerFunction(&.lua.State L=)
   L.register("p2score", .p2score);
   L.register("record", .record);
   L.register("playback", .playback);
+  L.register("lifebardisplay", .lifebardisplay);
   L.register("gametype", .gametype);
   L.register("gamemode", .gamemode);
   L.register("gameservice", .gameservice);

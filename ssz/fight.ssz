@@ -2722,7 +2722,7 @@ public &Fight
 		`demo.bgDraw(layerno);
 		`demo.draw(layerno, "DEMO MODE", `fnt);
 	}
-	if(!.com.statusDraw) ret;
+	if(!.com.statusDraw || .com.lifebarDisplay == 0) ret;
     if(!nbd){
       loop{index i = 0; while; do:
         `lb[.com.tmode[0]][i].bgDraw(layerno);

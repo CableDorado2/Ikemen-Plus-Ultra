@@ -1181,6 +1181,7 @@ end
 local maxComboPlayer = 0
 local damageComboPlayer = 0
 local bonusScoreDone = false
+local perfectBonus = false
 local timeReward = 0
 local function f_addBonusScore()
 --Add Bonus Score when player wins
@@ -1218,6 +1219,7 @@ local function f_addBonusScore()
 			elseif winhyper() then
 				setScore(score() + 8000 * scoreattackfactor)
 				setWinHyperCount(winHyperCount() + 1)
+				superCnt = superCnt + 1
 			elseif winspecial() then
 				setScore(score() + 1000 * scoreattackfactor)
 				setWinSpecialCount(winSpecialCount() + 1)
@@ -1234,7 +1236,6 @@ local function f_addBonusScore()
 			end
 		elseif getGameMode() == "speedstar" then
 		--Perfect Time Bonus
-			local perfectBonus = false
 			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
 				timeReward = timeReward + (speedstarPerfectBonus * timeBossFactor) * matchTimeFix
 				perfectBonus = true
@@ -1247,8 +1248,6 @@ local function f_addBonusScore()
 				else timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
 				end
 			end
-			f_speedStarInfo(superCnt, perfectBonus)
-			--f_speedStarInfo(1, true)
 			if superCnt > 0 then timeReward = timeReward + (speedstarSuperBonus * matchTimeFix) end --Super Combo Time Bonus
 			timeReward = timeReward + (speedstarClearBonus * matchTimeFix) --Stage Clear Time Bonus
 			setTime(timeremaining() + timeReward) --Add Time Bonus
@@ -1579,14 +1578,21 @@ function loop() --The code for this function should be thought of as if it were 
 		if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
 	elseif roundstate() == 4 then
 		if not bonusScoreDone then f_addBonusScore() end
-		if data.debugMode and (playerLeftSide and winnerteam() == 1) or (not playerLeftSide and winnerteam() == 2) then
-			if getLifePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Life Bar State: "..getLifePersistence(), 95, 120) end
-			if getPowerPersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), 95, 130) end
-			if getTimePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, 95, 140) end
-			if timeReward ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Reward: "..timeReward / 60, 95, 150) end
+		if (playerLeftSide and winnerteam() == 1) or (not playerLeftSide and winnerteam() == 2) then
+			if getGameMode() == "speedstar" and matchover() then
+				f_speedStarInfo(superCnt, perfectBonus)
+			end
+			if data.debugMode then
+				local debugInfoPosX = 95
+				local debugInfoPosY = 80
+				if getLifePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Life Bar State: "..getLifePersistence(), debugInfoPosX, debugInfoPosY) end
+				if getPowerPersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), debugInfoPosX, debugInfoPosY+10) end
+				if getTimePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, debugInfoPosX, debugInfoPosY+20) end
+				if timeReward ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Reward: "..timeReward / 60, debugInfoPosX, debugInfoPosY+30) end
+			end
 		end
 	end
-	if data.debugMode then f_drawDebugVars() end
+	--if data.debugMode then f_drawDebugVars() end
 	f_attackDisplay()
 --When Attract Mode is Enabled
 	if data.attractMode then

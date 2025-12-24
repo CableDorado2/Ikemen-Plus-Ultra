@@ -2071,11 +2071,14 @@ void setSharedLife(&.lua.State L=, int re=)
   .com.sharedLife = b;
 }
 
-void setHUD(&.lua.State L=, int re=)
+void setLifebarDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  bool b = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.statusDraw = b;
+  bool ld = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //.com.statusDraw = ld;
+  int val = 0;
+  if(ld) val = 1;
+  .com.lifebarDisplay = val;
 }
 
 void startDummyRecord(&.lua.State L=, int re=)
@@ -2353,7 +2356,7 @@ public void init(&.lua.State L=)
   L.register("getRemapInput", .getRemapInput);
   L.register("remapInput", .remapInput);
   L.register("setSharedLife", .setSharedLife);
-  L.register("setHUD", .setHUD);
+  L.register("setLifebarDisplay", .setLifebarDisplay);
   L.register("setInputDisplay", .setInputDisplay);
   L.register("setAttackDisplay", .setAttackDisplay);
   L.register("setPowerStateP1", .setPowerStateP1);

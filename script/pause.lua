@@ -77,7 +77,7 @@ if getGameMode() == "practice" then
 end
 
 function f_resetTrainingCfg() --Reset when you exit from Training Mode or Replay Mode
-	if not data.hudDisplay then setHUD(true) end
+	if not data.hudDisplay then setLifebarDisplay(true) end
 	if data.hitbox then toggleClsnDraw() end
 	if data.debugInfo then toggleDebugDraw() end
 	setAttackDisplay(0)
@@ -422,7 +422,6 @@ elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "Stage Select"
 elseif getGameMode() == "mission" then t_pauseMain[6].text = "Mission Select"
 elseif getGameMode() == "event" then t_pauseMain[6].text = "Event Select"
 elseif getGameMode() == "random" then table.remove(t_pauseMain, 6)
-elseif getGameMode() == "tutorial" then table.remove(t_pauseMain, 5)
 elseif getGameMode() == "intermission" then table.remove(t_pauseMain, 6)
 elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "Skip Match"
 elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "Characters Stats"
@@ -1001,10 +1000,10 @@ function f_pauseSettings()
 				if (pn == 1 and btnPalNo(p1Cmd) > 0) or ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					sndPlay(sndSys, 100, 1)
 					if not data.hudDisplay then
-						setHUD(true)
+						setLifebarDisplay(true)
 						data.hudDisplay = true
 					else
-						setHUD(false)
+						setLifebarDisplay(false)
 						data.hudDisplay = false
 					end
 					hasChanged = true

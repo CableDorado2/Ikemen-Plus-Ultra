@@ -464,7 +464,7 @@ slow.time  = 60            ;Time for KO slowdown (in ticks)
 over.waittime = 45         ;Time to wait after KO before player control is stopped
 over.hittime = 10          ;Time after KO that players can still damage each other (for double KO)
 over.wintime = 45          ;Time to wait before players change to win states
-over.time = 210            ;Time to wait before round ends
+over.time = 510            ;Time to wait before round ends
 
 ; Time to wait before showing win/draw message
 win.time = 30

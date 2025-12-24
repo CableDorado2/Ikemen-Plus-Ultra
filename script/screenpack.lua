@@ -775,6 +775,7 @@ end
 t_vsMenu = {
 	{text = "QUICK MATCH",  gotomenu = "f_quickvsBoot()"},
 	{text = "FREE BATTLE",  gotomenu = "f_vsBoot()"},
+	{text = "TOURNAMENT",	gotomenu = "f_tourneyCfg()"},
 	{text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
 }
 for i=1, #t_vsMenu do
@@ -846,7 +847,6 @@ end
 --;===========================================================
 t_extrasMenu = {
 	{text = "BONUS GAMES",	gotomenu = "f_bonusMenu()"},
-	{text = "TOURNAMENT",	gotomenu = "f_tourneyCfg()"},
 	{text = "GOLD RUSH",	gotomenu = "f_goldrushBoot()"},
 	{text = "ENDLESS",		gotomenu = "f_endlessBoot()"},
 	{text = "KUMITE",		gotomenu = "f_kumiteBoot()"},

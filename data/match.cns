@@ -95,10 +95,10 @@ poweradd = 0
 velset = 0,0
 ctrl = 0
 
-[State 0]
-type = assertspecial
-trigger1 = (roundstate!=2) || (var(9)&4096) || (win) || (lose)
-flag = nobardisplay
+;[State 0] ;Disable Lifebar after K.O
+;type = assertspecial
+;trigger1 = (roundstate!=2) || (var(9)&4096) || (win) || (lose)
+;flag = nobardisplay
 
 [State 0, Starter]
 type = changestate
@@ -503,16 +503,16 @@ pos = 0,88888
 ;===========================================================================
 ; MISCELLANEOUS
 ;===========================================================================
-[State 500, Intro for Round 1]
+[State 500, Intro Setting for Round 1]
 type = assertspecial
-triggerall = GameMode != "story" && GameMode != "practice" && GameMode != "tutorial" && GameMode != "abyss" && GameMode != "abysscoop" && GameMode != "abysscpu"
+triggerall = GameMode = "vs" || GameMode = "tourney" || GameMode = "tourneyAI" || GameMode = "intermission" || GameMode = "arcade" || GameMode = "arcadecoop" || GameMode = "arcadecpu"
 trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
 flag2 = nomusic
 
 [State 500, No HUD]
 type = assertspecial
-trigger1 = GameMode = "demo" ;HUD Disable for Demo Mode
+trigger1 = LifebarDisplay = 0
 flag = nobardisplay
 
 ;===========================================================================

@@ -5717,6 +5717,10 @@ public &Char
   {
     ret .com.gameType;
   }
+  public int trLifebarDisplay()
+  {
+    ret .com.lifebarDisplay;
+  }
   public int trAttackDisplay()
   {
     ret .com.attackDisplay;

@@ -2418,6 +2418,9 @@ public &StateBuilder
 	cond .s.equ("gametype", token):
       out .= obj .= "trGameType()";
       typ = 2;
+	cond .s.equ("lifebardisplay", token):
+      out .= obj .= "trLifebarDisplay()";
+      typ = 2;
 	cond .s.equ("inputdisplay", token):
       out .= obj .= "trInputDisplay()";
       typ = 2;
