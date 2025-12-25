@@ -1013,7 +1013,7 @@ local function f_setMatchTexts()
 	local matchsFinished = getP1matchWins() + getP2matchWins()
 	textImgSetText(txt_WinCountP1FightCfg, txt_WinCountFight.."("..getP1matchWins().."/"..matchsFinished..")")
 	textImgSetText(txt_WinCountP2FightCfg, txt_WinCountFight.."("..getP2matchWins().."/"..matchsFinished..")")
---Set Tournament Wins	
+--Set Tournament Wins
 	textImgSetText(txt_TourneyWinCountP1FightCfg, getP1matchWins())
 	textImgSetText(txt_TourneyWinCountP2FightCfg, getP2matchWins())
 	textImgSetText(txt_TourneyFTFightCfg, txt_TourneyFTFight..getFTNo())
@@ -1172,6 +1172,7 @@ local function f_drawScore()
 			end
 		end
 		setScore(score() + pts * scoreattackfactor)
+	--[[
 		if playerLeftSide then
 			textImgSetText(txt_ScoreP1FightCfg, score())
 			if scoreDisplay() then textImgDraw(txt_ScoreP1FightCfg) end
@@ -1179,6 +1180,7 @@ local function f_drawScore()
 			textImgSetText(txt_ScoreP2FightCfg, score())
 			if scoreDisplay() then textImgDraw(txt_ScoreP2FightCfg) end
 		end
+	]]
 	--end
 end
 
@@ -1553,7 +1555,7 @@ function loop() --The code for this function should be thought of as if it were 
 			if not t_tutorialDiag[tutoDiag].infight then
 			--Draw Text
 				tutoi = tutoi + 1
-				f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 20, 18, 15, 1.4, 43)
+				f_textRender(txt_tutoDiag, t_tutorialDiag[tutoDiag].txt, tutoi, 63, 16, 13, 1.4, 43)
 			--Draw Input Display Guide
 				if t_tutorialDiag[tutoDiag].inputhint and not script.pause.pauseMenuActive then
 					f_tutoInputDisplay(t_tutorialDiag[tutoDiag].inputhint)
@@ -1576,9 +1578,9 @@ function loop() --The code for this function should be thought of as if it were 
 	f_streakWins()
 	f_drawTimer()
 	f_drawScore()
-	if ailevelDisplay() then textImgDraw(txt_AiLevelFightCfg) end
-	if matchnoDisplay() then textImgDraw(txt_MatchFightCfg) end
-	if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
+	--if ailevelDisplay() then textImgDraw(txt_AiLevelFightCfg) end
+	--if matchnoDisplay() then textImgDraw(txt_MatchFightCfg) end
+	--if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
 	if roundstate() < 2 then
 		bonusScoreDone = false
 	elseif roundstate() == 4 then

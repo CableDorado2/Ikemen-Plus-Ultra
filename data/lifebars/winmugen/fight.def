@@ -22,7 +22,8 @@ font2 = font/num1.fnt ;Combos and Timer Numbers
 font3 = font/name1.fnt ;Name Text
 font4 = font/extra/sfz2a_system.fnt ;Rounds Text
 font5 = font/extra/mvc_name.fnt ;Winner Text
-font6 = font/extra/kof2002um_score.fnt ;Draw Text
+font6 = font/extra/kof2002um_score.fnt ;Draw Game Text
+font7 = font/extra/Qoh_small.fnt ;Match Info Text
 fightfx.sff = data/fightfx.sff
 fightfx.air = data/fightfx.air
 common.snd = data/common.snd
@@ -599,6 +600,7 @@ p2.perfect.scale = 0.5,0.5
 ; Use icons up until this number of wins
 useiconupto = 4
 
+;-----------------------------------------------------------
 ;[WinCountP1]
 ;p1.pos = 141,8
 ;p1.bg.spr = 
@@ -612,27 +614,55 @@ useiconupto = 4
 ;p2.text.text = WINS %s ;TODO
 
 ;-----------------------------------------------------------
-;[Match]
-;pos = 187,233
+[TimerP1]
+p1.pos = 141,8
+;p1.bg.spr = 
+p1.text.font = 3,0, -1
+
+[TimerP2]
+p2.pos = 178,8
+;p2.bg.spr = 
+p2.text.font = 3,0, 1
+
+;-----------------------------------------------------------
+[ScoreP1]
+p1.pos = 141,8
+;p1.bg.spr = 
+p1.text.font = 3,0, -1
+
+[ScoreP2]
+p2.pos = 178,8
+;p2.bg.spr = 
+p2.text.font = 3,0, 1
+
+;-----------------------------------------------------------
+[Match]
+pos = 160,42
 ;bg.spr = 
-;text.font = 6,0, -1
+text.font = 7,0, 0
 ;text.text = STAGE %s ;TODO
 
 ;-----------------------------------------------------------
-;[Demo]
-;pos = 305,10
+[AILevel]
+pos = 160,239
 ;bg.spr = 
-;text.font = 3,0, -1
-;text.text = DEMO MODE ;TODO
+text.font = 7,0, 0
+;text.text = CPU-%s ;TODO
 
 ;-----------------------------------------------------------
-;[TourneyState]
+[Mode]
+pos = 305,10
+bg.spr = 
+text.font = 3,0, -1
+
+;-----------------------------------------------------------
+;[TourneyState] ;Tournament Mode
 ;pos = 160,239
 ;bg.spr = 
 ;text.font = 6,0, 0
 
 ;-----------------------------------------------------------
-;[FT]
+;[FT] ;Tournament Mode
 ;pos = 159,7
 ;bg.spr = 
 ;text.font = 1,5, 0
@@ -640,15 +670,7 @@ useiconupto = 4
 ;text.text = FT %s ;TODO
 
 ;-----------------------------------------------------------
-[Reward]
-pos = 141,38
-;bg.spr = 
-text.font = 1,0, -1
-text.scale = 0.8, 0.8
-;text.text = REWARD %s ;TODO
-
-;-----------------------------------------------------------
-[Depth]
+[Depth] ;Abyss Mode
 pos = 178,38
 ;bg.spr = 
 text.font = 1,5, 1
@@ -656,7 +678,15 @@ text.scale = 0.8, 0.8
 ;text.text = DEPTH %s ;TODO
 
 ;-----------------------------------------------------------
-;[Nickname]
+[Reward] ;Abyss Mode
+pos = 141,38
+;bg.spr = 
+text.font = 1,0, -1
+text.scale = 0.8, 0.8
+;text.text = REWARD %s ;TODO
+
+;-----------------------------------------------------------
+;[Nickname] ;Netplay
 ;p1.pos = 141,8
 ;p1.bg.spr = 
 ;p1.text.font = 3,0, -1
@@ -782,14 +812,14 @@ text.scale = 0.8, 0.8
 ;   Does not affect "font" elements. Defaults to 1 if
 ;   omitted.
 ;
-; 8. vfacing
+; 8. vfacing (Not implemented yet)
 ;   Format: vfacing = dir
 ;   Sets the vertical flipping of the display element.
 ;   1 means no flipping, and -1 means flip vertically.
 ;   Does not affect "font" elements. Defaults to 1 if
 ;   omitted.
 ;
-; 9. layerno
+; 9. layerno (Not implemented yet)
 ;   Format: layerno = no
 ;   This element lets you set the layer to which the
 ;   display element will be drawn on. 0 is in front of

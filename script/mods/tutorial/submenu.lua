@@ -57,14 +57,14 @@ end
 --;===========================================================
 --; TUTORIAL SCREENPACK DEFINITION
 --;===========================================================
-txt_tutoDiag = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text message
+txt_tutoDiag = createTextImg(jgFnt, 0, 1, "", 0, 0, 0.76, 0.76) --Text message
 
 --Text background
 tutorialWindow = animNew(sprTutorial, [[
 1,0, 0,0, -1
 ]])
-animAddPos(tutorialWindow, -55, 0)
-animSetScale(tutorialWindow, 2.85, 1.32)
+animAddPos(tutorialWindow, -8, 0)
+animSetScale(tutorialWindow, 2.22, 1.32)
 animUpdate(tutorialWindow)
 
 --Next Text Arrow (Down)
@@ -78,7 +78,7 @@ tutorialNext = animNew(sprTutorial, [[
 2,1, 0,0, 10
 2,0, 0,0, 10
 ]])
-animAddPos(tutorialNext, 350, 65)
+animAddPos(tutorialNext, 303, 65)
 animSetScale(tutorialNext, 0.5, 0.5)
 animUpdate(tutorialNext)
 
@@ -86,7 +86,7 @@ animUpdate(tutorialNext)
 kfmTutoPortrait = animNew(sprTutorial, [[
 0,0, 0,0, -1
 ]])
-animAddPos(kfmTutoPortrait, -47, 1)
+animAddPos(kfmTutoPortrait, 0, 1)
 animSetScale(kfmTutoPortrait, 0.52, 0.52)
 animUpdate(kfmTutoPortrait)
 
@@ -116,7 +116,7 @@ function drawTutorialInputHints()
 	local hintFont = font2
 	local hintFontYPos = 123
 	--animDraw(tutorialInputWindowBG)
-	drawBattleInputHintsP1("e","350,85")
+	drawBattleInputHintsP1("e","300,82")
 	--f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Next Step", 251, hintFontYPos)
 end
 
