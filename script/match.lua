@@ -675,7 +675,7 @@ end
 f_abyssSaveInit()
 
 local function f_abyssSaveInfo()
-	if abyssSaveTime < 105 and getAbyssFinalDepth() == 0 then --Time to use save button until end match
+	if abyssSaveTime < 300 and getAbyssFinalDepth() == 0 then --Time to use save button until end match
 		cmdInput()
 		abyssSaveTime = abyssSaveTime + 1
 		animDraw(abyssSaveInfoBG)
@@ -1050,28 +1050,32 @@ local noDamageTimer = 0
 local timeBossFactor = 1
 if cpuLevel == 8 and getGameMode() == "speedstar" then timeBossFactor = 2 end
 local function f_drawTimer()
+--Draw Text
+	if playerLeftSide then
+		if getGameMode() == "caravan" then
+			textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(countdown()))
+			textImgDraw(txt_TimerP2FightCfg)
+		else
+			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
+			if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
+		end
+	else
+		if getGameMode() == "caravan" then
+			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(countdown()))
+			textImgDraw(txt_TimerP1FightCfg)
+		else
+			textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(timerTotal()))
+			if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
+		end
+	end
+--Timer Logic
 	if roundstate() == 0 then
 		timerStart = 40 --Countdown to activate timer
-	elseif roundstate() == 2 and not script.pause.pauseMenuActive then
-		if timerStart > 0 then timerStart = timerStart - 1 end
-		if playerLeftSide then
-			if getGameMode() == "caravan" then
-				textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(countdown()))
-				textImgDraw(txt_TimerP2FightCfg)
-			else
-				textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
-				if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
-			end
-		else
-			if getGameMode() == "caravan" then
-				textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(countdown()))
-				textImgDraw(txt_TimerP1FightCfg)
-			else
-				textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(timerTotal()))
-				if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
-			end
+	elseif roundstate() == 2 then
+		if timerStart > 0 and not script.pause.pauseMenuActive then
+			timerStart = timerStart - 1
 		end
-		if timerStart == 0 and os.clock() >= nextRefresh then
+		if not script.pause.pauseMenuActive and timerStart == 0 and os.clock() >= nextRefresh then
 			nextRefresh = nextRefresh + tickTime
 			setTimer(timerTotal() + 1)
 			if getGameMode() == "caravan" then
@@ -1081,8 +1085,8 @@ local function f_drawTimer()
 				noDamageTimer = noDamageTimer + 1
 			end
 		end
-		sleep(0.001)
 	end
+	sleep(0.001)
 end
 
 local tauntCnt = 0
@@ -1159,7 +1163,7 @@ end
 local scoreattackfactor = 1
 if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
 local function f_drawScore()
-	if roundstate() == 2 then
+	--if roundstate() == 2 then
 		local pts = 0
 		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 			pts = gethitvar("hitcount") * 100
@@ -1175,7 +1179,7 @@ local function f_drawScore()
 			textImgSetText(txt_ScoreP2FightCfg, score())
 			if scoreDisplay() then textImgDraw(txt_ScoreP2FightCfg) end
 		end
-	end
+	--end
 end
 
 local maxComboPlayer = 0
@@ -1185,7 +1189,7 @@ local perfectBonus = false
 local timeReward = 0
 local function f_addBonusScore()
 --Add Bonus Score when player wins
-	if (playerLeftSide and player(1) and win()) or (not playerLeftSide and player(2) and win()) then
+	if (playerLeftSide and winnerteam() == 1 and player(1)) or (not playerLeftSide and winnerteam() == 2 and player(2)) then
 		if life() ~= lifemax() then
 			setScore(score() + (life() * 10) * scoreattackfactor) --Life remains add score
 		else
@@ -1323,7 +1327,7 @@ function loop() --The code for this function should be thought of as if it were 
 		if roundstate() == 2 then
 			if matchno() > 1 and not speedstarStatsReady then f_speedstarStatsSet() end
 		end
-		if not matchover() then
+		if roundstate() ~= 4 then
 			local timeBonus = 0
 			local timePenalty = 0
 		--Check Bonus Actions
@@ -1419,7 +1423,9 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
-		if not matchover() then
+		textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")
+		textImgDraw(txt_RewardFightCfg)
+		--if roundstate() ~= 4 then
 			local money = 0
 		--Player Deal Damage over CPU
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
@@ -1434,10 +1440,6 @@ function loop() --The code for this function should be thought of as if it were 
 					sndPlay(sndIkemen, 620, 1)
 				end
 				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
-			end
-			if roundstate() == 2 then
-				textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")
-				textImgDraw(txt_RewardFightCfg)
 			end
 			if playerLeftSide then
 				for i=1, 8 do
@@ -1456,14 +1458,14 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			end
-		end
+		--end
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
 		if roundstate() == 2 then
 			if getGameMode() == "survival" and matchno() > 1 and not survivalStatsReady then f_survivalStatsSet() end
-			textImgDraw(txt_SurvivalCountP1FightCfg)
-			textImgDraw(txt_SurvivalCountP2FightCfg)
 		end
+		textImgDraw(txt_SurvivalCountP1FightCfg)
+		textImgDraw(txt_SurvivalCountP2FightCfg)
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 	--Increase Abyss Depth Counter
@@ -1535,6 +1537,7 @@ function loop() --The code for this function should be thought of as if it were 
 --During Tutorial Mode
 	elseif getGameMode() == "tutorial" then
 		if roundstate() == 0 and gametime() == 1 then
+			setLifebarDisplay(false) --Lifebar Disabled
 			full(1) --Player 1 Full Life and Power
 			full(2)
 		elseif roundstate() == 2 then
@@ -1561,6 +1564,7 @@ function loop() --The code for this function should be thought of as if it were 
 			--Set Power
 				powMax(1)
 			else --A fight started
+				setLifebarDisplay(true) --Lifebar Enabled
 				if player(2) then --Activate CPU for Player 2
 					setAILevel(8)
 				end
@@ -1572,14 +1576,22 @@ function loop() --The code for this function should be thought of as if it were 
 	f_streakWins()
 	f_drawTimer()
 	f_drawScore()
-	if roundstate() == 2 then
-		if ailevelDisplay() then textImgDraw(txt_AiLevelFightCfg) end
-		if matchnoDisplay() then textImgDraw(txt_MatchFightCfg) end
-		if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
+	if ailevelDisplay() then textImgDraw(txt_AiLevelFightCfg) end
+	if matchnoDisplay() then textImgDraw(txt_MatchFightCfg) end
+	if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
+	if roundstate() < 2 then
+		bonusScoreDone = false
 	elseif roundstate() == 4 then
 		if not bonusScoreDone then f_addBonusScore() end
+	--[[
+		if bonusScoreDone then f_drawQuickText(txt_fightDat, font14, 0, 1, "Score Done", 95, 146)
+		else
+			f_drawQuickText(txt_fightDat, font14, 0, 1, "Score Waiting", 95, 146)
+		end
+		f_drawQuickText(txt_fightDat, font14, 0, 1, "Winner Team: "..winnerteam(), 95, 166)
+	--]]
 		if (playerLeftSide and winnerteam() == 1) or (not playerLeftSide and winnerteam() == 2) then
-			if getGameMode() == "speedstar" and matchover() then
+			if getGameMode() == "speedstar" then
 				f_speedStarInfo(superCnt, perfectBonus)
 			end
 			if data.debugMode then
@@ -1592,7 +1604,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 	end
-	--if data.debugMode then f_drawDebugVars() end
+	if data.debugMode then f_drawDebugVars() end
 	f_attackDisplay()
 --When Attract Mode is Enabled
 	if data.attractMode then

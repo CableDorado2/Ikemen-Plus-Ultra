@@ -505,7 +505,7 @@ pos = 0,88888
 ;===========================================================================
 [State 500, Intro Setting for Round 1]
 type = assertspecial
-triggerall = GameMode = "vs" || GameMode = "tourney" || GameMode = "tourneyAI" || GameMode = "intermission" || GameMode = "arcade" || GameMode = "arcadecoop" || GameMode = "arcadecpu"
+triggerall = GameMode = "vs" || GameMode = "tourneyAI" || GameMode = "intermission" || GameMode = "arcade" || GameMode = "arcadecoop" || GameMode = "arcadecpu"
 trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
 flag2 = nomusic

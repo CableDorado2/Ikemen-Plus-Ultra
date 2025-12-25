@@ -279,7 +279,7 @@ velset = 0,0
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
-flag2= Nobardisplay
+;flag2= Nobardisplay
 
 [State 190, End] ;Change to stand state when done
 type = ChangeState
@@ -310,7 +310,7 @@ channel = 1
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
-flag2= Nobardisplay
+;flag2= Nobardisplay
 
 [State 191, End]
 type = ChangeState
@@ -329,7 +329,7 @@ velset = 0, 0
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
-flag2= Nobardisplay
+;flag2= Nobardisplay
 
 [State 192, Surprise Snd]
 type = PlaySnd
