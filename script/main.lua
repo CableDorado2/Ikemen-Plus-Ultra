@@ -1569,6 +1569,8 @@ end
 function freeModeCfg()
 	f_discordUpdate({details = "Free Versus"})
 	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
 	setGameMode("vs")
 	data.gameMode = "versus"
 	data.recordMode = "versus"
@@ -1778,6 +1780,8 @@ end
 function survivalCfg()
 	f_discordUpdate({details = "Survival"})
 	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
 	setGameMode("survival")
 	data.gameMode = "survival"
 	data.recordMode = "survival"
@@ -3198,6 +3202,8 @@ end
 function suddenCfg()
 	f_discordUpdate({details = "Sudden Death"})
 	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
 	setGameMode("suddendeath")
 	data.gameMode = "survival"
 	data.recordMode = "suddendeath"
@@ -17071,6 +17077,8 @@ function f_tourneySelCfg()
 	setRoundTime(data.tourneyRoundTime)
 	setRoundsToWin(data.tourneyRoundsNum)
 	setFTNo(data.tourneyMatchsNum) --Set Matchs To Wins/FT
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
 	textImgSetText(txt_mainSelect, tourneyState)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}

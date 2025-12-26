@@ -1164,6 +1164,46 @@ void setHomeTeam(&.lua.State L=, int re=)
   .com.home = tn - 1;
 }
 
+void setP1winsDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool p1wd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p1winsDisplay = p1wd;
+}
+
+void p1winsDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.p1winsDisplay);
+}
+
+void setP2winsDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool p2wd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p2winsDisplay = p2wd;
+}
+
+void p2winsDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.p2winsDisplay);
+}
+
+void setP1winsFormatted(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char p1wf = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p1winsFormatted = p1wf;
+}
+
+void setP2winsFormatted(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char p2wf = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p2winsFormatted = p2wf;
+}
+
 void setP1matchWins(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1952,6 +1992,15 @@ public void init(&.lua.State L=)
   
   L.register("p1RoundsWon", .p1RoundsWon);
   L.register("p2RoundsWon", .p2RoundsWon);
+  
+  L.register("setP1winsDisplay", .setP1winsDisplay);
+  L.register("setP2winsDisplay", .setP2winsDisplay);
+  
+  L.register("p1winsDisplay", .p1winsDisplay);
+  L.register("p2winsDisplay", .p2winsDisplay);
+  
+  L.register("setP1winsFormatted", .setP1winsFormatted);
+  L.register("setP2winsFormatted", .setP2winsFormatted);
   
   L.register("setP1matchWins", .setP1matchWins);
   L.register("getP1matchWins", .getP1matchWins);

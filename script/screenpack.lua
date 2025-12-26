@@ -4360,17 +4360,6 @@ end
 txt_DemoFightCfg = createTextImg(font15, 0, -1, "DEMO MODE", 305, 10)
 txt_RewardFightCfg = createTextImg(jgFnt, 5, 0, "", 160, 43)
 
-txt_SurvivalCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
-txt_SurvivalCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
-
-txt_WinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
-txt_WinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
-
-txt_TourneyWinCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)
-txt_TourneyWinCountP2FightCfg = createTextImg(font15, 0, 1, "", 178, 8)
-txt_TourneyStateFightCfg = createTextImg(font12, 0, 0, "", 160, 239)
-txt_TourneyFTFightCfg = createTextImg(jgFnt, 5, 0, "", 159, 8, 0.7, 0.7)
-
 txt_MatchFight = "STAGE "
 txt_MatchFinalFight = "FINAL STAGE"
 txt_SurvivalCountFight = " WINS"

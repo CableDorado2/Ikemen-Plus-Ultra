@@ -990,7 +990,17 @@ local function f_demoSkip()
 	end
 end
 
-local function f_setMatchTexts()
+local function f_updateMatchInfo()
+	local matchsFinished = getP1matchWins() + getP2matchWins()
+	local p1Wins = getP1matchWins()
+	local p2Wins = getP2matchWins()
+	if matchover() and time() == 0 then
+		if winnerteam() == 1 then
+			p1Wins = p1Wins + 1
+		elseif winnerteam() == 2 then
+			p2Wins = p2Wins + 1
+		end
+	end
 	local stg = ""
 --Set Match Stage Info
 	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
@@ -999,23 +1009,26 @@ local function f_setMatchTexts()
 	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
 		setCPULevel(ailevel())
 	end
---Set Survival Wins
-	if playerLeftSide then
-		textImgSetText(txt_SurvivalCountP1FightCfg, matchno() - 1 ..txt_SurvivalCountFight)
+--Set Tournament Mode Wins Count
+	if getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
+		setP1winsFormatted(p1Wins)
+		setP2winsFormatted(p2Wins)
+--Set Survival Mode Wins Count
+	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
+		if playerLeftSide then
+			setP1winsFormatted(p1Wins..txt_SurvivalCountFight)
+		else
+			setP2winsFormatted(p2Wins..txt_SurvivalCountFight)
+		end
+--Set VS Mode Wins Count
 	else
-		textImgSetText(txt_SurvivalCountP2FightCfg, matchno() - 1 ..txt_SurvivalCountFight)
+		setP1winsFormatted(txt_WinCountFight.."("..p1Wins.."/"..matchsFinished..")")
+		setP2winsFormatted(txt_WinCountFight.."("..p2Wins.."/"..matchsFinished..")")
 	end
---Set VS Wins	
-	local matchsFinished = getP1matchWins() + getP2matchWins()
-	textImgSetText(txt_WinCountP1FightCfg, txt_WinCountFight.."("..getP1matchWins().."/"..matchsFinished..")")
-	textImgSetText(txt_WinCountP2FightCfg, txt_WinCountFight.."("..getP2matchWins().."/"..matchsFinished..")")
---Set Tournament Wins
-	textImgSetText(txt_TourneyWinCountP1FightCfg, getP1matchWins())
-	textImgSetText(txt_TourneyWinCountP2FightCfg, getP2matchWins())
-	textImgSetText(txt_TourneyFTFightCfg, txt_TourneyFTFight..getFTNo())
-	textImgSetText(txt_TourneyStateFightCfg, getTourneyState())
 end
-f_setMatchTexts() --Load when match start
+setP1winsFormatted("")
+setP2winsFormatted("")
+f_updateMatchInfo() --Load when match start
 
 local function f_streakWins()
 	if roundstate() == 4 and time() == 0 then
@@ -1280,19 +1293,52 @@ function loop() --The code for this function should be thought of as if it were 
 			if roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
 		elseif roundstate() == 2 then
 			if not handicapsReady then f_handicapSet() end --Load with roundstate 2 for better compatibility with most chars
-			textImgDraw(txt_WinCountP1FightCfg)
-			textImgDraw(txt_WinCountP2FightCfg)
 		elseif roundstate() == 4 then
 			handicapsReady = false --Reset Handicap Assignment for Next Round
 		end
---During Tournament Mode
-	elseif getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
-		if matchover() then f_setMatchTexts() end --Refresh Win Count Text
-		textImgDraw(txt_TourneyWinCountP1FightCfg)
-		textImgDraw(txt_TourneyWinCountP2FightCfg)
-		
-		textImgDraw(txt_TourneyFTFightCfg)
-		textImgDraw(txt_TourneyStateFightCfg)
+--During Survival Mode
+	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
+		if roundstate() == 2 then
+			if getGameMode() == "survival" and matchno() > 1 and not survivalStatsReady then f_survivalStatsSet() end
+		end
+--During Gold Rush Mode
+	elseif getGameMode() == "goldrush" then
+		textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")
+		textImgDraw(txt_RewardFightCfg)
+		--if roundstate() ~= 4 then
+			local money = 0
+		--Player Deal Damage over CPU
+			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
+				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
+				setPlayerReward(getPlayerReward() + money)
+				if roundstate() ~= 1 and money ~= 0 then sndPlay(sndIkemen, 610, 2) end --Win Money
+		--CPU Deal Damage over Player
+			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
+				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
+				if getPlayerReward() > 0 then
+					setPlayerReward(getPlayerReward() - money) --Lose Money
+					sndPlay(sndIkemen, 620, 1)
+				end
+				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
+			end
+			if playerLeftSide then
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						if player(i) then setLife(lifemax() - 10) end
+					else --Is an Odd Player Number (Left Side)
+						if player(i) then setLife(lifemax() + 10) end
+					end
+				end
+			else
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						if player(i) then setLife(lifemax() + 10) end
+					else --Is an Odd Player Number (Left Side)
+						if player(i) then setLife(lifemax() - 10) end
+					end
+				end
+			end
+		--end
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
 		if roundstate() == 2 then
@@ -1392,51 +1438,6 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		--]]
 		end
---During Gold Rush Mode
-	elseif getGameMode() == "goldrush" then
-		textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")
-		textImgDraw(txt_RewardFightCfg)
-		--if roundstate() ~= 4 then
-			local money = 0
-		--Player Deal Damage over CPU
-			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
-				setPlayerReward(getPlayerReward() + money)
-				if roundstate() ~= 1 and money ~= 0 then sndPlay(sndIkemen, 610, 2) end --Win Money
-		--CPU Deal Damage over Player
-			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
-				money = (gethitvar("damage") * 10) + (gethitvar("hitcount") * 100)
-				if getPlayerReward() > 0 then
-					setPlayerReward(getPlayerReward() - money) --Lose Money
-					sndPlay(sndIkemen, 620, 1)
-				end
-				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
-			end
-			if playerLeftSide then
-				for i=1, 8 do
-					if i % 2 == 0 then --Is an Even Player Number (Right Side)
-						if player(i) then setLife(lifemax() - 10) end
-					else --Is an Odd Player Number (Left Side)
-						if player(i) then setLife(lifemax() + 10) end
-					end
-				end
-			else
-				for i=1, 8 do
-					if i % 2 == 0 then --Is an Even Player Number (Right Side)
-						if player(i) then setLife(lifemax() + 10) end
-					else --Is an Odd Player Number (Left Side)
-						if player(i) then setLife(lifemax() - 10) end
-					end
-				end
-			end
-		--end
---During Survival Mode
-	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if roundstate() == 2 then
-			if getGameMode() == "survival" and matchno() > 1 and not survivalStatsReady then f_survivalStatsSet() end
-		end
-		textImgDraw(txt_SurvivalCountP1FightCfg)
-		textImgDraw(txt_SurvivalCountP2FightCfg)
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
 	--Increase Abyss Depth Counter
@@ -1550,6 +1551,7 @@ function loop() --The code for this function should be thought of as if it were 
 	if roundstate() < 2 then
 		bonusScoreDone = false
 	elseif roundstate() == 4 then
+		f_updateMatchInfo()
 		if not bonusScoreDone then f_addBonusScore() end
 	--[[
 		if bonusScoreDone then f_drawQuickText(txt_fightDat, font14, 0, 1, "Score Done", 95, 146)

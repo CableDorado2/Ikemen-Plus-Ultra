@@ -1662,7 +1662,7 @@ public void setPerfect(|.WinTy wt=)
       .com.scrrect=, (float)`posx, (float)`posy, 1.0,
       layerno, `bg=, `bg_lay=);
   }
-  public void draw(int layerno, int value, ^&.fnt.Font f)
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
   {:<-
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
@@ -1670,7 +1670,7 @@ public void setPerfect(|.WinTy wt=)
 		(float)`posy,
 		1.0,
 		layerno,
-		value >= 0 ? "WINS: " + ''(value) : "o",
+		(txt),
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
 	  );
     }
@@ -1732,7 +1732,7 @@ public void setPerfect(|.WinTy wt=)
       .com.scrrect=, (float)`posx, (float)`posy, 1.0,
       layerno, `bg=, `bg_lay=);
   }
-  public void draw(int layerno, int value, ^&.fnt.Font f)
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
   {:<-
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
@@ -1740,7 +1740,7 @@ public void setPerfect(|.WinTy wt=)
 		(float)`posy,
 		1.0,
 		layerno,
-		value >= 0 ? ''(value) + " :WINS" : "o",
+		(txt),
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
 	  );
     }
@@ -3363,18 +3363,13 @@ public &Fight
       `ti.draw(layerno, .com.time, `fnt);
       `wi[0].draw(layerno, `fnt);
       `wi[1].draw(layerno, `fnt);
-	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
+	  if(.com.p1winsDisplay) {
 		`wc1.bgDraw(layerno);
-		`wc1.draw(layerno, .com.p1matchWins, `fnt);
-		
+		`wc1.draw(layerno, .com.p1winsFormatted, `fnt);
+	  }
+	  if(.com.p2winsDisplay) {
 		`wc2.bgDraw(layerno);
-		`wc2.draw(layerno, .com.p2matchWins, `fnt);
-		
-		`ts.bgDraw(layerno);
-		`ts.draw(layerno, .com.tourneyState, `fnt);
-		
-		`ft.bgDraw(layerno);
-		`ft.draw(layerno, .com.matchsToWin, `fnt);
+		`wc2.draw(layerno, .com.p2winsFormatted, `fnt);
 	  }
 	  if(.com.timerDisplay) {
 		branch{
@@ -3423,6 +3418,13 @@ public &Fight
 	  if(.com.gamemodeDisplay) {
 		`mode.bgDraw(layerno);
 		`mode.draw(layerno, .com.gameMode, `fnt);
+	  }
+	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
+		`ts.bgDraw(layerno);
+		`ts.draw(layerno, .com.tourneyState, `fnt);
+		
+		`ft.bgDraw(layerno);
+		`ft.draw(layerno, .com.matchsToWin, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop")) {
 		`depth.bgDraw(layerno);

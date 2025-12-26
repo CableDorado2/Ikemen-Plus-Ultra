@@ -2417,6 +2417,8 @@ function f_default() --Reset Game Modes Configuration
 	setWinPerfectHyperCount(0) --Reset Perfect Hyper Wins Count
 	setWinThrowCount(0) --Reset Thrown Wins Count
 	setWinPerfectThrowCount(0) --Reset Perfect Thrown Wins Count
+	setP1winsDisplay(false) --Enable or Disable Left Side Wins Count Display
+	setP2winsDisplay(false) --Enable or Disable Right Side Wins Count Display
 	setTimerDisplay(false) --Enable or Disable Timer Display
 	setCountdownDisplay(false) --Enable or Disable Countdown Display
 	setScoreDisplay(false) --Enable or Disable Score Display

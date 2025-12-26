@@ -601,17 +601,15 @@ p2.perfect.scale = 0.5,0.5
 useiconupto = 4
 
 ;-----------------------------------------------------------
-;[WinCountP1]
-;p1.pos = 141,8
+[WinCountP1] ;Displays in VS, Survival and Tournament Modes
+p1.pos = 141,8
 ;p1.bg.spr = 
-;p1.text.font = 3,0, -1
-;p1.text.text = WINS %s ;TODO
+p1.text.font = 3,0, -1
 
-;[WinCountP2]
-;p2.pos = 178,8
+[WinCountP2]
+p2.pos = 178,8
 ;p2.bg.spr = 
-;p2.text.font = 3,0, 1
-;p2.text.text = WINS %s ;TODO
+p2.text.font = 3,0, 1
 
 ;-----------------------------------------------------------
 [TimerP1]
