@@ -990,7 +990,6 @@ local function f_demoSkip()
 	end
 end
 
-local cpuLevel = 0
 local function f_setMatchTexts()
 	local stg = ""
 --Set Stage Number
@@ -998,8 +997,7 @@ local function f_setMatchTexts()
 	textImgSetText(txt_MatchFightCfg, stg)
 --Set CPU Level Number
 	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
-		textImgSetText(txt_AiLevelFightCfg, txt_AiLevelFight..ailevel())
-		cpuLevel = ailevel()
+		setCPULevel(ailevel())
 	end
 --Set Game Mode Name
 	textImgSetText(txt_GameModeFightCfg, getGameMode())
@@ -1048,26 +1046,10 @@ end
 local timerStart = 0
 local noDamageTimer = 0
 local timeBossFactor = 1
-if cpuLevel == 8 and getGameMode() == "speedstar" then timeBossFactor = 2 end
-local function f_drawTimer()
---Draw Text
-	if playerLeftSide then
-		if getGameMode() == "caravan" then
-			textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(countdown()))
-			textImgDraw(txt_TimerP2FightCfg)
-		else
-			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(timerTotal()))
-			if timerDisplay() then textImgDraw(txt_TimerP1FightCfg) end
-		end
-	else
-		if getGameMode() == "caravan" then
-			textImgSetText(txt_TimerP1FightCfg, f_setTimeFormat(countdown()))
-			textImgDraw(txt_TimerP1FightCfg)
-		else
-			textImgSetText(txt_TimerP2FightCfg, f_setTimeFormat(timerTotal()))
-			if timerDisplay() then textImgDraw(txt_TimerP2FightCfg) end
-		end
-	end
+if cpuLevel() == 8 and getGameMode() == "speedstar" then timeBossFactor = 2 end
+local function f_updateTimer()
+	setTimerFormatted(f_setTimeFormat(timerTotal()))
+	setCountdownFormatted(f_setTimeFormat(countdown()))
 --Timer Logic
 	if roundstate() == 0 then
 		timerStart = 40 --Countdown to activate timer
@@ -1162,26 +1144,15 @@ end
 
 local scoreattackfactor = 1
 if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
-local function f_drawScore()
-	--if roundstate() == 2 then
-		local pts = 0
-		if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-			pts = gethitvar("hitcount") * 100
-			if getGameMode() == "scoreattack" or getGameMode() == "caravan" then
-				pts = pts + (gethitvar("damage") * 10)
-			end
+local function f_updateScore()
+	local pts = 0
+	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
+		pts = gethitvar("hitcount") * 100
+		if getGameMode() == "scoreattack" or getGameMode() == "caravan" then
+			pts = pts + (gethitvar("damage") * 10)
 		end
-		setScore(score() + pts * scoreattackfactor)
-	--[[
-		if playerLeftSide then
-			textImgSetText(txt_ScoreP1FightCfg, score())
-			if scoreDisplay() then textImgDraw(txt_ScoreP1FightCfg) end
-		else
-			textImgSetText(txt_ScoreP2FightCfg, score())
-			if scoreDisplay() then textImgDraw(txt_ScoreP2FightCfg) end
-		end
-	]]
-	--end
+	end
+	setScore(score() + pts * scoreattackfactor)
 end
 
 local maxComboPlayer = 0
@@ -1375,7 +1346,7 @@ function loop() --The code for this function should be thought of as if it were 
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				if gethitvar("damage") > 0 then
 					noDamageTimer = 0 --Reset No Damage Timer
-					--if cpuLevel == 8 then
+					--if cpuLevel() == 8 then
 					--Enemy Normal Attacks
 						timePenalty = 1 * matchTimeFix
 					--TODO: enemyspecial = -1.5, enemysuper = -3
@@ -1576,11 +1547,8 @@ function loop() --The code for this function should be thought of as if it were 
 	end
 	f_setStageMusic()
 	f_streakWins()
-	f_drawTimer()
-	f_drawScore()
-	--if ailevelDisplay() then textImgDraw(txt_AiLevelFightCfg) end
-	--if matchnoDisplay() then textImgDraw(txt_MatchFightCfg) end
-	--if gamemodeDisplay() then textImgDraw(txt_GameModeFightCfg) end
+	f_updateTimer()
+	f_updateScore()
 	if roundstate() < 2 then
 		bonusScoreDone = false
 	elseif roundstate() == 4 then

@@ -1783,7 +1783,7 @@ function survivalCfg()
 	data.recordMode = "survival"
 	--data.stageMenu = true
 	setRoundsToWin(1)
-	setRoundTime(99)
+	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -2650,6 +2650,7 @@ function caravanCfg()
 	f_default()
 	setScoreDisplay(true)
 	setMatchnoDisplay(true)
+	setCountdownDisplay(true)
 	data.gameMode = "allroster"
 	data.recordMode = "caravan"
 	setGameMode("caravan")

@@ -1294,6 +1294,33 @@ void timerDisplay(&.lua.State L=, int re=)
   L.pushBoolean(.com.timerDisplay);
 }
 
+void setTimerFormatted(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char tf = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.timerFormatted = tf;
+}
+
+void setCountdownDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool cd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.countdownDisplay = cd;
+}
+
+void countdownDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.countdownDisplay);
+}
+
+void setCountdownFormatted(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char cf = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.countdownFormatted = cf;
+}
+
 void setTimer(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1383,6 +1410,19 @@ void p2score(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.p2score);
+}
+
+void setCPULevel(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int cl = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.cpuLevel = cl;
+}
+
+void cpuLevel(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.cpuLevel);
 }
 
 void setFirstAttackCount(&.lua.State L=, int re=)
@@ -1929,12 +1969,20 @@ public void init(&.lua.State L=)
   L.register("setGameModeDisplay", .setGameModeDisplay);
   L.register("gamemodeDisplay", .gamemodeDisplay);
   
+  L.register("setTimerFormatted", .setTimerFormatted);
   L.register("setTimerDisplay", .setTimerDisplay);
   L.register("timerDisplay", .timerDisplay);
   
   L.register("setTimer", .setTimer);
   L.register("timerTotal", .timerTotal);
+  
+  L.register("setCPULevel", .setCPULevel);
+  L.register("cpuLevel", .cpuLevel);
 
+  L.register("setCountdownFormatted", .setCountdownFormatted);
+  L.register("setCountdownDisplay", .setCountdownDisplay);
+  L.register("countdownDisplay", .countdownDisplay);
+  
   L.register("setCountdown", .setCountdown);
   L.register("countdown", .countdown);
   

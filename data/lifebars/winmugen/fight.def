@@ -625,6 +625,17 @@ p2.pos = 178,8
 p2.text.font = 3,0, 1
 
 ;-----------------------------------------------------------
+[CountdownP1] ;Caravan Mode
+p1.pos = 178,8
+;p1.bg.spr = 
+p1.text.font = 3,0, 1
+
+[CountdownP2]
+p2.pos = 141,8
+;p2.bg.spr = 
+p2.text.font = 3,0, -1
+
+;-----------------------------------------------------------
 [ScoreP1]
 p1.pos = 141,8
 ;p1.bg.spr = 
@@ -661,8 +672,7 @@ text.font = 3,0, -1
 ;bg.spr = 
 ;text.font = 6,0, 0
 
-;-----------------------------------------------------------
-;[FT] ;Tournament Mode
+;[FT]
 ;pos = 159,7
 ;bg.spr = 
 ;text.font = 1,5, 0
@@ -677,8 +687,7 @@ text.font = 1,5, 1
 text.scale = 0.8, 0.8
 ;text.text = DEPTH %s ;TODO
 
-;-----------------------------------------------------------
-[Reward] ;Abyss Mode
+[Reward]
 pos = 141,38
 ;bg.spr = 
 text.font = 1,0, -1

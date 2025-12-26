@@ -2416,14 +2416,15 @@ function f_default() --Reset Game Modes Configuration
 	setWinPerfectHyperCount(0) --Reset Perfect Hyper Wins Count
 	setWinThrowCount(0) --Reset Thrown Wins Count
 	setWinPerfectThrowCount(0) --Reset Perfect Thrown Wins Count
+	setTimerDisplay(false) --Enable or Disable Timer Display
+	setCountdownDisplay(false) --Enable or Disable Countdown Display
+	setScoreDisplay(false) --Enable or Disable Score Display
 	setMatchnoDisplay(false) --Enable or Disable Match/Stage Number Display
 	setAilevelDisplay(false) --Enable or Disable CPU Difficulty Level Display
 	setGameModeDisplay(false) --Enable or Disable Game Mode Name Display
-	setScoreDisplay(false) --Enable or Disable Score Display
-	setScore(0) --Reset Player Score
-	setTimerDisplay(false) --Enable or Disable Timer Display
 	setTimer(0) --Reset Player Timer
 	setCountdown(-1) --Reset Caravan Countdown Timer
+	setScore(0) --Reset Player Score
 	setTimePersistence(0) --To store last round time value when time is maintained after match
 	setLifePersistence(0) --To store last life bar value when life is maintained after match
 	setPowerPersistence(0) --To store last power bar value when power is maintained after match
