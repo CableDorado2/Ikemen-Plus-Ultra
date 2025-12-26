@@ -2225,7 +2225,7 @@ public void setPerfect(|.WinTy wt=)
       .com.scrrect=, (float)`posx, (float)`posy, 1.0,
       layerno, `bg=, `bg_lay=);
   }
-  public void draw(int layerno, int value, ^&.fnt.Font f)
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
   {:<-
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
@@ -2233,7 +2233,7 @@ public void setPerfect(|.WinTy wt=)
 		(float)`posy,
 		1.0,
 		layerno,
-		value >= 0 ? "STAGE " + ''(value) : "o",
+		(txt),
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
 	  );
     }
@@ -3414,15 +3414,15 @@ public &Fight
 	  }
 	  if(.com.matchnoDisplay) {
 		`mtch.bgDraw(layerno);
-		`mtch.draw(layerno, .com.match, `fnt);
+		`mtch.draw(layerno, .com.matchnoInfo, `fnt);
 	  }
 	  if(.com.ailevelDisplay) {
-		`mtch.bgDraw(layerno);
-		`mtch.draw(layerno, .com.cpuLevel, `fnt);
+		`ailv.bgDraw(layerno);
+		`ailv.draw(layerno, .com.cpuLevel, `fnt);
 	  }
 	  if(.com.gamemodeDisplay) {
 		`mode.bgDraw(layerno);
-		`mode.draw(layerno, .com.gameMode, `fnt); //replace layerno by 0 to draw in front of characters
+		`mode.draw(layerno, .com.gameMode, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop")) {
 		`depth.bgDraw(layerno);

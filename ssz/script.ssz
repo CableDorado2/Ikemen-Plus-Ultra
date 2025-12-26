@@ -1164,45 +1164,6 @@ void setHomeTeam(&.lua.State L=, int re=)
   .com.home = tn - 1;
 }
 
-void setMatchNo(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int mn = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.match = mn;
-}
-
-void getMatchNo(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushNumber((double).com.match);
-}
-
-void setLastMatch(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int lm = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.lastMatch = lm;
-}
-
-void getLastMatch(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushNumber((double).com.lastMatch);
-}
-
-void setFTNo(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int fn = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.matchsToWin = fn;
-}
-
-void getFTNo(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushNumber((double).com.matchsToWin);
-}
-
 void setP1matchWins(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1229,58 +1190,6 @@ void getP2matchWins(&.lua.State L=, int re=)
   L.pushNumber((double).com.p2matchWins);
 }
 
-void setTourneyState(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  ^/char ts = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.tourneyState = ts;
-}
-
-void getTourneyState(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushString(.com.tourneyState);
-}
-
-void setMatchnoDisplay(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  bool mnd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.matchnoDisplay = mnd;
-}
-
-void matchnoDisplay(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushBoolean(.com.matchnoDisplay);
-}
-
-void setAilevelDisplay(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  bool ald = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.ailevelDisplay = ald;
-}
-
-void ailevelDisplay(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushBoolean(.com.ailevelDisplay);
-}
-
-void setGameModeDisplay(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  bool gmd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.gamemodeDisplay = gmd;
-}
-
-void gamemodeDisplay(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushBoolean(.com.gamemodeDisplay);
-}
-
 void setTimerDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1301,6 +1210,19 @@ void setTimerFormatted(&.lua.State L=, int re=)
   .com.timerFormatted = tf;
 }
 
+void setTimer(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int st = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.timer = st;
+}
+
+void timerTotal(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.timer);
+}
+
 void setCountdownDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1319,19 +1241,6 @@ void setCountdownFormatted(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^/char cf = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
   .com.countdownFormatted = cf;
-}
-
-void setTimer(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int st = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.timer = st;
-}
-
-void timerTotal(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushNumber((double).com.timer);
 }
 
 void setCountdown(&.lua.State L=, int re=)
@@ -1412,6 +1321,65 @@ void p2score(&.lua.State L=, int re=)
   L.pushNumber((double).com.p2score);
 }
 
+void setMatchnoDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool mnd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.matchnoDisplay = mnd;
+}
+
+void matchnoDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.matchnoDisplay);
+}
+
+void setMatchInfo(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char mf = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.matchnoInfo = mf;
+}
+
+void setMatchNo(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int mn = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.match = mn;
+}
+
+void getMatchNo(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.match);
+}
+
+void setLastMatch(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lm = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lastMatch = lm;
+}
+
+void getLastMatch(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.lastMatch);
+}
+
+void setAilevelDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool ald = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.ailevelDisplay = ald;
+}
+
+void ailevelDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.ailevelDisplay);
+}
+
 void setCPULevel(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1423,6 +1391,45 @@ void cpuLevel(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.cpuLevel);
+}
+
+void setGameModeDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool gmd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.gamemodeDisplay = gmd;
+}
+
+void gamemodeDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.gamemodeDisplay);
+}
+
+void setTourneyState(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char ts = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.tourneyState = ts;
+}
+
+void getTourneyState(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.tourneyState);
+}
+
+void setFTNo(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int fn = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.matchsToWin = fn;
+}
+
+void getFTNo(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.matchsToWin);
 }
 
 void setFirstAttackCount(&.lua.State L=, int re=)
@@ -1929,6 +1936,7 @@ public void init(&.lua.State L=)
   L.register("sszRandom", .sszRandom);
   L.register("setAutoguard", .setAutoguard);
   L.register("setPowerShare", .setPowerShare);
+  L.register("setHomeTeam", .setHomeTeam);
   
   L.register("setCoins", .setCoins);
   L.register("getCoins", .getCoins);
@@ -1945,39 +1953,17 @@ public void init(&.lua.State L=)
   L.register("p1RoundsWon", .p1RoundsWon);
   L.register("p2RoundsWon", .p2RoundsWon);
   
-  L.register("setHomeTeam", .setHomeTeam);
-  L.register("setMatchNo", .setMatchNo);
-  L.register("getMatchNo", .getMatchNo);
-  
-  L.register("setLastMatch", .setLastMatch);
-  L.register("getLastMatch", .getLastMatch);
-  
-  L.register("setFTNo", .setFTNo);
-  L.register("getFTNo", .getFTNo);
-  
   L.register("setP1matchWins", .setP1matchWins);
   L.register("getP1matchWins", .getP1matchWins);
   L.register("setP2matchWins", .setP2matchWins);
   L.register("getP2matchWins", .getP2matchWins);
-
-  L.register("setMatchnoDisplay", .setMatchnoDisplay);
-  L.register("matchnoDisplay", .matchnoDisplay);
-
-  L.register("setAilevelDisplay", .setAilevelDisplay);
-  L.register("ailevelDisplay", .ailevelDisplay);
-
-  L.register("setGameModeDisplay", .setGameModeDisplay);
-  L.register("gamemodeDisplay", .gamemodeDisplay);
   
   L.register("setTimerFormatted", .setTimerFormatted);
   L.register("setTimerDisplay", .setTimerDisplay);
   L.register("timerDisplay", .timerDisplay);
-  
+
   L.register("setTimer", .setTimer);
   L.register("timerTotal", .timerTotal);
-  
-  L.register("setCPULevel", .setCPULevel);
-  L.register("cpuLevel", .cpuLevel);
 
   L.register("setCountdownFormatted", .setCountdownFormatted);
   L.register("setCountdownDisplay", .setCountdownDisplay);
@@ -1999,6 +1985,31 @@ public void init(&.lua.State L=)
   L.register("setP2Score", .setP2Score);
   L.register("p1score", .p1score);
   L.register("p2score", .p2score);
+
+  L.register("setMatchInfo", .setMatchInfo);
+  L.register("setMatchnoDisplay", .setMatchnoDisplay);
+  L.register("matchnoDisplay", .matchnoDisplay);
+  
+  L.register("setMatchNo", .setMatchNo);
+  L.register("getMatchNo", .getMatchNo);
+  
+  L.register("setLastMatch", .setLastMatch);
+  L.register("getLastMatch", .getLastMatch);
+
+  L.register("setAilevelDisplay", .setAilevelDisplay);
+  L.register("ailevelDisplay", .ailevelDisplay);
+  
+  L.register("setCPULevel", .setCPULevel);
+  L.register("cpuLevel", .cpuLevel);
+  
+  L.register("setGameModeDisplay", .setGameModeDisplay);
+  L.register("gamemodeDisplay", .gamemodeDisplay);
+  
+  L.register("setTourneyState", .setTourneyState);
+  L.register("getTourneyState", .getTourneyState);
+  
+  L.register("setFTNo", .setFTNo);
+  L.register("getFTNo", .getFTNo);
   
   L.register("setFirstAttackCount", .setFirstAttackCount);
   L.register("firstAttackCount", .firstAttackCount);
@@ -2029,9 +2040,6 @@ public void init(&.lua.State L=)
   
   L.register("setWinPerfectThrowCount", .setWinPerfectThrowCount);
   L.register("winPerfectThrowCount", .winPerfectThrowCount);
-  
-  L.register("setTourneyState", .setTourneyState);
-  L.register("getTourneyState", .getTourneyState);
   
   L.register("setLifePersistence", .setLifePersistence);
   L.register("getLifePersistence", .getLifePersistence);

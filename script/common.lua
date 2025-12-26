@@ -2402,6 +2402,7 @@ function f_default() --Reset Game Modes Configuration
 --Match Settings
 	setAutoLevel(false) --Generate autolevel.log in debug dir
 	setLifebarDisplay(true) --Enable or disable Lifebar HUD elements during match
+	if data.debugMode then loadLifebar(fightDef) end --Reload Lifebar Screenpack
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2

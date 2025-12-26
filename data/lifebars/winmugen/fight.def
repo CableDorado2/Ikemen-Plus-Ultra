@@ -651,7 +651,6 @@ p2.text.font = 3,0, 1
 pos = 160,42
 ;bg.spr = 
 text.font = 7,0, 0
-;text.text = STAGE %s ;TODO
 
 ;-----------------------------------------------------------
 [AILevel]
@@ -659,25 +658,29 @@ pos = 160,239
 ;bg.spr = 
 text.font = 7,0, 0
 ;text.text = CPU-%s ;TODO
+text.layerno = 1
 
 ;-----------------------------------------------------------
 [Mode]
 pos = 305,10
 bg.spr = 
 text.font = 3,0, -1
+text.layerno = 1
 
 ;-----------------------------------------------------------
-;[TourneyState] ;Tournament Mode
-;pos = 160,239
-;bg.spr = 
-;text.font = 6,0, 0
+[TourneyState] ;Tournament Mode
+pos = 160,239
+bg.spr = 
+text.font = 6,0, 0
+text.layerno = 1
 
-;[FT]
-;pos = 159,7
-;bg.spr = 
-;text.font = 1,5, 0
-;text.scale = 0.7,0.7
+[FT]
+pos = 159,7
+bg.spr = 
+text.font = 1,5, 0
+text.scale = 0.7,0.7
 ;text.text = FT %s ;TODO
+;text.layerno = 1
 
 ;-----------------------------------------------------------
 [Depth] ;Abyss Mode
@@ -821,14 +824,14 @@ text.scale = 0.8, 0.8
 ;   Does not affect "font" elements. Defaults to 1 if
 ;   omitted.
 ;
-; 8. vfacing (Not implemented yet)
+; 8. vfacing
 ;   Format: vfacing = dir
 ;   Sets the vertical flipping of the display element.
 ;   1 means no flipping, and -1 means flip vertically.
 ;   Does not affect "font" elements. Defaults to 1 if
 ;   omitted.
 ;
-; 9. layerno (Not implemented yet)
+; 9. layerno
 ;   Format: layerno = no
 ;   This element lets you set the layer to which the
 ;   display element will be drawn on. 0 is in front of

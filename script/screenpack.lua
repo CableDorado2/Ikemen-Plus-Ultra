@@ -4358,8 +4358,6 @@ end
 --; MATCH EXTRA ASSETS SCREENPACK DEFINITION
 --;===========================================================
 txt_DemoFightCfg = createTextImg(font15, 0, -1, "DEMO MODE", 305, 10)
-txt_GameModeFightCfg = createTextImg(font15, 0, -1, "", 305, 10)
-txt_MatchFightCfg = createTextImg(font5, 0, 0, "", 160, 42)
 txt_RewardFightCfg = createTextImg(jgFnt, 5, 0, "", 160, 43)
 
 txt_SurvivalCountP1FightCfg = createTextImg(font15, 0, -1, "", 141, 8)

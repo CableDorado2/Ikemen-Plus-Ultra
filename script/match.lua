@@ -992,15 +992,13 @@ end
 
 local function f_setMatchTexts()
 	local stg = ""
---Set Stage Number
+--Set Match Stage Info
 	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
-	textImgSetText(txt_MatchFightCfg, stg)
+	setMatchInfo(stg)
 --Set CPU Level Number
 	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
 		setCPULevel(ailevel())
 	end
---Set Game Mode Name
-	textImgSetText(txt_GameModeFightCfg, getGameMode())
 --Set Survival Wins
 	if playerLeftSide then
 		textImgSetText(txt_SurvivalCountP1FightCfg, matchno() - 1 ..txt_SurvivalCountFight)
@@ -1574,7 +1572,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 	end
-	if data.debugMode then f_drawDebugVars() end
+	--if data.debugMode then f_drawDebugVars() end
 	f_attackDisplay()
 --When Attract Mode is Enabled
 	if data.attractMode then
