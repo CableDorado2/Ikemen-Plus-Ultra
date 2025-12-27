@@ -1132,7 +1132,8 @@ format.decimal.separator = .
 ; Ikemen feature
 [Action]
 team1.pos = 30,277        ;Coords to show
-team1.spacing = 0,9       ;Spacing
+team1.max = 8             ;Maximum simultaneous messages
+team1.spacing = 0,48      ;Spacing between messages
 team1.start.x = -240      ;Starting x-coords
 team1.bg.layerno = 2
 team1.bg.offset = 75,0
@@ -1143,16 +1144,17 @@ team1.front.layerno = 2
 team1.front.offset = 75,0
 team1.front.scale = 1.0,1.0
 team1.text.layerno = 2
-team1.text.font = 1,0,1
-team1.text.offset = 9,0   ;Offset of text
+team1.text.font = 3,0,1
+team1.text.offset = 9,20   ;Offset of text
 team1.text.scale = 1,1
 team1.displaytime = 60    ;Time to show message
 team1.showspeed = 2       ;Message showing up speed (1 = instant)
 team1.hidespeed = 8       ;Message hiding speed (the larger value, the faster speed)
 
-team2.pos = 1250,277       ;Coords to show
-team2.spacing = 0,9       ;Spacing
-team2.start.x = 1520      ;Starting x-coords
+team2.pos = 1250,277
+team2.max = 8
+team2.spacing = 0,48
+team2.start.x = 1520
 team2.bg.layerno = 2
 team2.bg.offset = -75,0
 team2.bg.anim = 400
@@ -1162,12 +1164,12 @@ team2.front.layerno = 2
 team2.front.offset = -75,0
 team2.front.scale = 1.0,1.0
 team2.text.layerno = 2
-team2.text.font = 1,0,-1
-team2.text.offset = 9,0   ;Offset of text
+team2.text.font = 3,0,-1
+team2.text.offset = 9,20
 team2.text.scale = 1,1
-team2.displaytime = 60    ;Time to show message
-team2.showspeed = 2       ;Message showing up speed (1 = instant)
-team2.hidespeed = 8       ;Message hiding speed (the larger value, the faster speed)
+team2.displaytime = 60
+team2.showspeed = 2
+team2.hidespeed = 8
 
 [Begin Action 400]
 400,0, 0,0, -1, ,AS80D128

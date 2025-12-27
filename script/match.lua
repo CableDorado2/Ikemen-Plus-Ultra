@@ -991,16 +991,16 @@ local function f_demoSkip()
 end
 
 local function f_updateMatchInfo()
-	local matchsFinished = getP1matchWins() + getP2matchWins()
 	local p1Wins = getP1matchWins()
 	local p2Wins = getP2matchWins()
-	if matchover() and time() == 0 then
+	if matchover() then
 		if winnerteam() == 1 then
 			p1Wins = p1Wins + 1
 		elseif winnerteam() == 2 then
 			p2Wins = p2Wins + 1
 		end
 	end
+	local matchsFinished = p1Wins + p2Wins
 	local stg = ""
 --Set Match Stage Info
 	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end

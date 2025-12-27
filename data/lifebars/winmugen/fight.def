@@ -1,12 +1,10 @@
 ; Definition of fight screen
 
-; Notes about fonts:
-;   - do not index fonts greater than 9 (crash)
-;   - fonts indexed here do not refer to the ones in
-;     system.def
-;
-; See the section "How to Customize" at the end of
-; this file.
+; *** DO NOT MODIFY OR OVERWRITE THIS FILE ***
+; To customize, make a copy of this file in a subdirectory of your
+; motif's name. See readme.txt for details on motifs.
+
+; See the section "How to Customize" at the end of this file.
 
 ;-----------------------------------------------------------
 ;Directories are checked in this order:
