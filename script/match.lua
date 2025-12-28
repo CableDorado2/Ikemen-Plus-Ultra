@@ -993,11 +993,14 @@ end
 local function f_updateMatchInfo()
 	local p1Wins = getP1matchWins()
 	local p2Wins = getP2matchWins()
+	local survCnt = matchno() - 1
 	if matchover() then
 		if winnerteam() == 1 then
 			p1Wins = p1Wins + 1
+			survCnt = (matchno() - 1) + 1
 		elseif winnerteam() == 2 then
 			p2Wins = p2Wins + 1
+			survCnt = (matchno() - 1) + 1
 		end
 	end
 	local matchsFinished = p1Wins + p2Wins
@@ -1016,9 +1019,9 @@ local function f_updateMatchInfo()
 --Set Survival Mode Wins Count
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
 		if playerLeftSide then
-			setP1winsFormatted(p1Wins..txt_SurvivalCountFight)
+			setP1winsFormatted(survCnt ..txt_SurvivalCountFight)
 		else
-			setP2winsFormatted(p2Wins..txt_SurvivalCountFight)
+			setP2winsFormatted(survCnt ..txt_SurvivalCountFight)
 		end
 --Set VS Mode Wins Count
 	else
@@ -1477,7 +1480,7 @@ function loop() --The code for this function should be thought of as if it were 
 			exitMatch()
 		end
 	--Save Progress
-		if (abyssbossfight() == 1 and abyssRewardDone) or (abyssbossfight() == 0 and roundstate() == 4) then
+		if (abyssbossfight() == 0 and matchover()) then --or abyssbossfight() == 1
 			if (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 				if abyssSaveButton then
 					if not abyssPause then
@@ -1494,7 +1497,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	--Boss Rewards
 		if abyssbossfight() == 1 and roundstate() == 4 and not abyssRewardDone then
-			if (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
+			if matchover() and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 				if not abyssPause then
 					togglePause(1)
 					setSysCtrl(10) --Swap to Menu Controls

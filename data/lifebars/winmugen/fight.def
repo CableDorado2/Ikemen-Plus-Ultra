@@ -644,7 +644,7 @@ p2.text.font = 3,0, 1
 
 ;-----------------------------------------------------------
 [Match]
-pos = 160,42
+pos = 160,43
 ;bg.spr = 
 text.font = 7,0, 0
 
@@ -680,14 +680,14 @@ text.scale = 0.7,0.7
 
 ;-----------------------------------------------------------
 [Depth] ;Abyss Mode
-pos = 178,38
+pos = 178,43
 ;bg.spr = 
 text.font = 1,5, 1
 text.scale = 0.8, 0.8
 ;text.text = DEPTH %s ;TODO
 
 [Reward]
-pos = 141,38
+pos = 141,43
 ;bg.spr = 
 text.font = 1,0, -1
 text.scale = 0.8, 0.8
