@@ -1446,6 +1446,26 @@ void gamemodeDisplay(&.lua.State L=, int re=)
   L.pushBoolean(.com.gamemodeDisplay);
 }
 
+void setRewardFormatted(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char rf = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.rewardFormatted = rf;
+}
+
+void setRewardDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool rd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.rewardDisplay = rd;
+}
+
+void rewardDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.rewardDisplay);
+}
+
 void setTourneyState(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2053,6 +2073,10 @@ public void init(&.lua.State L=)
   
   L.register("setGameModeDisplay", .setGameModeDisplay);
   L.register("gamemodeDisplay", .gamemodeDisplay);
+  
+  L.register("setRewardFormatted", .setRewardFormatted);
+  L.register("setRewardDisplay", .setRewardDisplay);
+  L.register("rewardDisplay", .rewardDisplay);
   
   L.register("setTourneyState", .setTourneyState);
   L.register("getTourneyState", .getTourneyState);

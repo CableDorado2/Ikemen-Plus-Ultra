@@ -2425,6 +2425,7 @@ function f_default() --Reset Game Modes Configuration
 	setMatchnoDisplay(false) --Enable or Disable Match/Stage Number Display
 	setAilevelDisplay(false) --Enable or Disable CPU Difficulty Level Display
 	setGameModeDisplay(false) --Enable or Disable Game Mode Name Display
+	setRewardDisplay(false) --Enable or Disable Reward Display
 	setTimer(0) --Reset Player Timer
 	setCountdown(-1) --Reset Caravan Countdown Timer
 	setScore(0) --Reset Player Score

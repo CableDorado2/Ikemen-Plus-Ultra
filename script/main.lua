@@ -2660,8 +2660,8 @@ function caravanCfg()
 	setGameMode("caravan")
 	--data.nextStage = true
 	setCountdown(6000) --5 Minutes
-	setRoundTime(99)
-	setRoundsToWin(2)
+	--setRoundTime(99)
+	--setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3027,6 +3027,7 @@ function goldrushCfg()
 	data.gameMode = "allroster"
 	data.recordMode = "goldrush"
 	setGameMode("goldrush")
+	setRewardDisplay(true)
 	data.stage = "stages/Others/The Red Dragon's Lair.def"
 	data.bgm = "sound/Gold Rush.mp3"
 	setRoundTime(30)

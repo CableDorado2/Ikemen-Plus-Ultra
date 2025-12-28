@@ -1306,9 +1306,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
-		textImgSetText(txt_RewardFightCfg, txt_RewardFight..getPlayerReward().." IKC")
-		textImgDraw(txt_RewardFightCfg)
-		--if roundstate() ~= 4 then
+		if roundstate() ~= 4 then
 			local money = 0
 		--Player Deal Damage over CPU
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
@@ -1341,7 +1339,7 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				end
 			end
-		--end
+		end
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
 		if roundstate() == 2 then
@@ -1551,6 +1549,7 @@ function loop() --The code for this function should be thought of as if it were 
 	f_streakWins()
 	f_updateTimer()
 	f_updateScore()
+	if rewardDisplay() then setRewardFormatted(txt_RewardFight..getPlayerReward().." IKC") end
 	if roundstate() < 2 then
 		bonusScoreDone = false
 	elseif roundstate() == 4 then

@@ -32,7 +32,7 @@ public &Share
   public int score, scoreTotal, p1score, p2score;
   public int timer, countdownTimer;
   public int cpuLevel;
-  public bool p1winsDisplay, p2winsDisplay;
+  public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
   public bool scoreDisplay, timerDisplay, countdownDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
   public int lifePersistence, powerPersistence, timePersistence;
   public int stt;
@@ -122,6 +122,7 @@ public &Share
 	`matchnoDisplay = .com.matchnoDisplay;
 	`ailevelDisplay = .com.ailevelDisplay;
 	`gamemodeDisplay = .com.gamemodeDisplay;
+	`rewardDisplay = .com.rewardDisplay;
 	`timerDisplay = .com.timerDisplay;
 	`timer = .com.timer;
 	`countdownDisplay = .com.countdownDisplay;
@@ -238,6 +239,7 @@ public &Share
     .com.matchnoDisplay = `matchnoDisplay;
     .com.ailevelDisplay = `ailevelDisplay;
     .com.gamemodeDisplay = `gamemodeDisplay;
+    .com.rewardDisplay = `rewardDisplay;
     .com.timerDisplay = `timerDisplay;
     .com.timer = `timer;
 	.com.countdownDisplay = `countdownDisplay;

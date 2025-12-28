@@ -2392,6 +2392,76 @@ public void setPerfect(|.WinTy wt=)
   }
 }
 
+&Reward
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
 &TourneyState
 {
   public int posx = 0;
@@ -2776,10 +2846,11 @@ public &Fight
   public &.Match mtch;
   public &.AILevel ailv;
   public &.GameMode mode;
+  public &.Reward rw;
   public &.TourneyState ts;
   public &.MatchsToWin ft;
-  public &.AbyssDepth depth;
-  public &.AbyssReward reward;
+  public &.AbyssDepth svlv;
+  public &.AbyssReward svrw;
   public &.Nickname nick;
   type action_t = &.act.Action;
   &.sff.AirFileMethods!self? airFileMethods;
@@ -2924,6 +2995,10 @@ public &Fight
     {
 	  `mode.read(sc=);
     }
+	public void reward(&.com.Section sc=)
+    {
+	  `rw.read(sc=);
+    }
 	public void tourneystate(&.com.Section sc=)
     {
 	  `ts.read(sc=);
@@ -2934,11 +3009,11 @@ public &Fight
     }
 	public void abyssdepth(&.com.Section sc=)
     {
-	  `depth.read(sc=);
+	  `svlv.read(sc=);
     }
 	public void abyssreward(&.com.Section sc=)
     {
-	  `reward.read(sc=);
+	  `svrw.read(sc=);
     }
 	public void nickname(&.com.Section sc=)
     {
@@ -3018,8 +3093,8 @@ public &Fight
 	bool comboflg = true, actionflg = true, roundflg = true, winiconflg = true;
 	bool winsp1flg = true, winsp2flg = true;
 	bool timerp1flg = true, timerp2flg = true, countdownp1flg = true, countdownp2flg = true, scorep1flg = true, scorep2flg = true;
-	bool matchflg = true, ailevelflg = true, modeflg = true;
-	bool tourneystateflg = true, matchstowinflg = true, depthflg = true, rewardflg = true;
+	bool matchflg = true, ailevelflg = true, modeflg = true, rewardflg = true;
+	bool tourneystateflg = true, matchstowinflg = true, svlevelflg = true, svrewardflg = true;
     bool nicknameflg = true;
 	~$void(^^/char, index=) section = [void(^^/char lines, index i=){
       ^/char sec = lines[i];
@@ -3101,18 +3176,21 @@ public &Fight
 	  cond .s.equ(secname, "mode"):
         if(modeflg) mode(sc=);
         modeflg = false;
+	  cond .s.equ(secname, "reward"):
+        if(rewardflg)  reward(sc=);
+        rewardflg = false;
 	  cond .s.equ(secname, "tourneystate"):
         if(tourneystateflg)  tourneystate(sc=);
         tourneystateflg = false;
 	  cond .s.equ(secname, "ft"):
         if(matchstowinflg)  matchstowin(sc=);
         matchstowinflg = false;
-	  cond .s.equ(secname, "depth"):
-        if(depthflg)  abyssdepth(sc=);
-        depthflg = false;
-	  cond .s.equ(secname, "reward"):
-        if(rewardflg)  abyssreward(sc=);
-        rewardflg = false;
+	  cond .s.equ(secname, "abyssdepth"):
+        if(svlevelflg)  abyssdepth(sc=);
+        svlevelflg = false;
+	  cond .s.equ(secname, "abyssreward"):
+        if(svrewardflg)  abyssreward(sc=);
+        svrewardflg = false;
 	  cond .s.equ(secname, "nickname"):
         if(nicknameflg)  nickname(sc=);
         nicknameflg = false;
@@ -3245,10 +3323,11 @@ public &Fight
 	`mtch.setup(`sf);
 	`ailv.setup(`sf);
 	`mode.setup(`sf);
+	`rw.setup(`sf);
 	`ts.setup(`sf);
 	`ft.setup(`sf);
-	`depth.setup(`sf);
-	`reward.setup(`sf);
+	`svlv.setup(`sf);
+	`svrw.setup(`sf);
     ret "";
   }
   public void step(^/int tm, ^/&.LifePower life, ^/bool hit, ^/int combo)
@@ -3294,10 +3373,11 @@ public &Fight
 	`mtch.step();
 	`ailv.step();
 	`mode.step();
+	`rw.step();
 	`ts.step();
 	`ft.step();
-	`depth.step();
-	`reward.step();
+	`svlv.step();
+	`svrw.step();
   }
   public void draw(
     int layerno, ^/&.LifePower life, ^/^/char name, bool nbd,
@@ -3419,6 +3499,10 @@ public &Fight
 		`mode.bgDraw(layerno);
 		`mode.draw(layerno, .com.gameMode, `fnt);
 	  }
+	  if(.com.rewardDisplay) {
+		`rw.bgDraw(layerno);
+		`rw.draw(layerno, .com.rewardFormatted, `fnt);
+	  }
 	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
 		`ts.bgDraw(layerno);
 		`ts.draw(layerno, .com.tourneyState, `fnt);
@@ -3427,11 +3511,11 @@ public &Fight
 		`ft.draw(layerno, .com.matchsToWin, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop")) {
-		`depth.bgDraw(layerno);
-		`depth.draw(layerno, .com.abyssDepth, `fnt);
+		`svlv.bgDraw(layerno);
+		`svlv.draw(layerno, .com.abyssDepth, `fnt);
 		
-		`reward.bgDraw(layerno);
-		`reward.draw(layerno, .com.playerReward, `fnt);
+		`svrw.bgDraw(layerno);
+		`svrw.draw(layerno, .com.playerReward, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "netplay")) {
 		`nick.bgDraw(layerno);

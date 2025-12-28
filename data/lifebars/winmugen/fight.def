@@ -679,14 +679,22 @@ text.scale = 0.7,0.7
 ;text.layerno = 1
 
 ;-----------------------------------------------------------
-[Depth] ;Abyss Mode
+[Reward]
+pos = 160,43
+;bg.spr = 
+text.font = 1,5, -1
+;text.text = REWARD: %s ;TODO
+text.layerno = 1
+
+;-----------------------------------------------------------
+[AbyssDepth] ;Abyss Mode
 pos = 178,43
 ;bg.spr = 
 text.font = 1,5, 1
 text.scale = 0.8, 0.8
 ;text.text = DEPTH %s ;TODO
 
-[Reward]
+[AbyssReward]
 pos = 141,43
 ;bg.spr = 
 text.font = 1,0, -1
