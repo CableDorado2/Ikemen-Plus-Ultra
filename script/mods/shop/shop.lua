@@ -30,11 +30,13 @@ local txt_shopStgType = "Stage: "
 local txt_shopBGMType = "BGM: "
 
 local t_tempChars = {
+--[[
 	{id = "Reika Murasame", price = 1500, class = 3},
 	{id = "Ryu", 			price = 2000, class = 4},
 	{id = "Kyo Kusanagi", 	price = 2000, class = 3},
 	{id = "Terry", 			price = 2000, class = 4},
 	{id = "Ciel", 			price = 4200, class = 4},
+]]
 }
 local t_shopChars = {} --Create Real Table
 for i=1, #t_tempChars do
@@ -113,7 +115,7 @@ end
 
 local t_shopMenu = {
 	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!", spr = {2,0}},
-	{text = "Costumes",   		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!", spr = {2,1}},
+	{text = "Colors Pack", 		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!", spr = {2,1}},
 	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!", spr = {2,2}},
 	--{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
 	--{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},

@@ -12,7 +12,7 @@ table.insert(t_extrasMenu, 1, {text = "CHRONICLES", gotomenu = "f_chroniclesMenu
 
 t_chroniclesMenu = {
 	{text = "STORY",	 	gotomenu = "f_storyMenu()"},
-	{text = "QUIZ", 		gotomenu = "f_comingSoon()"},
+	{text = "???", 		gotomenu = "f_comingSoon()"}, --quiz
 }
 for i=1, #t_chroniclesMenu do
 	t_chroniclesMenu[i]['id'] = textImgNew()
