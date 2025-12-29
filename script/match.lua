@@ -255,85 +255,90 @@ damageMaxP2 = 0
 maxComboCntP2 = 0
 
 local handicapsReady = false
-local function f_handicapSet()
-	for side=1, 2 do
-		local pDat = nil
-		if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
-		for i=1, #pDat do
-		--For each Player Selected
-			if player(pDat[i].pn) then
-			--Life Handicaps (Based in Street Fighter 4)
-				if t_handicapSelect[pDat[i].handicap].service == "life" then
-				--Instakill
-					if t_handicapSelect[pDat[i].handicap].val == nil then
-						setLife(lifemax() / lifemax())
-				--HP at 75%, 50%, 25%...
-					else
-						setLife(lifemax() / t_handicapSelect[pDat[i].handicap].val)
-					end
-			--Power Handicaps (Based in KOF XIII)
-				elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 then
-				--Power at MAX
-					if t_handicapSelect[pDat[i].handicap].val == nil then
-						setPower(powermax())
-				--Power at Specific value level
-					else
-						setPower(t_handicapSelect[pDat[i].handicap].val)
-					end
-			--Defence Handicaps (Based in Guilty Gear Xrd Rev 2 Armor)
-				elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 then
-				--Defence at 75%, 50%, 25%...
-					if t_handicapSelect[pDat[i].handicap].val ~= nil then
-						setDefence(math.floor(defence() / t_handicapSelect[pDat[i].handicap].val))
+local function f_handicapSet() -- Need to load with roundstate 2 for better compatibility with most chars
+	if not handicapsReady then
+		for side=1, 2 do
+			local pDat = nil
+			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
+			for i=1, #pDat do
+			--For each Player Selected
+				if player(pDat[i].pn) then
+				--Life Handicaps (Based in Street Fighter 4)
+					if t_handicapSelect[pDat[i].handicap].service == "life" then
+					--Instakill
+						if t_handicapSelect[pDat[i].handicap].val == nil then
+							setLife(lifemax() / lifemax())
+					--HP at 75%, 50%, 25%...
+						else
+							setLife(lifemax() / t_handicapSelect[pDat[i].handicap].val)
+						end
+				--Power Handicaps (Based in KOF XIII)
+					elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 then
+					--Power at MAX
+						if t_handicapSelect[pDat[i].handicap].val == nil then
+							setPower(powermax())
+					--Power at Specific value level
+						else
+							setPower(t_handicapSelect[pDat[i].handicap].val)
+						end
+				--Defence Handicaps (Based in Guilty Gear Xrd Rev 2 Armor)
+					elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 then
+					--Defence at 75%, 50%, 25%...
+						if t_handicapSelect[pDat[i].handicap].val ~= nil then
+							setDefence(math.floor(defence() / t_handicapSelect[pDat[i].handicap].val))
+						end
 					end
 				end
 			end
 		end
+		handicapsReady = true
 	end
-	handicapsReady = true
 end
 
 local survivalStatsReady = false
 local function f_survivalStatsSet()
-	if playerLeftSide then
-	--For each Left Side Player Selected
-		for i=1, #p1Dat do
-			if player(p1Dat[i].pn) then
-				setLife(getLifePersistence()) --Restore Life Bar
-				setPower(getPowerPersistence()) --Restore Power Bar
+	if not survivalStatsReady then
+		if playerLeftSide then
+		--For each Left Side Player Selected
+			for i=1, #p1Dat do
+				if player(p1Dat[i].pn) then
+					setLife(getLifePersistence()) --Restore Life Bar
+					setPower(getPowerPersistence()) --Restore Power Bar
+				end
+			end
+		else
+		--For each Right Side Player Selected
+			for i=1, #p2Dat do
+				if player(p2Dat[i].pn) then
+					setLife(getLifePersistence())
+					setPower(getPowerPersistence())
+				end
 			end
 		end
-	else
-	--For each Right Side Player Selected
-		for i=1, #p2Dat do
-			if player(p2Dat[i].pn) then
-				setLife(getLifePersistence())
-				setPower(getPowerPersistence())
-			end
-		end
+		survivalStatsReady = true
 	end
-	survivalStatsReady = true
 end
 
 local speedstarStatsReady = false
 local function f_speedstarStatsSet()
-	if playerLeftSide then
-	--For each Left Side Player Selected
-		for i=1, #p1Dat do
-			if player(p1Dat[i].pn) then
-				setPower(getPowerPersistence())
+	if not speedstarStatsReady then
+		if playerLeftSide then
+		--For each Left Side Player Selected
+			for i=1, #p1Dat do
+				if player(p1Dat[i].pn) then
+					setPower(getPowerPersistence())
+				end
+			end
+		else
+		--For each Right Side Player Selected
+			for i=1, #p2Dat do
+				if player(p2Dat[i].pn) then
+					setPower(getPowerPersistence())
+				end
 			end
 		end
-	else
-	--For each Right Side Player Selected
-		for i=1, #p2Dat do
-			if player(p2Dat[i].pn) then
-				setPower(getPowerPersistence())
-			end
-		end
+		speedstarStatsReady = true
 	end
-	setTime(getTimePersistence()) --Restore Round Time
-	speedstarStatsReady = true
 end
 
 local abyssStatsReady = false
@@ -1292,17 +1297,16 @@ function loop() --The code for this function should be thought of as if it were 
 		f_demoSkip()
 --During VS Mode
 	elseif getGameMode() == "vs" then
-		if roundstate() == 0 then
-			if roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
-		elseif roundstate() == 2 then
-			if not handicapsReady then f_handicapSet() end --Load with roundstate 2 for better compatibility with most chars
+		if roundstate() <= 2 then
+			if roundstate() == 0 and roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
+			f_handicapSet()
 		elseif roundstate() == 4 then
 			handicapsReady = false --Reset Handicap Assignment for Next Round
 		end
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if roundstate() == 2 then
-			if getGameMode() == "survival" and matchno() > 1 and not survivalStatsReady then f_survivalStatsSet() end
+		if roundstate() <= 2 then
+			if getGameMode() == "survival" and matchno() > 1 then f_survivalStatsSet() end
 		end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
@@ -1342,10 +1346,11 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
-		if roundstate() == 2 then
-			if matchno() > 1 and not speedstarStatsReady then f_speedstarStatsSet() end
-		end
 		if roundstate() ~= 4 then
+			if roundstate() <= 2 then
+				setTime(getTimePersistence()) --Restore Round Time
+				if matchno() > 1 then f_speedstarStatsSet() end
+			end
 			local timeBonus = 0
 			local timePenalty = 0
 		--Check Bonus Actions

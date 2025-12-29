@@ -1055,7 +1055,7 @@ end
 --;===========================================================
 t_mainNetplay = {
 	{id = textImgNew(), text = "HOST [CREATE ROOM]"},
-	{id = textImgNew(), text = "CLIENT [JOIN A ROOM]"},
+	{id = textImgNew(), text = "GUEST [JOIN A ROOM]"},
 }
 
 --;===========================================================
@@ -1099,11 +1099,11 @@ animSetScale(wirelessBG, 0.25, 0.25)
 animUpdate(wirelessBG)
 
 --;===========================================================
---; ONLINE DIRECT JOIN CLIENT MENU SCREENPACK DEFINITION
+--; ONLINE DIRECT JOIN GUEST MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_clientTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
-txt_client = createTextImg(jgFnt, 0, 0, "Enter Host\'s IPv4", 159, 111)
-txt_clientName = createTextImg(jgFnt, 0, 0, "Enter Host\'s Nickname", 159, 110, 0.9, 0.9)
+txt_guestTitle = createTextImg(jgFnt, 0, 0, "", 159, 13)
+txt_guest = createTextImg(jgFnt, 0, 0, "Enter Host\'s IPv4", 159, 111)
+txt_guestName = createTextImg(jgFnt, 0, 0, "Enter Host\'s Nickname", 159, 110, 0.9, 0.9)
 txt_bar = createTextImg(opFnt, 0, 0, "|", 160, 133, 0.65, 0.65)
 txt_ip = createTextImg(font14, 0, 0, "", 160, 132)
 txt_connecting = createTextImg(jgFnt, 5, 0, "", 159, 228)
@@ -1116,7 +1116,7 @@ for i=1, #t_directJoinMenu do
 end
 
 --;===========================================================
---; ONLINE DATABASE JOIN CLIENT MENU SCREENPACK DEFINITION
+--; ONLINE DATABASE JOIN GUEST MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_crudTitle = createTextImg(font6, 0, 0, "", 160, 147.5)
 

@@ -3814,7 +3814,7 @@ end
 --; LEADERBOARDS SCREEN (display rankings data)
 --;===========================================================
 function f_rankings()
-	--TODO
+	f_comingSoon() --TODO
 end
 
 --;===========================================================
@@ -4388,7 +4388,7 @@ function f_mainReplay()
 	local bufl = 0
 	local exitReplayMenu = false
 	local maxItems = 12
-	netPlayer = "Host"
+	netPlayer = "host"
 	f_replayTable() --Load table
 	f_resetListArrowsPos()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4695,7 +4695,7 @@ function f_mainNetplay()
 				commandBufReset(p2Cmd)
 				f_saveReplay()
 				f_discordMainMenu()
-		--CLIENT/JOIN (join an existing room)
+		--GUEST/JOIN (join an existing room)
 			elseif mainNetplay == 2 then
 				f_discordUpdate({details = "Searching Opponents"})
 			--Default Connection Method
@@ -4798,11 +4798,11 @@ function f_create()
 	createExit = false
 	textImgSetText(txt_hosting, "Waiting for Player 2...")
 	enterNetPlay(inputDialogGetStr(inputdia))
-	netPlayer = "Host" --For tracking purposes
+	netPlayer = "host" --For tracking purposes
 --[[
 	if waitingRoom == "Training" then
 		data.p1In = 1
-		f_training() --Try to Wait client in Training Mode
+		f_training() --Try to Wait guest in Training Mode
 	end
 ]]
 	while not netplay() do
@@ -4850,7 +4850,7 @@ function f_directConnect()
 	local directJoinMenu = 2
 	local i = 0
 	joinExit = false
-	textImgSetText(txt_clientTitle, "SEARCH ROOM")
+	textImgSetText(txt_guestTitle, "SEARCH ROOM")
 --ENTER IP SCREEN
 	while true do
 	--EXIT LOGIC
@@ -4918,11 +4918,11 @@ function f_directConnect()
 		--Draw BG
 			animDraw(f_animVelocity(commonBG0, -1, -1))
 		--Draw Menu Title
-			textImgDraw(txt_clientTitle)
+			textImgDraw(txt_guestTitle)
 		--Draw IP Window BG
 			animDraw(textWindowBG)
 		--Draw IP Window Title
-			textImgDraw(txt_client)
+			textImgDraw(txt_guest)
 		--Draw IP Text
 			textImgSetText(txt_ip,ip)
 			textImgDraw(txt_ip)
@@ -4953,7 +4953,7 @@ function f_directConnect()
 --CONNECTING SCREEN
 	sndPlay(sndSys, 100, 1)
 	enterNetPlay(ip) --Connect to entered IP address
-	netPlayer = "Client"
+	netPlayer = "guest"
 	textImgSetText(txt_connecting, "Now connecting to ["..ip.."]")
 	while not netplay() do
 	--CANCEL CONNECTION
@@ -4968,8 +4968,8 @@ function f_directConnect()
 	--Draw Connecting BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Connecting Menu Title
-		textImgSetText(txt_clientTitle, "SEARCHING HOST ROOM")
-		textImgDraw(txt_clientTitle)
+		textImgSetText(txt_guestTitle, "SEARCHING HOST ROOM")
+		textImgDraw(txt_guestTitle)
 	--Draw Window BG
 		animDraw(joinWindowBG)
 	--Draw Port Info
@@ -5356,7 +5356,7 @@ function f_editHost()
 	--Draw Name Window BG
 		animDraw(textWindowBG)
 	--Draw Name Window Title
-		textImgDraw(txt_clientName)
+		textImgDraw(txt_guestName)
 	--Draw Name Text
 		textImgSetText(txt_ip,editHostName)
 		textImgDraw(txt_ip)
@@ -5441,8 +5441,8 @@ function f_editHost()
 	--Draw IP Window BG
 		animDraw(textWindowBG)
 	--Draw IP Window Title
-		textImgSetText(txt_client, "Enter Host\'s IPv4")
-		textImgDraw(txt_client)
+		textImgSetText(txt_guest, "Enter Host\'s IPv4")
+		textImgDraw(txt_guest)
 	--Draw IP Text
 		textImgSetText(txt_ip,hostAddress)
 		textImgDraw(txt_ip)
@@ -5508,8 +5508,8 @@ function f_databaseConnect()
 	sndPlay(sndSys, 100, 1)
 	joinExit = false
 	enterNetPlay(hostIP) --Connect to entered IP address
-	netPlayer = "Client"
-	textImgSetText(txt_clientTitle, hostRoomName.."'s ROOM")
+	netPlayer = "guest"
+	textImgSetText(txt_guestTitle, hostRoomName.."'s ROOM")
 	textImgSetText(txt_connecting, "Now connecting to ["..hostIP.."]")
 	while not netplay() do
 	--CANCEL CONNECTION
@@ -5523,7 +5523,7 @@ function f_databaseConnect()
 	--Draw Connecting BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Connecting Title
-		textImgDraw(txt_clientTitle)
+		textImgDraw(txt_guestTitle)
 	--Draw Window BG
 		animDraw(joinWindowBG)
 	--Draw Port Info
@@ -5665,7 +5665,7 @@ function f_mainLobby()
 					textImgSetText(txt_mainSelect, "ONLINE TOWER COOPERATIVE")
 					f_selectAdvance()
 				end
-		--ONLINE SURVIVAL	
+		--ONLINE SURVIVAL
 			elseif mainLobby == 5 then
 				setRoundsToWin(1)
 				data.gameMode = "survival"
@@ -5765,9 +5765,9 @@ function f_mainLobby()
 		textImgSetText(txt_gameFt, "ONLINE MENU")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if netPlayer == "Host" then
+		if netPlayer == "host" then
 			t_mainLobby[1].text = "VERSUS PLAYER 2"
-		elseif netPlayer == "Client" then
+		elseif netPlayer == "guest" then
 			t_mainLobby[1].text = "VERSUS PLAYER 1"
 		end
 		t_mainLobby[10].text = getKumiteData()
@@ -13049,10 +13049,10 @@ function f_loading(quickLoad)
 			if data.coop then coop = "Local Multiplayer" end
 		--For Online Modes
 			if netplay() or replay() then
-				if netPlayer == "Host" then
+				if netPlayer == "host" then
 					if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 					playerSide = data.t_p1selected
-				elseif netPlayer == "Client" then
+				elseif netPlayer == "guest" then
 					if p2teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 					playerSide = data.t_p2selected
 				end
