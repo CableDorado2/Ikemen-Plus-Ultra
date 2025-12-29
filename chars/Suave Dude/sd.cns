@@ -4331,13 +4331,13 @@ channel = 1
 
 ; Kamek and Luchini appear to have been the first ones to use the IsHomeTeam AI activation concept.
 ; Feel free to move this controller to your character's intro state for slightly better efficiency.
-[State -3, SetAI]
-type = VarSet
-triggerall = !RoundState
-triggerall = IsHomeTeam
-trigger1 = (TeamSide = 2)
-trigger2 = (MatchNo > 1)
-var(59) = 1
+;[State -3, SetAI]
+;type = VarSet
+;triggerall = !RoundState
+;triggerall = IsHomeTeam
+;trigger1 = (TeamSide = 2)
+;trigger2 = (MatchNo > 1)
+;var(59) = 1
 
 ; Feel free to move this controller to your character's intro state for slightly better efficiency.
 ; Note that it may give P2 a slight unfair advantage in simul team vs mode, so you

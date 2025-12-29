@@ -25,7 +25,6 @@ Strength Training, stages/Others/Sunday Afternoon.def, includestage=0, music=sou
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=-1
 Event 1, zoom=0, exclude=1, excludetourney=1, order=-1, victoryscreen=0, vsscreen=0, stages/stage0.def, includestage=0
 Mako Mayama/vnFight.def, exclude=1, excludetourney=1, order=-1
-;Training, exclude=1, excludetourney=1, training=1, order=-1
 Stage Viewer, exclude=1, excludetourney=1, order=-1, stages/Mountainside Temple/Roof Night.def, includestage=0
 ;---------------------------------------------------------------------------------
 [ExtraStages]

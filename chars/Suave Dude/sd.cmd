@@ -834,10 +834,16 @@ trigger1 = ctrl
 type = varset
 triggerall = var(59) = 0
 trigger1 = 1
-var(59) = 1	;0(Boss Mode), 1(Awaken when Lose 1 Round), 2(Always Awaken)
+var(59) = 0	;0(Boss Mode), 1(Awaken when Lose 1 Round), 2(Always Awaken)
 
-[State -1, Training Setting]
+[State -1, Training Mode Setting]
+type = varset
+triggerall = var(59) != 1
+trigger1 = gamemode = "practice" && suavemode = 0
+var(59) = 1 ;Disable Boss/Awaken Mode
+
+[State -1, Training Mode Setting]
 type = varset
 triggerall = var(59) = 1
 trigger1 = gamemode = "practice" && suavemode = 1
-var(59) = 0 ;Activate Boss Mode
+var(59) = 0 ;Enable Boss/Awaken Mode
