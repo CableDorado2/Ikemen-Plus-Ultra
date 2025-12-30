@@ -1622,6 +1622,19 @@ void winPerfectThrowCount(&.lua.State L=, int re=)
   L.pushNumber((double).com.winPerfectThrowCount);
 }
 
+void setPersistLife(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool lp = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.persistLife = lp;
+}
+
+void persistLife(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.persistLife);
+}
+
 void setLifePersistence(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1635,6 +1648,19 @@ void getLifePersistence(&.lua.State L=, int re=)
   L.pushNumber((double).com.lifePersistence);
 }
 
+void setPersistPower(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool pp = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.persistPower = pp;
+}
+
+void persistPower(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.persistPower);
+}
+
 void setPowerPersistence(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1646,6 +1672,19 @@ void getPowerPersistence(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.powerPersistence);
+}
+
+void setPersistRoundTime(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool rtp = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.persistRoundtime = rtp;
+}
+
+void persistRoundtime(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.persistRoundtime);
 }
 
 void setTimePersistence(&.lua.State L=, int re=)
@@ -2114,11 +2153,20 @@ public void init(&.lua.State L=)
   L.register("setWinPerfectThrowCount", .setWinPerfectThrowCount);
   L.register("winPerfectThrowCount", .winPerfectThrowCount);
   
+  L.register("setPersistLife", .setPersistLife);
+  L.register("persistLife", .persistLife);
+  
   L.register("setLifePersistence", .setLifePersistence);
   L.register("getLifePersistence", .getLifePersistence);
   
+  L.register("setPersistPower", .setPersistPower);
+  L.register("persistPower", .persistPower);
+  
   L.register("setPowerPersistence", .setPowerPersistence);
   L.register("getPowerPersistence", .getPowerPersistence);
+  
+  L.register("setPersistRoundTime", .setPersistRoundTime);
+  L.register("persistRoundtime", .persistRoundtime);
   
   L.register("setTimePersistence", .setTimePersistence);
   L.register("getTimePersistence", .getTimePersistence);

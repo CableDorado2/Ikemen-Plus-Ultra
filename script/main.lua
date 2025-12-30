@@ -1782,6 +1782,8 @@ function survivalCfg()
 	f_default()
 	setP1winsDisplay(true)
 	setP2winsDisplay(true)
+	setPersistLife(true)
+	setPersistPower(true)
 	setGameMode("survival")
 	data.gameMode = "survival"
 	data.recordMode = "survival"
@@ -2937,6 +2939,8 @@ function speedstarCfg()
 	f_discordUpdate({details = "Speed Star"})
 	f_default()
 	setMatchnoDisplay(true)
+	setPersistPower(true)
+	setPersistRoundTime(true)
 	data.gameMode = "allroster"
 	data.recordMode = "speedstar"
 	setGameMode("speedstar")
@@ -3120,6 +3124,7 @@ function kumiteCfg()
 	data.gameMode = "kumite"
 	data.recordMode = "kumite"
 	setGameMode("kumite")
+	setScoreDisplay(true)
 	setMatchnoDisplay(true)
 	--data.stageMenu = true
 	setRoundsToWin(1)
@@ -3293,6 +3298,7 @@ end
 function endlessCfg()
 	f_discordUpdate({details = "Endless"})
 	f_default()
+	setPersistPower(true)
 	data.gameMode = "endless"
 	data.recordMode = "endless"
 	data.stageMenu = true

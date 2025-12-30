@@ -34,6 +34,7 @@ public &Share
   public int cpuLevel;
   public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
   public bool scoreDisplay, timerDisplay, countdownDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
+  public bool persistLife, persistPower, persistRoundtime;
   public int lifePersistence, powerPersistence, timePersistence;
   public int stt;
   public ^int com;
@@ -178,8 +179,11 @@ public &Share
 	`tourneyState = .com.tourneyState;
 	`gameType = .com.gameType;
 	`lifebarDisplay = .com.lifebarDisplay;
+	`persistLife = .com.persistLife;
 	`lifePersistence = .com.lifePersistence;
+	`persistPower = .com.persistPower;
 	`powerPersistence = .com.powerPersistence;
+	`persistRoundtime = .com.persistRoundtime;
 	`timePersistence = .com.timePersistence;
 	`credits = .com.credits;
 	`coins = .com.coins;
@@ -310,8 +314,11 @@ public &Share
 	.com.tourneyState = `tourneyState;
 	.com.gameType = `gameType;
 	.com.lifebarDisplay = `lifebarDisplay;
+	.com.persistLife = `persistLife;
 	.com.lifePersistence = `lifePersistence;
+	.com.persistPower = `persistPower;
 	.com.powerPersistence = `powerPersistence;
+	.com.persistRoundtime = `persistRoundtime;
 	.com.timePersistence = `timePersistence;
 	.com.credits = `credits;
 	.com.coins = `coins;

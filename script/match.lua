@@ -238,7 +238,7 @@ puts(string.format(
 end
 ]]
 --;===========================================================
---; MATCH LOOP FUNCTIONS
+--; MATCH LOOP SUB-FUNCTIONS
 --;===========================================================
 playerLeftSide = true
 if getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
@@ -254,8 +254,101 @@ damageComboP2 = 0
 damageMaxP2 = 0
 maxComboCntP2 = 0
 
+function pauseMenu(p, st, esc)
+	script.pause.f_pauseMain(p, st, esc)
+end
+
+local function f_demoSkip()
+	cmdInput()
+--Exit when you press start or esc
+	if esc() or btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+		data.tempBack = true
+		f_saveTemp()
+		exitMatch()
+	end
+end
+
+local bgmState = 0
+local bgmChanged = false
+local bgmDisplayTime = 0
+local bgmBGalphaS = 0
+local bgmBGalphaD = 255
+local bgmTxTalphaS = 0
+local bgmTxTalphaD = 255
+local function f_setStageMusic()
+	if bgmState == 1 then
+		playBGM(bgmIntro)
+		bgmState = 0
+	end
+	if roundstate() == 0 and bgmChanged then bgmDisplayTime = 0 end --Reset BGM Display Timer
+	if data.bgmDisplay and roundstate() == 2 then
+		if bgmDisplayTime < 200 then
+			bgmDisplayTime = bgmDisplayTime + 1
+		--Display BGM Text BG
+			if bgmDisplayTime < 100 then --Fade In
+				if bgmBGalphaS < 20 then bgmBGalphaS = bgmBGalphaS + 5 end
+				if bgmBGalphaS > 20 then bgmBGalphaS = 20 end --Correction
+				if bgmBGalphaD > 50 then bgmBGalphaD = bgmBGalphaD - 5 end
+				if bgmBGalphaD < 50 then bgmBGalphaD = 50 end --Correction
+			else --Fade Out
+				if bgmBGalphaS > 0 then bgmBGalphaS = bgmBGalphaS - 5 end
+				if bgmBGalphaS < 0 then bgmBGalphaS = 0 end --Correction
+				if bgmBGalphaD < 255 then bgmBGalphaD = bgmBGalphaD + 5 end
+				if bgmBGalphaD > 255 then bgmBGalphaD = 255 end --Correction
+			end
+			animSetAlpha(stgBGMInfoBG, bgmBGalphaS, bgmBGalphaD)
+			animDraw(stgBGMInfoBG)
+			animUpdate(stgBGMInfoBG)
+		--Display BGM Text
+			if bgmDisplayTime < 100 then --Fade In
+				if bgmTxTalphaS < 255 then bgmTxTalphaS = bgmTxTalphaS + 5 end
+				if bgmTxTalphaS > 255 then bgmTxTalphaS = 255 end --Correction
+				if bgmTxTalphaD > 0 then bgmTxTalphaD = bgmTxTalphaD - 5 end
+				if bgmTxTalphaD < 0 then bgmTxTalphaD = 0 end --Correction
+			else --Fade Out
+				if bgmTxTalphaS > 0 then bgmTxTalphaS = bgmTxTalphaS - 5 end
+				if bgmTxTalphaS < 0 then bgmTxTalphaS = 0 end --Correction
+				if bgmTxTalphaD < 255 then bgmTxTalphaD = bgmTxTalphaD + 5 end
+				if bgmTxTalphaD > 255 then bgmTxTalphaD = 255 end --Correction
+			end
+			f_drawQuickText(txt_roundSndName, font2, 0, 1, "BGM: "..data.stgBGM, 0, 64, 1, 1, bgmTxTalphaS, bgmTxTalphaD)
+		end
+	end
+end
+
+local playerStatsReady = false
+local function f_setPlayerStats() --Applies only to Player Side
+	if not playerStatsReady then
+		if playerLeftSide then
+		--For each Left Side Player Selected
+			for i=1, #p1Dat do
+				if player(p1Dat[i].pn) then
+					if persistLife() then setLife(getLifePersistence()) end --Restore Life Bar
+					if persistPower() then setPower(getPowerPersistence()) end --Restore Power Bar
+				end
+			end
+		else
+		--For each Right Side Player Selected
+			for i=1, #p2Dat do
+				if player(p2Dat[i].pn) then
+					if persistLife() then setLife(getLifePersistence()) end
+					if persistPower() then setPower(getPowerPersistence()) end
+				end
+			end
+		end
+		if persistRoundtime() then setTime(getTimePersistence()) end --Restore Round Time
+	end
+--[[
+Some Chars force his own stats (life/power) before round starts, so executing this function
+until roundstate is 2, will ensure the compatibility of game mode stats restore logic with most of chars.
+]]
+	if roundstate() == 0 then playerStatsReady = false --Reset Persistence Assignment
+	elseif roundstate() == 2 then playerStatsReady = true --End Persistence Assignment
+	end
+end
+
 local handicapsReady = false
-local function f_handicapSet() -- Need to load with roundstate 2 for better compatibility with most chars
+local function f_handicapSet() --Applies to Both Sides
 	if not handicapsReady then
 		for side=1, 2 do
 			local pDat = nil
@@ -263,7 +356,7 @@ local function f_handicapSet() -- Need to load with roundstate 2 for better comp
 			for i=1, #pDat do
 			--For each Player Selected
 				if player(pDat[i].pn) then
-				--Life Handicaps (Based in Street Fighter 4)
+				--Life Handicaps (Based in Several Fighting Games)
 					if t_handicapSelect[pDat[i].handicap].service == "life" then
 					--Instakill
 						if t_handicapSelect[pDat[i].handicap].val == nil then
@@ -272,7 +365,7 @@ local function f_handicapSet() -- Need to load with roundstate 2 for better comp
 						else
 							setLife(lifemax() / t_handicapSelect[pDat[i].handicap].val)
 						end
-				--Power Handicaps (Based in KOF XIII)
+				--Power Gauge Handicaps (Based in KOF XIII)
 					elseif t_handicapSelect[pDat[i].handicap].service == "power" and roundno() == 1 then
 					--Power at MAX
 						if t_handicapSelect[pDat[i].handicap].val == nil then
@@ -281,7 +374,7 @@ local function f_handicapSet() -- Need to load with roundstate 2 for better comp
 						else
 							setPower(t_handicapSelect[pDat[i].handicap].val)
 						end
-				--Defence Handicaps (Based in Guilty Gear Xrd Rev 2 Armor)
+				--Defence/Armor Handicaps (Based in Guilty Gear Xrd -Revelator-)
 					elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 then
 					--Defence at 75%, 50%, 25%...
 						if t_handicapSelect[pDat[i].handicap].val ~= nil then
@@ -291,67 +384,279 @@ local function f_handicapSet() -- Need to load with roundstate 2 for better comp
 				end
 			end
 		end
-		handicapsReady = true
+	end
+--Need to be loaded until roundstate 2 for better compatibility with most chars
+	if roundstate() == 0 then handicapsReady = false --Reset Handicap Assignment for Next Round
+	elseif roundstate() == 2 then handicapsReady = true --End Handicap Assignment
 	end
 end
 
+local function f_updateMatchInfo()
+	local p1Wins = getP1matchWins()
+	local p2Wins = getP2matchWins()
+	local survCnt = matchno() - 1
+	if matchover() then
+		if winnerteam() == 1 then
+			p1Wins = p1Wins + 1
+			if playerLeftSide then survCnt = (matchno() - 1) + 1 end
+		elseif winnerteam() == 2 then
+			p2Wins = p2Wins + 1
+			if not playerLeftSide then survCnt = (matchno() - 1) + 1 end
+		end
+	end
+	local matchsFinished = p1Wins + p2Wins
+	local stg = ""
+--Set Match Stage Info
+	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
+	setMatchInfo(stg)
+--Set CPU Level Number
+	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
+		setCPULevel(ailevel())
+	end
+--Set Tournament Mode Wins Count
+	if getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
+		setP1winsFormatted(p1Wins)
+		setP2winsFormatted(p2Wins)
+--Set Survival Mode Wins Count
+	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
+		if playerLeftSide then
+			setP1winsFormatted(survCnt ..txt_SurvivalCountFight)
+		else
+			setP2winsFormatted(survCnt ..txt_SurvivalCountFight)
+		end
+--Set VS Mode Wins Count
+	else
+		setP1winsFormatted(txt_WinCountFight.."("..p1Wins.."/"..matchsFinished..")")
+		setP2winsFormatted(txt_WinCountFight.."("..p2Wins.."/"..matchsFinished..")")
+	end
+end
+setP1winsFormatted("")
+setP2winsFormatted("")
+f_updateMatchInfo() --Load when match start
+
+local function f_streakWins()
+	if roundstate() == 4 and time() == 0 then
+	--Left Side Consecutive Wins
+		if playerLeftSide then
+		--Left Side Player Wons All Rounds
+			if p1RoundsWon() == getRoundsToWin() and p2RoundsWon() == 0 then
+				setConsecutiveWins(consecutiveWins() + 1)
+		--If not Won All Rounds, Reset Consecutive Wins Count
+			elseif p2RoundsWon() > 0 then
+				setConsecutiveWins(0)
+			end
+	--Right Side Consecutive Wins
+		else
+		--Right Side Player Wons All Rounds
+			if p2RoundsWon() == getRoundsToWin() and p1RoundsWon() == 0 then
+				setConsecutiveWins(consecutiveWins() + 1)
+		--If not Won All Rounds, Reset Consecutive Wins Count
+			elseif p1RoundsWon() > 0 then
+				setConsecutiveWins(0)
+			end
+		end
+	end
+end
+
+local timerStart = 0
+local noDamageTimer = 0
+local timeBossFactor = 1
+if cpuLevel() == 8 and getGameMode() == "speedstar" then timeBossFactor = 2 end
+local function f_updateTimer()
+	setTimerFormatted(f_setTimeFormat(timerTotal()))
+	setCountdownFormatted(f_setTimeFormat(countdown()))
+--Timer Logic
+	if roundstate() == 0 then
+		timerStart = 40 --Countdown to activate timer
+	elseif roundstate() == 2 then
+		if timerStart > 0 and not script.pause.pauseMenuActive then
+			timerStart = timerStart - 1
+		end
+		if not script.pause.pauseMenuActive and timerStart == 0 and os.clock() >= nextRefresh then
+			nextRefresh = nextRefresh + tickTime
+			setTimer(timerTotal() + 1)
+			if getGameMode() == "caravan" then
+				setCountdown(countdown() - 1)
+				if countdown() == 0 then exitMatch() end
+			elseif getGameMode() == "speedstar" then
+				noDamageTimer = noDamageTimer + 1
+			end
+		end
+	end
+	sleep(0.001)
+end
+
+local tauntCnt = 0
+local throwCnt = 0
+local specialCnt = 0
+local superCnt = 0
+local colddownCnt = false
+local function f_actionsCheck()
+--Check Attack Data in both sides
+	if player(2) then
+	--Get Hit Damage
+		if gethitvar("damage") > 0 then damageHitP1 = gethitvar("damage") end
+	--Get Damage Combo
+		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
+			if gethitvar("hitcount") == 1 then damageComboP1 = 0 end --Reset Combo Damage
+			damageComboP1 = damageComboP1 + gethitvar("damage")
+			if damageComboP1 > damageMaxP1 then damageMaxP1 = damageComboP1 end --Get Max Combo Damage
+		end
+	--Get Max Combo Count
+		if gethitvar("hitcount") > maxComboCntP1 then maxComboCntP1 = gethitvar("hitcount") end
+	end
+	if player(1) then
+		if gethitvar("damage") > 0 then damageHitP2 = gethitvar("damage") end
+		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
+			if gethitvar("hitcount") == 1 then damageComboP2 = 0 end
+			damageComboP2 = damageComboP2 + gethitvar("damage")
+			if damageComboP2 > damageMaxP2 then damageMaxP2 = damageComboP2 end
+		end
+		if gethitvar("hitcount") > maxComboCntP2 then maxComboCntP2 = gethitvar("hitcount") end
+	end
+--Check Only Player Side
+	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
+		if time() == 5 then colddownCnt = false end
+	--Taunt Count
+		if anim() == 195 and time() < 2 then tauntCnt = tauntCnt + 1
+	--Throw Count
+		elseif (
+				hitdefattr() == "S, NT" or --Stand
+				hitdefattr() == "C, NT" or --Crouch
+				hitdefattr() == "A, NT" --Air
+			) then throwCnt = throwCnt + 1
+	--Special Moves Count
+		elseif hitdefattr() == "S, ST" or hitdefattr() == "C, ST" or hitdefattr() == "A, ST" and movecontact() == 1 then
+			specialCnt = specialCnt + 1 --Special Throw
+		elseif (
+				hitdefattr() == "S, SA" or
+				hitdefattr() == "C, SA" or
+				hitdefattr() == "A, SA"
+			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
+				if not colddownCnt then
+					specialCnt = specialCnt + 1
+					colddownCnt = true
+				end
+	--Super Moves Count
+		elseif hitdefattr() == "S, HT" or hitdefattr() == "C, HT" or hitdefattr() == "A, HT" and movecontact() == 1 then
+			superCnt = superCnt + 1 --Super Throw
+		elseif (
+				hitdefattr() == "S, HA" or
+				hitdefattr() == "C, HA" or
+				hitdefattr() == "A, HA"
+			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
+				if not colddownCnt then
+					superCnt = superCnt + 1
+					colddownCnt = true
+				end
+		end
+	end
 --[[
-Some Chars force his own stats (life/power) before round starts, so executing below function
-until roundstate 2 will ensure the compatibility of game mode stats restore logic with most of them.
+	f_drawQuickText(txt_debugText, font14, 0, 1, "Text: "..var(), 111, 77)
+	f_drawQuickText(txt_debugText, font14, 0, 1, "NumTarget: "..numtarget(), 111, 97)
 ]]
-local survivalStatsReady = false
-local function f_survivalStatsSet()
-	if not survivalStatsReady then
-		if playerLeftSide then
-		--For each Left Side Player Selected
-			for i=1, #p1Dat do
-				if player(p1Dat[i].pn) then
-					setLife(getLifePersistence()) --Restore Life Bar
-					setPower(getPowerPersistence()) --Restore Power Bar
-				end
-			end
-		else
-		--For each Right Side Player Selected
-			for i=1, #p2Dat do
-				if player(p2Dat[i].pn) then
-					setLife(getLifePersistence())
-					setPower(getPowerPersistence())
-				end
-			end
-		end
-	end
-	if roundstate() == 0 then survivalStatsReady = false --Reset Var
-	elseif roundstate() == 2 then survivalStatsReady = true
-	end
 end
 
-local speedstarStatsReady = false
-local function f_speedstarStatsSet()
-	if not speedstarStatsReady then
-		if playerLeftSide then
-		--For each Left Side Player Selected
-			for i=1, #p1Dat do
-				if player(p1Dat[i].pn) then
-					setPower(getPowerPersistence())
-				end
-			end
+local scoreattackfactor = 1
+if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
+local function f_updateScore()
+	local pts = 0
+	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
+		pts = gethitvar("hitcount") * 100
+		if getGameMode() == "scoreattack" or getGameMode() == "caravan" then
+			pts = pts + (gethitvar("damage") * 10)
+		end
+	end
+	setScore(score() + pts * scoreattackfactor)
+end
+
+local maxComboPlayer = 0
+local damageComboPlayer = 0
+local bonusScoreDone = false
+local perfectBonus = false
+local timeReward = 0
+local function f_addBonusScore()
+--Add Bonus Score when player wins
+	if (playerLeftSide and winnerteam() == 1 and player(1)) or (not playerLeftSide and winnerteam() == 2 and player(2)) then
+		if life() ~= lifemax() then
+			setScore(score() + (life() * 10) * scoreattackfactor) --Life remains add score
 		else
-		--For each Right Side Player Selected
-			for i=1, #p2Dat do
-				if player(p2Dat[i].pn) then
-					setPower(getPowerPersistence())
-				end
+			setScore(score() + 30000 * scoreattackfactor) --Full Life Bonus
+		end
+		if getRoundTime() > 0 then setScore(score() + ((timeremaining() / 60) * 100) * scoreattackfactor) end --Time remains add score
+		if playerLeftSide then maxComboPlayer = maxComboCntP1 else maxComboPlayer = maxComboCntP2 end
+		setScore(score() + (maxComboPlayer * 1000) * scoreattackfactor)
+		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
+		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
+		if wintime() then
+			setWinTimeCount(winTimeCount() + 1)
+		elseif winperfect() then
+			if winperfectthrow() then
+				setScore(score() + 20000 * scoreattackfactor)
+				setWinPerfectThrowCount(winPerfectThrowCount() + 1)
+			elseif winperfecthyper() then
+				setScore(score() + 25000 * scoreattackfactor)
+				setWinPerfectHyperCount(winPerfectHyperCount() + 1)
+			elseif winperfectspecial() then
+				setScore(score() + 15000 * scoreattackfactor)
+				setWinPerfectSpecialCount(winPerfectSpecialCount() + 1)
+			else
+				setScore(score() + 10000 * scoreattackfactor)
+			end
+			setWinPerfectCount(winPerfectCount() + 1)
+		elseif winko() then
+			if winthrow() then
+				setScore(score() + 3000 * scoreattackfactor)
+				setWinThrowCount(winThrowCount() + 1)
+			elseif winhyper() then
+				setScore(score() + 8000 * scoreattackfactor)
+				setWinHyperCount(winHyperCount() + 1)
+				superCnt = superCnt + 1
+			elseif winspecial() then
+				setScore(score() + 1000 * scoreattackfactor)
+				setWinSpecialCount(winSpecialCount() + 1)
 			end
 		end
-		setTime(getTimePersistence()) --Restore Round Time
-	end
-	if roundstate() == 0 then speedstarStatsReady = false --Reset Var
-	elseif roundstate() == 2 then speedstarStatsReady = true
+		if getGameMode() == "survival" then
+			setLife(life() + lifemax() / 3) --Recover Life
+		elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
+			if abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone) then
+				setLife(life() + lifemax() / 3)
+				setLifePersistence(life())
+			end
+		elseif getGameMode() == "speedstar" then
+		--Perfect Time Bonus
+			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
+				timeReward = timeReward + (speedstarPerfectBonus * timeBossFactor) * matchTimeFix
+				perfectBonus = true
+			elseif winko() then
+			--Super K.O Time Bonus
+				if winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
+			--Special K.O Time Bonus
+				elseif winspecial() then timeReward = timeReward + (2 * timeBossFactor) * matchTimeFix
+			--Normal K.O Time Bonus
+				else timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
+				end
+			end
+			if superCnt > 0 then timeReward = timeReward + (speedstarSuperBonus * matchTimeFix) end --Super Combo Time Bonus
+			timeReward = timeReward + (speedstarClearBonus * matchTimeFix) --Stage Clear Time Bonus
+			setTime(timeremaining() + timeReward) --Add Time Bonus
+			sndPlay(sndIkemen, 620, 0)
+		end
+		if persistLife() then setLifePersistence(life()) end --Save Current Player Life for Next Match
+		if persistPower() then setPowerPersistence(power()) end --Save Current Player Power Bar for Next Match
+		if persistRoundtime() then setTimePersistence(timeremaining()) end --Save Current Round Time Remaining for Next Match
+		bonusScoreDone = true
 	end
 end
+--;===========================================================
+--; ABYSS MODE STUFF
+--;===========================================================
+local abyssHitCnt = 0
+abyssHitTarget = 3 --Amount of Hits to Increase Depth
 
 local abyssStatsReady = false
-local function f_abyssStatsSet()
+local function f_abyssStatsSet() --Applies to Both Sides
 --For each Left Side Player Selected
 	for i=1, #p1Dat do
 		if player(p1Dat[i].pn) then
@@ -929,14 +1234,9 @@ local function f_abyssBossReward()
 		bufd = 0
 	end
 end
-
-function pauseMenu(p, st, esc)
-	script.pause.f_pauseMain(p, st, esc)
-end
-
-local abyssHitCnt = 0
-abyssHitTarget = 3 --Amount of Hits to Increase Depth
-
+--;===========================================================
+--; TUTORIAL MODE STUFF
+--;===========================================================
 local tutoi = 0
 local tutoDiag = 1
 local tutoClearCnt = 0
@@ -944,326 +1244,59 @@ local tutoClearAlphaS = 0
 local tutoClearAlphaD = 255
 local tutoClearX = 0
 local tutoClearAction = false
-
-local bgmState = 0
-local bgmChanged = false
-local bgmDisplayTime = 0
-local bgmBGalphaS = 0
-local bgmBGalphaD = 255
-local bgmTxTalphaS = 0
-local bgmTxTalphaD = 255
-
-local function f_setStageMusic()
-	if bgmState == 1 then
-		playBGM(bgmIntro)
-		bgmState = 0
-	end
-	if roundstate() == 0 and bgmChanged then bgmDisplayTime = 0 end --Reset BGM Display Timer
-	if data.bgmDisplay and roundstate() == 2 then
-		if bgmDisplayTime < 200 then
-			bgmDisplayTime = bgmDisplayTime + 1
-		--Display BGM Text BG
-			if bgmDisplayTime < 100 then --Fade In
-				if bgmBGalphaS < 20 then bgmBGalphaS = bgmBGalphaS + 5 end
-				if bgmBGalphaS > 20 then bgmBGalphaS = 20 end --Correction
-				if bgmBGalphaD > 50 then bgmBGalphaD = bgmBGalphaD - 5 end
-				if bgmBGalphaD < 50 then bgmBGalphaD = 50 end --Correction
-			else --Fade Out
-				if bgmBGalphaS > 0 then bgmBGalphaS = bgmBGalphaS - 5 end
-				if bgmBGalphaS < 0 then bgmBGalphaS = 0 end --Correction
-				if bgmBGalphaD < 255 then bgmBGalphaD = bgmBGalphaD + 5 end
-				if bgmBGalphaD > 255 then bgmBGalphaD = 255 end --Correction
-			end
-			animSetAlpha(stgBGMInfoBG, bgmBGalphaS, bgmBGalphaD)
-			animDraw(stgBGMInfoBG)
-			animUpdate(stgBGMInfoBG)
-		--Display BGM Text
-			if bgmDisplayTime < 100 then --Fade In
-				if bgmTxTalphaS < 255 then bgmTxTalphaS = bgmTxTalphaS + 5 end
-				if bgmTxTalphaS > 255 then bgmTxTalphaS = 255 end --Correction
-				if bgmTxTalphaD > 0 then bgmTxTalphaD = bgmTxTalphaD - 5 end
-				if bgmTxTalphaD < 0 then bgmTxTalphaD = 0 end --Correction
-			else --Fade Out
-				if bgmTxTalphaS > 0 then bgmTxTalphaS = bgmTxTalphaS - 5 end
-				if bgmTxTalphaS < 0 then bgmTxTalphaS = 0 end --Correction
-				if bgmTxTalphaD < 255 then bgmTxTalphaD = bgmTxTalphaD + 5 end
-				if bgmTxTalphaD > 255 then bgmTxTalphaD = 255 end --Correction
-			end
-			f_drawQuickText(txt_roundSndName, font2, 0, 1, "BGM: "..data.stgBGM, 0, 64, 1, 1, bgmTxTalphaS, bgmTxTalphaD)
-		end
-	end
-end
-
-local function f_demoSkip()
+function f_nextTutoText()
 	cmdInput()
---Exit when you press start or esc
-	if esc() or btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-		data.tempBack = true
-		f_saveTemp()
-		exitMatch()
+	local nextText = false
+	local revealTime = 10
+	local clearSpeedX = 5
+	if t_tutorialDiag[tutoDiag].btntonext then --Select Button will show the next text
+	--Draw Down Arrow Animation
+		animDraw(tutorialNext)
+		animUpdate(tutorialNext)
+		drawTutorialInputHints()
+		if commandGetState(p1Cmd, 'e') then nextText = true end --Select Button to advance
+	else --A player action will show the next text
+		local conditionFunc = t_tutorialDiag[tutoDiag].condition
+	--Call and check the function stored in t_tutorialDiag[tutoDiag].condition
+		if conditionFunc ~= "" and _G[conditionFunc] and _G[conditionFunc]() and not tutoClearAction then
+			tutoClearAction = true --Activate Clear Animation
+		end
+	end
+	if tutoClearAction and tutoClearCnt <= 100 then --Draw During these Ticks
+		if tutoClearCnt == 0 then sndPlay(sndTutorial, 1, 0) end --Play Clear SFX
+		--
+		if tutoClearAlphaS < 255 then tutoClearAlphaS = tutoClearAlphaS + revealTime end
+		if tutoClearAlphaS > 255 then tutoClearAlphaS = 255 end --Correction
+		if tutoClearAlphaD > 0 then tutoClearAlphaD = tutoClearAlphaD - revealTime end
+		if tutoClearAlphaD < 0 then tutoClearAlphaD = 0 end --Correction
+		animSetAlpha(tutorialClear, tutoClearAlphaS, tutoClearAlphaD)
+		--
+		if tutoClearX < 45 then tutoClearX = tutoClearX + clearSpeedX end
+		if tutoClearX > 45 then tutoClearX = 45 end
+		animSetPos(tutorialClear, tutoClearX, 120)
+		--
+		animDraw(tutorialClear)
+		animUpdate(tutorialClear)
+		tutoClearCnt = tutoClearCnt + 1
+	elseif tutoClearAction and tutoClearCnt >= 100 then --Disable Clear Animation and Restart Vars
+		tutoClearAction = false
+		tutoClearCnt = 0
+		tutoClearAlphaS = 0
+		tutoClearAlphaD = 255
+		tutoClearX = 0
+		nextText = true
+	end
+--Go to the next Dialogue
+	if nextText then
+		f_resetTutoVars()
+		tutoi = 0
+		tutoDiag = tutoDiag + 1
+		nextText = false
 	end
 end
-
-local function f_updateMatchInfo()
-	local p1Wins = getP1matchWins()
-	local p2Wins = getP2matchWins()
-	local survCnt = matchno() - 1
-	if matchover() then
-		if winnerteam() == 1 then
-			p1Wins = p1Wins + 1
-			if playerLeftSide then survCnt = (matchno() - 1) + 1 end
-		elseif winnerteam() == 2 then
-			p2Wins = p2Wins + 1
-			if not playerLeftSide then survCnt = (matchno() - 1) + 1 end
-		end
-	end
-	local matchsFinished = p1Wins + p2Wins
-	local stg = ""
---Set Match Stage Info
-	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
-	setMatchInfo(stg)
---Set CPU Level Number
-	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
-		setCPULevel(ailevel())
-	end
---Set Tournament Mode Wins Count
-	if getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
-		setP1winsFormatted(p1Wins)
-		setP2winsFormatted(p2Wins)
---Set Survival Mode Wins Count
-	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if playerLeftSide then
-			setP1winsFormatted(survCnt ..txt_SurvivalCountFight)
-		else
-			setP2winsFormatted(survCnt ..txt_SurvivalCountFight)
-		end
---Set VS Mode Wins Count
-	else
-		setP1winsFormatted(txt_WinCountFight.."("..p1Wins.."/"..matchsFinished..")")
-		setP2winsFormatted(txt_WinCountFight.."("..p2Wins.."/"..matchsFinished..")")
-	end
-end
-setP1winsFormatted("")
-setP2winsFormatted("")
-f_updateMatchInfo() --Load when match start
-
-local function f_streakWins()
-	if roundstate() == 4 and time() == 0 then
-	--Left Side Consecutive Wins
-		if playerLeftSide then
-		--Left Side Player Wons All Rounds
-			if p1RoundsWon() == getRoundsToWin() and p2RoundsWon() == 0 then
-				setConsecutiveWins(consecutiveWins() + 1)
-		--If not Won All Rounds, Reset Consecutive Wins Count
-			elseif p2RoundsWon() > 0 then
-				setConsecutiveWins(0)
-			end
-	--Right Side Consecutive Wins
-		else
-		--Right Side Player Wons All Rounds
-			if p2RoundsWon() == getRoundsToWin() and p1RoundsWon() == 0 then
-				setConsecutiveWins(consecutiveWins() + 1)
-		--If not Won All Rounds, Reset Consecutive Wins Count
-			elseif p1RoundsWon() > 0 then
-				setConsecutiveWins(0)
-			end
-		end
-	end
-end
-
-local timerStart = 0
-local noDamageTimer = 0
-local timeBossFactor = 1
-if cpuLevel() == 8 and getGameMode() == "speedstar" then timeBossFactor = 2 end
-local function f_updateTimer()
-	setTimerFormatted(f_setTimeFormat(timerTotal()))
-	setCountdownFormatted(f_setTimeFormat(countdown()))
---Timer Logic
-	if roundstate() == 0 then
-		timerStart = 40 --Countdown to activate timer
-	elseif roundstate() == 2 then
-		if timerStart > 0 and not script.pause.pauseMenuActive then
-			timerStart = timerStart - 1
-		end
-		if not script.pause.pauseMenuActive and timerStart == 0 and os.clock() >= nextRefresh then
-			nextRefresh = nextRefresh + tickTime
-			setTimer(timerTotal() + 1)
-			if getGameMode() == "caravan" then
-				setCountdown(countdown() - 1)
-				if countdown() == 0 then exitMatch() end
-			elseif getGameMode() == "speedstar" then
-				noDamageTimer = noDamageTimer + 1
-			end
-		end
-	end
-	sleep(0.001)
-end
-
-local tauntCnt = 0
-local throwCnt = 0
-local specialCnt = 0
-local superCnt = 0
-local colddownCnt = false
-local function f_actionsCheck()
---Check Attack Data in both sides
-	if player(2) then
-	--Get Hit Damage
-		if gethitvar("damage") > 0 then damageHitP1 = gethitvar("damage") end
-	--Get Damage Combo
-		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
-			if gethitvar("hitcount") == 1 then damageComboP1 = 0 end --Reset Combo Damage
-			damageComboP1 = damageComboP1 + gethitvar("damage")
-			if damageComboP1 > damageMaxP1 then damageMaxP1 = damageComboP1 end --Get Max Combo Damage
-		end
-	--Get Max Combo Count
-		if gethitvar("hitcount") > maxComboCntP1 then maxComboCntP1 = gethitvar("hitcount") end
-	end
-	if player(1) then
-		if gethitvar("damage") > 0 then damageHitP2 = gethitvar("damage") end
-		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
-			if gethitvar("hitcount") == 1 then damageComboP2 = 0 end
-			damageComboP2 = damageComboP2 + gethitvar("damage")
-			if damageComboP2 > damageMaxP2 then damageMaxP2 = damageComboP2 end
-		end
-		if gethitvar("hitcount") > maxComboCntP2 then maxComboCntP2 = gethitvar("hitcount") end
-	end
---Check Only Player Side
-	if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
-		if time() == 5 then colddownCnt = false end
-	--Taunt Count
-		if anim() == 195 and time() < 2 then tauntCnt = tauntCnt + 1
-	--Throw Count
-		elseif (
-				hitdefattr() == "S, NT" or --Stand
-				hitdefattr() == "C, NT" or --Crouch
-				hitdefattr() == "A, NT" --Air
-			) then throwCnt = throwCnt + 1
-	--Special Moves Count
-		elseif hitdefattr() == "S, ST" or hitdefattr() == "C, ST" or hitdefattr() == "A, ST" and movecontact() == 1 then
-			specialCnt = specialCnt + 1 --Special Throw
-		elseif (
-				hitdefattr() == "S, SA" or
-				hitdefattr() == "C, SA" or
-				hitdefattr() == "A, SA"
-			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
-				if not colddownCnt then
-					specialCnt = specialCnt + 1
-					colddownCnt = true
-				end
-	--Super Moves Count
-		elseif hitdefattr() == "S, HT" or hitdefattr() == "C, HT" or hitdefattr() == "A, HT" and movecontact() == 1 then
-			superCnt = superCnt + 1 --Super Throw
-		elseif (
-				hitdefattr() == "S, HA" or
-				hitdefattr() == "C, HA" or
-				hitdefattr() == "A, HA"
-			) and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
-				if not colddownCnt then
-					superCnt = superCnt + 1
-					colddownCnt = true
-				end
-		end
-	end
---[[
-	f_drawQuickText(txt_debugText, font14, 0, 1, "Text: "..var(), 111, 77)
-	f_drawQuickText(txt_debugText, font14, 0, 1, "NumTarget: "..numtarget(), 111, 97)
-]]
-end
-
-local scoreattackfactor = 1
-if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
-local function f_updateScore()
-	local pts = 0
-	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-		pts = gethitvar("hitcount") * 100
-		if getGameMode() == "scoreattack" or getGameMode() == "caravan" then
-			pts = pts + (gethitvar("damage") * 10)
-		end
-	end
-	setScore(score() + pts * scoreattackfactor)
-end
-
-local maxComboPlayer = 0
-local damageComboPlayer = 0
-local bonusScoreDone = false
-local perfectBonus = false
-local timeReward = 0
-local function f_addBonusScore()
---Add Bonus Score when player wins
-	if (playerLeftSide and winnerteam() == 1 and player(1)) or (not playerLeftSide and winnerteam() == 2 and player(2)) then
-		if life() ~= lifemax() then
-			setScore(score() + (life() * 10) * scoreattackfactor) --Life remains add score
-		else
-			setScore(score() + 30000 * scoreattackfactor) --Full Life Bonus
-		end
-		if getRoundTime() > 0 then setScore(score() + ((timeremaining() / 60) * 100) * scoreattackfactor) end --Time remains add score
-		if playerLeftSide then maxComboPlayer = maxComboCntP1 else maxComboPlayer = maxComboCntP2 end
-		setScore(score() + (maxComboPlayer * 1000) * scoreattackfactor)
-		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
-		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
-		if wintime() then
-			setWinTimeCount(winTimeCount() + 1)
-		elseif winperfect() then
-			if winperfectthrow() then
-				setScore(score() + 20000 * scoreattackfactor)
-				setWinPerfectThrowCount(winPerfectThrowCount() + 1)
-			elseif winperfecthyper() then
-				setScore(score() + 25000 * scoreattackfactor)
-				setWinPerfectHyperCount(winPerfectHyperCount() + 1)
-			elseif winperfectspecial() then
-				setScore(score() + 15000 * scoreattackfactor)
-				setWinPerfectSpecialCount(winPerfectSpecialCount() + 1)
-			else
-				setScore(score() + 10000 * scoreattackfactor)
-			end
-			setWinPerfectCount(winPerfectCount() + 1)
-		elseif winko() then
-			if winthrow() then
-				setScore(score() + 3000 * scoreattackfactor)
-				setWinThrowCount(winThrowCount() + 1)
-			elseif winhyper() then
-				setScore(score() + 8000 * scoreattackfactor)
-				setWinHyperCount(winHyperCount() + 1)
-				superCnt = superCnt + 1
-			elseif winspecial() then
-				setScore(score() + 1000 * scoreattackfactor)
-				setWinSpecialCount(winSpecialCount() + 1)
-			end
-		end
-		if getGameMode() == "survival" then
-			setLife(life() + lifemax() / 3) --Recover Life
-			setLifePersistence(life()) --Save Current Player Life for Next Match
-			setPowerPersistence(power()) --Save Current Player Power Bar for Next Match
-		elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
-			if abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone) then
-				setLife(life() + lifemax() / 3) --Recover Life
-				setLifePersistence(life())
-			end
-		elseif getGameMode() == "speedstar" then
-		--Perfect Time Bonus
-			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
-				timeReward = timeReward + (speedstarPerfectBonus * timeBossFactor) * matchTimeFix
-				perfectBonus = true
-			elseif winko() then
-			--Super K.O Time Bonus
-				if winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
-			--Special K.O Time Bonus
-				elseif winspecial() then timeReward = timeReward + (2 * timeBossFactor) * matchTimeFix
-			--Normal K.O Time Bonus
-				else timeReward = timeReward + (1 * timeBossFactor) * matchTimeFix
-				end
-			end
-			if superCnt > 0 then timeReward = timeReward + (speedstarSuperBonus * matchTimeFix) end --Super Combo Time Bonus
-			timeReward = timeReward + (speedstarClearBonus * matchTimeFix) --Stage Clear Time Bonus
-			setTime(timeremaining() + timeReward) --Add Time Bonus
-			sndPlay(sndIkemen, 620, 0)
-			setTimePersistence(timeremaining()) --Save Current Round Time Remaining for Next Match
-			setPowerPersistence(power())
-		end
-		bonusScoreDone = true
-	end
-end
-
+--;===========================================================
+--; MATCH/FIGHT LOOP (Function called during match)
+--;===========================================================
 local function f_drawDebugVars()
 	local antiPosX = 318
 	local posX = 2
@@ -1296,7 +1329,6 @@ local function f_drawDebugVars()
 	end
 end
 
---Function called during match
 function loop() --The code for this function should be thought of as if it were always inside a "while true do"
 	f_actionsCheck()
 --During Demo Mode
@@ -1306,15 +1338,8 @@ function loop() --The code for this function should be thought of as if it were 
 		f_demoSkip()
 --During VS Mode
 	elseif getGameMode() == "vs" then
-		if roundstate() <= 2 then
-			if roundstate() == 0 and roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
-			f_handicapSet()
-		elseif roundstate() == 4 then
-			handicapsReady = false --Reset Handicap Assignment for Next Round
-		end
---During Survival Mode
-	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if getGameMode() == "survival" and matchno() > 1 then f_survivalStatsSet() end
+		f_handicapSet()
+		if roundstate() == 0 and roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
 		if roundstate() ~= 4 then
@@ -1353,7 +1378,6 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
-		if matchno() > 1 then f_speedstarStatsSet() end
 		if roundstate() ~= 4 then
 			local timeBonus = 0
 			local timePenalty = 0
@@ -1480,7 +1504,7 @@ function loop() --The code for this function should be thought of as if it were 
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
 			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
 				setLife(life() + lifemax() / 2.5) --Recover Life
-				setLifePersistence(life()) --Get Current Player Life
+				setLifePersistence(life()) --Save Current Player Life
 			end
 			data.challengerAbyss = true
 			f_saveTemp()
@@ -1558,6 +1582,7 @@ function loop() --The code for this function should be thought of as if it were 
 	f_streakWins()
 	f_updateTimer()
 	f_updateScore()
+	if matchno() > 1 then f_setPlayerStats() end
 	if rewardDisplay() then setRewardFormatted(txt_RewardFight..getPlayerReward().." IKC") end
 	if roundstate() < 2 then
 		bonusScoreDone = false
@@ -1578,9 +1603,9 @@ function loop() --The code for this function should be thought of as if it were 
 			if data.debugMode then
 				local debugInfoPosX = 95
 				local debugInfoPosY = 80
-				if getLifePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Life Bar State: "..getLifePersistence(), debugInfoPosX, debugInfoPosY) end
-				if getPowerPersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), debugInfoPosX, debugInfoPosY+10) end
-				if getTimePersistence() ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, debugInfoPosX, debugInfoPosY+20) end
+				if persistLife() then f_drawQuickText(txt_fightDat, font14, 0, 1, "Life Bar State: "..getLifePersistence(), debugInfoPosX, debugInfoPosY) end
+				if persistPower() then f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), debugInfoPosX, debugInfoPosY+10) end
+				if persistRoundtime() then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, debugInfoPosX, debugInfoPosY+20) end
 				if timeReward ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Reward: "..timeReward / 60, debugInfoPosX, debugInfoPosY+30) end
 			end
 		end
@@ -1597,55 +1622,4 @@ function loop() --The code for this function should be thought of as if it were 
 		f_attractCredits(318, 238, -1)
 	end
 	f_checkAchievements()
-end
-
-function f_nextTutoText()
-	cmdInput()
-	local nextText = false
-	local revealTime = 10
-	local clearSpeedX = 5
-	if t_tutorialDiag[tutoDiag].btntonext then --Select Button will show the next text
-	--Draw Down Arrow Animation
-		animDraw(tutorialNext)
-		animUpdate(tutorialNext)
-		drawTutorialInputHints()
-		if commandGetState(p1Cmd, 'e') then nextText = true end --Select Button to advance
-	else --A player action will show the next text
-		local conditionFunc = t_tutorialDiag[tutoDiag].condition
-	--Call and check the function stored in t_tutorialDiag[tutoDiag].condition
-		if conditionFunc ~= "" and _G[conditionFunc] and _G[conditionFunc]() and not tutoClearAction then
-			tutoClearAction = true --Activate Clear Animation
-		end
-	end
-	if tutoClearAction and tutoClearCnt <= 100 then --Draw During these Ticks
-		if tutoClearCnt == 0 then sndPlay(sndTutorial, 1, 0) end --Play Clear SFX
-		--
-		if tutoClearAlphaS < 255 then tutoClearAlphaS = tutoClearAlphaS + revealTime end
-		if tutoClearAlphaS > 255 then tutoClearAlphaS = 255 end --Correction
-		if tutoClearAlphaD > 0 then tutoClearAlphaD = tutoClearAlphaD - revealTime end
-		if tutoClearAlphaD < 0 then tutoClearAlphaD = 0 end --Correction
-		animSetAlpha(tutorialClear, tutoClearAlphaS, tutoClearAlphaD)
-		--
-		if tutoClearX < 45 then tutoClearX = tutoClearX + clearSpeedX end
-		if tutoClearX > 45 then tutoClearX = 45 end
-		animSetPos(tutorialClear, tutoClearX, 120)
-		--
-		animDraw(tutorialClear)
-		animUpdate(tutorialClear)
-		tutoClearCnt = tutoClearCnt + 1
-	elseif tutoClearAction and tutoClearCnt >= 100 then --Disable Clear Animation and Restart Vars
-		tutoClearAction = false
-		tutoClearCnt = 0
-		tutoClearAlphaS = 0
-		tutoClearAlphaD = 255
-		tutoClearX = 0
-		nextText = true
-	end
---Go to the next Dialogue
-	if nextText then
-		f_resetTutoVars()
-		tutoi = 0
-		tutoDiag = tutoDiag + 1
-		nextText = false
-	end
 end
