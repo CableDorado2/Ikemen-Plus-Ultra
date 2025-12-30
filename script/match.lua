@@ -295,6 +295,10 @@ local function f_handicapSet() -- Need to load with roundstate 2 for better comp
 	end
 end
 
+--[[
+Some Chars force his own stats (life/power) before round starts, so executing below function
+until roundstate 2 will ensure the compatibility of game mode stats restore logic with most of them.
+]]
 local survivalStatsReady = false
 local function f_survivalStatsSet()
 	if not survivalStatsReady then
@@ -315,7 +319,9 @@ local function f_survivalStatsSet()
 				end
 			end
 		end
-		survivalStatsReady = true
+	end
+	if roundstate() == 0 then survivalStatsReady = false --Reset Var
+	elseif roundstate() == 2 then survivalStatsReady = true
 	end
 end
 
@@ -337,7 +343,10 @@ local function f_speedstarStatsSet()
 				end
 			end
 		end
-		speedstarStatsReady = true
+		setTime(getTimePersistence()) --Restore Round Time
+	end
+	if roundstate() == 0 then speedstarStatsReady = false --Reset Var
+	elseif roundstate() == 2 then speedstarStatsReady = true
 	end
 end
 
@@ -1002,10 +1011,10 @@ local function f_updateMatchInfo()
 	if matchover() then
 		if winnerteam() == 1 then
 			p1Wins = p1Wins + 1
-			survCnt = (matchno() - 1) + 1
+			if playerLeftSide then survCnt = (matchno() - 1) + 1 end
 		elseif winnerteam() == 2 then
 			p2Wins = p2Wins + 1
-			survCnt = (matchno() - 1) + 1
+			if not playerLeftSide then survCnt = (matchno() - 1) + 1 end
 		end
 	end
 	local matchsFinished = p1Wins + p2Wins
@@ -1305,9 +1314,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Survival Mode
 	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
-		if roundstate() <= 2 then
-			if getGameMode() == "survival" and matchno() > 1 then f_survivalStatsSet() end
-		end
+		if getGameMode() == "survival" and matchno() > 1 then f_survivalStatsSet() end
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
 		if roundstate() ~= 4 then
@@ -1346,11 +1353,8 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Speed Star Mode
 	elseif getGameMode() == "speedstar" then
+		if matchno() > 1 then f_speedstarStatsSet() end
 		if roundstate() ~= 4 then
-			if roundstate() <= 2 then
-				setTime(getTimePersistence()) --Restore Round Time
-				if matchno() > 1 then f_speedstarStatsSet() end
-			end
 			local timeBonus = 0
 			local timePenalty = 0
 		--Check Bonus Actions
