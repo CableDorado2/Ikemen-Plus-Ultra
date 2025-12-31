@@ -13139,9 +13139,9 @@ function f_selectWin()
 			f_victories() --Store Player Victories
 		end
 		if data.winscreen == "Fixed" or not data.victoryscreen then --Permanent Victory Quotes when Left Side Wins
-			txt = "READY FOR THE NEXT BATTLE?"
+			txt = winquoteFixed
 		else --Victory Quotes from Left Side char
-			txt = f_winParse(t_selChars[data.t_p1selected[1].cel + 1], t_selChars[data.t_p2selected[1].cel + 1], data.t_p2selected[1].pal, #data.t_p2selected)
+			txt = f_winParse(t_selChars[data.t_p1selected[1].cel + 1], winner)
 		end
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
@@ -13156,12 +13156,12 @@ function f_selectWin()
 			--f_loseMoney()
 		end
 		if data.winscreen == "Fixed" or not data.victoryscreen then --Permanent Victory Quotes when Right Side Wins
-			txt = "READY FOR THE NEXT BATTLE?"
+			txt = winquoteFixed
 		else --Victory Quotes from Right Side char
-			txt = f_winParse(t_selChars[data.t_p2selected[1].cel + 1], t_selChars[data.t_p1selected[1].cel + 1], data.t_p1selected[1].pal, #data.t_p1selected)
+			txt = f_winParse(t_selChars[data.t_p2selected[1].cel + 1], winner)
 		end
 	end
-	if txt == "" or txt == nil then txt = "I am the winner!" end --In case that f_winParse returns "nothing"
+	if txt == "" or txt == nil then txt = winquoteDefault end --In case that f_winParse returns "nothing"
 --Portraits Scale Logic
 	for j=#winnerSide, 1, -1 do
 		charData = t_selChars[winnerSide[j].cel + 1]
@@ -13335,157 +13335,28 @@ function f_selectWin()
 		refresh()
 	end
 end
---[[
-The problem with the following function f_winParse is that since it's outside the match, there are triggers
-like those in life that can't be evaluated and are omitted.
-There are also cases where using brackets [1,2] causes an error in Lua because they aren't processed that way.
-They must be sent to a table.
-]]
-function f_winParse(winner, looser, pal)
+
+function f_winParse(winner, pn) --Improved by PlasmoidThunder
 	local quote = -1
 	local logVar = winner.name .. '\n'
 	if winner.quotes ~= nil then
-		if #winner.trigger == 0 then
-			logVar = logVar .. '0 triggers found\n'
-			local i = 0
-			for k,v in pairs(winner.quotes) do
-				i = i + 1
-			end
-			if i ~= 0 then
-				logVar = logVar .. 'quote = random value from all ' .. i .. ' available quotes\n'
-				quote = math.random(1, i)
-				i = 0
-				for k,v in pairs(winner.quotes) do
-					i = i + 1
-					if i == quote then
-						quote = k
-					end
-				end
-			else
-				logVar = logVar .. '0 quotes found\n'
-			end
-		else
-			for i=1, #winner.trigger do
-				local value = 0
-				local trigger = false
-				local condition = false
-				local triggerall = true
-				local triggerCnt = 0
-				logVar = logVar .. 'condition: ' .. i .. '\n'
-				for k,v in pairs(winner.trigger[i]) do
-					if k == 'value' then
-						logVar = logVar .. ' value\n  before: ' .. v .. '\n'
-						v = v:gsub('%s*', '')
-						if tonumber(v) then
-							value = tonumber(v)
-						else
-							v = v:gsub('ifelse%s*%([^,]+,[^,]+,(.+)', '(%1') --always return else value
-							v = v:gsub('var%s*%(%s*[0-9]+%s*%)%s*[><=!]+', '0*')
-							v = v:gsub('var%s*%(%s*[0-9]+%s*%)', '0')
-							v = v:gsub('ceil%s*%(', 'math.ceil(')
-							v = v:gsub('random', 'math.random(0,999)')
-							v = v:gsub('%%', '*1/1000*')
-							f = assert(loadstring('return ' .. v))
-							value = f()
-							if tonumber(value) then
-								value = tonumber(value)
-								value = math.floor(value)
-							else
-								value = -1
-							end
-						end
-						logVar = logVar .. '  after: ' .. v .. '\n  result: ' .. value .. '\n'
-					else --trigger
-						local skip = false
-						if k == 'all' then
-							logVar = logVar .. ' triggerall' .. '\n  before: ' .. v .. '\n'
-							if v:match('numenemy') then
-								skip = false --Added condition for numenemy to always be true (WHY THE FUCK WOULD THERE BE NO ENEMY TO READ WINQUOTES OFF OF!!!!)
-								--logVar = logVar .. '  after: skipped\n'
-							elseif v:match('numpartner') then
-								skip = true
-								logVar = logVar .. '  after: skipped\n'
-							elseif v:match('numhelper') then
-								skip = true
-								logVar = logVar .. '  after: skipped\n'
-							elseif v:match('ishelper') then
-								skip = true
-								logVar = logVar .. '  after: skipped\n'
-							elseif v:match('numtarget') then
-								skip = true
-								logVar = logVar .. '  after: skipped\n'
-							elseif v:match('playeridexist') then
-								skip = true
-								logVar = logVar .. '  after: skipped\n'
-							end
-						else
-							logVar = logVar .. ' trigger' .. '\n  before: ' .. v .. '\n'
-							triggerCnt = triggerCnt + 1
-						end
-						if not skip then
-							if v:match('numexplod') then
-								trigger = false
-								logVar = logVar .. '  after: false\n  result: false\n'
-							elseif v:match('helper%s*%([^,]+,') then
-								trigger = false
-								logVar = logVar .. '  after: false\n  result: false\n'
-							elseif v:match('s?e?l?f?animexist%s*%([^%)]+%)') then
-								trigger = false
-								logVar = logVar .. '  after: false\n  result: false\n'
-							else
-								v = v:gsub('^%s*1%s*$', 'true')
-								v = v:gsub('!%s*time', 'true')
-								v = v:gsub('enemyn?e?a?r?%s*,', '')
-								v = v:gsub('ifelse%s*%([^,]+,[^,]+,(.+)', '(%1')
-								v = v:gsub('var%s*%(%s*[0-9]+%s*%)%s*(=?)', '0%1%1')
-								v = v:gsub('life%s*=', '1000 ==')
-								v = v:gsub('life%s*%s*([<>!])', '1000 %1')
-								v = v:gsub('winperfect', 'false')
-								v = v:gsub('wintime', 'false')
-								v = v:gsub('winko', 'false')
-								v = v:gsub('ceil%s*%(', 'math.ceil(')
-								v = v:gsub('!=', '~=')
-								v = v:gsub('!', ' not ')
-								v = v:gsub('||', ' or ')
-								v = v:gsub('&&', ' and ')
-								v = v:gsub('authorname%s*=', '"' .. looser.author .. '"==')
-								v = v:gsub('name%s*=', '"' .. looser.name .. '"==')
-								v = v:gsub('palno%s*=%s*%[%s*([0-9]+)%s*,%s*([0-9]+)%s*%]', '(' .. pal .. '>=%1 and ' .. pal .. '<=%2)')
-								v = v:gsub('palno%s*~=%s*%[%s*([0-9]+)%s*,%s*([0-9]+)%s*%]', '(' .. pal .. '<%1 or ' .. pal .. '>%2)') --Added this case
-								v = v:gsub('numenemy', 'true') --ALWAYS assume there was an enemy...
-								v = v:gsub('palno%s*=', pal .. '==')
-								v = v:gsub('random', 'math.random(0,999)')
-								v = v:gsub('%%', '*1/1000*')
-								f = assert(loadstring('if ' .. v .. ' then return true else return false end'))
-								trigger = f()
-								logVar = logVar .. '  after: ' .. v .. '\n  result: ' .. tostring(trigger) .. '\n'
-							end
-							--triggerall == false
-							if k == 'all' and not trigger then
-								triggerall = false
-							--triggerX == true
-							elseif k ~= 'all' and trigger then
-								condition = true
-							end
-						end
-					end
-				end
-				if triggerall and (condition or triggerCnt == 0) then
-					quote = value
+		if getQuoteID(pn) >= 0 then
+			for i=1, #winner.quotes do
+				if winner.quotes[i].num == getQuoteID(pn) then
+					quote = i
+					break
 				end
 			end
 		end
-		quote = tostring(quote) --quotes table keys are strings
-		if winner.quotes[quote] ~= nil then
-			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: yes', 'save/debug/quotes.log')
-			return winner.quotes[quote]
+		if quote == -1 then
+			quote = math.random(1, #winner.quotes)
+			logVar = logVar .. 'Selected quote ' .. quote .. ' from a total of ' .. #winner.quotes .. ':\n\n'
 		else
-			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: no', 'save/debug/quotes.log')
-			return ''
+			logVar = logVar .. 'VictoryQuote forced selected quote ID to ' .. getQuoteID(pn) .. ', which is quote ' .. quote .. ':\n\n'
 		end
+		return winner.quotes[quote].txt
 	else
-		f_printVar(logVar .. '0 triggers found\n0 quotes found\n\nquote: -1\nexists: no', 'save/debug/quotes.log')
-		return ''
+		return winquoteDefault --from screenpack.lua
 	end
 end
 

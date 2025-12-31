@@ -2000,6 +2000,17 @@ void setTurnsRecoveryRate(&.lua.State L=, int re=)
   .com.turnsRecoveryRate = tr;
 }
 
+void getQuoteID(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = -1;
+  int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.chr.chars >= pn){
+    id = .chr.chars[pn-1]<>~quoteID;
+  }
+  L.pushNumber((double)id);
+}
+
 void setZoom(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2341,6 +2352,7 @@ public void init(&.lua.State L=)
   L.register("setPowerMul", .setPowerMul);
   L.register("setTeam1VS2Life", .setTeam1VS2Life);
   L.register("setTurnsRecoveryRate", .setTurnsRecoveryRate);
+  L.register("getQuoteID", .getQuoteID);
   L.register("setZoom", .setZoom);
   L.register("setZoomMin", .setZoomMin);
   L.register("setZoomMax", .setZoomMax);

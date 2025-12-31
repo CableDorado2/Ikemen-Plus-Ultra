@@ -2316,7 +2316,9 @@ end
 txt_winnername = createTextImg(jgFnt, 0, 1, "", 20, 162)
 txt_winquote = createTextImg(font2, 0, 1, "", 0, 0)
 txt_winquoteFix = createTextImg(jgFnt, 0, 1, "", 20, 162)
-	
+winquoteDefault = "I'm the Winner!"
+winquoteFixed = "GET READY FOR THE NEXT BATTLE!"
+
 --Win Char Modern Transparent BG
 wincharBG = animNew(sprSys, [[
 100,1, 20,13, -1, 0, s

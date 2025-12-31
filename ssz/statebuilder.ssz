@@ -3434,6 +3434,8 @@ public &StateBuilder
         if(!`tagOut(am=)) ret false;
       case .CtrlTy::RemapPal:
         if(!`remapPal(am=)) ret false;
+	  case .CtrlTy::VictoryQuote:
+        if(!`victoryQuote(am=)) ret false;
       case .CtrlTy::Zoom:
         if(!`zoom(am=)) ret false;
 	  case .CtrlTy::AbyssDepthAdd:
@@ -8005,6 +8007,25 @@ public &StateBuilder
         ret false;
       }
       `state.ctrlList[-1].task .= "`trRemapPal(sg,sn,dg,dn);";
+      ret true;
+    }]);
+  }
+  bool victoryQuote(&.tbl.NameTable!^/char? param=)
+  {
+    ret `stateSec(param=,[bool(){
+      bool value = false;
+      if(!`stateParam(param=, "value", [`paraF_t(data=){
+        value = true;
+        if(
+          !`fullExpression(
+            `state.ctrlList[-1].task=, data=,
+            "`quoteID=", ";", 2)) ret false;
+        ret true;
+      }])) ret false;
+      if(!value){
+        `lasterror = "value not specified";
+        ret false;
+      }
       ret true;
     }]);
   }

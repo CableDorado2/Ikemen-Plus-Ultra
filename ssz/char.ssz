@@ -2109,6 +2109,7 @@ public &Char
   public ^&.act.Frame curFrame;
   public %&.snd.Sound sounds;
   public index cpucmd = -1, frccmd = -1;
+  public int quoteID = -1;
   public method$void() stateDef = dummy, state = dummy, state_1 = dummy,
     state_2 = dummy, state_3 = dummy, state_i1 = dummy;
   type action_t = &.act.Action;

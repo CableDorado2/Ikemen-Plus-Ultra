@@ -378,8 +378,9 @@ function f_parseChar(t, cel)
 		local quotes = false
 		if io.open(cnsPath or '','r') ~= nil then
 			for line in io.lines(cnsPath) do
-				--line = line:lower()
-				line = line:gsub('%s*;.*$', '')
+				if line:match('"%s*;.*$') then
+					line = line:gsub('"%s*;.*$', '"')
+				end
 				if line:match('^%s*[Xx][Ss][Cc][Aa][Ll][Ee]%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					t['xscale'] = line:gsub('^%s*[Xx][Ss][Cc][Aa][Ll][Ee]%s*=%s*(.-)%s*$', '%1')
@@ -388,61 +389,20 @@ function f_parseChar(t, cel)
 					t['yscale'] = line:gsub('^%s*[Yy][Ss][Cc][Aa][Ll][Ee]%s*=%s*(.-)%s*$', '%1')
 				elseif line:match('^%s*%[%s*[Qq][Uu][Oo][Tt][Ee][Ss]%s*%]') then
 					t['quotes'] = {}
-					t['trigger'] = {}
 					quotes = true
+					cnt = 1
 				elseif quotes then
 					if line:match('^%s*[Vv][Ii][Cc][Tt][Oo][Rr][Yy][0-9]+%s*=') then
 						local tmp, tmp2 = line:match('^%s*[Vv][Ii][Cc][Tt][Oo][Rr][Yy]([0-9]+)%s*=%s*"%s*(.-)%s*"%s*$')
 						if tmp ~= nil and tmp2 ~= nil then
-							t.quotes[tmp] = tmp2
+							t.quotes[cnt] = {}
+							t.quotes[cnt]['txt'] = tmp2
+							t.quotes[cnt]['num'] = tonumber(tmp)
+							cnt = cnt + 1
 						end
 					elseif line:match('^%s*%[') then
 						break
 					end
-				end
-			end
-		end
-		if quotes and stPath ~= '' then
-			local trigger = false
-			local tPos = ''
-			for i=1, #t.st do
-				if io.open(t.st[i] or '','r') ~= nil then
-					for line in io.lines(t.st[i]) do
-						line = line:lower()
-						line = line:gsub('%s*;.*$', '')
-						if line:match('^%s*type%s*=%s*victoryquote') then
-							trigger = true
-							t.trigger[#t.trigger + 1] = {}
-							tPos = t.trigger[#t.trigger]
-							tPos['value'] = 0
-							oldTrigger = ''
-						elseif trigger then
-							line = line:gsub('^%s*(.-)%s*$', '%1')
-							if line:match('^type%s*=') then
-								break
-							elseif line:match('^trigger') then
-								local newTrigger = line:match('^(trigger[0-9]*a?l?l?)')
-								if oldTrigger == newTrigger then
-									if line:match('^triggerall') then
-										tPos['all'] = '(' .. tPos['all'] .. ') && (' .. line:gsub('triggerall%s*=%s*', '') .. ')'
-									else
-										tPos[#tPos] = '(' .. tPos[#tPos] .. ') && (' .. line:gsub('trigger[0-9]*%s*=%s*', '') .. ')'
-									end
-								elseif line:match('^triggerall') then
-									oldTrigger = newTrigger
-									tPos['all'] = line:gsub('triggerall%s*=%s*', '')
-								else
-									oldTrigger = newTrigger
-									tPos[#tPos + 1] = line:gsub('trigger[0-9]*%s*=%s*', '')
-								end
-							elseif line:match('^value%s*=') then
-								tPos['value'] = line:match('=%s*(.-)%s*$')
-							end
-						end
-					end
-				end
-				if trigger then
-					break
 				end
 			end
 		end
