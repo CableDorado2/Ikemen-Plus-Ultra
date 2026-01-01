@@ -657,35 +657,51 @@ local abyssHitCnt = 0
 abyssHitTarget = 3 --Amount of Hits to Increase Depth
 
 local abyssStatsReady = false
+local abyssDefAtkReady = false
+local abyssLifeMaxReady = false
 local function f_abyssStatsSet() --Applies to Both Sides
---For each Left Side Player Selected
-	for i=1, #p1Dat do
-		if player(p1Dat[i].pn) then
-			setLifeMax(lifemax() + (p1Dat[i].life * 10))
-			setPower(p1Dat[i].power * 10)
-			setAttack(attack() + (p1Dat[i].attack * 10))
-			setDefence(defence() + (p1Dat[i].defence * 10))
-			if playerLeftSide then --Only Player
-			--Since Max life can be another value, use it to calculate current residual life
-				local residualLife = lifemax() - getLifePersistence()
-				if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
+	if not abyssStatsReady then
+	--For each Left Side Player Selected
+		for i=1, #p1Dat do
+			if player(p1Dat[i].pn) then
+				setPower(p1Dat[i].power * 10)
+				if not abyssLifeMaxReady then setLifeMax(lifemax() + (p1Dat[i].life * 10)) end
+				if roundstate() == 2 and not abyssDefAtkReady then
+					setAttack(attack() + (p1Dat[i].attack * 10))
+					setDefence(defence() + (p1Dat[i].defence * 10))
+				end
+				if playerLeftSide then --Only Player
+				--Since Max life can be another value, use it to calculate current residual life
+					local residualLife = lifemax() - getLifePersistence()
+					if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
+				end
 			end
 		end
-	end
---For each Right Side Player Selected
-	for i=1, #p2Dat do
-		if player(p2Dat[i].pn) then
-			setLifeMax(lifemax() + (p2Dat[i].life * 10))
-			setPower(p2Dat[i].power * 10)
-			setAttack(attack() + (p2Dat[i].attack * 10))
-			setDefence(defence() + (p2Dat[i].defence * 10))
-			if not playerLeftSide then
-				local residualLife = lifemax() - getLifePersistence()
-				if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
+	--For each Right Side Player Selected
+		for i=1, #p2Dat do
+			if player(p2Dat[i].pn) then
+				setPower(p2Dat[i].power * 10)
+				if not abyssLifeMaxReady then setLifeMax(lifemax() + (p2Dat[i].life * 10)) end
+				if roundstate() == 2 and not abyssDefAtkReady then
+					setAttack(attack() + (p2Dat[i].attack * 10))
+					setDefence(defence() + (p2Dat[i].defence * 10))
+				end
+				if not playerLeftSide then
+					local residualLife = lifemax() - getLifePersistence()
+					if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
+				end
 			end
 		end
+		abyssLifeMaxReady = true
 	end
-	abyssStatsReady = true
+--Need to be loaded until roundstate 2 for better compatibility with most chars
+	if roundstate() == 0 then
+		abyssStatsReady = false --Reset Abyss Stats Assignment for Next Round
+		abyssLifeMaxReady = false
+	elseif roundstate() == 2 then
+		abyssDefAtkReady = true
+		abyssStatsReady = true --End Abyss Stats Assignment
+	end
 end
 
 local function f_applyToSide(side, atrib, val)
@@ -1475,8 +1491,12 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
+		f_abyssStatsSet() --Set Abyss Stats
+	--Set Abyss Special Items
+		f_abyssItemsSet()
+		f_abyssItemsSetCPU()
 	--Increase Abyss Depth Counter
-		if abyssbossfight() == 0 and roundstate() == 2 then
+		if abyssbossfight() == 0 and roundstate() >= 2 then
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and gethitvar("hitcount") >= 1 and time() == 0 then
 				abyssHitCnt = abyssHitCnt + 1
 			end
@@ -1494,13 +1514,6 @@ function loop() --The code for this function should be thought of as if it were 
 			sndPlay(sndIkemen, 610, 0)
 			abyssHitCnt = 0 --Reset Hit Cnt
 		end
-	--Set Abyss Stats
-		if roundno() == 1 and roundstate() == 2 then
-			if not abyssStatsReady then f_abyssStatsSet() end
-		end
-	--Set Abyss Special Items
-		f_abyssItemsSet()
-		f_abyssItemsSetCPU()
 	--Boss Challenger Intermission
 		if abyssdepth() == abyssdepthboss() or abyssdepth() == abyssdepthbossspecial() then
 			if (playerLeftSide and player(1) or not playerLeftSide and player(2)) then
@@ -1527,7 +1540,7 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 			end
 		end
-	--Boss Rewards
+	--Boss Defeated Rewards
 		if abyssbossfight() == 1 and roundstate() == 4 and not abyssRewardDone then
 			if matchover() and (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 				if not abyssPause then
@@ -1583,8 +1596,8 @@ function loop() --The code for this function should be thought of as if it were 
 	f_streakWins()
 	f_updateTimer()
 	f_updateScore()
-	if matchno() > 1 then f_setPlayerStats() end
 	if rewardDisplay() then setRewardFormatted(txt_RewardFight..getPlayerReward().." IKC") end
+	if matchno() > 1 then f_setPlayerStats() end
 	if roundstate() < 2 then
 		bonusScoreDone = false
 	elseif roundstate() == 4 then
