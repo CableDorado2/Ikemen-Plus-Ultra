@@ -24,7 +24,7 @@ Copyright (c) 2021 Yamori X
 Copyright (c) 2021 Jade Midori
 Copyright (c) 2023 PlasmoidThunder
 Copyright (c) 2025 Strong FS
-Copyright (c) 2025 CD2
+Copyright (c) 2026 CD2
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files

@@ -348,6 +348,7 @@ until roundstate is 2, will ensure the compatibility of game mode stats restore 
 end
 
 local handicapsReady = false
+local handicapDefReady = false
 local function f_handicapSet() --Applies to Both Sides
 	if not handicapsReady then
 		for side=1, 2 do
@@ -375,9 +376,9 @@ local function f_handicapSet() --Applies to Both Sides
 							setPower(t_handicapSelect[pDat[i].handicap].val)
 						end
 				--Defence/Armor Handicaps (Based in Guilty Gear Xrd -Revelator-)
-					elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 then
+					elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 and roundstate() == 2 then
 					--Defence at 75%, 50%, 25%...
-						if t_handicapSelect[pDat[i].handicap].val ~= nil then
+						if t_handicapSelect[pDat[i].handicap].val ~= nil and not handicapDefReady then
 							setDefence(math.floor(defence() / t_handicapSelect[pDat[i].handicap].val))
 						end
 					end
@@ -387,7 +388,7 @@ local function f_handicapSet() --Applies to Both Sides
 	end
 --Need to be loaded until roundstate 2 for better compatibility with most chars
 	if roundstate() == 0 then handicapsReady = false --Reset Handicap Assignment for Next Round
-	elseif roundstate() == 2 then handicapsReady = true --End Handicap Assignment
+	elseif roundstate() == 2 then handicapDefReady = true handicapsReady = true --End Handicap Assignment
 	end
 end
 
@@ -1339,7 +1340,7 @@ function loop() --The code for this function should be thought of as if it were 
 --During VS Mode
 	elseif getGameMode() == "vs" then
 		f_handicapSet()
-		if roundstate() == 0 and roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
+		--if roundstate() == 0 and roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
 --During Gold Rush Mode
 	elseif getGameMode() == "goldrush" then
 		if roundstate() ~= 4 then
