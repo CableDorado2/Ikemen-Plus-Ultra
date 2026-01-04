@@ -4423,7 +4423,7 @@ animSetScale(speedstarInfoBG, 182, 32)
 animSetAlpha(speedstarInfoBG, 0, 125)
 animUpdate(speedstarInfoBG)
 
-speedstarClearBonus = 20
+speedstarClearBonus = 10
 speedstarSuperBonus = 5
 speedstarPerfectBonus = 15
 

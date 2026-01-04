@@ -657,49 +657,51 @@ local abyssHitCnt = 0
 abyssHitTarget = 3 --Amount of Hits to Increase Depth
 
 local abyssStatsReady = false
-local abyssDefAtkReady = false
-local abyssLifeMaxReady = false
+local abyssAtribsReady = false
 local function f_abyssStatsSet() --Applies to Both Sides
 	if not abyssStatsReady then
 	--For each Left Side Player Selected
 		for i=1, #p1Dat do
 			if player(p1Dat[i].pn) then
-				setPower(p1Dat[i].power * 10)
-				if not abyssLifeMaxReady then setLifeMax(lifemax() + (p1Dat[i].life * 10)) end
-				if roundstate() == 2 and not abyssDefAtkReady then
+				setPower(p1Dat[i].power * 100)
+				if roundstate() == 2 and not abyssAtribsReady then
+					setLifeMax(lifemax() + (p1Dat[i].life * 10))
 					setAttack(attack() + (p1Dat[i].attack * 10))
 					setDefence(defence() + (p1Dat[i].defence * 10))
+					if playerLeftSide then --Only Player
+					--Since Max life can be another value, use it to calculate current residual life
+						if abyssdepth() > 1 and getLifePersistence() ~= 0 then
+							local residualLife = lifemax() - getLifePersistence()
+							setLife(lifemax() - residualLife)
+						end
+					end
 				end
-				if playerLeftSide then --Only Player
-				--Since Max life can be another value, use it to calculate current residual life
-					local residualLife = lifemax() - getLifePersistence()
-					if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
-				end
+				
 			end
 		end
 	--For each Right Side Player Selected
 		for i=1, #p2Dat do
 			if player(p2Dat[i].pn) then
-				setPower(p2Dat[i].power * 10)
-				if not abyssLifeMaxReady then setLifeMax(lifemax() + (p2Dat[i].life * 10)) end
-				if roundstate() == 2 and not abyssDefAtkReady then
+				setPower(p2Dat[i].power * 100)
+				if roundstate() == 2 and not abyssAtribsReady then
+					setLifeMax(lifemax() + (p2Dat[i].life * 10))
 					setAttack(attack() + (p2Dat[i].attack * 10))
 					setDefence(defence() + (p2Dat[i].defence * 10))
-				end
-				if not playerLeftSide then
-					local residualLife = lifemax() - getLifePersistence()
-					if abyssdepth() > 1 then setLife(lifemax() - residualLife) end
+					if not playerLeftSide then
+						if abyssdepth() > 1 and getLifePersistence() ~= 0 then
+							local residualLife = lifemax() - getLifePersistence()
+							setLife(lifemax() - residualLife)
+						end
+					end
 				end
 			end
 		end
-		abyssLifeMaxReady = true
 	end
 --Need to be loaded until roundstate 2 for better compatibility with most chars
 	if roundstate() == 0 then
 		abyssStatsReady = false --Reset Abyss Stats Assignment for Next Round
-		abyssLifeMaxReady = false
 	elseif roundstate() == 2 then
-		abyssDefAtkReady = true
+		abyssAtribsReady = true
 		abyssStatsReady = true --End Abyss Stats Assignment
 	end
 end
