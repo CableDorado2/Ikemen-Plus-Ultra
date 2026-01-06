@@ -157,6 +157,10 @@ Saved Team en Dragon Ball Fighterz:
 
 - Detección al reconectar un mando.
 
+- Hacer realidad las funciones del menú Netplay Settings.
+
+- En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
+
 **v1.8**
 ------------
 
@@ -175,21 +179,21 @@ Saved Team en Dragon Ball Fighterz:
 **v1.9**
 ------------
 
-- Hacer realidad las funciones del menú Netplay Settings.
-
-- En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
-
-- Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
-
----------------------
-v2.0 (Final Release)
----------------------
+- Ver qué posibilidad existe para jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
 - Añadir Rollback Netcode.
 
 - Ordenar código y simplificar lo necesario.
 
-- Portear el Engine a Linux, MacOS, Android y iOS.
+---------------------
+v2.0 (Final Release)
+---------------------
+
+- Portear el Engine a:
+  - Linux
+  - MacOS
+  - Android
+  - iOS
 
 ## Tutorials
 **Basic:**
