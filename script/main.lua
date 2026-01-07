@@ -8017,11 +8017,11 @@ function f_selectScreen()
 --Handicap Select
 	if data.gameMode == "versus" or data.ftcontrol == -1 then
 	--Player 1
-		if p1PalEnd and not p1HandicapEnd then
+		if (data.palType == "Modern" and p1PalEnd and not p1HandicapEnd) or (data.palType == "Classic" and p1CharEnd and not p1HandicapEnd) then
 			f_p1SelectHandicap()
 		end
 	--Player 2
-		if p2PalEnd and not p2HandicapEnd then
+		if (data.palType == "Modern" and p2PalEnd and not p2HandicapEnd) or (data.palType == "Classic" and p2CharEnd and not p2HandicapEnd) then
 			f_p2SelectHandicap()
 		end
 	end
@@ -9541,7 +9541,11 @@ function f_p1SelectHandicap()
 --Back to Palette Selection
 	elseif commandGetState(p1Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
-		p1PalEnd = false
+		if data.palType == "Classic" then
+			p1CharEnd = false --Back to Character Selection
+		else
+			p1PalEnd = false --Back to Palette Select
+		end
 		cmdInput()
 	end
 end
@@ -10954,7 +10958,11 @@ function f_p2SelectHandicap()
 		cmdInput()
 	elseif commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
-		p2PalEnd = false
+		if data.palType == "Classic" then
+			p2CharEnd = false
+		else
+			p2PalEnd = false
+		end
 		cmdInput()
 	end
 end
