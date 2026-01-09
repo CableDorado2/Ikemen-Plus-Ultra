@@ -57,6 +57,7 @@ bgmTower = "sound/system/Tower.mp3"
 bgmTourney = "sound/system/Tourney.mp3"
 bgmTourneyChampion = "sound/system/Champion.mp3"
 bgmAbyss = "sound/system/Abyss.mp3"
+bgmAlliance = "sound/system/Alliance.mp3"
 
 --Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -3523,6 +3524,154 @@ tourneyAwards = animNew(sprIkemen, [[
 ]])
 animAddPos(tourneyAwards, 0, 0)
 animUpdate(tourneyAwards)
+
+--;===========================================================
+--; ALLIANCE SELECT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_allianceSel = createTextImg(font11, 0, 0, "ALLIANCE SELECT", 159, 30, 1.2, 1.2)
+txt_allianceCourse = createTextImg(font20, 1, 0, "COURSE", 0, 0)
+txt_allianceInfo = createTextImg(font5, 0, 0, "", 159, 200)
+
+t_allianceLvSel = { --TODO: Generate this via .def file format for end-user comfortable customization
+	{fights = 6, cpustats = 0, ailevel = 1, info = "[Easy] difficulty geared towards beginners",
+		enemyteam = {
+		--Enemy Team 1
+			{
+				char = { --Enemy Characters Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+					"Kung Fu Man", --Leader
+					"Kung Fu Girl",
+					"Kung Fu Man/Master/Master Kung Fu Man.def",
+					"Kung Fu Man/Evil/Evil Kung Fu Man.def"
+				},
+				stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+				--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
+				stats = 5, --Enemy stats (life, power, attack, defence)
+				pal = 1, --Palette
+				ailevel = 8 --CPU Level
+			},
+		--Enemy Team 2
+			{
+				char = {
+					"Kung Fu Girl", --Leader
+					"Kung Fu Man",
+					"Kung Fu Man",
+					"Kung Fu Man"
+				},
+				stage = "stages/Mountainside Temple/Lobby Night.def",
+				stats = 10,
+				pal = 1,
+				ailevel = 8
+			},
+		--Enemy Team 3
+			{
+				char = {
+					"Suave Dude", --Leader
+					"Kung Fu Man",
+					"Kung Fu Man",
+					"Kung Fu Man"
+				},
+				stage = "stages/Mountainside Temple/Outside.def",
+				music = "sound/Death Corridor.mp3",
+				stats = 15,
+				pal = 1,
+				ailevel = 8
+			},
+		--Enemy Team 4
+			{
+				char = {
+					"Reika Murasame", --Leader
+					"Kung Fu Man",
+					"Kung Fu Man",
+					"Kung Fu Man"
+				},
+				stage = "stages/Mountainside Temple/Temple Entrance Night.def",
+				--music = "sound/",
+				depth = 500,
+				stats = 20,
+				pal = 1,
+				ailevel = 8
+			},
+		},
+	},
+	{fights = 6, cpustats = 5, ailevel = 3, info = "[Normal] difficulty for average players",
+		
+	},
+}
+for i=1, #t_allianceLvSel do
+	t_allianceLvSel[i]['id'] = textImgNew()
+end
+if data.debugLog then f_printTable(t_allianceLvSel, "save/debug/t_allianceLvSel.log") end
+
+t_allianceSel = { --TODO: Generate this via .def file format for end-user comfortable customization
+--Alliance 1 Members
+	{
+		char = { --Alliance Characters Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+			"Kung Fu Girl",
+			"Kung Fu Man/Master/Master Kung Fu Man.def",
+			"Kung Fu Man/Evil/Evil Kung Fu Man.def"
+		},
+		stats = 5, --Alliance stats (life, power, attack, defence)
+		pal = 1, --Palette
+	},
+--Alliance 2 Members
+	{
+		char = {
+			"Kung Fu Girl",
+			"Kung Fu Man/Master/Master Kung Fu Man.def",
+			"Kung Fu Man/Evil/Evil Kung Fu Man.def"
+		},
+		stats = 10,
+		pal = 1,
+	},
+}
+for i=1, #t_allianceSel do
+	t_allianceSel[i]['id'] = textImgNew()
+end
+if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
+
+--Background
+allianceBG = animNew(sprIkemen, [[
+60,0, 0,0, -1
+]])
+animSetScale(allianceBG, 0.40, 0.60)
+animSetPos(allianceBG, -400,-475)
+animUpdate(allianceBG)
+
+--Info BG
+allianceSelInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetScale(allianceSelInfoBG, 430, 24)
+animSetAlpha(allianceSelInfoBG, 0, 50)
+animUpdate(allianceSelInfoBG)
+
+--Info Window BG
+allianceSelWindowBG = animNew(sprIkemen, [[
+230,2, 0,0, -1
+]])
+animSetScale(allianceSelWindowBG, 0.8, 1.4)
+animUpdate(allianceSelWindowBG)
+
+--Menu Arrows
+function f_resetAllianceArrowsPos()
+animSetPos(menuArrowLeft, 0, 90)
+animSetPos(menuArrowRight, 312, 90)
+end
+
+function drawAllianceSelInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints(
+		"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,
+		"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Status Info", 266, hintFontYPos)
+end
 
 --;===========================================================
 --; ABYSS SELECT MENU SCREENPACK DEFINITION
