@@ -3528,12 +3528,13 @@ animUpdate(tourneyAwards)
 --;===========================================================
 --; ALLIANCE SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_allianceSel = createTextImg(font11, 0, 0, "ALLIANCE SELECT", 159, 30, 1.2, 1.2)
-txt_allianceCourse = createTextImg(font20, 1, 0, "COURSE", 0, 0)
-txt_allianceInfo = createTextImg(font5, 0, 0, "", 159, 200)
+txt_allianceSel = createTextImg(font11, 0, 0, "ALLIANCE SETTINGS", 159, 30, 1.2, 1.2)
+txt_allianceCourse = createTextImg(font20, 1, 0, "", 0, 0)
+txt_allianceCourseLv = createTextImg(font20, 1, 0, "", 0, 0)
+txt_allianceInfo = createTextImg(font5, 0, 0, "Select the Alliance and Course to play. Clearing a difficult Course will unlock a new one.", 159, 200)
 
-t_allianceLvSel = { --TODO: Generate this via .def file format for end-user comfortable customization
-	{fights = 6, cpustats = 0, ailevel = 1, info = "[Easy] difficulty geared towards beginners",
+t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
+	{fights = 6, cpustats = 0, ailevel = 1, difficulty = "NORMAL", info = "[Easy] difficulty geared towards beginners",
 		enemyteam = {
 		--Enemy Team 1
 			{
@@ -3593,14 +3594,14 @@ t_allianceLvSel = { --TODO: Generate this via .def file format for end-user comf
 			},
 		},
 	},
-	{fights = 6, cpustats = 5, ailevel = 3, info = "[Normal] difficulty for average players",
+	{fights = 6, cpustats = 5, ailevel = 3, difficulty = "HARD", info = "[Normal] difficulty for average players",
 		
 	},
 }
-for i=1, #t_allianceLvSel do
-	t_allianceLvSel[i]['id'] = textImgNew()
+for i=1, #t_allianceCourses do
+	t_allianceCourses[i]['id'] = textImgNew()
 end
-if data.debugLog then f_printTable(t_allianceLvSel, "save/debug/t_allianceLvSel.log") end
+if data.debugLog then f_printTable(t_allianceCourses, "save/debug/t_allianceCourses.log") end
 
 t_allianceSel = { --TODO: Generate this via .def file format for end-user comfortable customization
 --Alliance 1 Members
