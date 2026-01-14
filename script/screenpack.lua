@@ -3537,15 +3537,28 @@ Clearing a difficult Course will unlock a new one!
 ]]
 
 txt_allianceCourseCfg = createTextImg(font7, 0, 0, "", 0, 0)
-txt_allianceCourseName = createTextImg(font20, 1, 0, "", 118, 34)
-txt_allianceCourseLv = createTextImg(font2, 0, 0, "", 118, 50)
-txt_allianceCourseTeam = createTextImg(font2, 0, 0, "", 0, 0)
-txt_allianceCourseTeamName = createTextImg(font2, 0, 0, "", 0, 0)
-txt_allianceCourseDat = createTextImg(font2, 0, 0, "FINAL ENEMY TEAMS", 79, 177)
+txt_allianceCourseName = createTextImg(font20, 0, 0, "", 112, 34)
+txt_allianceCourseLv = createTextImg(font7, 0, 0, "", 112, 50)
+txt_allianceCourseTeam = createTextImg(font7, 0, 1, "", 0, 0)
+txt_allianceCourseTeamName = createTextImg(font7, 0, 0, "", 0, 0)
+txt_allianceCourseDat = createTextImg(font7, 0, 0, "FINAL ENEMY TEAMS", 79, 177)
 txt_allianceCourse = [[
 COURSE
 SELECT
 ]]
+
+txt_allianceSelNo = createTextImg(font20, 2, -1, "", 245, 34, 0.85, 0.85)
+txt_allianceSelCfg = createTextImg(font7, 0, 0, "", 0, 0)
+txt_allianceSel = [[
+ALLIANCE
+SELECT
+]]
+
+txt_allianceSelLv = createTextImg(font2, 0, -1, "", 112, 50)
+txt_allianceSelUsed = createTextImg(font2, 0, -1, "", 112, 50)
+txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 112, 50)
+txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 112, 50)
+txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 112, 50)
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
 	{difficulty = "NORMAL",
@@ -3713,7 +3726,168 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 		}
 	},
 	{difficulty = "HARD",
-		
+		match = {
+		--Match 1
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							"Kung Fu Man", --Leader
+							"Kung Fu Girl",
+							"Kung Fu Man/Master/Master Kung Fu Man.def",
+							"Kung Fu Man/Evil/Evil Kung Fu Man.def"
+						},
+						stage = "stages/Mountainside Temple/Lobby Night.def",
+						--music = "sound/boss.mp3",
+						stats = 5,
+						pal = 1,
+						ailevel = 8
+					}
+				}
+			},
+		--Match 2
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							"Kung Fu Girl", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Lobby Night.def",
+						stats = 10,
+						pal = 1,
+						ailevel = 8
+					},
+				--Route B
+					{
+						char = {
+							"Kung Fu Girl", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Lobby Night.def",
+						stats = 10,
+						pal = 1,
+						ailevel = 8
+					},
+				--Route C
+					{
+						char = {
+							"Kung Fu Girl", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Lobby Night.def",
+						stats = 10,
+						pal = 1,
+						ailevel = 8
+					}
+				}
+			},
+		--Match 3
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							"Reika Murasame", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
+						--music = "sound/",
+						depth = 500,
+						stats = 20,
+						pal = 1,
+						ailevel = 8
+					},
+				--Route B
+					{
+						char = {
+							"Reika Murasame", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
+						--music = "sound/",
+						depth = 500,
+						stats = 20,
+						pal = 1,
+						ailevel = 8
+					},
+				--Route C
+					{
+						char = {
+							"Reika Murasame", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
+						--music = "sound/",
+						depth = 500,
+						stats = 20,
+						pal = 1,
+						ailevel = 8
+					}
+				}
+			},
+		--Match 4
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							"Suave Dude", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+						stats = 15,
+						pal = 1,
+						ailevel = 8
+					},
+				--Route B
+					{
+						char = {
+							"Suave Dude", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+						stats = 15,
+						pal = 1,
+						ailevel = 8
+					},
+				--Route C
+					{
+						char = {
+							"Suave Dude", --Leader
+							"Kung Fu Man",
+							"Kung Fu Man",
+							"Kung Fu Man"
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+						stats = 15,
+						pal = 1,
+						ailevel = 8
+					}
+				}
+			},
+		}
 	},
 }
 for i=1, #t_allianceCourses do
@@ -3796,6 +3970,20 @@ allianceSelTrans = animNew(sprSys, [[
 animSetTile(allianceSelTrans, 1, 1)
 animSetWindow(allianceSelTrans, 160, 20, 156, 158)
 
+--Empty Icon
+allianceEnemyIconBG = animNew(sprIkemen, [[
+295,0, 0,0, -1
+]])
+animSetScale(allianceEnemyIconBG, 0.9, 0.9)
+animUpdate(allianceEnemyIconBG)
+
+--Random Icon
+allianceEnemyRandomIcon = animNew(sprIkemen, [[
+55,0, 0,0, -1
+]])
+animSetScale(allianceEnemyRandomIcon, 0.9, 0.9)
+animUpdate(allianceEnemyRandomIcon)
+
 --Course Menu Up Arrows
 allianceMenuArrowUp = animNew(sprIkemen, [[
 225,0, 0,0, 10
@@ -3810,10 +3998,10 @@ allianceMenuArrowUp = animNew(sprIkemen, [[
 animSetScale(allianceMenuArrowUp, 0.5, 0.5)
 
 allianceCourseArrowUposX = 4 --Course Select X-Axis
-allianceCourseArrowUposY = 100 --Course Select Y-Axis
+allianceCourseArrowUposY = 10 --Course Select Y-Axis
 
 allianceSelArrowUposX = 305 --Alliance Select X-Axis
-allianceSelArrowUposY = 100 --Alliance Select Y-Axis
+allianceSelArrowUposY = 10 --Alliance Select Y-Axis
 
 --Alliance Menu Down Arrows
 allianceMenuArrowDown = animNew(sprIkemen, [[
@@ -3861,45 +4049,61 @@ function drawAlliTest()
 	--Draw Enemy Team Level Text
 		local enemyLv = allianceCourseSel
 		if allianceCourseSel > 1 then enemyLv = enemyLv * 10 end
-		textImgSetText(txt_allianceCourseLv, "LEVEL: "..enemyLv)
+		textImgSetText(txt_allianceCourseLv, "LEVEL "..enemyLv)
 		textImgDraw(txt_allianceCourseLv)
+		--f_drawQuickText(teas, font2, 0, 1, allianceCourseSel, 81, 130)
 	--Alliance Course Content Text
 		local lastMatch = #t_allianceCourses[allianceCourseSel].match
-		for i=1, #t_allianceCourses[allianceCourseSel].match[lastMatch].route do
+		for team=1, #t_allianceCourses[allianceCourseSel].match[lastMatch].route do
 			--if t_allianceCourses[i].id ~= nil then
+				for enemy=1, 4 do
+					animPosDraw(allianceEnemyIconBG, 18 + enemy * 26, 22 + team * 37)
+					animPosDraw(allianceEnemyRandomIcon, 19 + enemy * 26, 23 + team * 37)
+				end
 				local enemyTeamLetter = ""
-				if i == 1 then enemyTeamLetter = "A"
-				elseif i == 2 then enemyTeamLetter = "B"
-				elseif i == 3 then enemyTeamLetter = "C"
+				if team == 1 then enemyTeamLetter = "A"
+				elseif team == 2 then enemyTeamLetter = "B"
+				elseif team == 3 then enemyTeamLetter = "C"
 				end
 				textImgSetText(txt_allianceCourseTeam, "TEAM "..enemyTeamLetter)
+				textImgSetPos(txt_allianceCourseTeam, 4, 37 + team * 37)
 				textImgDraw(txt_allianceCourseTeam)
 			--end
 		end
 	--Draw Alliance Select Assets
 		animDraw(allianceSelBG)
-		
+		f_textRender(txt_allianceSelCfg, txt_allianceSel, 0, 288, 33, 12, 0, 100)
+		textImgSetText(txt_allianceSelNo, "ALLIANCE "..allianceSel)
+		textImgDraw(txt_allianceSelNo)
 	--Draw Extra Info
 		textImgDraw(txt_allianceCourseDat)
 		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
 		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 205, 10, 0, 100) --Draw Info Text
 	--Draw Transparent BG for inactive panels
 		if courseCursor then
+			textImgSetBank(txt_allianceCourseName, 0)
+			textImgSetBank(txt_allianceCourseCfg, 1)
+			textImgSetBank(txt_allianceSelNo, 4)
+			textImgSetBank(txt_allianceSelCfg, 0)
+			if allianceCourseSel > 1 then
+				animPosDraw(allianceMenuArrowUp, allianceCourseArrowUposX, allianceCourseArrowUposY)
+			end
+			if allianceCourseSel < #t_allianceCourses then
+				animPosDraw(allianceMenuArrowDown, allianceCourseArrowDposX, allianceCourseArrowDposY)
+			end
 			--animDraw(f_animVelocity(allianceSelTrans, -2, 0))
 		else
+			textImgSetBank(txt_allianceCourseName, 4)
+			textImgSetBank(txt_allianceCourseCfg, 0)
+			textImgSetBank(txt_allianceSelNo, 2)
+			textImgSetBank(txt_allianceSelCfg, 1)
+			if allianceSel > 1 then
+				animPosDraw(allianceMenuArrowUp, allianceSelArrowUposX, allianceSelArrowUposY)
+			end
+			if allianceSel < #t_allianceSel then
+				animPosDraw(allianceMenuArrowDown, allianceSelArrowDposX, allianceSelArrowDposY)
+			end
 			--animDraw(f_animVelocity(allianceCourseTrans, -2, 0))
-		end
-		if allianceCourseSel > 1 then
-			animPosDraw(allianceMenuArrowUp, allianceCourseArrowUposX, allianceCourseArrowUposY)
-		end
-		if allianceCourseSel < #t_allianceCourses then
-			animPosDraw(allianceMenuArrowDown, allianceCourseArrowDposX, allianceCourseArrowDposY)
-		end
-		if allianceSel > 1 then
-			animPosDraw(allianceMenuArrowUp, allianceSelArrowUposX, allianceSelArrowUposY)
-		end
-		if allianceSel < #t_allianceSel then
-			animPosDraw(allianceMenuArrowDown, allianceSelArrowDposX, allianceSelArrowDposY)
 		end
 end
 

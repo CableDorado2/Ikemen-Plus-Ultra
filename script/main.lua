@@ -17517,7 +17517,7 @@ function f_allianceSelect()
 				if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel - 1
-				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufr >= 30) then
+				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel + 1
 				end
