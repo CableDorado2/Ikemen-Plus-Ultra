@@ -3554,11 +3554,11 @@ ALLIANCE
 SELECT
 ]]
 
-txt_allianceSelLv = createTextImg(font2, 0, -1, "", 112, 50)
-txt_allianceSelUsed = createTextImg(font2, 0, -1, "", 112, 50)
-txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 112, 50)
-txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 112, 50)
-txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 112, 50)
+txt_allianceSelLv = createTextImg(font2, 0, -1, "", 315, 65, 0.5, 0.5)
+txt_allianceSelUsedRate = createTextImg(font2, 0, -1, "", 315, 75, 0.5, 0.5)
+txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 315, 85, 0.5, 0.5)
+txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 315, 95, 0.5, 0.5)
+txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 315, 105, 0.5, 0.5)
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
 	{difficulty = "NORMAL",
@@ -3984,6 +3984,13 @@ allianceEnemyRandomIcon = animNew(sprIkemen, [[
 animSetScale(allianceEnemyRandomIcon, 0.9, 0.9)
 animUpdate(allianceEnemyRandomIcon)
 
+--Alliance Stats
+allianceStatsV = animNew(sprIkemen, [[
+72,0, 0,0, -1
+]])
+animSetScale(allianceStatsV, 0.35, 0.35)
+animUpdate(allianceStatsV)
+
 --Course Menu Up Arrows
 allianceMenuArrowUp = animNew(sprIkemen, [[
 225,0, 0,0, 10
@@ -4037,6 +4044,25 @@ function drawAllianceSelInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Status", 266, hintFontYPos)
 end
 
+function f_allianceSelectPreview()
+	local nameFont = font2
+--Ally 1
+	drawPortrait(0, 168, 52, 0.35, 0.35)
+	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, "Kung Fu Man", 168, 48)
+	f_drawQuickText(txt_ally1Power, nameFont, 0, -1, "Power: 999999", 240, 48)
+	animPosDraw(allianceStatsV, 211, 52)
+--Ally 2
+	drawPortrait(0, 168, 132, 0.35, 0.35)
+	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, "Kung Fu Man", 168, 128)
+	f_drawQuickText(txt_ally2Power, nameFont, 0, -1, "Power: 999999", 240, 128)
+	animPosDraw(allianceStatsV, 211, 132)
+--Ally 3
+	drawPortrait(0, 250, 132, 0.35, 0.35)
+	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, "Kung Fu Man", 250, 128)
+	f_drawQuickText(txt_ally3Power, nameFont, 0, -1, "Power: 999999", 317, 128)
+	animPosDraw(allianceStatsV, 293, 132)
+end
+
 function drawAlliTest()
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 		textImgDraw(txt_allianceTitle) --Draw Title
@@ -4072,9 +4098,20 @@ function drawAlliTest()
 		end
 	--Draw Alliance Select Assets
 		animDraw(allianceSelBG)
+		f_allianceSelectPreview()
 		f_textRender(txt_allianceSelCfg, txt_allianceSel, 0, 288, 33, 12, 0, 100)
 		textImgSetText(txt_allianceSelNo, "ALLIANCE "..allianceSel)
 		textImgDraw(txt_allianceSelNo)
+		textImgSetText(txt_allianceSelLv, "TEAM LEVEL: 999")
+		textImgDraw(txt_allianceSelLv)
+		textImgSetText(txt_allianceSelUsedRate, "TIMES USED: 999")
+		textImgDraw(txt_allianceSelUsedRate)
+		textImgSetText(txt_allianceSelTimeRecord, "BEST TIME: 99:99.99")
+		textImgDraw(txt_allianceSelTimeRecord)
+		textImgSetText(txt_allianceSelScoreRecord, "BEST SCORE: 9999999")
+		textImgDraw(txt_allianceSelScoreRecord)
+		textImgSetText(txt_allianceSelStyle, "PLAY STYLE: BALANCED")
+		textImgDraw(txt_allianceSelStyle)
 	--Draw Extra Info
 		textImgDraw(txt_allianceCourseDat)
 		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
