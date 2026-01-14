@@ -14910,6 +14910,7 @@ if validCells() then
 		if data.gameMode == "bossrush" or getGameMode() == "suddendeath" then playBGM(bgmSelectBoss)
 		elseif data.gameMode == "tower" then playBGM(bgmTower)
 		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
+		elseif data.gameMode == "alliance" then playBGM(bgmAlliance)
 		elseif data.recordMode == "challenger" then f_challengerMusic()
 		else f_selectMusic()
 		end
@@ -14962,14 +14963,22 @@ if validCells() then
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
 			elseif data.gameMode == "abyss" then
 				if not loadAbyssDat then --Only show during a New Game
-					f_abyssMenu() --Go to that Abyss Menu that contains the item shop
+					f_abyssMenu() --Go to Abyss Menu that contains the item shop
 					if data.tempBack == true then
 						f_exitToMainMenu()
 						return
 					end
 				end
 				f_makeRoster()
-				lastMatch = t_abyssSel[abyssSel].depth --get roster selected in abyss depth select
+				lastMatch = t_abyssSel[abyssSel].depth --get last match from abyss depth selected
+			elseif data.gameMode == "alliance" then
+				f_allianceSelect() --Go to Alliance Course Select
+				if data.tempBack == true then
+					f_exitToMainMenu()
+					return
+				end
+				f_makeRoster()
+				lastMatch = #t_allianceCourses[allianceCourseSel].match --get last match from alliance course selected
 			else
 			--generate roster for other modes (arcade, survival, etc)
 				f_makeRoster()
@@ -17465,26 +17474,21 @@ After defeating each enemy team, players are given the opportunity to
 Exchange 1 of their own team members with 1 member from the enemy side.]]
 --;===========================================================
 function f_allianceSelect()
-	f_discordUpdate({details = "Alliance"})
+	--f_discordUpdate({details = "Alliance"})
 	cmdInput()
-	local cursorPosX = 1
-	local moveTxt = 0
-	local cursorPosCourseX = 1
-	local moveCourseTxt = 0
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local maxItems = 3
-	local courseCursor = false
-	local startCheck = false
+	courseCursor = true
+	startCheck = false
+--No local vars
 	f_sideReset()
 	allianceSel = 1
 	allianceCourseSel = 1
 	exitAlliance = false
-	f_resetAllianceArrowsPos()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	playBGM(bgmAlliance)
+	--playBGM(bgmAlliance)
 	while true do
 		if not sideScreen then
 		--Return Logic
@@ -17493,139 +17497,70 @@ function f_allianceSelect()
 				sndPlay(sndSys, 100, 2)
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				f_menuMusic()
-				f_resetMenuArrowsPos()
+				--f_resetMenuArrowsPos()
+				data.tempBack = true
 				break
-			end
 		--Course Select Cursor Status
-			if (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) then
+			elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
 				sndPlay(sndSys, 100, 0)
 				if courseCursor then courseCursor = false else courseCursor = true end
-			end
-		--Cursor Actions
-			if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+		--Start Actions
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 			--Start Game
 				if startCheck then
-					f_allianceBoot() --Open Side Select
+					--f_allianceBoot() --Open Side Select
 				end
 			end
 		--Alliance Team Select
 			if not courseCursor then
-				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+				if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel - 1
-				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel + 1
 				end
 				if allianceSel < 1 then
 					allianceSel = #t_allianceSel
-					if #t_allianceSel > maxItems then
-						cursorPosX = maxItems
-					else
-						cursorPosX = #t_allianceSel
-					end
 				elseif allianceSel > #t_allianceSel then
 					allianceSel = 1
-					cursorPosX = 1
-				elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
-					cursorPosX = cursorPosX - 1
-				elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxItems then
-					cursorPosX = cursorPosX + 1
-				end
-				if cursorPosX == maxItems then
-					moveTxt = (allianceSel - maxItems) * 104
-				elseif cursorPosX == 1 then
-					moveTxt = (allianceSel - 1) * 104
-				end
-				if #t_allianceSel <= maxItems then
-					maxAllianceSel = #t_allianceSel
-				elseif allianceSel - cursorPosX > 0 then
-					maxAllianceSel = allianceSel + maxItems - cursorPosX
-				else
-					maxAllianceSel = maxItems
 				end
 		--Alliance Course Select
 			else
-				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+				if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceCourseSel = allianceCourseSel - 1
-				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceCourseSel = allianceCourseSel + 1
 				end
 				if allianceCourseSel < 1 then
 					allianceCourseSel = #t_allianceCourses
-					if #t_allianceCourses > maxItems then
-						cursorPosCourseX = maxItems
-					else
-						cursorPosCourseX = #t_allianceCourses
-					end
 				elseif allianceCourseSel > #t_allianceCourses then
 					allianceCourseSel = 1
-					cursorPosCourseX = 1
-				elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosCourseX > 1 then
-					cursorPosCourseX = cursorPosCourseX - 1
-				elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosCourseX < maxItems then
-					cursorPosCourseX = cursorPosCourseX + 1
-				end
-				if cursorPosCourseX == maxItems then
-					moveCourseTxt = (allianceCourseSel - maxItems) * 104
-				elseif cursorPosCourseX == 1 then
-					moveCourseTxt = (allianceCourseSel - 1) * 104
-				end
-				if #t_allianceCourses <= maxItems then
-					maxAllianceCourseSel = #t_allianceCourses
-				elseif allianceCourseSel - cursorPosCourseX > 0 then
-					maxAllianceCourseSel = allianceCourseSel + maxItems - cursorPosCourseX
-				else
-					maxAllianceCourseSel = maxItems
 				end
 			end
 		end
-	--Draw BG
-		animDraw(commonBG0)
-	--Draw Title
-		textImgDraw(txt_allianceSel)
-		animPosDraw(allianceSelInfoBG, -56, 185) --Draw Info Text BG
-	--Draw Alliance Course Content Text
-		for i=1, maxAllianceCourseSel do
-			if i > allianceCourseSel - cursorPosCourseX then
-				if t_allianceCourses[i].id ~= nil then
-					animPosDraw(allianceSelWindowBG, -94 + i * 104 - moveCourseTxt,50)
-					textImgSetPos(txt_allianceCourse, -50 + i * 104 - moveCourseTxt, 105)
-					textImgSetText(txt_allianceCourse, t_allianceCourses[i].difficulty)
-					textImgDraw(txt_allianceCourse)
-					textImgSetPos(txt_allianceCourseLv, -50 + i * 104 - moveCourseTxt, 75)
-					textImgSetText(txt_allianceCourseLv, "LEVEL: "..t_allianceCourses[i].lv)
-					textImgDraw(txt_allianceCourseLv)
-				end
-			end
-		end
-	--Draw Cursor
-		if not courseCursor then
-			animSetWindow(cursorBox, -94 + cursorPosX * 104,54, 89.5,78)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		if maxAllianceSel > maxItems then
-			animDraw(menuArrowLeft)
-			animUpdate(menuArrowLeft)
-		end
-		if #t_abyssSel > maxItems and maxAllianceSel < #t_abyssSel then
-			animDraw(menuArrowRight)
-			animUpdate(menuArrowRight)
-		end
+		drawAlliTest()
 		if sideScreen then f_sideSelect() else drawAllianceSelInputHints() end
-		if commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
-			bufr = 0
-			bufl = bufl + 1
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
 		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
-		else
-			bufl = 0
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
 			bufr = 0
+			bufl = bufl + 1
+		else
+			bufu = 0
+			bufd = 0
+			bufr = 0
+			bufl = 0
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -17641,6 +17576,7 @@ end
 
 --Load Common Settings for Alliance Modes
 function allianceCfg()
+	f_discordUpdate({details = "Alliance"})
 	f_default()
 	setRoundsToWin(1)
 	setRoundTime(99)
@@ -17664,7 +17600,7 @@ function allianceHumanvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ALLIANCE [CLEAR COURSES: 0]")--..stats.modes.alliance.."]")
+	textImgSetText(txt_mainSelect, "ALLIANCE")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -17683,7 +17619,7 @@ function allianceCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ALLIANCE [CLEAR COURSES: 0]")--..stats.modes.alliance.."]")
+	textImgSetText(txt_mainSelect, "ALLIANCE")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -17695,7 +17631,7 @@ function allianceP1P2vsCPU()
 	data.coop = true
 	setPlayerSide('p1left')
 	setGameMode("alliancecoop")
-	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE [CLEAR COURSES: 0]")--..stats.modes.alliance.."]")
+	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE")
 	f_selectAdvance()
 end
 
@@ -17709,7 +17645,7 @@ function allianceCPUvsP1P2()
 	data.p2Faces = true
 	data.coop = true
 	setGameMode("alliancecoop")
-	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE [CLEAR COURSES: 0]")--..stats.modes.alliance.."]")
+	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE")
 	f_selectAdvance()
 ]]
 end
@@ -17723,7 +17659,7 @@ function allianceCPUvsCPU()
 	data.aiFight = true
 	setPlayerSide('p1left')
 	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH ALLIANCE [CLEAR COURSES: 0]")--..stats.modes.alliance.."]")
+	textImgSetText(txt_mainSelect, "WATCH ALLIANCE")
 	f_selectAdvance()
 end
 
