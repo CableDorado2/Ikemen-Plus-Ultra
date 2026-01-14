@@ -3530,18 +3530,22 @@ animUpdate(tourneyAwards)
 --; ALLIANCE SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_allianceTitle = createTextImg(font11, 0, 0, "ALLIANCE SETTINGS", 159, 10)
-txt_allianceInfoCfg = createTextImg(font5, 0, 0, "", 159, 200)
+txt_allianceInfoCfg = createTextImg(font5, 0, 0, "", 0, 0)
 txt_allianceInfo = [[
 Select the Alliance and Course to play
 Clearing a difficult Course will unlock a new one!
 ]]
 
-txt_allianceCourse = createTextImg(font20, 1, 0, "", 0, 0)
-txt_allianceCourseName = createTextImg(font20, 1, 0, "", 0, 0)
-txt_allianceCourseLv = createTextImg(font20, 1, 0, "", 0, 0)
-txt_allianceCourseTeam = createTextImg(font20, 1, 0, "", 0, 0)
-txt_allianceCourseTeamName = createTextImg(font20, 1, 0, "", 0, 0)
-txt_allianceCourseDat = createTextImg(font20, 1, 0, "FINAL ENEMY TEAMS", 0, 0)
+txt_allianceCourseCfg = createTextImg(font7, 0, 0, "", 0, 0)
+txt_allianceCourseName = createTextImg(font20, 1, 0, "", 118, 34)
+txt_allianceCourseLv = createTextImg(font2, 0, 0, "", 118, 50)
+txt_allianceCourseTeam = createTextImg(font2, 0, 0, "", 0, 0)
+txt_allianceCourseTeamName = createTextImg(font2, 0, 0, "", 0, 0)
+txt_allianceCourseDat = createTextImg(font2, 0, 0, "FINAL ENEMY TEAMS", 79, 177)
+txt_allianceCourse = [[
+COURSE
+SELECT
+]]
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
 	{difficulty = "NORMAL",
@@ -3749,7 +3753,7 @@ allianceBG = animNew(sprIkemen, [[
 60,0, 0,0, -1
 ]])
 animSetScale(allianceBG, 0.40, 0.60)
-animSetPos(allianceBG, -400,-475)
+animSetPos(allianceBG, -400, -475)
 animUpdate(allianceBG)
 
 --Info BG
@@ -3760,18 +3764,28 @@ animSetScale(allianceSelInfoBG, 430, 24)
 animSetAlpha(allianceSelInfoBG, 0, 50)
 animUpdate(allianceSelInfoBG)
 
---Info Window BG
-allianceSelWindowBG = animNew(sprIkemen, [[
-230,2, 0,0, -1
+--Course Select BG
+allianceCourseSelBG = animNew(sprIkemen, [[
+70,0, 0,0, -1
 ]])
-animSetScale(allianceSelWindowBG, 0.8, 1.4)
-animUpdate(allianceSelWindowBG)
+animSetPos(allianceCourseSelBG, 2, 20)
+animSetAlpha(allianceCourseSelBG, 20, 100)
+animSetScale(allianceCourseSelBG, 0.085, 0.127)
+animUpdate(allianceCourseSelBG)
+
+--Alliance Select BG
+allianceSelBG = animNew(sprIkemen, [[
+70,0, 0,0, -1, H
+]])
+animSetPos(allianceSelBG, 318, 20)
+animSetAlpha(allianceSelBG, 20, 100)
+animSetScale(allianceSelBG, 0.085, 0.127)
+animUpdate(allianceSelBG)
 
 --Course Select Transparent Background (For inactive cursor state)
 allianceCourseTrans = animNew(sprSys, [[
 100,1, 0,0, -1, 0, s
 ]])
-animAddPos(allianceCourseTrans, 160, 0)
 animSetTile(allianceCourseTrans, 1, 1)
 animSetWindow(allianceCourseTrans, 32, 5, 120, 140)
 
@@ -3779,9 +3793,8 @@ animSetWindow(allianceCourseTrans, 32, 5, 120, 140)
 allianceSelTrans = animNew(sprSys, [[
 100,1, 0,0, -1, 0, s
 ]])
-animSetPos(allianceSelTrans, 160, 0)
 animSetTile(allianceSelTrans, 1, 1)
-animSetWindow(allianceSelTrans, 169, 5, 120, 140)
+animSetWindow(allianceSelTrans, 160, 20, 156, 158)
 
 --Course Menu Up Arrows
 allianceMenuArrowUp = animNew(sprIkemen, [[
@@ -3796,11 +3809,11 @@ allianceMenuArrowUp = animNew(sprIkemen, [[
 ]])
 animSetScale(allianceMenuArrowUp, 0.5, 0.5)
 
-allianceCourseArrowUposX = 138 --Course Select X-Axis
-allianceCourseArrowUposY = 165 --Course Select Y-Axis
+allianceCourseArrowUposX = 4 --Course Select X-Axis
+allianceCourseArrowUposY = 100 --Course Select Y-Axis
 
-allianceSelArrowUposX = 175 --Alliance Select X-Axis
-allianceSelArrowUposY = 165 --Alliance Select Y-Axis
+allianceSelArrowUposX = 305 --Alliance Select X-Axis
+allianceSelArrowUposY = 100 --Alliance Select Y-Axis
 
 --Alliance Menu Down Arrows
 allianceMenuArrowDown = animNew(sprIkemen, [[
@@ -3815,11 +3828,11 @@ allianceMenuArrowDown = animNew(sprIkemen, [[
 ]])
 animSetScale(allianceMenuArrowDown, 0.5, 0.5)
 
-allianceCourseArrowDposX = 138 --Course Select X-Axis
-allianceCourseArrowDposY = 210 --Course Select Y-Axis
+allianceCourseArrowDposX = 4 --Course Select X-Axis
+allianceCourseArrowDposY = 185 --Course Select Y-Axis
 
-allianceSelArrowDposX = 175 --Alliance Select X-Axis
-allianceSelArrowDposY = 210 --Alliance Select Y-Axis
+allianceSelArrowDposX = 305 --Alliance Select X-Axis
+allianceSelArrowDposY = 185 --Alliance Select Y-Axis
 
 function drawAllianceSelInputHints()
 	local inputHintYPos = 220
@@ -3839,6 +3852,9 @@ end
 function drawAlliTest()
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 		textImgDraw(txt_allianceTitle) --Draw Title
+	--Draw Course Select Assets
+		animDraw(allianceCourseSelBG)
+		f_textRender(txt_allianceCourseCfg, txt_allianceCourse, 0, 34, 33, 12, 0, 100)
 	--Draw Difficulty Text
 		textImgSetText(txt_allianceCourseName, t_allianceCourses[allianceCourseSel].difficulty)
 		textImgDraw(txt_allianceCourseName)
@@ -3847,22 +3863,31 @@ function drawAlliTest()
 		if allianceCourseSel > 1 then enemyLv = enemyLv * 10 end
 		textImgSetText(txt_allianceCourseLv, "LEVEL: "..enemyLv)
 		textImgDraw(txt_allianceCourseLv)
-	--Draw Extra Info
-		textImgDraw(txt_allianceCourseDat)
-		animPosDraw(allianceSelInfoBG, -56, 189) --Draw Info Text BG
-		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 200, 10, 0, 100) --Draw Info Text
-	--Draw Alliance Course Content Text
+	--Alliance Course Content Text
 		local lastMatch = #t_allianceCourses[allianceCourseSel].match
 		for i=1, #t_allianceCourses[allianceCourseSel].match[lastMatch].route do
 			--if t_allianceCourses[i].id ~= nil then
-				
+				local enemyTeamLetter = ""
+				if i == 1 then enemyTeamLetter = "A"
+				elseif i == 2 then enemyTeamLetter = "B"
+				elseif i == 3 then enemyTeamLetter = "C"
+				end
+				textImgSetText(txt_allianceCourseTeam, "TEAM "..enemyTeamLetter)
+				textImgDraw(txt_allianceCourseTeam)
 			--end
 		end
+	--Draw Alliance Select Assets
+		animDraw(allianceSelBG)
+		
+	--Draw Extra Info
+		textImgDraw(txt_allianceCourseDat)
+		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
+		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 205, 10, 0, 100) --Draw Info Text
 	--Draw Transparent BG for inactive panels
 		if courseCursor then
-			animDraw(f_animVelocity(allianceSelTrans, -2, 0))
+			--animDraw(f_animVelocity(allianceSelTrans, -2, 0))
 		else
-			animDraw(f_animVelocity(allianceCourseTrans, -2, 0))
+			--animDraw(f_animVelocity(allianceCourseTrans, -2, 0))
 		end
 		if allianceCourseSel > 1 then
 			animPosDraw(allianceMenuArrowUp, allianceCourseArrowUposX, allianceCourseArrowUposY)
@@ -4006,7 +4031,7 @@ abyssBG = animNew(sprIkemen, [[
 60,0, 0,0, -1
 ]])
 animSetScale(abyssBG, 0.40, 0.60)
-animSetPos(abyssBG, -400,-475)
+animSetPos(abyssBG, -400, -475)
 animUpdate(abyssBG)
 
 --BG Fog
