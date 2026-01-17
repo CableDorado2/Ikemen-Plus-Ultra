@@ -56,7 +56,7 @@
     - 2 GiB required
 
 > [!WARNING]
-> **THE ENGINE MAY NOT WORK IN WINDOWS 11. However, It was verified that it works on Windows 11 Version 24H2**
+> **THE ENGINE MAY NOT WORK IN WINDOWS 11. However, it was verified that it works on Windows 11 Version 24H2.**
 
 ## Roadmap
 This is a general view of what you can expect in next releases. This roadmap is constantly updated and can be modified in the future. If you want to offer help, it will be great for progressing with this engine!
