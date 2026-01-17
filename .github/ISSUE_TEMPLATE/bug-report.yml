@@ -2,7 +2,7 @@ name: Bug Report
 description: Create a bug report to help us improve the engine
 body:
   - type: textarea
-    id: bug desc
+    id: bug
     attributes:
       label: Describe the bug
       description: A clear and concise description of what the bug is.
@@ -13,7 +13,7 @@ body:
       required: true
 
   - type: textarea
-    id: bug steps
+    id: steps
     attributes:
       label: To Reproduce
       description: Detailed steps to reproduce the behavior.
@@ -42,7 +42,7 @@ body:
       required: false
 
   - type: input
-    id: version
+    id: os
     attributes:
       label: Operating System
       description: What OS are you using?
@@ -51,7 +51,7 @@ body:
       required: true
 
   - type: dropdown
-    id: os
+    id: engine
     attributes:
       label: Engine Version
       description: Select the Engine Build you are using (Error reports for very old builds will not be considered, as they have either been corrected in the latest versions or are still present.)
