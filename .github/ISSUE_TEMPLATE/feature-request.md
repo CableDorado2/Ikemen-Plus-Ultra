@@ -1,6 +1,6 @@
 ---
 name: ✨ Feature Request
-about: Suggest ideas for this project
+about: Suggest ideas for this project!
 title: ''
 labels: ''
 assignees: ''
