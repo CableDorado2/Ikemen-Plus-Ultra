@@ -1,0 +1,73 @@
+name: Bug Report
+description: Create a bug report to help us improve the engine
+body:
+  - type: textarea
+    id: bug desc
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: |
+        Description ...
+
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug steps
+    attributes:
+      label: To Reproduce
+      description: Detailed steps to reproduce the behavior.
+      placeholder: |
+        1. Download the character/stage from...
+        2. Add into the engine in select.def with the following paramvalues...
+        3. Open the engine and Go to Versus Mode...
+        4. See error..
+    validations:
+      required: true
+
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: false
+
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshots / Video
+      description: If applicable, add screenshots or videos to help explain your problem.
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: Operating System
+      description: What OS are you using?
+      placeholder: Windows 10 Pro 21H2
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Engine Version
+      description: Select the Engine Build you are using (Error reports for very old builds will not be considered, as they have either been corrected in the latest versions or are still present.)
+      options:
+        - v1.4.0 (Stable Release)
+        - Checkpoint Build (Pre-Release)
+        - Other (mention in description)
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Extra context or search terms
+      description: |
+        - Any other context about the problem
+        - Search terms to help others discover this
+    validations:
+      required: false
