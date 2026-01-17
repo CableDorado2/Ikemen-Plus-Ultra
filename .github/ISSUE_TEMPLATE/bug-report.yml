@@ -1,5 +1,5 @@
-name: Bug Report
-description: Create a bug report to help us improve the engine
+name: 🔧 Bug Report
+description: Create a bug report to help us improve the engine.
 body:
   - type: textarea
     id: bug
@@ -54,7 +54,7 @@ body:
     id: engine
     attributes:
       label: Engine Version
-      description: Select the Engine Build you are using (Error reports for very old builds will not be considered, as they have either been corrected in the latest versions or are still present.)
+      description: Select the Engine Build you are using (Reports for old builds will not be considered, as they have either been corrected in the latest releases or are still present.)
       options:
         - v1.4.0 (Stable Release)
         - Checkpoint Build (Pre-Release)
