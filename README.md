@@ -44,11 +44,10 @@
 ## Minimum System Requirements
 - **Operating System:**
     - Windows XP (Service Pack 3) 32 Bits
-    - Linux: [Wine](https://wiki.winehq.org/Main_Page) is recommended
-    - Android: [Winlator](https://github.com/brunodev85/winlator) is recommended.
+    - Linux: [Wine](https://wiki.winehq.org/Main_Page) or a Windows Virtual Machine is recommended, until an official port is released.
+    - Android: [Winlator](https://github.com/brunodev85/winlator) is recommended, until an official port is released.
 - **CPU:**
     - Intel Atom CPU N455 (1.66GHz)
-    - AMD ???
 - **GPU with support for DirectX 11 or OpenGL 2.0:**
     - Intel Graphics Media Accelerator 3150 (256MB)
 - **Memory:**
