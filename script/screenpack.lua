@@ -3554,11 +3554,11 @@ ALLIANCE
 SELECT
 ]]
 
-txt_allianceSelLv = createTextImg(font2, 0, -1, "", 315, 65, 0.5, 0.5)
-txt_allianceSelUsedRate = createTextImg(font2, 0, -1, "", 315, 75, 0.5, 0.5)
-txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 315, 85, 0.5, 0.5)
-txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 315, 95, 0.5, 0.5)
-txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 315, 105, 0.5, 0.5)
+txt_allianceSelLv = createTextImg(font2, 0, -1, "", 315, 68, 0.65, 0.65)
+txt_allianceSelUsedRate = createTextImg(font2, 0, -1, "", 315, 78, 0.65, 0.65)
+txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 315, 88, 0.65, 0.65)
+txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 315, 98, 0.65, 0.65)
+txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 315, 108, 0.65, 0.65)
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
 	{difficulty = "NORMAL",
@@ -3576,9 +3576,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 						--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
-						stats = 5, --Enemy stats (life, power, attack, defence)
-						pal = 1, --Palette
-						ailevel = 8 --CPU Level
+						stats = {life = 1, power = 1, attack = 1, defence = 1}, --Enemy stats (life, power, attack, defence)
+						ailevel = 1 --CPU Level
 					}
 				}
 			},
@@ -3594,9 +3593,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 10,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 1
 					},
 				--Route B
 					{
@@ -3607,9 +3605,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 10,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 2
 					},
 				--Route C
 					{
@@ -3620,9 +3617,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 10,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 3
 					}
 				}
 			},
@@ -3639,10 +3635,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						depth = 500,
-						stats = 20,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 1
 					},
 				--Route B
 					{
@@ -3654,10 +3648,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						depth = 500,
-						stats = 20,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 2
 					},
 				--Route C
 					{
@@ -3669,10 +3661,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						depth = 500,
-						stats = 20,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 3
 					}
 				}
 			},
@@ -3689,9 +3679,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 15,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 2
 					},
 				--Route B
 					{
@@ -3703,9 +3692,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 15,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 4
 					},
 				--Route C
 					{
@@ -3717,9 +3705,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 15,
-						pal = 1,
-						ailevel = 8
+						stats = 1,
+						ailevel = 6
 					}
 				}
 			},
@@ -3740,9 +3727,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
 						--music = "sound/boss.mp3",
-						stats = 5,
-						pal = 1,
-						ailevel = 8
+						stats = 10,
+						ailevel = 4
 					}
 				}
 			},
@@ -3759,8 +3745,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = 10,
-						pal = 1,
-						ailevel = 8
+						ailevel = 4
 					},
 				--Route B
 					{
@@ -3772,8 +3757,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = 10,
-						pal = 1,
-						ailevel = 8
+						ailevel = 5
 					},
 				--Route C
 					{
@@ -3785,8 +3769,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = 10,
-						pal = 1,
-						ailevel = 8
+						ailevel = 6
 					}
 				}
 			},
@@ -3803,10 +3786,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						depth = 500,
-						stats = 20,
-						pal = 1,
-						ailevel = 8
+						stats = 10,
+						ailevel = 4
 					},
 				--Route B
 					{
@@ -3818,10 +3799,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						depth = 500,
-						stats = 20,
-						pal = 1,
-						ailevel = 8
+						stats = 10,
+						ailevel = 5
 					},
 				--Route C
 					{
@@ -3833,10 +3812,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						depth = 500,
-						stats = 20,
-						pal = 1,
-						ailevel = 8
+						stats = 10,
+						ailevel = 6
 					}
 				}
 			},
@@ -3853,9 +3830,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 15,
-						pal = 1,
-						ailevel = 8
+						stats = 10,
+						ailevel = 4
 					},
 				--Route B
 					{
@@ -3867,9 +3843,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 15,
-						pal = 1,
-						ailevel = 8
+						stats = 10,
+						ailevel = 6
 					},
 				--Route C
 					{
@@ -3881,8 +3856,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 15,
-						pal = 1,
+						stats = 10,
 						ailevel = 8
 					}
 				}
@@ -3903,8 +3877,7 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 			"Kung Fu Man/Master/Master Kung Fu Man.def",
 			"Kung Fu Man/Evil/Evil Kung Fu Man.def"
 		},
-		stats = 5, --Alliance stats (life, power, attack, defence)
-		pal = 1, --Palette
+		stats = {life = 1, power = 1, attack = 1, defence = 1}, --Alliance stats (life, power, attack, defence)
 	},
 --Alliance 2 Members
 	{
@@ -3913,14 +3886,43 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 			"Kung Fu Man/Master/Master Kung Fu Man.def",
 			"Kung Fu Man/Evil/Evil Kung Fu Man.def"
 		},
-		stats = 10,
-		pal = 1,
+		stats = {life = 1, power = 1, attack = 1, defence = 1},
 	},
 }
 for i=1, #t_allianceSel do
 	t_allianceSel[i]['id'] = textImgNew()
 end
 if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
+
+t_allianceStatsRanks = {
+	{rank = "SS", 	min = 150},
+	{rank = "S+",	min = 140},
+	{rank = "S", 	min = 130},
+	{rank = "S-", 	min = 120},
+	{rank = "A+", 	min = 110},
+	{rank = "A", 	min = 100},
+	{rank = "A-", 	min = 90},
+	{rank = "B+", 	min = 80},
+	{rank = "B", 	min = 70},
+	{rank = "B-", 	min = 60},
+	{rank = "C+", 	min = 50},
+	{rank = "C", 	min = 40},
+	{rank = "C-", 	min = 30},
+	{rank = "D+", 	min = 25},
+	{rank = "D", 	min = 20},
+	{rank = "D-", 	min = 15},
+	{rank = "E+", 	min = 10},
+	{rank = "E", 	min = 5},
+	{rank = "E-", 	min = 0},
+}
+
+function allianceRankFromValue(val)
+	for i, entry in ipairs(t_allianceStatsRanks) do
+		if val >= entry.min then
+			return entry.rank
+		end
+	end
+end
 
 --Background
 allianceBG = animNew(sprIkemen, [[
@@ -4048,19 +4050,31 @@ function f_allianceSelectPreview()
 	local nameFont = font2
 --Ally 1
 	drawPortrait(0, 168, 52, 0.35, 0.35)
+	animPosDraw(allianceStatsV, 211, 52)
 	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, "Kung Fu Man", 168, 48)
 	f_drawQuickText(txt_ally1Power, nameFont, 0, -1, "Power: 999999", 240, 48)
-	animPosDraw(allianceStatsV, 211, 52)
+	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, "SS", 237, 60)
+	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, "SS", 237, 73)
+	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, "SS", 237, 85)
+	f_drawQuickText(txt_ally1DefAtrib, nameFont, 0, -1, "SS", 237, 98)
 --Ally 2
 	drawPortrait(0, 168, 132, 0.35, 0.35)
+	animPosDraw(allianceStatsV, 211, 132)
 	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, "Kung Fu Man", 168, 128)
 	f_drawQuickText(txt_ally2Power, nameFont, 0, -1, "Power: 999999", 240, 128)
-	animPosDraw(allianceStatsV, 211, 132)
+	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, "SS", 237, 140)
+	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, "SS", 237, 153)
+	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, "SS", 237, 165)
+	f_drawQuickText(txt_ally2DefAtrib, nameFont, 0, -1, "SS", 237, 178)
 --Ally 3
-	drawPortrait(0, 250, 132, 0.35, 0.35)
+	drawPortrait(0, 245, 132, 0.35, 0.35)
+	animPosDraw(allianceStatsV, 288, 132)
 	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, "Kung Fu Man", 250, 128)
 	f_drawQuickText(txt_ally3Power, nameFont, 0, -1, "Power: 999999", 317, 128)
-	animPosDraw(allianceStatsV, 293, 132)
+	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, "SS", 314, 140)
+	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, "SS", 314, 153)
+	f_drawQuickText(txt_ally3LifAtrib, nameFont, 0, -1, "SS", 314, 165)
+	f_drawQuickText(txt_ally3DefAtrib, nameFont, 0, -1, "SS", 314, 178)
 end
 
 function drawAlliTest()
