@@ -4993,7 +4993,7 @@ end
 --;===========================================================
 --; MATCH EXTRA ASSETS SCREENPACK DEFINITION
 --;===========================================================
-txt_DemoFightCfg = createTextImg(font15, 0, -1, "DEMO MODE", 305, 10)
+txt_DemoFightCfg = createTextImg(font15, 0, 0, "DEMO MODE", 160, 7)
 
 txt_MatchFight = "STAGE "
 txt_MatchFinalFight = "FINAL STAGE"
@@ -5007,7 +5007,7 @@ txt_RewardFight = "REWARD: "
 demoLogo = animNew(sprIkemen, [[
 1,0, 0,0, -1
 ]])
-animAddPos(demoLogo, 159, 25)
+animAddPos(demoLogo, 159, 48)
 animSetScale(demoLogo, 0.25, 0.25)
 animUpdate(demoLogo)
 

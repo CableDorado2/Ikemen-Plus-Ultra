@@ -260,8 +260,8 @@ end
 
 local function f_demoSkip()
 	cmdInput()
---Exit when you press start or esc
-	if esc() or btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+--Exit when reach certain amount of time, any cpu wins or player press start/esc button
+	if gametime() == 3000 or roundstate() == 4 or esc() or btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 		data.tempBack = true
 		f_saveTemp()
 		exitMatch()
@@ -1353,7 +1353,7 @@ function loop() --The code for this function should be thought of as if it were 
 --During Demo Mode
 	if getGameMode() == "demo" then
 		textImgDraw(txt_DemoFightCfg)
-		animDraw(demoLogo)
+		if roundstate() >= 2 then animDraw(demoLogo) end
 		f_demoSkip()
 --During VS Mode
 	elseif getGameMode() == "vs" then
