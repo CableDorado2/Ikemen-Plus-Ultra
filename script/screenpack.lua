@@ -3542,6 +3542,8 @@ txt_allianceCourseLv = createTextImg(font7, 0, 0, "", 112, 50)
 txt_allianceCourseTeam = createTextImg(font7, 0, 1, "", 0, 0)
 txt_allianceCourseTeamName = createTextImg(font7, 0, 0, "", 0, 0)
 txt_allianceCourseDat = createTextImg(font7, 0, 0, "FINAL ENEMY TEAMS", 79, 177)
+txt_allianceCourseLvText = "LEVEL "
+txt_allianceCourseTeamText = "TEAM "
 txt_allianceCourse = [[
 COURSE
 SELECT
@@ -3549,6 +3551,13 @@ SELECT
 
 txt_allianceSelNo = createTextImg(font20, 2, -1, "", 245, 34, 0.85, 0.85)
 txt_allianceSelCfg = createTextImg(font7, 0, 0, "", 0, 0)
+txt_allianceSelText = "ALLIANCE "
+txt_allianceSelLvText = "TEAM LEVEL: "
+txt_allianceSelPowerText = "POWER: "
+txt_allianceSelUsedRateText = "TIMES USED: "
+txt_allianceSelTimeRecordText = "BEST TIME: "
+txt_allianceSelScoreRecordText = "BEST SCORE: "
+txt_allianceSelStyleText = "PLAY STYLE: "
 txt_allianceSel = [[
 ALLIANCE
 SELECT
@@ -3559,6 +3568,96 @@ txt_allianceSelUsedRate = createTextImg(font2, 0, -1, "", 315, 78, 0.65, 0.65)
 txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 315, 88, 0.65, 0.65)
 txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 315, 98, 0.65, 0.65)
 txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 315, 108, 0.65, 0.65)
+
+--Alliance Stats Ranks Table
+local t_allianceStatsRanks = {
+	{rank = "SS", 	min = 150},
+	{rank = "S+",	min = 140},
+	{rank = "S", 	min = 130},
+	{rank = "S-", 	min = 120},
+	{rank = "A+", 	min = 110},
+	{rank = "A", 	min = 100},
+	{rank = "A-", 	min = 90},
+	{rank = "B+", 	min = 80},
+	{rank = "B", 	min = 70},
+	{rank = "B-", 	min = 60},
+	{rank = "C+", 	min = 50},
+	{rank = "C", 	min = 40},
+	{rank = "C-", 	min = 30},
+	{rank = "D+", 	min = 25},
+	{rank = "D", 	min = 20},
+	{rank = "D-", 	min = 15},
+	{rank = "E+", 	min = 10},
+	{rank = "E", 	min = 5},
+	{rank = "E-", 	min = 0},
+}
+
+function f_getAllianceStatRank(val)
+	for i, entry in ipairs(t_allianceStatsRanks) do
+		if val >= entry.min then
+			return entry.rank
+		end
+	end
+end
+
+--Alliance Member Team Extra values that gives each Stats Rank
+local t_allianceRankWeights = {
+	["SS"] = 2.0, ["S+"] = 1.8, ["S"] = 1.7, ["S-"] = 1.6,
+	["A+"] = 1.5, ["A"] = 1.4, ["A-"] = 1.3,
+	["B+"] = 1.2, ["B"] = 1.1, ["B-"] = 1.0,
+	["C+"] = 0.9, ["C"] = 0.8, ["C-"] = 0.7,
+	["D+"] = 0.6, ["D"] = 0.5, ["D-"] = 0.4,
+	["E+"] = 0.3, ["E"] = 0.2, ["E-"] = 0.1
+}
+
+--Alliance Member Team Power Calc function
+function f_getAllianceMemberPower(t_ally)
+	local basePower = 0
+	local globalMultiplier = 5.2 --Change this to inflate or reduce the final number
+	local attributes = {'life', 'power', 'attack', 'defence'}
+--Sum each attribute multiplied by the weight of its rank (This rewards the player for having better ranks.)
+	for _, attrName in ipairs(attributes) do
+		local attrData = t_ally[attrName] --Read t_ally.life, t_ally.power, etc..
+		if attrData then
+			local statValue = attrData.stat or 0
+			local rankLabel = attrData.rank or "E-"
+			local weight = t_allianceRankWeights[rankLabel] or 0.1
+			basePower = basePower + (statValue * weight)
+		end
+	end
+	local totalPower = basePower * globalMultiplier
+	return math.floor(totalPower) --Return an Integer Value
+end
+
+--Alliance Team Level Ranks Point
+local t_allianceRankPoints = {
+	["SS"] = 19, ["S+"] = 18, ["S"] = 17, ["S-"] = 16,
+	["A+"] = 15, ["A"] = 14, ["A-"] = 13,
+	["B+"] = 12, ["B"] = 11, ["B-"] = 10,
+	["C+"] = 9,  ["C"] = 8,  ["C-"] = 7,
+	["D+"] = 6,  ["D"] = 5,  ["D-"] = 4,
+	["E+"] = 3,  ["E"] = 2,  ["E-"] = 1
+}
+
+--Get Team Level based on Characters Stats Rank
+function f_getAllianceTeamLevel(allianceMembers)
+	local totalPoints = 0
+	local memberCount = 0
+--Check All Alliance Members
+	for _, char in ipairs(allianceMembers) do
+	--Sum current stats points
+		local stat1 = t_allianceRankPoints[char.ranks.ataque] or 0
+		local stat2 = t_allianceRankPoints[char.ranks.poder] or 0
+		local stat3 = t_allianceRankPoints[char.ranks.defensa] or 0
+		local stat4 = t_allianceRankPoints[char.ranks.vida] or 0
+		totalPoints = totalPoints + (stat1 + stat2 + stat3 + stat4)
+		memberCount = memberCount + 1
+	end
+--Scale factor (To control how difficult the level up is)
+	local scaleFactor = 11.4
+	local level = totalPoints / scaleFactor
+	return math.max(1, math.floor(level)) --Minimum Level is 1
+end
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
 	{difficulty = "NORMAL",
@@ -3872,57 +3971,78 @@ if data.debugLog then f_printTable(t_allianceCourses, "save/debug/t_allianceCour
 t_allianceSel = { --TODO: Generate this via .def file format for end-user comfortable customization
 --Alliance 1 Members
 	{
-		char = { --Alliance Characters Path (Need to be loaded in select.def) if it is empty a random char will be loaded
-			"Kung Fu Girl",
-			"Kung Fu Man/Master/Master Kung Fu Man.def",
-			"Kung Fu Man/Evil/Evil Kung Fu Man.def"
+	--Ally 1
+		{
+			char = "Kung Fu Girl", --Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+			ailevel = 1,
+			life = {stat = 1},
+			power = {stat = 1},
+			attack = {stat = 1},
+			defence = {stat = 1},
 		},
-		stats = {life = 1, power = 1, attack = 1, defence = 1}, --Alliance stats (life, power, attack, defence)
+	--Ally 2
+		{
+			char = "Kung Fu Man/Master/Master Kung Fu Man.def",
+			ailevel = 1,
+			life = {stat = 1},
+			power = {stat = 1},
+			attack = {stat = 1},
+			defence = {stat = 1},
+		},
+	--Ally 3
+		{
+			char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+			ailevel = 1,
+			life = {stat = 1},
+			power = {stat = 1},
+			attack = {stat = 1},
+			defence = {stat = 1},
+		},
 	},
 --Alliance 2 Members
 	{
-		char = {
-			"Kung Fu Girl",
-			"Kung Fu Man/Master/Master Kung Fu Man.def",
-			"Kung Fu Man/Evil/Evil Kung Fu Man.def"
+	--Ally 1
+		{
+			char = "Mako Mayama",
+			ailevel = 1,
+			life = {stat = 1},
+			power = {stat = 1},
+			attack = {stat = 1},
+			defence = {stat = 1},
 		},
-		stats = {life = 1, power = 1, attack = 1, defence = 1},
+	--Ally 2
+		{
+			char = "Kung Fu Girl",
+			ailevel = 1,
+			life = {stat = 1},
+			power = {stat = 1},
+			attack = {stat = 1},
+			defence = {stat = 1},
+		},
+	--Ally 3
+		{
+			char = "Reika Murasame",
+			ailevel = 1,
+			life = {stat = 1},
+			power = {stat = 1},
+			attack = {stat = 1},
+			defence = {stat = 1},
+		},
 	},
 }
 for i=1, #t_allianceSel do
 	t_allianceSel[i]['id'] = textImgNew()
-end
-if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
-
-t_allianceStatsRanks = {
-	{rank = "SS", 	min = 150},
-	{rank = "S+",	min = 140},
-	{rank = "S", 	min = 130},
-	{rank = "S-", 	min = 120},
-	{rank = "A+", 	min = 110},
-	{rank = "A", 	min = 100},
-	{rank = "A-", 	min = 90},
-	{rank = "B+", 	min = 80},
-	{rank = "B", 	min = 70},
-	{rank = "B-", 	min = 60},
-	{rank = "C+", 	min = 50},
-	{rank = "C", 	min = 40},
-	{rank = "C-", 	min = 30},
-	{rank = "D+", 	min = 25},
-	{rank = "D", 	min = 20},
-	{rank = "D-", 	min = 15},
-	{rank = "E+", 	min = 10},
-	{rank = "E", 	min = 5},
-	{rank = "E-", 	min = 0},
-}
-
-function f_allianceRankFromValue(val)
-	for i, entry in ipairs(t_allianceStatsRanks) do
-		if val >= entry.min then
-			return entry.rank
-		end
+--Set Initial Ranks based in Default Stats
+	for ally=1, #t_allianceSel[i] do
+		t_allianceSel[i][ally].life['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].life.stat)
+		t_allianceSel[i][ally].power['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].power.stat)
+		t_allianceSel[i][ally].attack['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].attack.stat)
+		t_allianceSel[i][ally].defence['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].defence.stat)
+	--Set Member Total Power
+		t_allianceSel[i][ally]['allyPower'] = f_getAllianceMemberPower(t_allianceSel[i][ally])
 	end
 end
+if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
 
 --Background
 allianceBG = animNew(sprIkemen, [[
@@ -4049,32 +4169,32 @@ end
 function f_allianceSelectPreview()
 	local nameFont = font2
 --Ally 1
-	drawPortrait(0, 168, 52, 0.35, 0.35)
+	drawPortrait(t_charDef[t_allianceSel[allianceSel][1].char:lower()], 168, 52, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 211, 52)
-	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, "Kung Fu Man", 168, 48)
-	f_drawQuickText(txt_ally1Power, nameFont, 0, -1, "Power: 999999", 240, 48)
-	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.attack), 237, 60)
-	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.power), 237, 73)
-	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.life), 237, 85)
-	f_drawQuickText(txt_ally1DefAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.defence), 237, 98)
+	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][1].char:lower()]), 168, 48)
+	f_drawQuickText(txt_ally1Power, nameFont, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][1].allyPower, 240, 48)
+	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].attack.rank, 237, 60)
+	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].power.rank, 237, 73)
+	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].life.rank, 237, 85)
+	f_drawQuickText(txt_ally1DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].defence.rank, 237, 98)
 --Ally 2
-	drawPortrait(0, 168, 132, 0.35, 0.35)
+	drawPortrait(t_charDef[t_allianceSel[allianceSel][2].char:lower()], 168, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 211, 132)
-	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, "Kung Fu Man", 168, 128)
-	f_drawQuickText(txt_ally2Power, nameFont, 0, -1, "Power: 999999", 240, 128)
-	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.attack), 237, 140)
-	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.power), 237, 153)
-	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.life), 237, 165)
-	f_drawQuickText(txt_ally2DefAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.defence), 237, 178)
+	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][2].char:lower()]), 168, 128)
+	f_drawQuickText(txt_ally2Power, nameFont, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][2].allyPower, 240, 128)
+	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].attack.rank, 237, 140)
+	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].power.rank, 237, 153)
+	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].life.rank, 237, 165)
+	f_drawQuickText(txt_ally2DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].defence.rank, 237, 178)
 --Ally 3
-	drawPortrait(0, 245, 132, 0.35, 0.35)
+	drawPortrait(t_charDef[t_allianceSel[allianceSel][3].char:lower()], 245, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 288, 132)
-	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, "Kung Fu Man", 250, 128)
-	f_drawQuickText(txt_ally3Power, nameFont, 0, -1, "Power: 999999", 317, 128)
-	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.attack), 314, 140)
-	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.power), 314, 153)
-	f_drawQuickText(txt_ally3LifAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.life), 314, 165)
-	f_drawQuickText(txt_ally3DefAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.defence), 314, 178)
+	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][3].char:lower()]), 250, 128)
+	f_drawQuickText(txt_ally3Power, nameFont, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][3].allyPower, 317, 128)
+	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].attack.rank, 314, 140)
+	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].power.rank, 314, 153)
+	f_drawQuickText(txt_ally3LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].life.rank, 314, 165)
+	f_drawQuickText(txt_ally3DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].defence.rank, 314, 178)
 end
 
 function drawAlliTest()
@@ -4089,7 +4209,7 @@ function drawAlliTest()
 	--Draw Enemy Team Level Text
 		local enemyLv = allianceCourseSel
 		if allianceCourseSel > 1 then enemyLv = (enemyLv - 1) * 10 end
-		textImgSetText(txt_allianceCourseLv, "LEVEL "..enemyLv)
+		textImgSetText(txt_allianceCourseLv, txt_allianceCourseLvText..enemyLv)
 		textImgDraw(txt_allianceCourseLv)
 		--f_drawQuickText(teas, font2, 0, 1, allianceCourseSel, 81, 130)
 	--Alliance Course Content Text
@@ -4099,13 +4219,15 @@ function drawAlliTest()
 				for enemy=1, 4 do
 					animPosDraw(allianceEnemyIconBG, 18 + enemy * 26, 22 + team * 37)
 					animPosDraw(allianceEnemyRandomIcon, 19 + enemy * 26, 23 + team * 37)
+					local enemyDat = t_allianceCourses[allianceCourseSel].match[lastMatch].route[team].char[enemy]
+					drawFacePortrait(t_charDef[enemyDat:lower()], 19 + enemy * 26, 23 + team * 37, 0.9, 0.9)
 				end
 				local enemyTeamLetter = ""
 				if team == 1 then enemyTeamLetter = "A"
 				elseif team == 2 then enemyTeamLetter = "B"
 				elseif team == 3 then enemyTeamLetter = "C"
 				end
-				textImgSetText(txt_allianceCourseTeam, "TEAM "..enemyTeamLetter)
+				textImgSetText(txt_allianceCourseTeam, txt_allianceCourseTeamText..enemyTeamLetter)
 				textImgSetPos(txt_allianceCourseTeam, 4, 37 + team * 37)
 				textImgDraw(txt_allianceCourseTeam)
 			--end
@@ -4114,17 +4236,17 @@ function drawAlliTest()
 		animDraw(allianceSelBG)
 		f_allianceSelectPreview()
 		f_textRender(txt_allianceSelCfg, txt_allianceSel, 0, 288, 33, 12, 0, 100)
-		textImgSetText(txt_allianceSelNo, "ALLIANCE "..allianceSel)
+		textImgSetText(txt_allianceSelNo, txt_allianceSelText..allianceSel)
 		textImgDraw(txt_allianceSelNo)
-		textImgSetText(txt_allianceSelLv, "TEAM LEVEL: 999")
+		textImgSetText(txt_allianceSelLv, txt_allianceSelLvText.."999")
 		textImgDraw(txt_allianceSelLv)
-		textImgSetText(txt_allianceSelUsedRate, "TIMES USED: 999")
+		textImgSetText(txt_allianceSelUsedRate, txt_allianceSelUsedRateText.."999")
 		textImgDraw(txt_allianceSelUsedRate)
-		textImgSetText(txt_allianceSelTimeRecord, "BEST TIME: 99:99.99")
+		textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText.."99:99.99")
 		textImgDraw(txt_allianceSelTimeRecord)
-		textImgSetText(txt_allianceSelScoreRecord, "BEST SCORE: 9999999")
+		textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText.."9999999")
 		textImgDraw(txt_allianceSelScoreRecord)
-		textImgSetText(txt_allianceSelStyle, "PLAY STYLE: BALANCED")
+		textImgSetText(txt_allianceSelStyle, txt_allianceSelStyleText.."BALANCED")
 		textImgDraw(txt_allianceSelStyle)
 	--Draw Extra Info
 		textImgDraw(txt_allianceCourseDat)
