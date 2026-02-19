@@ -3916,7 +3916,7 @@ t_allianceStatsRanks = {
 	{rank = "E-", 	min = 0},
 }
 
-function allianceRankFromValue(val)
+function f_allianceRankFromValue(val)
 	for i, entry in ipairs(t_allianceStatsRanks) do
 		if val >= entry.min then
 			return entry.rank
@@ -4053,28 +4053,28 @@ function f_allianceSelectPreview()
 	animPosDraw(allianceStatsV, 211, 52)
 	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, "Kung Fu Man", 168, 48)
 	f_drawQuickText(txt_ally1Power, nameFont, 0, -1, "Power: 999999", 240, 48)
-	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, "SS", 237, 60)
-	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, "SS", 237, 73)
-	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, "SS", 237, 85)
-	f_drawQuickText(txt_ally1DefAtrib, nameFont, 0, -1, "SS", 237, 98)
+	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.attack), 237, 60)
+	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.power), 237, 73)
+	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.life), 237, 85)
+	f_drawQuickText(txt_ally1DefAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.defence), 237, 98)
 --Ally 2
 	drawPortrait(0, 168, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 211, 132)
 	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, "Kung Fu Man", 168, 128)
 	f_drawQuickText(txt_ally2Power, nameFont, 0, -1, "Power: 999999", 240, 128)
-	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, "SS", 237, 140)
-	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, "SS", 237, 153)
-	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, "SS", 237, 165)
-	f_drawQuickText(txt_ally2DefAtrib, nameFont, 0, -1, "SS", 237, 178)
+	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.attack), 237, 140)
+	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.power), 237, 153)
+	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.life), 237, 165)
+	f_drawQuickText(txt_ally2DefAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.defence), 237, 178)
 --Ally 3
 	drawPortrait(0, 245, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 288, 132)
 	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, "Kung Fu Man", 250, 128)
 	f_drawQuickText(txt_ally3Power, nameFont, 0, -1, "Power: 999999", 317, 128)
-	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, "SS", 314, 140)
-	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, "SS", 314, 153)
-	f_drawQuickText(txt_ally3LifAtrib, nameFont, 0, -1, "SS", 314, 165)
-	f_drawQuickText(txt_ally3DefAtrib, nameFont, 0, -1, "SS", 314, 178)
+	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.attack), 314, 140)
+	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.power), 314, 153)
+	f_drawQuickText(txt_ally3LifAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.life), 314, 165)
+	f_drawQuickText(txt_ally3DefAtrib, nameFont, 0, -1, f_allianceRankFromValue(t_allianceSel[allianceSel].stats.defence), 314, 178)
 end
 
 function drawAlliTest()
@@ -4088,7 +4088,7 @@ function drawAlliTest()
 		textImgDraw(txt_allianceCourseName)
 	--Draw Enemy Team Level Text
 		local enemyLv = allianceCourseSel
-		if allianceCourseSel > 1 then enemyLv = enemyLv * 10 end
+		if allianceCourseSel > 1 then enemyLv = (enemyLv - 1) * 10 end
 		textImgSetText(txt_allianceCourseLv, "LEVEL "..enemyLv)
 		textImgDraw(txt_allianceCourseLv)
 		--f_drawQuickText(teas, font2, 0, 1, allianceCourseSel, 81, 130)
