@@ -3604,7 +3604,7 @@ end
 --Alliance Member Team Power Calc function
 function f_getAllianceMemberPower(t_ally)
 	local basePower = 0
-	local globalMultiplier = 5.2 --Change this to inflate or reduce the final number
+	local globalMultiplier = 4663 --Change this to inflate or reduce the final number
 	local attributes = {'life', 'power', 'attack', 'defence'}
 --Sum each attribute multiplied by the weight of its rank (This rewards the player for having better ranks.)
 	for _, attrName in ipairs(attributes) do
@@ -3635,7 +3635,7 @@ function f_getAllianceTeamLevel(t_allianceMembers)
 		totalTeamLv = totalTeamLv + (member.allyPower or 0)
 	end
 --Scale factor (To control how difficult the level up is)
-	local scaleFactor = 680
+	local scaleFactor = 1900
 	local level = totalTeamLv / scaleFactor
 	return math.max(1, math.floor(level)) --Minimum Level is 1
 end
@@ -3956,58 +3956,118 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 		{
 			char = "Kung Fu Girl", --Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 			ailevel = 1,
-			life = {stat = 1},
-			power = {stat = 1},
-			attack = {stat = 1},
-			defence = {stat = 1},
+			life = {stat = 4},
+			power = {stat = 4},
+			attack = {stat = 4},
+			defence = {stat = 4},
 		},
 	--Ally 2
 		{
-			char = "Kung Fu Man/Master/Master Kung Fu Man.def",
+			char = "Mako Mayama",
 			ailevel = 1,
-			life = {stat = 1},
-			power = {stat = 1},
-			attack = {stat = 1},
-			defence = {stat = 1},
+			life = {stat = 4},
+			power = {stat = 4},
+			attack = {stat = 4},
+			defence = {stat = 4},
 		},
 	--Ally 3
 		{
-			char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+			char = "Reika Murasame",
 			ailevel = 1,
-			life = {stat = 1},
-			power = {stat = 1},
-			attack = {stat = 1},
-			defence = {stat = 1},
+			life = {stat = 4},
+			power = {stat = 4},
+			attack = {stat = 4},
+			defence = {stat = 4},
 		},
 	},
 --Alliance 2 Members
 	{
 	--Ally 1
 		{
-			char = "Mako Mayama",
+			char = "Kung Fu Man/Master/Master Kung Fu Man.def",
 			ailevel = 1,
-			life = {stat = 1},
-			power = {stat = 1},
-			attack = {stat = 1},
-			defence = {stat = 1},
+			life = {stat = 3},
+			power = {stat = 3},
+			attack = {stat = 3},
+			defence = {stat = 3},
 		},
 	--Ally 2
 		{
-			char = "Kung Fu Girl",
+			char = "Kung Fu Man/X/Kung Fu Man X.def",
 			ailevel = 1,
-			life = {stat = 1},
-			power = {stat = 1},
-			attack = {stat = 1},
-			defence = {stat = 1},
+			life = {stat = 3},
+			power = {stat = 3},
+			attack = {stat = 3},
+			defence = {stat = 3},
 		},
 	--Ally 3
 		{
-			char = "Reika Murasame",
+			char = "Kung Fu Man",
 			ailevel = 1,
-			life = {stat = 1},
-			power = {stat = 1},
-			attack = {stat = 1},
-			defence = {stat = 1},
+			life = {stat = 3},
+			power = {stat = 3},
+			attack = {stat = 3},
+			defence = {stat = 3},
+		},
+	},
+--Alliance 3 Members
+	{
+	--Ally 1
+		{
+			char = "Shin Gouki",
+			ailevel = 1,
+			life = {stat = 2},
+			power = {stat = 2},
+			attack = {stat = 2},
+			defence = {stat = 2},
+		},
+	--Ally 2
+		{
+			char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+			ailevel = 1,
+			life = {stat = 2},
+			power = {stat = 2},
+			attack = {stat = 2},
+			defence = {stat = 2},
+		},
+	--Ally 3
+		{
+			char = "Suave Dude",
+			ailevel = 1,
+			life = {stat = 2},
+			power = {stat = 2},
+			attack = {stat = 2},
+			defence = {stat = 2},
+		},
+	},
+--Alliance 4 Members
+	{
+	--Ally 1
+		{
+			char = "Suave Dude",
+			ailevel = 1,
+			life = {stat = 5},
+			power = {stat = 5},
+			attack = {stat = 5},
+			defence = {stat = 5},
+		},
+	--Ally 2
+		{
+			char = "Kung Fu Girl", --Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+			ailevel = 1,
+			life = {stat = 4},
+			power = {stat = 4},
+			attack = {stat = 4},
+			defence = {stat = 4},
+		},
+	--Ally 3
+		{
+			char = "Mako Mayama",
+			ailevel = 1,
+			life = {stat = 3},
+			power = {stat = 3},
+			attack = {stat = 3},
+			defence = {stat = 3},
 		},
 	},
 }
@@ -4023,7 +4083,7 @@ for i=1, #t_allianceSel do
 		t_allianceSel[i][ally]['allyPower'] = f_getAllianceMemberPower(t_allianceSel[i][ally])
 	end
 --Set Alliance Team Level
-	t_allianceSel[i]['allianceTeamLevel'] = f_getAllianceTeamLevel(t_allianceSel[i])
+	t_allianceSel[i]['teamLv'] = f_getAllianceTeamLevel(t_allianceSel[i])
 end
 if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
 
@@ -4221,16 +4281,16 @@ function drawAlliTest()
 		f_textRender(txt_allianceSelCfg, txt_allianceSel, 0, 288, 33, 12, 0, 100)
 		textImgSetText(txt_allianceSelNo, txt_allianceSelText..allianceSel)
 		textImgDraw(txt_allianceSelNo)
-		textImgSetText(txt_allianceSelLv, txt_allianceSelLvText.."999")
+		textImgSetText(txt_allianceSelLv, txt_allianceSelLvText..t_allianceSel[allianceSel].teamLv)
 		textImgDraw(txt_allianceSelLv)
-		textImgSetText(txt_allianceSelUsedRate, txt_allianceSelUsedRateText.."999")
+		textImgSetText(txt_allianceSelUsedRate, txt_allianceSelUsedRateText.."0")
 		textImgDraw(txt_allianceSelUsedRate)
 		textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText.."99:99.99")
 		textImgDraw(txt_allianceSelTimeRecord)
-		textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText.."9999999")
+		textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText.."0")
 		textImgDraw(txt_allianceSelScoreRecord)
-		textImgSetText(txt_allianceSelStyle, txt_allianceSelStyleText.."BALANCED")
-		textImgDraw(txt_allianceSelStyle)
+		--textImgSetText(txt_allianceSelStyle, txt_allianceSelStyleText.."BALANCED")
+		--textImgDraw(txt_allianceSelStyle)
 	--Draw Extra Info
 		textImgDraw(txt_allianceCourseDat)
 		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
