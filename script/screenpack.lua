@@ -3571,44 +3571,35 @@ txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 315, 108, 0.65, 0.65)
 
 --Alliance Stats Ranks Table
 local t_allianceStatsRanks = {
-	{rank = "SS", 	min = 150},
-	{rank = "S+",	min = 140},
-	{rank = "S", 	min = 130},
-	{rank = "S-", 	min = 120},
-	{rank = "A+", 	min = 110},
-	{rank = "A", 	min = 100},
-	{rank = "A-", 	min = 90},
-	{rank = "B+", 	min = 80},
-	{rank = "B", 	min = 70},
-	{rank = "B-", 	min = 60},
-	{rank = "C+", 	min = 50},
-	{rank = "C", 	min = 40},
-	{rank = "C-", 	min = 30},
-	{rank = "D+", 	min = 25},
-	{rank = "D", 	min = 20},
-	{rank = "D-", 	min = 15},
-	{rank = "E+", 	min = 10},
-	{rank = "E", 	min = 5},
-	{rank = "E-", 	min = 0},
+	{rank = "SS", minStats = 150, weight = 2.0},
+	{rank = "S+", minStats = 140, weight = 1.8},
+	{rank = "S",  minStats = 130, weight = 1.7},
+	{rank = "S-", minStats = 120, weight = 1.6},
+	{rank = "A+", minStats = 110, weight = 1.5},
+	{rank = "A",  minStats = 100, weight = 1.4},
+	{rank = "A-", minStats = 90,  weight = 1.3},
+	{rank = "B+", minStats = 80,  weight = 1.2},
+	{rank = "B",  minStats = 70,  weight = 1.1},
+	{rank = "B-", minStats = 60,  weight = 1.0},
+	{rank = "C+", minStats = 50,  weight = 0.9},
+	{rank = "C",  minStats = 40,  weight = 0.8},
+	{rank = "C-", minStats = 30,  weight = 0.7},
+	{rank = "D+", minStats = 25,  weight = 0.6},
+	{rank = "D",  minStats = 20,  weight = 0.5},
+	{rank = "D-", minStats = 15,  weight = 0.4},
+	{rank = "E+", minStats = 10,  weight = 0.3},
+	{rank = "E",  minStats = 5,   weight = 0.2},
+	{rank = "E-", minStats = 0,   weight = 0.1},
 }
 
 function f_getAllianceStatRank(val)
 	for i, entry in ipairs(t_allianceStatsRanks) do
-		if val >= entry.min then
+		if val >= entry.minStats then
 			return entry.rank
 		end
 	end
+	return "E-" --Default value is not defined
 end
-
---Alliance Member Team Extra values that gives each Stats Rank
-local t_allianceRankWeights = {
-	["SS"] = 2.0, ["S+"] = 1.8, ["S"] = 1.7, ["S-"] = 1.6,
-	["A+"] = 1.5, ["A"] = 1.4, ["A-"] = 1.3,
-	["B+"] = 1.2, ["B"] = 1.1, ["B-"] = 1.0,
-	["C+"] = 0.9, ["C"] = 0.8, ["C-"] = 0.7,
-	["D+"] = 0.6, ["D"] = 0.5, ["D-"] = 0.4,
-	["E+"] = 0.3, ["E"] = 0.2, ["E-"] = 0.1
-}
 
 --Alliance Member Team Power Calc function
 function f_getAllianceMemberPower(t_ally)
@@ -3621,7 +3612,14 @@ function f_getAllianceMemberPower(t_ally)
 		if attrData then
 			local statValue = attrData.stat or 0
 			local rankLabel = attrData.rank or "E-"
-			local weight = t_allianceRankWeights[rankLabel] or 0.1
+		--Search weight in t_allianceStatsRanks
+			local weight = 0.1 --Default value is not defined
+			for _, entry in ipairs(t_allianceStatsRanks) do
+				if entry.rank == rankLabel then
+					weight = entry.weight
+					break --When weight is found finish the loop
+				end
+			end
 			basePower = basePower + (statValue * weight)
 		end
 	end
@@ -3629,33 +3627,16 @@ function f_getAllianceMemberPower(t_ally)
 	return math.floor(totalPower) --Return an Integer Value
 end
 
---Alliance Team Level Ranks Point
-local t_allianceRankPoints = {
-	["SS"] = 19, ["S+"] = 18, ["S"] = 17, ["S-"] = 16,
-	["A+"] = 15, ["A"] = 14, ["A-"] = 13,
-	["B+"] = 12, ["B"] = 11, ["B-"] = 10,
-	["C+"] = 9,  ["C"] = 8,  ["C-"] = 7,
-	["D+"] = 6,  ["D"] = 5,  ["D-"] = 4,
-	["E+"] = 3,  ["E"] = 2,  ["E-"] = 1
-}
-
 --Get Team Level based on Characters Stats Rank
-function f_getAllianceTeamLevel(allianceMembers)
-	local totalPoints = 0
-	local memberCount = 0
---Check All Alliance Members
-	for _, char in ipairs(allianceMembers) do
-	--Sum current stats points
-		local stat1 = t_allianceRankPoints[char.ranks.ataque] or 0
-		local stat2 = t_allianceRankPoints[char.ranks.poder] or 0
-		local stat3 = t_allianceRankPoints[char.ranks.defensa] or 0
-		local stat4 = t_allianceRankPoints[char.ranks.vida] or 0
-		totalPoints = totalPoints + (stat1 + stat2 + stat3 + stat4)
-		memberCount = memberCount + 1
+function f_getAllianceTeamLevel(t_allianceMembers)
+	local totalTeamLv = 0
+--Check Total Power for All Alliance Members
+	for _, member in ipairs(t_allianceMembers) do
+		totalTeamLv = totalTeamLv + (member.allyPower or 0)
 	end
 --Scale factor (To control how difficult the level up is)
-	local scaleFactor = 11.4
-	local level = totalPoints / scaleFactor
+	local scaleFactor = 680
+	local level = totalTeamLv / scaleFactor
 	return math.max(1, math.floor(level)) --Minimum Level is 1
 end
 
@@ -4041,6 +4022,8 @@ for i=1, #t_allianceSel do
 	--Set Member Total Power
 		t_allianceSel[i][ally]['allyPower'] = f_getAllianceMemberPower(t_allianceSel[i][ally])
 	end
+--Set Alliance Team Level
+	t_allianceSel[i]['allianceTeamLevel'] = f_getAllianceTeamLevel(t_allianceSel[i])
 end
 if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
 
