@@ -2389,6 +2389,7 @@ function f_default() --Reset Game Modes Configuration
 	data.orderSelect = true --Order select screen enabled
 	data.versusScreen = true --Versus screen enabled
 	data.victoryscreen = true --Victory screen enabled
+	data.continueScreen = false --Continue screen disabled
 	data.serviceScreen = false --Service screen disabled
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
 	data.intermission = false --Manage access to secret battles

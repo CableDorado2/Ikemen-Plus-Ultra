@@ -3673,7 +3673,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 1
 					},
 				--Route B
@@ -3685,7 +3685,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 2
 					},
 				--Route C
@@ -3697,7 +3697,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 3
 					}
 				}
@@ -3715,7 +3715,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 1
 					},
 				--Route B
@@ -3728,7 +3728,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 2
 					},
 				--Route C
@@ -3741,7 +3741,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 3
 					}
 				}
@@ -3753,39 +3753,39 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 					{
 						char = {
 							"Suave Dude", --Leader
-							"Kung Fu Man",
-							"Kung Fu Man",
-							"Kung Fu Man"
+							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
+							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
+							"Kung Fu Man/Evil/Evil Kung Fu Man.def"
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 2
 					},
 				--Route B
 					{
 						char = {
-							"Suave Dude", --Leader
+							"Kung Fu Girl/Master/Master Kung Fu Girl.def", --Leader
 							"Kung Fu Man",
-							"Kung Fu Man",
-							"Kung Fu Man"
+							"Mako Mayama",
+							"Shin Gouki"
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 4
 					},
 				--Route C
 					{
 						char = {
 							"Suave Dude", --Leader
-							"Kung Fu Man",
-							"Kung Fu Man",
-							"Kung Fu Man"
+							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
+							"Reika Murasame",
+							"Suave Dude/Minion/Minion.def"
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 1,
+						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 6
 					}
 				}
@@ -3807,7 +3807,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
 						--music = "sound/boss.mp3",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 4
 					}
 				}
@@ -3824,7 +3824,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 4
 					},
 				--Route B
@@ -3836,7 +3836,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 5
 					},
 				--Route C
@@ -3848,7 +3848,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 6
 					}
 				}
@@ -3866,7 +3866,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 4
 					},
 				--Route B
@@ -3879,7 +3879,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 5
 					},
 				--Route C
@@ -3892,7 +3892,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
 						--music = "sound/",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 6
 					}
 				}
@@ -3903,40 +3903,40 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Suave Dude", --Leader
+							"Mako Mayama", --Leader
+							"Suave Dude/Minion/Minion.def",
 							"Kung Fu Man",
-							"Kung Fu Man",
-							"Kung Fu Man"
+							"Reika Murasame"
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 4
 					},
 				--Route B
 					{
 						char = {
-							"Suave Dude", --Leader
-							"Kung Fu Man",
-							"Kung Fu Man",
-							"Kung Fu Man"
+							"Kung Fu Girl", --Leader
+							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
+							"Shin Gouki",
+							"Suave Dude"
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 6
 					},
 				--Route C
 					{
 						char = {
-							"Suave Dude", --Leader
-							"Kung Fu Man",
-							"Kung Fu Man",
-							"Kung Fu Man"
+							"Shin Gouki", --Leader
+							"Red Dragon",
+							"Kung Fu Man/Master/Master Kung Fu Man.def",
+							"Mako Mayama"
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = 10,
+						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 8
 					}
 				}
@@ -4053,7 +4053,7 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 		},
 	--Ally 2
 		{
-			char = "Kung Fu Girl", --Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+			char = "Kung Fu Girl",
 			ailevel = 1,
 			life = {stat = 4},
 			power = {stat = 4},

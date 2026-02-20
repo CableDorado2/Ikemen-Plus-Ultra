@@ -1286,6 +1286,7 @@ function arcadeCfg()
 	data.nextStage = true --Enable Next Stage Screen before order select
 	data.arcadeIntro = true --Enable characters arcade intro before versus screen
 	data.arcadeEnding = true --Enable characters arcade ending before credits screen
+	data.continueScreen = true --Enable continue screen after victory screen when player loses
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -1392,6 +1393,7 @@ function towerCfg()
 	data.recordMode = "tower"
 	--data.arcadeIntro = true --Enable characters arcade intro before tower select
 	data.arcadeEnding = true
+	data.continueScreen = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -14977,7 +14979,7 @@ if validCells() then
 					f_exitToMainMenu()
 					return
 				end
-				f_makeRoster()
+				--f_makeRoster()
 				lastMatch = #t_allianceCourses[allianceCourseSel].match --get last match from alliance course selected
 			else
 			--generate roster for other modes (arcade, survival, etc)
@@ -15040,8 +15042,8 @@ if validCells() then
 		elseif winner == 1 then
 		--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
+			--Continue Screen disabled or don't have coins to continue in (Arcade with Attract Mode)
+				if not data.continueScreen or (data.attractMode and getCredits() == 0) then
 					looseCnt = looseCnt + 1
 				--Victory screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -15178,8 +15180,8 @@ if validCells() then
 				end
 		--Player 1 (IN LEFT SIDE):
 			else
-			--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
+			--Continue Screen disabled or don't have coins to continue in (Arcade with Attract Mode)
+				if not data.continueScreen or (data.attractMode and getCredits() == 0) then
 					looseCnt = looseCnt + 1
 				--Victory Screen
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -15244,8 +15246,8 @@ if validCells() then
 				f_exitToMainMenu()
 				return
 			end
-		--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
-			if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode and getCredits() == 0) then
+		--Lose Screen when GIVE UP option is selected in Pause Menu
+			if data.gameMode ~= "abyss" and (not data.continueScreen or (data.attractMode and getCredits() == 0)) then
 				looseCnt = looseCnt + 1
 				if data.gameMode == "arcade" or data.gameMode == "tower" then --Attract Arcade
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -15433,6 +15435,9 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
+					elseif data.gameMode == "alliance" then
+						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
+						p1Cell = t_charDef[cpuDat]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 				--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 					This logic will ensure that chars are not repeated until the entire roster is defeated.]]
@@ -15539,7 +15544,7 @@ if validCells() then
 					end
 				end
 			end
-			if data.gameMode ~= "tower" then
+			if data.gameMode ~= "tower" and data.gameMode ~= "alliance" then
 				t_roster[matchNo] = data.t_p1selected[1].cel --Refresh t_roster table
 			end
 	--Assign enemy team for AI in Player 2 (RIGHT SIDE)
@@ -15553,6 +15558,9 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
+					elseif data.gameMode == "alliance" then
+						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
+						p2Cell = t_charDef[cpuDat]
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 						--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 						This logic will ensure that chars are not repeated until the entire roster is defeated.]]
@@ -15660,7 +15668,7 @@ if validCells() then
 					end
 				end
 			end
-			if data.gameMode ~= "tower" then
+			if data.gameMode ~= "tower" and data.gameMode ~= "alliance" then
 				t_roster[matchNo] = data.t_p2selected[1].cel --Refresh t_roster table
 			end
 		end
@@ -17486,6 +17494,7 @@ function f_allianceSelect()
 	f_sideReset()
 	allianceSel = 1
 	allianceCourseSel = 1
+	allianceRoute = 1
 	exitAlliance = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	--playBGM(bgmAlliance)
@@ -17507,6 +17516,7 @@ function f_allianceSelect()
 		--Start Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
+				break
 			--Start Game
 				if startCheck then
 					--f_allianceBoot() --Open Side Select
@@ -17584,6 +17594,7 @@ function allianceCfg()
 	data.gameMode = "alliance"
 	data.recordMode = "alliance"
 	data.victoryscreen = false
+	data.orderSelect = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -17597,7 +17608,7 @@ function allianceHumanvsCPU()
 		setPlayerSide('p1left')
 	end
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 2, chars = 4}
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "ALLIANCE")
@@ -17614,7 +17625,7 @@ function allianceCPUvsHuman()
 	else
 		setPlayerSide('p2right')
 	end
-	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1TeamMenu = {mode = 2, chars = 4}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p1In = 2
 	data.p2In = 2
@@ -17653,7 +17664,7 @@ end
 --CPU MODE (watch CPU fight in abyss)
 function allianceCPUvsCPU()
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 2, chars = 4}
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
