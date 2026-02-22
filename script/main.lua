@@ -17476,10 +17476,109 @@ function f_tourneyChampion()
 end
 
 --;===========================================================
---[[				ALLIANCE SELECT MENU
+--[[					ALLIANCE MODE
 Assembles a Team of 4 characters and fights against an opposing CPU alliance.
 After defeating each enemy team, players are given the opportunity to
 Exchange 1 of their own team members with 1 member from the enemy side.]]
+--;===========================================================
+function f_allianceBoot()
+	menuSelect = "alliance"
+	sideScreen = true
+end
+
+--Load Common Settings for Alliance Modes
+function allianceCfg()
+	f_discordUpdate({details = "Alliance"})
+	f_default()
+	setRoundsToWin(1)
+	setRoundTime(99)
+	setGameMode("alliance")
+	data.gameMode = "alliance"
+	data.recordMode = "alliance"
+	data.victoryscreen = false
+	data.orderSelect = false
+	setMatchnoDisplay(true)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (fight against CPU controlled opponents from left side)
+function allianceHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+		setPlayerSide('p2left')
+	else
+		setPlayerSide('p1left')
+	end
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 0, chars = 4}
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "ALLIANCE")
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--CPU VS HUMAN (fight against CPU controlled opponents from right side)
+function allianceCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+		setPlayerSide('p1right')
+	else
+		setPlayerSide('p2right')
+	end
+	data.p1TeamMenu = {mode = 0, chars = 4}
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "ALLIANCE")
+	f_selectAdvance()
+	P2overP1 = false
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents)
+function allianceP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	setPlayerSide('p1left')
+	setGameMode("alliancecoop")
+	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE")
+	f_selectAdvance()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents)
+function allianceCPUvsP1P2()
+	f_comingSoon()
+--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	setGameMode("alliancecoop")
+	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE")
+	f_selectAdvance()
+]]
+end
+
+--CPU MODE (watch CPU fight in abyss)
+function allianceCPUvsCPU()
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 0, chars = 4}
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	setPlayerSide('p1left')
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH ALLIANCE")
+	f_selectAdvance()
+end
+
+--;===========================================================
+--;	ALLIANCE SELECT MENU
 --;===========================================================
 function f_allianceSelect()
 	--f_discordUpdate({details = "Alliance"})
@@ -17579,102 +17678,6 @@ function f_allianceSelect()
 	end
 end
 
-function f_allianceBoot()
-	menuSelect = "alliance"
-	sideScreen = true
-end
-
---Load Common Settings for Alliance Modes
-function allianceCfg()
-	f_discordUpdate({details = "Alliance"})
-	f_default()
-	setRoundsToWin(1)
-	setRoundTime(99)
-	setGameMode("alliance")
-	data.gameMode = "alliance"
-	data.recordMode = "alliance"
-	data.victoryscreen = false
-	data.orderSelect = false
-	setMatchnoDisplay(true)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (fight against CPU controlled opponents from left side)
-function allianceHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-		setPlayerSide('p2left')
-	else
-		setPlayerSide('p1left')
-	end
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2TeamMenu = {mode = 0, chars = 4}
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ALLIANCE")
-	f_selectAdvance()
-	P2overP1 = false
-end
-
---CPU VS HUMAN (fight against CPU controlled opponents from right side)
-function allianceCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-		setPlayerSide('p1right')
-	else
-		setPlayerSide('p2right')
-	end
-	data.p1TeamMenu = {mode = 0, chars = 4}
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ALLIANCE")
-	f_selectAdvance()
-	P2overP1 = false
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents)
-function allianceP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	setPlayerSide('p1left')
-	setGameMode("alliancecoop")
-	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE")
-	f_selectAdvance()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents)
-function allianceCPUvsP1P2()
-	f_comingSoon()
---[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	setGameMode("alliancecoop")
-	textImgSetText(txt_mainSelect, "ALLIANCE COOPERATIVE")
-	f_selectAdvance()
-]]
-end
-
---CPU MODE (watch CPU fight in abyss)
-function allianceCPUvsCPU()
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2TeamMenu = {mode = 0, chars = 4}
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	setPlayerSide('p1left')
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH ALLIANCE")
-	f_selectAdvance()
-end
-
 --;===========================================================
 --; ALLIANCE MEMBER SELECT MENU
 --;===========================================================
@@ -17750,6 +17753,100 @@ function f_allianceMemberSel(currentMember)
 		f_drawQuickText(txt_enemyLifAtrib, nameFont, 0, 1, replaceAttrib, 245, commonEnemyPosY)
 		f_drawQuickText(txt_enemyDefAtrib, nameFont, 0, 1, replaceAttrib, 273, commonEnemyPosY)
 		drawAllianceMemInputHints()
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufu = 0
+			bufd = 0
+			bufr = 0
+			bufl = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ALLIANCE MEMBER EXCHANGE MENU
+--;===========================================================
+function f_allianceExchange(currentMember)
+	cmdInput()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local playerMember = 1
+	local enemyMember = 1
+	local enemySide = true
+	local skipExchange = false
+	local t_enemyTeam = nil
+	local t_playerTeam = nil
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		t_playerTeam = {1, 2, 3, 4} --data.t_p2selected
+		t_enemyTeam = {1, 2, 3, 4} --data.t_p1selected
+	else
+		t_playerTeam = {1, 2, 3, 4} --data.t_p1selected
+		t_enemyTeam = {1, 2, 3, 4} --data.t_p2selected
+	end
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmAlliance)
+	while true do
+	--Return Logic
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAlliance then
+			sndPlay(sndSys, 100, 2)
+			if not enemySide then
+				enemySide = false
+			else
+				skipExchange = true
+			end
+	--Start Actions
+		elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			sndPlay(sndSys, 100, 1)
+			if enemySide then
+				enemySide = false
+			else
+				break
+			end
+	--Alliance Enemy Member Select
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			if enemySide then
+				enemyMember = enemyMember - 1
+			else
+				playerMember = playerMember - 1
+			end
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			if enemySide then
+				enemyMember = enemyMember + 1
+			else
+				playerMember = playerMember + 1
+			end
+		end
+		if enemyMember < 1 then
+			enemyMember = #t_enemyTeam
+		elseif enemyMember > #t_enemyTeam then
+			enemyMember = 1
+		end
+		if playerMember < 1 then
+			playerMember = #t_playerTeam
+		elseif playerMember > #t_playerTeam then
+			playerMember = 1
+		end
+		drawAlliExchangeTest(enemyMember, playerMember)
+		drawAllianceExchangeInputHints()
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1

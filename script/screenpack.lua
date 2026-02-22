@@ -4363,6 +4363,75 @@ function drawAllianceMemInputHints()
 end
 
 --;===========================================================
+--; ALLIANCE MEMBER EXCHANGE MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_allianceExchangeInfo = createTextImg(font7, 0, 0, "SELECT THE CPU CHARACTER AND ALLY CHARACTER TO BE EXCHANGE", 160, 15)
+txt_allianceExchangeTime = createTextImg(font20, 4, 0, "999", 250, 10)
+txt_allianceExchangeCPULv = createTextImg(font20, 0, 0, "ENEMY TEAM LEVEL: 999", 80, 15, 0.8, 0.8)
+txt_allianceExchangePlayerLv = createTextImg(font20, 0, 0, "PLAYER TEAM LEVEL: 999", 240, 15, 0.8, 0.8)
+
+--Alliance Exchange Slot
+allianceExchangeSlot = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetScale(allianceExchangeSlot, 1.05, 0.75)
+animUpdate(allianceExchangeSlot)
+
+--Alliance Member Cursor
+allianceExchangeSlotCursor = animNew(sprIkemen, [[
+231,1, 0,0, -1
+]])
+animSetScale(allianceExchangeSlotCursor, 1.05, 0.75)
+animUpdate(allianceExchangeSlotCursor)
+
+function drawAlliExchangeTest(enemyMember, playerMember)
+		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
+	--Draw Member Exchange Common Assets
+		textImgDraw(txt_allianceExchangeCPULv)
+		textImgDraw(txt_allianceExchangePlayerLv)
+		local nameFont = font7
+		local commonPosY = 60
+		local spacingY = 50
+		local replaceAttrib = "SS"
+		for i=1, 4 do
+			local allyType = "LEADER"
+			if i > 1 then allyType = "ALLY "..i - 1 end
+		--ENEMY TEAM SIDE
+			animPosDraw(allianceExchangeSlot, 0, 20 + (i - 1) * spacingY)
+			if enemyMember == i then
+				animPosDraw(allianceExchangeSlotCursor, 0, 20 + (i - 1) * spacingY)
+			end
+			drawFacePortrait(0, 125, 24 + (i - 1) * spacingY, 0.9, 0.9)
+			animPosDraw(allianceStatsH, 3, 51 + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyName, nameFont, 0, 1, f_getName(0), 4, 33 + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 4, 46 + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 137, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, replaceAttrib, 16, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, replaceAttrib, 45, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, replaceAttrib, 73, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, replaceAttrib, 102, commonPosY + (i - 1) * spacingY)
+		--PLAYER TEAM SIDE
+			animPosDraw(allianceExchangeSlot, 161, 20 + (i - 1) * spacingY)
+				
+		end
+end
+
+function drawAllianceExchangeInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints(
+		"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,
+		"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","265,"..inputHintYPos
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return/Skip", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Info", 286, hintFontYPos)
+end
+
+--;===========================================================
 --; ALLIANCE NEXT TEAM BATTLE SELECT MENU SCREENPACK
 --;===========================================================
 txt_allianceNextTeamTitle = createTextImg(font20, 0, 0, "NEXT BATTLE", 160, 15)
