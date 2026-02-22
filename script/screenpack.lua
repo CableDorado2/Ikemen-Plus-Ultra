@@ -4087,14 +4087,6 @@ for i=1, #t_allianceSel do
 end
 if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
 
---Background
-allianceBG = animNew(sprIkemen, [[
-60,0, 0,0, -1
-]])
-animSetScale(allianceBG, 0.40, 0.60)
-animSetPos(allianceBG, -400, -475)
-animUpdate(allianceBG)
-
 --Info BG
 allianceSelInfoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
@@ -4321,6 +4313,53 @@ function drawAlliTest()
 			end
 			--animDraw(f_animVelocity(allianceCourseTrans, -2, 0))
 		end
+end
+
+--;===========================================================
+--; ALLIANCE MEMBER SELECT MENU SCREENPACK DEFINITION
+--;===========================================================
+txt_allianceMemSelTitle = createTextImg(font20, 1, 0, "MEMBER SELECT", 80, 15)
+txt_allianceNextEnemy = createTextImg(font20, 0, 0, "NEXT ENEMY", 250, 95)
+txt_allianceMemSelTime = createTextImg(font20, 4, 0, "999", 250, 45)
+
+--Alliance Member Slot
+allianceMemSlot = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetScale(allianceMemSlot, 1.1, 0.75)
+animUpdate(allianceMemSlot)
+
+--Alliance Member Cursor
+allianceMemSlotCursor = animNew(sprIkemen, [[
+231,1, 0,0, -1
+]])
+animSetScale(allianceMemSlotCursor, 1.1, 0.75)
+animUpdate(allianceMemSlotCursor)
+
+--Alliance Stats
+allianceStatsH = animNew(sprIkemen, [[
+73,0, 0,0, -1
+]])
+animSetScale(allianceStatsH, 0.35, 0.35)
+animUpdate(allianceStatsH)
+
+function drawAlliMemTest()
+		
+end
+
+function drawAllianceMemInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints(
+		"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,
+		"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Status", 266, hintFontYPos)
 end
 
 --;===========================================================

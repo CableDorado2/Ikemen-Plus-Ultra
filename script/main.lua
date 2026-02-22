@@ -17595,6 +17595,7 @@ function allianceCfg()
 	data.recordMode = "alliance"
 	data.victoryscreen = false
 	data.orderSelect = false
+	setMatchnoDisplay(true)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -17608,7 +17609,7 @@ function allianceHumanvsCPU()
 		setPlayerSide('p1left')
 	end
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2TeamMenu = {mode = 2, chars = 4}
+	data.p2TeamMenu = {mode = 0, chars = 4}
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "ALLIANCE")
@@ -17625,7 +17626,7 @@ function allianceCPUvsHuman()
 	else
 		setPlayerSide('p2right')
 	end
-	data.p1TeamMenu = {mode = 2, chars = 4}
+	data.p1TeamMenu = {mode = 0, chars = 4}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p1In = 2
 	data.p2In = 2
@@ -17664,7 +17665,7 @@ end
 --CPU MODE (watch CPU fight in abyss)
 function allianceCPUvsCPU()
 	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2TeamMenu = {mode = 2, chars = 4}
+	data.p2TeamMenu = {mode = 0, chars = 4}
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
@@ -17672,6 +17673,106 @@ function allianceCPUvsCPU()
 	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH ALLIANCE")
 	f_selectAdvance()
+end
+
+--;===========================================================
+--; ALLIANCE MEMBER SELECT MENU
+--;===========================================================
+function f_allianceMemberSel(currentMember)
+	cmdInput()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local memberSel = 1 or currentMember
+	local t_teamList = nil
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		t_teamList = {1, 2, 3, 4} --data.t_p2selected
+	else
+		t_teamList = {1, 2, 3, 4} --data.t_p1selected
+	end
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmAlliance)
+	while true do
+	--Start Actions
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			sndPlay(sndSys, 100, 1)
+			break
+	--Alliance Member Select
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			memberSel = memberSel - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			memberSel = memberSel + 1
+		end
+		if memberSel < 1 then
+			memberSel = #t_teamList
+		elseif memberSel > #t_teamList then
+			memberSel = 1
+		end
+		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
+		textImgDraw(txt_allianceMemSelTime)
+	--Draw Member Select Assets
+		textImgDraw(txt_allianceMemSelTitle)
+		local nameFont = font2
+		local commonPosY = 60
+		local spacingY = 50
+		local replaceAttrib = "SS"
+		for i=1, 4 do
+			local allyType = "LEADER"
+			if i > 1 then allyType = "ALLY "..i-1 end 
+			animPosDraw(allianceMemSlot, 2, 20 + (i - 1) * spacingY)
+			if memberSel == i then
+				animPosDraw(allianceMemSlotCursor, 2, 20 + (i - 1) * spacingY)
+			end
+			drawFacePortrait(0, 133, 24 + (i - 1) * spacingY, 0.9, 0.9)
+			animPosDraw(allianceStatsH, 7, 51 + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyName, nameFont, 0, 1, f_getName(0), 7, 33 + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyPower, nameFont, 0, 1, txt_allianceSelPowerText.."999999", 7, 46 + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 144, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, replaceAttrib, 20, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, replaceAttrib, 49, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, replaceAttrib, 77, commonPosY + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, replaceAttrib, 106, commonPosY + (i - 1) * spacingY)
+		end
+	--Draw Next Enemy Assets
+		textImgDraw(txt_allianceNextEnemy)
+		local commonEnemyPosY = 140
+		animPosDraw(allianceMemSlot, 170, 100)
+		drawFacePortrait(4, 295, 104, 0.9, 0.9)
+		animPosDraw(allianceStatsH, 175, 131)
+		f_drawQuickText(txt_enemyName, nameFont, 0, 1, f_getName(4), 175, 113)
+		f_drawQuickText(txt_enemyPower, nameFont, 0, 1, txt_allianceSelPowerText.."999999", 175, 126)
+		f_drawQuickText(txt_enemyType, nameFont, 0, 0, "CPU", 307, commonEnemyPosY)
+		f_drawQuickText(txt_enemyAttkAtrib, nameFont, 0, 1, replaceAttrib, 187, commonEnemyPosY)
+		f_drawQuickText(txt_enemyPowAtrib, nameFont, 0, 1, replaceAttrib, 216, commonEnemyPosY)
+		f_drawQuickText(txt_enemyLifAtrib, nameFont, 0, 1, replaceAttrib, 245, commonEnemyPosY)
+		f_drawQuickText(txt_enemyDefAtrib, nameFont, 0, 1, replaceAttrib, 273, commonEnemyPosY)
+		drawAllianceMemInputHints()
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufu = 0
+			bufd = 0
+			bufr = 0
+			bufl = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
