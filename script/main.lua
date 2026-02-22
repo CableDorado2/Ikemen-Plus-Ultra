@@ -17715,13 +17715,13 @@ function f_allianceMemberSel(currentMember)
 		textImgDraw(txt_allianceMemSelTime)
 	--Draw Member Select Assets
 		textImgDraw(txt_allianceMemSelTitle)
-		local nameFont = font2
+		local nameFont = font7
 		local commonPosY = 60
 		local spacingY = 50
 		local replaceAttrib = "SS"
 		for i=1, 4 do
 			local allyType = "LEADER"
-			if i > 1 then allyType = "ALLY "..i-1 end 
+			if i > 1 then allyType = "ALLY "..i - 1 end 
 			animPosDraw(allianceMemSlot, 2, 20 + (i - 1) * spacingY)
 			if memberSel == i then
 				animPosDraw(allianceMemSlotCursor, 2, 20 + (i - 1) * spacingY)
@@ -17729,7 +17729,7 @@ function f_allianceMemberSel(currentMember)
 			drawFacePortrait(0, 133, 24 + (i - 1) * spacingY, 0.9, 0.9)
 			animPosDraw(allianceStatsH, 7, 51 + (i - 1) * spacingY)
 			f_drawQuickText(txt_allyName, nameFont, 0, 1, f_getName(0), 7, 33 + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyPower, nameFont, 0, 1, txt_allianceSelPowerText.."999999", 7, 46 + (i - 1) * spacingY)
+			f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 7, 46 + (i - 1) * spacingY)
 			f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 144, commonPosY + (i - 1) * spacingY)
 			f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, replaceAttrib, 20, commonPosY + (i - 1) * spacingY)
 			f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, replaceAttrib, 49, commonPosY + (i - 1) * spacingY)
@@ -17743,12 +17743,103 @@ function f_allianceMemberSel(currentMember)
 		drawFacePortrait(4, 295, 104, 0.9, 0.9)
 		animPosDraw(allianceStatsH, 175, 131)
 		f_drawQuickText(txt_enemyName, nameFont, 0, 1, f_getName(4), 175, 113)
-		f_drawQuickText(txt_enemyPower, nameFont, 0, 1, txt_allianceSelPowerText.."999999", 175, 126)
+		f_drawQuickText(txt_enemyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 175, 126)
 		f_drawQuickText(txt_enemyType, nameFont, 0, 0, "CPU", 307, commonEnemyPosY)
 		f_drawQuickText(txt_enemyAttkAtrib, nameFont, 0, 1, replaceAttrib, 187, commonEnemyPosY)
 		f_drawQuickText(txt_enemyPowAtrib, nameFont, 0, 1, replaceAttrib, 216, commonEnemyPosY)
 		f_drawQuickText(txt_enemyLifAtrib, nameFont, 0, 1, replaceAttrib, 245, commonEnemyPosY)
 		f_drawQuickText(txt_enemyDefAtrib, nameFont, 0, 1, replaceAttrib, 273, commonEnemyPosY)
+		drawAllianceMemInputHints()
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufu = 0
+			bufd = 0
+			bufr = 0
+			bufl = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ALLIANCE NEXT TEAM BATTLE SELECT MENU
+--;===========================================================
+function f_allianceNextBattle()
+	cmdInput()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local teamSel = 1
+	local t_teamList = {1, 2, 3}
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	playBGM(bgmAlliance)
+	while true do
+	--Start Actions
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			sndPlay(sndSys, 100, 1)
+			break
+	--Enemy Team Select
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sndSys, 100, 0)
+			teamSel = teamSel - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sndSys, 100, 0)
+			teamSel = teamSel + 1
+		end
+		if teamSel < 1 then
+			teamSel = #t_teamList
+		elseif teamSel > #t_teamList then
+			teamSel = 1
+		end
+		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
+		textImgDraw(txt_allianceNextTeamTime)
+		textImgDraw(txt_allianceNextTeamTitle)
+		textImgDraw(txt_allianceNextTeamInfo)
+	--Draw Next Team Battle Assets
+		local spacingX = 26
+		local spacingY = 58
+		local matchNo = 2
+		local allianceCourseSel = 1
+		for route=1, #t_allianceCourses[allianceCourseSel].match[matchNo].route do
+		--Route Assets
+			animPosDraw(allianceEnemyTeamSlot, 20, 35 + (route - 1) * spacingY)
+			if teamSel == route then
+				animPosDraw(allianceEnemyTeamSlotCursor, 20, 35 + (route - 1) * spacingY)
+			end
+			local teamRoute = ""
+			if route == 1 then teamRoute = "A"
+			elseif route == 2 then teamRoute = "B"
+			elseif route == 3 then teamRoute = "C"
+			end
+			textImgSetText(txt_allianceEnemyRoute, teamRoute)
+			textImgSetPos(txt_allianceEnemyRoute, 45, 65 + (route - 1) * spacingY)
+			textImgDraw(txt_allianceEnemyRoute)
+			f_drawQuickText(txt_enemyTeamPower, font20, 2, 1, "TEAM LEVEL: ".."999", 175, 63 + (route - 1) * spacingY)
+			local leaderDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[1]
+			f_drawQuickText(txt_enemyTeamName, font7, 0, 1, "TEAM "..f_getName(t_charDef[leaderDat:lower()]):upper(), 65, 77 + (route - 1) * spacingY)
+		--Team Assets
+			for enemy=1, 4 do
+				animPosDraw(allianceEnemyIconBG, 64 + (enemy - 1) * spacingX, 42 + (route - 1) * spacingY)
+				animPosDraw(allianceEnemyRandomIcon, 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY)
+				local memberDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[enemy]
+				drawFacePortrait(t_charDef[memberDat:lower()], 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY, 0.9, 0.9)
+			end
+		end
 		drawAllianceMemInputHints()
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0

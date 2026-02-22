@@ -4202,12 +4202,12 @@ function drawAllianceSelInputHints()
 end
 
 function f_allianceSelectPreview()
-	local nameFont = font2
+	local nameFont = font7
 --Ally 1
 	drawPortrait(t_charDef[t_allianceSel[allianceSel][1].char:lower()], 168, 52, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 211, 52)
 	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][1].char:lower()]), 168, 48)
-	f_drawQuickText(txt_ally1Power, nameFont, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][1].allyPower, 240, 48)
+	f_drawQuickText(txt_ally1Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][1].allyPower, 240, 48)
 	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].attack.rank, 237, 60)
 	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].power.rank, 237, 73)
 	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].life.rank, 237, 85)
@@ -4216,7 +4216,7 @@ function f_allianceSelectPreview()
 	drawPortrait(t_charDef[t_allianceSel[allianceSel][2].char:lower()], 168, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 211, 132)
 	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][2].char:lower()]), 168, 128)
-	f_drawQuickText(txt_ally2Power, nameFont, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][2].allyPower, 240, 128)
+	f_drawQuickText(txt_ally2Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][2].allyPower, 240, 128)
 	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].attack.rank, 237, 140)
 	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].power.rank, 237, 153)
 	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].life.rank, 237, 165)
@@ -4225,7 +4225,7 @@ function f_allianceSelectPreview()
 	drawPortrait(t_charDef[t_allianceSel[allianceSel][3].char:lower()], 245, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 288, 132)
 	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][3].char:lower()]), 250, 128)
-	f_drawQuickText(txt_ally3Power, nameFont, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][3].allyPower, 317, 128)
+	f_drawQuickText(txt_ally3Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][3].allyPower, 317, 128)
 	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].attack.rank, 314, 140)
 	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].power.rank, 314, 153)
 	f_drawQuickText(txt_ally3LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].life.rank, 314, 165)
@@ -4360,6 +4360,33 @@ function drawAllianceMemInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Status", 266, hintFontYPos)
+end
+
+--;===========================================================
+--; ALLIANCE NEXT TEAM BATTLE SELECT MENU SCREENPACK
+--;===========================================================
+txt_allianceNextTeamTitle = createTextImg(font20, 0, 0, "NEXT BATTLE", 160, 15)
+txt_allianceNextTeamInfo = createTextImg(font7, 0, 0, "SELECT THE NEXT ENEMY TEAM TO CHALLENGE", 160, 30)
+txt_allianceNextTeamTime = createTextImg(font20, 4, 0, "999", 160, 215)
+
+txt_allianceEnemyRoute = createTextImg(font20, 0, 0, "", 160, 20)
+
+--Alliance Enemy Team Slot
+allianceEnemyTeamSlot = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetScale(allianceEnemyTeamSlot, 1.9, 0.8)
+animUpdate(allianceEnemyTeamSlot)
+
+--Alliance Enemy Team Cursor
+allianceEnemyTeamSlotCursor = animNew(sprIkemen, [[
+231,1, 0,0, -1
+]])
+animSetScale(allianceEnemyTeamSlotCursor, 1.9, 0.8)
+animUpdate(allianceEnemyTeamSlotCursor)
+
+function drawAllianceNextTeamTest()
+		
 end
 
 --;===========================================================
