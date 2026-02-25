@@ -4319,21 +4319,21 @@ end
 --; ALLIANCE MEMBER SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_allianceMemSelTitle = createTextImg(font20, 1, 0, "MEMBER SELECT", 80, 15)
-txt_allianceNextEnemy = createTextImg(font20, 0, 0, "NEXT ENEMY", 250, 95)
+txt_allianceNextEnemy = createTextImg(font20, 0, 0, "NEXT ENEMY", 246, 95)
 txt_allianceMemSelTime = createTextImg(font20, 4, 0, "999", 250, 45)
 
 --Alliance Member Slot
 allianceMemSlot = animNew(sprIkemen, [[
 230,1, 0,0, -1
 ]])
-animSetScale(allianceMemSlot, 1.1, 0.75)
+animSetScale(allianceMemSlot, 1.05, 0.75)
 animUpdate(allianceMemSlot)
 
 --Alliance Member Cursor
 allianceMemSlotCursor = animNew(sprIkemen, [[
 231,1, 0,0, -1
 ]])
-animSetScale(allianceMemSlotCursor, 1.1, 0.75)
+animSetScale(allianceMemSlotCursor, 1.05, 0.75)
 animUpdate(allianceMemSlotCursor)
 
 --Alliance Stats
@@ -4343,8 +4343,42 @@ allianceStatsH = animNew(sprIkemen, [[
 animSetScale(allianceStatsH, 0.35, 0.35)
 animUpdate(allianceStatsH)
 
-function drawAlliMemTest()
-		
+function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
+	local posX = posX or 0
+	local posY = posY or 0
+	local allyType = allyType or "???"
+	local nameFont = font7
+	animPosDraw(allianceMemSlot, 2 + posX, 20 + posY)
+	animPosDraw(allianceEnemyIconBG, 125 + posX, 25 + posY)
+	animPosDraw(allianceEnemyRandomIcon, 126 + posX, 26 + posY)
+	drawFacePortrait(0, 126 + posX, 26 + posY, 0.9, 0.9)
+	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
+	f_drawQuickText(txt_allyName, nameFont, 0, 1, f_getName(0), 6 + posX, 33 + posY)
+	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 6 + posX, 46 + posY)
+	f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 139 + posX, 60 + posY)
+	f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, "SS", 19 + posX, 60 + posY)
+	f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, "SS", 48 + posX, 60 + posY)
+	f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, "SS", 76 + posX, 60 + posY)
+	f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, "SS", 105 + posX, 60 + posY)
+end
+
+function drawAlliMemTest(memberSel)
+		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
+		textImgDraw(txt_allianceMemSelTime)
+	--Draw Member Select Assets
+		textImgDraw(txt_allianceMemSelTitle)
+		local spacingY = 50
+		for i=1, 4 do
+			local allyType = "LEADER"
+			if i > 1 then allyType = "ALLY "..i - 1 end
+			f_allianceMemberSlot(0, (i - 1) * spacingY, allyType)
+			if memberSel == i then
+				animPosDraw(allianceMemSlotCursor, 2, 20 + (i - 1) * spacingY)
+			end
+		end
+	--Draw Next Enemy Assets
+		textImgDraw(txt_allianceNextEnemy)
+		f_allianceMemberSlot(162, 100, "CPU")
 end
 
 function drawAllianceMemInputHints()
@@ -4368,51 +4402,41 @@ end
 txt_allianceExchangeInfo = createTextImg(font7, 0, 0, "SELECT THE CPU CHARACTER AND ALLY CHARACTER TO BE EXCHANGE", 160, 15)
 txt_allianceExchangeTime = createTextImg(font20, 4, 0, "999", 250, 10)
 txt_allianceExchangeCPULv = createTextImg(font20, 0, 0, "ENEMY TEAM LEVEL: 999", 80, 15, 0.8, 0.8)
-txt_allianceExchangePlayerLv = createTextImg(font20, 0, 0, "PLAYER TEAM LEVEL: 999", 240, 15, 0.8, 0.8)
+txt_allianceExchangePlayerLv = createTextImg(font20, 2, 0, "PLAYER TEAM LEVEL: 999", 240, 15, 0.8, 0.8)
 
---Alliance Exchange Slot
-allianceExchangeSlot = animNew(sprIkemen, [[
-230,1, 0,0, -1
+--Alliance Exchange Arrow
+allianceExchangeArrowRight = animNew(sprIkemen, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
 ]])
-animSetScale(allianceExchangeSlot, 1.05, 0.75)
-animUpdate(allianceExchangeSlot)
-
---Alliance Member Cursor
-allianceExchangeSlotCursor = animNew(sprIkemen, [[
-231,1, 0,0, -1
-]])
-animSetScale(allianceExchangeSlotCursor, 1.05, 0.75)
-animUpdate(allianceExchangeSlotCursor)
+animSetScale(allianceExchangeArrowRight, 0.5, 0.5)
 
 function drawAlliExchangeTest(enemyMember, playerMember)
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Draw Member Exchange Common Assets
 		textImgDraw(txt_allianceExchangeCPULv)
 		textImgDraw(txt_allianceExchangePlayerLv)
-		local nameFont = font7
-		local commonPosY = 60
+		animPosDraw(allianceExchangeArrowRight, 155, 5)
 		local spacingY = 50
-		local replaceAttrib = "SS"
 		for i=1, 4 do
+		--ENEMY TEAM SIDE
+			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU")
+			if enemyMember == i then
+				animPosDraw(allianceMemSlotCursor, 0, 20 + (i - 1) * spacingY)
+			end
+		--PLAYER TEAM SIDE
 			local allyType = "LEADER"
 			if i > 1 then allyType = "ALLY "..i - 1 end
-		--ENEMY TEAM SIDE
-			animPosDraw(allianceExchangeSlot, 0, 20 + (i - 1) * spacingY)
+			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType)
 			if enemyMember == i then
-				animPosDraw(allianceExchangeSlotCursor, 0, 20 + (i - 1) * spacingY)
+				animPosDraw(allianceMemSlotCursor, 161, 20 + (i - 1) * spacingY)
 			end
-			drawFacePortrait(0, 125, 24 + (i - 1) * spacingY, 0.9, 0.9)
-			animPosDraw(allianceStatsH, 3, 51 + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyName, nameFont, 0, 1, f_getName(0), 4, 33 + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 4, 46 + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 137, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, replaceAttrib, 16, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, replaceAttrib, 45, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, replaceAttrib, 73, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, replaceAttrib, 102, commonPosY + (i - 1) * spacingY)
-		--PLAYER TEAM SIDE
-			animPosDraw(allianceExchangeSlot, 161, 20 + (i - 1) * spacingY)
-				
 		end
 end
 
