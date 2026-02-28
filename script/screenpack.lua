@@ -4351,9 +4351,9 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
 	animPosDraw(allianceMemSlot, 2 + posX, 20 + posY)
 	animPosDraw(allianceEnemyIconBG, 125 + posX, 25 + posY)
 	animPosDraw(allianceEnemyRandomIcon, 126 + posX, 26 + posY)
-	drawFacePortrait(0, 126 + posX, 26 + posY, 0.9, 0.9)
+	drawFacePortrait(t_charDat.cel, 126 + posX, 26 + posY, 0.9, 0.9)
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
-	f_drawQuickText(txt_allyName, nameFont, 0, 1, f_getName(0), 6 + posX, 33 + posY)
+	f_drawQuickText(txt_allyName, nameFont, 0, 1, t_charDat.displayname, 6 + posX, 33 + posY)
 	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 6 + posX, 46 + posY)
 	f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 139 + posX, 60 + posY)
 	f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, "SS", 19 + posX, 60 + posY)
@@ -4363,22 +4363,7 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
 end
 
 function drawAlliMemTest(memberSel)
-		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-		textImgDraw(txt_allianceMemSelTime)
-	--Draw Member Select Assets
-		textImgDraw(txt_allianceMemSelTitle)
-		local spacingY = 50
-		for i=1, 4 do
-			local allyType = "LEADER"
-			if i > 1 then allyType = "ALLY "..i - 1 end
-			f_allianceMemberSlot(0, (i - 1) * spacingY, allyType)
-			if memberSel == i then
-				animPosDraw(allianceMemSlotCursor, 2, 20 + (i - 1) * spacingY)
-			end
-		end
-	--Draw Next Enemy Assets
-		textImgDraw(txt_allianceNextEnemy)
-		f_allianceMemberSlot(162, 100, "CPU")
+		
 end
 
 function drawAllianceMemInputHints()
@@ -4386,14 +4371,10 @@ function drawAllianceMemInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawMenuInputHints(
-		"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,
-		"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","245,"..inputHintYPos
-	)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Status", 266, hintFontYPos)
+	drawMenuInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
 end
 
 --;===========================================================

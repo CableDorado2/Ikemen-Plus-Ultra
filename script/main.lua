@@ -52,6 +52,8 @@ data.tagmode = 1
 menuSelect = ""
 P2overP1 = false
 firstAlliance = false
+currentAllianceMemberPlayer = 1
+currentAllianceMemberCPU = 1
 secretTarget = ""
 unlockTarget = ""
 --Default Turns/Simul Count after starting
@@ -12819,8 +12821,10 @@ function f_setAlliancePlayerMembers()
 			}
 		end
 	end
-	setTeamMode(pSide, 0, 4)
+	--setTeamMode(pSide, 0, 4)
 	firstAlliance = true
+	currentAllianceMemberPlayer = 1
+	currentAllianceMemberCPU = 1
 end
 
 --;===========================================================
@@ -12832,8 +12836,9 @@ function f_selectVersus()
 	local vsScreen = false
 	if data.gameMode == "alliance" then
 		if not firstAlliance then f_setAlliancePlayerMembers() end
+		assert(loadfile(saveTempPath))()
 		if data.changeAlliance then
-			
+			currentAllianceMemberPlayer = f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
 			data.changeAlliance = false
 			f_saveTemp()
 		end
@@ -12854,10 +12859,15 @@ function f_selectVersus()
 	if not data.versusScreen or not vsScreen then
 		return
 	else
-		local colorToName = 1
 		local screenTime = 0
 		local hintTime = 0
 		local timeLimit = 150
+		local colorToNameP1 = 1
+		local colorToNameP2 = 1
+		if data.gameMode == "alliance" then 
+			colorToNameP1 = currentAllianceMemberPlayer
+			colorToNameP2 = currentAllianceMemberCPU
+		end
 		f_getVSHint() --Load First Hint
 		animReset(vsLogo) --Since the animation stays at -1, this helps it repeat without reload the anim via animNew().
 	--Portraits Scale Logic
@@ -12936,8 +12946,8 @@ function f_selectVersus()
 				textImgDraw(txt_bonusNo)
 			end
 		--Draw Names
-			f_drawNameList(txt_p1NameVS, 5, data.t_p1selected, 78, 180, 0, 14, colorToName, 0)
-			f_drawNameList(txt_p2NameVS, 5, data.t_p2selected, 241, 180, 0, 14, colorToName, 0)
+			f_drawNameList(txt_p1NameVS, 5, data.t_p1selected, 78, 180, 0, 14, colorToNameP1, 0)
+			f_drawNameList(txt_p2NameVS, 5, data.t_p2selected, 241, 180, 0, 14, colorToNameP2, 0)
 		--Draw Assets
 			animUpdate(vsLogo)
 			animDraw(vsLogo)
@@ -17727,18 +17737,21 @@ end
 --;===========================================================
 --; ALLIANCE MEMBER SELECT MENU
 --;===========================================================
-function f_allianceMemberSel(currentMember)
+function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local memberSel = 1 or currentMember
-	local t_teamList = nil
+	local memberSel = 1 or currentPlayerMember
+	local t_playerList = nil
+	local t_enemyList = nil
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		t_teamList = {1, 2, 3, 4} --data.t_p2selected
+		t_playerList = data.t_p2selected
+		t_enemyList = data.t_p1selected
 	else
-		t_teamList = {1, 2, 3, 4} --data.t_p1selected
+		t_playerList = data.t_p1selected
+		t_enemyList = data.t_p2selected
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmAlliance)
@@ -17746,7 +17759,7 @@ function f_allianceMemberSel(currentMember)
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			sndPlay(sndSys, 100, 1)
-			break
+			return memberSel
 	--Alliance Member Select
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -17756,11 +17769,27 @@ function f_allianceMemberSel(currentMember)
 			memberSel = memberSel + 1
 		end
 		if memberSel < 1 then
-			memberSel = #t_teamList
-		elseif memberSel > #t_teamList then
+			memberSel = #t_playerList
+		elseif memberSel > #t_playerList then
 			memberSel = 1
 		end
-		drawAlliMemTest(memberSel)
+		--drawAlliMemTest(memberSel) --quick screnpack test
+		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
+		textImgDraw(txt_allianceMemSelTime)
+	--Draw Member Select Assets
+		textImgDraw(txt_allianceMemSelTitle)
+		local spacingY = 50
+		for i=1, 4 do
+			local allyType = "LEADER"
+			if i > 1 then allyType = "ALLY "..i - 1 end
+			f_allianceMemberSlot(0, (i - 1) * spacingY, allyType, t_playerList[i])
+			if memberSel == i then
+				animPosDraw(allianceMemSlotCursor, 2, 20 + (i - 1) * spacingY)
+			end
+		end
+	--Draw Next Enemy Assets
+		textImgDraw(txt_allianceNextEnemy)
+		f_allianceMemberSlot(162, 80, "CPU", t_enemyList[currentCPUMember])
 		drawAllianceMemInputHints()
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
