@@ -3541,7 +3541,7 @@ txt_allianceCourseName = createTextImg(font20, 0, 0, "", 112, 34)
 txt_allianceCourseLv = createTextImg(font7, 0, 0, "", 112, 50)
 txt_allianceCourseTeam = createTextImg(font7, 0, 1, "", 0, 0)
 txt_allianceCourseTeamName = createTextImg(font7, 0, 0, "", 0, 0)
-txt_allianceCourseDat = createTextImg(font7, 0, 0, "FINAL ENEMY TEAMS", 79, 177)
+txt_allianceCourseDat = createTextImg(font7, 0, 0, "FINAL BOSS TEAMS", 79, 177)
 txt_allianceCourseLvText = "LEVEL "
 txt_allianceCourseTeamText = "TEAM "
 txt_allianceCourse = [[
@@ -5351,6 +5351,15 @@ animSetPos(abyssSaveInfoBG, 258, 215)
 animSetScale(abyssSaveInfoBG, 65, 24)
 animSetAlpha(abyssSaveInfoBG, 0, 50)
 animUpdate(abyssSaveInfoBG)
+
+--Change Character Alliance Info BG
+allianceChangeInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetPos(allianceChangeInfoBG, 0, 215)
+animSetScale(allianceChangeInfoBG, 320, 22)
+animSetAlpha(allianceChangeInfoBG, 0, 50)
+animUpdate(allianceChangeInfoBG)
 
 --;===========================================================
 --; SPEED STAR STUFF

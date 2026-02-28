@@ -651,6 +651,28 @@ local function f_addBonusScore()
 	end
 end
 --;===========================================================
+--; ALLIANCE MODE STUFF
+--;===========================================================
+local function f_allianceInit()
+	alliancePause = false
+	allianceChangeDone = false
+	allianceChangeButton = false
+	allianceChangeTime = 0
+end
+f_allianceInit()
+
+local function f_allianceChangeCharInfo()
+	if allianceChangeTime < 300 then --Time to press button until end match
+		cmdInput()
+		allianceChangeTime = allianceChangeTime + 1
+		animDraw(allianceChangeInfoBG)
+		drawBattleInputHintsP1("e","2,216")
+		f_drawQuickText(txt_allowChange, font2, 0, 1, ":CHARACTER CHANGE", 24, 229)
+		if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then allianceChangeButton = true end
+	end
+end
+
+--;===========================================================
 --; ABYSS MODE STUFF
 --;===========================================================
 local abyssHitCnt = 0
@@ -1490,6 +1512,26 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 			end
 		--]]
+		end
+--During Alliance Mode
+	elseif getGameMode() == "alliance" then
+	--Change Character
+		if matchover() then
+			if (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
+				if allianceChangeButton then
+				--[[
+					if not alliancePause then
+						togglePause(1)
+						setSysCtrl(10) --Swap to Menu Controls
+						alliancePause = true
+					else
+						f_abyssSave() --Show Change Character Menu
+					end
+				]]
+				else
+					f_allianceChangeCharInfo() --Show Change Character Button Info
+				end
+			end
 		end
 --During Abyss Mode
 	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
