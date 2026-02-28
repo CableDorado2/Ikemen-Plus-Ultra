@@ -51,6 +51,7 @@ altBGM = false
 data.tagmode = 1
 menuSelect = ""
 P2overP1 = false
+firstAlliance = false
 secretTarget = ""
 unlockTarget = ""
 --Default Turns/Simul Count after starting
@@ -8312,18 +8313,6 @@ function f_p1SelectMenu()
 				t[t_p1CharID[i]] = ''
 			end
 			if data.p1Pal ~= nil then --Set Manual Palette
-			--[[
-				data.t_p1selected[i] = {
-					['cel'] = t_p1CharID[i],
-					['pal'] = data.p1Pal, ['handicap'] = p1HandicapSel,
-					['up'] = updateAnim,
-					['name'] = t_selChars[t_p1CharID[i] + 1].name,
-					['displayname'] = t_selChars[t_p1CharID[i] + 1].displayname,
-					['path'] = t_selChars[t_p1CharID[i] + 1].char,
-					['author'] = t_selChars[t_p1CharID[i] + 1].author,
-					['discordkey'] = t_selChars[t_p1CharID[i] + 1].discordkey
-				}
-			]]
 				palp1 = data.p1Pal
 			else
 				palp1 = math.random(1, 12)
@@ -9324,10 +9313,10 @@ function f_p1SelectMenu()
 						['name'] = t_selChars[cel + 1].name,
 						['displayname'] = t_selChars[cel + 1].displayname,
 						['path'] = t_selChars[cel + 1].char,
+						['author'] = t_selChars[cel + 1].author,
 						['pal'] = p1PalSel,
 						['handicap'] = p1HandicapSel,
 						['up'] = updateAnim,
-						['author'] = t_selChars[cel + 1].author,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 					p1SelEnd = true
@@ -9337,10 +9326,10 @@ function f_p1SelectMenu()
 						['name'] = t_selChars[cel + 1].name,
 						['displayname'] = t_selChars[cel + 1].displayname,
 						['path'] = t_selChars[cel + 1].char,
+						['author'] = t_selChars[cel + 1].author,
 						['pal'] = p1PalSel,
 						['handicap'] = p1HandicapSel,
 						['up'] = updateAnim,
-						['author'] = t_selChars[cel + 1].author,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 				--When characters selected are equal to team mode amount selected
@@ -9745,19 +9734,6 @@ function f_p2SelectMenu()
 				t[t_p2CharID[i]] = ''
 			end
 			if data.p2Pal ~= nil then
-			--[[
-				data.t_p2selected[i] = {
-					['cel'] = t_p2CharID[i],
-					['pal'] = data.p2Pal,
-					['handicap'] = p2HandicapSel,
-					['up'] = updateAnim,
-					['name'] = t_selChars[t_p2CharID[i] + 1].name,
-					['displayname'] = t_selChars[t_p2CharID[i] + 1].displayname,
-					['path'] = t_selChars[t_p2CharID[i] + 1].char,
-					['author'] = t_selChars[t_p2CharID[i] + 1].author,
-					['discordkey'] = t_selChars[t_p2CharID[i] + 1].discordkey
-				}
-			]]
 				palp2 = data.p2Pal
 			else
 				palp2 = math.random(1, 12)
@@ -10747,10 +10723,10 @@ function f_p2SelectMenu()
 						['name'] = t_selChars[cel + 1].name,
 						['displayname'] = t_selChars[cel + 1].displayname,
 						['path'] = t_selChars[cel + 1].char,
+						['author'] = t_selChars[cel + 1].author,
 						['pal'] = p2PalSel,
 						['handicap'] = p2HandicapSel,
 						['up'] = updateAnim,
-						['author'] = t_selChars[cel + 1].author,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 					p2coopReady = true
@@ -10766,10 +10742,10 @@ function f_p2SelectMenu()
 						['name'] = t_selChars[cel + 1].name,
 						['displayname'] = t_selChars[cel + 1].displayname,
 						['path'] = t_selChars[cel + 1].char,
+						['author'] = t_selChars[cel + 1].author,
 						['pal'] = p2PalSel,
 						['handicap'] = p2HandicapSel,
 						['up'] = updateAnim,
-						['author'] = t_selChars[cel + 1].author,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 					if #data.t_p2selected == p2numChars then
@@ -10973,7 +10949,10 @@ end
 --; STAGE SELECT MENU
 --;===========================================================
 function f_selectStage()
-	if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log") end
+	if data.debugLog then
+		f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log")
+		f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log")
+	end
 	if data.stageMenu then --If Stage Select is Enabled
 		stageMenuActive = true --To Delete content from previous menu
 		if data.rosterAdvanced == true then
@@ -12794,6 +12773,56 @@ function f_genPlayerDat()
 	f_savePlayerDat()
 end
 
+function f_setAlliancePlayerMembers()
+	local pSide = nil
+	for i=1, 3 do
+		local playerDat = t_allianceSel[allianceSel][i].char:lower()
+		local pCell = t_charDef[playerDat]
+		local updateAnim = true
+	--Add New Member in Right Side
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			pSide = 2
+			for j=1, #data.t_p2selected do
+				if data.t_p2selected[j].cel == pCell then 
+					updateAnim = false
+				end
+			end
+			data.t_p2selected[#data.t_p2selected + 1] = {
+				['cel'] = pCell,
+				['name'] = t_selChars[pCell + 1].name,
+				['displayname'] = t_selChars[pCell + 1].displayname,
+				['path'] = t_selChars[pCell + 1].char,
+				['author'] = t_selChars[pCell + 1].author,
+				['discordkey'] = t_selChars[pCell + 1].discordkey,
+				['pal'] = 1,
+				['handicap'] = 1,
+				['up'] = updateAnim
+			}
+	--Add New Member in Left Side
+		else
+			pSide = 1
+			for j=1, #data.t_p1selected do
+				if data.t_p1selected[j].cel == pCell then 
+					updateAnim = false
+				end
+			end
+			data.t_p1selected[#data.t_p1selected + 1] = {
+				['cel'] = pCell,
+				['name'] = t_selChars[pCell + 1].name,
+				['displayname'] = t_selChars[pCell + 1].displayname,
+				['path'] = t_selChars[pCell + 1].char,
+				['author'] = t_selChars[pCell + 1].author,
+				['discordkey'] = t_selChars[pCell + 1].discordkey,
+				['pal'] = 1,
+				['handicap'] = 1,
+				['up'] = updateAnim
+			}
+		end
+	end
+	setTeamMode(pSide, 0, 4)
+	firstAlliance = true
+end
+
 --;===========================================================
 --; VERSUS SCREEN
 --;===========================================================
@@ -12801,6 +12830,7 @@ function f_selectVersus()
 	cmdInput()
 	local i = 0
 	local vsScreen = false
+	if data.gameMode == "alliance" and not firstAlliance then f_setAlliancePlayerMembers() end
 	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
 	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -13060,6 +13090,10 @@ function f_loading(quickLoad)
 	f_resetFadeBGM()
 	if not quickLoad then
 		if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
+			if data.debugLog then
+				f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log")
+				f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log")
+			end
 			f_selectChar(1, data.t_p1selected)
 			f_selectChar(2, data.t_p2selected)
 			if data.coop then coop = "Local Multiplayer" end
@@ -14974,6 +15008,7 @@ if validCells() then
 				f_makeRoster()
 				lastMatch = t_abyssSel[abyssSel].depth --get last match from abyss depth selected
 			elseif data.gameMode == "alliance" then
+				firstAlliance = false
 				f_allianceSelect() --Go to Alliance Course Select
 				if data.tempBack == true then
 					f_exitToMainMenu()
@@ -15507,6 +15542,7 @@ if validCells() then
 					['name'] = t_selChars[p1Cell + 1].name,
 					['displayname'] = t_selChars[p1Cell + 1].displayname,
 					['path'] = t_selChars[p1Cell + 1].char,
+					['author'] = t_selChars[p1Cell + 1].author,
 					['pal'] = p1Pal,
 					['handicap'] = p1HandicapSel,
 					['up'] = updateAnim, ['rand'] = false
@@ -15526,7 +15562,7 @@ if validCells() then
 						(t_selChars[data.t_p1selected[i].cel + 1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel + 1].bonus == 1) then
 						p1teamMode = 0
 						p1numChars = 1
-						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
+						setTeamMode(1, 0, 1)
 						p1Cell = t_charDef[t_selChars[data.t_p1selected[i].cel + 1].char]
 						data.t_p1selected = {}
 						data.t_p1selected[1] = {
@@ -15534,6 +15570,7 @@ if validCells() then
 							['name'] = t_selChars[p1Cell + 1].name,
 							['displayname'] = t_selChars[p1Cell + 1].displayname,
 							['path'] = t_selChars[p1Cell + 1].char,
+							['author'] = t_selChars[p1Cell + 1].author,
 							['pal'] = p1Pal,
 							['handicap'] = p1HandicapSel,
 							['up'] = true,
@@ -15630,6 +15667,7 @@ if validCells() then
 					['name'] = t_selChars[p2Cell + 1].name,
 					['displayname'] = t_selChars[p2Cell + 1].displayname,
 					['path'] = t_selChars[p2Cell + 1].char,
+					['author'] = t_selChars[p2Cell + 1].author,
 					['pal'] = p2Pal,
 					['handicap'] = p2HandicapSel,
 					['up'] = updateAnim,
@@ -15658,6 +15696,7 @@ if validCells() then
 							['name'] = t_selChars[p2Cell + 1].name,
 							['displayname'] = t_selChars[p2Cell + 1].displayname,
 							['path'] = t_selChars[p2Cell + 1].char,
+							['author'] = t_selChars[p2ell + 1].author,
 							['pal'] = p2Pal,
 							['handicap'] = p2HandicapSel,
 							['up'] = true,
@@ -17714,44 +17753,7 @@ function f_allianceMemberSel(currentMember)
 		elseif memberSel > #t_teamList then
 			memberSel = 1
 		end
-		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-		textImgDraw(txt_allianceMemSelTime)
-	--Draw Member Select Assets
-		textImgDraw(txt_allianceMemSelTitle)
-		local nameFont = font7
-		local commonPosY = 60
-		local spacingY = 50
-		local replaceAttrib = "SS"
-		for i=1, 4 do
-			local allyType = "LEADER"
-			if i > 1 then allyType = "ALLY "..i - 1 end 
-			animPosDraw(allianceMemSlot, 2, 20 + (i - 1) * spacingY)
-			if memberSel == i then
-				animPosDraw(allianceMemSlotCursor, 2, 20 + (i - 1) * spacingY)
-			end
-			drawFacePortrait(0, 133, 24 + (i - 1) * spacingY, 0.9, 0.9)
-			animPosDraw(allianceStatsH, 7, 51 + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyName, nameFont, 0, 1, f_getName(0), 7, 33 + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 7, 46 + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 144, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, replaceAttrib, 20, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, replaceAttrib, 49, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, replaceAttrib, 77, commonPosY + (i - 1) * spacingY)
-			f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, replaceAttrib, 106, commonPosY + (i - 1) * spacingY)
-		end
-	--Draw Next Enemy Assets
-		textImgDraw(txt_allianceNextEnemy)
-		local commonEnemyPosY = 140
-		animPosDraw(allianceMemSlot, 170, 100)
-		drawFacePortrait(4, 295, 104, 0.9, 0.9)
-		animPosDraw(allianceStatsH, 175, 131)
-		f_drawQuickText(txt_enemyName, nameFont, 0, 1, f_getName(4), 175, 113)
-		f_drawQuickText(txt_enemyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 175, 126)
-		f_drawQuickText(txt_enemyType, nameFont, 0, 0, "CPU", 307, commonEnemyPosY)
-		f_drawQuickText(txt_enemyAttkAtrib, nameFont, 0, 1, replaceAttrib, 187, commonEnemyPosY)
-		f_drawQuickText(txt_enemyPowAtrib, nameFont, 0, 1, replaceAttrib, 216, commonEnemyPosY)
-		f_drawQuickText(txt_enemyLifAtrib, nameFont, 0, 1, replaceAttrib, 245, commonEnemyPosY)
-		f_drawQuickText(txt_enemyDefAtrib, nameFont, 0, 1, replaceAttrib, 273, commonEnemyPosY)
+		drawAlliMemTest(memberSel)
 		drawAllianceMemInputHints()
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
