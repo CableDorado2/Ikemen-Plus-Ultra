@@ -12830,7 +12830,14 @@ function f_selectVersus()
 	cmdInput()
 	local i = 0
 	local vsScreen = false
-	if data.gameMode == "alliance" and not firstAlliance then f_setAlliancePlayerMembers() end
+	if data.gameMode == "alliance" then
+		if not firstAlliance then f_setAlliancePlayerMembers() end
+		if data.changeAlliance then
+			
+			data.changeAlliance = false
+			f_saveTemp()
+		end
+	end
 	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
 	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)

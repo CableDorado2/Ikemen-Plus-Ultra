@@ -3207,6 +3207,7 @@ function f_saveTemp()
 		['data.challengerMode'] = data.challengerMode,
 		['data.challengerAbyss'] = data.challengerAbyss,
 		['data.saveAbyss'] = data.saveAbyss,
+		['data.changeAlliance'] = data.changeAlliance,
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
@@ -3225,6 +3226,7 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.challengerMode = false
 	data.challengerAbyss = false
 	data.saveAbyss = false
+	data.changeAlliance = false
 	data.VNbreaker = false
 	data.p1Lose = false
 	data.p2Lose = false
