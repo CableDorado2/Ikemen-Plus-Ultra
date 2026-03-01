@@ -6928,6 +6928,7 @@ function f_selectReset()
 	p2numSimul = 2
 	matchNo = 0
 	setMatchNo(matchNo)
+	setAllianceMatch(matchNo)
 	rematchEnd = false
 	battleOption = 0
 	battleOption2 = 0
@@ -12832,7 +12833,7 @@ function f_setAlliancePlayerMembers()
 	data.t_p2selected[1].activemember = true
 	firstAlliance = true
 	currentAllianceMemberPlayer = 1
-	currentAllianceMemberCPU = 1
+	currentAllianceMemberCPU = 2
 end
 
 --;===========================================================
@@ -14983,15 +14984,21 @@ function f_editRightSide()
 end
 
 function f_1stStageSel()
-	--Load first stage selected for all next matches
-	if data.stageMenu == true then
+--Load first stage selected for all next matches
+	if data.stageMenu then
 		f_loadStage()
 		f_assignMusic()
 	end
 end
 
 function f_nextMatch()
-	matchNo = matchNo + 1
+	if data.gameMode == "alliance" then
+		if data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4 then
+			matchNo = matchNo + 1
+		end
+	else
+		matchNo = matchNo + 1
+	end
 	f_1stStageSel()
 end
 
@@ -15207,8 +15214,17 @@ if validCells() then
 			--Wins in (Arcade, Survival, Boss/Bonus Rush)
 				if winner == 1 then
 					winCnt = winCnt + 1
+					if data.gameMode == "alliance" then
+						data.p2MembersDefeated = data.p2MembersDefeated + 1
+						if currentAllianceMemberCPU < 4 then
+							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
+						else
+							currentAllianceMemberCPU = 1 --Change to Leader
+						end
+					end
 				else
 					looseCnt = looseCnt + 1
+					data.p1MembersDefeated = data.p1MembersDefeated + 1
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -15537,9 +15553,11 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
+						shuffle = false
 					elseif data.gameMode == "alliance" then
 						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
 						p1Cell = t_charDef[cpuDat]
+						shuffle = false
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 				--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 					This logic will ensure that chars are not repeated until the entire roster is defeated.]]
@@ -15662,9 +15680,11 @@ if validCells() then
 				else
 					if data.gameMode == "tower" then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
+						shuffle = false
 					elseif data.gameMode == "alliance" then
 						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
 						p2Cell = t_charDef[cpuDat]
+						shuffle = false
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 						--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 						This logic will ensure that chars are not repeated until the entire roster is defeated.]]
