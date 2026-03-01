@@ -7447,7 +7447,11 @@ end
 
 function f_selectChar(player, t)
 	for i=1, #t do
-		selectChar(player, t[i].cel, t[i].pal)
+		if data.gameMode == "alliance" then
+			if t[i].activemember then selectChar(player, t[i].cel, t[i].pal) end
+		else
+			selectChar(player, t[i].cel, t[i].pal)
+		end
 	end
 end
 
@@ -12798,6 +12802,7 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['activemember'] = false,
 				['up'] = updateAnim
 			}
 	--Add New Member in Left Side
@@ -12817,11 +12822,14 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['activemember'] = false,
 				['up'] = updateAnim
 			}
 		end
 	end
 	--setTeamMode(pSide, 0, 4)
+	data.t_p1selected[1].activemember = true
+	data.t_p2selected[1].activemember = true
 	firstAlliance = true
 	currentAllianceMemberPlayer = 1
 	currentAllianceMemberCPU = 1
@@ -12844,30 +12852,72 @@ function f_selectVersus()
 		end
 	end
 	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
-	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 --Manage Access to the screen
+	local colorToNameP1 = 1
+	local colorToNameP2 = 1
+	local currentCharP1 = 1
+	local currentCharP2 = 1
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		if t_selChars[data.t_p1selected[1].cel + 1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].vsscreen == 1 then
 			vsScreen = true
+		end
+		if data.gameMode == "alliance" then
+			colorToNameP1 = currentAllianceMemberCPU
+			currentCharP1 = currentAllianceMemberCPU
+			
+			colorToNameP2 = currentAllianceMemberPlayer
+			currentCharP2 = currentAllianceMemberPlayer
+			
+			for i=1, #data.t_p2selected do
+				if i == currentAllianceMemberPlayer then
+					data.t_p2selected[i].activemember = true
+				else
+					data.t_p2selected[i].activemember = false
+				end
+			end
+			for i=1, #data.t_p1selected do
+				if i == currentAllianceMemberCPU then
+					data.t_p1selected[i].activemember = true
+				else
+					data.t_p1selected[i].activemember = false
+				end
+			end
 		end
 	else
 		if t_selChars[data.t_p2selected[1].cel + 1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].vsscreen == 1 then
 			vsScreen = true
 		end
+		if data.gameMode == "alliance" then
+			colorToNameP1 = currentAllianceMemberPlayer
+			currentCharP1 = currentAllianceMemberPlayer
+			
+			colorToNameP2 = currentAllianceMemberCPU
+			currentCharP2 = currentAllianceMemberCPU
+			
+			for i=1, #data.t_p1selected do
+				if i == currentAllianceMemberPlayer then
+					data.t_p1selected[i].activemember = true
+				else
+					data.t_p1selected[i].activemember = false
+				end
+			end
+			for i=1, #data.t_p2selected do
+				if i == currentAllianceMemberCPU then
+					data.t_p2selected[i].activemember = true
+				else
+					data.t_p2selected[i].activemember = false
+				end
+			end
+		end
 	end
+	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if not data.versusScreen or not vsScreen then
 		return
 	else
 		local screenTime = 0
 		local hintTime = 0
 		local timeLimit = 150
-		local colorToNameP1 = 1
-		local colorToNameP2 = 1
-		if data.gameMode == "alliance" then 
-			colorToNameP1 = currentAllianceMemberPlayer
-			colorToNameP2 = currentAllianceMemberCPU
-		end
 		f_getVSHint() --Load First Hint
 		animReset(vsLogo) --Since the animation stays at -1, this helps it repeat without reload the anim via animNew().
 	--Portraits Scale Logic
@@ -12922,8 +12972,8 @@ function f_selectVersus()
 			animDraw(f_animVelocity(vsWindowR, 2, 0))
 		--Draw Character Portraits
 			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-				drawPortrait(data.t_p1selected[1].cel, 20, 30, xPortScaleL, yPortScaleL)
-				drawPortrait(data.t_p2selected[1].cel, 300, 30, -xPortScaleR, yPortScaleR)
+				drawPortrait(data.t_p1selected[currentCharP1].cel, 20, 30, xPortScaleL, yPortScaleL)
+				drawPortrait(data.t_p2selected[currentCharP2].cel, 300, 30, -xPortScaleR, yPortScaleR)
 				--You can use drawVSPortrait instead of drawPortrait to draw exclusive Portraits in this screen.
 			end
 		--Draw Character Sprite Animations
