@@ -1520,8 +1520,7 @@ function loop() --The code for this function should be thought of as if it were 
 			if (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 				if allianceChangeButton then
 				--temporalmente hasta dibujar la pantalla de cambio dentro del match
-					data.changeAlliance = true
-					f_saveTemp()
+					setAllianceChange(true)
 				--[[
 					if not alliancePause then
 						togglePause(1)

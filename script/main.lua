@@ -12846,10 +12846,9 @@ function f_selectVersus()
 	if data.gameMode == "alliance" then
 		if not firstAlliance then f_setAlliancePlayerMembers() end
 		assert(loadfile(saveTempPath))()
-		if data.changeAlliance then
+		if allianceChange() then
 			currentAllianceMemberPlayer = f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
-			data.changeAlliance = false
-			f_saveTemp()
+			setAllianceChange(false)
 		end
 	end
 	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
@@ -14993,7 +14992,11 @@ end
 
 function f_nextMatch()
 	if data.gameMode == "alliance" then
+		assert(loadfile(saveTempPath))()
 		if data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4 then
+			data.p1MembersDefeated = 0
+			data.p2MembersDefeated = 0
+			f_saveTemp()
 			matchNo = matchNo + 1
 		end
 	else
@@ -15165,8 +15168,15 @@ if validCells() then
 						f_exitToMainMenu()
 						return
 					end
-					f_loseAdvanced()
-					return
+					if data.gameMode == "alliance" then
+						if data.p2MembersDefeated == 4 then
+							f_loseAdvanced()
+							return
+						end
+					else
+						f_loseAdvanced()
+						return
+					end
 			--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
@@ -15216,6 +15226,7 @@ if validCells() then
 					winCnt = winCnt + 1
 					if data.gameMode == "alliance" then
 						data.p2MembersDefeated = data.p2MembersDefeated + 1
+						f_saveTemp()
 						if currentAllianceMemberCPU < 4 then
 							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
 						else
@@ -15312,8 +15323,15 @@ if validCells() then
 						f_exitToMainMenu()
 						return
 					end
-					f_loseAdvanced()
-					return
+					if data.gameMode == "alliance" then
+						if data.p1MembersDefeated == 4 then
+							f_loseAdvanced()
+							return
+						end
+					else
+						f_loseAdvanced()
+						return
+					end
 			--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
@@ -17845,6 +17863,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 		end
 		--drawAlliMemTest(memberSel) --quick screnpack test
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
+		textImgSetText(txt_allianceMemSelTime, )
 		textImgDraw(txt_allianceMemSelTime)
 	--Draw Member Select Assets
 		textImgDraw(txt_allianceMemSelTitle)

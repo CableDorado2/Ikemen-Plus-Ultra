@@ -33,6 +33,7 @@ public &Share
   public int timer, countdownTimer;
   public int cpuLevel;
   public int allianceMatch;
+  public bool allianceChange;
   public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
   public bool scoreDisplay, timerDisplay, countdownDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
   public bool persistLife, persistPower, persistRoundtime;
@@ -138,6 +139,7 @@ public &Share
     `com = .com.com;
 	`taglevel = .com.taglevel;
 	`allianceMatch = .com.allianceMatch;
+	`allianceChange = .com.allianceChange;
     `autoguard = .com.autoguard;
     `inputRemap = .com.inputRemap;
     `net = .cmd.net;
@@ -257,6 +259,7 @@ public &Share
     .com.p2score = `p2score;
     .com.cpuLevel = `cpuLevel;
     .com.allianceMatch = `allianceMatch;
+    .com.allianceChange = `allianceChange;
     .com.p1mw = `chr_p1mw;
     .com.p2mw = `chr_p2mw;
     .com.p1wins = `chr_p1w;

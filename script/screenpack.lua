@@ -4320,7 +4320,7 @@ end
 --;===========================================================
 txt_allianceMemSelTitle = createTextImg(font20, 1, 0, "MEMBER SELECT", 80, 15)
 txt_allianceNextEnemy = createTextImg(font20, 0, 0, "NEXT ENEMY", 246, 95)
-txt_allianceMemSelTime = createTextImg(font20, 4, 0, "999", 250, 45)
+txt_allianceMemSelTime = createTextImg(font20, 4, 0, "", 250, 45)
 
 --Alliance Member Slot
 allianceMemSlot = animNew(sprIkemen, [[
@@ -4371,10 +4371,9 @@ function drawAllianceMemInputHints()
 	local hintFont = font2
 	local hintFontYPos = 234
 	animPosDraw(inputHintsBG, -56, 219)
-	drawMenuInputHints("u","30,"..inputHintYPos,"d","50,"..inputHintYPos,"l","70,"..inputHintYPos,"r","90,"..inputHintYPos,"s","150,"..inputHintYPos,"e","215,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 111, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 171, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 236, hintFontYPos)
+	drawMenuInputHints("u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"s","170,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 131, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 191, hintFontYPos)
 end
 
 --;===========================================================
