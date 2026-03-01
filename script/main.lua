@@ -7000,11 +7000,13 @@ function f_selectInit()
 	rematchSeconds = data.rematchTime
 	serviceSeconds = data.serviceTime
 	destinySeconds = data.destinyTime
+	allianceSeconds = data.allianceTime
 	selectTimer = selectSeconds * gameTick --Set time for Character Select
 	stageTimer = stageSeconds * gameTick --Set time for Stage Select
 	rematchTimer = rematchSeconds * gameTick --Set time for Rematch Option
 	serviceTimer = serviceSeconds * gameTick --Set time for Service Option
 	destinyTimer = destinySeconds * gameTick --Set time for Tower/Destiny Select
+	allianceTimer = allianceSeconds * gameTick --Set time for Alliance Mode Screens
 	if data.rosterAdvanced == true and data.stageMenu == false then
 		--For Advanced Modes without Stage Select
 	else
@@ -12845,7 +12847,11 @@ function f_selectVersus()
 	local vsScreen = false
 	if data.gameMode == "alliance" then
 		if not firstAlliance then f_setAlliancePlayerMembers() end
-		assert(loadfile(saveTempPath))()
+		if allianceRouteSel() then
+			allianceRoute = f_allianceNextBattle()
+			setAllianceRouteSel(false)
+			setAllianceLastEnemy(false)
+		end
 		if allianceChange() then
 			currentAllianceMemberPlayer = f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
 			setAllianceChange(false)
@@ -12986,7 +12992,7 @@ function f_selectVersus()
 				end
 			end
 		--Draw Match Info
-			if data.gameMode == "arcade" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
+			if data.gameMode == "arcade" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" or data.gameMode == "alliance" then
 				textImgDraw(txt_matchNo)
 			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
@@ -14865,6 +14871,7 @@ if validCells() then
 		stageTimer = stageSeconds * gameTick
 		rematchTimer = rematchSeconds * gameTick
 		serviceTimer = serviceSeconds * gameTick
+		allianceTimer = allianceSeconds * gameTick
 		f_modePlaytime()
 		f_unlock(false)
 		f_updateUnlocks()
@@ -14997,6 +15004,8 @@ function f_nextMatch()
 			data.p1MembersDefeated = 0
 			data.p2MembersDefeated = 0
 			f_saveTemp()
+			setAllianceRouteSel(true)
+			setAllianceChange(true)
 			matchNo = matchNo + 1
 		end
 	else
@@ -15232,6 +15241,7 @@ if validCells() then
 						else
 							currentAllianceMemberCPU = 1 --Change to Leader
 						end
+						if data.p2MembersDefeated == 3 then setAllianceLastEnemy(true) end
 					end
 				else
 					looseCnt = looseCnt + 1
@@ -15880,6 +15890,7 @@ if validCells() then
 		rematchTimer = rematchSeconds * gameTick
 		serviceTimer = serviceSeconds * gameTick
 		destinyTimer = destinySeconds * gameTick
+		allianceTimer = allianceSeconds * gameTick
 		f_modePlaytime() --Store Favorite Game Mode
 		f_records() --save record progress
 		f_unlock(false)
@@ -17199,11 +17210,13 @@ function f_tourneySelectReset()
 	rematchSeconds = data.rematchTime
 	serviceSeconds = data.serviceTime
 	destinySeconds = data.destinyTime
+	allianceSeconds =  data.allianceTime
 	selectTimer = selectSeconds * gameTick --Set time for Character Select
 	stageTimer = stageSeconds * gameTick --Set time for Stage Select
 	rematchTimer = rematchSeconds * gameTick --Set time for Rematch Option
 	serviceTimer = serviceSeconds * gameTick --Set time for Service Option
 	destinyTimer = destinySeconds * gameTick --Set time for Tower/Destiny Select
+	allianceTimer = allianceSeconds * gameTick --Set time for Alliance Mode Screens
 	stageList = 0
 	musicList = 0
 	gameNo = 0
@@ -17487,6 +17500,7 @@ if validCells() then
 			stageTimer = stageSeconds * gameTick
 			rematchTimer = rematchSeconds * gameTick
 			serviceTimer = serviceSeconds * gameTick
+			allianceTimer = allianceSeconds * gameTick
 			f_unlock(false)
 			f_updateUnlocks()
 		--Victory Screen
@@ -17845,7 +17859,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 	playBGM(bgmAlliance)
 	while true do
 	--Start Actions
-		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
 			sndPlay(sndSys, 100, 1)
 			return memberSel
 	--Alliance Member Select
@@ -17863,8 +17877,16 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 		end
 		--drawAlliMemTest(memberSel) --quick screnpack test
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-		textImgSetText(txt_allianceMemSelTime, )
-		textImgDraw(txt_allianceMemSelTime)
+	--Alliance Timer
+		allianceTimeNumber = allianceTimer / gameTick
+		nodecimalAllianceTime = string.format("%.0f", allianceTimeNumber)
+		textImgSetText(txt_allianceMemSelTime, nodecimalAllianceTime)
+		if allianceTimer > 0 then
+			allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
+			textImgDraw(txt_allianceMemSelTime)
+		else --when allianceTimer <= 0
+			
+		end
 	--Draw Member Select Assets
 		textImgDraw(txt_allianceMemSelTitle)
 		local spacingY = 50
@@ -18009,14 +18031,13 @@ function f_allianceNextBattle()
 	local bufr = 0
 	local bufl = 0
 	local teamSel = 1
-	local t_teamList = {1, 2, 3}
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmAlliance)
 	while true do
 	--Start Actions
-		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
 			sndPlay(sndSys, 100, 1)
-			break
+			return teamSel
 	--Enemy Team Select
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -18026,19 +18047,26 @@ function f_allianceNextBattle()
 			teamSel = teamSel + 1
 		end
 		if teamSel < 1 then
-			teamSel = #t_teamList
-		elseif teamSel > #t_teamList then
+			teamSel = #t_allianceCourses[allianceCourseSel].match[matchNo].route
+		elseif teamSel > #t_allianceCourses[allianceCourseSel].match[matchNo].route then
 			teamSel = 1
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-		textImgDraw(txt_allianceNextTeamTime)
+		--Alliance Timer
+		allianceTimeNumber = allianceTimer / gameTick
+		nodecimalAllianceTime = string.format("%.0f", allianceTimeNumber)
+		textImgSetText(txt_allianceNextTeamTime, nodecimalAllianceTime)
+		if allianceTimer > 0 then
+			allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
+			textImgDraw(txt_allianceNextTeamTime)
+		else --when allianceTimer <= 0
+			
+		end
 		textImgDraw(txt_allianceNextTeamTitle)
 		textImgDraw(txt_allianceNextTeamInfo)
 	--Draw Next Team Battle Assets
 		local spacingX = 26
 		local spacingY = 58
-		local matchNo = 2
-		local allianceCourseSel = 1
 		for route=1, #t_allianceCourses[allianceCourseSel].match[matchNo].route do
 		--Route Assets
 			animPosDraw(allianceEnemyTeamSlot, 20, 35 + (route - 1) * spacingY)

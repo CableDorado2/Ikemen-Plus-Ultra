@@ -428,6 +428,7 @@ function f_saveCfg()
 		['data.serviceTime'] = data.serviceTime,
 		['data.attractTime'] = data.attractTime,
 		['data.destinyTime'] = data.destinyTime,
+		['data.allianceTime'] = data.allianceTime,
 	--Replays Data
 		['data.replayLocal'] = data.replayLocal,
 		['data.replayOnline'] = data.replayOnline,
@@ -730,6 +731,7 @@ function f_timeDefault()
 	data.serviceTime = 16
 	data.attractTime = 11
 	data.destinyTime = 31
+	data.allianceTime = 31
 end
 
 --Default Replay Values
@@ -5254,6 +5256,7 @@ t_timeCfg = {
 	{text = "Service Screen"},
 	{text = "Attract Title"},
 	{text = "Tower Select"},
+	{text = "Alliance Mode"},
 	{text = "Default Values"},
 	{text = "BACK"},
 }
@@ -5492,6 +5495,35 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
+		--Alliance Screens Time
+			elseif timeCfg == 8 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.allianceTime < 61 then sndPlay(sndSys, 100, 0) end
+					if data.allianceTime == -1 then
+						data.allianceTime = 11
+					elseif data.allianceTime < 61 then
+						data.allianceTime = data.allianceTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.allianceTime > 11 then sndPlay(sndSys, 100, 0) end
+					if data.allianceTime > 11 then
+						data.allianceTime = data.allianceTime - 1
+					elseif data.allianceTime == 11 then
+						data.allianceTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
 		--Default Values
 			elseif timeCfg == #t_timeCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
@@ -5546,6 +5578,7 @@ function f_timeCfg()
 		if data.serviceTime ~= -1 then t_timeCfg[5].varText = data.serviceTime .." Seconds" else t_timeCfg[5].varText = "Infinite" end
 		if data.attractTime ~= -1 then t_timeCfg[6].varText = data.attractTime .." Seconds" else t_timeCfg[6].varText = "Infinite" end
 		if data.destinyTime ~= -1 then t_timeCfg[7].varText = data.destinyTime .." Seconds" else t_timeCfg[7].varText = "Infinite" end
+		if data.allianceTime ~= -1 then t_timeCfg[8].varText = data.allianceTime .." Seconds" else t_timeCfg[8].varText = "Infinite" end
 		for i=1, maxtimeCfg do
 			if i > timeCfg - cursorPosY then
 				local align = 1

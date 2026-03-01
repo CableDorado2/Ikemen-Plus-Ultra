@@ -1433,6 +1433,32 @@ void allianceChange(&.lua.State L=, int re=)
   L.pushBoolean(.com.allianceChange);
 }
 
+void setAllianceRouteSel(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool ars = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.allianceRouteSel = ars;
+}
+
+void allianceRouteSel(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.allianceRouteSel);
+}
+
+void setAllianceLastEnemy(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool ale = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.allianceLastEnemy = ale;
+}
+
+void allianceLastEnemy(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.allianceLastEnemy);
+}
+
 void setAilevelDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2135,6 +2161,12 @@ public void init(&.lua.State L=)
   
   L.register("setAllianceChange", .setAllianceChange);
   L.register("allianceChange", .allianceChange);
+  
+  L.register("setAllianceRouteSel", .setAllianceRouteSel);
+  L.register("allianceRouteSel", .allianceRouteSel);
+  
+  L.register("setAllianceLastEnemy", .setAllianceLastEnemy);
+  L.register("allianceLastEnemy", .allianceLastEnemy);
 
   L.register("setAilevelDisplay", .setAilevelDisplay);
   L.register("ailevelDisplay", .ailevelDisplay);

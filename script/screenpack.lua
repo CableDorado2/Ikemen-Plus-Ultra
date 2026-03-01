@@ -2252,6 +2252,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
 	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR "..matchNo - 1) --Set Tower Match Text
 	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH "..getAbyssDepth()) --Set Abyss Depth Match Text
+	elseif data.gameMode == "alliance" then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Alliance Match Text
 	end
 	if data.gameMode == "survival" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
 	elseif data.gameMode == "kumite" then textImgSetText(txt_gameNo, gameNo.."/"..data.kumite) --Set Kumite Match Text
@@ -3765,8 +3766,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route B
 					{
 						char = {
-							"Kung Fu Girl/Master/Master Kung Fu Girl.def", --Leader
-							"Kung Fu Man",
+							"Suave Dude", --Leader
+							"Kung Fu Man/X/Kung Fu Man X.def",
 							"Mako Mayama",
 							"Shin Gouki"
 						},
@@ -3903,9 +3904,9 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Mako Mayama", --Leader
+							"Kung Fu Man", --Leader
 							"Suave Dude/Minion/Minion.def",
-							"Kung Fu Man",
+							"Mako Mayama",
 							"Reika Murasame"
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
@@ -4440,7 +4441,7 @@ end
 --;===========================================================
 txt_allianceNextTeamTitle = createTextImg(font20, 0, 0, "NEXT BATTLE", 160, 15)
 txt_allianceNextTeamInfo = createTextImg(font7, 0, 0, "SELECT THE NEXT ENEMY TEAM TO CHALLENGE", 160, 30)
-txt_allianceNextTeamTime = createTextImg(font20, 4, 0, "999", 160, 215)
+txt_allianceNextTeamTime = createTextImg(font20, 4, 0, "", 160, 215)
 
 txt_allianceEnemyRoute = createTextImg(font20, 0, 0, "", 160, 20)
 

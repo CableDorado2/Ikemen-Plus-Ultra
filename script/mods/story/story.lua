@@ -476,6 +476,7 @@ if validCells() then
 		stageTimer = stageSeconds * gameTick
 		rematchTimer = rematchSeconds * gameTick
 		serviceTimer = serviceSeconds * gameTick
+		allianceTimer = allianceSeconds * gameTick
 		f_modePlaytime() --Store Favorite Game Mode
 		f_unlock(false)
 		f_updateUnlocks()

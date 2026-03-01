@@ -33,7 +33,7 @@ public &Share
   public int timer, countdownTimer;
   public int cpuLevel;
   public int allianceMatch;
-  public bool allianceChange;
+  public bool allianceChange, allianceRouteSel, allianceLastEnemy;
   public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
   public bool scoreDisplay, timerDisplay, countdownDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
   public bool persistLife, persistPower, persistRoundtime;
@@ -140,6 +140,8 @@ public &Share
 	`taglevel = .com.taglevel;
 	`allianceMatch = .com.allianceMatch;
 	`allianceChange = .com.allianceChange;
+	`allianceRouteSel = .com.allianceRouteSel;
+	`allianceLastEnemy = .com.allianceLastEnemy;
     `autoguard = .com.autoguard;
     `inputRemap = .com.inputRemap;
     `net = .cmd.net;
@@ -260,6 +262,8 @@ public &Share
     .com.cpuLevel = `cpuLevel;
     .com.allianceMatch = `allianceMatch;
     .com.allianceChange = `allianceChange;
+    .com.allianceRouteSel = `allianceRouteSel;
+    .com.allianceLastEnemy = `allianceLastEnemy;
     .com.p1mw = `chr_p1mw;
     .com.p2mw = `chr_p2mw;
     .com.p1wins = `chr_p1w;

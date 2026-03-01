@@ -1531,7 +1531,7 @@ function loop() --The code for this function should be thought of as if it were 
 					end
 				]]
 				else
-					f_allianceChangeCharInfo() --Show Change Character Button Info
+					if not allianceLastEnemy() then f_allianceChangeCharInfo() end --Show Change Character Button Info
 				end
 			end
 		end

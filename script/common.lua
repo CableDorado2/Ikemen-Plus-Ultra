@@ -2419,6 +2419,8 @@ function f_default() --Reset Game Modes Configuration
 	setWinThrowCount(0) --Reset Thrown Wins Count
 	setWinPerfectThrowCount(0) --Reset Perfect Thrown Wins Count
 	setAllianceChange(false) --Enable or Disable Alliance Mode Member Change
+	setAllianceRouteSel(false) --Enable or Disable Alliance Mode Enemy Route Change
+	setAllianceLastEnemy(false) --Enable or Disable Alliance Mode Last Enemy Battle Trigger
 	setP1winsDisplay(false) --Enable or Disable Left Side Wins Count Display
 	setP2winsDisplay(false) --Enable or Disable Right Side Wins Count Display
 	setTimerDisplay(false) --Enable or Disable Timer Display
