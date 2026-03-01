@@ -1407,6 +1407,19 @@ void getLastMatch(&.lua.State L=, int re=)
   L.pushNumber((double).com.lastMatch);
 }
 
+void setAllianceMatch(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int am = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.allianceMatch = am;
+}
+
+void getAllianceMatch(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.allianceMatch);
+}
+
 void setAilevelDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2103,6 +2116,9 @@ public void init(&.lua.State L=)
   
   L.register("setLastMatch", .setLastMatch);
   L.register("getLastMatch", .getLastMatch);
+  
+  L.register("setAllianceMatch", .setAllianceMatch);
+  L.register("getAllianceMatch", .getAllianceMatch);
 
   L.register("setAilevelDisplay", .setAilevelDisplay);
   L.register("ailevelDisplay", .ailevelDisplay);

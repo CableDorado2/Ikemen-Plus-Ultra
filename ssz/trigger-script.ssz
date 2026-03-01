@@ -205,6 +205,12 @@ void playerreward(&.lua.State L=, int re=)
   L.pushNumber((double).com.playerReward);
 }
 
+void alliancematch(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.allianceMatch);
+}
+
 void abyssdepth(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1488,6 +1494,7 @@ public void registerFunction(&.lua.State L=)
   L.register("abysssp4", .abysssp4);
   L.register("ailevel", .ailevel);
   L.register("tagmode", .tagmode);
+  L.register("alliancematch", .alliancematch);
   L.register("alive", .alive);
   L.register("anim", .anim);
   L.register("animelemno", .animelemno);
