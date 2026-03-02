@@ -12849,8 +12849,10 @@ function f_selectVersus()
 		if not firstAlliance then f_setAlliancePlayerMembers() end
 		if allianceRouteSel() then
 			allianceRoute = f_allianceNextBattle()
-			setAllianceRouteSel(false)
+			allianceTimer = allianceSeconds * gameTick --Reset Timer
+			setAllianceChange(true)
 			setAllianceLastEnemy(false)
+			setAllianceRouteSel(false)
 		end
 		if allianceChange() then
 			currentAllianceMemberPlayer = f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
@@ -15005,7 +15007,6 @@ function f_nextMatch()
 			data.p2MembersDefeated = 0
 			f_saveTemp()
 			setAllianceRouteSel(true)
-			setAllianceChange(true)
 			matchNo = matchNo + 1
 		end
 	else
@@ -18052,7 +18053,7 @@ function f_allianceNextBattle()
 			teamSel = 1
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-		--Alliance Timer
+	--Alliance Timer
 		allianceTimeNumber = allianceTimer / gameTick
 		nodecimalAllianceTime = string.format("%.0f", allianceTimeNumber)
 		textImgSetText(txt_allianceNextTeamTime, nodecimalAllianceTime)
