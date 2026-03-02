@@ -3651,12 +3651,12 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 					{
 						char = { --Enemy Characters Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 							"Kung Fu Man", --Leader
-							"Kung Fu Girl",
+							"randomselect",
 							"Kung Fu Man/Master/Master Kung Fu Man.def",
 							"Kung Fu Man/Evil/Evil Kung Fu Man.def"
 						},
-						stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
-						--music = "sound/boss.mp3", --Song Path (if it is empty an auto song will be loaded)
+						--stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+						--music = "sound/teambattle.mp3", --Song Path (if it is empty an auto song will be loaded)
 						stats = {life = 1, power = 1, attack = 1, defence = 1}, --Enemy stats (life, power, attack, defence)
 						ailevel = 1 --CPU Level
 					}
@@ -3668,7 +3668,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Kung Fu Girl", --Leader
+							"randomselect", --Leader
 							"Kung Fu Man",
 							"Kung Fu Man",
 							"Kung Fu Man"
@@ -3680,24 +3680,22 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route B
 					{
 						char = {
-							"Kung Fu Girl", --Leader
+							"randomselect", --Leader
 							"Kung Fu Man",
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 2
 					},
 				--Route C
 					{
 						char = {
-							"Kung Fu Girl", --Leader
+							"randomselect", --Leader
 							"Kung Fu Man",
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 3
 					}
@@ -3714,8 +3712,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
-						--music = "sound/",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 1
 					},
@@ -3727,8 +3723,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
-						--music = "sound/",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 2
 					},
@@ -3740,8 +3734,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
-						--music = "sound/",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
 						ailevel = 3
 					}
@@ -3802,12 +3794,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 					{
 						char = {
 							"Kung Fu Man", --Leader
-							"Kung Fu Girl",
+							"randomselect",
 							"Kung Fu Man/Master/Master Kung Fu Man.def",
 							"Kung Fu Man/Evil/Evil Kung Fu Man.def"
 						},
-						stage = "stages/Mountainside Temple/Lobby Night.def",
-						--music = "sound/boss.mp3",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 4
 					}
@@ -3819,36 +3809,33 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Kung Fu Girl", --Leader
+							"randomselect", --Leader
 							"Kung Fu Man",
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 4
 					},
 				--Route B
 					{
 						char = {
-							"Kung Fu Girl", --Leader
+							"randomselect", --Leader
 							"Kung Fu Man",
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 5
 					},
 				--Route C
 					{
 						char = {
-							"Kung Fu Girl", --Leader
+							"randomselect", --Leader
 							"Kung Fu Man",
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 6
 					}
@@ -3865,8 +3852,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
-						--music = "sound/",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 4
 					},
@@ -3878,8 +3863,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
-						--music = "sound/",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 5
 					},
@@ -3891,8 +3874,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"Kung Fu Man",
 							"Kung Fu Man"
 						},
-						stage = "stages/Mountainside Temple/Temple Entrance Night.def",
-						--music = "sound/",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
 						ailevel = 6
 					}
@@ -3917,7 +3898,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route B
 					{
 						char = {
-							"Kung Fu Girl", --Leader
+							"randomselect", --Leader
 							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
 							"Shin Gouki",
 							"Suave Dude"
@@ -3955,7 +3936,7 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 	{
 	--Ally 1
 		{
-			char = "Kung Fu Girl", --Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+			char = "randomselect", --Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 			ailevel = 1,
 			life = {stat = 4},
 			power = {stat = 4},
@@ -4054,7 +4035,7 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 		},
 	--Ally 2
 		{
-			char = "Kung Fu Girl",
+			char = "randomselect",
 			ailevel = 1,
 			life = {stat = 4},
 			power = {stat = 4},

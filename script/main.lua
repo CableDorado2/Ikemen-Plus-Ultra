@@ -11458,17 +11458,19 @@ function f_selectStage()
 		end
 	else --If Stage Select is Disabled
 		if data.stage == nil then --Assign Auto Stage via Select.def
+			local memDat = 1
+			if data.gameMode == "alliance" then memDat = currentAllianceMemberCPU end
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel + 1].stage ~= nil then
-					stageNo = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].stage)
-					stageNo = t_selChars[data.t_p1selected[1].cel + 1].stage[stageNo]
+				if t_selChars[data.t_p1selected[memDat].cel + 1].stage ~= nil then
+					stageNo = math.random(1, #t_selChars[data.t_p1selected[memDat].cel + 1].stage)
+					stageNo = t_selChars[data.t_p1selected[memDat].cel + 1].stage[stageNo]
 				else
 					stageNo = math.random(1, data.includestage)
 				end
 			else
-				if t_selChars[data.t_p2selected[1].cel + 1].stage ~= nil then
-					stageNo = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].stage)
-					stageNo = t_selChars[data.t_p2selected[1].cel + 1].stage[stageNo]
+				if t_selChars[data.t_p2selected[memDat].cel + 1].stage ~= nil then
+					stageNo = math.random(1, #t_selChars[data.t_p2selected[memDat].cel + 1].stage)
+					stageNo = t_selChars[data.t_p2selected[memDat].cel + 1].stage[stageNo]
 				else
 					stageNo = math.random(1, data.includestage)
 				end
@@ -11545,6 +11547,8 @@ function f_loadCharResources()
 end
 
 function f_assignMusic()
+	local memDat = 1
+	if data.gameMode == "alliance" then memDat = currentAllianceMemberCPU end
 	if data.bgm == nil then --Assign Stage Song via stage.def or select.def
 		track = ""
 		if data.stageMenu then
@@ -11554,17 +11558,17 @@ function f_assignMusic()
 			end
 		else
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if t_selChars[data.t_p1selected[1].cel + 1].music ~= nil then
-					track = math.random(1, #t_selChars[data.t_p1selected[1].cel + 1].music)
-					track = t_selChars[data.t_p1selected[1].cel + 1].music[track].bgmusic
+				if t_selChars[data.t_p1selected[memDat].cel + 1].music ~= nil then
+					track = math.random(1, #t_selChars[data.t_p1selected[memDat].cel + 1].music)
+					track = t_selChars[data.t_p1selected[memDat].cel + 1].music[track].bgmusic
 				elseif t_selStages[stageNo].music ~= nil then
 					track = math.random(1, #t_selStages[stageNo].music)
 					track = t_selStages[stageNo].music[track].bgmusic
 				end
 			else
-				if t_selChars[data.t_p2selected[1].cel + 1].music ~= nil then
-					track = math.random(1, #t_selChars[data.t_p2selected[1].cel + 1].music)
-					track = t_selChars[data.t_p2selected[1].cel + 1].music[track].bgmusic
+				if t_selChars[data.t_p2selected[memDat].cel + 1].music ~= nil then
+					track = math.random(1, #t_selChars[data.t_p2selected[memDat].cel + 1].music)
+					track = t_selChars[data.t_p2selected[memDat].cel + 1].music[track].bgmusic
 				elseif t_selStages[stageNo].music ~= nil then
 					track = math.random(1, #t_selStages[stageNo].music)
 					track = t_selStages[stageNo].music[track].bgmusic
@@ -12846,16 +12850,18 @@ function f_selectVersus()
 	local i = 0
 	local vsScreen = false
 	if data.gameMode == "alliance" then
+		bgmCancel = nil
 		if not firstAlliance then f_setAlliancePlayerMembers() end
 		if allianceRouteSel() then
 			allianceRoute = f_allianceNextBattle()
+			bgmCancel = true
 			allianceTimer = allianceSeconds * gameTick --Reset Timer
 			setAllianceChange(true)
 			setAllianceLastEnemy(false)
 			setAllianceRouteSel(false)
 		end
 		if allianceChange() then
-			currentAllianceMemberPlayer = f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
+			currentAllianceMemberPlayer = f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU, bgmCancel)
 			setAllianceChange(false)
 		end
 	end
@@ -15584,9 +15590,24 @@ if validCells() then
 						p1Cell = t_selTower[destinySelect].kombats[matchNo]
 						shuffle = false
 					elseif data.gameMode == "alliance" then
+					--Get Characters
 						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
 						p1Cell = t_charDef[cpuDat]
 						shuffle = false
+					--Set Custom Stage
+						local stageDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].stage
+						if stageDat ~= nil then
+							data.stage = stageDat
+						else
+							data.stage = nil
+						end
+					--Set Custom BGM
+						local songDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].music
+						if songDat ~= nil then
+							data.bgm = songDat
+						else
+							data.bgm = nil
+						end
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 				--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 					This logic will ensure that chars are not repeated until the entire roster is defeated.]]
@@ -15711,9 +15732,24 @@ if validCells() then
 						p2Cell = t_selTower[destinySelect].kombats[matchNo]
 						shuffle = false
 					elseif data.gameMode == "alliance" then
+					--Get Characters
 						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
 						p2Cell = t_charDef[cpuDat]
 						shuffle = false
+					--Set Custom Stage
+						local stageDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].stage
+						if stageDat ~= nil then
+							data.stage = stageDat
+						else
+							data.stage = nil
+						end
+					--Set Custom BGM
+						local songDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].music
+						if songDat ~= nil then
+							data.bgm = songDat
+						else
+							data.bgm = nil
+						end
 					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
 						--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 						This logic will ensure that chars are not repeated until the entire roster is defeated.]]
@@ -17842,7 +17878,7 @@ end
 --;===========================================================
 --; ALLIANCE MEMBER SELECT MENU
 --;===========================================================
-function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
+function f_allianceMemberSel(currentPlayerMember, currentCPUMember, bgmCancel)
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
@@ -17859,7 +17895,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 		t_enemyList = data.t_p2selected
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	playBGM(bgmAlliance)
+	if bgmCancel == nil then playBGM(bgmAlliance) end
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
@@ -18027,7 +18063,7 @@ end
 --;===========================================================
 --; ALLIANCE NEXT TEAM BATTLE SELECT MENU
 --;===========================================================
-function f_allianceNextBattle()
+function f_allianceNextBattle(bgmCancel)
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
@@ -18035,7 +18071,7 @@ function f_allianceNextBattle()
 	local bufl = 0
 	local teamSel = 1
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	playBGM(bgmAlliance)
+	if bgmCancel == nil then playBGM(bgmAlliance) end
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
