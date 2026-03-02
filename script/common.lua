@@ -658,6 +658,18 @@ function f_uniq(str, pattern, subpattern)
 	return table.concat(out)
 end
 
+--Replace "randomselect" item with a random character from t_randomChars table
+function f_replaceRandomSelect(t)
+	for k, v in pairs(t) do
+		if type(v) == "table" then
+			f_replaceRandomSelect(v)
+		elseif v == "randomselect" then
+			local randomIndex = math.random(1, #t_randomChars)
+			t[k] = t_selChars[t_randomChars[randomIndex] + 1].char
+		end
+	end
+end
+
 --checks if a value "val" is present in a table "t"
 function f_contains(t, val) --This is for strings
 	for k,v in pairs(t) do

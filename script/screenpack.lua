@@ -4205,27 +4205,30 @@ end
 function f_allianceSelectPreview()
 	local nameFont = font7
 --Ally 1
-	drawPortrait(t_charDef[t_allianceSel[allianceSel][1].char:lower()], 168, 52, 0.35, 0.35)
+	local allyDat1 = t_allianceSel[allianceSel][1].char:lower()
+	drawPortrait(t_charDef[allyDat1], 168, 52, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 211, 52)
-	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][1].char:lower()]), 168, 48)
+	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, f_getName(t_charDef[allyDat1]), 168, 48)
 	f_drawQuickText(txt_ally1Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][1].allyPower, 240, 48)
 	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].attack.rank, 237, 60)
 	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].power.rank, 237, 73)
 	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].life.rank, 237, 85)
 	f_drawQuickText(txt_ally1DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].defence.rank, 237, 98)
 --Ally 2
-	drawPortrait(t_charDef[t_allianceSel[allianceSel][2].char:lower()], 168, 132, 0.35, 0.35)
+	local allyDat2 = t_allianceSel[allianceSel][2].char:lower()
+	drawPortrait(t_charDef[allyDat2], 168, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 211, 132)
-	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][2].char:lower()]), 168, 128)
+	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, f_getName(t_charDef[allyDat2]), 168, 128)
 	f_drawQuickText(txt_ally2Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][2].allyPower, 240, 128)
 	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].attack.rank, 237, 140)
 	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].power.rank, 237, 153)
 	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].life.rank, 237, 165)
 	f_drawQuickText(txt_ally2DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].defence.rank, 237, 178)
 --Ally 3
-	drawPortrait(t_charDef[t_allianceSel[allianceSel][3].char:lower()], 245, 132, 0.35, 0.35)
+	local allyDat3 = t_allianceSel[allianceSel][3].char:lower()
+	drawPortrait(t_charDef[allyDat3], 245, 132, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 288, 132)
-	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, f_getName(t_charDef[t_allianceSel[allianceSel][3].char:lower()]), 250, 128)
+	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, f_getName(t_charDef[allyDat3]), 250, 128)
 	f_drawQuickText(txt_ally3Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][3].allyPower, 317, 128)
 	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].attack.rank, 314, 140)
 	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].power.rank, 314, 153)
@@ -4251,22 +4254,20 @@ function drawAlliTest()
 	--Alliance Course Content Text
 		local lastMatch = #t_allianceCourses[allianceCourseSel].match
 		for team=1, #t_allianceCourses[allianceCourseSel].match[lastMatch].route do
-			--if t_allianceCourses[i].id ~= nil then
-				for enemy=1, 4 do
-					animPosDraw(allianceEnemyIconBG, 18 + enemy * 26, 22 + team * 37)
-					animPosDraw(allianceEnemyRandomIcon, 19 + enemy * 26, 23 + team * 37)
-					local enemyDat = t_allianceCourses[allianceCourseSel].match[lastMatch].route[team].char[enemy]
-					drawFacePortrait(t_charDef[enemyDat:lower()], 19 + enemy * 26, 23 + team * 37, 0.9, 0.9)
-				end
-				local enemyTeamLetter = ""
-				if team == 1 then enemyTeamLetter = "A"
-				elseif team == 2 then enemyTeamLetter = "B"
-				elseif team == 3 then enemyTeamLetter = "C"
-				end
-				textImgSetText(txt_allianceCourseTeam, txt_allianceCourseTeamText..enemyTeamLetter)
-				textImgSetPos(txt_allianceCourseTeam, 4, 37 + team * 37)
-				textImgDraw(txt_allianceCourseTeam)
-			--end
+			for enemy=1, 4 do
+				animPosDraw(allianceEnemyIconBG, 18 + enemy * 26, 22 + team * 37)
+				animPosDraw(allianceEnemyRandomIcon, 19 + enemy * 26, 23 + team * 37)
+				local enemyDat = t_allianceCourses[allianceCourseSel].match[lastMatch].route[team].char[enemy]:lower()
+				drawFacePortrait(t_charDef[enemyDat], 19 + enemy * 26, 23 + team * 37, 0.9, 0.9)
+			end
+			local enemyTeamLetter = ""
+			if team == 1 then enemyTeamLetter = "A"
+			elseif team == 2 then enemyTeamLetter = "B"
+			elseif team == 3 then enemyTeamLetter = "C"
+			end
+			textImgSetText(txt_allianceCourseTeam, txt_allianceCourseTeamText..enemyTeamLetter)
+			textImgSetPos(txt_allianceCourseTeam, 4, 37 + team * 37)
+			textImgDraw(txt_allianceCourseTeam)
 		end
 	--Draw Alliance Select Assets
 		animDraw(allianceSelBG)

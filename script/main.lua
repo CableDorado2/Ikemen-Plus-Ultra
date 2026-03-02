@@ -17747,13 +17747,19 @@ function f_allianceSelect()
 	local bufr = 0
 	local bufl = 0
 	courseCursor = true
-	startCheck = false
 --No local vars
 	f_sideReset()
 	allianceSel = 1
 	allianceCourseSel = 1
 	allianceRoute = 1
 	exitAlliance = false
+--Generate a random character for "randomselect" item stored
+	f_replaceRandomSelect(t_allianceCourses)
+	f_replaceRandomSelect(t_allianceSel)
+	if data.debugLog then
+		f_printTable(t_allianceCourses, "save/debug/t_allianceCourses.log")
+		f_printTable(t_allianceSel, "save/debug/t_allianceSel.log")
+	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	--playBGM(bgmAlliance)
 	while true do
@@ -17775,10 +17781,6 @@ function f_allianceSelect()
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
 				break
-			--Start Game
-				if startCheck then
-					--f_allianceBoot() --Open Side Select
-				end
 			end
 		--Alliance Team Select
 			if not courseCursor then
@@ -18083,14 +18085,14 @@ function f_allianceNextBattle()
 			textImgSetPos(txt_allianceEnemyRoute, 45, 65 + (route - 1) * spacingY)
 			textImgDraw(txt_allianceEnemyRoute)
 			f_drawQuickText(txt_enemyTeamPower, font20, 2, 1, "TEAM LEVEL: ".."999", 175, 63 + (route - 1) * spacingY)
-			local leaderDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[1]
-			f_drawQuickText(txt_enemyTeamName, font7, 0, 1, "TEAM "..f_getName(t_charDef[leaderDat:lower()]):upper(), 65, 77 + (route - 1) * spacingY)
+			local leaderDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[1]:lower()
+			f_drawQuickText(txt_enemyTeamName, font7, 0, 1, "TEAM "..f_getName(t_charDef[leaderDat]):upper(), 65, 77 + (route - 1) * spacingY)
 		--Team Assets
 			for enemy=1, 4 do
 				animPosDraw(allianceEnemyIconBG, 64 + (enemy - 1) * spacingX, 42 + (route - 1) * spacingY)
 				animPosDraw(allianceEnemyRandomIcon, 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY)
-				local memberDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[enemy]
-				drawFacePortrait(t_charDef[memberDat:lower()], 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY, 0.9, 0.9)
+				local memberDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[enemy]:lower()
+				drawFacePortrait(t_charDef[memberDat], 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY, 0.9, 0.9)
 			end
 		end
 		drawAllianceMemInputHints()
