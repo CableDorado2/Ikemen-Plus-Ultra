@@ -54,6 +54,7 @@ P2overP1 = false
 firstAlliance = false
 currentAllianceMemberPlayer = 1
 currentAllianceMemberCPU = 1
+allianceBGMCancel = nil
 secretTarget = ""
 unlockTarget = ""
 --Default Turns/Simul Count after starting
@@ -12850,18 +12851,9 @@ function f_selectVersus()
 	local i = 0
 	local vsScreen = false
 	if data.gameMode == "alliance" then
-		bgmCancel = nil
 		if not firstAlliance then f_setAlliancePlayerMembers() end
-		if allianceRouteSel() then
-			allianceRoute = f_allianceNextBattle()
-			bgmCancel = true
-			allianceTimer = allianceSeconds * gameTick --Reset Timer
-			setAllianceChange(true)
-			setAllianceLastEnemy(false)
-			setAllianceRouteSel(false)
-		end
 		if allianceChange() then
-			currentAllianceMemberPlayer = f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU, bgmCancel)
+			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU, allianceBGMCancel)
 			setAllianceChange(false)
 		end
 	end
@@ -15009,9 +15001,7 @@ function f_nextMatch()
 	if data.gameMode == "alliance" then
 		assert(loadfile(saveTempPath))()
 		if data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4 then
-			data.p1MembersDefeated = 0
-			data.p2MembersDefeated = 0
-			f_saveTemp()
+			f_resetAllianceResults()
 			setAllianceRouteSel(true)
 			matchNo = matchNo + 1
 		end
@@ -15592,6 +15582,19 @@ if validCells() then
 					f_resetMenuAssets()
 					return
 				end
+			end
+		end
+	--Temporal Alliance Member Exchange/Next Team Manage
+		if data.gameMode == "alliance" then
+			allianceBGMCancel = nil
+			if allianceRouteSel() then
+				--f_allianceExchange()
+				f_allianceNextBattle()
+				allianceBGMCancel = true
+				allianceTimer = allianceSeconds * gameTick --Reset Timer
+				setAllianceChange(true)
+				setAllianceLastEnemy(false)
+				setAllianceRouteSel(false)
 			end
 		end
 	--Assign enemy team for AI in Player 1 (LEFT SIDE)
@@ -17698,6 +17701,12 @@ function f_allianceBoot()
 	sideScreen = true
 end
 
+function f_resetAllianceResults()
+	data.p1MembersDefeated = 0
+	data.p2MembersDefeated = 0
+	f_saveTemp()
+end
+
 --Load Common Settings for Alliance Modes
 function allianceCfg()
 	f_discordUpdate({details = "Alliance"})
@@ -17710,6 +17719,14 @@ function allianceCfg()
 	data.victoryscreen = false
 	data.orderSelect = false
 	setMatchnoDisplay(true)
+	f_resetAllianceResults()
+--Generate a random character for "randomselect" item stored
+	f_replaceRandomSelect(t_allianceCourses)
+	f_replaceRandomSelect(t_allianceSel)
+	if data.debugLog then
+		f_printTable(t_allianceCourses, "save/debug/t_allianceCourses.log")
+		f_printTable(t_allianceSel, "save/debug/t_allianceSel.log")
+	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -17806,13 +17823,6 @@ function f_allianceSelect()
 	allianceCourseSel = 1
 	allianceRoute = 1
 	exitAlliance = false
---Generate a random character for "randomselect" item stored
-	f_replaceRandomSelect(t_allianceCourses)
-	f_replaceRandomSelect(t_allianceSel)
-	if data.debugLog then
-		f_printTable(t_allianceCourses, "save/debug/t_allianceCourses.log")
-		f_printTable(t_allianceSel, "save/debug/t_allianceSel.log")
-	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	--playBGM(bgmAlliance)
 	while true do
@@ -17917,7 +17927,8 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember, bgmCancel)
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
 			sndPlay(sndSys, 100, 1)
-			return memberSel
+			currentAllianceMemberPlayer = memberSel
+			break
 	--Alliance Member Select
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
@@ -18086,26 +18097,26 @@ function f_allianceNextBattle(bgmCancel)
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local teamSel = 1
+	allianceRoute = 1 --reset route position
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	if bgmCancel == nil then playBGM(bgmAlliance) end
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
 			sndPlay(sndSys, 100, 1)
-			return teamSel
+			break
 	--Enemy Team Select
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
-			teamSel = teamSel - 1
+			allianceRoute = allianceRoute - 1
 		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sndSys, 100, 0)
-			teamSel = teamSel + 1
+			allianceRoute = allianceRoute + 1
 		end
-		if teamSel < 1 then
-			teamSel = #t_allianceCourses[allianceCourseSel].match[matchNo].route
-		elseif teamSel > #t_allianceCourses[allianceCourseSel].match[matchNo].route then
-			teamSel = 1
+		if allianceRoute < 1 then
+			allianceRoute = #t_allianceCourses[allianceCourseSel].match[matchNo].route
+		elseif allianceRoute > #t_allianceCourses[allianceCourseSel].match[matchNo].route then
+			allianceRoute = 1
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
@@ -18126,7 +18137,7 @@ function f_allianceNextBattle(bgmCancel)
 		for route=1, #t_allianceCourses[allianceCourseSel].match[matchNo].route do
 		--Route Assets
 			animPosDraw(allianceEnemyTeamSlot, 20, 35 + (route - 1) * spacingY)
-			if teamSel == route then
+			if allianceRoute == route then
 				animPosDraw(allianceEnemyTeamSlotCursor, 20, 35 + (route - 1) * spacingY)
 			end
 			local teamRoute = ""
