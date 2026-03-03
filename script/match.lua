@@ -1517,6 +1517,7 @@ function loop() --The code for this function should be thought of as if it were 
 	elseif getGameMode() == "alliance" then
 	--Change Character
 		if matchover() then
+		--Player Wins
 			if (winnerteam() == 1 and playerLeftSide) or (winnerteam() == 2 and not playerLeftSide) then
 				if allianceChangeButton then
 				--temporalmente hasta dibujar la pantalla de cambio dentro del match
@@ -1533,6 +1534,11 @@ function loop() --The code for this function should be thought of as if it were 
 				else
 					if not allianceLastEnemy() then f_allianceChangeCharInfo() end --Show Change Character Button Info
 				end
+		--CPU Wins
+			else
+			--temporalmente hasta dibujar la pantalla de cambio dentro del match
+				setAllianceChange(true)
+				
 			end
 		end
 --During Abyss Mode

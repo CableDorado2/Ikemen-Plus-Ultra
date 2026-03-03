@@ -15253,6 +15253,7 @@ if validCells() then
 				else
 					looseCnt = looseCnt + 1
 					data.p1MembersDefeated = data.p1MembersDefeated + 1
+					f_saveTemp()
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -15277,8 +15278,10 @@ if validCells() then
 						f_arcadeEnd()
 						return
 					else
-						f_advancedEnd()
-						return
+						if data.gameMode ~= "alliance" or (data.gameMode == "alliance" and (data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4)) then
+							f_advancedEnd()
+							return
+						end
 					end
 			--Next Match Available
 				else
@@ -15292,8 +15295,20 @@ if validCells() then
 			--Wins in (Arcade, Survival, Boss/Bonus Rush)
 				if winner == 2 then
 					winCnt = winCnt + 1
+					if data.gameMode == "alliance" then
+						data.p1MembersDefeated = data.p1MembersDefeated + 1
+						f_saveTemp()
+						if currentAllianceMemberCPU < 4 then
+							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
+						else
+							currentAllianceMemberCPU = 1 --Change to Leader
+						end
+						if data.p1MembersDefeated == 3 then setAllianceLastEnemy(true) end
+					end
 				else
 					looseCnt = looseCnt + 1
+					data.p2MembersDefeated = data.p2MembersDefeated + 1
+					f_saveTemp()
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -15317,8 +15332,10 @@ if validCells() then
 						f_arcadeEnd()
 						return
 					else
-						f_advancedEnd()
-						return
+						if data.gameMode ~= "alliance" or (data.gameMode == "alliance" and (data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4)) then
+							f_advancedEnd()
+							return
+						end
 					end
 			--Next Match Available
 				else
