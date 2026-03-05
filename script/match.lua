@@ -1427,19 +1427,22 @@ function loop() --The code for this function should be thought of as if it were 
 			--Taunt Time Bonus
 				if t_speedstarBonus[i].item == "tauntCnt" then
 					if tauntCnt == t_speedstarBonus[i].target and t_speedstarBonus[i].active then
-						timeBonus = timeBonus + (t_speedstarBonus[i].reward * timeBossFactor) * matchTimeFix
+						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
+						f_addSpeedStarNotify("TAUNT x"..t_speedstarBonus[i].target.." "..t_speedstarBonus[i].reward)
 						t_speedstarBonus[i].active = false
 					end
 			--Throw Time Bonus
 				elseif t_speedstarBonus[i].item == "throwCnt" then
 					if throwCnt == t_speedstarBonus[i].target and t_speedstarBonus[i].active then
-						timeBonus = timeBonus + (t_speedstarBonus[i].reward * timeBossFactor) * matchTimeFix
+						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
+						f_addSpeedStarNotify("THROW x"..t_speedstarBonus[i].target.." "..t_speedstarBonus[i].reward)
 						t_speedstarBonus[i].active = false
 					end
 			--No Damage Time Bonus
 				elseif t_speedstarBonus[i].item == "noDamageTimer" then
 					if noDamageTimer == t_speedstarBonus[i].target * gameTick then
-						timeBonus = timeBonus + (t_speedstarBonus[i].reward * timeBossFactor) * matchTimeFix
+						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
+						f_addSpeedStarNotify("NO DAMAGE "..t_speedstarBonus[i].target.." SECONDS "..t_speedstarBonus[i].reward)
 						noDamageTimer = noDamageTimer + 1
 					end
 				end
@@ -1485,6 +1488,7 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
 			end
+			f_drawSpeedStarNotify()
 		--[[Infinite Life Logic
 			if playerLeftSide then
 				for i=1, 8 do

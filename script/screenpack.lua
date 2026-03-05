@@ -5348,22 +5348,24 @@ animUpdate(allianceChangeInfoBG)
 --; SPEED STAR STUFF
 --;===========================================================
 t_speedstarBonus = {
-	{item = "tauntCnt",		 target = 1,  reward = 1}, --1 Taunt Bonus
-	{item = "tauntCnt", 	 target = 5,  reward = 2.5}, --5 Taunt Bonus
-	{item = "tauntCnt", 	 target = 10, reward = 5}, --10 Taunt Bonus
+	{item = "tauntCnt",		 target = 1,  reward = "1.0"}, --1 Taunt Bonus
+	{item = "tauntCnt", 	 target = 5,  reward = "2.5"}, --5 Taunt Bonus
+	{item = "tauntCnt", 	 target = 10, reward = "5.0"}, --10 Taunt Bonus
 	
-	{item = "throwCnt", 	 target = 1,  reward = 1}, --1 Throw Bonus
-	{item = "throwCnt", 	 target = 3,  reward = 2}, --3 Throws Bonus
-	{item = "throwCnt", 	 target = 5,  reward = 3}, --5 Throws Bonus
+	{item = "throwCnt", 	 target = 1,  reward = "1.0"}, --1 Throw Bonus
+	{item = "throwCnt", 	 target = 3,  reward = "2.0"}, --3 Throws Bonus
+	{item = "throwCnt", 	 target = 5,  reward = "3.0"}, --5 Throws Bonus
 	
-	{item = "noDamageTimer", target = 5,  reward = 1}, --No Damage During 5 Seconds Bonus
-	{item = "noDamageTimer", target = 10, reward = 2}, --No Damage During 10 Seconds Bonus
-	{item = "noDamageTimer", target = 20, reward = 5}, --No Damage During 20 Seconds Bonus
-	{item = "noDamageTimer", target = 30, reward = 7}, --No Damage During 30 Seconds Bonus
+	{item = "noDamageTimer", target = 5,  reward = "1.0"}, --No Damage During 5 Seconds Bonus
+	{item = "noDamageTimer", target = 10, reward = "2.0"}, --No Damage During 10 Seconds Bonus
+	{item = "noDamageTimer", target = 20, reward = "5.0"}, --No Damage During 20 Seconds Bonus
+	{item = "noDamageTimer", target = 30, reward = "7.0"}, --No Damage During 30 Seconds Bonus
 }
 for i=1, #t_speedstarBonus do
 	t_speedstarBonus[i].active = true
+	t_speedstarBonus[i].bonus = tonumber(t_speedstarBonus[i].reward)
 end
+if data.debugLog then f_printTable(t_speedstarBonus, "save/debug/t_speedstarBonus.log") end
 
 --Match End Info BG
 speedstarInfoBG = animNew(sprIkemen, [[
@@ -5399,11 +5401,40 @@ function f_speedStarInfo(super, perfect)
 		colorPerfect = 5
 		rewardPerfect = speedstarPerfectBonus
 	end
-	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Perfect Bonus", infoX, infoY+20)
-	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..rewardPerfect.."sec", infoX+125, infoY+20)
+	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "Perfect Bonus", infoX, infoY+20)
+	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "+"..rewardPerfect.."sec", infoX+125, infoY+20)
 	totalBonus = speedstarClearBonus + rewardSuper + rewardPerfect
 	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Total Bonus", infoX, infoY+32)
 	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..totalBonus.."sec", infoX+125, infoY+32)
+end
+
+local t_speedStarNotify = {} 
+local speedStarNotifyPosY = 60
+function f_addSpeedStarNotify(text, color)
+	local maxItems = 3
+	local color = color or 5
+	local new = {
+		text = text,
+		bank = color,
+		timer = 180, --Time to display the text on screen
+		currentY = speedStarNotifyPosY + 10
+	}
+	table.insert(t_speedStarNotify, 1, new)
+	if #t_speedStarNotify > maxItems then table.remove(t_speedStarNotify, #t_speedStarNotify) end
+end
+
+function f_drawSpeedStarNotify()
+	local spacingY = 15
+	local scrollY = 0.15
+--Draw each Action Text detected in t_speedStarNotify table
+	for i=#t_speedStarNotify, 1, -1 do --Read the table in reverse order for correct detection of new entries
+		local targetY = speedStarNotifyPosY - ((i - 1) * spacingY)
+		t_speedStarNotify[i].currentY = t_speedStarNotify[i].currentY + (targetY - t_speedStarNotify[i].currentY) * scrollY
+		f_drawQuickText(txt_speedsAct, jgFnt, t_speedStarNotify[i].bank, 0, t_speedStarNotify[i].text, 160, t_speedStarNotify[i].currentY)
+	--Display Update
+		t_speedStarNotify[i].timer = t_speedStarNotify[i].timer - 1
+		if t_speedStarNotify[i].timer <= 0 then table.remove(t_speedStarNotify, i) end
+	end
 end
 
 --;===========================================================
