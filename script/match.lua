@@ -1428,21 +1428,21 @@ function loop() --The code for this function should be thought of as if it were 
 				if t_speedstarBonus[i].item == "tauntCnt" then
 					if tauntCnt == t_speedstarBonus[i].target and t_speedstarBonus[i].active then
 						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
-						f_addSpeedStarNotify("TAUNT x"..t_speedstarBonus[i].target.." "..t_speedstarBonus[i].reward)
+						f_addSpeedStarNotify("TAUNT x"..t_speedstarBonus[i].target.." +"..t_speedstarBonus[i].reward)
 						t_speedstarBonus[i].active = false
 					end
 			--Throw Time Bonus
 				elseif t_speedstarBonus[i].item == "throwCnt" then
 					if throwCnt == t_speedstarBonus[i].target and t_speedstarBonus[i].active then
 						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
-						f_addSpeedStarNotify("THROW x"..t_speedstarBonus[i].target.." "..t_speedstarBonus[i].reward)
+						f_addSpeedStarNotify("THROW x"..t_speedstarBonus[i].target.." +"..t_speedstarBonus[i].reward)
 						t_speedstarBonus[i].active = false
 					end
 			--No Damage Time Bonus
 				elseif t_speedstarBonus[i].item == "noDamageTimer" then
 					if noDamageTimer == t_speedstarBonus[i].target * gameTick then
 						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
-						f_addSpeedStarNotify("NO DAMAGE "..t_speedstarBonus[i].target.." SECONDS "..t_speedstarBonus[i].reward)
+						f_addSpeedStarNotify("NO DAMAGE "..t_speedstarBonus[i].target.." SECONDS +"..t_speedstarBonus[i].reward)
 						noDamageTimer = noDamageTimer + 1
 					end
 				end
@@ -1459,19 +1459,32 @@ function loop() --The code for this function should be thought of as if it were 
 			--Over 200 Damage
 				if damageComboPlayer > 200 and damageComboPlayer < 300 then
 					timeBonus = timeBonus + (1 * timeBossFactor) * matchTimeFix
+					f_addSpeedStarNotify("OVER 200 DAMAGE +1.0")
 			--Over 300 Damage
 				elseif damageComboPlayer > 300 and damageComboPlayer < 400 then
 					timeBonus = timeBonus + (1.5 * timeBossFactor) * matchTimeFix
+					f_addSpeedStarNotify("OVER 300 DAMAGE +1.5")
 				end
 				--TODO: When enemy is already defeated (corpse kick bonus)
 		--CPU Deal Damage over Player
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
 				if gethitvar("damage") > 0 then
 					noDamageTimer = 0 --Reset No Damage Timer
+				end
+			--CPU Hit over Player
+				if gethitvar("hitcount") == 1 then
 					--if cpuLevel() == 8 then
 					--Enemy Normal Attacks
 						timePenalty = 1 * matchTimeFix
-					--TODO: enemyspecial = -1.5, enemysuper = -3
+						f_addSpeedStarNotify("ENEMY ATTACK -1.0", 0)
+				--[[TODO:
+					--Enemy Special Attacks
+						timePenalty = 1.5 * matchTimeFix
+						f_addSpeedStarNotify("ENEMY SPECIAL ATTACK -1.5", 0)
+					--Enemy Super Attacks
+						timePenalty = 3 * matchTimeFix
+						f_addSpeedStarNotify("ENEMY SUPER ATTACK -3.0", 0)
+				--]]
 					--end
 				end
 			end
