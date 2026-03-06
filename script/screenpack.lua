@@ -5411,7 +5411,7 @@ end
 local t_speedStarNotify = {} 
 local speedStarNotifyPosY = 60
 function f_addSpeedStarNotify(text, color)
-	local maxItems = 3
+	local maxItems = 6
 	local color = color or 5
 	local new = {
 		text = text,
@@ -5432,7 +5432,9 @@ function f_drawSpeedStarNotify()
 		t_speedStarNotify[i].currentY = t_speedStarNotify[i].currentY + (targetY - t_speedStarNotify[i].currentY) * scrollY
 		f_drawQuickText(txt_speedsAct, jgFnt, t_speedStarNotify[i].bank, 0, t_speedStarNotify[i].text, 160, t_speedStarNotify[i].currentY)
 	--Display Update
-		t_speedStarNotify[i].timer = t_speedStarNotify[i].timer - 1
+		if not script.pause.pauseMenuActive then
+			t_speedStarNotify[i].timer = t_speedStarNotify[i].timer - 1
+		end
 		if t_speedStarNotify[i].timer <= 0 then table.remove(t_speedStarNotify, i) end
 	end
 end

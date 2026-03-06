@@ -558,6 +558,40 @@ local function f_actionsCheck()
 ]]
 end
 
+local specialCntCPU = 0
+local superCntCPU = 0
+local specialAttackCPU = false
+local superAttackCPU = false
+local colddownCntCPU = false
+local function f_enemyActionsCheck()
+	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) then
+		if time() == 5 then colddownCntCPU = false end
+	--CPU Special Throw
+		if hitdefattr() == "S, ST" or hitdefattr() == "C, ST" or hitdefattr() == "A, ST" and movecontact() == 1 then
+			specialCntCPU = specialCntCPU + 1
+			specialAttackCPU = true
+	--CPU Special Attack
+		elseif (hitdefattr() == "S, SA" or hitdefattr() == "C, SA" or hitdefattr() == "A, SA") and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
+			if not colddownCntCPU then
+				specialCntCPU = specialCntCPU + 1
+				specialAttackCPU = true
+				colddownCntCPU = true
+			end
+	--CPU Super Throw
+		elseif hitdefattr() == "S, HT" or hitdefattr() == "C, HT" or hitdefattr() == "A, HT" and movecontact() == 1 then
+			superCntCPU = superCntCPU + 1
+			superAttackCPU = true
+	--CPU Super Attack
+		elseif (hitdefattr() == "S, HA" or hitdefattr() == "C, HA" or hitdefattr() == "A, HA") and movecontact() == 1 and numtarget() == 1 and hitcount() == 1 then
+			if not colddownCntCPU then
+				superCntCPU = superCntCPU + 1
+				superAttackCPU = true
+				colddownCntCPU = true
+			end
+		end
+	end
+end
+
 local scoreattackfactor = 1
 if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
 local function f_updateScore()
@@ -1454,37 +1488,46 @@ function loop() --The code for this function should be thought of as if it were 
 				damageComboPlayer = damageComboP2
 				damageComboCPU = damageComboP1
 			end
-		--Player Deal Damage over CPU
+		--Check CPU Side
+			f_enemyActionsCheck()
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
-			--Over 200 Damage
+			--Player Deal Over 200 Damage
 				if damageComboPlayer > 200 and damageComboPlayer < 300 then
 					timeBonus = timeBonus + (1 * timeBossFactor) * matchTimeFix
 					f_addSpeedStarNotify("OVER 200 DAMAGE +1.0")
-			--Over 300 Damage
+			--Player Deal Over 300 Damage
 				elseif damageComboPlayer > 300 and damageComboPlayer < 400 then
 					timeBonus = timeBonus + (1.5 * timeBossFactor) * matchTimeFix
 					f_addSpeedStarNotify("OVER 300 DAMAGE +1.5")
 				end
 				--TODO: When enemy is already defeated (corpse kick bonus)
-		--CPU Deal Damage over Player
+		--Check Player Side
 			elseif (playerLeftSide and player(1) or not playerLeftSide and player(2)) and time() == 0 then
+			--CPU Deal Damage over Player
 				if gethitvar("damage") > 0 then
 					noDamageTimer = 0 --Reset No Damage Timer
 				end
 			--CPU Hit over Player
 				if gethitvar("hitcount") == 1 then
 					--if cpuLevel() == 8 then
-					--Enemy Normal Attacks
-						timePenalty = 1 * matchTimeFix
-						f_addSpeedStarNotify("ENEMY ATTACK -1.0", 0)
-				--[[TODO:
-					--Enemy Special Attacks
+				--Enemy Special Attacks
+					if specialAttackCPU then
 						timePenalty = 1.5 * matchTimeFix
 						f_addSpeedStarNotify("ENEMY SPECIAL ATTACK -1.5", 0)
-					--Enemy Super Attacks
+						specialAttackCPU = false
+				--Enemy Super Attacks
+					elseif superAttackCPU then
 						timePenalty = 3 * matchTimeFix
 						f_addSpeedStarNotify("ENEMY SUPER ATTACK -3.0", 0)
-				--]]
+						superAttackCPU = false
+				--Enemy Normal Attacks
+					else
+						timePenalty = 1 * matchTimeFix
+						f_addSpeedStarNotify("ENEMY ATTACK -1.0", 0)
+					--In case that these are activate during normal hitcount > 1
+						specialAttackCPU = false
+						superAttackCPU = false
+					end
 					--end
 				end
 			end
