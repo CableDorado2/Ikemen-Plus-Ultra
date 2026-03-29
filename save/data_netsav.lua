@@ -32,7 +32,7 @@ data.lifeMul = 100
 data.aipal = "Default"
 data.aiRamping = true
 data.quickCont = true
-data.scoreResetType = 1
+data.scoreResetType = 2
 data.kumite = 100
 --Team Data
 data.team1VS2Life = 120
@@ -91,6 +91,7 @@ data.rematchTime = 16
 data.serviceTime = 21
 data.attractTime = 21
 data.destinyTime = 21
+data.allianceTime = 31
 --Replay Data
 data.replayLocal = false
 data.replayOnline = true

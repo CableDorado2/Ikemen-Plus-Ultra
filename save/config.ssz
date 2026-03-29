@@ -3,7 +3,7 @@ const bool OpenGL = false;
 const bool AspectRatio = false;
 const bool FullScreen = false;
 const bool FullScreenExclusive = false; //False: Borderless FullScreen, True: Exclusive FullScreen
-const int WindowType = 1; //1: Resizable, 2: Bordered A, 3: Bordered B, 4: No Decoration
+const int WindowType = 2; //1: Resizable, 2: Bordered A, 3: Bordered B, 4: No Decoration
 const int Width = 960;
 const int Height = 720;
 const int Brightness = 256;
@@ -11,8 +11,8 @@ const float Opacity = 1;
 
 //Audio Settings
 const float GlVol = 0.8;
-const float SEVol = 0.4;
-const float BGMVol = 0.72;
+const float SEVol = 0.52;
+const float BGMVol = 0.68;
 const float PanStr = 0.8;
 const int VideoVol = 100;
 
@@ -28,17 +28,17 @@ const int GameSpeed = 60; //frames/second
 const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 const float Super_TargetDefenceMul = 1.5;
-const float LifebarFontScale = 1;
+const float LifebarFontScale = 1.0;
 
 //Portraits Settings
 const int CharPortraitsGroup = 9000;
 const int CharFacePortraitIndex = 0;
 const int CharBigPortraitIndex = 1;
-const int CharWinnerPortraitIndex = 2;
-const int CharLoserPortraitIndex = 3;
+const int CharWinnerPortraitIndex = 1; //2
+const int CharLoserPortraitIndex = 1; //3
 const int CharOrderPortraitIndex = 4;
-const int CharVSPortraitIndex = 5;
-const int CharResultsPortraitIndex = 6;
+const int CharVSPortraitIndex = 1; //5
+const int CharResultsPortraitIndex = 2; //6
 const int CharExtraPortraitIndex = 7;
 
 const int StagePortraitsGroup = 9000;
@@ -86,10 +86,10 @@ in.new[0].set(
 //P2 KEYBOARD - BATTLE
 in.new[1].set(
   -1,
-  (int)k_t::KP_8,
+  (int)k_t::KP_5,
   (int)k_t::KP_2,
-  (int)k_t::KP_4,
-  (int)k_t::KP_6,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
   (int)k_t::u,
   (int)k_t::i,
   (int)k_t::o,
@@ -98,7 +98,7 @@ in.new[1].set(
   (int)k_t::l,
   (int)k_t::KP_7,
   (int)k_t::KP_9,
-  (int)k_t::KP_5,
+  (int)k_t::KP_PLUS,
   (int)k_t::KP_0);
 
 //P1 GAMEPAD - BATTLE

@@ -9,7 +9,7 @@ data.selectSong = "Random"
 data.selectSongFolder = 4
 data.challengerSong = "sound/system/Select Challenger.mp3"
 data.challengerSongFolder = 4
-data.bgmDisplay = true
+data.bgmDisplay = false
 --System Data
 data.language = 1
 data.clock = 4
@@ -24,10 +24,10 @@ data.orderSelType = "Cursor"
 data.portraitDisplay = "Mixed"
 data.sffConversion = true
 --Game Data
-data.difficulty = 8
+data.difficulty = 3
 data.roundTime = 99
 data.roundsNum = 2
-data.lifebar = "data/lifebars/winmugen/fight.def"
+data.lifebar = "data/lifebars/CUSTOM/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"
 data.aiRamping = true
@@ -45,7 +45,7 @@ data.numSimul = 4
 data.simulType = "Assist"
 data.coopenemy = "Simul"
 --Zoom Data
-data.zoomActive = true
+data.zoomActive = false
 data.zoomMin = 0.75
 data.zoomMax = 1.1
 data.zoomSpeed = 1
@@ -91,6 +91,7 @@ data.rematchTime = 16
 data.serviceTime = 21
 data.attractTime = 21
 data.destinyTime = 21
+data.allianceTime = 31
 --Replay Data
 data.replayLocal = false
 data.replayOnline = true
