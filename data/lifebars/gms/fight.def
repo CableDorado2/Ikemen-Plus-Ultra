@@ -11,9 +11,9 @@ font2 = timer.fnt
 font3 = round.fnt
 font4 = combo.fnt
 font5 = wincount.fnt
-fightfx.sff = data/fightfx.sff
-fightfx.air = data/fightfx.air
-common.snd = data/common.snd
+fightfx.sff = fightfx.sff
+fightfx.air = fightfx.air
+common.snd = common.snd
 
 ;-----------------------------------------------------------
 [Lifebar]
