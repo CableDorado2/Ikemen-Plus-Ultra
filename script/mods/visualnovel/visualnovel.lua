@@ -30,6 +30,7 @@ function f_saveVN()
 		['data.VNtxtBGTransD'] = data.VNtxtBGTransD,
 		['data.VNdisplayName'] = data.VNdisplayName,
 		['data.VNautoSkip'] = data.VNautoSkip,
+		['data.VNhidewindow'] = data.VNhidewindow,
 	--Progress Data
 		['data.VNarc'] = data.VNarc,
 		['data.VNchapter'] = data.VNchapter,
@@ -101,7 +102,7 @@ local file = io.open(vnDef, "r")
 					previewpos = {vnSelCommonPosX, vnSelCommonPosY},
 					previewscale = {vnSelCommonScaleX, vnSelCommonScaleY},
 				]]
-					status = txt_missionIncomplete,
+					status = "INCOMPLETE",
 					txtID = textImgNew(),
 					displayname = "???",
 					path = nil,
@@ -244,6 +245,23 @@ animAddPos(vnEnd3, -54, 0)
 animSetScale(vnEnd3, 0.34, 0.34)
 animUpdate(vnEnd3)
 
+--;===============================================================
+--; VISUAL NOVEL TEXT BACKLOG MENU SCREENPACK DEFINITION
+--;===============================================================
+txt_vnTextLogTitle = createTextImg(jgFnt, 0, 1, "TEXT BACKLOG", 2, 13)
+txt_vnTextLogName = createTextImg(jgFnt, 0, 1, "", 0, 0)
+txt_vnTextLogDiag = createTextImg(jgFnt, 0, 1, "", 0, 0)
+
+function drawVNLogInputHints() --For Display Text Log Screen
+	local inputHintYPos = 219
+	local hintFont = font2
+	local hintFontYPos = 233
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+end
 --;===========================================================
 --; VISUAL NOVEL PAUSE MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -253,9 +271,11 @@ txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED!", 159, 235)
 t_vnPauseMenu = {
 	{text = "Text Settings"},
 	{text = "Sound Settings"},
-	{text = "Control Guide"},
+	{text = "Input Settings"},
+	{text = "Display Controls Guide"},
 	{text = "Restore All Settings"},
-	--{text = "Save Data"}, --Make a Save/Load Sub-Menu
+	{text = "Save Data"},
+	{text = "Load Data"},
 	{text = "Back to Main Menu"},
 	{text = "Continue"},
 }
@@ -301,10 +321,10 @@ t_vnTextCfg = {
 	{text = "Text Speed"},
 	{text = "Text BG Transparency"},
 	{text = "Display Character Name"},
+	{text = "Hide Text Window"},
 	{text = "Auto Skip Text"},
 	{text = "Skip All Dialogues"},
 	{text = "Display Text Log"},
-	{text = "Hide Text Window"},
 	{text = "Default Values"},
 	{text = "BACK"},
 }
@@ -334,7 +354,7 @@ end
 --;===============================================================
 --; VISUAL NOVEL EXIT/DEFAULT VALUES MESSAGE SCREENPACK DEFINITION
 --;===============================================================
-txt_questionVN = createTextImg(jgFnt, 1, 0, "", 160, 110, 0.8, 0.8)
+txt_questionVN = createTextImg(jgFnt, 0, 0, "", 160, 110, 0.8, 0.8)
 
 t_questionMenuVN = {
 	{id = textImgNew(), text = ""},
@@ -542,6 +562,7 @@ function f_resetFullVN()
 	VNdelay = data.VNdelay
 	VNskip = false
 	VNhide = false
+	VNtextLog = false
 	VNendActive = false
 	VNtxtReady = false
 	VNtxtEnd = false
@@ -720,20 +741,33 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			sndStop()
 			break
 		end
-		if not vnPauseScreen then
+	--Button Actions
+		if not vnPauseScreen and not VNtextLog then
+		--Open Pause Menu
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				if not VNendActive then
 					vnPauseScreen = true
 					sndPlay(sndIkemen, 200, 1)
 				end
+		--Draw Next Text/End Text Delay
 			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then 
 				VNdelay = VNnodelay
 				if VNtxtActive == 0 then VNtxtReady = true end
-			end
-			if commandGetState(p1Cmd, 'holde') or commandGetState(p2Cmd, 'holde') then --Hide HUD
+		--Quick Text Skip
+			elseif commandGetState(p1Cmd, 'holdw') or commandGetState(p2Cmd, 'holdw') then
+				VNdelay = VNnodelay
+				if VNtxtActive == 0 then VNtxtReady = true end
+		--Open Text Log
+			elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
+				if not VNendActive then
+					VNtextLog = true
+					sndPlay(sndIkemen, 200, 1)
+				end
+		--Hide HUD
+			elseif commandGetState(p1Cmd, 'holde') or commandGetState(p2Cmd, 'holde') then
 				VNhide = true
 			else
-				VNhide = false
+				VNhide = false		
 			end
 		--Auto Skip Text
 			if data.VNautoSkip and VNtxtActive == 0 and VNautoTxt == VNautoSkipTime * 60 then
@@ -794,7 +828,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			end
 		end
 		if t_vnBoxText[vnChapter][VNtxt].video == nil then f_drawVN() end --Draw Sprites only if there is no video playing
-		if not VNhide and not vnFadeIn then
+		if not VNhide and not data.VNhidewindow and not vnFadeIn then
 			animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
 			animDraw(vnTxtBG) --Draw Text BG
 			if VNtxtActive == 0 then
@@ -833,6 +867,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			f_drawVNEnding() --Draw Ending Screen
 		end
 		if vnPauseScreen then f_vnPauseMenu() end
+		if VNtextLog then f_vnTextLogScreen() end
 		if t_vnBoxText[vnChapter][VNtxt].fadein ~= nil then
 			vnFadeIn = true
 		end
@@ -854,7 +889,9 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 		end
 		if not vnFadeIn then
 			VNscroll = VNscroll + 1
-			if data.VNautoSkip and not vnPauseScreen and VNtxtActive == 0 then VNautoTxt = VNautoTxt + 1 end
+			if data.VNautoSkip and not vnPauseScreen and not VNtextLog and VNtxtActive == 0 then
+				VNautoTxt = VNautoTxt + 1
+			end
 		end
 		cmdInput()
 		refresh()
@@ -871,9 +908,39 @@ function f_drawVNEnding()
 	vn.credits = true
 end
 --;===========================================================
+--; VISUAL NOVEL TEXT BACKLOG MENU
+--;===========================================================
+function f_vnTextLogScreen()
+	cmdInput()
+--Close Text Log Screen
+	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		sndPlay(sndSys, 100, 2)
+		VNtextLog = false
+--Scroll Up
+	elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufuVNP >= 30) then
+		sndPlay(sndSys, 100, 0)
+		
+--Scroll Down
+	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufdVNP >= 30) then
+		sndPlay(sndSys, 100, 0)
+		
+--SFX Replay
+	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+		
+	end
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Text Assets
+	textImgDraw(txt_vnTextLogTitle)
+	
+--Draw Input Hints
+	drawVNLogInputHints()
+end
+--;===========================================================
 --; VISUAL NOVEL PAUSE MENU
 --;===========================================================
 function f_vnPauseMenu()
+	--animDraw(fadeWindowBG) --Draw Fade BG
 	if not audioCfgVNActive and not textCfgVNActive then
 		if not questionScreenVN then
 			cmdInput()
@@ -923,9 +990,9 @@ function f_vnPauseMenu()
 				sndPlay(sndSys, 100, 2)
 				f_vnPauseMenuReset()
 			elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				sndPlay(sndSys, 100, 1)
 			--Text Settings
 				if vnPauseMenu == 1 then
+					sndPlay(sndSys, 100, 1)
 					cursorPosYTVN = 1
 					moveTxtTVN = 0
 					textCfgVN = 1
@@ -936,6 +1003,7 @@ function f_vnPauseMenu()
 					textCfgVNActive = true
 			--Sound Settings
 				elseif vnPauseMenu == 2 then
+					sndPlay(sndSys, 100, 1)
 					cursorPosYAVN = 1
 					moveTxtAVN = 0
 					audioCfgVN = 1
@@ -944,15 +1012,29 @@ function f_vnPauseMenu()
 					bufr = 0
 					bufl = 0
 					audioCfgVNActive = true
-			--Restore Settings
+			--Input Settings
+				elseif vnPauseMenu == 3 then
+					sndPlay(sndIkemen, 200, 0)
+					--TODO
+			--Display Controls Guide
 				elseif vnPauseMenu == 4 then
+					sndPlay(sndSys, 100, 1)
+					
+			--Restore Settings
+				elseif vnPauseMenu == 5 then
+					sndPlay(sndSys, 100, 1)
 					questionScreenVN = true
 					defaultVN = true
-			--[[Save Progress
-				elseif vnPauseMenu == 5 then
-					f_vnProgress()
-					VNsaveData = true
-			--]]
+			--Save Data
+				elseif vnPauseMenu == 6 then
+					sndPlay(sndIkemen, 200, 0)
+					--f_vnProgress()
+					--VNsaveData = true
+			--Load Data
+				elseif vnPauseMenu == 7 then
+					sndPlay(sndIkemen, 200, 0)
+					--f_vnProgress()
+					--VNloadData = true
 			--Back to Main Menu
 				elseif vnPauseMenu == #t_vnPauseMenu - 1 then
 					questionScreenVN = true
@@ -1051,6 +1133,7 @@ function f_textVNDefault()
 	data.VNtxtBGTransS = 255
 	data.VNdisplayName = true
 	data.VNautoSkip = false
+	data.VNhidewindow = false
 end
 
 --;===========================================================
@@ -1092,8 +1175,11 @@ function f_textCfgVN()
 		elseif textCfgVN == 2 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if data.VNtxtBGTransD < 255 then
-					data.VNtxtBGTransD = data.VNtxtBGTransD + 1
-					data.VNtxtBGTransS = data.VNtxtBGTransS - 1
+					data.VNtxtBGTransD = data.VNtxtBGTransD + 2.55
+					data.VNtxtBGTransS = data.VNtxtBGTransS - 2.55
+				--Value Corrections
+					if data.VNtxtBGTransD < 0 then data.VNtxtBGTransD = 0 end
+					if data.VNtxtBGTransS > 255 then data.VNtxtBGTransD = 255 end
 				else
 					data.VNtxtBGTransD = 0
 					data.VNtxtBGTransS = 255
@@ -1102,8 +1188,11 @@ function f_textCfgVN()
 				hasChangedVN = true
 			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 				if data.VNtxtBGTransD > 0 then
-					data.VNtxtBGTransD = data.VNtxtBGTransD - 1
-					data.VNtxtBGTransS = data.VNtxtBGTransS + 1
+					data.VNtxtBGTransD = data.VNtxtBGTransD - 2.55
+					data.VNtxtBGTransS = data.VNtxtBGTransS + 2.55
+				--Value Corrections
+					if data.VNtxtBGTransD > 255 then data.VNtxtBGTransD = 255 end
+					if data.VNtxtBGTransS < 0 then data.VNtxtBGTransD = 0 end
 				else
 					data.VNtxtBGTransD = 255
 					data.VNtxtBGTransS = 0
@@ -1121,26 +1210,39 @@ function f_textCfgVN()
 				bufr = 0
 				bufl = 0
 			end
-	--Auto Skip Text
-		elseif textCfgVN == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
-			sndPlay(sndSys, 100, 1)
-			if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
-			hasChangedVN = true
-	--Text Skip Setting
-		elseif textCfgVN == 4 then
-			
 	--Display Character Name
-		elseif textCfgVN == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+		elseif textCfgVN == 3 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 			sndPlay(sndSys, 100, 1)
 			if data.VNdisplayName then data.VNdisplayName = false else data.VNdisplayName = true end
 			hasChangedVN = true
+	--Hide Text Window
+		elseif textCfgVN == 4 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+			sndPlay(sndSys, 100, 1)
+			if not data.VNhidewindow then data.VNhidewindow = true else data.VNhidewindow = false end
+			hasChangedVN = true
+	--Auto Skip Text
+		elseif textCfgVN == 5 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+			sndPlay(sndSys, 100, 1)
+			if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
+			hasChangedVN = true
+	--Skip All Text
+		elseif textCfgVN == 6 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			sndPlay(sndSys, 100, 1)
+			questionScreenVN = true
+			skipTextPermissionVN = true
+	--Display Text Log
+		elseif textCfgVN == 7 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			sndPlay(sndSys, 100, 1)
+			VNtextLog = true
+			textCfgVNActive = false
+			vnPauseMenuBack = true
 	--Default Values
-		elseif textCfgVN == #t_vnTextCfg - 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif textCfgVN == #t_vnTextCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			sndPlay(sndSys, 100, 1)
 			questionScreenVN = true
 			defaultTextVN = true
 	--BACK
-		elseif textCfgVN == #t_vnTextCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif textCfgVN == #t_vnTextCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			textCfgVNActive = false
 			sndPlay(sndSys, 100, 2)
 		end
@@ -1190,11 +1292,12 @@ function f_textCfgVN()
 	end
 	t_vnTextCfg[2].varText = math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5).."%"
 	if data.VNdisplayName then t_vnTextCfg[3].varText = "Yes" else t_vnTextCfg[3].varText = "No" end
-	if data.VNautoSkip then t_vnTextCfg[4].varText = "Yes" else t_vnTextCfg[4].varText = "No" end
+	if data.VNhidewindow then t_vnTextCfg[4].varText = "Yes" else t_vnTextCfg[4].varText = "No" end
+	if data.VNautoSkip then t_vnTextCfg[5].varText = "Yes" else t_vnTextCfg[5].varText = "No" end
 	for i=1, maxtextCfgVN do
 		if i > textCfgVN - cursorPosYTVN then
 			local align = 1
-			local posX = 85
+			local posX = 68
 		--Custom Pos for Last items
 			if i == #t_vnTextCfg or i == #t_vnTextCfg - 1 then
 				align = 0
@@ -1202,7 +1305,7 @@ function f_textCfgVN()
 			end
 			if t_vnTextCfg[i].varID ~= nil then
 				textImgDraw(f_updateTextImg(t_vnTextCfg[i].varID, font2, 0, align, t_vnTextCfg[i].text, posX, 15 + i * 15 - moveTxtTVN))
-				textImgDraw(f_updateTextImg(t_vnTextCfg[i].varID, font2, 0, -1, t_vnTextCfg[i].varText, 235, 15 + i * 15 - moveTxtTVN))
+				textImgDraw(f_updateTextImg(t_vnTextCfg[i].varID, font2, 0, -1, t_vnTextCfg[i].varText, 252, 15 + i * 15 - moveTxtTVN))
 			end
 		end
 	end
@@ -1368,12 +1471,12 @@ function f_audioCfgVN()
 			end
 			setPanStr(pan_str / 100)
 	--Default Values
-		elseif audioCfgVN == #t_vnAudioCfg - 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif audioCfgVN == #t_vnAudioCfg - 1 and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			sndPlay(sndSys, 100, 1)
 			questionScreenVN = true
 			defaultAudioVN = true
 	--BACK
-		elseif audioCfgVN == #t_vnAudioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		elseif audioCfgVN == #t_vnAudioCfg and (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 			audioCfgVNActive = false
 			sndPlay(sndSys, 100, 2)
 		end
@@ -1426,7 +1529,7 @@ function f_audioCfgVN()
 	for i=1, maxAudioCfgVN do
 		if i > audioCfgVN - cursorPosYAVN then
 			local align = 1
-			local posX = 85
+			local posX = 68
 		--Custom Pos for Last items
 			if i == #t_vnAudioCfg or i == #t_vnAudioCfg - 1 then
 				align = 0
@@ -1434,7 +1537,7 @@ function f_audioCfgVN()
 			end
 			if t_vnAudioCfg[i].varID ~= nil then
 				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, align, t_vnAudioCfg[i].text, posX, 15 + i * 15 - moveTxtAVN))
-				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, -1, t_vnAudioCfg[i].varText, 235, 15 + i * 15 - moveTxtAVN))
+				textImgDraw(f_updateTextImg(t_vnAudioCfg[i].varID, font2, 0, -1, t_vnAudioCfg[i].varText, 252, 15 + i * 15 - moveTxtAVN))
 			end
 		end
 	end
@@ -1493,6 +1596,10 @@ function f_questionMenuVN()
 		textImgSetText(txt_questionVN, "UNSAVED DATA WILL BE LOST!")
 		t_questionMenuVN[1].text = "OK"
 		t_questionMenuVN[2].text = "CANCEL"
+	elseif skipTextPermissionVN then
+		textImgSetText(txt_questionVN, "WOULD YOU LIKE TO SKIP ALL TEXT?")
+		t_questionMenuVN[1].text = "YES"
+		t_questionMenuVN[2].text = "CANCEL"
 	else
 		textImgSetText(txt_questionVN, "LOAD DEFAULT SETTINGS?")
 		t_questionMenuVN[1].text = "YES"
@@ -1518,7 +1625,7 @@ function f_questionMenuVN()
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sndSys, 100, 2)
 		f_questionResetVN()
-	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+	elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 	--YES
 		if questionMenuVN == 1 then
 			sndPlay(sndSys, 100, 1)
@@ -1530,6 +1637,9 @@ function f_questionMenuVN()
 			elseif defaultAudioVN then
 				f_audioDefault() --From Options Script
 				modifiedVN = true
+		--Skip All Text Confirmation
+			elseif skipTextPermissionVN then
+				VNtxtEnd = true
 		--Reset All Visual Novel Settings
 			elseif defaultVN then
 				f_textVNDefault()
@@ -1561,6 +1671,7 @@ function f_questionResetVN()
 	defaultVN = false
 	defaultTextVN = false
 	defaultAudioVN = false
+	skipTextPermissionVN = false
 	exitVN = false
 end
 
