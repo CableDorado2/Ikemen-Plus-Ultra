@@ -57,7 +57,6 @@ bgmTower = "sound/system/Tower.mp3"
 bgmTourney = "sound/system/Tourney.mp3"
 bgmTourneyChampion = "sound/system/Champion.mp3"
 bgmAbyss = "sound/system/Abyss.mp3"
-bgmAlliance = "sound/system/Alliance.mp3"
 
 --Font Data (At the moments only FNT Format is Supported)
 fontDebug = "font/14x14.fnt"
@@ -4407,16 +4406,18 @@ function drawAlliExchangeTest(enemyMember, playerMember)
 		textImgDraw(txt_allianceExchangePlayerLv)
 		animPosDraw(allianceExchangeArrowRight, 155, 5)
 		local spacingY = 50
+		local t_test = {{cel = 0, displayname = "Kung Fu Man"}, {cel = 1, displayname = "Mako Mayama"}, {cel = 2, displayname = "Kung Fu Girl"}, {cel = 3, displayname = "Reika Murasame"}}
+		local t_testCPU = {{cel = 4, displayname = "Suave Dude"}, {cel = 15, displayname = "Minion"}, {cel = 16, displayname = "Evil Kung Fu Man"}, {cel = 12, displayname = "Shin Gouki"}}
 		for i=1, 4 do
 		--ENEMY TEAM SIDE
-			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU")
+			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_testCPU[i])
 			if enemyMember == i then
 				animPosDraw(allianceMemSlotCursor, 0, 20 + (i - 1) * spacingY)
 			end
 		--PLAYER TEAM SIDE
 			local allyType = "LEADER"
 			if i > 1 then allyType = "ALLY "..i - 1 end
-			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType)
+			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType, t_test[i])
 			if enemyMember == i then
 				animPosDraw(allianceMemSlotCursor, 161, 20 + (i - 1) * spacingY)
 			end
@@ -5723,3 +5724,25 @@ CABLE DORADO 2
 CD2
 
 ]]
+
+--selectDef = "data/selectBBTAG.def" --Characters and Stage selection list
+
+function drawVNbtnGuide() --Visual Novel Controls
+	local inputHintXPos = 20
+	local hintFontXPos = 41
+	local hintFont = font2
+	f_drawQuickText(txt_btnHint, jgFnt, 0, 0, "CONTROLS HELP", 160, 13)
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints(
+		"d",inputHintXPos..",50","a",inputHintXPos+20 ..",50",
+		"w",inputHintXPos..",70",
+		"q",inputHintXPos..",90",
+		"e",inputHintXPos..",110",
+		"s",inputHintXPos..",130"
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Advance Text", 61, 63)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quick Skip Text", hintFontXPos, 83)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Text Log", hintFontXPos, 103)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide Window", hintFontXPos, 123)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Pause Menu", hintFontXPos, 143)
+end

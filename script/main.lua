@@ -15029,7 +15029,6 @@ if validCells() then
 		if data.gameMode == "bossrush" or getGameMode() == "suddendeath" then playBGM(bgmSelectBoss)
 		elseif data.gameMode == "tower" then playBGM(bgmTower)
 		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
-		elseif data.gameMode == "alliance" then playBGM(bgmAlliance)
 		elseif data.recordMode == "challenger" then f_challengerMusic()
 		else f_selectMusic()
 		end
@@ -17824,7 +17823,6 @@ function f_allianceSelect()
 	allianceRoute = 1
 	exitAlliance = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	--playBGM(bgmAlliance)
 	while true do
 		if not sideScreen then
 		--Return Logic
@@ -17922,7 +17920,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember, bgmCancel)
 		t_enemyList = data.t_p2selected
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	if bgmCancel == nil then playBGM(bgmAlliance) end
+	--if bgmCancel == nil then playBGM(bgmAlliance) end
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
@@ -18017,7 +18015,6 @@ function f_allianceExchange(currentMember)
 		t_enemyTeam = {1, 2, 3, 4} --data.t_p2selected
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	playBGM(bgmAlliance)
 	while true do
 	--Return Logic
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAlliance then
@@ -18099,7 +18096,7 @@ function f_allianceNextBattle(bgmCancel)
 	local bufl = 0
 	allianceRoute = 1 --reset route position
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	if bgmCancel == nil then playBGM(bgmAlliance) end
+	--if bgmCancel == nil then playBGM(bgmAlliance) end
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then

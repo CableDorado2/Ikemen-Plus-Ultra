@@ -1,9 +1,10 @@
 --Dialogue Settings
-data.VNdelay = 1
+data.VNdelay = 2
 data.VNtxtBGTransS = 255
 data.VNtxtBGTransD = 0
-data.VNdisplayName = false
+data.VNdisplayName = true
 data.VNautoSkip = false
+data.VNhidewindow = false
 --Progress Data
 data.VNarc = ""
 data.VNchapter = 0

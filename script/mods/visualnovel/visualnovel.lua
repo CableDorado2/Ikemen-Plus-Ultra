@@ -262,6 +262,7 @@ function drawVNLogInputHints() --For Display Text Log Screen
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
+
 --;===========================================================
 --; VISUAL NOVEL PAUSE MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -858,8 +859,8 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			end
 			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 			if data.debugMode then
-				f_drawQuickText(txt_activeVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 				f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f", (VNautoTxt / 60)), 163.5, 148) --For Debug Purposes
+				f_drawQuickText(txt_activeVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 			end
 		end
 		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
@@ -897,6 +898,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 		refresh()
 	end
 end
+
 --;===========================================================
 --; VISUAL NOVEL ENDING SCREEN
 --;===========================================================
@@ -907,6 +909,7 @@ function f_drawVNEnding()
 	end
 	vn.credits = true
 end
+
 --;===========================================================
 --; VISUAL NOVEL TEXT BACKLOG MENU
 --;===========================================================
@@ -936,6 +939,7 @@ function f_vnTextLogScreen()
 --Draw Input Hints
 	drawVNLogInputHints()
 end
+
 --;===========================================================
 --; VISUAL NOVEL PAUSE MENU
 --;===========================================================
