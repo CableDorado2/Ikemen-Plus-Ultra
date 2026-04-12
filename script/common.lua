@@ -2588,14 +2588,16 @@ end
 
 --Select Character Select Song
 function f_selectMusic()
-	if data.selectSong == "Random" then
-		if #t_songList[data.selectSongFolder] - 2 ~= 0 then --If there's songs loaded
-			f_bgmrandomSelect()
-		else --If There's no songs loaded
-			playBGM(bgmNothing)
+	if (data.stageMenu and data.stage == nil) or (data.p1Char == nil and data.p2Char == nil) then
+		if data.selectSong == "Random" then
+			if #t_songList[data.selectSongFolder] - 2 ~= 0 then --If there's songs loaded
+				f_bgmrandomSelect()
+			else --If There's no songs loaded
+				playBGM(bgmNothing)
+			end
+		else
+			playBGM(data.selectSong)
 		end
-	else
-		playBGM(data.selectSong)
 	end
 end
 

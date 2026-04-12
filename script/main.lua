@@ -14715,10 +14715,6 @@ if validCells() then
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		if data.recordMode == "challenger" then f_challengerMusic()
 		elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
-		elseif data.gameMode == "quick match" then --playBGM("")
-		elseif data.gameMode == "intermission" then --playBGM("")
-		elseif data.gameMode == "demo" then --playBGM("")
-		elseif data.recordMode == "event" then --playBGM("")
 		else f_selectMusic()
 		end
 		if winner < 1 then
@@ -15028,8 +15024,8 @@ if validCells() then
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		if data.gameMode == "bossrush" or getGameMode() == "suddendeath" then playBGM(bgmSelectBoss)
 		elseif data.gameMode == "tower" then playBGM(bgmTower)
-		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
 		elseif data.recordMode == "challenger" then f_challengerMusic()
+		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
 		else f_selectMusic()
 		end
 		if loadAbyssDat then --To skip char select during abyss mode load data
