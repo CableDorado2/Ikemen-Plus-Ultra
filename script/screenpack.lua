@@ -5726,23 +5726,3 @@ CD2
 ]]
 
 --selectDef = "data/selectBBTAG.def" --Characters and Stage selection list
-
-function drawVNbtnGuide() --Visual Novel Controls
-	local inputHintXPos = 20
-	local hintFontXPos = 41
-	local hintFont = font2
-	f_drawQuickText(txt_btnHint, jgFnt, 0, 0, "CONTROLS HELP", 160, 13)
-	animPosDraw(inputHintsBG, -56, 219)
-	drawMenuInputHints(
-		"d",inputHintXPos..",50","a",inputHintXPos+20 ..",50",
-		"w",inputHintXPos..",70",
-		"q",inputHintXPos..",90",
-		"e",inputHintXPos..",110",
-		"s",inputHintXPos..",130"
-	)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Advance Text", 61, 63)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quick Skip Text", hintFontXPos, 83)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Text Log", hintFontXPos, 103)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide Window", hintFontXPos, 123)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Pause Menu", hintFontXPos, 143)
-end

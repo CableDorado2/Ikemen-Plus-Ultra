@@ -252,7 +252,8 @@ txt_vnTextLogTitle = createTextImg(jgFnt, 0, 1, "TEXT BACKLOG", 2, 13)
 txt_vnTextLogName = createTextImg(jgFnt, 0, 1, "", 0, 0)
 txt_vnTextLogDiag = createTextImg(jgFnt, 0, 1, "", 0, 0)
 
-function drawVNLogInputHints() --For Display Text Log Screen
+--Display Text Log Input Hints Panel
+function drawVNLogInputHints()
 	local inputHintYPos = 219
 	local hintFont = font2
 	local hintFontYPos = 233
@@ -261,6 +262,29 @@ function drawVNLogInputHints() --For Display Text Log Screen
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+end
+
+--;===============================================================
+--; VISUAL NOVEL CONTROLS HELP SCREENPACK DEFINITION
+--;===============================================================
+txt_vnBtnHelp = createTextImg(jgFnt, 0, 0, "CONTROLS HELP", 160, 49)
+
+--Controls Help Window BG
+inputHelpWindowBGVN = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetPos(inputHelpWindowBGVN, 61, 40)
+animSetScale(inputHelpWindowBGVN, 1.3, 2)
+animUpdate(inputHelpWindowBGVN)
+
+--Controls Help Input Hints Panel
+function drawControlsHelpInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints("s","100,"..inputHintYPos,"e","120,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm/Return", 143, hintFontYPos)
 end
 
 --;===========================================================
@@ -589,6 +613,7 @@ function f_resetFullVN()
 	VNtxtAlphaD = 0
 	f_vnPauseMenuReset()
 	f_questionResetVN()
+	f_controlsHelpResetVN()
 end
 
 function f_resetSimpleVN()
@@ -940,13 +965,51 @@ function f_vnTextLogScreen()
 	drawVNLogInputHints()
 end
 
+--;===============================================================
+--; VISUAL NOVEL CONTROLS HELP WINDOW
+--;===============================================================
+function f_controlsHelpVN()
+	cmdInput()
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(inputHelpWindowBGVN)
+	local inputHintXPos = 68
+	local hintFontXPos = inputHintXPos + 21
+	local hintFont = font2
+	textImgDraw(txt_vnBtnHelp)
+	drawMenuInputHints(
+		"d",inputHintXPos..",52","a",inputHintXPos+20 ..",52",
+		"w",inputHintXPos..",72",
+		"q",inputHintXPos..",92",
+		"e",inputHintXPos..",112",
+		"s",inputHintXPos..",132"
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Advance Text", inputHintXPos + 41, 65)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quick Skip Text", hintFontXPos, 85)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Text Log", hintFontXPos, 105)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Hide Window", hintFontXPos, 125)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Pause Menu", hintFontXPos, 145)
+	drawControlsHelpInputHints()
+--Actions
+	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+		sndPlay(sndSys, 100, 2)
+		f_controlsHelpResetVN()
+	end
+end
+
+--Reset Window
+function f_controlsHelpResetVN()
+	controlsHelpScreenVN = false
+end
+
 --;===========================================================
 --; VISUAL NOVEL PAUSE MENU
 --;===========================================================
 function f_vnPauseMenu()
 	--animDraw(fadeWindowBG) --Draw Fade BG
 	if not audioCfgVNActive and not textCfgVNActive then
-		if not questionScreenVN then
+		if not questionScreenVN and not controlsHelpScreenVN then
 			cmdInput()
 		--Cursor Position
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufuVNP >= 30) then
@@ -1023,7 +1086,7 @@ function f_vnPauseMenu()
 			--Display Controls Guide
 				elseif vnPauseMenu == 4 then
 					sndPlay(sndSys, 100, 1)
-					
+					controlsHelpScreenVN = true
 			--Restore Settings
 				elseif vnPauseMenu == 5 then
 					sndPlay(sndSys, 100, 1)
@@ -1078,12 +1141,15 @@ function f_vnPauseMenu()
 			end
 		end
 	--Draw Cursor
-		if not questionScreenVN then
+		if not questionScreenVN and not controlsHelpScreenVN then
 			animSetWindow(cursorBox, 64,5 + cursorPosYVNP * 15, 192,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if questionScreenVN then f_questionMenuVN() else drawVNInputHints2() end
+		if questionScreenVN then f_questionMenuVN()
+		elseif controlsHelpScreenVN then f_controlsHelpVN()
+		else drawVNInputHints2()
+		end
 		if VNsaveData then textImgDraw(txt_vnPSaved) end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufdVNP = 0
