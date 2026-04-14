@@ -8,6 +8,9 @@ discordkey = "mv"
 author= "Shiyo Kakuge"
 daytime = "Day"
 
+[Music]
+bgmusic = sound/Student.mp3
+
 [Camera]
 startx = 0
 starty = 0
@@ -60,10 +63,6 @@ intensity = 64
 
 [Reflection]
 intensity = 0
-
-[Music]
-bgmusic = sound/Student.mp3
-bgvolume = 100
 
 [BGdef]
 spr = Mountain Valley.sff

@@ -19,6 +19,9 @@ versiondate	= 04,19,2020
 author 		= "Jean Bureau";	Modified by Beterhans
 mugenversion	= 1.1
 
+[Music]
+bgmusic 	= Fairy Day.mp3
+
 [Camera]
 startx 		= 0
 starty 		= 0
@@ -71,10 +74,6 @@ botscale 	= 1.2
 color 		= 0,0,0
 yscale 		= .17
 intensity 	= 180
-
-[Music]
-bgmusic 	= Fairy Day.mp3
-bgmvolume 	= 100
 
 [BGdef]
 spr 		= Fairy Day.sff

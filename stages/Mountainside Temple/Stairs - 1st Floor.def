@@ -8,6 +8,10 @@ author = "HekuttaSaint"
 location = "Mountainside Temple"
 daytime = "Day"
 ;--------------------------------------------------------
+[Music]
+bgmusic = sound/Mountainside Temple.mp3
+
+;--------------------------------------------------------
 [Camera]
 startx = 0
 starty = 0
@@ -63,11 +67,6 @@ fade.range = -400,-100
 ;--------------------------------------------------------
 [Reflection]
 intensity = 0
-
-;--------------------------------------------------------
-[Music]
-bgmusic = sound/Mountainside Temple.mp3
-bgmvolume = 100
 
 ;========================================================
 

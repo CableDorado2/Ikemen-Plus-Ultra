@@ -12,6 +12,9 @@ versiondate = 09,30,2009    	 ;Version date of stage (MM,DD,YYYY or X.XX)
 mugenversion = 1.1          	 ;Version of M.U.G.E.N stage works on (X.XX)
 author = "Elecbyte"         	 ;Stage author name
 daytime = "Day" 				 ;Stage time info
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/Mountainside Temple.mp3
 
 ;--------------------------------------------------------
 [Camera]
@@ -160,23 +163,6 @@ fade.range = -400,-100
  ;Intensity of reflection (from 0 to 256). Set to 0 to have no
  ;reflection. Defaults to 0.
 intensity = 128
-
-;--------------------------------------------------------
-[Music]
- ;Put a filename for a MOD, MP3 or MIDI here, or just leave it
- ;blank if you don't want music. If an invalid filename is
- ;given, then no music will play. To play CD audio, put
- ;the track number followed by ".da". Using a track number of
- ;0 will play a random audio track. For example, to play
- ;track 3 from a music CD, use:
- ;  bgmusic = 3.da
-bgmusic = sound/Mountainside Temple.mp3
-
-;bgmloopstart = <sample number>
-;bgmloopend = <sample number>
-
- ;Adjust the volume. 100 is for 100%.
-bgmvolume = 100
 
 ;========================================================
 ;--------------------------------------------------------

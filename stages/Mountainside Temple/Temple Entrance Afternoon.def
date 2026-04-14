@@ -8,6 +8,10 @@ author = "HekuttaSaint"
 location = "Mountainside Temple"
 daytime = "Afternoon"
 ;--------------------------------------------------------
+[Music]
+bgmusic = sound/sfx/Wind.mp3
+
+;--------------------------------------------------------
 [Camera]
 startx = 0
 starty = 0
@@ -54,11 +58,6 @@ intensity = 264
 color = 0,0,0
 yscale = .1
 fade.range = -400,-100
-
-;--------------------------------------------------------
-[Music]
-bgmusic = sound/sfx/Wind.mp3
-bgmvolume = 100
 
 ;========================================================
 [BGdef]

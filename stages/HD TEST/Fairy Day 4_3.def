@@ -16,6 +16,9 @@
 name 		= "Fairy Day (4:3) [HD]"
 author 		= "Jean Bureau"
 
+[Music]
+bgmusic 	= Fairy Day.mp3
+
 [Camera]
 startx 		= 0
 starty 		= 0
@@ -61,10 +64,6 @@ botscale 	= 1.2
 color 		= 0,0,0
 yscale 		= .17
 intensity 	= 180
-
-[Music]
-bgmusic 	= Fairy Day.mp3
-bgmvolume 	= 100
 
 [BGdef]
 spr 		= Fairy Day.sff

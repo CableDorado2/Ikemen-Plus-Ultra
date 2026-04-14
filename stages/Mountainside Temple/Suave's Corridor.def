@@ -5,6 +5,10 @@ location = "Mountainside Temple"
 author = "HekuttaSaint"
 daytime = "Night"
 ;--------------------------------------------------------
+[Music]
+bgmusic = sound/Death Corridor.mp3
+
+;--------------------------------------------------------
 [Camera]
 startx = 0
 starty = 0
@@ -54,12 +58,6 @@ intensity = 64
 color = 0,0,0
 yscale = .2
 fade.range = -400,-100
-
-;--------------------------------------------------------
-[Music]
-bgmusic = sound/Death Corridor.mp3
-bgvolume = 100
-bgloop = 1
 
 ;-------------------------------------
 [BGdef]

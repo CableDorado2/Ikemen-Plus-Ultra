@@ -7,6 +7,10 @@ mugenversion = 1.1
 author = "HekuttaSaint"
 location = "Mountainside Temple"
 ;--------------------------------------------------------
+[Music]
+bgmusic = sound/Death Corridor.mp3
+
+;--------------------------------------------------------
 [Camera]
 startx = 0
 starty = 0
@@ -53,10 +57,6 @@ intensity = 64
 color = 0,0,0
 yscale = -.1
 fade.range = -400,-100
-
-;--------------------------------------------------------
-[Music]
-bgmusic = sound/Death Corridor.mp3
 
 ;-------------------------------------
 [BGdef]

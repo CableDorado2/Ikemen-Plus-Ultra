@@ -8,6 +8,10 @@ author = "HekuttaSaint"
 location = "Mountainside Temple"
 daytime = "Day"
 ;--------------------------------------------------------
+[Music]
+bgmusic = sound/Kung Fu Spirit.mp3
+
+;--------------------------------------------------------
 [Camera]
 startx = 0
 starty = 0
@@ -49,11 +53,6 @@ screenright = 15
 zoffset = 210
 autoturn = 1
 resetBG = 1
-
-;--------------------------------------------------------
-[Music]
-bgmusic = sound/Kung Fu Spirit.mp3
-bgmvolume = 100
 
 ;========================================================
 

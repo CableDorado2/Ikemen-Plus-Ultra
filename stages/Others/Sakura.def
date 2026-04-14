@@ -10,6 +10,9 @@
 	mugenversion=1.1
 	author= "Shiyo Kakuge"
 	daytime = "Morning"
+	
+[Music]
+	bgmusic=sound/Student.mp3
 
 [Camera]
 	startx=0
@@ -78,22 +81,10 @@
 ;[Reflection]
 ;	intensity=64
 
-
-[Music]
-	bgmusic=sound/Student.mp3
-	bgvolume= 100
-
 [BGdef]
-	spr=Sakura.sff
-	debugbg=0
+spr=Sakura.sff
+debugbg=0
 
-
-
-
-
-;-------------------
-
-;-------------------
 [bg 0] ; sky
 	type=normal
 	spriteno=0,0

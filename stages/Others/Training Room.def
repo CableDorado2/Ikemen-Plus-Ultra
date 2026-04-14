@@ -3,6 +3,9 @@ name = "Training Room"
 discordkey = "training1"
 author = "Ryon"
 
+[Music]
+bgmusic = sound/Training Room 1.mp3
+
 [Camera]
 startx = 0
 starty = 0
@@ -52,10 +55,6 @@ fade.range = 0,0
 
 [Reflection]
 intensity = 0
-
-[Music]
-bgmusic = sound/Training Room 1.mp3
-bgvolume = 0
 
 ;========================================================
 ; [BG x]

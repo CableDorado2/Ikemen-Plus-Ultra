@@ -74,7 +74,6 @@ yscale 		= .2
 
 [Music]
 bgmusic 	= 
-bgvolume 	= 255
 
 [BGdef]
 spr 		= Green Screen.sff

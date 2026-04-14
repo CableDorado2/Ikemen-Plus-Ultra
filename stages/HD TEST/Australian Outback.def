@@ -19,6 +19,9 @@ versiondate	= 04,19,2020
 author 		= "Jean Bureau";	Modified by Beterhans
 mugenversion	= 1.1
 
+[Music]
+bgmusic 	= Australian Outback.mp3
+
 [Camera]
 startx 		= 0
 starty 		= 0
@@ -70,10 +73,6 @@ botscale 	= 1.2
 [Shadow]
 color 		= 0,0,0
 yscale 		= .2
-
-[Music]
-bgmusic 	= Australian Outback.mp3
-bgmvolume		= 100
 
 [BGdef]
 spr 		= Australian Outback.sff

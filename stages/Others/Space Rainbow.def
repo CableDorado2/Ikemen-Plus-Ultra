@@ -3,6 +3,9 @@ name = "Space Rainbow"
 discordkey = "spacerainbow"
 author = "FlamingRedHead"
 
+[Music]
+bgmusic = sound/One of The Kings.mp3
+
 [Camera]
 startx = 0
 starty = 0
@@ -50,10 +53,6 @@ intensity = 0
 
 [Reflection]
 intensity = 3
-
-[Music]
-bgmusic = sound/One of The Kings.mp3
-bgvolume = 100
 
 ;----------------------------------------------------
 [BGdef]

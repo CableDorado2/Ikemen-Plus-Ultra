@@ -6,6 +6,10 @@ location = "Mountainside Temple"
 author = "HekuttaSaint"
 unlockcondition = "Defeat more than 2 Bosses in Boss Rush Mode"
 ;--------------------------------------------------------
+[Music]
+bgmusic = sound/Pearl In The Sky.mp3
+
+;--------------------------------------------------------
 
 [Camera]
 startx = 0
@@ -66,11 +70,6 @@ resetBG = 1
 color = 32,32,32
 yscale = .2
 reflect = 0
-
-;--------------------------------------------------------
-[Music]
-bgmusic = sound/Pearl In The Sky.mp3
-bgvolume = 255
 
 ;-------------------------------------
 

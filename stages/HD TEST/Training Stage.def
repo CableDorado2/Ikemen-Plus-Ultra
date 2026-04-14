@@ -1,10 +1,13 @@
 [Info]
-name		= "Training Stage"
-Author		= "The Pierrot"
+name = "Training Stage"
+Author = "The Pierrot"
 displayname	= "SF4 Training Stage [HD]"
 versiondate	= 04,28,2019
-mugenversion	= 1.1
-author		= "Beterhans"
+mugenversion = 1.1
+author = "Beterhans"
+
+[Music]
+bgmusic = sound/Training Room 1.mp3
 
 [Camera]
 startx		= 0
@@ -85,11 +88,6 @@ color			= 0,0,0
 yscale			= -0.2
 reflect			= 1
 fade.range		= -300,-40
-
-;--------------------------------------------------------
-[Music]
-bgmusic 		= sound/Training Room 1.mp3
-bgmvolume		= 100
 
 ;Main background definition
 [BGdef]

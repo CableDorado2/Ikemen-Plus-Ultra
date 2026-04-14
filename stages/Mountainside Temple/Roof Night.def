@@ -4,6 +4,10 @@ discordkey = "mtrn"
 daytime = "Night"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+;====================================================================
+[Music]
+bgmusic = sound/sfx/Thunderstorm.ogg
+
 ;===============================
 [Camera]
 startx         = 0                
@@ -60,16 +64,10 @@ color = 100, 100, 100
 yscale = .1                                     
 reflect = 0                                       
 intensity = 64          
-fade.range = -335,-5    
-                        
+fade.range = -335,-5
 
 [Reflection]
-intensity = 0           
-
-;====================================================================
-[Music]
-bgmusic= sound/sfx/Thunderstorm.ogg
-bgvolume = 100
+intensity = 0
 
 ;====================================================================
 [BGdef]

@@ -10,7 +10,6 @@ daytime = "Day"
 
 [Music]
 bgmusic = sound/China.mp3
-bgmvolume = 100
 
 [Camera]
 startx = 0
