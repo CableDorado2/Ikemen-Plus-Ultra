@@ -1,24 +1,28 @@
 [Characters]
-Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, tutorial=1, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, tutorial=1, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def, swapcellx=0, swapcelly=3
 Mako Mayama, stages/Others/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
-Kung Fu Girl, stages/Others/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude
+Kung Fu Girl, stages/Others/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude, swapcellx=3, swapcelly=3
 Reika Murasame, unlock=stats.shopstock ~= nil and stats.shopstock.chars ~= nil and stats.shopstock.chars["reika murasame"] == false, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=1
 Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
+
 randomselect
 blank
 blank
 blank
 randomselect
+
 blank
 blank
 Shin Gouki, unlock=stats.unlocks ~= nil and stats.unlocks.chars ~= nil and stats.unlocks.chars.gouki == true, intermission=1, stages/Mountainside Temple/Destroyed Temple.def, includestage=0, music=sound/God Hands.mp3, music=chars/Shin Gouki/Theme of Gouki.mp3, ai=8, exclude=1, order=-1
 blank
 blank
+;---------------------------------------------------------------------------------
+Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, 4=Kung Fu Man, swapcellx=1, swapcelly=3, unlock=stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission1 ~= nil and stats.modes.mission.mission1.clear == true
+Kung Fu Man/X/Kung Fu Man X.def, stages/Others/Space Rainbow.def, order=-1, swapcellx=2, swapcelly=3, unlock=false
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, exclude=1, intermission=1, ai=8, order=-1, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl, swapcellx=0, swapcelly=0, unlock=false
+Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Others/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, exclude=1, intermission=1, boss=1, ai=8, order=-1, single=1, swapcellx=2, swapcelly=0, unlock=false
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclude=1, order=1
-Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, 4=Kung Fu Man
-Kung Fu Man/X/Kung Fu Man X.def, stages/Others/Space Rainbow.def, order=-1
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, exclude=1, intermission=1, ai=8, order=-1, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Others/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, exclude=1, intermission=1, boss=1, ai=8, order=-1, single=1
+
 Red Dragon, stages/Others/The Red Dragon's Lair.def, victoryscreen=0, zoom=0, includestage=0, exclude=1, order=-1, excludetourney=1
 Break The Car, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2
 Strength Training, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludetourney=1, order=2

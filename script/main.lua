@@ -8123,6 +8123,13 @@ function f_selectScreen()
 		end
 	else
 		if not stageMenuActive then
+			if data.debugLog then
+				f_drawQuickText(txt_p1SelCursorX, font1, 0, 1, "P1 CELL X: "..p1SelX, 2, 7)
+				f_drawQuickText(txt_p1SelCursorY, font1, 0, 1, "P1 CELL Y: "..p1SelY, 2, 15)
+				
+				f_drawQuickText(txt_p2SelCursorX, font1, 0, -1, "P2 CELL X: "..p2SelX, 318, 7)
+				f_drawQuickText(txt_p2SelCursorY, font1, 0, -1, "P2 CELL Y: "..p2SelY, 318, 15)
+			end
 			drawSelectInputHints()
 		else
 			drawStageInputHints()
@@ -8304,6 +8311,8 @@ end
 --;===========================================================
 --; PLAYER 1 CHARACTER SELECTING
 --;===========================================================
+p1SlotSwapActive = false
+p2SlotSwapActive = false
 function f_p1SelectMenu()
 --Load P1 Custom Character
 	if data.p1Char ~= nil then
@@ -9150,6 +9159,21 @@ function f_p1SelectMenu()
 					end
 					if tmpCelX ~= p1SelX then
 						sndPlay(sndSys, 100, 0)
+					end
+			--SLOT SWAP TO PREVIOUS
+				elseif commandGetState(p1Cmd, 'q') then
+					
+			--SLOT SWAP TO NEXT
+				elseif commandGetState(p1Cmd, 'w') then
+					if t_selChars[p1Cell + 1].swapcellx ~= nil or t_selChars[p1Cell + 1].swapcelly ~= nil then
+						sndPlay(sndIkemen, 200, 1)
+						if t_selChars[p1Cell + 1].swapcellx ~= nil then
+							p1SelX = t_selChars[p1Cell + 1].swapcellx
+						end
+						if t_selChars[p1Cell + 1].swapcelly ~= nil then
+							p1SelY = t_selChars[p1Cell + 1].swapcelly
+						end
+						p1SlotSwapActive = true
 					end
 			--CURSOR SELECTION
 				elseif btnPalNo(p1Cmd, true) > 0 then
