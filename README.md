@@ -87,8 +87,6 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
-- Implementar los parametros: ordersurvival, hidden, slot en select.def
-
 - Añadir al menú de perfil, una entrada para crear o editar equipos predefinidos que puedas elegir en el Character Select al jugar en Simul o Turns como la opción Customize Team en KOF XIII.
 "Reserve Unit" de Ultimate Marvel vs Capcom 3:
 ![20250822233724_1](https://github.com/user-attachments/assets/a9241ef6-f0dc-4de4-9c54-93bcd7161974)
