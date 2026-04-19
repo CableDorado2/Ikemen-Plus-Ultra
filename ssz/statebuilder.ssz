@@ -8380,15 +8380,15 @@ public &StateBuilder
           ret false;
         }
         switch(`state.ctrlList[-1].typ){
-        case .CtrlTy::VictoryQuote:
-          branch{
-          cond .s.equ(name, "value"):
-            if(!`fullExpression(`state.ctrlList[-1].task=, text=, "", ";", 2)){
-              ret false;
-            }
-          else:
-            break, default;
-          }
+        //case .CtrlTy::VictoryQuote:
+          //branch{
+          //cond .s.equ(name, "value"):
+            //if(!`fullExpression(`state.ctrlList[-1].task=, text=, "", ";", 2)){
+              //ret false;
+            //}
+          //else:
+            //break, default;
+          //}
         case .CtrlTy::ForceFeedback:
         case .CtrlTy::Null:
         default:

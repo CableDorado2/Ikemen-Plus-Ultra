@@ -2686,8 +2686,10 @@ function f_loadMusic(path)
 			end
 		end
 	end
-	if data.debugLog then f_printTable(t_songFile, 'save/debug/t_songFile.log') end
-	if data.debugLog then f_printTable(t_songList, 'save/debug/t_songList.log') end
+	if data.debugLog then
+		f_printTable(t_songFile, 'save/debug/t_songFile.log')
+		f_printTable(t_songList, 'save/debug/t_songList.log')
+	end
 end
 
 function f_soundtrack()

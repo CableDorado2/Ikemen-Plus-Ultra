@@ -8123,7 +8123,7 @@ function f_selectScreen()
 		end
 	else
 		if not stageMenuActive then
-			if data.debugLog then
+			if data.debugMode then
 				f_drawQuickText(txt_p1SelCursorX, font1, 0, 1, "P1 CELL X: "..p1SelX, 2, 7)
 				f_drawQuickText(txt_p1SelCursorY, font1, 0, 1, "P1 CELL Y: "..p1SelY, 2, 15)
 				
@@ -15524,8 +15524,10 @@ if validCells() then
 					p1RestoreCharsNo = p1numChars --Get a copy of amount of chars selected
 					p2RestoreCharsNo = p2numChars
 					restoreMatchNo = matchNo --Get a copy of matchNo where arcade was cut
-					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.log") end
-					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.log") end
+					if data.debugLog then
+						f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.log")
+						f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.log")
+					end
 				--Load Side Player Data
 					if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
 						keepLSide = true
