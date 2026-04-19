@@ -8311,8 +8311,19 @@ end
 --;===========================================================
 --; PLAYER 1 CHARACTER SELECTING
 --;===========================================================
-p1SlotSwapActive = false
-p2SlotSwapActive = false
+local function f_p1ResetSlotBackup()
+	p1SelXBackup = nil
+	p1SelYBackup = nil
+	p1SlotSwapActive = false
+end
+f_p1ResetSlotBackup()
+
+local function f_p1RestoreSlot()
+	p1SelX = p1SelXBackup
+	p1SelY = p1SelYBackup
+	f_p1ResetSlotBackup()
+end
+
 function f_p1SelectMenu()
 --Load P1 Custom Character
 	if data.p1Char ~= nil then
@@ -9072,6 +9083,7 @@ function f_p1SelectMenu()
 			if backScreen == false and not p1CharEnd then
 			--MOVE CURSOR TO UP
 				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30) then
+					if p1SlotSwapActive then f_p1RestoreSlot() end
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -9108,6 +9120,7 @@ function f_p1SelectMenu()
 					end
 			--MOVE CURSOR TO DOWN
 				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30) then
+					if p1SlotSwapActive then f_p1RestoreSlot() end
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -9144,6 +9157,7 @@ function f_p1SelectMenu()
 					end
 			--MOVE CURSOR TO LEFT
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30) then
+					if p1SlotSwapActive then f_p1RestoreSlot() end
 					while true do
 						p1SelX = f_findCelXSub(p1SelX, wrappingX)
 						if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then break end
@@ -9153,6 +9167,7 @@ function f_p1SelectMenu()
 					end
 			--MOVE CURSOR TO RIGHT
 				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30) then
+					if p1SlotSwapActive then f_p1RestoreSlot() end
 					while true do
 						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
 						if getCharName(p1SelX + selectColumns * p1SelY) ~= '' then break end
@@ -9165,15 +9180,20 @@ function f_p1SelectMenu()
 					
 			--SLOT SWAP TO NEXT
 				elseif commandGetState(p1Cmd, 'w') then
-					if t_selChars[p1Cell + 1].swapcellx ~= nil or t_selChars[p1Cell + 1].swapcelly ~= nil then
+					if t_selChars[p1Cell + 1].swapcellx ~= nil and t_selChars[p1Cell + 1].swapcelly ~= nil then
 						sndPlay(sndIkemen, 200, 1)
-						if t_selChars[p1Cell + 1].swapcellx ~= nil then
-							p1SelX = t_selChars[p1Cell + 1].swapcellx
+						if p1SelXBackup == nil and p1SelYBackup == nil then
+							p1SelXBackup = p1SelX
+							p1SelYBackup = p1SelY
 						end
-						if t_selChars[p1Cell + 1].swapcelly ~= nil then
-							p1SelY = t_selChars[p1Cell + 1].swapcelly
+						p1SelX = t_selChars[p1Cell + 1].swapcellx
+						p1SelY = t_selChars[p1Cell + 1].swapcelly						
+					--Slot detection logic
+						if p1SelX == p1SelXBackup and p1SelY == p1SelYBackup then
+							f_p1ResetSlotBackup()
+						else
+							p1SlotSwapActive = true
 						end
-						p1SlotSwapActive = true
 					end
 			--CURSOR SELECTION
 				elseif btnPalNo(p1Cmd, true) > 0 then
@@ -9750,6 +9770,19 @@ end
 --;===========================================================
 --; PLAYER 2 CHARACTER SELECT
 --;===========================================================
+local function f_p2ResetSlotBackup()
+	p2SelXBackup = nil
+	p2SelYBackup = nil
+	p2SlotSwapActive = false
+end
+f_p2ResetSlotBackup()
+
+local function f_p2RestoreSlot()
+	p2SelX = p1SelXBackup
+	p2SelY = p1SelYBackup
+	f_p2ResetSlotBackup()
+end
+
 function f_p2SelectMenu()
 	if data.p2Char ~= nil then
 		local t_p2CharID = {}
@@ -10500,6 +10533,7 @@ function f_p2SelectMenu()
 			local tmpCelY = p2SelY
 			if backScreen == false and not p2CharEnd then
 				if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30) then
+					if p2SlotSwapActive then f_p2RestoreSlot() end
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -10535,6 +10569,7 @@ function f_p2SelectMenu()
 						sndPlay(sndSys, 100, 0)
 					end
 				elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufSel2d >= 30) then
+					if p2SlotSwapActive then f_p2RestoreSlot() end
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -10570,6 +10605,7 @@ function f_p2SelectMenu()
 						sndPlay(sndSys, 100, 0)
 					end
 				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30) then
+					if p2SlotSwapActive then f_p2RestoreSlot() end
 					while true do
 						p2SelX = f_findCelXSub(p2SelX, wrappingX)
 						if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then break end
@@ -10578,12 +10614,30 @@ function f_p2SelectMenu()
 						sndPlay(sndSys, 100, 0)
 					end
 				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30) then
+					if p2SlotSwapActive then f_p2RestoreSlot() end
 					while true do
 						p2SelX = f_findCelXAdd(p2SelX, wrappingX)
 						if getCharName(p2SelX + selectColumns * p2SelY) ~= '' then break end
 					end
 					if tmpCelX ~= p2SelX then
 						sndPlay(sndSys, 100, 0)
+					end
+				elseif commandGetState(p1Cmd, 'q') then
+					
+				elseif commandGetState(p1Cmd, 'w') then
+					if t_selChars[p2Cell + 1].swapcellx ~= nil and t_selChars[p2Cell + 1].swapcelly ~= nil then
+						sndPlay(sndIkemen, 200, 1)
+						if p2SelXBackup == nil and p2SelYBackup == nil then
+							p2SelXBackup = p2SelX
+							p2SelYBackup = p2SelY
+						end
+						p2SelX = t_selChars[p2Cell + 1].swapcellx
+						p2SelY = t_selChars[p2Cell + 1].swapcelly						
+						if p2SelX == p2SelXBackup and p2SelY == p2SelYBackup then
+							f_p2ResetSlotBackup()
+						else
+							p2SlotSwapActive = true
+						end
 					end
 				elseif btnPalNo(p2Cmd, true) > 0 then
 					if t_unlockLua.chars[t_selChars[p2Cell + 1].char] == nil and f_checkTeamDuplicates(data.t_p2selected, p2Cell) or onlinegame then

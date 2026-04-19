@@ -199,8 +199,8 @@ function f_achievementSlot(posX, posY, itemNo)
 	local sprIndex = 0
 	local unlocked = false
 	local txtRewardColor = 0
-	local infoSpacing = 10
-	local infoLimit = 55
+	local infoSpacing = 12
+	local infoLimit = 52
 	if data.trophies[t_achievements[itemNo].id].rewardclaimed then txtRewardColor = 2 end
 --Draw Achievement Slot
 	animSetScale(achievementTBG, 280, 38)
@@ -213,8 +213,10 @@ function f_achievementSlot(posX, posY, itemNo)
 		sprIndex = t_achievements[itemNo].previewspr[2]
 	end
 --Draw Achievement Icon
-	f_drawSprPreview(sprAchievements,
-		sprGroup, sprIndex,
+	f_drawSprPreview(
+		sprAchievements,
+		sprGroup,
+		sprIndex,
 		t_achievements[itemNo].previewpos[1] + NewPosX, t_achievements[itemNo].previewpos[2] + NewPosY,
 		t_achievements[itemNo].previewscale[1], t_achievements[itemNo].previewscale[2]
 	)
@@ -445,7 +447,15 @@ function f_achievementsMenu()
 				nameColor = 5
 				drawCursor = true
 			end
-			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, t_achievements[i].name, 50, 75 + (-118 + i * achievementSpacing - moveSlot))
+			local achievementName = nil
+		--If the achievement is unlocked
+			if t_unlockLua.achievements[t_achievements[i].id] == nil then
+				achievementName = t_achievements[i].name
+		--If the achievement is locked
+			else
+				achievementName = "???"
+			end
+			f_drawQuickText(txt_achievementName, jgFnt, nameColor, 1, achievementName, 50, 75 + (-118 + i * achievementSpacing - moveSlot))
 			if drawCursor then
 				animSetWindow(cursorBox, 48,76 + (-118 + i * achievementSpacing - moveSlot), 272,38)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
