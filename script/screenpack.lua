@@ -104,7 +104,7 @@ videoHowToPlay = "videos/How To Play.webm"
 
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
-fightDef = data.lifebar --Lifebar/Fight stored in data_sav.lua
+fightDef =  "data/lifebars.def" --Lifebar/Fight Battle HUD list
 
 --;===========================================================
 --; MOVELIST SCREENPACK DEFINITION
@@ -803,11 +803,19 @@ function drawMainMenuInputHints()
 	local hintFont = font2
 	local hintFontYPos = 226
 	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","20,"..inputHintYPos,"d","40,"..inputHintYPos,"s","100,"..inputHintYPos,"e","165,"..inputHintYPos,"q","227,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 61, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 186, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":???", 248, hintFontYPos)
+	drawMenuInputHints("u","5,"..inputHintYPos,"d","25,"..inputHintYPos,"s","85,"..inputHintYPos,"e","150,"..inputHintYPos,"q","210,"..inputHintYPos,"w","270,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 46, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 104, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":?????", 231, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Shop", 291, hintFontYPos)
+	if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
+		sndPlay(sndSys, 100, 1)
+		
+	elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+		sndPlay(sndSys, 100, 1)
+		f_shopMenu()
+	end
 end
 
 function drawListInputHints()

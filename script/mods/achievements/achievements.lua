@@ -122,15 +122,19 @@ local file = io.open(achievementDef, "r")
 				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
 				if param ~= nil and value ~= nil then
 					param = param:lower()
-				--If the value is a comma-separated list, convert to table
-					if value:match(',') then
+					value = value:match('^%s*(.-)%s*$') --remove spaces
+				--Paramvalues that will be stored as tables
+					local isTableParam = (param == "previewspr" or param == "previewpos" or param == "previewscale")
+				--Only convert to a table if the parameter is of type "list" and contains a comma
+					if isTableParam and value:match(',') then
 						local tbl = {}
 						for num in value:gmatch('([^,]+)') do
-							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+							table.insert(tbl, num:match('^%s*(.-)%s*$'))
 						end
 						t_achievements[row][param] = tbl
+				--Store value as string
 					else
-						t_achievements[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
+						t_achievements[row][param] = value
 					end
 				end
 			end

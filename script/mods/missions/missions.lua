@@ -13,8 +13,8 @@ table.insert(t_challengeMenu, 1, {text = "MISSIONS", gotomenu = "f_missionMenu()
 
 local txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 local txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
-local txt_missionIncomplete = "INCOMPLETE"
-local txt_missionClear = "COMPLETED"
+local txt_missionIncomplete = "NEW!"
+local txt_missionClear = "CLEAR"
 local txt_missionStatsData = "Missions Completed"
 
 local padlockMissionPosX = 125 --Padlock Position for Missions Menu
@@ -113,15 +113,19 @@ local file = io.open(missionDef, "r")
 				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
 				if param ~= nil and value ~= nil then
 					param = param:lower()
-				--If the value is a comma-separated list, convert to table
-					if value:match(',') then
+					value = value:match('^%s*(.-)%s*$') --remove spaces
+				--Paramvalues that will be stored as tables
+					local isTableParam = (param == "previewspr" or param == "previewpos" or param == "previewscale")
+				--Only convert to a table if the parameter is of type "list" and contains a comma
+					if isTableParam and value:match(',') then
 						local tbl = {}
 						for num in value:gmatch('([^,]+)') do
-							table.insert(tbl, num:match('^%s*(.-)%s*$')) --remove spaces
+							table.insert(tbl, num:match('^%s*(.-)%s*$'))
 						end
 						t_missions[row][param] = tbl
+				--Store value as string
 					else
-						t_missions[row][param] = value:match('^%s*(.-)%s*$') --Store value as string
+						t_missions[row][param] = value
 					end
 				end
 			end
@@ -141,7 +145,7 @@ f_loadMissions() --Loads when engine starts
 --;===========================================================
 --; MISSION SAVE DATA
 --;===========================================================
-local function f_missionStatus()
+function f_missionStatus()
 	stats.modes.mission[t_missions[data.missionNo].id].clear = true
 	f_saveStats()
 end
@@ -193,6 +197,7 @@ function f_missionMenu()
 	local bufl = 0
 	local previewInfotxt = nil
 	local missionNametxt = nil
+	local missionStatustxt = nil
 	local previewTransS = nil
 	local previewTransD = nil
 	animSetPos(menuArrowUp, 280, 130)
@@ -307,19 +312,22 @@ function f_missionMenu()
 		textImgDraw(f_updateTextImg(t_missions[missionMenu].txtID, font11, 0, 0, previewInfotxt, 157, 13.5))
 	--Draw Text for Below Table
 		for i=1, maxMissions do
-		--Set mission status
-			if stats.modes.mission[t_missions[i].id].clear then
-				t_missions[i].status = txt_missionClear
-			end
 			if t_unlockLua.modes[t_missions[i].id] == nil then
 				missionNametxt = t_missions[i].name
+			--Set mission status
+				if stats.modes.mission[t_missions[i].id].clear then
+					missionStatustxt = txt_missionClear
+				else
+					missionStatustxt = t_missions[i].status
+				end
 			else
 				missionNametxt = "???"
+				missionStatustxt = ""
 			end
 			if i > missionMenu - cursorPosY then
 				if t_missions[i].txtID ~= nil then
 					textImgDraw(f_updateTextImg(t_missions[i].txtID, font2, 0, 1, missionNametxt, 45, 125 + i * 15 - moveTxt))
-					textImgDraw(f_updateTextImg(t_missions[i].txtID, font2, 0, -1, t_missions[i].status, 275, 125 + i * 15 - moveTxt))
+					textImgDraw(f_updateTextImg(t_missions[i].txtID, font2, 0, -1, missionStatustxt, 275, 125 + i * 15 - moveTxt))
 				end
 			end
 		end

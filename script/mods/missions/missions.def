@@ -8,9 +8,11 @@ path = script/mods/missions/mission1.lua
 [Mission 2]
 id = mission2
 name = True Kung Fu Spirit
-info = Use the full power of Kung Fu Man!
+info = Unleash the full power of Kung Fu Man!
+infolock = Complete Mission 1
 previewspr = 0,2
 path = script/mods/missions/mission2.lua
+unlock = stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission1 ~= nil and stats.modes.mission.mission1.clear == true
 
 [Mission 3]
 id = mission3
