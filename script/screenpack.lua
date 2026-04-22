@@ -714,6 +714,69 @@ function drawConfirmInputHints()
 end
 
 --;===========================================================
+--; REWARD MESSAGE SCREENPACK DEFINITION
+--;===========================================================
+txt_rewardTitle = createTextImg(font14, 0, 0, "CONGRATULATIONS!", 157, 86)
+txt_rewardInfo = createTextImg(jgFnt, 5, 0, "", 0, 0)
+
+--Info Window BG
+rewardWindowBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetPos(rewardWindowBG, 39, 80)
+animSetScale(rewardWindowBG, 1.6, 1.3)
+animUpdate(rewardWindowBG)
+
+function drawRewardInputHints()
+	local inputHintYPos = 134
+	local hintFont = font2
+	local hintFontYPos = 148
+--Draw Cursor
+	animSetWindow(cursorBox, 43.9,134, 232,20)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+--Draw Inputs
+	drawMenuInputHints("s","137,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Ok", 158, hintFontYPos)
+end
+
+function f_rewardMessage(txt)
+	local txt = txt or ""
+	local posX = 160
+	local posY = 110
+	local limit = 30
+--Draw Fade BG
+	animDraw(fadeWindowBG)
+--Draw Menu BG
+	animDraw(rewardWindowBG)
+--Draw Info Title Text
+	textImgDraw(txt_rewardTitle)
+--Draw Info Text
+	f_textRender(txt_rewardInfo, txt, 0, posX, posY, 15, 0, limit)
+--Draw Input Hints Panel
+	drawRewardInputHints()
+end
+
+function f_rewardScreen()
+	cmdInput()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndIkemen, 800, 0)
+	while true do
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		f_rewardMessage()
+		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			sndPlay(sndSys, 100, 1)
+			break
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		f_checkAchievements()
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
