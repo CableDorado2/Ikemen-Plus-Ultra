@@ -9,9 +9,6 @@ local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;===========================================================
---Insert new item to t_mainMenu table loaded by screenpack.lua
-table.insert(t_mainMenu, #t_mainMenu - 2, {text = "SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
-
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
 local txt_shopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
@@ -119,6 +116,7 @@ local t_shopMenu = {
 	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!", spr = {2,2}},
 	--{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
 	--{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
+	--{text = "Battle HUD Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Battle HUD Designs!"},
 	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!", spr = {2,3}},
 }
 for i=1, #t_shopMenu do
