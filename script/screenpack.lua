@@ -894,7 +894,7 @@ end
 --;===========================================================
 t_timeattackMenu = {
 	{text = "CLASSIC", 		gotomenu = "f_timeattackBoot()"},
-	{text = "SPEED STAR", 	gotomenu = "f_speedstarBoot()"},
+	{text = "SPEED STAR", 	gotomenu = "f_speedStarSelect()"},
 	{text = "???", 			gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_timeattackMenu do
@@ -3597,6 +3597,198 @@ tourneyAwards = animNew(sprIkemen, [[
 animAddPos(tourneyAwards, 0, 0)
 animUpdate(tourneyAwards)
 
+--;=================================================================================================
+--; SPEED STAR COURSE SELECT SCREENPACK DEFINITION
+--;=================================================================================================
+txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT", 159, 13)
+txt_speedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
+
+txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
+txt_speedCourseTimeRecord = createTextImg(font11, 0, 1, "", 159, 13)
+txt_speedCourseScoreRecord = createTextImg(font11, 0, 1, "", 159, 13)
+txt_speedCourseClear = createTextImg(font7, 0, 1, "CLEAR!", 159, 13)
+
+txt_speedCourseTimeStart = createTextImg(font5, 0, -1, "STARTING TIME:", 159, 13)
+txt_speedCourseTimeStartVar = createTextImg(font5, 0, 1, "999 SEC", 159, 13)
+
+txt_speedCourseTotalStages = createTextImg(font5, 0, -1, "OPPONENTS TO DEFEAT:", 159, 13)
+txt_speedCourseTotalStagesVar = createTextImg(font5, 0, 1, "999", 159, 13)
+
+txt_speedCourseTimeBonus = createTextImg(font5, 0, -1, "TIME BONUS:", 159, 13)
+txt_speedCourseTimeBonusVar = createTextImg(font5, 0, 1, "999 SEC", 159, 13)
+
+speedStarSpacingY = 65
+
+t_speedCourseSel = {
+	{timestart = 180, matchs = 16, timebonus = 20},
+	{timestart = 180, matchs = 32, timebonus = 40},
+	{timestart = 90,  matchs = 32, timebonus = 60},
+}
+for i=1, #t_speedCourseSel do
+	t_speedCourseSel[i].unlock = true
+end
+if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSel.log") end
+
+--Course Slot
+speedCourseSlot = animNew(sprIkemen, [[
+43,0, 0,0, -1
+]])
+animSetScale(speedCourseSlot, 2.12, 0.8)
+animUpdate(speedCourseSlot)
+
+--Speed Start Course Select Input Hints Panel
+function drawSpeedCourseInputHints()
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints("u","40,"..inputHintYPos,"d","60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+end
+
+function f_danmnmn(maxspeedCourseSel, cursorPosY, moveTxt)
+	--Draw Speed Star Level Content Text
+		for i=1, maxspeedCourseSel do
+			if i > speedCourseSel - cursorPosY then
+				local colorSel = 0
+				if speedCourseSel == i then colorSel = 5 end
+				animPosDraw(speedCourseSlot, 0, 77 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgSetBank(txt_speedCourseLv, colorSel)
+				textImgSetPos(txt_speedCourseLv, 9, 92 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
+				textImgDraw(txt_speedCourseLv)
+				
+				textImgSetPos(txt_speedCourseScoreRecord, 9, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseScoreRecord, "HIGH SCORE: 9999999")
+				textImgDraw(txt_speedCourseScoreRecord)
+				
+				textImgSetPos(txt_speedCourseTimeRecord, 9, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeRecord, "BEST TIME: 00:00:000")
+				textImgDraw(txt_speedCourseTimeRecord)
+				
+				textImgSetPos(txt_speedCourseTimeStart, 265, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTimeStart)
+				
+				textImgSetPos(txt_speedCourseTotalStages, 265, 105 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTotalStages)
+				
+				textImgSetPos(txt_speedCourseTimeBonus, 265, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTimeBonus)
+				
+				textImgSetPos(txt_speedCourseTimeStartVar, 267, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTimeStartVar)
+				
+				textImgSetPos(txt_speedCourseTotalStagesVar, 267, 105 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTotalStagesVar)
+				
+				textImgSetPos(txt_speedCourseTimeBonusVar, 267, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTimeBonusVar)
+			end
+		end
+	--Draw Cursor
+		animSetWindow(cursorBox, 0,77 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,50)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+end
+
+--;===========================================================
+--; SPEED STAR MATCH
+--;===========================================================
+t_speedstarBonus = {
+	{item = "tauntCnt",		 target = 1,  reward = "1.0"}, --1 Taunt Bonus
+	{item = "tauntCnt", 	 target = 5,  reward = "2.5"}, --5 Taunt Bonus
+	{item = "tauntCnt", 	 target = 10, reward = "5.0"}, --10 Taunt Bonus
+	
+	{item = "throwCnt", 	 target = 1,  reward = "1.0"}, --1 Throw Bonus
+	{item = "throwCnt", 	 target = 3,  reward = "2.0"}, --3 Throws Bonus
+	{item = "throwCnt", 	 target = 5,  reward = "3.0"}, --5 Throws Bonus
+	
+	{item = "noDamageTimer", target = 5,  reward = "1.0"}, --No Damage During 5 Seconds Bonus
+	{item = "noDamageTimer", target = 10, reward = "2.0"}, --No Damage During 10 Seconds Bonus
+	{item = "noDamageTimer", target = 20, reward = "5.0"}, --No Damage During 20 Seconds Bonus
+	{item = "noDamageTimer", target = 30, reward = "7.0"}, --No Damage During 30 Seconds Bonus
+}
+for i=1, #t_speedstarBonus do
+	t_speedstarBonus[i].active = true
+	t_speedstarBonus[i].bonus = tonumber(t_speedstarBonus[i].reward)
+end
+if data.debugLog then f_printTable(t_speedstarBonus, "save/debug/t_speedstarBonus.log") end
+
+--Match End Info BG
+speedstarInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetScale(speedstarInfoBG, 182, 32)
+animSetAlpha(speedstarInfoBG, 0, 125)
+animUpdate(speedstarInfoBG)
+
+speedstarClearBonus = 10
+speedstarSuperBonus = 5
+speedstarPerfectBonus = 15
+
+function f_speedStarInfo(super, perfect)
+	local totalBonus = 0
+	local infoFont = jgFnt
+	local infoX = 3
+	local infoY = 150
+	animPosDraw(speedstarInfoBG, -2, 141)
+	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "Stage Clear", infoX, infoY)
+	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "+"..speedstarClearBonus.."sec", infoX+125, infoY)
+	local colorSuper = 0
+	local rewardSuper = 0
+	if super > 0 then
+		colorSuper = 5
+		rewardSuper = speedstarSuperBonus
+	end
+	f_drawQuickText(txt_speedTInfo, infoFont, colorSuper, 1, "Super Bonus", infoX, infoY+10)
+	f_drawQuickText(txt_speedTInfo, infoFont, colorSuper, 1, "+"..rewardSuper.."sec", infoX+125, infoY+10)
+	local colorPerfect = 0
+	local rewardPerfect = 0
+	if perfect then
+		colorPerfect = 5
+		rewardPerfect = speedstarPerfectBonus
+	end
+	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "Perfect Bonus", infoX, infoY+20)
+	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "+"..rewardPerfect.."sec", infoX+125, infoY+20)
+	totalBonus = speedstarClearBonus + rewardSuper + rewardPerfect
+	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Total Bonus", infoX, infoY+32)
+	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..totalBonus.."sec", infoX+125, infoY+32)
+end
+
+local t_speedStarNotify = {} 
+local speedStarNotifyPosY = 60
+function f_addSpeedStarNotify(text, color)
+	local maxItems = 6
+	local color = color or 5
+	local new = {
+		text = text,
+		bank = color,
+		timer = 180, --Time to display the text on screen
+		currentY = speedStarNotifyPosY + 10
+	}
+	table.insert(t_speedStarNotify, 1, new)
+	if #t_speedStarNotify > maxItems then table.remove(t_speedStarNotify, #t_speedStarNotify) end
+end
+
+function f_drawSpeedStarNotify()
+	local spacingY = 15
+	local scrollY = 0.15
+--Draw each Action Text detected in t_speedStarNotify table
+	for i=#t_speedStarNotify, 1, -1 do --Read the table in reverse order for correct detection of new entries
+		local targetY = speedStarNotifyPosY - ((i - 1) * spacingY)
+		t_speedStarNotify[i].currentY = t_speedStarNotify[i].currentY + (targetY - t_speedStarNotify[i].currentY) * scrollY
+		f_drawQuickText(txt_speedsAct, jgFnt, t_speedStarNotify[i].bank, 0, t_speedStarNotify[i].text, 160, t_speedStarNotify[i].currentY)
+	--Display Update
+		if not script.pause.pauseMenuActive then
+			t_speedStarNotify[i].timer = t_speedStarNotify[i].timer - 1
+		end
+		if t_speedStarNotify[i].timer <= 0 then table.remove(t_speedStarNotify, i) end
+	end
+end
+
 --;===========================================================
 --; ALLIANCE SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -5415,101 +5607,6 @@ animSetPos(allianceChangeInfoBG, 0, 215)
 animSetScale(allianceChangeInfoBG, 320, 22)
 animSetAlpha(allianceChangeInfoBG, 0, 50)
 animUpdate(allianceChangeInfoBG)
-
---;===========================================================
---; SPEED STAR STUFF
---;===========================================================
-t_speedstarBonus = {
-	{item = "tauntCnt",		 target = 1,  reward = "1.0"}, --1 Taunt Bonus
-	{item = "tauntCnt", 	 target = 5,  reward = "2.5"}, --5 Taunt Bonus
-	{item = "tauntCnt", 	 target = 10, reward = "5.0"}, --10 Taunt Bonus
-	
-	{item = "throwCnt", 	 target = 1,  reward = "1.0"}, --1 Throw Bonus
-	{item = "throwCnt", 	 target = 3,  reward = "2.0"}, --3 Throws Bonus
-	{item = "throwCnt", 	 target = 5,  reward = "3.0"}, --5 Throws Bonus
-	
-	{item = "noDamageTimer", target = 5,  reward = "1.0"}, --No Damage During 5 Seconds Bonus
-	{item = "noDamageTimer", target = 10, reward = "2.0"}, --No Damage During 10 Seconds Bonus
-	{item = "noDamageTimer", target = 20, reward = "5.0"}, --No Damage During 20 Seconds Bonus
-	{item = "noDamageTimer", target = 30, reward = "7.0"}, --No Damage During 30 Seconds Bonus
-}
-for i=1, #t_speedstarBonus do
-	t_speedstarBonus[i].active = true
-	t_speedstarBonus[i].bonus = tonumber(t_speedstarBonus[i].reward)
-end
-if data.debugLog then f_printTable(t_speedstarBonus, "save/debug/t_speedstarBonus.log") end
-
---Match End Info BG
-speedstarInfoBG = animNew(sprIkemen, [[
-3,0, 0,0, -1
-]])
-animSetScale(speedstarInfoBG, 182, 32)
-animSetAlpha(speedstarInfoBG, 0, 125)
-animUpdate(speedstarInfoBG)
-
-speedstarClearBonus = 10
-speedstarSuperBonus = 5
-speedstarPerfectBonus = 15
-
-function f_speedStarInfo(super, perfect)
-	local totalBonus = 0
-	local infoFont = jgFnt
-	local infoX = 3
-	local infoY = 150
-	animPosDraw(speedstarInfoBG, -2, 141)
-	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "Stage Clear", infoX, infoY)
-	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "+"..speedstarClearBonus.."sec", infoX+125, infoY)
-	local colorSuper = 0
-	local rewardSuper = 0
-	if super > 0 then
-		colorSuper = 5
-		rewardSuper = speedstarSuperBonus
-	end
-	f_drawQuickText(txt_speedTInfo, infoFont, colorSuper, 1, "Super Bonus", infoX, infoY+10)
-	f_drawQuickText(txt_speedTInfo, infoFont, colorSuper, 1, "+"..rewardSuper.."sec", infoX+125, infoY+10)
-	local colorPerfect = 0
-	local rewardPerfect = 0
-	if perfect then
-		colorPerfect = 5
-		rewardPerfect = speedstarPerfectBonus
-	end
-	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "Perfect Bonus", infoX, infoY+20)
-	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "+"..rewardPerfect.."sec", infoX+125, infoY+20)
-	totalBonus = speedstarClearBonus + rewardSuper + rewardPerfect
-	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Total Bonus", infoX, infoY+32)
-	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..totalBonus.."sec", infoX+125, infoY+32)
-end
-
-local t_speedStarNotify = {} 
-local speedStarNotifyPosY = 60
-function f_addSpeedStarNotify(text, color)
-	local maxItems = 6
-	local color = color or 5
-	local new = {
-		text = text,
-		bank = color,
-		timer = 180, --Time to display the text on screen
-		currentY = speedStarNotifyPosY + 10
-	}
-	table.insert(t_speedStarNotify, 1, new)
-	if #t_speedStarNotify > maxItems then table.remove(t_speedStarNotify, #t_speedStarNotify) end
-end
-
-function f_drawSpeedStarNotify()
-	local spacingY = 15
-	local scrollY = 0.15
---Draw each Action Text detected in t_speedStarNotify table
-	for i=#t_speedStarNotify, 1, -1 do --Read the table in reverse order for correct detection of new entries
-		local targetY = speedStarNotifyPosY - ((i - 1) * spacingY)
-		t_speedStarNotify[i].currentY = t_speedStarNotify[i].currentY + (targetY - t_speedStarNotify[i].currentY) * scrollY
-		f_drawQuickText(txt_speedsAct, jgFnt, t_speedStarNotify[i].bank, 0, t_speedStarNotify[i].text, 160, t_speedStarNotify[i].currentY)
-	--Display Update
-		if not script.pause.pauseMenuActive then
-			t_speedStarNotify[i].timer = t_speedStarNotify[i].timer - 1
-		end
-		if t_speedStarNotify[i].timer <= 0 then table.remove(t_speedStarNotify, i) end
-	end
-end
 
 --;===========================================================
 --; ATTACK DISPLAY

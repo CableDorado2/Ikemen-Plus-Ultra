@@ -30,7 +30,7 @@ require("script.common")
 --Debug/Match Stuff
 loadDebugFont(fontDebug)
 setDebugScript("script/match.lua")
-loadLifebar(fightDef) --Assign Lifebar Screenpack
+loadLifebar(data.lifebar) --Assign Lifebar Screenpack
 
 f_discordInit() --Send Discord Rich Presence
 --;===========================================================
@@ -2935,6 +2935,102 @@ end
 --;===========================================================
 --; SPEED STAR MODE (defeat opponents before time runs out)
 --;===========================================================
+function f_speedStarSelect()
+	f_discordUpdate({details = "Speed Star"})
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 3
+	f_sideReset()
+	speedCourseSel = 1
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	while true do
+		if not sideScreen then
+		--Return Logic
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				f_discordMainMenu()
+				sndPlay(sndSys, 100, 2)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+				f_menuMusic()
+				f_resetMenuArrowsPos()
+				break
+			end
+		--Cursor Actions
+			if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+				sndPlay(sndSys, 100, 1)
+				f_speedstarBoot() --Open Side Select
+			end
+		--Speed Star Course Select
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				speedCourseSel = speedCourseSel - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				speedCourseSel = speedCourseSel + 1
+			end
+			if speedCourseSel < 1 then
+				speedCourseSel = #t_speedCourseSel
+				if #t_speedCourseSel > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_speedCourseSel
+				end
+			elseif speedCourseSel > #t_speedCourseSel then
+				speedCourseSel = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (speedCourseSel - maxItems) * speedStarSpacingY
+			elseif cursorPosY == 1 then
+				moveTxt = (speedCourseSel - 1) * speedStarSpacingY
+			end
+			if #t_speedCourseSel <= maxItems then
+				maxspeedCourseSel = #t_speedCourseSel
+			elseif speedCourseSel - cursorPosY > 0 then
+				maxspeedCourseSel = speedCourseSel + maxItems - cursorPosY
+			else
+				maxspeedCourseSel = maxItems
+			end
+		end
+	--Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+	--Draw Title
+		textImgDraw(txt_speedCourseSel)
+		f_danmnmn(maxspeedCourseSel, cursorPosY, moveTxt)
+		if maxspeedCourseSel > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_speedCourseSel > maxItems and maxspeedCourseSel < #t_speedCourseSel then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if sideScreen then f_sideSelect() else drawSpeedCourseInputHints() end
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
 function f_speedstarBoot()
 	menuSelect = "speed star"
 	sideScreen = true
@@ -2942,7 +3038,6 @@ end
 
 --Load Common Settings for Speed Star Modes
 function speedstarCfg()
-	f_discordUpdate({details = "Speed Star"})
 	f_default()
 	setMatchnoDisplay(true)
 	setPersistPower(true)
