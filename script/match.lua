@@ -491,6 +491,7 @@ local tauntCnt = 0
 local throwCnt = 0
 local specialCnt = 0
 local superCnt = 0
+local noHitReceived = true
 local colddownCnt = false
 local function f_actionsCheck()
 --Check Attack Data in both sides
@@ -509,6 +510,7 @@ local function f_actionsCheck()
 	if player(1) then
 		if gethitvar("damage") > 0 then damageHitP2 = gethitvar("damage") end
 		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
+			noHitReceived = false
 			if gethitvar("hitcount") == 1 then damageComboP2 = 0 end
 			damageComboP2 = damageComboP2 + gethitvar("damage")
 			if damageComboP2 > damageMaxP2 then damageMaxP2 = damageComboP2 end
@@ -662,8 +664,10 @@ local function f_addBonusScore()
 		elseif getGameMode() == "speedstar" then
 		--Perfect Time Bonus
 			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
-				timeReward = timeReward + (speedstarPerfectBonus * timeBossFactor) * matchTimeFix
-				perfectBonus = true
+				if noHitReceived then
+					timeReward = timeReward + (speedstarPerfectBonus * timeBossFactor) * matchTimeFix
+					perfectBonus = true
+				end
 			elseif winko() then
 			--Super K.O Time Bonus
 				if winhyper() then timeReward = timeReward + (3 * timeBossFactor) * matchTimeFix
@@ -1433,20 +1437,26 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 				if getPlayerReward() <= 0 then setPlayerReward(0) end --Fix Negative Count
 			end
-			if playerLeftSide then
-				for i=1, 8 do
-					if i % 2 == 0 then --Is an Even Player Number (Right Side)
-						if player(i) then setLife(lifemax() - 10) end
-					else --Is an Odd Player Number (Left Side)
-						if player(i) then setLife(lifemax() + 10) end
-					end
-				end
+		--Infinite Life Logic
+			if timeremaining() > 0 then
+				setService("infinite life all") --Managed via match.cns
 			else
-				for i=1, 8 do
-					if i % 2 == 0 then --Is an Even Player Number (Right Side)
-						if player(i) then setLife(lifemax() + 10) end
-					else --Is an Odd Player Number (Left Side)
-						if player(i) then setLife(lifemax() - 10) end
+				setService("")
+				if playerLeftSide then
+					for i=1, 8 do
+						if i % 2 == 0 then --Is an Even Player Number (Right Side)
+							if player(i) then setLife(lifemax() - 10) end
+						else --Is an Odd Player Number (Left Side)
+							if player(i) then setLife(lifemax() + 10) end
+						end
+					end
+				else
+					for i=1, 8 do
+						if i % 2 == 0 then --Is an Even Player Number (Right Side)
+							if player(i) then setLife(lifemax() + 10) end
+						else --Is an Odd Player Number (Left Side)
+							if player(i) then setLife(lifemax() - 10) end
+						end
 					end
 				end
 			end
@@ -1509,26 +1519,26 @@ function loop() --The code for this function should be thought of as if it were 
 				end
 			--CPU Hit over Player
 				if gethitvar("hitcount") == 1 then
-					--if cpuLevel() == 8 then
-				--Enemy Special Attacks
-					if specialAttackCPU then
-						timePenalty = 1.5 * matchTimeFix
-						f_addSpeedStarNotify("ENEMY SPECIAL ATTACK -1.5", 0)
-						specialAttackCPU = false
-				--Enemy Super Attacks
-					elseif superAttackCPU then
-						timePenalty = 3 * matchTimeFix
-						f_addSpeedStarNotify("ENEMY SUPER ATTACK -3.0", 0)
-						superAttackCPU = false
-				--Enemy Normal Attacks
-					else
-						timePenalty = 1 * matchTimeFix
-						f_addSpeedStarNotify("ENEMY ATTACK -1.0", 0)
-					--In case that these are activate during normal hitcount > 1
-						specialAttackCPU = false
-						superAttackCPU = false
+					if cpuLevel() == 8 then
+					--Enemy Special Attacks
+						if specialAttackCPU then
+							timePenalty = 1.5 * matchTimeFix
+							f_addSpeedStarNotify("ENEMY SPECIAL ATTACK -1.5", 0)
+							specialAttackCPU = false
+					--Enemy Super Attacks
+						elseif superAttackCPU then
+							timePenalty = 3 * matchTimeFix
+							f_addSpeedStarNotify("ENEMY SUPER ATTACK -3.0", 0)
+							superAttackCPU = false
+					--Enemy Normal Attacks
+						else
+							timePenalty = 1 * matchTimeFix
+							f_addSpeedStarNotify("ENEMY ATTACK -1.0", 0)
+						--In case that these are activate during normal hitcount > 1
+							specialAttackCPU = false
+							superAttackCPU = false
+						end
 					end
-					--end
 				end
 			end
 		--Round Time Updates
@@ -1545,16 +1555,17 @@ function loop() --The code for this function should be thought of as if it were 
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
 			end
 			f_drawSpeedStarNotify()
-		--[[Infinite Life Logic
+		--Infinite Life Logic
 			if playerLeftSide then
 				for i=1, 8 do
 					if i % 2 == 0 then --Is an Even Player Number (Right Side)
 						
 					else --Is an Odd Player Number (Left Side)
 						if timeremaining() == 0 then
+							setService("")
 							if player(i) then setLife(0) end
 						else
-							if player(i) then setLife(lifemax()) end
+							setService("infinite life left") --Managed via match.cns
 						end
 					end
 				end
@@ -1562,16 +1573,16 @@ function loop() --The code for this function should be thought of as if it were 
 				for i=1, 8 do
 					if i % 2 == 0 then --Is an Even Player Number (Right Side)
 						if timeremaining() == 0 then
+							setService("")
 							if player(i) then setLife(0) end
 						else
-							if player(i) then setLife(lifemax()) end
+							setService("infinite life right")
 						end
 					else --Is an Odd Player Number (Left Side)
 						
 					end
 				end
 			end
-		--]]
 		end
 --During Alliance Mode
 	elseif getGameMode() == "alliance" then

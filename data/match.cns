@@ -591,7 +591,7 @@ value = PowerMax
 ;===========================================================================
 [State -2, Max Power]
 type = PowerSet
-triggerall = (Service = "max power" || Service = "undefeatable") ;POWER WILL AT MAX SERVICE
+triggerall = (Service = "max power") ;POWER WILL AT MAX SERVICE
 trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2)) && RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = PowerMax
 
@@ -608,13 +608,45 @@ trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) |
 value = 0.5
 
 ;===========================================================================
-; STORY HANDICAPS EXAMPLE
+; HANDICAPS EXAMPLE
 ;===========================================================================
-[State -2, Undefeatable]
+[State -2, Left Side Undefeatable]
 type = LifeSet
-triggerall = GameMode = "story" && Service = "undefeatable" && TeamSide = 1 ;LIFE WILL AT MAX FOR STORY MODE BATTLES
-trigger1 = RoundState = 2
+triggerall = (Service = "infinite life left" || Service = "undefeatable") ;LEFT SIDE LIFE WILL AT MAX
+trigger1 = RoundState = 2 && TeamSide = 1
 value = LifeMax
+
+[State -2, Right Side Undefeatable]
+type = LifeSet
+triggerall = Service = "infinite life right" ;RIGHT SIDE LIFE WILL AT MAX
+trigger1 = RoundState = 2 && TeamSide = 2
+value = LifeMax
+
+[State -2, Both Sides Undefeatable]
+type = LifeSet
+triggerall = Service = "infinite life all" ;BOTH SIDES LIFE WILL AT MAX
+trigger1 = RoundState = 2 && TeamSide = 1
+trigger2 = RoundState = 2 && TeamSide = 2
+value = LifeMax
+
+[State -2, Left Side Max Power]
+type = PowerSet
+triggerall = (Service = "infinite power left" || Service = "undefeatable") ;LEFT SIDE POWER WILL AT MAX
+trigger1 = RoundState = 2 && TeamSide = 1
+value = PowerMax
+
+[State -2, Right Side Max Power]
+type = PowerSet
+triggerall = Service = "infinite power right" ;RIGHT SIDE POWER WILL AT MAX
+trigger1 = RoundState = 2 && TeamSide = 2
+value = PowerMax
+
+[State -2, Both Sides Max Power]
+type = PowerSet
+triggerall = Service = "infinite power all" ;BOTH SIDES POWER WILL AT MAX
+trigger1 = RoundState = 2 && TeamSide = 1
+trigger2 = RoundState = 2 && TeamSide = 2
+value = PowerMax
 
 [State -2, MKFG Power Charge Off]
 type = PowerSet
