@@ -78,28 +78,28 @@ stand.friction = .85  ;Friction coefficient when standing
 crouch.friction = .82 ;Friction coefficient when crouching
 
 [Quotes]
-victory0 = "Die!"
-victory1 = "The target has been neutralized."
-victory2 = "Can anybody tell me for what I have to face this guy?!"
-victory3 = "I just met my firstborn."
-victory4 = "Still butthurt about the flame effect, mang?"
-victory5 = "At least you can help me get rid of my past I regret so fucking much."
-victory6 = "Join our quest, you will get chicks for your bravery!"
-victory7 = "You are past the expiration date, PAL!"
+victory1 = "Die!"
+victory2 = "The target has been neutralized."
+victory3 = "Can anybody tell me for what I have to face this guy?!"
+victory4 = "I just met my firstborn."
+victory5 = "Still butthurt about the flame effect, mang?"
+victory6 = "At least you can help me get rid of my past I regret so fucking much."
+victory7 = "Join our quest, you will get chicks for your bravery!"
 victory8 = "Listen... I am the Goddamn Bad Man, simple as that!"
 victory9 = "So much power... contained in one body..."
 
 ;VS Suave Dude
-victory9 = "Dude, I need your gun. Chicks dig the big guns."
+victory10 = "Dude, I need your gun. Chicks dig the big guns."
 
 ; VS Kung Fu Man
-victory10 = "I finally have you now, bitch!"
+victory11 = "So much power... contained in one body..."
+;victory11 = "You are past the expiration date, PAL!"
 
 ; VS Kung Fu Girl
-victory11 = "Gawdemmit, not another Loli! I had seriously enough of you!"
+victory12 = "Gawdemmit, not another Loli! I had seriously enough of you!"
 
 ;VS Himself
-victory12 = "Oh fuck no I am not just seeing that."
+victory13 = "Oh fuck no I am not just seeing that."
 
 ;---------------------------------------------------------------------------
 ; Variable usage:
