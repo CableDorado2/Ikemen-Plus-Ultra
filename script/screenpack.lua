@@ -3608,8 +3608,8 @@ txt_speedCourseTimeRecord = createTextImg(font11, 0, 1, "", 159, 13)
 txt_speedCourseScoreRecord = createTextImg(font11, 0, 1, "", 159, 13)
 txt_speedCourseClear = createTextImg(font7, 0, 1, "CLEAR!", 159, 13)
 
-txt_speedCourseTimeStart = createTextImg(font5, 0, -1, "STARTING TIME:", 159, 13)
-txt_speedCourseTimeStartVar = createTextImg(font5, 0, 1, "999 SEC", 159, 13)
+txt_speedCourseTimeStart = createTextImg(font14, 0, -1, "STARTING TIME:", 159, 13)
+txt_speedCourseTimeStartVar = createTextImg(font14, 0, 1, "999 SEC", 159, 13)
 
 txt_speedCourseTotalStages = createTextImg(font5, 0, -1, "OPPONENTS TO DEFEAT:", 159, 13)
 txt_speedCourseTotalStagesVar = createTextImg(font5, 0, 1, "999", 159, 13)
@@ -3631,9 +3631,9 @@ if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSe
 
 --Course Slot
 speedCourseSlot = animNew(sprIkemen, [[
-43,0, 0,0, -1
+232,1, 0,0, -1
 ]])
-animSetScale(speedCourseSlot, 2.12, 0.8)
+animSetScale(speedCourseSlot, 0.2, 0.1)
 animUpdate(speedCourseSlot)
 
 --Speed Start Course Select Input Hints Panel
@@ -3652,44 +3652,44 @@ function f_danmnmn(maxspeedCourseSel, cursorPosY, moveTxt)
 	--Draw Speed Star Level Content Text
 		for i=1, maxspeedCourseSel do
 			if i > speedCourseSel - cursorPosY then
-				local colorSel = 0
+				local colorSel = 7
 				if speedCourseSel == i then colorSel = 5 end
-				animPosDraw(speedCourseSlot, 0, 77 + (-118 + i * speedStarSpacingY - moveTxt))
+				animPosDraw(speedCourseSlot, 0, 72 + (-118 + i * speedStarSpacingY - moveTxt))
 				
 				textImgSetBank(txt_speedCourseLv, colorSel)
-				textImgSetPos(txt_speedCourseLv, 9, 92 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
 				textImgDraw(txt_speedCourseLv)
 				
-				textImgSetPos(txt_speedCourseScoreRecord, 9, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseScoreRecord, 2, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseScoreRecord, "HIGH SCORE: 9999999")
 				textImgDraw(txt_speedCourseScoreRecord)
 				
-				textImgSetPos(txt_speedCourseTimeRecord, 9, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseTimeRecord, 2, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseTimeRecord, "BEST TIME: 00:00:000")
 				textImgDraw(txt_speedCourseTimeRecord)
 				
-				textImgSetPos(txt_speedCourseTimeStart, 265, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseTimeStart, 255, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTimeStart)
 				
-				textImgSetPos(txt_speedCourseTotalStages, 265, 105 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseTotalStages)
-				
-				textImgSetPos(txt_speedCourseTimeBonus, 265, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseTimeBonus)
-				
-				textImgSetPos(txt_speedCourseTimeStartVar, 267, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseTimeStartVar, 260, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTimeStartVar)
 				
-				textImgSetPos(txt_speedCourseTotalStagesVar, 267, 105 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTotalStages)
+				
+				textImgSetPos(txt_speedCourseTotalStagesVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTotalStagesVar)
 				
-				textImgSetPos(txt_speedCourseTimeBonusVar, 267, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseTimeBonus, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTimeBonus)				
+				
+				textImgSetPos(txt_speedCourseTimeBonusVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTimeBonusVar)
 			end
 		end
 	--Draw Cursor
-		animSetWindow(cursorBox, 0,77 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,50)
+		animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 end

@@ -2948,6 +2948,8 @@ function f_speedStarSelect()
 	f_sideReset()
 	speedCourseSel = 1
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowUp, 308, 8)
+	animSetPos(menuArrowDown, 308, 208)
 	while true do
 		if not sideScreen then
 		--Return Logic
