@@ -36,6 +36,19 @@ function f_fileWrite(path, str, mode)
 	file:write(str)
 	file:close()
 end
+
+--check if file exists
+function f_fileExists(file)
+	if file == '' then
+		return false
+	end
+	local f = io.open(file,'r')
+	if f ~= nil then
+		io.close(f)
+		return true
+	end
+	return false
+end
 --;===========================================================
 --; LIBRARY DEFINITION
 --;===========================================================

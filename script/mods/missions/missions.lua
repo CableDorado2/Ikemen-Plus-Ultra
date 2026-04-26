@@ -182,7 +182,7 @@ end
 function f_missionMenu()
 	if data.debugMode then f_loadMissions() end --Load in real-time only if dev/debug mode is enabled
 	if #t_missions == 0 then
-		missionInfo = true
+		t_infoWindowMsg.text = "NO MISSIONS FOUND IN ["..missionDef.."]"
 		infoScreen = true
 		return
 	end

@@ -1769,7 +1769,7 @@ function f_vnLoadGame() --continue the story from where you left off
 --No Data
 	if data.VNarc == "" and data.VNchapter == 0 and data.VNdialogue == 0 then
 		sndPlay(sndIkemen, 200, 0)
-		vnDataInfo = true
+		t_infoWindowMsg.text = "NO SAVED GAMES FOUND."
 		infoScreen = true
 --Load Data
 	else
@@ -1785,7 +1785,7 @@ end
 function f_vnMenu()
 	if data.debugMode then f_loadVisualNovels() end --Load in real-time only if dev/debug mode is enabled
 	if #t_selVN == 0 then
-		vnInfo = true
+		t_infoWindowMsg.text = "NO VISUAL NOVELS FOUND IN ["..vnDef.."]"
 		infoScreen = true
 		return
 	end

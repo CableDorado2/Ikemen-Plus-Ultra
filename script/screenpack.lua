@@ -1375,11 +1375,6 @@ animSetTile(intermissionWindowSlideD, 1, 1)
 animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
 
 --;===========================================================
---; BLACK SCREEN MESSAGE SCREENPACK DEFINITION
---;===========================================================
-txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
-
---;===========================================================
 --; CHARACTER SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode

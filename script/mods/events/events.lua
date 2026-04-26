@@ -408,7 +408,7 @@ end
 function f_eventMenu()
 	if data.debugMode then f_loadEvents() end
 	if #t_events == 0 then
-		eventInfo = true
+		t_infoWindowMsg.text = "NO EVENTS FOUND IN ["..eventDef.."]"
 		infoScreen = true
 		return
 	end
