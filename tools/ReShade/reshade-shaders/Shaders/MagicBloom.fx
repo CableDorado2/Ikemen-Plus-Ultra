@@ -199,14 +199,14 @@ uniform uint iDebug <
 
 //Textures
 
-texture tMagicBloom_1 { Width = BUFFER_WIDTH / 2; Height = BUFFER_HEIGHT / 2; Format = RGBA16F; };
-texture tMagicBloom_2 { Width = BUFFER_WIDTH / 4; Height = BUFFER_HEIGHT / 4; Format = RGBA16F; };
-texture tMagicBloom_3 { Width = BUFFER_WIDTH / 8; Height = BUFFER_HEIGHT / 8; Format = RGBA16F; };
-texture tMagicBloom_4 { Width = BUFFER_WIDTH / 16; Height = BUFFER_HEIGHT / 16; Format = RGBA16F; };
-texture tMagicBloom_5 { Width = BUFFER_WIDTH / 32; Height = BUFFER_HEIGHT / 32; Format = RGBA16F; };
-texture tMagicBloom_6 { Width = BUFFER_WIDTH / 64; Height = BUFFER_HEIGHT / 64; Format = RGBA16F; };
-texture tMagicBloom_7 { Width = BUFFER_WIDTH / 128; Height = BUFFER_HEIGHT / 128; Format = RGBA16F; };
-texture tMagicBloom_8 { Width = BUFFER_WIDTH / 256; Height = BUFFER_HEIGHT / 256; Format = RGBA16F; };
+texture tMagicBloom_1 < pooled = true; > { Width = BUFFER_WIDTH / 2; Height = BUFFER_HEIGHT / 2; Format = RGBA16F; };
+texture tMagicBloom_2 < pooled = true; > { Width = BUFFER_WIDTH / 4; Height = BUFFER_HEIGHT / 4; Format = RGBA16F; };
+texture tMagicBloom_3 < pooled = true; > { Width = BUFFER_WIDTH / 8; Height = BUFFER_HEIGHT / 8; Format = RGBA16F; };
+texture tMagicBloom_4 < pooled = true; > { Width = BUFFER_WIDTH / 16; Height = BUFFER_HEIGHT / 16; Format = RGBA16F; };
+texture tMagicBloom_5 < pooled = true; > { Width = BUFFER_WIDTH / 32; Height = BUFFER_HEIGHT / 32; Format = RGBA16F; };
+texture tMagicBloom_6 < pooled = true; > { Width = BUFFER_WIDTH / 64; Height = BUFFER_HEIGHT / 64; Format = RGBA16F; };
+texture tMagicBloom_7 < pooled = true; > { Width = BUFFER_WIDTH / 128; Height = BUFFER_HEIGHT / 128; Format = RGBA16F; };
+texture tMagicBloom_8 < pooled = true; > { Width = BUFFER_WIDTH / 256; Height = BUFFER_HEIGHT / 256; Format = RGBA16F; };
 #if !MAGICBLOOM_NOADAPT
 texture tMagicBloom_Small { Width = iAdaptResolution; Height = iAdaptResolution; Format = R32F; MipLevels = lowest_mip; };
 texture tMagicBloom_Adapt { Format = R32F; };
@@ -249,7 +249,7 @@ float gaussian_function(float2 i) {
 //Why use a single-pass blur? To reduce the amount of textures used in half.
 //Scale should be the original resolution divided by target resolution.
 float3 blur(sampler sp, float2 uv, float scale) {
-    float2 ps = ReShade::PixelSize * scale;
+    float2 ps = BUFFER_PIXEL_SIZE * scale;
     
     #if MAGICBLOOM_BLUR_PRECALCULATED
     static const float kernel[9] = { 
@@ -263,7 +263,7 @@ float3 blur(sampler sp, float2 uv, float scale) {
     float gaussian_weight = 0.0;
     float3 col = 0.0;
     
-    [unroll]
+    [loop]
     for (int x = -iBlurSamples; x <= iBlurSamples; ++x) {
         for (int y = -iBlurSamples; y <= iBlurSamples; ++y) {
             #if MAGICBLOOM_BLUR_PRECALCULATED
@@ -316,7 +316,7 @@ float3 blend_screen(float3 a, float3 b) {
     No use now but might be useful later on so I just left it here.
 */
 /*void debug_value(inout float3 col, float2 uv, float value, float3 needle_color) {
-    static const float2 ps = ReShade::PixelSize;
+    static const float2 ps = BUFFER_PIXEL_SIZE;
     col = (uv.x + ps.x > value && uv.x - ps.x < value) ? needle_color : col;
 }*/
 

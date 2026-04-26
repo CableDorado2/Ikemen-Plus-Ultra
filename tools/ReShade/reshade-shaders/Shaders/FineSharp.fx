@@ -38,12 +38,12 @@ uniform float xrep < __UNIFORM_SLIDER_FLOAT1
 
 uniform float lstr <
 	ui_type = "input";
-	ui_tooltip = "modifier for non-linear sharpening";
+	ui_tooltip = "Modifier for non-linear sharpening";
 > = 1.49;
 
 uniform float pstr <
 	ui_type = "input";
-	ui_tooltip = "exponent for non-linear sharpening";
+	ui_tooltip = "Exponent for non-linear sharpening";
 > = 1.272;
 
 // Viscera parameters
@@ -57,7 +57,7 @@ uniform float pstr <
 // Helper functions
 
 float4 Src(float a, float b, float2 tex) {
-	return tex2D(ReShade::BackBuffer, mad(ReShade::PixelSize, float2(a, b), tex));
+	return tex2D(ReShade::BackBuffer, mad(BUFFER_PIXEL_SIZE, float2(a, b), tex));
 }
 
 float3x3 RGBtoYUV(float Kb, float Kr) {

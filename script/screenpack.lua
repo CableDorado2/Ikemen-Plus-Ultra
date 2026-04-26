@@ -3604,12 +3604,16 @@ txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT", 159, 13)
 txt_speedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
-txt_speedCourseTimeRecord = createTextImg(font11, 0, 1, "", 159, 13)
-txt_speedCourseScoreRecord = createTextImg(font11, 0, 1, "", 159, 13)
 txt_speedCourseClear = createTextImg(font7, 0, 1, "CLEAR!", 159, 13)
 
-txt_speedCourseTimeStart = createTextImg(font14, 0, -1, "STARTING TIME:", 159, 13)
-txt_speedCourseTimeStartVar = createTextImg(font14, 0, 1, "999 SEC", 159, 13)
+txt_speedCourseScoreRecord = createTextImg(font14, 0, -1, "HIGH SCORE: ", 159, 13, 0.8, 0.8)
+txt_speedCourseScoreRecordVar = createTextImg(font14, 0, 1, "9999999", 159, 13, 0.8, 0.8)
+
+txt_speedCourseTimeRecord = createTextImg(font14, 0, -1, "BEST TIME: ", 159, 13, 0.8, 0.8)
+txt_speedCourseTimeRecordVar = createTextImg(font14, 0, 1, "00:00:000", 159, 13, 0.8, 0.8)
+
+txt_speedCourseTimeStart = createTextImg(font6, 0, -1, "STARTING TIME:", 159, 13)
+txt_speedCourseTimeStartVar = createTextImg(font2, 2, 1, "999 SEC", 159, 13)
 
 txt_speedCourseTotalStages = createTextImg(font5, 0, -1, "OPPONENTS TO DEFEAT:", 159, 13)
 txt_speedCourseTotalStagesVar = createTextImg(font5, 0, 1, "999", 159, 13)
@@ -3631,7 +3635,7 @@ if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSe
 
 --Course Slot
 speedCourseSlot = animNew(sprIkemen, [[
-232,1, 0,0, -1
+232,2, 0,0, -1
 ]])
 animSetScale(speedCourseSlot, 0.2, 0.1)
 animUpdate(speedCourseSlot)
@@ -3661,18 +3665,22 @@ function f_danmnmn(maxspeedCourseSel, cursorPosY, moveTxt)
 				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
 				textImgDraw(txt_speedCourseLv)
 				
-				textImgSetPos(txt_speedCourseScoreRecord, 2, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseScoreRecord, "HIGH SCORE: 9999999")
+				textImgSetPos(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseScoreRecord)
 				
-				textImgSetPos(txt_speedCourseTimeRecord, 2, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTimeRecord, "BEST TIME: 00:00:000")
+				textImgSetPos(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseScoreRecordVar)
+				
+				textImgSetPos(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTimeRecord)
 				
-				textImgSetPos(txt_speedCourseTimeStart, 255, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgDraw(txt_speedCourseTimeRecordVar)
+				
+				textImgSetPos(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTimeStart)
 				
-				textImgSetPos(txt_speedCourseTimeStartVar, 260, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetPos(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTimeStartVar)
 				
 				textImgSetPos(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
