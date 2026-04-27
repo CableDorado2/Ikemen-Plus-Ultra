@@ -1020,7 +1020,7 @@ function f_sideSelect()
 			end
 			if menuSelect ~= "bonus rush" and menuSelect ~= "bonus" then
 				sideSelected = true
-			else--if you are in bonus rush mode then
+			else--if you are in bonus marathon mode then
 				sndPlay(sndIkemen, 200, 0)
 				sideWarning = true
 				f_discordMainMenu()
@@ -3124,7 +3124,7 @@ function f_bonusrushBoot()
 	sideScreen = true
 end
 
---Load Common Settings for Bonus Rush Modes
+--Load Common Settings for Bonus Marathon Modes
 function bonusrushCfg()
 	f_discordUpdate({details = "Bonus Game Marathon"})
 	f_default()
@@ -7198,9 +7198,11 @@ function f_makeRoster()
 				end
 			end
 		end
---Survival / Boss Rush / Bonus Rush / All Roster / Abyss / Endless
+	elseif data.gameMode == "survival" then
+		
+--Endless / All Roster / VS Kumite / Boss Rush / Bonus Marathon / Abyss
 	else
-		if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "endless" then
+		if data.gameMode == "allroster" or data.gameMode == "endless" or data.gameMode == "abyss" then
 			t = t_randomChars
 			cnt = #t
 			local i = 0
@@ -15366,7 +15368,7 @@ if validCells() then
 				end
 		--Player 1 (IN LEFT SIDE):
 			else
-			--Wins in (Arcade, Survival, Boss/Bonus Rush)
+			--Wins in (Arcade, Survival, Boss Rush, Bonus Marathon)
 				if winner == 1 then
 					winCnt = winCnt + 1
 					if data.gameMode == "alliance" then
@@ -15421,7 +15423,7 @@ if validCells() then
 		elseif winner == 2 then
 		--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--Wins in (Arcade, Survival, Boss/Bonus Rush)
+			--Wins in (Arcade, Survival, Boss Rush, Bonus Marathon)
 				if winner == 2 then
 					winCnt = winCnt + 1
 					if data.gameMode == "alliance" then
@@ -15538,7 +15540,7 @@ if validCells() then
 					f_1stStageSel()
 				end
 			end
-	--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
+	--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss Rush, Bonus Marathon)
 		else --if winner == -1
 			assert(loadfile(saveTempPath))()
 			if onlinegame and winner == -1 then
