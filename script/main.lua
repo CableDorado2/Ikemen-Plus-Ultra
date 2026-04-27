@@ -3788,9 +3788,8 @@ function speedstarCfg()
 	data.gameMode = "allroster"
 	data.recordMode = "speedstar"
 	setGameMode("speedstar")
-	--data.stageMenu = true
 	--data.nextStage = true
-	setRoundTime(180)
+	setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -7242,6 +7241,46 @@ function f_makeRoster()
 				cnt = cnt - 1
 				if cnt == 0 then
 					break
+				end
+			end
+		end
+	end
+	if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
+end
+
+--Make roster for special challenges modes, based in Arcade Order
+function f_makeRoster2()
+	t_roster = {}
+	local t = {}
+	local cnt = 0
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		if p1teamMode == 0 then --Single
+			t = t_selOptions.arcademaxmatches
+		else --Team
+			t = t_selOptions.teammaxmatches
+		end
+	else
+		if p2teamMode == 0 then --Single
+			t = t_selOptions.arcademaxmatches
+		else --Team
+			t = t_selOptions.teammaxmatches
+		end
+	end
+	for i=1, #t do --for each order number
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			cnt = t[i] * p1numChars --set amount of matches to get from the table
+		else
+			cnt = t[i] * p2numChars --set amount of matches to get from the table
+		end
+		if cnt > 0 and t_orderChars[i] ~= nil then --if it's more than 0 and there are characters with such order
+			while cnt > 0 do --do the following until amount of matches for particular order is reached
+				f_shuffleTable(t_orderChars[i]) --randomize characters table
+				for j=1, #t_orderChars[i] do --loop through chars associated with that particular order
+					t_roster[#t_roster + 1] = t_orderChars[i][j] --and add such character into new table
+					cnt = cnt - 1
+					if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
+						break
+					end
 				end
 			end
 		end
@@ -15215,6 +15254,9 @@ if validCells() then
 				end
 				--f_makeRoster()
 				lastMatch = #t_allianceCourses[allianceCourseSel].match --get last match from alliance course selected
+			elseif data.gameMode == "allroster" and data.recordMode == "speedstar" then
+				f_makeRoster2()
+				lastMatch = t_speedCourseSel[speedCourseSel].matchs
 			else
 			--generate roster for other modes (arcade, survival, etc)
 				f_makeRoster()
