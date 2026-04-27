@@ -472,11 +472,7 @@ if validCells() then
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds * gameTick
-		stageTimer = stageSeconds * gameTick
-		rematchTimer = rematchSeconds * gameTick
-		serviceTimer = serviceSeconds * gameTick
-		allianceTimer = allianceSeconds * gameTick
+		f_timersReset()
 		f_modePlaytime() --Store Favorite Game Mode
 		f_unlock(false)
 		f_updateUnlocks()

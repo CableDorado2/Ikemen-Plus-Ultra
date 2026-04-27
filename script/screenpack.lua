@@ -894,7 +894,7 @@ end
 --;===========================================================
 t_timeattackMenu = {
 	{text = "CLASSIC", 		gotomenu = "f_timeattackBoot()"},
-	{text = "SPEED STAR", 	gotomenu = "f_speedStarSelect()"},
+	{text = "SPEED STAR", 	gotomenu = "f_speedstarBoot()"},
 	{text = "???", 			gotomenu = "f_comingSoon()"},
 }
 for i=1, #t_timeattackMenu do
@@ -3607,22 +3607,28 @@ txt_speedCourseTimeRecord = createTextImg(font14, 0, -1, "BEST TIME: ", 159, 13,
 txt_speedCourseTimeRecordVar = createTextImg(font14, 0, 1, "00:00:000", 159, 13, 0.8, 0.8)
 
 txt_speedCourseTimeStart = createTextImg(font6, 0, -1, "STARTING TIME:", 159, 13)
-txt_speedCourseTimeStartVar = createTextImg(font2, 2, 1, "999 SEC", 159, 13)
+txt_speedCourseTimeStartVar = createTextImg(font2, 2, 1, "", 159, 13)
 
 txt_speedCourseTotalStages = createTextImg(font5, 0, -1, "OPPONENTS TO DEFEAT:", 159, 13)
-txt_speedCourseTotalStagesVar = createTextImg(font5, 0, 1, "999", 159, 13)
+txt_speedCourseTotalStagesVar = createTextImg(font5, 0, 1, "", 159, 13)
 
 txt_speedCourseTimeBonus = createTextImg(font5, 0, -1, "TIME BONUS:", 159, 13)
-txt_speedCourseTimeBonusVar = createTextImg(font5, 0, 1, "999 SEC", 159, 13)
+txt_speedCourseTimeBonusVar = createTextImg(font5, 0, 1, "", 159, 13)
 
 speedStarSpacingY = 65
 
 t_speedCourseSel = {
-	{timestart = 180, matchs = 16, timebonus = 20},
-	{timestart = 180, matchs = 32, timebonus = 40},
-	{timestart = 90,  matchs = 32, timebonus = 60},
+--maxmatches works like select.def arcademaxmatches paramvalue
+	{timestart = 180, timebonus = 20, maxmatches = {14, 1, 1}}, --14order=1, 1order=2, 1order=3Total:16
+	{timestart = 180, timebonus = 40, maxmatches = {12, 2, 2}},
+	{timestart = 90,  timebonus = 60, maxmatches = {24, 4, 4}},
 }
 for i=1, #t_speedCourseSel do
+	local cnt = 0
+	for order=1, #t_speedCourseSel[i].maxmatches do
+		cnt = cnt + t_speedCourseSel[i].maxmatches[order]
+	end
+	t_speedCourseSel[i].totalmatches = cnt
 	t_speedCourseSel[i].unlock = true
 end
 if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSel.log") end
@@ -3684,18 +3690,21 @@ function f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
 				textImgDraw(txt_speedCourseTimeStart)
 				
 				textImgSetPos(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
 				textImgDraw(txt_speedCourseTimeStartVar)
 				
 				textImgSetPos(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTotalStages)
 				
 				textImgSetPos(txt_speedCourseTotalStagesVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
 				textImgDraw(txt_speedCourseTotalStagesVar)
 				
 				textImgSetPos(txt_speedCourseTimeBonus, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseTimeBonus)				
 				
 				textImgSetPos(txt_speedCourseTimeBonusVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
 				textImgDraw(txt_speedCourseTimeBonusVar)
 			end
 		end

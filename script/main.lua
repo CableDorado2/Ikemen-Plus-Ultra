@@ -239,9 +239,7 @@ function f_mainAttract()
 		f_titleText()
 		f_sysTime()
 		f_attractCredits()
-		attractTimeNumber = attractTimer / gameTick --Convert Ticks to Seconds
-		nodecimalAttractTime = string.format("%.0f", attractTimeNumber) --Delete Decimals
-		textImgSetText(txt_attractTimer, "TIME "..nodecimalAttractTime)
+		textImgSetText(txt_attractTimer, "TIME ".. string.format("%.0f", attractTimer / gameTick))
 		if attractTimer > 0 and getCredits() > 0 then
 			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
 			textImgDraw(txt_attractTimer)
@@ -3677,7 +3675,6 @@ end
 --; SPEED STAR MODE (defeat opponents before time runs out)
 --;===========================================================
 function f_speedStarSelect()
-	f_discordUpdate({details = "Speed Star"})
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -3686,26 +3683,23 @@ function f_speedStarSelect()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 3
-	f_sideReset()
+	waitingCourseSel = true
 	speedCourseSel = 1
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 308, 8)
 	animSetPos(menuArrowDown, 308, 208)
 	while true do
-		if not sideScreen then
+		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
+		if not backScreen then
 		--Return Logic
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				f_discordMainMenu()
 				sndPlay(sndSys, 100, 2)
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				f_menuMusic()
-				f_resetMenuArrowsPos()
-				break
-			end
+				backScreen = true
 		--Cursor Actions
-			if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
-				f_speedstarBoot() --Open Side Select
+				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
+				break
 			end
 		--Speed Star Course Select
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -3743,6 +3737,8 @@ function f_speedStarSelect()
 				maxspeedCourseSel = maxItems
 			end
 		end
+	--Exit Via Return Button
+		if data.tempBack then break end --back to main menu
 	--Draw BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Title
@@ -3756,7 +3752,15 @@ function f_speedStarSelect()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawSpeedCourseInputHints() end
+	--Course Select Timer
+		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
+		if destinyTimer > 0 then
+			if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
+			textImgPosDraw(txt_destinyTime, 160, 215)
+		else --when destinyTimer <= 0
+			
+		end
+		if backScreen then f_backMenu() else drawSpeedCourseInputHints() end --Open Back Menu Question
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3781,15 +3785,15 @@ end
 
 --Load Common Settings for Speed Star Modes
 function speedstarCfg()
+	f_discordUpdate({details = "Speed Star"})
 	f_default()
 	setMatchnoDisplay(true)
-	setPersistPower(true)
 	setPersistRoundTime(true)
+	setPersistPower(true)
 	data.gameMode = "allroster"
 	data.recordMode = "speedstar"
 	setGameMode("speedstar")
 	--data.nextStage = true
-	setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -6934,6 +6938,15 @@ announcerTimer = 0
 randomStageRematch = false
 end
 
+function f_timersReset()
+	selectTimer = data.selectTime * gameTick --Set time for Character Select
+	stageTimer = data.stageTime * gameTick --Set time for Stage Select
+	rematchTimer = data.rematchTime * gameTick --Set time for Rematch Option
+	serviceTimer = data.serviceTime * gameTick --Set time for Service Option
+	destinyTimer = data.destinyTime * gameTick --Set time for Course Select Screens
+	allianceTimer = data.allianceTime * gameTick --Set time for Alliance Mode Screens
+end
+
 function f_selectReset()
 	commandBufReset(p1Cmd)
 	commandBufReset(p2Cmd)
@@ -6992,7 +7005,7 @@ function f_selectInit()
 	p1OffsetColumn = 0
 	p2OffsetColumn = 0
 	back = false
-	--Quick Scrolling Vars
+--Quick Scrolling Vars
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0
@@ -7037,19 +7050,8 @@ function f_selectInit()
 	bufStaged = 0
 	bufStager = 0
 	bufStagel = 0
-	--Timers
-	selectSeconds = data.selectTime
-	stageSeconds = data.stageTime
-	rematchSeconds = data.rematchTime
-	serviceSeconds = data.serviceTime
-	destinySeconds = data.destinyTime
-	allianceSeconds = data.allianceTime
-	selectTimer = selectSeconds * gameTick --Set time for Character Select
-	stageTimer = stageSeconds * gameTick --Set time for Stage Select
-	rematchTimer = rematchSeconds * gameTick --Set time for Rematch Option
-	serviceTimer = serviceSeconds * gameTick --Set time for Service Option
-	destinyTimer = destinySeconds * gameTick --Set time for Tower/Destiny Select
-	allianceTimer = allianceSeconds * gameTick --Set time for Alliance Mode Screens
+
+	f_timersReset()
 	if data.rosterAdvanced == true and data.stageMenu == false then
 		--For Advanced Modes without Stage Select
 	else
@@ -7066,7 +7068,7 @@ function f_selectInit()
 	looseCnt = 0
 	clearTime = 0
 	matchTime = 0
-	waitingTowerSel = false
+	waitingCourseSel = false
 end
 
 function f_setRounds()
@@ -7161,15 +7163,19 @@ function f_makeRoster()
 --Arcade
 	if data.gameMode == "arcade" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if p1teamMode == 0 then --Single
+		--Single Mode
+			if p1teamMode == 0 then
 				t = t_selOptions.arcademaxmatches
-			else --Team
+		--Team Modes
+			else
 				t = t_selOptions.teammaxmatches
 			end
 		else
-			if p2teamMode == 0 then --Single
+		--Single Mode
+			if p2teamMode == 0 then
 				t = t_selOptions.arcademaxmatches
-			else --Team
+		--Team Modes
+			else
 				t = t_selOptions.teammaxmatches
 			end
 		end
@@ -7253,19 +7259,7 @@ function f_makeRoster2()
 	t_roster = {}
 	local t = {}
 	local cnt = 0
-	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		if p1teamMode == 0 then --Single
-			t = t_selOptions.arcademaxmatches
-		else --Team
-			t = t_selOptions.teammaxmatches
-		end
-	else
-		if p2teamMode == 0 then --Single
-			t = t_selOptions.arcademaxmatches
-		else --Team
-			t = t_selOptions.teammaxmatches
-		end
-	end
+	t = t_speedCourseSel[speedCourseSel].maxmatches
 	for i=1, #t do --for each order number
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			cnt = t[i] * p1numChars --set amount of matches to get from the table
@@ -7725,7 +7719,7 @@ function f_backMenu()
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-			if waitingTowerSel then
+			if waitingCourseSel then
 				data.tempBack = true
 			else
 				f_resetHandicaps()
@@ -7743,9 +7737,7 @@ function f_backMenu()
 		sndPlay(sndSys, 100, 1)
 		commandBufReset(p1Cmd)
 		commandBufReset(p2Cmd)
-		if waitingTowerSel then
-			
-		else
+		if not waitingCourseSel then
 			if data.gameMode == "arcade" or data.gameMode == "tower" then
 				--f_rosterReset() --Delete?
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -8081,9 +8073,7 @@ function f_selectScreen()
 	end
 --Character Select Timer
 	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
-		charTimeNumber = selectTimer / gameTick --Convert Ticks to Seconds
-		nodecimalCharTime = string.format("%.0f", charTimeNumber) --Delete Decimals
-		textImgSetText(txt_charTime, nodecimalCharTime)
+		textImgSetText(txt_charTime, string.format("%.0f", selectTimer / gameTick))
 		if selectTimer > 0 then
 			if not backScreen then selectTimer = selectTimer - 0.5 end --Activate Character Select Timer
 			textImgDraw(txt_charTime)
@@ -11528,9 +11518,7 @@ function f_selectStage()
 			if data.stageType == "Classic" then textImgSetPos(txt_stageTime, 160, 70)
 			elseif data.stageType == "Modern" then textImgSetPos(txt_stageTime, 160, 105)
 			end
-			stageTimeNumber = stageTimer / gameTick
-			nodecimalStageTime = string.format("%.0f", stageTimeNumber)
-			textImgSetText(txt_stageTime, nodecimalStageTime)
+			textImgSetText(txt_stageTime, string.format("%.0f", stageTimer / gameTick))
 			if stageTimer > 0 then
 				if not backScreen then stageTimer = stageTimer - 0.5 end --Activate Stage Select Timer
 				textImgDraw(txt_stageTime)
@@ -12012,9 +12000,7 @@ function f_orderSelectCursor()
 		xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	while true do
-		orderTimeNumber = orderTime / gameTick
-		nodecimalOrderTime = string.format("%.0f", orderTimeNumber)
-		textImgSetText(txt_orderTime, nodecimalOrderTime)
+		textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
 	--Draw Order Select Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -12494,9 +12480,7 @@ function f_orderSelectButton()
 		xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	while true do
-		orderTimeNumber = orderTime / gameTick
-		nodecimalOrderTime = string.format("%.0f", orderTimeNumber)
-		textImgSetText(txt_orderTime, nodecimalOrderTime)
+		textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
 	--Draw Order Select Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -13765,9 +13749,7 @@ function f_rematch()
 	end
 --Rematch Option Timer
 	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
-		rematchTimeNumber = rematchTimer / gameTick
-		nodecimalRematchTime = string.format("%.0f", rematchTimeNumber)
-		textImgSetText(txt_rematchTime, nodecimalRematchTime)
+		textImgSetText(txt_rematchTime, string.format("%.0f", rematchTimer / gameTick))
 		if rematchTimer > 0 then
 			rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
 			textImgDraw(txt_rematchTime)
@@ -14159,9 +14141,7 @@ function f_service()
 			end
 		end
 	--Service Option Timer
-		serviceTimeNumber = serviceTimer / gameTick
-		nodecimalServiceTime = string.format("%.0f", serviceTimeNumber)
-		textImgSetText(txt_serviceTime, nodecimalServiceTime)
+		textImgSetText(txt_serviceTime, string.format("%.0f", serviceTimer / gameTick))
 		if serviceTimer > 0 then
 			if actionTime == 0 then
 				serviceTimer = serviceTimer - 0.5 --Activate Service Timer
@@ -15023,11 +15003,7 @@ if validCells() then
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds * gameTick
-		stageTimer = stageSeconds * gameTick
-		rematchTimer = rematchSeconds * gameTick
-		serviceTimer = serviceSeconds * gameTick
-		allianceTimer = allianceSeconds * gameTick
+		f_timersReset()
 		f_modePlaytime()
 		f_unlock(false)
 		f_updateUnlocks()
@@ -15254,9 +15230,14 @@ if validCells() then
 				end
 				--f_makeRoster()
 				lastMatch = #t_allianceCourses[allianceCourseSel].match --get last match from alliance course selected
-			elseif data.gameMode == "allroster" and data.recordMode == "speedstar" then
+			elseif data.gameMode == "allroster" and getGameMode() == "speedstar" then
+				f_speedStarSelect()
+				if data.tempBack == true then
+					f_exitToMainMenu()
+					return
+				end
 				f_makeRoster2()
-				lastMatch = t_speedCourseSel[speedCourseSel].matchs
+				lastMatch = #t_roster
 			else
 			--generate roster for other modes (arcade, survival, etc)
 				f_makeRoster()
@@ -15751,7 +15732,7 @@ if validCells() then
 				--f_allianceExchange()
 				f_allianceNextBattle()
 				allianceBGMCancel = true
-				allianceTimer = allianceSeconds * gameTick --Reset Timer
+				allianceTimer = data.allianceTime * gameTick --Reset Timer
 				setAllianceChange(true)
 				setAllianceLastEnemy(false)
 				setAllianceRouteSel(false)
@@ -16102,12 +16083,7 @@ if validCells() then
 		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds * gameTick
-		stageTimer = stageSeconds * gameTick
-		rematchTimer = rematchSeconds * gameTick
-		serviceTimer = serviceSeconds * gameTick
-		destinyTimer = destinySeconds * gameTick
-		allianceTimer = allianceSeconds * gameTick
+		f_timersReset()
 		f_modePlaytime() --Store Favorite Game Mode
 		f_records() --save record progress
 		f_unlock(false)
@@ -16151,7 +16127,7 @@ function f_selectDestiny()
 	local bufl = 0
 	local selection = 0
 	local startCount = false
-	waitingTowerSel = true
+	waitingCourseSel = true
 	destinySelect = 1
 	f_resetTowerArrowsPos()
 	f_backReset()
@@ -16260,13 +16236,11 @@ function f_selectDestiny()
 			animDraw(menuArrowRight)
 			animUpdate(menuArrowRight)
 		end
-	--Destiny Select Timer
-		destinyTimeNumber = destinyTimer / gameTick
-		nodecimalDestinyTime = string.format("%.0f", destinyTimeNumber)
-		textImgSetText(txt_destinyTime, nodecimalDestinyTime)
+	--Course Select Timer
+		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
 		if destinyTimer > 0 then
 			if not backScreen and not startCount then destinyTimer = destinyTimer - 0.5 end --Activate Tower Select Timer
-			textImgDraw(txt_destinyTime)
+			textImgPosDraw(txt_destinyTime, 160, 28)
 		else --when destinyTimer <= 0
 			
 		end
@@ -17376,7 +17350,7 @@ function f_tourneySelectReset()
 	p1OffsetColumn = 0
 	p2OffsetColumn = 0
 	back = false
-	--Quick Scrolling Vars
+--Quick Scrolling Vars
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0
@@ -17421,19 +17395,8 @@ function f_tourneySelectReset()
 	bufStaged = 0
 	bufStager = 0
 	bufStagel = 0
-	--Timers
-	selectSeconds = data.selectTime
-	stageSeconds = data.stageTime
-	rematchSeconds = data.rematchTime
-	serviceSeconds = data.serviceTime
-	destinySeconds = data.destinyTime
-	allianceSeconds =  data.allianceTime
-	selectTimer = selectSeconds * gameTick --Set time for Character Select
-	stageTimer = stageSeconds * gameTick --Set time for Stage Select
-	rematchTimer = rematchSeconds * gameTick --Set time for Rematch Option
-	serviceTimer = serviceSeconds * gameTick --Set time for Service Option
-	destinyTimer = destinySeconds * gameTick --Set time for Tower/Destiny Select
-	allianceTimer = allianceSeconds * gameTick --Set time for Alliance Mode Screens
+	
+	f_timersReset()
 	stageList = 0
 	musicList = 0
 	gameNo = 0
@@ -17713,11 +17676,7 @@ if validCells() then
 			playBGM("")
 			matchTime = os.clock() - matchTime
 			clearTime = clearTime + matchTime
-			selectTimer = selectSeconds * gameTick
-			stageTimer = stageSeconds * gameTick
-			rematchTimer = rematchSeconds * gameTick
-			serviceTimer = serviceSeconds * gameTick
-			allianceTimer = allianceSeconds * gameTick
+			f_timersReset()
 			f_unlock(false)
 			f_updateUnlocks()
 		--Victory Screen
@@ -18104,9 +18063,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember, bgmCancel)
 		--drawAlliMemTest(memberSel) --quick screnpack test
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
-		allianceTimeNumber = allianceTimer / gameTick
-		nodecimalAllianceTime = string.format("%.0f", allianceTimeNumber)
-		textImgSetText(txt_allianceMemSelTime, nodecimalAllianceTime)
+		textImgSetText(txt_allianceMemSelTime, string.format("%.0f", allianceTimer / gameTick))
 		if allianceTimer > 0 then
 			allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
 			textImgDraw(txt_allianceMemSelTime)
@@ -18278,9 +18235,7 @@ function f_allianceNextBattle(bgmCancel)
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
-		allianceTimeNumber = allianceTimer / gameTick
-		nodecimalAllianceTime = string.format("%.0f", allianceTimeNumber)
-		textImgSetText(txt_allianceNextTeamTime, nodecimalAllianceTime)
+		textImgSetText(txt_allianceNextTeamTime, string.format("%.0f", allianceTimer / gameTick))
 		if allianceTimer > 0 then
 			allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
 			textImgDraw(txt_allianceNextTeamTime)
