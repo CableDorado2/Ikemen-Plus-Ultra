@@ -523,7 +523,7 @@ function f_infoMenu()
 	local txt = t_infoWindowMsg.text or "???"
 	local posX = t_infoWindowMsg.x or 160
 	local posY = t_infoWindowMsg.y or 120
-	local limit = t_infoWindowMsg.limit or 200
+	local limit = t_infoWindowMsg.limit or 40
 	local spacing = t_infoWindowMsg.spacing or 10
 --Draw Fade BG
 	animDraw(fadeWindowBG)
@@ -1699,6 +1699,7 @@ function f_extrasMenu()
 	if stats.modes.arcade.clear < 1 then
 		infoScreen = true
 		t_infoWindowMsg.text = "CLEAR CLASSIC ARCADE MODE TO UNLOCK THIS FEATURE!"
+		t_infoWindowMsg.y = 110
 		return
 	end
 	cmdInput()
@@ -3746,7 +3747,7 @@ function f_speedStarSelect()
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 	--Draw Title
 		textImgDraw(txt_speedCourseSel)
-		f_danmnmn(maxspeedCourseSel, cursorPosY, moveTxt)
+		f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
 		if maxspeedCourseSel > maxItems then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)

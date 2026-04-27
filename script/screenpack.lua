@@ -3599,7 +3599,6 @@ txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT", 159, 13)
 txt_speedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
-txt_speedCourseClear = createTextImg(font7, 0, 1, "CLEAR!", 159, 13)
 
 txt_speedCourseScoreRecord = createTextImg(font14, 0, -1, "HIGH SCORE: ", 159, 13, 0.8, 0.8)
 txt_speedCourseScoreRecordVar = createTextImg(font14, 0, 1, "9999999", 159, 13, 0.8, 0.8)
@@ -3635,6 +3634,13 @@ speedCourseSlot = animNew(sprIkemen, [[
 animSetScale(speedCourseSlot, 0.2, 0.1)
 animUpdate(speedCourseSlot)
 
+--Course Clear Icon
+speedCourseClear = animNew(sprIkemen, [[
+215,0, 0,0, -1
+]])
+animSetScale(speedCourseClear, 0.045, 0.045)
+animUpdate(speedCourseClear)
+
 --Speed Start Course Select Input Hints Panel
 function drawSpeedCourseInputHints()
 	local inputHintYPos = 220
@@ -3647,7 +3653,7 @@ function drawSpeedCourseInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
-function f_danmnmn(maxspeedCourseSel, cursorPosY, moveTxt)
+function f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
 	--Draw Speed Star Level Content Text
 		for i=1, maxspeedCourseSel do
 			if i > speedCourseSel - cursorPosY then
@@ -3659,6 +3665,8 @@ function f_danmnmn(maxspeedCourseSel, cursorPosY, moveTxt)
 				textImgSetPos(txt_speedCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
 				textImgDraw(txt_speedCourseLv)
+				
+				animPosDraw(speedCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
 				
 				textImgSetPos(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgDraw(txt_speedCourseScoreRecord)
