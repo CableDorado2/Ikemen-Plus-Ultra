@@ -4380,11 +4380,11 @@ end
 
 function f_records()
 --[[
-	if getGameMode() == "suddendeath" then
+	if gameMode() == "suddendeath" then
 		if winCnt > stats.modes.suddendeath.record then
 			stats.modes.suddendeath.record = winCnt
 		end
-	elseif getGameMode() == "endless" then
+	elseif gameMode() == "endless" then
 		if winCnt > stats.modes.endless.record then
 			stats.modes.endless.record = winCnt
 		end
@@ -7914,7 +7914,7 @@ function f_selectScreen()
 		if data.gameMode == "tower" or data.gameMode == "abyss" then
 			animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 	--Draw Red BG for Special Modes
-		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1))
 	--Draw Blue BG for Normal Modes
 		else
@@ -11826,7 +11826,7 @@ function f_arcadeTravel()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 			else
@@ -12010,7 +12010,7 @@ function f_orderSelectCursor()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 			--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else
@@ -12490,7 +12490,7 @@ function f_orderSelectButton()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 			--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else
@@ -13086,7 +13086,7 @@ function f_selectVersus()
 		local xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
 		local xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	--Set Versus Screen Music
-		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or getGameMode() == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
+		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or gameMode() == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
 			playBGM(bgmVSFinal)
 		elseif data.gameMode == "intermission" then
 			timeLimit = 350
@@ -13110,7 +13110,7 @@ function f_selectVersus()
 				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
@@ -13454,7 +13454,7 @@ function f_selectWin()
 				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
@@ -13914,7 +13914,7 @@ function f_selectChallenger()
 			if data.gameMode == "tower" or data.gameMode == "abyss" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 			else
@@ -14093,7 +14093,7 @@ function f_service()
 			if data.gameMode == "tower" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or getGameMode() == "suddendeath" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 			else
@@ -14196,7 +14196,7 @@ function f_result(state)
 	if state == "win" then
 		
 	elseif state == "lost" then
-		if getGameMode() == "timeattack" or getGameMode() == "speedstar" then return end --Skip results if lose in time attack mode
+		if gameMode() == "timeattack" or gameMode() == "speedstar" then return end --Skip results if lose in time attack mode
 	end
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
@@ -14204,16 +14204,16 @@ function f_result(state)
 			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL")
-			if getGameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH") end
+			if gameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH") end
 		elseif data.gameMode == "allroster" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			if getGameMode() == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
-			elseif getGameMode() == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
-			elseif getGameMode() == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
-			elseif getGameMode() == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
-			elseif getGameMode() == "goldrush" then textImgSetText(txt_resultTitle, "GOLD RUSH")
-			elseif getGameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH")
-			elseif getGameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH")
+			if gameMode() == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
+			elseif gameMode() == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
+			elseif gameMode() == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
+			elseif gameMode() == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
+			elseif gameMode() == "goldrush" then textImgSetText(txt_resultTitle, "GOLD RUSH")
+			elseif gameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH")
+			elseif gameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH")
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		elseif data.gameMode == "abyss" then
@@ -14269,7 +14269,7 @@ function f_result(state)
 	playBGM(bgmResults)
 	while true do
 		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-			if getGameMode() == "goldrush" then
+			if gameMode() == "goldrush" then
 				stats.money = stats.money + getPlayerReward()
 				f_saveStats()
 			end
@@ -14296,17 +14296,17 @@ function f_result(state)
 		if data.gameMode == "survival" or data.gameMode == "allroster" or
 			data.gameMode == "endless" or data.gameMode == "kumite" or
 			data.gameMode == "abyss" or data.gameMode == "speedstar" then
-			if getGameMode() == "kumite" then
+			if gameMode() == "kumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
-			elseif getGameMode() == "scoreattack" or getGameMode() == "caravan" then
+			elseif gameMode() == "scoreattack" or gameMode() == "caravan" then
 				f_drawScoreAttackResults()
 				f_drawRank(score(), #t_roster * 1000000)
-			elseif getGameMode() == "timeattack" or getGameMode() == "speedstar" then
+			elseif gameMode() == "timeattack" or gameMode() == "speedstar" then
 				f_drawTimeAttackResults()
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
-			elseif getGameMode() == "goldrush" then
+			elseif gameMode() == "goldrush" then
 				f_drawGoldRushResults()
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults()
@@ -14320,11 +14320,11 @@ function f_result(state)
 					textImgDraw(txt_resultLoses)
 				end
 			end
-			if getGameMode() ~= "timeattack" and getGameMode() ~= "speedstar" then
+			if gameMode() ~= "timeattack" and gameMode() ~= "speedstar" then
 				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(timerTotal()))
 				textImgDraw(txt_resultTime)
 			end
-			if getGameMode() ~= "scoreattack" and getGameMode() ~= "caravan" and getGameMode() ~= "goldrush" then
+			if gameMode() ~= "scoreattack" and gameMode() ~= "caravan" and gameMode() ~= "goldrush" then
 				textImgSetText(txt_resultScore, "SCORE: "..f_setThousandsFormat(score()).."PTS")
 				textImgDraw(txt_resultScore)
 			end
@@ -15022,7 +15022,7 @@ end
 --; COMMON SIDE ACTIONS
 --;===================================================================
 function f_arcadeEnd()
-	if getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu" then
+	if gameMode() == "arcade" or gameMode() == "arcadecoop" or gameMode() == "arcadecpu" then
 		stats.modes.arcade.clear = stats.modes.arcade.clear + 1 --Progress
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side
 			unlockTarget = data.t_p2selected
@@ -15032,12 +15032,12 @@ function f_arcadeEnd()
 		--if unlockTarget[1].displayname == "Suave Dude" then	stats.unlocks.chars.charname = true end --Character Unlock
 		f_saveStats()
 		unlockTarget = "" --Reset Var
-	elseif getGameMode() == "tower" then
+	elseif gameMode() == "tower" then
 		stats.modes.tower.clear = stats.modes.tower.clear + 1
 		f_saveStats()
 	end
 --Intermissions Access
-	if (getGameMode() == "arcade" or getGameMode() == "arcadecoop" or getGameMode() == "arcadecpu") and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
+	if (gameMode() == "arcade" or gameMode() == "arcadecoop" or gameMode() == "arcadecpu") and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
 		data.intermission = true
 	end
 	f_playCredits()
@@ -15057,9 +15057,9 @@ function f_noContinue()
 end
 
 function f_advancedEnd()
-	if getGameMode() == "survival" then
+	if gameMode() == "survival" then
 		stats.modes.survival.clear = stats.modes.survival.clear + 1
-	elseif getGameMode() == "boss" then
+	elseif gameMode() == "boss" then
 		stats.modes.bossrush.clear = stats.modes.bossrush.clear + 1
 	end
 	if data.gameMode == "abyss" then
@@ -15158,7 +15158,7 @@ if validCells() then
 	if not data.stageMenu then stageEnd = true end
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-		if data.gameMode == "bossrush" or getGameMode() == "suddendeath" then playBGM(bgmSelectBoss)
+		if data.gameMode == "bossrush" or gameMode() == "suddendeath" then playBGM(bgmSelectBoss)
 		elseif data.gameMode == "tower" then playBGM(bgmTower)
 		elseif data.recordMode == "challenger" then f_challengerMusic()
 		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
@@ -15230,7 +15230,7 @@ if validCells() then
 				end
 				--f_makeRoster()
 				lastMatch = #t_allianceCourses[allianceCourseSel].match --get last match from alliance course selected
-			elseif data.gameMode == "allroster" and getGameMode() == "speedstar" then
+			elseif data.gameMode == "allroster" and gameMode() == "speedstar" then
 				f_speedStarSelect()
 				if data.tempBack == true then
 					f_exitToMainMenu()

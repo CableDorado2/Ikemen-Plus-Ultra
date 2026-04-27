@@ -25,7 +25,7 @@ local t_playBGM = {
 }
 
 function f_astralBGM()
-	if getGameMode() == "alliance" or getGameMode() == "abyss" then
+	if gameMode() == "alliance" or gameMode() == "abyss" then
 		local pn = 1
 		if player(pn) then
 			local author = authorname()

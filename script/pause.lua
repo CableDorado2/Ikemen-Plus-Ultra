@@ -67,7 +67,7 @@ function f_TrainingVars()
 end
 
 --Load Training Settings Saved from training_sav.lua
-if getGameMode() == "practice" then
+if gameMode() == "practice" then
 --Screen Info
 	setAttackDisplay(data.attackDisplay)
 	setInputDisplay(data.inputDisplay)
@@ -347,16 +347,16 @@ end
 
 --BACK TO CHARACTER SELECT
 local function f_exitPause()
-	if getGameMode() == "story" then
+	if gameMode() == "story" then
 		sndPlay(sndIkemen, 200, 0)
-	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
+	elseif gameMode() == "abyss" or gameMode() == "abysscoop" or gameMode() == "abysscpu" then --Display Characters Stats
 		sndPlay(sndSys, 100, 1)
 		--abyssStats = 1
 		--cursorPosY = 1
 		--moveTxt = 0
 		mainGoTo = "AbyssStats"
 		delayMenu = -2
-	elseif getGameMode() == "random" or getGameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
+	elseif gameMode() == "random" or gameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
 		sndPlay(sndSys, 100, 1)
 		f_confirmReset()
 		mainGoTo = "Confirm"
@@ -407,29 +407,29 @@ t_pauseMain = {
 	{text = "Give Up", 	 gotomenu = "f_exitPause()"},
 	{text = "Main Menu", gotomenu = "f_mainmenuPause()"}
 }
-if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
+if gameMode() == "practice" or gameMode() == "vs" or gameMode() == "story" or gameMode() == "storyRoster" then
 	t_pauseMain[5].text = "Character Select"
-	if getGameMode() == "practice" then
+	if gameMode() == "practice" then
 		table.insert(t_pauseMain, 7, {text = "Training Menu", gotomenu = "f_practicePause()"})
-	elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
+	elseif gameMode() == "story" or gameMode() == "storyRoster" then
 		if getPauseVar() == "giveup" then
 			t_pauseMain[6].text = "Give Up"
 		else
 			t_pauseMain[6].text = "Story Select"
 		end
 	end
-elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "Stage Select"
-elseif getGameMode() == "mission" then t_pauseMain[6].text = "Mission Select"
-elseif getGameMode() == "event" then t_pauseMain[6].text = "Event Select"
-elseif getGameMode() == "random" then table.remove(t_pauseMain, 6)
-elseif getGameMode() == "intermission" then table.remove(t_pauseMain, 6)
-elseif getGameMode() == "tourneyAI" then t_pauseMain[5].text = "Skip Match"
-elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then t_pauseMain[5].text = "Characters Stats"
+elseif gameMode() == "stageviewer" then t_pauseMain[5].text = "Stage Select"
+elseif gameMode() == "mission" then t_pauseMain[6].text = "Mission Select"
+elseif gameMode() == "event" then t_pauseMain[6].text = "Event Select"
+elseif gameMode() == "random" then table.remove(t_pauseMain, 6)
+elseif gameMode() == "intermission" then table.remove(t_pauseMain, 6)
+elseif gameMode() == "tourneyAI" then t_pauseMain[5].text = "Skip Match"
+elseif gameMode() == "abyss" or gameMode() == "abysscoop" or gameMode() == "abysscpu" then t_pauseMain[5].text = "Characters Stats"
 end
 if getPauseVar() == "nogiveup" then table.remove(t_pauseMain, 5) end
 
 --Pause Menu for Replays
-if replay() or getGameMode() == "randomtest" then
+if replay() or gameMode() == "randomtest" then
 t_pauseMain = nil
 t_pauseMain = {
 	{text = "Continue",    gotomenu = "f_resumePause()"},
@@ -450,7 +450,7 @@ if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
 	data.p1In = 2
 	data.p2In = 1
 else --Pause Controls if P1 is in Left Side
-	if getGameMode() == "arcade" then
+	if gameMode() == "arcade" then
 		--setCom(2, 0) --Enable player 2 pause when cpu have control (this need to be reworked, because disable AI when you press SHITF+F4)
 	end
 	data.p2In = 2
@@ -461,7 +461,7 @@ function f_pauseMain(p, st, esc)
 	pn = p
 	escape = esc
 	start = st
-	if start and getGameMode() == "arcade" then --Detects when you press start button in arcade mode
+	if start and gameMode() == "arcade" then --Detects when you press start button in arcade mode
 		if pn == 2 and (getPlayerSide() == "p1left" or getPlayerSide() == "p1right") then --Player 2 in any side is the challenger
 			challengerActive = true
 		elseif pn == 1 and (getPlayerSide() == "p2left" or getPlayerSide() == "p2right") then --Player 1 in any side is the challenger
@@ -517,7 +517,7 @@ function f_pauseMain(p, st, esc)
 			end
 			textImgSetText(txt_pause, "PAUSE [P"..pn.."]")
 		--HIDE MENU
-			if replay() or getGameMode() == "randomtest" then
+			if replay() or gameMode() == "randomtest" then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
 			else
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
@@ -559,7 +559,7 @@ function f_pauseMain(p, st, esc)
 				end
 		]]
 			--Actions in Randomtest or Replay Modes
-				if replay() or getGameMode() == "randomtest" then
+				if replay() or gameMode() == "randomtest" then
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 					--SETTINGS
 						if pauseMenu == 2 then
@@ -593,9 +593,9 @@ function f_pauseMain(p, st, esc)
 							f_gameCfgMenuReset()
 					--BACK TO CHARACTER SELECT
 						elseif pauseMenu == 5 then
-							if getGameMode() == "story" then
+							if gameMode() == "story" then
 								sndPlay(sndIkemen, 200, 0)
-							elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" or getGameMode() == "abysscpu" then --Display Characters Stats
+							elseif gameMode() == "abyss" or gameMode() == "abysscoop" or gameMode() == "abysscpu" then --Display Characters Stats
 								sndPlay(sndSys, 100, 1)
 							
 								--abyssStats = 1
@@ -604,7 +604,7 @@ function f_pauseMain(p, st, esc)
 							
 								mainGoTo = "AbyssStats"
 								delayMenu = -2
-							elseif getGameMode() == "random" or getGameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
+							elseif gameMode() == "random" or gameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
 								sndPlay(sndSys, 100, 1)
 								f_confirmReset()
 								mainGoTo = "Confirm"
@@ -756,10 +756,10 @@ function f_pauseConfirm()
 	if mainMenuBack == true then
 		if replay() then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
 		else
-			if getGameMode() == "mission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel)
-			elseif getGameMode() == "event" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backEventSel)
-			elseif getGameMode() == "intermission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
-			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
+			if gameMode() == "mission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backMissionSel)
+			elseif gameMode() == "event" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backEventSel)
+			elseif gameMode() == "intermission" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
+			elseif gameMode() == "story" or gameMode() == "storyRoster" then
 				if getPauseVar() == "giveup" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
 				else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStorySel)
 				end
@@ -770,9 +770,9 @@ function f_pauseConfirm()
 	elseif mainMenuBack == false then
 		if replay() then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_replaySelBack)
 		else
-			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backCharSel)
-			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStgSel)
-			elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
+			if gameMode() == "vs" or gameMode() == "practice" or gameMode() == "storyRoster" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backCharSel)
+			elseif gameMode() == "stageviewer" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_backStgSel)
+			elseif gameMode() == "random" or gameMode() == "randomtest" then textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_mainmenuBack)
 			else textImgSetText(txt_pauseInfo, txt_playerID..pn..txt_leaveMatch)
 			end
 		end
@@ -868,7 +868,7 @@ function f_pauseConfirm()
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sndSys, 100, 1)
 					f_resetTrainingCfg()
-					if getGameMode() == "tourney" then
+					if gameMode() == "tourney" then
 						if getPlayerSide() == "p1right" then
 							if pn == 2 then data.p1Lose = true
 							elseif pn == 1 then data.p2Lose = true
@@ -878,7 +878,7 @@ function f_pauseConfirm()
 							elseif pn == 2 then data.p2Lose = true
 							end
 						end
-					elseif getGameMode() == "tourneyAI" then
+					elseif gameMode() == "tourneyAI" then
 						data.AIskip = true
 					end
 					f_saveTemp()
@@ -908,7 +908,7 @@ for i=1, #t_gameCfg do
 	t_gameCfg[i]['varID'] = textImgNew()
 	t_gameCfg[i]['varText'] = ""
 end
-if not replay() and getGameMode() ~= "practice" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg, 5) end
+if not replay() and gameMode() ~= "practice" and gameMode() ~= "randomtest" then table.remove(t_gameCfg, 5) end
 
 --Logic to Display Text instead Boolean Values
 function f_gameCfgdisplayTxt()
@@ -1536,7 +1536,7 @@ for i=1, #t_trainingCfg do
 end
 
 --Battle Info for Replays
-if getGameMode() ~= "practice" then --if replay() or getGameMode() == "randomtest" then
+if gameMode() ~= "practice" then --if replay() or gameMode() == "randomtest" then
 	table.remove(t_trainingCfg, 15)
 	table.remove(t_trainingCfg, 14)
 	table.remove(t_trainingCfg, 13)
@@ -1566,7 +1566,7 @@ end
 if data.hitbox then t_trainingCfg[3].varText = "Yes" else t_trainingCfg[3].varText = "No" end
 if data.debugInfo then t_trainingCfg[4].varText = "Yes" else t_trainingCfg[4].varText = "No" end
 
-if getGameMode() == "practice" then --To don't display in battle info menu
+if gameMode() == "practice" then --To don't display in battle info menu
 --Lifebar P1
 	if data.LifeStateP1 == 0 then t_trainingCfg[5].varText = "No Regenerate"
 	else t_trainingCfg[5].varText = data.LifeStateP1.."%"
@@ -1636,7 +1636,7 @@ animSetScale(pauseTDownArrow, 0.5, 0.5)
 
 function f_pauseTraining()
 	local hasChanged = false
-	if getGameMode() == "practice" then txt_PtsTitle = "TRAINING SETTINGS [P" else txt_PtsTitle = "BATTLE INFO [P" end
+	if gameMode() == "practice" then txt_PtsTitle = "TRAINING SETTINGS [P" else txt_PtsTitle = "BATTLE INFO [P" end
 	if pn == 1 then textImgSetBank(txt_PtrainingCfg, 5)
 	elseif pn == 2 then textImgSetBank(txt_PtrainingCfg, 1)
 	end
@@ -1791,7 +1791,7 @@ function f_pauseTraining()
 					hasChanged = true
 				end
 		--Left Side Life Gauge Setup
-			elseif trainingCfg == 5 and getGameMode() == "practice" then
+			elseif trainingCfg == 5 and gameMode() == "practice" then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					if data.LifeStateP1 == 0 then
 						sndPlay(sndSys, 100, 1)

@@ -5674,7 +5674,7 @@ animUpdate(attackInfoBG)
 
 function f_attackDisplay() --For match.lua
 	--if data.debugMode then
-	if getGameMode() == "practice" then
+	if gameMode() == "practice" then
 		textImgSetText(txt_damageHitValP1, damageHitP1)
 		textImgSetText(txt_damageComboValP1, damageComboP1)
 		textImgSetText(txt_damageMaxValP1, damageMaxP1)

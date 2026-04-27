@@ -87,7 +87,7 @@ if data.attractMode then
 	addHotkey('0', false, false, false, 'f_resetEngine()') --Reset Engine
 end
 --Miscellaneous Actions
-if getGameMode() ~= "demo" then
+if gameMode() ~= "demo" then
 	--addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
 	addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way
 end
@@ -415,11 +415,11 @@ local function f_updateMatchInfo()
 		setCPULevel(ailevel())
 	end
 --Set Tournament Mode Wins Count
-	if getGameMode() == "tourney" or getGameMode() == "tourneyAI" then
+	if gameMode() == "tourney" or gameMode() == "tourneyAI" then
 		setP1winsFormatted(p1Wins)
 		setP2winsFormatted(p2Wins)
 --Set Survival Mode Wins Count
-	elseif getGameMode() == "survival" or getGameMode() == "suddendeath" then
+	elseif gameMode() == "survival" or gameMode() == "suddendeath" then
 		if playerLeftSide then
 			setP1winsFormatted(survCnt ..txt_SurvivalCountFight)
 		else
@@ -462,7 +462,7 @@ end
 local timerStart = 0
 local noDamageTimer = 0
 local timeBossFactor = 1
-if cpuLevel() == 8 and getGameMode() == "speedstar" then timeBossFactor = 2 end
+if cpuLevel() == 8 and gameMode() == "speedstar" then timeBossFactor = 2 end
 local function f_updateTimer()
 	setTimerFormatted(f_setTimeFormat(timerTotal()))
 	setCountdownFormatted(f_setTimeFormat(countdown()))
@@ -476,10 +476,10 @@ local function f_updateTimer()
 		if not script.pause.pauseMenuActive and timerStart == 0 and os.clock() >= nextRefresh then
 			nextRefresh = nextRefresh + tickTime
 			setTimer(timerTotal() + 1)
-			if getGameMode() == "caravan" then
+			if gameMode() == "caravan" then
 				setCountdown(countdown() - 1)
 				if countdown() == 0 then exitMatch() end
-			elseif getGameMode() == "speedstar" then
+			elseif gameMode() == "speedstar" then
 				noDamageTimer = noDamageTimer + 1
 			end
 		end
@@ -595,12 +595,12 @@ local function f_enemyActionsCheck()
 end
 
 local scoreattackfactor = 1
-if getGameMode() == "scoreattack" or getGameMode() == "caravan" then scoreattackfactor = 10 end
+if gameMode() == "scoreattack" or gameMode() == "caravan" then scoreattackfactor = 10 end
 local function f_updateScore()
 	local pts = 0
 	if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and time() == 0 then
 		pts = gethitvar("hitcount") * 100
-		if getGameMode() == "scoreattack" or getGameMode() == "caravan" then
+		if gameMode() == "scoreattack" or gameMode() == "caravan" then
 			pts = pts + (gethitvar("damage") * 10)
 		end
 	end
@@ -654,14 +654,14 @@ local function f_addBonusScore()
 				setWinSpecialCount(winSpecialCount() + 1)
 			end
 		end
-		if getGameMode() == "survival" then
+		if gameMode() == "survival" then
 			setLife(life() + lifemax() / 3) --Recover Life
-		elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
+		elseif gameMode() == "abyss" or gameMode() == "abysscoop" then
 			if abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone) then
 				setLife(life() + lifemax() / 3)
 				setLifePersistence(life())
 			end
-		elseif getGameMode() == "speedstar" then
+		elseif gameMode() == "speedstar" then
 		--Perfect Time Bonus
 			if winperfect() or winperfecthyper() or winperfectspecial() or winperfectthrow() then
 				if noHitReceived then
@@ -1399,7 +1399,7 @@ local function f_drawDebugVars()
 	f_drawQuickText(txt_debugText, font, 0, 1, "Special Cnt: "..specialCnt, posX, posY + 105)
 	f_drawQuickText(txt_debugText, font, 0, 1, "Super Cnt: "..superCnt, posX, posY + 115)
 --Abyss Mode
-	if getGameMode() == "abyss" or getGameMode() == "abysscoop" then
+	if gameMode() == "abyss" or gameMode() == "abysscoop" then
 		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss Hit Cnt: "..abyssHitCnt, antiPosX, posY + 100)
 		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss Regeneration Time: "..regenItemTime, antiPosX, posY + 110)
 		f_drawQuickText(txt_debugText, font, 0, -1, "Abyss Poison Time: "..poisonItemTime, antiPosX, posY + 120)
@@ -1411,16 +1411,16 @@ end
 function loop() --The code for this function should be thought of as if it were always inside a "while true do"
 	f_actionsCheck()
 --During Demo Mode
-	if getGameMode() == "demo" then
+	if gameMode() == "demo" then
 		textImgDraw(txt_DemoFightCfg)
 		if roundstate() >= 2 then animDraw(demoLogo) end
 		f_demoSkip()
 --During VS Mode
-	elseif getGameMode() == "vs" then
+	elseif gameMode() == "vs" then
 		f_handicapSet()
 		--if roundstate() == 0 and roundno() == 2 then bgmState = 1 end --Test Change BGM in Round 2
 --During Gold Rush Mode
-	elseif getGameMode() == "goldrush" then
+	elseif gameMode() == "goldrush" then
 		if roundstate() ~= 4 then
 			local money = 0
 		--Player Deal Damage over CPU
@@ -1462,7 +1462,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 --During Speed Star Mode
-	elseif getGameMode() == "speedstar" then
+	elseif gameMode() == "speedstar" then
 		if roundstate() ~= 4 then
 			local timeBonus = 0
 			local timePenalty = 0
@@ -1585,7 +1585,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 --During Alliance Mode
-	elseif getGameMode() == "alliance" then
+	elseif gameMode() == "alliance" then
 	--Change Character
 		if matchover() then
 		--Player Wins
@@ -1613,7 +1613,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 --During Abyss Mode
-	elseif getGameMode() == "abyss" or getGameMode() == "abysscoop" then
+	elseif gameMode() == "abyss" or gameMode() == "abysscoop" then
 		f_abyssStatsSet() --Set Abyss Stats
 	--Set Abyss Special Items
 		f_abyssItemsSet()
@@ -1678,7 +1678,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		end
 --During Tutorial Mode
-	elseif getGameMode() == "tutorial" then
+	elseif gameMode() == "tutorial" then
 		if roundstate() == 0 and gametime() == 1 then
 			setLifebarDisplay(false) --Lifebar Disabled
 			full(1) --Player 1 Full Life and Power
@@ -1734,7 +1734,7 @@ function loop() --The code for this function should be thought of as if it were 
 		f_drawQuickText(txt_fightDat, font14, 0, 1, "Winner Team: "..winnerteam(), 95, 166)
 	--]]
 		if (playerLeftSide and winnerteam() == 1) or (not playerLeftSide and winnerteam() == 2) then
-			if getGameMode() == "speedstar" then
+			if gameMode() == "speedstar" then
 				f_speedStarInfo(superCnt, perfectBonus)
 			end
 			if data.debugMode then
@@ -1751,7 +1751,7 @@ function loop() --The code for this function should be thought of as if it were 
 	f_attackDisplay()
 --When Attract Mode is Enabled
 	if data.attractMode then
-		if getGameMode() == "demo" then
+		if gameMode() == "demo" then
 			drawAttractStatus()
 		else
 			drawAttractStatus(2, 224, 9, -1, 0.6, 0.6)
