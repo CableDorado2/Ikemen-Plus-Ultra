@@ -7173,30 +7173,46 @@ t_makeRosterModes = {
 		single = {maxmatches = "scoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"},
 		team = {maxmatches = "teamscoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"}
 	},
+	bossrush = {
+		single = {maxmatches = "bossrushmaxmatches", airampstart = "bossrushstart", airampend = "bossrushend"},
+		team = {maxmatches = "teambossrushmaxmatches", airampstart = "teambossrushstart", airampend = "teambossrushend"}
+	},
 }
-t_makeRosterModes.tower = t_makeRosterModes.arcade --Only to re-use aiRamp arcade data
 
 function f_makeRoster()
 	t_roster = {}
 	local t = {}
 	local cnt = 0
---Arcade
-	if data.gameMode == "arcade" or data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
+	local t_mode = t_makeRosterModes[data.gameMode]
+--re-use entire arcade config for unrecognized modes
+	if t_mode == nil then
+		t_mode = t_makeRosterModes.arcade
+	else
+	--re-use arcade maxmatches config for unrecognized modes
+		if t_selOptions[t_mode.single.maxmatches] == nil then
+			t_mode.single.maxmatches = t_makeRosterModes.arcade.single.maxmatches
+		end
+		if t_selOptions[t_mode.team.maxmatches] == nil then
+			t_mode.team.maxmatches = t_makeRosterModes.arcade.team.maxmatches
+		end
+	end
+--Arcade based modes / Survival / Boss Rush / Bonus Marathon
+	if data.gameMode == "arcade" or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		--Single Mode
 			if p1teamMode == 0 then
-				t = t_selOptions[t_makeRosterModes[data.gameMode].single.maxmatches] --t_selOptions.arcademaxmatches
+				t = t_selOptions[t_mode.single.maxmatches] --t_selOptions.arcademaxmatches
 		--Team Modes
 			else
-				t = t_selOptions[t_makeRosterModes[data.gameMode].team.maxmatches] --t_selOptions.teammaxmatches
+				t = t_selOptions[t_mode.team.maxmatches] --t_selOptions.teammaxmatches
 			end
 		else
 		--Single Mode
 			if p2teamMode == 0 then
-				t = t_selOptions[t_makeRosterModes[data.gameMode].single.maxmatches] --t_selOptions.arcademaxmatches
+				t = t_selOptions[t_mode.single.maxmatches] --t_selOptions.arcademaxmatches
 		--Team Modes
 			else
-				t = t_selOptions[t_makeRosterModes[data.gameMode].team.maxmatches] --t_selOptions.teammaxmatches
+				t = t_selOptions[t_mode.team.maxmatches] --t_selOptions.teammaxmatches
 			end
 		end
 		for i=1, #t do --for each order number
@@ -7218,7 +7234,7 @@ function f_makeRoster()
 				end
 			end
 		end
---Endless / All Roster / VS Kumite / Boss Rush / Bonus Marathon / Abyss
+--Endless / All Roster / VS Kumite / Abyss
 	else
 		if data.gameMode == "allroster" or data.gameMode == "endless" or data.gameMode == "abyss" then
 			t = t_randomChars
@@ -7231,23 +7247,6 @@ function f_makeRoster()
 				end
 			else
 				while cnt / p2numChars ~= math.ceil(cnt / p2numChars) do --not integer
-					i = i + 1
-					cnt = #t + i
-				end
-			end
-		elseif data.gameMode == "bossrush" or data.gameMode == "bonusrush" then
-			if data.gameMode == "bossrush" then t = t_bossChars
-			elseif data.gameMode == "bonusrush" then t = t_bonusChars
-			end
-			cnt = #t
-			local i = 0
-			if (data.p1In == 2 and data.p2In == 2) then
-				while cnt / p1numChars ~= math.ceil(cnt / p1numChars) do
-					i = i + 1
-					cnt = #t + i
-				end
-			else
-				while cnt / p2numChars ~= math.ceil(cnt / p2numChars) do
 					i = i + 1
 					cnt = #t + i
 				end
@@ -7303,47 +7302,59 @@ function f_makeRoster2()
 end
 
 function f_aiRamp()
+	t_aiRamp = {}
 	local start_match = 0
 	local start_diff = 0
 	local end_match = 0
 	local end_diff = 0
-	t_aiRamp = {}
---Arcade
-	if data.gameMode ~= "abyss" or data.gameMode == "allroster" then
-		if data.gameMode == "allroster" then
-			start_match = t_selOptions.specialstart.wins
-			start_diff = t_selOptions.specialstart.offset
-			end_match =  t_selOptions.specialend.wins
-			end_diff = t_selOptions.specialend.offset
-		else
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--Single Mode
-				if p1teamMode == 0 then
-					start_match = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].wins --t_selOptions.arcadestart.wins
-					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].offset --t_selOptions.arcadestart.offset
-					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].wins --t_selOptions.arcadeend.wins
-					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].offset --t_selOptions.arcadeend.offset
-			--Team Modes
-				else
-					start_match = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].wins --t_selOptions.teamstart.wins
-					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].offset --t_selOptions.teamstart.offset
-					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].wins --t_selOptions.teamend.wins
-					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].offset --t_selOptions.teamend.offset
-				end
+	local t_mode = t_makeRosterModes[data.gameMode]
+--re-use entire arcade config for unrecognized modes
+	if t_mode == nil then
+		t_mode = t_makeRosterModes.arcade
+	else
+	--re-use arcade aiRamp config for unrecognized modes
+		if t_selOptions[t_mode.single.airampstart] == nil then
+			t_mode.single.airampstart = t_makeRosterModes.arcade.single.airampstart
+		end
+		if t_selOptions[t_mode.single.airampend] == nil then
+			t_mode.single.airampend = t_makeRosterModes.arcade.single.airampend
+		end
+		
+		if t_selOptions[t_mode.team.airampstart] == nil then
+			t_mode.team.airampstart = t_makeRosterModes.arcade.team.airampstart
+		end
+		if t_selOptions[t_mode.team.airampend] == nil then
+			t_mode.team.airampend = t_makeRosterModes.arcade.team.airampend
+		end
+	end
+	if data.gameMode ~= "abyss" then
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		--Single Mode
+			if p1teamMode == 0 then
+				start_match = t_selOptions[t_mode.single.airampstart].wins --t_selOptions.arcadestart.wins
+				start_diff = t_selOptions[t_mode.single.airampstart].offset --t_selOptions.arcadestart.offset
+				end_match =  t_selOptions[t_mode.single.airampend].wins --t_selOptions.arcadeend.wins
+				end_diff = t_selOptions[t_mode.single.airampend].offset --t_selOptions.arcadeend.offset
+		--Team Modes
 			else
-			--Single Mode
-				if p2teamMode == 0 then
-					start_match = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].wins --t_selOptions.arcadestart.wins
-					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].offset --t_selOptions.arcadestart.offset
-					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].wins --t_selOptions.arcadeend.wins
-					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].offset --t_selOptions.arcadeend.offset
-			--Team Modes
-				else
-					start_match = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].wins --t_selOptions.teamstart.wins
-					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].offset --t_selOptions.teamstart.offset
-					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].wins --t_selOptions.teamend.wins
-					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].offset --t_selOptions.teamend.offset
-				end
+				start_match = t_selOptions[t_mode.team.airampstart].wins --t_selOptions.teamstart.wins
+				start_diff = t_selOptions[t_mode.team.airampstart].offset --t_selOptions.teamstart.offset
+				end_match =  t_selOptions[t_mode.team.airampend].wins --t_selOptions.teamend.wins
+				end_diff = t_selOptions[tt_mode.team.airampend].offset --t_selOptions.teamend.offset
+			end
+		else
+		--Single Mode
+			if p2teamMode == 0 then
+				start_match = t_selOptions[t_mode.single.airampstart].wins
+				start_diff = t_selOptions[t_mode.single.airampstart].offset
+				end_match =  t_selOptions[t_mode.single.airampend].wins
+				end_diff = t_selOptions[t_mode.single.airampend].offset
+		--Team Modes
+			else
+				start_match = t_selOptions[t_mode.team.airampstart].wins
+				start_diff = t_selOptions[t_mode.team.airampstart].offset
+				end_match =  t_selOptions[t_mode.team.airampend].wins
+				end_diff = t_selOptions[t_mode.team.airampend].offset
 			end
 		end
 	end
@@ -7417,7 +7428,7 @@ function f_tagMode(player, tagset)
 end
 
 function f_aiLevel()
-	--Offset
+--Offset
 	local offset = 0
 	local tagset = 0
 	--[[
@@ -7432,7 +7443,7 @@ function f_aiLevel()
 	if data.aiRamping and data.rosterAdvanced and data.gameMode ~= "abyss" and data.gameMode ~= "intermission" and data.gameMode ~= "challenger" then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
-	--Coop
+--Coop
 	if data.coop then
 		setCom(1, 0)
 		setCom(2, f_difficulty(2, offset))
