@@ -247,7 +247,7 @@ Some examples:
 - arcade.maxmatches
 Set maximum number of matches to fight before game ends in Classic Arcade single mode.
 Example:
-arcade.maxmatches = 2,1,1,1,1,0,0,0,0,0
+arcade.maxmatches = 4,1,1,1,1,0,0,0,0,0
 
 - team.maxmatches
 Like arcade.maxmatches, but applies to Arcade team modes.
@@ -257,22 +257,22 @@ team.maxmatches = 2,1,1,1,1,0,0,0,0,0
 - survival.maxmatches
 Set maximum number of matches to fight before game ends in Classic Survival single mode.
 Example:
-survival.maxmatches = 2,1,1,1,1,0,0,0,0,0
+survival.maxmatches = 5,1,1,1,1,0,0,0,0,0
 
 - teamsurvival.maxmatches
 Like survival.maxmatches, but applies to Classic Survival team modes.
 Example:
-teamsurvival.maxmatches = 2,1,1,1,1,0,0,0,0,0
+teamsurvival.maxmatches = 3,1,1,1,1,0,0,0,0,0
 
 - timeattack.maxmatches
 Set maximum number of matches to fight before game ends in Classic Time Attack single mode.
 Example:
-team.maxmatches = 2,1,1,1,1,0,0,0,0,0
+timeattack.maxmatches = 3,1,1,1,1,0,0,0,0,0
 
 - teamtimeattack.maxmatches
 Like timeattack.maxmatches, but applies to Classic Time Attack team modes.
 Example:
-teamtimeattack.maxmatches = 2,1,1,1,1,0,0,0,0,0
+teamtimeattack.maxmatches = 1,1,1,1,1,0,0,0,0,0
 
 - scoreattack.maxmatches
 Set maximum number of matches to fight before game ends in Classic Score Attack single mode.
@@ -282,7 +282,7 @@ scoreattack.maxmatches = 2,1,1,1,1,0,0,0,0,0
 - teamscoreattack.maxmatches
 Like scoreattack.maxmatches, but applies to Classic Score Attack team modes.
 Example:
-teamscoreattack.maxmatches = 2,1,1,1,1,0,0,0,0,0
+teamscoreattack.maxmatches = 1,1,1,1,1,0,0,0,0,0
 
 - AIramp
 AI ramping settings has been moved here from mugen.cfg

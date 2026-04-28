@@ -2406,6 +2406,7 @@ function f_default() --Reset Game Modes Configuration
 	data.songSelect = true --Enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
 	data.stageMenu = false --Stage selection disabled
 	data.stage = nil --No predefined custom stage
+	data.orderRoster = true --(Only for advanced modes), make a roster following select.def order paramvalue
 --Predefined Zoom Stage values (assigned via table: {zoom = false, zoomOut = 0.5, zoomIn = 1, zoomSpeed = 1} )
 	data.zoomStage = {zoom = data.zoomActive, zoomOut = data.zoomMin, zoomIn = data.zoomMax, zoomSpeed = data.zoomSpeed}
 	data.arcadeIntro = false --Characters arcade intro disabled

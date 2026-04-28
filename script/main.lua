@@ -3409,6 +3409,7 @@ function caravanCfg()
 	setCountdown(6000) --5 Minutes
 	--setRoundTime(99)
 	--setRoundsToWin(1)
+	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3883,6 +3884,7 @@ function goldrushCfg()
 	data.bgm = "sound/Gold Rush.mp3"
 	setRoundTime(30)
 	setRoundsToWin(1)
+	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3975,6 +3977,7 @@ function kumiteCfg()
 	setMatchnoDisplay(true)
 	--data.stageMenu = true
 	setRoundsToWin(1)
+	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -4150,6 +4153,7 @@ function endlessCfg()
 	data.recordMode = "endless"
 	data.stageMenu = true
 	data.versusScreen = false
+	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -6544,7 +6548,7 @@ function f_mainLobby()
 		--ONLINE SPEED STAR
 			elseif mainLobby == 9 then
 				setRoundsToWin(1)
-				data.gameMode = "allroster"
+				data.gameMode = "speedstar"
 				data.recordMode = "speedstar"
 				setGameMode("netplayspeedstar")
 				textImgSetText(txt_mainSelect, "ONLINE SPEED STAR COOPERATIVE")
@@ -6552,14 +6556,14 @@ function f_mainLobby()
 		--ONLINE TIME ATTACK
 			elseif mainLobby == 10 then
 				setRoundsToWin(1)
-				data.gameMode = "allroster"
+				data.gameMode = "timeattack"
 				data.recordMode = "timeattack"
 				setGameMode("timeattackcoop") --setGameMode("netplaytimeattack")
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SCORE ATTACK
 			elseif mainLobby == 11 then
-				data.gameMode = "allroster"
+				data.gameMode = "scoreattack"
 				data.recordMode = "scoreattack"
 				setGameMode("scoreattackcoop") --setGameMode("netplayscoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
@@ -7173,10 +7177,12 @@ t_makeRosterModes = {
 		single = {maxmatches = "scoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"},
 		team = {maxmatches = "teamscoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"}
 	},
+--[[
 	bossrush = {
 		single = {maxmatches = "bossrushmaxmatches", airampstart = "bossrushstart", airampend = "bossrushend"},
 		team = {maxmatches = "teambossrushmaxmatches", airampstart = "teambossrushstart", airampend = "teambossrushend"}
 	},
+]]
 }
 
 function f_makeRoster()
@@ -7196,8 +7202,8 @@ function f_makeRoster()
 			t_mode.team.maxmatches = t_makeRosterModes.arcade.team.maxmatches
 		end
 	end
---Arcade based modes / Survival / Boss Rush / Bonus Marathon
-	if data.gameMode == "arcade" or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
+--Face characters following select.def order (Arcade based modes / Survival / Boss Rush / Bonus Marathon)
+	if data.orderRoster then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		--Single Mode
 			if p1teamMode == 0 then
@@ -7234,10 +7240,18 @@ function f_makeRoster()
 				end
 			end
 		end
---Endless / All Roster / VS Kumite / Abyss
+--Face all t_randomChars characters without following select.def order paramvalue
 	else
-		if data.gameMode == "allroster" or data.gameMode == "endless" or data.gameMode == "abyss" then
-			t = t_randomChars
+		t = t_randomChars
+	--VS Kumite
+		if data.gameMode == 'kumite' then
+			if (data.p1In == 2 and data.p2In == 2) then
+				cnt = data.kumite * p1numChars
+			else
+				cnt = data.kumite * p2numChars
+			end
+	--All Roster / Endless / Abyss
+		else
 			cnt = #t
 			local i = 0
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -7250,13 +7264,6 @@ function f_makeRoster()
 					i = i + 1
 					cnt = #t + i
 				end
-			end
-		elseif data.gameMode == 'kumite' then
-			t = t_randomChars
-			if (data.p1In == 2 and data.p2In == 2) then
-				cnt = data.kumite * p1numChars
-			else
-				cnt = data.kumite * p2numChars
 			end
 		end
 		while cnt > 0 do
@@ -9887,8 +9894,8 @@ end
 f_p2ResetSlotBackup()
 
 local function f_p2RestoreSlot()
-	p2SelX = p1SelXBackup
-	p2SelY = p1SelYBackup
+	p2SelX = p2SelXBackup
+	p2SelY = p2SelYBackup
 	f_p2ResetSlotBackup()
 end
 
@@ -15232,7 +15239,7 @@ if validCells() then
 	--FIRST MATCH
 		if matchNo == 0 then
 		--Arcade Intro
-			if data.arcadeIntro == true then
+			if data.arcadeIntro then
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					storyBoardSide = t_selChars[data.t_p2selected[1].cel + 1]
 				else
@@ -18520,6 +18527,7 @@ function abyssCfg()
 	data.gameMode = "abyss"
 	data.recordMode = "abyss"
 	data.victoryscreen = false
+	data.orderRoster = false
 	data.stage = "stages/Mountainside Temple/Dark Corridor.def" --Abyss Initial Stage
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
