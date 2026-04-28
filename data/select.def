@@ -64,6 +64,15 @@ stages/Others/Training Room 2.def, music=sound/Fake World.mp3, unlock=stats.mode
 arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
 team.maxmatches = 1,1,1,1,0,0,0,0,0,0
 
+survival.maxmatches = 1,1,1,1,0,0,0,0,0,0
+teamsurvival.maxmatches = 1,1,1,1,0,0,0,0,0,0
+
+timeattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
+teamtimeattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
+
+scoreattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
+teamscoreattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
+
 arcade.AIramp.start = 2, 0
 arcade.AIramp.end   = 4, 2
 
@@ -72,6 +81,15 @@ team.AIramp.end   = 3, 2
 
 survival.AIramp.start = 0, -3
 survival.AIramp.end   = 16, 4
+
+teamsurvival.AIramp.start = 0, -3
+teamsurvival.AIramp.end   = 16, 4
+
+special.AIramp.start = 2, 0
+special.AIramp.end   = 4, 2
+
+teamspecial.AIramp.start = 1, 0
+teamspecial.AIramp.end   = 3, 2
 ;---------------------------------------------------------------------------------
 [TowerMode]
 sfx.announcer = 0,0

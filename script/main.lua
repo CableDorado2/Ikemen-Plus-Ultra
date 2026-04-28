@@ -3313,7 +3313,7 @@ function scoreattackCfg()
 	setScoreDisplay(true)
 	setMatchnoDisplay(true)
 	setGameMode("scoreattack")
-	data.gameMode = "allroster"
+	data.gameMode = "scoreattack"
 	data.recordMode = "scoreattack"
 	--data.stageMenu = true
 	--data.nextStage = true
@@ -3596,7 +3596,7 @@ function timeattackCfg()
 	f_default()
 	setTimerDisplay(true)
 	setMatchnoDisplay(true)
-	data.gameMode = "allroster"
+	data.gameMode = "timeattack"
 	data.recordMode = "timeattack"
 	setGameMode("timeattack")
 	--data.stageMenu = true
@@ -3790,7 +3790,7 @@ function speedstarCfg()
 	setMatchnoDisplay(true)
 	setPersistRoundTime(true)
 	setPersistPower(true)
-	data.gameMode = "allroster"
+	data.gameMode = "speedstar"
 	data.recordMode = "speedstar"
 	setGameMode("speedstar")
 	--data.nextStage = true
@@ -7156,27 +7156,47 @@ function f_setZoom()
 	setZoomSpeed(zoomSpeed)
 end
 
+t_makeRosterModes = {
+	arcade = {
+		single = {maxmatches = "arcademaxmatches", airampstart = "arcadestart", airampend = "arcadeend"},
+		team = {maxmatches = "teammaxmatches", airampstart = "teamstart", airampend = "teamend"}
+	},
+	survival = {
+		single = {maxmatches = "survivalmaxmatches", airampstart = "survivalstart", airampend = "survivalend"},
+		team = {maxmatches = "teamsurvivalmaxmatches", airampstart = "teamsurvivalstart", airampend = "teamsurvivalend"}
+	},
+	timeattack = {
+		single = {maxmatches = "timeattackmaxmatches", airampstart = "specialstart", airampend = "specialend"},
+		team = {maxmatches = "teamtimeattackmaxmatches", airampstart = "specialstart", airampend = "specialend"}
+	},
+	scoreattack = {
+		single = {maxmatches = "scoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"},
+		team = {maxmatches = "teamscoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"}
+	},
+}
+t_makeRosterModes.tower = t_makeRosterModes.arcade --Only to re-use aiRamp arcade data
+
 function f_makeRoster()
 	t_roster = {}
 	local t = {}
 	local cnt = 0
 --Arcade
-	if data.gameMode == "arcade" then
+	if data.gameMode == "arcade" or data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		--Single Mode
 			if p1teamMode == 0 then
-				t = t_selOptions.arcademaxmatches
+				t = t_selOptions[t_makeRosterModes[data.gameMode].single.maxmatches] --t_selOptions.arcademaxmatches
 		--Team Modes
 			else
-				t = t_selOptions.teammaxmatches
+				t = t_selOptions[t_makeRosterModes[data.gameMode].team.maxmatches] --t_selOptions.teammaxmatches
 			end
 		else
 		--Single Mode
 			if p2teamMode == 0 then
-				t = t_selOptions.arcademaxmatches
+				t = t_selOptions[t_makeRosterModes[data.gameMode].single.maxmatches] --t_selOptions.arcademaxmatches
 		--Team Modes
 			else
-				t = t_selOptions.teammaxmatches
+				t = t_selOptions[t_makeRosterModes[data.gameMode].team.maxmatches] --t_selOptions.teammaxmatches
 			end
 		end
 		for i=1, #t do --for each order number
@@ -7198,8 +7218,6 @@ function f_makeRoster()
 				end
 			end
 		end
-	elseif data.gameMode == "survival" then
-		
 --Endless / All Roster / VS Kumite / Boss Rush / Bonus Marathon / Abyss
 	else
 		if data.gameMode == "allroster" or data.gameMode == "endless" or data.gameMode == "abyss" then
@@ -7291,37 +7309,43 @@ function f_aiRamp()
 	local end_diff = 0
 	t_aiRamp = {}
 --Arcade
-	if data.gameMode == "arcade" or data.gameMode == "tower" then
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if p1teamMode == 0 then --Single
-				start_match = t_selOptions.arcadestart.wins
-				start_diff = t_selOptions.arcadestart.offset
-				end_match =  t_selOptions.arcadeend.wins
-				end_diff = t_selOptions.arcadeend.offset
-			else --Team
-				start_match = t_selOptions.teamstart.wins
-				start_diff = t_selOptions.teamstart.offset
-				end_match =  t_selOptions.teamend.wins
-				end_diff = t_selOptions.teamend.offset
-			end
+	if data.gameMode ~= "abyss" or data.gameMode == "allroster" then
+		if data.gameMode == "allroster" then
+			start_match = t_selOptions.specialstart.wins
+			start_diff = t_selOptions.specialstart.offset
+			end_match =  t_selOptions.specialend.wins
+			end_diff = t_selOptions.specialend.offset
 		else
-			if p2teamMode == 0 then --Single
-				start_match = t_selOptions.arcadestart.wins
-				start_diff = t_selOptions.arcadestart.offset
-				end_match =  t_selOptions.arcadeend.wins
-				end_diff = t_selOptions.arcadeend.offset
-			else --Team
-				start_match = t_selOptions.teamstart.wins
-				start_diff = t_selOptions.teamstart.offset
-				end_match =  t_selOptions.teamend.wins
-				end_diff = t_selOptions.teamend.offset
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			--Single Mode
+				if p1teamMode == 0 then
+					start_match = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].wins --t_selOptions.arcadestart.wins
+					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].offset --t_selOptions.arcadestart.offset
+					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].wins --t_selOptions.arcadeend.wins
+					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].offset --t_selOptions.arcadeend.offset
+			--Team Modes
+				else
+					start_match = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].wins --t_selOptions.teamstart.wins
+					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].offset --t_selOptions.teamstart.offset
+					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].wins --t_selOptions.teamend.wins
+					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].offset --t_selOptions.teamend.offset
+				end
+			else
+			--Single Mode
+				if p2teamMode == 0 then
+					start_match = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].wins --t_selOptions.arcadestart.wins
+					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampstart].offset --t_selOptions.arcadestart.offset
+					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].wins --t_selOptions.arcadeend.wins
+					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].single.airampend].offset --t_selOptions.arcadeend.offset
+			--Team Modes
+				else
+					start_match = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].wins --t_selOptions.teamstart.wins
+					start_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampstart].offset --t_selOptions.teamstart.offset
+					end_match =  t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].wins --t_selOptions.teamend.wins
+					end_diff = t_selOptions[t_makeRosterModes[data.gameMode].team.airampend].offset --t_selOptions.teamend.offset
+				end
 			end
 		end
-	elseif data.gameMode == "survival" or data.gameMode == "allroster" then
-		start_match = t_selOptions.survivalstart.wins
-		start_diff = t_selOptions.survivalstart.offset
-		end_match =  t_selOptions.survivalend.wins
-		end_diff = t_selOptions.survivalend.offset
 	end
 	local startAI = data.difficulty + start_diff
 	if startAI > 8 then
@@ -7405,7 +7429,7 @@ function f_aiLevel()
 			setTag(4, f_tagMode(4, tagset))
 		end
 	]]
-	if data.aiRamping and data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "survival" or data.gameMode == "allroster" then
+	if data.aiRamping and data.rosterAdvanced and data.gameMode ~= "abyss" and data.gameMode ~= "intermission" and data.gameMode ~= "challenger" then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
 	--Coop
@@ -13138,7 +13162,7 @@ function f_selectVersus()
 				end
 			end
 		--Draw Match Info
-			if data.gameMode == "arcade" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" or data.gameMode == "alliance" then
+			if data.gameMode == "arcade" or data.gameMode == "scoreattack" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" or data.gameMode == "alliance" then
 				textImgDraw(txt_matchNo)
 			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
@@ -14201,18 +14225,21 @@ function f_result(state)
 		if gameMode() == "timeattack" or gameMode() == "speedstar" then return end --Skip results if lose in time attack mode
 	end
 --Setup Vars according Game Modes
-	if data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
+	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
 			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL")
 			if gameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH") end
+		elseif data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
+			textImgSetText(txt_resultNo, winCnt.." WINS")
+			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
+			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
+			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
+			end
 		elseif data.gameMode == "allroster" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			if gameMode() == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
-			elseif gameMode() == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
-			elseif gameMode() == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
-			elseif gameMode() == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
+			if gameMode() == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
 			elseif gameMode() == "goldrush" then textImgSetText(txt_resultTitle, "GOLD RUSH")
 			elseif gameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH")
 			elseif gameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH")
@@ -14297,15 +14324,16 @@ function f_result(state)
 		textImgDraw(txt_resultStatus)
 		if data.gameMode == "survival" or data.gameMode == "allroster" or
 			data.gameMode == "endless" or data.gameMode == "kumite" or
-			data.gameMode == "abyss" or data.gameMode == "speedstar" then
+			data.gameMode == "abyss" or data.gameMode == "speedstar" or
+			data.gameMode == "scoreattack" or data.gameMode == "timeattack" then
 			if gameMode() == "kumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
-			elseif gameMode() == "scoreattack" or gameMode() == "caravan" then
+			elseif data.gameMode == "scoreattack" or gameMode() == "caravan" then
 				f_drawScoreAttackResults()
 				f_drawRank(score(), #t_roster * 1000000)
-			elseif gameMode() == "timeattack" or gameMode() == "speedstar" then
+			elseif data.gameMode == "timeattack" or data.gameMode == "speedstar" then
 				f_drawTimeAttackResults()
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
 			elseif gameMode() == "goldrush" then
@@ -14322,11 +14350,11 @@ function f_result(state)
 					textImgDraw(txt_resultLoses)
 				end
 			end
-			if gameMode() ~= "timeattack" and gameMode() ~= "speedstar" then
+			if data.gameMode ~= "timeattack" and gameMode() ~= "speedstar" then
 				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(timerTotal()))
 				textImgDraw(txt_resultTime)
 			end
-			if gameMode() ~= "scoreattack" and gameMode() ~= "caravan" and gameMode() ~= "goldrush" then
+			if data.gameMode ~= "scoreattack" and gameMode() ~= "caravan" and gameMode() ~= "goldrush" then
 				textImgSetText(txt_resultScore, "SCORE: "..f_setThousandsFormat(score()).."PTS")
 				textImgDraw(txt_resultScore)
 			end
@@ -15232,7 +15260,7 @@ if validCells() then
 				end
 				--f_makeRoster()
 				lastMatch = #t_allianceCourses[allianceCourseSel].match --get last match from alliance course selected
-			elseif data.gameMode == "allroster" and gameMode() == "speedstar" then
+			elseif data.gameMode == "speedstar" then
 				f_speedStarSelect()
 				if data.tempBack == true then
 					f_exitToMainMenu()

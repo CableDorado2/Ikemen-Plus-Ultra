@@ -229,10 +229,10 @@ stages/mybg.def, zoom=1, zoomMin=0.75, zoomMax=1.1, zoomSpeed=1
 
 All parameters need to be added below "[Options]" section.
 
-- arcade.maxmatches
-Here you set the maximum number of matches to fight before game ends
-in Arcade Mode. The first number is the number of matches against
-characters with order=1, followed by order=2 and order=3 respectively.
+- maxmatches
+Here you set the maximum number of matches to fight before classic modes ends.
+The first number is the number of matches against characters with
+order=1, followed by order=2 and order=3 respectively.
 For example, for 4,3,1 you will fight up to 4 randomly-picked
 characters who have order=1, followed by 3 with order=2 and 1 with
 order=3.
@@ -240,16 +240,49 @@ order=3.
 Max 30 orders limitation from MUGEN is lifted.
 
 Some examples:
-arcade.maxmatches = 6,1,1,0,0,0,0,0,0,0
-arcade.maxmatches = 1,1,1,1,1,1,1,1,1,1
-arcade.maxmatches = 2,1,3,1,1,3,1,1,2,1
+<gamemode>.maxmatches = 6,1,1,0,0,0,0,0,0,0
+<gamemode>.maxmatches = 1,1,1,1,1,1,1,1,1,1
+<gamemode>.maxmatches = 2,1,3,1,1,3,1,1,2,1
+
+- arcade.maxmatches
+Set maximum number of matches to fight before game ends in Classic Arcade single mode.
+Example:
+arcade.maxmatches = 2,1,1,1,1,0,0,0,0,0
 
 - team.maxmatches
-Set maximum number of matches to fight before game ends in Team Mode.
-Like arcade.maxmatches, but applies to Team Battle.
-
+Like arcade.maxmatches, but applies to Arcade team modes.
 Example:
 team.maxmatches = 2,1,1,1,1,0,0,0,0,0
+
+- survival.maxmatches
+Set maximum number of matches to fight before game ends in Classic Survival single mode.
+Example:
+survival.maxmatches = 2,1,1,1,1,0,0,0,0,0
+
+- teamsurvival.maxmatches
+Like survival.maxmatches, but applies to Classic Survival team modes.
+Example:
+teamsurvival.maxmatches = 2,1,1,1,1,0,0,0,0,0
+
+- timeattack.maxmatches
+Set maximum number of matches to fight before game ends in Classic Time Attack single mode.
+Example:
+team.maxmatches = 2,1,1,1,1,0,0,0,0,0
+
+- teamtimeattack.maxmatches
+Like timeattack.maxmatches, but applies to Classic Time Attack team modes.
+Example:
+teamtimeattack.maxmatches = 2,1,1,1,1,0,0,0,0,0
+
+- scoreattack.maxmatches
+Set maximum number of matches to fight before game ends in Classic Score Attack single mode.
+Example:
+scoreattack.maxmatches = 2,1,1,1,1,0,0,0,0,0
+
+- teamscoreattack.maxmatches
+Like scoreattack.maxmatches, but applies to Classic Score Attack team modes.
+Example:
+teamscoreattack.maxmatches = 2,1,1,1,1,0,0,0,0,0
 
 - AIramp
 AI ramping settings has been moved here from mugen.cfg
@@ -288,10 +321,25 @@ team.AIramp.start = 1, 0
 team.AIramp.end   = 3, 2
 ;For 4 matches at level 4 and default values, the difficulty will be: 4,4,5,6
 
-Survival Mode AI ramping Example:
+Single Survival Mode AI ramping Example:
 survival.AIramp.start = 0, -3
 survival.AIramp.end   = 16, 4
 ;For 16 matches at level 4 and default values, the difficulty will be: 1,1,1,2,2,3,3,4,4,4,5,5,6,6,7,7,8
+
+Team Survival Mode AI ramping Example:
+teamsurvival.AIramp.start = 0, -3
+teamsurvival.AIramp.end   = 16, 4
+;For 16 matches at level 4 and default values, the difficulty will be: 1,1,1,2,2,3,3,4,4,4,5,5,6,6,7,7,8
+
+Special Single Mode AI ramping Example:
+special.AIramp.start = 2, 0
+special.AIramp.end   = 4, 2
+;For 6 matches at level 4, the difficulty will be (by match): 4,4,4,5,6,6
+
+Special Team Mode AI ramping Example:
+teamspecial.AIramp.start = 1, 0
+teamspecial.AIramp.end   = 3, 2
+;For 4 matches at level 4 and default values, the difficulty will be: 4,4,5,6
 
 Full Example:
 

@@ -2313,7 +2313,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	bonusNo = bonusNo + 1
 --Set Match Info Texts
 	if data.gameMode == "arcade" and matchNo == arcadeRivalMatchNo then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
-	elseif (data.gameMode == "arcade" or data.gameMode == "allroster") and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
+	elseif (data.gameMode == "arcade" or data.gameMode == "speedstar" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
 	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
 	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR "..matchNo - 1) --Set Tower Match Text
 	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH "..getAbyssDepth()) --Set Abyss Depth Match Text
@@ -2327,7 +2327,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	else textImgSetText(txt_gameNo, "MATCH "..gameNo) --Set Versus Match Text
 	end
 --Set Final Matchs Text
-	if (data.gameMode == "arcade" or data.gameMode == "allroster") and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
+	if (data.gameMode == "arcade" or data.gameMode == "speedstar" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
 	elseif data.gameMode == "tower" and matchNo == lastMatch then textImgSetText(txt_matchNo, "LAST FLOOR") --Set Tower Final Match Text
 	end
 	if data.gameMode == "survival" and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
