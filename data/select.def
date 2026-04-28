@@ -13,14 +13,14 @@ randomselect
 
 blank
 blank
-Shin Gouki, unlock=stats.unlocks ~= nil and stats.unlocks.chars ~= nil and stats.unlocks.chars.gouki == true, intermission=1, stages/Mountainside Temple/Destroyed Temple.def, includestage=0, music=sound/God Hands.mp3, music=chars/Shin Gouki/Theme of Gouki.mp3, ai=8, exclude=1, order=-1
+Shin Gouki, unlock=stats.unlocks ~= nil and stats.unlocks.chars ~= nil and stats.unlocks.chars.gouki == true, intermission=1, stages/Mountainside Temple/Destroyed Temple.def, includestage=0, music=sound/God Hands.mp3, music=chars/Shin Gouki/Theme of Gouki.mp3, ai=8, exclude=1, order=5
 blank
 blank
 ;---------------------------------------------------------------------------------
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, 4=Kung Fu Man, swapcellx=1, swapcelly=3, unlock=stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission1 ~= nil and stats.modes.mission.mission1.clear == true
 Kung Fu Man/X/Kung Fu Man X.def, stages/Others/Space Rainbow.def, order=-1, swapcellx=2, swapcelly=3, unlock=false
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, exclude=1, intermission=1, ai=8, order=-1, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl, swapcellx=0, swapcelly=0, unlock=false
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Others/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, exclude=1, intermission=1, boss=1, ai=8, order=-1, single=1, swapcellx=2, swapcelly=0, unlock=false
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, exclude=1, intermission=1, ai=8, order=5, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl, swapcellx=0, swapcelly=0, unlock=false
+Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Others/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, exclude=1, intermission=1, boss=1, ai=8, order=6, single=1, swapcellx=2, swapcelly=0, unlock=false
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclude=1, order=1
 
 Red Dragon, stages/Others/The Red Dragon's Lair.def, victoryscreen=0, zoom=0, includestage=0, exclude=1, order=-1, excludetourney=1
@@ -61,17 +61,17 @@ stages/Others/Training Room 2.def, music=sound/Fake World.mp3, unlock=stats.mode
 ;stages/HD TEST/Training Room.def
 ;---------------------------------------------------------------------------------
 [Options]
-arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
-team.maxmatches = 1,1,1,1,0,0,0,0,0,0
+arcade.maxmatches = 		 1,1,1,1
+team.maxmatches = 			 1,1,1,1
 
-survival.maxmatches = 1,0,1,1,0,0,0,0,0,0
-teamsurvival.maxmatches = 1,0,1,1,0,0,0,0,0,0
+survival.maxmatches = 		 2,0,3,2,2,1
+teamsurvival.maxmatches = 	 1,0,1,1,1,1
 
-timeattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
-teamtimeattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
+timeattack.maxmatches =		 2,0,3,2,2,1
+teamtimeattack.maxmatches =  1,0,1,1,1,1
 
-scoreattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
-teamscoreattack.maxmatches = 1,1,1,1,0,0,0,0,0,0
+scoreattack.maxmatches = 	 2,2,3,2,2,1
+teamscoreattack.maxmatches = 1,1,1,1,1,1
 
 arcade.AIramp.start = 2, 0
 arcade.AIramp.end   = 4, 2
