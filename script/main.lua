@@ -559,7 +559,7 @@ end
 --; COMMON INFO MESSAGES
 --;===========================================================
 function f_comingSoon()
-	t_infoWindowMsg.text = "THIS FEATURE WILL BE AVAILABLE COMING SOON..."
+	t_infoWindowMsg.text = "THIS FEATURE WILL BE AVAILABLE COMING SOON!"
 	t_infoWindowMsg.limit = 30
 	t_infoWindowMsg.y = 110
 	infoScreen = true
@@ -2625,7 +2625,6 @@ function bossrushCfg()
 	data.gameMode = "bossrush"
 	data.recordMode = "boss"
 	--data.victoryscreen = true
-	--data.stageMenu = true
 	--data.nextStage = true
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3315,8 +3314,7 @@ function scoreattackCfg()
 	setGameMode("scoreattack")
 	data.gameMode = "scoreattack"
 	data.recordMode = "scoreattack"
-	--data.stageMenu = true
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundTime(99)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3405,11 +3403,11 @@ function caravanCfg()
 	data.gameMode = "allroster"
 	data.recordMode = "caravan"
 	setGameMode("caravan")
-	--data.nextStage = true
 	setCountdown(6000) --5 Minutes
 	--setRoundTime(99)
 	--setRoundsToWin(1)
-	data.orderRoster = false
+	--data.nextStage = true
+	--data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3600,8 +3598,7 @@ function timeattackCfg()
 	data.gameMode = "timeattack"
 	data.recordMode = "timeattack"
 	setGameMode("timeattack")
-	--data.stageMenu = true
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3975,7 +3972,6 @@ function kumiteCfg()
 	setGameMode("kumite")
 	setScoreDisplay(true)
 	setMatchnoDisplay(true)
-	--data.stageMenu = true
 	setRoundsToWin(1)
 	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
