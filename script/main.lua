@@ -1083,6 +1083,7 @@ function f_sideSelect()
 		end
 	--CPU VS P1
 		if p2Side == 0 and p1Side == 1 then
+			setHomeTeam(1) --P1 side considered the home team
 			if menuSelect == "quick match" then	randomCPUvsHuman()
 			elseif menuSelect == "free battle" then freeCPUvsHuman()
 			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
@@ -1110,6 +1111,7 @@ function f_sideSelect()
 		end
 	--CPU VS P2
 		if p1Side == 0 and p2Side == 1 then
+			setHomeTeam(1)
 			P2overP1 = true --Detects Player 2 Control
 			if menuSelect == "quick match" then	randomCPUvsHuman()
 			elseif menuSelect == "free battle" then freeCPUvsHuman()
@@ -1138,6 +1140,7 @@ function f_sideSelect()
 		end
 	--P1 VS P2
 		if p1Side == -1 and p2Side == 1 then
+			--setHomeTeam(1)
 			if menuSelect == "quick match" then randomHumanvsHuman()
 			elseif menuSelect == "free battle" then freeHumanvsHuman()
 			end
@@ -1151,6 +1154,7 @@ function f_sideSelect()
 		end
 	--P2 VS P1
 		if p2Side == -1 and p1Side == 1 then
+			setHomeTeam(1)
 			P2overP1 = true
 			if menuSelect == "quick match" then randomHumanvsHuman()
 			elseif menuSelect == "free battle" then freeHumanvsHuman()
@@ -1197,6 +1201,7 @@ function f_sideSelect()
 		end
 	--CPU VS P1&P2 [CO-OP MODE] (Not available yet)
 		if p1Side == 1 and p2Side == 1 then
+			setHomeTeam(1)
 			--if menuSelect == "quick match" then randomCPUvsP1P2()
 			--elseif menuSelect == "free battle" then freeCPUvsP1P2()
 			if menuSelect == "arcade" then arcadeCPUvsP1P2()
@@ -1561,6 +1566,7 @@ end
 function f_training()
 	f_discordUpdate({details = "Training"})
 	f_default()
+	setHomeTeam(1)
 	setGameMode("practice")
 	data.gameMode = "training"
 	data.recordMode = "training"
@@ -2271,12 +2277,9 @@ end
 --HUMAN VS HUMAN (fight from left side to defeat a random human opponent)
 function randomHumanvsHuman()
 	if P2overP1 then
-		setHomeTeam(2)
 		remapInput(1, 2)
 		remapInput(2, 1)
 		setPlayerSide('p1right')
-	else
-		setHomeTeam(1)
 	end
 	data.p2In = 2
 	f_selectSimple()
@@ -2357,12 +2360,9 @@ end
 --HUMAN VS HUMAN (choose a fighter from left side to defeat a human opponent)
 function freeHumanvsHuman()
 	if P2overP1 then
-		setHomeTeam(2) --P2 side considered the home team
 		remapInput(1, 2)
 		remapInput(2, 1)
 		setPlayerSide('p1right')
-	else
-		setHomeTeam(1) --P1 side considered the home team
 	end
 	data.p2In = 2 --P2 controls P2 side of the select screen
 	textImgSetText(txt_mainSelect, "VERSUS MODE")
@@ -2383,9 +2383,7 @@ end
 
 --P1&P2 VS CPU (team up with another player from left side to defeat CPU controlled opponents of your choice)
 function freeP1P2vsCPU()
-	f_comingSoon()
 	--[[
-	setHomeTeam(1)
 	data.p2In = 2
 	data.stageMenu = false
 	data.stage = "stages/training room.def"
@@ -2393,6 +2391,7 @@ function freeP1P2vsCPU()
 	textImgSetText(txt_mainSelect, "FREE VERSUS COOPERATIVE")
 	f_selectSimple()
 	]]
+	f_comingSoon()
 end
 
 --CPU VS P1&P2 (team up with another player from right side to defeat CPU controlled opponents of your choice)
@@ -2402,7 +2401,6 @@ end
 
 --[[P1&P3 VS P2&P4 (team up with another player to defeat co-op team of human opponents)
 function freeP1P3vsP2P4()
-	setHomeTeam(1)
 	data.p2In = 2
 	data.coop = true
 	textImgSetText(txt_mainSelect, "FREE VERSUS TEAM COOPERATIVE")
@@ -6463,9 +6461,9 @@ function f_mainLobby()
 			sndPlay(sndSys, 100, 1)
 		--ONLINE VERSUS
 			if data.ftcontrol > 0 or mainLobby == 1 then
+				setHomeTeam(1)
 				data.coop = false
 				data.stageMenu = true
-				setHomeTeam(1)
 				data.gameMode = "versus"
 				data.recordMode = "versus"
 				if data.ftcontrol > 0 then
@@ -6477,6 +6475,7 @@ function f_mainLobby()
 				f_selectSimple()
 		--ONLINE TRAINING
 			elseif mainLobby == 2 then
+				setHomeTeam(1)
 				setRoundTime(-1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
@@ -10737,9 +10736,9 @@ function f_p2SelectMenu()
 					if tmpCelX ~= p2SelX then
 						sndPlay(sndSys, 100, 0)
 					end
-				elseif commandGetState(p1Cmd, 'q') then
+				elseif commandGetState(p2Cmd, 'q') then
 					
-				elseif commandGetState(p1Cmd, 'w') then
+				elseif commandGetState(p2Cmd, 'w') then
 					if t_selChars[p2Cell + 1].swapcellx ~= nil and t_selChars[p2Cell + 1].swapcelly ~= nil then
 						sndPlay(sndIkemen, 200, 1)
 						if p2SelXBackup == nil and p2SelYBackup == nil then
@@ -13989,26 +13988,22 @@ function f_challengerVS()
 		data.p1TeamMenu = {mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
 		data.p2TeamMenu = {mode = p1RestoreTeamMode, chars = p1RestoreCharsNo} --Set Challenger Team Mode at same arcade player conditions
 		data.p1SelectMenu = false --Character Data will be loaded in f_p1SelectMenu() following this p1SelectMenu condition
+		setHomeTeam(1)
 		if P2overP1 then
-			setHomeTeam(2)
 			remapInput(1, 2)
 			remapInput(2, 1)
 			setPlayerSide('p1right')
-		else
-			setHomeTeam(1)
 		end
 --ARCADE PLAYER IS IN RIGHT SIDE - NEW CHALLENGER COMES FROM LEFT SIDE
 	elseif keepRSide then
 		data.p1TeamMenu = {mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
 		data.p2TeamMenu = {mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
 		data.p2SelectMenu = false
+		setHomeTeam(2)
 		if not P2overP1 then
-			setHomeTeam(2)
 			remapInput(1, 2)
 			remapInput(2, 1)
 			setPlayerSide('p1right')
-		else
-			setHomeTeam(1)
 		end
 	end
 	data.p2In = 2
