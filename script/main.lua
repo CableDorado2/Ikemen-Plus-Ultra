@@ -3407,7 +3407,8 @@ function caravanCfg()
 	--setRoundTime(99)
 	--setRoundsToWin(1)
 	--data.nextStage = true
-	--data.orderRoster = false
+	data.versusScreen = false
+	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -16053,7 +16054,7 @@ if validCells() then
 							['name'] = t_selChars[p2Cell + 1].name,
 							['displayname'] = t_selChars[p2Cell + 1].displayname,
 							['path'] = t_selChars[p2Cell + 1].char,
-							['author'] = t_selChars[p2ell + 1].author,
+							['author'] = t_selChars[p2Cell + 1].author,
 							['pal'] = p2Pal,
 							['handicap'] = p2HandicapSel,
 							['up'] = true,
