@@ -2625,7 +2625,7 @@ function bossrushCfg()
 	data.gameMode = "bossrush"
 	data.recordMode = "boss"
 	--data.victoryscreen = true
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -3133,6 +3133,7 @@ function bonusrushCfg()
 	--data.stageMenu = true
 	--data.nextStage = true
 	data.versusScreen = false
+	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)			
 	sndPlay(sndSys, 100, 1)
 end
@@ -7174,33 +7175,33 @@ t_makeRosterModes = {
 		single = {maxmatches = "scoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"},
 		team = {maxmatches = "teamscoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"}
 	},
---[[
 	bossrush = {
 		single = {maxmatches = "bossrushmaxmatches", airampstart = "bossrushstart", airampend = "bossrushend"},
 		team = {maxmatches = "teambossrushmaxmatches", airampstart = "teambossrushstart", airampend = "teambossrushend"}
 	},
-]]
 }
 
 function f_makeRoster()
 	t_roster = {}
 	local t = {}
 	local cnt = 0
-	local t_mode = t_makeRosterModes[data.gameMode]
---re-use entire arcade config for unrecognized modes
-	if t_mode == nil then
-		t_mode = t_makeRosterModes.arcade
-	else
-	--re-use arcade maxmatches config for unrecognized modes
-		if t_selOptions[t_mode.single.maxmatches] == nil then
-			t_mode.single.maxmatches = t_makeRosterModes.arcade.single.maxmatches
-		end
-		if t_selOptions[t_mode.team.maxmatches] == nil then
-			t_mode.team.maxmatches = t_makeRosterModes.arcade.team.maxmatches
-		end
-	end
---Face characters following select.def order (Arcade based modes / Survival / Boss Rush / Bonus Marathon)
+	local t_orderRoster = t_orderChars
+	if data.gameMode == "bossrush" then t_orderRoster = t_orderBoss end
+--Face characters following select.def order (Arcade based modes / Survival / Boss Rush)
 	if data.orderRoster then
+		local t_mode = t_makeRosterModes[data.gameMode]
+	--re-use entire arcade config for unrecognized modes
+		if t_mode == nil then
+			t_mode = t_makeRosterModes.arcade
+		else
+		--re-use arcade maxmatches config for unrecognized modes
+			if t_selOptions[t_mode.single.maxmatches] == nil then
+				t_mode.single.maxmatches = t_makeRosterModes.arcade.single.maxmatches
+			end
+			if t_selOptions[t_mode.team.maxmatches] == nil then
+				t_mode.team.maxmatches = t_makeRosterModes.arcade.team.maxmatches
+			end
+		end
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		--Single Mode
 			if p1teamMode == 0 then
@@ -7224,11 +7225,11 @@ function f_makeRoster()
 			else
 				cnt = t[i] * p2numChars --set amount of matches to get from the table
 			end
-			if cnt > 0 and t_orderChars[i] ~= nil then --if it's more than 0 and there are characters with such order
+			if cnt > 0 and t_orderRoster[i] ~= nil then --if it's more than 0 and there are characters with such order
 				while cnt > 0 do --do the following until amount of matches for particular order is reached
-					f_shuffleTable(t_orderChars[i]) --randomize characters table
-					for j=1, #t_orderChars[i] do --loop through chars associated with that particular order
-						t_roster[#t_roster + 1] = t_orderChars[i][j] --and add such character into new table
+					f_shuffleTable(t_orderRoster[i]) --randomize characters table
+					for j=1, #t_orderRoster[i] do --loop through chars associated with that particular order
+						t_roster[#t_roster + 1] = t_orderRoster[i][j] --and add such character into new table
 						cnt = cnt - 1
 						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
 							break
@@ -7241,14 +7242,15 @@ function f_makeRoster()
 	else
 		t = t_randomChars
 	--VS Kumite
-		if data.gameMode == 'kumite' then
+		if data.gameMode == "kumite" then
 			if (data.p1In == 2 and data.p2In == 2) then
 				cnt = data.kumite * p1numChars
 			else
 				cnt = data.kumite * p2numChars
 			end
-	--All Roster / Endless / Abyss
+	--All Roster / Endless / Abyss / Bonus Marathon
 		else
+			if data.gameMode == "bonusrush" then t = t_bonusChars end
 			cnt = #t
 			local i = 0
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side

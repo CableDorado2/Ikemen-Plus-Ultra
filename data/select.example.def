@@ -117,6 +117,10 @@ this param. See *.maxmatches under [Options] for how to
 limit the number of matches per order priority.
 Max 30 orders MUGEN limitation is lifted.
 
+- orderboss
+Set the paramvalue to the ordering priority to give the character in Boss Rush mode.
+If you omit this param and a character uses boss=1 paramvalue, the default order value will be 1.
+
 - 1, 2, (...)
 Paramname points to the match number in arcade mode.
 Paramvalue overwrites character that you would face
@@ -283,6 +287,17 @@ scoreattack.maxmatches = 2,1,1,1,1,0,0,0,0,0
 Like scoreattack.maxmatches, but applies to Classic Score Attack team modes.
 Example:
 teamscoreattack.maxmatches = 1,1,1,1,1,0,0,0,0,0
+
+- bossrush.maxmatches
+Set maximum number of bosses following "orderboss" paramvalue to fight
+before game ends in Classic Boss Rush single mode.
+Example:
+bossrush.maxmatches = 3,1,2,0,0,0,0,0,0,0
+
+- teambossrush.maxmatches
+Like bossrush.maxmatches, but applies to Classic Boss Rush team modes.
+Example:
+teambossrush.maxmatches = 1,1,1,0,0,0,0,0,0,0
 
 - AIramp
 AI ramping settings has been moved here from mugen.cfg

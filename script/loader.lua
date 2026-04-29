@@ -459,6 +459,7 @@ end
 --start_time = os.time()
 data.includestage = 0
 t_orderChars = {}
+t_orderBoss = {}
 t_charDef = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 local section = 0
@@ -541,7 +542,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if tmp ~= '' and tmp ~= '"Training"' and getCharFileName(row - 1) ~= 'randomselect' then
 		--Arcade Order
 			if t_selChars[row].order == nil then
-				t_selChars[row]['order'] = 1 --Add order 1 is order paramvalue is not detected
+				t_selChars[row]['order'] = 1 --Add order = 1 (if order paramvalue is not detected)
 			end
 			if t_orderChars[t_selChars[row].order] == nil then
 				t_orderChars[t_selChars[row].order] = {}
@@ -901,6 +902,17 @@ if t_selChars ~= nil then
 		--generate table for boss rush mode
 			if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then
 				t_bossChars[#t_bossChars + 1] = charCel
+			--Add orderboss = 1 (if orderboss paramvalue is not detected and is a boss character)
+				if t_selChars[i].orderboss == nil then
+					t_selChars[i]['orderboss'] = 1
+				end
+			end
+		--Set Boss Rush Order
+			if t_selChars[i].orderboss ~= nil then
+				if t_orderBoss[t_selChars[i].orderboss] == nil then
+					t_orderBoss[t_selChars[i].orderboss] = {}
+				end
+				t_orderBoss[t_selChars[i].orderboss][#t_orderBoss[t_selChars[i].orderboss] + 1] = i - 1
 			end
 		--generate table for bonus games mode
 			if t_selChars[i].bonus ~= nil and t_selChars[i].bonus == 1 then
@@ -1293,6 +1305,7 @@ if data.debugLog then
 	f_printTable(t_charDef, "save/debug/t_charDef.log")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.log")
 	f_printTable(t_orderChars, "save/debug/t_orderChars.log")
+	f_printTable(t_orderBoss, "save/debug/t_orderBoss.log")
 	f_printTable(t_randomChars, "save/debug/t_randomChars.log")
 	f_printTable(t_randomTourneyChars, "save/debug/t_randomTourneyChars.log")
 	f_printTable(t_bossChars, "save/debug/t_bossChars.log")
