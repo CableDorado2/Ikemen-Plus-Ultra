@@ -1140,7 +1140,7 @@ function f_sideSelect()
 		end
 	--P1 VS P2
 		if p1Side == -1 and p2Side == 1 then
-			--setHomeTeam(1)
+			setHomeTeam(1)
 			if menuSelect == "quick match" then randomHumanvsHuman()
 			elseif menuSelect == "free battle" then freeHumanvsHuman()
 			end
@@ -2280,6 +2280,7 @@ function randomHumanvsHuman()
 		remapInput(1, 2)
 		remapInput(2, 1)
 		setPlayerSide('p1right')
+		setHomeTeam(2)
 	end
 	data.p2In = 2
 	f_selectSimple()
@@ -2363,6 +2364,7 @@ function freeHumanvsHuman()
 		remapInput(1, 2)
 		remapInput(2, 1)
 		setPlayerSide('p1right')
+		setHomeTeam(2)
 	end
 	data.p2In = 2 --P2 controls P2 side of the select screen
 	textImgSetText(txt_mainSelect, "VERSUS MODE")
@@ -3403,8 +3405,8 @@ function caravanCfg()
 	data.recordMode = "caravan"
 	setGameMode("caravan")
 	setCountdown(6000) --5 Minutes
-	--setRoundTime(99)
-	--setRoundsToWin(1)
+	setRoundTime(99)
+	setRoundsToWin(2)
 	--data.nextStage = true
 	data.versusScreen = false
 	data.orderRoster = false
