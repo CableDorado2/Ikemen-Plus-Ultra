@@ -3619,9 +3619,33 @@ speedStarSpacingY = 65
 
 t_speedCourseSel = {
 --maxmatches works like select.def arcademaxmatches paramvalue
-	{timestart = 180, timebonus = 20, maxmatches = {14, 1, 1}}, --14order=1, 1order=2, 1order=3Total:16
-	{timestart = 180, timebonus = 40, maxmatches = {12, 2, 2}},
-	{timestart = 90,  timebonus = 60, maxmatches = {24, 4, 4}},
+--SFIV Time Attack Normal
+	{timestart = 500, timebonus = 30, maxmatches = {4}},
+	{timestart = 300, timebonus = 20, maxmatches = {2, 2}},
+	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}},
+	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}},
+	{timestart = 250, timebonus = 5, maxmatches = {6, 4, 2}},
+	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}},
+	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}},
+	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}},
+	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}},
+	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}},
+	{timestart = 50, timebonus = 30, maxmatches = {6, 4, 2}},
+	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}},
+	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}},
+	{timestart = 250, timebonus = 5, maxmatches = {4, 4, 4}},
+	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}},
+--SFIV Time Attack Hard
+	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}},
+	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2}},
+	{timestart = 500, timebonus = 5, maxmatches = {10, 2, 2}},
+	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}},
+	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1}},
+--Others
+	{timestart = 180, timebonus = 10, maxmatches = {10, 2, 1}}, --SFIV Arcade x BlazBlue CF
+	{timestart = 180, timebonus = 10, maxmatches = {12, 2, 2}},
+	{timestart = 90,  timebonus = 20, maxmatches = {24, 4, 4}},
+	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 }
 for i=1, #t_speedCourseSel do
 	local cnt = 0
