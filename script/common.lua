@@ -3239,6 +3239,7 @@ function f_saveTemp()
 		['data.challengerMode'] = data.challengerMode,
 		['data.challengerAbyss'] = data.challengerAbyss,
 		['data.saveAbyss'] = data.saveAbyss,
+		['data.speedstarClearBonus'] = data.speedstarClearBonus,
 		['data.p1MembersDefeated'] = data.p1MembersDefeated,
 		['data.p2MembersDefeated'] = data.p2MembersDefeated,
 		['data.VNbreaker'] = data.VNbreaker,

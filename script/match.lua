@@ -678,7 +678,7 @@ local function f_addBonusScore()
 				end
 			end
 			if superCnt > 0 then timeReward = timeReward + (speedstarSuperBonus * matchTimeFix) end --Super Combo Time Bonus
-			timeReward = timeReward + (speedstarClearBonus * matchTimeFix) --Stage Clear Time Bonus
+			timeReward = timeReward + (data.speedstarClearBonus * matchTimeFix) --Stage Clear Time Bonus
 			setTime(timeremaining() + timeReward) --Add Time Bonus
 			sndPlay(sndIkemen, 620, 0)
 		end

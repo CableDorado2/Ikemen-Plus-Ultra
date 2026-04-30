@@ -3699,6 +3699,8 @@ function f_speedStarSelect()
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
+				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
+				f_saveTemp()
 				break
 			end
 		--Speed Star Course Select
@@ -13182,6 +13184,7 @@ function f_selectVersus()
 		--Draw Match Info
 			if data.gameMode == "arcade" or data.gameMode == "scoreattack" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" or data.gameMode == "alliance" then
 				textImgDraw(txt_matchNo)
+				if data.gameMode == "speedstar" then textImgDraw(txt_timeLeft) end
 			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
 			elseif data.gameMode == "bossrush" then

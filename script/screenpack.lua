@@ -2304,6 +2304,7 @@ txt_matchNo = createTextImg(font21, 0, 0, "", 160, 20)
 txt_gameNo = createTextImg(font21, 0, 0, "", 160, 20)
 txt_bossNo = createTextImg(font12, 0, 0, "", 160, 20)
 txt_bonusNo = createTextImg(font21, 0, 0, "", 160, 20)
+txt_timeLeft = createTextImg(font21, 0, 0, "", 160, 28)
 arcadeRivalMatchNo = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
 
 function f_matchInfo() --Not draws! only prepare the info for use in versus screen
@@ -2333,6 +2334,15 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	if data.gameMode == "survival" and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
 	elseif data.gameMode == "bossrush" and (lastMatch - bossNo == 0) then textImgSetText(txt_bossNo, "FINAL BOSS") --Set Boss Rush Final Match Text
 	elseif data.gameMode == "bonusrush" and (lastMatch - bonusNo == 0) then textImgSetText(txt_bonusNo, "LAST GAME") --Set Bonus Rush Final Match Text
+	end
+--Set Speed Star Time Left Text
+	if data.gameMode == "speedstar" then
+		local timeLeft = math.floor(getTimePersistence() / 60)
+		if matchNo == 1 then timeLeft = getRoundTime() / 60 end
+		textImgSetPos(txt_matchNo, 160, 15)
+		textImgSetText(txt_timeLeft, "TIME LEFT: "..timeLeft)
+	else
+		textImgSetPos(txt_matchNo, 160, 20) --Restore Match No text Pos
 	end
 --Set Tournament Matchs Text
 	if data.gameMode == "tourney" then
@@ -3769,7 +3779,6 @@ animSetScale(speedstarInfoBG, 182, 32)
 animSetAlpha(speedstarInfoBG, 0, 125)
 animUpdate(speedstarInfoBG)
 
-speedstarClearBonus = 10
 speedstarSuperBonus = 5
 speedstarPerfectBonus = 15
 
@@ -3780,7 +3789,7 @@ function f_speedStarInfo(super, perfect)
 	local infoY = 150
 	animPosDraw(speedstarInfoBG, -2, 141)
 	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "Stage Clear", infoX, infoY)
-	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "+"..speedstarClearBonus.."sec", infoX+125, infoY)
+	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "+"..data.speedstarClearBonus.."sec", infoX+125, infoY)
 	local colorSuper = 0
 	local rewardSuper = 0
 	if super > 0 then
@@ -3797,7 +3806,7 @@ function f_speedStarInfo(super, perfect)
 	end
 	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "Perfect Bonus", infoX, infoY+20)
 	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "+"..rewardPerfect.."sec", infoX+125, infoY+20)
-	totalBonus = speedstarClearBonus + rewardSuper + rewardPerfect
+	totalBonus = data.speedstarClearBonus + rewardSuper + rewardPerfect
 	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Total Bonus", infoX, infoY+32)
 	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..totalBonus.."sec", infoX+125, infoY+32)
 end
