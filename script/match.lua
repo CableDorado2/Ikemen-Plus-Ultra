@@ -492,6 +492,8 @@ local throwCnt = 0
 local specialCnt = 0
 local superCnt = 0
 local noHitReceived = true
+local firstAttack = false
+local firstAttackCPU = false
 local colddownCnt = false
 local function f_actionsCheck()
 --Check Attack Data in both sides
@@ -500,6 +502,7 @@ local function f_actionsCheck()
 		if gethitvar("damage") > 0 then damageHitP1 = gethitvar("damage") end
 	--Get Damage Combo
 		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
+			if not firstAttack and not firstAttackCPU then firstAttack = true end
 			if gethitvar("hitcount") == 1 then damageComboP1 = 0 end --Reset Combo Damage
 			damageComboP1 = damageComboP1 + gethitvar("damage")
 			if damageComboP1 > damageMaxP1 then damageMaxP1 = damageComboP1 end --Get Max Combo Damage
@@ -511,6 +514,7 @@ local function f_actionsCheck()
 		if gethitvar("damage") > 0 then damageHitP2 = gethitvar("damage") end
 		if gethitvar("damage") > 0 and gethitvar("hitcount") > 0 then
 			noHitReceived = false
+			if not firstAttackCPU and not firstAttack then firstAttackCPU = true end
 			if gethitvar("hitcount") == 1 then damageComboP2 = 0 end
 			damageComboP2 = damageComboP2 + gethitvar("damage")
 			if damageComboP2 > damageMaxP2 then damageMaxP2 = damageComboP2 end
@@ -624,7 +628,7 @@ local function f_addBonusScore()
 		if playerLeftSide then maxComboPlayer = maxComboCntP1 else maxComboPlayer = maxComboCntP2 end
 		setScore(score() + (maxComboPlayer * 1000) * scoreattackfactor)
 		setScore(score() + (consecutiveWins() * 1000) * scoreattackfactor)
-		--if firstattack() then setScore(score() + 1500 * scoreattackfactor) end
+		if firstAttack then setScore(score() + 1500 * scoreattackfactor) end
 		if wintime() then
 			setWinTimeCount(winTimeCount() + 1)
 		elseif winperfect() then
@@ -1488,6 +1492,13 @@ function loop() --The code for this function should be thought of as if it were 
 						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
 						f_addSpeedStarNotify("NO DAMAGE "..t_speedstarBonus[i].target.." SECONDS +"..t_speedstarBonus[i].reward)
 						noDamageTimer = noDamageTimer + 1
+					end
+			--First Attack Bonus
+				elseif t_speedstarBonus[i].item == "firstAttack" then
+					if firstAttack and t_speedstarBonus[i].active then
+						timeBonus = timeBonus + (t_speedstarBonus[i].bonus * timeBossFactor) * matchTimeFix
+						f_addSpeedStarNotify("FIRST ATTACK +"..t_speedstarBonus[i].reward)
+						t_speedstarBonus[i].active = false
 					end
 				end
 			end

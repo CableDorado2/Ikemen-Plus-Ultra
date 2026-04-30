@@ -3752,6 +3752,8 @@ end
 --; SPEED STAR MATCH
 --;===========================================================
 t_speedstarBonus = {
+	{item = "firstAttack",  reward = "1.5"}, --Fist Attack Bonus
+	
 	{item = "tauntCnt",		 target = 1,  reward = "1.0"}, --1 Taunt Bonus
 	{item = "tauntCnt", 	 target = 5,  reward = "2.5"}, --5 Taunt Bonus
 	{item = "tauntCnt", 	 target = 10, reward = "5.0"}, --10 Taunt Bonus
@@ -3760,7 +3762,7 @@ t_speedstarBonus = {
 	{item = "throwCnt", 	 target = 3,  reward = "2.0"}, --3 Throws Bonus
 	{item = "throwCnt", 	 target = 5,  reward = "3.0"}, --5 Throws Bonus
 	
-	{item = "noDamageTimer", target = 5,  reward = "1.0"}, --No Damage During 5 Seconds Bonus
+	--{item = "noDamageTimer", target = 5,  reward = "1.0"}, --No Damage During 5 Seconds Bonus
 	{item = "noDamageTimer", target = 10, reward = "2.0"}, --No Damage During 10 Seconds Bonus
 	{item = "noDamageTimer", target = 20, reward = "5.0"}, --No Damage During 20 Seconds Bonus
 	{item = "noDamageTimer", target = 30, reward = "7.0"}, --No Damage During 30 Seconds Bonus
