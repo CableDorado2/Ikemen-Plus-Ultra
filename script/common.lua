@@ -145,6 +145,7 @@ matchTimeFix = 60
 tickTime = 1 / gameTick
 gameTime = os.clock() / 1000
 nextRefresh = os.clock() + tickTime
+defaultTimeRecord = 359999.4 --Default record in ticks to use for any time stats
 
 function getSleep()
 --On Windows, Sleep is defined in milliseconds

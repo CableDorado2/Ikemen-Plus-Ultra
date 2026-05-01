@@ -2340,7 +2340,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 		local timeLeft = math.floor(getTimePersistence() / 60)
 		if matchNo == 1 then timeLeft = getRoundTime() / 60 end
 		textImgSetPos(txt_matchNo, 160, 15)
-		textImgSetText(txt_timeLeft, "TIME LEFT: "..timeLeft)
+		textImgSetText(txt_timeLeft, "TIME LEFT: "..timeLeft.." SECONDS")
 	else
 		textImgSetPos(txt_matchNo, 160, 20) --Restore Match No text Pos
 	end
@@ -3637,6 +3637,10 @@ t_speedStarRules = {
 
 t_speedCourseSel = {
 --maxmatches works like select.def arcademaxmatches paramvalue
+	{timestart = 180, timebonus = 10, maxmatches = {10, 1, 1}}, --SFIV Arcade x BlazBlue CF
+	{timestart = 180, timebonus = 0,  maxmatches = {12, 2, 2}, rulesplayer = "lifeinfinite"},
+	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite"},
+	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 --SFIV Time Attack Normal
 	{timestart = 500, timebonus = 30, maxmatches = {4}},
 	{timestart = 300, timebonus = 20, maxmatches = {2, 2}},
@@ -3659,11 +3663,6 @@ t_speedCourseSel = {
 	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}},
 	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}},
 	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1}},
---Others
-	{timestart = 180, timebonus = 10, maxmatches = {10, 1, 1}}, --SFIV Arcade x BlazBlue CF
-	{timestart = 180, timebonus = 0,  maxmatches = {12, 2, 2}, rulesplayer = "lifeinfinite"},
-	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite"},
-	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 }
 for i=1, #t_speedCourseSel do
 	local cnt = 0
@@ -3674,6 +3673,7 @@ for i=1, #t_speedCourseSel do
 	t_speedCourseSel[i].unlock = true
 	if t_speedCourseSel[i].rulesplayer == nil then t_speedCourseSel[i].rulesplayer = "none" end
 	if t_speedCourseSel[i].rulescpu == nil then t_speedCourseSel[i].rulescpu = "none" end
+	if t_speedCourseSel[i].id == nil then t_speedCourseSel[i].id = "level"..i end
 end
 if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSel.log") end
 
@@ -3732,44 +3732,34 @@ function f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
 				animPosDraw(speedCourseSlot, 0, 72 + (-118 + i * speedStarSpacingY - moveTxt))
 				
 				textImgSetBank(txt_speedCourseLv, colorSel)
-				textImgSetPos(txt_speedCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
-				textImgDraw(txt_speedCourseLv)
+				textImgPosDraw(txt_speedCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				
-				animPosDraw(speedCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
+				if stats.modes.speedstar[t_speedCourseSel[i].id].clear then
+					animPosDraw(speedCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
+				end
 				
-				textImgSetPos(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseScoreRecord)
+				textImgPosDraw(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))				
+				textImgSetText(txt_speedCourseScoreRecordVar, f_setThousandsFormat(stats.modes.speedstar[t_speedCourseSel[i].id].score))
+				textImgPosDraw(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				
-				textImgSetPos(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseScoreRecordVar)
+				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].time
+				if timeText < defaultTimeRecord then timeText = f_setTimeFormat(timeText) else timeText = "--:--.---" end
+				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
+				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 				
-				textImgSetPos(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseTimeRecord)
-				
-				textImgSetPos(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseTimeRecordVar)
-				
-				textImgSetPos(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseTimeStart)
-				
-				textImgSetPos(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))				
 				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
-				textImgDraw(txt_speedCourseTimeStartVar)
+				textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				
-				textImgSetPos(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseTotalStages)
-				
-				textImgSetPos(txt_speedCourseTotalStagesVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgPosDraw(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
-				textImgDraw(txt_speedCourseTotalStagesVar)
+				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				
-				textImgSetPos(txt_speedCourseTimeBonus, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgDraw(txt_speedCourseTimeBonus)				
-				
-				textImgSetPos(txt_speedCourseTimeBonusVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgPosDraw(txt_speedCourseTimeBonus, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))			
 				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
-				textImgDraw(txt_speedCourseTimeBonusVar)
+				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 			end
 		end
 	--Draw Cursor

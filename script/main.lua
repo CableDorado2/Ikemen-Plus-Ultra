@@ -3685,6 +3685,7 @@ function f_speedStarSelect()
 	local maxItems = 3
 	waitingCourseSel = true
 	speedCourseSel = 1
+	f_createSpeedStarData()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 308, 6)
 	animSetPos(menuArrowDown, 308, 188)
@@ -3781,6 +3782,43 @@ function f_speedStarSelect()
 		cmdInput()
 		refresh()
 	end
+end
+
+function f_createSpeedStarData()
+	local modified = false
+	for i=1, #t_speedCourseSel do
+		if stats.modes.speedstar[t_speedCourseSel[i].id] == nil then
+			stats.modes.speedstar[t_speedCourseSel[i].id] = {}
+			modified = true
+		end
+		if stats.modes.speedstar[t_speedCourseSel[i].id].clear == nil then
+			stats.modes.speedstar[t_speedCourseSel[i].id].clear = false
+			modified = true
+		end
+		if stats.modes.speedstar[t_speedCourseSel[i].id].score == nil then
+			stats.modes.speedstar[t_speedCourseSel[i].id].score = 0
+			modified = true
+		end
+		if stats.modes.speedstar[t_speedCourseSel[i].id].time == nil then
+			stats.modes.speedstar[t_speedCourseSel[i].id].time = defaultTimeRecord --From common.lua
+			modified = true
+		end
+	end
+	if modified then f_saveStats() end
+end
+
+function f_speedstarStatus()
+	local modified = false
+	stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear = true
+	if score() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score then
+		stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score = score()
+		modified = true
+	end
+	if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
+		stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
+		modified = true
+	end
+	if modified then f_saveStats() end
 end
 
 function f_speedstarBoot()
@@ -14322,6 +14360,7 @@ function f_result(state)
 				stats.money = stats.money + getPlayerReward()
 				f_saveStats()
 			end
+			if data.gameMode == "speedstar" then f_speedstarStatus() end
 			cmdInput()
 			break
 		end
