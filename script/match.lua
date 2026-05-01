@@ -1567,30 +1567,32 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 			f_drawSpeedStarNotify()
 		--Infinite Life Logic
-			if playerLeftSide then
-				for i=1, 8 do
-					if i % 2 == 0 then --Is an Even Player Number (Right Side)
-						
-					else --Is an Odd Player Number (Left Side)
-						if timeremaining() == 0 then
-							setService("")
-							if player(i) then setLife(0) end
-						else
-							setService("infinite life left") --Managed via match.cns
+			if getService() == "infinite life" or getService() == "infinite life left" or getService() == "infinite life right" then
+				if playerLeftSide then
+					for i=1, 8 do
+						if i % 2 == 0 then --Is an Even Player Number (Right Side)
+							
+						else --Is an Odd Player Number (Left Side)
+							if timeremaining() == 0 then
+								setService("")
+								if player(i) then setLife(0) end
+							else
+								setService("infinite life left") --Managed via match.cns
+							end
 						end
 					end
-				end
-			else
-				for i=1, 8 do
-					if i % 2 == 0 then --Is an Even Player Number (Right Side)
-						if timeremaining() == 0 then
-							setService("")
-							if player(i) then setLife(0) end
-						else
-							setService("infinite life right")
+				else
+					for i=1, 8 do
+						if i % 2 == 0 then --Is an Even Player Number (Right Side)
+							if timeremaining() == 0 then
+								setService("")
+								if player(i) then setLife(0) end
+							else
+								setService("infinite life right")
+							end
+						else --Is an Odd Player Number (Left Side)
+							
 						end
-					else --Is an Odd Player Number (Left Side)
-						
 					end
 				end
 			end

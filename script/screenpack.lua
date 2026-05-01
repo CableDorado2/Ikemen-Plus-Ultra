@@ -3605,7 +3605,7 @@ animUpdate(tourneyAwards)
 --;=================================================================================================
 --; SPEED STAR COURSE SELECT SCREENPACK DEFINITION
 --;=================================================================================================
-txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT", 159, 13)
+txt_speedCourseSel = createTextImg(font11, 0, 0, "SPEED STAR - COURSE SELECT", 159, 11)
 txt_speedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
@@ -3619,13 +3619,21 @@ txt_speedCourseTimeRecordVar = createTextImg(font14, 0, 1, "00:00:000", 159, 13,
 txt_speedCourseTimeStart = createTextImg(font6, 0, -1, "STARTING TIME:", 159, 13)
 txt_speedCourseTimeStartVar = createTextImg(font2, 2, 1, "", 159, 13)
 
-txt_speedCourseTotalStages = createTextImg(font5, 0, -1, "OPPONENTS TO DEFEAT:", 159, 13)
+txt_speedCourseTotalStages = createTextImg(font5, 0, -1, "TOTAL STAGES:", 159, 13)
 txt_speedCourseTotalStagesVar = createTextImg(font5, 0, 1, "", 159, 13)
 
-txt_speedCourseTimeBonus = createTextImg(font5, 0, -1, "TIME BONUS:", 159, 13)
+txt_speedCourseTimeBonus = createTextImg(font5, 0, -1, "STAGE CLEAR BONUS:", 159, 13)
 txt_speedCourseTimeBonusVar = createTextImg(font5, 0, 1, "", 159, 13)
 
-speedStarSpacingY = 65
+txt_speedCoursePlayerVar = createTextImg(font5, 0, 1, "", 2, 205)
+txt_speedCourseCPUVar = createTextImg(font5, 0, 1, "", 2, 215)
+
+speedStarSpacingY = 60
+
+t_speedStarRules = {
+	none = {displaytext = "Normal", rule = function() end},
+	lifeinfinite = {displaytext = "Infinite Life", rule = function() setService("infinite life") end},
+}
 
 t_speedCourseSel = {
 --maxmatches works like select.def arcademaxmatches paramvalue
@@ -3634,27 +3642,27 @@ t_speedCourseSel = {
 	{timestart = 300, timebonus = 20, maxmatches = {2, 2}},
 	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}},
 	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}},
-	{timestart = 250, timebonus = 5, maxmatches = {6, 4, 2}},
+	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}},
 	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}},
 	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}},
 	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}},
 	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}},
 	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}},
-	{timestart = 50, timebonus = 30, maxmatches = {6, 4, 2}},
+	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}},
 	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}},
 	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}},
-	{timestart = 250, timebonus = 5, maxmatches = {4, 4, 4}},
+	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}},
 	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}},
 --SFIV Time Attack Hard
 	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}},
 	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2}},
-	{timestart = 500, timebonus = 5, maxmatches = {10, 2, 2}},
+	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}},
 	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}},
 	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1}},
 --Others
-	{timestart = 180, timebonus = 10, maxmatches = {10, 2, 1}}, --SFIV Arcade x BlazBlue CF
-	{timestart = 180, timebonus = 10, maxmatches = {12, 2, 2}},
-	{timestart = 90,  timebonus = 20, maxmatches = {24, 4, 4}},
+	{timestart = 180, timebonus = 10, maxmatches = {10, 1, 1}}, --SFIV Arcade x BlazBlue CF
+	{timestart = 180, timebonus = 0,  maxmatches = {12, 2, 2}, rulesplayer = "lifeinfinite"},
+	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite"},
 	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 }
 for i=1, #t_speedCourseSel do
@@ -3664,8 +3672,17 @@ for i=1, #t_speedCourseSel do
 	end
 	t_speedCourseSel[i].totalmatches = cnt
 	t_speedCourseSel[i].unlock = true
+	if t_speedCourseSel[i].rulesplayer == nil then t_speedCourseSel[i].rulesplayer = "none" end
+	if t_speedCourseSel[i].rulescpu == nil then t_speedCourseSel[i].rulescpu = "none" end
 end
 if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSel.log") end
+
+--Title BG
+speedTitleBG = animNew(sprIkemen, [[
+230,3, 0,0, -1
+]])
+animSetScale(speedTitleBG, 2.9, 0.30)
+animSetAlpha(speedTitleBG, 155, 22)
 
 --Course Slot
 speedCourseSlot = animNew(sprIkemen, [[
@@ -3681,6 +3698,14 @@ speedCourseClear = animNew(sprIkemen, [[
 animSetScale(speedCourseClear, 0.045, 0.045)
 animUpdate(speedCourseClear)
 
+--Info BG
+speedCourseInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetScale(speedCourseInfoBG, 430, 24)
+animSetAlpha(speedCourseInfoBG, 0, 50)
+animUpdate(speedCourseInfoBG)
+
 --Speed Start Course Select Input Hints Panel
 function drawSpeedCourseInputHints()
 	local inputHintYPos = 220
@@ -3694,6 +3719,11 @@ function drawSpeedCourseInputHints()
 end
 
 function f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
+		animPosDraw(speedCourseInfoBG, -56, 195) --Draw Info Text BG
+		textImgSetText(txt_speedCoursePlayerVar, "PLAYER: "..t_speedStarRules[t_speedCourseSel[speedCourseSel].rulesplayer].displaytext)
+		textImgDraw(txt_speedCoursePlayerVar)
+		textImgSetText(txt_speedCourseCPUVar, "   CPU: "..t_speedStarRules[t_speedCourseSel[speedCourseSel].rulescpu].displaytext)
+		textImgDraw(txt_speedCourseCPUVar)
 	--Draw Speed Star Level Content Text
 		for i=1, maxspeedCourseSel do
 			if i > speedCourseSel - cursorPosY then

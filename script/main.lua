@@ -3686,8 +3686,8 @@ function f_speedStarSelect()
 	waitingCourseSel = true
 	speedCourseSel = 1
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	animSetPos(menuArrowUp, 308, 8)
-	animSetPos(menuArrowDown, 308, 208)
+	animSetPos(menuArrowUp, 308, 6)
+	animSetPos(menuArrowDown, 308, 188)
 	while true do
 		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
 		if not backScreen then
@@ -3698,6 +3698,8 @@ function f_speedStarSelect()
 		--Cursor Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
+				t_speedStarRules[t_speedCourseSel[speedCourseSel].rulesplayer].rule()
+				t_speedStarRules[t_speedCourseSel[speedCourseSel].rulescpu].rule()
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
 				f_saveTemp()
@@ -3743,6 +3745,7 @@ function f_speedStarSelect()
 		if data.tempBack then break end --back to main menu
 	--Draw BG
 		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animPosDraw(speedTitleBG, -56, 0) --Draw Title BG
 	--Draw Title
 		textImgDraw(txt_speedCourseSel)
 		f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
