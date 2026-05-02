@@ -11,12 +11,14 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 table.insert(t_extrasMenu, 1, {text = "CHRONICLES", gotomenu = "f_chroniclesMenu()", id = textImgNew()})
 
 t_chroniclesMenu = {
-	{text = "STORY",	 	gotomenu = "f_storyMenu()"},
-	{text = "???", 		gotomenu = "f_comingSoon()"}, --quiz
+	{text = "STORY", gotomenu = "f_storyMenu()"},
+	{text = "???", 	 gotomenu = "f_comingSoon()"}, --quiz
 }
 for i=1, #t_chroniclesMenu do
 	t_chroniclesMenu[i]['id'] = textImgNew()
+	if t_chroniclesMenu[i].unlock == nil then t_chroniclesMenu[i].unlock = "true" end
 end
+f_checkMenuUnlocks(t_chroniclesMenu)
 --;===========================================================
 --; CHRONICLES MENU (play special story game modes)
 --;===========================================================	
@@ -29,8 +31,11 @@ function f_chroniclesMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local itemText = nil
 	f_sideReset()
 	f_infoReset()
+	f_unlock(false)
+	f_updateUnlocks()
 	while true do
 		if not sideScreen and not infoScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -70,9 +75,7 @@ function f_chroniclesMenu()
 			else
 				maxchroniclesMenu = 5
 			end
-		--Enter Actions
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				sndPlay(sndSys, 100, 1)
 				f_gotoFunction(t_chroniclesMenu[chroniclesMenu])
 			end
 		end
@@ -83,7 +86,12 @@ function f_chroniclesMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 0, t_chroniclesMenu[i].text, 159, 122 + i * 13 - moveTxt))
+			if t_unlockLua.modes[t_chroniclesMenu[i].gotomenu] == nil then --If the menu item is unlocked
+				itemText = t_chroniclesMenu[i].text
+			else
+				itemText = "???"
+			end
+			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
 			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)

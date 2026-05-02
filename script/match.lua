@@ -392,6 +392,36 @@ local function f_handicapSet() --Applies to Both Sides
 	end
 end
 
+local speedstarStatsReady = false
+local speedstarDefReady = false
+local function f_speedstarStatsSet() --Applies to Both Sides
+	if not speedstarStatsReady then
+		for side=1, 2 do
+			local pDat = nil
+			if side == 1 then pDat = p1Dat elseif side == 2 then pDat = p2Dat end
+			for i=1, #pDat do
+			--For each Player Selected
+				if player(pDat[i].pn) then
+				--Attack Up
+					if t_handicapSelect[pDat[i].handicap].service == "life" then
+						
+				--Defence Up
+					elseif t_handicapSelect[pDat[i].handicap].service == "defence" and roundno() == 1 and roundstate() == 2 then
+					--Defence at 75%, 50%, 25%...
+						if t_handicapSelect[pDat[i].handicap].val ~= nil and not speedstarDefReady then
+							setDefence(math.floor(defence() / t_handicapSelect[pDat[i].handicap].val))
+						end
+					end
+				end
+			end
+		end
+	end
+--Need to be loaded until roundstate 2 for better compatibility with most chars
+	if roundstate() == 0 then speedstarStatsReady = false --Reset Handicap Assignment for Next Round
+	elseif roundstate() == 2 then speedstarDefReady = true speedstarStatsReady = true --End Handicap Assignment
+	end
+end
+
 local function f_updateMatchInfo()
 	local p1Wins = getP1matchWins()
 	local p2Wins = getP2matchWins()
@@ -740,7 +770,6 @@ local function f_abyssStatsSet() --Applies to Both Sides
 						end
 					end
 				end
-				
 			end
 		end
 	--For each Right Side Player Selected
@@ -1714,9 +1743,7 @@ function loop() --The code for this function should be thought of as if it were 
 				if t_tutorialDiag[tutoDiag].inputhint and not script.pause.pauseMenuActive then
 					f_tutoInputDisplay(t_tutorialDiag[tutoDiag].inputhint)
 				end
-			--Set Life
-				lifeMax(1)
-				lifeMax(2)
+				setService("infinite life all") --Managed via match.cns
 			--Set Power
 				powMax(1)
 			else --A fight started
@@ -1724,7 +1751,7 @@ function loop() --The code for this function should be thought of as if it were 
 				if player(2) then --Activate CPU for Player 2
 					setAILevel(8)
 				end
-				lifeMax(1)
+				setService("infinite life left") --Managed via match.cns
 			end
 		end
 	end

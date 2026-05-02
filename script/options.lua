@@ -1378,16 +1378,16 @@ end
 txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 
 t_mainCfg = {
-	{text = "Game Settings",	  	gotomenu = "f_gameCfg()"},
-	{text = "System Settings",  	gotomenu = "f_systemCfg()"},
-	{text = "Video Settings",  		gotomenu = "f_videoCfg()"},
-	{text = "Audio Settings",  		gotomenu = "f_audioCfg()"},
-	{text = "Input Settings",  		gotomenu = "f_inputCfg()"},
-	{text = "Netplay Settings",  	gotomenu = "f_netplayCfg()"},
-	{text = "Engine Settings",  	gotomenu = "f_engineCfg()"},
-	{text = "All Default Values",	gotomenu = "sndPlay(sndSys, 100, 1) defaultAll = true defaultScreen = true"},
-	{text = "Save and Back",   		gotomenu = "exitSaveCfg = true"},
-	{text = "Back Without Saving", 	gotomenu = "exitNoSaveCfg = true"},
+	{text = "Game Settings",	  	gotomenu = "f_gameCfg()", skipsfx = true},
+	{text = "System Settings",  	gotomenu = "f_systemCfg()", skipsfx = true},
+	{text = "Video Settings",  		gotomenu = "f_videoCfg()", skipsfx = true},
+	{text = "Audio Settings",  		gotomenu = "f_audioCfg()", skipsfx = true},
+	{text = "Input Settings",  		gotomenu = "f_inputCfg()", skipsfx = true},
+	{text = "Netplay Settings",  	gotomenu = "f_netplayCfg()", skipsfx = true},
+	{text = "Engine Settings",  	gotomenu = "f_engineCfg()", skipsfx = true},
+	{text = "All Default Values",	gotomenu = "defaultAll = true defaultScreen = true"},
+	{text = "Save and Back",   		gotomenu = "exitSaveCfg = true", skipsfx = true},
+	{text = "Back Without Saving", 	gotomenu = "exitNoSaveCfg = true", skipsfx = true},
 }
 for i=1, #t_mainCfg do
 	t_mainCfg[i]['varID'] = textImgNew()

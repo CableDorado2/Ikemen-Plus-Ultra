@@ -17,7 +17,7 @@ kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_practiceMenu table loaded by screenpack.lua
-table.insert(t_practiceMenu, #t_practiceMenu, {text = "TUTORIAL", gotomenu = "f_tutorial()", id = textImgNew()})
+table.insert(t_practiceMenu, #t_practiceMenu, {text = "TUTORIAL", gotomenu = "f_tutorial()", skipsfx = true, id = textImgNew()})
 sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
 sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
 bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
@@ -53,6 +53,13 @@ function f_tutorial()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	data.recordMode = "tutorial" --To save playtime
 	f_selectSimple()
+--Save progress only if you win/clear the tutorial
+	if winner == 1 then
+		if stats.modes.tutorial.clear == 0 then
+			stats.modes.tutorial.clear = 1
+			f_saveStats()
+		end
+	end
 	f_discordMainMenu()
 end
 --;===========================================================

@@ -405,7 +405,13 @@ function drawMenuItem(t, itemNo, offset, font, bank, align, x, y)
 	local item = t[index]
 	local xOffset = x
 	local yOffset = y
-	textImgDraw(f_updateTextImg(item.id, font, bank, align, item.text, xOffset, yOffset))
+	local itemText = nil
+	if t_unlockLua.modes[item.gotomenu] == nil then --If the menu item is unlocked
+		itemText = item.text
+	else
+		itemText = "???"
+	end
+	textImgDraw(f_updateTextImg(item.id, font, bank, align, itemText, xOffset, yOffset))
 end
 
 --animDraw at specified coordinates
@@ -967,11 +973,19 @@ end
 --Start functions stored in strings
 function f_gotoFunction(func)
 	if not func or not func.gotomenu then return end --Return in case func does not exist or does not have "gotomenu"
-	local f, err = load(func.gotomenu)
-	if f then
-		f() --Call the function
+	if t_unlockLua.modes[func.gotomenu] == nil then --If the menu item is unlocked
+		if not func.skipsfx then sndPlay(sndSys, 100, 1) end
+		local f, err = load(func.gotomenu)
+		if f then
+			f() --Call the function
+		--Check unlocks when exit from above function
+			f_unlock(false)
+			f_updateUnlocks()
+		else
+			return --Error when loading function
+		end
 	else
-		return --Error when loading function
+		sndPlay(sndIkemen, 200, 0)
 	end
 end
 
@@ -3163,13 +3177,22 @@ end
 
 t_unlockLua = { --Create table to manage unlock conditions in real-time
 chars = {}, stages = {}, modes = {},
-palettes = {}, abyss = {}, achievements = {}
+colors = {}, abyss = {}, achievements = {}
 }
 
 t_unlockGroups = {
 ['chars'] = true, ['stages'] = true, ['modes'] = true,
-['palettes'] = true, ['abyss'] = true, ['achievements'] = true,
+['colors'] = true, ['abyss'] = true, ['achievements'] = true,
 }
+
+--Check to send menu items with Unlock Condition to t_unlockLua table
+function f_checkMenuUnlocks(t)
+	if t == nil then return end
+	for _, v in ipairs(t) do
+		t_unlockLua.modes[v.gotomenu] = v.unlock
+	end
+	f_updateUnlocks()
+end
 
 function f_generateUnlocks()
 --Send Characters Unlock Condition to t_unlockLua table
@@ -3185,6 +3208,18 @@ function f_generateUnlocks()
 		t_unlockLua.abyss[v.text] = v.unlock
 	end
 	f_updateUnlocks()
+	f_checkMenuUnlocks(t_mainMenu)
+	f_checkMenuUnlocks(t_arcadeMenu)
+	f_checkMenuUnlocks(t_vsMenu)
+	f_checkMenuUnlocks(t_practiceMenu)
+	f_checkMenuUnlocks(t_challengeMenu)
+	f_checkMenuUnlocks(t_survivalMenu)
+	f_checkMenuUnlocks(t_timeattackMenu)
+	f_checkMenuUnlocks(t_scoreattackMenu)
+	f_checkMenuUnlocks(t_extrasMenu)
+	f_checkMenuUnlocks(t_bonusMenu)
+	f_checkMenuUnlocks(t_watchMenu)
+	f_checkMenuUnlocks(t_profileMenu)
 end
 
 --asserts content unlock conditions

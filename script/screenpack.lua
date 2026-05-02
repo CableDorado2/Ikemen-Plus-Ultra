@@ -788,7 +788,7 @@ t_mainMenu = {
 	{text = "NETPLAY", 		gotomenu = "f_mainNetplay()"},
 	{text = "PRACTICE", 	gotomenu = "f_practiceMenu()"},
 	{text = "CHALLENGES", 	gotomenu = "f_challengeMenu()"},
-	{text = "EXTRAS", 		gotomenu = "f_extrasMenu()"},
+	{text = "EXTRAS", 		gotomenu = "f_extrasMenu()", unlock = "stats.modes.arcade.clear >= 1"},
 	{text = "WATCH", 		gotomenu = "f_watchMenu()"},
 	{text = "OPTIONS", 		gotomenu = "f_optionsMenu()"},
 	{text = "EXIT", 		gotomenu = "f_exitMenu()"},
@@ -796,6 +796,7 @@ t_mainMenu = {
 --Set ID to all final items
 for i=1, #t_mainMenu do
 	t_mainMenu[i]['id'] = textImgNew()
+	if t_mainMenu[i].unlock == nil then t_mainMenu[i].unlock = "true" end
 end
 
 function drawMainMenuInputHints()
@@ -838,6 +839,7 @@ t_arcadeMenu = {
 }
 for i=1, #t_arcadeMenu do
 	t_arcadeMenu[i]['id'] = textImgNew()
+	if t_arcadeMenu[i].unlock == nil then t_arcadeMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -851,6 +853,7 @@ t_vsMenu = {
 }
 for i=1, #t_vsMenu do
 	t_vsMenu[i]['id'] = textImgNew()
+	if t_vsMenu[i].unlock == nil then t_vsMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -862,6 +865,7 @@ t_practiceMenu = {
 }
 for i=1, #t_practiceMenu do
 	t_practiceMenu[i]['id'] = textImgNew()
+	if t_practiceMenu[i].unlock == nil then t_practiceMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -875,6 +879,7 @@ t_challengeMenu = {
 }
 for i=1, #t_challengeMenu do
 	t_challengeMenu[i]['id'] = textImgNew()
+	if t_challengeMenu[i].unlock == nil then t_challengeMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -887,6 +892,7 @@ t_survivalMenu = {
 }
 for i=1, #t_survivalMenu do
 	t_survivalMenu[i]['id'] = textImgNew()
+	if t_survivalMenu[i].unlock == nil then t_survivalMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -899,6 +905,7 @@ t_timeattackMenu = {
 }
 for i=1, #t_timeattackMenu do
 	t_timeattackMenu[i]['id'] = textImgNew()
+	if t_timeattackMenu[i].unlock == nil then t_timeattackMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -911,6 +918,7 @@ t_scoreattackMenu = {
 }
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
+	if t_scoreattackMenu[i].unlock == nil then t_scoreattackMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -925,6 +933,7 @@ t_extrasMenu = {
 }
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()
+	if t_extrasMenu[i].unlock == nil then t_extrasMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -936,6 +945,7 @@ t_bonusMenu = {
 }
 for i=1, #t_bonusMenu do
 	t_bonusMenu[i]['id'] = textImgNew()
+	if t_bonusMenu[i].unlock == nil then t_bonusMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -951,6 +961,7 @@ t_watchMenu = {
 }
 for i=1, #t_watchMenu do
 	t_watchMenu[i]['id'] = textImgNew()
+	if t_watchMenu[i].unlock == nil then t_watchMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -962,6 +973,7 @@ t_profileMenu = {
 }
 for i=1, #t_profileMenu do
 	t_profileMenu[i]['id'] = textImgNew()
+	if t_profileMenu[i].unlock == nil then t_profileMenu[i].unlock = "true" end
 end
 
 --;===========================================================
@@ -1233,10 +1245,6 @@ t_mainLobby = {
 	{text = "ENDLESS"},
 	{text = "BOSS RUSH"},
 	{text = "BONUS RUSH"},
---[[
-	{text = "TIME RUSH"},
-	{text = "SCORE RUSH"},
-]]
 	{text = "SPEED STAR"},
 	{text = "TIME ATTACK"},
 	{text = "SCORE ATTACK"},
