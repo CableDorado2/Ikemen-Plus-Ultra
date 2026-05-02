@@ -3747,6 +3747,172 @@ function timeattackCPUvsCPU()
 end
 
 --;===========================================================
+--; COURSE SELECT (For advanced challenge modes)
+--;===========================================================
+function f_commonCourseSelect(mode)
+	cmdInput()
+	local cursorPosY = 1
+	local cursorPosX = 1
+	local moveTxt = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 3
+	local opponentSel = false
+	waitingCourseSel = true
+	advancedCourseSel = 1
+	--f_createAdvancedModesData()
+	for i=1, #t_advancedCourseSel do
+		t_advancedCourseSel[i].roster = f_makeRosterAdvanced(t_advancedCourseSel[i])
+	end
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowUp, 308, 6)
+	animSetPos(menuArrowDown, 308, 188)
+	while true do
+		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
+		if not backScreen then
+		--Return Logic
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				if opponentSel then
+					opponentSel = false
+				else
+					backScreen = true
+				end
+		--Cursor Actions
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
+				sndPlay(sndSys, 100, 1)
+				if not opponentSel then
+					t_roster = t_advancedCourseSel[advancedCourseSel].roster
+					opponentSel = true
+				else
+					
+					break
+				end
+			end
+		--Course Select
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				advancedCourseSel = advancedCourseSel - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				advancedCourseSel = advancedCourseSel + 1
+			end
+			if advancedCourseSel < 1 then
+				advancedCourseSel = #t_advancedCourseSel
+				if #t_advancedCourseSel > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_advancedCourseSel
+				end
+			elseif advancedCourseSel > #t_advancedCourseSel then
+				advancedCourseSel = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (advancedCourseSel - maxItems) * advancedCourseSpacingY
+			elseif cursorPosY == 1 then
+				moveTxt = (advancedCourseSel - 1) * advancedCourseSpacingY
+			end
+			if #t_advancedCourseSel <= maxItems then
+				maxadvancedCourseSel = #t_advancedCourseSel
+			elseif advancedCourseSel - cursorPosY > 0 then
+				maxadvancedCourseSel = advancedCourseSel + maxItems - cursorPosY
+			else
+				maxadvancedCourseSel = maxItems
+			end
+		end
+	--Exit Via Return Button
+		if data.tempBack then break end --back to main menu
+	--Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animPosDraw(advancedCourseTitleBG, -56, 0) --Draw Title BG
+	--Draw Title
+		textImgDraw(txt_advancedCourseSel)
+		f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
+		
+				
+		if maxadvancedCourseSel > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_advancedCourseSel > maxItems and maxadvancedCourseSel < #t_advancedCourseSel then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+	--Course Select Timer
+		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
+		if destinyTimer > 0 then
+			if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
+			textImgPosDraw(txt_destinyTime, 160, 215)
+		else --when destinyTimer <= 0
+			
+		end
+		if backScreen then f_backMenu() else drawAdvancedCourseSelInputHints(opponentSel) end --Open Back Menu Question
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+function f_createAdvancedModesData()
+	local modified = false
+	for i=1, #t_advancedCourseSel do
+		if stats.modes[data.gameMode][t_advancedCourseSel[i].id] == nil then
+			stats.modes[data.gameMode][t_advancedCourseSel[i].id] = {}
+			modified = true
+		end
+		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].clear == nil then
+			stats.modes[data.gameMode][t_advancedCourseSel[i].id].clear = false
+			modified = true
+		end
+		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].wins == nil then
+			stats.modes[data.gameMode][t_advancedCourseSel[i].id].wins = 0
+			modified = true
+		end
+		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].score == nil then
+			stats.modes[data.gameMode][t_advancedCourseSel[i].id].score = 0
+			modified = true
+		end
+		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].time == nil then
+			stats.modes[data.gameMode][t_advancedCourseSel[i].id].time = defaultTimeRecord --From common.lua
+			modified = true
+		end
+	end
+	if modified then f_saveStats() end
+end
+
+function f_advancedModesStatus()
+	local modified = false
+	stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear = true
+	if score() > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score then
+		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score = score()
+		modified = true
+	end
+	if timerTotal() < stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time then
+		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
+		modified = true
+	end
+	if modified then f_saveStats() end
+end
+
+--;===========================================================
 --; SPEED STAR MODE (defeat opponents before time runs out)
 --;===========================================================
 function f_speedStarSelect()
@@ -7385,7 +7551,7 @@ function f_makeRoster()
 	local cnt = 0
 	local t_orderRoster = t_orderChars
 	if data.gameMode == "bossrush" then t_orderRoster = t_orderBoss end
---Face characters following select.def order (Arcade based modes / Survival / Boss Rush)
+--Face characters following select.def order (Arcade based modes / Boss Rush)
 	if data.orderRoster then
 		local t_mode = t_makeRosterModes[data.gameMode]
 	--re-use entire arcade config for unrecognized modes
@@ -7478,7 +7644,95 @@ function f_makeRoster()
 end
 
 --Make roster for special challenges modes, based in Arcade Order
-function f_makeRoster2()
+function f_makeRosterAdvanced(t_course)
+	local t_roster = {}
+	local t = {}
+	local cnt = 0
+	local t_orderRoster = t_orderChars
+	if t_course.courseboss then t_orderRoster = t_orderBoss end
+--Face characters following select.def order
+	if data.orderRoster then
+		local t_mode = t_makeRosterModes[data.gameMode]
+	--re-use entire arcade config for unrecognized modes
+		if t_mode == nil then
+			t_mode = t_makeRosterModes.arcade
+		else
+		--re-use arcade maxmatches config for unrecognized modes
+			if t_selOptions[t_mode.single.maxmatches] == nil then
+				t_mode.single.maxmatches = t_makeRosterModes.arcade.single.maxmatches
+			end
+			if t_selOptions[t_mode.team.maxmatches] == nil then
+				t_mode.team.maxmatches = t_makeRosterModes.arcade.team.maxmatches
+			end
+		end
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		--Single Mode
+			if p1teamMode == 0 then
+				t = t_selOptions[t_mode.single.maxmatches] --t_selOptions.arcademaxmatches
+		--Team Modes
+			else
+				t = t_selOptions[t_mode.team.maxmatches] --t_selOptions.teammaxmatches
+			end
+		else
+		--Single Mode
+			if p2teamMode == 0 then
+				t = t_selOptions[t_mode.single.maxmatches] --t_selOptions.arcademaxmatches
+		--Team Modes
+			else
+				t = t_selOptions[t_mode.team.maxmatches] --t_selOptions.teammaxmatches
+			end
+		end
+		for i=1, #t do --for each order number
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				cnt = t[i] * p1numChars --set amount of matches to get from the table
+			else
+				cnt = t[i] * p2numChars --set amount of matches to get from the table
+			end
+			if cnt > 0 and t_orderRoster[i] ~= nil then --if it's more than 0 and there are characters with such order
+				while cnt > 0 do --do the following until amount of matches for particular order is reached
+					f_shuffleTable(t_orderRoster[i]) --randomize characters table
+					for j=1, #t_orderRoster[i] do --loop through chars associated with that particular order
+						t_roster[#t_roster + 1] = t_orderRoster[i][j] --and add such character into new table
+						cnt = cnt - 1
+						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
+							break
+						end
+					end
+				end
+			end
+		end
+--Face all t_randomChars characters without following select.def order paramvalue
+	else
+		t = t_randomChars
+		cnt = #t
+		local i = 0
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			while cnt / p1numChars ~= math.ceil(cnt / p1numChars) do --not integer
+				i = i + 1
+				cnt = #t + i
+			end
+		else
+			while cnt / p2numChars ~= math.ceil(cnt / p2numChars) do --not integer
+				i = i + 1
+				cnt = #t + i
+			end
+		end
+		while cnt > 0 do
+			f_shuffleTable(t)
+			for i=1, #t do
+				t_roster[#t_roster + 1] = t[i]
+				cnt = cnt - 1
+				if cnt == 0 then
+					break
+				end
+			end
+		end
+	end
+	if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
+	return t_roster
+end
+
+function f_makeRosterSpeedStar()
 	t_roster = {}
 	local t = {}
 	local cnt = 0
@@ -15447,13 +15701,28 @@ if validCells() then
 					playVideo(tPos.intro2)
 				end
 			end
-			if data.gameMode == "tower" then
+			if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
+				f_commonCourseSelect()
+				if data.tempBack == true then
+					f_exitToMainMenu()
+					return
+				end
+				lastMatch = #t_advancedCourseSel[advancedCourseSel].roster
+			elseif data.gameMode == "tower" then
 				f_selectDestiny() --Tower Select (Choose Your Destiny Screen)
 				if data.tempBack == true then
 					f_exitToMainMenu()
 					return
 				end
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
+			elseif data.gameMode == "speedstar" then
+				f_speedStarSelect()
+				if data.tempBack == true then
+					f_exitToMainMenu()
+					return
+				end
+				f_makeRosterSpeedStar()
+				lastMatch = #t_roster
 			elseif data.gameMode == "abyss" then
 				if not loadAbyssDat then --Only show during a New Game
 					f_abyssMenu() --Go to Abyss Menu that contains the item shop
@@ -15473,16 +15742,8 @@ if validCells() then
 				end
 				--f_makeRoster()
 				lastMatch = #t_allianceCourses[allianceCourseSel].match --get last match from alliance course selected
-			elseif data.gameMode == "speedstar" then
-				f_speedStarSelect()
-				if data.tempBack == true then
-					f_exitToMainMenu()
-					return
-				end
-				f_makeRoster2()
-				lastMatch = #t_roster
 			else
-			--generate roster for other modes (arcade, survival, etc)
+			--generate roster for other modes (arcade, bossrush, allroster, etc)
 				f_makeRoster()
 				if data.gameMode ~= "endless" then --because for endless we gonna make this infinite
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side

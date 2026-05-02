@@ -3268,9 +3268,9 @@ gameOver = animNew(sprIkemen, [[
 --black background for 24 frames
 animAddPos(gameOver, -53, 0)
 
---;=================================================================================================
+--;===========================================================
 --; TOWER DESTINY SCREENPACK DEFINITION
---;=================================================================================================
+--;===========================================================
 txt_towerSelect = createTextImg(fontMK2, 0, 0, "CHOOSE YOUR DESTINY", 159, 13, 0.5, 0.5)
 txt_destinyTime = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
@@ -3345,9 +3345,9 @@ function drawTowerInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
---;=================================================================================================
+--;===========================================================
 --; TOWER BATTLE PLAN SCREENPACK DEFINITION
---;=================================================================================================
+--;===========================================================
 --Final Destiny BG
 destinyFinalBG = animNew(sprIkemen, [[
 40,1, 0,0, -1
@@ -3610,9 +3610,135 @@ tourneyAwards = animNew(sprIkemen, [[
 animAddPos(tourneyAwards, 0, 0)
 animUpdate(tourneyAwards)
 
---;=================================================================================================
+--;===========================================================
+--; COMMON SELECT SCREENPACK DEFINITION
+--;===========================================================
+txt_advancedCourseSel = createTextImg(font11, 0, 0, "", 159, 11)
+txt_advancedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
+
+txt_advancedCourseName = createTextImg(jgFnt, 0, 1, "", 159, 13)
+txt_advancedCourseRecord = createTextImg(font14, 0, -1, "HIGH SCORE: ", 159, 13, 0.8, 0.8)
+txt_advancedCourseInfo = createTextImg(font5, 0, 1, "", 2, 205)
+
+txt_advancedLvSel = "SELECT THE COURSE DIFFICULTY"
+txt_advancedFirstSel = "SELECT YOUR FISRT OPPONENT"
+
+advancedCourseSpacingY = 65
+
+t_advancedCourseSel = {
+	{name = "RANDOM", 	courserandom = true},
+	{name = "STANDARD"},
+	{name = "BOSS", 	courseboss = true},
+	{name = "ALL-STAR", courseall = true},
+	{name = "ENDLESS",  courserandom = true},
+}
+for i=1, #t_advancedCourseSel do
+	t_advancedCourseSel[i].id = t_advancedCourseSel[i].name
+	if t_advancedCourseSel[i].unlock == nil then t_advancedCourseSel[i].unlock = "true" end
+	if t_advancedCourseSel[i].courserandom == nil then t_advancedCourseSel[i].courserandom = false end
+	if t_advancedCourseSel[i].courseall == nil then t_advancedCourseSel[i].courseall = false end
+	if t_advancedCourseSel[i].courseboss == nil then t_advancedCourseSel[i].courseboss = false end
+end
+
+--Title BG
+advancedCourseTitleBG = animNew(sprIkemen, [[
+230,3, 0,0, -1
+]])
+animSetScale(advancedCourseTitleBG, 2.9, 0.30)
+animSetAlpha(advancedCourseTitleBG, 155, 22)
+
+--Course Slot
+advancedCourseSlot = animNew(sprIkemen, [[
+295,2, 0,0, -1
+]])
+
+--Course Random Icon
+advancedCourseRandomIcon = animNew(sprSys, [[
+151,0, 0,0, -1
+]])
+
+--Course Clear Icon
+advancedCourseClear = animNew(sprIkemen, [[
+215,0, 0,0, -1
+]])
+animSetScale(advancedCourseClear, 0.045, 0.045)
+animUpdate(advancedCourseClear)
+
+--Info BG
+advancedCourseInfoBG = animNew(sprIkemen, [[
+3,0, 0,0, -1
+]])
+animSetScale(advancedCourseInfoBG, 430, 24)
+animSetAlpha(advancedCourseInfoBG, 0, 50)
+animUpdate(advancedCourseInfoBG)
+
+--Course Select Input Hints Panel
+function drawAdvancedCourseSelInputHints(change)
+	local inputHintYPos = 220
+	local hintFont = font2
+	local hintFontYPos = 234
+	local input1 = nil
+	local input2 = nil
+	if change then
+		input1 = "l"
+		input2 = "r"
+	else
+		input1 = "u"
+		input2 = "d"
+	end
+	animPosDraw(inputHintsBG, -56, 219)
+	drawMenuInputHints(input1,"40,"..inputHintYPos,input2,"60,"..inputHintYPos,"s","132,"..inputHintYPos,"e","210,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
+end
+
+function f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
+		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
+		if not opponentSel then
+			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
+		else
+			textImgSetText(txt_advancedCourseInfo, txt_advancedFirstSel)
+		end
+		textImgDraw(txt_advancedCourseInfo)
+	--Draw Speed Star Level Content Text
+		for i=1, maxadvancedCourseSel do
+			if i > advancedCourseSel - cursorPosY then
+				local colorSel = 7
+				if advancedCourseSel == i then colorSel = 5 end
+				animPosDraw(advancedCourseSlot, 0, 72 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				
+				textImgSetBank(txt_advancedCourseName, colorSel)
+				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
+				textImgPosDraw(txt_advancedCourseName, 2, 90 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				
+				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
+					animPosDraw(advancedCourseClear, 85, 78 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				--end
+			--[[	
+				local varText = ""
+				if data.gameMode == "survival" then
+					varText = stats.modes.survival[t_advancedCourseSel[i].id].wins)
+				elseif data.gameMode == "timeattack" then
+					stats.modes.timeattack[t_advancedCourseSel[i].id].time
+					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
+				elseif data.gameMode == "scoreattack" then
+					varText = f_setThousandsFormat(stats.modes.scoreattack[t_advancedCourseSel[i].id].score)
+				end
+				textImgSetText(txt_advancedCourseRecord, varText)
+			]]
+				textImgPosDraw(txt_advancedCourseRecord, 82, 120 + (-118 + i * advancedCourseSpacingY - moveTxt))
+			end
+		end
+	--Draw Cursor
+		animSetWindow(cursorBox, 0,72 + (-118 + advancedCourseSel * advancedCourseSpacingY - moveTxt), 320,57)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+end
+
+--;===========================================================
 --; SPEED STAR COURSE SELECT SCREENPACK DEFINITION
---;=================================================================================================
+--;===========================================================
 txt_speedCourseSel = createTextImg(font11, 0, 0, "SPEED STAR - COURSE SELECT", 159, 11)
 txt_speedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
@@ -3689,7 +3815,7 @@ for i=1, #t_speedCourseSel do
 		cnt = cnt + t_speedCourseSel[i].maxmatches[order]
 	end
 	t_speedCourseSel[i].totalmatches = cnt
-	t_speedCourseSel[i].unlock = true
+	if t_speedCourseSel[i].unlock == nil then t_speedCourseSel[i].unlock = "true" end
 	if t_speedCourseSel[i].rulesplayer == nil then t_speedCourseSel[i].rulesplayer = "none" end
 	if t_speedCourseSel[i].rulescpu == nil then t_speedCourseSel[i].rulescpu = "none" end
 	if t_speedCourseSel[i].id == nil then t_speedCourseSel[i].id = "level"..i end
