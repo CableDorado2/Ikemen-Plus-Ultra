@@ -3699,8 +3699,8 @@ function f_speedStarSelect()
 		--Cursor Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
-				t_speedStarRules[t_speedCourseSel[speedCourseSel].rulesplayer].rule()
-				t_speedStarRules[t_speedCourseSel[speedCourseSel].rulescpu].rule()
+				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulesplayer)
+				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
 				f_saveTemp()
@@ -3749,7 +3749,54 @@ function f_speedStarSelect()
 		animPosDraw(speedTitleBG, -56, 0) --Draw Title BG
 	--Draw Title
 		textImgDraw(txt_speedCourseSel)
-		f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
+		--f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
+		animPosDraw(speedCourseInfoBG, -56, 195) --Draw Info Text BG
+		textImgSetText(txt_speedCoursePlayerVar, "PLAYER: "..f_getSpeedRules(t_speedCourseSel[speedCourseSel].rulesplayer))
+		textImgDraw(txt_speedCoursePlayerVar)
+		textImgSetText(txt_speedCourseCPUVar, "   CPU: "..f_getSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu))
+		textImgDraw(txt_speedCourseCPUVar)
+	--Draw Speed Star Level Content Text
+		for i=1, maxspeedCourseSel do
+			if i > speedCourseSel - cursorPosY then
+				local colorSel = 7
+				if speedCourseSel == i then colorSel = 5 end
+				animPosDraw(speedCourseSlot, 0, 72 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgSetBank(txt_speedCourseLv, colorSel)
+				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
+				textImgPosDraw(txt_speedCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				if stats.modes.speedstar[t_speedCourseSel[i].id].clear then
+					animPosDraw(speedCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
+				end
+				
+				textImgPosDraw(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))				
+				textImgSetText(txt_speedCourseScoreRecordVar, f_setThousandsFormat(stats.modes.speedstar[t_speedCourseSel[i].id].score))
+				textImgPosDraw(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].time
+				if timeText < defaultTimeRecord then timeText = f_setTimeFormat(timeText) else timeText = "--:--.---" end
+				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
+				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))				
+				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
+				textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
+				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTimeBonus, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))			
+				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
+				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+			end
+		end
+	--Draw Cursor
+		animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if maxspeedCourseSel > maxItems then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
@@ -3781,6 +3828,40 @@ function f_speedStarSelect()
 		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
+	end
+end
+
+--To display text item in t_speedStarRules
+function f_getSpeedRules(ruleData)
+--If it's a string (a single item), we return it directly from t_speedStarRules
+	if type(ruleData) == "string" then
+		return t_speedStarRules[ruleData].displaytext
+	end
+--If it's a table, iterate and concatenate.
+	if type(ruleData) == "table" then
+		local names = {}
+		for _, k in ipairs(ruleData) do
+			if t_speedStarRules[k] then
+				table.insert(names, t_speedStarRules[k].displaytext)
+			end
+		end
+		return table.concat(names, ", ") --Mix everything with commas
+	end
+	return ""
+end
+
+--To run function item in t_speedStarRules
+function f_setSpeedRules(ruleData)
+	if type(ruleData) == "string" then
+		if t_speedStarRules[ruleData] and t_speedStarRules[ruleData].rule then
+			t_speedStarRules[ruleData].rule()
+		end
+	elseif type(ruleData) == "table" then
+		for _, k in ipairs(ruleData) do
+			if t_speedStarRules[k] and t_speedStarRules[k].rule then
+				t_speedStarRules[k].rule()
+			end
+		end
 	end
 end
 

@@ -3633,6 +3633,17 @@ speedStarSpacingY = 60
 t_speedStarRules = {
 	none = {displaytext = "Normal", rule = function() end},
 	lifeinfinite = {displaytext = "Infinite Life", rule = function() setService("infinite life") end},
+	powerinfinite = {displaytext = "Infinite Power", rule = function() setService("infinite power") end},
+	nopower = {displaytext = "Power Gauge Deplete", rule = function() end},
+	defenceup = {displaytext = "DEF.Up", rule = function() end},
+	attackup = {displaytext = "ATK.Up", rule = function() end},
+	regenlife = {displaytext = "Auto Heal", rule = function() end},
+	regenpower = {displaytext = "Auto Power Recover", rule = function() end},
+	powerstartmax = {displaytext = "Power Max at Start", rule = function() end},
+	nolifedisplay = {displaytext = "Lifebar not Displayed", rule = function() end},
+	nopowerdisplay = {displaytext = "Power Gauge not Displayed", rule = function() end},
+	nohuddisplay = {displaytext = "Battle HUD not Displayed", rule = function() end},
+	invisibility = {displaytext = "Invisibility", rule = function() end},
 }
 
 t_speedCourseSel = {
@@ -3642,27 +3653,27 @@ t_speedCourseSel = {
 	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite"},
 	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 --SFIV Time Attack Normal
-	{timestart = 500, timebonus = 30, maxmatches = {4}},
-	{timestart = 300, timebonus = 20, maxmatches = {2, 2}},
-	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}},
-	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}},
-	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}},
-	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}},
-	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}},
-	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}},
-	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}},
-	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}},
-	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}},
-	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}},
-	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}},
-	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}},
-	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}},
+	{timestart = 500, timebonus = 30, maxmatches = {4}, rulesplayer = {"defenceup", "regenlife", "powerinfinite"}, rulescpu = "nopower"},
+	{timestart = 300, timebonus = 20, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower"},
+	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower"},
+	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}},
+	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}, rulesplayer = "defenceup"},
+	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}, rulesplayer = "defenceup"},
+	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup"},
+	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup"},
+	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = "defenceup"},
+	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}, rulesplayer = "regenpower"},
+	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "nopower", rulescpu = "nopower"},
+	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = "regenpower", rulescpu = "defenceup"},
+	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}, rulesplayer = "defenceup", rulescpu = {"defenceup", "nohuddisplay"}},
+	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}},
+	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility"},
 --SFIV Time Attack Hard
 	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}},
-	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2}},
-	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}},
-	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}},
-	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1}},
+	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}},
+	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"},
+	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}, rulescpu = "defenceup"}},
+	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}},
 }
 for i=1, #t_speedCourseSel do
 	local cnt = 0
@@ -3719,53 +3730,7 @@ function drawSpeedCourseInputHints()
 end
 
 function f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
-		animPosDraw(speedCourseInfoBG, -56, 195) --Draw Info Text BG
-		textImgSetText(txt_speedCoursePlayerVar, "PLAYER: "..t_speedStarRules[t_speedCourseSel[speedCourseSel].rulesplayer].displaytext)
-		textImgDraw(txt_speedCoursePlayerVar)
-		textImgSetText(txt_speedCourseCPUVar, "   CPU: "..t_speedStarRules[t_speedCourseSel[speedCourseSel].rulescpu].displaytext)
-		textImgDraw(txt_speedCourseCPUVar)
-	--Draw Speed Star Level Content Text
-		for i=1, maxspeedCourseSel do
-			if i > speedCourseSel - cursorPosY then
-				local colorSel = 7
-				if speedCourseSel == i then colorSel = 5 end
-				animPosDraw(speedCourseSlot, 0, 72 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgSetBank(txt_speedCourseLv, colorSel)
-				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
-				textImgPosDraw(txt_speedCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				if stats.modes.speedstar[t_speedCourseSel[i].id].clear then
-					animPosDraw(speedCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
-				end
-				
-				textImgPosDraw(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))				
-				textImgSetText(txt_speedCourseScoreRecordVar, f_setThousandsFormat(stats.modes.speedstar[t_speedCourseSel[i].id].score))
-				textImgPosDraw(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].time
-				if timeText < defaultTimeRecord then timeText = f_setTimeFormat(timeText) else timeText = "--:--.---" end
-				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
-				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))				
-				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
-				textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
-				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTimeBonus, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))			
-				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
-				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-			end
-		end
-	--Draw Cursor
-		animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		
 end
 
 --;===========================================================
