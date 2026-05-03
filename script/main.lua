@@ -3469,7 +3469,7 @@ function caravanCfg()
 	setScoreDisplay(true)
 	setMatchnoDisplay(true)
 	setCountdownDisplay(true)
-	data.gameMode = "allroster"
+	data.gameMode = "caravan"
 	data.recordMode = "caravan"
 	setGameMode("caravan")
 	setCountdown(6000) --5 Minutes
@@ -3477,7 +3477,6 @@ function caravanCfg()
 	setRoundsToWin(2)
 	--data.nextStage = true
 	data.versusScreen = false
-	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3753,30 +3752,37 @@ function f_commonCourseSelect(mode)
 	cmdInput()
 	local cursorPosY = 1
 	local cursorPosX = 1
-	local moveTxt = 0
+	local moveCourse = 0
+	local moveSlot = 0
+	local maxCourses = 3
+	local maxSlots = 10
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local maxItems = 3
 	local titleText = nil
 	local opponentSel = false
+	local courseSlotSel = 1
 	waitingCourseSel = true
 	advancedCourseSel = 1
+	f_loadAdvancedCourses()
 	--f_createAdvancedModesData()
 	for i=1, #t_advancedCourseSel do
 		t_advancedCourseSel[i].roster = f_makeRosterAdvanced(t_advancedCourseSel[i])
 	end
+	if data.debugLog then f_printTable(t_advancedCourseSel, "save/debug/t_advancedCourseSel.log") end
 	if data.gameMode == "survival" then
 		titleText = "SURVIVAL - COURSE SELECT"
 	elseif data.gameMode == "timeattack" then
 		titleText = "TIME ATTACK - COURSE SELECT"
 	elseif data.gameMode == "scoreattack" then
 		titleText = "SCORE ATTACK - COURSE SELECT"
+	elseif data.gameMode == "caravan" then
+		titleText = "CARAVAN - COURSE SELECT"
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	animSetPos(menuArrowUp, 292, 20)
-	animSetPos(menuArrowDown, 292, 185)
+	animSetPos(menuArrowUp, 295, 20)
+	animSetPos(menuArrowDown, 295, 185)
 	while true do
 		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
 		if not backScreen then
@@ -3800,39 +3806,79 @@ function f_commonCourseSelect(mode)
 				end
 			end
 		--Course Select
-			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				advancedCourseSel = advancedCourseSel - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				advancedCourseSel = advancedCourseSel + 1
-			end
-			if advancedCourseSel < 1 then
-				advancedCourseSel = #t_advancedCourseSel
-				if #t_advancedCourseSel > maxItems then
-					cursorPosY = maxItems
-				else
-					cursorPosY = #t_advancedCourseSel
+			if not opponentSel then
+				if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+					sndPlay(sndSys, 100, 0)
+					advancedCourseSel = advancedCourseSel - 1
+				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+					sndPlay(sndSys, 100, 0)
+					advancedCourseSel = advancedCourseSel + 1
 				end
-			elseif advancedCourseSel > #t_advancedCourseSel then
-				advancedCourseSel = 1
-				cursorPosY = 1
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == maxItems then
-				moveTxt = (advancedCourseSel - maxItems) * advancedCourseSpacingY
-			elseif cursorPosY == 1 then
-				moveTxt = (advancedCourseSel - 1) * advancedCourseSpacingY
-			end
-			if #t_advancedCourseSel <= maxItems then
-				maxadvancedCourseSel = #t_advancedCourseSel
-			elseif advancedCourseSel - cursorPosY > 0 then
-				maxadvancedCourseSel = advancedCourseSel + maxItems - cursorPosY
+				if advancedCourseSel < 1 then
+					advancedCourseSel = #t_advancedCourseSel
+					if #t_advancedCourseSel > maxCourses then
+						cursorPosY = maxCourses
+					else
+						cursorPosY = #t_advancedCourseSel
+					end
+				elseif advancedCourseSel > #t_advancedCourseSel then
+					advancedCourseSel = 1
+					cursorPosY = 1
+				elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+					cursorPosY = cursorPosY - 1
+				elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxCourses then
+					cursorPosY = cursorPosY + 1
+				end
+				if cursorPosY == maxCourses then
+					moveCourse = (advancedCourseSel - maxCourses) * advancedCourseSpacingY
+				elseif cursorPosY == 1 then
+					moveCourse = (advancedCourseSel - 1) * advancedCourseSpacingY
+				end
+		--Opponent Select
 			else
-				maxadvancedCourseSel = maxItems
+				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+					sndPlay(sndSys, 100, 0)
+					courseSlotSel = courseSlotSel - 1
+				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+					sndPlay(sndSys, 100, 0)
+					courseSlotSel = courseSlotSel + 1
+				end
+				if courseSlotSel < 1 then
+					courseSlotSel = #t_advancedCourseSel[advancedCourseSel].roster
+					if #t_advancedCourseSel > maxSlots then
+						cursorPosX = maxSlots
+					else
+						cursorPosX = #t_advancedCourseSel[advancedCourseSel].roster
+					end
+				elseif courseSlotSel > #t_advancedCourseSel[advancedCourseSel].roster then
+					courseSlotSel = 1
+					cursorPosX = 1
+				elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+					cursorPosX = cursorPosX - 1
+				elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxSlots then
+					cursorPosX = cursorPosX + 1
+				end
+				if cursorPosX == maxSlots then
+					moveCourse = (courseSlotSel - maxSlots) * advancedCourseSpacingX
+				elseif cursorPosX == 1 then
+					moveCourse = (courseSlotSel - 1) * advancedCourseSpacingX
+				end
+			end
+			
+			if #t_advancedCourseSel <= maxCourses then
+				maxCourseSel = #t_advancedCourseSel
+			elseif advancedCourseSel - cursorPosY > 0 then
+				maxCourseSel = advancedCourseSel + maxCourses - cursorPosY
+			else
+				maxCourseSel = maxCourses
+			end
+			
+			if #t_advancedCourseSel[advancedCourseSel].roster <= maxSlots then
+				maxCourseSlotSel = #t_advancedCourseSel[advancedCourseSel].roster
+			elseif courseSlotSel - cursorPosX > 0 then
+				maxCourseSlotSel = courseSlotSel + maxSlots - cursorPosX
+			else
+				maxCourseSlotSel = maxSlots
 			end
 		end
 	--Exit Via Return Button
@@ -3843,14 +3889,55 @@ function f_commonCourseSelect(mode)
 	--Draw Title
 		textImgSetText(txt_advancedCourseSel, titleText)
 		textImgDraw(txt_advancedCourseSel)
-		f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
+		--f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCourse, moveSlot, courseSlotSel, opponentSel)
 		
+		
+		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
+		if not opponentSel then
+			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
+		else
+			textImgSetText(txt_advancedCourseInfo, txt_advancedFirstSel)
+		end
+		textImgDraw(txt_advancedCourseInfo)
+	--Draw Course Content Text
+		for i=1, maxCourseSel do
+			if i > advancedCourseSel - cursorPosY then
+				local colorSel = 0
+				if advancedCourseSel == i then colorSel = 5 end
+				for slot=1, maxCourseSlotSel do
+					if slot > courseSlotSel - cursorPosX then
+						animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
+					end
+				end
+				textImgSetBank(txt_advancedCourseName, colorSel)
+				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
+				textImgPosDraw(txt_advancedCourseName, 2, 90 + (-118 + i * advancedCourseSpacingY - moveCourse))
 				
-		if maxadvancedCourseSel > maxItems then
+				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
+					animPosDraw(advancedCourseClear, 285, 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
+				--end
+			--[[	
+				local varText = ""
+				if data.gameMode == "survival" then
+					varText = stats.modes.survival[t_advancedCourseSel[i].id].wins)
+				elseif data.gameMode == "timeattack" then
+					stats.modes.timeattack[t_advancedCourseSel[i].id].time
+					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
+				elseif data.gameMode == "scoreattack" then
+					varText = f_setThousandsFormat(stats.modes.scoreattack[t_advancedCourseSel[i].id].score)
+				end
+				textImgSetText(txt_advancedCourseRecord, varText)
+			]]
+				textImgPosDraw(txt_advancedCourseRecord, 280, 132 + (-118 + i * advancedCourseSpacingY - moveCourse))
+			end
+		end
+		
+		
+		if maxCourseSel > maxCourses then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_advancedCourseSel > maxItems and maxadvancedCourseSel < #t_advancedCourseSel then
+		if #t_advancedCourseSel > maxCourses and maxCourseSel < #t_advancedCourseSel then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -3869,9 +3956,17 @@ function f_commonCourseSelect(mode)
 		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
+		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
 		else
 			bufu = 0
 			bufd = 0
+			bufr = 0
+			bufl = 0
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -7623,7 +7718,9 @@ function f_makeRoster()
 			end
 	--All Roster / Endless / Abyss / Bonus Marathon
 		else
-			if data.gameMode == "bonusrush" then t = t_bonusChars end
+			if data.gameMode == "bonusrush" then t = t_bonusChars
+			elseif data.gameMode == "abyss" then t = t_randomSpecialChars
+			end
 			cnt = #t
 			local i = 0
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -7659,59 +7756,8 @@ function f_makeRosterAdvanced(t_course)
 	local cnt = 0
 	local t_orderRoster = t_orderChars
 	if t_course.courseboss then t_orderRoster = t_orderBoss end
---Face characters following select.def order
-	if data.orderRoster then
-		local t_mode = t_makeRosterModes[data.gameMode]
-	--re-use entire arcade config for unrecognized modes
-		if t_mode == nil then
-			t_mode = t_makeRosterModes.arcade
-		else
-		--re-use arcade maxmatches config for unrecognized modes
-			if t_selOptions[t_mode.single.maxmatches] == nil then
-				t_mode.single.maxmatches = t_makeRosterModes.arcade.single.maxmatches
-			end
-			if t_selOptions[t_mode.team.maxmatches] == nil then
-				t_mode.team.maxmatches = t_makeRosterModes.arcade.team.maxmatches
-			end
-		end
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		--Single Mode
-			if p1teamMode == 0 then
-				t = t_selOptions[t_mode.single.maxmatches] --t_selOptions.arcademaxmatches
-		--Team Modes
-			else
-				t = t_selOptions[t_mode.team.maxmatches] --t_selOptions.teammaxmatches
-			end
-		else
-		--Single Mode
-			if p2teamMode == 0 then
-				t = t_selOptions[t_mode.single.maxmatches] --t_selOptions.arcademaxmatches
-		--Team Modes
-			else
-				t = t_selOptions[t_mode.team.maxmatches] --t_selOptions.teammaxmatches
-			end
-		end
-		for i=1, #t do --for each order number
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				cnt = t[i] * p1numChars --set amount of matches to get from the table
-			else
-				cnt = t[i] * p2numChars --set amount of matches to get from the table
-			end
-			if cnt > 0 and t_orderRoster[i] ~= nil then --if it's more than 0 and there are characters with such order
-				while cnt > 0 do --do the following until amount of matches for particular order is reached
-					f_shuffleTable(t_orderRoster[i]) --randomize characters table
-					for j=1, #t_orderRoster[i] do --loop through chars associated with that particular order
-						t_roster[#t_roster + 1] = t_orderRoster[i][j] --and add such character into new table
-						cnt = cnt - 1
-						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
-							break
-						end
-					end
-				end
-			end
-		end
 --Face all t_randomChars characters without following select.def order paramvalue
-	else
+	if t_course.courseall or t_course.courseendless then
 		t = t_randomChars
 		cnt = #t
 		local i = 0
@@ -7736,8 +7782,59 @@ function f_makeRosterAdvanced(t_course)
 				end
 			end
 		end
+--Face characters following select.def order
+	else
+		local t_mode = t_makeRosterModes[data.gameMode]
+		if t_course.courseboss then t_mode = t_makeRosterModes["bossrush"] end
+	--re-use entire arcade config for unrecognized modes
+		if t_mode == nil then
+			t_mode = t_makeRosterModes.arcade
+		else
+		--re-use arcade maxmatches config for unrecognized modes
+			if t_selOptions[t_mode.single.maxmatches] == nil then
+				t_mode.single.maxmatches = t_makeRosterModes.arcade.single.maxmatches
+			end
+			if t_selOptions[t_mode.team.maxmatches] == nil then
+				t_mode.team.maxmatches = t_makeRosterModes.arcade.team.maxmatches
+			end
+		end
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		--Single Mode
+			if p1teamMode == 0 then
+				t = t_selOptions[t_mode.single.maxmatches]
+		--Team Modes
+			else
+				t = t_selOptions[t_mode.team.maxmatches]
+			end
+		else
+		--Single Mode
+			if p2teamMode == 0 then
+				t = t_selOptions[t_mode.single.maxmatches]
+		--Team Modes
+			else
+				t = t_selOptions[t_mode.team.maxmatches]
+			end
+		end
+		for i=1, #t do --for each order number
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				cnt = t[i] * p1numChars --set amount of matches to get from the table
+			else
+				cnt = t[i] * p2numChars --set amount of matches to get from the table
+			end
+			if cnt > 0 and t_orderRoster[i] ~= nil then --if it's more than 0 and there are characters with such order
+				while cnt > 0 do --do the following until amount of matches for particular order is reached
+					f_shuffleTable(t_orderRoster[i]) --randomize characters table
+					for j=1, #t_orderRoster[i] do --loop through chars associated with that particular order
+						t_roster[#t_roster + 1] = t_orderRoster[i][j] --and add such character into new table
+						cnt = cnt - 1
+						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
+							break
+						end
+					end
+				end
+			end
+		end
 	end
-	if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
 	return t_roster
 end
 
@@ -14706,16 +14803,16 @@ function f_result(state)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL")
 			if gameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH") end
-		elseif data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
+		elseif data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
 			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
+			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
 			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
 			end
 		elseif data.gameMode == "allroster" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			if gameMode() == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
-			elseif gameMode() == "goldrush" then textImgSetText(txt_resultTitle, "GOLD RUSH")
+			if gameMode() == "goldrush" then textImgSetText(txt_resultTitle, "GOLD RUSH")
 			elseif gameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH")
 			elseif gameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH")
 			else textImgSetText(txt_resultTitle, "RESULTS")
@@ -14801,12 +14898,13 @@ function f_result(state)
 		if data.gameMode == "survival" or data.gameMode == "allroster" or
 			data.gameMode == "endless" or data.gameMode == "kumite" or
 			data.gameMode == "abyss" or data.gameMode == "speedstar" or
-			data.gameMode == "scoreattack" or data.gameMode == "timeattack" then
+			data.gameMode == "scoreattack" or data.gameMode == "timeattack" or
+			data.gameMode == "caravan" then
 			if gameMode() == "kumite" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
 				f_drawRank(winCnt, #t_roster)
-			elseif data.gameMode == "scoreattack" or gameMode() == "caravan" then
+			elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
 				f_drawScoreAttackResults()
 				f_drawRank(score(), #t_roster * 1000000)
 			elseif data.gameMode == "timeattack" or data.gameMode == "speedstar" then
@@ -15710,7 +15808,7 @@ if validCells() then
 					playVideo(tPos.intro2)
 				end
 			end
-			if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" then
+			if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
 				f_commonCourseSelect()
 				if data.tempBack == true then
 					f_exitToMainMenu()
@@ -17813,7 +17911,7 @@ function f_tourneySelRandomPlayer()
 	for i=1, #t_tourneyMenu.Group[1].Round[1] do
 		local character = t_tourneyMenu.Group[1].Round[1][i].CharID
 		if character == "randomselect" then --When starts the tournament (if some slots have not been set manually than AI level and character is chosen randomly).
-			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)] + 1
+			t_tourneyMenu.Group[1].Round[1][i].CharID = t_randomChars[math.random(#t_randomChars)] + 1
 			t_tourneyMenu.Group[1].Round[1][i].pal = math.random(1, 12)
 			confirmRandomSel = true
 		end
@@ -17822,7 +17920,7 @@ function f_tourneySelRandomPlayer()
 	for i=1, #t_tourneyMenu.Group[2].Round[1] do
 		local character = t_tourneyMenu.Group[2].Round[1][i].CharID
 		if character == "randomselect" then
-			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomTourneyChars[math.random(#t_randomTourneyChars)] + 1
+			t_tourneyMenu.Group[2].Round[1][i].CharID = t_randomChars[math.random(#t_randomChars)] + 1
 			t_tourneyMenu.Group[2].Round[1][i].pal = math.random(1, 12)
 			confirmRandomSel = true
 		end

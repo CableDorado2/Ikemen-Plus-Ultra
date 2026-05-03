@@ -100,10 +100,9 @@ when player choose 'random' character icon.
 Also excludes character to be chosen by CPU in modes other
 than arcade (arcade selection is controlled by 'order').
 
-- excludetourney (Experimental)
+- excludespecial
 Set the paramvalue to 1 to avoid including this character
-when some tourney participant slots have not been set manually
-and character is chosen randomly.
+to be random selected by CPU during special modes like Abyss.
 
 - order
 Set the paramvalue to the ordering priority to give the
@@ -146,7 +145,7 @@ this, put the word "randomselect" on a line of its own, with no
 extra parameters.
 
 Full Reference:
-charname, stages/.def, music=sound/.mp3, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, zoom=0, training=1, bonus=1, boss=1, intermission=1, exclude=1, excludetourney=1, order=1, 1=charname, 4=charname, unlock=stats.modes.arcade.clear > 1
+charname, stages/.def, music=sound/.mp3, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, zoom=0, training=1, bonus=1, boss=1, intermission=1, exclude=1, excludespecial=1, order=1, 1=charname, 4=charname, unlock=stats.modes.arcade.clear > 1
 
 Some examples:
 
@@ -170,11 +169,11 @@ Suave Dude, boss=1, roundtime=60, order=8, 4=Kung Fu Man, unlock=stats.modes.bos
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=7
 
 ;BONUS CHARACTERS EXAMPLE:
-Barrel Breaker, bonus=1, vsscreen=0, victoryscreen=0, exclude=1, excludetourney=1, order=2
-Break Car, stages/Battle Harbor.def, music=sound/Ultimate Warrior.mp3, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludetourney=1
+Barrel Breaker, bonus=1, vsscreen=0, victoryscreen=0, exclude=1, excludespecial=1, order=2
+Break Car, stages/Battle Harbor.def, music=sound/Ultimate Warrior.mp3, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludespecial=1
 
 ;SPECIFIC TRAINING DUMMY CHARACTER EXAMPLE:
-Dan, training=1, exclude=1, excludetourney=1, order=-1
+Dan, training=1, exclude=1, excludespecial=1, order=-1
 
 ;INTERMISSION CHARACTERS EXAMPLE:
 Akuma, intermission=1, exclude=1, order=-1, victoryscreen=0

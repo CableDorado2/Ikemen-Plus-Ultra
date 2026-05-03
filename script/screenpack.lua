@@ -3626,19 +3626,24 @@ txt_advancedFirstSel = "SELECT YOUR FIRST OPPONENT"
 advancedCourseSpacingX = 28
 advancedCourseSpacingY = 58
 
-t_advancedCourseSel = {
-	{name = "RANDOM", 	courserandom = true},
-	{name = "STANDARD"},
-	{name = "BOSS", 	courseboss = true},
-	{name = "ALL-STAR", courseall = true},
-	{name = "ENDLESS",  courserandom = true},
-}
-for i=1, #t_advancedCourseSel do
-	t_advancedCourseSel[i].id = t_advancedCourseSel[i].name
-	if t_advancedCourseSel[i].unlock == nil then t_advancedCourseSel[i].unlock = "true" end
-	if t_advancedCourseSel[i].courserandom == nil then t_advancedCourseSel[i].courserandom = false end
-	if t_advancedCourseSel[i].courseall == nil then t_advancedCourseSel[i].courseall = false end
-	if t_advancedCourseSel[i].courseboss == nil then t_advancedCourseSel[i].courseboss = false end
+function f_loadAdvancedCourses()
+	t_advancedCourseSel = {
+		{name = "RANDOM", 	courserandom = true},
+		{name = "STANDARD"},
+		{name = "BOSS", 	courseboss = true},
+		{name = "ALL-STAR", courseall = true},
+	}
+	if data.gameMode == "survival" then
+		table.insert(t_advancedCourseSel, {name = "MUGEN",  courseendless = true})
+	end
+	for i=1, #t_advancedCourseSel do
+		t_advancedCourseSel[i].id = t_advancedCourseSel[i].name
+		if t_advancedCourseSel[i].unlock == nil then t_advancedCourseSel[i].unlock = "true" end
+		if t_advancedCourseSel[i].courserandom == nil then t_advancedCourseSel[i].courserandom = false end
+		if t_advancedCourseSel[i].courseall == nil then t_advancedCourseSel[i].courseall = false end
+		if t_advancedCourseSel[i].courseboss == nil then t_advancedCourseSel[i].courseboss = false end
+		if t_advancedCourseSel[i].courseendless == nil then t_advancedCourseSel[i].courseendless = false end
+	end
 end
 
 --Title BG
@@ -3694,7 +3699,7 @@ function drawAdvancedCourseSelInputHints(change)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
-function f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
+function f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCourse, moveSlot, courseSlotSel, opponentSel)
 		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
 		if not opponentSel then
 			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
@@ -3702,20 +3707,22 @@ function f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
 			textImgSetText(txt_advancedCourseInfo, txt_advancedFirstSel)
 		end
 		textImgDraw(txt_advancedCourseInfo)
-	--Draw Speed Star Level Content Text
-		for i=1, maxadvancedCourseSel do
+	--Draw Course Content Text
+		for i=1, maxCourseSel do
 			if i > advancedCourseSel - cursorPosY then
 				local colorSel = 0
 				if advancedCourseSel == i then colorSel = 5 end
-				for slot=1, 10 do
-					animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				for slot=1, 10 do --maxCourseSlotSel do
+					if slot > courseSlotSel - cursorPosX then
+						animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
+					end
 				end
 				textImgSetBank(txt_advancedCourseName, colorSel)
 				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
-				textImgPosDraw(txt_advancedCourseName, 2, 90 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				textImgPosDraw(txt_advancedCourseName, 2, 90 + (-118 + i * advancedCourseSpacingY - moveCourse))
 				
 				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
-					animPosDraw(advancedCourseClear, 285, 94 + (-118 + i * advancedCourseSpacingY - moveTxt))
+					animPosDraw(advancedCourseClear, 285, 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
 				--end
 			--[[	
 				local varText = ""
@@ -3729,7 +3736,7 @@ function f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
 				end
 				textImgSetText(txt_advancedCourseRecord, varText)
 			]]
-				textImgPosDraw(txt_advancedCourseRecord, 280, 132 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				textImgPosDraw(txt_advancedCourseRecord, 280, 132 + (-118 + i * advancedCourseSpacingY - moveCourse))
 			end
 		end
 end

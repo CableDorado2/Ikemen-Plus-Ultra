@@ -768,7 +768,7 @@ t_tutorialChar = {}
 t_bossChars = {}
 t_bonusChars = {}
 t_randomChars = {}
-t_randomTourneyChars = {}
+t_randomSpecialChars = {}
 t_intermissionChars = {}
 if t_selChars ~= nil then
 --for each character loaded
@@ -922,9 +922,9 @@ if t_selChars ~= nil then
 			if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
 				t_randomChars[#t_randomChars + 1] = charCel
 			end
-		--generate table with characters allowed to be random selected in tournament mode
-			if t_selChars[i].excludetourney == nil or t_selChars[i].excludetourney == 0 then
-				t_randomTourneyChars[#t_randomTourneyChars + 1] = charCel
+		--generate table with characters allowed to be random selected in special modes like abyss
+			if t_selChars[i].excludespecial == nil or t_selChars[i].excludespecial == 0 then
+				t_randomSpecialChars[#t_randomSpecialChars + 1] = charCel
 			end
 		--generate table for intermissions
 			if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
@@ -1307,7 +1307,7 @@ if data.debugLog then
 	f_printTable(t_orderChars, "save/debug/t_orderChars.log")
 	f_printTable(t_orderBoss, "save/debug/t_orderBoss.log")
 	f_printTable(t_randomChars, "save/debug/t_randomChars.log")
-	f_printTable(t_randomTourneyChars, "save/debug/t_randomTourneyChars.log")
+	f_printTable(t_randomSpecialChars, "save/debug/t_randomSpecialChars.log")
 	f_printTable(t_bossChars, "save/debug/t_bossChars.log")
 	f_printTable(t_bonusChars, "save/debug/t_bonusChars.log")
 	f_printTable(t_trainingChar, "save/debug/t_trainingChar.log")
