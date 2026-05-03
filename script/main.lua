@@ -3889,49 +3889,8 @@ function f_commonCourseSelect(mode)
 	--Draw Title
 		textImgSetText(txt_advancedCourseSel, titleText)
 		textImgDraw(txt_advancedCourseSel)
+		
 		--f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCourse, moveSlot, courseSlotSel, opponentSel)
-		
-		
-		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
-		if not opponentSel then
-			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
-		else
-			textImgSetText(txt_advancedCourseInfo, txt_advancedFirstSel)
-		end
-		textImgDraw(txt_advancedCourseInfo)
-	--Draw Course Content Text
-		for i=1, maxCourseSel do
-			if i > advancedCourseSel - cursorPosY then
-				local colorSel = 0
-				if advancedCourseSel == i then colorSel = 5 end
-				for slot=1, maxCourseSlotSel do
-					if slot > courseSlotSel - cursorPosX then
-						animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
-					end
-				end
-				textImgSetBank(txt_advancedCourseName, colorSel)
-				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
-				textImgPosDraw(txt_advancedCourseName, 2, 90 + (-118 + i * advancedCourseSpacingY - moveCourse))
-				
-				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
-					animPosDraw(advancedCourseClear, 285, 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
-				--end
-			--[[	
-				local varText = ""
-				if data.gameMode == "survival" then
-					varText = stats.modes.survival[t_advancedCourseSel[i].id].wins)
-				elseif data.gameMode == "timeattack" then
-					stats.modes.timeattack[t_advancedCourseSel[i].id].time
-					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
-				elseif data.gameMode == "scoreattack" then
-					varText = f_setThousandsFormat(stats.modes.scoreattack[t_advancedCourseSel[i].id].score)
-				end
-				textImgSetText(txt_advancedCourseRecord, varText)
-			]]
-				textImgPosDraw(txt_advancedCourseRecord, 280, 132 + (-118 + i * advancedCourseSpacingY - moveCourse))
-			end
-		end
-		
 		
 		if maxCourseSel > maxCourses then
 			animDraw(menuArrowUp)

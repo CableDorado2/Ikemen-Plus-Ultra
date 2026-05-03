@@ -3712,7 +3712,7 @@ function f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCo
 			if i > advancedCourseSel - cursorPosY then
 				local colorSel = 0
 				if advancedCourseSel == i then colorSel = 5 end
-				for slot=1, 10 do --maxCourseSlotSel do
+				for slot=1, maxCourseSlotSel do
 					if slot > courseSlotSel - cursorPosX then
 						animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
 					end
