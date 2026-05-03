@@ -3834,6 +3834,13 @@ function f_commonCourseSelect(mode)
 				elseif cursorPosY == 1 then
 					moveCourse = (advancedCourseSel - 1) * advancedCourseSpacingY
 				end
+				if #t_advancedCourseSel <= maxCourses then
+					maxCourseSel = #t_advancedCourseSel
+				elseif advancedCourseSel - cursorPosY > 0 then
+					maxCourseSel = advancedCourseSel + maxCourses - cursorPosY
+				else
+					maxCourseSel = maxCourses
+				end
 		--Opponent Select
 			else
 				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
@@ -3858,21 +3865,13 @@ function f_commonCourseSelect(mode)
 				elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxSlots then
 					cursorPosX = cursorPosX + 1
 				end
-				if cursorPosX == maxSlots then
-					moveCourse = (courseSlotSel - maxSlots) * advancedCourseSpacingX
-				elseif cursorPosX == 1 then
-					moveCourse = (courseSlotSel - 1) * advancedCourseSpacingX
-				end
 			end
-			
-			if #t_advancedCourseSel <= maxCourses then
-				maxCourseSel = #t_advancedCourseSel
-			elseif advancedCourseSel - cursorPosY > 0 then
-				maxCourseSel = advancedCourseSel + maxCourses - cursorPosY
-			else
-				maxCourseSel = maxCourses
+			if cursorPosX == maxSlots then
+				moveSlot = (courseSlotSel - maxSlots) * advancedCourseSpacingX
+			elseif cursorPosX == 1 then
+				moveSlot = (courseSlotSel - 1) * advancedCourseSpacingX
 			end
-			
+		--[[
 			if #t_advancedCourseSel[advancedCourseSel].roster <= maxSlots then
 				maxCourseSlotSel = #t_advancedCourseSel[advancedCourseSel].roster
 			elseif courseSlotSel - cursorPosX > 0 then
@@ -3880,6 +3879,7 @@ function f_commonCourseSelect(mode)
 			else
 				maxCourseSlotSel = maxSlots
 			end
+		]]
 		end
 	--Exit Via Return Button
 		if data.tempBack then break end --back to main menu
@@ -3890,7 +3890,7 @@ function f_commonCourseSelect(mode)
 		textImgSetText(txt_advancedCourseSel, titleText)
 		textImgDraw(txt_advancedCourseSel)
 		
-		--f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCourse, moveSlot, courseSlotSel, opponentSel)
+		f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCourse, moveSlot, courseSlotSel, maxSlots, opponentSel)
 		
 		if maxCourseSel > maxCourses then
 			animDraw(menuArrowUp)
