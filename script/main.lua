@@ -3759,6 +3759,7 @@ function f_commonCourseSelect(mode)
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 3
+	local titleText = nil
 	local opponentSel = false
 	waitingCourseSel = true
 	advancedCourseSel = 1
@@ -3766,9 +3767,16 @@ function f_commonCourseSelect(mode)
 	for i=1, #t_advancedCourseSel do
 		t_advancedCourseSel[i].roster = f_makeRosterAdvanced(t_advancedCourseSel[i])
 	end
+	if data.gameMode == "survival" then
+		titleText = "SURVIVAL - COURSE SELECT"
+	elseif data.gameMode == "timeattack" then
+		titleText = "TIME ATTACK - COURSE SELECT"
+	elseif data.gameMode == "scoreattack" then
+		titleText = "SCORE ATTACK - COURSE SELECT"
+	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	animSetPos(menuArrowUp, 308, 6)
-	animSetPos(menuArrowDown, 308, 188)
+	animSetPos(menuArrowUp, 292, 20)
+	animSetPos(menuArrowDown, 292, 185)
 	while true do
 		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
 		if not backScreen then
@@ -3833,6 +3841,7 @@ function f_commonCourseSelect(mode)
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 		animPosDraw(advancedCourseTitleBG, -56, 0) --Draw Title BG
 	--Draw Title
+		textImgSetText(txt_advancedCourseSel, titleText)
 		textImgDraw(txt_advancedCourseSel)
 		f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
 		

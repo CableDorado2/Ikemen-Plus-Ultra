@@ -3613,17 +3613,18 @@ animUpdate(tourneyAwards)
 --;===========================================================
 --; COMMON SELECT SCREENPACK DEFINITION
 --;===========================================================
-txt_advancedCourseSel = createTextImg(font11, 0, 0, "", 159, 11)
+txt_advancedCourseSel = createTextImg(font11, 0, 0, "", 159, 13)
 txt_advancedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 txt_advancedCourseName = createTextImg(jgFnt, 0, 1, "", 159, 13)
-txt_advancedCourseRecord = createTextImg(font14, 0, -1, "HIGH SCORE: ", 159, 13, 0.8, 0.8)
-txt_advancedCourseInfo = createTextImg(font5, 0, 1, "", 2, 205)
+txt_advancedCourseRecord = createTextImg(font6, 0, -1, "HIGH SCORE: 99:99.999", 280, 13)
+txt_advancedCourseInfo = createTextImg(font5, 0, 0, "", 160, 210)
 
 txt_advancedLvSel = "SELECT THE COURSE DIFFICULTY"
-txt_advancedFirstSel = "SELECT YOUR FISRT OPPONENT"
+txt_advancedFirstSel = "SELECT YOUR FIRST OPPONENT"
 
-advancedCourseSpacingY = 65
+advancedCourseSpacingX = 28
+advancedCourseSpacingY = 58
 
 t_advancedCourseSel = {
 	{name = "RANDOM", 	courserandom = true},
@@ -3649,7 +3650,7 @@ animSetAlpha(advancedCourseTitleBG, 155, 22)
 
 --Course Slot
 advancedCourseSlot = animNew(sprIkemen, [[
-295,2, 0,0, -1
+295,0, 0,0, -1
 ]])
 
 --Course Random Icon
@@ -3661,7 +3662,7 @@ advancedCourseRandomIcon = animNew(sprSys, [[
 advancedCourseClear = animNew(sprIkemen, [[
 215,0, 0,0, -1
 ]])
-animSetScale(advancedCourseClear, 0.045, 0.045)
+animSetScale(advancedCourseClear, 0.060, 0.060)
 animUpdate(advancedCourseClear)
 
 --Info BG
@@ -3704,16 +3705,17 @@ function f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
 	--Draw Speed Star Level Content Text
 		for i=1, maxadvancedCourseSel do
 			if i > advancedCourseSel - cursorPosY then
-				local colorSel = 7
+				local colorSel = 0
 				if advancedCourseSel == i then colorSel = 5 end
-				animPosDraw(advancedCourseSlot, 0, 72 + (-118 + i * advancedCourseSpacingY - moveTxt))
-				
+				for slot=1, 10 do
+					animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				end
 				textImgSetBank(txt_advancedCourseName, colorSel)
 				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
 				textImgPosDraw(txt_advancedCourseName, 2, 90 + (-118 + i * advancedCourseSpacingY - moveTxt))
 				
 				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
-					animPosDraw(advancedCourseClear, 85, 78 + (-118 + i * advancedCourseSpacingY - moveTxt))
+					animPosDraw(advancedCourseClear, 285, 94 + (-118 + i * advancedCourseSpacingY - moveTxt))
 				--end
 			--[[	
 				local varText = ""
@@ -3727,13 +3729,9 @@ function f_crtest(maxadvancedCourseSel, cursorPosY, moveTxt, opponentSel)
 				end
 				textImgSetText(txt_advancedCourseRecord, varText)
 			]]
-				textImgPosDraw(txt_advancedCourseRecord, 82, 120 + (-118 + i * advancedCourseSpacingY - moveTxt))
+				textImgPosDraw(txt_advancedCourseRecord, 280, 132 + (-118 + i * advancedCourseSpacingY - moveTxt))
 			end
 		end
-	--Draw Cursor
-		animSetWindow(cursorBox, 0,72 + (-118 + advancedCourseSel * advancedCourseSpacingY - moveTxt), 320,57)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
 end
 
 --;===========================================================
