@@ -3794,11 +3794,19 @@ function f_commonCourseSelect(mode)
 		--Cursor Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
+			--During Course Select
 				if not opponentSel then
-					t_roster = t_advancedCourseSel[advancedCourseSel].roster
-					opponentSel = true
+				--Done Course Select for Random and Endless Modes
+					if t_advancedCourseSel[advancedCourseSel].courserandom or t_advancedCourseSel[advancedCourseSel].courseendless then
+						t_roster = t_advancedCourseSel[advancedCourseSel].roster
+						break
+				--Go to First Opponent Select
+					else
+						opponentSel = true
+					end
+			--During First Opponent Select
 				else
-					
+					t_roster = t_advancedCourseSel[advancedCourseSel].roster
 					break
 				end
 			end
@@ -3838,16 +3846,16 @@ function f_commonCourseSelect(mode)
 				else
 					maxCourseSel = maxCourses
 				end
-		--Opponent Select
+		--First Opponent Select
 			else
 				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 					sndPlay(sndSys, 100, 0)
-					table.insert(t_advancedCourseSel[advancedCourseSel].roster, 1, #t_advancedCourseSel[advancedCourseSel].roster)
-					table.remove(t_advancedCourseSel[advancedCourseSel].roster, 2)
+					local lastItem = table.remove(t_advancedCourseSel[advancedCourseSel].roster) --Delete last item
+					table.insert(t_advancedCourseSel[advancedCourseSel].roster, 1, lastItem) --Insert last item as first item
 				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
-					table.insert(t_advancedCourseSel[advancedCourseSel].roster, #t_advancedCourseSel[advancedCourseSel].roster, t_advancedCourseSel[advancedCourseSel].roster[1])
-					table.remove(t_advancedCourseSel[advancedCourseSel].roster, 1)
+					local fistItem = table.remove(t_advancedCourseSel[advancedCourseSel].roster, 1) --When is removed it returns the item that was deleted
+					table.insert(t_advancedCourseSel[advancedCourseSel].roster, fistItem) --Insert first item as last item
 				end
 			end
 		end

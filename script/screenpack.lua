@@ -3635,6 +3635,8 @@ function f_loadAdvancedCourses()
 	}
 	if data.gameMode == "survival" then
 		table.insert(t_advancedCourseSel, {name = "MUGEN",  courseendless = true})
+	elseif data.gameMode == "caravan" then
+		t_advancedCourseSel[2].name = "ARCADE"
 	end
 	for i=1, #t_advancedCourseSel do
 		t_advancedCourseSel[i].id = t_advancedCourseSel[i].name
@@ -3717,7 +3719,6 @@ function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 			if i > advancedCourseSel - cursorPosY then
 				local colorSel = 0
 				if advancedCourseSel == i then colorSel = 5 end
-				--for slot=#t_advancedCourseSel[i].roster, 1, -1 do
 				for slot=1, #t_advancedCourseSel[i].roster do
 					if slot <= maxSlots then
 						local totalSlots = slot
