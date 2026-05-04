@@ -3636,17 +3636,17 @@ function f_loadAdvancedCourses()
 	}
 	if data.gameMode == "survival" then
 		table.insert(t_advancedCourseSel, {name = "MUGEN",  courseendless = true})
-		t_advancedCourseSel.title = "SURVIVAL - "..txt_advancedCourseTitle
+		t_advancedCourseSel.title = txt_advancedCourseTitle.." (SURVIVAL)"
 		t_advancedCourseSel.record = "BEST RECORD: "
 	elseif data.gameMode == "caravan" then
 		t_advancedCourseSel[2].name = "ARCADE"
-		t_advancedCourseSel.title = "CARAVAN - "..txt_advancedCourseTitle
+		t_advancedCourseSel.title = txt_advancedCourseTitle.." (CARAVAN)"
 		t_advancedCourseSel.record = "BEST SCORE: "
 	elseif data.gameMode == "timeattack" then
-		t_advancedCourseSel.title = "TIME ATTACK - "..txt_advancedCourseTitle
+		t_advancedCourseSel.title = txt_advancedCourseTitle.." (TIME ATTACK)"
 		t_advancedCourseSel.record = "BEST TIME: "
 	elseif data.gameMode == "scoreattack" then
-		t_advancedCourseSel.title = "SCORE ATTACK - "..txt_advancedCourseTitle
+		t_advancedCourseSel.title = txt_advancedCourseTitle.." (SCORE ATTACK)"
 		t_advancedCourseSel.record = "BEST SCORE: "
 	end
 	for i=1, #t_advancedCourseSel do
@@ -3753,7 +3753,10 @@ function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 				--end
 				local varText = ""
 				if data.gameMode == "survival" then
-					varText = stats.modes.survival[t_advancedCourseSel[i].id].wins
+					local survRecord = stats.modes.survival[t_advancedCourseSel[i].id].wins
+					local survWins = ""
+					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
+					varText = survRecord..survWins
 				elseif data.gameMode == "timeattack" then
 					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
 					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
@@ -3771,7 +3774,7 @@ end
 --;===========================================================
 --; SPEED STAR COURSE SELECT SCREENPACK DEFINITION
 --;===========================================================
-txt_speedCourseSel = createTextImg(font11, 0, 0, "SPEED STAR - COURSE SELECT", 159, 11)
+txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT (SPEED STAR)", 159, 11)
 txt_speedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)

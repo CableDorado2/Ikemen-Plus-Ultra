@@ -3769,7 +3769,7 @@ function f_commonCourseSelect()
 	if data.debugLog then f_printTable(t_advancedCourseSel, "save/debug/t_advancedCourseSel.log") end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 5, 10)
-	animSetPos(menuArrowDown, 5, 200)
+	animSetPos(menuArrowDown, 5, 195)
 	while true do
 		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
 		if not backScreen then
@@ -3797,6 +3797,7 @@ function f_commonCourseSelect()
 			--During First Opponent Select
 				else
 					t_roster = t_advancedCourseSel[advancedCourseSel].roster
+					nextStageReveal = true
 					break
 				end
 			end
@@ -3858,7 +3859,7 @@ function f_commonCourseSelect()
 		textImgSetText(txt_advancedCourseSel, t_advancedCourseSel.title)
 		textImgDraw(txt_advancedCourseSel)
 		f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
-	--[[
+	--[
 		if maxCourseSel > maxCourses then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
@@ -7378,6 +7379,7 @@ function f_selectReset()
 	selScreenEnd = false
 	stageEnd = false
 	charSelect = true
+	nextStageReveal = false
 	p1numChars = 1
 	p2numChars = 1
 	p1teamMode = 0
@@ -12323,6 +12325,8 @@ function f_arcadeTravel()
 	cmdInput()
 	local screenTime = 0
 	local timeLimit = 880
+	local posX = 8
+	local maxSlots = 10
 --Side Logic
 	local enemySide = nil
 	local enemyData = nil
@@ -12418,19 +12422,27 @@ function f_arcadeTravel()
 		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
 		textImgDraw(txt_nextEnemyName)
 	--Draw Travel Stuff
-		animPosDraw(travelArrow, 30 * matchNo - 22, 204)
-		for enemyRoster=1, lastMatch do
-			local enemyPortrait = nil
-			if enemyRoster == matchNo then
-				enemyPortrait = t_roster[matchNo]
-			elseif enemyRoster < matchNo then
-				enemyPortrait = t_roster[enemyRoster]
-			end
-			animPosDraw(travelSlotIcon, 30 * enemyRoster - 30, 213)
-			if enemyRoster <= matchNo then
-				drawFacePortrait(enemyPortrait, 30 * enemyRoster - 29, 214) --Enemy Portrait
-			else
-				animPosDraw(travelRandomIcon, 30 * enemyRoster - 29, 214) --Random Icon
+		animPosDraw(travelArrow, posX + 28 * matchNo - 22, 204)
+		for enemyRoster=1, lastMatch do			
+			if enemyRoster <= maxSlots then
+				local enemyPortrait = nil
+			--Reveal all enemies
+				if nextStageReveal then
+					enemyPortrait = t_roster[enemyRoster]
+			--Hide next enemies logic
+				else
+					if enemyRoster == matchNo then
+						enemyPortrait = t_roster[matchNo]
+					elseif enemyRoster < matchNo then
+						enemyPortrait = t_roster[enemyRoster]
+					end
+				end
+				animPosDraw(travelSlotIcon, posX + 28 * enemyRoster - 30, 213)
+				if enemyRoster <= matchNo or nextStageReveal then
+					drawFacePortrait(enemyPortrait, posX + 28 * enemyRoster - 29, 214) --Enemy Portrait
+				else
+					animPosDraw(travelRandomIcon, posX + 28 * enemyRoster - 29, 214) --Random Icon
+				end
 			end
 		end
 	--When Attract Mode is Enabled
