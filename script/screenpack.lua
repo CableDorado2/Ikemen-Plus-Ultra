@@ -2039,8 +2039,8 @@ travelSlotIcon = animNew(sprIkemen, [[
 ]])
 
 --Travel Random Icon
-travelRandomIcon = animNew(sprSys, [[
-151,0, 0,0, -1
+travelRandomIcon = animNew(sprIkemen, [[
+55,0, 0,0, -1
 ]])
 
 --;===========================================================
@@ -3659,8 +3659,13 @@ advancedCourseSlot = animNew(sprIkemen, [[
 ]])
 
 --Course Random Icon
-advancedCourseRandomIcon = animNew(sprSys, [[
-151,0, 0,0, -1
+advancedCourseRandomIcon = animNew(sprIkemen, [[
+55,0, 0,0, -1
+]])
+
+--Course Endless Icon
+advancedCourseEndlessIcon = animNew(sprIkemen, [[
+296,0, 0,0, -1
 ]])
 
 --Course Clear Icon
@@ -3712,10 +3717,19 @@ function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 			if i > advancedCourseSel - cursorPosY then
 				local colorSel = 0
 				if advancedCourseSel == i then colorSel = 5 end
-				for slot=#t_advancedCourseSel[i].roster, 1, -1 do
+				--for slot=#t_advancedCourseSel[i].roster, 1, -1 do
+				for slot=1, #t_advancedCourseSel[i].roster do
 					if slot <= maxSlots then
-						animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
-						drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						local totalSlots = slot
+						if t_advancedCourseSel[i].courseendless then totalSlots = 1 end
+						animPosDraw(advancedCourseSlot, -28 + (2 + totalSlots * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						if t_advancedCourseSel[i].courserandom then
+							animPosDraw(advancedCourseRandomIcon, -28 + (3 + slot * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						elseif t_advancedCourseSel[i].courseendless then
+							animPosDraw(advancedCourseEndlessIcon, -28 + (3 + totalSlots * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						else
+							drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						end
 					end
 				end
 				textImgSetBank(txt_advancedCourseName, colorSel)
@@ -3725,7 +3739,7 @@ function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
 					animPosDraw(advancedCourseClear, 285, 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
 				--end
-			--[[	
+			--[[
 				local varText = ""
 				if data.gameMode == "survival" then
 					varText = stats.modes.survival[t_advancedCourseSel[i].id].wins)

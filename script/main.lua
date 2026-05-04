@@ -3842,7 +3842,8 @@ function f_commonCourseSelect(mode)
 			else
 				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 					sndPlay(sndSys, 100, 0)
-					
+					table.insert(t_advancedCourseSel[advancedCourseSel].roster, 1, #t_advancedCourseSel[advancedCourseSel].roster)
+					table.remove(t_advancedCourseSel[advancedCourseSel].roster, 2)
 				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
 					table.insert(t_advancedCourseSel[advancedCourseSel].roster, #t_advancedCourseSel[advancedCourseSel].roster, t_advancedCourseSel[advancedCourseSel].roster[1])
@@ -7763,6 +7764,7 @@ function f_makeRosterAdvanced(t_course)
 			end
 		end
 	end
+	if t_course.courserandom then f_shuffleTable(t_roster) end
 	return t_roster
 end
 
