@@ -808,7 +808,7 @@ function drawMainMenuInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 46, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 104, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 171, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":?????", 231, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 231, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Shop", 291, hintFontYPos)
 	if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
 		sndPlay(sndSys, 100, 1)
@@ -835,6 +835,7 @@ end
 --;===========================================================
 t_arcadeMenu = {
 	{text = "CLASSIC",	  gotomenu = "f_arcadeBoot()"},
+	{text = "BOSS RUSH",  gotomenu = "f_bossrushBoot()"},
 	{text = "TOWER", 	  gotomenu = "f_towerBoot()"},
 }
 for i=1, #t_arcadeMenu do
@@ -872,8 +873,8 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
+	{text = "ALLIANCE",		gotomenu = "f_allianceBoot()"},
 	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
-	{text = "BOSS RUSH", 	gotomenu = "f_bossrushBoot()"},
 	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
 	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
 }
@@ -927,9 +928,8 @@ end
 t_extrasMenu = {
 	{text = "BONUS GAMES",	gotomenu = "f_bonusMenu()"},
 	{text = "GOLD RUSH",	gotomenu = "f_goldrushBoot()"},
-	{text = "ALLIANCE",		gotomenu = "f_allianceBoot()"},
-	{text = "ENDLESS",		gotomenu = "f_endlessBoot()"},
 	{text = "KUMITE",		gotomenu = "f_kumiteBoot()"},
+	{text = "ENDLESS",		gotomenu = "f_endlessBoot()"},
 }
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()
@@ -3617,14 +3617,15 @@ txt_advancedCourseSel = createTextImg(font11, 0, 0, "", 159, 13)
 txt_advancedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
 
 txt_advancedCourseName = createTextImg(jgFnt, 0, 1, "", 159, 13)
-txt_advancedCourseRecord = createTextImg(font6, 0, -1, "HIGH SCORE: 99:99.999", 280, 13)
+txt_advancedCourseRecord = createTextImg(font6, 0, 1, "", 2, 13)
 txt_advancedCourseInfo = createTextImg(font5, 0, 0, "", 160, 210)
 
+txt_advancedCourseTitle = "COURSE SELECT"
 txt_advancedLvSel = "SELECT THE COURSE DIFFICULTY"
 txt_advancedFirstSel = "SELECT YOUR FIRST OPPONENT"
 
 advancedCourseSpacingX = 28
-advancedCourseSpacingY = 58
+advancedCourseSpacingY = 60
 
 function f_loadAdvancedCourses()
 	t_advancedCourseSel = {
@@ -3635,8 +3636,18 @@ function f_loadAdvancedCourses()
 	}
 	if data.gameMode == "survival" then
 		table.insert(t_advancedCourseSel, {name = "MUGEN",  courseendless = true})
+		t_advancedCourseSel.title = "SURVIVAL - "..txt_advancedCourseTitle
+		t_advancedCourseSel.record = "BEST RECORD: "
 	elseif data.gameMode == "caravan" then
 		t_advancedCourseSel[2].name = "ARCADE"
+		t_advancedCourseSel.title = "CARAVAN - "..txt_advancedCourseTitle
+		t_advancedCourseSel.record = "BEST SCORE: "
+	elseif data.gameMode == "timeattack" then
+		t_advancedCourseSel.title = "TIME ATTACK - "..txt_advancedCourseTitle
+		t_advancedCourseSel.record = "BEST TIME: "
+	elseif data.gameMode == "scoreattack" then
+		t_advancedCourseSel.title = "SCORE ATTACK - "..txt_advancedCourseTitle
+		t_advancedCourseSel.record = "BEST SCORE: "
 	end
 	for i=1, #t_advancedCourseSel do
 		t_advancedCourseSel[i].id = t_advancedCourseSel[i].name
@@ -3723,36 +3734,36 @@ function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 					if slot <= maxSlots then
 						local totalSlots = slot
 						if t_advancedCourseSel[i].courseendless then totalSlots = 1 end
-						animPosDraw(advancedCourseSlot, -28 + (2 + totalSlots * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						animPosDraw(advancedCourseSlot, -28 + (2 + totalSlots * advancedCourseSpacingX), 93 + (-118 + i * advancedCourseSpacingY - moveCourse))
 						if t_advancedCourseSel[i].courserandom then
-							animPosDraw(advancedCourseRandomIcon, -28 + (3 + slot * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+							animPosDraw(advancedCourseRandomIcon, -28 + (3 + slot * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
 						elseif t_advancedCourseSel[i].courseendless then
-							animPosDraw(advancedCourseEndlessIcon, -28 + (3 + totalSlots * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+							animPosDraw(advancedCourseEndlessIcon, -28 + (3 + totalSlots * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
 						else
-							drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+							drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
 						end
 					end
 				end
 				textImgSetBank(txt_advancedCourseName, colorSel)
 				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
-				textImgPosDraw(txt_advancedCourseName, 2, 90 + (-118 + i * advancedCourseSpacingY - moveCourse))
+				textImgPosDraw(txt_advancedCourseName, 2, 88 + (-118 + i * advancedCourseSpacingY - moveCourse))
 				
 				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
-					animPosDraw(advancedCourseClear, 285, 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
+					animPosDraw(advancedCourseClear, 285, 92 + (-118 + i * advancedCourseSpacingY - moveCourse))
 				--end
-			--[[
 				local varText = ""
 				if data.gameMode == "survival" then
-					varText = stats.modes.survival[t_advancedCourseSel[i].id].wins)
+					varText = stats.modes.survival[t_advancedCourseSel[i].id].wins
 				elseif data.gameMode == "timeattack" then
-					stats.modes.timeattack[t_advancedCourseSel[i].id].time
+					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
 					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
 				elseif data.gameMode == "scoreattack" then
 					varText = f_setThousandsFormat(stats.modes.scoreattack[t_advancedCourseSel[i].id].score)
+				elseif data.gameMode == "caravan" then
+					varText = f_setThousandsFormat(stats.modes.caravan[t_advancedCourseSel[i].id].score)
 				end
-				textImgSetText(txt_advancedCourseRecord, varText)
-			]]
-				textImgPosDraw(txt_advancedCourseRecord, 280, 132 + (-118 + i * advancedCourseSpacingY - moveCourse))
+				textImgSetText(txt_advancedCourseRecord, t_advancedCourseSel.record..varText)
+				textImgPosDraw(txt_advancedCourseRecord, 2, 130 + (-118 + i * advancedCourseSpacingY - moveCourse))
 			end
 		end
 end

@@ -3748,7 +3748,7 @@ end
 --;===========================================================
 --; COURSE SELECT (For advanced challenge modes)
 --;===========================================================
-function f_commonCourseSelect(mode)
+function f_commonCourseSelect()
 	cmdInput()
 	local cursorPosY = 1
 	local moveCourse = 0
@@ -3758,28 +3758,18 @@ function f_commonCourseSelect(mode)
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local titleText = nil
 	local opponentSel = false
 	waitingCourseSel = true
 	advancedCourseSel = 1
 	f_loadAdvancedCourses()
-	--f_createAdvancedModesData()
+	f_createAdvancedModesData()
 	for i=1, #t_advancedCourseSel do
 		t_advancedCourseSel[i].roster = f_makeRosterAdvanced(t_advancedCourseSel[i])
 	end
 	if data.debugLog then f_printTable(t_advancedCourseSel, "save/debug/t_advancedCourseSel.log") end
-	if data.gameMode == "survival" then
-		titleText = "SURVIVAL - COURSE SELECT"
-	elseif data.gameMode == "timeattack" then
-		titleText = "TIME ATTACK - COURSE SELECT"
-	elseif data.gameMode == "scoreattack" then
-		titleText = "SCORE ATTACK - COURSE SELECT"
-	elseif data.gameMode == "caravan" then
-		titleText = "CARAVAN - COURSE SELECT"
-	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	animSetPos(menuArrowUp, 295, 20)
-	animSetPos(menuArrowDown, 295, 185)
+	animSetPos(menuArrowUp, 5, 10)
+	animSetPos(menuArrowDown, 5, 200)
 	while true do
 		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
 		if not backScreen then
@@ -3850,12 +3840,12 @@ function f_commonCourseSelect(mode)
 			else
 				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 					sndPlay(sndSys, 100, 0)
-					local lastItem = table.remove(t_advancedCourseSel[advancedCourseSel].roster) --Delete last item
-					table.insert(t_advancedCourseSel[advancedCourseSel].roster, 1, lastItem) --Insert last item as first item
-				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
-					sndPlay(sndSys, 100, 0)
 					local fistItem = table.remove(t_advancedCourseSel[advancedCourseSel].roster, 1) --When is removed it returns the item that was deleted
 					table.insert(t_advancedCourseSel[advancedCourseSel].roster, fistItem) --Insert first item as last item
+				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+					sndPlay(sndSys, 100, 0)
+					local lastItem = table.remove(t_advancedCourseSel[advancedCourseSel].roster) --Delete last item
+					table.insert(t_advancedCourseSel[advancedCourseSel].roster, 1, lastItem) --Insert last item as first item					
 				end
 			end
 		end
@@ -3865,11 +3855,10 @@ function f_commonCourseSelect(mode)
 		animDraw(f_animVelocity(commonBG0, -1, -1))
 		animPosDraw(advancedCourseTitleBG, -56, 0) --Draw Title BG
 	--Draw Title
-		textImgSetText(txt_advancedCourseSel, titleText)
+		textImgSetText(txt_advancedCourseSel, t_advancedCourseSel.title)
 		textImgDraw(txt_advancedCourseSel)
-		
 		f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
-		
+	--[[
 		if maxCourseSel > maxCourses then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
@@ -3878,6 +3867,7 @@ function f_commonCourseSelect(mode)
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
+	--]]
 	--Course Select Timer
 		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
 		if destinyTimer > 0 then
@@ -3941,7 +3931,14 @@ end
 
 function f_advancedModesStatus()
 	local modified = false
-	stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear = true
+	if not stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear then
+		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear = true
+		modified = true
+	end
+	if winCnt > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins then
+		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins = winCnt
+		modified = true
+	end
 	if score() > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score then
 		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score = score()
 		modified = true
@@ -14812,7 +14809,11 @@ function f_result(state)
 				stats.money = stats.money + getPlayerReward()
 				f_saveStats()
 			end
-			if data.gameMode == "speedstar" then f_speedstarStatus() end
+			if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
+				f_advancedModesStatus()
+			elseif data.gameMode == "speedstar" then
+				f_speedstarStatus()
+			end
 			cmdInput()
 			break
 		end
