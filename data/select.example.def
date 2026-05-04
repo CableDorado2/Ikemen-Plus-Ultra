@@ -120,6 +120,14 @@ Max 30 orders MUGEN limitation is lifted.
 Set the paramvalue to the ordering priority to give the character in Boss Rush mode.
 If you omit this param and a character uses boss=1 paramvalue, the default order value will be 1.
 
+- swapcellx (Experimental)
+Set the paramvalue value to column where cursor will swap during character select
+for assigned character slot.
+
+- swapcelly (Experimental)
+Set the paramvalue value to row where cursor will swap during character select
+for assigned character slot.
+
 - 1, 2, (...)
 Paramname points to the match number in arcade mode.
 Paramvalue overwrites character that you would face

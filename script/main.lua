@@ -7939,7 +7939,7 @@ function f_aiLevel()
 			setTag(4, f_tagMode(4, tagset))
 		end
 	]]
-	if data.aiRamping and data.rosterAdvanced and data.gameMode ~= "abyss" and data.gameMode ~= "intermission" and data.gameMode ~= "challenger" then
+	if data.aiRamping and data.rosterAdvanced and data.gameMode ~= "abyss" and data.gameMode ~= "endless" and data.gameMode ~= "intermission" and data.gameMode ~= "challenger" then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
 --Coop

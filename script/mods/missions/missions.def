@@ -7,8 +7,8 @@ path = script/mods/missions/mission1.lua
 
 [Mission 2]
 id = mission2
-name = True Kung Fu Spirit
-info = Unleash the full power of Kung Fu Man!
+name = Time Challenge
+info = Selecte an opponent and beat previous Best Time!
 infolock = Complete Mission 1
 previewspr = 0,2
 path = script/mods/missions/mission2.lua
@@ -16,9 +16,9 @@ unlock = stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.missi
 
 [Mission 3]
 id = mission3
-name = Unlimited Power
-info = Defeat everyone!
-infolock = Complete Mission 2
+name = Score Challenge
+info = Selecte an opponent and beat previous High Score!
+infolock = Complete Mission 1
 previewspr = 0,3
 path = script/mods/missions/mission3.lua
-unlock = stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission2 ~= nil and stats.modes.mission.mission2.clear == true
+unlock = stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission1 ~= nil and stats.modes.mission.mission1.clear == true
