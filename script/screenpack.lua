@@ -3699,7 +3699,7 @@ function drawAdvancedCourseSelInputHints(change)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
-function f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCourse, moveSlot, courseSlotSel, maxSlots, opponentSel)
+function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
 		if not opponentSel then
 			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
@@ -3712,19 +3712,10 @@ function f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCo
 			if i > advancedCourseSel - cursorPosY then
 				local colorSel = 0
 				if advancedCourseSel == i then colorSel = 5 end
-				
-				if #t_advancedCourseSel[i].roster <= maxSlots then
-					maxCourseSlotSel = #t_advancedCourseSel[i].roster
-				elseif courseSlotSel - cursorPosX > 0 then
-					maxCourseSlotSel = courseSlotSel + maxSlots - cursorPosX
-				else
-					maxCourseSlotSel = maxSlots
-				end
-				for slot=1, maxCourseSlotSel do
-				--for slot=#t_advancedCourseSel[i].roster, 1, -1 do
-					if slot > courseSlotSel - cursorPosX then
-						animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX - moveSlot), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
-						drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX - moveSlot), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
+				for slot=#t_advancedCourseSel[i].roster, 1, -1 do
+					if slot <= maxSlots then
+						animPosDraw(advancedCourseSlot, -28 + (2 + slot * advancedCourseSpacingX), 95 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX), 96 + (-118 + i * advancedCourseSpacingY - moveCourse))
 					end
 				end
 				textImgSetBank(txt_advancedCourseName, colorSel)

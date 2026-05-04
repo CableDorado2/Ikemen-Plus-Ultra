@@ -3751,9 +3751,7 @@ end
 function f_commonCourseSelect(mode)
 	cmdInput()
 	local cursorPosY = 1
-	local cursorPosX = 1
 	local moveCourse = 0
-	local moveSlot = 0
 	local maxCourses = 3
 	local maxSlots = 10
 	local bufu = 0
@@ -3762,7 +3760,6 @@ function f_commonCourseSelect(mode)
 	local bufl = 0
 	local titleText = nil
 	local opponentSel = false
-	local courseSlotSel = 1
 	waitingCourseSel = true
 	advancedCourseSel = 1
 	f_loadAdvancedCourses()
@@ -3845,41 +3842,13 @@ function f_commonCourseSelect(mode)
 			else
 				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 					sndPlay(sndSys, 100, 0)
-					courseSlotSel = courseSlotSel - 1
+					
 				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
-					courseSlotSel = courseSlotSel + 1
-				end
-				if courseSlotSel < 1 then
-					courseSlotSel = #t_advancedCourseSel[advancedCourseSel].roster
-					if #t_advancedCourseSel > maxSlots then
-						cursorPosX = maxSlots
-					else
-						cursorPosX = #t_advancedCourseSel[advancedCourseSel].roster
-					end
-				elseif courseSlotSel > #t_advancedCourseSel[advancedCourseSel].roster then
-					courseSlotSel = 1
-					cursorPosX = 1
-				elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
-					cursorPosX = cursorPosX - 1
-				elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < maxSlots then
-					cursorPosX = cursorPosX + 1
+					table.insert(t_advancedCourseSel[advancedCourseSel].roster, #t_advancedCourseSel[advancedCourseSel].roster, t_advancedCourseSel[advancedCourseSel].roster[1])
+					table.remove(t_advancedCourseSel[advancedCourseSel].roster, 1)
 				end
 			end
-			if cursorPosX == maxSlots then
-				moveSlot = (courseSlotSel - maxSlots) * advancedCourseSpacingX
-			elseif cursorPosX == 1 then
-				moveSlot = (courseSlotSel - 1) * advancedCourseSpacingX
-			end
-		--[[
-			if #t_advancedCourseSel[advancedCourseSel].roster <= maxSlots then
-				maxCourseSlotSel = #t_advancedCourseSel[advancedCourseSel].roster
-			elseif courseSlotSel - cursorPosX > 0 then
-				maxCourseSlotSel = courseSlotSel + maxSlots - cursorPosX
-			else
-				maxCourseSlotSel = maxSlots
-			end
-		]]
 		end
 	--Exit Via Return Button
 		if data.tempBack then break end --back to main menu
@@ -3890,7 +3859,7 @@ function f_commonCourseSelect(mode)
 		textImgSetText(txt_advancedCourseSel, titleText)
 		textImgDraw(txt_advancedCourseSel)
 		
-		f_crtest(maxCourseSel, maxCourseSlotSel, cursorPosY, cursorPosX, moveCourse, moveSlot, courseSlotSel, maxSlots, opponentSel)
+		f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 		
 		if maxCourseSel > maxCourses then
 			animDraw(menuArrowUp)
