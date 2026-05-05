@@ -15856,7 +15856,7 @@ if validCells() then
 					looseCnt = looseCnt + 1
 				end
 			end
-		--No More Matches Left
+		--No More Matches Left VS KUMITE
 			if data.gameMode ~= "endless" and matchNo >= lastMatch then
 				f_winAdvanced()
 				f_storyboard(storyboardGameOver)
@@ -15964,7 +15964,7 @@ if validCells() then
 					end
 				end
 			--No More Matches Left
-				if matchNo >= lastMatch then
+				if not endlessRoster and matchNo >= lastMatch then
 				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p1selected[1].cel + 1]
@@ -16019,7 +16019,7 @@ if validCells() then
 					end
 				end
 			--No More Matches Left
-				if matchNo >= lastMatch then
+				if not endlessRoster and matchNo >= lastMatch then
 				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p2selected[1].cel + 1]
