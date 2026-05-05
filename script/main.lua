@@ -12326,7 +12326,7 @@ function f_arcadeTravel()
 	local screenTime = 0
 	local timeLimit = 880
 	local posX = 8
-	local maxSlots = 10
+	local maxSlots = 11
 --Side Logic
 	local enemySide = nil
 	local enemyData = nil
@@ -12422,9 +12422,16 @@ function f_arcadeTravel()
 		textImgSetText(txt_nextEnemyName, enemySide[1].displayname)
 		textImgDraw(txt_nextEnemyName)
 	--Draw Travel Stuff
-		animPosDraw(travelArrow, posX + 28 * matchNo - 22, 204)
-		for enemyRoster=1, lastMatch do			
-			if enemyRoster <= maxSlots then
+		local offset = 0
+		if matchNo > maxSlots then
+			offset = matchNo - maxSlots
+		end
+	--Keep the arrow in last pos when exceed maxSlots value
+		local arrowPos = math.min(matchNo, maxSlots)
+		animPosDraw(travelArrow, posX + 28 * arrowPos - 22, 204)
+		for i=1, maxSlots do
+			local enemyRoster = i + offset --The enemy number on the roster depends on the offset
+			if enemyRoster <= lastMatch then
 				local enemyPortrait = nil
 			--Reveal all enemies
 				if nextStageReveal then
@@ -12437,11 +12444,11 @@ function f_arcadeTravel()
 						enemyPortrait = t_roster[enemyRoster]
 					end
 				end
-				animPosDraw(travelSlotIcon, posX + 28 * enemyRoster - 30, 213)
+				animPosDraw(travelSlotIcon, posX + 28 * i - 30, 213)
 				if enemyRoster <= matchNo or nextStageReveal then
-					drawFacePortrait(enemyPortrait, posX + 28 * enemyRoster - 29, 214) --Enemy Portrait
+					drawFacePortrait(enemyPortrait, posX + 28 * i - 29, 214) --Enemy Portrait
 				else
-					animPosDraw(travelRandomIcon, posX + 28 * enemyRoster - 29, 214) --Random Icon
+					animPosDraw(travelRandomIcon, posX + 28 * i - 29, 214) --Random Icon
 				end
 			end
 		end
