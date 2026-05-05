@@ -3789,6 +3789,7 @@ function f_commonCourseSelect()
 				--Done Course Select for Random and Endless Modes
 					if t_advancedCourseSel[advancedCourseSel].courserandom or t_advancedCourseSel[advancedCourseSel].courseendless then
 						t_roster = t_advancedCourseSel[advancedCourseSel].roster
+						if t_advancedCourseSel[advancedCourseSel].courseendless then endlessRoster = true end
 						break
 				--Go to First Opponent Select
 					else
@@ -7380,6 +7381,7 @@ function f_selectReset()
 	stageEnd = false
 	charSelect = true
 	nextStageReveal = false
+	endlessRoster = false
 	p1numChars = 1
 	p2numChars = 1
 	p1teamMode = 0
@@ -7941,7 +7943,7 @@ function f_aiLevel()
 			setTag(4, f_tagMode(4, tagset))
 		end
 	]]
-	if data.aiRamping and data.rosterAdvanced and data.gameMode ~= "abyss" and data.gameMode ~= "endless" and data.gameMode ~= "intermission" and data.gameMode ~= "challenger" then
+	if data.aiRamping and data.rosterAdvanced and data.gameMode ~= "abyss" and data.gameMode ~= "endless" and not endlessRoster and data.gameMode ~= "intermission" and data.gameMode ~= "challenger" then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
 --Coop
@@ -12358,7 +12360,7 @@ function f_arcadeTravel()
 			break
 		end
 	--Draw Versus Screen Last Match Backgrounds
-		if data.rosterAdvanced and matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Versus Screen Normal Matchs Backgrounds
 		else
@@ -12481,7 +12483,7 @@ function f_orderSelect()
 --Order Select ON
 	else
 	--Set Order Select Music
-		if data.rosterAdvanced and matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			playBGM(bgmSelectOrderFinal)
 		else	
 			playBGM(bgmSelectOrder)
@@ -12557,7 +12559,7 @@ function f_orderSelectCursor()
 	while true do
 		textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
 	--Draw Order Select Last Match Backgrounds
-		if data.rosterAdvanced and matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Order Select Normal Matchs Backgrounds
 		else
@@ -13037,7 +13039,7 @@ function f_orderSelectButton()
 	while true do
 		textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
 	--Draw Order Select Last Match Backgrounds
-		if data.rosterAdvanced and matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Order Select Normal Matchs Backgrounds
 		else
@@ -13641,7 +13643,7 @@ function f_selectVersus()
 		local xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
 		local xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	--Set Versus Screen Music
-		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or gameMode() == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch) then
+		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or gameMode() == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster) then
 			playBGM(bgmVSFinal)
 		elseif data.gameMode == "intermission" then
 			timeLimit = 350
@@ -13657,7 +13659,7 @@ function f_selectVersus()
 				break
 			end
 		--Draw Versus Screen Last Match Backgrounds
-			if data.rosterAdvanced and matchNo >= lastMatch then
+			if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Versus Screen Normal Matchs Backgrounds
 			else
@@ -14002,7 +14004,7 @@ function f_selectWin()
 	while true do
 		if data.victoryscreen then --Only shows if data.victoryscreen == true
 		--Draw Winner Screen Last Match Backgrounds
-			if data.rosterAdvanced and matchNo >= lastMatch then
+			if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Winner Screen Normal Matchs Backgrounds
 			else
@@ -14462,7 +14464,7 @@ function f_selectChallenger()
 			break
 		end
 	--Draw Last Match Backgrounds
-		if data.rosterAdvanced and matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Normal Matchs Backgrounds
 		else
@@ -14637,7 +14639,7 @@ function f_service()
 			end
 		end
 	--Draw Character Select Last Match Backgrounds
-		if data.rosterAdvanced and matchNo >= lastMatch then
+		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 	--Draw Character Select Normal Matchs Backgrounds
 		else
@@ -14751,7 +14753,7 @@ function f_result(state)
 		if gameMode() == "timeattack" or gameMode() == "speedstar" then return end --Skip results if lose in time attack mode
 	end
 --Setup Vars according Game Modes
-	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
+	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
 			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
@@ -14786,7 +14788,7 @@ function f_result(state)
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
---Skip Results Screen for: Boss Rush
+--Skip Results Screen
 	else
 		return
 	end
@@ -15772,7 +15774,9 @@ if validCells() then
 					f_exitToMainMenu()
 					return
 				end
-				lastMatch = #t_advancedCourseSel[advancedCourseSel].roster
+				if not endlessRoster then
+					lastMatch = #t_advancedCourseSel[advancedCourseSel].roster
+				end
 			elseif data.gameMode == "tower" then
 				f_selectDestiny() --Tower Select (Choose Your Destiny Screen)
 				if data.tempBack == true then
@@ -15819,7 +15823,7 @@ if validCells() then
 				end
 			end
 			matchNo = 1
-			if data.gameMode ~= "endless" then
+			if data.gameMode ~= "endless" and not endlessRoster then
 				setLastMatch(lastMatch)
 				f_aiRamp() --generate AI ramping table
 			end
@@ -16338,7 +16342,7 @@ if validCells() then
 						else
 							data.bgm = nil
 						end
-					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
+					elseif data.gameMode == "endless" or data.gameMode == "abyss" or endlessRoster then
 				--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 					This logic will ensure that chars are not repeated until the entire roster is defeated.]]
 						p1Cell = t_roster[#t_roster]
@@ -16480,7 +16484,7 @@ if validCells() then
 						else
 							data.bgm = nil
 						end
-					elseif data.gameMode == "endless" or data.gameMode == "abyss" then
+					elseif data.gameMode == "endless" or data.gameMode == "abyss" or endlessRoster then
 						--[[Last char will be used because it will be removed below so that when the t_roster table is empty, f_makeRoster() will happen to renew.
 						This logic will ensure that chars are not repeated until the entire roster is defeated.]]
 						p2Cell = t_roster[#t_roster]
@@ -16612,7 +16616,7 @@ if validCells() then
 				return
 			end
 		end
-		f_matchInfo()
+		if data.gameMode ~= "endless" and not endlessRoster then f_matchInfo() end
 	--Back to Main Menu and Save
 		if data.saveAbyss then
 			f_setAbyssStats() --Assign/Load Abyss Stats
@@ -16628,7 +16632,7 @@ if validCells() then
 		if data.gameMode == "arcade" or data.gameMode == "tower" then
 			f_setRoundTime() --Set Round Time for specific characters
 			f_setRounds() --Set Rounds to Win for specific characters
-		elseif data.gameMode == "abyss" or data.gameMode == "endless" then
+		elseif data.gameMode == "abyss" or data.gameMode == "endless" or endlessRoster then
 		--Remove the last char loaded for the CPU side from t_roster and make a check so that when t_roster is empty, use f_makeRoster() again
 			table.remove(t_roster, #t_roster)
 			if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end

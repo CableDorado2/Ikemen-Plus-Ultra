@@ -2328,9 +2328,9 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH "..getAbyssDepth()) --Set Abyss Depth Match Text
 	elseif data.gameMode == "alliance" then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Alliance Match Text
 	end
-	if data.gameMode == "survival" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
+	if data.gameMode == "survival" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set Survival/All Roster Match Text
 	elseif data.gameMode == "kumite" then textImgSetText(txt_gameNo, gameNo.."/"..data.kumite) --Set Kumite Match Text
-	elseif data.gameMode == "bossrush" then textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
+	elseif data.gameMode == "bossrush" then textImgSetText(txt_bossNo, "REMAINING MATCHES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
 	elseif data.gameMode == "bonusrush" then textImgSetText(txt_bonusNo, "BONUS "..bonusNo) --Set Bonus Rush Match Text
 	elseif data.gameMode == "intermission" then textImgSetText(txt_gameNo, "EXTRA STAGE") --Set Intermission Match Text
 	else textImgSetText(txt_gameNo, "MATCH "..gameNo) --Set Versus Match Text
