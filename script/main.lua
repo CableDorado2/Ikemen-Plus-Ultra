@@ -3933,21 +3933,38 @@ end
 
 function f_advancedModesStatus()
 	local modified = false
-	if not stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear then
-		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear = true
-		modified = true
-	end
-	if winCnt > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins then
-		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins = winCnt
-		modified = true
-	end
-	if score() > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score then
-		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score = score()
-		modified = true
-	end
-	if timerTotal() < stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time then
-		stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
-		modified = true
+--Save Data for Speed Star Mode
+	if data.gameMode == "speedstar" then
+		if not stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear then
+			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear = true
+			modified = true
+		end
+		if score() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score then
+			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score = score()
+			modified = true
+		end
+		if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
+			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
+			modified = true
+		end
+--Save Data for Other Modes
+	else
+		if not stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear then
+			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear = true
+			modified = true
+		end
+		if winCnt > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins then
+			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins = winCnt
+			modified = true
+		end
+		if score() > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score then
+			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score = score()
+			modified = true
+		end
+		if timerTotal() < stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time then
+			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
+			modified = true
+		end
 	end
 	if modified then f_saveStats() end
 end
@@ -4165,20 +4182,6 @@ function f_createSpeedStarData()
 			stats.modes.speedstar[t_speedCourseSel[i].id].time = defaultTimeRecord --From common.lua
 			modified = true
 		end
-	end
-	if modified then f_saveStats() end
-end
-
-function f_speedstarStatus()
-	local modified = false
-	stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear = true
-	if score() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score then
-		stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score = score()
-		modified = true
-	end
-	if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
-		stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
-		modified = true
 	end
 	if modified then f_saveStats() end
 end
@@ -14757,21 +14760,26 @@ function f_result(state)
 		if data.gameMode == "survival" then
 			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			textImgSetText(txt_resultTitle, "SURVIVAL")
+			textImgSetText(txt_resultTitle, "SURVIVAL ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			if gameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH") end
 		elseif data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
-			textImgSetText(txt_resultNo, winCnt.." WINS")
-			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK")
-			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR")
-			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN")
-			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK")
+			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
+			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..speedCourseSel..")")
+			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN ("..t_advancedCourseSel[advancedCourseSel].name..")")
+			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			end
+		--Save Records
+			f_advancedModesStatus()
 		elseif data.gameMode == "allroster" then
-			textImgSetText(txt_resultNo, winCnt.." WINS")
-			if gameMode() == "goldrush" then textImgSetText(txt_resultTitle, "GOLD RUSH")
-			elseif gameMode() == "timerush" then textImgSetText(txt_resultTitle, "TIME RUSH")
-			elseif gameMode() == "scorerush" then textImgSetText(txt_resultTitle, "SCORE RUSH")
-			else textImgSetText(txt_resultTitle, "RESULTS")
+			if gameMode() == "goldrush" then
+				textImgSetText(txt_resultTitle, "GOLD RUSH")
+			--Get Reward and Save Record
+				stats.money = stats.money + getPlayerReward()
+				
+				f_saveStats()
+			else
+				textImgSetText(txt_resultTitle, "RESULTS")
+				textImgSetText(txt_resultNo, winCnt.." WINS")
 			end
 		elseif data.gameMode == "abyss" then
 			textImgSetText(txt_resultTitle, "ABYSS (LEVEL "..abyssSel..")")
@@ -14825,16 +14833,8 @@ function f_result(state)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	playBGM(bgmResults)
 	while true do
+	--Skip Screen
 		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-			if gameMode() == "goldrush" then
-				stats.money = stats.money + getPlayerReward()
-				f_saveStats()
-			end
-			if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
-				f_advancedModesStatus()
-			elseif data.gameMode == "speedstar" then
-				f_speedstarStatus()
-			end
 			cmdInput()
 			break
 		end
