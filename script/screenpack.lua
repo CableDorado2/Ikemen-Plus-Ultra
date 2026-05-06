@@ -789,7 +789,7 @@ t_mainMenu = {
 	{text = "NETPLAY", 		gotomenu = "f_mainNetplay()"},
 	{text = "PRACTICE", 	gotomenu = "f_practiceMenu()"},
 	{text = "CHALLENGES", 	gotomenu = "f_challengeMenu()"},
-	{text = "EXTRAS", 		gotomenu = "f_extrasMenu()", unlock = "stats.modes.arcade.clear >= 1"},
+	{text = "EXTRAS", 		gotomenu = "f_extrasMenu()"},--, unlock = "stats.modes.arcade.clear >= 1"},
 	{text = "WATCH", 		gotomenu = "f_watchMenu()"},
 	{text = "OPTIONS", 		gotomenu = "f_optionsMenu()"},
 	{text = "EXIT", 		gotomenu = "f_exitMenu()"},
@@ -3725,55 +3725,7 @@ function drawAdvancedCourseSelInputHints(change)
 end
 
 function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
-		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
-		if not opponentSel then
-			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
-		else
-			textImgSetText(txt_advancedCourseInfo, txt_advancedFirstSel)
-		end
-		textImgDraw(txt_advancedCourseInfo)
-	--Draw Course Content Text
-		for i=1, maxCourseSel do
-			if i > advancedCourseSel - cursorPosY then
-				local colorSel = 0
-				if advancedCourseSel == i then colorSel = 5 end
-				for slot=1, #t_advancedCourseSel[i].roster do
-					if slot <= maxSlots then
-						local totalSlots = slot
-						if t_advancedCourseSel[i].courseendless then totalSlots = 1 end
-						animPosDraw(advancedCourseSlot, -28 + (2 + totalSlots * advancedCourseSpacingX), 93 + (-118 + i * advancedCourseSpacingY - moveCourse))
-						if t_advancedCourseSel[i].courserandom then
-							animPosDraw(advancedCourseRandomIcon, -28 + (3 + slot * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
-						elseif t_advancedCourseSel[i].courseendless then
-							animPosDraw(advancedCourseEndlessIcon, -28 + (3 + totalSlots * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
-						else
-							drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
-						end
-					end
-				end
-				textImgSetBank(txt_advancedCourseName, colorSel)
-				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
-				textImgPosDraw(txt_advancedCourseName, 2, 88 + (-118 + i * advancedCourseSpacingY - moveCourse))
-				
-				--if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
-					animPosDraw(advancedCourseClear, 285, 92 + (-118 + i * advancedCourseSpacingY - moveCourse))
-				--end
-				local varText = ""
-				if data.gameMode == "survival" then
-					local survRecord = stats.modes.survival[t_advancedCourseSel[i].id].wins
-					local survWins = ""
-					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
-					varText = survRecord..survWins
-				elseif data.gameMode == "timeattack" then
-					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
-					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
-				elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
-					varText = f_setThousandsFormat(stats.modes[data.gameMode][t_advancedCourseSel[i].id].score)
-				end
-				textImgSetText(txt_advancedCourseRecord, t_advancedCourseSel.record..varText)
-				textImgPosDraw(txt_advancedCourseRecord, 2, 130 + (-118 + i * advancedCourseSpacingY - moveCourse))
-			end
-		end
+		
 end
 
 --;===========================================================

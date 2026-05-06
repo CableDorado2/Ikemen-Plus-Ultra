@@ -3859,17 +3859,73 @@ function f_commonCourseSelect()
 	--Draw Title
 		textImgSetText(txt_advancedCourseSel, t_advancedCourseSel.title)
 		textImgDraw(txt_advancedCourseSel)
-		f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
-	--[
-		if maxCourseSel > maxCourses then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
+		--f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
+		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
+		if not opponentSel then
+			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
+		else
+			textImgSetText(txt_advancedCourseInfo, txt_advancedFirstSel)
 		end
-		if #t_advancedCourseSel > maxCourses and maxCourseSel < #t_advancedCourseSel then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
+		textImgDraw(txt_advancedCourseInfo)
+	--Draw Course Content Text
+		for i=1, maxCourseSel do
+			if i > advancedCourseSel - cursorPosY then
+				local colorSel = 0
+				if advancedCourseSel == i then colorSel = 5 end
+				for slot=1, #t_advancedCourseSel[i].roster do
+					if slot <= maxSlots then
+						local totalSlots = slot
+						if t_advancedCourseSel[i].courseendless then totalSlots = 1 end
+						animPosDraw(advancedCourseSlot, -28 + (2 + totalSlots * advancedCourseSpacingX), 93 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						if t_advancedCourseSel[i].courserandom then
+							animPosDraw(advancedCourseRandomIcon, -28 + (3 + slot * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						elseif t_advancedCourseSel[i].courseendless then
+							animPosDraw(advancedCourseEndlessIcon, -28 + (3 + totalSlots * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						else
+							drawFacePortrait(t_advancedCourseSel[i].roster[slot], -28 + (3 + slot * advancedCourseSpacingX), 94 + (-118 + i * advancedCourseSpacingY - moveCourse))
+						end
+					end
+				end
+				textImgSetBank(txt_advancedCourseName, colorSel)
+				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
+				textImgPosDraw(txt_advancedCourseName, 2, 88 + (-118 + i * advancedCourseSpacingY - moveCourse))
+			--Draw Clear icon at the end of each course, according to his size/length
+				if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
+					local lastSlot = #t_advancedCourseSel[i].roster
+					if t_advancedCourseSel[i].courseendless then lastSlot = 1 end
+					if lastSlot > maxSlots then lastSlot = maxSlots end --Limit the number of visible slots to the maximum so that it doesn't go off-screen if there are too many.
+					animPosDraw(advancedCourseClear, -28 + (3 + (lastSlot + 1) * advancedCourseSpacingX), 92 + (-118 + i * advancedCourseSpacingY - moveCourse))
+				end
+				local varText = ""
+				if data.gameMode == "survival" then
+					local survRecord = stats.modes.survival[t_advancedCourseSel[i].id].wins
+					local survWins = ""
+					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
+					varText = survRecord..survWins
+				elseif data.gameMode == "timeattack" then
+					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
+					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
+				elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
+					varText = f_setThousandsFormat(stats.modes[data.gameMode][t_advancedCourseSel[i].id].score)
+				end
+				textImgSetText(txt_advancedCourseRecord, t_advancedCourseSel.record..varText)
+				textImgPosDraw(txt_advancedCourseRecord, 2, 130 + (-118 + i * advancedCourseSpacingY - moveCourse))
+			end
 		end
-	--]]
+		if opponentSel then
+			animSetWindow(cursorBox, 2,93 + (-118 + advancedCourseSel * advancedCourseSpacingY - moveCourse), 27,27)
+			f_dynamicAlpha(cursorBox, 20,200,15, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		else
+			if maxCourseSel > maxCourses then
+				animDraw(menuArrowUp)
+				animUpdate(menuArrowUp)
+			end
+			if #t_advancedCourseSel > maxCourses and maxCourseSel < #t_advancedCourseSel then
+				animDraw(menuArrowDown)
+				animUpdate(menuArrowDown)
+			end
+		end
 	--Course Select Timer
 		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
 		if destinyTimer > 0 then
@@ -3935,7 +3991,7 @@ function f_advancedModesStatus(state)
 	local modified = false
 --Save Data for Speed Star Mode
 	if data.gameMode == "speedstar" then
-		if not stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear then
+		if state == "win" and not stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear then
 			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear = true
 			modified = true
 		end
@@ -3944,7 +4000,7 @@ function f_advancedModesStatus(state)
 			resultsNewRecordScore = true
 			modified = true
 		end
-		if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time and state == "win" then
+		if state == "win" and timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
 			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
 			resultsNewRecordTime = true
 			resultsNewRecord = true
@@ -3952,7 +4008,7 @@ function f_advancedModesStatus(state)
 		end
 --Save Data for Other Modes
 	else
-		if not stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear then
+		if state == "win" and not stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear then
 			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear = true
 			modified = true
 		end
@@ -3968,7 +4024,7 @@ function f_advancedModesStatus(state)
 			if data.gameMode == "scoreattack" or data.gameMode == "caravan" then resultsNewRecord = true end
 			modified = true
 		end
-		if timerTotal() < stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time then
+		if state == "win" and timerTotal() < stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time then
 			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
 			resultsNewRecordTime = true
 			if data.gameMode == "timeattack" then resultsNewRecord = true end
@@ -4101,9 +4157,11 @@ function f_speedStarSelect()
 			end
 		end
 	--Draw Cursor
-		animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if not backScreen then
+			animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		if maxspeedCourseSel > maxItems then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
@@ -15830,7 +15888,11 @@ if validCells() then
 					return
 				end
 				if not endlessRoster then
-					lastMatch = #t_advancedCourseSel[advancedCourseSel].roster
+					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+						lastMatch = #t_advancedCourseSel[advancedCourseSel].roster / p1numChars
+					else
+						lastMatch = #t_advancedCourseSel[advancedCourseSel].roster / p2numChars
+					end
 				end
 			elseif data.gameMode == "tower" then
 				f_selectDestiny() --Tower Select (Choose Your Destiny Screen)
@@ -15846,7 +15908,11 @@ if validCells() then
 					return
 				end
 				f_makeRosterSpeedStar()
-				lastMatch = #t_roster
+				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+					lastMatch = #t_roster / p1numChars
+				else
+					lastMatch = #t_roster / p2numChars
+				end
 			elseif data.gameMode == "abyss" then
 				if not loadAbyssDat then --Only show during a New Game
 					f_abyssMenu() --Go to Abyss Menu that contains the item shop
