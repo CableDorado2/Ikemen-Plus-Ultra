@@ -3890,7 +3890,7 @@ function f_commonCourseSelect()
 				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
 				textImgPosDraw(txt_advancedCourseName, 2, 88 + (-118 + i * advancedCourseSpacingY - moveCourse))
 			--Draw Clear icon at the end of each course, according to his size/length
-				if stats.modes.speedstar[t_advancedCourseSel[i].id].clear then
+				if stats.modes[data.gameMode][t_advancedCourseSel[i].id].clear then
 					local lastSlot = #t_advancedCourseSel[i].roster
 					if t_advancedCourseSel[i].courseendless then lastSlot = 1 end
 					if lastSlot > maxSlots then lastSlot = maxSlots end --Limit the number of visible slots to the maximum so that it doesn't go off-screen if there are too many.
