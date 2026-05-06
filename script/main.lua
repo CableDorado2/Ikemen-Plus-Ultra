@@ -3931,7 +3931,7 @@ function f_createAdvancedModesData()
 	if modified then f_saveStats() end
 end
 
-function f_advancedModesStatus()
+function f_advancedModesStatus(state)
 	local modified = false
 --Save Data for Speed Star Mode
 	if data.gameMode == "speedstar" then
@@ -3941,10 +3941,13 @@ function f_advancedModesStatus()
 		end
 		if score() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score then
 			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score = score()
+			resultsNewRecordScore = true
 			modified = true
 		end
-		if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
+		if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time and state == "win" then
 			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
+			resultsNewRecordTime = true
+			resultsNewRecord = true
 			modified = true
 		end
 --Save Data for Other Modes
@@ -3955,14 +3958,20 @@ function f_advancedModesStatus()
 		end
 		if winCnt > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins then
 			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins = winCnt
+			resultsNewRecordWins = true
+			if data.gameMode == "survival" then resultsNewRecord = true end
 			modified = true
 		end
 		if score() > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score then
 			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score = score()
+			resultsNewRecordScore = true
+			if data.gameMode == "scoreattack" or data.gameMode == "caravan" then resultsNewRecord = true end
 			modified = true
 		end
 		if timerTotal() < stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time then
 			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
+			resultsNewRecordTime = true
+			if data.gameMode == "timeattack" then resultsNewRecord = true end
 			modified = true
 		end
 	end
@@ -14755,13 +14764,25 @@ function f_result(state)
 	elseif state == "lost" then
 		if gameMode() == "timeattack" or gameMode() == "speedstar" then return end --Skip results if lose in time attack mode
 	end
+	local t = 0
+	local sfx = 0
+	local newRecord = false
+	resultsRankRevealTime = 50
+	resultsNewRecord = false
+	resultsNewRecordScore = false
+	resultsNewRecordTime = false
+	resultsNewRecordWins = false
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
-			--textImgSetBank(txt_resultNo, 5) --New Record Color
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL ("..t_advancedCourseSel[advancedCourseSel].name..")")
-			if gameMode() == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH") end
+		--Save Records
+			if gameMode() ~= "suddendeath" then
+				f_advancedModesStatus(state)
+			else
+				textImgSetText(txt_resultTitle, "SUDDEN DEATH")
+			end
 		elseif data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
 			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..speedCourseSel..")")
@@ -14769,13 +14790,17 @@ function f_result(state)
 			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			end
 		--Save Records
-			f_advancedModesStatus()
+			f_advancedModesStatus(state)
 		elseif data.gameMode == "allroster" then
 			if gameMode() == "goldrush" then
 				textImgSetText(txt_resultTitle, "GOLD RUSH")
 			--Get Reward and Save Record
 				stats.money = stats.money + getPlayerReward()
-				
+				if stats.goldrushrecord == nil then stats.goldrushrecord = 0 end
+				if getPlayerReward() > stats.goldrushrecord then
+					stats.goldrushrecord = getPlayerReward()
+					resultsNewRecord = true
+				end
 				f_saveStats()
 			else
 				textImgSetText(txt_resultTitle, "RESULTS")
@@ -14786,6 +14811,7 @@ function f_result(state)
 		--Save Max Abyss Depth
 			if getAbyssDepth() > stats.modes.abyss.maxdepth then
 				stats.modes.abyss.maxdepth = getAbyssDepth()
+				resultsNewRecord = true
 				f_saveStats()
 			end
 		else
@@ -14831,7 +14857,12 @@ function f_result(state)
 	end
 	local xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	playBGM(bgmResults)
+	if resultsNewRecord then
+		playBGM(bgmNewRecord)
+		sndPlay(sndIkemen, 510, 0)
+	else
+		playBGM(bgmResults)
+	end
 	while true do
 	--Skip Screen
 		if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
@@ -14860,38 +14891,54 @@ function f_result(state)
 			data.gameMode == "abyss" or data.gameMode == "speedstar" or
 			data.gameMode == "scoreattack" or data.gameMode == "timeattack" or
 			data.gameMode == "caravan" then
-			if gameMode() == "kumite" then
+			if gameMode() == "kumite" or data.gameMode == "endless" then
 				textImgDraw(txt_resultWins)
 				textImgDraw(txt_resultLoses)
-				f_drawRank(winCnt, #t_roster)
+				if data.gameMode == "kumite" then f_drawRank(winCnt, #t_roster) end
 			elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
-				f_drawScoreAttackResults()
+				f_drawScoreAttackResults(newRecord)
 				f_drawRank(score(), #t_roster * 1000000)
 			elseif data.gameMode == "timeattack" or data.gameMode == "speedstar" then
-				f_drawTimeAttackResults()
+				f_drawTimeAttackResults(newRecord)
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
-			elseif gameMode() == "goldrush" then
-				f_drawGoldRushResults()
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults()
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
-			else
-				if data.gameMode ~= "endless" then
-					textImgDraw(txt_resultNo)
-					f_drawRank(winCnt, #t_roster)
-				else
-					textImgDraw(txt_resultWins)
-					textImgDraw(txt_resultLoses)
-				end
+			elseif gameMode() == "goldrush" then
+				f_drawGoldRushResults(newRecord)
+			else --Survival/All Roster
+				textImgDraw(txt_resultNo)
+				f_drawRank(winCnt, #t_roster)
 			end
 			if data.gameMode ~= "timeattack" and gameMode() ~= "speedstar" then
+				local recordColor = 0
+				if resultsNewRecordTime then recordColor = 5 end
+				textImgSetBank(txt_resultTime, recordColor)
 				textImgSetText(txt_resultTime, "TIME: "..f_setTimeFormat(timerTotal()))
 				textImgDraw(txt_resultTime)
 			end
 			if data.gameMode ~= "scoreattack" and gameMode() ~= "caravan" and gameMode() ~= "goldrush" then
+				local recordColor = 0
+				if resultsNewRecordScore then recordColor = 5 end
+				textImgSetBank(txt_resultScore, recordColor)
 				textImgSetText(txt_resultScore, "SCORE: "..f_setThousandsFormat(score()).."PTS")
 				textImgDraw(txt_resultScore)
 			end
+		end
+		if resultsNewRecord then
+			if sfx == 80 then
+				sndPlay(sndIkemen, 510, 1)
+				sfx = 0
+			else
+				sfx = sfx + 1
+			end
+			if t % 60 < 30 then
+				newRecord = true
+				textImgDraw(txt_resultRecord)
+			else
+				newRecord = false
+			end
+			t = t >= 80 and 0 or t + 1
 		end
 		textImgDraw(txt_resultTitle)
 		textImgDraw(txt_resultName)
@@ -14933,35 +14980,43 @@ function f_drawRank(performanceValue, maxValue, timePerfomance, targetTime)
 		if percentage > 100 then percentage = 100 end --To Avoid Exceed  100%
 	end
 --Show Ranks According Percentage Rates
-	textImgDraw(txt_resultRank)
-	if percentage < 35 then --0% -- 34%
-		animDraw(rankF)
-	elseif percentage >= 35 and percentage < 40 then --35% - 39%
-		animDraw(rankDM)
-	elseif percentage >= 40 and percentage < 45 then --40% - 44%
-		animDraw(rankD)
-	elseif percentage >= 45 and percentage < 50 then --45% - 49%
-		animDraw(rankDP)
-	elseif percentage >= 50 and percentage < 55 then --50% - 54%
-		animDraw(rankC)
-	elseif percentage >= 55 and percentage < 60 then --55% - 59%
-		animDraw(rankCP)
-	elseif percentage >= 60 and percentage < 65 then --60% -64%
-		animDraw(rankB)
-	elseif percentage >= 65 and percentage < 70 then --65% -69%
-		animDraw(rankBP)
-	elseif percentage >= 70 and percentage < 75 then --70% -74%
-		animDraw(rankA)
-	elseif percentage >= 75 and percentage < 80 then --75% - 79
-		animDraw(rankAP)
-	elseif percentage >= 80 and percentage < 85 then --80% - 84%
-		animDraw(rankS)
-	elseif percentage >= 85 and percentage < 90 then --85% - 89%
-		animDraw(rankSP)
-	elseif percentage >= 90 and percentage < 95 then --90% - 94%
-		animDraw(rankXS)
-	elseif percentage >= 95 then --95% - 100%
-		animDraw(rankGDLK)
+	if resultsRankRevealTime <= 0 then
+		if resultsRankRevealTime ~= -1 then
+			sndPlay(sndIkemen, 510, 2)
+			resultsRankRevealTime = -1
+		end
+		textImgDraw(txt_resultRank)
+		if percentage < 35 then --0% -- 34%
+			animDraw(rankF)
+		elseif percentage >= 35 and percentage < 40 then --35% - 39%
+			animDraw(rankDM)
+		elseif percentage >= 40 and percentage < 45 then --40% - 44%
+			animDraw(rankD)
+		elseif percentage >= 45 and percentage < 50 then --45% - 49%
+			animDraw(rankDP)
+		elseif percentage >= 50 and percentage < 55 then --50% - 54%
+			animDraw(rankC)
+		elseif percentage >= 55 and percentage < 60 then --55% - 59%
+			animDraw(rankCP)
+		elseif percentage >= 60 and percentage < 65 then --60% -64%
+			animDraw(rankB)
+		elseif percentage >= 65 and percentage < 70 then --65% -69%
+			animDraw(rankBP)
+		elseif percentage >= 70 and percentage < 75 then --70% -74%
+			animDraw(rankA)
+		elseif percentage >= 75 and percentage < 80 then --75% - 79
+			animDraw(rankAP)
+		elseif percentage >= 80 and percentage < 85 then --80% - 84%
+			animDraw(rankS)
+		elseif percentage >= 85 and percentage < 90 then --85% - 89%
+			animDraw(rankSP)
+		elseif percentage >= 90 and percentage < 95 then --90% - 94%
+			animDraw(rankXS)
+		elseif percentage >= 95 then --95% - 100%
+			animDraw(rankGDLK)
+		end
+	else
+		resultsRankRevealTime = resultsRankRevealTime - 1
 	end
 end
 

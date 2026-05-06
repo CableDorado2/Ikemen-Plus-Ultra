@@ -49,6 +49,7 @@ bgmVSFinal = "sound/system/VS Final.mp3"
 bgmVSSpecial = "sound/system/VS Special.mp3"
 bgmVictory = "sound/system/Results.mp3"
 bgmResults = "sound/system/Results.mp3"
+bgmNewRecord = "sound/system/New Record.mp3"
 bgmService = "sound/system/Service.mp3"
 bgmContinue = "sound/system/Continue.mp3"
 bgmGameOver = "sound/system/Game Over.mp3"
@@ -2620,34 +2621,40 @@ txt_resultTeam = createTextImg(font6, 0, 1, "", 1, 206)
 txt_resultName = createTextImg(font6, 0, 1, "", 1, 221)
 txt_resultStatus = createTextImg(survNumFnt, 0, -1, "", 318, 54)
 
-function f_drawScoreAttackResults()
+function f_drawScoreAttackResults(active)
 	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()).."PTS", 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_scoreTotal, survNumFnt, 0, -1, "TOTAL SCORE", 320, 125, 0.8, 0.8)
-	
-	f_drawQuickText(txt_scoreRecord, survNumFnt, 0, -1, f_setThousandsFormat(score()).."PTS", 320, 165, 0.3, 0.3)
-	f_drawQuickText(txt_scoreBest, survNumFnt, 0, -1, "BEST SCORE", 320, 178, 0.7, 0.7)
-	
-	f_drawQuickText(txt_scoreWins, jgFnt, 0, -1, "WINS: "..winCnt, 266, 234)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		f_drawQuickText(txt_scoreRecord, survNumFnt, 0, -1, f_setThousandsFormat(stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score).."PTS", 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_scoreBest, survNumFnt, 0, -1, "BEST SCORE", 320, 178, 0.7, 0.7)
+	end
+	local recordColor = 0
+	if resultsNewRecordWins then recordColor = 5 end
+	f_drawQuickText(txt_scoreWins, jgFnt, recordColor, -1, "WINS: "..winCnt, 266, 234)
 end
 
-function f_drawTimeAttackResults()
+function f_drawTimeAttackResults(active)
 	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL TIME", 320, 125, 0.8, 0.8)
-	
-	f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 165, 0.3, 0.3)
-	f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)
-	
-	f_drawQuickText(txt_timeWins, jgFnt, 0, -1, "WINS: "..winCnt, 266, 220)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time), 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)
+	end
+	local recordColor = 0
+	if resultsNewRecordWins then recordColor = 5 end
+	f_drawQuickText(txt_timeWins, jgFnt, recordColor, -1, "WINS: "..winCnt, 266, 220)
 end
 
-function f_drawGoldRushResults()
+function f_drawGoldRushResults(active)
 	f_drawQuickText(txt_rewardResult, survNumFnt, 0, -1, f_setThousandsFormat(getPlayerReward()).." IKC", 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_rewardTotal, survNumFnt, 0, -1, "TOTAL REWARD", 320, 125, 0.8, 0.8)
-	
-	f_drawQuickText(txt_rewardRecord, survNumFnt, 0, -1, f_setThousandsFormat(getPlayerReward()).." IKC", 320, 165, 0.3, 0.3)
-	f_drawQuickText(txt_rewardBest, survNumFnt, 0, -1, "BEST REWARD", 320, 178, 0.7, 0.7)
-	
-	f_drawQuickText(txt_rewardWins, jgFnt, 0, -1, "WINS: "..winCnt, 266, 234)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		f_drawQuickText(txt_rewardRecord, survNumFnt, 0, -1, f_setThousandsFormat(stats.goldrushrecord).." IKC", 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_rewardBest, survNumFnt, 0, -1, "BEST REWARD", 320, 178, 0.7, 0.7)
+	end
+	local recordColor = 0
+	if resultsNewRecordWins then recordColor = 5 end
+	f_drawQuickText(txt_rewardWins, jgFnt, recordColor, -1, "WINS: "..winCnt, 266, 234)
 end
 
 function f_drawAbyssResults()
@@ -3760,10 +3767,8 @@ function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 				elseif data.gameMode == "timeattack" then
 					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
 					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
-				elseif data.gameMode == "scoreattack" then
-					varText = f_setThousandsFormat(stats.modes.scoreattack[t_advancedCourseSel[i].id].score)
-				elseif data.gameMode == "caravan" then
-					varText = f_setThousandsFormat(stats.modes.caravan[t_advancedCourseSel[i].id].score)
+				elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
+					varText = f_setThousandsFormat(stats.modes[data.gameMode][t_advancedCourseSel[i].id].score)
 				end
 				textImgSetText(txt_advancedCourseRecord, t_advancedCourseSel.record..varText)
 				textImgPosDraw(txt_advancedCourseRecord, 2, 130 + (-118 + i * advancedCourseSpacingY - moveCourse))

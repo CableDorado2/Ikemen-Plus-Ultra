@@ -2448,6 +2448,7 @@ function f_default() --Reset Game Modes Configuration
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2
 	setLastMatch(-1) --Set Last Match Stage
+	lastMatch = -1 --Reset Last Match var
 	setFirstAttackCount(0) --Reset First Attack Count
 	setConsecutiveWins(0) --Reset Consecutive Wins Count
 	setWinTimeCount(0) --Reset Time Over Wins Count
