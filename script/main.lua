@@ -3928,12 +3928,14 @@ function f_commonCourseSelect()
 			end
 		end
 	--Course Select Timer
-		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
-		if destinyTimer > 0 then
-			if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
-			textImgPosDraw(txt_destinyTime, 160, 30)
-		else --when destinyTimer <= 0
-			
+		if data.attractMode then
+			textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
+			if destinyTimer > 0 then
+				if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
+				textImgPosDraw(txt_destinyTime, 160, 30)
+			else --when destinyTimer <= 0
+				
+			end
 		end
 		if backScreen then f_backMenu() else drawAdvancedCourseSelInputHints(opponentSel) end --Open Back Menu Question
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -4172,12 +4174,14 @@ function f_speedStarSelect()
 			animUpdate(menuArrowDown)
 		end
 	--Course Select Timer
-		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
-		if destinyTimer > 0 then
-			if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
-			textImgPosDraw(txt_destinyTime, 298, 11)
-		else --when destinyTimer <= 0
-			
+		if data.attractMode then
+			textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
+			if destinyTimer > 0 then
+				if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
+				textImgPosDraw(txt_destinyTime, 298, 11)
+			else --when destinyTimer <= 0
+				
+			end
 		end
 		if backScreen then f_backMenu() else drawSpeedCourseInputHints() end --Open Back Menu Question
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -8683,7 +8687,7 @@ function f_selectScreen()
 		end
 	end
 --Character Select Timer
-	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
+	if data.attractMode or data.ftcontrol > 0 then
 		textImgSetText(txt_charTime, string.format("%.0f", selectTimer / gameTick))
 		if selectTimer > 0 then
 			if not backScreen then selectTimer = selectTimer - 0.5 end --Activate Character Select Timer
@@ -12125,7 +12129,7 @@ function f_selectStage()
 			if stageAnnouncer == false then textImgDraw(txt_stageDayTime) end
 		end
 	--Stage Select Timer
-		if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
+		if data.attractMode or data.ftcontrol > 0 then
 			if data.stageType == "Classic" then textImgSetPos(txt_stageTime, 160, 70)
 			elseif data.stageType == "Modern" then textImgSetPos(txt_stageTime, 160, 105)
 			end
@@ -12628,7 +12632,6 @@ function f_orderSelectCursor()
 		xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	while true do
-		textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
 	--Draw Order Select Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -12680,13 +12683,15 @@ function f_orderSelectCursor()
 			sndTime = sndTime - 1
 		end
 		sndNumber = -1
-		--Adjust characters order if timer is > 0
-		if orderTime > 0 then
-			orderTime = orderTime - 0.5 --Activate Order Select Timer
-			textImgDraw(txt_orderTime)
-			
-		else --when orderTime <= 0
-			
+	--Order Select Timer
+		if data.attractMode or data.ftcontrol > 0 then
+			textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
+			if orderTime > 0 then
+				orderTime = orderTime - 0.5 --Activate Order Select Timer
+				textImgDraw(txt_orderTime)
+			else --when orderTime <= 0
+				
+			end
 		end
 	--if Player 1 has not confirmed the order yet
 		if not p1Confirmed and data.p1In ~= 2 then
@@ -13108,7 +13113,6 @@ function f_orderSelectButton()
 		xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 	end
 	while true do
-		textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
 	--Draw Order Select Last Match Backgrounds
 		if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -13159,13 +13163,15 @@ function f_orderSelectButton()
 			sndTime = sndTime - 1
 		end
 		sndNumber = -1
-		--Adjust characters order if timer is > 0
-		if orderTime > 0 then
-			orderTime = orderTime - 0.5 --Activate Order Select Timer
-			textImgDraw(txt_orderTime)
-			
-		else --when orderTime <= 0
-			
+	--Order Select Timer
+		if data.attractMode or data.ftcontrol > 0 then
+			textImgSetText(txt_orderTime, string.format("%.0f", orderTime / gameTick))
+			if orderTime > 0 then
+				orderTime = orderTime - 0.5 --Activate Order Select Timer
+				textImgDraw(txt_orderTime)
+			else --when orderTime <= 0
+				
+			end
 		end
 	--if Player 1 has not confirmed the order yet
 		if not p1Confirmed and data.p1In ~= 2 then
@@ -14376,8 +14382,8 @@ function f_rematch()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 	end
---Rematch Option Timer
-	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
+--Rematch Timer
+	if data.attractMode or data.ftcontrol > 0 then
 		textImgSetText(txt_rematchTime, string.format("%.0f", rematchTimer / gameTick))
 		if rematchTimer > 0 then
 			rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
@@ -14765,7 +14771,7 @@ function f_service()
 				textImgDraw(t_service[i].id)
 			end
 		end
-	--Service Option Timer
+	--Service Select Timer
 		textImgSetText(txt_serviceTime, string.format("%.0f", serviceTimer / gameTick))
 		if serviceTimer > 0 then
 			if actionTime == 0 then
@@ -16932,12 +16938,14 @@ function f_selectDestiny()
 			animUpdate(menuArrowRight)
 		end
 	--Course Select Timer
-		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
-		if destinyTimer > 0 then
-			if not backScreen and not startCount then destinyTimer = destinyTimer - 0.5 end --Activate Tower Select Timer
-			textImgPosDraw(txt_destinyTime, 160, 28)
-		else --when destinyTimer <= 0
-			
+		if data.attractMode then
+			textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
+			if destinyTimer > 0 then
+				if not backScreen and not startCount then destinyTimer = destinyTimer - 0.5 end --Activate Tower Select Timer
+				textImgPosDraw(txt_destinyTime, 160, 28)
+			else --when destinyTimer <= 0
+				
+			end
 		end
 		if data.debugMode then f_drawQuickText(txt_selectionTime, font3, 0, 0, selection, 163.5, 168) end --For Debug Purposes
 		if backScreen then f_backMenu() else drawTowerInputHints() end --Open Back Menu Question
@@ -18758,13 +18766,15 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember, bgmCancel)
 		--drawAlliMemTest(memberSel) --quick screnpack test
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
-		textImgSetText(txt_allianceMemSelTime, string.format("%.0f", allianceTimer / gameTick))
-		if allianceTimer > 0 then
-			allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
-			textImgDraw(txt_allianceMemSelTime)
-		else --when allianceTimer <= 0
-			
-		end
+		--if data.attractMode then
+			textImgSetText(txt_allianceMemSelTime, string.format("%.0f", allianceTimer / gameTick))
+			if allianceTimer > 0 then
+				allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
+				textImgDraw(txt_allianceMemSelTime)
+			else --when allianceTimer <= 0
+				
+			end
+		--end
 	--Draw Member Select Assets
 		textImgDraw(txt_allianceMemSelTitle)
 		local spacingY = 50
@@ -18930,13 +18940,15 @@ function f_allianceNextBattle(bgmCancel)
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
-		textImgSetText(txt_allianceNextTeamTime, string.format("%.0f", allianceTimer / gameTick))
-		if allianceTimer > 0 then
-			allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
-			textImgDraw(txt_allianceNextTeamTime)
-		else --when allianceTimer <= 0
-			
-		end
+		--if data.attractMode then
+			textImgSetText(txt_allianceNextTeamTime, string.format("%.0f", allianceTimer / gameTick))
+			if allianceTimer > 0 then
+				allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
+				textImgDraw(txt_allianceNextTeamTime)
+			else --when allianceTimer <= 0
+				
+			end
+		--end
 		textImgDraw(txt_allianceNextTeamTitle)
 		textImgDraw(txt_allianceNextTeamInfo)
 	--Draw Next Team Battle Assets
