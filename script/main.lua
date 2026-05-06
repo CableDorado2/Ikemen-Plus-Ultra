@@ -3793,6 +3793,7 @@ function f_commonCourseSelect()
 						break
 				--Go to First Opponent Select
 					else
+						f_timersReset()
 						opponentSel = true
 					end
 			--During First Opponent Select
@@ -3930,7 +3931,7 @@ function f_commonCourseSelect()
 		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
 		if destinyTimer > 0 then
 			if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
-			textImgPosDraw(txt_destinyTime, 160, 215)
+			textImgPosDraw(txt_destinyTime, 160, 30)
 		else --when destinyTimer <= 0
 			
 		end
@@ -4174,7 +4175,7 @@ function f_speedStarSelect()
 		textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
 		if destinyTimer > 0 then
 			if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
-			textImgPosDraw(txt_destinyTime, 160, 215)
+			textImgPosDraw(txt_destinyTime, 298, 11)
 		else --when destinyTimer <= 0
 			
 		end
@@ -16426,7 +16427,7 @@ if validCells() then
 				--f_allianceExchange()
 				f_allianceNextBattle()
 				allianceBGMCancel = true
-				allianceTimer = data.allianceTime * gameTick --Reset Timer
+				f_timersReset() --allianceTimer = data.allianceTime * gameTick --Reset Timer
 				setAllianceChange(true)
 				setAllianceLastEnemy(false)
 				setAllianceRouteSel(false)

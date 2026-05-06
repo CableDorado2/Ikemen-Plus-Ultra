@@ -3618,11 +3618,9 @@ animAddPos(tourneyAwards, 0, 0)
 animUpdate(tourneyAwards)
 
 --;===========================================================
---; COMMON SELECT SCREENPACK DEFINITION
+--; COMMON COURSE SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_advancedCourseSel = createTextImg(font11, 0, 0, "", 159, 13)
-txt_advancedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
-
 txt_advancedCourseName = createTextImg(jgFnt, 0, 1, "", 159, 13)
 txt_advancedCourseRecord = createTextImg(font6, 0, 1, "", 2, 13)
 txt_advancedCourseInfo = createTextImg(font5, 0, 0, "", 160, 210)
@@ -3732,8 +3730,6 @@ end
 --; SPEED STAR COURSE SELECT SCREENPACK DEFINITION
 --;===========================================================
 txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT (SPEED STAR)", 159, 11)
-txt_speedCourseTimer = createTextImg(jgFnt, 0, 0, "", 160, 28)
-
 txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
 
 txt_speedCourseScoreRecord = createTextImg(font14, 0, -1, "HIGH SCORE: ", 159, 13, 0.8, 0.8)
