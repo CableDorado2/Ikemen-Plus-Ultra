@@ -2540,7 +2540,7 @@ function f_gameCfg()
 		animSetScale(optionsBG1, 290, maxGameCfg * 15)
 		animSetWindow(optionsBG1, 30,20, 260,180)
 		animDraw(optionsBG1)
-		textImgDraw(txt_systemCfg)
+		textImgDraw(txt_gameCfg)
 		if not defaultScreen then
 			animSetWindow(cursorBox, 30,5 + cursorPosY * 15, 260,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)

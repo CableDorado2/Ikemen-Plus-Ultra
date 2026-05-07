@@ -2417,6 +2417,7 @@ function f_default() --Reset Game Modes Configuration
 	data.p1SelectMenu = true --P1 character selection enabled
 	data.p2SelectMenu = true --P2 character selection enabled
 	data.aiFight = false --AI = data.difficulty for all characters disabled
+	data.cpuLevel = nil --Set custom AI Level Difficulty
 	data.bgm = nil --No predefined custom song route
 	data.songSelect = true --Enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
 	data.stageMenu = false --Stage selection disabled

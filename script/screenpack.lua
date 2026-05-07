@@ -2621,6 +2621,22 @@ txt_resultTeam = createTextImg(font6, 0, 1, "", 1, 206)
 txt_resultName = createTextImg(font6, 0, 1, "", 1, 221)
 txt_resultStatus = createTextImg(survNumFnt, 0, -1, "", 318, 54)
 
+function f_drawSurvivalResults(active)
+	local survRecord = stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].wins
+	local survWins = " WINS"
+	local survBestWins = " WINS"
+	if winCnt == 1 then survWins = " WIN" end
+	if survRecord == 1 then survBestWins = " WIN" end
+	f_drawQuickText(txt_survivalResult, survNumFnt, 0, -1, winCnt..survWins, 320, 112, 0.75, 0.75)
+	f_drawQuickText(txt_survivalTotal, survNumFnt, 0, -1, "VICTORY STREAK", 320, 127, 0.8, 0.8)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		f_drawQuickText(txt_survivalRecord, survNumFnt, 0, -1, survRecord..survBestWins, 320, 178, 0.65, 0.65)
+		f_drawQuickText(txt_survivalBest, survNumFnt, 0, -1, "BEST RECORD", 320, 191, 0.8, 0.8)
+	end
+	local recordColor = 0
+	if resultsNewRecordWins then recordColor = 5 end
+end
+
 function f_drawScoreAttackResults(active)
 	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()).."PTS", 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_scoreTotal, survNumFnt, 0, -1, "TOTAL SCORE", 320, 125, 0.8, 0.8)
@@ -3654,11 +3670,11 @@ function f_loadAdvancedCourses()
 	t_advancedCourseSel = {
 		{name = "RANDOM", 	courserandom = true},
 		{name = "STANDARD"},
-		{name = "BOSS", 	courseboss = true},
+		{name = "BOSS", 	courseboss = true, ailevel = 8},
 		{name = "ALL-STAR", courseall = true},
 	}
 	if data.gameMode == "survival" then
-		table.insert(t_advancedCourseSel, {name = "MUGEN",  courseendless = true})
+		table.insert(t_advancedCourseSel, {name = "MUGEN", courseendless = true, ailevel = 8})
 		if gameMode() == "suddendeath" then
 			t_advancedCourseSel.title = txt_advancedCourseTitle.." (SUDDEN DEATH)"
 		else
@@ -3792,32 +3808,32 @@ t_speedStarRules = {
 
 t_speedCourseSel = {
 --maxmatches works like select.def arcademaxmatches paramvalue
-	{timestart = 180, timebonus = 10, maxmatches = {10, 1, 1}}, --SFIV Arcade x BlazBlue CF
-	{timestart = 180, timebonus = 0,  maxmatches = {12, 2, 2}, rulesplayer = "lifeinfinite"},
-	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite"},
+	{timestart = 180, timebonus = 10, maxmatches = {10, 1, 1}, ailevel = 4}, --SFIV Arcade x BlazBlue CF
+	{timestart = 180, timebonus = 0,  maxmatches = {12, 2, 2}, rulesplayer = "lifeinfinite", ailevel = 6},
+	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite", ailevel = 8},
 	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 --SFIV Time Attack Normal
-	{timestart = 500, timebonus = 30, maxmatches = {4}, rulesplayer = {"defenceup", "regenlife", "powerinfinite"}, rulescpu = "nopower"},
-	{timestart = 300, timebonus = 20, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower"},
-	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower"},
-	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}},
-	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}, rulesplayer = "defenceup"},
-	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}, rulesplayer = "defenceup"},
-	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup"},
-	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup"},
-	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = "defenceup"},
-	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}, rulesplayer = "regenpower"},
-	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "nopower", rulescpu = "nopower"},
-	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = "regenpower", rulescpu = "defenceup"},
-	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}, rulesplayer = "defenceup", rulescpu = {"defenceup", "nohuddisplay"}},
-	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}},
-	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility"},
+	{timestart = 500, timebonus = 30, maxmatches = {4}, rulesplayer = {"defenceup", "regenlife", "powerinfinite"}, rulescpu = "nopower", ailevel = 1},
+	{timestart = 300, timebonus = 20, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 1},
+	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 1},
+	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}, ailevel = 1},
+	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}, rulesplayer = "defenceup", ailevel = 1},
+	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}, rulesplayer = "defenceup", ailevel = 2},
+	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup", ailevel = 2},
+	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 2},
+	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 2},
+	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}, rulesplayer = "regenpower", ailevel = 2},
+	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "nopower", rulescpu = "nopower", ailevel = 3},
+	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = "regenpower", rulescpu = "defenceup", ailevel = 3},
+	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}, rulesplayer = "defenceup", rulescpu = {"defenceup", "nohuddisplay"}, ailevel = 3},
+	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}, ailevel = 3},
+	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility", ailevel = 3},
 --SFIV Time Attack Hard
-	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}},
-	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}},
-	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"},
-	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}, rulescpu = "defenceup"}},
-	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}},
+	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}, ailevel = 8},
+	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}, ailevel = 8},
+	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"}, ailevel = 8},
+	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}, rulescpu = "defenceup", ailevel = 8},
+	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}, ailevel = 8},
 }
 for i=1, #t_speedCourseSel do
 	local cnt = 0

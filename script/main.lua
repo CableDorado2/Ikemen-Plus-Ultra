@@ -2682,6 +2682,7 @@ function bossrushCfg()
 	data.recordMode = "boss"
 	--data.victoryscreen = true
 	data.nextStage = true
+	data.cpuLevel = 8
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -2821,7 +2822,7 @@ function f_bossChars()
 			else
 				bank = 0
 			end
-			--Draw Boss Name
+		--Draw Boss Name
 			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 122 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
@@ -2868,6 +2869,7 @@ function bossCfg()
 	data.gameMode = "singleboss"
 	data.recordMode = "boss"
 	--data.stageMenu = true
+	data.cpuLevel = 8
 	textImgSetText(txt_mainSelect, bossDat)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -3792,6 +3794,9 @@ function f_commonCourseSelect()
 					if t_advancedCourseSel[advancedCourseSel].courserandom or t_advancedCourseSel[advancedCourseSel].courseendless then
 						t_roster = t_advancedCourseSel[advancedCourseSel].roster
 						if t_advancedCourseSel[advancedCourseSel].courseendless then endlessRoster = true end
+						if t_advancedCourseSel[advancedCourseSel].ailevel ~= nil then
+							data.cpuLevel = t_advancedCourseSel[advancedCourseSel].ailevel
+						end
 						waitingCourseSel = false
 						break
 				--Go to First Opponent Select
@@ -3802,6 +3807,9 @@ function f_commonCourseSelect()
 			--During First Opponent Select
 				else
 					t_roster = t_advancedCourseSel[advancedCourseSel].roster
+					if t_advancedCourseSel[advancedCourseSel].ailevel ~= nil then
+						data.cpuLevel = t_advancedCourseSel[advancedCourseSel].ailevel
+					end
 					nextStageReveal = true
 					waitingCourseSel = false
 					break
@@ -4074,6 +4082,9 @@ function f_speedStarSelect()
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
 				waitingCourseSel = false
+				if t_speedCourseSel[speedCourseSel].ailevel ~= nil then
+					data.cpuLevel = t_speedCourseSel[speedCourseSel].ailevel
+				end
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulesplayer)
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
@@ -7664,8 +7675,8 @@ t_makeRosterModes = {
 		team = {maxmatches = "teamscoreattackmaxmatches", airampstart = "specialstart", airampend = "specialend"}
 	},
 	bossrush = {
-		single = {maxmatches = "bossrushmaxmatches", airampstart = "bossrushstart", airampend = "bossrushend"},
-		team = {maxmatches = "teambossrushmaxmatches", airampstart = "teambossrushstart", airampend = "teambossrushend"}
+		single = {maxmatches = "bossrushmaxmatches"},
+		team = {maxmatches = "teambossrushmaxmatches"}
 	},
 }
 
@@ -7988,7 +7999,9 @@ function f_difficulty(player, offset)
 		end
 --Set AI Level
 	else
-		if t.ai ~= nil then
+		if data.cpuLevel ~= nil then
+			return data.cpuLevel
+		elseif t.ai ~= nil then --use select.def AI char paramvalue
 			return t.ai
 		else
 			return data.difficulty + offset
@@ -13747,13 +13760,13 @@ function f_selectVersus()
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
 		--Draw Versus Screen Normal Matchs Backgrounds
 			else
-				--Draw Black BG only for Tower/Abyss Mode
+			--Draw Black BG only for Tower/Abyss Mode
 				if data.gameMode == "tower" or data.gameMode == "abyss" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
-				--Draw Red BG for Special Modes
+			--Draw Red BG for Special Modes
 				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
-				--Draw Blue BG for Normal Modes
+			--Draw Blue BG for Normal Modes
 				else
 					animDraw(f_animVelocity(commonBG0, -1, -1))
 				end
@@ -13781,7 +13794,7 @@ function f_selectVersus()
 				textImgDraw(txt_matchNo)
 				if data.gameMode == "speedstar" then textImgDraw(txt_timeLeft) end
 			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
-				textImgDraw(txt_gameNo)
+				if not endlessRoster then textImgDraw(txt_gameNo) end
 			elseif data.gameMode == "bossrush" then
 				textImgDraw(txt_bossNo)
 			elseif data.gameMode == "bonusrush" then
@@ -13804,13 +13817,13 @@ function f_selectVersus()
 				f_abyssProfileCPU(true, 0, 106)
 			end
 			textImgDraw(txt_hints) --Draw Hints
-			--[[
+		--[[
 			if data.debugMode and data.gameMode == "abyss" then
 				f_drawQuickText(txt_mtcno, font2, 0, 1, "MATCH: "..matchNo, 100, 60)
 				f_drawQuickText(txt_abmtcno, font2, 0, 1, "NEXT ABYSS BOSS MATCH: "..abyssBossMatch, 100, 90)
 				f_drawQuickText(txt_absmtcno, font2, 0, 1, "NEXT ABYSS SPECIAL BOSS MATCH: "..getAbyssDepthBossSpecial(), 100, 120)
 			end
-			]]
+		]]
 		--When Attract Mode is Enabled
 			if data.attractMode then
 				drawAttractStatus(2, 318, 10, -1)
@@ -14847,7 +14860,6 @@ function f_result(state)
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
-			textImgSetText(txt_resultNo, winCnt.." WINS")
 			if gameMode() == "suddendeath" then
 				textImgSetText(txt_resultTitle, "SUDDEN DEATH ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			else
@@ -14979,7 +14991,13 @@ function f_result(state)
 			elseif gameMode() == "goldrush" then
 				f_drawGoldRushResults(newRecord)
 			else --Survival/All Roster
-				textImgDraw(txt_resultNo)
+			--Survival
+				if data.gameMode == "survival" then
+					f_drawSurvivalResults(newRecord)
+			--All Roster
+				else
+					textImgDraw(txt_resultNo)
+				end
 				f_drawRank(winCnt, #t_roster)
 			end
 			if data.gameMode ~= "timeattack" and gameMode() ~= "speedstar" then
