@@ -2625,7 +2625,7 @@ function f_drawScoreAttackResults(active)
 	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()).."PTS", 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_scoreTotal, survNumFnt, 0, -1, "TOTAL SCORE", 320, 125, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
-		f_drawQuickText(txt_scoreRecord, survNumFnt, 0, -1, f_setThousandsFormat(stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score).."PTS", 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_scoreRecord, survNumFnt, 0, -1, f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].score).."PTS", 320, 165, 0.3, 0.3)
 		f_drawQuickText(txt_scoreBest, survNumFnt, 0, -1, "BEST SCORE", 320, 178, 0.7, 0.7)
 	end
 	local recordColor = 0
@@ -2641,7 +2641,7 @@ function f_drawTimeAttackResults(active)
 		if data.gameMode == "speedstar" then
 			modeDat = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time
 		else
-			modeDat = stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time
+			modeDat = stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time
 		end
 		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(modeDat), 320, 165, 0.3, 0.3)
 		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)

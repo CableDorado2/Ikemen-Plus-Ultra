@@ -64,14 +64,14 @@ stages/Others/Training Room 2.def, music=sound/Fake World.mp3, unlock=stats.mode
 arcade.maxmatches = 		 1,1,1,1
 team.maxmatches = 			 1,1,1,1
 
-survival.maxmatches = 		 2,0,3,2,2,1
-teamsurvival.maxmatches = 	 1,0,1,1,1,1
+survival.maxmatches = 		 2,0,3,2
+teamsurvival.maxmatches = 	 1,0,1,1
 
-timeattack.maxmatches =		 2,0,3,2,2,1
-teamtimeattack.maxmatches =  1,0,1,1,1,1
+timeattack.maxmatches =		 2,0,3,2
+teamtimeattack.maxmatches =  1,0,1,1
 
-scoreattack.maxmatches = 	 2,2,3,2,2,1
-teamscoreattack.maxmatches = 1,1,1,1,1,1
+scoreattack.maxmatches = 	 2,1,3,2
+teamscoreattack.maxmatches = 1,1,1,1
 
 bossrush.maxmatches = 		 2,2,1,1
 teambossrush.maxmatches = 	 1,1,1,1

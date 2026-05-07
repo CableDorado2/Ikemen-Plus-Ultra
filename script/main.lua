@@ -2591,7 +2591,6 @@ function survivalCfg()
 	setGameMode("survival")
 	data.gameMode = "survival"
 	data.recordMode = "survival"
-	--data.stageMenu = true
 	setRoundsToWin(1)
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3793,6 +3792,7 @@ function f_commonCourseSelect()
 					if t_advancedCourseSel[advancedCourseSel].courserandom or t_advancedCourseSel[advancedCourseSel].courseendless then
 						t_roster = t_advancedCourseSel[advancedCourseSel].roster
 						if t_advancedCourseSel[advancedCourseSel].courseendless then endlessRoster = true end
+						waitingCourseSel = false
 						break
 				--Go to First Opponent Select
 					else
@@ -3803,6 +3803,7 @@ function f_commonCourseSelect()
 				else
 					t_roster = t_advancedCourseSel[advancedCourseSel].roster
 					nextStageReveal = true
+					waitingCourseSel = false
 					break
 				end
 			end
@@ -3858,7 +3859,11 @@ function f_commonCourseSelect()
 	--Exit Via Return Button
 		if data.tempBack then break end --back to main menu
 	--Draw BG
-		animDraw(f_animVelocity(commonBG0, -1, -1))
+		if gameMode() == "suddendeath" then
+			animDraw(f_animVelocity(selectHardBG0, -1, -1))
+		else
+			animDraw(f_animVelocity(commonBG0, -1, -1))
+		end
 		animPosDraw(advancedCourseTitleBG, -56, 0) --Draw Title BG
 	--Draw Title
 		textImgSetText(txt_advancedCourseSel, t_advancedCourseSel.title)
@@ -3894,7 +3899,7 @@ function f_commonCourseSelect()
 				textImgSetText(txt_advancedCourseName, t_advancedCourseSel[i].name)
 				textImgPosDraw(txt_advancedCourseName, 2, 88 + (-118 + i * advancedCourseSpacingY - moveCourse))
 			--Draw Clear icon at the end of each course, according to his size/length
-				if stats.modes[data.gameMode][t_advancedCourseSel[i].id].clear then
+				if stats.modes[gameMode()][t_advancedCourseSel[i].id].clear then
 					local lastSlot = #t_advancedCourseSel[i].roster
 					if t_advancedCourseSel[i].courseendless then lastSlot = 1 end
 					if lastSlot > maxSlots then lastSlot = maxSlots end --Limit the number of visible slots to the maximum so that it doesn't go off-screen if there are too many.
@@ -3910,7 +3915,7 @@ function f_commonCourseSelect()
 					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
 					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
 				elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
-					varText = f_setThousandsFormat(stats.modes[data.gameMode][t_advancedCourseSel[i].id].score)
+					varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[i].id].score)
 				end
 				textImgSetText(txt_advancedCourseRecord, t_advancedCourseSel.record..varText)
 				textImgPosDraw(txt_advancedCourseRecord, 2, 130 + (-118 + i * advancedCourseSpacingY - moveCourse))
@@ -3969,24 +3974,24 @@ end
 function f_createAdvancedModesData()
 	local modified = false
 	for i=1, #t_advancedCourseSel do
-		if stats.modes[data.gameMode][t_advancedCourseSel[i].id] == nil then
-			stats.modes[data.gameMode][t_advancedCourseSel[i].id] = {}
+		if stats.modes[gameMode()][t_advancedCourseSel[i].id] == nil then
+			stats.modes[gameMode()][t_advancedCourseSel[i].id] = {}
 			modified = true
 		end
-		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].clear == nil then
-			stats.modes[data.gameMode][t_advancedCourseSel[i].id].clear = false
+		if stats.modes[gameMode()][t_advancedCourseSel[i].id].clear == nil then
+			stats.modes[gameMode()][t_advancedCourseSel[i].id].clear = false
 			modified = true
 		end
-		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].wins == nil then
-			stats.modes[data.gameMode][t_advancedCourseSel[i].id].wins = 0
+		if stats.modes[dgameMode()][t_advancedCourseSel[i].id].wins == nil then
+			stats.modes[gameMode()][t_advancedCourseSel[i].id].wins = 0
 			modified = true
 		end
-		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].score == nil then
-			stats.modes[data.gameMode][t_advancedCourseSel[i].id].score = 0
+		if stats.modes[gameMode()][t_advancedCourseSel[i].id].score == nil then
+			stats.modes[gameMode()][t_advancedCourseSel[i].id].score = 0
 			modified = true
 		end
-		if stats.modes[data.gameMode][t_advancedCourseSel[i].id].time == nil then
-			stats.modes[data.gameMode][t_advancedCourseSel[i].id].time = defaultTimeRecord --From common.lua
+		if stats.modes[gameMode()][t_advancedCourseSel[i].id].time == nil then
+			stats.modes[gameMode()][t_advancedCourseSel[i].id].time = defaultTimeRecord --From common.lua
 			modified = true
 		end
 	end
@@ -4014,24 +4019,24 @@ function f_advancedModesStatus(state)
 		end
 --Save Data for Other Modes
 	else
-		if state == "win" and not stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear then
-			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].clear = true
+		if state == "win" and not stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].clear then
+			stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].clear = true
 			modified = true
 		end
-		if winCnt > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins then
-			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].wins = winCnt
+		if winCnt > stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].wins then
+			stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].wins = winCnt
 			resultsNewRecordWins = true
 			if data.gameMode == "survival" then resultsNewRecord = true end
 			modified = true
 		end
-		if score() > stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score then
-			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].score = score()
+		if score() > stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].score then
+			stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].score = score()
 			resultsNewRecordScore = true
 			if data.gameMode == "scoreattack" or data.gameMode == "caravan" then resultsNewRecord = true end
 			modified = true
 		end
-		if state == "win" and timerTotal() < stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time then
-			stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
+		if state == "win" and timerTotal() < stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time then
+			stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
 			resultsNewRecordTime = true
 			if data.gameMode == "timeattack" then resultsNewRecord = true end
 			modified = true
@@ -4068,6 +4073,7 @@ function f_speedStarSelect()
 		--Cursor Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
+				waitingCourseSel = false
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulesplayer)
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
@@ -4544,7 +4550,6 @@ function suddenCfg()
 	setGameMode("suddendeath")
 	data.gameMode = "survival"
 	data.recordMode = "suddendeath"
-	--data.stageMenu = true
 	--data.nextStage = true
 	setRoundTime(10)
 	setRoundsToWin(1)
@@ -4630,6 +4635,8 @@ function endlessCfg()
 	f_discordUpdate({details = "Endless"})
 	f_default()
 	setPersistPower(true)
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
 	data.gameMode = "endless"
 	data.recordMode = "endless"
 	data.stageMenu = true
@@ -6976,7 +6983,7 @@ function f_mainLobby()
 				data.gameMode = "arcade"
 				data.recordMode = "arcade"
 				textImgSetText(txt_mainSelect, "ONLINE ARCADE COOPERATIVE")
-                setGameMode("arcadecoop") --setGameMode("netplayarcade")
+                setGameMode("arcadecoop")
 				f_selectAdvance()
 		--ONLINE TOWER
 			elseif mainLobby == 4 then
@@ -6986,7 +6993,7 @@ function f_mainLobby()
 					data.recordMode = "tower"
 					--data.arcadeIntro = true
 					data.arcadeEnding = true
-					setGameMode("towercoop") --setGameMode("netplaytower")
+					setGameMode("towercoop")
 					textImgSetText(txt_mainSelect, "ONLINE TOWER COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -6995,14 +7002,13 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "survival"
 				data.recordMode = "survival"
-				--setGameMode("netplaysurvival")
+				setGameMode("survival")
 				textImgSetText(txt_mainSelect, "ONLINE SURVIVAL COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE ENDLESS
 			elseif mainLobby == 6 then
 				data.gameMode = "endless"
 				data.recordMode = "endless"
-				--setGameMode("netplayendless")
 				textImgSetText(txt_mainSelect, "ONLINE ENDLESS COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE BOSS RUSH
@@ -7010,7 +7016,6 @@ function f_mainLobby()
 				if #t_bossChars ~= 0 then
 					data.gameMode = "bossrush"
 					data.recordMode = "boss"
-					--setGameMode("netplaybossrush")
 					textImgSetText(txt_mainSelect, "ONLINE BOSS RUSH COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -7021,7 +7026,6 @@ function f_mainLobby()
 					data.versusScreen = false
 					data.gameMode = "bonusrush"
 					data.recordMode = "bonus"
-					--setGameMode("netplaybonus")
 					textImgSetText(txt_mainSelect, "ONLINE BONUS MARATHON COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -7038,14 +7042,14 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "timeattack"
 				data.recordMode = "timeattack"
-				setGameMode("timeattackcoop") --setGameMode("netplaytimeattack")
+				setGameMode("timeattack")
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SCORE ATTACK
 			elseif mainLobby == 11 then
 				data.gameMode = "scoreattack"
 				data.recordMode = "scoreattack"
-				setGameMode("scoreattackcoop") --setGameMode("netplayscoreattack")
+				setGameMode("scoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE KUMITE
@@ -7053,7 +7057,7 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "kumite"
 				data.recordMode = "kumite"
-				--setGameMode("netplaykumite")
+				setGameMode("kumite")
 				textImgSetText(txt_mainSelect, "ONLINE "..getKumiteData().." COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SUDDEN DEATH
@@ -7063,7 +7067,7 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "survival"
 				data.recordMode = "suddendeath"
-				--setGameMode("netplaysuddendeath")
+				setGameMode("suddendeath")
 				textImgSetText(txt_mainSelect, "ONLINE SUDDEN DEATH COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE SETTINGS
@@ -16858,6 +16862,7 @@ function f_selectDestiny()
 				sndPlay(sndSys, 100, 1)
 				f_towerAnnouncer(t_selTower[destinySelect].sfxplay)
 				startCount = true
+				waitingCourseSel = false
 			end
 		--Cursor position calculation
 			if destinySelect < 1 then
@@ -17189,20 +17194,20 @@ function f_battlePlan()
 	--Tower Difficulty
 		textImgSetText(txt_towerPlanDifficult, txt_towerDifficult..t_selTower[destinySelect].displayname:upper())
 		textImgSetAlign(txt_towerPlanDifficult, towerDiffAlign)
-		textImgScalePosDraw(txt_towerPlanDifficult, towerDiffX, 72, 0.7, 0.7)	
+		textImgPosDraw(txt_towerPlanDifficult, towerDiffX, 35)
 	--Tower Score
 		textImgSetText(txt_towerPlanScore, txt_towerScore..f_setThousandsFormat(score()))
 		textImgSetAlign(txt_towerPlanScore, towerDiffAlign)
-		textImgScalePosDraw(txt_towerPlanScore, towerDiffX, 82, 0.7, 0.7)
+		textImgPosDraw(txt_towerPlanScore, towerDiffX, 50)
 	--Tower Time
 		textImgSetText(txt_towerPlanTime, txt_towerTime..f_setTimeFormat(timerTotal()))
 		textImgSetAlign(txt_towerPlanTime, towerDiffAlign)
-		textImgScalePosDraw(txt_towerPlanTime, towerDiffX, 92, 0.7, 0.7)
+		textImgPosDraw(txt_towerPlanTime, towerDiffX, 65)
 	--Tower Continues
 		textImgSetText(txt_towerPlanContinues, txt_towerContinues..stats.continueCount)
 		textImgSetAlign(txt_towerPlanContinues, towerDiffAlign)
-		textImgScalePosDraw(txt_towerPlanContinues, towerDiffX, 102, 0.7, 0.7)
-		if data.debugMode then f_drawQuickText(towerTest, font14, 0, 1, CPUslotPosY, 50, 50) end --Test Y Pos
+		textImgPosDraw(txt_towerPlanContinues, towerDiffX, 80)
+		if data.debugMode then f_drawQuickText(towerTest, font14, 0, 1, CPUslotPosY, 50, 180) end --Test Y Pos
 		textImgPosDraw(txt_towerPlanBottom, 159, CPUslotPosY + 150 - CPUslotSpacingY * 1 + scroll)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
