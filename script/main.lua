@@ -3771,6 +3771,7 @@ function f_commonCourseSelect()
 		t_advancedCourseSel[i].roster = f_makeRosterAdvanced(t_advancedCourseSel[i])
 	end
 	if data.debugLog then f_printTable(t_advancedCourseSel, "save/debug/t_advancedCourseSel.log") end
+	local function f_resetdynamicAlpha() f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0) end --Reset Alpha
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 5, 10)
 	animSetPos(menuArrowDown, 5, 195)
@@ -3785,6 +3786,7 @@ function f_commonCourseSelect()
 				else
 					backScreen = true
 				end
+				f_resetdynamicAlpha()
 		--Cursor Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
@@ -3798,6 +3800,7 @@ function f_commonCourseSelect()
 							data.cpuLevel = t_advancedCourseSel[advancedCourseSel].ailevel
 						end
 						waitingCourseSel = false
+						f_resetdynamicAlpha()
 						break
 				--Go to First Opponent Select
 					else
@@ -3812,6 +3815,7 @@ function f_commonCourseSelect()
 					end
 					nextStageReveal = true
 					waitingCourseSel = false
+					f_resetdynamicAlpha()
 					break
 				end
 			end
