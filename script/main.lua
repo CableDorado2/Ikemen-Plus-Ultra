@@ -14848,13 +14848,13 @@ function f_result(state)
 	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
 			textImgSetText(txt_resultNo, winCnt.." WINS")
-			textImgSetText(txt_resultTitle, "SURVIVAL ("..t_advancedCourseSel[advancedCourseSel].name..")")
-		--Save Records
-			if gameMode() ~= "suddendeath" then
-				f_advancedModesStatus(state)
+			if gameMode() == "suddendeath" then
+				textImgSetText(txt_resultTitle, "SUDDEN DEATH ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			else
-				textImgSetText(txt_resultTitle, "SUDDEN DEATH")
+				textImgSetText(txt_resultTitle, "SURVIVAL ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			end
+		--Save Records
+			f_advancedModesStatus(state)
 		elseif data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
 			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..speedCourseSel..")")
