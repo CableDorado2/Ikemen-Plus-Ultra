@@ -3659,7 +3659,11 @@ function f_loadAdvancedCourses()
 	}
 	if data.gameMode == "survival" then
 		table.insert(t_advancedCourseSel, {name = "MUGEN",  courseendless = true})
-		t_advancedCourseSel.title = txt_advancedCourseTitle.." (SURVIVAL)"
+		if gameMode() == "suddendeath" then
+			t_advancedCourseSel.title = txt_advancedCourseTitle.." (SUDDEN DEATH)"
+		else
+			t_advancedCourseSel.title = txt_advancedCourseTitle.." (SURVIVAL)"
+		end
 		t_advancedCourseSel.record = "BEST RECORD: "
 	elseif data.gameMode == "caravan" then
 		t_advancedCourseSel[2].name = "ARCADE"

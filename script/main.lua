@@ -3907,7 +3907,7 @@ function f_commonCourseSelect()
 				end
 				local varText = ""
 				if data.gameMode == "survival" then
-					local survRecord = stats.modes.survival[t_advancedCourseSel[i].id].wins
+					local survRecord = stats.modes[gameMode()][t_advancedCourseSel[i].id].wins
 					local survWins = ""
 					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
 					varText = survRecord..survWins
@@ -3982,7 +3982,7 @@ function f_createAdvancedModesData()
 			stats.modes[gameMode()][t_advancedCourseSel[i].id].clear = false
 			modified = true
 		end
-		if stats.modes[dgameMode()][t_advancedCourseSel[i].id].wins == nil then
+		if stats.modes[gameMode()][t_advancedCourseSel[i].id].wins == nil then
 			stats.modes[gameMode()][t_advancedCourseSel[i].id].wins = 0
 			modified = true
 		end
