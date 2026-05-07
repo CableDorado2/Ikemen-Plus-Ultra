@@ -2191,6 +2191,9 @@ function towerCfg()
 	data.recordMode = "tower"
 	--data.arcadeIntro = true --Enable characters arcade intro before tower select
 	data.arcadeEnding = true
+	--setScoreDisplay(true) --Display Player Score
+	--setP1winsDisplay(true) --Display Player Wins Left Side
+	--setP2winsDisplay(true) --Display Player Wins Right Side
 	data.continueScreen = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -16996,6 +16999,8 @@ function f_battlePlan()
 	local HumanslotPosX = 87
 	local CPUslotPosX = 170
 	local sideSwitch = false
+	local towerDiffX = nil
+	local towerDiffAlign = nil
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		sideSwitch = true
 	else --player 1 in left side
@@ -17173,16 +17178,32 @@ function f_battlePlan()
 		end
 		animDraw(vsPreview)
 	--Draw Screen Info
-		f_drawQuickText(txt_towerPlan, jgFnt, 0, 0, "BATTLE PLAN", 159, CPUslotPosY - 65 - CPUslotSpacingY * #t_selTower[destinySelect].kombats + scroll)
+		textImgPosDraw(txt_towerPlanTitle, 159, CPUslotPosY - 65 - CPUslotSpacingY * #t_selTower[destinySelect].kombats + scroll)
 		if sideSwitch then
-			f_drawQuickText(txt_towerDifficult, jgFnt, 0, -1, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper(), 315, 82, 0.7, 0.7)
+			towerDiffX = 315
+			towerDiffAlign = -1
 		else
-			f_drawQuickText(txt_towerDifficult, jgFnt, 0, 1, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper(), 5, 82, 0.7, 0.7)
+			towerDiffX = 5
+			towerDiffAlign = 1
 		end
-		f_drawQuickText(txt_towerMode, jgFnt, 0, 0, "TOWER MODE", 159, CPUslotPosY + 150 - CPUslotSpacingY * 1 + scroll)
-		if data.debugMode then
-			f_drawQuickText(towerTest, font14, 0, 1, CPUslotPosY, 50, 50) --Test Y Pos
-		end
+	--Tower Difficulty
+		textImgSetText(txt_towerPlanDifficult, txt_towerDifficult..t_selTower[destinySelect].displayname:upper())
+		textImgSetAlign(txt_towerPlanDifficult, towerDiffAlign)
+		textImgScalePosDraw(txt_towerPlanDifficult, towerDiffX, 72, 0.7, 0.7)	
+	--Tower Score
+		textImgSetText(txt_towerPlanScore, txt_towerScore..f_setThousandsFormat(score()))
+		textImgSetAlign(txt_towerPlanScore, towerDiffAlign)
+		textImgScalePosDraw(txt_towerPlanScore, towerDiffX, 82, 0.7, 0.7)
+	--Tower Time
+		textImgSetText(txt_towerPlanTime, txt_towerTime..f_setTimeFormat(timerTotal()))
+		textImgSetAlign(txt_towerPlanTime, towerDiffAlign)
+		textImgScalePosDraw(txt_towerPlanTime, towerDiffX, 92, 0.7, 0.7)
+	--Tower Continues
+		textImgSetText(txt_towerPlanContinues, txt_towerContinues..stats.continueCount)
+		textImgSetAlign(txt_towerPlanContinues, towerDiffAlign)
+		textImgScalePosDraw(txt_towerPlanContinues, towerDiffX, 102, 0.7, 0.7)
+		if data.debugMode then f_drawQuickText(towerTest, font14, 0, 1, CPUslotPosY, 50, 50) end --Test Y Pos
+		textImgPosDraw(txt_towerPlanBottom, 159, CPUslotPosY + 150 - CPUslotSpacingY * 1 + scroll)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

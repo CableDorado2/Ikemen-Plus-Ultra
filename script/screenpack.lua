@@ -2637,7 +2637,13 @@ function f_drawTimeAttackResults(active)
 	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL TIME", 320, 125, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
-		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time), 320, 165, 0.3, 0.3)
+		local modeDat = nil
+		if data.gameMode == "speedstar" then
+			modeDat = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time
+		else
+			modeDat = stats.modes[data.gameMode][t_advancedCourseSel[advancedCourseSel].id].time
+		end
+		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(modeDat), 320, 165, 0.3, 0.3)
 		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)
 	end
 	local recordColor = 0
@@ -3355,6 +3361,18 @@ end
 --;===========================================================
 --; TOWER BATTLE PLAN SCREENPACK DEFINITION
 --;===========================================================
+txt_towerPlanTitle = createTextImg(jgFnt, 0, 0, "BATTLE PLAN", 159, 13)
+txt_towerPlanBottom = createTextImg(jgFnt, 0, 0, "TOWER MODE", 159, 13)
+txt_towerPlanDifficult = createTextImg(jgFnt, 0, -1, "", 0, 0)
+txt_towerPlanScore = createTextImg(jgFnt, 0, -1, "", 0, 0)
+txt_towerPlanTime = createTextImg(jgFnt, 0, -1, "", 0, 0)
+txt_towerPlanContinues = createTextImg(jgFnt, 0, -1, "", 0, 0)
+
+txt_towerDifficult = "DIFFICULTY: "
+txt_towerScore = "SCORE: "
+txt_towerTime = "TIME: "
+txt_towerContinues = "CONTINUES: "
+
 --Final Destiny BG
 destinyFinalBG = animNew(sprIkemen, [[
 40,1, 0,0, -1
