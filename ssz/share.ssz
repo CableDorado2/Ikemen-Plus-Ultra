@@ -32,10 +32,11 @@ public &Share
   public int score, scoreTotal, p1score, p2score;
   public int timer, countdownTimer;
   public int cpuLevel;
+  public ^/char bestRecord;
   public int allianceMatch;
   public bool allianceChange, allianceRouteSel, allianceLastEnemy;
   public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
-  public bool scoreDisplay, timerDisplay, countdownDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
+  public bool scoreDisplay, timerDisplay, countdownDisplay, bestDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
   public bool persistLife, persistPower, persistRoundtime;
   public int lifePersistence, powerPersistence, timePersistence;
   public int stt;
@@ -128,6 +129,8 @@ public &Share
 	`rewardDisplay = .com.rewardDisplay;
 	`timerDisplay = .com.timerDisplay;
 	`timer = .com.timer;
+	`bestDisplay = .com.bestDisplay;
+	`bestRecord = .com.bestRecord;
 	`countdownDisplay = .com.countdownDisplay;
 	`countdownTimer = .com.countdownTimer;
     `scoreDisplay = .com.scoreDisplay;
@@ -254,6 +257,8 @@ public &Share
     .com.timer = `timer;
 	.com.countdownDisplay = `countdownDisplay;
     .com.countdownTimer = `countdownTimer;
+    .com.bestDisplay = `bestDisplay;
+    .com.bestRecord = `bestRecord;
     .com.scoreDisplay = `scoreDisplay;
     .com.score = `score;
     .com.scoreTotal = `scoreTotal;

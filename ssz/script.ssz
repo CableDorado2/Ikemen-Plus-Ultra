@@ -1361,6 +1361,26 @@ void p2score(&.lua.State L=, int re=)
   L.pushNumber((double).com.p2score);
 }
 
+void setBestDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool bd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.bestDisplay = bd;
+}
+
+void bestDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.bestDisplay);
+}
+
+void setBestRecord(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char bdi = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.bestRecord = bdi;
+}
+
 void setMatchnoDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2145,6 +2165,10 @@ public void init(&.lua.State L=)
   L.register("setP2Score", .setP2Score);
   L.register("p1score", .p1score);
   L.register("p2score", .p2score);
+  
+  L.register("setBestRecord", .setBestRecord);
+  L.register("setBestDisplay", .setBestDisplay);
+  L.register("bestDisplay", .bestDisplay);
 
   L.register("setMatchInfo", .setMatchInfo);
   L.register("setMatchnoDisplay", .setMatchnoDisplay);

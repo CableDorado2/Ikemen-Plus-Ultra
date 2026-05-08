@@ -2179,6 +2179,146 @@ public void setPerfect(|.WinTy wt=)
   }
 }
 
+&BestP1
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p1.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p1.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p1.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p1.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p1.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&BestP2
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p2.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p2.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p2.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p2.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p2.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
 &Match
 {
   public int posx = 0;
@@ -2811,7 +2951,6 @@ public void setPerfect(|.WinTy wt=)
   }
 }
 
-
 public &Fight
 {
   public ^/char sff;
@@ -2843,6 +2982,8 @@ public &Fight
   public &.CountdownP2 cd2;
   public &.ScoreP1 sc1;
   public &.ScoreP2 sc2;
+  public &.BestP1 br1;
+  public &.BestP2 br2;
   public &.Match mtch;
   public &.AILevel ailv;
   public &.GameMode mode;
@@ -2983,6 +3124,14 @@ public &Fight
     {
 	  `sc2.read(sc=);
     }
+	public void bestp1(&.com.Section sc=)
+    {
+	  `br1.read(sc=);
+    }
+	public void bestp2(&.com.Section sc=)
+    {
+	  `br2.read(sc=);
+    }
 	public void match(&.com.Section sc=)
     {
 	  `mtch.read(sc=);
@@ -3091,7 +3240,7 @@ public &Fight
     bool lifebarflg = true, powerbarflg = true, guardbarflg = true, stunbarflg = true;
     bool faceflg = true, nameflg = true, timeflg = true;
 	bool comboflg = true, actionflg = true, roundflg = true, winiconflg = true;
-	bool winsp1flg = true, winsp2flg = true;
+	bool winsp1flg = true, winsp2flg = true, bestp1flg = true, bestp2flg = true;
 	bool timerp1flg = true, timerp2flg = true, countdownp1flg = true, countdownp2flg = true, scorep1flg = true, scorep2flg = true;
 	bool matchflg = true, ailevelflg = true, modeflg = true, rewardflg = true;
 	bool tourneystateflg = true, matchstowinflg = true, svlevelflg = true, svrewardflg = true;
@@ -3167,6 +3316,12 @@ public &Fight
 	  cond .s.equ(secname, "scorep2"):
         if(scorep2flg) scorep2(sc=);
         scorep2flg = false;
+	  cond .s.equ(secname, "bestp1"):
+        if(bestp1flg) bestp1(sc=);
+        bestp1flg = false;
+	  cond .s.equ(secname, "bestp2"):
+        if(bestp2flg) bestp2(sc=);
+        bestp2flg = false;
 	  cond .s.equ(secname, "match"):
         if(matchflg)  match(sc=);
         matchflg = false;
@@ -3320,6 +3475,8 @@ public &Fight
 	`cd2.setup(`sf);
 	`sc1.setup(`sf);
 	`sc2.setup(`sf);
+	`br1.setup(`sf);
+	`br2.setup(`sf);
 	`mtch.setup(`sf);
 	`ailv.setup(`sf);
 	`mode.setup(`sf);
@@ -3369,7 +3526,9 @@ public &Fight
 	`cd1.step();
 	`cd2.step();
 	`sc1.step();
-	`sc2.step();	
+	`sc2.step();
+	`br1.step();
+	`br2.step();	
 	`mtch.step();
 	`ailv.step();
 	`mode.step();
@@ -3485,6 +3644,18 @@ public &Fight
 		else:
 			`sc1.bgDraw(layerno);
 			`sc1.draw(layerno, .com.score, `fnt);
+		}
+	  }
+	  if(.com.bestDisplay) {
+		branch{
+		cond .s.equ(.com.playerSide, "p1right") || .s.equ(.com.playerSide, "p2right"):
+		  {
+			`br2.bgDraw(layerno);
+			`br2.draw(layerno, .com.bestRecord, `fnt);
+		  }
+		else:
+			`br1.bgDraw(layerno);
+			`br1.draw(layerno, .com.bestRecord, `fnt);
 		}
 	  }
 	  if(.com.matchnoDisplay) {
