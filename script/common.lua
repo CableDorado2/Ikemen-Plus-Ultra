@@ -2468,6 +2468,7 @@ function f_default() --Reset Game Modes Configuration
 	setTimerDisplay(false) --Enable or Disable Timer Display
 	setCountdownDisplay(false) --Enable or Disable Countdown Display
 	setScoreDisplay(false) --Enable or Disable Score Display
+	setBestDisplay(true) --Enable or Disable Best Record Display
 	setMatchnoDisplay(false) --Enable or Disable Match/Stage Number Display
 	setAilevelDisplay(false) --Enable or Disable CPU Difficulty Level Display
 	setGameModeDisplay(false) --Enable or Disable Game Mode Name Display
@@ -2478,6 +2479,7 @@ function f_default() --Reset Game Modes Configuration
 	setTimer(0) --Reset Player Timer
 	setCountdown(-1) --Reset Caravan Countdown Timer
 	setScore(0) --Reset Player Score
+	setBestRecord("") --Reset Best Record Display
 	setTimePersistence(0) --To store last round time value when time is maintained after match
 	setLifePersistence(0) --To store last life bar value when life is maintained after match
 	setPowerPersistence(0) --To store last power bar value when power is maintained after match
@@ -3278,6 +3280,7 @@ function f_saveTemp()
 		['data.challengerAbyss'] = data.challengerAbyss,
 		['data.saveAbyss'] = data.saveAbyss,
 		['data.speedstarClearBonus'] = data.speedstarClearBonus,
+		['data.bestRecord'] = data.bestRecord,
 		['data.p1MembersDefeated'] = data.p1MembersDefeated,
 		['data.p2MembersDefeated'] = data.p2MembersDefeated,
 		['data.VNbreaker'] = data.VNbreaker,

@@ -3739,6 +3739,12 @@ animSetScale(advancedCourseInfoBG, 430, 24)
 animSetAlpha(advancedCourseInfoBG, 0, 50)
 animUpdate(advancedCourseInfoBG)
 
+--First Opponent Select Cursor
+advancedCourse1stCursor = animNew(sprSys, [[
+100,1, 0,0, -1
+]])
+animSetTile(advancedCourse1stCursor, 1, 1)
+
 --Course Select Input Hints Panel
 function drawAdvancedCourseSelInputHints(change)
 	local inputHintYPos = 220

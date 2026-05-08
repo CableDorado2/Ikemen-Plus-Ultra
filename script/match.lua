@@ -79,6 +79,7 @@ addHotkey('6', true, false, false, 'toggleAI(6)')
 addHotkey('7', true, false, false, 'toggleAI(7)')
 addHotkey('8', true, false, false, 'toggleAI(8)')
 end
+--addHotkey('1', true, false, false, 'toggleAI(1)')
 --Attract Mode Actions
 if data.attractMode then
 	addHotkey('1', false, false, false, 'f_addCoin()') --Insert Coin
@@ -437,6 +438,8 @@ local function f_updateMatchInfo()
 	end
 	local matchsFinished = p1Wins + p2Wins
 	local stg = ""
+--Set Best Record Info
+	setBestRecord(data.bestRecord)
 --Set Match Stage Info
 	if matchno() == getLastMatch() then stg = txt_MatchFinalFight else stg = txt_MatchFight..matchno() end
 	setMatchInfo(stg)

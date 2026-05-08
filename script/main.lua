@@ -3771,7 +3771,6 @@ function f_commonCourseSelect()
 		t_advancedCourseSel[i].roster = f_makeRosterAdvanced(t_advancedCourseSel[i])
 	end
 	if data.debugLog then f_printTable(t_advancedCourseSel, "save/debug/t_advancedCourseSel.log") end
-	local function f_resetdynamicAlpha() f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0) end --Reset Alpha
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 5, 10)
 	animSetPos(menuArrowDown, 5, 195)
@@ -3786,7 +3785,6 @@ function f_commonCourseSelect()
 				else
 					backScreen = true
 				end
-				f_resetdynamicAlpha()
 		--Cursor Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
@@ -3800,7 +3798,8 @@ function f_commonCourseSelect()
 							data.cpuLevel = t_advancedCourseSel[advancedCourseSel].ailevel
 						end
 						waitingCourseSel = false
-						f_resetdynamicAlpha()
+						data.bestRecord = f_recordDisplayAdvanced()
+						f_saveTemp()
 						break
 				--Go to First Opponent Select
 					else
@@ -3813,9 +3812,10 @@ function f_commonCourseSelect()
 					if t_advancedCourseSel[advancedCourseSel].ailevel ~= nil then
 						data.cpuLevel = t_advancedCourseSel[advancedCourseSel].ailevel
 					end
+					data.bestRecord = f_recordDisplayAdvanced()
+					f_saveTemp()
 					nextStageReveal = true
 					waitingCourseSel = false
-					f_resetdynamicAlpha()
 					break
 				end
 			end
@@ -3934,9 +3934,9 @@ function f_commonCourseSelect()
 			end
 		end
 		if opponentSel then
-			animSetWindow(cursorBox, 2,93 + (-118 + advancedCourseSel * advancedCourseSpacingY - moveCourse), 27,27)
-			f_dynamicAlpha(cursorBox, 20,200,15, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
+			animSetWindow(advancedCourse1stCursor, 2,93 + (-118 + advancedCourseSel * advancedCourseSpacingY - moveCourse), 27,27)
+			f_dynamicAlpha(advancedCourse1stCursor, 20,200,15, 255,255,0)
+			animDraw(f_animVelocity(advancedCourse1stCursor, -1, -1))
 		else
 			if maxCourseSel > maxCourses then
 				animDraw(menuArrowUp)
@@ -4057,6 +4057,22 @@ function f_advancedModesStatus(state)
 	if modified then f_saveStats() end
 end
 
+function f_recordDisplayAdvanced()
+	local varText = ""
+	if data.gameMode == "survival" then
+		local survRecord = stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].wins
+		local survWins = ""
+		if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
+			varText = survRecord..survWins
+	elseif data.gameMode == "timeattack" then
+		varText = stats.modes.timeattack[t_advancedCourseSel[advancedCourseSel].id].time
+		if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
+	elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
+		varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].score)
+	end
+	return t_advancedCourseSel.record..varText
+end
+
 --;===========================================================
 --; SPEED STAR MODE (defeat opponents before time runs out)
 --;===========================================================
@@ -4093,6 +4109,7 @@ function f_speedStarSelect()
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
+				data.bestRecord = f_setTimeFormat(stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time)
 				f_saveTemp()
 				break
 			end
