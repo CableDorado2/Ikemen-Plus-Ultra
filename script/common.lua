@@ -3379,6 +3379,7 @@ if stats.modes == nil then
 	stats.modes.arcade.playtime = 0
 	stats.modes.arcade.clear = 0
 	stats.modes.arcade.score = 0
+	stats.modes.arcade.time = defaultTimeRecord
 	stats.modes.arcade.ranking = {}
 	
 	stats.modes.tower = {}
@@ -3401,17 +3402,24 @@ if stats.modes == nil then
 	stats.modes.abyss.clear = 0
 	stats.modes.abyss.score = 0
 	stats.modes.abyss.time = defaultTimeRecord
+	stats.modes.abyss.wins = 0
 	stats.modes.abyss.maxdepth = 0
 	stats.modes.abyss.ranking = {}
 	
 	stats.modes.legion = {}
 	stats.modes.legion.playtime = 0
 	stats.modes.legion.clear = 0
+	stats.modes.legion.score = 0
+	stats.modes.legion.time = defaultTimeRecord
+	stats.modes.legion.wins = 0
 	stats.modes.legion.ranking = {}
 	
 	stats.modes.alliance = {}
 	stats.modes.alliance.playtime = 0
 	stats.modes.alliance.clear = 0
+	stats.modes.alliance.score = 0
+	stats.modes.alliance.time = defaultTimeRecord
+	stats.modes.alliance.wins = 0
 	stats.modes.alliance.ranking = {}
 	
 	stats.modes.bossrush = {}
@@ -3437,6 +3445,10 @@ if stats.modes == nil then
 	stats.modes.scorerush = {}
 	stats.modes.scorerush.playtime = 0
 	stats.modes.scorerush.clear = 0
+	stats.modes.scorerush.clear = 0
+	stats.modes.scorerush.score = 0
+	stats.modes.scorerush.time = defaultTimeRecord
+	stats.modes.scorerush.wins = 0
 	stats.modes.scorerush.ranking = {}
 	
 	stats.modes.timeattack = {}
@@ -3452,6 +3464,9 @@ if stats.modes == nil then
 	stats.modes.timerush = {}
 	stats.modes.timerush.playtime = 0
 	stats.modes.timerush.clear = 0
+	stats.modes.timerush.score = 0
+	stats.modes.timerush.time = defaultTimeRecord
+	stats.modes.timerush.wins = 0
 	stats.modes.timerush.ranking = {}
 	
 	stats.modes.kumite = {}
@@ -3467,6 +3482,7 @@ if stats.modes == nil then
 	stats.modes.goldrush.clear = 0
 	stats.modes.goldrush.score = 0
 	stats.modes.goldrush.time = defaultTimeRecord
+	stats.modes.goldrush.wins = 0
 	stats.modes.goldrush.maxreward = 0
 	stats.modes.goldrush.ranking = {}
 	

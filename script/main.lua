@@ -2684,6 +2684,7 @@ function bossrushCfg()
 	f_discordUpdate({details = "Boss Rush"})
 	f_default()
 	setBestDisplay(false)
+	setGameMode("bossrush")
 	data.gameMode = "bossrush"
 	data.recordMode = "boss"
 	--data.victoryscreen = true
@@ -2873,6 +2874,7 @@ function bossCfg()
 	f_discordUpdate({details = "Boss Assault: "..bossDat})
 	f_default()
 	setBestDisplay(false)
+	setGameMode("singleboss")
 	data.gameMode = "singleboss"
 	data.recordMode = "boss"
 	--data.stageMenu = true
@@ -3148,6 +3150,7 @@ function bonusCfg()
 	f_discordUpdate({details = "Bonus Game: "..bonusDat})
 	f_default()
 	setBestDisplay(false)
+	setGameMode("bonusgame")
 	data.gameMode = "singlebonus"
 	data.recordMode = "bonus"
 	--data.stageMenu = true
@@ -3201,6 +3204,7 @@ function bonusrushCfg()
 	f_discordUpdate({details = "Bonus Game Marathon"})
 	f_default()
 	setBestDisplay(false)
+	setGameMode("bonusmarathon")
 	data.gameMode = "bonusrush"
 	data.recordMode = "bonus"
 	setRoundsToWin(1)
@@ -4724,6 +4728,7 @@ function endlessCfg()
 	setP2winsDisplay(true)
 	data.gameMode = "endless"
 	data.recordMode = "endless"
+	setGameMode("endless")
 	data.stageMenu = true
 	data.versusScreen = false
 	data.orderRoster = false
@@ -7090,6 +7095,7 @@ function f_mainLobby()
 			elseif mainLobby == 6 then
 				data.gameMode = "endless"
 				data.recordMode = "endless"
+				setGameMode("endless")
 				textImgSetText(txt_mainSelect, "ONLINE ENDLESS COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE BOSS RUSH
@@ -7097,6 +7103,7 @@ function f_mainLobby()
 				if #t_bossChars ~= 0 then
 					data.gameMode = "bossrush"
 					data.recordMode = "boss"
+					setGameMode("bossrush")
 					textImgSetText(txt_mainSelect, "ONLINE BOSS RUSH COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -7107,6 +7114,7 @@ function f_mainLobby()
 					data.versusScreen = false
 					data.gameMode = "bonusrush"
 					data.recordMode = "bonus"
+					setGameMode("bonusmarathon")
 					textImgSetText(txt_mainSelect, "ONLINE BONUS MARATHON COOPERATIVE")
 					f_selectAdvance()
 				end
@@ -7115,7 +7123,7 @@ function f_mainLobby()
 				setRoundsToWin(1)
 				data.gameMode = "speedstar"
 				data.recordMode = "speedstar"
-				setGameMode("netplayspeedstar")
+				setGameMode("speedstar")
 				textImgSetText(txt_mainSelect, "ONLINE SPEED STAR COOPERATIVE")
 				f_selectAdvance()
 		--ONLINE TIME ATTACK
@@ -14660,6 +14668,7 @@ end
 --VS CHALLENGER (use your character selected for arcade mode to defeat a human challenger the winner keep playing the arcade)
 function f_challengerVS()
 	f_default()
+	setBestDisplay(false)
 	setGameMode("vs")
 	data.gameMode = "challenger"
 	data.recordMode = "versus"

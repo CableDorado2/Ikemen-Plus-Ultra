@@ -8,7 +8,7 @@ path = script/mods/missions/mission1.lua
 [Mission 2]
 id = mission2
 name = Time Challenge
-info = Selecte an opponent and beat previous Best Time!
+info = Select an opponent and beat previous Best Time!
 infolock = Complete Mission 1
 previewspr = 0,2
 path = script/mods/missions/mission2.lua
@@ -17,7 +17,7 @@ unlock = stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.missi
 [Mission 3]
 id = mission3
 name = Score Challenge
-info = Selecte an opponent and beat previous High Score!
+info = Select an opponent and beat previous High Score!
 infolock = Complete Mission 1
 previewspr = 0,3
 path = script/mods/missions/mission3.lua
