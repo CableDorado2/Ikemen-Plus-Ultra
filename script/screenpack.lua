@@ -2633,8 +2633,6 @@ function f_drawSurvivalResults(active)
 		f_drawQuickText(txt_survivalRecord, survNumFnt, 0, -1, survRecord..survBestWins, 320, 178, 0.65, 0.65)
 		f_drawQuickText(txt_survivalBest, survNumFnt, 0, -1, "BEST RECORD", 320, 191, 0.8, 0.8)
 	end
-	local recordColor = 0
-	if resultsNewRecordWins then recordColor = 5 end
 end
 
 function f_drawScoreAttackResults(active)
@@ -2653,13 +2651,7 @@ function f_drawTimeAttackResults(active)
 	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, f_setTimeFormat(timerTotal()), 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL TIME", 320, 125, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
-		local modeDat = nil
-		if data.gameMode == "speedstar" then
-			modeDat = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time
-		else
-			modeDat = stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time
-		end
-		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(modeDat), 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, f_setTimeFormat(stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time), 320, 165, 0.3, 0.3)
 		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)
 	end
 	local recordColor = 0
@@ -2667,16 +2659,15 @@ function f_drawTimeAttackResults(active)
 	f_drawQuickText(txt_timeWins, jgFnt, recordColor, -1, "WINS: "..winCnt, 266, 220)
 end
 
-function f_drawGoldRushResults(active)
-	f_drawQuickText(txt_rewardResult, survNumFnt, 0, -1, f_setThousandsFormat(getPlayerReward()).." IKC", 320, 110, 0.45, 0.45)
-	f_drawQuickText(txt_rewardTotal, survNumFnt, 0, -1, "TOTAL REWARD", 320, 125, 0.8, 0.8)
+function f_drawSpeedStarResults(active)
+	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, math.floor(getTimePersistence() / 60), 320, 110, 0.45, 0.45)
+	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL TIME", 320, 125, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
-		f_drawQuickText(txt_rewardRecord, survNumFnt, 0, -1, f_setThousandsFormat(stats.goldrushrecord).." IKC", 320, 165, 0.3, 0.3)
-		f_drawQuickText(txt_rewardBest, survNumFnt, 0, -1, "BEST REWARD", 320, 178, 0.7, 0.7)
+		local timeDat = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
+		timeDat = math.floor(timeDat / 60)
+		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, timeDat, 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)
 	end
-	local recordColor = 0
-	if resultsNewRecordWins then recordColor = 5 end
-	f_drawQuickText(txt_rewardWins, jgFnt, recordColor, -1, "WINS: "..winCnt, 266, 234)
 end
 
 function f_drawAbyssResults()
@@ -2687,6 +2678,18 @@ function f_drawAbyssResults()
 	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, -1, "DEPTH", PosX, PosY + 20)
 	f_drawQuickText(txt_winsTitle, font, 0, -1, winCnt.." WINS", PosX, PosY + 40)
 	f_drawQuickText(txt_expenseTitle, font, 0, -1, abyssDat.nosave.expense.." IKC SPENT", PosX, PosY + 52)
+end
+
+function f_drawGoldRushResults(active)
+	f_drawQuickText(txt_rewardResult, survNumFnt, 0, -1, f_setThousandsFormat(getPlayerReward()).." IKC", 320, 110, 0.45, 0.45)
+	f_drawQuickText(txt_rewardTotal, survNumFnt, 0, -1, "TOTAL REWARD", 320, 125, 0.8, 0.8)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		f_drawQuickText(txt_rewardRecord, survNumFnt, 0, -1, f_setThousandsFormat(stats.modes.goldrush.maxreward).." IKC", 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_rewardBest, survNumFnt, 0, -1, "BEST REWARD", 320, 178, 0.7, 0.7)
+	end
+	local recordColor = 0
+	if resultsNewRecordWins then recordColor = 5 end
+	f_drawQuickText(txt_rewardWins, jgFnt, recordColor, -1, "WINS: "..winCnt, 266, 234)
 end
 
 --Result BG

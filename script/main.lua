@@ -4023,26 +4023,42 @@ function f_advancedModesStatus(state)
 	local modified = false
 --Save Data for Speed Star Mode
 	if data.gameMode == "speedstar" then
-		if state == "win" and not stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear then
-			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear = true
-			modified = true
+		if state == "win" then
+			if not stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear then
+				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear = true
+				modified = true
+			end
+			if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
+				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
+				resultsNewRecordTime = true
+				resultsNewRecord = true
+				modified = true
+			end
+			if getTimePersistence() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime then
+				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime = getTimePersistence()
+				resultsNewRecordRoundTime = true
+				resultsNewRecord = true
+				modified = true
+			end
 		end
 		if score() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score then
 			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score = score()
 			resultsNewRecordScore = true
 			modified = true
 		end
-		if state == "win" and timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
-			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
-			resultsNewRecordTime = true
-			resultsNewRecord = true
-			modified = true
-		end
---Save Data for Other Modes
+--Save Data for Other Modes (Survival, Time Attack, Score Attack)
 	else
-		if state == "win" and not stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].clear then
-			stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].clear = true
-			modified = true
+		if state == "win" then
+			if not stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].clear then
+				stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].clear = true
+				modified = true
+			end
+			if timerTotal() < stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time then
+				stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
+				resultsNewRecordTime = true
+				if data.gameMode == "timeattack" then resultsNewRecord = true end
+				modified = true
+			end
 		end
 		if winCnt > stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].wins then
 			stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].wins = winCnt
@@ -4056,12 +4072,33 @@ function f_advancedModesStatus(state)
 			if data.gameMode == "scoreattack" or data.gameMode == "caravan" then resultsNewRecord = true end
 			modified = true
 		end
-		if state == "win" and timerTotal() < stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time then
-			stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].time = timerTotal()
-			resultsNewRecordTime = true
-			if data.gameMode == "timeattack" then resultsNewRecord = true end
+	end
+	if modified then f_saveStats() end
+end
+
+function f_allrosterStatus(state)
+	local modified = false
+	if state == "win" then
+		if not stats.modes[gameMode()].clear then
+			stats.modes[gameMode()].clear = true
 			modified = true
 		end
+		if timerTotal() < stats.modes[gameMode()].time then
+			stats.modes[gameMode()].time = timerTotal()
+			resultsNewRecordTime = true
+			modified = true
+		end
+	end
+	if winCnt > stats.modes[gameMode()].wins then
+		stats.modes[gameMode()].wins = winCnt
+		resultsNewRecordWins = true
+		if gameMode() ~= "goldrush" then resultsNewRecord = true end
+		modified = true
+	end
+	if score() > stats.modes[gameMode()].score then
+		stats.modes[gameMode()].score = score()
+		resultsNewRecordScore = true
+		modified = true
 	end
 	if modified then f_saveStats() end
 end
@@ -4118,7 +4155,7 @@ function f_speedStarSelect()
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
-				data.bestRecord = f_setTimeFormat(stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time)
+				data.bestRecord = "BEST RECORD: "..stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime.." SECONDS"
 				f_saveTemp()
 				break
 			end
@@ -4298,6 +4335,10 @@ function f_createSpeedStarData()
 		end
 		if stats.modes.speedstar[t_speedCourseSel[i].id].score == nil then
 			stats.modes.speedstar[t_speedCourseSel[i].id].score = 0
+			modified = true
+		end
+		if stats.modes.speedstar[t_speedCourseSel[i].id].roundtime == nil then
+			stats.modes.speedstar[t_speedCourseSel[i].id].roundTime = 0
 			modified = true
 		end
 		if stats.modes.speedstar[t_speedCourseSel[i].id].time == nil then
@@ -14886,6 +14927,7 @@ function f_result(state)
 	resultsNewRecordScore = false
 	resultsNewRecordTime = false
 	resultsNewRecordWins = false
+	resultsNewRecordRoundTime = false
 --Setup Vars according Game Modes
 	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
@@ -14907,6 +14949,7 @@ function f_result(state)
 		elseif data.gameMode == "allroster" then
 			if gameMode() == "goldrush" then
 				textImgSetText(txt_resultTitle, "GOLD RUSH")
+				f_allrosterStatus()
 			--Get Reward and Save Record
 				stats.money = stats.money + getPlayerReward()
 				if getPlayerReward() > stats.modes.goldrush.maxreward then
@@ -14915,6 +14958,7 @@ function f_result(state)
 				end
 				f_saveStats()
 			else
+				f_allrosterStatus()
 				textImgSetText(txt_resultTitle, "RESULTS")
 				textImgSetText(txt_resultNo, winCnt.." WINS")
 			end
@@ -14930,15 +14974,10 @@ function f_result(state)
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS")
-			elseif data.gameMode == "kumite" then
-				textImgSetText(txt_resultTitle, getKumiteData())
-				if winCnt > stats.modes.kumite.wins then
-					stats.modes.kumite.wins = winCnt
-					resultsNewRecord = true
-					f_saveStats()
-				end
+			elseif data.gameMode == "kumite" then textImgSetText(txt_resultTitle, getKumiteData())
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
+			f_allrosterStatus()
 		end
 --Skip Results Screen
 	else
@@ -15016,8 +15055,11 @@ function f_result(state)
 			elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
 				f_drawScoreAttackResults(newRecord)
 				f_drawRank(score(), #t_roster * 1000000)
-			elseif data.gameMode == "timeattack" or data.gameMode == "speedstar" then
+			elseif data.gameMode == "timeattack" then
 				f_drawTimeAttackResults(newRecord)
+				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
+			elseif data.gameMode == "speedstar" then
+				f_drawSpeedStarResults(newRecord)
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults()
@@ -15034,7 +15076,7 @@ function f_result(state)
 				end
 				f_drawRank(winCnt, #t_roster)
 			end
-			if data.gameMode ~= "timeattack" and gameMode() ~= "speedstar" then
+			if data.gameMode ~= "timeattack" then
 				local recordColor = 0
 				if resultsNewRecordTime then recordColor = 5 end
 				textImgSetBank(txt_resultTime, recordColor)

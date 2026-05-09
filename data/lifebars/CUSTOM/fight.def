@@ -537,7 +537,7 @@ text.font = 1,5
 text.offset = 3,0   ;Offset of text
 ;-----------------------------------------------------------
 [Round]
-match.wins = 2          ;Rounds needed to win a match (Ikemen feature: deprecated, this setting can be configured in in-game options)
+match.wins = 1          ;Rounds needed to win a match (Ikemen feature: deprecated, this setting can be configured in in-game options)
 match.maxdrawgames = 2  ;Max number of drawgames allowed (-1 for infinite) *2001.11.01 NEW*
 start.waittime = 30     ;Time to wait before starting intro
 
@@ -905,13 +905,25 @@ p2.pos = 178,8
 ;p2.bg.spr = 
 p2.text.font = 3,0, 1
 ;-----------------------------------------------------------
+[BestP1] ;Best Record Display
+p1.pos = 160,237
+;p1.bg.spr = 
+p1.text.font = 1,0, 0
+text.layerno = 2
+
+[BestP2] 
+p2.pos = 160,237
+;p2.bg.spr = 
+p2.text.font = 1,0, 0
+text.layerno = 2
+;-----------------------------------------------------------
 [Match] ;Stage/Match Display
 pos = 160,43
 ;bg.spr = 
 text.font = 7,0, 0
 ;-----------------------------------------------------------
 [AILevel] ;CPU Level Display
-pos = 160,239
+pos = 160,226
 ;bg.spr = 
 
 text.font = 7,0, 0

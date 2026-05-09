@@ -3399,6 +3399,8 @@ if stats.modes == nil then
 	stats.modes.abyss = {}
 	stats.modes.abyss.playtime = 0
 	stats.modes.abyss.clear = 0
+	stats.modes.abyss.score = 0
+	stats.modes.abyss.time = defaultTimeRecord
 	stats.modes.abyss.maxdepth = 0
 	stats.modes.abyss.ranking = {}
 	
@@ -3455,18 +3457,24 @@ if stats.modes == nil then
 	stats.modes.kumite = {}
 	stats.modes.kumite.playtime = 0
 	stats.modes.kumite.clear = 0
+	stats.modes.kumite.score = 0
+	stats.modes.kumite.time = defaultTimeRecord
 	stats.modes.kumite.wins = 0
 	stats.modes.kumite.ranking = {}
 	
 	stats.modes.goldrush = {}
 	stats.modes.goldrush.playtime = 0
 	stats.modes.goldrush.clear = 0
+	stats.modes.goldrush.score = 0
+	stats.modes.goldrush.time = defaultTimeRecord
 	stats.modes.goldrush.maxreward = 0
 	stats.modes.goldrush.ranking = {}
 	
 	stats.modes.endless = {}
 	stats.modes.endless.playtime = 0
 	stats.modes.endless.clear = 0
+	stats.modes.endless.score = 0
+	stats.modes.endless.time = defaultTimeRecord
 	stats.modes.endless.wins = 0
 	stats.modes.endless.ranking = {}
 	
