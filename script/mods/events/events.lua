@@ -460,6 +460,7 @@ function f_eventMenu()
 					--textImgSetText(txt_mainSelect, "EVENT "..data.eventNo.." [" .. t_events[data.eventNo].status .. "]")
 					textImgSetText(txt_mainSelect, "EVENT MATCH")
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+					f_setBestRecord("BEST RANK: ")
 					if t_events[eventMenu].path ~= nil then --Detects if lua file is defined
 						assert(loadfile(t_events[eventMenu].path))()
 					end

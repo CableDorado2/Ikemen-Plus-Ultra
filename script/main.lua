@@ -1594,6 +1594,7 @@ end
 function f_training()
 	f_discordUpdate({details = "Training"})
 	f_default()
+	setBestDisplay(false)
 	setHomeTeam(1)
 	setGameMode("practice")
 	data.gameMode = "training"
@@ -2077,6 +2078,7 @@ function arcadeCfg()
 	setScoreDisplay(true) --Display Player Score
 	setMatchnoDisplay(true) --Display Stage Number
 	setAilevelDisplay(true) --Display CPU Difficulty Level
+	f_setBestRecord("BEST SCORE: "..f_setThousandsFormat(stats.modes.arcade.score))
 	setGameMode("arcade")
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.recordMode = "arcade" --to record statistics
@@ -2194,6 +2196,7 @@ function towerCfg()
 	--setScoreDisplay(true) --Display Player Score
 	--setP1winsDisplay(true) --Display Player Wins Left Side
 	--setP2winsDisplay(true) --Display Player Wins Right Side
+	setBestDisplay(false)
 	data.continueScreen = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -2289,6 +2292,7 @@ function randomModeCfg()
 	f_discordUpdate({details = "Quick Match"})
 	f_default()
 	setGameMode("random")
+	setBestDisplay(false)
 	data.gameMode = "quick match"
 	data.recordMode = "versus"
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -2372,6 +2376,7 @@ function freeModeCfg()
 	f_default()
 	setP1winsDisplay(true)
 	setP2winsDisplay(true)
+	setBestDisplay(false)
 	setGameMode("vs")
 	data.gameMode = "versus"
 	data.recordMode = "versus"
@@ -2678,6 +2683,7 @@ end
 function bossrushCfg()
 	f_discordUpdate({details = "Boss Rush"})
 	f_default()
+	setBestDisplay(false)
 	data.gameMode = "bossrush"
 	data.recordMode = "boss"
 	--data.victoryscreen = true
@@ -2866,6 +2872,7 @@ function bossCfg()
 	local bossDat = t_selChars[t_bossChars[bossChars] + 1].displayname
 	f_discordUpdate({details = "Boss Assault: "..bossDat})
 	f_default()
+	setBestDisplay(false)
 	data.gameMode = "singleboss"
 	data.recordMode = "boss"
 	--data.stageMenu = true
@@ -3140,6 +3147,7 @@ function bonusCfg()
 	local bonusDat = t_selChars[t_bonusChars[bonusExtras] + 1].displayname
 	f_discordUpdate({details = "Bonus Game: "..bonusDat})
 	f_default()
+	setBestDisplay(false)
 	data.gameMode = "singlebonus"
 	data.recordMode = "bonus"
 	--data.stageMenu = true
@@ -3192,6 +3200,7 @@ end
 function bonusrushCfg()
 	f_discordUpdate({details = "Bonus Game Marathon"})
 	f_default()
+	setBestDisplay(false)
 	data.gameMode = "bonusrush"
 	data.recordMode = "bonus"
 	setRoundsToWin(1)
@@ -4400,6 +4409,7 @@ function goldrushCfg()
 	data.recordMode = "goldrush"
 	setGameMode("goldrush")
 	setRewardDisplay(true)
+	f_setBestRecord("BEST REWARD: "..stats.modes.goldrush.maxreward.." IKC")
 	data.stage = "stages/Others/The Red Dragon's Lair.def"
 	data.bgm = "sound/Gold Rush.mp3"
 	setRoundTime(30)
@@ -4490,6 +4500,7 @@ end
 function kumiteCfg()
 	f_discordUpdate({details = "VS "..data.kumite.." Kumite"})
 	f_default()
+	f_setBestRecord("BEST RECORD: "..stats.modes.kumite.wins.." WINS")
 	data.gameMode = "kumite"
 	data.recordMode = "kumite"
 	setGameMode("kumite")
@@ -4666,6 +4677,7 @@ end
 function endlessCfg()
 	f_discordUpdate({details = "Endless"})
 	f_default()
+	f_setBestRecord("BEST RECORD: "..stats.modes.endless.wins.." WINS")
 	setPersistPower(true)
 	setP1winsDisplay(true)
 	setP2winsDisplay(true)
@@ -4903,18 +4915,14 @@ function f_defeats()
 end
 
 function f_records()
---[[
-	if gameMode() == "suddendeath" then
-		if winCnt > stats.modes.suddendeath.record then
-			stats.modes.suddendeath.record = winCnt
-		end
-	elseif gameMode() == "endless" then
-		if winCnt > stats.modes.endless.record then
-			stats.modes.endless.record = winCnt
+	local modified = false
+	if gameMode() == "endless" then
+		if winCnt > stats.modes.endless.wins then
+			stats.modes.endless.wins = winCnt
+			modified = true
 		end
 	end
-	f_saveStats()
-]]
+	if modified then f_saveStats() end
 end
 
 function f_favoriteContent(t_playerChars, stageNo)
@@ -14901,9 +14909,8 @@ function f_result(state)
 				textImgSetText(txt_resultTitle, "GOLD RUSH")
 			--Get Reward and Save Record
 				stats.money = stats.money + getPlayerReward()
-				if stats.goldrushrecord == nil then stats.goldrushrecord = 0 end
-				if getPlayerReward() > stats.goldrushrecord then
-					stats.goldrushrecord = getPlayerReward()
+				if getPlayerReward() > stats.modes.goldrush.maxreward then
+					stats.modes.goldrush.maxreward = getPlayerReward()
 					resultsNewRecord = true
 				end
 				f_saveStats()
@@ -14923,7 +14930,13 @@ function f_result(state)
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS")
-			elseif data.gameMode == "kumite" then textImgSetText(txt_resultTitle, getKumiteData())
+			elseif data.gameMode == "kumite" then
+				textImgSetText(txt_resultTitle, getKumiteData())
+				if winCnt > stats.modes.kumite.wins then
+					stats.modes.kumite.wins = winCnt
+					resultsNewRecord = true
+					f_saveStats()
+				end
 			else textImgSetText(txt_resultTitle, "RESULTS")
 			end
 		end
@@ -15754,6 +15767,7 @@ end
 function f_arcadeEnd()
 	if gameMode() == "arcade" or gameMode() == "arcadecoop" or gameMode() == "arcadecpu" then
 		stats.modes.arcade.clear = stats.modes.arcade.clear + 1 --Progress
+		if stats.modes.arcade.score < score() then stats.modes.arcade.score = score() end
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side
 			unlockTarget = data.t_p2selected
 		else --Player 1 in Left Side
@@ -15805,12 +15819,12 @@ function f_advancedEnd()
 end
 
 function f_winAdvanced()
-	f_records() --Save Stats
+	f_records()
 	f_result('win')
 end
 
 function f_loseAdvanced()
-	f_records() --Save Stats
+	f_records()
 	f_result('lost')
 	f_gameOver()
 	--f_mainOpening()
@@ -16009,7 +16023,7 @@ if validCells() then
 				f_exitToMainMenu()
 				return
 			end
-			f_records() --Save Stats
+			f_records()
 			f_result('lost')
 			f_resetMenuInputs()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade) --reset title screen fading
@@ -16250,7 +16264,7 @@ if validCells() then
 						f_exitToMainMenu()
 						return
 					end
-					f_records() --Save Stats
+					f_records()
 				--Victory Screen
 					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
 						f_selectWin()
@@ -16831,8 +16845,8 @@ if validCells() then
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
 		f_timersReset()
-		f_modePlaytime() --Store Favorite Game Mode
-		f_records() --save record progress
+		f_modePlaytime()
+		f_records()
 		f_unlock(false)
 		f_updateUnlocks()
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -18096,6 +18110,7 @@ function f_tourneySelCfg()
 	setFTNo(data.tourneyMatchsNum) --Set Matchs To Wins/FT
 	setP1winsDisplay(true)
 	setP2winsDisplay(true)
+	setBestDisplay(false)
 	textImgSetText(txt_mainSelect, tourneyState)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
@@ -18606,6 +18621,7 @@ function allianceCfg()
 	data.victoryscreen = false
 	data.orderSelect = false
 	setMatchnoDisplay(true)
+	setBestDisplay(false)
 	f_resetAllianceResults()
 --Generate a random character for "randomselect" item stored
 	f_replaceRandomSelect(t_allianceCourses)
@@ -19252,6 +19268,7 @@ function abyssCfg()
 	data.recordMode = "abyss"
 	data.victoryscreen = false
 	data.orderRoster = false
+	f_setBestRecord("MAX DEPTH: "..stats.modes.abyss.maxdepth)
 	data.stage = "stages/Mountainside Temple/Dark Corridor.def" --Abyss Initial Stage
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)

@@ -49,6 +49,7 @@ function f_tutorial()
 		data.p2In = 1
 		data.p2Faces = true
 	end
+	setBestDisplay(false)
 	textImgSetText(txt_mainSelect, "TUTORIAL MODE")
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	data.recordMode = "tutorial" --To save playtime

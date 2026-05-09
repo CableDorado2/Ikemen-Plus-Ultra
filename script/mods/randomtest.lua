@@ -244,6 +244,7 @@ function randomTest()
 	f_discordUpdate({details = "Random Test"})
 	cmdInput()
 	f_default() --Load f_default function defined in common.lua
+	setBestDisplay(false)
 	setGameMode("randomtest")
 	initRandom()
 	while true do

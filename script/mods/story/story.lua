@@ -522,6 +522,7 @@ local function f_arc1_chapter4_4()
 	f_vnScene(kfmVN, 8, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
+		setBestDisplay(false)
 		data.recordMode = "story"
 		data.storyNo = "1-4D"
 		f_storyStatus()
@@ -538,6 +539,7 @@ local function f_arc1_chapter4_3()
 	f_vnScene(kfmVN, 7, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
+		setBestDisplay(false)
 		data.recordMode = "story"
 		data.storyNo = "1-4C"
 		f_storyStatus()
@@ -554,6 +556,7 @@ local function f_arc1_chapter4_2()
 	f_vnScene(kfmVN, 6, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
+		setBestDisplay(false)
 		data.recordMode = "story"
 		data.storyNo = "1-4B"
 		f_storyStatus()
@@ -570,6 +573,7 @@ local function f_arc1_chapter4_1()
 	f_vnScene(kfmVN, 5, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
+		setBestDisplay(false)
 		data.recordMode = "story"
 		data.storyNo = "1-4A"
 	--[[
@@ -601,6 +605,7 @@ local function f_arc1_chapter3_2()
 	f_vnScene(kfmVN, 4, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
+		setBestDisplay(false)
 		data.p1Pal = 1
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man"}
@@ -642,6 +647,7 @@ local function f_arc1_chapter3_1()
 	f_vnScene(kfmVN, 3, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
+		setBestDisplay(false)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man/Master/Master Kung Fu Man.def"}
 		data.p1Pal = 1
@@ -679,6 +685,7 @@ local function f_arc1_chapter2()
 	f_vnScene(kfmVN, 2, kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
+		setBestDisplay(false)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man"}
 		data.p1Pal = 1
@@ -717,6 +724,7 @@ local function f_arc1_chapter1()
 	f_vnScene(kfmVN, 1, kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in common.lua f_vnScene function
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
+		setBestDisplay(false)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {"Kung Fu Man"}
 		data.p1Pal = 1
@@ -747,6 +755,7 @@ local function f_arc1_chapter1()
 			data.p2Pal = 1
 			setRoundTime(-1)
 			setRoundsToWin(1)
+			setBestDisplay(false)
 			data.orderSelect = false
 			data.versusScreen = false
 			data.victoryscreen = false
@@ -784,6 +793,7 @@ end
 --Character Select Test Chapter
 local function f_storyRosterTest()
 	f_default()
+	setBestDisplay(false)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {"Kung Fu Man"}

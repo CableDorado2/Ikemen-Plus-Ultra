@@ -3378,6 +3378,7 @@ if stats.modes == nil then
 	stats.modes.arcade = {}
 	stats.modes.arcade.playtime = 0
 	stats.modes.arcade.clear = 0
+	stats.modes.arcade.score = 0
 	stats.modes.arcade.ranking = {}
 	
 	stats.modes.tower = {}
@@ -3389,6 +3390,11 @@ if stats.modes == nil then
 	stats.modes.survival.playtime = 0
 	stats.modes.survival.clear = 0
 	stats.modes.survival.ranking = {}
+	
+	stats.modes.suddendeath = {}
+	stats.modes.suddendeath.playtime = 0
+	stats.modes.suddendeath.clear = 0
+	stats.modes.suddendeath.ranking = {}
 	
 	stats.modes.abyss = {}
 	stats.modes.abyss.playtime = 0
@@ -3420,6 +3426,16 @@ if stats.modes == nil then
 	stats.modes.scoreattack.playtime = 0
 	stats.modes.scoreattack.clear = 0
 	stats.modes.scoreattack.ranking = {}
+
+	stats.modes.caravan = {}
+	stats.modes.caravan.playtime = 0
+	stats.modes.caravan.clear = 0
+	stats.modes.caravan.ranking = {}
+	
+	stats.modes.scorerush = {}
+	stats.modes.scorerush.playtime = 0
+	stats.modes.scorerush.clear = 0
+	stats.modes.scorerush.ranking = {}
 	
 	stats.modes.timeattack = {}
 	stats.modes.timeattack.playtime = 0
@@ -3436,29 +3452,22 @@ if stats.modes == nil then
 	stats.modes.timerush.clear = 0
 	stats.modes.timerush.ranking = {}
 	
-	stats.modes.caravan = {}
-	stats.modes.caravan.playtime = 0
-	stats.modes.caravan.clear = 0
-	stats.modes.caravan.ranking = {}
-	
-	stats.modes.scorerush = {}
-	stats.modes.scorerush.playtime = 0
-	stats.modes.scorerush.clear = 0
-	stats.modes.scorerush.ranking = {}
-	
 	stats.modes.kumite = {}
 	stats.modes.kumite.playtime = 0
 	stats.modes.kumite.clear = 0
+	stats.modes.kumite.wins = 0
 	stats.modes.kumite.ranking = {}
 	
-	stats.modes.suddendeath = {}
-	stats.modes.suddendeath.playtime = 0
-	stats.modes.suddendeath.clear = 0
-	stats.modes.suddendeath.ranking = {}
+	stats.modes.goldrush = {}
+	stats.modes.goldrush.playtime = 0
+	stats.modes.goldrush.clear = 0
+	stats.modes.goldrush.maxreward = 0
+	stats.modes.goldrush.ranking = {}
 	
 	stats.modes.endless = {}
 	stats.modes.endless.playtime = 0
 	stats.modes.endless.clear = 0
+	stats.modes.endless.wins = 0
 	stats.modes.endless.ranking = {}
 	
 	stats.modes.tourney = {}
@@ -3466,13 +3475,17 @@ if stats.modes == nil then
 	stats.modes.tourney.clear = 0
 	stats.modes.tourney.ranking = {}
 	
+	stats.modes.tutorial = {}
+	stats.modes.tutorial.playtime = 0
+	stats.modes.tutorial.clear = 0
+	
 	stats.modes.trials = {}
 	stats.modes.trials.playtime = 0
 	stats.modes.trials.clear = 0
 	
-	stats.modes.tutorial = {}
-	stats.modes.tutorial.playtime = 0
-	stats.modes.tutorial.clear = 0
+	stats.modes.training = {}
+	stats.modes.training.playtime = 0
+	stats.modes.training.maxcombo = 0
 	
 	stats.modes.boss = {}
 	stats.modes.boss.playtime = 0
@@ -3482,9 +3495,6 @@ if stats.modes == nil then
 	stats.modes.bonus.playtime = 0
 	stats.modes.bonus.clear = 0
 	
-	stats.modes.training = {}
-	stats.modes.training.playtime = 0
-	
 	stats.modes.versus = {}
 	stats.modes.versus.playtime = 0
 	
@@ -3492,6 +3502,11 @@ if stats.modes == nil then
 	stats.modes.watch.playtime = 0
 end
 
+end
+
+function f_setBestRecord(text)
+	data.bestRecord = text
+	f_saveTemp()
 end
 
 abyssDat.default = { --For some reason cannot re-use t_abyssDefaultSave table because nosave data is copy to abyssDat.default when delete data...

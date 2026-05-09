@@ -232,6 +232,7 @@ function f_missionMenu()
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missions[data.missionNo].status .. "]")
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				sndPlay(sndSys, 100, 1)
+				f_setBestRecord("BEST RANK: ")
 				if t_missions[data.missionNo].path ~= nil then --Detects if lua file is defined
 					assert(loadfile(t_missions[data.missionNo].path))()
 				end
