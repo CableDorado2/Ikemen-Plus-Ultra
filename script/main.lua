@@ -16059,7 +16059,7 @@ if validCells() then
 				setLastMatch(lastMatch)
 				f_aiRamp() --generate AI ramping table
 			end
-	--Player exit the match via ESC in Endless or KUMITE (BOTH SIDES)
+	--Player exit the match via Pause in Endless or KUMITE (BOTH SIDES)
 		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "kumite") then
 			if data.gameMode ~= "endless" then looseCnt = looseCnt + 1 end --because in endless a give up not counts as a loose
 			assert(loadfile(saveTempPath))()
@@ -16068,6 +16068,7 @@ if validCells() then
 				return
 			end
 			f_result('lost')
+			if data.gameMode == "kumite" then f_gameOver() else f_storyboard(storyboardGameOver) end
 			f_resetMenuInputs()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade) --reset title screen fading
 			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -16340,7 +16341,7 @@ if validCells() then
 					f_1stStageSel()
 				end
 			end
-	--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss Rush, Bonus Marathon)
+	--BOTH SIDES - NO WINNER (player exit the match via Pause in Arcade, Survival, Boss Rush, Bonus Marathon)
 		else --if winner == -1
 			assert(loadfile(saveTempPath))()
 			if onlinegame and winner == -1 then
