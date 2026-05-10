@@ -3855,7 +3855,7 @@ if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSe
 speedTitleBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
-animSetScale(speedTitleBG, 2.9, 0.30)
+animSetScale(speedTitleBG, 2.9, 0.23)
 animSetAlpha(speedTitleBG, 155, 22)
 
 --Course Slot

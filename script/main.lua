@@ -3400,7 +3400,7 @@ function scoreattackCfg()
 	setGameMode("scoreattack")
 	data.gameMode = "scoreattack"
 	data.recordMode = "scoreattack"
-	data.nextStage = true
+	--data.nextStage = true
 	setRoundTime(99)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3691,7 +3691,7 @@ function timeattackCfg()
 	data.gameMode = "timeattack"
 	data.recordMode = "timeattack"
 	setGameMode("timeattack")
-	data.nextStage = true
+	--data.nextStage = true
 	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4160,7 +4160,9 @@ function f_speedStarSelect()
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
-				data.bestRecord = "BEST RECORD: "..stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime.." SECONDS"
+				local timeText = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
+				if timeText == 0 then timeText = "---''--" end
+				data.bestRecord = "BEST RECORD: "..timeText.." SECONDS"
 				f_saveTemp()
 				break
 			end
@@ -4343,7 +4345,7 @@ function f_createSpeedStarData()
 			modified = true
 		end
 		if stats.modes.speedstar[t_speedCourseSel[i].id].roundtime == nil then
-			stats.modes.speedstar[t_speedCourseSel[i].id].roundTime = 0
+			stats.modes.speedstar[t_speedCourseSel[i].id].roundtime = 0
 			modified = true
 		end
 		if stats.modes.speedstar[t_speedCourseSel[i].id].time == nil then
@@ -14937,7 +14939,7 @@ function f_result(state)
 			end
 		--Save Records
 			f_advancedModesStatus(state)
-		elseif data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
+		elseif data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
 			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..speedCourseSel..")")
 			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN ("..t_advancedCourseSel[advancedCourseSel].name..")")
