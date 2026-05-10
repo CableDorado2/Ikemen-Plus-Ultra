@@ -2596,7 +2596,7 @@ function survivalCfg()
 	setGameMode("survival")
 	data.gameMode = "survival"
 	data.recordMode = "survival"
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundsToWin(1)
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3401,7 +3401,7 @@ function scoreattackCfg()
 	setGameMode("scoreattack")
 	data.gameMode = "scoreattack"
 	data.recordMode = "scoreattack"
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundTime(99)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3692,7 +3692,7 @@ function timeattackCfg()
 	data.gameMode = "timeattack"
 	data.recordMode = "timeattack"
 	setGameMode("timeattack")
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4372,7 +4372,7 @@ function speedstarCfg()
 	data.gameMode = "speedstar"
 	data.recordMode = "speedstar"
 	setGameMode("speedstar")
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -4642,7 +4642,7 @@ function suddenCfg()
 	setGameMode("suddendeath")
 	data.gameMode = "survival"
 	data.recordMode = "suddendeath"
-	--data.nextStage = true
+	data.nextStage = true
 	setRoundTime(10)
 	setRoundsToWin(1)
 	setLifeMul(0) --overwrite players life
@@ -16858,7 +16858,7 @@ if validCells() then
 			f_exitToMainMenu() --f_resetMenuInputs()
 			return
 		end
-		if data.nextStage then f_arcadeTravel() end
+		if data.nextStage and not endlessRoster then f_arcadeTravel() end
 		f_orderSelect()
 		f_selectVersus()
 		if data.gameMode == "arcade" or data.gameMode == "tower" then
