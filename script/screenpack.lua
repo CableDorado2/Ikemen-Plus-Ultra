@@ -2660,22 +2660,24 @@ function f_drawTimeAttackResults(active)
 end
 
 function f_drawSpeedStarResults(active)
-	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, math.floor(getTimePersistence() / 60), 320, 110, 0.45, 0.45)
-	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL TIME", 320, 125, 0.8, 0.8)
+	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, math.floor(getTimePersistence() / 60).."SECONDS", 320, 115, 0.65, 0.65)
+	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL ROUND TIME", 320, 130, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
 		local timeDat = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
 		timeDat = math.floor(timeDat / 60)
-		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, timeDat, 320, 165, 0.3, 0.3)
-		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST TIME", 320, 178, 0.7, 0.7)
+		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, timeDat.."SECONDS", 320, 175, 0.5, 0.5)
+		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST ROUND TIME", 320, 188, 0.7, 0.7)
 	end
 end
 
-function f_drawAbyssResults()
+function f_drawAbyssResults(active)
 	local PosX = 318
 	local PosY = 130
 	local font = jgFnt
-	f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, -1, getAbyssDepth(), PosX - 10, PosY, 0.82, 0.82)
-	f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, -1, "DEPTH", PosX, PosY + 20)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		f_drawQuickText(txt_resultDepthLv, survNumFnt, 0, -1, getAbyssDepth(), PosX - 10, PosY, 0.82, 0.82)
+		f_drawQuickText(txt_resultDepthTitle, survNumFnt, 0, -1, "DEPTH", PosX, PosY + 20)
+	end
 	f_drawQuickText(txt_winsTitle, font, 0, -1, winCnt.." WINS", PosX, PosY + 40)
 	f_drawQuickText(txt_expenseTitle, font, 0, -1, abyssDat.nosave.expense.." IKC SPENT", PosX, PosY + 52)
 end

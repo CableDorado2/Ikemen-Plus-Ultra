@@ -2078,7 +2078,7 @@ function arcadeCfg()
 	setScoreDisplay(true) --Display Player Score
 	setMatchnoDisplay(true) --Display Stage Number
 	setAilevelDisplay(true) --Display CPU Difficulty Level
-	f_setBestRecord("BEST SCORE: "..f_setThousandsFormat(stats.modes.arcade.score))
+	f_setBestRecord("BEST SCORE: "..f_setThousandsFormat(stats.modes.arcade.score).."PTS")
 	setGameMode("arcade")
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.recordMode = "arcade" --to record statistics
@@ -2596,6 +2596,7 @@ function survivalCfg()
 	setGameMode("survival")
 	data.gameMode = "survival"
 	data.recordMode = "survival"
+	--data.nextStage = true
 	setRoundsToWin(1)
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3941,7 +3942,7 @@ function f_commonCourseSelect()
 					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
 					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
 				elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
-					varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[i].id].score)
+					varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[i].id].score).."PTS"
 				end
 				textImgSetText(txt_advancedCourseRecord, t_advancedCourseSel.record..varText)
 				textImgPosDraw(txt_advancedCourseRecord, 2, 130 + (-118 + i * advancedCourseSpacingY - moveCourse))
@@ -4119,7 +4120,7 @@ function f_recordDisplayAdvanced()
 		varText = stats.modes.timeattack[t_advancedCourseSel[advancedCourseSel].id].time
 		if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
 	elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
-		varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].score)
+		varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].score).."PTS"
 	end
 	return t_advancedCourseSel.record..varText
 end
@@ -4160,9 +4161,9 @@ function f_speedStarSelect()
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
-				local timeText = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
-				if timeText == 0 then timeText = "---''--" end
-				data.bestRecord = "BEST RECORD: "..timeText.." SECONDS"
+				local timeText = math.floor(stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime / 60)
+				if timeText == 0 then timeText = "---" end
+				data.bestRecord = "BEST ROUND TIME: "..timeText.." SECONDS"
 				f_saveTemp()
 				break
 			end
@@ -4231,7 +4232,7 @@ function f_speedStarSelect()
 				end
 				
 				textImgPosDraw(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))				
-				textImgSetText(txt_speedCourseScoreRecordVar, f_setThousandsFormat(stats.modes.speedstar[t_speedCourseSel[i].id].score))
+				textImgSetText(txt_speedCourseScoreRecordVar, f_setThousandsFormat(stats.modes.speedstar[t_speedCourseSel[i].id].score).."PTS")
 				textImgPosDraw(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				
 				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
@@ -15065,7 +15066,7 @@ function f_result(state)
 				f_drawSpeedStarResults(newRecord)
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
 			elseif data.gameMode == "abyss" then
-				f_drawAbyssResults()
+				f_drawAbyssResults(newRecord)
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
 			elseif gameMode() == "goldrush" then
 				f_drawGoldRushResults(newRecord)
