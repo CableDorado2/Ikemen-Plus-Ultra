@@ -569,10 +569,13 @@ function f_fadeAnim(ticks, fadeType, color, sff)
 end
 
 --dynamically adjusts alpha blending each time called based on specified values
+function f_resetDynamicAlpha()
 alpha1cur = 0
 alpha2cur = 0
 alpha1add = true
 alpha2add = true
+end
+f_resetDynamicAlpha()
 function f_dynamicAlpha(animName, r1min, r1max, r1step, r2min, r2max, r2step)
 	if r1step == 0 then alpha1cur = r1max end
 	if alpha1cur < r1max and alpha1add then

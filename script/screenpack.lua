@@ -2681,10 +2681,10 @@ function f_drawAbyssResults()
 end
 
 function f_drawGoldRushResults(active)
-	f_drawQuickText(txt_rewardResult, survNumFnt, 0, -1, f_setThousandsFormat(getPlayerReward()).." IKC", 320, 110, 0.45, 0.45)
+	f_drawQuickText(txt_rewardResult, survNumFnt, 0, -1, getPlayerReward().." IKC", 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_rewardTotal, survNumFnt, 0, -1, "TOTAL REWARD", 320, 125, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
-		f_drawQuickText(txt_rewardRecord, survNumFnt, 0, -1, f_setThousandsFormat(stats.modes.goldrush.maxreward).." IKC", 320, 165, 0.3, 0.3)
+		f_drawQuickText(txt_rewardRecord, survNumFnt, 0, -1, stats.modes.goldrush.maxreward.." IKC", 320, 165, 0.3, 0.3)
 		f_drawQuickText(txt_rewardBest, survNumFnt, 0, -1, "BEST REWARD", 320, 178, 0.7, 0.7)
 	end
 	local recordColor = 0
@@ -3741,12 +3741,6 @@ advancedCourseInfoBG = animNew(sprIkemen, [[
 animSetScale(advancedCourseInfoBG, 430, 24)
 animSetAlpha(advancedCourseInfoBG, 0, 50)
 animUpdate(advancedCourseInfoBG)
-
---First Opponent Select Cursor
-advancedCourse1stCursor = animNew(sprSys, [[
-100,1, 0,0, -1
-]])
-animSetTile(advancedCourse1stCursor, 1, 1)
 
 --Course Select Input Hints Panel
 function drawAdvancedCourseSelInputHints(change)

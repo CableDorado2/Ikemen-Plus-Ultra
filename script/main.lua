@@ -3798,6 +3798,7 @@ function f_commonCourseSelect()
 				else
 					backScreen = true
 				end
+				f_resetDynamicAlpha()
 		--Cursor Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
@@ -3947,9 +3948,9 @@ function f_commonCourseSelect()
 			end
 		end
 		if opponentSel then
-			animSetWindow(advancedCourse1stCursor, 2,93 + (-118 + advancedCourseSel * advancedCourseSpacingY - moveCourse), 27,27)
-			f_dynamicAlpha(advancedCourse1stCursor, 20,200,15, 255,255,0)
-			animDraw(f_animVelocity(advancedCourse1stCursor, -1, -1))
+			animSetWindow(cursorBox, 2,93 + (-118 + advancedCourseSel * advancedCourseSpacingY - moveCourse), 27,27)
+			f_dynamicAlpha(cursorBox, 20,200,15, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
 		else
 			if maxCourseSel > maxCourses then
 				animDraw(menuArrowUp)
@@ -4958,17 +4959,6 @@ end
 function f_defeats()
 	stats.loses = stats.loses + 1
 	f_saveStats()
-end
-
-function f_records()
-	local modified = false
-	if gameMode() == "endless" then
-		if winCnt > stats.modes.endless.wins then
-			stats.modes.endless.wins = winCnt
-			modified = true
-		end
-	end
-	if modified then f_saveStats() end
 end
 
 function f_favoriteContent(t_playerChars, stageNo)
@@ -15058,7 +15048,9 @@ function f_result(state)
 			data.gameMode == "scoreattack" or data.gameMode == "timeattack" or
 			data.gameMode == "caravan" then
 			if gameMode() == "kumite" or data.gameMode == "endless" then
-				textImgDraw(txt_resultWins)
+				if (resultsNewRecord and newRecord) or not resultsNewRecord then
+					textImgDraw(txt_resultWins)
+				end
 				textImgDraw(txt_resultLoses)
 				if data.gameMode == "kumite" then f_drawRank(winCnt, #t_roster) end
 			elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
@@ -15081,7 +15073,9 @@ function f_result(state)
 					f_drawSurvivalResults(newRecord)
 			--All Roster
 				else
-					textImgDraw(txt_resultNo)
+					if (resultsNewRecord and newRecord) or not resultsNewRecord then
+						textImgDraw(txt_resultNo)
+					end
 				end
 				f_drawRank(winCnt, #t_roster)
 			end
@@ -15870,12 +15864,10 @@ function f_advancedEnd()
 end
 
 function f_winAdvanced()
-	f_records()
 	f_result('win')
 end
 
 function f_loseAdvanced()
-	f_records()
 	f_result('lost')
 	f_gameOver()
 	--f_mainOpening()
@@ -16001,6 +15993,7 @@ if validCells() then
 			end
 			if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
 				f_commonCourseSelect()
+				f_resetDynamicAlpha()
 				if data.tempBack == true then
 					f_exitToMainMenu()
 					return
@@ -16074,7 +16067,6 @@ if validCells() then
 				f_exitToMainMenu()
 				return
 			end
-			f_records()
 			f_result('lost')
 			f_resetMenuInputs()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade) --reset title screen fading
@@ -16142,7 +16134,6 @@ if validCells() then
 						f_exitToMainMenu()
 						return
 					end
-					f_records()
 				--Victory Screen
 					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
 						f_selectWin()
@@ -16315,7 +16306,6 @@ if validCells() then
 						f_exitToMainMenu()
 						return
 					end
-					f_records()
 				--Victory Screen
 					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
 						f_selectWin()
@@ -16487,7 +16477,6 @@ if validCells() then
 						f_exitToMainMenu()
 						return
 					end
-					f_records()
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
 							f_selectWin()
@@ -16897,7 +16886,6 @@ if validCells() then
 		clearTime = clearTime + matchTime
 		f_timersReset()
 		f_modePlaytime()
-		f_records()
 		f_unlock(false)
 		f_updateUnlocks()
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
