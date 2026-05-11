@@ -3492,8 +3492,9 @@ function caravanCfg()
 	setGameMode("caravan")
 	setCountdown(6000) --5 Minutes
 	setRoundTime(99)
-	setRoundsToWin(2)
+	setRoundsToWin(1)
 	--data.nextStage = true
+	data.stageMenu = true
 	data.versusScreen = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -12402,6 +12403,7 @@ function f_loadCharResources()
 end
 
 function f_assignMusic()
+	if data.stageMenu and matchNo > 1 then return end
 	local memDat = 1
 	if data.gameMode == "alliance" then memDat = currentAllianceMemberCPU end
 	if data.bgm == nil then --Assign Stage Song via stage.def or select.def
@@ -15057,8 +15059,10 @@ function f_result(state)
 				textImgDraw(txt_resultLoses)
 				if data.gameMode == "kumite" then f_drawRank(winCnt, #t_roster) end
 			elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
+				local scoreTarget = 1000000
+				if data.gameMode == "caravan" then scoreTarget = 500000 end
 				f_drawScoreAttackResults(newRecord)
-				f_drawRank(score(), #t_roster * 1000000)
+				f_drawRank(score(), #t_roster * scoreTarget)
 			elseif data.gameMode == "timeattack" then
 				f_drawTimeAttackResults(newRecord)
 				f_drawRank(winCnt, #t_roster, timerTotal(), #t_roster * 500)
@@ -15791,7 +15795,7 @@ if validCells() then
 		if not netplay() then
 			f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
 		end
-		playBGM("")
+		if not data.stageMenu then playBGM("") end
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
 		f_timersReset()
