@@ -527,11 +527,24 @@ end
 --;===========================================================
 function f_infoMenu()
 	cmdInput()
+--Main Text
 	local txt = t_infoWindowMsg.text or "???"
-	local posX = t_infoWindowMsg.x or 160
-	local posY = t_infoWindowMsg.y or 120
-	local limit = t_infoWindowMsg.limit or 40
-	local spacing = t_infoWindowMsg.spacing or 10
+	local txtColor = t_infoWindowMsg.color or 0
+	local txtPosX = t_infoWindowMsg.x or 160
+	local txtPosY = t_infoWindowMsg.y or 120
+	local txtScaleX = t_infoWindowMsg.scaleX or 0.7
+	local txtScaleY = t_infoWindowMsg.scaleY or 0.7
+	local txtLimit = t_infoWindowMsg.limit or 40
+	local txtSpacing = t_infoWindowMsg.spacing or 10
+--Sub Text
+	local txt2 = t_infoWindowMsg.text2 or ""
+	local txt2Color = t_infoWindowMsg.color2 or 5
+	local txt2PosX = t_infoWindowMsg.x2 or 160
+	local txt2PosY = t_infoWindowMsg.y2 or 140
+	local txt2ScaleX = t_infoWindowMsg.scaleX2 or 0.7
+	local txt2ScaleY = t_infoWindowMsg.scaleY2 or 0.7
+	local txt2Limit = t_infoWindowMsg.limit2 or 40
+	local txt2Spacing = t_infoWindowMsg.spacing2 or 10
 --Draw Fade BG
 	animDraw(fadeWindowBG)
 --Draw Menu BG
@@ -540,7 +553,14 @@ function f_infoMenu()
 	textImgDraw(txt_infoTitle)
 --Draw Info Text
 	if stats.firstRun then txt = "WELCOME TO IKEMEN PLUS ULTRA ENGINE!" end
-	f_textRender(txt_info, txt, 0, posX, posY, spacing, 0, limit)
+	textImgSetBank(txt_info, txtColor)
+	textImgSetScale(txt_info, txtScaleX, txtScaleY)
+	
+	textImgSetBank(txt_info2, txt2Color)
+	textImgSetScale(txt_info2, txt2ScaleX, txt2ScaleY)
+	
+	f_textRender(txt_info, txt, 0, txtPosX, txtPosY, txtSpacing, 0, txtLimit)
+	f_textRender(txt_info2, txt2, 0, txt2PosX, txt2PosY, txt2Spacing, 0, txt2Limit)
 --[[Draw Cursor
 	animSetWindow(cursorBox, 87,141, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -594,6 +614,23 @@ end
 
 function f_noBossesWarning()
 	t_infoWindowMsg.text = "NO BOSSES FOUND IN SELECT.DEF"
+	infoScreen = true
+end
+
+function f_unlockInfo(txt, txt2, color, x1, y1, y2, scale)
+	sndPlay(sndIkemen, 800, 0)
+	t_infoWindowMsg.text = txt
+	if txt2 ~= nil then t_infoWindowMsg.text2 = txt2 end
+	if color ~= nil then t_infoWindowMsg.color2 = color end
+	if x1 ~= nil then t_infoWindowMsg.x = x1 end
+	if y1 ~= nil then t_infoWindowMsg.y = y1 end
+	if y2 ~= nil then t_infoWindowMsg.y2 = y2 end
+	if scale ~= nil then
+		t_infoWindowMsg.scaleX = scale
+		t_infoWindowMsg.scaleY = scale
+		t_infoWindowMsg.scaleX2 = scale
+		t_infoWindowMsg.scaleY2 = scale
+	end
 	infoScreen = true
 end
 
@@ -3940,8 +3977,7 @@ function f_commonCourseSelect()
 					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
 					varText = survRecord..survWins
 				elseif data.gameMode == "timeattack" then
-					varText = stats.modes.timeattack[t_advancedCourseSel[i].id].time
-					if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
+					varText = f_setTimeText(stats.modes.timeattack[t_advancedCourseSel[i].id].time)
 				elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
 					varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[i].id].score).."PTS"
 				end
@@ -4118,8 +4154,7 @@ function f_recordDisplayAdvanced()
 		if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
 			varText = survRecord..survWins
 	elseif data.gameMode == "timeattack" then
-		varText = stats.modes.timeattack[t_advancedCourseSel[advancedCourseSel].id].time
-		if varText < defaultTimeRecord then varText = f_setTimeFormat(varText) else varText = "--:--.---" end
+		varText = f_setTimeText(stats.modes.timeattack[t_advancedCourseSel[advancedCourseSel].id].time)
 	elseif data.gameMode == "scoreattack" or data.gameMode == "caravan" then
 		varText = f_setThousandsFormat(stats.modes[gameMode()][t_advancedCourseSel[advancedCourseSel].id].score).."PTS"
 	end
@@ -4237,9 +4272,7 @@ function f_speedStarSelect()
 				textImgPosDraw(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				
 				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].time
-				if timeText < defaultTimeRecord then timeText = f_setTimeFormat(timeText) else timeText = "--:--.---" end
-				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
+				textImgSetText(txt_speedCourseTimeRecordVar, f_setTimeText(stats.modes.speedstar[t_speedCourseSel[i].id].time))
 				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 				
 				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))				
@@ -14286,7 +14319,7 @@ function f_selectWin()
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
 					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-					if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
+					if data.orderSelect and data.gameMode == "arcade" then f_selectMusic()
 					elseif data.gameMode == "tower" then playBGM(bgmTower)
 					elseif data.gameMode == "abyss" then playBGM(bgmAbyss)
 					elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
@@ -14304,7 +14337,7 @@ function f_selectWin()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
+				if data.orderSelect and data.gameMode == "arcade" then f_selectMusic()
 				elseif data.gameMode == "tower" then playBGM(bgmTower)
 				elseif data.gameMode == "abyss" then playBGM(bgmAbyss)
 				elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
@@ -15645,7 +15678,7 @@ if validCells() then
 	f_unlock(false)
 	f_updateUnlocks()
 	f_backReset()
-	f_selectInit()
+	f_selectInit()	
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 		if data.recordMode == "challenger" then f_challengerMusic()
@@ -15795,7 +15828,6 @@ if validCells() then
 		if not netplay() then
 			f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
 		end
-		if not data.stageMenu then playBGM("") end
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
 		f_timersReset()
@@ -15950,14 +15982,14 @@ if validCells() then
 	f_selectInit()
 	f_selectReset()
 	if not data.stageMenu then stageEnd = true end
+	if data.gameMode == "bossrush" or gameMode() == "suddendeath" then playBGM(bgmSelectBoss)
+	elseif data.gameMode == "tower" then playBGM(bgmTower)
+	elseif data.recordMode == "challenger" then f_challengerMusic()
+	elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
+	else f_selectMusic()
+	end
 	while true do
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-		if data.gameMode == "bossrush" or gameMode() == "suddendeath" then playBGM(bgmSelectBoss)
-		elseif data.gameMode == "tower" then playBGM(bgmTower)
-		elseif data.recordMode == "challenger" then f_challengerMusic()
-		elseif data.gameMode == "abyss" then --playBGM(bgmAbyss)
-		else f_selectMusic()
-		end
 		if loadAbyssDat then --To skip char select during abyss mode load data
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				data.t_p2selected = abyssDat.nosave.player
@@ -16889,7 +16921,6 @@ if validCells() then
 			f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
 		end
 		if data.gameMode == "abyss" then data.bgm = nil end --To avoid play special boss music for the next normal depth match
-		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
 		f_timersReset()
@@ -18503,7 +18534,6 @@ if validCells() then
 			if not netplay() then
 				f_loadCfg() --Load only the necessary settings that may have been modified during offline matchs.
 			end
-			playBGM("")
 			matchTime = os.clock() - matchTime
 			clearTime = clearTime + matchTime
 			f_timersReset()

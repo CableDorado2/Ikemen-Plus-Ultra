@@ -632,6 +632,7 @@ This is an unofficial version of S-SIZE I.K.E.M.E.N. Engine maintained by CD2.
 --;===========================================================
 txt_infoTitle = createTextImg(font5, 0, 0, "INFORMATION", 157, 86)
 txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.7, 0.7)
+txt_info2 = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.7, 0.7)
 
 --Info Window BG
 infoWindowBG = animNew(sprIkemen, [[
@@ -6098,4 +6099,4 @@ CD2
 
 ]]
 
---selectDef = "data/selectBBTAG.def" --Characters and Stage selection list
+--selectDef = "data/selectHDBZ.def" --Characters and Stage selection list

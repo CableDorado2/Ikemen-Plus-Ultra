@@ -146,6 +146,7 @@ tickTime = 1 / gameTick
 gameTime = os.clock() / 1000
 nextRefresh = os.clock() + tickTime
 defaultTimeRecord = 359999.4 --Default record in ticks to use for any time stats
+defaultTimeFormat = "--:--.--"
 
 function getSleep()
 --On Windows, Sleep is defined in milliseconds
@@ -917,6 +918,7 @@ function f_minMax(v, mn, mx)
 	return math.max(mn, math.min(mx, v))
 end
 
+--Set thousand format to a number value
 function f_setThousandsFormat(num)
 	local txt = tostring(num)
 	txt = txt:reverse():gsub("(...)", "%1."):reverse()
@@ -926,6 +928,7 @@ function f_setThousandsFormat(num)
 	return txt
 end
 
+--Set Time format to a tick value
 function f_setTimeFormat(ticks)
 	local num = tonumber(ticks) / gameTick
 	local secondsTotal = math.floor(num) --Entire part of the seconds
@@ -937,9 +940,21 @@ function f_setTimeFormat(ticks)
 	local th = math.floor(secondsTotal / 3600) --Hour
 	local tm = math.floor((secondsTotal % 3600) / 60) --Minute
 	local ts = secondsTotal % 60 --Second
-	local tms = math.floor((num - secondsTotal) * 1000) % 1000 --Millisecond
-	return string.format("%02d:%02d.%03d", tm, ts, tms)
+	local tms = math.floor((num - secondsTotal) * 100) % 100 --Millisecond
+	return string.format("%02d:%02d.%02d", tm, ts, tms)
+	--local tms = math.floor((num - secondsTotal) * 1000) % 1000 --Millisecond
 	--return string.format("%02d:%02d:%02d.%03d", th, tm, ts, tms)
+end
+
+--Function to decide if draw Default Time Format or Time Value of a Time Stored
+function f_setTimeText(timeVal)
+	local timeText = timeVal
+	if timeText < defaultTimeRecord then
+		timeText = f_setTimeFormat(timeText)
+	else
+		timeText = defaultTimeFormat
+	end
+	return timeText
 end
 
 --Function to copy a table recursively
@@ -2623,7 +2638,6 @@ end
 
 --Select Character Select Song
 function f_selectMusic()
-	if data.stageMenu and matchNo > 1 then return end
 	if (data.stageMenu and data.stage == nil) or (data.p1Char == nil and data.p2Char == nil) then
 		if data.selectSong == "Random" then
 			if #t_songList[data.selectSongFolder] - 2 ~= 0 then --If there's songs loaded
