@@ -2628,6 +2628,7 @@ function survivalCfg()
 	f_default()
 	setP1winsDisplay(true)
 	setP2winsDisplay(true)
+	setMatchnoDisplay(true)
 	setPersistLife(true)
 	setPersistPower(true)
 	setGameMode("survival")
@@ -3846,7 +3847,10 @@ function f_commonCourseSelect()
 				--Done Course Select for Random and Endless Modes
 					if t_advancedCourseSel[advancedCourseSel].courserandom or t_advancedCourseSel[advancedCourseSel].courseendless then
 						t_roster = t_advancedCourseSel[advancedCourseSel].roster
-						if t_advancedCourseSel[advancedCourseSel].courseendless then endlessRoster = true end
+						if t_advancedCourseSel[advancedCourseSel].courseendless then
+							endlessRoster = true
+							setMatchnoDisplay(false)
+						end
 						if t_advancedCourseSel[advancedCourseSel].ailevel ~= nil then
 							data.cpuLevel = t_advancedCourseSel[advancedCourseSel].ailevel
 						end
