@@ -4866,29 +4866,9 @@ allianceExchangeArrow = animNew(sprIkemen, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animSetScale(allianceExchangeArrow, 0.5, 0.5)
 
 function drawAlliExchangeTest(t_player, t_cpu, enemyMember, playerMember, enemySide)
-		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-	--Draw Member Exchange Common Assets
-		textImgDraw(txt_allianceExchangeCPULv)
-		textImgDraw(txt_allianceExchangePlayerLv)
-		animPosDraw(allianceExchangeArrow, 155, 5)
-		local spacingY = 50
-		for i=1, 4 do
-		--ENEMY TEAM SIDE
-			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_cpu[i])
-			if enemyMember == i and enemySide then
-				animPosDraw(allianceMemSlotCursor, 0, 20 + (i - 1) * spacingY)
-			end
-		--PLAYER TEAM SIDE
-			local allyType = "LEADER"
-			if i > 1 then allyType = "ALLY "..i - 1 end
-			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType, t_player[i])
-			if playerMember == i and not enemySide then
-				animPosDraw(allianceMemSlotCursor, 161, 20 + (i - 1) * spacingY)
-			end
-		end
+		
 end
 
 function drawAllianceExchangeInputHints(enemySide)
