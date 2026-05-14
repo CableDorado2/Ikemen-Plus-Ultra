@@ -18986,10 +18986,9 @@ function f_allianceExchange(currentMember)
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local playerMember = 1
+	local playerMember = currentMember or 1
 	local enemyMember = 1
 	local enemySide = true
-	local skipExchange = false
 	local t_enemyTeam = nil
 	local t_playerTeam = nil
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -19004,10 +19003,10 @@ function f_allianceExchange(currentMember)
 	--Return Logic
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAlliance then
 			sndPlay(sndSys, 100, 2)
-			if not enemySide then
-				enemySide = false
+			if enemySide then
+				break
 			else
-				skipExchange = true
+				enemySide = true
 			end
 	--Start Actions
 		elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
@@ -19043,8 +19042,8 @@ function f_allianceExchange(currentMember)
 		elseif playerMember > #t_playerTeam then
 			playerMember = 1
 		end
-		drawAlliExchangeTest(enemyMember, playerMember)
-		drawAllianceExchangeInputHints()
+		drawAlliExchangeTest(enemyMember, playerMember, enemySide)
+		drawAllianceExchangeInputHints(enemySide)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1

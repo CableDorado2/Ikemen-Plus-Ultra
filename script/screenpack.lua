@@ -4868,7 +4868,7 @@ allianceExchangeArrowRight = animNew(sprIkemen, [[
 ]])
 animSetScale(allianceExchangeArrowRight, 0.5, 0.5)
 
-function drawAlliExchangeTest(enemyMember, playerMember)
+function drawAlliExchangeTest(enemyMember, playerMember, enemySide)
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Draw Member Exchange Common Assets
 		textImgDraw(txt_allianceExchangeCPULv)
@@ -4880,32 +4880,34 @@ function drawAlliExchangeTest(enemyMember, playerMember)
 		for i=1, 4 do
 		--ENEMY TEAM SIDE
 			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_testCPU[i])
-			if enemyMember == i then
+			if enemyMember == i and enemySide then
 				animPosDraw(allianceMemSlotCursor, 0, 20 + (i - 1) * spacingY)
 			end
 		--PLAYER TEAM SIDE
 			local allyType = "LEADER"
 			if i > 1 then allyType = "ALLY "..i - 1 end
 			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType, t_test[i])
-			if enemyMember == i then
+			if playerMember == i and not enemySide then
 				animPosDraw(allianceMemSlotCursor, 161, 20 + (i - 1) * spacingY)
 			end
 		end
 end
 
-function drawAllianceExchangeInputHints()
+function drawAllianceExchangeInputHints(enemySide)
 	local inputHintYPos = 220
 	local hintFont = font2
 	local hintFontYPos = 234
+	local returnInfo = ""
+	if enemySide then returnInfo = ":Skip Exchange" else returnInfo = ":Cancel Exchange" end
 	animPosDraw(inputHintsBG, -56, 219)
 	drawMenuInputHints(
-		"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,
-		"s","120,"..inputHintYPos,"e","185,"..inputHintYPos,"q","265,"..inputHintYPos
+		"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","74,"..inputHintYPos,
+		"e","135,"..inputHintYPos,"q","227,"..inputHintYPos
 	)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Skip", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Info", 286, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 95, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, returnInfo, 156, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exchange Info", 248, hintFontYPos)
 end
 
 --;===========================================================
