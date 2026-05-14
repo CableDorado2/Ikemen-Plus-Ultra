@@ -54,7 +54,6 @@ P2overP1 = false
 firstAlliance = false
 currentAllianceMemberPlayer = 1
 currentAllianceMemberCPU = 1
-allianceBGMCancel = nil
 secretTarget = ""
 unlockTarget = ""
 t_infoWindowMsg = {}
@@ -13761,7 +13760,7 @@ function f_selectVersus()
 	if data.gameMode == "alliance" then
 		if not firstAlliance then f_setAlliancePlayerMembers() end
 		if allianceChange() then
-			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU, allianceBGMCancel)
+			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
 			setAllianceChange(false)
 		end
 	end
@@ -16572,11 +16571,9 @@ if validCells() then
 		end
 	--Temporal Alliance Member Exchange/Next Team Manage
 		if data.gameMode == "alliance" then
-			allianceBGMCancel = nil
 			if allianceRouteSel() then
 				f_allianceExchange()
 				f_allianceNextBattle()
-				allianceBGMCancel = true
 				f_timersReset()
 				setAllianceChange(true)
 				setAllianceLastEnemy(false)
@@ -18888,7 +18885,7 @@ end
 --;===========================================================
 --; ALLIANCE MEMBER SELECT MENU
 --;===========================================================
-function f_allianceMemberSel(currentPlayerMember, currentCPUMember, bgmCancel)
+function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
@@ -18905,7 +18902,6 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember, bgmCancel)
 		t_enemyList = data.t_p2selected
 	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	--if bgmCancel == nil then playBGM(bgmAlliance) end
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
@@ -19046,12 +19042,11 @@ function f_allianceExchange()
 			--Ally to Exchange Selected
 				else
 					startCount = true
+				--Update Player Team
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						data.t_p2selected = t_playerTeam
-						data.t_p1selected = t_enemyTeam
 					else
 						data.t_p1selected = t_playerTeam
-						data.t_p2selected = t_enemyTeam
 					end
 				end
 		--Alliance Enemy Member Select
@@ -19172,7 +19167,7 @@ end
 --;===========================================================
 --; ALLIANCE NEXT TEAM BATTLE SELECT MENU
 --;===========================================================
-function f_allianceNextBattle(bgmCancel)
+function f_allianceNextBattle()
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
@@ -19180,7 +19175,6 @@ function f_allianceNextBattle(bgmCancel)
 	local bufl = 0
 	allianceRoute = 1 --reset route position
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	--if bgmCancel == nil then playBGM(bgmAlliance) end
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
