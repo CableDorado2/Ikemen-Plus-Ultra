@@ -4851,12 +4851,12 @@ end
 --; ALLIANCE MEMBER EXCHANGE MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_allianceExchangeInfo = createTextImg(font7, 0, 0, "SELECT THE CPU CHARACTER AND ALLY CHARACTER TO BE EXCHANGE", 160, 15)
-txt_allianceExchangeTime = createTextImg(font20, 4, 0, "999", 250, 10)
+txt_allianceExchangeTime = createTextImg(font20, 4, 0, "", 250, 10)
 txt_allianceExchangeCPULv = createTextImg(font20, 0, 0, "ENEMY TEAM LEVEL: 999", 80, 15, 0.8, 0.8)
 txt_allianceExchangePlayerLv = createTextImg(font20, 2, 0, "PLAYER TEAM LEVEL: 999", 240, 15, 0.8, 0.8)
 
 --Alliance Exchange Arrow
-allianceExchangeArrowRight = animNew(sprIkemen, [[
+allianceExchangeArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
 224,2, 0,0, 10
@@ -4866,27 +4866,25 @@ allianceExchangeArrowRight = animNew(sprIkemen, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animSetScale(allianceExchangeArrowRight, 0.5, 0.5)
+animSetScale(allianceExchangeArrow, 0.5, 0.5)
 
-function drawAlliExchangeTest(enemyMember, playerMember, enemySide)
+function drawAlliExchangeTest(t_player, t_cpu, enemyMember, playerMember, enemySide)
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Draw Member Exchange Common Assets
 		textImgDraw(txt_allianceExchangeCPULv)
 		textImgDraw(txt_allianceExchangePlayerLv)
-		animPosDraw(allianceExchangeArrowRight, 155, 5)
+		animPosDraw(allianceExchangeArrow, 155, 5)
 		local spacingY = 50
-		local t_test = {{cel = 0, displayname = "Kung Fu Man"}, {cel = 1, displayname = "Mako Mayama"}, {cel = 2, displayname = "Kung Fu Girl"}, {cel = 3, displayname = "Reika Murasame"}}
-		local t_testCPU = {{cel = 4, displayname = "Suave Dude"}, {cel = 15, displayname = "Minion"}, {cel = 16, displayname = "Evil Kung Fu Man"}, {cel = 12, displayname = "Shin Gouki"}}
 		for i=1, 4 do
 		--ENEMY TEAM SIDE
-			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_testCPU[i])
+			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_cpu[i])
 			if enemyMember == i and enemySide then
 				animPosDraw(allianceMemSlotCursor, 0, 20 + (i - 1) * spacingY)
 			end
 		--PLAYER TEAM SIDE
 			local allyType = "LEADER"
 			if i > 1 then allyType = "ALLY "..i - 1 end
-			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType, t_test[i])
+			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType, t_player[i])
 			if playerMember == i and not enemySide then
 				animPosDraw(allianceMemSlotCursor, 161, 20 + (i - 1) * spacingY)
 			end
@@ -4898,15 +4896,15 @@ function drawAllianceExchangeInputHints(enemySide)
 	local hintFont = font2
 	local hintFontYPos = 234
 	local returnInfo = ""
-	if enemySide then returnInfo = ":Skip Exchange" else returnInfo = ":Cancel Exchange" end
+	if enemySide then returnInfo = ":Skip Exchange" else returnInfo = ":Back Exchange" end
 	animPosDraw(inputHintsBG, -56, 219)
 	drawMenuInputHints(
 		"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","74,"..inputHintYPos,
-		"e","135,"..inputHintYPos,"q","227,"..inputHintYPos
+		"e","134,"..inputHintYPos,"q","227,"..inputHintYPos
 	)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 95, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, returnInfo, 156, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, returnInfo, 155, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Exchange Info", 248, hintFontYPos)
 end
 

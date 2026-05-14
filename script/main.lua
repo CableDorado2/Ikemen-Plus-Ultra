@@ -16577,7 +16577,7 @@ if validCells() then
 				--f_allianceExchange()
 				f_allianceNextBattle()
 				allianceBGMCancel = true
-				f_timersReset() --allianceTimer = data.allianceTime * gameTick --Reset Timer
+				f_timersReset()
 				setAllianceChange(true)
 				setAllianceLastEnemy(false)
 				setAllianceRouteSel(false)
@@ -18980,70 +18980,95 @@ end
 --;===========================================================
 --; ALLIANCE MEMBER EXCHANGE MENU
 --;===========================================================
-function f_allianceExchange(currentMember)
+function f_allianceExchange()
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local playerMember = currentMember or 1
+	local selection = 0
+	local startCount = false
+	local playerMember = 2
 	local enemyMember = 1
 	local enemySide = true
-	local t_enemyTeam = nil
-	local t_playerTeam = nil
+	local t_enemyTeam = {{cel = 4, displayname = "Suave Dude"}, {cel = 15, displayname = "Minion"}, {cel = 16, displayname = "Evil Kung Fu Man"}, {cel = 12, displayname = "Shin Gouki"}}
+	local t_playerTeam = {{cel = 0, displayname = "Kung Fu Man"}, {cel = 1, displayname = "Mako Mayama"}, {cel = 2, displayname = "Kung Fu Girl"}, {cel = 3, displayname = "Reika Murasame"}}
+--[[
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		t_playerTeam = {1, 2, 3, 4} --data.t_p2selected
-		t_enemyTeam = {1, 2, 3, 4} --data.t_p1selected
+		t_playerTeam = data.t_p2selected
+		t_enemyTeam = data.t_p1selected
 	else
-		t_playerTeam = {1, 2, 3, 4} --data.t_p1selected
-		t_enemyTeam = {1, 2, 3, 4} --data.t_p2selected
+		t_playerTeam = data.t_p1selected
+		t_enemyTeam = data.t_p2selected
 	end
+]]
+	f_timersReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-	--Return Logic
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAlliance then
-			sndPlay(sndSys, 100, 2)
-			if enemySide then
-				break
-			else
-				enemySide = true
+		if selection == 0 and not backScreen then
+		--Return Logic
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				if enemySide then
+					break
+				else
+					enemySide = true
+				end
+		--Start Actions
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
+				sndPlay(sndSys, 100, 1)
+				if enemySide then
+					enemySide = false
+				else
+					startCount = true
+				end
+		--Alliance Enemy Member Select
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				if enemySide then
+					enemyMember = enemyMember - 1
+				else
+					playerMember = playerMember - 1
+				end
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				if enemySide then
+					enemyMember = enemyMember + 1
+				else
+					playerMember = playerMember + 1
+				end
 			end
-	--Start Actions
-		elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
-			sndPlay(sndSys, 100, 1)
-			if enemySide then
-				enemySide = false
-			else
-				break
-			end
-	--Alliance Enemy Member Select
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sndSys, 100, 0)
-			if enemySide then
-				enemyMember = enemyMember - 1
-			else
-				playerMember = playerMember - 1
-			end
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sndSys, 100, 0)
-			if enemySide then
-				enemyMember = enemyMember + 1
-			else
-				playerMember = playerMember + 1
-			end
+	--End Exchange Select
+		elseif selection > 100 then
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			startCount = false
+			break
 		end
-		if enemyMember < 1 then
+		if enemyMember < 2 then
 			enemyMember = #t_enemyTeam
 		elseif enemyMember > #t_enemyTeam then
-			enemyMember = 1
+			enemyMember = 2
 		end
-		if playerMember < 1 then
+		if playerMember < 2 then
 			playerMember = #t_playerTeam
 		elseif playerMember > #t_playerTeam then
-			playerMember = 1
+			playerMember = 2
 		end
-		drawAlliExchangeTest(enemyMember, playerMember, enemySide)
+		if startCount then selection = selection + 1 end --Start End Exchange Select count
+		drawAlliExchangeTest(t_playerTeam, t_enemyTeam, enemyMember, playerMember, enemySide)
+	--Member Exchange Timer
+		--if data.attractMode then
+			textImgSetText(txt_allianceExchangeTime, string.format("%.0f", allianceTimer / gameTick))
+			if allianceTimer > 0 then
+				if not backScreen and not startCount then allianceTimer = allianceTimer - 0.5 end --Activate Alliance Timer
+				textImgDraw(txt_allianceExchangeTime)
+			else --when allianceTimer <= 0
+				
+			end
+		--end
 		drawAllianceExchangeInputHints(enemySide)
+		if data.debugMode then f_drawQuickText(txt_selectionTime, font3, 0, 0, selection, 163.5, 168) end --For Debug Purposes
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
