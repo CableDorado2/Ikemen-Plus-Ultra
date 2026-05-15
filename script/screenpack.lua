@@ -4110,7 +4110,7 @@ function f_getAllianceTeamLevel(t_allianceMembers)
 end
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
-	{difficulty = "NORMAL",
+	{difficulty = "NORMAL", ailevelstart = 1,
 		match = {
 		--Match 1
 			{
@@ -4126,7 +4126,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						--stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 						--music = "sound/teambattle.mp3", --Song Path (if it is empty an auto song will be loaded)
 						stats = {life = 1, power = 1, attack = 1, defence = 1}, --Enemy stats (life, power, attack, defence)
-						ailevel = 1 --CPU Level
 					}
 				}
 			},
@@ -4143,7 +4142,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
-						ailevel = 1
 					},
 				--Route B
 					{
@@ -4154,7 +4152,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
-						ailevel = 2
 					},
 				--Route C
 					{
@@ -4165,7 +4162,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
-						ailevel = 3
 					}
 				}
 			},
@@ -4183,7 +4179,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
-						ailevel = 2
 					},
 				--Route B
 					{
@@ -4196,7 +4191,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
-						ailevel = 4
 					},
 				--Route C
 					{
@@ -4209,13 +4203,12 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
 						stats = {life = 1, power = 1, attack = 1, defence = 1},
-						ailevel = 6
 					}
 				}
 			},
 		}
 	},
-	{difficulty = "HARD",
+	{difficulty = "HARD", ailevelstart = 4,
 		match = {
 		--Match 1
 			{
@@ -4229,7 +4222,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
-						ailevel = 4
 					}
 				}
 			},
@@ -4245,7 +4237,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
-						ailevel = 4
 					},
 				--Route B
 					{
@@ -4256,7 +4247,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
-						ailevel = 5
 					},
 				--Route C
 					{
@@ -4267,7 +4257,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
-						ailevel = 6
 					}
 				}
 			},
@@ -4285,7 +4274,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
-						ailevel = 4
 					},
 				--Route B
 					{
@@ -4298,7 +4286,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
-						ailevel = 6
 					},
 				--Route C
 					{
@@ -4311,13 +4298,12 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
 						stats = {life = 10, power = 10, attack = 10, defence = 10},
-						ailevel = 8
 					}
 				}
 			},
 		}
 	},
-	{difficulty = "EXTREME",
+	{difficulty = "EXTREME", ailevelstart = 6,
 		match = {
 		--Match 1
 			{
@@ -4331,7 +4317,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 20, power = 20, attack = 20, defence = 20},
-						ailevel = 8
 					}
 				}
 			},
@@ -4347,7 +4332,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 20, power = 20, attack = 20, defence = 20},
-						ailevel = 8
 					},
 				--Route B
 					{
@@ -4358,7 +4342,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 20, power = 20, attack = 20, defence = 20},
-						ailevel = 8
 					},
 				--Route C
 					{
@@ -4369,7 +4352,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 20, power = 20, attack = 20, defence = 20},
-						ailevel = 8
 					}
 				}
 			},
@@ -4385,7 +4367,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 20, power = 20, attack = 20, defence = 20},
-						ailevel = 8
 					},
 				--Route B
 					{
@@ -4396,7 +4377,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 20, power = 20, attack = 20, defence = 20},
-						ailevel = 8
 					},
 				--Route C
 					{
@@ -4407,7 +4387,6 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stats = {life = 20, power = 20, attack = 20, defence = 20},
-						ailevel = 8
 					}
 				}
 			},

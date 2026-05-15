@@ -914,8 +914,8 @@ function f_boolToNum(value)
 	return value and 1 or 0
 end
 
-function f_minMax(v, mn, mx)
-	return math.max(mn, math.min(mx, v))
+function f_minMax(value, minVal, maxVal)
+	return math.max(minVal, math.min(maxVal, value))
 end
 
 --Set thousand format to a number value

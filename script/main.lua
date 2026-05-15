@@ -12352,6 +12352,10 @@ function f_selectStage()
 		if data.stage == nil then --Assign Auto Stage via Select.def
 			local memDat = 1
 			if data.gameMode == "alliance" then memDat = currentAllianceMemberCPU end
+			if data.debugLog then
+				f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.log")
+				f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.log")
+			end
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[memDat].cel + 1].stage ~= nil then
 					stageNo = math.random(1, #t_selChars[data.t_p1selected[memDat].cel + 1].stage)
@@ -13763,8 +13767,8 @@ function f_selectVersus()
 			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
 			setAllianceChange(false)
 		end
+	elseif data.gameMode == "abyss" then f_setAbyssStats() --Assign Abyss Stats
 	end
-	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
 --Manage Access to the screen
 	local colorToNameP1 = 1
 	local colorToNameP2 = 1
@@ -14031,7 +14035,7 @@ function f_setAbyssStats()
 			if t_abyssSel[abyssSel].ailevel ~= nil then
 				difficulty = t_abyssSel[abyssSel].ailevel
 			else
-				difficulty = math.random(1, 8)
+				difficulty = math.random(data.difficulty, 8)
 			end
 		end
 		setCom(2, difficulty) --Set CPU Level
@@ -16693,7 +16697,7 @@ if validCells() then
 			restoreTeam = false
 			teamMode = p1teamMode --was local function
 			numChars = p1numChars --was local function
-			if p1numChars > 1 then
+			if p1numChars > 1 and data.gameMode ~= "alliance" then
 				for i=1, #data.t_p1selected do
 					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or
 						(t_selChars[data.t_p1selected[i].cel + 1].single ~= nil and t_selChars[data.t_p1selected[i].cel + 1].single == 1) or
@@ -16836,7 +16840,7 @@ if validCells() then
 			restoreTeam = false
 			teamMode = p2teamMode
 			numChars = p2numChars --was local function
-			if p2numChars > 1 then
+			if p2numChars > 1 and data.gameMode ~= "alliance" then
 				for i=1, #data.t_p2selected do
 					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or
 						(t_selChars[data.t_p2selected[i].cel + 1].single ~= nil and t_selChars[data.t_p2selected[i].cel + 1].single == 1) or
@@ -18823,6 +18827,11 @@ function f_allianceSelect()
 		--Start Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
+			--Set AI Level for Next Alliance Match
+				if t_allianceCourses[allianceCourseSel].ailevelstart ~= nil then
+					data.cpuLevel = t_allianceCourses[allianceCourseSel].ailevelstart
+					data.cpuLevel = f_minMax(data.cpuLevel, 1, 8)
+				end
 				break
 			end
 		--Alliance Team Select
@@ -19179,6 +19188,11 @@ function f_allianceNextBattle()
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
 			sndPlay(sndSys, 100, 1)
+		--Set AI Level for Next Alliance Match
+			if t_allianceCourses[allianceCourseSel].ailevelstart ~= nil then
+				data.cpuLevel = t_allianceCourses[allianceCourseSel].ailevelstart + (allianceRoute - 1)
+				data.cpuLevel = f_minMax(data.cpuLevel, 1, 8)
+			end
 			break
 	--Enemy Team Select
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
