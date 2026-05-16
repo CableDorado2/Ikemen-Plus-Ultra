@@ -2486,7 +2486,7 @@ function f_default() --Reset Game Modes Configuration
 	setTimerDisplay(false) --Enable or Disable Timer Display
 	setCountdownDisplay(false) --Enable or Disable Countdown Display
 	setScoreDisplay(false) --Enable or Disable Score Display
-	setLifeStateDisplay(true) --Enable or Disable Characters Life State Display
+	setLifeStateDisplay(false) --Enable or Disable Characters Life State Display
 	setBestDisplay(true) --Enable or Disable Best Record Display
 	setMatchnoDisplay(false) --Enable or Disable Match/Stage Number Display
 	setAilevelDisplay(false) --Enable or Disable CPU Difficulty Level Display
@@ -2498,8 +2498,8 @@ function f_default() --Reset Game Modes Configuration
 	setTimer(0) --Reset Player Timer
 	setCountdown(-1) --Reset Caravan Countdown Timer
 	setScore(0) --Reset Player Score
-	setP1LifeState("2000/2000") --Reset P1 Life State Display
-	setP2LifeState("2000/2000") --Reset P2 Life State Display
+	setP1LifeState("") --Reset P1 Life State Display
+	setP2LifeState("") --Reset P2 Life State Display
 	setBestRecord("") --Reset Best Record Display
 	setTimePersistence(0) --To store last round time value when time is maintained after match
 	setLifePersistence(0) --To store last life bar value when life is maintained after match
@@ -2526,8 +2526,8 @@ function f_default() --Reset Game Modes Configuration
 	abyssSpecialBossCnt = 1 --Start count for Abyss Special Boss Matchs
 	abyssNextCheckPoint = abyssCheckpointNo --Start count for Abyss Map Checkpoints
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
-	setAbyssLvP1("Lv. 8") --Set P1 Level string to Display
-	setAbyssLvP2("Lv. 3") --Set P2 Level string to Display
+	setAbyssLvP1("") --Set P1 Level string to Display
+	setAbyssLvP2("") --Set P2 Level string to Display
 --To save Special Items during Abyss Boss Reward Menu
 	setAbyssSP1("")
 	setAbyssSP2("")

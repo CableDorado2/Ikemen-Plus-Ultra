@@ -4898,7 +4898,7 @@ end
 --;===========================================================
 --; ABYSS SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_abyssSel = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 13, 1.2, 1.2)
+txt_abyssSel = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 15, 1.2, 1.2)
 txt_abyssLv = createTextImg(font20, 2, 0, "", 0, 0)
 txt_abyssDepth = createTextImg(font20, 1, 0, "DEPTH", 0, 0)
 txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
@@ -5050,6 +5050,13 @@ abyssSelWindowBG = animNew(sprIkemen, [[
 ]])
 animSetScale(abyssSelWindowBG, 0.8, 1.4)
 animUpdate(abyssSelWindowBG)
+
+--Level Clear Icon
+abyssLvClear = animNew(sprIkemen, [[
+215,0, 0,0, -1
+]])
+animSetScale(abyssLvClear, 0.060, 0.060)
+animUpdate(abyssLvClear)
 
 --Continue Window BG
 abyssContBG = animNew(sprIkemen, [[

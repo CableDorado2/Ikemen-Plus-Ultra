@@ -18725,6 +18725,7 @@ function allianceCfg()
 	f_default()
 	setRoundsToWin(1)
 	setRoundTime(99)
+	setLifeStateDisplay(true)
 	setGameMode("alliance")
 	data.gameMode = "alliance"
 	data.recordMode = "alliance"
@@ -19448,13 +19449,22 @@ function f_abyssSelect()
 				local txtDepth = ""
 				if t_abyssSel[i].depth == -1 then txtDepth = "INFINITE" else txtDepth = t_abyssSel[i].depth end
 				if t_abyssSel[i].varText ~= nil then
-					animPosDraw(abyssSelWindowBG, -94 + i * 104 - moveTxt,50)
+					animPosDraw(abyssSelWindowBG, -94 + i * 104 - moveTxt, 50)
 					textImgDraw(f_updateTextImg(t_abyssSel[i].varText, font20, 4, 0, txtDepth, -50 + i * 104 - moveTxt, 120))
 					textImgSetPos(txt_abyssLv, -50 + i * 104 - moveTxt, 75)
 					textImgSetText(txt_abyssLv, t_abyssSel[i].level)
 					textImgDraw(txt_abyssLv)
 					textImgSetPos(txt_abyssDepth, -50 + i * 104 - moveTxt, 105)
 					textImgDraw(txt_abyssDepth)
+				end
+			--Draw Cursor
+				if not continueCursor and abyssSel == i then
+					animSetWindow(cursorBox, -94 + cursorPosX * 104,54, 89.5,78)
+					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+					animDraw(f_animVelocity(cursorBox, -1, -1))
+				end
+				if stats.modes.abyss[t_abyssSel[i].id].clear then
+					animPosDraw(abyssLvClear, -64 + i * 104 - moveTxt, 28)
 				end
 			end
 		end
@@ -19467,12 +19477,6 @@ function f_abyssSelect()
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
-		end
-	--Draw Cursor
-		if not continueCursor then
-			animSetWindow(cursorBox, -94 + cursorPosX * 104,54, 89.5,78)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		if maxabyssSel > maxItems then
 			animDraw(menuArrowLeft)
@@ -19546,6 +19550,7 @@ function abyssCfg()
 	setRoundsToWin(1)
 	setRoundTime(99)
 	setScoreDisplay(true)
+	setLifeStateDisplay(true)
 	setGameMode("abyss")
 	data.gameMode = "abyss"
 	data.recordMode = "abyss"
@@ -20223,7 +20228,7 @@ function f_abyssMap()
 		end
 	--Draw Reward Text Stuff
 		animDraw(abyssMapRewardBG)
-		textImgSetText(txt_abyssMapReward, "REWARD "..getPlayerReward().." IKC")
+		textImgSetText(txt_abyssMapReward, "REWARD: "..getPlayerReward().." IKC")
 		textImgDraw(txt_abyssMapReward)
 		f_drawQuickText(txt_abyssCurrency, font11, 0, -1, stats.money.." IKC", 315, 30, 1.2, 1.2)
 	--Draw Char Profile Box

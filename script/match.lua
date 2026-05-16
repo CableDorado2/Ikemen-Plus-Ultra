@@ -79,7 +79,10 @@ addHotkey('6', true, false, false, 'toggleAI(6)')
 addHotkey('7', true, false, false, 'toggleAI(7)')
 addHotkey('8', true, false, false, 'toggleAI(8)')
 end
---addHotkey('1', true, false, false, 'toggleAI(1)')
+--[[
+addHotkey('1', true, false, false, 'toggleAI(1)')
+addHotkey('2', true, false, false, 'toggleAI(2)')
+--]]
 --Attract Mode Actions
 if data.attractMode then
 	addHotkey('1', false, false, false, 'f_addCoin()') --Insert Coin
@@ -458,6 +461,10 @@ local function f_updateMatchInfo()
 		else
 			setP2winsFormatted(survCnt ..txt_SurvivalCountFight)
 		end
+--Set Abyss Player Levels
+	elseif gameMode() == "abyss" or gameMode == "abysscoop" then
+		setAbyssLvP1("Lv. "..math.floor((getPlayerAttack() + getPlayerPower() + getPlayerDefence() + getPlayerLife()) / 4))
+		setAbyssLvP2("Lv. "..math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life) / 4))
 --Set VS Mode Wins Count
 	else
 		setP1winsFormatted(txt_WinCountFight.."("..p1Wins.."/"..matchsFinished..")")
@@ -725,6 +732,12 @@ local function f_addBonusScore()
 		bonusScoreDone = true
 	end
 end
+
+local function f_updateLifeState()
+	if player(1) then setP1LifeState(life().."/"..lifemax()) end
+	if player(2) then setP2LifeState(life().."/"..lifemax()) end
+end
+
 --;===========================================================
 --; ALLIANCE MODE STUFF
 --;===========================================================
@@ -1762,6 +1775,7 @@ function loop() --The code for this function should be thought of as if it were 
 	f_streakWins()
 	f_updateTimer()
 	f_updateScore()
+	f_updateLifeState()
 	if rewardDisplay() then setRewardFormatted(txt_RewardFight..getPlayerReward().." IKC") end
 	if matchno() > 1 then f_setPlayerStats() end
 	if roundstate() < 2 then
