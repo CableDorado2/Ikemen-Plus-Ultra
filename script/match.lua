@@ -463,8 +463,10 @@ local function f_updateMatchInfo()
 		end
 --Set Abyss Player Levels
 	elseif gameMode() == "abyss" or gameMode == "abysscoop" then
-		setAbyssLvP1("Lv. "..math.floor((getPlayerAttack() + getPlayerPower() + getPlayerDefence() + getPlayerLife()) / 4))
-		setAbyssLvP2("Lv. "..math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life) / 4))
+		local playerLevel = math.floor((getPlayerAttack() + getPlayerPower() + getPlayerDefence() + getPlayerLife()) / 4)
+		local computerLevel = math.ceil((p2Dat[1].attack + p2Dat[1].power + p2Dat[1].defence + p2Dat[1].life) / 4)
+		setAbyssLvP1("Lv. "..playerLevel + 1)
+		setAbyssLvP2("Lv. "..computerLevel + 1)
 --Set VS Mode Wins Count
 	else
 		setP1winsFormatted(txt_WinCountFight.."("..p1Wins.."/"..matchsFinished..")")
