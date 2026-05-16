@@ -87,7 +87,7 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
-- Añadir al menú de perfil, una entrada para crear o editar equipos predefinidos que puedas elegir en el Character Select al jugar en Simul o Turns como la opción Customize Team en KOF XIII.
+- En Customize, "Character Entry" se podrán crear o editar equipos predefinidos que puedas elegir en el Character Select al jugar en Simul o Turns como la opción Customize Team en KOF XIII.
 "Reserve Unit" de Ultimate Marvel vs Capcom 3:
 ![20250822233724_1](https://github.com/user-attachments/assets/a9241ef6-f0dc-4de4-9c54-93bcd7161974)
 Saved Team en Dragon Ball Fighterz:
@@ -98,8 +98,6 @@ Saved Team en Dragon Ball Fighterz:
 - En tournament cuando 2 jugadores humanos tienen el mismo control ejemplo p1 y p1, podría incluir un side select para que uno de los 2 se convierta en p2 y así evitar que se controlen como espejo al tener el mismo player asignado.
 
 - Añadir una entrada de nombre para cada char escogido para que sea reconocido en el torneo (en caso de que se repita) y ese name que aparezca en lifebar durante el match.
-
-- Opción para jugar el Modo Torneo en formato Eliminación Doble.
 
 - Al jugar en team mode o coop el abyss, cada ranura de custom item se va a aplicar a cada jugador incrementando el nivel de estrategia sobre qué personaje usará X item.
 
@@ -112,6 +110,8 @@ Saved Team en Dragon Ball Fighterz:
 - Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
 
 - Añadir sistema de decisiones al Modo Visual Novel.
+
+- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
 
 - Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
 
@@ -141,8 +141,6 @@ Saved Team en Dragon Ball Fighterz:
 - Crear un trigger para activar o desactivar las transiciones por cada round. Al desactivarlas, el inicio de cada nuevo round sería como X-Men COTA o Mortal Kombat.
 
 - Añadir función para crear loops en la función playBGM().
-
-- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en loader.lua y usar en char select una función parecida a f_drawCharAnim.
 
 - Al configurar el Gamepad/Joystick del jugador 2 garantizar que no pierda el control después de asignar un botón.
 
