@@ -1361,6 +1361,33 @@ void p2score(&.lua.State L=, int re=)
   L.pushNumber((double).com.p2score);
 }
 
+void setLifeStateDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool lsd = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifeStateDisplay = lsd;
+}
+
+void lifeStateDisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.lifeStateDisplay);
+}
+
+void setP1LifeState(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char ls = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p1LifeState = ls;
+}
+
+void setP2LifeState(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char ls = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p2LifeState = ls;
+}
+
 void setBestDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1954,6 +1981,20 @@ void getAbyssSP4(&.lua.State L=, int re=)
   L.pushString(.com.abyssSP4);
 }
 
+void setAbyssLvP1(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char alvp1 = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssLvP1 = alvp1;
+}
+
+void setAbyssLvP2(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char alvp2 = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.abyssLvP2 = alvp2;
+}
+
 void exitMatch(&.lua.State L=, int re=)
 {
   re = 0;
@@ -2166,6 +2207,11 @@ public void init(&.lua.State L=)
   L.register("p1score", .p1score);
   L.register("p2score", .p2score);
   
+  L.register("setLifeStateDisplay", .setLifeStateDisplay);
+  L.register("lifeStateDisplay", .lifeStateDisplay);
+  L.register("setP1LifeState", .setP1LifeState);
+  L.register("setP2LifeState", .setP2LifeState);
+  
   L.register("setBestRecord", .setBestRecord);
   L.register("setBestDisplay", .setBestDisplay);
   L.register("bestDisplay", .bestDisplay);
@@ -2297,6 +2343,9 @@ public void init(&.lua.State L=)
   L.register("getAbyssSP3", .getAbyssSP3);
   L.register("setAbyssSP4", .setAbyssSP4);
   L.register("getAbyssSP4", .getAbyssSP4);
+  
+  L.register("setAbyssLvP1", .setAbyssLvP1);
+  L.register("setAbyssLvP2", .setAbyssLvP2);
   
   L.register("exitMatch", .exitMatch);
   L.register("setSharedString", .setSharedString);

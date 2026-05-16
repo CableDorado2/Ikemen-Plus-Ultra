@@ -2179,6 +2179,146 @@ public void setPerfect(|.WinTy wt=)
   }
 }
 
+&LifeStateP1
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p1.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p1.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p1.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p1.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p1.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&LifeStateP2
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p2.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p2.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p2.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p2.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p2.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
 &BestP1
 {
   public int posx = 0;
@@ -2741,7 +2881,7 @@ public void setPerfect(|.WinTy wt=)
   }
 }
 
-&AbyssDepth
+&AbyssDepthP1
 {
   public int posx = 0;
   public int posy = 0;
@@ -2756,8 +2896,8 @@ public void setPerfect(|.WinTy wt=)
   public void read(&.com.Section sc=)
   {
     ^/char data;
-    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
-	if(#(data = sc.get("text.font")) > 0){
+    if(#(data = sc.get("p1.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p1.text.font")) > 0){
       ^^/char spl = .s.split(",", data);
       spl[0] = .s.trim(spl[0]);
       if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
@@ -2768,10 +2908,10 @@ public void setPerfect(|.WinTy wt=)
       spl[2] = .s.trim(spl[2]);
       if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
     }
-    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    if(#(data = sc.get("p1.text.text")) > 0) `text_text = data;
     `text_lay.read("text.", sc=);
-	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
-	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	if(#(data = sc.get("p1.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p1.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
 	`bg_lay.read("bg.", sc=);
   }
   public void step()
@@ -2792,7 +2932,7 @@ public void setPerfect(|.WinTy wt=)
 		(float)`posy,
 		1.0,
 		layerno,
-		value >= 0 ? "DEPTH: " + ''(value) : "o",
+		value >= 0 ? "DEPTH " + ''(value) : "o",
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
 	  );
     }
@@ -2811,7 +2951,7 @@ public void setPerfect(|.WinTy wt=)
   }
 }
 
-&AbyssReward
+&AbyssDepthP2
 {
   public int posx = 0;
   public int posy = 0;
@@ -2826,8 +2966,8 @@ public void setPerfect(|.WinTy wt=)
   public void read(&.com.Section sc=)
   {
     ^/char data;
-    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
-	if(#(data = sc.get("text.font")) > 0){
+    if(#(data = sc.get("p2.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p2.text.font")) > 0){
       ^^/char spl = .s.split(",", data);
       spl[0] = .s.trim(spl[0]);
       if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
@@ -2838,10 +2978,80 @@ public void setPerfect(|.WinTy wt=)
       spl[2] = .s.trim(spl[2]);
       if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
     }
-    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    if(#(data = sc.get("p2.text.text")) > 0) `text_text = data;
     `text_lay.read("text.", sc=);
-	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
-	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	if(#(data = sc.get("p2.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p2.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, int value, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		value >= 0 ? "DEPTH " + ''(value) : "o",
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&AbyssRewardP1
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p1.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p1.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p1.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p1.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p1.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
 	`bg_lay.read("bg.", sc=);
   }
   public void step()
@@ -2863,6 +3073,286 @@ public void setPerfect(|.WinTy wt=)
 		1.0,
 		layerno,
 		value >= 0 ? "REWARD: " + ''(value) + " IKC" : "o",
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&AbyssRewardP2
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p2.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p2.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p2.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p2.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p2.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, int value, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		value >= 0 ? "REWARD " + ''(value) + " IKC" : "o",
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&AbyssTimer
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&AbyssLvP1
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p1.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p1.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p1.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p1.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p1.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
+	  );
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
+&AbyssLvP2
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("p2.pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	if(#(data = sc.get("p2.text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("p2.text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("p2.bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("p2.bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx,
+		(float)`posy,
+		1.0,
+		layerno,
+		(txt),
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
 	  );
     }
@@ -2982,6 +3472,8 @@ public &Fight
   public &.CountdownP2 cd2;
   public &.ScoreP1 sc1;
   public &.ScoreP2 sc2;
+  public &.LifeStateP1 ls1;
+  public &.LifeStateP2 ls2;
   public &.BestP1 br1;
   public &.BestP2 br2;
   public &.Match mtch;
@@ -2990,8 +3482,13 @@ public &Fight
   public &.Reward rw;
   public &.TourneyState ts;
   public &.MatchsToWin ft;
-  public &.AbyssDepth svlv;
-  public &.AbyssReward svrw;
+  public &.AbyssDepthP1 svstg1;
+  public &.AbyssDepthP2 svstg2;
+  public &.AbyssRewardP1 svrw1;
+  public &.AbyssRewardP2 svrw2;
+  public &.AbyssTimer svt;
+  public &.AbyssLvP1 svlv1;
+  public &.AbyssLvP2 svlv2;
   public &.Nickname nick;
   type action_t = &.act.Action;
   &.sff.AirFileMethods!self? airFileMethods;
@@ -3124,6 +3621,14 @@ public &Fight
     {
 	  `sc2.read(sc=);
     }
+	public void lifestatep1(&.com.Section sc=)
+    {
+	  `ls1.read(sc=);
+    }
+	public void lifestatep2(&.com.Section sc=)
+    {
+	  `ls2.read(sc=);
+    }
 	public void bestp1(&.com.Section sc=)
     {
 	  `br1.read(sc=);
@@ -3156,13 +3661,33 @@ public &Fight
     {
 	  `ft.read(sc=);
     }
-	public void abyssdepth(&.com.Section sc=)
+	public void abyssdepthp1(&.com.Section sc=)
     {
-	  `svlv.read(sc=);
+	  `svstg1.read(sc=);
     }
-	public void abyssreward(&.com.Section sc=)
+	public void abyssdepthp2(&.com.Section sc=)
     {
-	  `svrw.read(sc=);
+	  `svstg2.read(sc=);
+    }
+	public void abyssrewardp1(&.com.Section sc=)
+    {
+	  `svrw1.read(sc=);
+    }
+	public void abyssrewardp2(&.com.Section sc=)
+    {
+	  `svrw2.read(sc=);
+    }
+	public void abysstimer(&.com.Section sc=)
+    {
+	  `svt.read(sc=);
+    }
+	public void abysslvp1(&.com.Section sc=)
+    {
+	  `svlv1.read(sc=);
+    }
+	public void abysslvp2(&.com.Section sc=)
+    {
+	  `svlv2.read(sc=);
     }
 	public void nickname(&.com.Section sc=)
     {
@@ -3240,10 +3765,11 @@ public &Fight
     bool lifebarflg = true, powerbarflg = true, guardbarflg = true, stunbarflg = true;
     bool faceflg = true, nameflg = true, timeflg = true;
 	bool comboflg = true, actionflg = true, roundflg = true, winiconflg = true;
-	bool winsp1flg = true, winsp2flg = true, bestp1flg = true, bestp2flg = true;
+	bool winsp1flg = true, winsp2flg = true, bestp1flg = true, bestp2flg = true, lifestatep1flg = true, lifestatep2flg = true;
 	bool timerp1flg = true, timerp2flg = true, countdownp1flg = true, countdownp2flg = true, scorep1flg = true, scorep2flg = true;
 	bool matchflg = true, ailevelflg = true, modeflg = true, rewardflg = true;
-	bool tourneystateflg = true, matchstowinflg = true, svlevelflg = true, svrewardflg = true;
+	bool tourneystateflg = true, matchstowinflg = true;
+	bool svstagep1flg = true, svstagep2flg = true, svrewardp1flg = true, svrewardp2flg = true, svtimerflg = true, svlvp1flg = true, svlvp2flg = true;
     bool nicknameflg = true;
 	~$void(^^/char, index=) section = [void(^^/char lines, index i=){
       ^/char sec = lines[i];
@@ -3316,6 +3842,12 @@ public &Fight
 	  cond .s.equ(secname, "scorep2"):
         if(scorep2flg) scorep2(sc=);
         scorep2flg = false;
+	  cond .s.equ(secname, "lifestatep1"):
+        if(lifestatep1flg) lifestatep1(sc=);
+        lifestatep1flg = false;
+	  cond .s.equ(secname, "lifestatep2"):
+        if(lifestatep2flg) lifestatep2(sc=);
+        lifestatep2flg = false;
 	  cond .s.equ(secname, "bestp1"):
         if(bestp1flg) bestp1(sc=);
         bestp1flg = false;
@@ -3340,12 +3872,27 @@ public &Fight
 	  cond .s.equ(secname, "ft"):
         if(matchstowinflg)  matchstowin(sc=);
         matchstowinflg = false;
-	  cond .s.equ(secname, "abyssdepth"):
-        if(svlevelflg)  abyssdepth(sc=);
-        svlevelflg = false;
-	  cond .s.equ(secname, "abyssreward"):
-        if(svrewardflg)  abyssreward(sc=);
-        svrewardflg = false;
+	  cond .s.equ(secname, "abyssdepthp1"):
+        if(svstagep1flg)  abyssdepthp1(sc=);
+        svstagep1flg = false;
+	  cond .s.equ(secname, "abyssdepthp2"):
+        if(svstagep2flg)  abyssdepthp2(sc=);
+        svstagep2flg = false;
+	  cond .s.equ(secname, "abyssrewardp1"):
+        if(svrewardp1flg)  abyssrewardp1(sc=);
+        svrewardp1flg = false;
+	  cond .s.equ(secname, "abyssrewardp2"):
+        if(svrewardp2flg)  abyssrewardp2(sc=);
+        svrewardp2flg = false;
+	  cond .s.equ(secname, "abysstimer"):
+        if(svtimerflg)  abysstimer(sc=);
+        svtimerflg = false;
+	  cond .s.equ(secname, "abysslvp1"):
+        if(svlvp1flg)  abysslvp1(sc=);
+        svlvp1flg = false;
+	  cond .s.equ(secname, "abysslvp2"):
+        if(svlvp2flg)  abysslvp2(sc=);
+        svlvp2flg = false;
 	  cond .s.equ(secname, "nickname"):
         if(nicknameflg)  nickname(sc=);
         nicknameflg = false;
@@ -3475,6 +4022,8 @@ public &Fight
 	`cd2.setup(`sf);
 	`sc1.setup(`sf);
 	`sc2.setup(`sf);
+	`ls1.setup(`sf);
+	`ls2.setup(`sf);
 	`br1.setup(`sf);
 	`br2.setup(`sf);
 	`mtch.setup(`sf);
@@ -3483,8 +4032,13 @@ public &Fight
 	`rw.setup(`sf);
 	`ts.setup(`sf);
 	`ft.setup(`sf);
-	`svlv.setup(`sf);
-	`svrw.setup(`sf);
+	`svstg1.setup(`sf);
+	`svstg2.setup(`sf);
+	`svrw1.setup(`sf);
+	`svrw2.setup(`sf);
+	`svt.setup(`sf);
+	`svlv1.setup(`sf);
+	`svlv2.setup(`sf);
     ret "";
   }
   public void step(^/int tm, ^/&.LifePower life, ^/bool hit, ^/int combo)
@@ -3527,6 +4081,8 @@ public &Fight
 	`cd2.step();
 	`sc1.step();
 	`sc2.step();
+	`ls1.step();
+	`ls2.step();
 	`br1.step();
 	`br2.step();	
 	`mtch.step();
@@ -3535,8 +4091,13 @@ public &Fight
 	`rw.step();
 	`ts.step();
 	`ft.step();
-	`svlv.step();
-	`svrw.step();
+	`svstg1.step();
+	`svstg2.step();
+	`svrw1.step();
+	`svrw2.step();
+	`svt.step();
+	`svlv1.step();
+	`svlv2.step();
   }
   public void draw(
     int layerno, ^/&.LifePower life, ^/^/char name, bool nbd,
@@ -3658,6 +4219,13 @@ public &Fight
 			`br1.draw(layerno, .com.bestRecord, `fnt);
 		}
 	  }
+	  if(.com.lifeStateDisplay) {
+		`ls1.bgDraw(layerno);
+		`ls1.draw(layerno, .com.p1LifeState, `fnt);
+		
+		`ls2.bgDraw(layerno);
+		`ls2.draw(layerno, .com.p2LifeState, `fnt);
+	  }
 	  if(.com.matchnoDisplay) {
 		`mtch.bgDraw(layerno);
 		`mtch.draw(layerno, .com.matchnoInfo, `fnt);
@@ -3682,11 +4250,30 @@ public &Fight
 		`ft.draw(layerno, .com.matchsToWin, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop")) {
-		`svlv.bgDraw(layerno);
-		`svlv.draw(layerno, .com.abyssDepth, `fnt);
+		branch{
+		cond .s.equ(.com.playerSide, "p1right") || .s.equ(.com.playerSide, "p2right"):
+		  {
+			`svstg2.bgDraw(layerno);
+			`svstg2.draw(layerno, .com.abyssDepth, `fnt);
+			
+			`svrw2.bgDraw(layerno);
+			`svrw2.draw(layerno, .com.playerReward, `fnt);
+		  }
+		else:
+			`svstg1.bgDraw(layerno);
+			`svstg1.draw(layerno, .com.abyssDepth, `fnt);
+			
+			`svrw1.bgDraw(layerno);
+			`svrw1.draw(layerno, .com.playerReward, `fnt);
+		}
+		`svt.bgDraw(layerno);
+		`svt.draw(layerno, .com.timerFormatted, `fnt);
 		
-		`svrw.bgDraw(layerno);
-		`svrw.draw(layerno, .com.playerReward, `fnt);
+		`svlv1.bgDraw(layerno);
+		`svlv1.draw(layerno, .com.abyssLvP1, `fnt);
+		
+		`svlv2.bgDraw(layerno);
+		`svlv2.draw(layerno, .com.abyssLvP2, `fnt);
 	  }
 	  if(.s.equ(.com.gameMode, "netplay")) {
 		`nick.bgDraw(layerno);

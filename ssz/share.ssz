@@ -36,9 +36,10 @@ public &Share
   public int allianceMatch;
   public bool allianceChange, allianceRouteSel, allianceLastEnemy;
   public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
-  public bool scoreDisplay, timerDisplay, countdownDisplay, bestDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
+  public bool scoreDisplay, timerDisplay, countdownDisplay, lifeStateDisplay, bestDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
   public bool persistLife, persistPower, persistRoundtime;
   public int lifePersistence, powerPersistence, timePersistence;
+  public ^/char p1LifeState, p2LifeState;
   public int stt;
   public ^int com;
   public ^int taglevel;
@@ -77,7 +78,7 @@ public &Share
   public int lifebarDisplay, gameType;
   public int credits, coins;
   public int playerReward, playerLife, playerPower, playerAttack, playerDefence;
-  public ^/char abyssSP1, abyssSP2, abyssSP3, abyssSP4;
+  public ^/char abyssSP1, abyssSP2, abyssSP3, abyssSP4, abyssLvP1, abyssLvP2;
   public int abyssDepth, abyssDepthBoss, abyssDepthBossSpecial, abyssBossFight, abyssFinalDepth;
   public int inputDisplay, attackDisplay;
   public int powerStateP1, powerStateP2;
@@ -166,6 +167,8 @@ public &Share
 	`matchsToWin = .com.matchsToWin;
 	`p1matchWins = .com.p1matchWins;
 	`p2matchWins = .com.p2matchWins;
+	`p1LifeState = .com.p1LifeState;
+	`p2LifeState = .com.p2LifeState;
     `life = .com.life;
     `power = .com.power;
     `attack = .com.attack;
@@ -188,6 +191,7 @@ public &Share
 	`tourneyState = .com.tourneyState;
 	`gameType = .com.gameType;
 	`lifebarDisplay = .com.lifebarDisplay;
+	`lifeStateDisplay = .com.lifeStateDisplay;
 	`persistLife = .com.persistLife;
 	`lifePersistence = .com.lifePersistence;
 	`persistPower = .com.persistPower;
@@ -202,6 +206,8 @@ public &Share
 	`playerAttack = .com.playerAttack;
 	`playerDefence = .com.playerDefence;
 	`abyssDepth = .com.abyssDepth;
+	`abyssLvP1 = .com.abyssLvP1;
+	`abyssLvP2 = .com.abyssLvP2;
 	`abyssDepthBoss = .com.abyssDepthBoss;
 	`abyssDepthBossSpecial = .com.abyssDepthBossSpecial;
 	`abyssBossFight = .com.abyssBossFight;
@@ -307,6 +313,8 @@ public &Share
 	.com.matchsToWin = `matchsToWin;
 	.com.p1matchWins = `p1matchWins;
 	.com.p2matchWins = `p2matchWins;
+	.com.p1LifeState = `p1LifeState;
+	.com.p2LifeState = `p2LifeState;
     .com.life = `life;
     .com.power = `power;
     .com.attack = `attack;
@@ -329,6 +337,7 @@ public &Share
 	.com.tourneyState = `tourneyState;
 	.com.gameType = `gameType;
 	.com.lifebarDisplay = `lifebarDisplay;
+	.com.lifeStateDisplay = `lifeStateDisplay;
 	.com.persistLife = `persistLife;
 	.com.lifePersistence = `lifePersistence;
 	.com.persistPower = `persistPower;
@@ -338,6 +347,8 @@ public &Share
 	.com.credits = `credits;
 	.com.coins = `coins;
 	.com.abyssDepth = `abyssDepth;
+	.com.abyssLvP1 = `abyssLvP1;
+	.com.abyssLvP2 = `abyssLvP2;
 	.com.abyssDepthBoss = `abyssDepthBoss;
 	.com.abyssDepthBossSpecial = `abyssDepthBossSpecial;
 	.com.abyssBossFight = `abyssBossFight;

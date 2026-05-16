@@ -905,6 +905,16 @@ p2.pos = 178,8
 ;p2.bg.spr = 
 p2.text.font = 3,0, 1
 ;-----------------------------------------------------------
+[LifeStateP1] ;Life State Display
+p1.pos = 50,17
+;p1.bg.spr = 
+p1.text.font = 3,0, -1
+
+[LifeStateP2]
+p2.pos = 250,17
+;p2.bg.spr = 
+p2.text.font = 3,0, 1
+;-----------------------------------------------------------
 [BestP1] ;Best Record Display
 p1.pos = 160,237
 ;p1.bg.spr = 
@@ -925,7 +935,6 @@ text.font = 7,0, 0
 [AILevel] ;CPU Level Display
 pos = 160,226
 ;bg.spr = 
-
 text.font = 7,0, 0
 ;text.text = CPU-%s ;TODO
 text.layerno = 1
@@ -933,21 +942,18 @@ text.layerno = 1
 [Mode] ;Game Mode Name Display
 pos = 305,10
 ;bg.spr = 
-
 text.font = 3,0, -1
 text.layerno = 1
 ;-----------------------------------------------------------
 [TourneyState] ;Tournament Mode
 pos = 160,239
 ;bg.spr = 
-
 text.font = 6,0, 0
 text.layerno = 1
 
 [FT]
 pos = 159,7
 ;bg.spr = 
-
 text.font = 1,5, 0
 text.scale = 0.7, 0.7
 ;text.text = FT %s ;TODO
@@ -956,26 +962,50 @@ text.scale = 0.7, 0.7
 [Reward] ;In-Game Currency Reward Display
 pos = 160,43
 ;bg.spr = 
-
 text.font = 1,5, 0
 ;text.text = REWARD: %s ;TODO
 text.layerno = 1
 ;-----------------------------------------------------------
-[AbyssDepth] ;Abyss Mode
-pos = 178,43
+[AbyssDepthP1]
+p1.pos = 178,8
+;p1.bg.spr = 
+p1.text.font = 3,0, 1
+;p1.text.text = DEPTH %s ;TODO
+
+[AbyssDepthP2] ;Abyss Mode
+p2.pos = 141,8
+;p2.bg.spr = 
+p2.text.font = 3,0, -1
+;p2.text.text = DEPTH %s ;TODO
+
+[AbyssRewardP1]
+p1.pos = 160,45
+;p1.bg.spr = 
+p1.text.font = 3,0, 0
+;p1.text.text = REWARD: %s IKC ;TODO
+
+[AbyssRewardP2]
+p2.pos = 160,45
+;p2.bg.spr = 
+p2.text.font = 3,0, 0
+;p2.text.text = REWARD: %s IKC ;TODO
+
+[AbyssTimer]
+pos = 160,34
 ;bg.spr = 
+text.font = 3,0, 0
 
-text.font = 1,5, 1
-text.scale = 0.8, 0.8
-;text.text = DEPTH %s ;TODO
+[AbyssLvP1]
+p1.pos = 2,55
+;p1.bg.spr = 
+p1.text.font = 3,0, 1
+;p1.text.text = Lv. %s ;TODO
 
-[AbyssReward]
-pos = 141,43
-;bg.spr = 
-
-text.font = 1,0, -1
-text.scale = 0.8, 0.8
-;text.text = REWARD %s ;TODO
+[AbyssLvP2]
+p2.pos = 318,55
+;p2.bg.spr = 
+p2.text.font = 3,0, -1
+;p2.text.text = Lv. %s ;TODO
 ;-----------------------------------------------------------
 ;[Nickname] ;Netplay Username Display
 ;p1.pos = 141,8
