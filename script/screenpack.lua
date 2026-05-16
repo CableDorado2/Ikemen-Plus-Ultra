@@ -4110,7 +4110,7 @@ function f_getAllianceTeamLevel(t_allianceMembers)
 end
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
-	{difficulty = "NORMAL", ailevelstart = 1,
+	{name = "NORMAL", ailevelstart = 1,
 		match = {
 		--Match 1
 			{
@@ -4208,7 +4208,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 			},
 		}
 	},
-	{difficulty = "HARD", ailevelstart = 4,
+	{name = "HARD", ailevelstart = 4,
 		match = {
 		--Match 1
 			{
@@ -4303,7 +4303,7 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 			},
 		}
 	},
-	{difficulty = "EXTREME", ailevelstart = 6,
+	{name = "EXTREME", ailevelstart = 6,
 		match = {
 		--Match 1
 			{
@@ -4394,7 +4394,8 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 	},
 }
 for i=1, #t_allianceCourses do
-	t_allianceCourses[i]['id'] = textImgNew()
+	t_allianceCourses[i].id = t_allianceCourses[i].name
+	if t_allianceCourses[i].unlock == nil then t_allianceCourses[i].unlock = "true" end
 end
 if data.debugLog then f_printTable(t_allianceCourses, "save/debug/t_allianceCourses.log") end
 
@@ -4691,7 +4692,7 @@ function drawAlliTest()
 		animDraw(allianceCourseSelBG)
 		f_textRender(txt_allianceCourseCfg, txt_allianceCourse, 0, 34, 33, 12, 0, 100)
 	--Draw Difficulty Text
-		textImgSetText(txt_allianceCourseName, t_allianceCourses[allianceCourseSel].difficulty)
+		textImgSetText(txt_allianceCourseName, t_allianceCourses[allianceCourseSel].name)
 		textImgDraw(txt_allianceCourseName)
 	--Draw Enemy Team Level Text
 		local enemyLv = allianceCourseSel
@@ -4897,7 +4898,7 @@ end
 --;===========================================================
 --; ABYSS SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
-txt_abyssSel = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 30, 1.2, 1.2)
+txt_abyssSel = createTextImg(font11, 0, 0, "ABYSS SELECT", 159, 13, 1.2, 1.2)
 txt_abyssLv = createTextImg(font20, 2, 0, "", 0, 0)
 txt_abyssDepth = createTextImg(font20, 1, 0, "DEPTH", 0, 0)
 txt_abyssContinue = createTextImg(font6, 0, 0, "CONTINUE", 159, 165)
@@ -5013,7 +5014,10 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 	{depth = 20000, cpustats = 20, info = "[TEST] difficulty for ??? players"},
 }
 for i=1, #t_abyssSel do
-	t_abyssSel[i]['id'] = textImgNew()
+	t_abyssSel[i].varText = textImgNew()
+	t_abyssSel[i].level = "LEVEL "..i
+	t_abyssSel[i].id = t_abyssSel[i].level
+	if t_abyssSel[i].unlock == nil then t_abyssSel[i].unlock = "true" end
 end
 if data.debugLog then f_printTable(t_abyssSel, "save/debug/t_abyssSel.log") end
 

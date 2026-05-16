@@ -4092,6 +4092,37 @@ function f_advancedModesStatus(state)
 			resultsNewRecordScore = true
 			modified = true
 		end
+--Save Data for Abyss Mode
+	elseif data.gameMode == "abyss" then
+		if state == "win" then
+			if not stats.modes.abyss[t_abyssSel[abyssSel].id].clear then
+				stats.modes.abyss[t_abyssSel[abyssSel].id].clear = true
+				modified = true
+			end
+			if timerTotal() < stats.modes.abyss[t_abyssSel[abyssSel].id].time then
+				stats.modes.abyss[t_abyssSel[abyssSel].id].time = timerTotal()
+				resultsNewRecordTime = true
+				modified = true
+			end
+		end
+		if winCnt > stats.modes.abyss[t_abyssSel[abyssSel].id].wins then
+			stats.modes.abyss[t_abyssSel[abyssSel].id].wins = winCnt
+			resultsNewRecordWins = true
+			modified = true
+		end
+		if score() > stats.modes.abyss[t_abyssSel[abyssSel].id].score then
+			stats.modes.abyss[t_abyssSel[abyssSel].id].score = score()
+			resultsNewRecordScore = true
+			modified = true
+		end
+		if getAbyssDepth() > f_getAbyssMaxDepth() then
+			stats.modes.abyss[t_abyssSel[abyssSel].id].maxdepth = getAbyssDepth()
+			resultsNewRecord = true
+			modified = true
+		end
+--Save Data for Alliance Mode
+	elseif data.gameMode == "alliance" then
+		
 --Save Data for Other Modes (Survival, Time Attack, Score Attack)
 	else
 		if state == "win" then
@@ -14960,8 +14991,11 @@ function f_result(state)
 	cmdInput()
 	if state == "win" then
 		
+--Skip Results Screen if lose in these modes
 	elseif state == "lost" then
-		if gameMode() == "timeattack" or gameMode() == "speedstar" then return end --Skip results if lose in time attack mode
+		if gameMode() == "timeattack" or gameMode() == "speedstar" or gameMode() == "alliance" then
+			return
+		end
 	end
 	local t = 0
 	local sfx = 0
@@ -14973,23 +15007,25 @@ function f_result(state)
 	resultsNewRecordWins = false
 	resultsNewRecordRoundTime = false
 --Setup Vars according Game Modes
-	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster" or data.gameMode == "abyss" or data.gameMode == "kumite" or data.gameMode == "endless" then
+	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar"
+	or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster"
+	or data.gameMode == "abyss" or data.gameMode == "alliance" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
 			if gameMode() == "suddendeath" then
 				textImgSetText(txt_resultTitle, "SUDDEN DEATH ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			else
 				textImgSetText(txt_resultTitle, "SURVIVAL ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			end
-		--Save Records
-			f_advancedModesStatus(state)
-		elseif data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "caravan" or data.gameMode == "scoreattack" then
+			f_advancedModesStatus(state) --Save Records
+		elseif data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "speedstar" or data.gameMode == "abyss" or data.gameMode == "caravan" then
 			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
-			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..speedCourseSel..")")
-			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
+			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN ("..t_advancedCourseSel[advancedCourseSel].name..")")
+			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..speedCourseSel..")")
+			elseif data.gameMode == "abyss" then textImgSetText(txt_resultTitle, "ABYSS (LEVEL "..abyssSel..")")
+			elseif data.gameMode == "alliance" then textImgSetText(txt_resultTitle, "ALLIANCE (COURSE "..t_allianceCourses[allianceCourseSel].name..")")
 			end
-		--Save Records
-			f_advancedModesStatus(state)
+			f_advancedModesStatus(state) --Save Records
 		elseif data.gameMode == "allroster" then
 			if gameMode() == "goldrush" then
 				textImgSetText(txt_resultTitle, "GOLD RUSH")
@@ -15005,14 +15041,6 @@ function f_result(state)
 				f_allrosterStatus()
 				textImgSetText(txt_resultTitle, "RESULTS")
 				textImgSetText(txt_resultNo, winCnt.." WINS")
-			end
-		elseif data.gameMode == "abyss" then
-			textImgSetText(txt_resultTitle, "ABYSS (LEVEL "..abyssSel..")")
-		--Save Max Abyss Depth
-			if getAbyssDepth() > stats.modes.abyss.maxdepth then
-				stats.modes.abyss.maxdepth = getAbyssDepth()
-				resultsNewRecord = true
-				f_saveStats()
 			end
 		else
 			textImgSetText(txt_resultWins, winCnt.." WINS")
@@ -18795,7 +18823,6 @@ end
 --;	ALLIANCE SELECT MENU
 --;===========================================================
 function f_allianceSelect()
-	--f_discordUpdate({details = "Alliance"})
 	cmdInput()
 	local bufu = 0
 	local bufd = 0
@@ -18804,6 +18831,7 @@ function f_allianceSelect()
 	courseCursor = true
 --No local vars
 	f_sideReset()
+	f_createAllianceCourseData()
 	allianceSel = 1
 	allianceCourseSel = 1
 	allianceRoute = 1
@@ -18889,6 +18917,37 @@ function f_allianceSelect()
 		cmdInput()
 		refresh()
 	end
+end
+
+function f_createAllianceCourseData()
+	local modified = false
+	for i=1, #t_allianceCourses do
+		if stats.modes.alliance[t_allianceCourses[i].id] == nil then
+			stats.modes.alliance[t_allianceCourses[i].id] = {}
+			modified = true
+		end
+		if stats.modes.alliance[t_allianceCourses[i].id].clear == nil then
+			stats.modes.alliance[t_allianceCourses[i].id].clear = false
+			modified = true
+		end
+		if stats.modes.alliance[t_allianceCourses[i].id].wins == nil then
+			stats.modes.alliance[t_allianceCourses[i].id].wins = 0
+			modified = true
+		end
+		if stats.modes.alliance[t_allianceCourses[i].id].score == nil then
+			stats.modes.alliance[t_allianceCourses[i].id].score = 0
+			modified = true
+		end
+		if stats.modes.alliance[t_allianceCourses[i].id].time == nil then
+			stats.modes.alliance[t_allianceCourses[i].id].time = defaultTimeRecord --From common.lua
+			modified = true
+		end
+		if stats.modes.alliance[t_allianceCourses[i].id].teamlevel == nil then
+			stats.modes.alliance[t_allianceCourses[i].id].teamlevel = 0
+			modified = true
+		end
+	end
+	if modified then f_saveStats() end
 end
 
 --;===========================================================
@@ -19290,8 +19349,8 @@ function f_abyssSelect()
 	local continueCursor = false
 	local continueCheck = false
 	init_abyssStats() --Reset Abyss Character Stats Data
-	--f_saveStats()
 	f_saveAbyss()
+	f_createAbyssLevelData()
 	f_sideReset()
 	abyssSel = 1
 	exitAbyss = false
@@ -19388,11 +19447,11 @@ function f_abyssSelect()
 			if i > abyssSel - cursorPosX then
 				local txtDepth = ""
 				if t_abyssSel[i].depth == -1 then txtDepth = "INFINITE" else txtDepth = t_abyssSel[i].depth end
-				if t_abyssSel[i].id ~= nil then
+				if t_abyssSel[i].varText ~= nil then
 					animPosDraw(abyssSelWindowBG, -94 + i * 104 - moveTxt,50)
-					textImgDraw(f_updateTextImg(t_abyssSel[i].id, font20, 4, 0, txtDepth, -50 + i * 104 - moveTxt, 120))
+					textImgDraw(f_updateTextImg(t_abyssSel[i].varText, font20, 4, 0, txtDepth, -50 + i * 104 - moveTxt, 120))
 					textImgSetPos(txt_abyssLv, -50 + i * 104 - moveTxt, 75)
-					textImgSetText(txt_abyssLv, "LEVEL "..i)
+					textImgSetText(txt_abyssLv, t_abyssSel[i].level)
 					textImgDraw(txt_abyssLv)
 					textImgSetPos(txt_abyssDepth, -50 + i * 104 - moveTxt, 105)
 					textImgDraw(txt_abyssDepth)
@@ -19441,6 +19500,41 @@ function f_abyssSelect()
 	end
 end
 
+function f_createAbyssLevelData()
+	local modified = false
+	for i=1, #t_abyssSel do
+		if stats.modes.abyss[t_abyssSel[i].id] == nil then
+			stats.modes.abyss[t_abyssSel[i].id] = {}
+			modified = true
+		end
+		if stats.modes.abyss[t_abyssSel[i].id].clear == nil then
+			stats.modes.abyss[t_abyssSel[i].id].clear = false
+			modified = true
+		end
+		if stats.modes.abyss[t_abyssSel[i].id].wins == nil then
+			stats.modes.abyss[t_abyssSel[i].id].wins = 0
+			modified = true
+		end
+		if stats.modes.abyss[t_abyssSel[i].id].score == nil then
+			stats.modes.abyss[t_abyssSel[i].id].score = 0
+			modified = true
+		end
+		if stats.modes.abyss[t_abyssSel[i].id].time == nil then
+			stats.modes.abyss[t_abyssSel[i].id].time = defaultTimeRecord --From common.lua
+			modified = true
+		end
+		if stats.modes.abyss[t_abyssSel[i].id].maxdepth == nil then
+			stats.modes.abyss[t_abyssSel[i].id].maxdepth = 0
+			modified = true
+		end
+	end
+	if modified then f_saveStats() end
+end
+
+function f_getAbyssMaxDepth()
+	return stats.modes.abyss[t_abyssSel[abyssSel].id].maxdepth
+end
+
 function f_abyssBoot()
 	menuSelect = "abyss"
 	sideScreen = true
@@ -19451,12 +19545,13 @@ function abyssCfg()
 	f_default()
 	setRoundsToWin(1)
 	setRoundTime(99)
+	setScoreDisplay(true)
 	setGameMode("abyss")
 	data.gameMode = "abyss"
 	data.recordMode = "abyss"
 	data.victoryscreen = false
 	data.orderRoster = false
-	f_setBestRecord("MAX DEPTH: "..stats.modes.abyss.maxdepth)
+	f_setBestRecord("MAX DEPTH: "..f_getAbyssMaxDepth())
 	data.stage = "stages/Mountainside Temple/Dark Corridor.def" --Abyss Initial Stage
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -19475,7 +19570,7 @@ function abyssHumanvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
+	textImgSetText(txt_mainSelect, "ABYSS [MAX DEPTH "..f_getAbyssMaxDepth().."]")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -19495,7 +19590,7 @@ function abyssCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
+	textImgSetText(txt_mainSelect, "ABYSS [MAX DEPTH "..f_getAbyssMaxDepth().."]")
 	f_selectAdvance()
 	P2overP1 = false
 end
@@ -19508,7 +19603,7 @@ function abyssP1P2vsCPU()
 	data.coop = true
 	setPlayerSide('p1left')
 	setGameMode("abysscoop")
-	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
+	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..f_getAbyssMaxDepth().."]")
 	f_selectAdvance()
 end
 
@@ -19523,7 +19618,7 @@ function abyssCPUvsP1P2()
 	data.p2Faces = true
 	data.coop = true
 	setGameMode("abysscoop")
-	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
+	textImgSetText(txt_mainSelect, "ABYSS COOPERATIVE [MAX DEPTH "..f_getAbyssMaxDepth().."]")
 	f_selectAdvance()
 ]]
 end
@@ -19538,7 +19633,7 @@ function abyssCPUvsCPU()
 	data.aiFight = true
 	setPlayerSide('p1left')
 	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH ABYSS [MAX DEPTH "..stats.modes.abyss.maxdepth.."]")
+	textImgSetText(txt_mainSelect, "WATCH ABYSS [MAX DEPTH "..f_getAbyssMaxDepth().."]")
 	f_selectAdvance()
 end
 

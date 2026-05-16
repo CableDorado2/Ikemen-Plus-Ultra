@@ -3142,7 +3142,7 @@ public void setPerfect(|.WinTy wt=)
 		(float)`posy,
 		1.0,
 		layerno,
-		value >= 0 ? "REWARD " + ''(value) + " IKC" : "o",
+		value >= 0 ? "REWARD: " + ''(value) + " IKC" : "o",
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=
 	  );
     }
