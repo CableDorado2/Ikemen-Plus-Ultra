@@ -14081,6 +14081,8 @@ function f_setAbyssStats()
 	abyssDat.nosave.lifebarstate = getLifePersistence()
 	abyssDat.nosave.specialbosscnt = abyssSpecialBossCnt
 	abyssDat.nosave.winsCnt = winCnt
+	abyssDat.nosave.score = score()
+	abyssDat.nosave.time = timerTotal()
 	abyssDat.nosave.stage = data.stage
 --Adds +abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
 	if getAbyssDepth() >= abyssNextCheckPoint and not data.challengerAbyss then
@@ -18850,7 +18852,7 @@ function f_allianceSelect()
 				data.tempBack = true
 				break
 		--Course Select Cursor Status
-			elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
+			elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) then
 				sndPlay(sndSys, 100, 0)
 				if courseCursor then courseCursor = false else courseCursor = true end
 		--Start Actions
@@ -18865,10 +18867,10 @@ function f_allianceSelect()
 			end
 		--Alliance Team Select
 			if not courseCursor then
-				if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel - 1
-				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel + 1
 				end
@@ -18879,10 +18881,10 @@ function f_allianceSelect()
 				end
 		--Alliance Course Select
 			else
-				if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceCourseSel = allianceCourseSel - 1
-				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceCourseSel = allianceCourseSel + 1
 				end
@@ -20166,8 +20168,10 @@ function f_loadAbyssStats()
 	abyssBossMatch = getAbyssDepthBoss()
 	abyssSpecialBossCnt = abyssDat.nosave.specialbosscnt --Start count for Abyss Special Boss Matchs
 	--setAbyssBossFight(0) --Set when player is inside abyss boss fight
-	setLifePersistence(abyssDat.nosave.lifebarstate) --To store last life bar value when life is maintained after match
+	setLifePersistence(abyssDat.nosave.lifebarstate) --Restore last life bar value when life is maintained after match
 	winCnt = abyssDat.nosave.winsCnt --Restore victories
+	setTimer(abyssDat.nosave.time) --Restore Playtime
+	setScore(abyssDat.nosave.score) --Restore Score
 	data.stage = abyssDat.nosave.stage --Restore Last stage
 	abyssNextCheckPoint = abyssDat.nosave.nextcheckpoint --Start count for Abyss Map Checkpoints
 	--matchNo = getAbyssDepth()

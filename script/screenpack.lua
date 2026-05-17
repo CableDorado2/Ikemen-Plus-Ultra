@@ -4005,38 +4005,27 @@ Select the Alliance and Course to play
 Clearing a difficult Course will unlock a new one!
 ]]
 
-txt_allianceCourseCfg = createTextImg(font7, 0, 0, "", 0, 0)
-txt_allianceCourseName = createTextImg(font20, 0, 0, "", 112, 34)
-txt_allianceCourseLv = createTextImg(font7, 0, 0, "", 112, 50)
+txt_allianceCourseCfg = createTextImg(font7, 0, 0, "COURSE SELECT", 0, 0)
+txt_allianceCourseName = createTextImg(font20, 0, 0, "", 0, 0)
 txt_allianceCourseTeam = createTextImg(font7, 0, 1, "", 0, 0)
 txt_allianceCourseTeamName = createTextImg(font7, 0, 0, "", 0, 0)
-txt_allianceCourseDat = createTextImg(font7, 0, 0, "FINAL BOSS TEAMS", 79, 177)
-txt_allianceCourseLvText = "LEVEL "
+txt_allianceCourseDat = createTextImg(font7, 0, 0, "FINAL BOSS TEAMS", 0, 0)
 txt_allianceCourseTeamText = "TEAM "
-txt_allianceCourse = [[
-COURSE
-SELECT
-]]
-
-txt_allianceSelNo = createTextImg(font20, 2, -1, "", 245, 34, 0.85, 0.85)
-txt_allianceSelCfg = createTextImg(font7, 0, 0, "", 0, 0)
-txt_allianceSelText = "ALLIANCE "
-txt_allianceSelLvText = "TEAM LEVEL: "
-txt_allianceSelPowerText = "POWER: "
-txt_allianceSelUsedRateText = "TIMES USED: "
 txt_allianceSelTimeRecordText = "BEST TIME: "
 txt_allianceSelScoreRecordText = "BEST SCORE: "
-txt_allianceSelStyleText = "PLAY STYLE: "
-txt_allianceSel = [[
-ALLIANCE
-SELECT
-]]
 
-txt_allianceSelLv = createTextImg(font2, 0, -1, "", 315, 68, 0.65, 0.65)
-txt_allianceSelUsedRate = createTextImg(font2, 0, -1, "", 315, 78, 0.65, 0.65)
-txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 315, 88, 0.65, 0.65)
-txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 315, 98, 0.65, 0.65)
-txt_allianceSelStyle = createTextImg(font2, 0, -1, "", 315, 108, 0.65, 0.65)
+txt_allianceSelCfg = createTextImg(font7, 0, 0, "ALLIANCE SELECT", 0, 0)
+txt_allianceSelNo = createTextImg(font20, 2, -1, "", 0, 0)
+txt_allianceSelText = "ALLIANCE "
+txt_allianceSelPowerText = "POW: "
+txt_allianceSelLvText = "TEAM LEVEL: "
+txt_allianceSelStyleText = "PLAY STYLE: "
+
+txt_allianceSelTimeRecord = createTextImg(font2, 0, 1, "", 2, 180)
+txt_allianceSelScoreRecord = createTextImg(font2, 0, 1, "", 2, 190)
+
+txt_allianceSelLv = createTextImg(font2, 0, 1, "", 105, 130)
+txt_allianceSelStyle = createTextImg(font2, 0, 1, "", 105, 140)
 
 --Alliance Stats Ranks Table
 local t_allianceStatsRanks = {
@@ -4564,18 +4553,20 @@ animSetScale(allianceSelBG, 0.085, 0.127)
 animUpdate(allianceSelBG)
 
 --Course Select Transparent Background (For inactive cursor state)
-allianceCourseTrans = animNew(sprSys, [[
-100,1, 0,0, -1, 0, s
+allianceCourseTrans = animNew(sprIkemen, [[
+3,0, 0,0, -1, 0, AS256D102
 ]])
-animSetTile(allianceCourseTrans, 1, 1)
-animSetWindow(allianceCourseTrans, 32, 5, 120, 140)
+animSetPos(allianceCourseTrans, 0, 7)
+animSetScale(allianceCourseTrans, 99, 160)
+animUpdate(allianceCourseTrans)
 
 --Alliance Select Transparent Background (For inactive cursor state)
-allianceSelTrans = animNew(sprSys, [[
-100,1, 0,0, -1, 0, s
+allianceSelTrans = animNew(sprIkemen, [[
+3,0, 0,0, -1, 0, AS256D102
 ]])
-animSetTile(allianceSelTrans, 1, 1)
-animSetWindow(allianceSelTrans, 160, 20, 156, 158)
+animSetPos(allianceSelTrans, 101.5, 0)
+animSetScale(allianceSelTrans, 220, 105)
+animUpdate(allianceSelTrans)
 
 --Empty Icon
 allianceEnemyIconBG = animNew(sprIkemen, [[
@@ -4599,42 +4590,42 @@ animSetScale(allianceStatsV, 0.35, 0.35)
 animUpdate(allianceStatsV)
 
 --Course Menu Up Arrows
-allianceMenuArrowUp = animNew(sprIkemen, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
+allianceMenuArrowLeft = animNew(sprIkemen, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
 ]])
-animSetScale(allianceMenuArrowUp, 0.5, 0.5)
+animSetScale(allianceMenuArrowLeft, 0.5, 0.5)
 
-allianceCourseArrowUposX = 4 --Course Select X-Axis
-allianceCourseArrowUposY = 10 --Course Select Y-Axis
+allianceCourseArrowLposX = 4 --Course Select X-Axis
+allianceCourseArrowLposY = 24 --Course Select Y-Axis
 
-allianceSelArrowUposX = 305 --Alliance Select X-Axis
-allianceSelArrowUposY = 10 --Alliance Select Y-Axis
+allianceSelArrowLposX = 163 --Alliance Select X-Axis
+allianceSelArrowLposY = 14 --Alliance Select Y-Axis
 
 --Alliance Menu Down Arrows
-allianceMenuArrowDown = animNew(sprIkemen, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
+allianceMenuArrowRight = animNew(sprIkemen, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
 ]])
-animSetScale(allianceMenuArrowDown, 0.5, 0.5)
+animSetScale(allianceMenuArrowRight, 0.5, 0.5)
 
-allianceCourseArrowDposX = 4 --Course Select X-Axis
-allianceCourseArrowDposY = 185 --Course Select Y-Axis
+allianceCourseArrowDposX = 80 --Course Select X-Axis
+allianceCourseArrowDposY = 24 --Course Select Y-Axis
 
-allianceSelArrowDposX = 305 --Alliance Select X-Axis
-allianceSelArrowDposY = 185 --Alliance Select Y-Axis
+allianceSelArrowRposX = 250 --Alliance Select X-Axis
+allianceSelArrowRposY = 14 --Alliance Select Y-Axis
 
 function drawAllianceSelInputHints()
 	local inputHintYPos = 220
@@ -4648,122 +4639,116 @@ function drawAllianceSelInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 141, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 206, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Status", 266, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Stats Info", 266, hintFontYPos)
+end
+
+function f_allianceCoursePreview()
+	local globalPosX = -5
+	local globalPosY = -10
+--Title
+	textImgPosDraw(txt_allianceCourseCfg, 53 + globalPosX, 28 + globalPosY)
+--Course Name
+	textImgSetText(txt_allianceCourseName, t_allianceCourses[allianceCourseSel].name)
+	textImgPosDraw(txt_allianceCourseName, 53 + globalPosX, 45 + globalPosY)
+--Course Last Bosses
+	local lastMatch = #t_allianceCourses[allianceCourseSel].match
+	for team=1, #t_allianceCourses[allianceCourseSel].match[lastMatch].route do
+		for enemy=1, 4 do
+			local posY = 38 + globalPosY
+			animPosDraw(allianceEnemyIconBG, -18 + globalPosX + team * 30, posY + enemy * 25)
+			animPosDraw(allianceEnemyRandomIcon, -17 + globalPosX + team * 30, posY + 1 + enemy * 25)
+			local enemyDat = t_allianceCourses[allianceCourseSel].match[lastMatch].route[team].char[enemy]:lower()
+			drawFacePortrait(t_charDef[enemyDat], -17 + globalPosX + team * 30, posY + 1 + enemy * 25, 0.9, 0.9)
+		end
+		local enemyTeamLetter = ""
+		if team == 1 then enemyTeamLetter = "A"
+		elseif team == 2 then enemyTeamLetter = "B"
+		elseif team == 3 then enemyTeamLetter = "C"
+		end
+		textImgSetText(txt_allianceCourseTeam, enemyTeamLetter)
+		textImgPosDraw(txt_allianceCourseTeam, -9 + globalPosX + team * 30, 60 + globalPosY)
+	end
+	textImgPosDraw(txt_allianceCourseDat, 55 + globalPosX, 173 + globalPosY)
 end
 
 function f_allianceSelectPreview()
 	local nameFont = font7
---Ally 1
-	local allyDat1 = t_allianceSel[allianceSel][1].char:lower()
-	drawPortrait(t_charDef[allyDat1], 168, 52, 0.35, 0.35)
-	animPosDraw(allianceStatsV, 211, 52)
-	--f_drawQuickText(txt_ally1Name, nameFont, 0, -1, f_getName(t_charDef[allyDat1]), 168, 48)
-	f_drawQuickText(txt_ally1Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][1].allyPower, 240, 48)
-	f_drawQuickText(txt_ally1AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].attack.rank, 237, 60)
-	f_drawQuickText(txt_ally1PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].power.rank, 237, 73)
-	f_drawQuickText(txt_ally1LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].life.rank, 237, 85)
-	f_drawQuickText(txt_ally1DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][1].defence.rank, 237, 98)
---Ally 2
-	local allyDat2 = t_allianceSel[allianceSel][2].char:lower()
-	drawPortrait(t_charDef[allyDat2], 168, 132, 0.35, 0.35)
-	animPosDraw(allianceStatsV, 211, 132)
-	--f_drawQuickText(txt_ally2Name, nameFont, 0, -1, f_getName(t_charDef[allyDat2]), 168, 128)
-	f_drawQuickText(txt_ally2Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][2].allyPower, 240, 128)
-	f_drawQuickText(txt_ally2AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].attack.rank, 237, 140)
-	f_drawQuickText(txt_ally2PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].power.rank, 237, 153)
-	f_drawQuickText(txt_ally2LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].life.rank, 237, 165)
-	f_drawQuickText(txt_ally2DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][2].defence.rank, 237, 178)
---Ally 3
-	local allyDat3 = t_allianceSel[allianceSel][3].char:lower()
-	drawPortrait(t_charDef[allyDat3], 245, 132, 0.35, 0.35)
-	animPosDraw(allianceStatsV, 288, 132)
-	--f_drawQuickText(txt_ally3Name, nameFont, 0, -1, f_getName(t_charDef[allyDat3]), 250, 128)
-	f_drawQuickText(txt_ally3Power, font2, 0, -1, txt_allianceSelPowerText..t_allianceSel[allianceSel][3].allyPower, 317, 128)
-	f_drawQuickText(txt_ally3AttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].attack.rank, 314, 140)
-	f_drawQuickText(txt_ally3PowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].power.rank, 314, 153)
-	f_drawQuickText(txt_ally3LifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].life.rank, 314, 165)
-	f_drawQuickText(txt_ally3DefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][3].defence.rank, 314, 178)
+	local globalPosY = -80
+	textImgPosDraw(txt_allianceSelCfg, 210, 90 + globalPosY)
+	textImgSetText(txt_allianceSelNo, txt_allianceSelText..allianceSel)
+	textImgScalePosDraw(txt_allianceSelNo, 245, 105 + globalPosY, 0.85, 0.85)
+--Leader
+	drawPortrait(data.t_p1selected[1].cel, 253, 199 + globalPosY, 0.35, 0.35)
+	animPosDraw(allianceStatsV, 296, 199 + globalPosY)
+	f_drawQuickText(txt_leaderName, nameFont, 0, 1, "LEADER", 255, 197 + globalPosY)
+	f_drawQuickText(txt_leaderPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 253, 257 + globalPosY)
+	local atribLeaderPosX = 320
+	f_drawQuickText(txt_leaderAttkAtrib, nameFont, 0, -1, "SS", atribLeaderPosX, 207 + globalPosY)
+	f_drawQuickText(txt_leaderPowAtrib, nameFont, 0, -1, "SS", atribLeaderPosX, 220 + globalPosY)
+	f_drawQuickText(txt_leaderLifAtrib, nameFont, 0, -1, "SS", atribLeaderPosX, 233 + globalPosY)
+	f_drawQuickText(txt_leaderDefAtrib, nameFont, 0, -1, "SS", atribLeaderPosX, 246 + globalPosY)
+--Members
+	for i=1, 3 do
+		local allyDat = t_allianceSel[allianceSel][i].char:lower()
+		drawPortrait(t_charDef[allyDat], 28 + i * 75, 122 + globalPosY, 0.35, 0.35)
+		animPosDraw(allianceStatsV, 71 + i * 75, 122 + globalPosY)
+		f_drawQuickText(txt_allyName, nameFont, 0, 1, "ALLY "..i, 30 + i * 75, 120 + globalPosY)
+		f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..t_allianceSel[allianceSel][i].allyPower, 28 + i * 75, 180 + globalPosY)
+		local atribPosX = 95 + i * 75
+		f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].attack.rank, atribPosX, 130 + globalPosY)
+		f_drawQuickText(txt_allyPowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].power.rank, atribPosX, 143 + globalPosY)
+		f_drawQuickText(txt_allyLifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].life.rank, atribPosX, 155 + globalPosY)
+		f_drawQuickText(txt_allyDefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].defence.rank, atribPosX, 168 + globalPosY)
+	end
 end
 
 function drawAlliTest()
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-		textImgDraw(txt_allianceTitle) --Draw Title
-	--Draw Course Select Assets
-		animDraw(allianceCourseSelBG)
-		f_textRender(txt_allianceCourseCfg, txt_allianceCourse, 0, 34, 33, 12, 0, 100)
-	--Draw Difficulty Text
-		textImgSetText(txt_allianceCourseName, t_allianceCourses[allianceCourseSel].name)
-		textImgDraw(txt_allianceCourseName)
-	--Draw Enemy Team Level Text
-		local enemyLv = allianceCourseSel
-		if allianceCourseSel > 1 then enemyLv = (enemyLv - 1) * 10 end
-		textImgSetText(txt_allianceCourseLv, txt_allianceCourseLvText..enemyLv)
-		textImgDraw(txt_allianceCourseLv)
-		--f_drawQuickText(teas, font2, 0, 1, allianceCourseSel, 81, 130)
-	--Alliance Course Content Text
-		local lastMatch = #t_allianceCourses[allianceCourseSel].match
-		for team=1, #t_allianceCourses[allianceCourseSel].match[lastMatch].route do
-			for enemy=1, 4 do
-				animPosDraw(allianceEnemyIconBG, 18 + enemy * 26, 22 + team * 37)
-				animPosDraw(allianceEnemyRandomIcon, 19 + enemy * 26, 23 + team * 37)
-				local enemyDat = t_allianceCourses[allianceCourseSel].match[lastMatch].route[team].char[enemy]:lower()
-				drawFacePortrait(t_charDef[enemyDat], 19 + enemy * 26, 23 + team * 37, 0.9, 0.9)
-			end
-			local enemyTeamLetter = ""
-			if team == 1 then enemyTeamLetter = "A"
-			elseif team == 2 then enemyTeamLetter = "B"
-			elseif team == 3 then enemyTeamLetter = "C"
-			end
-			textImgSetText(txt_allianceCourseTeam, txt_allianceCourseTeamText..enemyTeamLetter)
-			textImgSetPos(txt_allianceCourseTeam, 4, 37 + team * 37)
-			textImgDraw(txt_allianceCourseTeam)
-		end
-	--Draw Alliance Select Assets
-		animDraw(allianceSelBG)
+	--Course Select
+		animDraw(allianceCourseTrans)
+		f_allianceCoursePreview()
+	--Alliance Select
+		animDraw(allianceSelTrans)
 		f_allianceSelectPreview()
-		f_textRender(txt_allianceSelCfg, txt_allianceSel, 0, 288, 33, 12, 0, 100)
-		textImgSetText(txt_allianceSelNo, txt_allianceSelText..allianceSel)
-		textImgDraw(txt_allianceSelNo)
-		textImgSetText(txt_allianceSelLv, txt_allianceSelLvText..t_allianceSel[allianceSel].teamLv)
-		textImgDraw(txt_allianceSelLv)
-		textImgSetText(txt_allianceSelUsedRate, txt_allianceSelUsedRateText.."0")
-		textImgDraw(txt_allianceSelUsedRate)
+	--Records
 		textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText.."99:99.99")
 		textImgDraw(txt_allianceSelTimeRecord)
 		textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText.."0")
 		textImgDraw(txt_allianceSelScoreRecord)
+	--Alliance Info
+		textImgSetText(txt_allianceSelLv, txt_allianceSelLvText..t_allianceSel[allianceSel].teamLv)
+		textImgDraw(txt_allianceSelLv)
 		--textImgSetText(txt_allianceSelStyle, txt_allianceSelStyleText.."BALANCED")
 		--textImgDraw(txt_allianceSelStyle)
-	--Draw Extra Info
-		textImgDraw(txt_allianceCourseDat)
-		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
-		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 205, 10, 0, 100) --Draw Info Text
 	--Draw Transparent BG for inactive panels
 		if courseCursor then
-			textImgSetBank(txt_allianceCourseName, 0)
 			textImgSetBank(txt_allianceCourseCfg, 1)
-			textImgSetBank(txt_allianceSelNo, 4)
+			textImgSetBank(txt_allianceCourseName, 0)
 			textImgSetBank(txt_allianceSelCfg, 0)
+			textImgSetBank(txt_allianceSelNo, 4)
 			if allianceCourseSel > 1 then
-				animPosDraw(allianceMenuArrowUp, allianceCourseArrowUposX, allianceCourseArrowUposY)
+				animPosDraw(allianceMenuArrowLeft, allianceCourseArrowLposX, allianceCourseArrowLposY)
 			end
 			if allianceCourseSel < #t_allianceCourses then
-				animPosDraw(allianceMenuArrowDown, allianceCourseArrowDposX, allianceCourseArrowDposY)
+				animPosDraw(allianceMenuArrowRight, allianceCourseArrowDposX, allianceCourseArrowDposY)
 			end
-			--animDraw(f_animVelocity(allianceSelTrans, -2, 0))
+			animDraw(allianceSelTrans)
 		else
-			textImgSetBank(txt_allianceCourseName, 4)
 			textImgSetBank(txt_allianceCourseCfg, 0)
-			textImgSetBank(txt_allianceSelNo, 2)
+			textImgSetBank(txt_allianceCourseName, 4)
 			textImgSetBank(txt_allianceSelCfg, 1)
+			textImgSetBank(txt_allianceSelNo, 2)
 			if allianceSel > 1 then
-				animPosDraw(allianceMenuArrowUp, allianceSelArrowUposX, allianceSelArrowUposY)
+				animPosDraw(allianceMenuArrowLeft, allianceSelArrowLposX, allianceSelArrowLposY)
 			end
 			if allianceSel < #t_allianceSel then
-				animPosDraw(allianceMenuArrowDown, allianceSelArrowDposX, allianceSelArrowDposY)
+				animPosDraw(allianceMenuArrowRight, allianceSelArrowRposX, allianceSelArrowRposY)
 			end
-			--animDraw(f_animVelocity(allianceCourseTrans, -2, 0))
+			animDraw(allianceCourseTrans)
 		end
+	--Draw Extra Info
+		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
+		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 205, 10, 0, 100) --Draw Info Text
 end
 
 --;===========================================================
@@ -5129,10 +5114,17 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 		local stsFont = font2
 		local stsFontXPos = 70 + NewPosX
 		local stsFontYPos = 56 + NewPosY
-		f_drawQuickText(txt_abyssDatName, stsFont, 0, 1, saveDat.player[1].displayname, stsFontXPos, stsFontYPos)
-		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: "..saveDat.depth, stsFontXPos, stsFontYPos + 20)
-		f_drawQuickText(txt_abyssDatDiff, stsFont, 0, 1, "ABYSS DEPTH: "..t_abyssSel[saveDat.abysslv].depth, stsFontXPos, stsFontYPos + 40)
-		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "REWARD: "..saveDat.reward.." IKC", stsFontXPos, stsFontYPos + 60)
+		f_drawQuickText(txt_abyssDatName, stsFont, 4, 1, saveDat.player[1].displayname, stsFontXPos, stsFontYPos)
+		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: ", stsFontXPos, stsFontYPos + 15)
+		f_drawQuickText(txt_abyssDatDepthVal, stsFont, 5, 1, saveDat.depth, stsFontXPos + 77, stsFontYPos + 15)
+		f_drawQuickText(txt_abyssDatLv, stsFont, 0, 1, "ABYSS DEPTH: ", stsFontXPos + 6, stsFontYPos + 25)
+		f_drawQuickText(txt_abyssDatLvVal, stsFont, 5, 1, t_abyssSel[saveDat.abysslv].depth, stsFontXPos + 77, stsFontYPos + 25)
+		f_drawQuickText(txt_abyssDatScore, stsFont, 0, 1, "SCORE: ", stsFontXPos + 6, stsFontYPos + 40)
+		f_drawQuickText(txt_abyssDatScoreVal, stsFont, 5, 1, f_setThousandsFormat(saveDat.score).."PTS", stsFontXPos + 41, stsFontYPos + 40)
+		f_drawQuickText(txt_abyssDatTime, stsFont, 0, 1, "TIME: ", stsFontXPos + 14, stsFontYPos + 50)
+		f_drawQuickText(txt_abyssDatTimeVal, stsFont, 5, 1, f_setTimeFormat(saveDat.time), stsFontXPos + 41, stsFontYPos + 50)
+		f_drawQuickText(txt_abyssDatReward, stsFont, 0, 1, "REWARD: ", stsFontXPos, stsFontYPos + 60)
+		f_drawQuickText(txt_abyssDatRewardVal, stsFont, 5, 1, saveDat.reward.." IKC", stsFontXPos + 41, stsFontYPos + 60)
 	--Attributes
 		local attrFont = font2
 		local attrFontXPos = 225 + NewPosX
@@ -6027,6 +6019,7 @@ PLASMOIDTHUNDER
 ACDGAMES
 2DEE4EVER
 PIXEL SLAYER
+SPIDERPOKO/POKOSPIDER
 CRISTOPELES LEE
 KADES
 RORONIGGA ZORO
