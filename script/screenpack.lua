@@ -4019,13 +4019,15 @@ txt_allianceSelNo = createTextImg(font20, 2, -1, "", 0, 0)
 txt_allianceSelText = "ALLIANCE "
 txt_allianceSelPowerText = "POW: "
 txt_allianceSelLvText = "TEAM LEVEL: "
+txt_allianceSelUsedText = "TIMES USED: "
 txt_allianceSelStyleText = "PLAY STYLE: "
 
-txt_allianceSelTimeRecord = createTextImg(font2, 0, 1, "", 2, 180)
-txt_allianceSelScoreRecord = createTextImg(font2, 0, 1, "", 2, 190)
+txt_allianceSelTimeRecord = createTextImg(font2, 0, 1, "", 0, 0)
+txt_allianceSelScoreRecord = createTextImg(font2, 0, 1, "", 0, 0)
 
-txt_allianceSelLv = createTextImg(font2, 0, 1, "", 105, 130)
-txt_allianceSelStyle = createTextImg(font2, 0, 1, "", 105, 140)
+txt_allianceSelLv = createTextImg(font2, 0, 1, "", 0, 0)
+txt_allianceSelUsed = createTextImg(font2, 0, -1, "", 0, 0)
+txt_allianceSelStyle = createTextImg(font2, 0, 1, "", 0, 0)
 
 --Alliance Stats Ranks Table
 local t_allianceStatsRanks = {
@@ -4534,37 +4536,17 @@ animSetScale(allianceSelInfoBG, 430, 24)
 animSetAlpha(allianceSelInfoBG, 0, 50)
 animUpdate(allianceSelInfoBG)
 
---Course Select BG
-allianceCourseSelBG = animNew(sprIkemen, [[
-70,0, 0,0, -1
-]])
-animSetPos(allianceCourseSelBG, 2, 20)
-animSetAlpha(allianceCourseSelBG, 20, 100)
-animSetScale(allianceCourseSelBG, 0.085, 0.127)
-animUpdate(allianceCourseSelBG)
-
---Alliance Select BG
-allianceSelBG = animNew(sprIkemen, [[
-70,0, 0,0, -1, H
-]])
-animSetPos(allianceSelBG, 318, 20)
-animSetAlpha(allianceSelBG, 20, 100)
-animSetScale(allianceSelBG, 0.085, 0.127)
-animUpdate(allianceSelBG)
-
---Course Select Transparent Background (For inactive cursor state)
+--Course Select Transparent Background
 allianceCourseTrans = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
-animSetPos(allianceCourseTrans, 0, 7)
 animSetScale(allianceCourseTrans, 99, 160)
 animUpdate(allianceCourseTrans)
 
---Alliance Select Transparent Background (For inactive cursor state)
+--Alliance Select Transparent Background
 allianceSelTrans = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
-animSetPos(allianceSelTrans, 101.5, 0)
 animSetScale(allianceSelTrans, 220, 105)
 animUpdate(allianceSelTrans)
 
@@ -4606,7 +4588,7 @@ allianceCourseArrowLposX = 4 --Course Select X-Axis
 allianceCourseArrowLposY = 24 --Course Select Y-Axis
 
 allianceSelArrowLposX = 163 --Alliance Select X-Axis
-allianceSelArrowLposY = 14 --Alliance Select Y-Axis
+allianceSelArrowLposY = 44 --Alliance Select Y-Axis
 
 --Alliance Menu Down Arrows
 allianceMenuArrowRight = animNew(sprIkemen, [[
@@ -4625,7 +4607,7 @@ allianceCourseArrowDposX = 80 --Course Select X-Axis
 allianceCourseArrowDposY = 24 --Course Select Y-Axis
 
 allianceSelArrowRposX = 250 --Alliance Select X-Axis
-allianceSelArrowRposY = 14 --Alliance Select Y-Axis
+allianceSelArrowRposY = 44 --Alliance Select Y-Axis
 
 function drawAllianceSelInputHints()
 	local inputHintYPos = 220
@@ -4645,6 +4627,7 @@ end
 function f_allianceCoursePreview()
 	local globalPosX = -5
 	local globalPosY = -10
+	animPosDraw(allianceCourseTrans, 0, 17 + globalPosY)
 --Title
 	textImgPosDraw(txt_allianceCourseCfg, 53 + globalPosX, 28 + globalPosY)
 --Course Name
@@ -4669,15 +4652,21 @@ function f_allianceCoursePreview()
 		textImgPosDraw(txt_allianceCourseTeam, -9 + globalPosX + team * 30, 60 + globalPosY)
 	end
 	textImgPosDraw(txt_allianceCourseDat, 55 + globalPosX, 173 + globalPosY)
+--Records
+	textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText.."99:99.99")
+	textImgPosDraw(txt_allianceSelTimeRecord, 2, 188 + globalPosY)
+	textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText.."0")
+	textImgPosDraw(txt_allianceSelScoreRecord, 2, 200 + globalPosY)
 end
 
 function f_allianceSelectPreview()
 	local nameFont = font7
-	local globalPosY = -80
+	local globalPosY = -50
+	animPosDraw(allianceSelTrans, 101.5, 80 + globalPosY)
 	textImgPosDraw(txt_allianceSelCfg, 210, 90 + globalPosY)
 	textImgSetText(txt_allianceSelNo, txt_allianceSelText..allianceSel)
 	textImgScalePosDraw(txt_allianceSelNo, 245, 105 + globalPosY, 0.85, 0.85)
---Leader
+--[[Leader
 	drawPortrait(data.t_p1selected[1].cel, 253, 199 + globalPosY, 0.35, 0.35)
 	animPosDraw(allianceStatsV, 296, 199 + globalPosY)
 	f_drawQuickText(txt_leaderName, nameFont, 0, 1, "LEADER", 255, 197 + globalPosY)
@@ -4687,6 +4676,7 @@ function f_allianceSelectPreview()
 	f_drawQuickText(txt_leaderPowAtrib, nameFont, 0, -1, "SS", atribLeaderPosX, 220 + globalPosY)
 	f_drawQuickText(txt_leaderLifAtrib, nameFont, 0, -1, "SS", atribLeaderPosX, 233 + globalPosY)
 	f_drawQuickText(txt_leaderDefAtrib, nameFont, 0, -1, "SS", atribLeaderPosX, 246 + globalPosY)
+]]
 --Members
 	for i=1, 3 do
 		local allyDat = t_allianceSel[allianceSel][i].char:lower()
@@ -4700,26 +4690,21 @@ function f_allianceSelectPreview()
 		f_drawQuickText(txt_allyLifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].life.rank, atribPosX, 155 + globalPosY)
 		f_drawQuickText(txt_allyDefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].defence.rank, atribPosX, 168 + globalPosY)
 	end
+--Alliance Info
+	textImgSetText(txt_allianceSelLv, txt_allianceSelLvText..t_allianceSel[allianceSel].teamLv)
+	textImgPosDraw(txt_allianceSelLv, 103, 195 + globalPosY)
+	textImgSetText(txt_allianceSelUsed, txt_allianceSelUsedText.."0")
+	textImgPosDraw(txt_allianceSelUsed, 318, 195 + globalPosY)
+	textImgSetText(txt_allianceSelStyle, txt_allianceSelStyleText.."BALANCED")
+	textImgPosDraw(txt_allianceSelStyle, 103, 210 + globalPosY)
 end
 
 function drawAlliTest()
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Course Select
-		animDraw(allianceCourseTrans)
 		f_allianceCoursePreview()
 	--Alliance Select
-		animDraw(allianceSelTrans)
 		f_allianceSelectPreview()
-	--Records
-		textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText.."99:99.99")
-		textImgDraw(txt_allianceSelTimeRecord)
-		textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText.."0")
-		textImgDraw(txt_allianceSelScoreRecord)
-	--Alliance Info
-		textImgSetText(txt_allianceSelLv, txt_allianceSelLvText..t_allianceSel[allianceSel].teamLv)
-		textImgDraw(txt_allianceSelLv)
-		--textImgSetText(txt_allianceSelStyle, txt_allianceSelStyleText.."BALANCED")
-		--textImgDraw(txt_allianceSelStyle)
 	--Draw Transparent BG for inactive panels
 		if courseCursor then
 			textImgSetBank(txt_allianceCourseCfg, 1)
@@ -4732,7 +4717,7 @@ function drawAlliTest()
 			if allianceCourseSel < #t_allianceCourses then
 				animPosDraw(allianceMenuArrowRight, allianceCourseArrowDposX, allianceCourseArrowDposY)
 			end
-			animDraw(allianceSelTrans)
+			animPosDraw(allianceSelTrans, 101.5, 30)
 		else
 			textImgSetBank(txt_allianceCourseCfg, 0)
 			textImgSetBank(txt_allianceCourseName, 4)
@@ -4744,7 +4729,7 @@ function drawAlliTest()
 			if allianceSel < #t_allianceSel then
 				animPosDraw(allianceMenuArrowRight, allianceSelArrowRposX, allianceSelArrowRposY)
 			end
-			animDraw(allianceCourseTrans)
+			animPosDraw(allianceCourseTrans, 0, 7)
 		end
 	--Draw Extra Info
 		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
