@@ -4000,10 +4000,19 @@ end
 --;===========================================================
 txt_allianceTitle = createTextImg(font11, 0, 0, "ALLIANCE SETTINGS", 159, 10)
 txt_allianceTime = createTextImg(font20, 4, 0, "", 300, 18)
+
 txt_allianceInfoCfg = createTextImg(font5, 0, 0, "", 0, 0)
 txt_allianceInfo = [[
 Select the Alliance and Course to play
 Clearing a difficult Course will unlock a new one!
+]]
+
+txt_allianceStatsInfoCfg = createTextImg(font5, 0, 1, "", 0, 0)
+txt_allianceStatsInfo = [[
+Increases Attack Damage.
+Increases Power Start Level.
+Increases Maximum Health.
+Increases Defence.
 ]]
 
 txt_allianceCourseCfg = createTextImg(font7, 0, 0, "COURSE SELECT", 0, 0)
@@ -4579,7 +4588,21 @@ allianceStatsV = animNew(sprIkemen, [[
 animSetScale(allianceStatsV, 0.35, 0.35)
 animUpdate(allianceStatsV)
 
---Course Menu Up Arrows
+--Stats Info Window BG
+allianceStatsWindowBG = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetScale(allianceStatsWindowBG, 1.45, 1.2)
+animUpdate(allianceStatsWindowBG)
+
+--Alliance Stats
+allianceStatsV2 = animNew(sprIkemen, [[
+72,0, 0,0, -1
+]])
+animSetScale(allianceStatsV2, 0.45, 0.45)
+animUpdate(allianceStatsV2)
+
+--Course Menu Left Arrows
 allianceMenuArrowLeft = animNew(sprIkemen, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
@@ -4593,12 +4616,12 @@ allianceMenuArrowLeft = animNew(sprIkemen, [[
 animSetScale(allianceMenuArrowLeft, 0.5, 0.5)
 
 allianceCourseArrowLposX = 4 --Course Select X-Axis
-allianceCourseArrowLposY = 24 --Course Select Y-Axis
+allianceCourseArrowLposY = 18 --Course Select Y-Axis
 
 allianceSelArrowLposX = 163 --Alliance Select X-Axis
 allianceSelArrowLposY = 44 --Alliance Select Y-Axis
 
---Alliance Menu Down Arrows
+--Alliance Menu Right Arrows
 allianceMenuArrowRight = animNew(sprIkemen, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
@@ -4612,7 +4635,7 @@ allianceMenuArrowRight = animNew(sprIkemen, [[
 animSetScale(allianceMenuArrowRight, 0.5, 0.5)
 
 allianceCourseArrowDposX = 80 --Course Select X-Axis
-allianceCourseArrowDposY = 24 --Course Select Y-Axis
+allianceCourseArrowDposY = 18 --Course Select Y-Axis
 
 allianceSelArrowRposX = 250 --Alliance Select X-Axis
 allianceSelArrowRposY = 44 --Alliance Select Y-Axis
@@ -4710,7 +4733,7 @@ function f_allianceSelectPreview()
 	textImgPosDraw(txt_allianceSelStyle, 103, 210 + globalPosY)
 end
 
-function drawAlliTest()
+function drawAlliTest(courseCursor, statsInfo)
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Course Select
 		f_allianceCoursePreview()
@@ -4747,15 +4770,20 @@ function drawAlliTest()
 			animPosDraw(allianceCourseClear, 34.5, 160)
 		end
 	--Alliance Timer
-		--if data.attractMode then
+		if data.attractMode then
 			textImgSetText(txt_allianceTime, string.format("%.0f", allianceTimer / gameTick))
 			if allianceTimer > 0 then
-				allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
+				if not backScreen then allianceTimer = allianceTimer - 0.5 end --Activate Alliance Timer
 				textImgDraw(txt_allianceTime)
 			else --when allianceTimer <= 0
 				
 			end
-		--end
+		end
+		if statsInfo then
+			animPosDraw(allianceStatsWindowBG, 101, 120)
+			animPosDraw(allianceStatsV2, 107, 126)
+			f_textRender(txt_allianceStatsInfoCfg, txt_allianceStatsInfo, 0, 122, 137, 16, 0, 150)
+		end
 	--Draw Extra Info
 		animPosDraw(allianceSelInfoBG, -56, 195) --Draw Info Text BG
 		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 206, 10, 0, 100) --Draw Info Text

@@ -16113,7 +16113,7 @@ if validCells() then
 			elseif data.gameMode == "alliance" then
 				firstAlliance = false
 				f_allianceSelect() --Go to Alliance Course Select
-				if data.tempBack == true then
+				if data.tempBack then
 					f_exitToMainMenu()
 					return
 				end
@@ -18728,6 +18728,7 @@ function allianceCfg()
 	setRoundsToWin(1)
 	setRoundTime(99)
 	setLifeStateDisplay(true)
+	setScoreDisplay(true)
 	setGameMode("alliance")
 	data.gameMode = "alliance"
 	data.recordMode = "alliance"
@@ -18831,33 +18832,32 @@ function f_allianceSelect()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	courseCursor = true
---No local vars
-	f_sideReset()
+	local courseCursor = true
+	local statsInfo = false
 	f_createAllianceCourseData()
 	allianceSel = 1
 	allianceCourseSel = 1
 	allianceRoute = 1
-	exitAlliance = false
+	waitingCourseSel = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-		if not sideScreen then
+		if not backScreen then
 		--Return Logic
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or exitAlliance then
-				f_discordMainMenu()
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-				f_menuMusic()
-				--f_resetMenuArrowsPos()
-				data.tempBack = true
-				break
+				backScreen = true
 		--Course Select Cursor Status
 			elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) then
 				sndPlay(sndSys, 100, 0)
 				if courseCursor then courseCursor = false else courseCursor = true end
+		--Show Stats Info
+			elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
+				sndPlay(sndSys, 100, 1)
+				if statsInfo then statsInfo = false else statsInfo = true end
 		--Start Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
 				sndPlay(sndSys, 100, 1)
+				waitingCourseSel = false
 			--Set AI Level for Next Alliance Match
 				if t_allianceCourses[allianceCourseSel].ailevelstart ~= nil then
 					data.cpuLevel = t_allianceCourses[allianceCourseSel].ailevelstart
@@ -18895,8 +18895,14 @@ function f_allianceSelect()
 				end
 			end
 		end
-		drawAlliTest()
-		if sideScreen then f_sideSelect() else drawAllianceSelInputHints() end
+	--Exit via Return button
+		if data.tempBack then
+			f_discordMainMenu()
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			break
+		end
+		drawAlliTest(courseCursor, statsInfo)
+		if backScreen then f_backMenu() else drawAllianceSelInputHints() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1

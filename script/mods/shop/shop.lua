@@ -247,7 +247,6 @@ t_vaultMsg = {
 "OpenGL? what's that?",
 "Who would thought that Ikemen GO had a Plus Version",
 "Go beyond, PLUS ULTRA!",
-"PlasmoidThunder? he is a misterious cool guy",
 "If I could have access to an internet database...",
 "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen",
 "I am a Legend?", "This is not supposed to be here but yes in the USX Project..",
@@ -260,7 +259,9 @@ t_vaultMsg = {
 "Press Start To Select an Option",
 "You can Write below",
 "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio",
+"PlasmoidThunder? he is a mysterious cool guy. Play Touhou: Gensokyo Reloaded :P",
 "Strong FS? is the guy that inspired CD2",
+"2Dee4ever? He has a common goal and has also expanded CD2's vision!",
 "Greetings! "..data.userName,
 data.userName.." Add your messages here."
 }
