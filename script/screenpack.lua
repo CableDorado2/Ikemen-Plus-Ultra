@@ -3999,6 +3999,7 @@ end
 --; ALLIANCE SELECT MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_allianceTitle = createTextImg(font11, 0, 0, "ALLIANCE SETTINGS", 159, 10)
+txt_allianceTime = createTextImg(font20, 4, 0, "", 300, 18)
 txt_allianceInfoCfg = createTextImg(font5, 0, 0, "", 0, 0)
 txt_allianceInfo = [[
 Select the Alliance and Course to play
@@ -4022,8 +4023,8 @@ txt_allianceSelLvText = "TEAM LEVEL: "
 txt_allianceSelUsedText = "TIMES USED: "
 txt_allianceSelStyleText = "PLAY STYLE: "
 
-txt_allianceSelTimeRecord = createTextImg(font2, 0, 1, "", 0, 0)
-txt_allianceSelScoreRecord = createTextImg(font2, 0, 1, "", 0, 0)
+txt_allianceSelTimeRecord = createTextImg(font2, 0, -1, "", 0, 0)
+txt_allianceSelScoreRecord = createTextImg(font2, 0, -1, "", 0, 0)
 
 txt_allianceSelLv = createTextImg(font2, 0, 1, "", 0, 0)
 txt_allianceSelUsed = createTextImg(font2, 0, -1, "", 0, 0)
@@ -4540,8 +4541,15 @@ animUpdate(allianceSelInfoBG)
 allianceCourseTrans = animNew(sprIkemen, [[
 3,0, 0,0, -1, 0, AS256D102
 ]])
-animSetScale(allianceCourseTrans, 99, 160)
+animSetScale(allianceCourseTrans, 99, 162)
 animUpdate(allianceCourseTrans)
+
+--Course Clear Icon
+allianceCourseClear = animNew(sprIkemen, [[
+215,0, 0,0, -1
+]])
+animSetScale(allianceCourseClear, 0.060, 0.060)
+animUpdate(allianceCourseClear)
 
 --Alliance Select Transparent Background
 allianceSelTrans = animNew(sprIkemen, [[
@@ -4626,8 +4634,8 @@ end
 
 function f_allianceCoursePreview()
 	local globalPosX = -5
-	local globalPosY = -10
-	animPosDraw(allianceCourseTrans, 0, 17 + globalPosY)
+	local globalPosY = -15
+	animPosDraw(allianceCourseTrans, 0, 15 + globalPosY)
 --Title
 	textImgPosDraw(txt_allianceCourseCfg, 53 + globalPosX, 28 + globalPosY)
 --Course Name
@@ -4653,10 +4661,13 @@ function f_allianceCoursePreview()
 	end
 	textImgPosDraw(txt_allianceCourseDat, 55 + globalPosX, 173 + globalPosY)
 --Records
-	textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText.."99:99.99")
-	textImgPosDraw(txt_allianceSelTimeRecord, 2, 188 + globalPosY)
-	textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText.."0")
-	textImgPosDraw(txt_allianceSelScoreRecord, 2, 200 + globalPosY)
+	local recordsPosX = 172
+	textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText)
+	textImgPosDraw(txt_allianceSelScoreRecord, recordsPosX, 25 + globalPosY)
+	f_drawQuickText(txt_allianceSelScoreVal, font2, 0, 1, f_setThousandsFormat(stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].score), recordsPosX, 25 + globalPosY)
+	textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText)
+	textImgPosDraw(txt_allianceSelTimeRecord, recordsPosX, 40 + globalPosY)
+	f_drawQuickText(txt_allianceSelTimeVal, font2, 0, 1, f_setTimeText(stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].time), recordsPosX, 40 + globalPosY)
 end
 
 function f_allianceSelectPreview()
@@ -4729,11 +4740,25 @@ function drawAlliTest()
 			if allianceSel < #t_allianceSel then
 				animPosDraw(allianceMenuArrowRight, allianceSelArrowRposX, allianceSelArrowRposY)
 			end
-			animPosDraw(allianceCourseTrans, 0, 7)
+			animPosDraw(allianceCourseTrans, 0, 0)
 		end
+	--Draw Clear Icon
+		if stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].clear then
+			animPosDraw(allianceCourseClear, 34.5, 160)
+		end
+	--Alliance Timer
+		--if data.attractMode then
+			textImgSetText(txt_allianceTime, string.format("%.0f", allianceTimer / gameTick))
+			if allianceTimer > 0 then
+				allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
+				textImgDraw(txt_allianceTime)
+			else --when allianceTimer <= 0
+				
+			end
+		--end
 	--Draw Extra Info
-		animPosDraw(allianceSelInfoBG, -56, 194) --Draw Info Text BG
-		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 205, 10, 0, 100) --Draw Info Text
+		animPosDraw(allianceSelInfoBG, -56, 195) --Draw Info Text BG
+		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 206, 10, 0, 100) --Draw Info Text
 end
 
 --;===========================================================

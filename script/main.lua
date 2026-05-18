@@ -18856,7 +18856,7 @@ function f_allianceSelect()
 				sndPlay(sndSys, 100, 0)
 				if courseCursor then courseCursor = false else courseCursor = true end
 		--Start Actions
-			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
 				sndPlay(sndSys, 100, 1)
 			--Set AI Level for Next Alliance Match
 				if t_allianceCourses[allianceCourseSel].ailevelstart ~= nil then
