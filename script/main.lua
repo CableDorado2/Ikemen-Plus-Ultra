@@ -715,6 +715,7 @@ function f_confirmMenu(txt, font, bank, x, y, scaleX, scaleY, spacing, limit)
 				deleteReplay = true --For Replay Menu
 				tourneyBack = true --For Tournament Menu
 				exitAbyss = true --For Abyss Menu
+				allianceConfirm = true --For Alliance Menu
 			end
 	--NO
 		else
@@ -2917,6 +2918,7 @@ function bossCfg()
 	data.recordMode = "boss"
 	--data.stageMenu = true
 	data.cpuLevel = 8
+	setRoundTime(-1)
 	textImgSetText(txt_mainSelect, bossDat)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -18838,10 +18840,12 @@ function f_allianceSelect()
 	allianceSel = 1
 	allianceCourseSel = 1
 	allianceRoute = 1
+	allianceConfirm = false
 	waitingCourseSel = true
+	f_confirmReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-		if not backScreen then
+		if not backScreen and not confirmScreen then
 		--Return Logic
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
@@ -18855,15 +18859,9 @@ function f_allianceSelect()
 				sndPlay(sndSys, 100, 1)
 				if statsInfo then statsInfo = false else statsInfo = true end
 		--Start Actions
-			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
 				sndPlay(sndSys, 100, 1)
-				waitingCourseSel = false
-			--Set AI Level for Next Alliance Match
-				if t_allianceCourses[allianceCourseSel].ailevelstart ~= nil then
-					data.cpuLevel = t_allianceCourses[allianceCourseSel].ailevelstart
-					data.cpuLevel = f_minMax(data.cpuLevel, 1, 8)
-				end
-				break
+				confirmScreen = true
 			end
 		--Alliance Team Select
 			if not courseCursor then
@@ -18895,14 +18893,29 @@ function f_allianceSelect()
 				end
 			end
 		end
+	--Start Alliance Mode
+		if allianceConfirm or allianceTimer == 0 then
+			waitingCourseSel = false
+		--Set AI Level for Next Alliance Match
+			if t_allianceCourses[allianceCourseSel].ailevelstart ~= nil then
+				data.cpuLevel = t_allianceCourses[allianceCourseSel].ailevelstart
+				data.cpuLevel = f_minMax(data.cpuLevel, 1, 8)
+			end
+			break
 	--Exit via Return button
-		if data.tempBack then
+		elseif data.tempBack then
 			f_discordMainMenu()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			break
 		end
 		drawAlliTest(courseCursor, statsInfo)
-		if backScreen then f_backMenu() else drawAllianceSelInputHints() end
+		if backScreen then
+			f_backMenu()
+		elseif confirmScreen then
+			f_confirmMenu(txt_allianceConfirm, jgFnt, 0, 160, 110, 0.9, 0.9)
+		else
+			drawAllianceSelInputHints()
+		end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -19094,10 +19107,11 @@ function f_allianceExchange()
 		end
 		update = true
 	end
+	allianceConfirm = false
 	f_timersReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
-		if selection == 0 and not backScreen then
+		if selection == 0 and not confirmScreen then
 		--Return Logic
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
@@ -19118,13 +19132,7 @@ function f_allianceExchange()
 					t_temp[1] = t_enemyTeam[enemyMember]
 			--Ally to Exchange Selected
 				else
-					startCount = true
-				--Update Player Team
-					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-						data.t_p2selected = t_playerTeam
-					else
-						data.t_p1selected = t_playerTeam
-					end
+					confirmScreen = true
 				end
 		--Alliance Enemy Member Select
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -19150,6 +19158,16 @@ function f_allianceExchange()
 			commandBufReset(p2Cmd)
 			startCount = false
 			break
+		end
+	--Exchange Member Confirm
+		if allianceConfirm and not startCount then
+			startCount = true
+			--Update Player Team
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				data.t_p2selected = t_playerTeam
+			else
+				data.t_p1selected = t_playerTeam
+			end
 		end
 		if enemyMember < 1 then
 			enemyMember = #t_enemyTeam
@@ -19205,7 +19223,7 @@ function f_allianceExchange()
 		if data.attractMode then
 			textImgSetText(txt_allianceExchangeTime, string.format("%.0f", allianceTimer / gameTick))
 			if allianceTimer > 0 then
-				if not backScreen and not startCount then allianceTimer = allianceTimer - 0.5 end --Activate Alliance Timer
+				if not startCount then allianceTimer = allianceTimer - 0.5 end --Activate Alliance Timer
 				textImgDraw(txt_allianceExchangeTime)
 			else --when allianceTimer <= 0
 			--Skip Exchange	by time over
@@ -19214,7 +19232,11 @@ function f_allianceExchange()
 				break
 			end
 		end
-		drawAllianceExchangeInputHints(enemySide)
+		if confirmScreen then
+			f_confirmMenu(txt_allianceExchangeConfirm, jgFnt, 0, 160, 110, 0.9, 0.9)
+		else
+			drawAllianceExchangeInputHints(enemySide)
+		end
 		if data.debugMode then f_drawQuickText(txt_selectionTime, font3, 0, 0, selection, 163.5, 168) end --For Debug Purposes
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0

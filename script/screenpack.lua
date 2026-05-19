@@ -675,6 +675,14 @@ Return to Tournament Rules Menu
 Tournament will End
 ]]
 
+txt_allianceConfirm = [[
+Ready to Start in this Setup?
+]]
+
+txt_allianceExchangeConfirm = [[
+Replace this Ally Character?
+]]
+
 txt_abyssConfirmShopBack = [[
 Return to Main Menu
 Items purchased at the Shop will reset
@@ -4944,7 +4952,7 @@ t_abyssSel = { --TODO: Generate this via .def file format for end-user comfortab
 				stats = 5, --Special Boss stats (life, power, attack, defence)
 				pal = 1, --Palette
 				ailevel = 8, --CPU Level
-				itemslot = {[1] = "Power Drain", [2] = "", [3] = "", [4] = ""} --Special Items
+				itemslot = {[1] = "Power Drain", [2] = "Doomsday Clock", [3] = "", [4] = ""} --Special Items
 			},
 		},
 	},
@@ -5230,6 +5238,8 @@ txt_abyssShopDepthStats = "Heart of the Hero"
 txt_abyssShopRewardUp = "Trader"
 txt_abyssShopTimeControl = "Time Lord"
 txt_abyssShopMirror = "Glass Mirror"
+--Exclusive CPU Special Items
+txt_abyssItemShortTime = "Doomsday Clock" --Shortens the time of a round.
 
 --Common Item Prices
 txt_abyssShopItemPrice1 = 250
@@ -5245,7 +5255,7 @@ t_abyssMenu = {
 --Special Items without Levels
 local t_nolvItems = {
  {showfromdepth = 0, text = txt_abyssShopDepthSpeed, price = 3000, info = "Increases the rate of descent into the Abyss.", unlock = "true"},
- {showfromdepth = 0, text = txt_abyssShopTimeControl, price = 2400, info = "Shortens the time of a round.", unlock = "true"},
+ {showfromdepth = 0, text = txt_abyssShopTimeControl, price = 2400, info = "Round Time will be Infinite.", unlock = "true"},
  {showfromdepth = 0, text = txt_abyssShopDamageX2, price = 4200, info = "When remaining HP is low, Player damage output is multiplied by 2.", unlock = "true"},
  {showfromdepth = 0, text = txt_abyssShopAutoguard, price = 2500, info = "Guard attacks automatically.", unlock = "true"},
  --{showfromdepth = 0, text = txt_abyssShopGuardInfinite, price = 3000, info = "Guard Gauge becomes infinite.", unlock = "true"},
@@ -5258,6 +5268,9 @@ local t_nolvItems = {
  --{showfromdepth = 0, text = txt_abyssShopDepthStats, price = 10000, info = "Increases your character stats as the depth increases.", unlock = "true"},
  --{showfromdepth = 0, text = txt_abyssShopMirror, price = 8200, info = "Makes your items and stats the same as your opponent.", unlock = "true"},
 }
+for i=1, #t_nolvItems do
+	if t_nolvItems[i].unlock == nil then t_nolvItems[i].unlock = "true" end
+end
 
 --Special Items with Levels
 local t_regenHPItems = {
@@ -5271,6 +5284,7 @@ for i=1, #t_regenHPItems do
 	--t_regenHPItems[i].life = true
 	t_regenHPItems[i].text = txt_abyssShopLifeRegeneration..lv
 	t_regenHPItems[i].info = "Gradually regenerates Life over time."..t_regenHPItems[i].lvinfo
+	if t_regenHPItems[i].unlock == nil then t_regenHPItems[i].unlock = "true" end
 end
 --====================================================================================================
 local t_poisonItems = {
@@ -5284,6 +5298,7 @@ for i=1, #t_poisonItems do
 	--t_poisonItems[i].life = true
 	t_poisonItems[i].text = txt_abyssShopPoison..lv
 	t_poisonItems[i].info = "Landing an attack on the opponent will poison him for a "..t_poisonItems[i].lvinfo.." time."
+	if t_poisonItems[i].unlock == nil then t_poisonItems[i].unlock = "true" end
 end
 --====================================================================================================
 local t_restoreHPItems = {
@@ -5297,6 +5312,7 @@ for i=1, #t_restoreHPItems do
 	--t_restoreHPItems[i].life = true
 	t_restoreHPItems[i].text = txt_abyssShopLifeRestore..lv
 	t_restoreHPItems[i].info = "Regenerates a "..t_restoreHPItems[i].lvinfo.." amount of Life after the match has been won."
+	if t_restoreHPItems[i].unlock == nil then t_restoreHPItems[i].unlock = "true" end
 end
 --====================================================================================================
 local t_curseItems = {
@@ -5309,6 +5325,7 @@ for i=1, #t_curseItems do
 	--t_curseItems[i].life = true
 	t_curseItems[i].text = txt_abyssShopCurse..lv
 	t_curseItems[i].info = t_curseItems[i].lvinfo.." of the damage you take, your opponent will take."
+	if t_curseItems[i].unlock == nil then t_curseItems[i].unlock = "true" end
 end
 --====================================================================================================
 local t_regenPowItems = {
@@ -5322,6 +5339,7 @@ for i=1, #t_regenPowItems do
 	--t_regenPowItems[i].life = true
 	t_regenPowItems[i].text = txt_abyssShopPowerRegeneration..lv
 	t_regenPowItems[i].info = "Gradually regenerates Power over time."..t_regenPowItems[i].lvinfo
+	if t_regenPowItems[i].unlock == nil then t_regenPowItems[i].unlock = "true" end
 end
 --====================================================================================================
 t_abyssSpecialItems = {"delete"} --Create All Special Items Table
@@ -5358,6 +5376,7 @@ for i=1, #t_abyssLife do --Set common values to all table items
 	t_abyssLife[i].life = true --Make this item recognizable as a life increase item
 	t_abyssLife[i].text = "Life +"..t_abyssLife[i].val
 	t_abyssLife[i].info = "Increases Life Level by "..t_abyssLife[i].val
+	if t_abyssLife[i].unlock == nil then t_abyssLife[i].unlock = "true" end
 end
 
 --Power Items
@@ -5377,6 +5396,7 @@ for i=1, #t_abyssPower do
 	t_abyssPower[i].power = true
 	t_abyssPower[i].text = "Power +"..t_abyssPower[i].val
 	t_abyssPower[i].info = "Increases Power Level by "..t_abyssPower[i].val
+	if t_abyssPower[i].unlock == nil then t_abyssPower[i].unlock = "true" end
 end
 
 --Attack Items
@@ -5396,6 +5416,7 @@ for i=1, #t_abyssAttack do
 	t_abyssAttack[i].attack = true
 	t_abyssAttack[i].text = "Attack +"..t_abyssAttack[i].val
 	t_abyssAttack[i].info = "Increases Attack Level by "..t_abyssAttack[i].val
+	if t_abyssAttack[i].unlock == nil then t_abyssAttack[i].unlock = "true" end
 end
 
 --Defence Items
@@ -5415,6 +5436,7 @@ for i=1, #t_abyssDefence do
 	t_abyssDefence[i].defence = true
 	t_abyssDefence[i].text = "Defence +"..t_abyssDefence[i].val
 	t_abyssDefence[i].info = "Increases Defence Level by "..t_abyssDefence[i].val
+	if t_abyssDefence[i].unlock == nil then t_abyssDefence[i].unlock = "true" end
 end
 
 --Depth Descend Items
@@ -5433,6 +5455,7 @@ for i=1, #t_abyssDepth do
 	t_abyssDepth[i].depth = true
 	t_abyssDepth[i].text = "Depth +"..t_abyssDepth[i].val
 	t_abyssDepth[i].info = "Descend "..t_abyssDepth[i].val.." Levels from where you start."
+	if t_abyssDepth[i].unlock == nil then t_abyssDepth[i].unlock = "true" end
 end
 
 t_abyssShop = {"delete"} --Create Abyss Shop Table

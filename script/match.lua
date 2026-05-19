@@ -895,7 +895,7 @@ local function f_abyssItemsSet()
 					--Depth Speed
 						if p1Dat[i].itemslot[slot] == txt_abyssShopDepthSpeed then abyssHitTarget = 1 end
 					--Time Control
-						if p1Dat[i].itemslot[slot] == txt_abyssShopTimeControl then setTime(getRoundTime() / 2) end
+						if p1Dat[i].itemslot[slot] == txt_abyssShopTimeControl then setTime(-1) end
 					--After Check all Slots
 						if slot == #p1Dat[i].itemslot then specialItemDone = true end
 					end
@@ -1027,6 +1027,8 @@ local function f_abyssItemsSetCPU()
 						if p2Dat[i].itemslot[slot] == txt_abyssShopAutoguard then setAutoguard(p2Dat[i].pn, true) end
 					--CPU Power Max
 						if p2Dat[i].itemslot[slot] == txt_abyssShopPowerMax then setPower(powermax()) end
+					--CPU Shorten Time
+						if p2Dat[i].itemslot[slot] == txt_abyssItemShortTime then setTime(getRoundTime() / 2) end
 					--After Check all Slots
 						if slot == #p2Dat[i].itemslot then specialItemDoneCPU = true end
 					end
@@ -1676,8 +1678,8 @@ function loop() --The code for this function should be thought of as if it were 
 	elseif gameMode() == "abyss" or gameMode() == "abysscoop" then
 		f_abyssStatsSet() --Set Abyss Stats
 	--Set Abyss Special Items
-		f_abyssItemsSet()
 		f_abyssItemsSetCPU()
+		f_abyssItemsSet() --Here to give priority to Player's Special Items
 	--Increase Abyss Depth Counter
 		if abyssbossfight() == 0 and roundstate() >= 2 then
 			if (playerLeftSide and player(2) or not playerLeftSide and player(1)) and gethitvar("hitcount") >= 1 and time() == 0 then
