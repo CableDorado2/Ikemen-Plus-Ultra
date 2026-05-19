@@ -38,7 +38,7 @@ static void updateDiscordPresence()
         DiscordRichPresence discordPresence;
         memset(&discordPresence, 0, sizeof(discordPresence));
         discordPresence.state = "West of House";
-        sprintf(buffer, "Frustration level: %d", FrustrationLevel);
+        snprintf(buffer, sizeof(buffer), "Frustration level: %d", FrustrationLevel);
         discordPresence.details = buffer;
         discordPresence.startTimestamp = StartTime;
         discordPresence.endTimestamp = time(0) + 5 * 60;
