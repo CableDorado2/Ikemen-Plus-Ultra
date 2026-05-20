@@ -802,24 +802,67 @@ end
 --; MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
+txt_mainInfo = createTextImg(font6, 0, 1, "", 0, 0, 0.7, 0.7)
 MainFadeInTime = 30
 commonMenuItemSign = "> "
 
 t_mainMenu = {
-	{text = "ARCADE", 		gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
-	{text = "VERSUS", 		gotomenu = "f_vsMenu()"},
-	{text = "NETPLAY", 		gotomenu = "f_mainNetplay()"},
-	{text = "PRACTICE", 	gotomenu = "f_practiceMenu()"},
-	{text = "CHALLENGES", 	gotomenu = "f_challengeMenu()"},
-	{text = "EXTRAS", 		gotomenu = "f_extrasMenu()"},--, unlock = "stats.modes.arcade.clear >= 1"},
-	{text = "WATCH", 		gotomenu = "f_watchMenu()"},
-	{text = "OPTIONS", 		gotomenu = "f_optionsMenu()"},
-	{text = "EXIT", 		gotomenu = "f_exitMenu()"},
+	{
+		text = "ARCADE",
+		info = "Fight against a CPU-Controller group in a variety of Arcade Ladders.",
+		gotomenu = "f_arcadeMenu()" --Each function loaded by "gotomenu", need to be declared in main.lua
+	},
+	{
+		text = "VERSUS",
+		info = "Face off against specific Human or AI-controlled opponents.",
+		gotomenu = "f_vsMenu()"
+	},
+	{
+		text = "NETPLAY",
+		info = "Fight or Play in Cooperative modes with Human players over the Network.",
+		gotomenu = "f_mainNetplay()"
+	},
+	{
+		text = "PRACTICE",
+		info = "Learn the basics of 2D Fighting Games through Game Modes designed for Training.",
+		gotomenu = "f_practiceMenu()"
+	},
+	{
+		text = "CHALLENGES",
+		info = "Play a Collection of Advanced Game Modes.",
+		gotomenu = "f_challengeMenu()"
+	},
+	{
+		text = "EXTRAS",
+		info = "Play a Collection of Special Game Modes.",
+		gotomenu = "f_extrasMenu()" --, unlock = "stats.modes.arcade.clear >= 1",
+	},
+	{
+		text = "WATCH",
+		info = "Watch Replays, Explore Stages, Listen Music and more!",
+		gotomenu = "f_watchMenu()"
+	},
+	{
+		text = "OPTIONS",
+		info = "adjust engine settings.",
+		gotomenu = "f_optionsMenu()"
+	},
+	{
+		text = "EXIT",
+		info = "Shutdown or Reboot the Engine.",
+		gotomenu = "f_exitMenu()"
+	},
 }
 --Set ID to all final items
 for i=1, #t_mainMenu do
 	t_mainMenu[i]['id'] = textImgNew()
 	if t_mainMenu[i].unlock == nil then t_mainMenu[i].unlock = "true" end
+end
+
+function drawMenuInfo(t)
+	local txtInfo = "???"
+	if t.info ~= nil then txtInfo = t.info end
+	f_textRender(txt_mainInfo, txtInfo, 0, 145, 160, 10, 0, 30)
 end
 
 function drawMainMenuInputHints()
@@ -863,9 +906,21 @@ end
 --; ARCADE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_arcadeMenu = {
-	{text = "CLASSIC",	  gotomenu = "f_arcadeBoot()"},
-	{text = "BOSS RUSH",  gotomenu = "f_bossrushBoot()"},
-	{text = "TOWER", 	  gotomenu = "f_towerBoot()"},
+	{
+		text = "CLASSIC",
+		info = "Fight against CPU controlled opponents in the Classic Arcade Mode.",
+		gotomenu = "f_arcadeBoot()"
+	},
+	{
+		text = "BOSS RUSH",
+		info = "Defeat all Bosses in a row.",
+		gotomenu = "f_bossrushBoot()"
+	},
+	{
+		text = "TOWER",
+		info = "Play through several Arcade Ladders with specific Difficulties.",
+		gotomenu = "f_towerBoot()"
+	},
 }
 for i=1, #t_arcadeMenu do
 	t_arcadeMenu[i]['id'] = textImgNew()
@@ -876,10 +931,26 @@ end
 --; VERSUS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_vsMenu = {
-	{text = "QUICK MATCH",  gotomenu = "f_quickvsBoot()"},
-	{text = "FREE BATTLE",  gotomenu = "f_vsBoot()"},
-	{text = "TOURNAMENT",	gotomenu = "f_tourneyCfg()"},
-	{text = "BOSS ASSAULT", gotomenu = "f_bossChars()"},
+	{
+		text = "QUICK MATCH",
+		info = "Test your skills in a Random Battle.",
+		gotomenu = "f_quickvsBoot()"
+	},
+	{
+		text = "FREE BATTLE",
+		info = "Play matches with your own rules.",
+		gotomenu = "f_vsBoot()"
+	},
+	{
+		text = "TOURNAMENT",
+		info = "Participate in Customizable Tournaments",
+		gotomenu = "f_tourneyCfg()"
+	},
+	{
+		text = "BOSS ASSAULT",
+		info = "Challenge a specific Boss Character",
+		gotomenu = "f_bossChars()"
+	},
 }
 for i=1, #t_vsMenu do
 	t_vsMenu[i]['id'] = textImgNew()
@@ -890,8 +961,16 @@ end
 --; PRACTICE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_practiceMenu = {
-	{text = "TRAINING", gotomenu = "f_training()"},
-	{text = "TRIALS", 	gotomenu = "f_comingSoon()"},
+	{
+		text = "TRAINING",
+		info = "Practice special attacks and combos with a training dummy character(s) of your choice.",
+		gotomenu = "f_training()"
+	},
+	{
+		text = "TRIALS",
+		info = "",
+		gotomenu = "f_comingSoon()"
+	},
 }
 for i=1, #t_practiceMenu do
 	t_practiceMenu[i]['id'] = textImgNew()
@@ -902,10 +981,22 @@ end
 --; CHALLENGES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_challengeMenu = {
-	{text = "ALLIANCE",		gotomenu = "f_allianceBoot()"},
-	{text = "SURVIVAL", 	gotomenu = "f_survivalMenu()"},
-	{text = "TIME ATTACK", 	gotomenu = "f_timeattackMenu()"},
-	{text = "SCORE ATTACK", gotomenu = "f_scoreattackMenu()"},
+	{
+		text = "ALLIANCE",
+		gotomenu = "f_allianceBoot()"
+	},
+	{
+		text = "SURVIVAL",
+		gotomenu = "f_survivalMenu()"
+	},
+	{
+		text = "TIME ATTACK",
+		gotomenu = "f_timeattackMenu()"
+	},
+	{
+		text = "SCORE ATTACK",
+		gotomenu = "f_scoreattackMenu()"
+	},
 }
 for i=1, #t_challengeMenu do
 	t_challengeMenu[i]['id'] = textImgNew()
@@ -916,9 +1007,18 @@ end
 --; SURVIVAL MENU SCREENPACK DEFINITION
 --;===========================================================
 t_survivalMenu = {
-	{text = "CLASSIC", 	 	gotomenu = "f_survivalBoot()"},
-	{text = "ABYSS", 	 	gotomenu = "f_abyssSelect()"},
-	{text = "SUDDEN DEATH", gotomenu = "f_suddendeathBoot()"},
+	{
+		text = "CLASSIC",
+		gotomenu = "f_survivalBoot()"
+	},
+	{
+		text = "ABYSS",
+		gotomenu = "f_abyssSelect()"
+	},
+	{
+		text = "SUDDEN DEATH",
+		gotomenu = "f_suddendeathBoot()"
+	},
 }
 for i=1, #t_survivalMenu do
 	t_survivalMenu[i]['id'] = textImgNew()
@@ -929,9 +1029,18 @@ end
 --; TIME ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_timeattackMenu = {
-	{text = "CLASSIC", 		gotomenu = "f_timeattackBoot()"},
-	{text = "SPEED STAR", 	gotomenu = "f_speedstarBoot()"},
-	{text = "???", 			gotomenu = "f_comingSoon()"},
+	{
+		text = "CLASSIC",
+		gotomenu = "f_timeattackBoot()"
+	},
+	{
+		text = "SPEED STAR",
+		gotomenu = "f_speedstarBoot()"
+	},
+	{
+		text = "???",
+		gotomenu = "f_comingSoon()"
+	},
 }
 for i=1, #t_timeattackMenu do
 	t_timeattackMenu[i]['id'] = textImgNew()
@@ -942,9 +1051,18 @@ end
 --; SCORE ATTACK MENU SCREENPACK DEFINITION
 --;===========================================================
 t_scoreattackMenu = {
-	{text = "CLASSIC", 	 gotomenu = "f_scoreattackBoot()"},
-	{text = "CARAVAN", 	 gotomenu = "f_caravanBoot()"},
-	{text = "???", 		 gotomenu = "f_comingSoon()"},
+	{
+		text = "CLASSIC",
+		gotomenu = "f_scoreattackBoot()"
+	},
+	{
+		text = "CARAVAN",
+		gotomenu = "f_caravanBoot()"
+	},
+	{
+		text = "???",
+		gotomenu = "f_comingSoon()"
+	},
 }
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
@@ -955,10 +1073,22 @@ end
 --; EXTRAS MENU SCREENPACK DEFINITION
 --;===========================================================
 t_extrasMenu = {
-	{text = "BONUS GAMES",	gotomenu = "f_bonusMenu()"},
-	{text = "GOLD RUSH",	gotomenu = "f_goldrushBoot()"},
-	{text = "KUMITE",		gotomenu = "f_kumiteBoot()"},
-	{text = "ENDLESS",		gotomenu = "f_endlessBoot()"},
+	{
+		text = "BONUS GAMES",
+		gotomenu = "f_bonusMenu()"
+	},
+	{
+		text = "GOLD RUSH",
+		gotomenu = "f_goldrushBoot()"
+	},
+	{
+		text = "KUMITE",
+		gotomenu = "f_kumiteBoot()"
+	},
+	{
+		text = "ENDLESS",
+		gotomenu = "f_endlessBoot()"
+	},
 }
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()
@@ -969,8 +1099,14 @@ end
 --; BONUS GAMES MENU SCREENPACK DEFINITION
 --;===========================================================
 t_bonusMenu = {
-	{text = "GAME SELECT",  gotomenu = "f_bonusExtras()"},
-	{text = "MARATHON",		gotomenu = "f_bonusrushBoot()"},
+	{
+		text = "GAME SELECT",
+		gotomenu = "f_bonusExtras()"
+	},
+	{
+		text = "MARATHON",
+		gotomenu = "f_bonusrushBoot()"
+	},
 }
 for i=1, #t_bonusMenu do
 	t_bonusMenu[i]['id'] = textImgNew()
@@ -981,12 +1117,30 @@ end
 --; WATCH MENU SCREENPACK DEFINITION
 --;===========================================================
 t_watchMenu = {
-	{text = "REPLAYS", 		 gotomenu = "f_replayMenu()"},
-	{text = "STAGE VIEWER",  gotomenu = "f_stageViewer()"},
-	{text = "SOUND TEST", 	 gotomenu = "soundTest = true f_songMenu()"},
-	{text = "RANKINGS",  gotomenu = "f_rankings()"},
-	{text = "LICENSES", 	 gotomenu = "f_licenseMenu()"},
-	{text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
+	{
+		text = "REPLAYS",
+		gotomenu = "f_replayMenu()"
+	},
+	{
+		text = "STAGE VIEWER",
+		gotomenu = "f_stageViewer()"
+	},
+	{
+		text = "SOUND TEST",
+		gotomenu = "soundTest = true f_songMenu()"
+	},
+	{
+		text = "RANKINGS",
+		gotomenu = "f_rankings()"
+	},
+	{
+		text = "LICENSES",
+		gotomenu = "f_licenseMenu()"
+	},
+	{
+		text = "STAFF CREDITS",
+		gotomenu = "f_playCredits()"
+	},
 }
 for i=1, #t_watchMenu do
 	t_watchMenu[i]['id'] = textImgNew()
@@ -997,9 +1151,16 @@ end
 --; REPLAY MENU SCREENPACK DEFINITION
 --;===========================================================
 t_replayMenu = {
-	{id = textImgNew(), text = "NETPLAY"},
-	{id = textImgNew(), text = "LOCAL"},
+	{
+		text = "NETPLAY"
+	},
+	{
+		text = "LOCAL"
+	},
 }
+for i=1, #t_replayMenu do
+	t_replayMenu[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; ONLINE REPLAYS MENU SCREENPACK DEFINITION
@@ -1155,9 +1316,18 @@ end
 --; ONLINE MENU SCREENPACK DEFINITION
 --;===========================================================
 t_mainNetplay = {
-	{id = textImgNew(), text = "HOST [CREATE ROOM]"},
-	{id = textImgNew(), text = "GUEST [JOIN A ROOM]"},
+	{
+		text = "HOST",
+		info = "CREATE ROOM"
+	},
+	{
+		text = "GUEST",
+		info = "JOIN A ROOM"
+	},
 }
+for i=1, #t_mainNetplay do
+	t_mainNetplay[i]['id'] = textImgNew()
+end
 
 --;===========================================================
 --; ONLINE HOST ROOM SCREENPACK DEFINITION
@@ -1254,20 +1424,48 @@ end
 --; ONLINE LOBBY MENU SCREENPACK DEFINITION
 --;===========================================================
 t_mainLobby = {
-	{text = ""},
-	{text = "PRACTICE"},
-	{text = "ARCADE"},
-	{text = "TOWER"},
-	{text = "SURVIVAL"},
-	{text = "ENDLESS"},
-	{text = "BOSS RUSH"},
-	{text = "BONUS RUSH"},
-	{text = "SPEED STAR"},
-	{text = "TIME ATTACK"},
-	{text = "SCORE ATTACK"},
-	{text = ""}, --KUMITE
-	{text = "SUDDEN DEATH"},
-	{text = "ONLINE SETTINGS"},
+	{
+		text = "" --VERSUS
+	},
+	{
+		text = "PRACTICE"
+	},
+	{
+		text = "ARCADE"
+	},
+	{
+		text = "TOWER"
+	},
+	{
+		text = "SURVIVAL"
+	},
+	{
+		text = "ENDLESS"
+	},
+	{
+		text = "BOSS RUSH"
+	},
+	{
+		text = "BONUS RUSH"
+	},
+	{
+		text = "SPEED STAR"
+	},
+	{
+		text = "TIME ATTACK"
+	},
+	{
+		text = "SCORE ATTACK"
+	},
+	{
+		text = "" --KUMITE
+	},
+	{
+		text = "SUDDEN DEATH"
+	},
+	{
+		text = "ROOM SETTINGS"
+	},
 }
 for i=1, #t_mainLobby do
 	t_mainLobby[i]['id'] = textImgNew()
