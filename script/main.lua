@@ -268,6 +268,7 @@ function f_mainMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	closeText = 1
 	f_menuMusic()
 	f_infoReset()
@@ -332,8 +333,10 @@ function f_mainMenu()
 		for i=1, #t_mainMenu do
 			if i == mainMenu then
 				bank = 5 --Text Color (0=Nothing, 1=Red, 2=Green, 3=Blue, 4=Nothing, 5=Yellow, 6=Pink, 7=Shadow, 8=Black, 9=¿?)
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_mainMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_mainMenu[i].text
@@ -341,7 +344,7 @@ function f_mainMenu()
 				itemText = "???"
 			end
 			if not infoboxScreen then
-				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt)) --Text Position
+				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt)) --Text Position
 			end
 		end
 		if not infoScreen and not infoboxScreen then
@@ -751,6 +754,7 @@ function f_exitMenu(titleBGM)
 	local bufr = 0
 	local bufl = 0
 	local question = nil
+	local itemSign = ""
 	f_confirmReset()
 	exitScreen = false
 	if titleBGM then playBGM(bgmTitle) end
@@ -828,16 +832,18 @@ function f_exitMenu(titleBGM)
 		for i=1, #t_exitMenu do
 			if i == exitMenu then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
-			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 145 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 1, itemSign..t_exitMenu[i].text, 5, 94 + i * 13 - moveTxt))
 		end
 		if infoScreen then
 			table.remove(t_exitMenu, 3) --Remove Option 3 in table if characters or stages are not detected
 		end
 		if not confirmScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,148 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1304,6 +1310,7 @@ function f_arcadeMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	f_sideReset() --Reset Values to Show Side Select
 	f_unlock(false)
@@ -1355,15 +1362,17 @@ function f_arcadeMenu()
 		for i=1, #t_arcadeMenu do
 			if i == arcadeMenu then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_arcadeMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_arcadeMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -1417,6 +1426,7 @@ function f_vsMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -1468,15 +1478,17 @@ function f_vsMenu()
 		for i=1, #t_vsMenu do
 			if i == vsMenu then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_vsMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_vsMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -1530,6 +1542,7 @@ function f_practiceMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -1581,15 +1594,17 @@ function f_practiceMenu()
 		for i=1, #t_practiceMenu do
 			if i == practiceMenu then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_practiceMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_practiceMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -1674,6 +1689,7 @@ function f_challengeMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -1725,15 +1741,17 @@ function f_challengeMenu()
 		for i=1, #t_challengeMenu do
 			if i == challengeMenu then
 				bank = 1
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_challengeMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_challengeMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -1787,6 +1805,7 @@ function f_extrasMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_sideReset()
 	f_infoReset()
 	f_unlock(false)
@@ -1838,15 +1857,17 @@ function f_extrasMenu()
 		for i=1, #t_extrasMenu do
 			if i == extrasMenu then
 				bank = 2
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_extrasMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_extrasMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -1887,7 +1908,7 @@ function f_extrasMenu()
 end
 
 --;===========================================================
---; WATCH MENU (watch replays, player profile, licenses and more)
+--; WATCH MENU (watch replays, licenses, listen songs and more)
 --;===========================================================
 function f_watchMenu()
 	cmdInput()
@@ -1900,6 +1921,7 @@ function f_watchMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	f_unlock(false)
 	f_updateUnlocks()
@@ -1950,15 +1972,17 @@ function f_watchMenu()
 		for i=1, #t_watchMenu do
 			if i == watchMenu then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_watchMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_watchMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -2413,6 +2437,7 @@ function f_survivalMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -2464,15 +2489,17 @@ function f_survivalMenu()
 		for i=1, #t_survivalMenu do
 			if i == survivalMenu then
 				bank = 1
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_survivalMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_survivalMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -2882,6 +2909,7 @@ function f_bonusMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local itemSign = ""
 	f_sideReset()
 	f_unlock(false)
 	f_updateUnlocks()
@@ -2932,15 +2960,17 @@ function f_bonusMenu()
 		for i=1, #t_bonusMenu do
 			if i == bonusMenu then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_bonusMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_bonusMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -3225,6 +3255,7 @@ function f_scoreattackMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -3276,15 +3307,17 @@ function f_scoreattackMenu()
 		for i=1, #t_scoreattackMenu do
 			if i == scoreattackMenu then
 				bank = 1
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_scoreattackMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_scoreattackMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -3516,7 +3549,9 @@ function f_timeattackMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 7
 	local itemText = nil
+	local itemSign = ""
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -3535,8 +3570,8 @@ function f_timeattackMenu()
 			end
 			if timeattackMenu < 1 then
 				timeattackMenu = #t_timeattackMenu
-				if #t_timeattackMenu > 5 then
-					cursorPosY = 5
+				if #t_timeattackMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_timeattackMenu - 1
 				end
@@ -3545,20 +3580,20 @@ function f_timeattackMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (timeattackMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (timeattackMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (timeattackMenu - 1) * 13
 			end
-			if #t_timeattackMenu <= 5 then
+			if #t_timeattackMenu <= maxItems then
 				maxtimeattackMenu = #t_timeattackMenu
 			elseif timeattackMenu - cursorPosY > 0 then
-				maxtimeattackMenu = timeattackMenu + 5 - cursorPosY
+				maxtimeattackMenu = timeattackMenu + maxItems - cursorPosY
 			else
-				maxtimeattackMenu = 5
+				maxtimeattackMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_timeattackMenu[timeattackMenu])
@@ -3568,15 +3603,17 @@ function f_timeattackMenu()
 		for i=1, #t_timeattackMenu do
 			if i == timeattackMenu then
 				bank = 1
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_timeattackMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_timeattackMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -3588,11 +3625,11 @@ function f_timeattackMenu()
 		textImgSetText(txt_gameFt, "TIME ATTACK MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxtimeattackMenu > 6 then
+		if maxtimeattackMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_timeattackMenu > 6 and maxtimeattackMenu < #t_timeattackMenu then
+		if #t_timeattackMenu > maxItems + 1 and maxtimeattackMenu < #t_timeattackMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -5663,6 +5700,8 @@ function f_replayMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 7
+	local itemSign = ""
 	f_infoReset()
 	while true do
 		if not infoScreen then
@@ -5678,8 +5717,8 @@ function f_replayMenu()
 			end
 			if replayMenu < 1 then
 				replayMenu = #t_replayMenu
-				if #t_replayMenu > 5 then
-					cursorPosY = 5
+				if #t_replayMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_replayMenu - 1
 				end
@@ -5688,20 +5727,20 @@ function f_replayMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (replayMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (replayMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (replayMenu - 1) * 13
 			end
-			if #t_replayMenu <= 5 then
+			if #t_replayMenu <= maxItems then
 				maxreplayMenu = #t_replayMenu
 			elseif replayMenu - cursorPosY > 0 then
-				maxreplayMenu = replayMenu + 5 - cursorPosY
+				maxreplayMenu = replayMenu + maxItems - cursorPosY
 			else
-				maxreplayMenu = 5
+				maxreplayMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
@@ -5723,11 +5762,13 @@ function f_replayMenu()
 		drawBottomMenuSP()
 		for i=1, #t_replayMenu do
 			if i == replayMenu then
-				bank = 2
+				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
-			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 1, itemSign..t_replayMenu[i].text, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
@@ -5739,11 +5780,11 @@ function f_replayMenu()
 		textImgSetText(txt_gameFt, "REPLAY MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxreplayMenu > 6 then
+		if maxreplayMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_replayMenu > 6 and maxreplayMenu < #t_replayMenu then
+		if #t_replayMenu > maxItems + 1 and maxreplayMenu < #t_replayMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -6009,6 +6050,8 @@ function f_mainNetplay()
 	local bufr = 0
 	local bufl = 0
 	local cancel = false
+	local maxItems = 7
+	local itemSign = ""
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') then
 			onlinegame = false --only for identify purposes
@@ -6026,8 +6069,8 @@ function f_mainNetplay()
 		end
 		if mainNetplay < 1 then
 			mainNetplay = #t_mainNetplay
-			if #t_mainNetplay > 5 then
-				cursorPosY = 5
+			if #t_mainNetplay > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_mainNetplay - 1
 			end
@@ -6036,20 +6079,20 @@ function f_mainNetplay()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 5 then
-			moveTxt = (mainNetplay - 6) * 13
+		if cursorPosY == maxItems then
+			moveTxt = (mainNetplay - (maxItems + 1)) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainNetplay - 1) * 13
 		end
-		if #t_mainNetplay <= 5 then
+		if #t_mainNetplay <= maxItems then
 			maxMainNetplay = #t_mainNetplay
 		elseif mainNetplay - cursorPosY > 0 then
-			maxMainNetplay = mainNetplay + 5 - cursorPosY
+			maxMainNetplay = mainNetplay + maxItems - cursorPosY
 		else
-			maxMainNetplay = 5
+			maxMainNetplay = maxItems
 		end
 		if btnPalNo(p1Cmd, true) > 0 then
 			f_discordUpdate({state = "Online Multiplayer", partyMax = 2})
@@ -6106,11 +6149,13 @@ function f_mainNetplay()
 		drawBottomMenuSP()
 		for i=1, #t_mainNetplay do
 			if i == mainNetplay then
-				bank = 3
+				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
-			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 1, itemSign..t_mainNetplay[i].text, 5, 94 + i * 13 - moveTxt))
 		end
 		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -6120,11 +6165,11 @@ function f_mainNetplay()
 		textImgSetText(txt_gameFt, "ONLINE MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxMainNetplay > 6 then
+		if maxMainNetplay > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_mainNetplay > 6 and maxMainNetplay < #t_mainNetplay then
+		if #t_mainNetplay > maxItems + 1 and maxMainNetplay < #t_mainNetplay then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -6944,6 +6989,7 @@ function f_mainLobby()
 	local bufl = 0
 	local cancel = false
 	local maxItems = 7
+	local itemSign = ""
 	while true do
 		--assert(loadfile(saveTempPath))()
 		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone then
@@ -7106,7 +7152,7 @@ function f_mainLobby()
 				setGameMode("scoreattack")
 				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
 				f_selectAdvance()
-		--ONLINE KUMITE
+		--ONLINE VS KUMITE
 			elseif mainLobby == 12 then
 				setRoundsToWin(1)
 				data.gameMode = "kumite"
@@ -7135,10 +7181,12 @@ function f_mainLobby()
 		for i=1, #t_mainLobby do
 			if i == mainLobby then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
-			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, itemSign..t_mainLobby[i].text, 159, 94 + i * 13 - moveTxt))
 		end
 		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)

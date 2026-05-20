@@ -33,6 +33,7 @@ function f_chroniclesMenu()
 	local bufl = 0
 	local itemText = nil
 	local maxItems = 7
+	local itemSign = ""
 	f_sideReset()
 	f_infoReset()
 	f_unlock(false)
@@ -83,16 +84,18 @@ function f_chroniclesMenu()
 		drawBottomMenuSP()
 		for i=1, #t_chroniclesMenu do
 			if i == chroniclesMenu then
-				bank = 2
+				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			if t_unlockLua.modes[t_chroniclesMenu[i].gotomenu] == nil then --If the menu item is unlocked
 				itemText = t_chroniclesMenu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)

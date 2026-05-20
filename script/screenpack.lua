@@ -422,6 +422,15 @@ inputHintsBG = animNew(sprIkemen, [[
 animSetScale(inputHintsBG, 2.9, 0.35)
 animSetAlpha(inputHintsBG, 155, 22)
 
+--Common Mode Info BG
+menuInfoBG = animNew(sprIkemen, [[
+234,0, 0,0, -1
+]])
+animSetPos(menuInfoBG, 118, 78)
+animSetScale(menuInfoBG, 0.18, 0.163)
+animSetAlpha(menuInfoBG, 255, 60)
+animUpdate(menuInfoBG)
+
 --Common Padlock Sprite
 padlock = animNew(sprIkemen, [[
 108,0, 0,0, -1
@@ -513,6 +522,7 @@ function drawMiddleMenuSP() --Layer 1 (After Cursor Box)
 	animDraw(titleBG5)
 	animDraw(titleBG6)
 	f_titleText()
+	animDraw(menuInfoBG)
 end
 
 function drawTopMenuSP() --Layer 2 (Always In front)
@@ -793,9 +803,10 @@ end
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
 MainFadeInTime = 30
+commonMenuItemSign = "> "
 
 t_mainMenu = {
-	{text = "> ARCADE", 		gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
+	{text = "ARCADE", 		gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
 	{text = "VERSUS", 		gotomenu = "f_vsMenu()"},
 	{text = "NETPLAY", 		gotomenu = "f_mainNetplay()"},
 	{text = "PRACTICE", 	gotomenu = "f_practiceMenu()"},
@@ -820,8 +831,8 @@ function drawMainMenuInputHints()
 	"l","0,69","r","300,69",
 	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","264,"..inputHintYPos
 	)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 21, 69)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Events", 288, 69)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 21, 82)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, "Events:", 268, 82)
 	
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 96, hintFontYPos)

@@ -9,6 +9,9 @@ local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;===========================================================
+--Insert new item to t_mainMenu table loaded by screenpack.lua
+table.insert(t_customizeMenu, 1, {text = "ITEM SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
+
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
 local txt_shopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
