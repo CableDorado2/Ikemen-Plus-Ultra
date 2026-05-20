@@ -267,6 +267,7 @@ function f_mainMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	closeText = 1
 	f_menuMusic()
 	f_infoReset()
@@ -297,8 +298,8 @@ function f_mainMenu()
 		--mode titles/cursor position calculation
 			if mainMenu < 1 then
 				mainMenu = #t_mainMenu
-				if #t_mainMenu > 5 then
-					cursorPosY = 5
+				if #t_mainMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_mainMenu - 1
 				end
@@ -307,20 +308,20 @@ function f_mainMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (mainMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (mainMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (mainMenu - 1) * 13
 			end
-			if #t_mainMenu <= 5 then
+			if #t_mainMenu <= maxItems then
 				maxMainMenu = #t_mainMenu
 			elseif mainMenu - cursorPosY > 0 then
-				maxMainMenu = mainMenu + 5 - cursorPosY
+				maxMainMenu = mainMenu + maxItems - cursorPosY
 			else
-				maxMainMenu = 5
+				maxMainMenu = maxItems
 			end
 		--Enter Actions
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
@@ -340,11 +341,11 @@ function f_mainMenu()
 				itemText = "???"
 			end
 			if not infoboxScreen then
-				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt)) --Text Position
+				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt)) --Text Position
 			end
 		end
 		if not infoScreen and not infoboxScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
@@ -355,11 +356,11 @@ function f_mainMenu()
 			textImgSetText(txt_gameFt, "MAIN MENU")
 			textImgDraw(txt_version)
 			textImgDraw(txt_f1)
-			if maxMainMenu > 6 then
+			if maxMainMenu > maxItems + 1 then
 				animDraw(menuArrowUp)
 				animUpdate(menuArrowUp)
 			end
-			if #t_mainMenu > 6 and maxMainMenu < #t_mainMenu then
+			if #t_mainMenu > maxItems + 1 and maxMainMenu < #t_mainMenu then
 				animDraw(menuArrowDown)
 				animUpdate(menuArrowDown)
 			end
@@ -450,7 +451,7 @@ function f_mainMenu2()
 			drawMenuItem(t_mainMenu, mainMenu, 2, font, bank, align, 159, 201)
 		end
 		if not infoScreen and not infoboxScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
@@ -1302,6 +1303,7 @@ function f_arcadeMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_infoReset()
 	f_sideReset() --Reset Values to Show Side Select
 	f_unlock(false)
@@ -1320,8 +1322,8 @@ function f_arcadeMenu()
 			end
 			if arcadeMenu < 1 then
 				arcadeMenu = #t_arcadeMenu
-				if #t_arcadeMenu > 5 then
-					cursorPosY = 5
+				if #t_arcadeMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_arcadeMenu - 1
 				end
@@ -1330,20 +1332,20 @@ function f_arcadeMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (arcadeMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (arcadeMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (arcadeMenu - 1) * 13
 			end
-			if #t_arcadeMenu <= 5 then
+			if #t_arcadeMenu <= maxItems then
 				maxArcadeMenu = #t_arcadeMenu
 			elseif arcadeMenu - cursorPosY > 0 then
-				maxArcadeMenu = arcadeMenu + 5 - cursorPosY
+				maxArcadeMenu = arcadeMenu + maxItems - cursorPosY
 			else
-				maxArcadeMenu = 5
+				maxArcadeMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_arcadeMenu[arcadeMenu])
@@ -1361,10 +1363,10 @@ function f_arcadeMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1373,11 +1375,11 @@ function f_arcadeMenu()
 		textImgSetText(txt_gameFt, "ARCADE MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxArcadeMenu > 6 then
+		if maxArcadeMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_arcadeMenu > 6 and maxArcadeMenu < #t_arcadeMenu then
+		if #t_arcadeMenu > maxItems + 1 and maxArcadeMenu < #t_arcadeMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -1414,6 +1416,7 @@ function f_vsMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -1432,8 +1435,8 @@ function f_vsMenu()
 			end
 			if vsMenu < 1 then
 				vsMenu = #t_vsMenu
-				if #t_vsMenu > 5 then
-					cursorPosY = 5
+				if #t_vsMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_vsMenu - 1
 				end
@@ -1442,20 +1445,20 @@ function f_vsMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (vsMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (vsMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (vsMenu - 1) * 13
 			end
-			if #t_vsMenu <= 5 then
+			if #t_vsMenu <= maxItems then
 				maxVSMenu = #t_vsMenu
 			elseif vsMenu - cursorPosY > 0 then
-				maxVSMenu = vsMenu + 5 - cursorPosY
+				maxVSMenu = vsMenu + maxItems - cursorPosY
 			else
-				maxVSMenu = 5
+				maxVSMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_vsMenu[vsMenu])
@@ -1473,10 +1476,10 @@ function f_vsMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1485,11 +1488,11 @@ function f_vsMenu()
 		textImgSetText(txt_gameFt, "VERSUS MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxVSMenu > 6 then
+		if maxVSMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_vsMenu > 6 and maxVSMenu < #t_vsMenu then
+		if #t_vsMenu > maxItems + 1 and maxVSMenu < #t_vsMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -1526,6 +1529,7 @@ function f_practiceMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -1544,8 +1548,8 @@ function f_practiceMenu()
 			end
 			if practiceMenu < 1 then
 				practiceMenu = #t_practiceMenu
-				if #t_practiceMenu > 5 then
-					cursorPosY = 5
+				if #t_practiceMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_practiceMenu - 1
 				end
@@ -1554,20 +1558,20 @@ function f_practiceMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (practiceMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (practiceMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (practiceMenu - 1) * 13
 			end
-			if #t_practiceMenu <= 5 then
+			if #t_practiceMenu <= maxItems then
 				maxpracticeMenu = #t_practiceMenu
 			elseif practiceMenu - cursorPosY > 0 then
-				maxpracticeMenu = practiceMenu + 5 - cursorPosY
+				maxpracticeMenu = practiceMenu + maxItems - cursorPosY
 			else
-				maxpracticeMenu = 5
+				maxpracticeMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_practiceMenu[practiceMenu])
@@ -1585,10 +1589,10 @@ function f_practiceMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1597,11 +1601,11 @@ function f_practiceMenu()
 		textImgSetText(txt_gameFt, "PRACTICE MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxpracticeMenu > 6 then
+		if maxpracticeMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_practiceMenu > 6 and maxpracticeMenu < #t_practiceMenu then
+		if #t_practiceMenu > maxItems + 1 and maxpracticeMenu < #t_practiceMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -1669,6 +1673,7 @@ function f_challengeMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -1687,8 +1692,8 @@ function f_challengeMenu()
 			end
 			if challengeMenu < 1 then
 				challengeMenu = #t_challengeMenu
-				if #t_challengeMenu > 5 then
-					cursorPosY = 5
+				if #t_challengeMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_challengeMenu - 1
 				end
@@ -1697,20 +1702,20 @@ function f_challengeMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (challengeMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (challengeMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (challengeMenu - 1) * 13
 			end
-			if #t_challengeMenu <= 5 then
+			if #t_challengeMenu <= maxItems then
 				maxChallengeMenu = #t_challengeMenu
 			elseif challengeMenu - cursorPosY > 0 then
-				maxChallengeMenu = challengeMenu + 5 - cursorPosY
+				maxChallengeMenu = challengeMenu + maxItems - cursorPosY
 			else
-				maxChallengeMenu = 5
+				maxChallengeMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_challengeMenu[challengeMenu])
@@ -1728,10 +1733,10 @@ function f_challengeMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1740,11 +1745,11 @@ function f_challengeMenu()
 		textImgSetText(txt_gameFt, "CHALLENGE MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxChallengeMenu > 6 then
+		if maxChallengeMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_challengeMenu > 6 and maxChallengeMenu < #t_challengeMenu then
+		if #t_challengeMenu > maxItems + 1 and maxChallengeMenu < #t_challengeMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -1781,6 +1786,7 @@ function f_extrasMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_sideReset()
 	f_infoReset()
 	f_unlock(false)
@@ -1799,8 +1805,8 @@ function f_extrasMenu()
 			end
 			if extrasMenu < 1 then
 				extrasMenu = #t_extrasMenu
-				if #t_extrasMenu > 5 then
-					cursorPosY = 5
+				if #t_extrasMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_extrasMenu - 1
 				end
@@ -1809,20 +1815,20 @@ function f_extrasMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (extrasMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (extrasMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (extrasMenu - 1) * 13
 			end
-			if #t_extrasMenu <= 5 then
+			if #t_extrasMenu <= maxItems then
 				maxExtrasMenu = #t_extrasMenu
 			elseif extrasMenu - cursorPosY > 0 then
-				maxExtrasMenu = extrasMenu + 5 - cursorPosY
+				maxExtrasMenu = extrasMenu + maxItems - cursorPosY
 			else
-				maxExtrasMenu = 5
+				maxExtrasMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_extrasMenu[extrasMenu])
@@ -1840,10 +1846,10 @@ function f_extrasMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1852,11 +1858,11 @@ function f_extrasMenu()
 		textImgSetText(txt_gameFt, "EXTRA MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxExtrasMenu > 6 then
+		if maxExtrasMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_extrasMenu > 6 and maxExtrasMenu < #t_extrasMenu then
+		if #t_extrasMenu > maxItems + 1 and maxExtrasMenu < #t_extrasMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -1893,6 +1899,7 @@ function f_watchMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_infoReset()
 	f_unlock(false)
 	f_updateUnlocks()
@@ -1910,8 +1917,8 @@ function f_watchMenu()
 			end
 			if watchMenu < 1 then
 				watchMenu = #t_watchMenu
-				if #t_watchMenu > 5 then
-					cursorPosY = 5
+				if #t_watchMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_watchMenu - 1
 				end
@@ -1920,20 +1927,20 @@ function f_watchMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (watchMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (watchMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (watchMenu - 1) * 13
 			end
-			if #t_watchMenu <= 5 then
+			if #t_watchMenu <= maxItems then
 				maxWatchMenu = #t_watchMenu
 			elseif watchMenu - cursorPosY > 0 then
-				maxWatchMenu = watchMenu + 5 - cursorPosY
+				maxWatchMenu = watchMenu + maxItems - cursorPosY
 			else
-				maxWatchMenu = 5
+				maxWatchMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_watchMenu[watchMenu])
@@ -1951,10 +1958,10 @@ function f_watchMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1963,125 +1970,15 @@ function f_watchMenu()
 		textImgSetText(txt_gameFt, "WATCH CONTENT")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxWatchMenu > 6 then
+		if maxWatchMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_watchMenu > 6 and maxWatchMenu < #t_watchMenu then
+		if #t_watchMenu > maxItems + 1 and maxWatchMenu < #t_watchMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
 		if infoScreen then f_infoMenu() else drawMainMenuInputHints() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; PROFILE MENU (display overall player data [RECORDS, LEADERBOARDS, ACHIEVEMENTS])
---;===========================================================
-function f_profileMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local profileMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local itemText = nil
-	f_infoReset()
-	f_unlock(false)
-	f_updateUnlocks()
-	while true do
-		if not infoScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				profileMenu = profileMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				profileMenu = profileMenu + 1
-			end
-			if profileMenu < 1 then
-				profileMenu = #t_profileMenu
-				if #t_profileMenu > 5 then
-					cursorPosY = 5
-				else
-					cursorPosY = #t_profileMenu - 1
-				end
-			elseif profileMenu > #t_profileMenu then
-				profileMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 5 then
-				moveTxt = (profileMenu - 6) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (profileMenu - 1) * 13
-			end
-			if #t_profileMenu <= 5 then
-				maxprofileMenu = #t_profileMenu
-			elseif profileMenu - cursorPosY > 0 then
-				maxprofileMenu = profileMenu + 5 - cursorPosY
-			else
-				maxprofileMenu = 5
-			end
-			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				f_gotoFunction(t_profileMenu[profileMenu])
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_profileMenu do
-			if i == profileMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			if t_unlockLua.modes[t_profileMenu[i].gotomenu] == nil then --If the menu item is unlocked
-				itemText = t_profileMenu[i].text
-			else
-				itemText = "???"
-			end
-			textImgDraw(f_updateTextImg(t_profileMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
-		end
-		if not infoScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "PLAYER PROFILE")
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxprofileMenu > 6 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_profileMenu > 6 and maxprofileMenu < #t_profileMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if not infoScreen then drawMainMenuInputHints() end
-		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2515,6 +2412,7 @@ function f_survivalMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -2533,8 +2431,8 @@ function f_survivalMenu()
 			end
 			if survivalMenu < 1 then
 				survivalMenu = #t_survivalMenu
-				if #t_survivalMenu > 5 then
-					cursorPosY = 5
+				if #t_survivalMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_survivalMenu - 1
 				end
@@ -2543,20 +2441,20 @@ function f_survivalMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (survivalMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (survivalMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (survivalMenu - 1) * 13
 			end
-			if #t_survivalMenu <= 5 then
+			if #t_survivalMenu <= maxItems then
 				maxsurvivalMenu = #t_survivalMenu
 			elseif survivalMenu - cursorPosY > 0 then
-				maxsurvivalMenu = survivalMenu + 5 - cursorPosY
+				maxsurvivalMenu = survivalMenu + maxItems - cursorPosY
 			else
-				maxsurvivalMenu = 5
+				maxsurvivalMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_survivalMenu[survivalMenu])
@@ -2574,10 +2472,10 @@ function f_survivalMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2586,11 +2484,11 @@ function f_survivalMenu()
 		textImgSetText(txt_gameFt, "SURVIVAL MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxsurvivalMenu > 6 then
+		if maxsurvivalMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_survivalMenu > 6 and maxsurvivalMenu < #t_survivalMenu then
+		if #t_survivalMenu > maxItems + 1 and maxsurvivalMenu < #t_survivalMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -2815,6 +2713,7 @@ function f_bossChars()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 7
 	f_sideReset()
 	while true do
 		if not sideScreen then
@@ -2830,8 +2729,8 @@ function f_bossChars()
 			end
 			if bossChars < 1 then
 				bossChars = #t_bossSingle
-				if #t_bossSingle > 5 then
-					cursorPosY = 5
+				if #t_bossSingle > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_bossSingle - 1
 				end
@@ -2840,20 +2739,20 @@ function f_bossChars()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (bossChars - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (bossChars - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (bossChars - 1) * 13
 			end
-			if #t_bossSingle <= 5 then
+			if #t_bossSingle <= maxItems then
 				maxBossChars = #t_bossSingle
 			elseif bossChars - cursorPosY > 0 then
-				maxBossChars = bossChars + 5 - cursorPosY
+				maxBossChars = bossChars + maxItems - cursorPosY
 			else
-				maxBossChars = 5
+				maxBossChars = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
@@ -2869,10 +2768,10 @@ function f_bossChars()
 				bank = 0
 			end
 		--Draw Boss Name
-			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2881,11 +2780,11 @@ function f_bossChars()
 		textImgSetText(txt_gameFt, "BOSS SELECT")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxBossChars > 6 then
+		if maxBossChars > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_bossSingle > 6 and maxBossChars < #t_bossSingle then
+		if #t_bossSingle > maxItems + 1 and maxBossChars < #t_bossSingle then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -3041,10 +2940,10 @@ function f_bonusMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3092,6 +2991,7 @@ function f_bonusExtras()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 7
 	f_sideReset()
 	while true do
 		if not sideScreen then
@@ -3107,8 +3007,8 @@ function f_bonusExtras()
 			end
 			if bonusExtras < 1 then
 				bonusExtras = #t_bonusExtras
-				if #t_bonusExtras > 5 then
-					cursorPosY = 5
+				if #t_bonusExtras > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_bonusExtras - 1
 				end
@@ -3117,20 +3017,20 @@ function f_bonusExtras()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (bonusExtras - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (bonusExtras - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (bonusExtras - 1) * 13
 			end
-			if #t_bonusExtras <= 5 then
+			if #t_bonusExtras <= maxItems then
 				maxBonusExtras = #t_bonusExtras
 			elseif bonusExtras - cursorPosY > 0 then
-				maxBonusExtras = bonusExtras + 5 - cursorPosY
+				maxBonusExtras = bonusExtras + maxItems - cursorPosY
 			else
-				maxBonusExtras = 5
+				maxBonusExtras = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				sndPlay(sndSys, 100, 1)
@@ -3146,10 +3046,10 @@ function f_bonusExtras()
 				bank = 0
 			end
 			--Draw Bonus Name
-			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3158,11 +3058,11 @@ function f_bonusExtras()
 		textImgSetText(txt_gameFt, "BONUS SELECT")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxBonusExtras > 6 then
+		if maxBonusExtras > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_bonusExtras > 6 and maxBonusExtras < #t_bonusExtras then
+		if #t_bonusExtras > maxItems + 1 and maxBonusExtras < #t_bonusExtras then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -3324,6 +3224,7 @@ function f_scoreattackMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_infoReset()
 	f_sideReset()
 	f_unlock(false)
@@ -3342,8 +3243,8 @@ function f_scoreattackMenu()
 			end
 			if scoreattackMenu < 1 then
 				scoreattackMenu = #t_scoreattackMenu
-				if #t_scoreattackMenu > 5 then
-					cursorPosY = 5
+				if #t_scoreattackMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_scoreattackMenu - 1
 				end
@@ -3352,20 +3253,20 @@ function f_scoreattackMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (scoreattackMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (scoreattackMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (scoreattackMenu - 1) * 13
 			end
-			if #t_scoreattackMenu <= 5 then
+			if #t_scoreattackMenu <= maxItems then
 				maxscoreattackMenu = #t_scoreattackMenu
 			elseif scoreattackMenu - cursorPosY > 0 then
-				maxscoreattackMenu = scoreattackMenu + 5 - cursorPosY
+				maxscoreattackMenu = scoreattackMenu + maxItems - cursorPosY
 			else
-				maxscoreattackMenu = 5
+				maxscoreattackMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_scoreattackMenu[scoreattackMenu])
@@ -3383,10 +3284,10 @@ function f_scoreattackMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3395,11 +3296,11 @@ function f_scoreattackMenu()
 		textImgSetText(txt_gameFt, "SCORE ATTACK MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxscoreattackMenu > 6 then
+		if maxscoreattackMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_scoreattackMenu > 6 and maxscoreattackMenu < #t_scoreattackMenu then
+		if #t_scoreattackMenu > maxItems + 1 and maxscoreattackMenu < #t_scoreattackMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -3675,10 +3576,10 @@ function f_timeattackMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -4442,7 +4343,6 @@ function speedstarCfg()
 	data.gameMode = "speedstar"
 	data.recordMode = "speedstar"
 	setGameMode("speedstar")
-	data.nextStage = true
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -5827,10 +5727,10 @@ function f_replayMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -6210,9 +6110,9 @@ function f_mainNetplay()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 94 + i * 13 - moveTxt))
 		end
-		animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		drawMiddleMenuSP()
@@ -6495,6 +6395,7 @@ function f_hostRooms()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxItems = 7
 	local t_tmp = {}
 	f_hostTable()
 	f_editHostReset()
@@ -6518,8 +6419,8 @@ function f_hostRooms()
 			end
 			if hostList < 1 then
 				hostList = #t_hostList
-				if #t_hostList > 5 then
-					cursorPosY = 5
+				if #t_hostList > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_hostList - 1
 				end
@@ -6528,20 +6429,20 @@ function f_hostRooms()
 				cursorPosY = 0
 			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (hostList - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (hostList - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (hostList - 1) * 13
 			end
-			if #t_hostList <= 5 then
+			if #t_hostList <= maxItems then
 				maxhostList = #t_hostList
 			elseif hostList - cursorPosY > 0 then
-				maxhostList = hostList + 5 - cursorPosY
+				maxhostList = hostList + maxItems - cursorPosY
 			else
-				maxhostList = 5
+				maxhostList = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 then
 				f_default()
@@ -6569,10 +6470,10 @@ function f_hostRooms()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 94 + i * 13 - moveTxt))
 		end
 		if editHostScreen == false and crudHostScreen == false then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -6584,11 +6485,11 @@ function f_hostRooms()
 		end
 		f_sysTime()
 		if crudHostScreen == false then
-			if maxhostList > 6 then
+			if maxhostList > maxItems + 1 then
 				animDraw(menuArrowUp)
 				animUpdate(menuArrowUp)
 			end
-			if #t_hostList > 6 and maxhostList < #t_hostList then
+			if #t_hostList > maxItems + 1 and maxhostList < #t_hostList then
 				animDraw(menuArrowDown)
 				animUpdate(menuArrowDown)
 			end
@@ -7042,6 +6943,7 @@ function f_mainLobby()
 	local bufr = 0
 	local bufl = 0
 	local cancel = false
+	local maxItems = 7
 	while true do
 		--assert(loadfile(saveTempPath))()
 		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone then
@@ -7060,8 +6962,8 @@ function f_mainLobby()
 		end
 		if mainLobby < 1 then
 			mainLobby = #t_mainLobby
-			if #t_mainLobby > 5 then
-				cursorPosY = 5
+			if #t_mainLobby > maxItems then
+				cursorPosY = maxItems
 			else
 				cursorPosY = #t_mainLobby - 1
 			end
@@ -7070,20 +6972,20 @@ function f_mainLobby()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < maxItems then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 5 then
-			moveTxt = (mainLobby - 6) * 13
+		if cursorPosY == maxItems then
+			moveTxt = (mainLobby - (maxItems + 1)) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainLobby - 1) * 13
 		end
-		if #t_mainLobby <= 5 then
+		if #t_mainLobby <= maxItems then
 			maxmainLobby = #t_mainLobby
 		elseif mainLobby - cursorPosY > 0 then
-			maxmainLobby = mainLobby + 5 - cursorPosY
+			maxmainLobby = mainLobby + maxItems - cursorPosY
 		else
-			maxmainLobby = 5
+			maxmainLobby = maxItems
 		end
 	--Enter Actions
 		if btnPalNo(p1Cmd, true) > 0 or data.ftcontrol > 0 then
@@ -7236,9 +7138,9 @@ function f_mainLobby()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 94 + i * 13 - moveTxt))
 		end
-		animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		drawMiddleMenuSP()
@@ -7252,11 +7154,11 @@ function f_mainLobby()
 			t_mainLobby[1].text = "VERSUS PLAYER 1"
 		end
 		t_mainLobby[10].text = getKumiteData()
-		if maxmainLobby > 6 then
+		if maxmainLobby > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_mainLobby > 6 and maxmainLobby < #t_mainLobby then
+		if #t_mainLobby > maxItems + 1 and maxmainLobby < #t_mainLobby then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end

@@ -299,22 +299,23 @@ txt_loading = createTextImg(font1, 0, -1, "", 310, 230)
 --;===========================================================
 --; TITLE SCREEN SCREENPACK DEFINITION
 --;===========================================================
+txt_titleClock = createTextImg(font12, 0, -1, "", 0, 0)
+txt_titleDate = createTextImg(font12, 0, 1, "", 0, 0)
+txt_subTitle = createTextImg(font3, 0, 0, "", 160, 80) --PLUS ULTRA Sub-Title Text
 txt_mainTitle = createTextImg(jgFnt, 5, 0, "PRESS START", 159, 170) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 --txt_version = createTextImg(font1, 0, -1, "v1.?.0", 319, 240)
 txt_version = createTextImg(font1, 0, -1, "Dev. Build", 319, 240)
 txt_f1 = createTextImg(font1, 0, 0, "Press F1 for Info", 159, 240)
 txt_titleFt = createTextImg(font5, 0, 0, "", 156, 240)
-txt_titleClock = createTextImg(font12, 0, -1, "", 0, 0)
-txt_titleDate = createTextImg(font12, 0, 1, "", 0, 0)
-txt_subTitle = createTextImg(font3, 0, 0, "", 159, 100) --PLUS ULTRA Sub-Title Text
 
 --Buttons Background
 titleBG0 = animNew(sprSys, [[
-5,1, 0,125, -1
+5,1, 0,0, -1
 ]])
-animAddPos(titleBG0, 160, 0)
-animSetTile(titleBG0, 1, 1)
-animSetWindow(titleBG0, 0, 125, 320, 78)
+animAddPos(titleBG0, 160, 95)
+animSetTile(titleBG0, 1, 0)
+animSetWindow(titleBG0, 0, 95, 320, 108)
+animSetScale(titleBG0, 1.0, 1.2)
 --[[parallax is not supported yet
 type  = parallax
 width = 400, 1200
@@ -324,9 +325,10 @@ yscaledelta = 1
 
 --Buttons Background (fade)
 titleBG1 = animNew(sprSys, [[
-5,2, -160,125, -1, 0, s
+5,2, -160,0, -1, 0, s
 ]])
-animAddPos(titleBG1, 160, 0)
+animAddPos(titleBG1, 160, 95)
+animSetScale(titleBG1, 1.0, 1.4)
 animUpdate(titleBG1)
 
 --Background Top
@@ -335,13 +337,13 @@ titleBG2 = animNew(sprSys, [[
 ]])
 animAddPos(titleBG2, 160, 0)
 animSetTile(titleBG2, 1, 2)
-animSetWindow(titleBG2, -54, 0, 428, 118)
+animSetWindow(titleBG2, -54, 0, 428, 88)
 
 --Logo
 titleBG3 = animNew(sprSys, [[
-0,0, 0,20, -1, 0, a
+0,0, 0,0, -1, 0, a
 ]])
-animAddPos(titleBG3, 160, 0)
+animAddPos(titleBG3, 160, 8)
 animUpdate(titleBG3)
 
 --Background Middle (black text cover)
@@ -350,7 +352,7 @@ titleBG4 = animNew(sprSys, [[
 ]])
 animAddPos(titleBG4, 160, 0)
 animSetTile(titleBG4, 1, 1)
-animSetWindow(titleBG4, 0, 118, 320, 7)
+animSetWindow(titleBG4, 0, 88, 320, 7)
 animSetAlpha(titleBG4, 0, 0)
 animUpdate(titleBG4)
 
@@ -454,8 +456,8 @@ menuArrowDown = animNew(sprIkemen, [[
 animSetScale(menuArrowDown, 0.5, 0.5)
 
 function f_resetMenuArrowsPos() --Used in Main Menus
-animSetPos(menuArrowUp, 153.5, 116)
-animSetPos(menuArrowDown, 153.5, 204)
+animSetPos(menuArrowUp, 2, 88)
+animSetPos(menuArrowDown, 2, 202)
 end
 
 function f_resetListArrowsPos() --Used in many List Menus
@@ -499,10 +501,10 @@ end
 
 function drawBottomMenuSP() --Layer 0
 	animDraw(f_animVelocity(titleBG0, -2.15, 0))
+	animDraw(titleBG1)
 end
 
 function drawMiddleMenuSP() --Layer 1 (After Cursor Box)
-	animDraw(titleBG1)
 	animAddPos(titleBG2, -1, 0)
 	animUpdate(titleBG2)
 	animDraw(titleBG2)
@@ -793,7 +795,7 @@ txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game 
 MainFadeInTime = 30
 
 t_mainMenu = {
-	{text = "ARCADE", 		gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
+	{text = "> ARCADE", 		gotomenu = "f_arcadeMenu()"}, --Each function loaded by "gotomenu", need to be declared in main.lua
 	{text = "VERSUS", 		gotomenu = "f_vsMenu()"},
 	{text = "NETPLAY", 		gotomenu = "f_mainNetplay()"},
 	{text = "PRACTICE", 	gotomenu = "f_practiceMenu()"},
@@ -814,18 +816,24 @@ function drawMainMenuInputHints()
 	local hintFont = font2
 	local hintFontYPos = 226
 	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints("u","5,"..inputHintYPos,"d","25,"..inputHintYPos,"s","85,"..inputHintYPos,"e","150,"..inputHintYPos,"q","210,"..inputHintYPos,"w","270,"..inputHintYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 46, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 104, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 171, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 231, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Shop", 291, hintFontYPos)
+	drawMenuInputHints(
+	"l","0,69","r","300,69",
+	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","264,"..inputHintYPos
+	)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 21, 69)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Events", 288, 69)
+	
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 96, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 157, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Shortcuts", 214, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Profile", 285, hintFontYPos)
 	if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
 		sndPlay(sndSys, 100, 1)
 		
 	elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 		sndPlay(sndSys, 100, 1)
-		f_shopMenu()
+		f_statsMenu()
 	end
 end
 
@@ -965,25 +973,13 @@ t_watchMenu = {
 	{text = "REPLAYS", 		 gotomenu = "f_replayMenu()"},
 	{text = "STAGE VIEWER",  gotomenu = "f_stageViewer()"},
 	{text = "SOUND TEST", 	 gotomenu = "soundTest = true f_songMenu()"},
-	{text = "PROFILE", 		 gotomenu = "f_profileMenu()"},
+	{text = "RANKINGS",  gotomenu = "f_rankings()"},
 	{text = "LICENSES", 	 gotomenu = "f_licenseMenu()"},
 	{text = "STAFF CREDITS", gotomenu = "f_playCredits()"},
 }
 for i=1, #t_watchMenu do
 	t_watchMenu[i]['id'] = textImgNew()
 	if t_watchMenu[i].unlock == nil then t_watchMenu[i].unlock = "true" end
-end
-
---;===========================================================
---; PROFILE MENU SCREENPACK DEFINITION
---;===========================================================
-t_profileMenu = {
-	{text = "RECORDS", 		gotomenu = "f_statsMenu()"},
-	{text = "LEADERBOARDS", gotomenu = "f_rankings()"},
-}
-for i=1, #t_profileMenu do
-	t_profileMenu[i]['id'] = textImgNew()
-	if t_profileMenu[i].unlock == nil then t_profileMenu[i].unlock = "true" end
 end
 
 --;===========================================================

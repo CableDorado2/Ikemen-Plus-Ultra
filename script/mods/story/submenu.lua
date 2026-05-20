@@ -32,6 +32,7 @@ function f_chroniclesMenu()
 	local bufr = 0
 	local bufl = 0
 	local itemText = nil
+	local maxItems = 7
 	f_sideReset()
 	f_infoReset()
 	f_unlock(false)
@@ -50,8 +51,8 @@ function f_chroniclesMenu()
 			end
 			if chroniclesMenu < 1 then
 				chroniclesMenu = #t_chroniclesMenu
-				if #t_chroniclesMenu > 5 then
-					cursorPosY = 5
+				if #t_chroniclesMenu > maxItems then
+					cursorPosY = maxItems
 				else
 					cursorPosY = #t_chroniclesMenu - 1
 				end
@@ -60,20 +61,20 @@ function f_chroniclesMenu()
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
 				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
 				cursorPosY = cursorPosY + 1
 			end
-			if cursorPosY == 5 then
-				moveTxt = (chroniclesMenu - 6) * 13
+			if cursorPosY == maxItems then
+				moveTxt = (chroniclesMenu - (maxItems + 1)) * 13
 			elseif cursorPosY == 0 then
 				moveTxt = (chroniclesMenu - 1) * 13
 			end
-			if #t_chroniclesMenu <= 5 then
+			if #t_chroniclesMenu <= maxItems then
 				maxchroniclesMenu = #t_chroniclesMenu
 			elseif chroniclesMenu - cursorPosY > 0 then
-				maxchroniclesMenu = chroniclesMenu + 5 - cursorPosY
+				maxchroniclesMenu = chroniclesMenu + maxItems - cursorPosY
 			else
-				maxchroniclesMenu = 5
+				maxchroniclesMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 				f_gotoFunction(t_chroniclesMenu[chroniclesMenu])
@@ -91,10 +92,10 @@ function f_chroniclesMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 0, itemText, 159, 122 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 1, itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,125 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -103,11 +104,11 @@ function f_chroniclesMenu()
 		textImgSetText(txt_gameFt, "LORE MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxchroniclesMenu > 6 then
+		if maxchroniclesMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_chroniclesMenu > 6 and maxchroniclesMenu < #t_chroniclesMenu then
+		if #t_chroniclesMenu > maxItems + 1 and maxchroniclesMenu < #t_chroniclesMenu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end

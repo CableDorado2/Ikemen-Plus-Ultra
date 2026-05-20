@@ -3246,7 +3246,6 @@ function f_generateUnlocks()
 	f_checkMenuUnlocks(t_extrasMenu)
 	f_checkMenuUnlocks(t_bonusMenu)
 	f_checkMenuUnlocks(t_watchMenu)
-	f_checkMenuUnlocks(t_profileMenu)
 end
 
 --asserts content unlock conditions
