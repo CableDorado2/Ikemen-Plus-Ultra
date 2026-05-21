@@ -4,7 +4,14 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
-table.insert(t_chroniclesMenu, 2, {text = "VISUAL NOVEL", gotomenu = "f_vnMenu()", id = textImgNew()})
+table.insert(t_chroniclesMenu, 2, {
+id = textImgNew(),
+text = "VISUAL NOVEL",
+info = [[
+
+]],
+gotomenu = "f_vnMenu()"
+})
 sprVN = sffNew("script/mods/visualnovel/visualnovel.sff") --Load Visual Novel Sprites
 assert(loadfile("script/mods/visualnovel/assets.lua"))() --Load Visual Novel Assets Definition
 vnDef = "script/mods/visualnovel/vnselect.def" --Load Visual Novels

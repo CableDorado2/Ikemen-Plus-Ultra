@@ -4,9 +4,17 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 		Therefore, it may NOT be compatible with I.K.E.M.E.N. GO Engine.
 =================================================================================]]
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
-table.insert(t_extrasMenu, #t_extrasMenu + 1, {text = "RANDOM TEST", gotomenu = "randomTest()", id = textImgNew()})
+table.insert(t_extrasMenu, #t_extrasMenu + 1, {
+id = textImgNew(),
+text = "RANDOM TEST",
+info = [[
+Watch CPU play to generate
+AI Rank Data!
+]],
+gotomenu = "randomTest()"
+})
 --;===========================================================
---; RANDOMTEST MODE (watch CPU play to generate AI rank data)
+--; RANDOMTEST MODE
 --;===========================================================
 --AutoLevel is a function that ranks characters based on his number of loses vs wins.
 --AutoLevel is palette dependent so if a char has a 12th palette OP mode that mode can have more rank than his normal one.

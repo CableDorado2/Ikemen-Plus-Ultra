@@ -10,7 +10,15 @@ local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --; SHOP MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_mainMenu table loaded by screenpack.lua
-table.insert(t_customizeMenu, 1, {text = "ITEM SHOP", gotomenu = "f_shopMenu()", id = textImgNew()})
+table.insert(t_customizeMenu, 1, {
+id = textImgNew(),
+text = "ITEM SHOP",
+info = [[
+Buy and Unlock Features
+using in-game currency!
+]],
+gotomenu = "f_shopMenu()"
+})
 
 local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
@@ -440,7 +448,7 @@ local function f_theVault()
 end
 
 --;===========================================================
---; SHOP MENU (Buy/Unlock features using in-game currency.)
+--; SHOP MENU
 --;===========================================================
 local function f_drawShopItemArtwork(index)
 local img = t_shopMenu[index].spr[1] ..','.. t_shopMenu[index].spr[2].. ', 0,0, -1'

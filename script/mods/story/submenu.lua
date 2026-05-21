@@ -8,11 +8,28 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 --; CHRONICLES MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
-table.insert(t_extrasMenu, 1, {text = "CHRONICLES", gotomenu = "f_chroniclesMenu()", id = textImgNew()})
+table.insert(t_extrasMenu, 1, {
+id = textImgNew(),
+text = "CHRONICLES",
+info = [[
+Play a collection of Game modes
+focused on Characters Stories!
+]],
+gotomenu = "f_chroniclesMenu()"
+})
 
 t_chroniclesMenu = {
-	{text = "STORY", gotomenu = "f_storyMenu()"},
-	{text = "???", 	 gotomenu = "f_comingSoon()"}, --quiz
+	{
+		text = "STORY",
+		info = [[
+		
+		]],
+		gotomenu = "f_storyMenu()"
+	},
+	{
+		text = "???",
+		gotomenu = "f_comingSoon()" --quiz
+	},
 }
 for i=1, #t_chroniclesMenu do
 	t_chroniclesMenu[i]['id'] = textImgNew()
@@ -20,7 +37,7 @@ for i=1, #t_chroniclesMenu do
 end
 f_checkMenuUnlocks(t_chroniclesMenu)
 --;===========================================================
---; CHRONICLES MENU (play special story game modes)
+--; CHRONICLES MENU
 --;===========================================================	
 function f_chroniclesMenu()
 	cmdInput()
@@ -103,6 +120,7 @@ function f_chroniclesMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		drawMiddleMenuSP()
+		drawMenuInfo(t_chroniclesMenu[chroniclesMenu])
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "LORE MODES")
 		textImgDraw(txt_version)

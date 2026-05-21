@@ -1300,7 +1300,7 @@ function f_sideReset()
 end
 
 --;===========================================================
---; ARCADE MENU (select arcade variants)
+--; ARCADE MENU
 --;===========================================================
 function f_arcadeMenu()
 	cmdInput()
@@ -1417,7 +1417,7 @@ function f_arcadeMenu()
 end
 
 --;===========================================================
---; VERSUS MENU (face specific opponents)
+--; VERSUS MENU
 --;===========================================================
 function f_vsMenu()
 	cmdInput()
@@ -1534,7 +1534,7 @@ function f_vsMenu()
 end
 
 --;===========================================================
---; PRACTICE MENU (Learn the basics of 2D Fighting Games through customizable Game Modes designed to practice)
+--; PRACTICE MENU
 --;===========================================================
 function f_practiceMenu()
 	cmdInput()
@@ -1651,7 +1651,7 @@ function f_practiceMenu()
 end
 
 --;===========================================================
---; TRAINING MODE (practice special attacks and combos with training dummy character(s) of your choice)
+--; TRAINING MODE
 --;===========================================================
 function f_training()
 	f_discordUpdate({details = "Training"})
@@ -1682,7 +1682,7 @@ function f_training()
 end
 
 --;===========================================================
---; CHALLENGES MENU (play advanced game modes)
+--; CHALLENGES MENU
 --;===========================================================	
 function f_challengeMenu()
 	cmdInput()
@@ -1799,7 +1799,7 @@ function f_challengeMenu()
 end
 
 --;===========================================================
---; EXTRAS MENU (play special game modes)
+--; EXTRAS MENU
 --;===========================================================	
 function f_extrasMenu()
 	cmdInput()
@@ -1916,7 +1916,7 @@ function f_extrasMenu()
 end
 
 --;===========================================================
---; WATCH MENU (watch replays, licenses, listen songs and more)
+--; WATCH MENU
 --;===========================================================
 function f_watchMenu()
 	cmdInput()
@@ -2030,7 +2030,7 @@ function f_watchMenu()
 end
 
 --;===========================================================
---; CLASSIC ARCADE MODE (play a customizable arcade ladder)
+--; CLASSIC ARCADE MODE
 --;===========================================================
 function f_arcadeBoot()
 	menuSelect = "arcade"
@@ -2137,7 +2137,7 @@ function arcadeCPUvsCPU()
 end
 
 --;===========================================================
---; TOWER ARCADE MODE (play through customizable arcade routes/ladders)
+--; TOWER ARCADE MODE
 --;===========================================================
 function f_towerBoot()
 	if data.debugMode then f_loadTowers() end
@@ -2247,7 +2247,7 @@ function towerCPUvsCPU()
 end
 
 --;===========================================================
---; QUICK/RANDOM MATCH MODE (play a random fight)
+--; QUICK/RANDOM MATCH MODE
 --;===========================================================
 function f_quickvsBoot()
 	menuSelect = "quick match"
@@ -2281,7 +2281,7 @@ function randomHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (defeat from right side a random CPU controlled opponent of your choice)
+--CPU VS HUMAN (defeat from right side a random CPU controlled opponent)
 function randomCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -2330,7 +2330,7 @@ function randomCPUvsP1P2()
 end
 
 --;===========================================================
---; FREE BATTLE MODE (play fights with your own rules)
+--; FREE BATTLE MODE
 --;===========================================================
 function f_vsBoot()
 	menuSelect = "free battle"
@@ -2433,7 +2433,7 @@ end
 ]]
 
 --;===========================================================
---; SURVIVAL MENU (survive in a series of matches with special conditions)
+--; SURVIVAL MENU
 --;===========================================================
 function f_survivalMenu()
 	cmdInput()
@@ -2550,7 +2550,7 @@ function f_survivalMenu()
 end
 
 --;===========================================================
---; CLASSIC SURVIVAL MODE (defeat opponents with a single health meter)
+--; CLASSIC SURVIVAL MODE
 --;===========================================================
 function f_survivalBoot()
 	menuSelect = "survival"
@@ -2641,7 +2641,7 @@ function survivalCPUvsCPU()
 end
 
 --;===========================================================
---; BOSS RUSH MODE (defeat all bosses in a row)
+--; BOSS RUSH MODE
 --;===========================================================
 function f_bossrushBoot()
 	if #t_bossChars == 0 then
@@ -2734,7 +2734,7 @@ function bossrushCPUvsCPU()
 end
 
 --;===========================================================
---; SINGLE BOSS MENU (face a specific Boss Character)
+--; SINGLE BOSS MENU
 --;===========================================================
 function f_bossChars()
 	if #t_bossChars == 0 then
@@ -2902,7 +2902,7 @@ function bossCPUvsCPU()
 end
 
 --;===========================================================
---; BONUS GAMES MENU (play bonus games)
+--; BONUS GAMES MENU
 --;===========================================================
 function f_bonusMenu()
 	if #t_bonusChars == 0 then
@@ -3020,7 +3020,7 @@ function f_bonusMenu()
 end
 
 --;===========================================================
---; BONUS GAME SELECT (clear the bonus game selected)
+--; BONUS GAME SELECT
 --;===========================================================
 function f_bonusExtras()
 	cmdInput()
@@ -3173,7 +3173,7 @@ function bonusCPUvsHuman()
 end
 
 --;===========================================================
---; BONUS MARATHON MODE (clear all bonus games in a row)
+--; BONUS MARATHON MODE
 --;===========================================================
 function f_bonusrushBoot()
 	menuSelect = "bonus rush"
@@ -3253,7 +3253,7 @@ function bonusrushCPUvsP1P2()
 end
 
 --;===========================================================
---; SCORE ATTACK MENU (fight in a series of matches with score conditions)
+--; SCORE ATTACK MENU
 --;===========================================================
 function f_scoreattackMenu()
 	cmdInput()
@@ -3370,7 +3370,7 @@ function f_scoreattackMenu()
 end
 
 --;===========================================================
---; CLASSIC SCORE ATTACK MODE (defeat opponents getting high score as possible)
+--; CLASSIC SCORE ATTACK MODE
 --;===========================================================
 function f_scoreattackBoot()
 	menuSelect = "score attack"
@@ -3393,7 +3393,7 @@ function scoreattackCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (defeat all character roster with best score possible, beating previous score records from left side)
+--HUMAN VS CPU (defeat opponents, beating previous score records from left side)
 function scoreattackHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -3406,7 +3406,7 @@ function scoreattackHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (defeat all character roster with best score possible, beating previous score records from right side)
+--CPU VS HUMAN (defeat opponents, beating previous score records from right side)
 function scoreattackCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -3422,7 +3422,7 @@ function scoreattackCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster with best score possible, beating previous score records)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat opponents, beating previous score records)
 function scoreattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -3432,7 +3432,7 @@ function scoreattackP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster with best score possible, beating previous score records)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat opponents, beating previous score records)
 function scoreattackCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -3446,7 +3446,7 @@ function scoreattackCPUvsP1P2()
 	]]
 end
 
---CPU MODE (watch CPU defeat all character roster with best score possible, beating previous score records)
+--CPU MODE (watch CPU defeat opponents, beating previous score records)
 function scoreattackCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -3458,7 +3458,7 @@ function scoreattackCPUvsCPU()
 end
 
 --;===========================================================
---; CARAVAN MODE (defeat opponents getting the highest score within a strict time limit)
+--; CARAVAN MODE
 --;===========================================================
 function f_caravanBoot()
 	menuSelect = "caravan"
@@ -3550,7 +3550,7 @@ function caravanCPUvsCPU()
 end
 
 --;===========================================================
---; TIME ATTACK MENU (fight in a series of matches with time conditions)
+--; TIME ATTACK MENU
 --;===========================================================
 function f_timeattackMenu()
 	cmdInput()
@@ -3667,7 +3667,7 @@ function f_timeattackMenu()
 end
 
 --;===========================================================
---; CLASSIC TIME ATTACK MODE (defeat opponents to get best time as possible)
+--; CLASSIC TIME ATTACK MODE
 --;===========================================================
 function f_timeattackBoot()
 	menuSelect = "time attack"
@@ -3690,7 +3690,7 @@ function timeattackCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (defeat all character roster with best time possible, beating previous time records from left side)
+--HUMAN VS CPU (defeat opponents, beating previous time records from left side)
 function timeattackHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -3703,7 +3703,7 @@ function timeattackHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (defeat all character roster with best time possible, beating previous time records from right side)
+--CPU VS HUMAN (defeat opponents, beating previous time records from right side)
 function timeattackCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -3719,7 +3719,7 @@ function timeattackCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster with best time possible, beating previous time records)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat opponents, beating previous time records)
 function timeattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -3729,7 +3729,7 @@ function timeattackP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster with best time possible, beating previous time records)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat opponents, beating previous time records)
 function timeattackCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -3743,7 +3743,7 @@ function timeattackCPUvsP1P2()
 	]]
 end
 
---CPU MODE (watch CPU defeat all character roster with best time possible, beating previous time records)
+--CPU MODE (watch CPU defeat opponents, beating previous time records)
 function timeattackCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -4149,7 +4149,7 @@ function f_recordDisplayAdvanced()
 end
 
 --;===========================================================
---; SPEED STAR MODE (defeat opponents before time runs out)
+--; SPEED STAR MODE
 --;===========================================================
 function f_speedStarSelect()
 	cmdInput()
@@ -4463,7 +4463,7 @@ function speedstarCPUvsCPU()
 end
 
 --;===========================================================
---; GOLD RUSH MODE (deal damage to the opponents to earn money)
+--; GOLD RUSH MODE
 --;===========================================================
 function f_goldrushBoot()
 	menuSelect = "gold rush"
@@ -4553,7 +4553,7 @@ function goldrushCPUvsCPU()
 end
 
 --;===========================================================
---; KUMITE MODE (defeat as many opponents as you can in predefined "data.kumite" successive matches)
+--; KUMITE MODE
 --;===========================================================
 function f_kumiteBoot()
 	menuSelect = "kumite"
@@ -4581,7 +4581,7 @@ function kumiteCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---P1 VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from left side)
+--P1 VS HUMAN (see how many characters out of data.kumite you can take down from left side)
 function kumiteHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -4594,7 +4594,7 @@ function kumiteHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from right side)
+--CPU VS HUMAN (see how many characters out of data.kumite you can take down from right side)
 function kumiteCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -4610,7 +4610,7 @@ function kumiteCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down in 1 Hit)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of data.kumite you can take down)
 function kumiteP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -4620,7 +4620,7 @@ function kumiteP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of all roster you can take down in 1 Hit)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of data.kumite you can take down)
 function kumiteCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -4634,7 +4634,7 @@ function kumiteCPUvsP1P2()
 	]]
 end
 
---CPU MODE (see how many characters out of all roster the CPU can take down in 1 Hit)
+--CPU MODE (see how many characters out of data.kumite the CPU can take down)
 function kumiteCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -4646,7 +4646,7 @@ function kumiteCPUvsCPU()
 end
 
 --;===========================================================
---; SUDDEN DEATH MODE (defeat opponents with 1 hit)
+--; SUDDEN DEATH MODE
 --;===========================================================
 function f_suddendeathBoot()
 	menuSelect = "sudden death"
@@ -4670,7 +4670,7 @@ function suddenCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---P1 VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from left side)
+--P1 VS HUMAN (see how many characters you can take down in 1 Hit from left side)
 function suddenHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -4683,7 +4683,7 @@ function suddenHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from right side)
+--CPU VS HUMAN (see how many characters you can take down in 1 Hit from right side)
 function suddenCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -4699,7 +4699,7 @@ function suddenCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down in 1 Hit)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters you can take down in 1 Hit)
 function suddenP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -4709,7 +4709,7 @@ function suddenP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of all roster you can take down in 1 Hit)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters you can take down in 1 Hit)
 function suddenCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -4723,7 +4723,7 @@ function suddenCPUvsP1P2()
 	]]
 end
 
---CPU MODE (see how many characters out of all roster the CPU can take down in 1 Hit)
+--CPU MODE (see how many characters the CPU can take down in 1 Hit)
 function suddenCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -4735,7 +4735,7 @@ function suddenCPUvsCPU()
 end
 
 --;===========================================================
---; ENDLESS MODE (fight in endless matches)
+--; ENDLESS MODE
 --;===========================================================
 function f_endlessBoot()
 	menuSelect = "endless"
@@ -4825,7 +4825,7 @@ function endlessCPUvsCPU()
 end
 
 --;===========================================================
---; STAGE VIEWER MODE (watch a selected stage without fight)
+--; STAGE VIEWER MODE
 --;===========================================================
 function f_stageViewer()
 	if stageviewer then
@@ -4853,7 +4853,7 @@ function f_stageViewer()
 end
 
 --;===========================================================
---; PLAYER RECORDS MENU (display player records data)
+--; PLAYER RECORDS MENU
 --;===========================================================
 function f_statsMenu()
 	cmdInput()
@@ -5253,14 +5253,14 @@ function f_getStats(callback)
 end
 
 --;===========================================================
---; LEADERBOARDS SCREEN (display rankings data)
+--; RANKINGS SCREEN
 --;===========================================================
 function f_rankings()
 	f_comingSoon() --TODO
 end
 
 --;===========================================================
---; SOUND TEST MENU (listen music)
+--; SOUND TEST MENU
 --;===========================================================
 function f_songMenu()
 	f_discordUpdate({details = "Sound Test: Idle"})
@@ -5562,7 +5562,7 @@ function f_confirmSongReset()
 end
 
 --;===========================================================
---; LICENSES MENU (display engine license files)
+--; LICENSES MENU
 --;===========================================================
 function f_licenseMenu()
 	if data.debugMode then f_loadLicenses() end
@@ -5702,7 +5702,7 @@ licenseFile:close() --Close .txt file
 end
 
 --;===========================================================
---; REPLAY MENU (watch recorded battles)
+--; REPLAY MENU
 --;===========================================================
 function f_replayMenu()
 	cmdInput()
@@ -6047,7 +6047,7 @@ function f_replayTable()
 end
 
 --;===========================================================
---; ONLINE MENU (play online)
+--; ONLINE MENU
 --;===========================================================
 function f_mainNetplay()
 --Display Aspect Ratio Desync Warning
@@ -17676,7 +17676,7 @@ function f_tourneyCfg()
 end
 
 --;===========================================================
---; TOURNAMENT MODE MENU (participate in customizable tournaments)
+--; TOURNAMENT MODE MENU
 --;===========================================================
 function f_tourneyMenu()
 	cmdInput()
@@ -18673,10 +18673,7 @@ function f_tourneyChampion()
 end
 
 --;===========================================================
---[[					ALLIANCE MODE
-Assembles a Team of 4 characters and fights against an opposing CPU alliance.
-After defeating each enemy team, players are given the opportunity to
-Exchange 1 of their own team members with 1 member from the enemy side.]]
+--; ALLIANCE MODE
 --;===========================================================
 function f_allianceBoot()
 	menuSelect = "alliance"
@@ -19331,7 +19328,7 @@ function f_allianceNextBattle()
 end
 
 --;===========================================================
---; ABYSS SELECT MENU (Defeat way of enemies, strengthening your character along the way)
+--; ABYSS SELECT MENU
 --;===========================================================
 function f_abyssSelect()
 	f_discordUpdate({details = "Abyss"})
@@ -20244,7 +20241,7 @@ function f_abyssMap()
 end
 
 --;===========================================================
---; CREDITS SCREEN (play staff credits)
+--; CREDITS SCREEN
 --;=========================================================== 
 function f_playCredits()
 	cmdInput()

@@ -9,7 +9,14 @@ local missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sp
 --; MISSIONS MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_challengeMenu table loaded by screenpack.lua
-table.insert(t_challengeMenu, 1, {text = "MISSIONS", gotomenu = "f_missionMenu()", id = textImgNew()})
+table.insert(t_challengeMenu, 1, {
+id = textImgNew(),
+text = "MISSIONS",
+info = [[
+Take on a variety of Tasks!
+]],
+gotomenu = "f_missionMenu()"
+})
 
 local txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
 local txt_missionProgress = createTextImg(jgFnt, 2, 1, "", 202, 125)
@@ -177,7 +184,7 @@ function f_refreshMissionStats()
 	end
 end
 --;===========================================================
---; MISSIONS MENU (complete customizable tasks)
+--; MISSIONS MENU
 --;===========================================================
 function f_missionMenu()
 	if data.debugMode then f_loadMissions() end --Load in real-time only if dev/debug mode is enabled

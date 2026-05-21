@@ -9,7 +9,15 @@ local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
-table.insert(t_extrasMenu, #t_extrasMenu-1, {text = "EVENTS", gotomenu = "f_eventMenu()", id = textImgNew()})
+table.insert(t_extrasMenu, #t_extrasMenu-1, {
+id = textImgNew(),
+text = "EVENTS",
+info = [[
+Take on a variety of Tasks!
+at certain times!
+]],
+gotomenu = "f_eventMenu()"
+})
 
 local txt_localTime = createTextImg(font15, 0, 1, "", 1, 8)
 local txt_internetTime = createTextImg(font15, 0, 1, "", 1, 20)
@@ -403,7 +411,7 @@ function f_refreshEventStats()
 	end
 end
 --;===========================================================
---; EVENTS MENU (complete customizable tasks at certain times)
+--; EVENTS MENU
 --;===========================================================
 function f_eventMenu()
 	if data.debugMode then f_loadEvents() end

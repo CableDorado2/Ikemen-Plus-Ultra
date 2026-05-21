@@ -17,12 +17,20 @@ kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 --; TUTORIAL MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_practiceMenu table loaded by screenpack.lua
-table.insert(t_practiceMenu, #t_practiceMenu, {text = "TUTORIAL", gotomenu = "f_tutorial()", skipsfx = true, id = textImgNew()})
+table.insert(t_practiceMenu, #t_practiceMenu, {
+id = textImgNew(),
+text = "TUTORIAL",
+info = [[
+Learn Game Rules and Battle Tactics!
+]],
+gotomenu = "f_tutorial()",
+skipsfx = true
+})
 sprTutorial = sffNew("script/mods/tutorial/tutorial.sff") --Load tutorial sprites
 sndTutorial = sndNew("script/mods/tutorial/tutorial.snd") --Load tutorial sfx
 bgmTutorial = "script/mods/tutorial/Tutorial.mp3" --set Tutorial Mode BGM
 --;===========================================================
---; TUTORIAL MODE (Learn Game Rules and Battle Tactics)
+--; TUTORIAL MODE
 --;===========================================================
 function f_tutorial()
 	f_discordUpdate({details = "Tutorial"})

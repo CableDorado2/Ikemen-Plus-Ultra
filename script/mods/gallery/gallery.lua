@@ -15,7 +15,15 @@ local galleryMoviesDef = "script/mods/gallery/movies.def" --Gallery Videos
 --; GALLERY MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_watchMenu table loaded by screenpack.lua
-table.insert(t_watchMenu, 4, {text = "GALLERY", gotomenu = "f_galleryMenu()", id = textImgNew()})
+table.insert(t_watchMenu, 4, {
+id = textImgNew(),
+text = "GALLERY",
+info = [[
+View Artworks, Storyboards
+and Re-watch movie Cutscenes!
+]],
+gotomenu = "f_galleryMenu()"
+})
 
 local txt_galleryTitle = createTextImg(jgFnt, 0, 0, "GALLERY", 159, 15)
 local txt_galleryInfo = createTextImg(font5, 0, 0, "", 159, 202) --font2
@@ -584,7 +592,7 @@ local function f_artMenu(artLimit)
 	end
 end
 --;===========================================================
---; GALLERY MENU (view pictures, storyboards and video cutscenes)
+--; GALLERY MENU
 --;===========================================================
 local function f_drawGalleryPreview(sffData, group, index, x, y, scaleX, scaleY, x1, y1, x2, y2, alphaS, alphaD)
 	local x = x or 0

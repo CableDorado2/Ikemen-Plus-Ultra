@@ -810,49 +810,59 @@ t_mainMenu = {
 	{
 		text = "ARCADE",
 		info = [[
-		Fight against a CPU-Controller group in a variety of Arcade Ladders!
+		Fight against CPU-controlled
+		opponents in a variety of
+		Arcade Ladders!
 		]],
 		gotomenu = "f_arcadeMenu()" --Each function loaded by "gotomenu", need to be declared in main.lua
 	},
 	{
 		text = "VERSUS",
 		info = [[
-		Face off against specific Human or AI-controlled opponents!
+		Fight against Human or CPU
+		specific opponents!
 		]],
 		gotomenu = "f_vsMenu()"
 	},
 	{
 		text = "NETPLAY",
 		info = [[
-		Fight or Play in Cooperative modes with Human players over the Network!
+		Connect to Network to
+		Battle or Play in Cooperative
+		with Human players!
 		]],
 		gotomenu = "f_mainNetplay()"
 	},
 	{
 		text = "PRACTICE",
 		info = [[
-		Learn the basics of 2D Fighting Games through Game Modes designed for Training!
+		Learn the basics of 2D
+		Fighting Games through Modes
+		designed for Training!
 		]],
 		gotomenu = "f_practiceMenu()"
 	},
 	{
 		text = "CHALLENGES",
 		info = [[
-		Play a Collection of Advanced Game Modes!
+		Play through a Series of
+		Advanced Game Modes!
 		]],
 		gotomenu = "f_challengeMenu()"
 	},
 	{
 		text = "EXTRAS",
 		info = [[
-		Play a Collection of Special Game Modes!
+		Play through a Collection of
+		Special Game Modes!
 		]],
 		gotomenu = "f_extrasMenu()" --, unlock = "stats.modes.arcade.clear >= 1",
 	},
 	{
 		text = "WATCH",
 		info = [[
-		Watch Replays, Explore Stages, Listen Music and more!
+		Watch Replays, Explore Stages
+		Listen Music and more!
 		]],
 		gotomenu = "f_watchMenu()"
 	},
@@ -866,7 +876,8 @@ t_mainMenu = {
 	{
 		text = "EXIT",
 		info = [[
-		Shutdown or Reboot the Engine.
+		Shutdown or Reboot
+		the Engine.
 		]],
 		gotomenu = "f_exitMenu()"
 	},
@@ -927,7 +938,9 @@ t_arcadeMenu = {
 	{
 		text = "CLASSIC",
 		info = [[
-		Fight against CPU-controlled opponents in the Classic Arcade Mode!
+		Defeat a series of opponents
+		to reach each character's
+		ending!
 		]],
 		gotomenu = "f_arcadeBoot()"
 	},
@@ -941,7 +954,9 @@ t_arcadeMenu = {
 	{
 		text = "TOWER",
 		info = [[
-		Play through several Arcade Ladders with specific Difficulties!
+		Play through several Arcade
+		Ladders with specific
+		Difficulties!
 		]],
 		gotomenu = "f_towerBoot()"
 	},
@@ -958,28 +973,32 @@ t_vsMenu = {
 	{
 		text = "QUICK MATCH",
 		info = [[
-		Test your skills in a Random Battle!
+		Test your skills in Random
+		Battles!
 		]],
 		gotomenu = "f_quickvsBoot()"
 	},
 	{
 		text = "FREE BATTLE",
 		info = [[
-		Play matches with your own rules!
+		Play matches with your own
+		rules!
 		]],
 		gotomenu = "f_vsBoot()"
 	},
 	{
 		text = "TOURNAMENT",
 		info = [[
-		Participate in Customizable Tournaments!
+		Participate in Customizable
+		Tournaments!
 		]],
 		gotomenu = "f_tourneyCfg()"
 	},
 	{
 		text = "BOSS ASSAULT",
 		info = [[
-		Challenge a specific Boss Character!
+		Challenge a specific Boss
+		Character!
 		]],
 		gotomenu = "f_bossChars()"
 	},
@@ -1019,26 +1038,37 @@ end
 t_challengeMenu = {
 	{
 		text = "ALLIANCE",
+		info = [[
+		Assembles a Team of 4 characters
+		and fights against an opposing CPU alliance.
+		
+		After defeating each enemy team,
+		you can Exchange 1 of your own team members
+		with 1 member from the enemy side!
+		]],
 		gotomenu = "f_allianceBoot()"
 	},
 	{
 		text = "SURVIVAL",
 		info = [[
-		Fight against waves of enemies in a series of matches with Special Conditions!
+		Compete for the Highest Winning Streak in a series
+		of matches with a limited amount of health!
 		]],
 		gotomenu = "f_survivalMenu()"
 	},
 	{
 		text = "TIME ATTACK",
 		info = [[
-		Fight in a series of matches with Time Conditions!
+		Compete for the fastest completion time in a series
+		of matches with Time Conditions!
 		]],
 		gotomenu = "f_timeattackMenu()"
 	},
 	{
 		text = "SCORE ATTACK",
 		info = [[
-		Fight in a series of matches with Score Conditions!
+		Compete for a High Score in a series
+		of matches with Score Conditions!
 		]],
 		gotomenu = "f_scoreattackMenu()"
 	},
@@ -1061,10 +1091,19 @@ t_survivalMenu = {
 	},
 	{
 		text = "ABYSS",
+		info = [[
+		Defeat way of enemies, strengthening your character along the way!
+		]],
 		gotomenu = "f_abyssSelect()"
 	},
 	{
 		text = "SUDDEN DEATH",
+		info = [[
+		Defeat opponents in single-blow matches!
+		
+		Both players are provided with 1 dot of
+		health meter and time limit of 10 seconds.
+		]],
 		gotomenu = "f_suddendeathBoot()"
 	},
 }
@@ -1154,10 +1193,17 @@ t_extrasMenu = {
 	},
 	{
 		text = "KUMITE",
+		info = "Defeat as many opponents as you can\nin "..data.kumite.." successive matches!",
 		gotomenu = "f_kumiteBoot()"
 	},
 	{
 		text = "ENDLESS",
+		info = [[
+		Fight in Endless Matches.
+		
+		You'll face the next opponent
+		regardless you win or lose!
+		]],
 		gotomenu = "f_endlessBoot()"
 	},
 }
@@ -1196,26 +1242,44 @@ end
 t_watchMenu = {
 	{
 		text = "REPLAYS",
+		info = [[
+		Watch recorded online or local battles!
+		]],
 		gotomenu = "f_replayMenu()"
 	},
 	{
 		text = "STAGE VIEWER",
+		info = [[
+		Watch a stage of your choice without fight!
+		]],
 		gotomenu = "f_stageViewer()"
 	},
 	{
 		text = "SOUND TEST",
+		info = [[
+		Listen all the music added!
+		]],
 		gotomenu = "soundTest = true f_songMenu()"
 	},
 	{
 		text = "RANKINGS",
+		info = [[
+		Display Leaderboards data of All Game Modes!
+		]],
 		gotomenu = "f_rankings()"
 	},
 	{
 		text = "LICENSES",
+		info = [[
+		Check the Engine License files!
+		]],
 		gotomenu = "f_licenseMenu()"
 	},
 	{
 		text = "STAFF CREDITS",
+		info = [[
+		Play staff credits!
+		]],
 		gotomenu = "f_playCredits()"
 	},
 }
@@ -1229,10 +1293,18 @@ end
 --;===========================================================
 t_replayMenu = {
 	{
-		text = "NETPLAY"
+		text = "NETPLAY",
+		info = [[
+		Watch and Manage Online replay
+		data that you have saved!
+		]]
 	},
 	{
-		text = "LOCAL"
+		text = "LOCAL",
+		info = [[
+		Watch and Manage Offline replay
+		data that you have saved!
+		]]
 	},
 }
 for i=1, #t_replayMenu do
@@ -1394,15 +1466,16 @@ end
 --;===========================================================
 t_mainNetplay = {
 	{
-		text = "HOST",
+		text = "CREATE MATCH",
 		info = [[
-		CREATE ROOM
+		Become the Host and Create
+		a New Online Room to Play!
 		]]
 	},
 	{
-		text = "GUEST",
+		text = "SEARCH MATCH",
 		info = [[
-		JOIN A ROOM
+		Search for Opponents!
 		]]
 	},
 }

@@ -159,8 +159,16 @@ f_loadAchievements()
 --;===========================================================
 --; ACHIEVEMENTS SCREENPACK DEFINITION
 --;===========================================================
---Insert new item to t_profileMenu table loaded by screenpack.lua
-table.insert(t_profileMenu, #t_profileMenu, {text = "ACHIEVEMENTS", gotomenu = "f_achievementsMenu()", id = textImgNew()})
+--Insert new item to t_watchMenu table loaded by screenpack.lua
+table.insert(t_watchMenu, 5, {
+id = textImgNew(),
+text = "ACHIEVEMENTS",
+info = [[
+Collect a list of milestones
+to claim rewards!
+]],
+gotomenu = "f_achievementsMenu()"
+})
 txt_achievementsTitle = createTextImg(jgFnt, 0, -1, "ACHIEVEMENT PROGRESS:", 218, 11)
 txt_achievementsProgress = createTextImg(jgFnt, 2, 1, "", 223.5, 11)
 txt_achievementInfo = createTextImg(font2, 0, 1, "", 0, 0)
@@ -348,7 +356,7 @@ function achievements()
 	end
 end
 --;===========================================================
---; ACHIEVEMENTS MENU (collect a customizable list of milestones to claim rewards)
+--; ACHIEVEMENTS MENU
 --;===========================================================
 function f_achievementsMenu()
 	--if data.debugMode then f_loadAchievements() end --Load in real-time only if dev/debug mode is enabled (warning this reset achievements)

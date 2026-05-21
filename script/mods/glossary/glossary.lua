@@ -9,7 +9,15 @@ local glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossar
 --; GLOSSARY MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_watchMenu table loaded by screenpack.lua
-table.insert(t_watchMenu, 5, {text = "GLOSSARY", gotomenu = "f_glossaryMenu()", id = textImgNew()})
+table.insert(t_watchMenu, 5, {
+id = textImgNew(),
+text = "GLOSSARY",
+info = [[
+Learn all terminology
+that shows up in the game!
+]],
+gotomenu = "f_glossaryMenu()"
+})
 
 local txt_glossaryTitle = createTextImg(jgFnt, 0, 0, "GLOSSARY", 159, 13)
 local txt_glossarySection = createTextImg(font2, 0, 0, "", 10, 30)
@@ -157,7 +165,7 @@ local function f_glossaryLoad()
 	if data.debugLog then f_printTable(t_glossary, "save/debug/t_glossary.log") end
 end
 --;===========================================================
---; GLOSSARY MENU (explain all terminology that shows up in the game)
+--; GLOSSARY MENU
 --;===========================================================
 function f_glossaryMenu()
 	f_glossaryLoad() --Load Glossary Data from .def file
