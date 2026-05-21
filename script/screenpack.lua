@@ -809,47 +809,65 @@ commonMenuItemSign = "> "
 t_mainMenu = {
 	{
 		text = "ARCADE",
-		info = "Fight against a CPU-Controller group in a variety of Arcade Ladders.",
+		info = [[
+		Fight against a CPU-Controller group in a variety of Arcade Ladders!
+		]],
 		gotomenu = "f_arcadeMenu()" --Each function loaded by "gotomenu", need to be declared in main.lua
 	},
 	{
 		text = "VERSUS",
-		info = "Face off against specific Human or AI-controlled opponents.",
+		info = [[
+		Face off against specific Human or AI-controlled opponents!
+		]],
 		gotomenu = "f_vsMenu()"
 	},
 	{
 		text = "NETPLAY",
-		info = "Fight or Play in Cooperative modes with Human players over the Network.",
+		info = [[
+		Fight or Play in Cooperative modes with Human players over the Network!
+		]],
 		gotomenu = "f_mainNetplay()"
 	},
 	{
 		text = "PRACTICE",
-		info = "Learn the basics of 2D Fighting Games through Game Modes designed for Training.",
+		info = [[
+		Learn the basics of 2D Fighting Games through Game Modes designed for Training!
+		]],
 		gotomenu = "f_practiceMenu()"
 	},
 	{
 		text = "CHALLENGES",
-		info = "Play a Collection of Advanced Game Modes.",
+		info = [[
+		Play a Collection of Advanced Game Modes!
+		]],
 		gotomenu = "f_challengeMenu()"
 	},
 	{
 		text = "EXTRAS",
-		info = "Play a Collection of Special Game Modes.",
+		info = [[
+		Play a Collection of Special Game Modes!
+		]],
 		gotomenu = "f_extrasMenu()" --, unlock = "stats.modes.arcade.clear >= 1",
 	},
 	{
 		text = "WATCH",
-		info = "Watch Replays, Explore Stages, Listen Music and more!",
+		info = [[
+		Watch Replays, Explore Stages, Listen Music and more!
+		]],
 		gotomenu = "f_watchMenu()"
 	},
 	{
 		text = "OPTIONS",
-		info = "adjust engine settings.",
+		info = [[
+		adjust engine settings.
+		]],
 		gotomenu = "f_optionsMenu()"
 	},
 	{
 		text = "EXIT",
-		info = "Shutdown or Reboot the Engine.",
+		info = [[
+		Shutdown or Reboot the Engine.
+		]],
 		gotomenu = "f_exitMenu()"
 	},
 }
@@ -862,7 +880,7 @@ end
 function drawMenuInfo(t)
 	local txtInfo = "???"
 	if t.info ~= nil then txtInfo = t.info end
-	f_textRender(txt_mainInfo, txtInfo, 0, 145, 160, 10, 0, 30)
+	f_textRender(txt_mainInfo, txtInfo, 0, 145, 160, 10, 0, -1)
 end
 
 function drawMainMenuInputHints()
@@ -908,17 +926,23 @@ end
 t_arcadeMenu = {
 	{
 		text = "CLASSIC",
-		info = "Fight against CPU controlled opponents in the Classic Arcade Mode.",
+		info = [[
+		Fight against CPU-controlled opponents in the Classic Arcade Mode!
+		]],
 		gotomenu = "f_arcadeBoot()"
 	},
 	{
 		text = "BOSS RUSH",
-		info = "Defeat all Bosses in a row.",
+		info = [[
+		Defeat all Bosses in a row!
+		]],
 		gotomenu = "f_bossrushBoot()"
 	},
 	{
 		text = "TOWER",
-		info = "Play through several Arcade Ladders with specific Difficulties.",
+		info = [[
+		Play through several Arcade Ladders with specific Difficulties!
+		]],
 		gotomenu = "f_towerBoot()"
 	},
 }
@@ -933,22 +957,30 @@ end
 t_vsMenu = {
 	{
 		text = "QUICK MATCH",
-		info = "Test your skills in a Random Battle.",
+		info = [[
+		Test your skills in a Random Battle!
+		]],
 		gotomenu = "f_quickvsBoot()"
 	},
 	{
 		text = "FREE BATTLE",
-		info = "Play matches with your own rules.",
+		info = [[
+		Play matches with your own rules!
+		]],
 		gotomenu = "f_vsBoot()"
 	},
 	{
 		text = "TOURNAMENT",
-		info = "Participate in Customizable Tournaments",
+		info = [[
+		Participate in Customizable Tournaments!
+		]],
 		gotomenu = "f_tourneyCfg()"
 	},
 	{
 		text = "BOSS ASSAULT",
-		info = "Challenge a specific Boss Character",
+		info = [[
+		Challenge a specific Boss Character!
+		]],
 		gotomenu = "f_bossChars()"
 	},
 }
@@ -963,12 +995,16 @@ end
 t_practiceMenu = {
 	{
 		text = "TRAINING",
-		info = "Practice special attacks and combos with a training dummy character(s) of your choice.",
+		info = [[
+		Practice special attacks and combos with a training dummy character(s) of your choice!
+		]],
 		gotomenu = "f_training()"
 	},
 	{
 		text = "TRIALS",
-		info = "",
+		info = [[
+		Learn, Practice and Clear Combo Challenges of a Character of your choice!
+		]],
 		gotomenu = "f_comingSoon()"
 	},
 }
@@ -987,14 +1023,23 @@ t_challengeMenu = {
 	},
 	{
 		text = "SURVIVAL",
+		info = [[
+		Fight against waves of enemies in a series of matches with Special Conditions!
+		]],
 		gotomenu = "f_survivalMenu()"
 	},
 	{
 		text = "TIME ATTACK",
+		info = [[
+		Fight in a series of matches with Time Conditions!
+		]],
 		gotomenu = "f_timeattackMenu()"
 	},
 	{
 		text = "SCORE ATTACK",
+		info = [[
+		Fight in a series of matches with Score Conditions!
+		]],
 		gotomenu = "f_scoreattackMenu()"
 	},
 }
@@ -1009,6 +1054,9 @@ end
 t_survivalMenu = {
 	{
 		text = "CLASSIC",
+		info = [[
+		Defeat many opponents as possible with a single health meter!
+		]],
 		gotomenu = "f_survivalBoot()"
 	},
 	{
@@ -1031,10 +1079,17 @@ end
 t_timeattackMenu = {
 	{
 		text = "CLASSIC",
+		info = [[
+		Defeat opponents quickly to get Best Time as possible!
+		]],
 		gotomenu = "f_timeattackBoot()"
 	},
 	{
 		text = "SPEED STAR",
+		info = [[
+		Defeat opponents before Round Time runs out!
+		Certain actions can Extend or Reduce the Time Left.
+		]],
 		gotomenu = "f_speedstarBoot()"
 	},
 	{
@@ -1053,10 +1108,16 @@ end
 t_scoreattackMenu = {
 	{
 		text = "CLASSIC",
+		info = [[
+		Defeat opponents getting the Highest Score possible!
+		]],
 		gotomenu = "f_scoreattackBoot()"
 	},
 	{
 		text = "CARAVAN",
+		info = [[
+		Defeat opponents getting the Highest Score possible within a strict Time Limit!
+		]],
 		gotomenu = "f_caravanBoot()"
 	},
 	{
@@ -1075,10 +1136,20 @@ end
 t_extrasMenu = {
 	{
 		text = "BONUS GAMES",
+		info = [[
+		Play the Bonus Stages and Arcade Mini-Games!
+		]],
 		gotomenu = "f_bonusMenu()"
 	},
 	{
 		text = "GOLD RUSH",
+		info = [[
+		Deal damage to the opponents
+		to Earn money!
+		
+		How much money will you
+		be able to collect!?
+		]],
 		gotomenu = "f_goldrushBoot()"
 	},
 	{
@@ -1101,10 +1172,16 @@ end
 t_bonusMenu = {
 	{
 		text = "GAME SELECT",
+		info = [[
+		Play a bonus game of your choice!
+		]],
 		gotomenu = "f_bonusExtras()"
 	},
 	{
 		text = "MARATHON",
+		info = [[
+		Clear all bonus games in a row!
+		]],
 		gotomenu = "f_bonusrushBoot()"
 	},
 }
@@ -1318,11 +1395,15 @@ end
 t_mainNetplay = {
 	{
 		text = "HOST",
-		info = "CREATE ROOM"
+		info = [[
+		CREATE ROOM
+		]]
 	},
 	{
 		text = "GUEST",
-		info = "JOIN A ROOM"
+		info = [[
+		JOIN A ROOM
+		]]
 	},
 }
 for i=1, #t_mainNetplay do
