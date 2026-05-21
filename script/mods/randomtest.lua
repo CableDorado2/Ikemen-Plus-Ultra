@@ -10,6 +10,9 @@ text = "RANDOM TEST",
 info = [[
 Watch CPU play to generate
 AI Rank Data!
+
+The results will help you
+better order your characters.
 ]],
 gotomenu = "randomTest()"
 })

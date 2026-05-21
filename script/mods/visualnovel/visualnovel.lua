@@ -8,7 +8,8 @@ table.insert(t_chroniclesMenu, 2, {
 id = textImgNew(),
 text = "VISUAL NOVEL",
 info = [[
-
+Play through narrative and
+interactive storytellings!
 ]],
 gotomenu = "f_vnMenu()"
 })
@@ -1753,7 +1754,7 @@ function f_questionResetVN()
 end
 
 --;===========================================================
---; VISUAL NOVEL SELECT MENU (play through customizable narrative and interactive storytellings)
+--; VISUAL NOVEL SELECT MENU
 --;===========================================================
 vnNoSel = true
 function f_vnNewGame() --start a new customizable narrative and interactive storytelling

@@ -859,7 +859,7 @@ local function f_arc3_prologue()
 	f_arc3_chapter1()
 end
 --;===========================================================
---; STORY MENU (follow customizable story arcs)
+--; STORY MENU
 --;===========================================================
 function f_storyMenu()
 	f_discordUpdate({details = "Story"})

@@ -13,7 +13,7 @@ table.insert(t_challengeMenu, 1, {
 id = textImgNew(),
 text = "MISSIONS",
 info = [[
-Take on a variety of Tasks!
+Complete specific objectives!
 ]],
 gotomenu = "f_missionMenu()"
 })

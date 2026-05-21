@@ -876,8 +876,7 @@ t_mainMenu = {
 	{
 		text = "EXIT",
 		info = [[
-		Shutdown or Reboot
-		the Engine.
+		Shutdown or Reboot Engine.
 		]],
 		gotomenu = "f_exitMenu()"
 	},
@@ -947,16 +946,15 @@ t_arcadeMenu = {
 	{
 		text = "BOSS RUSH",
 		info = [[
-		Defeat all Bosses in a row!
+		Rematch all Bosses in a row!
 		]],
 		gotomenu = "f_bossrushBoot()"
 	},
 	{
 		text = "TOWER",
 		info = [[
-		Play through several Arcade
-		Ladders with specific
-		Difficulties!
+		Play through Arcade Ladders
+		with different lengths!
 		]],
 		gotomenu = "f_towerBoot()"
 	},
@@ -997,8 +995,8 @@ t_vsMenu = {
 	{
 		text = "BOSS ASSAULT",
 		info = [[
-		Challenge a specific Boss
-		Character!
+		Challenge a Boss Character
+		of your choice!
 		]],
 		gotomenu = "f_bossChars()"
 	},
@@ -1015,14 +1013,18 @@ t_practiceMenu = {
 	{
 		text = "TRAINING",
 		info = [[
-		Practice special attacks and combos with a training dummy character(s) of your choice!
+		Practice special attacks and
+		combos with a training dummy
+		character of your choice!
 		]],
 		gotomenu = "f_training()"
 	},
 	{
 		text = "TRIALS",
 		info = [[
-		Learn, Practice and Clear Combo Challenges of a Character of your choice!
+		Learn, Practice and Clear
+		Combo Challenges of a
+		Character of your choice!
 		]],
 		gotomenu = "f_comingSoon()"
 	},
@@ -1039,36 +1041,38 @@ t_challengeMenu = {
 	{
 		text = "ALLIANCE",
 		info = [[
-		Assembles a Team of 4 characters
-		and fights against an opposing CPU alliance.
+		Assemble a Team of 4 Members.
 		
-		After defeating each enemy team,
-		you can Exchange 1 of your own team members
-		with 1 member from the enemy side!
+		Exchange Characters, Level Up
+		and battle an opposing CPU
+		Alliance!
 		]],
 		gotomenu = "f_allianceBoot()"
 	},
 	{
 		text = "SURVIVAL",
 		info = [[
-		Compete for the Highest Winning Streak in a series
-		of matches with a limited amount of health!
+		Compete for the Highest
+		Winning Streak in a series of
+		matches with a limited health!
 		]],
 		gotomenu = "f_survivalMenu()"
 	},
 	{
 		text = "TIME ATTACK",
 		info = [[
-		Compete for the fastest completion time in a series
-		of matches with Time Conditions!
+		Compete for the fastest
+		completion time in a series of
+		matches with Regulated Rules!
 		]],
 		gotomenu = "f_timeattackMenu()"
 	},
 	{
 		text = "SCORE ATTACK",
 		info = [[
-		Compete for a High Score in a series
-		of matches with Score Conditions!
+		Compete for a High Score in a
+		series of matches with Fixed
+		Rules!
 		]],
 		gotomenu = "f_scoreattackMenu()"
 	},
@@ -1085,26 +1089,32 @@ t_survivalMenu = {
 	{
 		text = "CLASSIC",
 		info = [[
-		Defeat many opponents as possible with a single health meter!
+		Defeat many opponents as
+		possible with a single health!
 		]],
 		gotomenu = "f_survivalBoot()"
 	},
 	{
-		text = "ABYSS",
-		info = [[
-		Defeat way of enemies, strengthening your character along the way!
-		]],
-		gotomenu = "f_abyssSelect()"
-	},
-	{
 		text = "SUDDEN DEATH",
 		info = [[
-		Defeat opponents in single-blow matches!
+		Defeat many opponents as
+		possible in one-hit matches!
 		
-		Both players are provided with 1 dot of
-		health meter and time limit of 10 seconds.
+		Both sides have 1 dot of life
+		and time limit is 10 seconds.
 		]],
 		gotomenu = "f_suddendeathBoot()"
+	},
+	{
+		text = "ABYSS",
+		info = [[
+		Defeat waves of enemies while
+		level up your character!
+		
+		Descend and Conquest the
+		bottom of each Abyss.
+		]],
+		gotomenu = "f_abyssSelect()"
 	},
 }
 for i=1, #t_survivalMenu do
@@ -1119,15 +1129,19 @@ t_timeattackMenu = {
 	{
 		text = "CLASSIC",
 		info = [[
-		Defeat opponents quickly to get Best Time as possible!
+		Defeat opponents quickly to
+		get Best Time as possible!
 		]],
 		gotomenu = "f_timeattackBoot()"
 	},
 	{
 		text = "SPEED STAR",
 		info = [[
-		Defeat opponents before Round Time runs out!
-		Certain actions can Extend or Reduce the Time Left.
+		Defeat opponents quickly
+		before Round Time runs out!
+		
+		Certain actions can Extend or
+		Reduce the Time Left.
 		]],
 		gotomenu = "f_speedstarBoot()"
 	},
@@ -1148,14 +1162,17 @@ t_scoreattackMenu = {
 	{
 		text = "CLASSIC",
 		info = [[
-		Defeat opponents getting the Highest Score possible!
+		Defeat opponents getting the
+		Best Score possible!
 		]],
 		gotomenu = "f_scoreattackBoot()"
 	},
 	{
 		text = "CARAVAN",
 		info = [[
-		Defeat opponents getting the Highest Score possible within a strict Time Limit!
+		Defeat opponents getting the
+		Best Score possible within a
+		strict Time Limit!
 		]],
 		gotomenu = "f_caravanBoot()"
 	},
@@ -1176,7 +1193,8 @@ t_extrasMenu = {
 	{
 		text = "BONUS GAMES",
 		info = [[
-		Play the Bonus Stages and Arcade Mini-Games!
+		Play the Bonus Stages and
+		Arcade Mini-Games!
 		]],
 		gotomenu = "f_bonusMenu()"
 	},
@@ -1184,22 +1202,23 @@ t_extrasMenu = {
 		text = "GOLD RUSH",
 		info = [[
 		Deal damage to the opponents
-		to Earn money!
+		to Earn in-game currency!
 		
 		How much money will you
-		be able to collect!?
+		be able to collect??
 		]],
 		gotomenu = "f_goldrushBoot()"
 	},
 	{
 		text = "KUMITE",
-		info = "Defeat as many opponents as you can\nin "..data.kumite.." successive matches!",
+		info = "See how many opponents out\nof "..data.kumite.." you can take down!\n\nYou'll face the next opponent\nregardless you win or lose!",
 		gotomenu = "f_kumiteBoot()"
 	},
 	{
 		text = "ENDLESS",
 		info = [[
-		Fight in Endless Matches.
+		Fight in Endless Matches until
+		you give up..
 		
 		You'll face the next opponent
 		regardless you win or lose!
@@ -1217,16 +1236,18 @@ end
 --;===========================================================
 t_bonusMenu = {
 	{
-		text = "GAME SELECT",
+		text = "FREE SELECT",
 		info = [[
-		Play a bonus game of your choice!
+		Play a Bonus Game of your
+		choice!
 		]],
 		gotomenu = "f_bonusExtras()"
 	},
 	{
 		text = "MARATHON",
 		info = [[
-		Clear all bonus games in a row!
+		Clear all Bonus Stages in a
+		marathon!
 		]],
 		gotomenu = "f_bonusrushBoot()"
 	},
@@ -1243,14 +1264,16 @@ t_watchMenu = {
 	{
 		text = "REPLAYS",
 		info = [[
-		Watch recorded online or local battles!
+		Playback recorded online and
+		local battles!
 		]],
 		gotomenu = "f_replayMenu()"
 	},
 	{
 		text = "STAGE VIEWER",
 		info = [[
-		Watch a stage of your choice without fight!
+		Watch a stage of your choice
+		without fight!
 		]],
 		gotomenu = "f_stageViewer()"
 	},
@@ -1264,7 +1287,8 @@ t_watchMenu = {
 	{
 		text = "RANKINGS",
 		info = [[
-		Display Leaderboards data of All Game Modes!
+		Display Leaderboards records
+		of All Game Modes!
 		]],
 		gotomenu = "f_rankings()"
 	},
@@ -1295,15 +1319,15 @@ t_replayMenu = {
 	{
 		text = "NETPLAY",
 		info = [[
-		Watch and Manage Online replay
-		data that you have saved!
+		Watch and Manage Online
+		replay data that you saved!
 		]]
 	},
 	{
 		text = "LOCAL",
 		info = [[
-		Watch and Manage Offline replay
-		data that you have saved!
+		Watch and Manage Offline
+		replay data that you saved!
 		]]
 	},
 }

@@ -14,8 +14,8 @@ table.insert(t_customizeMenu, 1, {
 id = textImgNew(),
 text = "ITEM SHOP",
 info = [[
-Buy and Unlock Features
-using in-game currency!
+Buy and Unlock Features using
+earned in-game currency!
 ]],
 gotomenu = "f_shopMenu()"
 })

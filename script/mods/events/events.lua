@@ -13,8 +13,8 @@ table.insert(t_extrasMenu, #t_extrasMenu-1, {
 id = textImgNew(),
 text = "EVENTS",
 info = [[
-Take on a variety of Tasks!
-at certain times!
+Battle under special conditions
+at certain schedules!
 ]],
 gotomenu = "f_eventMenu()"
 })

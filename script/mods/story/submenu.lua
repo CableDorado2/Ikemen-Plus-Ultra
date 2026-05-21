@@ -12,8 +12,8 @@ table.insert(t_extrasMenu, 1, {
 id = textImgNew(),
 text = "CHRONICLES",
 info = [[
-Play a collection of Game modes
-focused on Characters Stories!
+Play Game modes focused on
+Characters Stories!
 ]],
 gotomenu = "f_chroniclesMenu()"
 })
@@ -22,7 +22,8 @@ t_chroniclesMenu = {
 	{
 		text = "STORY",
 		info = [[
-		
+		Follow, unlock and dive into
+		character's story arcs!
 		]],
 		gotomenu = "f_storyMenu()"
 	},

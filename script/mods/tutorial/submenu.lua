@@ -21,7 +21,8 @@ table.insert(t_practiceMenu, #t_practiceMenu, {
 id = textImgNew(),
 text = "TUTORIAL",
 info = [[
-Learn Game Rules and Battle Tactics!
+Learn Game Rules and Battle
+Tactics!
 ]],
 gotomenu = "f_tutorial()",
 skipsfx = true
