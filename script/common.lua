@@ -412,6 +412,7 @@ function drawMenuItem(t, itemNo, offset, font, bank, align, x, y)
 	else
 		itemText = "???"
 	end
+	--if bank == 5 then itemText = commonMenuItemSign..itemText end
 	textImgDraw(f_updateTextImg(item.id, font, bank, align, itemText, xOffset, yOffset))
 end
 

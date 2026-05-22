@@ -13,8 +13,8 @@ table.insert(t_watchMenu, 5, {
 id = textImgNew(),
 text = "GLOSSARY",
 info = [[
-Learn all terminology
-that shows up in the game!
+Learn all terminology that
+shows up in the game!
 ]],
 gotomenu = "f_glossaryMenu()"
 })

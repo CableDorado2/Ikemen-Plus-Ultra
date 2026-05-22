@@ -105,7 +105,7 @@ videoHowToPlay = "videos/How To Play.webm"
 
 --Definition Data
 selectDef = "data/select.def" --Characters and Stage selection list
-fightDef =  "data/lifebars.def" --Lifebar/Fight Battle HUD list
+fightDef = "data/lifebars.def" --Lifebar/Fight Battle HUD list
 
 --;===========================================================
 --; MOVELIST SCREENPACK DEFINITION
@@ -513,7 +513,8 @@ function drawBottomMenuSP() --Layer 0
 	animDraw(titleBG1)
 end
 
-function drawMiddleMenuSP() --Layer 1 (After Cursor Box)
+function drawMiddleMenuSP(infoBox, preview) --Layer 1 (After Cursor Box)
+	local infoBox = infoBox or 1
 	animAddPos(titleBG2, -1, 0)
 	animUpdate(titleBG2)
 	animDraw(titleBG2)
@@ -522,7 +523,15 @@ function drawMiddleMenuSP() --Layer 1 (After Cursor Box)
 	animDraw(titleBG5)
 	animDraw(titleBG6)
 	f_titleText()
-	animDraw(menuInfoBG)
+	if infoBox == 1 then animDraw(menuInfoBG) end
+--Draw Specific Char Portrait
+	if preview == "boss" or preview == "bonus" then
+		local previewDat = nil
+		if preview == "boss" then previewDat = t_bossChars[bossChars]
+		elseif preview == "bonus" then previewDat = t_bonusChars[bonusExtras]
+		end
+		drawPortrait(previewDat, 228, 95, 0.77, 0.77)
+	end
 end
 
 function drawTopMenuSP() --Layer 2 (Always In front)
@@ -796,6 +805,28 @@ function f_rewardScreen()
 		cmdInput()
 		refresh()
 	end
+end
+
+--;===========================================================
+--; EXIT MENU SCREENPACK DEFINITION
+--;===========================================================
+t_exitMenu = {
+	{
+		text = "CLOSE ENGINE",
+		info = [[
+		Exit to the Desktop.
+		]]
+	},
+	{
+		text = "RESTART ENGINE",
+		info = [[
+		Engine will close and reopen
+		automatically!
+		]]
+	},
+}
+for i=1, #t_exitMenu do
+	t_exitMenu[i].id = textImgNew()
 end
 
 --;===========================================================

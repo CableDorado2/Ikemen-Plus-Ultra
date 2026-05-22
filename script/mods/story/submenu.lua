@@ -116,7 +116,7 @@ function f_chroniclesMenu()
 			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end

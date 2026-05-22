@@ -348,7 +348,7 @@ function f_mainMenu()
 			end
 		end
 		if not infoScreen and not infoboxScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
@@ -446,16 +446,23 @@ function f_mainMenu2()
 			local font = jgFnt
 			local bank = 0
 			local align = 0
-			drawMenuItem(t_mainMenu, mainMenu, -3, font, bank, align, 159, 136)
-			drawMenuItem(t_mainMenu, mainMenu, -2, font, bank, align, 159, 149)
-			drawMenuItem(t_mainMenu, mainMenu, -1, font, bank, align, 159, 161)
-			drawMenuItem(t_mainMenu, mainMenu, 0, font, 5, align, 159, 174) --Central Item (cursor)
-			--textImgDraw(f_updateTextImg(t_mainMenu[mainMenu].id, font, 5, align, t_mainMenu[mainMenu].text, 159, 174)) --Central Item (cursor)
-			drawMenuItem(t_mainMenu, mainMenu, 1, font, bank, align, 159, 187)
-			drawMenuItem(t_mainMenu, mainMenu, 2, font, bank, align, 159, 201)
+			local posX = 68
+			for i=-3, 3 do
+				if i == 0 then bank = 5 else bank = 0 end --Central Item (cursor)
+				drawMenuItem(t_mainMenu, mainMenu, i, font, bank, align, posX, 152 + i * 13)
+			end
+		--[[
+			drawMenuItem(t_mainMenu, mainMenu, -3, font, bank, align, posX, 107)
+			drawMenuItem(t_mainMenu, mainMenu, -2, font, bank, align, posX, 120)
+			drawMenuItem(t_mainMenu, mainMenu, -1, font, bank, align, posX, 133)
+			drawMenuItem(t_mainMenu, mainMenu, 0, font, 5, align, posX, 146) --Central Item (cursor)
+			drawMenuItem(t_mainMenu, mainMenu, 1, font, bank, align, posX, 159)
+			drawMenuItem(t_mainMenu, mainMenu, 2, font, bank, align, posX, 172)
+			drawMenuItem(t_mainMenu, mainMenu, 3, font, bank, align, posX, 185)
+		]]
 		end
 		if not infoScreen and not infoboxScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13) --Position and Size of the selection cursor
+			animSetWindow(cursorBox, 0,103 + cursorPosY * 13, 320,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
@@ -467,10 +474,8 @@ function f_mainMenu2()
 			textImgSetText(txt_gameFt, "MAIN MENU")
 			textImgDraw(txt_version)
 			textImgDraw(txt_f1)
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
+			animPosDraw(menuArrowUp, 62, 95)
+			animPosDraw(menuArrowDown, 62, 195)
 		end
 		if infoScreen then
 			f_infoMenu()
@@ -741,11 +746,6 @@ end
 --;===========================================================
 --; EXIT MENU
 --;===========================================================
-t_exitMenu = {
-	{id = textImgNew(), text = "CLOSE ENGINE"},
-	{id = textImgNew(), text = "RESTART ENGINE"},
-}
-
 function f_exitMenu(titleBGM)
 	cmdInput()
 	local cursorPosY = 0
@@ -845,7 +845,7 @@ function f_exitMenu(titleBGM)
 			table.remove(t_exitMenu, 3) --Remove Option 3 in table if characters or stages are not detected
 		end
 		if not confirmScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1378,7 +1378,7 @@ function f_arcadeMenu()
 			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1495,7 +1495,7 @@ function f_vsMenu()
 			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1612,7 +1612,7 @@ function f_practiceMenu()
 			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1760,7 +1760,7 @@ function f_challengeMenu()
 			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1877,7 +1877,7 @@ function f_extrasMenu()
 			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -1993,7 +1993,7 @@ function f_watchMenu()
 			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2511,7 +2511,7 @@ function f_survivalMenu()
 			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -2751,6 +2751,7 @@ function f_bossChars()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 7
+	local itemSign = ""
 	f_sideReset()
 	while true do
 		if not sideScreen then
@@ -2801,18 +2802,20 @@ function f_bossChars()
 		for i=1, #t_bossSingle do
 			if i == bossChars then
 				bank = 1
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 		--Draw Boss Name
-			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 1, itemSign..t_bossSingle[i].text, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		drawMiddleMenuSP()
+		drawMiddleMenuSP(0, "boss")
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "BOSS SELECT")
 		textImgDraw(txt_version)
@@ -2983,7 +2986,7 @@ function f_bonusMenu()
 			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3033,6 +3036,7 @@ function f_bonusExtras()
 	local bufr = 0
 	local bufl = 0
 	local maxItems = 7
+	local itemSign = ""
 	f_sideReset()
 	while true do
 		if not sideScreen then
@@ -3083,18 +3087,20 @@ function f_bonusExtras()
 		for i=1, #t_bonusExtras do
 			if i == bonusExtras then
 				bank = 5
+				itemSign = commonMenuItemSign
 			else
 				bank = 0
+				itemSign = ""
 			end
 			--Draw Bonus Name
-			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 1, itemSign..t_bonusExtras[i].text, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		drawMiddleMenuSP()
+		drawMiddleMenuSP(0, "bonus")
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "BONUS SELECT")
 		textImgDraw(txt_version)
@@ -3331,7 +3337,7 @@ function f_scoreattackMenu()
 			textImgDraw(f_updateTextImg(t_scoreattackMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -3628,7 +3634,7 @@ function f_timeattackMenu()
 			textImgDraw(f_updateTextImg(t_timeattackMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5784,7 +5790,7 @@ function f_replayMenu()
 			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 1, itemSign..t_replayMenu[i].text, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -6171,7 +6177,7 @@ function f_mainNetplay()
 			end
 			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 1, itemSign..t_mainNetplay[i].text, 5, 94 + i * 13 - moveTxt))
 		end
-		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		drawMiddleMenuSP()
@@ -6533,11 +6539,11 @@ function f_hostRooms()
 			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 94 + i * 13 - moveTxt))
 		end
 		if editHostScreen == false and crudHostScreen == false then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		drawMiddleMenuSP()
+		drawMiddleMenuSP(0)
 		if editHostScreen == false then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, "HOST ROOMS")
@@ -7203,7 +7209,7 @@ function f_mainLobby()
 			end
 			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, itemSign..t_mainLobby[i].text, 159, 94 + i * 13 - moveTxt))
 		end
-		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 316,13)
+		animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		drawMiddleMenuSP()
