@@ -5730,13 +5730,33 @@ public &Char
   {
     ret .com.inputDisplay;
   }
-  public int trPowerStateP1()
+  public int trTimeFreeze()
   {
-    ret .com.powerStateP1;
+    ret .com.timeFreeze;
   }
-  public int trPowerStateP2()
+  public int trInvisibleLeft()
   {
-    ret .com.powerStateP2;
+    ret .com.invisibleLeft;
+  }
+  public int trInvisibleRight()
+  {
+    ret .com.invisibleRight;
+  }
+  public int trNoAutoTurnLeft()
+  {
+    ret .com.noAutoTurnLeft;
+  }
+  public int trNoAutoTurnRight()
+  {
+    ret .com.noAutoTurnRight;
+  }
+  public int trNoGuardLeft()
+  {
+    ret .com.noGuardLeft;
+  }
+  public int trNoGuardRight()
+  {
+    ret .com.noGuardRight;
   }
   public int trLifeStateP1()
   {
@@ -5745,6 +5765,14 @@ public &Char
   public int trLifeStateP2()
   {
     ret .com.lifeStateP2;
+  }
+  public int trPowerStateP1()
+  {
+    ret .com.powerStateP1;
+  }
+  public int trPowerStateP2()
+  {
+    ret .com.powerStateP2;
   }
   public int trDummyState()
   {

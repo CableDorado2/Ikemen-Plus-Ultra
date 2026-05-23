@@ -2518,6 +2518,14 @@ function f_default() --Reset Game Modes Configuration
 	setPlayerPower(0) --Set power points to show during rpg mode profile and which be apply to the player.
 	setPlayerAttack(0) --Set attack points to show during rpg mode profile and which be apply to the player.
 	setPlayerDefence(0) --Set defence points to show during rpg mode profile and which be apply to the player.
+--Special Rules
+	setTimeFreeze(0) --Reset Time Freeze
+	setInvisibleLeft(0) --Reset Invisible Characters for Left Side
+	setInvisibleRight(0) --Reset Invisible Characters for Right Side
+	setNoAutoTurnLeft(0) --Reset Characters No Auto Turn for Left Side
+	setNoAutoTurnRight(0) --Reset Characters No Auto Turn for Right Side
+	setNoGuardLeft(0) --Reset Characters No Guard for Left Side
+	setNoGuardRight(0) --Reset Characters No Guard for Right Side
 --Abyss Stuff
 	setAbyssDepth(1) --Set depth level to show during abyss mode match lifebar.
 	setAbyssFinalDepth(0) --Set last abyss depth match.

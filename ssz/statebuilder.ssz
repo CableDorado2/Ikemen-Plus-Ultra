@@ -2424,17 +2424,38 @@ public &StateBuilder
 	cond .s.equ("inputdisplay", token):
       out .= obj .= "trInputDisplay()";
       typ = 2;
-	cond .s.equ("powerstatep1", token):
-      out .= obj .= "trPowerStateP1()";
+	cond .s.equ("timefreeze", token):
+      out .= obj .= "trTimeFreeze()";
       typ = 2;
-	cond .s.equ("powerstatep2", token):
-      out .= obj .= "trPowerStateP2()";
+	cond .s.equ("invisibleleft", token):
+      out .= obj .= "trInvisibleLeft()";
+      typ = 2;
+	cond .s.equ("invisibleright", token):
+      out .= obj .= "trInvisibleRight()";
+      typ = 2;
+	cond .s.equ("noautoturnleft", token):
+      out .= obj .= "trNoAutoTurnLeft()";
+      typ = 2;
+	cond .s.equ("noautoturnright", token):
+      out .= obj .= "trNoAutoTurnRight()";
+      typ = 2;
+	cond .s.equ("noguardleft", token):
+      out .= obj .= "trNoGuardLeft()";
+      typ = 2;
+	cond .s.equ("noguardright", token):
+      out .= obj .= "trNoGuardRight()";
       typ = 2;
 	cond .s.equ("lifestatep1", token):
       out .= obj .= "trLifeStateP1()";
       typ = 2;
 	cond .s.equ("lifestatep2", token):
       out .= obj .= "trLifeStateP2()";
+      typ = 2;
+	cond .s.equ("powerstatep1", token):
+      out .= obj .= "trPowerStateP1()";
+      typ = 2;
+	cond .s.equ("powerstatep2", token):
+      out .= obj .= "trPowerStateP2()";
       typ = 2;
 	cond .s.equ("dummystate", token):
       out .= obj .= "trDummyState()";

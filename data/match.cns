@@ -510,10 +510,56 @@ trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
 flag2 = nomusic
 
-[State 500, No HUD]
+[State -2, No HUD]
 type = assertspecial
 trigger1 = LifebarDisplay = 0
 flag = nobardisplay
+
+[State -2, Round Time Freeze]
+type = assertspecial
+trigger1 = TimeFreeze = 1
+flag = timerfreeze
+ignorehitpause = 1
+
+[State -2, Left Side Invisible]
+type = assertspecial
+trigger1 = InvisibleLeft = 1 && TeamSide = 1
+flag = invisible
+ignorehitpause = 1
+
+[State -2, Right Side Invisible]
+type = assertspecial
+trigger1 = InvisibleRight = 1 && TeamSide = 2
+flag = invisible
+ignorehitpause = 1
+
+[State -2, No Autoturn for Left Side]
+type = assertspecial
+trigger1 = NoAutoTurnLeft = 1 && TeamSide = 1
+flag = noautoturn
+ignorehitpause = 1
+
+[State -2, No Autoturn for Right Side]
+type = assertspecial
+trigger1 = NoAutoTurnRight = 1 && TeamSide = 2
+flag = noautoturn
+ignorehitpause = 1
+
+[State -2, No Guard for Left Side]
+type = assertspecial
+trigger1 = NoGuardLeft = 1 && TeamSide = 1
+flag = nostandguard
+flag2 = nocrouchguard
+flag3 = noairguard
+ignorehitpause = 1
+
+[State -2, No Guard for Right Side]
+type = assertspecial
+trigger1 = NoGuardRight = 1 && TeamSide = 2
+flag = nostandguard
+flag2 = nocrouchguard
+flag3 = noairguard
+ignorehitpause = 1
 
 ;===========================================================================
 ; TRAINING SETTINGS
