@@ -513,8 +513,7 @@ function drawBottomMenuSP() --Layer 0
 	animDraw(titleBG1)
 end
 
-function drawMiddleMenuSP(infoBox, preview) --Layer 1 (After Cursor Box)
-	local infoBox = infoBox or 1
+function drawMiddleMenuSP(preview) --Layer 1 (After Cursor Box)
 	animAddPos(titleBG2, -1, 0)
 	animUpdate(titleBG2)
 	animDraw(titleBG2)
@@ -523,7 +522,6 @@ function drawMiddleMenuSP(infoBox, preview) --Layer 1 (After Cursor Box)
 	animDraw(titleBG5)
 	animDraw(titleBG6)
 	f_titleText()
-	if infoBox == 1 then animDraw(menuInfoBG) end
 --Draw Specific Char Portrait
 	if preview == "boss" or preview == "bonus" then
 		local previewDat = nil
@@ -921,6 +919,7 @@ end
 function drawMenuInfo(t)
 	local txtInfo = "???"
 	if t.info ~= nil then txtInfo = t.info end
+	animDraw(menuInfoBG)
 	f_textRender(txt_mainInfo, txtInfo, 0, 145, 160, 10, 0, -1)
 end
 
