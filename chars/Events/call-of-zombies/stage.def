@@ -1,0 +1,71 @@
+[Info]
+name = "sp"
+author = "sp"
+
+[Camera]
+startx =0
+starty =0
+boundleft  = -70
+boundright = 70
+boundhigh  = -29
+boundlow   = 0
+verticalfollow = .2
+floortension = 50
+tension =50
+
+
+[PlayerInfo]
+p1startx =-70
+p1starty =0
+p1startz =0
+p1facing =1
+
+p2startx =70
+p2starty =0
+p2startz =0
+p2facing =-1
+
+leftbound =-900
+rightbound =900
+topbound =0
+botbound =0
+
+
+[Scaling]
+topz =0
+botz =50
+topscale =1
+botscale =1
+
+
+[Bound]
+screenleft  =14
+screenright =14
+
+
+[StageInfo]
+zoffset  = 220
+autoturn = 1
+resetBG  = 1
+
+[Shadow]
+intensity = 0
+
+[Reflection]
+intensity = 3
+
+[Music]
+bgmusic  =
+bgvolume = 40
+
+;----------------------------------------------------
+[BGdef]
+spr = stage.sff
+debugbg = 0
+
+[BG 0]
+type  = normal     
+spriteno = 0, 0                       
+start = 0, 0       
+delta = 1, 1    
+mask = 0
