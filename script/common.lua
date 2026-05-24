@@ -2525,26 +2525,26 @@ function f_default() --Reset Game Modes Configuration
 	setPlayerDefence(0) --Set defence points to show during rpg mode profile and which be apply to the player.
 --Special Rules
 	setTimeFreeze(0) --Reset Time Freeze
-	setLifeInfiniteLeft(0) --Reset Infinite Life for Left Side
-	setLifeInfiniteRight(0) --Reset Infinite Life for Right Side
-	setPowerInfiniteLeft(0) --Reset Infinite Power for Left Side
-	setPowerInfiniteRight(0) --Reset Infinite Power for Right Side
-	setDefenceUpLeft(0) --Reset Defence Up for Left Side
-	setDefenceUpRight(0) --Reset Defence Up for Right Side
-	setAttackUpLeft(0) --Reset Attack Up for Left Side
-	setAttackUpRight(0) --Reset Attack Up for Right Side
-	setLifeRegenLeft(0) --Reset Life Regeneration for Left Side
-	setLifeRegenRight(0) --Reset Life Regeneration for Right Side
-	setPowerRegenLeft(0) --Reset Power Regeneration for Left Side
-	setPowerRegenRight(0) --Reset Power Regeneration for Right Side
-	setNoPowerLeft(0) --Reset No Power for Left Side
-	setNoPowerRight(0) --Reset No Power for Right Side
 	setInvisibleLeft(0) --Reset Invisible Characters for Left Side
 	setInvisibleRight(0) --Reset Invisible Characters for Right Side
 	setNoAutoTurnLeft(0) --Reset Characters No Auto Turn for Left Side
 	setNoAutoTurnRight(0) --Reset Characters No Auto Turn for Right Side
 	setNoGuardLeft(0) --Reset Characters No Guard for Left Side
 	setNoGuardRight(0) --Reset Characters No Guard for Right Side
+	setDefenceUpLeft(0) --Reset Defence Up for Left Side
+	setDefenceUpRight(0) --Reset Defence Up for Right Side
+	setAttackUpLeft(0) --Reset Attack Up for Left Side
+	setAttackUpRight(0) --Reset Attack Up for Right Side
+	setLifeInfiniteLeft(0) --Reset Infinite Life for Left Side
+	setLifeInfiniteRight(0) --Reset Infinite Life for Right Side
+	setLifeRegenLeft(0) --Reset Life Regeneration for Left Side
+	setLifeRegenRight(0) --Reset Life Regeneration for Right Side
+	setPowerInfiniteLeft(0) --Reset Infinite Power for Left Side
+	setPowerInfiniteRight(0) --Reset Infinite Power for Right Side
+	setPowerRegenLeft(0) --Reset Power Regeneration for Left Side
+	setPowerRegenRight(0) --Reset Power Regeneration for Right Side
+	setNoPowerLeft(0) --Reset No Power for Left Side
+	setNoPowerRight(0) --Reset No Power for Right Side
 --Abyss Stuff
 	setAbyssDepth(1) --Set depth level to show during abyss mode match lifebar.
 	setAbyssFinalDepth(0) --Set last abyss depth match.

@@ -623,7 +623,8 @@ local function f_arc1_chapter3_2()
 		data.recordMode = "story"
 		data.storyNo = "1-3B"
 		setGameMode("story")
-		setService("balance")
+		setDefenceUpLeft(1)
+		setNoPowerRight(1)
 		setAutoguard(1, true)
 		setAutoguard(2, false)
 		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -764,7 +765,8 @@ local function f_arc1_chapter1()
 			data.recordMode = "story"
 			data.storyNo = "1-1"
 			setGameMode("story")
-			setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
+			setLifeInfiniteLeft(1)
+			setPowerInfiniteLeft(1)
 			setPlayerSide('p1left')
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			f_selectStory() --Start Fight with previous settings

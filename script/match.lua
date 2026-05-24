@@ -1492,9 +1492,12 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 		--Infinite Life Logic
 			if timeremaining() > 0 then
-				setService("infinite life all") --Managed via match.cns
+			--Managed via match.cns
+				setLifeInfiniteLeft(1)
+				setLifeInfiniteRight(1)
 			else
-				setService("")
+				setLifeInfiniteLeft(0)
+				setLifeInfiniteRight(0)
 				if playerLeftSide then
 					for i=1, 8 do
 						if i % 2 == 0 then --Is an Even Player Number (Right Side)
@@ -1623,10 +1626,11 @@ function loop() --The code for this function should be thought of as if it were 
 							
 						else --Is an Odd Player Number (Left Side)
 							if timeremaining() == 0 then
-								setService("")
+								setLifeInfiniteLeft(0)
+								setLifeInfiniteRight(0)
 								if player(i) then setLife(0) end
 							else
-								setService("infinite life left") --Managed via match.cns
+								setLifeInfiniteLeft(1) --Managed via match.cns
 							end
 						end
 					end
@@ -1634,10 +1638,11 @@ function loop() --The code for this function should be thought of as if it were 
 					for i=1, 8 do
 						if i % 2 == 0 then --Is an Even Player Number (Right Side)
 							if timeremaining() == 0 then
-								setService("")
+								setLifeInfiniteLeft(0)
+								setLifeInfiniteRight(0)
 								if player(i) then setLife(0) end
 							else
-								setService("infinite life right")
+								setLifeInfiniteRight(1)
 							end
 						else --Is an Odd Player Number (Left Side)
 							
@@ -1763,7 +1768,9 @@ function loop() --The code for this function should be thought of as if it were 
 				if t_tutorialDiag[tutoDiag].inputhint and not script.pause.pauseMenuActive then
 					f_tutoInputDisplay(t_tutorialDiag[tutoDiag].inputhint)
 				end
-				setService("infinite life all") --Managed via match.cns
+			--Managed via match.cns
+				setLifeInfiniteLeft(1)
+				setLifeInfiniteRight(1)
 			--Set Power
 				powMax(1)
 			else --A fight started
@@ -1771,7 +1778,8 @@ function loop() --The code for this function should be thought of as if it were 
 				if player(2) then --Activate CPU for Player 2
 					setAILevel(8)
 				end
-				setService("infinite life left") --Managed via match.cns
+				setLifeInfiniteLeft(1)
+				setLifeInfiniteRight(0)
 			end
 		end
 	end

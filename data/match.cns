@@ -515,52 +515,6 @@ type = assertspecial
 trigger1 = BattleUIDisplay = 0
 flag = nobardisplay
 
-[State -2, Round Time Freeze]
-type = assertspecial
-trigger1 = TimeFreeze = 1
-flag = timerfreeze
-ignorehitpause = 1
-
-[State -2, Left Side Invisible]
-type = assertspecial
-trigger1 = InvisibleLeft = 1 && TeamSide = 1
-flag = invisible
-ignorehitpause = 1
-
-[State -2, Right Side Invisible]
-type = assertspecial
-trigger1 = InvisibleRight = 1 && TeamSide = 2
-flag = invisible
-ignorehitpause = 1
-
-[State -2, No Autoturn for Left Side]
-type = assertspecial
-trigger1 = NoAutoTurnLeft = 1 && TeamSide = 1
-flag = noautoturn
-ignorehitpause = 1
-
-[State -2, No Autoturn for Right Side]
-type = assertspecial
-trigger1 = NoAutoTurnRight = 1 && TeamSide = 2
-flag = noautoturn
-ignorehitpause = 1
-
-[State -2, No Guard for Left Side]
-type = assertspecial
-trigger1 = NoGuardLeft = 1 && TeamSide = 1
-flag = nostandguard
-flag2 = nocrouchguard
-flag3 = noairguard
-ignorehitpause = 1
-
-[State -2, No Guard for Right Side]
-type = assertspecial
-trigger1 = NoGuardRight = 1 && TeamSide = 2
-flag = nostandguard
-flag2 = nocrouchguard
-flag3 = noairguard
-ignorehitpause = 1
-
 ;===========================================================================
 ; TRAINING SETTINGS
 ;===========================================================================
@@ -654,54 +608,67 @@ trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) |
 value = 0.5
 
 ;===========================================================================
-; HANDICAPS EXAMPLE
+; SPECIAL RULES
 ;===========================================================================
-[State -2, Left Side Undefeatable]
-type = LifeSet
-triggerall = (Service = "infinite life left" || Service = "undefeatable") ;LEFT SIDE LIFE WILL AT MAX
-trigger1 = RoundState = 2 && TeamSide = 1
-value = LifeMax
+[State -2, Round Time Freeze]
+type = assertspecial
+trigger1 = TimeFreeze = 1
+flag = timerfreeze
+ignorehitpause = 1
 
-[State -2, Right Side Undefeatable]
-type = LifeSet
-triggerall = Service = "infinite life right" ;RIGHT SIDE LIFE WILL AT MAX
-trigger1 = RoundState = 2 && TeamSide = 2
-value = LifeMax
+[State -2, Invisible]
+type = assertspecial
+trigger1 = InvisibleLeft = 1 && TeamSide = 1
+trigger2 = InvisibleRight = 1 && TeamSide = 2
+flag = invisible
+ignorehitpause = 1
 
-[State -2, Both Sides Undefeatable]
-type = LifeSet
-triggerall = Service = "infinite life all" ;BOTH SIDES LIFE WILL AT MAX
-trigger1 = RoundState = 2 && TeamSide = 1
-trigger2 = RoundState = 2 && TeamSide = 2
-value = LifeMax
+[State -2, No Auto-Turn]
+type = assertspecial
+trigger1 = NoAutoTurnLeft = 1 && TeamSide = 1
+trigger2 = NoAutoTurnRight = 1 && TeamSide = 2
+flag = noautoturn
+ignorehitpause = 1
 
-[State -2, Left Side Max Power]
-type = PowerSet
-triggerall = (Service = "infinite power left" || Service = "undefeatable") ;LEFT SIDE POWER WILL AT MAX
-trigger1 = RoundState = 2 && TeamSide = 1
-value = PowerMax
+[State -2, No Guard]
+type = assertspecial
+trigger1 = NoGuardLeft = 1 && TeamSide = 1
+trigger2 = NoGuardRight = 1 && TeamSide = 2
+flag = nostandguard
+flag2 = nocrouchguard
+flag3 = noairguard
+ignorehitpause = 1
 
-[State -2, Right Side Max Power]
-type = PowerSet
-triggerall = Service = "infinite power right" ;RIGHT SIDE POWER WILL AT MAX
-trigger1 = RoundState = 2 && TeamSide = 2
-value = PowerMax
-
-[State -2, Both Sides Max Power]
-type = PowerSet
-triggerall = Service = "infinite power all" ;BOTH SIDES POWER WILL AT MAX
-trigger1 = RoundState = 2 && TeamSide = 1
-trigger2 = RoundState = 2 && TeamSide = 2
-value = PowerMax
-
-[State -2, MKFG Power Charge Off]
-type = PowerSet
-triggerall = GameMode = "story" && Service = "balance" && Name = "Master Kung Fu Girl" ;MASTER KUNG FU GIRL POWER CHARGE OFF AGAINS KFM FOR STORY BATTLE
-trigger1 = TeamSide = 2
-value = 0
-
-[State 2, KFM Double Defence]
+[State 2, Defence Up]
 type = DefenceMulSet
-triggerall = GameMode = "story" && Service = "balance"
-trigger1 = TeamSide = 1
+triggerall = RoundState = 2
+trigger1 = DefenceUpLeft = 1 && TeamSide = 1
+trigger2 = DefenceUpRight = 1 && TeamSide = 2
 value = 0.5
+
+[State 2, Attack Up]
+type = AttackMulSet
+triggerall = RoundState = 2
+trigger1 = AttackUpLeft = 1 && TeamSide = 1
+trigger1 = AttackUpRight = 1 && TeamSide = 2
+value = 2
+
+[State -2, Infinite Life]
+type = LifeSet
+triggerall = RoundState = 2
+trigger1 = LifeInfiniteLeft = 1 && TeamSide = 1
+trigger2 = LifeInfiniteRight = 1 && TeamSide = 2
+value = LifeMax
+
+[State -2, Infinite Power]
+type = PowerSet
+triggerall = RoundState = 2
+trigger1 = PowerInfiniteLeft = 1 && TeamSide = 1
+trigger2 = PowerInfiniteRight = 1 && TeamSide = 2
+value = PowerMax
+
+[State -2, Power Charge Off]
+type = PowerSet
+trigger1 = NoPowerLeft = 1 && TeamSide = 1
+trigger2 = NoPowerRight = 1 && TeamSide = 2
+value = 0

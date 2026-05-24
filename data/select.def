@@ -24,12 +24,22 @@ Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Others/Sakura.def, includest
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, order=1
 
 Red Dragon, stages/Others/The Red Dragon's Lair.def, victoryscreen=0, zoom=0, includestage=0, exclude=1, single=1, order=-1, orderboss=3, excludespecial=1
-Break The Car, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=2
-Strength Training, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=2
-Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=-1
-Event 1, zoom=0, exclude=1, excludespecial=1, order=-1, victoryscreen=0, vsscreen=0, stages/stage0.def, includestage=0
 Mako Mayama/vnFight.def, exclude=1, excludespecial=1, order=-1
 Stage Viewer, exclude=1, excludespecial=1, order=-1, stages/Mountainside Temple/Roof Night.def, includestage=0
+Bonus/SF2Car/SF2Car.def, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=2
+Bonus/FF1/FF1.def, zoom=0, bonus=1, victoryscreen=0, rounds=2, exclude=1, excludespecial=1, order=-1
+Bonus/SS1/SS1.def, chars/Bonus/SS1/StageA.def, music=chars/Bonus/SS1/BGM.mp3, includestage=0, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=2
+Bonus/AOF2/AOF2.def, stages/Others/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=2
+Bonus/Catwalk/Catwalk.def, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=-1
+Bonus/SSB/SSB.def, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=-1
+Bonus/Mulk/Mulk.def, chars/Mulk/stage/stage.def, includestage=0, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, excludespecial=1, order=-1
+Bonus/kfma4a/kfma4a3.def, stages/Mountainside Temple/Clone Laboratory.def, includestage=0, zoom=0, victoryscreen=0, rounds=2, exclude=1, excludespecial=1, order=-1
+Events/call-of-zombies/call-of-zombies.def, chars/Events/call-of-zombies/stage.def, includestage=0, zoom=0, exclude=1, excludespecial=1, order=-1, victoryscreen=0, vsscreen=0
+Events/SoR2/SoR2.def, zoom=0, exclude=1, excludespecial=1, order=-1, victoryscreen=0, vsscreen=0
+Events/mmvol1/player/player.def, zoom=0, exclude=1, excludespecial=1, order=-1, victoryscreen=0, vsscreen=0
+Events/mmvol1/cpu/cpu.def, chars/Events/mmvol1/stage.def, includestage=0, zoom=0, exclude=1, excludespecial=1, order=-1, victoryscreen=0, vsscreen=0
+Events/mmvol2/player/player.def, zoom=0, exclude=1, excludespecial=1, order=-1, victoryscreen=0, vsscreen=0
+Events/mmvol2/cpu/cpu.def, chars/Events/mmvol2/stage.def, includestage=0, zoom=0, exclude=1, excludespecial=1, order=-1, victoryscreen=0, vsscreen=0
 ;---------------------------------------------------------------------------------
 [ExtraStages]
 stages/Mountainside Temple/Hidden Path.def, unlock=stats.modes ~= nil and stats.modes.arcade ~= nil and stats.modes.arcade.clear >= 1
