@@ -4103,30 +4103,34 @@ public &Fight
     int layerno, ^/&.LifePower life, ^/^/char name, bool nbd,
     ^^&.com.PalFX facefx, int superplayer)
   {
-	if(!.com.statusDraw || .com.lifebarDisplay == 0) ret;
+	if(!.com.statusDraw || .com.battleUIDisplay == 0) ret;
     if(!nbd){
-      loop{index i = 0; while; do:
-        `lb[.com.tmode[0]][i].bgDraw(layerno);
-        i += 2;
-      while i < #`lb[.com.tmode[0]]:}
-      loop{index i = 1; while; do:
-        `lb[.com.tmode[1]][i].bgDraw(layerno);
-        i += 2;
-      while i < #`lb[.com.tmode[1]]:}
-      loop{index i = 0; while; do:
-        `lb[.com.tmode[0]][i].draw(layerno, life[i].l);
-        i += 2;
-      while i < #`lb[.com.tmode[0]]:}
-      loop{index i = 1; while; do:
-        `lb[.com.tmode[1]][i].draw(layerno, life[i].l);
-        i += 2;
-      while i < #`lb[.com.tmode[1]]:}
-      `pb[0].bgDraw(layerno);
-      `pb[1].bgDraw(layerno);
-      `pb[0].draw(
-        layerno, life[0].p, life[.com.tmode[0] != 1 ? 0 : 2].lv, `fnt);
-      `pb[1].draw(
-        layerno, life[1].p, life[.com.tmode[1] != 1 ? 1 : 3].lv, `fnt);
+      if(.com.p1LifebarDisplay) {
+		  loop{index i = 0; while; do:
+			`lb[.com.tmode[0]][i].bgDraw(layerno);
+			i += 2;
+		  while i < #`lb[.com.tmode[0]]:}
+		  loop{index i = 1; while; do:
+			`lb[.com.tmode[1]][i].bgDraw(layerno);
+			i += 2;
+		  while i < #`lb[.com.tmode[1]]:}
+		  loop{index i = 0; while; do:
+			`lb[.com.tmode[0]][i].draw(layerno, life[i].l);
+			i += 2;
+		  while i < #`lb[.com.tmode[0]]:}
+		  loop{index i = 1; while; do:
+			`lb[.com.tmode[1]][i].draw(layerno, life[i].l);
+			i += 2;
+		  while i < #`lb[.com.tmode[1]]:}
+	  }
+	  if(.com.p1PowerbarDisplay) {
+		  `pb[0].bgDraw(layerno);
+		  `pb[0].draw(layerno, life[0].p, life[.com.tmode[0] != 1 ? 0 : 2].lv, `fnt);
+	  }
+	  if(.com.p2PowerbarDisplay) {
+		  `pb[1].bgDraw(layerno);
+		  `pb[1].draw(layerno, life[1].p, life[.com.tmode[1] != 1 ? 1 : 3].lv, `fnt);
+	  }
       loop{index i = #`fa[.com.tmode[0]]-2; while; do:
         `fa[.com.tmode[0]][i].bgDraw(layerno);
         i -= 2;
@@ -4159,8 +4163,10 @@ public &Fight
         `nm[.com.tmode[1]][i].draw(layerno, `fnt, name[i]);
         i += 2;
       while i < #`nm[.com.tmode[1]]:}
-      `ti.bgDraw(layerno);
-      `ti.draw(layerno, .com.time, `fnt);
+      if(.com.roundTimeDisplay) {
+		`ti.bgDraw(layerno);
+		`ti.draw(layerno, .com.time, `fnt);
+	  }
       `wi[0].draw(layerno, `fnt);
       `wi[1].draw(layerno, `fnt);
 	  if(.com.p1winsDisplay) {

@@ -5718,9 +5718,9 @@ public &Char
   {
     ret .com.gameType;
   }
-  public int trLifebarDisplay()
+  public int trBattleUIDisplay()
   {
-    ret .com.lifebarDisplay;
+    ret .com.battleUIDisplay;
   }
   public int trAttackDisplay()
   {
@@ -5733,6 +5733,62 @@ public &Char
   public int trTimeFreeze()
   {
     ret .com.timeFreeze;
+  }
+  public int trLifeInfiniteLeft()
+  {
+    ret .com.lifeInfiniteLeft;
+  }
+  public int trLifeInfiniteRight()
+  {
+    ret .com.lifeInfiniteRight;
+  }
+  public int trPowerInfiniteLeft()
+  {
+    ret .com.powerInfiniteLeft;
+  }
+  public int trPowerInfiniteRight()
+  {
+    ret .com.powerInfiniteRight;
+  }
+  public int trDefenceUpLeft()
+  {
+    ret .com.defenceUpLeft;
+  }
+  public int trDefenceUpRight()
+  {
+    ret .com.defenceUpRight;
+  }
+  public int trAttackUpLeft()
+  {
+    ret .com.attackUpLeft;
+  }
+  public int trAttackUpRight()
+  {
+    ret .com.attackUpRight;
+  }
+  public int trLifeRegenLeft()
+  {
+    ret .com.lifeRegenLeft;
+  }
+  public int trLifeRegenRight()
+  {
+    ret .com.lifeRegenRight;
+  }
+  public int trPowerRegenLeft()
+  {
+    ret .com.powerRegenLeft;
+  }
+  public int trPowerRegenRight()
+  {
+    ret .com.powerRegenRight;
+  }
+  public int trNoPowerLeft()
+  {
+    ret .com.noPowerLeft;
+  }
+  public int trNoPowerRight()
+  {
+    ret .com.noPowerRight;
   }
   public int trInvisibleLeft()
   {

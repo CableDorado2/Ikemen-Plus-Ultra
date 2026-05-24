@@ -512,7 +512,7 @@ flag2 = nomusic
 
 [State -2, No HUD]
 type = assertspecial
-trigger1 = LifebarDisplay = 0
+trigger1 = BattleUIDisplay = 0
 flag = nobardisplay
 
 [State -2, Round Time Freeze]

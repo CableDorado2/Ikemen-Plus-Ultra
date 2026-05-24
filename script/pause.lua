@@ -77,7 +77,7 @@ if gameMode() == "practice" then
 end
 
 function f_resetTrainingCfg() --Reset when you exit from Training Mode or Replay Mode
-	if not data.hudDisplay then setLifebarDisplay(true) end
+	if not data.hudDisplay then setBattleUIDisplay(true) end
 	if data.hitbox then toggleClsnDraw() end
 	if data.debugInfo then toggleDebugDraw() end
 	setAttackDisplay(0)
@@ -1000,10 +1000,10 @@ function f_pauseSettings()
 				if (pn == 1 and btnPalNo(p1Cmd) > 0) or ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					sndPlay(sndSys, 100, 1)
 					if not data.hudDisplay then
-						setLifebarDisplay(true)
+						setBattleUIDisplay(true)
 						data.hudDisplay = true
 					else
-						setLifebarDisplay(false)
+						setBattleUIDisplay(false)
 						data.hudDisplay = false
 					end
 					hasChanged = true

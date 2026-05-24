@@ -179,7 +179,7 @@ function demoModeCfg()
 	if not data.attractMode then f_discordUpdate({details = "Demo"}) end
 	f_default()
 	setGameMode("demo")
-	--setLifebarDisplay(false)
+	--setBattleUIDisplay(true)
 	data.gameMode = "demo"
 	data.recordMode = "cpu"
 	data.aiFight = true

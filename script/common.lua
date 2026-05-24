@@ -2463,7 +2463,12 @@ function f_default() --Reset Game Modes Configuration
 	data.storyNo = nil --Additional variable used to identify stories in select screen
 --Match Settings
 	setAutoLevel(false) --Generate autolevel.log in debug dir
-	setLifebarDisplay(true) --Enable or disable Lifebar HUD elements during match
+	setBattleUIDisplay(true) --Enable or disable All Battle HUD elements Display
+	setP1LifebarDisplay(true) --Enable or disable P1 Lifebar Display
+	setP2LifebarDisplay(true) --Enable or disable P2 Lifebar Display
+	setP1PowerbarDisplay(true) --Enable or disable P1 Powerbar Display
+	setP2PowerbarDisplay(true) --Enable or disable P2 Powerbar Display
+	setRoundTimeDisplay(true) --Enable or disable Round Time Display
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	setP1matchWins(0) --Set Match Wins Count for Player 1
 	setP2matchWins(0) --Set Match Wins Count for Player 2
@@ -2520,6 +2525,20 @@ function f_default() --Reset Game Modes Configuration
 	setPlayerDefence(0) --Set defence points to show during rpg mode profile and which be apply to the player.
 --Special Rules
 	setTimeFreeze(0) --Reset Time Freeze
+	setLifeInfiniteLeft(0) --Reset Infinite Life for Left Side
+	setLifeInfiniteRight(0) --Reset Infinite Life for Right Side
+	setPowerInfiniteLeft(0) --Reset Infinite Power for Left Side
+	setPowerInfiniteRight(0) --Reset Infinite Power for Right Side
+	setDefenceUpLeft(0) --Reset Defence Up for Left Side
+	setDefenceUpRight(0) --Reset Defence Up for Right Side
+	setAttackUpLeft(0) --Reset Attack Up for Left Side
+	setAttackUpRight(0) --Reset Attack Up for Right Side
+	setLifeRegenLeft(0) --Reset Life Regeneration for Left Side
+	setLifeRegenRight(0) --Reset Life Regeneration for Right Side
+	setPowerRegenLeft(0) --Reset Power Regeneration for Left Side
+	setPowerRegenRight(0) --Reset Power Regeneration for Right Side
+	setNoPowerLeft(0) --Reset No Power for Left Side
+	setNoPowerRight(0) --Reset No Power for Right Side
 	setInvisibleLeft(0) --Reset Invisible Characters for Left Side
 	setInvisibleRight(0) --Reset Invisible Characters for Right Side
 	setNoAutoTurnLeft(0) --Reset Characters No Auto Turn for Left Side

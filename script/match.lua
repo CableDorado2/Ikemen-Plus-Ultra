@@ -1742,7 +1742,7 @@ function loop() --The code for this function should be thought of as if it were 
 --During Tutorial Mode
 	elseif gameMode() == "tutorial" then
 		if roundstate() == 0 and gametime() == 1 then
-			setLifebarDisplay(false) --Lifebar Disabled
+			setBattleUIDisplay(false) --Lifebar Disabled
 			full(1) --Player 1 Full Life and Power
 			full(2)
 		elseif roundstate() == 2 then
@@ -1767,7 +1767,7 @@ function loop() --The code for this function should be thought of as if it were 
 			--Set Power
 				powMax(1)
 			else --A fight started
-				setLifebarDisplay(true) --Lifebar Enabled
+				setBattleUIDisplay(true) --Lifebar Enabled
 				if player(2) then --Activate CPU for Player 2
 					setAILevel(8)
 				end

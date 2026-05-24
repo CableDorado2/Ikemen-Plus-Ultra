@@ -2418,14 +2418,56 @@ public &StateBuilder
 	cond .s.equ("gametype", token):
       out .= obj .= "trGameType()";
       typ = 2;
-	cond .s.equ("lifebardisplay", token):
-      out .= obj .= "trLifebarDisplay()";
+	cond .s.equ("battleuidisplay", token):
+      out .= obj .= "trBattleUIDisplay()";
       typ = 2;
 	cond .s.equ("inputdisplay", token):
       out .= obj .= "trInputDisplay()";
       typ = 2;
 	cond .s.equ("timefreeze", token):
       out .= obj .= "trTimeFreeze()";
+      typ = 2;
+	cond .s.equ("lifeinfiniteleft", token):
+      out .= obj .= "trLifeInfiniteLeft()";
+      typ = 2;
+	cond .s.equ("lifeinfiniteright", token):
+      out .= obj .= "trLifeInfiniteRight()";
+      typ = 2;
+	cond .s.equ("powerinfiniteleft", token):
+      out .= obj .= "trPowerInfiniteLeft()";
+      typ = 2;
+	cond .s.equ("powerinfiniteright", token):
+      out .= obj .= "trPowerInfiniteRight()";
+      typ = 2;
+	cond .s.equ("defenceupleft", token):
+      out .= obj .= "trDefenceUpLeft()";
+      typ = 2;
+	cond .s.equ("defenceupright", token):
+      out .= obj .= "trDefenceUpRight()";
+      typ = 2;
+	cond .s.equ("attackupleft", token):
+      out .= obj .= "trAttackUpLeft()";
+      typ = 2;
+	cond .s.equ("attackupright", token):
+      out .= obj .= "trAttackUpRight()";
+      typ = 2;
+	cond .s.equ("liferegenleft", token):
+      out .= obj .= "trLifeRegenLeft()";
+      typ = 2;
+	cond .s.equ("liferegenright", token):
+      out .= obj .= "trLifeRegenRight()";
+      typ = 2;
+	cond .s.equ("powerregenleft", token):
+      out .= obj .= "trPowerRegenLeft()";
+      typ = 2;
+	cond .s.equ("powerregenright", token):
+      out .= obj .= "trPowerRegenRight()";
+      typ = 2;
+	cond .s.equ("nopowerleft", token):
+      out .= obj .= "trNoPowerLeft()";
+      typ = 2;
+	cond .s.equ("nopowerright", token):
+      out .= obj .= "trNoPowerRight()";
       typ = 2;
 	cond .s.equ("invisibleleft", token):
       out .= obj .= "trInvisibleLeft()";
