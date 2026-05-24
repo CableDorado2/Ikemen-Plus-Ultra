@@ -1,0 +1,6276 @@
+;     -99  : [player] : basic/normal moves
+; 1000-2999: [player] : special moves
+; 3000-    : [player] : hyper/super moves
+; ------	-------
+; v02   :	alive flag
+; v03   :	char type
+; v04   :	kill flag
+; v05   :	sp type
+; v06   :	counter
+; v07   :	temp
+; v08   :	temp
+; v30-33:	hitspark
+; v41   :	cancel combo flag used in cmd file
+; f00   :	temp scale
+; ------	-------
+
+;;--------------------
+;[statedef 170]
+;type=s
+;anim=170
+;velset=0,0
+;ctrl=0
+;[state 0]
+;	type=nothitby
+;	trigger1=1
+;	value=sca
+
+;-------------
+[statedef 180]
+type=s
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=assertspecial
+	trigger1=1
+	flag=roundnotover
+[state 0]
+	type=changestate
+	trigger1=time=0
+	value=181
+
+;-------------
+[statedef 181]
+type=s
+anim=181+(random%5)
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=changeanim
+	triggerall=!time
+	trigger1=ishelper(10001)||ishelper(10002)||ishelper(10003)
+	trigger2=ishelper(10004)||ishelper(10005)||ishelper(10006)
+	trigger3=((anim=183)||(anim=185)) && var(3)=2 ;; kfw
+	value=181+(random%2)
+
+[state 0]
+	type=assertspecial
+	trigger1=time<268
+	flag=roundnotover
+
+[state 0]
+	type=nothitby
+	trigger1=1
+	value=sca
+
+[state 0]
+	type=playsnd
+	trigger1=anim=183 && (animelem=5)
+	trigger2=anim=184 && (animelem=16)
+	trigger3=anim=185 && (animelem=6)
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	triggerall=(sysfvar(0)>0)
+	trigger1=anim=184 && (animelem=18)
+	trigger2=anim=185 && (animelem=8)
+	value=f200,2
+	channel=1
+[state 0]
+	type=playsnd
+	triggerall=(sysfvar(0)<=0)
+	trigger1=anim=184 && (animelem=18)
+	trigger2=anim=185 && (animelem=8)
+	value=s200,2
+	channel=1
+
+[state 0] ; electric
+	type=explod
+	trigger1=anim=183 && time>10 && (time%16=0)
+	trigger2=anim=184 && time>18 && (time%18=0)
+	trigger3=anim=185 && time>16 && (time%18=0)
+	anim=21000+(random%3)
+	postype=p1
+	sprpriority=3
+	pos=(random%9)-5,-38-(random%16)
+	scale=((random%6)*0.1+0.5)*ifelse(random<500,1,-1),((random%6)*0.1+0.5)*ifelse(random<500,1,-1)
+	ignorehitpause=1
+
+;-------------
+[statedef 191]
+type=s
+anim=190+(random%4)
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=assertspecial
+	trigger1=1
+	flag=intro
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+
+[state 0]
+	type=playsnd
+	trigger1=anim=192 && time=36
+	trigger2=anim=193 && time=58
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0] ; electric
+	type=explod
+	trigger1=anim=192 && time<50 && (time%16=10)
+	trigger2=anim=193 && time<50 && (time%18=10)
+	anim=21000+(random%3)
+	postype=p1
+	sprpriority=3
+	pos=(random%9)-5,-38-(random%16)
+	scale=((random%6)*0.1+0.5)*ifelse(random<500,1,-1),((random%6)*0.1+0.5)*ifelse(random<500,1,-1)
+	ignorehitpause=1
+
+;-------------
+; taunt
+[statedef 195]
+type=s
+movetype=i
+physics=s
+anim=195+(random%3)
+sprpriority=1
+velset=0,0
+ctrl=0
+[state 0]
+	type=changeanim
+	trigger1=!time && (anim=197) && var(3)=2
+	value=195+(random%2)
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+
+
+
+
+
+;--------------------
+; basic
+;--------------------
+; stand light punch
+[statedef 200]
+type=s
+movetype=a
+physics=s
+anim=200
+sprpriority=1
+juggle=8
+poweradd=10
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=1,hit
+	damage=25,0
+	hitflag=maf
+	guardflag=ma ; m
+	animtype=light
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	pausetime=8,8
+	sparkxy=-10,-62
+	;ad; sparkno=0+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),0
+	guardsound=ifelse(sysfvar(0)>0,40,6),0
+	ground.slidetime=10
+	ground.hittime=11
+	ground.velocity=-6
+	air.velocity=   -3,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+;; guard.ctrltime = ctrl_time (int)
+;; This is the time before p2 regains control in the ground guard state.
+;; Defaults to the same value as "guard.slidetime" if omitted.
+	;---
+	guard.ctrltime=     id +0*(var(31):=0 || var(30):= 510562 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,0
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,0
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<300
+	value=s1,1+var(3)*100
+	channel=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; standing strong punch near
+[statedef 210]
+type=s
+movetype=a
+physics=s
+anim=210
+sprpriority=1
+juggle=8
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=medium
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	damage=80
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=13,13
+	sparkxy=-10,-70
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),2
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=12
+	ground.hittime=18
+	ground.velocity=-5.5
+	air.velocity=   -2.5,-4
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510570 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,2
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,2
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<600
+	value=s1,(random%2)+var(3)*100
+	channel=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; standing strong punch
+[statedef 220]
+type=s
+movetype=a
+physics=s
+anim=220
+sprpriority=1
+juggle=8
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=medium
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	damage=80
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=13,13
+	sparkxy=-10,-70
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),2
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=18
+	ground.velocity=-11
+	air.velocity=    -5,-4
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510570 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=10 && (sysfvar(0)>0)
+	value=f200,2
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=10 && (sysfvar(0)<=0)
+	value=s200,2
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=10) && random<800
+	value=s1,(random%2)+var(3)*100
+	channel=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; standing strong kick near
+[statedef 230]
+type=s
+movetype=a
+physics=s
+anim=230
+sprpriority=1
+juggle=8
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=medium
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	damage=80
+	hitflag=maf
+	guardflag= ma ; m
+	pausetime=13,13
+	sparkxy=-10,-60
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=12
+	ground.hittime=18
+	ground.velocity=-6
+	air.velocity=   -5,-4
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510560 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=posadd
+	trigger1=(animelem=1)||(animelem=2)||(animelem=3)||(animelem=4)
+	trigger1=(p2bodydist x>0)
+	x=3
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<800
+	value=s1,1+var(3)*100
+	channel=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; standing strong kick
+[statedef 240]
+type=s
+movetype=a
+physics=s
+juggle=8
+anim=240
+sprpriority=1
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=medium
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	damage=80
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=13,13
+	sparkxy=-10,-60
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=18
+	ground.velocity=-11
+	air.velocity=    -5,-4
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510560 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=10 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=10 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=10) && random<600
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; standing strong kick2
+[statedef 250]
+type=s
+movetype=a
+physics=s
+anim=250
+sprpriority=1
+juggle=7
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=diagup
+	air.animtype=diagup
+	ground.type=low
+	air.type=low
+	damage=60
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=13,13
+	sparkxy=-10,-60
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=12
+	ground.hittime=21
+	ground.velocity=-1.2,-12.8
+	air.velocity=   -1.2,-12.8
+	persistent=0
+	yaccel=0.49
+	;;-;; givepower=50,25
+	getpower=50,25
+	fall=!var(4)
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510560 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=5) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-12*const(size.xscale)),floor(-pos y)
+	size.xscale=0.65
+	size.yscale=0.65
+
+[state 0]
+	type=posadd
+	trigger1=animelem=5 && p2bodydist x>0
+	x=12
+[state 0]
+	type=posadd
+	trigger1=animelem=9 && p2bodydist x>0
+	x=20
+[state 0]
+	type=velset
+	trigger1=(animelem=5,>0) && (animelem=9,<0)
+	x=6
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=12 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=12 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=9
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; standing light kick
+[statedef 260]
+type=s
+movetype=a
+physics=s
+anim=260
+sprpriority=1
+juggle=8
+poweradd=10
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=1,hit
+	animtype=medium
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	damage=25
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=8,8
+	sparkxy=-10,-18
+	;ad; sparkno=0+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),1
+	guardsound=ifelse(sysfvar(0)>0,40,6),0
+	ground.slidetime=10
+	ground.hittime=11
+	ground.velocity=-6
+	air.velocity=   -3,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=0 || var(30):= 510518 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,1
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,1
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<300
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; standing strong kick3
+[statedef 270]
+type=s
+movetype=a
+physics=s
+anim=270
+sprpriority=1
+juggle=8
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=heavy
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	damage=60
+	hitflag=maf
+	guardflag=h
+	pausetime=13,13
+	sparkxy=-12,-28
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=18
+	ground.velocity=-12
+	air.velocity=    -8,-3
+	persistent=0
+	;;-;; givepower=40,20
+	getpower=40,20
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 512528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=posadd
+	trigger1=!time && (p2bodydist x>=12)
+	x=12
+
+[state 0] ; ground_wave
+	type=helper
+	trigger1=(animelem=18) && (sysfvar(0)>0)
+	id=9002
+	stateno=9005
+	pos=floor(66*const(size.xscale)),0
+
+[state 0]
+	type=explod
+	trigger1=time=3||time=6||time=9
+	anim=anim
+	postype=p1
+	scale=const(size.xscale),const(size.yscale)
+	bindtime=-1
+	removetime=abs(animtime)-8
+	removeongethit=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=13 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=13 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=2
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+
+;--------------------
+; standing strong kick3(cancel)
+[statedef 275]
+type=s
+movetype=a
+physics=s
+anim=275
+sprpriority=1
+juggle=0
+poweradd=20
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=animelem=4
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=medium
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	damage=20
+	hitflag=maf
+	guardflag=ma
+	pausetime=7,8
+	sparkxy=-12,-78
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=12
+	ground.hittime=23
+	ground.velocity=-3
+	air.velocity=   -3,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 512578 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=hitdef
+	trigger1=animelem=10
+	attr=s,na
+	priority=ifelse(var(4),1,2),hit
+	animtype=heavy
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	damage=30
+	hitflag=maf
+	guardflag=ma
+	pausetime=12,13
+	sparkxy=-12,-28
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=23
+	ground.velocity=-3
+	air.velocity=   -3,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 512528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=posadd
+	trigger1=!time && (p2bodydist x>=12)
+	x=12
+[state 0]
+	type=posadd
+	trigger1=(p2bodydist x>=5)
+	trigger1=(animelem=18)||(animelem=19)||(animelem=20)
+	x=5
+
+[state 0] ; ground_wave
+	type=helper
+	trigger1=(animelem=10) && (sysfvar(0)>0)
+	id=9002
+	stateno=9005
+	pos=floor(66*const(size.xscale)),0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=2 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=2 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=3) && random<750
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+
+;--------------------
+;--------------------
+; crouching light punch
+[statedef 400]
+type=c
+movetype=a
+physics=c
+anim=400
+sprpriority=1
+juggle=8
+poweradd=10
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=c,na
+	priority=1,hit
+	damage=25
+	animtype=light
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=8,8
+	sparkxy=-10,-42
+	;ad; sparkno=0+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),0
+	guardsound=ifelse(sysfvar(0)>0,40,6),0
+	ground.slidetime=10
+	ground.hittime=11
+	ground.velocity=-6
+	air.velocity=-3,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=0 || var(30):= 510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,0
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,0
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<300
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+;--------------------
+; crouching strong punch
+[statedef 410]
+type=c
+movetype=a
+physics=c
+juggle=8
+anim=410
+sprpriority=1
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=c,na
+	priority=ifelse(var(4),1,2),hit
+	damage=80
+	animtype=medium
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=13,13
+	sparkxy=-10,-55
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),2
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=18
+	ground.velocity=-6
+	air.velocity=-4,-4
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510555 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=10 && (sysfvar(0)>0)
+	value=f200,2
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=10 && (sysfvar(0)<=0)
+	value=s200,2
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=10) && random<600
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+;--------------------
+; crouching light kick
+[statedef 430]
+type=c
+movetype=a
+physics=c
+anim=430
+sprpriority=1
+facep2=1
+juggle=8
+poweradd=10
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=c,na
+	priority=1,hit
+	damage=25
+	animtype=light
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=mafd
+	guardflag=l
+	pausetime=8,8
+	sparkxy=-10,-8
+	;ad; sparkno=0+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),1
+	guardsound=ifelse(sysfvar(0)>0,40,6),0
+	ground.slidetime=10
+	ground.hittime=11
+	ground.velocity=-6
+	air.velocity=   -3,-3
+	down.velocity=-5,0
+	down.hittime=20
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=0 || var(30):= 510508 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,1
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,1
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<300
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+;--------------------
+; crouch strong kick
+[statedef 440]
+type=c
+movetype=a
+physics=c
+anim=440+ifelse(command="holdfwd",10,0)
+sprpriority=1
+juggle=9
+poweradd=50
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=hitdef
+	trigger1=anim=450 && (animelem=3)
+	attr=c,na
+	priority=ifelse(var(4),1,2),hit
+	damage=40
+	hitflag=mafd
+	guardflag=l
+	animtype=heavy
+	air.animtype=back
+	ground.type=high ; low
+	air.type=low
+	pausetime=7,7
+	sparkxy=-10,-28
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=10
+	ground.hittime=18
+	ground.velocity=-1,0
+	air.velocity=-1,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=hitdef
+	trigger1=anim=440 && time=0
+	trigger2=anim=450 && (animelem=8)
+	attr=c,na
+	priority=ifelse(var(4),1,2),hit
+	damage=80
+	hitflag=mafd
+	guardflag=l
+	pausetime=13,13
+	sparkxy=-10,ifelse((anim=440),0,-52)
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.type=trip
+	air.type=low
+	ground.slidetime=10
+	ground.hittime=18
+	ground.velocity=-3,-ifelse(anim=440,8,11)
+	air.velocity=   -3,-ifelse(anim=440,8,11)
+	guard.velocity=-11
+	yaccel=0.6
+	fall=1
+	air.fall=1
+	fall.recover=1
+	fall.recovertime=28
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510500 +ifelse((anim=440),0,52) )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=2 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=2 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+
+;--------------------
+; basic - air
+;--------------------
+; jump light punch
+[statedef 600]
+type=a
+movetype=a
+physics=a
+juggle=8
+anim=600
+sprpriority=1
+poweradd=10
+ctrl=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,na
+	priority=1,hit
+	damage=25
+	hitflag=maf
+	guardflag=ha
+	animtype=light
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	pausetime=8,8
+	sparkxy=-10,-16
+	;ad; sparkno=0+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),0
+	guardsound=ifelse(sysfvar(0)>0,40,6),0
+	ground.slidetime=10
+	ground.hittime=12
+	ground.velocity=-4
+	air.velocity=   -3,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=0 || var(30):= 510516 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,0
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,0
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<300
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+;--------------------
+; jump strong punch
+[statedef 610]
+type=a
+movetype=a
+physics=a
+juggle=8
+anim=610
+sprpriority=1
+poweradd=50
+ctrl=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,na
+	priority=ifelse(var(4),1,2),hit
+	damage=80
+	hitflag=maf
+	guardflag=ha
+	animtype=heavy
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	pausetime=13,13
+	sparkxy=-10,-28
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),2
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=17
+	ground.hittime=20
+	ground.velocity=-5
+	air.velocity=   -5,-4
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,2
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,2
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<600
+	value=s1,0+var(3)*100
+	channel=0
+
+;--------------------
+; jump light kick
+[statedef 630]
+type=a
+movetype=a
+physics=a
+juggle=8
+anim=630
+sprpriority=1
+poweradd=10
+ctrl=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,na
+	priority=1,hit
+	damage=25
+	hitflag=maf
+	guardflag=ha
+	animtype=light
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	pausetime=8,8
+	sparkxy=-5,-35
+	;ad; sparkno=0+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),1
+	guardsound=ifelse(sysfvar(0)>0,40,6),0
+	ground.slidetime=10
+	ground.hittime=12
+	ground.velocity=-4
+	air.velocity=-3,-3
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=0 || var(30):= 510535 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,1
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,1
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<300
+	value=s1,1+var(3)*100
+	channel=0
+
+;--------------------
+; jump strong kick
+[statedef 640]
+type=a
+movetype=a
+physics=a
+juggle=8
+anim=ifelse(vel x,640,650)
+sprpriority=1
+poweradd=50
+ctrl=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,na
+	priority=ifelse(var(4),1,2),hit
+	damage=80
+	hitflag=maf
+	guardflag=ha
+	animtype=heavy
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	pausetime=13,13
+	sparkxy=-10,-28
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=17
+	ground.hittime=20
+	ground.velocity=-5
+	air.velocity=-3,-4
+	persistent=0
+	;;-;; givepower=50,25
+	getpower=50,25
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && random<600
+	value=s1,0+var(3)*100
+	channel=0
+
+
+;--------------------
+; kung fu throw-attempt
+;--------------------
+[statedef 800]
+type=s
+movetype=a
+physics=s
+anim=800
+sprpriority=1
+juggle=0
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=time=0
+	var(5)=(command="b")
+[state 0]
+	type=varset
+	trigger1=time=0
+	var(7)=(command="holdback")
+
+;---
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,nt
+	hitflag=m-
+	priority=ifelse(var(4),1,3),miss
+	sparkno=-1
+	p1facing=1 ;; ifelse(command="holdfwd",1,-1)
+	p2facing=1
+	p1stateno=810 ;; ifelse(command="b",815,810)
+	p2stateno=820
+	guard.dist=0
+	hitsound=-1
+	hitonce=1
+	kill=!var(4)
+	persistent=0
+
+;---
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------------
+; kung fu throw-throwing the opponent
+[statedef 810]
+type=s
+movetype=a
+physics=n
+anim=810
+sprpriority=1
+juggle=0
+poweradd=0
+velset=0,0
+ctrl=0
+
+;---
+[state 0] ; grab_spark
+	type=helper
+	trigger1=(animelem=1,=1) && (sysfvar(0)>0)
+	id=152080
+	stateno=152080
+	postype=p1
+	pos=floor(36*const(size.xscale)),floor(-49*const(size.yscale))
+	size.xscale=1 ;w
+	size.yscale=1 ;h
+	size.height=100 ;type
+	persistent=0
+
+;---
+[state 0]
+	type=turn
+	trigger1=(animelem=2) && ((var(7) && var(5)) || (!var(7) && !var(5)))
+[state 0]
+	type=targetfacing
+	trigger1=(animelem=2) && ((var(7) && var(5)) || (!var(7) && !var(5)))
+	value=-1
+
+[state 0]
+	type=changestate
+	trigger1=(animelem=2) && var(5)
+	value=815
+
+
+;---
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5)
+	value=s1,0+var(3)*100
+	channel=0
+
+;---
+[state 0]
+	type=targetbind
+	trigger1=(animelem=2,<1)
+	pos=floor(28*const(size.xscale)),0
+
+[state 0]
+	type=targetlifeadd
+	trigger1=(animelem=2)
+	value=-128
+	kill=!var(4)
+
+;---
+[state 0]
+	type=targetstate
+	trigger1=!time
+	value=820
+[state 0]
+	type=targetstate
+	trigger1=(animelem=2)
+	value=821
+;---
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;-------------
+[statedef 815]
+type=s
+movetype=a
+physics=n
+anim=815
+sprpriority=-1
+juggle=0
+poweradd=0
+velset=0,0
+ctrl=0
+
+;---
+[state 0]
+	type=targetstate
+	trigger1=!time
+	value=820
+
+;---
+[state 0]
+	type=targetbind
+	trigger1=time=0
+	pos=floor(28*const(size.xscale)), 0
+[state 0]
+	type=targetbind
+	trigger1=(animelem=2)
+	pos=floor(23*const(size.xscale)), 0
+[state 0]
+	type=targetbind
+	trigger1=(animelem=3)
+	pos=floor(18*const(size.xscale)), 0
+[state 0]
+	type=targetbind
+	trigger1=(animelem=4)
+	pos=floor(16*const(size.xscale)), 0
+[state 0]
+	type=targetbind
+	trigger1=(animelem=5)
+	pos=floor(8*const(size.xscale)), 0
+
+;---
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5)
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=8) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=8) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+;---
+[state 0] ; hk1
+	type=hitdef
+	trigger1=(animelem=11)
+	attr=s,na
+	priority=ifelse(var(4),1,3),hit
+	animtype=heavy
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	damage=30
+	hitflag=maf
+	guardflag=m
+	pausetime=12,12
+	sparkxy=-10,-60
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=28
+	ground.hittime=28
+	ground.velocity=0,-5
+	air.velocity=   0,-5
+	fall=1
+	air.fall=1
+	fall.recover=0
+	yaccel=0.5
+	;;-;; givepower=30,15
+	getpower=0,0
+	kill=0
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510560 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0] ; hk2
+	type=hitdef
+	trigger1=(animelem=20)
+	attr=s,na
+	priority=ifelse(var(4),1,3),hit
+	animtype=diagup
+	air.animtype=diagup
+	ground.type=low
+	air.type=low
+	damage=58
+	hitflag=maf
+	guardflag=m
+	pausetime=13,13
+	sparkxy=-10,-60
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=12
+	ground.hittime=22
+	ground.velocity=-3,-12
+	air.velocity=   -3,-12
+	fall=1
+	air.fall=1
+	fall.recover=0
+	yaccel=0.5
+	;;-;; givepower=30,15
+	getpower=0,0
+	kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 75510560 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=time>58
+	value=816
+	ctrl=0
+;-------------
+[statedef 816]
+type=s
+movetype=i
+physics=s
+anim=816
+sprpriority=0
+velset=0,0
+ctrl=0
+[state 0]
+	type=posset
+	trigger1=!time
+	y=0
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;-------------
+; thrown by kung fu throw
+[statedef 820]
+type=a
+movetype=h
+physics=n
+anim=5012
+velset=0,0
+ctrl=0
+[state 0]
+	type=afterimagetime
+	trigger1=!time
+	time=0
+[state 0]
+	type=nothitby
+	trigger1=!time
+	value=sca
+	time=11
+[state 0] ; for_safety
+	type=selfstate
+	trigger1=time>28
+	value=ifelse(pos y>=0,0,50)
+	ctrl=1
+;-------------
+[statedef 821]
+type=a
+movetype=h
+physics=n
+anim=5050
+sprpriority=-1
+poweradd=0
+velset=8,-9
+ctrl=0
+[state 0]
+	type=turn
+	trigger1=!time
+[state 0]
+	type=nothitby
+	trigger1=1
+	value=sca
+	time=16
+[state 0]
+	type=veladd
+	trigger1=1
+	y=0.324
+[state 0]
+	type=selfstate
+	trigger1=time>1
+	value=5050
+
+
+
+
+;------------------
+
+;------------------
+; hit_fallrecover (on the ground)
+; É^ÉEÉìâÒî(ínñ )
+[statedef 5201]
+type=s
+movetype=h
+physics=n
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=posset
+	trigger1=1
+	y=0
+[state 0]
+	type=nothitby
+	trigger1=1
+	value=sca
+[state 0]
+	type=palfx
+	trigger1=1
+	time=2
+	add=128,128,128
+[state 0]
+	type=changestate
+	trigger1=1
+	value=115
+
+;------------------
+; ïˆÇÍÉ_ÉEÉì
+;------------------
+[statedef 195200]
+type=s
+movetype=h
+physics=s
+anim=195200
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=nothitby
+	trigger1=1
+	value=sca
+[state 0]
+	type=posadd
+	trigger1=animtime=0
+	x=-58 *const(size.xscale)
+[state 0]
+	type=selfstate
+	trigger1=animtime=0
+	value=5110
+;--------------------
+
+
+
+;--------------------
+; roll fwd
+[statedef 110]
+type=s
+movetype=i
+physics=s
+anim=110
+sprpriority=-1
+velset=0,0
+ctrl=0
+[state 0]
+	type=playsnd
+	trigger1=time=1
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=afterimage
+	trigger1=time=3
+	time=18
+	length=5
+	timegap=2
+	framegap=4
+	palbright=1,1,1
+	palcontrast=128,128,128
+	paladd=0,0,0
+	palmul=1,1,1
+;afia;	trans=add1
+
+[state 0]
+	type=hitby
+	trigger1=(animelem=15,<0)
+	value=sca,nt,st,ht
+[state 0]
+	type=velset
+	trigger1=(animelem=6,>0)
+	x=5.2
+[state 0]
+	type=velset
+	trigger1=(animelem=14,>0)
+	x=0
+[state 0]
+	type=playerpush
+	trigger1=1
+	value=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;-------------
+; roll backward
+;-------------
+[statedef 115]
+type=s
+movetype=i
+physics=s
+anim=115
+sprpriority=-1
+velset=0,0
+ctrl=0
+[state 0]
+	type=playsnd
+	trigger1=time=1
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=changeanim
+	trigger1=time=0 && (prevstateno=5201)
+	value=anim
+	elem=4
+
+[state 0]
+	type=afterimage
+	trigger1=time=3
+	time=18
+	length=5
+	timegap=2
+	framegap=4
+	palbright=1,1,1
+	palcontrast=128,128,128
+	paladd=0,0,0
+	palmul=1,1,1
+;afia;	trans=add1
+
+[state 0]
+	type=hitby
+	trigger1=(animelem=19,<0)
+	value=sca,nt,st,ht
+[state 0]
+	type=nothitby
+	trigger1=(prevstateno=5201)
+	value=sca
+
+[state 0]
+	type=velset
+	trigger1=(animelem=5,>=0)
+	x=-5.2
+[state 0]
+	type=velset
+	trigger1=(animelem=19,>=0)
+	x=0
+[state 0]
+	type=playerpush
+	trigger1=1
+	value=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------
+; É[ÉçÉJÉEÉìÉ^Å[
+; guard cancel / zero counter
+;--------------
+[statedef 8200]
+type=s
+movetype=a
+physics=s
+anim=8200
+sprpriority=2
+juggle=0
+poweradd=0
+velset=0,0
+ctrl=0
+;---
+[state 0]
+	type=changeanim
+	trigger1=numhelper(88891)
+	value=anim
+[state 0] ; gc
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=88891
+	stateno=88891
+	pos=floor(20*const(size.xscale)),floor(-73*const(size.yscale))
+;---
+
+; electric
+[state 0]
+	type=explod
+	trigger1=time=2 || time=11 || time=20
+	anim=21000+(random%3)
+	postype=p1
+	sprpriority=3
+	pos=(random%9)-5,-38-(random%16)
+	scale=((random%6)*0.1+0.5)*ifelse(random<500,1,-1),((random%6)*0.1+0.5)*ifelse(random<500,1,-1)
+
+[state 0]
+	type=poweradd
+	trigger1=!time && (sysfvar(0)<=0)
+	value=-1000
+
+[state 0]
+	type=nothitby
+	trigger1=1
+	value=sca
+
+[state 0]
+	type=width
+	trigger1=(animelem=11,>0) && (animelem=18,<0)
+	value=const(size.ground.front)*2
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=9
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=11) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=11) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0] ; (gca)
+	type=hitdef
+	trigger1=!time
+	attr=s,na
+	damage=20
+	animtype=diagup
+	guardflag=ma
+	hitflag=maf
+	pausetime=14,14
+	;ad; sparkno=2+(random%4)*10
+	;ad; guard.sparkno =40
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	;---
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	getpower=0,0
+	;;-;; givepower=200,200
+	;---
+	ground.slidetime=16
+	ground.hittime=16
+	;---
+	guard.velocity=-12
+	airguard.velocity=-6,-3
+	;---
+	ground.velocity=-0.9,-9.4
+	air.velocity=   -0.9,-9.4
+	;---
+	sparkxy=-10,-58
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510558 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+	;---
+	kill=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;--------------
+; breaking
+[statedef 8210]
+type=s
+movetype=a
+physics=s
+anim=8200
+poweradd=0
+juggle=0
+velset=0,0
+ctrl=0
+;========
+[state 0]
+	type=changeanim
+	trigger1=numhelper(88890)
+	trigger2=(sysfvar(0)<=0) && time<26
+	value=anim
+[state 0]
+	type=helper
+	trigger1=!time && roundstate=2 && (sysfvar(0)>0)
+	id=88890
+	stateno=88890
+	pos=floor(20*const(size.xscale)),floor(-73*const(size.yscale))
+;========
+[state 0]
+	type=hitdef
+	trigger1=!time
+	attr=s,na
+	hitflag=maf
+	pausetime=13,13
+	ground.hittime=18
+	priority=5,hit
+	;ad; sparkno=2+(random%4)*10
+	hitsound=300,4
+	sparkxy=-10,-58
+	;---
+	guard.ctrltime=     id +0*(var(31):=2 || var(30):= 510558 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=targetstate
+	trigger1=time>0 && movehit && numtarget && hitpausetime=12
+	trigger1=target,stateno!=190120
+	value=190120
+	ignorehitpause=1
+;========
+
+; electric
+[state 0]
+	type=explod
+	trigger1=time=2 || time=11 || time=20
+	anim=21000+(random%3)
+	postype=p1
+	sprpriority=3
+	pos=(random%9)-5,-38-(random%16)
+	scale=((random%6)*0.1+0.5)*ifelse(random<500,1,-1),((random%6)*0.1+0.5)*ifelse(random<500,1,-1)
+
+[state 0]
+	type=width
+	trigger1=(animelem=11,>0) && (animelem=18,<0)
+	value=const(size.ground.front)*2
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=9
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=11) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=11) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+
+
+
+
+
+;--------------------
+; special
+;--------------------
+; ãáäÔ (kyuki)
+;--------------------
+[statedef 1000]
+type=s
+movetype=a
+physics=c
+anim=1000
+sprpriority=1
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="sp3",0,1)
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1010
+
+;--------------
+[statedef 1010]
+type=a
+movetype=a
+physics=n
+anim=1010
+juggle=8
+poweradd=ifelse(var(5),120,100)
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-22*const(size.xscale)),floor(-pos y)
+	size.xscale=0.65
+	size.yscale=0.65
+
+[state 0]
+	type=hitdef
+	trigger1=animelem=10
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=60,10
+	animtype=heavy
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	hitflag=maf
+	guardflag=ma
+	pausetime=13,13
+	sparkxy=-10,-42
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=18
+	ground.velocity=-4
+	air.velocity=   -4,-5
+	air.fall=!var(4)
+	persistent=0
+	;;-;; givepower=40,20
+	getpower=40,20
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=hitdef
+	trigger1=animelem=16
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=60,10
+	animtype=heavy
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=ma
+	pausetime=13,13
+	sparkxy=-10,-42
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=18
+	ground.velocity=-5,-5
+	air.velocity=   -5,-5
+	persistent=0
+	;;-;; givepower=40,20
+	getpower=40,20
+	fall=!var(4)
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=8) || (animelem=13)
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(sysfvar(0)>0)
+	trigger1=(animelem=9) || (animelem=15)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(sysfvar(0)<=0)
+	trigger1=(animelem=9) || (animelem=15)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=velset
+	trigger1=time=0
+	x=ifelse(var(5),6.8,3.8)
+	y=-3.8
+[state 0]
+	type=veladd
+	trigger1=time>0 && vel y<0
+	y=0.21
+[state 0]
+	type=veladd
+	trigger1=(animelem=18,>0)
+	x=ifelse(vel x>0,-0.2,0)
+	y=0.36
+
+[state 0]
+	type=changestate
+	trigger1=time>18 && (pos y+vel y>=0) && (vel y>0)
+	value=1020 ;; land
+	anim=1020
+
+;--------------land
+[statedef 1020]
+type=s
+movetype=i
+physics=s
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=posset
+	trigger1=!time
+	y=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-18*const(size.xscale)),0
+	size.xscale=0.6
+	size.yscale=0.6
+
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+
+
+
+;--------------------
+; îgè∂ (hasyo) (=fire ball)
+;--------------------
+[statedef 1100]
+type=s
+movetype=a
+physics=s
+anim=1100
+sprpriority=1
+poweradd=100
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="sp2_s",1,0)
+
+[state 0]
+	type=width
+	trigger1=animelem=9,>0
+	value=30,0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=9
+	value=s1,0+var(3)*100
+	channel=0
+
+;[state 0]
+;	type=playsnd
+;	trigger1=animelem=9 && (sysfvar(0)>0)
+;	value=f200,2
+;	channel=1
+;[state 0]
+;	type=playsnd
+;	trigger1=animelem=9 && (sysfvar(0)<=0)
+;	value=s200,2
+;	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=10
+	value=s2,2
+	channel=2
+
+[state 0]
+	type=null
+	trigger1=animelem=3
+	trigger1=1|| var(7):=floor(-3*const(size.xscale)) || var(8):=floor(-57*const(size.yscale)) || fvar(0):=0.5
+	trigger2=animelem=4
+	trigger2=1|| var(7):=floor( 0*const(size.xscale)) || var(8):=floor(-60*const(size.yscale)) || fvar(0):=0.75
+	trigger3=animelem=5
+	trigger3=1|| var(7):=floor(-3*const(size.xscale)) || var(8):=floor(-60*const(size.yscale)) || fvar(0):=1
+	trigger4=animelem=6
+	trigger4=1|| var(7):=floor(-4*const(size.xscale)) || var(8):=floor(-66*const(size.yscale)) || fvar(0):=1
+	trigger5=animelem=7
+	trigger5=1|| var(7):=floor(10*const(size.xscale)) || var(8):=floor(-68*const(size.yscale)) || fvar(0):=1
+	trigger6=animelem=8
+	trigger6=1|| var(7):=floor(15*const(size.xscale)) || var(8):=floor(-70*const(size.yscale)) || fvar(0):=1
+	trigger7=animelem=9
+	trigger7=1|| var(7):=floor(20*const(size.xscale)) || var(8):=floor(-70*const(size.yscale)) || fvar(0):=1
+[state 0]
+	type=explod
+	trigger1=(animelem=3,>=0) && (animelem=10,<0)
+	anim=1112
+	postype=p1
+	pos=var(7),var(8)
+	sprpriority=2
+	scale=fvar(0)*const(size.xscale),fvar(0)*const(size.yscale)
+	removetime=1
+
+;---
+[state 0]
+	type=helper
+	trigger1=(animelem=10) && (sysfvar(0)>0)
+	id=1000
+	size.height=ifelse(var(5),10128,98);;<-(removetime+options)
+	pos=floor(26*const(size.xscale)),floor(-70*const(size.yscale))
+	stateno=91000
+	size.head.pos=1110,1111;;<-anim,hitanim
+	size.mid.pos=ifelse(var(5),5800,3200),0;;<-speed_x,y(1/1000)
+	size.ground.front=1006;;<-max_hits/miss_time
+	size.ground.back=(ifelse(var(5),10,8)*100000+10)*(!var(4));;<-damage hit/guard
+	size.air.front=600550;; <vel_x,y_hit
+	size.air.back= 620530;; <vel_x,y_guard
+	size.shadowoffset=ifelse(var(4),10,2) ;;<-fall(10=recovery/1=ground/2=air/3=g&a)
+	ownpal=1
+	size.xscale=ifelse(var(5),1.28,1)
+	size.yscale=ifelse(var(5),1.28,1)
+
+;---
+[state 0]
+	type=projectile
+	trigger1=(animelem=10) && (sysfvar(0)<=0)
+	projid=91000 ;; 1000
+	projanim=1110
+	projhitanim=1111
+	projpriority=1
+	projsprpriority=3
+	projscale=ifelse(var(5),1.28,1),ifelse(var(5),1.28,1)
+	projremove=ifelse(var(5),128,98)
+	offset=floor(26*const(size.xscale)),floor(-70*const(size.yscale))
+	velocity=ifelse(var(5),5.8,3.2),0
+	attr=s,sp
+	damage=ifelse(var(5),100,80),10
+	animtype=heavy
+	air.animtype=back
+	hitflag=maf
+	guardflag=ma
+	ground.type=low
+	air.type=low
+	pausetime=2,10
+	;ad; sparkno=3
+	hitsound=5,4
+	guardsound=6,0
+	ground.hittime=21
+	ground.slidetime=21
+	ground.velocity=-9
+	air.velocity=   -5,-4
+	air.juggle=8
+	getpower=40,20
+	fall=0
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	guard.kill=!var(4)
+
+;---
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+
+
+
+
+;--------------------
+; ñﬂãr (reikyaku) (=upcut)
+;--------------------
+[statedef 1200]
+type=s
+movetype=a
+physics=c
+anim=1200
+sprpriority=1
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="sp1_s",1,0)
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	trigger1=!var(5)
+	value=sca,nt,st,ht
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1210
+
+;--------------
+[statedef 1210]
+type=a
+movetype=a
+physics=n
+anim=1210
+juggle=ifelse(var(4),15,8)
+poweradd=ifelse(var(5),120,100)
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-22*const(size.xscale)),floor(-pos y)
+	size.xscale=0.65
+	size.yscale=0.65
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	trigger1=time<ifelse(var(5),9,3)
+	value=sca,nt,st,ht
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=ifelse(var(5),110,90),10
+	animtype=heavy
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=13,13
+	sparkxy=-10,-42
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-3,-8.2*ifelse(var(5),1.25,1)
+	air.velocity=   -3,-8.2*ifelse(var(5),1.25,1)
+	yaccel=0.5
+	persistent=0
+	;;-;; givepower=40,20
+	getpower=40,20
+	fall=!var(4)
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 30510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=time=3
+	value=s1,0+var(3)*100
+	channel=0
+
+;[state 0]
+;	type=playsnd
+;	trigger1=time=5 && (sysfvar(0)>0)
+;	value=f200,3
+;	channel=1
+;[state 0]
+;	type=playsnd
+;	trigger1=time=5 && (sysfvar(0)<=0)
+;	value=s200,3
+;	channel=1
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=s2,9
+	channel=2
+
+[state 0]
+	type=width
+	trigger1=!time && !ishelper
+	value=9,9
+
+[state 0]
+	type=varset
+	trigger1=!time
+	fvar(0)=2/const(movement.yaccel)*ifelse(var(5),1.25,1)
+
+[state 0]
+	type=posadd
+	trigger1=!time
+;0;	x=9
+	x=fvar(0)*1.12
+
+[state 0]
+	type=velset
+	trigger1=!time
+;0;	x= 1.75*ifelse(var(5),1.25,1)
+;0;	y=-8.2*ifelse(var(5),1.25,1)
+	x= fvar(0)
+	y=-fvar(0)*2
+
+[state 0]
+	type=veladd
+	trigger1=time>0
+	x=-const(movement.yaccel)*0.425
+	y= const(movement.yaccel)*0.85
+
+[state 0]
+	type=changestate
+	triggerall=time>0 && movecontact
+	trigger1=var(51)<1 && (command="a" || command="b")
+	trigger2=var(51)>0 && (random<ifelse(var(4),20,260)+var(51))
+	value=1212
+[state 0]
+	type=changestate
+	trigger1=time>0 && vel y>=0
+	value=1215
+
+;--------------2nd hit
+[statedef 1212]
+type=a
+movetype=a
+physics=n
+anim=1212
+juggle=0
+ctrl=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=30,8
+	animtype=back
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=ma ; m
+	pausetime=13,13
+	sparkxy=-10,-42
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-3,-11.5
+	air.velocity=   -3,-11.5
+	yaccel=0.58
+	persistent=0
+	;;-;; givepower=40,20
+	getpower=40,20
+	fall=!var(4)
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 75510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=3
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=velmul
+	trigger1=(animelem=5,>0)
+	x=0.85
+	y=0.85
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1215
+
+;--------------fall
+[statedef 1215]
+type=a
+movetype=i
+physics=n
+anim=1215
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=changeanim
+	trigger1=!time && (prevstateno=1212)
+	value=anim
+	elem=6
+
+[state 0]
+	type=veladd
+	trigger1=1
+	y=const(movement.yaccel)
+
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>0)
+	value=1020 ;; land
+	anim=1220
+
+
+;--------------------
+; ìÛéw (nishi)
+;--------------------
+[statedef 1300]
+type=s
+movetype=a
+physics=c
+anim=1300
+sprpriority=1
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="sp4_s",1,0)
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=10
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1310
+
+;--------------
+[statedef 1310]
+type=s
+movetype=a
+physics=n
+anim=1310
+poweradd=ifelse(var(5),120,100)
+juggle=ifelse(var(4),15,8)
+velset=0,0
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-8*const(size.xscale)),floor(-pos y)
+	size.xscale=0.75
+	size.yscale=0.75
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=var(5) && time=16 && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(18*const(size.xscale)),floor(-pos y)
+	size.xscale=1.5
+	size.yscale=0.45
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=ifelse(var(5),110,90),12
+	animtype=back
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	hitflag=mafp
+	guardflag=ma
+	pausetime=13,13
+	sparkxy=-10,-58
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-8,-6
+	air.velocity=   -8,-6
+	persistent=0
+	;;-;; givepower=60,30
+	getpower=60,30
+	fall=!var(4)
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 510558 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s2,4
+
+[state 0]
+	type=velset
+	trigger1=animelem=5
+	x=ifelse(var(5),9,6)
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(7)=0
+[state 0]
+	type=varadd
+	trigger1=var(7)<10
+	var(7)=2
+
+[state 0]
+	type=varset
+	trigger1=var(7)
+	fvar(0)=ifelse(var(7)<10,var(7),10+gametime%3)*.05
+;---
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1452
+	sprpriority=-1
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	bindtime=-1
+	removetime=1
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	ignorehitpause=1
+	removeongethit=1
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1450
+	sprpriority=3
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	bindtime=-1
+	removetime=1
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	ignorehitpause=1
+	removeongethit=1
+;---
+[state 0]
+	type=changestate
+	trigger1=time>ifelse(var(5),26,13)
+	trigger2=time>10 && moveguarded
+	value=1320
+
+;--------------stop
+[statedef 1320]
+type=s
+movetype=i
+physics=s
+anim=1320
+velset=0,0
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(18*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.7
+	size.yscale=0.7
+
+[state 0]
+	type=varadd
+	trigger1=var(7)>0
+	var(7)=-1
+[state 0]
+	type=varset
+	trigger1=var(7)
+	fvar(0)=var(7)*.05
+;---
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1452
+	sprpriority=-1
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	removetime=1
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	ignorehitpause=1
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1450
+	sprpriority=3
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	removetime=1
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	ignorehitpause=1
+;---
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+
+
+
+
+;--------------------
+; ñæãæ (meikyo)
+;--------------------
+[statedef 1400]
+type=s
+movetype=a
+physics=s
+anim=1400
+sprpriority=1
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="sp5_s",1,0)
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1410
+
+;--------------
+[statedef 1410]
+type=s
+movetype=a
+physics=s
+anim=1410
+sprpriority=1
+juggle=ifelse(var(4),15,8)
+poweradd=ifelse(var(5),100,80)
+velset=0,0
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=5) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-22*const(size.xscale)),0
+	size.xscale=0.75
+	size.yscale=0.75
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=5) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(22*const(size.xscale)),0
+	size.xscale=-0.55
+	size.yscale= 0.55
+
+[state 0]
+	type=veladd
+	trigger1=var(5) && time<12
+	x=0.6
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=1
+	value=s2,5
+
+[state 0]
+	type=nothitby
+	trigger1=!ishelper
+	value=sca,np,sp,hp
+;---
+[state 0]
+	type=helper
+	trigger1=animelem=5
+	id=1400
+	stateno=1430
+	pos=floor(29*const(size.xscale)),floor(-51*const(size.yscale))
+	ownpal=1
+
+;--- spark
+[state 0] ; hit/guard_spark
+	type=helper
+	trigger1=(projcontacttime(1000)=1) && numtarget(1000) && (sysfvar(0)>0)
+	id=152100
+	stateno=152100
+	helpertype=normal
+	ownpal=0
+	keyctrl=0
+	postype=p1
+	pos=facing*floor(target(1000),pos x-pos x-5),floor(target(1000),pos y-pos y)-58
+	size.height=ifelse((projhittime(1000)=1),3,43) ;; hit/guard_spark
+;;op;	ignorehitpause=1
+;---
+[state 0] ; spark
+	type=explod
+	trigger1=(projhit(1000)=1) && numtarget(1000) && (sysfvar(0)<=0)
+	anim=f0+ifelse((projhittime(1000)=1),3,41)
+	postype=p1
+	pos=facing*floor(target(1000),pos x-pos x-5),floor(target(1000),pos y-pos y)-50
+	sprpriority=5
+
+;---
+[state 0]
+	type=varset
+	trigger1=!time
+	var(7)=0
+[state 0]
+	type=varadd
+	trigger1=var(7)<10 && time>0
+	var(7)=2
+[state 0]
+	type=varset
+	trigger1=var(7)
+	fvar(0)=ifelse(var(7)<10,var(7),10+gametime%3)*.05
+;---
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1452 ;; <MASK>
+	sprpriority=-1
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	removetime=1
+	ignorehitpause=1
+	removeongethit=1
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1451
+	sprpriority=3
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	removetime=1
+	ignorehitpause=1
+	removeongethit=1
+;---
+[state 0]
+	type=changestate
+	trigger1=(animelem=5,>0) && (!numhelper(1400))
+	trigger2=time>ifelse(var(5),38,18)
+	value=1420
+
+;--------------;stop
+[statedef 1420]
+type=s
+movetype=i
+physics=s
+anim=1420
+sprpriority=1
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=varadd
+	trigger1=var(7)>0
+	var(7)=-1
+
+[state 0]
+	type=varset
+	trigger1=var(7)
+	fvar(0)=var(7)*0.05
+;---
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1452
+	sprpriority=-1
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	removetime=1
+	ignorehitpause=1
+	removeongethit=1
+[state 0]
+	type=explod
+	trigger1=var(7)
+	anim=1451
+	sprpriority=3
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	removetime=1
+	ignorehitpause=1
+	removeongethit=1
+;---
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+;--------------;ÉoÉäÉÑÅ[
+[statedef 1430]
+type=s
+movetype=h;a
+physics=n
+anim=1430
+sprpriority=2
+velset=0,0
+ctrl=0
+;---
+; code_set for Reflection
+[state 0]
+	type=varset
+	trigger1=!time
+	var(18)=(var(15):=10311)+(var(16):=10212)+(var(17):=10113) ; ###
+;---
+;---
+[state 0]
+	type=assertspecial
+	trigger1=1
+	flag=noshadow
+	ignorehitpause=1
+;---
+[state 0]
+	type=projectile
+	trigger1=(time%3=0)
+	id=1000
+	projid=1000
+	projanim=1435
+	projhitanim=-1
+	projcancelanim=-1
+	projremanim=-1
+	projremovetime=3
+	attr=s,sa
+	priority=ifelse(root,var(4),1,4),hit
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=back
+	ground.type=low
+	air.type=low
+	damage=80,10
+	hitflag=maf
+	guardflag=ma
+	pausetime=0,13
+	sparkxy=-5,0
+	sparkno=-1
+	guard.sparkno=-1
+	hitsound=ifelse(root,sysfvar(0)>0,300,5),4
+	guardsound=ifelse(root,sysfvar(0)>0,41,6),0
+	ground.slidetime=20
+	ground.hittime=20
+	ground.velocity=-7,-4
+	air.velocity=   -7,-4
+	guard.velocity= -9
+	air.cornerpush.veloff=0
+	;;-;; givepower=60,30
+	getpower=60,30
+	fall=!root,var(4)
+	air.fall=!root,var(4)
+	fall.recover=root,var(4)
+	fall.recovertime=16
+	kill=!root,var(4)
+	guard.kill=!root,var(4)
+
+;---
+[state 0]
+	type=hitby
+	trigger1=1
+	value=sca,np,sp,hp
+
+[state 0]
+	type=hitoverride
+	trigger1=!root,sysfvar(0)>0
+	attr=sca,np,sp,hp
+	stateno=stateno
+	ignorehitpause=1
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	trigger2=parent,stateno!=1410
+	trigger3=movecontact
+	trigger4=parent,projcontacttime(1000)=1
+	value=1440
+
+;--------------;ÉoÉäÉÑè¡Ç¶ÇÈ
+[statedef 1440]
+anim=1 ;; empty
+
+[state 0]
+	type=destroyself
+	trigger1=time>12
+
+
+
+
+;--------------------
+; çTèP (kusyu)
+;--------------------
+[statedef 1500]
+type=a
+movetype=a
+physics=n
+anim=1500
+sprpriority=1
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=0
+[state 0]
+	type=varset
+	triggerall=!time
+	trigger1=var(51)<1 && command="y"
+	trigger2=var(51)>0 && p2bodydist x>50
+	var(5)=1
+[state 0]
+	type=varset
+	triggerall=!time
+	trigger1=var(51)<1 && command="a"
+	trigger2=var(51)>0 && p2bodydist x>90
+	var(5)=2
+[state 0]
+	type=varset
+	triggerall=!time
+	trigger1=var(51)<1 && command="b"
+	trigger2=var(51)>0 && p2bodydist x>120
+	var(5)=3
+
+[state 0]
+	type=velset
+	trigger1=animelem=3
+	x= 0
+	y=-6
+[state 0]
+	type=veladd
+	trigger1=vel y<0
+	y=0.25
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1510
+
+;--------------
+[statedef 1510]
+type=a
+movetype=a
+physics=n
+anim=1510
+juggle=ifelse(var(4),15,8)
+poweradd=100
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=10
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=12 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=12 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s2,4
+
+[state 0]
+	type=velset
+	trigger1=animelem=12
+	x=4+var(5)*4
+	y=8
+
+[state 0]
+	type=varset
+	trigger1=!time
+	fvar(0)=0
+[state 0]
+	type=varadd
+	trigger1=time && var(5)=0 && fvar(0)>-16
+	fvar(0)=-2
+[state 0]
+	type=varadd
+	trigger1=time && var(5)=2 && fvar(0)<16
+	fvar(0)=2
+[state 0]
+	type=varadd
+	trigger1=time && var(5)=3 && fvar(0)<28
+	fvar(0)=4
+
+[state 0]
+	type=angledraw
+	trigger1=1
+	value=fvar(0)
+	ignorehitpause=1
+;---
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=90,10
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=high
+	air.type=low
+	hitflag=maf
+	guardflag=ma;;ha
+	pausetime=13,13
+	sparkxy=-10,-28
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-3.8,-6
+	air.velocity=   -3.8,-6
+	persistent=0
+	;;-;; givepower=60,30
+	getpower=60,30
+	fall=!var(4)
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 510528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=time>0 && movecontact
+	value=1560
+[state 0]
+	type=posadd
+	trigger1=(pos y+vel y>=0) && (vel y>=0)
+	x=36
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>=0)
+	value=1520 ;; land
+	anim=1520
+
+;--------------land
+[statedef 1520]
+type=s
+movetype=i
+physics=s
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=posset
+	trigger1=!time
+	y=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-28*const(size.xscale)),0
+	size.xscale=0.65
+	size.yscale=0.65
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(28*const(size.xscale)),0
+	size.xscale=-0.55
+	size.yscale=0.55
+
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+;--------------
+[statedef 1560]
+type=a
+movetype=i
+physics=a
+anim=3560
+velset=-8,-6
+ctrl=0
+
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=f50,0
+;;[state 0]
+;;	type=posadd
+;;	trigger1=animelem=2
+;;	x=-28
+;;[state 0]
+;;	type=posadd
+;;	trigger1=animelem=3
+;;	x=-16
+[state 0]
+	type=veladd
+	trigger1=time>0 && vel x<-0.2
+	x=0.2
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>0)
+	value=1020 ;; land
+	anim=1220
+
+
+;--------------------
+; ÉJÉìÉtÅ[ÉuÉçÅ[ (KungFu Blow)
+;--------------------
+[statedef 1600]
+type=s
+movetype=a
+physics=s
+anim=1600
+sprpriority=1
+juggle=ifelse(var(4),15,8) ; 8
+poweradd=100
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=width
+	trigger1=(animelem=10,>0) && (animelem=17,<0)
+	value=const(size.ground.front)*2
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=9) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-22*const(size.xscale)),floor(-pos y)
+	size.xscale=0.65
+	size.yscale=0.65
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=9) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(46*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.65
+	size.yscale=0.65
+
+; ground_wave
+[state 0]
+	type=helper
+	trigger1=(animelem=10) && (sysfvar(0)>0)
+	id=9002
+	stateno=9005
+	pos=floor(12*const(size.xscale)),floor(-pos y)
+
+[state 0]
+	type=envshake
+	trigger1=(animelem=10) && (sysfvar(0)<=0)
+	ampl=-3
+	time= 3
+;---
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=150,18
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=high
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=13,13
+	sparkxy=-10,-58
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),ifelse(sysfvar(0)>0,5,4)
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=18
+	ground.hittime=22
+	ground.velocity=-9
+	air.velocity=   -9,0.6
+	ground.cornerpush.veloff=-18
+	persistent=0
+	;;-;; givepower=60,30
+	getpower=60,30
+	air.fall=1
+	fall.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 510558 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=8
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=10) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=10) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1620
+	ctrl=0
+
+;--------------stop
+[statedef 1620]
+type=s
+movetype=i
+physics=s
+anim=1620
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+
+;--------------------
+; ÉJÉìÉtÅ[éRËœ (KungFu Zanko)
+;--------------------
+[statedef 1700]
+type=s
+movetype=a
+physics=s
+anim=1700
+sprpriority=1
+juggle=ifelse(var(4),15,8) ;; 8
+poweradd=0
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="sp8",0,1)
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	trigger2=time>ifelse(var(5),12,6)
+	value=1710
+
+;--------------
+[statedef 1710]
+type=s
+movetype=a
+physics=s
+anim=1710
+sprpriority=1
+poweradd=ifelse(var(5),120,100)
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=width
+	trigger1=1
+	value=floor(20*const(size.xscale))
+
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=!time && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=!time && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=posadd
+	trigger1=!time
+	x=8
+[state 0]
+	type=velset
+	trigger1=!time
+	x=ifelse(var(5),18,9)
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(12*const(size.xscale)),floor(-pos y)
+	size.xscale=0.75
+	size.yscale=0.75
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=30,6
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=m
+	guardflag=m
+	pausetime=13,13
+	sparkxy=-10,-46
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=18
+	ground.hittime=22
+	ground.velocity=-3.2
+	air.velocity=   -3.2,-3
+	ground.cornerpush.veloff=0
+	persistent=0
+	;;-;; givepower=20,10
+	getpower=20,10
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 510546 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1720
+	ctrl=0
+
+;-------------- 2nd hit
+[statedef 1720]
+type=s
+movetype=a
+physics=s
+anim=1720
+sprpriority=1
+poweradd=0
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=width
+	trigger1=!time
+	value=floor(18*const(size.xscale))
+
+[state 0]
+	type=posadd
+	trigger1=!time
+	x=38*const(size.xscale)
+
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=s1,0+var(3)*100
+	channel=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=2) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(28*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.75
+	size.yscale=0.75
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,sa
+	priority=ifelse(var(4),1,4),hit
+	damage=ifelse(var(5),100,80),12
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=back
+	ground.type=high
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=13,13
+	sparkxy=-10,-60
+	;ad; sparkno=3+(random%4)*10
+	;ad; guard.sparkno =40 ;; 41-((sysfvar(0)<=0))
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=18
+	ground.hittime=22
+	ground.velocity=-13
+	air.velocity=    -9,-1.6
+	ground.cornerpush.veloff=-18
+	persistent=0
+	;;-;; givepower=40,20
+	getpower=40,20
+	air.fall=!var(4)
+	fall.recover=var(4)
+	fall.recovertime=16
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=3 || var(30):= 510560 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=1730
+	ctrl=0
+
+;--------------stop
+[statedef 1730]
+type=s
+movetype=i
+physics=s
+anim=1730
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+
+
+
+
+
+
+
+
+
+
+
+;--------------------
+; í¥ïKéEãZ (hyper/super)
+;--------------------
+
+; ï}óhñﬂãr (fuyo reikyaku) (=super upcut)
+;--------------------
+[statedef 3000]
+type=s
+movetype=a
+physics=s
+anim=3000
+juggle=ifelse(var(4),15,8)
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="hy2_s" && power>=2000,1,0)
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	value=sca,nt,st,ht
+
+;-[hpe]---------
+[state 0]
+	type=poweradd
+	trigger1=roundstate=2 && (animelem=4)
+	value=-ifelse(var(5),2000,1000)
+[state 0]
+	type=helper
+	trigger1=roundstate=2 && (animelem=4) && (sysfvar(0)>0)
+	id=88880
+	stateno=88880+ifelse(var(5),2,0)
+	ownpal=1
+	pos=floor(18*const(size.xscale)),floor(-46*const(size.yscale))
+;--------
+
+[state 0] ; old_ver
+	type=superpause
+	trigger1=roundstate=2 && (animelem=4) && (sysfvar(0)<=0)
+	pos=floor(18*const(size.xscale)),floor(-46*const(size.yscale))
+	anim=100
+	sound=20,0
+
+;---
+[state 0]
+	type=afterimage
+	trigger1=!ishelper && (animelem=4)
+	time=ifelse(var(5),128,208)
+	length=9
+	timegap=2
+	framegap=4
+	palcolor=256
+	palbright=1,1,1
+	palcontrast=128,(!var(5))*128,(!var(5))*128
+;new;	palcontrast=256,(!var(5))*256,(!var(5))*256
+	paladd=0,0,0
+	palmul=1,1,1
+;afia;	trans=add1
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3010
+
+;--------------
+[statedef 3010]
+type=a
+movetype=a
+physics=n
+anim=3010
+ctrl=0
+
+[state 0]
+	type=width
+	trigger1=!time
+	value=9,9
+[state 0]
+	type=posadd
+	trigger1=!time
+	x=9
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-22*const(size.xscale)),floor(-pos y)
+	size.xscale=0.85
+	size.yscale=0.85
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(18*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.65
+	size.yscale= 0.65
+
+[state 0]
+	type=hitby
+	trigger1=(animelem=14,<0) && !ishelper
+	value=sca,nt,st,ht
+
+;---
+[state 0]
+	type=hitdef
+	trigger1=(animelem=4) || (((animelem=5)||(animelem=6)||(animelem=7)||(animelem=8)) && (!movecontact))
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=60,8
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=13,13
+	sparkxy=-10,-42
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-2,-11
+	air.velocity=   -2,-11
+	persistent=0
+	yaccel=0.5
+	;;-;; givepower=60,30
+	getpower=0,0
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 30510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+;---
+[state 0]
+	type=hitdef
+	trigger1=(animelem=14)||(animelem=24)
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=ifelse(var(5),38,36),6
+	animtype=back
+	air.animtype=back
+	fall.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=6,6
+	sparkxy=-10,-42
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-vel x,-7.5
+;old;	air.velocity=   -vel x,-6*ifelse(var(5),0.75,.85)
+	air.velocity=   -vel x,vel y-1.35-pos y/686.68
+	yaccel=0.5
+	;;-;; givepower=60,30
+	getpower=0,0
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 30510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=12
+	value=s1,0+var(3)*100
+	channel=0
+
+;[state 0]
+;	type=playsnd
+;	trigger1=animelem=16 && (sysfvar(0)>0)
+;	value=f200,3
+;	channel=1
+;[state 0]
+;	type=playsnd
+;	trigger1=animelem=16 && (sysfvar(0)<=0)
+;	value=s200,3
+;	channel=1
+[state 0]
+	type=playsnd
+	trigger1=time=2
+	value=s2,9
+	channel=2
+
+[state 0]
+	type=velset
+	trigger1=!time
+	x=1.85*ifelse(var(5),1.25,1)
+	y=-6.2*ifelse(var(5),1.25,1)
+[state 0]
+	type=veladd
+	trigger1=time>0
+	x=-ifelse(vel x>0,const(movement.yaccel)*.06,0)
+	y=const(movement.yaccel)*0.25
+
+;op;[state 0]
+;op;	type=targetbind
+;op;	trigger1=roundstate=2
+;op;	trigger1=numtarget
+;op;	trigger1=animelem=12,>0
+;op;	trigger1=var(5) && movehit
+;op;	trigger1=target,pos y<0 && target,pos y>pos y
+;op;	trigger1=target,stateno!=[120,159]
+;op;	pos=49,0
+
+[state 0]
+	type=changestate
+	trigger1=var(5)
+	trigger1=time>0 && vel y>=0
+	trigger1=(animelem=18) || (animelem=29)
+	value=3540
+[state 0]
+	type=changestate
+	trigger1=!var(5)
+	trigger1=time>0 && vel y>=0
+	trigger1=(animelem=18) || (animelem=29)
+	value=3012
+
+;--------------last hit
+[statedef 3012]
+type=a
+movetype=a
+physics=n
+anim=1212
+juggle=0
+ctrl=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=30,8
+	animtype=diagup
+	air.animtype=diagup
+	fall.animtype=diagup
+	hitflag=maf
+	guardflag=m
+	pausetime=23,23
+	sparkxy=-10,-42
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.type=low
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-3,-11
+	air.velocity=   -3,-11
+	persistent=0
+	;;-;; givepower=40,20
+	getpower=40,20
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	yaccel=0.5
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 45510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=3
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=velmul
+	trigger1=(animelem=5,>0)
+	x=0.85
+	y=0.85
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3015
+
+;--------------fall
+[statedef 3015]
+type=a
+movetype=i
+physics=n
+anim=1215
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=changeanim
+	trigger1=!time && (prevstateno=3012)
+	value=anim
+	elem=6
+
+[state 0]
+	type=veladd
+	trigger1=1
+	y=const(movement.yaccel)
+
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>0)
+	value=1020 ;; land
+	anim=3020
+
+
+
+
+
+
+;--------------------
+; öÓÁüìÛéw (yoatsu nishi)
+;--------------------
+[statedef 3100]
+type=s
+movetype=a
+physics=s
+anim=3100
+sprpriority=1
+juggle=8
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="hy4_s" && power>=2000,1,0)
+[state 0]
+	type=varset
+	trigger1=!time
+	var(6)=ifelse(var(5),5,3)
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	value=sca,nt,st,ht
+	time=ifelse(var(5),18,10)
+
+;-[hpe]---------
+[state 0]
+	type=poweradd
+	trigger1=roundstate=2 && (animelem=10)
+	value=-ifelse(var(5),2000,1000)
+[state 0]
+	type=helper
+	trigger1=roundstate=2 && (animelem=10) && (sysfvar(0)>0)
+	id=88880
+	stateno=88880+ifelse(var(5),2,0)
+	ownpal=1
+	pos=floor(36*const(size.xscale)),floor(-46*const(size.yscale))
+;--------
+
+[state 0] ; old_ver
+	type=superpause
+	trigger1=roundstate=2 && (animelem=10) && (sysfvar(0)<=0)
+	pos=floor(36*const(size.xscale)),floor(-46*const(size.yscale))
+	anim=100
+	sound=20,0
+
+[state 0]
+	type=afterimage
+	trigger1=!ishelper && (animelem=10)
+	time=222
+	length=9
+	timegap=2
+	framegap=4
+	palcolor=256
+	palbright=1,1,1
+	palcontrast=128,(!var(5))*128,(!var(5))*128
+	paladd=0,0,0
+	palmul=1,1,1
+;afia;	trans=add1
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3110
+
+;--------------
+[statedef 3110]
+type=s
+movetype=a
+physics=n
+anim=3110+((var(6)+1)%2)*5
+velset=0,0
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-8*const(size.xscale)),floor(-pos y)
+	size.xscale=1
+	size.yscale=1
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(time=13) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(18*const(size.xscale)),floor(-pos y)
+	size.xscale=1.5
+	size.yscale=0.5
+
+[state 0]
+	type=varadd
+	trigger1=!time && var(6)>0
+	var(6)=-1
+
+[state 0]
+	type=assertspecial
+	trigger1=1
+	flag=nojugglecheck
+	ignorehitpause=1
+
+[state 0]
+	type=width
+	trigger1=1
+	value=32,0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=92,10
+	animtype=back
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	hitflag=maf ; p
+	guardflag=m
+	pausetime=12,13
+	sparkxy=-10,-42
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=18
+	ground.hittime=18
+	ground.velocity=-ifelse(var(6),3,9),-10.6
+	air.velocity=   -ifelse(var(6),3,9),-ifelse(var(6),8.8,10.6)
+	persistent=0
+	;;-;; givepower=60,30
+	getpower=0,0
+	yaccel=0.5
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=5) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s2,ifelse(var(6),4,5)
+
+[state 0]
+	type=velset
+	trigger1=animelem=5
+	x=ifelse(var(6),6,9)
+[state 0]
+	type=veladd
+	trigger1=(vel x>0) && (animelem=5,>0)
+	x=0.1
+
+;---
+[state 0]
+	type=varset
+	trigger1=!time
+	var(7)=0
+[state 0]
+	type=varadd
+	trigger1=time>0
+	trigger1=var(7)<ifelse(var(6),10,12)
+	var(7)=2
+
+[state 0]
+	type=varset
+	trigger1=var(7)
+	fvar(0)=ifelse(var(7)<10, var(7), 10+(gametime%3)) *0.05
+
+[state 0]
+	type=explod
+	trigger1=var(7) && !numexplod(3100)
+	id=3100
+	anim=1452
+	sprpriority=-1
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	bindtime=-1
+	removetime=-1
+	ignorehitpause=1
+	removeongethit=1
+	supermovetime=999999
+	pausemovetime=999999
+[state 0]
+	type=explod
+	trigger1=var(7) && numexplod(3100)=1
+	id=3100
+	anim=1453
+	sprpriority=3
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	bindtime=-1
+	removetime=-1
+	ignorehitpause=1
+	removeongethit=1
+	supermovetime=999999
+	pausemovetime=999999
+[state 0]
+	type=modifyexplod
+	trigger1=var(7) && numexplod(3100)
+	id=3100
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	ignorehitpause=1
+	supermovetime=999999
+	pausemovetime=999999
+
+[state 0]
+	type=changestate
+	trigger1=time>ifelse(var(6),18,26)
+	value=3120
+
+;--------------stop
+[statedef 3120]
+type=s
+movetype=i
+physics=s
+anim=3120+(var(6)%2)*5
+velset=0,0
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(18*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.85
+	size.yscale=0.85
+
+[state 0]
+	type=varadd
+	trigger1=var(7)>0
+	var(7)=-1
+[state 0]
+	type=varset
+	trigger1=var(7)
+	fvar(0)=ifelse(var(7)<10,var(7),10+gametime%3)*.05
+
+[state 0]
+	type=modifyexplod
+	trigger1=var(7) && numexplod(3100)
+	id=3100
+	postype=p1
+	pos=floor(58*const(size.xscale)),floor(-58*const(size.yscale))
+	scale=const(size.xscale)*fvar(0),const(size.yscale)*fvar(0)
+	ignorehitpause=1
+	supermovetime=999999
+	pausemovetime=999999
+
+[state 0]
+	type=changestate
+	trigger1=var(6) && (animtime>-3)
+	value=3110
+
+[state 0]
+	type=removeexplod
+	trigger1=animtime=0
+	id=3100
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+
+
+
+;--------------------
+; êÇìVîgè∂ (suiten hasyo) (=super fire ball)
+;--------------------
+[statedef 3200]
+type=s
+physics=s
+movetype=a
+anim=3200
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="hy1_s" && power>=2000,1,0)
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	trigger1=time<ifelse(var(5),6,9)
+	value=sca,nt,st,ht
+
+;-[hpe]---------
+[state 0]
+	type=poweradd
+	trigger1=roundstate=2 && (animelem=5)
+	value=-ifelse(var(5),2000,1000)
+[state 0]
+	type=helper
+	trigger1=roundstate=2 && (animelem=5) && (sysfvar(0)>0)
+	id=88880
+	stateno=88880+ifelse(var(5),2,0)
+	ownpal=1
+	pos=floor(-12*const(size.xscale)),floor(-46*const(size.yscale))
+;--------
+
+[state 0] ; old_ver
+	type=superpause
+	trigger1=roundstate=2 && (animelem=5) && (sysfvar(0)<=0)
+	pos=floor(-12*const(size.xscale)),floor(-46*const(size.yscale))
+	anim=100
+	sound=20,0
+
+[state 0]
+	type=afterimage
+	trigger1=!ishelper && (animelem=5)
+	time=68
+	length=9
+	timegap=2
+	framegap=4
+	palcolor=256
+	palbright=1,1,1
+	palcontrast=128,(!var(5))*128,(!var(5))*128
+	paladd=0,0,0
+	palmul=1,1,1
+;afia;	trans=add1
+
+[state 0]
+	type=width
+	trigger1=(animelem=5,>0)
+	value=30,0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=9
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=10) && (sysfvar(0)>0)
+	value=f200,2
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=10) && (sysfvar(0)<=0)
+	value=s200,2
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=10
+	value=s2,3
+
+
+[state 0]
+	type=null
+	trigger1=animelem=3
+	trigger1=1|| var(7):=floor(-1*const(size.xscale)) || var(8):=floor(-48*const(size.yscale)) || fvar(0):=0.75
+	trigger2=animelem=4
+	trigger2=1|| var(7):=floor(-3*const(size.xscale)) || var(8):=floor(-48*const(size.yscale)) || fvar(0):=1
+	trigger3=animelem=5
+	trigger3=1|| var(7):=floor(-5*const(size.xscale)) || var(8):=floor(-48*const(size.yscale)) || fvar(0):=1.25
+	trigger4=animelem=6
+	trigger4=1|| var(7):=floor(14*const(size.xscale)) || var(8):=floor(-56*const(size.yscale)) || fvar(0):=1.30
+	trigger5=animelem=7
+	trigger5=1|| var(7):=floor(23*const(size.xscale)) || var(8):=floor(-56*const(size.yscale)) || fvar(0):=1.35
+	trigger6=animelem=8
+	trigger6=1|| var(7):=floor(31*const(size.xscale)) || var(8):=floor(-56*const(size.yscale)) || fvar(0):=1.40
+	trigger7=animelem=9
+	trigger7=1|| var(7):=floor(41*const(size.xscale)) || var(8):=floor(-56*const(size.yscale)) || fvar(0):=1.45
+[state 0]
+	type=explod
+	trigger1=(animelem=3,>=0) && (animelem=10,<0)
+	anim=1112
+	postype=p1
+	pos=var(7),var(8)
+	sprpriority=2
+	scale=fvar(0)*const(size.xscale),fvar(0)*const(size.yscale)
+	removetime=1
+	removeongethit=1
+
+;---
+[state 0]
+	type=helper
+	trigger1=(animelem=10) && (sysfvar(0)>0)
+	id=3000
+	size.height=500000+ifelse(var(5),11222,88);;<-(removetime+options)
+	pos=floor(38*const(size.xscale)),floor(-56*const(size.yscale))
+	stateno=91000
+	size.head.pos=3210,3211;;<-anim,hitanim
+	size.mid.pos=ifelse(var(5),7800,5800),0;;<-speed_x,y(1/1000)
+	size.ground.front=ifelse(var(5),7,4)*1000+9;;<-max_hits/miss_time
+	size.ground.back=520010*(!var(4));;<-damage hit/guard
+	size.air.front=620560;; <vel_x,y_hit
+	size.air.back= 640530;; <vel_x,y_guard
+	size.shadowoffset=13;;<-fall(10=recovery/1=ground/2=air/3=g&a)
+	ownpal=1
+	size.xscale=ifelse(var(5),1.25,1)
+	size.yscale=ifelse(var(5),1.25,1)
+
+;---
+[state 0]
+	type=projectile
+	trigger1=(animelem=10) && (sysfvar(0)<=0)
+	projid=91000 ;; 3000
+	projanim=3210
+	projhitanim=3211
+	projpriority=1
+	projsprpriority=3
+	projscale=ifelse(var(5),1.25,1),ifelse(var(5),1.25,1)
+	projremove=ifelse(var(5),128,98)
+	projhits=ifelse(var(5),7,4)
+	offset=floor(38*const(size.xscale)),floor(-56*const(size.yscale))
+	velocity=ifelse(var(5),7.8,5.8),0
+	attr=s,hp
+	damage=52,10
+	hitflag=maf
+	guardflag=m
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=high
+	air.type=low
+	pausetime=9,10
+	;ad; sparkno=4
+	hitsound=5,4
+	guardsound=6,0
+	ground.hittime=18
+	ground.slidetime=18
+	ground.velocity=-12.8
+	air.velocity=    -6,-5
+	air.juggle=8
+	getpower=0,0
+	fall=1
+	air.fall=1
+	fall.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+
+;---
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+
+
+
+
+;--------------------
+; î|ïóçTèP (baifu kusyu)
+;--------------------
+[statedef 3300]
+type=a
+movetype=a
+physics=n
+anim=1500
+sprpriority=1
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="hy4_s" && power>=2000,1,0)
+[state 0]
+	type=varset
+	trigger1=!time
+	var(6)=var(5)+1
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	value=sca,nt,st,ht
+
+;-[hpe]---------
+[state 0]
+	type=poweradd
+	trigger1=roundstate=2 && (animelem=9)
+	value=-ifelse(var(5),2000,1000)
+[state 0]
+	type=helper
+	trigger1=roundstate=2 && (animelem=9) && (sysfvar(0)>0)
+	id=88880
+	stateno=88880+ifelse(var(5),2,0)
+	ownpal=1
+	pos=floor(16*const(size.xscale)),floor(-52*const(size.yscale))
+;--------
+
+[state 0] ; old_ver
+	type=superpause
+	trigger1=roundstate=2 && (animelem=9) && (sysfvar(0)<=0)
+	pos=floor(16*const(size.xscale)),floor(-52*const(size.yscale))
+	anim=100
+	sound=20,0
+
+;---
+[state 0]
+	type=velset
+	trigger1=animelem=3
+	x= 0
+	y=-9
+[state 0]
+	type=veladd
+	trigger1=vel y<0
+	y=0.3
+
+[state 0]
+	type=varset
+	trigger1=(animelem=9)
+	var(7)=abs(floor(p2dist x))
+;;[state 0]
+;;	type=varset
+;;	trigger1=(animelem=9) && numenemy
+;;	var(7)=abs(floor(enemynear,pos x-pos x))
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3310
+
+;--------------
+[statedef 3310]
+type=a
+movetype=a
+physics=n
+anim=1510
+juggle=9
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=10
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=(animelem=12) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=12) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s2,4
+;op;	channel=2
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	trigger1=(animelem=12,<0)
+	value=sca,nt,st,ht
+
+[state 0]
+	type=velset
+	trigger1=animelem=12
+	x=ifelse(roundstate=2,var(7)/12.0,11)
+	y=11
+
+; burn_spark
+[state 0]
+	type=helper
+	trigger1=!numhelper(152200) && (animelem=11) && (sysfvar(0)>0)
+	id=152200
+	stateno=152200
+	size.height=id*10+(var(5)>0)
+
+; burn
+[state 0]
+	type=explod
+	trigger1=(animelem=11,>=0) && numexplod(128)<8 && (sysfvar(0)<=0)
+	anim=23000+(random%3)
+	postype=p1
+	pos=floor(-36*const(size.xscale)),floor(-60*const(size.yscale))
+	random=100,120
+	scale=ifelse((random<500),1,-1)*0.65,ifelse((random<500),1,-1)*0.65
+	sprpriority=3
+
+;---
+[state 0]
+	type=varset
+	trigger1=!time
+	fvar(0)=0
+[state 0]
+	type=varadd
+	trigger1=time && fvar(0)>var(7)/12.0-12
+	fvar(0)=-1
+[state 0]
+	type=varadd
+	trigger1=time && fvar(0)<var(7)/12.0-12
+	fvar(0)=1
+
+[state 0]
+	type=angledraw
+	trigger1=1
+	value=fvar(0)*2.22
+	ignorehitpause=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=32,16
+	animtype=back
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=m;;h
+	pausetime=13,13
+	sparkxy=-10,-28
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),ifelse(sysfvar(0)>0,5,4)
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-3,-18
+	air.velocity=   -3,-18
+	persistent=0
+	;;-;; givepower=60,30
+	getpower=0,0
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	yaccel=0.5
+	id=3300
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=time>0 && moveguarded
+	value=3560
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>=0)
+	trigger1=movecontact
+	value=3320
+[state 0]
+	type=posadd
+	trigger1=(pos y+vel y>=0) && (vel y>=0)
+	x=36
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>=0)
+	value=1520 ;; land
+	anim=3360
+
+;--------------2nd hit
+[statedef 3320]
+type=s
+movetype=a
+physics=s
+anim=3320
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=posset
+	trigger1=!time
+	y=0
+[state 0]
+	type=posadd
+	trigger1=!time
+	x=36
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-38*const(size.xscale)),0
+	size.xscale=1
+	size.yscale=1
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(38*const(size.xscale)),0
+	size.xscale=-1
+	size.yscale= 1
+
+[state 0]
+	type=changestate
+	trigger1=time>3 && numtarget(3300)
+	trigger1=(target(3300),vel y>0) && (target(3300),pos y>-218)
+	trigger2=time>58
+	value=3330
+
+;--------------
+[statedef 3330]
+type=s
+movetype=a
+physics=s
+anim=3330
+velset=1,0
+ctrl=0
+
+[state 0]
+	type=varadd
+	trigger1=!time && var(6)>0
+	var(6)=-1
+
+[state 0]
+	type=explod
+	trigger1=!time
+	anim=3332
+	postype=p1
+	sprpriority=2
+	pos=0,0
+	scale=const(size.xscale),const(size.yscale)
+	vel=-3,0
+[state 0]
+	type=explod
+	trigger1=!time
+	anim=3332
+	postype=p1
+	sprpriority=2
+	pos=0,0
+	scale=const(size.xscale),const(size.yscale)
+	vel=-2,0
+[state 0]
+	type=explod
+	trigger1=!time
+	anim=3332
+	postype=p1
+	sprpriority=2
+	pos=0,0
+	scale=const(size.xscale),const(size.yscale)
+	vel=-1,0
+
+[state 0]
+	type=posset
+	trigger1=time=1 && numtarget(3300)
+	x=target(3300),pos x
+[state 0]
+	type=posadd
+	trigger1=!numtarget(3300) && (time=[1,6])
+	x=12
+
+[state 0]
+	type=playsnd
+	trigger1=time=1
+	value=s2,3
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=time=1 && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-28*const(size.xscale)),0
+	size.xscale=1.2
+	size.yscale=1.2
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3340
+
+;--------------
+[statedef 3340]
+type=s
+movetype=a
+physics=s
+anim=3340
+juggle=8
+velset=0,0
+ctrl=0
+
+;---
+[state 0] ; ground_wave
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=9005
+	stateno=9005
+	pos=floor(32*const(size.xscale)),0
+
+[state 0]
+	type=assertspecial
+	trigger1=1
+	flag=nojugglecheck
+	ignorehitpause=1
+
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=208,18
+	animtype=back
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=h
+	pausetime=1,32
+	sparkxy=-10,-118
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),ifelse(sysfvar(0)>0,5,4)
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-3,-ifelse(var(6)>0,18,18)
+	air.velocity=   -3,-ifelse(var(6)>0,16,18)
+	persistent=0
+	;;-;; givepower=60,30
+	getpower=0,0
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	yaccel=0.5
+	id=3300
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 90510518 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+;---
+; burn_spark
+[state 0]
+	type=helper
+	trigger1=movehit && numtarget(3300) &&!numhelper(152200) && (sysfvar(0)>0)
+	id=152200
+	stateno=152200
+	size.height=(target(3300),id)*10+(var(5)>0)
+
+; explosion
+[state 0]
+	type=helper
+	trigger1=movehit=1 && numtarget(3300) &&!numhelper(152220) && (sysfvar(0)>0)
+	pos=floor(8*const(size.xscale)),floor(-98*const(size.yscale))
+	id=152220+(var(5)>0)
+	stateno=152220
+	size.xscale=0.75
+	size.yscale=0.75
+
+;--- smoke
+[state 0]
+	type=explod
+	trigger1=numtarget(3300) && movehit=1 && (sysfvar(0)<=0)
+	anim=23011 ;; +(random%3)
+	postype=p1
+	pos=floor(8*const(size.xscale)),floor(-98*const(size.yscale))
+	scale=1.68*ifelse((random<500),1,-1),1.68*ifelse((random<500),1,-1)
+	sprpriority=-2
+	ignorehitpause=1
+;--- explosion
+[state 0]
+	type=explod
+	trigger1=numtarget(3300) && movehit=1 && (sysfvar(0)<=0)
+	anim=23101 ;; +(random%3)
+	postype=p1
+	pos=floor(8*const(size.xscale)),floor(-98*const(size.yscale))
+	scale=1.08*ifelse((random<500),1,-1),1.08*ifelse((random<500),1,-1)
+	sprpriority=6
+	ignorehitpause=1
+;--- burn
+[state 0]
+	type=explod
+	trigger1=numtarget(3300) && movehit && (numexplod(128)<18) && (sysfvar(0)<=0)
+	anim=23000+(random%3)
+	postype=p2
+	pos=0,-28
+	random=80,80
+	scale=ifelse((random<500),1,-1)*0.85,ifelse((random<500),1,-1)*0.85
+	sprpriority=3
+
+;---
+
+; electric
+[state 0]
+	type=explod
+	trigger1=(time%16=3)
+	anim=21000+(random%3)
+	postype=p1
+	sprpriority=3
+	pos=((random%9)-5),(-38-(random%16))
+	scale=((random%6)*0.1+0.5)*ifelse((random<500),1,-1),((random%6)*0.1+0.5)*ifelse((random<500),1,-1)
+	supermovetime=999
+	pausemovetime=999
+	ignorehitpause=1
+
+[state 0]
+	type=changestate
+	trigger1=time>38 && var(6)>0 && numtarget(3300)
+	value=3320
+[state 0]
+	type=changestate
+	trigger1=time>46
+	value=3350
+
+;--------------
+[statedef 3350]
+type=s
+movetype=i
+physics=s
+anim=3350
+juggle=0
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=posset
+	trigger1=!time
+	y=0
+
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+
+
+
+
+;--------------------
+; ÉXÅ[ÉpÅ[ÅEÉJÉìÉtÅ[éRËœ (super kungfu zanko)
+;--------------------
+[statedef 3400]
+type=s
+movetype=a
+physics=s
+anim=1700
+sprpriority=1
+juggle=8
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=varset
+	trigger1=!time
+	var(5)=ifelse(command="hy4_s" && power>=2000,1,0)
+[state 0]
+	type=varset
+	trigger1=!time
+	var(6)=ifelse(var(5),5,3)
+
+[state 0]
+	type=hitby
+	trigger1=!ishelper
+	value=sca,nt,st,ht
+	time=ifelse(var(5),16,8)
+
+;-[hpe]---------
+[state 0]
+	type=poweradd
+	trigger1=roundstate=2 && (animelem=5)
+	value=-ifelse(var(5),2000,1000)
+[state 0]
+	type=helper
+	trigger1=roundstate=2 && (animelem=5) && (sysfvar(0)>0)
+	id=88880
+	stateno=88880+ifelse(var(5),2,0)
+	ownpal=1
+	pos=floor(36*const(size.xscale)),floor(-46*const(size.yscale))
+;--------
+
+[state 0] ; old_ver
+	type=superpause
+	trigger1=roundstate=2 && (animelem=5) && (sysfvar(0)<=0)
+	pos=floor(36*const(size.xscale)),floor(-46*const(size.yscale))
+	anim=100
+	sound=20,0
+
+[state 0]
+	type=afterimage
+	trigger1=(animelem=5) && !ishelper
+	time=222
+	length=9
+	timegap=2
+	framegap=4
+	palcolor=256
+	palbright=1,1,1
+	palcontrast=128,(!var(5))*128,(!var(5))*128
+	paladd=0,0,0
+	palmul=1,1,1
+;afia;	trans=add1
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	trigger2=time>8
+	value=3410
+
+;--------------
+[statedef 3410]
+type=s
+movetype=a
+physics=s
+anim=1710
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=width
+	trigger1=1
+	value=floor(20*const(size.xscale))
+
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=s1,1+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=!time && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=!time && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=posadd
+	trigger1=!time
+	x=8
+[state 0]
+	type=velset
+	trigger1=!time
+	x=ifelse(var(5),18,9)
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(12*const(size.xscale)),floor(-pos y)
+	size.xscale=1
+	size.yscale=1
+
+[state 0]
+	type=varadd
+	trigger1=!time && var(6)>0
+	var(6)=-1
+
+[state 0]
+	type=assertspecial
+	trigger1=1
+	flag=nojugglecheck
+	ignorehitpause=1
+
+[state 0]
+	type=hitdef
+	trigger1=time=0 && !var(6)
+	attr=s,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=30,6
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=ifelse(var(6),9,21),ifelse(var(6),11,23)
+	sparkxy=-10,-42
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=18
+	ground.hittime=26
+	ground.velocity=-3
+	air.velocity=   -3,-3
+	ground.cornerpush.veloff=0
+	persistent=0
+	getpower=0,0
+	;;-;; givepower=60,30
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3420
+
+;-------------- 2nd hit
+[statedef 3420]
+type=s
+movetype=a
+physics=s
+anim=1720
+sprpriority=1
+poweradd=0
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=width
+	trigger1=!time
+	value=floor(18*const(size.xscale))
+
+[state 0]
+	type=posadd
+	trigger1=!time
+	x=38*const(size.xscale)
+
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=s1,0+var(3)*100
+	channel=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=2) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(28*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.75
+	size.yscale=0.75
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=s,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=ifelse(var(5),90,80),10
+	animtype=heavy
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=heigh
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=ifelse(var(6),9,26),ifelse(var(6),11,28)
+	sparkxy=-10,-60
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),ifelse(sysfvar(0)>0,5,4)
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=18
+	ground.hittime=26
+	ground.velocity=-ifelse(var(6),3,13),-ifelse(var(6),0,3)
+	air.velocity=   -ifelse(var(6),3, 9),-ifelse(var(6),8.8,3)
+	ground.cornerpush.veloff=ifelse(var(6),0,-18)
+	persistent=0
+	getpower=0,0
+	;;-;; givepower=60,30
+	fall=ifelse(var(6),0,1)
+	air.fall=1
+	fall.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510560 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3430
+	ctrl=0
+
+;--------------stop
+[statedef 3430]
+type=s
+movetype=i
+physics=s
+anim=1730
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=changestate
+	trigger1=var(6) && time>2
+	value=3410
+
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=11
+	ctrl=1
+
+
+
+
+
+;--------------------
+; çLîúÁñóy(kobaku syoyo) (max2)
+;--------------------
+[statedef 3500]
+type=s
+movetype=i
+physics=s
+anim=3500
+juggle=0
+velset=0,0
+ctrl=0
+facep2=1
+
+[state 0]
+	type=nothitby
+	trigger1=(animelem=4,<0)
+	value=sca
+[state 0]
+	type=playsnd
+	trigger1=animelem=2
+	value=s1,0+var(3)*100
+	channel=0
+
+;-[hpe]---------
+[state 0]
+	type=helper
+	trigger1=roundstate=2 && (time=52) && (sysfvar(0)>0)
+	id=88881
+	stateno=88883
+	pos=floor(20*const(size.xscale)),floor(-73*const(size.yscale))
+;---------------
+[state 0]
+	type=helper
+	trigger1=roundstate=2 && (time=52) && (sysfvar(0)>0)
+	trigger1=!numhelper(88870)
+	id=88870
+	stateno=88870;max2bg
+	size.height=0
+;---------------
+
+[state 0] ; old_ver
+	type=superpause
+	trigger1=roundstate=2 && (time=52) && (sysfvar(0)<=0)
+	pos=floor(20*const(size.xscale)),floor(-73*const(size.yscale))
+	anim=100
+	sound=20,0
+	poweradd=-2000
+
+[state 0]
+	type=afterimage
+	trigger1=(animelem=1) && (!ishelper)
+	time=41
+	length=9
+	timegap=2
+	framegap=4
+	palcolor=256
+	palbright=1,1,1
+	palcontrast=128,0,0
+	paladd=0,0,0
+	palmul=1,1,1
+;afia;	trans=add1
+
+[state 0] ; electric
+	type=explod
+	trigger1=(time%16=3)
+	anim=21000+(random%3)
+	postype=p1
+	sprpriority=3
+	pos=((random%9)-5),(-38-(random%16))
+	scale=((random%6)*0.1+0.5)*ifelse((random<500),1,-1),((random%6)*0.1+0.5)*ifelse((random<500),1,-1)
+	supermovetime=999
+	pausemovetime=999
+	ignorehitpause=1
+
+[state 0]
+	type=changestate
+	trigger1=time>52
+	value=3505
+
+;--------------
+[statedef 3505]
+type=s
+movetype=a
+physics=s
+anim=3505
+velset=0,0
+ctrl=0
+
+[state 0] ; ground_wave
+	type=helper
+	trigger1=!time && (sysfvar(0)>0)
+	id=9002
+	stateno=9005
+
+[state 0]
+	type=velset
+	trigger1=time=1
+	x=ifelse(roundstate=2,abs(p2bodydist x),320)/3.6
+
+[state 0]
+	type=posadd
+	trigger1=time=1
+	y=-2
+
+[state 0]
+	type=playsnd
+	trigger1=time=1
+	value=s2,3
+
+[state 0]
+	type=explod
+	trigger1=1
+	anim=3550+animelemno(0)
+	postype=p1
+	sprpriority=-2
+	scale=const(size.xscale),const(size.yscale)
+	vel=ifelse(time>7, 7-time, 0) *0.1 ,  0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,ha
+	priority=ifelse(var(4),1,7),hit
+	damage=0,0
+	animtype=heavy
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	hitflag=maf
+	guardflag=-1
+	pausetime=6,6
+	sparkxy=-10,-46
+	;ad; sparkno=4+(random%4)*10
+	hitsound=ifelse(sysfvar(0)>0,300,5),1
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=18
+	ground.hittime=18
+	air.hittime=23
+	ground.velocity=0, 0
+	air.velocity=   0,-3
+	yaccel=0.45
+	air.fall=1
+	forcestand=1
+	persistent=0
+	getpower=0,0
+	;;-;; givepower=60,30
+	id=3500
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510546 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=changestate
+	trigger1=movehit && numtarget(3500)
+	value=3520
+
+[state 0]
+	type=changestate
+	trigger1=movecontact || time>8
+	value=3510
+
+;-------------- stop
+[statedef 3510]
+type=s
+movetype=i
+physics=s
+anim=3510
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=posset
+	trigger1=!time
+	y=0
+[state 0]
+	type=afterimagetime
+	trigger1=animtime=0
+	time=0
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=0
+	ctrl=1
+
+;-------------- attack
+[statedef 3520]
+type=s
+movetype=a
+physics=s
+anim=3520
+velset=0,0
+ctrl=0
+
+[state 0]
+	type=posset
+	trigger1=!time
+	y=0
+
+;[state 0]
+;	type=velset
+;	trigger1=(animelem=34,<0)
+;	x=1.18
+
+[state 0]
+	type=width
+	trigger1=1
+	edge=42,42 ;; 32,32
+
+[state 0]
+	type=assertspecial
+	trigger1=1
+	flag=nojugglecheck
+	ignorehitpause=1
+
+;[state 0]
+;	type=targetbind
+;	trigger1=roundstate=2
+;	trigger1=numtarget(3500) && (animelem=34,<0)
+;	trigger1=movehit
+;	pos=49, (target(3500),pos y) ;; ifelse((target(3500),pos y)<0,-1,0)  ;;  0
+
+;---
+[state 0]
+	type=playsnd
+	trigger1=(animelem=17)||(animelem=23)
+	trigger1=(sysfvar(0)>0)
+	value=f200,1
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=4)||(animelem=10)
+	trigger1=(sysfvar(0)>0)
+	value=f200,2
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=33) && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+;---
+[state 0]
+	type=playsnd
+	trigger1=(animelem=17)||(animelem=23)
+	trigger1=(sysfvar(0)<=0)
+	value=s200,1
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=4)||(animelem=10)
+	trigger1=(sysfvar(0)<=0)
+	value=s200,2
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=(animelem=33) && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+;---
+[state 0]
+	type=playsnd
+	trigger1=(animelem=4)||(animelem=10)||(animelem=17)||(animelem=23)||(animelem=33)
+	value=s1,(random%2)+var(3)*100
+	channel=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=4)||(animelem=10)||(animelem=17)||(animelem=23)||(animelem=33)
+	trigger1=(sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-18*const(size.xscale)),floor(-pos y)
+	size.xscale=0.65
+	size.yscale=0.65
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=4)||(animelem=10)||(animelem=17)||(animelem=23)||(animelem=33)
+	trigger1=(sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(28*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.5
+	size.yscale= 0.5
+
+[state 0] ;hp2
+	type=hitdef
+	trigger1=animelem=5
+	attr=s,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=30,3
+	animtype=heavy
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	hitflag=mafdl
+	guardflag=m
+	pausetime=23,5;  23,26
+	sparkxy=-10,-58
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),ifelse(sysfvar(0)>0,5,4)
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.hittime=28
+	guard.slidetime=12
+	ground.velocity=0
+	air.velocity=   0,-6
+	down.velocity=  0,-6
+	down.hittime=28
+	air.fall=1
+	fall.recover=0
+	yaccel=0.45
+	;;-;; givepower=100,50
+	getpower=0,0
+	forcestand=1
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510558 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0] ; hp
+	type=hitdef
+	trigger1=animelem=11
+	attr=s,ha
+	priority=ifelse(var(4),1,6),hit
+	animtype=heavy
+	air.animtype=back
+	ground.type=high
+	air.type=low
+	damage=60,6
+	hitflag=mafdl
+	guardflag=m
+	pausetime=3,3 ;; 6,9
+	sparkxy=-10,-65
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),2
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.hittime=28
+	ground.slidetime=12
+	ground.velocity=0
+	air.velocity=   0,-6
+	down.velocity=  0,-6
+	down.hittime=28
+	air.fall=1
+	fall.recover=0
+	yaccel=0.5
+	;;-;; givepower=100,50
+	getpower=0,0
+	forcestand=1
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510565 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0] ; lk
+	type=hitdef
+	trigger1=animelem=18
+	attr=c,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=30,3
+	animtype=light
+	air.animtype=back
+	hitflag=mafdl
+	guardflag=l
+	pausetime=3,3 ;; 6,9
+	sparkxy=-10,-28
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),1
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.type=low
+	air.type=low
+	ground.hittime=28
+	ground.slidetime=12
+	ground.velocity=0
+	air.velocity=   0,-6
+	down.velocity=  0,-6
+	down.hittime=28
+	air.fall=1
+	fall.recover=0
+	yaccel=0.5
+	;;-;; givepower=100,50
+	getpower=0,0
+	forcestand=1
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510528 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0] ; hk
+	type=hitdef
+	trigger1=animelem=24
+	attr=c,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=60,6
+	animtype=medium
+	air.animtype=back
+	hitflag=mafdl
+	guardflag=m
+	pausetime=3,3 ;; 6,9
+	sparkxy=-10,-55
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),1
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.type=low
+	air.type=low
+	ground.hittime=28
+	ground.slidetime=12
+	ground.velocity= 0
+	air.velocity=    0,-6
+	down.velocity=   0,-6
+	down.hittime=28
+	air.fall=1
+	fall.recover=0
+	yaccel=0.5
+	;;-;; givepower=100,50
+	getpower=0,0
+	forcestand=1
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510555 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0] ; hk_up
+	type=hitdef
+	trigger1=animelem=34
+	attr=s,ha
+	priority=ifelse(var(4),1,6),hit
+	animtype=back
+	air.animtype=diagup
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	damage=60,6
+	hitflag=mafdl
+	guardflag=m
+	pausetime=13,13 ;; 13,15
+	sparkxy=-10,-90
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),3
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.hittime=28
+	ground.slidetime=12
+	ground.velocity=-3,-5
+	air.velocity=   -3,-5
+	down.velocity=  -3,-5
+	down.hittime=28
+	fall=1
+	air.fall=1
+	fall.recover=0
+	yaccel=0.5
+	;;-;; givepower=100,50
+	getpower=0,0
+	forcestand=1
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 45510590 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+;---
+[state 0]
+	type=changestate
+	trigger1=animtime=0
+	value=3530
+
+;--------------
+[statedef 3530]
+type=a
+movetype=a
+physics=n
+anim=3530
+ctrl=0
+
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(-22*const(size.xscale)),floor(-pos y)
+	size.xscale=1
+	size.yscale=1
+; dash_dust
+[state 0]
+	type=helper
+	trigger1=(animelem=1) && (sysfvar(0)>0)
+	id=152040
+	stateno=152040
+	pos=floor(18*const(size.xscale)),floor(-pos y)
+	size.xscale=-0.75
+	size.yscale= 0.75
+
+;---
+[state 0]
+	type=hitdef
+	trigger1=(animelem=6) || ( ((animelem=7)||(animelem=8)) && !movecontact )
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=30,5
+	animtype=back
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=9,9
+	sparkxy=-10,-42
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-6,-6
+	air.velocity=   -6,-6
+	yaccel=0.5
+	;;-;; givepower=100,50
+	getpower=0,0
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=hitdef
+	trigger1=(animelem=14)||(animelem=24)
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	damage=30,5
+	animtype=back
+	air.animtype=back
+	fall.animtype=diagup
+	ground.type=low
+	air.type=low
+	hitflag=maf
+	guardflag=m
+	pausetime=6,6
+	sparkxy=-10,-42
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),1
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=16
+	ground.hittime=16
+	ground.velocity=-vel x,-6
+	air.velocity=   -vel x,vel y*2
+	yaccel=const(movement.yaccel)
+	;;-;; givepower=100,50
+	getpower=0,0
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510542 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+;---
+[state 0]
+	type=playsnd
+	trigger1=animelem=12
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=16 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=16 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=velset
+	trigger1=!time
+	x=8
+	y=-const(movement.yaccel) *5.8
+[state 0]
+	type=veladd
+	trigger1=time>0
+	y=const(movement.yaccel) *0.1
+
+[state 0]
+	type=changestate
+	trigger1=time>0 && (vel y>=0)
+	trigger1=(animelem=18) || (animelem=29)
+	value=3540
+
+;--------------
+[statedef 3540]
+type=a
+movetype=a
+physics=a
+anim=640
+ctrl=0
+
+[state 0]
+	type=hitdef
+	trigger1=time=0
+	attr=a,ha
+	priority=ifelse(var(4),1,6),hit
+	animtype=hard
+	air.animtype=back
+	ground.type=low
+	air.type=low
+	damage=120,12
+	hitflag=maf
+	guardflag=m
+	pausetime=25,25
+	sparkxy=-10,-40
+	;ad; sparkno=4+(random%4)*10
+	;ad; guard.sparkno =41
+	hitsound=ifelse(sysfvar(0)>0,300,5),4
+	guardsound=ifelse(sysfvar(0)>0,41,6),0
+	ground.slidetime=17
+	ground.hittime=26
+	air.hittime=18
+	ground.velocity=-9
+	air.velocity=   -6,6
+	fall=1
+	air.fall=1
+	fall.recover=0
+	air.recover=0
+	yaccel=0.5
+	;;-;; givepower=100,50
+	getpower=0,0
+	kill=!var(4)
+	guard.kill=!var(4)
+	;---
+	guard.ctrltime=     id +0*(var(31):=4 || var(30):= 510540 )
+	fall.envshake.time= id
+	fall.envshake.ampl= 0
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)>0)
+	value=f200,3
+	channel=1
+[state 0]
+	type=playsnd
+	trigger1=animelem=5 && (sysfvar(0)<=0)
+	value=s200,3
+	channel=1
+
+[state 0]
+	type=playsnd
+	trigger1=animelem=5
+	value=s1,0+var(3)*100
+	channel=0
+
+[state 0]
+	type=changestate
+	trigger1=movecontact
+	value=3560
+
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>0)
+	value=1020 ;; land
+	anim=3020
+
+;--------------
+[statedef 3560]
+type=a
+movetype=i
+physics=a
+anim=3560
+velset=-8,-6
+ctrl=0
+
+[state 0]
+	type=playsnd
+	trigger1=!time
+	value=f50,0
+[state 0]
+	type=veladd
+	trigger1=time>0 && vel x<-0.2
+	x=0.2
+[state 0]
+	type=changestate
+	trigger1=(pos y+vel y>=0) && (vel y>0)
+	value=1020 ;; land
+	anim=3020
+
+
+
+
+
+
+
+
+
+
+;-------------------------
+;-------------------------
+[statedef -3]
+;-------------------------
+
+;---
+; player type
+[state 0]
+	type=varset
+	trigger1=!var(3)
+	trigger1=!ishelper && const(size.yscale)=1.2
+	var(3)=1 ;; (kfm)
+[state 0]
+	type=varset
+	trigger1=!var(3)
+	trigger1=!ishelper && const(size.yscale)=1
+	var(3)=2 ;; (kfw)
+[state 0]
+	type=varset
+	trigger1=!var(3)
+	trigger1=!ishelper && const(size.yscale)=1.1
+	var(3)=3 ;; (kfr)
+
+;---
+;---
+; fragment
+; îjï–
+[state 0]
+	type=explod
+	trigger1=stateno=5000||stateno=5010||stateno=5020||stateno=5070
+	trigger1=time<3 && !ishelper && var(3)=3 && numexplod(111)<8
+	id=111
+	anim=22100+(random%9)*100
+	postype=p1
+	sprpriority=(random%7)-3
+	pos=(random%30)-15, -30-(random%50)
+	vel=(random-500)/250.0,-3-(random%20)/10.0
+	accel=0,0.12+(random%8)/20.0
+	scale=((random%6)*0.08+0.26)*ifelse(random<500,1,-1),((random%6)*0.08+0.26)*ifelse(random<500,1,-1)
+; spark
+[state 0]
+	type=explod
+	trigger1=stateno=5000||stateno=5010||stateno=5020||stateno=5070
+	trigger1=time<3 && !ishelper && var(3)=3 && numexplod(111)<8
+	id=111
+	anim=23200+(random%4)
+	postype=p1
+	sprpriority=5
+	pos=(random%30)-15, -30-(random%50)
+	vel=(random-500)/550.0,-3-(random%20)/10.0
+	accel=0,(1+(random%9))/20.0
+	ignorehitpause=1
+	scale=0.03,0.03
+
+
+;--------------
+;--------------
+; set player to "Bonus Mode"
+[state 0]
+	type= changestate
+	triggerall=!ishelper
+	triggerall=(stateno!=[10005,10006])
+	triggerall=(stateno!=5900)
+	triggerall=(numpartner=0)||(p3name="kfma4a")
+;v1;	triggerall=cond(numpartner,partner,ailevel,1)
+;;trigger1=matchno>1 && ishometeam=1
+;;trigger2=matchno=1 && var(51)>0
+	trigger1=var(51)>0
+	value=10005+((roundno=[2,8])||(roundno>8&&(roundno%2)))
+	ctrl=0
+;--------------
+;--------------
+
+
+;[EOF]

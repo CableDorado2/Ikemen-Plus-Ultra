@@ -1,0 +1,91 @@
+﻿[data]
+	life=1000
+	attack=100
+	defence=100
+	fall.defence_up=50
+	liedown.time=60
+	airjuggle=15
+	sparkno=-1;2
+	guard.sparkno=-1;40
+	ko.echo=0
+;;	volumescale=100
+	volume=0
+	IntPersistIndex=52
+
+[size]
+	xscale=1
+	yscale=1.2
+	ground.back=12
+	ground.front=12
+	air.back=12
+	air.front=12
+	height=60
+	attack.dist=160
+	proj.attack.dist=90
+	proj.doscale=0
+	head.pos=-5,-90
+	mid.pos=-5,-60
+	shadowoffset=0
+	draw.offset=0,0
+
+[velocity]
+	walk.fwd=2.4
+	walk.back=-2
+	run.fwd=4.86,0
+	run.back=-5.6,-4
+	jump.neu=0,-9.8
+	jump.back=-3.16
+	jump.fwd=3.16
+	runjump.back=-5,-10.2
+	runjump.fwd=5,-10.2
+
+[movement]
+	airjump.num=0
+	airjump.height=35
+	yaccel=0.478
+	stand.friction=0.85
+	crouch.friction=0.82
+
+;	stand.friction.threshold=2
+;	crouch.friction.threshold=0.05
+;	air.gethit.groundlevel=25
+;	air.gethit.groundrecover.ground.threshold=-20
+;	air.gethit.groundrecover.groundlevel=10
+;	air.gethit.airrecover.threshold=-1
+;	air.gethit.airrecover.yaccel=0.35
+;	air.gethit.trip.groundlevel=15
+;	down.bounce.offset=0,0
+;	down.bounce.yaccel=0.5
+;	down.bounce.groundlevel=12
+;	down.friction.threshold=0.05
+
+
+
+[quotes]
+victory1="You must defeat SuiTen HaSyo to stand a chance."
+victory2="You need a lot of training. Come back in ten years."
+victory3="You look familiar. Did I see you on TV?"
+victory4="Your moves are too predictable. You want to learn SuiTen HaSyo? It's not for novices."
+victory5="That was a good workout."
+victory6="I want to challenge more skilled fighters."
+victory7="What do you mean my girlfriend is in another temple?"
+
+[ja.quotes]
+victory1="垂天波掌を破らぬ限り、お前に勝ち目はない！"
+victory2="十年早いんだぞ"
+victory3="お前は見覚えがあるな。テレビにでも…？"
+victory4="お前の動きは見破りやすすぎる。　なに、垂天波掌が覚えたいんだと？　素人には無理だぞ"
+victory5="ふー。　いい汗だった"
+victory6="もっと強い相手に挑戦したい"
+victory7="なんだと！彼女はここにもいないと？"
+
+[zh.quotes]
+victory1="不击破垂天波掌，就没有胜算！"
+victory2="十年不足亦"
+victory3="你的面孔熟悉。是在电视中…？"
+victory4="你的套路已看穿。　什么、有学垂天波掌之意？　外行可是不易地。"
+victory5="噗。　热热身。"
+victory6="我要向高手挑战。"
+victory7="什么！她不在这里？"
+
+

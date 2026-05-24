@@ -1,0 +1,47 @@
+[info]
+	name="kfma4a"
+	displayname="KFR-01" ;; "KungFuRobo-01"
+	versiondate=01,25,2012
+	mugenversion=1.1
+	author="Shiyo Kakuge"
+	pal.defaults=1,2,3,4,5,6
+	localcoord=320,240
+
+[files]
+	cmd=kfma4a.cmd
+	cns=kfma4a3.txt ;; UTF-8
+	st=kfma4a_cns.txt
+	st2=bonus1.ini
+	st3=bonus2.ini
+	st4=bonus3.ini
+
+	stcommon=common1.cns
+	anim=kfma4a.air
+	sprite=kfma4a3.sff
+	sound=kfma4a.snd
+
+;[palette keymap]
+;	x=1
+;	y=2
+;	z=3
+;	a=4
+;	b=5
+;	c=6
+
+	pal1=01.act
+	pal2=02.act
+	pal3=03.act
+	pal4=04.act
+	pal5=05.act
+	pal6=06.act
+	pal7=07.act
+	pal8=08.act
+	pal9=09.act
+	pal10=10.act
+	pal11=11.act
+	pal12=12.act
+
+[arcade]
+	intro.storyboard=
+	ending.storyboard=ending/credits.def
+
