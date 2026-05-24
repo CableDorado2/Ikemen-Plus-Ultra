@@ -1,0 +1,1864 @@
+;　----------◇コフィングステイト◇----------
+;
+;---------------------------------------------------------------------------
+
+[Statedef -3]
+
+;---------------------------------------------------------------------------
+
+[State -3, 的数（規定数）]
+type = VarSet
+trigger1 = StateNo = 190
+trigger2 = StateNo = 5900
+
+;=================
+
+var(10) = 19
+
+;最大19個（超えても最大値に戻るZE）	
+
+;---------------------------------------------------------------------------
+
+[State -3, ルール設定]
+type = VarSet
+trigger1 = 1
+
+;=================
+
+var(59) = 1
+
+;0 --- 規定数モード（制限時間以内にターゲットをすべて破壊せよ!!）
+;1 --- 時間モード（時間以内にどれだけ破壊できるか）
+
+;---------------------------------------------------------------------------
+
+[State -3, 制限時間の有無]
+type = VarSet
+trigger1 = 1
+
+;=================
+
+var(58) = 0
+
+;0 --- ON	（制限時間モード）
+;1 --- OFF	（タイムアタックモード）「時間モードは無効」
+
+;----------------
+
+[State -3, 制限時間設定]
+type = VarSet
+trigger1 = 1
+
+;=================
+
+var(57) = 1      ;何分までにするかの設定（最大99分まで）
+
+;===========================================================================
+;---------------------------------------------------------------------------
+
+[State -3, 設定間違えてるってヨ]
+type = VarSet
+trigger1 = Var(59) = 1
+trigger1 = Var(58) = 1
+var(58) = 0
+
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+;===========================================================================
+;
+;　----------◇時間管理ステイト◇----------
+;
+;コフィングと書いてあるけど以下からいじらないでネ。
+;
+;---------------------------------------------------------------------------
+
+;----分点（二の値）----
+
+[State -3, 少数点0]
+type = RemoveExplod
+trigger1 = Var(35) != 0
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 300
+
+[State -3, 少数点1]
+type = RemoveExplod
+trigger1 = Var(35) != 1
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 301
+
+[State -3, 少数点2]
+type = RemoveExplod
+trigger1 = Var(35) != 2
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 302
+
+[State -3, 少数点3]
+type = RemoveExplod
+trigger1 = Var(35) != 3
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 303
+
+[State -3, 少数点4]
+type = RemoveExplod
+trigger1 = Var(35) != 4
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 304
+
+[State -3, 少数点5]
+type = RemoveExplod
+trigger1 = Var(35) != 5
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 305
+
+[State -3, 少数点6]
+type = RemoveExplod
+trigger1 = Var(35) != 6
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 306
+
+[State -3, 少数点7]
+type = RemoveExplod
+trigger1 = Var(35) != 7
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 307
+
+[State -3, 少数点8]
+type = RemoveExplod
+trigger1 = Var(35) != 8
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 308
+
+[State -3, 少数点9]
+type = RemoveExplod
+trigger1 = Var(35) != 9
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 309
+
+;----分点（一の値）----
+
+[State -3, 少数点0]
+type = RemoveExplod
+trigger1 = Var(34) != 0
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 290
+
+[State -3, 少数点1]
+type = RemoveExplod
+trigger1 = Var(34) != 1
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 291
+
+[State -3, 少数点2]
+type = RemoveExplod
+trigger1 = Var(34) != 2
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 292
+
+[State -3, 少数点3]
+type = RemoveExplod
+trigger1 = Var(34) != 3
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 293
+
+[State -3, 少数点4]
+type = RemoveExplod
+trigger1 = Var(34) != 4
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 294
+
+[State -3, 少数点5]
+type = RemoveExplod
+trigger1 = Var(34) != 5
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 295
+
+[State -3, 少数点6]
+type = RemoveExplod
+trigger1 = Var(34) != 6
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 296
+
+[State -3, 少数点7]
+type = RemoveExplod
+trigger1 = Var(34) != 7
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 297
+
+[State -3, 少数点8]
+type = RemoveExplod
+trigger1 = Var(34) != 8
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 298
+
+[State -3, 少数点9]
+type = RemoveExplod
+trigger1 = Var(34) != 9
+trigger2 = StateNo = 5125 || StateNo = 5150
+ID = 299
+
+;----秒点（二の値）----
+
+[State -3, 少数点0]
+type = RemoveExplod
+trigger1 = Var(33) != 0
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 280
+
+[State -3, 少数点1]
+type = RemoveExplod
+trigger1 = Var(33) != 1
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 281
+
+[State -3, 少数点2]
+type = RemoveExplod
+trigger1 = Var(33) != 2
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 282
+
+[State -3, 少数点3]
+type = RemoveExplod
+trigger1 = Var(33) != 3
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 283
+
+[State -3, 少数点4]
+type = RemoveExplod
+trigger1 = Var(33) != 4
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 284
+
+[State -3, 少数点5]
+type = RemoveExplod
+trigger1 = Var(33) != 5
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 285
+
+[State -3, 少数点6]
+type = RemoveExplod
+trigger1 = Var(33) != 6
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 286
+
+[State -3, 少数点7]
+type = RemoveExplod
+trigger1 = Var(33) != 7
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 287
+
+[State -3, 少数点8]
+type = RemoveExplod
+trigger1 = Var(33) != 8
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 288
+
+[State -3, 少数点9]
+type = RemoveExplod
+trigger1 = Var(33) != 9
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 289
+
+;----秒点（一の値）----
+
+[State -3, 少数点0]
+type = RemoveExplod
+trigger1 = Var(32) != 0
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 270
+
+[State -3, 少数点1]
+type = RemoveExplod
+trigger1 = Var(32) != 1
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 271
+
+[State -3, 少数点2]
+type = RemoveExplod
+trigger1 = Var(32) != 2
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 272
+
+[State -3, 少数点3]
+type = RemoveExplod
+trigger1 = Var(32) != 3
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 273
+
+[State -3, 少数点4]
+type = RemoveExplod
+trigger1 = Var(32) != 4
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 274
+
+[State -3, 少数点5]
+type = RemoveExplod
+trigger1 = Var(32) != 5
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 275
+
+[State -3, 少数点6]
+type = RemoveExplod
+trigger1 = Var(32) != 6
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 276
+
+[State -3, 少数点7]
+type = RemoveExplod
+trigger1 = Var(32) != 7
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 277
+
+[State -3, 少数点8]
+type = RemoveExplod
+trigger1 = Var(32) != 8
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 278
+
+[State -3, 少数点9]
+type = RemoveExplod
+trigger1 = Var(32) != 9
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 279
+
+;---小数点（二の値）---
+
+[State -3, 少数点0]
+type = RemoveExplod
+trigger1 = Var(31) != 0
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 260
+
+[State -3, 少数点1]
+type = RemoveExplod
+trigger1 = Var(31) != 1
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 261
+
+[State -3, 少数点2]
+type = RemoveExplod
+trigger1 = Var(31) != 2
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 262
+
+[State -3, 少数点3]
+type = RemoveExplod
+trigger1 = Var(31) != 3
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 263
+
+[State -3, 少数点4]
+type = RemoveExplod
+trigger1 = Var(31) != 4
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 264
+
+[State -3, 少数点5]
+type = RemoveExplod
+trigger1 = Var(31) != 5
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 265
+
+[State -3, 少数点6]
+type = RemoveExplod
+trigger1 = Var(31) != 6
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 266
+
+[State -3, 少数点7]
+type = RemoveExplod
+trigger1 = Var(31) != 7
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 267
+
+[State -3, 少数点8]
+type = RemoveExplod
+trigger1 = Var(31) != 8
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 268
+
+[State -3, 少数点9]
+type = RemoveExplod
+trigger1 = Var(31) != 9
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 269
+
+;---小数点（一の値）---
+
+[State -3, 少数点0]
+type = RemoveExplod
+trigger1 = Var(30) != 0
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 250
+
+[State -3, 少数点1]
+type = RemoveExplod
+trigger1 = Var(30) != 1
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 251
+
+[State -3, 少数点2]
+type = RemoveExplod
+trigger1 = Var(30) != 2
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 252
+
+[State -3, 少数点3]
+type = RemoveExplod
+trigger1 = Var(30) != 3
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 253
+
+[State -3, 少数点4]
+type = RemoveExplod
+trigger1 = Var(30) != 4
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 254
+
+[State -3, 少数点5]
+type = RemoveExplod
+trigger1 = Var(30) != 5
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 255
+
+[State -3, 少数点6]
+type = RemoveExplod
+trigger1 = Var(30) != 6
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 256
+
+[State -3, 少数点7]
+type = RemoveExplod
+trigger1 = Var(30) != 7
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 257
+
+[State -3, 少数点8]
+type = RemoveExplod
+trigger1 = Var(30) != 8
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 258
+
+[State -3, 少数点9]
+type = RemoveExplod
+trigger1 = Var(30) != 9
+trigger2 = StateNo = 5125 || StateNo = 5150
+trigger3 = Var(36) < 5
+ID = 259
+
+;=================
+
+[State -3, イコール]
+type = Explod
+trigger1 = !NumExplod(350) && StateNo != 5125
+anim = 230
+pos = 145, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 350
+
+[State -3, ゲームセットって感じ]
+type = RemoveExplod
+trigger1 = StateNo = 5150 || StateNo = 5025
+trigger2 = Var(36) < 5
+ID = 350
+
+;-------------------------------------
+; 分点関連
+;-------------------------------------
+
+;      二の値
+;=================
+
+[State -3, 分数点（0の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(300) && Var(35) = 0 && StateNo != 5125 && StateNo != 5150
+anim = 210
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 300
+
+[State -3, 分数点（1の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(301) && Var(35) = 1 && StateNo != 5125 && StateNo != 5150
+anim = 211
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 301
+
+[State -3, 分数点（2の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(302) && Var(35) = 2 && StateNo != 5125 && StateNo != 5150
+anim = 212
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 302
+
+[State -3, 分数点（3の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(303) && Var(35) = 3 && StateNo != 5125 && StateNo != 5150
+anim = 213
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 303
+
+[State -3, 分数点（4の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(304) && Var(35) = 4 && StateNo != 5125 && StateNo != 5150
+anim = 214
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 304
+
+[State -3, 分数点（5の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(305) && Var(35) = 5 && StateNo != 5125 && StateNo != 5150
+anim = 215
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 305
+
+[State -3, 分数点（6の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(306) && Var(35) = 6 && StateNo != 5125 && StateNo != 5150
+anim = 216
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 306
+
+[State -3, 分数点（7の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(307) && Var(35) = 7 && StateNo != 5125 && StateNo != 5150
+anim = 217
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 307
+
+[State -3, 分数点（8の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(308) && Var(35) = 8 && StateNo != 5125 && StateNo != 5150
+anim = 218
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 308
+
+[State -3, 分数点（9の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(309) && Var(35) = 9 && StateNo != 5125 && StateNo != 5150
+anim = 219
+pos = 110, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 309
+
+;      一の値
+;=================
+
+[State -3, 分数点（0の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(290) && Var(34) = 0 && StateNo != 5125 && StateNo != 5150
+anim = 210
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 290
+
+[State -3, 分数点（1の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(291) && Var(34) = 1 && StateNo != 5125 && StateNo != 5150
+anim = 211
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 291
+
+[State -3, 分数点（2の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(292) && Var(34) = 2 && StateNo != 5125 && StateNo != 5150
+anim = 212
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 292
+
+[State -3, 分数点（3の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(293) && Var(34) = 3 && StateNo != 5125 && StateNo != 5150
+anim = 213
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 293
+
+[State -3, 分数点（4の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(294) && Var(34) = 4 && StateNo != 5125 && StateNo != 5150
+anim = 214
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 294
+
+[State -3, 分数点（5の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(295) && Var(34) = 5 && StateNo != 5125 && StateNo != 5150
+anim = 215
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 295
+
+[State -3, 分数点（6の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(296) && Var(34) = 6 && StateNo != 5125 && StateNo != 5150
+anim = 216
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 296
+
+[State -3, 分数点（7の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(297) && Var(34) = 7 && StateNo != 5125 && StateNo != 5150
+anim = 217
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 297
+
+[State -3, 分数点（8の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(298) && Var(34) = 8 && StateNo != 5125 && StateNo != 5150
+anim = 218
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 298
+
+[State -3, 分数点（9の値）]
+type = Explod
+trigger1 = Var(36) > 5 && !NumExplod(299) && Var(34) = 9 && StateNo != 5125 && StateNo != 5150
+anim = 219
+pos = 127, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 299
+
+;-------------------------------------
+; 秒点関連
+;-------------------------------------
+
+[State -3, 秒（0の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(280) && Var(33) = 0 && StateNo != 5125 && StateNo != 5150
+anim = 210
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 280
+
+[State -3, 秒（1の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(281) && Var(33) = 1 && StateNo != 5125 && StateNo != 5150
+anim = 211
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 281
+
+[State -3, 秒（2の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(282) && Var(33) = 2 && StateNo != 5125 && StateNo != 5150
+anim = 212
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 282
+
+[State -3, 秒（3の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(283) && Var(33) = 3 && StateNo != 5125 && StateNo != 5150
+anim = 213
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 283
+
+[State -3, 秒（4の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(284) && Var(33) = 4 && StateNo != 5125 && StateNo != 5150
+anim = 214
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 284
+
+[State -3, 秒（5の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(285) && Var(33) = 5 && StateNo != 5125 && StateNo != 5150
+anim = 215
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 285
+
+[State -3, 秒（6の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(286) && Var(33) = 6 && StateNo != 5125 && StateNo != 5150
+anim = 216
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 286
+
+[State -3, 秒（7の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(287) && Var(33) = 7 && StateNo != 5125 && StateNo != 5150
+anim = 217
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 287
+
+[State -3, 秒（8の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(288) && Var(33) = 8 && StateNo != 5125 && StateNo != 5150
+anim = 218
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 288
+
+[State -3, 秒（9の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(289) && Var(33) = 9 && StateNo != 5125 && StateNo != 5150
+anim = 219
+pos = 154, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 289
+
+;      一の値
+;==================
+
+[State -3, 秒（0の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(270) && Var(32) = 0 && StateNo != 5125 && StateNo != 5150
+anim = 210
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 270
+
+[State -3, 秒（1の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(271) && Var(32) = 1 && StateNo != 5125 && StateNo != 5150
+anim = 211
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 271
+
+[State -3, 秒（2の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(272) && Var(32) = 2 && StateNo != 5125 && StateNo != 5150
+anim = 212
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 272
+
+[State -3, 秒（3の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(273) && Var(32) = 3 && StateNo != 5125 && StateNo != 5150
+anim = 213
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 273
+
+[State -3, 秒（4の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(274) && Var(32) = 4 && StateNo != 5125 && StateNo != 5150
+anim = 214
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 274
+
+[State -3, 秒（5の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(275) && Var(32) = 5 && StateNo != 5125 && StateNo != 5150
+anim = 215
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 275
+
+[State -3, 秒（6の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(276) && Var(32) = 6 && StateNo != 5125 && StateNo != 5150
+anim = 216
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 276
+
+[State -3, 秒（7の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(277) && Var(32) = 7 && StateNo != 5125 && StateNo != 5150
+anim = 217
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 277
+
+[State -3, 秒（8の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(278) && Var(32) = 8 && StateNo != 5125 && StateNo != 5150
+anim = 218
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 278
+
+[State -3, 秒（9の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(279) && Var(32) = 9 && StateNo != 5125 && StateNo != 5150
+anim = 219
+pos = 171, 15
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 279
+
+;-------------------------------------
+; 小数点関連
+;-------------------------------------
+
+;     二の値
+;=================
+
+[State -3, 小数点（0の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(260) && Var(31) = 0 && StateNo != 5125 && StateNo != 5150
+anim = 220
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 260
+
+[State -3, 小数点（1の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(261) && Var(31) = 1 && StateNo != 5125 && StateNo != 5150
+anim = 221
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 261
+
+[State -3, 小数点（2の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(262) && Var(31) = 2 && StateNo != 5125 && StateNo != 5150
+anim = 222
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 262
+
+[State -3, 小数点（3の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(263) && Var(31) = 3 && StateNo != 5125 && StateNo != 5150
+anim = 223
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 263
+
+[State -3, 小数点（4の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(264) && Var(31) = 4 && StateNo != 5125 && StateNo != 5150
+anim = 224
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 264
+
+[State -3, 小数点（5の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(265) && Var(31) = 5 && StateNo != 5125 && StateNo != 5150
+anim = 225
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 265
+
+[State -3, 小数点（6の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(266) && Var(31) = 6 && StateNo != 5125 && StateNo != 5150
+anim = 226
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 266
+
+[State -3, 小数点（7の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(267) && Var(31) = 7 && StateNo != 5125 && StateNo != 5150
+anim = 227
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 267
+
+[State -3, 小数点（8の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(268) && Var(31) = 8 && StateNo != 5125 && StateNo != 5150
+anim = 228
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 268
+
+[State -3, 小数点（9の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(269) && Var(31) = 9 && StateNo != 5125 && StateNo != 5150
+anim = 229
+pos = 187, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 269
+
+;     一の値
+;=================
+
+[State -3, 小数点（0の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(250) && Var(30) = 0 && StateNo != 5125 && StateNo != 5150
+anim = 220
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 250
+
+[State -3, 小数点（1の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(251) && Var(30) = 1 && StateNo != 5125 && StateNo != 5150
+anim = 221
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 251
+
+[State -3, 小数点（2の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(252) && Var(30) = 2 && StateNo != 5125 && StateNo != 5150
+anim = 222
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 252
+
+[State -3, 小数点（3の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(253) && Var(30) = 3 && StateNo != 5125 && StateNo != 5150
+anim = 223
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 253
+
+[State -3, 小数点（4の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(254) && Var(30) = 4 && StateNo != 5125 && StateNo != 5150
+anim = 224
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 254
+
+[State -3, 小数点（5の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(255) && Var(30) = 5 && StateNo != 5125 && StateNo != 5150
+anim = 225
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 255
+
+[State -3, 小数点（6の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(256) && Var(30) = 6 && StateNo != 5125 && StateNo != 5150
+anim = 226
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 256
+
+[State -3, 小数点（7の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(257) && Var(30) = 7 && StateNo != 5125 && StateNo != 5150
+anim = 227
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 257
+
+[State -3, 小数点（8の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(258) && Var(30) = 8 && StateNo != 5125 && StateNo != 5150
+anim = 228
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 258
+
+[State -3, 小数点（9の値）]
+type = Explod
+trigger1 = Var(36) > 4 && !NumExplod(258) && Var(30) = 9 && StateNo != 5125 && StateNo != 5150
+anim = 229
+pos = 198, 19
+postype = left
+sprpriority = 19
+removetime = 2147483647
+pausemovetime = 2147483647
+supermovetime = 2147483647
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 259
+
+;-------------------------------------------------------------
+; □タイムアタックモード□
+;-------------------------------------------------------------
+
+[State -3, 小数点増加]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+var(30) = 1
+ignorehitpause = 1
+
+[State -3, 小数点増加]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = TimeMod = 4,0
+var(30) = 3
+ignorehitpause = 1
+
+[State -3, 小数点リセット]
+type = VarSet
+triggerall = Var(58) = 1
+trigger1 = Var(30) >= 9
+var(30) = 0
+ignorehitpause = 1
+
+; 	２の値増加
+;-------------------------
+
+[State -3, 小数点増加]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(30) = 0
+var(31) = 1
+ignorehitpause = 1
+
+[State -3, 小数点リセット]
+type = VarSet
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(31) > 9
+var(31) = 0
+ignorehitpause = 1
+
+;----------------------------
+;============================
+
+;---------------
+; 秒点
+;---------------
+
+[State -3, 秒増加]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(31) = 0 && Var(30) = 0
+var(32) = 1
+ignorehitpause = 1
+
+[State -3, 秒リセット]
+type = VarSet
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(32) > 9
+var(32) = 0
+ignorehitpause = 1
+
+;-------二の値-------
+
+[State -3, 秒増加]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(32) = 0 && Var(31) = 0 && Var(30) = 0
+var(33) = 1
+ignorehitpause = 1
+
+[State -3, 秒リセット]
+type = VarSet
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(33) > 5
+var(33) = 0
+ignorehitpause = 1
+
+;----------------------------
+;============================
+
+;---------------
+; 分点
+;---------------
+
+[State -3, 分増加]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(33) = 0 && Var(32) = 0 && Var(31) = 0 && Var(30) = 0
+var(34) = 1
+ignorehitpause = 1
+
+[State -3, 分リセット]
+type = VarSet
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(34) > 9
+var(34) = 0
+ignorehitpause = 1
+
+;-------二の値-------
+
+[State -3, 分増加]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(34) = 0 && Var(33) = 0 && Var(32) = 0 && Var(31) = 0 && Var(30) = 0
+var(35) = 1
+ignorehitpause = 1
+
+[State -3, 分リセット]
+type = VarSet
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2
+trigger1 = Var(35) > 5
+var(35) = 0
+ignorehitpause = 1
+
+;-------------------------------------------------------------
+; □制限時間モード□
+;-------------------------------------------------------------
+
+[State -3, 小数点増加]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+var(30) = -1
+ignorehitpause = 1
+
+[State -3, 小数点増加]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+trigger1 = TimeMod = 4,0
+var(30) = -3
+ignorehitpause = 1
+
+[State -3, 小数点リセット]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+trigger1 = Var(30) <= 0
+var(30) = 9
+ignorehitpause = 1
+
+; 	２の値増加
+;-------------------------
+
+[State -3, 小数点増加]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+trigger1 = Var(30) = 9
+var(31) = -1
+ignorehitpause = 1
+
+[State -3, 小数点リセット]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = RoundState = 2
+trigger1 = Var(31) < 0
+var(31) = 9
+ignorehitpause = 1
+
+;----------------------------
+;============================
+
+;---------------
+; 秒点
+;---------------
+
+[State -3, 秒増加]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+trigger1 = Var(31) = 9 && Var(30) = 9
+var(32) = -1
+ignorehitpause = 1
+
+[State -3, 秒リセット]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = RoundState = 2
+trigger1 = Var(32) < 0
+var(32) = 9
+ignorehitpause = 1
+
+;-------二の値-------
+
+[State -3, 秒増加]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+trigger1 = Var(32) = 9 && Var(31) = 9 && Var(30) = 9
+var(33) = -1
+ignorehitpause = 1
+
+[State -3, 秒リセット]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = RoundState = 2
+trigger1 = Var(33) < 0
+var(33) = 5
+ignorehitpause = 1
+
+;---------------
+; 分点
+;---------------
+
+[State -3, 分増加]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+trigger1 = Var(33) = 5 && Var(32) = 9 && Var(31) = 9 && Var(30) = 9
+var(34) = -1
+ignorehitpause = 1
+
+[State -3, 分リセット]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = RoundState = 2
+trigger1 = Var(34) < 0
+var(34) = 9
+ignorehitpause = 1
+
+;-------二の値-------
+
+[State -3, 分増加]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = StateNo = 30 && RoundState = 2
+trigger1 = Var(34) = 9 && Var(33) = 5 && Var(32) = 9 && Var(31) = 9 && Var(30) = 9
+var(35) = -1
+ignorehitpause = 1
+
+[State -3, 分リセット]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = RoundState = 2
+trigger1 = Var(35) < 0
+var(35) = 0
+ignorehitpause = 1
+
+;----------------------------
+;============================
+
+[State -3, ハイスコア(規定数モード)]
+type = VarSet
+triggerall = Var(58) = 1
+trigger1 = StateNo = 5150
+trigger1 = Var(51) < Var(50)
+var(50) = Var(51)
+ignorehitpause = 1
+
+[State -3, スコア(規定数モード)]
+type = VarAdd
+triggerall = Var(58) = 1
+trigger1 = RoundState = 2 && StateNo = 30
+var(51) = 1
+ignorehitpause = 1
+
+;=================
+
+[State -3, スコア(時間モード)]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = 1
+var(51) = Var(11)
+
+[State -3, ハイスコア(時間モード)]
+type = VarSet
+triggerall = Var(58) = 0
+trigger1 = StateNo = 5150
+trigger1 = Var(51) > Var(50)
+var(50) = Var(51)
+ignorehitpause = 1
+
+;----------------------------
+;============================
+
+[State -3, カウントダウン初期]
+type = VarSet
+trigger1 = StateNo = 190
+trigger2 = StateNo = 5900
+var(36) = 10
+
+[State -3, カウントダウンが始まるZE]
+type = VarAdd
+triggerall = Var(58) = 0
+trigger1 = Var(35) = 0 && Var(34) = 0 && Var(33) = 0 && Var(32) < 10
+trigger1 = Var(31) = 9 && Var(30) = 9
+var(36) = -1
+ignorehitpause = 1
+
+

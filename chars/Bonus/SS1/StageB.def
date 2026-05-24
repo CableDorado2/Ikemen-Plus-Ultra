@@ -1,0 +1,91 @@
+;SS1 Bonus, background from Samurai Spirits, by Phantom.of.the.Server
+
+[Info]
+name = "SS1 Bonus B"
+versiondate = 2022
+author = "Phantom.of.the.Server"
+mugenversion = 1.0
+
+[Music]
+bgmusic = chars/SS1Bonus/BGM.mp3
+bgmvolume = 100
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = 0
+boundright = 0
+boundhigh = 0
+boundlow = 0
+verticalfollow = 0
+floortension = 0
+tension = 0
+overdrawhigh = 0
+overdrawlow = 0
+cuthigh = 44
+cutlow = 16
+startzoom = 1
+zoomout = 1
+zoomin = 1
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2facing = -1
+
+p3startx = -115
+p3starty = 0
+p3facing = 1
+
+p4startx = 115
+p4starty = 0
+p4facing = -1
+
+leftbound = -1000
+rightbound = 1000
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 216;224
+autoturn = 1
+localcoord = 320, 240
+xscale = 1
+yscale = 1
+localcoord = 320, 240
+xscale = 1
+yscale = 1
+
+[Shadow]
+intensity = 0
+color = 64, 256, 256
+yscale = -.2
+fade.range = -32, 0
+
+
+;=====<MAIN BG DEFINITION>===== 
+[BGdef]
+spr = StageB.sff
+debugbg = 1
+
+[BG Main]
+type = normal
+spriteno = 0, 0
+layerno = 0
+start = 0, 0
+delta = 1, 1
+mask = 0
+
+;[BG Kurokos]
+;type = normal
+;spriteno = 0, 1
+;layerno = 0
+;start = 0, 0
+;delta = 1, 1
+;mask = 1

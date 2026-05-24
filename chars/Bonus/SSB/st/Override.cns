@@ -1,0 +1,1724 @@
+;-------◆オーバーライドステイト◆-------
+;
+;
+;-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; □ -2 関連 □
+;-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Statedef -2]
+
+;------消滅されちまったと-------
+
+[State -2, 的19（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 19
+trigger2 = StateNo = 5125
+ID = 19
+
+[State -2, 的18（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 18
+trigger2 = StateNo = 5125
+ID = 18
+
+[State -2, 的17（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 17
+trigger2 = StateNo = 5125
+ID = 17
+
+[State -2, 的16（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 16
+trigger2 = StateNo = 5125
+ID = 16
+
+[State -2, 的15（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 15
+trigger2 = StateNo = 5125
+ID = 15
+
+[State -2, 的14（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 14
+trigger2 = StateNo = 5125
+ID = 14
+
+[State -2, 的13（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 13
+trigger2 = StateNo = 5125
+ID = 13
+
+[State -2, 的12（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 12
+trigger2 = StateNo = 5125
+ID = 12
+
+[State -2, 的11（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 11
+trigger2 = StateNo = 5125
+ID = 11
+
+[State -2, 的10（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 10
+trigger2 = StateNo = 5125
+ID = 10
+
+[State -2, 的9（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 9
+trigger2 = StateNo = 5125
+ID = 9
+
+[State -2, 的8（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 8
+trigger2 = StateNo = 5125
+ID = 8
+
+[State -2, 的7（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 7
+trigger2 = StateNo = 5125
+ID = 7
+
+[State -2, 的6（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 6
+trigger2 = StateNo = 5125
+ID = 6
+
+[State -2, 的5（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 5
+trigger2 = StateNo = 5125
+ID = 5
+
+[State -2, 的4（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 4
+trigger2 = StateNo = 5125
+ID = 4
+
+[State -2, 的3（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 3
+trigger2 = StateNo = 5125
+ID = 3
+
+[State -2, 的2（破壊）]
+type = RemoveExplod
+trigger1 = Var(10) < 2
+trigger2 = StateNo = 5125
+ID = 2
+
+[State -2, 完全破壊]
+type = RemoveExplod
+trigger1 = Var(10) < 1
+trigger2 = StateNo = 5125
+ID = 1
+
+;---------------------------
+;===========================
+
+
+;-----結果代入(時間制)------
+
+;-----一の値-----
+
+[State -2, 0]
+type = VarSet
+trigger1 = Var(11)%10 = 0
+var(1) = 0
+
+[State -2, 1]
+type = VarSet
+trigger1 = Var(11)%10 = 1
+var(1) = 1
+
+[State -2, 2]
+type = VarSet
+trigger1 = Var(11)%10 = 2
+var(1) = 2
+
+[State -2, 3]
+type = VarSet
+trigger1 = Var(11)%10 = 3
+var(1) = 3
+
+[State -2, 4]
+type = VarSet
+trigger1 = Var(11)%10 = 4
+var(1) = 4
+
+[State -2, 5]
+type = VarSet
+trigger1 = Var(11)%10 = 5
+var(1) = 5
+
+[State -2, 6]
+type = VarSet
+trigger1 = Var(11)%10 = 6
+var(1) = 6
+
+[State -2, 7]
+type = VarSet
+trigger1 = Var(11)%10 = 7
+var(1) = 7
+
+[State -2, 8]
+type = VarSet
+trigger1 = Var(11)%10 = 8
+var(1) = 8
+
+[State -2, 9]
+type = VarSet
+trigger1 = Var(11)%10 = 9
+var(1) = 9
+
+;-----二の値-----
+
+[State -2, 0]
+type = VarSet
+trigger1 = Var(11)%100 = [0,9]
+var(2) = 0
+
+[State -2, 1]
+type = VarSet
+trigger1 = Var(11)%100 = [10,19]
+var(2) = 1
+
+[State -2, 2]
+type = VarSet
+trigger1 = Var(11)%100 = [20,29]
+var(2) = 2
+
+[State -2, 3]
+type = VarSet
+trigger1 = Var(11)%100 = [30,39]
+var(2) = 3
+
+[State -2, 4]
+type = VarSet
+trigger1 = Var(11)%100 = [40,49]
+var(2) = 4
+
+[State -2, 5]
+type = VarSet
+trigger1 = Var(11)%100 = [50,59]
+var(2) = 5
+
+[State -2, 6]
+type = VarSet
+trigger1 = Var(11)%100 = [60,69]
+var(2) = 6
+
+[State -2, 7]
+type = VarSet
+trigger1 = Var(11)%100 = [70,79]
+var(2) = 7
+
+[State -2, 8]
+type = VarSet
+trigger1 = Var(11)%100 = [80,89]
+var(2) = 8
+
+[State -2, 9]
+type = VarSet
+trigger1 = Var(11)%100 = [90,99]
+var(2) = 9
+
+;-----三の値-----
+
+[State -2, 0]
+type = VarSet
+trigger1 = Var(11)%1000 = [0,99]
+var(3) = 0
+
+[State -2, 1]
+type = VarSet
+trigger1 = Var(11)%1000 = [100,199]
+var(3) = 1
+
+[State -2, 2]
+type = VarSet
+trigger1 = Var(11)%1000 = [200,299]
+var(3) = 2
+
+[State -2, 3]
+type = VarSet
+trigger1 = Var(11)%1000 = [300,399]
+var(3) = 3
+
+[State -2, 4]
+type = VarSet
+trigger1 = Var(11)%1000 = [400,499]
+var(3) = 4
+
+[State -2, 5]
+type = VarSet
+trigger1 = Var(11)%1000 = [500,599]
+var(3) = 5
+
+[State -2, 6]
+type = VarSet
+trigger1 = Var(11)%1000 = [600,699]
+var(3) = 6
+
+[State -2, 7]
+type = VarSet
+trigger1 = Var(11)%1000 = [700,799]
+var(3) = 7
+
+[State -2, 8]
+type = VarSet
+trigger1 = Var(11)%1000 = [800,899]
+var(3) = 8
+
+[State -2, 9]
+type = VarSet
+trigger1 = Var(11)%1000 = [900,999]
+var(3) = 9
+
+;-----四の値-----
+
+[State -2, 0]
+type = VarSet
+trigger1 = Var(11)%10000 = [0,999]
+var(4) = 0
+
+[State -2, 1]
+type = VarSet
+trigger1 = Var(11)%10000 = [1000,1999]
+var(4) = 1
+
+[State -2, 2]
+type = VarSet
+trigger1 = Var(11)%10000 = [2000,2999]
+var(4) = 2
+
+[State -2, 3]
+type = VarSet
+trigger1 = Var(11)%10000 = [3000,2999]
+var(4) = 3
+
+[State -2, 4]
+type = VarSet
+trigger1 = Var(11)%10000 = [4000,4999]
+var(4) = 4
+
+[State -2, 5]
+type = VarSet
+trigger1 = Var(11)%10000 = [5000,5999]
+var(4) = 5
+
+[State -2, 6]
+type = VarSet
+trigger1 = Var(11)%10000 = [6000,6999]
+var(4) = 6
+
+[State -2, 7]
+type = VarSet
+trigger1 = Var(11)%10000 = [7000,7999]
+var(4) = 7
+
+[State -2, 8]
+type = VarSet
+trigger1 = Var(11)%10000 = [8000,8999]
+var(4) = 8
+
+[State -2, 9]
+type = VarSet
+trigger1 = Var(11)%10000 = [9000,9999]
+var(4) = 9
+
+;-----五の値-----
+
+[State -2, 0]
+type = VarSet
+trigger1 = Var(11)%100000 = [0,9999]
+var(5) = 0
+
+[State -2, 1]
+type = VarSet
+trigger1 = Var(11)%100000 = [10000,19999]
+var(5) = 1
+
+[State -2, 2]
+type = VarSet
+trigger1 = Var(11)%100000 = [20000,29999]
+var(5) = 2
+
+[State -2, 3]
+type = VarSet
+trigger1 = Var(11)%100000 = [30000,39999]
+var(5) = 3
+
+[State -2, 4]
+type = VarSet
+trigger1 = Var(11)%100000 = [40000,49999]
+var(5) = 4
+
+[State -2, 5]
+type = VarSet
+trigger1 = Var(11)%100000 = [50000,59999]
+var(5) = 5
+
+[State -2, 6]
+type = VarSet
+trigger1 = Var(11)%100000 = [60000,69999]
+var(5) = 6
+
+[State -2, 7]
+type = VarSet
+trigger1 = Var(11)%100000 = [70000,79999]
+var(5) = 7
+
+[State -2, 8]
+type = VarSet
+trigger1 = Var(11)%100000 = [80000,89999]
+var(5) = 8
+
+[State -2, 9]
+type = VarSet
+trigger1 = Var(11)%100000 = [90000,99999]
+var(5) = 9
+
+;-----六の値-----
+
+[State -2, 0]
+type = VarSet
+trigger1 = Var(11)%1000000 = [0,99999]
+var(6) = 0
+
+[State -2, 1]
+type = VarSet
+trigger1 = Var(11)%1000000 = [100000,199999]
+var(6) = 1
+
+[State -2, 2]
+type = VarSet
+trigger1 = Var(11)%1000000 = [200000,299999]
+var(6) = 2
+
+[State -2, 3]
+type = VarSet
+trigger1 = Var(11)%1000000 = [300000,399999]
+var(6) = 3
+
+[State -2, 4]
+type = VarSet
+trigger1 = Var(11)%1000000 = [400000,499999]
+var(6) = 4
+
+[State -2, 5]
+type = VarSet
+trigger1 = Var(11)%1000000 = [500000,599999]
+var(6) = 5
+
+[State -2, 6]
+type = VarSet
+trigger1 = Var(11)%1000000 = [600000,699999]
+var(6) = 6
+
+[State -2, 7]
+type = VarSet
+trigger1 = Var(11)%1000000 = [700000,799999]
+var(6) = 7
+
+[State -2, 8]
+type = VarSet
+trigger1 = Var(11)%1000000 = [800000,899999]
+var(6) = 8
+
+[State -2, 9]
+type = VarSet
+trigger1 = Var(11)%1000000 = [900000,999999]
+var(6) = 9
+
+;-----七の値-----
+
+[State -2, 0]
+type = VarSet
+trigger1 = Var(11)%10000000 = [0,999999]
+var(7) = 0
+
+[State -2, 1]
+type = VarSet
+trigger1 = Var(11)%10000000 = [1000000,1999999]
+var(7) = 1
+
+[State -2, 2]
+type = VarSet
+trigger1 = Var(11)%10000000 = [2000000,2999999]
+var(7) = 2
+
+[State -2, 3]
+type = VarSet
+trigger1 = Var(11)%10000000 = [3000000,3999999]
+var(7) = 3
+
+[State -2, 4]
+type = VarSet
+trigger1 = Var(11)%10000000 = [4000000,4999999]
+var(7) = 4
+
+[State -2, 5]
+type = VarSet
+trigger1 = Var(11)%10000000 = [5000000,5999999]
+var(7) = 5
+
+[State -2, 6]
+type = VarSet
+trigger1 = Var(11)%10000000 = [6000000,6999999]
+var(7) = 6
+
+[State -2, 7]
+type = VarSet
+trigger1 = Var(11)%10000000 = [7000000,7999999]
+var(7) = 7
+
+[State -2, 8]
+type = VarSet
+trigger1 = Var(11)%10000000 = [8000000,8999999]
+var(7) = 8
+
+[State -2, 9]
+type = VarSet
+trigger1 = Var(11)%10000000 = [9000000,9999999]
+var(7) = 9
+
+;-----位置ズレ(時間制)------
+
+
+;      一の値
+;=================
+
+[State -2, 一の値]
+type = VarSet
+trigger1 = Var(11) = [0,9]
+var(12) = 184
+
+;      二の値
+;=================
+
+[State -2, 一の値]
+type = VarSet
+trigger1 = Var(11) = [10,99]
+var(12) = 190
+
+[State -2, 二の値]
+type = VarSet
+trigger1 = Var(11) = [10,99]
+var(13) = 161
+
+[State -2, 個数]
+type = VarSet
+trigger1 = Var(11) = [10,99]
+var(19) = 23
+
+;      三の値
+;=================
+
+[State -2, 一の値]
+type = VarSet
+trigger1 = Var(11) = [100,999]
+var(12) = 190+20
+
+[State -2, 二の値]
+type = VarSet
+trigger1 = Var(11) = [100,999]
+var(13) = 190-10
+
+[State -2, 三の値]
+type = VarSet
+trigger1 = Var(11) = [100,999]
+var(14) = 161-10
+
+[State -2, 個数]
+type = VarSet
+trigger1 = Var(11) = [100,999]
+var(19) = 23+10
+
+;      四の値
+;=================
+
+[State -2, 一の値]
+type = VarSet
+trigger1 = Var(11) = [1000,9999]
+var(12) = 190+38
+
+[State -2, 二の値]
+type = VarSet
+trigger1 = Var(11) = [1000,9999]
+var(13) = 190+9
+
+[State -2, 三の値]
+type = VarSet
+trigger1 = Var(11) = [1000,9999]
+var(14) = 190-20
+
+[State -2, 四の値]
+type = VarSet
+trigger1 = Var(11) = [1000,9999]
+var(15) = 161-20
+
+[State -2, 個数]
+type = VarSet
+trigger1 = Var(11) = [1000,9999]
+var(19) = 23+20
+
+;      五の値
+;=================
+
+[State -2, 一の値]	;29*
+type = VarSet
+trigger1 = Var(11) = [10000,99999]
+var(12) = 190+58
+
+[State -2, 二の値]
+type = VarSet
+trigger1 = Var(11) = [10000,99999]
+var(13) = 190+29
+
+[State -2, 三の値]
+type = VarSet
+trigger1 = Var(11) = [10000,99999]
+var(14) = 190
+
+[State -2, 四の値]
+type = VarSet
+trigger1 = Var(11) = [10000,99999]
+var(15) = 190-29
+
+[State -2, 五の値]
+type = VarSet
+trigger1 = Var(11) = [10000,99999]
+var(16) = 161-30
+
+[State -2, 個数]
+type = VarSet
+trigger1 = Var(11) = [10000,99999]
+var(19) = 23+30
+
+;      六の値
+;=================
+
+[State -2, 一の値]
+type = VarSet
+trigger1 = Var(11) = [100000,999999]
+var(12) = 161+96
+
+[State -2, 二の値]
+type = VarSet
+trigger1 = Var(11) = [100000,999999]
+var(13) = 161+67
+
+[State -2, 三の値]
+type = VarSet
+trigger1 = Var(11) = [100000,999999]
+var(14) = 161+38
+
+[State -2, 四の値]
+type = VarSet
+trigger1 = Var(11) = [100000,999999]
+var(15) = 161+9
+
+[State -2, 五の値]
+type = VarSet
+trigger1 = Var(11) = [100000,999999]
+var(16) = 161-20
+
+[State -2, 六の値]
+type = VarSet
+trigger1 = Var(11) = [100000,999999]
+var(17) = 161-50
+
+[State -2, 個数]
+type = VarSet
+trigger1 = Var(11) = [100000,999999]
+var(19) = 23+50
+
+;      七の値
+;=================
+
+[State -2, 一の値]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(12) = 161+105
+
+[State -2, 二の値]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(13) = 161+76
+
+[State -2, 三の値]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(14) = 161+47
+
+[State -2, 四の値]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(15) = 161+18
+
+[State -2, 五の値]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(16) = 161-11
+
+[State -2, 六の値]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(17) = 161-40
+
+[State -2, 七の値]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(18) = 161-70
+
+[State -2, 個数]
+type = VarSet
+trigger1 = Var(11) > 999999
+var(19) = 23+70
+
+;-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+;-------------------共通-------------------
+
+[State -2, 動作監視ディスプレイ「規定数モード」(開発用1)]
+type = DisplayToClipboard
+trigger1 = Var(59) = 0
+text = "Taget Destroy = %d 	Destroy Time = %d"
+params = Var(10), Var(20)
+
+[State -2, 動作監視ディスプレイ「時間モード」(開発用2)]
+type = DisplayToClipboard
+trigger1 = Var(59) = 1
+text = "Taget Destroy = %d"
+params = Var(11)
+
+[State -2, 動作監視ディスプレイ2(開発用3)]
+type = AppendToClipboard
+trigger1 = 1
+text = "\nTime = %d:%d%d.%d%d"
+params = Var(34), Var(33), Var(32), Var(31), Var(30)
+
+[State -2, 動作監視ディスプレイ3(開発用4)]
+type = AppendToClipboard
+trigger1 = Var(59) = 0
+text = "	Local HighScore = %d	Score = %d"
+params = Var(50), Var(37)
+
+[State -2, 動作監視ディスプレイ3(開発用5)]
+type = AppendToClipboard
+trigger1 = Var(59) = 1
+text = "	Local HighScore = %d	Score = %d"
+params = Var(50), Var(51)
+
+[State -2, 競技にはふさわしくないシステムだと]
+type = AssertSpecial
+trigger1 = 1
+flag = nobardisplay
+flag1 = timerfreeze
+flag2 = nokoslow
+
+[State -2, ガード]
+type = AssertSpecial
+trigger1 = 1
+flag = NoStandGuard
+flag2 = NoCrouchGuard
+flag3 = NoAirGuard
+
+[State -2, 向き無し]
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+
+[State -2, 時間切れでくたばる奴]
+type = AssertSpecial
+trigger1 = Win
+trigger1 = Enemy, TeamMode = single
+trigger1 = Enemy, Life = 0 || EnemyNear, Life = 0
+trigger2 = TeamMode = simul
+trigger2 = Partner, Name = "Break the Targets_Ver.2"
+trigger2 = Enemy, Life = 0 || EnemyNear, Life = 0
+trigger2 = AuthorName = "Sociopath"
+flag = NoMusic
+
+[State -2, カメラ追跡]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State -2, 固定]
+type = PosSet
+triggerall = !Win
+triggerall = !Lose
+trigger1 = TeamMode = single || TeamMode = Turns || TeamMode = simul
+trigger1 = StateNo != 5125
+trigger1 = NumHelper(900)
+trigger1 = !NumHelper(901)
+x = Helper(900), Pos X
+y = Helper(900), Pos Y
+
+[State -2, あまりもの固定]
+type = PosSet
+triggerall = !Win
+triggerall = !Lose
+trigger1 = TeamMode = single || TeamMode = Turns || TeamMode = simul
+trigger1 = StateNo != 5125
+trigger1 = NumHelper(901)
+trigger1 = !NumHelper(900)
+x = Helper(901), Pos X
+y = Helper(901), Pos Y
+
+[State -2, ランダム数値]
+type = VarRandom
+trigger1 = 1
+v = 0
+range = 0,12
+
+[State -2, クリア]
+type = LifeSet
+trigger1 = Time > 0
+trigger1 = StateNo != 190
+trigger1 = Var(10) <= 0
+trigger1 = Var(59) = 0
+trigger2 = Time > 0
+trigger2 = StateNo != 190
+trigger2 = Var(36) = 0 && !NumHelper(3000)
+trigger2 = Var(59) = 1
+value = 0
+
+[State -2, 限度だってば]
+type = VarSet
+trigger1 = StateNo = 190
+trigger1 = Var(10) > 19
+trigger2 = StateNo = 5900
+trigger2 = Var(10) > 19
+var(10) = 19
+
+[State -2, だから限度だってば]
+type = VarSet
+trigger1 = StateNo = 190
+trigger1 = Var(57) > 99
+trigger2 = StateNo = 5900
+trigger2 = Var(57) > 99
+var(57) = 99
+
+[State -2, プレイ時間]
+type = VarAdd
+trigger1 = !Win && !Lose
+var(37) = 1
+
+[State -2, 競技開始位置へ]
+type = ChangeState
+triggerall = Life > 0
+triggerall = Alive
+triggerall = !Lose
+triggerall = !DrawGame
+triggerall = !Win
+trigger1 = StateNo = 0
+value = 30
+
+[State -2, ２つもいらんヨ]
+type = ChangeState
+trigger1 = TeamMode = simul
+trigger1 = Partner, Name = "Break the Targets_Ver.2"
+trigger1 = Partner, StateNo != 5125
+trigger1 = AuthorName = "Sociopath"
+value = 5125
+
+[State -2, クリアステイト]
+type = ChangeState
+trigger1 = Var(59) = 0
+trigger1 = Time > 0
+trigger1 = StateNo != 190
+trigger1 = Var(10) <= 0
+trigger2 = Var(59) = 1
+trigger2 = Time > 0
+trigger2 = StateNo != 190
+trigger2 = Var(36) = 0 && !NumHelper(3000)
+value = 5150
+
+;-----------------------------------------------------
+
+[State -2, 的1（規定数）]
+type = Helper
+triggerall = !Win
+triggerall = !Lose
+triggerall = Var(37) > 19
+triggerall = Var(59) = 0
+triggerall = Life > 0
+triggerall = StateNo != 5900
+trigger1 = Var(10) >= 5
+trigger1 = NumHelper(900) < 5
+name = "Target"
+ID = 900
+pos = Ceil(Random*.32), -Ceil(Random*.15)+50
+size.xscale = FVar(0)
+size.yscale = FVar(0)
+postype = Left
+stateno = 900
+ownpal = 1
+
+[State -2, あまりもの（規定数）]
+type = Helper
+triggerall = !Win
+triggerall = !Lose
+triggerall = Var(37) > 19
+triggerall = Var(59) = 0
+triggerall = Life > 0
+triggerall = StateNo != 5900
+trigger1 = NumHelper(901) < Var(10)
+trigger1 = !NumHelper(900)
+trigger1 = Var(20) > 70
+name = "Target"
+ID = 901
+pos = Ceil(Random*.32), -Ceil(Random*.15)+50
+size.xscale = FVar(0)
+size.yscale = FVar(0)
+postype = Left
+stateno = 900
+ownpal = 1
+
+[State -2, 死のカウントダウン]
+type = Helper
+triggerall = !Win
+triggerall = !Lose
+triggerall = Var(58) = 0
+triggerall = Life > 0
+trigger1 = StateNo != 5150 && StateNo != 5125
+trigger1 = RoundState = 2
+trigger1 = !NumHelper(3000)
+trigger1 = Var(35) = 0 && Var(34) = 0 && Var(33) = 0 && Var(32) <= 4 && Var(31) <= 9 && Var(30) <= 8
+trigger1 = Var(10) > 0
+name = "CountDown"
+ID = 3000
+pos = 0, 0
+size.xscale = 1
+size.yscale = 1
+postype = Left
+stateno = 3000
+ownpal = 1
+
+[State -2, 確認中だと]
+type = VarAdd
+trigger1 = StateNo != 190
+trigger1 = StateNo != 5900
+trigger1 = !NumHelper(900)
+trigger1 = !NumHelper(901)
+var(20) = 1
+
+[State -2, リセット]
+type = VarSet
+trigger1 = Var(20) > 100
+var(20) = 0
+
+[State -2, 的1（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 1
+trigger1 = !NumExplod(1)
+bindtime = -1
+sprpriority = 19
+scale = .5,.5
+anim = 80
+pos = 15, 15
+postype = Left
+ID = 1
+
+[State -2, 的2（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 2
+trigger1 = !NumExplod(2)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 33, 15
+postype = Left
+ID = 2
+
+[State -2, 的3（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 3
+trigger1 = !NumExplod(3)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 51, 15
+postype = Left
+ID = 3
+
+[State -2, 的4（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 4
+trigger1 = !NumExplod(4)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 69, 15
+postype = Left
+ID = 4
+
+[State -2, 的5（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 5
+trigger1 = !NumExplod(5)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 87, 15
+postype = Left
+ID = 5
+
+[State -2, 的6（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 6
+trigger1 = !NumExplod(6)
+bindtime = -1
+sprpriority = 19
+scale = .5,.5
+anim = 80
+pos = 15, 33
+postype = Left
+ID = 6
+
+[State -2, 的7（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 7
+trigger1 = !NumExplod(7)
+bindtime = -1
+sprpriority = 19
+scale = .5,.5
+anim = 80
+pos = 33, 33
+postype = Left
+ID = 7
+
+[State -2, 的8（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 8
+trigger1 = !NumExplod(8)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 51, 33
+postype = Left
+ID = 8
+
+[State -2, 的9（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 9
+trigger1 = !NumExplod(9)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 69, 33
+postype = Left
+ID = 9
+
+[State -2, 的10（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 10
+trigger1 = !NumExplod(10)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 87, 33
+postype = Left
+ID = 10
+
+[State -2, 的11（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 11
+trigger1 = !NumExplod(11)
+bindtime = -1
+sprpriority = 19
+scale = .5,.5
+anim = 80
+pos = 15, 51
+postype = Left
+ID = 11
+
+[State -2, 的12（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 12
+trigger1 = !NumExplod(12)
+bindtime = -1
+sprpriority = 19
+scale = .5,.5
+anim = 80
+pos = 33, 51
+postype = Left
+ID = 12
+
+[State -2, 的13（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 13
+trigger1 = !NumExplod(13)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 51, 51
+postype = Left
+ID = 13
+
+[State -2, 的14（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 14
+trigger1 = !NumExplod(14)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 69, 51
+postype = Left
+ID = 14
+
+[State -2, 的15（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 15
+trigger1 = !NumExplod(15)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 87, 51
+postype = Left
+ID = 15
+
+[State -2, 的16（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 16
+trigger1 = !NumExplod(16)
+bindtime = -1
+sprpriority = 19
+scale = .5,.5
+anim = 80
+pos = 15, 70
+postype = Left
+ID = 16
+
+[State -2, 的17（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 17
+trigger1 = !NumExplod(17)
+bindtime = -1
+sprpriority = 19
+scale = .5,.5
+anim = 80
+pos = 33, 70
+postype = Left
+ID = 17
+
+[State -2, 的18（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 18
+trigger1 = !NumExplod(18)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 51, 70
+postype = Left
+ID = 18
+
+[State -2, 的19（個数）]
+type = Explod
+triggerall = Var(59) = 0
+trigger1 = Var(10) >= 19
+trigger1 = !NumExplod(19)
+sprpriority = 19
+bindtime = -1
+scale = .5,.5
+anim = 80
+pos = 69, 70
+postype = Left
+ID = 19
+
+;-----------------
+
+[State -2, 的（時間制）]
+type = Helper
+triggerall = !Win
+triggerall = !Lose
+triggerall = Var(37) > 19
+triggerall = Var(59) = 1
+triggerall = StateNo != 5900
+triggerall = Life > 0
+trigger1 = NumHelper(900) < 5
+trigger1 = Time > 0
+name = "Target"
+ID = 900
+pos = Ceil(Random*.32), -Ceil(Random*.15)+50
+size.xscale = FVar(0)
+size.yscale = FVar(0)
+postype = Left
+stateno = 900
+ownpal = 1
+
+;===============================
+;-----------------
+;レベルサイズ
+;-----------------
+
+[State -2, レベル1]
+type = VarSet
+trigger1 = PalNo = 1 || PalNo = 7
+fvar(0) = 1
+
+[State -2, レベル2]
+type = VarSet
+trigger1 = PalNo = 2 || PalNo = 8
+fvar(0) = .9
+
+[State -2, レベル3]
+type = VarSet
+trigger1 = PalNo = 3 || PalNo = 9
+fvar(0) = .8
+
+[State -2, レベル4]
+type = VarSet
+trigger1 = PalNo = 4 || PalNo = 10
+fvar(0) = .7
+
+[State -2, レベル5]
+type = VarSet
+trigger1 = PalNo = 5 || PalNo = 11
+fvar(0) = .6
+
+[State -2, レベル6]
+type = VarSet
+trigger1 = PalNo = 6 || PalNo = 12
+fvar(0) = .5
+
+;---------------------------------------------------------------------------
+; カウントダウン
+[Statedef 3000]
+type = A
+physics = N
+sprpriority = 0
+velset = 0,0
+ctrl = 0
+anim = 301
+
+[State 3000, へばりつき]
+type = PosSet
+trigger1 = 1
+x = 0
+y = -120
+
+[State 3000, カウントダウン]
+type = Explod
+trigger1 = !NumExplod(3000)
+trigger1 = Root, Var(36) != 0
+anim = 300
+pos = 160, 40
+postype = left
+sprpriority = 4000
+scale = .5,.5
+bindtime = -1
+ontop = 1
+ignorehitpause = 1
+ownpal = 1
+ID = 3000
+
+[State 3000, コンプリート(カウントダウン)]
+type = RemoveExplod
+trigger1 = NumExplod(3000)
+trigger1 = Root, Var(10) <= 0
+ID = 3000
+
+[State 3000, カウント5]
+type = PlaySnd
+trigger1 = Time = 0
+value = 2,5
+volume = 255
+
+[State 3000, カウント4]
+type = PlaySnd
+trigger1 = Time = 60
+value = 2,4
+volume = 255
+
+[State 3000, カウント3]
+type = PlaySnd
+trigger1 = Time = 120
+value = 2,3
+volume = 255
+
+[State 3000, カウント2]
+type = PlaySnd
+trigger1 = Time = 180
+value = 2,2
+volume = 255
+
+[State 3000, カウント1]
+type = PlaySnd
+trigger1 = Time = 240
+value = 2,1
+volume = 255
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 0
+scale = .47, .47
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 1
+scale = .48, .48
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 2
+scale = .49, .49
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 3
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 4
+scale = .55, .55
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 5
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 6
+scale = .54,.54
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 7
+scale = .53, .53
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 8
+scale = .51, .51
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 9
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ5]
+type = ModifyExplod
+trigger1 = Time = 10
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 60
+scale = .47, .47
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 61
+scale = .48, .48
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 62
+scale = .49, .49
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 63
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 64
+scale = .55, .55
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 65
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 66
+scale = .54,.54
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 67
+scale = .53, .53
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 68
+scale = .51, .51
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 69
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ4]
+type = ModifyExplod
+trigger1 = Time = 70
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 120
+scale = .47, .47
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 121
+scale = .48, .48
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 122
+scale = .49, .49
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 123
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 124
+scale = .55, .55
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 125
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 126
+scale = .54,.54
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 127
+scale = .53, .53
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 128
+scale = .51, .51
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 129
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ3]
+type = ModifyExplod
+trigger1 = Time = 130
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 180
+scale = .47, .47
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 181
+scale = .48, .48
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 182
+scale = .49, .49
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 183
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 184
+scale = .55, .55
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 185
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 186
+scale = .54,.54
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 187
+scale = .53, .53
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 188
+scale = .51, .51
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 189
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ2]
+type = ModifyExplod
+trigger1 = Time = 190
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 240
+scale = .47, .47
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 241
+scale = .48, .48
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 242
+scale = .49, .49
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 243
+scale = .5, .5
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 244
+scale = .55, .55
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 245
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 246
+scale = .54,.54
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 247
+scale = .53, .53
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 248
+scale = .51, .51
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 249
+scale = .52, .52
+ID = 3000
+
+[State 3000, 文字ブレ1]
+type = ModifyExplod
+trigger1 = Time = 250
+scale = .5, .5
+ID = 3000
+
+[State 3000, 攻撃属性]
+type = StateTypeSet
+trigger1 = Time > 300
+movetype = A
+
+[State 3000, 続行せんでええヨ]
+type = HitDef
+triggerall = Root, Var(59) = 0
+trigger1 = Time > 300
+trigger1 = !Win && !Lose
+attr = A, NA
+damage = 4000, 4000
+animtype = Light
+hitflag = MAF
+sparkno = -1
+priority = 3, Hit
+ground.type = High
+air.type = Low
+air.hittime = 10
+
+[State 3000, 消去]
+type = DestroySelf
+triggerall = IsHelper
+trigger1 = Root, Var(10) <= 0
+trigger2 = Win || Lose
+trigger3 = Root, Var(59) = 1 && Root, Var(35) = 0 && Root, Var(34) = 0 && Root, Var(33) = 0 && Root, Var(32) = 0 && Root, Var(31) <= 0 && Root, Var(30) <= 1
+
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+;◆システム数値◆		◆説明◆ 
+;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+;Var(0)				ランダム動作
+;Var(1)				一の値(時間制ルール)
+;Var(2)				二の値(時間制ルール)
+;Var(3)				三の値(時間制ルール)
+;Var(4)				四の値(時間制ルール)
+;Var(5)				五の値(時間制ルール)
+;Var(6)				六の値(時間制ルール)
+;Var(7)				七の値(時間制ルール)
+;Var(8)
+;Var(9)
+
+;Var(10)			破壊数（規定数ルール）
+;Var(11)			破壊数（時間制ルール）
+;Var(12)			位置ズレ「一の値」(時間制ルール）
+;Var(13)			位置ズレ「ニの値」(時間制ルール）
+;Var(14)			位置ズレ「三の値」(時間制ルール）
+;Var(15)			位置ズレ「四の値」(時間制ルール）
+;Var(16)			位置ズレ「五の値」(時間制ルール）
+;Var(17)			位置ズレ「六の値」(時間制ルール）
+;Var(18)			位置ズレ「七の値」(時間制ルール）
+;Var(19)			位置ズレ「個数」(時間制ルール）
+
+;Var(20)			残滅確認
+;Var(21)
+;Var(22)
+;Var(23)
+;Var(24)
+;Var(25)
+;Var(26)
+;Var(27)
+;Var(28)
+;Var(29)
+
+;Var(30)			時間計測（小数点１の値）
+;Var(31)			時間計測（小数点２の値）
+;Var(32)			時間計測（秒１の値）
+;Var(33)			時間計測（秒２の値）
+;Var(34)			時間計測（分１の値）
+;Var(35)			時間計測（分２の値）
+;Var(36)			制限時間セット(タイムフェクト消去)
+;Var(37)			プレイ時間
+;Var(38)
+;Var(39)
+
+;Var(40)			時間もどき
+;Var(41)
+;Var(42)
+;Var(43)
+;Var(44)
+;Var(45)
+;Var(46)
+;Var(47)
+;Var(48)
+;Var(49)
+
+;Var(50)			時間計測（ハイスコア）
+;Var(51)			時間計測
+;Var(52)
+;Var(53)
+;Var(54)
+;Var(55)
+;Var(56) 
+;Var(57)
+;Var(58)			制限時間設定
+;Var(59)			設定
+
+;fvar(0) 			的サイズ
+;fvar(10) 			時間計測（小数点１の値）
+

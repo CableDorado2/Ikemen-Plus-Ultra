@@ -1,0 +1,17 @@
+[Info]
+name = "BONUS"        ;Name of character
+displayname = "Arm-Wrestling" ;Name of character to display
+versiondate = 3,4,2004    ;Version date of character
+mugenversion = 04,14,2001   ;Version of M.U.G.E.N character works on
+author = "minmeisyobou"         ;Character author name
+
+; Files for the player
+[Files]
+cmd     = bonus.cmd   ;Command set
+cns     = bonus.cns   ;Constants
+st      = bonus.cns   ;States
+stcommon = common1.cns ;Common states
+sprite  = bonus.sff   ;Sprite
+anim    = bonus.air   ;Animation
+;sound   = saisyu.snd   ;Sound
+pal1    = bonus.act

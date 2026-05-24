@@ -1,0 +1,40 @@
+; ____________________________________
+;| SS1 Bonus by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;====================<DEFINITION>====================
+[Info]
+name        = "SS1 Bonus"
+displayname = "Straw Dummy Slash"
+versiondate = 2022
+mugenversion= 1.0
+author      = "Phantom.of.the.Server"
+pal.defaults= 1,2,3,4
+localcoord  = 320,240
+
+[Files]
+cmd     = Command.cmd
+cns     = Constants.cns
+st      = States.st
+st1     = CONFIG.txt
+stcommon= common1.cns
+sprite  = Sprite.sff
+anim    = Anim.air
+sound   = Sound.snd
+pal1    = Palettes/Default.act
+pal2    = Palettes/SS3stage.act
+pal3    = Palettes/SS2Kuroko.act
+pal4    = Palettes/SS3Kuroko.act
+
+[Palette Keymap]
+a = 1
+b = 2
+c = 3
+x = 4
+y = 1
+z = 2
+a2 = 3
+b2 = 4
+c2 = 1
+x2 = 2
+y2 = 3
+z2 = 4

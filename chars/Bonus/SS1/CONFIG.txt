@@ -1,0 +1,31 @@
+[Statedef 5901];===============================================================================
+type=A;========================================================================================
+;==============================================================================================
+
+
+[State set TIME LIMIT]
+type=varset
+trigger1=1
+fvar(1)=     20.0          ;In seconds.
+                           ;Use -1 for infinite time or -2 for Mugen's default round time.
+
+
+[State set GOAL]
+type=varset
+trigger1=1
+var(51)=     0             ;Targets destroyed required to get the victory screen.
+                           ;0 makes it default to half the specified time limit.
+
+
+[State set ALLOW PROJECTILES]
+type=varset
+trigger1=1
+var(50)=     0             ;Setting this to nonzero will allow chars to hit the targets
+                           ;using projectiles.
+
+
+;==============================================================================================
+[State 5901,end];==============================================================================
+type=changestate;==============================================================================
+trigger1=1;====================================================================================
+value=5902;====================================================================================

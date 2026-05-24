@@ -1,0 +1,1602 @@
+[Data]
+life = 1000             ;体力ゲージの初期値
+attack = 100            ;攻撃力（これ以上に設定すると強くなる）
+defence = 100           ;防御力（これ以上に設定すると強くなる）
+fall.defence_up = 50    ;コンボをくらっている時にあがる防御力
+liedown.time = 40       ;倒れてから起上がるまでのフレーム数
+airjuggle = 15          ;空中でどれだけコンボが繋がるか（高くすると無限コンボになるので注意）
+sparkno = 1             ;hitdefで設定していない時の基本ヒットスパークナンバー
+guard.sparkno = 40      ;設定してない時のガードナンバー
+KO.echo = 0             ;KOした時に声にエコーをかけるか（１でＯＮ）
+volume = 250
+  IntPersistIndex = 2
+FloatPersistIndex = 40
+
+[Size]
+xscale = 1             ;水平方向の縮尺（通常１）
+yscale = 1             ;垂直方向の縮尺（通常１）
+ground.back = 15       ;キャラの幅(後方,地上)
+ground.front = 16      ;キャラの幅(前方,地上)
+air.back = 12          ;キャラの幅(後方,空中)
+air.front = 13         ;キャラの幅(前方,空中)
+height = 60            ;キャラの高さ
+attack.dist = 160      ;攻撃をした時相手がガード体制に入る最低距離
+proj.attack.dist = 90  ;攻撃をした時相手がガード体制に入る最低距離（飛び道具）
+proj.doscale = 0       ;上で設定した縮尺を飛び道具にも適用するか（１でＯＮ）   
+head.pos = -5, -90     ;頭の大体の座標
+mid.pos = -5, -60      ;体の中心の大体の座標
+shadowoffset = 0       ;影の垂直方向のオフセット
+
+
+[Velocity]
+walk.fwd  = 2.6        ;前進の速度
+walk.back = -2.4       ;後退の速度
+run.fwd  = 9, 0      ;前ダッシュの速度（ホップする時はyを-にする）
+run.back = -5.5,-4.5   ;後ダッシュの速度（ホップする時はyを-にする）
+jump.neu = 0,-7.2     ;垂直ジャンプの速度
+jump.back = -3.3,-7.2      ;後ジャンプの速度
+jump.fwd = 3.2,-7.2       ;前ジャンプの速度
+runjump.back = -3.2,-8.4  ;後ダッシュしながらのジャンプ速度(オプション)
+runjump.fwd = 4,-8     ;前ダッシュしながらのジャンプ速度(オプション)
+airjump.neu = 0,-8.3      ;２段ジャンプ以降の垂直ジャンプの速度(オプション)
+airjump.back = -2.55      ;２段ジャンプ以降の後ジャンプの速度(オプション)
+airjump.fwd = 3.2         ;２段ジャンプ以降の前ジャンプの速度
+
+[Movement]
+airjump.num = 0       ;空中でジャンプする回数
+airjump.height = 35   ;空中でジャンプする最低限の高さ
+yaccel = .44          ;重力
+stand.friction = .85  ;立ち状態の摩擦係数
+crouch.friction = .82 ;屈み状態の摩擦係数
+
+
+;---------------------------------------------------------------------------
+;var(1) = 1Pか2P
+;var(2) = 腕相撲時の勝ち負け判定
+;var(3) = タイムアップ時の勝敗判定
+;var(4) = 難易度選択
+
+
+;---------------------------------------------------------------------------
+;勝利
+[Statedef 180]
+type = S
+physics = S
+anim = 0
+velset = 0
+
+[State 181]
+type = AssertSpecial
+trigger1 = Time = [0,160]
+flag = RoundNotOver
+
+
+;---------------------------------------------------------------------------
+;イントロ
+[Statedef 190]
+type = S
+physics = S
+anim = 190
+velset = 0
+
+[State 190];難易度選択
+type = VarSet
+trigger1 = Time = 0
+v = 4
+value = ifelse(random<=300,1,0)
+
+[State 201];レベルノーマル
+type=Explod
+trigger1 = var(1) = 2
+trigger1 = var(4) = 0
+anim=227
+pos=0,-103
+postype=p1
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 201];レベルハード
+type=Explod
+trigger1 = var(1) = 2
+trigger1 = var(4) = 1
+anim=226
+pos=0,-103
+postype=p1
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 190 ,1] 
+type = AssertSpecial
+trigger1 = 1
+flag = intro
+
+[State 3401]
+type = Helper
+trigger1 = AnimTime = 0
+helpertype = normal
+stateno = 191
+name = "manto"
+id      = 3403
+postype = p1
+pos = 0, 0
+keyctrl = 0
+ownpal = 1
+
+[State 190, 2] 
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+;-------------------------
+[Statedef 191]
+type = S
+physics = N
+movetype = A
+anim = 228
+sprpriority = 3
+juggle = 5
+velset = 0,0
+ctrl = 0
+
+[state 191];属性変更
+type = StatetypeSet
+trigger1 = time = 1
+value = A
+
+[State 191]
+type = VelSet
+trigger1 = time = 1
+x = -8
+y = -13
+
+[State 191]
+type = gravity
+trigger1 = time >= 2
+trigger1 = time <= 15
+
+[State 191]
+type = destroyself
+trigger1 = AnimTime = 0
+;--------------------------------------開始
+[Statedef 200]
+type    = S                      
+movetype= A                      
+physics = S                      
+juggle  = 15                      
+velset = 0,0                   
+ctrl = 0                         
+anim = 200                    
+sprpriority = 2                  
+
+[State 240, hit]
+type = HitDef
+trigger1 = AnimElem = 1
+attr = S, NA
+animtype  = Light
+damage    = 0
+hitflag = MAFDP
+guardflag = none
+pausetime = 0,0
+sparkno = -1
+sparkxy = 0,0
+hitsound   = -1
+getpower = 0,0
+guardsound = S1,4
+guard.sparkno =-1
+ground.type = low
+ground.slidetime = 0
+ground.hittime  = 0
+ground.velocity = 0
+air.velocity = 0,0
+p1stateno = 201
+p2stateno = 203
+
+
+[State 200, 終了]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 5150
+
+;--------------------------------------開始
+[Statedef 201]
+type    = S                      
+movetype= A                      
+physics = S                      
+juggle  = 15                      
+velset = 0,0                   
+ctrl = 0                         
+anim = 211                  
+sprpriority = 2 
+
+[State 201];顔
+type=Explod
+trigger1 = animelem = 1
+trigger1 = var(1) = 2
+anim=212
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+
+[State 201];画面
+type=Explod
+trigger1 = time = 0
+trigger1 = var(1) = 2
+anim=1
+pos=320,0
+postype=back
+sprpriority = 2
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 999999999
+
+[State 201];固定された手
+type=Explod
+trigger1 = time = 0
+trigger1 = var(1) = 2
+anim=3
+pos=212,168
+postype=back
+sprpriority = 4
+facing = -1
+bindtime=-1
+id=780
+supermove=1
+supermovetime = 999999999
+
+[State 201];固定された手、右手と合体
+type=Explod
+trigger1 = time = 70
+trigger1 = var(1) = 2
+anim=6
+pos=212,168
+postype=back
+sprpriority = 5
+facing = -1
+bindtime=-1
+id=780
+supermove=1
+supermovetime = 999999999
+
+[State 201];右手
+type=Explod
+trigger1 = time = 0
+trigger1 = var(1) = 2
+anim=4
+pos=0,231
+postype=back
+sprpriority = 5
+bindtime=1
+id=780
+facing = -1
+supermove=1
+supermovetime = 999999999
+vel = 2.2
+
+[State 3101];画面
+type=Explod
+trigger1 = time = 0
+trigger1 = var(1) = 2
+anim=1
+pos=320,0
+postype=back
+sprpriority = 2
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 999999999
+
+[State 201];READY
+type=Explod
+trigger1 = time = 40
+trigger1 = var(1) = 2
+anim=222
+pos=160,139
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+ontop = 1
+
+[State 201];GO!
+type=Explod
+trigger1 = time = 90
+trigger1 = var(1) = 2
+anim=223
+pos=160,139
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+ontop = 1
+
+
+
+[State 200, 終了]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 202
+;---------------------------------腕相撲開始
+[Statedef 202]
+type    = S
+movetype= I
+physics = S
+ctrl = 0
+velset = 0,0
+anim = 0
+poweradd = 0
+sprpriority = 2
+
+[State 3101];左向き時背景
+type=Explod
+trigger1 = animelem = 1
+trigger1 = var(1) = 2
+anim=2
+pos=320,0
+postype=back
+sprpriority = 2
+removetime = 999999999
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 999999999
+ontop = 0
+
+
+;----------------------------------------
+[State 3101];左向き時タイムカウント30
+type=Explod
+trigger1 = time = [0,60]
+trigger1 = var(1) = 2
+anim=230
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント29
+type=Explod
+trigger1 = time = [61,120]
+trigger1 = var(1) = 2
+anim=231
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント28
+type=Explod
+trigger1 = time = [121,180]
+trigger1 = var(1) = 2
+anim=232
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント27
+type=Explod
+trigger1 = time = [181,240]
+trigger1 = var(1) = 2
+anim=233
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント26
+type=Explod
+trigger1 = time = [241,300]
+trigger1 = var(1) = 2
+anim=234
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント25
+type=Explod
+trigger1 = time = [301,360]
+trigger1 = var(1) = 2
+anim=235
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント24
+type=Explod
+trigger1 = time = [361,420]
+trigger1 = var(1) = 2
+anim=236
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント23
+type=Explod
+trigger1 = time = [421,480]
+trigger1 = var(1) = 2
+anim=237
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント22
+type=Explod
+trigger1 = time = [481,540]
+trigger1 = var(1) = 2
+anim=238
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント21
+type=Explod
+trigger1 = time = [541,600]
+trigger1 = var(1) = 2
+anim=239
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+
+[State 3101];左向き時タイムカウント20
+type=Explod
+trigger1 = time = [601,660]
+trigger1 = var(1) = 2
+anim=240
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント19
+type=Explod
+trigger1 = time = [661,720]
+trigger1 = var(1) = 2
+anim=241
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント18
+type=Explod
+trigger1 = time = [721,780]
+trigger1 = var(1) = 2
+anim=242
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント17
+type=Explod
+trigger1 = time = [781,840]
+trigger1 = var(1) = 2
+anim=243
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント16
+type=Explod
+trigger1 = time = [841,900]
+trigger1 = var(1) = 2
+anim=244
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント15
+type=Explod
+trigger1 = time = [901,960]
+trigger1 = var(1) = 2
+anim=245
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント14
+type=Explod
+trigger1 = time = [961,1020]
+trigger1 = var(1) = 2
+anim=246
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント13
+type=Explod
+trigger1 = time = [1021,1080]
+trigger1 = var(1) = 2
+anim=247
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント12
+type=Explod
+trigger1 = time = [1081,1140]
+trigger1 = var(1) = 2
+anim=248
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント11
+type=Explod
+trigger1 = time = [1141,1200]
+trigger1 = var(1) = 2
+anim=249
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント10
+type=Explod
+trigger1 = time = [1201,1260]
+trigger1 = var(1) = 2
+anim=250
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント9
+type=Explod
+trigger1 = time = [1261,1320]
+trigger1 = var(1) = 2
+anim=251
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント8
+type=Explod
+trigger1 = time = [1321,1380]
+trigger1 = var(1) = 2
+anim=252
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント7
+type=Explod
+trigger1 = time = [1381,1440]
+trigger1 = var(1) = 2
+anim=253
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント6
+type=Explod
+trigger1 = time = [1441,1500]
+trigger1 = var(1) = 2
+anim=254
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント5
+type=Explod
+trigger1 = time = [1501,1560]
+trigger1 = var(1) = 2
+anim=255
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント4
+type=Explod
+trigger1 = time = [1561,1620]
+trigger1 = var(1) = 2
+anim=256
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント3
+type=Explod
+trigger1 = time = [1621,1680]
+trigger1 = var(1) = 2
+anim=257
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント2
+type=Explod
+trigger1 = time = [1681,1740]
+trigger1 = var(1) = 2
+anim=258
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント1
+type=Explod
+trigger1 = time = [1741,1800]
+trigger1 = var(1) = 2
+anim=259
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+[State 3101];左向き時タイムカウント0
+type=Explod
+trigger1 = time >= 1800
+trigger1 = var(1) = 2
+anim=260
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;------------------
+[State 201]
+type = VarSet
+trigger1 = Time = 0
+v = 2
+value = 0
+
+[State 201];くらっている相手。つまり自分
+type = Varadd
+trigger1 = Target,Command = "x"|Target,Command = "y"
+trigger2 = Target,Command = "a"|Target,Command = "b"
+v = 2
+value = 1
+
+[State 201]
+type = Varadd
+trigger1 = random <= 10
+v = 2
+value = -1
+
+
+[State 201];相手
+type = Varadd
+trigger1 = Command = "x"|Command = "y"
+trigger2 = Command = "a"|Command = "b"
+v = 2
+value = ifelse(var(4) = 0,-2,-3)
+
+;------------------
+
+
+;[State 201];消すとボタン連打の絵が出るが、色化けする
+;type = explod
+;trigger1 = var(1) = 2
+;anim = 224
+;pos = 50,150
+;postype = back
+;facing = -1
+;ownpal = 1
+;sprpriority = 4
+;ontop = 1
+
+[State 201];最初
+type = explod
+trigger1 = var(2) = [-2,2]
+trigger1 = var(1) = 2
+anim = 206
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 1
+type = explod
+trigger1 = var(2) = [3,6]
+trigger1 = var(1) = 2
+anim = 207
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 2
+type = explod
+trigger1 = var(2) = [7,10]
+trigger1 = var(1) = 2
+anim = 208
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 3
+type = explod
+trigger1 = var(2) = [11,14]
+trigger1 = var(1) = 2
+anim = 209
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];勝利
+type = explod
+trigger1 = var(2) >= 15
+trigger1 = var(1) = 2
+anim = 210
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 1
+type = explod
+trigger1 = var(2) = [-5,-3]
+trigger1 = var(1) = 2
+anim = 201
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 2
+type = explod
+trigger1 = var(2) = [-9,-6]
+trigger1 = var(1) = 2
+anim = 202
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 3
+type = explod
+trigger1 = var(2) = [-13,-10]
+trigger1 = var(1) = 2
+anim = 203
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 4
+type = explod
+trigger1 = var(2) = [-17,-14]
+trigger1 = var(1) = 2
+anim = 204
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];負け
+type = explod
+trigger1 = var(2) <= -18
+trigger1 = var(1) = 2
+anim = 205
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 3101];勝ち顔1
+type=Explod
+trigger1 = var(2) = [-9,2]
+trigger1 = var(1) = 2
+anim=213
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];勝ち顔2
+type=Explod
+trigger1 = var(2) = [-17,-10]
+trigger1 = var(1) = 2
+anim=214
+pos=180,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];勝ち顔3
+type=Explod
+trigger1 = var(2) <= -18
+trigger1 = var(1) = 2
+anim=215
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];負け顔1
+type=Explod
+trigger1 = var(2) = [3,10]
+trigger1 = var(1) = 2
+anim=216
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];負け顔2
+type=Explod
+trigger1 = var(2) = [11,14]
+trigger1 = var(1) = 2
+anim=217
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];負け顔3
+type=Explod
+trigger1 = var(2) >= 15
+trigger1 = var(1) = 2
+anim=218
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 810, 1]
+type = TargetBind
+trigger1 = 1
+pos = 128,0
+
+[State 201]
+type = VarSet
+trigger1 = 1
+v = 3
+value = ifelse(var(2) >= -2,1,0)
+
+
+
+[State 201]
+type = ChangeState
+trigger1 = time = 1800
+value = 204
+
+[State 201]
+type = TargetPoweradd
+trigger1 = var(2) >= 15
+value = 1000
+
+
+[State 201]
+type = TargetState
+trigger1 = var(2) >= 15
+trigger2 = var(2) <= -18
+value = 5300
+
+
+[State 201];勝負あり
+type = ChangeState
+trigger1 = var(2) >= 15
+trigger2 = var(2) <= -18
+value = 5150
+;-------------------------------
+[Statedef 203]
+type    = S
+movetype= H
+physics = N
+sprpriority = -2
+
+
+[State 820, 1]
+type = ChangeAnim2
+Trigger1 = time = 0
+value = 0
+;----------------------------時間切れ
+[Statedef 204]
+type    = L
+movetype= H
+physics = N
+sprpriority = -3
+anim = 0
+
+[State 3101]
+type=Explod
+trigger1 = 1
+trigger1 = var(1) = 2
+anim=260
+pos=272,32
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+removetime = -1
+
+[State 201];最初
+type = explod
+trigger1 = var(2) = [-2,2]
+trigger1 = var(1) = 2
+anim = 206
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 1
+type = explod
+trigger1 = var(2) = [3,6]
+trigger1 = var(1) = 2
+anim = 207
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 2
+type = explod
+trigger1 = var(2) = [7,10]
+trigger1 = var(1) = 2
+anim = 208
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 3
+type = explod
+trigger1 = var(2) = [11,14]
+trigger1 = var(1) = 2
+anim = 209
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];勝利
+type = explod
+trigger1 = var(2) >= 15
+trigger1 = var(1) = 2
+anim = 210
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 1
+type = explod
+trigger1 = var(2) = [-5,-3]
+trigger1 = var(1) = 2
+anim = 201
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 2
+type = explod
+trigger1 = var(2) = [-9,-6]
+trigger1 = var(1) = 2
+anim = 202
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 3
+type = explod
+trigger1 = var(2) = [-13,-10]
+trigger1 = var(1) = 2
+anim = 203
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 4
+type = explod
+trigger1 = var(2) = [-17,-14]
+trigger1 = var(1) = 2
+anim = 204
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];負け
+type = explod
+trigger1 = var(2) <= -18
+trigger1 = var(1) = 2
+anim = 205
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 3101];勝ち顔1
+type=Explod
+trigger1 = var(2) = [-9,2]
+trigger1 = var(1) = 2
+anim=213
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];勝ち顔2
+type=Explod
+trigger1 = var(2) = [-17,-10]
+trigger1 = var(1) = 2
+anim=214
+pos=180,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];勝ち顔3
+type=Explod
+trigger1 = var(2) <= -18
+trigger1 = var(1) = 2
+anim=215
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];負け顔1
+type=Explod
+trigger1 = var(2) = [3,10]
+trigger1 = var(1) = 2
+anim=216
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];負け顔2
+type=Explod
+trigger1 = var(2) = [11,14]
+trigger1 = var(1) = 2
+anim=217
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];負け顔3
+type=Explod
+trigger1 = var(2) >= 15
+trigger1 = var(1) = 2
+anim=218
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+
+[State 201];TIME UP!
+type=Explod
+trigger1 = time = 0
+trigger1 = var(1) = 2
+anim=221
+pos=160,119
+postype=back
+sprpriority = 4
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+ontop = 1
+
+[State 800]
+type = TargetState
+trigger1 = time = 178
+value = 5300
+
+[State 810, 1];勝ち
+type = ChangeState
+trigger1 = time = 180
+value = 5150
+;----------------------------負け
+[Statedef 5150]
+type    = L
+movetype= H
+physics = N
+sprpriority = -3
+anim = 0
+
+
+[State 1000, 3]
+type = PowerAdd
+trigger1 = time = 0
+trigger1 = var(2) <= -18
+value = 3000
+
+
+[State 202]
+type = LifeSet
+triggerall = time = 2
+trigger1 = var(2) >= 15
+trigger2 = var(2) <= -18
+trigger3 = prevstateno = 204
+value = 0
+
+[State 201];最初
+type = explod
+trigger1 = var(2) = [-2,2]
+trigger1 = var(1) = 2
+anim = 206
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 1
+type = explod
+trigger1 = var(2) = [3,6]
+trigger1 = var(1) = 2
+anim = 207
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 2
+type = explod
+trigger1 = var(2) = [7,10]
+trigger1 = var(1) = 2
+anim = 208
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];有利 3
+type = explod
+trigger1 = var(2) = [11,14]
+trigger1 = var(1) = 2
+anim = 209
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];勝利
+type = explod
+trigger1 = var(2) >= 15
+trigger1 = var(1) = 2
+anim = 210
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 1
+type = explod
+trigger1 = var(2) = [-5,-3]
+trigger1 = var(1) = 2
+anim = 201
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 2
+type = explod
+trigger1 = var(2) = [-9,-6]
+trigger1 = var(1) = 2
+anim = 202
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 3
+type = explod
+trigger1 = var(2) = [-13,-10]
+trigger1 = var(1) = 2
+anim = 203
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];不利 4
+type = explod
+trigger1 = var(2) = [-17,-14]
+trigger1 = var(1) = 2
+anim = 204
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 201];負け
+type = explod
+trigger1 = var(2) <= -18
+trigger1 = var(1) = 2
+anim = 205
+pos = 155,231
+postype = back
+facing = -1
+ownpal = 1
+sprpriority = 4
+
+[State 3101];勝ち顔3
+type=Explod
+trigger1 = var(3) = 0
+trigger1 = var(1) = 2
+anim=215
+pos=180,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 3101];負け顔3
+type=Explod
+trigger1 = var(3) = 1
+trigger1 = var(1) = 2
+anim=218
+pos=160,119
+postype=back
+sprpriority = 3
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+
+[State 201];勝ち　文字
+type=Explod
+trigger1 = time = 60
+trigger1 = var(3) = 1
+trigger1 = var(1) = 2
+anim=220
+pos=160,119
+postype=back
+sprpriority = 4
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+ontop = 1
+
+[State 201];負け　文字
+type=Explod
+trigger1 = time = 60
+trigger1 = var(3) = 0
+trigger1 = var(1) = 2
+anim=219
+pos=160,119
+postype=back
+sprpriority = 4
+bindtime=-1
+id=780
+facing = -1
+supermove=1
+supermovetime = 99999999
+ontop = 1
+
+[State 5150, 4]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+:---------------------------------------------------------------------------
+;空中やられから復活
+[Statedef 5200]
+type    = C
+movetype= H
+physics = N
+anim = 5200
+velset = -5,0
+
+
+[State 5200]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 5200]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 5200]
+type = VelMul
+trigger1 = 1
+x = .8
+
+[State 5200]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;------------------------------------気絶
+[Statedef 5300]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+anim=5300
+ctrl=0
+
+[State 5300]
+type = SelfState
+trigger1 = time = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Override common states (use same number to override) :
+;---------------------------------------------------------------------------
+
+;---------------------------------------------------------------------------
+; States that are always executed (use statedef -2)
+;---------------------------------------------------------------------------
+;------------------------------
+
+
+
+[Statedef -2]
+[State -2]
+type = VarSet
+trigger1 = var(1) = 0
+trigger1 = Pos X < 0
+v = 1
+value = 1
+
+[State -2]
+type = VarSet
+trigger1 = var(1) = 0
+trigger1 = Pos X >= 0
+v = 1
+value = 2
+;---------------------------------------------------------------------------
+; States that are executed when in self's state file (use statedef -3)
+;---------------------------------------------------------------------------
+
+[Statedef -3]
+
+;This controller plays a sound everytime KFM lands from a jump, or
+;from his back-dash.
+[State -3, Landing Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 52 ;Jump land
+trigger2 = stateno = 106 ;Run-back land
+value = 1, 2
+
+[State -3]
+type = AssertSpecial
+trigger1 = 1
+flag=nobardisplay
