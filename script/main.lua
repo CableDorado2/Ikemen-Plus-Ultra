@@ -16174,9 +16174,9 @@ if validCells() then
 			else
 				f_nextMatch()
 			end
-	--LEFT SIDE ACTIONS
+	--LEFT SIDE WINS
 		elseif winner == 1 then
-		--Player 1 (IN RIGHT SIDE):
+		--Player (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			--Continue Screen disabled or don't have coins to continue in (Arcade with Attract Mode)
 				if not data.continueScreen or (data.attractMode and getCredits() == 0) then
@@ -16193,6 +16193,10 @@ if validCells() then
 						return
 					end
 					if data.gameMode == "alliance" then
+						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
+						data.t_p2Alliance = data.t_p2selected
+						data.p2MembersDefeated = data.p2MembersDefeated + 1
+						f_saveTemp()
 						if data.p2MembersDefeated == 4 then
 							f_loseAdvanced()
 							return
@@ -16242,32 +16246,20 @@ if validCells() then
 					end
 					f_1stStageSel()
 				end
-		--Player 1 (IN LEFT SIDE):
+		--Player (IN LEFT SIDE):
 			else
-			--Wins
-				if winner == 1 then
-					winCnt = winCnt + 1
-					if data.gameMode == "alliance" then
-						data.p2MembersDefeated = data.p2MembersDefeated + 1
-						f_saveTemp()
-						data.t_p2selected[currentAllianceMemberCPU].defeated = true
-						data.t_p2Alliance = data.t_p2selected
-						if currentAllianceMemberCPU < 4 then
-							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
-						else
-							currentAllianceMemberCPU = 1 --Change to Leader
-						end
-						if data.p2MembersDefeated == 3 then setAllianceLastEnemy(true) end
+				winCnt = winCnt + 1
+				if data.gameMode == "alliance" then
+					data.p2MembersDefeated = data.p2MembersDefeated + 1
+					f_saveTemp()
+					data.t_p2selected[currentAllianceMemberCPU].defeated = true
+					data.t_p2Alliance = data.t_p2selected
+					if currentAllianceMemberCPU < 4 then
+						currentAllianceMemberCPU = currentAllianceMemberCPU + 1
+					else
+						currentAllianceMemberCPU = 1 --Change to Leader
 					end
-			--Loses
-				else
-					looseCnt = looseCnt + 1
-					if data.gameMode == "alliance" then
-						data.t_p1selected[currentAllianceMemberPlayer].defeated = true
-						data.t_p1Alliance = data.t_p1selected
-						data.p1MembersDefeated = data.p1MembersDefeated + 1
-						f_saveTemp()
-					end
+					if data.p2MembersDefeated == 3 then setAllianceLastEnemy(true) end
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -16302,34 +16294,22 @@ if validCells() then
 					f_nextMatch()
 				end
 			end
-	--RIGHT SIDE
+	--RIGHT SIDE WINS
 		elseif winner == 2 then
-		--Player 1 (IN RIGHT SIDE):
+		--Player (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--Wins
-				if winner == 2 then
-					winCnt = winCnt + 1
-					if data.gameMode == "alliance" then
-						data.p1MembersDefeated = data.p1MembersDefeated + 1
-						f_saveTemp()
-						data.t_p1selected[currentAllianceMemberCPU].defeated = true
-						data.t_p1Alliance = data.t_p1selected
-						if currentAllianceMemberCPU < 4 then
-							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
-						else
-							currentAllianceMemberCPU = 1 --Change to Leader
-						end
-						if data.p1MembersDefeated == 3 then setAllianceLastEnemy(true) end
+				winCnt = winCnt + 1
+				if data.gameMode == "alliance" then
+					data.p1MembersDefeated = data.p1MembersDefeated + 1
+					f_saveTemp()
+					data.t_p1selected[currentAllianceMemberCPU].defeated = true
+					data.t_p1Alliance = data.t_p1selected
+					if currentAllianceMemberCPU < 4 then
+						currentAllianceMemberCPU = currentAllianceMemberCPU + 1
+					else
+						currentAllianceMemberCPU = 1 --Change to Leader
 					end
-			--Loses
-				else
-					looseCnt = looseCnt + 1
-					if data.gameMode == "alliance" then
-						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
-						data.t_p2Alliance = data.t_p2selected
-						data.p2MembersDefeated = data.p2MembersDefeated + 1
-						f_saveTemp()
-					end
+					if data.p1MembersDefeated == 3 then setAllianceLastEnemy(true) end
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -16362,7 +16342,7 @@ if validCells() then
 				else
 					f_nextMatch()
 				end
-		--Player 1 (IN LEFT SIDE):
+		--Player (IN LEFT SIDE):
 			else
 			--Continue Screen disabled or don't have coins to continue in (Arcade with Attract Mode)
 				if not data.continueScreen or (data.attractMode and getCredits() == 0) then
@@ -16379,6 +16359,10 @@ if validCells() then
 						return
 					end
 					if data.gameMode == "alliance" then
+						data.t_p1selected[currentAllianceMemberPlayer].defeated = true
+						data.t_p1Alliance = data.t_p1selected
+						data.p1MembersDefeated = data.p1MembersDefeated + 1
+						f_saveTemp()
 						if data.p1MembersDefeated == 4 then
 							f_loseAdvanced()
 							return
