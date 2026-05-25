@@ -4082,7 +4082,29 @@ function f_advancedModesStatus(state)
 		end
 --Save Data for Alliance Mode
 	elseif data.gameMode == "alliance" then
-		
+		if state == "win" then
+			if not stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].clear then
+				stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].clear = true
+				modified = true
+			end
+			if timerTotal() < stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].time then
+				stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].time = timerTotal()
+				resultsNewRecordTime = true
+				modified = true
+			end
+		end
+		if score() > stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].score then
+			stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].score = score()
+			resultsNewRecordScore = true
+			modified = true
+		end
+	--[[
+		if f_getAllianceTeamLv() > stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel then
+			stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel = f_getAllianceTeamLv()
+			resultsNewRecord = true
+			modified = true
+		end
+	--]]
 --Save Data for Other Modes (Survival, Time Attack, Score Attack)
 	else
 		if state == "win" then
@@ -15017,7 +15039,7 @@ function f_result(state)
 				textImgSetText(txt_resultTitle, "SURVIVAL ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			end
 			f_advancedModesStatus(state) --Save Records
-		elseif data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "speedstar" or data.gameMode == "abyss" or data.gameMode == "caravan" then
+		elseif data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "speedstar" or data.gameMode == "alliance" or data.gameMode == "abyss" or data.gameMode == "caravan" then
 			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN ("..t_advancedCourseSel[advancedCourseSel].name..")")
@@ -15994,6 +16016,17 @@ function f_nextMatch()
 	if data.gameMode == "alliance" then
 		assert(loadfile(saveTempPath))()
 		if data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4 then
+		--Reset Player Defeated Members State
+			for i=1, #data.t_p1selected do
+				if data.t_p1selected[i].defeated then
+					data.t_p1selected[i].defeated = false
+				end
+			end
+			for i=1, #data.t_p2selected do
+				if data.t_p2selected[i].defeated then
+					data.t_p2selected[i].defeated = false
+				end
+			end
 			f_resetAllianceResults()
 			setAllianceRouteSel(true)
 			matchNo = matchNo + 1
@@ -18710,8 +18743,6 @@ function f_allianceBoot()
 end
 
 function f_resetAllianceResults()
-	data.t_p1Alliance = {}
-	data.t_p2Alliance = {}
 	data.p1MembersDefeated = 0
 	data.p2MembersDefeated = 0
 	f_saveTemp()
@@ -18944,10 +18975,6 @@ function f_createAllianceCourseData()
 		end
 		if stats.modes.alliance[t_allianceCourses[i].id].clear == nil then
 			stats.modes.alliance[t_allianceCourses[i].id].clear = false
-			modified = true
-		end
-		if stats.modes.alliance[t_allianceCourses[i].id].wins == nil then
-			stats.modes.alliance[t_allianceCourses[i].id].wins = 0
 			modified = true
 		end
 		if stats.modes.alliance[t_allianceCourses[i].id].score == nil then
