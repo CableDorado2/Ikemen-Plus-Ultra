@@ -4099,38 +4099,76 @@ public &Fight
 	`svlv1.step();
 	`svlv2.step();
   }
-  public void draw(
-    int layerno, ^/&.LifePower life, ^/^/char name, bool nbd,
-    ^^&.com.PalFX facefx, int superplayer)
+  public void draw(int layerno, ^/&.LifePower life, ^/^/char name, bool nbd, ^^&.com.PalFX facefx, int superplayer)
   {
 	if(!.com.statusDraw || .com.battleUIDisplay == 0) ret;
     if(!nbd){
-      if(.com.p1LifebarDisplay) {
-		  loop{index i = 0; while; do:
+		//Original Lifebars Draw Logic
+		//loop{index i = 0; while; do:
+		//`lb[.com.tmode[0]][i].bgDraw(layerno);
+		//i += 2;
+		//while i < #`lb[.com.tmode[0]]:}
+		//loop{index i = 1; while; do:
+		//`lb[.com.tmode[1]][i].bgDraw(layerno);
+		//i += 2;
+		//while i < #`lb[.com.tmode[1]]:}
+		//loop{index i = 0; while; do:
+		//`lb[.com.tmode[0]][i].draw(layerno, life[i].l);
+		//i += 2;
+		//while i < #`lb[.com.tmode[0]]:}
+		//loop{index i = 1; while; do:
+		//`lb[.com.tmode[1]][i].draw(layerno, life[i].l);
+		//i += 2;
+		//while i < #`lb[.com.tmode[1]]:}
+	//Draw P1 Lifebars
+	  if(.com.p1LifebarDisplay) {
+		loop{index i = 0; while; do:
 			`lb[.com.tmode[0]][i].bgDraw(layerno);
 			i += 2;
-		  while i < #`lb[.com.tmode[0]]:}
-		  loop{index i = 1; while; do:
+		while i < #`lb[.com.tmode[0]]:}
+		loop{index i = 0; while; do:
 			`lb[.com.tmode[1]][i].bgDraw(layerno);
 			i += 2;
-		  while i < #`lb[.com.tmode[1]]:}
-		  loop{index i = 0; while; do:
+		while i < #`lb[.com.tmode[1]]:}
+		loop{index i = 0; while; do:
 			`lb[.com.tmode[0]][i].draw(layerno, life[i].l);
 			i += 2;
-		  while i < #`lb[.com.tmode[0]]:}
-		  loop{index i = 1; while; do:
+		while i < #`lb[.com.tmode[0]]:}
+		loop{index i = 0; while; do:
 			`lb[.com.tmode[1]][i].draw(layerno, life[i].l);
 			i += 2;
-		  while i < #`lb[.com.tmode[1]]:}
+		while i < #`lb[.com.tmode[1]]:}
 	  }
+	//Draw P2 Lifebars
+	  if(.com.p2LifebarDisplay) {
+		loop{index i = 1; while; do:
+			`lb[.com.tmode[0]][i].bgDraw(layerno);
+			i += 2;
+		while i < #`lb[.com.tmode[0]]:}
+		loop{index i = 1; while; do:
+			`lb[.com.tmode[1]][i].bgDraw(layerno);
+			i += 2;
+		while i < #`lb[.com.tmode[1]]:}
+		loop{index i = 1; while; do:
+			`lb[.com.tmode[0]][i].draw(layerno, life[i].l);
+			i += 2;
+		while i < #`lb[.com.tmode[0]]:}
+		loop{index i = 1; while; do:
+			`lb[.com.tmode[1]][i].draw(layerno, life[i].l);
+			i += 2;
+		while i < #`lb[.com.tmode[1]]:}
+	  }
+	//Draw P1 Powerbars
 	  if(.com.p1PowerbarDisplay) {
 		  `pb[0].bgDraw(layerno);
 		  `pb[0].draw(layerno, life[0].p, life[.com.tmode[0] != 1 ? 0 : 2].lv, `fnt);
 	  }
+	//Draw P2 Powerbars
 	  if(.com.p2PowerbarDisplay) {
 		  `pb[1].bgDraw(layerno);
 		  `pb[1].draw(layerno, life[1].p, life[.com.tmode[1] != 1 ? 1 : 3].lv, `fnt);
 	  }
+	//Draw Faces
       loop{index i = #`fa[.com.tmode[0]]-2; while; do:
         `fa[.com.tmode[0]][i].bgDraw(layerno);
         i -= 2;
@@ -4147,6 +4185,7 @@ public &Fight
         `fa[.com.tmode[1]][i].draw(layerno, facefx[i], i == superplayer);
         i -= 2;
       while i >= 0:}
+	//Draw Names
       loop{index i = 0; while; do:
         `nm[.com.tmode[0]][i].bgDraw(layerno);
         i += 2;
@@ -4163,12 +4202,15 @@ public &Fight
         `nm[.com.tmode[1]][i].draw(layerno, `fnt, name[i]);
         i += 2;
       while i < #`nm[.com.tmode[1]]:}
+	//Draw Round Time
       if(.com.roundTimeDisplay) {
 		`ti.bgDraw(layerno);
 		`ti.draw(layerno, .com.time, `fnt);
 	  }
+	//Draw Wins Icon
       `wi[0].draw(layerno, `fnt);
       `wi[1].draw(layerno, `fnt);
+	//Draw Wins Counter
 	  if(.com.p1winsDisplay) {
 		`wc1.bgDraw(layerno);
 		`wc1.draw(layerno, .com.p1winsFormatted, `fnt);
@@ -4177,6 +4219,7 @@ public &Fight
 		`wc2.bgDraw(layerno);
 		`wc2.draw(layerno, .com.p2winsFormatted, `fnt);
 	  }
+	//Draw Timer
 	  if(.com.timerDisplay) {
 		branch{
 		cond .s.equ(.com.playerSide, "p1right") || .s.equ(.com.playerSide, "p2right"):
@@ -4189,6 +4232,7 @@ public &Fight
 			`tc1.draw(layerno, .com.timerFormatted, `fnt);
 		}
 	  }
+	//Draw Countdown Timer
 	  if(.com.countdownDisplay) {
 		branch{
 		cond .s.equ(.com.playerSide, "p1right") || .s.equ(.com.playerSide, "p2right"):
@@ -4201,6 +4245,7 @@ public &Fight
 			`cd1.draw(layerno, .com.countdownFormatted, `fnt);
 		}
 	  }
+	//Draw Score
 	  if(.com.scoreDisplay) {
 		branch{
 		cond .s.equ(.com.playerSide, "p1right") || .s.equ(.com.playerSide, "p2right"):
@@ -4213,6 +4258,7 @@ public &Fight
 			`sc1.draw(layerno, .com.score, `fnt);
 		}
 	  }
+	//Draw Best Record
 	  if(.com.bestDisplay) {
 		branch{
 		cond .s.equ(.com.playerSide, "p1right") || .s.equ(.com.playerSide, "p2right"):
@@ -4225,6 +4271,7 @@ public &Fight
 			`br1.draw(layerno, .com.bestRecord, `fnt);
 		}
 	  }
+	//Draw Life State
 	  if(.com.lifeStateDisplay) {
 		`ls1.bgDraw(layerno);
 		`ls1.draw(layerno, .com.p1LifeState, `fnt);
@@ -4232,22 +4279,27 @@ public &Fight
 		`ls2.bgDraw(layerno);
 		`ls2.draw(layerno, .com.p2LifeState, `fnt);
 	  }
+	//Draw Stage No
 	  if(.com.matchnoDisplay) {
 		`mtch.bgDraw(layerno);
 		`mtch.draw(layerno, .com.matchnoInfo, `fnt);
 	  }
+	//Draw AI Level
 	  if(.com.ailevelDisplay) {
 		`ailv.bgDraw(layerno);
 		`ailv.draw(layerno, .com.cpuLevel, `fnt);
 	  }
+	//Draw Game Mode Name
 	  if(.com.gamemodeDisplay) {
 		`mode.bgDraw(layerno);
 		`mode.draw(layerno, .com.gameMode, `fnt);
 	  }
+	//Draw Reward
 	  if(.com.rewardDisplay) {
 		`rw.bgDraw(layerno);
 		`rw.draw(layerno, .com.rewardFormatted, `fnt);
 	  }
+	//Draw Tournament Data
 	  if(.s.equ(.com.gameMode, "tourney") || .s.equ(.com.gameMode, "tourneyAI")) {
 		`ts.bgDraw(layerno);
 		`ts.draw(layerno, .com.tourneyState, `fnt);
@@ -4255,6 +4307,7 @@ public &Fight
 		`ft.bgDraw(layerno);
 		`ft.draw(layerno, .com.matchsToWin, `fnt);
 	  }
+	//Draw Abyss Data
 	  if(.s.equ(.com.gameMode, "abyss") || .s.equ(.com.gameMode, "abysscoop")) {
 		branch{
 		cond .s.equ(.com.playerSide, "p1right") || .s.equ(.com.playerSide, "p2right"):
@@ -4281,6 +4334,7 @@ public &Fight
 		`svlv2.bgDraw(layerno);
 		`svlv2.draw(layerno, .com.abyssLvP2, `fnt);
 	  }
+	//Draw Player Username
 	  if(.s.equ(.com.gameMode, "netplay")) {
 		`nick.bgDraw(layerno);
 		`nick.draw(layerno, .cfg.UserName, `fnt);
