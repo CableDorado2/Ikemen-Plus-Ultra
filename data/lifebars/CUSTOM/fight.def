@@ -537,7 +537,7 @@ text.font = 1,5
 text.offset = 3,0   ;Offset of text
 ;-----------------------------------------------------------
 [Round]
-match.wins = 1          ;Rounds needed to win a match (Ikemen feature: deprecated, this setting can be configured in in-game options)
+match.wins = 2          ;Rounds needed to win a match (Ikemen feature: deprecated, this setting can be configured in in-game options)
 match.maxdrawgames = 2  ;Max number of drawgames allowed (-1 for infinite) *2001.11.01 NEW*
 start.waittime = 30     ;Time to wait before starting intro
 
@@ -962,7 +962,7 @@ text.scale = 0.7, 0.7
 [Reward] ;In-Game Currency Reward Display
 pos = 160,43
 ;bg.spr = 
-text.font = 1,5, 0
+text.font = 1,0, 0
 ;text.text = REWARD: %s ;TODO
 text.layerno = 1
 ;-----------------------------------------------------------

@@ -1653,6 +1653,26 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Alliance Mode
 	elseif gameMode() == "alliance" then
+	--Time Over Player Lose Logic
+		if timeremaining() == 0 then
+			if playerLeftSide then
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						
+					else --Is an Odd Player Number (Left Side)
+						if player(i) then setLife(0) end
+					end
+				end
+			else
+				for i=1, 8 do
+					if i % 2 == 0 then --Is an Even Player Number (Right Side)
+						if player(i) then setLife(0) end
+					else --Is an Odd Player Number (Left Side)
+						
+					end
+				end
+			end
+		end
 	--Change Character
 		if matchover() then
 		--Player Wins
