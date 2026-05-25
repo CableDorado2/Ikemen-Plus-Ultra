@@ -13798,15 +13798,18 @@ function f_selectVersus()
 	local i = 0
 	local vsScreen = false
 	if data.gameMode == "alliance" then
-	--Transfer last alliance status data before it was deleted in "Assign enemy team for AI" in f_selectAdvance
-		if data.t_p1Alliance ~= nil then
-			for i=1, #data.t_p1Alliance do
-				data.t_p1selected[i] = data.t_p1Alliance[i]
+	--Transfer last Alliance data before it was deleted in "Assign enemy team for AI" in f_selectAdvance
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			if data.t_p2Alliance ~= nil then
+				for i=1, #data.t_p2Alliance do
+					data.t_p2selected[i] = data.t_p2Alliance[i]
+				end
 			end
-		end
-		if data.t_p2Alliance ~= nil then
-			for i=1, #data.t_p2Alliance do
-				data.t_p2selected[i] = data.t_p2Alliance[i]
+		else
+			if data.t_p1Alliance ~= nil then
+				for i=1, #data.t_p1Alliance do
+					data.t_p1selected[i] = data.t_p1Alliance[i]
+				end
 			end
 		end
 		if data.debugLog then
@@ -16311,13 +16314,13 @@ if validCells() then
 							playVideo(tPos.ending2)
 						end
 					end
-					if data.gameMode == "abyss" then f_abyssMap() end
-					f_winAdvanced()
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						f_arcadeEnd()
 						return
 					else
 						if data.gameMode ~= "alliance" or (data.gameMode == "alliance" and (data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4)) then
+							if data.gameMode == "abyss" then f_abyssMap() end
+							f_winAdvanced()
 							f_advancedEnd()
 							return
 						end
@@ -16361,12 +16364,13 @@ if validCells() then
 							playVideo(tPos.ending2)
 						end
 					end
-					f_winAdvanced()
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						f_arcadeEnd()
 						return
 					else
 						if data.gameMode ~= "alliance" or (data.gameMode == "alliance" and (data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4)) then
+							if data.gameMode == "abyss" then f_abyssMap() end
+							f_winAdvanced()
 							f_advancedEnd()
 							return
 						end

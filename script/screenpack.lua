@@ -5254,7 +5254,7 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
 	animPosDraw(allianceEnemyIconBG, 125 + posX, 25 + posY)
 	animPosDraw(allianceEnemyRandomIcon, 126 + posX, 26 + posY)
 	drawFacePortrait(t_charDat.cel, 126 + posX, 26 + posY, 0.9, 0.9)
-	if t_charDat.defeated and not allianceRouteSel() then
+	if t_charDat.defeated then
 		animPosDraw(allianceMemDefeated, 125 + posX, 25 + posY)
 	end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
