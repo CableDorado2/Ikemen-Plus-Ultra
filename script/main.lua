@@ -13776,6 +13776,21 @@ function f_selectVersus()
 	local i = 0
 	local vsScreen = false
 	if data.gameMode == "alliance" then
+	--Transfer last alliance status data before it was deleted in "Assign enemy team for AI" in f_selectAdvance
+		if data.t_p1Alliance ~= nil then
+			for i=1, #data.t_p1Alliance do
+				data.t_p1selected[i] = data.t_p1Alliance[i]
+			end
+		end
+		if data.t_p2Alliance ~= nil then
+			for i=1, #data.t_p2Alliance do
+				data.t_p2selected[i] = data.t_p2Alliance[i]
+			end
+		end
+		if data.debugLog then
+			f_printTable(data.t_p1selected, "script/data.t_p1selected.log")
+			f_printTable(data.t_p2selected, "script/data.t_p2selected.log")
+		end
 		if not firstAlliance then f_setAlliancePlayerMembers() end
 		if allianceChange() then
 			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
@@ -16236,6 +16251,7 @@ if validCells() then
 						data.p2MembersDefeated = data.p2MembersDefeated + 1
 						f_saveTemp()
 						data.t_p2selected[currentAllianceMemberCPU].defeated = true
+						data.t_p2Alliance = data.t_p2selected
 						if currentAllianceMemberCPU < 4 then
 							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
 						else
@@ -16248,13 +16264,10 @@ if validCells() then
 					looseCnt = looseCnt + 1
 					if data.gameMode == "alliance" then
 						data.t_p1selected[currentAllianceMemberPlayer].defeated = true
+						data.t_p1Alliance = data.t_p1selected
 						data.p1MembersDefeated = data.p1MembersDefeated + 1
 						f_saveTemp()
 					end
-				end
-				if data.debugLog then
-					f_printTable(data.t_p1selected, "script/data.t_p1selected.log")
-					f_printTable(data.t_p2selected, "script/data.t_p2selected.log")
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -16300,6 +16313,7 @@ if validCells() then
 						data.p1MembersDefeated = data.p1MembersDefeated + 1
 						f_saveTemp()
 						data.t_p1selected[currentAllianceMemberCPU].defeated = true
+						data.t_p1Alliance = data.t_p1selected
 						if currentAllianceMemberCPU < 4 then
 							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
 						else
@@ -16312,6 +16326,7 @@ if validCells() then
 					looseCnt = looseCnt + 1
 					if data.gameMode == "alliance" then
 						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
+						data.t_p2Alliance = data.t_p2selected
 						data.p2MembersDefeated = data.p2MembersDefeated + 1
 						f_saveTemp()
 					end
@@ -16715,8 +16730,7 @@ if validCells() then
 					['pal'] = p1Pal,
 					['handicap'] = p1HandicapSel,
 					['up'] = updateAnim,
-					['rand'] = false,
-					['defeated'] = false
+					['rand'] = false
 				}
 				if shuffle then
 					f_shuffleTable(data.t_p1selected)
@@ -16745,8 +16759,7 @@ if validCells() then
 							['pal'] = p1Pal,
 							['handicap'] = p1HandicapSel,
 							['up'] = true,
-							['rand'] = false,
-							['defeated'] = false
+							['rand'] = false
 						}
 						restoreTeam = true
 						break
@@ -16860,8 +16873,7 @@ if validCells() then
 					['pal'] = p2Pal,
 					['handicap'] = p2HandicapSel,
 					['up'] = updateAnim,
-					['rand'] = false,
-					['defeated'] = false
+					['rand'] = false
 				}
 				if shuffle then
 					f_shuffleTable(data.t_p2selected)
@@ -16890,8 +16902,7 @@ if validCells() then
 							['pal'] = p2Pal,
 							['handicap'] = p2HandicapSel,
 							['up'] = true,
-							['rand'] = false,
-							['defeated'] = false
+							['rand'] = false
 						}
 						restoreTeam = true
 						break
@@ -18715,6 +18726,8 @@ function f_allianceBoot()
 end
 
 function f_resetAllianceResults()
+	data.t_p1Alliance = {}
+	data.t_p2Alliance = {}
 	data.p1MembersDefeated = 0
 	data.p2MembersDefeated = 0
 	f_saveTemp()

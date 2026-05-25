@@ -4227,9 +4227,9 @@ t_speedStarRules = {
 	regenlife = {displaytext = "Auto Heal", rule = function() end},
 	regenpower = {displaytext = "Auto Power Recover", rule = function() end},
 	powerstartmax = {displaytext = "Power Max at Start", rule = function() end},
-	nolifedisplay = {displaytext = "Lifebar not Displayed", rule = function() end},
-	nopowerdisplay = {displaytext = "Power Gauge not Displayed", rule = function() end},
-	nohuddisplay = {displaytext = "Battle HUD not Displayed", rule = function() end},
+	nolifedisplay = {displaytext = "Lifebar not Displayed", rule = function() setP1LifebarDisplay(false) end},
+	nopowerdisplay = {displaytext = "Power Gauge not Displayed", rule = function() setP1PowerDisplay(false) end},
+	nohuddisplay = {displaytext = "Battle HUD not Displayed", rule = function() setBattleUIDisplay(false) end},
 	invisibility = {displaytext = "Invisibility", rule = function() end},
 }
 
@@ -5238,6 +5238,13 @@ allianceStatsH = animNew(sprIkemen, [[
 animSetScale(allianceStatsH, 0.35, 0.35)
 animUpdate(allianceStatsH)
 
+--Alliance Member Defeated
+allianceMemDefeated = animNew(sprIkemen, [[
+74,0, 0,0, -1
+]])
+animSetScale(allianceMemDefeated, 1.35, 1.35)
+animUpdate(allianceMemDefeated)
+
 function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
 	local posX = posX or 0
 	local posY = posY or 0
@@ -5247,6 +5254,9 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
 	animPosDraw(allianceEnemyIconBG, 125 + posX, 25 + posY)
 	animPosDraw(allianceEnemyRandomIcon, 126 + posX, 26 + posY)
 	drawFacePortrait(t_charDat.cel, 126 + posX, 26 + posY, 0.9, 0.9)
+	if t_charDat.defeated and not allianceRouteSel() then
+		animPosDraw(allianceMemDefeated, 125 + posX, 25 + posY)
+	end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
 	f_drawQuickText(txt_allyName, nameFont, 0, 1, t_charDat.displayname, 6 + posX, 33 + posY)
 	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 6 + posX, 46 + posY)
