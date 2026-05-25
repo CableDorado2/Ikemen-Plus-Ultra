@@ -3137,6 +3137,7 @@ function bonusCfg()
 	f_discordUpdate({details = "Bonus Game: "..bonusDat})
 	f_default()
 	setBestDisplay(false)
+	setBattleUIDisplay(false)
 	setGameMode("bonusgame")
 	data.gameMode = "singlebonus"
 	data.recordMode = "bonus"
@@ -9172,6 +9173,7 @@ function f_p1SelectMenu()
 				['pal'] = palp1,
 				['handicap'] = p1HandicapSel,
 				['up'] = updateAnim,
+				['defeated'] = false,
 				['name'] = t_selChars[t_p1CharID[i] + 1].name,
 				['displayname'] = t_selChars[t_p1CharID[i] + 1].displayname,
 				['path'] = t_selChars[t_p1CharID[i] + 1].char,
@@ -10191,6 +10193,7 @@ function f_p1SelectMenu()
 						['pal'] = p1PalSel,
 						['handicap'] = p1HandicapSel,
 						['up'] = updateAnim,
+						['defeated'] = false,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 					p1SelEnd = true
@@ -10204,6 +10207,7 @@ function f_p1SelectMenu()
 						['pal'] = p1PalSel,
 						['handicap'] = p1HandicapSel,
 						['up'] = updateAnim,
+						['defeated'] = false,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 				--When characters selected are equal to team mode amount selected
@@ -10630,6 +10634,7 @@ function f_p2SelectMenu()
 				['pal'] = palp2,
 				['handicap'] = p2HandicapSel,
 				['up'] = updateAnim,
+				['defeated'] = false,
 				['name'] = t_selChars[t_p2CharID[i] + 1].name,
 				['displayname'] = t_selChars[t_p2CharID[i] + 1].displayname,
 				['path'] = t_selChars[t_p2CharID[i] + 1].char,
@@ -11635,6 +11640,7 @@ function f_p2SelectMenu()
 						['pal'] = p2PalSel,
 						['handicap'] = p2HandicapSel,
 						['up'] = updateAnim,
+						['defeated'] = false,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 					p2coopReady = true
@@ -11654,6 +11660,7 @@ function f_p2SelectMenu()
 						['pal'] = p2PalSel,
 						['handicap'] = p2HandicapSel,
 						['up'] = updateAnim,
+						['defeated'] = false,
 						['discordkey'] = t_selChars[cel + 1].discordkey
 					}
 					if #data.t_p2selected == p2numChars then
@@ -13726,6 +13733,7 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['defeated'] = false,
 				['activemember'] = false,
 				['up'] = updateAnim
 			}
@@ -13746,6 +13754,7 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['defeated'] = false,
 				['activemember'] = false,
 				['up'] = updateAnim
 			}
@@ -16220,12 +16229,13 @@ if validCells() then
 				end
 		--Player 1 (IN LEFT SIDE):
 			else
-			--Wins in (Arcade, Survival, Boss Rush, Bonus Marathon)
+			--Wins
 				if winner == 1 then
 					winCnt = winCnt + 1
 					if data.gameMode == "alliance" then
 						data.p2MembersDefeated = data.p2MembersDefeated + 1
 						f_saveTemp()
+						data.t_p2selected[currentAllianceMemberCPU].defeated = true
 						if currentAllianceMemberCPU < 4 then
 							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
 						else
@@ -16233,10 +16243,18 @@ if validCells() then
 						end
 						if data.p2MembersDefeated == 3 then setAllianceLastEnemy(true) end
 					end
+			--Loses
 				else
 					looseCnt = looseCnt + 1
-					data.p1MembersDefeated = data.p1MembersDefeated + 1
-					f_saveTemp()
+					if data.gameMode == "alliance" then
+						data.t_p1selected[currentAllianceMemberPlayer].defeated = true
+						data.p1MembersDefeated = data.p1MembersDefeated + 1
+						f_saveTemp()
+					end
+				end
+				if data.debugLog then
+					f_printTable(data.t_p1selected, "script/data.t_p1selected.log")
+					f_printTable(data.t_p2selected, "script/data.t_p2selected.log")
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -16275,12 +16293,13 @@ if validCells() then
 		elseif winner == 2 then
 		--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--Wins in (Arcade, Survival, Boss Rush, Bonus Marathon)
+			--Wins
 				if winner == 2 then
 					winCnt = winCnt + 1
 					if data.gameMode == "alliance" then
 						data.p1MembersDefeated = data.p1MembersDefeated + 1
 						f_saveTemp()
+						data.t_p1selected[currentAllianceMemberCPU].defeated = true
 						if currentAllianceMemberCPU < 4 then
 							currentAllianceMemberCPU = currentAllianceMemberCPU + 1
 						else
@@ -16288,10 +16307,14 @@ if validCells() then
 						end
 						if data.p1MembersDefeated == 3 then setAllianceLastEnemy(true) end
 					end
+			--Loses
 				else
 					looseCnt = looseCnt + 1
-					data.p2MembersDefeated = data.p2MembersDefeated + 1
-					f_saveTemp()
+					if data.gameMode == "alliance" then
+						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
+						data.p2MembersDefeated = data.p2MembersDefeated + 1
+						f_saveTemp()
+					end
 				end
 			--Victory Screen
 				if data.gameMode == "arcade" or data.gameMode == "tower" then
@@ -16691,7 +16714,9 @@ if validCells() then
 					['author'] = t_selChars[p1Cell + 1].author,
 					['pal'] = p1Pal,
 					['handicap'] = p1HandicapSel,
-					['up'] = updateAnim, ['rand'] = false
+					['up'] = updateAnim,
+					['rand'] = false,
+					['defeated'] = false
 				}
 				if shuffle then
 					f_shuffleTable(data.t_p1selected)
@@ -16720,7 +16745,8 @@ if validCells() then
 							['pal'] = p1Pal,
 							['handicap'] = p1HandicapSel,
 							['up'] = true,
-							['rand'] = false
+							['rand'] = false,
+							['defeated'] = false
 						}
 						restoreTeam = true
 						break
@@ -16834,7 +16860,8 @@ if validCells() then
 					['pal'] = p2Pal,
 					['handicap'] = p2HandicapSel,
 					['up'] = updateAnim,
-					['rand'] = false
+					['rand'] = false,
+					['defeated'] = false
 				}
 				if shuffle then
 					f_shuffleTable(data.t_p2selected)
@@ -16863,7 +16890,8 @@ if validCells() then
 							['pal'] = p2Pal,
 							['handicap'] = p2HandicapSel,
 							['up'] = true,
-							['rand'] = false
+							['rand'] = false,
+							['defeated'] = false
 						}
 						restoreTeam = true
 						break
@@ -18964,9 +18992,24 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 	while true do
 	--Start Actions
 		if (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
-			sndPlay(sndSys, 100, 1)
-			currentAllianceMemberPlayer = memberSel
-			break
+			if not t_playerList[memberSel].defeated then
+				sndPlay(sndSys, 100, 1)
+				currentAllianceMemberPlayer = memberSel
+				break
+			else
+				if allianceTimer == 0 then --Use an available member
+					for i=1, #t_playerList do
+						if not t_playerList[i].defeated then
+							sndPlay(sndSys, 100, 1)
+							memberSel = i
+							currentAllianceMemberPlayer = memberSel
+							break
+						end
+					end
+				else
+					sndPlay(sndSys, 200, 0)
+				end
+			end
 	--Alliance Member Select
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sndSys, 100, 0)
