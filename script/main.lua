@@ -13755,6 +13755,10 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['life'] = t_allianceSel[allianceSel][i].life,
+				['power'] = t_allianceSel[allianceSel][i].power,
+				['attack'] = t_allianceSel[allianceSel][i].attack,
+				['defence'] = t_allianceSel[allianceSel][i].defence,
 				['defeated'] = false,
 				['activemember'] = false,
 				['up'] = updateAnim
@@ -13776,6 +13780,10 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['life'] = t_allianceSel[allianceSel][i].life,
+				['power'] = t_allianceSel[allianceSel][i].power,
+				['attack'] = t_allianceSel[allianceSel][i].attack,
+				['defence'] = t_allianceSel[allianceSel][i].defence,
 				['defeated'] = false,
 				['activemember'] = false,
 				['up'] = updateAnim
@@ -13783,6 +13791,12 @@ function f_setAlliancePlayerMembers()
 		end
 	end
 	--setTeamMode(pSide, 0, 4)
+--Set Stats for Alliance Leader
+	if pSide == 1 then
+		f_setAllianceLeaderStats(data.t_p1selected)
+	else
+		f_setAllianceLeaderStats(data.t_p2selected)
+	end
 	data.t_p1selected[1].activemember = true
 	data.t_p2selected[1].activemember = true
 	firstAlliance = true
@@ -19237,7 +19251,9 @@ function f_allianceExchange()
 		--drawAlliExchangeTest(t_playerTeam, t_enemyTeam, enemyMember, playerMember, enemySide)
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Draw Member Exchange Common Assets
+		textImgSetText(txt_allianceExchangeCPULv, "ENEMY "..txt_allianceExchangeTeamLv..f_getAllianceTeamLevel(t_enemyTeam, true))
 		textImgDraw(txt_allianceExchangeCPULv)
+		textImgSetText(txt_allianceExchangePlayerLv, "PLAYER "..txt_allianceExchangeTeamLv..f_getAllianceTeamLevel(t_playerTeam, true))
 		textImgDraw(txt_allianceExchangePlayerLv)
 	--Arrow to right
 		if enemySide then

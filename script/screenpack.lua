@@ -4507,16 +4507,17 @@ t_allianceStatsRanks = {
 	{rank = "E-", weight = 0.1, stats = {min = 1, max = 9}},
 }
 
+--Get Alliance Members Stats Rank based on Stats Range Values
 function f_getAllianceStatRank(val)
 	for i, entry in ipairs(t_allianceStatsRanks) do
 		if val >= entry.stats.min and val <= entry.stats.max then
 			return entry.rank
 		end
 	end
-	return "???" --Default value is not defined
+	return "E-" --Default value is not defined
 end
 
---Alliance Member Team Power Calc function
+--Get Alliance Members Power Level based on Characters Stats
 function f_getAllianceMemberPower(t_ally)
 	local basePower = 0
 	local globalMultiplier = 4663 --Change this to inflate or reduce the final number
@@ -4526,7 +4527,7 @@ function f_getAllianceMemberPower(t_ally)
 		local attrData = t_ally[attrName] --Read t_ally.life, t_ally.power, etc..
 		if attrData then
 			local statValue = attrData or 0
-			local rankLabel = f_getAllianceStatRank(attrData) or "E-"
+			local rankLabel = f_getAllianceStatRank(attrData)
 		--Search weight in t_allianceStatsRanks
 			local weight = 0.1 --Default value is not defined
 			for _, entry in ipairs(t_allianceStatsRanks) do
@@ -4542,17 +4543,77 @@ function f_getAllianceMemberPower(t_ally)
 	return math.floor(totalPower) --Return an Integer Value
 end
 
---Get Team Level based on Characters Stats
-function f_getAllianceTeamLevel(t_allianceMembers)
+--Get Alliance Team Level based on Members Power Level
+function f_getAllianceTeamLevel(t_allianceMembers, skipLeader)
+	local skipLeader = skipLeader or false
 	local totalTeamLv = 0
 --Check Total Power for All Alliance Members
-	for _, member in ipairs(t_allianceMembers) do
-		totalTeamLv = totalTeamLv + (f_getAllianceMemberPower(member) or 0)
+	for i, member in ipairs(t_allianceMembers) do
+		if not (skipLeader and i == 1) then
+			totalTeamLv = totalTeamLv + (f_getAllianceMemberPower(member) or 0)
+		end
 	end
 --Scale factor (To control how difficult the level up is)
 	local scaleFactor = 1900
 	local level = totalTeamLv / scaleFactor
 	return math.max(1, math.floor(level)) --Minimum Level is 1
+end
+
+--Set or Update Alliance Leader stats basen on Team Level
+function f_setAllianceLeaderStatsOLD(t_allianceMembers)
+	local supportLevel = f_getAllianceTeamLevel(t_allianceMembers, true)
+	local growthFactor = 1 + (supportLevel * 0.015)
+	local leader = t_allianceMembers[1]
+	leader.stats = leader.stats or {
+		life = leader.life,
+		power = leader.power,
+		attack = leader.attack,
+		defence = leader.defence
+	}
+	local attributes = {'life', 'power', 'attack', 'defence'}
+	for _, attrName in ipairs(attributes) do
+		local originalStat = leader.stats[attrName] or 2
+		local newStat = math.floor(originalStat * growthFactor)
+		leader[attrName] = math.min(t_allianceStatsRanks[1].stats.max, newStat)
+	end
+end
+
+--Set or Update Alliance Leader stats based on Team Level
+function f_setAllianceLeaderStats(t_allianceMembers)
+	local supportLevel = f_getAllianceTeamLevel(t_allianceMembers, true)
+	local growthFactor = 1 + (supportLevel * 0.015)
+	local leader = t_allianceMembers[1]
+	if not leader then return end
+--Get Team Average
+	local teamBaseAverage = 0
+	local validMembers = 0
+	local attributes = {'life', 'power', 'attack', 'defence'}
+	for i=2, #t_allianceMembers do
+		local member = t_allianceMembers[i]
+		for _, attrName in ipairs(attributes) do
+			if member[attrName] then
+				teamBaseAverage = teamBaseAverage + member[attrName]
+				validMembers = validMembers + 1
+			end
+		end
+	end
+	local defaultBase = validMembers > 0 and math.floor(teamBaseAverage / validMembers) or 5
+--Assigns Team Average to Leader
+	leader.stats = leader.stats or {
+		life = leader.life or defaultBase,
+		power = leader.power or defaultBase,
+		attack = leader.attack or defaultBase,
+		defence = leader.defence or defaultBase
+	}
+--Apply growthFactor
+	for _, attrName in ipairs(attributes) do
+		local originalStat = leader.stats[attrName]
+		local newStat = math.floor(originalStat * growthFactor)
+		if supportLevel > 0 and newStat <= originalStat then
+			newStat = originalStat + math.floor(supportLevel / 2)
+		end
+		leader[attrName] = math.min(t_allianceStatsRanks[1].stats.max, newStat)
+	end
 end
 
 t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
@@ -5336,12 +5397,12 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
 	end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
 	f_drawQuickText(txt_allyName, nameFont, 0, 1, t_charDat.displayname, 6 + posX, 33 + posY)
-	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText.."999999", 6 + posX, 46 + posY)
+	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..f_getAllianceMemberPower(t_charDat), 6 + posX, 46 + posY)
 	f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 139 + posX, 60 + posY)
-	f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, "SS", 19 + posX, 60 + posY)
-	f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, "SS", 48 + posX, 60 + posY)
-	f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, "SS", 76 + posX, 60 + posY)
-	f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, "SS", 105 + posX, 60 + posY)
+	f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.attack), 19 + posX, 60 + posY)
+	f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.power), 48 + posX, 60 + posY)
+	f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.life), 76 + posX, 60 + posY)
+	f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.defence), 105 + posX, 60 + posY)
 end
 
 function drawAlliMemTest(memberSel)
@@ -5363,8 +5424,9 @@ end
 --;===========================================================
 txt_allianceExchangeInfo = createTextImg(font7, 0, 0, "SELECT THE CPU CHARACTER AND ALLY CHARACTER TO BE EXCHANGE", 160, 15)
 txt_allianceExchangeTime = createTextImg(font20, 4, 0, "", 250, 10)
-txt_allianceExchangeCPULv = createTextImg(font20, 0, 0, "ENEMY TEAM LEVEL: 999", 80, 15, 0.8, 0.8)
-txt_allianceExchangePlayerLv = createTextImg(font20, 2, 0, "PLAYER TEAM LEVEL: 999", 240, 15, 0.8, 0.8)
+txt_allianceExchangeCPULv = createTextImg(font20, 0, 0, "", 80, 15, 0.8, 0.8)
+txt_allianceExchangePlayerLv = createTextImg(font20, 2, 0, "", 240, 15, 0.8, 0.8)
+txt_allianceExchangeTeamLv = "TEAM LEVEL: "
 
 --Alliance Exchange Arrow
 allianceExchangeArrow = animNew(sprIkemen, [[
