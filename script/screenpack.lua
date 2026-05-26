@@ -908,7 +908,7 @@ t_mainMenu = {
 	{
 		text = "EXIT",
 		info = [[
-		Shutdown or Reboot Engine.
+		Shutdown or Reboot the Engine.
 		]],
 		gotomenu = "f_exitMenu()"
 	},

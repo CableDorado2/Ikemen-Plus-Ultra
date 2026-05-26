@@ -13799,19 +13799,16 @@ function f_selectVersus()
 	local vsScreen = false
 	if data.gameMode == "alliance" then
 	--Transfer last Alliance data before it was deleted in "Assign enemy team for AI" in f_selectAdvance
-		--if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if data.t_p2Alliance ~= nil then
-				for i=1, #data.t_p2Alliance do
-					data.t_p2selected[i] = data.t_p2Alliance[i]
-				end
+		if data.t_p2Alliance ~= nil then
+			for i=1, #data.t_p2Alliance do
+				data.t_p2selected[i] = data.t_p2Alliance[i]
 			end
-		--else
-			if data.t_p1Alliance ~= nil then
-				for i=1, #data.t_p1Alliance do
-					data.t_p1selected[i] = data.t_p1Alliance[i]
-				end
+		end
+		if data.t_p1Alliance ~= nil then
+			for i=1, #data.t_p1Alliance do
+				data.t_p1selected[i] = data.t_p1Alliance[i]
 			end
-		--end
+		end
 		if data.debugLog then
 			f_printTable(data.t_p1selected, "script/data.t_p1selected.log")
 			f_printTable(data.t_p2selected, "script/data.t_p2selected.log")
