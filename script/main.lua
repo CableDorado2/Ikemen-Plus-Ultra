@@ -4099,8 +4099,8 @@ function f_advancedModesStatus(state)
 			modified = true
 		end
 	--[[
-		if f_getAllianceTeamLv() > stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel then
-			stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel = f_getAllianceTeamLv()
+		if f_getAllianceTeamLevel() > stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel then
+			stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel = f_getAllianceTeamLevel()
 			resultsNewRecord = true
 			modified = true
 		end
@@ -13799,19 +13799,19 @@ function f_selectVersus()
 	local vsScreen = false
 	if data.gameMode == "alliance" then
 	--Transfer last Alliance data before it was deleted in "Assign enemy team for AI" in f_selectAdvance
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		--if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if data.t_p2Alliance ~= nil then
 				for i=1, #data.t_p2Alliance do
 					data.t_p2selected[i] = data.t_p2Alliance[i]
 				end
 			end
-		else
+		--else
 			if data.t_p1Alliance ~= nil then
 				for i=1, #data.t_p1Alliance do
 					data.t_p1selected[i] = data.t_p1Alliance[i]
 				end
 			end
-		end
+		--end
 		if data.debugLog then
 			f_printTable(data.t_p1selected, "script/data.t_p1selected.log")
 			f_printTable(data.t_p2selected, "script/data.t_p2selected.log")
@@ -15144,7 +15144,7 @@ function f_result(state)
 			data.gameMode == "endless" or data.gameMode == "kumite" or
 			data.gameMode == "abyss" or data.gameMode == "speedstar" or
 			data.gameMode == "scoreattack" or data.gameMode == "timeattack" or
-			data.gameMode == "caravan" then
+			data.gameMode == "caravan" or data.gameMode == "alliance" then
 			if gameMode() == "kumite" or data.gameMode == "endless" then
 				if (resultsNewRecord and newRecord) or not resultsNewRecord then
 					textImgDraw(txt_resultWins)
@@ -15165,6 +15165,9 @@ function f_result(state)
 			elseif data.gameMode == "abyss" then
 				f_drawAbyssResults(newRecord)
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
+			elseif data.gameMode == "alliance" then
+				f_drawAllianceResults(newRecord)
+				--f_drawRank(f_getAllianceTeamLevel(), 100)
 			elseif gameMode() == "goldrush" then
 				f_drawGoldRushResults(newRecord)
 			else --Survival/All Roster
@@ -18747,6 +18750,8 @@ function f_allianceBoot()
 end
 
 function f_resetAllianceResults()
+	data.t_p1Alliance = {}
+	data.t_p2Alliance = {}
 	data.p1MembersDefeated = 0
 	data.p2MembersDefeated = 0
 	f_saveTemp()
@@ -19006,6 +19011,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local maxMembers = 4
 	local memberSel = 1 or currentPlayerMember
 	local t_playerList = nil
 	local t_enemyList = nil
@@ -19026,7 +19032,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 				break
 			else
 				if allianceTimer == 0 then --Use an available member
-					for i=1, #t_playerList do
+					for i=1, maxMembers do
 						if not t_playerList[i].defeated then
 							sndPlay(sndSys, 100, 1)
 							memberSel = i
@@ -19047,8 +19053,8 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 			memberSel = memberSel + 1
 		end
 		if memberSel < 1 then
-			memberSel = #t_playerList
-		elseif memberSel > #t_playerList then
+			memberSel = maxMembers
+		elseif memberSel > maxMembers then
 			memberSel = 1
 		end
 		--drawAlliMemTest(memberSel) --quick screnpack test
@@ -19066,7 +19072,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 	--Draw Member Select Assets
 		textImgDraw(txt_allianceMemSelTitle)
 		local spacingY = 50
-		for i=1, 4 do
+		for i=1, maxMembers do
 			local allyType = "LEADER"
 			if i > 1 then allyType = "ALLY "..i - 1 end
 			f_allianceMemberSlot(0, (i - 1) * spacingY, allyType, t_playerList[i])
@@ -19114,6 +19120,7 @@ function f_allianceExchange()
 	local bufl = 0
 	local selection = 0
 	local startCount = false
+	local maxMembers = 4
 	local playerMember = 2
 	local enemyMember = 1
 	local enemySide = true
@@ -19210,14 +19217,14 @@ function f_allianceExchange()
 			end
 		end
 		if enemyMember < 1 then
-			enemyMember = #t_enemyTeam
-		elseif enemyMember > #t_enemyTeam then
+			enemyMember = maxMembers
+		elseif enemyMember > maxMembers then
 			enemyMember = 1
 		end
 	--Player member select start from 2nd because 1st is the leader will level up
 		if playerMember < 2 then
-			playerMember = #t_playerTeam
-		elseif playerMember > #t_playerTeam then
+			playerMember = maxMembers
+		elseif playerMember > maxMembers then
 			playerMember = 2
 		end
 	--Exchange Logic
@@ -19245,7 +19252,7 @@ function f_allianceExchange()
 			animPosDraw(allianceExchangeArrow, 163, 5)
 		end
 		local spacingY = 50
-		for i=1, 4 do
+		for i=1, maxMembers do
 		--ENEMY TEAM SIDE
 			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_enemyTeam[i])
 			if enemyMember == i and enemySide then

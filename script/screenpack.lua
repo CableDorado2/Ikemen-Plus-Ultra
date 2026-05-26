@@ -2759,7 +2759,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	else textImgSetText(txt_gameNo, "MATCH "..gameNo) --Set Versus Match Text
 	end
 --Set Final Matchs Text
-	if (data.gameMode == "arcade" or data.gameMode == "speedstar" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
+	if (data.gameMode == "arcade" or data.gameMode == "alliance" or data.gameMode == "speedstar" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
 	elseif data.gameMode == "tower" and matchNo == lastMatch then textImgSetText(txt_matchNo, "LAST FLOOR") --Set Tower Final Match Text
 	end
 	if data.gameMode == "survival" and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
@@ -3102,6 +3102,16 @@ function f_drawAbyssResults(active)
 	end
 	f_drawQuickText(txt_winsTitle, font, 0, -1, winCnt.." WINS", PosX, PosY + 40)
 	f_drawQuickText(txt_expenseTitle, font, 0, -1, abyssDat.nosave.expense.." IKC SPENT", PosX, PosY + 52)
+end
+
+function f_drawAllianceResults(active)
+	--f_drawQuickText(txt_allianceResult, survNumFnt, 0, -1, f_getAllianceTeamLevel(), 320, 115, 0.65, 0.65)
+	f_drawQuickText(txt_allianceTotal, survNumFnt, 0, -1, "TEAM LEVEL", 320, 130, 0.8, 0.8)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		local teamLevel = stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel
+		f_drawQuickText(txt_allianceRecord, survNumFnt, 0, -1, teamLevel, 320, 175, 0.5, 0.5)
+		f_drawQuickText(txt_allianceBest, survNumFnt, 0, -1, "BEST TEAM LEVEL", 320, 188, 0.7, 0.7)
+	end
 end
 
 function f_drawGoldRushResults(active)
@@ -4461,7 +4471,7 @@ txt_allianceSelUsed = createTextImg(font2, 0, -1, "", 0, 0)
 txt_allianceSelStyle = createTextImg(font2, 0, 1, "", 0, 0)
 
 --Alliance Stats Ranks Table
-local t_allianceStatsRanks = {
+t_allianceStatsRanks = {
 	{rank = "SS", minStats = 150, weight = 2.0},
 	{rank = "S+", minStats = 140, weight = 1.8},
 	{rank = "S",  minStats = 130, weight = 1.7},
