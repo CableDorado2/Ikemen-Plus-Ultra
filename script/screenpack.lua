@@ -16,6 +16,7 @@ luaModulesPath = { --Lua External Modules Folder Paths
 sprFade = sffNew("data/fade.sff") --load fade sprites
 sprSys = sffNew("data/system.sff") --load screenpack/menu MUGEN sprites
 sprIkemen = sffNew("data/ikemen.sff") --load screenpack/menu IKEMEN sprites
+sprMenuInfo = sffNew("data/menu.sff") --load menu info sprites
 sprGlyphs = sffNew("data/glyphs.sff") --load movelist sprites
 --[[Load input hints sprites data
 group is organized based on controller type (0=Keyboard, 1=XBOX Gamepad, 2=PS3 Gamepad)
@@ -424,11 +425,11 @@ animSetAlpha(inputHintsBG, 155, 22)
 
 --Common Mode Info BG
 menuInfoBG = animNew(sprIkemen, [[
-234,0, 0,0, -1
+230,1, 0,0, -1
 ]])
-animSetPos(menuInfoBG, 118, 78)
-animSetScale(menuInfoBG, 0.18, 0.163)
-animSetAlpha(menuInfoBG, 255, 60)
+animSetPos(menuInfoBG, 136, 82)
+animSetScale(menuInfoBG, 1.22, 2.2)
+animSetWindow(menuInfoBG, 0, 88, 320, 208)
 animUpdate(menuInfoBG)
 
 --Common Padlock Sprite
@@ -838,6 +839,7 @@ commonMenuItemSign = "> "
 t_mainMenu = {
 	{
 		text = "ARCADE",
+		spr = {1,1},
 		info = [[
 		Fight against CPU-controlled
 		opponents in a variety of
@@ -847,6 +849,7 @@ t_mainMenu = {
 	},
 	{
 		text = "VERSUS",
+		spr = {2,1},
 		info = [[
 		Fight against Human or CPU
 		specific opponents!
@@ -856,18 +859,18 @@ t_mainMenu = {
 	{
 		text = "NETPLAY",
 		info = [[
-		Connect to Network to
-		Battle or Play in Cooperative
-		with Human players!
+		Connect to Network to Battle
+		or Play in Cooperative with
+		Human players!
 		]],
 		gotomenu = "f_mainNetplay()"
 	},
 	{
 		text = "PRACTICE",
 		info = [[
-		Learn the basics of 2D
-		Fighting Games through Modes
-		designed for Training!
+		Learn the basics of 2D Fighting
+		Games through Modes designed
+		for Improve your Skills!
 		]],
 		gotomenu = "f_practiceMenu()"
 	},
@@ -917,10 +920,21 @@ for i=1, #t_mainMenu do
 end
 
 function drawMenuInfo(t)
-	local txtInfo = "???"
-	if t.info ~= nil then txtInfo = t.info end
+	local txtInfo = t.info or "???"
+	local previewGroup = nil
+	local previewIndex = nil
+	if t.spr ~= nil then
+		previewGroup = t.spr[1] or 0
+		previewIndex = t.spr[2] or 0
+	else
+		previewGroup = 0
+		previewIndex = 0
+	end
 	animDraw(menuInfoBG)
-	f_textRender(txt_mainInfo, txtInfo, 0, 145, 160, 10, 0, -1)
+	f_drawSprPreview(sprMenuInfo, previewGroup, previewIndex,
+		139.8, 93, 0.1385, 0.085 --, previewTransS, previewTransD
+	)
+	f_textRender(txt_mainInfo, txtInfo, 0, 142, 164, 10, 0, -1)
 end
 
 function drawMainMenuInputHints()
@@ -1025,8 +1039,8 @@ t_vsMenu = {
 	{
 		text = "BOSS ASSAULT",
 		info = [[
-		Challenge a Boss Character
-		of your choice!
+		Challenge a Boss Character of
+		your choice!
 		]],
 		gotomenu = "f_bossChars()"
 	},
@@ -1052,9 +1066,9 @@ t_practiceMenu = {
 	{
 		text = "TRIALS",
 		info = [[
-		Learn, Practice and Clear
-		Combo Challenges of a
-		Character of your choice!
+		Learn, Practice and Clear Combo
+		Challenges of a Character of
+		your choice!
 		]],
 		gotomenu = "f_comingSoon()"
 	},
@@ -1082,9 +1096,9 @@ t_challengeMenu = {
 	{
 		text = "SURVIVAL",
 		info = [[
-		Compete for the Highest
-		Winning Streak in a series of
-		matches with a limited health!
+		Compete for the Highest Winning
+		Streak in a series of matches
+		with a limited health!
 		]],
 		gotomenu = "f_survivalMenu()"
 	},
@@ -1234,8 +1248,8 @@ t_extrasMenu = {
 		Deal damage to the opponents
 		to Earn in-game currency!
 		
-		How much money will you
-		be able to collect??
+		How much money will you be
+		able to collect??
 		]],
 		gotomenu = "f_goldrushBoot()"
 	},
@@ -1349,14 +1363,14 @@ t_replayMenu = {
 	{
 		text = "NETPLAY",
 		info = [[
-		Watch and Manage Online
+		Watch and Manage Online Modes
 		replay data that you saved!
 		]]
 	},
 	{
 		text = "LOCAL",
 		info = [[
-		Watch and Manage Offline
+		Watch and Manage Offline Modes
 		replay data that you saved!
 		]]
 	},
@@ -1522,8 +1536,8 @@ t_mainNetplay = {
 	{
 		text = "CREATE MATCH",
 		info = [[
-		Become the Host and Create
-		a New Online Room to Play!
+		Become the Host and Create a
+		New Online Room to Play!
 		]]
 	},
 	{

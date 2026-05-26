@@ -19,8 +19,8 @@ table.insert(t_watchMenu, 4, {
 id = textImgNew(),
 text = "GALLERY",
 info = [[
-View Artworks, Storyboards
-and Re-watch movie Cutscenes!
+View Artworks, Storyboards and
+Re-watch movie Cutscenes!
 ]],
 gotomenu = "f_galleryMenu()"
 })
