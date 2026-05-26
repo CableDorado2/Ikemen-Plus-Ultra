@@ -4486,34 +4486,34 @@ txt_allianceSelStyle = createTextImg(font2, 0, 1, "", 0, 0)
 
 --Alliance Stats Ranks Table
 t_allianceStatsRanks = {
-	{rank = "SS", minStats = 150, weight = 2.0},
-	{rank = "S+", minStats = 140, weight = 1.8},
-	{rank = "S",  minStats = 130, weight = 1.7},
-	{rank = "S-", minStats = 120, weight = 1.6},
-	{rank = "A+", minStats = 110, weight = 1.5},
-	{rank = "A",  minStats = 100, weight = 1.4},
-	{rank = "A-", minStats = 90,  weight = 1.3},
-	{rank = "B+", minStats = 80,  weight = 1.2},
-	{rank = "B",  minStats = 70,  weight = 1.1},
-	{rank = "B-", minStats = 60,  weight = 1.0},
-	{rank = "C+", minStats = 50,  weight = 0.9},
-	{rank = "C",  minStats = 40,  weight = 0.8},
-	{rank = "C-", minStats = 30,  weight = 0.7},
-	{rank = "D+", minStats = 25,  weight = 0.6},
-	{rank = "D",  minStats = 20,  weight = 0.5},
-	{rank = "D-", minStats = 15,  weight = 0.4},
-	{rank = "E+", minStats = 10,  weight = 0.3},
-	{rank = "E",  minStats = 5,   weight = 0.2},
-	{rank = "E-", minStats = 0,   weight = 0.1},
+	{rank = "SS", weight = 2.0, stats = {min = 180, max = 200}},
+	{rank = "S+", weight = 1.8, stats = {min = 170, max = 179}},
+	{rank = "S",  weight = 1.7, stats = {min = 160, max = 169}},
+	{rank = "S-", weight = 1.6, stats = {min = 150, max = 159}},
+	{rank = "A+", weight = 1.5, stats = {min = 140, max = 149}},
+	{rank = "A",  weight = 1.4, stats = {min = 130, max = 139}},
+	{rank = "A-", weight = 1.3, stats = {min = 120, max = 129}},
+	{rank = "B+", weight = 1.2, stats = {min = 110, max = 119}},
+	{rank = "B",  weight = 1.1, stats = {min = 100, max = 109}},
+	{rank = "B-", weight = 1.0, stats = {min = 90, max = 99}},
+	{rank = "C+", weight = 0.9, stats = {min = 80, max = 89}},
+	{rank = "C",  weight = 0.8, stats = {min = 70, max = 79}},
+	{rank = "C-", weight = 0.7, stats = {min = 60, max = 69}},
+	{rank = "D+", weight = 0.6, stats = {min = 50, max = 59}},
+	{rank = "D",  weight = 0.5, stats = {min = 40, max = 49}},
+	{rank = "D-", weight = 0.4, stats = {min = 30, max = 39}},
+	{rank = "E+", weight = 0.3, stats = {min = 20, max = 29}},
+	{rank = "E",  weight = 0.2, stats = {min = 10, max = 19}},
+	{rank = "E-", weight = 0.1, stats = {min = 1, max = 9}},
 }
 
 function f_getAllianceStatRank(val)
 	for i, entry in ipairs(t_allianceStatsRanks) do
-		if val >= entry.minStats then
+		if val >= entry.stats.min and val <= entry.stats.max then
 			return entry.rank
 		end
 	end
-	return "E-" --Default value is not defined
+	return "???" --Default value is not defined
 end
 
 --Alliance Member Team Power Calc function
@@ -4525,8 +4525,8 @@ function f_getAllianceMemberPower(t_ally)
 	for _, attrName in ipairs(attributes) do
 		local attrData = t_ally[attrName] --Read t_ally.life, t_ally.power, etc..
 		if attrData then
-			local statValue = attrData.stat or 0
-			local rankLabel = attrData.rank or "E-"
+			local statValue = attrData or 0
+			local rankLabel = f_getAllianceStatRank(attrData) or "E-"
 		--Search weight in t_allianceStatsRanks
 			local weight = 0.1 --Default value is not defined
 			for _, entry in ipairs(t_allianceStatsRanks) do
@@ -4542,12 +4542,12 @@ function f_getAllianceMemberPower(t_ally)
 	return math.floor(totalPower) --Return an Integer Value
 end
 
---Get Team Level based on Characters Stats Rank
+--Get Team Level based on Characters Stats
 function f_getAllianceTeamLevel(t_allianceMembers)
 	local totalTeamLv = 0
 --Check Total Power for All Alliance Members
 	for _, member in ipairs(t_allianceMembers) do
-		totalTeamLv = totalTeamLv + (member.allyPower or 0)
+		totalTeamLv = totalTeamLv + (f_getAllianceMemberPower(member) or 0)
 	end
 --Scale factor (To control how difficult the level up is)
 	local scaleFactor = 1900
@@ -4571,7 +4571,11 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						--stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 						--music = "sound/teambattle.mp3", --Song Path (if it is empty an auto song will be loaded)
-						stats = {life = 1, power = 1, attack = 1, defence = 1}, --Enemy stats (life, power, attack, defence)
+					--Set Min and Max for Enemy Stats assigns (life, power, attack, defence)
+						life = {min = 1, max = 15},
+						power = {min = 1, max = 15},
+						attack = {min = 1, max = 15},
+						defence = {min = 1, max = 15},
 					}
 				}
 			},
@@ -4587,7 +4591,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect"
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						stats = {life = 1, power = 1, attack = 1, defence = 1},
+						life = {min = 1, max = 15},
+						power = {min = 1, max = 15},
+						attack = {min = 1, max = 15},
+						defence = {min = 1, max = 15},
 					},
 				--Route B
 					{
@@ -4597,7 +4604,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 1, power = 1, attack = 1, defence = 1},
+						life = {min = 15, max = 20},
+						power = {min = 15, max = 20},
+						attack = {min = 15, max = 20},
+						defence = {min = 15, max = 20},
 					},
 				--Route C
 					{
@@ -4607,7 +4617,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 1, power = 1, attack = 1, defence = 1},
+						life = {min = 20, max = 30},
+						power = {min = 20, max = 30},
+						attack = {min = 20, max = 30},
+						defence = {min = 20, max = 30},
 					}
 				}
 			},
@@ -4624,7 +4637,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = {life = 1, power = 1, attack = 1, defence = 1},
+						life = {min = 15, max = 20},
+						power = {min = 15, max = 20},
+						attack = {min = 15, max = 20},
+						defence = {min = 15, max = 20},
 					},
 				--Route B
 					{
@@ -4636,7 +4652,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = {life = 1, power = 1, attack = 1, defence = 1},
+						life = {min = 20, max = 30},
+						power = {min = 20, max = 30},
+						attack = {min = 20, max = 30},
+						defence = {min = 20, max = 30},
 					},
 				--Route C
 					{
@@ -4648,7 +4667,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = {life = 1, power = 1, attack = 1, defence = 1},
+						life = {min = 30, max = 40},
+						power = {min = 30, max = 40},
+						attack = {min = 30, max = 40},
+						defence = {min = 30, max = 40},
 					}
 				}
 			},
@@ -4667,7 +4689,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 10, power = 10, attack = 10, defence = 10},
+						life = {min = 15, max = 20},
+						power = {min = 15, max = 20},
+						attack = {min = 15, max = 20},
+						defence = {min = 15, max = 20},
 					}
 				}
 			},
@@ -4682,7 +4707,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 10, power = 10, attack = 10, defence = 10},
+						life = {min = 15, max = 20},
+						power = {min = 15, max = 20},
+						attack = {min = 15, max = 20},
+						defence = {min = 15, max = 20},
 					},
 				--Route B
 					{
@@ -4692,7 +4720,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 10, power = 10, attack = 10, defence = 10},
+						life = {min = 20, max = 30},
+						power = {min = 20, max = 30},
+						attack = {min = 20, max = 30},
+						defence = {min = 20, max = 30},
 					},
 				--Route C
 					{
@@ -4702,7 +4733,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 10, power = 10, attack = 10, defence = 10},
+						life = {min = 30, max = 40},
+						power = {min = 30, max = 40},
+						attack = {min = 30, max = 40},
+						defence = {min = 30, max = 40},
 					}
 				}
 			},
@@ -4719,7 +4753,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = {life = 10, power = 10, attack = 10, defence = 10},
+						life = {min = 20, max = 30},
+						power = {min = 20, max = 30},
+						attack = {min = 20, max = 30},
+						defence = {min = 20, max = 30},
 					},
 				--Route B
 					{
@@ -4731,7 +4768,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = {life = 10, power = 10, attack = 10, defence = 10},
+						life = {min = 30, max = 40},
+						power = {min = 30, max = 40},
+						attack = {min = 30, max = 40},
+						defence = {min = 30, max = 40},
 					},
 				--Route C
 					{
@@ -4743,7 +4783,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						stats = {life = 10, power = 10, attack = 10, defence = 10},
+						life = {min = 40, max = 50},
+						power = {min = 40, max = 50},
+						attack = {min = 40, max = 50},
+						defence = {min = 40, max = 50},
 					}
 				}
 			},
@@ -4762,7 +4805,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 20, power = 20, attack = 20, defence = 20},
+						life = {min = 20, max = 30},
+						power = {min = 20, max = 30},
+						attack = {min = 20, max = 30},
+						defence = {min = 20, max = 30},
 					}
 				}
 			},
@@ -4777,7 +4823,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 20, power = 20, attack = 20, defence = 20},
+						life = {min = 20, max = 30},
+						power = {min = 20, max = 30},
+						attack = {min = 20, max = 30},
+						defence = {min = 20, max = 30},
 					},
 				--Route B
 					{
@@ -4787,7 +4836,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 20, power = 20, attack = 20, defence = 20},
+						life = {min = 30, max = 40},
+						power = {min = 30, max = 40},
+						attack = {min = 30, max = 40},
+						defence = {min = 30, max = 40},
 					},
 				--Route C
 					{
@@ -4797,7 +4849,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 20, power = 20, attack = 20, defence = 20},
+						life = {min = 40, max = 50},
+						power = {min = 40, max = 50},
+						attack = {min = 40, max = 50},
+						defence = {min = 40, max = 50},
 					}
 				}
 			},
@@ -4812,7 +4867,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 20, power = 20, attack = 20, defence = 20},
+						life = {min = 30, max = 40},
+						power = {min = 30, max = 40},
+						attack = {min = 30, max = 40},
+						defence = {min = 30, max = 40},
 					},
 				--Route B
 					{
@@ -4822,7 +4880,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 20, power = 20, attack = 20, defence = 20},
+						life = {min = 40, max = 50},
+						power = {min = 40, max = 50},
+						attack = {min = 40, max = 50},
+						defence = {min = 40, max = 50},
 					},
 				--Route C
 					{
@@ -4832,7 +4893,10 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 							"randomselect",
 							"randomselect"
 						},
-						stats = {life = 20, power = 20, attack = 20, defence = 20},
+						life = {min = 50, max = 60},
+						power = {min = 50, max = 60},
+						attack = {min = 50, max = 60},
+						defence = {min = 50, max = 60},
 					}
 				}
 			},
@@ -4852,88 +4916,88 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 		{
 			char = "Kung Fu Girl", --Character Path (Need to be loaded in select.def) if it is empty a random char will be loaded
 			ailevel = 1,
-			life = {stat = 4},
-			power = {stat = 4},
-			attack = {stat = 4},
-			defence = {stat = 4},
+			life = 4,
+			power = 4,
+			attack = 4,
+			defence = 4,
 		},
 	--Ally 2
 		{
 			char = "Mako Mayama",
 			ailevel = 1,
-			life = {stat = 4},
-			power = {stat = 4},
-			attack = {stat = 4},
-			defence = {stat = 4},
+			life = 4,
+			power = 4,
+			attack = 4,
+			defence = 4,
 		},
 	--Ally 3
 		{
 			char = "Reika Murasame",
 			ailevel = 1,
-			life = {stat = 4},
-			power = {stat = 4},
-			attack = {stat = 4},
-			defence = {stat = 4},
+			life = 4,
+			power = 4,
+			attack = 4,
+			defence = 4,
 		},
 	},
 --Alliance 2 Members
 	{
 	--Ally 1
 		{
-			char = "Kung Fu Man/Master/Master Kung Fu Man.def",
+			char = "Kung Fu Man",
 			ailevel = 1,
-			life = {stat = 3},
-			power = {stat = 3},
-			attack = {stat = 3},
-			defence = {stat = 3},
+			life = 3,
+			power = 3,
+			attack = 3,
+			defence = 3,
 		},
 	--Ally 2
 		{
 			char = "Kung Fu Man/X/Kung Fu Man X.def",
 			ailevel = 1,
-			life = {stat = 3},
-			power = {stat = 3},
-			attack = {stat = 3},
-			defence = {stat = 3},
+			life = 3,
+			power = 3,
+			attack = 3,
+			defence = 3,
 		},
 	--Ally 3
 		{
-			char = "Kung Fu Man",
+			char = "Kung Fu Man/Master/Master Kung Fu Man.def",
 			ailevel = 1,
-			life = {stat = 3},
-			power = {stat = 3},
-			attack = {stat = 3},
-			defence = {stat = 3},
+			life = 3,
+			power = 3,
+			attack = 3,
+			defence = 3,
 		},
 	},
 --Alliance 3 Members
 	{
 	--Ally 1
 		{
-			char = "Shin Gouki",
+			char = "Suave Dude",
 			ailevel = 1,
-			life = {stat = 2},
-			power = {stat = 2},
-			attack = {stat = 2},
-			defence = {stat = 2},
+			life = 2,
+			power = 2,
+			attack = 2,
+			defence = 2,
 		},
 	--Ally 2
 		{
 			char = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
 			ailevel = 1,
-			life = {stat = 2},
-			power = {stat = 2},
-			attack = {stat = 2},
-			defence = {stat = 2},
+			life = 2,
+			power = 2,
+			attack = 2,
+			defence = 2,
 		},
 	--Ally 3
 		{
-			char = "Suave Dude",
+			char = "Shin Gouki",
 			ailevel = 1,
-			life = {stat = 2},
-			power = {stat = 2},
-			attack = {stat = 2},
-			defence = {stat = 2},
+			life = 2,
+			power = 2,
+			attack = 2,
+			defence = 2,
 		},
 	},
 --Alliance 4 Members
@@ -4942,44 +5006,33 @@ t_allianceSel = { --TODO: Generate this via .def file format for end-user comfor
 		{
 			char = "randomselect",
 			ailevel = 1,
-			life = {stat = 5},
-			power = {stat = 5},
-			attack = {stat = 5},
-			defence = {stat = 5},
+			life = 5,
+			power = 5,
+			attack = 5,
+			defence = 5,
 		},
 	--Ally 2
 		{
 			char = "randomselect",
 			ailevel = 1,
-			life = {stat = 4},
-			power = {stat = 4},
-			attack = {stat = 4},
-			defence = {stat = 4},
+			life = 3,
+			power = 3,
+			attack = 3,
+			defence = 3,
 		},
 	--Ally 3
 		{
 			char = "randomselect",
 			ailevel = 1,
-			life = {stat = 3},
-			power = {stat = 3},
-			attack = {stat = 3},
-			defence = {stat = 3},
+			life = 4,
+			power = 4,
+			attack = 4,
+			defence = 4,
 		},
 	},
 }
 for i=1, #t_allianceSel do
 	t_allianceSel[i]['id'] = textImgNew()
---Set Initial Ranks based in Default Stats
-	for ally=1, #t_allianceSel[i] do
-		t_allianceSel[i][ally].life['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].life.stat)
-		t_allianceSel[i][ally].power['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].power.stat)
-		t_allianceSel[i][ally].attack['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].attack.stat)
-		t_allianceSel[i][ally].defence['rank'] = f_getAllianceStatRank(t_allianceSel[i][ally].defence.stat)
-	--Set Member Total Power
-		t_allianceSel[i][ally]['allyPower'] = f_getAllianceMemberPower(t_allianceSel[i][ally])
-	end
---Set Alliance Team Level
-	t_allianceSel[i]['teamLv'] = f_getAllianceTeamLevel(t_allianceSel[i])
 end
 if data.debugLog then f_printTable(t_allianceSel, "save/debug/t_allianceSel.log") end
 
@@ -5162,15 +5215,15 @@ function f_allianceSelectPreview()
 		drawPortrait(t_charDef[allyDat], 28 + i * 75, 122 + globalPosY, 0.35, 0.35)
 		animPosDraw(allianceStatsV, 71 + i * 75, 122 + globalPosY)
 		f_drawQuickText(txt_allyName, nameFont, 0, 1, "ALLY "..i, 30 + i * 75, 120 + globalPosY)
-		f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..t_allianceSel[allianceSel][i].allyPower, 28 + i * 75, 180 + globalPosY)
+		f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..f_getAllianceMemberPower(t_allianceSel[allianceSel][i]), 28 + i * 75, 180 + globalPosY)
 		local atribPosX = 95 + i * 75
-		f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].attack.rank, atribPosX, 130 + globalPosY)
-		f_drawQuickText(txt_allyPowAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].power.rank, atribPosX, 143 + globalPosY)
-		f_drawQuickText(txt_allyLifAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].life.rank, atribPosX, 155 + globalPosY)
-		f_drawQuickText(txt_allyDefAtrib, nameFont, 0, -1, t_allianceSel[allianceSel][i].defence.rank, atribPosX, 168 + globalPosY)
+		f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceSel[allianceSel][i].attack), atribPosX, 130 + globalPosY)
+		f_drawQuickText(txt_allyPowAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceSel[allianceSel][i].power), atribPosX, 143 + globalPosY)
+		f_drawQuickText(txt_allyLifAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceSel[allianceSel][i].life), atribPosX, 155 + globalPosY)
+		f_drawQuickText(txt_allyDefAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceSel[allianceSel][i].defence), atribPosX, 168 + globalPosY)
 	end
 --Alliance Info
-	textImgSetText(txt_allianceSelLv, txt_allianceSelLvText..t_allianceSel[allianceSel].teamLv)
+	textImgSetText(txt_allianceSelLv, txt_allianceSelLvText..f_getAllianceTeamLevel(t_allianceSel[allianceSel]))
 	textImgPosDraw(txt_allianceSelLv, 103, 195 + globalPosY)
 	textImgSetText(txt_allianceSelUsed, txt_allianceSelUsedText.."0")
 	textImgPosDraw(txt_allianceSelUsed, 318, 195 + globalPosY)
