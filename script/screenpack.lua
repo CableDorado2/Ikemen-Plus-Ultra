@@ -4559,25 +4559,6 @@ function f_getAllianceTeamLevel(t_allianceMembers, skipLeader)
 	return math.max(1, math.floor(level)) --Minimum Level is 1
 end
 
---Set or Update Alliance Leader stats basen on Team Level
-function f_setAllianceLeaderStatsOLD(t_allianceMembers)
-	local supportLevel = f_getAllianceTeamLevel(t_allianceMembers, true)
-	local growthFactor = 1 + (supportLevel * 0.015)
-	local leader = t_allianceMembers[1]
-	leader.stats = leader.stats or {
-		life = leader.life,
-		power = leader.power,
-		attack = leader.attack,
-		defence = leader.defence
-	}
-	local attributes = {'life', 'power', 'attack', 'defence'}
-	for _, attrName in ipairs(attributes) do
-		local originalStat = leader.stats[attrName] or 2
-		local newStat = math.floor(originalStat * growthFactor)
-		leader[attrName] = math.min(t_allianceStatsRanks[1].stats.max, newStat)
-	end
-end
-
 --Set or Update Alliance Leader stats based on Team Level
 function f_setAllianceLeaderStats(t_allianceMembers)
 	local supportLevel = f_getAllianceTeamLevel(t_allianceMembers, true)
@@ -4625,18 +4606,38 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = { --Enemy Characters Path (Need to be loaded in select.def) if it is empty a random char will be loaded
-							"Kung Fu Man", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "Kung Fu Man",
+							--Set Min and Max for each Enemy Stats random assigns (life, power, attack, defence)
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							}
 						},
 						--stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
 						--music = "sound/teambattle.mp3", --Song Path (if it is empty an auto song will be loaded)
-					--Set Min and Max for Enemy Stats assigns (life, power, attack, defence)
-						life = {min = 1, max = 15},
-						power = {min = 1, max = 15},
-						attack = {min = 1, max = 15},
-						defence = {min = 1, max = 15},
 					}
 				}
 			},
@@ -4646,42 +4647,102 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							}
 						},
 						stage = "stages/Mountainside Temple/Lobby Night.def",
-						life = {min = 1, max = 15},
-						power = {min = 1, max = 15},
-						attack = {min = 1, max = 15},
-						defence = {min = 1, max = 15},
 					},
 				--Route B
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
 						},
-						life = {min = 15, max = 20},
-						power = {min = 15, max = 20},
-						attack = {min = 15, max = 20},
-						defence = {min = 15, max = 20},
 					},
 				--Route C
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
 						},
-						life = {min = 20, max = 30},
-						power = {min = 20, max = 30},
-						attack = {min = 20, max = 30},
-						defence = {min = 20, max = 30},
 					}
 				}
 			},
@@ -4691,47 +4752,107 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Suave Dude", --Leader
-							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
-							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
-							"Kung Fu Man/Evil/Evil Kung Fu Man.def"
+							{
+								path = "Suave Dude",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						life = {min = 15, max = 20},
-						power = {min = 15, max = 20},
-						attack = {min = 15, max = 20},
-						defence = {min = 15, max = 20},
 					},
 				--Route B
 					{
 						char = {
-							"Suave Dude", --Leader
-							"Kung Fu Man/X/Kung Fu Man X.def",
-							"Mako Mayama",
-							"Shin Gouki"
+							{
+								path = "Suave Dude",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Kung Fu Man/X/Kung Fu Man X.def",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Mako Mayama",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Shin Gouki",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						life = {min = 20, max = 30},
-						power = {min = 20, max = 30},
-						attack = {min = 20, max = 30},
-						defence = {min = 20, max = 30},
 					},
 				--Route C
 					{
 						char = {
-							"Suave Dude", --Leader
-							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
-							"Reika Murasame",
-							"Suave Dude/Minion/Minion.def"
+							{
+								path = "Suave Dude",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Reika Murasame",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Suave Dude/Minion/Minion.def",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						life = {min = 30, max = 40},
-						power = {min = 30, max = 40},
-						attack = {min = 30, max = 40},
-						defence = {min = 30, max = 40},
 					}
 				}
 			},
@@ -4745,15 +4866,35 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Kung Fu Girl", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "Kung Fu Girl",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
 						},
-						life = {min = 15, max = 20},
-						power = {min = 15, max = 20},
-						attack = {min = 15, max = 20},
-						defence = {min = 15, max = 20},
 					}
 				}
 			},
@@ -4763,41 +4904,101 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
 						},
-						life = {min = 15, max = 20},
-						power = {min = 15, max = 20},
-						attack = {min = 15, max = 20},
-						defence = {min = 15, max = 20},
 					},
 				--Route B
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
 						},
-						life = {min = 20, max = 30},
-						power = {min = 20, max = 30},
-						attack = {min = 20, max = 30},
-						defence = {min = 20, max = 30},
 					},
 				--Route C
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
 						},
-						life = {min = 30, max = 40},
-						power = {min = 30, max = 40},
-						attack = {min = 30, max = 40},
-						defence = {min = 30, max = 40},
 					}
 				}
 			},
@@ -4807,47 +5008,107 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Kung Fu Man", --Leader
-							"Suave Dude/Minion/Minion.def",
-							"Mako Mayama",
-							"Reika Murasame"
+							{
+								path = "Kung Fu Man",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Suave Dude/Minion/Minion.def",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Mako Mayama",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Reika Murasame",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						life = {min = 20, max = 30},
-						power = {min = 20, max = 30},
-						attack = {min = 20, max = 30},
-						defence = {min = 20, max = 30},
 					},
 				--Route B
 					{
 						char = {
-							"randomselect", --Leader
-							"Kung Fu Man/Evil/Evil Kung Fu Man.def",
-							"Shin Gouki",
-							"Suave Dude"
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path ="Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Shin Gouki",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Suave Dude",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						life = {min = 30, max = 40},
-						power = {min = 30, max = 40},
-						attack = {min = 30, max = 40},
-						defence = {min = 30, max = 40},
 					},
 				--Route C
 					{
 						char = {
-							"Shin Gouki", --Leader
-							"Red Dragon",
-							"Kung Fu Man/Master/Master Kung Fu Man.def",
-							"Mako Mayama"
+							{
+								path = "Shin Gouki",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "Red Dragon",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "Kung Fu Man/Master/Master Kung Fu Man.def",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "Mako Mayama",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							}
 						},
 						stage = "stages/Mountainside Temple/Outside.def",
 						music = "sound/Death Corridor.mp3",
-						life = {min = 40, max = 50},
-						power = {min = 40, max = 50},
-						attack = {min = 40, max = 50},
-						defence = {min = 40, max = 50},
 					}
 				}
 			},
@@ -4861,15 +5122,35 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"Suave Dude", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "Suave Dude",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
 						},
-						life = {min = 20, max = 30},
-						power = {min = 20, max = 30},
-						attack = {min = 20, max = 30},
-						defence = {min = 20, max = 30},
 					}
 				}
 			},
@@ -4879,41 +5160,101 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
 						},
-						life = {min = 20, max = 30},
-						power = {min = 20, max = 30},
-						attack = {min = 20, max = 30},
-						defence = {min = 20, max = 30},
 					},
 				--Route B
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
 						},
-						life = {min = 30, max = 40},
-						power = {min = 30, max = 40},
-						attack = {min = 30, max = 40},
-						defence = {min = 30, max = 40},
 					},
 				--Route C
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							}
 						},
-						life = {min = 40, max = 50},
-						power = {min = 40, max = 50},
-						attack = {min = 40, max = 50},
-						defence = {min = 40, max = 50},
 					}
 				}
 			},
@@ -4923,41 +5264,101 @@ t_allianceCourses = { --TODO: Generate this via .def file format for end-user co
 				--Route A
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
 						},
-						life = {min = 30, max = 40},
-						power = {min = 30, max = 40},
-						attack = {min = 30, max = 40},
-						defence = {min = 30, max = 40},
 					},
 				--Route B
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							}
 						},
-						life = {min = 40, max = 50},
-						power = {min = 40, max = 50},
-						attack = {min = 40, max = 50},
-						defence = {min = 40, max = 50},
 					},
 				--Route C
 					{
 						char = {
-							"randomselect", --Leader
-							"randomselect",
-							"randomselect",
-							"randomselect"
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							},
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							},
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							},
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							}
 						},
-						life = {min = 50, max = 60},
-						power = {min = 50, max = 60},
-						attack = {min = 50, max = 60},
-						defence = {min = 50, max = 60},
 					}
 				}
 			},
@@ -5230,7 +5631,7 @@ function f_allianceCoursePreview()
 			local posY = 38 + globalPosY
 			animPosDraw(allianceEnemyIconBG, -18 + globalPosX + team * 30, posY + enemy * 25)
 			animPosDraw(allianceEnemyRandomIcon, -17 + globalPosX + team * 30, posY + 1 + enemy * 25)
-			local enemyDat = t_allianceCourses[allianceCourseSel].match[lastMatch].route[team].char[enemy]:lower()
+			local enemyDat = t_allianceCourses[allianceCourseSel].match[lastMatch].route[team].char[enemy].path:lower()
 			drawFacePortrait(t_charDef[enemyDat], -17 + globalPosX + team * 30, posY + 1 + enemy * 25, 0.9, 0.9)
 		end
 		local enemyTeamLetter = ""

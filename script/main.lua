@@ -13792,11 +13792,8 @@ function f_setAlliancePlayerMembers()
 	end
 	--setTeamMode(pSide, 0, 4)
 --Set Stats for Alliance Leader
-	if pSide == 1 then
-		f_setAllianceLeaderStats(data.t_p1selected)
-	else
-		f_setAllianceLeaderStats(data.t_p2selected)
-	end
+	f_setAllianceLeaderStats(data.t_p1selected)
+	f_setAllianceLeaderStats(data.t_p2selected)
 	data.t_p1selected[1].activemember = true
 	data.t_p2selected[1].activemember = true
 	firstAlliance = true
@@ -16665,6 +16662,10 @@ if validCells() then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			data.t_p1selected = {}
 			shuffle = true --was local function
+			local lifeDat = nil
+			local powerDat = nil
+			local attackDat = nil
+			local defenceDat = nil
 			for i=1, p1numChars do
 				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel + 1][matchNo] ~= nil then --Force Arcade Path Fight according to match number: 1, 2, (...)
 					p1Cell = t_charDef[t_selChars[data.t_p2selected[1].cel + 1][matchNo]]
@@ -16675,9 +16676,17 @@ if validCells() then
 						shuffle = false
 					elseif data.gameMode == "alliance" then
 					--Get Characters
-						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
+						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i].path:lower()
 						p1Cell = t_charDef[cpuDat]
 						shuffle = false
+					--Set Stats Randomized using Min and Max values
+						if i > 1 then
+							local statsDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]
+							lifeDat = statsDat.life
+							powerDat = statsDat.power
+							attackDat = statsDat.attack
+							defenceDat = statsDat.defence
+						end
 					--Set Custom Stage
 						local stageDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].stage
 						if stageDat ~= nil then
@@ -16764,6 +16773,10 @@ if validCells() then
 					['author'] = t_selChars[p1Cell + 1].author,
 					['pal'] = p1Pal,
 					['handicap'] = p1HandicapSel,
+					['life'] = lifeDat or nil,
+					['power'] = powerDat or nil,
+					['attack'] = attackDat or nil,
+					['defence'] = defenceDat or nil,
 					['up'] = updateAnim,
 					['rand'] = false
 				}
@@ -16808,6 +16821,10 @@ if validCells() then
 		else
 			data.t_p2selected = {}
 			shuffle = true --was local function
+			local lifeDat = nil
+			local powerDat = nil
+			local attackDat = nil
+			local defenceDat = nil
 			for i=1, p2numChars do
 				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p1selected[1].cel + 1][matchNo] ~= nil then
 					p2Cell = t_charDef[t_selChars[data.t_p1selected[1].cel + 1][matchNo]]
@@ -16818,9 +16835,17 @@ if validCells() then
 						shuffle = false
 					elseif data.gameMode == "alliance" then
 					--Get Characters
-						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]:lower()
+						local cpuDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i].path:lower()
 						p2Cell = t_charDef[cpuDat]
 						shuffle = false
+					--Set Stats Randomized using Min and Max values
+						if i > 1 then
+							local statsDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].char[i]
+							lifeDat = statsDat.life
+							powerDat = statsDat.power
+							attackDat = statsDat.attack
+							defenceDat = statsDat.defence
+						end
 					--Set Custom Stage
 						local stageDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[allianceRoute].stage
 						if stageDat ~= nil then
@@ -16907,6 +16932,10 @@ if validCells() then
 					['author'] = t_selChars[p2Cell + 1].author,
 					['pal'] = p2Pal,
 					['handicap'] = p2HandicapSel,
+					['life'] = lifeDat or nil,
+					['power'] = powerDat or nil,
+					['attack'] = attackDat or nil,
+					['defence'] = defenceDat or nil,
 					['up'] = updateAnim,
 					['rand'] = false
 				}
@@ -19387,14 +19416,15 @@ function f_allianceNextBattle()
 			textImgSetText(txt_allianceEnemyRoute, teamRoute)
 			textImgSetPos(txt_allianceEnemyRoute, 45, 65 + (route - 1) * spacingY)
 			textImgDraw(txt_allianceEnemyRoute)
-			f_drawQuickText(txt_enemyTeamPower, font20, 2, 1, "TEAM LEVEL: ".."999", 175, 63 + (route - 1) * spacingY)
-			local leaderDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[1]:lower()
+			local teamDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char
+			f_drawQuickText(txt_enemyTeamPower, font20, 2, 1, "TEAM LEVEL: "..f_getAllianceTeamLevel(teamDat, true), 175, 63 + (route - 1) * spacingY)
+			local leaderDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[1].path:lower()
 			f_drawQuickText(txt_enemyTeamName, font7, 0, 1, "TEAM "..f_getName(t_charDef[leaderDat]):upper(), 65, 77 + (route - 1) * spacingY)
 		--Team Assets
 			for enemy=1, 4 do
 				animPosDraw(allianceEnemyIconBG, 64 + (enemy - 1) * spacingX, 42 + (route - 1) * spacingY)
 				animPosDraw(allianceEnemyRandomIcon, 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY)
-				local memberDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[enemy]:lower()
+				local memberDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[enemy].path:lower()
 				drawFacePortrait(t_charDef[memberDat], 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY, 0.9, 0.9)
 			end
 		end
