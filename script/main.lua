@@ -13820,10 +13820,6 @@ function f_selectVersus()
 				data.t_p2selected[i] = data.t_p2Alliance[i]
 			end
 		end
-		if data.debugLog then
-			f_printTable(data.t_p1selected, "script/data.t_p1selected.log")
-			f_printTable(data.t_p2selected, "script/data.t_p2selected.log")
-		end
 		if not firstAlliance then f_setAlliancePlayerMembers() end
 		if allianceChange() then
 			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
@@ -18785,8 +18781,14 @@ end
 --; ALLIANCE MODE
 --;===========================================================
 function f_allianceBoot()
-	menuSelect = "alliance"
-	sideScreen = true
+	if data.debugMode then f_loadAllianceCourses() end
+	if #t_allianceCourses ~= 0 then
+		menuSelect = "alliance"
+		sideScreen = true
+	else --If there are not alliance courses loaded
+		t_infoWindowMsg.text = "NO ALLIANCE COURSES FOUND"
+		infoScreen = true
+	end
 end
 
 function f_resetAllianceResults()
@@ -18897,6 +18899,96 @@ function allianceCPUvsCPU()
 	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH ALLIANCE")
 	f_selectAdvance()
+end
+
+--Get Alliance Members Stats Rank based on Stats Range Values
+function f_getAllianceStatRank(val)
+	for i, entry in ipairs(t_allianceStatsRanks) do
+		if val >= entry.stats.min and val <= entry.stats.max then
+			return entry.rank
+		end
+	end
+	return "E-" --Default value is not defined
+end
+
+--Get Alliance Members Power Level based on Characters Stats
+function f_getAllianceMemberPower(t_ally)
+	local basePower = 0
+	local globalMultiplier = 4663 --Change this to inflate or reduce the final number
+	local attributes = {'life', 'power', 'attack', 'defence'}
+--Sum each attribute multiplied by the weight of its rank (This rewards the player for having better ranks.)
+	for _, attrName in ipairs(attributes) do
+		local attrData = t_ally[attrName] --Read t_ally.life, t_ally.power, etc..
+		if attrData then
+			local statValue = attrData or 0
+			local rankLabel = f_getAllianceStatRank(attrData)
+		--Search weight in t_allianceStatsRanks
+			local weight = 0.1 --Default value is not defined
+			for _, entry in ipairs(t_allianceStatsRanks) do
+				if entry.rank == rankLabel then
+					weight = entry.weight
+					break --When weight is found finish the loop
+				end
+			end
+			basePower = basePower + (statValue * weight)
+		end
+	end
+	local totalPower = basePower * globalMultiplier
+	return math.floor(totalPower) --Return an Integer Value
+end
+
+--Get Alliance Team Level based on Members Power Level
+function f_getAllianceTeamLevel(t_allianceMembers, skipLeader)
+	local skipLeader = skipLeader or false
+	local totalTeamLv = 0
+--Check Total Power for All Alliance Members
+	for i, member in ipairs(t_allianceMembers) do
+		if not (skipLeader and i == 1) then
+			totalTeamLv = totalTeamLv + (f_getAllianceMemberPower(member) or 0)
+		end
+	end
+--Scale factor (To control how difficult the level up is)
+	local scaleFactor = 1900
+	local level = totalTeamLv / scaleFactor
+	return math.max(1, math.floor(level)) --Minimum Level is 1
+end
+
+--Set or Update Alliance Leader stats based on Team Level
+function f_setAllianceLeaderStats(t_allianceMembers)
+	local supportLevel = f_getAllianceTeamLevel(t_allianceMembers, true)
+	local growthFactor = 1 + (supportLevel * 0.015)
+	local leader = t_allianceMembers[1]
+	if not leader then return end
+--Get Team Average
+	local teamBaseAverage = 0
+	local validMembers = 0
+	local attributes = {'life', 'power', 'attack', 'defence'}
+	for i=2, #t_allianceMembers do
+		local member = t_allianceMembers[i]
+		for _, attrName in ipairs(attributes) do
+			if member[attrName] then
+				teamBaseAverage = teamBaseAverage + member[attrName]
+				validMembers = validMembers + 1
+			end
+		end
+	end
+	local defaultBase = validMembers > 0 and math.floor(teamBaseAverage / validMembers) or 5
+--Assigns Team Average to Leader
+	leader.stats = leader.stats or {
+		life = leader.life or defaultBase,
+		power = leader.power or defaultBase,
+		attack = leader.attack or defaultBase,
+		defence = leader.defence or defaultBase
+	}
+--Apply growthFactor
+	for _, attrName in ipairs(attributes) do
+		local originalStat = leader.stats[attrName]
+		local newStat = math.floor(originalStat * growthFactor)
+		if supportLevel > 0 and newStat <= originalStat then
+			newStat = originalStat + math.floor(supportLevel / 2)
+		end
+		leader[attrName] = math.min(t_allianceStatsRanks[1].stats.max, newStat)
+	end
 end
 
 --;===========================================================

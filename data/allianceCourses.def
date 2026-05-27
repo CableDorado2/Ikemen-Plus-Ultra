@@ -1,0 +1,674 @@
+[Course 1]
+name = NORMAL
+ailevelstart = 1
+
+[Match 1]
+
+[Route 1] ;Unique Route
+;stage = stages/Mountainside Temple/Lobby Night.def ;Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+;music = sound/teambattle.mp3 ;Song Path (if it is empty an auto song will be loaded)
+
+[Char 1]
+path = Kung Fu Man
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 2]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 3]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 4]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+;----------------------------------------------------------------
+[Match 2]
+
+[Route 1] ;Route A
+stage = stages/Mountainside Temple/Lobby Night.def
+
+[Char 1]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 2]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 3]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 4]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+;----------------------------------------------------------------
+[Route 2] ;Route B
+
+[Char 1]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 2]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 3]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 4]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+;----------------------------------------------------------------
+[Route 3] ;Route C
+
+[Char 1]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 2]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 3]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 4]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+;----------------------------------------------------------------
+[Match 3]
+
+[Route 1] ;Route A
+stage = stages/Mountainside Temple/Outside.def
+music = sound/Death Corridor.mp3
+
+[Char 1]
+path = Suave Dude
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 2]
+path = Kung Fu Man/Evil/Evil Kung Fu Man.def
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 3]
+path = Kung Fu Man/Evil/Evil Kung Fu Man.def
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 4]
+path = Kung Fu Man/Evil/Evil Kung Fu Man.def
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+;----------------------------------------------------------------
+[Route 2] ;Route B
+stage = stages/Mountainside Temple/Outside.def
+music = sound/Death Corridor.mp3
+
+[Char 1]
+path = Suave Dude
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 2]
+path = Kung Fu Man/X/Kung Fu Man X.def
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 3]
+path = Mako Mayama
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 4]
+path = Shin Gouki
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+;----------------------------------------------------------------
+[Route 3] ;Route C
+stage = stages/Mountainside Temple/Outside.def
+music = sound/Death Corridor.mp3
+
+[Char 1]
+path = Suave Dude
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 2]
+path = Kung Fu Man/Evil/Evil Kung Fu Man.def
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 3]
+path = Reika Murasame
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 4]
+path = Suave Dude/Minion/Minion.def
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+;----------------------------------------------------------------
+[Course 2]
+name = HARD
+ailevelstart = 4
+
+[Match 1]
+
+[Route 1] ;Unique Route
+
+[Char 1]
+path = Kung Fu Girl
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 2]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 3]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 4]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+;----------------------------------------------------------------
+[Match 2]
+
+[Route 1] ;Route A
+
+[Char 1]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 2]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 3]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+
+[Char 4]
+path = randomselect
+life = 15,20
+power = 15,20
+attack = 15,20
+defence = 15,20
+;----------------------------------------------------------------
+[Route 2] ;Route B
+
+[Char 1]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 2]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 3]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 4]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+;----------------------------------------------------------------
+[Route 3] ;Route C
+
+[Char 1]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 2]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 3]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 4]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+;----------------------------------------------------------------
+[Match 3]
+
+[Route 1] ;Route A
+stage = stages/Mountainside Temple/Outside.def
+music = sound/Death Corridor.mp3
+
+[Char 1]
+path = Kung Fu Man
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 2]
+path = Suave Dude/Minion/Minion.def
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 3]
+path = Mako Mayama
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 4]
+path = Reika Murasame
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+;----------------------------------------------------------------
+[Route 2] ;Route B
+stage = stages/Mountainside Temple/Outside.def
+music = sound/Death Corridor.mp3
+
+[Char 1]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 2]
+path = Kung Fu Man/Evil/Evil Kung Fu Man.def
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 3]
+path = Shin Gouki
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 4]
+path = Suave Dude
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+;----------------------------------------------------------------
+[Route 3] ;Route C
+stage = stages/Mountainside Temple/Outside.def
+music = sound/Death Corridor.mp3
+
+[Char 1]
+path = Shin Gouki
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 2]
+path = Red Dragon
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 3]
+path = Kung Fu Man/Master/Master Kung Fu Man.def
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 4]
+path = Mako Mayama
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+;----------------------------------------------------------------
+[Course 3]
+name = EXTREME
+ailevelstart = 6
+
+[Match 1]
+
+[Route 1] ;Unique Route
+
+[Char 1]
+path = Suave Dude
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 2]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 3]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 4]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+;----------------------------------------------------------------
+[Match 2]
+
+[Route 1] ;Route A
+
+[Char 1]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 2]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 3]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+
+[Char 4]
+path = randomselect
+life = 20,30
+power = 20,30
+attack = 20,30
+defence = 20,30
+;----------------------------------------------------------------
+[Route 2] ;Route B
+
+[Char 1]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 2]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 3]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 4]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+;----------------------------------------------------------------
+[Route 3] ;Route C
+
+[Char 1]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 2]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 3]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 4]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+;----------------------------------------------------------------
+[Match 3]
+
+[Route 1] ;Route A
+
+[Char 1]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 2]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 3]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+
+[Char 4]
+path = randomselect
+life = 30,40
+power = 30,40
+attack = 30,40
+defence = 30,40
+;----------------------------------------------------------------
+[Route 2] ;Route B
+
+[Char 1]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 2]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 3]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+
+[Char 4]
+path = randomselect
+life = 40,50
+power = 40,50
+attack = 40,50
+defence = 40,50
+;----------------------------------------------------------------
+[Route 3] ;Route C
+
+[Char 1]
+path = randomselect
+life = 50,60
+power = 50,60
+attack = 50,60
+defence = 50,60
+
+[Char 2]
+path = randomselect
+life = 50,60
+power = 50,60
+attack = 50,60
+defence = 50,60
+
+[Char 3]
+path = randomselect
+life = 50,60
+power = 50,60
+attack = 50,60
+defence = 50,60
+
+[Char 4]
+path = randomselect
+life = 50,60
+power = 50,60
+attack = 50,60
+defence = 50,60

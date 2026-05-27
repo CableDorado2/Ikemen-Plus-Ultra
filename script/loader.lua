@@ -985,7 +985,7 @@ function f_loadTowers(bool)
 t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
 local loadingScreen = bool or false --To manage loading screen
 local section = 0
-local file = io.open(selectDef,"r")
+local file = io.open(selectDef, "r")
 local content = file:read("*all")
 file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
@@ -1057,6 +1057,129 @@ content = content:gsub('\n%s*\n', '\n')
 	end
 end
 f_loadTowers(true)
+--;===========================================================
+--; LOAD ALLIANCE COURSES DATA
+--;===========================================================
+function f_loadAllianceCourses(bool)
+	local loadingScreen = bool or false --To manage loading screen
+	t_allianceCourses = {}
+	local file = io.open(allianceCourseDef, "r")
+	if file ~= nil then
+		local content = file:read("*all")
+		file:close()
+		content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+		content = content:gsub('\n%s*\n', '\n')
+		local currentCourse = nil
+		local currentMatch = nil
+		local currentRoute = nil
+		local currentChar = nil
+		for line in content:gmatch('[^\r\n]+') do
+			local lineLower = line:lower()
+		--[Course No]
+			if lineLower:match('^%s*%[%s*course%s+%d+%s*%]') then
+			--Set Default Values
+				table.insert(t_allianceCourses, {
+					id = "",
+					name = "???",
+					ailevelstart = 1,
+					match = {},
+					unlock = "true"
+				})
+				currentCourse = t_allianceCourses[#t_allianceCourses]
+				currentMatch = nil
+				currentRoute = nil
+				currentChar = nil
+		--[Match No]
+			elseif lineLower:match('^%s*%[%s*match%s+%d+%s*%]') and currentCourse then
+				table.insert(currentCourse.match, {
+					route = {}
+				})
+				currentMatch = currentCourse.match[#currentCourse.match]
+				currentRoute = nil
+				currentChar = nil
+		--[Route No]
+			elseif lineLower:match('^%s*%[%s*route%s+%d+%s*%]') and currentMatch then
+				table.insert(currentMatch.route, {
+					char = {}
+					--stage and music will be added dynamically if they exist in the .def file
+				})
+				currentRoute = currentMatch.route[#currentMatch.route]
+				currentChar = nil
+		--[Char No]
+			elseif lineLower:match('^%s*%[%s*char%s+%d+%s*%]') and currentRoute then
+			--Set Default Values
+				table.insert(currentRoute.char, {
+					path = "randomselect",
+					life = 1,
+					power = 1,
+					attack = 1,
+					defence = 1
+				})
+				currentChar = currentRoute.char[#currentRoute.char]
+		--Detect paramvalues
+			else
+				local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+				if param ~= nil and value ~= nil then
+					param = param:match('^%s*(.-)%s*$') --remove spaces
+					value = value:match('^%s*(.-)%s*$')
+					local paramLower = param:lower()
+				--Course Paramvalues
+					if currentCourse and currentChar == nil and currentRoute == nil and currentMatch == nil then
+						if paramLower == "name" then
+							currentCourse.name = value
+							currentCourse.id = value
+						elseif paramLower == "ailevelstart" then
+							currentCourse.ailevelstart = tonumber(value) or 1
+						elseif paramLower == "unlock" then
+							currentCourse.unlock = value
+						end
+				--Route Paramvalues (stage, music)
+					elseif currentRoute and currentChar == nil then
+						if paramLower == "stage" or paramLower == "music" then
+							currentRoute[paramLower] = value
+						end
+				--Characters Paramvalues (path, life, power, attack, defence)
+					elseif currentChar then
+					--Char Path
+						if paramLower == "path" then
+							currentChar.path = value
+					--Stats
+						elseif paramLower == "life" or paramLower == "power" or paramLower == "attack" or paramLower == "defence" then
+						--Detect if it is a range of numbers separated by a comma (1, 15)
+							local minStat, maxStat = value:match('^(%d+)%s*,%s*(%d+)$')
+						--Range Assignement
+							if minStat and maxStat then
+								currentChar[paramLower] = math.random(tonumber(minStat), tonumber(maxStat))
+						--Fixed Value
+							else
+								currentChar[paramLower] = tonumber(value) or 1
+							end
+						end
+					end
+				end
+			end
+		end
+		for i=1, #t_allianceCourses do
+			if t_allianceCourses[i].name == "???" then
+				t_allianceCourses[i].name = "COURSE_" .. i
+				t_allianceCourses[i].id = t_allianceCourses[i].name
+			end
+		end
+		if data.debugLog then f_printTable(t_allianceCourses, "save/debug/t_allianceCourses.log") end
+	--[[
+		for _, v in ipairs(t_allianceCourses) do --Send Alliance Course Unlock Condition to t_unlockLua table
+			t_unlockLua.modes[v.id] = v.unlock
+		end
+		f_updateUnlocks()
+	]]
+		if loadingScreen then
+			textImgSetText(txt_loading, "LOADING ALLIANCE COURSES...")
+			textImgDraw(txt_loading)
+			refresh()
+		end
+	end
+end
+f_loadAllianceCourses(true)
 
 function f_loadLicenses()
 local file = f_fileRead("LICENSE.txt")

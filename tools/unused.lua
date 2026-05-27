@@ -1400,3 +1400,777 @@ local modified = false
 	end
 	f_saveStats()
 end
+
+t_allianceCourses = { --TODO: Generate this via .def file format for end-user comfortable customization
+	{name = "NORMAL", ailevelstart = 1,
+		match = {
+		--Match 1
+			{
+				route = {
+				--Route A
+					{
+						char = { --Enemy Characters Path (Need to be loaded in select.def) if it is empty a random char will be loaded
+							{
+								path = "Kung Fu Man",
+							--Set Min and Max for each Enemy Stats random assigns (life, power, attack, defence)
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							}
+						},
+						--stage = "stages/Mountainside Temple/Lobby Night.def", --Stage Path (Need to be loaded in select.def) if it is empty an auto stage will be loaded
+						--music = "sound/teambattle.mp3", --Song Path (if it is empty an auto song will be loaded)
+					}
+				}
+			},
+		--Match 2
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							},
+							{
+								path = "randomselect",
+								life = math.random(1, 15),
+								power = math.random(1, 15),
+								attack = math.random(1, 15),
+								defence = math.random(1, 15)
+							}
+						},
+						stage = "stages/Mountainside Temple/Lobby Night.def",
+					},
+				--Route B
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
+						},
+					},
+				--Route C
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
+						},
+					}
+				}
+			},
+		--Match 3
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "Suave Dude",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+					},
+				--Route B
+					{
+						char = {
+							{
+								path = "Suave Dude",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Kung Fu Man/X/Kung Fu Man X.def",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Mako Mayama",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Shin Gouki",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+					},
+				--Route C
+					{
+						char = {
+							{
+								path = "Suave Dude",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Reika Murasame",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Suave Dude/Minion/Minion.def",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+					}
+				}
+			},
+		}
+	},
+	{name = "HARD", ailevelstart = 4,
+		match = {
+		--Match 1
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "Kung Fu Girl",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
+						},
+					}
+				}
+			},
+		--Match 2
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							},
+							{
+								path = "randomselect",
+								life = math.random(15, 20),
+								power = math.random(15, 20),
+								attack = math.random(15, 20),
+								defence = math.random(15, 20)
+							}
+						},
+					},
+				--Route B
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
+						},
+					},
+				--Route C
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
+						},
+					}
+				}
+			},
+		--Match 3
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "Kung Fu Man",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Suave Dude/Minion/Minion.def",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Mako Mayama",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "Reika Murasame",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+					},
+				--Route B
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path ="Kung Fu Man/Evil/Evil Kung Fu Man.def",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Shin Gouki",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "Suave Dude",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+					},
+				--Route C
+					{
+						char = {
+							{
+								path = "Shin Gouki",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "Red Dragon",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "Kung Fu Man/Master/Master Kung Fu Man.def",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "Mako Mayama",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							}
+						},
+						stage = "stages/Mountainside Temple/Outside.def",
+						music = "sound/Death Corridor.mp3",
+					}
+				}
+			},
+		}
+	},
+	{name = "EXTREME", ailevelstart = 6,
+		match = {
+		--Match 1
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "Suave Dude",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
+						},
+					}
+				}
+			},
+		--Match 2
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							},
+							{
+								path = "randomselect",
+								life = math.random(20, 30),
+								power = math.random(20, 30),
+								attack = math.random(20, 30),
+								defence = math.random(20, 30)
+							}
+						},
+					},
+				--Route B
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
+						},
+					},
+				--Route C
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							}
+						},
+					}
+				}
+			},
+		--Match 3
+			{
+				route = {
+				--Route A
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							},
+							{
+								path = "randomselect",
+								life = math.random(30, 40),
+								power = math.random(30, 40),
+								attack = math.random(30, 40),
+								defence = math.random(30, 40)
+							}
+						},
+					},
+				--Route B
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							},
+							{
+								path = "randomselect",
+								life = math.random(40, 50),
+								power = math.random(40, 50),
+								attack = math.random(40, 50),
+								defence = math.random(40, 50)
+							}
+						},
+					},
+				--Route C
+					{
+						char = {
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							},
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							},
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							},
+							{
+								path = "randomselect",
+								life = math.random(50, 60),
+								power = math.random(50, 60),
+								attack = math.random(50, 60),
+								defence = math.random(50, 60)
+							}
+						},
+					}
+				}
+			},
+		}
+	},
+}
+for i=1, #t_allianceCourses do
+	t_allianceCourses[i].id = t_allianceCourses[i].name
+	if t_allianceCourses[i].unlock == nil then t_allianceCourses[i].unlock = "true" end
+end
+if data.debugLog then f_printTable(t_allianceCourses, "save/debug/t_allianceCourses.log") end
