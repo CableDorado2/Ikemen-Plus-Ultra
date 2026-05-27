@@ -3053,7 +3053,7 @@ txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 192)
 txt_resultTime = createTextImg(jgFnt, 0, -1, "", 266, 220)
 txt_resultScore = createTextImg(jgFnt, 0, -1, "", 266, 234)
 txt_resultRank = createTextImg(jgFnt, 5, -1, "RANK", 318, 205)
-txt_resultRecord = createTextImg(jgFnt, 5, 1, "NEW RECORD!", 2, 26, 0.75, 0.75)
+txt_resultRecord = createTextImg(jgFnt, 5, -1, "NEW RECORD!", 268, 205, 0.8, 0.8)
 txt_resultTeam = createTextImg(font6, 0, 1, "", 1, 206)
 txt_resultName = createTextImg(font6, 0, 1, "", 1, 221)
 txt_resultStatus = createTextImg(survNumFnt, 0, -1, "", 318, 54)
@@ -3119,8 +3119,8 @@ function f_drawAbyssResults(active)
 	f_drawQuickText(txt_expenseTitle, font, 0, -1, abyssDat.nosave.expense.." IKC SPENT", PosX, PosY + 52)
 end
 
-function f_drawAllianceResults(active)
-	--f_drawQuickText(txt_allianceResult, survNumFnt, 0, -1, f_getAllianceTeamLevel(), 320, 115, 0.65, 0.65)
+function f_drawAllianceResults(active, t_playerAlliance)
+	f_drawQuickText(txt_allianceResult, survNumFnt, 0, -1, f_getAllianceTeamLevel(t_playerAlliance, true), 320, 115, 0.65, 0.65)
 	f_drawQuickText(txt_allianceTotal, survNumFnt, 0, -1, "TEAM LEVEL", 320, 130, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
 		local teamLevel = stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel

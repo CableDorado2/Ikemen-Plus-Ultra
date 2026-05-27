@@ -15022,7 +15022,7 @@ function f_result(state)
 		
 --Skip Results Screen if lose in these modes
 	elseif state == "lost" then
-		if gameMode() == "timeattack" or gameMode() == "speedstar" or gameMode() == "alliance" then
+		if gameMode() == "timeattack" or gameMode() == "speedstar" then
 			return
 		end
 	end
@@ -15087,12 +15087,14 @@ function f_result(state)
 --Portraits Scale Logic
 	local charPortr = nil
 	local charTable = nil
+	local lastEnemyTable = nil
 	local scaleData = nil
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		textImgSetText(txt_resultName, f_getName(data.t_p2selected[1].cel))
 		charPortr = data.t_p2selected[1].cel
 		charTable = data.t_p2selected
-		if p2teamMode > 0 then
+		lastEnemyTable = data.t_p1selected
+		if p2teamMode > 0 or data.gameMode == "alliance" then
 			textImgSetText(txt_resultTeam, "TEAM")
 		elseif p1teamMode == 0 then
 			textImgSetText(txt_resultTeam, "")
@@ -15101,7 +15103,8 @@ function f_result(state)
 		textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
 		charPortr = data.t_p1selected[1].cel
 		charTable = data.t_p1selected
-		if p1teamMode > 0 then
+		lastEnemyTable = data.t_p2selected
+		if p1teamMode > 0 or data.gameMode == "alliance" then
 			textImgSetText(txt_resultTeam, "TEAM")
 		elseif p1teamMode == 0 then
 			textImgSetText(txt_resultTeam, "")
@@ -15170,8 +15173,12 @@ function f_result(state)
 				f_drawAbyssResults(newRecord)
 				f_drawRank(getAbyssDepth(), t_abyssSel[abyssSel].depth)
 			elseif data.gameMode == "alliance" then
-				f_drawAllianceResults(newRecord)
-				--f_drawRank(f_getAllianceTeamLevel(), 100)
+				f_drawAllianceResults(newRecord, charTable)
+				local lastMatch = #t_allianceCourses[allianceCourseSel].match
+				local lastRoute = #t_allianceCourses[allianceCourseSel].match[lastMatch].route
+				local target = t_allianceCourses[allianceCourseSel].match[lastMatch].route[lastRoute].char
+				target = f_getAllianceTeamLevel(target, true)
+				f_drawRank(f_getAllianceTeamLevel(charTable, true), target + 10)
 			elseif gameMode() == "goldrush" then
 				f_drawGoldRushResults(newRecord)
 			else --Survival/All Roster
