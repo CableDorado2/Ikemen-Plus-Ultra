@@ -4778,15 +4778,17 @@ function f_allianceCoursePreview()
 	f_drawQuickText(txt_allianceSelTimeVal, font2, 0, 1, f_setTimeText(stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].time), recordsPosX, 40 + globalPosY)
 end
 
-function f_allianceSelectPreview()
+function f_allianceSelectPreview(update)
 	local nameFont = font7
 	local globalPosY = -50
-	local t_temp = {[1] = {temp = "temp"}}
-	for i=1, 3 do
-		table.insert(t_temp, i + 1, t_allianceSel[allianceSel][i])
+	local update = update
+	if update then
+		t_allianceTemp = {[1] = {temp = "temp"}}
+		for i=1, 3 do
+			table.insert(t_allianceTemp, i + 1, t_allianceSel[allianceSel][i])
+		end
+		f_setAllianceLeaderStats(t_allianceTemp)
 	end
-	f_setAllianceLeaderStats(t_temp)
-	--if data.debugLog then f_printTable(t_temp, "script/temp.log") end
 	animPosDraw(allianceSelTrans, 101.5, 79 + globalPosY)
 	textImgPosDraw(txt_allianceSelCfg, 210, 90 + globalPosY)
 	textImgSetText(txt_allianceSelNo, txt_allianceSelText..allianceSel)
@@ -4796,12 +4798,12 @@ function f_allianceSelectPreview()
 	drawFacePortrait(data.t_p1selected[1].cel, 104, 187 + globalPosY, 0.9, 0.9)
 	animPosDraw(allianceStatsH, 130, 199 + globalPosY)
 	f_drawQuickText(txt_leaderName, nameFont, 0, 1, "LEADER - "..data.t_p1selected[1].displayname:upper(), 130, 195 + globalPosY)
-	f_drawQuickText(txt_leaderPower, font2, 0, 1, "TEAM POWER: "..f_getAllianceMemberPower(t_temp[1]), 103, 221 + globalPosY)
+	f_drawQuickText(txt_leaderPower, font2, 0, 1, "TEAM POWER: "..f_getAllianceMemberPower(t_allianceTemp[1]), 103, 221 + globalPosY)
 	local atribLeaderPosY = 208
-	f_drawQuickText(txt_leaderAttkAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_temp[1].attack), 155, atribLeaderPosY + globalPosY)
-	f_drawQuickText(txt_leaderPowAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_temp[1].power), 184, atribLeaderPosY + globalPosY)
-	f_drawQuickText(txt_leaderLifAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_temp[1].life), 212, atribLeaderPosY + globalPosY)
-	f_drawQuickText(txt_leaderDefAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_temp[1].defence), 241, atribLeaderPosY + globalPosY)
+	f_drawQuickText(txt_leaderAttkAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceTemp[1].attack), 155, atribLeaderPosY + globalPosY)
+	f_drawQuickText(txt_leaderPowAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceTemp[1].power), 184, atribLeaderPosY + globalPosY)
+	f_drawQuickText(txt_leaderLifAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceTemp[1].life), 212, atribLeaderPosY + globalPosY)
+	f_drawQuickText(txt_leaderDefAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceTemp[1].defence), 241, atribLeaderPosY + globalPosY)
 --Members
 	for i=1, 3 do
 		local allyDat = t_allianceSel[allianceSel][i].char:lower()
@@ -4820,12 +4822,13 @@ function f_allianceSelectPreview()
 	textImgPosDraw(txt_allianceSelLv, 103, 234 + globalPosY)
 end
 
-function drawAlliTest(courseCursor, statsInfo)
+function drawAlliTest(courseCursor, statsInfo, update)
+		local update = update
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Course Select
 		f_allianceCoursePreview()
 	--Alliance Select
-		f_allianceSelectPreview()
+		f_allianceSelectPreview(update)
 	--Draw Transparent BG for inactive panels
 		if courseCursor then
 			textImgSetBank(txt_allianceCourseCfg, 1)

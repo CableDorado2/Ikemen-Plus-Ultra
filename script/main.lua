@@ -19021,6 +19021,8 @@ function f_allianceSelect()
 	local bufl = 0
 	local courseCursor = true
 	local statsInfo = false
+	local updateAlliance = true
+	t_allianceTemp = {}
 	f_createAllianceCourseData()
 	allianceSel = 1
 	allianceCourseSel = 1
@@ -19053,9 +19055,11 @@ function f_allianceSelect()
 				if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel - 1
+					updateAlliance = true
 				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
 					allianceSel = allianceSel + 1
+					updateAlliance = true
 				end
 				if allianceSel < 1 then
 					allianceSel = #t_allianceSel
@@ -19093,7 +19097,8 @@ function f_allianceSelect()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			break
 		end
-		drawAlliTest(courseCursor, statsInfo)
+		drawAlliTest(courseCursor, statsInfo, updateAlliance)
+		updateAlliance = false
 		if backScreen then
 			f_backMenu()
 		elseif confirmScreen then
