@@ -51,7 +51,7 @@ altBGM = false
 data.tagmode = 1
 menuSelect = ""
 P2overP1 = false
-firstAlliance = false
+firstAlliance = true
 currentAllianceMemberPlayer = 1
 currentAllianceMemberCPU = 1
 secretTarget = ""
@@ -4027,6 +4027,7 @@ end
 
 function f_advancedModesStatus(state)
 	local modified = false
+	local t_allianceDat = nil
 --Save Data for Speed Star Mode
 	if data.gameMode == "speedstar" then
 		if state == "win" then
@@ -4098,13 +4099,16 @@ function f_advancedModesStatus(state)
 			resultsNewRecordScore = true
 			modified = true
 		end
-	--[[
-		if f_getAllianceTeamLevel() > stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel then
-			stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel = f_getAllianceTeamLevel()
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			t_allianceDat = data.t_p2selected
+		else
+			t_allianceDat = data.t_p1selected
+		end
+		if f_getAllianceTeamLevel(t_allianceDat, true) > stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel then
+			stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel = f_getAllianceTeamLevel(t_allianceDat, true)
 			resultsNewRecord = true
 			modified = true
 		end
-	--]]
 --Save Data for Other Modes (Survival, Time Attack, Score Attack)
 	else
 		if state == "win" then
@@ -13796,7 +13800,7 @@ function f_setAlliancePlayerMembers()
 	f_setAllianceLeaderStats(data.t_p2selected)
 	data.t_p1selected[1].activemember = true
 	data.t_p2selected[1].activemember = true
-	firstAlliance = true
+	firstAlliance = false
 	currentAllianceMemberPlayer = 1
 	currentAllianceMemberCPU = 2
 end
@@ -13820,7 +13824,15 @@ function f_selectVersus()
 				data.t_p2selected[i] = data.t_p2Alliance[i]
 			end
 		end
-		if not firstAlliance then f_setAlliancePlayerMembers() end
+	--Is the first Time that player makes the Alliance
+		if firstAlliance then
+			f_setAlliancePlayerMembers()
+	--Player already have an Alliance
+		else
+		--Set Stats for Alliance Leader
+			f_setAllianceLeaderStats(data.t_p1selected)
+			f_setAllianceLeaderStats(data.t_p2selected)
+		end
 		if allianceChange() then
 			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
 			setAllianceChange(false)
@@ -16159,7 +16171,7 @@ if validCells() then
 				f_makeRoster()
 				lastMatch = t_abyssSel[abyssSel].depth --get last match from abyss depth selected
 			elseif data.gameMode == "alliance" then
-				firstAlliance = false
+				firstAlliance = true
 				f_allianceSelect() --Go to Alliance Course Select
 				if data.tempBack then
 					f_exitToMainMenu()
@@ -19267,6 +19279,7 @@ function f_allianceExchange()
 	local t_enemyTeam = {{cel = 4, displayname = "Suave Dude"}, {cel = 15, displayname = "Minion"}, {cel = 16, displayname = "Evil Kung Fu Man"}, {cel = 12, displayname = "Shin Gouki"}}
 	local t_playerTeam = {{cel = 0, displayname = "Kung Fu Man"}, {cel = 1, displayname = "Mako Mayama"}, {cel = 2, displayname = "Kung Fu Girl"}, {cel = 3, displayname = "Reika Murasame"}}
 ]]
+	f_updateAllianceLeader()
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		t_playerTeam = data.t_p2selected
 		t_enemyTeam = data.t_p1selected
@@ -19308,6 +19321,7 @@ function f_allianceExchange()
 				else
 					enemySide = true
 					f_resetMembers()
+					f_updateAllianceLeader()
 				end
 		--Start Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
@@ -19316,6 +19330,7 @@ function f_allianceExchange()
 				if enemySide then
 					enemySide = false
 					t_temp[1] = t_enemyTeam[enemyMember]
+					f_updateAllianceLeader()
 			--Ally to Exchange Selected
 				else
 					confirmScreen = true
@@ -19328,6 +19343,7 @@ function f_allianceExchange()
 				else
 					playerMember = playerMember - 1
 					f_resetMembers()
+					f_updateAllianceLeader()
 				end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -19336,6 +19352,7 @@ function f_allianceExchange()
 				else
 					playerMember = playerMember + 1
 					f_resetMembers()
+					f_updateAllianceLeader()
 				end
 			end
 	--End Exchange Select
@@ -19348,7 +19365,7 @@ function f_allianceExchange()
 	--Exchange Member Confirm
 		if allianceConfirm and not startCount then
 			startCount = true
-			--Update Player Team
+		--Update Player Team
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				data.t_p2selected = t_playerTeam
 			else
@@ -19451,6 +19468,15 @@ function f_allianceExchange()
 	end
 end
 
+function f_updateAllianceLeader()
+--Update Stats for Player Alliance Leader
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		f_setAllianceLeaderStats(data.t_p2selected)
+	else
+		f_setAllianceLeaderStats(data.t_p1selected)
+	end
+end
+
 --;===========================================================
 --; ALLIANCE NEXT TEAM BATTLE SELECT MENU
 --;===========================================================
@@ -19521,8 +19547,7 @@ function f_allianceNextBattle()
 			f_drawQuickText(txt_enemyTeamName, font7, 0, 1, "TEAM "..f_getName(t_charDef[leaderDat]):upper(), 65, 77 + (route - 1) * spacingY)
 		--Team Assets
 			for enemy=1, 4 do
-				animPosDraw(allianceEnemyIconBG, 64 + (enemy - 1) * spacingX, 42 + (route - 1) * spacingY)
-				animPosDraw(allianceEnemyRandomIcon, 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY)
+				animPosDraw(allianceFaceBG, 64 + (enemy - 1) * spacingX, 42 + (route - 1) * spacingY)
 				local memberDat = t_allianceCourses[allianceCourseSel].match[matchNo].route[route].char[enemy].path:lower()
 				drawFacePortrait(t_charDef[memberDat], 65 + (enemy - 1) * spacingX, 43 + (route - 1) * spacingY, 0.9, 0.9)
 			end
