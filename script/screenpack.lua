@@ -850,7 +850,6 @@ t_mainMenu = {
 	},
 	{
 		text = "VERSUS",
-		spr = {2,1},
 		info = [[
 		Fight against Human or CPU
 		specific opponents!

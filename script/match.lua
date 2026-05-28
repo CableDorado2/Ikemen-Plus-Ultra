@@ -762,6 +762,63 @@ local function f_allianceChangeCharInfo()
 	end
 end
 
+local allianceStatsReady = false
+local allianceAtribsReady = false
+local allianceP1active = nil
+local allianceP2active = nil
+local function f_allianceStatsSet() --Applies to Both Sides
+	if not allianceStatsReady then
+	--For Left Side Player Selected
+		for i=1, #p1Dat do
+			if p1Dat[i].activemember then
+				allianceP1active = i
+			end
+		end
+		if player(1) then
+			setPower(p1Dat[allianceP1active].power * 100)
+			if roundstate() == 2 and not allianceAtribsReady then
+				setLifeMax(lifemax() + (p1Dat[allianceP1active].life * 10))
+				setAttack(attack() + (p1Dat[allianceP1active].attack * 10))
+				setDefence(defence() + (p1Dat[allianceP1active].defence * 10))
+				if playerLeftSide then --Only Player
+				--Since Max life can be another value, use it to calculate current residual life
+					if getLifePersistence() ~= 0 then
+						local residualLife = lifemax() - getLifePersistence()
+						setLife(lifemax() - residualLife)
+					end
+				end
+			end
+		end
+	--For Right Side Player Selected
+		for i=1, #p2Dat do
+			if p2Dat[i].activemember then
+				allianceP2active = i
+			end
+		end
+		if player(2) then
+			setPower(p2Dat[allianceP2active].power * 100)
+			if roundstate() == 2 and not allianceAtribsReady then
+				setLifeMax(lifemax() + (p2Dat[allianceP2active].life * 10))
+				setAttack(attack() + (p2Dat[allianceP2active].attack * 10))
+				setDefence(defence() + (p2Dat[allianceP2active].defence * 10))
+				if not playerLeftSide then
+					if getLifePersistence() ~= 0 then
+						local residualLife = lifemax() - getLifePersistence()
+						setLife(lifemax() - residualLife)
+					end
+				end
+			end
+		end
+	end
+--Need to be loaded until roundstate 2 for better compatibility with most chars
+	if roundstate() == 0 then
+		allianceStatsReady = false --Reset Alliance Stats Assignment for Next Round
+	elseif roundstate() == 2 then
+		allianceAtribsReady = true
+		allianceStatsReady = true --End Alliance Stats Assignment
+	end
+end
+
 --;===========================================================
 --; ABYSS MODE STUFF
 --;===========================================================
@@ -1653,6 +1710,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 --During Alliance Mode
 	elseif gameMode() == "alliance" then
+		f_allianceStatsSet() --Set Alliance Stats
 	--Time Over Player Lose Logic
 		if timeremaining() == 0 then
 			if playerLeftSide then

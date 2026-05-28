@@ -353,7 +353,7 @@ function f_mainMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
 		drawMiddleMenuSP()
-		drawMenuInfo(t_mainMenu[mainMenu])
+		if not infoboxScreen then drawMenuInfo(t_mainMenu[mainMenu]) end
 		f_sysTime()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
@@ -467,7 +467,7 @@ function f_mainMenu2()
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
 		drawMiddleMenuSP()
-		drawMenuInfo(t_mainMenu[mainMenu])
+		if not infoboxScreen then drawMenuInfo(t_mainMenu[mainMenu]) end
 		f_sysTime()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
@@ -18826,13 +18826,13 @@ function allianceCfg()
 	setRoundTime(99)
 	setLifeStateDisplay(true)
 	setScoreDisplay(true)
+	--setLifePersistence(true)
 	setGameMode("alliance")
 	data.gameMode = "alliance"
 	data.recordMode = "alliance"
 	data.victoryscreen = false
 	data.orderSelect = false
 	setMatchnoDisplay(true)
-	setBestDisplay(false)
 	f_resetAllianceResults()
 --Generate a random character for "randomselect" item stored
 	f_replaceRandomSelect(t_allianceCourses)
@@ -19085,11 +19085,12 @@ function f_allianceSelect()
 	--Start Alliance Mode
 		if allianceConfirm or allianceTimer == 0 then
 			waitingCourseSel = false
-		--Set AI Level for Next Alliance Match
+		--Set AI Level for First Alliance Match
 			if t_allianceCourses[allianceCourseSel].ailevelstart ~= nil then
 				data.cpuLevel = t_allianceCourses[allianceCourseSel].ailevelstart
 				data.cpuLevel = f_minMax(data.cpuLevel, 1, 8)
 			end
+			f_setBestRecord("BEST TEAM LEVEL: "..stats.modes.alliance[t_allianceCourses[allianceCourseSel].id].teamlevel)
 			break
 	--Exit via Return button
 		elseif data.tempBack then
