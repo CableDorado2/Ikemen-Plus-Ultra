@@ -19293,6 +19293,7 @@ function f_allianceExchange()
 		t_playerTeam = data.t_p1selected
 		t_enemyTeam = data.t_p2selected
 	end
+	local enemyTeamLv = f_getAllianceTeamLevel(t_enemyTeam, true) --To avoid update it in real-time
 	local t_enemyBackup = {}
 	local t_playerBackup = {}
 	local t_temp = {}
@@ -19400,7 +19401,7 @@ function f_allianceExchange()
 		--drawAlliExchangeTest(t_playerTeam, t_enemyTeam, enemyMember, playerMember, enemySide)
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Draw Member Exchange Common Assets
-		textImgSetText(txt_allianceExchangeCPULv, "ENEMY "..txt_allianceExchangeTeamLv..f_getAllianceTeamLevel(t_enemyTeam, true))
+		textImgSetText(txt_allianceExchangeCPULv, "ENEMY "..txt_allianceExchangeTeamLv..enemyTeamLv)
 		textImgDraw(txt_allianceExchangeCPULv)
 		textImgSetText(txt_allianceExchangePlayerLv, "PLAYER "..txt_allianceExchangeTeamLv..f_getAllianceTeamLevel(t_playerTeam, true))
 		textImgDraw(txt_allianceExchangePlayerLv)
@@ -19435,11 +19436,11 @@ function f_allianceExchange()
 	--Arrow to right
 		if enemySide then
 			animSetScale(allianceExchangeArrow, 0.5, 0.5)
-			animPosDraw(allianceExchangeArrow, 155, 120)
+			animPosDraw(allianceExchangeArrow, 155, 110)
 	--Arrow to left
 		else
 			animSetScale(allianceExchangeArrow, -0.5, 0.5)
-			animPosDraw(allianceExchangeArrow, 163, 120)
+			animPosDraw(allianceExchangeArrow, 163, 110)
 		end
 		if confirmScreen then
 			f_confirmMenu(txt_allianceExchangeConfirm, jgFnt, 0, 160, 110, 0.9, 0.9)
