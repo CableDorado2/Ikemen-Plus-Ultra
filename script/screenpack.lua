@@ -4952,7 +4952,7 @@ end
 --; ALLIANCE MEMBER EXCHANGE MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_allianceExchangeInfo = createTextImg(font7, 0, 0, "SELECT THE CPU CHARACTER AND ALLY CHARACTER TO BE EXCHANGE", 160, 15)
-txt_allianceExchangeTime = createTextImg(font20, 4, 0, "", 250, 10)
+txt_allianceExchangeTime = createTextImg(font20, 4, 0, "", 159, 13)
 txt_allianceExchangeCPULv = createTextImg(font20, 0, 0, "", 80, 15, 0.8, 0.8)
 txt_allianceExchangePlayerLv = createTextImg(font20, 2, 0, "", 240, 15, 0.8, 0.8)
 txt_allianceExchangeTeamLv = "TEAM LEVEL: "

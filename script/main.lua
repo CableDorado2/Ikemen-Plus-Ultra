@@ -19217,7 +19217,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 		--drawAlliMemTest(memberSel) --quick screnpack test
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
-		--if data.attractMode then
+		if data.attractMode then
 			textImgSetText(txt_allianceMemSelTime, string.format("%.0f", allianceTimer / gameTick))
 			if allianceTimer > 0 then
 				allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
@@ -19225,7 +19225,7 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 			else --when allianceTimer <= 0
 				
 			end
-		--end
+		end
 	--Draw Member Select Assets
 		textImgDraw(txt_allianceMemSelTitle)
 		local spacingY = 50
@@ -19327,7 +19327,7 @@ function f_allianceExchange()
 				else
 					enemySide = true
 					f_resetMembers()
-					f_updateAllianceLeader()
+					f_setAllianceLeaderStats(t_playerTeam)
 				end
 		--Start Actions
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or allianceTimer == 0 then
@@ -19336,7 +19336,6 @@ function f_allianceExchange()
 				if enemySide then
 					enemySide = false
 					t_temp[1] = t_enemyTeam[enemyMember]
-					f_updateAllianceLeader()
 			--Ally to Exchange Selected
 				else
 					confirmScreen = true
@@ -19349,7 +19348,6 @@ function f_allianceExchange()
 				else
 					playerMember = playerMember - 1
 					f_resetMembers()
-					f_updateAllianceLeader()
 				end
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -19358,7 +19356,6 @@ function f_allianceExchange()
 				else
 					playerMember = playerMember + 1
 					f_resetMembers()
-					f_updateAllianceLeader()
 				end
 			end
 	--End Exchange Select
@@ -19397,6 +19394,7 @@ function f_allianceExchange()
 			end
 			t_playerTeam[playerMember] = t_temp[1]
 			t_enemyTeam[enemyMember] = t_temp[2]
+			f_setAllianceLeaderStats(t_playerTeam)
 		end
 		if startCount then selection = selection + 1 end --Start End Exchange Select count
 		--drawAlliExchangeTest(t_playerTeam, t_enemyTeam, enemyMember, playerMember, enemySide)
@@ -19406,15 +19404,6 @@ function f_allianceExchange()
 		textImgDraw(txt_allianceExchangeCPULv)
 		textImgSetText(txt_allianceExchangePlayerLv, "PLAYER "..txt_allianceExchangeTeamLv..f_getAllianceTeamLevel(t_playerTeam, true))
 		textImgDraw(txt_allianceExchangePlayerLv)
-	--Arrow to right
-		if enemySide then
-			animSetScale(allianceExchangeArrow, 0.5, 0.5)
-			animPosDraw(allianceExchangeArrow, 155, 5)
-	--Arrow to left
-		else
-			animSetScale(allianceExchangeArrow, -0.5, 0.5)
-			animPosDraw(allianceExchangeArrow, 163, 5)
-		end
 		local spacingY = 50
 		for i=1, maxMembers do
 		--ENEMY TEAM SIDE
@@ -19442,6 +19431,15 @@ function f_allianceExchange()
 				f_resetMembers()
 				break
 			end
+		end
+	--Arrow to right
+		if enemySide then
+			animSetScale(allianceExchangeArrow, 0.5, 0.5)
+			animPosDraw(allianceExchangeArrow, 155, 120)
+	--Arrow to left
+		else
+			animSetScale(allianceExchangeArrow, -0.5, 0.5)
+			animPosDraw(allianceExchangeArrow, 163, 120)
 		end
 		if confirmScreen then
 			f_confirmMenu(txt_allianceExchangeConfirm, jgFnt, 0, 160, 110, 0.9, 0.9)
@@ -19519,7 +19517,7 @@ function f_allianceNextBattle()
 		end
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
-		--if data.attractMode then
+		if data.attractMode then
 			textImgSetText(txt_allianceNextTeamTime, string.format("%.0f", allianceTimer / gameTick))
 			if allianceTimer > 0 then
 				allianceTimer = allianceTimer - 0.5 --Activate Alliance Timer
@@ -19527,7 +19525,7 @@ function f_allianceNextBattle()
 			else --when allianceTimer <= 0
 				
 			end
-		--end
+		end
 		textImgDraw(txt_allianceNextTeamTitle)
 		textImgDraw(txt_allianceNextTeamInfo)
 	--Draw Next Team Battle Assets
