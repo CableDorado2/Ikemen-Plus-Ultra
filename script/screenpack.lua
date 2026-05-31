@@ -5241,17 +5241,20 @@ function f_abyssDatProfile(posX, posY, itemNo, data)
 	local saveDat = data or false
 	animPosDraw(abyssDatSlot, 0 + NewPosX, 40 + NewPosY)
 	f_drawQuickText(txt_abyssDatNo, font11, 0, 1, "DATA "..itemNo, 10 + NewPosX, 37 + NewPosY, 1.2, 1.2)
-	if not saveDat.player then --No Data Saved
+--No Data Saved
+	if not saveDat.player then
 		f_drawQuickText(txt_abyssNoDat, font11, 0, 0, "NO DATA", 159 + NewPosX, 90 + NewPosY, 1.2, 1.2)
-	else --Show Data Saved
+--Show Data Saved
+	else
 		--local pLevel = math.floor((abyssDat.nosave.attack + abyssDat.nosave.power + abyssDat.nosave.defence + abyssDat.nosave.life) / 4) --Just an Average
-		drawPortrait(saveDat.player[1].cel, 6 + NewPosX, 47 + NewPosY, 0.515, 0.517)
+		local pCell = saveDat.player[1].cel
+		drawPortrait(pCell, 6 + NewPosX, 47 + NewPosY, 0.515, 0.517)
 		animPosDraw(abyssProfileAtributes, 207 + NewPosX, 47 + NewPosY)
 	--Stats
 		local stsFont = font2
 		local stsFontXPos = 70 + NewPosX
 		local stsFontYPos = 56 + NewPosY
-		f_drawQuickText(txt_abyssDatName, stsFont, 4, 1, saveDat.player[1].displayname, stsFontXPos, stsFontYPos)
+		f_drawQuickText(txt_abyssDatName, stsFont, 4, 1, t_selChars[pCell + 1].displayname, stsFontXPos, stsFontYPos)
 		f_drawQuickText(txt_abyssDatDepth, stsFont, 0, 1, "PLAYER DEPTH: ", stsFontXPos, stsFontYPos + 15)
 		f_drawQuickText(txt_abyssDatDepthVal, stsFont, 5, 1, saveDat.depth, stsFontXPos + 77, stsFontYPos + 15)
 		f_drawQuickText(txt_abyssDatLv, stsFont, 0, 1, "ABYSS DEPTH: ", stsFontXPos + 6, stsFontYPos + 25)
@@ -5612,12 +5615,13 @@ function f_abyssProfile(PauseMenu, VSscreen, NewPosX, NewPosY)
 	animPosDraw(abyssProfileAtributes, 190 + NewPosX, 64 + NewPosY)
 --Character Stuff
 	if not VSscreen then
-		if not PauseMenu then drawPortrait(abyssDat.nosave.player[1].cel, 223 + NewPosX, 15 + NewPosY, 0.32, 0.32) end
+		local pCell = abyssDat.nosave.player[1].cel
+		if not PauseMenu then drawPortrait(pCell, 223 + NewPosX, 15 + NewPosY, 0.32, 0.32) end
 		for slot=1, 4 do
 			animPosDraw(abyssSpecialItem, 169 + NewPosX, 82.5 + slot * (22.6) + NewPosY)
 		end
 		f_drawQuickText(txt_abyssCharLv, font11, 0, -1, "LV "..pLevel + 1, 310 + NewPosX, 25 + NewPosY, 1, 1)
-		f_drawQuickText(txt_abyssCharName, font14, 0, 0, abyssDat.nosave.player[1].displayname, 241 + NewPosX, 58 + NewPosY, 1, 1)
+		f_drawQuickText(txt_abyssCharName, font14, 0, 0, t_selChars[pCell + 1].displayname, 241 + NewPosX, 58 + NewPosY, 1, 1)
 	end
 --Attributes
 	local attrFont = font2
@@ -6213,5 +6217,3 @@ CABLE DORADO 2
 CD2
 
 ]]
-
---selectDef = "data/selectHDBZ.def" --Characters and Stage selection list

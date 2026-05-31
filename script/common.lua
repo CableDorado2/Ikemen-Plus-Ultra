@@ -685,6 +685,34 @@ end
 
 --Replace "randomselect" item with a random character from t_randomChars table
 function f_replaceRandomSelect(t)
+	local t_available = {}
+	local function f_refillPool()
+		for i=1, #t_randomChars do
+			t_available[i] = t_randomChars[i]
+		end
+	end
+	f_refillPool()
+	local function f_processTable(t_sub)
+		for k, v in pairs(t_sub) do
+			if type(v) == "table" then
+				f_processTable(v)
+			elseif v == "randomselect" then
+				if #t_available == 0 then
+					f_refillPool()
+				end
+			--Pick a random index from the available pool
+				local randomIndex = math.random(1, #t_available)
+				local charIndex = t_available[randomIndex]
+				t_sub[k] = t_selChars[charIndex + 1].char
+			--Remove the used character from the pool to avoid repetition
+				table.remove(t_available, randomIndex)
+			end
+		end
+	end
+	f_processTable(t)
+end
+
+function f_replaceRandomSelectOLD(t)
 	for k, v in pairs(t) do
 		if type(v) == "table" then
 			f_replaceRandomSelect(v)

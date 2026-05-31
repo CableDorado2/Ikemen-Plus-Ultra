@@ -3486,7 +3486,6 @@ function caravanCfg()
 	setRoundTime(99)
 	setRoundsToWin(1)
 	--data.nextStage = true
-	data.stageMenu = true
 	data.versusScreen = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -16666,6 +16665,7 @@ if validCells() then
 		if data.gameMode == "alliance" then
 			if allianceRouteSel() then
 				f_allianceExchange()
+				f_timersReset()
 				f_allianceNextBattle()
 				f_timersReset()
 				setAllianceChange(true)
