@@ -510,6 +510,135 @@ function f_optionsMenu()
 end
 
 --;===========================================================
+--; SHORTCUTS MENU (save and access quickly to your favorite modes)
+--;===========================================================
+function f_quickMenu()
+	if t_quickMenu == nil or #t_quickMenu == 0 then
+		t_infoWindowMsg.text = "NO ENTRIES SAVED FOR QUICK ACCESS."
+		infoScreen = true
+		return
+	end
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local quickMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local itemText = nil
+	local maxItems = 7
+	local itemSign = ""
+	f_infoReset()
+	f_sideReset()
+	f_unlock(false)
+	f_updateUnlocks()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				quickMenu = quickMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				quickMenu = quickMenu + 1
+			end
+			if quickMenu < 1 then
+				quickMenu = #t_quickMenu
+				if #t_quickMenu > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_quickMenu - 1
+				end
+			elseif quickMenu > #t_quickMenu then
+				quickMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (quickMenu - (maxItems + 1)) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (quickMenu - 1) * 13
+			end
+			if #t_quickMenu <= maxItems then
+				maxquickMenu = #t_quickMenu
+			elseif quickMenu - cursorPosY > 0 then
+				maxquickMenu = quickMenu + maxItems - cursorPosY
+			else
+				maxquickMenu = maxItems
+			end
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				f_gotoFunction(t_quickMenu[quickMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_quickMenu do
+			if i == quickMenu then
+				bank = 1
+				itemSign = commonMenuItemSign
+			else
+				bank = 0
+				itemSign = ""
+			end
+			if t_unlockLua.modes[t_quickMenu[i].gotomenu] == nil then --If the menu item is unlocked
+				itemText = t_quickMenu[i].text
+			else
+				itemText = "???"
+			end
+			textImgDraw(f_updateTextImg(t_quickMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
+		end
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		drawMenuInfo(t_quickMenu[quickMenu])
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "FAVORITE MODES")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxquickMenu > maxItems + 1 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_quickMenu > maxItems + 1 and maxquickMenu < #t_quickMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; QUESTS MENU (earn rewards by clear objectives at certain schedules!)
+--;===========================================================
+function f_questMenu()
+	
+end
+
+--;===========================================================
 --; F1 MESSAGE
 --;===========================================================
 function f_infoboxMenu()
