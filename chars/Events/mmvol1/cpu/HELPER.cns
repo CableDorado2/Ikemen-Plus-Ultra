@@ -1,0 +1,872 @@
+;---------------------------------------------------------------------------------------------
+;アーマー判定ヘルパー
+;---------------------------------------------------------------------------------------------
+[Statedef 9100]
+type = A
+movetype = I
+physics = N
+sprpriority = -3
+
+[State 9100, 0]
+type = ChangeState
+trigger1 = !IsHelper
+value = 0
+ctrl = 1
+
+[State 9100, 0]
+type = AssertSpecial
+trigger1 = 1
+flag = Invisible
+flag2 = NoShadow
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = 1
+time = 1
+facing = 1
+pos = 0,0
+
+[State -2]
+type = NotHitBy
+Trigger1 = Parent,stateno = 230 || Parent,stateno = 420 || Parent,stateno = 425 || Parent,stateno = 2161 || Parent,stateno = 2270 || Parent,stateno = 2511 || Parent,stateno = [2470,2471]
+Trigger2 = Parent,var(30) = 5
+Trigger2 = numhelper(3001)
+Trigger2 = helper(3001),anim = 3002
+Trigger3 = Parent,var(30) = 7
+Trigger3 = Parent,stateno = 3200 || Parent,stateno = 3216
+Trigger4 = Parent,var(30) = [9,12]
+Trigger4 = Parent,stateno = 3450 || Parent,stateno = 3500 || Parent,stateno = 3550 || Parent,stateno = 3551
+Trigger5 = Parent,var(30) = 13
+trigger5 = numhelper(3615) = 0 || numhelper(3616) = 0
+value2 = ,AA,AP,AT
+time = 2
+
+[State -2]
+type = NotHitBy
+Triggerall = enemy,var(3) != 0
+Triggerall = enemy,var(3) != 90
+Triggerall = enemy,var(3) != 100
+Trigger1 = root,var(21) = 1 || root,var(21) = 3
+Trigger1 = (enemy,var(3) != 50 && enemy,var(3) != 40 && enemy,var(3) != 60 && enemy,var(3) != 70)
+Trigger2 = root,var(22) = 1 || root,var(22) = 3
+Trigger2 = (enemy,var(3) != 40 && enemy,var(3) != 50 && enemy,var(3) != 80 && enemy,var(3) != 30)
+Trigger3 = root,var(23) = 1 || root,var(23) = 3
+Trigger3 = (enemy,var(3) != 80 && enemy,var(3) != 20 && enemy,var(3) != 70 && enemy,var(3) != 60 && enemy,var(3) != 30)
+Trigger4 = root,var(24) = 1 || root,var(24) = 3
+Trigger4 = (enemy,var(3) != 70 && enemy,var(3) != 60 && enemy,var(3) != 20 && enemy,var(3) != 10)
+Trigger5 = root,var(26) = 1 || root,var(26) = 3
+Trigger5 = (enemy,var(3) != 60 && enemy,var(3) != 10 && enemy,var(3) != 30 && enemy,var(3) != 40)
+Trigger6 = root,var(27) = 1 || root,var(27) = 3
+Trigger6 = (enemy,var(3) != 20 && enemy,var(3) != 40 && enemy,var(3) != 10 && enemy,var(3) != 50)
+Trigger7 = root,var(28) = 1 || root,var(28) = 3
+Trigger7 = (enemy,var(3) != 30 && enemy,var(3) != 70 && enemy,var(3) != 40 && enemy,var(3) != 80)
+Trigger8 = root,var(29) = 1 || root,var(29) = 3
+Trigger8 = (enemy,var(3) != 10 && enemy,var(3) != 30 && enemy,var(3) != 50 && enemy,var(3) != 20)
+Trigger9 = root,var(30) = 1
+Trigger9 = root,stateno = [2100,2149]
+Trigger9 = (enemy,var(3) != 60 && enemy,var(3) != 10 && enemy,var(3) != 40 && enemy,var(3) != 70)
+Trigger10 = root,var(30) = 1
+Trigger10 = root,stateno = [2150,2199]
+Trigger10 = (enemy,var(3) != 80 && enemy,var(3) != 30 && enemy,var(3) != 40 && enemy,var(3) != 60)
+Trigger11 = root,var(30) = 1
+Trigger11 = root,stateno = [2200,2249]
+Trigger11 = (enemy,var(3) != 20 && enemy,var(3) != 30 && enemy,var(3) != 50 && enemy,var(3) != 60)
+Trigger12 = root,var(30) = 2
+Trigger12 = root,stateno = [2250,2299]
+Trigger12 = (enemy,var(3) != 70 && enemy,var(3) != 10 && enemy,var(3) != 20 && enemy,var(3) != 50)
+Trigger13 = root,var(30) = 2
+Trigger13 = root,stateno = [2300,2349]
+Trigger13 = (enemy,var(3) != 40 && enemy,var(3) != 10 && enemy,var(3) != 50 && enemy,var(3) != 70)
+Trigger14 = root,var(30) = 2
+Trigger14 = root,stateno = [2350,2399]
+Trigger14 = (enemy,var(3) != 50 && enemy,var(3) != 40 && enemy,var(3) != 60 && enemy,var(3) != 80)
+Trigger15 = root,var(30) = 3
+Trigger15 = root,stateno = [2400,2449]
+Trigger15 = (enemy,var(3) != 30 && enemy,var(3) != 20 && enemy,var(3) != 70 && enemy,var(3) != 80)
+Trigger16 = root,var(30) = 3
+Trigger16 = root,stateno = [2450,2499]
+Trigger16 = (enemy,var(3) != 10 && enemy,var(3) != 30 && enemy,var(3) != 50 && enemy,var(3) != 60)
+Trigger17 = root,var(30) = 3
+Trigger17 = root,stateno = [2500,2549]
+Trigger17 = (enemy,var(3) != 80 && enemy,var(3) != 30 && enemy,var(3) != 40 && enemy,var(3) != 70)
+Trigger18 = root,var(30) = 5
+Trigger18 = (enemy,var(3) != 40 && enemy,var(3) != 20 && enemy,var(3) != 50 && enemy,var(3) != 70)
+Trigger19 = root,var(30) = 7
+Trigger19 = (enemy,var(3) != 30 && enemy,var(3) != 50 && enemy,var(3) != 60 && enemy,var(3) != 10)
+Trigger20 = root,var(30) = 9
+Trigger20 = (enemy,var(3) != 40 && enemy,var(3) != 70 && enemy,var(3) != 60)
+Trigger21 = root,var(30) = 10
+Trigger21 = (enemy,var(3) != 50 && enemy,var(3) != 30 && enemy,var(3) != 70)
+Trigger22 = root,var(30) = 11
+Trigger22 = (enemy,var(3) != 10 && enemy,var(3) != 20 && enemy,var(3) != 80)
+Trigger23 = root,var(30) = 13
+Trigger23 = (enemy,var(3) != 30 && enemy,var(3) != 70 && enemy,var(3) != 50 && enemy,var(3) != 80)
+Trigger24 = root,var(30) = 14
+Trigger24 = (enemy,var(3) != 80 && enemy,var(3) != 60 && enemy,var(3) != 10 && enemy,var(3) != 20)
+Trigger25 = root,var(30) = 15
+value2 = ,AA,AP,AT
+time = 2
+
+[State 9100, 0]
+type = ChangeAnim
+trigger1 = SelfAnimExist(Parent,Anim)
+value = Parent,Anim
+elem = Parent,AnimElemNo(0)
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = root,stateno = 2001
+trigger2 = root,stateno = [2050,2070]
+ID = 9100
+
+[State Exp, 1]
+type = Explod
+trigger1 = time = 0
+trigger1 = root,stateno = [200,299]
+trigger1 = root,var(5) > 30
+trigger1 = numexplod(9100) = 0
+anim = 9100
+pos = -0,-0
+postype = p1
+id = 9100
+bindtime = -1
+removetime = 50
+ignorehitpause = 0
+persistent = 0
+sprpriority = 6
+ownpal = 1
+scale = 1,1
+
+[State Exp, 1]
+type = Explod
+trigger1 = time = 0
+trigger1 = root,stateno != [200,299]
+trigger1 = root,stateno != [3000,3710]
+trigger1 = root,var(5) > 30
+trigger1 = numexplod(9100) = 0
+anim = 9101
+pos = -0,-0
+postype = p1
+id = 9100
+bindtime = -1
+removetime = 50
+ignorehitpause = 0
+persistent = 0
+sprpriority = 6
+ownpal = 1
+scale = 1,1
+
+[State 9100, 0]
+type = HitOverRide
+trigger1 = IsHelper(9100)
+attr = SCA,AA,AP
+stateno = 9100
+
+[State 9100, 0]
+type = DestroySelf
+trigger1 = roundstate != 2
+
+;---------------------------------------------------------------------------
+;ﾃｨｳﾝﾃｨｳﾝ時のヘルパー
+;---------------------------------------------------------------------------
+
+[Statedef 9140]
+type = A
+physics = N
+ctrl = 0
+velset = 0,0
+anim = 9999
+
+[State 240, 1]
+type = PlaySnd
+trigger1 = time = 0
+value = 11, 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 0,-10
+vel = 0,-2
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 10,0
+vel = 2,0
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 0,10
+vel = 0,2
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = -10,0
+vel = -2,0
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 6,-6
+vel = 1.5,-1.5
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 6,6
+vel = 1.5,1.5
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = -6,6
+vel = -1.5,1.5
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = -6,-6
+vel = -1.5,-1.5
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 0,7
+vel = 0,1
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 0,-7
+vel = 0,-1
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 7,0
+vel = 1,0
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = -7,0
+vel = -1,0
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 3,3
+vel = 0.8,-0.8
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = 3,3
+vel = 0.8,0.8
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = -3,3
+vel = -0.8,0.8
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 5150, 0]
+type = Explod
+trigger1 = Time = 0
+anim = 9140
+id = 9140
+postype = p1
+pos = -3,3
+vel = -0.8,-0.8
+removetime = -1
+sprpriority = 125
+ownpal = 1
+
+[State 6500, 1];消去
+type = removeexplod
+trigger1 = time = 400
+trigger2 = enemy,stateno = [9500,9510]
+ID = 9140
+IgnoreHitPause = 1
+
+[State 1510, 2]
+type = destroyself
+trigger1 = time = 400
+
+;---------------------------------------------------------------------------------------------
+;本体攻撃判定
+;---------------------------------------------------------------------------------------------
+[Statedef 9200]
+type = A
+movetype = A
+physics = N
+anim = 9200
+sprpriority = -3
+
+[State 9100, 0]
+type = ChangeState
+trigger1 = !IsHelper
+value = 0
+ctrl = 1
+
+[State 9100, 0]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 9100, 0]
+type = Changeanim
+trigger1 = SelfAnimExist(Parent,Anim)
+trigger1 = root,stateno != 420
+trigger1 = root,stateno != 425
+trigger1 = root,stateno != 520
+trigger1 = root,stateno != 531
+value = Parent,Anim
+elem = Parent,AnimElemNo(0)
+ignorehitpause = 1
+
+[State 9100, 0]
+type = Changeanim
+trigger1 = root,stateno = 420
+trigger2 = root,stateno = 425
+trigger3 = root,stateno = 520
+trigger4 = root,stateno = 531
+value = 9999
+ignorehitpause = 1
+
+[State 9100, 0]
+type = AssertSpecial
+trigger1 = 1
+flag = Invisible
+flag2 = NoShadow
+
+[State a]
+type = HitDef
+trigger1 = time % 3 = 0
+attr = S, NA
+numhits = 1
+damage   = 216,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = MA
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s999,999
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = 1
+time = 1
+facing = 1
+pos = 0,0
+
+[State 9100, 0]
+type = ChangeState
+trigger1 = movehit
+value = 9201
+ctrl = 1
+
+[State 9100, 0]
+type = DestroySelf
+trigger1 = roundstate != 2
+
+;----------------------------
+[Statedef 9201];本体攻撃判定ヒット後の猶予（重複ヒット避け）
+type = A
+movetype = A
+physics = N
+anim = 9999
+
+[State 9100, 0]
+type = ChangeState
+trigger1 = time = 1
+value = 9200
+ctrl = 1
+
+;---------------------------------------------------------------------------------------------
+;BGMヘルパー
+;---------------------------------------------------------------------------------------------
+[Statedef 9400]
+type = A
+movetype = A
+physics = N
+anim = 9999
+
+[State -2];常時出ているのでタイムを止める命令を入れとく
+type = AssertSpecial
+flag = timerfreeze
+trigger1 = 1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,var(15) != 3
+trigger1 = root,var(21) = 0
+trigger1 = root,stateno = 205
+trigger2 = root,var(22) = 0
+trigger2 = root,stateno = 305
+trigger3 = root,var(23) = 0
+trigger3 = root,stateno = 405
+trigger4 = root,var(24) = 0
+trigger4 = root,stateno = 505
+trigger5 = root,var(26) = 0
+trigger5 = root,stateno = 605
+trigger6 = root,var(27) = 0
+trigger6 = root,stateno = 705
+trigger7 = root,var(28) = 0
+trigger7 = root,stateno = 805
+trigger8 = root,var(29) = 0
+trigger8 = root,stateno = 905
+value = 7000, 0
+volume = 255
+channel = 5
+lowpriority=1
+loop=0
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,var(15) != 3
+triggerall = enemy,stateno != [192,193]
+triggerall = stateno != 290
+triggerall = stateno != 390
+triggerall = stateno != 490
+triggerall = stateno != 590
+triggerall = stateno != 690
+triggerall = stateno != 790
+triggerall = stateno != 890
+triggerall = stateno != 990
+trigger1 = root,var(21) = 1
+trigger2 = root,stateno = 206
+trigger3 = root,var(22) = 1
+trigger4 = root,stateno = 306
+trigger5 = root,var(23) = 1
+trigger6 = root,stateno = 406
+trigger7 = root,var(24) = 1
+trigger8 = root,stateno = 506
+trigger9 = root,var(26) = 1
+trigger10 = root,stateno = 606
+trigger11 = root,var(27) = 1
+trigger12 = root,stateno = 706
+trigger13 = root,var(28) = 1
+trigger14 = root,stateno = 806
+trigger15 = root,var(29) = 1
+trigger16 = root,stateno = 906
+value = 7000, 1
+volume = 255
+channel = 5
+lowpriority=1
+loop=1
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+trigger1 = root,stateno = 2005
+trigger1 = numhelper(2010) = 1
+trigger1 = numhelper(2011) = 1
+trigger1 = numhelper(2012) = 1
+trigger1 = numhelper(2013) = 1
+trigger1 = numhelper(2014) = 1
+trigger1 = numhelper(2015) = 1
+trigger1 = numhelper(2016) = 1
+trigger1 = numhelper(2017) = 1
+trigger2 = root,var(30) = 4
+trigger2 = root,stateno = 3005
+trigger3 = root,var(30) = 6
+trigger3 = root,stateno = 3206
+value = 7000, 2
+volume = 255
+channel = 5
+lowpriority=1
+loop=0
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,stateno != [192,193]
+trigger1 = root,var(30) = [1,3]
+trigger2 = root,var(30) = 5
+trigger3 = root,var(30) = 7
+value = 7000, 3
+volume = 255
+channel = 5
+lowpriority=1
+loop=1
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,var(15) = 3
+trigger1 = root,var(21) = 2
+trigger1 = root,stateno = 205
+trigger2 = root,var(22) = 2
+trigger2 = root,stateno = 305
+trigger3 = root,var(23) = 2
+trigger3 = root,stateno = 405
+trigger4 = root,var(24) = 2
+trigger4 = root,stateno = 505
+trigger5 = root,var(26) = 2
+trigger5 = root,stateno = 605
+trigger6 = root,var(27) = 2
+trigger6 = root,stateno = 705
+trigger7 = root,var(28) = 2
+trigger7 = root,stateno = 805
+trigger8 = root,var(29) = 2
+trigger8 = root,stateno = 905
+value = 7000, 4
+volume = 255
+channel = 5
+lowpriority=1
+loop=0
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,var(15) = 3
+triggerall = enemy,stateno != [192,193]
+triggerall = stateno != 290
+triggerall = stateno != 390
+triggerall = stateno != 490
+triggerall = stateno != 590
+triggerall = stateno != 690
+triggerall = stateno != 790
+triggerall = stateno != 890
+triggerall = stateno != 990
+trigger1 = root,var(21) = 3
+trigger2 = root,stateno = 206
+trigger3 = root,var(22) = 3
+trigger4 = root,stateno = 306
+trigger5 = root,var(23) = 3
+trigger6 = root,stateno = 406
+trigger7 = root,var(24) = 3
+trigger8 = root,stateno = 506
+trigger9 = root,var(26) = 3
+trigger10 = root,stateno = 606
+trigger11 = root,var(27) = 3
+trigger12 = root,stateno = 706
+trigger13 = root,var(28) = 3
+trigger14 = root,stateno = 806
+trigger15 = root,var(29) = 3
+trigger16 = root,stateno = 906
+value = 7000, 5
+volume = 255
+channel = 5
+lowpriority=1
+loop=1
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,var(15) = 4
+trigger1 = root,var(30) = 8
+trigger1 = root,time = 1
+trigger1 = root,stateno = 3405
+value = 7000, 6
+volume = 255
+channel = 5
+lowpriority=1
+loop=0
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,var(15) = 4
+trigger1 = root,var(30) = 8
+trigger1 = root,time > 1
+trigger1 = root,stateno = 3405
+trigger2 = root,var(30) = 9
+value = 7000, 7
+volume = 255
+channel = 5
+lowpriority=1
+loop=1
+ignorehitpause=1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = enemy,var(15) = 5
+trigger1 = root,var(30) = 12
+trigger1 = root,time > 1
+trigger1 = root,stateno = 3605
+value = 7000, 8
+volume = 255
+channel = 5
+lowpriority=1
+loop=1
+ignorehitpause=1
+
+[State 240, 1]
+type = stopsnd
+Trigger1 = enemy,stateno = [290,299]
+Trigger2 = root,stateno = 290
+Trigger3 = root,stateno = 390
+Trigger4 = root,stateno = 490
+Trigger5 = root,stateno = 590
+Trigger6 = root,stateno = 690
+Trigger7 = root,stateno = 790
+Trigger8 = root,stateno = 890
+Trigger9 = root,stateno = 990
+Trigger10 = root,stateno = 2990
+Trigger11 = root,stateno = 3101
+Trigger12 = root,stateno = 3301
+Trigger13 = root,stateno = 3550
+Trigger14 = root,stateno = 3700
+channel = 5
+
+[State 9100, 0]
+type = DestroySelf
+trigger1 = roundstate != 2
+
+;---------------------------------------------------------------------------
+;チルドロボレン足場
+;---------------------------------------------------------------------------
+[Statedef 2380]
+type = A
+movetype = I
+physics = N
+anim = 2380
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = 30
+
+[State 202, 1]
+type = changestate
+trigger1 = Parent,stateno = 2060
+trigger2 = Parent,var(33) = 0
+value = 2381
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]
+
+[Statedef 2381]
+type = A
+movetype = I
+physics = N
+anim = 2381
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = 30
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = animtime = 0
+Trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]
+
+;---------------------------------------------------------------------------
+;パイレーツマンロボレン水位
+;---------------------------------------------------------------------------
+[Statedef 2545]
+type = A
+movetype = I
+physics = N
+anim = 2545
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = 30
+
+[State -2]
+type = velset
+trigger1 = time = 0
+y = -4
+
+[State 6500, 1]
+type = Explod
+trigger1 = time = 0
+anim = 2546
+pos = 0, 0
+postype = p1
+facing = 1
+sprpriority = -110
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 2546
+scale  = 1, 1
+
+[State 202, 1]
+type = changestate
+trigger1 = pos y <= -140
+value = 2546
+
+[State 6500, 1];消去
+type = removeexplod
+Trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]
+ID = 2546
+IgnoreHitPause = 1
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]
+
+[Statedef 2546]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = -10
+
+[State -2]
+type = velset
+trigger1 = time = 0
+y = 0.15
+
+[State 202, 1]
+type = velset
+trigger1 = pos y >= -60
+y = 0
+
+[State 202, 1]
+type = changestate
+trigger1 = Parent,stateno = 2540
+trigger2 = Parent,var(33) = 0
+value = 2547
+
+[State 6500, 1];消去
+type = removeexplod
+Trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]
+ID = 2546
+IgnoreHitPause = 1
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]
+
+[Statedef 2547]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = -10
+
+[State -2]
+type = velset
+trigger1 = time = 0
+y = 4
+
+[State 6500, 1];消去
+type = removeexplod
+Trigger1 = pos y >= 0
+Trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]
+ID = 2546
+IgnoreHitPause = 1
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = pos y >= 0
+Trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = [9500,9510]

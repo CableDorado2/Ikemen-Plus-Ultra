@@ -1,0 +1,3182 @@
+;var(1)		ランダム変数
+;var(5)		無敵時間計算用
+;var(6)		弱点攻撃ダメージ通り度
+;var(10)	アニメ変更
+
+;var(21)	ザギマンの状態
+;var(22)	スパイダーマの状態
+;var(23)	すごいマンの状態
+;var(24)	キワミマンの状態
+;var(25)	ビネガーボスの状態
+;var(26)	ゼットマンの状態
+;var(27)	ボンバーマンの状態
+;var(28)	ハワードマンの状態
+;var(29)	カンフーマンの状態
+;var(30)	ロボレンアーカイブス対戦相手管理
+;var(31)	ロボレンアーカイブスのライフ管理１
+;var(32)	ロボレンアーカイブスのライフ管理２
+;var(33)	ロボレンアーカイブスのライフ管理３
+;var(34)	ロボレンアーカイブスの各々の出番時間
+
+;var(58)	全クリフラグ
+
+[Data]
+life = 1000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 60
+airjuggle = 15
+sparkno = 2
+guard.sparkno = 40
+KO.echo = 0
+volume = 0
+IntPersistIndex = 50
+FloatPersistIndex = 40
+power = -1
+
+[Size]
+xscale = 1
+yscale = 1
+ground.back = 1
+ground.front = 1
+air.back = 1
+air.front = 1
+height = 60
+attack.dist = 160
+proj.attack.dist = 90
+proj.doscale = 0 
+head.pos = 0, -15
+mid.pos = 0, -7
+shadowoffset = 0
+draw.offset = 0,0
+
+[Velocity]
+walk.fwd  = 1.5
+walk.back = -2.2
+run.fwd  = 4.6, 0
+run.back = -4.5,-3.8
+jump.neu = 0,-8.4
+jump.back = -2.55
+jump.fwd = 2.5
+runjump.back = -2.55,-8.1
+runjump.fwd = 4,-8.1
+airjump.neu = 0,-8.1
+airjump.back = -2.55
+airjump.fwd = 2.5
+
+[Movement]
+airjump.num = 1
+airjump.height = 35
+yaccel = .44
+stand.friction = .85
+crouch.friction = .82
+
+;---------------------------------------------------------------------------
+; Stand
+[Statedef 0]
+type = S
+physics = S
+sprpriority = 0
+anim = 9999
+
+[State 0, 2]
+type = VelSet
+trigger1 = 1
+y = 0
+
+[State 0, 3]
+type = VelSet
+trigger1 = 1
+x = 0
+
+[State 分身バグ対策]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgnoreHitPause = 1
+
+;---------------------------------------------------------------------------
+; Stand
+[Statedef 1]
+type = S
+physics = S
+sprpriority = 0
+anim = 9999
+ctrl = 0
+
+[State 0, 2]
+type = VelSet
+trigger1 = 1
+y = 0
+
+[State 0, 3]
+type = VelSet
+trigger1 = 1
+x = 0
+
+[State 分身バグ対策]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgnoreHitPause = 1
+
+;---------------------------------------------------------------------------
+;ヘルパーガード用に使用
+[Statedef 130]
+type    = S
+physics = S
+sprpriority = ifelse(ishelper(3001),0,-5)
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = !ishelper
+trigger2 = !ishelper(1402) && !ishelper(1403) && !ishelper(1412) && !ishelper(1413)
+time = 1
+facing = 1
+pos = 0,0
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = ishelper(1402)
+trigger1 = 1
+facing = 1
+time = 1
+pos = -20,-5
+velset = 0,-4
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = ishelper(1403)
+trigger1 = 1
+facing = -1
+time = 1
+pos = 20,-5
+velset = 0,-4
+
+[State 9100, 0]
+type = velset
+trigger1 = ishelper(1412)
+trigger1 = numhelper(1410)
+x = 5
+
+[State 9100, 0]
+type = velset
+trigger1 = ishelper(1413)
+trigger1 = numhelper(1411)
+x = -5
+
+[State 20, Turn]
+type = Turn
+trigger1 = ishelper(1403)
+trigger1 = time = 0
+persistent = 0
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(9300)
+trigger1 = SelfAnimExist(Parent,Anim)
+value = Parent,Anim
+elem = Parent,AnimElemNo(0)
+
+[State 9100, 0]
+type = changeanim
+trigger1 = ishelper(1402) || ishelper(1403)
+triggerall = anim != 1400
+trigger1 = 1
+value = 1400
+
+[State 9100, 0]
+type = changeanim
+trigger1 = ishelper(1412) || ishelper(1413)
+triggerall = anim != 1410
+trigger1 = 1
+value = 1410
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(2330)
+trigger1 =  Parent,stateno = 2300 && Parent,anim = 2300 && Parent,animelemtime(2) < 0 
+trigger2 =  Parent,stateno != 2303
+trigger2 =  Parent,stateno != 2340
+value = 2330
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(2330)
+trigger1 =  Parent,stateno = 2300 && Parent,anim = 2300 && Parent,animelemtime(2) >= 0 
+trigger2 =  Parent,stateno = 2303
+trigger3 =  Parent,stateno = 2340
+value = 2331
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3020)
+trigger1 = 1
+value = 3020
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3403)
+Triggerall = anim != 3403
+Triggerall = time >= 0
+trigger1 = Parent,stateno = 3401
+trigger2 = Parent,stateno = 3402
+trigger3 = Parent,stateno = 3410
+value = 3403
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3403)
+Triggerall = anim != 3404
+Triggerall = time >= 0
+trigger1 = Parent,stateno = 3420
+value = 3404
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3451)
+Triggerall = anim != 3451
+Triggerall = time >= 0
+trigger1 = Parent,stateno = [3450,3499]
+value = 3451
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3501)
+Triggerall = anim != 3501
+Triggerall = time >= 0
+trigger1 = Parent,stateno = [3500,3549]
+value = 3501
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3001)
+trigger1 = anim = 3002
+trigger1 = random <= 25
+value = 3003
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3001)
+trigger1 = time = 0
+trigger2 = anim = 3003
+trigger2 = animtime = 0
+value = 3002
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3220)
+triggerall = anim != 3211
+trigger1 = time = 0
+trigger2 = Parent,stateno = 3211
+value = 3221
+elem = Parent,AnimElemNo(0)
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3220)
+triggerall = anim != 3212
+trigger1 = Parent,stateno = 3212
+value = 3222
+elem = Parent,AnimElemNo(0)
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3220)
+triggerall = anim != 3213
+trigger1 = Parent,stateno = 3213
+value = 3223
+elem = Parent,AnimElemNo(0)
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3220)
+triggerall = anim != 3214
+trigger1 = Parent,stateno = 3214
+value = 3224
+elem = Parent,AnimElemNo(0)
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3220)
+triggerall = anim != 3215
+trigger1 = Parent,stateno = 3215
+value = 3225
+elem = Parent,AnimElemNo(0)
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3613) || ishelper(3614)
+Trigger1 = numhelper(3611)
+trigger1 = SelfAnimExist(helper(3611),Anim)
+value = helper(3611),Anim
+elem = helper(3611),AnimElemNo(0)
+
+[State 9100, 0]
+type = Changeanim
+Triggerall = ishelper(3636)
+trigger1 = SelfAnimExist(Parent,Anim)
+value = Parent,Anim
+elem = Parent,AnimElemNo(0)
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3630)
+Trigger1 = numhelper(3620)
+trigger1 = SelfAnimExist(helper(3620),Anim)
+value = helper(3620),Anim
+elem = helper(3620),AnimElemNo(0)
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3631)
+Trigger1 = numhelper(3621)
+trigger1 = SelfAnimExist(helper(3621),Anim)
+value = helper(3621),Anim
+elem = helper(3621),AnimElemNo(0)
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3632)
+Trigger1 = numhelper(3622)
+trigger1 = SelfAnimExist(helper(3622),Anim)
+value = helper(3622),Anim
+elem = helper(3622),AnimElemNo(0)
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3633)
+Trigger1 = numhelper(3623)
+trigger1 = SelfAnimExist(helper(3623),Anim)
+value = helper(3623),Anim
+elem = helper(3623),AnimElemNo(0)
+
+[State 9100, 0]
+type = ChangeAnim
+Triggerall = ishelper(3634)
+Trigger1 = numhelper(3624)
+trigger1 = SelfAnimExist(helper(3624),Anim)
+value = helper(3624),Anim
+elem = helper(3624),AnimElemNo(0)
+
+[State VelS, 1]
+type = VelSet
+trigger1 = time = 0
+y = 0
+
+[State 9100, 0]
+type = DestroySelf
+Triggerall = ishelper(9300)
+Trigger1 = Parent,var(21) = 1 || Parent,var(21) = 3
+Trigger1 = Parent,stateno != 230
+Trigger1 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 50 ||enemy,var(3) = 40 || enemy,var(3) = 60 || enemy,var(3) = 70
+Trigger2 = Parent,var(22) = 1 || Parent,var(22) = 3
+Trigger2 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 40 ||enemy,var(3) = 50 || enemy,var(3) = 80 || enemy,var(3) = 30
+Trigger3 = Parent,var(23) = 1 || Parent,var(23) = 3
+Trigger3 = Parent,stateno != 420 && Parent,stateno != 425
+Trigger3 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 80 ||enemy,var(3) = 20 || enemy,var(3) = 70 || enemy,var(3) = 60 || enemy,var(3) = 30
+Trigger4 = Parent,var(24) = 1 || Parent,var(24) = 3
+Trigger4 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 70 ||enemy,var(3) = 60 || enemy,var(3) = 20 || enemy,var(3) = 10
+Trigger5 = Parent,var(26) = 1 || Parent,var(26) = 3
+Trigger5 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 60 ||enemy,var(3) = 10 || enemy,var(3) = 30 || enemy,var(3) = 40
+Trigger6 = Parent,var(27) = 1 || Parent,var(27) = 3
+Trigger6 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 20 ||enemy,var(3) = 40 || enemy,var(3) = 10 || enemy,var(3) = 50
+Trigger7 = Parent,var(28) = 1 || Parent,var(28) = 3
+Trigger7 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 30 ||enemy,var(3) = 70 || enemy,var(3) = 40 || enemy,var(3) = 80
+Trigger8 = Parent,var(29) = 1 || Parent,var(29) = 3
+Trigger8 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 10 ||enemy,var(3) = 30 || enemy,var(3) = 50 || enemy,var(3) = 20
+
+[State 9100, 0]
+type = DestroySelf
+Triggerall = ishelper(9300)
+Triggerall = Parent,var(30) = [1,3]
+Triggerall = Parent,stateno != 2161 && Parent,stateno != 2270 && Parent,stateno != 2511 && Parent,stateno != [2470,2471]
+Trigger1 = root,var(30) = 1
+Trigger1 = root,stateno = [2100,2149]
+Trigger1 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 60 || enemy,var(3) = 10 || enemy,var(3) = 40 || enemy,var(3) = 70
+Trigger2 = root,var(30) = 1
+Trigger2 = root,stateno = [2150,2199]
+Trigger2 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 80 || enemy,var(3) = 30 || enemy,var(3) = 40 || enemy,var(3) = 60
+Trigger3 = root,var(30) = 1
+Trigger3 = root,stateno = [2200,2249]
+Trigger3 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 20 || enemy,var(3) = 30 || enemy,var(3) = 50 || enemy,var(3) = 60
+Trigger4 = root,var(30) = 2
+Trigger4 = root,stateno = [2250,2299]
+Trigger4 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 70 || enemy,var(3) = 10 || enemy,var(3) = 20 || enemy,var(3) = 50
+Trigger5 = root,var(30) = 2
+Trigger5 = root,stateno = [2300,2349]
+Trigger5 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 40 || enemy,var(3) = 10 || enemy,var(3) = 50 || enemy,var(3) = 70
+Trigger6 = root,var(30) = 2
+Trigger6 = root,stateno = [2350,2399]
+Trigger6 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 50 || enemy,var(3) = 40 || enemy,var(3) = 60 || enemy,var(3) = 80
+Trigger7 = root,var(30) = 3
+Trigger7 = root,stateno = [2400,2449]
+Trigger7 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 30 || enemy,var(3) = 20 || enemy,var(3) = 70 || enemy,var(3) = 80
+Trigger8 = root,var(30) = 3
+Trigger8 = root,stateno = [2450,2499]
+Trigger8 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 10 || enemy,var(3) = 30 || enemy,var(3) = 50 || enemy,var(3) = 60
+Trigger9 = root,var(30) = 3
+Trigger9 = root,stateno = [2500,2549]
+Trigger9 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 80 || enemy,var(3) = 30 || enemy,var(3) = 40 || enemy,var(3) = 70
+
+[State 9100, 0]
+type = DestroySelf
+Triggerall = ishelper(9300)
+Triggerall = Parent,var(30) = 5
+Triggerall = numhelper(3001)
+Triggerall = helper(3001),anim = 3003
+Trigger1 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 40 || enemy,var(3) = 20 || enemy,var(3) = 50 || enemy,var(3) = 70
+
+[State 9100, 0]
+type = DestroySelf
+Triggerall = ishelper(9300)
+Triggerall = Parent,var(30) = 7
+Triggerall = Parent,stateno != 3200 && Parent,stateno != 3216
+Trigger1 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 || enemy,var(3) = 30 || enemy,var(3) = 50 || enemy,var(3) = 60 || enemy,var(3) = 10
+
+[State 9100, 0]
+type = DestroySelf
+Triggerall = ishelper(9300)
+Triggerall = Parent,var(30) = [9,11]
+Trigger1 = root,var(30) = 9
+Trigger1 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 ||enemy,var(3) = 40 || enemy,var(3) = 70 || enemy,var(3) = 60
+Trigger2 = root,var(30) = 10
+Trigger2 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 ||enemy,var(3) = 50 || enemy,var(3) = 30 || enemy,var(3) = 70
+Trigger3 = root,var(30) = 11
+Trigger3 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 ||enemy,var(3) = 10 || enemy,var(3) = 20 || enemy,var(3) = 80
+
+[State 9100, 0]
+type = DestroySelf
+Triggerall = ishelper(9300)
+Triggerall = Parent,var(30) = [13,15]
+Trigger1 = root,var(30) = 13
+Trigger1 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 ||enemy,var(3) = 30 || enemy,var(3) = 70 || enemy,var(3) = 50 || enemy,var(3) = 80
+Trigger2 = root,var(30) = 14
+Trigger2 = enemy,var(3) = 0 ||enemy,var(3) = 90 ||enemy,var(3) = 100 ||enemy,var(3) = 60 || enemy,var(3) = 80 || enemy,var(3) = 10 || enemy,var(3) = 20
+Trigger3 = root,var(30) = 15
+
+[State 9100, 0]
+type = DestroySelf
+Trigger1 = !ishelper
+Trigger2 = ishelper(1402)
+Trigger2 = numhelper(1400) = 0
+Trigger3 = ishelper(1403)
+Trigger3 = numhelper(1401) = 0
+Trigger4 = ishelper(1412)
+Trigger4 = numhelper(1410) = 0
+Trigger5 = ishelper(1413)
+Trigger5 = numhelper(1411) = 0
+Trigger6 = ishelper(2330)
+Trigger6 = Parent,stateno = 2310 && Parent,anim = 2310 && Parent,animelemtime(2) >= 0 || Parent,stateno = 2311 || Parent,var(32) = 0 || Parent,stateno != [2300,2349]
+Trigger7 = ishelper(3001) || ishelper(3020)
+Trigger7 = Parent,stateno = 3100 || Parent,stateno != [3000,3199]
+Trigger8 = ishelper(3220)
+Trigger8 = Parent,stateno = 3200 || Parent,stateno = 3216 || Parent,stateno = 3300 || Parent,stateno != [3200,3399]
+Trigger9 = ishelper(3403)
+Trigger9 = Parent,stateno != [3400,3449]
+Trigger10 = ishelper(3451)
+Trigger10 = Parent,stateno != [3450,3499]
+Trigger11 = ishelper(3501)
+Trigger11 = Parent,stateno != [3500,3549]
+Trigger12 = ishelper(3613)
+Trigger12 = enemy,var(3) = 0 || enemy,var(3) = 90 || enemy,var(3) = 100
+Trigger13 = ishelper(3614)
+Trigger13 = enemy,var(3) = 0 || enemy,var(3) = 90 || enemy,var(3) = 100
+Trigger14 = ishelper(3636)
+Trigger14 = enemy,stateno = 192 || enemy,stateno = 400 || Parent,stateno = 1 || (numhelper(3615) = 1 && numhelper(3616) = 1) || Parent,stateno != [3600,3649]
+Trigger15 = ishelper(3630)
+Trigger15 = numhelper(3620)
+Trigger15 = helper(3620),stateno != [3620,3621]
+Trigger15 = helper(3620),stateno != [3627,3628]
+Trigger16 = ishelper(3631)
+Trigger16 = numhelper(3621)
+Trigger16 = helper(3621),stateno != [3620,3621]
+Trigger16 = helper(3621),stateno != [3627,3628]
+Trigger17 = ishelper(3632)
+Trigger17 = numhelper(3622)
+Trigger17 = helper(3622),stateno != [3620,3621]
+Trigger17 = helper(3622),stateno != [3627,3628]
+Trigger18 = ishelper(3633)
+Trigger18 = numhelper(3623)
+Trigger18 = helper(3623),stateno != [3620,3621]
+Trigger18 = helper(3623),stateno != [3627,3628]
+Trigger19 = ishelper(3634)
+Trigger19 = numhelper(3624)
+Trigger19 = helper(3624),stateno != [3620,3621]
+Trigger19 = helper(3624),stateno != [3627,3628]
+Trigger20 = ishelper(3630)
+Trigger20 = numhelper(3620) = 0
+Trigger21 = ishelper(3631)
+Trigger21 = numhelper(3621) = 0
+Trigger22 = ishelper(3632)
+Trigger22 = numhelper(3622) = 0
+Trigger23 = ishelper(3633)
+Trigger23 = numhelper(3623) = 0
+Trigger24 = ishelper(3634)
+Trigger24 = numhelper(3624) = 0
+
+
+
+;---------------------------------------------------------------------------
+; Lose by Time Over
+; CNS difficulty: basic
+; CNS レベル: 基本
+[Statedef 170]
+type = S
+ctrl = 0
+anim = 170
+velset = 0,0
+
+[State 170, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
+; Win state decider
+; CNS difficulty: basic
+; CNS レベル: 基本
+[Statedef 180]
+type = S
+
+[State 180, 1]
+type = ChangeState
+trigger1 = Time = 0
+value = 181
+
+;---------------------------------------------------------------------------
+; Win pose 1 - Bow
+; CNS difficulty: basic
+; CNS レベル: 基本
+[Statedef 181]
+type = S
+ctrl = 0
+anim = 181
+velset = 0,0
+
+[State 181, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 181, 4]
+type = AssertSpecial
+trigger1 = time = [0, 200]
+flag = roundnotover
+
+
+
+;---------------------------------------------------------------------------
+; HITG_SHAKE
+[Statedef 5000]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[state a]
+type = destroyself
+trigger1 = ishelper
+
+[State 5000, 1] ;Anim for HIT_LIGHT to HIT_HARD
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) != [3,5]
+value = ifelse((GetHitVar(groundtype) = 1),5000,5010) + GetHitVar(animtype)
+
+[State 5000, 2] ;Anim for HIT_BACK
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) = [3,5]
+value = 5030
+
+[State 5000, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+
+[State 5000, 4] ;Freeze anim
+type = ChangeAnim
+trigger1 = Time > 0
+value = anim
+
+[State 5000, 5] ;State type gets set to aerial if getting hit up
+type = StateTypeSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(yvel) != 0 || GetHitVar(fall)
+trigger2 = Pos Y != 0
+statetype = a
+
+[State 5000, 6]
+type = ChangeState
+trigger1 = HitShakeOver
+trigger1 = GetHitVar(yvel) = 0 && !GetHitVar(fall)
+value = 5001 ;HITG_SLIDE
+
+[State 5000, 7]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 5030
+
+[State 5000, FFB Light]
+type = ForceFeedback
+trigger1 = anim = 5000
+trigger2 = anim = 5010
+persistent = 0
+time = 6
+waveform = square
+
+[State 5000, FFB Medium]
+type = ForceFeedback
+trigger1 = anim = 5001
+trigger2 = anim = 5011
+persistent = 0
+time = 8
+waveform = sinesquare
+ampl = 110,-1,-.3
+
+[State 5000, FFB Hard]
+type = ForceFeedback
+trigger1 = anim = 5012
+trigger2 = anim = 5002
+trigger3 = anim = 5030
+persistent = 0
+time = 15
+waveform = sinesquare
+ampl = 140
+
+;---------------------------------------------------------------------------
+; HIT_LIEDEAD
+[Statedef 5150]
+type    = L
+movetype= H
+physics = N
+anim = 9999
+sprpriority = -3
+
+[State 5150, 8]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[state a]
+type = posset
+trigger1 = 1
+y = 0
+
+;---------------------------------------------------------------------------
+; States that are always executed (use statedef -2)
+;---------------------------------------------------------------------------
+[Statedef -2]
+
+[state -2]
+type = playerpush
+trigger1 = 1
+value = 0
+
+[State -2, 死なない]
+type = AssertSpecial
+triggerall = var(58) != 2
+triggerall = stateno != [3700,3799]
+triggerall = stateno != 5150
+trigger1 = TeamMode = single
+trigger1 = enemy,stateno != 295
+flag = noko 
+
+[State -2, 初期状態]
+type = varset
+trigger1 = roundstate < 2
+trigger1 = var(58) != 2
+v = 58
+value = 1
+
+[State -2, 初期ライフ、クリアしない限り死なない]
+type = lifeset
+triggerall = NumHelper(9100)
+triggerall = var(58) != 2
+trigger1 = roundstate < 2
+trigger2 = stateno = [0,1]
+trigger3 = alive
+trigger3 = life <= 0 || Helper(9100),GetHitVar(damage)*var(6) >= life && var(5) = 0
+trigger3 = var(58) = 1
+value = 1
+
+[State -2, 初期ライフ、クリアしない限り死なない]
+type = lifeset
+trigger1 = TeamMode = simul
+trigger2 = TeamMode = turns
+trigger3 = stateno = 3710
+trigger3 = var(58) = 2
+trigger3 = TeamMode = single
+value = 0
+
+[State -2, 待機状態]
+type = changestate
+triggerall = stateno != 1
+trigger1 = enemy,stateno = 192&&stateno != 3205
+trigger2 = enemy,stateno = 292
+trigger3 = enemy,stateno = 295
+trigger4 = enemy,stateno = 9100
+trigger5 = roundstate < 2
+trigger5 = var(58) != 2
+value = 1
+ctrl = 0
+
+[State -2, 全クリﾃｨｳﾝﾃｨｳﾝ]
+type = changestate
+triggerall = stateno != 0
+trigger1 = stateno != 5150
+trigger1 = life = 0
+trigger1 = var(58) = 2
+value = 5150
+
+[state -2, タイトル画面]
+type = changestate
+trigger1 = TeamMode = Single
+trigger1 = var(58) = 2
+trigger1 = stateno != 20000
+trigger1 = stateno != [3700,3710]
+trigger1 = stateno != 5150
+trigger1 = life > 0
+value = 20000
+ctrl = 0
+
+[State -2]
+type = Helper
+Trigger1 = Numhelper(21000) = 0
+trigger1 = var(58) = 2
+trigger1 = stateno != [3700,3710]
+trigger1 = stateno != 5150
+helpertype = normal
+ID = 21000
+Stateno = 21000
+pos = 0,0
+PosType = left
+persisent = 0
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 999999999999
+pausemovetime = 999999999999
+ignorehitpause = 1
+
+
+;------------------------------------------------------
+;ザギマン専用の命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 290
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 1
+trigger1 = var(21) = 2
+trigger2 = enemy,var(32) = 2
+trigger2 = var(21) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(21) = 0
+trigger2 = var(21) = 1
+trigger2 = stateno != [200,299]
+trigger3 = var(21) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = [0,1]
+v = 21
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 290
+trigger1 = enemy,var(4) = 1
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(11) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(21) = 3
+trigger3 = stateno != [200,299] 
+trigger4 = var(21) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(11) = 1
+trigger5 = enemy,var(15) != [3,4]
+trigger5 = var(30) < 11
+v = 21
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 290
+trigger1 = enemy,var(32) = 2
+trigger2 = var(21) = 3
+trigger2 = stateno != [200,299] 
+trigger3 = enemy,var(15) = 4
+v = 21
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(21) = 1 || var(21) = 3
+Trigger1 = enemy,var(3) != 50
+Trigger1 = enemy,var(3) != 40
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(21) = 1 || var(21) = 3
+Trigger1 = enemy,var(3) = 40
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(21) = 1 || var(21) = 3
+Trigger1 = enemy,var(3) = 50
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [200,299] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 1
+trigger1 = var(21) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 2
+trigger2 = var(21) = 2
+value = 205
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(21) = 1 || var(21) = 3
+trigger1 = life = 1
+value = 290
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 1
+trigger1 = numexplod(9150) = 0
+anim = 9150
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9150
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 1
+IgNoreHitPause = 1
+ID = 9150
+
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 2
+trigger1 = numexplod(9162) = 0
+anim = 9162
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9162
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 2
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9162
+
+;------------------------------------------------------
+;スパイダーマ専用命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 390
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 2
+trigger1 = var(22) = 2
+trigger2 = enemy,var(32) = 9
+trigger2 = var(22) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(22) = 0
+trigger2 = var(22) = 1
+trigger2 = stateno != [300,399]
+trigger3 = var(22) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = [0,1]
+v = 22
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 390
+trigger1 = enemy,var(4) = 2
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(12) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(22) = 3
+trigger3 = stateno != [300,399] 
+trigger4 = var(22) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(12) = 1
+trigger5 = enemy,var(15) != [3,4]
+trigger5 = var(30) < 11
+v = 22
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 390
+trigger1 = enemy,var(32) = 9
+trigger2 = var(22) = 3
+trigger2 = stateno != [300,399] 
+trigger3 = enemy,var(15) = 4
+v = 22
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(22) = 1 || var(22) = 3
+Trigger1 = enemy,var(3) != 40
+Trigger1 = enemy,var(3) != 50
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(22) = 1 || var(22) = 3
+Trigger1 = enemy,var(3) = 50
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(22) = 1 || var(22) = 3
+Trigger1 = enemy,var(3) = 40
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [300,399] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 2
+trigger1 = var(22) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 9
+trigger2 = var(22) = 2
+value = 305
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(22) = 1 || var(22) = 3
+trigger1 = life = 1
+value = 390
+
+[State -2, 0]
+type = RemoveExplod
+trigger1 = stateno != 325
+id = 1360
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 2
+trigger1 = numexplod(9151) = 0
+anim = 9151
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9151
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 2
+IgNoreHitPause = 1
+ID = 9151
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 9
+trigger1 = numexplod(9163) = 0
+anim = 9163
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9163
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 9
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9163
+
+;------------------------------------------------------
+;すごいマン専用命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 490
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 3
+trigger1 = var(23) = 2
+trigger2 = enemy,var(32) = 6
+trigger2 = var(23) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(23) = 0
+trigger2 = var(23) = 1
+trigger2 = stateno != [400,499]
+trigger3 = var(23) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = [0,1]
+v = 23
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 490
+trigger1 = enemy,var(4) = 3
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(13) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(23) = 3
+trigger3 = stateno != [400,499] 
+trigger4 = var(23) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(13) = 1
+trigger5 = enemy,var(15) < 3
+trigger5 = var(30) < 11
+v = 23
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 490
+trigger1 = enemy,var(32) = 6
+trigger2 = var(23) = 3
+trigger2 = stateno != [400,499] 
+trigger3 = enemy,var(15) = 4
+v = 23
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(23) = 1 || var(23) = 3
+Trigger1 = enemy,var(3) != 80
+Trigger1 = enemy,var(3) != 20
+Trigger1 = enemy,var(3) != 3
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(23) = 1 || var(23) = 3
+Trigger1 = enemy,var(3) = 20
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(23) = 1 || var(23) = 3
+Trigger1 = enemy,var(3) = 80
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(23) = 1 || var(23) = 3
+Trigger1 = enemy,var(3) = 30
+v = 6
+Value = 14
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [400,499] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 3
+trigger1 = var(23) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 6
+trigger2 = var(23) = 2
+value = 405
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(23) = 1 || var(23) = 3
+trigger1 = life = 1
+value = 490
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 3
+trigger1 = numexplod(9152) = 0
+anim = 9152
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9152
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 3
+IgNoreHitPause = 1
+ID = 9152
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 6
+trigger1 = numexplod(9164) = 0
+anim = 9164
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9164
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 6
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9164
+
+;------------------------------------------------------
+;キワミマン専用命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 590
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 4
+trigger1 = var(24) = 2
+trigger2 = enemy,var(32) = 8
+trigger2 = var(24) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(24) = 0
+trigger2 = var(24) = 1
+trigger2 = stateno != [500,599]
+trigger3 = var(24) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = [0,1]
+v = 24
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 590
+trigger1 = enemy,var(4) = 4
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(14) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(24) = 3
+trigger3 = stateno != [500,599] 
+trigger4 = var(24) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(14) = 1
+trigger5 = enemy,var(15) != [3,4]
+trigger5 = var(30) < 11
+v = 24
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 590
+trigger1 = enemy,var(32) = 8
+trigger2 = var(24) = 3
+trigger2 = stateno != [500,599]
+trigger3 = enemy,var(15) = 4
+v = 24
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(24) = 1 || var(24) = 3
+Trigger1 = enemy,var(3) != 70
+Trigger1 = enemy,var(3) != 60
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(24) = 1 || var(24) = 3
+Trigger1 = enemy,var(3) = 60
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(24) = 1 || var(24) = 3
+Trigger1 = enemy,var(3) = 70
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [500,599] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 4
+trigger1 = var(24) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 8
+trigger2 = var(24) = 2
+value = 505
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(24) = 1 || var(24) = 3
+trigger1 = life = 1
+value = 590
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 4
+trigger1 = numexplod(9153) = 0
+anim = 9153
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9153
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 4
+IgNoreHitPause = 1
+ID = 9153
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 8
+trigger1 = numexplod(9165) = 0
+anim = 9165
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9165
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 8
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9165
+
+;------------------------------------------------------
+;ゼットマン専用命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 690
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 6
+trigger1 = var(26) = 2
+trigger2 = enemy,var(32) = 7
+trigger2 = var(26) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(26) = 0
+trigger2 = var(26) = 1
+trigger2 = stateno != [600,699]
+trigger3 = var(26) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = [0,1]
+v = 26
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 690
+trigger1 = enemy,var(4) = 6
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(16) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(26) = 3
+trigger3 = stateno != [600,699] 
+trigger4 = var(26) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(16) = 1
+trigger5 = enemy,var(15) != [3,4]
+trigger5 = var(30) < 11
+v = 26
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 690
+trigger1 = enemy,var(32) = 7
+trigger2 = var(26) = 3
+trigger2 = stateno != [600,699]
+trigger3 = enemy,var(15) = 4
+v = 26
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(26) = 1 || var(26) = 3
+Trigger1 = enemy,var(3) != 60
+Trigger1 = enemy,var(3) != 10
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(26) = 1 || var(26) = 3
+Trigger1 = enemy,var(3) = 10
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(26) = 1 || var(26) = 3
+Trigger1 = enemy,var(3) = 60
+v = 6
+Value = 9
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [600,699] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 6
+trigger1 = var(26) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 7
+trigger2 = var(26) = 2
+value = 605
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(26) = 1 || var(26) = 3
+trigger1 = life = 1
+value = 690
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 6
+trigger1 = numexplod(9154) = 0
+anim = 9154
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9154
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 6
+IgNoreHitPause = 1
+ID = 9154
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 7
+trigger1 = numexplod(9166) = 0
+anim = 9166
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9166
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 7
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9166
+
+;------------------------------------------------------
+;ボンバーマン専用命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 790
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 7
+trigger1 = var(27) = 2
+trigger2 = enemy,var(32) = 3
+trigger2 = var(27) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(27) = 0
+trigger2 = var(27) = 1
+trigger2 = stateno != [700,799]
+trigger3 = var(27) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = [0,1]
+v = 27
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 790
+trigger1 = enemy,var(4) = 7
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(17) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(27) = 3
+trigger3 = stateno != [700,799]
+trigger4 = var(27) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(17) = 1
+trigger5 = enemy,var(15) != [3,4]
+trigger5 = var(30) < 11
+v = 27
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 790
+trigger1 = enemy,var(32) = 3
+trigger2 = var(27) = 3
+trigger2 = stateno != [700,799] 
+trigger3 = enemy,var(15) = 4
+v = 27
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(27) = 1 || var(27) = 3
+Trigger1 = enemy,var(3) != 20
+Trigger1 = enemy,var(3) != 40
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(27) = 1 || var(27) = 3
+Trigger1 = enemy,var(3) = 40
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(27) = 1 || var(27) = 3
+Trigger1 = enemy,var(3) = 20
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [700,799] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 7
+trigger1 = var(27) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 3
+trigger2 = var(27) = 2
+value = 705
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(27) = 1 || var(27) = 3
+trigger1 = life = 1
+value = 790
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 7
+trigger1 = numexplod(9155) = 0
+anim = 9155
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9155
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 7
+IgNoreHitPause = 1
+ID = 9155
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 3
+trigger1 = numexplod(9167) = 0
+anim = 9167
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9167
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 3
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9167
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = stateno != [700,789] 
+IgNoreHitPause = 1
+ID = 711
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = stateno != [700,789] 
+IgNoreHitPause = 1
+ID = 714
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = stateno != [700,789] 
+IgNoreHitPause = 1
+ID = 716
+
+;------------------------------------------------------
+;ハワードマン専用命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 890
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 8
+trigger1 = var(28) = 2
+trigger2 = enemy,var(32) = 9
+trigger2 = var(28) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(28) = 0
+trigger2 = var(28) = 1
+trigger2 = stateno != [800,899]
+trigger3 = var(28) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = 0
+v = 28
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 890
+trigger1 = enemy,var(4) = 8
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(18) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(28) = 3
+trigger3 = stateno != [800,899] 
+trigger4 = var(28) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(18) = 1
+trigger5 = enemy,var(15) != [3,4]
+trigger5 = var(30) < 11
+v = 28
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 890
+trigger1 = enemy,var(32) = 4
+trigger2 = var(28) = 3
+trigger2 = stateno != [800,899]
+trigger3 = enemy,var(15) = 4
+v = 28
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(28) = 1 || var(28) = 3
+Trigger1 = enemy,var(3) != 30
+Trigger1 = enemy,var(3) != 70
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(28) = 1 || var(28) = 3
+Trigger1 = enemy,var(3) = 70
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(28) = 1 || var(28) = 3
+Trigger1 = enemy,var(3) = 30
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [800,899] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 8
+trigger1 = var(28) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 4
+trigger2 = var(28) = 2
+value = 805
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(28) = 1 || var(28) = 3
+trigger1 = life = 1
+value = 890
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 8
+trigger1 = numexplod(9156) = 0
+anim = 9156
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9156
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 8
+IgNoreHitPause = 1
+ID = 9156
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 4
+trigger1 = numexplod(9168) = 0
+anim = 9168
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9168
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 4
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9168
+
+;------------------------------------------------------
+;カンフーマン専用命令
+
+[State -2, DKOのとき]
+type = changestate
+triggerall = stateno = 990
+triggerall = enemy,stateno = 290
+trigger1 = enemy,var(4) = 9
+trigger1 = var(29) = 2
+trigger2 = enemy,var(32) = 1
+trigger2 = var(29) = 4
+value = 0
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(29) = 0
+trigger2 = var(29) = 1
+trigger2 = stateno != [900,999]
+trigger3 = var(29) = 2
+trigger3 = enemy,var(15) < 3
+trigger3 = stateno = [0,1]
+v = 29
+value = 0
+
+[State -2, 8ボス死亡フラグ]
+type = varset
+trigger1 = stateno = 990
+trigger1 = enemy,var(4) = 9
+trigger1 = enemy,stateno != [290,295]
+trigger2 = roundstate < 2
+trigger2 = enemy,var(19) = 1;相手側で死亡フラグがセットされていたら
+trigger3 = var(29) = 3
+trigger3 = stateno != [900,999]
+trigger4 = var(29) = 4
+trigger4 = enemy,var(15) = 3
+trigger4 = enemy,stateno = 295
+trigger5 = enemy,var(19) = 1
+trigger5 = enemy,var(15) != [3,4]
+trigger5 = var(30) < 11
+v = 29
+value = 2
+
+[State -2, ボスラッシュ死亡フラグ]
+type = varset
+trigger1 = stateno = 990
+trigger1 = enemy,var(32) = 1
+trigger2 = var(29) = 3
+trigger2 = stateno != [900,999] 
+trigger3 = enemy,var(15) = 4
+v = 29
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(29) = 1 || var(29) = 3
+Trigger1 = enemy,var(3) != 10
+Trigger1 = enemy,var(3) != 30
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(29) = 1 || var(29) = 3
+Trigger1 = enemy,var(3) = 30
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(29) = 1 || var(29) = 3
+Trigger1 = enemy,var(3) = 10
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = stateno != [900,999] 
+triggerall = enemy,stateno = 0
+trigger1 = enemy,var(4) = 9
+trigger1 = var(29) = 0
+trigger2 = enemy,var(15) = 3
+trigger2 = enemy,var(32) = 1
+trigger2 = var(29) = 2
+value = 905
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(29) = 1 || var(29) = 3
+trigger1 = life = 1
+value = 990
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 9
+trigger1 = numexplod(9157) = 0
+anim = 9157
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9157
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(4) != 9
+IgNoreHitPause = 1
+ID = 9157
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(32) = 1
+trigger1 = numexplod(9169) = 0
+anim = 9169
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9169
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,var(32) != 1
+trigger2 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(15) != 3
+IgNoreHitPause = 1
+ID = 9169
+
+;------------------------------------------------------
+
+;ロボレンアーカイブス専用命令
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(30) = 0
+trigger2 = var(30) < 4
+trigger2 = stateno != [2000,2999]
+trigger3 = var(30) = 4
+trigger3 = stateno = [2990,2992]
+trigger3 = enemy,stateno = 290 
+v = 30
+value = 0
+
+[State -2, 死亡フラグ]
+type = varset
+trigger1 = stateno = 2990
+v = 30
+value = 4
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [1,3]
+Trigger1 = enemy,var(3) != 60 && stateno = [2100,2149]
+Trigger2 = enemy,var(3) != 80 && stateno = [2150,2199]
+Trigger3 = enemy,var(3) != 20 && stateno = [2200,2249]
+Trigger4 = enemy,var(3) != 70 && stateno = [2250,2299]
+Trigger5 = enemy,var(3) != 40 && stateno = [2300,2349]
+Trigger6 = enemy,var(3) != 50 && stateno = [2350,2399]
+Trigger7 = enemy,var(3) != 30 && stateno = [2400,2449]
+Trigger8 = enemy,var(3) != 10 && stateno = [2450,2499]
+Trigger9 = enemy,var(3) != 80 && stateno = [2500,2549]
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [1,3]
+Trigger1 = var(30) = 1
+Trigger1 = stateno = [2100,2149]
+Trigger1 = enemy,var(3) = 60
+Trigger2 = var(30) = 1
+Trigger2 = stateno = [2150,2199]
+Trigger2 = enemy,var(3) = 80
+Trigger3 = var(30) = 1
+Trigger3 = stateno = [2200,2249]
+Trigger3 = enemy,var(3) = 20
+Trigger4 = var(30) = 2
+Trigger4 = stateno = [2250,2299]
+Trigger4 = enemy,var(3) = 70
+Trigger5 = var(30) = 2
+Trigger5 = stateno = [2300,2349]
+Trigger5 = enemy,var(3) = 40
+Trigger6 = var(30) = 2
+Trigger6 = stateno = [2350,2399]
+Trigger6 = enemy,var(3) = 50
+Trigger7 = var(30) = 3
+Trigger7 = stateno = [2400,2449]
+Trigger7 = enemy,var(3) = 30
+Trigger8 = var(30) = 3
+Trigger8 = stateno = [2450,2499]
+Trigger8 = enemy,var(3) = 10
+Trigger9 = var(30) = 3
+Trigger9 = stateno = [2500,2549]
+Trigger9 = enemy,var(3) = 80
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 0
+trigger1 = stateno != [2000,2999] 
+trigger1 = enemy,stateno = 0
+value = 2005
+
+[State -2, 各ウェポンボスのライフがなくなったら次の相手へ]
+type = ChangeState
+trigger1 = var(30) = 1
+trigger1 = var(31) = 0
+trigger1 = stateno = [2100,2149]
+trigger2 = var(30) = 1
+trigger2 = var(32) = 0
+trigger2 = stateno = [2150,2199]
+trigger3 = var(30) = 1
+trigger3 = var(33) = 0
+trigger3 = stateno = [2200,2249]
+trigger4 = var(30) = 2
+trigger4 = var(31) = 0
+trigger4 = stateno = [2250,2299]
+trigger5 = var(30) = 2
+trigger5 = var(32) = 0
+trigger5 = stateno = [2300,2349]
+trigger6 = var(30) = 2
+trigger6 = var(33) = 0
+trigger6 = stateno = [2350,2399]
+trigger7 = var(30) = 3
+trigger7 = var(31) = 0
+trigger7 = stateno = [2400,2449]
+trigger8 = var(30) = 3
+trigger8 = var(32) = 0
+trigger8 = stateno = [2450,2499]
+trigger9 = var(30) = 3
+trigger9 = var(33) = 0
+trigger9 = stateno = [2500,2549]
+value = 2001
+
+[state -2]
+type = lifeset
+triggerall = NumHelper(9100)
+trigger1 = var(30) = [1,3]
+trigger1 = stateno != 2055
+trigger1 = stateno != 2065
+trigger1 = life > 1
+value = (var(31) + var(32) + var(33)) * 2
+
+[state -2]
+type = varadd
+triggerall = NumHelper(9100)
+triggerall = var(5) = 0
+trigger1 = stateno = [2100,2149]
+trigger2 = stateno = [2250,2299]
+trigger3 = stateno = [2400,2449]
+v = 31
+value = -Helper(9100),GetHitVar(damage)*var(6)
+
+[state -2]
+type = varadd
+triggerall = NumHelper(9100)
+triggerall = var(5) = 0
+trigger1 = stateno = [2150,2199]
+trigger2 = stateno = [2300,2349]
+trigger3 = stateno = [2450,2499]
+v = 32
+value = -Helper(9100),GetHitVar(damage)*var(6)
+
+[state -2]
+type = varadd
+triggerall = NumHelper(9100)
+triggerall = var(5) = 0
+trigger1 = stateno = [2200,2249]
+trigger2 = stateno = [2350,2399]
+trigger3 = stateno = [2500,2549]
+v = 33
+value = -Helper(9100),GetHitVar(damage)*var(6)
+
+[state -2]
+type = varset
+trigger1 = var(31) <= 0
+v = 31
+value = 0
+
+[state -2]
+type = varset
+trigger1 = var(32) <= 0
+v = 32
+value = 0
+
+[state -2]
+type = varset
+trigger1 = var(33) <= 0
+v = 33
+value = 0
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(30) = 3
+triggerall = var(31) = 0
+triggerall = var(32) = 0
+triggerall = var(33) = 0
+trigger1 = life = 1
+value = 2990
+
+[State -2, ロボレンアーカイブス、ナイトマン盾]
+type = Helper
+trigger1 = stateno = [2300,2349]
+trigger1 = !NumHelper(2330) && MoveType != H
+value = 0
+stateno = 130
+ID = 2330
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+IgNoreHitPause = 1
+ID = 9158
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2900
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2901
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2902
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2903
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2904
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2905
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2906
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2907
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2908
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2910
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2911
+
+[State Exp, 1]
+type = RemoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = enemy,var(4) != 5
+ID = 2912
+
+;------------------------------------------------------
+
+;ロボカイタンク専用命令
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(30) >= 4
+trigger1 = var(30) < 6
+trigger1 = stateno != [3000,3199]
+trigger2 = var(30) = 6
+trigger2 = stateno = [3100,3102]
+trigger2 = enemy,stateno = 290 
+v = 30
+value = 4
+
+[State -2, 死亡フラグ]
+type = varset
+trigger1 = stateno = 3100
+v = 30
+value = 6
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = 5
+Trigger1 = enemy,var(3) != 40
+Trigger1 = enemy,var(3) != 20
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(30) = 5
+Trigger1 = enemy,var(3) = 20
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Trigger1 = var(30) = 5
+Trigger1 = enemy,var(3) = 40
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 1
+trigger1 = stateno != [3000,3199] 
+trigger1 = enemy,stateno = 0
+value = 3005
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(30) = 5
+trigger1 = life = 1
+value = 3100
+
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 1
+trigger1 = enemy,stateno = 192
+trigger1 = numexplod(9160) = 0
+anim = 9160
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9160
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+triggerall = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger1 = enemy,var(15) != 1
+trigger2 = enemy,var(15) >= 2
+IgNoreHitPause = 1
+ID = 9160
+
+;------------------------------------------------------
+
+;メットール霊夢専用命令
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(30) >= 6
+trigger1 = var(30) < 8
+trigger1 = stateno != [3200,3399]
+trigger2 = var(30) = 8
+trigger2 = stateno = [3300,3302]
+trigger2 = enemy,stateno = 290 
+v = 30
+value = 6
+
+[State -2, 死亡フラグ]
+type = varset
+trigger1 = stateno = 3300
+v = 30
+value = 8
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = 7
+Trigger1 = enemy,var(3) != 30
+Trigger1 = enemy,var(3) != 60
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = 7
+Trigger1 = enemy,var(3) = 60
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = 7
+Trigger1 = enemy,var(3) = 30
+v = 6
+Value = 4
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 2
+trigger1 = stateno != [3200,3399] 
+trigger1 = enemy,stateno = 0
+value = 3205
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(30) = 7
+trigger1 = life = 1
+value = 3300
+
+[State -2, メットのガード判定]
+type = Helper
+trigger1 = !NumHelper(3220)
+trigger1 = var(30) = 7
+value = 0
+stateno = 130
+ID = 3220
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 2
+trigger1 = enemy,stateno = 192
+trigger1 = numexplod(9161) = 0
+anim = 9161
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9161
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+triggerall = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger1 = enemy,var(15) != 2
+trigger2 = enemy,var(15) >= 3
+IgNoreHitPause = 1
+ID = 9161
+
+;------------------------------------------------------
+;ボスラッシュ専用命令
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(15) = 3
+triggerall = numexplod(9170) = 0
+trigger1 = var(21) = 4
+Trigger1 = stateno = 290
+trigger2 = var(22) = 4
+Trigger2 = stateno = 390
+trigger3 = var(23) = 4
+Trigger3 = stateno = 490
+trigger4 = var(24) = 4
+Trigger4 = stateno = 590
+trigger5 = var(26) = 4
+Trigger5 = stateno = 690
+trigger6 = var(27) = 4
+Trigger6 = stateno = 790
+trigger7 = var(28) = 4
+Trigger7 = stateno = 890
+trigger8 = var(29) = 4
+Trigger8 = stateno = 990
+anim = 9170
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -80
+ownpal = 1
+bindtime = -1
+removetime = -1
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9170
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+trigger1 = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+IgNoreHitPause = 1
+ID = 9170
+
+;------------------------------------------------------
+
+;ビネガーマシン専用命令
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(30) >= 8
+trigger1 = var(30) < 12
+trigger1 = stateno != [3400,3599]
+trigger2 = var(30) = 12
+trigger2 = stateno = [3550,3552]
+trigger2 = enemy,stateno = 290 
+v = 30
+value = 8
+
+[State -2, 死亡フラグ]
+type = varset
+trigger1 = stateno = 3550
+v = 30
+value = 12
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [9,11]
+Trigger1 = var(30) = 9
+Trigger1 = enemy,var(3) != 40 && enemy,var(3) != 60
+Trigger2 = var(30) = 10
+Trigger2 = enemy,var(3) != 30 && enemy,var(3) != 50
+Trigger3 = var(30) = 11
+Trigger3 = enemy,var(3) != 10 && enemy,var(3) != 20
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [9,11]
+Trigger1 = var(30) = 9
+Trigger1 = enemy,var(3) = 40
+Trigger2 = var(30) = 10
+Trigger2 = enemy,var(3) = 30
+Trigger3 = var(30) = 11
+Trigger3 = enemy,var(3) = 10
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [9,11]
+Trigger1 = var(30) = 9
+Trigger1 = enemy,var(3) = 60
+Trigger2 = var(30) = 10
+Trigger2 = enemy,var(3) = 50
+Trigger3 = var(30) = 11
+Trigger3 = enemy,var(3) = 20
+v = 6
+Value = 3
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 4
+trigger1 = stateno != [3400,3599] 
+trigger1 = enemy,stateno = 0
+value = 3405
+
+[State -2, 第二形態へ]
+type = ChangeState
+triggerall = var(30) = 9
+trigger1 = stateno != 3450
+trigger1 = life = 1
+value = 3450
+
+[State -2, 第三形態へ]
+type = ChangeState
+triggerall = var(30) = 10
+trigger1 = stateno != 3500
+trigger1 = life = 1
+value = 3500
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(30) = 11
+trigger1 = life = 1
+value = 3550
+
+[State -2, 第一形態本体全体のガード判定]
+type = Helper
+trigger1 = !NumHelper(3403)
+trigger1 = stateno = [3400,3449]
+value = 0
+stateno = 130
+ID = 3403
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -2, 第二形態本体全体のガード判定]
+type = Helper
+trigger1 = !NumHelper(3451)
+trigger1 = stateno = [3450,3499]
+value = 0
+stateno = 130
+ID = 3451
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -2, 第三形態本体全体のガード判定]
+type = Helper
+trigger1 = !NumHelper(3501)
+trigger1 = stateno = [3500,3549]
+value = 0
+stateno = 130
+ID = 3501
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 4
+triggerall = enemy,var(32) = 10
+trigger1 = numexplod(9171) = 0
+anim = 9171
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9171
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+triggerall = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger1 = enemy,var(15) != 4
+trigger2 = enemy,var(15) >= 5
+IgNoreHitPause = 1
+ID = 9171
+
+;------------------------------------------------------
+
+;ビネガーロボット専用命令
+
+[State -2, まだ倒されていない]
+type = varset
+trigger1 = var(30) >= 12
+trigger1 = var(30) < 15
+trigger1 = stateno != [3600,3799]
+trigger2 = var(30) = 12
+trigger2 = stateno = [3700,3705]
+trigger2 = enemy,stateno = 290 
+v = 30
+value = 12
+
+[State -2, 死亡フラグ]
+type = varset
+trigger1 = var(58) = 1
+trigger1 = stateno = 3700
+v = 30
+value = 15
+
+[State -2,弱点以外のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [13,14]
+Trigger1 = var(30) = 13
+Trigger1 = enemy,var(3) != 30 && enemy,var(3) != 70
+Trigger2 = var(30) = 14
+Trigger2 = enemy,var(3) != 60 && enemy,var(3) != 80
+v = 6
+Value = 1
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [13,14]
+Trigger1 = var(30) = 13
+Trigger1 = enemy,var(3) = 70
+Trigger2 = var(30) = 14
+Trigger2 = enemy,var(3) = 60
+v = 6
+Value = 2
+Ignorehitpause = 1
+
+[State -2,弱点武器のときのダメージ倍率]
+Type = VarSet
+Triggerall = var(30) = [13,14]
+Trigger1 = var(30) = 13
+Trigger1 = enemy,var(3) = 30
+Trigger2 = var(30) = 14
+Trigger2 = enemy,var(3) = 80
+v = 6
+Value = 3
+Ignorehitpause = 1
+
+[State -2, 登場イントロ移行。その後戦闘へ。]
+type = ChangeState
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 5
+trigger1 = stateno != [3600,3799] 
+trigger1 = enemy,stateno = 401
+value = 3605
+
+[State -2, 第二形態へ]
+type = ChangeState
+triggerall = var(30) = 13
+trigger1 = stateno != 3650
+trigger1 = life = 1
+value = 3650
+
+[State -2, ﾃｨｳﾝﾃｨｳﾝ]
+type = ChangeState
+triggerall = var(30) = 14
+trigger1 = life = 1
+value = 3700
+
+[State 6500, 1]
+type = Explod
+triggerall = enemy,var(4) = 5
+triggerall = enemy,var(15) = 5
+trigger1 = enemy,stateno = 400
+trigger1 = numexplod(9172) = 0
+anim = 9172
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = -100
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+IgnoreHitPause = 1
+Persistent= 1
+ID = 9172
+scale  = 1, 1
+
+[State -2]
+Type = ReMoveExplod
+triggerall = enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger1 = enemy,var(15) != [5,6]
+trigger2 = enemy,var(15) >= 7
+IgNoreHitPause = 1
+ID = 9172
+
+;------------------------------------------------------
+
+[State -2, ライフバーヘルパー]
+type = Helper
+Trigger1 = Numhelper(8000) = 0
+trigger1 = var(58) = 1
+helpertype = normal
+ID = 8000
+Stateno = 8000
+pos = 0,0
+PosType = p1
+persisent = 0
+keyctrl = 0
+ownpal = 1
+
+[State -2]
+type = turn
+trigger1 = ctrl = 1
+trigger1 = command = "holdback"
+
+[state -2]
+type = hitby
+trigger1 = 1
+value = SCA,AA,AP
+time = -1
+
+[State -2]
+type = AssertSpecial
+flag = NoAutoTurn
+flag2 =nostandguard
+flag3 =nocrouchguard
+trigger1 = 1
+
+[state -2]
+type = lifeadd
+triggerall = NumHelper(9100)
+triggerall = var(5) = 0
+trigger1 = stateno != [2000,2999]
+trigger2 = stateno = 2055
+trigger3 = stateno = 2065
+value = -Helper(9100),GetHitVar(damage)*var(6)
+
+[State -2, 被ダメ無敵命令]
+type = NotHitBy
+triggerall = !NumHelper(9100)
+trigger1 = var(5) > 0 
+value = SCA
+time = 1
+
+[State -2, 被ダメ無敵時間計算１]
+type = varset
+triggerall = NumHelper(9100)
+triggerall = var(5) = 0
+triggerall = Helper(9100),GetHitVar(damage)*var(6)
+trigger1 = var(30) = 1
+trigger2 = var(30) = 2
+trigger3 = var(30) = 3
+trigger4 = var(30) = 7
+trigger5 = var(30) = [9,11]
+trigger6 = var(30) = [13,15]
+v = 5
+value = 50 + GetHitVar(hitshaketime)
+
+[State -2, 被ダメ無敵時間計算１]
+type = varset
+triggerall = NumHelper(9100)
+triggerall = var(5) = 0
+triggerall = Helper(9100),GetHitVar(damage)*var(6)
+trigger1 = var(30) != 1
+trigger1 = var(30) != 2
+trigger1 = var(30) != 3
+trigger1 = var(30) != 7
+trigger1 = var(30) != [9,11]
+trigger1 = var(30) != [13,15]
+v = 5
+value = 35 + GetHitVar(hitshaketime)
+
+[State -2, 被ダメ無敵時間計算２]
+type = varadd
+trigger1 = var(5) > 0
+v = 5
+value = -1
+
+[State -2, 攻撃ヒット時の点滅]
+type = palfx
+trigger1 = var(5) > 0
+trigger1 = time % 6 = 0
+time = 3
+add = 255,255,255
+mul = 255,255,255
+color = 0
+
+[State -2, やられ判定]
+type = Helper
+trigger1 = !NumHelper(9100) && MoveType != H
+value = 0
+stateno = 9100
+ID = 9100
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -2, アーマーヘルパー]
+type = Helper
+trigger1 = !NumHelper(9200) && MoveType != H
+value = 0
+stateno = 9200
+ID = 9200
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -2, 効果無し攻撃弾き用ガードヘルパー]
+type = Helper
+trigger1 = !NumHelper(9300) && MoveType != H
+value = 0
+stateno = 130
+ID = 9300
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -2, BGMヘルパー]
+type = Helper
+trigger1 = !NumHelper(9400)
+value = 0
+stateno = 9400
+ID = 9400
+size.xscale = 1
+size.yscale = 1
+postype = p1
+pos = 0,0
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -2, 効果無し攻撃弾き中は攻撃当たらず（保険として本体を無敵）]
+type = NotHitBy
+trigger1 = NumHelper(9100)&& MoveType != H
+trigger2 = NumHelper(9300)&& MoveType != H
+value2 = ,AA,AP,AT
+time = 2
+
+[State -2]
+type = ChangeState
+value = 190
+triggerall = RoundsExisted = 0
+triggerall = TeamMode = Turns
+trigger1 = stateno = 5900
+
+[State -2];デバッグ用(消してもよい)
+type = DisplayToClipboard
+trigger1 = 1
+text = "01 = %d  02 = %d  03 = %d 04 = %d 05 = %d"
+params = var(58),var(30),var(6),var(11),Helper(9100),GetHitVar(damage)*var(6)
+
+;---------------------------------------------------------------------------
+; States that are executed when in self's state file (use statedef -3)
+;---------------------------------------------------------------------------
+
+[Statedef -3]
+
+;This controller plays a sound everytime KFM lands from a jump, or
+;from his back-dash.
+[State -3, Landing Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 52 ;Jump land
+trigger2 = stateno = 106 ;Run-back land
+value = 40, 0
+
+[State -3, AI起動用ヘルパー]
+type=helper
+trigger1 = !NumHelper(10000)
+trigger1 = roundstate=2
+trigger1 = alive
+helpertype = normal
+name = "AI"
+stateno = 10000
+ID = 10000
+pos = 9999,9999
+keyctrl = 1
+pausemovetime = 2147483647
+supermovetime = 2147483647
+persistent = 0
+
+[State -3]
+type=changestate
+trigger1 = ishelper(10000)
+trigger1 = stateno != 10000
+value = 10000
+
+[State -3, AI]
+Type = VarSet
+TriggerAll = !var(59)
+TriggerAll = RoundState = [1,2]
+Trigger1 = Command = "AI_00"
+Trigger2 = Command = "AI_01"
+Trigger3 = Command = "AI_02"
+Trigger4 = Command = "AI_03"
+Trigger5 = Command = "AI_04"
+Trigger6 = Command = "AI_05"
+Trigger7 = Command = "AI_06"
+Trigger8 = Command = "AI_07"
+Trigger9 = Command = "AI_08"
+Trigger10 = Command = "AI_09"
+Trigger11 = Command = "AI_10"
+Trigger12 = Command = "AI_11"
+Trigger13 = Command = "AI_12"
+Trigger14 = Command = "AI_13"
+Trigger15 = Command = "AI_14"
+Trigger16 = Command = "AI_15"
+Trigger17 = Command = "AI_16"
+Trigger18 = Command = "AI_17"
+Trigger19 = Command = "AI_18"
+Trigger20 = Command = "AI_19"
+Trigger21 = Command = "AI_20"
+Trigger22 = Command = "AI_21"
+Trigger23 = Command = "AI_22"
+Trigger24 = Command = "AI_23"
+Trigger25 = Command = "AI_24"
+Trigger26 = Command = "AI_25"
+Trigger27 = Command = "AI_26"
+Trigger28 = Command = "AI_27"
+Trigger29 = Command = "AI_28"
+Trigger30 = Command = "AI_29"
+Trigger31 = Command = "AI_30"
+Trigger32 = numHelper(10000)
+Trigger32 = Helper(10000),var(59)=1
+Trigger33 = 1
+V = 59
+Value = 10
+
+;---------------------------------------------------------------------------
+
+[State -3]
+type = ChangeState
+value = 630
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = P2dist x > 35
+Trigger1 = StateNo = 600 || StateNo = 601 && time >= 40
+
+[State -3]
+type = ChangeState
+value = 601
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+TriggerAll= stateno != 601
+Trigger1 = StateNo = 600
+
+[State -3]
+type = ChangeState
+value = 610
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 600 || StateNo = 601 && time >= 40
+
+[State -3]
+type = ChangeState
+value = 602
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 600
+
+[State -3]
+type = ChangeState
+value = 620
+Triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 600 || StateNo = 60 && time >= 40
+
+[State -3]
+type = ChangeState
+value = 621
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 600 || StateNo = 601 && time >= 40
+
+;---------------------------------------------------------------------------
+
+[State -3]
+type = ChangeState
+value = 830
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+TriggerAll=EnemyNear,StateType = A
+Trigger1 = P2dist x < 30
+Trigger1 = StateNo = 800
+Trigger2 = P2dist x < 15
+Trigger2 = StateNo = 820
+Trigger2 = time >= 30
+
+[State -3]
+type = ChangeState
+value = 820
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 800
+
+[State -3]
+type = ChangeState
+value = 812
+Triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+TriggerAll = numhelper(1800) < 1
+Trigger1 = StateNo = 800
+
+[State -3]
+type = ChangeState
+value = 810
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+TriggerAll = numhelper(1800) < 1
+Trigger1 = StateNo = 800
+
+;---------------------------------------------------------------------------
+
+[State -3]
+type = ChangeState
+value = 930
+triggerall = var(59) != 0 && Random<=var(59)*50
+triggerall = pos x = [-70,70]
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 900
+
+[State -3]
+type = ChangeState
+value = 920
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 900
+
+[State -3]
+type = ChangeState
+value = 910
+triggerall = var(59) != 0 && Random<=var(59)*50
+TriggerAll=StateType != A
+TriggerAll=EnemyNear,Alive
+Trigger1 = StateNo = 900
+
+;---------------------------------------------------------------------------
+
+[Statedef 10000]
+anim = 9999
+ctrl = 0
+
+[State 10000]
+type = selfstate
+trigger1 = !ishelper
+value = 0
+
+[State 10000,プレイヤー判定]
+type=varset
+trigger1=command="up"&&root,command="up"
+trigger2=command="down"&&root,command="down"
+trigger3=command="back"&&root,command="back"
+trigger4=command="fwd"&&root,command="fwd"
+trigger5=command="a"&&root,command="a"
+trigger6=command="b"&&root,command="b"
+trigger7=command="c"&&root,command="c"
+trigger8=command="x"&&root,command="x"
+trigger9=command="y"&&root,command="y"
+trigger10=command="z"&&root,command="z"
+trigger11=command="start"&&root,command="start"
+var(59)=-1
+
+[State 10000,立ったら消失]　;
+Type = DestroySelf
+triggerAll = isHelper
+Trigger1 = root,var(59)||var(59)=-1
+trigger2=command="up"&&root,command="up"
+trigger3=command="down"&&root,command="down"
+trigger4=command="back"&&root,command="back"
+trigger5=command="fwd"&&root,command="fwd"
+trigger6=command="a"&&root,command="a"
+trigger7=command="b"&&root,command="b"
+trigger8=command="c"&&root,command="c"
+trigger9=command="x"&&root,command="x"
+trigger10=command="y"&&root,command="y"
+trigger11=command="z"&&root,command="z"
+trigger12=command="start"&&root,command="start"
+
+[State 10000,ﾌﾗｸﾞON]
+type=varset
+triggerall=var(59)!=-1
+trigger1=root,command="up"
+trigger2=root,command="down"
+trigger3=root,command="back"
+trigger4=root,command="fwd"
+trigger5=root,command="a"
+trigger6=root,command="b"
+trigger7=root,command="c"
+trigger8=root,command="x"
+trigger9=root,command="y"
+trigger10=root,command="z"
+trigger11=root,command="start"
+var(59)=1

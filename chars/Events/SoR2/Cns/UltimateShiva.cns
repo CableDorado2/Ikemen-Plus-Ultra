@@ -1,0 +1,259 @@
+;Ultimate Shiva
+
+;==========
+;Plan
+;==========
+;Ultimate Shiva is going to have his own special idle state that will have him react to his opponents actions
+;more accurately, instead of just simply randomly using attacks.
+;
+;To prevent Shiva's actions from being almost the same against every action of his opponents, a "Strategy" system
+;will be used. What actions Shiva takes against certain actions depends on his current Strategy. Possible strategies are:
+;
+;Balanced: Well-rounded strategy balancing attack & defense. Starts with this strategy.
+
+;Aggressive: Constantly moves towards player and launches attacks constantly. Counts on constant pressure to chip away at player
+;or land an hit that leads to a combo. Neglects defense, leading to lower block chance, and if player attacks while Shiva is idle,
+;Shiva will perfer to use an attack of his own instead of guarding the attack, in a attempt to land a hit.
+;
+;Passive: Very low chance of using "risky" attacks, such as those that are unsafe on block. Typically tries to land hits with safe attacks
+;such as basic attacks. Higher block chance. Becomes even more defensive if player's Power meter is 2 levels or higher.
+;
+;Technical: Tries to bait or dodge attacks and attack while player is recovering from their attack. If Shiva attacks without trying to
+;bait or dodge an attack and his attack is blocked, he tries to use a crouching or aerial attack right afterwards to get past the player's guard.
+;
+;Each strategy lasts for around 10 - 20 seconds, then another strategy is chosen that isn't the current strategy.
+
+;-------------------------------
+;Stand
+[Statedef 30000]
+type = S
+physics = S
+sprpriority = 0
+ctrl = 0
+;velset = 0,0
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = FVar(3) != root, const(size.xscale)
+fv = 3
+value = root, const(size.xscale)
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = FVar(4) != root, const(size.yscale)
+fv = 4
+value = root, const(size.yscale)
+
+;Shiva New Guard Meter Max
+[State 10000, VarSet]
+type = VarSet
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12
+trigger1 = FVar(23) > 1
+fv = 23
+value = 1
+ignorehitpause = 1
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = Var(4) != 1
+v = 4
+value = 1
+ignorehitpause = 1
+
+[State 10000, SelfState]
+type = SelfState
+trigger1 = IsHelper = 0
+value = 0
+ctrl = 1
+
+
+;--------------------------
+;Safety KO State Controller
+;--------------------------
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 31000
+ctrl = 0
+;--------------------------
+;End Safety KO
+;--------------------------
+
+
+
+;Not in normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 0
+v = 34
+value = 0
+
+[State 10000, AssertSpecial]
+type = AssertSpecial
+trigger1 = IsHelper
+flag = NoStandGuard
+flag2 = NoCrouchGuard
+flag3 = NoAirGuard
+ignorehitpause = 1
+
+[State 10000, VelSet]
+type = VelSet
+trigger1 = Var(0) != 14 ;Jet
+trigger1 = Var(0) != 20 ;Rocket
+trigger1 = Var(0) != 28 ;Jet MKII
+trigger1 = Time = 0
+x = 0
+y = 0
+
+[State 10011, NotHitBy]
+type = NotHitBy
+trigger1 = (root, Var(43) = 0)
+trigger1 = PrevStateNo = 10011
+value2 = SCA
+time = 5
+persistent = 0
+
+[State 10011, NotHitBy]
+type = NotHitBy
+trigger1 = (root, Var(43) = 1) || (root, Var(43) = 2)
+trigger1 = PrevStateNo = 10011
+value2 = SCA
+time = 2
+persistent = 0
+
+;Idle
+[State 10000, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(0) != 0
+trigger1 = Var(0) != 1
+trigger1 = Var(0) != 11
+trigger1 = (Var(0) != 19) || (FVar(1) > 1000)
+trigger1 = Var(0) != 31
+trigger1 = AnimExist(10000+(Var(0)*30))
+trigger1 = Anim != (10000+(Var(0)*30))
+value = 10000+(Var(0)*30)
+
+[State 10000, LifeSet]
+type = LifeSet
+trigger1 = Time = 1
+value = LifeMax
+
+[State 10003, PosSet]
+type = PosSet
+trigger1 = Pos Y != 0
+trigger1 = Var(0) != 14 ;Jet
+trigger1 = Var(0) != 20 ;Rocket
+trigger1 = Var(0) != 28 ;Jet MKII
+;x = 0
+y = 0;5
+
+;Enemy Item Pick-Up
+;Power-Up 8010 (Boss)
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = Time > 0
+triggerall = (parent, Var(47)) = 1;Enemies can pick-up items.
+triggerall = ((parent, Var(21)) = [2000,2004]) || ((parent, Var(21)) = [500,502])
+triggerall = (random+1) <= (((parent,Var(51)) * 6) + (Var(1) * 4))
+trigger1 = IsHelper(200)
+trigger1 = GameTime%5 = 0
+trigger1 = (parent, FVar(16)) = [-35,35]
+trigger2 = IsHelper(201)
+trigger2 = GameTime%5 = 2
+trigger2 = (parent, FVar(17)) = [-35,35]
+trigger3 = IsHelper(202)
+trigger3 = GameTime%5 = 4
+trigger3 = (parent, FVar(18)) = [-35,35]
+value = 8032
+ctrl = 0
+
+;Power-Up 8011 (Boss)
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = Time > 0
+triggerall = (parent, Var(47)) = 1;Enemies can pick-up items.
+triggerall = ((parent, Var(22)) = [2000,2004]) || ((parent, Var(22)) = [500,502])
+triggerall = (random+1) <= (((parent,Var(51)) * 6) + (Var(1) * 4))
+trigger1 = IsHelper(200)
+trigger1 = GameTime%5 = 0
+trigger1 = (parent, FVar(19)) = [-35,35]
+trigger2 = IsHelper(201)
+trigger2 = GameTime%5 = 2
+trigger2 = (parent, FVar(20)) = [-35,35]
+trigger3 = IsHelper(202)
+trigger3 = GameTime%5 = 4
+trigger3 = (parent, FVar(21)) = [-35,35]
+value = 8034
+ctrl = 0
+
+;Start Shiva Attacks
+
+
+
+
+
+
+;End Shiva Attacks
+
+[State 10000, Turn]
+type = Turn
+triggerall = NumEnemy > 0
+trigger1 = P2Dist X < 0
+
+
+
+;Walk
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = Time > 2
+triggerall = (Var(0) != 41) || (BackEdgeDist < 5)
+trigger1 = RoundState = 2
+trigger1 = Var(0) != 0 || Var(54) = 0;Garcia without a knife
+trigger1 = Var(0) != 15 && Var(0) != 18 && Var(0) != 30
+trigger1 = Time >= 30 || (random <= (Time*3))
+trigger1 = GameTime%3 = 0
+trigger1 = Random <= Var(1)*10 || Time >= 90
+trigger1 = P2Dist X > 75  || (Enemynear, Alive = 0)
+trigger1 = (Enemynear, StateType != L) || (Enemynear, Alive = 0)
+value = 10001
+ctrl = 0
+
+;Backwards Walk (Shiva)
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = Time > 0
+trigger1 = RoundState = 2
+trigger1 = Var(0) = 12
+trigger1 = (random <= (Time*10))
+;trigger1 = GameTime%2 = 0
+trigger1 = BackEdgeDist > 20
+trigger1 = P2Dist X = [1,120]
+trigger1 = Enemynear, MoveType = A
+value = 10002
+ctrl = 0
+
+;Backwards Walk
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = Time > 2
+trigger1 = (Var(0) != 41) || (Time > 10)
+trigger1 = RoundState = 2
+trigger1 = Var(0) != 0 || Var(54) = 0;Garcia without a knife
+trigger1 = Var(0) != 15 && Var(0) != 18 && Var(0) != 30
+trigger1 = Time >= 30 || (random <= (Time*3))
+trigger1 = GameTime%3 = 0
+trigger1 = BackEdgeDist > 15
+trigger1 = P2Dist X = [1,160]
+trigger1 = (Enemynear, MoveType = H) || (Var(58) >= 951) || (Enemynear, StateNo = 5120)
+value = 10002
+ctrl = 0
+
+;Round Over. Go to wait state
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = RoundState > 2
+value = 8700
+ctrl = 0

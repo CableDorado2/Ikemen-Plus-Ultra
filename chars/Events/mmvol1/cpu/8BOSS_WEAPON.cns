@@ -1,0 +1,1493 @@
+;---------------------------------------------------------------------------
+;ザギマンの飛び道具
+;---------------------------------------------------------------------------
+[Statedef 1200]
+type    = A
+movetype= A
+physics = N
+anim = 1200
+ctrl = 0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = VelSet
+trigger1 = time = 0
+x = 3.5
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 150,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 290
+trigger3 = ScreenPos X != [0,370]
+
+;---------------------------------------------------------------------------
+[Statedef 1250]
+type    = A
+movetype= A
+physics = N
+anim = 1250
+velset = 0,0
+ctrl = 0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 200, 1]
+type = turn
+triggerall = p2dist X < -5
+trigger1 = time >= 30
+trigger1 = time % 30 = 0
+
+[State 200, 1]
+type = changeanim
+triggerall = enemy,const(size.mid.pos.Y)+p2dist Y < -20
+triggerall = p2dist X <= 10
+trigger1 = time >= 30
+trigger1 = time % 30 = 0
+value = 1250
+
+[State 200, 1]
+type = changeanim
+triggerall = enemy,const(size.mid.pos.Y)+p2dist Y < -20
+triggerall = p2dist X > 10
+trigger1 = time >= 30
+trigger1 = time % 30 = 0
+value = 1251
+
+[State 200, 1]
+type = changeanim
+trigger1 = time = 0
+trigger2 = enemy,const(size.mid.pos.Y)+p2dist Y = [-20,20]
+trigger2 = time % 30 = 0
+value = 1252
+
+[State 200, 1]
+type = changeanim
+triggerall = enemy,const(size.mid.pos.Y)+p2dist Y > 20
+triggerall = p2dist X > 10
+trigger1 = time >= 30
+trigger1 = time % 30 = 0
+value = 1253
+
+[State 200, 1]
+type = changeanim
+triggerall = enemy,const(size.mid.pos.Y)+p2dist Y > 20 
+triggerall = p2dist X < 10
+trigger1 = time >= 30
+trigger1 = time % 30 = 0
+value = 1254
+
+[State 200, 1]
+type = velset
+trigger1 = anim = 1250
+y = -2.5
+
+[State 200, 1]
+type = velset
+trigger1 = anim = 1251
+x = 1.5
+y = -1.5
+
+[State 200, 1]
+type = velset
+trigger1 = anim = 1252
+x = 2.5
+
+[State 200, 1]
+type = velset
+trigger1 = anim = 1253
+x = 1.5
+y = 1.5
+
+[State 200, 1]
+type = velset
+trigger1 = anim = 1254
+y = 2.5
+
+[State 200, 1]
+type = velset
+trigger1 = time % 30 = 0
+x = 0
+y = 0
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 150,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 1201,2]
+Type = HitBy
+Trigger1 = 1
+value = SAC,NP,SP,HP
+Time = 1
+PauseMoveTime = 99999
+SuperMoveTime = 99999
+igNorehitPause = 1
+SuperMove = 1
+
+[State 1000, 1]
+type = HitOverRide
+trigger1 = 1
+attr = SCA ,NP,SP,HP
+stateno = 1255
+slot = 0
+time = -1
+
+[State 201, 4]
+type = changestate
+trigger1 = time = 130
+trigger2 = movehit
+value = 1255
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 290
+trigger3 = ScreenPos X != [0,370]
+
+;---------------------------------------------------------------------------
+[Statedef 1255]
+type    = A
+movetype= I
+physics = N
+anim = 1255
+velset = 0,0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = animtime = 0
+
+;---------------------------------------------------------------------------
+;スパイダーマの飛び道具
+;---------------------------------------------------------------------------
+[Statedef 1350]
+type    = A
+movetype= A
+physics = N
+anim = 1350
+ctrl = 0
+
+[State 200, 1]
+type = turn
+triggerall = time = 0
+trigger1 = root,anim = 311
+trigger2 = root,anim = 316
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 210, 3] 
+type = VarRandom
+trigger1 = Time = 0
+v = 1
+range = 0,1
+
+[State a]
+type = VelSet
+trigger1 = time = 0
+x = 3.5
+
+[State a]
+type = VelSet
+trigger1 = ishelper(1332) || ishelper(1342)
+trigger1 = time = 0
+y = 5
+
+[State a]
+type = VelSet
+trigger1 = ishelper(1333) || ishelper(1343)
+trigger1 = time = 0
+y = 8
+
+[State a]
+type = Veladd
+trigger1 = ishelper(1312) || ishelper(1322)
+trigger1 = time >= 10
+trigger2 = ishelper(1313) || ishelper(1323)
+trigger2 = time >= 25
+trigger3 = ishelper(1332) || ishelper(1342)
+trigger3 = time >= 0
+trigger4 = ishelper(1333) || ishelper(1343)
+trigger4 = time >= 0
+y = -0.32
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 150,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = MA
+animtype = light
+pausetime = 0,60
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 4]
+type = changestate
+trigger1 = MoveGuarded
+value = 6000
+
+[State 20, ChangeState]
+type = ChangeState
+trigger1 = movehit
+value = 1351
+
+[State 20, ChangeState]
+type = ChangeState
+triggerall = ishelper(1311) ||ishelper(1312) || ishelper(1322) || ishelper(1332) || ishelper(1342)
+trigger1 = var(1) = 0
+trigger1 = time = 15
+trigger2 = var(1) = 1
+trigger2 = time = 30
+value = 1355
+
+[State 201, 4]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP, AT
+stateno = 1351
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 390
+trigger3 = ScreenPos X != [0,370]
+
+;---------------------------------------------------------------------------
+[Statedef 1351]
+type    = A
+movetype= I
+physics = N
+anim = 1351
+velset = 0,0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 390
+trigger3 = animtime = 0
+
+;---------------------------------------------------------------------------
+[Statedef 1355]
+type    = A
+movetype= A
+physics = N
+anim = 1355
+velset = 0,0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 150,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,60
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 390
+trigger3 = animtime = 0
+
+;---------------------------------------------------------------------------
+[Statedef 1360]
+type    = A
+movetype= A
+physics = N
+ctrl = 0
+
+[State 20, Turn]
+type = Turn
+trigger1 = time = 0
+trigger1 = facing != 1
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 9100, 0]
+type = Changeanim
+trigger1 = time = 0
+trigger1 = anim != 1360
+value = 1360
+
+[state -2]
+type = varadd
+trigger1 = 1
+v = 2
+value = GetHitVar(damage)*root,var(6)
+
+[State a]
+type = HitDef
+trigger1 = Time >= 0
+attr = S, NP
+numhits = 1
+damage   = 200,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 1201,2]
+Type = HitBy
+Trigger1 = 1
+value = SAC,NP,SP,HP
+Time = 1
+PauseMoveTime = 99999
+SuperMoveTime = 99999
+igNorehitPause = 1
+SuperMove = 1
+
+[State 201, 4]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP, AT
+stateno = 1360
+
+[State 20, ChangeState];耐久値０
+type = ChangeState
+trigger1 = var(2) >= 150
+value = 1361
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 390
+trigger3 = animtime = 0
+
+;---------------------------------------------------------------------------
+[Statedef 1361]
+type    = A
+movetype= I
+physics = N
+anim = 1361
+velset = 0,0
+
+[State 220, 2]
+type = PlaySnd
+trigger1 = time = 0
+value = 2000, 14
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State -2, 0]
+type = RemoveExplod
+trigger1 = 1
+id = 1360
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = animtime = 0
+
+;---------------------------------------------------------------------------
+;スゴイマンの飛び道具
+;---------------------------------------------------------------------------
+[Statedef 1400]
+type    = A
+movetype= A
+physics = N
+anim = 1400
+ctrl = 0
+sprpriority = 4
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = ishelper(1400)
+trigger1 = 1
+facing = 1
+time = 1
+pos = -20,-5
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = ishelper(1401)
+trigger1 = 1
+facing = -1
+time = 1
+pos = 20,-5
+
+[State 20, Turn]
+type = Turn
+trigger1 = ishelper(1401)
+trigger1 = time = 0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = HitDef
+trigger1 = 1
+attr = S, NP
+numhits = 1
+damage   = 150,0
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 490
+trigger3 = time = 300
+trigger4 = ishelper(1400)
+trigger4 = numhelper(1405) = 0
+trigger5 = ishelper(1401)
+trigger5 = numhelper(1406) = 0
+
+
+;---------------------------------------------------------------------------
+[Statedef 1405]
+type    = A
+movetype= A
+physics = N
+anim = 1400
+ctrl = 0
+sprpriority = 4
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = ishelper(1405)
+trigger1 = 1
+facing = 1
+time = 1
+pos = -20,-5
+
+[State 9100, 0]
+type = BindToParent
+trigger1 = ishelper(1406)
+trigger1 = 1
+facing = -1
+time = 1
+pos = 20,-5
+
+[State 20, Turn]
+type = Turn
+trigger1 = ishelper(1406)
+trigger1 = time = 0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = ReversalDef
+trigger1 = 1
+reversal.attr = SCA,NP,SP
+pausetime = 0,0
+sparkno = -1
+sparkxy = 0,0
+hitsound = S999,999
+p1stateno = 1406
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 490
+trigger3 = time = 300
+trigger4 = ishelper(1405)
+trigger4 = numhelper(1400) = 0
+trigger5 = ishelper(1406)
+trigger5 = numhelper(1401) = 0
+
+
+;---------------------------------------------------------------------------
+[Statedef 1406]
+type    = A
+movetype= A
+physics = N
+anim = 9999
+ctrl = 0
+sprpriority = 4
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 200, 2]
+type = Helper
+trigger1 = ishelper(1405)
+trigger1 = time = 0
+id = 1410
+pos = 0, 0
+stateno = 1410
+sprpriority = 4
+ownpal = 1
+
+[State 200, 2]
+type = Helper
+trigger1 = ishelper(1406)
+trigger1 = time = 0
+id = 1411
+pos = 0, 0
+stateno = 1410
+sprpriority = 4
+ownpal = 1
+
+[State 200, 2]
+type = Helper
+trigger1 = ishelper(1405)
+trigger1 = time = 0
+id = 1412
+pos = 0, 0
+stateno = 130
+sprpriority = 4
+ownpal = 1
+
+[State 200, 2]
+type = Helper
+trigger1 = ishelper(1406)
+trigger1 = time = 0
+id = 1413
+pos = 0, 0
+stateno = 130
+sprpriority = 4
+ownpal = 1
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = time = 1
+
+;---------------------------------------------------------------------------
+[Statedef 1410]
+type    = A
+movetype= A
+physics = N
+anim = 1410
+ctrl = 0
+sprpriority = 4
+
+[State 9100, 0]
+type = posset
+trigger1 = ishelper(1410)
+trigger1 = numhelper(1412)
+trigger1 = 1
+x = helper(1412),pos x
+y = helper(1412),pos y
+Ignorehitpause = 1
+
+[State 9100, 0]
+type = posset
+trigger1 = ishelper(1411)
+trigger1 = numhelper(1413)
+trigger1 = 1
+x = helper(1413),pos x
+y = helper(1413),pos y
+Ignorehitpause = 1
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = HitDef
+trigger1 = 1
+attr = S, NP
+numhits = 1
+damage   = 150,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 490
+trigger3 = ScreenPos X != [0,370]
+
+;---------------------------------------------------------------------------
+[Statedef 1415]
+type    = A
+movetype= A
+physics = N
+ctrl = 0
+sprpriority = 4
+
+[State a]
+type = VelSet
+trigger1 = 1
+x = -7
+y = -5
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 490
+trigger3 = ScreenPos X != [0,370]
+
+;---------------------------------------------------------------------------
+;ゼットマンの飛び道具
+;---------------------------------------------------------------------------
+[Statedef 1600]
+type    = A
+movetype= A
+physics = N
+anim = 1600
+ctrl = 0
+sprpriority = 4
+
+[State 220, 2]
+type = PlaySnd
+trigger1 = time = 0
+value = 600, 1
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = Velset
+trigger1 = time = 0
+x = 7.5
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 400,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = MA
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 4]
+type = changestate
+trigger1 = MoveGuarded
+value = 6000
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = ScreenPos X != [0,370]
+trigger3 = root,stateno = 690
+
+;-----------------------------
+[Statedef 1610]
+type    = A
+movetype= A
+physics = N
+anim = 1610
+velset = 0,0
+
+[State 220, 2]
+type = PlaySnd
+trigger1 = time = 0
+value = 600, 1
+
+[State a]
+type = changeanim
+trigger1 = ishelper(1611)
+trigger1 = time = 0
+value = 1611
+
+[State a]
+type = changeanim
+trigger1 = ishelper(1612)
+trigger1 = time = 0
+value = 1612
+
+[State a]
+type = Velset
+trigger1 = ishelper(1610)
+trigger1 = time = 0
+x = 3.5
+y = -3.5
+
+[State a]
+type = Velset
+trigger1 = ishelper(1611)
+trigger1 = time = 0
+x = 4
+
+[State a]
+type = Velset
+trigger1 = ishelper(1612)
+trigger1 = time = 0
+x = 3.5
+y = 3.5
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 110,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = MA
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 4]
+type = changestate
+trigger1 = MoveGuarded
+value = 6000
+
+[State 201, 4]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP, AT
+stateno = 1621
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = ScreenPos X != [0,370]
+trigger3 = root,stateno = 690
+
+;-----------------------------
+[Statedef 1621]
+type    = A
+movetype= I
+physics = N
+anim = 9999
+velset = 0,0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = animtime = 0
+
+;---------------------------------------------------------------------------
+;ボンバーマンの飛び道具
+;---------------------------------------------------------------------------
+[Statedef 1700]
+type    = A
+movetype= A
+physics = N
+anim = 1700
+ctrl = 0
+sprpriority = 4
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = Velset
+trigger1 = ishelper(1700)
+trigger1 = time = 0
+x = P2dist X * 0.019
+y = -9
+
+[State a]
+type = Velset
+trigger1 = ishelper(1701)
+trigger1 = time = 0
+x = P2dist X * 0.019
+y = -7
+
+[State a]
+type = Velset
+trigger1 = ishelper(1702)
+trigger1 = time = 0
+x = 0
+y = -9
+
+[State a]
+type = Velset
+trigger1 = ishelper(1703)
+trigger1 = time = 0
+x = P2dist X * 0.025
+y = 4
+
+[State a]
+type = Veladd
+trigger1 = time >= 0
+y = .3
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 144,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = changestate
+trigger1 = pos Y > 0
+value = 1720
+
+[State 201, 6]
+type = changestate
+trigger1 = FrontEdgeDist <= -5
+value = 1725
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 790
+
+;---------------------------------------------------------------------------
+[Statedef 1710]
+type    = A
+movetype= A
+physics = N
+anim = 1700
+ctrl = 0
+sprpriority = 4
+velset = 0,0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = changestate
+trigger1 = time = 120
+value = 1720
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 790
+
+;---------------------------------------------------------------------------
+[Statedef 1720]
+type    = A
+movetype= A
+physics = N
+anim = 1720
+velset = 0,0
+
+[State a]
+type = posset
+trigger1 = 1
+y = 0
+
+[State 220, 2]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 700, 0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 180,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 790
+trigger3 = animtime = 0
+
+;---------------------------------------------------------------------------
+[Statedef 1725]
+type    = A
+movetype= A
+physics = N
+anim = 1725
+velset = 0,0
+
+[State 220, 2]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 700, 0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 180,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = L
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 6]
+type = DestroySelf
+trigger1 = enemy,stateno = 192 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 790
+trigger3 = animtime = 0
+
+;---------------------------------------------------------------------------
+;ハワードマンの飛び道具
+;---------------------------------------------------------------------------
+[Statedef 1800]
+type    = A
+movetype= A
+physics = N
+anim = 1800
+ctrl = 0
+sprpriority = 4
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = Velset
+trigger1 = ishelper(1800)
+trigger1 = time = 0
+x = 3
+
+[State a]
+type = Velset
+trigger1 = ishelper(1801)
+trigger1 = time = 0
+x = 5
+
+[State a]
+type = Velset
+trigger1 = ishelper(1802)
+trigger1 = time = 0
+x = 0
+
+[State a]
+type = Velset
+trigger1 = ishelper(1802)
+trigger1 = root,stateno = 812
+trigger1 = root,animelem = 7
+x = 7
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 144,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = MA
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 4]
+type = changestate
+trigger1 = MoveGuarded
+value = 6000
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = FrontEdgeDist < -5
+trigger3 = root,stateno = 890
+
+;---------------------------------------------------------------------------
+;カンフーマンの飛び道具
+;---------------------------------------------------------------------------
+[Statedef 1900]
+type    = A
+movetype= A
+physics = N
+anim = 1900
+ctrl = 0
+sprpriority = 4
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = Velset
+trigger1 = ishelper(1900)
+trigger1 = time = 0
+x = 5
+y = -5.5
+
+[State a]
+type = Velset
+trigger1 = ishelper(1901)
+trigger1 = time = 0
+x = 5
+y = -4
+
+[State a]
+type = Velset
+trigger1 = ishelper(1902)
+trigger1 = time = 0
+x = 5
+y = -1
+
+[State a]
+type = Veladd
+trigger1 = ishelper(1900)
+trigger1 = time >= 0
+y = 0.25
+
+[State a]
+type = Veladd
+trigger1 = ishelper(1901)
+trigger1 = time >= 0
+y = 0.15
+
+[State a]
+type = Veladd
+trigger1 = ishelper(1902)
+trigger1 = time >= 0
+y = 0.05
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 144,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = MA
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 4]
+type = changestate
+trigger1 = MoveGuarded
+value = 6000
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 201, 5]
+type = changestate
+trigger1 = ishelper(1900)
+trigger1 = root,anim = 932
+trigger1 = root,animelemtime(2) = 0
+trigger2 = ishelper(1901)
+trigger2 = root,anim = 932
+trigger2 = root,animelemtime(4) = 0 
+trigger3 = ishelper(1902)
+trigger3 = root,anim = 932
+trigger3 = root,animelemtime(6) = 0 
+value = 1901
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = root,stateno = 990
+
+;---------------------------------------------------------------------------
+[Statedef 1901]
+type    = A
+movetype= A
+physics = N
+ctrl = 0
+sprpriority = 4
+
+[State 20, Turn]
+type = Turn
+trigger1 = time = 0
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State a]
+type = Velset
+trigger1 = time = 0
+x = 6
+y = 0
+
+[State a]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NP
+numhits = 1
+damage   = 144,5
+sparkno = -1
+guard.sparkno = -1
+guardflag = MA
+animtype = light
+pausetime = 0,0
+hitsound   = s10,0
+guardsound = s150,0
+ground.type = Low
+ground.slidetime = 0
+ground.hittime  = 0
+guard.velocity = 0
+ground.velocity = 0
+air.animtype = back
+air.velocity = 0,0
+airguard.velocity = 0,0
+palfx.time = 5
+palfx.add = 255,255,255
+
+[State 201, 4]
+type = changestate
+trigger1 = MoveGuarded
+value = 6000
+
+[State 201, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA, AA, AT
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = Parent,stateno = 1 || enemy,stateno = 192 || enemy,stateno = 400 || enemy,stateno = [9500,9510]
+trigger2 = ScreenPos X != [0,370]
+trigger3 = root,stateno = 990
+
+
+;---------------------------------------------------------------------------
+;飛び道具ガード
+;---------------------------------------------------------------------------
+[Statedef 6000]
+type    = A
+movetype= I
+physics = N
+
+[State a]
+type = VelSet
+trigger1 = 1
+x = -7
+y = -5
+
+[state -2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 202, 1]
+type = DestroySelf
+trigger1 = ScreenPos X != [0,320]

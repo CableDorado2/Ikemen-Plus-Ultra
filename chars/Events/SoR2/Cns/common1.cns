@@ -1,0 +1,7273 @@
+; Common state file for M.U.G.E.N 1.0
+;
+; System variables usage
+; ----------------------
+; Var name    Type   Purpose
+; --------    ----   -------
+; sysvar(0)   Temp   Set by state 5081 (HITL_SLIDE) to 1 to prevent
+;                    showing ground hit frame in state 5110 (HIT_LIEDOWN).
+;                    Used by guarding states.
+; sysvar(1)   Temp   Used by state 40 (Jump Start) amd 45 (Air Jump Start)
+;                    to keep track of which way to jump.
+;                    Used by state 5100 and 5110 to remember downward
+;                    velocity of player just before hitting the ground.
+;                    Used in state 5080 for storing the anim # to display.
+
+; The following states have special handling within MUGEN, and should be
+; overridden with caution:
+; Jump Start (40): airjumping bookkeeping at time = 0
+; All guard states (120-155): guard handling throughout state
+; Hit_trip, shaking (5070): defense increases at time = 0
+; Downed get-hit (hit ground from fall) (5100):
+;   defense increases at time = 0, player becomes invincible if within 10
+;   ticks of getting up
+; Hit_liedown (5110): player changes to get-up state (5120) when ready
+; Hit_getup (5120): player's defence is restored to normal at time = 0
+; Hitfall_recover (5200): player's defence is restored at time = 0
+; Hitfall_airrecover (5210): player's defence is restored at time = 0
+
+;---------------------------------------------------------------------------
+; Stand
+[Statedef 0]
+type = S
+physics = S
+sprpriority = 0
+
+;Vehelits
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(20) = 21347
+value = 21347
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+value = 10000
+ctrl = 0
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = IsHelper
+trigger1 = (!IsHelper(200)) && (!IsHelper(201)) && (!IsHelper(202))
+trigger1 = Time > 2
+
+[State 0, 1]
+type = ChangeAnim
+trigger1 = Anim != 0 && Anim != 5
+trigger2 = Anim = 5 && AnimTime = 0 ;Turn anim over
+value = 0
+
+[State 0, 2]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 0, 3] ;Stop moving if low velocity or 4 ticks pass
+type = VelSet
+trigger1 = abs(vel x) < 2
+trigger2 = Time = 4
+x = 0
+
+[State 0, 4] ;Are you dead?
+type = ChangeState
+trigger1 = !alive
+value = 5050
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; Stand to Crouch
+[Statedef 10]
+type    = C
+physics = C
+anim = 10
+
+[State 10, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+value = 10000
+ctrl = 0
+
+[State 10, 1]
+type = VelMul
+trigger1 = Time = 0
+x = .75
+
+[State 10, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+
+;---------------------------------------------------------------------------
+; Crouching
+[Statedef 11]
+type    = C
+physics = C
+anim = 11
+sprpriority = 0
+
+[State 11, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+value = 10000
+ctrl = 0
+
+[State 11, 1] ;Change from turning animation
+type = ChangeAnim
+trigger1 = Anim = 6 && AnimTime = 0
+value = 11
+
+;---------------------------------------------------------------------------
+; Crouch to Stand
+[Statedef 12]
+type    = S
+physics = S
+anim = 12
+
+[State 12, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+value = 10000
+ctrl = 0
+
+[State 12, 1]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+
+;---------------------------------------------------------------------------
+; Walk
+[Statedef 20]
+type    = S
+physics = S
+sprpriority = 0
+
+[State 20, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+value = 10000
+ctrl = 0
+
+[State 20, 1]
+type = VelSet
+trigger1 = command = "holdfwd"
+x = const(velocity.walk.fwd.x)
+
+[State 20, 2]
+type = VelSet
+trigger1 = command = "holdback"
+x = const(velocity.walk.back.x)
+
+[State 20, 3]
+type = ChangeAnim
+triggerall = vel x > 0
+trigger1 = Anim != 20 && Anim != 5
+trigger2 = Anim = 5 && AnimTime = 0
+value = 20
+
+[State 20, 4]
+type = ChangeAnim
+triggerall = vel x < 0
+trigger1 = Anim != 21 && Anim != 5
+trigger2 = Anim = 5 && AnimTime = 0
+value = 21
+
+;---------------------------------------------------------------------------
+; Jump Start
+[Statedef 40]
+type    = S
+physics = S
+anim = 40
+ctrl = 0
+sprpriority = 1
+facep2 = 1
+
+[State 40, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+value = 10000
+ctrl = 0
+
+[State 40, 1]
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 40, 2]
+type = VarSet
+trigger1 = command = "holdfwd"
+sysvar(1) = 1
+
+[State 40, 3]
+type = VarSet
+trigger1 = command = "holdback"
+sysvar(1) = -1
+
+[State 40, 4]
+type = VelSet
+trigger1 = AnimTime = 0
+x = ifelse(sysvar(1)=0, const(velocity.jump.neu.x), ifelse(sysvar(1)=1, const(velocity.jump.fwd.x), const(velocity.jump.back.x)))
+y = const(velocity.jump.y)
+
+[State 40, 5]
+type = VelSet
+trigger1 = AnimTime = 0
+trigger1 = prevstateno = 100 ;RUN_FWD
+trigger1 = sysvar(1) = 1
+x = const(velocity.runjump.fwd.x)
+
+[State 40, 6]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 50
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; AirJump Start
+[Statedef 45]
+type    = A
+physics = N
+ctrl = 0
+velset = 0,0
+
+[State 45, 1]
+type = ChangeAnim
+trigger1 = SelfAnimExist(44)
+value = 44
+
+[State 45, 2]
+type = ChangeAnim
+trigger1 = !SelfAnimExist(44)
+value = 41
+
+[State 45, 3]
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 45, 4]
+type = VarSet
+trigger1 = command = "holdfwd"
+sysvar(1) = 1
+
+[State 45, 5]
+type = VarSet
+trigger1 = command = "holdback"
+sysvar(1) = -1
+
+[State 45, 6]
+type = VelSet
+trigger1 = Time = 2
+x = ifelse(sysvar(1)=0, const(velocity.airjump.neu.x), ifelse(sysvar(1)=1, const(velocity.airjump.fwd.x), const(velocity.airjump.back.x)))
+y = const(velocity.airjump.y)
+
+[State 45, 7]
+type = ChangeState
+trigger1 = Time = 2
+value = 50
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Jump Up
+[Statedef 50]
+type    = A
+physics = A
+
+[State 50, 1]
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 50, 2]
+type = ChangeAnim
+trigger1 = Time = 0
+value = ifelse((vel x)=0, 41, ifelse((vel x)>0, 42, 43))
+
+[State 50, 3]
+type = ChangeAnim
+trigger1 = Vel y > -2
+trigger1 = SelfAnimExist(anim + 3)
+trigger1 = anim >= 41 && anim <= 43
+persistent = 0
+value = Anim + 3
+
+;---------------------------------------------------------------------------
+; Jump Down (empty state for compatibility)
+[Statedef 51]
+type    = A
+physics = A
+
+[State 51, 1]
+type = Null
+trigger1 = 1
+
+;---------------------------------------------------------------------------
+; Jump Land
+[Statedef 52]
+type    = S
+physics = S
+ctrl = 0
+anim = 47
+
+[State 52, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+value = 10000
+ctrl = 0
+
+[State 52, 1]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 52, 2]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 52, 3]
+type = CtrlSet
+trigger1 = Time = 3
+value = 1
+
+[State 52, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Run forward
+[Statedef 100]
+type    = S
+physics = S
+anim = 100
+sprpriority = 1
+
+[State 100, 1]
+type = VelSet
+trigger1 = 1
+x = const(velocity.run.fwd.x)
+
+[State 100, 2] ;Prevent run from canceling into walk
+type = AssertSpecial
+trigger1 = 1
+flag = NoWalk
+
+[State 100, 3] ;Prevent from turning
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+
+[State 100, 4]
+type = ChangeState
+trigger1 = command != "holdfwd"
+value = 0
+
+;---------------------------------------------------------------------------
+; Hop backwards
+[Statedef 105]
+type    = A
+physics = A
+ctrl = 0
+anim = 105
+sprpriority = 1
+
+[State 105, 1]
+type = VelSet
+trigger1 = Time = 0
+x = const(velocity.run.back.x)
+y = const(velocity.run.back.y)
+
+[State 105, 2]
+type = CtrlSet
+trigger1 = Time = 2
+value = 1
+
+[State 105, 3]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 106
+
+;---------------------------------------------------------------------------
+; Hop backwards (land)
+[Statedef 106]
+type    = S
+physics = S
+ctrl = 0
+anim = 47
+
+[State 106, 1]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 106, 2]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 106, 3]
+type = MakeDust
+trigger1 = Time = 2
+pos = -5,-2
+spacing = 1
+
+[State 106, 5]
+type = ChangeState
+trigger1 = Time = 7
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; GUARD (start)
+[Statedef 120]
+type = U    ;Leave state type unchanged
+physics = U ;Leave physics unchanged
+
+[State 120, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+value = 120 + (statetype = C) + (statetype = A)*2
+
+[State 120, 2]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = S
+physics = S
+
+[State 120, 3]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = C
+physics = C
+
+[State 120, 4]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = A
+physics = A
+
+[State 120, Hi to Lo]
+type = StateTypeSet
+trigger1 = statetype = S && command = "holddown"
+statetype = C
+physics = C
+
+[State 120, Lo to Hi]
+type = StateTypeSet
+trigger1 = statetype = C && command != "holddown"
+statetype = S
+physics = S
+
+[State 120, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 130 + (statetype = C) + (statetype = A)*2
+
+[State 120, Stop Guarding]
+type = ChangeState
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+value = 140
+
+;---------------------------------------------------------------------------
+; Stand guard (guarding)
+[Statedef 130]
+type    = S
+physics = S
+
+;Just in case
+;[State 150, 6]
+;type = ChangeState
+;trigger1 = IsHelper
+;trigger1 = Time > 0
+;value = 5050 ;Idle
+
+;Helper Guard Start
+[State 0, VelSet]
+type = VelSet
+trigger1 = IsHelper
+x = 0
+y = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = IsHelper
+trigger1 = Pos Y != 0
+;x = 0
+y = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+;Prevent attacks from slipping by in Simul mode (Player)
+[State 130, NotHitBy]
+type = NotHitBy
+trigger1 = NumEnemy > 0
+trigger1 = Enemynear, Teammode = Simul
+value2 = C
+time = 3
+ignorehitpause = 1
+
+[State 131, Hi to Lo]
+type = ChangeState
+triggerall = IsHelper
+trigger1 = root, Var(43) = 4
+trigger1 = Time >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType = C
+value = 131
+
+;Block End
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = ((Time >= 30) && (PrevStateNo != 151)) || ((Time >= 15) && (PrevStateNo = 151))
+trigger1 = root, Var(43) = 4
+value = 10000
+ctrl = 0
+;Helper Guard End
+
+[State 130, 1]
+type = ChangeAnim
+triggerall = !IsHelper
+trigger1 = Anim != 130
+value = 130
+
+[State 130, Hi to Lo]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = command = "holddown"
+value = 131
+
+[State 130, Stop Guarding]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+value = 140
+
+;---------------------------------------------------------------------------
+; Crouch guard (guarding)
+[Statedef 131]
+type    = C
+physics = C
+
+;Just in case
+;[State 150, 6]
+;type = ChangeState
+;trigger1 = IsHelper
+;trigger1 = Time > 0
+;value = 5050 ;Idle
+
+;Helper Guard Start
+[State 0, VelSet]
+type = VelSet
+trigger1 = IsHelper
+x = 0
+y = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = IsHelper
+trigger1 = Pos Y != 0
+;x = 0
+y = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+;Prevent attacks from slipping by in Simul mode (Player)
+[State 130, NotHitBy]
+type = NotHitBy
+trigger1 = NumEnemy > 0
+trigger1 = Enemynear, Teammode = Simul
+value2 = A
+time = 3
+ignorehitpause = 1
+
+[State 131, Lo to Hi]
+type = ChangeState
+triggerall = IsHelper
+trigger1 = root, Var(43) = 4
+trigger1 = Time >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType != C
+value = 130
+
+;Block End
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = ((Time >= 30) && (PrevStateNo != 153)) || ((Time >= 15) && (PrevStateNo = 153))
+trigger1 = root, Var(43) = 4
+value = 10000
+ctrl = 0
+;Helper Guard End
+
+[State 131, 1]
+type = ChangeAnim
+triggerall = !IsHelper
+trigger1 = Anim != 131
+value = 131
+
+[State 131, Lo to Hi]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = command != "holddown"
+value = 130
+
+[State 131, Stop Guarding]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+value = 140
+
+;---------------------------------------------------------------------------
+; Air guard (guarding)
+[Statedef 132]
+type    = A
+physics = N
+
+;Just in case
+[State 150, 6]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Time > 0
+trigger1 = root, Var(43) != 4
+value = 5050 ;Idle
+
+;Helper Guard Start
+[State 0, VelSet]
+type = VelSet
+trigger1 = IsHelper
+x = 0
+y = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = IsHelper
+trigger1 = Pos Y != 0
+;x = 0
+y = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+;Block End
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Time = 32
+trigger1 = root, Var(43) = 4
+value = 10000
+ctrl = 0
+;Helper Guard End
+
+[State 132, 1]
+type = ChangeAnim
+triggerall = !IsHelper
+trigger1 = Anim != 132
+value = 132
+
+[State 132, 2]
+type = VelAdd
+triggerall = !IsHelper
+trigger1 = 1
+y = Const(movement.yaccel)
+
+[State 132, 3]
+type = VarSet
+triggerall = !IsHelper
+trigger1 = 1
+sysvar(0) = (pos y >= 0) && (vel y > 0)
+
+[State 132, 4]
+type = VelSet
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+y = 0
+
+[State 132, 5]
+type = PosSet
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+y = 0
+
+[State 132, 6]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+trigger1 = command = "holdback"
+trigger1 = inguarddist
+value = 130
+
+[State 132, 7]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+value = 52
+
+[State 132, Stop Guarding]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+value = 140
+
+;---------------------------------------------------------------------------
+; Guard (end)
+[Statedef 140]
+type = U    ;Leave state type unchanged
+physics = U ;Leave physics unchanged
+ctrl = 1
+
+[State 140, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+value = 140 + (statetype = C) + (statetype = A)*2
+
+[State 140, 2]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = S
+physics = S
+
+[State 140, 3]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = C
+physics = C
+
+[State 140, 4]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = A
+physics = A
+
+[State 140, Hi to Lo]
+type = StateTypeSet
+trigger1 = statetype = S && command = "holddown"
+statetype = C
+physics = C
+
+[State 140, Lo to Hi]
+type = StateTypeSet
+trigger1 = statetype = C && command != "holddown"
+statetype = S
+physics = S
+
+;[State 140, 5] ;Implemented within engine
+;type = ChangeState
+;trigger1 = AnimTime = 0
+;value = (statetype = C)*11 + (statetype = A)*51
+
+;---------------------------------------------------------------------------
+; Stand guard hit (shaking)
+[Statedef 150]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+;Helper Guard----------
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 0
+v = 5
+value = 1
+
+;Block Limit Reduction
+;[State -1, VarAdd]
+;type = VarAdd
+;triggerall = IsHelper(200) || IsHelper(201) || IsHelper(202)
+;triggerall = PrevStateNo != 152
+;trigger1 = HitShakeOver
+;fv = 34
+;value = -1
+;ignorehitpause = 1
+;persistent = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = IsHelper
+trigger1 = Pos Y != 0
+;x = 0
+y = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10011, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+[State 150, NotHitBy]
+type = NotHitBy
+trigger1 = Time < 125
+trigger2 = NumEnemy > 0
+trigger2 = Enemynear, Teammode = Simul
+value = C
+time = 2
+ignorehitpause = 1
+
+;Anti-infinite guard stun escape
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(5) = 20
+value = 8614
+ctrl = 0
+
+[State 150, Hi to Lo]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType = C
+statetype = C
+physics = C
+
+[State 150, Lo to Hi]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType != C
+statetype = S
+physics = S
+
+[State 150, 2]
+type = ChangeState
+triggerall = IsHelper
+trigger1 = HitShakeOver
+trigger2 = Time = 120
+value = 151 + 2*(StateType = C)
+;End Helper Guard------
+
+[State 150, 1]
+type = ChangeAnim
+triggerall = !IsHelper
+trigger1 = 1
+value = 150
+
+[State 150, 2]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = HitShakeOver
+value = 151 + 2*(command = "holddown")
+
+[State 150, Hi to Lo]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = S && command = "holddown"
+statetype = C
+physics = C
+
+[State 150, Lo to Hi]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = C && command != "holddown"
+statetype = S
+physics = S
+
+[State 150, 3]
+type = ForceFeedback
+triggerall = !IsHelper
+trigger1 = time = 0
+waveform = square
+time = 3
+
+;---------------------------------------------------------------------------
+; Stand guard hit (knocked back)
+[Statedef 151]
+type    = S
+movetype= H
+physics = S
+anim = 150
+
+;Just in case
+;[State 150, 6]
+;type = ChangeState
+;trigger1 = IsHelper
+;trigger1 = Time > 0
+;value = 5050 ;Idle
+
+;Prevent attacks from slipping by in Simul mode (Player)
+[State 130, NotHitBy]
+type = NotHitBy
+trigger1 = NumEnemy > 0
+trigger1 = Enemynear, Teammode = Simul
+value2 = C
+time = 3
+ignorehitpause = 1
+
+[State -1, VarAdd]
+type = VarAdd
+triggerall = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = HitOver
+trigger2 = Time = 15
+fv = 34
+value = -1
+ignorehitpause = 1
+persistent = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+[State 151, 1]
+type = HitVelSet
+trigger1 = Time = 0
+trigger1 = PrevStateNo != 153
+x = 1
+
+[State 151, 2]
+type = VelSet
+trigger1 = Time = GetHitVar(slidetime)
+trigger2 = HitOver
+x = 0
+
+[State 151, 3]
+type = CtrlSet
+triggerall = !IsHelper
+trigger1 = Time = GetHitVar(ctrltime)
+value = 1
+
+[State 151, Hi to Lo]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = S && command = "holddown"
+statetype = C
+physics = C
+
+[State 151, Lo to Hi]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = C && command != "holddown"
+statetype = S
+physics = S
+
+[State 150, Hi to Lo]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType = C
+statetype = C
+physics = C
+
+[State 150, Lo to Hi]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType != C
+statetype = S
+physics = S
+
+[State 151, 4]
+type = ChangeState
+triggerall = IsHelper
+trigger1 = HitOver
+trigger1 = Time > 0
+;trigger1 = Time >= 1+(GetHitVar(HitTime)+GetHitVar(CtrlTime))
+value = ifelse((FVar(34) >= 1),130,10000)
+ctrl = 0
+
+[State 151, 4]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = HitOver
+value = 130
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouch guard hit (shaking)
+[Statedef 152]
+type    = C
+movetype= H
+physics = N
+velset = 0,0
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 0
+v = 5
+value = 1
+
+;Block Limit Reduction
+;[State -1, VarAdd]
+;type = VarAdd
+;trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+;trigger1 = PrevStateNo != 150
+;fv = 34
+;value = -1
+;ignorehitpause = 1
+;persistent = 0
+
+;Block Limit Reduction
+;[State -1, VarAdd]
+;type = VarAdd
+;triggerall = IsHelper(200) || IsHelper(201) || IsHelper(202)
+;triggerall = PrevStateNo != 150
+;trigger1 = HitShakeOver
+;fv = 34
+;value = -1
+;ignorehitpause = 1
+;persistent = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = IsHelper
+trigger1 = Pos Y != 0
+;x = 0
+y = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10011, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+[State 150, NotHitBy]
+type = NotHitBy
+trigger1 = Time < 125
+trigger2 = NumEnemy > 0
+trigger2 = Enemynear, Teammode = Simul
+value = A
+time = 2
+ignorehitpause = 1
+
+;Anti-infinite guard stun escape
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(5) = 20
+value = 8614
+ctrl = 0
+
+[State 150, Hi to Lo]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType = C
+statetype = C
+physics = C
+
+[State 150, Lo to Hi]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType != C
+statetype = S
+physics = S
+
+[State 150, 2]
+type = ChangeState
+triggerall = IsHelper
+trigger1 = HitShakeOver
+trigger2 = Time = 120
+value = 153 + 2*(StateType = C)
+;End Helper Guard------
+
+[State 152, 1]
+type = ChangeAnim
+triggerall = !IsHelper
+trigger1 = 1
+value = 151
+
+[State 152, 3]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = HitShakeOver
+value = 151 + 2*(command = "holddown")
+
+[State 152, Hi to Lo]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = S && command = "holddown"
+statetype = C
+physics = C
+
+[State 152, Lo to Hi]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = C && command != "holddown"
+statetype = S
+physics = S
+
+[State 152, 4]
+type = ForceFeedback
+triggerall = !IsHelper
+trigger1 = time = 0
+waveform = square
+time = 4
+
+;---------------------------------------------------------------------------
+; Crouch guard hit (knocked back)
+[Statedef 153]
+type    = C
+movetype= H
+physics = C
+anim = 151
+
+;Prevent attacks from slipping by in Simul mode (Player)
+[State 130, NotHitBy]
+type = NotHitBy
+trigger1 = NumEnemy > 0
+trigger1 = Enemynear, Teammode = Simul
+value2 = A
+time = 3
+ignorehitpause = 1
+
+;Just in case
+;[State 150, 6]
+;type = ChangeState
+;trigger1 = IsHelper
+;trigger1 = Time > 0
+;value = 5050 ;Idle
+
+[State -1, VarAdd]
+type = VarAdd
+triggerall = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = HitOver
+trigger2 = Time = 15
+fv = 34
+value = -1
+ignorehitpause = 1
+persistent = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+[State 153, 1]
+type = HitVelSet
+trigger1 = Time = 0
+trigger1 = PrevStateNo != 151
+x = 1
+
+[State 153, 2]
+type = VelSet
+trigger1 = Time = GetHitVar(slidetime)
+trigger2 = HitOver
+x = 0
+
+[State 153, 3]
+type = CtrlSet
+triggerall = !IsHelper
+trigger1 = Time = GetHitVar(ctrltime)
+value = 1
+
+[State 153, Hi to Lo]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = S && command = "holddown"
+statetype = C
+physics = C
+
+[State 153, Lo to Hi]
+type = StateTypeSet
+triggerall = !IsHelper
+trigger1 = statetype = C && command != "holddown"
+statetype = S
+physics = S
+
+[State 150, Hi to Lo]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType = C
+statetype = C
+physics = C
+
+[State 150, Lo to Hi]
+type = StateTypeSet
+triggerall = IsHelper
+trigger1 = !HitShakeOver
+trigger1 = Time >= 1
+;trigger1 = FVar(34) >= 1
+;trigger1 = GameTime%3 = 0
+;trigger1 = Var(58) >= 501-(Var(1)*20)
+trigger1 = InGuardDist; || P2Dist X = [1,150]
+trigger1 = Enemynear, MoveType = A
+trigger1 = Enemynear, StateType != C
+statetype = S
+physics = S
+
+[State 151, 4]
+type = ChangeState
+triggerall = IsHelper
+trigger1 = HitOver
+trigger1 = Time > 0
+;trigger1 = Time >= 1+(GetHitVar(HitTime)+GetHitVar(CtrlTime))
+value = ifelse((FVar(34) >= 1),131,10000)
+ctrl = 0
+
+[State 153, 4]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = HitOver
+value = 131
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Air guard hit (shaking)
+[Statedef 154]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+;Block Limit Reduction
+[State -1, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+;trigger1 = (root, Var(43) = 2) || (root, Var(43) = 1)
+fv = 34
+value = -1
+ignorehitpause = 1
+persistent = 0
+
+;Just in case
+[State 150, 6]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Time > 0
+trigger1 = root, Var(43) != 4
+value = 5050 ;Idle
+
+;Helper Guard Start
+
+;[State 0, VelSet]
+;type = Null;VelSet
+;trigger1 = IsHelper
+;x = 0
+;y = 0
+;ignorehitpause = 1
+;persistent = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = IsHelper
+trigger1 = Pos Y != 0
+;x = 0
+y = 0
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+;Helper Guard End
+
+[State 154, 1]
+type = ChangeAnim
+triggerall = !IsHelper
+trigger1 = 1
+value = 152
+
+[State 10011, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+[State 154, 2]
+type = ChangeState
+;triggerall = !IsHelper
+trigger1 = HitShakeOver
+value = 155 ;AGUARDHIT2
+
+[State 154, 3]
+type = ForceFeedback
+triggerall = !IsHelper
+trigger1 = time = 0
+waveform = square
+time = 4
+
+;---------------------------------------------------------------------------
+; Air guard hit (knocked away)
+[Statedef 155]
+type    = A
+movetype= H
+physics = N
+anim = 152
+
+;Just in case
+[State 150, 6]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Time > 0
+trigger1 = root, Var(43) != 4
+value = 5050 ;Idle
+
+;Helper Guard Start
+
+;Blocking
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10023+(Var(0)*30))
+trigger1 = Anim != (10023+(Var(0)*30))
+value = 10023+(Var(0)*30)
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = IsHelper
+physics = S
+ignorehitpause = 1
+persistent = 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = IsHelper
+;x = 0
+y = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = IsHelper
+trigger1 = Pos Y != 0
+;x = 0
+y = 0
+
+[State 155, 1]
+type = HitVelSet
+triggerall = IsHelper
+trigger1 = Time = 0
+x = 1
+y = 0
+
+[State 0, VelSet]
+type = Null;VelSet
+trigger1 = GetHitVar(XVel) <= 0
+x = 2
+;y = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 0, VelSet]
+type = Null;VelSet
+trigger1 = GetHitVar(XVel) > 0
+x = -2
+;y = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 151, 4]
+type = ChangeState
+triggerall = IsHelper
+;trigger1 = HitOver
+trigger1 = Time >= 10+(GetHitVar(HitTime)+GetHitVar(CtrlTime))
+value = 10000
+ctrl = 0
+
+;trigger1 = Time = GetHitVar(ctrltime)
+
+;Helper Guard End
+
+[State 155, 1]
+type = HitVelSet
+trigger1 = IsHelper = 0
+trigger1 = Time = 0
+x = 1
+y = 1
+
+[State 155, 2]
+type = VelAdd
+triggerall = !IsHelper
+trigger1 = 1
+y = Const(movement.yaccel)
+
+[State 155, 3]
+type = CtrlSet
+triggerall = !IsHelper
+trigger1 = Time = GetHitVar(ctrltime)
+value = 1
+
+[State 155, 4]
+type = VarSet
+triggerall = !IsHelper
+trigger1 = 1
+sysvar(0) = (pos y >= 0) && (vel y > 0)
+
+[State 155, 5]
+type = VelSet
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+y = 0
+
+[State 155, 6]
+type = PosSet
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+y = 0
+
+[State 155, 6]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+trigger1 = command = "holdback"
+trigger1 = inguarddist
+value = 130
+
+[State 155, 7]
+type = ChangeState
+triggerall = !IsHelper
+trigger1 = sysvar(0)
+value = 52
+
+;---------------------------------------------------------------------------
+; Lose (time over)
+[Statedef 170]
+type = S
+ctrl = 0
+anim = 170
+velset = 0,0
+
+[State 170, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
+; Draw game (time over)
+[Statedef 175]
+type = S
+ctrl = 0
+velset = 0,0
+
+[State 175, 1] ; If no anim, use go to lose state.
+type = ChangeState
+trigger1 = Time = 0
+trigger1 = !SelfAnimExist(175)
+value = 170
+
+[State 175, 2]
+type = ChangeAnim
+trigger1 = Time = 0
+value = 175
+
+[State 175, 3]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
+; Pre-intro
+[Statedef 190]
+type = S
+ctrl = 0
+velset = 0,0
+
+[State 190, 1]
+type = ChangeAnim
+trigger1 = SelfAnimExist(190)
+value = 190
+
+[State 190, 2] ;Go straight to intro.
+type = ChangeState
+trigger1 = Time = 0
+value = 191
+
+;---------------------------------------------------------------------------
+; Intro (override this state to give character an intro)
+[Statedef 191]
+type = S
+ctrl = 0
+
+[State 191, 1]
+type = ChangeState
+trigger1 = Time = 0
+value = 0
+
+;---------------------------------------------------------------------------
+; Stand get-hit (shaking)
+[Statedef 5000]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) > 0
+fv = 25
+value = 100
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) <= 0
+fv = 25
+value = -100
+
+;Show correct Anim, either HighHit or Low Hit
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) != 30
+value = ifelse((GetHitVar(groundtype) = 1),10026+(Var(0)*30),10027+(Var(0)*30))
+
+;Show special hit anim for P1
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) = 30
+value = 10911
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = Var(4) != 1
+v = 4
+value = 1
+ignorehitpause = 1
+
+;Damage Tracker
+[state -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(29) = fvar(30)
+
+[State -1, VarSet]
+Type = VarSet
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+Trigger1 = 1
+fvar(30) = life
+
+[State -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(31) = fvar(29)-fvar(30)
+ignorehitpause = 1
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = FVar(31) > 0
+fv = 28
+value = FVar(31)*(root,FVar(38))
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva Absolute Guard+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+
+;Shiva Absolute Guard+ disable
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) < (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = 
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+
+;[State -1, HitOverride]
+;type = HitOverride
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;attr = SCA,AA,AP,AT
+;slot = 0
+;stateno = 10013
+;time = 1
+;ignorehitpause = 1
+;forceair = 0
+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 3 || Var(0) = 12;Raven/Shiva
+;trigger1 = (root, Var(43) = 2)
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;SoR accuracy
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 3 || Var(0) = 12 || Var(0) = 13 || Var(0) = 15 || Var(0) = 23 || Var(0) = 24  || Var(0) = 26 || Var(0) = 37
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 43 || Var(0) = 45
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;Shiva Block
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = (root, Var(43) = 0) || (root, Var(43) = 1)
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 3,3
+;sparkno = 40
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;trigger1 = (root, Var(43) != 3)
+
+;Fog Motorcycle
+[State 11139, Helper]
+type = Helper
+trigger1 = Time = 0
+trigger1 = Var(46) = 1
+helpertype = normal
+name = "Motorcycle"
+ID = 11139
+stateno = 8225
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale = 
+;size.yscale = 
+
+;Not on motorcycle
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Var(46) != 0
+v = 46
+value = 0
+;persistent = 0
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;Knife Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 0 || Var(0) = 11
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 10339
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Pipe Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 1
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 3015
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Garcia/Jack Knife loss
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+v = 54
+value = 0
+
+;Score Add
+;[State 10030, ParentVarAdd]
+;type = ParentVarAdd
+;trigger1 = IsHelper
+;trigger1 = !Time
+;v = 56
+;value = GetHitVar(HitCount)*20
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = [12,19]
+;500 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 500*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (500*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Mini-Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = (Var(0) = [31,33]) || (Var(0) = [21,22]) || (Var(0) = [28,29]) || (Var(0) = 23) || (Var(0) = 39) || (Var(0) = [41,42])
+;700 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 800*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (800*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Other Breaker
+;[State 10000, ChangeState]
+;type = ChangeState
+;triggerall = IsHelper
+;triggerall = Var(0) != 16 && Var(0) != 12
+;triggerall = GetHitVar(HitCount) > 1
+;trigger1 = Var(58) <= Floor(0.5*(GetHitVar(HitCount)+Var(1)))
+;value = 21113
+;ctrl = 0
+
+;Abadede Breaker
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = 16 ;Abadede
+triggerall = GetHitVar(HitCount) > 1
+triggerall = FVar(34) >= 1
+;trigger1 = FVar(1) <= 2000*(root,FVar(38))
+trigger1 = Var(58) <= Floor(0.5*(GetHitVar(HitCount)+Var(1)))
+;trigger2 = FVar(1) > 2000*(root,FVar(38))
+;trigger2 = Var(58) <= Floor(0.35*(GetHitVar(HitCount)+15))
+value = 21113
+ctrl = 0
+
+;Harakiri Counter Slash
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 33 ;Hirakiri
+trigger1 = (root, Var(50) = 1)
+trigger1 = GetHitVar(HitCount) > 1
+trigger1 = FVar(34) >= 1
+trigger1 = Var(58) <= Floor(0.7*(GetHitVar(HitCount)+18))
+value = 21579
+ctrl = 0
+
+;Shiva Axe Kick Counter
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Time > 0
+trigger1 = Var(44) >= 900
+trigger1 = random+1 <= Floor(0.7*(GetHitVar(HitCount)+Var(1)))
+value = 11115
+ctrl = 0
+
+;[State 5000, 1] ;Anim for HIT_LIGHT to HIT_HARD
+;type = ChangeAnim
+;trigger1 = Time = 0
+;trigger1 = GetHitVar(animtype) != [3,5]
+;value = ifelse((GetHitVar(groundtype) = 1),5000,5010) + GetHitVar(animtype)
+
+;[State 5000, 2] ;Anim for HIT_BACK
+;type = ChangeAnim
+;trigger1 = Time = 0
+;trigger1 = GetHitVar(animtype) = [3,5]
+;value = 5030
+;
+;[State 5000, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+;type = ChangeAnim
+;trigger1 = Time = 0
+;trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+;value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+
+;[State 5000, 4] ;Freeze anim
+;type = ChangeAnim
+;trigger1 = Time > 0
+;value = anim
+
+[State 5000, 5] ;State type gets set to aerial if getting hit up
+type = StateTypeSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(yvel) != 0 || GetHitVar(fall)
+trigger2 = Pos Y < 0
+statetype = a
+
+[State 5000, FFB Light]
+type = ForceFeedback
+trigger1 = anim = 5000
+trigger2 = anim = 5010
+persistent = 0
+time = 6
+waveform = square
+
+[State 5000, FFB Medium]
+type = ForceFeedback
+trigger1 = anim = 5001
+trigger2 = anim = 5011
+persistent = 0
+time = 8
+waveform = sinesquare
+ampl = 110,-1,-.3
+
+[State 5000, FFB Hard]
+type = ForceFeedback
+trigger1 = anim = 5012
+trigger2 = anim = 5002
+trigger3 = anim = 5030
+persistent = 0
+time = 15
+waveform = sinesquare
+ampl = 140
+
+[State 5000, 6]
+type = ChangeState
+trigger1 = HitShakeOver
+trigger1 = GetHitVar(yvel) = 0 && !GetHitVar(fall)
+value = 5001 ;Stand get-hit (knocked back)
+
+[State 5000, 7]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 5030
+
+;---------------------------------------------------------------------------
+; Stand get-hit (knocked back)
+[Statedef 5001]
+type    = S
+movetype= H
+physics = S
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) > 0
+fv = 25
+value = 100
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) <= 0
+fv = 25
+value = -100
+
+;Show correct Anim, either HighHit or Low Hit
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) != 30
+trigger1 = (Anim != 10026+(Var(0)*30)) || (Anim != 10027+(Var(0)*30))
+value = ifelse((GetHitVar(groundtype) = 1),10026+(Var(0)*30),10027+(Var(0)*30))
+
+;Show special hit anim for P1
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) = 30
+trigger1 = Anim != 10911
+value = 10911
+
+;Damage Tracker
+[state -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(29) = fvar(30)
+
+[State -1, VarSet]
+Type = VarSet
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+Trigger1 = 1
+fvar(30) = life
+
+[State -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(31) = fvar(29)-fvar(30)
+ignorehitpause = 1
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = FVar(31) > 0
+fv = 28
+value = FVar(31)*(root,FVar(38))
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva Absolute Guard+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+
+;Shiva Absolute Guard+ disable
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) < (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = 
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+;
+;[State -1, HitOverride]
+;type = HitOverride
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;attr = SCA,AA,AP,AT
+;slot = 0
+;stateno = 10013
+;time = 1
+;ignorehitpause = 1
+;forceair = 0
+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 3 || Var(0) = 12;Raven/Shiva
+;trigger1 = (root, Var(43) = 2)
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;SoR accuracy
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 3 || Var(0) = 12 || Var(0) = 13 || Var(0) = 15 || Var(0) = 23 || Var(0) = 24  || Var(0) = 26 || Var(0) = 37
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 43 || Var(0) = 45
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = [12,19]
+;500 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 500*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (500*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Mini-Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = (Var(0) = [31,33]) || (Var(0) = [21,22]) || (Var(0) = [28,29]) || (Var(0) = 23) || (Var(0) = 39) || (Var(0) = [41,42])
+;700 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 800*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (800*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Abadede Breaker
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = 16 ;Abadede
+triggerall = GetHitVar(HitCount) > 1
+triggerall = FVar(34) >= 1
+;trigger1 = FVar(1) <= 2000*(root,FVar(38))
+trigger1 = Var(58) <= Floor(0.5*(GetHitVar(HitCount)+Var(1)))
+;trigger2 = FVar(1) > 2000*(root,FVar(38))
+;trigger2 = Var(58) <= Floor(0.35*(GetHitVar(HitCount)+15))
+value = 21113
+ctrl = 0
+
+;Harakiri Counter Slash
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 33 ;Hirakiri
+trigger1 = (root, Var(50) = 1)
+trigger1 = GetHitVar(HitCount) > 1
+trigger1 = FVar(34) >= 1
+trigger1 = Var(58) <= Floor(0.7*(GetHitVar(HitCount)+18))
+value = 21579
+ctrl = 0
+
+;Shiva Axe Kick Counter
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Time > 0
+trigger1 = Var(44) >= 900
+trigger1 = random+1 <= Floor(0.7*(GetHitVar(HitCount)+Var(1)))
+value = 11115
+ctrl = 0
+
+[State 5001, 1]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1
+
+;[State 5001, 2]
+;type = ChangeAnim
+;trigger1 = AnimTime = 0
+;value = 5005 + GetHitVar(animtype) + (GetHitVar(groundtype)=2)*10
+
+[State 5001, 3] ;Stop sliding back
+type = VelMul
+trigger1 = Time >= GetHitVar(slidetime)
+x = .6
+
+[State 5001, 4]
+type = VelSet
+trigger1 = HitOver
+x = 0
+
+[State 5001, 5]
+type = DefenceMulSet
+trigger1 = HitOver
+value = 1
+
+[State 5001, 6]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = HitOver
+value = 10000
+ctrl = 0
+
+[State 5001, 6]
+type = ChangeState
+trigger1 = HitOver
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouch get-hit (shaking)
+[Statedef 5010]
+type    = C
+movetype= H
+physics = N
+velset = 0,0
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) > 0
+fv = 25
+value = 100
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) <= 0
+fv = 25
+value = -100
+
+;Show correct Anim, either HighHit or Low Hit
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) != 30
+trigger1 = (Anim != 10026+(Var(0)*30)) || (Anim != 10027+(Var(0)*30))
+value = ifelse((GetHitVar(groundtype) = 1),10026+(Var(0)*30),10027+(Var(0)*30))
+
+;Show special hit anim for P1
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) = 30
+trigger1 = Anim != 10911
+value = 10911
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = Var(4) != 1
+v = 4
+value = 1
+ignorehitpause = 1
+
+;Damage Tracker
+[state -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(29) = fvar(30)
+
+[State -1, VarSet]
+Type = VarSet
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+Trigger1 = 1
+fvar(30) = life
+
+[State -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(31) = fvar(29)-fvar(30)
+ignorehitpause = 1
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = FVar(31) > 0
+fv = 28
+value = FVar(31)*(root,FVar(38))
+
+;[State 5000, PosAdd]
+;type = PosAdd
+;trigger1 = Var(0) = 29
+;trigger1 = Time = 1 || Time = 3 || Time = 5
+;x = -2
+;y = 0
+;ignorehitpause = 
+;persistent = 
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva Absolute Guard+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+
+;Shiva Absolute Guard+ disable
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) < (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = 
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+;
+;[State -1, HitOverride]
+;type = HitOverride
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;attr = SCA,AA,AP,AT
+;slot = 0
+;stateno = 10013
+;time = 1
+;ignorehitpause = 1
+;forceair = 0
+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 3 || Var(0) = 12;Raven/Shiva
+;trigger1 = (root, Var(43) = 2)
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+;
+;;SoR accuracy
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 3 || Var(0) = 12 || Var(0) = 13 || Var(0) = 15 || Var(0) = 23 || Var(0) = 24  || Var(0) = 26 || Var(0) = 37
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 43 || Var(0) = 45
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;Fog Motorcycle
+[State 11139, Helper]
+type = Helper
+trigger1 = Time = 0
+trigger1 = Var(46) = 1
+helpertype = normal
+name = "Motorcycle"
+ID = 11139
+stateno = 8225
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale = 
+;size.yscale = 
+
+;Not on motorcycle
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Var(46) != 0
+v = 46
+value = 0
+;persistent = 0
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;Knife Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 0 || Var(0) = 11
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 10339
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Pipe Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 1
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 3015
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Garcia/Jack Knife loss
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+v = 54
+value = 0
+
+;Score Add
+;[State 10030, ParentVarAdd]
+;type = ParentVarAdd
+;trigger1 = IsHelper
+;trigger1 = !Time
+;v = 56
+;value = GetHitVar(HitCount)*20
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = [12,19]
+;500 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 500*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (500*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Mini-Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = (Var(0) = [31,33]) || (Var(0) = [21,22]) || (Var(0) = [28,29]) || (Var(0) = 23) || (Var(0) = 39) || (Var(0) = [41,42])
+;700 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 800*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (800*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Abadede Breaker
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = 16 ;Abadede
+triggerall = GetHitVar(HitCount) > 1
+triggerall = FVar(34) >= 1
+;trigger1 = FVar(1) <= 2000*(root,FVar(38))
+trigger1 = Var(58) <= Floor(0.5*(GetHitVar(HitCount)+Var(1)))
+;trigger2 = FVar(1) > 2000*(root,FVar(38))
+;trigger2 = Var(58) <= Floor(0.35*(GetHitVar(HitCount)+15))
+value = 21113
+ctrl = 0
+
+;Harakiri Counter Slash
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 33 ;Hirakiri
+trigger1 = (root, Var(50) = 1)
+trigger1 = GetHitVar(HitCount) > 1
+trigger1 = FVar(34) >= 1
+trigger1 = Var(58) <= Floor(0.7*(GetHitVar(HitCount)+18))
+value = 21579
+ctrl = 0
+
+;Shiva Axe Kick Counter
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Time > 0
+trigger1 = Var(44) >= 900
+trigger1 = random+1 <= Floor(0.7*(GetHitVar(HitCount)+Var(1)))
+value = 11115
+ctrl = 0
+
+;[State 5010, 1] ;Anim for HIT_LIGHT to HIT_HARD
+;type = ChangeAnim
+;trigger1 = Time = 0
+;trigger1 = GetHitVar(animtype) != [3,5]
+;value = 5020 + GetHitVar(animtype)
+;
+;[State 5010, 2] ;Anim for HIT_BACK
+;type = ChangeAnim
+;trigger1 = Time = 0
+;trigger1 = GetHitVar(animtype) = [3,5]
+;value = 5030
+;
+;[State 5010, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+;type = ChangeAnim
+;trigger1 = Time = 0
+;trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+;value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+;
+;[State 5010, 4] ;Freeze anim
+;type = ChangeAnim
+;trigger1 = Time > 0
+;value = anim
+
+[State 5010, 5] ;State type gets set to aerial if getting hit up
+type = StateTypeSet
+triggerall = Time = 0
+trigger1 = GetHitVar(yvel) != 0 || GetHitVar(fall)
+trigger2 = Pos Y < 0
+statetype = a
+
+[State 5010, 6]
+type = ChangeState
+trigger1 = HitShakeOver
+trigger1 = GetHitVar(yvel) = 0 && !GetHitVar(fall)
+value = 5011 ;Crouch get-hit (knocked back)
+
+[State 5010, 7]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 5030
+
+[State 5010, FFB Light]
+type = ForceFeedback
+trigger1 = anim = 5020
+persistent = 0
+time = 6
+waveform = square
+
+[State 5010, FFB Medium]
+type = ForceFeedback
+trigger1 = anim = 5021
+persistent = 0
+time = 8
+waveform = sinesquare
+ampl = 110,-1,-.3
+
+[State 5010, FFB Hard]
+type = ForceFeedback
+trigger1 = anim = 5022
+persistent = 0
+time = 15
+waveform = sinesquare
+ampl = 140
+
+;---------------------------------------------------------------------------
+; Crouch get-hit (knocked back)
+[Statedef 5011]
+type    = C
+movetype= H
+physics = C
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) > 0
+fv = 25
+value = 100
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) <= 0
+fv = 25
+value = -100
+
+;Show correct Anim, either HighHit or Low Hit
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) != 30
+trigger1 = (Anim != 10026+(Var(0)*30)) || (Anim != 10027+(Var(0)*30))
+value = ifelse((GetHitVar(groundtype) = 1),10026+(Var(0)*30),10027+(Var(0)*30))
+
+;Show special hit anim for P1
+[State 5000, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Var(0) = 30
+trigger1 = Anim != 10911
+value = 10911
+
+;Damage Tracker
+[state -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(29) = fvar(30)
+
+[State -1, VarSet]
+Type = VarSet
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+Trigger1 = 1
+fvar(30) = life
+
+[State -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(31) = fvar(29)-fvar(30)
+ignorehitpause = 1
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = FVar(31) > 0
+fv = 28
+value = FVar(31)*(root,FVar(38))
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = Null;ReversalDef
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 10013
+
+[State -1, HitOverride]
+type = Null;HitOverride
+triggerall = Var(0) = 12;Shiva
+;triggerall = FVar(34) >= 0.4
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > 5000*FVar(23);Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > 6000*FVar(23);Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 10013
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Shiva Absolute Guard+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+
+;Shiva Absolute Guard+ disable
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) < (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;reversal.attr = 
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10013
+;
+;[State -1, HitOverride]
+;type = HitOverride
+;trigger1 = Var(0) = 12;Shiva
+;trigger1 = ((root, Var(43) <= 1) || (root, Var(43) = 4)) && (NumEnemy > 1)
+;trigger1 = FVar(34) >= 0.4
+;trigger1 = Ceil(Var(1)*4.5) >= (Var(58))
+;trigger1 = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;attr = SCA,AA,AP,AT
+;slot = 0
+;stateno = 10013
+;time = 1
+;ignorehitpause = 1
+;forceair = 0
+
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = Var(0) = 3 || Var(0) = 12;Raven/Shiva
+;trigger1 = (root, Var(43) = 2)
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;SoR accuracy
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 3 || Var(0) = 12 || Var(0) = 13 || Var(0) = 15 || Var(0) = 23 || Var(0) = 24  || Var(0) = 26 || Var(0) = 37
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+;
+;[State 10010, ReversalDef]
+;type = ReversalDef
+;trigger1 = (root, Var(43) = 3)
+;trigger1 = Var(0) = 43 || Var(0) = 45
+;trigger1 = FVar(34) >= 1
+;trigger1 = Ceil(Var(1)*1.2) >= (random+1)
+;reversal.attr = SCA,AA,AP
+;pausetime = 6,6
+;sparkno = s8105
+;sparkxy = 0,0
+;hitsound = S201,10
+;p1stateno = 10011
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = [12,19]
+;500 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 500*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (500*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Mini-Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = (Var(0) = [31,33]) || (Var(0) = [21,22]) || (Var(0) = [28,29]) || (Var(0) = 23) || (Var(0) = 39) || (Var(0) = [41,42])
+;700 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 800*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (800*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Abadede Breaker
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = 16 ;Abadede
+triggerall = GetHitVar(HitCount) > 1
+triggerall = FVar(34) >= 1
+;trigger1 = FVar(1) <= 2000*(root,FVar(38))
+trigger1 = Var(58) <= Floor(0.5*(GetHitVar(HitCount)+Var(1)))
+;trigger2 = FVar(1) > 2000*(root,FVar(38))
+;trigger2 = Var(58) <= Floor(0.35*(GetHitVar(HitCount)+15))
+value = 21113
+ctrl = 0
+
+;Harakiri Counter Slash
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 33 ;Hirakiri
+trigger1 = (root, Var(50) = 1)
+trigger1 = GetHitVar(HitCount) > 1
+trigger1 = FVar(34) >= 1
+trigger1 = Var(58) <= Floor(0.7*(GetHitVar(HitCount)+18))
+value = 21579
+ctrl = 0
+
+;Shiva Axe Kick Counter
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Time > 0
+trigger1 = Var(44) >= 900
+trigger1 = random+1 <= Floor(0.7*(GetHitVar(HitCount)+Var(1)))
+value = 11115
+ctrl = 0
+
+[State 5011, 1]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1
+
+;[State 5011, 2]
+;type = ChangeAnim
+;trigger1 = AnimTime = 0
+;value = 5025 + GetHitVar(animtype)
+
+[State 5011, 3] ;Stop sliding back
+type = VelMul
+trigger1 = Time >= GetHitVar(slidetime)
+x = .6
+
+[State 5011, 4]
+type = VelSet
+trigger1 = HitOver
+x = 0
+
+[State 5011, 5]
+type = DefenceMulSet
+trigger1 = HitOver
+value = 1
+
+[State 5011, 6]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = HitOver
+value = 10000
+ctrl = 0
+
+[State 5011, 6]
+type = ChangeState
+trigger1 = HitOver
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Air get-hit (shaking)
+[Statedef 5020]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+;Air Hit (HitUp if it exists)
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimExist(10024+(Var(0)*30))
+trigger1 = Anim != (10024+(Var(0)*30))
+value = 10024+(Var(0)*30)
+
+;Air Hit (Falling anim if HitUp doesn't exist)
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = !AnimExist(10024+(Var(0)*30))
+trigger1 = Anim != (10024+(Var(0)*30))
+value = 10025+(Var(0)*30)
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = Var(4) != 1
+v = 4
+value = 1
+ignorehitpause = 1
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) > 0
+fv = 25
+value = 100
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) <= 0
+fv = 25
+value = -100
+
+;Damage Tracker
+[state -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(29) = fvar(30)
+
+[State -1, VarSet]
+Type = VarSet
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+Trigger1 = 1
+fvar(30) = life
+
+[State -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(31) = fvar(29)-fvar(30)
+ignorehitpause = 1
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = FVar(31) > 0
+fv = 28
+value = FVar(31)*(root,FVar(38))
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Fog Motorcycle
+[State 11139, Helper]
+type = Helper
+trigger1 = Time = 0
+trigger1 = Var(46) = 1
+helpertype = normal
+name = "Motorcycle"
+ID = 11139
+stateno = 8223
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale = 
+;size.yscale = 
+
+;Not on motorcycle
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Var(46) != 0
+v = 46
+value = 0
+;persistent = 0
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;Knife Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 0 || Var(0) = 11
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 10339
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Pipe Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 1
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 3015
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Garcia/Jack Knife loss
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+v = 54
+value = 0
+
+;Score Add
+;[State 10030, ParentVarAdd]
+;type = ParentVarAdd
+;trigger1 = IsHelper
+;trigger1 = !Time
+;v = 56
+;value = GetHitVar(HitCount)*20
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = [12,19]
+;500 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 500*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (500*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Mini-Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = (Var(0) = [31,33]) || (Var(0) = [21,22]) || (Var(0) = [28,29]) || (Var(0) = 23) || (Var(0) = 39) || (Var(0) = [41,42])
+;700 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 800*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (800*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Shiva Air Axe Kick Counter
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Time > 0
+trigger1 = Var(44) >= 900
+trigger1 = random+1 <= Floor(0.7*(GetHitVar(HitCount)+Var(1)))
+value = 21869
+ctrl = 0
+
+[State 5020, 1] ;Anim for HIT_LIGHT to HIT_HARD
+type = ChangeAnim
+triggerall = IsHelper = 0
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) != [3,5]
+value = ifelse((GetHitVar(airtype) = 1),5000,5010) + GetHitVar(animtype)
+
+[State 5020, 2] ;Anim for HIT_BACK
+type = ChangeAnim
+triggerall = IsHelper = 0
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) = [3,5]
+value = 5030
+
+[State 5020, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+type = ChangeAnim
+triggerall = IsHelper = 0
+trigger1 = Time = 0
+trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+
+[State 5020, 4] ;Freeze anim
+type = ChangeAnim
+triggerall = IsHelper = 0
+trigger1 = Time > 0
+value = anim
+
+[State 5020, 5]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 5030
+
+[State 5020, FFB Light]
+type = ForceFeedback
+trigger1 = anim = 5000
+trigger2 = anim = 5010
+persistent = 0
+time = 6
+waveform = square
+
+[State 5020, FFB Medium]
+type = ForceFeedback
+trigger1 = anim = 5001
+trigger2 = anim = 5011
+persistent = 0
+time = 8
+waveform = sinesquare
+ampl = 110,-1,-.3
+
+[State 5020, FFB Hard]
+type = ForceFeedback
+trigger1 = anim = 5012
+trigger2 = anim = 5002
+trigger3 = anim = 5030
+trigger4 = anim = [5051,5059]
+persistent = 0
+time = 15
+waveform = sinesquare
+ampl = 140
+
+;---------------------------------------------------------------------------
+; Air get-hit (knocked away)
+[Statedef 5030]
+type    = A
+movetype= H
+physics = N
+ctrl = 0
+
+;[State 5000, VarSet]
+;type = VarSet
+;trigger1 = Time > 0
+;trigger1 = IsHelper
+;trigger1 = FVar(1) <= 0
+;fv = 25
+;value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+
+;[State 5030, 1]
+;type = ChangeAnim
+;trigger1 = Anim != [5000, 5199]
+;trigger1 = SelfAnimExist(5030)
+;value = 5030
+
+;Air Hit (HitUp if it exists)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10024+(Var(0)*30))
+;trigger1 = Vel Y < 0
+;value = 10024+(Var(0)*30)
+;persistent = 0
+;
+;;Air Hit (Falling anim if HitUp doesn't exist)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = !AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10025+(Var(0)*30))
+;trigger2 = Vel Y >= 0
+;value = 10025+(Var(0)*30)
+;persistent = 0
+
+;Falling anim
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimExist(10024+(Var(0)*30))
+trigger1 = Anim != (10024+(Var(0)*30))
+value = 10024+(Var(0)*30)
+
+[State 5030, 2]
+type = VelAdd
+trigger1 = Time > 0
+y = GetHitVar(yaccel)
+
+[State 5030, 3]
+type = HitVelSet
+trigger1 = (Var(0) != 35) || (Var(37) != 1)
+trigger1 = Time = 0
+x = 1
+y = 1
+
+[State 5030, 3]
+type = VelSet
+trigger1 = (Var(0) = 35) && (Var(37) = 1)
+trigger1 = Time = 0
+x = -4
+y = -8.5
+
+;Coward Akaiho
+[State 5030, 3]
+type = VelSet
+trigger1 = (Var(0) = 35)
+trigger1 = (Var(37) = 2 && Var(47) > 0)
+trigger1 = Time = 0
+x = -4
+y = -8.5
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Akaiho Recover
+[State 5001, 6]
+type = ChangeState
+trigger1 = Var(0) = 35
+trigger1 = Var(37) = 1 || (Var(37) = 2 && Var(47) > 0)
+trigger1 = IsHelper
+trigger1 = HitOver || Time >= 5
+value = 21653
+ctrl = 0
+
+;Shiva Air Axe Kick Counter
+[State 10000, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Time > 0
+trigger1 = Var(44) >= 900
+trigger1 = P2Dist X = [0,110]
+trigger1 = random+1 <= Floor(0.7*(GetHitVar(HitCount)+Var(1)))
+value = 21869
+ctrl = 0
+
+[State 5030, 4]
+type = ChangeState
+triggerall = !HitFall
+trigger1 = HitOver
+trigger2 = Vel Y > 0    ;Hit ground
+trigger2 = Pos Y >= 10  ;.
+value = 5040 ;HITA_RECOV
+
+[State 5030, 5]
+type = ChangeState
+triggerall = HitFall
+trigger1 = HitOver
+trigger2 = Vel Y > 0    ;Hit ground
+trigger2 = Pos Y >= 10  ;.
+value = 5050 ;HITA_FALL
+
+[State 5030, 6]
+type = ChangeState
+trigger1 = Time = 5
+value = 5035 ;Air get-hit (transition)
+
+;---------------------------------------------------------------------------
+; Air get-hit (transition)
+[Statedef 5035]
+type    = A
+movetype= H
+physics = N
+
+;[State 5000, VarSet]
+;type = VarSet
+;trigger1 = Time > 0
+;trigger1 = IsHelper
+;trigger1 = FVar(1) <= 0
+;fv = 25
+;value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Air Hit (HitUp if it exists)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10024+(Var(0)*30))
+;trigger1 = Vel Y < 0
+;value = 10024+(Var(0)*30)
+;persistent = 0
+;
+;;Air Hit (Falling anim if HitUp doesn't exist)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = !AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10025+(Var(0)*30))
+;trigger2 = Vel Y >= 0
+;value = 10025+(Var(0)*30)
+;persistent = 0
+
+;Falling anim
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimExist(10024+(Var(0)*30))
+trigger1 = Anim != (10024+(Var(0)*30))
+value = 10024+(Var(0)*30)
+
+[State 5035, 2]
+type = VelAdd
+trigger1 = Time > 0
+y = GetHitVar(yaccel)
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+[State 5035, 3]
+type = ChangeState
+triggerall = !HitFall
+trigger1 = HitOver  ;Hit is over
+trigger2 = Time >= 10 ;Animation over
+trigger3 = Vel Y > 0    ;Hit ground
+trigger3 = Pos Y >= 10  ;.
+value = 5040 ;Air get-hit (recovering in air, not falling)
+
+[State 5035, 4]
+type = ChangeState
+triggerall = HitFall
+trigger1 = HitOver  ;Hit is over
+trigger2 = Time >= 10 ;Anim is over
+trigger3 = Vel Y > 0    ;Hit ground
+trigger3 = Pos Y >= 10  ;.
+value = 5050 ;Air get-hit (falling)
+
+;---------------------------------------------------------------------------
+; Air get-hit (recovering in air, not falling)
+[Statedef 5040]
+type    = A
+movetype= H
+physics = N
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+fv = 25
+value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+[State 5040, 1]
+type = ChangeState
+trigger1 = !Alive
+value = 5050
+ctrl = 0
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Air Hit (HitUp if it exists)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10024+(Var(0)*30))
+;trigger1 = Vel Y < 0
+;value = 10024+(Var(0)*30)
+;persistent = 0
+;
+;;Air Hit (Falling anim if HitUp doesn't exist)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = !AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10025+(Var(0)*30))
+;trigger2 = Vel Y >= 0
+;value = 10025+(Var(0)*30)
+;persistent = 0
+
+;Falling anim
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimExist(10025+(Var(0)*30))
+trigger1 = Anim != (10025+(Var(0)*30))
+value = 10025+(Var(0)*30)
+
+;[State 5040, 3]
+;type = CtrlSet
+;trigger1 = HitOver
+;value = 1
+
+[State 5040, 4]
+type = StateTypeSet
+trigger1 = HitOver
+movetype = I
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202) || IsHelper(203) || IsHelper(204)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202) || IsHelper(203) || IsHelper(204)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+[State 5040, 5]
+type = VelAdd
+trigger1 = Time > 0
+y = GetHitVar(yaccel)
+
+;Jet Recover
+;[State 5001, 6]
+;type = ChangeState
+;triggerall = Var(0) = 14
+;triggerall = IsHelper
+;trigger1 = Vel Y > 0
+;trigger1 = Pos Y >= 0
+;trigger2 = HitOver
+;trigger2 = Time > 0
+;value = 21035
+;ctrl = 0
+
+;Rocket Recover
+;[State 5001, 6]
+;type = ChangeState
+;triggerall = Var(0) = 20
+;triggerall = IsHelper
+;trigger1 = Vel Y > 0
+;trigger1 = Pos Y >= 0
+;trigger2 = HitOver
+;trigger2 = Time > 0
+;value = 21211
+;ctrl = 0
+
+;Jet Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 14 || Var(0) = 44
+triggerall = IsHelper
+trigger1 = Time >= 15 || Vel Y > 8
+trigger1 = Vel Y > 0
+;----------
+trigger2 = Vel Y > 0
+trigger2 = Pos Y >= 0
+value = 21035
+ctrl = 0
+
+;Rocket Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 20
+triggerall = IsHelper
+trigger1 = Time >= 15 || Vel Y > 8
+trigger1 = Vel Y > 0
+;----------
+trigger2 = Vel Y > 0
+trigger2 = Pos Y >= 0
+value = 21211
+ctrl = 0
+
+;Jet MKII Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 28
+triggerall = IsHelper
+trigger1 = Time >= 15 || Vel Y > 8
+trigger1 = Vel Y > 0
+;----------
+trigger2 = Vel Y > 0
+trigger2 = Pos Y >= 0
+value = 21523
+ctrl = 0
+
+;Akaiho Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 35
+triggerall = Var(37) = 1 || (Var(37) = 2 && Var(47) > 0)
+triggerall = IsHelper
+trigger1 = Time >= 1
+value = 21653
+ctrl = 0
+
+[State 5040, 6]
+type = ChangeState
+trigger1 = IsHelper = 0
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 52 ;Jump Land
+
+[State 5040, 6]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 8522;10000 ;Idle
+
+;---------------------------------------------------------------------------
+; Air get-hit (falling)
+[Statedef 5050]
+type    = A
+movetype= H
+physics = N
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+fv = 25
+value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Air Hit (HitUp if it exists)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10024+(Var(0)*30))
+;trigger1 = Vel Y < 0
+;value = 10024+(Var(0)*30)
+;persistent = 0
+;
+;;Air Hit (Falling anim if HitUp doesn't exist)
+;[State 10001, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = !AnimExist(10024+(Var(0)*30))
+;trigger1 = Anim != (10025+(Var(0)*30))
+;trigger2 = Vel Y >= 0
+;value = 10025+(Var(0)*30)
+;persistent = 0
+
+;Falling anim
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = IsHelper
+trigger1 = AnimExist(10025+(Var(0)*30))
+trigger1 = Anim != (10025+(Var(0)*30))
+value = 10025+(Var(0)*30)
+
+[State 5050, 1] ;Change anim when done with transition
+type = ChangeAnim
+triggerall = IsHelper = 0
+trigger1 = AnimTime = 0
+trigger1 = Anim = 5035
+trigger2 = Time = 0     ;If no transition anim
+trigger2 = Anim != 5035
+trigger2 = (Anim != [5051, 5059]) && (Anim != [5061, 5069])
+trigger2 = Anim != 5090 ;Not if hit off ground anim
+value = 5050
+
+[State 5050, 2] ;Coming down anim
+type = ChangeAnim
+triggerall = IsHelper = 0
+trigger1 = anim = [5050,5059]
+trigger1 = Vel Y >= ifelse(anim = 5050, 1, -2)
+trigger1 = SelfAnimExist(anim+10)
+value = anim+10
+persistent = 0
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+[State 5050, 3] ;Gravity
+type = VelAdd
+trigger1 = Time > 0
+y = GetHitVar(yaccel)
+
+[State 5050, 4] ;Recover near ground
+type = ChangeState
+triggerall = IsHelper
+triggerall = Vel Y > 0
+triggerall = Pos Y >= -20
+triggerall = alive
+triggerall = CanRecover
+trigger1 = Var(0) != 15 && Var(0) != 12;Zamza,Shiva
+trigger1 = Var(0) != 14 && Var(0) != 20 && Var(0) != 28 && Var(0) != 44;Jet,Rocket
+trigger1 = random+1 <= (Var(1)*10)
+trigger1 = Time > 0
+value = 8520
+
+[State 5050, 4] ;Recover near ground
+type = ChangeState
+triggerall = IsHelper
+triggerall = Vel Y > 0
+triggerall = Pos Y >= -20
+triggerall = alive
+triggerall = CanRecover
+;trigger1 = Command = "recovery"
+trigger1 = Var(0) = 15 || Var(0) = 12;Zamza,Shiva
+trigger1 = random+1 <= (Var(1)*10)
+trigger1 = Time > 0
+value = 10232 ;Air get-hit (fall recovery on ground)
+
+[State 5050, 4] ;Recover the unrecoverable
+type = ChangeState
+triggerall = IsHelper
+triggerall = Vel Y > 0
+triggerall = Pos Y >= -20
+triggerall = alive
+triggerall = CanRecover = 0
+;trigger1 = Command = "recovery"
+trigger1 = Var(0) = 12;Shiva
+trigger1 = random+1 <= Ceil(Var(1)*1.5)
+trigger1 = Time > 0
+value = 10232 ;Air get-hit (fall recovery on ground)
+
+;Jet Recover
+;[State 5050, 5]; Recover in mid air
+;type = ChangeState
+;triggerall = Vel Y > Const(movement.air.gethit.airrecover.threshold)
+;triggerall = alive
+;triggerall = CanRecover
+;;trigger1 = Command = "recovery"
+;trigger1 = Var(0) = 14;Jet
+;trigger1 = random <= (Var(1)*6)
+;trigger1 = Time > 0
+;value = 21035 ;Air get-hit (fall recovery in air)
+;
+;;Rocket Recover
+;[State 5050, 5]; Recover in mid air
+;type = ChangeState
+;triggerall = Vel Y > Const(movement.air.gethit.airrecover.threshold)
+;triggerall = alive
+;triggerall = CanRecover
+;;trigger1 = Command = "recovery"
+;trigger1 = Var(0) = 20;Rocket
+;trigger1 = random <= (Var(1)*6)
+;trigger1 = Time > 0
+;value = 21211 ;Air get-hit (fall recovery in air)
+;
+;;Jet MKII Recover
+;[State 5050, 5]; Recover in mid air
+;type = ChangeState
+;triggerall = Vel Y > Const(movement.air.gethit.airrecover.threshold)
+;triggerall = alive
+;triggerall = CanRecover
+;;trigger1 = Command = "recovery"
+;trigger1 = Var(0) = 28;Jet MKII
+;trigger1 = random <= (Var(1)*6)
+;trigger1 = Time > 0
+;value = 21523 ;Air get-hit (fall recovery in air)
+
+;Akaiho Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 35
+triggerall = Var(37) = 1 || (Var(37) = 2 && Var(47) > 0)
+triggerall = IsHelper
+trigger1 = Time >= 1
+value = 21653
+ctrl = 0
+
+;[State 5050, 5]; Recover in mid air
+;type = ChangeState
+;triggerall = Vel Y > Const(movement.air.gethit.airrecover.threshold)
+;triggerall = alive
+;triggerall = CanRecover
+;trigger1 = Command = "recovery"
+;value = 5210 ;Air get-hit (fall recovery in air)
+
+;Jet Land Recover
+;[State 5001, 6]
+;type = ChangeState
+;trigger1 = IsHelper
+;trigger1 = Vel Y > 0
+;trigger1 = Pos Y >= 0
+;trigger1 = Var(0) = 14
+;value = 21035
+;ctrl = 0
+;
+;;Rocket Land Recover
+;[State 5001, 6]
+;type = ChangeState
+;trigger1 = IsHelper
+;trigger1 = Vel Y > 0
+;trigger1 = Pos Y >= 0
+;trigger1 = Var(0) = 20
+;value = 21211
+;ctrl = 0
+;
+;;Jet MKII Land Recover
+;[State 5001, 6]
+;type = ChangeState
+;trigger1 = IsHelper
+;trigger1 = Vel Y > 0
+;trigger1 = Pos Y >= 0
+;trigger1 = Var(0) = 28
+;value = 21523
+;ctrl = 0
+
+;Jet Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 14 || Var(0) = 44
+triggerall = IsHelper
+trigger1 = Time >= 15 || Vel Y > 8
+trigger1 = Vel Y > 0
+;----------
+trigger2 = Vel Y > 0
+trigger2 = Pos Y >= 0
+value = 21035
+ctrl = 0
+
+;Rocket Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 20
+triggerall = IsHelper
+trigger1 = Time >= 15 || Vel Y > 8
+trigger1 = Vel Y > 0
+;----------
+trigger2 = Vel Y > 0
+trigger2 = Pos Y >= 0
+value = 21211
+ctrl = 0
+
+;Jet MKII Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 28
+triggerall = IsHelper
+trigger1 = Time >= 15 || Vel Y > 8
+trigger1 = Vel Y > 0
+;----------
+trigger2 = Vel Y > 0
+trigger2 = Pos Y >= 0
+value = 21523
+ctrl = 0
+
+[State 5050, 6]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 5100 ;Downed get-hit (hit ground from fall)
+
+;---------------------------------------------------------------------------
+; Tripped get-hit (shaking)
+[Statedef 5070]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+;Air Hit (HitUp if it exists)
+[State 10001, ChangeAnim]
+type = ChangeAnim
+triggerall = IsHelper
+trigger1 = AnimExist(10024+(Var(0)*30))
+trigger1 = Anim != (10024+(Var(0)*30))
+trigger1 = Vel Y < 0
+value = 10024+(Var(0)*30)
+persistent = 0
+
+;Air Hit (Falling anim if HitUp doesn't exist)
+[State 10001, ChangeAnim]
+type = ChangeAnim
+triggerall = IsHelper
+trigger1 = !AnimExist(10024+(Var(0)*30))
+trigger1 = Anim != (10025+(Var(0)*30))
+trigger2 = Vel Y >= 0
+value = 10025+(Var(0)*30)
+persistent = 0
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = Var(4) != 1
+v = 4
+value = 1
+ignorehitpause = 1
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) > 0
+fv = 25
+value = 100
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) <= 0
+fv = 25
+value = -100
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+
+;Fog Motorcycle
+[State 11139, Helper]
+type = Helper
+triggerall = IsHelper
+trigger1 = Time = 0
+trigger1 = Var(46) = 1
+helpertype = normal
+name = "Motorcycle"
+ID = 11139
+stateno = 8225
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale = 
+;size.yscale = 
+
+;Not on motorcycle
+[State 11151, VarSet]
+type = VarSet
+triggerall = IsHelper
+trigger1 = Var(46) != 0
+v = 46
+value = 0
+;persistent = 0
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;Knife Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 0 || Var(0) = 11
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 10339
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Pipe Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 1
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 3015
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Garcia/Jack Knife loss
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+v = 54
+value = 0
+
+;Score Add
+;[State 10030, ParentVarAdd]
+;type = ParentVarAdd
+;trigger1 = IsHelper
+;trigger1 = !Time
+;v = 56
+;value = GetHitVar(HitCount)*20
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = [12,19]
+;500 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 500*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (500*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Mini-Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = (Var(0) = [31,33]) || (Var(0) = [21,22]) || (Var(0) = [28,29]) || (Var(0) = 23) || (Var(0) = 39) || (Var(0) = [41,42])
+;700 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 800*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (800*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;[State 5070, 1]
+;type = ChangeAnim
+;trigger1 = 1
+;value = 5070
+
+[State 5070, 2]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 5071
+
+[State 5070, 3]
+type = ForceFeedback
+trigger1 = time = 0
+time = 12
+waveform = sinesquare
+ampl = 140
+
+;---------------------------------------------------------------------------
+; Tripped get-hit (knocked away)
+[Statedef 5071]
+type    = A
+movetype= H
+physics = N
+
+;[State 5000, VarSet]
+;type = VarSet
+;trigger1 = Time > 0
+;trigger1 = IsHelper
+;trigger1 = FVar(1) <= 0
+;fv = 25
+;value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+[State 5000, VarRandom]
+type = VarRandom
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 12;Shiva
+v = 58
+range = 1,12000;+(Var(1)*10)
+ignorehitpause = 1
+
+;Shiva New Absolute Guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr = SCA,AA,AP,AT
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+;Shiva New Absolute Guard (Catches attacks that can't be reversed)
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) <= Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) <= Var(1)*125;Var(1)*2*120*FVar(23)
+attr = SCA,AA,AP,AT
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+;Disable absolute guard
+[State 10010, ReversalDef]
+type = ReversalDef
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+reversal.attr =
+pausetime = 6,6
+sparkno = s8105
+sparkxy = 0,0
+hitsound = S201,10
+p1stateno = 21871
+
+[State -1, HitOverride]
+type = HitOverride
+triggerall = Var(0) = 12;Shiva
+triggerall = FVar(34) >= 0.5
+triggerall = NumEnemy > 0
+;Player is not in Simul mode
+trigger1 = Enemynear,Teammode != Simul
+trigger1 = Var(58) > Var(1)*100;Var(1)*2*100*FVar(23)
+;Player is in Simul mode
+trigger2 = Enemynear,Teammode = Simul
+trigger2 = Var(58) > Var(1)*125;Var(1)*2*120*FVar(23)
+attr =
+slot = 0
+stateno = 21871
+time = 1
+ignorehitpause = 1
+forceair = 0
+
+
+[State 5030, 3]
+type = HitVelSet
+trigger1 = (Var(0) != 35) || (Var(37) != 1)
+trigger1 = Time = 0
+x = 1
+y = 1
+
+[State 5030, 3]
+type = VelSet
+trigger1 = (Var(0) = 35) && (Var(37) = 1)
+trigger1 = Time = 0
+x = -4
+y = -8.5
+
+;Coward Akaiho
+[State 5030, 3]
+type = VelSet
+trigger1 = (Var(0) = 35)
+trigger1 = (Var(37) = 2 && Var(47) > 0)
+trigger1 = Time = 0
+x = -4
+y = -8.5
+
+[State 5071, 2] ;Acceleration
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+;Jet Land Recover
+[State 5001, 6]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 15
+trigger1 = Var(0) = 14
+value = 21035
+ctrl = 0
+
+;Akaiho Recover
+[State 5001, 6]
+type = ChangeState
+triggerall = Var(0) = 35
+triggerall = Var(37) = 1 || (Var(37) = 2 && Var(47) > 0)
+triggerall = IsHelper
+trigger1 = Time >= 1
+value = 21653
+ctrl = 0
+
+[State 5071, 3] ;Hit ground
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 15
+type = ChangeState
+value = 5110
+
+;---------------------------------------------------------------------------
+; Downed get-hit (shaking)
+[Statedef 5080]
+type    = L
+movetype= H
+physics = N
+velset = 0,0
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = Var(4) != 1
+v = 4
+value = 1
+ignorehitpause = 1
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) > 0
+fv = 25
+value = 100
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time = 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = (gethitvar(xvel) * facing) <= 0
+fv = 25
+value = -100
+
+;Damage Tracker
+[state -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(29) = fvar(30)
+
+[State -1, VarSet]
+Type = VarSet
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+Trigger1 = 1
+fvar(30) = life
+
+[State -1, VarSet]
+type = varset
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = 1
+fvar(31) = fvar(29)-fvar(30)
+ignorehitpause = 1
+
+[State 5000, VarAdd]
+type = VarAdd
+trigger1 = FVar(31) > 0
+fv = 28
+value = FVar(31)*(root,FVar(38))
+
+;Fog Motorcycle
+[State 11139, Helper]
+type = Helper
+trigger1 = Time = 0
+trigger1 = Var(46) = 1
+helpertype = normal
+name = "Motorcycle"
+ID = 11139
+stateno = 8225
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale = 
+;size.yscale = 
+
+;Not on motorcycle
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Var(46) != 0
+v = 46
+value = 0
+;persistent = 0
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;Knife Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 0 || Var(0) = 11
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 10339
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Pipe Goes flying
+[State 11089, Explod]
+type = Explod
+trigger1 = Var(0) = 1
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+anim = 3015
+ID = 907
+pos = 0,-Floor(80*0.667*FVar(4));32,-58
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = -2,-5
+accel = 0,0.35
+random = 0,0
+removetime = 90
+scale = (1.5*0.667*FVar(3)),(1.5*0.667*FVar(4));1.5,1.5
+sprpriority = 55
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+;Garcia/Jack Knife loss
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+trigger1 = GetHitVar(fall)
+v = 54
+value = 0
+
+;Score Add
+;[State 10030, ParentVarAdd]
+;type = ParentVarAdd
+;trigger1 = IsHelper
+;trigger1 = !Time
+;v = 56
+;value = GetHitVar(HitCount)*20
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;LieDown
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim != (10028+(Var(0)*30))
+value = 10028+(Var(0)*30)
+persistent = 0
+
+;Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = Var(0) = [12,19]
+;500 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 500*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (500*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;Mini-Boss Escape
+[State 10000, ChangeState]
+type = ChangeState
+triggerall = IsHelper
+triggerall = (Var(0) = [31,33]) || (Var(0) = [21,22]) || (Var(0) = [28,29]) || (Var(0) = 23) || (Var(0) = 39) || (Var(0) = [41,42])
+;700 Damage is reached (affected by damage mulitplier)
+trigger1 = FVar(28) >= 800*(root,FVar(38))
+trigger1 = FVar(39) <= 1
+;If difficulty level is above Normal, increase damage limit by Difficulty Mulitplier
+trigger2 = FVar(28) >= (800*FVar(39))*(root,FVar(38))
+trigger2 = FVar(39) > 1
+;Extremely high hitcount is reached
+trigger3 = GetHitVar(HitCount) >= 50
+value = 8614
+ctrl = 0
+
+;[State 5080, 1] ;Set default anim
+;type = VarSet
+;trigger1 = time = 0
+;sysvar(2) = ifelse (GetHitVar(yvel) = 0, 5080, 5090)
+;
+;[State 5080, 2]
+;type = VarAdd
+;trigger1 = time = 0
+;trigger1 = (anim = [5081,5089]) || (anim = [5111,5119])
+;trigger1 = SelfAnimExist(sysvar(2) + (anim % 10))
+;sysvar(2) = anim % 10
+;
+;[State 5080, 3] ;If 5090 doesn't exist, default to 5030
+;type = VarSet
+;trigger1 = time = 0
+;trigger1 = sysvar(2) = 5090
+;trigger1 = !SelfAnimExist(5090)
+;sysvar(2) = 5030
+;
+;[State 5080, 3] ;Freeze
+;type = ChangeAnim
+;trigger1 = 1
+;value = sysvar(2)
+
+[State 5080, 4]
+type = ChangeState
+trigger1 = HitShakeOver
+trigger1 = GetHitVar(yvel) = 0
+value = 5081 ;Downed get-hit (knocked back)
+
+[State 5080, 5]
+type = ChangeState
+trigger1 = HitShakeOver
+trigger1 = GetHitVar(yvel) != 0
+value = 5030 ;Air get-hit (knocked away)
+
+;---------------------------------------------------------------------------
+; Downed get-hit (knocked back)
+[Statedef 5081]
+type    = L
+movetype= H
+physics = C
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+fv = 25
+value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+[State 5081, 1]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1
+
+[State 5081, 2]
+type = VelSet
+trigger1 = HitOver
+x = 0
+
+[State 5081, 3] ;Don't show hit ground frame
+type = VarSet
+trigger1 = Time = 0
+sysvar(0) = 1
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+;Mr.X KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = 19
+value = 21177
+ctrl = 0
+
+;Boss KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+trigger1 = Var(0) = [12,18]
+value = 11002
+ctrl = 0
+
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+value = 11000
+ctrl = 0
+
+[State 5081, 4]
+type = ChangeState
+trigger1 = HitOver
+value = 5110 ;Downed get-hit (lying down)
+
+;---------------------------------------------------------------------------
+; Downed get-hit (hit ground from fall)
+[Statedef 5100]
+type    = L
+movetype= H
+physics = N
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+fv = 25
+value = GetHitVar(xvel)
+
+;In normal hit state
+;[State 11089, VarSet]
+;type = VarSet
+;trigger1 = IsHelper
+;trigger1 = Var(34) != 40725
+;v = 34
+;value = 40725
+
+[State 5100, 2004.04.14 behavior]
+type = null;VelSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(fall.yvel) = 0
+trigger1 = vel x < -1
+x = -1
+
+[State 5100, EnvShake]
+type = FallEnvShake
+trigger1 = Time = 0
+
+[State 5100, Var] ;Save fall velocity
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = floor(vel y)
+
+;LieDown
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim != (10028+(Var(0)*30))
+value = 10028+(Var(0)*30)
+persistent = 0
+
+[State 5100, 2] ;Hit ground anim (normal)
+type = ChangeAnim
+triggerall = IsHelper = 0
+triggerall = time = 0
+trigger1 = (anim != [5051,5059]) && (anim != [5061,5069])
+trigger2 = !SelfAnimExist(5100 + (anim % 10))
+value = 5100
+
+[State 5100, 3] ;Hit ground anim (for hit up)
+type = ChangeAnim
+triggerall = IsHelper = 0
+trigger1 = time = 0
+trigger1 = (anim = [5051,5059]) || (anim = [5061,5069])
+trigger1 = SelfAnimExist(5100 + (anim % 10))
+value = 5100 + (anim % 10)
+
+[State 5100, 4]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 5100, 5]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 5100, 6] ;Reduce speed
+type = VelMul
+trigger1 = Time = 0
+x = 0.75
+
+[State 5100, 7]
+type = ChangeState
+trigger1 = Time = 0
+trigger1 = GetHitVar(fall.yvel) = 0
+value = 5110 ;Downed get-hit (lying down)
+
+[State 5100, 8]
+type = GameMakeAnim
+trigger1 = IsHelper;Stops main SoR2 character from playing sounds/creating explods when it hits the ground after the round ends
+trigger1 = Time = 1
+value = 60 + (sysvar(1) > 5) + (sysvar(1) > 14)
+pos = 0, 0
+under = sysvar(1) <= 14
+
+[State 5100, 9]
+type = HitFallDamage
+trigger1 = Time = 3
+
+[State 5100, 10]
+type = PlaySnd
+trigger1 = IsHelper;Stops main SoR2 character from playing sounds/creating explods when it hits the ground after the round ends
+trigger1 = Time = 1
+value = F7, (sysvar(1) > 5) + (sysvar(1) > 14)
+
+[State 5100, 11]
+type = PosFreeze
+trigger1 = 1
+
+[State 5100, 12]
+type = ChangeState
+trigger1 = Time = 5
+value = 5101 ;Downed get-hit (bounce off ground)
+
+[State 5100, 13]
+type = ForceFeedback
+trigger1 = Time = 0
+waveform = sinesquare
+ampl = 128,-3,-.2,.005
+time = 20
+
+;---------------------------------------------------------------------------
+; Downed get-hit (bounce off ground)
+[Statedef 5101]
+type    = L
+movetype= H
+physics = N
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+fv = 25
+value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;LieDown
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim != (10028+(Var(0)*30))
+value = 10028+(Var(0)*30)
+persistent = 0
+
+[State 5101, 1] ;Coming hit ground anim (normal)
+type = ChangeAnim
+triggerall = IsHelper = 0
+triggerall = time = 0
+trigger1 = anim != [5101,5109]
+trigger2 = !SelfAnimExist(5160 + (anim % 10))
+value = 5160
+
+[State 5101, 2] ;Coming hit ground anim (for hit up)
+type = ChangeAnim
+triggerall = IsHelper = 0
+triggerall = time = 0
+trigger1 = anim = [5101,5109]
+trigger1 = SelfAnimExist(5160 + (anim % 10))
+value = 5160 + (anim % 10)
+
+[State 5101, 3]
+type = HitFallVel
+trigger1 = Time = 0
+
+[State 5101, 4]
+type = PosSet
+trigger1 = Time = 0
+y = 20
+
+[State 5101, 5] ;Acceleration
+type = VelAdd
+trigger1 = 1
+y = .4
+
+[State 5101, 7] ;Hit ground
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 12
+type = ChangeState
+value = 5110
+
+;---------------------------------------------------------------------------
+; Downed get-hit (lying down)
+[Statedef 5110]
+type    = L
+movetype= H
+physics = N
+
+;[State 5000, VarSet]
+;type = VarSet
+;trigger1 = Time > 0
+;trigger1 = IsHelper
+;trigger1 = FVar(1) <= 0
+;fv = 25
+;value = GetHitVar(xvel)
+
+;In normal hit state
+;[State 11089, VarSet]
+;type = VarSet
+;trigger1 = IsHelper
+;trigger1 = Var(34) != 40725
+;v = 34
+;value = 40725
+
+[State 5110, EnvShake]
+type = FallEnvShake
+trigger1 = Time = 0
+
+;LieDown
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim != (10028+(Var(0)*30))
+value = 10028+(Var(0)*30)
+persistent = 0
+
+[State 5110, 1] ;For hit up/up-diag type (from state 5081)
+type = ChangeAnim
+persistent = 0
+triggerall = IsHelper = 0
+trigger1 = SelfAnimExist(5110 + (anim % 10))
+trigger1 = anim = [5081,5089]
+value = 5110 + (anim % 10)
+
+[State 5110, 2] ;Hit ground anim (normal)
+type = ChangeAnim
+triggerall = IsHelper = 0
+triggerall = time = 0
+triggerall = anim != [5110,5119] ;Not already changed anim
+trigger1 = anim != [5161,5169]
+trigger2 = !SelfAnimExist(5170 + (anim % 10))
+value = 5170
+
+[State 5110, 3] ;Hit ground anim (for hit up)
+type = ChangeAnim
+triggerall = IsHelper = 0
+triggerall = time = 0
+triggerall = anim != [5110,5119] ;Not already changed anim
+trigger1 = anim = [5161,5169]
+trigger1 = SelfAnimExist(5170 + (anim % 10))
+value = 5170 + (anim % 10)
+
+[State 5110, 4]
+type = HitFallDamage
+trigger1 = Time = 0
+
+[State 5110, 5]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 5110, Var] ;Get fall velocity
+type = VarSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(fall.yvel) != 0
+sysvar(1) = floor(vel y)
+
+[State 5110, 6]
+type = PlaySnd
+trigger1 = IsHelper;Stops main SoR2 character from playing sounds/creating explods when it hits the ground after the round ends
+trigger1 = Time = 0
+trigger1 = !SysVar(0)
+value = F7, (sysvar(1) > 5) + (sysvar(1) > 14)
+
+[State 5110, 7]
+type = GameMakeAnim
+trigger1 = IsHelper;Stops main SoR2 character from playing sounds/creating explods when it hits the ground after the round ends
+trigger1 = Time = 0
+trigger1 = !SysVar(0)
+value = 60 + (sysvar(1) > 5) + (sysvar(1) > 14)
+pos = 0, 0
+under = sysvar(1) <= 14
+
+[State 5110, 8]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+;[State 5110, 9] ;For hit up type
+;type = ChangeAnim
+;persistent = 0
+;triggerall = anim = [5171,5179]
+;triggerall = SelfAnimExist(5110 + (anim % 10))
+;trigger1 = AnimTime = 0
+;trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit ground anim
+;value = 5110 + (anim % 10)
+;
+;[State 5110, 10] ;For normal
+;type = ChangeAnim
+;persistent = 0
+;triggerall = Anim != [5111,5119]
+;trigger1 = AnimTime = 0
+;trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit ground frame
+;value = 5110
+
+[State 5110, 11] ;If just died
+type = ChangeState
+triggerall = !alive
+trigger1 = Time = 10
+trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit ground frame
+trigger3 = Anim = [5110,5119]
+value = 5150
+
+[State 5110, 12]
+type = VarSet
+trigger1 = SysVar(0)
+trigger1 = Time = 0
+sysvar(0) = 0
+
+[State 5110, 13] ;Friction
+type = VelMul
+trigger1 = 1
+x = 0.85
+
+[State 5110, 15]
+type = ForceFeedback
+trigger1 = alive
+trigger1 = Time = 0
+time = 8
+ampl = 240
+waveform = sine
+
+[State 5110, 16]
+type = ForceFeedback
+trigger1 = !alive
+trigger1 = Time = 0
+ampl = 200, 7, -.467
+time = 30
+waveform = sine
+
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 10181
+ctrl = 0
+
+;Particle/Molecule KO (Temporary)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 10181
+ctrl = 0
+
+;Boss HP add
+;[State -1, VarAdd]
+;type = VarAdd
+;trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+;trigger1 = Var(0) = 19
+;trigger1 = Var(0) = [12,19]
+;trigger1 = FVar(1) < 1
+;fv = 1
+;value = 1
+;ignorehitpause = 1
+
+;Mr.X
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 19
+trigger1 = FVar(1) <= 0
+value = 21178
+ctrl = 0
+
+;Boss KO (Except Mr.X)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = [12,18]
+trigger1 = FVar(1) <= 0
+value = 11003
+ctrl = 0
+
+;Normal Enemy KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) != [12,19]
+trigger1 = FVar(1) <= 0
+value = 10181
+ctrl = 0
+
+;Kusanagi/Shiva Quick GetUp
+[State 5110, 17]
+type = ChangeState
+trigger1 = Time > 5
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 6 || Var(0) = 12
+value = 5120
+
+;Fog GetUp
+[State 5110, 17]
+type = ChangeState
+trigger1 = Time > 15
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(0) = 4 ;Fog
+value = 5120
+
+;Getup right away if in General Bonus Area
+[State 5110, 17]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, StateNo = 3700
+value = 5120
+
+;---------------------------------------------------------------------------
+; Downed get-hit (getting up)
+[Statedef 5120]
+type    = L
+movetype= I
+physics = N
+
+[State 5120, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
+;[State 5000, VarSet]
+;type = VarSet
+;trigger1 = Time > 0
+;trigger1 = IsHelper
+;trigger1 = FVar(1) <= 0
+;fv = 25
+;value = GetHitVar(xvel)
+
+;Not on motorcycle (if Fog)
+[State 11151, VarSet]
+type = VarSet
+triggerall = IsHelper
+trigger1 = Var(46) != 0
+v = 46
+value = 0
+;persistent = 0
+
+;Garcia/Jack Knife loss. Donovan Pipe loss
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = !Time
+trigger1 = Var(54) = 1
+v = 54
+value = 0
+
+;Attack Cooldown (Reduce cooldown by 1/3)
+[State -1, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Var(51) > 5
+v = 51
+value = -Ceil(Var(51)/3)
+ignorehitpause = 1
+persistent = 0
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+;GetUp
+[State 10001, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = IsHelper
+value = 10029+(Var(0)*30)
+
+[State 5120, 1a] ;Get up anim (normal)
+type = ChangeAnim
+triggerall = IsHelper = 0
+triggerall = time = 0
+trigger1 = anim != [5111,5119]
+trigger2 = !SelfAnimExist(5120 + (anim % 10))
+value = 5120
+
+[State 5120, 1b] ;Get up anim (for hit up/diag-up)
+type = ChangeAnim
+triggerall = IsHelper = 0
+triggerall = time = 0
+trigger1 = anim = [5111,5119]
+trigger1 = SelfAnimExist(5120 + (anim % 10))
+value = 5120 + (anim % 10)
+
+[State 5120, 2]
+type = VelSet
+trigger1 = Time = 0
+x = 0
+
+[State 5120, 3]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;Shiva Special GetUp 1/2
+[State 11019, VelSet]
+type = VelSet
+trigger1 = Time > 0
+trigger1 = Anim = 10389
+trigger1 = AnimElem = 2
+x = 2
+y = -2.2
+ignorehitpause = 1
+
+;Shiva Special GetUp 2/2
+[State 11051, VelAdd]
+type = VelAdd
+trigger1 = Anim = 10389
+trigger1 = Time > 20
+x = 0
+y = 0.44
+
+[State 5120, 4]
+type = HitFallSet
+trigger1 = AnimTime = 0
+value = 1
+
+;[State 5120, 5] ;Can't be thrown right after getting up
+;type = NotHitBy
+;trigger1 = AnimTime = 0
+;value = , NT,ST,HT
+;time = 15;12
+
+[State 5120, 6] ;Can't be hit right after getting up (short time)
+type = NotHitBy
+trigger1 = AnimTime = 0
+value = SCA
+time = 10;3
+
+[State 5120, 6] ;Can't be hit right after getting up (short time)
+type = NotHitBy
+trigger1 = AnimTime = 0
+value2 = SCA
+time = 10;3
+
+[State 5120, 7]
+type = SelfState
+trigger1 = IsHelper = 0
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+[State 5120, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(0) = [12,19]
+trigger1 = (Var(0) != 19) || (FVar(1) > 1000)
+trigger1 = AnimTime = 0
+trigger1 = NumEnemy = 1
+trigger1 = root, Var(55) != 5 && root, Var(55) != 6
+v = 53
+value = 60;30
+
+[State 5120, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(0) = [12,19]
+trigger1 = (Var(0) != 19) || (FVar(1) > 1000)
+trigger1 = AnimTime = 0
+trigger1 = NumEnemy > 1
+trigger1 = root, Var(55) != 5 && root, Var(55) != 6
+v = 53
+value = 60;60
+
+;Shorter invincible time if 2 bosses at once
+[State 5120, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(0) = [12,19]
+trigger1 = AnimTime = 0
+trigger1 = NumEnemy = 1
+trigger1 = root, Var(55) = 5 || root, Var(55) = 6
+v = 53
+value = 30;15
+
+[State 5120, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(0) = [12,19]
+trigger1 = AnimTime = 0
+trigger1 = NumEnemy > 1
+trigger1 = root, Var(55) = 5 || root, Var(55) = 6
+v = 53
+value = 30;30
+
+;Added
+;Jet KO (When fighting with Zamza)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 5
+trigger1 = Var(0) = 14
+trigger1 = FVar(1) <= 0
+value = 10181
+ctrl = 0
+
+;Particle/Molecule KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(55) = 6
+trigger1 = Var(0) = 18
+trigger1 = FVar(1) <= 0
+value = 10181
+ctrl = 0
+
+;Boss HP add
+;[State -1, VarAdd]
+;type = VarAdd
+;trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+;trigger1 = Var(0) = 19
+;trigger1 = FVar(1) < 1
+;fv = 1
+;value = 1
+;ignorehitpause = 1
+
+;Mr.X
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = 19
+trigger1 = FVar(1) <= 0
+value = 21178
+ctrl = 0
+
+;Boss KO (Except Mr.X)
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) = [12,18]
+trigger1 = FVar(1) <= 0
+value = 11003
+ctrl = 0
+
+;Normal Enemy KO
+[State 10030, ChangeState]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = Var(0) != [12,19]
+trigger1 = FVar(1) <= 0
+value = 10181
+ctrl = 0
+
+;Electra Feint
+[State 5120, 7]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = AnimTime = 0
+trigger1 = Var(0) = 8 ;Electra
+trigger1 = NumEnemy > 0
+trigger1 = P2Dist X = [-15,85]
+value = 21275
+ctrl = 0
+
+;Nora Feint
+[State 5120, 7]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = AnimTime = 0
+trigger1 = Var(0) = 36 ;Nora
+trigger1 = NumEnemy > 0
+trigger1 = P2Dist X = [-15,85]
+value = 21677
+ctrl = 0
+
+[State 5120, 7]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = AnimTime = 0
+trigger1 = Var(0) = 15 || Var(0) = 45 ;Zamza/Nail
+value = 21077
+ctrl = 0
+
+[State 5120, 7]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = AnimTime = 0
+trigger1 = Var(0) = 12 ;Shiva
+value = 21181
+ctrl = 0
+
+[State 5150, 8]
+type = NotHitBy
+trigger1 = IsHelper
+trigger1 = NumEnemy > 0
+trigger1 = (Enemynear, StateNo != [8055,8060]) || (Enemynear, Anim != 41)
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Anim = 10389
+trigger1 = AnimElem = 2
+trigger1 = Var(58) = [1,667]
+trigger1 = P2Dist X = [1,90]
+trigger1 = P2StateType != L
+value = SCA
+time = 12
+
+;Rising Air Kick
+[State 5120, 7]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = NumEnemy > 0
+trigger1 = (Enemynear, StateNo != [8055,8060]) || (Enemynear, Anim != 41)
+trigger1 = Var(0) = 12 ;Shiva
+trigger1 = Anim = 10389
+trigger1 = AnimElem = 2
+trigger1 = Var(58) = [1,667]
+trigger1 = P2Dist X = [1,90]
+trigger1 = P2StateType != L
+value = 21741
+ctrl = 0
+
+[State 5120, 7]
+type = ChangeState
+trigger1 = IsHelper
+trigger1 = AnimTime = 0
+value = 10000
+ctrl = 0
+
+[State 5120, 7]
+type = ChangeState
+trigger1 = IsHelper = 0
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Downed get-hit (lying defeated)
+[Statedef 5150]
+type    = L
+movetype= H
+physics = N
+sprpriority = -3
+ctrl = 0
+
+[State 5000, VarSet]
+type = VarSet
+trigger1 = Time > 0
+trigger1 = IsHelper
+trigger1 = FVar(1) <= 0
+fv = 25
+value = GetHitVar(xvel)
+
+;In normal hit state
+[State 11089, VarSet]
+type = VarSet
+trigger1 = IsHelper
+trigger1 = Var(34) != 40725
+v = 34
+value = 40725
+
+[State 5150, 1] ;Normal anim
+type = ChangeAnim
+triggerall = Time = 0
+triggerall = SelfAnimExist(5140)
+trigger1 = (anim != [5111,5119]) && (anim != [5171,5179])
+trigger2 = !SelfAnimExist(5140 + (anim % 10))
+value = 5140
+
+[State 5150, 3] ;Hit up type anim
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = (anim = [5111,5119]) || (anim = [5171,5179])
+trigger1 = SelfAnimExist(5140 + (anim % 10))
+value = 5140 + (anim % 10)
+
+[State 5150, 4] ;Match over anim
+type = ChangeAnim
+persistent = 0
+;trigger1 = Time = 0
+trigger1 = MatchOver = 1
+trigger1 = Anim = [5140,5149]
+trigger1 = SelfAnimExist(anim+10)
+value = anim+10
+
+[State 5150, 5] ;Switch to 5110 if liedead anim does not exist
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = Anim != [5140,5159]
+trigger1 = Anim != [5110,5119]
+value = 5110
+
+[State 5150, 6] ;Friction
+type = VelMul
+trigger1 = 1
+x = 0.85
+
+[State 5150, 7] ;Friction
+type = VelSet
+trigger1 = Vel x < .05
+persistent = 0
+x = 0
+
+[State 5150, 8]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
+; Air get-hit (fall recovery on ground; still falling)
+[Statedef 5200]
+type    = A
+movetype= H
+physics = N
+
+;In normal hit state
+;[State 11089, VarSet]
+;type = VarSet
+;trigger1 = IsHelper
+;trigger1 = Var(34) != 40725
+;v = 34
+;value = 40725
+
+[State 5200, 1] ;Change anim if done with transition
+type = ChangeAnim
+trigger1 = Anim = 5035
+trigger1 = AnimTime = 0
+value = 5050
+
+[State 5200, 2]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 5200, 3]
+type = SelfState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 10
+trigger2 = Time = 360;Safety
+value = 5201
+
+;---------------------------------------------------------------------------
+; Air get-hit (fall recovery on ground)
+[Statedef 5201]
+type    = A
+movetype= H
+physics = A
+anim = 5200
+
+;In normal hit state
+;[State 11089, VarSet]
+;type = VarSet
+;trigger1 = IsHelper
+;trigger1 = Var(34) != 40725
+;v = 34
+;value = 40725
+
+[State 5201, 1] ;Turn if not facing opponent
+type = Turn
+trigger1 = Time = 0
+trigger1 = p2dist X < -5
+
+[State 5201, 2]
+type = VelSet
+trigger1 = Time = 0
+x = -.15
+y = -3.5
+
+[State 5201, 3]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 5201, 4]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 5201, 5] ;Blink white
+type = PalFX
+trigger1 = Time = 0
+time = 3
+add = 128,128,128 ;256,256,256
+
+[State 5201, 6]
+type = Explod
+trigger1 = Time = 0
+anim = F60
+pos = 0, -floor(vel y)
+sprpriority = -10
+
+;---------------------------------------------------------------------------
+; Air get-hit (fall recovery in air)
+[Statedef 5210]
+type    = A
+movetype= I
+physics = N
+anim = 5210
+ctrl = 0
+
+;In normal hit state
+;[State 11089, VarSet]
+;type = VarSet
+;trigger1 = IsHelper
+;trigger1 = Var(34) != 40725
+;v = 34
+;value = 40725
+
+[State 5210, 1] ;Blink white
+type = PalFX
+trigger1 = Time = 0
+time = 3
+add = 128,128,128
+
+[State 5210, 1]
+type = PosFreeze
+trigger1 = Time < 4
+
+[State 5210, 2] ;Turn if not facing opponent
+type = Turn
+trigger1 = Time = 0
+trigger1 = p2dist X < -20
+
+[State 5210, 1] 
+type = VelMul
+trigger1 = Time = 4
+x = .8
+y = .8
+
+[State 5210, 1]
+type = VelAdd
+trigger1 = Time = 4
+y = -4.5
+
+[State 5210, 1] 
+type = VelMul
+trigger1 = Time = 4
+trigger1 = Vel Y > 0
+y = .5
+
+[State 5210, 1]
+type = VelAdd
+trigger1 = Time = 4
+trigger1 = Vel Y > -3
+y = -2
+
+[State 5210, 1]
+type = VelAdd
+trigger1 = Time = 4
+trigger1 = Vel Y > -2
+y = -1
+
+[State 5210, 2002.04.14 behavior 1]
+type = null;VelMul
+trigger1 = Time = 4
+x = .8
+y = .8
+
+[State 5210, 2002.04.14 behavior 2]
+type = null;VelAdd
+trigger1 = Time = 4
+x = 0 
+y = -4.5
+
+[State 5210, 2002.04.14 behavior 3]
+type = null;VelMul
+trigger1 = Time = 4
+trigger1 = Vel Y > 0
+y = .5
+
+[State 5210, 2002.04.14 behavior 4]
+type = null;VelAdd
+trigger1 = Time = 4
+trigger1 = Vel Y > -3
+y = -2
+
+[State 5210, 2002.04.14 behavior 5]
+type = null;VelAdd
+trigger1 = Time = 4
+trigger1 = Vel Y > -2
+y = -1
+
+[State 5210, 2] ;Go up
+type = VelAdd
+trigger1 = Time = 4
+trigger1 = Command = "holdup"
+y = -2
+
+[State 5210, 2] ;Go down
+type = VelAdd
+trigger1 = Time = 4
+trigger1 = Command = "holddown"
+y = 1.5
+
+[State 5210, 2] ;Go fwd
+type = VelAdd
+trigger1 = Time = 4
+trigger1 = Command = "holdfwd"
+x = 1
+
+[State 5210, 2] ;Go back
+type = VelAdd
+trigger1 = Time = 4
+trigger1 = Command = "holdback"
+x = -1
+
+[State 5210, 3]
+type = NotHitBy
+trigger1 = Time = 0
+value = SCA
+time = 15
+
+[State 5210, 4]
+type = CtrlSet
+trigger1 = Time = 20
+value = 1
+
+[State 5210, 5]
+type = VelAdd
+trigger1 = Time >= 4
+y = .35
+
+[State 5210, 5] ;Land on ground
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 52 ;Jump land
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Continue screen animation
+[Statedef 5500]
+type = S
+ctrl = 0
+anim = 5300
+velset = 0,0
+
+[State 5500, 1] ;Use continue animation if available
+type = ChangeAnim
+trigger1 = time = 0
+trigger1 = SelfAnimExist(5500)
+value = 5500
+
+;---------------------------------------------------------------------------
+; Initialize (at the start of the round)
+[Statedef 5900]
+type = S
+
+[State 5900, 1] ;Clear all int variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+value = 0
+
+[State 5900, 2] ;Clear all float variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+fvalue = 0
+
+[State 5900, 4] ;Intro for round 1
+type = ChangeState
+trigger1 = roundno = 1
+value = 190
+
+[State 5900, 5] ;All other rounds
+type = ChangeState
+trigger1 = 1
+value = 0

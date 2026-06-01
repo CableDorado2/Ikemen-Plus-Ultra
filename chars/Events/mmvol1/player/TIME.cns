@@ -1,0 +1,2172 @@
+;----------------------------------------------------------------------------
+[Statedef 15000]
+type = A
+movetype = I
+physics = N
+anim = 9999
+ctrl = 0
+velset = 0,0
+
+[state a]
+type = pause
+trigger1 = time > 2
+time = 2
+movetime = 2
+
+[State 3000,00]
+type = AllPalfx
+trigger1 = time < 40
+add = -ceil(time/3)*64,-ceil(time/3)*64,-ceil(time/3)*64
+time = 1
+
+[State 3000,00]
+type = AllPalfx
+trigger1 = time >= 40
+add = ceil((time-40)/3)*64-256,ceil((time-40)/3)*64-256,ceil((time-40)/3)*64-256
+time = 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = time = 20
+trigger1 = numexplod(15000) = 0
+anim = 15000
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 200
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15000
+scale  = 1, 1
+
+[State 240, 1]
+type = PlaySnd
+trigger1 = time = 0
+value = 6000, 0
+lowpriority=0
+loop=0
+persistent= 1
+ignorehitpause=1
+
+[State 15000, E缶の数]
+type = varset
+trigger1 = 1
+v = 25
+value = root,var(25)
+
+[State 15000, ライフ値]
+type = varset
+trigger1 = Numhelper(8000)
+trigger1 = 1
+v = 31
+value = helper(8000),var(1)
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 0
+v = 30
+value = 0
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(11) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 10
+v = 30
+value = 1
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(12) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 20
+v = 30
+value = 2
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(13) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 30
+v = 30
+value = 3
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(14) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 40
+v = 30
+value = 4
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(16) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 50
+v = 30
+value = 5
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(17) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 60
+v = 30
+value = 6
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(18) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 70
+v = 30
+value = 7
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(19) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 80
+v = 30
+value = 8
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 90
+v = 30
+value = 9
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 100
+v = 30
+value = 10
+
+[State 1300, 3]
+type = changestate
+trigger1 = time = 52
+value = 15001
+
+;----------------------------------------------------------------------------
+[Statedef 15001]
+type = A
+movetype = I
+physics = N
+anim = 9999
+ctrl = 0
+velset = 0,0
+
+[state a]
+type = pause
+trigger1 = 1
+time = 2
+movetime = 2
+
+[State 240, 1]
+type = PlaySnd
+trigger1 = command = "up"
+trigger1 = var(30) != 0
+trigger2 = command = "down"
+trigger2 = var(30) != 11
+trigger3 = command = "fwd"
+trigger3 = var(30) != 0
+trigger3 = var(30) != 6
+trigger3 = var(30) != 7
+trigger3 = var(30) != 8
+trigger3 = var(30) != 9
+trigger3 = var(30) != 10
+trigger3 = var(30) != 11
+trigger4 = command = "back"
+trigger4 = var(30) != 0
+trigger4 = var(30) != 1
+trigger4 = var(30) != 2
+trigger4 = var(30) != 3
+trigger4 = var(30) != 4
+trigger4 = var(30) != 5
+trigger4 = var(30) != 11
+trigger4 = root,var(11) != 0 || root,var(12) != 0 || root,var(13) != 0 || root,var(14) != 0 || root,var(16) != 0
+value = 6000, 1
+lowpriority=0
+loop=0
+persistent= 1
+ignorehitpause=1
+
+;-------カーソル位置変数----------------------
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 0
+trigger2 = var(30) = 1
+trigger2 = command = "up"
+trigger3 = var(30) = 2
+trigger3 = command = "up"
+trigger3 = root,var(11) = 0
+trigger4 = var(30) = 3
+trigger4 = command = "up"
+trigger4 = root,var(11) = 0
+trigger4 = root,var(12) = 0
+trigger5 = var(30) = 4
+trigger5 = command = "up"
+trigger5 = root,var(11) = 0
+trigger5 = root,var(12) = 0
+trigger5 = root,var(13) = 0
+trigger6 = var(30) = 5
+trigger6 = command = "up"
+trigger6 = root,var(11) = 0
+trigger6 = root,var(12) = 0
+trigger6 = root,var(13) = 0
+trigger6 = root,var(14) = 0
+trigger7 = var(30) = 6
+trigger7 = command = "up"
+trigger7 = root,var(17) = 1
+trigger8 = var(30) = 7
+trigger8 = command = "up"
+trigger8 = root,var(17) = 0
+trigger9 = var(30) = 8
+trigger9 = command = "up"
+trigger9 = root,var(17) = 0
+trigger9 = root,var(18) = 0
+trigger10 = var(30) = 9
+trigger10 = command = "up"
+trigger10 = root,var(17) = 0
+trigger10 = root,var(18) = 0
+trigger10 = root,var(19) = 0
+v = 30
+value = 0
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = PrevStateNo = 15010
+trigger2 = var(30) = 1
+trigger2 = command = "down"
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger2 = root,var(14) = 0
+trigger2 = root,var(16) = 0
+trigger3 = var(30) = 2
+trigger3 = command = "down"
+trigger3 = root,var(13) = 0
+trigger3 = root,var(14) = 0
+trigger3 = root,var(16) = 0
+trigger4 = var(30) = 3
+trigger4 = command = "down"
+trigger4 = root,var(14) = 0
+trigger4 = root,var(16) = 0
+trigger5 = var(30) = 4
+trigger5 = command = "down"
+trigger5 = root,var(16) = 0
+trigger6 = var(30) = 5
+trigger6 = command = "down"
+trigger7 = var(30) = 10
+trigger7 = command = "down"
+v = 30
+value = 11
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(16) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 50
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger2 = root,var(14) = 0
+trigger3 = var(30) = 1
+trigger3 = command = "down"
+trigger3 = root,var(12) = 0
+trigger3 = root,var(13) = 0
+trigger3 = root,var(14) = 0
+trigger4 = var(30) = 2
+trigger4 = command = "down"
+trigger4 = root,var(13) = 0
+trigger4 = root,var(14) = 0
+trigger5 = var(30) = 3
+trigger5 = command = "down"
+trigger5 = root,var(14) = 0
+trigger6 = var(30) = 4
+trigger6 = command = "down"
+trigger7 = var(30) = 6
+trigger7 = command = "back"
+trigger7 = root,var(11) = 0
+trigger7 = root,var(12) = 0
+trigger7 = root,var(13) = 0
+trigger7 = root,var(14) = 0
+trigger8 = var(30) = 7
+trigger8 = command = "back"
+trigger8 = root,var(12) = 0
+trigger8 = root,var(13) = 0
+trigger8 = root,var(14) = 0
+trigger9 = var(30) = 8
+trigger9 = command = "back"
+trigger9 = root,var(13) = 0
+trigger9 = root,var(14) = 0
+trigger10 = var(30) = 9
+trigger10 = command = "back"
+trigger10 = root,var(14) = 0
+trigger11 = var(30) = 10
+trigger11 = command = "back"
+v = 30
+value = 5
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(14) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 40
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger3 = var(30) = 1
+trigger3 = command = "down"
+trigger3 = root,var(12) = 0
+trigger3 = root,var(13) = 0
+trigger4 = var(30) = 2
+trigger4 = command = "down"
+trigger4 = root,var(13) = 0
+trigger5 = var(30) = 3
+trigger5 = command = "down"
+trigger6 = var(30) = 6
+trigger6 = command = "back"
+trigger6 = root,var(11) = 0
+trigger6 = root,var(12) = 0
+trigger6 = root,var(13) = 0
+trigger7 = var(30) = 7
+trigger7 = command = "back"
+trigger7 = root,var(12) = 0
+trigger7 = root,var(13) = 0
+trigger8 = var(30) = 8
+trigger8 = command = "back"
+trigger8 = root,var(13) = 0
+trigger9 = var(30) = 9
+trigger9 = command = "back"
+trigger10 = var(30) = 10
+trigger10 = command = "back"
+trigger10 = root,var(16) = 0
+v = 30
+value = 4
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(13) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 30
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger3 = var(30) = 1
+trigger3 = command = "down"
+trigger3 = root,var(12) = 0
+trigger4 = var(30) = 2
+trigger4 = command = "down"
+trigger5 = var(30) = 6
+trigger5 = command = "back"
+trigger5 = root,var(11) = 0
+trigger5 = root,var(12) = 0
+trigger6 = var(30) = 7
+trigger6 = command = "back"
+trigger6 = root,var(12) = 0
+trigger7 = var(30) = 8
+trigger7 = command = "back"
+trigger8 = var(30) = 9
+trigger8 = command = "back"
+trigger8 = root,var(14) = 0
+trigger9 = var(30) = 10
+trigger9 = command = "back"
+trigger9 = root,var(14) = 0
+trigger9 = root,var(16) = 0
+v = 30
+value = 3
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(12) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 20
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger3 = var(30) = 1
+trigger3 = command = "down"
+trigger4 = var(30) = 6
+trigger4 = command = "back"
+trigger4 = root,var(11) = 0
+trigger5 = var(30) = 7
+trigger5 = command = "back"
+trigger6 = var(30) = 8
+trigger6 = command = "back"
+trigger6 = root,var(13) = 0
+trigger7 = var(30) = 9
+trigger7 = command = "back"
+trigger7 = root,var(13) = 0
+trigger7 = root,var(14) = 0
+trigger8 = var(30) = 10
+trigger8 = command = "back"
+trigger8 = root,var(13) = 0
+trigger8 = root,var(14) = 0
+trigger8 = root,var(16) = 0
+v = 30
+value = 2
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 100
+trigger2 = var(30) = 9
+trigger2 = command = "down"
+trigger3 = var(30) = 5
+trigger3 = command = "fwd"
+v = 30
+value = 10
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 90
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger2 = root,var(14) = 0
+trigger2 = root,var(16) = 0
+trigger2 = root,var(17) = 0
+trigger2 = root,var(18) = 0
+trigger2 = root,var(19) = 0
+trigger3 = var(30) = 6
+trigger3 = command = "down"
+trigger3 = root,var(18) = 0
+trigger3 = root,var(19) = 0
+trigger4 = var(30) = 7
+trigger4 = command = "down"
+trigger4 = root,var(19) = 0
+trigger5 = var(30) = 8
+trigger5 = command = "down"
+trigger6 = var(30) = 1
+trigger6 = command = "fwd"
+trigger6 = root,var(17) = 0
+trigger6 = root,var(18) = 0
+trigger6 = root,var(19) = 0
+trigger7 = var(30) = 2
+trigger7 = command = "fwd"
+trigger7 = root,var(18) = 0
+trigger7 = root,var(19) = 0
+trigger8 = var(30) = 3
+trigger8 = command = "fwd"
+trigger8 = root,var(19) = 0
+trigger9 = var(30) = 4
+trigger9 = command = "fwd"
+v = 30
+value = 9
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(19) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 80
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger2 = root,var(14) = 0
+trigger2 = root,var(16) = 0
+trigger2 = root,var(17) = 0
+trigger2 = root,var(18) = 0
+trigger3 = var(30) = 6
+trigger3 = command = "down"
+trigger3 = root,var(18) = 0
+trigger4 = var(30) = 7
+trigger4 = command = "down"
+trigger5 = var(30) = 1
+trigger5 = command = "fwd"
+trigger5 = root,var(17) = 0
+trigger5 = root,var(18) = 0
+trigger6 = var(30) = 2
+trigger6 = command = "fwd"
+trigger6 = root,var(18) = 0
+trigger7 = var(30) = 3
+trigger7 = command = "fwd"
+v = 30
+value = 8
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(18) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 70
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger2 = root,var(14) = 0
+trigger2 = root,var(16) = 0
+trigger2 = root,var(17) = 0
+trigger3 = var(30) = 6
+trigger3 = command = "down"
+trigger4 = var(30) = 1
+trigger4 = command = "fwd"
+trigger4 = root,var(17) = 0
+trigger5 = var(30) = 2
+trigger5 = command = "fwd"
+trigger6 = var(30) = 3
+trigger6 = command = "fwd"
+trigger6 = root,var(18) = 0
+v = 30
+value = 7
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(11) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 10
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger3 = var(30) = 2
+trigger3 = command = "up"
+trigger4 = var(30) = 3
+trigger4 = command = "up"
+trigger4 = root,var(12) = 0
+trigger5 = var(30) = 4
+trigger5 = command = "up"
+trigger5 = root,var(12) = 0
+trigger5 = root,var(13) = 0
+trigger6 = var(30) = 5
+trigger6 = command = "up"
+trigger6 = root,var(12) = 0
+trigger6 = root,var(13) = 0
+trigger6 = root,var(14) = 0
+trigger7 = var(30) = 11
+trigger7 = command = "up"
+trigger7 = root,var(12) = 0
+trigger7 = root,var(13) = 0
+trigger7 = root,var(14) = 0
+trigger7 = root,var(16) = 0
+trigger8 = var(30) = 6
+trigger8 = command = "back"
+trigger9 = var(30) = 7
+trigger9 = command = "back"
+trigger9 = root,var(11) = 0
+trigger10 = var(30) = 8
+trigger10 = command = "back"
+trigger10 = root,var(11) = 0
+trigger10 = root,var(12) = 0
+trigger11 = var(30) = 9
+trigger11 = command = "back"
+trigger11 = root,var(11) = 0
+trigger11 = root,var(12) = 0
+trigger11 = root,var(13) = 0
+trigger12 = var(30) = 10
+trigger12 = command = "back"
+trigger12 = root,var(11) = 0
+trigger12 = root,var(12) = 0
+trigger12 = root,var(13) = 0
+trigger12 = root,var(14) = 0
+v = 30
+value = 1
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(17) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 60
+trigger2 = var(30) = 0
+trigger2 = command = "down"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger2 = root,var(14) = 0
+trigger2 = root,var(16) = 0
+trigger3 = var(30) = 7
+trigger3 = command = "up"
+trigger4 = var(30) = 8
+trigger4 = command = "up"
+trigger4 = root,var(18) = 0
+trigger5 = var(30) = 9
+trigger5 = command = "up"
+trigger5 = root,var(18) = 0
+trigger5 = root,var(19) = 0
+trigger6 = var(30) = 1
+trigger6 = command = "fwd"
+trigger7 = var(30) = 2
+trigger7 = command = "fwd"
+trigger7 = root,var(17) = 0
+trigger8 = var(30) = 3
+trigger8 = command = "fwd"
+trigger8 = root,var(17) = 0
+trigger8 = root,var(18) = 0
+v = 30
+value = 6
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(12) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 20
+trigger2 = var(30) = 3
+trigger2 = command = "up"
+trigger3 = var(30) = 4
+trigger3 = command = "up"
+trigger3 = root,var(13) = 0
+trigger4 = var(30) = 5
+trigger4 = command = "up"
+trigger4 = root,var(13) = 0
+trigger4 = root,var(14) = 0
+trigger5 = var(30) = 11
+trigger5 = command = "up"
+trigger5 = root,var(13) = 0
+trigger5 = root,var(14) = 0
+trigger5 = root,var(16) = 0
+v = 30
+value = 2
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(13) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 30
+trigger2 = var(30) = 4
+trigger2 = command = "up"
+trigger3 = var(30) = 5
+trigger3 = command = "up"
+trigger3 = root,var(14) = 0
+trigger4 = var(30) = 11
+trigger4 = command = "up"
+trigger4 = root,var(14) = 0
+trigger4 = root,var(16) = 0
+v = 30
+value = 3
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(14) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 40
+trigger2 = var(30) = 5
+trigger2 = command = "up"
+trigger3 = var(30) = 11
+trigger3 = command = "up"
+trigger3 = root,var(16) = 0
+v = 30
+value = 4
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(16) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 50
+trigger2 = var(30) = 11
+trigger2 = command = "up"
+v = 30
+value = 5
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(18) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 70
+trigger2 = var(30) = 8
+trigger2 = command = "up"
+trigger3 = var(30) = 9
+trigger3 = command = "up"
+trigger3 = root,var(19) = 0
+v = 30
+value = 7
+
+[State VarA,1]
+Type=Varset
+triggerall = root,var(19) = 1
+trigger1 = time = 0
+trigger1 = root,var(3) = 80
+trigger2 = var(30) = 9
+trigger2 = command = "up"
+v = 30
+value = 8
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 90
+trigger2 = var(30) = 10
+trigger2 = command = "up"
+v = 30
+value = 9
+
+[State VarA,1]
+Type=Varset
+trigger1 = time = 0
+trigger1 = root,var(3) = 100
+trigger2 = var(30) = 11
+trigger2 = command = "up"
+trigger2 = root,var(11) = 0
+trigger2 = root,var(12) = 0
+trigger2 = root,var(13) = 0
+trigger2 = root,var(14) = 0
+trigger2 = root,var(16) = 0
+v = 30
+value = 10
+
+
+;---------------------------------------
+;ロックマン（ロックバスター）カーソル変化
+
+[State 15000, ライフ値]
+type = varset
+trigger1 = Numhelper(8000)
+trigger1 = 1
+v = 31
+value = helper(8000),var(1)
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(15100) <= 1
+trigger1 = var(30) = 0
+anim = 15100+var(31)
+pos = 143, 32
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = 1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(15001) = 0
+trigger1 = var(30) = 0
+anim = 15001
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15001
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16100) <= 1
+trigger1 = var(30) != 0
+anim = 16100+var(31)
+pos = 143, 32
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = 1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16001) = 0
+anim = 16001
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16001
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 0
+ID = 15100
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 0
+ID = 15001
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 0
+ID = 16100
+Persistent= 1
+
+;---------------------------------------
+;ザギマン武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(11) = 1
+trigger1 = numexplod(15200) = 0
+trigger1 = var(30) = 1
+anim = 15100+root,var(21)
+pos = 85, 75
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15200
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(11) = 1
+trigger1 = numexplod(15002) = 0
+trigger1 = var(30) = 1
+anim = 15002
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15002
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(11) = 1
+trigger1 = numexplod(16200) = 0
+trigger1 = var(30) != 1
+anim = 16100+root,var(21)
+pos = 85, 75
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16200
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(11) = 1
+trigger1 = numexplod(16002) = 0
+anim = 16002
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16002
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 1
+ID = 15200
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 1
+ID = 15002
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 1
+ID = 16200
+Persistent= 1
+
+;---------------------------------------
+;スパイダーマ武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(12) = 1
+trigger1 = numexplod(15300) = 0
+trigger1 = var(30) = 2
+anim = 15100+root,var(22)
+pos = 85, 97
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15300
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(12) = 1
+trigger1 = numexplod(15003) = 0
+trigger1 = var(30) = 2
+anim = 15003
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15003
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(12) = 1
+trigger1 = numexplod(16300) = 0
+trigger1 = var(30) != 2
+anim = 16100+root,var(22)
+pos = 85, 97
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16300
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(12) = 1
+trigger1 = numexplod(16003) = 0
+anim = 16003
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16003
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 2
+ID = 15300
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 2
+ID = 15003
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 2
+ID = 16300
+Persistent= 1
+
+;---------------------------------------
+;すごいマン武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(13) = 1
+trigger1 = numexplod(15400) = 0
+trigger1 = var(30) = 3
+anim = 15100+root,var(23)
+pos = 85, 119
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15400
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(13) = 1
+trigger1 = numexplod(15004) = 0
+trigger1 = var(30) = 3
+anim = 15004
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15004
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(13) = 1
+trigger1 = numexplod(16400) = 0
+trigger1 = var(30) != 3
+anim = 16100+root,var(23)
+pos = 85, 119
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16400
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(13) = 1
+trigger1 = numexplod(16004) = 0
+anim = 16004
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16004
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 3
+ID = 15400
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 3
+ID = 15004
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 3
+ID = 16400
+Persistent= 1
+
+;---------------------------------------
+;キワミマン武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(14) = 1
+trigger1 = numexplod(15500) = 0
+trigger1 = var(30) = 4
+anim = 15100+root,var(24)
+pos = 85, 141
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15500
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(14) = 1
+trigger1 = numexplod(15005) = 0
+trigger1 = var(30) = 4
+anim = 15005
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15005
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(14) = 1
+trigger1 = numexplod(16500) = 0
+trigger1 = var(30) != 4
+anim = 16100+root,var(24)
+pos = 85, 141
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16500
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(14) = 1
+trigger1 = numexplod(16005) = 0
+anim = 16005
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16005
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 4
+ID = 15500
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 4
+ID = 15005
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 4
+ID = 16500
+Persistent= 1
+
+;---------------------------------------
+;ゼットマン武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(16) = 1
+trigger1 = numexplod(15600) = 0
+trigger1 = var(30) = 5
+anim = 15100+root,var(26)
+pos = 85, 163
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15600
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(16) = 1
+trigger1 = numexplod(15006) = 0
+trigger1 = var(30) = 5
+anim = 15006
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15006
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(16) = 1
+trigger1 = numexplod(16600) = 0
+trigger1 = var(30) != 5
+anim = 16100+root,var(26)
+pos = 85, 163
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16600
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(16) = 1
+trigger1 = numexplod(16006) = 0
+anim = 16006
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16006
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 5
+ID = 15600
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 5
+ID = 15006
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 5
+ID = 16600
+Persistent= 1
+
+;---------------------------------------
+;ボンバーマン武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(17) = 1
+trigger1 = numexplod(15700) = 0
+trigger1 = var(30) = 6
+anim = 15100+root,var(27)
+pos = 189, 75
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15700
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(17) = 1
+trigger1 = numexplod(15007) = 0
+trigger1 = var(30) = 6
+anim = 15007
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15007
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(17) = 1
+trigger1 = numexplod(16700) = 0
+trigger1 = var(30) != 6
+anim = 16100+root,var(27)
+pos = 189, 75
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16700
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(17) = 1
+trigger1 = numexplod(16007) = 0
+anim = 16007
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16007
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 6
+ID = 15700
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 6
+ID = 15007
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 6
+ID = 16700
+Persistent= 1
+
+;---------------------------------------
+;ハワードマン武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(18) = 1
+trigger1 = numexplod(15800) = 0
+trigger1 = var(30) = 7
+anim = 15100+root,var(28)
+pos = 189, 97
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15800
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(18) = 1
+trigger1 = numexplod(15008) = 0
+trigger1 = var(30) = 7
+anim = 15008
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15008
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(18) = 1
+trigger1 = numexplod(16800) = 0
+trigger1 = var(30) != 7
+anim = 16100+root,var(28)
+pos = 189, 97
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16800
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(18) = 1
+trigger1 = numexplod(16008) = 0
+anim = 16008
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16008
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 7
+ID = 15800
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 7
+ID = 15008
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 7
+ID = 16800
+Persistent= 1
+
+;---------------------------------------
+;カンフーマン武器カーソル変化
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(19) = 1
+trigger1 = numexplod(15900) = 0
+trigger1 = var(30) = 8
+anim = 15100+root,var(29)
+pos = 189, 119
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15900
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(19) = 1
+trigger1 = numexplod(15009) = 0
+trigger1 = var(30) = 8
+anim = 15009
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15009
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(19) = 1
+trigger1 = numexplod(16900) = 0
+trigger1 = var(30) != 8
+anim = 16100+root,var(29)
+pos = 189, 119
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16900
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+triggerall = root,var(19) = 1
+trigger1 = numexplod(16009) = 0
+anim = 16009
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16009
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 8
+ID = 15900
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 8
+ID = 15009
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 8
+ID = 16900
+Persistent= 1
+
+;---------------------------------------
+;ラッシュコイルカーソル変化
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(17100) = 0
+trigger1 = var(30) = 9
+anim = 15100+root,var(30)
+pos = 189, 141
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 17100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(15010) = 0
+trigger1 = var(30) = 9
+anim = 15010
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15010
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(17200) = 0
+trigger1 = var(30) != 9
+anim = 16100+root,var(30)
+pos = 189, 141
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 17200
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16010) = 0
+anim = 16010
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16010
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 9
+ID = 17100
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 9
+ID = 15010
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 9
+ID = 17200
+Persistent= 1
+
+;---------------------------------------
+;ラッシュジェットカーソル変化
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(17300) = 0
+trigger1 = var(30) = 10
+anim = 15100+root,var(31)
+pos = 189, 163
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 17300
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(15011) = 0
+trigger1 = var(30) = 10
+anim = 15011
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15011
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(17400) = 0
+trigger1 = var(30) != 10
+anim = 16100+root,var(31)
+pos = 189, 163
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 17400
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16011) = 0
+anim = 16011
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 205
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16011
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 10
+ID = 17300
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 10
+ID = 15011
+Persistent= 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) = 10
+ID = 17400
+Persistent= 1
+
+;---------------------------------------
+;E缶カーソル変化
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16050+var(25)) <= 1
+anim = 16050+var(25)
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = 2
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16050+var(25)
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(15050) = 0
+trigger1 = var(30) = 11
+anim = 15050
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15050
+scale  = 1, 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = var(30) != 11
+ID = 15050
+Persistent= 1
+
+;---------------------------------------
+;残機
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16060) = 0
+anim = 16050+root,var(20)
+pos = 112, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16060
+scale  = 1, 1
+
+;---------------------------------------
+
+[State 240, 1]
+type = PlaySnd
+triggerall = command = "start"
+trigger1 = var(30) != 11
+value = 6000, 2
+
+[State 1300, 3]
+type = changestate
+trigger1 = var(30) = 11
+trigger1 = root,var(25) != 0
+trigger1 = numhelper(8000)
+trigger1 = helper(8000),var(1) < 28
+trigger1 = command = "start"
+value = 15010
+
+[State 1300, 3]
+type = changestate
+trigger1 = var(30) != 11
+trigger1 = command = "start"
+value = 15002
+
+[Statedef 15002]
+type = A
+movetype = I
+physics = N
+anim = 9999
+ctrl = 0
+velset = 0,0
+
+[state a]
+type = pause
+trigger1 = time < 30
+trigger2 = time >= 31
+time = 2
+movetime = 2
+
+[State 15000, ライフ値]
+type = varset
+trigger1 = Numhelper(8000)
+trigger1 = 1
+v = 31
+value = helper(8000),var(1)
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(15100) <= 1
+trigger1 = var(30) = 0
+trigger1 = time < 20
+anim = 15100+var(31)
+pos = 143, 32
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16100) <= 1
+trigger1 = var(30) != 0
+trigger1 = time < 20
+anim = 16100+var(31)
+pos = 143, 32
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16050+var(25)) <= 1
+trigger1 = time < 20
+anim = 16050+var(25)
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = 2
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16050+var(25)
+scale  = 1, 1
+
+[State 3000,00]
+type = AllPalfx
+trigger1 = time < 40
+add = -ceil(time/3)*64,-ceil(time/3)*64,-ceil(time/3)*64
+time = 1
+
+[State 6500, 1]
+type = removeexplod
+trigger1 = time = 20
+Persistent= 1
+
+[State 3000,00]
+type = AllPalfx
+trigger1 = time >= 40
+add = ceil((time-40)/3)*64-256,ceil((time-40)/3)*64-256,ceil((time-40)/3)*64-256
+time = 1
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = time = 52
+
+[Statedef 15010]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+velset = 0,0
+
+[state a]
+type = pause
+trigger1 = 1
+time = 2
+movetime = 2
+
+[State 15000, ライフ値]
+type = varset
+trigger1 = Numhelper(8000)
+trigger1 = 1
+v = 31
+value = helper(8000),var(1)
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(15100) <= 1
+trigger1 = var(30) = 0
+anim = 15100+var(31)
+pos = 143, 32
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = 1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 15100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16100) <= 1
+trigger1 = var(30) != 0
+anim = 16100+var(31)
+pos = 143, 32
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = 1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = numexplod(16050+var(25)) <= 1
+anim = 16050+var(25)
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 210
+ownpal = 1
+bindtime = -1
+removetime = 1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 16050+var(25)
+scale  = 1, 1
+
+[State 240, 1]
+type = StopSnd
+triggerall = numhelper(8000)
+trigger1 = helper(8000),var(1) = 28
+channel = 15
+persistent = 1
+ignorehitpause = 1
+
+[State 240, 1]
+type = PlaySnd
+trigger1 = time = 0
+value = 9100, 2
+channel = 15
+lowpriority=0
+loop=1
+ignorehitpause=1
+
+[State 15000, E缶の数減少]
+type = varadd
+triggerall = numhelper(8000)
+trigger1 = helper(8000),var(1) = 28
+v = 25
+value = -1
+Persistent= 0
+
+[State 1300, 3]
+type = changestate
+triggerall = numhelper(8000)
+trigger1 = helper(8000),var(1) = 28
+value = 15001

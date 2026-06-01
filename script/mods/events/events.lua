@@ -9,15 +9,15 @@ local eventSpr = sffNew("script/mods/events/events.sff") --Load Events Sprites
 --; EVENTS MENU SCREENPACK DEFINITION
 --;===========================================================
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
-table.insert(t_extrasMenu, #t_extrasMenu-1, {
-id = textImgNew(),
-text = "EVENTS",
-info = [[
-Battle under special conditions
-at certain schedules!
-]],
-gotomenu = "f_eventMenu()"
-})
+--table.insert(t_extrasMenu, #t_extrasMenu-1, {
+--id = textImgNew(),
+--text = "EVENTS",
+--info = [[
+--Battle under special conditions
+--at certain schedules!
+--]],
+--gotomenu = "f_eventMenu()"
+--})
 
 local txt_localTime = createTextImg(font15, 0, 1, "", 1, 8)
 local txt_internetTime = createTextImg(font15, 0, 1, "", 1, 20)

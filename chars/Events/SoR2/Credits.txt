@@ -1,0 +1,2 @@
+K-Fox - Lastest Version Of The Streets Of Rage 2 Bonus Game (For Mugen 1.0)
+Elecbyte - common1.cns From Both Winmugen And Mugen 1.0 (Used As Reference To Create This Conversion)

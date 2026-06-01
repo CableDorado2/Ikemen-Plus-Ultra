@@ -1,0 +1,3104 @@
+;Putting other enemy generate states here and some other states.
+
+;---------------------------------------------------------------------------
+;Ant/Sou Stats
+[Statedef 21569]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+trigger1 = IsHelper(200)
+x = -300
+y = 0
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+trigger1 = IsHelper(202) || IsHelper(201)
+x = 300
+y = 0
+
+;Antonio
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(200)
+v = 0
+value = 31
+
+;Souther
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(202) || IsHelper(201)
+v = 0
+value = 32
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy = 1
+trigger1 = Var(0) = 31 ;Antonio
+trigger1 = Var(1) := 12 ;Intelligence
+trigger1 = FVar(0) := 800 ;Max HP 1400
+trigger1 = FVar(2) := 1.7 ;Walk Speed
+;----------
+trigger2 = Var(0) = 32 ;Souther
+trigger2 = Var(1) := 6 ;Intelligence
+trigger2 = FVar(0) := 1000 ;Max HP 1800
+trigger2 = FVar(2) := 2.5 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+trigger1 = Var(0) = 31 ;Antonio
+trigger1 = Var(1) := 24 ;Intelligence
+trigger1 = FVar(0) := 1000 ;Max HP 1750
+trigger1 = FVar(2) := 1.7 ;Walk Speed
+;----------
+trigger2 = Var(0) = 32 ;Souther
+trigger2 = Var(1) := 12 ;Intelligence
+trigger2 = FVar(0) := 1250 ;Max HP 2250
+trigger2 = FVar(2) := 2.5 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (((Enemy(0), Alive = 1) && (Enemy(1), Alive = 0)) || ((Enemy(0), Alive = 0) && (Enemy(1), Alive = 1)))
+trigger1 = Var(0) = 31 ;Antonio
+trigger1 = Var(1) := 12 ;Intelligence
+trigger1 = FVar(0) := 800 ;Max HP 1400
+trigger1 = FVar(2) := 1.7 ;Walk Speed
+;----------
+trigger2 = Var(0) = 32 ;Souther
+trigger2 = Var(1) := 6 ;Intelligence
+trigger2 = FVar(0) := 1000 ;Max HP 1800
+trigger2 = FVar(2) := 2.5 ;Walk Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root,Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 1200 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*3)+1200
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Start with max block charges
+[State 9502, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 20
+trigger1 = (root,Var(42)) > 0
+fv = 34
+value = root,Var(42);Floor((random+random+random+1)%(root,Var(42)))
+ignorehitpause = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21365
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Bon/War Stats
+[Statedef 21831]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 10000, VarSet]
+type = VarSet
+trigger1 = Var(4) != 0
+v = 4
+value = 0
+ignorehitpause = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+trigger1 = IsHelper(200)
+x = -300
+y = 0
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+trigger1 = IsHelper(202) || IsHelper(201)
+x = 300
+y = 0
+
+;Bongo
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(200)
+v = 0
+value = 41
+
+;Warrior
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(202) || IsHelper(201)
+v = 0
+value = 42
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy = 1
+trigger1 = Var(0) = 41 ;Bongo
+trigger1 = Var(1) := 20 ;Attack Rate
+trigger1 = FVar(0) := 1200 ;Max HP 1800
+trigger1 = FVar(2) := 1.0 ;Walk Speed
+;----------
+trigger2 = Var(0) = 42 ;Warrior
+trigger2 = Var(1) := 15 ;Attack Rate
+trigger2 = FVar(0) := 1400 ;Max HP 2200
+trigger2 = FVar(2) := 1.5 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+trigger1 = Var(0) = 41 ;Bongo
+trigger1 = Var(1) := 40 ;Attack Rate
+trigger1 = FVar(0) := 1500 ;Max HP 2250
+trigger1 = FVar(2) := 1.0 ;Walk Speed
+;----------
+trigger2 = Var(0) = 42 ;Warrior
+trigger2 = Var(1) := 30 ;Attack Rate
+trigger2 = FVar(0) := 1750 ;Max HP 2750
+trigger2 = FVar(2) := 1.5 ;Walk Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root, Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 1000 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*2)+1000
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Start with max block charges
+[State 9502, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 20
+trigger1 = (root,Var(42)) > 0
+fv = 34
+value = root,Var(42);Floor((random+random+random+1)%(root,Var(42)))
+ignorehitpause = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21365
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Bruce/Roo Stats
+[Statedef 21363]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+x = 300
+y = 0
+
+;Bruce
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(200)
+v = 0
+value = 22
+
+;Roo
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(202) || IsHelper(201)
+v = 0
+value = 21
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy = 1
+trigger1 = Var(0) = 21 ;Roo
+trigger1 = Var(1) := 10 ;Intelligence
+trigger1 = FVar(0) := 1200 ;Max HP
+trigger1 = FVar(2) := 2.0 ;Walk Speed
+trigger2 = Var(0) = 22 ;Bruce
+trigger2 = Var(1) := 20 ;Intelligence
+trigger2 = FVar(0) := 1400 ;Max HP
+trigger2 = FVar(2) := 3.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+trigger1 = Var(0) = 21 ;Roo
+trigger1 = Var(1) := 20 ;Intelligence
+trigger1 = FVar(0) := 1500 ;Max HP
+trigger1 = FVar(2) := 2.0 ;Walk Speed
+trigger2 = Var(0) = 22 ;Bruce
+trigger2 = Var(1) := 40 ;Intelligence
+trigger2 = FVar(0) := 1750 ;Max HP
+trigger2 = FVar(2) := 3.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (((Enemy(0), Alive = 1) && (Enemy(1), Alive = 0)) || ((Enemy(0), Alive = 0) && (Enemy(1), Alive = 1)))
+trigger1 = Var(0) = 21 ;Roo
+trigger1 = Var(1) := 10 ;Intelligence
+trigger1 = FVar(0) := 1200 ;Max HP
+trigger1 = FVar(2) := 2.0 ;Walk Speed
+trigger2 = Var(0) = 22 ;Bruce
+trigger2 = Var(1) := 20 ;Intelligence
+trigger2 = FVar(0) := 1400 ;Max HP
+trigger2 = FVar(2) := 3.0 ;Walk Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root, Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 1500 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*3)+1500
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Start with max block charges
+[State 9502, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 20
+trigger1 = (root,Var(42)) > 0
+fv = 34
+value = root,Var(42);Floor((random+random+random+1)%(root,Var(42)))
+ignorehitpause = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21365
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Twins Stats
+[Statedef 21467]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+x = 300
+y = 0
+
+;Mona
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(200)
+v = 0
+value = 29
+
+;Lisa
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(201) || IsHelper(202)
+v = 0
+value = 29
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy = 1
+;---------------------------------------
+trigger1 = Var(0) = 29 ;Mona/Lisa
+trigger1 = Var(1) := 25 ;Intelligence
+trigger1 = FVar(0) := 1500 ;Max HP2000
+trigger1 = FVar(2) := 3.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;---------------------------------------
+trigger1 = Var(0) = 29 ;Mona/Lisa
+trigger1 = Var(1) := 50 ;Intelligence
+trigger1 = FVar(0) := 2000 ;Max HP2500
+trigger1 = FVar(2) := 3.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (((Enemy(0), Alive = 1) && (Enemy(1), Alive = 0)) || ((Enemy(0), Alive = 0) && (Enemy(1), Alive = 1)))
+;---------------------------------------
+trigger1 = Var(0) = 29 ;Mona/Lisa
+trigger1 = Var(1) := 25 ;Intelligence
+trigger1 = FVar(0) := 1500 ;Max HP2000
+trigger1 = FVar(2) := 3.0 ;Walk Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root, Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 1500 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*3)+1500
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Start with max block charges
+[State 9502, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 20
+trigger1 = (root,Var(42)) > 0
+fv = 34
+value = root,Var(42);Floor((random+random+random+1)%(root,Var(42)))
+ignorehitpause = 1
+
+[State 21699, VarSet]
+type = VarSet
+trigger1 = Time = 19
+trigger1 = IsHelper(200)
+trigger1 = Var(44) != 450
+v = 44
+value = 450
+
+;[State 10000, VarSet]
+;type = VarSet
+;trigger1 = Var(4) != 1
+;v = 4
+;value = 1
+;ignorehitpause = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21497
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Harakiri Stats
+[Statedef 21595]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+x = 300
+y = 0
+
+;Harakiri
+[State 9504, VarSet]
+type = VarSet
+trigger1 = 1
+v = 0
+value = 33
+persistent = 0
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy = 1
+trigger1 = Var(0) = 33 ;Harakiri
+trigger1 = Var(1) := 18 ;Intelligence
+trigger1 = FVar(0) := 2000 ;Max HP
+trigger1 = FVar(2) := 2.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+trigger1 = Var(0) = 33 ;Harakiri
+trigger1 = Var(1) := 36 ;Intelligence
+trigger1 = FVar(0) := 2500 ;Max HP
+trigger1 = FVar(2) := 2.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (((Enemy(0), Alive = 1) && (Enemy(1), Alive = 0)) || ((Enemy(0), Alive = 0) && (Enemy(1), Alive = 1)))
+trigger1 = Var(0) = 33 ;Harakiri
+trigger1 = Var(1) := 18 ;Intelligence
+trigger1 = FVar(0) := 2000 ;Max HP
+trigger1 = FVar(2) := 2.0 ;Walk Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root,Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 2000 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*3)+2000
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Start with max block charges
+[State 9502, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 20
+trigger1 = (root,Var(42)) > 0
+fv = 34
+value = root,Var(42);Floor((random+random+random+1)%(root,Var(42)))
+ignorehitpause = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21365
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Ash Stats
+[Statedef 21367]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+x = 300
+y = 0
+
+;Ash
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(200)
+v = 0
+value = 23
+
+;Start Boss Music
+[State 9512, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 3
+value = 10,5
+volume = 100
+channel = 11
+lowpriority = 0
+loop = 1
+abspan = 1
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy = 1
+trigger1 = Var(0) = 23 ;Ash
+trigger1 = Var(1) := 10 ;Intelligence
+trigger1 = FVar(0) := 2100 ;Max HP
+trigger1 = FVar(2) := 4.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+trigger1 = Var(0) = 23 ;Ash
+trigger1 = Var(1) := 20 ;Intelligence
+trigger1 = FVar(0) := 2625 ;Max HP
+trigger1 = FVar(2) := 4.0 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (((Enemy(0), Alive = 1) && (Enemy(1), Alive = 0)) || ((Enemy(0), Alive = 0) && (Enemy(1), Alive = 1)))
+trigger1 = Var(0) = 23 ;Ash
+trigger1 = Var(1) := 10 ;Intelligence
+trigger1 = FVar(0) := 2100 ;Max HP
+trigger1 = FVar(2) := 4.0 ;Walk Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root, Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 1500 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*3)+1500
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Start with max block charges
+[State 9502, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 20
+trigger1 = (root,Var(42)) > 0
+fv = 34
+value = root,Var(42);Floor((random+random+random+1)%(root,Var(42)))
+ignorehitpause = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21365
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Jet MKII Stats
+[Statedef 21511]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = IsHelper(200)
+trigger1 = Time = 1
+x = 300
+y = 0
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = IsHelper(201) || IsHelper(202)
+trigger1 = Time = 1
+x = ifelse(random<=499,-300,300)
+y = 0
+
+;Jet MKII
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(200)
+v = 0
+value = 28
+
+;Rocket
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(201) || IsHelper(202)
+v = 0
+value = 20
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 2
+triggerall = NumEnemy = 1
+;---------------------------------------
+trigger1 = Var(0) = 28 ;Jet MKII
+trigger1 = Var(1) := 20 ;Intelligence
+trigger1 = FVar(0) := 1300 ;Max HP 2200
+trigger1 = FVar(2) := 1.2 ;Fly Speed
+;---------------------------------------
+trigger2 = Var(0) = 20 ;Rocket
+trigger2 = Var(1) := 15 ;Intelligence
+trigger2 = FVar(0) := 200 ;Max HP
+trigger2 = FVar(2) := 2.5 ;Fly Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 2
+triggerall = NumEnemy > 1
+triggerall = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+;---------------------------------------
+trigger1 = Var(0) = 28 ;Jet MKII
+trigger1 = Var(1) := 40 ;Intelligence
+trigger1 = FVar(0) := 1625 ;Max HP 2750
+trigger1 = FVar(2) := 1.2 ;Fly Speed
+;---------------------------------------
+trigger2 = Var(0) = 20 ;Rocket
+trigger2 = Var(1) := 30 ;Intelligence
+trigger2 = FVar(0) := 250 ;Max HP
+trigger2 = FVar(2) := 1.5 ;Fly Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 2
+triggerall = NumEnemy > 1
+triggerall = (((Enemy(0), Alive = 1) && (Enemy(1), Alive = 0)) || ((Enemy(0), Alive = 0) && (Enemy(1), Alive = 1)))
+;---------------------------------------
+trigger1 = Var(0) = 28 ;Jet MKII
+trigger1 = Var(1) := 20 ;Intelligence
+trigger1 = FVar(0) := 1300 ;Max HP 2200
+trigger1 = FVar(2) := 1.2 ;Fly Speed
+;---------------------------------------
+trigger2 = Var(0) = 20 ;Rocket
+trigger2 = Var(1) := 15 ;Intelligence
+trigger2 = FVar(0) := 200 ;Max HP
+trigger2 = FVar(2) := 1.5 ;Fly Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = IsHelper(200)
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty Max Life Change (Rocket)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 2
+triggerall = IsHelper(201) || IsHelper(202)
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+50) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+100) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+150) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+100) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+125) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+150) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+175) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 2
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+;trigger1 = Var(0) = 28
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root, Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 2500 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*3)+2500
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Rocket reduced attack ratio
+[State 9512, VarSet]
+type = VarSet
+trigger1 = IsHelper(201) || IsHelper(202)
+trigger1 = Time = 15
+v = 49
+value = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21365
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;OY Stats
+[Statedef 21785]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+;Boss Defense Booster
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(38) = -1;Boss Life/Damage Multiplier Ratio Fix set to -1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 22
+value = 1/(root, FVar(38))
+
+;Disable defense booster
+[State 9512, VarSet]
+type = VarSet
+triggerall = Time = 1
+trigger1 = root, Var(38) != -1
+trigger2 = root, Var(41) = 2
+trigger3 = root, FVar(38) <= 1
+fv = 22
+value = 1
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+trigger1 = IsHelper(200)
+x = -300
+y = 0
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+trigger1 = IsHelper(202) || IsHelper(201)
+x = 300
+y = 0
+
+;Onihime
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(200)
+v = 0
+value = 39
+persistent = 0
+
+;Yasha
+[State 9504, VarSet]
+type = VarSet
+trigger1 = IsHelper(202) || IsHelper(201)
+v = 0
+value = 40
+persistent = 0
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9502, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy = 1
+trigger1 = Var(0) = 39 ;Onihime
+trigger1 = Var(1) := 20 ;Intelligence
+trigger1 = FVar(0) := 2000 ;Max HP
+trigger1 = FVar(2) := 2.3 ;Walk Speed
+;----------
+trigger2 = Var(0) = 40 ;Yasha
+trigger2 = Var(1) := 20 ;Intelligence
+trigger2 = FVar(0) := 2000 ;Max HP
+trigger2 = FVar(2) := 2.3 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (Enemy(0), Alive = 1) && (Enemy(1), Alive = 1)
+trigger1 = Var(0) = 39 ;Onihime
+trigger1 = Var(1) := 40 ;Intelligence
+trigger1 = FVar(0) := 2500 ;Max HP
+trigger1 = FVar(2) := 2.3 ;Walk Speed
+;----------
+trigger2 = Var(0) = 40 ;Yasha
+trigger2 = Var(1) := 40 ;Intelligence
+trigger2 = FVar(0) := 2500 ;Max HP
+trigger2 = FVar(2) := 2.3 ;Walk Speed
+
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+triggerall = NumEnemy > 1
+triggerall = (((Enemy(0), Alive = 1) && (Enemy(1), Alive = 0)) || ((Enemy(0), Alive = 0) && (Enemy(1), Alive = 1)))
+trigger1 = Var(0) = 39 ;Onihime
+trigger1 = Var(1) := 20 ;Intelligence
+trigger1 = FVar(0) := 2000 ;Max HP
+trigger1 = FVar(2) := 2.3 ;Walk Speed
+;----------
+trigger2 = Var(0) = 40 ;Yasha
+trigger2 = Var(1) := 20 ;Intelligence
+trigger2 = FVar(0) := 2000 ;Max HP
+trigger2 = FVar(2) := 2.3 ;Walk Speed
+
+;root, Var(51) = Overall difficulty
+;(Affects SoR2 Enemy Life, Speed, and Intelligence)
+;-- 0 = Novice (Stats -45%)
+;-- 1 = Very Easy (Stats -30%
+;-- 2 = Easy (Stats -15%)
+;-- 3 = Normal
+;-- 4 = Hard (Stats +15%)
+;-- 5 = Very Hard (Stats +30%)
+;-- 6 = Mania (Stats +45%)
+;-- 7 = Chaos (Stats +60%)
+
+;Difficulty Stat Changes
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 0 ;Novice
+trigger1 = Var(1) := (Var(1)-45) ;Intelligence
+trigger1 = FVar(0) := (FVar(0)*0.55) ;Max HP
+trigger1 = FVar(2) := (FVar(2)*0.55) ;Walk Speed
+trigger1 = FVar(39) := 0.55
+;-----
+trigger2 = root, Var(51) = 1 ;Very Easy
+trigger2 = 1 || Var(1) := (Var(1)-30) ;Intelligence
+trigger2 = FVar(0) := (FVar(0)*0.4) ;Max HP
+trigger2 = FVar(2) := (FVar(2)*0.7) ;Walk Speed
+trigger2 = FVar(39) := 0.4
+;-----
+trigger3 = root, Var(51) = 2 ;Easy
+trigger3 = 1 || Var(1) := (Var(1)-15) ;Intelligence
+trigger3 = FVar(0) := (FVar(0)*0.7) ;Max HP
+trigger3 = FVar(2) := (FVar(2)*0.85) ;Walk Speed
+trigger3 = FVar(39) := 0.7
+;-----
+trigger4 = root, Var(51) = 4 ;Hard
+trigger4 = Var(1) := (Var(1)+10) ;Intelligence
+;trigger4 = FVar(0) := (FVar(0)*1.15) ;Max HP
+trigger4 = FVar(2) := (FVar(2)*1.2) ;Walk Speed
+trigger4 = FVar(39) := 1.2
+;-----
+trigger5 = root, Var(51) = 5 ;Very Hard
+trigger5 = Var(1) := (Var(1)+20) ;Intelligence
+;trigger5 = FVar(0) := (FVar(0)*1.3) ;Max HP
+trigger5 = FVar(2) := (FVar(2)*1.4) ;Walk Speed
+trigger5 = FVar(39) := 1.4
+;-----
+trigger6 = root, Var(51) = 6 ;Mania
+trigger6 = Var(1) := (Var(1)+30) ;Intelligence
+;trigger6 = FVar(0) := (FVar(0)*1.45) ;Max HP
+trigger6 = FVar(2) := (FVar(2)*1.6) ;Walk Speed
+trigger6 = FVar(39) := 1.6
+
+;Difficulty Max Life Change (Mini-Boss)
+[State 9502, StatSet]
+type = Null
+triggerall = Time = 1
+trigger1 = root, Var(51) = 4 ;Hard
+trigger1 = FVar(0) := (FVar(0)+250) ;Max HP
+;-----
+trigger2 = root, Var(51) = 5 ;Very Hard
+trigger2 = FVar(0) := (FVar(0)+500) ;Max HP
+;-----
+trigger3 = root, Var(51) = 6 ;Mania
+trigger3 = FVar(0) := (FVar(0)+750) ;Max HP
+;-----
+;trigger4 = root, Var(51) = 7 ;Chaos
+;trigger4 = FVar(0) := (FVar(0)+500) ;Max HP
+;;-----
+;trigger5 = root, Var(51) = 8 ;Extreme
+;trigger5 = FVar(0) := (FVar(0)+625) ;Max HP
+;;-----
+;trigger6 = root, Var(51) = 9 ;Expert
+;trigger6 = FVar(0) := (FVar(0)+750) ;Max HP
+;;-----
+;trigger7 = root, Var(51) = 10 ;Master
+;trigger7 = FVar(0) := (FVar(0)+825) ;Max HP
+
+;Difficulty modifier (Normal Difficulty)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 1
+trigger1 = root, Var(51) = 3 ;Normal
+fv = 39
+value = 1
+persistent = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+;Mini-Boss Life boost if Damage Multiplier is above 1, and Ratio Fix option is on.
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) = 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(root,FVar(38))
+
+;-if set above 1, divide bonus amount by that number
+[State 9512, VarSet]
+type = VarSet
+trigger1 = Time = 20
+trigger1 = root, Var(38) > 1
+trigger1 = root, Var(41) != 2;Not in Speed Run Mode
+trigger1 = root, FVar(38) > 1;Damage Multiplier is above 1
+fv = 0
+value = FVar(0)*(1+((root,FVar(38)-1)/(root, Var(38))))
+
+;Quick KO Bonus Point Set (Based on max Life, with an extra 2500 added)
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+v = 10
+value = Ceil(FVar(0)*3)+2500
+persistent = 0
+
+;Normal Damage Multiplier
+[State 11151, VarSet]
+type = VarSet
+trigger1 = Time = 20
+fv = 37
+value = 1
+persistent = 0
+
+;Start with max block charges
+[State 9502, VarAdd]
+type = VarAdd
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = Time = 20
+trigger1 = (root,Var(42)) > 0
+fv = 34
+value = root,Var(42);Floor((random+random+random+1)%(root,Var(42)))
+ignorehitpause = 1
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 20
+value = 21365
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+; Boss Breaker
+[Statedef 25000]
+type    = S
+movetype= A
+physics = S
+juggle  = 1
+velset = 0,0
+ctrl = 0
+;anim = 10934
+;poweradd = 10
+sprpriority = 2
+
+;Var(23) = Boss Breaker Charge (1000 = Ready for Breaker)
+
+[State 25000, NotHitBy]
+type = NotHitBy
+trigger1 = 11111
+value = SCA
+time = 3
+ignorehitpause = 1
+
+[State 25000, PalFX]
+type = PalFX
+trigger1 = GameTime%3 = 0
+time = 1
+add = -100,-100,-100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(0) = 13
+value = 10395
+ignorehitpause = 1
+persistent = 0
+
+[State 1000, PlaySnd]
+type = PlaySnd
+triggerall = Var(0) = 13
+trigger1 = AnimElem = 2
+value = S201,0
+channel = -1
+;volumescale = 90
+loop = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 200, 1]
+type = HitDef
+triggerall = Var(0) = 13
+trigger1 = Time = 1
+attr = S, NA
+damage = 0,0
+animtype = Hard
+guardflag = MA
+hitflag = MA
+priority = 5, Hit
+pausetime = 2,2
+guard.pausetime = 2,2
+sparkxy = -30, -70
+hitsound = S301,30
+guardsound = S201,10
+ground.type = High
+ground.slidetime = 3
+ground.hittime  = 3
+ground.velocity = -6.5,-7
+guard.velocity = -6
+air.type = High
+air.velocity = -6.5,-7
+airguard.velocity = -4,-3
+air.hittime = 6
+fall = 1
+fall.recover = 0
+kill = 0
+guard.kill = 0
+sparkno = s8100
+guard.sparkno = s8105
+getpower = 0,0
+givepower = 0,0
+
+[State 200, 3]
+type = ChangeState
+trigger1 = Var(0) != 14
+trigger1 = AnimTime = 0
+value = 10000
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; Boss Counter
+[Statedef 25001]
+type    = S
+movetype= A
+physics = S
+juggle  = 1
+velset = 0,0
+ctrl = 0
+;anim = 10934
+;poweradd = 10
+sprpriority = 2
+
+;Var(23) = Boss Breaker Charge (1000 = Ready for Breaker)
+
+[State 1000, PlaySnd]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = S201,0
+channel = -1
+;volumescale = 90
+loop = 0
+ignorehitpause = 1
+persistent = 0
+
+;[State 200, 1]
+;type = HitDef
+;trigger1 = AnimElem = 2
+;attr = S, NA
+;damage = Floor(200*FVar(39)),0
+;animtype = Hard
+;guardflag = MA
+;hitflag = MA
+;priority = 4, Hit
+;pausetime = 2,2
+;guard.pausetime = 2,2
+;sparkxy = -25, -80
+;hitsound = S301,30
+;guardsound = S201,10
+;ground.type = Low
+;ground.slidetime = 3
+;ground.hittime  = 3
+;ground.velocity = -6,-7.5
+;guard.velocity = -3
+;air.type = Low
+;air.velocity = -6,-7.5
+;airguard.velocity = -4,-5
+;air.hittime = 6
+;fall = 1
+;fall.recover = 0
+;kill = 0
+;guard.kill = 0
+;sparkno = s8100
+;guard.sparkno = s8105
+;getpower = Floor(200*FVar(39)),Floor(100*FVar(39))
+;givepower = Floor(240*FVar(39)),Floor(120*FVar(39))
+
+[State 11005, TargetState]
+type = TargetState
+triggerall = NumTarget > 0
+triggerall = MoveContact
+;trigger1 = (root,Var(57) > 0)
+trigger1 = Target, Life <= 1
+value = 8050
+ID = -1
+ignorehitpause = 1
+persistent = 0
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 10000
+ctrl = 0
+
+;---------------------------------------------------------------------------
+;Final Area Start A
+[Statedef 4070]
+type    = S
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = 0
+
+;Final Area. Restore some enemy strength meter
+[State -3, VarAdd]
+type = VarAdd
+trigger1 = Time = [91,190]
+v = 13
+value = -4
+ignorehitpause = 1
+
+[State 11000, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+;[State 3025, AttackDist]
+;type = AttackDist
+;trigger1 = MoveType = A
+;value = 5
+
+;"Fake" hitdefs (To make CPU opponents guard)
+[State 200, 1]
+type = HitDef
+trigger1 = StateType = S
+trigger1 = MoveType = A
+attr = S, NA
+damage = 0,0
+animtype = Light
+guardflag = MA
+hitflag = 
+
+[State 200, 1]
+type = HitDef
+trigger1 = StateType = C
+trigger1 = MoveType = A
+attr = C, NA
+damage = 0,0
+animtype = Light
+guardflag = LA
+hitflag = 
+
+[State 200, 1]
+type = HitDef
+trigger1 = StateType = A
+trigger1 = MoveType = A
+attr = A, NA
+damage = 0,0
+animtype = Light
+guardflag = HA
+hitflag = 
+
+[State 3025, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value2 = SCA
+time = 100
+
+[State 3025, LifeSet]
+type = LifeSet
+trigger1 = Time%3 = 0
+value = LifeMax
+
+;FVar(10) = Helper(200)'s FVar(0) (Max Life)
+;FVar(11) = Helper(200)'s FVar(1) (Current Life)
+;FVar(12) = Helper(201)'s FVar(0) (Max Life)
+;FVar(13) = Helper(201)'s FVar(1) (Current Life)
+;FVar(14) = Helper(202)'s FVar(0) (Max Life)
+;FVar(15) = Helper(202)'s FVar(1) (Current Life)
+
+;Follow Helper
+[State 3025, PosSet]
+type = PosSet
+trigger1 = Time >= 5
+trigger1 = RoundState = 2
+trigger1 = NumHelper(200) = 1
+trigger1 = (Helper(200), FVar(1) > 0) || (Helper(200), Var(0) = [12,18])
+x = (Helper(200), Pos X)
+y = (Helper(200), Pos Y)
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = S
+trigger1 = StateType != S
+statetype = S
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = C
+trigger1 = StateType != C
+statetype = C
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = A
+trigger1 = StateType != A
+statetype = A
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = L
+trigger1 = StateType != L
+statetype = L
+
+;Change Anim if Helper(200) is in custom state
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = S
+trigger1 = AnimExist(10026+(Var(10)*30));Added
+trigger1 = Anim != (10026+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10026+(Var(10)*30))
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = C
+trigger1 = AnimExist(10027+(Var(10)*30));Added
+trigger1 = Anim != (10027+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10027+(Var(10)*30))
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = A
+trigger1 = AnimExist(10025+(Var(10)*30));Added
+trigger1 = Anim != (10025+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10025+(Var(10)*30))
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = L
+trigger1 = AnimExist(10028+(Var(10)*30));Added
+trigger1 = Anim != (10028+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10028+(Var(10)*30))
+
+;Change back if Helper(200) isn't in Custom State or if it no longer exists
+[State 11061, ChangeAnim]
+type = ChangeAnim
+triggerall = NumHelper(200) = 1
+triggerall = Anim != 9500
+trigger1 = Helper(200), MoveType != H
+trigger2 = (Helper(200), StateNo >= 5000) && (Helper(200), StateNo <= 5210)
+trigger3 = (Helper(200), StateNo = 10011) || (Helper(200), StateNo = 11000) || (Helper(200), StateNo = 11002) || (Helper(200), StateNo = 10181)
+trigger4 = (Helper(200), StateNo = 11003)
+trigger5 = Helper(200), StateNo = [120,155]
+trigger6 = Helper(200), Var(11) = 1
+value = 9500
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = NumHelper(200) = 0
+trigger1 = Anim != 9500
+value = 9500
+
+[State 11061, Turn]
+type = Turn
+trigger1 = NumHelper(200) = 1
+trigger1 = RoundState = 2
+trigger1 = Facing != (Helper(200), Facing)
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), MoveType = I || Helper(200), MoveType = H
+trigger1 = MoveType != I
+movetype = I
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), MoveType = A
+trigger1 = MoveType != A
+movetype = A
+
+[State 3025, PosSet]
+type = PosSet
+;triggerall = NumPartner = 0
+trigger1 = Time >= 5
+trigger1 = RoundState = 2
+trigger1 = NumHelper(200) = 0
+trigger2 = NumHelper(200) = 1
+trigger2 = (Helper(200), FVar(1) <= 0) && (Helper(200), Var(0) != [12,18])
+x = 950
+y = 0
+
+;Var(13) = Enemy Strength Used (Increases as enemies are defeated)
+;Once Var(13) is greater than or equal to Var(59), enemies stop appearing.
+;Once all remaining enemies are defeated after this point, the other player wins.
+
+;Next State = Vs. Hydrogen/Urainium
+[State 3025, ChangeState]
+type = ChangeState
+triggerall = Var(58) = 1000;Second Round
+trigger1 = Var(13) >= Var(59)
+trigger1 = NumHelper(200) = 0
+trigger1 = NumHelper(201) = 0
+trigger1 = NumHelper(202) = 0
+trigger1 = Time >= 150
+trigger1 = RoundState = 2
+value = 4071
+ctrl = 0
+ignorehitpause = 1
+
+[State 3025, 4] ;Are you dead?
+type = ChangeState
+trigger1 = !alive
+trigger1 = Time > 5
+value = 5050
+ctrl = 0
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time > 60
+trigger1 = RoundState = 3
+trigger1 = Alive = 1
+value = 0
+ctrl = 1
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;FA Enemies A
+[Statedef 4170]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = -5
+
+[State 9500, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9500, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,0
+
+[State 9500, PosSet]
+type = PosSet
+trigger1 = Time = 1
+x = -300
+y = 0
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X <= -150
+trigger1 = Facing != 1
+
+[State 9500, Turn]
+type = Turn
+trigger1 = Pos X >= 150
+trigger1 = Facing != -1
+
+[State 0, VarRandom]
+type = VarRandom
+trigger1 = 1
+v = 0
+range = 1,200
+
+;Garcia
+[State 9500, VarSet]
+type = VarSet
+trigger1 = Var(0) = [1,100]
+v = 0
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;Donovan
+[State 9500, VarSet]
+type = VarSet
+trigger1 = Var(0) = [101,200]
+v = 0
+value = 1
+ignorehitpause = 1
+persistent = 0
+
+;Safety?
+[State 11000, RemoveExplod]
+type = RemoveExplod
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = NumExplod(10021) > 0
+id = 10021
+
+[State 11000, RemoveExplod]
+type = RemoveExplod
+trigger1 = IsHelper(200) || IsHelper(201) || IsHelper(202)
+trigger1 = NumExplod(10022) > 0
+id = 10022
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time = 5
+value = 9502
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Debug
+[Statedef 3998]
+type    = S
+movetype= I
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9500
+sprpriority = 0
+
+;Set Damage Multiplier to 2 for bosses in Speed Run Mode
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+trigger1 = FVar(38) != 2
+trigger1 = Time < 60
+trigger1 = NumHelper(200) > 0
+trigger1 = Helper(200), Var(0) != 12
+fv = 38
+value = 2
+ignorehitpause = 1
+
+;Set Defense Type for bosses to 0 in Speed Run Mode
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+trigger1 = Var(49) != 0
+v = 49
+value = 0
+ignorehitpause = 1
+
+;Set Damage Multiplier to 1 if Shiva is being fought
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+trigger1 = FVar(38) != 2
+trigger1 = Time < 60
+trigger1 = NumHelper(200) > 0
+trigger1 = Helper(200), Var(0) = 12
+fv = 38
+value = 2
+ignorehitpause = 1
+
+;[State 3025, LifeSet]
+;type = LifeSet
+;triggerall = Var(58) != 1000;Not Second Round
+;trigger1 = Var(13) >= Var(59)
+;trigger1 = NumHelper(200) = 0
+;trigger1 = NumHelper(201) = 0
+;trigger1 = NumHelper(202) = 0
+;trigger1 = Time >= 300
+;trigger1 = RoundState = 2
+;value = 0
+;
+;[State 3025, 4] ;Are you dead?
+;type = ChangeState
+;trigger1 = !alive
+;trigger1 = Time > 5
+;value = 5050
+;ctrl = 0
+
+[State 3025, VarSet]
+type = VarSet
+trigger1 = RoundState = 2
+trigger1 = Var(13) < 0
+v = 13
+value = 0
+ignorehitpause = 1
+
+[State 11000, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+;[State 3025, AttackDist]
+;type = AttackDist
+;trigger1 = MoveType = A
+;value = 5
+
+;"Fake" hitdefs (To make CPU opponents guard)
+[State 200, 1]
+type = HitDef
+trigger1 = StateType = S
+trigger1 = MoveType = A
+attr = S, NA
+damage = 0,0
+animtype = Light
+guardflag = MA
+hitflag = 
+
+[State 200, 1]
+type = HitDef
+trigger1 = StateType = C
+trigger1 = MoveType = A
+attr = C, NA
+damage = 0,0
+animtype = Light
+guardflag = LA
+hitflag = 
+
+[State 200, 1]
+type = HitDef
+trigger1 = StateType = A
+trigger1 = MoveType = A
+attr = A, NA
+damage = 0,0
+animtype = Light
+guardflag = HA
+hitflag = 
+
+[State 3025, AngleDraw]
+type = AngleDraw
+trigger1 = 1
+scale = 1.5,1.5
+ignorehitpause = 1
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = S
+trigger1 = StateType != S
+statetype = S
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = C
+trigger1 = StateType != C
+statetype = C
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = A
+trigger1 = StateType != A
+statetype = A
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), StateType = L
+trigger1 = StateType != L
+statetype = L
+
+;Change Anim if Helper(200) is in custom state
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = S
+trigger1 = AnimExist(10026+(Var(10)*30));Added
+trigger1 = Anim != (10026+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10026+(Var(10)*30))
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = C
+trigger1 = AnimExist(10027+(Var(10)*30));Added
+trigger1 = Anim != (10027+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10027+(Var(10)*30))
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = A
+trigger1 = AnimExist(10025+(Var(10)*30));Added
+trigger1 = Anim != (10025+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10025+(Var(10)*30))
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = Var(25) != 1
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), Time > 1
+trigger1 = Helper(200), MoveType = H
+trigger1 = Helper(200), StateType = L
+trigger1 = AnimExist(10028+(Var(10)*30));Added
+trigger1 = Anim != (10028+(Var(10)*30))
+trigger1 = (Helper(200), StateNo != 10011) && (Helper(200), StateNo != 11000) && (Helper(200), StateNo != 11002) && (Helper(200), StateNo != 10181)
+trigger1 = (Helper(200), StateNo < 5000) || (Helper(200), StateNo > 5210)
+trigger1 = (Helper(200), StateNo != 11003)
+trigger1 = Helper(200), StateNo != [120,155]
+trigger1 = Helper(200), Var(11) = 0
+value = (10028+(Var(10)*30))
+
+;Change back if Helper(200) isn't in Custom State or if it no longer exists
+[State 11061, ChangeAnim]
+type = ChangeAnim
+triggerall = NumHelper(200) = 1
+triggerall = Anim != 9500
+trigger1 = Helper(200), MoveType != H
+trigger2 = (Helper(200), StateNo >= 5000) && (Helper(200), StateNo <= 5210)
+trigger3 = (Helper(200), StateNo = 10011) || (Helper(200), StateNo = 11000) || (Helper(200), StateNo = 11002) || (Helper(200), StateNo = 10181)
+trigger4 = (Helper(200), StateNo = 11003)
+trigger5 = Helper(200), StateNo = [120,155]
+trigger6 = Helper(200), Var(11) = 1
+value = 9500
+
+[State 11061, ChangeAnim]
+type = ChangeAnim
+trigger1 = NumHelper(200) = 0
+trigger1 = Anim != 9500
+value = 9500
+
+[State 11061, Turn]
+type = Turn
+trigger1 = NumHelper(200) = 1
+trigger1 = RoundState = 2
+trigger1 = Facing != (Helper(200), Facing)
+
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), MoveType = I || Helper(200), MoveType = H
+trigger1 = MoveType != I
+movetype = I
+;
+[State 3025, StateTypeSet]
+type = StateTypeSet
+trigger1 = NumHelper(200) = 1
+trigger1 = Helper(200), MoveType = A
+trigger1 = MoveType != A
+movetype = A
+;
+;[State 3025, StateTypeSet]
+;type = StateTypeSet
+;trigger1 = NumHelper(200) = 1
+;trigger1 = Helper(200), MoveType = H
+;trigger1 = MoveType != H
+;movetype = H
+
+;Stop meter from dropping if boss isn't defeated yet
+
+;Barbon
+[State 3025, VarSet]
+type = VarSet
+trigger1 = Time > 5
+trigger1 = Var(13) > Ceil(Var(59)*0.25)
+trigger1 = Var(55) = 0
+v = 13
+value = Ceil(Var(59)*0.25)
+
+;Jet
+[State 3025, VarSet]
+type = VarSet
+trigger1 = Time > 5
+trigger1 = Var(13) > Ceil(Var(59)*0.5)
+trigger1 = Var(55) = 1
+v = 13
+value = Ceil(Var(59)*0.5)
+
+;Zamza
+[State 3025, VarSet]
+type = VarSet
+trigger1 = Time > 5
+trigger1 = Var(13) > Ceil(Var(59)*0.75)
+trigger1 = Var(55) = 2
+v = 13
+value = Ceil(Var(59)*0.75)
+
+;R.Bear
+[State 3025, VarSet]
+type = VarSet
+triggerall = Var(58) = 1000;Second Round
+trigger1 = Time > 5
+trigger1 = Var(13) > Ceil(Var(59)*0.25)
+trigger1 = Var(55) = 4
+v = 13
+value = Ceil(Var(59)*0.25)
+
+;Jet & Zamza
+[State 3025, VarSet]
+type = VarSet
+triggerall = Var(58) = 1000;Second Round
+trigger1 = Time > 5
+trigger1 = Var(13) > Ceil(Var(59)*0.5)
+trigger1 = Var(55) = 5
+v = 13
+value = Ceil(Var(59)*0.5)
+
+;Particle & Molecule
+[State 3025, VarSet]
+type = VarSet
+triggerall = Var(58) = 1000;Second Round
+trigger1 = Time > 5
+trigger1 = Var(13) > Ceil(Var(59)*0.75)
+trigger1 = Var(55) = 6
+v = 13
+value = Ceil(Var(59)*0.75)
+
+[State 3025, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value2 = SCA
+time = 100
+
+;[State 3025, ScreenBound]
+;type = ScreenBound
+;trigger1 = 1
+;value = 0
+;movecamera = 0,0
+
+;[State 3025, PosSet]
+;type = PosSet
+;trigger1 = Time >= 30
+;trigger1 = Time%5 = 0
+;x = 999
+;y = 0
+
+;Follow Helper
+[State 3025, PosSet]
+type = PosSet
+trigger1 = Time >= 5
+trigger1 = RoundState = 2
+trigger1 = NumHelper(200) = 1
+trigger1 = (Helper(200), FVar(1) > 0) || (Helper(200), Var(0) = [12,18])
+x = (Helper(200), Pos X)
+y = (Helper(200), Pos Y)
+
+[State 3025, PosSet]
+type = PosSet
+triggerall = (Var(55) != 3) && (Var(55) != 4 || Var(58) = 1000)
+trigger1 = Time >= 5
+trigger1 = RoundState = 2
+trigger1 = NumHelper(200) = 0
+trigger2 = NumHelper(200) = 1
+trigger2 = (Helper(200), FVar(1) <= 0) && (Helper(200), Var(0) != [12,18])
+x = 950
+y = 0
+
+;Boss Enemy
+;[State 3027, Helper]
+;type = Helper
+;triggerall = IsHelper = 0
+;trigger1 = NumHelper(200) = 0
+;trigger1 = RoundState = 2
+;trigger1 = Time < 3
+;trigger1 = Var(55) != 7;Don't spawn if Shiva is to be fought
+;helpertype = normal
+;name = "SoR2 Boss"
+;ID = 200
+;stateno = 9510
+;pos = 0,0
+;postype = p1
+;facing = 1
+;keyctrl = 1
+;ownpal = 1
+;size.xscale = 1.5
+;size.yscale = 1.5
+;supermovetime = 0
+;pausemovetime = 0
+;ignorehitpause = 1
+;persistent = 0
+
+;Special Shiva/Mr.X Intro Helpers
+
+;Shiva
+[State 3027, Helper]
+type = Helper
+triggerall = IsHelper = 0
+trigger1 = NumHelper(200) = 0
+trigger1 = RoundState = 2
+trigger1 = Time = 67;35
+;trigger1 = Var(55) = 7
+helpertype = normal
+name = "Shiva"
+ID = 200
+stateno = 21857
+pos = 160,0
+postype = left
+facing = 1
+keyctrl = 1
+ownpal = 1
+size.xscale = 1.5
+size.yscale = 1.5
+supermovetime = 0
+pausemovetime = 0
+ignorehitpause = 1
+persistent = 0
+
+;Mr.X
+[State 3027, Helper]
+type = Helper
+triggerall = IsHelper = 0
+trigger1 = NumHelper(150) = 0
+trigger1 = RoundState = 2
+trigger1 = Time = 67;35
+;trigger1 = Var(55) = 7
+helpertype = normal
+name = "Mr.X"
+ID = 150
+stateno = 8629
+pos = 160,-10
+postype = left
+facing = 1
+keyctrl = 1
+ownpal = 1
+size.xscale = 1.5
+size.yscale = 1.5
+supermovetime = 0
+pausemovetime = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 3027, Helper]
+type = Helper
+triggerall = IsHelper = 0
+trigger1 = NumHelper(151) = 0
+trigger1 = RoundState = 2
+trigger1 = Time = 0
+;trigger1 = Var(55) = 7
+helpertype = normal
+name = "FadeoutEffect"
+ID = 151
+stateno = 8627
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 1
+ownpal = 1
+size.xscale = 1.5
+size.yscale = 1.5
+supermovetime = 0
+pausemovetime = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 3027, Helper]
+type = Helper
+triggerall = IsHelper = 0
+trigger1 = NumHelper(152) = 0
+trigger1 = RoundState = 2
+trigger1 = Time = 0
+;trigger1 = Var(55) = 7
+helpertype = normal
+name = "NoMusicHelper"
+ID = 152
+stateno = 8628
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 1
+ownpal = 1
+size.xscale = 1.5
+size.yscale = 1.5
+supermovetime = 9999
+pausemovetime = 9999
+ignorehitpause = 1
+persistent = 0
+
+;[State 9500, ChangeState]
+;type = ChangeState
+;triggerall = Time > 180
+;triggerall = RoundState = 2
+;triggerall = Alive = 1
+;triggerall = Var(13) < Var(59);Don't change if enemy strength is depleted
+;trigger1 = NumHelper(200) = 0
+;trigger1 = NumHelper(201) = 0;Jet+Zamza or Particle+Molecule
+;trigger1 = NumHelper(202) = 0;Jet+Zamza or Particle+Molecule
+;value = 3025
+;ctrl = 0
+;ignorehitpause = 1
+;
+;[State 3025, LifeSet]
+;type = LifeSet
+;triggerall = Var(58) != 1000;Not Second Round
+;trigger1 = Var(13) >= Var(59)
+;trigger1 = NumHelper(200) = 0
+;trigger1 = NumHelper(201) = 0
+;trigger1 = NumHelper(202) = 0
+;trigger1 = Time >= 300
+;trigger1 = RoundState = 2
+;;KO quickly if opposing team gets KO'd to make both sides get the win, not just the bonus game
+;trigger2 = Var(13) >= Var(59)
+;trigger2 = NumHelper(200) = 1
+;trigger2 = NumHelper(201) = 0
+;trigger2 = NumHelper(202) = 0
+;trigger2 = Helper(200), Var(0) = 16;Abadede
+;trigger2 = Helper(200), FVar(1) <= 0;Enemy life is 0
+;trigger2 = Time >= 60
+;trigger2 = ((NumEnemy = 1) && (Enemy, Alive = 0)) || ((NumEnemy > 1) && (Enemy(0), Alive = 0) && (Enemy(1), Alive = 0))
+;value = 0
+
+;Mr.X Summon State
+;[State 3025, ChangeState]
+;type = ChangeState
+;triggerall = Var(58) = 1000;Second Round
+;trigger1 = Var(13) >= Var(59)
+;trigger1 = NumHelper(200) = 0
+;trigger1 = NumHelper(201) = 0
+;trigger1 = NumHelper(202) = 0
+;trigger1 = Time >= 300;10
+;trigger1 = RoundState = 2
+;value = 3029
+;ctrl = 0
+;ignorehitpause = 1
+
+[State 3025, 4]
+type = ChangeState
+trigger1 = !alive
+trigger1 = Time > 5
+value = 5050
+ctrl = 0
+
+[State 9500, ChangeState]
+type = ChangeState
+trigger1 = Time > 60
+trigger1 = RoundState = 3
+trigger1 = Alive = 1
+value = 0
+ctrl = 1
+ignorehitpause = 1

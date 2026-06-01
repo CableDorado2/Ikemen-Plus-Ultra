@@ -1,0 +1,32 @@
+; Definition file for Kung Fu Man
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name = "RMM BOSS"        ;Name of character
+displayname = "RMM BOSS" ;Name of character to display
+versiondate = 09,09,2012    ;Version date of character (MM-DD-YYYY)
+mugenversion = 09,09,2012   ;Version of M.U.G.E.N character works on
+author = "ukege"         ;Character author name
+pal.defaults = 6,3,4,2      ;Default palettes in order of preference
+
+; Files for the player
+[Files]
+cmd     = ROCKMAN_MUGEN_BOSS.cmd   ;Command set
+cns     = ROCKMAN_MUGEN_BOSS.cns   ;Constants
+st      = ROCKMAN_MUGEN_BOSS.cns   ;States
+st2      = ENDING.cns
+st3      = HELPER.cns
+st4      = LIFEBAR.cns
+st5      = 8BOSS_STATE.cns
+st6      = 8BOSS_WEAPON.cns
+st7      = VINEGAR_BOSS.cns
+stcommon = common1.cns ;Common states
+sprite  = ROCKMAN_MUGEN_BOSS.sff   ;Sprite
+anim    = ROCKMAN_MUGEN_BOSS.air   ;Animation
+sound   = ROCKMAN_MUGEN_BOSS.snd   ;Sound
+pal1    = ROCKMAN_MUGEN_BOSS.act  ;Palettes (can have up to 12)
+; Arcade mode
+[Arcade]
+intro.storyboard = intro.def
+ending.storyboard = ending.def

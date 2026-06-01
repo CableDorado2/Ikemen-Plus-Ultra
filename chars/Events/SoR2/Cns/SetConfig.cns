@@ -1,0 +1,617 @@
+;---------------------------------------------------------------------------
+; Initialize (at the start of the round)
+[Statedef 5900]
+type = S
+
+;Reset INT variables
+[State 5900, VarRangeSet]
+type = VarRangeSet
+trigger1 = 1
+value = 0
+first = 0
+last = 12;53
+
+;Reset INT variables
+[State 5900, VarRangeSet]
+type = VarRangeSet
+trigger1 = 1
+value = 0
+first = 14
+last = 33;37
+
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(13) >= Var(59);Enemy Strength is 0
+trigger1 = Var(55) != 3;Don't reset if Abadede isn't defeated.
+trigger1 = Var(55) != 7;Don't reset if Shiva isn't defeated.
+trigger1 = Var(55) != 8;Don't reset if Shiva is already defeated.
+v = 13
+value = 0
+
+;Reset FLOAT variables
+[State 5900, VarRangeSet]
+type = VarRangeSet
+trigger1 = 1
+fvalue = 0
+first = 0
+last = 36
+
+;--------------------
+;Config Start
+;--------------------
+
+;Enemy strength, Single Match.
+;The higher the value, the more enemies that need to be defeated before the round ends.
+;Is not the exact number of enemies that need to be defeated. Each enemy, when defeated, drops the meter by 200 or more points, depending on their strength.
+;Default is 10000. Don't set lower than 2000.
+[State 191, VarSet]
+type = VarSet
+trigger1 = MatchNo = 1
+trigger1 = RoundNo = 1 || Var(59) <= 0
+v = 59
+value = 10000
+;       ^^^^^ Change this value
+ignorehitpause = 1
+
+;Alternate mode setting. Change this setting to play the bonus game in a different way than normal
+;Current valid values are 0, 1, 2, 3, and 4. This is for when playing against the bonus
+;game right away from the menus (not when encountering it in Arcade mode).
+;----------
+;0 = Normal Mode
+;----------
+;1 = Boss Rush Mode. Only fight the main bosses in order. Good if you want a shorter fight
+;in Arcade or Survival Mode. Items still appear and the Score is still shown in Boss Rush Mode.
+;NOTE: Only the first 4 bosses can be fought in a Survival/Turns mode battle with this setting on.
+;----------
+;2 = Speed Run Mode. Try to finish the bonus game as fast as possible. Your score is replaced
+;with a blue number that slowly increases as time passes. If this setting is on, some other
+;settings will be changed.
+;----------
+;3 = Traditional Mode. Keep defeating enemies until the enemy strength meter is empty, similar to
+;normal mode, but without any minibosess or bosses appearing. Makes the bonus game like other
+;bonus games where you fight large amounts of weaker enemies, except without lasting 40+ minutes
+;like the SoR bonus game normally does.
+;----------
+;4 = Ranked Mode. Get your Rank as high as possible with just 1 life. Defeat a certain amount of enemies to Rank Up.
+;Enemies deal 50% less damage in this mode, but healing items are 80% weaker.
+;Point items give Power instead. Each time you Rank Up, you are healed for 50% of your max life (25% in Simul Mode)
+;The types of enemies you fight and their max life start weak, but the higher your Rank goes, the more life they have
+;and tougher enemies start appearing.
+;If you reach * rank, the round will end after 3 minutes, but you can continue to earn + ranks.
+;Only 1 round can be played in ranked mode. After the round ends, the next round will end very quickly after it begins.
+;Be sure to save a screenshot of your Rank with the F12 key (Debug keys need to be enabled).
+;If Ranked mode is on, other settings are changed to different values.
+;----------
+;Default is 0.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = MatchNo = 1
+v = 41
+value = 0
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Enemy strength, Arcade Mode.
+;Same as above, except this is for when you encounter the bonus game in arcade mode.
+;This will work as long as you don't encounter the Bonus Game on the very first battle in arcade mode.
+;This value should be lower than the above value, so that when fighting this Bonus Game in arcade
+;mode, it doesn't take so long.
+[State 191, VarSet]
+type = VarSet
+trigger1 = MatchNo > 1
+trigger1 = RoundNo = 1 || Var(59) <= 0
+v = 59
+value = 5000
+;       ^^^^ Change this value (Default is 5000)
+ignorehitpause = 1
+
+;Alternate mode setting. Arcade setting. When fighting against the mode in aracde mode, this setting is used
+;instead of the above. Default is 3. Valid values are the same as the above mode setting, 0, 1, 2, 3, and 4.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = MatchNo > 1
+v = 41
+value = 3
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Enemy "Tweaks". Set to certain values to give special skills/passives to the SoR enemies for a bigger challenge.
+;To combine effects, add the numbers next to the effect together and change the value to the total amount.
+;------------------------------------------------------
+;1 = Enemy Anti-Range Defense (All enemies take 65% less damage unless you or a teammate are close to them when they take damage. Fight up close for maximum damage!)
+;10 = Enemy Anti-Projectile (Most enemies, including Bosses/Mini-Bosses, have super-armor and >=50% damage resistance against projectiles.)
+;X = Boss Breaker (Allows all Major Bosses to use an invincible, weaker version of one of their attacks as a Combo-Breaker attack. Shiva/Abadede already have a Breaker attack.)
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 45
+value = 0;An X to a Tweak means it hasn't been added yet. Only set to 0, 1, 10, or 11 for now.
+;       ^ Change this value. (Default is 0)
+ignorehitpause = 1
+persistent = 0
+
+;Starting Lives. Starting max is 9, but after game starts it can go above 9.
+;Default is 2.
+[State 191, VarSet]
+type = VarSet
+trigger1 = RoundNo = 1
+v = 57
+value = 2
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Lives add.
+;Increases remaining lives if they are below a certain amount after a round ends. (Default 3, then 2)
+[State 5900, VarAdd]
+type = VarAdd
+trigger1 = RoundNo > 1
+trigger1 = Var(57) < 3
+;                    ^ Change this value. If lives remaining is less than this amount...
+v = 57
+value = 2
+;       ^ ...add this many (Change this value too).
+
+;Auto-PickUp. If set to 1, power-ups are picked-up when touching them (And while on the ground not being hit.)
+;If set to 0, power-ups are picked-up by crouching over them.
+;Default is 0. Set this to 1 if you want to have the CPU fight the bonus game in watch mode, so they can get the items.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 53
+value = 0
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Extra Enemy Intelligence. Set this value higher than 0 to increase the rate at which enemies react.
+;Set to a negative value to decrease enemy reaction speed.
+;Default is 0. Best to keep it between -20 and 20.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 52
+value = 0
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Difficulty. Affects Max Life, Attack Frequency, and Speed of all enemies, including bosses
+;(1 = Very Easy), (2 = Easy), (3 = Normal) (4 = Hard), (5 = Very Hard), (6 = Mania)
+;Default is 3.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 51
+value = 3
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Hit System. Set to 1 to make enemies use HitOverrides when hit instead of using the default MUGEN hit system.
+;If strange things happen when you try throwing enemies or use certain attacks, such as enemies disappearing
+;completely, set this to 1. It'll prevent enemies from being affected by some attacks such as throws (because of
+;how MUGEN works), but it should also prevent any problems related to such attacks.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 50
+value = 0
+;       ^ Change this value (Default is 0)
+ignorehitpause = 1
+persistent = 0
+
+;Enemy offscreen setting. Set to 1 to allow all enemies to move offscreen. This prevents enemies from being stuck in a corner
+;and easily combo'd. Enemies that are too far offscreen won't be able to attack. There is also a set distance that enemies can
+;be offscreen, so that high-knockback attacks don't send them so far offscreen that the enemy takes a long time to come back onscreen.
+;[State 5900, VarSet]
+;type = VarSet
+;trigger1 = 1
+;v = 49
+;value = 0; Not active yet. Leave at 0
+;ignorehitpause = 1
+;persistent = 0
+
+;Extra damage mulitplier. Set this above 1 to increase the damage enemies take. Useful for reducing the length of the game.
+;----------
+;Remember that this value can have decimal values, such as 1.5
+;----------
+;Default is 2. Highly recommended that this value is kept at 2 or higher, otherwise it takes very long to defeat even normal enemies.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+fv = 38
+value = 2
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Item Visibility fix. Set to 1 to make items appear above everything, including stage elements. If foreground elements
+;of stages make it hard to see where the items are, turn this on. Note that this only makes the actual items appear
+;above things, not the objects that contain the item.
+;Set to 2 to disable the foreground elements of the stage, preventing the stage from covering up the items in the first place.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 48
+value = 0
+;       ^ Change this value (Default is 0)
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Item Pick-Up. Set to 1 to allow all enemies (Except Vehelits/Particle/Molecule/P1/Seeker) to pick up items.
+;Default is 0.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 47
+value = 0
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Special Effects.
+;Set to 1 to allow enemies to appear with special effects. These effects either give enemies
+;new abilites or change their stats in some way.
+;Note that Bosses and Mini-Bosses never have these effects. Also, enemies with
+;special effects are worth more points.
+;
+;Set to 2 to only allow Sub-Elite, Elite, and Super-Elite enemies to appear.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 44
+value = 0
+;       ^ Change this value (Default is 0)
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Block Type. Set how enemies with the abiliy to block do so.
+;----------
+;0 = Enemies can only block while not being hit, like normal characters. Uses HitOverrides for this effect.
+;1 = Enemies can block even while being hit, like in the SoR games. Also uses HitOverrides for this effect.
+;4 = Use MUGEN default system. This can only be used if the Enemy Hit System option above is set to 0. Set if you want enemy guards to act closer to normal characters.
+;Default is 0.
+;----------
+;Note: Option 1 can make guarding enemies much tougher to beat. It exists to mimic the way enemies acted in the SoR games.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 43
+value = 0
+;       ^ Change this value. If the enemy hit system setting above is set to 1, set this value to either 0 or 1.
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Block Charge. When enemies block, they lose 1 'block attempt'. This value affects how fast those
+;'attempts' recharge. This is to prevent enemies from blocking too much. Note that the block attempts
+;charge even while the enemy is being hit. The max number of block attempts that an enemy can 'store'
+;depends on the setting below this one.
+;----------
+;Here are some sample values:
+;0.0333 - +1 attempt every half a second.
+;0.0166 - +1 attempt every second.
+;0.01 - +1 attempt every 1 & two-thirds of a second
+;0.0111 - +1 attempt every 1.5 seconds.
+;0.0083 - +1 attempt every 2 seconds.
+;0.0066 - +1 attempt every 2.5 seconds.
+;0.0055 - +1 attempt every 3 seconds.
+;0.0047 - +1 attempt every 3.5 seconds.
+;0.0041 - +1 attempt every 4 seconds.
+;0.0037 - +1 attempt every 4.5 seconds.
+;0.0033 - +1 attempt every 5 seconds.
+;
+;Set to 100 to disable this limit. If the Enemy Block type (above setting) is 0, a value of 100 will have blocking enemies
+;act as they did before this limiter was added.
+;
+;If you set the Enemy Block Type to 1, its best to set this value to 0.0033 or lower, to prevent
+;enemies from breaking out of your combos left and right.
+;
+;Abadede's use of his breaker attack is also limited by this setting. His 'block attempts' also charge 50% slower.
+;----------
+;Default is 0.005
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+fv = 39
+value = 0.005
+;       ^^^^^^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Max block attempts. Set the maximum amount of block attempts that enemies can 'store' here.
+;
+;You can set it to 0 to disable enemy blocks (and Abadede's breaker attack), although that might
+;make certain enemies too easy to defeat. Best to set it to at least 1.
+;----------
+;Default is 3.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 42
+value = 3
+;       ^ Change this value
+ignorehitpause = 1
+persistent = 0
+
+;Quick KO-Recover. If set to 1, your character gets up on the spot after getting 'fake' KO'd instead of hitting
+;the ground, staying there for a bit, then jumping back in from the sky. Good for keeping the action going.
+;Note that enemies don't get knocked down after a player KO if this setting is on.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 40
+value = 0
+;       ^ Change this value (Default is 0)
+ignorehitpause = 1
+persistent = 0
+
+;Normal Enemy Random Life Boost. Set above 1 to randomly make enemies appear with more life than usual. Exact amount
+;of bonus life enemies can spawn with is between 0 and the number set here.
+;This setting is here to mimic the fact that normal enemies in the SoR games didn't always have the exact same amount of life when
+;they appeared, even if there were more than 1 of the same enemy that appeared.
+;The life boost gained by enemies is only half as much if the difficulty is 'Easy' or 'Very Easy'.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 39
+value = 500
+;       ^ Change this value (Default is 500) (0 = No random life increase)
+ignorehitpause = 1
+persistent = 0
+
+;Boss Life/Damage Multiplier Ratio Fix. If the 'Extra damage mulitplier' option is set above 1, this option
+;will cause all Boss and Mini-Boss Max Life to be increased based on the 'Extra damage mulitplier' setting. (Ex. 1.25 = +25% life)
+;This way, the 'Extra damage mulitplier' can be increased to make normal enemies be KO'd faster without making Bosses and Mini-Bosses
+;also just as easily KO'd. Set to 0 to disable this effect.
+;Set to 2 to apply a 50% reduced bonus life effect to Bosses and Mini-Bosses (Ex. 1.6 = +30% life)
+;----------
+;Set to -1 to divide the damage Bosses and Mini-Bosses take by the 'Extra damage mulitplier' setting instead of boosting their life. This
+;helps prevent Bosses and Mini-Bosses from appearing to have huge amounts of life.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = 1
+v = 38
+value = 1
+;       ^ Change this value (Default is 1) This setting does nothing if the 'Extra damage mulitplier' is set to 1 or lower.
+;       ^ This setting also does nothing if the mode setting above is set to "Speed Run" or "Ranked" mode.
+ignorehitpause = 1
+persistent = 0
+
+;--------------------
+;Config End
+;--------------------
+
+
+
+;----------------------
+;Speed Run Mode Changes
+;----------------------
+;These are the changes done
+;in Speed Run mode.
+;----------------------
+
+;Enemy strength set to 12000
+[State 191, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+v = 59
+value = 12000
+ignorehitpause = 1
+
+;Infinite lives mode on
+;[State 5900, VarSet]
+;type = VarSet
+;trigger1 = Var(41) = 2 || Var(41) = 4 || Var(41) = 3;Traditional Mode
+;v = 45
+;value = 1
+;ignorehitpause = 1
+;persistent = 0
+
+;Damage multiplier for enemies set to 2
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+fv = 38
+value = 2
+ignorehitpause = 1
+persistent = 0
+
+;Defense Type for enemies set to 0 (Is changed later)
+;[State 5900, VarSet]
+;type = VarSet
+;trigger1 = Var(41) = 2
+;v = 49
+;value = 0
+;ignorehitpause = 1
+;persistent = 0
+
+;Keep special enemy effects off
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+v = 44
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;Quick KO recover on
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+v = 40
+value = 1
+ignorehitpause = 1
+persistent = 0
+
+;Disable random life bonus for enemies
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 2
+v = 39
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;------------------------------
+;End of Speed Run Mode Changes
+;------------------------------
+
+;----------------------
+;Ranked Mode Changes
+;----------------------
+;In Ranked Mode, all settings are set to certain values.
+;----------------------
+
+;Enemy strength set to 10000
+[State 191, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+v = 59
+value = 10000
+ignorehitpause = 1
+
+;Infinite lives mode on
+;[State 5900, VarSet]
+;type = VarSet
+;trigger1 = Var(41) = 4;Ranked Mode
+;v = 45
+;value = 1
+;ignorehitpause = 1
+;persistent = 0
+
+;Extra Enemy Intelligence.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4;Ranked Mode
+v = 52
+value = 10
+ignorehitpause = 1
+persistent = 0
+
+;Difficulty.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4;Ranked Mode
+v = 51
+value = 3
+ignorehitpause = 1
+persistent = 0
+
+;Damage multiplier for enemies set to 2
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+fv = 38
+value = 2
+ignorehitpause = 1
+persistent = 0
+
+;Defense Type for enemies set to 0
+;[State 5900, VarSet]
+;type = VarSet
+;trigger1 = Var(41) = 4
+;v = 49
+;value = 0
+;ignorehitpause = 1
+;persistent = 0
+
+;Keep special enemy effects off
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+v = 44
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;Quick KO recover off (Wouldn't matter anyway)
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+v = 40
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Item Pick-Up.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+v = 47
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Block Type.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+v = 43
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Block Charge.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+fv = 39
+value = 0.0047
+ignorehitpause = 1
+persistent = 0
+
+;Enemy Max block attempts.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+v = 42
+value = 2
+ignorehitpause = 1
+persistent = 0
+
+;Normal Enemy Random Life Boost.
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+v = 39
+value = 0
+ignorehitpause = 1
+persistent = 0
+
+;Set Required KOs for Rank Up
+[State 2501, VarAdd]
+type = VarAdd
+trigger1 = Var(41) = 4
+trigger1 = Var(36) < 10
+v = 36
+value = 10
+ignorehitpause = 1
+persistent = 0
+
+;Timer for Star Rank
+[State 5900, VarSet]
+type = VarSet
+trigger1 = Var(41) = 4
+fv = 23
+value = 180
+ignorehitpause = 1
+persistent = 0
+
+
+;------------------------------
+;End of Ranked Mode Changes
+;------------------------------
+
+[State 5900, 4] ;Intro for round 1
+type = ChangeState
+trigger1 = roundno = 1
+value = 190
+
+[State 5900, 5] ;All other rounds
+type = ChangeState
+trigger1 = 1
+value = 0
+

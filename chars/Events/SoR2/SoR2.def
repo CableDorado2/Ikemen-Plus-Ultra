@@ -1,0 +1,30 @@
+; Definition file for player
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name = "SoR2"        ;Name of character
+displayname = "SoR2" ;Name of character to display
+versiondate = ;N/A   ;Version date of character
+mugenversion = 04,14,2002  ;Version of M.U.G.E.N character works on
+author = "K-Fox"      ;Character author name
+;Winmugen Conversion By 9923812
+;pal.defaults = 1  ;Default palettes in order of preference
+
+; Files for the player
+[Files]
+cmd     = Sys/SoR2.cmd   ;Command set
+cns     = Cns/SoR2Main.cns   ;Constants
+st      = Cns/SoR2Main.cns   ;States
+st1 = Cns/EnemyStates.cns
+st2 = Cns/EStates2.cns
+st3 = Cns/EStates3.cns
+st4 = Cns/EnemyHelpers.cns
+st5 = Cns/SetConfig.cns
+st6 = Cns/MiscStates.cns
+st7 = Cns/UltimateShiva.cns
+stcommon = Cns/common1.cns ;Common states
+sprite  = Sys/SoR2.sff   ;Sprite
+anim    = Sys/SoR2.air   ;Animation
+sound  = Sys/SoR2.snd   ;Sound
+pal1   = Act/NewPal.act   ;Palettes (can have up to 12)

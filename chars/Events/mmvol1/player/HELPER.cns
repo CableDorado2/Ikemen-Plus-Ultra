@@ -1,0 +1,381 @@
+;---------------------------------------------------------------------------
+;回復アイテム
+;---------------------------------------------------------------------------
+
+[Statedef 8040]
+type = S
+movetype= I
+physics = N
+ctrl = 0
+velset = 0,0
+anim = 8040
+SprPriority = 3
+
+[State 441]
+type = velset
+trigger1 = time = 0
+x = 0
+y = -7
+
+[State 441]
+type = velset
+trigger1 = time >= 2
+trigger1 = Pos Y > -1
+x = 0
+y = 0
+
+[State 441]
+type = veladd
+trigger1 = time >= 0
+y = 0.52
+
+[state 445,]
+type = posset
+trigger1 = time >= 2
+trigger1 = Pos Y > -1
+y = 0
+
+[State 3660,]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 0
+
+[State 1201, 2]
+type = NotHitBy
+trigger1 = AnimTime != 0
+value = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+time = 1
+
+[State 200, 7]
+type = Changestate
+trigger1 = rootdist x = [-8,8]
+trigger1 = rootdist y = [-16,0]
+value = 8041
+
+[State 1201, 9]
+type = Destroyself
+trigger1 = root,stateno = [9500,9510]
+
+[Statedef 8041]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+anim = 9999
+sprpriority = 4
+
+[state a]
+type = pause
+trigger1 = 1
+time = 2
+movetime = 2
+
+[State 240, 1]
+type = StopSnd
+triggerall = numhelper(8000)
+trigger1 = helper(8000),var(1) = 28
+trigger2 = time = 40
+channel = 15
+persistent = 1
+ignorehitpause = 1
+
+[State 240, 1]
+type = PlaySnd
+triggerall = numhelper(8000)
+trigger1 = helper(8000),var(1) != 28
+trigger1 = time = 0
+value = 9100, 2
+channel = 15
+lowpriority=0
+loop=1
+ignorehitpause=1
+
+[State 1000, 6]
+type = changestate
+triggerall = numhelper(8000)
+trigger1 = helper(8000),var(1) = 28
+trigger2 = time = 40
+value = 8042
+
+[Statedef 8042];読み込ませる用
+type = A
+movetype = I
+physics = N
+ctrl = 0
+anim = 9999
+sprpriority = 4
+
+[State 1000, 6]
+type = destroyself
+trigger1 = time = 5
+
+;---------------------------------------------------------------------------
+;対パイレーツマンロボレン水位
+;---------------------------------------------------------------------------
+[Statedef 8050]
+type = A
+movetype = I
+physics = N
+anim = 9999
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = -10
+
+[State -2]
+type = velset
+trigger1 = time = 0
+y = -4
+
+[State 202, 1]
+type = changestate
+trigger1 = pos y <= -130
+value = 8051
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = enemy,stateno = 1
+
+[Statedef 8051]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = -10
+
+[State -2]
+type = velset
+trigger1 = time = 0
+y = 0.20
+
+[State 202, 1]
+type = velset
+trigger1 = pos y >= -60
+y = 0
+
+[State 202, 1]
+type = changestate
+trigger1 = enemy,stateno = 2540
+Trigger2 = enemy,var(33) = 0
+value = 8052
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = enemy,stateno = 1
+Trigger2 = root,stateno = 192
+
+[Statedef 8052]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = -10
+
+[State -2]
+type = velset
+trigger1 = time = 0
+y = 4
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = pos y >= 0
+Trigger2 = enemy,stateno = 0
+Trigger3 = root,stateno = 192
+
+[Statedef 8100]
+type = A
+movetype = I
+physics = N
+anim = 8100
+ctrl = 0
+velset = 0,0
+ownpal = 1
+sprpriority = 999
+
+[State 9100, 0]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+[State 9100, 0]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 9100, 0]
+type = posset
+trigger1 = 1
+x = enemy,pos x
+y = enemy,pos y - 50
+
+[State 9100, 0]
+type = velset
+trigger1 = 1
+x = enemy,vel x
+
+[State Destroy,1]
+Type = Destroyself
+Trigger1 = root,var(15) != 1
+Trigger2 = enemy,stateno = 1
+Trigger3 = enemy,stateno = 3100
+Trigger4 = root,stateno = 192
+
+;---------------------------------------------------------------------------
+; エンディング用
+;---------------------------------------------------------------------------
+[Statedef 20000]
+type = S
+physics = N
+ctrl = 0
+anim = 9999
+velset = 0,0
+
+[State 825]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 1,1
+
+[State -2, ]
+type = changestate
+trigger1 = time = 9100
+trigger2 = enemy,life = 0
+value = 0
+ctrl = 1
+
+;----------------------------------------------------------------------------
+[Statedef 21000]
+type = A
+movetype = I
+physics = N
+anim = 9999
+ctrl = 0
+velset = 0,0
+
+[State 191, 2]
+type = AssertSpecial
+trigger1 = 1
+flag = nobardisplay
+flag2 = noBG
+flag3 = nokoslow
+
+[State 3000,00]
+type = AllPalfx
+trigger1 = time = 0
+add = -256,-256,-256
+time = 160
+
+[State 3000,00]
+type = AllPalfx
+trigger1 = time >= 160
+trigger1 = time <= 172
+add = ceil((time-160)/3)*64-256,ceil((time-160)/3)*64-256,ceil((time-160)/3)*64-256
+time = 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = time = 0
+anim = 21100
+pos = 0, 0
+postype = left
+facing = 1
+sprpriority = 55
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 21100
+scale  = 1, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = time = 0
+anim = 21101
+pos = 177, 74
+postype = left
+facing = 1
+sprpriority = 50
+ownpal = 1
+bindtime = 1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 21100
+scale  = 44, 1
+
+[State 6500, 1]
+type = Explod
+trigger1 = time = 0
+anim = 21102
+pos = 143, 74
+postype = left
+facing = 1
+sprpriority = 50
+ownpal = 1
+bindtime = -1
+removetime = -1
+supermovetime = 9999
+pausemovetime = 9999
+removeongethit = 1
+IgnoreHitPause = 1
+Persistent= 1
+ID = 21100
+scale  = 44, 1
+
+[State explod]
+type = Explod
+trigger1 = time % 20 = 0
+anim = 21105
+id = 21105
+sprpriority = 45
+postype = left
+pos = 0,random%240
+bindtime = 1
+removetime = 320
+vel = 1,0
+pausemovetime = 99999
+scale = 1,1
+
+[State explod]
+type = Explod
+trigger1 = time % 20 = 0
+anim = 21105
+id = 21105
+sprpriority = 45
+postype = left
+pos = 0,random%240
+bindtime = 1
+removetime = 107
+vel = 3,0
+pausemovetime = 99999
+scale = 1,1
+
+[State explod]
+type = Explod
+trigger1 = time % 20 = 0
+anim = 21106
+id = 21106
+sprpriority = 45
+postype = left
+pos = 0,random%240
+bindtime = 1
+removetime = 64
+vel = 5,0
+pausemovetime = 99999
+scale = 1,1
+
+
+;----------------------------------------------------------------------------
