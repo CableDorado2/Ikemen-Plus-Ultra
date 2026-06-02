@@ -134,7 +134,7 @@ function f_chroniclesMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_chroniclesMenu[chroniclesMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)

@@ -937,26 +937,62 @@ function drawMenuInfo(t)
 	f_textRender(txt_mainInfo, txtInfo, 0, 142, 164, 10, 0, -1)
 end
 
-function drawMainMenuInputHints()
+function drawMainMenuInputHints(t)
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
+	local quickType = nil
+	local quick = true
+	if type(t) == "boolean" then
+		if t then
+			quickType = "Remove"
+		else
+			quickType = ""
+			quick = false
+		end
+	elseif type(t) == "table" then
+	--Quick Menu is empty
+		if #quickDat.t_menu == 0 then
+			quickType = "Add"
+	--Quick Menu have items
+		else
+			local coincidence = false
+			for i, item in ipairs(quickDat.t_menu) do
+				if item.info == t.info then
+					coincidence = true
+					break
+				end
+			end
+			if coincidence then
+				quickType = "Remove"
+			else
+				quickType = "Add"
+			end
+		end
+	end
 	animPosDraw(inputHintsBG, -56, 212)
 	drawMenuInputHints(
 	"l","0,69","r","300,69",
-	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","264,"..inputHintYPos
+	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","249,"..inputHintYPos
 	)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 21, 82)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, "Events:", 268, 82)
-	
+	if quick then
+		f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quick "..quickType, 21, 82)
+		f_drawQuickText(txt_btnHint, hintFont, 0, -1, "Quick Menu:", 298, 82)
+	end
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 96, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 157, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Shortcuts", 214, hintFontYPos)
-	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Profile", 285, hintFontYPos)
-	if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 214, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":My Profile", 270, hintFontYPos)
+	if quick and (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 		sndPlay(sndSys, 100, 1)
 		
+	elseif quick and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
+		sndPlay(sndSys, 100, 1)
+		f_quickMenu()
+	elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
+		sndPlay(sndSys, 100, 1)
+		f_questMenu()
 	elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 		sndPlay(sndSys, 100, 1)
 		f_statsMenu()
@@ -6217,3 +6253,5 @@ CABLE DORADO 2
 CD2
 
 ]]
+
+--selectDef = "data/selectCVS.def" --Characters and Stage selection list

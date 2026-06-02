@@ -96,6 +96,7 @@ saveStatsPath = "save/stats_sav.json"
 saveP1Path = "save/p1_sav.json"
 saveP2Path = "save/p2_sav.json"
 saveAbyssPath = "save/abyss_sav.json"
+saveShortcutsPath = "save/quick_sav.json"
 saveTourneyPath = "save/tourney_sav.lua"
 --;===========================================================
 --; DATA LOADING
@@ -136,6 +137,9 @@ p2Dat = json.decode(f_fileRead(saveP2Path))
 
 --Data loading from abyss_sav.json
 abyssDat = json.decode(f_fileRead(saveAbyssPath))
+
+--Data loading from quick_sav.json
+quickDat = json.decode(f_fileRead(saveShortcutsPath))
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION
 --;===========================================================
@@ -1019,6 +1023,7 @@ end
 
 --Start functions stored in strings
 function f_gotoFunction(func)
+	--if type(func) == "function" then
 	if not func or not func.gotomenu then return end --Return in case func does not exist or does not have "gotomenu"
 	if t_unlockLua.modes[func.gotomenu] == nil then --If the menu item is unlocked
 		if not func.skipsfx then sndPlay(sndSys, 100, 1) end
@@ -3433,6 +3438,12 @@ function f_saveAbyss()
 	f_fileWrite(saveAbyssPath, json.encode(abyssDat, {indent = 2}))
 end
 
+--Data saving to quick_save.json
+function f_saveQuick()
+	--if data.debugLog then f_printTable(quickDat, 'save/debug/t_quickSave.log') end
+	f_fileWrite(saveShortcutsPath, json.encode(quickDat, {indent = 2}))
+end
+
 --Data saving to p1_sav.json and p2_sav.json
 function f_savePlayerDat()
 	f_fileWrite(saveP1Path, json.encode(p1Dat, {indent = 2}))
@@ -3654,6 +3665,20 @@ abyssDat.nosave = t_abyssDefaultSave
 			abyssDat.save[slot] = t_abyssDefaultSave
 		end
 	end
+end
+
+--Quick Menu Section
+function init_quickAccess()
+	local modified = false
+	if quickDat == nil then
+		quickDat = {}
+		modified = true
+	end
+	if quickDat.t_menu == nil then
+		quickDat.t_menu = {}
+		modified = true
+	end
+	if modified then f_saveQuick() end
 end
 
 --Unlocks Section

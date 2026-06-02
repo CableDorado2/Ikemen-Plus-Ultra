@@ -102,6 +102,7 @@ function f_mainStart()
 	else
 		f_resetTemp()
 		f_soundtrack() --Load Soundtrack Tables from common.lua for use in menus
+		init_quickAccess()
 		f_generateUnlocks()
 		f_unlock(false) --Check For Unlocked Content
 		f_updateUnlocks() --Print Unlock Data (when Save Debug Logs is Enabled)
@@ -372,7 +373,7 @@ function f_mainMenu()
 		if infoScreen then
 			f_infoMenu()
 		else
-			drawMainMenuInputHints()
+			drawMainMenuInputHints(t_mainMenu[mainMenu])
 		end
 		if infoboxScreen then f_infoboxMenu() end
 		animDraw(data.fadeTitle)
@@ -480,7 +481,7 @@ function f_mainMenu2()
 		if infoScreen then
 			f_infoMenu()
 		else
-			drawMainMenuInputHints()
+			drawMainMenuInputHints(t_mainMenu[mainMenu])
 		end
 		if infoboxScreen then f_infoboxMenu() end
 		animDraw(data.fadeTitle)
@@ -510,11 +511,11 @@ function f_optionsMenu()
 end
 
 --;===========================================================
---; SHORTCUTS MENU (save and access quickly to your favorite modes)
+--; QUICK MENU (save and access quickly to your favorite modes)
 --;===========================================================
 function f_quickMenu()
-	if t_quickMenu == nil or #t_quickMenu == 0 then
-		t_infoWindowMsg.text = "NO ENTRIES SAVED FOR QUICK ACCESS."
+	if #quickDat.t_menu == 0 then
+		t_infoWindowMsg.text = "NO ENTRIES SAVED IN QUICK MENU."
 		infoScreen = true
 		return
 	end
@@ -546,13 +547,13 @@ function f_quickMenu()
 				quickMenu = quickMenu + 1
 			end
 			if quickMenu < 1 then
-				quickMenu = #t_quickMenu
-				if #t_quickMenu > maxItems then
+				quickMenu = #quickDat.t_menu
+				if #quickDat.t_menu > maxItems then
 					cursorPosY = maxItems
 				else
-					cursorPosY = #t_quickMenu - 1
+					cursorPosY = #quickDat.t_menu - 1
 				end
-			elseif quickMenu > #t_quickMenu then
+			elseif quickMenu > #quickDat.t_menu then
 				quickMenu = 1
 				cursorPosY = 0
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
@@ -565,19 +566,19 @@ function f_quickMenu()
 			elseif cursorPosY == 0 then
 				moveTxt = (quickMenu - 1) * 13
 			end
-			if #t_quickMenu <= maxItems then
-				maxquickMenu = #t_quickMenu
+			if #quickDat.t_menu <= maxItems then
+				maxquickMenu = #quickDat.t_menu
 			elseif quickMenu - cursorPosY > 0 then
 				maxquickMenu = quickMenu + maxItems - cursorPosY
 			else
 				maxquickMenu = maxItems
 			end
 			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				f_gotoFunction(t_quickMenu[quickMenu])
+				f_gotoFunction(quickDat.t_menu[quickMenu])
 			end
 		end
 		drawBottomMenuSP()
-		for i=1, #t_quickMenu do
+		for i=1, #quickDat.t_menu do
 			if i == quickMenu then
 				bank = 1
 				itemSign = commonMenuItemSign
@@ -585,12 +586,12 @@ function f_quickMenu()
 				bank = 0
 				itemSign = ""
 			end
-			if t_unlockLua.modes[t_quickMenu[i].gotomenu] == nil then --If the menu item is unlocked
-				itemText = t_quickMenu[i].text
+			if t_unlockLua.modes[quickDat.t_menu[i].gotomenu] == nil then --If the menu item is unlocked
+				itemText = quickDat.t_menu[i].text
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_quickMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(quickDat.t_menu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
@@ -598,20 +599,20 @@ function f_quickMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		drawMiddleMenuSP()
-		drawMenuInfo(t_quickMenu[quickMenu])
+		drawMenuInfo(quickDat.t_menu[quickMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "FAVORITE MODES")
+		textImgSetText(txt_gameFt, "FAVORITES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxquickMenu > maxItems + 1 then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_quickMenu > maxItems + 1 and maxquickMenu < #t_quickMenu then
+		if #quickDat.t_menu > maxItems + 1 and maxquickMenu < #quickDat.t_menu then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(true) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -989,7 +990,7 @@ function f_exitMenu(titleBGM)
 		elseif infoScreen then
 			f_infoMenu() --Show Info Screen Message
 		else
-			drawMainMenuInputHints()
+			drawMainMenuInputHints(t_exitMenu[exitMenu])
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -1525,7 +1526,7 @@ function f_arcadeMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_arcadeMenu[arcadeMenu]) end
 		if sideScreen then f_sideSelect() end --Show Side Select
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -1642,7 +1643,7 @@ function f_vsMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_vsMenu[vsMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -1759,7 +1760,7 @@ function f_practiceMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_practiceMenu[practiceMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -1907,7 +1908,7 @@ function f_challengeMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_challengeMenu[challengeMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -2024,7 +2025,7 @@ function f_extrasMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_extrasMenu[extrasMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -2140,7 +2141,7 @@ function f_watchMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if infoScreen then f_infoMenu() else drawMainMenuInputHints() end
+		if infoScreen then f_infoMenu() else drawMainMenuInputHints(t_watchMenu[watchMenu]) end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2658,7 +2659,7 @@ function f_survivalMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_survivalMenu[survivalMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -2957,7 +2958,7 @@ function f_bossChars()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMainMenuInputHints() end
+		if sideScreen then f_sideSelect() else drawMainMenuInputHints(false) end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3133,7 +3134,7 @@ function f_bonusMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMainMenuInputHints() end
+		if sideScreen then f_sideSelect() else drawMainMenuInputHints(t_bonusMenu[bonusMenu]) end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3242,7 +3243,7 @@ function f_bonusExtras()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if sideScreen then f_sideSelect() else drawMainMenuInputHints() end
+		if sideScreen then f_sideSelect() else drawMainMenuInputHints(false) end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3485,7 +3486,7 @@ function f_scoreattackMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_scoreattackMenu[scoreattackMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -3781,7 +3782,7 @@ function f_timeattackMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints() end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_timeattackMenu[timeattackMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -5963,7 +5964,7 @@ function f_replayMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if infoScreen then f_infoMenu() else drawMainMenuInputHints() end
+		if infoScreen then f_infoMenu() else drawMainMenuInputHints(t_replayMenu[replayMenu]) end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -6349,7 +6350,7 @@ function f_mainNetplay()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		drawMainMenuInputHints()
+		drawMainMenuInputHints(false)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') then
@@ -6715,7 +6716,7 @@ function f_hostRooms()
 				animUpdate(menuArrowDown)
 			end
 		end
-		if not crudHostScreen and not editHostScreen then drawMainMenuInputHints() end --Draw Input Hints Panel for Host Rooms
+		if not crudHostScreen and not editHostScreen then drawMainMenuInputHints(false) end --Draw Input Hints Panel for Host Rooms
 		textBar = textBar >= 60 and 0 or textBar + 1
 	--CRUD ACTIONS
 		hostRoomName = (t_hostList[hostList].text) --Host Name Selected
