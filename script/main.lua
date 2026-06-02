@@ -51,6 +51,7 @@ altBGM = false
 data.tagmode = 1
 menuSelect = ""
 P2overP1 = false
+quickMenuActive = false
 firstAlliance = true
 currentAllianceMemberPlayer = 1
 currentAllianceMemberCPU = 1
@@ -536,7 +537,7 @@ function f_quickMenu()
 	f_updateUnlocks()
 	while true do
 		if not infoScreen and not sideScreen then
-			if #quickDat.t_menu == 0 or esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if #quickDat.t_menu == 0 or not quickMenuActive or esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then

@@ -941,7 +941,6 @@ function drawMenuInfo(t)
 	f_textRender(txt_mainInfo, txtInfo, 0, 142, 164, 10, 0, -1)
 end
 
-local quickMenuActive = false
 function drawMainMenuInputHints(t)
 	local inputHintYPos = 212
 	local hintFont = font2
@@ -981,8 +980,14 @@ function drawMainMenuInputHints(t)
 	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","249,"..inputHintYPos
 	)
 	if quick then
+		local quickMenuState = nil
+		if quickMenuActive then
+			quickMenuState = "Quick Menu Exit:"
+		else
+			quickMenuState = "Quick Menu:"
+		end
 		f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quick "..quickType, 21, 82)
-		f_drawQuickText(txt_btnHint, hintFont, 0, -1, "Quick Menu:", 298, 82)
+		f_drawQuickText(txt_btnHint, hintFont, 0, -1, quickMenuState, 298, 82)
 	end
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 96, hintFontYPos)
@@ -994,16 +999,22 @@ function drawMainMenuInputHints(t)
 		if quickType == "Add" then
 			sndPlay(sndSys, 100, 1)
 			table.insert(quickDat.t_menu, t)
+			f_saveQuick()
 		elseif quickType == "Remove" then
 			sndPlay(sndSys, 100, 2)
 			table.remove(quickDat.t_menu, quickRemovePos)
+			f_saveQuick()
 		end
 --Open Quick Menu
-	elseif quick and not quickMenuActive and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
-		sndPlay(sndSys, 100, 1)
-		quickMenuActive = true
-		f_quickMenu()
-		quickMenuActive = false
+	elseif quick and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
+		if not quickMenuActive then
+			sndPlay(sndSys, 100, 1)
+			quickMenuActive = true
+			f_quickMenu()
+			quickMenuActive = false
+		else
+			quickMenuActive = false
+		end
 --Open Quests Menu
 	elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
 		sndPlay(sndSys, 100, 1)
