@@ -31,6 +31,7 @@ t_chroniclesMenu = {
 		text = "???",
 		gotomenu = "f_comingSoon()" --quiz
 	},
+	menuName = "LORE MODES",
 }
 for i=1, #t_chroniclesMenu do
 	t_chroniclesMenu[i]['id'] = textImgNew()
@@ -123,7 +124,7 @@ function f_chroniclesMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_chroniclesMenu[chroniclesMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "LORE MODES")
+		textImgSetText(txt_gameFt, t_chroniclesMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxchroniclesMenu > maxItems + 1 then

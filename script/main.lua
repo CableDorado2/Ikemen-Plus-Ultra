@@ -358,7 +358,7 @@ function f_mainMenu()
 		f_sysTime()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
-			textImgSetText(txt_gameFt, "MAIN MENU")
+			textImgSetText(txt_gameFt, t_mainMenu.menuName)
 			textImgDraw(txt_version)
 			textImgDraw(txt_f1)
 			if maxMainMenu > maxItems + 1 then
@@ -472,7 +472,7 @@ function f_mainMenu2()
 		f_sysTime()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
-			textImgSetText(txt_gameFt, "MAIN MENU")
+			textImgSetText(txt_gameFt, t_mainMenu.menuName)
 			textImgDraw(txt_version)
 			textImgDraw(txt_f1)
 			animPosDraw(menuArrowUp, 62, 95)
@@ -1515,7 +1515,7 @@ function f_arcadeMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_arcadeMenu[arcadeMenu])
 		textImgDraw(txt_gameFt)		
-		textImgSetText(txt_gameFt, "ARCADE MODES")
+		textImgSetText(txt_gameFt, t_arcadeMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxArcadeMenu > maxItems + 1 then
@@ -1632,7 +1632,7 @@ function f_vsMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_vsMenu[vsMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "VERSUS MODES")
+		textImgSetText(txt_gameFt, t_vsMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxVSMenu > maxItems + 1 then
@@ -1749,7 +1749,7 @@ function f_practiceMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_practiceMenu[practiceMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "PRACTICE MODES")
+		textImgSetText(txt_gameFt, t_practiceMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxpracticeMenu > maxItems + 1 then
@@ -1876,7 +1876,7 @@ function f_challengeMenu()
 		drawBottomMenuSP()
 		for i=1, #t_challengeMenu do
 			if i == challengeMenu then
-				bank = 1
+				bank = 5
 				itemSign = commonMenuItemSign
 			else
 				bank = 0
@@ -1897,7 +1897,7 @@ function f_challengeMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_challengeMenu[challengeMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "CHALLENGE MODES")
+		textImgSetText(txt_gameFt, t_challengeMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxChallengeMenu > maxItems + 1 then
@@ -2014,7 +2014,7 @@ function f_extrasMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_extrasMenu[extrasMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "EXTRA MODES")
+		textImgSetText(txt_gameFt, t_extrasMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxExtrasMenu > maxItems + 1 then
@@ -2130,7 +2130,7 @@ function f_watchMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_watchMenu[watchMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "WATCH CONTENT")
+		textImgSetText(txt_gameFt, t_watchMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxWatchMenu > maxItems + 1 then
@@ -2648,7 +2648,7 @@ function f_survivalMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_survivalMenu[survivalMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "SURVIVAL MODES")
+		textImgSetText(txt_gameFt, t_survivalMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxsurvivalMenu > maxItems + 1 then
@@ -3123,7 +3123,7 @@ function f_bonusMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_bonusMenu[bonusMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "MINI-GAMES")
+		textImgSetText(txt_gameFt, t_bonusMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBonusMenu > 6 then
@@ -3454,7 +3454,7 @@ function f_scoreattackMenu()
 		drawBottomMenuSP()
 		for i=1, #t_scoreattackMenu do
 			if i == scoreattackMenu then
-				bank = 1
+				bank = 5
 				itemSign = commonMenuItemSign
 			else
 				bank = 0
@@ -3475,7 +3475,7 @@ function f_scoreattackMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_scoreattackMenu[scoreattackMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "SCORE ATTACK MODES")
+		textImgSetText(txt_gameFt, t_scoreattackMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxscoreattackMenu > maxItems + 1 then
@@ -3750,7 +3750,7 @@ function f_timeattackMenu()
 		drawBottomMenuSP()
 		for i=1, #t_timeattackMenu do
 			if i == timeattackMenu then
-				bank = 1
+				bank = 5
 				itemSign = commonMenuItemSign
 			else
 				bank = 0
@@ -3771,7 +3771,7 @@ function f_timeattackMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_timeattackMenu[timeattackMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "TIME ATTACK MODES")
+		textImgSetText(txt_gameFt, t_timeattackMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxtimeattackMenu > maxItems + 1 then
@@ -5953,7 +5953,7 @@ function f_replayMenu()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_replayMenu[replayMenu])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "REPLAY MODES")
+		textImgSetText(txt_gameFt, t_replayMenu.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxreplayMenu > maxItems + 1 then
@@ -6339,7 +6339,7 @@ function f_mainNetplay()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_mainNetplay[mainNetplay])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "ONLINE MODE")
+		textImgSetText(txt_gameFt, t_mainNetplay.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxMainNetplay > maxItems + 1 then
@@ -7371,7 +7371,7 @@ function f_mainLobby()
 		drawMiddleMenuSP()
 		drawMenuInfo(t_mainLobby[mainLobby])
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "ONLINE MENU")
+		textImgSetText(txt_gameFt, t_mainLobby.menuName)
 		textImgDraw(txt_version)
 		f_sysTime()
 		if netPlayer == "host" then

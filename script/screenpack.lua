@@ -877,8 +877,8 @@ t_mainMenu = {
 	{
 		text = "CHALLENGES",
 		info = [[
-		Play through a Series of
-		Advanced Game Modes!
+		Play through Advanced Modes.
+		Test the limits of your skills!
 		]],
 		gotomenu = "f_challengeMenu()"
 	},
@@ -887,6 +887,9 @@ t_mainMenu = {
 		info = [[
 		Play through a Collection of
 		Special Game Modes!
+		
+		Win or lose? It doesn't matter
+		just have fun!
 		]],
 		gotomenu = "f_extrasMenu()" --, unlock = "stats.modes.arcade.clear >= 1",
 	},
@@ -912,6 +915,7 @@ t_mainMenu = {
 		]],
 		gotomenu = "f_exitMenu()"
 	},
+	menuName = "MAIN MENU",
 }
 --Set ID to all final items
 for i=1, #t_mainMenu do
@@ -1015,7 +1019,7 @@ end
 --;===========================================================
 t_arcadeMenu = {
 	{
-		text = "CLASSIC",
+		text = "CLASSIC ARCADE",
 		info = [[
 		Defeat a series of opponents
 		to reach each character's
@@ -1031,13 +1035,14 @@ t_arcadeMenu = {
 		gotomenu = "f_bossrushBoot()"
 	},
 	{
-		text = "TOWER",
+		text = "TOWERS",
 		info = [[
 		Play through Arcade Ladders
 		with different lengths!
 		]],
 		gotomenu = "f_towerBoot()"
 	},
+	menuName = "ARCADE MODES",
 }
 for i=1, #t_arcadeMenu do
 	t_arcadeMenu[i]['id'] = textImgNew()
@@ -1080,6 +1085,7 @@ t_vsMenu = {
 		]],
 		gotomenu = "f_bossChars()"
 	},
+	menuName = "VERSUS MODES",
 }
 for i=1, #t_vsMenu do
 	t_vsMenu[i]['id'] = textImgNew()
@@ -1108,6 +1114,7 @@ t_practiceMenu = {
 		]],
 		gotomenu = "f_comingSoon()"
 	},
+	menuName = "PRACTICE MODES",
 }
 for i=1, #t_practiceMenu do
 	t_practiceMenu[i]['id'] = textImgNew()
@@ -1130,7 +1137,7 @@ t_challengeMenu = {
 		gotomenu = "f_allianceBoot()"
 	},
 	{
-		text = "SURVIVAL",
+		text = "ENDURANCE",
 		info = [[
 		Compete for the Highest Winning
 		Streak in a series of matches
@@ -1139,7 +1146,7 @@ t_challengeMenu = {
 		gotomenu = "f_survivalMenu()"
 	},
 	{
-		text = "TIME ATTACK",
+		text = "TIME TRIALS",
 		info = [[
 		Compete for the fastest
 		completion time in a series of
@@ -1148,7 +1155,7 @@ t_challengeMenu = {
 		gotomenu = "f_timeattackMenu()"
 	},
 	{
-		text = "SCORE ATTACK",
+		text = "SCORE TRIALS",
 		info = [[
 		Compete for a High Score in a
 		series of matches with Fixed
@@ -1156,6 +1163,7 @@ t_challengeMenu = {
 		]],
 		gotomenu = "f_scoreattackMenu()"
 	},
+	menuName = "CHALLENGE MODES",
 }
 for i=1, #t_challengeMenu do
 	t_challengeMenu[i]['id'] = textImgNew()
@@ -1167,7 +1175,7 @@ end
 --;===========================================================
 t_survivalMenu = {
 	{
-		text = "CLASSIC",
+		text = "SURVIVAL",
 		info = [[
 		Defeat many opponents as
 		possible with a single health!
@@ -1196,6 +1204,7 @@ t_survivalMenu = {
 		]],
 		gotomenu = "f_abyssSelect()"
 	},
+	menuName = "ENDURANCE CHALLENGES",
 }
 for i=1, #t_survivalMenu do
 	t_survivalMenu[i]['id'] = textImgNew()
@@ -1207,7 +1216,7 @@ end
 --;===========================================================
 t_timeattackMenu = {
 	{
-		text = "CLASSIC",
+		text = "TIME ATTACK",
 		info = [[
 		Defeat opponents quickly to
 		get Best Time as possible!
@@ -1229,6 +1238,7 @@ t_timeattackMenu = {
 		text = "???",
 		gotomenu = "f_comingSoon()"
 	},
+	menuName = "TIME CHALLENGES",
 }
 for i=1, #t_timeattackMenu do
 	t_timeattackMenu[i]['id'] = textImgNew()
@@ -1240,7 +1250,7 @@ end
 --;===========================================================
 t_scoreattackMenu = {
 	{
-		text = "CLASSIC",
+		text = "SCORE ATTACK",
 		info = [[
 		Defeat opponents getting the
 		Best Score possible!
@@ -1260,6 +1270,7 @@ t_scoreattackMenu = {
 		text = "???",
 		gotomenu = "f_comingSoon()"
 	},
+	menuName = "SCORE CHALLENGES",
 }
 for i=1, #t_scoreattackMenu do
 	t_scoreattackMenu[i]['id'] = textImgNew()
@@ -1305,6 +1316,7 @@ t_extrasMenu = {
 		]],
 		gotomenu = "f_endlessBoot()"
 	},
+	menuName = "EXTRA MODES",
 }
 for i=1, #t_extrasMenu do
 	t_extrasMenu[i]['id'] = textImgNew()
@@ -1316,7 +1328,7 @@ end
 --;===========================================================
 t_bonusMenu = {
 	{
-		text = "FREE SELECT",
+		text = "FREE BONUS",
 		info = [[
 		Play a Bonus Game of your
 		choice!
@@ -1324,13 +1336,14 @@ t_bonusMenu = {
 		gotomenu = "f_bonusExtras()"
 	},
 	{
-		text = "MARATHON",
+		text = "BONUS MARATHON",
 		info = [[
 		Clear all Bonus Stages in a
 		marathon!
 		]],
 		gotomenu = "f_bonusrushBoot()"
 	},
+	menuName = "MINI-GAMES",
 }
 for i=1, #t_bonusMenu do
 	t_bonusMenu[i]['id'] = textImgNew()
@@ -1386,6 +1399,7 @@ t_watchMenu = {
 		]],
 		gotomenu = "f_playCredits()"
 	},
+	menuName = "WATCH CONTENT",
 }
 for i=1, #t_watchMenu do
 	t_watchMenu[i]['id'] = textImgNew()
@@ -1397,19 +1411,20 @@ end
 --;===========================================================
 t_replayMenu = {
 	{
-		text = "NETPLAY",
+		text = "ONLINE REPLAYS",
 		info = [[
 		Watch and Manage Online Modes
 		replay data that you saved!
 		]]
 	},
 	{
-		text = "LOCAL",
+		text = "LOCAL REPLAYS",
 		info = [[
 		Watch and Manage Offline Modes
 		replay data that you saved!
 		]]
 	},
+	menuName = "REPLAY MODES",
 }
 for i=1, #t_replayMenu do
 	t_replayMenu[i]['id'] = textImgNew()
@@ -1582,6 +1597,7 @@ t_mainNetplay = {
 		Search for Opponents!
 		]]
 	},
+	menuName = "ONLINE PLAY",
 }
 for i=1, #t_mainNetplay do
 	t_mainNetplay[i]['id'] = textImgNew()
@@ -1724,6 +1740,7 @@ t_mainLobby = {
 	{
 		text = "ROOM SETTINGS"
 	},
+	menuName = "ONLINE MODES",
 }
 for i=1, #t_mainLobby do
 	t_mainLobby[i]['id'] = textImgNew()
