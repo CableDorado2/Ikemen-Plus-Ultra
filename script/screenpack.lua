@@ -941,16 +941,16 @@ function drawMenuInfo(t)
 	f_textRender(txt_mainInfo, txtInfo, 0, 142, 164, 10, 0, -1)
 end
 
+local quickMenuActive = false
 function drawMainMenuInputHints(t)
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
 	local quickType = nil
 	local quick = true
+	local quickRemovePos = nil
 	if type(t) == "boolean" then
-		if t then
-			quickType = "Remove"
-		else
+		if not t then
 			quickType = ""
 			quick = false
 		end
@@ -963,6 +963,7 @@ function drawMainMenuInputHints(t)
 			local coincidence = false
 			for i, item in ipairs(quickDat.t_menu) do
 				if item.info == t.info then
+					quickRemovePos = i
 					coincidence = true
 					break
 				end
@@ -988,15 +989,26 @@ function drawMainMenuInputHints(t)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 157, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 214, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":My Profile", 270, hintFontYPos)
+--Add/Remove Quick Menu Entries
 	if quick and (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+		if quickType == "Add" then
+			sndPlay(sndSys, 100, 1)
+			table.insert(quickDat.t_menu, t)
+		elseif quickType == "Remove" then
+			sndPlay(sndSys, 100, 2)
+			table.remove(quickDat.t_menu, quickRemovePos)
+		end
+--Open Quick Menu
+	elseif quick and not quickMenuActive and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
 		sndPlay(sndSys, 100, 1)
-		
-	elseif quick and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
-		sndPlay(sndSys, 100, 1)
+		quickMenuActive = true
 		f_quickMenu()
+		quickMenuActive = false
+--Open Quests Menu
 	elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
 		sndPlay(sndSys, 100, 1)
 		f_questMenu()
+--Open Player Profile Menu
 	elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 		sndPlay(sndSys, 100, 1)
 		f_statsMenu()

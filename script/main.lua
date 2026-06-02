@@ -536,7 +536,7 @@ function f_quickMenu()
 	f_updateUnlocks()
 	while true do
 		if not infoScreen and not sideScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			if #quickDat.t_menu == 0 or esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -580,7 +580,7 @@ function f_quickMenu()
 		drawBottomMenuSP()
 		for i=1, #quickDat.t_menu do
 			if i == quickMenu then
-				bank = 1
+				bank = 5
 				itemSign = commonMenuItemSign
 			else
 				bank = 0
@@ -612,7 +612,7 @@ function f_quickMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints(true) end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(quickDat.t_menu[quickMenu]) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
