@@ -275,6 +275,7 @@ function f_mainMenu()
 	f_menuMusic()
 	f_infoReset()
 	f_infoboxReset()
+	f_confirmReset()
 	--f_resetFadeBGM()
 	f_resetMenuArrowsPos()
 	f_unlock(false)
@@ -409,6 +410,7 @@ function f_mainMenu2()
 	f_menuMusic()
 	f_infoReset()
 	f_infoboxReset()
+	f_confirmReset()
 	--f_resetFadeBGM()
 	f_resetMenuArrowsPos()
 	f_unlock(false)
@@ -533,12 +535,15 @@ function f_quickMenu()
 	local itemSign = ""
 	f_infoReset()
 	f_sideReset()
+	f_confirmReset()
 	f_unlock(false)
 	f_updateUnlocks()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if not infoScreen and not sideScreen then
 			if #quickDat.t_menu == 0 or not quickMenuActive or esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sndSys, 100, 2)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 				break
 			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
@@ -613,7 +618,7 @@ function f_quickMenu()
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints(quickDat.t_menu[quickMenu]) end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(quickDat.t_menu[quickMenu], true) end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -858,6 +863,7 @@ function f_confirmMenu(txt, font, bank, x, y, scaleX, scaleY, spacing, limit)
 				tourneyBack = true --For Tournament Menu
 				exitAbyss = true --For Abyss Menu
 				allianceConfirm = true --For Alliance Menu
+				removeQuickEntry = true --For Quick Menu
 			end
 	--NO
 		else
@@ -991,7 +997,7 @@ function f_exitMenu(titleBGM)
 		elseif infoScreen then
 			f_infoMenu() --Show Info Screen Message
 		else
-			drawMainMenuInputHints(t_exitMenu[exitMenu])
+			drawMainMenuInputHints(false)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -4010,7 +4016,7 @@ function f_commonCourseSelect()
 				elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 					sndPlay(sndSys, 100, 0)
 					local lastItem = table.remove(t_advancedCourseSel[advancedCourseSel].roster) --Delete last item
-					table.insert(t_advancedCourseSel[advancedCourseSel].roster, 1, lastItem) --Insert last item as first item					
+					table.insert(t_advancedCourseSel[advancedCourseSel].roster, 1, lastItem) --Insert last item as first item
 				end
 			end
 		end

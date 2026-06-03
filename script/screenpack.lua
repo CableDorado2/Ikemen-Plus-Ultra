@@ -938,7 +938,7 @@ function drawMenuInfo(t)
 	f_textRender(txt_mainInfo, txtInfo, 0, 142, 164, 10, 0, -1)
 end
 
-function drawMainMenuInputHints(t)
+function drawMainMenuInputHints(t, quickMenu)
 	local inputHintYPos = 212
 	local hintFont = font2
 	local hintFontYPos = 226
@@ -947,6 +947,7 @@ function drawMainMenuInputHints(t)
 	local quickRemovePos = nil
 	local quickAddBtn = ""
 	local quickOpenBtn = ""
+	local inQuickMenu = quickMenu or nil
 	if type(t) == "boolean" then
 		if not t then
 			quickType = ""
@@ -976,54 +977,74 @@ function drawMainMenuInputHints(t)
 		end
 	end
 	animPosDraw(inputHintsBG, -56, 212)
-	drawMenuInputHints(
-	quickAddBtn,"0,69",quickOpenBtn,"300,69",
-	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","249,"..inputHintYPos
-	)
 	if quick then
 		local quickMenuState = nil
 		if quickMenuActive then
-			quickMenuState = "Quick Menu Exit:"
+			if inQuickMenu then
+				quickMenuState = "Send to Top"
+			else
+				quickMenuState = ""
+				quickOpenBtn = ""
+			end
 		else
 			quickMenuState = "Quick Menu:"
 		end
 		f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quick "..quickType, 21, 82)
 		f_drawQuickText(txt_btnHint, hintFont, 0, -1, quickMenuState, 298, 82)
 	end
+	drawMenuInputHints(
+	quickAddBtn,"0,69",quickOpenBtn,"300,69",
+	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","249,"..inputHintYPos
+	)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 96, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 157, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Quests", 214, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":My Profile", 270, hintFontYPos)
---Add/Remove Quick Menu Entries
-	if quick and (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
-		if quickType == "Add" then
+	if not confirmScreen then
+	--Add/Remove Quick Menu Entries
+		if quick and (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+			if quickType == "Add" then
+				sndPlay(sndSys, 100, 1)
+				table.insert(quickDat.t_menu, t)
+				f_saveQuick()
+			elseif quickType == "Remove" then
+				sndPlay(sndSys, 100, 1)
+				removeQuickEntry = false
+				confirmScreen = true
+			end
+	--Open/Edit Quick Menu
+		elseif quick and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
+		--Open Mode
+			if not quickMenuActive then
+				sndPlay(sndSys, 100, 1)
+				quickMenuActive = true
+				f_quickMenu()
+				quickMenuActive = false
+			end
+		--Edit Mode
+			if inQuickMenu then
+				sndPlay(sndIkemen, 200, 2)
+				local item = table.remove(quickDat.t_menu, quickRemovePos) --Delete item selected
+				table.insert(quickDat.t_menu, 1, item) --Insert item selected as first item
+				f_saveQuick()
+			end
+	--Open Quests Menu
+		elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
 			sndPlay(sndSys, 100, 1)
-			table.insert(quickDat.t_menu, t)
-			f_saveQuick()
-		elseif quickType == "Remove" then
-			sndPlay(sndSys, 100, 2)
+			f_questMenu()
+	--Open Player Profile Menu
+		elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
+			sndPlay(sndSys, 100, 1)
+			f_statsMenu()
+		end
+	else
+		f_confirmMenu("Remove from Quick Menu?")
+		if removeQuickEntry then
 			table.remove(quickDat.t_menu, quickRemovePos)
 			f_saveQuick()
+			removeQuickEntry = false
 		end
---Open Quick Menu
-	elseif quick and (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) then
-		if not quickMenuActive then
-			sndPlay(sndSys, 100, 1)
-			quickMenuActive = true
-			f_quickMenu()
-			quickMenuActive = false
-		else
-			quickMenuActive = false
-		end
---Open Quests Menu
-	elseif commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then
-		sndPlay(sndSys, 100, 1)
-		f_questMenu()
---Open Player Profile Menu
-	elseif commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
-		sndPlay(sndSys, 100, 1)
-		f_statsMenu()
 	end
 end
 
