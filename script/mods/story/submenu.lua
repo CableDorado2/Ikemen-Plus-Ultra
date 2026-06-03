@@ -9,7 +9,6 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 --;===========================================================
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
 table.insert(t_extrasMenu, 1, {
-id = textImgNew(),
 text = "CHRONICLES",
 info = [[
 Play Game modes focused on
@@ -34,7 +33,6 @@ t_chroniclesMenu = {
 	menuName = "LORE MODES",
 }
 for i=1, #t_chroniclesMenu do
-	t_chroniclesMenu[i]['id'] = textImgNew()
 	if t_chroniclesMenu[i].unlock == nil then t_chroniclesMenu[i].unlock = "true" end
 end
 f_checkMenuUnlocks(t_chroniclesMenu)
@@ -114,7 +112,7 @@ function f_chroniclesMenu()
 			else
 				itemText = "???"
 			end
-			textImgDraw(f_updateTextImg(t_chroniclesMenu[i].id, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
+			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
 		end
 		if not sideScreen and not infoScreen then
 			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)

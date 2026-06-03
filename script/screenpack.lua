@@ -825,15 +825,13 @@ t_exitMenu = {
 		]]
 	},
 }
-for i=1, #t_exitMenu do
-	t_exitMenu[i].id = textImgNew()
-end
 
 --;===========================================================
 --; MAIN MENU SCREENPACK DEFINITION
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
 txt_mainInfo = createTextImg(font6, 0, 1, "", 0, 0, 0.7, 0.7)
+txt_mainMenuDat = textImgNew()
 MainFadeInTime = 30
 commonMenuItemSign = "> "
 
@@ -917,9 +915,8 @@ t_mainMenu = {
 	},
 	menuName = "MAIN MENU",
 }
---Set ID to all final items
+--Set data to all final items
 for i=1, #t_mainMenu do
-	t_mainMenu[i]['id'] = textImgNew()
 	if t_mainMenu[i].unlock == nil then t_mainMenu[i].unlock = "true" end
 end
 
@@ -948,12 +945,16 @@ function drawMainMenuInputHints(t)
 	local quickType = nil
 	local quick = true
 	local quickRemovePos = nil
+	local quickAddBtn = ""
+	local quickOpenBtn = ""
 	if type(t) == "boolean" then
 		if not t then
 			quickType = ""
 			quick = false
 		end
 	elseif type(t) == "table" then
+		quickAddBtn = "l"
+		quickOpenBtn = "r"
 	--Quick Menu is empty
 		if #quickDat.t_menu == 0 then
 			quickType = "Add"
@@ -976,7 +977,7 @@ function drawMainMenuInputHints(t)
 	end
 	animPosDraw(inputHintsBG, -56, 212)
 	drawMenuInputHints(
-	"l","0,69","r","300,69",
+	quickAddBtn,"0,69",quickOpenBtn,"300,69",
 	"u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"s","75,"..inputHintYPos,"e","136,"..inputHintYPos,"q","193,"..inputHintYPos,"w","249,"..inputHintYPos
 	)
 	if quick then
@@ -1068,7 +1069,6 @@ t_arcadeMenu = {
 	menuName = "ARCADE MODES",
 }
 for i=1, #t_arcadeMenu do
-	t_arcadeMenu[i]['id'] = textImgNew()
 	if t_arcadeMenu[i].unlock == nil then t_arcadeMenu[i].unlock = "true" end
 end
 
@@ -1111,7 +1111,6 @@ t_vsMenu = {
 	menuName = "VERSUS MODES",
 }
 for i=1, #t_vsMenu do
-	t_vsMenu[i]['id'] = textImgNew()
 	if t_vsMenu[i].unlock == nil then t_vsMenu[i].unlock = "true" end
 end
 
@@ -1140,7 +1139,6 @@ t_practiceMenu = {
 	menuName = "PRACTICE MODES",
 }
 for i=1, #t_practiceMenu do
-	t_practiceMenu[i]['id'] = textImgNew()
 	if t_practiceMenu[i].unlock == nil then t_practiceMenu[i].unlock = "true" end
 end
 
@@ -1189,7 +1187,6 @@ t_challengeMenu = {
 	menuName = "CHALLENGE MODES",
 }
 for i=1, #t_challengeMenu do
-	t_challengeMenu[i]['id'] = textImgNew()
 	if t_challengeMenu[i].unlock == nil then t_challengeMenu[i].unlock = "true" end
 end
 
@@ -1230,7 +1227,6 @@ t_survivalMenu = {
 	menuName = "ENDURANCE CHALLENGES",
 }
 for i=1, #t_survivalMenu do
-	t_survivalMenu[i]['id'] = textImgNew()
 	if t_survivalMenu[i].unlock == nil then t_survivalMenu[i].unlock = "true" end
 end
 
@@ -1264,7 +1260,6 @@ t_timeattackMenu = {
 	menuName = "TIME CHALLENGES",
 }
 for i=1, #t_timeattackMenu do
-	t_timeattackMenu[i]['id'] = textImgNew()
 	if t_timeattackMenu[i].unlock == nil then t_timeattackMenu[i].unlock = "true" end
 end
 
@@ -1296,7 +1291,6 @@ t_scoreattackMenu = {
 	menuName = "SCORE CHALLENGES",
 }
 for i=1, #t_scoreattackMenu do
-	t_scoreattackMenu[i]['id'] = textImgNew()
 	if t_scoreattackMenu[i].unlock == nil then t_scoreattackMenu[i].unlock = "true" end
 end
 
@@ -1342,7 +1336,6 @@ t_extrasMenu = {
 	menuName = "EXTRA MODES",
 }
 for i=1, #t_extrasMenu do
-	t_extrasMenu[i]['id'] = textImgNew()
 	if t_extrasMenu[i].unlock == nil then t_extrasMenu[i].unlock = "true" end
 end
 
@@ -1369,7 +1362,6 @@ t_bonusMenu = {
 	menuName = "MINI-GAMES",
 }
 for i=1, #t_bonusMenu do
-	t_bonusMenu[i]['id'] = textImgNew()
 	if t_bonusMenu[i].unlock == nil then t_bonusMenu[i].unlock = "true" end
 end
 
@@ -1425,7 +1417,6 @@ t_watchMenu = {
 	menuName = "WATCH CONTENT",
 }
 for i=1, #t_watchMenu do
-	t_watchMenu[i]['id'] = textImgNew()
 	if t_watchMenu[i].unlock == nil then t_watchMenu[i].unlock = "true" end
 end
 
@@ -1449,9 +1440,6 @@ t_replayMenu = {
 	},
 	menuName = "REPLAY MODES",
 }
-for i=1, #t_replayMenu do
-	t_replayMenu[i]['id'] = textImgNew()
-end
 
 --;===========================================================
 --; ONLINE REPLAYS MENU SCREENPACK DEFINITION
@@ -1622,9 +1610,6 @@ t_mainNetplay = {
 	},
 	menuName = "ONLINE PLAY",
 }
-for i=1, #t_mainNetplay do
-	t_mainNetplay[i]['id'] = textImgNew()
-end
 
 --;===========================================================
 --; ONLINE HOST ROOM SCREENPACK DEFINITION
@@ -1765,9 +1750,6 @@ t_mainLobby = {
 	},
 	menuName = "ONLINE MODES",
 }
-for i=1, #t_mainLobby do
-	t_mainLobby[i]['id'] = textImgNew()
-end
 
 --;===========================================================
 --; SIDE SELECT SCREENPACK DEFINITION

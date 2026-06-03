@@ -161,7 +161,6 @@ f_loadAchievements()
 --;===========================================================
 --Insert new item to t_watchMenu table loaded by screenpack.lua
 table.insert(t_watchMenu, 5, {
-id = textImgNew(),
 text = "ACHIEVEMENTS",
 info = [[
 Collect a list of milestones

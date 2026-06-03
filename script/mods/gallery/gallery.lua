@@ -16,7 +16,6 @@ local galleryMoviesDef = "script/mods/gallery/movies.def" --Gallery Videos
 --;===========================================================
 --Insert new item to t_watchMenu table loaded by screenpack.lua
 table.insert(t_watchMenu, 4, {
-id = textImgNew(),
 text = "GALLERY",
 info = [[
 View Artworks, Storyboards and

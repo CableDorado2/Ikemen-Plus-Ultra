@@ -11,7 +11,6 @@ local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
 --;===========================================================
 --Insert new item to t_mainMenu table loaded by screenpack.lua
 table.insert(t_customizeMenu, 1, {
-id = textImgNew(),
 text = "ITEM SHOP",
 info = [[
 Buy and Unlock Features using

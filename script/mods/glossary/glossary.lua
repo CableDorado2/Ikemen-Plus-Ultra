@@ -10,7 +10,6 @@ local glossaryDef = "script/mods/glossary/glossary.def" --Glossary Data (Glossar
 --;===========================================================
 --Insert new item to t_watchMenu table loaded by screenpack.lua
 table.insert(t_watchMenu, 5, {
-id = textImgNew(),
 text = "GLOSSARY",
 info = [[
 Learn all terminology that

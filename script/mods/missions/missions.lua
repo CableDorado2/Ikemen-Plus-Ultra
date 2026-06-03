@@ -10,7 +10,6 @@ local missionSpr = sffNew("script/mods/missions/missions.sff") --Load Mission Sp
 --;===========================================================
 --Insert new item to t_challengeMenu table loaded by screenpack.lua
 table.insert(t_challengeMenu, 1, {
-id = textImgNew(),
 text = "MISSIONS",
 info = [[
 Complete specific objectives!

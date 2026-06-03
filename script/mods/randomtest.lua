@@ -5,7 +5,6 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 =================================================================================]]
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
 table.insert(t_extrasMenu, #t_extrasMenu + 1, {
-id = textImgNew(),
 text = "RANDOM TEST",
 info = [[
 Watch CPU play to generate

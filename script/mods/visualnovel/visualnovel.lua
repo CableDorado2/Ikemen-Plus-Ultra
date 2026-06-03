@@ -5,7 +5,6 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 =================================================================================]]
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
 table.insert(t_chroniclesMenu, 2, {
-id = textImgNew(),
 text = "VISUAL NOVEL",
 info = [[
 Play through narrative and
