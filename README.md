@@ -71,6 +71,8 @@ This is a general view of what you can expect in next releases. This roadmap is 
 
 - Los combates de intermisiones dejan de funcionar si se juega en team mode.
 
+- Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games, eventos o demo mode por ejemplo.
+
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
 - Leer archivos movelist.dat dentro de los chars.
@@ -135,8 +137,6 @@ Saved Team en Dragon Ball Fighterz:
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
 - Probar cargar un commonfx en fight.def para almacenar los sprites del input display sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
-
-- Crear un trigger para tener control sobre la animación de Round/Fight! para poder desactivarlos en bonus games o demo mode por ejemplo.
 
 - Crear un trigger para activar o desactivar las transiciones por cada round. Al desactivarlas, el inicio de cada nuevo round sería como X-Men COTA o Mortal Kombat.
 
