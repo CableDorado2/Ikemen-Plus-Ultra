@@ -4178,7 +4178,7 @@ function f_advancedModesStatus(state)
 				modified = true
 			end
 			if getTimePersistence() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime then
-				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime = getTimePersistence()
+				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime = math.floor(getTimePersistence() / 60)
 				resultsNewRecordRoundTime = true
 				resultsNewRecord = true
 				modified = true
@@ -4353,9 +4353,9 @@ function f_speedStarSelect()
 				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
 				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
 				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
-				local timeText = math.floor(stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime / 60)
+				local timeText = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
 				if timeText == 0 then timeText = "---" end
-				data.bestRecord = "BEST ROUND TIME: "..timeText.." SECONDS"
+				data.bestRecord = "BEST ROUND TIME: "..timeText.." SEC"
 				f_saveTemp()
 				break
 			end
@@ -4423,25 +4423,27 @@ function f_speedStarSelect()
 					animPosDraw(speedCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
 				end
 				
-				textImgPosDraw(txt_speedCourseScoreRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))				
-				textImgSetText(txt_speedCourseScoreRecordVar, f_setThousandsFormat(stats.modes.speedstar[t_speedCourseSel[i].id].score).."PTS")
-				textImgPosDraw(txt_speedCourseScoreRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgPosDraw(txt_speedCourseClearRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseClearRecordVar, f_setTimeText(stats.modes.speedstar[t_speedCourseSel[i].id].time))
+				textImgPosDraw(txt_speedCourseClearRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				
+				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].roundtime
+				if timeText == 0 then timeText = "---" else timeText = timeText.." SEC" end
 				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTimeRecordVar, f_setTimeText(stats.modes.speedstar[t_speedCourseSel[i].id].time))
+				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
 				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 				
-				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))				
+				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
 				textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
 				
-				textImgPosDraw(txt_speedCourseTotalStages, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
-				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTimeBonus, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))			
+				textImgPosDraw(txt_speedCourseTimeBonus, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
 				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
-				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTotalStages, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
+				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
 			end
 		end
 	--Draw Cursor

@@ -1100,8 +1100,10 @@ t_vsMenu = {
 	{
 		text = "QUICK MATCH",
 		info = [[
-		Test your skills in Random
-		Battles!
+		Play a Quick Battle.
+		
+		Characters and Stage will be
+		selected Randomly!
 		]],
 		gotomenu = "f_quickvsBoot()"
 	},
@@ -3178,9 +3180,7 @@ function f_drawSpeedStarResults(active)
 	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, math.floor(getTimePersistence() / 60).."SECONDS", 320, 115, 0.65, 0.65)
 	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL ROUND TIME", 320, 130, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
-		local timeDat = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
-		timeDat = math.floor(timeDat / 60)
-		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, timeDat.."SECONDS", 320, 175, 0.5, 0.5)
+		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime.."SECONDS", 320, 175, 0.5, 0.5)
 		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST ROUND TIME", 320, 188, 0.7, 0.7)
 	end
 end
@@ -4300,11 +4300,11 @@ end
 txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT (SPEED STAR)", 159, 11)
 txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
 
-txt_speedCourseScoreRecord = createTextImg(font14, 0, -1, "HIGH SCORE: ", 159, 13, 0.8, 0.8)
-txt_speedCourseScoreRecordVar = createTextImg(font14, 0, 1, "9999999", 159, 13, 0.8, 0.8)
-
 txt_speedCourseTimeRecord = createTextImg(font14, 0, -1, "BEST TIME: ", 159, 13, 0.8, 0.8)
 txt_speedCourseTimeRecordVar = createTextImg(font14, 0, 1, "00:00:000", 159, 13, 0.8, 0.8)
+
+txt_speedCourseClearRecord = createTextImg(font14, 0, -1, "CLEAR TIME: ", 159, 13, 0.8, 0.8)
+txt_speedCourseClearRecordVar = createTextImg(font14, 0, 1, "0", 159, 13, 0.8, 0.8)
 
 txt_speedCourseTimeStart = createTextImg(font6, 0, -1, "STARTING TIME:", 159, 13)
 txt_speedCourseTimeStartVar = createTextImg(font2, 2, 1, "", 159, 13)
@@ -4850,7 +4850,7 @@ function f_allianceCoursePreview()
 	local recordsPosX = 172
 	textImgSetText(txt_allianceSelScoreRecord, txt_allianceSelScoreRecordText)
 	textImgPosDraw(txt_allianceSelScoreRecord, recordsPosX, 25 + globalPosY)
-	f_drawQuickText(txt_allianceSelScoreVal, font2, 0, 1, f_setThousandsFormat(stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].score), recordsPosX, 25 + globalPosY)
+	f_drawQuickText(txt_allianceSelScoreVal, font2, 0, 1, f_setThousandsFormat(stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].score).."PTS", recordsPosX, 25 + globalPosY)
 	textImgSetText(txt_allianceSelTimeRecord, txt_allianceSelTimeRecordText)
 	textImgPosDraw(txt_allianceSelTimeRecord, recordsPosX, 40 + globalPosY)
 	f_drawQuickText(txt_allianceSelTimeVal, font2, 0, 1, f_setTimeText(stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].time), recordsPosX, 40 + globalPosY)
@@ -6254,6 +6254,7 @@ PLASMOIDTHUNDER
 ACDGAMES
 2DEE4EVER
 PIXEL SLAYER
+K.O.F GAMER
 SPIDERPOKO/POKOSPIDER
 CRISTOPELES LEE
 KADES
