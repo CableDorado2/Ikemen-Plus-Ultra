@@ -16396,7 +16396,7 @@ if validCells() then
 					end
 					if data.gameMode == "alliance" then
 					--Update CPU Active Member Life State
-						--data.t_p1selected[currentAllianceMemberCPU].lifebarstate = data.p1LifeState
+						data.t_p1selected[currentAllianceMemberCPU].lifebarstate = data.p1LifeState
 						--data.t_p1Alliance = data.t_p1selected
 					--Player Active Member Defeated
 						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
@@ -16456,6 +16456,7 @@ if validCells() then
 		--Player (IN LEFT SIDE):
 			else
 				winCnt = winCnt + 1
+				assert(loadfile(saveTempPath))()
 				if data.gameMode == "alliance" then
 				--Update Player Active Member Life State
 					data.t_p1selected[currentAllianceMemberPlayer].lifebarstate = data.p1LifeState
@@ -16510,6 +16511,7 @@ if validCells() then
 		--Player (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				winCnt = winCnt + 1
+				assert(loadfile(saveTempPath))()
 				if data.gameMode == "alliance" then
 				--Update Player Active Member Life State
 					data.t_p2selected[currentAllianceMemberPlayer].lifebarstate = data.p2LifeState
@@ -16576,7 +16578,7 @@ if validCells() then
 					end
 					if data.gameMode == "alliance" then
 					--Update CPU Active Member Life State
-						--data.t_p2selected[currentAllianceMemberCPU].lifebarstate = data.p2LifeState
+						data.t_p2selected[currentAllianceMemberCPU].lifebarstate = data.p2LifeState
 						--data.t_p2Alliance = data.t_p2selected	
 					--Player Active Member Defeated
 						data.t_p1selected[currentAllianceMemberPlayer].defeated = true

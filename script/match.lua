@@ -778,13 +778,11 @@ local function f_allianceStatsSet() --Applies to Both Sides
 				setLifeMax(lifemax() + (p1Dat[allianceP1active].life * 10))
 				setAttack(attack() + (p1Dat[allianceP1active].attack * 10))
 				setDefence(defence() + (p1Dat[allianceP1active].defence * 10))
-				if playerLeftSide then --Only Player
-				--[[Since Max life can be another value, use it to calculate current residual life
-					if getLifePersistence() ~= 0 then
-						local residualLife = lifemax() - getLifePersistence()
-						setLife(lifemax() - residualLife)
-					end
-				]]
+			--Since Max life can be another value, use it to calculate current residual life
+				local lifeDat = p1Dat[allianceP1active].lifebarstate
+				if lifeDat ~= nil and lifeDat ~= -1 and lifeDat ~= lifemax() then
+					local residualLife = lifemax() - lifeDat
+					setLife(lifemax() - residualLife)
 				end
 			end
 		end
@@ -800,12 +798,10 @@ local function f_allianceStatsSet() --Applies to Both Sides
 				setLifeMax(lifemax() + (p2Dat[allianceP2active].life * 10))
 				setAttack(attack() + (p2Dat[allianceP2active].attack * 10))
 				setDefence(defence() + (p2Dat[allianceP2active].defence * 10))
-				if not playerLeftSide then
-					--[[if getLifePersistence() ~= 0 then
-						local residualLife = lifemax() - getLifePersistence()
-						setLife(lifemax() - residualLife)
-					end
-					]]
+				local lifeDat = p2Dat[allianceP2active].lifebarstate
+				if lifeDat ~= nil and lifeDat ~= -1 and lifeDat ~= lifemax() then
+					local residualLife = lifemax() - lifeDat
+					setLife(lifemax() - residualLife)
 				end
 			end
 		end
