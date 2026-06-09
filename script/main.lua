@@ -13897,6 +13897,7 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['lifebarstate'] = -1,
 				['life'] = t_allianceSel[allianceSel][i].life,
 				['power'] = t_allianceSel[allianceSel][i].power,
 				['attack'] = t_allianceSel[allianceSel][i].attack,
@@ -13922,6 +13923,7 @@ function f_setAlliancePlayerMembers()
 				['discordkey'] = t_selChars[pCell + 1].discordkey,
 				['pal'] = 1,
 				['handicap'] = 1,
+				['lifebarstate'] = -1,
 				['life'] = t_allianceSel[allianceSel][i].life,
 				['power'] = t_allianceSel[allianceSel][i].power,
 				['attack'] = t_allianceSel[allianceSel][i].attack,
@@ -14261,7 +14263,7 @@ function f_setAbyssStats()
 	abyssDat.nosave.score = score()
 	abyssDat.nosave.time = timerTotal()
 	abyssDat.nosave.stage = data.stage
---Adds +abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
+--Adds abyssCheckpointNo amount from screenpack.lua to reach the next checkpoint
 	if getAbyssDepth() >= abyssNextCheckPoint and not data.challengerAbyss then
 		abyssNextCheckPoint = abyssNextCheckPoint + abyssCheckpointNo
 	end
@@ -16205,7 +16207,7 @@ function f_nextMatch()
 end
 
 --;===========================================================================================================================
---; ADVANCED MODES (ARCADE, TOWER, SURVIVAL/ABYSS, BONUS/BOSS RUSH, SUDDEN DEATH, TIME/SCORE ATTACK, KUMITE, ENDLESS)
+--; ADVANCED MODES (ARCADE, ENDURANCE, TIME/SCORE ATTACK, KUMITE, ENDLESS)
 --;===========================================================================================================================
 function f_selectAdvance()
 cmdInput()
@@ -16393,7 +16395,12 @@ if validCells() then
 						return
 					end
 					if data.gameMode == "alliance" then
+					--Update CPU Active Member Life State
+						--data.t_p1selected[currentAllianceMemberCPU].lifebarstate = data.p1LifeState
+						--data.t_p1Alliance = data.t_p1selected
+					--Player Active Member Defeated
 						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
+						data.t_p2selected[currentAllianceMemberPlayer].lifebarstate = data.p2LifeState
 						data.t_p2Alliance = data.t_p2selected
 						data.p2MembersDefeated = data.p2MembersDefeated + 1
 						f_saveTemp()
@@ -16450,6 +16457,10 @@ if validCells() then
 			else
 				winCnt = winCnt + 1
 				if data.gameMode == "alliance" then
+				--Update Player Active Member Life State
+					data.t_p1selected[currentAllianceMemberPlayer].lifebarstate = data.p1LifeState
+					--data.t_p1Alliance = data.t_p1selected
+				--CPU Active Member Defeated
 					data.p2MembersDefeated = data.p2MembersDefeated + 1
 					f_saveTemp()
 					data.t_p2selected[currentAllianceMemberCPU].defeated = true
@@ -16500,6 +16511,10 @@ if validCells() then
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				winCnt = winCnt + 1
 				if data.gameMode == "alliance" then
+				--Update Player Active Member Life State
+					data.t_p2selected[currentAllianceMemberPlayer].lifebarstate = data.p2LifeState
+					--data.t_p2Alliance = data.t_p2selected
+				--CPU Active Member Defeated
 					data.p1MembersDefeated = data.p1MembersDefeated + 1
 					f_saveTemp()
 					data.t_p1selected[currentAllianceMemberCPU].defeated = true
@@ -16560,6 +16575,10 @@ if validCells() then
 						return
 					end
 					if data.gameMode == "alliance" then
+					--Update CPU Active Member Life State
+						--data.t_p2selected[currentAllianceMemberCPU].lifebarstate = data.p2LifeState
+						--data.t_p2Alliance = data.t_p2selected	
+					--Player Active Member Defeated
 						data.t_p1selected[currentAllianceMemberPlayer].defeated = true
 						data.t_p1Alliance = data.t_p1selected
 						data.p1MembersDefeated = data.p1MembersDefeated + 1
@@ -16927,6 +16946,7 @@ if validCells() then
 					['author'] = t_selChars[p1Cell + 1].author,
 					['pal'] = p1Pal,
 					['handicap'] = p1HandicapSel,
+					['lifebarstate'] = -1,
 					['life'] = lifeDat or nil,
 					['power'] = powerDat or nil,
 					['attack'] = attackDat or nil,
@@ -17086,6 +17106,7 @@ if validCells() then
 					['author'] = t_selChars[p2Cell + 1].author,
 					['pal'] = p2Pal,
 					['handicap'] = p2HandicapSel,
+					['lifebarstate'] = -1,
 					['life'] = lifeDat or nil,
 					['power'] = powerDat or nil,
 					['attack'] = attackDat or nil,
@@ -18965,7 +18986,6 @@ function allianceCfg()
 	setRoundTime(99)
 	setLifeStateDisplay(true)
 	setScoreDisplay(true)
-	--setLifePersistence(true)
 	setGameMode("alliance")
 	data.gameMode = "alliance"
 	data.recordMode = "alliance"

@@ -79,10 +79,7 @@ addHotkey('6', true, false, false, 'toggleAI(6)')
 addHotkey('7', true, false, false, 'toggleAI(7)')
 addHotkey('8', true, false, false, 'toggleAI(8)')
 end
---[[
-addHotkey('1', true, false, false, 'toggleAI(1)')
-addHotkey('2', true, false, false, 'toggleAI(2)')
---]]
+
 --Attract Mode Actions
 if data.attractMode then
 	addHotkey('1', false, false, false, 'f_addCoin()') --Insert Coin
@@ -748,6 +745,7 @@ local function f_allianceInit()
 	allianceChangeDone = false
 	allianceChangeButton = false
 	allianceChangeTime = 0
+	allianceSaveLife = false
 end
 f_allianceInit()
 
@@ -781,11 +779,12 @@ local function f_allianceStatsSet() --Applies to Both Sides
 				setAttack(attack() + (p1Dat[allianceP1active].attack * 10))
 				setDefence(defence() + (p1Dat[allianceP1active].defence * 10))
 				if playerLeftSide then --Only Player
-				--Since Max life can be another value, use it to calculate current residual life
+				--[[Since Max life can be another value, use it to calculate current residual life
 					if getLifePersistence() ~= 0 then
 						local residualLife = lifemax() - getLifePersistence()
 						setLife(lifemax() - residualLife)
 					end
+				]]
 				end
 			end
 		end
@@ -802,10 +801,11 @@ local function f_allianceStatsSet() --Applies to Both Sides
 				setAttack(attack() + (p2Dat[allianceP2active].attack * 10))
 				setDefence(defence() + (p2Dat[allianceP2active].defence * 10))
 				if not playerLeftSide then
-					if getLifePersistence() ~= 0 then
+					--[[if getLifePersistence() ~= 0 then
 						local residualLife = lifemax() - getLifePersistence()
 						setLife(lifemax() - residualLife)
 					end
+					]]
 				end
 			end
 		end
@@ -1757,6 +1757,13 @@ function loop() --The code for this function should be thought of as if it were 
 				
 			end
 		end
+	--Save Active Member Life State
+		if not allianceSaveLife and roundstate() == 4 then
+			if player(1) then data.p1LifeState = life() end
+			if player(2) then data.p2LifeState = life() end
+			f_saveTemp()
+			allianceSaveLife = true
+		end
 --During Abyss Mode
 	elseif gameMode() == "abyss" or gameMode() == "abysscoop" then
 		f_abyssStatsSet() --Set Abyss Stats
@@ -1867,7 +1874,9 @@ function loop() --The code for this function should be thought of as if it were 
 	f_updateScore()
 	f_updateLifeState()
 	if rewardDisplay() then setRewardFormatted(txt_RewardFight..getPlayerReward().." IKC") end
-	if matchno() > 1 then f_setPlayerStats() end
+	if matchno() > 1 and gameMode() ~= "alliance" and gameMode() ~= "abyss" and gameMode() ~= "abysscoop" then
+		f_setPlayerStats()
+	end
 	if roundstate() < 2 then
 		bonusScoreDone = false
 	elseif roundstate() == 4 then

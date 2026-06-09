@@ -3366,6 +3366,8 @@ function f_saveTemp()
 		['data.bestRecord'] = data.bestRecord,
 		['data.p1MembersDefeated'] = data.p1MembersDefeated,
 		['data.p2MembersDefeated'] = data.p2MembersDefeated,
+		['data.p1LifeState'] = data.p1LifeState,
+		['data.p2LifeState'] = data.p2LifeState,
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
@@ -3384,8 +3386,12 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.challengerMode = false
 	data.challengerAbyss = false
 	data.saveAbyss = false
+	data.speedstarClearBonus = 0
+	data.bestRecord = ""
 	data.p1MembersDefeated = 0
 	data.p2MembersDefeated = 0
+	data.p1LifeState = -1
+	data.p2LifeState = -1
 	data.VNbreaker = false
 	data.p1Lose = false
 	data.p2Lose = false
