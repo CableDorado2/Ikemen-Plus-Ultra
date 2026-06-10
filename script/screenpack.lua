@@ -4992,21 +4992,66 @@ allianceMemDefeated = animNew(sprIkemen, [[
 animSetScale(allianceMemDefeated, 1.35, 1.35)
 animUpdate(allianceMemDefeated)
 
-function f_allianceMemberSlot(posX, posY, allyType, t_charDat)
+--Alliance Member Lifebar BG
+allianceLifeBG = animNew(sprIkemen, [[
+75,0, 0,0, -1
+]])
+animSetScale(allianceLifeBG, 0.3, 0.3)
+animUpdate(allianceLifeBG)
+
+--Alliance Lifebars Left Side
+allianceLifeLeft = animNew(sprIkemen, [[
+77,0, 0,0, -1
+]])
+animSetScale(allianceLifeLeft, 0.3, 0.3)
+animUpdate(allianceLifeLeft)
+
+--Alliance Lifebars Right Side
+allianceLifeRight = animNew(sprIkemen, [[
+77,0, 0,0, -1
+]])
+animSetScale(allianceLifeRight, 0.3, 0.3)
+animUpdate(allianceLifeRight)
+
+function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side)
 	local posX = posX or 0
 	local posY = posY or 0
 	local allyType = allyType or "???"
+	local side = side or 1
 	local nameFont = font7
 	animPosDraw(allianceMemSlot, 2 + posX, 20 + posY)
-	animPosDraw(allianceFaceBG, 125 + posX, 25 + posY)
-	drawFacePortrait(t_charDat.cel, 126 + posX, 26 + posY, 0.9, 0.9)
+	animPosDraw(allianceFaceBG, 126 + posX, 24 + posY)
+	drawFacePortrait(t_charDat.cel, 127 + posX, 25 + posY, 0.9, 0.9)
 	if t_charDat.defeated then
-		animPosDraw(allianceMemDefeated, 125 + posX, 25 + posY)
+		animPosDraw(allianceMemDefeated, 126 + posX, 24 + posY)
 	end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
+	local charLife = 1
+	if t_charDat.lifemax and t_charDat.lifebarstate ~= -1 then
+		charLife = t_charDat.lifebarstate / t_charDat.lifemax --Get Character Life
+	end
+--Window Limits for Left Side
+	local minWindowL = 115
+	local maxWindowL = 160
+	local x2L = minWindowL + (maxWindowL - minWindowL) * charLife --Get the width of x2 mapped to the range: minWindow, maxWindow
+	x2L = math.floor(x2L) --Round off
+	x2L = math.max(minWindowL, math.min(maxWindowL, x2L)) --Apply window limits to avoid visual issues
+--Window Limits for Right Side
+	minWindowR = 278
+	maxWindowR = 318
+	local minWindowR = 115
+	local maxWindowR = 160
+	local x2R = minWindowR + (maxWindowR - minWindowR) * charLife
+	x2R = math.floor(x2R)
+	x2R = math.max(minWindowR, math.min(maxWindowR, x2R))
+	animPosDraw(allianceLifeLeft, 117.5 + posX, 50.1 + posY)
+	animPosDraw(allianceLifeRight, 117.5 + posX, 50.1 + posY)
+	animSetWindow(allianceLifeLeft, 0,0, x2L,240)
+	animSetWindow(allianceLifeRight, 0,0, x2R,240)
+	animPosDraw(allianceLifeBG, 117 + posX, 49.5 + posY)
 	f_drawQuickText(txt_allyName, nameFont, 0, 1, t_charDat.displayname, 6 + posX, 33 + posY)
 	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..f_getAllianceMemberPower(t_charDat), 6 + posX, 46 + posY)
-	f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 139 + posX, 60 + posY)
+	f_drawQuickText(txt_allyType, nameFont, 0, 0, allyType, 139 + posX, 61.5 + posY)
 	f_drawQuickText(txt_allyAttkAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.attack), 19 + posX, 60 + posY)
 	f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.power), 48 + posX, 60 + posY)
 	f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.life), 76 + posX, 60 + posY)

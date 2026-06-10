@@ -3368,6 +3368,8 @@ function f_saveTemp()
 		['data.p2MembersDefeated'] = data.p2MembersDefeated,
 		['data.p1LifeState'] = data.p1LifeState,
 		['data.p2LifeState'] = data.p2LifeState,
+		['data.p1LifeMax'] = data.p1LifeMax,
+		['data.p2LifeMax'] = data.p2LifeMax,
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
@@ -3392,6 +3394,8 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.p2MembersDefeated = 0
 	data.p1LifeState = -1
 	data.p2LifeState = -1
+	data.p1LifeMax = -1
+	data.p2LifeMax = -1
 	data.VNbreaker = false
 	data.p1Lose = false
 	data.p2Lose = false

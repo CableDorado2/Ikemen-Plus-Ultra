@@ -16397,7 +16397,7 @@ if validCells() then
 					if data.gameMode == "alliance" then
 					--Update CPU Active Member Life State
 						data.t_p1selected[currentAllianceMemberCPU].lifebarstate = data.p1LifeState
-						--data.t_p1Alliance = data.t_p1selected
+						data.t_p1selected[currentAllianceMemberCPU].lifemax = data.p1LifeMax
 					--Player Active Member Defeated
 						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
 						data.t_p2selected[currentAllianceMemberPlayer].lifebarstate = data.p2LifeState
@@ -16460,7 +16460,7 @@ if validCells() then
 				if data.gameMode == "alliance" then
 				--Update Player Active Member Life State
 					data.t_p1selected[currentAllianceMemberPlayer].lifebarstate = data.p1LifeState
-					--data.t_p1Alliance = data.t_p1selected
+					data.t_p1selected[currentAllianceMemberPlayer].lifemax = data.p1LifeMax
 				--CPU Active Member Defeated
 					data.p2MembersDefeated = data.p2MembersDefeated + 1
 					f_saveTemp()
@@ -16515,7 +16515,7 @@ if validCells() then
 				if data.gameMode == "alliance" then
 				--Update Player Active Member Life State
 					data.t_p2selected[currentAllianceMemberPlayer].lifebarstate = data.p2LifeState
-					--data.t_p2Alliance = data.t_p2selected
+					data.t_p2selected[currentAllianceMemberPlayer].lifemax = data.p2LifeMax
 				--CPU Active Member Defeated
 					data.p1MembersDefeated = data.p1MembersDefeated + 1
 					f_saveTemp()
@@ -16579,7 +16579,7 @@ if validCells() then
 					if data.gameMode == "alliance" then
 					--Update CPU Active Member Life State
 						data.t_p2selected[currentAllianceMemberCPU].lifebarstate = data.p2LifeState
-						--data.t_p2Alliance = data.t_p2selected	
+						data.t_p2selected[currentAllianceMemberCPU].lifemax = data.p2LifeMax
 					--Player Active Member Defeated
 						data.t_p1selected[currentAllianceMemberPlayer].defeated = true
 						data.t_p1Alliance = data.t_p1selected
@@ -19393,14 +19393,14 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 		for i=1, maxMembers do
 			local allyType = "LEADER"
 			if i > 1 then allyType = "ALLY "..i - 1 end
-			f_allianceMemberSlot(0, (i - 1) * spacingY, allyType, t_playerList[i])
+			f_allianceMemberSlot(0, (i - 1) * spacingY, allyType, t_playerList[i], 1)
 			if memberSel == i then
 				animPosDraw(allianceMemSlotCursor, 2, 20 + (i - 1) * spacingY)
 			end
 		end
 	--Draw Next Enemy Assets
 		textImgDraw(txt_allianceNextEnemy)
-		f_allianceMemberSlot(162, 80, "CPU", t_enemyList[currentCPUMember])
+		f_allianceMemberSlot(162, 80, "CPU", t_enemyList[currentCPUMember], 2)
 		drawAllianceMemInputHints()
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
@@ -19569,14 +19569,14 @@ function f_allianceExchange()
 		local spacingY = 50
 		for i=1, maxMembers do
 		--ENEMY TEAM SIDE
-			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_enemyTeam[i])
+			f_allianceMemberSlot(-2, (i - 1) * spacingY, "CPU", t_enemyTeam[i], 1)
 			if enemyMember == i and enemySide then
 				animPosDraw(allianceMemSlotCursor, 0, 20 + (i - 1) * spacingY)
 			end
 		--PLAYER TEAM SIDE
 			local allyType = "LEADER"
 			if i > 1 then allyType = "ALLY "..i - 1 end
-			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType, t_playerTeam[i])
+			f_allianceMemberSlot(159, (i - 1) * spacingY, allyType, t_playerTeam[i], 2)
 			if playerMember == i and not enemySide then
 				animPosDraw(allianceMemSlotCursor, 161, 20 + (i - 1) * spacingY)
 			end

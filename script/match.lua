@@ -1755,8 +1755,14 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 	--Save Active Member Life State
 		if not allianceSaveLife and roundstate() == 4 then
-			if player(1) then data.p1LifeState = life() end
-			if player(2) then data.p2LifeState = life() end
+			if player(1) then
+				data.p1LifeState = life()
+				data.p1LifeMax = lifemax()
+			end
+			if player(2) then
+				data.p2LifeState = life()
+				data.p2LifeMax = lifemax()
+			end
 			f_saveTemp()
 			allianceSaveLife = true
 		end
