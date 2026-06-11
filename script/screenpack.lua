@@ -5023,8 +5023,8 @@ function f_lifeWindow(posX, posY, minWindow, maxWindow, lifestate, lifemax)
 	x2 = math.floor(x2) --Round off
 	x2 = math.max(minWindow, math.min(maxWindow, x2)) --Apply window limits to avoid visual issues
 	if data.debugMode then
-		f_drawQuickText(txtCharLife, font7, 0, 1, charLife, 56 + posX, 40 + posY)
-		f_drawQuickText(txtX2, font7, 0, 1, x2, 56 + posX, 50 + posY)
+		f_drawQuickText(txtCharLife, font7, 0, 1, charLife, 106 + posX, 40 + posY)
+		f_drawQuickText(txtX2, font7, 0, 1, x2, 106 + posX, 50 + posY)
 	end
 	return x2
 end
@@ -5041,12 +5041,12 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side)
 	if t_charDat.defeated then animPosDraw(allianceMemDefeated, 126 + posX, 24 + posY) end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
 	if side == 1 then
-		animPosDraw(allianceLifeLeft, 117.5 + posX, 50.1 + posY)
 		animSetWindow(allianceLifeLeft, 0,0, f_lifeWindow(posX, posY, 115, 160, t_charDat.lifebarstate, t_charDat.lifemax),240)
+		animPosDraw(allianceLifeLeft, 117.5 + posX, 50.1 + posY)
 	end
 	if side == 2 then
-		animPosDraw(allianceLifeRight, 117.5 + posX, 50.1 + posY)
 		animSetWindow(allianceLifeRight, 0,0, f_lifeWindow(posX, posY, 278, 318, t_charDat.lifebarstate, t_charDat.lifemax),240)
+		animPosDraw(allianceLifeRight, 117.5 + posX, 50.1 + posY)
 	end
 	animPosDraw(allianceLifeBG, 117 + posX, 49.5 + posY)
 	f_drawQuickText(txt_allyName, nameFont, 0, 1, t_charDat.displayname, 6 + posX, 33 + posY)
