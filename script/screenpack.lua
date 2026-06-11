@@ -5013,6 +5013,22 @@ allianceLifeRight = animNew(sprIkemen, [[
 animSetScale(allianceLifeRight, 0.3, 0.3)
 animUpdate(allianceLifeRight)
 
+function f_lifeWindow(posX, posY, minWindow, maxWindow, lifestate, lifemax)
+--Get Character Life
+	local charLife = 1
+	if lifemax ~= nil and lifestate ~= nil and lifestate ~= -1 then
+		charLife = lifestate / lifemax
+	end
+	local x2 = minWindow + (maxWindow - minWindow) * charLife --Get the width of x2 mapped to the range: minWindow, maxWindow
+	x2 = math.floor(x2) --Round off
+	x2 = math.max(minWindow, math.min(maxWindow, x2)) --Apply window limits to avoid visual issues
+	if data.debugMode then
+		f_drawQuickText(txtCharLife, font7, 0, 1, charLife, 56 + posX, 40 + posY)
+		f_drawQuickText(txtX2, font7, 0, 1, x2, 56 + posX, 50 + posY)
+	end
+	return x2
+end
+
 function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side)
 	local posX = posX or 0
 	local posY = posY or 0
@@ -5022,32 +5038,16 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side)
 	animPosDraw(allianceMemSlot, 2 + posX, 20 + posY)
 	animPosDraw(allianceFaceBG, 126 + posX, 24 + posY)
 	drawFacePortrait(t_charDat.cel, 127 + posX, 25 + posY, 0.9, 0.9)
-	if t_charDat.defeated then
-		animPosDraw(allianceMemDefeated, 126 + posX, 24 + posY)
-	end
+	if t_charDat.defeated then animPosDraw(allianceMemDefeated, 126 + posX, 24 + posY) end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
-	local charLife = 1
-	if t_charDat.lifemax and t_charDat.lifebarstate ~= -1 then
-		charLife = t_charDat.lifebarstate / t_charDat.lifemax --Get Character Life
+	if side == 1 then
+		animPosDraw(allianceLifeLeft, 117.5 + posX, 50.1 + posY)
+		animSetWindow(allianceLifeLeft, 0,0, f_lifeWindow(posX, posY, 115, 160, t_charDat.lifebarstate, t_charDat.lifemax),240)
 	end
---Window Limits for Left Side
-	local minWindowL = 115
-	local maxWindowL = 160
-	local x2L = minWindowL + (maxWindowL - minWindowL) * charLife --Get the width of x2 mapped to the range: minWindow, maxWindow
-	x2L = math.floor(x2L) --Round off
-	x2L = math.max(minWindowL, math.min(maxWindowL, x2L)) --Apply window limits to avoid visual issues
---Window Limits for Right Side
-	minWindowR = 278
-	maxWindowR = 318
-	local minWindowR = 115
-	local maxWindowR = 160
-	local x2R = minWindowR + (maxWindowR - minWindowR) * charLife
-	x2R = math.floor(x2R)
-	x2R = math.max(minWindowR, math.min(maxWindowR, x2R))
-	animPosDraw(allianceLifeLeft, 117.5 + posX, 50.1 + posY)
-	animPosDraw(allianceLifeRight, 117.5 + posX, 50.1 + posY)
-	animSetWindow(allianceLifeLeft, 0,0, x2L,240)
-	animSetWindow(allianceLifeRight, 0,0, x2R,240)
+	if side == 2 then
+		animPosDraw(allianceLifeRight, 117.5 + posX, 50.1 + posY)
+		animSetWindow(allianceLifeRight, 0,0, f_lifeWindow(posX, posY, 278, 318, t_charDat.lifebarstate, t_charDat.lifemax),240)
+	end
 	animPosDraw(allianceLifeBG, 117 + posX, 49.5 + posY)
 	f_drawQuickText(txt_allyName, nameFont, 0, 1, t_charDat.displayname, 6 + posX, 33 + posY)
 	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..f_getAllianceMemberPower(t_charDat), 6 + posX, 46 + posY)
