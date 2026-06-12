@@ -8214,7 +8214,7 @@ function f_aiRamp()
 				start_match = t_selOptions[t_mode.team.airampstart].wins --t_selOptions.teamstart.wins
 				start_diff = t_selOptions[t_mode.team.airampstart].offset --t_selOptions.teamstart.offset
 				end_match =  t_selOptions[t_mode.team.airampend].wins --t_selOptions.teamend.wins
-				end_diff = t_selOptions[tt_mode.team.airampend].offset --t_selOptions.teamend.offset
+				end_diff = t_selOptions[t_mode.team.airampend].offset --t_selOptions.teamend.offset
 			end
 		else
 		--Single Mode
@@ -12913,13 +12913,10 @@ function f_orderSelectCursor()
 	textImgSetBank(txt_p2State, 0)
 	animReset(vsLogo)
 --Set order time
-	if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
+	if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop then
 		--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
-	elseif #data.t_p1selected > 1 or data.coop == true then
+	elseif #data.t_p1selected > 1 or data.coop then
 		--orderTime = #data.t_p1selected * 60 --Order Time is setting by the amount of characters selected
-	else
-		p1Confirmed = true
-		--p2Confirmed = true --Activate to don't order CPU characters in team modes
 	end
 --Portraits Scale Logic
 	for j=#data.t_p1selected, 1, -1 do
@@ -13066,6 +13063,7 @@ function f_orderSelectCursor()
 		end
 	--if Player 1 has not confirmed the order yet and IS controlled by IA (CPU VS P1)
 		if not p1Confirmed and data.p1In == 2 and p2Confirmed == true then
+			p1Confirmed = true --Comment to allow player order the cpu side
 			if btnPalNo(p1Cmd, true) > 0 then
 				if not p1Confirmed then
 					sndNumber = 1
@@ -13128,6 +13126,7 @@ function f_orderSelectCursor()
 		end
 	--if Player2 has not confirmed the order yet and IS controlled by IA (P1 VS CPU)
 		if not p2Confirmed and data.p2In == 1 and p1Confirmed == true then
+			p2Confirmed = true --Comment to allow player order the cpu side
 			if btnPalNo(p1Cmd, true) > 0 then
 				if not p2Confirmed then
 					sndNumber = 1
@@ -13281,13 +13280,13 @@ function f_orderSelectCursor()
 		f_drawNameList(txt_p1NameOrder, 5, data.t_p1selected, 78, 175, 0, 14, p1Row, 0)
 		f_drawNameList(txt_p2NameOrder, 5, data.t_p2selected, 241, 175, 0, 14, p2Row, 0)
 	--Draw Order Number Assets
-		--Left Side
+	--Left Side
 		for n=#data.t_p1selected, 1, -1 do
 			animPosDraw(p1OrderCursor, 1, 153 + 14 * n) --Draw Order Icon
 			textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
 			textImgPosDraw(txt_p1OrderNo, 9, 161 + 14 * n) --Draw Order Number Text
 		end
-		--Right Side
+	--Right Side
 		for n=#data.t_p2selected, 1, -1 do
 			animPosDraw(p2OrderCursor, 305, 153 + 14 * n)
 			textImgSetText(txt_p2OrderNo, n)
@@ -13398,9 +13397,6 @@ function f_orderSelectButton()
 		--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
 	elseif #data.t_p1selected > 1 or data.coop == true then
 		--orderTime = #data.t_p1selected * 60 --Order Time is setting by the amount of characters selected
-	else
-		p1Confirmed = true
-		--p2Confirmed = true --Activate to don't order CPU characters in team modes
 	end
 --Portraits Scale Logic
 	for j=#data.t_p1selected, 1, -1 do
