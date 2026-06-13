@@ -474,6 +474,7 @@ setP1winsFormatted("")
 setP2winsFormatted("")
 f_updateMatchInfo() --Load when match start
 
+local eliminationDone = false
 local function f_streakWins()
 	if roundstate() == 4 and time() == 0 then
 	--Left Side Consecutive Wins
@@ -1881,6 +1882,7 @@ function loop() --The code for this function should be thought of as if it were 
 	end
 	if roundstate() < 2 then
 		bonusScoreDone = false
+		eliminationDone = false
 	elseif roundstate() == 4 then
 		f_updateMatchInfo()
 		if not bonusScoreDone then f_addBonusScore() end
@@ -1891,6 +1893,7 @@ function loop() --The code for this function should be thought of as if it were 
 		end
 		f_drawQuickText(txt_fightDat, font14, 0, 1, "Winner Team: "..winnerteam(), 95, 166)
 	--]]
+	--When player side wins
 		if (playerLeftSide and winnerteam() == 1) or (not playerLeftSide and winnerteam() == 2) then
 			if gameMode() == "speedstar" then
 				f_speedStarInfo(superCnt, perfectBonus)
@@ -1902,6 +1905,13 @@ function loop() --The code for this function should be thought of as if it were 
 				if persistPower() then f_drawQuickText(txt_fightDat, font14, 0, 1, "Power Bar State: "..getPowerPersistence(), debugInfoPosX, debugInfoPosY+10) end
 				if persistRoundtime() then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Remaining: "..getTimePersistence() / 60, debugInfoPosX, debugInfoPosY+20) end
 				if timeReward ~= 0 then f_drawQuickText(txt_fightDat, font14, 0, 1, "Time Reward: "..timeReward / 60, debugInfoPosX, debugInfoPosY+30) end
+			end
+	--When player side loses
+		else
+			if data.playerTeamMode == 2 and not eliminationDone and data.turnsElimination ~= -1 then
+				data.turnsElimination = data.turnsElimination + 1
+				f_saveTemp()
+				eliminationDone = true
 			end
 		end
 	end

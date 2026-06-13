@@ -2507,6 +2507,7 @@ function f_default() --Reset Game Modes Configuration
 	setP2matchWins(0) --Set Match Wins Count for Player 2
 	setLastMatch(-1) --Set Last Match Stage
 	lastMatch = -1 --Reset Last Match var
+	f_teamElimination(false) --Enable or disable team members elimination during turns mode
 	setFirstAttackCount(0) --Reset First Attack Count
 	setConsecutiveWins(0) --Reset Consecutive Wins Count
 	setWinTimeCount(0) --Reset Time Over Wins Count
@@ -3370,6 +3371,8 @@ function f_saveTemp()
 		['data.p2LifeState'] = data.p2LifeState,
 		['data.p1LifeMax'] = data.p1LifeMax,
 		['data.p2LifeMax'] = data.p2LifeMax,
+		['data.turnsElimination'] = data.turnsElimination,
+		['data.playerTeamMode'] = data.playerTeamMode,
 		['data.VNbreaker'] = data.VNbreaker,
 		['data.p1Lose'] = data.p1Lose,
 		['data.p2Lose'] = data.p2Lose,
@@ -3396,6 +3399,8 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.p2LifeState = -1
 	data.p1LifeMax = -1
 	data.p2LifeMax = -1
+	data.turnsElimination = -1
+	data.playerTeamMode = ""
 	data.VNbreaker = false
 	data.p1Lose = false
 	data.p2Lose = false
@@ -3619,6 +3624,15 @@ end
 
 function f_setBestRecord(text)
 	data.bestRecord = text
+	f_saveTemp()
+end
+
+function f_teamElimination(bool)
+	if bool then
+		data.turnsElimination = 0
+	else
+		data.turnsElimination = -1
+	end
 	f_saveTemp()
 end
 

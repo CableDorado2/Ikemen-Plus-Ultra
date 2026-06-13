@@ -2706,6 +2706,7 @@ function survivalCfg()
 	setGameMode("survival")
 	data.gameMode = "survival"
 	data.recordMode = "survival"
+	f_teamElimination(true)
 	data.nextStage = true
 	setRoundsToWin(1)
 	setRoundTime(-1)
@@ -12859,7 +12860,7 @@ function f_orderSelect()
 	if not data.orderSelect then
 		return
 --Order Select OFF when playing in CO-OP Mode
-	elseif data.coop == true then
+	elseif data.coop then
 		return
 --Order Select OFF when P1 and P2 playing in Single Team Mode
 	elseif p1teamMode == 0 and p2teamMode == 0 then
@@ -12881,8 +12882,8 @@ end
 --Order Select Cursor Type Interaction
 function f_orderSelectCursor()
 	cmdInput()
-	local i = 0
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	local i = 0
 	local bufOrderu = 0
 	local bufOrderd = 0
 	local bufOrderr = 0
@@ -13348,8 +13349,8 @@ end
 --Order Select Button Type Interaction
 function f_orderSelectButton()
 	cmdInput()
-	local i = 0
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	local i = 0
 	local p1Confirmed = false
 	local p2Confirmed = false
 	local t_p1Temp = {}
@@ -14304,9 +14305,11 @@ function f_loading(quickLoad)
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					if p2teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 					playerSide = data.t_p2selected
+					data.playerTeamMode = p2teamMode
 				else
 					if p1teamMode > 0 then teamChar = "Team " else teamChar = "Character: " end
 					playerSide = data.t_p1selected
+					data.playerTeamMode = p1teamMode
 				end
 			end
 			f_favoriteContent(playerSide, stageNo)
@@ -16989,6 +16992,18 @@ if validCells() then
 			if data.gameMode ~= "tower" and data.gameMode ~= "alliance" then
 				t_roster[matchNo] = data.t_p1selected[1].cel --Refresh t_roster table
 			end
+		--Player Team Members Elimination Logic
+			--assert(loadfile(saveTempPath))()
+			if data.turnsElimination ~= -1 and data.turnsElimination ~= 0 then
+				for i=1, data.turnsElimination do
+					table.remove(data.t_p2selected, 1)
+				end
+			--Refresh player team size
+				p2numChars = #data.t_p2selected
+				setTeamMode(2, p2teamMode, p2numChars)
+				data.turnsElimination = 0 --Reset
+				f_saveTemp()
+			end
 	--Assign enemy team for AI in Player 2 (RIGHT SIDE)
 		else
 			data.t_p2selected = {}
@@ -17148,6 +17163,18 @@ if validCells() then
 			end
 			if data.gameMode ~= "tower" and data.gameMode ~= "alliance" then
 				t_roster[matchNo] = data.t_p2selected[1].cel --Refresh t_roster table
+			end
+		--Player Team Members Elimination Logic
+			--assert(loadfile(saveTempPath))()
+			if data.turnsElimination ~= -1 and data.turnsElimination ~= 0 then
+				for i=1, data.turnsElimination do
+					table.remove(data.t_p1selected, 1)
+				end
+			--Refresh player team size
+				p1numChars = #data.t_p1selected
+				setTeamMode(1, p1teamMode, p1numChars)
+				data.turnsElimination = 0 --Reset
+				f_saveTemp()
 			end
 		end
 		if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.log") end
