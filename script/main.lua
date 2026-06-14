@@ -2779,6 +2779,96 @@ function survivalCPUvsCPU()
 end
 
 --;===========================================================
+--; SUDDEN DEATH MODE
+--;===========================================================
+function f_suddendeathBoot()
+	menuSelect = "sudden death"
+	sideScreen = true
+end
+
+--Load Common Settings for Sudden Death Modes
+function suddenCfg()
+	f_discordUpdate({details = "Sudden Death"})
+	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
+	setGameMode("suddendeath")
+	data.gameMode = "survival"
+	data.recordMode = "suddendeath"
+	f_teamElimination(true)
+	data.nextStage = true
+	setRoundTime(10)
+	setRoundsToWin(1)
+	setLifeMul(0) --overwrite players life
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--P1 VS HUMAN (see how many characters you can take down in 1 Hit from left side)
+function suddenHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (see how many characters you can take down in 1 Hit from right side)
+function suddenCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters you can take down in 1 Hit)
+function suddenP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters you can take down in 1 Hit)
+function suddenCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (see how many characters the CPU can take down in 1 Hit)
+function suddenCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SUDDEN DEATH")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
 --; BOSS RUSH MODE
 --;===========================================================
 function f_bossrushBoot()
@@ -4813,95 +4903,6 @@ function kumiteCPUvsCPU()
 	data.aiFight = true
 	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH "..getKumiteData())
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; SUDDEN DEATH MODE
---;===========================================================
-function f_suddendeathBoot()
-	menuSelect = "sudden death"
-	sideScreen = true
-end
-
---Load Common Settings for Sudden Death Modes
-function suddenCfg()
-	f_discordUpdate({details = "Sudden Death"})
-	f_default()
-	setP1winsDisplay(true)
-	setP2winsDisplay(true)
-	setGameMode("suddendeath")
-	data.gameMode = "survival"
-	data.recordMode = "suddendeath"
-	data.nextStage = true
-	setRoundTime(10)
-	setRoundsToWin(1)
-	setLifeMul(0) --overwrite players life
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---P1 VS HUMAN (see how many characters you can take down in 1 Hit from left side)
-function suddenHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (see how many characters you can take down in 1 Hit from right side)
-function suddenCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters you can take down in 1 Hit)
-function suddenP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters you can take down in 1 Hit)
-function suddenCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (see how many characters the CPU can take down in 1 Hit)
-function suddenCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH SUDDEN DEATH")
 	f_selectAdvance()
 	f_discordMainMenu()
 end
@@ -19984,6 +19985,7 @@ function abyssCfg()
 	setRoundTime(99)
 	setScoreDisplay(true)
 	setLifeStateDisplay(true)
+	f_teamElimination(true)
 	setGameMode("abyss")
 	data.gameMode = "abyss"
 	data.recordMode = "abyss"

@@ -1192,17 +1192,17 @@ t_challengeMenu = {
 	{
 		text = "TIME TRIALS",
 		info = [[
-		Compete for the fastest
-		completion time in a series of
-		matches with Regulated Rules!
+		Compete for the fastest clear
+		time in a series of matches with
+		Regulated Rules!
 		]],
 		gotomenu = "f_timeattackMenu()"
 	},
 	{
 		text = "SCORE TRIALS",
 		info = [[
-		Compete for a High Score in a
-		series of matches with Fixed
+		Compete for the High Score in
+		a series of matches with Fixed
 		Rules!
 		]],
 		gotomenu = "f_scoreattackMenu()"
