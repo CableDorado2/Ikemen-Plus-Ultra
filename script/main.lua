@@ -15171,7 +15171,11 @@ end
 function f_result(state)
 	cmdInput()
 	if state == "win" then
-		
+		if data.gameMode == "alliance" then
+			f_nextMatch()
+			--f_timersReset()
+			f_allianceExchange()
+		end
 --Skip Results Screen if lose in these modes
 	elseif state == "lost" then
 		if gameMode() == "timeattack" or gameMode() == "speedstar" then
@@ -16185,15 +16189,27 @@ function f_nextMatch()
 	if data.gameMode == "alliance" then
 		assert(loadfile(saveTempPath))()
 		if data.p1MembersDefeated == 4 or data.p2MembersDefeated == 4 then
-		--Reset Player Defeated Members State
+		--Reset Defeated Members State
+			local cpuLifeReset = 0
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				cpuLifeReset = 1 --CPU in Left Side
+			else
+				cpuLifeReset = 2 --CPU in Right Side
+			end
 			for i=1, #data.t_p1selected do
 				if data.t_p1selected[i].defeated then
 					data.t_p1selected[i].defeated = false
+					if cpuLifeReset == 1 then
+						data.t_p1selected[i].lifebarstate = data.t_p1selected[i].lifemax
+					end
 				end
 			end
 			for i=1, #data.t_p2selected do
 				if data.t_p2selected[i].defeated then
 					data.t_p2selected[i].defeated = false
+					if cpuLifeReset == 2 then
+						data.t_p2selected[i].lifebarstate = data.t_p2selected[i].lifemax
+					end
 				end
 			end
 			f_resetAllianceResults()
@@ -16401,6 +16417,7 @@ if validCells() then
 					--Player Active Member Defeated
 						data.t_p2selected[currentAllianceMemberPlayer].defeated = true
 						data.t_p2selected[currentAllianceMemberPlayer].lifebarstate = data.p2LifeState
+						data.t_p2selected[currentAllianceMemberPlayer].lifemax = data.p2LifeMax
 						data.t_p2Alliance = data.t_p2selected
 						data.p2MembersDefeated = data.p2MembersDefeated + 1
 						f_saveTemp()
@@ -16462,10 +16479,12 @@ if validCells() then
 					data.t_p1selected[currentAllianceMemberPlayer].lifebarstate = data.p1LifeState
 					data.t_p1selected[currentAllianceMemberPlayer].lifemax = data.p1LifeMax
 				--CPU Active Member Defeated
+					data.t_p2selected[currentAllianceMemberCPU].defeated = true
+					data.t_p2selected[currentAllianceMemberCPU].lifebarstate = data.p2LifeState
+					data.t_p2selected[currentAllianceMemberCPU].lifemax = data.p2LifeMax
+					data.t_p2Alliance = data.t_p2selected
 					data.p2MembersDefeated = data.p2MembersDefeated + 1
 					f_saveTemp()
-					data.t_p2selected[currentAllianceMemberCPU].defeated = true
-					data.t_p2Alliance = data.t_p2selected
 					if currentAllianceMemberCPU < 4 then
 						currentAllianceMemberCPU = currentAllianceMemberCPU + 1
 					else
@@ -16517,10 +16536,12 @@ if validCells() then
 					data.t_p2selected[currentAllianceMemberPlayer].lifebarstate = data.p2LifeState
 					data.t_p2selected[currentAllianceMemberPlayer].lifemax = data.p2LifeMax
 				--CPU Active Member Defeated
+					data.t_p1selected[currentAllianceMemberCPU].defeated = true
+					data.t_p1selected[currentAllianceMemberCPU].lifebarstate = data.p1LifeState
+					data.t_p1selected[currentAllianceMemberCPU].lifemax = data.p1LifeMax
+					data.t_p1Alliance = data.t_p1selected
 					data.p1MembersDefeated = data.p1MembersDefeated + 1
 					f_saveTemp()
-					data.t_p1selected[currentAllianceMemberCPU].defeated = true
-					data.t_p1Alliance = data.t_p1selected
 					if currentAllianceMemberCPU < 4 then
 						currentAllianceMemberCPU = currentAllianceMemberCPU + 1
 					else
@@ -16582,6 +16603,8 @@ if validCells() then
 						data.t_p2selected[currentAllianceMemberCPU].lifemax = data.p2LifeMax
 					--Player Active Member Defeated
 						data.t_p1selected[currentAllianceMemberPlayer].defeated = true
+						data.t_p1selected[currentAllianceMemberPlayer].lifebarstate = data.p1LifeState
+						data.t_p1selected[currentAllianceMemberPlayer].lifemax = data.p1LifeMax
 						data.t_p1Alliance = data.t_p1selected
 						data.p1MembersDefeated = data.p1MembersDefeated + 1
 						f_saveTemp()
