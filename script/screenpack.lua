@@ -5013,22 +5013,6 @@ allianceLifeRight = animNew(sprIkemen, [[
 animSetScale(allianceLifeRight, 0.3, 0.3)
 animUpdate(allianceLifeRight)
 
-function f_lifeWindow(posX, posY, minWindow, maxWindow, lifestate, lifemax)
---Get Character Life
-	local charLife = 1
-	if lifemax ~= nil and lifestate ~= nil and lifestate ~= -1 then
-		charLife = lifestate / lifemax
-	end
-	local x2 = minWindow + (maxWindow - minWindow) * charLife --Get the width of x2 mapped to the range: minWindow, maxWindow
-	x2 = math.floor(x2) --Round off
-	x2 = math.max(minWindow, math.min(maxWindow, x2)) --Apply window limits to avoid visual issues
-	if data.debugMode then
-		f_drawQuickText(txtCharLife, font7, 0, 1, charLife, 106 + posX, 40 + posY)
-		f_drawQuickText(txtX2, font7, 0, 1, x2, 106 + posX, 50 + posY)
-	end
-	return x2
-end
-
 function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side)
 	local posX = posX or 0
 	local posY = posY or 0

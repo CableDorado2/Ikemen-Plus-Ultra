@@ -990,6 +990,36 @@ function f_setTimeText(timeVal)
 	return timeText
 end
 
+--Function to draw a state bar, returning x2 paramvalue for animSetWindow()
+function f_lifeWindow(posX, posY, minWindow, maxWindow, lifestate, lifemax)
+--Get Character Life
+	local charLife = 1
+	if lifemax ~= nil and lifestate ~= nil and lifestate ~= -1 then
+		charLife = lifestate / lifemax
+	end
+	local x2 = minWindow + (maxWindow - minWindow) * charLife --Get the width of x2 mapped to the range: minWindow, maxWindow
+	x2 = math.floor(x2) --Round off
+	x2 = math.max(minWindow, math.min(maxWindow, x2)) --Apply window limits to avoid visual issues
+	if data.debugMode then
+		f_drawQuickText(txtCharLife, font7, 0, 1, charLife, 106 + posX, 40 + posY)
+		f_drawQuickText(txtX2, font7, 0, 1, x2, 106 + posX, 50 + posY)
+	end
+	return x2
+end
+
+--Function to passively restore life (used in alliance mode)
+function f_lifeRecover(currentLife, lifeMax, restorePercentage)
+	if not currentLife or not lifeMax or not restorePercentage then
+		return 0
+	end
+--calculate how much life the percentage received by "restorePercentage" argument represents
+	local lifeVal = lifeMax * restorePercentage
+	lifeVal = math.floor(lifeVal)
+--set a maximum for restoring life, ensuring that it does not exceed lifemax.
+	local lifeRestore = math.max(0, math.min(lifeVal, lifeMax - currentLife))
+	return lifeRestore
+end
+
 --Function to copy a table recursively
 function f_deepcopy(orig)
 	local orig_type = type(orig)
