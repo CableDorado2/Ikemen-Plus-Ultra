@@ -4524,6 +4524,7 @@ end
 --;===========================================================
 txt_allianceTitle = createTextImg(font11, 0, 0, "ALLIANCE SETTINGS", 159, 10)
 txt_allianceTime = createTextImg(font20, 4, 0, "", 300, 18)
+allianceLifePercentageRestore = 0.10 --Recovery 10% of Alliance Player's Life (Inactive Members)
 
 txt_allianceInfoCfg = createTextImg(font5, 0, 0, "", 0, 0)
 txt_allianceInfo = [[

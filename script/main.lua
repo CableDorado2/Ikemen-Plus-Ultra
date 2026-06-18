@@ -16845,7 +16845,21 @@ if validCells() then
 			end
 		end
 	--Temporal Alliance Member Exchange/Next Team Manage
-		if data.gameMode == "alliance" then
+		if data.gameMode == "alliance" and not firstAlliance then
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			--Inactive and Not Defeated Player's Alliance Members Life Recovery
+				for i=1, #data.t_p2selected do
+					if not data.t_p2selected[i].activemember and not data.t_p2selected[i].defeated then
+						data.t_p2selected[i].lifebarstate = data.t_p2selected[i].lifebarstate + f_lifeRecover(data.t_p2selected[i].lifebarstate, data.t_p2selected[i].lifemax, allianceLifePercentageRestore)
+					end
+				end
+			else
+				for i=1, #data.t_p1selected do
+					if not data.t_p1selected[i].activemember and not data.t_p1selected[i].defeated then
+						data.t_p1selected[i].lifebarstate = data.t_p1selected[i].lifebarstate + f_lifeRecover(data.t_p1selected[i].lifebarstate, data.t_p1selected[i].lifemax, allianceLifePercentageRestore)
+					end
+				end
+			end
 			if allianceRouteSel() then
 				f_allianceExchange()
 				f_timersReset()
