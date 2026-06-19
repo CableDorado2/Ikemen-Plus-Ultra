@@ -5026,11 +5026,11 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side)
 	if t_charDat.defeated then animPosDraw(allianceMemDefeated, 126 + posX, 24 + posY) end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
 	if side == 1 then
-		animSetWindow(allianceLifeLeft, 0,0, f_lifeWindow(posX, posY, 115, 160, t_charDat.lifebarstate, t_charDat.lifemax),240)
+		animSetWindow(allianceLifeLeft, 0,0, f_meterWindow(115, 160, t_charDat.lifebarstate, t_charDat.lifemax, 106 + posX, 40 + posY), 240)
 		animPosDraw(allianceLifeLeft, 117.5 + posX, 50.1 + posY)
 	end
 	if side == 2 then
-		animSetWindow(allianceLifeRight, 0,0, f_lifeWindow(posX, posY, 278, 318, t_charDat.lifebarstate, t_charDat.lifemax),240)
+		animSetWindow(allianceLifeRight, 0,0, f_meterWindow(278, 318, t_charDat.lifebarstate, t_charDat.lifemax, 106 + posX, 40 + posY), 240)
 		animPosDraw(allianceLifeRight, 117.5 + posX, 50.1 + posY)
 	end
 	animPosDraw(allianceLifeBG, 117 + posX, 49.5 + posY)
@@ -6040,6 +6040,22 @@ animSetPos(allianceChangeInfoBG, 0, 215)
 animSetScale(allianceChangeInfoBG, 320, 22)
 animSetAlpha(allianceChangeInfoBG, 0, 50)
 animUpdate(allianceChangeInfoBG)
+
+--Alliance Special Meter BG
+allianceSpecialMeterBG = animNew(sprIkemen, [[
+75,0, 0,0, -1
+]])
+animSetPos(allianceSpecialMeterBG, 143, 5)
+animSetScale(allianceSpecialMeterBG, 0.25, 0.25)
+animUpdate(allianceSpecialMeterBG)
+
+--Alliance Special Meter
+allianceSpecialMeter = animNew(sprIkemen, [[
+77,0, 0,0, -1
+]])
+animSetPos(allianceSpecialMeter, 143.8, 5.7)
+animSetScale(allianceSpecialMeter, 0.25, 0.25)
+animUpdate(allianceSpecialMeter)
 
 --;===========================================================
 --; ATTACK DISPLAY

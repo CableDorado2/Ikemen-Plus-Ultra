@@ -33,7 +33,7 @@ public &Share
   public int timer, countdownTimer;
   public int cpuLevel;
   public ^/char bestRecord;
-  public int allianceMatch;
+  public int allianceMatch, allianceMeter;
   public bool allianceChange, allianceRouteSel, allianceLastEnemy;
   public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
   public bool scoreDisplay, timerDisplay, countdownDisplay, lifeStateDisplay, bestDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
@@ -148,6 +148,7 @@ public &Share
     `com = .com.com;
 	`taglevel = .com.taglevel;
 	`allianceMatch = .com.allianceMatch;
+	`allianceMeter = .com.allianceMeter;
 	`allianceChange = .com.allianceChange;
 	`allianceRouteSel = .com.allianceRouteSel;
 	`allianceLastEnemy = .com.allianceLastEnemy;
@@ -303,6 +304,7 @@ public &Share
     .com.p2score = `p2score;
     .com.cpuLevel = `cpuLevel;
     .com.allianceMatch = `allianceMatch;
+    .com.allianceMeter = `allianceMeter;
     .com.allianceChange = `allianceChange;
     .com.allianceRouteSel = `allianceRouteSel;
     .com.allianceLastEnemy = `allianceLastEnemy;

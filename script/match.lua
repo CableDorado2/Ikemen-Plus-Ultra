@@ -521,6 +521,8 @@ local function f_updateTimer()
 				if countdown() == 0 then exitMatch() end
 			elseif gameMode() == "speedstar" then
 				noDamageTimer = noDamageTimer + 1
+			elseif gameMode() == "alliance" then
+				f_allianceMeterManager()
 			end
 		end
 	end
@@ -758,6 +760,30 @@ local function f_allianceChangeCharInfo()
 		drawBattleInputHintsP1("e","2,216")
 		f_drawQuickText(txt_allowChange, font2, 0, 1, ":CHARACTER CHANGE", 24, 229)
 		if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then allianceChangeButton = true end
+	end
+end
+
+local allianceMeterState = 0 --0=Charge, 1=Ready, 2=Using
+local allianceMeterLimit = 100
+function f_allianceMeterManager()
+	cmdInput()
+--Charge Alliance Meter
+	if allianceMeterState == 0 then
+		if allianceMeter() < allianceMeterLimit then
+			setAllianceMeter(allianceMeter() + 1)
+		else
+			allianceMeterState = 1
+		end
+--Ready to use Alliance Meter
+	elseif allianceMeter == 1 and (commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e')) then
+		allianceMeterState = 2
+--Using Alliance Meter
+	elseif allianceMeter == 2 then
+		if allianceMeter() > 0 then
+			setAllianceMeter(allianceMeter() - 1)
+		else
+			allianceMeterState = 0
+		end
 	end
 end
 
@@ -1708,6 +1734,10 @@ function loop() --The code for this function should be thought of as if it were 
 --During Alliance Mode
 	elseif gameMode() == "alliance" then
 		f_allianceStatsSet() --Set Alliance Stats
+		animDraw(allianceSpecialMeterBG)
+		animSetWindow(allianceSpecialMeter, 0,0, f_meterWindow(143, 176, allianceMeter(), allianceMeterLimit, 140, 20), 240)
+		animDraw(allianceSpecialMeter)
+		if allianceMeterState == 1 then drawBattleInputHintsP1("e","154,0", {0.35, 0.35}) end
 	--Time Over Player Lose Logic
 		if timeremaining() == 0 then
 			if playerLeftSide then

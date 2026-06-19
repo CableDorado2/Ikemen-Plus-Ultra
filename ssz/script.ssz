@@ -1461,10 +1461,23 @@ void setAllianceMatch(&.lua.State L=, int re=)
   .com.allianceMatch = am;
 }
 
-void getAllianceMatch(&.lua.State L=, int re=)
+void allianceMatch(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.allianceMatch);
+}
+
+void setAllianceMeter(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ag = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.allianceMeter = ag;
+}
+
+void allianceMeter(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.allianceMeter);
 }
 
 void setAllianceChange(&.lua.State L=, int re=)
@@ -2227,7 +2240,10 @@ public void init(&.lua.State L=)
   L.register("getLastMatch", .getLastMatch);
   
   L.register("setAllianceMatch", .setAllianceMatch);
-  L.register("getAllianceMatch", .getAllianceMatch);
+  L.register("allianceMatch", .allianceMatch);
+  
+  L.register("setAllianceMeter", .setAllianceMeter);
+  L.register("allianceMeter", .allianceMeter);
   
   L.register("setAllianceChange", .setAllianceChange);
   L.register("allianceChange", .allianceChange);

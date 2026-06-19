@@ -991,18 +991,18 @@ function f_setTimeText(timeVal)
 end
 
 --Function to draw a state bar, returning x2 paramvalue for animSetWindow()
-function f_lifeWindow(posX, posY, minWindow, maxWindow, lifestate, lifemax)
---Get Character Life
-	local charLife = 1
-	if lifemax ~= nil and lifestate ~= nil and lifestate ~= -1 then
-		charLife = lifestate / lifemax
+function f_meterWindow(minWindow, maxWindow, barstate, barmax, posX, posY)
+--Get Meter
+	local meter = 1
+	if barmax ~= nil and barstate ~= nil and barstate ~= -1 then
+		meter = barstate / barmax
 	end
-	local x2 = minWindow + (maxWindow - minWindow) * charLife --Get the width of x2 mapped to the range: minWindow, maxWindow
+	local x2 = minWindow + (maxWindow - minWindow) * meter --Get the width of x2 mapped to the range: minWindow, maxWindow
 	x2 = math.floor(x2) --Round off
 	x2 = math.max(minWindow, math.min(maxWindow, x2)) --Apply window limits to avoid visual issues
 	if data.debugMode then
-		f_drawQuickText(txtCharLife, font7, 0, 1, charLife, 106 + posX, 40 + posY)
-		f_drawQuickText(txtX2, font7, 0, 1, x2, 106 + posX, 50 + posY)
+		f_drawQuickText(txtMeterState, font7, 0, 1, meter, posX, 0 + posY)
+		f_drawQuickText(txtX2, font7, 0, 1, x2, posX, 10 + posY)
 	end
 	return x2
 end
@@ -1601,6 +1601,16 @@ function drawMenuInputHints(...) --(...) Manage unlimited arguments
 		if inputHintsCnt > 1000 then inputHintsCnt = 0 end --Reset
 	end
 	local t_args = {...} --Store all arguments taken in a table
+	local customScaleX = keyboardInputHintsScaleX
+	local customScaleY = keyboardInputHintsScaleY
+--If the total number of arguments is odd, assume that the last one is a table with the custom scales {x, y}
+	if #t_args % 2 ~= 0 then
+		local scales = table.remove(t_args) --Extract and then remove last item of t_args table
+		if type(scales) == "table" then
+			customScaleX = scales[1] or keyboardInputHintsScaleX
+			customScaleY = scales[2] or keyboardInputHintsScaleY
+		end
+	end
 	for i=1, #t_args, 2 do --For each argument stored in table
 		local cmd = t_args[i] --Set first argument (key name) to cmd var
 		local cmdPos = t_args[i + 1] --Set second argument (keyX, keyY) to cmdPos var
@@ -1613,7 +1623,7 @@ function drawMenuInputHints(...) --(...) Manage unlimited arguments
 			--local posKey = cmdPos --Get button "X,Y" positions
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
 			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animSetScale(key, customScaleX, customScaleY)
 			animUpdate(key)
 			animDraw(key)
 		end
@@ -1637,6 +1647,15 @@ function drawBattleInputHints(...)
 		if inputHintsCnt > 1000 then inputHintsCnt = 0 end
 	end
 	local t_args = {...}
+	local customScaleX = keyboardInputHintsScaleX
+	local customScaleY = keyboardInputHintsScaleY
+	if #t_args % 2 ~= 0 then
+		local scales = table.remove(t_args)
+		if type(scales) == "table" then
+			customScaleX = scales[1] or keyboardInputHintsScaleX
+			customScaleY = scales[2] or keyboardInputHintsScaleY
+		end
+	end
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
 		local cmdPos = t_args[i + 1]
@@ -1649,7 +1668,7 @@ function drawBattleInputHints(...)
 			--local posKey = cmdPos
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
 			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animSetScale(key, customScaleX, customScaleY)
 			animUpdate(key)
 			animDraw(key)
 		end
@@ -1662,6 +1681,15 @@ end
 function drawMenuInputHintsP1(...)
 	local controller = 0
 	local t_args = {...}
+	local customScaleX = keyboardInputHintsScaleX
+	local customScaleY = keyboardInputHintsScaleY
+	if #t_args % 2 ~= 0 then
+		local scales = table.remove(t_args)
+		if type(scales) == "table" then
+			customScaleX = scales[1] or keyboardInputHintsScaleX
+			customScaleY = scales[2] or keyboardInputHintsScaleY
+		end
+	end
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
 		local cmdPos = t_args[i + 1]
@@ -1674,7 +1702,7 @@ function drawMenuInputHintsP1(...)
 			--local posKey = cmdPos
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
 			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animSetScale(key, customScaleX, customScaleY)
 			animUpdate(key)
 			animDraw(key)
 		end
@@ -1684,6 +1712,15 @@ end
 function drawMenuInputHintsP2(...)
 	local controller = 0
 	local t_args = {...}
+	local customScaleX = keyboardInputHintsScaleX
+	local customScaleY = keyboardInputHintsScaleY
+	if #t_args % 2 ~= 0 then
+		local scales = table.remove(t_args)
+		if type(scales) == "table" then
+			customScaleX = scales[1] or keyboardInputHintsScaleX
+			customScaleY = scales[2] or keyboardInputHintsScaleY
+		end
+	end
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
 		local cmdPos = t_args[i + 1]
@@ -1696,7 +1733,7 @@ function drawMenuInputHintsP2(...)
 			--local posKey = cmdPos
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
 			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animSetScale(key, customScaleX, customScaleY)
 			animUpdate(key)
 			animDraw(key)
 		end
@@ -1706,6 +1743,15 @@ end
 function drawBattleInputHintsP1(...)
 	local controller = 0
 	local t_args = {...}
+	local customScaleX = keyboardInputHintsScaleX
+	local customScaleY = keyboardInputHintsScaleY
+	if #t_args % 2 ~= 0 then
+		local scales = table.remove(t_args)
+		if type(scales) == "table" then
+			customScaleX = scales[1] or keyboardInputHintsScaleX
+			customScaleY = scales[2] or keyboardInputHintsScaleY
+		end
+	end
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
 		local cmdPos = t_args[i + 1]
@@ -1718,7 +1764,7 @@ function drawBattleInputHintsP1(...)
 			--local posKey = cmdPos
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
 			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animSetScale(key, customScaleX, customScaleY)
 			animUpdate(key)
 			animDraw(key)
 		end
@@ -1728,6 +1774,15 @@ end
 function drawBattleInputHintsP2(...)
 	local controller = 0
 	local t_args = {...}
+	local customScaleX = keyboardInputHintsScaleX
+	local customScaleY = keyboardInputHintsScaleY
+	if #t_args % 2 ~= 0 then
+		local scales = table.remove(t_args)
+		if type(scales) == "table" then
+			customScaleX = scales[1] or keyboardInputHintsScaleX
+			customScaleY = scales[2] or keyboardInputHintsScaleY
+		end
+	end
 	for i=1, #t_args, 2 do
 		local cmd = t_args[i]
 		local cmdPos = t_args[i + 1]
@@ -1740,7 +1795,7 @@ function drawBattleInputHintsP2(...)
 			--local posKey = cmdPos
 			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$')
 			animSetPos(key, posKeyX, posKeyY)
-			animSetScale(key, keyboardInputHintsScaleX, keyboardInputHintsScaleY)
+			animSetScale(key, customScaleX, customScaleY)
 			animUpdate(key)
 			animDraw(key)
 		end
@@ -2538,6 +2593,7 @@ function f_default() --Reset Game Modes Configuration
 	setLastMatch(-1) --Set Last Match Stage
 	lastMatch = -1 --Reset Last Match var
 	f_teamElimination(false) --Enable or disable team members elimination during turns mode
+	setAllianceMeter(0) --Reset Alliance Special Meter
 	setFirstAttackCount(0) --Reset First Attack Count
 	setConsecutiveWins(0) --Reset Consecutive Wins Count
 	setWinTimeCount(0) --Reset Time Over Wins Count
