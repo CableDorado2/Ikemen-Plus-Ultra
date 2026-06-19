@@ -202,7 +202,6 @@ Here you can find content to install and play on Ikemen.
 - [Mugen Free For All](https://mugenfreeforall.com)
 - [Mugen Fighters Guild](https://mugenguild.com/forum/)
 - [Infinity Mugen Team](https://www.infinitymugenteam.com)
-- [MUGEN ARCHIVE](https://mugenarchive.com/forums/downloads.php)
 - [Gamebanana](https://gamebanana.com/games/5694)
 - [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
 
