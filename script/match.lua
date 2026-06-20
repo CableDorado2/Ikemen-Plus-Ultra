@@ -765,6 +765,24 @@ end
 
 local allianceMeterState = 0 --0=Charge, 1=Ready, 2=Using
 local allianceMeterLimit = 100
+local allianceSpecialRules = false
+local function f_allianceSpecialRules(val)
+	local val = val or 0
+	if not allianceSpecialRules then
+		setTimeFreeze(val)
+		if playerLeftSide then
+			setPowerRegenLeft(val)
+		else
+			setPowerRegenRight(val)
+		end
+		allianceSpecialRules = true
+	end
+end
+if gameMode() == "alliance" then
+	f_allianceSpecialRules(0) --Reset at start of each match
+	allianceSpecialRules = false
+end
+
 function f_allianceMeterManager()
 	cmdInput()
 --Charge Alliance Meter
@@ -777,17 +795,21 @@ function f_allianceMeterManager()
 		end
 --Ready to use Alliance Meter
 	elseif allianceMeterState == 1 and (commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e')) then
+		allianceSpecialRules = false --Allow Use it
 		allianceMeterState = 2
 --Using Alliance Meter
-	elseif allianceMeter == 2 then
+	elseif allianceMeterState == 2 then
 		if allianceMeter() > 0 then
 		--math.max ensures that if meter value goes below 0, it will stay exactly at 0.
-			setAllianceMeter(math.max(0, allianceMeter() + 0.010))
+			setAllianceMeter(math.max(0, allianceMeter() - 0.33))
+			f_allianceSpecialRules(1)
 		else
 			allianceMeterState = 0
+			allianceSpecialRules = false --Allow Reset
+			f_allianceSpecialRules(0) --Reset
 		end
 	end
-	f_drawQuickText(cmonon, font7, 0, 1, allianceMeter(), 50, 70)
+	--f_drawQuickText(meterDebug, font7, 0, 1, allianceMeter(), 50, 70)
 end
 
 local allianceStatsReady = false
@@ -1740,7 +1762,7 @@ function loop() --The code for this function should be thought of as if it were 
 		animDraw(allianceSpecialMeterBG)
 		animSetWindow(allianceSpecialMeter, 0,0, f_meterWindow(143, 176, allianceMeter(), allianceMeterLimit, 140, 20), 240)
 		animDraw(allianceSpecialMeter)
-		if allianceMeterState == 1 then drawBattleInputHintsP1("e","154,0", {0.35, 0.35}) end
+		if allianceMeterState == 1 then drawBattleInputHintsP1("e","154.5,0", {0.35, 0.35}) end
 	--Time Over Player Lose Logic
 		if timeremaining() == 0 then
 			if playerLeftSide then

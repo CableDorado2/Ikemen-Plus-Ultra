@@ -667,6 +667,20 @@ trigger1 = PowerInfiniteLeft = 1 && TeamSide = 1
 trigger2 = PowerInfiniteRight = 1 && TeamSide = 2
 value = PowerMax
 
+[State -2, Regenerate Life]
+type = LifeAdd
+triggerall = RoundState = 2
+trigger1 = LifeRegenLeft = 1 && TeamSide = 1
+trigger2 = LifeRegenRight = 1 && TeamSide = 2
+value = 1
+
+[State -2, Regenerate Power]
+type = PowerAdd
+triggerall = RoundState = 2
+trigger1 = PowerRegenLeft = 1 && TeamSide = 1
+trigger2 = PowerRegenRight = 1 && TeamSide = 2
+value = 1
+
 [State -2, Power Charge Off]
 type = PowerSet
 trigger1 = NoPowerLeft = 1 && TeamSide = 1
