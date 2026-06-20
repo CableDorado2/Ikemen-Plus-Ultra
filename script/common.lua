@@ -2593,7 +2593,7 @@ function f_default() --Reset Game Modes Configuration
 	setLastMatch(-1) --Set Last Match Stage
 	lastMatch = -1 --Reset Last Match var
 	f_teamElimination(false) --Enable or disable team members elimination during turns mode
-	setAllianceMeter(0) --Reset Alliance Special Meter
+	setAllianceMeter(0.0) --Reset Alliance Special Meter
 	setFirstAttackCount(0) --Reset First Attack Count
 	setConsecutiveWins(0) --Reset Consecutive Wins Count
 	setWinTimeCount(0) --Reset Time Over Wins Count

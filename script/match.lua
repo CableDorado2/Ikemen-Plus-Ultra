@@ -770,21 +770,24 @@ function f_allianceMeterManager()
 --Charge Alliance Meter
 	if allianceMeterState == 0 then
 		if allianceMeter() < allianceMeterLimit then
-			setAllianceMeter(allianceMeter() + 1)
+		--math.min ensures that if meter value is over allianceMeterLimit, it will stay exactly at allianceMeterLimit
+			setAllianceMeter(math.min(allianceMeterLimit, allianceMeter() + 0.010))
 		else
 			allianceMeterState = 1
 		end
 --Ready to use Alliance Meter
-	elseif allianceMeter == 1 and (commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e')) then
+	elseif allianceMeterState == 1 and (commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e')) then
 		allianceMeterState = 2
 --Using Alliance Meter
 	elseif allianceMeter == 2 then
 		if allianceMeter() > 0 then
-			setAllianceMeter(allianceMeter() - 1)
+		--math.max ensures that if meter value goes below 0, it will stay exactly at 0.
+			setAllianceMeter(math.max(0, allianceMeter() + 0.010))
 		else
 			allianceMeterState = 0
 		end
 	end
+	f_drawQuickText(cmonon, font7, 0, 1, allianceMeter(), 50, 70)
 end
 
 local allianceStatsReady = false

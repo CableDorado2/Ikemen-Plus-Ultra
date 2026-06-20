@@ -33,7 +33,8 @@ public &Share
   public int timer, countdownTimer;
   public int cpuLevel;
   public ^/char bestRecord;
-  public int allianceMatch, allianceMeter;
+  public int allianceMatch;
+  public float allianceMeter;
   public bool allianceChange, allianceRouteSel, allianceLastEnemy;
   public bool p1winsDisplay, p2winsDisplay, rewardDisplay;
   public bool scoreDisplay, timerDisplay, countdownDisplay, lifeStateDisplay, bestDisplay, ailevelDisplay, matchnoDisplay, gamemodeDisplay;
