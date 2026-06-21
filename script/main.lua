@@ -13872,298 +13872,6 @@ function f_genPlayerDat()
 	f_savePlayerDat()
 end
 
-function f_setAlliancePlayerMembers()
-	local pSide = nil
-	for i=1, 3 do
-		local playerDat = t_allianceSel[allianceSel][i].char:lower()
-		local pCell = t_charDef[playerDat]
-		local updateAnim = true
-	--Add New Member in Right Side
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			pSide = 2
-			for j=1, #data.t_p2selected do
-				if data.t_p2selected[j].cel == pCell then 
-					updateAnim = false
-				end
-			end
-			data.t_p2selected[#data.t_p2selected + 1] = {
-				['cel'] = pCell,
-				['name'] = t_selChars[pCell + 1].name,
-				['displayname'] = t_selChars[pCell + 1].displayname,
-				['path'] = t_selChars[pCell + 1].char,
-				['author'] = t_selChars[pCell + 1].author,
-				['discordkey'] = t_selChars[pCell + 1].discordkey,
-				['pal'] = 1,
-				['handicap'] = 1,
-				['lifebarstate'] = -1,
-				['life'] = t_allianceSel[allianceSel][i].life,
-				['power'] = t_allianceSel[allianceSel][i].power,
-				['attack'] = t_allianceSel[allianceSel][i].attack,
-				['defence'] = t_allianceSel[allianceSel][i].defence,
-				['defeated'] = false,
-				['activemember'] = false,
-				['up'] = updateAnim
-			}
-	--Add New Member in Left Side
-		else
-			pSide = 1
-			for j=1, #data.t_p1selected do
-				if data.t_p1selected[j].cel == pCell then 
-					updateAnim = false
-				end
-			end
-			data.t_p1selected[#data.t_p1selected + 1] = {
-				['cel'] = pCell,
-				['name'] = t_selChars[pCell + 1].name,
-				['displayname'] = t_selChars[pCell + 1].displayname,
-				['path'] = t_selChars[pCell + 1].char,
-				['author'] = t_selChars[pCell + 1].author,
-				['discordkey'] = t_selChars[pCell + 1].discordkey,
-				['pal'] = 1,
-				['handicap'] = 1,
-				['lifebarstate'] = -1,
-				['life'] = t_allianceSel[allianceSel][i].life,
-				['power'] = t_allianceSel[allianceSel][i].power,
-				['attack'] = t_allianceSel[allianceSel][i].attack,
-				['defence'] = t_allianceSel[allianceSel][i].defence,
-				['defeated'] = false,
-				['activemember'] = false,
-				['up'] = updateAnim
-			}
-		end
-	end
-	--setTeamMode(pSide, 0, 4)
---Set Stats for Alliance Leader
-	f_setAllianceLeaderStats(data.t_p1selected)
-	f_setAllianceLeaderStats(data.t_p2selected)
-	data.t_p1selected[1].activemember = true
-	data.t_p2selected[1].activemember = true
-	firstAlliance = false
-	currentAllianceMemberPlayer = 1
-	currentAllianceMemberCPU = 2
-end
-
---;===========================================================
---; VERSUS SCREEN
---;===========================================================
-function f_selectVersus()
-	cmdInput()
-	local i = 0
-	local vsScreen = false
-	if data.gameMode == "alliance" then
-	--Transfer last Alliance data before it was deleted in "Assign enemy team for AI" in f_selectAdvance
-		if data.t_p1Alliance ~= nil then
-			for i=1, #data.t_p1Alliance do
-				data.t_p1selected[i] = data.t_p1Alliance[i]
-			end
-		end
-		if data.t_p2Alliance ~= nil then
-			for i=1, #data.t_p2Alliance do
-				data.t_p2selected[i] = data.t_p2Alliance[i]
-			end
-		end
-	--Is the first Time that player makes the Alliance
-		if firstAlliance then
-			f_setAlliancePlayerMembers()
-	--Player already have an Alliance
-		else
-		--Set Stats for Alliance Leader
-			f_setAllianceLeaderStats(data.t_p1selected)
-			f_setAllianceLeaderStats(data.t_p2selected)
-		end
-		if allianceChange() then
-			f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
-			setAllianceChange(false)
-		end
-	elseif data.gameMode == "abyss" then f_setAbyssStats() --Assign Abyss Stats
-	end
---Manage Access to the screen
-	local colorToNameP1 = 1
-	local colorToNameP2 = 1
-	local currentCharP1 = 1
-	local currentCharP2 = 1
-	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		if t_selChars[data.t_p1selected[1].cel + 1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].vsscreen == 1 then
-			vsScreen = true
-		end
-		if data.gameMode == "alliance" then
-			colorToNameP1 = currentAllianceMemberCPU
-			currentCharP1 = currentAllianceMemberCPU
-			
-			colorToNameP2 = currentAllianceMemberPlayer
-			currentCharP2 = currentAllianceMemberPlayer
-			
-			for i=1, #data.t_p2selected do
-				if i == currentAllianceMemberPlayer then
-					data.t_p2selected[i].activemember = true
-				else
-					data.t_p2selected[i].activemember = false
-				end
-			end
-			for i=1, #data.t_p1selected do
-				if i == currentAllianceMemberCPU then
-					data.t_p1selected[i].activemember = true
-				else
-					data.t_p1selected[i].activemember = false
-				end
-			end
-		end
-	else
-		if t_selChars[data.t_p2selected[1].cel + 1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].vsscreen == 1 then
-			vsScreen = true
-		end
-		if data.gameMode == "alliance" then
-			colorToNameP1 = currentAllianceMemberPlayer
-			currentCharP1 = currentAllianceMemberPlayer
-			
-			colorToNameP2 = currentAllianceMemberCPU
-			currentCharP2 = currentAllianceMemberCPU
-			
-			for i=1, #data.t_p1selected do
-				if i == currentAllianceMemberPlayer then
-					data.t_p1selected[i].activemember = true
-				else
-					data.t_p1selected[i].activemember = false
-				end
-			end
-			for i=1, #data.t_p2selected do
-				if i == currentAllianceMemberCPU then
-					data.t_p2selected[i].activemember = true
-				else
-					data.t_p2selected[i].activemember = false
-				end
-			end
-		end
-	end
-	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	if not data.versusScreen or not vsScreen then
-		return
-	else
-		local screenTime = 0
-		local hintTime = 0
-		local timeLimit = 150
-		f_getVSHint() --Load First Hint
-		animReset(vsLogo) --Since the animation stays at -1, this helps it repeat without reload the anim via animNew().
-	--Portraits Scale Logic
-		local charDataL = t_selChars[data.t_p1selected[1].cel + 1]
-		local charDataR = t_selChars[data.t_p2selected[1].cel + 1]
-		if charDataL.vsSprScale ~= nil then
-			scaleDataL = charDataL.vsSprScale
-		else
-			scaleDataL = "1.0,1.0"
-		end
-		if charDataR.vsSprScale ~= nil then
-			scaleDataR = charDataR.vsSprScale
-		else
-			scaleDataR = "1.0,1.0"
-		end
-		local xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
-		local xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
-	--Set Versus Screen Music
-		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or gameMode() == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster) then
-			playBGM(bgmVSFinal)
-		elseif data.gameMode == "intermission" then
-			timeLimit = 350
-			playBGM(bgmVSSpecial)
-		else
-			playBGM(bgmVS)
-		end
-		while true do
-		--Actions
-			if screenTime == timeLimit then --or (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then --Disable temporarily to prevent desync in online mode
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-				break
-			end
-		--Draw Versus Screen Last Match Backgrounds
-			if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
-				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
-		--Draw Versus Screen Normal Matchs Backgrounds
-			else
-			--Draw Black BG only for Tower/Abyss Mode
-				if data.gameMode == "tower" or data.gameMode == "abyss" then
-					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
-			--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
-					animDraw(f_animVelocity(selectHardBG0, -1, -1))
-			--Draw Blue BG for Normal Modes
-				else
-					animDraw(f_animVelocity(commonBG0, -1, -1))
-				end
-			end
-		--Draw Window Portraits
-			animDraw(f_animVelocity(vsWindowL, -2, 0))
-			animDraw(f_animVelocity(vsWindowR, 2, 0))
-		--Draw Character Portraits
-			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-				drawPortrait(data.t_p1selected[currentCharP1].cel, 20, 30, xPortScaleL, yPortScaleL)
-				drawPortrait(data.t_p2selected[currentCharP2].cel, 300, 30, -xPortScaleR, yPortScaleR)
-				--You can use drawVSPortrait instead of drawPortrait to draw exclusive Portraits in this screen.
-			end
-		--Draw Character Sprite Animations
-			if data.portraitDisplay == "Sprite" then
-				for j=#data.t_p1selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 139 - (2 * j - 1) * 18, 168, data.t_p1selected[j].up)
-				end
-				for j=#data.t_p2selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimWin', 180 + (2 * j - 1) * 18, 168, data.t_p2selected[j].up)
-				end
-			end
-		--Draw Match Info
-			if data.gameMode == "arcade" or data.gameMode == "scoreattack" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" or data.gameMode == "alliance" then
-				textImgDraw(txt_matchNo)
-				if data.gameMode == "speedstar" then textImgDraw(txt_timeLeft) end
-			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
-				if not endlessRoster then textImgDraw(txt_gameNo) end
-			elseif data.gameMode == "bossrush" then
-				textImgDraw(txt_bossNo)
-			elseif data.gameMode == "bonusrush" then
-				textImgDraw(txt_bonusNo)
-			end
-		--Draw Names
-			f_drawNameList(txt_p1NameVS, 5, data.t_p1selected, 78, 180, 0, 14, colorToNameP1, 0)
-			f_drawNameList(txt_p2NameVS, 5, data.t_p2selected, 241, 180, 0, 14, colorToNameP2, 0)
-		--Draw Assets
-			animUpdate(vsLogo)
-			animDraw(vsLogo)
-			animDraw(footerBG)
-			if hintTime > 150 then --Time to load a new random hint
-				f_getVSHint() --Update Hint
-				hintTime = 0 --Restart timer for a new random hint
-			end
-		--Draw Abyss Mode Characters Stats
-			if data.gameMode == "abyss" then
-				f_abyssProfile(false, true, -155, 130)
-				f_abyssProfileCPU(true, 0, 106)
-			end
-			textImgDraw(txt_hints) --Draw Hints
-		--[[
-			if data.debugMode and data.gameMode == "abyss" then
-				f_drawQuickText(txt_mtcno, font2, 0, 1, "MATCH: "..matchNo, 100, 60)
-				f_drawQuickText(txt_abmtcno, font2, 0, 1, "NEXT ABYSS BOSS MATCH: "..abyssBossMatch, 100, 90)
-				f_drawQuickText(txt_absmtcno, font2, 0, 1, "NEXT ABYSS SPECIAL BOSS MATCH: "..getAbyssDepthBossSpecial(), 100, 120)
-			end
-		]]
-		--When Attract Mode is Enabled
-			if data.attractMode then
-				drawAttractStatus(2, 318, 10, -1)
-				f_attractCredits(318, 229, -1)
-			end
-			animDraw(data.fadeTitle)
-			animUpdate(data.fadeTitle)
-			hintTime = hintTime + 1 --Start Timer for Randoms Hints
-			screenTime = screenTime + 1 --Start Timer for Versus Screen
-			cmdInput()
-			refresh()
-		end
-	end
-end
-
-function f_getVSHint()
-	textImgSetText(txt_hints, t_vsHints[math.random(1, #t_vsHints)].text) --Get Random Hint from t_vsHints Table
-end
-
 function f_setAbyssStats()
 	abyssDat.nosave.itemslot[1] = getAbyssSP1()
 	abyssDat.nosave.itemslot[2] = getAbyssSP2()
@@ -14271,6 +13979,359 @@ function f_setAbyssStats()
 		f_saveTemp()
 	end
 	f_saveAbyss()
+end
+
+--;===========================================================
+--; VERSUS SCREEN
+--;===========================================================
+function f_selectVersus()
+	cmdInput()
+	local i = 0
+	local vsScreen = true
+	if data.gameMode == "abyss" then f_setAbyssStats() end --Assign Abyss Stats
+--Manage Access to the screen
+	local colorToNameP1 = 1
+	local colorToNameP2 = 1
+	local currentCharP1 = 1
+	local currentCharP2 = 1
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		if t_selChars[data.t_p1selected[1].cel + 1].vsscreen == 0 then
+			vsScreen = false
+		end
+	else
+		if t_selChars[data.t_p2selected[1].cel + 1].vsscreen == 0 then
+			vsScreen = false
+		end
+	end
+	--if data.gameMode == "abyss" then vsScreen = true end --To force vs screen during abyss mode
+	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	if not data.versusScreen or not vsScreen then
+		return
+	else
+		local screenTime = 0
+		local hintTime = 0
+		local timeLimit = 150
+		f_getVSHint() --Load First Hint
+		animReset(vsLogo) --Since the animation stays at -1, this helps it repeat without reload the anim via animNew().
+	--Portraits Scale Logic
+		local charDataL = t_selChars[data.t_p1selected[1].cel + 1]
+		local charDataR = t_selChars[data.t_p2selected[1].cel + 1]
+		if charDataL.vsSprScale ~= nil then
+			scaleDataL = charDataL.vsSprScale
+		else
+			scaleDataL = "1.0,1.0"
+		end
+		if charDataR.vsSprScale ~= nil then
+			scaleDataR = charDataR.vsSprScale
+		else
+			scaleDataR = "1.0,1.0"
+		end
+		local xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
+		local xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
+	--Set Versus Screen Music
+		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or gameMode() == "suddendeath" or (data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster) then
+			playBGM(bgmVSFinal)
+		elseif data.gameMode == "intermission" then
+			timeLimit = 350
+			playBGM(bgmVSSpecial)
+		else
+			playBGM(bgmVS)
+		end
+		while true do
+		--Actions
+			if screenTime == timeLimit then --or (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then --Disable temporarily to prevent desync in online mode
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				break
+			end
+		--Draw Versus Screen Last Match Backgrounds
+			if data.rosterAdvanced and matchNo >= lastMatch and data.gameMode ~= "endless" and not endlessRoster then
+				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
+		--Draw Versus Screen Normal Matchs Backgrounds
+			else
+			--Draw Black BG only for Tower/Abyss Mode
+				if data.gameMode == "tower" or data.gameMode == "abyss" then
+					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
+			--Draw Red BG for Special Modes
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.gameMode == "intermission" or gameMode() == "suddendeath" then
+					animDraw(f_animVelocity(selectHardBG0, -1, -1))
+			--Draw Blue BG for Normal Modes
+				else
+					animDraw(f_animVelocity(commonBG0, -1, -1))
+				end
+			end
+		--Draw Window Portraits
+			animDraw(f_animVelocity(vsWindowL, -2, 0))
+			animDraw(f_animVelocity(vsWindowR, 2, 0))
+		--Draw Character Portraits
+			if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
+				drawPortrait(data.t_p1selected[currentCharP1].cel, 20, 30, xPortScaleL, yPortScaleL)
+				drawPortrait(data.t_p2selected[currentCharP2].cel, 300, 30, -xPortScaleR, yPortScaleR)
+				--You can use drawVSPortrait instead of drawPortrait to draw exclusive Portraits in this screen.
+			end
+		--Draw Character Sprite Animations
+			if data.portraitDisplay == "Sprite" then
+				for j=#data.t_p1selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel + 1], 'p1AnimWin', 139 - (2 * j - 1) * 18, 168, data.t_p1selected[j].up)
+				end
+				for j=#data.t_p2selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel + 1], 'p2AnimWin', 180 + (2 * j - 1) * 18, 168, data.t_p2selected[j].up)
+				end
+			end
+		--Draw Match Info
+			if data.gameMode == "arcade" or data.gameMode == "scoreattack" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
+				textImgDraw(txt_matchNo)
+				if data.gameMode == "speedstar" then textImgDraw(txt_timeLeft) end
+			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
+				if not endlessRoster then textImgDraw(txt_gameNo) end
+			elseif data.gameMode == "bossrush" then
+				textImgDraw(txt_bossNo)
+			elseif data.gameMode == "bonusrush" then
+				textImgDraw(txt_bonusNo)
+			end
+		--Draw Names
+			f_drawNameList(txt_p1NameVS, 5, data.t_p1selected, 78, 180, 0, 14, colorToNameP1, 0)
+			f_drawNameList(txt_p2NameVS, 5, data.t_p2selected, 241, 180, 0, 14, colorToNameP2, 0)
+		--Draw Assets
+			animUpdate(vsLogo)
+			animDraw(vsLogo)
+			animDraw(footerBG)
+			if hintTime > 150 then --Time to load a new random hint
+				f_getVSHint() --Update Hint
+				hintTime = 0 --Restart timer for a new random hint
+			end
+		--Draw Abyss Mode Characters Stats
+			if data.gameMode == "abyss" then
+				f_abyssProfile(false, true, -155, 130)
+				f_abyssProfileCPU(true, 0, 106)
+			--[[if data.debugMode then
+					f_drawQuickText(txt_mtcno, font2, 0, 1, "MATCH: "..matchNo, 100, 60)
+					f_drawQuickText(txt_abmtcno, font2, 0, 1, "NEXT ABYSS BOSS MATCH: "..abyssBossMatch, 100, 90)
+					f_drawQuickText(txt_absmtcno, font2, 0, 1, "NEXT ABYSS SPECIAL BOSS MATCH: "..getAbyssDepthBossSpecial(), 100, 120)
+				end
+			]]
+			end
+			textImgDraw(txt_hints) --Draw Hints
+		--When Attract Mode is Enabled
+			if data.attractMode then
+				drawAttractStatus(2, 318, 10, -1)
+				f_attractCredits(318, 229, -1)
+			end
+			animDraw(data.fadeTitle)
+			animUpdate(data.fadeTitle)
+			hintTime = hintTime + 1 --Start Timer for Randoms Hints
+			screenTime = screenTime + 1 --Start Timer for Versus Screen
+			cmdInput()
+			refresh()
+		end
+	end
+end
+
+function f_getVSHint()
+	textImgSetText(txt_hints, t_vsHints[math.random(1, #t_vsHints)].text) --Get Random Hint from t_vsHints Table
+end
+
+function f_setAlliancePlayerMembers()
+	local pSide = nil
+	for i=1, 3 do
+		local playerDat = t_allianceSel[allianceSel][i].char:lower()
+		local pCell = t_charDef[playerDat]
+		local updateAnim = true
+	--Add New Member in Right Side
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			pSide = 2
+			for j=1, #data.t_p2selected do
+				if data.t_p2selected[j].cel == pCell then 
+					updateAnim = false
+				end
+			end
+			data.t_p2selected[#data.t_p2selected + 1] = {
+				['cel'] = pCell,
+				['name'] = t_selChars[pCell + 1].name,
+				['displayname'] = t_selChars[pCell + 1].displayname,
+				['path'] = t_selChars[pCell + 1].char,
+				['author'] = t_selChars[pCell + 1].author,
+				['discordkey'] = t_selChars[pCell + 1].discordkey,
+				['pal'] = 1,
+				['handicap'] = 1,
+				['lifebarstate'] = -1,
+				['life'] = t_allianceSel[allianceSel][i].life,
+				['power'] = t_allianceSel[allianceSel][i].power,
+				['attack'] = t_allianceSel[allianceSel][i].attack,
+				['defence'] = t_allianceSel[allianceSel][i].defence,
+				['defeated'] = false,
+				['activemember'] = false,
+				['up'] = updateAnim
+			}
+	--Add New Member in Left Side
+		else
+			pSide = 1
+			for j=1, #data.t_p1selected do
+				if data.t_p1selected[j].cel == pCell then 
+					updateAnim = false
+				end
+			end
+			data.t_p1selected[#data.t_p1selected + 1] = {
+				['cel'] = pCell,
+				['name'] = t_selChars[pCell + 1].name,
+				['displayname'] = t_selChars[pCell + 1].displayname,
+				['path'] = t_selChars[pCell + 1].char,
+				['author'] = t_selChars[pCell + 1].author,
+				['discordkey'] = t_selChars[pCell + 1].discordkey,
+				['pal'] = 1,
+				['handicap'] = 1,
+				['lifebarstate'] = -1,
+				['life'] = t_allianceSel[allianceSel][i].life,
+				['power'] = t_allianceSel[allianceSel][i].power,
+				['attack'] = t_allianceSel[allianceSel][i].attack,
+				['defence'] = t_allianceSel[allianceSel][i].defence,
+				['defeated'] = false,
+				['activemember'] = false,
+				['up'] = updateAnim
+			}
+		end
+	end
+	--setTeamMode(pSide, 0, 4)
+--Set Stats for Alliance Leader
+	f_setAllianceLeaderStats(data.t_p1selected)
+	f_setAllianceLeaderStats(data.t_p2selected)
+	data.t_p1selected[1].activemember = true
+	data.t_p2selected[1].activemember = true
+	firstAlliance = false
+	currentAllianceMemberPlayer = 1
+	currentAllianceMemberCPU = 2
+end
+
+--;===========================================================
+--; ALLIANCE VERSUS SCREEN
+--;===========================================================
+function f_selectVersusAlliance()
+	cmdInput()
+	local i = 0
+--Transfer last Alliance data before it was deleted in "Assign enemy team for AI" in f_selectAdvance
+	if data.t_p1Alliance ~= nil then
+		for i=1, #data.t_p1Alliance do
+			data.t_p1selected[i] = data.t_p1Alliance[i]
+		end
+	end
+	if data.t_p2Alliance ~= nil then
+		for i=1, #data.t_p2Alliance do
+			data.t_p2selected[i] = data.t_p2Alliance[i]
+		end
+	end
+--Is the first Time that player makes the Alliance
+	if firstAlliance then
+		f_setAlliancePlayerMembers()
+--Player already have an Alliance
+	else
+	--Set Stats for Alliance Leader
+		f_setAllianceLeaderStats(data.t_p1selected)
+		f_setAllianceLeaderStats(data.t_p2selected)
+	end
+	if allianceChange() then
+		f_allianceMemberSel(currentAllianceMemberPlayer, currentAllianceMemberCPU)
+		setAllianceChange(false)
+	end
+--Manage Access to the screen
+	local colorToNameP1 = 1
+	local colorToNameP2 = 1
+	local currentCharP1 = 1
+	local currentCharP2 = 1
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		colorToNameP1 = currentAllianceMemberCPU
+		currentCharP1 = currentAllianceMemberCPU
+			
+		colorToNameP2 = currentAllianceMemberPlayer
+		currentCharP2 = currentAllianceMemberPlayer
+			
+		for i=1, #data.t_p2selected do
+			if i == currentAllianceMemberPlayer then
+				data.t_p2selected[i].activemember = true
+			else
+				data.t_p2selected[i].activemember = false
+			end
+		end
+		for i=1, #data.t_p1selected do
+			if i == currentAllianceMemberCPU then
+				data.t_p1selected[i].activemember = true
+			else
+				data.t_p1selected[i].activemember = false
+			end
+		end
+	else
+		colorToNameP1 = currentAllianceMemberPlayer
+		currentCharP1 = currentAllianceMemberPlayer
+			
+		colorToNameP2 = currentAllianceMemberCPU
+		currentCharP2 = currentAllianceMemberCPU
+			
+		for i=1, #data.t_p1selected do
+			if i == currentAllianceMemberPlayer then
+				data.t_p1selected[i].activemember = true
+			else
+				data.t_p1selected[i].activemember = false
+			end
+		end
+		for i=1, #data.t_p2selected do
+			if i == currentAllianceMemberCPU then
+				data.t_p2selected[i].activemember = true
+			else
+				data.t_p2selected[i].activemember = false
+			end
+		end
+	end
+	f_genPlayerDat() --Generate p1_sav.json and p2_sav Dat
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	if not data.versusScreen then
+		return
+	else
+		local screenTime = 0
+		local timeLimit = 350
+		animReset(allianceVsLogo) --Since the animation stays at -1, this helps it repeat without reload the anim via animNew().
+	--Portraits Scale Logic
+		local charDataL = t_selChars[data.t_p1selected[1].cel + 1]
+		local charDataR = t_selChars[data.t_p2selected[1].cel + 1]
+		if charDataL.vsSprScale ~= nil then
+			scaleDataL = charDataL.vsSprScale
+		else
+			scaleDataL = "1.0,1.0"
+		end
+		if charDataR.vsSprScale ~= nil then
+			scaleDataR = charDataR.vsSprScale
+		else
+			scaleDataR = "1.0,1.0"
+		end
+		local xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
+		local xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
+	--Set Versus Screen Music
+	--[[
+		if data.rosterAdvanced and matchNo >= lastMatch then
+			playBGM(bgmVSFinal)
+		else
+			playBGM(bgmVS)
+		end
+	--]]
+		while true do
+		--Actions
+			if screenTime == timeLimit then --or (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then --Disable temporarily to prevent desync in online mode
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				break
+			end
+			f_alliVsTest(data.t_p1selected, data.t_p2selected, currentCharP1, currentCharP2)
+		--When Attract Mode is Enabled
+			if data.attractMode then
+				drawAttractStatus(2, 318, 10, -1)
+				f_attractCredits(318, 229, -1)
+			end
+			animDraw(data.fadeTitle)
+			animUpdate(data.fadeTitle)
+			screenTime = screenTime + 1 --Start Timer for Versus Screen
+			cmdInput()
+			refresh()
+		end
+	end
 end
 
 --;===========================================================
@@ -17246,7 +17307,11 @@ if validCells() then
 		end
 		if data.nextStage and not endlessRoster then f_arcadeTravel() end
 		f_orderSelect()
-		f_selectVersus()
+		if data.gameMode == "alliance" then
+			f_selectVersusAlliance()
+		else
+			f_selectVersus()
+		end
 		if data.gameMode == "arcade" or data.gameMode == "tower" then
 			f_setRoundTime() --Set Round Time for specific characters
 			f_setRounds() --Set Rounds to Win for specific characters

@@ -5014,16 +5014,18 @@ allianceLifeRight = animNew(sprIkemen, [[
 animSetScale(allianceLifeRight, 0.3, 0.3)
 animUpdate(allianceLifeRight)
 
-function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side)
+function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side, active)
 	local posX = posX or 0
 	local posY = posY or 0
-	local allyType = allyType or "???"
+	local allyType = allyType or ""
 	local side = side or 1
+	local active = active or false
 	local nameFont = font7
 	animPosDraw(allianceMemSlot, 2 + posX, 20 + posY)
 	animPosDraw(allianceFaceBG, 126 + posX, 24 + posY)
 	drawFacePortrait(t_charDat.cel, 127 + posX, 25 + posY, 0.9, 0.9)
 	if t_charDat.defeated then animPosDraw(allianceMemDefeated, 126 + posX, 24 + posY) end
+	if active then animPosDraw(allianceMemSlotCursor, 2 + posX, 20 + posY) end
 	animPosDraw(allianceStatsH, 6 + posX, 51 + posY)
 	if side == 1 then
 		animSetWindow(allianceLifeLeft, 0,0, f_meterWindow(115, 160, t_charDat.lifebarstate, t_charDat.lifemax, 106 + posX, 40 + posY), 240)
@@ -5055,6 +5057,122 @@ function drawAllianceMemInputHints()
 	drawMenuInputHints("u","90,"..inputHintYPos,"d","110,"..inputHintYPos,"s","170,"..inputHintYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 131, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 191, hintFontYPos)
+end
+
+--;===========================================================
+--; ALLIANCE VERSUS SCREENPACK DEFINITION
+--;===========================================================
+--Alliance Member Slot
+allianceMemSlotVS = animNew(sprIkemen, [[
+230,1, 0,0, -1
+]])
+animSetScale(allianceMemSlotVS, 1.05, 0.5)
+animUpdate(allianceMemSlotVS)
+
+--Alliance Member Cursor
+allianceMemSlotCursorVS = animNew(sprIkemen, [[
+231,1, 0,0, -1
+]])
+animSetScale(allianceMemSlotCursorVS, 1.05, 0.5)
+animUpdate(allianceMemSlotCursorVS)
+
+--Alliance VS Window (left portrait background)
+allianceVsWindowL = animNew(sprSys, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(allianceVsWindowL, 160, 0)
+animSetTile(allianceVsWindowL, 1, 1)
+animSetWindow(allianceVsWindowL, 20, 0, 96, 140)
+
+--Alliance VS Window (right portrait background)
+allianceVsWindowR = animNew(sprSys, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(allianceVsWindowR, 160, 0)
+animSetTile(allianceVsWindowR, 1, 1)
+animSetWindow(allianceVsWindowR, 204, 0, 96, 140)
+
+--Alliance VS Logo
+allianceVsLogo = animNew(sprSys, [[
+200,4, 0,0, 1
+200,3, 0,0, 2
+200,2, 0,0, 3
+200,1, 0,0, 4
+200,0, 0,0, 8
+200,5, 0,0, 3
+200,6, 0,0, 3
+200,7, 0,0, 3
+200,8, 0,0, 3
+200,0, 0,0, -1
+]])
+animAddPos(allianceVsLogo, 160, 75)
+
+local alliVsBlink = 0
+function f_allianceSlotVS(posX, posY, t_charDat, side, active)
+	local posX = posX or 0
+	local posY = posY or 0
+	local side = side or 1
+	local nameFont = font7
+	animPosDraw(allianceMemSlotVS, 2 + posX, 20 + posY)
+	animPosDraw(allianceFaceBG, 6 + posX, 24 + posY)
+	drawFacePortrait(t_charDat.cel, 7 + posX, 25 + posY, 0.9, 0.9)
+	if t_charDat.defeated then animPosDraw(allianceMemDefeated, 6 + posX, 24 + posY) end
+	if active then
+	--Blink animation
+		--if alliVsBlink % 60 < 30 then
+			animPosDraw(allianceMemSlotCursorVS, 2 + posX, 20 + posY)
+		--end
+		--alliVsBlink = alliVsBlink >= 80 and 0 or alliVsBlink + 1
+	end
+	if side == 1 then
+		animSetWindow(allianceLifeLeft, 0,0, f_meterWindow(31, 70, t_charDat.lifebarstate, t_charDat.lifemax, 106 + posX, 40 + posY), 240)
+		animPosDraw(allianceLifeLeft, 33.5 + posX, 35.1 + posY)
+	end
+	if side == 2 then
+		animSetWindow(allianceLifeRight, 0,0, f_meterWindow(193, 232, t_charDat.lifebarstate, t_charDat.lifemax, 106 + posX, 40 + posY), 240)
+		animPosDraw(allianceLifeRight, 33.5 + posX, 35.1 + posY)
+	end
+	animPosDraw(allianceLifeBG, 33 + posX, 34.5 + posY)
+	f_drawQuickText(txt_allyName, nameFont, 0, 1, t_charDat.displayname, 34 + posX, 32 + posY)
+	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..f_getAllianceMemberPower(t_charDat), 34 + posX, 46 + posY)
+end
+
+function f_alliVsTest(t_p1, t_p2, currentCharP1, currentCharP2)
+	local spacingY = 33
+	local p1Type = ""
+	local p2Type = ""
+--Draw Versus Screen Last Match Backgrounds
+	if data.rosterAdvanced and matchNo >= lastMatch then
+		animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
+--Draw Versus Screen Blue BG
+	else
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+	end
+	animDraw(f_animVelocity(allianceVsWindowL, -2, 0))
+	animDraw(f_animVelocity(allianceVsWindowR, 2, 0))
+--Draw Active Character Portraits
+	drawPortrait(t_p1[currentCharP1].cel, 20, 0, 0.8, 0.8)
+	drawPortrait(t_p2[currentCharP2].cel, 300, 0, -0.8, 0.8)
+	textImgDraw(txt_matchNo)
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		p1Type = "CPU"
+		p2Type = "LEADER"
+	else
+		p1Type = "LEADER"
+		p2Type = "CPU"
+	end
+--Left Side
+	f_allianceMemberSlot(-2, 75, p1Type, t_p1[1], 1, t_p1[1].activemember)
+	for i=2, #t_p1 do
+		f_allianceSlotVS(-2, 90 + (i - 1) * spacingY, t_p1[i], 1, t_p1[i].activemember)
+	end
+--Right Side
+	f_allianceMemberSlot(160, 75, p2Type, t_p2[1], 2, t_p2[1].activemember)
+	for i=2, #t_p2 do
+		f_allianceSlotVS(160, 90 + (i - 1) * spacingY, t_p2[i], 2, t_p2[i].activemember)
+	end
+	animUpdate(allianceVsLogo)
+	animDraw(allianceVsLogo)
 end
 
 --;===========================================================

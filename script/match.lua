@@ -1759,9 +1759,9 @@ function loop() --The code for this function should be thought of as if it were 
 --During Alliance Mode
 	elseif gameMode() == "alliance" then
 		f_allianceStatsSet() --Set Alliance Stats
-		animDraw(allianceSpecialMeterBG)
 		animSetWindow(allianceSpecialMeter, 0,0, f_meterWindow(143, 176, allianceMeter(), allianceMeterLimit, 140, 20), 240)
 		animDraw(allianceSpecialMeter)
+		animDraw(allianceSpecialMeterBG)
 		if allianceMeterState == 1 then drawBattleInputHintsP1("e","154.5,0", {0.35, 0.35}) end
 	--Time Over Player Lose Logic
 		if timeremaining() == 0 then
