@@ -19309,6 +19309,7 @@ function f_allianceSelect()
 	local courseCursor = true
 	local statsInfo = false
 	local updateAlliance = true
+	local t_playerList = {}
 	t_allianceTemp = {}
 	f_createAllianceCourseData()
 	allianceSel = 1
@@ -19317,6 +19318,11 @@ function f_allianceSelect()
 	allianceConfirm = false
 	waitingCourseSel = true
 	f_confirmReset()
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		t_playerList = data.t_p2selected
+	else
+		t_playerList = data.t_p1selected
+	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	while true do
 		if not backScreen and not confirmScreen then
@@ -19385,7 +19391,7 @@ function f_allianceSelect()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			break
 		end
-		drawAlliTest(courseCursor, statsInfo, updateAlliance)
+		drawAlliTest(courseCursor, statsInfo, t_playerList, updateAlliance)
 		updateAlliance = false
 		if backScreen then
 			f_backMenu()

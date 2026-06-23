@@ -4857,7 +4857,7 @@ function f_allianceCoursePreview()
 	f_drawQuickText(txt_allianceSelTimeVal, font2, 0, 1, f_setTimeText(stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].time), recordsPosX, 40 + globalPosY)
 end
 
-function f_allianceSelectPreview(update)
+function f_allianceSelectPreview(t_player, update)
 	local nameFont = font7
 	local globalPosY = -50
 	local update = update
@@ -4874,9 +4874,9 @@ function f_allianceSelectPreview(update)
 	textImgScalePosDraw(txt_allianceSelNo, 245, 105 + globalPosY, 0.85, 0.85)
 --Leader
 	animPosDraw(allianceFaceBG, 103, 186 + globalPosY)
-	drawFacePortrait(data.t_p1selected[1].cel, 104, 187 + globalPosY, 0.9, 0.9)
+	drawFacePortrait(t_player[1].cel, 104, 187 + globalPosY, 0.9, 0.9)
 	animPosDraw(allianceStatsH, 130, 199 + globalPosY)
-	f_drawQuickText(txt_leaderName, nameFont, 0, 1, "LEADER - "..data.t_p1selected[1].displayname:upper(), 130, 195 + globalPosY)
+	f_drawQuickText(txt_leaderName, nameFont, 0, 1, "LEADER - "..t_player[1].displayname:upper(), 130, 195 + globalPosY)
 	f_drawQuickText(txt_leaderPower, font2, 0, 1, "TEAM POWER: "..f_getAllianceMemberPower(t_allianceTemp[1]), 103, 221 + globalPosY)
 	local atribLeaderPosY = 208
 	f_drawQuickText(txt_leaderAttkAtrib, nameFont, 0, -1, f_getAllianceStatRank(t_allianceTemp[1].attack), 155, atribLeaderPosY + globalPosY)
@@ -4901,13 +4901,13 @@ function f_allianceSelectPreview(update)
 	textImgPosDraw(txt_allianceSelLv, 103, 234 + globalPosY)
 end
 
-function drawAlliTest(courseCursor, statsInfo, update)
+function drawAlliTest(courseCursor, statsInfo, t_player, update)
 		local update = update
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Course Select
 		f_allianceCoursePreview()
 	--Alliance Select
-		f_allianceSelectPreview(update)
+		f_allianceSelectPreview(t_player, update)
 	--Draw Transparent BG for inactive panels
 		if courseCursor then
 			textImgSetBank(txt_allianceCourseCfg, 1)
@@ -5163,11 +5163,13 @@ function f_alliVsTest(t_p1, t_p2, currentCharP1, currentCharP2)
 	end
 --Left Side
 	f_allianceMemberSlot(-2, 75, p1Type, t_p1[1], 1, t_p1[1].activemember)
+	f_drawQuickText(txt_LteamLv, font5, 0, 1, "TEAM LEVEL: "..f_getAllianceTeamLevel(t_p1, true), 0, 94)
 	for i=2, #t_p1 do
 		f_allianceSlotVS(-2, 90 + (i - 1) * spacingY, t_p1[i], 1, t_p1[i].activemember)
 	end
 --Right Side
 	f_allianceMemberSlot(160, 75, p2Type, t_p2[1], 2, t_p2[1].activemember)
+	f_drawQuickText(txt_RteamLv, font5, 0, -1, "TEAM LEVEL: "..f_getAllianceTeamLevel(t_p2, true), 318, 94)
 	for i=2, #t_p2 do
 		f_allianceSlotVS(160, 90 + (i - 1) * spacingY, t_p2[i], 2, t_p2[i].activemember)
 	end

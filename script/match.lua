@@ -1759,10 +1759,12 @@ function loop() --The code for this function should be thought of as if it were 
 --During Alliance Mode
 	elseif gameMode() == "alliance" then
 		f_allianceStatsSet() --Set Alliance Stats
-		animSetWindow(allianceSpecialMeter, 0,0, f_meterWindow(143, 176, allianceMeter(), allianceMeterLimit, 140, 20), 240)
-		animDraw(allianceSpecialMeter)
-		animDraw(allianceSpecialMeterBG)
-		if allianceMeterState == 1 then drawBattleInputHintsP1("e","154.5,0", {0.35, 0.35}) end
+		if roundstate() == 2 or roundstate() == 3 then
+			animSetWindow(allianceSpecialMeter, 0,0, f_meterWindow(143, 176, allianceMeter(), allianceMeterLimit, 140, 20), 240)
+			animDraw(allianceSpecialMeter)
+			animDraw(allianceSpecialMeterBG)
+			if allianceMeterState == 1 then drawBattleInputHintsP1("e","154.5,0", {0.35, 0.35}) end
+		end
 	--Time Over Player Lose Logic
 		if timeremaining() == 0 then
 			if playerLeftSide then
@@ -1796,7 +1798,7 @@ function loop() --The code for this function should be thought of as if it were 
 						setSysCtrl(10) --Swap to Menu Controls
 						alliancePause = true
 					else
-						f_abyssSave() --Show Change Character Menu
+						 --Show Change Character Menu
 					end
 				]]
 				else

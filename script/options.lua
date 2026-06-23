@@ -769,7 +769,7 @@ function f_videoDefault()
 	resolutionWidth = 640
 	resolutionHeight = 480
 	setGameRes(resolutionWidth, resolutionHeight)
-	brightnessAdjust = 256
+	brightnessAdjust = 225
 	setBrightness(brightnessAdjust)
 	opacityAdjust = 100
 	setOpacity(opacityAdjust / 100)
