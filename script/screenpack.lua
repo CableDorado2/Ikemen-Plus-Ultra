@@ -6463,5 +6463,3 @@ CABLE DORADO 2
 CD2
 
 ]]
-
---selectDef = "data/selectCVS.def" --Characters and Stage selection list
