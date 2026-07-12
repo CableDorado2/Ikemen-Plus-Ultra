@@ -41,7 +41,7 @@ end
 f_addAchievementsToDat()
 
 --Load achievements_sav.lua data
-local file = io.open(saveAchievementsPath,"r")
+local file = io.open(saveAchievementsPath, "r")
 s_trofyLUA = file:read("*all")
 file:close()
 
@@ -80,7 +80,7 @@ function f_saveAchievements() --This is an adaptation of f_setAchievement() unus
 		end
 	end
 	local s_trofyLUA = "return " .. tableToString(dataToSave)
-	local file = io.open(saveAchievementsPath,"w+") --io.open(saveAchievementsPath,"w")
+	local file = io.open(saveAchievementsPath, "w+") --io.open(saveAchievementsPath, "w")
 	file:write(s_trofyLUA)
 	file:close()
 	modified = false

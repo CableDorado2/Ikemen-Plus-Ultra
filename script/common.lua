@@ -42,7 +42,7 @@ function f_fileExists(file)
 	if file == '' then
 		return false
 	end
-	local f = io.open(file,'r')
+	local f = io.open(file, 'r')
 	if f ~= nil then
 		io.close(f)
 		return true
@@ -108,17 +108,17 @@ assert(loadfile(saveTourneyPath))() --tournament data
 assert(loadfile(saveTempPath))() --temp data
 
 --Data loading from temp_sav.lua
-local tempFile = io.open(saveTempPath,"r")
+local tempFile = io.open(saveTempPath, "r")
 s_tempdataLUA = tempFile:read("*all")
 tempFile:close()
 
 --Data loading from tourney_sav.lua
-local tourneyFile = io.open(saveTourneyPath,"r")
+local tourneyFile = io.open(saveTourneyPath, "r")
 s_tourneydataLUA = tourneyFile:read("*all")
 tourneyFile:close()
 
 --Data loading from config.ssz
-local file = io.open(saveCoreCfgPath,"r")
+local file = io.open(saveCoreCfgPath, "r")
 s_configSSZ = file:read("*all")
 file:close()
 
@@ -663,7 +663,7 @@ function f_printTable(t, toFile)
 	else
 		sub_print_t(t, '  ')
 	end
-	local file = io.open(toFile,"w+")
+	local file = io.open(toFile, "w+")
 	if file == nil then return end
 	file:write(txt)
 	file:close()
@@ -672,7 +672,7 @@ end
 --prints "v" variable into "toFile" file
 function f_printVar(v, toFile)
 	local toFile = toFile or 'save/debug/var_print.log'
-	local file = io.open(toFile,"w+")
+	local file = io.open(toFile, "w+")
 	file:write(v)
 	file:close()
 end
@@ -830,7 +830,7 @@ end
 --Convert TXT file to table
 function f_txtLoad(path)
 	if path ~= nil then
-		local file = io.open(path,"r") --Open .txt file refer in path var in reading mode
+		local file = io.open(path, "r") --Open .txt file refer in path var in reading mode
 		local t = {} --Create a table to store .txt file information
 		local content = file:read("*all") --Read file content line by line
 		file:close() --Close .txt file
@@ -3466,7 +3466,7 @@ function f_saveTemp()
 		['data.stgBGM'] = data.stgBGM,
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
-	local tempFile = io.open(saveTempPath,"w+")
+	local tempFile = io.open(saveTempPath, "w+")
 	tempFile:write(s_tempdataLUA)
 	tempFile:close()
 end
@@ -3516,7 +3516,7 @@ function f_saveTourney()
 		['data.tourney3rdPlace'] = data.tourney3rdPlace,
 	}
 	s_tourneydataLUA = f_strSub(s_tourneydataLUA, t_tourney)
-	local tourneyFile = io.open(saveTourneyPath,"w+")
+	local tourneyFile = io.open(saveTourneyPath, "w+")
 	tourneyFile:write(s_tourneydataLUA)
 	tourneyFile:close()
 end

@@ -108,7 +108,7 @@ local function f_glossaryLoad()
 	t_glossary = {}
 	local t = {}
 	local section = 0
-	local file = io.open(glossaryDef,"r")
+	local file = io.open(glossaryDef, "r")
 	local content = file:read("*all")
 	file:close()
 	content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')

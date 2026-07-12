@@ -376,7 +376,7 @@ function f_parseChar(t, cel)
 		end
 	--Extract Character Victory Quotes
 		local quotes = false
-		if io.open(cnsPath or '','r') ~= nil then
+		if io.open(cnsPath or '', 'r') ~= nil then
 			for line in io.lines(cnsPath) do
 				if line:match('"%s*;.*$') then
 					line = line:gsub('"%s*;.*$', '"')
@@ -407,7 +407,7 @@ function f_parseChar(t, cel)
 			end
 		end
 	--Extract Character Anims
-		if io.open(airPath or '','r') ~= nil then
+		if io.open(airPath or '', 'r') ~= nil then
 			for line in io.lines(airPath) do
 				line = line:lower()
 				line = line:gsub('%s*;.*$', '')
@@ -463,7 +463,7 @@ t_orderBoss = {}
 t_charDef = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 local section = 0
-local file = io.open(selectDef,"r")
+local file = io.open(selectDef, "r")
 local content = file:read("*all")
 file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
@@ -558,7 +558,7 @@ for line in content:gmatch('[^\r\n]+') do
 			local exists = false
 			if i == 1 then
 				c = c:gsub('\\', '/')
-				local file = io.open(c,'r')
+				local file = io.open(c, 'r')
 				if file == nil then
 					break
 				end
@@ -776,7 +776,7 @@ if t_selChars ~= nil then
 		if t_selChars[i].stage ~= nil then
 			for j=1, #t_selChars[i].stage do
 				if t_stageDef[t_selChars[i].stage[j]] == nil and t_selStages ~= nil then
-					local file = io.open(t_selChars[i].stage[j],'r')
+					local file = io.open(t_selChars[i].stage[j], 'r')
 					if file == nil then
 						break
 					end
@@ -935,7 +935,7 @@ if t_selChars ~= nil then
 		--if data/charAnim/displayname.def doesn't exist
 			--local charAnimPath = t_selChars[i].ikanim --chars/charName/
 			--local charAnimPathWin = t_selChars[i].ikanim:gsub('/', '\\') --this convert chars/charName/ to chars\\charName\\
-			if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
+			if io.open('data/charAnim/' .. displayname .. '.def', 'r') == nil then
 			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
 				batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
 			--store character's reference that needs conversion into table to save time later on
@@ -1262,11 +1262,11 @@ if generate and data.sffConversion then
 	end
 	if parserCfg == 3 then
 		data.sffConversion = false
-		local file = io.open(saveCfgPath,"r")
+		local file = io.open(saveCfgPath, "r")
 		local str = file:read("*all")
 		file:close()
 		str = str:gsub('data.sffConversion%s*=%s*[^\n]+', 'data.sffConversion = false')
-		file = io.open(saveCfgPath,"w+")
+		file = io.open(saveCfgPath, "w+")
 		file:write(str)
 		file:close()
 	elseif parserCfg == 1 then

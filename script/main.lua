@@ -19,7 +19,7 @@ else
 end
 setOS(osType)
 os.remove("tools/os_info.txt")
-local file = io.open('save/debug/osVer.log',"w+")
+local file = io.open('save/debug/osVer.log', "w+")
 file:write(osType)
 file:close()
 
@@ -5869,7 +5869,7 @@ function f_licenseMenu()
 end
 
 function f_readLicense(path)
-licenseFile = io.open(path,"r") --Open .txt file refer in path var in reading mode
+licenseFile = io.open(path, "r") --Open .txt file refer in path var in reading mode
 licenseContent = licenseFile:read("*all") --Read file content line by line
 licenseFile:close() --Close .txt file
 end
@@ -6387,7 +6387,7 @@ end
 function f_saveReplay()
 --Create Replay File
 	if (data.replayOnline and data.ftcontrol == -1) or (data.replayRanked and data.ftcontrol > 0) then
-		local netplayFile = io.open("save/data.replay","rb") --Read origin file
+		local netplayFile = io.open("save/data.replay", "rb") --Read origin file
 		if netplayFile ~= nil then
 			if not createExit or not joinExit then
 				if lfs.attributes("save/data.replay", "size") > 0 then --Save replay if have content
@@ -7570,9 +7570,9 @@ function f_secretProgress()
 local goukiName = "Shin Gouki"
 local unlockScreen = t_selChars[secretTarget[1].cel + 1]
 --Show Unlock Screen if is available
-if unlockScreen.UnlockStoryboard ~= nil and io.open(unlockScreen.UnlockStoryboard or '','r') ~= nil then
+if unlockScreen.UnlockStoryboard ~= nil and io.open(unlockScreen.UnlockStoryboard or '', 'r') ~= nil then
 	f_storyboard(unlockScreen.UnlockStoryboard)
-elseif unlockScreen.UnlockVideo ~= nil and io.open(unlockScreen.UnlockVideo or '','r') ~= nil then
+elseif unlockScreen.UnlockVideo ~= nil and io.open(unlockScreen.UnlockVideo or '', 'r') ~= nil then
 	playVideo(unlockScreen.UnlockVideo)
 end
 if secretTarget[1].displayname == goukiName then stats.unlocks.chars.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
@@ -16338,9 +16338,9 @@ if validCells() then
 					storyBoardSide = t_selChars[data.t_p1selected[1].cel + 1]
 				end
 				local tPos = storyBoardSide
-				if tPos.intro ~= nil and io.open(tPos.intro or '','r') ~= nil then
+				if tPos.intro ~= nil and io.open(tPos.intro or '', 'r') ~= nil then
 					f_storyboard(tPos.intro)
-				elseif tPos.intro2 ~= nil and io.open(tPos.intro2 or '','r') ~= nil then
+				elseif tPos.intro2 ~= nil and io.open(tPos.intro2 or '', 'r') ~= nil then
 					playVideo(tPos.intro2)
 				end
 			end
@@ -16564,9 +16564,9 @@ if validCells() then
 				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p1selected[1].cel + 1]
-						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
+						if tPos.ending ~= nil and io.open(tPos.ending or '', 'r') ~= nil then
 							f_storyboard(tPos.ending)
-						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '','r') ~= nil then
+						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '', 'r') ~= nil then
 							playVideo(tPos.ending2)
 						end
 					end
@@ -16621,9 +16621,9 @@ if validCells() then
 				--Arcade Ending
 					if data.arcadeEnding == true then
 						local tPos = t_selChars[data.t_p2selected[1].cel + 1]
-						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
+						if tPos.ending ~= nil and io.open(tPos.ending or '', 'r') ~= nil then
 							f_storyboard(tPos.ending)
-						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '','r') ~= nil then
+						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '', 'r') ~= nil then
 							playVideo(tPos.ending2)
 						end
 					end

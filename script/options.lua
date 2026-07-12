@@ -155,7 +155,7 @@ local updateVars = false
 --;===========================================================
 function f_loadEXCfg()
 --Data loading from data.lifebar
-	local file = io.open(data.lifebar,"r")
+	local file = io.open(data.lifebar, "r")
 	s_lifebarDEF = file:read("*all")
 	file:close()
 --Apply settings from data.lifebar
@@ -178,7 +178,7 @@ local all = all or false
 --;===========================================================
 	if all then
 	--Data loading from data_sav.lua
-		local file = io.open(saveCfgPath,"r")
+		local file = io.open(saveCfgPath, "r")
 		s_dataLUA = file:read("*all")
 		file:close()
 	--Apply settings from data_sav.lua
@@ -188,7 +188,7 @@ local all = all or false
 --; CONFIG.SSZ
 --;===========================================================
 --Data loading from config.ssz
-	local file = io.open(saveCoreCfgPath,"r")
+	local file = io.open(saveCoreCfgPath, "r")
 	s_configSSZ = file:read("*all")
 	file:close()
 --Apply settings from config.ssz
@@ -226,7 +226,7 @@ local all = all or false
 --Before was on f_loadEXCfg():
 
 --Data loading from sound.ssz
-	local file = io.open("lib/sound.ssz","r")
+	local file = io.open("lib/sound.ssz", "r")
 	s_soundSSZ = file:read("*all")
 	file:close()
 --Apply settings from sound.ssz
@@ -306,11 +306,11 @@ end
 
 function f_loadNETCfg()
 --Data loading from data_netsav.lua
-	local file = io.open(saveNetCfgPath,"r")
+	local file = io.open(saveNetCfgPath, "r")
 	s_dataLUA = file:read("*all")
 	file:close()
 --Data loading from configNet.ssz
-	local file = io.open(saveNetCoreCfgPath,"r")
+	local file = io.open(saveNetCoreCfgPath, "r")
 	s_configSSZ = file:read("*all")
 	file:close()
 --Apply settings from configNet.ssz
@@ -442,7 +442,7 @@ function f_saveCfg()
 	}
 --Save Data to data_sav.lua
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
-	local file = io.open(saveCfgPath,"w+")
+	local file = io.open(saveCfgPath, "w+")
 	file:write(s_dataLUA)
 	file:close()
 --;===========================================================
@@ -496,7 +496,7 @@ function f_saveCfg()
 	s_configSSZ = s_configSSZ:gsub('listenPort%s*=%s*"%w+"', 'listenPort = "' .. getListenPort() .. '"')
 	--s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
 --Save Data to config.ssz
-	local file = io.open(saveCoreCfgPath,"w+")
+	local file = io.open(saveCoreCfgPath, "w+")
 	file:write(s_configSSZ)
 	file:close()
 --Extra Audio Settings
@@ -504,7 +504,7 @@ function f_saveCfg()
 	s_soundSSZ = s_soundSSZ:gsub('const int Channels%s*=%s*%d+', 'const int Channels = ' .. channels)
 	s_soundSSZ = s_soundSSZ:gsub('const int BufferSamples%s*=%s*%d+', 'const int BufferSamples = ' .. buffer)
 --Save Data to sound.ssz
-	local file = io.open("lib/sound.ssz","w+")
+	local file = io.open("lib/sound.ssz", "w+")
 	file:write(s_soundSSZ)
 	file:close()
 --;===========================================================
@@ -514,7 +514,7 @@ function f_saveCfg()
 	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. data.roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
 --Save Data to lifebar selected
-	local file = io.open(data.lifebar,"w+")
+	local file = io.open(data.lifebar, "w+")
 	file:write(s_lifebarDEF)
 	file:close()
 	loadLifebar(data.lifebar) --Reload lifebar with new settings
@@ -565,7 +565,7 @@ function f_netsaveCfg()
 	}
 --Save Data to data_netsav.lua
 	s_dataLUA = f_strSub(s_dataLUA, t_netsaves)
-	local file = io.open(saveNetCfgPath,"w+")
+	local file = io.open(saveNetCfgPath, "w+")
 	file:write(s_dataLUA)
 	file:close()
 --;===========================================================
@@ -579,7 +579,7 @@ function f_netsaveCfg()
 	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
 --Save Data to configNet.ssz
-	local file = io.open(saveNetCoreCfgPath,"w+")
+	local file = io.open(saveNetCoreCfgPath, "w+")
 	file:write(s_configSSZ)
 	file:close()
 --;===========================================================
@@ -588,7 +588,7 @@ function f_netsaveCfg()
 	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. data.roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
 --Save Data to lifebar selected
-	local file = io.open(data.lifebar,"w+")
+	local file = io.open(data.lifebar, "w+")
 	file:write(s_lifebarDEF)
 	file:close()
 	loadLifebar(data.lifebar) --Reload lifebar

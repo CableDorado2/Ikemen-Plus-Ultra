@@ -24,7 +24,7 @@ saveVNPath = "save/vn_sav.lua"
 assert(loadfile(saveVNPath))() --visual novel data
 
 --Data loading from vn_sav.lua
-local vnFile = io.open(saveVNPath,"r")
+local vnFile = io.open(saveVNPath, "r")
 s_vndataLUA = vnFile:read("*all")
 vnFile:close()
 
@@ -44,7 +44,7 @@ function f_saveVN()
 		['data.VNdialogue'] = data.VNdialogue
 	}
 	s_vndataLUA = f_strSub(s_vndataLUA, t_vn)
-	local vnFile = io.open(saveVNPath,"w+")
+	local vnFile = io.open(saveVNPath, "w+")
 	vnFile:write(s_vndataLUA)
 	vnFile:close()
 end
@@ -56,7 +56,7 @@ function f_saveSettingsVN()
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const int VideoVol%s*=%s*%d+', 'const int VideoVol = ' .. vid_vol)
 	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
-	local file = io.open(saveCoreCfgPath,"w+")
+	local file = io.open(saveCoreCfgPath, "w+")
 	file:write(s_configSSZ)
 	file:close()
 	f_saveVN()
@@ -408,7 +408,7 @@ function f_vnLoad(path)
 t_vnBoxText = {}
 local t = {}
 local section = 0
-local file = io.open(path,"r")
+local file = io.open(path, "r")
 local content = file:read("*all")
 file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
