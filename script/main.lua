@@ -58,14 +58,6 @@ currentAllianceMemberCPU = 1
 secretTarget = ""
 unlockTarget = ""
 t_infoWindowMsg = {}
---Default Turns/Simul Count after starting
-p1numTurns = 2
-p2numTurns = 2
-p1numSimul = 2
-p2numSimul = 2
---Default Team Mode after starting (0=Single, 1=Simul, 2=Turns)
-p1teamMode = 0
-p2teamMode = 0
 
 function f_resetArcadeStuff()
 stats.continueCount = 0 --Restart Times Continue in Arcade
@@ -7757,12 +7749,14 @@ function f_selectReset()
 	endlessRoster = false
 	p1numChars = 1
 	p2numChars = 1
+--Default Team Mode after starting (0=Single, 1=Simul, 2=Turns)
 	p1teamMode = 0
 	p2teamMode = 0
-	p1numTurns = 2
-	p2numTurns = 2
-	p1numSimul = 2
-	p2numSimul = 2
+--Default Turns/Simul Count after starting
+	p1numSimul = f_minMax(2, 2, data.numSimul)
+	p1numTurns = f_minMax(3, 2, data.numTurns)
+	p2numSimul = p1numSimul --Reuse p1 data
+	p2numTurns = p1numTurns
 	matchNo = 0
 	setMatchNo(matchNo)
 	setAllianceMatch(matchNo)
