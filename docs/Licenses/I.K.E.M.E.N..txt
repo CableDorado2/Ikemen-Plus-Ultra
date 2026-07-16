@@ -5,26 +5,15 @@ are licensed under the MIT License.
 
 MIT License
 
-Copyright (c) 2006 Suehiro
+Copyright (c) 2006-2017 Suehiro
 Copyright (c) 2017 Alceris
-Copyright (c) 2018 K4thos
-Copyright (c) 2018 ShinLucho
-Copyright (c) 2018 NeatUnsou
-Copyright (c) 2019 Windblade
-Copyright (c) 2019 Dan
-Copyright (c) 2019 Kidcy
-Copyright (c) 2020 Wintermourn
-Copyright (c) 2020 Shiyo Kakuge
-Copyright (c) 2021 Kamekaze
-Copyright (c) 2021 two4teezee
-Copyright (c) 2021 TheFclass97
-Copyright (c) 2021 Rodknee
-Copyright (c) 2021 Ros
-Copyright (c) 2021 Yamori X
-Copyright (c) 2021 Jade Midori
-Copyright (c) 2023 PlasmoidThunder
-Copyright (c) 2025 Strong FS
-Copyright (c) 2026 CD2
+Copyright (c) 2018 K4thos, ShinLucho, NeatUnsou
+Copyright (c) 2019 Windblade, Dan, Kidcy
+Copyright (c) 2020 Wintermourn, Shiyo Kakuge, Kamekaze
+Copyright (c) 2021 PlasmoidThunder, TheFclass97, Rodknee, two4teezee, Yamori X, Ros
+Copyright (c) 2022-2025 Strong FS
+Copyright (c) 2022-2026 CD2
+Copyright (c) 2006-2026 Ikemen Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files
