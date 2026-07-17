@@ -4,7 +4,7 @@ const bool AspectRatio = false;
 const bool FullScreen = false;
 const bool FullScreenExclusive = false; //False: Borderless FullScreen, True: Exclusive FullScreen
 const int WindowType = 1; //1: Resizable, 2: Bordered A, 3: Bordered B, 4: No Decoration
-const int Width = 1280;
+const int Width = 960;
 const int Height = 720;
 const int Brightness = 256;
 const float Opacity = 1;
@@ -12,7 +12,7 @@ const float Opacity = 1;
 //Audio Settings
 const float GlVol = 0.8;
 const float SEVol = 0.8;
-const float BGMVol = 0;
+const float BGMVol = 0.5;
 const float PanStr = 0.8;
 const int VideoVol = 100;
 
@@ -28,7 +28,11 @@ const int GameSpeed = 60; //frames/second
 const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 const float Super_TargetDefenceMul = 1.5;
-const float LifebarFontScale = 1;
+const float LifebarFontScale = 1.0;
+const int LifebarUpperHudX = 0;
+const int LifebarUpperHudY = 0;
+const int LifebarLowerHudX = 0;
+const int LifebarLowerHudY = 0;
 
 //Portraits Settings
 const int CharPortraitsGroup = 9000;
