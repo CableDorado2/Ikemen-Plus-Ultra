@@ -616,7 +616,7 @@ public &Sprite
     }
   }
 /*?*/
-  public void draw(float x, float y, float xscale, float yscale, int salpha, int dalpha, ^uint pal)
+  public void draw(float x, float y, float xscale, float yscale, int salpha, int dalpha, float winX, float winY, float winW, float winH, ^uint pal)
   {
     &.sdl.Rect tile;
     tile.set(0, 0, 0, 0);
@@ -632,6 +632,12 @@ public &Sprite
 		cond (salpha + dalpha == 255 || salpha + dalpha == 256 || salpha < 0): alpha = salpha;
 		else: alpha = .com.brightness*salpha>>8 | dalpha<<10 | 1<<9;
     }
+	&.sdl.Rect window;
+	window = .com.scrrect;
+	window.x = (int)((winX+(float)(.com.GameWidth-320)/2.0)*.com.WidthScale);
+    window.y = (int)((winY+(float)(.com.GameHeight-240))*.com.HeightScale);
+    window.w = (int)(winW * .com.WidthScale + 0.5);
+    window.h = (int)(winH * .com.HeightScale + 0.5);
 //OpenGL Render
   /?/*.cfg.OpenGL:
     if(#`pxl > 0){
@@ -640,12 +646,12 @@ public &Sprite
         pal, 0, -x2*.com.WidthScale, -y2*.com.HeightScale,
         tile=, xscale*.com.WidthScale, xscale*.com.WidthScale,
         yscale*.com.HeightScale, 0.0, 0.0, alpha,
-        .com.scrrect=, 0.0, 0.0, nullfx);
+        window=, 0.0, 0.0, nullfx);
     }
 //Software Render
   /*true:
     .sdl.renderMugenZoom(
-      .com.scrrect=, 0.0, 0.0,
+      window=, 0.0, 0.0,
       `pxl, pal, 0, `rct=, -x2*.com.WidthScale, -y2*.com.HeightScale,
       tile=, xscale*.com.WidthScale, xscale*.com.WidthScale,
       yscale*.com.HeightScale, 0.0, 0x0, (salpha == -2 ? -2 : .com.brightness*salpha>>8 | dalpha<<10 | 1<<9), `rle, `pluginbuf=);

@@ -64,7 +64,7 @@ public &TextImg
   {
     if(.se.fskip || #`fnt == 0) ret;
 	if(`oldScale != .com.WidthScale) `updateWindow();
-    `fnt~drawText(`x, `y, `xscl, `yscl, `bank, `salpha, `dalpha, `window=, `align, `text); //`fnt~drawText(`x, `y, `xscl, `yscl, `bank, `align, `text);
+    `fnt~drawText(`x, `y, `xscl, `yscl, `bank, `salpha, `dalpha, `window=, `align, `text);
   }
   public float getTextWidth()
   {
@@ -601,7 +601,7 @@ void setGameMode(&.lua.State L=, int re=)
   .com.gameMode = gm;
 }
 
-void getGameMode(&.lua.State L=, int re=)
+void gameMode(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushString(.com.gameMode);
@@ -660,18 +660,151 @@ void setAttackDisplay(&.lua.State L=, int re=)
   .com.attackDisplay = dmd;
 }
 
-void setPowerStateP1(&.lua.State L=, int re=)
+void setTimeFreeze(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int psl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.powerStateP1 = psl;
+  int tf = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.timeFreeze = tf;
 }
 
-void setPowerStateP2(&.lua.State L=, int re=)
+void setLifeInfiniteLeft(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int psr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.powerStateP2 = psr;
+  int lil = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifeInfiniteLeft = lil;
+}
+
+void setLifeInfiniteRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lir = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifeInfiniteRight = lir;
+}
+
+void setPowerInfiniteLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int pil = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerInfiniteLeft = pil;
+}
+
+void setPowerInfiniteRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int pir = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerInfiniteRight = pir;
+}
+
+void setDefenceUpLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int dul = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.defenceUpLeft = dul;
+}
+
+void setDefenceUpRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int dur = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.defenceUpRight = dur;
+}
+
+void setAttackUpLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int aul = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.attackUpLeft = aul;
+}
+
+void setAttackUpRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int aur = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.attackUpRight = aur;
+}
+
+void setLifeRegenLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lrl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifeRegenLeft = lrl;
+}
+
+void setLifeRegenRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lrr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifeRegenRight = lrr;
+}
+
+void setPowerRegenLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int prl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerRegenLeft = prl;
+}
+
+void setPowerRegenRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int prr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerRegenRight = prr;
+}
+
+void setNoPowerLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int npl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.noPowerLeft = npl;
+}
+
+void setNoPowerRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int npr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.noPowerRight = npr;
+}
+
+void setInvisibleLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int il = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.invisibleLeft = il;
+}
+
+void setInvisibleRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ir = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.invisibleRight = ir;
+}
+
+void setNoAutoTurnLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ntl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.noAutoTurnLeft = ntl;
+}
+
+void setNoAutoTurnRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ntr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.noAutoTurnRight = ntr;
+}
+
+void setNoGuardLeft(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ngl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.noGuardLeft = ngl;
+}
+
+void setNoGuardRight(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ngr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.noGuardRight = ngr;
 }
 
 void setLifeStateP1(&.lua.State L=, int re=)
@@ -686,6 +819,20 @@ void setLifeStateP2(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   int lsr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   .com.lifeStateP2 = lsr;
+}
+
+void setPowerStateP1(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int psl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerStateP1 = psl;
+}
+
+void setPowerStateP2(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int psr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerStateP2 = psr;
 }
 
 void setDummyState(&.lua.State L=, int re=)
@@ -1623,6 +1770,30 @@ void drawFace(&.lua.State L=, int re=)
   if(L.getTop() > argc){
     offset = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  int salpha = 255, dalpha = 0;
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x;
+  float y1 = (float)window.y;
+  float x2 = (float)window.w;
+  float y2 = (float)window.h;
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip) loop{
     int j = 0;
     ^&.sys.Select::Char c;
@@ -1636,13 +1807,19 @@ void drawFace(&.lua.State L=, int re=)
           x + (float)i*.syst.selinf.sel.cellsizex,
           y + (float)j*.syst.selinf.sel.cellsizey,
           .syst.selinf.sel.cellscalex, .syst.selinf.sel.cellscaley,
-          c~facePortrait~colorPallet);
+		  salpha, dalpha,
+		  x1, y1, x2, y2,
+          c~facePortrait~colorPallet
+		);
       cond .s.equ(c~def, "randomselect") && #.syst.selinf.sel.randomspr > 0:
         .syst.selinf.sel.randomspr~draw(
           x + (float)i*.syst.selinf.sel.cellsizex,
           y + (float)j*.syst.selinf.sel.cellsizey,
           .syst.selinf.sel.randxscl, .syst.selinf.sel.randyscl,
-          .syst.selinf.sel.randomspr~colorPallet);
+		  salpha, dalpha,
+		  x1, y1, x2, y2,
+          .syst.selinf.sel.randomspr~colorPallet
+		);
       }
       i++;
     while i < .syst.selinf.sel.columns:}
@@ -1657,16 +1834,37 @@ void drawTourneyPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+   if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~facePortrait > 0){
-      c~facePortrait~draw(x, y, xscl, yscl, c~facePortrait~colorPallet);
+      c~facePortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~facePortrait~colorPallet);
     }
   }
 }
@@ -1678,16 +1876,37 @@ void drawPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~bigPortrait > 0){
-      c~bigPortrait~draw(x, y, xscl, yscl, c~bigPortrait~colorPallet);
+      c~bigPortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~bigPortrait~colorPallet);
     }
   }
 }
@@ -1699,16 +1918,37 @@ void drawFacePortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~facePortrait > 0){
-      c~facePortrait~draw(x, y, xscl, yscl, c~facePortrait~colorPallet);
+      c~facePortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~facePortrait~colorPallet);
     }
   }
 }
@@ -1720,16 +1960,37 @@ void drawOrderPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~orderPortrait > 0){
-      c~orderPortrait~draw(x, y, xscl, yscl, c~orderPortrait~colorPallet);
+      c~orderPortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~orderPortrait~colorPallet);
     }
   }
 }
@@ -1741,16 +2002,37 @@ void drawVSPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~vsPortrait > 0){
-      c~vsPortrait~draw(x, y, xscl, yscl, c~vsPortrait~colorPallet);
+      c~vsPortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~vsPortrait~colorPallet);
     }
   }
 }
@@ -1762,16 +2044,37 @@ void drawWinPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~winPortrait > 0){
-      c~winPortrait~draw(x, y, xscl, yscl, c~winPortrait~colorPallet);
+      c~winPortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~winPortrait~colorPallet);
     }
   }
 }
@@ -1783,16 +2086,37 @@ void drawLoserPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~loserPortrait > 0){
-      c~loserPortrait~draw(x, y, xscl, yscl, c~loserPortrait~colorPallet);
+      c~loserPortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~loserPortrait~colorPallet);
     }
   }
 }
@@ -1804,16 +2128,37 @@ void drawResultPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~resultPortrait > 0){
-      c~resultPortrait~draw(x, y, xscl, yscl, c~resultPortrait~colorPallet);
+      c~resultPortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~resultPortrait~colorPallet);
     }
   }
 }
@@ -1825,16 +2170,37 @@ void drawExtraPortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){
     ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
     if(#c > 0 && #c~extraPortrait > 0){
-      c~extraPortrait~draw(x, y, xscl, yscl, c~extraPortrait~colorPallet);
+      c~extraPortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~extraPortrait~colorPallet);
     }
   }
 }
@@ -1846,16 +2212,37 @@ void drawStageIcon(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){ 
     ^&.sys.Select::Stage c = .syst.selinf.sel.getStage(n);
     if(#c > 0 && #c~iconStagePortrait > 0){ 
-       c~iconStagePortrait~draw(x, y, xscl, yscl, c~iconStagePortrait~colorPallet);
+       c~iconStagePortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~iconStagePortrait~colorPallet);
     }
   }
 }
@@ -1867,16 +2254,37 @@ void drawStagePortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){ 
     ^&.sys.Select::Stage c = .syst.selinf.sel.getStage(n);
     if(#c > 0 && #c~bigStagePortrait > 0){ 
-       c~bigStagePortrait~draw(x, y, xscl, yscl, c~bigStagePortrait~colorPallet);
+       c~bigStagePortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~bigStagePortrait~colorPallet);
     }
   }
 }
@@ -1888,16 +2296,37 @@ void drawVSStagePortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){ 
     ^&.sys.Select::Stage c = .syst.selinf.sel.getStage(n);
     if(#c > 0 && #c~vsStagePortrait > 0){ 
-       c~vsStagePortrait~draw(x, y, xscl, yscl, c~vsStagePortrait~colorPallet);
+       c~vsStagePortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~vsStagePortrait~colorPallet);
     }
   }
 }
@@ -1909,16 +2338,37 @@ void drawWinStagePortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+   if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){ 
     ^&.sys.Select::Stage c = .syst.selinf.sel.getStage(n);
     if(#c > 0 && #c~winStagePortrait > 0){ 
-       c~winStagePortrait~draw(x, y, xscl, yscl, c~winStagePortrait~colorPallet);
+       c~winStagePortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~winStagePortrait~colorPallet);
     }
   }
 }
@@ -1930,16 +2380,37 @@ void drawExtraStagePortrait(&.lua.State L=, int re=)
   float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  &.sdl.Rect window = .com.scrrect;
+  float x1 = (float)window.x, y1 = (float)window.y, x2 = (float)window.w, y2 = (float)window.h;
   if(L.getTop() > argc){
     xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
   if(L.getTop() > argc){
     yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   }
+  if(L.getTop() > argc){
+	salpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+	dalpha = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y1 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    x2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    y2 = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
   if(!.se.fskip){ 
     ^&.sys.Select::Stage c = .syst.selinf.sel.getStage(n);
     if(#c > 0 && #c~extraStagePortrait > 0){ 
-       c~extraStagePortrait~draw(x, y, xscl, yscl, c~extraStagePortrait~colorPallet);
+       c~extraStagePortrait~draw(x, y, xscl, yscl, salpha, dalpha, x1, y1, x2, y2, c~extraStagePortrait~colorPallet);
     }
   }
 }
@@ -2082,14 +2553,49 @@ void setSharedLife(&.lua.State L=, int re=)
   .com.sharedLife = b;
 }
 
-void setLifebarDisplay(&.lua.State L=, int re=)
+void setBattleUIDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool bui = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //.com.statusDraw = bui;
+  int val = 0;
+  if(bui) val = 1;
+  .com.battleUIDisplay = val;
+}
+
+void setRoundTimeDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool rtd = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.roundTimeDisplay = rtd;
+}
+
+void setP1LifebarDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   bool ld = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  //.com.statusDraw = ld;
-  int val = 0;
-  if(ld) val = 1;
-  .com.lifebarDisplay = val;
+  .com.p1LifebarDisplay = ld;
+}
+
+void setP2LifebarDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool ld = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p2LifebarDisplay = ld;
+}
+
+void setP1PowerbarDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool pd = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p1PowerbarDisplay = pd;
+}
+
+void setP2PowerbarDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool pd = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.p2PowerbarDisplay = pd;
 }
 
 void startDummyRecord(&.lua.State L=, int re=)
@@ -2278,7 +2784,7 @@ public void init(&.lua.State L=)
   L.register("setAutoLevel", .setAutoLevel);
   L.register("setGameType", .setGameType);
   L.register("setGameMode", .setGameMode);
-  L.register("getGameMode", .getGameMode);
+  L.register("gameMode", .gameMode);
   L.register("setService", .setService);
   L.register("getService", .getService);
   L.register("setPlayerSide", .setPlayerSide);
@@ -2368,13 +2874,39 @@ public void init(&.lua.State L=)
   L.register("getRemapInput", .getRemapInput);
   L.register("remapInput", .remapInput);
   L.register("setSharedLife", .setSharedLife);
-  L.register("setLifebarDisplay", .setLifebarDisplay);
+  L.register("setBattleUIDisplay", .setBattleUIDisplay);
+  L.register("setRoundTimeDisplay", .setRoundTimeDisplay);
+  L.register("setP1LifebarDisplay", .setP1LifebarDisplay);
+  L.register("setP2LifebarDisplay", .setP2LifebarDisplay);
+  L.register("setP1PowerbarDisplay", .setP1PowerbarDisplay);
+  L.register("setP2PowerbarDisplay", .setP2PowerbarDisplay);
   L.register("setInputDisplay", .setInputDisplay);
   L.register("setAttackDisplay", .setAttackDisplay);
-  L.register("setPowerStateP1", .setPowerStateP1);
-  L.register("setPowerStateP2", .setPowerStateP2);
+  L.register("setTimeFreeze", .setTimeFreeze);
+  L.register("setLifeInfiniteLeft", .setLifeInfiniteLeft);
+  L.register("setLifeInfiniteRight", .setLifeInfiniteRight);
+  L.register("setPowerInfiniteLeft", .setPowerInfiniteLeft);
+  L.register("setPowerInfiniteRight", .setPowerInfiniteRight);
+  L.register("setDefenceUpLeft", .setDefenceUpLeft);
+  L.register("setDefenceUpRight", .setDefenceUpRight);
+  L.register("setAttackUpLeft", .setAttackUpLeft);
+  L.register("setAttackUpRight", .setAttackUpRight);
+  L.register("setLifeRegenLeft", .setLifeRegenLeft);
+  L.register("setLifeRegenRight", .setLifeRegenRight);
+  L.register("setPowerRegenLeft", .setPowerRegenLeft);
+  L.register("setPowerRegenRight", .setPowerRegenRight);
+  L.register("setNoPowerLeft", .setNoPowerLeft);
+  L.register("setNoPowerRight", .setNoPowerRight);
+  L.register("setInvisibleLeft", .setInvisibleLeft);
+  L.register("setInvisibleRight", .setInvisibleRight);
+  L.register("setNoAutoTurnLeft", .setNoAutoTurnLeft);
+  L.register("setNoAutoTurnRight", .setNoAutoTurnRight);
+  L.register("setNoGuardLeft", .setNoGuardLeft);
+  L.register("setNoGuardRight", .setNoGuardRight);
   L.register("setLifeStateP1", .setLifeStateP1);
   L.register("setLifeStateP2", .setLifeStateP2);
+  L.register("setPowerStateP1", .setPowerStateP1);
+  L.register("setPowerStateP2", .setPowerStateP2);
   L.register("setDummyState", .setDummyState);
   L.register("setDummyDistance", .setDummyDistance);
   L.register("setDummyGuard", .setDummyGuard);
