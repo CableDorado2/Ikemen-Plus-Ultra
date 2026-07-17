@@ -616,7 +616,7 @@ public &Sprite
     }
   }
 /*?*/
-  public void draw(float x, float y, float xscale, float yscale, ^uint pal)
+  public void draw(float x, float y, float xscale, float yscale, int salpha, int dalpha, ^uint pal)
   {
     &.sdl.Rect tile;
     tile.set(0, 0, 0, 0);
@@ -624,21 +624,31 @@ public &Sprite
     float y2 = y - yscale*(float)`rct.y + (float)(.com.GameHeight-240);
     if(xscale < 0.0) x2 *= -1.0;
     if(yscale < 0.0) y2 *= -1.0;
+	int alpha = 255;
+    branch{
+		cond (salpha == 1 && dalpha >= 255 || salpha == -2): alpha = -2;
+		cond .com.brightness < 255: else;
+		cond (salpha + dalpha >= 510): alpha = -1;
+		cond (salpha + dalpha == 255 || salpha + dalpha == 256 || salpha < 0): alpha = salpha;
+		else: alpha = .com.brightness*salpha>>8 | dalpha<<10 | 1<<9;
+    }
+//OpenGL Render
   /?/*.cfg.OpenGL:
     if(#`pxl > 0){
       ^&.com.PalFX nullfx;
       `glDraw(
         pal, 0, -x2*.com.WidthScale, -y2*.com.HeightScale,
         tile=, xscale*.com.WidthScale, xscale*.com.WidthScale,
-        yscale*.com.HeightScale, 0.0, 0.0, 255,
+        yscale*.com.HeightScale, 0.0, 0.0, alpha,
         .com.scrrect=, 0.0, 0.0, nullfx);
     }
+//Software Render
   /*true:
     .sdl.renderMugenZoom(
       .com.scrrect=, 0.0, 0.0,
       `pxl, pal, 0, `rct=, -x2*.com.WidthScale, -y2*.com.HeightScale,
       tile=, xscale*.com.WidthScale, xscale*.com.WidthScale,
-      yscale*.com.HeightScale, 0.0, 0x0, 255, `rle, `pluginbuf=);
+      yscale*.com.HeightScale, 0.0, 0x0, (salpha == -2 ? -2 : .com.brightness*salpha>>8 | dalpha<<10 | 1<<9), `rle, `pluginbuf=);
   /*?*/
   }
 }
