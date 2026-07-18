@@ -515,14 +515,17 @@ end
 
 --generate anim from table
 function f_animFromTable(t, sff, x, y, scaleX, scaleY, facing, infFrame, alphaS, alphaD)
-	infFrame = infFrame or 1
+	x = x or 0
+	y = y or 0
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
 	facing = facing or 0
+	infFrame = infFrame or 1
 	alphaS = alphaS or 255
 	alphaD = alphaD or 0
 	local anim = ''
 	local length = 0
+--[[
 	for i=1, #t do
 		anim = anim .. t[i] .. ', ' .. facing .. '\n'
 		if not t[i]:match('loopstart') then
@@ -531,6 +534,29 @@ function f_animFromTable(t, sff, x, y, scaleX, scaleY, facing, infFrame, alphaS,
 				tmp = infFrame
 			end
 			length = length + tmp
+		end
+	end
+]]
+	for i=1, #t do
+		anim = anim .. t[i] .. ', ' .. facing .. '\n'
+		if not t[i]:match('loopstart') then
+		--Split by commas and extract the values separated by whitespace.
+			local params = {}
+			for param in t[i]:gmatch("[^,]+") do
+				table.insert(params, param:match("^%s*(.-)%s*$"))
+			end
+		--The paramvalue 5 is the frame length in MUGEN air format
+			local tmp = params[5]
+			if tmp then
+				local duration = tonumber(tmp)
+				if duration then
+					if duration == -1 then
+						length = length + infFrame
+					else
+						length = length + duration
+					end
+				end
+			end
 		end
 	end
 	local id = animNew(sff, anim)
