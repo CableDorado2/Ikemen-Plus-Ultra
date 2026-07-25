@@ -316,7 +316,7 @@ function f_missionMenu()
 			animPosDraw(padlock, padlockMissionPosX, padlockMissionPosY) --Draw Padlock Icon
 			previewInfotxt = t_missions[missionMenu].infolock
 		end
-		textImgDraw(f_updateTextImg(t_missions[missionMenu].txtID, font11, 0, 0, previewInfotxt, 157, 13.5))
+		textImgDraw(f_updateTextImg(t_missions[missionMenu].txtID, font11, 0, 0, previewInfotxt, 160, 13.5))
 	--Draw Text for Below Table
 		for i=1, maxMissions do
 			if t_unlockLua.modes[t_missions[i].id] == nil then

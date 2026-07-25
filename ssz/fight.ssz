@@ -230,13 +230,13 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg0=, `bg0_lay=);
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg1=, `bg1_lay=);
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg2=, `bg2_lay=);
   }
   public void draw(int layerno, float life)
@@ -265,9 +265,9 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     if(`range_xz < `range_xm) mrct.x += (int)lrct.w;
     mrct.w -= .m.min!int?(mrct.w, lrct.w);
     .laydraw(
-      mrct=, (float)`posx, (float)`posy, 1.0, layerno, `mid=, `mid_lay=);
+      mrct=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0, layerno, `mid=, `mid_lay=);
     .laydraw(
-      lrct=, (float)`posx, (float)`posy, 1.0, layerno, `front=, `front_lay=);
+      lrct=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0, layerno, `front=, `front_lay=);
   }
   public void setup(^&.sff.Sff sf)
   {
@@ -411,13 +411,13 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarLowerHudY, 1.0,
       layerno, `bg0=, `bg0_lay=);
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarLowerHudY, 1.0,
       layerno, `bg1=, `bg1_lay=);
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarLowerHudY, 1.0,
       layerno, `bg2=, `bg2_lay=);
   }
   public void draw(int layerno, float power, int level, ^&.fnt.Font f)
@@ -448,12 +448,12 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     if(`range_xz < `range_xm) mrct.x += (int)lrct.w;
     mrct.w -= .m.min!int?(mrct.w, lrct.w);
     .laydraw(
-      mrct=, (float)`posx, (float)`posy, 1.0, layerno, `mid=, `mid_lay=);
+      mrct=, (float)`posx, (float)`posy + (float).cfg.LifebarLowerHudY, 1.0, layerno, `mid=, `mid_lay=);
     .laydraw(
-      lrct=, (float)`posx, (float)`posy, 1.0, layerno, `front=, `front_lay=);
+      lrct=, (float)`posx, (float)`posy + (float).cfg.LifebarLowerHudY, 1.0, layerno, `front=, `front_lay=);
     if(`counter_fontn >= 0 && #f > `counter_fontn){
       .laytext(
-        (float)`posx, (float)`posy, 1.0, layerno, ''level,
+        (float)`posx, (float)`posy + (float).cfg.LifebarLowerHudY, 1.0, layerno, ''level,
         f[`counter_fontn]=, `counter_fontb, 255, 0, `counter_fonta, `counter_lay=);
     }
   }
@@ -571,18 +571,18 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0, layerno, `bg=, `bg_lay=);
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0, layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^&.com.PalFX fx, bool superplayer)
   {
     int ob = .cfg.Brightness;
     .com.brightness = superplayer ? 256 : ob;
-    .layspr((float)`posx, (float)`posy, layerno, `face_spr, `face_lay=, fx);
+    .layspr((float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, layerno, `face_spr, `face_lay=, fx);
     .com.brightness = ob;
     loop{
       index i = #`teammate_face_spr-1;
       float x = (float)(`teammate_posx+`teammate_spacingx*(i-1));
-      float y = (float)(`teammate_posy+`teammate_spacingy*(i-1));
+      float y = (float)(`teammate_posy+`teammate_spacingy*(i-1)) + (float).cfg.LifebarUpperHudY;
       while;
     do:
       if(i == `numko) continue;
@@ -666,13 +666,13 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0, layerno, `bg=, `bg_lay=);
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0, layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^&.fnt.Font f, ^/char name)
   {
     if(`name_fontn >= 0 && #f > `name_fontn){
       .laytext(
-        (float)`posx, (float)`posy, 1.0, layerno, name,
+        (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0, layerno, name,
         f[`name_fontn]=, `name_fontb, 255, 0, `name_fonta, `name_lay=);
     }
   }
@@ -732,14 +732,14 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int time, ^&.fnt.Font f)
   {:<-
     if(`framespercount > 0 && `counter_fontn >= 0 && #f > `counter_fontn){
       .laytext(
-        (float)`posx, (float)`posy, 1.0, layerno,
+        (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0, layerno,
         time >= 0 ? ''(time/`framespercount) : "o",
         f[`counter_fontn]=, `counter_fontb, 255, 0, `counter_fonta, `counter_lay=);
     }
@@ -1540,7 +1540,7 @@ public void setPerfect(|.WinTy wt=)
     cond #`wins > `useiconupto:
       if(`counter_fontn < 0 || #f <= `counter_fontn) break;
       .laytext(
-        (float)`posx, (float)`posy, 1.0, layerno, ''#`wins,
+        (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0, layerno, ''#`wins,
          f[`counter_fontn]=, `counter_fontb, 255, 0, `counter_fonta, `counter_lay=);
     else:
       loop{
@@ -1554,12 +1554,12 @@ public void setPerfect(|.WinTy wt=)
         comm:
           .laydraw(
             .com.scrrect=, (float)(`posx+`iconoffsetx*i),
-            (float)(`posy+`iconoffsety*i), 1.0,
+            (float)(`posy+`iconoffsety*i) + (float).cfg.LifebarUpperHudY, 1.0,
             layerno, `icon[wt]=, `icon_lay[wt]=);
         diff<p>:
           .laydraw(
             .com.scrrect=, (float)(`posx+`iconoffsetx*i),
-            (float)(`posy+`iconoffsety*i), 1.0,
+            (float)(`posy+`iconoffsety*i) + (float).cfg.LifebarUpperHudY, 1.0,
             layerno, `icon[(index).WinTy::Perfect]=,
             `icon_lay[(index).WinTy::Perfect]=);
         }
@@ -1572,12 +1572,12 @@ public void setPerfect(|.WinTy wt=)
         comm:
           .laydraw(
             .com.scrrect=, (float)(`posx+`iconoffsetx*i),
-            (float)(`posy+`iconoffsety*i), 1.0,
+            (float)(`posy+`iconoffsety*i) + (float).cfg.LifebarUpperHudY, 1.0,
             layerno, `justAdded<>=, `icon_lay[wt]=);
         diff<p>:
           .laydraw(
             .com.scrrect=, (float)(`posx+`iconoffsetx*i),
-            (float)(`posy+`iconoffsety*i), 1.0,
+            (float)(`posy+`iconoffsety*i) + (float).cfg.LifebarUpperHudY, 1.0,
             layerno, `justAddedP<>=, `icon_lay[(index).WinTy::Perfect]=);
         }
       }
@@ -1659,7 +1659,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -1667,7 +1667,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -1729,7 +1729,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -1737,7 +1737,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -1799,7 +1799,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -1807,7 +1807,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -1869,7 +1869,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -1877,7 +1877,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -1939,7 +1939,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -1947,7 +1947,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -2009,7 +2009,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -2017,7 +2017,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -2079,7 +2079,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int value, ^&.fnt.Font f)
@@ -2087,7 +2087,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		value >= 0 ? "" + ''(value) : "o",
@@ -2149,7 +2149,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int value, ^&.fnt.Font f)
@@ -2157,7 +2157,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		value >= 0 ? "" + ''(value) : "o",
@@ -2219,7 +2219,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -2227,7 +2227,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -2289,7 +2289,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -2297,7 +2297,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -2502,7 +2502,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -2510,7 +2510,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -2851,7 +2851,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int value, ^&.fnt.Font f)
@@ -2859,7 +2859,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		value >= 0 ? "FT" + ''(value) : "o",
@@ -2921,7 +2921,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int value, ^&.fnt.Font f)
@@ -2929,7 +2929,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		value >= 0 ? "DEPTH " + ''(value) : "o",
@@ -2991,7 +2991,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int value, ^&.fnt.Font f)
@@ -2999,7 +2999,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		value >= 0 ? "DEPTH " + ''(value) : "o",
@@ -3061,7 +3061,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int value, ^&.fnt.Font f)
@@ -3069,7 +3069,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		value >= 0 ? "REWARD: " + ''(value) + " IKC" : "o",
@@ -3131,7 +3131,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, int value, ^&.fnt.Font f)
@@ -3139,7 +3139,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		value >= 0 ? "REWARD: " + ''(value) + " IKC" : "o",
@@ -3201,7 +3201,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -3209,7 +3209,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -3271,7 +3271,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -3279,7 +3279,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -3341,7 +3341,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -3349,7 +3349,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),
@@ -3411,7 +3411,7 @@ public void setPerfect(|.WinTy wt=)
   public void bgDraw(int layerno)
   {
     .laydraw(
-      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      .com.scrrect=, (float)`posx, (float)`posy + (float).cfg.LifebarUpperHudY, 1.0,
       layerno, `bg=, `bg_lay=);
   }
   public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
@@ -3419,7 +3419,7 @@ public void setPerfect(|.WinTy wt=)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx,
-		(float)`posy,
+		(float)`posy + (float).cfg.LifebarUpperHudY,
 		1.0,
 		layerno,
 		(txt),

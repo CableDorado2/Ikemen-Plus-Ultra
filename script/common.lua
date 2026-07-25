@@ -977,6 +977,60 @@ function f_minMax(value, minVal, maxVal)
 	return math.max(minVal, math.min(maxVal, value))
 end
 
+function f_loadDef(path)
+	local file = io.open(path, "r")
+	if not file then return false end
+	local t_def = {}
+	local currentSection = nil
+	local isActionSection = false
+	for line in file:lines() do
+		line = line:gsub("^\239\187\191", "") --Removes BOM UTF-8 (\239\187\191) if exist in file string
+		line = line:gsub(";.*$", "")
+		line = line:match("^%s*(.-)%s*$")
+		if line ~= "" then
+			local sectionName = line:match("^%s*%[%s*(.-)%s*%]%s*$")
+			if sectionName then
+				currentSection = sectionName:lower()
+				if not t_def[currentSection] then
+					t_def[currentSection] = {}
+				end
+				if currentSection:match("^begin%s+action%s+%d+$") then
+					isActionSection = true
+				else
+					isActionSection = false
+				end
+			elseif currentSection then
+				if isActionSection then
+					table.insert(t_def[currentSection], line)
+				else
+					local key, value = line:match("^%s*(.-)%s*=%s*(.-)%s*$")
+					if key and value then
+						key = key:lower()
+						local quotes = value:match('^%s*".-"%s*$') ~= nil
+						value = value:gsub('^%s*"', ''):gsub('"%s*$', '')
+						if currentSection == "files" or quotes then --Special Condition for [Files] section and quotes values
+							t_def[currentSection][key] = tonumber(value) or value
+						else
+							if value:match(",") then
+								local t_values = {}
+								for val in value:gmatch("[^,]+") do
+									val = val:match("^%s*(.-)%s*$")
+									table.insert(t_values, tonumber(val) or val:lower())
+								end
+								t_def[currentSection][key] = t_values
+							else
+								t_def[currentSection][key] = tonumber(value) or value:lower()
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	file:close()
+	return t_def
+end
+
 --Set thousand format to a number value
 function f_setThousandsFormat(num)
 	local txt = tostring(num)
