@@ -6,7 +6,7 @@
 *I.K.E.M.E.N. Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus) (an Open Source Fighting Game Engine that supports resources from the M.U.G.E.N Engine). This engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently in development by [***CD2***](https://www.youtube.com/@CableDorado2) with some features developed by [***Strong FS***](https://www.youtube.com/@StrongFS) and [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
 > [!NOTE]
-> - If you are looking for the official latest/current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
+> - If you are looking for the **official latest/current Ikemen Engine** version, is called [**Ikemen GO**](https://ikemen-engine.github.io).
 >
 > - Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
 >
@@ -44,7 +44,7 @@
 ## Minimum System Requirements
 - **Operating System:**
     - Windows XP (Service Pack 3) 32 Bits
-    - Linux: [Wine](https://wiki.winehq.org/Main_Page) or a Windows Virtual Machine is recommended, until an official port is released.
+    - Linux: [Wine](https://www.winehq.org) or a Windows Virtual Machine is recommended, until an official port is released.
     - Android: [Winlator](https://github.com/brunodev85/winlator) is recommended, until an official port is released.
 - **CPU:**
     - Intel Atom CPU N455 (1.66GHz)
