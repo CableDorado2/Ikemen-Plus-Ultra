@@ -6,6 +6,13 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 local sprShop = sffNew("script/mods/shop/shop.sff") --Load shop Sprites
 local bgmShop = "script/mods/shop/Shop.mp3" --Set Shop Menu BGM
 local bgmVault = "script/mods/shop/The Vault.ogg" --Set The Vault BGM
+saveShopPath = "save/shop_sav.json" --Set shop data path
+shopdat = json.decode(f_fileRead(saveShopPath)) --Data loading from shop_sav.json
+--Data saving to shop_sav.json
+function f_saveShop()
+	--if data.debugLog then f_printTable(shopdat, 'save/debug/t_shopSave.log') end
+	f_fileWrite(saveShopPath, json.encode(shopdat, {indent = 2}))
+end
 --;===========================================================
 --; SHOP MENU SCREENPACK DEFINITION
 --;===========================================================
@@ -19,11 +26,12 @@ earned in-game currency!
 gotomenu = "f_shopMenu()"
 })
 
-local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 72, 13)
+local txt_shopTitle = createTextImg(jgFnt, 0, 0, "", 82, 13)
 local txt_shopCurrency = createTextImg(font14, 0, -1, "", 318, 13)
 local txt_shopItemInfo = createTextImg(font2, 0, 0, "", 159, 205)
 local txt_shopPriceInfo = createTextImg(font14, 0, -1, "", 316, 173)
 local txt_shopQuestion = createTextImg(font14, 0, 0, "Do you want to purchase this content?", 160, 35)
+local txt_purchaseItemName = createTextImg(jgFnt, 5, 0, "", 0, 0)
 local txt_shopMain = "ITEM SHOP"
 
 --Shorcuts
@@ -37,13 +45,11 @@ local txt_shopStgType = "Stage: "
 local txt_shopBGMType = "BGM: "
 
 local t_tempChars = {
---[[
 	{id = "Reika Murasame", price = 1500, class = 3},
 	{id = "Ryu", 			price = 2000, class = 4},
 	{id = "Kyo Kusanagi", 	price = 2000, class = 3},
 	{id = "Terry", 			price = 2000, class = 4},
 	{id = "Ciel", 			price = 4200, class = 4},
-]]
 }
 local t_shopChars = {} --Create Real Table
 for i=1, #t_tempChars do
@@ -87,46 +93,57 @@ for i=1, #t_tempStages do
 		t_shopStages[i]['id'] = t_tempStages[i].id:lower()
 		t_shopStages[i]['price'] = t_tempStages[i].price
 		t_shopStages[i]['text'] = t_selStages[t_stageDef[pathID]].name.." "..dayStr
-		
 	end
 end
 if data.debugLog then f_printTable(t_shopStages, "save/debug/t_shopStages.log") end
 
-local t_shopBGM = {
-	
-}
+local t_shopBGM = {}
 
-local t_shopColors = {
-	
+local t_tempLifebars = {
+	{id = "lifebarssf2", 		price = 250},
+	{id = "lifebarhdbz", 	  	price = 300},
+	{id = "lifebarbroken98", 	price = 500},
 }
+local t_shopLifebars = {}
+for i=1, #t_tempLifebars do
+	local pathID = t_tempLifebars[i].id:lower()
+	if t_lifebarDef[pathID] ~= nil then --If this lifebar has been registered, add items
+		t_shopLifebars[i] = {}
+		t_shopLifebars[i]['txtID'] = textImgNew()
+		t_shopLifebars[i]['category'] = "lifebars"
+		t_shopLifebars[i]['info'] = txt_shopUnlock..t_lifebars[t_lifebarDef[pathID]].info
+		t_shopLifebars[i]['id'] = t_tempLifebars[i].id:lower()
+		t_shopLifebars[i]['price'] = t_tempLifebars[i].price
+		t_shopLifebars[i]['text'] = t_lifebars[t_lifebarDef[pathID]].info
+	end
+end
+if data.debugLog then f_printTable(t_shopLifebars, "save/debug/t_shopLifebars.log") end
 
-local t_shopTitles = {
-	
-}
+local t_shopColors = {}
 
-local t_shopCards = {
-	
-}
+local t_shopTitles = {}
 
-if stats.shopstock == nil then stats.shopstock = {} end --Create space to sell shop items
+local t_shopCards = {}
+
+if shopdat.stock == nil then shopdat.stock = {} end --Create space to sell shop items
 local function f_setShopStock(t)
 	for item=1, #t do
 	--Add Category to shop stock
 		local category = t[item].category
-		if stats.shopstock[category] == nil then stats.shopstock[category] = {} end
+		if shopdat.stock[category] == nil then shopdat.stock[category] = {} end
 	--Add item to shop stock
 		local itemname = t[item].id
-		if stats.shopstock[category][itemname] == nil then stats.shopstock[category][itemname] = true end
+		if shopdat.stock[category][itemname] == nil then shopdat.stock[category][itemname] = true end
 	end
 end
 
 local t_shopMenu = {
 	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!", spr = {2,0}},
-	{text = "Colors Pack", 		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!", spr = {2,1}},
+	--{text = "Colors Pack", 		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!", spr = {2,1}},
 	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!", spr = {2,2}},
 	--{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
 	--{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
-	--{text = "Battle HUD Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Battle HUD Designs!"},
+	{text = "Battle HUD Designs",  items = t_shopLifebars, 	info = txt_shopPurchase.." Battle HUD Designs!", spr = {2,4}},
 	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!", spr = {2,3}},
 }
 for i=1, #t_shopMenu do
@@ -135,7 +152,7 @@ for i=1, #t_shopMenu do
 		f_setShopStock(t_shopMenu[i].items)
 	end
 end
-f_saveStats()
+f_saveShop()
 
 --Info BG
 local shopInfoBG = animNew(sprIkemen, [[
@@ -449,15 +466,6 @@ end
 --;===========================================================
 --; SHOP MENU
 --;===========================================================
-local function f_drawShopItemArtwork(index)
-local img = t_shopMenu[index].spr[1] ..','.. t_shopMenu[index].spr[2].. ', 0,0, -1'
-	img = animNew(sprShop, img)
-	animSetScale(img, 0.21, 0.21)
-	animSetPos(img, 173, 25)
-	animUpdate(img)
-	animDraw(img)
-end
-
 local function f_drawShopItemPreview(category, id, itemNo, menu)
 	local category = category or nil
 	local id = id or nil
@@ -465,6 +473,11 @@ local function f_drawShopItemPreview(category, id, itemNo, menu)
 	local purchaseMenu = menu or false
 	local alphaS = nil
 	local alphaD = nil
+	local posX = nil
+	local posY = nil
+	local scaleX = nil
+	local scaleY = nil
+	local updateAnim = true
 --Character Preview
 	if category == "chars" then
 	--During Item Select
@@ -476,18 +489,48 @@ local function f_drawShopItemPreview(category, id, itemNo, menu)
 				end
 				f_drawQuickSpr(shopCharClass, 142 + i * 30, 25, 0.07, 0.07, alphaS, alphaD)
 			end
-			f_drawCharAnim(t_selChars[t_charDef[id] + 1], 'p1AnimStand', 242, 160, true)
+			posX = 242
+			posY = 160
+			scaleX = 1.0
+			scaleY = 1.0
+			updateAnim = true
 	--During Purchase Confirm
 		else
-			f_drawCharAnim(t_selChars[t_charDef[id] + 1], 'p1AnimStand', 70, 144, false, 0.75, 0.75)
+			posX = 70
+			posY = 144
+			scaleX = 0.75
+			scaleY = 0.75
+			updateAnim = false
 		end
+		f_drawCharAnim(t_selChars[t_charDef[id] + 1], 'p1AnimStand', posX, posY, updateAnim, scaleX, scaleY)
 --Stage Preview
 	elseif category == "stages" then
 		if not purchaseMenu then
-			drawStagePortrait(t_stageDef[id] - 1, 172.2, 60, 0.113, 0.113)
+			posX = 172.2
 		else
-			drawStagePortrait(t_stageDef[id] - 1, 10, 60, 0.113, 0.113)
+			posX = 10
 		end
+		drawStagePortrait(t_stageDef[id] - 1, posX, 60, 0.113, 0.113)
+--Battle HUD Preview
+	elseif category == "lifebars" then
+		if not purchaseMenu then
+			posX = 172.2
+			posY = 45
+			scaleX = 0.15
+			scaleY = 0.15
+		else
+			posX = 10
+			posY = 63
+			scaleX = 0.115
+			scaleY = 0.115
+		end
+		f_drawSprPreview(
+			lifebarSpr,
+			t_lifebars[t_lifebarDef[id]].previewspr[1],
+			t_lifebars[t_lifebarDef[id]].previewspr[2],
+			posX, posY,
+			scaleX, scaleY
+		)
 	end
 end
 
@@ -549,7 +592,7 @@ local function f_confirmPurchase()
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 --Draw Content
-	f_drawQuickText(txt_shpName, jgFnt, 5, 0, t_shopMenu[shopMenu].text, 160, 50)
+	f_textRender(txt_purchaseItemName, t_shopMenu[shopMenu].text, 0, 160, 50, 10, 0, 35)
 	f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu, true)
 --Draw Accounting
 	f_drawQuickText(txt_shp1, font2, 0, -1, "Price "..t_shopMenu[shopMenu].price.." IKC", 110, 154)
@@ -567,8 +610,9 @@ local function f_confirmPurchase()
 		--Item Purchased (Save Data)
 			sndPlay(sndIkemen, 700, 0)
 			stats.money = stats.money - t_shopMenu[shopMenu].price
-			stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
+			shopdat.stock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] = false --Item Sold out
 			f_saveStats()
+			f_saveShop()
 	--NO
 		else
 			sndPlay(sndSys, 100, 2)
@@ -590,6 +634,7 @@ function f_shopMenu()
 	local maxItems = 10
 	local inCategory = false
 	local vaultAccess = false
+	local itemText = nil
 	local t_shopMenuBackup = t_shopMenu
 	shopMenu = 1
 	local function f_resetCursor()
@@ -647,7 +692,7 @@ function f_shopMenu()
 			--Category Shop
 				else
 				--Purchase
-					if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] and stats.money >= t_shopMenu[shopMenu].price then
+					if shopdat.stock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] and stats.money >= t_shopMenu[shopMenu].price then
 						sndPlay(sndSys, 100, 1)
 						confirmPurchase = true --Show Confirm Purchase
 				--Item Sold Out or No enough Money
@@ -709,7 +754,13 @@ function f_shopMenu()
 		for i=1, maxShop do
 			if i > shopMenu - cursorPosY then
 				if t_shopMenu[i].txtID ~= nil then
-					textImgDraw(f_updateTextImg(t_shopMenu[i].txtID, font2, 0, 1, t_shopMenu[i].text, 5, 15 + i * 15 - moveTxt))
+					if t_shopMenu[i].text:len() > 32 then
+						itemText = string.sub(t_shopMenu[i].text, 1, 26)
+						itemText = tostring(itemText .. "...")
+					else
+						itemText = t_shopMenu[i].text
+					end
+					textImgDraw(f_updateTextImg(t_shopMenu[i].txtID, font2, 0, 1, itemText, 5, 15 + i * 15 - moveTxt))
 				end
 			end
 		end
@@ -718,14 +769,14 @@ function f_shopMenu()
 		if inCategory then
 			vaultAccess = false
 			f_drawShopItemPreview(t_shopMenu[shopMenu].category, t_shopMenu[shopMenu].id, shopMenu)
-			if stats.shopstock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] then
+			if shopdat.stock[t_shopMenu[shopMenu].category][t_shopMenu[shopMenu].id] then
 				textImgSetText(txt_shopPriceInfo, t_shopMenu[shopMenu].price.." IKC")
 			else
 				textImgSetText(txt_shopPriceInfo, "Sold Out")
 			end
 			textImgDraw(txt_shopPriceInfo)
 		else
-			f_drawShopItemArtwork(shopMenu)
+			f_drawSprPreview(sprShop, t_shopMenu[shopMenu].spr[1], t_shopMenu[shopMenu].spr[2], 173, 25, 0.21, 0.21)
 			vaultAccess = true
 		end
 	--Vault Access Stuff
