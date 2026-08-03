@@ -3601,7 +3601,7 @@ function f_saveTourney()
 	tourneyFile:close()
 end
 
---Data saving to stats.json
+--Data saving to stats_sav.json
 function f_saveStats()
 	--if data.debugLog then f_printTable(stats, 'save/debug/t_stats.log') end
 	f_fileWrite(saveStatsPath, json.encode(stats, {indent = 2}))
@@ -3613,13 +3613,13 @@ function f_saveOnlineRooms()
 	f_fileWrite(saveHostRoomPath, json.encode(host_rooms, {indent = 2}))
 end
 
---Data saving to abyss_save.json
+--Data saving to abyss_sav.json
 function f_saveAbyss()
 	--if data.debugLog then f_printTable(abyssDat, 'save/debug/t_abyssSave.log') end
 	f_fileWrite(saveAbyssPath, json.encode(abyssDat, {indent = 2}))
 end
 
---Data saving to quick_save.json
+--Data saving to quick_sav.json
 function f_saveQuick()
 	--if data.debugLog then f_printTable(quickDat, 'save/debug/t_quickSave.log') end
 	f_fileWrite(saveShortcutsPath, json.encode(quickDat, {indent = 2}))
