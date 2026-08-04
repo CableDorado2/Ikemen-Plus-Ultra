@@ -39,17 +39,23 @@ previewscale = 0.0415, 0.0415
 
 id = Art 4
 spr = 0,4
-info = Original Mugen Character The Kung Fu Man By GrapplerGray1985
+info = CD2 Pixel Art By Diego(jdz601)
+size = 933,740
+scale = 0.3, 0.3
 
 id = Art 5
 spr = 0,5
-info = Original Mugen Hero The Kung Fu Woman By GrapplerGray1985
+info = CD2 Pixel Art By Strong FS
+size = 300,150
+scale = 1.2, 1.2
 
 id = Art 6
 spr = 0,6
-info = Unofficial Artwork of Kung Fu Man By GrapplerGray1985
+info = Sonic The Hedgehog Pixel Art By Strong FS
+size = 1160,1400
+scale = 0.15, 0.15
 
-id = Art 8
+id = Art 7
 spr = 0,7
 info = Unofficial Artwork of Kung Fu Man By Esaka
 size = 600,800
@@ -60,7 +66,7 @@ previewpos = 800,1122
 previewspacing = 1020,184
 previewscale = 0.063, 0.063
 
-id = Art 9
+id = Art 8
 spr = 0,8
 info = WinMUGEN
 size = 640,480
@@ -71,7 +77,7 @@ previewpos = 377,675
 previewspacing = 86,110
 previewscale = 0.1405, 0.105
 
-id = Art 10
+id = Art 9
 spr = 0,9
 info = M.U.G.E.N 1.0
 size = 640,480
@@ -82,7 +88,7 @@ previewpos = 377,675
 previewspacing = 86,110
 previewscale = 0.1405, 0.105
 
-id = Art 11
+id = Art 10
 spr = 0,10
 info = I.K.E.M.E.N. S-SIZE
 size = 640,480
@@ -93,7 +99,7 @@ previewpos = 377,675
 previewspacing = 86,110
 previewscale = 0.1405, 0.105
 
-id = Art 12
+id = Art 11
 spr = 0,11
 info = I.K.E.M.E.N. Plus
 size = 640,480
@@ -104,7 +110,7 @@ previewpos = 377,675
 previewspacing = 86,110
 previewscale = 0.1405, 0.105
 
-id = Art 13
+id = Art 12
 spr = 0,12
 info = I.K.E.M.E.N. Plus Ultra
 size = 640,480
@@ -115,7 +121,7 @@ previewpos = 377,675
 previewspacing = 86,110
 previewscale = 0.1405, 0.105
 
-id = Art 14
+id = Art 13
 spr = 0,13
 info = I.K.E.M.E.N. GO
 size = 640,480
