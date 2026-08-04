@@ -35,7 +35,7 @@ local txt_purchaseItemName = createTextImg(jgFnt, 5, 0, "", 0, 0)
 local txt_shopMain = "ITEM SHOP"
 
 --Shorcuts
-local txt_shopPurchase = "Purchase"
+local txt_shopPurchase = "Purchase New"
 local txt_shopUnlock = "Unlocks "
 local txt_shopSold = "Sold Out"
 local txt_shopBalance = "Balance"
@@ -101,7 +101,7 @@ local t_shopBGM = {}
 
 local t_tempLifebars = {
 	{id = "lifebarssf2", 		price = 250},
-	{id = "lifebarhdbz", 	  	price = 300},
+	{id = "lifebargms", 	  	price = 300},
 	{id = "lifebarbroken98", 	price = 500},
 }
 local t_shopLifebars = {}
@@ -141,10 +141,10 @@ local t_shopMenu = {
 	{text = "Characters", 		items = t_shopChars, 	info = txt_shopPurchase.." Playable Characters!", spr = {2,0}},
 	--{text = "Colors Pack", 		items = t_shopColors, 	info = txt_shopPurchase.." Colors for your Characters!", spr = {2,1}},
 	{text = "Stages",  			items = t_shopStages, 	info = txt_shopPurchase.." Stages!", spr = {2,2}},
-	--{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles!"},
-	--{text = "Profile Designs",  items = t_shopCards, 	info = txt_shopPurchase.." Profile Card Designs!"},
-	{text = "Battle HUD Designs",  items = t_shopLifebars, 	info = txt_shopPurchase.." Battle HUD Designs!", spr = {2,4}},
-	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." BGM for your Stages!", spr = {2,3}},
+	--{text = "Titles",  			items = t_shopTitles, 	info = txt_shopPurchase.." Battle Titles for your Profile!", spr = {2,5}},
+	--{text = "Profile Cards",  	items = t_shopCards, 	info = txt_shopPurchase.." Card Designs for your Profile!", spr = {2,6}},
+	{text = "Battle HUD",  		items = t_shopLifebars, info = txt_shopPurchase.." Battle HUD Designs for the in-game HUD!", spr = {2,4}},
+	{text = "Soundtracks",  	items = t_shopBGM, 		info = txt_shopPurchase.." Music for Stages!", spr = {2,3}},
 }
 for i=1, #t_shopMenu do
 	t_shopMenu[i]['txtID'] = textImgNew()
@@ -787,8 +787,7 @@ function f_shopMenu()
 	--Draw Info Text Stuff
 		drawShopInputHints(vaultAccess)
 		animDraw(shopInfoBG)
-		textImgSetText(txt_shopItemInfo, t_shopMenu[shopMenu].info)
-		textImgDraw(txt_shopItemInfo)
+		f_textRender(txt_shopItemInfo, t_shopMenu[shopMenu].info, 0, 159, 200, 10, 0, 55)
 	--Draw Up Animated Cursor
 		if maxShop > maxItems then
 			animDraw(menuArrowUp)
