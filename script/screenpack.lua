@@ -1628,7 +1628,8 @@ t_mainNetplay = {
 	{
 		text = "SEARCH MATCH",
 		info = [[
-		Search for Opponents!
+		Look for an Online Room to
+		Join!
 		]]
 	},
 	menuName = "ONLINE PLAY",
