@@ -100,9 +100,7 @@ if data.debugLog then f_printTable(t_shopStages, "save/debug/t_shopStages.log") 
 local t_shopBGM = {}
 
 local t_tempLifebars = {
-	{id = "lifebargms", 	  	price = 50},
-	{id = "lifebarssf2", 		price = 100},
-	{id = "lifebarsfa3", 		price = 180},
+	{id = "lifebargms", 	  	price = 150},
 	{id = "lifebarbroken98", 	price = 400},
 }
 local t_shopLifebars = {}

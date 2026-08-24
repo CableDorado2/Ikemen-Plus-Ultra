@@ -15,6 +15,15 @@ unlock = shopdat.stock ~= nil and shopdat.stock.lifebars ~= nil and shopdat.stoc
 infolock = Item Shop Purchase
 
 [Lifebar 3]
+id = lifebarbroken98
+author = two4teezee
+info = Broken98
+previewspr = 0,3
+path = data/lifebars/Broken98/fight.def
+unlock = shopdat.stock ~= nil and shopdat.stock.lifebars ~= nil and shopdat.stock.lifebars["lifebarbroken98"] == false
+infolock = Item Shop Purchase
+
+[Lifebar 4]
 id = lifebarcustom
 author = Player
 info = CUSTOM HUD
