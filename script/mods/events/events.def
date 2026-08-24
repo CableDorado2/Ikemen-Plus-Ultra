@@ -15,7 +15,12 @@ hourstart = 18
 
 [Event 3]
 id = event3
+info = The Streets of Rage!
+previewspr = 0,3
+path = script/mods/events/event3.lua
 
 [Event 4]
 id = event4
-unlock = false
+info = MEGA IKEMAN IS HERE!
+previewspr = 0,4
+path = script/mods/events/event4.lua

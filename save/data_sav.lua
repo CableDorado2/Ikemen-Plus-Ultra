@@ -21,8 +21,8 @@ data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.serviceType = "Button"
 data.orderSelType = "Cursor"
-data.portraitDisplay = "Mixed"
-data.sffConversion = true
+data.portraitDisplay = "Portrait"
+data.sffConversion = false
 --Game Data
 data.difficulty = 3
 data.roundTime = 99
@@ -52,7 +52,7 @@ data.zoomSpeed = 1
 --Character Select Global Data
 data.selectType = "Advanced"
 data.palType = "Modern"
-data.randomPortrait = "Roulette"
+data.randomPortrait = "Simple"
 data.randomCharRematch = "Fixed"
 data.charInfo = "Author"
 --Character Select Config
@@ -90,7 +90,7 @@ data.orderTime = 23
 data.rematchTime = 16
 data.serviceTime = 21
 data.attractTime = 21
-data.destinyTime = 21
+data.destinyTime = 31
 data.allianceTime = 31
 --Replay Data
 data.replayLocal = false

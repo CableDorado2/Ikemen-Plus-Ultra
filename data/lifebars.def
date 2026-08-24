@@ -1,0 +1,21 @@
+[Lifebar 1]
+id = lifebarwinmugen
+author = ELECBYTE
+info = WINMUGEN
+previewspr = 0,1
+path = data/lifebars/WINMUGEN/fight.def
+
+[Lifebar 2]
+id = lifebargms
+author = GoodbyeMeta
+info = MUGEN ORIGINALS
+previewspr = 0,2
+path = data/lifebars/GMS/fight.def
+unlock = shopdat.stock ~= nil and shopdat.stock.lifebars ~= nil and shopdat.stock.lifebars["lifebargms"] == false
+infolock = Item Shop Purchase
+
+[Lifebar 3]
+id = lifebarcustom
+author = Player
+info = CUSTOM HUD
+path = data/lifebars/CUSTOM/fight.def

@@ -4407,7 +4407,7 @@ animSetScale(speedCourseInfoBG, 430, 24)
 animSetAlpha(speedCourseInfoBG, 0, 50)
 animUpdate(speedCourseInfoBG)
 
---Speed Start Course Select Input Hints Panel
+--Speed Star Course Select Input Hints Panel
 function drawSpeedCourseInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
@@ -6293,6 +6293,7 @@ ALCERIS
 PLASMOIDTHUNDER
 STRONG FS
 CD2
+FEX
 
 
 CHARACTERS DESIGN
@@ -6420,6 +6421,7 @@ PLASMOIDTHUNDER
 ACDGAMES
 2DEE4EVER
 KOF Brasil
+FEX
 PIXEL SLAYER
 SPIDERPOKO/POKOSPIDER
 CRISTOPELES LEE
@@ -6463,3 +6465,5 @@ CABLE DORADO 2
 CD2
 
 ]]
+
+--selectDef = "data/selectCVS.def" --Characters and Stage selection list

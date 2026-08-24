@@ -1,6 +1,7 @@
 data.p2In = 1
 data.p2TeamMenu = {mode = 0, chars = 1}
-data.p2Char = {"Events/call-of-zombies/call-of-zombies.def"}
+data.p2Char = {"Events/SoR2/SoR2.def"}
+--data.stage = ""
 textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
 setRoundTime(-1)
 setRoundsToWin(1)

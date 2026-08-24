@@ -2,7 +2,7 @@
 Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, tutorial=1, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def, swapcellx=0, swapcelly=3
 Mako Mayama, stages/Others/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
 Kung Fu Girl, stages/Others/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude, swapcellx=3, swapcelly=3
-Reika Murasame, unlock=stats.shopstock ~= nil and stats.shopstock.chars ~= nil and stats.shopstock.chars["reika murasame"] == false, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=3
+Reika Murasame, unlock=shopdat.stock ~= nil and shopdat.stock.chars ~= nil and shopdat.stock.chars["reika murasame"] == false, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=3
 Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, orderboss=1, excludespecial=1, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
 
 randomselect
@@ -40,21 +40,21 @@ Events/mmvol1/cpu/cpu.def, chars/Events/mmvol1/stage.def, includestage=0, zoom=0
 [ExtraStages]
 stages/Mountainside Temple/Hidden Path.def, unlock=stats.modes ~= nil and stats.modes.arcade ~= nil and stats.modes.arcade.clear >= 1
 stages/Mountainside Temple/Hidden Path Night.def, unlock=stats.modes ~= nil and stats.modes.bossrush ~= nil and stats.modes.bossrush.clear >= 1
-stages/Mountainside Temple/Temple Entrance Afternoon.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Temple Entrance Afternoon.def"] == false
-stages/Mountainside Temple/Temple Entrance Dusk.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Temple Entrance Dusk.def"] == false
-stages/Mountainside Temple/Temple Entrance Night.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Temple Entrance Night.def"] == false
-stages/Mountainside Temple/Stairs - 1st Floor.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Stairs - 1st Floor.def"] == false
-stages/Mountainside Temple/Stairs - 2nd Floor.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Stairs - 2nd Floor.def"] == false
-stages/Mountainside Temple/Stairs - 3rd Floor.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Stairs - 3rd Floor.def"] == false
+stages/Mountainside Temple/Temple Entrance Afternoon.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Temple Entrance Afternoon.def"] == false
+stages/Mountainside Temple/Temple Entrance Dusk.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Temple Entrance Dusk.def"] == false
+stages/Mountainside Temple/Temple Entrance Night.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Temple Entrance Night.def"] == false
+stages/Mountainside Temple/Stairs - 1st Floor.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Stairs - 1st Floor.def"] == false
+stages/Mountainside Temple/Stairs - 2nd Floor.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Stairs - 2nd Floor.def"] == false
+stages/Mountainside Temple/Stairs - 3rd Floor.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Stairs - 3rd Floor.def"] == false
 stages/Mountainside Temple/Outside.def, unlock=stats.modes ~= nil and stats.modes.bossrush ~= nil and stats.modes.bossrush.clear >= 1
 stages/Mountainside Temple/Lobby.def
 stages/Mountainside Temple/Lobby Night.def
 ;stages/Mountainside Temple/Lobby 2 Night.def, unlock=data.story1_1Unlock == true
 stages/Mountainside Temple/Dark Corridor.def, unlock=stats.modes ~= nil and stats.modes.mission ~= nil and stats.modes.mission.mission1 ~= nil and stats.modes.mission.mission1.clear == true
 stages/Mountainside Temple/Winter.def, unlock=stats.modes ~= nil and stats.modes.event ~= nil and stats.modes.event.event1 ~= nil and stats.modes.event.event1.clear == true
-stages/Mountainside Temple/Secret Hallway.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Secret Hallway.def"] == false
-stages/Mountainside Temple/Clone Laboratory.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Clone Laboratory.def"] == false
-stages/Mountainside Temple/Clone Laboratory 2.def, unlock=stats.shopstock ~= nil and stats.shopstock.stages ~= nil and stats.shopstock.stages["stages/Mountainside Temple/Clone Laboratory 2.def"] == false
+stages/Mountainside Temple/Secret Hallway.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Secret Hallway.def"] == false
+stages/Mountainside Temple/Clone Laboratory.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Clone Laboratory.def"] == false
+stages/Mountainside Temple/Clone Laboratory 2.def, unlock=shopdat.stock ~= nil and shopdat.stock.stages ~= nil and shopdat.stock.stages["stages/Mountainside Temple/Clone Laboratory 2.def"] == false
 stages/Others/China.def
 stages/Others/Space Rainbow.def
 stages/Others/Training Room.def

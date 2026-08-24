@@ -1,8 +1,14 @@
+lib cfg = "save/config.ssz";
+
+//Load "lib/" Scripts
 lib file = <file.ssz>;
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
+
+//Load "lib/alpha/" Scripts
 lib lua = <alpha/lua.ssz>;
-lib cfg = "save/config.ssz";
+
+//Open Game Executable
 sh.open(.cfg.Executable, "ssz/ikemen.ssz", "", false, true);
 const ^/char licensefile = "LICENSE.txt";
 if(#file.find(licensefile) == 0 || #file.find(licensefile) == 1){
@@ -17,26 +23,16 @@ are licensed under the MIT License.
 
 MIT License
 
-Copyright (c) 2006 Suehiro
+Copyright (c) 2006-2017 Suehiro
 Copyright (c) 2017 Alceris
-Copyright (c) 2018 K4thos
-Copyright (c) 2018 ShinLucho
-Copyright (c) 2018 NeatUnsou
-Copyright (c) 2019 Windblade
-Copyright (c) 2019 Dan
-Copyright (c) 2019 Kidcy
-Copyright (c) 2020 Wintermourn
-Copyright (c) 2020 Shiyo Kakuge
-Copyright (c) 2021 Kamekaze
-Copyright (c) 2021 two4teezee
-Copyright (c) 2021 TheFclass97
-Copyright (c) 2021 Rodknee
-Copyright (c) 2021 Ros
-Copyright (c) 2021 Yamori X
-Copyright (c) 2021 Jade Midori
-Copyright (c) 2023 PlasmoidThunder
-Copyright (c) 2025 Strong FS
-Copyright (c) 2025 CD2
+Copyright (c) 2018 K4thos, ShinLucho, NeatUnsou
+Copyright (c) 2019 Windblade, Dan, Kidcy
+Copyright (c) 2020 Wintermourn, Shiyo Kakuge, Kamekaze
+Copyright (c) 2021 PlasmoidThunder, TheFclass97, Rodknee, two4teezee, Yamori X, Ros
+Copyright (c) 2022-2025 Strong FS
+Copyright (c) 2022-2026 CD2
+Copyright (c) 2026 FEX
+Copyright (c) 2006-2026 Ikemen Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files
@@ -92,23 +88,115 @@ is the GNU General Public License version 3.
 "
 	);
 }
+
+////////////////////
+//BACKUP DATA FILES
+////////////////////
+
+//Stats Data
+const ^/char statsfile = "save/stats_sav.json";
+if(#file.find(statsfile) == 0){
+	&file.File f;
+	f.open(statsfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{}"
+	);
+}
+
+//Host Rooms Data
+const ^/char hostroomsfile = "save/host_rooms.json";
+if(#file.find(hostroomsfile) == 0){
+	&file.File f;
+	f.open(hostroomsfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{}"
+	);
+}
+
+//P1 Data
+const ^/char p1Datfile = "save/p1_sav.json";
+if(#file.find(p1Datfile) == 0){
+	&file.File f;
+	f.open(p1Datfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{}"
+	);
+}
+
+//P2 Data
+const ^/char p2Datfile = "save/p2_sav.json";
+if(#file.find(p2Datfile) == 0){
+	&file.File f;
+	f.open(p2Datfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{}"
+	);
+}
+
+//Abyss Data
+const ^/char abyssfile = "save/abyss_sav.json";
+if(#file.find(abyssfile) == 0){
+	&file.File f;
+	f.open(abyssfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{}"
+	);
+}
+
+//Shop Data
+const ^/char shopfile = "save/shop_sav.json";
+if(#file.find(shopfile) == 0){
+	&file.File f;
+	f.open(shopfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{}"
+	);
+}
+
+//Quick Menu Data
+const ^/char quicksavfile = "save/quick_sav.json";
+if(#file.find(quicksavfile) == 0){
+	&file.File f;
+	f.open(quicksavfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"{}"
+	);
+}
+
+//Achievements Data
+const ^/char achievementsfile = "save/achievements_sav.lua";
+if(#file.find(achievementsfile) == 0){
+	&file.File f;
+	f.open(achievementsfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"return {}"
+	);
+}
+
+//No DLC Backup
 const ^/char dlcfile = "script/mods/DLC.lua";
-if(#file.find(dlcfile) == 0 || #file.find(dlcfile) == 1){
+if(#file.find(dlcfile) == 0){
 	&file.File f;
 	f.open(dlcfile, "wb");
 	f.writeAry!ubyte?()<, s.sToU8(
 \xfeff
 "local loadLuaModule = true
-DLC = false
-function f_mainTitle()
-	while true do
-		cmdInput()
-		refresh()
-	end
-end
-"
+--[[This is a default DLC Status lua module example.
+So if your dlc script is remove at some point, the engine will create this "\""default file"\""]]
+DLC1 = false --If you delete me, I will always return as false!
+--The answer lies in the heart of main.ssz."
 	);
 }
+
+//Playback Data
 loop{index i = 0; %int j .= -1; while; do:
 	if(#file.find("save/playback/" + ''i + ".dat") == 0){
 		&file.File f;

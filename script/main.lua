@@ -4403,7 +4403,173 @@ end
 --;===========================================================
 --; SPEED STAR MODE
 --;===========================================================
-
+function f_speedStarSelect()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 3
+	waitingCourseSel = true
+	speedCourseSel = 1
+	f_createSpeedStarData()
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	animSetPos(menuArrowUp, 308, 6)
+	animSetPos(menuArrowDown, 308, 188)
+	while true do
+		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
+		if not backScreen then
+		--Return Logic
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				backScreen = true
+		--Cursor Actions
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
+				sndPlay(sndSys, 100, 1)
+				waitingCourseSel = false
+				if t_speedCourseSel[speedCourseSel].ailevel ~= nil then
+					data.cpuLevel = t_speedCourseSel[speedCourseSel].ailevel
+				end
+				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulesplayer)
+				f_setSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu)
+				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
+				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
+				local timeText = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
+				if timeText == 0 then timeText = "---" end
+				data.bestRecord = "BEST ROUND TIME: "..timeText.." SEC"
+				f_saveTemp()
+				break
+			end
+		--Speed Star Course Select
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				speedCourseSel = speedCourseSel - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				speedCourseSel = speedCourseSel + 1
+			end
+			if speedCourseSel < 1 then
+				speedCourseSel = #t_speedCourseSel
+				if #t_speedCourseSel > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_speedCourseSel
+				end
+			elseif speedCourseSel > #t_speedCourseSel then
+				speedCourseSel = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (speedCourseSel - maxItems) * speedStarSpacingY
+			elseif cursorPosY == 1 then
+				moveTxt = (speedCourseSel - 1) * speedStarSpacingY
+			end
+			if #t_speedCourseSel <= maxItems then
+				maxspeedCourseSel = #t_speedCourseSel
+			elseif speedCourseSel - cursorPosY > 0 then
+				maxspeedCourseSel = speedCourseSel + maxItems - cursorPosY
+			else
+				maxspeedCourseSel = maxItems
+			end
+		end
+	--Exit Via Return Button
+		if data.tempBack then break end --back to main menu
+	--Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animPosDraw(speedTitleBG, -56, 0) --Draw Title BG
+	--Draw Title
+		textImgDraw(txt_speedCourseSel)
+		--f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
+		animPosDraw(speedCourseInfoBG, -56, 195) --Draw Info Text BG
+		textImgSetText(txt_speedCoursePlayerVar, "PLAYER: "..f_getSpeedRules(t_speedCourseSel[speedCourseSel].rulesplayer))
+		textImgDraw(txt_speedCoursePlayerVar)
+		textImgSetText(txt_speedCourseCPUVar, "   CPU: "..f_getSpeedRules(t_speedCourseSel[speedCourseSel].rulescpu))
+		textImgDraw(txt_speedCourseCPUVar)
+	--Draw Speed Star Level Content Text
+		for i=1, maxspeedCourseSel do
+			if i > speedCourseSel - cursorPosY then
+				local colorSel = 7
+				if speedCourseSel == i then colorSel = 5 end
+				animPosDraw(speedCourseSlot, 0, 72 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgSetBank(txt_speedCourseLv, colorSel)
+				textImgSetText(txt_speedCourseLv, "LEVEL "..i)
+				textImgPosDraw(txt_speedCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				if stats.modes.speedstar[t_speedCourseSel[i].id].clear then
+					animPosDraw(speedCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
+				end
+				
+				textImgPosDraw(txt_speedCourseClearRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseClearRecordVar, f_setTimeText(stats.modes.speedstar[t_speedCourseSel[i].id].time))
+				textImgPosDraw(txt_speedCourseClearRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].roundtime
+				if timeText == 0 then timeText = "---" else timeText = timeText.." SEC" end
+				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
+				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
+				textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTimeBonus, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
+				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTotalStages, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
+				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+			end
+		end
+	--Draw Cursor
+		if not backScreen then
+			animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		if maxspeedCourseSel > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_speedCourseSel > maxItems and maxspeedCourseSel < #t_speedCourseSel then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+	--Course Select Timer
+		if data.attractMode then
+			textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
+			if destinyTimer > 0 then
+				if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
+				textImgPosDraw(txt_destinyTime, 298, 11)
+			else --when destinyTimer <= 0
+				
+			end
+		end
+		if backScreen then f_backMenu() else drawSpeedCourseInputHints() end --Open Back Menu Question
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
 
 --To display text item in t_speedStarRules
 function f_getSpeedRules(ruleData)

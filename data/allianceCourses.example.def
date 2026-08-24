@@ -1,0 +1,173 @@
+This file contains list of all available parameters and the default
+values used by Alliance Course Select Menu definition file.
+
+This file IS NOT loaded by engine and should not be used as-is.
+It's meant to be a reference for adding parameters to your own allianceCourses.def file.
+
+ ____________________________
+/      ALLIANCE COURSES      \_____________________________________________________
+
+Load alliance courses assets.
+Course items added are displayed in: Challenges - Alliance submenu.
+Structure Hierarchy: [Course X] -> [Match X] -> [Route X] -> [Char X]
+
+- [Course <0...>] (required)
+Defines global settings and initialize an Alliance Course in the Alliance Select menu.
+
+Setup following parameters below "[Course <0...>]" section:
+
+- name = text (optional)
+Set the name text that should be displayed for a course unlocked.
+
+- ailevelstart = <0..8> (optional)
+Sets the base AI level/difficulty for the course enemies.
+
+- unlock (optional)
+Pure Lua code, executed exactly as is, each time upon loading alliance mode
+and after complete it. If it evaluates to boolean 'true' the alliance course
+will be selectable from alliance mode submenu, or locked on 'false'.
+Default: true.
+
+- [Match <0...>] (required)
+Defines a progressive stage within the selected Course.
+
+- [Route <0...>] (required)
+Defines a specific path choice within the current Match.
+
+Setup following parameters below "[Route <0...>]" section:
+
+- stage = path/file.def (optional)
+Forces a specific stage to load for all fights in this route.
+Note: The stage MUST be loaded in "select.def" file.
+If left empty, the default stage assigned to the character will be loaded automatically.
+
+- music = path/file.mp3 (optional)
+Forces a specific song to load for all fights in this route.
+If left empty, the default music assigned to the character will be loaded automatically.
+
+- [Char <0...>] (required)
+Defines the path and stats of an enemy slots (Up to 4 per route).
+
+Setup following parameters below "[Char <0...>]" section:
+
+- path = path (required)
+Set Character Path to load for this route. (Need to be loaded in select.def).
+set "randomselect" to pick a random opponent.
+
+- life = <min, max> OR <fixed value> (required)
+Sets the value to multiplies the character's maximum health constant (lifemax).
+Supports a dynamic random range (e.g., 1, 15) or a single fixed integer.
+
+- power = <min, max> OR <fixed value> (required)
+Sets the initial Power Bar meter the character starts the match with.
+Supports a dynamic random range (e.g., 1, 15) or a single fixed integer.
+
+- attack = <min, max> OR <fixed value> (required)
+Sets the damage output/attack scaling of the character.
+Supports a dynamic random range (e.g., 1, 15) or a single fixed integer.
+
+- defence = <min, max> OR <fixed value> (required)
+Sets the value to increases the damage resistance scaling of the character.
+Supports a dynamic random range (e.g., 1, 15) or a single fixed integer.
+;---------------------------------------------------------------------------------
+Some Examples:
+
+[Course ]
+name = NORMAL
+ailevelstart = 1
+
+[Match 1]
+
+[Route 1]
+stage = stages/Mountainside Temple/Lobby Night.def
+music = sound/teambattle.mp3
+
+[Char 1]
+path = Kung Fu Man
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 2]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 3]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Char 4]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Match 2]
+
+[Route 1]
+
+[Char 1]
+path = Kung Fu Man
+life = 7
+power = 7
+attack = 5
+defence = 5
+
+[Char 2]
+path = randomselect
+life = 8
+power = 8
+attack = 8
+defence = 8
+
+[Char 3]
+path = randomselect
+life = 3
+power = 4
+attack = 5
+defence = 6
+
+[Char 4]
+path = randomselect
+life = 1,15
+power = 1,15
+attack = 1,15
+defence = 1,15
+
+[Route 2]
+
+[Char 1]
+path = randomselect
+life = 17
+power = 17
+attack = 15
+defence = 15
+
+[Char 2]
+path = randomselect
+life = 18
+power = 18
+attack = 18
+defence = 18
+
+[Char 3]
+path = randomselect
+life = 13
+power = 14
+attack = 15
+defence = 16
+
+[Char 4]
+path = randomselect
+life = 15,18
+power = 15,18
+attack = 15,18
+defence = 15,18
