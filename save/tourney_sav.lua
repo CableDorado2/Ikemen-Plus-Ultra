@@ -1,9 +1,9 @@
 data.tourneySize = 16
 data.tourneyType = "Single Elimination"
 data.tourneyTeam = 0
-data.tourneyCharSel = false
+data.tourneyCharSel = true
 data.tourneyStgSel = false
 data.tourneyRoundTime = 99
 data.tourneyRoundsNum = 2
-data.tourneyMatchsNum = 1
+data.tourneyMatchsNum = 3
 data.tourney3rdPlace = false
