@@ -1,0 +1,22 @@
+{
+  "stock":{
+    "lifebars":{
+      "lifebarbroken98":true,
+      "lifebargms":true
+    },
+    "chars":{
+      "reika murasame":true
+    },
+    "stages":{
+      "stages/mountainside temple/temple entrance dusk.def":true,
+      "stages/mountainside temple/stairs - 2nd floor.def":true,
+      "stages/mountainside temple/clone laboratory 2.def":true,
+      "stages/mountainside temple/temple entrance afternoon.def":true,
+      "stages/mountainside temple/secret hallway.def":true,
+      "stages/mountainside temple/clone laboratory.def":true,
+      "stages/mountainside temple/stairs - 3rd floor.def":true,
+      "stages/mountainside temple/temple entrance night.def":true,
+      "stages/mountainside temple/stairs - 1st floor.def":true
+    }
+  }
+}
