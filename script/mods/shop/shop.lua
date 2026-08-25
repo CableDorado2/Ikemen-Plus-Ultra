@@ -621,7 +621,6 @@ local function f_confirmPurchase()
 end
 
 function f_shopMenu()
-	if not startEn then return end
 	f_discordUpdate({details = "Shop"})
 	cmdInput()
 	local cursorPosY = 1
