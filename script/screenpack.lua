@@ -1083,7 +1083,7 @@ t_arcadeMenu = {
 		text = "TOWERS",
 		info = [[
 		Play through Arcade Ladders
-		with different lengths!
+		in a length of your choice!
 		]],
 		gotomenu = "f_towerBoot()"
 	},
@@ -4373,17 +4373,17 @@ t_speedStarRules = {
 		rulerightside = function() end
 	},
 	nolifedisplay = {
-		displaytext = "Lifebar not Displayed",
+		displaytext = "Hide Lifebar",
 		ruleleftside = function() setP1LifebarDisplay(false) end,
 		rulerightside = function() setP2LifebarDisplay(false) end
 	},
 	nopowerdisplay = {
-		displaytext = "Power Gauge not Displayed",
-		ruleleftside = function() setP1PowerDisplay(false) end,
-		rulerightside = function() setP2PowerDisplay(false) end
+		displaytext = "Hide Power Gauge",
+		ruleleftside = function() setP1PowerbarDisplay(false) end,
+		rulerightside = function() setP2PowerbarDisplay(false) end
 	},
 	nohuddisplay = {
-		displaytext = "Battle HUD not Displayed",
+		displaytext = "Hide Battle HUD",
 		ruleleftside = function() setBattleUIDisplay(false) end,
 		rulerightside = function() setBattleUIDisplay(false) end
 	},
@@ -4402,13 +4402,13 @@ t_speedCourseSel = {
 	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 --SFIV Time Attack Normal
 	{timestart = 500, timebonus = 30, maxmatches = {4}, rulesplayer = {"defenceup", "regenlife", "powerinfinite"}, rulescpu = {"noguard", "nopower"}, ailevel = 1},
-	{timestart = 300, timebonus = 20, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 1},
+	--{timestart = 300, timebonus = 20, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 1},
 	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 2},
 	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}, ailevel = 2},
-	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}, rulesplayer = "defenceup", ailevel = 2},
+	--{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}, rulesplayer = "defenceup", ailevel = 2},
 	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}, rulesplayer = "defenceup", ailevel = 3},
-	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup", ailevel = 3},
-	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 3},
+	--{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup", ailevel = 3},
+	--{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 3},
 	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 4},
 	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}, rulesplayer = "regenpower", ailevel = 4},
 	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "nopower", rulescpu = "nopower", ailevel = 4},
