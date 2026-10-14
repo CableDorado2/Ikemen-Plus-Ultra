@@ -669,7 +669,7 @@ value = PowerMax
 
 [State -2, Regenerate Life]
 type = LifeAdd
-triggerall = RoundState = 2
+triggerall = RoundState = 2 && GameTime % 10 = 0
 trigger1 = LifeRegenLeft = 1 && TeamSide = 1
 trigger2 = LifeRegenRight = 1 && TeamSide = 2
 value = 1

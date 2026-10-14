@@ -4322,19 +4322,76 @@ txt_speedCourseCPUVar = createTextImg(font5, 0, 1, "", 2, 215)
 speedStarSpacingY = 60
 
 t_speedStarRules = {
-	none = {displaytext = "Normal", rule = function() end},
-	lifeinfinite = {displaytext = "Infinite Life", rule = function() setService("infinite life") end},
-	powerinfinite = {displaytext = "Infinite Power", rule = function() setService("infinite power") end},
-	nopower = {displaytext = "Power Gauge Deplete", rule = function() end},
-	defenceup = {displaytext = "DEF.Up", rule = function() end},
-	attackup = {displaytext = "ATK.Up", rule = function() end},
-	regenlife = {displaytext = "Auto Heal", rule = function() end},
-	regenpower = {displaytext = "Auto Power Recover", rule = function() end},
-	powerstartmax = {displaytext = "Power Max at Start", rule = function() end},
-	nolifedisplay = {displaytext = "Lifebar not Displayed", rule = function() setP1LifebarDisplay(false) end},
-	nopowerdisplay = {displaytext = "Power Gauge not Displayed", rule = function() setP1PowerDisplay(false) end},
-	nohuddisplay = {displaytext = "Battle HUD not Displayed", rule = function() setBattleUIDisplay(false) end},
-	invisibility = {displaytext = "Invisibility", rule = function() end},
+	none = {
+		displaytext = "Normal",
+		ruleleftside = function() end,
+		rulerightside = function() end
+	},
+	lifeinfinite = {
+		displaytext = "Infinite Life",
+		ruleleftside = function() setService("infinite life") end,
+		rulerightside = function() setService("infinite life") end
+	},
+	powerinfinite = {
+		displaytext = "Infinite Power",
+		ruleleftside = function() setPowerInfiniteLeft(1) end,
+		rulerightside = function() setPowerInfiniteRight(1) end
+	},
+	nopower = {
+		displaytext = "Power Gauge Deplete",
+		ruleleftside = function() setNoPowerLeft(1) end,
+		rulerightside = function() setNoPowerRight(1) end
+	},
+	noguard = {
+		displaytext = "No Block",
+		ruleleftside = function() setNoGuardLeft(1) end,
+		rulerightside = function() setNoGuardRight(1) end
+	},
+	defenceup = {
+		displaytext = "DEF.Up",
+		ruleleftside = function() setDefenceUpLeft(1) end,
+		rulerightside = function() setDefenceUpRight(1) end
+	},
+	attackup = {
+		displaytext = "ATK.Up",
+		ruleleftside = function() setAttackUpLeft(1) end,
+		rulerightside = function() setAttackUpRight(1) end
+	},
+	regenlife = {
+		displaytext = "Auto Heal",
+		ruleleftside = function() setLifeRegenLeft(1) end,
+		rulerightside = function() setLifeRegenRight(1) end
+	},
+	regenpower = {
+		displaytext = "Auto Power Recover",
+		ruleleftside = function() setPowerRegenLeft(1) end,
+		rulerightside = function() setPowerRegenRight(1) end
+	},
+	powerstartmax = {
+		displaytext = "Power Max at Start",
+		ruleleftside = function() end,
+		rulerightside = function() end
+	},
+	nolifedisplay = {
+		displaytext = "Lifebar not Displayed",
+		ruleleftside = function() setP1LifebarDisplay(false) end,
+		rulerightside = function() setP2LifebarDisplay(false) end
+	},
+	nopowerdisplay = {
+		displaytext = "Power Gauge not Displayed",
+		ruleleftside = function() setP1PowerDisplay(false) end,
+		rulerightside = function() setP2PowerDisplay(false) end
+	},
+	nohuddisplay = {
+		displaytext = "Battle HUD not Displayed",
+		ruleleftside = function() setBattleUIDisplay(false) end,
+		rulerightside = function() setBattleUIDisplay(false) end
+	},
+	invisibility = {
+		displaytext = "Invisibility",
+		ruleleftside = function() setInvisibleLeft(1) end,
+		rulerightside = function() setInvisibleRight(1) end
+	},
 }
 
 t_speedCourseSel = {
@@ -4344,25 +4401,25 @@ t_speedCourseSel = {
 	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite", ailevel = 8},
 	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 --SFIV Time Attack Normal
-	{timestart = 500, timebonus = 30, maxmatches = {4}, rulesplayer = {"defenceup", "regenlife", "powerinfinite"}, rulescpu = "nopower", ailevel = 1},
+	{timestart = 500, timebonus = 30, maxmatches = {4}, rulesplayer = {"defenceup", "regenlife", "powerinfinite"}, rulescpu = {"noguard", "nopower"}, ailevel = 1},
 	{timestart = 300, timebonus = 20, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 1},
-	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 1},
-	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}, ailevel = 1},
-	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}, rulesplayer = "defenceup", ailevel = 1},
-	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}, rulesplayer = "defenceup", ailevel = 2},
-	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup", ailevel = 2},
-	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 2},
-	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 2},
-	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}, rulesplayer = "regenpower", ailevel = 2},
-	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "nopower", rulescpu = "nopower", ailevel = 3},
-	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = "regenpower", rulescpu = "defenceup", ailevel = 3},
-	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}, rulesplayer = "defenceup", rulescpu = {"defenceup", "nohuddisplay"}, ailevel = 3},
-	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}, ailevel = 3},
-	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility", ailevel = 3},
+	{timestart = 300, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = {"defenceup", "regenlife", "regenpower"}, rulescpu = "nopower", ailevel = 2},
+	{timestart = 200, timebonus = 10, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}, ailevel = 2},
+	{timestart = 250, timebonus = 5,  maxmatches = {6, 4, 2}, rulesplayer = "defenceup", ailevel = 2},
+	{timestart = 200, timebonus = 10, maxmatches = {5, 2, 2}, rulesplayer = "defenceup", ailevel = 3},
+	{timestart = 180, timebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup", ailevel = 3},
+	{timestart = 100, timebonus = 30, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 3},
+	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 4},
+	{timestart = 300, timebonus = 15, maxmatches = {7, 4, 4}, rulesplayer = "regenpower", ailevel = 4},
+	{timestart = 50,  timebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "nopower", rulescpu = "nopower", ailevel = 4},
+	{timestart = 200, timebonus = 20, maxmatches = {4, 2, 1}, rulesplayer = "regenpower", rulescpu = "defenceup", ailevel = 5},
+	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}, rulesplayer = "defenceup", rulescpu = {"defenceup", "nolifedisplay", "nopowerdisplay"}, ailevel = 5},
+	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}, ailevel = 5},
+	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility", ailevel = 6},
 --SFIV Time Attack Hard
-	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}, ailevel = 8},
-	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}, ailevel = 8},
-	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"}, ailevel = 8},
+	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}, ailevel = 6},
+	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}, ailevel = 7},
+	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"}, ailevel = 7},
 	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}, rulescpu = "defenceup", ailevel = 8},
 	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}, ailevel = 8},
 }
