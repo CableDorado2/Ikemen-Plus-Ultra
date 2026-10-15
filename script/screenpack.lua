@@ -4329,8 +4329,8 @@ t_speedStarRules = {
 	},
 	lifeinfinite = {
 		displaytext = "Infinite Life",
-		ruleleftside = function() setService("infinite life") end,
-		rulerightside = function() setService("infinite life") end
+		ruleleftside = function() setLifeInfiniteLeft(1) end,
+		rulerightside = function() setLifeInfiniteRight(1) end
 	},
 	powerinfinite = {
 		displaytext = "Infinite Power",
@@ -4369,8 +4369,8 @@ t_speedStarRules = {
 	},
 	powerstartmax = {
 		displaytext = "Power Max at Start",
-		ruleleftside = function() end,
-		rulerightside = function() end
+		ruleleftside = function() setService("max power") end,
+		rulerightside = function() setService("max power") end
 	},
 	nolifedisplay = {
 		displaytext = "Hide Lifebar",

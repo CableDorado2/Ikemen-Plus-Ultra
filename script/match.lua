@@ -1723,8 +1723,8 @@ function loop() --The code for this function should be thought of as if it were 
 				if timeremaining() <= 0 then setTime(0) end --Fix Negative Count
 			end
 			f_drawSpeedStarNotify()
-		--Infinite Life Logic
-			if getService() == "infinite life" or getService() == "infinite life left" or getService() == "infinite life right" then
+		--Disable Infinite Life Logic
+			if getLifeInfiniteLeft() == 1 or getLifeInfiniteRight() == 1 then
 				if playerLeftSide then
 					for i=1, 8 do
 						if i % 2 == 0 then --Is an Even Player Number (Right Side)
@@ -1734,8 +1734,6 @@ function loop() --The code for this function should be thought of as if it were 
 								setLifeInfiniteLeft(0)
 								setLifeInfiniteRight(0)
 								if player(i) then setLife(0) end
-							else
-								setLifeInfiniteLeft(1) --Managed via match.cns
 							end
 						end
 					end
@@ -1746,8 +1744,6 @@ function loop() --The code for this function should be thought of as if it were 
 								setLifeInfiniteLeft(0)
 								setLifeInfiniteRight(0)
 								if player(i) then setLife(0) end
-							else
-								setLifeInfiniteRight(1)
 							end
 						else --Is an Odd Player Number (Left Side)
 							
