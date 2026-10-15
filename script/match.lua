@@ -325,7 +325,9 @@ local function f_setPlayerStats() --Applies only to Player Side
 			for i=1, #p1Dat do
 				if player(p1Dat[i].pn) then
 					if persistLife() then setLife(getLifePersistence()) end --Restore Life Bar
-					if persistPower() then setPower(getPowerPersistence()) end --Restore Power Bar
+					if maxPowerLeft() == 0 then
+						if persistPower() then setPower(getPowerPersistence()) end --Restore Power Bar
+					end
 				end
 			end
 		else
@@ -333,7 +335,9 @@ local function f_setPlayerStats() --Applies only to Player Side
 			for i=1, #p2Dat do
 				if player(p2Dat[i].pn) then
 					if persistLife() then setLife(getLifePersistence()) end
-					if persistPower() then setPower(getPowerPersistence()) end
+					if maxPowerRight() == 0 then
+						if persistPower() then setPower(getPowerPersistence()) end
+					end
 				end
 			end
 		end
@@ -1724,7 +1728,7 @@ function loop() --The code for this function should be thought of as if it were 
 			end
 			f_drawSpeedStarNotify()
 		--Disable Infinite Life Logic
-			if getLifeInfiniteLeft() == 1 or getLifeInfiniteRight() == 1 then
+			if lifeInfiniteLeft() == 1 or lifeInfiniteRight() == 1 then
 				if playerLeftSide then
 					for i=1, 8 do
 						if i % 2 == 0 then --Is an Even Player Number (Right Side)
