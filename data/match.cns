@@ -686,3 +686,10 @@ type = PowerSet
 trigger1 = NoPowerLeft = 1 && TeamSide = 1
 trigger2 = NoPowerRight = 1 && TeamSide = 2
 value = 0
+
+[State -2, Start Max Power]
+type = PowerSet
+triggerall = RoundState < 2
+trigger1 = MaxPowerLeft = 1 && TeamSide = 1
+trigger2 = MaxPowerRight = 1 && TeamSide = 2
+value = PowerMax

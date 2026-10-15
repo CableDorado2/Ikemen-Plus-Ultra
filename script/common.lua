@@ -2745,6 +2745,8 @@ function f_default() --Reset Game Modes Configuration
 	setPowerRegenRight(0) --Reset Power Regeneration for Right Side
 	setNoPowerLeft(0) --Reset No Power for Left Side
 	setNoPowerRight(0) --Reset No Power for Right Side
+	setMaxPowerLeft(0) --Reset Start Max Power for Left Side
+	setMaxPowerRight(0) --Reset Start Max Power for Right Side
 --Abyss Stuff
 	setAbyssDepth(1) --Set depth level to show during abyss mode match lifebar.
 	setAbyssFinalDepth(0) --Set last abyss depth match.

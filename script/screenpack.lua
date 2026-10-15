@@ -4369,8 +4369,8 @@ t_speedStarRules = {
 	},
 	powerstartmax = {
 		displaytext = "Power Max at Start",
-		ruleleftside = function() setService("max power") end,
-		rulerightside = function() setService("max power") end
+		ruleleftside = function() setMaxPowerLeft(1) end,
+		rulerightside = function() setMaxPowerRight(1) end
 	},
 	nolifedisplay = {
 		displaytext = "Hide Lifebar",
