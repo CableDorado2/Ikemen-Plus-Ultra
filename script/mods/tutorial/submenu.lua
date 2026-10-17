@@ -19,6 +19,7 @@ kfm, tutorial=1, exclude=1, excludetourney=1, order=-1
 --Insert new item to t_practiceMenu table loaded by screenpack.lua
 table.insert(t_practiceMenu, #t_practiceMenu, {
 text = "TUTORIAL",
+spr = {4,2},
 info = [[
 Learn Game Rules and Battle
 Tactics!

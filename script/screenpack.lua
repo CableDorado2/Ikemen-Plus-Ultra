@@ -813,12 +813,14 @@ end
 t_exitMenu = {
 	{
 		text = "CLOSE ENGINE",
+		spr = {9,0},
 		info = [[
 		Exit to the Desktop.
 		]]
 	},
 	{
 		text = "RESTART ENGINE",
+		spr = {9,0},
 		info = [[
 		Engine will close and reopen
 		automatically!
@@ -838,7 +840,7 @@ commonMenuItemSign = "> "
 t_mainMenu = {
 	{
 		text = "ARCADE",
-		spr = {1,1},
+		spr = {1,0},
 		info = [[
 		Fight against CPU-controlled
 		opponents in a variety of
@@ -848,6 +850,7 @@ t_mainMenu = {
 	},
 	{
 		text = "VERSUS",
+		spr = {2,0},
 		info = [[
 		Fight against Human or CPU
 		specific opponents!
@@ -856,6 +859,7 @@ t_mainMenu = {
 	},
 	{
 		text = "NETPLAY",
+		spr = {3,0},
 		info = [[
 		Connect to Network to Battle
 		or Play in Cooperative with
@@ -865,6 +869,7 @@ t_mainMenu = {
 	},
 	{
 		text = "PRACTICE",
+		spr = {4,2},
 		info = [[
 		Learn the basics of 2D Fighting
 		Games through Modes designed
@@ -874,6 +879,7 @@ t_mainMenu = {
 	},
 	{
 		text = "CHALLENGES",
+		spr = {5,0},
 		info = [[
 		Play through Advanced Modes.
 		Test the limits of your skills!
@@ -908,6 +914,7 @@ t_mainMenu = {
 	},
 	{
 		text = "EXIT",
+		spr = {9,0},
 		info = [[
 		Shutdown or Reboot the Engine.
 		]],
@@ -1065,28 +1072,29 @@ end
 t_arcadeMenu = {
 	{
 		text = "CLASSIC ARCADE",
+		spr = {1,1},
 		info = [[
 		Defeat a series of opponents
 		to reach each character's
 		ending!
 		]],
-		gotomenu = "f_arcadeBoot()"
-	},
-	{
-		text = "BOSS RUSH",
-		info = [[
-		Rematch all Bosses in a row!
-		]],
-		gotomenu = "f_bossrushBoot()"
+		gotomenu = "f_arcadeBoot()",
+		gotomenu2 = "f_bossrushBoot()", --CVS2 Secret
 	},
 	{
 		text = "TOWERS",
+		spr = {1,2},
 		info = [[
 		Play through Arcade Ladders
 		in a length of your choice!
 		]],
 		gotomenu = "f_towerBoot()"
 	},
+--[[{
+		text = "BOSS RUSH",
+		info = "Rematch all Bosses in a row!",
+		gotomenu = "f_bossrushBoot()"
+	},]]
 	menuName = "ARCADE MODES",
 }
 for i=1, #t_arcadeMenu do
@@ -1099,6 +1107,7 @@ end
 t_vsMenu = {
 	{
 		text = "QUICK MATCH",
+		spr = {2,1},
 		info = [[
 		Play a Quick Battle.
 		
@@ -1109,6 +1118,7 @@ t_vsMenu = {
 	},
 	{
 		text = "FREE BATTLE",
+		spr = {2,2},
 		info = [[
 		Play matches with your own
 		rules!
@@ -1117,6 +1127,7 @@ t_vsMenu = {
 	},
 	{
 		text = "TOURNAMENT",
+		spr = {2,3},
 		info = [[
 		Participate in Customizable
 		Tournaments!
@@ -1125,6 +1136,7 @@ t_vsMenu = {
 	},
 	{
 		text = "BOSS ASSAULT",
+		spr = {2,4},
 		info = [[
 		Challenge a Boss Character of
 		your choice!
@@ -1143,6 +1155,7 @@ end
 t_practiceMenu = {
 	{
 		text = "TRAINING",
+		spr = {4,1},
 		info = [[
 		Practice special attacks and
 		combos with a training dummy
@@ -1171,6 +1184,7 @@ end
 t_challengeMenu = {
 	{
 		text = "ALLIANCE",
+		spr = {5,1},
 		info = [[
 		Assemble a Team of 4 Members.
 		
@@ -1182,6 +1196,7 @@ t_challengeMenu = {
 	},
 	{
 		text = "ENDURANCE",
+		spr = {52,1},
 		info = [[
 		Compete for the Highest Winning
 		Streak in a series of matches
@@ -1191,6 +1206,7 @@ t_challengeMenu = {
 	},
 	{
 		text = "TIME TRIALS",
+		spr = {5,3},
 		info = [[
 		Compete for the fastest clear
 		time in a series of matches with
@@ -1200,6 +1216,7 @@ t_challengeMenu = {
 	},
 	{
 		text = "SCORE TRIALS",
+		spr = {5,4},
 		info = [[
 		Compete for the High Score in
 		a series of matches with Fixed
@@ -1219,6 +1236,7 @@ end
 t_survivalMenu = {
 	{
 		text = "SURVIVAL",
+		spr = {52,1},
 		info = [[
 		Defeat many opponents as
 		possible with a single health!
@@ -1226,7 +1244,20 @@ t_survivalMenu = {
 		gotomenu = "f_survivalBoot()"
 	},
 	{
+		text = "SURVIVAL EX",
+		spr = {52,2},
+		info = [[
+		Defeat many opponents as
+		possible with a single health
+		through levels with modifiers!
+		
+		Meet the quota to win.
+		]],
+		gotomenu = "f_survivalBoot()"
+	},
+	{
 		text = "SUDDEN DEATH",
+		spr = {52,3},
 		info = [[
 		Defeat many opponents as
 		possible in one-hit matches!
@@ -1238,6 +1269,7 @@ t_survivalMenu = {
 	},
 	{
 		text = "ABYSS",
+		spr = {52,4},
 		info = [[
 		Defeat waves of enemies while
 		level up your character!
@@ -1259,6 +1291,7 @@ end
 t_timeattackMenu = {
 	{
 		text = "TIME ATTACK",
+		spr = {53,1},
 		info = [[
 		Defeat opponents quickly to
 		get Best Time as possible!
@@ -1267,6 +1300,7 @@ t_timeattackMenu = {
 	},
 	{
 		text = "SPEED STAR",
+		spr = {53,2},
 		info = [[
 		Defeat opponents quickly
 		before Round Time runs out!
@@ -1342,6 +1376,7 @@ t_extrasMenu = {
 	},
 	{
 		text = "KUMITE",
+		spr = {6,3},
 		info = "See how many opponents out\nof "..data.kumite.." you can take down!\n\nYou'll face the next opponent\nregardless you win or lose!",
 		gotomenu = "f_kumiteBoot()"
 	},

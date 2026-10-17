@@ -10,6 +10,7 @@ This Lua Module has been specifically designed for I.K.E.M.E.N. PLUS ULTRA Engin
 --Insert new item to t_extrasMenu table loaded by screenpack.lua
 table.insert(t_extrasMenu, 1, {
 text = "CHRONICLES",
+spr = {6,5},
 info = [[
 Play Game modes focused on
 Characters Stories!
@@ -20,6 +21,7 @@ gotomenu = "f_chroniclesMenu()"
 t_chroniclesMenu = {
 	{
 		text = "STORY",
+		spr = {65,1},
 		info = [[
 		Follow, unlock and dive into
 		character's story arcs!

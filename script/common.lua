@@ -1151,6 +1151,25 @@ function f_gotoFunction(func)
 	end
 end
 
+function f_gotoFunction2(func)
+	--if type(func) == "function" then
+	if not func or not func.gotomenu2 then return end --Return in case func does not exist or does not have "gotomenu2"
+	if t_unlockLua.modes[func.gotomenu2] == nil then --If the menu item is unlocked
+		if not func.skipsfx then sndPlay(sndSys, 100, 1) end
+		local f, err = load(func.gotomenu2)
+		if f then
+			f() --Call the function
+		--Check unlocks when exit from above function
+			f_unlock(false)
+			f_updateUnlocks()
+		else
+			return --Error when loading function
+		end
+	else
+		sndPlay(sndIkemen, 200, 0)
+	end
+end
+
 --;===========================================================
 --; INPUT STUFF
 --;===========================================================
