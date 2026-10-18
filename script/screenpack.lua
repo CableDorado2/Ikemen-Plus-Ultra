@@ -1326,6 +1326,7 @@ end
 t_scoreattackMenu = {
 	{
 		text = "SCORE ATTACK",
+		spr = {54,1},
 		info = [[
 		Defeat opponents getting the
 		Best Score possible!
@@ -1334,6 +1335,7 @@ t_scoreattackMenu = {
 	},
 	{
 		text = "CARAVAN",
+		spr = {54,2},
 		info = [[
 		Defeat opponents getting the
 		Best Score possible within a
@@ -1357,6 +1359,7 @@ end
 t_extrasMenu = {
 	{
 		text = "BONUS GAMES",
+		spr = {6,1},
 		info = [[
 		Play the Bonus Stages and
 		Arcade Mini-Games!
@@ -1365,6 +1368,7 @@ t_extrasMenu = {
 	},
 	{
 		text = "GOLD RUSH",
+		spr = {6,2},
 		info = [[
 		Deal damage to the opponents
 		to Earn in-game currency!
@@ -1382,6 +1386,7 @@ t_extrasMenu = {
 	},
 	{
 		text = "ENDLESS",
+		spr = {6,4},
 		info = [[
 		Fight in Endless Matches until
 		you give up..
@@ -1403,6 +1408,7 @@ end
 t_bonusMenu = {
 	{
 		text = "FREE BONUS",
+		spr = {61,1},
 		info = [[
 		Play a Bonus Game of your
 		choice!
@@ -1411,6 +1417,7 @@ t_bonusMenu = {
 	},
 	{
 		text = "BONUS MARATHON",
+		spr = {61,2},
 		info = [[
 		Clear all Bonus Stages in a
 		marathon!
@@ -1433,7 +1440,7 @@ t_watchMenu = {
 		Playback recorded online and
 		local battles!
 		]],
-		gotomenu = "f_replayMenu()"
+		gotomenu = "f_replayAccess()"
 	},
 	{
 		text = "STAGE VIEWER",
@@ -1467,6 +1474,7 @@ t_watchMenu = {
 	},
 	{
 		text = "STAFF CREDITS",
+		spr = {7,6},
 		info = [[
 		Play staff credits!
 		]],
@@ -1477,27 +1485,6 @@ t_watchMenu = {
 for i=1, #t_watchMenu do
 	if t_watchMenu[i].unlock == nil then t_watchMenu[i].unlock = "true" end
 end
-
---;===========================================================
---; REPLAY MENU SCREENPACK DEFINITION
---;===========================================================
-t_replayMenu = {
-	{
-		text = "ONLINE REPLAYS",
-		info = [[
-		Watch and Manage Online Modes
-		replay data that you saved!
-		]]
-	},
-	{
-		text = "LOCAL REPLAYS",
-		info = [[
-		Watch and Manage Offline Modes
-		replay data that you saved!
-		]]
-	},
-	menuName = "REPLAY MODES",
-}
 
 --;===========================================================
 --; ONLINE REPLAYS MENU SCREENPACK DEFINITION
@@ -1655,6 +1642,7 @@ end
 t_mainNetplay = {
 	{
 		text = "CREATE MATCH",
+		spr = {3,0},
 		info = [[
 		Become the Host and Create a
 		New Online Room to Play!
@@ -1662,6 +1650,7 @@ t_mainNetplay = {
 	},
 	{
 		text = "SEARCH MATCH",
+		spr = {3,0},
 		info = [[
 		Look for an Online Room to
 		Join!
