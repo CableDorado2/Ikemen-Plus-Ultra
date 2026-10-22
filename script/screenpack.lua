@@ -4459,25 +4459,25 @@ if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSe
 t_survivalExCourseSel = {
 --maxmatches works like select.def arcademaxmatches paramvalue
 --SFIV Survival Normal
-	{winsquota = 4,  lifebonus = 50, maxmatches = {4}, rulesplayer = {"defenceup", "powerinfinite"}, rulescpu = {"noguard", "nopower"}, ailevel = 1},
-	{winsquota = 4,  lifebonus = 50, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenpower"}, rulescpu = "nopower", ailevel = 1},
-	{winsquota = 4,  lifebonus = 50, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}, rulescpu = "nopower", ailevel = 2},
-	{winsquota = 4,  lifebonus = 50, maxmatches = {4, 2, 1}, rulesplayer = "defenceup", rulescpu = "nopower", ailevel = 2},
+	{winsquota = 4,  lifebonus = 50, maxmatches = {4, 4}, rulesplayer = {"defenceup", "powerinfinite"}, rulescpu = {"noguard", "nopower"}, ailevel = 1},
+	{winsquota = 4,  lifebonus = 50, maxmatches = {2, 4, 2}, rulesplayer = {"defenceup", "regenpower"}, rulescpu = "nopower", ailevel = 1},
+	{winsquota = 4,  lifebonus = 50, maxmatches = {2, 2, 4}, rulesplayer = {"defenceup", "powerstartmax"}, rulescpu = "nopower", ailevel = 2},
+	{winsquota = 4,  lifebonus = 50, maxmatches = {4, 1, 3}, rulesplayer = "defenceup", rulescpu = "nopower", ailevel = 2},
 	{winsquota = 8,	 lifebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "defenceup", rulescpu = "nopower", ailevel = 2},
-	{winsquota = 12, lifebonus = 20, maxmatches = {5, 2, 2}, rulesplayer = "defenceup", ailevel = 3},
-	{winsquota = 5,	 lifebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup", ailevel = 3},
-	{winsquota = 4,	 lifebonus = 20, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 3},
-	{winsquota = 6,	 lifebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = {"defenceup", "regenpower"}, ailevel = 4},
-	{winsquota = 5,	 lifebonus = 25, maxmatches = {7, 4, 4}, rulesplayer = "defenceup", ailevel = 4},
-	{winsquota = 8,	 lifebonus = 25, maxmatches = {6, 4, 2}, rulesplayer = "defenceup", rulescpu = {"nolifedisplay", "nopowerdisplay", "regenpower"}, ailevel = 4},
-	--{winsquota = 8,	 lifebonus = 25, maxmatches = {4, 2, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 5},
-	{winsquota = 8,	 lifebonus = 25, maxmatches = {2, 2, 1}, rulesplayer = {"defenceup", "invisibility"}, ailevel = 5},
+	{winsquota = 12, lifebonus = 20, maxmatches = {10, 5, 9}, rulesplayer = "defenceup", ailevel = 3},
+	{winsquota = 5,	 lifebonus = 10, maxmatches = {4, 1, 5}, rulesplayer = "defenceup", ailevel = 3},
+	{winsquota = 4,	 lifebonus = 20, maxmatches = {2, 0, 6}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 3},
+	{winsquota = 6,	 lifebonus = 20, maxmatches = {6, 2, 4}, rulesplayer = "defenceup", rulescpu = {"defenceup", "regenpower"}, ailevel = 4},
+	{winsquota = 5,	 lifebonus = 25, maxmatches = {5, 1, 4}, rulesplayer = "defenceup", ailevel = 4},
+	{winsquota = 8,	 lifebonus = 25, maxmatches = {6, 4, 6}, rulesplayer = "defenceup", rulescpu = {"nolifedisplay", "nopowerdisplay", "regenpower"}, ailevel = 4},
+	{winsquota = 8,	 lifebonus = 25, maxmatches = {9, 1, 6}, rulesplayer = {"defenceup", "powerinfinite"}, rulescpu = "defenceup", ailevel = 5},
+	{winsquota = 8,	 lifebonus = 25, maxmatches = {4, 2, 10}, rulesplayer = {"defenceup", "invisibility"}, ailevel = 5},
 --SFIV Survival Hard
-	{lifebonus = 30, maxmatches = {20, 1, 1}, ailevel = 6},
-	{lifebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}, ailevel = 7},
-	{lifebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"}, ailevel = 7},
-	{lifebonus = 30, maxmatches = {10, 4, 4}, rulescpu = "defenceup", ailevel = 8},
-	{lifebonus = 50, maxmatches = {3, 3, 1},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}, ailevel = 8},
+	{winsquota = 10, lifebonus = 30, maxmatches = {12, 12}, rulescpu = {"regenlife", "nopower"}, ailevel = 6},
+	{winsquota = 10, lifebonus = 30, maxmatches = {6, 8, 10}, ailevel = 7},
+	{winsquota = 10, lifebonus = 30, maxmatches = {10, 14}, rulesplayer = "powerstartmax", rulescpu = "powerstartmax", ailevel = 7},
+	{winsquota = 0, lifebonus = 30, maxmatches = {10, 4, 10}, rulescpu = "defenceup", ailevel = 8},
+	{winsquota = 0, lifebonus = 50, maxmatches = {4, 5, 15},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}, ailevel = 8},
 }
 for i=1, #t_survivalExCourseSel do
 	local cnt = 0
