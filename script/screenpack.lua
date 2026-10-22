@@ -1253,7 +1253,7 @@ t_survivalMenu = {
 		
 		Meet the quota to win.
 		]],
-		gotomenu = "f_survivalBoot()"
+		gotomenu = "f_survivalEXBoot()"
 	},
 	{
 		text = "SUDDEN DEATH",
@@ -4315,15 +4315,11 @@ function drawAdvancedCourseSelInputHints(change)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
 end
 
-function f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
-		
-end
-
 --;===========================================================
---; SPEED STAR COURSE SELECT SCREENPACK DEFINITION
+--; COMMON SPECIAL COURSE SELECT SCREENPACK DEFINITION
 --;===========================================================
-txt_speedCourseSel = createTextImg(font11, 0, 0, "COURSE SELECT (SPEED STAR)", 159, 11)
-txt_speedCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
+txt_specialCourseSel = createTextImg(font11, 0, 0, "", 159, 11)
+txt_specialCourseLv = createTextImg(jgFnt, 0, 1, "", 159, 13)
 
 txt_speedCourseTimeRecord = createTextImg(font14, 0, -1, "BEST TIME: ", 159, 13, 0.8, 0.8)
 txt_speedCourseTimeRecordVar = createTextImg(font14, 0, 1, "00:00:000", 159, 13, 0.8, 0.8)
@@ -4345,7 +4341,7 @@ txt_speedCourseCPUVar = createTextImg(font5, 0, 1, "", 2, 215)
 
 speedStarSpacingY = 60
 
-t_speedStarRules = {
+t_specialCourseRules = {
 	none = {
 		displaytext = "Normal",
 		ruleleftside = function() end,
@@ -4460,36 +4456,73 @@ for i=1, #t_speedCourseSel do
 end
 if data.debugLog then f_printTable(t_speedCourseSel, "save/debug/t_speedCourseSel.log") end
 
+t_survivalExCourseSel = {
+--maxmatches works like select.def arcademaxmatches paramvalue
+--SFIV Survival Normal
+	{winsquota = 4,  lifebonus = 50, maxmatches = {4}, rulesplayer = {"defenceup", "powerinfinite"}, rulescpu = {"noguard", "nopower"}, ailevel = 1},
+	{winsquota = 4,  lifebonus = 50, maxmatches = {2, 2}, rulesplayer = {"defenceup", "regenpower"}, rulescpu = "nopower", ailevel = 1},
+	{winsquota = 4,  lifebonus = 50, maxmatches = {1, 2, 2}, rulesplayer = {"defenceup", "powerstartmax"}, rulescpu = "nopower", ailevel = 2},
+	{winsquota = 4,  lifebonus = 50, maxmatches = {4, 2, 1}, rulesplayer = "defenceup", rulescpu = "nopower", ailevel = 2},
+	{winsquota = 8,	 lifebonus = 30, maxmatches = {6, 4, 2}, rulesplayer = "defenceup", rulescpu = "nopower", ailevel = 2},
+	{winsquota = 12, lifebonus = 20, maxmatches = {5, 2, 2}, rulesplayer = "defenceup", ailevel = 3},
+	{winsquota = 5,	 lifebonus = 10, maxmatches = {4, 1, 1}, rulesplayer = "defenceup", ailevel = 3},
+	{winsquota = 4,	 lifebonus = 20, maxmatches = {0, 1, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 3},
+	{winsquota = 6,	 lifebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = "defenceup", rulescpu = {"defenceup", "regenpower"}, ailevel = 4},
+	{winsquota = 5,	 lifebonus = 25, maxmatches = {7, 4, 4}, rulesplayer = "defenceup", ailevel = 4},
+	{winsquota = 8,	 lifebonus = 25, maxmatches = {6, 4, 2}, rulesplayer = "defenceup", rulescpu = {"nolifedisplay", "nopowerdisplay", "regenpower"}, ailevel = 4},
+	--{winsquota = 8,	 lifebonus = 25, maxmatches = {4, 2, 1}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 5},
+	{winsquota = 8,	 lifebonus = 25, maxmatches = {2, 2, 1}, rulesplayer = {"defenceup", "invisibility"}, ailevel = 5},
+--SFIV Survival Hard
+	{lifebonus = 30, maxmatches = {20, 1, 1}, ailevel = 6},
+	{lifebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}, ailevel = 7},
+	{lifebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"}, ailevel = 7},
+	{lifebonus = 30, maxmatches = {10, 4, 4}, rulescpu = "defenceup", ailevel = 8},
+	{lifebonus = 50, maxmatches = {3, 3, 1},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}, ailevel = 8},
+}
+for i=1, #t_survivalExCourseSel do
+	local cnt = 0
+	for order=1, #t_survivalExCourseSel[i].maxmatches do
+		cnt = cnt + t_survivalExCourseSel[i].maxmatches[order]
+	end
+	t_survivalExCourseSel[i].totalmatches = cnt
+	if t_survivalExCourseSel[i].timestart == nil then t_survivalExCourseSel[i].timestart = -1 end
+	if t_survivalExCourseSel[i].unlock == nil then t_survivalExCourseSel[i].unlock = "true" end
+	if t_survivalExCourseSel[i].rulesplayer == nil then t_survivalExCourseSel[i].rulesplayer = "none" end
+	if t_survivalExCourseSel[i].rulescpu == nil then t_survivalExCourseSel[i].rulescpu = "none" end
+	if t_survivalExCourseSel[i].id == nil then t_survivalExCourseSel[i].id = "level"..i end
+end
+if data.debugLog then f_printTable(t_survivalExCourseSel, "save/debug/t_survivalExCourseSel.log") end
+
 --Title BG
-speedTitleBG = animNew(sprIkemen, [[
+spCourseTitleBG = animNew(sprIkemen, [[
 230,3, 0,0, -1
 ]])
-animSetScale(speedTitleBG, 2.9, 0.23)
-animSetAlpha(speedTitleBG, 155, 22)
+animSetScale(spCourseTitleBG, 2.9, 0.23)
+animSetAlpha(spCourseTitleBG, 155, 22)
 
 --Course Slot
-speedCourseSlot = animNew(sprIkemen, [[
+spCourseSlot = animNew(sprIkemen, [[
 232,2, 0,0, -1
 ]])
-animSetScale(speedCourseSlot, 0.2, 0.1)
-animUpdate(speedCourseSlot)
+animSetScale(spCourseSlot, 0.2, 0.1)
+animUpdate(spCourseSlot)
 
 --Course Clear Icon
-speedCourseClear = animNew(sprIkemen, [[
+spCourseClear = animNew(sprIkemen, [[
 215,0, 0,0, -1
 ]])
-animSetScale(speedCourseClear, 0.045, 0.045)
-animUpdate(speedCourseClear)
+animSetScale(spCourseClear, 0.045, 0.045)
+animUpdate(spCourseClear)
 
 --Info BG
-speedCourseInfoBG = animNew(sprIkemen, [[
+spCourseInfoBG = animNew(sprIkemen, [[
 3,0, 0,0, -1
 ]])
-animSetScale(speedCourseInfoBG, 430, 24)
-animSetAlpha(speedCourseInfoBG, 0, 50)
-animUpdate(speedCourseInfoBG)
+animSetScale(spCourseInfoBG, 430, 24)
+animSetAlpha(spCourseInfoBG, 0, 50)
+animUpdate(spCourseInfoBG)
 
---Speed Star Course Select Input Hints Panel
+--Special Course Select Input Hints Panel
 function drawSpeedCourseInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
@@ -4499,10 +4532,6 @@ function drawSpeedCourseInputHints()
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 81, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 153, hintFontYPos)
 	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 231, hintFontYPos)
-end
-
-function f_sptest(maxspeedCourseSel, cursorPosY, moveTxt)
-		
 end
 
 --;===========================================================
@@ -4983,61 +5012,61 @@ function f_allianceSelectPreview(t_player, update)
 	textImgPosDraw(txt_allianceSelLv, 103, 234 + globalPosY)
 end
 
-function drawAlliTest(courseCursor, statsInfo, t_player, update)
-		local update = update
-		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
-	--Course Select
-		f_allianceCoursePreview()
-	--Alliance Select
-		f_allianceSelectPreview(t_player, update)
-	--Draw Transparent BG for inactive panels
-		if courseCursor then
-			textImgSetBank(txt_allianceCourseCfg, 1)
-			textImgSetBank(txt_allianceCourseName, 0)
-			textImgSetBank(txt_allianceSelCfg, 0)
-			textImgSetBank(txt_allianceSelNo, 4)
-			if allianceCourseSel > 1 then
-				animPosDraw(allianceMenuArrowLeft, allianceCourseArrowLposX, allianceCourseArrowLposY)
-			end
-			if allianceCourseSel < #t_allianceCourses then
-				animPosDraw(allianceMenuArrowRight, allianceCourseArrowDposX, allianceCourseArrowDposY)
-			end
-			animPosDraw(allianceSelTrans, 101.5, 29)
-		else
-			textImgSetBank(txt_allianceCourseCfg, 0)
-			textImgSetBank(txt_allianceCourseName, 4)
-			textImgSetBank(txt_allianceSelCfg, 1)
-			textImgSetBank(txt_allianceSelNo, 2)
-			if allianceSel > 1 then
-				animPosDraw(allianceMenuArrowLeft, allianceSelArrowLposX, allianceSelArrowLposY)
-			end
-			if allianceSel < #t_allianceSel then
-				animPosDraw(allianceMenuArrowRight, allianceSelArrowRposX, allianceSelArrowRposY)
-			end
-			animPosDraw(allianceCourseTrans, 0, 0)
+function f_alliancePreview(courseCursor, statsInfo, t_player, update)
+	local update = update
+	animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
+--Course Select
+	f_allianceCoursePreview()
+--Alliance Select
+	f_allianceSelectPreview(t_player, update)
+--Draw Transparent BG for inactive panels
+	if courseCursor then
+		textImgSetBank(txt_allianceCourseCfg, 1)
+		textImgSetBank(txt_allianceCourseName, 0)
+		textImgSetBank(txt_allianceSelCfg, 0)
+		textImgSetBank(txt_allianceSelNo, 4)
+		if allianceCourseSel > 1 then
+			animPosDraw(allianceMenuArrowLeft, allianceCourseArrowLposX, allianceCourseArrowLposY)
 		end
-	--Draw Clear Icon
-		if stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].clear then
-			animPosDraw(allianceCourseClear, 34.5, 160)
+		if allianceCourseSel < #t_allianceCourses then
+			animPosDraw(allianceMenuArrowRight, allianceCourseArrowDposX, allianceCourseArrowDposY)
 		end
-	--Alliance Timer
-		if data.attractMode then
-			textImgSetText(txt_allianceTime, string.format("%.0f", allianceTimer / gameTick))
-			if allianceTimer > 0 then
-				if not backScreen then allianceTimer = allianceTimer - 0.5 end --Activate Alliance Timer
-				textImgDraw(txt_allianceTime)
-			else --when allianceTimer <= 0
-				
-			end
+		animPosDraw(allianceSelTrans, 101.5, 29)
+	else
+		textImgSetBank(txt_allianceCourseCfg, 0)
+		textImgSetBank(txt_allianceCourseName, 4)
+		textImgSetBank(txt_allianceSelCfg, 1)
+		textImgSetBank(txt_allianceSelNo, 2)
+		if allianceSel > 1 then
+			animPosDraw(allianceMenuArrowLeft, allianceSelArrowLposX, allianceSelArrowLposY)
 		end
-		if statsInfo then
-			animPosDraw(allianceStatsWindowBG, 101, 120)
-			animPosDraw(allianceStatsV2, 107, 126)
-			f_textRender(txt_allianceStatsInfoCfg, txt_allianceStatsInfo, 0, 122, 137, 16, 0, 150)
+		if allianceSel < #t_allianceSel then
+			animPosDraw(allianceMenuArrowRight, allianceSelArrowRposX, allianceSelArrowRposY)
 		end
-	--Draw Extra Info
-		animPosDraw(allianceSelInfoBG, -56, 195) --Draw Info Text BG
-		f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 206, 10, 0, 100) --Draw Info Text
+		animPosDraw(allianceCourseTrans, 0, 0)
+	end
+--Draw Clear Icon
+	if stats.modes.alliance[t_allianceCourses[allianceCourseSel].name].clear then
+		animPosDraw(allianceCourseClear, 34.5, 160)
+	end
+--Alliance Timer
+	if data.attractMode then
+		textImgSetText(txt_allianceTime, string.format("%.0f", allianceTimer / gameTick))
+		if allianceTimer > 0 then
+			if not backScreen then allianceTimer = allianceTimer - 0.5 end --Activate Alliance Timer
+			textImgDraw(txt_allianceTime)
+		else --when allianceTimer <= 0
+			
+		end
+	end
+	if statsInfo then
+		animPosDraw(allianceStatsWindowBG, 101, 120)
+		animPosDraw(allianceStatsV2, 107, 126)
+		f_textRender(txt_allianceStatsInfoCfg, txt_allianceStatsInfo, 0, 122, 137, 16, 0, 150)
+	end
+--Draw Extra Info
+	animPosDraw(allianceSelInfoBG, -56, 195) --Draw Info Text BG
+	f_textRender(txt_allianceInfoCfg, txt_allianceInfo, 0, 159, 206, 10, 0, 100) --Draw Info Text
 end
 
 --;===========================================================
@@ -5125,10 +5154,6 @@ function f_allianceMemberSlot(posX, posY, allyType, t_charDat, side, active)
 	f_drawQuickText(txt_allyPowAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.power), 48 + posX, 60 + posY)
 	f_drawQuickText(txt_allyLifAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.life), 76 + posX, 60 + posY)
 	f_drawQuickText(txt_allyDefAtrib, nameFont, 0, 1, f_getAllianceStatRank(t_charDat.defence), 105 + posX, 60 + posY)
-end
-
-function drawAlliMemTest(memberSel)
-		
 end
 
 function drawAllianceMemInputHints()
@@ -5219,7 +5244,7 @@ function f_allianceSlotVS(posX, posY, t_charDat, side, active)
 	f_drawQuickText(txt_allyPower, font2, 0, 1, txt_allianceSelPowerText..f_getAllianceMemberPower(t_charDat), 34 + posX, 46 + posY)
 end
 
-function f_alliVsTest(t_p1, t_p2, currentCharP1, currentCharP2)
+function f_allianceVS(t_p1, t_p2, currentCharP1, currentCharP2)
 	local spacingY = 33
 	local p1Type = ""
 	local p2Type = ""
@@ -5280,10 +5305,6 @@ allianceExchangeArrow = animNew(sprIkemen, [[
 224,0, 0,0, 10
 ]])
 
-function drawAlliExchangeTest(t_player, t_cpu, enemyMember, playerMember, enemySide)
-		
-end
-
 function drawAllianceExchangeInputHints(enemySide)
 	local inputHintYPos = 220
 	local hintFont = font2
@@ -5323,10 +5344,6 @@ allianceEnemyTeamSlotCursor = animNew(sprIkemen, [[
 ]])
 animSetScale(allianceEnemyTeamSlotCursor, 1.9, 0.8)
 animUpdate(allianceEnemyTeamSlotCursor)
-
-function drawAllianceNextTeamTest()
-		
-end
 
 --;===========================================================
 --; ABYSS SELECT MENU SCREENPACK DEFINITION

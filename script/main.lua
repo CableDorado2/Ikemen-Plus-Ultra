@@ -144,7 +144,7 @@ function f_mainTitle()
 		elseif btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
 			sndPlay(sndSys, 100, 1) --Play SFX from .snd file
 			i = 0
-			if startEn then f_mainMenu() end
+			f_mainMenu()
 		elseif esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			i = 0
 			sndPlay(sndSys, 100, 2)
@@ -1486,7 +1486,9 @@ function f_arcadeMenu()
 			else
 				maxArcadeMenu = maxItems
 			end
-			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+			if commandGetState(p1Cmd, 'holdx') and commandGetState(p1Cmd, 'holdy') and commandGetState(p1Cmd, 's') then
+				f_gotoFunction2(t_arcadeMenu[arcadeMenu])
+			elseif commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				f_gotoFunction(t_arcadeMenu[arcadeMenu])
 			end
 		end
@@ -2187,7 +2189,7 @@ function arcadeCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (fight against CPU controlled opponents in a customizable arcade ladder from left side)
+--HUMAN VS CPU (play from left side)
 function arcadeHumanvsCPU()
 	local modeName = "ARCADE"
 	if data.attractMode then modeName = txt_attractSelectTitle end
@@ -2205,7 +2207,7 @@ function arcadeHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (fight against CPU controlled opponents in a customizable arcade ladder from right side)
+--CPU VS HUMAN (play from right side)
 function arcadeCPUvsHuman()
 	local modeName = "ARCADE"
 	if data.attractMode then modeName = txt_attractSelectTitle end
@@ -2225,7 +2227,7 @@ function arcadeCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents in a customizable arcade ladder)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
 function arcadeP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -2237,7 +2239,7 @@ function arcadeP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents in a customizable arcade ladder)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
 function arcadeCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -2252,7 +2254,7 @@ function arcadeCPUvsP1P2()
 	]]
 end
 
---CPU MODE (watch CPU fight in a customizable arcade ladder)
+--CPU MODE (watch a CPU controlled match)
 function arcadeCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -2298,7 +2300,7 @@ function towerCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (fight against CPU controlled opponents in customizable tower ladders from left side)
+--HUMAN VS CPU (play from left side)
 function towerHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -2315,7 +2317,7 @@ function towerHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (fight against CPU controlled opponents in customizable tower ladders from right side)
+--CPU VS HUMAN (play from right side)
 function towerCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -2334,7 +2336,7 @@ function towerCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents in customizable tower ladders)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
 function towerP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -2346,7 +2348,7 @@ function towerP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents in customizable tower ladders)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
 function towerCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -2361,7 +2363,7 @@ function towerCPUvsP1P2()
 	]]
 end
 
---CPU MODE (watch CPU fight in customizable tower ladders)
+--CPU MODE (watch a CPU controlled match)
 function towerCPUvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
@@ -2371,491 +2373,6 @@ function towerCPUvsCPU()
 	setGameMode("towercpu")
 	data.recordMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TOWER")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; QUICK/RANDOM MATCH MODE
---;===========================================================
-function f_quickvsBoot()
-	menuSelect = "quick match"
-	sideScreen = true
-end
-
---Load Common Settings for Quick Match Modes
-function randomModeCfg()
-	f_discordUpdate({details = "Quick Match"})
-	f_default()
-	setGameMode("random")
-	setBestDisplay(false)
-	data.gameMode = "quick match"
-	data.recordMode = "versus"
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
-	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (defeat from left side a random CPU controlled opponent)
-function randomHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	f_selectSimple()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (defeat from right side a random CPU controlled opponent)
-function randomCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	f_selectSimple()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---HUMAN VS HUMAN (fight from left side to defeat a random human opponent)
-function randomHumanvsHuman()
-	if P2overP1 then
-		remapInput(1, 2)
-		remapInput(2, 1)
-		setPlayerSide('p1right')
-		setHomeTeam(2)
-	end
-	data.p2In = 2
-	f_selectSimple()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU MATCH (watch random CPU controlled match)
-function randomCPUvsCPU()
-	data.aiFight = true
-	data.recordMode = "cpu"
-	f_selectSimple()
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU (team up with another player from left side to defeat random CPU controlled opponents)
-function randomP1P2vsCPU()
-	--f_selectSimple()
-	f_comingSoon()
-end
-
---CPU VS P1&P2 (team up with another player from right side to defeat random CPU controlled opponents)
-function randomCPUvsP1P2()
-	--f_selectSimple()
-	f_comingSoon()
-end
-
---;===========================================================
---; FREE BATTLE MODE
---;===========================================================
-function f_vsBoot()
-	menuSelect = "free battle"
-	sideScreen = true
-end
-
---Load Common Settings for Free Battle Modes
-function freeModeCfg()
-	f_discordUpdate({details = "Free Versus"})
-	f_default()
-	setP1winsDisplay(true)
-	setP2winsDisplay(true)
-	setBestDisplay(false)
-	setGameMode("vs")
-	data.gameMode = "versus"
-	data.recordMode = "versus"
-	data.stageMenu = true --stage selection enabled
-	data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
-function freeHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	textImgSetText(txt_mainSelect, "FREE VERSUS")
-	f_selectSimple()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
-function freeCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	textImgSetText(txt_mainSelect, "FREE VERSUS")
-	f_selectSimple()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---HUMAN VS HUMAN (choose a fighter from left side to defeat a human opponent)
-function freeHumanvsHuman()
-	if P2overP1 then
-		remapInput(1, 2)
-		remapInput(2, 1)
-		setPlayerSide('p1right')
-		setHomeTeam(2)
-	end
-	data.p2In = 2 --P2 controls P2 side of the select screen
-	textImgSetText(txt_mainSelect, "VERSUS MODE")
-	f_selectSimple()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU MATCH (watch CPU controlled match of your choice)
-function freeCPUvsCPU()
-	data.p2In = 1
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH VERSUS")
-	f_selectSimple()
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU (team up with another player from left side to defeat CPU controlled opponents of your choice)
-function freeP1P2vsCPU()
-	--[[
-	data.p2In = 2
-	data.stageMenu = false
-	data.stage = "stages/training room.def"
-	data.coop = true
-	textImgSetText(txt_mainSelect, "FREE VERSUS COOPERATIVE")
-	f_selectSimple()
-	]]
-	f_comingSoon()
-end
-
---CPU VS P1&P2 (team up with another player from right side to defeat CPU controlled opponents of your choice)
-function freeCPUvsP1P2()
-	f_comingSoon()
-end
-
---[[P1&P3 VS P2&P4 (team up with another player to defeat co-op team of human opponents)
-function freeP1P3vsP2P4()
-	data.p2In = 2
-	data.coop = true
-	textImgSetText(txt_mainSelect, "FREE VERSUS TEAM COOPERATIVE")
-	f_selectSimple()
-end
-]]
-
---;===========================================================
---; SURVIVAL MENU
---;===========================================================
-function f_survivalMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local survivalMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local itemText = nil
-	local maxItems = 7
-	local itemSign = ""
-	f_infoReset()
-	f_sideReset()
-	f_unlock(false)
-	f_updateUnlocks()
-	while true do
-		if not infoScreen and not sideScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				survivalMenu = survivalMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				survivalMenu = survivalMenu + 1
-			end
-			if survivalMenu < 1 then
-				survivalMenu = #t_survivalMenu
-				if #t_survivalMenu > maxItems then
-					cursorPosY = maxItems
-				else
-					cursorPosY = #t_survivalMenu - 1
-				end
-			elseif survivalMenu > #t_survivalMenu then
-				survivalMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == maxItems then
-				moveTxt = (survivalMenu - (maxItems + 1)) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (survivalMenu - 1) * 13
-			end
-			if #t_survivalMenu <= maxItems then
-				maxsurvivalMenu = #t_survivalMenu
-			elseif survivalMenu - cursorPosY > 0 then
-				maxsurvivalMenu = survivalMenu + maxItems - cursorPosY
-			else
-				maxsurvivalMenu = maxItems
-			end
-			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				f_gotoFunction(t_survivalMenu[survivalMenu])
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_survivalMenu do
-			if i == survivalMenu then
-				bank = 1
-				itemSign = commonMenuItemSign
-			else
-				bank = 0
-				itemSign = ""
-			end
-			if t_unlockLua.modes[t_survivalMenu[i].gotomenu] == nil then --If the menu item is unlocked
-				itemText = t_survivalMenu[i].text
-			else
-				itemText = "???"
-			end
-			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
-		end
-		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		drawMenuInfo(t_survivalMenu[survivalMenu])
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, t_survivalMenu.menuName)
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxsurvivalMenu > maxItems + 1 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_survivalMenu > maxItems + 1 and maxsurvivalMenu < #t_survivalMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_survivalMenu[survivalMenu]) end
-		if sideScreen then f_sideSelect() end
-		if infoScreen then f_infoMenu() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLASSIC SURVIVAL MODE
---;===========================================================
-function f_survivalBoot()
-	menuSelect = "survival"
-	sideScreen = true
-end
-
---Load Common Settings for Survival Modes
-function survivalCfg()
-	f_discordUpdate({details = "Survival"})
-	f_default()
-	setP1winsDisplay(true)
-	setP2winsDisplay(true)
-	setMatchnoDisplay(true)
-	setPersistLife(true)
-	setPersistPower(true)
-	setGameMode("survival")
-	data.gameMode = "survival"
-	data.recordMode = "survival"
-	f_teamElimination(true)
-	data.nextStage = true
-	setRoundsToWin(1)
-	setRoundTime(-1)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (defeat as many opponents as you can with a single Health Meter from left side)
-function survivalHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "SURVIVAL")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (defeat as many opponents as you can with a single Health Meter from right side)
-function survivalCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "SURVIVAL")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat as many opponents as you can with a single Health Meter)
-function survivalP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat as many opponents as you can with a single Health Meter)
-function survivalCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (watch CPU defeat as many opponents as it can with a single Health Meter)
-function survivalCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH SURVIVAL")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; SUDDEN DEATH MODE
---;===========================================================
-function f_suddendeathBoot()
-	menuSelect = "sudden death"
-	sideScreen = true
-end
-
---Load Common Settings for Sudden Death Modes
-function suddenCfg()
-	f_discordUpdate({details = "Sudden Death"})
-	f_default()
-	setP1winsDisplay(true)
-	setP2winsDisplay(true)
-	setGameMode("suddendeath")
-	data.gameMode = "survival"
-	data.recordMode = "suddendeath"
-	f_teamElimination(true)
-	data.nextStage = true
-	setRoundTime(10)
-	setRoundsToWin(1)
-	setLifeMul(0) --overwrite players life
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---P1 VS HUMAN (see how many characters you can take down in 1 Hit from left side)
-function suddenHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (see how many characters you can take down in 1 Hit from right side)
-function suddenCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters you can take down in 1 Hit)
-function suddenP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters you can take down in 1 Hit)
-function suddenCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (see how many characters the CPU can take down in 1 Hit)
-function suddenCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH SUDDEN DEATH")
 	f_selectAdvance()
 	f_discordMainMenu()
 end
@@ -2889,7 +2406,7 @@ function bossrushCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (defeat all bosses in a row from left side)
+--HUMAN VS CPU (play from left side)
 function bossrushHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -2902,7 +2419,7 @@ function bossrushHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (defeat all bosses in a row from right side)
+--CPU VS HUMAN (play from right side)
 function bossrushCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -2918,7 +2435,7 @@ function bossrushCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all bosses in a row)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
 function bossrushP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -2928,7 +2445,7 @@ function bossrushP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all bosses in a row)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
 function bossrushCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -2942,7 +2459,7 @@ function bossrushCPUvsP1P2()
 	]]
 end
 
---CPU MODE (watch CPU defeat all bosses in a row)
+--CPU MODE (watch a CPU controlled match)
 function bossrushCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -3121,6 +2638,1446 @@ function bossCPUvsCPU()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_selChars[t_bossChars[bossChars] + 1].char}
 	f_selectSimple()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; QUICK/RANDOM MATCH MODE
+--;===========================================================
+function f_quickvsBoot()
+	menuSelect = "quick match"
+	sideScreen = true
+end
+
+--Load Common Settings for Quick Match Modes
+function randomModeCfg()
+	f_discordUpdate({details = "Quick Match"})
+	f_default()
+	setGameMode("random")
+	setBestDisplay(false)
+	data.gameMode = "quick match"
+	data.recordMode = "versus"
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
+	data.p2Char = {t_selChars[t_randomChars[math.random(#t_randomChars)] + 1].char} --Pick Random Char
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function randomHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	f_selectSimple()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function randomCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	f_selectSimple()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--HUMAN VS HUMAN
+function randomHumanvsHuman()
+	if P2overP1 then
+		remapInput(1, 2)
+		remapInput(2, 1)
+		setPlayerSide('p1right')
+		setHomeTeam(2)
+	end
+	data.p2In = 2
+	f_selectSimple()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU MATCH (watch a CPU controlled match)
+function randomCPUvsCPU()
+	data.aiFight = true
+	data.recordMode = "cpu"
+	f_selectSimple()
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU (team up with another player from left side)
+function randomP1P2vsCPU()
+	--f_selectSimple()
+	f_comingSoon()
+end
+
+--CPU VS P1&P2 (team up with another player from right side)
+function randomCPUvsP1P2()
+	--f_selectSimple()
+	f_comingSoon()
+end
+
+--;===========================================================
+--; FREE BATTLE MODE
+--;===========================================================
+function f_vsBoot()
+	menuSelect = "free battle"
+	sideScreen = true
+end
+
+--Load Common Settings for Free Battle Modes
+function freeModeCfg()
+	f_discordUpdate({details = "Free Versus"})
+	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
+	setBestDisplay(false)
+	setGameMode("vs")
+	data.gameMode = "versus"
+	data.recordMode = "versus"
+	data.stageMenu = true --stage selection enabled
+	data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function freeHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	textImgSetText(txt_mainSelect, "FREE VERSUS")
+	f_selectSimple()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function freeCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	textImgSetText(txt_mainSelect, "FREE VERSUS")
+	f_selectSimple()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--HUMAN VS HUMAN
+function freeHumanvsHuman()
+	if P2overP1 then
+		remapInput(1, 2)
+		remapInput(2, 1)
+		setPlayerSide('p1right')
+		setHomeTeam(2)
+	end
+	data.p2In = 2 --P2 controls P2 side of the select screen
+	textImgSetText(txt_mainSelect, "VERSUS MODE")
+	f_selectSimple()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU MATCH (watch a CPU controlled match)
+function freeCPUvsCPU()
+	data.p2In = 1
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH VERSUS")
+	f_selectSimple()
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU (team up with another player from left side)
+function freeP1P2vsCPU()
+	--[[
+	data.p2In = 2
+	data.stageMenu = false
+	data.stage = "stages/training room.def"
+	data.coop = true
+	textImgSetText(txt_mainSelect, "FREE VERSUS COOPERATIVE")
+	f_selectSimple()
+	]]
+	f_comingSoon()
+end
+
+--CPU VS P1&P2 (team up with another player from right side)
+function freeCPUvsP1P2()
+	f_comingSoon()
+end
+
+--[[P1&P3 VS P2&P4 (team up with another player to defeat a co-op team of human opponents)
+function freeP1P3vsP2P4()
+	data.p2In = 2
+	data.coop = true
+	textImgSetText(txt_mainSelect, "FREE TEAM VERSUS COOPERATIVE")
+	f_selectSimple()
+end
+]]
+
+--;===========================================================
+--; SURVIVAL MENU
+--;===========================================================
+function f_survivalMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local survivalMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local itemText = nil
+	local maxItems = 7
+	local itemSign = ""
+	f_infoReset()
+	f_sideReset()
+	f_unlock(false)
+	f_updateUnlocks()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				survivalMenu = survivalMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				survivalMenu = survivalMenu + 1
+			end
+			if survivalMenu < 1 then
+				survivalMenu = #t_survivalMenu
+				if #t_survivalMenu > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_survivalMenu - 1
+				end
+			elseif survivalMenu > #t_survivalMenu then
+				survivalMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (survivalMenu - (maxItems + 1)) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (survivalMenu - 1) * 13
+			end
+			if #t_survivalMenu <= maxItems then
+				maxsurvivalMenu = #t_survivalMenu
+			elseif survivalMenu - cursorPosY > 0 then
+				maxsurvivalMenu = survivalMenu + maxItems - cursorPosY
+			else
+				maxsurvivalMenu = maxItems
+			end
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				f_gotoFunction(t_survivalMenu[survivalMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_survivalMenu do
+			if i == survivalMenu then
+				bank = 1
+				itemSign = commonMenuItemSign
+			else
+				bank = 0
+				itemSign = ""
+			end
+			if t_unlockLua.modes[t_survivalMenu[i].gotomenu] == nil then --If the menu item is unlocked
+				itemText = t_survivalMenu[i].text
+			else
+				itemText = "???"
+			end
+			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
+		end
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		drawMenuInfo(t_survivalMenu[survivalMenu])
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, t_survivalMenu.menuName)
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxsurvivalMenu > maxItems + 1 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_survivalMenu > maxItems + 1 and maxsurvivalMenu < #t_survivalMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_survivalMenu[survivalMenu]) end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; CLASSIC SURVIVAL MODE
+--;===========================================================
+function f_survivalBoot()
+	menuSelect = "survival"
+	sideScreen = true
+end
+
+--Load Common Settings for Survival Modes
+function survivalCfg()
+	f_discordUpdate({details = "Survival"})
+	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
+	setMatchnoDisplay(true)
+	setPersistLife(true)
+	setPersistPower(true)
+	setGameMode("survival")
+	data.gameMode = "survival"
+	data.recordMode = "survival"
+	f_teamElimination(true)
+	data.nextStage = true
+	setRoundsToWin(1)
+	setRoundTime(-1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function survivalHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "SURVIVAL")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function survivalCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "SURVIVAL")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function survivalP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function survivalCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function survivalCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SURVIVAL")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; SURVIVAL+ MODE
+--;===========================================================
+function f_survivalEXBoot()
+	menuSelect = "survival+"
+	sideScreen = true
+end
+
+--Load Common Settings for Survival+ Modes
+function survivalEXCfg()
+	f_discordUpdate({details = "Survival+"})
+	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
+	setMatchnoDisplay(true)
+	setPersistLife(true)
+	setPersistPower(true)
+	setGameMode("survival")
+	data.gameMode = "survival"
+	data.recordMode = "survival+"
+	f_teamElimination(true)
+	--data.nextStage = true
+	setRoundsToWin(1)
+	setRoundTime(-1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function survivalEXHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "SURVIVAL+")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function survivalEXCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "SURVIVAL+")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function survivalEXP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SURVIVAL+ COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function survivalEXCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SURVIVAL+ COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function survivalEXCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SURVIVAL+")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; SUDDEN DEATH MODE
+--;===========================================================
+function f_suddendeathBoot()
+	menuSelect = "sudden death"
+	sideScreen = true
+end
+
+--Load Common Settings for Sudden Death Modes
+function suddenCfg()
+	f_discordUpdate({details = "Sudden Death"})
+	f_default()
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
+	setGameMode("suddendeath")
+	data.gameMode = "survival"
+	data.recordMode = "suddendeath"
+	f_teamElimination(true)
+	data.nextStage = true
+	setRoundTime(10)
+	setRoundsToWin(1)
+	setLifeMul(0) --overwrite players life
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--P1 VS HUMAN (play from left side)
+function suddenHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function suddenCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function suddenP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function suddenCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function suddenCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SUDDEN DEATH")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; SCORE ATTACK MENU
+--;===========================================================
+function f_scoreattackMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local scoreattackMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local itemText = nil
+	local maxItems = 7
+	local itemSign = ""
+	f_infoReset()
+	f_sideReset()
+	f_unlock(false)
+	f_updateUnlocks()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				scoreattackMenu = scoreattackMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				scoreattackMenu = scoreattackMenu + 1
+			end
+			if scoreattackMenu < 1 then
+				scoreattackMenu = #t_scoreattackMenu
+				if #t_scoreattackMenu > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_scoreattackMenu - 1
+				end
+			elseif scoreattackMenu > #t_scoreattackMenu then
+				scoreattackMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (scoreattackMenu - (maxItems + 1)) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (scoreattackMenu - 1) * 13
+			end
+			if #t_scoreattackMenu <= maxItems then
+				maxscoreattackMenu = #t_scoreattackMenu
+			elseif scoreattackMenu - cursorPosY > 0 then
+				maxscoreattackMenu = scoreattackMenu + maxItems - cursorPosY
+			else
+				maxscoreattackMenu = maxItems
+			end
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				f_gotoFunction(t_scoreattackMenu[scoreattackMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_scoreattackMenu do
+			if i == scoreattackMenu then
+				bank = 5
+				itemSign = commonMenuItemSign
+			else
+				bank = 0
+				itemSign = ""
+			end
+			if t_unlockLua.modes[t_scoreattackMenu[i].gotomenu] == nil then --If the menu item is unlocked
+				itemText = t_scoreattackMenu[i].text
+			else
+				itemText = "???"
+			end
+			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
+		end
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		drawMenuInfo(t_scoreattackMenu[scoreattackMenu])
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, t_scoreattackMenu.menuName)
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxscoreattackMenu > maxItems + 1 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_scoreattackMenu > maxItems + 1 and maxscoreattackMenu < #t_scoreattackMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_scoreattackMenu[scoreattackMenu]) end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; CLASSIC SCORE ATTACK MODE
+--;===========================================================
+function f_scoreattackBoot()
+	menuSelect = "score attack"
+	sideScreen = true
+end
+
+--Load Common Settings for Score Attack Modes
+function scoreattackCfg()
+	f_discordUpdate({details = "Score Attack"})
+	f_default()
+	setScoreDisplay(true)
+	setMatchnoDisplay(true)
+	setGameMode("scoreattack")
+	data.gameMode = "scoreattack"
+	data.recordMode = "scoreattack"
+	data.nextStage = true
+	setRoundTime(99)
+	setRoundsToWin(2)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function scoreattackHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "SCORE ATTACK")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function scoreattackCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "SCORE ATTACK")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function scoreattackP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function scoreattackCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function scoreattackCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; CARAVAN MODE
+--;===========================================================
+function f_caravanBoot()
+	menuSelect = "caravan"
+	sideScreen = true
+end
+
+--Load Common Settings for Caravan Modes
+function caravanCfg()
+	f_discordUpdate({details = "Caravan"})
+	f_default()
+	setScoreDisplay(true)
+	setMatchnoDisplay(true)
+	setCountdownDisplay(true)
+	data.gameMode = "caravan"
+	data.recordMode = "caravan"
+	setGameMode("caravan")
+	setCountdown(6000) --5 Minutes
+	setRoundTime(99)
+	setRoundsToWin(1)
+	--data.nextStage = true
+	data.versusScreen = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function caravanHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "CARAVAN")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function caravanCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "CARAVAN")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function caravanP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "CARAVAN COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function caravanCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "CARAVAN COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function caravanCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH CARAVAN")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; TIME ATTACK MENU
+--;===========================================================
+function f_timeattackMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local timeattackMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 7
+	local itemText = nil
+	local itemSign = ""
+	f_infoReset()
+	f_sideReset()
+	f_unlock(false)
+	f_updateUnlocks()
+	while true do
+		if not infoScreen and not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				timeattackMenu = timeattackMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				timeattackMenu = timeattackMenu + 1
+			end
+			if timeattackMenu < 1 then
+				timeattackMenu = #t_timeattackMenu
+				if #t_timeattackMenu > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_timeattackMenu - 1
+				end
+			elseif timeattackMenu > #t_timeattackMenu then
+				timeattackMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (timeattackMenu - (maxItems + 1)) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (timeattackMenu - 1) * 13
+			end
+			if #t_timeattackMenu <= maxItems then
+				maxtimeattackMenu = #t_timeattackMenu
+			elseif timeattackMenu - cursorPosY > 0 then
+				maxtimeattackMenu = timeattackMenu + maxItems - cursorPosY
+			else
+				maxtimeattackMenu = maxItems
+			end
+			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
+				f_gotoFunction(t_timeattackMenu[timeattackMenu])
+			end
+		end
+		drawBottomMenuSP()
+		for i=1, #t_timeattackMenu do
+			if i == timeattackMenu then
+				bank = 5
+				itemSign = commonMenuItemSign
+			else
+				bank = 0
+				itemSign = ""
+			end
+			if t_unlockLua.modes[t_timeattackMenu[i].gotomenu] == nil then --If the menu item is unlocked
+				itemText = t_timeattackMenu[i].text
+			else
+				itemText = "???"
+			end
+			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
+		end
+		if not infoScreen and not sideScreen then
+			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		drawMiddleMenuSP()
+		drawMenuInfo(t_timeattackMenu[timeattackMenu])
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, t_timeattackMenu.menuName)
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxtimeattackMenu > maxItems + 1 then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_timeattackMenu > maxItems + 1 and maxtimeattackMenu < #t_timeattackMenu then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_timeattackMenu[timeattackMenu]) end
+		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; CLASSIC TIME ATTACK MODE
+--;===========================================================
+function f_timeattackBoot()
+	menuSelect = "time attack"
+	sideScreen = true
+end
+
+--Load Common Settings for Time Attack Modes
+function timeattackCfg()
+	f_discordUpdate({details = "Time Attack"})
+	f_default()
+	setTimerDisplay(true)
+	setMatchnoDisplay(true)
+	data.gameMode = "timeattack"
+	data.recordMode = "timeattack"
+	setGameMode("timeattack")
+	data.nextStage = true
+	setRoundTime(-1)
+	setRoundsToWin(1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function timeattackHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "TIME ATTACK")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function timeattackCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "TIME ATTACK")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function timeattackP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function timeattackCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function timeattackCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH TIME ATTACK")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; SPEED STAR MODE
+--;===========================================================
+function f_speedstarBoot()
+	menuSelect = "speed star"
+	sideScreen = true
+end
+
+--Load Common Settings for Speed Star Modes
+function speedstarCfg()
+	f_discordUpdate({details = "Speed Star"})
+	f_default()
+	--data.p1TeamMenu = {mode = 0, chars = 1}
+	--data.p2TeamMenu = {mode = 0, chars = 1}
+	setMatchnoDisplay(true)
+	setPersistRoundTime(true)
+	setPersistPower(true)
+	data.gameMode = "speedstar"
+	data.recordMode = "speedstar"
+	setGameMode("speedstar")
+	setRoundsToWin(1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function speedstarHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "SPEED STAR")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function speedstarCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "SPEED STAR")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function speedstarP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SPEED STAR COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function speedstarCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SPEED STAR COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function speedstarCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SPEED STAR")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; GOLD RUSH MODE
+--;===========================================================
+function f_goldrushBoot()
+	menuSelect = "gold rush"
+	sideScreen = true
+end
+
+--Load Common Settings for Gold Rush Modes
+function goldrushCfg()
+	f_discordUpdate({details = "Gold Rush"})
+	f_default()
+	data.gameMode = "allroster"
+	data.recordMode = "goldrush"
+	setGameMode("goldrush")
+	setRewardDisplay(true)
+	f_setBestRecord("BEST REWARD: "..stats.modes.goldrush.maxreward.." IKC")
+	data.stage = "stages/Others/The Red Dragon's Lair.def"
+	data.bgm = "sound/Gold Rush.mp3"
+	setRoundTime(30)
+	setRoundsToWin(1)
+	data.orderRoster = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--HUMAN VS CPU (play from left side)
+function goldrushHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "GOLD RUSH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function goldrushCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "GOLD RUSH")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function goldrushP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "GOLD RUSH COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function goldrushCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "GOLD RUSH COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function goldrushCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH GOLD RUSH")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; KUMITE MODE
+--;===========================================================
+function f_kumiteBoot()
+	menuSelect = "kumite"
+	sideScreen = true	
+end
+
+function getKumiteData()
+	kumiteDataText = "VS "..data.kumite.." KUMITE"
+	return kumiteDataText
+end
+
+--Load Common Settings for Kumite Modes
+function kumiteCfg()
+	f_discordUpdate({details = "VS "..data.kumite.." Kumite"})
+	f_default()
+	f_setBestRecord("BEST RECORD: "..stats.modes.kumite.wins.." WINS")
+	data.gameMode = "kumite"
+	data.recordMode = "kumite"
+	setGameMode("kumite")
+	setScoreDisplay(true)
+	setMatchnoDisplay(true)
+	setRoundsToWin(1)
+	data.orderRoster = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--P1 VS HUMAN (play from left side)
+function kumiteHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, getKumiteData())
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function kumiteCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, getKumiteData())
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function kumiteP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, getKumiteData().." COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function kumiteCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, getKumiteData().." COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function kumiteCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH "..getKumiteData())
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--;===========================================================
+--; ENDLESS MODE
+--;===========================================================
+function f_endlessBoot()
+	menuSelect = "endless"
+	sideScreen = true
+end
+
+--Load Common Settings for Endless Modes
+function endlessCfg()
+	f_discordUpdate({details = "Endless"})
+	f_default()
+	f_setBestRecord("BEST RECORD: "..stats.modes.endless.wins.." WINS")
+	setPersistPower(true)
+	setP1winsDisplay(true)
+	setP2winsDisplay(true)
+	data.gameMode = "endless"
+	data.recordMode = "endless"
+	setGameMode("endless")
+	data.stageMenu = true
+	data.versusScreen = false
+	data.orderRoster = false
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+	sndPlay(sndSys, 100, 1)
+end
+
+--P1 VS HUMAN (play from left side)
+function endlessHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "ENDLESS")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--CPU VS HUMAN (play from right side)
+function endlessCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "ENDLESS")
+	f_selectAdvance()
+	P2overP1 = false
+	f_discordMainMenu()
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
+function endlessP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "ENDLESS COOPERATIVE")
+	f_selectAdvance()
+	f_discordMainMenu()
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
+function endlessCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "ENDLESS COOPERATIVE")
+	f_selectAdvance()
+	]]
+end
+
+--CPU MODE (watch a CPU controlled match)
+function endlessCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.recordMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH ENDLESS")
+	f_selectAdvance()
 	f_discordMainMenu()
 end
 
@@ -3369,7 +4326,7 @@ function bonusCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (clear the bonus game selected from left side)
+--HUMAN VS CPU (play from left side)
 function bonusHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -3382,7 +4339,7 @@ function bonusHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (clear the bonus game selected from right side)
+--CPU VS HUMAN (play from right side)
 function bonusCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -3424,7 +4381,7 @@ function bonusrushCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (clear all bonus games in a row from left side)
+--HUMAN VS CPU (play from left side)
 function bonusrushHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -3438,7 +4395,7 @@ function bonusrushHumanvsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS HUMAN (clear all bonus games in a row from right side)
+--CPU VS HUMAN (play from right side)
 function bonusrushCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -3455,7 +4412,7 @@ function bonusrushCPUvsHuman()
 	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to clear all bonus games in a row)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
 function bonusrushP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -3465,7 +4422,7 @@ function bonusrushP1P2vsCPU()
 	f_discordMainMenu()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to clear all bonus games in a row)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
 function bonusrushCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -3477,507 +4434,6 @@ function bonusrushCPUvsP1P2()
 	textImgSetText(txt_mainSelect, "BONUS MARATHON COOPERATIVE")
 	f_selectAdvance()
 	]]
-end
-
---;===========================================================
---; SCORE ATTACK MENU
---;===========================================================
-function f_scoreattackMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local scoreattackMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local itemText = nil
-	local maxItems = 7
-	local itemSign = ""
-	f_infoReset()
-	f_sideReset()
-	f_unlock(false)
-	f_updateUnlocks()
-	while true do
-		if not infoScreen and not sideScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				scoreattackMenu = scoreattackMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				scoreattackMenu = scoreattackMenu + 1
-			end
-			if scoreattackMenu < 1 then
-				scoreattackMenu = #t_scoreattackMenu
-				if #t_scoreattackMenu > maxItems then
-					cursorPosY = maxItems
-				else
-					cursorPosY = #t_scoreattackMenu - 1
-				end
-			elseif scoreattackMenu > #t_scoreattackMenu then
-				scoreattackMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == maxItems then
-				moveTxt = (scoreattackMenu - (maxItems + 1)) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (scoreattackMenu - 1) * 13
-			end
-			if #t_scoreattackMenu <= maxItems then
-				maxscoreattackMenu = #t_scoreattackMenu
-			elseif scoreattackMenu - cursorPosY > 0 then
-				maxscoreattackMenu = scoreattackMenu + maxItems - cursorPosY
-			else
-				maxscoreattackMenu = maxItems
-			end
-			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				f_gotoFunction(t_scoreattackMenu[scoreattackMenu])
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_scoreattackMenu do
-			if i == scoreattackMenu then
-				bank = 5
-				itemSign = commonMenuItemSign
-			else
-				bank = 0
-				itemSign = ""
-			end
-			if t_unlockLua.modes[t_scoreattackMenu[i].gotomenu] == nil then --If the menu item is unlocked
-				itemText = t_scoreattackMenu[i].text
-			else
-				itemText = "???"
-			end
-			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
-		end
-		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		drawMenuInfo(t_scoreattackMenu[scoreattackMenu])
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, t_scoreattackMenu.menuName)
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxscoreattackMenu > maxItems + 1 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_scoreattackMenu > maxItems + 1 and maxscoreattackMenu < #t_scoreattackMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_scoreattackMenu[scoreattackMenu]) end
-		if sideScreen then f_sideSelect() end
-		if infoScreen then f_infoMenu() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLASSIC SCORE ATTACK MODE
---;===========================================================
-function f_scoreattackBoot()
-	menuSelect = "score attack"
-	sideScreen = true
-end
-
---Load Common Settings for Score Attack Modes
-function scoreattackCfg()
-	f_discordUpdate({details = "Score Attack"})
-	f_default()
-	setScoreDisplay(true)
-	setMatchnoDisplay(true)
-	setGameMode("scoreattack")
-	data.gameMode = "scoreattack"
-	data.recordMode = "scoreattack"
-	data.nextStage = true
-	setRoundTime(99)
-	setRoundsToWin(2)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (defeat opponents, beating previous score records from left side)
-function scoreattackHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "SCORE ATTACK")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (defeat opponents, beating previous score records from right side)
-function scoreattackCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "SCORE ATTACK")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat opponents, beating previous score records)
-function scoreattackP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat opponents, beating previous score records)
-function scoreattackCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (watch CPU defeat opponents, beating previous score records)
-function scoreattackCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; CARAVAN MODE
---;===========================================================
-function f_caravanBoot()
-	menuSelect = "caravan"
-	sideScreen = true
-end
-
---Load Common Settings for Caravan Modes
-function caravanCfg()
-	f_discordUpdate({details = "Caravan"})
-	f_default()
-	setScoreDisplay(true)
-	setMatchnoDisplay(true)
-	setCountdownDisplay(true)
-	data.gameMode = "caravan"
-	data.recordMode = "caravan"
-	setGameMode("caravan")
-	setCountdown(6000) --5 Minutes
-	setRoundTime(99)
-	setRoundsToWin(1)
-	--data.nextStage = true
-	data.versusScreen = false
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (defeat opponents within a strict time limit, beating previous hi-score records from left side)
-function caravanHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "CARAVAN")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (defeat opponents within a strict time limit, beating previous hi-score records from right side)
-function caravanCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "CARAVAN")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat opponents within a strict time limit, beating previous hi-score records)
-function caravanP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "CARAVAN COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat opponents within a strict time limit, beating previous hi-score records)
-function caravanCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "CARAVAN COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (watch CPU defeat opponents within a strict time limit, beating previous hi-score records)
-function caravanCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH CARAVAN")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; TIME ATTACK MENU
---;===========================================================
-function f_timeattackMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local timeattackMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 7
-	local itemText = nil
-	local itemSign = ""
-	f_infoReset()
-	f_sideReset()
-	f_unlock(false)
-	f_updateUnlocks()
-	while true do
-		if not infoScreen and not sideScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				timeattackMenu = timeattackMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				timeattackMenu = timeattackMenu + 1
-			end
-			if timeattackMenu < 1 then
-				timeattackMenu = #t_timeattackMenu
-				if #t_timeattackMenu > maxItems then
-					cursorPosY = maxItems
-				else
-					cursorPosY = #t_timeattackMenu - 1
-				end
-			elseif timeattackMenu > #t_timeattackMenu then
-				timeattackMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == maxItems then
-				moveTxt = (timeattackMenu - (maxItems + 1)) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (timeattackMenu - 1) * 13
-			end
-			if #t_timeattackMenu <= maxItems then
-				maxtimeattackMenu = #t_timeattackMenu
-			elseif timeattackMenu - cursorPosY > 0 then
-				maxtimeattackMenu = timeattackMenu + maxItems - cursorPosY
-			else
-				maxtimeattackMenu = maxItems
-			end
-			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				f_gotoFunction(t_timeattackMenu[timeattackMenu])
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_timeattackMenu do
-			if i == timeattackMenu then
-				bank = 5
-				itemSign = commonMenuItemSign
-			else
-				bank = 0
-				itemSign = ""
-			end
-			if t_unlockLua.modes[t_timeattackMenu[i].gotomenu] == nil then --If the menu item is unlocked
-				itemText = t_timeattackMenu[i].text
-			else
-				itemText = "???"
-			end
-			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..itemText, 5, 94 + i * 13 - moveTxt))
-		end
-		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		drawMenuInfo(t_timeattackMenu[timeattackMenu])
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, t_timeattackMenu.menuName)
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxtimeattackMenu > maxItems + 1 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_timeattackMenu > maxItems + 1 and maxtimeattackMenu < #t_timeattackMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if not infoScreen and not sideScreen then drawMainMenuInputHints(t_timeattackMenu[timeattackMenu]) end
-		if sideScreen then f_sideSelect() end
-		if infoScreen then f_infoMenu() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLASSIC TIME ATTACK MODE
---;===========================================================
-function f_timeattackBoot()
-	menuSelect = "time attack"
-	sideScreen = true
-end
-
---Load Common Settings for Time Attack Modes
-function timeattackCfg()
-	f_discordUpdate({details = "Time Attack"})
-	f_default()
-	setTimerDisplay(true)
-	setMatchnoDisplay(true)
-	data.gameMode = "timeattack"
-	data.recordMode = "timeattack"
-	setGameMode("timeattack")
-	data.nextStage = true
-	setRoundTime(-1)
-	setRoundsToWin(1)
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (defeat opponents, beating previous time records from left side)
-function timeattackHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "TIME ATTACK")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (defeat opponents, beating previous time records from right side)
-function timeattackCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "TIME ATTACK")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat opponents, beating previous time records)
-function timeattackP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat opponents, beating previous time records)
-function timeattackCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (watch CPU defeat opponents, beating previous time records)
-function timeattackCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH TIME ATTACK")
-	f_selectAdvance()
-	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -4115,7 +4571,6 @@ function f_commonCourseSelect()
 	--Draw Title
 		textImgSetText(txt_advancedCourseSel, t_advancedCourseSel.title)
 		textImgDraw(txt_advancedCourseSel)
-		--f_crtest(maxCourseSel, cursorPosY, moveCourse, maxSlots, opponentSel)
 		animPosDraw(advancedCourseInfoBG, -56, 195) --Draw Info Text BG
 		if not opponentSel then
 			textImgSetText(txt_advancedCourseInfo, txt_advancedLvSel)
@@ -4400,45 +4855,6 @@ function f_recordDisplayAdvanced()
 	return t_advancedCourseSel.record..varText
 end
 
---;===========================================================
---; SPEED STAR MODE
---;===========================================================
-
-
---To display text item in t_speedStarRules
-function f_getSpeedRules(ruleData)
---If it's a string (a single item), we return it directly from t_speedStarRules
-	if type(ruleData) == "string" then
-		return t_speedStarRules[ruleData].displaytext
-	end
---If it's a table, iterate and concatenate.
-	if type(ruleData) == "table" then
-		local names = {}
-		for _, k in ipairs(ruleData) do
-			if t_speedStarRules[k] then
-				table.insert(names, t_speedStarRules[k].displaytext)
-			end
-		end
-		return table.concat(names, ", ") --Mix everything with commas
-	end
-	return ""
-end
-
---To run function item in t_speedStarRules
-function f_setSpeedRules(ruleData)
-	if type(ruleData) == "string" then
-		if t_speedStarRules[ruleData] and t_speedStarRules[ruleData].rule then
-			t_speedStarRules[ruleData].rule()
-		end
-	elseif type(ruleData) == "table" then
-		for _, k in ipairs(ruleData) do
-			if t_speedStarRules[k] and t_speedStarRules[k].rule then
-				t_speedStarRules[k].rule()
-			end
-		end
-	end
-end
-
 function f_createSpeedStarData()
 	local modified = false
 	for i=1, #t_speedCourseSel do
@@ -4466,361 +4882,259 @@ function f_createSpeedStarData()
 	if modified then f_saveStats() end
 end
 
-function f_speedstarBoot()
-	menuSelect = "speed star"
-	sideScreen = true
-end
-
---Load Common Settings for Speed Star Modes
-function speedstarCfg()
-	f_discordUpdate({details = "Speed Star"})
-	f_default()
-	setMatchnoDisplay(true)
-	setPersistRoundTime(true)
-	setPersistPower(true)
-	data.gameMode = "speedstar"
-	data.recordMode = "speedstar"
-	setGameMode("speedstar")
-	setRoundsToWin(1)
+--;===========================================================
+--; SPECIAL COURSE SELECT (For Speed Star and Survival+)
+--;===========================================================
+function f_specialCourseSelect(mode)
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local maxItems = 3
+	local specialCourseMode = ""
+	waitingCourseSel = true
+	speedCourseSel = 1
+	f_createSpeedStarData()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (rush to defeat opponents before time runs out, beating previous time records from left side)
-function speedstarHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
+	animSetPos(menuArrowUp, 308, 6)
+	animSetPos(menuArrowDown, 308, 188)
+	if mode == "survival+" then
+		specialCourseMode = "(SURVIVAL+)"
+	else
+		specialCourseMode = "(SPEED STAR)"
 	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "SPEED STAR")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (rush to defeat opponents before time runs out, beating previous time records from right side)
-function speedstarCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
+	while true do
+		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
+		if not backScreen then
+		--Return Logic
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sndSys, 100, 2)
+				backScreen = true
+		--Cursor Actions
+			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
+				sndPlay(sndSys, 100, 1)
+				waitingCourseSel = false
+				if t_speedCourseSel[speedCourseSel].ailevel ~= nil then
+					data.cpuLevel = t_speedCourseSel[speedCourseSel].ailevel
+				end
+				f_setSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulesplayer)
+				f_setSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulescpu, true)
+				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
+				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
+				local timeText = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
+				if timeText == 0 then timeText = "---" end
+				data.bestRecord = "BEST ROUND TIME: "..timeText.." SEC"
+				f_saveTemp()
+				break
+			end
+		--Speed Star Course Select
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sndSys, 100, 0)
+				speedCourseSel = speedCourseSel - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sndSys, 100, 0)
+				speedCourseSel = speedCourseSel + 1
+			end
+			if speedCourseSel < 1 then
+				speedCourseSel = #t_speedCourseSel
+				if #t_speedCourseSel > maxItems then
+					cursorPosY = maxItems
+				else
+					cursorPosY = #t_speedCourseSel
+				end
+			elseif speedCourseSel > #t_speedCourseSel then
+				speedCourseSel = 1
+				cursorPosY = 1
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == maxItems then
+				moveTxt = (speedCourseSel - maxItems) * speedStarSpacingY
+			elseif cursorPosY == 1 then
+				moveTxt = (speedCourseSel - 1) * speedStarSpacingY
+			end
+			if #t_speedCourseSel <= maxItems then
+				maxspeedCourseSel = #t_speedCourseSel
+			elseif speedCourseSel - cursorPosY > 0 then
+				maxspeedCourseSel = speedCourseSel + maxItems - cursorPosY
+			else
+				maxspeedCourseSel = maxItems
+			end
+		end
+	--Exit Via Return Button
+		if data.tempBack then break end --back to main menu
+	--Draw BG
+		animDraw(f_animVelocity(commonBG0, -1, -1))
+		animPosDraw(spCourseTitleBG, -56, 0) --Draw Title BG
+	--Draw Title
+		textImgSetText(txt_specialCourseSel, "COURSE SELECT "..specialCourseMode)
+		textImgDraw(txt_specialCourseSel)
+		animPosDraw(spCourseInfoBG, -56, 195) --Draw Info Text BG
+		textImgSetText(txt_speedCoursePlayerVar, "PLAYER: "..f_getSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulesplayer))
+		textImgDraw(txt_speedCoursePlayerVar)
+		textImgSetText(txt_speedCourseCPUVar, "   CPU: "..f_getSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulescpu))
+		textImgDraw(txt_speedCourseCPUVar)
+	--Draw Speed Star Level Content Text
+		for i=1, maxspeedCourseSel do
+			if i > speedCourseSel - cursorPosY then
+				local colorSel = 7
+				if speedCourseSel == i then colorSel = 5 end
+				animPosDraw(spCourseSlot, 0, 72 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgSetBank(txt_specialCourseLv, colorSel)
+				textImgSetText(txt_specialCourseLv, "LEVEL "..i)
+				textImgPosDraw(txt_specialCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				if stats.modes.speedstar[t_speedCourseSel[i].id].clear then
+					animPosDraw(spCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
+				end
+				
+				textImgPosDraw(txt_speedCourseClearRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseClearRecordVar, f_setTimeText(stats.modes.speedstar[t_speedCourseSel[i].id].time))
+				textImgPosDraw(txt_speedCourseClearRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].roundtime
+				if timeText == 0 then timeText = "---" else timeText = timeText.." SEC" end
+				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
+				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
+				textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTimeBonus, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
+				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
+				
+				textImgPosDraw(txt_speedCourseTotalStages, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
+				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+			end
+		end
+	--Draw Cursor
+		if not backScreen then
+			animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		if maxspeedCourseSel > maxItems then
+			animDraw(menuArrowUp)
+			animUpdate(menuArrowUp)
+		end
+		if #t_speedCourseSel > maxItems and maxspeedCourseSel < #t_speedCourseSel then
+			animDraw(menuArrowDown)
+			animUpdate(menuArrowDown)
+		end
+	--Course Select Timer
+		if data.attractMode then
+			textImgSetText(txt_destinyTime, string.format("%.0f", destinyTimer / gameTick))
+			if destinyTimer > 0 then
+				if not backScreen then destinyTimer = destinyTimer - 0.5 end --Activate Select Timer
+				textImgPosDraw(txt_destinyTime, 298, 11)
+			else --when destinyTimer <= 0
+				
+			end
+		end
+		if backScreen then f_backMenu() else drawSpeedCourseInputHints() end --Open Back Menu Question
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
 	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "SPEED STAR")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to rush to defeat opponents before time runs out, beating previous time records)
-function speedstarP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SPEED STAR COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to rush to defeat opponents before time runs out, beating previous time records)
-function speedstarCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "SPEED STAR COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (watch CPU rush to defeat opponents before time runs out, beating previous time records)
-function speedstarCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH SPEED STAR")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; GOLD RUSH MODE
---;===========================================================
-function f_goldrushBoot()
-	menuSelect = "gold rush"
-	sideScreen = true
-end
-
---Load Common Settings for Gold Rush Modes
-function goldrushCfg()
-	f_discordUpdate({details = "Gold Rush"})
-	f_default()
-	data.gameMode = "allroster"
-	data.recordMode = "goldrush"
-	setGameMode("goldrush")
-	setRewardDisplay(true)
-	f_setBestRecord("BEST REWARD: "..stats.modes.goldrush.maxreward.." IKC")
-	data.stage = "stages/Others/The Red Dragon's Lair.def"
-	data.bgm = "sound/Gold Rush.mp3"
-	setRoundTime(30)
-	setRoundsToWin(1)
-	data.orderRoster = false
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---HUMAN VS CPU (deal damage to the opponents to earn money from left side)
-function goldrushHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
+--To display text item in t_specialCourseRules
+function f_getSpecialCourseRules(ruleData)
+--If it's a string (a single item), we return it directly from t_specialCourseRules
+	if type(ruleData) == "string" then
+		return t_specialCourseRules[ruleData].displaytext
 	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "GOLD RUSH")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (deal damage to the opponents to earn money from right side)
-function goldrushCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
+--If it's a table, iterate and concatenate.
+	if type(ruleData) == "table" then
+		local names = {}
+		for _, k in ipairs(ruleData) do
+			if t_specialCourseRules[k] then
+				table.insert(names, t_specialCourseRules[k].displaytext)
+			end
+		end
+		return table.concat(names, ", ") --Mix everything with commas
 	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "GOLD RUSH")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
+	return ""
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to deal damage to the opponents to earn money)
-function goldrushP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "GOLD RUSH COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to deal damage to the opponents to earn money)
-function goldrushCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "GOLD RUSH COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (watch CPU deal damage to the opponents to earn money)
-function goldrushCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH GOLD RUSH")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; KUMITE MODE
---;===========================================================
-function f_kumiteBoot()
-	menuSelect = "kumite"
-	sideScreen = true	
-end
-
-function getKumiteData()
-	kumiteDataText = "VS "..data.kumite.." KUMITE"
-	return kumiteDataText
-end
-
---Load Common Settings for Kumite Modes
-function kumiteCfg()
-	f_discordUpdate({details = "VS "..data.kumite.." Kumite"})
-	f_default()
-	f_setBestRecord("BEST RECORD: "..stats.modes.kumite.wins.." WINS")
-	data.gameMode = "kumite"
-	data.recordMode = "kumite"
-	setGameMode("kumite")
-	setScoreDisplay(true)
-	setMatchnoDisplay(true)
-	setRoundsToWin(1)
-	data.orderRoster = false
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---P1 VS HUMAN (see how many characters out of data.kumite you can take down from left side)
-function kumiteHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
+--To run function item in t_specialCourseRules
+function f_setSpecialCourseRules(ruleData, cpuSide)
+--Set player side rules
+	if not cpuSide then
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			if type(ruleData) == "string" then
+				if t_specialCourseRules[ruleData] and t_specialCourseRules[ruleData].rulerightside then
+					t_specialCourseRules[ruleData].rulerightside()
+				end
+			elseif type(ruleData) == "table" then
+				for _, k in ipairs(ruleData) do
+					if t_specialCourseRules[k] and t_specialCourseRules[k].rulerightside then
+						t_specialCourseRules[k].rulerightside()
+					end
+				end
+			end
+		else
+			if type(ruleData) == "string" then
+				if t_specialCourseRules[ruleData] and t_specialCourseRules[ruleData].ruleleftside then
+					t_specialCourseRules[ruleData].ruleleftside()
+				end
+			elseif type(ruleData) == "table" then
+				for _, k in ipairs(ruleData) do
+					if t_specialCourseRules[k] and t_specialCourseRules[k].ruleleftside then
+						t_specialCourseRules[k].ruleleftside()
+					end
+				end
+			end
+		end
+--Set cpu side rules
+	else
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			if type(ruleData) == "string" then
+				if t_specialCourseRules[ruleData] and t_specialCourseRules[ruleData].ruleleftside then
+					t_specialCourseRules[ruleData].ruleleftside()
+				end
+			elseif type(ruleData) == "table" then
+				for _, k in ipairs(ruleData) do
+					if t_specialCourseRules[k] and t_specialCourseRules[k].ruleleftside then
+						t_specialCourseRules[k].ruleleftside()
+					end
+				end
+			end
+		else
+			if type(ruleData) == "string" then
+				if t_specialCourseRules[ruleData] and t_specialCourseRules[ruleData].rulerightside then
+					t_specialCourseRules[ruleData].rulerightside()
+				end
+			elseif type(ruleData) == "table" then
+				for _, k in ipairs(ruleData) do
+					if t_specialCourseRules[k] and t_specialCourseRules[k].rulerightside then
+						t_specialCourseRules[k].rulerightside()
+					end
+				end
+			end
+		end
 	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, getKumiteData())
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (see how many characters out of data.kumite you can take down from right side)
-function kumiteCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, getKumiteData())
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of data.kumite you can take down)
-function kumiteP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, getKumiteData().." COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of data.kumite you can take down)
-function kumiteCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, getKumiteData().." COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (see how many characters out of data.kumite the CPU can take down)
-function kumiteCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH "..getKumiteData())
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---;===========================================================
---; ENDLESS MODE
---;===========================================================
-function f_endlessBoot()
-	menuSelect = "endless"
-	sideScreen = true
-end
-
---Load Common Settings for Endless Modes
-function endlessCfg()
-	f_discordUpdate({details = "Endless"})
-	f_default()
-	f_setBestRecord("BEST RECORD: "..stats.modes.endless.wins.." WINS")
-	setPersistPower(true)
-	setP1winsDisplay(true)
-	setP2winsDisplay(true)
-	data.gameMode = "endless"
-	data.recordMode = "endless"
-	setGameMode("endless")
-	data.stageMenu = true
-	data.versusScreen = false
-	data.orderRoster = false
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-	sndPlay(sndSys, 100, 1)
-end
-
---P1 VS HUMAN (choose a fighter to defeat endless CPU controlled opponents from left side)
-function endlessHumanvsCPU()
-	if P2overP1 then
-		remapInput(1, 2)
-	end
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ENDLESS")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---CPU VS HUMAN (choose a fighter to defeat endless CPU controlled opponents from right side)
-function endlessCPUvsHuman()
-	remapInput(1, 2)
-	if not P2overP1 then
-		remapInput(2, 1)
-	end
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ENDLESS")
-	f_selectAdvance()
-	P2overP1 = false
-	f_discordMainMenu()
-end
-
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat endless CPU controlled opponents)
-function endlessP1P2vsCPU()
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "ENDLESS COOPERATIVE")
-	f_selectAdvance()
-	f_discordMainMenu()
-end
-
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat endless CPU controlled opponents)
-function endlessCPUvsP1P2()
-	f_comingSoon()
-	--[[
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p2Faces = true
-	data.coop = true
-	textImgSetText(txt_mainSelect, "ENDLESS COOPERATIVE")
-	f_selectAdvance()
-	]]
-end
-
---CPU MODE (choose a fighter to watch endless CPU fights)
-function endlessCPUvsCPU()
-	data.p2In = 1
-	data.p2SelectMenu = false
-	data.aiFight = true
-	data.recordMode = "cpu"
-	textImgSetText(txt_mainSelect, "WATCH ENDLESS")
-	f_selectAdvance()
-	f_discordMainMenu()
 end
 
 --;===========================================================
@@ -5701,127 +6015,18 @@ licenseFile:close() --Close .txt file
 end
 
 --;===========================================================
---; REPLAY MENU
+--; REPLAYS MENU
 --;===========================================================
-function f_replayMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local replayMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local maxItems = 7
-	local itemSign = ""
-	f_infoReset()
-	while true do
-		if not infoScreen then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				sndPlay(sndSys, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-				sndPlay(sndSys, 100, 0)
-				replayMenu = replayMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sndSys, 100, 0)
-				replayMenu = replayMenu + 1
-			end
-			if replayMenu < 1 then
-				replayMenu = #t_replayMenu
-				if #t_replayMenu > maxItems then
-					cursorPosY = maxItems
-				else
-					cursorPosY = #t_replayMenu - 1
-				end
-			elseif replayMenu > #t_replayMenu then
-				replayMenu = 1
-				cursorPosY = 0
-			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < maxItems then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == maxItems then
-				moveTxt = (replayMenu - (maxItems + 1)) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (replayMenu - 1) * 13
-			end
-			if #t_replayMenu <= maxItems then
-				maxreplayMenu = #t_replayMenu
-			elseif replayMenu - cursorPosY > 0 then
-				maxreplayMenu = replayMenu + maxItems - cursorPosY
-			else
-				maxreplayMenu = maxItems
-			end
-			if btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0 then
-				sndPlay(sndSys, 100, 1)
-			--ONLINE REPLAYS (watch saved replays of your online matches)
-				if replayMenu == 1 then
-				--Display Aspect Ratio Desync Warning
-					if t_aspectPref[aspectRatioPreference].calc() ~= resolutionWidth then
-						f_desyncWarning()
-					else
-						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
-						f_mainReplay()
-					end
-			--LOCAL REPLAYS (watch saved replays of your local matches)
-				elseif replayMenu == 2 then
-					f_comingSoon()
-				end
-			end
-		end
-		drawBottomMenuSP()
-		for i=1, #t_replayMenu do
-			if i == replayMenu then
-				bank = 5
-				itemSign = commonMenuItemSign
-			else
-				bank = 0
-				itemSign = ""
-			end
-			textImgDraw(f_updateTextImg(txt_mainMenuDat, jgFnt, bank, 1, itemSign..t_replayMenu[i].text, 5, 94 + i * 13 - moveTxt))
-		end
-		if not infoScreen then
-			animSetWindow(cursorBox, 0,97 + cursorPosY * 13, 320,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		drawMiddleMenuSP()
-		drawMenuInfo(t_replayMenu[replayMenu])
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, t_replayMenu.menuName)
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxreplayMenu > maxItems + 1 then
-			animDraw(menuArrowUp)
-			animUpdate(menuArrowUp)
-		end
-		if #t_replayMenu > maxItems + 1 and maxreplayMenu < #t_replayMenu then
-			animDraw(menuArrowDown)
-			animUpdate(menuArrowDown)
-		end
-		if infoScreen then f_infoMenu() else drawMainMenuInputHints(t_replayMenu[replayMenu]) end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
+function f_replayAccess()
+--Display Aspect Ratio Desync Warning
+	if t_aspectPref[aspectRatioPreference].calc() ~= resolutionWidth then
+		f_desyncWarning()
+	else
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+		f_mainReplay()
 	end
 end
 
---;===========================================================
---; ONLINE REPLAYS MENU
---;===========================================================
 function f_mainReplay()
 	cmdInput()
 	local cursorPosY = 1
@@ -12590,7 +12795,7 @@ function f_arcadeTravel()
 			end
 		end
 	--Draw BG Stuff
-		drawStagePortrait(stageNo - 1, -53, 0, 0.34, 0.34)
+		drawStagePortrait(stageNo - 1, -54, 0, 0.34, 0.34, 255, 0, -54)
 		animDraw(fadeWindowBG)
 		animDraw(travelBarUp)
 	--Draw Character Portraits
@@ -14147,7 +14352,7 @@ function f_selectVersusAlliance()
 				commandBufReset(p2Cmd)
 				break
 			end
-			f_alliVsTest(data.t_p1selected, data.t_p2selected, currentCharP1, currentCharP2)
+			f_allianceVS(data.t_p1selected, data.t_p2selected, currentCharP1, currentCharP2)
 		--When Attract Mode is Enabled
 			if data.attractMode then
 				drawAttractStatus(2, 318, 10, -1)
@@ -15177,7 +15382,7 @@ function f_result(state)
 		end
 	--Draw Character Portrait
 		if data.portraitDisplay == "Portrait" or data.portraitDisplay == "Mixed" then
-			drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
+			drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale, 255, 0, -54)
 			animDraw(fadeWindowBG)
 	--Draw Character Sprite Animations
 		elseif data.portraitDisplay == "Sprite" then
@@ -16194,7 +16399,7 @@ if validCells() then
 				end
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
 			elseif data.gameMode == "speedstar" then
-				f_speedStarSelect()
+				f_specialCourseSelect()
 				if data.tempBack == true then
 					f_exitToMainMenu()
 					return
@@ -18960,7 +19165,7 @@ function allianceCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (fight against CPU controlled opponents from left side)
+--HUMAN VS CPU (play from left side)
 function allianceHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -18977,7 +19182,7 @@ function allianceHumanvsCPU()
 	P2overP1 = false
 end
 
---CPU VS HUMAN (fight against CPU controlled opponents from right side)
+--CPU VS HUMAN (play from right side)
 function allianceCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -18996,7 +19201,7 @@ function allianceCPUvsHuman()
 	P2overP1 = false
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
 function allianceP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -19007,7 +19212,7 @@ function allianceP1P2vsCPU()
 	f_selectAdvance()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
 function allianceCPUvsP1P2()
 	f_comingSoon()
 --[[
@@ -19022,7 +19227,7 @@ function allianceCPUvsP1P2()
 ]]
 end
 
---CPU MODE (watch CPU fight in abyss)
+--CPU MODE (watch a CPU controlled match)
 function allianceCPUvsCPU()
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 4}
@@ -19219,7 +19424,7 @@ function f_allianceSelect()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			break
 		end
-		drawAlliTest(courseCursor, statsInfo, t_playerList, updateAlliance)
+		f_alliancePreview(courseCursor, statsInfo, t_playerList, updateAlliance)
 		updateAlliance = false
 		if backScreen then
 			f_backMenu()
@@ -19335,7 +19540,6 @@ function f_allianceMemberSel(currentPlayerMember, currentCPUMember)
 		elseif memberSel > maxMembers then
 			memberSel = 1
 		end
-		--drawAlliMemTest(memberSel) --quick screnpack test
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Alliance Timer
 		if data.attractMode then
@@ -19519,7 +19723,6 @@ function f_allianceExchange()
 			f_setAllianceLeaderStats(t_playerTeam)
 		end
 		if startCount then selection = selection + 1 end --Start End Exchange Select count
-		--drawAlliExchangeTest(t_playerTeam, t_enemyTeam, enemyMember, playerMember, enemySide)
 		animDraw(f_animVelocity(commonBG0, -1, -1)) --Draw BG
 	--Draw Member Exchange Common Assets
 		textImgSetText(txt_allianceExchangeCPULv, "ENEMY "..txt_allianceExchangeTeamLv..enemyTeamLv)
@@ -19933,7 +20136,7 @@ function abyssCfg()
 	sndPlay(sndSys, 100, 1)
 end
 
---HUMAN VS CPU (fight against CPU controlled opponents from left side)
+--HUMAN VS CPU (play from left side)
 function abyssHumanvsCPU()
 	abyssDat.nosave.sideselect = "abyssHumanvsCPU" --Save the name of this function to load data
 	if P2overP1 then
@@ -19951,7 +20154,7 @@ function abyssHumanvsCPU()
 	P2overP1 = false
 end
 
---CPU VS HUMAN (fight against CPU controlled opponents from right side)
+--CPU VS HUMAN (play from right side)
 function abyssCPUvsHuman()
 	abyssDat.nosave.sideselect = "abyssCPUvsHuman"
 	remapInput(1, 2)
@@ -19971,7 +20174,7 @@ function abyssCPUvsHuman()
 	P2overP1 = false
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
 function abyssP1P2vsCPU()
 	abyssDat.nosave.sideselect = "abyssP1P2vsCPU"
 	data.p2In = 2
@@ -19983,7 +20186,7 @@ function abyssP1P2vsCPU()
 	f_selectAdvance()
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side against CPU controlled opponents)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
 function abyssCPUvsP1P2()
 	f_comingSoon()
 --[[
@@ -19999,7 +20202,7 @@ function abyssCPUvsP1P2()
 ]]
 end
 
---CPU MODE (watch CPU fight in abyss)
+--CPU MODE (watch a CPU controlled match)
 function abyssCPUvsCPU()
 	abyssDat.nosave.sideselect = "abyssCPUvsCPU"
 	data.p1TeamMenu = {mode = 0, chars = 1}
