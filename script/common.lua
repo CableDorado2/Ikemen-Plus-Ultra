@@ -3683,6 +3683,11 @@ if stats.modes == nil then
 	stats.modes.survival.clear = 0
 	stats.modes.survival.ranking = {}
 	
+	stats.modes.survivalex = {}
+	stats.modes.survivalex.playtime = 0
+	stats.modes.survivalex.clear = 0
+	stats.modes.survivalex.ranking = {}
+	
 	stats.modes.suddendeath = {}
 	stats.modes.suddendeath.playtime = 0
 	stats.modes.suddendeath.clear = 0

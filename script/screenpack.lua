@@ -1244,7 +1244,7 @@ t_survivalMenu = {
 		gotomenu = "f_survivalBoot()"
 	},
 	{
-		text = "SURVIVAL EX",
+		text = "SURVIVAL+",
 		spr = {52,2},
 		info = [[
 		Defeat many opponents as
@@ -4471,7 +4471,13 @@ t_survivalExCourseSel = {
 	{winsquota = 5,	 lifebonus = 25, maxmatches = {5, 1, 4}, rulesplayer = "defenceup", ailevel = 4},
 	{winsquota = 8,	 lifebonus = 25, maxmatches = {6, 4, 6}, rulesplayer = "defenceup", rulescpu = {"nolifedisplay", "nopowerdisplay", "regenpower"}, ailevel = 4},
 	{winsquota = 8,	 lifebonus = 25, maxmatches = {9, 1, 6}, rulesplayer = {"defenceup", "powerinfinite"}, rulescpu = "defenceup", ailevel = 5},
-	{winsquota = 8,	 lifebonus = 25, maxmatches = {4, 2, 10}, rulesplayer = {"defenceup", "invisibility"}, ailevel = 5},
+	{winsquota = 8,	 lifebonus = 25, maxmatches = {5, 0, 5}, rulesplayer = {"defenceup", "invisibility"}, ailevel = 5},
+	{winsquota = 10, lifebonus = 30, maxmatches = {10, 4, 10}, rulesplayer = "defenceup", rulescpu = {"defenceup", "powerstartmax"}, ailevel = 5},
+	{winsquota = 7,  lifebonus = 20, maxmatches = {10, 2, 10}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 6},
+	{winsquota = 3,  lifebonus = 50, maxmatches = {3, 0, 4}, rulesplayer = {"attackup", "powerstartmax", "regenpower"}, rulescpu = {"attackup", "powerstartmax", "regenpower"}, ailevel = 6},
+	{winsquota = 5,  lifebonus = 20, maxmatches = {6, 0, 6}, rulesplayer = {"defenceup", "noguard"}, ailevel = 6},
+	{winsquota = 2,  lifebonus = 35, maxmatches = {2, 0, 3}, rulesplayer = "regenpower", ailevel = 7},
+	{winsquota = 3,  lifebonus = 30, maxmatches = {3, 0, 3}, rulesplayer = {"defenceup", "nopower"}, rulescpu = "defenceup", ailevel = 7},
 --SFIV Survival Hard
 	{winsquota = 10, lifebonus = 30, maxmatches = {12, 12}, rulescpu = {"regenlife", "nopower"}, ailevel = 6},
 	{winsquota = 10, lifebonus = 30, maxmatches = {6, 8, 10}, ailevel = 7},
