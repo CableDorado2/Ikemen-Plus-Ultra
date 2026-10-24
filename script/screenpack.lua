@@ -4347,6 +4347,11 @@ t_specialCourseRules = {
 		ruleleftside = function() end,
 		rulerightside = function() end
 	},
+	infinitegauges = {
+		displaytext = "Infinite Gauges",
+		ruleleftside = function() setLifeInfiniteLeft(1) setPowerInfiniteLeft(1) end,
+		rulerightside = function() setLifeInfiniteRight(1) setPowerInfiniteRight(1) end
+	},
 	lifeinfinite = {
 		displaytext = "Infinite Life",
 		ruleleftside = function() setLifeInfiniteLeft(1) end,
@@ -4372,10 +4377,20 @@ t_specialCourseRules = {
 		ruleleftside = function() setDefenceUpLeft(1) end,
 		rulerightside = function() setDefenceUpRight(1) end
 	},
+	defencedown = {
+		displaytext = "DEF.Down",
+		ruleleftside = function() setDefenceDownLeft(1) end,
+		rulerightside = function() setDefenceDownRight(1) end
+	},
 	attackup = {
 		displaytext = "ATK.Up",
 		ruleleftside = function() setAttackUpLeft(1) end,
 		rulerightside = function() setAttackUpRight(1) end
+	},
+	attackdown = {
+		displaytext = "ATK.Down",
+		ruleleftside = function() setAttackDownLeft(1) end,
+		rulerightside = function() setAttackDownRight(1) end
 	},
 	regenlife = {
 		displaytext = "Auto Heal",
@@ -4391,6 +4406,11 @@ t_specialCourseRules = {
 		displaytext = "Power Max at Start",
 		ruleleftside = function() setMaxPowerLeft(1) end,
 		rulerightside = function() setMaxPowerRight(1) end
+	},
+	nogauges = {
+		displaytext = "Gauges not displayed",
+		ruleleftside = function() setP1LifebarDisplay(false) setP1PowerbarDisplay(false) end,
+		rulerightside = function() setP2LifebarDisplay(false) setP2PowerbarDisplay(false) end
 	},
 	nolifedisplay = {
 		displaytext = "Hide Lifebar",
@@ -4436,6 +4456,8 @@ t_speedCourseSel = {
 	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}, rulesplayer = "defenceup", rulescpu = {"defenceup", "nolifedisplay", "nopowerdisplay"}, ailevel = 5},
 	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}, ailevel = 5},
 	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility", ailevel = 6},
+	{timestart = 500, timebonus = 5, maxmatches = {6, 5, 5}, rulesplayer = {"defenceup", "powerinfinite"}, ailevel = 6},
+	{timestart = 150, timebonus = 10, maxmatches = {5, 0, 5}, rulescpu = {"attackup", "defencedown", "infinitegauges", "noguard"}, ailevel = 6},
 --SFIV Time Attack Hard
 	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}, ailevel = 6},
 	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}, ailevel = 7},
@@ -4478,12 +4500,13 @@ t_survivalExCourseSel = {
 	{winsquota = 5,  lifebonus = 20, maxmatches = {6, 0, 6}, rulesplayer = {"defenceup", "noguard"}, ailevel = 6},
 	{winsquota = 2,  lifebonus = 35, maxmatches = {2, 0, 3}, rulesplayer = "regenpower", ailevel = 7},
 	{winsquota = 3,  lifebonus = 30, maxmatches = {3, 0, 3}, rulesplayer = {"defenceup", "nopower"}, rulescpu = "defenceup", ailevel = 7},
+	{winsquota = 15, lifebonus = 30, maxmatches = {4, 10, 10}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 7},
 --SFIV Survival Hard
 	{winsquota = 10, lifebonus = 30, maxmatches = {12, 12}, rulescpu = {"regenlife", "nopower"}, ailevel = 6},
 	{winsquota = 10, lifebonus = 30, maxmatches = {6, 8, 10}, ailevel = 7},
 	{winsquota = 10, lifebonus = 30, maxmatches = {10, 14}, rulesplayer = "powerstartmax", rulescpu = "powerstartmax", ailevel = 7},
-	{winsquota = 0, lifebonus = 30, maxmatches = {10, 4, 10}, rulescpu = "defenceup", ailevel = 8},
-	{winsquota = 0, lifebonus = 50, maxmatches = {4, 5, 15},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}, ailevel = 8},
+	{winsquota = 10, lifebonus = 30, maxmatches = {10, 4, 10}, rulesplayer = {"nolifedisplay", "nopowerdisplay", "regenpower"}, rulescpu = {"nolifedisplay", "nopowerdisplay", "regenpower"}, ailevel = 8},
+	{winsquota = 0, lifebonus = 0, maxmatches = {4, 5, 15}, rulesplayer = "???", rulescpu = "???", ailevel = 8},
 }
 for i=1, #t_survivalExCourseSel do
 	local cnt = 0
