@@ -4456,12 +4456,15 @@ t_speedCourseSel = {
 	{timestart = 150, timebonus = 20, maxmatches = {2, 2, 1}, rulesplayer = "defenceup", rulescpu = {"defenceup", "nolifedisplay", "nopowerdisplay"}, ailevel = 5},
 	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}, ailevel = 5},
 	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility", ailevel = 6},
-	{timestart = 500, timebonus = 5, maxmatches = {6, 5, 5}, rulesplayer = {"defenceup", "powerinfinite"}, ailevel = 6},
+	{timestart = 500, timebonus = 5,  maxmatches = {6, 5, 5}, rulesplayer = {"defenceup", "powerinfinite"}, ailevel = 6},
 	{timestart = 150, timebonus = 10, maxmatches = {5, 0, 5}, rulescpu = {"attackup", "defencedown", "infinitegauges", "noguard"}, ailevel = 6},
+	{timestart = 200, timebonus = 10, maxmatches = {0, 0, 1}, rulesplayer = {"defenceup", "powerinfinite"}, rulescpu = "defenceup", ailevel = 7},
+	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = {"regenlife", "norguard"}, rulescpu = "defenceup", ailevel = 7},
+	{timestart = 60,  timebonus = 30, maxmatches = {10, 5, 10}, rulesplayer = {"defenceup", "powerstartmax"}, rulescpu = "defenceup", ailevel = 7},
 --SFIV Time Attack Hard
-	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}, ailevel = 6},
+	{timestart = 250, timebonus = 30, maxmatches = {20, 1, 1}, ailevel = 7},
 	{timestart = 200, timebonus = 10, maxmatches = {6, 2, 2},  rulesplayer = {"attackup", "regenpower"}, ailevel = 7},
-	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"}, ailevel = 7},
+	{timestart = 500, timebonus = 5,  maxmatches = {10, 2, 2}, rulescpu = {"defenceup", "regenlife"}, ailevel = 8},
 	{timestart = 300, timebonus = 30, maxmatches = {10, 4, 4}, rulescpu = "defenceup", ailevel = 8},
 	{timestart = 350, timebonus = 50, maxmatches = {3, 3, 1},  rulescpu = {"attackup", "defenceup", "regenlife", "regenpower"}, ailevel = 8},
 }
@@ -4502,11 +4505,11 @@ t_survivalExCourseSel = {
 	{winsquota = 3,  lifebonus = 30, maxmatches = {3, 0, 3}, rulesplayer = {"defenceup", "nopower"}, rulescpu = "defenceup", ailevel = 7},
 	{winsquota = 15, lifebonus = 30, maxmatches = {4, 10, 10}, rulesplayer = "defenceup", rulescpu = "defenceup", ailevel = 7},
 --SFIV Survival Hard
-	{winsquota = 10, lifebonus = 30, maxmatches = {12, 12}, rulescpu = {"regenlife", "nopower"}, ailevel = 6},
+	{winsquota = 10, lifebonus = 30, maxmatches = {12, 12}, rulescpu = {"regenlife", "nopower"}, ailevel = 7},
 	{winsquota = 10, lifebonus = 30, maxmatches = {6, 8, 10}, ailevel = 7},
-	{winsquota = 10, lifebonus = 30, maxmatches = {10, 14}, rulesplayer = "powerstartmax", rulescpu = "powerstartmax", ailevel = 7},
+	{winsquota = 10, lifebonus = 30, maxmatches = {10, 14}, rulesplayer = "powerstartmax", rulescpu = "powerstartmax", ailevel = 8},
 	{winsquota = 10, lifebonus = 30, maxmatches = {10, 4, 10}, rulesplayer = {"nolifedisplay", "nopowerdisplay", "regenpower"}, rulescpu = {"nolifedisplay", "nopowerdisplay", "regenpower"}, ailevel = 8},
-	{winsquota = 0, lifebonus = 0, maxmatches = {4, 5, 15}, rulesplayer = "???", rulescpu = "???", ailevel = 8},
+	{winsquota = 10, lifebonus = 30, maxmatches = {4, 5, 15}, rulesplayer = "nopower", rulescpu = "nopower", ailevel = 8},
 }
 for i=1, #t_survivalExCourseSel do
 	local cnt = 0
