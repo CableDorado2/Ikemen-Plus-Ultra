@@ -3178,7 +3178,7 @@ function f_drawSurvivalResults(active)
 end
 
 function f_drawSurvivalExResults(active)
-	local survRecord = stats.modes.survivalex[t_advancedCourseSel[specialCourseSel].id].wins
+	local survRecord = stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].wins
 	local survWins = " WINS"
 	local survBestWins = " WINS"
 	if winCnt == 1 then survWins = " WIN" end
@@ -4349,7 +4349,7 @@ txt_speedCourseTimeStartVar = createTextImg(font2, 2, 1, "", 159, 13)
 txt_speedCourseTimeBonus = createTextImg(font5, 0, -1, "STAGE CLEAR BONUS:", 159, 13)
 txt_speedCourseTimeBonusVar = createTextImg(font5, 0, 1, "", 159, 13)
 
-txt_survivalExCourseClearRecord = createTextImg(font14, 0, -1, "BEST RECORD: ", 159, 13, 0.8, 0.8)
+txt_survivalExCourseClearRecord = createTextImg(font14, 0, -1, "WINS STREAK: ", 159, 13, 0.8, 0.8)
 txt_survivalExCourseClearRecordVar = createTextImg(font14, 0, 1, "0", 159, 13, 0.8, 0.8)
 
 txt_survivalExCourseQuota = createTextImg(font6, 0, -1, "VICTORY QUOTA:", 159, 13)

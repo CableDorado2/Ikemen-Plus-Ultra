@@ -4748,6 +4748,13 @@ function f_advancedModesStatus(state)
 --Save Data for Survival+ Mode
 	elseif data.gameMode == "survival+" then
 		if state == "win" then
+			if timerTotal() < stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].time then
+				stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].time = timerTotal()
+				resultsNewRecordTime = true
+				modified = true
+			end
+		end
+		if winCnt >= t_survivalExCourseSel[specialCourseSel].winsquota then
 			if not stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].clear then
 				stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].clear = true
 				modified = true
@@ -4756,11 +4763,6 @@ function f_advancedModesStatus(state)
 				stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].wins = winCnt
 				resultsNewRecordWins = true
 				resultsNewRecord = true
-				modified = true
-			end
-			if timerTotal() < stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].time then
-				stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].time = timerTotal()
-				resultsNewRecordTime = true
 				modified = true
 			end
 		end
@@ -4972,7 +4974,7 @@ function f_specialCourseSelect(mode)
 		f_createSpeedStarData()
 		t_specialCourseSel = t_speedCourseSel
 	else
-		specialCourseMode = "(SURVIVAL EX)"
+		specialCourseMode = "(SURVIVAL+)"
 		t_specialCourseSel = t_survivalExCourseSel
 		f_createSurvivalExData()
 	end
@@ -5111,9 +5113,9 @@ function f_specialCourseSelect(mode)
 					local survRecord = stats.modes.survivalex[t_specialCourseSel[i].id].wins
 					local survWins = ""
 					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
-					textImgPosDraw(txt_survivalExCourseClearRecord, 82, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgPosDraw(txt_survivalExCourseClearRecord, 88, 116 + (-118 + i * specialCourseSpacingY - moveTxt))
 					textImgSetText(txt_survivalExCourseClearRecordVar, survRecord..survWins)
-					textImgPosDraw(txt_survivalExCourseClearRecordVar, 82, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgPosDraw(txt_survivalExCourseClearRecordVar, 88, 116 + (-118 + i * specialCourseSpacingY - moveTxt))
 					
 					textImgPosDraw(txt_survivalExCourseQuota, 268, 91 + (-118 + i * specialCourseSpacingY - moveTxt))
 					textImgSetText(txt_survivalExCourseQuotaVar, t_specialCourseSel[i].winsquota.." WINS")
@@ -15393,7 +15395,7 @@ function f_result(state)
 		end
 --Skip Results Screen if lose in these modes
 	elseif state == "lost" then
-		if gameMode() == "timeattack" or gameMode() == "speedstar" or gameMode() == "survival+" then
+		if gameMode() == "timeattack" or gameMode() == "speedstar" then
 			return
 		end
 	end
