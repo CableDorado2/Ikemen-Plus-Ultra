@@ -4972,7 +4972,7 @@ function f_specialCourseSelect(mode)
 		f_createSpeedStarData()
 		t_specialCourseSel = t_speedCourseSel
 	else
-		specialCourseMode = "(SURVIVAL+)"
+		specialCourseMode = "(SURVIVAL EX)"
 		t_specialCourseSel = t_survivalExCourseSel
 		f_createSurvivalExData()
 	end
