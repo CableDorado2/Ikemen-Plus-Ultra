@@ -646,12 +646,26 @@ trigger1 = DefenceUpLeft = 1 && TeamSide = 1
 trigger2 = DefenceUpRight = 1 && TeamSide = 2
 value = 0.5
 
+[State 2, Defence Down]
+type = DefenceMulSet
+triggerall = RoundState = 2
+trigger1 = DefenceDownLeft = 1 && TeamSide = 1
+trigger2 = DefenceDownRight = 1 && TeamSide = 2
+value = 1.5
+
 [State 2, Attack Up]
 type = AttackMulSet
 triggerall = RoundState = 2
 trigger1 = AttackUpLeft = 1 && TeamSide = 1
 trigger1 = AttackUpRight = 1 && TeamSide = 2
-value = 2
+value = 2.0
+
+[State 2, Attack Down]
+type = AttackMulSet
+triggerall = RoundState = 2
+trigger1 = AttackDownLeft = 1 && TeamSide = 1
+trigger1 = AttackDownRight = 1 && TeamSide = 2
+value = 0.1
 
 [State -2, Infinite Life]
 type = LifeSet
