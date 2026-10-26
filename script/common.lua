@@ -2752,8 +2752,12 @@ function f_default() --Reset Game Modes Configuration
 	setNoGuardRight(0) --Reset Characters No Guard for Right Side
 	setDefenceUpLeft(0) --Reset Defence Up for Left Side
 	setDefenceUpRight(0) --Reset Defence Up for Right Side
+	setDefenceDownLeft(0) --Reset Defence Up for Left Side
+	setDefenceDownRight(0) --Reset Defence Up for Right Side
 	setAttackUpLeft(0) --Reset Attack Up for Left Side
 	setAttackUpRight(0) --Reset Attack Up for Right Side
+	setAttackDownLeft(0) --Reset Attack Up for Left Side
+	setAttackDownRight(0) --Reset Attack Up for Right Side
 	setLifeInfiniteLeft(0) --Reset Infinite Life for Left Side
 	setLifeInfiniteRight(0) --Reset Infinite Life for Right Side
 	setLifeRegenLeft(0) --Reset Life Regeneration for Left Side
@@ -3550,7 +3554,8 @@ function f_saveTemp()
 		['data.challengerMode'] = data.challengerMode,
 		['data.challengerAbyss'] = data.challengerAbyss,
 		['data.saveAbyss'] = data.saveAbyss,
-		['data.speedstarClearBonus'] = data.speedstarClearBonus,
+		['data.clearTimeBonus'] = data.clearTimeBonus,
+		['data.clearLifeBonus'] = data.clearLifeBonus,
 		['data.bestRecord'] = data.bestRecord,
 		['data.p1MembersDefeated'] = data.p1MembersDefeated,
 		['data.p2MembersDefeated'] = data.p2MembersDefeated,
@@ -3578,7 +3583,8 @@ function f_resetTemp() --Reset Temp Default Values to Prevent Issues
 	data.challengerMode = false
 	data.challengerAbyss = false
 	data.saveAbyss = false
-	data.speedstarClearBonus = 0
+	data.clearTimeBonus = 0
+	data.clearLifeBonus = survivalBonusRecovery
 	data.bestRecord = ""
 	data.p1MembersDefeated = 0
 	data.p2MembersDefeated = 0
