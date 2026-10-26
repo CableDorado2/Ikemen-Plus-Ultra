@@ -65,6 +65,11 @@ f_saveStats()
 keepLSide = false
 keepRSide = false
 end
+
+function f_resetSurvivalLifeBonus()
+data.clearLifeBonus = 3 --Classic Survival Life Bonus
+f_saveTemp()
+end
 --;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
@@ -3062,7 +3067,7 @@ function survivalEXCfg()
 	setPersistLife(true)
 	setPersistPower(true)
 	setGameMode("survival")
-	data.gameMode = "survival"
+	data.gameMode = "survival+"
 	data.recordMode = "survival+"
 	f_teamElimination(true)
 	--data.nextStage = true
@@ -3083,6 +3088,7 @@ function survivalEXHumanvsCPU()
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
+	f_resetSurvivalLifeBonus()
 end
 
 --CPU VS HUMAN (play from right side)
@@ -3099,6 +3105,7 @@ function survivalEXCPUvsHuman()
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
+	f_resetSurvivalLifeBonus()
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side)
@@ -3109,6 +3116,7 @@ function survivalEXP1P2vsCPU()
 	textImgSetText(txt_mainSelect, "SURVIVAL+ COOPERATIVE")
 	f_selectAdvance()
 	f_discordMainMenu()
+	f_resetSurvivalLifeBonus()
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side)
@@ -3122,6 +3130,7 @@ function survivalEXCPUvsP1P2()
 	data.coop = true
 	textImgSetText(txt_mainSelect, "SURVIVAL+ COOPERATIVE")
 	f_selectAdvance()
+	f_resetSurvivalLifeBonus()
 	]]
 end
 
@@ -3134,6 +3143,7 @@ function survivalEXCPUvsCPU()
 	textImgSetText(txt_mainSelect, "WATCH SURVIVAL+")
 	f_selectAdvance()
 	f_discordMainMenu()
+	f_resetSurvivalLifeBonus()
 end
 
 --;===========================================================
@@ -4713,25 +4723,49 @@ function f_advancedModesStatus(state)
 --Save Data for Speed Star Mode
 	if data.gameMode == "speedstar" then
 		if state == "win" then
-			if not stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear then
-				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].clear = true
+			if not stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].clear then
+				stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].clear = true
 				modified = true
 			end
-			if timerTotal() < stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time then
-				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].time = timerTotal()
+			if timerTotal() < stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].time then
+				stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].time = timerTotal()
 				resultsNewRecordTime = true
 				resultsNewRecord = true
 				modified = true
 			end
-			if getTimePersistence() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime then
-				stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime = math.floor(getTimePersistence() / 60)
+			if getTimePersistence() > stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].roundtime then
+				stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].roundtime = math.floor(getTimePersistence() / 60)
 				resultsNewRecordRoundTime = true
 				resultsNewRecord = true
 				modified = true
 			end
 		end
-		if score() > stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score then
-			stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].score = score()
+		if score() > stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].score then
+			stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].score = score()
+			resultsNewRecordScore = true
+			modified = true
+		end
+--Save Data for Survival+ Mode
+	elseif data.gameMode == "survival+" then
+		if state == "win" then
+			if not stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].clear then
+				stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].clear = true
+				modified = true
+			end
+			if winCnt > stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].wins then
+				stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].wins = winCnt
+				resultsNewRecordWins = true
+				resultsNewRecord = true
+				modified = true
+			end
+			if timerTotal() < stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].time then
+				stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].time = timerTotal()
+				resultsNewRecordTime = true
+				modified = true
+			end
+		end
+		if score() > stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].score then
+			stats.modes.survivalex[t_survivalExCourseSel[specialCourseSel].id].score = score()
 			resultsNewRecordScore = true
 			modified = true
 		end
@@ -4890,6 +4924,33 @@ function f_createSpeedStarData()
 	if modified then f_saveStats() end
 end
 
+function f_createSurvivalExData()
+	local modified = false
+	for i=1, #t_survivalExCourseSel do
+		if stats.modes.survivalex[t_survivalExCourseSel[i].id] == nil then
+			stats.modes.survivalex[t_survivalExCourseSel[i].id] = {}
+			modified = true
+		end
+		if stats.modes.survivalex[t_survivalExCourseSel[i].id].clear == nil then
+			stats.modes.survivalex[t_survivalExCourseSel[i].id].clear = false
+			modified = true
+		end
+		if stats.modes.survivalex[t_survivalExCourseSel[i].id].wins == nil then
+			stats.modes.survivalex[t_survivalExCourseSel[i].id].wins = 0
+			modified = true
+		end
+		if stats.modes.survivalex[t_survivalExCourseSel[i].id].score == nil then
+			stats.modes.survivalex[t_survivalExCourseSel[i].id].score = 0
+			modified = true
+		end
+		if stats.modes.survivalex[t_survivalExCourseSel[i].id].time == nil then
+			stats.modes.survivalex[t_survivalExCourseSel[i].id].time = defaultTimeRecord --From common.lua
+			modified = true
+		end
+	end
+	if modified then f_saveStats() end
+end
+
 --;===========================================================
 --; SPECIAL COURSE SELECT (For Speed Star and Survival+)
 --;===========================================================
@@ -4903,17 +4964,21 @@ function f_specialCourseSelect(mode)
 	local bufl = 0
 	local maxItems = 3
 	local specialCourseMode = ""
+	local t_specialCourseSel = {}
 	waitingCourseSel = true
-	speedCourseSel = 1
-	f_createSpeedStarData()
+	specialCourseSel = 1
+	if mode == "speedstar" then
+		specialCourseMode = "(SPEED STAR)"
+		f_createSpeedStarData()
+		t_specialCourseSel = t_speedCourseSel
+	else
+		specialCourseMode = "(SURVIVAL+)"
+		t_specialCourseSel = t_survivalExCourseSel
+		f_createSurvivalExData()
+	end
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	animSetPos(menuArrowUp, 308, 6)
 	animSetPos(menuArrowDown, 308, 188)
-	if mode == "survival+" then
-		specialCourseMode = "(SURVIVAL+)"
-	else
-		specialCourseMode = "(SPEED STAR)"
-	end
 	while true do
 		if esc() and onlinegame then data.tempBack = true end --Exit during online mode
 		if not backScreen then
@@ -4925,36 +4990,53 @@ function f_specialCourseSelect(mode)
 			elseif (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) or destinyTimer == 0 then
 				sndPlay(sndSys, 100, 1)
 				waitingCourseSel = false
-				if t_speedCourseSel[speedCourseSel].ailevel ~= nil then
-					data.cpuLevel = t_speedCourseSel[speedCourseSel].ailevel
+				if t_specialCourseSel[specialCourseSel].ailevel ~= nil then
+					data.cpuLevel = t_specialCourseSel[specialCourseSel].ailevel
 				end
-				f_setSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulesplayer)
-				f_setSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulescpu, true)
-				setRoundTime(t_speedCourseSel[speedCourseSel].timestart)
-				data.speedstarClearBonus = t_speedCourseSel[speedCourseSel].timebonus
-				local timeText = stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime
-				if timeText == 0 then timeText = "---" end
-				data.bestRecord = "BEST ROUND TIME: "..timeText.." SEC"
+				f_setSpecialCourseRules(t_specialCourseSel[specialCourseSel].rulesplayer)
+				f_setSpecialCourseRules(t_specialCourseSel[specialCourseSel].rulescpu, true)
+				if t_specialCourseSel[specialCourseSel].timestart then
+					setRoundTime(t_specialCourseSel[specialCourseSel].timestart)
+				end
+				if t_specialCourseSel[specialCourseSel].timebonus then
+					data.clearTimeBonus = t_specialCourseSel[specialCourseSel].timebonus
+				end
+				if t_specialCourseSel[specialCourseSel].lifebonus then
+					data.clearLifeBonus = t_specialCourseSel[specialCourseSel].lifebonus
+				end
+				if t_specialCourseSel[specialCourseSel].winsquota then
+					data.winsquota = t_specialCourseSel[specialCourseSel].winsquota
+				end
+				if mode == "speedstar" then
+					local timeText = stats.modes.speedstar[t_specialCourseSel[specialCourseSel].id].roundtime
+					if timeText == 0 then timeText = "---" end
+					data.bestRecord = "BEST ROUND TIME: "..timeText.." SEC"
+				else
+					local survRecord = stats.modes.survivalex[t_specialCourseSel[specialCourseSel].id].wins
+					local survWins = ""
+					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
+					data.bestRecord = "BEST RECORD: "..survRecord..survWins
+				end
 				f_saveTemp()
 				break
 			end
 		--Speed Star Course Select
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sndSys, 100, 0)
-				speedCourseSel = speedCourseSel - 1
+				specialCourseSel = specialCourseSel - 1
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sndSys, 100, 0)
-				speedCourseSel = speedCourseSel + 1
+				specialCourseSel = specialCourseSel + 1
 			end
-			if speedCourseSel < 1 then
-				speedCourseSel = #t_speedCourseSel
-				if #t_speedCourseSel > maxItems then
+			if specialCourseSel < 1 then
+				specialCourseSel = #t_specialCourseSel
+				if #t_specialCourseSel > maxItems then
 					cursorPosY = maxItems
 				else
-					cursorPosY = #t_speedCourseSel
+					cursorPosY = #t_specialCourseSel
 				end
-			elseif speedCourseSel > #t_speedCourseSel then
-				speedCourseSel = 1
+			elseif specialCourseSel > #t_specialCourseSel then
+				specialCourseSel = 1
 				cursorPosY = 1
 			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
@@ -4962,16 +5044,16 @@ function f_specialCourseSelect(mode)
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == maxItems then
-				moveTxt = (speedCourseSel - maxItems) * speedStarSpacingY
+				moveTxt = (specialCourseSel - maxItems) * specialCourseSpacingY
 			elseif cursorPosY == 1 then
-				moveTxt = (speedCourseSel - 1) * speedStarSpacingY
+				moveTxt = (specialCourseSel - 1) * specialCourseSpacingY
 			end
-			if #t_speedCourseSel <= maxItems then
-				maxspeedCourseSel = #t_speedCourseSel
-			elseif speedCourseSel - cursorPosY > 0 then
-				maxspeedCourseSel = speedCourseSel + maxItems - cursorPosY
+			if #t_specialCourseSel <= maxItems then
+				maxSpecialCourseSel = #t_specialCourseSel
+			elseif specialCourseSel - cursorPosY > 0 then
+				maxSpecialCourseSel = specialCourseSel + maxItems - cursorPosY
 			else
-				maxspeedCourseSel = maxItems
+				maxSpecialCourseSel = maxItems
 			end
 		end
 	--Exit Via Return Button
@@ -4983,59 +5065,80 @@ function f_specialCourseSelect(mode)
 		textImgSetText(txt_specialCourseSel, "COURSE SELECT "..specialCourseMode)
 		textImgDraw(txt_specialCourseSel)
 		animPosDraw(spCourseInfoBG, -56, 195) --Draw Info Text BG
-		textImgSetText(txt_speedCoursePlayerVar, "PLAYER: "..f_getSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulesplayer))
-		textImgDraw(txt_speedCoursePlayerVar)
-		textImgSetText(txt_speedCourseCPUVar, "   CPU: "..f_getSpecialCourseRules(t_speedCourseSel[speedCourseSel].rulescpu))
-		textImgDraw(txt_speedCourseCPUVar)
+		textImgSetText(txt_specialCoursePlayerVar, "PLAYER: "..f_getSpecialCourseRules(t_specialCourseSel[specialCourseSel].rulesplayer))
+		textImgDraw(txt_specialCoursePlayerVar)
+		textImgSetText(txt_specialCourseCPUVar, "   CPU: "..f_getSpecialCourseRules(t_specialCourseSel[specialCourseSel].rulescpu))
+		textImgDraw(txt_specialCourseCPUVar)
 	--Draw Speed Star Level Content Text
-		for i=1, maxspeedCourseSel do
-			if i > speedCourseSel - cursorPosY then
+		for i=1, maxSpecialCourseSel do
+			if i > specialCourseSel - cursorPosY then
 				local colorSel = 7
-				if speedCourseSel == i then colorSel = 5 end
-				animPosDraw(spCourseSlot, 0, 72 + (-118 + i * speedStarSpacingY - moveTxt))
+				if specialCourseSel == i then colorSel = 5 end
+				animPosDraw(spCourseSlot, 0, 72 + (-118 + i * specialCourseSpacingY - moveTxt))
 				
 				textImgSetBank(txt_specialCourseLv, colorSel)
 				textImgSetText(txt_specialCourseLv, "LEVEL "..i)
-				textImgPosDraw(txt_specialCourseLv, 2, 90 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				if stats.modes.speedstar[t_speedCourseSel[i].id].clear then
-					animPosDraw(spCourseClear, 85, 78 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgPosDraw(txt_specialCourseLv, 2, 90 + (-118 + i * specialCourseSpacingY - moveTxt))
+			--Speed Star Level Info
+				if mode == "speedstar" then
+					if stats.modes.speedstar[t_specialCourseSel[i].id].clear then
+						animPosDraw(spCourseClear, 85, 78 + (-118 + i * specialCourseSpacingY - moveTxt))
+					end
+					
+					textImgPosDraw(txt_speedCourseClearRecord, 82, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgSetText(txt_speedCourseClearRecordVar, f_setTimeText(stats.modes.speedstar[t_specialCourseSel[i].id].time))
+					textImgPosDraw(txt_speedCourseClearRecordVar, 82, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					
+					local timeText = stats.modes.speedstar[t_specialCourseSel[i].id].roundtime
+					if timeText == 0 then timeText = "---" else timeText = timeText.." SEC" end
+					textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgSetText(txt_speedCourseTimeRecordVar, timeText)
+					textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * specialCourseSpacingY - moveTxt))
+					
+					textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgSetText(txt_speedCourseTimeStartVar, t_specialCourseSel[i].timestart.." SEC")
+					textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * specialCourseSpacingY - moveTxt))
+					
+					textImgPosDraw(txt_speedCourseTimeBonus, 268, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgSetText(txt_speedCourseTimeBonusVar, t_specialCourseSel[i].timebonus.." SEC")
+					textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+			--Survival+ Level Info
+				else
+					if stats.modes.survivalex[t_specialCourseSel[i].id].clear then
+						animPosDraw(spCourseClear, 85, 78 + (-118 + i * specialCourseSpacingY - moveTxt))
+					end
+					
+					local survRecord = stats.modes.survivalex[t_specialCourseSel[i].id].wins
+					local survWins = ""
+					if survRecord == 1 then survWins = " WIN" else survWins = " WINS" end
+					textImgPosDraw(txt_survivalExCourseClearRecord, 82, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgSetText(txt_survivalExCourseClearRecordVar, survRecord..survWins)
+					textImgPosDraw(txt_survivalExCourseClearRecordVar, 82, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					
+					textImgPosDraw(txt_survivalExCourseQuota, 268, 91 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgSetText(txt_survivalExCourseQuotaVar, t_specialCourseSel[i].winsquota.." WINS")
+					textImgPosDraw(txt_survivalExCourseQuotaVar, 274, 90 + (-118 + i * specialCourseSpacingY - moveTxt))
+					
+					textImgPosDraw(txt_survivalExCourseLifeBonus, 268, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
+					textImgSetText(txt_survivalExCourseLifeBonusVar, t_specialCourseSel[i].lifebonus.."%")
+					textImgPosDraw(txt_survivalExCourseLifeBonusVar, 274, 110 + (-118 + i * specialCourseSpacingY - moveTxt))
 				end
-				
-				textImgPosDraw(txt_speedCourseClearRecord, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseClearRecordVar, f_setTimeText(stats.modes.speedstar[t_speedCourseSel[i].id].time))
-				textImgPosDraw(txt_speedCourseClearRecordVar, 82, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				local timeText = stats.modes.speedstar[t_speedCourseSel[i].id].roundtime
-				if timeText == 0 then timeText = "---" else timeText = timeText.." SEC" end
-				textImgPosDraw(txt_speedCourseTimeRecord, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTimeRecordVar, timeText)
-				textImgPosDraw(txt_speedCourseTimeRecordVar, 82, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTimeStart, 268, 91 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTimeStartVar, t_speedCourseSel[i].timestart.." SEC")
-				textImgPosDraw(txt_speedCourseTimeStartVar, 274, 90 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTimeBonus, 268, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTimeBonusVar, t_speedCourseSel[i].timebonus.." SEC")
-				textImgPosDraw(txt_speedCourseTimeBonusVar, 274, 110 + (-118 + i * speedStarSpacingY - moveTxt))
-				
-				textImgPosDraw(txt_speedCourseTotalStages, 268, 120 + (-118 + i * speedStarSpacingY - moveTxt))
-				textImgSetText(txt_speedCourseTotalStagesVar, t_speedCourseSel[i].totalmatches)
-				textImgPosDraw(txt_speedCourseTotalStagesVar, 274, 120 + (-118 + i * speedStarSpacingY - moveTxt))
+				textImgPosDraw(txt_specialCourseTotalStages, 268, 120 + (-118 + i * specialCourseSpacingY - moveTxt))
+				textImgSetText(txt_specialCourseTotalStagesVar, t_specialCourseSel[i].totalmatches)
+				textImgPosDraw(txt_specialCourseTotalStagesVar, 274, 120 + (-118 + i * specialCourseSpacingY - moveTxt))
 			end
 		end
 	--Draw Cursor
 		if not backScreen then
-			animSetWindow(cursorBox, 0,72 + (-118 + speedCourseSel * speedStarSpacingY - moveTxt), 320,57)
+			animSetWindow(cursorBox, 0,72 + (-118 + specialCourseSel * specialCourseSpacingY - moveTxt), 320,57)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if maxspeedCourseSel > maxItems then
+		if maxSpecialCourseSel > maxItems then
 			animDraw(menuArrowUp)
 			animUpdate(menuArrowUp)
 		end
-		if #t_speedCourseSel > maxItems and maxspeedCourseSel < #t_speedCourseSel then
+		if #t_specialCourseSel > maxItems and maxSpecialCourseSel < #t_specialCourseSel then
 			animDraw(menuArrowDown)
 			animUpdate(menuArrowDown)
 		end
@@ -5049,7 +5152,7 @@ function f_specialCourseSelect(mode)
 				
 			end
 		end
-		if backScreen then f_backMenu() else drawSpeedCourseInputHints() end --Open Back Menu Question
+		if backScreen then f_backMenu() else drawSpecialCourseInputHints() end --Open Back Menu Question
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5466,6 +5569,12 @@ t_statsGameModes = {
 		id = "speedstar",
 		playtime = function() return stats.modes.speedstar.playtime end,
 		setplaytime = function(newtime) stats.modes.speedstar.playtime = newtime end
+	},
+	{
+		displayname = "Survival+",
+		id = "survival+",
+		playtime = function() return stats.modes.survivalex.playtime end,
+		setplaytime = function(newtime) stats.modes.survivalex.playtime = newtime end
 	},
 	{
 		displayname = "Caravan",
@@ -8191,11 +8300,15 @@ function f_makeRosterAdvanced(t_course)
 	return t_roster
 end
 
-function f_makeRosterSpeedStar()
+function f_makeRosterSpecial(mode)
 	t_roster = {}
 	local t = {}
 	local cnt = 0
-	t = t_speedCourseSel[speedCourseSel].maxmatches
+	if mode == "speedstar" then
+		t = t_speedCourseSel[specialCourseSel].maxmatches
+	else
+		t = t_survivalExCourseSel[specialCourseSel].maxmatches
+	end
 	for i=1, #t do --for each order number
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			cnt = t[i] * p1numChars --set amount of matches to get from the table
@@ -14121,7 +14234,7 @@ function f_selectVersus()
 				end
 			end
 		--Draw Match Info
-			if data.gameMode == "arcade" or data.gameMode == "scoreattack" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
+			if data.gameMode == "arcade" or data.gameMode == "scoreattack" or data.gameMode == "timeattack" or data.gameMode == "speedstar" or data.gameMode == "survival+" or data.gameMode == "allroster" or data.gameMode == "tower" or data.gameMode == "tourney" or data.gameMode == "abyss" then
 				textImgDraw(txt_matchNo)
 				if data.gameMode == "speedstar" then textImgDraw(txt_timeLeft) end
 			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "kumite" or data.gameMode == "intermission" then
@@ -15280,7 +15393,7 @@ function f_result(state)
 		end
 --Skip Results Screen if lose in these modes
 	elseif state == "lost" then
-		if gameMode() == "timeattack" or gameMode() == "speedstar" then
+		if gameMode() == "timeattack" or gameMode() == "speedstar" or gameMode() == "survival+" then
 			return
 		end
 	end
@@ -15294,7 +15407,7 @@ function f_result(state)
 	resultsNewRecordWins = false
 	resultsNewRecordRoundTime = false
 --Setup Vars according Game Modes
-	if data.gameMode == "survival" or data.gameMode == "timeattack" or data.gameMode == "speedstar"
+	if data.gameMode == "survival" or data.gameMode == "survival+" or data.gameMode == "timeattack" or data.gameMode == "speedstar"
 	or data.gameMode == "caravan" or data.gameMode == "scoreattack" or data.gameMode == "allroster"
 	or data.gameMode == "abyss" or data.gameMode == "alliance" or data.gameMode == "kumite" or data.gameMode == "endless" then
 		if data.gameMode == "survival" then
@@ -15304,11 +15417,12 @@ function f_result(state)
 				textImgSetText(txt_resultTitle, "SURVIVAL ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			end
 			f_advancedModesStatus(state) --Save Records
-		elseif data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "speedstar" or data.gameMode == "alliance" or data.gameMode == "abyss" or data.gameMode == "caravan" then
+		elseif data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "survival+" or data.gameMode == "speedstar" or data.gameMode == "alliance" or data.gameMode == "abyss" or data.gameMode == "caravan" then
 			if data.gameMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK ("..t_advancedCourseSel[advancedCourseSel].name..")")
 			elseif data.gameMode == "caravan" then textImgSetText(txt_resultTitle, "CARAVAN ("..t_advancedCourseSel[advancedCourseSel].name..")")
-			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..speedCourseSel..")")
+			elseif data.gameMode == "survival+" then textImgSetText(txt_resultTitle, "SURVIVAL+ (LEVEL "..specialCourseSel..")")
+			elseif data.gameMode == "speedstar" then textImgSetText(txt_resultTitle, "SPEED STAR (LEVEL "..specialCourseSel..")")
 			elseif data.gameMode == "abyss" then textImgSetText(txt_resultTitle, "ABYSS (LEVEL "..abyssSel..")")
 			elseif data.gameMode == "alliance" then textImgSetText(txt_resultTitle, "ALLIANCE (COURSE "..t_allianceCourses[allianceCourseSel].name..")")
 			end
@@ -15405,7 +15519,7 @@ function f_result(state)
 			textImgSetText(txt_resultStatus, "PLAY RESULTS")
 		end
 		textImgDraw(txt_resultStatus)
-		if data.gameMode == "survival" or data.gameMode == "allroster" or
+		if data.gameMode == "survival" or data.gameMode == "survival+" or data.gameMode == "allroster" or
 			data.gameMode == "endless" or data.gameMode == "kumite" or
 			data.gameMode == "abyss" or data.gameMode == "speedstar" or
 			data.gameMode == "scoreattack" or data.gameMode == "timeattack" or
@@ -15443,6 +15557,8 @@ function f_result(state)
 			--Survival
 				if data.gameMode == "survival" then
 					f_drawSurvivalResults(newRecord)
+				elseif data.gameMode == "survival+" then
+					f_drawSurvivalExResults(newRecord)
 			--All Roster
 				else
 					if (resultsNewRecord and newRecord) or not resultsNewRecord then
@@ -16406,17 +16522,19 @@ if validCells() then
 					return
 				end
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
-			elseif data.gameMode == "speedstar" then
-				f_specialCourseSelect()
+			elseif data.gameMode == "speedstar" or data.gameMode == "survival+" then
+				f_specialCourseSelect(data.gameMode)
 				if data.tempBack == true then
 					f_exitToMainMenu()
 					return
 				end
-				f_makeRosterSpeedStar()
-				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-					lastMatch = #t_roster / p1numChars
-				else
-					lastMatch = #t_roster / p2numChars
+				f_makeRosterSpecial(data.gameMode)
+				if not endlessRoster then
+					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+						lastMatch = #t_roster / p1numChars
+					else
+						lastMatch = #t_roster / p2numChars
+					end
 				end
 			elseif data.gameMode == "abyss" then
 				if not loadAbyssDat then --Only show during a New Game

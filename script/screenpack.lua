@@ -2865,7 +2865,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	bonusNo = bonusNo + 1
 --Set Match Info Texts
 	if data.gameMode == "arcade" and matchNo == arcadeRivalMatchNo then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
-	elseif (data.gameMode == "arcade" or data.gameMode == "speedstar" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
+	elseif (data.gameMode == "arcade" or data.gameMode == "speedstar" or data.gameMode == "survival+" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE "..matchNo) --Set Arcade Match Text
 	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
 	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR "..matchNo - 1) --Set Tower Match Text
 	elseif data.gameMode == "abyss" then textImgSetText(txt_matchNo, "DEPTH "..getAbyssDepth()) --Set Abyss Depth Match Text
@@ -2879,7 +2879,7 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	else textImgSetText(txt_gameNo, "MATCH "..gameNo) --Set Versus Match Text
 	end
 --Set Final Matchs Text
-	if (data.gameMode == "arcade" or data.gameMode == "alliance" or data.gameMode == "speedstar" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
+	if (data.gameMode == "arcade" or data.gameMode == "alliance" or data.gameMode == "speedstar" or data.gameMode == "survival+" or data.gameMode == "timeattack" or data.gameMode == "scoreattack" or data.gameMode == "allroster") and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
 	elseif data.gameMode == "tower" and matchNo == lastMatch then textImgSetText(txt_matchNo, "LAST FLOOR") --Set Tower Final Match Text
 	end
 	if data.gameMode == "survival" and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
@@ -3177,6 +3177,20 @@ function f_drawSurvivalResults(active)
 	end
 end
 
+function f_drawSurvivalExResults(active)
+	local survRecord = stats.modes.survivalex[t_advancedCourseSel[specialCourseSel].id].wins
+	local survWins = " WINS"
+	local survBestWins = " WINS"
+	if winCnt == 1 then survWins = " WIN" end
+	if survRecord == 1 then survBestWins = " WIN" end
+	f_drawQuickText(txt_survivalResult, survNumFnt, 0, -1, winCnt..survWins, 320, 112, 0.75, 0.75)
+	f_drawQuickText(txt_survivalTotal, survNumFnt, 0, -1, "VICTORY STREAK", 320, 127, 0.8, 0.8)
+	if (resultsNewRecord and active) or not resultsNewRecord then
+		f_drawQuickText(txt_survivalRecord, survNumFnt, 0, -1, survRecord..survBestWins, 320, 178, 0.65, 0.65)
+		f_drawQuickText(txt_survivalBest, survNumFnt, 0, -1, "BEST RECORD", 320, 191, 0.8, 0.8)
+	end
+end
+
 function f_drawScoreAttackResults(active)
 	f_drawQuickText(txt_scoreResult, survNumFnt, 0, -1, f_setThousandsFormat(score()).."PTS", 320, 110, 0.45, 0.45)
 	f_drawQuickText(txt_scoreTotal, survNumFnt, 0, -1, "TOTAL SCORE", 320, 125, 0.8, 0.8)
@@ -3205,7 +3219,7 @@ function f_drawSpeedStarResults(active)
 	f_drawQuickText(txt_timeResult, survNumFnt, 0, -1, math.floor(getTimePersistence() / 60).."SECONDS", 320, 115, 0.65, 0.65)
 	f_drawQuickText(txt_timeTotal, survNumFnt, 0, -1, "TOTAL ROUND TIME", 320, 130, 0.8, 0.8)
 	if (resultsNewRecord and active) or not resultsNewRecord then
-		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, stats.modes.speedstar[t_speedCourseSel[speedCourseSel].id].roundtime.."SECONDS", 320, 175, 0.5, 0.5)
+		f_drawQuickText(txt_timeRecord, survNumFnt, 0, -1, stats.modes.speedstar[t_speedCourseSel[specialCourseSel].id].roundtime.."SECONDS", 320, 175, 0.5, 0.5)
 		f_drawQuickText(txt_timeBest, survNumFnt, 0, -1, "BEST ROUND TIME", 320, 188, 0.7, 0.7)
 	end
 end
@@ -4330,16 +4344,25 @@ txt_speedCourseClearRecordVar = createTextImg(font14, 0, 1, "0", 159, 13, 0.8, 0
 txt_speedCourseTimeStart = createTextImg(font6, 0, -1, "STARTING TIME:", 159, 13)
 txt_speedCourseTimeStartVar = createTextImg(font2, 2, 1, "", 159, 13)
 
-txt_speedCourseTotalStages = createTextImg(font5, 0, -1, "TOTAL STAGES:", 159, 13)
-txt_speedCourseTotalStagesVar = createTextImg(font5, 0, 1, "", 159, 13)
-
 txt_speedCourseTimeBonus = createTextImg(font5, 0, -1, "STAGE CLEAR BONUS:", 159, 13)
 txt_speedCourseTimeBonusVar = createTextImg(font5, 0, 1, "", 159, 13)
 
-txt_speedCoursePlayerVar = createTextImg(font5, 0, 1, "", 2, 205)
-txt_speedCourseCPUVar = createTextImg(font5, 0, 1, "", 2, 215)
+txt_survivalExCourseClearRecord = createTextImg(font14, 0, -1, "BEST RECORD: ", 159, 13, 0.8, 0.8)
+txt_survivalExCourseClearRecordVar = createTextImg(font14, 0, 1, "0", 159, 13, 0.8, 0.8)
 
-speedStarSpacingY = 60
+txt_survivalExCourseQuota = createTextImg(font6, 0, -1, "VICTORY QUOTA:", 159, 13)
+txt_survivalExCourseQuotaVar = createTextImg(font2, 2, 1, "", 159, 13)
+
+txt_survivalExCourseLifeBonus = createTextImg(font5, 0, -1, "LIFE RECOVERY BONUS:", 159, 13)
+txt_survivalExCourseLifeBonusVar = createTextImg(font5, 0, 1, "", 159, 13)
+
+txt_specialCourseTotalStages = createTextImg(font5, 0, -1, "TOTAL STAGES:", 159, 13)
+txt_specialCourseTotalStagesVar = createTextImg(font5, 0, 1, "", 159, 13)
+
+txt_specialCoursePlayerVar = createTextImg(font5, 0, 1, "", 2, 205)
+txt_specialCourseCPUVar = createTextImg(font5, 0, 1, "", 2, 215)
+
+specialCourseSpacingY = 60
 
 t_specialCourseRules = {
 	none = {
@@ -4555,7 +4578,7 @@ animSetAlpha(spCourseInfoBG, 0, 50)
 animUpdate(spCourseInfoBG)
 
 --Special Course Select Input Hints Panel
-function drawSpeedCourseInputHints()
+function drawSpecialCourseInputHints()
 	local inputHintYPos = 220
 	local hintFont = font2
 	local hintFontYPos = 234
@@ -4609,7 +4632,7 @@ function f_speedStarInfo(super, perfect)
 	local infoY = 150
 	animPosDraw(speedstarInfoBG, -2, 141)
 	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "Stage Clear", infoX, infoY)
-	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "+"..data.speedstarClearBonus.."sec", infoX+125, infoY)
+	f_drawQuickText(txt_speedTInfo, infoFont, 5, 1, "+"..data.clearTimeBonus.."sec", infoX+125, infoY)
 	local colorSuper = 0
 	local rewardSuper = 0
 	if super > 0 then
@@ -4626,7 +4649,7 @@ function f_speedStarInfo(super, perfect)
 	end
 	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "Perfect Bonus", infoX, infoY+20)
 	f_drawQuickText(txt_speedTInfo, infoFont, colorPerfect, 1, "+"..rewardPerfect.."sec", infoX+125, infoY+20)
-	totalBonus = data.speedstarClearBonus + rewardSuper + rewardPerfect
+	totalBonus = data.clearTimeBonus + rewardSuper + rewardPerfect
 	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "Total Bonus", infoX, infoY+32)
 	f_drawQuickText(txt_speedTInfo, infoFont, 0, 1, "+"..totalBonus.."sec", infoX+125, infoY+32)
 end
