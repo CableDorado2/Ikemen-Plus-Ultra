@@ -705,7 +705,7 @@ local function f_addBonusScore()
 			end
 		end
 		if gameMode() == "survival" then
-			setLife(life() + lifemax() / data.clearLifeBonus) --Recover Life
+			setLife(life() + (lifemax() * (data.clearLifeBonus / 100))) --Recover Life
 		elseif gameMode() == "abyss" or gameMode() == "abysscoop" then
 			if abyssbossfight() == 0 or (abyssbossfight() == 1 and abyssRewardDone) then
 				setLife(life() + lifemax() / 3)

@@ -67,7 +67,7 @@ keepRSide = false
 end
 
 function f_resetSurvivalLifeBonus()
-data.clearLifeBonus = 3 --Classic Survival Life Bonus
+data.clearLifeBonus = survivalBonusRecovery
 f_saveTemp()
 end
 --;===========================================================

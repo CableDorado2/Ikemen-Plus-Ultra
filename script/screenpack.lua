@@ -4232,6 +4232,8 @@ txt_advancedCourseTitle = "COURSE SELECT"
 txt_advancedLvSel = "SELECT THE COURSE DIFFICULTY"
 txt_advancedFirstSel = "SELECT YOUR FIRST OPPONENT"
 
+survivalBonusRecovery = 30 --Classic Survival Life Bonus Recovery Percentage
+
 advancedCourseSpacingX = 28
 advancedCourseSpacingY = 60
 
