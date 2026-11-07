@@ -4462,7 +4462,7 @@ t_specialCourseRules = {
 t_speedCourseSel = {
 --maxmatches works like select.def arcademaxmatches paramvalue
 	{timestart = 180, timebonus = 10, maxmatches = {10, 1, 1}, ailevel = 4}, --SFIV Arcade x BlazBlue CF
-	{timestart = 180, timebonus = 0,  maxmatches = {12, 2, 2}, rulesplayer = "lifeinfinite", ailevel = 6},
+	{timestart = 180, timebonus = 0,  maxmatches = {12, 2, 2}, rulesplayer = "infinitegauges", ailevel = 6},
 	{timestart = 90,  timebonus = 0,  maxmatches = {24, 4, 4}, rulesplayer = "lifeinfinite", ailevel = 8},
 	{timestart = 60,  timebonus = 30, maxmatches = {24, 4, 4}}, --Samurai Shodown 2019
 --SFIV Time Attack Normal
@@ -4482,7 +4482,7 @@ t_speedCourseSel = {
 	{timestart = 250, timebonus = 5,  maxmatches = {4, 4, 4}, rulesplayer = {"attackup", "defenceup", "nopower"}, ailevel = 5},
 	{timestart = 100, timebonus = 25, maxmatches = {1, 2, 1}, rulesplayer = "defenceup", rulescpu = "invisibility", ailevel = 6},
 	{timestart = 500, timebonus = 5,  maxmatches = {6, 5, 5}, rulesplayer = {"defenceup", "powerinfinite"}, ailevel = 6},
-	{timestart = 150, timebonus = 10, maxmatches = {5, 0, 5}, rulescpu = {"attackup", "defencedown", "infinitegauges", "noguard"}, ailevel = 6},
+	{timestart = 150, timebonus = 10, maxmatches = {5, 0, 5}, rulescpu = {"attackup", "defencedown", "powerinfinite", "noguard"}, ailevel = 6},
 	{timestart = 200, timebonus = 10, maxmatches = {0, 0, 1}, rulesplayer = {"defenceup", "powerinfinite"}, rulescpu = "defenceup", ailevel = 7},
 	{timestart = 200, timebonus = 20, maxmatches = {2, 2, 2}, rulesplayer = {"regenlife", "norguard"}, rulescpu = "defenceup", ailevel = 7},
 	{timestart = 60,  timebonus = 30, maxmatches = {10, 5, 10}, rulesplayer = {"defenceup", "powerstartmax"}, rulescpu = "defenceup", ailevel = 7},

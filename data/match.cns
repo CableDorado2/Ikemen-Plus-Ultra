@@ -676,7 +676,7 @@ value = LifeMax
 
 [State -2, Infinite Power]
 type = PowerSet
-triggerall = RoundState = 2
+triggerall = RoundState <= 2
 trigger1 = PowerInfiniteLeft = 1 && TeamSide = 1
 trigger2 = PowerInfiniteRight = 1 && TeamSide = 2
 value = PowerMax
