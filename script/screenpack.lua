@@ -560,6 +560,7 @@ txt_attractState0 = "INSERT COIN"
 txt_attractState1 = "PRESS 1P OR 2P START"
 txt_attractState2 = "PRESS START" --After Start a Game to Challenger Join
 txt_attractState3 = "GAME OVER" --When any side lose in Arcade
+txt_attractState4 = "PLEASE WAIT" --During screens where is not possible Challenger to Join
 txt_attractStateChallenger = "CHALLENGER" --During Versus Mode
 txt_attractFreePlay = "FREE PLAY"
 txt_attractSelectTitle = "PLAYER SELECT"
@@ -609,6 +610,24 @@ function drawAttractStatus(state, x, y, align, scaleX, scaleY)
 			if getCredits() > 0 then
 				textImgSetBank(txt_attractState, 5)
 				textImgSetText(txt_attractState, txt_attractState2)
+			else
+				textImgSetBank(txt_attractState, 0)
+				textImgSetText(txt_attractState, txt_attractState0)
+			end
+	--Any side loses
+		elseif state == 3 then
+			if getCredits() > 0 then
+				textImgSetBank(txt_attractState, 0)
+				textImgSetText(txt_attractState, txt_attractState3)
+			else
+				textImgSetBank(txt_attractState, 0)
+				textImgSetText(txt_attractState, txt_attractState0)
+			end
+	--Not Possible to Join
+		elseif state == 4 then
+			if getCredits() > 0 then
+				textImgSetBank(txt_attractState, 0)
+				textImgSetText(txt_attractState, txt_attractState4)
 			else
 				textImgSetBank(txt_attractState, 0)
 				textImgSetText(txt_attractState, txt_attractState0)

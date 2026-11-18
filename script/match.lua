@@ -1979,7 +1979,9 @@ function loop() --The code for this function should be thought of as if it were 
 		if gameMode() == "demo" then
 			drawAttractStatus()
 		else
-			drawAttractStatus(2, 224, 9, -1, 0.6, 0.6)
+			local state = 2
+			if matchover() then state = 4 end
+			drawAttractStatus(state, 224, 9, -1, 0.6, 0.6)
 		end
 		f_attractCredits(318, 238, -1)
 	end
