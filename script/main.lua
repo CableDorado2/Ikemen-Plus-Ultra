@@ -200,8 +200,22 @@ function f_mainAttract()
 	cmdInput()
 	playBGM(bgmTitle)
 	while true do
-	--START GAME
-		if getCredits() > 0 and (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') or attractTimer == 0) then
+		--START BOSS RUSH
+		if getCredits() > 0 and commandGetState(p1Cmd, 'holdx') and commandGetState(p1Cmd, 'holdy') and commandGetState(p1Cmd, 's') then
+			--playVideo(videoHowToPlay)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
+			--sndPlay(sndSys, 100, 1)
+			setCredits(getCredits() - 1)
+			bossrushCfg()
+		--[[
+			data.p1TeamMenu = {mode = 0, chars = 1}
+			data.p2TeamMenu = {mode = 0, chars = 1}
+		]]
+			bossrushHumanvsCPU() --Start P1 from Left Side
+			f_discordUpdate({details = "Attract Mode"})
+			attractTimer = attractSeconds * gameTick
+	--START ARCADE
+		elseif getCredits() > 0 and (commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') or attractTimer == 0) then
 			--playVideo(videoHowToPlay)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 			--sndPlay(sndSys, 100, 1)
@@ -2421,12 +2435,14 @@ end
 
 --HUMAN VS CPU (play from left side)
 function bossrushHumanvsCPU()
+	local modeName = "BOSS RUSH"
+	if data.attractMode then modeName = txt_attractSelectTitle end
 	if P2overP1 then
 		remapInput(1, 2)
 	end
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "BOSS RUSH")					
+	textImgSetText(txt_mainSelect, modeName)					
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
@@ -2434,6 +2450,8 @@ end
 
 --CPU VS HUMAN (play from right side)
 function bossrushCPUvsHuman()
+	local modeName = "BOSS RUSH"
+	if data.attractMode then modeName = txt_attractSelectTitle end
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
@@ -2442,7 +2460,7 @@ function bossrushCPUvsHuman()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "BOSS RUSH")					
+	textImgSetText(txt_mainSelect, modeName)					
 	f_selectAdvance()
 	P2overP1 = false
 	f_discordMainMenu()
