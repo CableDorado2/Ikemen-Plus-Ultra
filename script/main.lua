@@ -2425,7 +2425,6 @@ function bossrushCfg()
 	setGameMode("bossrush")
 	data.gameMode = "bossrush"
 	data.recordMode = "boss"
-	--data.victoryscreen = true
 	data.nextStage = true
 	data.cpuLevel = 8
 	setRoundTime(-1)
@@ -2997,6 +2996,7 @@ function survivalCfg()
 	data.recordMode = "survival"
 	f_teamElimination(true)
 	data.nextStage = true
+	data.victoryscreen = false
 	setRoundsToWin(1)
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3089,6 +3089,7 @@ function survivalEXCfg()
 	data.recordMode = "survival+"
 	f_teamElimination(true)
 	--data.nextStage = true
+	data.victoryscreen = false
 	setRoundsToWin(1)
 	setRoundTime(-1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3183,6 +3184,7 @@ function suddenCfg()
 	data.recordMode = "suddendeath"
 	f_teamElimination(true)
 	data.nextStage = true
+	data.victoryscreen = false
 	setRoundTime(10)
 	setRoundsToWin(1)
 	setLifeMul(0) --overwrite players life
@@ -3389,6 +3391,7 @@ function scoreattackCfg()
 	data.gameMode = "scoreattack"
 	data.recordMode = "scoreattack"
 	data.nextStage = true
+	data.victoryscreen = false
 	setRoundTime(99)
 	setRoundsToWin(2)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3482,6 +3485,7 @@ function caravanCfg()
 	setRoundsToWin(1)
 	--data.nextStage = true
 	data.versusScreen = false
+	data.victoryscreen = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3685,6 +3689,7 @@ function timeattackCfg()
 	data.recordMode = "timeattack"
 	setGameMode("timeattack")
 	data.nextStage = true
+	data.victoryscreen = false
 	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -3775,6 +3780,7 @@ function speedstarCfg()
 	data.gameMode = "speedstar"
 	data.recordMode = "speedstar"
 	setGameMode("speedstar")
+	data.victoryscreen = false
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -3866,6 +3872,7 @@ function goldrushCfg()
 	setRoundTime(30)
 	setRoundsToWin(1)
 	data.orderRoster = false
+	data.victoryscreen = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -3959,6 +3966,7 @@ function kumiteCfg()
 	setMatchnoDisplay(true)
 	setRoundsToWin(1)
 	data.orderRoster = false
+	data.victoryscreen = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
 end
@@ -4048,6 +4056,7 @@ function endlessCfg()
 	setGameMode("endless")
 	data.stageMenu = true
 	data.versusScreen = false
+	data.victoryscreen = false
 	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
 	sndPlay(sndSys, 100, 1)
@@ -4356,6 +4365,7 @@ function bonusCfg()
 	data.recordMode = "bonus"
 	--data.stageMenu = true
 	data.versusScreen = false
+	data.victoryscreen = false
 	setRoundsToWin(1)
 	textImgSetText(txt_mainSelect, bonusDat)
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)
@@ -4412,6 +4422,7 @@ function bonusrushCfg()
 	--data.stageMenu = true
 	--data.nextStage = true
 	data.versusScreen = false
+	data.victoryscreen = false
 	data.orderRoster = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', sprFade)			
 	sndPlay(sndSys, 100, 1)
@@ -14578,6 +14589,7 @@ end
 --; VICTORY SCREEN
 --;===========================================================
 function f_selectWin()
+	--if not data.victoryscreen then return end
 	cmdInput()
 	local i = 0
 	local txt = ""
@@ -14749,9 +14761,7 @@ function f_selectWin()
 				textImgSetText(txt_winnername, f_getName(winnerSide[1].cel))
 				textImgDraw(txt_winnername)
 			end
-		end
-	--REMATCH OPTION
-		if data.victoryscreen then --If victory screen is enable
+		--REMATCH OPTION
 			if data.gameMode == "versus" then --Show Rematch Menu for these modes
 				if not menuReady then
 					if i == timeToSkip or (btnPalNo(p1Cmd, true) > 0 or btnPalNo(p2Cmd, true) > 0) then
@@ -16640,10 +16650,8 @@ if validCells() then
 				if not data.continueScreen or (data.attractMode and getCredits() == 0) then
 					looseCnt = looseCnt + 1
 				--Victory screen
-					if data.gameMode == "arcade" or data.gameMode == "tower" then
-						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
-							f_selectWin()
-						end
+					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
+						f_selectWin()
 					end
 					assert(loadfile(saveTempPath))()
 					if data.tempBack == true then
@@ -16733,10 +16741,8 @@ if validCells() then
 					if data.p2MembersDefeated == 3 then setAllianceLastEnemy(true) end
 				end
 			--Victory Screen
-				if data.gameMode == "arcade" or data.gameMode == "tower" then
-					if t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1 then
-						f_selectWin()
-					end
+				if t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1 then
+					f_selectWin()
 				end
 			--No More Matches Left
 				if not endlessRoster and matchNo >= lastMatch then
@@ -16790,10 +16796,8 @@ if validCells() then
 					if data.p1MembersDefeated == 3 then setAllianceLastEnemy(true) end
 				end
 			--Victory Screen
-				if data.gameMode == "arcade" or data.gameMode == "tower" then
-					if t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1 then
-						f_selectWin()
-					end
+				if t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1 then
+					f_selectWin()
 				end
 			--No More Matches Left
 				if not endlessRoster and matchNo >= lastMatch then
@@ -16827,10 +16831,8 @@ if validCells() then
 				if not data.continueScreen or (data.attractMode and getCredits() == 0) then
 					looseCnt = looseCnt + 1
 				--Victory Screen
-					if data.gameMode == "arcade" or data.gameMode == "tower" then
-						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
-							f_selectWin()
-						end
+					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
+						f_selectWin()
 					end
 					assert(loadfile(saveTempPath))()
 					if data.tempBack == true then
@@ -16908,15 +16910,14 @@ if validCells() then
 		--Lose Screen when GIVE UP option is selected in Pause Menu
 			if data.gameMode ~= "abyss" and (not data.continueScreen or (data.attractMode and getCredits() == 0)) then
 				looseCnt = looseCnt + 1
-				if data.gameMode == "arcade" or data.gameMode == "tower" then --Attract Arcade
-					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
-							f_selectWin()
-						end
-					else
-						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
-							f_selectWin()
-						end
+			--Attract Mode Victory Screen
+				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel + 1].victoryscreen == 1) then
+						f_selectWin()
+					end
+				else
+					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel + 1].victoryscreen == 1) then
+						f_selectWin()
 					end
 				end
 				assert(loadfile(saveTempPath))()
